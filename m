@@ -2,82 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BDC5E5A7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Apr 2019 17:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010CDE619
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Apr 2019 17:21:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728339AbfD2PBk (ORCPT
+        id S1728428AbfD2PVu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Apr 2019 11:01:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56514 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727554AbfD2PBk (ORCPT
+        Mon, 29 Apr 2019 11:21:50 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:41928 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728253AbfD2PVu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Apr 2019 11:01:40 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C987A3092661;
-        Mon, 29 Apr 2019 15:01:39 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-148.ams2.redhat.com [10.36.116.148])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 53B225C239;
-        Mon, 29 Apr 2019 15:01:37 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Semyon Verchenko <semverchenko@factor-ts.ru>
-Subject: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to critclk_systems DMI table
-Date:   Mon, 29 Apr 2019 17:01:35 +0200
-Message-Id: <20190429150135.15070-1-hdegoede@redhat.com>
+        Mon, 29 Apr 2019 11:21:50 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 6A18380237; Mon, 29 Apr 2019 17:21:39 +0200 (CEST)
+Date:   Mon, 29 Apr 2019 17:21:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc:     linux-leds@vger.kernel.org, ibm-acpi@hmh.eng.br,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] leds: tpacpi: cleanup for Thinkpad ACPI led
+Message-ID: <20190429152148.GA10501@amd>
+References: <20190426123513.GA18172@amd>
+ <20190426214246.GA24966@amd>
+ <84fac57d-1121-a1da-fb45-16a2521bdef9@gmail.com>
+ <20190427193411.GA9709@amd>
+ <2578a614-beb9-1c9d-9f74-208a8a7ab64f@gmail.com>
+ <20190427223207.GA3585@amd>
+ <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 29 Apr 2019 15:01:40 +0000 (UTC)
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
+In-Reply-To: <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Lex 3I380D industrial PC has 4 ethernet controllers on board
-which need pmc_plt_clk0 - 3 to function, add it to the critclk_systems
-DMI table, so that drivers/clk/x86/clk-pmc-atom.c will mark the clocks
-as CLK_CRITICAL and they will not get turned off.
 
-Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
-Reported-and-tested-by: Semyon Verchenko <semverchenko@factor-ts.ru>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/pmc_atom.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
-index 3a635ea09b8a..2910845b7cdd 100644
---- a/drivers/platform/x86/pmc_atom.c
-+++ b/drivers/platform/x86/pmc_atom.c
-@@ -407,12 +407,21 @@ static int pmc_dbgfs_register(struct pmc_dev *pmc)
-  */
- static const struct dmi_system_id critclk_systems[] = {
- 	{
-+		/* pmc_plt_clk0 is used for an external HSIC USB HUB */
- 		.ident = "MPL CEC1x",
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "MPL AG"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "CEC10 Family"),
- 		},
- 	},
-+	{
-+		/* pmc_plt_clk0 - 3 are used for the 4 ethernet controllers */
-+		.ident = "Lex 3I380D",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Lex BayTrail"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "3I380D"),
-+		},
-+	},
- 	{ /*sentinel*/ }
- };
- 
--- 
-2.21.0
 
+Make error returns more consistent... no behaviour change intended.
+   =20
+Signed-off-by: Pavel Machek <pavel@ucw.cz>
+
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/th=
+inkpad_acpi.c
+index 726341f..7008a7f 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -5808,7 +5808,7 @@ static int led_set_status(const unsigned int led,
+ 			return -EPERM;
+ 		if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
+ 				(1 << led), led_sled_arg1[ledstatus]))
+-			rc =3D -EIO;
++			return -EIO;
+ 		break;
+ 	case TPACPI_LED_OLD:
+ 		/* 600e/x, 770e, 770x, A21e, A2xm/p, T20-22, X20 */
+@@ -5832,10 +5832,10 @@ static int led_set_status(const unsigned int led,
+ 			return -EPERM;
+ 		if (!acpi_evalf(led_handle, NULL, NULL, "vdd",
+ 				led, led_led_arg1[ledstatus]))
+-			rc =3D -EIO;
++			return -EIO;
+ 		break;
+ 	default:
+-		rc =3D -ENXIO;
++		return -ENXIO;
+ 	}
+=20
+ 	if (!rc)
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlzHFowACgkQMOfwapXb+vIdRQCgiGtLJhHVOZRshPe06zUPt0y9
+w5EAmwQV9tPYgs8+2yh78fYHkUIlrzHy
+=Z/s3
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
