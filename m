@@ -2,99 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6A0E6D8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Apr 2019 17:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEEF4FFED
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Apr 2019 20:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728634AbfD2PrB (ORCPT
+        id S1726056AbfD3SsF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Apr 2019 11:47:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34458 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728518AbfD2PrA (ORCPT
+        Tue, 30 Apr 2019 14:48:05 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:46820 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726006AbfD3SsF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Apr 2019 11:47:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 982D0307EA87;
-        Mon, 29 Apr 2019 15:47:00 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-148.ams2.redhat.com [10.36.116.148])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3C6F92899C;
-        Mon, 29 Apr 2019 15:46:59 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Renz <appswert@gmail.com>
-Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for 'jumper ezpad 6 pro b' touchscreen
-Date:   Mon, 29 Apr 2019 17:46:57 +0200
-Message-Id: <20190429154657.26797-1-hdegoede@redhat.com>
+        Tue, 30 Apr 2019 14:48:05 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 77so6730407otu.13
+        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Apr 2019 11:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=MzgADEAaLqCZCtsDLm4ffnQ0XJMngefK8MXJLmFTvck=;
+        b=UjuA8Yd88DcRlcIhSEgD1yht659zIOGCmG0M8MFrxMdkr44QtDKKxfelDRGvU/9pqU
+         ZiyCiKBqr0A72Mflghw1cOyJN5n7zPwc+1esNv23i4to7BI2+D9Xl0RS55R+0E//Gu7N
+         noDy9N8lt+YTlfzmW1h3B+wvpuBkIj+NSr2HWKcMOykm8TcRb+LmajTGBDVCQkNmwGJ+
+         yWk4vw1KrccjER4wvznozbK40v9qEzl+Q0R09N9VCnTxw6VSwhcpi+YgaLxZpyUISWgt
+         VQi9G6/UZrEwonFIwnORsZF+yO3+MQa3scQHT+V0H9MrVfDUj7emK4cyI9+ewQUa0L38
+         xRzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=MzgADEAaLqCZCtsDLm4ffnQ0XJMngefK8MXJLmFTvck=;
+        b=KwnHfzw2LDBjmkZ5Bl1JhmJK68aLjwsh7vUkGaeS1opivOyzZYmyQwUrE4mgghSnHt
+         dQ7nrE1tcT8oZj6/FIE8WZBrSY+aD0p1Ylvqu6sVjjIvpPseA/HLnjytE8Fop1+LcFzY
+         pOFZ5KmJ9WBo2MIOAbrsnzmNvFK0MhnPmgaVp1PI9FOVMNtB9Ow5RTExb5SuuTAstOAt
+         WbtSbBpqkSejx1xHGfCC0S+7+2SU2MVj8NIfRX3Fa1kb281wkonM1ICO9oHu3FJxGlMv
+         7fx9gKjtQm2ZPC7uOqenjBxPmy8WLl4xzyCFqtv/p65G9OmOCtlsNuXgmmlsIrDTu6UN
+         OlFw==
+X-Gm-Message-State: APjAAAWooRA+pXzzT+chivhLvnzFQtKLL+paA0x89vPfXWMLvid8O+6o
+        egGpOkxl3gCjmZ21W8g4RmziZcKo0+vImukKma0=
+X-Google-Smtp-Source: APXvYqwQ6twgVDvh/UEotVTZwojVDAPOPikw+3PSKlBl1aA3Ar3M2jfXwXMqzR03h9RTsaftHxm5kPQmSgKIOeWAxSo=
+X-Received: by 2002:a9d:6d84:: with SMTP id x4mr7295975otp.337.1556650084822;
+ Tue, 30 Apr 2019 11:48:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 29 Apr 2019 15:47:00 +0000 (UTC)
+Received: by 2002:ac9:7994:0:0:0:0:0 with HTTP; Tue, 30 Apr 2019 11:48:04
+ -0700 (PDT)
+Reply-To: cephasagbeh1@gmail.com
+From:   Cephas Agbeh <christophermulei2@gmail.com>
+Date:   Tue, 30 Apr 2019 18:48:04 +0000
+Message-ID: <CAAx=c---EXEoJx8pwZdzzOxOPe=zKgjTsO=Rfm0m6RmUm1orsQ@mail.gmail.com>
+Subject: Important Notification
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Benjamin Renz <appswert@gmail.com>
+I am bringing this notice to your attention in respect of the death of
+a deceased client of mine that has the same surname with you and his
+fund valued at $19.9M to be paid to you.contact me at
+cephasagbeh1@gmail.com for more details.
 
-Add touchscreen platform data for the 'jumper ezpad 6 pro b' touchscreen.
-
-Signed-off-by: Benjamin Renz <appswert@gmail.com>
-[hdegoede@redhat.com: Cleanup commit msg, fix some checkpatch warnings]
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 3319f0cbb558..bd0856d2e825 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -249,6 +249,21 @@ static const struct ts_dmi_data jumper_ezpad_6_pro_data = {
- 	.properties	= jumper_ezpad_6_pro_props,
- };
- 
-+static const struct property_entry jumper_ezpad_6_pro_b_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-jumper-ezpad-6-pro-b.fw"),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	PROPERTY_ENTRY_BOOL("silead,home-button"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data jumper_ezpad_6_pro_b_data = {
-+	.acpi_name      = "MSSL1680:00",
-+	.properties     = jumper_ezpad_6_pro_b_props,
-+};
-+
- static const struct property_entry jumper_ezpad_mini3_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
-@@ -690,6 +705,17 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_DATE, "08/18/2017"),
- 		},
- 	},
-+	{
-+		/* Jumper EZpad 6 Pro B */
-+		.driver_data = (void *)&jumper_ezpad_6_pro_b_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Jumper"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "EZpad"),
-+			DMI_MATCH(DMI_BIOS_VERSION, "5.12"),
-+			/* Above matches are too generic, add bios-date match */
-+			DMI_MATCH(DMI_BIOS_DATE, "04/24/2018"),
-+		},
-+	},
- 	{
- 		/* Jumper EZpad mini3 */
- 		.driver_data = (void *)&jumper_ezpad_mini3_data,
--- 
-2.21.0
-
+Yours Sincerely,
+Cephas Agbeh,
+Attorney At Law.
