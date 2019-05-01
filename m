@@ -2,154 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8477110E93
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 May 2019 23:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B389710E62
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 May 2019 23:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbfEAV3Q (ORCPT
+        id S1726115AbfEAVJQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 May 2019 17:29:16 -0400
-Received: from gateway36.websitewelcome.com ([192.185.186.5]:14164 "EHLO
-        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726120AbfEAV3P (ORCPT
+        Wed, 1 May 2019 17:09:16 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:42548 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726088AbfEAVJQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 May 2019 17:29:15 -0400
-X-Greylist: delayed 1500 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 May 2019 17:29:14 EDT
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway36.websitewelcome.com (Postfix) with ESMTP id CE197400C56F4
-        for <platform-driver-x86@vger.kernel.org>; Wed,  1 May 2019 15:02:47 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id Lw59haC7q2qH7Lw59htEK4; Wed, 01 May 2019 15:43:59 -0500
-X-Authority-Reason: nr=8
-Received: from [189.250.119.203] (port=50596 helo=[192.168.1.76])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.91)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1hLw59-0040TB-3v; Wed, 01 May 2019 15:43:59 -0500
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Mark expected switch
- fall-throughs
-To:     ibm-acpi@hmh.eng.br, Kees Cook <keescook@chromium.org>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Wed, 1 May 2019 17:09:16 -0400
+Received: by mail-ua1-f68.google.com with SMTP id h4so47849uaj.9
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 May 2019 14:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wf8ksqkRVK4oyVCJMyeMzEmCY6+2TIH7ALeORxibxXk=;
+        b=f6G1ZksPI/h+lB6mB0xG7hOHTUI0dMAPgrgoLITmo/kPaPXQXVvynQdyTjGvrXw1Pb
+         r8ZaFmPNBB5+yLEr5KxHOAfwm5fiGoIfObLdhSlswYLLuzEY2j8ZCKUFwZpquTvrqHpK
+         AyiIDvr3b17hsR8rz4RiBoDHiqw5yh76yxO+g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wf8ksqkRVK4oyVCJMyeMzEmCY6+2TIH7ALeORxibxXk=;
+        b=NbJEJofqilsUEnVuftbv1VkkVSre52GxWgzAAL3C0ibHnVN0UWwBPkAxQD+cezgTiu
+         pCsbgRlIoQ8OiAIRFKPxlS3rybAscp2U5iGHO/rPEgEcsFnqYzxSnvmolLwE0anQv+KJ
+         zGYUmsJQSEltm2OhLeUBZ2GB4vMXsBd0fyV1iXcXfDM+bXRGspUvWaWl3Utxx4YwrR19
+         AkKFcyBSFrUGgj2p+vLgiAtX6xOg9AgjPwLKEbtRO01PwFoHWCRuDRnh7EqwHKBv8dh6
+         9qA0tF7NWPHyZUwnhPZoW2Ag0DjYhSIQzp1Dp/cGlcgaaWSQwXNRDjimPvj269dh/isY
+         /b9Q==
+X-Gm-Message-State: APjAAAUzTL6hL6NTtaBlhMFCrytYQ92uC6YG2G73yNvODfUpPFunr/lZ
+        xizI7/ev2Yu1uQ43mwkWrGdFTGjH2DM=
+X-Google-Smtp-Source: APXvYqx3mIy4F/0s+PBGgh5PyoCYfytJOHm4i817Bo88hi3KIj1jiQc/SjqU11Pbidqz0PcgrfKorg==
+X-Received: by 2002:ab0:6887:: with SMTP id t7mr9409uar.24.1556744954022;
+        Wed, 01 May 2019 14:09:14 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id c192sm29671319vka.10.2019.05.01.14.09.12
+        for <platform-driver-x86@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 May 2019 14:09:13 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id z145so186965vsc.0
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 May 2019 14:09:12 -0700 (PDT)
+X-Received: by 2002:a67:c909:: with SMTP id w9mr42079vsk.222.1556744952510;
+ Wed, 01 May 2019 14:09:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190424180934.GA29307@embeddedor>
+In-Reply-To: <20190424180934.GA29307@embeddedor>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Wed, 1 May 2019 14:09:01 -0700
+X-Gmail-Original-Message-ID: <CAGXu5jLKgsz7JXGk=4MZg_dOxSAMTygK2WS5558gJYQcurOuJA@mail.gmail.com>
+Message-ID: <CAGXu5jLKgsz7JXGk=4MZg_dOxSAMTygK2WS5558gJYQcurOuJA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: sony-laptop: Fix unintentional fall-through
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Mattia Dongili <malattia@linux.it>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-References: <20190424181543.GA31200@embeddedor>
- <CAGXu5jKRO45m1TRDPA09sv0j+cZCC8e1w+oQty4YfOttKP3FYA@mail.gmail.com>
- <13ba6003-ff33-4e5b-b88e-ef93bc68dc48@www.fastmail.com>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <e1199dfe-86fe-0e42-74c7-15adf0b54406@embeddedor.com>
-Date:   Wed, 1 May 2019 15:43:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <13ba6003-ff33-4e5b-b88e-ef93bc68dc48@www.fastmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.250.119.203
-X-Source-L: No
-X-Exim-ID: 1hLw59-0040TB-3v
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.76]) [189.250.119.203]:50596
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 20
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Wed, Apr 24, 2019 at 11:09 AM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+> It seems that the default case should return AE_CTRL_TERMINATE, instead
+> of falling through to case ACPI_RESOURCE_TYPE_END_TAG and returning AE_OK;
+> otherwise the line of code at the end of the function is unreachable and
+> makes no sense:
+>
+> return AE_CTRL_TERMINATE;
+>
+> This fix is based on the following thread of discussion:
+>
+> https://lore.kernel.org/patchwork/patch/959782/
+>
+> Fixes: 33a04454527e ("sony-laptop: Add SNY6001 device handling (sonypi reimplementation)")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+> ---
+>  drivers/platform/x86/sony-laptop.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
+> index 4bfbfa3f78e6..2058445fc456 100644
+> --- a/drivers/platform/x86/sony-laptop.c
+> +++ b/drivers/platform/x86/sony-laptop.c
+> @@ -4424,14 +4424,16 @@ sony_pic_read_possible_resource(struct acpi_resource *resource, void *context)
+>                         }
+>                         return AE_OK;
+>                 }
+> +
+> +       case ACPI_RESOURCE_TYPE_END_TAG:
+> +               return AE_OK;
+> +
+>         default:
+>                 dprintk("Resource %d isn't an IRQ nor an IO port\n",
+>                         resource->type);
+> +               return AE_CTRL_TERMINATE;
+>
+> -       case ACPI_RESOURCE_TYPE_END_TAG:
+> -               return AE_OK;
+>         }
+> -       return AE_CTRL_TERMINATE;
+>  }
+>
+>  static int sony_pic_possible_resources(struct acpi_device *device)
+> --
+> 2.21.0
+>
 
 
-On 4/24/19 7:55 PM, ibm-acpi@hmh.eng.br wrote:
-> On Wed, Apr 24, 2019, at 16:05, Kees Cook wrote:
->> On Wed, Apr 24, 2019 at 11:15 AM Gustavo A. R. Silva
->> <gustavo@embeddedor.com> wrote:
->>>
->>> In preparation to enabling -Wimplicit-fallthrough, mark switch
->>> cases where we are expecting to fall through.
->>>
->>> This patch fixes the following warnings:
->>>
-
-[..]
-
->>>
->>> Warning level 3 was used: -Wimplicit-fallthrough=3
->>>
->>> Notice that, in this particular case, the code comments are modified
->>> in accordance with what GCC is expecting to find.
->>>
->>> This patch is part of the ongoing efforts to enable
->>> -Wimplicit-fallthrough.
->>>
->>> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
->>
->> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> 
-
-Thank you both, Kees and Henrique.
-
-Friendly ping:
-
-Who can take this?
-
-Thanks
---
-Gustavo
+-- 
+Kees Cook
