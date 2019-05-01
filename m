@@ -2,65 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEEF4FFED
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Apr 2019 20:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8608710B7A
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 May 2019 18:42:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726056AbfD3SsF (ORCPT
+        id S1726415AbfEAQl7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 30 Apr 2019 14:48:05 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46820 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbfD3SsF (ORCPT
+        Wed, 1 May 2019 12:41:59 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39915 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726101AbfEAQl7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 30 Apr 2019 14:48:05 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 77so6730407otu.13
-        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Apr 2019 11:48:05 -0700 (PDT)
+        Wed, 1 May 2019 12:41:59 -0400
+Received: by mail-lf1-f68.google.com with SMTP id d12so13478357lfk.6;
+        Wed, 01 May 2019 09:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=MzgADEAaLqCZCtsDLm4ffnQ0XJMngefK8MXJLmFTvck=;
-        b=UjuA8Yd88DcRlcIhSEgD1yht659zIOGCmG0M8MFrxMdkr44QtDKKxfelDRGvU/9pqU
-         ZiyCiKBqr0A72Mflghw1cOyJN5n7zPwc+1esNv23i4to7BI2+D9Xl0RS55R+0E//Gu7N
-         noDy9N8lt+YTlfzmW1h3B+wvpuBkIj+NSr2HWKcMOykm8TcRb+LmajTGBDVCQkNmwGJ+
-         yWk4vw1KrccjER4wvznozbK40v9qEzl+Q0R09N9VCnTxw6VSwhcpi+YgaLxZpyUISWgt
-         VQi9G6/UZrEwonFIwnORsZF+yO3+MQa3scQHT+V0H9MrVfDUj7emK4cyI9+ewQUa0L38
-         xRzA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fbidAVxL/+C4GnRDyVRJm+aDWDujR0UHb3nSwPjAKeo=;
+        b=MWs7o6Ttgnwr1GZIiAzhbdZ/qLGLO+UrmWkbxIi6232ENCO1811NJ03l5PmupkOcgJ
+         YNXgM/Z1dgGCAJ4iIukJJdeCaKLgmrg1b4RuDDH000okQxoVXUdiis9E25w6loiM3XvM
+         KNr85cFly+uh5VDBOm+9IBNMKWk+/ly1skutHbvWE5dATIh2N/OcCSWXO29C9YDEpHTC
+         IeNx6hCgZ2pgWqHK4xiQ1Q9SfverKufumJ6fFphQE0yX9IQNzlzKJwiMdIzX71dKtHZ7
+         MQoV6VhjT2Ob3JfB2vctYYQj/D3AJlxPTJSvtkivmkeRkVhqUBXgZVXr+It+nKOOw+OI
+         1SZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=MzgADEAaLqCZCtsDLm4ffnQ0XJMngefK8MXJLmFTvck=;
-        b=KwnHfzw2LDBjmkZ5Bl1JhmJK68aLjwsh7vUkGaeS1opivOyzZYmyQwUrE4mgghSnHt
-         dQ7nrE1tcT8oZj6/FIE8WZBrSY+aD0p1Ylvqu6sVjjIvpPseA/HLnjytE8Fop1+LcFzY
-         pOFZ5KmJ9WBo2MIOAbrsnzmNvFK0MhnPmgaVp1PI9FOVMNtB9Ow5RTExb5SuuTAstOAt
-         WbtSbBpqkSejx1xHGfCC0S+7+2SU2MVj8NIfRX3Fa1kb281wkonM1ICO9oHu3FJxGlMv
-         7fx9gKjtQm2ZPC7uOqenjBxPmy8WLl4xzyCFqtv/p65G9OmOCtlsNuXgmmlsIrDTu6UN
-         OlFw==
-X-Gm-Message-State: APjAAAWooRA+pXzzT+chivhLvnzFQtKLL+paA0x89vPfXWMLvid8O+6o
-        egGpOkxl3gCjmZ21W8g4RmziZcKo0+vImukKma0=
-X-Google-Smtp-Source: APXvYqwQ6twgVDvh/UEotVTZwojVDAPOPikw+3PSKlBl1aA3Ar3M2jfXwXMqzR03h9RTsaftHxm5kPQmSgKIOeWAxSo=
-X-Received: by 2002:a9d:6d84:: with SMTP id x4mr7295975otp.337.1556650084822;
- Tue, 30 Apr 2019 11:48:04 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fbidAVxL/+C4GnRDyVRJm+aDWDujR0UHb3nSwPjAKeo=;
+        b=DZYxMygZ7U6yzVmClXl6e1E5klwzrmCMRK2xwivUMzod8+0ElxHE5zWvwZMLuiWi0X
+         //nrdkBAFXyW0uzj7fZNPN8WB5NLVNnSJ5XAxtMBRJ7YVYIqN2PwVM4xROfvdrH+/v2X
+         RiLlRcpHzt43FgnFM5MnhduSntvUu0ei2Alj4AK+iW1VZQGcrDqWnICb5YPJLWwq2pgJ
+         HKOq97DW5l9uIv+KnzGTXBq+k/HBGdmztDpFmJtRnWFED57OIMu71Q0Fr44PtT05vhSL
+         cxoBHnci88SiJ4IalHKLNuu5J97VTM8L7izSrHLDdrcVmO9fYd7C4sOOyNTsCxEfqZrv
+         SExg==
+X-Gm-Message-State: APjAAAVSkYMo3ivxQtl4kuC3Ikdqn6eDKjMCYM0QjDu50CpLb8TkRm1E
+        b4bHFlJxVTCZ5WDMMjST9sXCOIeC
+X-Google-Smtp-Source: APXvYqz5aoaZCl6Q5QjICMVZ/B2HZtiGCrfohHd2xQNBQDH2lYOM9goOD4xG90g/9pZVtg8x6S5OIQ==
+X-Received: by 2002:ac2:4192:: with SMTP id z18mr3293987lfh.96.1556728916891;
+        Wed, 01 May 2019 09:41:56 -0700 (PDT)
+Received: from [192.168.1.19] (chf176.neoplus.adsl.tpnet.pl. [83.31.3.176])
+        by smtp.gmail.com with ESMTPSA id 39sm1063178lja.11.2019.05.01.09.41.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 May 2019 09:41:56 -0700 (PDT)
+Subject: Re: [PATCH] leds: avoid races with workqueue
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-leds@vger.kernel.org, ibm-acpi@hmh.eng.br,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+References: <20190426123513.GA18172@amd> <20190426214246.GA24966@amd>
+ <84fac57d-1121-a1da-fb45-16a2521bdef9@gmail.com> <20190427193411.GA9709@amd>
+ <2578a614-beb9-1c9d-9f74-208a8a7ab64f@gmail.com> <20190427223207.GA3585@amd>
+ <d2373c8b-5c66-c875-16c7-0c5a93470793@gmail.com> <20190429152259.GB10501@amd>
+From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Message-ID: <36e1fdd7-a220-4b0d-d558-829f522b0841@gmail.com>
+Date:   Wed, 1 May 2019 18:41:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Received: by 2002:ac9:7994:0:0:0:0:0 with HTTP; Tue, 30 Apr 2019 11:48:04
- -0700 (PDT)
-Reply-To: cephasagbeh1@gmail.com
-From:   Cephas Agbeh <christophermulei2@gmail.com>
-Date:   Tue, 30 Apr 2019 18:48:04 +0000
-Message-ID: <CAAx=c---EXEoJx8pwZdzzOxOPe=zKgjTsO=Rfm0m6RmUm1orsQ@mail.gmail.com>
-Subject: Important Notification
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190429152259.GB10501@amd>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am bringing this notice to your attention in respect of the death of
-a deceased client of mine that has the same surname with you and his
-fund valued at $19.9M to be paid to you.contact me at
-cephasagbeh1@gmail.com for more details.
+Hi Pavel,
 
-Yours Sincerely,
-Cephas Agbeh,
-Attorney At Law.
+Thank you for the patch.
+
+On 4/29/19 5:22 PM, Pavel Machek wrote:
+> 
+> There are races between "main" thread and workqueue. They manifest
+> themselves on Thinkpad X60:
+>      
+> This should result in LED blinking, but it turns it off instead:
+>      
+>      root@amd:/data/pavel# cd /sys/class/leds/tpacpi\:\:power
+>      root@amd:/sys/class/leds/tpacpi::power# echo timer > trigger
+>      root@amd:/sys/class/leds/tpacpi::power# echo timer > trigger
+>      root@amd:/sys/class/leds/tpacpi::power#
+>      
+> It should be possible to transition from blinking to solid on by echo
+> 0 > brightness; echo 1 > brightness... but that does not work, either,
+> if done too quickly.
+>      
+> Synchronization of the workqueue fixes both.
+>      
+> Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 68aa923..dcb59c8 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -57,6 +57,7 @@ static ssize_t brightness_store(struct device *dev,
+>   	if (state == LED_OFF)
+>   		led_trigger_remove(led_cdev);
+>   	led_set_brightness(led_cdev, state);
+> +	flush_work(&led_cdev->set_brightness_work);
+
+Is this really required here? It creates non-uniform brightness
+setting behavior depending on whether it is set from sysfs or
+by in-kernel call to led_set_brightness().
+
+>   	ret = size;
+>   unlock:
+> diff --git a/drivers/leds/led-core.c b/drivers/leds/led-core.c
+> index 9f8da39..aefac4d 100644
+> --- a/drivers/leds/led-core.c
+> +++ b/drivers/leds/led-core.c
+> @@ -166,6 +166,11 @@ static void led_blink_setup(struct led_classdev *led_cdev,
+>   		     unsigned long *delay_on,
+>   		     unsigned long *delay_off)
+>   {
+> +	/*
+> +	 * If "set brightness to 0" is pending in workqueue, we don't
+> +	 * want that to be reordered after blink_set()
+> +	 */
+> +	flush_work(&led_cdev->set_brightness_work);
+>   	if (!test_bit(LED_BLINK_ONESHOT, &led_cdev->work_flags) &&
+>   	    led_cdev->blink_set &&
+>   	    !led_cdev->blink_set(led_cdev, delay_on, delay_off))
+> 
+
+-- 
+Best regards,
+Jacek Anaszewski
