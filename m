@@ -2,132 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80BA114992
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C571149EA
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:39:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbfEFMaR (ORCPT
+        id S1726037AbfEFMjC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 08:30:17 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43485 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbfEFMaR (ORCPT
+        Mon, 6 May 2019 08:39:02 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:45992 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725853AbfEFMjB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 08:30:17 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t22so6385611pgi.10;
-        Mon, 06 May 2019 05:30:17 -0700 (PDT)
+        Mon, 6 May 2019 08:39:01 -0400
+Received: by mail-pf1-f194.google.com with SMTP id e24so6696536pfi.12;
+        Mon, 06 May 2019 05:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HjlWS6EdAZUgAZeMh0MJ7zt3HS64xHIgEt+/XwDaOiw=;
-        b=EdyNLvM+8fFLP1+wT/6GDSs4CAJcLkNNqonuBtknJqxPV+v7kUqfvry/q6z2HkpWyn
-         9bdpQaqKQZe4Ha1o7obRLU2zZGy61ovuLKp/BHRrZrW3Ht+Z3tGRd7Nclw43fWmdSsKw
-         fL2D7b0ivvtPjobgWywOslWVZSIgpIRhPAy46xjiHCfvQnTf8+9hp2V+it/oKJcGkMCI
-         xhTn0ll5X6/ImdZBn2vjDX893bpQz6SRHJvE7NZ9GudtFDZ6KHgCYJ/aKlycwgqeOR8s
-         n/wjHKPXelLQ1A/4QyVP5UfZsfygFQw+aZV/iMDD6gD60VJsOAJVZuV4/5/ZTw9Cnm3R
-         EEMA==
+        bh=Cb21//2yAhFXxGlr6DhehcS/WEyUpwWdeRGMN+DKJII=;
+        b=mfdBSUT9ap3nnzFaJafy7hAfSKKoZWK01VZThERQabpdIADSgemqDe+bOe/Owl5Hw+
+         Gv3hfCFPs9XBP47Zqb50Y1ODjqG1ikNKXuesH5w9QVtZM+lWEzJUr5Sgx+DAevwFIfXK
+         6BXAyFuU+zB6A6AFTzzU7IXWpUoLBpPkCcI5/vis0gYjTeVFiIlcIkfY77I3TZe0HqCJ
+         7ueNmdUQI5AJHLSqGvPJ5pNvkP/KyACyyiDPLlBrkoaxfV/oM/mmsuEY4BuG6zOHEeEe
+         qLKXdY/qS9wnBYW77UJxbIm+w4RbpFpDq81DjoHn3XAvW/terIZIjeqIzcW9dxh27ZHw
+         axsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HjlWS6EdAZUgAZeMh0MJ7zt3HS64xHIgEt+/XwDaOiw=;
-        b=IS79UkSWLqzHe2rzYlT3cvscBsTBNVPQ869RYt4pswDaEgS4d4UHHb3XKy9ODdyLLO
-         frkSNP9J10xrxC1qyOemxBEqDrckTN2l2rD2t/YHGetLcjhC6oLY681cUC2XydgoDKBb
-         y4hdV02qwqjv/eqTveobB0vks+1hsUEqYwM77xD2dOw2h0zIouNeHeclBJp7svml3qH2
-         MZeI3uXR0J1ysEihW+0ZrQ87973+lo2eK/tRzXW7oW00sIeAeoeSYZDybdMyrV0UkEcE
-         o2Mzlm96hZCL9ZGP77VORzGoV5NF/ggzNsBcumKkxSFc+IEv62XPhzNIAKAuOHWLeTEk
-         sf6g==
-X-Gm-Message-State: APjAAAWLZTVX5l8OW4kp/ZudpcM2tJPtJ3ADeOIr2J/9m96VN9ceuIUs
-        DMEV3MpeOnSM7sAa0lvxV0XBYhJaU9i+lDPsxgo=
-X-Google-Smtp-Source: APXvYqyFZbKxTPlAuzUq3lHlt8Ic2mZu5NRZl3vIHIvNAqeIgnxv3M9b1U9kwUauD1klVEN1Cbk48tKevwmTFmbkDo0=
-X-Received: by 2002:a63:8e4b:: with SMTP id k72mr32356192pge.428.1557145816958;
- Mon, 06 May 2019 05:30:16 -0700 (PDT)
+        bh=Cb21//2yAhFXxGlr6DhehcS/WEyUpwWdeRGMN+DKJII=;
+        b=aEc+ua0+q/Sb4U2yPS/migJVg98AMuM/Pka7oLXUI8dCNC5UZBGjYt0KReLUIbl7OG
+         8F5OVhqaU+chGarJ42Jh+KyZKM0LQum2ofdQSAeFpRQSwPpJ8GYMt3BErWIYTuxexdcb
+         esVootTJ2k5eLyTmTHfTLePUm7tCRq8jAJKaMNrGJetm2mJ2/hDJAGC7PABgJ6LCMS+9
+         GbMiRxdMeCtyc5FWrWa3j08eJmuECHJ2YxYS+g3pnrpgyBVRylddtDaFgyF8Zl+FfgGK
+         V2bAPS/ZTcUphOkzKHfSwi1QPfI5bpwHugzeyLOp1w9HbvRNv35TMMHSp8s/vAn+WJMO
+         E3yA==
+X-Gm-Message-State: APjAAAX1K999hJgg6lGRMbYeEXA79/WBvCHr99ZJxhCK9yu75H6PfzRq
+        7IBJm7Yw8wf3e4oT0Hab2W7v4ZWt1CPpgcbbAOc=
+X-Google-Smtp-Source: APXvYqx6lVTJglG1xVznZVyHJ0wTG0KonWUxVA7S3oNjrzwTCm68o0ujkge6Ba4zqijCRSSmtrnBTNB/wQOmI6h9Nks=
+X-Received: by 2002:a62:30c2:: with SMTP id w185mr33097351pfw.175.1557146341044;
+ Mon, 06 May 2019 05:39:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190429154657.26797-1-hdegoede@redhat.com>
-In-Reply-To: <20190429154657.26797-1-hdegoede@redhat.com>
+References: <20190429150135.15070-1-hdegoede@redhat.com>
+In-Reply-To: <20190429150135.15070-1-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 15:30:06 +0300
-Message-ID: <CAHp75VdcZOP2dYYtsfk3jcnESRBjxkE49GkDGPTp=XW+5Sbrgg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for 'jumper ezpad
- 6 pro b' touchscreen
-To:     Hans de Goede <hdegoede@redhat.com>
+Date:   Mon, 6 May 2019 15:38:50 +0300
+Message-ID: <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
+ critclk_systems DMI table
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Kai Heng Feng <kai.heng.feng@canonical.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Benjamin Renz <appswert@gmail.com>
+        Semyon Verchenko <semverchenko@factor-ts.ru>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 6:47 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Mon, Apr 29, 2019 at 6:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> From: Benjamin Renz <appswert@gmail.com>
->
-> Add touchscreen platform data for the 'jumper ezpad 6 pro b' touchscreen.
+> The Lex 3I380D industrial PC has 4 ethernet controllers on board
+> which need pmc_plt_clk0 - 3 to function, add it to the critclk_systems
+> DMI table, so that drivers/clk/x86/clk-pmc-atom.c will mark the clocks
+> as CLK_CRITICAL and they will not get turned off.
 >
 
-Pushed to my review and testing queue, thanks!
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+supposedly to go via CLK tree.
 
-> Signed-off-by: Benjamin Renz <appswert@gmail.com>
-> [hdegoede@redhat.com: Cleanup commit msg, fix some checkpatch warnings]
+P.S. If you want it through PDx86, I need immutable branch / tag from CLK.
+
+> Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+> Reported-and-tested-by: Semyon Verchenko <semverchenko@factor-ts.ru>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>  drivers/platform/x86/pmc_atom.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 3319f0cbb558..bd0856d2e825 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -249,6 +249,21 @@ static const struct ts_dmi_data jumper_ezpad_6_pro_data = {
->         .properties     = jumper_ezpad_6_pro_props,
->  };
->
-> +static const struct property_entry jumper_ezpad_6_pro_b_props[] = {
-> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
-> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-jumper-ezpad-6-pro-b.fw"),
-> +       PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +       { }
-> +};
-> +
-> +static const struct ts_dmi_data jumper_ezpad_6_pro_b_data = {
-> +       .acpi_name      = "MSSL1680:00",
-> +       .properties     = jumper_ezpad_6_pro_b_props,
-> +};
-> +
->  static const struct property_entry jumper_ezpad_mini3_props[] = {
->         PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
->         PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
-> @@ -690,6 +705,17 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
->                         DMI_MATCH(DMI_BIOS_DATE, "08/18/2017"),
+> diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+> index 3a635ea09b8a..2910845b7cdd 100644
+> --- a/drivers/platform/x86/pmc_atom.c
+> +++ b/drivers/platform/x86/pmc_atom.c
+> @@ -407,12 +407,21 @@ static int pmc_dbgfs_register(struct pmc_dev *pmc)
+>   */
+>  static const struct dmi_system_id critclk_systems[] = {
+>         {
+> +               /* pmc_plt_clk0 is used for an external HSIC USB HUB */
+>                 .ident = "MPL CEC1x",
+>                 .matches = {
+>                         DMI_MATCH(DMI_SYS_VENDOR, "MPL AG"),
+>                         DMI_MATCH(DMI_PRODUCT_NAME, "CEC10 Family"),
 >                 },
 >         },
 > +       {
-> +               /* Jumper EZpad 6 Pro B */
-> +               .driver_data = (void *)&jumper_ezpad_6_pro_b_data,
+> +               /* pmc_plt_clk0 - 3 are used for the 4 ethernet controllers */
+> +               .ident = "Lex 3I380D",
 > +               .matches = {
-> +                       DMI_MATCH(DMI_SYS_VENDOR, "Jumper"),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "EZpad"),
-> +                       DMI_MATCH(DMI_BIOS_VERSION, "5.12"),
-> +                       /* Above matches are too generic, add bios-date match */
-> +                       DMI_MATCH(DMI_BIOS_DATE, "04/24/2018"),
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "Lex BayTrail"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "3I380D"),
 > +               },
 > +       },
->         {
->                 /* Jumper EZpad mini3 */
->                 .driver_data = (void *)&jumper_ezpad_mini3_data,
+>         { /*sentinel*/ }
+>  };
+>
 > --
 > 2.21.0
 >
 
 
---
+-- 
 With Best Regards,
 Andy Shevchenko
