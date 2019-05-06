@@ -2,72 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EAD714B16
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 15:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EADD514D9B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 16:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725853AbfEFNn5 (ORCPT
+        id S1726283AbfEFOxd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 09:43:57 -0400
-Received: from sonic305-21.consmr.mail.ne1.yahoo.com ([66.163.185.147]:46267
-        "EHLO sonic305-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725852AbfEFNn5 (ORCPT
+        Mon, 6 May 2019 10:53:33 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:36395 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729307AbfEFOra (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 09:43:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1557150235; bh=M+2BQM2x3GSy/dmtDG0o07y3ZYWK28QOQCLRz1DcS2Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=YEvZQzwLmM5hir1orfyujUyb/DnQpK5/NsrRjYOPzMlY54j9ykZjkpnLqGkCQIDYWbxosE5wQpjb9eb6YbfELNOC19tp34Gvu/cOGHDTuG9Rx+2pqHNB7JjdlAqn6Vlu6z++Y2sEOA/ru2/6rOKfJr0DsAfcisVcoFZAP5HvLJxyR/N5IjjVlRUAM/yOQlKToBGEMQGUCJg5P7N55Pshz+yM5fcVtS+KMmZUwDYtgoKlN2InQ83KSmO9tLlHSpVZR02VDCyXoe/1IDDqoZcRDcB53jfQFm43FXVI26iDGxZ6/UlrcNB4lt0otxtPD/oAxHKzJtG8iIG4AK1RfckCZA==
-X-YMail-OSG: ZhKv.aMVM1mLDAicwTt9_f51WHfuYpwo3NWrzvGMKhAikwhkKucXFoLUjgDek9u
- N50iLlV3t3LLgaIlO0eDJZjvsuVR.U.y4G_SZrOIJBjjQYUncSOszN6svnaSvkuXsrWgQfe8NBZL
- WPjgAPAVIa7qM52ExZyHlCT0NfulYxbYz4SQq9y4iJNjgUwh.vaUc.aNlvetvTI2OH25Q81ihYn0
- Y.ofVsrdlH_lhp_fczphSEWETFGY7sj_kpXZkr1wU7reknCItCaDwVdzU_8JHllYfP0y92LKIfAN
- A5DqF_6DnkUQATaS3w4PFzXwLGDNxVWwQW_odajfmWTuy1nMLdvrWLbgbeydVj44iIiMbJbCQgtS
- gtbJokWZ2B3bA1ho0ipBfnA67OOk0P35XHvJd_3_he7xhPJZjT8TpDPXmV0OGps5r2ZvRbyakoB4
- VanW05LrXjyp_xwvmnrgkAN3BssVr1Q1ubbRzvwIkg771HZIQ8ZmVmaj59MHeK_LXtiB0URv_Gt3
- E70DqLD80DtzC.dy8lnxi270frF.efRrS8.l2oWJoYtXdi3vF9jOf6A7JRjt3wrGbOpBrwHvdL_n
- GBN9_WooJYJUVgoFenyxxpQuH55KtcqKs7RHwcoDKfMbM4b4giTrNKzRCRPDhKOJfWQR1c9FcaC2
- M47GLSlWComu4KtJvSf6YJ_iDJYJ2lgA9Amd_2x3hTilOgwD.xFnwM9qxa2PoJqv0AjZKevnqos7
- NmRK2Ilj3LynRDSECHx8pch1aRHIm4yWrc0_A.FxPGJSBWjEA8eOzJIWIqpLG1E.eSsVQqNcxwMO
- KxXBxZmx_UxCYgF9ojcTw.b6uLxFUz7YQVzKTLtF7R.AcUPd_SuaCWYsqxUYnjCkD6h3_Ojz4yHx
- ltrFN4gYM1tbOtHYq4OLb.WaFaqJ2QXuHajMU8PDkxWM6VDZsQcdo66IWguT_qq34cEyCrhYIexK
- ISQw9xPetIEl_5LpdwK9Jl5NuRGCLvM4GjPOqh2mdBGw6nC_BR_KVAOiK6OQqQtflQwBoslpF8Y9
- p3snDs4Yv8XRthLuc5A1Xc4ScANdzE4lqiszJ8LUcJxCxs5dBvs1fbDZlF0aoW5TwZmsCpRWnhJM
- jHsKIKr23CL9Jvjg_nmSGQw9Bg7CrL5dd5AE_GpMavoY42XtFXSC9aPOTEmDxn1KQrhQ9jvXzeg-
- -
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ne1.yahoo.com with HTTP; Mon, 6 May 2019 13:43:55 +0000
-Date:   Mon, 6 May 2019 13:43:53 +0000 (UTC)
-From:   Aisha Gaddafi <aishagaddafi721@aol.com>
-Reply-To: Aisha Gaddafi <gaisha983@gmail.com>
-Message-ID: <819440062.1969805.1557150233971@mail.yahoo.com>
-Subject: Hello My Beloved One, i need your assistance
+        Mon, 6 May 2019 10:47:30 -0400
+Received: by mail-ed1-f68.google.com with SMTP id a8so15613297edx.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 May 2019 07:47:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E22Q7b+otbzAAMs8gR9PNwar2GIb4bL0tKudiTh9g9Y=;
+        b=Hu+VN9Te79kzjtSNwLC306KV3lp/w7uohpyReZ70dmAgfugb4TnHPOhoUakLbk9C/g
+         8l/RLv/4C/XxXK7bipSkbfL28unh4FGxijKr2m03cBTqpfXJhQ52RGIaKdlCJ6GX8B0o
+         xg8Bji9k/ih/SKblqLgJSPoX71VeV8TNrBKQBMiY5B6CtMDvJJGIJ1yGH+6B4qOreXXA
+         DIr/wKQRb7Mb4FcBNrtXqt9NlY0oJzoqIcoGvN/eX0yCLEczvQceb3OzM9bo4uS4zzR0
+         yjruRMT8OwWwk3kxnea2FBOBr26iZqbUhXstsGqrixg/zyQ304tZLOYZMe0rmAw6oA8T
+         qBYQ==
+X-Gm-Message-State: APjAAAXibCRv0rdVB/xsDKvU2aEi1gLQ1Rth36AO/3Pc94DNU/HAbHnc
+        cpRiXRmLIXP5JcfbDghw4pA67g==
+X-Google-Smtp-Source: APXvYqzWFeuYt9YTzTBy6cyaFIq2Xi0lCEr/Bz3MASuxVJMN07b99so49IFM6kpmPAjwK1zy5sWNKA==
+X-Received: by 2002:a50:93a6:: with SMTP id o35mr25962616eda.245.1557154048677;
+        Mon, 06 May 2019 07:47:28 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id e4sm1587963ejm.50.2019.05.06.07.47.27
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 07:47:27 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
+ critclk_systems DMI table
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Kai Heng Feng <kai.heng.feng@canonical.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Semyon Verchenko <semverchenko@factor-ts.ru>
+References: <20190429150135.15070-1-hdegoede@redhat.com>
+ <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com>
+Date:   Mon, 6 May 2019 16:47:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-References: <819440062.1969805.1557150233971.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.13583 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:66.0) Gecko/20100101 Firefox/66.0
-To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Friend,
+Hi,
 
-I came across your e-mail contact prior a private search while in need of 
-your assistance. My name is Aisha  Gaddafi a single Mother and a Widow with 
-three Children. I am the only biological Daughter of late Libyan President 
-(Late Colonel Muammar Gaddafi).
+On 06-05-19 14:38, Andy Shevchenko wrote:
+> On Mon, Apr 29, 2019 at 6:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> The Lex 3I380D industrial PC has 4 ethernet controllers on board
+>> which need pmc_plt_clk0 - 3 to function, add it to the critclk_systems
+>> DMI table, so that drivers/clk/x86/clk-pmc-atom.c will mark the clocks
+>> as CLK_CRITICAL and they will not get turned off.
+>>
+> 
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> supposedly to go via CLK tree.
+> 
+> P.S. If you want it through PDx86, I need immutable branch / tag from CLK.
 
-I have investment funds worth Twenty Seven Million Five Hundred Thousand 
-United State Dollar ($27.500.000.00 ) and i need a trusted investment 
-Manager/Partner because of my current refugee status, however, I am 
-interested in you for investment project assistance in your country, may be 
-from there, we can build business relationship in the nearest future.
+Stephen added the patches this depends on to his fixes branch, so they
+are in the 5.1 / Torvald's master branch, since we are now in the 5.2 merge
+window, you should be able to cleanly apply this directly.
 
-I am willing to negotiate investment/business profit sharing ratio with you 
-base on the future investment earning profits.
+Regards,
 
-If you are willing to handle this project on my behalf kindly reply urgent 
-to enable me provide you more information about the investment funds.
+Hans
 
-Your Urgent Reply Will Be Appreciated.
 
-Best Regards
-Mrs Aisha Gaddafi
+> 
+>> Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+>> Reported-and-tested-by: Semyon Verchenko <semverchenko@factor-ts.ru>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/platform/x86/pmc_atom.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+>> index 3a635ea09b8a..2910845b7cdd 100644
+>> --- a/drivers/platform/x86/pmc_atom.c
+>> +++ b/drivers/platform/x86/pmc_atom.c
+>> @@ -407,12 +407,21 @@ static int pmc_dbgfs_register(struct pmc_dev *pmc)
+>>    */
+>>   static const struct dmi_system_id critclk_systems[] = {
+>>          {
+>> +               /* pmc_plt_clk0 is used for an external HSIC USB HUB */
+>>                  .ident = "MPL CEC1x",
+>>                  .matches = {
+>>                          DMI_MATCH(DMI_SYS_VENDOR, "MPL AG"),
+>>                          DMI_MATCH(DMI_PRODUCT_NAME, "CEC10 Family"),
+>>                  },
+>>          },
+>> +       {
+>> +               /* pmc_plt_clk0 - 3 are used for the 4 ethernet controllers */
+>> +               .ident = "Lex 3I380D",
+>> +               .matches = {
+>> +                       DMI_MATCH(DMI_SYS_VENDOR, "Lex BayTrail"),
+>> +                       DMI_MATCH(DMI_PRODUCT_NAME, "3I380D"),
+>> +               },
+>> +       },
+>>          { /*sentinel*/ }
+>>   };
+>>
+>> --
+>> 2.21.0
+>>
+> 
+> 
