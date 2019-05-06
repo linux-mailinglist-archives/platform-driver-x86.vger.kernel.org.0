@@ -2,108 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E975214973
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E0D314975
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbfEFMWM (ORCPT
+        id S1726016AbfEFMWv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 08:22:12 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:40262 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbfEFMWM (ORCPT
+        Mon, 6 May 2019 08:22:51 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37738 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbfEFMWv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 08:22:12 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b3so6292190plr.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 06 May 2019 05:22:12 -0700 (PDT)
+        Mon, 6 May 2019 08:22:51 -0400
+Received: by mail-pg1-f194.google.com with SMTP id e6so6391084pgc.4;
+        Mon, 06 May 2019 05:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0rE2zEOna0BuglkOs0Y5vjq6lBXcDWMPN8hOKtKUZ7U=;
-        b=UiREOpipIyvjHcjghwWCPE7tWJEKlCkZx9zwzJ+Lq00ykeEYcmX48U8kI4zl/kFXdc
-         0Eh/TcnOituccbrFTvq/1/hrPcZaI0ANsg5kNGaPXg3YCCNkv7IJHf3wqm3Cj4HEOILu
-         4q5RWh6R1LlVClu9lmXTbrBhBReqPvSIMliqG+MrI8WbydNyu3FOOT6vrnzT0+OMKZwF
-         yBYBqhuk+SxGx2407cki736oOhTnchoguVEOW4TqDm1DNOvSQHp1u1egafMgYhYKFZZb
-         3WsZPNfVARoIEhwT7QbWALOpeGrea8E1ELGUIkMSCOTSsAykiD++qdAmSsgp87dfkAue
-         rSBQ==
+        bh=PwfLp6D54bZUS8f0UxR3vu8Buzj/gb/Y+B4s3U4Ap1I=;
+        b=DLVoOWMMYuCzhsYqdOG7eJJHzAU/0h3zN3lcCvIPlRo9tZjvJqXHKdBfmV3PUx4Q/T
+         sTVKOWZ+VS9YDF1eiX4gTrMeiMqEZcBLcNua64unZoyW8N9HbyW/XHm6vrrX40thigVo
+         w75ZkCEVu39VzuCCsPOFG7NaPKpoANQqbV+Fy8feaOxx8dx4mvzG3pxpACQivlYLz9BS
+         xzNERBI4V8PthY9yBYbSGFLalBNOU6/mrYOSf5w8OqPHBgQg/bpT4g/0+e1XGKz45Mfr
+         3Sqr57tkvnvLxyiEwlU2MxOb9qW/pOxTz3EG144SIJhPstsDUMjrTtNfXXuLJMhwrRgI
+         /c2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0rE2zEOna0BuglkOs0Y5vjq6lBXcDWMPN8hOKtKUZ7U=;
-        b=fP/+DAoOYbGx5Es4xI1fmzKoFZcnONvk4hgUSKFG1+/WjM+zwaOFyTrCgz2jDg8DF/
-         eDWoFiZ/dNxTcAzj9gdcs/0ZBxhHYBNGonyYBj3yELejjfNLZo0RY1HJp21QBJhQMY8h
-         DEfyPuusloYnS1jtJvMNfFlxUJS58cHAYOuPKOEpTDRqmjlh29+ZHGCmVPPIkKtYd8zu
-         WkCSiWE8tCA+OJi+MlR4r1N2VbCSFqP0mvp0WafI5l8ff7wB3Q/67pBzIY5rJuhmBxBX
-         z4kls55RNuIMqqXiCoELJFAEI6ca/VceCndplF/nTsyx0d1RjtDZIrJAvS1yk033B91h
-         Wgjw==
-X-Gm-Message-State: APjAAAV0gHguBPUYVqLqlYR2QaHD7UrLjKzEkcq9OSIzc52cJs8wkAAo
-        aQREdNRCJGucOC48hL9Z1dQb0lQY+J5+UK/cpJE=
-X-Google-Smtp-Source: APXvYqz7kjV/lZqM8dmhnxZFLoD+i+pgm/rlOoW9sUbxBPbzdAlkWMJ+3kcLnEPkXuqv/YZrLJQIi36dEidzX0vUnuA=
-X-Received: by 2002:a17:902:7b8f:: with SMTP id w15mr31459294pll.314.1557145331776;
- Mon, 06 May 2019 05:22:11 -0700 (PDT)
+        bh=PwfLp6D54bZUS8f0UxR3vu8Buzj/gb/Y+B4s3U4Ap1I=;
+        b=nS8HWk7+MLFt7yTFhwuVim847aaBRlg2seb7PVHA/1yyD+gbokrb1q/SPj8VWahdMB
+         BbZ8fXsFX5yyxfXbDVAZV34OsD2hxA3gnvDMIAqUEfQ6K8Oc83I4f/4MEAujDwEx06Vr
+         oKg4+5KRDZPAWMyYPSohvFQFdshjUcQE2ewkIF1FrImRHXgIzgSNqllodbp3aOqu2Ng1
+         053Mf/frHS3OygUC3Q3Ik+jNlmUhp/obh2yV0pF6E2dYjYQCFJB6PSCpfms0/W0xJYC6
+         qtFHCbaraUpQrVvWndZ0i8jOCzkboqPmNB/ZDddUPc6O203RdQjJJJWWg5QJXEQQ5MEe
+         3osw==
+X-Gm-Message-State: APjAAAVGN/zQN4TlWOO+feyKgE9j00xNhvOZhEAMd1ZD6sB0KZzmwIhN
+        1wWXR+9ygb+HXurScJLXH6x9LcjsopIaEHwZRLE=
+X-Google-Smtp-Source: APXvYqx+1aqdahcbOQfkAGi/MjA14HI/uopLzP8/SRGyhyFEpk3iYg1WTCuSr98e/dDVq7oa4WsRymRbB68xWKZYXs8=
+X-Received: by 2002:aa7:884b:: with SMTP id k11mr32683031pfo.49.1557145371156;
+ Mon, 06 May 2019 05:22:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190318105823.2821-1-vadimp@mellanox.com> <CAHp75Vfz+aXzgMX0=fMGFR8a4OxoUTFn9vCg=0qxbF7YHDG=9w@mail.gmail.com>
- <AM6PR05MB522498F37724F8F82564BCF4A2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
- <CAHp75Veq4Xq_faPKMkdEmOmY5JHMms=4KX51GdM20DFPH_BzTg@mail.gmail.com>
- <AM6PR05MB5224A49FD6ED666D0033BB28A2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
- <CAHp75VdY9AD2tOirX7b57f55=RbHJPjnJS2bV3gG1xs4B8z2zA@mail.gmail.com> <AM6PR05MB52243E392EEA307176A75CCDA2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
-In-Reply-To: <AM6PR05MB52243E392EEA307176A75CCDA2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
+References: <20190424181543.GA31200@embeddedor> <CAGXu5jKRO45m1TRDPA09sv0j+cZCC8e1w+oQty4YfOttKP3FYA@mail.gmail.com>
+ <13ba6003-ff33-4e5b-b88e-ef93bc68dc48@www.fastmail.com> <e1199dfe-86fe-0e42-74c7-15adf0b54406@embeddedor.com>
+In-Reply-To: <e1199dfe-86fe-0e42-74c7-15adf0b54406@embeddedor.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 15:22:00 +0300
-Message-ID: <CAHp75VdmyEp_L16U6NHgHri4WJsfhVSx9KsVPXqSKxBz7PNQZQ@mail.gmail.com>
-Subject: Re: [PATCH v1 platform-next 0/2] platform/x86: Mellanox: add new features
-To:     Vadim Pasternak <vadimp@mellanox.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+Date:   Mon, 6 May 2019 15:22:40 +0300
+Message-ID: <CAHp75Vep5tYDrcgNWFepj-GgbaCcRbHcDHyQ4mD=+yX7Jftt+Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Mark expected switch fall-throughs
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Kees Cook <keescook@chromium.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "michealsh@mellanox.com" <michealsh@mellanox.com>
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, May 6, 2019 at 3:12 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
-> > On Mon, May 6, 2019 at 1:12 PM Vadim Pasternak <vadimp@mellanox.com>
-> > wrote:
-> >
-> > > > > > I have added one patch on top, please, check if it's okay with you.
-> >
-> > > > http://git.infradead.org/linux-platform-drivers-
-> > > > x86.git/commit/771fb643f668527985addad2e40b4dc17bac9170
-> >
-> > > I am not sure about this:
-> > >         for (i = MLXPLAT_CPLD_WD_MAX_DEVS - 1; i >= 0 ; i--) {
-> > > -               if (mlxplat_wd_data[i])
-> > > -                       platform_device_unregister(priv->pdev_wd[i]);
-> > > -       }
-> > > +               platform_device_unregister(priv->pdev_wd[i]);
-> > >
-> > > For some systems we have only one watchdog instance:
-> > > mlxplat_wd_data[0] = &mlxplat_mlxcpld_wd_set_type1[0]; while for
-> > > others two instances
-> > >         for (i = 0; i < ARRAY_SIZE(mlxplat_mlxcpld_wd_set_type2); i++)
-> > >                 mlxplat_wd_data[i] = &mlxplat_mlxcpld_wd_set_type2[i];
-> > >
-> > > So, in the first case we will have NULL for
-> > > platform_device_unregister(priv->pdev_wd[1]);
-> >
-> > The following commit adds an IS_ERR() check on top for long existing NULL
-> > check.
-> > The latter is what you are trying to do and effectively means double check for
-> > NULL.
-> >
-> > commit 99fef587ff98894426d9bf1f5b7336345052d4b3
-> > Author: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Date:   Mon Dec 3 20:21:41 2018 +0200
-> >
-> >    driver core: platform: Respect return code of platform_device_register_full()
+On Wed, May 1, 2019 at 11:44 PM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
 >
-> O, yes, I see.
-> So all is OK.
+>
+>
+> On 4/24/19 7:55 PM, ibm-acpi@hmh.eng.br wrote:
+> > On Wed, Apr 24, 2019, at 16:05, Kees Cook wrote:
+> >> On Wed, Apr 24, 2019 at 11:15 AM Gustavo A. R. Silva
+> >> <gustavo@embeddedor.com> wrote:
+> >>>
+> >>> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> >>> cases where we are expecting to fall through.
+> >>>
+> >>> This patch fixes the following warnings:
+> >>>
+>
+> [..]
+>
+> >>>
+> >>> Warning level 3 was used: -Wimplicit-fallthrough=3
+> >>>
+> >>> Notice that, in this particular case, the code comments are modified
+> >>> in accordance with what GCC is expecting to find.
+> >>>
+> >>> This patch is part of the ongoing efforts to enable
+> >>> -Wimplicit-fallthrough.
+> >>>
+> >>> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> >>
+> >> Reviewed-by: Kees Cook <keescook@chromium.org>
+> >
+> > Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> >
+>
+> Thank you both, Kees and Henrique.
+>
+> Friendly ping:
+>
+> Who can take this?
 
-OK, I will fold it in.
+Pushed to my review and testing queue, thanks!
 
--- 
+>
+> Thanks
+> --
+> Gustavo
+
+
+
+--
 With Best Regards,
 Andy Shevchenko
