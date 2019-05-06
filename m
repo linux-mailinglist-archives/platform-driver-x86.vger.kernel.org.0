@@ -2,467 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFA71495A
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917F11495C
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbfEFMMj (ORCPT
+        id S1726118AbfEFMNA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 08:12:39 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:39741 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbfEFMMj (ORCPT
+        Mon, 6 May 2019 08:13:00 -0400
+Received: from mail-eopbgr80042.outbound.protection.outlook.com ([40.107.8.42]:30080
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725827AbfEFMNA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 08:12:39 -0400
-Received: by mail-pf1-f195.google.com with SMTP id z26so6672929pfg.6;
-        Mon, 06 May 2019 05:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DmxCB7LP69CVGAXY/adFCVFF9KJfeURbRonO3oUrf8c=;
-        b=kiLbwjh4jOBNwmAvF/JbsIT7QyuxULl2QC2utRpH3pwRAis3fuaDApX0ZsRxl/gbIL
-         AH85FEcXo8p5Hv5w1SIZKlUqMtJfKgD7Up6iLEkkWrpDkPO0ngyLrFdsrzrICtopcgyM
-         Azw+lBknShvUsmdQigB2baPKdBNsZRTj9seiXuPSTLDq3kYFec+nHD5+5bOIeS6Ao4FK
-         ChqifowXTjS+FgKZikqTUPnuy4zSxvonEChgwG4L16y/rTunVKC6ogbjmwyA0lGxKV6+
-         HKcPJ/eUB1QQ0oF03rB/TLUl0+8KtheSUFiY2EypOBOVAu46JTsDEmjptfexZjbYrqB2
-         jjgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DmxCB7LP69CVGAXY/adFCVFF9KJfeURbRonO3oUrf8c=;
-        b=P/e9psRGflk7jS0nHJoq4B9qTAUYcYfES6+6SlSQqqKSzUji9frbUyLTdXm86sS7If
-         1v1ejoo/i5JBP4OLOHg0cGHgZCbclaJErWcadYwz3N7c0i42d7SaKjpXmn0cQxyEhEsF
-         q1W0BiKABRHcMkRinzHMoaB/wZKPCpZqWNWnQ2Mu/dEasy78IV+nP2irMddUaZ2AL4SE
-         CK8t0YQTXUN5mAml7bUC9hsBktxt/hKmE3jWIctCnOjYc54HHRYflTwqjuChccAvERcE
-         g3Ya+k7PCHi96OwWHqtxor0WoAMtcOq2y5OzG3FSlNRfrDJJRqz6aXev6T2+AUYnlayu
-         shxg==
-X-Gm-Message-State: APjAAAXm+wiPU039TLMPVLqUMTLyvaSl2lIHJBCHzpkWFhEp/t6jOWTD
-        I5/DChJvo3i2QNJRX7iPjd96Va6WjJ4cx/qe48c=
-X-Google-Smtp-Source: APXvYqy0RDpwpau4Fc20dfB5hVMlt2XXQ8Si4xjDk8e+lufkZ/CMAVQOBHgRMHl1hfi16GGW1FhW4dR2IKcOKJ1OS0Q=
-X-Received: by 2002:aa7:884b:: with SMTP id k11mr32615332pfo.49.1557144757917;
- Mon, 06 May 2019 05:12:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190429143807.13232-1-hdegoede@redhat.com>
-In-Reply-To: <20190429143807.13232-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 15:12:27 +0300
-Message-ID: <CAHp75Ve7kvm9NAv74_=BvPbC9GtaAQ+Ps07qNt=iSQ99++C3gg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: ideapad-laptop: Remove no_hw_rfkill_list
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
+        Mon, 6 May 2019 08:13:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2BZBuP4rITobPW838lue/V4ZlZ4puBsvYaDox3tWn0Q=;
+ b=Cssp+6ibmeGqLGlzO+X2ou15mXJA6mA6t3el48umgSk6DJLtL51KU0CwcdbB6BsRvyZeWE0u6k+36SAg8vbIHcrVRHj3slvT90KWqBO+pFyaYLGlFptG58n0tudzYR/LPi1/UvEbReENQ3em7ihN4NpJE4P44Ke1Gl3wpdZ3+b0=
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com (20.177.196.210) by
+ AM6PR05MB5015.eurprd05.prod.outlook.com (20.177.36.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.11; Mon, 6 May 2019 12:12:57 +0000
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::61f4:6de4:5401:5f56]) by AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::61f4:6de4:5401:5f56%2]) with mapi id 15.20.1856.012; Mon, 6 May 2019
+ 12:12:57 +0000
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Darren Hart <dvhart@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "michealsh@mellanox.com" <michealsh@mellanox.com>
+Subject: RE: [PATCH v1 platform-next 0/2] platform/x86: Mellanox: add new
+ features
+Thread-Topic: [PATCH v1 platform-next 0/2] platform/x86: Mellanox: add new
+ features
+Thread-Index: AQHU3XmMCNo9QfDiZku9Fe0it2UAMqZeIyMAgAADT2CAAAMPgIAAAd7ggAAiFYCAAAFpAA==
+Date:   Mon, 6 May 2019 12:12:57 +0000
+Message-ID: <AM6PR05MB52243E392EEA307176A75CCDA2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
+References: <20190318105823.2821-1-vadimp@mellanox.com>
+ <CAHp75Vfz+aXzgMX0=fMGFR8a4OxoUTFn9vCg=0qxbF7YHDG=9w@mail.gmail.com>
+ <AM6PR05MB522498F37724F8F82564BCF4A2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
+ <CAHp75Veq4Xq_faPKMkdEmOmY5JHMms=4KX51GdM20DFPH_BzTg@mail.gmail.com>
+ <AM6PR05MB5224A49FD6ED666D0033BB28A2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
+ <CAHp75VdY9AD2tOirX7b57f55=RbHJPjnJS2bV3gG1xs4B8z2zA@mail.gmail.com>
+In-Reply-To: <CAHp75VdY9AD2tOirX7b57f55=RbHJPjnJS2bV3gG1xs4B8z2zA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vadimp@mellanox.com; 
+x-originating-ip: [193.47.165.251]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 019c66ed-9c06-4c0e-0d6e-08d6d21c2cd2
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:AM6PR05MB5015;
+x-ms-traffictypediagnostic: AM6PR05MB5015:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM6PR05MB5015805F9BBA6D07A8143AA6A2300@AM6PR05MB5015.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0029F17A3F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(13464003)(6306002)(66946007)(66476007)(9686003)(486006)(52536014)(66066001)(7696005)(478600001)(76176011)(64756008)(66446008)(55016002)(256004)(86362001)(6116002)(3846002)(7736002)(74316002)(99286004)(71190400001)(71200400001)(2906002)(76116006)(73956011)(305945005)(4326008)(6436002)(68736007)(11346002)(107886003)(25786009)(54906003)(186003)(33656002)(53936002)(66556008)(229853002)(6246003)(476003)(26005)(6916009)(446003)(5660300002)(102836004)(53546011)(8936002)(8676002)(6506007)(14454004)(81166006)(81156014)(316002)(966005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB5015;H:AM6PR05MB5224.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: SsJdIRvgM53I0jtK2M5D8zSZUKtZFaoIk2aNRfA3yObzaaLrk10M3VgkpxlSctxfKUCdgenajHVwbJ6/Q5q6RUYNWTuVMzv+UdMBbAK+Yrjl7+RjwfybMSK6Vnt97gyjtKb9XDw8UWCO53ZSWWCNZ5+GSB08g5w32k3NGsbhXxf+HMG5pwRjo0bNpSGu1cPkD4AjczO1rkG6Z40f90Du4oPha3FkgTZRvD62C1BSMMT/bkwmNGVHe5UUbIcMxGNuWhHmFUjEQ2M4JTBDPkmQNGvdCqMKyPn/zMdLgywmTHsUwU15loCxc31nHry30auRRsMEc/1Stp9BFVwZRmUAfqt6yRYqlNI0qYjZ3wDl27XWjnbNfGsht7grKpaDZjLlFROZPsstf7eLC16wkgSrSKXivmynm/eeZ+5ZFdYKiP4=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 019c66ed-9c06-4c0e-0d6e-08d6d21c2cd2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2019 12:12:57.1243
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5015
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> When the ideapad-laptop driver was first written it was written for laptops
-> which had a hardware rfkill switch. So when the first ideapad laptops
-> showed up without a hw rfkill switch and it turned out that in this case
-> the ideapad firmware interface would always report the wifi being hardware-
-> blocked, a DMI id list of models which lack a hw rfkill switch was started
-> (by yours truly). Things were done this way to avoid regressing existing
-> models with a hw rfkill switch. In hindsight this was a mistake.
->
-> Lenovo releases a lot of ideapad models every year and even the latest
-> models still use the "VPC2004" ACPI interface the ideapad-laptop driver
-> binds to. Having a hw rfkill switch is quite rare on modern hardware, so
-> all these new models need to be added to the no_hw_rfkill_list, leading
-> to a never ending game of whack a mole.
->
-> Worse the failure mode when not present on the list, is very bad. In this
-> case the ideapad-laptop driver will report the wifi as being hw-blocked,
-> at which points NetworkManager does not even try to use it and the user
-> ends up with non working wifi.
->
-> This leads to various Linux fora on the internet being filled with
-> wifi not working on ideapad laptops stories, which does not make Linux
-> look good.
->
-> The failure mode when we flip the default to assuming that a hw rfkill
-> switch is not present OTOH is quite benign. When we properly report the
-> wifi as being hw-blocked on ideapads which do have the hw-switch; and it
-> is in the wifi-off position, then at least when using NetworkManager +
-> GNOME3 the user will get a "wifi disabled in hardware" message when trying
-> to connect to the wifi from the UI. If OTOH we assume there is no hardware
-> rfkill switch, then the user will get an empty list for the list of
-> available networks. Although the empty list vs the "wifi disabled in
-> hardware" message is a regression, it is a very minor regression and it
-> can easily be fixed on a model by model basis by filling the new
-> hw_rfkill_list this commit introduces.
->
-> Therefor this commit removes the ever growing no_hw_rfkill_list, flipping
-> the default to assuming there is no hw rfkill switch and adding a new
-> hw_rfkill_list. Thereby fixing the wifi not working on all the current
-> ideapad and yoga models which are not on the list yet and also fixing it
-> for all future ideapad and yoga models using the "VPC2004" ACPI interface.
->
-> Note once this patch has been accepted upstream. I plan to write a blog
-> post asking for users of ideapads and yoga's with a hw rfkill switch to
-> step forward, so that we can populate the new hw_rfkill_list with the few
-> older yoga and ideapad models which actually have a hw rfkill switch.
->
-
-Pushed to my review and testing queue, thanks!
-
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1703338
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/platform/x86/ideapad-laptop.c | 321 ++------------------------
->  1 file changed, 15 insertions(+), 306 deletions(-)
->
-> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-> index c53ae86b59c7..2d94536dea88 100644
-> --- a/drivers/platform/x86/ideapad-laptop.c
-> +++ b/drivers/platform/x86/ideapad-laptop.c
-> @@ -980,312 +980,21 @@ static void ideapad_wmi_notify(u32 value, void *context)
->  #endif
->
->  /*
-> - * Some ideapads don't have a hardware rfkill switch, reading VPCCMD_R_RF
-> - * always results in 0 on these models, causing ideapad_laptop to wrongly
-> - * report all radios as hardware-blocked.
-> + * Some ideapads have a hardware rfkill switch, but most do not have one.
-> + * Reading VPCCMD_R_RF always results in 0 on models without a hardware rfkill,
-> + * switch causing ideapad_laptop to wrongly report all radios as hw-blocked.
-> + * There used to be a long list of DMI ids for models without a hw rfkill
-> + * switch here, but that resulted in playing whack a mole.
-> + * More importantly wrongly reporting the wifi radio as hw-blocked, results in
-> + * non working wifi. Whereas not reporting it hw-blocked, when it actually is
-> + * hw-blocked results in an empty SSID list, which is a much more benign
-> + * failure mode.
-> + * So the default now is the much safer option of assuming there is no
-> + * hardware rfkill switch. This default also actually matches most hardware,
-> + * since having a hw rfkill switch is quite rare on modern hardware, so this
-> + * also leads to a much shorter list.
->   */
-> -static const struct dmi_system_id no_hw_rfkill_list[] = {
-> -       {
-> -               .ident = "Lenovo RESCUER R720-15IKBN",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo R720-15IKBN"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo G40-30",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo G40-30"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo G50-30",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo G50-30"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo V310-14IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo V310-14IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo V310-14ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo V310-14ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo V310-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo V310-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo V310-15ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo V310-15ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo V510-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo V510-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 300-15IBR",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 300-15IBR"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 300-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 300-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 300S-11IBR",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 300S-11BR"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 310-15ABR",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 310-15ABR"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 310-15IAP",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 310-15IAP"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 310-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 310-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 310-15ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 310-15ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 330-15ICH",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 330-15ICH"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad 530S-14ARR",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad 530S-14ARR"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad S130-14IGM",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad S130-14IGM"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad Y700-14ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad Y700-14ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad Y700-15ACZ",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad Y700-15ACZ"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad Y700-15ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad Y700-15ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad Y700 Touch-15ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad Y700 Touch-15ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad Y700-17ISK",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad Y700-17ISK"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo ideapad MIIX 720-12IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "MIIX 720-12IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Legion Y520-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Y520-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Y520-15IKBM",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Y520-15IKBM"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Legion Y530-15ICH",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Legion Y530-15ICH"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Legion Y530-15ICH-1060",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Legion Y530-15ICH-1060"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Legion Y720-15IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Y720-15IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Legion Y720-15IKBN",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Y720-15IKBN"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Y720-15IKBM",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Y720-15IKBM"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 2 11 / 13 / Pro",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Yoga 2"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 2 11 / 13 / Pro",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_BOARD_NAME, "Yoga2"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 2 13",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Yoga 2 13"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 3 1170 / 1470",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo Yoga 3"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 3 Pro 1370",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 3"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 700",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 700"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 900",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 900"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Yoga 900",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_BOARD_NAME, "VIUU4"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo YOGA 910-13IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 910-13IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo YOGA 920-13IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA 920-13IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo YOGA C930-13IKB",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "Lenovo YOGA C930-13IKB"),
-> -               },
-> -       },
-> -       {
-> -               .ident = "Lenovo Zhaoyang E42-80",
-> -               .matches = {
-> -                       DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -                       DMI_MATCH(DMI_PRODUCT_VERSION, "ZHAOYANG E42-80"),
-> -               },
-> -       },
-> +static const struct dmi_system_id hw_rfkill_list[] = {
->         {}
->  };
->
-> @@ -1311,7 +1020,7 @@ static int ideapad_acpi_add(struct platform_device *pdev)
->         priv->cfg = cfg;
->         priv->adev = adev;
->         priv->platform_device = pdev;
-> -       priv->has_hw_rfkill_switch = !dmi_check_system(no_hw_rfkill_list);
-> +       priv->has_hw_rfkill_switch = dmi_check_system(hw_rfkill_list);
->
->         ret = ideapad_sysfs_init(priv);
->         if (ret)
-> --
-> 2.21.0
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5keSBTaGV2Y2hlbmtv
+IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBNb25kYXksIE1heSAwNiwgMjAx
+OSAzOjA3IFBNDQo+IFRvOiBWYWRpbSBQYXN0ZXJuYWsgPHZhZGltcEBtZWxsYW5veC5jb20+DQo+
+IENjOiBEYXJyZW4gSGFydCA8ZHZoYXJ0QGluZnJhZGVhZC5vcmc+OyBQbGF0Zm9ybSBEcml2ZXIg
+PHBsYXRmb3JtLWRyaXZlci0NCj4geDg2QHZnZXIua2VybmVsLm9yZz47IG1pY2hlYWxzaEBtZWxs
+YW5veC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MSBwbGF0Zm9ybS1uZXh0IDAvMl0gcGxh
+dGZvcm0veDg2OiBNZWxsYW5veDogYWRkIG5ldw0KPiBmZWF0dXJlcw0KPiANCj4gT24gTW9uLCBN
+YXkgNiwgMjAxOSBhdCAxOjEyIFBNIFZhZGltIFBhc3Rlcm5hayA8dmFkaW1wQG1lbGxhbm94LmNv
+bT4NCj4gd3JvdGU6DQo+IA0KPiA+ID4gPiA+IEkgaGF2ZSBhZGRlZCBvbmUgcGF0Y2ggb24gdG9w
+LCBwbGVhc2UsIGNoZWNrIGlmIGl0J3Mgb2theSB3aXRoIHlvdS4NCj4gDQo+ID4gPiBodHRwOi8v
+Z2l0LmluZnJhZGVhZC5vcmcvbGludXgtcGxhdGZvcm0tZHJpdmVycy0NCj4gPiA+IHg4Ni5naXQv
+Y29tbWl0Lzc3MWZiNjQzZjY2ODUyNzk4NWFkZGFkMmU0MGI0ZGMxN2JhYzkxNzANCj4gDQo+ID4g
+SSBhbSBub3Qgc3VyZSBhYm91dCB0aGlzOg0KPiA+ICAgICAgICAgZm9yIChpID0gTUxYUExBVF9D
+UExEX1dEX01BWF9ERVZTIC0gMTsgaSA+PSAwIDsgaS0tKSB7DQo+ID4gLSAgICAgICAgICAgICAg
+IGlmIChtbHhwbGF0X3dkX2RhdGFbaV0pDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgcGxh
+dGZvcm1fZGV2aWNlX3VucmVnaXN0ZXIocHJpdi0+cGRldl93ZFtpXSk7DQo+ID4gLSAgICAgICB9
+DQo+ID4gKyAgICAgICAgICAgICAgIHBsYXRmb3JtX2RldmljZV91bnJlZ2lzdGVyKHByaXYtPnBk
+ZXZfd2RbaV0pOw0KPiA+DQo+ID4gRm9yIHNvbWUgc3lzdGVtcyB3ZSBoYXZlIG9ubHkgb25lIHdh
+dGNoZG9nIGluc3RhbmNlOg0KPiA+IG1seHBsYXRfd2RfZGF0YVswXSA9ICZtbHhwbGF0X21seGNw
+bGRfd2Rfc2V0X3R5cGUxWzBdOyB3aGlsZSBmb3INCj4gPiBvdGhlcnMgdHdvIGluc3RhbmNlcw0K
+PiA+ICAgICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUobWx4cGxhdF9tbHhjcGxkX3dk
+X3NldF90eXBlMik7IGkrKykNCj4gPiAgICAgICAgICAgICAgICAgbWx4cGxhdF93ZF9kYXRhW2ld
+ID0gJm1seHBsYXRfbWx4Y3BsZF93ZF9zZXRfdHlwZTJbaV07DQo+ID4NCj4gPiBTbywgaW4gdGhl
+IGZpcnN0IGNhc2Ugd2Ugd2lsbCBoYXZlIE5VTEwgZm9yDQo+ID4gcGxhdGZvcm1fZGV2aWNlX3Vu
+cmVnaXN0ZXIocHJpdi0+cGRldl93ZFsxXSk7DQo+IA0KPiBUaGUgZm9sbG93aW5nIGNvbW1pdCBh
+ZGRzIGFuIElTX0VSUigpIGNoZWNrIG9uIHRvcCBmb3IgbG9uZyBleGlzdGluZyBOVUxMDQo+IGNo
+ZWNrLg0KPiBUaGUgbGF0dGVyIGlzIHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gZG8gYW5kIGVmZmVj
+dGl2ZWx5IG1lYW5zIGRvdWJsZSBjaGVjayBmb3INCj4gTlVMTC4NCj4gDQo+IGNvbW1pdCA5OWZl
+ZjU4N2ZmOTg4OTQ0MjZkOWJmMWY1YjczMzYzNDUwNTJkNGIzDQo+IEF1dGhvcjogQW5keSBTaGV2
+Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+DQo+IERhdGU6ICAgTW9u
+IERlYyAzIDIwOjIxOjQxIDIwMTggKzAyMDANCj4gDQo+ICAgIGRyaXZlciBjb3JlOiBwbGF0Zm9y
+bTogUmVzcGVjdCByZXR1cm4gY29kZSBvZiBwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJfZnVsbCgp
+DQoNCk8sIHllcywgSSBzZWUuDQpTbyBhbGwgaXMgT0suDQoNCg0KPiANCj4gLS0NCj4gV2l0aCBC
+ZXN0IFJlZ2FyZHMsDQo+IEFuZHkgU2hldmNoZW5rbw0K
