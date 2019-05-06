@@ -2,96 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52B3E149F7
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 14:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EAD714B16
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 15:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725853AbfEFMkO (ORCPT
+        id S1725853AbfEFNn5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 08:40:14 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:44443 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725856AbfEFMkO (ORCPT
+        Mon, 6 May 2019 09:43:57 -0400
+Received: from sonic305-21.consmr.mail.ne1.yahoo.com ([66.163.185.147]:46267
+        "EHLO sonic305-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725852AbfEFNn5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 08:40:14 -0400
-Received: by mail-pl1-f195.google.com with SMTP id d3so2305036plj.11;
-        Mon, 06 May 2019 05:40:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oy4Ruent20mS+vP/+538UQ8wRUJfmtdHDo5O6cPrgi4=;
-        b=WFRf8U7lETJO5PXZBsqw6MHcWsnZyyqjvWrBH8wntrYVE+COQLqSvmwNgjAyRf2rUK
-         mjFP8jQcFjthk/AjNCt5kkYv2jn+zItPxdGUmZg+br59QJLsz/malW2eQbcppTVIB6M3
-         zgVAZ8EEsoWtmn2Jw+I+tmpjEdYh7r73AiHKGhacZgsHH1O7qVJWs/CwVHDOQfoSlWtw
-         UdWW5mwBKyBstnAu4vMNA/c2HQqoNHOEN8DPJp+6Y6BorflxfTexcxdACTzFZCM2afde
-         Tmv1Z8eC7ji9ljjgI2sOIe2qPEtyam7vJkN+vqX/bO6hh4hh31YQppTDsupjc1XMCTXD
-         z7TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oy4Ruent20mS+vP/+538UQ8wRUJfmtdHDo5O6cPrgi4=;
-        b=KpH3bLxSy7MTYV9dJdNQEVRubX+sxArHlvaNjsodx+fiLzz9AGqh11DwkwSazxXwhr
-         T/eAoetwZrOKKALzwu7kqNf1Uax61Y9ceu6SsxWVdCy0fHev6EwGcb+PFqo+k1dbHrCE
-         mqnEk9rhtf0m+F6/CYaOYY3BhOLsJwlD5yPD+h6qxENKcre2pXZCn61N6V6+AIr7N33V
-         4j2QaN5LKJq9vjQDD5GIW05yp21f3S3/u29V1QdNsr8p1Wkl1PSEuyn9MAE3CJSau70A
-         4aVQ6HXnbTdEGOc2HHLc56r80leXym4Rp7HaHxBwVLoX4BIhZ1mSbvVct4erOaVchALl
-         3tCw==
-X-Gm-Message-State: APjAAAUWHTGB8Gdsi+tVviAsGxahxs2Z6qjJrG/acU9QA3l2/MQNo2Xq
-        +dfArDvcVNgNvDmpL85YpCyysHKwgoJQakwbOXk=
-X-Google-Smtp-Source: APXvYqyeQd/K/YBN5Hod+tC22DfpiN3sS4Qv0z1TQntwH0Ll1/epHnjDeRJuP6aZp85N3kApHK6p0DP9J/t5uPenmnc=
-X-Received: by 2002:a17:902:7885:: with SMTP id q5mr31893319pll.12.1557146413415;
- Mon, 06 May 2019 05:40:13 -0700 (PDT)
+        Mon, 6 May 2019 09:43:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1557150235; bh=M+2BQM2x3GSy/dmtDG0o07y3ZYWK28QOQCLRz1DcS2Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=YEvZQzwLmM5hir1orfyujUyb/DnQpK5/NsrRjYOPzMlY54j9ykZjkpnLqGkCQIDYWbxosE5wQpjb9eb6YbfELNOC19tp34Gvu/cOGHDTuG9Rx+2pqHNB7JjdlAqn6Vlu6z++Y2sEOA/ru2/6rOKfJr0DsAfcisVcoFZAP5HvLJxyR/N5IjjVlRUAM/yOQlKToBGEMQGUCJg5P7N55Pshz+yM5fcVtS+KMmZUwDYtgoKlN2InQ83KSmO9tLlHSpVZR02VDCyXoe/1IDDqoZcRDcB53jfQFm43FXVI26iDGxZ6/UlrcNB4lt0otxtPD/oAxHKzJtG8iIG4AK1RfckCZA==
+X-YMail-OSG: ZhKv.aMVM1mLDAicwTt9_f51WHfuYpwo3NWrzvGMKhAikwhkKucXFoLUjgDek9u
+ N50iLlV3t3LLgaIlO0eDJZjvsuVR.U.y4G_SZrOIJBjjQYUncSOszN6svnaSvkuXsrWgQfe8NBZL
+ WPjgAPAVIa7qM52ExZyHlCT0NfulYxbYz4SQq9y4iJNjgUwh.vaUc.aNlvetvTI2OH25Q81ihYn0
+ Y.ofVsrdlH_lhp_fczphSEWETFGY7sj_kpXZkr1wU7reknCItCaDwVdzU_8JHllYfP0y92LKIfAN
+ A5DqF_6DnkUQATaS3w4PFzXwLGDNxVWwQW_odajfmWTuy1nMLdvrWLbgbeydVj44iIiMbJbCQgtS
+ gtbJokWZ2B3bA1ho0ipBfnA67OOk0P35XHvJd_3_he7xhPJZjT8TpDPXmV0OGps5r2ZvRbyakoB4
+ VanW05LrXjyp_xwvmnrgkAN3BssVr1Q1ubbRzvwIkg771HZIQ8ZmVmaj59MHeK_LXtiB0URv_Gt3
+ E70DqLD80DtzC.dy8lnxi270frF.efRrS8.l2oWJoYtXdi3vF9jOf6A7JRjt3wrGbOpBrwHvdL_n
+ GBN9_WooJYJUVgoFenyxxpQuH55KtcqKs7RHwcoDKfMbM4b4giTrNKzRCRPDhKOJfWQR1c9FcaC2
+ M47GLSlWComu4KtJvSf6YJ_iDJYJ2lgA9Amd_2x3hTilOgwD.xFnwM9qxa2PoJqv0AjZKevnqos7
+ NmRK2Ilj3LynRDSECHx8pch1aRHIm4yWrc0_A.FxPGJSBWjEA8eOzJIWIqpLG1E.eSsVQqNcxwMO
+ KxXBxZmx_UxCYgF9ojcTw.b6uLxFUz7YQVzKTLtF7R.AcUPd_SuaCWYsqxUYnjCkD6h3_Ojz4yHx
+ ltrFN4gYM1tbOtHYq4OLb.WaFaqJ2QXuHajMU8PDkxWM6VDZsQcdo66IWguT_qq34cEyCrhYIexK
+ ISQw9xPetIEl_5LpdwK9Jl5NuRGCLvM4GjPOqh2mdBGw6nC_BR_KVAOiK6OQqQtflQwBoslpF8Y9
+ p3snDs4Yv8XRthLuc5A1Xc4ScANdzE4lqiszJ8LUcJxCxs5dBvs1fbDZlF0aoW5TwZmsCpRWnhJM
+ jHsKIKr23CL9Jvjg_nmSGQw9Bg7CrL5dd5AE_GpMavoY42XtFXSC9aPOTEmDxn1KQrhQ9jvXzeg-
+ -
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ne1.yahoo.com with HTTP; Mon, 6 May 2019 13:43:55 +0000
+Date:   Mon, 6 May 2019 13:43:53 +0000 (UTC)
+From:   Aisha Gaddafi <aishagaddafi721@aol.com>
+Reply-To: Aisha Gaddafi <gaisha983@gmail.com>
+Message-ID: <819440062.1969805.1557150233971@mail.yahoo.com>
+Subject: Hello My Beloved One, i need your assistance
 MIME-Version: 1.0
-References: <20190502130351.5341-1-linux-kernel-dev@beckhoff.com>
-In-Reply-To: <20190502130351.5341-1-linux-kernel-dev@beckhoff.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 15:40:02 +0300
-Message-ID: <CAHp75Vc4xWbnGoaS8tRDV4_F-Qifh7K1hoFn0V-OObun2Sd0DA@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Add several Beckhoff Automation boards to
- critclk_systems DMI table
-To:     linux-kernel-dev@beckhoff.com, Stephen Boyd <sboyd@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <819440062.1969805.1557150233971.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13583 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:66.0) Gecko/20100101 Firefox/66.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, May 2, 2019 at 4:04 PM <linux-kernel-dev@beckhoff.com> wrote:
->
-> From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
->
-> There are several Beckhoff Automation industrial PC boards which use
-> pmc_plt_clk* clocks for ethernet controllers. The patch adds affected boards
-> to critclk_systems DMI table so the clocks are marked as CLK_CRITICAL and
-> not turned off.
-> This should be applied on top of another patch as both change
-> the same table:
-> [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to critclk_systems DMI table
+Dear Friend,
 
-Yes, that's why it either should go via CLK tree, or I need an
-immutable tag or branch from them.
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+I came across your e-mail contact prior a private search while in need of 
+your assistance. My name is Aisha  Gaddafi a single Mother and a Widow with 
+three Children. I am the only biological Daughter of late Libyan President 
+(Late Colonel Muammar Gaddafi).
 
->
-> Steffen Dirkwinkel (1):
->   platform/x86: pmc_atom: Add several Beckhoff Automation boards to
->     critclk_systems DMI table
->
->  drivers/platform/x86/pmc_atom.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->
-> --
-> 2.21.0
+I have investment funds worth Twenty Seven Million Five Hundred Thousand 
+United State Dollar ($27.500.000.00 ) and i need a trusted investment 
+Manager/Partner because of my current refugee status, however, I am 
+interested in you for investment project assistance in your country, may be 
+from there, we can build business relationship in the nearest future.
 
+I am willing to negotiate investment/business profit sharing ratio with you 
+base on the future investment earning profits.
 
+If you are willing to handle this project on my behalf kindly reply urgent 
+to enable me provide you more information about the investment funds.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Your Urgent Reply Will Be Appreciated.
+
+Best Regards
+Mrs Aisha Gaddafi
