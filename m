@@ -2,251 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71839147B6
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 11:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FDC7147CB
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 11:50:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725856AbfEFJkP (ORCPT
+        id S1726128AbfEFJu1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 05:40:15 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:45909 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725855AbfEFJkP (ORCPT
+        Mon, 6 May 2019 05:50:27 -0400
+Received: from mail-eopbgr10086.outbound.protection.outlook.com ([40.107.1.86]:47046
+        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726016AbfEFJu0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 05:40:15 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i21so6175685pgi.12;
-        Mon, 06 May 2019 02:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t+Uksr38qEQdnUktzf7iuzjMvop9CtHdm9Gzd+jY0qU=;
-        b=GqPYYZv8MSqHpuM/ukI6DRu1X76foSsRd3AxPs3L4Sw6YWhiMXWpcu5UokMWuCWCti
-         /zJ+MrI+hHTR1Q6kcdZL4F9lAm3PC4SwtiC6a/Rsl09GnQVsBsFallrXRRqMhh3NxC2n
-         R7Sw3Rhx5ikIxhjtkLYaSAwhmsWyJt7bj1TkHKaQP/Tip1KjbXK0jKI8g/lQEMMfP0Wk
-         j5fTYEKfzaLMjP9UY9oaUAdmHP7/aVIiWihTrU4bGakR5EMv3WOo2A8xn+r9N1yFDF43
-         6qYrGGW+9uAakR70U6pkrbQdltWa4qavdVB4qAgJfLRTDoP7PRelHTs/prAXvQ2b/2zc
-         FVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t+Uksr38qEQdnUktzf7iuzjMvop9CtHdm9Gzd+jY0qU=;
-        b=f81P6H1ebHo3Pu0XYYad9fYaezIj45fl/c7ijm5U/MJXUp9WS6QMrS9YlQUH+vsEkY
-         j5VkExNA0JbjCiDrKROZdrR8TcPBv2ymCEQuAWTbpIDc2kN+dOMzmUy0XNs4sm0L/PZ+
-         fotpjkyed2IPwJjBG1i5ZhCyZLKcUHdETIdr+L6dphx1+2UPANv3a0jzrAdfWrXZKKwM
-         of5SY7ToEDMePcjsuea4sSN/nz72jgKtgfkued9+szKP2KHFx9/jNq510HPj11L+Fppw
-         59ZOGAtRQq2kDaiUizxNLkgKpHVa6J4vNfENrklJD2ESRH8rJ8E4A2oZE6eBwUg6ABSg
-         d61Q==
-X-Gm-Message-State: APjAAAXuv0ft7ROGAbLl18NkdahSN+HBSVxpXvjO1WHFhl1KBl5vrADt
-        BA5J0FcDTc+UKc7tUNH1Om/xBujiFQUgYXiEgOY=
-X-Google-Smtp-Source: APXvYqwHG1UHZVFS1gJgCGndzOVqmSz/F35MDJ/DFQzlnmuRKqZb6pmJzG2aXViL6M/bF8et+fIV2Qggt1+2q7bgHuc=
-X-Received: by 2002:a63:4621:: with SMTP id t33mr28149042pga.246.1557135614509;
- Mon, 06 May 2019 02:40:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190313222124.229371-1-rajatja@google.com> <20190417230155.5282-1-rajatja@google.com>
- <20190417230155.5282-3-rajatja@google.com>
-In-Reply-To: <20190417230155.5282-3-rajatja@google.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 6 May 2019 12:40:03 +0300
-Message-ID: <CAHp75VfYLYx=4VoGLMbqVxEMubamibjmzzEEJo_u1y+g_Z-NcQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] platform/x86: intel_pmc_core: Attach using APCI
- HID "INT33A1"
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Mon, 6 May 2019 05:50:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dwceg82ELE9sYicmgpZBsfLbwJoYdumG1fxmYsSKcC8=;
+ b=fS2AEWnRe42HJBXy+z4LYV/EGE6Ff/UmRtYIX1HREdjnUtyp/211T9Z9QTzYaaKCRIC+bC3P/1gsstoogC3PGO1/PJwmlyDw9DX/b8xshV/2UjVlNmQ0ea2PoWPQPQe3PLVu+/XgEg0+FRlD9xLrDXVO4LmHY8jWuTUW0tk18CE=
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com (20.177.196.210) by
+ AM6PR05MB5752.eurprd05.prod.outlook.com (20.178.93.85) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.10; Mon, 6 May 2019 09:50:24 +0000
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::61f4:6de4:5401:5f56]) by AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::61f4:6de4:5401:5f56%2]) with mapi id 15.20.1856.012; Mon, 6 May 2019
+ 09:50:24 +0000
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Darren Hart <dvhart@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Furquan Shaikh <furquan@google.com>,
-        Evan Green <evgreen@google.com>,
-        Rajat Jain <rajatxjain@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        "michealsh@mellanox.com" <michealsh@mellanox.com>
+Subject: RE: [PATCH v1 platform-next 0/2] platform/x86: Mellanox: add new
+ features
+Thread-Topic: [PATCH v1 platform-next 0/2] platform/x86: Mellanox: add new
+ features
+Thread-Index: AQHU3XmMCNo9QfDiZku9Fe0it2UAMqZeIyMAgAADT2A=
+Date:   Mon, 6 May 2019 09:50:24 +0000
+Message-ID: <AM6PR05MB522498F37724F8F82564BCF4A2300@AM6PR05MB5224.eurprd05.prod.outlook.com>
+References: <20190318105823.2821-1-vadimp@mellanox.com>
+ <CAHp75Vfz+aXzgMX0=fMGFR8a4OxoUTFn9vCg=0qxbF7YHDG=9w@mail.gmail.com>
+In-Reply-To: <CAHp75Vfz+aXzgMX0=fMGFR8a4OxoUTFn9vCg=0qxbF7YHDG=9w@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vadimp@mellanox.com; 
+x-originating-ip: [193.47.165.251]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a0462429-57de-4de3-11cb-08d6d20842c9
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:AM6PR05MB5752;
+x-ms-traffictypediagnostic: AM6PR05MB5752:
+x-microsoft-antispam-prvs: <AM6PR05MB57525F91AD423DEFCD3CEB54A2300@AM6PR05MB5752.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0029F17A3F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(376002)(396003)(136003)(39860400002)(366004)(189003)(199004)(13464003)(8676002)(486006)(7736002)(54906003)(26005)(305945005)(478600001)(9686003)(186003)(53936002)(6436002)(53546011)(6506007)(5660300002)(102836004)(6246003)(81156014)(256004)(14444005)(81166006)(2906002)(476003)(446003)(107886003)(11346002)(76176011)(86362001)(66556008)(66476007)(66946007)(64756008)(66446008)(76116006)(73956011)(33656002)(55016002)(74316002)(25786009)(66066001)(4326008)(99286004)(52536014)(68736007)(8936002)(14454004)(3846002)(229853002)(316002)(6116002)(6916009)(7696005)(71200400001)(71190400001);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB5752;H:AM6PR05MB5224.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Tnne6VCCbZsfo7G+awHOTFgPVwTPbBjnGuhzBZPQQYK0m8MU7IOrqhGUKqbSXDD9xzyr0uGj7h7zXyIw52Hvjx25HZWa89fZ9a+Gf+kjZRtiSQngeI9V1STfawnlTkxg08f2ffeDSJzB3Lwts9VtEzQxyXxUYc8XLPyOno3CpEA9TQyJ0N5t0Yq3fh+HkY2qT0M7sbEhaGNFsMLXYfqJgtbq01mjsrLtoS+J/Ff5z4BgOOfsWSlJ1dST+6qxxS/cqxFIgydfEPynVfcP8yHVgefk0m1TZXhGdreIlG63mLr0rfQ2+FAOlJlarsZjhJPgheDPb6SzAoE/veqlpS1UtIFDPUAZrXbbnGyn0ze6Z8XbLfRwaG3Nyc3mgy5CzSNBbSEVaC2UYWfR/5t4pTfYQnw+ExeLTT4IftgNo6kS4Pc=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0462429-57de-4de3-11cb-08d6d20842c9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2019 09:50:24.1008
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5752
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Apr 18, 2019 at 2:02 AM Rajat Jain <rajatja@google.com> wrote:
->
-> Most modern platforms already have the ACPI device "INT33A1" that could
-> be used to attach to the driver. Switch the driver to using that and
-> thus make the intel_pmc_core.c a pure platform_driver.
->
-> Some of the legacy platforms though, may still not have this ACPI device
-> in their ACPI tables. Thus for such platforms, move the code to manually
-> instantiate a platform_device into a new file of its own. This would
-> instantiate the intel_pmc_core platform device and thus attach to
-> the driver, if the ACPI device for the same ("INT33A1") is not present
-> in a system where it should be. This was discussed here:
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
->
-
-Pushed to my review and testing queue, thanks!
-
-> Signed-off-by: Rajat Jain <rajatja@google.com>
-> ---
-> v6: Squash some of the changes of first patch into this patch to work
->     around the bisectability issue.
-> v5: Remove the gerrit id from commit log
-> v4: Rename file, remove dummy arg, 1 conditional per if statement,
->     simplify init / exit calls..
-> v3: (first version of *this* patch -to go with rest of v3 patchset)
-> v2: (does not exist)
-> v1: (does not exist)
->
->  drivers/platform/x86/Makefile                 |  2 +-
->  drivers/platform/x86/intel_pmc_core.c         | 40 +++----------
->  .../platform/x86/intel_pmc_core_plat_drv.c    | 60 +++++++++++++++++++
->  3 files changed, 69 insertions(+), 33 deletions(-)
->  create mode 100644 drivers/platform/x86/intel_pmc_core_plat_drv.c
->
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index 86cb76677bc8..7041a88c34c7 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -89,7 +89,7 @@ obj-$(CONFIG_INTEL_BXTWC_PMIC_TMU)    += intel_bxtwc_tmu.o
->  obj-$(CONFIG_INTEL_TELEMETRY)  += intel_telemetry_core.o \
->                                    intel_telemetry_pltdrv.o \
->                                    intel_telemetry_debugfs.o
-> -obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o
-> +obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o intel_pmc_core_plat_drv.o
->  obj-$(CONFIG_PMC_ATOM)         += pmc_atom.o
->  obj-$(CONFIG_MLX_PLATFORM)     += mlx-platform.o
->  obj-$(CONFIG_INTEL_TURBO_MAX_3) += intel_turbo_max_3.o
-> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-> index 1d902230ba61..f20d08ad39ea 100644
-> --- a/drivers/platform/x86/intel_pmc_core.c
-> +++ b/drivers/platform/x86/intel_pmc_core.c
-> @@ -1023,47 +1023,23 @@ static const struct dev_pm_ops pmc_core_pm_ops = {
->         SET_LATE_SYSTEM_SLEEP_PM_OPS(pmc_core_suspend, pmc_core_resume)
->  };
->
-> +static const struct acpi_device_id pmc_core_acpi_ids[] = {
-> +       {"INT33A1", 0}, /* _HID for Intel Power Engine, _CID PNP0D80*/
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, pmc_core_acpi_ids);
-> +
->  static struct platform_driver pmc_core_driver = {
->         .driver = {
->                 .name = "intel_pmc_core",
-> +               .acpi_match_table = ACPI_PTR(pmc_core_acpi_ids),
->                 .pm = &pmc_core_pm_ops,
->         },
->         .probe = pmc_core_probe,
->         .remove = pmc_core_remove,
->  };
->
-> -static struct platform_device pmc_core_device = {
-> -       .name = "intel_pmc_core",
-> -};
-> -
-> -static int __init pmc_core_init(void)
-> -{
-> -       int ret;
-> -
-> -       if (!x86_match_cpu(intel_pmc_core_ids))
-> -               return -ENODEV;
-> -
-> -       ret = platform_driver_register(&pmc_core_driver);
-> -       if (ret)
-> -               return ret;
-> -
-> -       ret = platform_device_register(&pmc_core_device);
-> -       if (ret) {
-> -               platform_driver_unregister(&pmc_core_driver);
-> -               return ret;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -static void __exit pmc_core_exit(void)
-> -{
-> -       platform_device_unregister(&pmc_core_device);
-> -       platform_driver_unregister(&pmc_core_driver);
-> -}
-> -
-> -module_init(pmc_core_init)
-> -module_exit(pmc_core_exit)
-> +module_platform_driver(pmc_core_driver);
->
->  MODULE_LICENSE("GPL v2");
->  MODULE_DESCRIPTION("Intel PMC Core Driver");
-> diff --git a/drivers/platform/x86/intel_pmc_core_plat_drv.c b/drivers/platform/x86/intel_pmc_core_plat_drv.c
-> new file mode 100644
-> index 000000000000..20be3eaeb722
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_pmc_core_plat_drv.c
-> @@ -0,0 +1,60 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + * Intel PMC Core platform init
-> + * Copyright (c) 2019, Google Inc.
-> + * Author - Rajat Jain
-> + *
-> + * This code instantiates platform devices for intel_pmc_core driver, only
-> + * on supported platforms that may not have the ACPI devices in the ACPI tables.
-> + * No new platforms should be added here, because we expect that new platforms
-> + * should all have the ACPI device, which is the preferred way of enumeration.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include <asm/cpu_device_id.h>
-> +#include <asm/intel-family.h>
-> +
-> +static struct platform_device pmc_core_device = {
-> +       .name = "intel_pmc_core",
-> +};
-> +
-> +/*
-> + * intel_pmc_core_platform_ids is the list of platforms where we want to
-> + * instantiate the platform_device if not already instantiated. This is
-> + * different than intel_pmc_core_ids in intel_pmc_core.c which is the
-> + * list of platforms that the driver supports for pmc_core device. The
-> + * other list may grow, but this list should not.
-> + */
-> +static const struct x86_cpu_id intel_pmc_core_platform_ids[] = {
-> +       INTEL_CPU_FAM6(SKYLAKE_MOBILE, pmc_core_device),
-> +       INTEL_CPU_FAM6(SKYLAKE_DESKTOP, pmc_core_device),
-> +       INTEL_CPU_FAM6(KABYLAKE_MOBILE, pmc_core_device),
-> +       INTEL_CPU_FAM6(KABYLAKE_DESKTOP, pmc_core_device),
-> +       INTEL_CPU_FAM6(CANNONLAKE_MOBILE, pmc_core_device),
-> +       INTEL_CPU_FAM6(ICELAKE_MOBILE, pmc_core_device),
-> +       {}
-> +};
-> +MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
-> +
-> +static int __init pmc_core_platform_init(void)
-> +{
-> +       /* Skip creating the platform device if ACPI already has a device */
-> +       if (acpi_dev_present("INT33A1", NULL, -1))
-> +               return -ENODEV;
-> +
-> +       if (!x86_match_cpu(intel_pmc_core_platform_ids))
-> +               return -ENODEV;
-> +
-> +       return platform_device_register(&pmc_core_device);
-> +}
-> +
-> +static void __exit pmc_core_platform_exit(void)
-> +{
-> +       platform_device_unregister(&pmc_core_device);
-> +}
-> +
-> +module_init(pmc_core_platform_init);
-> +module_exit(pmc_core_platform_exit);
-> --
-> 2.21.0.392.gf8f6787159e-goog
->
-
-
---
-With Best Regards,
-Andy Shevchenko
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5keSBTaGV2Y2hlbmtv
+IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBNb25kYXksIE1heSAwNiwgMjAx
+OSAxMjozNiBQTQ0KPiBUbzogVmFkaW0gUGFzdGVybmFrIDx2YWRpbXBAbWVsbGFub3guY29tPg0K
+PiBDYzogRGFycmVuIEhhcnQgPGR2aGFydEBpbmZyYWRlYWQub3JnPjsgUGxhdGZvcm0gRHJpdmVy
+IDxwbGF0Zm9ybS1kcml2ZXItDQo+IHg4NkB2Z2VyLmtlcm5lbC5vcmc+OyBtaWNoZWFsc2hAbWVs
+bGFub3guY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEgcGxhdGZvcm0tbmV4dCAwLzJdIHBs
+YXRmb3JtL3g4NjogTWVsbGFub3g6IGFkZCBuZXcNCj4gZmVhdHVyZXMNCj4gDQo+IE9uIE1vbiwg
+TWFyIDE4LCAyMDE5IGF0IDEyOjU4IFBNIFZhZGltIFBhc3Rlcm5hayA8dmFkaW1wQG1lbGxhbm94
+LmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBUaGlzIHBhdGNoc2V0Og0KPiA+IC0gQWRkcyBzdXBw
+b3J0IGZvciB0YWNob21ldGVyIHNwZWVkIGNhcGFiaWxpdHkgcmVnaXN0ZXIuDQo+ID4gLSBBZGRz
+IHN1cHBvcnQgZm9yIE1lbGxhbm94IHdhdGNoZG9nIGRyaXZlciBhY3RpdmF0aW9uLg0KPiA+DQo+
+IA0KPiBQdXNoZWQgdG8gbXkgcmV2aWV3IGFuZCB0ZXN0aW5nIHF1ZXVlLCB0aGFua3MhDQo+IA0K
+PiBJIGhhdmUgYWRkZWQgb25lIHBhdGNoIG9uIHRvcCwgcGxlYXNlLCBjaGVjayBpZiBpdCdzIG9r
+YXkgd2l0aCB5b3UuDQoNCkhpIEFuZHksDQoNClRoYW5rcy4NCg0KWW91IG1lYW4gb24gdG9wIG9m
+IHBhdGNoDQoicGxhdGZvcm0vbWVsbGFub3g6IEFkZCBUbUZpZm8gZHJpdmVyIGZvciBNZWxsYW5v
+eCBCbHVlRmllbGQgU29jIiA/DQoNCklmIHllcywgaXQncyBPSyB3aXRoIG1lLg0KDQpUaGFua3Ms
+DQpWYWRpbQ0KDQo+IA0KPiA+IFZhZGltIFBhc3Rlcm5hayAoMik6DQo+ID4gICBwbGF0Zm9ybS94
+ODY6IG1seC1wbGF0Zm9ybTogQWRkIHN1cHBvcnQgZm9yIHRhY2hvbWV0ZXIgc3BlZWQgcmVnaXN0
+ZXINCj4gPiAgIHBsYXRmb3JtL3g4NjogbWx4LXBsYXRmb3JtOiBBZGQgbWx4LXdkdCBwbGF0Zm9y
+bSBkcml2ZXIgYWN0aXZhdGlvbg0KPiA+DQo+ID4gIGRyaXZlcnMvcGxhdGZvcm0veDg2L21seC1w
+bGF0Zm9ybS5jIHwgMjMyDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0K
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgMjMwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+
+ID4NCj4gPiAtLQ0KPiA+IDIuMTEuMA0KPiA+DQo+IA0KPiANCj4gLS0NCj4gV2l0aCBCZXN0IFJl
+Z2FyZHMsDQo+IEFuZHkgU2hldmNoZW5rbw0K
