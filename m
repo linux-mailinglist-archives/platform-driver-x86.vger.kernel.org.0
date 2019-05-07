@@ -2,188 +2,108 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 849B4155DA
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 May 2019 23:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 813DF16C0D
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 May 2019 22:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbfEFV6Y (ORCPT
+        id S1726451AbfEGURw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 May 2019 17:58:24 -0400
-Received: from gateway30.websitewelcome.com ([192.185.197.25]:38140 "EHLO
-        gateway30.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726197AbfEFV6Y (ORCPT
+        Tue, 7 May 2019 16:17:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60538 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726225AbfEGURw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 May 2019 17:58:24 -0400
-X-Greylist: delayed 1367 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 May 2019 17:58:23 EDT
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway30.websitewelcome.com (Postfix) with ESMTP id 8E48F7F21
-        for <platform-driver-x86@vger.kernel.org>; Mon,  6 May 2019 16:35:35 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id NlGphPWZOdnCeNlGph8aC5; Mon, 06 May 2019 16:35:35 -0500
-X-Authority-Reason: nr=8
-Received: from [189.250.110.31] (port=40446 helo=[192.168.1.76])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.91)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1hNlGo-002JPC-N6; Mon, 06 May 2019 16:35:35 -0500
-Subject: Re: [PATCH] platform/x86: sony-laptop: Fix unintentional fall-through
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mattia Dongili <malattia@linux.it>,
-        Darren Hart <dvhart@infradead.org>,
+        Tue, 7 May 2019 16:17:52 -0400
+Received: from localhost (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D9EC20675;
+        Tue,  7 May 2019 20:17:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557260271;
+        bh=Zp/rnTfJkpJZNmoGs+xBSvXnImnrSx0zg7++B1WSdz8=;
+        h=In-Reply-To:References:From:Subject:Cc:To:Date:From;
+        b=wpdR9llHaGX6478IU1bK4g5PgQ41VfPDmGa02s8bbErr25gTi/YY3ft5eWwqdZ6sv
+         t+PVm5NU/PTcy6AEvXpIP9ADhatNWb2Fbd+geG2mTQlXY6i5VBtXyTgL8KZ7skYkpE
+         tdoIrsWbWRGrNjq4uPobzwYdg0Dr8cuk1MCwHXDI=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com>
+References: <20190429150135.15070-1-hdegoede@redhat.com> <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com> <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com> <CAHp75Vfe9uK_b_V+uG29wb1L6J7u1hpbU+P4beXso9KNPM+8Rg@mail.gmail.com> <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to critclk_systems DMI table
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
+        Kai Heng Feng <kai.heng.feng@canonical.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>
-References: <20190424180934.GA29307@embeddedor>
- <cd02e064-1172-a8a2-14af-1f20e09a0738@embeddedor.com>
- <CAHp75VddRrLjahX0O4-q9=VLeUAAj6rOmnJ=W2Sg65OyUkVDqQ@mail.gmail.com>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <82651475-7e46-4590-2ada-2c7e8384a992@embeddedor.com>
-Date:   Mon, 6 May 2019 16:35:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAHp75VddRrLjahX0O4-q9=VLeUAAj6rOmnJ=W2Sg65OyUkVDqQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.250.110.31
-X-Source-L: No
-X-Exim-ID: 1hNlGo-002JPC-N6
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.76]) [189.250.110.31]:40446
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 5
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+        Semyon Verchenko <semverchenko@factor-ts.ru>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Message-ID: <155726027056.14659.1724431433952718602@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.8
+Date:   Tue, 07 May 2019 13:17:50 -0700
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Quoting Hans de Goede (2019-05-06 08:05:42)
+> Hi,
+>=20
+> On 06-05-19 16:59, Andy Shevchenko wrote:
+> > On Mon, May 6, 2019 at 5:47 PM Hans de Goede <hdegoede@redhat.com> wrot=
+e:
+> >>
+> >> Hi,
+> >>
+> >> On 06-05-19 14:38, Andy Shevchenko wrote:
+> >>> On Mon, Apr 29, 2019 at 6:01 PM Hans de Goede <hdegoede@redhat.com> w=
+rote:
+> >>>>
+> >>>> The Lex 3I380D industrial PC has 4 ethernet controllers on board
+> >>>> which need pmc_plt_clk0 - 3 to function, add it to the critclk_syste=
+ms
+> >>>> DMI table, so that drivers/clk/x86/clk-pmc-atom.c will mark the cloc=
+ks
+> >>>> as CLK_CRITICAL and they will not get turned off.
+> >>>>
+> >>>
+> >>> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> >>> supposedly to go via CLK tree.
+> >>>
+> >>> P.S. If you want it through PDx86, I need immutable branch / tag from=
+ CLK.
+> >>
+> >> Stephen added the patches this depends on to his fixes branch, so they
+> >> are in the 5.1 / Torvald's master branch, since we are now in the 5.2 =
+merge
+> >> window, you should be able to cleanly apply this directly.
+> >=20
+> > We don't do back merges, so, our base is v5.1-rc1. Does it mean the
+> > commit in question is in v5.1-rc1?
+> > AFAICS it was appeared in v5.1-rc5.
+>=20
+> Ah, I see, my bad.
+>=20
+> Stephen can you pick up this patch and the
+> "[PATCH 1/1] Add several Beckhoff Automation boards to critclk_systems DM=
+I table"
+> patch then?
+>=20
 
+I guess this is urgent? I'm lost why Andy can't apply the patch and
+merge it up to Linus. I don't maintain this driver here, and even if
+there's a cross tree dependency I don't understand why a base of
+v5.1-rc1 is limiting abilities to apply patches.
 
-On 5/6/19 7:23 AM, Andy Shevchenko wrote:
-> On Wed, May 1, 2019 at 11:42 PM Gustavo A. R. Silva
-> <gustavo@embeddedor.com> wrote:
->>
->> Hi all,
->>
->> Friendly ping:
->>
->> Who can take this?
-> 
-> Pushed to my review and testing queue, thanks!
-> 
+I'd think that if an "immutable branch" was all that was required you
+could 'git checkout 7c2e07130090ae001a97a6b65597830d6815e93e' and then
+apply the patch there and merge it all up into the PDx86 tree. In the
+end, when sending the PR to Linus the already merged changes won't show
+up in the diff because it's all been merged already on the other side.
 
-Awesome. :)
+Either way, I'm going to send off the clk PR real soon so this may need
+to wait until after the merge window, or if it's really urgent I could
+send a fixes branch before the merge window closes next week.
 
-Thanks, Andy.
---
-Gustavo
-
-> 
->>
->> Thanks
->> --
->> Gustavo
->>
->> On 4/24/19 1:09 PM, Gustavo A. R. Silva wrote:
->>> It seems that the default case should return AE_CTRL_TERMINATE, instead
->>> of falling through to case ACPI_RESOURCE_TYPE_END_TAG and returning AE_OK;
->>> otherwise the line of code at the end of the function is unreachable and
->>> makes no sense:
->>>
->>> return AE_CTRL_TERMINATE;
->>>
->>> This fix is based on the following thread of discussion:
->>>
->>> https://lore.kernel.org/patchwork/patch/959782/
->>>
->>> Fixes: 33a04454527e ("sony-laptop: Add SNY6001 device handling (sonypi reimplementation)")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
->>> ---
->>>  drivers/platform/x86/sony-laptop.c | 8 +++++---
->>>  1 file changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
->>> index 4bfbfa3f78e6..2058445fc456 100644
->>> --- a/drivers/platform/x86/sony-laptop.c
->>> +++ b/drivers/platform/x86/sony-laptop.c
->>> @@ -4424,14 +4424,16 @@ sony_pic_read_possible_resource(struct acpi_resource *resource, void *context)
->>>                       }
->>>                       return AE_OK;
->>>               }
->>> +
->>> +     case ACPI_RESOURCE_TYPE_END_TAG:
->>> +             return AE_OK;
->>> +
->>>       default:
->>>               dprintk("Resource %d isn't an IRQ nor an IO port\n",
->>>                       resource->type);
->>> +             return AE_CTRL_TERMINATE;
->>>
->>> -     case ACPI_RESOURCE_TYPE_END_TAG:
->>> -             return AE_OK;
->>>       }
->>> -     return AE_CTRL_TERMINATE;
->>>  }
->>>
->>>  static int sony_pic_possible_resources(struct acpi_device *device)
->>>
-> 
-> 
-> 
