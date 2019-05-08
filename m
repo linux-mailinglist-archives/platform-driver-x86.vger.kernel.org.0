@@ -2,74 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EFDD1740A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 10:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BD617422
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 10:42:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726819AbfEHIkn (ORCPT
+        id S1726604AbfEHImU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 04:40:43 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38564 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbfEHIkn (ORCPT
+        Wed, 8 May 2019 04:42:20 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45863 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726387AbfEHImU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 04:40:43 -0400
-Received: by mail-pg1-f194.google.com with SMTP id j26so9744636pgl.5;
-        Wed, 08 May 2019 01:40:42 -0700 (PDT)
+        Wed, 8 May 2019 04:42:20 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i21so9730631pgi.12;
+        Wed, 08 May 2019 01:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rX6ucNl5H/QLYT5MirDdIdADtlybrhpXP2ffdTKqLlA=;
-        b=HoIdT6evN4j/sBXYzP0MOsSz0/32FftHywFEyONPKeqbcOqjCzyxnfQDAjCXTFSS6G
-         ao6dBjp/AXmt2K54mASLesuSjTbnztNkHfeC5CMGR3YI27PUU43V5TzjqqzCUYGt/4oJ
-         orrTcPd7cqMiJtB54BkbMbjOB4sm+UccQ3wAupd8MKq4wdHl0vla2WD0U7xo7wG5LkPg
-         JvR9UM/TfYorWS78Wlyk4c8CEEsOU+Y4BznxJVHuJV+K1xG1L8JmaFQpJPWduKlkBa/i
-         IN78iCIfeHAglip8C8RmgCyzxN7Tp8y2TDqWjLZ0cfXHeh4j6qRHIfZEPSrlZgyLcHvB
-         zaSg==
+        bh=RRQ5RNNGW8Mx//5L1gh6ddvvzKGMuy8npBda/7vOraw=;
+        b=dZ0Sl/1e46iI77qiFe4IK7c+yvMbUHLTAQ+0DPsWD3WD/+E/peoNRNT5DPB+RYVGhJ
+         oA4sjxQLxrGA3Ka4SG3S8ssxXJP1nGZ3LOn+Qagt3aMrnjCPxgFjImKT96FDbRQBR76e
+         WWUb2ZlrOYB1jXLuDdWskmUwxc/MK5Hd5E2pnbIpqCyUqEFR9ZTz9pGGPe/6Vyhi8va9
+         JXDF+7rtuQzqi76+SxoujHC5KgCCaA/jk/3xRJ+ex9eZwG4IN4HU1Qf33YXlFKXt0PvF
+         Yxmqu2rqueO2Xc4i77EoULoFrtzZDOi363MCsF/+3UYMKBHZiiRFX2G0A6ioAHT1fxfo
+         qFgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rX6ucNl5H/QLYT5MirDdIdADtlybrhpXP2ffdTKqLlA=;
-        b=tEkPKQ/ulZ6t4CFWc2BocTCVbmMkoWkTtn38rixSBuWETjrm2F9XSMdPfsxGS0tvhR
-         2Uyuh1f60RDv3/0GqaMFhAlob50/GgiHSXVz+I3qmrXxxfz2uEwD5Tux4l4bYvZ1UtRj
-         buGd7UJabh7CIHoWfmJ3hQ67QRq9VsROGkJbbGxbM8rcVCSBLRBrFdbQ5dPRcHsTF1fc
-         ZFEiIBgISiS2g82O8GsyyE17a4LFKCqi2JyUoqg7jNe5fwnNAx2KQ2swmOlL3jJ4TJ3n
-         AoZqWXtvL71YAH7K8/SjUCC2oCPNKeGfKyPqAhdaWzp22xWGkmYpsvI3kvZ8f8r5ZX+Z
-         ve0g==
-X-Gm-Message-State: APjAAAVaLEaCLBxidJxllU/zOFh/nltEgtF7iUG1vnGBvo4kQ551iiu8
-        ZDqNNA29YjkAkeTIObXmbNR0W+EkAgXJuxiQ2yo=
-X-Google-Smtp-Source: APXvYqxu74Z3Cfg0rOWll+OMmbusjO4FWCxvJ5UFfTJOChpSYAnZiFfg8XZ2TfgwcAVbw+q2PoUwXqLbN0N4Sdc5lPM=
-X-Received: by 2002:a63:dd58:: with SMTP id g24mr45029848pgj.161.1557304842196;
- Wed, 08 May 2019 01:40:42 -0700 (PDT)
+        bh=RRQ5RNNGW8Mx//5L1gh6ddvvzKGMuy8npBda/7vOraw=;
+        b=ZMt6AwHRcyUptH9uuxZy6F94mzUZynlg2DKeUpbl5gCalaPOnmMlrDgjE9rJ233BG4
+         D9FLd3GiXgUkZXYQtg5E5cDgFW+/Ma+ncRh5cvYYeLWjbGH7/FaF6LpiE0svWDZ0c071
+         yUiMOqwif8KdjlIda7UFRXkeuyuWuepAuIEzEkXBGY+8zTcT9MaeeD2eptbCGXO3SN4x
+         nwL7oqKL1UZRmdHH5OJiVIwCTnXFyQJeCoXtSUrO+y0DwZh4t3RiEh43mTjSflSH/fti
+         zfL/RTbCJZCL/wg6F7FegAWdsO83R22buFGmvr+vEkVaaD66nvY4i6VeRVxp3B06uxGk
+         o9Tg==
+X-Gm-Message-State: APjAAAW8C+QE9RiA4rvMQldiP2pyCW24lsS7CFXLW/DQNuE312Otj8HR
+        A3YA3gCn8gQoY/RTpx72dJ/SetIG2pTu+f7aY1s=
+X-Google-Smtp-Source: APXvYqy2nIPIHZlYOlLqYgJAaSO4cmDpBhuQySZvIpT/pt6tP++9AZNkiv2qigARYGPfav2e0Rk6zC7YChZK2xp53P4=
+X-Received: by 2002:a62:30c2:: with SMTP id w185mr47431034pfw.175.1557304940122;
+ Wed, 08 May 2019 01:42:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190508082319.GA8817@hjy-HP-Notebook>
-In-Reply-To: <20190508082319.GA8817@hjy-HP-Notebook>
+References: <20190429150135.15070-1-hdegoede@redhat.com> <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
+ <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com> <CAHp75Vfe9uK_b_V+uG29wb1L6J7u1hpbU+P4beXso9KNPM+8Rg@mail.gmail.com>
+ <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com> <155726027056.14659.1724431433952718602@swboyd.mtv.corp.google.com>
+ <10c8864c-6ee7-4dfd-6274-b1996e767653@redhat.com>
+In-Reply-To: <10c8864c-6ee7-4dfd-6274-b1996e767653@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 11:40:30 +0300
-Message-ID: <CAHp75VeZgWxEvrVGajiosPCZNMwobYV9OjC4sVyW_pajK5B3Zw@mail.gmail.com>
-Subject: Re: [PATCH] fix double fetch in wmi_ioctl.
-To:     JingYi Hou <houjingyi647@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+Date:   Wed, 8 May 2019 11:42:09 +0300
+Message-ID: <CAHp75VdnxRQi3X6J9hLGUjGsOYTkjoPN5MakJc=mUSumoC+wag@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
+ critclk_systems DMI table
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
+        Kai Heng Feng <kai.heng.feng@canonical.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Semyon Verchenko <semverchenko@factor-ts.ru>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 8, 2019 at 11:23 AM JingYi Hou <houjingyi647@gmail.com> wrote:
-> There is a double fetch problem in function wmi_ioctl.
-> After second fetch overwrite the length to avoid this.
-> buf->length is not used now,but it may in the future.
-> It is good to get it fixed up.
+On Wed, May 8, 2019 at 10:48 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 07-05-19 22:17, Stephen Boyd wrote:
+> > Quoting Hans de Goede (2019-05-06 08:05:42)
 
-So, there is no issue right now.
-Patch is not needed then.
+> > I guess this is urgent?
+>
+> Somewhat, getting this into e.g. rc2 would be fine too, waiting till 5.3
+> would be bad.
 
-Thanks!
+So, I can do it as a fixes for rc2, just ping me after merge window.
 
 -- 
 With Best Regards,
