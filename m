@@ -2,113 +2,144 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5DB017CD0
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 17:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94F4517EE8
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 19:11:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727522AbfEHPHM (ORCPT
+        id S1728533AbfEHRLX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 11:07:12 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:32874 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726543AbfEHPHM (ORCPT
+        Wed, 8 May 2019 13:11:23 -0400
+Received: from gateway21.websitewelcome.com ([192.185.45.89]:11505 "EHLO
+        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728376AbfEHRLX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 11:07:12 -0400
-Received: by mail-pf1-f193.google.com with SMTP id z28so10659316pfk.0;
-        Wed, 08 May 2019 08:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SHlIzBvrn1yo9BLKEbjmJ4UVWcnyU7bGk9ScB32d6UA=;
-        b=IlWUnqm83Nd+nW9AUKiHnWecZrQ5WTsAba8/r1ENvUblSpniWblSSj3Maq7totA2pS
-         CVPUn/5ZwkAopx4BwMQ8bXieIR1XAnK2by8MmRL7zkrVV8BBDbGVc327tkTX1NzqqvAc
-         aodzD1oVh26FTKVCnv5V12loKz0HPP4QwazbopTn82tv+J3gdF7jg5DzI8XahFI90s2l
-         sS9IeH3DhWBgeeWDVQWXRdHW06EjhxtS4PN5oWQwWZRxEPEKHsiKAlNWFXb+HGgThjn2
-         Ae10QJYnz3tQgaCqoMxTppxHKQ109+en4tS/SnNHNl7pMv3nYmy0Su1v2R9GG2y7XVta
-         R4hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SHlIzBvrn1yo9BLKEbjmJ4UVWcnyU7bGk9ScB32d6UA=;
-        b=DGk5Hi5mVninikmIYazN8oGGEkbJ5U9C8tQBCtv7l0d3AMgrgSuJS6CD6+SbtEBfFI
-         C+l91x7MXmbyeS4Ca9KDKhbYJfetaK/HQ9ZAXr55M/JNMg9xUFqY1hVfbV3M2lN8wBn1
-         3o0OoYL7NH8dxv8dds2Fo7C9QAVe9GYdfTqatX985bJN9QDxOQPtRUdB3WpfGj4K6D76
-         ohnEUTrZahGDAUF0fK9i+Hy800ZOZ1zeciiUkzR3svqBAVufJEo3GgezulFvO6OwJq7j
-         QjlusUSBVhUIvj+7P0Elp+27Oj7H5B+qtoli/MtZsWZ9f6DH1wQsxeTL/XCpbPmlvvne
-         cCfw==
-X-Gm-Message-State: APjAAAUBwMzqy9DldgtrbfSq/iFj6bltAwHeMTyTLSEk1OEZI6ZJgivj
-        dOn1kcy+lpEqWlj8LWZhgy9oCCAwqR8casPdSyo=
-X-Google-Smtp-Source: APXvYqyBnJAAaZoQr7mjA6Rci38Tb5R+Ui9Z2FL4qbH/DorDBX3soly8Q59Kwk0caJ573dJTMkMYDJ8KFqUXNRvzzP8=
-X-Received: by 2002:a63:8e4b:: with SMTP id k72mr15890436pge.428.1557328031130;
- Wed, 08 May 2019 08:07:11 -0700 (PDT)
+        Wed, 8 May 2019 13:11:23 -0400
+X-Greylist: delayed 1306 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 May 2019 13:11:22 EDT
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+        by gateway21.websitewelcome.com (Postfix) with ESMTP id 4DD6F400D95AF
+        for <platform-driver-x86@vger.kernel.org>; Wed,  8 May 2019 11:49:36 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id OPlAhpRzb2qH7OPlAh78Cy; Wed, 08 May 2019 11:49:36 -0500
+X-Authority-Reason: nr=8
+Received: from [189.250.119.7] (port=40004 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.91)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1hOPl9-00452E-AK; Wed, 08 May 2019 11:49:35 -0500
+Date:   Wed, 8 May 2019 11:49:34 -0500
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     "Lee, Chun-Yi" <jlee@suse.com>, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Kees Cook <keescook@chromium.org>
+Subject: [PATCH] platform/x86: acer-wmi: Mark expected switch fall-throughs
+Message-ID: <20190508164934.GA20064@embeddedor>
 MIME-Version: 1.0
-References: <20190424074353.458446-1-lkundrak@v3.sk>
-In-Reply-To: <20190424074353.458446-1-lkundrak@v3.sk>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 18:07:00 +0300
-Message-ID: <CAHp75VcXteqg200aB6w_6ngR7=cj3S7HQOELOTV4rYUmCe+dLw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/10] Add support for OLPC XO 1.75 Embedded Controller
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.250.119.7
+X-Source-L: No
+X-Exim-ID: 1hOPl9-00452E-AK
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [189.250.119.7]:40004
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 4
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 10:44 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
->
-> Hello!
->
-> This is a sixth spin of the patch set that adds support for the Embedded
-> Controller on an OLPC XO 1.75 machine.
->
-> Compared to the previous version there are only some trivial-ish changes to
-> [06/10] and addition of Reviewd-by tags; as indicated in changelogs of
-> individual patches.
->
-> In my opinion the first seven patches are ready for merge as they are:
->
->   [01/10] dt-bindings: olpc,xo1.75-ec: Add OLPC XO-1.75 EC
->   [02/10] Platform: OLPC: Remove an unused include
->   [03/10] Platform: OLPC: Move EC-specific functionality out from
->   [04/10] Platform: OLPC: Avoid a warning if the EC didn't
->   [05/10] Platform: OLPC: Use BIT() and GENMASK() for event masks
->   [06/10] Platform: OLPC: Add XO-1.75 EC driver
->   [07/10] Platform: OLPC: Add a regulator for the DCON
->
-> The patch [08/10] relies on changes to the OLPC battery driver that have
-> recently landed in the power-supply tree (without them enabling
-> CONFIG_BATTERY_OLPC on ARM would break build):
->
->   [08/10] power: supply: olpc_battery: Allow building the driver
->
-> Sebastian Reichel provided an signed tag of an immutable branch that has
-> the necessary bits and was merged into the power-supply tree for 5.2:
->
->   git pull git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git psy-olpc-1.75-battery-signed
->
-> The patch [10/10] was split of from the rest because Russell King found the
-> patch [09/10] it depends on possibly objectionable. They should not be
-> applied without further input from Russell:
->
->   [09/10] ARM: export arm_pm_restart
->   [10/10] Platform: OLPC: Add restart support to XO-1.75 EC
->
-> Tested to work on an OLPC XO 1.75 and also tested not to break x86
-> support with an OLPC XO 1 machine. I don't have a XO 1.5, but it's
-> unlikely this breaks it when XO 1 works.
+In preparation to enabling -Wimplicit-fallthrough, mark switch
+cases where we are expecting to fall through.
 
-Pushed first 8 to my review and testing queue, thanks!
+This patch fixes the following warnings:
 
+drivers/platform/x86/acer-wmi.c: In function ‘set_u32’:
+drivers/platform/x86/acer-wmi.c:1378:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    if (cap == ACER_CAP_WIRELESS ||
+                                 ^
+drivers/platform/x86/acer-wmi.c:1386:3: note: here
+   case ACER_WMID:
+   ^~~~
+drivers/platform/x86/acer-wmi.c:1393:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    else if (wmi_has_guid(WMID_GUID2))
+            ^
+drivers/platform/x86/acer-wmi.c:1395:3: note: here
+   default:
+   ^~~~~~~
+drivers/platform/x86/acer-wmi.c: In function ‘get_u32’:
+drivers/platform/x86/acer-wmi.c:1340:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   if (cap == ACER_CAP_MAILLED) {
+      ^
+drivers/platform/x86/acer-wmi.c:1344:2: note: here
+  case ACER_WMID:
+  ^~~~
+drivers/platform/x86/acer-wmi.c: In function ‘WMID_get_u32’:
+drivers/platform/x86/acer-wmi.c:1013:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   if (quirks->mailled == 1) {
+      ^
+drivers/platform/x86/acer-wmi.c:1018:2: note: here
+  default:
+  ^~~~~~~
+
+Warning level 3 was used: -Wimplicit-fallthrough=3
+
+This patch is part of the ongoing efforts to enable
+-Wimplicit-fallthrough.
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/platform/x86/acer-wmi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+index fcfeadd1301f..bd87f9037f95 100644
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -1015,6 +1015,7 @@ static acpi_status WMID_get_u32(u32 *value, u32 cap)
+ 			*value = tmp & 0x1;
+ 			return 0;
+ 		}
++		/* fall through */
+ 	default:
+ 		return AE_ERROR;
+ 	}
+@@ -1341,6 +1342,7 @@ static acpi_status get_u32(u32 *value, u32 cap)
+ 			status = AMW0_get_u32(value, cap);
+ 			break;
+ 		}
++		/* fall through */
+ 	case ACER_WMID:
+ 		status = WMID_get_u32(value, cap);
+ 		break;
+@@ -1383,6 +1385,7 @@ static acpi_status set_u32(u32 value, u32 cap)
+ 
+ 				return AMW0_set_u32(value, cap);
+ 			}
++			/* fall through */
+ 		case ACER_WMID:
+ 			return WMID_set_u32(value, cap);
+ 		case ACER_WMID_v2:
+@@ -1392,6 +1395,7 @@ static acpi_status set_u32(u32 value, u32 cap)
+ 				return wmid_v2_set_u32(value, cap);
+ 			else if (wmi_has_guid(WMID_GUID2))
+ 				return WMID_set_u32(value, cap);
++			/* fall through */
+ 		default:
+ 			return AE_BAD_PARAMETER;
+ 		}
 -- 
-With Best Regards,
-Andy Shevchenko
+2.21.0
+
