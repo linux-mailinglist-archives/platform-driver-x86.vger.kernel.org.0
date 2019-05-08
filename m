@@ -2,117 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FD017B8E
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 16:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5DB017CD0
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 17:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727501AbfEHOdx (ORCPT
+        id S1727522AbfEHPHM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 10:33:53 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36709 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727492AbfEHOdw (ORCPT
+        Wed, 8 May 2019 11:07:12 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:32874 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726543AbfEHPHM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 10:33:52 -0400
-Received: by mail-pf1-f194.google.com with SMTP id v80so10603307pfa.3;
-        Wed, 08 May 2019 07:33:52 -0700 (PDT)
+        Wed, 8 May 2019 11:07:12 -0400
+Received: by mail-pf1-f193.google.com with SMTP id z28so10659316pfk.0;
+        Wed, 08 May 2019 08:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ti8RoxscmQeFbrZco/zh8ZDis+BzCKXthQWzSEQuY7o=;
-        b=URO8DvJ7j1D0fr6/tiQB40KjxAkKW8DlE8loX1E+7+LvOBDtIOQn8ryEPm9hwOw/bm
-         BGZL2U/ZipT5bM6ut4CGAUdo9YaazvXoz1RP4JM5+13qPkgg0A91t4PdJWs3ADEOv+v2
-         uK93w3+Dm3dsjlJndajTxfBhlEH+uCNk267pSFDLU/Hm4YTvupbaw9NxHZ+Ey8q97agA
-         QQ2Oa+eHZTqYRgG2kEBTVnXZlvrcH2DaJsLUY0npIJfEhtWCN0dSVU8NDQUD0U9mhtg3
-         smrNoe+yD+6I3HM9uFAleDjVyJi2UmzjRpsV7eiCtbivC/DvlOMIN3DVOWVd2sx2Ynm+
-         rdeQ==
+        bh=SHlIzBvrn1yo9BLKEbjmJ4UVWcnyU7bGk9ScB32d6UA=;
+        b=IlWUnqm83Nd+nW9AUKiHnWecZrQ5WTsAba8/r1ENvUblSpniWblSSj3Maq7totA2pS
+         CVPUn/5ZwkAopx4BwMQ8bXieIR1XAnK2by8MmRL7zkrVV8BBDbGVc327tkTX1NzqqvAc
+         aodzD1oVh26FTKVCnv5V12loKz0HPP4QwazbopTn82tv+J3gdF7jg5DzI8XahFI90s2l
+         sS9IeH3DhWBgeeWDVQWXRdHW06EjhxtS4PN5oWQwWZRxEPEKHsiKAlNWFXb+HGgThjn2
+         Ae10QJYnz3tQgaCqoMxTppxHKQ109+en4tS/SnNHNl7pMv3nYmy0Su1v2R9GG2y7XVta
+         R4hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ti8RoxscmQeFbrZco/zh8ZDis+BzCKXthQWzSEQuY7o=;
-        b=KnzDEr46F9mVFDdjdRVCYSJfL25OFNkaZTLUmNIjkBlSrV6USRO/AsDEbi8ZUsobj+
-         X0obmgdtOB7ukUozq8NHkL9HTGULaECIpCp0zejv8kbfpe8Chiv1uDT7ZHnfTc2C+vRf
-         d0Mz4Gi/Qb8C8erXa7BE6YJ4igalmvytqWsocejvf5CDXpDerivTB8VWRVe+3zT79cNo
-         Z5VBv3DSk5pizubkzYXI+GONPKyt15QAiEnOYG4guiz0QpahacWis1eEBR5PjRRY0+j+
-         1uO0EgWYpvOqmNNRRBWvF2bW6TRAL3aWFpzs6fEJJvXUfSbSTcuE3PvKinKRoH5W0BEA
-         rfnA==
-X-Gm-Message-State: APjAAAUTv2U1Tlj29KJUaaFIAbZg1lCIrnaJnk+7aw42Ww/09FlPaMHc
-        MhDwfWUZ3QbH87imS0QrWfSpnwo+oiinkA8h7j4=
-X-Google-Smtp-Source: APXvYqyeuE2kvWZU0PE6qNrHNBR9hrw7fjnPVEdRez/LTh36XBLda4//uMF7/2ad51ewg5tGMhr/SXk8g/qsdfCy2Zw=
-X-Received: by 2002:a63:8e4b:: with SMTP id k72mr15655165pge.428.1557326031790;
- Wed, 08 May 2019 07:33:51 -0700 (PDT)
+        bh=SHlIzBvrn1yo9BLKEbjmJ4UVWcnyU7bGk9ScB32d6UA=;
+        b=DGk5Hi5mVninikmIYazN8oGGEkbJ5U9C8tQBCtv7l0d3AMgrgSuJS6CD6+SbtEBfFI
+         C+l91x7MXmbyeS4Ca9KDKhbYJfetaK/HQ9ZAXr55M/JNMg9xUFqY1hVfbV3M2lN8wBn1
+         3o0OoYL7NH8dxv8dds2Fo7C9QAVe9GYdfTqatX985bJN9QDxOQPtRUdB3WpfGj4K6D76
+         ohnEUTrZahGDAUF0fK9i+Hy800ZOZ1zeciiUkzR3svqBAVufJEo3GgezulFvO6OwJq7j
+         QjlusUSBVhUIvj+7P0Elp+27Oj7H5B+qtoli/MtZsWZ9f6DH1wQsxeTL/XCpbPmlvvne
+         cCfw==
+X-Gm-Message-State: APjAAAUBwMzqy9DldgtrbfSq/iFj6bltAwHeMTyTLSEk1OEZI6ZJgivj
+        dOn1kcy+lpEqWlj8LWZhgy9oCCAwqR8casPdSyo=
+X-Google-Smtp-Source: APXvYqyBnJAAaZoQr7mjA6Rci38Tb5R+Ui9Z2FL4qbH/DorDBX3soly8Q59Kwk0caJ573dJTMkMYDJ8KFqUXNRvzzP8=
+X-Received: by 2002:a63:8e4b:: with SMTP id k72mr15890436pge.428.1557328031130;
+ Wed, 08 May 2019 08:07:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <1552985370-13598-1-git-send-email-tklauser@distanz.ch>
- <CAHp75VcHQf0KzJqJ_PbpBF1CZgOFVyKvpUKjWybQnD7XDysq1g@mail.gmail.com>
- <28138e37-1d53-b211-b3ca-4c0ba9438b33@metux.net> <CAHp75VcGV7_-Pu07GXLxD6AT8jghxLktkDC4wLOhppDo+QhDZA@mail.gmail.com>
- <0f9d304b-bc2e-9943-d49e-3c028cddd3b4@gmail.com> <11088882-ec71-31b7-4978-c3d24edcf9ae@metux.net>
- <a1b91836-9bff-c674-067c-4fbe0716c70f@gmail.com> <522aa3b0-09cc-11e4-7db4-07eaafd04ec6@metux.net>
- <CAHp75Vd5TuRVMLzS1ftPPttCRdr+DRx-xZu0BCEr2izsY3uuEQ@mail.gmail.com> <4f4ba4bb-752f-feab-ccce-bf1e9024d8c7@metux.net>
-In-Reply-To: <4f4ba4bb-752f-feab-ccce-bf1e9024d8c7@metux.net>
+References: <20190424074353.458446-1-lkundrak@v3.sk>
+In-Reply-To: <20190424074353.458446-1-lkundrak@v3.sk>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 17:33:40 +0300
-Message-ID: <CAHp75VcyBdQcEtiZQvpV1AGwSajB2-1o+BQa5VzwV=UT-7aG9A@mail.gmail.com>
-Subject: Re: [PATCH] x86: apuv2: fix spelling in comment
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Tobias Klauser <tklauser@distanz.ch>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+Date:   Wed, 8 May 2019 18:07:00 +0300
+Message-ID: <CAHp75VcXteqg200aB6w_6ngR7=cj3S7HQOELOTV4rYUmCe+dLw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/10] Add support for OLPC XO 1.75 Embedded Controller
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 7:36 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
-> On 15.04.19 22:20, Andy Shevchenko wrote:
-
-... [something wrong with text formatting in your MUA]
-
-> > You may utilize swnode API instead and have a generic driver beneath which resource provider agnostic (via device property / fwnode API).
-
-> Well, when we add oftree probing to the driver, then using fwnode api
-
-oftree -> unified device property API (if we are talking about driver)
-fwnode API -> swnode API (if we are talking about platform code)
-
-> for that would seems to make sense. But for now, I haven't seen a single
-> board with that SoC that uses either oftree, or has proper acpi tables.
-
-Make them. swnode API and preparing structures allows you to mock up
-the thing and test.
-
-> For the apu2/3 I don't see anything like that on the horizon - and here
-> it would only help us, if all existing devices would get a fw upgrade.
-> I'm not even sure, whether the whole thing can be expressed via ACPI
-> tables in the way we need it.
-
-It may. Just Do It.
-
-> Remember, we have several layers here:
+On Wed, Apr 24, 2019 at 10:44 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
 >
-> a) the gpio device within the SoC (base address, gpio registers - they
->    are NOT linear, ...)
-> b) assignment between invididual gpio's to the functional (virtual)
->    devices - leds, keys, rfkill, ...
+> Hello!
 >
-> I'm really not up to date on recent acpi specs, but gpio entries only
-> (assuming the fw in the field actually supports it) won't be sufficient.
-> We'd need to express leds, keys, etc _connected_ to gpios.
+> This is a sixth spin of the patch set that adds support for the Embedded
+> Controller on an OLPC XO 1.75 machine.
+>
+> Compared to the previous version there are only some trivial-ish changes to
+> [06/10] and addition of Reviewd-by tags; as indicated in changelogs of
+> individual patches.
+>
+> In my opinion the first seven patches are ready for merge as they are:
+>
+>   [01/10] dt-bindings: olpc,xo1.75-ec: Add OLPC XO-1.75 EC
+>   [02/10] Platform: OLPC: Remove an unused include
+>   [03/10] Platform: OLPC: Move EC-specific functionality out from
+>   [04/10] Platform: OLPC: Avoid a warning if the EC didn't
+>   [05/10] Platform: OLPC: Use BIT() and GENMASK() for event masks
+>   [06/10] Platform: OLPC: Add XO-1.75 EC driver
+>   [07/10] Platform: OLPC: Add a regulator for the DCON
+>
+> The patch [08/10] relies on changes to the OLPC battery driver that have
+> recently landed in the power-supply tree (without them enabling
+> CONFIG_BATTERY_OLPC on ARM would break build):
+>
+>   [08/10] power: supply: olpc_battery: Allow building the driver
+>
+> Sebastian Reichel provided an signed tag of an immutable branch that has
+> the necessary bits and was merged into the power-supply tree for 5.2:
+>
+>   git pull git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git psy-olpc-1.75-battery-signed
+>
+> The patch [10/10] was split of from the rest because Russell King found the
+> patch [09/10] it depends on possibly objectionable. They should not be
+> applied without further input from Russell:
+>
+>   [09/10] ARM: export arm_pm_restart
+>   [10/10] Platform: OLPC: Add restart support to XO-1.75 EC
+>
+> Tested to work on an OLPC XO 1.75 and also tested not to break x86
+> support with an OLPC XO 1 machine. I don't have a XO 1.5, but it's
+> unlikely this breaks it when XO 1 works.
 
-I do not see any issue here.
-Have you got familiar with meta-acpi [1] repository?
-There are plenty examples how to describe DT enabled drivers in ACPI
-tables, including gpio-keys, LEDs [2], and so on.
-
-[1]: https://github.com/westeri/meta-acpi
-[2]: https://github.com/westeri/meta-acpi/blob/master/recipes-bsp/acpi-tables/samples/edison/leds.asli
+Pushed first 8 to my review and testing queue, thanks!
 
 -- 
 With Best Regards,
