@@ -2,83 +2,134 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC6418278
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 00:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC95E18287
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 01:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbfEHWz0 (ORCPT
+        id S1727026AbfEHXGv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 18:55:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48144 "EHLO
+        Wed, 8 May 2019 19:06:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53454 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726836AbfEHWz0 (ORCPT
+        with ESMTP id S1726902AbfEHXGu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 18:55:26 -0400
+        Wed, 8 May 2019 19:06:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=dWb8vbMa4ek1cAyusdcm5JJRXWIzq6Cyw6f/vUk2LoM=; b=H5CNzTK7RpLb8QoDHoo4wUNrB
-        7bIBj7AyXt4Y1HGtrUI0/iPIWW1+7x++Rd9MEfpgkLGiFTBqIrzsPsnR18forCFIyFBPyCCe15KzE
-        3yy5KY4L3JbDcIcXGjLyJyApmz0+iEXA/je5++/U+KOnA+yDIFiD8IehBzOl1AJQL9ybYkwTgGHPc
-        QKiQE8R1ucBUA8/k1x0SH/6lPVbCh8OiL4T0GG/9t9g9sXDmsL1oG/fy+3rYQzfdRMM8Rutp80Ew6
-        lb2E9cHp00jiE2v54J2106i7Vwl7nS1qJae/YaQCnGgJBE0hvxNKWY6lxXK0IvMQjl54/ZQz/H5+k
-        pR0DNpvVA==;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hQZD7KxlOTP7+vnGKWKCqYXK/isFooIL1sZyygnqlN4=; b=pC9WFVDVjyzdcNOFj4cM2zFYfi
+        os5FltodzYudEuL3rWkXDUKvUf33y78xa7aN9QMjFdkn8wZ14k2IAf0R8IPsgK0X2ooKkDqqa84Ol
+        bulKSOl+D7cQGbROt6FP3/sSxtYGEx4bW88+i5x1ySD1u6/ho2jUdPW6Lq+XVJ8IR+VW9376H2NfI
+        15bmEM6Otyj19lEjTv05+g4iyy0vu/jmIfXD2R99Is269iinVdXRVRL25mvjOv1sQUzHicnhJd0lq
+        sDKQPBm3D/THEkZtakMx3I8CiXeTRqk88dUJVzoqi1+bAhFYSd1kz9RkhXEW4wX9nRkjh3LyH3jfR
+        nMDr5hKA==;
 Received: from dvhart by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hOVT9-0006Xo-O0; Wed, 08 May 2019 22:55:23 +0000
-Date:   Wed, 8 May 2019 15:55:22 -0700
+        id 1hOVeB-0001jR-8m; Wed, 08 May 2019 23:06:47 +0000
+Date:   Wed, 8 May 2019 16:06:46 -0700
 From:   Darren Hart <dvhart@infradead.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     "Lee, Chun-Yi" <jlee@suse.com>,
         Andy Shevchenko <andy@infradead.org>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Semyon Verchenko <semverchenko@factor-ts.ru>
-Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
- critclk_systems DMI table
-Message-ID: <20190508225522.GA32286@wrath>
-References: <20190429150135.15070-1-hdegoede@redhat.com>
- <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
- <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com>
- <CAHp75Vfe9uK_b_V+uG29wb1L6J7u1hpbU+P4beXso9KNPM+8Rg@mail.gmail.com>
- <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com>
- <155726027056.14659.1724431433952718602@swboyd.mtv.corp.google.com>
- <10c8864c-6ee7-4dfd-6274-b1996e767653@redhat.com>
- <CAHp75VdnxRQi3X6J9hLGUjGsOYTkjoPN5MakJc=mUSumoC+wag@mail.gmail.com>
- <e9c92d24-9044-c37d-3f18-4884d97047d5@redhat.com>
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] platform/x86: acer-wmi: Mark expected switch
+ fall-throughs
+Message-ID: <20190508230645.GB32286@wrath>
+References: <20190508164934.GA20064@embeddedor>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e9c92d24-9044-c37d-3f18-4884d97047d5@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190508164934.GA20064@embeddedor>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 08, 2019 at 11:20:52AM +0200, Hans de Goede wrote:
-> Hi,
+On Wed, May 08, 2019 at 11:49:34AM -0500, Gustavo A. R. Silva wrote:
+> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> cases where we are expecting to fall through.
 > 
-> On 08-05-19 10:42, Andy Shevchenko wrote:
-> > On Wed, May 8, 2019 at 10:48 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> > > On 07-05-19 22:17, Stephen Boyd wrote:
-> > > > Quoting Hans de Goede (2019-05-06 08:05:42)
-> > 
-> > > > I guess this is urgent?
-> > > 
-> > > Somewhat, getting this into e.g. rc2 would be fine too, waiting till 5.3
-> > > would be bad.
-> > 
-> > So, I can do it as a fixes for rc2, just ping me after merge window.
+> This patch fixes the following warnings:
 > 
-> Ok, will do.
+> drivers/platform/x86/acer-wmi.c: In function ‘set_u32’:
+> drivers/platform/x86/acer-wmi.c:1378:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>     if (cap == ACER_CAP_WIRELESS ||
+>                                  ^
+> drivers/platform/x86/acer-wmi.c:1386:3: note: here
+>    case ACER_WMID:
+>    ^~~~
+> drivers/platform/x86/acer-wmi.c:1393:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>     else if (wmi_has_guid(WMID_GUID2))
+>             ^
+> drivers/platform/x86/acer-wmi.c:1395:3: note: here
+>    default:
+>    ^~~~~~~
+> drivers/platform/x86/acer-wmi.c: In function ‘get_u32’:
+> drivers/platform/x86/acer-wmi.c:1340:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>    if (cap == ACER_CAP_MAILLED) {
+>       ^
+> drivers/platform/x86/acer-wmi.c:1344:2: note: here
+>   case ACER_WMID:
+>   ^~~~
+> drivers/platform/x86/acer-wmi.c: In function ‘WMID_get_u32’:
+> drivers/platform/x86/acer-wmi.c:1013:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>    if (quirks->mailled == 1) {
+>       ^
+> drivers/platform/x86/acer-wmi.c:1018:2: note: here
+>   default:
+>   ^~~~~~~
+> 
+> Warning level 3 was used: -Wimplicit-fallthrough=3
+> 
+> This patch is part of the ongoing efforts to enable
+> -Wimplicit-fallthrough.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>  drivers/platform/x86/acer-wmi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+> index fcfeadd1301f..bd87f9037f95 100644
+> --- a/drivers/platform/x86/acer-wmi.c
+> +++ b/drivers/platform/x86/acer-wmi.c
+> @@ -1015,6 +1015,7 @@ static acpi_status WMID_get_u32(u32 *value, u32 cap)
+>  			*value = tmp & 0x1;
+>  			return 0;
+>  		}
+> +		/* fall through */
+>  	default:
+>  		return AE_ERROR;
+>  	}
+> @@ -1341,6 +1342,7 @@ static acpi_status get_u32(u32 *value, u32 cap)
+>  			status = AMW0_get_u32(value, cap);
+>  			break;
+>  		}
+> +		/* fall through */
 
-Andy, what is the issue here? If the dependency is in v5.1 we can do a "merge
---ff-only v5.1" in our for-next branch in order to pull it in, that would be the
-same as an immutable branch basically.
+This doesn't strike me as obviously the right thing to do here. If the interface
+type is AMW0_V2, why is it the right thing to do to use WMID_get_u32 if the cap
+isn't ACER_CAP_MAILLED?
+
+>  	case ACER_WMID:
+>  		status = WMID_get_u32(value, cap);
+>  		break;
+> @@ -1383,6 +1385,7 @@ static acpi_status set_u32(u32 value, u32 cap)
+>  
+>  				return AMW0_set_u32(value, cap);
+>  			}
+> +			/* fall through */
+
+Similarly here.
+
+Are we documenting intended behavior, or covering up a bug.
+
+>  		case ACER_WMID:
+>  			return WMID_set_u32(value, cap);
 
 -- 
 Darren Hart
