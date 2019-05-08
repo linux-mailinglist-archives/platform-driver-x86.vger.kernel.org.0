@@ -2,90 +2,189 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9082174F7
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 11:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E98F176D2
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 13:28:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727260AbfEHJU4 (ORCPT
+        id S1726534AbfEHL2e (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 05:20:56 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:45076 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727258AbfEHJUz (ORCPT
+        Wed, 8 May 2019 07:28:34 -0400
+Received: from mga03.intel.com ([134.134.136.65]:46980 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725778AbfEHL2e (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 05:20:55 -0400
-Received: by mail-ed1-f65.google.com with SMTP id g57so21371624edc.12
-        for <platform-driver-x86@vger.kernel.org>; Wed, 08 May 2019 02:20:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Q1/Ami51IditDxTB6HqWlJbnPuZ7kZ+MUhIVVJBzKrY=;
-        b=EVZANI7+mApQDGlHgJMYCJ23Z2tU5Ly13AbaBtsh4TKoHxCujAiyyW29BB/33QiZ1B
-         KuBK+HGqrA3raTSwlEKoxNMGfJtQqH525Lsfcu7lLwcLrzCEnoRYnt4YegybDaw3C8+S
-         D3Omh15XDwhpRDeup5tpm2r18dDxEWiN0/bQS+SgmWAAwVVnKk7bjPkK6aUs+EQYjche
-         Or8JKOU+LaOa46m4mXiPcBQrLSFO74ODpd6FDbDsBL+DbCDo6PfmfMNpx3OJasGkCWJR
-         VhhedQ/RbIZ2J0q7zewsnmKcwFQQQjmnkrgpHp1oLYGNfK/e5q+v6iYphBkuuLH+rVQT
-         z80g==
-X-Gm-Message-State: APjAAAWjgYJci+tan7XCLUcaPK+MoOqSKhjF34C2xEwq7Mp9lrd9mcVq
-        mv8x0PlrHlC8+KSg2b0bHbB8Lw==
-X-Google-Smtp-Source: APXvYqxkn8yeB+GGdQTJpOKRUXz0WQyk93FDhXeo+tfTW/c79Jd2tLZGpC5uCOPTF3Zn+FlYrqeivA==
-X-Received: by 2002:a17:906:708d:: with SMTP id b13mr28454778ejk.120.1557307253935;
-        Wed, 08 May 2019 02:20:53 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id x49sm3153396edm.25.2019.05.08.02.20.52
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 May 2019 02:20:53 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
- critclk_systems DMI table
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Wed, 8 May 2019 07:28:34 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 May 2019 04:28:33 -0700
+X-ExtLoop1: 1
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 08 May 2019 04:28:29 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 08 May 2019 14:28:29 +0300
+Date:   Wed, 8 May 2019 14:28:29 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Semyon Verchenko <semverchenko@factor-ts.ru>
-References: <20190429150135.15070-1-hdegoede@redhat.com>
- <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
- <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com>
- <CAHp75Vfe9uK_b_V+uG29wb1L6J7u1hpbU+P4beXso9KNPM+8Rg@mail.gmail.com>
- <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com>
- <155726027056.14659.1724431433952718602@swboyd.mtv.corp.google.com>
- <10c8864c-6ee7-4dfd-6274-b1996e767653@redhat.com>
- <CAHp75VdnxRQi3X6J9hLGUjGsOYTkjoPN5MakJc=mUSumoC+wag@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e9c92d24-9044-c37d-3f18-4884d97047d5@redhat.com>
-Date:   Wed, 8 May 2019 11:20:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v3 13/13] platform/x86: intel_cht_int33fe: Replacing the
+ old connections with references
+Message-ID: <20190508112829.GB19816@kuha.fi.intel.com>
+References: <20190412134122.82903-1-heikki.krogerus@linux.intel.com>
+ <20190412134122.82903-14-heikki.krogerus@linux.intel.com>
+ <a91a1d75-f224-9c9d-873a-f80467d2fb0c@redhat.com>
+ <20190417063918.GI1747@kuha.fi.intel.com>
+ <76d9ab79-a1d0-f3cd-ba5d-2325740c72ff@redhat.com>
+ <20190417093252.GO1747@kuha.fi.intel.com>
+ <2fcb2e2c-c390-1b49-7228-197f23401271@redhat.com>
+ <20190417104454.GQ1747@kuha.fi.intel.com>
+ <cb7cf930-cf76-ef73-49de-222895b133ea@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VdnxRQi3X6J9hLGUjGsOYTkjoPN5MakJc=mUSumoC+wag@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb7cf930-cf76-ef73-49de-222895b133ea@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 08-05-19 10:42, Andy Shevchenko wrote:
-> On Wed, May 8, 2019 at 10:48 AM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 07-05-19 22:17, Stephen Boyd wrote:
->>> Quoting Hans de Goede (2019-05-06 08:05:42)
+On Wed, Apr 17, 2019 at 06:03:03PM +0200, Hans de Goede wrote:
+> Hi,
 > 
->>> I guess this is urgent?
->>
->> Somewhat, getting this into e.g. rc2 would be fine too, waiting till 5.3
->> would be bad.
+> On 17-04-19 12:44, Heikki Krogerus wrote:
+> > On Wed, Apr 17, 2019 at 12:15:18PM +0200, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 17-04-19 11:32, Heikki Krogerus wrote:
+> > > > On Wed, Apr 17, 2019 at 11:19:28AM +0200, Hans de Goede wrote:
+> > > 
+> > > <snip>
+> > > 
+> > > > > That is not going to work since the (virtual) mux / orientation-switch
+> > > > > devices are only registered once the driver binds to the piusb30532 i2c
+> > > > > device, so when creating the nodes we only have the piusb30532 i2c device.
+> > > > 
+> > > > It's not a problem, that's why we have the software nodes. The nodes
+> > > > can be created before the device entires. The node for pi3usb30532
+> > > > will just be the parent node for the new nodes we add for the mux and
+> > > > switch.
+> > > > 
+> > > > > I've been thinking some more about this and an easy fix is to have separate
+> > > > > fwnode_match functions for typec_switch_match and typec_mux_match and have
+> > > > > them check that the dev_name ends in "-mux" resp. "-switch" that requires
+> > > > > only a very minimal change to "usb: typec: Registering real device entries for the muxes"
+> > > > > and then everything should be fine.
+> > > > 
+> > > > I don't want to do anymore device name matching unless we have to, and
+> > > > here we don't have to. We can name the nodes for those virtual mux and
+> > > > switch, and then just do fwnode_find_named_child_node() in
+> > > > pi3usb30532.c for both of them.
+> > > 
+> > > Thinking more about this, I have a feeling that this makes things needlessly
+> > > complicated, checking the dev_name *ends* in "-mux" resp. "-switch" should be
+> > > 100% reliable since we call:
+> > > 
+> > >          dev_set_name(&sw->dev, "%s-switch", dev_name(parent));
+> > >          dev_set_name(&mux->dev, "%s-mux", dev_name(parent));
+> > > 
+> > > When registering the switch / mux, so I believe doing name (suffix) comparison
+> > > here is fine and much simpler. Anyways this is just my 2 cents on this, I'm
+> > > happy with either solution, your choice.
+> > 
+> > You do have a point. I'll take a look how the two options look like,
+> > but maybe your way is better after all.
 > 
-> So, I can do it as a fixes for rc2, just ping me after merge window.
+> I whipped up a quick fix using my approach so that I can start working
+> on debugging the usb_role_switch_get call in tcpm.c returning NULL.
+> 
+> I've attached it, feel free to use this for v4 of the series if you
+> decide to go with this approach.
 
-Ok, will do.
+Thanks. I'll probable use that as is.
 
-Regards,
 
-Hans
+> >From 47154195c05dc7c8b3373de9603b06c2f435588a Mon Sep 17 00:00:00 2001
+> From: Hans de Goede <hdegoede@redhat.com>
+> Date: Wed, 17 Apr 2019 17:58:17 +0200
+> Subject: [PATCH v2] FIXUP: "usb: typec: Registering real device entries for
+>  the muxes"
+> 
+> Check the dev_name suffix so that we do not return the first registered
+> device when a mux and switch share the same parent and fwnode.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/usb/typec/mux.c | 25 +++++++++++++++++++++----
+>  1 file changed, 21 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+> index c7d4a2dd454e..a28803544301 100644
+> --- a/drivers/usb/typec/mux.c
+> +++ b/drivers/usb/typec/mux.c
+> @@ -22,9 +22,21 @@ static int name_match(struct device *dev, const void *name)
+>  	return !strcmp((const char *)name, dev_name(dev));
+>  }
+>  
+> -static int fwnode_match(struct device *dev, const void *fwnode)
+> +static bool dev_name_ends_with(struct device *dev, const char *suffix)
+>  {
+> -	return dev_fwnode(dev) == fwnode;
+> +	const char *name = dev_name(dev);
+> +	const int name_len = strlen(name);
+> +	const int suffix_len = strlen(suffix);
+> +
+> +	if (suffix_len > name_len)
+> +		return false;
+> +
+> +	return strcmp(name + (name_len - suffix_len), suffix) == 0;
+> +}
+> +
+> +static int switch_fwnode_match(struct device *dev, const void *fwnode)
+> +{
+> +	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-switch");
+>  }
+>  
+>  static void *typec_switch_match(struct device_connection *con, int ep,
+> @@ -37,7 +49,7 @@ static void *typec_switch_match(struct device_connection *con, int ep,
+>  			return NULL;
+>  
+>  		dev = class_find_device(&typec_mux_class, NULL, con->fwnode,
+> -					fwnode_match);
+> +					switch_fwnode_match);
+>  	} else {
+>  		dev = class_find_device(&typec_mux_class, NULL,
+>  					con->endpoint[ep], name_match);
+> @@ -167,6 +179,11 @@ EXPORT_SYMBOL_GPL(typec_switch_get_drvdata);
+>  
+>  /* ------------------------------------------------------------------------- */
+>  
+> +static int mux_fwnode_match(struct device *dev, const void *fwnode)
+> +{
+> +	return dev_fwnode(dev) == fwnode && dev_name_ends_with(dev, "-mux");
+> +}
+> +
+>  static void *typec_mux_match(struct device_connection *con, int ep, void *data)
+>  {
+>  	const struct typec_altmode_desc *desc = data;
+> @@ -226,7 +243,7 @@ static void *typec_mux_match(struct device_connection *con, int ep, void *data)
+>  
+>  find_mux:
+>  	dev = class_find_device(&typec_mux_class, NULL, con->fwnode,
+> -				fwnode_match);
+> +				mux_fwnode_match);
+>  
+>  	return dev ? to_typec_switch(dev) : ERR_PTR(-EPROBE_DEFER);
+>  }
+> -- 
+> 2.21.0
+> 
 
+cheers,
+
+-- 
+heikki
