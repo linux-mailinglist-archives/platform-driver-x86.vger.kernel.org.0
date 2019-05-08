@@ -2,129 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 856281819A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 23:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DC6418278
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 00:55:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbfEHVWH (ORCPT
+        id S1726992AbfEHWz0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 17:22:07 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:46081 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbfEHVWH (ORCPT
+        Wed, 8 May 2019 18:55:26 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:48144 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726836AbfEHWz0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 17:22:07 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t187so16435pgb.13;
-        Wed, 08 May 2019 14:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qEZ1nDQkLhnljnhO1XT+76Va+ERwzANAvgOJlth73mY=;
-        b=MaatLT/JCFbNp7HRMV7J86ISG2sgXD1Aah5uhq6xrDRTHbHElZTJpxuxt63R1R/jzX
-         ONys1xnFWaiGSuUgLQgMaERIZVEZZhjQ1bcLCyDguzD44Xj36PjDFLXOdl44GyLC4bc4
-         y9DU/Ce+NrcsyCS7HlvrRIEzG/Q0tpCBn9WJvo5Q9drRNShAbc2z/t34/5T1RaAc52yU
-         v4Z6eWSmF4DpM+0doSwWNwxx+dS1Fk+v6d1dKMv9Nroo0y21KqwwKoL+5mUUlflXTFR3
-         T7E8TWQTSqyjwTKGSQ+8JQd+LFq64TS7Zw1BOUwbF9LkJ0mi9zIAkvwOJYFeAFZPDNGE
-         /4TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qEZ1nDQkLhnljnhO1XT+76Va+ERwzANAvgOJlth73mY=;
-        b=dHyrq8N3qEMBhbDgXt26GAYdqSAFZlFyZ0+JOChpgIBZvuXQQh8L3hOXqQwoC9YquF
-         RWo5nRq46V2Y7CSelvkzrN40kgo+zr7mqvAKTrclU2G/baXAmXcJhEvQHsAW35a2eIgl
-         MJUHxwp3Cja7lSIzFAQks/YbidisJvHWeuyGQ+LF5QaxVrWZetp57M28bWiBjIWacasm
-         qvmmA/ISX/8o1BLP0Q5ZM4CVtMHSQ9uvuEtgytD/zrR5oLfS7HPhg61UFtIG2U5OgxjE
-         vTayhXZ4Rt+h9278smC4WHJr4Ewfcgv+rCJJutrnLsTon/W9KXcFGPpjJtw42Ho7BIFP
-         Aa0Q==
-X-Gm-Message-State: APjAAAVoXkSPdx/8+Xwv5cKGdsArH+VnabBoTABHzXmYCUqXtZOfq/ko
-        jEsXhR/p0zbnWguu1E/uP5dqshsjJR7tPKDLJa4=
-X-Google-Smtp-Source: APXvYqyY7257EkFyuqYMO3No5jmetxnshT0y6vWMpuTkrZfXDyQFDOhNoBkNrUTxpTpzwcNtSTbWVz8LzkgUMeJK2h8=
-X-Received: by 2002:a63:8e4b:: with SMTP id k72mr502101pge.428.1557350526122;
- Wed, 08 May 2019 14:22:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
-In-Reply-To: <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 May 2019 00:21:54 +0300
-Message-ID: <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com>
-Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rajat Jain <rajatja@google.com>,
+        Wed, 8 May 2019 18:55:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=dWb8vbMa4ek1cAyusdcm5JJRXWIzq6Cyw6f/vUk2LoM=; b=H5CNzTK7RpLb8QoDHoo4wUNrB
+        7bIBj7AyXt4Y1HGtrUI0/iPIWW1+7x++Rd9MEfpgkLGiFTBqIrzsPsnR18forCFIyFBPyCCe15KzE
+        3yy5KY4L3JbDcIcXGjLyJyApmz0+iEXA/je5++/U+KOnA+yDIFiD8IehBzOl1AJQL9ybYkwTgGHPc
+        QKiQE8R1ucBUA8/k1x0SH/6lPVbCh8OiL4T0GG/9t9g9sXDmsL1oG/fy+3rYQzfdRMM8Rutp80Ew6
+        lb2E9cHp00jiE2v54J2106i7Vwl7nS1qJae/YaQCnGgJBE0hvxNKWY6lxXK0IvMQjl54/ZQz/H5+k
+        pR0DNpvVA==;
+Received: from dvhart by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hOVT9-0006Xo-O0; Wed, 08 May 2019 22:55:23 +0000
+Date:   Wed, 8 May 2019 15:55:22 -0700
+From:   Darren Hart <dvhart@infradead.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Kai Heng Feng <kai.heng.feng@canonical.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Semyon Verchenko <semverchenko@factor-ts.ru>
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Lex 3I380D industrial PC to
+ critclk_systems DMI table
+Message-ID: <20190508225522.GA32286@wrath>
+References: <20190429150135.15070-1-hdegoede@redhat.com>
+ <CAHp75VeE=88mCcgVx3Y3PQJPQ819Z7=3s=jRGz1y=t09phk=rA@mail.gmail.com>
+ <085c5b6e-d220-ebd1-38d2-def7efca24b8@redhat.com>
+ <CAHp75Vfe9uK_b_V+uG29wb1L6J7u1hpbU+P4beXso9KNPM+8Rg@mail.gmail.com>
+ <568ba27d-a6a5-b158-bab1-f22cd8ccb34e@redhat.com>
+ <155726027056.14659.1724431433952718602@swboyd.mtv.corp.google.com>
+ <10c8864c-6ee7-4dfd-6274-b1996e767653@redhat.com>
+ <CAHp75VdnxRQi3X6J9hLGUjGsOYTkjoPN5MakJc=mUSumoC+wag@mail.gmail.com>
+ <e9c92d24-9044-c37d-3f18-4884d97047d5@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9c92d24-9044-c37d-3f18-4884d97047d5@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 8, 2019 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 5/8/19 12:34 AM, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > Changes since 20190507:
-> >
-> > The ubifs tree gained a conflict against Linus' tree.
-> >
->
-> on i386 or x86_64:
+On Wed, May 08, 2019 at 11:20:52AM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 08-05-19 10:42, Andy Shevchenko wrote:
+> > On Wed, May 8, 2019 at 10:48 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> > > On 07-05-19 22:17, Stephen Boyd wrote:
+> > > > Quoting Hans de Goede (2019-05-06 08:05:42)
+> > 
+> > > > I guess this is urgent?
+> > > 
+> > > Somewhat, getting this into e.g. rc2 would be fine too, waiting till 5.3
+> > > would be bad.
+> > 
+> > So, I can do it as a fixes for rc2, just ping me after merge window.
+> 
+> Ok, will do.
 
-Thank you for report. Can you provide what is the config option for
-this module? I suppose it's built-in.
-Rajat, I will drop this from the repo, because I don't see it would
-have a chance to be tested in time.
+Andy, what is the issue here? If the dependency is in v5.1 we can do a "merge
+--ff-only v5.1" in our for-next branch in order to pull it in, that would be the
+same as an immutable branch basically.
 
->
->
->   CC      drivers/platform/x86/intel_pmc_core_plat_drv.o
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: data def=
-inition has no type or storage class [enabled by default]
->  MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
->  ^
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: error: type defau=
-lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98MODULE_DEVICE_TABLE=
-=E2=80=99 [-Werror=3Dimplicit-int]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: paramete=
-r names (without types) in function declaration [enabled by default]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: data def=
-inition has no type or storage class [enabled by default]
->  module_init(pmc_core_platform_init);
->  ^
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: error: type defau=
-lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98module_init=E2=80=
-=99 [-Werror=3Dimplicit-int]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: paramete=
-r names (without types) in function declaration [enabled by default]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: data def=
-inition has no type or storage class [enabled by default]
->  module_exit(pmc_core_platform_exit);
->  ^
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: error: type defau=
-lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98module_exit=E2=80=
-=99 [-Werror=3Dimplicit-int]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: paramete=
-r names (without types) in function declaration [enabled by default]
-> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:42:19: warning: =E2=80=
-=98pmc_core_platform_init=E2=80=99 defined but not used [-Wunused-function]
->  static int __init pmc_core_platform_init(void)
->                    ^
->
-> and
-> WARNING: modpost: missing MODULE_LICENSE() in drivers/platform/x86/intel_=
-pmc_core_plat_drv.o
->
-> --
-> ~Randy
-
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Darren Hart
+VMware Open Source Technology Center
