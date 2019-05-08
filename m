@@ -2,90 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 264B318145
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 22:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 856281819A
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 23:22:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbfEHUn4 (ORCPT
+        id S1728216AbfEHVWH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 16:43:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58882 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727026AbfEHUn4 (ORCPT
+        Wed, 8 May 2019 17:22:07 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46081 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726591AbfEHVWH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 16:43:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BhwXAbjkoDrvmRFXu3os3blWb466l8EQ11sVasbRwbU=; b=UlA96dIW25DYB4esae4s1EdfQ
-        NEtuhMIw7nsyqaMR7A60rhAB+ErA7viMQ83cEbqqtrQUGsl2SdofRIkdWjPbxsjlKcafqZQX8oOp9
-        JyOTUlhdlN4InWx7AQ1LHRmE2A7VTxnQBemIBNFozLO3BdjwJFoAP2lR7UPq9pqBnE3eSFXyzLPI5
-        sQR3d5mP2y1GeT1guc0WKGdk8pQIrp5kEcTeM55UOxN9s1Nm57Rffxhv7tYtMzv2ZsFX9FGhOuFVf
-        YCJHLeXvwBjFPn2vVAk5fvF+N+1UekWoWnxYF1/neLsPQXrYJaAt4kLQprc1LoAkGvLWBpADckL6u
-        51bbcYViQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hOTPu-0006ly-IJ; Wed, 08 May 2019 20:43:54 +0000
-Subject: Re: linux-next: Tree for May 8
- (drivers/platform/x86/intel_pmc_core_plat_drv.c)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 8 May 2019 17:22:07 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t187so16435pgb.13;
+        Wed, 08 May 2019 14:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qEZ1nDQkLhnljnhO1XT+76Va+ERwzANAvgOJlth73mY=;
+        b=MaatLT/JCFbNp7HRMV7J86ISG2sgXD1Aah5uhq6xrDRTHbHElZTJpxuxt63R1R/jzX
+         ONys1xnFWaiGSuUgLQgMaERIZVEZZhjQ1bcLCyDguzD44Xj36PjDFLXOdl44GyLC4bc4
+         y9DU/Ce+NrcsyCS7HlvrRIEzG/Q0tpCBn9WJvo5Q9drRNShAbc2z/t34/5T1RaAc52yU
+         v4Z6eWSmF4DpM+0doSwWNwxx+dS1Fk+v6d1dKMv9Nroo0y21KqwwKoL+5mUUlflXTFR3
+         T7E8TWQTSqyjwTKGSQ+8JQd+LFq64TS7Zw1BOUwbF9LkJ0mi9zIAkvwOJYFeAFZPDNGE
+         /4TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qEZ1nDQkLhnljnhO1XT+76Va+ERwzANAvgOJlth73mY=;
+        b=dHyrq8N3qEMBhbDgXt26GAYdqSAFZlFyZ0+JOChpgIBZvuXQQh8L3hOXqQwoC9YquF
+         RWo5nRq46V2Y7CSelvkzrN40kgo+zr7mqvAKTrclU2G/baXAmXcJhEvQHsAW35a2eIgl
+         MJUHxwp3Cja7lSIzFAQks/YbidisJvHWeuyGQ+LF5QaxVrWZetp57M28bWiBjIWacasm
+         qvmmA/ISX/8o1BLP0Q5ZM4CVtMHSQ9uvuEtgytD/zrR5oLfS7HPhg61UFtIG2U5OgxjE
+         vTayhXZ4Rt+h9278smC4WHJr4Ewfcgv+rCJJutrnLsTon/W9KXcFGPpjJtw42Ho7BIFP
+         Aa0Q==
+X-Gm-Message-State: APjAAAVoXkSPdx/8+Xwv5cKGdsArH+VnabBoTABHzXmYCUqXtZOfq/ko
+        jEsXhR/p0zbnWguu1E/uP5dqshsjJR7tPKDLJa4=
+X-Google-Smtp-Source: APXvYqyY7257EkFyuqYMO3No5jmetxnshT0y6vWMpuTkrZfXDyQFDOhNoBkNrUTxpTpzwcNtSTbWVz8LzkgUMeJK2h8=
+X-Received: by 2002:a63:8e4b:: with SMTP id k72mr502101pge.428.1557350526122;
+ Wed, 08 May 2019 14:22:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
+In-Reply-To: <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 9 May 2019 00:21:54 +0300
+Message-ID: <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com>
+Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Rajat Jain <rajatja@google.com>,
-        platform-driver-x86@vger.kernel.org,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
         Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
         Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-References: <20190508173403.6088d0db@canb.auug.org.au>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
-Date:   Wed, 8 May 2019 13:43:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190508173403.6088d0db@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 5/8/19 12:34 AM, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since 20190507:
-> 
-> The ubifs tree gained a conflict against Linus' tree.
-> 
+On Wed, May 8, 2019 at 11:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 5/8/19 12:34 AM, Stephen Rothwell wrote:
+> > Hi all,
+> >
+> > Changes since 20190507:
+> >
+> > The ubifs tree gained a conflict against Linus' tree.
+> >
+>
+> on i386 or x86_64:
 
-on i386 or x86_64:
+Thank you for report. Can you provide what is the config option for
+this module? I suppose it's built-in.
+Rajat, I will drop this from the repo, because I don't see it would
+have a chance to be tested in time.
+
+>
+>
+>   CC      drivers/platform/x86/intel_pmc_core_plat_drv.o
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: data def=
+inition has no type or storage class [enabled by default]
+>  MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
+>  ^
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: error: type defau=
+lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98MODULE_DEVICE_TABLE=
+=E2=80=99 [-Werror=3Dimplicit-int]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: paramete=
+r names (without types) in function declaration [enabled by default]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: data def=
+inition has no type or storage class [enabled by default]
+>  module_init(pmc_core_platform_init);
+>  ^
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: error: type defau=
+lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98module_init=E2=80=
+=99 [-Werror=3Dimplicit-int]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: paramete=
+r names (without types) in function declaration [enabled by default]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: data def=
+inition has no type or storage class [enabled by default]
+>  module_exit(pmc_core_platform_exit);
+>  ^
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: error: type defau=
+lts to =E2=80=98int=E2=80=99 in declaration of =E2=80=98module_exit=E2=80=
+=99 [-Werror=3Dimplicit-int]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: paramete=
+r names (without types) in function declaration [enabled by default]
+> ../drivers/platform/x86/intel_pmc_core_plat_drv.c:42:19: warning: =E2=80=
+=98pmc_core_platform_init=E2=80=99 defined but not used [-Wunused-function]
+>  static int __init pmc_core_platform_init(void)
+>                    ^
+>
+> and
+> WARNING: modpost: missing MODULE_LICENSE() in drivers/platform/x86/intel_=
+pmc_core_plat_drv.o
+>
+> --
+> ~Randy
 
 
-  CC      drivers/platform/x86/intel_pmc_core_plat_drv.o
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: data definition has no type or storage class [enabled by default]
- MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
- ^
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: error: type defaults to ‘int’ in declaration of ‘MODULE_DEVICE_TABLE’ [-Werror=implicit-int]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:40:1: warning: parameter names (without types) in function declaration [enabled by default]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: data definition has no type or storage class [enabled by default]
- module_init(pmc_core_platform_init);
- ^
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: error: type defaults to ‘int’ in declaration of ‘module_init’ [-Werror=implicit-int]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:59:1: warning: parameter names (without types) in function declaration [enabled by default]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: data definition has no type or storage class [enabled by default]
- module_exit(pmc_core_platform_exit);
- ^
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: error: type defaults to ‘int’ in declaration of ‘module_exit’ [-Werror=implicit-int]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:60:1: warning: parameter names (without types) in function declaration [enabled by default]
-../drivers/platform/x86/intel_pmc_core_plat_drv.c:42:19: warning: ‘pmc_core_platform_init’ defined but not used [-Wunused-function]
- static int __init pmc_core_platform_init(void)
-                   ^
 
-and
-WARNING: modpost: missing MODULE_LICENSE() in drivers/platform/x86/intel_pmc_core_plat_drv.o
-
--- 
-~Randy
+--=20
+With Best Regards,
+Andy Shevchenko
