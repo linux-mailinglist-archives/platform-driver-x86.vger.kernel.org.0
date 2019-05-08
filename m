@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0221E17A9F
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97D0417AC8
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:36:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEHNaP (ORCPT
+        id S1726415AbfEHNgf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 09:30:15 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:40784 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbfEHNaP (ORCPT
+        Wed, 8 May 2019 09:36:35 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33777 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbfEHNgf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 09:30:15 -0400
-Received: by mail-pl1-f196.google.com with SMTP id b3so9936137plr.7;
-        Wed, 08 May 2019 06:30:14 -0700 (PDT)
+        Wed, 8 May 2019 09:36:35 -0400
+Received: by mail-pf1-f196.google.com with SMTP id z28so10530187pfk.0;
+        Wed, 08 May 2019 06:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MMRDG203T8q7M0bbQTE+pNkcaQpfwdTEmlYiIWZnOxY=;
-        b=Dh4yIitzet2cNdBx6KmCJGUWgtxkMjhd8Hkwn1DRmID4+m2U9Q54I+GA2fwl5sSmCQ
-         si4mSg74qhsrZ7v3CbBxbyU5w79kuOpphCWdrRVTaRTJ11DslyDvJAs1KL2r41h0UhOl
-         KCcWkTcb5aW0JXqQ16iQQUa0LAtDYzMS1YQwWxtcwYEMeKY2Cw9diKlQ+9CVqGKpMqLG
-         jrp0nkRJjk7QXuv3wWbHs9aJEIzNSMJ9xRE+8Ieo0YtH04QWp1HxOu6TlSZCHvS9vNPU
-         EmPCdmVQh0Z7+Gc0He91jrhkJO8/CWp3uTPg0NjMUAzK/UMjxFkQHmgf9DqIUisRhpcx
-         obHg==
+        bh=CcAjCFqvrEogAPswfF0d6RXu+qS3neWGcM2Ua3UFe2k=;
+        b=VQMI0LrSKYe10St2+918vW77S+/TVdK5nuIUgSDKJk9JF8zf2163RF6L+wUOb8Th9Z
+         DJ0h6//Ex1f5OSlf4vQw2PA9+yOBt4RhfX/dsjz+s5oQyRcIxF+sAxs6tdhgNH6Hoii1
+         m2CPC8pzqigkSA0uKdvo1npx7mnR8MZbf7VWLr+naD+BNwF/dylPJ2dkUiFy/mp7kp+r
+         DT30n62LsEz9D11a05bcqIdkS+ltHLUHD4v7GFzG8am9ZZSMijl2WZm45/nMzAfIHEZy
+         55rty48R46WV0HHwRimMa2LEwlcWt6iwkvvcSS9Rf5h5iRh8TF8gare15o4dMtP7C2d2
+         m+eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MMRDG203T8q7M0bbQTE+pNkcaQpfwdTEmlYiIWZnOxY=;
-        b=Hy8kdCeDuMDvBeBWq17wtMd25s7+nJ736+NXt1esDRqI0cKEEN+2AV/W35B1ucrDHM
-         CJ3+ORFpEQO0EuCkN9edsUMDpexi0Ksw6jhI1kbRkhQ5z5Ux5v1Ao2mVl4/qhqp3CSnk
-         lo0jzvLUlIrFZBkVOXor1f0a5SiuM2RsImuDzIMAJ02gdlTZmiWZbNro8REDK+FvPCX4
-         yhqX/bcbXXELrRpHcP7sQxV3uJPvdBkW+krMA1EtDzYnqpHe/MNsaKEBdTc6emyZpd4g
-         SAZxg9FbCowFW+7QqSq8kbwmihSXVRhu7bF/auQ/RENmClWWpUNeaclrYKea7KrhMEe1
-         Hb+A==
-X-Gm-Message-State: APjAAAXuxnUecb25JVucrAp+6iseH7qwbcvcyk5yj97joIfXhWpgAdjq
-        ip53M4lNAYZugnW6jSLQ18zrIybm5Gm2uxZ7O8nQTEqzvII=
-X-Google-Smtp-Source: APXvYqxvxeM/20XZxLDEFFhFqPaHS+19EckDaqq36S8JJZWuhUDEWzLNBIXMo7fsvcv1Qqi+gHRutTWKWQOYHTFUWWA=
-X-Received: by 2002:a17:902:758b:: with SMTP id j11mr48101865pll.87.1557322214365;
- Wed, 08 May 2019 06:30:14 -0700 (PDT)
+        bh=CcAjCFqvrEogAPswfF0d6RXu+qS3neWGcM2Ua3UFe2k=;
+        b=Qd5utrj5gxETkscyNT2Hhwo8pzcX3udaqQz3V0wbPumeIxaq71r8xjXBr0LBa+iQah
+         EAd8csHg9PBFt5KxO8O+tPc1jBPILLyS56KiXygIKk+uJw6J/bEONKDSXsIH/fZi7nU2
+         lvfFyIlYvtd7k/qUEbyax9KSDhIRAmNKdK32FSpN5qL5djOKqtsC1fsZbAcoaHISZTVp
+         XHEF5V9ic5L1LMOBSXu7SSLNhExZ51yDGX1AxYzx4PPiR/PaWCi3bKs6bZOJgUYTTKfF
+         wFgwf4gU9FCHEOAb8zqsftXdDbgJ/aHODxrksySq5mYShcr10UyLBoYeWBZ7yhXfx+IU
+         JZ1A==
+X-Gm-Message-State: APjAAAVPp94Wk06WRnvlMum4NcSQxKhEOFC7H/hT+0/KEQ0mvkLxlGQu
+        rSS7gzVBcNbT6CB0h2KCLW86YD/47ID0QX3KwgKs/ah/UBJ0Yw==
+X-Google-Smtp-Source: APXvYqxSZ+g127sAZ2xVF3qpVOpzxi03BfU/y7EIin06xjklKr3FEQEEW6UOavGyMz5qNV1wvooOGDnyOmaCqFQYh+8=
+X-Received: by 2002:a63:8e4b:: with SMTP id k72mr15211082pge.428.1557322594290;
+ Wed, 08 May 2019 06:36:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com> <5e1a56c3-0448-a648-e331-a2e1d0421b56@gmail.com>
-In-Reply-To: <5e1a56c3-0448-a648-e331-a2e1d0421b56@gmail.com>
+References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com> <d6ee51cc-eb0f-2bb9-fef9-f8b4bf849076@gmail.com>
+In-Reply-To: <d6ee51cc-eb0f-2bb9-fef9-f8b4bf849076@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 16:30:03 +0300
-Message-ID: <CAHp75Ve0MrS2_ROzo4_o9oTjTvs+GSfUn=2CRQx1L_W+5JR6Vw@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] platform/x86: asus-wmi: Increase the input
- buffer size of WMI methods
+Date:   Wed, 8 May 2019 16:36:23 +0300
+Message-ID: <CAHp75VfMXAyUpWTrEHnv1NcQcHch+RHehWYTjk6KMTbXbtppPg@mail.gmail.com>
+Subject: Re: [PATCH v3 04/11] platform/x86: asus-wmi: Improve DSTS WMI method
+ ID detection
 To:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -57,63 +57,109 @@ Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Daniel Drake <drake@endlessm.com>,
         acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 19, 2019 at 1:07 PM Yurii Pavlovskyi
+On Fri, Apr 19, 2019 at 1:08 PM Yurii Pavlovskyi
 <yurii.pavlovskyi@gmail.com> wrote:
 >
-> The asus-nb-wmi driver is matched by WMI alias but fails to load on TUF
-> Gaming series laptops producing multiple ACPI errors in the kernel log.
+> The DSTS method detection mistakenly selects DCTS instead of DSTS if
+> nothing is returned when the method ID is not defined in WMNB. As a result,
+> the control of keyboard backlight is not functional for TUF Gaming series
+> laptops. Implement another detection method instead.
 >
-> The input buffer for WMI method invocation size is 2 dwords, whereas
-> 3 are expected by this model.
+> There is evidence that DCTS is handled by ACPI WMI devices that have _UID
+> ASUSWMI, whereas none of the devices without ASUSWMI respond to DCTS and
+> DSTS is used instead [1]. To check the _UID a new method is added to wmi.h
+> / wmi.c. It returns _UID of the ACPI WMI device that declares WMI object
+> with given GUID.
+>
+> Generally, it is possible that multiple PNP0C14 ACPI devices are present in
+> the system as mentioned in the commit message of commit bff431e49ff5
+> ("ACPI: WMI: Add ACPI-WMI mapping driver").
+>
+> Therefore the _UID is checked for given GUID that maps to a specific ACPI
+> device, to which it is also mapped by other methods of wmi module.
+>
+> DSDT examples:
 >
 > FX505GM:
-> ..
 > Method (WMNB, 3, Serialized)
-> {
->     P8XH (Zero, 0x11)
->     CreateDWordField (Arg2, Zero, IIA0)
->     CreateDWordField (Arg2, 0x04, IIA1)
->     CreateDWordField (Arg2, 0x08, IIA2)
->     Local0 = (Arg1 & 0xFFFFFFFF)
+> { ...
+>     If ((Local0 == 0x53545344))
+>     {
+>         ...
+>         Return (Zero)
+>     }
 >     ...
+>     // No return
+> }
 >
-> Compare with older K54C:
-> ...
-> Method (WMNB, 3, NotSerialized)
-> {
->     CreateDWordField (Arg2, 0x00, IIA0)
->     CreateDWordField (Arg2, 0x04, IIA1)
->     Local0 = (Arg1 & 0xFFFFFFFF)
+> K54C:
+> Method (WMNB, 3, Serialized)
+> { ...
+>     If ((Local0 == 0x53545344))
+>     {
+>         ...
+>         Return (0x02)
+>     }
 >     ...
+>     Return (0xFFFFFFFE)
+> }
 >
-> Increase buffer size to 3 dwords. No negative consequences of this change
-> are expected, as the input buffer size is not verified. The original
-> function is replaced by a wrapper for a new method passing value 0 for the
-> last parameter. The new function will be used to control RGB keyboard
-> backlight.
+
+> [1] https://lkml.org/lkml/2019/4/11/322
+
+Link: ...?
+
+>         int rv;
+> +       char *wmi_uid;
+
+Keep them in reversed spruce order.
 
 
-> -int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
-> +static int asus_wmi_evaluate_method_3dw(u32 method_id, u32 arg0, u32 arg1,
-> +               u32 arg2, u32 *retval)
 
-I would name as "..._method3" and move arg2 to previous line
+> +       if (!strcmp(wmi_uid, ASUS_ACPI_UID_ASUSWMI)) {
 
->  {
->         struct bios_args args = {
->                 .arg0 = arg0,
->                 .arg1 = arg1,
-> +               .arg2 = arg2
+> +               pr_info("Detected ASUSWMI, use DCTS\n");
 
-Keep comma, it will help in the future, like above helped you here.
+dev_info()?
 
---
+>                 asus->dsts_id = ASUS_WMI_METHODID_DSTS;
+> -       else
+> +       } else {
+
+> +               pr_info("Detected %s, not ASUSWMI, use DSTS\n", wmi_uid);
+
+Ditto.
+
+> --- a/drivers/platform/x86/wmi.c
+> +++ b/drivers/platform/x86/wmi.c
+
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+
+This change should go separately.
+
+
+> -#define ASUS_WMI_METHODID_DSTS         0x53544344 /* Device STatuS */
+> -#define ASUS_WMI_METHODID_DSTS2                0x53545344 /* Device STatuS #2*/
+
+> +#define ASUS_WMI_METHODID_DSTS         0x53544344 /* Device STatuS (DCTS) */
+
+It's not clear from the description what 'C' stands for.
+Is there any specification which describes the difference and actual
+abbreviations?
+
+> +#define ASUS_WMI_METHODID_DSTS2                0x53545344 /* Device STatuS (DSTS) */
+
+-- 
 With Best Regards,
 Andy Shevchenko
