@@ -2,53 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F5617B00
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 748BF17B24
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbfEHNrY (ORCPT
+        id S1726703AbfEHN67 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 09:47:24 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36541 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727840AbfEHNrY (ORCPT
+        Wed, 8 May 2019 09:58:59 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:39790 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726515AbfEHN67 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 09:47:24 -0400
-Received: by mail-pf1-f195.google.com with SMTP id v80so10536322pfa.3;
-        Wed, 08 May 2019 06:47:23 -0700 (PDT)
+        Wed, 8 May 2019 09:58:59 -0400
+Received: by mail-pl1-f196.google.com with SMTP id g9so2560635plm.6;
+        Wed, 08 May 2019 06:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=abi/LI33UU4FZpJKirTDuSSuM40WUXND0+Sz3pImfKQ=;
-        b=BYSr9QJBgm7KUapEFWgZ7nMiKGvAkTkqxZn9XIpxgb8UvL7NFcdo6abyQ9Kuxt4PCe
-         W3yZ3hJ9gUxjsStaJFKk405qEyL6Jsd9FsB4L8UY6jGRhROGHqZxun2LMfbC0/dVJGtD
-         BG9aNP/ns2ip/hNwM/pHFpbTns1/GQQ0xt7qfqkSW3fygkxQgl+/tNWr1A/YqJTkJJ76
-         cNX7TGEaqV0niPiGONQAsZXwtILcRMGFJHIy+0BgGi8vo+Fy9coxEB8yMio4gTKNdw+h
-         CQY/RQEvsxQpDD/VTs4Inb83uZKJ8pcM1JL1KQeixR5VGNCjKg7etitFgT0QpegvWEga
-         neiA==
+        bh=i0bvqrgA4F5XZynGJCRPkIBd3H5fWH/HZp7AEC0pXxY=;
+        b=EOzKLA6es+XvThG8+Vm28DWXbTUzThnv+UrqNhdSzdD2TSu8lXOpwg0/bVIYVKq6IA
+         LV5K8KAZa2rkyVRPMhlB9wJSJIOGYNRiv5XAWOqX5srdQPtxypdRvw96QOvtCOdRFleL
+         SxEZT0Op695AaG/ICPDnZWAUAKIRGhmHux6FLAHCrh37HCni0nJax4zARrUAwYqY+o1R
+         P/47CpgNOjI4dcJ6NLpSOtdV18hBebtPnFW5F1gAmGUQB1KW2LrBHvQu0aDVedtVK01u
+         5jKo78kjB1yrusMPxTFmwslJW8zLSJ2505oYlL92Tp1odyGVi9ueO09YkF2w0Be4muTq
+         MMOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=abi/LI33UU4FZpJKirTDuSSuM40WUXND0+Sz3pImfKQ=;
-        b=cbJNbVg6JfFHIT07lEanmaRly6YRk2OEI91Z8F/MzzzS2EHtVsTC1+ARJ1qw5NiheJ
-         vUdAXAdnazXF+4vomG8Wp40hTlu0jIh4n2u+bg4vOhQLjMgLzQWEB7akK+0BKTVNBf8g
-         vvF65P4jfW7K2HqkFwTNdOYTgWySe3BJcPWamXvPbVVoGD9RLeF6JO2Ts/n17/LUQAgV
-         ywEWafMrePg8FoeUKakMZ8GnE2F23Regrj8bq2OxNxP40ky518k1Ak780v6O3sIfkS5Y
-         79QqMxftH5fY/AyQZ9tGLnwg+FvsxNgYWSiNfQ1e+CTUNYUP8jPFAllKrPhduX8KJ3kw
-         SM0A==
-X-Gm-Message-State: APjAAAV4qGjxJ0RLtixW9QtV+F1OxMZRfZbm81I0MvwmrZLooG0KFbdp
-        mqAnIPgFhN6jfFXY/LIHnWOSdjrswr2a++FYrhWx+vNFpms=
-X-Google-Smtp-Source: APXvYqwAjqe8DlKr8PYF3Wq1QLB26wR638W0k/14Roh/WmKpc6J0IPA9+etVcXxIkQltySTgjbC61AwQrpZBMEYDsHU=
-X-Received: by 2002:a62:4183:: with SMTP id g3mr49898949pfd.229.1557323243023;
- Wed, 08 May 2019 06:47:23 -0700 (PDT)
+        bh=i0bvqrgA4F5XZynGJCRPkIBd3H5fWH/HZp7AEC0pXxY=;
+        b=LHpErsp4lPE+gAnggX/9QfDhSWjwVVXBs4rFNqTyHSpSOval+dtDle5zwAK1I8+Ict
+         p0o0K3PWhbzE9QScKMf9n1WzxZhmQFT2SDcLHvXGZEgdRfU1xoX5WQUCREIY4J9s/bjf
+         Nvp91DfkTkZUBvQL8KOAMqMWQ/by4FWsqdkGQvctzJMtX5prxnfO82KODcQFEDYt3mzB
+         nqIZLxh31kcQVGZMbLnt50ud3Qrwq/TYEuMPeZq5V6vgzXl/05vv/4oEzk1YiO0rlo3N
+         rhcq3miyMeGBcZs+eB59lsHcf5UoV124y1FeVv3lU7xGjdrKh7dzeyN4oYthehCzie0P
+         qwnw==
+X-Gm-Message-State: APjAAAURGd/hDL23YupS6yf4wap7o1mHoUql7f/38Adv6cam+muKWpGI
+        iA31S3ef76lVimBhz4yOmiOkvj8/6sf3JuepwPKFhPPBMB0=
+X-Google-Smtp-Source: APXvYqyECzHKscwcLIRhkbZNjtvs4hzx0DcRpQiv8wPh6NS9GieTlXYqZCC2p+AYERx00NjBr//0CUH12jJT04eX2kY=
+X-Received: by 2002:a17:902:7b8f:: with SMTP id w15mr47075315pll.314.1557323938460;
+ Wed, 08 May 2019 06:58:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com> <22dc9bfe-af2f-7ea9-e5bc-95647d5411a8@gmail.com>
-In-Reply-To: <22dc9bfe-af2f-7ea9-e5bc-95647d5411a8@gmail.com>
+References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com> <7595c4f0-3dbb-2fe5-4daf-4b9a266f67d7@gmail.com>
+In-Reply-To: <7595c4f0-3dbb-2fe5-4daf-4b9a266f67d7@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 16:47:12 +0300
-Message-ID: <CAHp75VdRE8C=ZODLuKC0JktKv4rbw_Y4fOA4J5wBYKPU+URK+A@mail.gmail.com>
-Subject: Re: [PATCH v3 05/11] platform/x86: asus-wmi: Support WMI event queue
+Date:   Wed, 8 May 2019 16:58:47 +0300
+Message-ID: <CAHp75VdE7MBjyLj=9bS6oc5jc8+BC_hftWUJgZGG02iDd=saiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/11] platform/x86: asus-wmi: Enhance detection of
+ thermal data
 To:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -63,32 +64,79 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 19, 2019 at 1:10 PM Yurii Pavlovskyi
+On Fri, Apr 19, 2019 at 1:12 PM Yurii Pavlovskyi
 <yurii.pavlovskyi@gmail.com> wrote:
 >
-> Event codes are expected to be retrieved from a queue on at least some
-> models. Specifically, very likely the ACPI WMI devices with _UID ATK are
-> queued whereas those with ASUSWMI are not [1].
+> The obviously wrong value 1 for temperature device ID in this driver is
+> returned by at least some devices, including TUF Gaming series laptops,
+> instead of 0 as expected previously. Observable effect is that a
+> temp1_input in hwmon reads temperature near absolute zero.
 >
-> The WMI event codes are pushed into a circular buffer queue. After the INIT
-> method is called, ACPI code is allowed to push events into this buffer.
-> The INIT method cannot be reverted. If the module is unloaded and an event
-> (such as hotkey press) gets emitted before inserting it back the events get
-> processed delayed by one or if the queue overflows, additionally delayed by
-> about 3 seconds.
->
-> It might be considered a minor issue and no normal user would likely
-> observe this (there is little reason unloading the driver), but it does
-> significantly frustrate a developer who is unlucky enough to encounter
-> this. Therefore, the fallback to unqueued behavior occurs whenever
-> something unexpected happens.
->
-> The fix flushes the old key codes out of the queue on load. After receiving
-> event the queue is read until either ..FFFF or 1 is encountered. Also as
-> noted in [1] it is checked whether notify code is equal to 0xFF before
-> enabling queue processing in WMI notify handler.
+> * Consider 0.1 K an erroneous value in addition to 0 K.
+> * Refactor detection of thermal input availability to a separate function.
 
-It's rather a big change. Can it be split to smaller pieces?
+
+> +static int asus_hwmon_check_thermal_available(struct asus_wmi *asus)
+> +{
+> +       u32 value = ASUS_WMI_UNSUPPORTED_METHOD;
+> +       int err;
+> +
+> +       asus->asus_hwmon_thermal_available = false;
+
+> +       err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_THERMAL_CTRL, &value);
+
+> +
+
+The blank line probably should go before a call, but definitely not here.
+
+> +       if (err < 0) {
+
+This needs comment why -ENODEV considered as non-fatal.
+> +               if (err == -ENODEV)
+> +                       return 0;
+
+> +
+> +               return err;
+> +       }
+
+> +
+> +       /*
+> +        * If the temperature value in deci-Kelvin is near the absolute
+> +        * zero temperature, something is clearly wrong.
+> +        */
+> +       if (!value || value == 1)
+> +               return 0;
+> +
+> +       asus->asus_hwmon_thermal_available = true;
+> +       return 0;
+> +}
+
+>         if (attr == &dev_attr_pwm1.attr)
+>                 dev_id = ASUS_WMI_DEVID_FAN_CTRL;
+
+> -       else if (attr == &dev_attr_temp1_input.attr)
+> -               dev_id = ASUS_WMI_DEVID_THERMAL_CTRL;
+
+I don't see how this change affects the user output or driver
+behaviour. Why is it done?
+
+> -               if (value == ASUS_WMI_UNSUPPORTED_METHOD || value & 0xFFF80000
+> +               if (value == ASUS_WMI_UNSUPPORTED_METHOD || (value & 0xFFF80000)
+
+Seems like a bug fix and thus should be a separate commit predecessing
+the series.
+
+> -       } else if (dev_id == ASUS_WMI_DEVID_THERMAL_CTRL) {
+
+> +       } else if (attr == &dev_attr_temp1_input.attr) {
+
+So, I don't see why you change this line.
+
+> +               pr_warn("Could not check if thermal available: %d\n", status);
+
+> +       pr_info("Thermal available: %d\n", asus->asus_hwmon_thermal_available);
+
+dev_*() ?
 
 -- 
 With Best Regards,
