@@ -2,53 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D4E117A90
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0221E17A9F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 May 2019 15:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbfEHN0m (ORCPT
+        id S1726515AbfEHNaP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 May 2019 09:26:42 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44284 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726640AbfEHN0m (ORCPT
+        Wed, 8 May 2019 09:30:15 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:40784 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725778AbfEHNaP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 May 2019 09:26:42 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z16so10096974pgv.11;
-        Wed, 08 May 2019 06:26:42 -0700 (PDT)
+        Wed, 8 May 2019 09:30:15 -0400
+Received: by mail-pl1-f196.google.com with SMTP id b3so9936137plr.7;
+        Wed, 08 May 2019 06:30:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4/5ziY/KTUNVf1e/P76xlfH5SHuvjTRZGmxcbVkVQTM=;
-        b=nJ7d5ScrvsedY+36ug6FouVTx9kKYsDfHOAssRhtqAdwYWGinXnzp9J11PEy5vMm3Y
-         jf5haDfZ05MgfEFR2KewhsEqE4EzDtS3HqTV2/Nc3v/YYYxjn2OhcDVfur7+65Ryt1s4
-         JXl4f+5f11ZvH+8uYnZKwUIrLgj+ICPKgQFsGMnycQeRgqpr7Qm1asVtzOXOykO4b5eP
-         JhbVXiaAJfaY9Gl6niT3FXtzRyQDiPosZX25rzXwDYn401/WtOxppjMfFKAutwGA+1LZ
-         VmAd9IL9zx9KpBQLCZRbr0yjPn/hMxFnVPAP5NpaH4INE6yqM0ags71qlrHuAQDYi3y2
-         6kmw==
+        bh=MMRDG203T8q7M0bbQTE+pNkcaQpfwdTEmlYiIWZnOxY=;
+        b=Dh4yIitzet2cNdBx6KmCJGUWgtxkMjhd8Hkwn1DRmID4+m2U9Q54I+GA2fwl5sSmCQ
+         si4mSg74qhsrZ7v3CbBxbyU5w79kuOpphCWdrRVTaRTJ11DslyDvJAs1KL2r41h0UhOl
+         KCcWkTcb5aW0JXqQ16iQQUa0LAtDYzMS1YQwWxtcwYEMeKY2Cw9diKlQ+9CVqGKpMqLG
+         jrp0nkRJjk7QXuv3wWbHs9aJEIzNSMJ9xRE+8Ieo0YtH04QWp1HxOu6TlSZCHvS9vNPU
+         EmPCdmVQh0Z7+Gc0He91jrhkJO8/CWp3uTPg0NjMUAzK/UMjxFkQHmgf9DqIUisRhpcx
+         obHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4/5ziY/KTUNVf1e/P76xlfH5SHuvjTRZGmxcbVkVQTM=;
-        b=NuLQ/ad0PIQyokr3uUDBeOWRXdrrEFa9SfxZWnBq0dV4oDmN813JmV3Hm3jCyMQNUM
-         CzbRdBzGbJyYO/yirSRdYOqkAQOzQfjs5I7l/tOK0jOHYQDREynOlH3moOONWY0nUKnh
-         VlL+2JzTAPPFRD938bOsIVrr4G7LV0x3V2FRjsW9D72mUdksi2olg1fNKoiGGOD1JKu8
-         xbv5RvFnK4S8+WoUwSSLw50yeSbdktefQCWy2yEs/tztjMO4+DG5LYdUZ9G1B8Pgm9e5
-         C7PWD5Lkz2PmIm1+HUCBU80IBvCzTm3QkCDxe0YQKuGhXM0fix0VKbkKpEf3H/2JGIUN
-         qJrA==
-X-Gm-Message-State: APjAAAWISgNV/lWm3DCFNAE0Ojk+dhN3GZ2ud8Jjvm+KHN7Itl/E6RZl
-        ElBRjq65AquJbx523TBeHLTqiOyobZgCyct5rQQ=
-X-Google-Smtp-Source: APXvYqzm8j5RlI2dHv9qpwLIAKh6sDmBT3/e1enS2p1pwsWqd+Isu/pvGlFmeXrVvq/xJsBRd5ONw9a0wrpGGxLWcxg=
-X-Received: by 2002:aa7:8212:: with SMTP id k18mr47877115pfi.50.1557322001665;
- Wed, 08 May 2019 06:26:41 -0700 (PDT)
+        bh=MMRDG203T8q7M0bbQTE+pNkcaQpfwdTEmlYiIWZnOxY=;
+        b=Hy8kdCeDuMDvBeBWq17wtMd25s7+nJ736+NXt1esDRqI0cKEEN+2AV/W35B1ucrDHM
+         CJ3+ORFpEQO0EuCkN9edsUMDpexi0Ksw6jhI1kbRkhQ5z5Ux5v1Ao2mVl4/qhqp3CSnk
+         lo0jzvLUlIrFZBkVOXor1f0a5SiuM2RsImuDzIMAJ02gdlTZmiWZbNro8REDK+FvPCX4
+         yhqX/bcbXXELrRpHcP7sQxV3uJPvdBkW+krMA1EtDzYnqpHe/MNsaKEBdTc6emyZpd4g
+         SAZxg9FbCowFW+7QqSq8kbwmihSXVRhu7bF/auQ/RENmClWWpUNeaclrYKea7KrhMEe1
+         Hb+A==
+X-Gm-Message-State: APjAAAXuxnUecb25JVucrAp+6iseH7qwbcvcyk5yj97joIfXhWpgAdjq
+        ip53M4lNAYZugnW6jSLQ18zrIybm5Gm2uxZ7O8nQTEqzvII=
+X-Google-Smtp-Source: APXvYqxvxeM/20XZxLDEFFhFqPaHS+19EckDaqq36S8JJZWuhUDEWzLNBIXMo7fsvcv1Qqi+gHRutTWKWQOYHTFUWWA=
+X-Received: by 2002:a17:902:758b:: with SMTP id j11mr48101865pll.87.1557322214365;
+ Wed, 08 May 2019 06:30:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com>
-In-Reply-To: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com>
+References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com> <5e1a56c3-0448-a648-e331-a2e1d0421b56@gmail.com>
+In-Reply-To: <5e1a56c3-0448-a648-e331-a2e1d0421b56@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 May 2019 16:26:31 +0300
-Message-ID: <CAHp75VdpS_ZX1qKj9PXNhS04C+pEkn7y02CTVshy=4f-42sriQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/11] asus-wmi: Support of ASUS TUF Gaming series laptops
+Date:   Wed, 8 May 2019 16:30:03 +0300
+Message-ID: <CAHp75Ve0MrS2_ROzo4_o9oTjTvs+GSfUn=2CRQx1L_W+5JR6Vw@mail.gmail.com>
+Subject: Re: [PATCH v3 03/11] platform/x86: asus-wmi: Increase the input
+ buffer size of WMI methods
 To:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -63,69 +64,56 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 19, 2019 at 12:57 PM Yurii Pavlovskyi
+On Fri, Apr 19, 2019 at 1:07 PM Yurii Pavlovskyi
 <yurii.pavlovskyi@gmail.com> wrote:
 >
-> Hi,
+> The asus-nb-wmi driver is matched by WMI alias but fails to load on TUF
+> Gaming series laptops producing multiple ACPI errors in the kernel log.
 >
-> this is the third version of the patch series.
-
-Doesn't apply to the for-next branch.
-Individual comments on the patches are coming as well.
-
+> The input buffer for WMI method invocation size is 2 dwords, whereas
+> 3 are expected by this model.
 >
-> Changelog:
-> v3:
->   * Use devm_* function in patch 01
->   * Detect DSTS/DCTS using _UID in patch 04
->   * Detect event queue by _UID as well in patch 05
->   * Rename poll function in patch 05
->   * Fix terminology in patches 09 and 10
->   * Correct commit messages
-> v2:
->   * Fix logging
+> FX505GM:
+> ..
+> Method (WMNB, 3, Serialized)
+> {
+>     P8XH (Zero, 0x11)
+>     CreateDWordField (Arg2, Zero, IIA0)
+>     CreateDWordField (Arg2, 0x04, IIA1)
+>     CreateDWordField (Arg2, 0x08, IIA2)
+>     Local0 = (Arg1 & 0xFFFFFFFF)
+>     ...
 >
-> INTRODUCTION
-> The support for this laptop series is currently non-existent, as the
-> asus-nb-wmi driver (which is essentially configuration for asus-wmi) fails
-> to load and multiple ACPI errors are logged in dmesg. This patch series
-> adds pretty comprehensive support for these relatively new laptops, adds
-> some code organization, and fixes a couple of bugs in the asus-wmi module.
+> Compare with older K54C:
+> ...
+> Method (WMNB, 3, NotSerialized)
+> {
+>     CreateDWordField (Arg2, 0x00, IIA0)
+>     CreateDWordField (Arg2, 0x04, IIA1)
+>     Local0 = (Arg1 & 0xFFFFFFFF)
+>     ...
 >
-> Original message from V1/V2:
-> https://lkml.org/lkml/2019/4/10/973
->
-> It is really long, so I will not copy it completely here, please refer
-> to the original for notes on design decisions and existing minor issues
-> (other than quirks, which should be hopefully solved now).
->
-> Yurii Pavlovskyi (11):
->   platform/x86: asus-wmi: Fix hwmon device cleanup
->   platform/x86: asus-wmi: Fix preserving keyboard backlight intensity on
->     load
->   platform/x86: asus-wmi: Increase the input buffer size of WMI methods
->   platform/x86: asus-wmi: Improve DSTS WMI method ID detection
->   platform/x86: asus-wmi: Support WMI event queue
->   platform/x86: asus-nb-wmi: Add microphone mute key code
->   platform/x86: asus-wmi: Organize code into sections
->   platform/x86: asus-wmi: Enhance detection of thermal data
->   platform/x86: asus-wmi: Control RGB keyboard backlight
->   platform/x86: asus-wmi: Switch fan boost mode
->   platform/x86: asus-wmi: Do not disable keyboard backlight on unloading
->
->  .../ABI/testing/sysfs-platform-asus-wmi       |  71 ++
->  drivers/platform/x86/asus-nb-wmi.c            |   3 +-
->  drivers/platform/x86/asus-wmi.c               | 797 +++++++++++++++---
->  drivers/platform/x86/wmi.c                    |  19 +
->  include/linux/acpi.h                          |   1 +
->  include/linux/platform_data/x86/asus-wmi.h    |   7 +-
->  6 files changed, 797 insertions(+), 101 deletions(-)
->
-> --
-> 2.17.1
->
+> Increase buffer size to 3 dwords. No negative consequences of this change
+> are expected, as the input buffer size is not verified. The original
+> function is replaced by a wrapper for a new method passing value 0 for the
+> last parameter. The new function will be used to control RGB keyboard
+> backlight.
 
 
--- 
+> -int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
+> +static int asus_wmi_evaluate_method_3dw(u32 method_id, u32 arg0, u32 arg1,
+> +               u32 arg2, u32 *retval)
+
+I would name as "..._method3" and move arg2 to previous line
+
+>  {
+>         struct bios_args args = {
+>                 .arg0 = arg0,
+>                 .arg1 = arg1,
+> +               .arg2 = arg2
+
+Keep comma, it will help in the future, like above helped you here.
+
+--
 With Best Regards,
 Andy Shevchenko
