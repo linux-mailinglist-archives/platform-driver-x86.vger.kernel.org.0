@@ -2,115 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 014D318502
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 08:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B946F1851A
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 08:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbfEIGAb (ORCPT
+        id S1726764AbfEIGIv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 May 2019 02:00:31 -0400
-Received: from shell.v3.sk ([90.176.6.54]:42741 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726179AbfEIGAb (ORCPT
+        Thu, 9 May 2019 02:08:51 -0400
+Received: from mail-qt1-f181.google.com ([209.85.160.181]:40907 "EHLO
+        mail-qt1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfEIGIu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 May 2019 02:00:31 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 7BEEA103F1D;
-        Thu,  9 May 2019 08:00:25 +0200 (CEST)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id b9a4ApfXUWPC; Thu,  9 May 2019 08:00:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 24B8F103F83;
-        Thu,  9 May 2019 08:00:17 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Ca1YT6Fkg_LU; Thu,  9 May 2019 08:00:14 +0200 (CEST)
-Received: from nedofet.lan (ip-89-102-31-34.net.upcbroadband.cz [89.102.31.34])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 5DB71103F1D;
-        Thu,  9 May 2019 08:00:13 +0200 (CEST)
-Message-ID: <267d992479dcdf8c0425407e131f112ece53f5c6.camel@v3.sk>
-Subject: Re: [PATCH v6 0/10] Add support for OLPC XO 1.75 Embedded Controller
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-Date:   Thu, 09 May 2019 08:00:10 +0200
-In-Reply-To: <CAHp75VcXteqg200aB6w_6ngR7=cj3S7HQOELOTV4rYUmCe+dLw@mail.gmail.com>
-References: <20190424074353.458446-1-lkundrak@v3.sk>
-         <CAHp75VcXteqg200aB6w_6ngR7=cj3S7HQOELOTV4rYUmCe+dLw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
+        Thu, 9 May 2019 02:08:50 -0400
+Received: by mail-qt1-f181.google.com with SMTP id k24so475973qtq.7
+        for <platform-driver-x86@vger.kernel.org>; Wed, 08 May 2019 23:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sTW3b11tOzQl45dBo/UpkA2mKZfeZ/ETko9FvJUDZg8=;
+        b=Z3AHiYe/Pl8HFXLwAU81fKt6hr7uxvNZcJsRT8n8yH04WYHvnBA73F+qJ2mHArAEEM
+         C9TFGs+k8WOFE4T4tBSCUZxEl1vReTcgGe8KZHHFbHl5loQrEQmORA8TdIOIhlTCJ+fB
+         esrysFnXKsUvD3RJdetAikLtyzSTCzHjlwGkTSo1Y8kJp3ZUYxIoRyPP8aV8A3dXLqcZ
+         g77NqK/AUNZ2YqkgOrDh/tcrulDGJTDAivxOdQpKVEWV3OIRRYcCR/keLVhrQm4trZt5
+         lz5wRlNyWllIZz3rYq00crYyoytxt6NcmZ8wnIZAotqj4qr6nYeGv9KS77THk7snzbIo
+         8Qiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sTW3b11tOzQl45dBo/UpkA2mKZfeZ/ETko9FvJUDZg8=;
+        b=YNshXOOPjJ5LLISC36S54x8CBBk3iqgjtlWIHFl3+Y+h+Q/CsIfNuNou/88F+bbgwd
+         e20TyivDfreoIxmw9TzSns0Gvghk0DMQuaTCVzow9172OsD2Efky0mBJG0rc9rnlx3tq
+         x8eHhL14JUSpYp2UKt3sMMAObP7UgwGo/XIzo6IvzBzwsWnYjDZpR/xad3CA8DQt0bQD
+         ubgQhUpAT6se73KMvQEvN1p68e/rRbHBNdP6rV3EzVWX39dHOTmrhd2iuWVvcHWDcsmG
+         7/1Ivvsitg9mG0kCH4qzeGK6ef7r6GbpYo0bwd4mCAkxbfTBUAeNax3YgHKtnEfSKbf4
+         tEZw==
+X-Gm-Message-State: APjAAAWjus8AKMCBYbPOtykJhGtG3nmVRU8mVpmbo/Cll+DQsMaXrdJq
+        vf777sOaOhFaxj8QVboNb25argww/1uK7GNrQ/3Gfw==
+X-Google-Smtp-Source: APXvYqyCcUcHfEI7Sx75neiypn76eCAVOp3moRVUYPAOK57VhxZ7GdJtRNbBRTVi2B408l2xOwrBJpfdVPD2R8dpenU=
+X-Received: by 2002:a0c:9899:: with SMTP id f25mr1962232qvd.82.1557382129895;
+ Wed, 08 May 2019 23:08:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com>
+ <d6ee51cc-eb0f-2bb9-fef9-f8b4bf849076@gmail.com> <CAHp75VfMXAyUpWTrEHnv1NcQcHch+RHehWYTjk6KMTbXbtppPg@mail.gmail.com>
+In-Reply-To: <CAHp75VfMXAyUpWTrEHnv1NcQcHch+RHehWYTjk6KMTbXbtppPg@mail.gmail.com>
+From:   Daniel Drake <drake@endlessm.com>
+Date:   Thu, 9 May 2019 14:08:38 +0800
+Message-ID: <CAD8Lp46tCfi3ZCmmXZv3-ZDbon+6P8qC4GPR9Bt3uFFr=Sn4Cw@mail.gmail.com>
+Subject: Re: [PATCH v3 04/11] platform/x86: asus-wmi: Improve DSTS WMI method
+ ID detection
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 2019-05-08 at 18:07 +0300, Andy Shevchenko wrote:
-> On Wed, Apr 24, 2019 at 10:44 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
-> > Hello!
-> > 
-> > This is a sixth spin of the patch set that adds support for the Embedded
-> > Controller on an OLPC XO 1.75 machine.
-> > 
-> > Compared to the previous version there are only some trivial-ish changes to
-> > [06/10] and addition of Reviewd-by tags; as indicated in changelogs of
-> > individual patches.
-> > 
-> > In my opinion the first seven patches are ready for merge as they are:
-> > 
-> >   [01/10] dt-bindings: olpc,xo1.75-ec: Add OLPC XO-1.75 EC
-> >   [02/10] Platform: OLPC: Remove an unused include
-> >   [03/10] Platform: OLPC: Move EC-specific functionality out from
-> >   [04/10] Platform: OLPC: Avoid a warning if the EC didn't
-> >   [05/10] Platform: OLPC: Use BIT() and GENMASK() for event masks
-> >   [06/10] Platform: OLPC: Add XO-1.75 EC driver
-> >   [07/10] Platform: OLPC: Add a regulator for the DCON
-> > 
-> > The patch [08/10] relies on changes to the OLPC battery driver that have
-> > recently landed in the power-supply tree (without them enabling
-> > CONFIG_BATTERY_OLPC on ARM would break build):
-> > 
-> >   [08/10] power: supply: olpc_battery: Allow building the driver
-> > 
-> > Sebastian Reichel provided an signed tag of an immutable branch that has
-> > the necessary bits and was merged into the power-supply tree for 5.2:
-> > 
-> >   git pull git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git psy-olpc-1.75-battery-signed
-> > 
-> > The patch [10/10] was split of from the rest because Russell King found the
-> > patch [09/10] it depends on possibly objectionable. They should not be
-> > applied without further input from Russell:
-> > 
-> >   [09/10] ARM: export arm_pm_restart
-> >   [10/10] Platform: OLPC: Add restart support to XO-1.75 EC
-> > 
-> > Tested to work on an OLPC XO 1.75 and also tested not to break x86
-> > support with an OLPC XO 1 machine. I don't have a XO 1.5, but it's
-> > unlikely this breaks it when XO 1 works.
-> 
-> Pushed first 8 to my review and testing queue, thanks!
+> > -#define ASUS_WMI_METHODID_DSTS         0x53544344 /* Device STatuS */
+> > -#define ASUS_WMI_METHODID_DSTS2                0x53545344 /* Device STatuS #2*/
+>
+> > +#define ASUS_WMI_METHODID_DSTS         0x53544344 /* Device STatuS (DCTS) */
+>
+> It's not clear from the description what 'C' stands for.
+> Is there any specification which describes the difference and actual
+> abbreviations?
 
-Thank you.
+The (recent) spec I have here doesn't mention 0x53544344 (DCTS).
+However the spec changelog does mention that EEEPC stuff was removed
+from the spec a while ago.
+The spec does mention 0x53545344 (DSTS), labelled as "Get device status".
 
-Looking at kbuild bot errors, it seems I managed to somehow mess up
-again. It is not true that just the [08/10] patch relies on the
-psy-olpc-1.75-battery-signed branch of power-supply tree (see above);
-in fact [03/10] also does on x86.
+For clarity I think the constants could be renamed as
+ASUS_WMI_METHODID_DCTS and ASUS_WMI_METHODID_DSTS.
 
-Would it be possible to include that branch in your testing as well? It
-is going to be included in the power-supply pull for 5.2.
-
-Also, it seems patches [09/10] and [10/10] landed in your queue; they
-are not ready.
-
-Lubo
-
+Daniel
