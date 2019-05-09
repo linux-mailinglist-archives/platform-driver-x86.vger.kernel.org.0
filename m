@@ -2,52 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98FD218F4C
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 19:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FEB018F93
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 May 2019 19:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726753AbfEIRhF (ORCPT
+        id S1726681AbfEIRtM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 May 2019 13:37:05 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39104 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726576AbfEIRhF (ORCPT
+        Thu, 9 May 2019 13:49:12 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:32828 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfEIRtM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 May 2019 13:37:05 -0400
-Received: by mail-wm1-f65.google.com with SMTP id n25so4170546wmk.4;
-        Thu, 09 May 2019 10:37:03 -0700 (PDT)
+        Thu, 9 May 2019 13:49:12 -0400
+Received: by mail-wr1-f65.google.com with SMTP id e11so4265285wrs.0;
+        Thu, 09 May 2019 10:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QvLnzxjMY+c9tJc5WpZYCSDDpAWjs4cZZaO4mXG/cHk=;
-        b=Lgxd4mD0rK22HIWdGOpYPOqv3wqbZ+/hPlQulzYFI5f3R9UD7reWQeOHn1R5kDxo+Z
-         kMZfiYm5rGgU7H+LUVym7L8GLAfK0/g8Dag2KwrAWhm4Z4EV8jc6e7rjzAIIQTmQyIUQ
-         EP9WVdrWM7vJS9ieLOchG7EaCJZ5W2Q1GTESc0MZswD52mxl6414BB5Tmmru8rbd/3wv
-         1FPwfI+sCHsVM8RKn1ATnPRVOZS95kc83XVoIyekWV/xxns57cZVlH8Ly4WXRsFzYZyb
-         Xx6A5HEEAAH9c0zNYkKPVJsfBOyTREN08mj04ZGpg0uekoWBBCbBH9WOPiwXdr6llvqt
-         rzgw==
+        bh=0/UR7KuBk7jn3GdiXeodrKFMGjiBmRvYd8mwzpA5/pQ=;
+        b=Lr2gDwCHh+okjR5BMJoyAUcTWx2e7xJCBSFaC2JjpvhMZiM7r0e3wgnMGmmTUWVCeG
+         Zv8nRv/DH1GU3rCUBk71aYdRxzDHb0L67ODR1lbZSr30yncbPJzsTXMTKASFdt/le1f0
+         5DTT4izNgzSVdFjb/EyfnmphquHq6Z+D71PAJsxsGDj8xVc5tE40SrYHHkF7VA2a6ozG
+         068Q3H2JF/0Cak9ac+8L5fVCxB+WmdWXVU0+a8XbVtrSKMIzWTt69AZCXLR1glOXWwEo
+         7hn9l2SkHAtVG1iDv6sPJHk0HTSCkRCCTlCp0ONX5Y6XSD+1JcxuOjEGk8fw1yHvsD3R
+         a5IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=QvLnzxjMY+c9tJc5WpZYCSDDpAWjs4cZZaO4mXG/cHk=;
-        b=MS8fpxj1qou5uYMqe1mpV7d3HoR+wv36GuCzly9hq13jAi1CT/xZ4FL6EtifHa22Wb
-         K40KoyPm2PoLrrYOCo+STS6oIeXMZxWTxQlEZp0jD2J7Iva/iRTsIRl095uBS0kTqX4w
-         Lp4U+wxY6DlHXhAQ18Fv9eyDqkHdhQh9dy/1gAZxHot4sqVEyiyFGW/f6bAmjC/KM/M4
-         iww8aBzMmmK+8BSMlo14YOKeH9rarvyu09q1kFs0OCywFwrZm+mYjJA4ZC4HBCKSrMPr
-         SMcNka0p4M7O0i/PZu+SGeCXiolQVOBZ1GsOgxQN5zTvId+M76/LpDHOTF8LbY0CrYe1
-         ttyw==
-X-Gm-Message-State: APjAAAW/NxBa45dJhNWP4KRsMqQGXzGF8UNPdpkTlt8FrLz2kidNnvMC
-        RfGEnF70pHUr8mJ3c8LmejAqZPq3
-X-Google-Smtp-Source: APXvYqxtBMhBX6aUynTnfhg8mPMQfK/Hehu0bNq8mD0TyENMZHjkpFXjYCsG38NN8wN0D3qkRitUNQ==
-X-Received: by 2002:a1c:14e:: with SMTP id 75mr4071677wmb.100.1557423422996;
-        Thu, 09 May 2019 10:37:02 -0700 (PDT)
+        bh=0/UR7KuBk7jn3GdiXeodrKFMGjiBmRvYd8mwzpA5/pQ=;
+        b=jKBYkcvP9HTc/+ythuAEjaTSV36C+OoIedS7hvuFHgOSTAHsHx/LmbmFZeHvuA53zZ
+         9FxaEiG8zEMJQ4Xb2judJ7qzsQWM8Y5ARiBgrHhSD/CTKotSNAIZynSLgToQXkD6ST6O
+         prK5ntQVqx4bJ7Vh8X+xq5Ps2HWXDiSnwwgIgG+eGpNhsHRLb/kbKZ+h3Tt0FIH0pw1i
+         aw96YOShMNaXn5yB5ESrSndF/CbRzhNcluj7ECntXrWtXaMFzdLMSr8R6C40Qgb11iqk
+         iYoCI+rRuBI7hYZmzAJYNUzlfVjlfdtRQgtphig9yt6lzraHhrjH+WUULJSPpuXFlqHI
+         Dm9A==
+X-Gm-Message-State: APjAAAU2dl77m88PUUPMg6iTXjeerCRQPxMcO2GfpS1ZIpzkcLqQniIr
+        mylUM4stR9E+tFWnQxBItxvKxi7O
+X-Google-Smtp-Source: APXvYqxpxT5uCg6dRjinbTiAzLimF39CcpccN2MoM68JfAIz692dZPSLjbsqHgk/WZQBZKtsxMVxsQ==
+X-Received: by 2002:a5d:67cb:: with SMTP id n11mr4144109wrw.3.1557424150632;
+        Thu, 09 May 2019 10:49:10 -0700 (PDT)
 Received: from [192.168.20.141] ([194.99.104.18])
-        by smtp.gmail.com with ESMTPSA id k206sm6498440wmk.16.2019.05.09.10.37.01
+        by smtp.gmail.com with ESMTPSA id k67sm4474383wmb.34.2019.05.09.10.49.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 May 2019 10:37:02 -0700 (PDT)
-Subject: Re: [PATCH v3 05/11] platform/x86: asus-wmi: Support WMI event queue
+        Thu, 09 May 2019 10:49:10 -0700 (PDT)
+Subject: Re: [PATCH v3 08/11] platform/x86: asus-wmi: Enhance detection of
+ thermal data
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -57,15 +58,15 @@ Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <7acd57fe-604a-a96a-4ca2-a25bc88d6405@gmail.com>
- <22dc9bfe-af2f-7ea9-e5bc-95647d5411a8@gmail.com>
- <CAHp75VdRE8C=ZODLuKC0JktKv4rbw_Y4fOA4J5wBYKPU+URK+A@mail.gmail.com>
+ <7595c4f0-3dbb-2fe5-4daf-4b9a266f67d7@gmail.com>
+ <CAHp75VdE7MBjyLj=9bS6oc5jc8+BC_hftWUJgZGG02iDd=saiQ@mail.gmail.com>
 From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
-Message-ID: <5968d688-dc40-acad-bd73-8fe26cf14979@gmail.com>
-Date:   Thu, 9 May 2019 19:36:59 +0200
+Message-ID: <0d7f6a9e-d508-65ba-9646-39f1d1a42a13@gmail.com>
+Date:   Thu, 9 May 2019 19:49:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VdRE8C=ZODLuKC0JktKv4rbw_Y4fOA4J5wBYKPU+URK+A@mail.gmail.com>
+In-Reply-To: <CAHp75VdE7MBjyLj=9bS6oc5jc8+BC_hftWUJgZGG02iDd=saiQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,11 +75,37 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 08.05.19 15:47, Andy Shevchenko wrote:
-> On Fri, Apr 19, 2019 at 1:10 PM Yurii Pavlovskyi
+On 08.05.19 15:58, Andy Shevchenko wrote:
+> On Fri, Apr 19, 2019 at 1:12 PM Yurii Pavlovskyi
 > <yurii.pavlovskyi@gmail.com> wrote:
 > 
-> It's rather a big change. Can it be split to smaller pieces?
+>> -               if (value == ASUS_WMI_UNSUPPORTED_METHOD || value & 0xFFF80000
+>> +               if (value == ASUS_WMI_UNSUPPORTED_METHOD || (value & 0xFFF80000)
 > 
-I will then split this into refactoring event code handling in separate
-methods and actual event queue support patches.
+> Seems like a bug fix and thus should be a separate commit predecessing
+> the series.
+The previous one should theoretically work as well, just thought that would
+help readability, will revert this.
+
+>> -       else if (attr == &dev_attr_temp1_input.attr)
+>> -               dev_id = ASUS_WMI_DEVID_THERMAL_CTRL;
+>
+> I don't see how this change affects the user output or driver
+> behaviour. Why is it done?
+> 
+>> -       } else if (dev_id == ASUS_WMI_DEVID_THERMAL_CTRL) {
+> 
+>> +       } else if (attr == &dev_attr_temp1_input.attr) {
+> 
+> So, I don't see why you change this line.
+> 
+Yes, looking at this patch now I'd guess the refactoring there is really
+misguided as it adds a lot more code than it removes, will drop it
+completely and just add a new condition to the current check instead in
+next version:
+-		/* If value is zero, something is clearly wrong */
+-		if (!value)
++		if (!value || value == 1)
+
+Thanks,
+Yurii
