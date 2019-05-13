@@ -2,79 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B57FE1B6E8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 May 2019 15:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09A211BEB3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 May 2019 22:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727587AbfEMNSh (ORCPT
+        id S1726218AbfEMUaY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 May 2019 09:18:37 -0400
-Received: from shell.v3.sk ([90.176.6.54]:60017 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727576AbfEMNSg (ORCPT
+        Mon, 13 May 2019 16:30:24 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:36563 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfEMUaY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 May 2019 09:18:36 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id D963F100BF4;
-        Mon, 13 May 2019 15:18:32 +0200 (CEST)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id DH0RDO6CeMZS; Mon, 13 May 2019 15:18:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 3E29410420A;
-        Mon, 13 May 2019 15:18:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Uk-CuN7IHR_n; Mon, 13 May 2019 15:18:28 +0200 (CEST)
-Received: from nedofet.lan (ip-89-102-31-34.net.upcbroadband.cz [89.102.31.34])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id BC4CE100BF4;
-        Mon, 13 May 2019 15:18:27 +0200 (CEST)
-Message-ID: <5e814f2a3b1282da53d0f828dd9276ca91952f75.camel@v3.sk>
-Subject: Re: [PATCH v7 01/10] dt-bindings: olpc,xo1.75-ec: Add OLPC XO-1.75
- EC bindings
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Rob Herring <robh@kernel.org>
-Date:   Mon, 13 May 2019 15:18:26 +0200
-In-Reply-To: <20190513090743.GA19319@amd>
-References: <20190513075641.1277716-1-lkundrak@v3.sk>
-         <20190513075641.1277716-2-lkundrak@v3.sk> <20190513090743.GA19319@amd>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.1 (3.32.1-1.fc30) 
+        Mon, 13 May 2019 16:30:24 -0400
+Received: by mail-ua1-f68.google.com with SMTP id z17so5346936uar.3;
+        Mon, 13 May 2019 13:30:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SJi5lC96vbQ5kIDUFpwE/Nznn3R+YuYl3oTaGEijmGo=;
+        b=S5QBRMRX4vmrvpFOpauCjHSowRBDI2/0TAffVvirzFa/nPY24bqEHrREytwdPcvSYN
+         o+qQYHgehn8maKl4MddbHnstr3QvNheBiQGW0FxJLIamFX5e4GZmNAzmSEAjiUi/cBqn
+         zuolDQMJwm6UZwRAvbc5S6soxCDYxAf87EUPMV+a0IHNiRmAGgsUZAzpPkhdODdIo1x7
+         FhR1pMxwwP0sYyhwIlidp5farRaisKDmattJtPtPFKLmlojODZT+la/GZPTMba9fJBMK
+         UmqG3y6PtpLCCjnZRcY+TIlU+XIwSe7Yt6XTZjjd+wxGPvFnZDYldTPnpHErwGMRM5du
+         YV5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SJi5lC96vbQ5kIDUFpwE/Nznn3R+YuYl3oTaGEijmGo=;
+        b=ui5JdT9OXufn0gQGlQLfgpLz7xX9mkExkjro+M7b4LI81ck6zgP1Jx4atZNiAMiz0+
+         OV6RZ9jXFEDNag3PO7mVFRxi6MfcWISFfTDsK6tNDUa7mXldLaReam7aZqsUtvOoj8gi
+         ynveUaVqFJ7cOgwHrnYr0jUMpG9eTcjvSsssD67m3aq4ou7H4g8dOdfrrUhWfxYzbOCe
+         VTv6l6O5L6QJZS7a5FnMye4499jGGrng0Hj77bu2BF6sLhXnMeCvd9h0fLcRhg0VyocK
+         2bgxsUhSzSOuIiryjP7vRCQw6fp17kHUN0FUFei5JxYm2bDTZhoPRFh0bfMGG2NKsUvq
+         yaJQ==
+X-Gm-Message-State: APjAAAUmsqyjvbu0r0kw98ZmeSWQwu95LbxYWe6EtsTkOI9rNi95HGz0
+        5wPcXNT8ulo4WD9/YjDNDg==
+X-Google-Smtp-Source: APXvYqxvp+g2jLmI6bVnZkxN8U7wCgP69Ut4cq3E97D7jH4E16GiHN1oRAPx1KXUw3b992Gn8RKZTg==
+X-Received: by 2002:ab0:6783:: with SMTP id v3mr14845341uar.8.1557779422261;
+        Mon, 13 May 2019 13:30:22 -0700 (PDT)
+Received: from localhost.localdomain ([2601:902:c200:6512:37bd:d695:3a39:ceb9])
+        by smtp.gmail.com with ESMTPSA id 143sm1285120vkj.44.2019.05.13.13.30.20
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 13 May 2019 13:30:21 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Kailang Yang <kailang@realtek.com>,
+        Jian-Hong Pan <jian-hong@endlessm.com>,
+        Daniel Drake <drake@endlessm.com>,
+        Chris Chiu <chiu@endlessm.com>,
+        Hui Wang <hui.wang@canonical.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Cc:     ayman.bagabas@gmail.com
+Subject: [PATCH v1 0/2] Huawei WMI laptop extras driver
+Date:   Mon, 13 May 2019 16:30:04 -0400
+Message-Id: <20190513203009.28686-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2019-05-13 at 11:07 +0200, Pavel Machek wrote:
-> On Mon 2019-05-13 09:56:32, Lubomir Rintel wrote:
-> > The OLPC XO-1.75 Embedded Controller is a SPI master that uses extra
-> > signals for handshaking. It needs to know when is the slave (Linux)
-> > side's TX FIFO ready for transfer (the ready-gpio signal on the SPI
-> > controller node) and when does it wish to respond with a command (the
-> > cmd-gpio property).
-> > 
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > Acked-by: Pavel Machek <pavel@ucw.cz>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-> Who is expected to apply this? I don't think more iterations will make
-> it better... it seems pretty good already :-).
+Using the WMI BIOS management interface found on Huawei laptops, extra features
+such as micmute LED, charging thresholds, and fn-lock can be controlled.
 
-The whole set is meant to go in through platform/x86; it just missed
-5.2 due to some issues discovered by the kbuild bot when it entered
-Andy's review queue.
+A platform driver has been implemented along with the existing WMI driver. The
+platform driver controls the LED, battery charging thresholds, and fn-lock.
 
-> 
-> 								Pavel
-> 								
+We enable sound micmute hooks to platform driver on Huawei laptops to get the
+LED to work.
+
+Ayman Bagabas (2):
+  platform/x86: Huawei WMI laptop extras driver update
+  sound: Enable micmute led for Huawei laptops
+
+ drivers/platform/x86/Kconfig      |   8 +-
+ drivers/platform/x86/huawei-wmi.c | 578 +++++++++++++++++++++++++-----
+ sound/pci/hda/patch_realtek.c     |   9 +-
+ 3 files changed, 504 insertions(+), 91 deletions(-)
+
+-- 
+2.20.1
 
