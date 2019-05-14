@@ -2,80 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 715D41C49E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 May 2019 10:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C061B1CF56
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 May 2019 20:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbfENIXj (ORCPT
+        id S1726218AbfENSr2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 May 2019 04:23:39 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:47075 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726078AbfENIXi (ORCPT
+        Tue, 14 May 2019 14:47:28 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37882 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726201AbfENSr2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 May 2019 04:23:38 -0400
-Received: by mail-ed1-f68.google.com with SMTP id f37so21578667edb.13
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 May 2019 01:23:37 -0700 (PDT)
+        Tue, 14 May 2019 14:47:28 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 7so144401wmo.2;
+        Tue, 14 May 2019 11:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=ebf4WQ/2TN4yCGU2yHyX2G1dlTx/G2hBzOsFW3tcd/g=;
+        b=gVwUvgfA2kP0DFQ0doL0kTXzPcwp9UjA15SFX8xX9EYD2ZEfLlNjMUmO0WCVPMJOm+
+         Xnw++OtZOobECqgDV4PBjBJxdUN7YEvWU+tOsvvJ2aFoNJd5CPOy8/zZGDZPsiTI7jIL
+         j/kzIeIqncAr89vDK3XfGFJbgony0cmQq/ubiNFkRNrRJozjJXE7tcuY26GFEdN4eBHR
+         mc2NoPZAroAQfkjM4aVo0JBrxeFoQtsrTKdDzmyGXF4atl6suhCeeLq3um/unFrFOff0
+         OVdxIZVk4O2/lxfpV0UofNaCCTb+4eY2uyjdGZu49z2HzWbxQYvHopLPbHRPOck/+a17
+         KpxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+        h=x-gm-message-state:cc:from:subject:message-id:date:user-agent
          :mime-version:content-language:content-transfer-encoding;
-        bh=fiXHFem/iL+rCLe7tifmI3c7WDBXKf2BdzeZke3QLVw=;
-        b=NH5k5qRaPfhAYvXIJJJDhgV5RB3ReuaE2/cHhlLq6rEEG1gaK7KzYmgiV0553fJEgf
-         pBHUEO9JWHVdRntVjihzxsg5e0XMtH5ij0ABHs2TJOqnO40DsuT5kpJJD+t1+by24YRq
-         GrfHPh72iELJ+48KK7TuwMV00Ns7C21ngtu5CYkC/n57iyCyc7Tx2IkUdsjhimRklnYm
-         7FN5GljTCWnCNgUPvV3kn0A5Y5VuDWjKkUnf5mPGuBDax3RRIlT/5xUA7LfcmMfO58CG
-         WYD+kyvadYKi4w+HHqLw5LXr83iRob3BYgW2ONU4izK1cU+NAlZ+viwInKXIri0yUyZu
-         pWzg==
-X-Gm-Message-State: APjAAAXBtSrGhRUlwxzEo/lyJsdQAfp/XCxr806uSDY12hbPXs7CCKqm
-        Og2GdCUDyZ+NcQSiPkDAe8YxtjZy0Xo=
-X-Google-Smtp-Source: APXvYqz1thVI5q1DNc1fQNtH5TuWoqiQPJI0BwWw08WGG+GNPSoxiPuoMKHF35t0GYkTVisXCwfLdg==
-X-Received: by 2002:a17:906:2cd1:: with SMTP id r17mr26364596ejr.101.1557822216958;
-        Tue, 14 May 2019 01:23:36 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4f8:1c0c:6c86:46e0:a7ad:5246:f04d])
-        by smtp.gmail.com with ESMTPSA id cg25sm1493140ejb.15.2019.05.14.01.23.35
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 01:23:36 -0700 (PDT)
-To:     =?UTF-8?Q?Jo=c3=a3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>,
-        platform-driver-x86@vger.kernel.org
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
- handle the display off hotkey") causes broken display on Asus 1025C
-Message-ID: <999f988f-63ce-ee29-6cb5-42d4bf94fdbe@redhat.com>
-Date:   Tue, 14 May 2019 10:23:34 +0200
+        bh=ebf4WQ/2TN4yCGU2yHyX2G1dlTx/G2hBzOsFW3tcd/g=;
+        b=H5QrDRedRlNjIl/5vw26WEnlVjPQj/RJNTufugzI3OTwjKhrqx37wM1sdrgILS99UR
+         I2m3VftvgKb//h8mvwZ53WAKEiSrvZ5AT6ejU4cJWi8qKHZcpEVBafQEOfqpQy0678dk
+         J8kHkqDyw9VbMw/B4vG/Dns3muTINHBLrHdXkzGlf3A3dIsSFlH3mMDqdJFDmgbZJKSA
+         wxB+PnkCy9Ej4rEjRo+PRGd6gThgEg5N0JtS8U/QBDcERu89MY+AMYROVJEUizNeEW4P
+         QST4ZVWNmC6xGhgI0TzzZUhc4YJeqzqhwQZqG95pE9tb35oUP+FElZC3bmwYeRbz1WgO
+         bxVw==
+X-Gm-Message-State: APjAAAVoBM8NpmV6QjmPfustv+zL3/+QQTqZ8HqppHHcdXghA01fHsCx
+        i01/b35NKFClSdQtzx1AlAAUomGp
+X-Google-Smtp-Source: APXvYqwZ/TuhsQQX5g1UTefE8oolZgRcMsjQZN09O6Z0XbT5P29kQ2ksD9VZFuxtVRipjkCc0YNJig==
+X-Received: by 2002:a1c:6502:: with SMTP id z2mr19548849wmb.119.1557859646098;
+        Tue, 14 May 2019 11:47:26 -0700 (PDT)
+Received: from [192.168.20.141] ([194.99.104.18])
+        by smtp.gmail.com with ESMTPSA id t18sm37501177wrg.19.2019.05.14.11.47.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 May 2019 11:47:25 -0700 (PDT)
+Cc:     Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Drake <drake@endlessm.com>,
+        Chris Chiu <chiu@endlessm.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+Subject: [PATCH v4 00/13] Support of ASUS TUF Gaming series laptops
+Message-ID: <c8cdb347-e206-76b2-0d43-546ef660ffb7@gmail.com>
+Date:   Tue, 14 May 2019 20:47:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi João, All,
+Hi,
 
-I've been helping a Fedora user debugging a problem where the backlight turns off and
-never turns on again with newer kernels:
-https://bugzilla.redhat.com/show_bug.cgi?id=1697069
+this is the fourth version of the patch series. 
 
-At this point I'm pretty sure this commit is the culprit:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=78f3ac76d9e5
+Changelog:
+v4:
+  * Rebase on for-next branch
+  * Extract local variable in patch 01
+  * Rename new method to "..._method3" and keep comma in struct declaration
+    in patch 03 (NOTE: the arg2 does not fit on same line by 1 character)
+  * Patch "Improve DSTS WMI method ID detection":
+    - sort local variables
+    - use dev_info
+    - separate changes to wmi module in an own patch
+    - rename method ID constants and fix comment capitalization
+  * "Support WMI event queue": split into separate refactoring and new
+    functionality patches, use dev_info as well
+  * "Organize code into sections": split out error handling refactoring
+  * "Enhance detection of thermal data": remove unreasonable refactoring
+    and just change the currently used condition
+  * "Control RGB keyboard backlight": removed, will be posted afterwards.
+    I will follow on the status of the multicolor framework, it does look
+    promising for this.
+  * Mark URL references with "Link:"
+  * Minor corrections to commit messages
+v3: 
+  * Use devm_* function in patch 01
+  * Detect DSTS/DCTS using _UID in patch 04
+  * Detect event queue by _UID as well in patch 05
+  * Rename poll function in patch 05
+  * Fix terminology in patches 09 and 10
+  * Correct commit messages
+v2:
+  * Fix logging
 
-The breakage happens between 4.20.4 and 4.20.5 and that commit is the only one
-standing out; and blacklisting eeepc-wmi fixes things.
+INTRODUCTION
+The support for this laptop series is currently non-existent, as the
+asus-nb-wmi driver (which is essentially configuration for asus-wmi) fails
+to load and multiple ACPI errors are logged in dmesg. This patch series
+adds pretty comprehensive support for these relatively new laptops, adds
+some code organization, and fixes a couple of bugs in the asus-wmi module.
 
-For now I'm going to add a new DMI quirk for this (patch for this will follow later)
-but this is something to keep in mind if we get more reports about backlight/display
-breakage on eeepc laptops. I'm thinking that maybe the new behavior introduced
-by commit 78f3ac76d9e5 should only be applied to laptops using
-asus-nb-wmi and not to laptop using eeepc-wmi (the code modified
-by the commit is common to both drivers).
+Thread for V1/V2: https://lkml.org/lkml/2019/4/10/973
+Thread for V3: https://lkml.org/lkml/2019/4/19/178
 
-João, can you check if the 11 models mentioned in the commit msg
-(or a bunch of similar models you have access too) are using asus-nb-wmi;
-or eeepc-wmi ?
+Yurii Pavlovskyi (13):
+  platform/x86: asus-wmi: Fix hwmon device cleanup
+  platform/x86: asus-wmi: Fix preserving keyboard backlight intensity on
+    load
+  platform/x86: asus-wmi: Increase input buffer size of WMI methods
+  platform/x86: wmi: Add function to get _UID of WMI device
+  platform/x86: asus-wmi: Improve DSTS WMI method ID detection
+  platform/x86: asus-wmi: Refactor WMI event handling
+  platform/x86: asus-wmi: Support WMI event queue
+  platform/x86: asus-nb-wmi: Add microphone mute key code
+  platform/x86: asus-wmi: Refactor error handling
+  platform/x86: asus-wmi: Organize code into sections
+  platform/x86: asus-wmi: Enhance detection of thermal data
+  platform/x86: asus-wmi: Switch fan boost mode
+  platform/x86: asus-wmi: Do not disable keyboard backlight on unloading
 
-Regards,
+ .../ABI/testing/sysfs-platform-asus-wmi       |  10 +
+ drivers/hid/hid-asus.c                        |   2 +-
+ drivers/platform/x86/asus-nb-wmi.c            |   3 +-
+ drivers/platform/x86/asus-wmi.c               | 427 ++++++++++++++----
+ drivers/platform/x86/wmi.c                    |  19 +
+ include/linux/acpi.h                          |   1 +
+ include/linux/platform_data/x86/asus-wmi.h    |   5 +-
+ 7 files changed, 374 insertions(+), 93 deletions(-)
 
-Hans
+-- 
+2.17.1
+
