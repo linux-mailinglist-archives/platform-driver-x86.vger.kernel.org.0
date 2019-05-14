@@ -2,53 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 188301CF75
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 May 2019 20:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D681CF7D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 May 2019 20:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727689AbfENSy5 (ORCPT
+        id S1727548AbfENS7H (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 May 2019 14:54:57 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41474 "EHLO
+        Tue, 14 May 2019 14:59:07 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43155 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727262AbfENSy5 (ORCPT
+        with ESMTP id S1727262AbfENS7G (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 May 2019 14:54:57 -0400
-Received: by mail-wr1-f67.google.com with SMTP id d12so20348764wrm.8;
-        Tue, 14 May 2019 11:54:55 -0700 (PDT)
+        Tue, 14 May 2019 14:59:06 -0400
+Received: by mail-wr1-f67.google.com with SMTP id r4so20375019wro.10;
+        Tue, 14 May 2019 11:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:cc:references:message-id:date:user-agent:mime-version
          :in-reply-to:content-language:content-transfer-encoding;
-        bh=1Vtv8vjo+k0fYAQaZ6ozljyJomIPXdJKSl6iEIq/F3I=;
-        b=ZB9BiPN3mcV8aYqzXsJCUdohCAJcs08wznHfJLne6ytAI+7YW66CB4j1QAr2ejeI24
-         ExZL6IRV+C9NnawmAZlpIK/w+So5zGRd6VfHyDgkMG1gDIi1O/9Wil+w9MaUBQUwaMDm
-         YxZDEcBtjD/rBBahOKUssDBN8r6QwXdvtgal8m0fK+Oda3fQb/DX6d33LuxI/f84JUbR
-         NpsTXTXY1+v2ehlxiFq3SCLUQdeHumdqOYZ9IkCKWB7lVKFOvRLh9oHOCL8q2JhRjdIy
-         7cjVS//GqEo3uZBcPcdZPtPh4rbydR3cGLI9okWOED7gY+DK/TBV4jbEdpZI/qx2/Aak
-         8XKQ==
+        bh=l9E2Hq9FLPs2R4k3v/109yiHwcmV7e1E97gP56BV7Ws=;
+        b=mMV13v3wYp7MeJP+JJbIIY9J6fwAq5WmMBPxNmmbBlBB6Gx3ZC8fn0Cmnri+Qjcxtm
+         EokZn6N8kNv7Qf7Kdul4pCvvg3/+Sp3BN6P+AAzp3cvdxVoYU8ZWsPK3kv+j55Taj7Cs
+         ZV9TFVy3CQEz4mUxB4WZmjSEtsu6U7OzTfHkdk3UJB0u8YnVw+mzcHk60MM4x3bFsgHs
+         ad2t43pqUV0H6qK2Y2xJlQqDlmYrGzZTLYf67VZt+4ALoQUfyWEb4/v1CkRSi1S9v+vp
+         q0xFR+SeYEl5DkZqLm60J1G0AD9QhtMpQFp6xGDH2IQearc0BqsxXTbPyzB2aH5V9H7r
+         VY8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1Vtv8vjo+k0fYAQaZ6ozljyJomIPXdJKSl6iEIq/F3I=;
-        b=YraSFOM3ruQDYKtXncObjgYGc3nI35eHPCuJNDNRy50ucI65UkNaOUQ8sZ6R9duza7
-         hTTHMTia9g4eWXfFOdxqIH5wTSkDn0iaSr9sKkLrLu6Vuepkumb22A/xjHguVzCDrqr3
-         v4GOsM9ROpZHP1C9kzFZlaxQ8QWhZzFKTCvaABlZv/ngwMlq9yn1BWruYrAXmzq2vdvf
-         L7bQyZltuwtoR9SYrsmxgGDkpM9iuGyIwYjBplqNrfDCNI+XwEyp8okmmxRK5dqI209F
-         eaobenUkQ0jxB/LuOm1IxUTARuIH//AqUH3w/aUvNLEUTFxkvRKpH457UNfLT2vKCveF
-         QJcg==
-X-Gm-Message-State: APjAAAVXTP99DOJ0EkUgqd1NRP5j+B+o2Dmqbxb1tNGuXwURSykmsKHA
-        op33O1R2JfSl4mc+uVSkEQa+yeBW
-X-Google-Smtp-Source: APXvYqwmzaWet/cwInE/bAm/HtJVcfbTml8/21zp+y0sovf2T8Cf+yRxZPqzQ9qNOVGsGvEv61ZE3g==
-X-Received: by 2002:a5d:6145:: with SMTP id y5mr12600574wrt.96.1557860095100;
-        Tue, 14 May 2019 11:54:55 -0700 (PDT)
+        bh=l9E2Hq9FLPs2R4k3v/109yiHwcmV7e1E97gP56BV7Ws=;
+        b=Vt+Rcr7fGjysIF5Lr8eeFipUMGepA+IOB+ua9QExwIR6P3Q/W0uJA+L3pTVv5D5uxB
+         lgNkW5kZ9zM5DTDscIBdV12SgAGAOXSSarsNECakMyoieP4W5+YvJFAs7FIMOhfqT22b
+         tIeJ2XG27B/81yPWOwjIgwiphOaVfGTGQVukG4keipanbh4Fizf3M02iS2Ia5gS6IRFf
+         N0Yg4IzZuRiD+kvFO7+HF2amhOcOJikmtKzqM6wKzXpnhO2dQk1Iqy35Pzvv38eCVJ+n
+         nIu6z2nd91a/fCu030QygOTC+dWEtUue+TcaB3TStKmBKyjAWYPmbIWrvKQkTgbHUxq5
+         88IQ==
+X-Gm-Message-State: APjAAAXrFR5iNb498+L7jJapN6AFc8i5vFO9SGcP5sSbqx+pZNoHNlEV
+        c0UEFDVAwktLqxnihdEHcpeqsrS41So=
+X-Google-Smtp-Source: APXvYqzIpS1v0F/fkPzu9k6g5HPhj2GoIeXfiNytHKhzM2h5jQ8M+SL7ngEBeIHCh1hOz0DT6t1diw==
+X-Received: by 2002:a5d:4f88:: with SMTP id d8mr4370508wru.34.1557860344753;
+        Tue, 14 May 2019 11:59:04 -0700 (PDT)
 Received: from [192.168.20.141] ([194.99.104.18])
-        by smtp.gmail.com with ESMTPSA id a6sm14168275wrp.49.2019.05.14.11.54.53
+        by smtp.gmail.com with ESMTPSA id a15sm23035106wru.88.2019.05.14.11.59.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 11:54:54 -0700 (PDT)
-Subject: [PATCH v4 03/13] platform/x86: asus-wmi: Increase input buffer size
- of WMI methods
+        Tue, 14 May 2019 11:59:04 -0700 (PDT)
+Subject: [PATCH v4 04/13] platform/x86: wmi: Add function to get _UID of WMI
+ device
 From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -56,10 +56,12 @@ Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Daniel Drake <drake@endlessm.com>,
         Chris Chiu <chiu@endlessm.com>,
         acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org
 References: <c8cdb347-e206-76b2-0d43-546ef660ffb7@gmail.com>
-Message-ID: <4613f54b-b6ba-c9ad-15ca-e43d440b9f63@gmail.com>
-Date:   Tue, 14 May 2019 20:54:50 +0200
+Message-ID: <35811fe2-7aac-aa3c-46dc-2bef515b0f47@gmail.com>
+Date:   Tue, 14 May 2019 20:59:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
@@ -73,99 +75,71 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The asus-nb-wmi driver is matched by WMI alias but fails to load on TUF
-Gaming series laptops producing multiple ACPI errors in the kernel log.
-
-The input buffer for WMI method invocation size is 2 dwords, whereas
-3 are expected by this model.
-
-FX505GM:
-..
-Method (WMNB, 3, Serialized)
+Add a new function to acpi.h / wmi.c that returns _UID of the ACPI WMI
+device. For example, it returns "ATK" for the following declaration in
+DSDT:
+Device (ATKD)
 {
-    P8XH (Zero, 0x11)
-    CreateDWordField (Arg2, Zero, IIA0)
-    CreateDWordField (Arg2, 0x04, IIA1)
-    CreateDWordField (Arg2, 0x08, IIA2)
-    Local0 = (Arg1 & 0xFFFFFFFF)
-    ...
+    Name (_HID, "PNP0C14" /* Windows Management Instrumentation Device */)
+      // _HID: Hardware ID
+    Name (_UID, "ATK")  // _UID: Unique ID
+    ..
 
-Compare with older K54C:
-...
-Method (WMNB, 3, NotSerialized)
-{
-    CreateDWordField (Arg2, 0x00, IIA0)
-    CreateDWordField (Arg2, 0x04, IIA1)
-    Local0 = (Arg1 & 0xFFFFFFFF)
-    ...
+Generally, it is possible that multiple PNP0C14 ACPI devices are present in
+the system as mentioned in the commit message of commit bff431e49ff5
+("ACPI: WMI: Add ACPI-WMI mapping driver").
 
-Increase buffer size to 3 dwords. No negative consequences of this change
-are expected, as the input buffer size is not verified. The original
-function is replaced by a wrapper for a new method passing value 0 for the
-last parameter. The new function will be used to control RGB keyboard
-backlight.
+Therefore the _UID is returned for a specific ACPI device that declares the
+given GUID, to which it is also mapped by other methods of wmi module.
 
 Signed-off-by: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 ---
-One of current kernel errors:
-ACPI BIOS Error (bug): AE_AML_BUFFER_LIMIT, Field [IIA2] at bit offset/
-	length 64/32 exceeds size of target Buffer (64 bits)
-	(20190215/dsopcode-203)
-[ 4528.573948] No Local Variables are initialized for Method [WMNB]
-[ 4528.573949] Initialized Arguments for Method [WMNB]:  (3 arguments
-	defined for method invocation)
-[ 4528.573950]   Arg0:   00000000bd1bea5a <Obj>
-	Integer 0000000000000000
-[ 4528.573952]   Arg1:   00000000d414dc53 <Obj>
-	Integer 000000004E464741
-[ 4528.573954]   Arg2:   00000000fcefea4b <Obj>
-	Buffer(8) F0 95 08 00 00 00 00 00
-[ 4528.573959] ACPI Error: Aborting method \_SB.ATKD.WMNB due to previous
-	error (AE_AML_BUFFER_LIMIT) (20190215/psparse-531)
-[ 4528.686425] asus-nb-wmi: probe of asus-nb-wmi failed with error -5
----
- drivers/platform/x86/asus-wmi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/platform/x86/wmi.c | 19 +++++++++++++++++++
+ include/linux/acpi.h       |  1 +
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 84d7fc6f941c..6b35c1f00a3e 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -98,6 +98,7 @@ static bool ashs_present(void)
- struct bios_args {
- 	u32 arg0;
- 	u32 arg1;
-+	u32 arg2; /* At least TUF Gaming series uses 3 dword input buffer. */
- } __packed;
- 
- /*
-@@ -224,11 +225,13 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
- 	asus->inputdev = NULL;
+diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+index 7b26b6ccf1a0..b08ffb769cbe 100644
+--- a/drivers/platform/x86/wmi.c
++++ b/drivers/platform/x86/wmi.c
+@@ -635,6 +635,25 @@ bool wmi_has_guid(const char *guid_string)
  }
+ EXPORT_SYMBOL_GPL(wmi_has_guid);
  
--int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
-+static int asus_wmi_evaluate_method3(u32 method_id,
-+		u32 arg0, u32 arg1, u32 arg2, u32 *retval)
- {
- 	struct bios_args args = {
- 		.arg0 = arg0,
- 		.arg1 = arg1,
-+		.arg2 = arg2,
- 	};
- 	struct acpi_buffer input = { (acpi_size) sizeof(args), &args };
- 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
-@@ -260,6 +263,11 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
- 
- 	return 0;
- }
-+
-+int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
++/**
++ * wmi_get_acpi_device_uid() - Get _UID name of ACPI device that defines GUID
++ * @guid_string: 36 char string of the form fa50ff2b-f2e8-45de-83fa-65417f2f49ba
++ *
++ * Find the _UID of ACPI device associated with this WMI GUID.
++ *
++ * Return: The ACPI _UID field value or NULL if the WMI GUID was not found
++ */
++char *wmi_get_acpi_device_uid(const char *guid_string)
 +{
-+	return asus_wmi_evaluate_method3(method_id, arg0, arg1, 0, retval);
++	struct wmi_block *wblock = NULL;
++
++	if (!find_guid(guid_string, &wblock))
++		return NULL;
++
++	return acpi_device_uid(wblock->acpi_device);
 +}
- EXPORT_SYMBOL_GPL(asus_wmi_evaluate_method);
++EXPORT_SYMBOL_GPL(wmi_get_acpi_device_uid);
++
+ static struct wmi_block *dev_to_wblock(struct device *dev)
+ {
+ 	return container_of(dev, struct wmi_block, dev.dev);
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index d5dcebd7aad3..d31c7fd66f97 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -376,6 +376,7 @@ extern acpi_status wmi_install_notify_handler(const char *guid,
+ extern acpi_status wmi_remove_notify_handler(const char *guid);
+ extern acpi_status wmi_get_event_data(u32 event, struct acpi_buffer *out);
+ extern bool wmi_has_guid(const char *guid);
++extern char *wmi_get_acpi_device_uid(const char *guid);
  
- static int asus_wmi_evaluate_method_agfn(const struct acpi_buffer args)
+ #endif	/* CONFIG_ACPI_WMI */
+ 
 -- 
 2.17.1
 
