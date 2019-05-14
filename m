@@ -2,101 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A79831CFA0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 May 2019 21:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1D591E547
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 May 2019 00:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfENTHu (ORCPT
+        id S1726461AbfENWm5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 May 2019 15:07:50 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39663 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbfENTHu (ORCPT
+        Tue, 14 May 2019 18:42:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35527 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726348AbfENWm5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 May 2019 15:07:50 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w8so3711wrl.6;
-        Tue, 14 May 2019 12:07:49 -0700 (PDT)
+        Tue, 14 May 2019 18:42:57 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h1so290023pgs.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 14 May 2019 15:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:cc:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=qn66etOm0a5xQIu8htrI+8Q6SfvX5qKGBW8UZZdluKk=;
-        b=raj+jxF5DpoWv0GMlZ/X5zUnAPvykosrsBJkIlHOqdz4SUaPZBnm6lBXUKaRUh4Bcx
-         lOZJfQG6N659pdZCfUEt+Yj/LpBw437H8sDocWFs3AQmWR9v/FawHzhYfUzs/ElLqk24
-         AmN9AR8dCVTjIuGwjGC7wfOJi83TF9QfpyOlYO6f6tTX43kaOj70okkEHc8saNDaXGZE
-         FMFAqum02glaCx+RahB1Szcsc9rlMuvVWzfHPPsaprdup8HaSjcxbBXXOtatFYYUIS67
-         6YEfQm8N8tMZtnMIcBaelFo9Oup8a14RKFB3Y8NFL3tUfOiI5drO1CpDtBx0iUV9e4Zj
-         +ZHA==
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gfMRsBSy1jiQcv1Chl7Qaa54Wl5696PJs/BYDhVbW3Y=;
+        b=Dheosl84gGKstsmLmbpWqzWvDCxkYVadWhttkNXAh/ji+24TPCGYOrfUuG5DjEl1en
+         ZFf041CnlfLQvm5R4EgjogqHhYOIlRo5MZouEcQaveuv1dOMKbtO18gUKPymYNnNX+dW
+         6PsBWqN++3z5FY8JCnEwUKszuN+EJ858/2xRuB077tkV/YWBq2te9nSP8/vKA5A5cv6h
+         b5BfxPT82tL6WOwd2uLJaoSFUoYxm4OhJkGgRajTGNkx77/6vnAWTy5iUttpS/hBnp3Z
+         aTencc6SBrAUmEwhnG3yNxC4d+WlqEaGbq3YForQ0zMoVmZ/TzLVBFVx8BoSRfFBsH9M
+         U//Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qn66etOm0a5xQIu8htrI+8Q6SfvX5qKGBW8UZZdluKk=;
-        b=YFarpzPzI7sk5Zw11b1FMEssJ9Vrs6NAXcvccmxEzUcFn91L5Yhv4kyrpxd+OWZL3u
-         +xaHdR5rJFr0BxbpNji+GdFA1hO3V0QAWM0nrQl2UptwQOX/PKJncMOV9/jLYTYCtua1
-         LoVz6NLMMVzP1M8VBfQpWnT5jiBufJGiFR44QsuASWeXZ+nn+tS6d5+oLVElocIC7ERT
-         oEkxPc5G+FDKjZUL0SfjsiPsZ+5wC5tknfXlnA3xrgnfCbNT/S1OqfqusVFjFwFG5oAi
-         e6VPJd4mNlaRmhhBtyxRkHXFI6pjVIpHcTBJ6c4UKg0WYbzPa/ZM1+zvGrtx3Z5L5hRL
-         drJQ==
-X-Gm-Message-State: APjAAAVbzWawOxUwkOxljQ/7fjbey0SC0mEp1jfV5t8rE0YrZoceNJRT
-        03gzliZNc75M0eQe85gqh03SUszC
-X-Google-Smtp-Source: APXvYqz9xlF4iNQcDCI1K1xUJwfzrXCi5cK9zKh/z3ZFsrO0zb/o14rfJTi4oRzv1JsDJRRkXAA74A==
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr10350000wro.253.1557860868811;
-        Tue, 14 May 2019 12:07:48 -0700 (PDT)
-Received: from [192.168.20.141] ([194.99.104.18])
-        by smtp.gmail.com with ESMTPSA id o4sm5650291wmo.20.2019.05.14.12.07.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 12:07:48 -0700 (PDT)
-Subject: [PATCH v4 13/13] platform/x86: asus-wmi: Do not disable keyboard
- backlight on unloading
-From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Daniel Drake <drake@endlessm.com>,
-        Chris Chiu <chiu@endlessm.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <c8cdb347-e206-76b2-0d43-546ef660ffb7@gmail.com>
-Message-ID: <8b24b62b-4271-1010-ca5f-2974088b1857@gmail.com>
-Date:   Tue, 14 May 2019 21:07:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gfMRsBSy1jiQcv1Chl7Qaa54Wl5696PJs/BYDhVbW3Y=;
+        b=U5h4TQ+jH+8vRQ1YQmCmzmAnUPD2c3p6+GBt5ZclqkXL6lnV9fh/58YIeTEUCXekhl
+         +Tr2KH75CR/Tg12g6iR5eLgdzfArLCzCxLqbagSbVvzsgqYeTEpxxPKugqGFxqF2GiW5
+         UJPg2F55ebT8w7KjfZUm/IAnxQUCJ6YInbn8m5R2lBgULQiAflGx+3RhZl9WvImOcA5U
+         O67Q+3eA82vD6WUprUoWY/f21OlkCX/+eF/cLPPbNr3i8q+7gCooMtht/j6y8vB1F4zb
+         3jlx2qsENbXopx3YCIPJsgEJWyFarNnd0LVCQl2bFtshaoBDW00L8HB4SKNwlFL66PZo
+         nWeg==
+X-Gm-Message-State: APjAAAUwdngr4avGcuD8SpCzsfS7vvDlNoOkRCey1EVqWNXFPkQXV4UY
+        2ZaeguPNDnvTqOm5r3I0dO7xXiz1twOt+bUTUdo7roIiYdA=
+X-Google-Smtp-Source: APXvYqxukrxp/yTUKE0PWkzDyeJy5qmGGDOIetZQ91K3Rf/U7qlMDep2GfkdHS2nUiuT9EJy4JsHWI/KMBabOCCTuZA=
+X-Received: by 2002:a62:6341:: with SMTP id x62mr42733537pfb.63.1557873776437;
+ Tue, 14 May 2019 15:42:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c8cdb347-e206-76b2-0d43-546ef660ffb7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <999f988f-63ce-ee29-6cb5-42d4bf94fdbe@redhat.com>
+In-Reply-To: <999f988f-63ce-ee29-6cb5-42d4bf94fdbe@redhat.com>
+From:   =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>
+Date:   Tue, 14 May 2019 15:42:45 -0700
+Message-ID: <CAOcMMif8wK-mtSLNsV9X07uR8D1TAt0aDKnCyNFpMQ1pRB3_vg@mail.gmail.com>
+Subject: Re: Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS
+ will handle the display off hotkey") causes broken display on Asus 1025C
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        sashal@kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        ben@decadent.org.uk, hackurx@gmail.com,
+        Linux Upstreaming Team <linux@endlessm.com>,
+        =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The keyboard backlight is automatically disabled when the module is
-unloaded as it is exposed as a ledclass device. Change this behavior to
-ignore setting brightness when the device is in unloading state.
+Hello Hans, thanks for reaching out.
 
-Signed-off-by: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Tue, May 14, 2019 at 1:23 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi Jo=C3=A3o, All,
+>
+> I've been helping a Fedora user debugging a problem where the backlight t=
+urns off and
+> never turns on again with newer kernels:
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D1697069
+>
+> At this point I'm pretty sure this commit is the culprit:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D78f3ac76d9e5
+>
+> The breakage happens between 4.20.4 and 4.20.5 and that commit is the onl=
+y one
+> standing out; and blacklisting eeepc-wmi fixes things.
+>
+> For now I'm going to add a new DMI quirk for this (patch for this will fo=
+llow later)
+> but this is something to keep in mind if we get more reports about backli=
+ght/display
+> breakage on eeepc laptops. I'm thinking that maybe the new behavior intro=
+duced
+> by commit 78f3ac76d9e5 should only be applied to laptops using
+> asus-nb-wmi and not to laptop using eeepc-wmi (the code modified
+> by the commit is common to both drivers).
+>
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index feb8d72fc3c5..0c330d6a5871 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -471,6 +471,10 @@ static void do_kbd_led_set(struct led_classdev *led_cdev, int value)
- static void kbd_led_set(struct led_classdev *led_cdev,
- 			enum led_brightness value)
- {
-+	/* Prevent disabling keyboard backlight on module unregister */
-+	if (led_cdev->flags & LED_UNREGISTERING)
-+		return;
-+
- 	do_kbd_led_set(led_cdev, value);
- }
- 
--- 
-2.17.1
+Actually there was another report from a user via private email with
+similar symptoms on a Asus Eee PC 1015BX -- no backlight after
+starting the kernel (probably after eeepc-wmi is probed) -- which I've
+been meaning to reply for a couple of weeks now, so I'm also cc'ing
+others involved in that thread. In that case the user was able to work
+around the problem by passing acpi_backlight=3Dvendor, just to add an
+extra datapoint.
 
+> Jo=C3=A3o, can you check if the 11 models mentioned in the commit msg
+> (or a bunch of similar models you have access too) are using asus-nb-wmi;
+> or eeepc-wmi ?
+>
+
+All of the 11 models where we saw this problem are using asus_nb_wmi:
+E203NAS, GL553VE, X441NC, X441UVK, X541UVK, X555DG, X555UB, X555UQ,
+X560UD, X570ZD, X705FD.
+
+Furthermore, from the 144 Asus models we have in our database at
+Endless, only 10 probe the eeepc_wmi module: D320SF-K, D415MT, D520MT,
+D640SA, D830MT, G11DF, V221ID, V272UN, ZN220IC-K, ZN241IC.
+
+6 out of these 10 also probe asus_nb_wmi: D640SA, G11DF, V221ID,
+V272UN, ZN220IC-K, ZN241IC.
+
+And the 4 that only probe eeepc_wmi are all desktop models: D320SF-K,
+D415MT, D520MT, D830MT.
+
+I agree with limiting this behavior to asus-nb-wmi only on mainline --
+it will still apply to the original affected hardware, and it is much
+better than keep updating a list of DMI quirks. We will also need to
+send it to a few linux-stable branches as well.
+
+Best regards,
+
+...........................................................................=
+...........
+
+Jo=C3=A3o Paulo Rechi Vita  |  Endless
