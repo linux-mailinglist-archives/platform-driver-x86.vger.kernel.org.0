@@ -2,116 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F4D1F519
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 May 2019 15:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FC91FBD4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 May 2019 22:54:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbfEONLo (ORCPT
+        id S1726410AbfEOUy1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 May 2019 09:11:44 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34838 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725977AbfEONLo (ORCPT
+        Wed, 15 May 2019 16:54:27 -0400
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:39676 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbfEOUy1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 May 2019 09:11:44 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E9ECAABC1;
-        Wed, 15 May 2019 13:11:42 +0000 (UTC)
-Date:   Wed, 15 May 2019 15:11:42 +0200
-Message-ID: <s5hk1erj20h.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     "Ayman Bagabas" <ayman.bagabas@gmail.com>
-Cc:     <alsa-devel@alsa-project.org>, "Hui Wang" <hui.wang@canonical.com>,
-        "Chris Chiu" <chiu@endlessm.com>,
-        "Daniel Drake" <drake@endlessm.com>,
-        "Jian-Hong Pan" <jian-hong@endlessm.com>,
-        "Andy Shevchenko" <andy@infradead.org>,
-        "Darren Hart" <dvhart@infradead.org>,
-        "Jaroslav Kysela" <perex@perex.cz>,
-        "Kailang Yang" <kailang@realtek.com>,
-        <linux-kernel@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>
+        Wed, 15 May 2019 16:54:27 -0400
+Received: by mail-yb1-f194.google.com with SMTP id x5so373631ybn.6;
+        Wed, 15 May 2019 13:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=zGQL9LsQuN8YbfL9CZrmVDIRemP16gWSExM1zmbLHfI=;
+        b=UX21WeiKiMm1amsk6NGUYy3M4Nti2lsSKl6MKM6BS+lq8NRd9Cr7qMEOD2LLK1Unmp
+         +0qIBD3Bu0wIMILU+QUtXS+zVtqx3xAcOYRfKUtgAAs98u3+RKt1NEnOf7K7mccokB6v
+         4R8Ajvm+/t44yfnuO+D4XwV+ZvqmjRXqcPSm1rcb/JX29aq+aT48bDyCq9JEZvDSypxj
+         W7MA3b5rC7eY0zKgS6RrDc6n0ZacL9Zk5E4nKCLs65ipLLQ77WAySqWcZfLxvf1wiO7I
+         2AL5pBX0Ouo49JzF4OzKP8R9tvEa3CrWmoAtqFbW0uoz6/wPQ1vK9GrB1wy67ugnCj64
+         5Xdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=zGQL9LsQuN8YbfL9CZrmVDIRemP16gWSExM1zmbLHfI=;
+        b=tcnWCtZu74H43TKKxevglzmkUsST3oXpiltkkbfk88GLp3Mq2m7POukARLeOhcmBVz
+         fuJ3AvTkOKWUC5cMAToTytpCzL1xC6JpbAGsAvO/zdBzBangutt1Sq0SDE/3mK33ASG/
+         bsHZMX4Z2HvRvLQ3vBY2xFE6uMEVL1cdTvC5Mf1UgWzcaVrWVMryirfx3do8vPkR0VEq
+         dBfermx1VbuKtVn/8XwypSMiRpIIMNax5WxG+8vmol8+bPtMGDE/S5XfO6/Z/gTlu+Sa
+         8FEQrYbVpQYlMJg+ttvi9dluFSbyNIfeGSMdhL9uGq4RiLabGjFB4xSLPpUlMYbpkn4N
+         IStA==
+X-Gm-Message-State: APjAAAUn0ac+UUZUCWGHfKGH6x20Fyhhbvf4BSaR/4bwUoPjFvTDJqaL
+        miuVZ6VWrKnBQklSTRkB3A==
+X-Google-Smtp-Source: APXvYqzRu8lyusD1DkMs23H3rduOlPrjafvFoOkpVG/6eiGHgJpgXgdz7GFWvCdaL01XydqdltxUuw==
+X-Received: by 2002:a25:e687:: with SMTP id d129mr20151432ybh.475.1557953665967;
+        Wed, 15 May 2019 13:54:25 -0700 (PDT)
+Received: from 960 ([69.41.96.247])
+        by smtp.gmail.com with ESMTPSA id 75sm1065562ywp.64.2019.05.15.13.54.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 15 May 2019 13:54:25 -0700 (PDT)
+Message-ID: <39f32949f84185c87b245b594131824b1865d1ee.camel@gmail.com>
 Subject: Re: [PATCH v1 2/2] sound: Enable micmute led for Huawei laptops
-In-Reply-To: <20190513203009.28686-3-ayman.bagabas@gmail.com>
+From:   ayman.bagabas@gmail.com
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     alsa-devel@alsa-project.org, Hui Wang <hui.wang@canonical.com>,
+        Chris Chiu <chiu@endlessm.com>,
+        Daniel Drake <drake@endlessm.com>,
+        Jian-Hong Pan <jian-hong@endlessm.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Kailang Yang <kailang@realtek.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Date:   Wed, 15 May 2019 16:54:23 -0400
+In-Reply-To: <s5hk1erj20h.wl-tiwai@suse.de>
 References: <20190513203009.28686-1-ayman.bagabas@gmail.com>
-        <20190513203009.28686-3-ayman.bagabas@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
- FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
- (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
-Content-Type: text/plain; charset=US-ASCII
+         <20190513203009.28686-3-ayman.bagabas@gmail.com>
+         <s5hk1erj20h.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 13 May 2019 22:30:06 +0200,
-Ayman Bagabas wrote:
+On Wed, 2019-05-15 at 15:11 +0200, Takashi Iwai wrote:
+> On Mon, 13 May 2019 22:30:06 +0200,
+> Ayman Bagabas wrote:
+> > Since this LED is found on huawei laptops, we can hook it to
+> > huawei-wmi platform driver which uses the common WMI interface
+> > present
+> > in these laptops to control the LED.
+> > 
+> > I've also made some renames and used product name instead of common
+> > name
+> > to avoid confusion.
+> > 
+> > Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
 > 
-> Since this LED is found on huawei laptops, we can hook it to
-> huawei-wmi platform driver which uses the common WMI interface present
-> in these laptops to control the LED.
+> This looks applicable independently from the patch 1?
+> If so, it can go via sound git tree while another via x86-platform
+> tree.
 > 
-> I've also made some renames and used product name instead of common name
-> to avoid confusion.
-> 
-> Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
 
-This looks applicable independently from the patch 1?
-If so, it can go via sound git tree while another via x86-platform
-tree.
+Yes it is. Will send another one.
 
-
-thanks,
-
-Takashi
-
-> ---
->  sound/pci/hda/patch_realtek.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 42cd3945e0de..3661470766ba 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -5684,7 +5684,7 @@ enum {
->  	ALC298_FIXUP_TPT470_DOCK,
->  	ALC255_FIXUP_DUMMY_LINEOUT_VERB,
->  	ALC255_FIXUP_DELL_HEADSET_MIC,
-> -	ALC256_FIXUP_HUAWEI_MBXP_PINS,
-> +	ALC256_FIXUP_HUAWEI_MACH_WX9_PINS,
->  	ALC295_FIXUP_HP_X360,
->  	ALC221_FIXUP_HP_HEADSET_MIC,
->  	ALC285_FIXUP_LENOVO_HEADPHONE_NOISE,
-> @@ -5975,7 +5975,7 @@ static const struct hda_fixup alc269_fixups[] = {
->  		.chained = true,
->  		.chain_id = ALC269_FIXUP_HEADSET_MIC
->  	},
-> -	[ALC256_FIXUP_HUAWEI_MBXP_PINS] = {
-> +	[ALC256_FIXUP_HUAWEI_MACH_WX9_PINS] = {
->  		.type = HDA_FIXUP_PINS,
->  		.v.pins = (const struct hda_pintbl[]) {
->  			{0x12, 0x90a60130},
-> @@ -6996,9 +6996,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x511f, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
->  	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
->  	SND_PCI_QUIRK(0x17aa, 0x9e54, "LENOVO NB", ALC269_FIXUP_LENOVO_EAPD),
-> -	SND_PCI_QUIRK(0x19e5, 0x3200, "Huawei MBX", ALC255_FIXUP_MIC_MUTE_LED),
-> -	SND_PCI_QUIRK(0x19e5, 0x3201, "Huawei MBX", ALC255_FIXUP_MIC_MUTE_LED),
-> -	SND_PCI_QUIRK(0x19e5, 0x3204, "Huawei MBXP", ALC256_FIXUP_HUAWEI_MBXP_PINS),
-> +	SND_PCI_QUIRK(0x19e5, 0x3204, "Huawei MACH-WX9", ALC256_FIXUP_HUAWEI_MACH_WX9_PINS),
->  	SND_PCI_QUIRK(0x1b7d, 0xa831, "Ordissimo EVE2 ", ALC269VB_FIXUP_ORDISSIMO_EVE2), /* Also known as Malata PC-B1303 */
->  
->  #if 0
-> @@ -7057,6 +7055,7 @@ static const struct snd_pci_quirk alc269_fixup_vendor_tbl[] = {
->  	SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED),
->  	SND_PCI_QUIRK_VENDOR(0x104d, "Sony VAIO", ALC269_FIXUP_SONY_VAIO),
->  	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", ALC269_FIXUP_THINKPAD_ACPI),
-> +	SND_PCI_QUIRK_VENDOR(0x19e5, "Huawei Matebook", ALC255_FIXUP_MIC_MUTE_LED),
->  	{}
->  };
->  
-> -- 
-> 2.20.1
+> thanks,
 > 
+> Takashi
 > 
+
