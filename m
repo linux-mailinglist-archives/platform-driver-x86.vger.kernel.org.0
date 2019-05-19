@@ -2,135 +2,190 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB551221DA
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 18 May 2019 08:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF6FC227A8
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 May 2019 19:23:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728813AbfERGfF (ORCPT
+        id S1726436AbfESRXj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 18 May 2019 02:35:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725268AbfERGfE (ORCPT
+        Sun, 19 May 2019 13:23:39 -0400
+Received: from ampleforth.srv.alexanderweb.de ([37.187.38.226]:58294 "EHLO
+        ampleforth.srv.alexanderweb.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726079AbfESRXi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 18 May 2019 02:35:04 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D209D20848;
-        Sat, 18 May 2019 06:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558161304;
-        bh=cbQxEDUMUnjV9fqBk/G2W8OaeEiXUXJBn48F5Pv0RZE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zt0DxaB5vYVAeOnL6lXWGix86p0MB8+VBuFNEzcxsIgaYPvsMxtfO1YoeL4zRgctT
-         H9BIiQcvRlOtTWZBge0I8vp1uzb4eglga8xXeaVbA1Gx/Uz7BxdUZXRjuPggwmqgcU
-         nAPWU2uQ1vViLsTVK14KdMKxMqDJnx9FwKfRo1EQ=
-Date:   Sat, 18 May 2019 08:35:01 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Liming Sun <lsun@mellanox.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
+        Sun, 19 May 2019 13:23:38 -0400
+X-Greylist: delayed 1200 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 May 2019 13:23:37 EDT
+Received: from aftr-37-201-227-26.unity-media.net ([37.201.227.26] helo=tuxpaddy.alexanderweb.homeip.net)
+        by ampleforth.srv.alexanderweb.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <alex@alexanderweb.de>)
+        id 1hSOxT-0003T2-Mp; Sun, 19 May 2019 18:46:47 +0200
+Received: from alexander by tuxpaddy.alexanderweb.homeip.net with local (Exim 4.92)
+        (envelope-from <alex@alexanderweb.de>)
+        id 1hSOxT-00005q-An; Sun, 19 May 2019 18:46:47 +0200
+From:   Alexander Schremmer <alex@alexanderweb.de>
+To:     alex@alexanderweb.de, Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: Re: [PATCH v5 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI
- definitions
-Message-ID: <20190518063501.GA26163@kroah.com>
-References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
- <1558115345-32476-2-git-send-email-lsun@mellanox.com>
- <20190517175926.GA24535@kroah.com>
- <DB6PR05MB32235A6F891E438131471CE2A10B0@DB6PR05MB3223.eurprd05.prod.outlook.com>
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] Add Lenovo PrivacyGuard feature found in T480s, T490, T490s
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB6PR05MB32235A6F891E438131471CE2A10B0@DB6PR05MB3223.eurprd05.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <E1hSOxT-00005q-An@tuxpaddy.alexanderweb.homeip.net>
+Date:   Sun, 19 May 2019 18:46:47 +0200
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 17, 2019 at 08:36:53PM +0000, Liming Sun wrote:
-> Thanks Greg for the comments!  Please see my response inline.
-> 
-> Regards,
-> - Liming
-> 
-> > -----Original Message-----
-> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Sent: Friday, May 17, 2019 1:59 PM
-> > To: Liming Sun <lsun@mellanox.com>
-> > Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>; David
-> > Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org; David S. Miller
-> > <davem@davemloft.net>; Mauro Carvalho Chehab <mchehab+samsung@kernel.org>; Jonathan Cameron
-> > <Jonathan.Cameron@huawei.com>; Nicolas Ferre <nicolas.ferre@microchip.com>; Paul E. McKenney <paulmck@linux.ibm.com>
-> > Subject: Re: [PATCH v5 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI definitions
-> > 
-> > On Fri, May 17, 2019 at 01:49:05PM -0400, Liming Sun wrote:
-> > > This commit adds the ABI definitions exposed to userspace for
-> > > the platform/mellanox/mlxbf-bootctl driver.
-> > >
-> > > Reviewed-by: Vadim Pasternak <vadimp@mellanox.com>
-> > > Signed-off-by: Liming Sun <lsun@mellanox.com>
-> > > ---
-> > >  .../ABI/testing/sysfs-platform-mellanox-bootctl    | 58 ++++++++++++++++++++++
-> > >  MAINTAINERS                                        |  1 +
-> > >  2 files changed, 59 insertions(+)
-> > >  create mode 100644 Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-
-> > bootctl
-> > > new file mode 100644
-> > > index 0000000..19a14db
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-> > > @@ -0,0 +1,58 @@
-> > > +What:		/sys/bus/platform/drivers/mlxbf-bootctl/lifecycle_state
-> > > +Date:		May 2019
-> > > +KernelVersion:	5.3
-> > > +Contact:	"Liming Sun <lsun@mellanox.com>"
-> > > +Description:
-> > > +		The Life-cycle state of the SoC, which could be one of the
-> > > +		following values.
-> > > +		  Production - Production state and can be updated to secure
-> > > +		  GA Secured - Secure chip and not able to change state
-> > > +		  GA Non-Secured - Non-Secure chip and not able to change state
-> > > +		  RMA - Return Merchandise Authorization
-> > 
-> > A "driver" does not have a lifecycle state, a "device" does.
-> > 
-> > You are putting all of these attributes in the wrong place.  Put them on
-> > your device please, not the driver.  driver-specific attributes are
-> > _VERY_ rare, and only for things that can modify/show for all devices
-> > attached to that driver.
-> 
-> This driver is running on the ARM processor of the SoC. The 'device' is
-> the SoC itself. That's to say, there is only one device here attached to
-> the driver and the driver state will also be the device state.
+From 6bfe30cae2be3f4fbe9f9990a4e83302569ff7e9 Mon Sep 17 00:00:00 2001
+From: Alexander Schremmer <alex@alexanderweb.de>
+Date: Sun, 19 May 2019 18:13:05 +0200
+Subject: [PATCH] platform/x86: Add Lenovo ThinkPad PrivacyGuard.
 
-That might be true today, but maybe not tomorrow :)
+This feature is found optionally in T480s, T490, T490s.
 
-Anyway, again, this is device state, not driver state.
+The feature is called lcdshadow and visible via
+/proc/acpi/ibm/lcdshadow.
 
-> This interface has been used by user-space applications for a couple of
-> releases. It'll be great if it could stay in such way for compatibility. Please
-> advise if this is strongly preferred to move them under devices.
+The ACPI methods \_SB.PCI0.LPCB.EC.HKEY.{GSSS,SSSS,TSSS,CSSS} are
+available in these machines. They get, set, toggle or change the state
+apparently.
 
-So this is code that is already in the tree, and is just now being
-documented?  What .c file(s) is this referring to?
+The patch was tested on a 5.0 series kernel on a T480s.
 
-As for "comptability", sysfs is made such that if a file is not present,
-userspace should be able to survive, that is why it is
-one-value-per-file.  What tool is using this, and where is the source
-for it?
+Signed-off-by: Alexander Schremmer <alex@alexanderweb.de>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 108 +++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
-thanks,
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 71cfaf26efd1..f2603643b067 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -9729,6 +9729,110 @@ static struct ibm_struct battery_driver_data = {
+ 	.exit = tpacpi_battery_exit,
+ };
+ 
++/*************************************************************************
++ * LCD Shadow subdriver, for the Lenovo PrivacyGuard feature
++ */
++
++
++static int lcdshadow_state;
++
++static int lcdshadow_on_off(bool state)
++{
++	acpi_handle set_shadow_handle;
++	int output;
++
++	if (ACPI_FAILURE(acpi_get_handle(
++					hkey_handle,
++					"SSSS",
++					&set_shadow_handle))) {
++		pr_warn("Thinkpad ACPI has no %s interface.\n", "SSSS");
++		return -EIO;
++	}
++
++	if (!acpi_evalf(set_shadow_handle, &output, NULL, "dd", (int)state))
++		return -EIO;
++
++	lcdshadow_state = state;
++	return 0;
++}
++
++static int lcdshadow_set(bool on)
++{
++	if (lcdshadow_state < 0 || lcdshadow_state == on)
++		return lcdshadow_state;
++	return lcdshadow_on_off(on);
++}
++
++static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
++{
++	acpi_handle get_shadow_handle;
++	int output;
++
++	if (ACPI_FAILURE(acpi_get_handle(
++					hkey_handle,
++					"GSSS",
++					&get_shadow_handle))) {
++		lcdshadow_state = -ENODEV;
++		return 0;
++	}
++
++	if (!acpi_evalf(get_shadow_handle, &output, NULL, "dd", 0))
++		return -EIO;
++	if (!(output & 0x10000)) {
++		lcdshadow_state = -ENODEV;
++		return 0;
++	}
++	lcdshadow_state = output & 0x1;
++
++	return 0;
++}
++
++static void lcdshadow_resume(void)
++{
++	if (lcdshadow_state >= 0)
++		lcdshadow_on_off(lcdshadow_state);
++}
++
++static int lcdshadow_read(struct seq_file *m)
++{
++	if (lcdshadow_state < 0) {
++		seq_puts(m, "status:\t\tnot supported\n");
++	} else {
++		seq_printf(m, "status:\t\t%d\n", lcdshadow_state);
++		seq_puts(m, "commands:\t0, 1\n");
++	}
++
++	return 0;
++}
++
++static int lcdshadow_write(char *buf)
++{
++	char *cmd;
++	int state = -1;
++
++	if (lcdshadow_state < 0)
++		return -ENODEV;
++
++	while ((cmd = next_cmd(&buf))) {
++		if (strlencmp(cmd, "0") == 0)
++			state = 0;
++		else if (strlencmp(cmd, "1") == 0)
++			state = 1;
++	}
++
++	if (state == -1)
++		return -EINVAL;
++
++	return lcdshadow_set(state);
++}
++
++static struct ibm_struct lcdshadow_driver_data = {
++	.name = "lcdshadow",
++	.resume = lcdshadow_resume,
++	.read = lcdshadow_read,
++	.write = lcdshadow_write,
++};
++
+ /****************************************************************************
+  ****************************************************************************
+  *
+@@ -10210,6 +10314,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_battery_init,
+ 		.data = &battery_driver_data,
+ 	},
++	{
++		.init = tpacpi_lcdshadow_init,
++		.data = &lcdshadow_driver_data,
++	},
+ };
+ 
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+-- 
+2.20.1
 
-greg k-h
