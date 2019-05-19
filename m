@@ -2,190 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF6FC227A8
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 May 2019 19:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90AC622875
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 May 2019 20:53:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbfESRXj (ORCPT
+        id S1727007AbfESSxK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 19 May 2019 13:23:39 -0400
-Received: from ampleforth.srv.alexanderweb.de ([37.187.38.226]:58294 "EHLO
-        ampleforth.srv.alexanderweb.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726079AbfESRXi (ORCPT
+        Sun, 19 May 2019 14:53:10 -0400
+Received: from mail-pg1-f176.google.com ([209.85.215.176]:41622 "EHLO
+        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbfESSxK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 19 May 2019 13:23:38 -0400
-X-Greylist: delayed 1200 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 May 2019 13:23:37 EDT
-Received: from aftr-37-201-227-26.unity-media.net ([37.201.227.26] helo=tuxpaddy.alexanderweb.homeip.net)
-        by ampleforth.srv.alexanderweb.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <alex@alexanderweb.de>)
-        id 1hSOxT-0003T2-Mp; Sun, 19 May 2019 18:46:47 +0200
-Received: from alexander by tuxpaddy.alexanderweb.homeip.net with local (Exim 4.92)
-        (envelope-from <alex@alexanderweb.de>)
-        id 1hSOxT-00005q-An; Sun, 19 May 2019 18:46:47 +0200
-From:   Alexander Schremmer <alex@alexanderweb.de>
-To:     alex@alexanderweb.de, Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        ibm-acpi-devel@lists.sourceforge.net,
+        Sun, 19 May 2019 14:53:10 -0400
+Received: by mail-pg1-f176.google.com with SMTP id z3so5675930pgp.8
+        for <platform-driver-x86@vger.kernel.org>; Sun, 19 May 2019 11:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=TNnjeELo4GNqt+YzJomIPPrL7DBsp/1lWPLSO518CPw=;
+        b=YrNVzDYy03/xNjL+VX0o6xWqoOG9s3BX8yCx7j7Bm99iPl1tbIKXnJ/d1SgP9HYJ6Q
+         GO+EQ8bHHvjc6HU66OGMBQnC0ya63yx3fScGcTHHedcBR8t4HUDJBGgdTYZM1n4XDqU8
+         omqvmwefsDA1mR0R5GLTixGLqIK39ft71zY2TdRvThaxmRk7PAcImT340N0hAjo3YoE9
+         EAIWhSJU4nHEOLPYSVeJ2EtYEaAlgaUdiw0BJWWG3SpsB3AnbLXzd7vA4MS0kV3y6wPN
+         pT/gSn+ca3Ki5MS74vdCiDsx52/ie6757KvFz9iCF0C4SmhRwJ+eF+ghbyBXw+DSDHJW
+         MZNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=TNnjeELo4GNqt+YzJomIPPrL7DBsp/1lWPLSO518CPw=;
+        b=D9TYkqhwn2VmVBGoNwA/MUa3lWoObG9Hu//0JzWmQutmtkdVxkryapjrEOfAviUrn9
+         cOnYI+z0intrzubxZaXWnjk36q3psNOw4BXupwyqktbZn9YhhoY+PFTnaR3+wIoOrVZ/
+         ogOgVPCPMdTdwmZMq7KbsNzr/ScW4/D5cqLuLJ3RsqcscoRKmBFYpdqPnMQ+qsZKOCSy
+         IvxYsm/s7ZaqPpC5VVchwjPxVofsZGNGpa9hCVG512aF+js6xfh4ZiWqpJeGYoYvXYVx
+         Z0QQqnEoXrkljgCN+ZGb5Qru2BUJ3m87i8DGLnJHGEOOBGY5YkZm9UEw/JcicsmGMSkY
+         OnGQ==
+X-Gm-Message-State: APjAAAU1M9DK8lykQ7ntG6uH9RiqQpZxHRYBYTT8LPYU/QFzYFxvCLzQ
+        B7i+Dsf5P2pzFVOR1//UgHxiFiog
+X-Google-Smtp-Source: APXvYqxxMW52lgotxeg2iPfyv0zLlLsHLQhkUJVwCH6eksFCttHJt3F0hekSdSddj+43KqN0Y3AkHA==
+X-Received: by 2002:aa7:8f22:: with SMTP id y2mr63912088pfr.22.1558291988992;
+        Sun, 19 May 2019 11:53:08 -0700 (PDT)
+Received: from ?IPv6:2600:6c50:427f:e8c2::c8b? (2600-6c50-427f-e8c2-0000-0000-0000-0c8b.dhcp6.chtrptr.net. [2600:6c50:427f:e8c2::c8b])
+        by smtp.googlemail.com with ESMTPSA id i12sm18811887pfd.33.2019.05.19.11.53.07
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sun, 19 May 2019 11:53:08 -0700 (PDT)
+To:     ibm-acpi@hmh.eng.br
+Cc:     ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH] Add Lenovo PrivacyGuard feature found in T480s, T490, T490s
+From:   Kevin Slagle <kjslag@gmail.com>
+Subject: second fan control on ThinkPad X1 Extreme laptop
+Message-ID: <dbae0274-9430-eb94-06a4-7a1f9ffef6de@gmail.com>
+Date:   Sun, 19 May 2019 11:53:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <E1hSOxT-00005q-An@tuxpaddy.alexanderweb.homeip.net>
-Date:   Sun, 19 May 2019 18:46:47 +0200
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From 6bfe30cae2be3f4fbe9f9990a4e83302569ff7e9 Mon Sep 17 00:00:00 2001
-From: Alexander Schremmer <alex@alexanderweb.de>
-Date: Sun, 19 May 2019 18:13:05 +0200
-Subject: [PATCH] platform/x86: Add Lenovo ThinkPad PrivacyGuard.
+Hello,
 
-This feature is found optionally in T480s, T490, T490s.
+I have a ThinkPad X1 Extreme laptop running Arch Linux and I can only 
+control one of the two fans using /proc/acpi/ibm/fan. It would be nice 
+to control both fans. According to a couple nvidia forum posts [1] [2], 
+I think this issue needs to be fixed in the thinkpad-acpi driver. It 
+seems the issue was recently fixed for the P50 [3], but might still also 
+affect the P51 and P52 [1]. I can help test patches for the ThinkPad X1 
+Extreme.
 
-The feature is called lcdshadow and visible via
-/proc/acpi/ibm/lcdshadow.
+[1] 
+https://devtalk.nvidia.com/default/topic/1048624/linux/how-to-set-gpu-fan-speed/post/5321818/#5321818
+[2] 
+https://devtalk.nvidia.com/default/topic/1052110/linux/can-t-control-gtx-1050-ti-max-q-fan-on-thinkpad-x1-extreme-laptop/post/5340658/#5340658
+[3] https://lkml.org/lkml/2018/4/2/392
 
-The ACPI methods \_SB.PCI0.LPCB.EC.HKEY.{GSSS,SSSS,TSSS,CSSS} are
-available in these machines. They get, set, toggle or change the state
-apparently.
-
-The patch was tested on a 5.0 series kernel on a T480s.
-
-Signed-off-by: Alexander Schremmer <alex@alexanderweb.de>
----
- drivers/platform/x86/thinkpad_acpi.c | 108 +++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 71cfaf26efd1..f2603643b067 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -9729,6 +9729,110 @@ static struct ibm_struct battery_driver_data = {
- 	.exit = tpacpi_battery_exit,
- };
- 
-+/*************************************************************************
-+ * LCD Shadow subdriver, for the Lenovo PrivacyGuard feature
-+ */
-+
-+
-+static int lcdshadow_state;
-+
-+static int lcdshadow_on_off(bool state)
-+{
-+	acpi_handle set_shadow_handle;
-+	int output;
-+
-+	if (ACPI_FAILURE(acpi_get_handle(
-+					hkey_handle,
-+					"SSSS",
-+					&set_shadow_handle))) {
-+		pr_warn("Thinkpad ACPI has no %s interface.\n", "SSSS");
-+		return -EIO;
-+	}
-+
-+	if (!acpi_evalf(set_shadow_handle, &output, NULL, "dd", (int)state))
-+		return -EIO;
-+
-+	lcdshadow_state = state;
-+	return 0;
-+}
-+
-+static int lcdshadow_set(bool on)
-+{
-+	if (lcdshadow_state < 0 || lcdshadow_state == on)
-+		return lcdshadow_state;
-+	return lcdshadow_on_off(on);
-+}
-+
-+static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
-+{
-+	acpi_handle get_shadow_handle;
-+	int output;
-+
-+	if (ACPI_FAILURE(acpi_get_handle(
-+					hkey_handle,
-+					"GSSS",
-+					&get_shadow_handle))) {
-+		lcdshadow_state = -ENODEV;
-+		return 0;
-+	}
-+
-+	if (!acpi_evalf(get_shadow_handle, &output, NULL, "dd", 0))
-+		return -EIO;
-+	if (!(output & 0x10000)) {
-+		lcdshadow_state = -ENODEV;
-+		return 0;
-+	}
-+	lcdshadow_state = output & 0x1;
-+
-+	return 0;
-+}
-+
-+static void lcdshadow_resume(void)
-+{
-+	if (lcdshadow_state >= 0)
-+		lcdshadow_on_off(lcdshadow_state);
-+}
-+
-+static int lcdshadow_read(struct seq_file *m)
-+{
-+	if (lcdshadow_state < 0) {
-+		seq_puts(m, "status:\t\tnot supported\n");
-+	} else {
-+		seq_printf(m, "status:\t\t%d\n", lcdshadow_state);
-+		seq_puts(m, "commands:\t0, 1\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static int lcdshadow_write(char *buf)
-+{
-+	char *cmd;
-+	int state = -1;
-+
-+	if (lcdshadow_state < 0)
-+		return -ENODEV;
-+
-+	while ((cmd = next_cmd(&buf))) {
-+		if (strlencmp(cmd, "0") == 0)
-+			state = 0;
-+		else if (strlencmp(cmd, "1") == 0)
-+			state = 1;
-+	}
-+
-+	if (state == -1)
-+		return -EINVAL;
-+
-+	return lcdshadow_set(state);
-+}
-+
-+static struct ibm_struct lcdshadow_driver_data = {
-+	.name = "lcdshadow",
-+	.resume = lcdshadow_resume,
-+	.read = lcdshadow_read,
-+	.write = lcdshadow_write,
-+};
-+
- /****************************************************************************
-  ****************************************************************************
-  *
-@@ -10210,6 +10314,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
- 		.init = tpacpi_battery_init,
- 		.data = &battery_driver_data,
- 	},
-+	{
-+		.init = tpacpi_lcdshadow_init,
-+		.data = &lcdshadow_driver_data,
-+	},
- };
- 
- static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
--- 
-2.20.1
-
+thanks!
+Kevin
