@@ -2,147 +2,174 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06CE524104
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 May 2019 21:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C665C23C92
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 May 2019 17:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725372AbfETTSd (ORCPT
+        id S2391542AbfETPx3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 May 2019 15:18:33 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:49096 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725902AbfETTSd (ORCPT
+        Mon, 20 May 2019 11:53:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33294 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732739AbfETPx2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 May 2019 15:18:33 -0400
-X-Greylist: delayed 13074 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 15:18:32 EDT
-Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4KFeAtY025207;
-        Mon, 20 May 2019 11:40:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=mOjOVxgcejFl/WDind0ZveLYCA7TQeGWu/4jmKsfGS8=;
- b=uS1XjUKAwSpF549rIymaDWLiUJyDk3noc2/xJ/raO/Qu7cQ9HJLFa2WwsouDLrHyZqzX
- LMjMbj3UJ3X0qxAUOBgzvsoA2oRPLo0ILtJ2ihxCxlrTDtVaS/EJCSwdTjvZXXmThzp/
- 5HGvTsJMG2Y/NMjNoEXyv152jCZQdufKhyGvoBMRH301J1BOEpH21bhRGf58UDOiKUaH
- OL1oXK+ot6YBCw89lvp8WA5MIQe9WZv1n3dmqeNAfaQX31kSeWCAIPkHQRkq2a1bJWIR
- jiDWCmxmY2HePN0GUFGnashgYZS2LCtC2oPPgTzRb/kao+Z/u1HnKq/keI8kTKvcxi4b zw== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0a-00154904.pphosted.com with ESMTP id 2sjd444nv8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 20 May 2019 11:40:37 -0400
-Received: from pps.filterd (m0142693.ppops.net [127.0.0.1])
-        by mx0a-00154901.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4KFc8n1085318;
-        Mon, 20 May 2019 11:40:37 -0400
-Received: from ausxipps301.us.dell.com (ausxipps301.us.dell.com [143.166.148.223])
-        by mx0a-00154901.pphosted.com with ESMTP id 2skxgxrrkv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 May 2019 11:40:37 -0400
-X-LoopCount0: from 10.166.132.134
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="340212726"
-From:   <Mario.Limonciello@dell.com>
-To:     <mathewk@chromium.org>, <linux-kernel@vger.kernel.org>
-CC:     <acelan.kao@canonical.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>
-Subject: RE: [PATCH] platform/x86: intel-vbtn: Report switch events when event
- wakes device
-Thread-Topic: [PATCH] platform/x86: intel-vbtn: Report switch events when
- event wakes device
-Thread-Index: AQHVDDI6B2xG1URud0uFVvgshAA3U6Z0LBvw
-Date:   Mon, 20 May 2019 15:40:34 +0000
-Message-ID: <d2dac2d720574c58bb0d273809f46cf9@AUSX13MPC105.AMER.DELL.COM>
-References: <20190516215615.261258-1-mathewk@chromium.org>
-In-Reply-To: <20190516215615.261258-1-mathewk@chromium.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.143.242.75]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 20 May 2019 11:53:28 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DAA062171F;
+        Mon, 20 May 2019 15:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558367607;
+        bh=ac1b1jCxLjY2FZmceWcc+JaCxsTCvtllKwsgmNg1va8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Xo4ZHT4ml6AeVQ6aPR0ZrojY+F5puItLp/Mpg85/Y29AxD13EHRmJHLfOoXfHRLbA
+         snfUyh6yWOzFoqp9Drcl803jpNQOI6/7jhVwByE92ud2sbYgzI8xPY4q1/Zd0x8gX4
+         EWLK5X/UpCJkRZEpJhAiID4sjmSRv+eFU/Y59MAU=
+Date:   Mon, 20 May 2019 17:53:25 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Liming Sun <lsun@mellanox.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        David Woods <dwoods@mellanox.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: Re: [PATCH v5 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI
+ definitions
+Message-ID: <20190520155325.GA13939@kroah.com>
+References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
+ <1558115345-32476-2-git-send-email-lsun@mellanox.com>
+ <20190517175926.GA24535@kroah.com>
+ <DB6PR05MB32235A6F891E438131471CE2A10B0@DB6PR05MB3223.eurprd05.prod.outlook.com>
+ <20190518063501.GA26163@kroah.com>
+ <DB6PR05MB322356D29192EAED104AA47EA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-20_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905200101
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905200101
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB6PR05MB322356D29192EAED104AA47EA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Mon, May 20, 2019 at 03:20:02PM +0000, Liming Sun wrote:
+> Please see response inline.
+> 
+> > -----Original Message-----
+> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Sent: Saturday, May 18, 2019 2:35 AM
+> > To: Liming Sun <lsun@mellanox.com>
+> > Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>; David
+> > Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org; David S. Miller
+> > <davem@davemloft.net>; Mauro Carvalho Chehab <mchehab+samsung@kernel.org>; Jonathan Cameron
+> > <Jonathan.Cameron@huawei.com>; Nicolas Ferre <nicolas.ferre@microchip.com>; Paul E. McKenney <paulmck@linux.ibm.com>
+> > Subject: Re: [PATCH v5 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI definitions
+> > 
+> > On Fri, May 17, 2019 at 08:36:53PM +0000, Liming Sun wrote:
+> > > Thanks Greg for the comments!  Please see my response inline.
+> > >
+> > > Regards,
+> > > - Liming
+> > >
+> > > > -----Original Message-----
+> > > > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Sent: Friday, May 17, 2019 1:59 PM
+> > > > To: Liming Sun <lsun@mellanox.com>
+> > > > Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>;
+> > David
+> > > > Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org; David S. Miller
+> > > > <davem@davemloft.net>; Mauro Carvalho Chehab <mchehab+samsung@kernel.org>; Jonathan Cameron
+> > > > <Jonathan.Cameron@huawei.com>; Nicolas Ferre <nicolas.ferre@microchip.com>; Paul E. McKenney <paulmck@linux.ibm.com>
+> > > > Subject: Re: [PATCH v5 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI definitions
+> > > >
+> > > > On Fri, May 17, 2019 at 01:49:05PM -0400, Liming Sun wrote:
+> > > > > This commit adds the ABI definitions exposed to userspace for
+> > > > > the platform/mellanox/mlxbf-bootctl driver.
+> > > > >
+> > > > > Reviewed-by: Vadim Pasternak <vadimp@mellanox.com>
+> > > > > Signed-off-by: Liming Sun <lsun@mellanox.com>
+> > > > > ---
+> > > > >  .../ABI/testing/sysfs-platform-mellanox-bootctl    | 58 ++++++++++++++++++++++
+> > > > >  MAINTAINERS                                        |  1 +
+> > > > >  2 files changed, 59 insertions(+)
+> > > > >  create mode 100644 Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+> > > > >
+> > > > > diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-
+> > > > bootctl
+> > > > > new file mode 100644
+> > > > > index 0000000..19a14db
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+> > > > > @@ -0,0 +1,58 @@
+> > > > > +What:		/sys/bus/platform/drivers/mlxbf-bootctl/lifecycle_state
+> > > > > +Date:		May 2019
+> > > > > +KernelVersion:	5.3
+> > > > > +Contact:	"Liming Sun <lsun@mellanox.com>"
+> > > > > +Description:
+> > > > > +		The Life-cycle state of the SoC, which could be one of the
+> > > > > +		following values.
+> > > > > +		  Production - Production state and can be updated to secure
+> > > > > +		  GA Secured - Secure chip and not able to change state
+> > > > > +		  GA Non-Secured - Non-Secure chip and not able to change state
+> > > > > +		  RMA - Return Merchandise Authorization
+> > > >
+> > > > A "driver" does not have a lifecycle state, a "device" does.
+> > > >
+> > > > You are putting all of these attributes in the wrong place.  Put them on
+> > > > your device please, not the driver.  driver-specific attributes are
+> > > > _VERY_ rare, and only for things that can modify/show for all devices
+> > > > attached to that driver.
+> > >
+> > > This driver is running on the ARM processor of the SoC. The 'device' is
+> > > the SoC itself. That's to say, there is only one device here attached to
+> > > the driver and the driver state will also be the device state.
+> > 
+> > That might be true today, but maybe not tomorrow :)
+> > 
+> > Anyway, again, this is device state, not driver state.
+> 
+> Yes, I agree. I discussed with the team and will move these attributes
+> under device (since they could be all considered as device state).
 
+Great.
 
-> -----Original Message-----
-> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
-> owner@vger.kernel.org> On Behalf Of Mathew King
-> Sent: Thursday, May 16, 2019 4:56 PM
-> To: linux-kernel@vger.kernel.org
-> Cc: Mathew King; AceLan Kao; Darren Hart; Andy Shevchenko; platform-drive=
-r-
-> x86@vger.kernel.org
-> Subject: [PATCH] platform/x86: intel-vbtn: Report switch events when even=
-t wakes
-> device
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> When a switch event, such as tablet mode/laptop mode or docked/undocked,
-> wakes a device make sure that the value of the swich is reported.
-> Without when a device is put in tablet mode from laptop mode when it is
-> suspended or vice versa the device will wake up but mode will be
-> incorrect.
->=20
-> Tested by suspending a device in laptop mode and putting it in tablet
-> mode, the device resumes and is in tablet mode. When suspending the
-> device in tablet mode and putting it in laptop mode the device resumes
-> and is in laptop mode.
->=20
-> Signed-off-by: Mathew King <mathewk@chromium.org>
+> > > This interface has been used by user-space applications for a couple of
+> > > releases. It'll be great if it could stay in such way for compatibility. Please
+> > > advise if this is strongly preferred to move them under devices.
+> > 
+> > So this is code that is already in the tree, and is just now being
+> > documented?  What .c file(s) is this referring to?
+> 
+> This code is not in the kernel tree yet. It has been in Mellanox BlueField
+> SW packages for a couple of releases and is trying to be up-streamed now.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@dell.com>
+Ok, then whatever happened in the past, before anyone in the community
+reviewed your code, and merged it into the kernel tree, does not count :)
 
-> ---
->  drivers/platform/x86/intel-vbtn.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/int=
-el-vbtn.c
-> index 06cd7e818ed5..990cc8c20872 100644
-> --- a/drivers/platform/x86/intel-vbtn.c
-> +++ b/drivers/platform/x86/intel-vbtn.c
-> @@ -76,12 +76,15 @@ static void notify_handler(acpi_handle handle, u32 ev=
-ent,
-> void *context)
->  	struct platform_device *device =3D context;
->  	struct intel_vbtn_priv *priv =3D dev_get_drvdata(&device->dev);
->  	unsigned int val =3D !(event & 1); /* Even=3Dpress, Odd=3Drelease */
-> -	const struct key_entry *ke_rel;
-> +	const struct key_entry *ke, *ke_rel;
->  	bool autorelease;
->=20
->  	if (priv->wakeup_mode) {
-> -		if (sparse_keymap_entry_from_scancode(priv->input_dev, event))
-> {
-> +		ke =3D sparse_keymap_entry_from_scancode(priv->input_dev,
-> event);
-> +		if (ke) {
->  			pm_wakeup_hard_event(&device->dev);
-> +			if (ke->type =3D=3D KE_SW)
-> +				sparse_keymap_report_event(priv->input_dev,
-> event, val, 0);
->  			return;
->  		}
->  		goto out_unknown;
-> --
-> 2.21.0.1020.gf2820cf01a-goog
+Where is the first patch in this series?  I'll be glad to review your
+actual sysfs implementation if you point me at it.
 
+> > As for "comptability", sysfs is made such that if a file is not present,
+> > userspace should be able to survive, that is why it is
+> > one-value-per-file.  What tool is using this, and where is the source
+> > for it?
+> 
+> The latest 2.0 code can be found at link
+> https://github.com/Mellanox/mlxbf-bootctl/tree/2.0
+> 
+> In file mlxbf-bootctl.c, currently it uses the 'drivers' path as sysfs path.
+> #define SYS_PATH "/sys/bus/platform/drivers/mlx-bootctl". We could
+> update it to support both paths.
+
+Please do so.
+
+thanks,
+
+greg k-h
