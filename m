@@ -2,83 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AC622875
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 May 2019 20:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F65B23FCF
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 May 2019 20:01:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727007AbfESSxK (ORCPT
+        id S1727167AbfETSAy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 19 May 2019 14:53:10 -0400
-Received: from mail-pg1-f176.google.com ([209.85.215.176]:41622 "EHLO
-        mail-pg1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbfESSxK (ORCPT
+        Mon, 20 May 2019 14:00:54 -0400
+Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:57944 "EHLO
+        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725995AbfETSAy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 19 May 2019 14:53:10 -0400
-Received: by mail-pg1-f176.google.com with SMTP id z3so5675930pgp.8
-        for <platform-driver-x86@vger.kernel.org>; Sun, 19 May 2019 11:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=TNnjeELo4GNqt+YzJomIPPrL7DBsp/1lWPLSO518CPw=;
-        b=YrNVzDYy03/xNjL+VX0o6xWqoOG9s3BX8yCx7j7Bm99iPl1tbIKXnJ/d1SgP9HYJ6Q
-         GO+EQ8bHHvjc6HU66OGMBQnC0ya63yx3fScGcTHHedcBR8t4HUDJBGgdTYZM1n4XDqU8
-         omqvmwefsDA1mR0R5GLTixGLqIK39ft71zY2TdRvThaxmRk7PAcImT340N0hAjo3YoE9
-         EAIWhSJU4nHEOLPYSVeJ2EtYEaAlgaUdiw0BJWWG3SpsB3AnbLXzd7vA4MS0kV3y6wPN
-         pT/gSn+ca3Ki5MS74vdCiDsx52/ie6757KvFz9iCF0C4SmhRwJ+eF+ghbyBXw+DSDHJW
-         MZNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=TNnjeELo4GNqt+YzJomIPPrL7DBsp/1lWPLSO518CPw=;
-        b=D9TYkqhwn2VmVBGoNwA/MUa3lWoObG9Hu//0JzWmQutmtkdVxkryapjrEOfAviUrn9
-         cOnYI+z0intrzubxZaXWnjk36q3psNOw4BXupwyqktbZn9YhhoY+PFTnaR3+wIoOrVZ/
-         ogOgVPCPMdTdwmZMq7KbsNzr/ScW4/D5cqLuLJ3RsqcscoRKmBFYpdqPnMQ+qsZKOCSy
-         IvxYsm/s7ZaqPpC5VVchwjPxVofsZGNGpa9hCVG512aF+js6xfh4ZiWqpJeGYoYvXYVx
-         Z0QQqnEoXrkljgCN+ZGb5Qru2BUJ3m87i8DGLnJHGEOOBGY5YkZm9UEw/JcicsmGMSkY
-         OnGQ==
-X-Gm-Message-State: APjAAAU1M9DK8lykQ7ntG6uH9RiqQpZxHRYBYTT8LPYU/QFzYFxvCLzQ
-        B7i+Dsf5P2pzFVOR1//UgHxiFiog
-X-Google-Smtp-Source: APXvYqxxMW52lgotxeg2iPfyv0zLlLsHLQhkUJVwCH6eksFCttHJt3F0hekSdSddj+43KqN0Y3AkHA==
-X-Received: by 2002:aa7:8f22:: with SMTP id y2mr63912088pfr.22.1558291988992;
-        Sun, 19 May 2019 11:53:08 -0700 (PDT)
-Received: from ?IPv6:2600:6c50:427f:e8c2::c8b? (2600-6c50-427f-e8c2-0000-0000-0000-0c8b.dhcp6.chtrptr.net. [2600:6c50:427f:e8c2::c8b])
-        by smtp.googlemail.com with ESMTPSA id i12sm18811887pfd.33.2019.05.19.11.53.07
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sun, 19 May 2019 11:53:08 -0700 (PDT)
-To:     ibm-acpi@hmh.eng.br
-Cc:     ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-From:   Kevin Slagle <kjslag@gmail.com>
-Subject: second fan control on ThinkPad X1 Extreme laptop
-Message-ID: <dbae0274-9430-eb94-06a4-7a1f9ffef6de@gmail.com>
-Date:   Sun, 19 May 2019 11:53:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 20 May 2019 14:00:54 -0400
+X-Greylist: delayed 9836 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 14:00:53 EDT
+To:     platform-driver-x86@vger.kernel.org
+Subject: Printing for your logo
+Message-ID: <fa515889484a246233c7e561f99581eb@esquire.com>
+Date:   Mon, 20 May 2019 16:01:10 +0200
+From:   "Heather" <heather@usblogo.space>
+Reply-To: flashdrive@aliyun.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; format=flowed; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+Hi,
 
-I have a ThinkPad X1 Extreme laptop running Arch Linux and I can only 
-control one of the two fans using /proc/acpi/ibm/fan. It would be nice 
-to control both fans. According to a couple nvidia forum posts [1] [2], 
-I think this issue needs to be fixed in the thinkpad-acpi driver. It 
-seems the issue was recently fixed for the P50 [3], but might still also 
-affect the P51 and P52 [1]. I can help test patches for the ThinkPad X1 
-Extreme.
+I didn’t know if you had received my email from last week?
 
-[1] 
-https://devtalk.nvidia.com/default/topic/1048624/linux/how-to-set-gpu-fan-speed/post/5321818/#5321818
-[2] 
-https://devtalk.nvidia.com/default/topic/1052110/linux/can-t-control-gtx-1050-ti-max-q-fan-on-thinkpad-x1-extreme-laptop/post/5340658/#5340658
-[3] https://lkml.org/lkml/2018/4/2/392
+We manufacture ALL custom LOGO and branded products – over 300,000 to
+choose from.
 
-thanks!
-Kevin
+The most asked about product that we make, is the custom printed USB flash
+drives!
+We can print your logo on them and load your digital images, videos and
+files!
+
+Here is what we include:
+-Any size memory you need: 64MB up to 128GB
+-We will print your logo on both sides, just ask!
+-Very Low Order Minimums
+-Need them quickly?  Not a problem, we offer Rush Service
+
+Email over a copy of your logo and we will create a design mock up for you
+at no cost!
+
+Our higher memory sizes are a really good option right now!
+
+Pricing is low right now, so let us know what you need and we will get you
+a quick quote.
+
+We always offer great rates for schools and nonprofits as well.
+
+Let us know what you would like quoted?
+
+Regards,
+
+Heather Millons
+Custom USB Account Manager
+
