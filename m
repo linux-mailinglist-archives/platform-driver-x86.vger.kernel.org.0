@@ -2,142 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9584924232
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 May 2019 22:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD3E2A985
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 May 2019 14:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbfETUn7 (ORCPT
+        id S1727730AbfEZMBp convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 May 2019 16:43:59 -0400
-Received: from mail-eopbgr80045.outbound.protection.outlook.com ([40.107.8.45]:32771
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725776AbfETUn6 (ORCPT
+        Sun, 26 May 2019 08:01:45 -0400
+Received: from host195136170-252.telnaptelecom.pl ([195.136.170.252]:36889
+        "EHLO mail.seen.pl" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1727638AbfEZMBo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 May 2019 16:43:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VVISbyJa8q4V5HY/USxf6/ID0GC3+O3D8svDPVllIeM=;
- b=gObMzWAn3z8lJDx7EptRWwse9nmv3+lwNimfupbf2Tl/p9KrSXbgeUUyxB2TKlkmvOyF3C5kk6GJsP6YcusqFIn9iuFpvu7o0Os9VoNDEIM4gban/PvsaRJBxVPb3DuneSh8bdfR8hQHXj9VnwDyN7cyk0cRiOThd5370JkEsiI=
-Received: from DB6PR05MB3223.eurprd05.prod.outlook.com (10.175.232.149) by
- DB6PR05MB4757.eurprd05.prod.outlook.com (10.168.20.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1900.18; Mon, 20 May 2019 20:43:53 +0000
-Received: from DB6PR05MB3223.eurprd05.prod.outlook.com
- ([fe80::244a:2b0:6510:9864]) by DB6PR05MB3223.eurprd05.prod.outlook.com
- ([fe80::244a:2b0:6510:9864%7]) with mapi id 15.20.1900.010; Mon, 20 May 2019
- 20:43:53 +0000
-From:   Liming Sun <lsun@mellanox.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mellanox
- BlueField Soc
-Thread-Topic: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for
- Mellanox BlueField Soc
-Thread-Index: AQHVDNjerktpZH/kD0q2FkOL+YtZAKZ0L50AgAAd9ECAABiUgIAAFpbg
-Date:   Mon, 20 May 2019 20:43:53 +0000
-Message-ID: <DB6PR05MB3223F25A2E2B78053FE96D5BA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
-References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
- <1558115345-32476-1-git-send-email-lsun@mellanox.com>
- <20190520155658.GA14165@kroah.com>
- <DB6PR05MB32232CA5DD05D1A923A28215A1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
- <20190520191209.GA29776@kroah.com>
-In-Reply-To: <20190520191209.GA29776@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=lsun@mellanox.com; 
-x-originating-ip: [216.156.69.42]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c3acfd52-0d1b-4a27-8911-08d6dd63df59
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DB6PR05MB4757;
-x-ms-traffictypediagnostic: DB6PR05MB4757:
-x-microsoft-antispam-prvs: <DB6PR05MB47578575899C9BF7CC753DCAA1060@DB6PR05MB4757.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 004395A01C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(136003)(346002)(376002)(366004)(39860400002)(13464003)(189003)(199004)(52314003)(68736007)(71200400001)(71190400001)(33656002)(66066001)(256004)(476003)(86362001)(478600001)(186003)(81156014)(11346002)(6436002)(8936002)(6246003)(486006)(446003)(8676002)(229853002)(55016002)(26005)(4326008)(9686003)(316002)(81166006)(53936002)(2906002)(66446008)(66556008)(66476007)(305945005)(64756008)(76116006)(76176011)(7696005)(54906003)(7736002)(73956011)(66946007)(52536014)(99286004)(3846002)(6116002)(25786009)(6506007)(6916009)(53546011)(14454004)(5660300002)(74316002)(102836004);DIR:OUT;SFP:1101;SCL:1;SRVR:DB6PR05MB4757;H:DB6PR05MB3223.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7/oJVJQx+PndFSkYUr/TwztNL8W83LKDcB//cpJTqQG1MvMoXI4pPcGBNRp3K+RQkbVaRiWdk1Nh5TKFDwZE8QtjHiOeBeuQdxsJfPRnXr6s0+6bQBruxx6R9nK4yYX/sRttgQ1s66SBbHajsREhEDj/hIJ4rxEuRzbni/o6WJIndLXYnOOmDZ7X6kqLfV49kBkbQXD6gr10OIHqUtSitGe3yA3tRHZSmscYtV6bp5Vr9j2f5AxxOkOVVjiiw6FZ6DZ43GpCBGdvma964cUzltyFM1Kc09Kj8rvm+d1MB46hVWYye8nc6nnFbBnmo1i9VifG5YDHnlykrJQ0hJ0bL8eIW+LuGxerloq6ZyLopj5TbhcHTSsotxnZj6Xt37y0hO6l2bst8C1Pw1pAc28TDjQm7ablmnDOwIqzHh8czCE=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Sun, 26 May 2019 08:01:44 -0400
+X-Greylist: delayed 85898 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 May 2019 08:01:44 EDT
+Received: from [192.168.8.100] ([41.203.78.163])
+        (authenticated bits=0)
+        by seen.pl (8.14.2/8.14.2) with ESMTP id x4L3kofE022367;
+        Tue, 21 May 2019 05:53:11 +0200
+Message-Id: <201905210353.x4L3kofE022367@seen.pl>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3acfd52-0d1b-4a27-8911-08d6dd63df59
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2019 20:43:53.7022
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR05MB4757
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: spende
+To:     Recipients <instal@seen.pl>
+From:   instal@seen.pl
+Date:   Mon, 20 May 2019 15:59:01 -0600
+Reply-To: mrazimpremji@yahoo.com
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.0 (seen.pl [10.10.0.4]); Tue, 21 May 2019 05:53:16 +0200 (CEST)
+X-Virus-Scanned: clamav-milter 0.96.5 at mail.seen.pl
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-96.0 required=6.0 tests=AWL,DNS_FROM_AHBL_RHSBL,
+        MISSING_MID,RCVD_IN_XBL,RDNS_NONE,USER_IN_WHITELIST autolearn=no version=3.2.5
+X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on mail.seen.pl
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Mit meiner kleinen Einführung bin ich Azim Hashim Premji, ein indischer Wirtschaftsmagnat, Investor und Philanthrop. Ich bin der Vorsitzende von Wipro Limited. Ich gab 25 Prozent meines persönlichen Vermögens für wohltätige Zwecke ab. Außerdem habe ich versprochen, den Rest von 25% in diesem Jahr 2019 zu verschenken. Ich möchte 15 Personen 800.000,00 USD spenden.
 
+Herzlichen Glückwunsch, eine Spende in Höhe von 800.000,00 USD wurde an Sie überwiesen. Wenn Sie an meiner Spende interessiert sind, kontaktieren Sie mich direkt per E-Mail: mrazimpremji@yahoo.com für weitere Informationen.
 
-> -----Original Message-----
-> From: Greg KH <gregkh@linuxfoundation.org>
-> Sent: Monday, May 20, 2019 3:12 PM
-> To: Liming Sun <lsun@mellanox.com>
-> Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.o=
-rg>; Vadim Pasternak <vadimp@mellanox.com>; David
-> Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-k=
-ernel@vger.kernel.org
-> Subject: Re: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mel=
-lanox BlueField Soc
->=20
-> On Mon, May 20, 2019 at 06:07:44PM +0000, Liming Sun wrote:
-> > > > +static struct platform_driver mlxbf_bootctl_driver =3D {
-> > > > +	.probe =3D mlxbf_bootctl_probe,
-> > > > +	.driver =3D {
-> > > > +		.name =3D "mlxbf-bootctl",
-> > > > +		.groups =3D mlxbf_bootctl_groups,
-> > > > +		.acpi_match_table =3D mlxbf_bootctl_acpi_ids,
-> > >
-> > > Why is an acpi driver a platform driver?  Isn't there a "real" acpi
-> > > driver interface you should be tieing into instead?
-> > >
-> > > Only use a platform driver as an absolute last resort.  I don't think
-> > > that is the case here.
-> >
-> > The driver is trying to configure boot-swapping and display secure stat=
-e,
-> > and is defined/initiated in ACPI table in UEFI. It seems a little hard =
-to
-> > categorize this driver to any existing subsystem. Any suggestion
-> > where it might be a better fit (like drivers/misc, drivers/firmware, et=
-c)?
-> > Please correct me if I misunderstand the comments. Thanks!.
->=20
-> The comment was asking why an acpi driver is a platform driver, but then
-> I went and looked now at a bunch of acpi drivers, and they all are
-> platform drivers :(
->=20
-> Anyway, drivers/acpi/ seems like the best place for this file, right?
+Hinweis: Gelegenheiten kommen, aber einmal. Sie können auch über den folgenden Link mehr über mich lesen: http://en.wikipedia.org/wiki/Azim_Premji
 
-My understanding is that the "drivers/acpi" is mainly for the acpi common c=
-ode.
-The vendor or platform specific drivers are spread in other various directo=
-ries,
-most of which are 'platform' drivers.=20
-
-For this driver, we didn't find better sub-component for it, thus put it un=
-der
-'drivers/platform/mellanox' which is vendor specific driver by its name.
-
->=20
-> thanks,
->=20
-> greg k-h
+Danke dir
