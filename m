@@ -2,118 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C8424388
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 00:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4DB2480B
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 08:28:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726384AbfETWlu (ORCPT
+        id S1726252AbfEUG2l (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 May 2019 18:41:50 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:55433 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726088AbfETWlu (ORCPT
+        Tue, 21 May 2019 02:28:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60260 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726193AbfEUG2k (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 May 2019 18:41:50 -0400
-Received: by mail-it1-f196.google.com with SMTP id g24so1725576iti.5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 May 2019 15:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OgNyxFvb9RrLEsgdaGamQ5DEgQMLWE8KdIG6aRKa58s=;
-        b=i/YC3/Co3VAF6FaJLBBFr7LBsJyYYf4pjBoVIP3+MO3sAM/660FZ5qCQYTqHwNGLyA
-         IXOF63sCfKLdqiznD/9Lm+y9ZCzqL9pdjWD9diNQOYuHwtl874AKBO8WaqU9Ii3PsPdk
-         EestsRtqDzLEivR7dGSMWRF+h1oli32x9Xu7k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OgNyxFvb9RrLEsgdaGamQ5DEgQMLWE8KdIG6aRKa58s=;
-        b=paKJyJZgu2Ak83XErmYu6H7sGAusnFkro3QvAcWmgwSiFEbYFCs4HNlouIhv37c5XS
-         DsldMueffpASFwyeS0QszOhDLYH23rekXZUlfrmLuarnF9ysLqu0e7x5xPoU+7+wO3s2
-         bibSNbCqG5RmOHuTEpdcBFCeDmTiri1Nya5bNK0fc/dNahG16SMoafLY6fugteFP6sa4
-         55ej6B0q1pUxMf1XwaUYsBackCyE63HOWeMEaynF8TBTXahfe+uxtMYqMH87Wh3D18re
-         FKhl4pW980oEOi9lLXWb41lcs6C4+Ol06bMI6aFxP04mTzsWyR61yq3CNrnwkhmuHqkI
-         MKWg==
-X-Gm-Message-State: APjAAAWujtYT138iOna5SIhuCd2PU6o8pB/AcKR40ytzne2PXPTl5TKz
-        0A4qCBoyZcP3u+00BD4C1RBImg==
-X-Google-Smtp-Source: APXvYqzQiHm/KtijsWrYrWTLrhAWxHc3Zcx9ti23WinzlAtlDyVMJNn8b9TDiTMQx0akc3FONYbanA==
-X-Received: by 2002:a02:c8da:: with SMTP id q26mr50625560jao.0.1558392109730;
-        Mon, 20 May 2019 15:41:49 -0700 (PDT)
-Received: from localhost ([2620:15c:183:200:2e1:1bad:9c62:dd74])
-        by smtp.gmail.com with ESMTPSA id c4sm516823itd.12.2019.05.20.15.41.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 15:41:48 -0700 (PDT)
-From:   Mathew King <mathewk@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Mathew King <mathewk@chromium.org>,
-        AceLan Kao <acelan.kao@canonical.com>,
+        Tue, 21 May 2019 02:28:40 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 1E4F130832E9;
+        Tue, 21 May 2019 06:28:40 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-215.ams2.redhat.com [10.36.116.215])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8119F19C5B;
+        Tue, 21 May 2019 06:28:38 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Jett Rink <jettrink@chromium.org>, Mario.Limonciello@dell.com
-Subject: [PATCH v2] platform/x86: intel-vbtn: Report switch events when event wakes device
-Date:   Mon, 20 May 2019 16:41:24 -0600
-Message-Id: <20190520224124.153005-1-mathewk@chromium.org>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+        Corentin Chary <corentin.chary@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
+Subject: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle display hotkeys from asus_nb_wmi
+Date:   Tue, 21 May 2019 08:28:37 +0200
+Message-Id: <20190521062837.3887-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Tue, 21 May 2019 06:28:40 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When a switch event, such as tablet mode/laptop mode or docked/undocked,
-wakes a device make sure that the value of the swich is reported.
-Without when a device is put in tablet mode from laptop mode when it is
-suspended or vice versa the device will wake up but mode will be
-incorrect.
+Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
+handle the display off hotkey") causes the backlight to be permanently off
+on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
+1015BX, Asus EeePC 1025C).
 
-Tested by suspending a device in laptop mode and putting it in tablet
-mode, the device resumes and is in tablet mode. When suspending the
-device in tablet mode and putting it in laptop mode the device resumes
-and is in laptop mode.
+The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
+by that commit is made conditional in this commit and only enabled in
+the quirk_entry structs in the asus-nb-wmi driver fixing the broken
+display / backlight on various EeePC laptop models.
 
-Signed-off-by: Mathew King <mathewk@chromium.org>
-
+Cc: João Paulo Rechi Vita <jprvita@endlessm.com>
+Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will handle the display off hotkey")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v2:
-  - Added comment explaining why switch events are reported
-  - Format so that checkpatch is happy
----
- drivers/platform/x86/intel-vbtn.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
+ drivers/platform/x86/asus-wmi.c    | 2 +-
+ drivers/platform/x86/asus-wmi.h    | 1 +
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index 06cd7e818ed5..a0d0cecff55f 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -76,12 +76,24 @@ static void notify_handler(acpi_handle handle, u32 event, void *context)
- 	struct platform_device *device = context;
- 	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
- 	unsigned int val = !(event & 1); /* Even=press, Odd=release */
--	const struct key_entry *ke_rel;
-+	const struct key_entry *ke, *ke_rel;
- 	bool autorelease;
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index b6f2ff95c3ed..59f3a37a44d7 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char data, unsigned char str,
  
- 	if (priv->wakeup_mode) {
--		if (sparse_keymap_entry_from_scancode(priv->input_dev, event)) {
-+		ke = sparse_keymap_entry_from_scancode(priv->input_dev, event);
-+		if (ke) {
- 			pm_wakeup_hard_event(&device->dev);
-+
-+			/*
-+			 * Switch events like tablet mode will wake the device
-+			 * and report the new switch position to the input
-+			 * subsystem.
-+			 */
-+			if (ke->type == KE_SW)
-+				sparse_keymap_report_event(priv->input_dev,
-+							   event,
-+							   val,
-+							   0);
- 			return;
- 		}
- 		goto out_unknown;
+ static struct quirk_entry quirk_asus_unknown = {
+ 	.wapf = 0,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_q500a = {
+ 	.i8042_filter = asus_q500a_i8042_filter,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ /*
+@@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a = {
+ static struct quirk_entry quirk_asus_x55u = {
+ 	.wapf = 4,
+ 	.wmi_backlight_power = true,
++	.wmi_backlight_set_devstate = true,
+ 	.no_display_toggle = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_wapf4 = {
+ 	.wapf = 4,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_x200ca = {
+ 	.wapf = 2,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_ux303ub = {
+ 	.wmi_backlight_native = true,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_x550lb = {
++	.wmi_backlight_set_devstate = true,
+ 	.xusb2pr = 0x01D9,
+ };
+ 
+ static struct quirk_entry quirk_asus_forceals = {
++	.wmi_backlight_set_devstate = true,
+ 	.wmi_force_als_set = true,
+ };
+ 
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index ee1fa93708ec..a66e99500c12 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 		err = asus_wmi_backlight_init(asus);
+ 		if (err && err != -ENODEV)
+ 			goto fail_backlight;
+-	} else
++	} else if (asus->driver->quirks->wmi_backlight_set_devstate)
+ 		err = asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL);
+ 
+ 	status = wmi_install_notify_handler(asus->driver->event_guid,
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index 6c1311f4b04d..57a79bddb286 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -44,6 +44,7 @@ struct quirk_entry {
+ 	bool store_backlight_power;
+ 	bool wmi_backlight_power;
+ 	bool wmi_backlight_native;
++	bool wmi_backlight_set_devstate;
+ 	bool wmi_force_als_set;
+ 	int wapf;
+ 	/*
 -- 
-2.21.0.1020.gf2820cf01a-goog
+2.21.0
 
