@@ -2,131 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 673B42508B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 15:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 494A0250D5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 15:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbfEUNh1 (ORCPT
+        id S1728479AbfEUNnB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 May 2019 09:37:27 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42356 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727969AbfEUNh1 (ORCPT
+        Tue, 21 May 2019 09:43:01 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:44476 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728470AbfEUNnB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 May 2019 09:37:27 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w9so10974812oic.9
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 May 2019 06:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H+BSjdKHMeiIAULb/QyaUOTkRt09BUDaEnpHHqHJQHo=;
-        b=oYE7JAF3d5Xd55jYiP+FFNL6Ut3yy6uqIgip8mEGC8oTz1+IvRYcsGTOaUU5j8VFyi
-         qlIZN4YmYuLrs5eY9gkBjWkzNagvcbXivOL+g55DksVqlPngfPyWIjsECXhDpaTdLVRa
-         LltBxjxk+TjU9uoUpHMSUpwVOz7Qcw67t+Fhk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H+BSjdKHMeiIAULb/QyaUOTkRt09BUDaEnpHHqHJQHo=;
-        b=I2UkSMjbNVDK9oB6cIfpzWuJfqwkqrleAxjTb47Vd6FJHtndetmiKKWchqTMuZZBvO
-         5+0mKeZSssCPEWfqNWpQIEeTgqQVpYhdLnTiARHV8jUAdM4WXUdbgTRqEON7pRHzUUtZ
-         yILw1m6Kry+uw7GUCSqdwOJpf3X6jIySMKFCwIVh3euiu8r9ynFWa0g36xreGswf+lI3
-         eGzk2uXt4dTi6jvmZsUitLK20e7xZW/cGhyMj+EaYb3YZOhh9pFInk2dv3mCzGQSsbuD
-         xFQatZWeGphxh1FJj8hVuo44dmVlh2ZFgDsIX1XslM7OljLxdbtOjvMw70rJytDGVYI2
-         Wh9w==
-X-Gm-Message-State: APjAAAVIdsLEkMpaX4KxUeZcWHIjV/Gvm25pPXWncxi4wJ1qULlOqice
-        0yQvBdVVwk6FOvFum2F4lQBn/6ZbRX4=
-X-Google-Smtp-Source: APXvYqyNq5iJ9GZGUWDHojWueVjTncmkEpbb4+BwgrXOA+ebuy5IE1rbCMp+UmooH9zuBWjjYcMYRQ==
-X-Received: by 2002:aca:3305:: with SMTP id z5mr3366201oiz.141.1558445845763;
-        Tue, 21 May 2019 06:37:25 -0700 (PDT)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
-        by smtp.gmail.com with ESMTPSA id t4sm5651424otk.11.2019.05.21.06.37.24
-        for <platform-driver-x86@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 06:37:24 -0700 (PDT)
-Received: by mail-ot1-f51.google.com with SMTP id n14so16355199otk.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 May 2019 06:37:24 -0700 (PDT)
-X-Received: by 2002:a9d:58c5:: with SMTP id s5mr19522642oth.153.1558445844462;
- Tue, 21 May 2019 06:37:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190520224124.153005-1-mathewk@chromium.org>
-In-Reply-To: <20190520224124.153005-1-mathewk@chromium.org>
-From:   Jett Rink <jettrink@chromium.org>
-Date:   Tue, 21 May 2019 07:37:13 -0600
-X-Gmail-Original-Message-ID: <CAK+PMK47_OE-BgOYD_TD0kwxD4RG+nS9Wstg4ydUy7yV9nVmHQ@mail.gmail.com>
-Message-ID: <CAK+PMK47_OE-BgOYD_TD0kwxD4RG+nS9Wstg4ydUy7yV9nVmHQ@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: intel-vbtn: Report switch events when
+        Tue, 21 May 2019 09:43:01 -0400
+Received: from pps.filterd (m0170395.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4LDZeuu018642;
+        Tue, 21 May 2019 09:42:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=pp6tPZXyuLLxq41a6rBWLh75d04HggU+65CWIRK9yUQ=;
+ b=OT+b5hcID7XbtGgl2Qu/tbZ5vz1ny5Hfvjv+4j0BuQucSCoBa7cTYQtEny8GGjZPqpyk
+ 80Vv1CCvwv94XNZ9lKK0jOK7abc+EJCv1/285tAJ3yGNUr2GRIN7BDav0uB2TvwZymMW
+ p/ltmidcihb4YW+IjdmOPtMB9pDueo3oCBmeUxHcpvJopwaGDTHXuRwj50P9GJzF6ao9
+ Mk6hY+vmYQXZOJPdOeZ8DEkcAo86RKMF5B4lcy1qBh5sQbO3HGx8qjnFvD7/smvgh7cE
+ mOSMIJz7eTOF71m/roMZP5m/3dHw1Rufq3+CZxLJgjhvATwXwU1YzyWySKxp4uAX/Ym9 gg== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+        by mx0b-00154904.pphosted.com with ESMTP id 2sjeqnr559-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 21 May 2019 09:42:59 -0400
+Received: from pps.filterd (m0133268.ppops.net [127.0.0.1])
+        by mx0a-00154901.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4LDc9i2177251;
+        Tue, 21 May 2019 09:42:58 -0400
+Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
+        by mx0a-00154901.pphosted.com with ESMTP id 2sjc9qkyxr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 May 2019 09:42:57 -0400
+X-LoopCount0: from 10.166.132.128
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="1408349857"
+From:   <Mario.Limonciello@dell.com>
+To:     <jettrink@chromium.org>, <mathewk@chromium.org>
+CC:     <linux-kernel@vger.kernel.org>, <acelan.kao@canonical.com>,
+        <andy@infradead.org>, <dvhart@infradead.org>,
+        <platform-driver-x86@vger.kernel.org>
+Subject: RE: [PATCH v2] platform/x86: intel-vbtn: Report switch events when
  event wakes device
-To:     Mathew King <mathewk@chromium.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        AceLan Kao <acelan.kao@canonical.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org, Mario.Limonciello@dell.com
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [PATCH v2] platform/x86: intel-vbtn: Report switch events when
+ event wakes device
+Thread-Index: AQHVD103f4iXW1gb802WUHY84GHNT6Z16a+A//+tbXA=
+Date:   Tue, 21 May 2019 13:42:00 +0000
+Message-ID: <a7a23cbea93d46b48f7c9bd4e4cd4314@AUSX13MPC105.AMER.DELL.COM>
+References: <20190520224124.153005-1-mathewk@chromium.org>
+ <CAK+PMK47_OE-BgOYD_TD0kwxD4RG+nS9Wstg4ydUy7yV9nVmHQ@mail.gmail.com>
+In-Reply-To: <CAK+PMK47_OE-BgOYD_TD0kwxD4RG+nS9Wstg4ydUy7yV9nVmHQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.143.18.86]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-21_03:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905210087
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905210087
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, May 20, 2019 at 4:41 PM Mathew King <mathewk@chromium.org> wrote:
->
-> When a switch event, such as tablet mode/laptop mode or docked/undocked,
-> wakes a device make sure that the value of the swich is reported.
-> Without when a device is put in tablet mode from laptop mode when it is
-> suspended or vice versa the device will wake up but mode will be
-> incorrect.
->
-> Tested by suspending a device in laptop mode and putting it in tablet
-> mode, the device resumes and is in tablet mode. When suspending the
-> device in tablet mode and putting it in laptop mode the device resumes
-> and is in laptop mode.
->
-> Signed-off-by: Mathew King <mathewk@chromium.org>
->
-> ---
-> Changes in v2:
->   - Added comment explaining why switch events are reported
->   - Format so that checkpatch is happy
-> ---
->  drivers/platform/x86/intel-vbtn.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-> index 06cd7e818ed5..a0d0cecff55f 100644
-> --- a/drivers/platform/x86/intel-vbtn.c
-> +++ b/drivers/platform/x86/intel-vbtn.c
-> @@ -76,12 +76,24 @@ static void notify_handler(acpi_handle handle, u32 event, void *context)
->         struct platform_device *device = context;
->         struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
->         unsigned int val = !(event & 1); /* Even=press, Odd=release */
-> -       const struct key_entry *ke_rel;
-> +       const struct key_entry *ke, *ke_rel;
->         bool autorelease;
->
->         if (priv->wakeup_mode) {
-> -               if (sparse_keymap_entry_from_scancode(priv->input_dev, event)) {
-> +               ke = sparse_keymap_entry_from_scancode(priv->input_dev, event);
-> +               if (ke) {
->                         pm_wakeup_hard_event(&device->dev);
-> +
-> +                       /*
-> +                        * Switch events like tablet mode will wake the device
-> +                        * and report the new switch position to the input
-> +                        * subsystem.
-> +                        */
-Thanks for adding the comment; This looks good to me.
-
-> +                       if (ke->type == KE_SW)
-> +                               sparse_keymap_report_event(priv->input_dev,
-> +                                                          event,
-> +                                                          val,
-> +                                                          0);
->                         return;
->                 }
->                 goto out_unknown;
-> --
-> 2.21.0.1020.gf2820cf01a-goog
->
-
-Reviewed-by: Jett Rink <jettrink@chromium.org>
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKZXR0IFJpbmsgPGpldHRyaW5r
+QGNocm9taXVtLm9yZz4NCj4gU2VudDogVHVlc2RheSwgTWF5IDIxLCAyMDE5IDg6MzcgQU0NCj4g
+VG86IE1hdGhldyBLaW5nDQo+IENjOiBsaW51eC1rZXJuZWw7IEFjZUxhbiBLYW87IEFuZHkgU2hl
+dmNoZW5rbzsgRGFycmVuIEhhcnQ7IHBsYXRmb3JtLWRyaXZlci0NCj4geDg2QHZnZXIua2VybmVs
+Lm9yZzsgTGltb25jaWVsbG8sIE1hcmlvDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjJdIHBsYXRm
+b3JtL3g4NjogaW50ZWwtdmJ0bjogUmVwb3J0IHN3aXRjaCBldmVudHMgd2hlbiBldmVudA0KPiB3
+YWtlcyBkZXZpY2UNCj4gDQo+IA0KPiBbRVhURVJOQUwgRU1BSUxdDQo+IA0KPiBPbiBNb24sIE1h
+eSAyMCwgMjAxOSBhdCA0OjQxIFBNIE1hdGhldyBLaW5nIDxtYXRoZXdrQGNocm9taXVtLm9yZz4N
+Cj4gd3JvdGU6DQo+ID4NCj4gPiBXaGVuIGEgc3dpdGNoIGV2ZW50LCBzdWNoIGFzIHRhYmxldCBt
+b2RlL2xhcHRvcCBtb2RlIG9yIGRvY2tlZC91bmRvY2tlZCwNCj4gPiB3YWtlcyBhIGRldmljZSBt
+YWtlIHN1cmUgdGhhdCB0aGUgdmFsdWUgb2YgdGhlIHN3aWNoIGlzIHJlcG9ydGVkLg0KPiA+IFdp
+dGhvdXQgd2hlbiBhIGRldmljZSBpcyBwdXQgaW4gdGFibGV0IG1vZGUgZnJvbSBsYXB0b3AgbW9k
+ZSB3aGVuIGl0IGlzDQo+ID4gc3VzcGVuZGVkIG9yIHZpY2UgdmVyc2EgdGhlIGRldmljZSB3aWxs
+IHdha2UgdXAgYnV0IG1vZGUgd2lsbCBiZQ0KPiA+IGluY29ycmVjdC4NCj4gPg0KPiA+IFRlc3Rl
+ZCBieSBzdXNwZW5kaW5nIGEgZGV2aWNlIGluIGxhcHRvcCBtb2RlIGFuZCBwdXR0aW5nIGl0IGlu
+IHRhYmxldA0KPiA+IG1vZGUsIHRoZSBkZXZpY2UgcmVzdW1lcyBhbmQgaXMgaW4gdGFibGV0IG1v
+ZGUuIFdoZW4gc3VzcGVuZGluZyB0aGUNCj4gPiBkZXZpY2UgaW4gdGFibGV0IG1vZGUgYW5kIHB1
+dHRpbmcgaXQgaW4gbGFwdG9wIG1vZGUgdGhlIGRldmljZSByZXN1bWVzDQo+ID4gYW5kIGlzIGlu
+IGxhcHRvcCBtb2RlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWF0aGV3IEtpbmcgPG1hdGhl
+d2tAY2hyb21pdW0ub3JnPg0KPiA+DQo+ID4gLS0tDQo+ID4gQ2hhbmdlcyBpbiB2MjoNCj4gPiAg
+IC0gQWRkZWQgY29tbWVudCBleHBsYWluaW5nIHdoeSBzd2l0Y2ggZXZlbnRzIGFyZSByZXBvcnRl
+ZA0KPiA+ICAgLSBGb3JtYXQgc28gdGhhdCBjaGVja3BhdGNoIGlzIGhhcHB5DQo+ID4gLS0tDQo+
+ID4gIGRyaXZlcnMvcGxhdGZvcm0veDg2L2ludGVsLXZidG4uYyB8IDE2ICsrKysrKysrKysrKysr
+LS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wbGF0Zm9ybS94ODYvaW50ZWwtdmJ0bi5j
+IGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvaW50ZWwtdmJ0bi5jDQo+ID4gaW5kZXggMDZjZDdlODE4
+ZWQ1Li5hMGQwY2VjZmY1NWYgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9wbGF0Zm9ybS94ODYv
+aW50ZWwtdmJ0bi5jDQo+ID4gKysrIGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvaW50ZWwtdmJ0bi5j
+DQo+ID4gQEAgLTc2LDEyICs3NiwyNCBAQCBzdGF0aWMgdm9pZCBub3RpZnlfaGFuZGxlcihhY3Bp
+X2hhbmRsZSBoYW5kbGUsIHUzMg0KPiBldmVudCwgdm9pZCAqY29udGV4dCkNCj4gPiAgICAgICAg
+IHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKmRldmljZSA9IGNvbnRleHQ7DQo+ID4gICAgICAgICBz
+dHJ1Y3QgaW50ZWxfdmJ0bl9wcml2ICpwcml2ID0gZGV2X2dldF9kcnZkYXRhKCZkZXZpY2UtPmRl
+dik7DQo+ID4gICAgICAgICB1bnNpZ25lZCBpbnQgdmFsID0gIShldmVudCAmIDEpOyAvKiBFdmVu
+PXByZXNzLCBPZGQ9cmVsZWFzZSAqLw0KPiA+IC0gICAgICAgY29uc3Qgc3RydWN0IGtleV9lbnRy
+eSAqa2VfcmVsOw0KPiA+ICsgICAgICAgY29uc3Qgc3RydWN0IGtleV9lbnRyeSAqa2UsICprZV9y
+ZWw7DQo+ID4gICAgICAgICBib29sIGF1dG9yZWxlYXNlOw0KPiA+DQo+ID4gICAgICAgICBpZiAo
+cHJpdi0+d2FrZXVwX21vZGUpIHsNCj4gPiAtICAgICAgICAgICAgICAgaWYgKHNwYXJzZV9rZXlt
+YXBfZW50cnlfZnJvbV9zY2FuY29kZShwcml2LT5pbnB1dF9kZXYsIGV2ZW50KSkgew0KPiA+ICsg
+ICAgICAgICAgICAgICBrZSA9IHNwYXJzZV9rZXltYXBfZW50cnlfZnJvbV9zY2FuY29kZShwcml2
+LT5pbnB1dF9kZXYsIGV2ZW50KTsNCj4gPiArICAgICAgICAgICAgICAgaWYgKGtlKSB7DQo+ID4g
+ICAgICAgICAgICAgICAgICAgICAgICAgcG1fd2FrZXVwX2hhcmRfZXZlbnQoJmRldmljZS0+ZGV2
+KTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgLyoNCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgKiBTd2l0Y2ggZXZlbnRzIGxpa2UgdGFibGV0IG1vZGUgd2lsbCB3YWtl
+IHRoZSBkZXZpY2UNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgKiBhbmQgcmVwb3J0IHRo
+ZSBuZXcgc3dpdGNoIHBvc2l0aW9uIHRvIHRoZSBpbnB1dA0KPiA+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAqIHN1YnN5c3RlbS4NCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgKi8NCj4g
+VGhhbmtzIGZvciBhZGRpbmcgdGhlIGNvbW1lbnQ7IFRoaXMgbG9va3MgZ29vZCB0byBtZS4NCj4g
+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgaWYgKGtlLT50eXBlID09IEtFX1NXKQ0KPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3BhcnNlX2tleW1hcF9yZXBvcnRfZXZl
+bnQocHJpdi0+aW5wdXRfZGV2LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZXZlbnQsDQo+ID4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2YWwsDQo+ID4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwKTsN
+Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gICAgICAgICAgICAgICAg
+IH0NCj4gPiAgICAgICAgICAgICAgICAgZ290byBvdXRfdW5rbm93bjsNCj4gPiAtLQ0KPiA+IDIu
+MjEuMC4xMDIwLmdmMjgyMGNmMDFhLWdvb2cNCj4gPg0KPiANCj4gUmV2aWV3ZWQtYnk6IEpldHQg
+UmluayA8amV0dHJpbmtAY2hyb21pdW0ub3JnPg0KDQpSZXZpZXdlZC1ieTogTWFyaW8gTGltb25j
+aWVsbG8gPG1hcmlvLmxpbW9uY2llbGxvQGRlbGwuY29tPg0K
