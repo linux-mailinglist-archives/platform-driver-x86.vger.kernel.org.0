@@ -2,125 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F5072498E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 09:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C28524F60
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 14:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbfEUH65 (ORCPT
+        id S1728190AbfEUM4j (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 May 2019 03:58:57 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:37686 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbfEUH65 (ORCPT
+        Tue, 21 May 2019 08:56:39 -0400
+Received: from ampleforth.srv.alexanderweb.de ([37.187.38.226]:53584 "EHLO
+        ampleforth.srv.alexanderweb.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726692AbfEUM4j (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 May 2019 03:58:57 -0400
-Received: by mail-qt1-f196.google.com with SMTP id o7so19442699qtp.4;
-        Tue, 21 May 2019 00:58:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p/GfCtmqLs5V/u3rJvsxM4G96Nj4OiIWtjGPDXWU4uA=;
-        b=jLnCfR2vsrdnKWBSb6GSRnA6qNEfNJpXLXqEsTVJPNofKhvr/j+N+2lZvRKte7LCfS
-         0my86ONw5n8HQBSaRtKJ+BElyravA7BSM45BA5jq+hkAhE5KKcGkUw+ZvxTMO4t+P4+D
-         SPDhEQAB1zwQK35oi34ZUtmoMfXFBkFY7ySL+CvDJ7vikIwBi6yYcrVdVePEipq//020
-         MA0/cAjY8Dg0Btv0I+fvMWtXu+OsP1OtTZCBz7/eXKKCKpAAHJVwhz1ULYM4t2/FjidN
-         OPQCkX7H2zsQgJuVPu9XUH/ZxLHb/RP6jYrv4t6zvnGpJAjzNFwtl7e91lAWUm0v5Z6z
-         2fcg==
-X-Gm-Message-State: APjAAAXtgOIXjoWGWp58pQP9iuaF1hZxLJbUWGTZUivfF4XUmiBkVCoL
-        7Sq98GpHx3Rp3a9G4k05AlomOVDygY1IDYXs6GA=
-X-Google-Smtp-Source: APXvYqwkirlL3CuKj+uX44c7QQd2fsAJT8BtPUv/1D9DqAqk5D4aO7JgxiLtFRG4Izd+ZQNr2CWDOKfTgD54eRrRwa8=
-X-Received: by 2002:a05:6214:c4:: with SMTP id f4mr14416531qvs.93.1558425535884;
- Tue, 21 May 2019 00:58:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
- <1558115345-32476-1-git-send-email-lsun@mellanox.com> <20190520155658.GA14165@kroah.com>
- <DB6PR05MB32232CA5DD05D1A923A28215A1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
- <20190520191209.GA29776@kroah.com> <DB6PR05MB3223F25A2E2B78053FE96D5BA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
-In-Reply-To: <DB6PR05MB3223F25A2E2B78053FE96D5BA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 21 May 2019 09:58:38 +0200
-Message-ID: <CAK8P3a0AfEo8+EDBoOS8PfOeKGZUhgXoT7xz+pG9YNUDPdfR_A@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mellanox
- BlueField Soc
-To:     Liming Sun <lsun@mellanox.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Tue, 21 May 2019 08:56:39 -0400
+Received: from aftr-37-201-227-26.unity-media.net ([37.201.227.26] helo=[192.168.1.16])
+        by ampleforth.srv.alexanderweb.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <alex@alexanderweb.de>)
+        id 1hT4Jn-0005i6-RP; Tue, 21 May 2019 14:56:35 +0200
+Subject: Re: [PATCH] Add Lenovo PrivacyGuard feature found in T480s, T490,
+ T490s
+To:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
+References: <E1hSOxT-00005q-An@tuxpaddy.alexanderweb.homeip.net>
+Cc:     ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+From:   Alexander Schremmer <alex@alexanderweb.de>
+X-Tagtoolbar-Keys: D20190521145634718
+Openpgp: preference=signencrypt
+Autocrypt: addr=alex@alexanderweb.de; prefer-encrypt=mutual; keydata=
+ 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 HPY=
+Message-ID: <3756fda2-7270-e3b2-fac8-3c0c0be633fa@alexanderweb.de>
+Date:   Tue, 21 May 2019 14:56:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <E1hSOxT-00005q-An@tuxpaddy.alexanderweb.homeip.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, May 20, 2019 at 10:44 PM Liming Sun <lsun@mellanox.com> wrote:
-> > -----Original Message-----
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Sent: Monday, May 20, 2019 3:12 PM
-> > To: Liming Sun <lsun@mellanox.com>
-> > Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>; David
-> > Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Subject: Re: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mellanox BlueField Soc
-> >
-> > On Mon, May 20, 2019 at 06:07:44PM +0000, Liming Sun wrote:
-> > > > > +static struct platform_driver mlxbf_bootctl_driver = {
-> > > > > +       .probe = mlxbf_bootctl_probe,
-> > > > > +       .driver = {
-> > > > > +               .name = "mlxbf-bootctl",
-> > > > > +               .groups = mlxbf_bootctl_groups,
-> > > > > +               .acpi_match_table = mlxbf_bootctl_acpi_ids,
-> > > >
-> > > > Why is an acpi driver a platform driver?  Isn't there a "real" acpi
-> > > > driver interface you should be tieing into instead?
-> > > >
-> > > > Only use a platform driver as an absolute last resort.  I don't think
-> > > > that is the case here.
-> > >
-> > > The driver is trying to configure boot-swapping and display secure state,
-> > > and is defined/initiated in ACPI table in UEFI. It seems a little hard to
-> > > categorize this driver to any existing subsystem. Any suggestion
-> > > where it might be a better fit (like drivers/misc, drivers/firmware, etc)?
-> > > Please correct me if I misunderstand the comments. Thanks!.
-> >
-> > The comment was asking why an acpi driver is a platform driver, but then
-> > I went and looked now at a bunch of acpi drivers, and they all are
-> > platform drivers :(
-> >
-> > Anyway, drivers/acpi/ seems like the best place for this file, right?
+Hi,
+
+I wonder whether you have received my kernel patch, referenced below. It
+might have been caught by the spam filter.
+
+Best,
+Alex
+
+I wrote on 2019-05-19 at 18:46:
+> From 6bfe30cae2be3f4fbe9f9990a4e83302569ff7e9 Mon Sep 17 00:00:00 2001
+> From: Alexander Schremmer <alex@alexanderweb.de>
+> Date: Sun, 19 May 2019 18:13:05 +0200
+> Subject: [PATCH] platform/x86: Add Lenovo ThinkPad PrivacyGuard.
 >
-> My understanding is that the "drivers/acpi" is mainly for the acpi common code.
-> The vendor or platform specific drivers are spread in other various directories,
-> most of which are 'platform' drivers.
-
-It depends on how closely you are following the acpi specification.
-If you just implement access to a standard ACPI feature, or you have
-added your interface to the ACPI specification, then the driver
-should work on any system that supports this feature.
-
-> For this driver, we didn't find better sub-component for it, thus put it under
-> 'drivers/platform/mellanox' which is vendor specific driver by its name.
-
-drivers/platform/mellanox/ would be a good place for drivers running on
-a host platform with a bluefield accelerator card as an add-on, but as I
-understand, this is a driver that actually just runs in Linux on the bluefield
-itself, so it should go in a different place.
-
-We use drivers/soc/ for things that are specific to one SoC, and that
-are typically used by other drivers, but that don't have (and should not
-have) a generic abstraction, which probably is not the case here either.
-
-What we do have in drivers/power/reset is a couple of drivers that
-set the "reboot reason", communicating that to the firmware for the
-next boot, using the reboot_mode_register() interface. I don't
-know too much about that interface, but maybe you can use that
-instead of adding another sysfs interface?
-
-If you have a complex firmware on the system that you can talk
-to, there is also drivers/firmware/ as another option to put
-abstractions into.
-
-         Arnd
+> This feature is found optionally in T480s, T490, T490s.
+>
+> The feature is called lcdshadow and visible via
+> /proc/acpi/ibm/lcdshadow.
+>
+> The ACPI methods \_SB.PCI0.LPCB.EC.HKEY.{GSSS,SSSS,TSSS,CSSS} are
+> available in these machines. They get, set, toggle or change the state
+> apparently.
+>
+> The patch was tested on a 5.0 series kernel on a T480s.
+>
+> Signed-off-by: Alexander Schremmer <alex@alexanderweb.de>
+> ---
+[...]
