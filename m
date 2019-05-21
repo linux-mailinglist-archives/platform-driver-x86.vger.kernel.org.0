@@ -2,140 +2,125 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4DB2480B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 08:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F5072498E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 May 2019 09:58:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbfEUG2l (ORCPT
+        id S1726204AbfEUH65 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 May 2019 02:28:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60260 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbfEUG2k (ORCPT
+        Tue, 21 May 2019 03:58:57 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:37686 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726006AbfEUH65 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 May 2019 02:28:40 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1E4F130832E9;
-        Tue, 21 May 2019 06:28:40 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-215.ams2.redhat.com [10.36.116.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8119F19C5B;
-        Tue, 21 May 2019 06:28:38 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
-Subject: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle display hotkeys from asus_nb_wmi
-Date:   Tue, 21 May 2019 08:28:37 +0200
-Message-Id: <20190521062837.3887-1-hdegoede@redhat.com>
+        Tue, 21 May 2019 03:58:57 -0400
+Received: by mail-qt1-f196.google.com with SMTP id o7so19442699qtp.4;
+        Tue, 21 May 2019 00:58:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p/GfCtmqLs5V/u3rJvsxM4G96Nj4OiIWtjGPDXWU4uA=;
+        b=jLnCfR2vsrdnKWBSb6GSRnA6qNEfNJpXLXqEsTVJPNofKhvr/j+N+2lZvRKte7LCfS
+         0my86ONw5n8HQBSaRtKJ+BElyravA7BSM45BA5jq+hkAhE5KKcGkUw+ZvxTMO4t+P4+D
+         SPDhEQAB1zwQK35oi34ZUtmoMfXFBkFY7ySL+CvDJ7vikIwBi6yYcrVdVePEipq//020
+         MA0/cAjY8Dg0Btv0I+fvMWtXu+OsP1OtTZCBz7/eXKKCKpAAHJVwhz1ULYM4t2/FjidN
+         OPQCkX7H2zsQgJuVPu9XUH/ZxLHb/RP6jYrv4t6zvnGpJAjzNFwtl7e91lAWUm0v5Z6z
+         2fcg==
+X-Gm-Message-State: APjAAAXtgOIXjoWGWp58pQP9iuaF1hZxLJbUWGTZUivfF4XUmiBkVCoL
+        7Sq98GpHx3Rp3a9G4k05AlomOVDygY1IDYXs6GA=
+X-Google-Smtp-Source: APXvYqwkirlL3CuKj+uX44c7QQd2fsAJT8BtPUv/1D9DqAqk5D4aO7JgxiLtFRG4Izd+ZQNr2CWDOKfTgD54eRrRwa8=
+X-Received: by 2002:a05:6214:c4:: with SMTP id f4mr14416531qvs.93.1558425535884;
+ Tue, 21 May 2019 00:58:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Tue, 21 May 2019 06:28:40 +0000 (UTC)
+References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
+ <1558115345-32476-1-git-send-email-lsun@mellanox.com> <20190520155658.GA14165@kroah.com>
+ <DB6PR05MB32232CA5DD05D1A923A28215A1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
+ <20190520191209.GA29776@kroah.com> <DB6PR05MB3223F25A2E2B78053FE96D5BA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
+In-Reply-To: <DB6PR05MB3223F25A2E2B78053FE96D5BA1060@DB6PR05MB3223.eurprd05.prod.outlook.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 21 May 2019 09:58:38 +0200
+Message-ID: <CAK8P3a0AfEo8+EDBoOS8PfOeKGZUhgXoT7xz+pG9YNUDPdfR_A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mellanox
+ BlueField Soc
+To:     Liming Sun <lsun@mellanox.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        David Woods <dwoods@mellanox.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
-handle the display off hotkey") causes the backlight to be permanently off
-on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
-1015BX, Asus EeePC 1025C).
+On Mon, May 20, 2019 at 10:44 PM Liming Sun <lsun@mellanox.com> wrote:
+> > -----Original Message-----
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Sent: Monday, May 20, 2019 3:12 PM
+> > To: Liming Sun <lsun@mellanox.com>
+> > Cc: Andy Shevchenko <andy@infradead.org>; Darren Hart <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>; David
+> > Woods <dwoods@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org
+> > Subject: Re: [PATCH v5 1/2] platform/mellanox: Add bootctl driver for Mellanox BlueField Soc
+> >
+> > On Mon, May 20, 2019 at 06:07:44PM +0000, Liming Sun wrote:
+> > > > > +static struct platform_driver mlxbf_bootctl_driver = {
+> > > > > +       .probe = mlxbf_bootctl_probe,
+> > > > > +       .driver = {
+> > > > > +               .name = "mlxbf-bootctl",
+> > > > > +               .groups = mlxbf_bootctl_groups,
+> > > > > +               .acpi_match_table = mlxbf_bootctl_acpi_ids,
+> > > >
+> > > > Why is an acpi driver a platform driver?  Isn't there a "real" acpi
+> > > > driver interface you should be tieing into instead?
+> > > >
+> > > > Only use a platform driver as an absolute last resort.  I don't think
+> > > > that is the case here.
+> > >
+> > > The driver is trying to configure boot-swapping and display secure state,
+> > > and is defined/initiated in ACPI table in UEFI. It seems a little hard to
+> > > categorize this driver to any existing subsystem. Any suggestion
+> > > where it might be a better fit (like drivers/misc, drivers/firmware, etc)?
+> > > Please correct me if I misunderstand the comments. Thanks!.
+> >
+> > The comment was asking why an acpi driver is a platform driver, but then
+> > I went and looked now at a bunch of acpi drivers, and they all are
+> > platform drivers :(
+> >
+> > Anyway, drivers/acpi/ seems like the best place for this file, right?
+>
+> My understanding is that the "drivers/acpi" is mainly for the acpi common code.
+> The vendor or platform specific drivers are spread in other various directories,
+> most of which are 'platform' drivers.
 
-The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
-by that commit is made conditional in this commit and only enabled in
-the quirk_entry structs in the asus-nb-wmi driver fixing the broken
-display / backlight on various EeePC laptop models.
+It depends on how closely you are following the acpi specification.
+If you just implement access to a standard ACPI feature, or you have
+added your interface to the ACPI specification, then the driver
+should work on any system that supports this feature.
 
-Cc: João Paulo Rechi Vita <jprvita@endlessm.com>
-Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will handle the display off hotkey")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
- drivers/platform/x86/asus-wmi.c    | 2 +-
- drivers/platform/x86/asus-wmi.h    | 1 +
- 3 files changed, 10 insertions(+), 1 deletion(-)
+> For this driver, we didn't find better sub-component for it, thus put it under
+> 'drivers/platform/mellanox' which is vendor specific driver by its name.
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index b6f2ff95c3ed..59f3a37a44d7 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char data, unsigned char str,
- 
- static struct quirk_entry quirk_asus_unknown = {
- 	.wapf = 0,
-+	.wmi_backlight_set_devstate = true,
- };
- 
- static struct quirk_entry quirk_asus_q500a = {
- 	.i8042_filter = asus_q500a_i8042_filter,
-+	.wmi_backlight_set_devstate = true,
- };
- 
- /*
-@@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a = {
- static struct quirk_entry quirk_asus_x55u = {
- 	.wapf = 4,
- 	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
- 	.no_display_toggle = true,
- };
- 
- static struct quirk_entry quirk_asus_wapf4 = {
- 	.wapf = 4,
-+	.wmi_backlight_set_devstate = true,
- };
- 
- static struct quirk_entry quirk_asus_x200ca = {
- 	.wapf = 2,
-+	.wmi_backlight_set_devstate = true,
- };
- 
- static struct quirk_entry quirk_asus_ux303ub = {
- 	.wmi_backlight_native = true,
-+	.wmi_backlight_set_devstate = true,
- };
- 
- static struct quirk_entry quirk_asus_x550lb = {
-+	.wmi_backlight_set_devstate = true,
- 	.xusb2pr = 0x01D9,
- };
- 
- static struct quirk_entry quirk_asus_forceals = {
-+	.wmi_backlight_set_devstate = true,
- 	.wmi_force_als_set = true,
- };
- 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index ee1fa93708ec..a66e99500c12 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *pdev)
- 		err = asus_wmi_backlight_init(asus);
- 		if (err && err != -ENODEV)
- 			goto fail_backlight;
--	} else
-+	} else if (asus->driver->quirks->wmi_backlight_set_devstate)
- 		err = asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL);
- 
- 	status = wmi_install_notify_handler(asus->driver->event_guid,
-diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-index 6c1311f4b04d..57a79bddb286 100644
---- a/drivers/platform/x86/asus-wmi.h
-+++ b/drivers/platform/x86/asus-wmi.h
-@@ -44,6 +44,7 @@ struct quirk_entry {
- 	bool store_backlight_power;
- 	bool wmi_backlight_power;
- 	bool wmi_backlight_native;
-+	bool wmi_backlight_set_devstate;
- 	bool wmi_force_als_set;
- 	int wapf;
- 	/*
--- 
-2.21.0
+drivers/platform/mellanox/ would be a good place for drivers running on
+a host platform with a bluefield accelerator card as an add-on, but as I
+understand, this is a driver that actually just runs in Linux on the bluefield
+itself, so it should go in a different place.
 
+We use drivers/soc/ for things that are specific to one SoC, and that
+are typically used by other drivers, but that don't have (and should not
+have) a generic abstraction, which probably is not the case here either.
+
+What we do have in drivers/power/reset is a couple of drivers that
+set the "reboot reason", communicating that to the firmware for the
+next boot, using the reboot_mode_register() interface. I don't
+know too much about that interface, but maybe you can use that
+instead of adding another sysfs interface?
+
+If you have a complex firmware on the system that you can talk
+to, there is also drivers/firmware/ as another option to put
+abstractions into.
+
+         Arnd
