@@ -2,56 +2,37 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A74292617F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 May 2019 12:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D533D2623C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 May 2019 12:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728827AbfEVKMv (ORCPT
+        id S1728111AbfEVKvR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 May 2019 06:12:51 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33418 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728584AbfEVKMu (ORCPT
+        Wed, 22 May 2019 06:51:17 -0400
+Received: from mga07.intel.com ([134.134.136.100]:32515 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727464AbfEVKvQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 May 2019 06:12:50 -0400
-Received: by mail-ed1-f68.google.com with SMTP id n17so3081367edb.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 May 2019 03:12:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UOism6/WliJKlizbO03ANyTQDbU6zepiLVCCA7yr4no=;
-        b=s7uyhH/eyS23lvtRH4TiJ8ZnrUcWHZ6gs5l2XhHpZjnGpdAA9KtPdiX39+JjTTRJyf
-         ewPHaCFHBRn3stcoIaFj6aFBl1gd+qtLam7pPoXO6GqwEim0zVMBqKoVV99jKMmMNr57
-         zhGa5/AQTyfhtIXyLiu8ZGKO7bDTwhylt1PBugRIK9FT+UjMVBRJzlFtfuQTspDx2Hev
-         047B3Wt/PUjJnZPsmMOj6dC/JE/bJjNd5Nbaa93087kqHeDYjstb5F1HrPMCq95WZI8I
-         9IGAnnZ1Hb1VbSXIJoBJL3JeNR4tgNv4yKXCUNcgudij3H68MrL+L+amgzhAISSksUCm
-         uPNA==
-X-Gm-Message-State: APjAAAVIwPKaMTxhNSQ3/aoJE7HFQlG4TGuZPYUo50j8hiRis+gjlwYM
-        1BXY3v7pe/hP54Lsdz76BINgRg==
-X-Google-Smtp-Source: APXvYqzNhVaVxR8CohHDUn6M+ULJOxCah+OGJx2vJUGm8rsFFDe+YEXiuua+IT83U0iTKfsg0KunhA==
-X-Received: by 2002:a17:906:6c1:: with SMTP id v1mr13388705ejb.266.1558519969205;
-        Wed, 22 May 2019 03:12:49 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id u1sm2617873ejz.92.2019.05.22.03.12.48
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 03:12:48 -0700 (PDT)
-Subject: Re: [PATCH] input: silead: Add MSSL0017 to acpi_device_id.
-To:     Danct12 <danct12@disroot.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190522045455.15769-1-danct12@disroot.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6c18472f-bedd-6e6d-121c-8a311495c3c3@redhat.com>
-Date:   Wed, 22 May 2019 12:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 22 May 2019 06:51:16 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 May 2019 03:51:15 -0700
+X-ExtLoop1: 1
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 22 May 2019 03:51:13 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v4 00/16] Software fwnode references
+Date:   Wed, 22 May 2019 13:50:57 +0300
+Message-Id: <20190522105113.11153-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190522045455.15769-1-danct12@disroot.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
@@ -59,34 +40,87 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 22-05-19 06:54, Danct12 wrote:
-> On Chuwi Hi10 Plus, the Silead device id is MSSL0017.
-> 
-> Signed-off-by: Danct12 <danct12@disroot.org>
+I'm not splitting this series in two after all. After thinking about
+this for some time, I decided to add support for static software
+nodes. I did not want to support them because I don't want to make it
+easy to maintain board files, but in end they make the use of the
+software nodes so much more easier compared to if we always had to
+dynamically allocate them that it's a no-brainer. The references can
+now be also described statically. Actually, those can now only be
+described statically.
 
-Patch looks good to me:
+Hans! I applied (hopefully) all of the fixes you proposed in v3. I
+hope you have time to test these.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Here's the cover letter from v3:
 
-Regards,
+This is the third version of my proposal to add reference handling to
+the software node code. In this version I renamed ACPI_NAME_SIZE to
+ACPI_NAMESEG_SIZE in 6/13, and slit patch 9/13 in two separate patches
+(9/13 and 10/13) as suggested by Andy. Patch 9/13 will now only move
+the registration of max17047 out of probe, and 10/13 will introduce
+the software nodes.
 
-Hans
+v2 cover letter:
 
+This is the second version of this series. In this version I'm
+introducing a new helper device_find_child_by_name() as proposed
+by Andy. Andy requested also another helper that could be used for
+chaining the fwnodes, but I decided not to add that now. I would like
+to still think about how we should handle exceptions like if there
+already is a secondary node assigned for a node.
 
-> ---
->   drivers/input/touchscreen/silead.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-> index 09241d4cdebc..06f0eb04a8fd 100644
-> --- a/drivers/input/touchscreen/silead.c
-> +++ b/drivers/input/touchscreen/silead.c
-> @@ -617,6 +617,7 @@ static const struct acpi_device_id silead_ts_acpi_match[] = {
->   	{ "MSSL1680", 0 },
->   	{ "MSSL0001", 0 },
->   	{ "MSSL0002", 0 },
-> +	{ "MSSL0017", 0 },
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(acpi, silead_ts_acpi_match);
-> 
+v1 cover letter:
+
+This series adds support for software fwnode reference handling. In
+practice it means making fwnode_property_get_reference_args() function
+usable in the drivers also with software nodes. I send the series
+originally as RFC [1].
+
+As the first user for the software node references, I'm converting
+intel_cht_int33fe.c to use them as part of the series.
+
+[1] https://lkml.org/lkml/2019/3/15/457
+
+thanks,
+
+Heikki Krogerus (16):
+  software node: Allow node creation without properties
+  software node: Simplify software_node_release() function
+  software node: Add support for static node descriptors
+  software node: Use kobject name when finding child nodes by name
+  software node: Add software_node_get_reference_args()
+  driver core: Add helper device_find_child_by_name()
+  ACPI / property: Don't limit named child node matching to data nodes
+  device property: Introduce fwnode_find_reference()
+  device connection: Find connections also by checking the references
+  usb: typec: Registering real device entries for the muxes
+  platform/x86: intel_cht_int33fe: Register max17047 in its own function
+  platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
+  platform/x86: intel_cht_int33fe: Provide software nodes for the
+    devices
+  platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
+  platform/x86: intel_cht_int33fe: Supply fwnodes for the external
+    dependencies
+  platform/x86: intel_cht_int33fe: Replacing the old connections with
+    references
+
+ drivers/acpi/property.c                  |  26 +-
+ drivers/base/core.c                      |  28 ++
+ drivers/base/devcon.c                    |  26 ++
+ drivers/base/property.c                  |  24 ++
+ drivers/base/swnode.c                    | 324 +++++++++++++++++------
+ drivers/platform/x86/intel_cht_int33fe.c | 290 ++++++++++++++++----
+ drivers/usb/roles/class.c                |   2 +-
+ drivers/usb/typec/bus.h                  |  15 ++
+ drivers/usb/typec/class.c                |  17 +-
+ drivers/usb/typec/mux.c                  | 238 ++++++++++++-----
+ drivers/usb/typec/mux/pi3usb30532.c      |  46 ++--
+ include/linux/device.h                   |   2 +
+ include/linux/property.h                 |  51 ++++
+ include/linux/usb/typec_mux.h            |  62 ++---
+ 14 files changed, 902 insertions(+), 249 deletions(-)
+
+-- 
+2.20.1
+
