@@ -2,73 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7773529C79
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2019 18:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AE7029C81
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2019 18:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390507AbfEXQqC (ORCPT
+        id S2390869AbfEXQtY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 May 2019 12:46:02 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:33648 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390346AbfEXQqC (ORCPT
+        Fri, 24 May 2019 12:49:24 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46434 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390346AbfEXQtX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 May 2019 12:46:02 -0400
-Received: by mail-pf1-f194.google.com with SMTP id z28so5665913pfk.0
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 May 2019 09:46:02 -0700 (PDT)
+        Fri, 24 May 2019 12:49:23 -0400
+Received: by mail-pl1-f195.google.com with SMTP id r18so4381572pls.13;
+        Fri, 24 May 2019 09:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YILCn2HdjzxtD2taeZMo1HQhQd4PqPnumSn7HIw29Y0=;
-        b=RTC7kcs8MM1QtGIToUSx96fhrxXnUcW1eVWSTtiGg1Gg0LBt4UL3qVL62FUSNuU4XN
-         jLhA3RVQGZMhxOPDww+O2OpBNZ9hOAz0ToycQeQ5CeOeF7/9TkD1bgP0tqn7API6Gc1u
-         AVMwl31cZNeMkaKF7GWzkCJmjPVfhZIGxX2KJGKhtlAoUC3PEFBFVWIlR6h4bWkOx63S
-         y87OXYrXDkV5/o1KpBS6Bmfnc2eVr6K+jwU93zDf5GRJSNGXVrqzZxiqQueznw3UMYuh
-         mjo62kbPkxjFG+wQKMbH+eOBQSkU9Sj73adZT8K3uh1w+OY/fX+FMNKku35rZus98Ob1
-         m6ww==
+        bh=1Fl+pCsc5xkUmcECPowd4yxBNgbA084+jBwh/Q97ymc=;
+        b=AWLrG+8Cq6qh5hLHBHjsxRMhFHEaO1Vp9YvkNQ57ms9VckR63mRPBzusZdN3Rh6pMQ
+         rZFW0Qvy0F3oOS+bfj7IH+ZQ69U5tlw6xQHhpkGrAuPM0xY2g2vrF2nDnNsDAqxHbE8r
+         RLSs7vdCfSe9oCAwuw3gPNGZgHNRUcTUDC3AzqaW9RHpQj+LgPYHxi4BPF4CNtYeBgX2
+         Sm9kngvDGcxgXQMbetAH+uBXLPJWD7K6z5FUO+pV+TPXtf6bAeoNeXDC7ExZMAEBXVMC
+         z6xPo/RbBM9UXh07Mmv1u8lGXcHgkxYQ/xcfBuYU2eAi1i1UuKg2KrJ2pzDfPzQu0eIk
+         UCwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YILCn2HdjzxtD2taeZMo1HQhQd4PqPnumSn7HIw29Y0=;
-        b=JgyddnIHnsP//BUPUwtIzoDk1TXG1sv1FgnNv8Xmg9zrAZasDQnAwgF/ZshfOhHXUb
-         yaqKHU3TjSOHXIcCr7CK+MUQLLd0n6V6PkfUXd480UMlL+UYaDaNNnxK1Aa2W/JnwVQs
-         pjWhKAtDOs7sDYv3gDNpCrIw07d/gXFTE1w8g6f3dg5ypUkugjm1XIyF8sBa07dQn4k9
-         xKxOkaC+9hApiA6n6CSSru9yPQuWE9+mIEsHSq+xU87eewIT8uHNVJ8T7sK1wttZsp0b
-         8boueeB9iU3Y3KBIHj/VD0gu/6wwD3k2vGYEdMFN/Xnsfm5EKL4Btf9khKAapfbxUYNL
-         qlSQ==
-X-Gm-Message-State: APjAAAUIX9KYF65VCSXRZFH+aiP/TYDOq/O3hRBMIdV/MxIcf1jBUXSj
-        JYLQZn1h8ov5PU7sgDUmooa51COr/ZR5+MjGD8s=
-X-Google-Smtp-Source: APXvYqwY8yvbbZbdFdxeXElXBi9Mys1k5CfYAXpx4CTluMSRje1UOHttaPu0RGeFgJKIGW3RiKEbsITT2L/2QGFhk44=
-X-Received: by 2002:a17:90a:80c1:: with SMTP id k1mr10570201pjw.30.1558716361826;
- Fri, 24 May 2019 09:46:01 -0700 (PDT)
+        bh=1Fl+pCsc5xkUmcECPowd4yxBNgbA084+jBwh/Q97ymc=;
+        b=UK1WLlK7Hd2LIw/KDGAJgiUE1H9ZWhsVFYgcLEY3sx3Xkd+pTwMi35EpQVGGX0mW5U
+         EVrZDLbY58imcMj+DbNGhDaMPQypEwaTlViTNPJMRFBPg0GG+gyIM0QuGsDVERxQG09+
+         EBS3sPpWP9xPEQyA8MdK8pQgMMEyfm8NkmAkOi1qlyUDEJRbcATB01c/43J1b3NGE68U
+         ZhXW4gOAVQy5d2gTXrJ0j6zw2doZZZkW8OP56pDaLLApywy+ImKIfKFeDF0hwbWbdN+c
+         dymLTVjtx2+CRAxuCC/0cnEwy/mbOqB08Fytw6CaLtKimvo/ErUyJSDKaMPUgvwE+smd
+         uSyQ==
+X-Gm-Message-State: APjAAAXOCFuZ+v1lSXHxRnUPSWn2NjlrPKOWDohAqG7fse7Gy1XnHjIj
+        R6zz6sDt/1GEgwnDZNc7hgbT53BGWyZnSCryF00=
+X-Google-Smtp-Source: APXvYqyyPR11DXypiZGhxXSFgKI0dABNyJ+dNM096QAOso0rcvPnxyjwuVjX/1XFED6quda5v3NLLFn/8fwBHmLu2wI=
+X-Received: by 2002:a17:902:24b:: with SMTP id 69mr17524490plc.255.1558716563115;
+ Fri, 24 May 2019 09:49:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <E1hSOxT-00005q-An@tuxpaddy.alexanderweb.homeip.net> <3756fda2-7270-e3b2-fac8-3c0c0be633fa@alexanderweb.de>
-In-Reply-To: <3756fda2-7270-e3b2-fac8-3c0c0be633fa@alexanderweb.de>
+References: <20190523190913.5801-1-danct12@disroot.org>
+In-Reply-To: <20190523190913.5801-1-danct12@disroot.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 24 May 2019 19:45:51 +0300
-Message-ID: <CAHp75VfaDqCe7R2ZWTXs4j4i5v+B56Od0zVLANtMJd8-JgyUPw@mail.gmail.com>
-Subject: Re: [PATCH] Add Lenovo PrivacyGuard feature found in T480s, T490, T490s
-To:     Alexander Schremmer <alex@alexanderweb.de>
-Cc:     Andy Shevchenko <andy@infradead.org>,
+Date:   Fri, 24 May 2019 19:49:12 +0300
+Message-ID: <CAHp75Vdh=ny16mEnDw0pMfUzyOcrA97AnXKfyW+BcEcZ-W1ryQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the CHUWI
+ Hi10 Plus tablet.
+To:     Daniel Smith <danct12@disroot.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 21, 2019 at 3:56 PM Alexander Schremmer
-<alex@alexanderweb.de> wrote:
-> I wonder whether you have received my kernel patch, referenced below. It
-> might have been caught by the spam filter.
+On Thu, May 23, 2019 at 10:12 PM Daniel Smith <danct12@disroot.org> wrote:
+>
+> Added touch screen info for CHUWI Hi10 Plus tablet.
+>
 
-Yes, you may always consult with patchwork [1]. If it's they, it won't be lost.
+Pushed to my review and testing queue, thanks!
 
-[1]: https://patchwork.kernel.org/project/platform-driver-x86/list/
+> Signed-off-by: Daniel Smith <danct12@disroot.org>
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index bd0856d2e825..1dbb53c3f1e7 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -91,6 +91,22 @@ static const struct ts_dmi_data chuwi_hi10_air_data = {
+>         .properties     = chuwi_hi10_air_props,
+>  };
+>
+> +static const struct property_entry chuwi_hi10_plus_props[] = {
+> +       PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
+> +       PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
+> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1914),
+> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1283),
+> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-hi10plus.fw"),
+> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +       { }
+> +};
+> +
+> +static const struct ts_dmi_data chuwi_hi10_plus_data = {
+> +       .acpi_name      = "MSSL0017:00",
+> +       .properties     = chuwi_hi10_plus_props,
+> +};
+> +
+>  static const struct property_entry chuwi_vi8_props[] = {
+>         PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
+>         PROPERTY_ENTRY_U32("touchscreen-min-y", 6),
+> @@ -605,6 +621,15 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>                         DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+>                 },
+>         },
+> +       {
+> +               /* Chuwi Hi10 Plus (CWI527) */
+> +               .driver_data = (void *)&chuwi_hi10_plus_data,
+> +               .matches = {
+> +                       DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "Hi10 plus tablet"),
+> +                       DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+> +               },
+> +       },
+>         {
+>                 /* Chuwi Vi8 (CWI506) */
+>                 .driver_data = (void *)&chuwi_vi8_data,
+> --
+> 2.21.0
+>
+
 
 -- 
 With Best Regards,
