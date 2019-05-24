@@ -2,56 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C56DB29DFD
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2019 20:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0935C29E46
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2019 20:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727157AbfEXS05 (ORCPT
+        id S1729017AbfEXSo3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 May 2019 14:26:57 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:46261 "EHLO
+        Fri, 24 May 2019 14:44:29 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36270 "EHLO
         mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbfEXS04 (ORCPT
+        with ESMTP id S1728594AbfEXSo3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 May 2019 14:26:56 -0400
-Received: by mail-pg1-f194.google.com with SMTP id o11so862774pgm.13
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 May 2019 11:26:56 -0700 (PDT)
+        Fri, 24 May 2019 14:44:29 -0400
+Received: by mail-pg1-f194.google.com with SMTP id a3so5510470pgb.3;
+        Fri, 24 May 2019 11:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=l1/ARJcgHxYj3UiESO3kHPvosQmSI7Yr7/NWsKCtvSg=;
-        b=D/AJMZHTDHPwgviRxPca4LOTptBlM2+yG6AsBtEIDKODOARBxec4VS7IjFYs7swKh+
-         6J04/Qk94LE96ryw2bu3NBwUDzli1eQZJUkIsO1g6f0HScDUsd5XvmFWyOUCLFMgltGF
-         GxFbGp9M6JYcWO6q5aqPeNlV9vDBD3jVmoGThBlRfZfpQ8AbtBAPXELyDwDa/+j5LmLx
-         /33SWBhN621KRoGHzcKCL1KhwP1Fw3BQ1Z4DTLbqNmZ0JLVeZ8y/bx+0nQ0FeRjAKkqz
-         bIBgc3h8FxPQ24E8wWyQ11YhAA3rY8wGbtqxsqzqxFTRmUMhc+BNPsL1YUMhU+Qey61x
-         /F+g==
+        bh=DEKp3R9bzWITm6m4VOnqiAhUVI7e2LB8OiUJABzyZx8=;
+        b=qxKDRoU1G/mwIWP7uUuNzzAmD7D6dvoYgB9hhTNPyWsq9qxRGRTqyNXnjGTkleh1Tp
+         VQOZVd78RCsDy8Z97aLIcvGcbiBNaNCo20PZrlvbM1rvJ4I71Ol8JJhK2RIGzbcfAMNc
+         4aFBhpo2Dv2EL0mqtr7BgBYoBT1N4MCcUWvxUUds55z3J1EDk12Sax4tmU2nA+oOEtLk
+         3vnUnThFId83WEpuUWgqydw0So8PHlZr32Eo7ggJ6ai6usGJYhhMMJD3xP1kR0nTM67W
+         9/89lkAuDy+BMq9xfh01KiNUFn0UgLC6PI9D6b0AlLwTO8WYDO8J4QVVN7PJ9uP4FIJE
+         DhHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=l1/ARJcgHxYj3UiESO3kHPvosQmSI7Yr7/NWsKCtvSg=;
-        b=i1Hx5orKcVKxACYp07POgOuwmyhX8sruHwY/ne2jMwu76AXGidE4P8AWOYhK+rmCLQ
-         z0Uq53VaTm8dqwNkJBypFFEnFJjGTdCgwlZ/uP3zapgmDFNoKAPWIpuZ7rAg9bq3YbZu
-         wSJ3olp9a6ekU6x5Lr79E9hiN11paDhg4eRyugAKnZ7+qRv4KuwXt2D2Wd9lGPthm1GS
-         941pmCd5tudsPbRY7vBMpqxSgll8/qmj0p3Of2ZpFy63MkRwv+e7Tc0Q2eco14dkZM9Y
-         2I5n9ajWU/9P+fgEIvmBUpr/W+ABdWKM1Ua2lvgHW48tCrkDiK1ZOi+X516Hyw8zC6qY
-         mYXg==
-X-Gm-Message-State: APjAAAVsrPLwLt3Yn+x7f7raXAfDhG9UouViIOFmRrG54TyTIRwyWt13
-        85EDH8WOnIiuQu0H7Ok974WiBHUA4rcYOZleWpU=
-X-Google-Smtp-Source: APXvYqwWZ/JECNUkZhTdZ1FHjhrgni7uCZ+r+k/XZAB56I/wuNORkx5kmn4V5oJZDNUZ99yIiIRPXT/UHVUUt7i4LEE=
-X-Received: by 2002:a63:e645:: with SMTP id p5mr106690767pgj.4.1558722415955;
- Fri, 24 May 2019 11:26:55 -0700 (PDT)
+        bh=DEKp3R9bzWITm6m4VOnqiAhUVI7e2LB8OiUJABzyZx8=;
+        b=YwSmGPjSAigBINQS5VwLv1vyD5J9EnKi2Gbek6HPxowH3jXLctcGcm04g37RG165dd
+         7HpFtt4Pd1SYRasUYm9lNVNVcb+pGKxPo+d4rlQ7w6H6b8OxuZ3N3VTGk4qK4Mj0KT+i
+         aCZ35n45kA/gkKuxAVUrzT8G916G+GIuUdgGRQ/KN8ip8NbRJBC5t5mKkwKveiUIVPpD
+         rleRsBKzxBL0OMZk5ViL8n7u06PVXjCICJ1D9qo11rhKJGPMKwqfXI77OMDh5eefAXM5
+         iqqj3g00oYmM6n5Mm6DQri9URNeFSX0fMZNvjmfAs7IHwrVdOTip2DcQnKEtDe0ufcv7
+         GtFQ==
+X-Gm-Message-State: APjAAAWfRKvD6PGbUXb+Du3nk3i20WYiBMSLQ171/wIRhgS3PvG6mhOz
+        WKgopgGhvIG5PDw4Vr0gmPGVfv+Ewc3i5ERSxg7xRgB7EM0=
+X-Google-Smtp-Source: APXvYqz7sGEKbs0+Ma3aDEulBrlqCsNX+W3IUJLVBSwDvswP70eniWkTfxtGATVQV4azjI2DmKfSU2jLiy8X/7+Hslk=
+X-Received: by 2002:a17:90a:778b:: with SMTP id v11mr11447669pjk.132.1558723467843;
+ Fri, 24 May 2019 11:44:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190523164152.21057-1-vadimp@mellanox.com>
-In-Reply-To: <20190523164152.21057-1-vadimp@mellanox.com>
+References: <20190522105113.11153-1-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20190522105113.11153-1-heikki.krogerus@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 24 May 2019 21:26:44 +0300
-Message-ID: <CAHp75VcDk+3gZsjDRr1=K-q=ZGd44DhFhR2_XgMWQGEPRYYKiw@mail.gmail.com>
-Subject: Re: [PATCH v1 platform] platform/mellanox: mlxreg-hotplug: Add
- devm_free_irq call to remove flow
-To:     Vadim Pasternak <vadimp@mellanox.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+Date:   Fri, 24 May 2019 21:44:17 +0300
+Message-ID: <CAHp75VcvpoUhOnB1fLBY9G_L6R8SJBCjn+tYFdTo37GuHFKcyQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/16] Software fwnode references
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -59,93 +63,100 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, May 23, 2019 at 7:41 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
+On Wed, May 22, 2019 at 1:51 PM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
-> Add devm_free_irq() call to mlxreg-hotplug remove() for clean release
-> of devices irq resource. Fix debugobjects warning triggered by rmmod
-> It prevents of use-after-free memory, related to
-> mlxreg_hotplug_work_handler.
+> Hi,
 >
-> Issue has been reported as debugobjects warning triggered by
-> 'rmmod mlxtreg-hotplug' flow, while running kernel with
-> CONFIG_DEBUG_OBJECTS* options.
+> I'm not splitting this series in two after all. After thinking about
+> this for some time, I decided to add support for static software
+> nodes. I did not want to support them because I don't want to make it
+> easy to maintain board files, but in end they make the use of the
+> software nodes so much more easier compared to if we always had to
+> dynamically allocate them that it's a no-brainer. The references can
+> now be also described statically. Actually, those can now only be
+> described statically.
 >
-> [ 2489.623551] ODEBUG: free active (active state 0) object type: work_struct hint: mlxreg_hotplug_work_handler+0x0/0x7f0 [mlxreg_hotplug]
-> [ 2489.637097] WARNING: CPU: 5 PID: 3924 at lib/debugobjects.c:328 debug_print_object+0xfe/0x180
-> [ 2489.637165] RIP: 0010:debug_print_object+0xfe/0x180
-> ?
-> [ 2489.637214] Call Trace:
-> [ 2489.637225]  __debug_check_no_obj_freed+0x25e/0x320
-> [ 2489.637231]  kfree+0x82/0x110
-> [ 2489.637238]  release_nodes+0x33c/0x4e0
-> [ 2489.637242]  ? devres_remove_group+0x1b0/0x1b0
-> [ 2489.637247]  device_release_driver_internal+0x146/0x270
-> [ 2489.637251]  driver_detach+0x73/0xe0
-> [ 2489.637254]  bus_remove_driver+0xa1/0x170
-> [ 2489.637261]  __x64_sys_delete_module+0x29e/0x320
-> [ 2489.637265]  ? __ia32_sys_delete_module+0x320/0x320
-> [ 2489.637268]  ? blkcg_exit_queue+0x20/0x20
-> [ 2489.637273]  ? task_work_run+0x7d/0x100
-> [ 2489.637278]  ? exit_to_usermode_loop+0x5b/0xf0
-> [ 2489.637281]  do_syscall_64+0x73/0x160
-> [ 2489.637287]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [ 2489.637290] RIP: 0033:0x7f95c3596fd7
+> Hans! I applied (hopefully) all of the fixes you proposed in v3. I
+> hope you have time to test these.
 >
-> The difference in release flow with and with no devm_free_irq is listed
-> below:
+> Here's the cover letter from v3:
 >
-> bus: 'platform': remove driver mlxreg-hotplug
->  mlxreg_hotplug_remove(start)
->                                         -> devm_free_irq (with new code)
->  mlxreg_hotplug_remove (end)
->  release_nodes (start)
->   mlxreg-hotplug: DEVRES REL devm_hwmon_release (8 bytes)
->   device: 'hwmon3': device_unregister
->   PM: Removing info for No Bus:hwmon3
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (88 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (6 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (5 bytes)
->   mlxreg-hotplug: DEVRES REL devm_irq_release (16 bytes) (no new code)
->   mlxreg-hotplug: DEVRES REL devm_kzalloc_release (1376 bytes)
->    ------------[ cut here ]------------ (no new code):
->    ODEBUG: free active (active state 0) object type: work_struct hint: mlxreg_hotplug_work_handler
+> This is the third version of my proposal to add reference handling to
+> the software node code. In this version I renamed ACPI_NAME_SIZE to
+> ACPI_NAMESEG_SIZE in 6/13, and slit patch 9/13 in two separate patches
+> (9/13 and 10/13) as suggested by Andy. Patch 9/13 will now only move
+> the registration of max17047 out of probe, and 10/13 will introduce
+> the software nodes.
 >
->  release_nodes(end)
-> driver: 'mlxreg-hotplug': driver_release
+> v2 cover letter:
+>
+> This is the second version of this series. In this version I'm
+> introducing a new helper device_find_child_by_name() as proposed
+> by Andy. Andy requested also another helper that could be used for
+> chaining the fwnodes, but I decided not to add that now. I would like
+> to still think about how we should handle exceptions like if there
+> already is a secondary node assigned for a node.
+>
+> v1 cover letter:
+>
+> This series adds support for software fwnode reference handling. In
+> practice it means making fwnode_property_get_reference_args() function
+> usable in the drivers also with software nodes. I send the series
+> originally as RFC [1].
+>
+> As the first user for the software node references, I'm converting
+> intel_cht_int33fe.c to use them as part of the series.
+>
+> [1] https://lkml.org/lkml/2019/3/15/457
 >
 
-Pushed to my review and testing queue, thanks!
+For PDx86 bits,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
+Assuming it will go thru some other tree.
 
-> Fixes: 1f976f6978bf ("platform/x86: Move Mellanox platform hotplug driver to platform/mellanox")
-> Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
-> ---
->  drivers/platform/mellanox/mlxreg-hotplug.c | 1 +
->  1 file changed, 1 insertion(+)
+> thanks,
 >
-> diff --git a/drivers/platform/mellanox/mlxreg-hotplug.c b/drivers/platform/mellanox/mlxreg-hotplug.c
-> index 687ce6817d0d..f85a1b9d129b 100644
-> --- a/drivers/platform/mellanox/mlxreg-hotplug.c
-> +++ b/drivers/platform/mellanox/mlxreg-hotplug.c
-> @@ -694,6 +694,7 @@ static int mlxreg_hotplug_remove(struct platform_device *pdev)
+> Heikki Krogerus (16):
+>   software node: Allow node creation without properties
+>   software node: Simplify software_node_release() function
+>   software node: Add support for static node descriptors
+>   software node: Use kobject name when finding child nodes by name
+>   software node: Add software_node_get_reference_args()
+>   driver core: Add helper device_find_child_by_name()
+>   ACPI / property: Don't limit named child node matching to data nodes
+>   device property: Introduce fwnode_find_reference()
+>   device connection: Find connections also by checking the references
+>   usb: typec: Registering real device entries for the muxes
+>   platform/x86: intel_cht_int33fe: Register max17047 in its own function
+>   platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
+>   platform/x86: intel_cht_int33fe: Provide software nodes for the
+>     devices
+>   platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
+>   platform/x86: intel_cht_int33fe: Supply fwnodes for the external
+>     dependencies
+>   platform/x86: intel_cht_int33fe: Replacing the old connections with
+>     references
 >
->         /* Clean interrupts setup. */
->         mlxreg_hotplug_unset_irq(priv);
-> +       devm_free_irq(&pdev->dev, priv->irq, priv);
+>  drivers/acpi/property.c                  |  26 +-
+>  drivers/base/core.c                      |  28 ++
+>  drivers/base/devcon.c                    |  26 ++
+>  drivers/base/property.c                  |  24 ++
+>  drivers/base/swnode.c                    | 324 +++++++++++++++++------
+>  drivers/platform/x86/intel_cht_int33fe.c | 290 ++++++++++++++++----
+>  drivers/usb/roles/class.c                |   2 +-
+>  drivers/usb/typec/bus.h                  |  15 ++
+>  drivers/usb/typec/class.c                |  17 +-
+>  drivers/usb/typec/mux.c                  | 238 ++++++++++++-----
+>  drivers/usb/typec/mux/pi3usb30532.c      |  46 ++--
+>  include/linux/device.h                   |   2 +
+>  include/linux/property.h                 |  51 ++++
+>  include/linux/usb/typec_mux.h            |  62 ++---
+>  14 files changed, 902 insertions(+), 249 deletions(-)
 >
->         return 0;
->  }
 > --
-> 2.11.0
+> 2.20.1
 >
 
 
