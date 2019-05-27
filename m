@@ -2,136 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BCCE2A03C
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 May 2019 23:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 152642B07D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 May 2019 10:44:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404126AbfEXVKr (ORCPT
+        id S1726491AbfE0Inw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 May 2019 17:10:47 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:35075 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391775AbfEXVKq (ORCPT
+        Mon, 27 May 2019 04:43:52 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41282 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbfE0Inv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 May 2019 17:10:46 -0400
-Received: by mail-qk1-f195.google.com with SMTP id c15so9544889qkl.2
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 May 2019 14:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NqwnG1uIANfo29FPPFO9XzdxaIL8u/YShBseQ7nZRAg=;
-        b=SQ92VKPGzUpQMVWPmzyFFvqntCrKJfUDQ81Kl1fc2lDQ4knAU0wvsoetXOYHQzC5mC
-         aM/JAZnnPh/EYJMQRWlUfVk2UwIhyXH1lNN0LU3qXnZjLBul+NnypLeh7o5b4HJkgfj9
-         NaJWpGlQqNt5X397cFWigSHMLSIrVHSV+E3/q42XVK+D+pdJQMDMHAYBU1EayTMIgYdv
-         QkfDq8h7q+9cj5n2X9diEXG5BmSEJMeZiLoCbo5jdwXGnvE+ooU3nujenKRix/cVslAG
-         5GbBpmWX66iMdRFHApqRCoJTb4konvSDaXKPupYgO7jRIVi1WOXtaKuxqduRfE4R9pfr
-         DdNQ==
+        Mon, 27 May 2019 04:43:51 -0400
+Received: by mail-ot1-f67.google.com with SMTP id l25so14128128otp.8;
+        Mon, 27 May 2019 01:43:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NqwnG1uIANfo29FPPFO9XzdxaIL8u/YShBseQ7nZRAg=;
-        b=pVZp8QIbl1avLDeYbzURvgftRp1vkoEVks3ZagFFGs59CY9MOsfi3vAswU8EyDFyUJ
-         UjL2jwq3rOK02o+ZGRwDoKSt5ijXt4LM21atnqu34W42Ds/zIdYY+QMsDYakIQZrdhYf
-         DJgdpV3KpdAjwflvTa+oewHHZyWmjuSpz1LxhovIlGZugJBNmin+bUdykC7SUvu/OT3p
-         OTIE5l3u9K2xIDdKP29RTqCu0uRFSL/SBYIk/cGAISjKtXVdNHgXSJJM11FufOojVEzP
-         7U5Wk51dno497xBAm9crNMOgQHmHcg6fq+EOE1Vnb57gYVdU/NteraibLj6WMuaaToj1
-         htiw==
-X-Gm-Message-State: APjAAAXIe+0Zz94QsTcUJNvxU+28ADdDaiAvfOf+YUsfTk6Q0ZYKGq+k
-        3Jptjy8xWAG1WnVH4NfkPOfCqxyVDuJz4dONkyTgpA==
-X-Google-Smtp-Source: APXvYqw53TxiSztmeS5aG/lRAscCWEBCg60ghArjRRHg8ms6Qa8DVfD44TDY+uL/Ii2z9W8E3g1ie46yeMnAfbL/JOU=
-X-Received: by 2002:a0c:b04f:: with SMTP id l15mr70291951qvc.191.1558732245610;
- Fri, 24 May 2019 14:10:45 -0700 (PDT)
+        bh=SPyeTzPFoh+1jcHD1T6EeO+I9ugNzJgCyHNSVSPB+Tc=;
+        b=CurKgiqG1W2/kcwqKQGypZEHcqAaKeeiBvQOmycmxO1M+JUNpY1wcado5riTLx4FgG
+         KoAuupXk1Co0lLXoLzVZk0CvOYk7xlutqqlEq5DZk3/LMCHkjffnoinnb9e32YvycQy8
+         ziXuqUmjx/p/KoWMf47CE+jo966cTxXZ/QZn2/qErM/uzZ6ujgEDVfRRgopAaD6kJKZj
+         Thp50xWIEhTq1yDoPNKmKuhGmOQDuMveeVlMnKE+WWRL4hBg2kwXBkVZQse0hRHudESs
+         DyuBbNdhcgcC++eX5TnpHOy8uFHrP2P0257cxe/WUfISunfz2lJjT6b48Se2N812QYc+
+         6YIQ==
+X-Gm-Message-State: APjAAAUPr7GH+9lLtlo50P8cRh7osBh4bF0CR5KFM/Npp13or1BEUC//
+        VGOAIkJoib2ZcJWVVgLKoZZY7j4ThLNydZb6Nnw=
+X-Google-Smtp-Source: APXvYqxIlLFH84yhUFerMj/YlUDBNDBRTGJTxhPDFRXnfvuo7mYZbz39ugxbhoZlfat/iRijWwRpROWfadWrjYSeMCE=
+X-Received: by 2002:a9d:7dd5:: with SMTP id k21mr43860970otn.167.1558946630255;
+ Mon, 27 May 2019 01:43:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <c8cdb347-e206-76b2-0d43-546ef660ffb7@gmail.com> <35811fe2-7aac-aa3c-46dc-2bef515b0f47@gmail.com>
-In-Reply-To: <35811fe2-7aac-aa3c-46dc-2bef515b0f47@gmail.com>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Fri, 24 May 2019 15:10:34 -0600
-Message-ID: <CAD8Lp45kFO47N9KpgF4SACLUZmjOEG49_=ZLgP8fZyOYh_qYJg@mail.gmail.com>
-Subject: Re: [PATCH v4 04/13] platform/x86: wmi: Add function to get _UID of
- WMI device
-To:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Chris Chiu <chiu@endlessm.com>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+References: <cover.1558362030.git.mchehab+samsung@kernel.org> <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
+In-Reply-To: <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 27 May 2019 10:43:39 +0200
+Message-ID: <CAJZ5v0iiSo=yoyZTt6ddf5fBRGy1wSvzmA-ZaHH33nivkSp22Q@mail.gmail.com>
+Subject: Re: [PATCH 10/10] docs: fix broken documentation links
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:EDAC-CORE" <linux-edac@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-gpio@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        xen-devel@lists.xenproject.org,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+        devel@driverdev.osuosl.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 14, 2019 at 12:59 PM Yurii Pavlovskyi
-<yurii.pavlovskyi@gmail.com> wrote:
+On Mon, May 20, 2019 at 4:48 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 >
-> Add a new function to acpi.h / wmi.c that returns _UID of the ACPI WMI
-> device. For example, it returns "ATK" for the following declaration in
-> DSDT:
-> Device (ATKD)
-> {
->     Name (_HID, "PNP0C14" /* Windows Management Instrumentation Device */)
->       // _HID: Hardware ID
->     Name (_UID, "ATK")  // _UID: Unique ID
->     ..
+> Mostly due to x86 and acpi conversion, several documentation
+> links are still pointing to the old file. Fix them.
 >
-> Generally, it is possible that multiple PNP0C14 ACPI devices are present in
-> the system as mentioned in the commit message of commit bff431e49ff5
-> ("ACPI: WMI: Add ACPI-WMI mapping driver").
->
-> Therefore the _UID is returned for a specific ACPI device that declares the
-> given GUID, to which it is also mapped by other methods of wmi module.
->
-> Signed-off-by: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Some extra background may be useful when reviewing this.
+For the ACPI part:
 
-As researched in
-https://marc.info/?l=linux-kernel&m=155498017207933&w=2, we are
-dealing with a tricky situation.
-
-asus-wmi currently serves two different classes of device: eeepci-wmi
-and asus-nb-wmi.
-
-The eeepci devices have:
-  _WDG : includes a METHOD block with GUID ASUS_WMI_MGMT_GUID, and an
-EVENT block with GUID EEEPC_WMI_EVENT_GUID
- _UID : ASUSWMI
-
-The asus-nb-wmi devices have:
- _ WDG : includes a METHOD block with GUID ASUS_WMI_MGMT_GUID (same as
-eeepc), and an EVENT block with GUID ASUS_NB_WMI_EVENT_GUID
- _UID : ATK
-
-To support new devices we now need to start concretely identifying
-which of these we are working with. But complications include:
- - The main MGMT_GUID used for matching at the moment is shared over
-both device types
- - Some Asus products have both of these (via two separate two
-separate PNP0C14 WMI devices).
-
-Currently eeepci-wmi and asus-nb-wmi register themselves with
-asus-wmi, which registers a platform device for each one. The platform
-dev probe then succeeds the platform device probe when it finds any
-_WDG entry for the main MGMT_GUID and the _WDG entry for the
-corresponding event GUID (not necessarily as part of the same
-underlying ACPI Device). In the case of both devices being present
-with duplicate MGMT, the first one that is parsed wins, and the other
-is ignored (see guid_already_parsed()).
-
-Sticking with the current approach, which is imperfect for devices
-that have both devices, adding a method to detect the _UID seems
-reasonable. Although actually I just realised you could probably also
-detect the difference by using wmi_has_guid() on the EVENT UUID
-without having to add a new function.
-
-I'll keep thinking about how to improve the situation around two
-devices present (but don't want to needlessly conflate this patch
-series with that).
-
-Daniel
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
