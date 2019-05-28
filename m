@@ -2,21 +2,20 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44B6F2C95A
+	by mail.lfdr.de (Postfix) with ESMTP id B1EFD2C95B
 	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 16:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbfE1O6I (ORCPT
+        id S1726371AbfE1O6I (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Tue, 28 May 2019 10:58:08 -0400
-Received: from 175-96-83-65.dynamic.tfn.ent.tw ([175.96.83.65]:36297 "EHLO
+Received: from 175-96-83-65.dynamic.tfn.ent.tw ([175.96.83.65]:33408 "EHLO
         E6440.gar.corp.intel.com" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726371AbfE1O6I (ORCPT
+        by vger.kernel.org with ESMTP id S1726463AbfE1O6I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
         Tue, 28 May 2019 10:58:08 -0400
-X-Greylist: delayed 1862 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 May 2019 10:58:07 EDT
 Received: from E6440.gar.corp.intel.com (localhost [127.0.0.1])
-        by E6440.gar.corp.intel.com (Postfix) with ESMTP id DE56DC1ACA;
-        Tue, 28 May 2019 10:53:53 +0800 (CST)
+        by E6440.gar.corp.intel.com (Postfix) with ESMTP id 6ED3BC1AF7;
+        Tue, 28 May 2019 10:57:31 +0800 (CST)
 From:   Harry Pan <harry.pan@intel.com>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     gs0622@gmail.com, Harry Pan <harry.pan@intel.com>,
@@ -25,9 +24,9 @@ Cc:     gs0622@gmail.com, Harry Pan <harry.pan@intel.com>,
         platform-driver-x86@vger.kernel.org,
         Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
         Darren Hart <dvhart@infradead.org>
-Subject: [PATCH] platform/x86: intel_pmc_core: transform Pkg C-state residency from TSC ticks into microseconds
-Date:   Tue, 28 May 2019 10:53:17 +0800
-Message-Id: <20190528025317.5872-1-harry.pan@intel.com>
+Subject: [PATCH v2] platform/x86: intel_pmc_core: transform Pkg C-state residency from TSC ticks into microseconds
+Date:   Tue, 28 May 2019 10:57:27 +0800
+Message-Id: <20190528025727.6014-1-harry.pan@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190527130811.450-1-harry.pan@intel.com>
 References: <20190527130811.450-1-harry.pan@intel.com>
