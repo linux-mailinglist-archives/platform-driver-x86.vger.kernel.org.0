@@ -2,81 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B882C3CA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 12:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC6D2C525
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 13:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbfE1KAv convert rfc822-to-8bit (ORCPT
+        id S1726631AbfE1LGx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 May 2019 06:00:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56082 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726282AbfE1KAv (ORCPT
+        Tue, 28 May 2019 07:06:53 -0400
+Received: from shell.v3.sk ([90.176.6.54]:37277 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726313AbfE1LGx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 May 2019 06:00:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 3EB65B030;
-        Tue, 28 May 2019 10:00:13 +0000 (UTC)
-Date:   Tue, 28 May 2019 12:00:11 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBLxJlwaWXFhA==?= <kernel@kempniu.pl>,
-        Steven Honeyman <stevenhoneyman@gmail.com>,
-        Valdis Kletnieks <Valdis.Kletnieks@vt.edu>,
-        Jochen Eisinger <jochen@penguin-breeder.org>,
-        Gabriele Mazzotta <gabriele.mzt@gmail.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Mario Limonciello <Mario_Limonciello@dell.com>,
-        Alex Hung <alex.hung@canonical.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v2] i2c: i801: Register optional lis3lv02d i2c device on
- Dell machines
-Message-ID: <20190528120011.288189f9@endymion>
-In-Reply-To: <20190528095402.hlnqfon6jk452one@pali>
-References: <CAHp75Vf=-RQvCtS684Q5+X=YKmZXgP_1kr0to8BGZX0jQAsuZw@mail.gmail.com>
-        <20180212153012.vffvjmz26ifyxbj5@pali>
-        <CAHp75VfF+qwCXcr3yuayE-Z+UG9wuMOKfGzLhdyPk79daEi9gQ@mail.gmail.com>
-        <20180213150004.5d2v7y7wwuure4io@pali>
-        <CAHp75VfxgbFiDxyrqyMRE8s85L1_EzkVvrA1NGYA5_su=5oGVQ@mail.gmail.com>
-        <20180213165023.xmzovx7fd3gdljxw@pali>
-        <20180226203255.lnnzipipjz5l2itz@ninjato>
-        <20190528111953.0e5415f4@endymion>
-        <20190528094132.ytsittb5hcgthoy2@pali>
-        <1559037015.6521.3.camel@suse.de>
-        <20190528095402.hlnqfon6jk452one@pali>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+        Tue, 28 May 2019 07:06:53 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id EBEB51048B5;
+        Tue, 28 May 2019 13:06:50 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id z-URobh3VGwZ; Tue, 28 May 2019 13:06:48 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id AEC921048B7;
+        Tue, 28 May 2019 13:06:47 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id jospB53Cg9Z6; Tue, 28 May 2019 13:06:46 +0200 (CEST)
+Received: from belphegor (nat-pool-brq-t.redhat.com [213.175.37.10])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id A6D941048B5;
+        Tue, 28 May 2019 13:06:46 +0200 (CEST)
+Message-ID: <6db9830f1240fafb01dde94281d53f0c5ccd6230.camel@v3.sk>
+Subject: Re: [PATCH -next 0/2] Platform: OLPC: Fix two randbuild error
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     YueHaibing <yuehaibing@huawei.com>, dvhart@infradead.org,
+        andy@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Date:   Tue, 28 May 2019 13:06:45 +0200
+In-Reply-To: <20190528092806.20080-1-yuehaibing@huawei.com>
+References: <20190528092806.20080-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 28 May 2019 11:54:02 +0200, Pali Rohár wrote:
-> On Tuesday 28 May 2019 11:50:15 Jean Delvare wrote:
-> > OK, thanks for the explanation. But assuming that we now instantiate
-> > the lis2lv02d device from i2c-i801 for exactly all the same machines,
-> > can't we just *enable* the freefall misc device feature of lis2lv02d
-> > and kill the dell-smo8800 driver completely? Seems more simple to
-> > maintain going forward.  
+On Tue, 2019-05-28 at 17:28 +0800, YueHaibing wrote:
+> Fix two randbuild error:
+> 1) Fix build error with CONFIG_SPI is not set
+> 2) Fix build error with CONFIG_INPUT is set to m
 > 
-> I though about it and I already wrote that is it not practical. For ACPI
-> drivers there is easy way to get that interrupt number from ACPI tables.
-> From i2c-i801 PCI driver it is hard to get interrupt number for
-> particular ACPI device...
+> YueHaibing (2):
+>   Platform: OLPC: Fix build error without CONFIG_SPI
+>   Platform: OLPC: Add INPUT dependencies
 > 
-> That is way I preferred simple solution: ACPI driver for ACPI device and
-> i2c driver for i2c device.
+>  drivers/platform/olpc/Kconfig | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-OK, fine with me then :-)
+Thanks. Both patches:
 
--- 
-Jean Delvare
-SUSE L3 Support
+Reviewed-by: Lubomir Rintel <lkundrak@v3.sk>
+
