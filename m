@@ -2,100 +2,183 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A9862CE2F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 20:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D7C2D0EC
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 23:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727850AbfE1SFU (ORCPT
+        id S1727795AbfE1VWi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 May 2019 14:05:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58942 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726576AbfE1SFU (ORCPT
+        Tue, 28 May 2019 17:22:38 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41047 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727545AbfE1VWi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 May 2019 14:05:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=c4UYGdsKZq4NWqEx58QdiCg0rhfNu1KBY55h4BFMWyo=; b=Z/G3eU4sXgkwxGprjOpXcSzLe
-        FTtNHYcgOv34akNz/txX2tXTNsgieQtVKHlKXqAXBFJ+9Gn1usByy9aX7Rll9b+ncwnyOWBLN7vEQ
-        pNaYuP7UgOn/7apSRvDMPXvGQojZF7h4G8KLK8JhlUD4GHLoNOcc0LUfDGaSa02y8aSNOrfkmsZPs
-        suIz4JJzLFZdAPZ2j29SFwVJNv4sOOn1Xt8jwjtZ4ON7TUoMkH7nZu4Tg9q4dmyBTAQvPP0w0WRpI
-        gx2s7xb3rv4/cU7HG4E54EcIHlONdBWs7NugwaXHKqfWoigrHtM8HXzPwO2GJnXMbWq+Xv33MjFud
-        48I6pFdcQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hVgTF-0001MV-Sq; Tue, 28 May 2019 18:05:09 +0000
-Subject: Re: linux-next: Tree for May 28 (platform/olpc/olpc-xo175-ec)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Lennert Buytenhek <buytenh@wantstofly.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-References: <20190528145838.23b73e25@canb.auug.org.au>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <68b2b71a-970b-8e0e-1ee3-e05a51c3bdf2@infradead.org>
-Date:   Tue, 28 May 2019 11:05:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 28 May 2019 17:22:38 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q17so83980pfq.8
+        for <platform-driver-x86@vger.kernel.org>; Tue, 28 May 2019 14:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=50/Xsj2LKY8CwAMNgsVgvv5+QnRXiqhLmyb8OWBrLu4=;
+        b=2SH/1M2uQW6uvZeCyQu8fC6BcYQ3yqdZ8EgQBBcyrkw4bTuCBW3zOJCtu3LjIfGuG9
+         AfMl60xPrtJoep6zX9v1XBa2OzPki8CqmG6azhB7pX3EK6UfVDE+YhC/ux+FEnGquNXv
+         SxZFZlB5lZEh0a/sfmfmR7qds9ll/OR8u3yaBiWCSQOL9JTUc5rCpyyzPSqOnvF0HR8C
+         Q7WSiXFExN2gfjRJ69RtgE58rLDC+HHboKvRpqcXYquCp+D14H39ro5bA4s0A0yRxH/+
+         EprtNEnP4wK2n/4woptN5mdCkjgAOGhrtZPcHkOZRZULWEkT1gQA7WEI8Wyh84/FtTgn
+         o98w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=50/Xsj2LKY8CwAMNgsVgvv5+QnRXiqhLmyb8OWBrLu4=;
+        b=T//7aXmi8+e1POTNs2QYm6eygpx28i7z6zvZz7kT8+3Xa4pE1DY5o2DFK7dop/S7zH
+         ZKVg+cyD/mQ1TbBtTeqMUxlyT5tqKcmZ5orpKlt7vur9ugjZotTtx+AyHDOy75NfDMSB
+         jHfbCDwykCvY9jbR4U53QqBHszQdzL8SvF/IsDPuvsJfbLld8o182Aag16qMmF5GyMmg
+         04R9eSRUQO62abo5psxfktUaIzKbD1dFV6dGb0MD0R270/j9cZ5sIupdWUGbQ4jIkxGZ
+         CvprwNDpFi/e2qk+77epRO/9GASyM7d5jPiUE4KLIQDuGGYmdhpf/mX6rZr4w4pqQ/kd
+         SQPw==
+X-Gm-Message-State: APjAAAXEX5hbq9WgXzjymbTqKDvUTHDNg6OZMtuFlQXd7gcCTS1NXCq0
+        YIjg4X70N49McxFK/jrlNfv3/IWACmOgScQ74T+W5mq+LNc=
+X-Google-Smtp-Source: APXvYqwb6MZNmqK0KRTAYP5e9AcJC0N/JrtcrMOV7A3hOzZrACc13edLiwyHZ6IduYWq704otoqMs1isqThGvgPPCdo=
+X-Received: by 2002:a63:6884:: with SMTP id d126mr135366636pgc.154.1559078557010;
+ Tue, 28 May 2019 14:22:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190528145838.23b73e25@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190521062837.3887-1-hdegoede@redhat.com>
+In-Reply-To: <20190521062837.3887-1-hdegoede@redhat.com>
+From:   =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>
+Date:   Tue, 28 May 2019 14:22:24 -0700
+Message-ID: <CAOcMMifdq8PcnwANKxGtAmB+5nNOv-aEW3aFJyfPNngXeYCK5A@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle
+ display hotkeys from asus_nb_wmi
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 5/27/19 9:58 PM, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since 20190524:
-> 
+On Mon, May 20, 2019 at 11:28 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
+> handle the display off hotkey") causes the backlight to be permanently of=
+f
+> on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
+> 1015BX, Asus EeePC 1025C).
+>
+> The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
+> by that commit is made conditional in this commit and only enabled in
+> the quirk_entry structs in the asus-nb-wmi driver fixing the broken
+> display / backlight on various EeePC laptop models.
+>
+> Cc: Jo=C3=A3o Paulo Rechi Vita <jprvita@endlessm.com>
+> Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will han=
+dle the display off hotkey")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
+>  drivers/platform/x86/asus-wmi.c    | 2 +-
+>  drivers/platform/x86/asus-wmi.h    | 1 +
+>  3 files changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/as=
+us-nb-wmi.c
+> index b6f2ff95c3ed..59f3a37a44d7 100644
+> --- a/drivers/platform/x86/asus-nb-wmi.c
+> +++ b/drivers/platform/x86/asus-nb-wmi.c
+> @@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char dat=
+a, unsigned char str,
+>
+>  static struct quirk_entry quirk_asus_unknown =3D {
+>         .wapf =3D 0,
+> +       .wmi_backlight_set_devstate =3D true,
+>  };
+>
+>  static struct quirk_entry quirk_asus_q500a =3D {
+>         .i8042_filter =3D asus_q500a_i8042_filter,
+> +       .wmi_backlight_set_devstate =3D true,
+>  };
+>
+>  /*
+> @@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a =3D {
+>  static struct quirk_entry quirk_asus_x55u =3D {
+>         .wapf =3D 4,
+>         .wmi_backlight_power =3D true,
+> +       .wmi_backlight_set_devstate =3D true,
+>         .no_display_toggle =3D true,
+>  };
+>
+>  static struct quirk_entry quirk_asus_wapf4 =3D {
+>         .wapf =3D 4,
+> +       .wmi_backlight_set_devstate =3D true,
+>  };
+>
+>  static struct quirk_entry quirk_asus_x200ca =3D {
+>         .wapf =3D 2,
+> +       .wmi_backlight_set_devstate =3D true,
+>  };
+>
+>  static struct quirk_entry quirk_asus_ux303ub =3D {
+>         .wmi_backlight_native =3D true,
+> +       .wmi_backlight_set_devstate =3D true,
+>  };
+>
+>  static struct quirk_entry quirk_asus_x550lb =3D {
+> +       .wmi_backlight_set_devstate =3D true,
+>         .xusb2pr =3D 0x01D9,
+>  };
+>
+>  static struct quirk_entry quirk_asus_forceals =3D {
+> +       .wmi_backlight_set_devstate =3D true,
+>         .wmi_force_als_set =3D true,
+>  };
+>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-=
+wmi.c
+> index ee1fa93708ec..a66e99500c12 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *pde=
+v)
+>                 err =3D asus_wmi_backlight_init(asus);
+>                 if (err && err !=3D -ENODEV)
+>                         goto fail_backlight;
+> -       } else
+> +       } else if (asus->driver->quirks->wmi_backlight_set_devstate)
+>                 err =3D asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2=
+, NULL);
+>
+>         status =3D wmi_install_notify_handler(asus->driver->event_guid,
+> diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-=
+wmi.h
+> index 6c1311f4b04d..57a79bddb286 100644
+> --- a/drivers/platform/x86/asus-wmi.h
+> +++ b/drivers/platform/x86/asus-wmi.h
+> @@ -44,6 +44,7 @@ struct quirk_entry {
+>         bool store_backlight_power;
+>         bool wmi_backlight_power;
+>         bool wmi_backlight_native;
+> +       bool wmi_backlight_set_devstate;
 
-on x86, there are some issues with drivers/platform/olpc/olpc-xo175-ec.c:
+Wouldn't it be better to add this field to struct asus_wmi_driver
+instead, and set it in asus_nb_wmi_driver only? This way we wouldn't
+need to make sure it is present in all quirk entries from this driver,
+current and future.
 
-a. when CONFIG_SPI is not set/enabled:
+I've tested both the original patch and my suggestion above and in
+both cases the "turn off backlight" hotkey continued to work fine on a
+machine where asus-nb-wmi is used (I don't have access to any machine
+using the eeepc driver).
 
-WARNING: unmet direct dependencies detected for SPI_SLAVE
-  Depends on [n]: SPI [=n]
-  Selected by [y]:
-  - OLPC_XO175_EC [=y] && (ARCH_MMP || COMPILE_TEST [=y])
-
-ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_remove':
-olpc-xo175-ec.c:(.text+0x79): undefined reference to `spi_slave_abort'
-ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_send_command':
-olpc-xo175-ec.c:(.text+0x24d): undefined reference to `spi_async'
-ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_cmd':
-olpc-xo175-ec.c:(.text+0xb3c): undefined reference to `spi_slave_abort'
-ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_spi_driver_init':
-olpc-xo175-ec.c:(.init.text+0xa): undefined reference to `__spi_register_driver'
-
-b. when CONFIG_INPUT is not set/enabled:
-
-ERROR: "input_register_device" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-ERROR: "input_set_capability" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-ERROR: "devm_input_allocate_device" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-ERROR: "input_event" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-
-c. when some power mgt. Kconfig symbol is not set/enabled:
-
-ERROR: "power_supply_put" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-ERROR: "power_supply_changed" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-ERROR: "power_supply_get_by_name" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
-
-d. drivers/platform/olpc/Kconfig needs to use "menuconfig" like all of the other
-   Kconfig files in drivers/platform/ so that its menu is listed in the correct
-   place in *config interfaces.
-
-
-:(
-
--- 
-~Randy
+>         bool wmi_force_als_set;
+>         int wapf;
+>         /*
+> --
+> 2.21.0
+>
