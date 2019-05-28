@@ -2,113 +2,192 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BEEB2C770
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 15:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E15732C7DF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 15:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbfE1NJx (ORCPT
+        id S1727597AbfE1Nhh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 May 2019 09:09:53 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:35265 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbfE1NJv (ORCPT
+        Tue, 28 May 2019 09:37:37 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:40632 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727538AbfE1Nhh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 May 2019 09:09:51 -0400
-Received: by mail-io1-f67.google.com with SMTP id p2so15678345iol.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 28 May 2019 06:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3gMjgQF6nVEpAjnECu8ew++wo5leqfpmshMTC4gXxYo=;
-        b=aQnbN08kY+fZnKaZkc6Jz47og1ZVNUJYTwBk+2rjH4tB794JCbcokx4ppHBUIfhYsh
-         x//fmeBbsj76sAFoOntCBGhgDq0lg0eCxQjhB5H+wAklR3N252PW8ZUyDBrKeoaimS9t
-         /Ox2+TFsUhYllJXGgVC6JyJ+DaEMHC0Kg+jPaUJYGudA3FULPTDB6fPZNZ8xDXa8ZzMU
-         y7Z9PgOPmwhkHPsK9a48ubymnrRL4WFX1exKVXnTYk61mmswNcr85RK0bIFxXIuVGhKj
-         VqVFNMYES/D/pvAA8wVV1XuSBNoC2B0rM3LB6koVQ9iBrfeFgHGsfWUHlTKRLDIftMEH
-         hmDw==
+        Tue, 28 May 2019 09:37:37 -0400
+Received: by mail-wr1-f67.google.com with SMTP id t4so11994949wrx.7
+        for <platform-driver-x86@vger.kernel.org>; Tue, 28 May 2019 06:37:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3gMjgQF6nVEpAjnECu8ew++wo5leqfpmshMTC4gXxYo=;
-        b=KMYU0fWQ+D5gz1tusqXamvg+ewe1BGqzr4yYGVbCOD/hCx/ccT/ZrRf7k07Z1YIPn/
-         aZ+PKy4atngh7KaD1eJycakHiS2k3lhdCU9xEMM5pGPCvINoQjj3Klfnwi1ni7b/pIyE
-         MjDEcmK8H6/FmKGBcMbzmGqe1HLHs+p7wnk4Mdx1g2DdUdLgRnpXAA68xekKgEt7VNQy
-         mYHjZb/1GrtgK+AY+nCJuFlz9ODroNe4rVxC+zFL/MnWtghixqYvaFHSKSikPXF1+Qbd
-         dVeVSmU+yPydHRtPAU3krZBygvmxfHBwlvgQRBS9+vmOWUJ0rhdlbjomSGANVMSsyk9Z
-         dt5Q==
-X-Gm-Message-State: APjAAAVswdL2MLfk7vUTRu3JHBR3GYrzQrZy2U5Sb3DfIxpLxOcUV17R
-        Ta2d+i9de2qKOVIGHYxsj40hHprQEinJoeErX8C8qw==
-X-Google-Smtp-Source: APXvYqz2NSY8Eub8B3tcZ0h/NOiXNc3gT/E67sal88UPCko5gQx0ik+z614GKA+mx2KpIkYqi6sIXUQFqE9LG/ygZX0=
-X-Received: by 2002:a5d:968e:: with SMTP id m14mr38913390ion.49.1559048990760;
- Tue, 28 May 2019 06:09:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190528125805.2166-1-mail@lennart-glauer.de>
-In-Reply-To: <20190528125805.2166-1-mail@lennart-glauer.de>
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Tue, 28 May 2019 15:09:38 +0200
-Message-ID: <CAKv+Gu8hXOLHLrBMJLYnDyW8xYhSHTAsNk6i034KA7gThjSpJQ@mail.gmail.com>
-Subject: Re: [PATCH] x86/efi: Free efi_pgd with free_pages()
-To:     Lennart Glauer <mail@lennart-glauer.de>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=m2qPHQm43QctCDy78MWmofRRcuxf1aPMw9YFIL0J0Ck=;
+        b=dTB0pdZrZ+EUheSbR2LtGmRm3fXzZj1Ps6I4pQIh38N4InVdRQkU03OyQxY5FZXILx
+         cCq66KA9/PfzEnvluSgQqLaEP1MI5t1Jf3an5UHmXISVMzoWSvAcU525SW1s5XEwfKMc
+         AIJVMZ3Sx2QRlsGq2jEyz7bM+0O46K65l8Hjmi1r8F5YFWgSF50Nm11E5Aek1MqarCMw
+         46mXALBltyt0pYWAbfsp8wPil2UHnIjIHhv9TPg9WuVEuxq79TFgCTc08+dMBQX1IAnM
+         PHrGJdpBsRBGSihDc1tClenuQdqeOKRVs4971gcU8J6Pj+EH0yUB0/G+nNbZf7TFY8JK
+         rDcQ==
+X-Gm-Message-State: APjAAAVymE3iECNg0qcdWWLvt4ifR6iXOObl4QgsjIDT4qjo1jE8v9n3
+        iK1bzu5ZU2nZ+oWy1L7mk9yRhnFb+Cw=
+X-Google-Smtp-Source: APXvYqyJieBlJHKtBSnwIUat5SX3zBPMeEfKw0zbnorY2//qE2po8IRvKsNewJGpt6sgBOlWakHrCQ==
+X-Received: by 2002:adf:cf03:: with SMTP id o3mr14878644wrj.5.1559050654539;
+        Tue, 28 May 2019 06:37:34 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id w10sm1651499wrr.67.2019.05.28.06.37.33
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 May 2019 06:37:33 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle
+ display hotkeys from asus_nb_wmi
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Jo=c3=a3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>
+References: <20190521062837.3887-1-hdegoede@redhat.com>
+ <CAHp75Vf6qzq3O1qz481FRuT1MN2EZOV43FpoSCC-vqATzyRF8w@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <0018e660-c1d4-2c42-837f-ceb13d575b86@redhat.com>
+Date:   Tue, 28 May 2019 15:37:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAHp75Vf6qzq3O1qz481FRuT1MN2EZOV43FpoSCC-vqATzyRF8w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Lennart,
+Hi,
 
-Thanks for the patch.
+On 24-05-19 18:43, Andy Shevchenko wrote:
+> On Tue, May 21, 2019 at 9:28 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
+>> handle the display off hotkey") causes the backlight to be permanently off
+>> on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
+>> 1015BX, Asus EeePC 1025C).
+>>
+>> The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
+>> by that commit is made conditional in this commit and only enabled in
+>> the quirk_entry structs in the asus-nb-wmi driver fixing the broken
+>> display / backlight on various EeePC laptop models.
+>>
+> 
+> Hmm... doesn't apply.
 
-On Tue, 28 May 2019 at 14:58, Lennart Glauer <mail@lennart-glauer.de> wrote:
->
-> This patch fixes another occurrence of free_page() that was missed
-> in 06ace26.
+That is likely because your review-andy branch contain a whole-bunch
+of asus-wmi patches.
 
-Please don't trim commit IDs like that. I think 12 digits is our
-current minimum?
+Since this is a patch fixing a regression this should go to the fixes
+branch. As the other patches so far are only in your review-andy branch
+it is probably best to merge this patch to for-next + fixes first and
+then rebase the set you have in review-andy on top, so that this can go
+to fixes without getting a merge conflict when the rest of the patches
+show up...
 
-error: short SHA1 06ace26 is ambiguous
-hint: The candidates are:
-hint:   06ace26edc14 commit 2016-02-12 - staging: lustre: fix all NULL
-comparisons in LNet layer
-hint:   06ace26f4e6f commit 2018-03-22 - x86/efi: Free efi_pgd with free_pages()
+Regards,
 
-> The efi_pgd is allocated as PGD_ALLOCATION_ORDER pages and therefore must
-> also be freed as PGD_ALLOCATION_ORDER pages with free_pages().
->
-> Signed-off-by: Lennart Glauer <mail@lennart-glauer.de>
-
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-
-Ingo, can you take this directly? I can't really test this anyway.
+Hans
 
 
-> ---
->  arch/x86/platform/efi/efi_64.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/x86/platform/efi/efi_64.c b/arch/x86/platform/efi/efi_64.c
-> index 08ce8177c3af..acad22a44774 100644
-> --- a/arch/x86/platform/efi/efi_64.c
-> +++ b/arch/x86/platform/efi/efi_64.c
-> @@ -222,7 +222,7 @@ int __init efi_alloc_page_tables(void)
->         pgd = efi_pgd + pgd_index(EFI_VA_END);
->         p4d = p4d_alloc(&init_mm, pgd, EFI_VA_END);
->         if (!p4d) {
-> -               free_page((unsigned long)efi_pgd);
-> +               free_pages((unsigned long)efi_pgd, PGD_ALLOCATION_ORDER);
->                 return -ENOMEM;
->         }
->
-> --
-> 2.17.1
+
+
+
+
+
+> 
+>> Cc: João Paulo Rechi Vita <jprvita@endlessm.com>
+>> Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will handle the display off hotkey")
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
+>>   drivers/platform/x86/asus-wmi.c    | 2 +-
+>>   drivers/platform/x86/asus-wmi.h    | 1 +
+>>   3 files changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+>> index b6f2ff95c3ed..59f3a37a44d7 100644
+>> --- a/drivers/platform/x86/asus-nb-wmi.c
+>> +++ b/drivers/platform/x86/asus-nb-wmi.c
+>> @@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char data, unsigned char str,
+>>
+>>   static struct quirk_entry quirk_asus_unknown = {
+>>          .wapf = 0,
+>> +       .wmi_backlight_set_devstate = true,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_q500a = {
+>>          .i8042_filter = asus_q500a_i8042_filter,
+>> +       .wmi_backlight_set_devstate = true,
+>>   };
+>>
+>>   /*
+>> @@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a = {
+>>   static struct quirk_entry quirk_asus_x55u = {
+>>          .wapf = 4,
+>>          .wmi_backlight_power = true,
+>> +       .wmi_backlight_set_devstate = true,
+>>          .no_display_toggle = true,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_wapf4 = {
+>>          .wapf = 4,
+>> +       .wmi_backlight_set_devstate = true,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_x200ca = {
+>>          .wapf = 2,
+>> +       .wmi_backlight_set_devstate = true,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_ux303ub = {
+>>          .wmi_backlight_native = true,
+>> +       .wmi_backlight_set_devstate = true,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_x550lb = {
+>> +       .wmi_backlight_set_devstate = true,
+>>          .xusb2pr = 0x01D9,
+>>   };
+>>
+>>   static struct quirk_entry quirk_asus_forceals = {
+>> +       .wmi_backlight_set_devstate = true,
+>>          .wmi_force_als_set = true,
+>>   };
+>>
+>> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+>> index ee1fa93708ec..a66e99500c12 100644
+>> --- a/drivers/platform/x86/asus-wmi.c
+>> +++ b/drivers/platform/x86/asus-wmi.c
+>> @@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *pdev)
+>>                  err = asus_wmi_backlight_init(asus);
+>>                  if (err && err != -ENODEV)
+>>                          goto fail_backlight;
+>> -       } else
+>> +       } else if (asus->driver->quirks->wmi_backlight_set_devstate)
+>>                  err = asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL);
+>>
+>>          status = wmi_install_notify_handler(asus->driver->event_guid,
+>> diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+>> index 6c1311f4b04d..57a79bddb286 100644
+>> --- a/drivers/platform/x86/asus-wmi.h
+>> +++ b/drivers/platform/x86/asus-wmi.h
+>> @@ -44,6 +44,7 @@ struct quirk_entry {
+>>          bool store_backlight_power;
+>>          bool wmi_backlight_power;
+>>          bool wmi_backlight_native;
+>> +       bool wmi_backlight_set_devstate;
+>>          bool wmi_force_als_set;
+>>          int wapf;
+>>          /*
+>> --
+>> 2.21.0
+>>
+> 
+> 
