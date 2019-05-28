@@ -2,193 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98FCB2B926
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 May 2019 18:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B6F2C95A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 May 2019 16:58:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726645AbfE0QhG (ORCPT
+        id S1726481AbfE1O6I (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 May 2019 12:37:06 -0400
-Received: from proxy04.fsdata.se ([89.221.252.227]:50417 "EHLO
-        mail-gw01.fsdata.se" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726432AbfE0QhF (ORCPT
+        Tue, 28 May 2019 10:58:08 -0400
+Received: from 175-96-83-65.dynamic.tfn.ent.tw ([175.96.83.65]:36297 "EHLO
+        E6440.gar.corp.intel.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726371AbfE1O6I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 May 2019 12:37:05 -0400
-X-Greylist: delayed 911 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 May 2019 12:37:03 EDT
-Received: from localhost (94.234.40.49) by DAG01.HMC.local (192.168.46.11)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 27 May 2019 18:21:50
- +0200
-From:   Mattias Jacobsson <2pi@mok.nu>
-To:     <dvhart@infradead.org>, <andy@infradead.org>
-CC:     <2pi@mok.nu>, <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] platform/x86: wmi: add Xiaomi WMI key driver
-Date:   Mon, 27 May 2019 18:21:31 +0200
-Message-ID: <eb57957045495464539c8b4896a8d83b5d87377b.1558968964.git.2pi@mok.nu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1558968964.git.2pi@mok.nu>
-References: <cover.1558968964.git.2pi@mok.nu>
+        Tue, 28 May 2019 10:58:08 -0400
+X-Greylist: delayed 1862 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 May 2019 10:58:07 EDT
+Received: from E6440.gar.corp.intel.com (localhost [127.0.0.1])
+        by E6440.gar.corp.intel.com (Postfix) with ESMTP id DE56DC1ACA;
+        Tue, 28 May 2019 10:53:53 +0800 (CST)
+From:   Harry Pan <harry.pan@intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     gs0622@gmail.com, Harry Pan <harry.pan@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Darren Hart <dvhart@infradead.org>
+Subject: [PATCH] platform/x86: intel_pmc_core: transform Pkg C-state residency from TSC ticks into microseconds
+Date:   Tue, 28 May 2019 10:53:17 +0800
+Message-Id: <20190528025317.5872-1-harry.pan@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190527130811.450-1-harry.pan@intel.com>
+References: <20190527130811.450-1-harry.pan@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [94.234.40.49]
-X-ClientProxiedBy: PROXY02.HMC.local (192.168.46.52) To DAG01.HMC.local
- (192.168.46.11)
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Some function keys on the built in keyboard on Xiaomi's notebooks does
-not produce any key events when pressed in combination with the function
-key. Some of these keys do report that they are being pressed via WMI
-events.
+Refer to the Intel SDM Vol.4, the package C-state residency counters
+of modern IA micro-architecture are all ticking in TSC frequency,
+hence we can apply simple math to transform the ticks into microseconds.
+i.e.,
+residency (ms) = count / tsc_khz
+residency (us) = count / tsc_khz * 1000
 
-This driver reports key events for Fn+F7 and double tap on Fn.
+This also aligns to other sysfs debug entries of residency counter in
+the same metric in microseconds, benefits reading and scripting.
 
-Other WMI events that are reported by the hardware but not utilized by
-this driver are Caps Lock(which already work) and Fn lock/unlock.
+v2: restore the accidentally deleted newline, no function change.
 
-Signed-off-by: Mattias Jacobsson <2pi@mok.nu>
+Signed-off-by: Harry Pan <harry.pan@intel.com>
+
 ---
- drivers/platform/x86/Kconfig      | 10 ++++
- drivers/platform/x86/Makefile     |  1 +
- drivers/platform/x86/xiaomi-wmi.c | 94 +++++++++++++++++++++++++++++++
- 3 files changed, 105 insertions(+)
- create mode 100644 drivers/platform/x86/xiaomi-wmi.c
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 5d5cc6111081..257a99134b64 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -781,6 +781,16 @@ config INTEL_WMI_THUNDERBOLT
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called intel-wmi-thunderbolt.
+ drivers/platform/x86/intel_pmc_core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+index f2c621b55f49..c78918a7e731 100644
+--- a/drivers/platform/x86/intel_pmc_core.c
++++ b/drivers/platform/x86/intel_pmc_core.c
+@@ -24,6 +24,7 @@
+ #include <asm/cpu_device_id.h>
+ #include <asm/intel-family.h>
+ #include <asm/msr.h>
++#include <asm/tsc.h>
  
-+config XIAOMI_WMI
-+	  tristate "Xiaomi WMI key driver"
-+	  depends on ACPI_WMI
-+	  depends on INPUT
-+	  help
-+	  Say Y here if you want to support WMI-based keys on Xiaomi notebooks.
-+
-+	  To compile this driver as a module, choose M here: the module will
-+	  be called xiaomi-wmi.
-+
- config MSI_WMI
- 	tristate "MSI WMI extras"
- 	depends on ACPI_WMI
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 87b0069bd781..f64445d69f99 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -51,6 +51,7 @@ obj-$(CONFIG_SURFACE3_WMI)	+= surface3-wmi.o
- obj-$(CONFIG_TOPSTAR_LAPTOP)	+= topstar-laptop.o
- obj-$(CONFIG_WMI_BMOF)		+= wmi-bmof.o
- obj-$(CONFIG_INTEL_WMI_THUNDERBOLT)	+= intel-wmi-thunderbolt.o
-+obj-$(CONFIG_XIAOMI_WMI)	+= xiaomi-wmi.o
+ #include "intel_pmc_core.h"
  
- # toshiba_acpi must link after wmi to ensure that wmi devices are found
- # before toshiba_acpi initializes
-diff --git a/drivers/platform/x86/xiaomi-wmi.c b/drivers/platform/x86/xiaomi-wmi.c
-new file mode 100644
-index 000000000000..4ff9df5eb88f
---- /dev/null
-+++ b/drivers/platform/x86/xiaomi-wmi.c
-@@ -0,0 +1,94 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * WMI driver for Xiaomi Laptops
-+ *
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/input.h>
-+#include <linux/module.h>
-+#include <linux/wmi.h>
-+#include <uapi/linux/input-event-codes.h>
-+
-+#define XIAOMI_KEY_FN_ESC_0	"A2095CCE-0491-44E7-BA27-F8ED8F88AA86"
-+#define XIAOMI_KEY_FN_ESC_1	"7BBE8E39-B486-473D-BA13-66F75C5805CD"
-+#define XIAOMI_KEY_FN_FN	"409B028D-F06B-4C7C-8BBB-EE133A6BD87E"
-+#define XIAOMI_KEY_CAPSLOCK	"83FE7607-053A-4644-822A-21532C621FC7"
-+#define XIAOMI_KEY_FN_F7	"76E9027C-95D0-4180-8692-DA6747DD1C2D"
-+
-+#define XIAOMI_DEVICE(guid, key)		\
-+	.guid_string = (guid),			\
-+	.context = &(const unsigned int){key}
-+
-+struct xiaomi_wmi {
-+	struct input_dev *input_dev;
-+	unsigned int key_code;
-+};
-+
-+int xiaomi_wmi_probe(struct wmi_device *wdev, const void *context)
-+{
-+	struct xiaomi_wmi *data;
-+
-+	if (wdev == NULL || context == NULL)
-+		return -EINVAL;
-+
-+	data = devm_kzalloc(&wdev->dev, sizeof(struct xiaomi_wmi), GFP_KERNEL);
-+	if (data == NULL)
-+		return -ENOMEM;
-+	dev_set_drvdata(&wdev->dev, data);
-+
-+	data->input_dev = devm_input_allocate_device(&wdev->dev);
-+	if (data->input_dev == NULL)
-+		return -ENOMEM;
-+	data->input_dev->name = "Xiaomi WMI keys";
-+	data->input_dev->phys = "wmi/input0";
-+
-+	data->key_code = *((const unsigned int *)context);
-+	set_bit(EV_KEY, data->input_dev->evbit);
-+	set_bit(data->key_code, data->input_dev->keybit);
-+
-+	return input_register_device(data->input_dev);
-+}
-+
-+void xiaomi_wmi_notify(struct wmi_device *wdev, union acpi_object *_)
-+{
-+	struct xiaomi_wmi *data;
-+
-+	if (wdev == NULL)
-+		return;
-+
-+	data = dev_get_drvdata(&wdev->dev);
-+	if (data == NULL)
-+		return;
-+
-+	input_report_key(data->input_dev, data->key_code, 1);
-+	input_sync(data->input_dev);
-+	input_report_key(data->input_dev, data->key_code, 0);
-+	input_sync(data->input_dev);
-+}
-+
-+static const struct wmi_device_id xiaomi_wmi_id_table[] = {
-+	// { XIAOMI_DEVICE(XIAOMI_KEY_FN_ESC_0, KEY_FN_ESC) },
-+	// { XIAOMI_DEVICE(XIAOMI_KEY_FN_ESC_1, KEY_FN_ESC) },
-+	{ XIAOMI_DEVICE(XIAOMI_KEY_FN_FN, KEY_PROG1) },
-+	// { XIAOMI_DEVICE(XIAOMI_KEY_CAPSLOCK, KEY_CAPSLOCK) },
-+	{ XIAOMI_DEVICE(XIAOMI_KEY_FN_F7, KEY_CUT) },
-+
-+	/* Terminating entry */
-+	{ }
-+};
-+
-+static struct wmi_driver xiaomi_wmi_driver = {
-+	.driver = {
-+		.name = "xiaomi-wmi",
-+	},
-+	.id_table = xiaomi_wmi_id_table,
-+	.probe = xiaomi_wmi_probe,
-+	.notify = xiaomi_wmi_notify,
-+};
-+module_wmi_driver(xiaomi_wmi_driver);
-+
-+MODULE_DEVICE_TABLE(wmi, xiaomi_wmi_id_table);
-+MODULE_AUTHOR("Mattias Jacobsson");
-+MODULE_DESCRIPTION("Xiaomi WMI driver");
-+MODULE_LICENSE("GPL v2");
+@@ -738,8 +739,8 @@ static int pmc_core_pkgc_show(struct seq_file *s, void *unused)
+ 		if (rdmsrl_safe(map[index].bit_mask, &pcstate_count))
+ 			continue;
+ 
+-		seq_printf(s, "%-8s : 0x%llx\n", map[index].name,
+-			   pcstate_count);
++		seq_printf(s, "%-8s : %llu\n", map[index].name,
++			   pcstate_count * 1000 / tsc_khz);
+ 	}
+ 
+ 	return 0;
 -- 
-2.21.0
+2.20.1
 
