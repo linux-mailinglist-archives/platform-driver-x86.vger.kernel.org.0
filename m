@@ -2,32 +2,32 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 237CE2D7E8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 May 2019 10:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 192F62D7EA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 May 2019 10:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbfE2Iea (ORCPT
+        id S1725948AbfE2Ieb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 29 May 2019 04:34:30 -0400
-Received: from shell.v3.sk ([90.176.6.54]:41382 "EHLO shell.v3.sk"
+        Wed, 29 May 2019 04:34:31 -0400
+Received: from shell.v3.sk ([90.176.6.54]:41400 "EHLO shell.v3.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725911AbfE2Iea (ORCPT
+        id S1726005AbfE2Ieb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 29 May 2019 04:34:30 -0400
+        Wed, 29 May 2019 04:34:31 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 106A01049C5;
-        Wed, 29 May 2019 10:34:25 +0200 (CEST)
+        by zimbra.v3.sk (Postfix) with ESMTP id 04D3B1049C3;
+        Wed, 29 May 2019 10:34:29 +0200 (CEST)
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id QJSnMOpAVH2B; Wed, 29 May 2019 10:34:12 +0200 (CEST)
+        with ESMTP id uVHCz67Ay1v9; Wed, 29 May 2019 10:34:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 99B0A1049C7;
-        Wed, 29 May 2019 10:34:11 +0200 (CEST)
+        by zimbra.v3.sk (Postfix) with ESMTP id 8824B1049CE;
+        Wed, 29 May 2019 10:34:12 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id nr8BQ_lQGUXr; Wed, 29 May 2019 10:34:09 +0200 (CEST)
+        with ESMTP id TzR2w58CsTy6; Wed, 29 May 2019 10:34:09 +0200 (CEST)
 Received: from belphegor.brq.redhat.com (nat-pool-brq-t.redhat.com [213.175.37.10])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id AA0121049C3;
+        by zimbra.v3.sk (Postfix) with ESMTPSA id E1CD91049C4;
         Wed, 29 May 2019 10:34:08 +0200 (CEST)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Andy Shevchenko <andy@infradead.org>
@@ -35,11 +35,10 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         YueHaibing <yuehaibing@huawei.com>,
         platform-driver-x86@vger.kernel.org,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        kbuild test robot <lkp@intel.com>
-Subject: [PATCH 1/4] Platform: OLPC: Make olpc_dt_compatible_match() static __init
-Date:   Wed, 29 May 2019 10:34:02 +0200
-Message-Id: <20190529083405.332762-2-lkundrak@v3.sk>
+        Lubomir Rintel <lkundrak@v3.sk>
+Subject: [PATCH 2/4] Platform: OLPC: Fix olpc_xo175_ec_cmd() return value
+Date:   Wed, 29 May 2019 10:34:03 +0200
+Message-Id: <20190529083405.332762-3-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190529083405.332762-1-lkundrak@v3.sk>
 References: <20190529083405.332762-1-lkundrak@v3.sk>
@@ -53,36 +52,29 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Addresses a kbuild warning:
+Reset the ret variable to make sure it olpc_xo175_ec_cmd() ends up
+returning zero on success.
 
-  >> WARNING: vmlinux.o(.text+0x3b764): Section mismatch in reference fro=
-m
-              the function olpc_dt_compatible_match() to the function
-              .init.text:olpc_dt_getproperty()
-
+Fixes: commit 0c3d931b3ab9 ("Platform: OLPC: Add XO-1.75 EC driver")
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-Reported-by: kbuild test robot <lkp@intel.com>
-Fixes: a7a9bacb9a32 (x86/platform/olpc: Use a correct version when making=
- up a battery node)
 ---
- arch/x86/platform/olpc/olpc_dt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/olpc/olpc-xo175-ec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/platform/olpc/olpc_dt.c b/arch/x86/platform/olpc/ol=
-pc_dt.c
-index 0296c5b55e6f..114c52986568 100644
---- a/arch/x86/platform/olpc/olpc_dt.c
-+++ b/arch/x86/platform/olpc/olpc_dt.c
-@@ -220,7 +220,7 @@ static u32 __init olpc_dt_get_board_revision(void)
- 	return be32_to_cpu(rev);
- }
+diff --git a/drivers/platform/olpc/olpc-xo175-ec.c b/drivers/platform/olp=
+c/olpc-xo175-ec.c
+index 344d14f3da54..48d6f0d87583 100644
+--- a/drivers/platform/olpc/olpc-xo175-ec.c
++++ b/drivers/platform/olpc/olpc-xo175-ec.c
+@@ -507,6 +507,7 @@ static int olpc_xo175_ec_cmd(u8 cmd, u8 *inbuf, size_=
+t inlen, u8 *resp,
+ 		nr_bytes =3D resp_len;
+ 	} else {
+ 		nr_bytes =3D (size_t)ret;
++		ret =3D 0;
+ 	}
+ 	resp_len =3D min(resp_len, nr_bytes);
 =20
--int olpc_dt_compatible_match(phandle node, const char *compat)
-+static int __init olpc_dt_compatible_match(phandle node, const char *com=
-pat)
- {
- 	char buf[64], *p;
- 	int plen, len;
 --=20
 2.21.0
 
