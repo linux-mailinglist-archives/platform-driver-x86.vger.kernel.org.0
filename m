@@ -2,90 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 303112D384
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 May 2019 03:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C4D42D57D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 May 2019 08:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbfE2By4 (ORCPT
+        id S1726102AbfE2G2A (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 May 2019 21:54:56 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:32917 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbfE2By4 (ORCPT
+        Wed, 29 May 2019 02:28:00 -0400
+Received: from shell.v3.sk ([90.176.6.54]:40965 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725895AbfE2G2A (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 May 2019 21:54:56 -0400
-Received: by mail-pf1-f195.google.com with SMTP id z28so524263pfk.0;
-        Tue, 28 May 2019 18:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=5W/lLWMNb17QpP+6k38wb7j7ve1dD6nwPuptvVHvnkI=;
-        b=Okn4LyXVLPFBoL8Xw/FdxASDxhTVtFYuBqrr/QTfowX9+5PNaH0UG7GfAXRemV1YV8
-         A1X+dzdUsnusz34CjjDCd7kqOz508/UNfxbpIRxh7Te27qEpsMUh4cnud2zVIoPp2Jcl
-         lsKIMmxnFe6qeXIDv52+u/1sD74KdQYLdB+VguGUKd41wjxGkhCY7x+2sMvUjs6YQt2y
-         EkVPwpQmwFQ6gdFct3/SeZ4nAW78vvEawzBbjHXNr53tACUqO7HBG3US/SxQeEjQvhbA
-         8q16KKpOqkchaSIo3P5DqL4DasWyVKQ4rFke0uTJWMIy3wiIW2FGWLLmsCr/faUU73Dg
-         qEQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=5W/lLWMNb17QpP+6k38wb7j7ve1dD6nwPuptvVHvnkI=;
-        b=Exz3ytn8WxsH/TV5KBrawE4dfmUE32OxEVFJFq13CcqAaLxC3QjnaqewX+zEQ3bDFJ
-         U0uukj4a8DAvtbpmqxQXMLEnJX6+J09t2utvNffb0YLieZsoj3etYMRwhtfjW6+Chru/
-         AIzhJJgG0yB21hAEj/nZHohd206ELgiBu+riWtExHIOa/wP3X2AyTFdebA/jW7QLHB72
-         VdcwtsppLNZlmHUFIFzGppx/w/IuwM/LhOOQOT2ODHofbdr0JsaJu56e0xAr/xM4VBoR
-         NboEFikMYn9AYmIKqOThsE6zWoC5DNKqkuTQa5yjPyShUPCxsFQBufpjVgTmfbP7Z1O3
-         V7YA==
-X-Gm-Message-State: APjAAAXUFxbhMSK1qWTtN8mwPVkU2+vEw0mLcqy3Lzh9DLhjoMWJzuZI
-        ++AHEQ1oB1hwGwZiHWFGqww=
-X-Google-Smtp-Source: APXvYqyiMm2o6ewEBpTuiiSueFvWgwtgc7oCo6TLMNbRr8Xyn4wQp45ZT+cDrNoZ8J7SeT8uf9LM3w==
-X-Received: by 2002:a17:90a:77c4:: with SMTP id e4mr9440966pjs.86.1559094895333;
-        Tue, 28 May 2019 18:54:55 -0700 (PDT)
-Received: from xy-data.openstacklocal (ecs-159-138-22-150.compute.hwclouds-dns.com. [159.138.22.150])
-        by smtp.gmail.com with ESMTPSA id s24sm15800610pfe.57.2019.05.28.18.54.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 28 May 2019 18:54:54 -0700 (PDT)
-From:   Young Xiao <92siuyang@gmail.com>
-To:     sujith.thomas@intel.com, dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Young Xiao <92siuyang@gmail.com>
-Subject: [PATCH] intel_menlow: avoid null pointer deference error
-Date:   Wed, 29 May 2019 09:55:51 +0800
-Message-Id: <1559094951-25391-1-git-send-email-92siuyang@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 29 May 2019 02:28:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id BC1881048EC;
+        Wed, 29 May 2019 08:27:56 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id qKbt9HKp92yJ; Wed, 29 May 2019 08:27:49 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 332101048ED;
+        Wed, 29 May 2019 08:27:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id tXFwvtFdL22f; Wed, 29 May 2019 08:27:47 +0200 (CEST)
+Received: from belphegor (nat-pool-brq-t.redhat.com [213.175.37.10])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 73F761048EC;
+        Wed, 29 May 2019 08:27:47 +0200 (CEST)
+Message-ID: <d8518bc65fd909723904637b19332760768f73e7.camel@v3.sk>
+Subject: Re: linux-next: Tree for May 28 (platform/olpc/olpc-xo175-ec)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Lennert Buytenhek <buytenh@wantstofly.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Date:   Wed, 29 May 2019 08:27:45 +0200
+In-Reply-To: <68b2b71a-970b-8e0e-1ee3-e05a51c3bdf2@infradead.org>
+References: <20190528145838.23b73e25@canb.auug.org.au>
+         <68b2b71a-970b-8e0e-1ee3-e05a51c3bdf2@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Fix a null pointer deference by acpi_driver_data() if device is
-null (dereference before check). We should only set cdev and check
-this is OK after we are sure device is not null.
+On Tue, 2019-05-28 at 11:05 -0700, Randy Dunlap wrote:
+> On 5/27/19 9:58 PM, Stephen Rothwell wrote:
+> > Hi all,
+> > 
+> > Changes since 20190524:
+> > 
+> 
+> on x86, there are some issues with drivers/platform/olpc/olpc-xo175-ec.c:
+> 
+> a. when CONFIG_SPI is not set/enabled:
+> 
+> WARNING: unmet direct dependencies detected for SPI_SLAVE
+>   Depends on [n]: SPI [=n]
+>   Selected by [y]:
+>   - OLPC_XO175_EC [=y] && (ARCH_MMP || COMPILE_TEST [=y])
+> 
+> ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_remove':
+> olpc-xo175-ec.c:(.text+0x79): undefined reference to `spi_slave_abort'
+> ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_send_command':
+> olpc-xo175-ec.c:(.text+0x24d): undefined reference to `spi_async'
+> ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_cmd':
+> olpc-xo175-ec.c:(.text+0xb3c): undefined reference to `spi_slave_abort'
+> ld: drivers/platform/olpc/olpc-xo175-ec.o: in function `olpc_xo175_ec_spi_driver_init':
+> olpc-xo175-ec.c:(.init.text+0xa): undefined reference to `__spi_register_driver'
+> 
+> b. when CONFIG_INPUT is not set/enabled:
+> 
+> ERROR: "input_register_device" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> ERROR: "input_set_capability" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> ERROR: "devm_input_allocate_device" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> ERROR: "input_event" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> 
+> c. when some power mgt. Kconfig symbol is not set/enabled:
+> 
+> ERROR: "power_supply_put" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> ERROR: "power_supply_changed" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> ERROR: "power_supply_get_by_name" [drivers/platform/olpc/olpc-xo175-ec.ko] undefined!
+> 
+> d. drivers/platform/olpc/Kconfig needs to use "menuconfig" like all of the other
+>    Kconfig files in drivers/platform/ so that its menu is listed in the correct
+>    place in *config interfaces.
 
-Signed-off-by: Young Xiao <92siuyang@gmail.com>
----
- drivers/platform/x86/intel_menlow.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Hi
 
-diff --git a/drivers/platform/x86/intel_menlow.c b/drivers/platform/x86/intel_menlow.c
-index 77eb870..28feb5c 100644
---- a/drivers/platform/x86/intel_menlow.c
-+++ b/drivers/platform/x86/intel_menlow.c
-@@ -180,9 +180,13 @@ static int intel_menlow_memory_add(struct acpi_device *device)
- 
- static int intel_menlow_memory_remove(struct acpi_device *device)
- {
--	struct thermal_cooling_device *cdev = acpi_driver_data(device);
-+	struct thermal_cooling_device *cdev;
-+
-+	if (!device)
-+		return -EINVAL;
- 
--	if (!device || !cdev)
-+	cdev = acpi_driver_data(device);
-+	if (!cdev)
- 		return -EINVAL;
- 
- 	sysfs_remove_link(&device->dev.kobj, "thermal_cooling");
--- 
-2.7.4
+Thanks for the heads up.
+
+I think YueHaibing <yuehaibing@huawei.com> sent in patches for a. and
+b. -- I'll follow up with the fixes for the rest.
+
+> :(
+
+:(
+
+Lubo
 
