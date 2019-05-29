@@ -2,202 +2,243 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00B8A2E361
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 May 2019 19:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA322E918
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 May 2019 01:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbfE2Rh6 (ORCPT
+        id S1726816AbfE2XYZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 29 May 2019 13:37:58 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37851 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbfE2Rh6 (ORCPT
+        Wed, 29 May 2019 19:24:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49264 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbfE2XYD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 29 May 2019 13:37:58 -0400
-Received: by mail-pl1-f196.google.com with SMTP id e7so878173pln.4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 29 May 2019 10:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=P5qFwG17SpgYEBbMd24uDFEzDrg0W0gjzgec9qjRsHI=;
-        b=0PbmZkMnPHejgFz0ujeFGYBWNbO4/H3W/KxnYLZaFEqXlSXGHK64PdfnVL3N3XS5Fh
-         cO0vVaJFVjkC/1yxSL4/LstpbDi+lUKYCpV3ynymmCkkM1bjOA6CyTR+Oe6vEqhh2Y3g
-         w6l440tAk31jw0qycOfa2SLV8CwgweEfE8ZZOd+mG9/7KCGiM/Qd6bibeQqz4k5Es4vz
-         /Bhzc3NDT8LtD0ZNGZV3fsiGgKl9nze6GVVFSJ0RmKJa688f+qwfR9ByNd+QDM9zzHj1
-         ChODFTtnDp427elF/SP6xVbHGIZEoVg9Ot8sl6LVolM5csBwXT8ja0oUlbfl2m0xVPsS
-         lCmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=P5qFwG17SpgYEBbMd24uDFEzDrg0W0gjzgec9qjRsHI=;
-        b=XdswUantatXtCXBhUnXBPvtBPh7DA2ZkQ7G2QGEg/EP0gWs4Jg4YbYtmqii5VIxlK+
-         v5H+gmmMIPCQ7/jUgtXOkjjqjSpyKCvM/8tWY3xZ5UdmqZNGXn9Xqs9KkWRiwNjCMg/V
-         UMfpzOTREeHmcsBKzToRlJd0UZAR9w709U5SDjVNNKmQZ3TgIp5CEfTUFXPnsYa3sOyz
-         TTVzoNbdAtr1QtWUrhp9/+KcvTmcncFbX3imNhHgzO1pqcHpLKYgHfBC3cAUsPtr9Wun
-         DALG1+dkz7Q0DRH3aWa9qpxUpLOWkmraES3qErNI5jVY/pwb6ymH4FSG3KtQhtL3jLJd
-         F6+g==
-X-Gm-Message-State: APjAAAWjjSEpiif0V1+2EjefGILbK57LTXp10Wf81suEfJOigHd6FFi1
-        2QUY2xQ6JF5o4zMBlCzEwkmXcSvL8Thoax7mXzy+HA==
-X-Google-Smtp-Source: APXvYqwaYqW814HlTpJTnPLyf9EGoJyfyL3ZLMVxQs89o0QOJMRGM12E60Fe6HC4/QLB/stvv0pzGNInpud79CXyefA=
-X-Received: by 2002:a17:902:54f:: with SMTP id 73mr20211625plf.246.1559151477493;
- Wed, 29 May 2019 10:37:57 -0700 (PDT)
+        Wed, 29 May 2019 19:24:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=pLa6QBXDUlkvKl0F9KmB92FN1yBU20l3+fc3LLX9/Ow=; b=TUTbNEI2sFRqzFdX8mAEDw+ZKk
+        XtHS4RpAgwYG5mZM22U1r6M0vo9yBLzdpBWxLG+Wua96AfW4fGlJvlNU4cwOADtGPiZmrkKWvTbCA
+        +YlWRB5YJuvFtbYIZXOusbPxpxpK7XsazwynFvbwvZf9cNf3WTWLfqLh+qA00YXjPTsZuDlOCdtga
+        duJk804hRhhdM7AAVrd8q+J05abzsvq5dJZOHHiK+GjqJam/lkUK4JruIWmnniYsXhPKSyxV8wube
+        cTsvAcSBdajn4t+NWdFdqsXfNt6brPC/m0bcxjACGqdLnz+bast5CItihyQj2txojtCoXFRwIv9JW
+        P1hLrtIA==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hW7vL-0005Rw-HW; Wed, 29 May 2019 23:23:59 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hW7vI-0007xI-NZ; Wed, 29 May 2019 20:23:56 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, kvm@vger.kernel.org
+Subject: [PATCH 09/22] docs: mark orphan documents as such
+Date:   Wed, 29 May 2019 20:23:40 -0300
+Message-Id: <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
+References: <cover.1559171394.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-References: <20190521062837.3887-1-hdegoede@redhat.com> <CAOcMMifdq8PcnwANKxGtAmB+5nNOv-aEW3aFJyfPNngXeYCK5A@mail.gmail.com>
- <1026f860-e961-cefe-3695-aaeaa8896597@redhat.com>
-In-Reply-To: <1026f860-e961-cefe-3695-aaeaa8896597@redhat.com>
-From:   =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>
-Date:   Wed, 29 May 2019 10:37:46 -0700
-Message-ID: <CAOcMMid6p8_1i=NpD+GHDV4c6WmwWs=FseC345USaF_etj956A@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle
- display hotkeys from asus_nb_wmi
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 29, 2019 at 1:55 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi Jo=C3=A3o,
->
-> On 5/28/19 11:22 PM, Jo=C3=A3o Paulo Rechi Vita wrote:
-> > On Mon, May 20, 2019 at 11:28 PM Hans de Goede <hdegoede@redhat.com> wr=
-ote:
-> >>
-> >> Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
-> >> handle the display off hotkey") causes the backlight to be permanently=
- off
-> >> on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
-> >> 1015BX, Asus EeePC 1025C).
-> >>
-> >> The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call adde=
-d
-> >> by that commit is made conditional in this commit and only enabled in
-> >> the quirk_entry structs in the asus-nb-wmi driver fixing the broken
-> >> display / backlight on various EeePC laptop models.
-> >>
-> >> Cc: Jo=C3=A3o Paulo Rechi Vita <jprvita@endlessm.com>
-> >> Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will =
-handle the display off hotkey")
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>   drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
-> >>   drivers/platform/x86/asus-wmi.c    | 2 +-
-> >>   drivers/platform/x86/asus-wmi.h    | 1 +
-> >>   3 files changed, 10 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86=
-/asus-nb-wmi.c
-> >> index b6f2ff95c3ed..59f3a37a44d7 100644
-> >> --- a/drivers/platform/x86/asus-nb-wmi.c
-> >> +++ b/drivers/platform/x86/asus-nb-wmi.c
-> >> @@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char =
-data, unsigned char str,
-> >>
-> >>   static struct quirk_entry quirk_asus_unknown =3D {
-> >>          .wapf =3D 0,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_q500a =3D {
-> >>          .i8042_filter =3D asus_q500a_i8042_filter,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>   };
-> >>
-> >>   /*
-> >> @@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a =3D {
-> >>   static struct quirk_entry quirk_asus_x55u =3D {
-> >>          .wapf =3D 4,
-> >>          .wmi_backlight_power =3D true,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>          .no_display_toggle =3D true,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_wapf4 =3D {
-> >>          .wapf =3D 4,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_x200ca =3D {
-> >>          .wapf =3D 2,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_ux303ub =3D {
-> >>          .wmi_backlight_native =3D true,
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_x550lb =3D {
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>          .xusb2pr =3D 0x01D9,
-> >>   };
-> >>
-> >>   static struct quirk_entry quirk_asus_forceals =3D {
-> >> +       .wmi_backlight_set_devstate =3D true,
-> >>          .wmi_force_als_set =3D true,
-> >>   };
-> >>
-> >> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/as=
-us-wmi.c
-> >> index ee1fa93708ec..a66e99500c12 100644
-> >> --- a/drivers/platform/x86/asus-wmi.c
-> >> +++ b/drivers/platform/x86/asus-wmi.c
-> >> @@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *=
-pdev)
-> >>                  err =3D asus_wmi_backlight_init(asus);
-> >>                  if (err && err !=3D -ENODEV)
-> >>                          goto fail_backlight;
-> >> -       } else
-> >> +       } else if (asus->driver->quirks->wmi_backlight_set_devstate)
-> >>                  err =3D asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGH=
-T, 2, NULL);
-> >>
-> >>          status =3D wmi_install_notify_handler(asus->driver->event_gui=
-d,
-> >> diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/as=
-us-wmi.h
-> >> index 6c1311f4b04d..57a79bddb286 100644
-> >> --- a/drivers/platform/x86/asus-wmi.h
-> >> +++ b/drivers/platform/x86/asus-wmi.h
-> >> @@ -44,6 +44,7 @@ struct quirk_entry {
-> >>          bool store_backlight_power;
-> >>          bool wmi_backlight_power;
-> >>          bool wmi_backlight_native;
-> >> +       bool wmi_backlight_set_devstate;
-> >
-> > Wouldn't it be better to add this field to struct asus_wmi_driver
-> > instead, and set it in asus_nb_wmi_driver only? This way we wouldn't
-> > need to make sure it is present in all quirk entries from this driver,
-> > current and future.
-> >
-> > I've tested both the original patch and my suggestion above and in
-> > both cases the "turn off backlight" hotkey continued to work fine on a
-> > machine where asus-nb-wmi is used (I don't have access to any machine
-> > using the eeepc driver).
->
-> I deliberately put in the quirks struct so that if necessary we can
-> enable / disable it easily on a per model (rather then per driver)
-> case in the future.
->
+Sphinx doesn't like orphan documents:
 
-You are right that it will be easier to change it if we ever need to,
-although I don't expect it to happen in the near future (famous last
-words). It would be nice to not have to add it to every quirk entry,
-current and new though. But I do not have another suggestion atm, so
-I'm fine with your original approach.
+    Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
+    Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
+    Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
+    Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
+    Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+    Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
+    Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
+    Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
 
-Reviewed-by: Jo=C3=A3o Paulo Rechi Vita <jprvita@endlessm.com>
+So, while they aren't on any toctree, add :orphan: to them, in order
+to silent this warning.
 
-...........................................................................=
-...........
-Jo=C3=A3o Paulo Rechi Vita  |  Endless
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/accelerators/ocxl.rst                 | 2 ++
+ Documentation/arm/stm32/overview.rst                | 2 ++
+ Documentation/arm/stm32/stm32f429-overview.rst      | 2 ++
+ Documentation/arm/stm32/stm32f746-overview.rst      | 2 ++
+ Documentation/arm/stm32/stm32f769-overview.rst      | 2 ++
+ Documentation/arm/stm32/stm32h743-overview.rst      | 2 ++
+ Documentation/arm/stm32/stm32mp157-overview.rst     | 2 ++
+ Documentation/gpu/msm-crash-dump.rst                | 2 ++
+ Documentation/interconnect/interconnect.rst         | 2 ++
+ Documentation/laptops/lg-laptop.rst                 | 2 ++
+ Documentation/powerpc/isa-versions.rst              | 2 ++
+ Documentation/virtual/kvm/amd-memory-encryption.rst | 2 ++
+ Documentation/virtual/kvm/vcpu-requests.rst         | 2 ++
+ 13 files changed, 26 insertions(+)
+
+diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
+index 14cefc020e2d..b1cea19a90f5 100644
+--- a/Documentation/accelerators/ocxl.rst
++++ b/Documentation/accelerators/ocxl.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ ========================================================
+ OpenCAPI (Open Coherent Accelerator Processor Interface)
+ ========================================================
+diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
+index 85cfc8410798..f7e734153860 100644
+--- a/Documentation/arm/stm32/overview.rst
++++ b/Documentation/arm/stm32/overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ ========================
+ STM32 ARM Linux Overview
+ ========================
+diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
+index 18feda97f483..65bbb1c3b423 100644
+--- a/Documentation/arm/stm32/stm32f429-overview.rst
++++ b/Documentation/arm/stm32/stm32f429-overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ STM32F429 Overview
+ ==================
+ 
+diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
+index b5f4b6ce7656..42d593085015 100644
+--- a/Documentation/arm/stm32/stm32f746-overview.rst
++++ b/Documentation/arm/stm32/stm32f746-overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ STM32F746 Overview
+ ==================
+ 
+diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
+index 228656ced2fe..f6adac862b17 100644
+--- a/Documentation/arm/stm32/stm32f769-overview.rst
++++ b/Documentation/arm/stm32/stm32f769-overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ STM32F769 Overview
+ ==================
+ 
+diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
+index 3458dc00095d..c525835e7473 100644
+--- a/Documentation/arm/stm32/stm32h743-overview.rst
++++ b/Documentation/arm/stm32/stm32h743-overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ STM32H743 Overview
+ ==================
+ 
+diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
+index 62e176d47ca7..2c52cd020601 100644
+--- a/Documentation/arm/stm32/stm32mp157-overview.rst
++++ b/Documentation/arm/stm32/stm32mp157-overview.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ STM32MP157 Overview
+ ===================
+ 
+diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
+index 757cd257e0d8..240ef200f76c 100644
+--- a/Documentation/gpu/msm-crash-dump.rst
++++ b/Documentation/gpu/msm-crash-dump.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ =====================
+ MSM Crash Dump Format
+ =====================
+diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
+index c3e004893796..56e331dab70e 100644
+--- a/Documentation/interconnect/interconnect.rst
++++ b/Documentation/interconnect/interconnect.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++:orphan:
++
+ =====================================
+ GENERIC SYSTEM INTERCONNECT SUBSYSTEM
+ =====================================
+diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
+index aa503ee9b3bc..f2c2ffe31101 100644
+--- a/Documentation/laptops/lg-laptop.rst
++++ b/Documentation/laptops/lg-laptop.rst
+@@ -1,5 +1,7 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++:orphan:
++
+ LG Gram laptop extra features
+ =============================
+ 
+diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
+index 812e20cc898c..66c24140ebf1 100644
+--- a/Documentation/powerpc/isa-versions.rst
++++ b/Documentation/powerpc/isa-versions.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ CPU to ISA Version Mapping
+ ==========================
+ 
+diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
+index 659bbc093b52..33d697ab8a58 100644
+--- a/Documentation/virtual/kvm/amd-memory-encryption.rst
++++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ ======================================
+ Secure Encrypted Virtualization (SEV)
+ ======================================
+diff --git a/Documentation/virtual/kvm/vcpu-requests.rst b/Documentation/virtual/kvm/vcpu-requests.rst
+index 5feb3706a7ae..c1807a1b92e6 100644
+--- a/Documentation/virtual/kvm/vcpu-requests.rst
++++ b/Documentation/virtual/kvm/vcpu-requests.rst
+@@ -1,3 +1,5 @@
++:orphan:
++
+ =================
+ KVM VCPU Requests
+ =================
+-- 
+2.21.0
+
