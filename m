@@ -2,165 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC2ED30FF1
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 May 2019 16:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46400311F2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 May 2019 18:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbfEaOQ3 (ORCPT
+        id S1726683AbfEaQFz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 31 May 2019 10:16:29 -0400
-Received: from mga05.intel.com ([192.55.52.43]:8345 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726779AbfEaOQ0 (ORCPT
+        Fri, 31 May 2019 12:05:55 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:35942 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbfEaQFz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 31 May 2019 10:16:26 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 May 2019 07:16:26 -0700
-X-ExtLoop1: 1
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 31 May 2019 07:16:24 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v5 16/16] platform/x86: intel_cht_int33fe: Replacing the old connections with references
-Date:   Fri, 31 May 2019 17:15:47 +0300
-Message-Id: <20190531141547.22728-17-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
-References: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 31 May 2019 12:05:55 -0400
+Received: by mail-qt1-f194.google.com with SMTP id u12so1519023qth.3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 31 May 2019 09:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=DjNhKHlzP4NpT4FppWGQqOUxDm61aLRXlbul/68FN0c=;
+        b=J54mNqWnAsUqfoo6Snrd0nt6rHdZUZGVIA8h1HkrYROKwApJcsyUPHXuVo5D5vgDSN
+         2xThXTxduhEmpX4qIuiTxWqObBI6NZKlwtr4+3SrJwUsyTpI4qmLajgnuV+gluk6CFgd
+         4GE32in3vruyTdsOnFaG3X7w2AfbfBT4DTIpqN3YwXWOVlqG2bYCq7a9R5YDdmeEhXbf
+         KR/pKt45RQg9OEQU3vGVzHDcc55L6nNpcwNPtrzeegxYSU5X46qevKISjhuUnWGW3DMW
+         vt9GLPhehySPkevDVhDxPRMGAOqcr8E2ytELNUUcgEDw144kSwMN6BR7uu357Y1c0pBb
+         cyPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=DjNhKHlzP4NpT4FppWGQqOUxDm61aLRXlbul/68FN0c=;
+        b=dU4+LYWw2FOvQ9fInSH+cl3UhDL+UP7PpavvR2Rs3nDm0dp/ti6D/YSIulZ2RxIT5Q
+         ng6GVhvxz0O2jViG5udgrC0gIfEjp8Hu8+O8jCD3DPQRjCuzGZuDTe5Ybpn9Egq2b1a8
+         9srD6le3zWkHmlGdcBdtfpbs9nvdObZQhFMu4FSTu4MBGyKFk5ia9odHHnRaaCvCuiGv
+         8UB+IXRhl9bRbB3Kaaog+5o7lNPvp5JGuresWXwFtTB9foReXXUTubOWIP1iJMPGGjC7
+         Z0yuZfu7EQlUwnF68+PYpIDdcCIiAGm42uF0NaUc58oMeBiD0WZ92BAL84dbIq+jVfAw
+         JSUg==
+X-Gm-Message-State: APjAAAW9sWjqYn0kuPN/94W2soRGWov0oTAcgWLVXtj9iX4B14aPNc7k
+        QGzoNBOkB5xZkO3ZuOtX27E+LA==
+X-Google-Smtp-Source: APXvYqxJNBD7sPuLzVYvt1sEsFPROMBtqLJuc+rTnHFxP1OxTaqffPfJkEIBKsX40tRmy60nV+Zomg==
+X-Received: by 2002:ac8:183a:: with SMTP id q55mr10085427qtj.23.1559318754496;
+        Fri, 31 May 2019 09:05:54 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id o71sm5181164qke.18.2019.05.31.09.05.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 09:05:53 -0700 (PDT)
+From:   Qian Cai <cai@lca.pw>
+To:     ard.biesheuvel@linaro.org
+Cc:     dvhart@infradead.org, andy@infradead.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Qian Cai <cai@lca.pw>
+Subject: [PATCH] x86/efi: fix a -Wtype-limits compilation warning
+Date:   Fri, 31 May 2019 12:05:34 -0400
+Message-Id: <1559318734-27591-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Replacing the old connection descriptions with software node
-references. Supplying the USB connector also a reference to
-the DisplayPort while at it.
+Compiling a kernel with W=1 generates this warning,
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Hans de Goede <hdegoede@redhat.com>
+arch/x86/platform/efi/quirks.c:731:16: warning: comparison of unsigned
+expression >= 0 is always true [-Wtype-limits]
+
+Signed-off-by: Qian Cai <cai@lca.pw>
 ---
- drivers/platform/x86/intel_cht_int33fe.c | 47 ++++++++++++++----------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+ arch/x86/platform/efi/quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel_cht_int33fe.c b/drivers/platform/x86/intel_cht_int33fe.c
-index 9e1848e0343d..4fbdff48a4b5 100644
---- a/drivers/platform/x86/intel_cht_int33fe.c
-+++ b/drivers/platform/x86/intel_cht_int33fe.c
-@@ -43,13 +43,35 @@ struct cht_int33fe_data {
- 	struct i2c_client *max17047;
- 	struct i2c_client *fusb302;
- 	struct i2c_client *pi3usb30532;
--	/* Contain a list-head must be per device */
--	struct device_connection connections[4];
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index feb77777c8b8..ed88c95f9daf 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -725,7 +725,7 @@ void efi_recover_from_page_fault(unsigned long phys_addr)
+ 	 * Address range 0x0000 - 0x0fff is always mapped in the efi_pgd, so
+ 	 * page faulting on these addresses isn't expected.
+ 	 */
+-	if (phys_addr >= 0x0000 && phys_addr <= 0x0fff)
++	if (phys_addr <= 0x0fff)
+ 		return;
  
- 	struct fwnode_handle *dp;
- 	struct fwnode_handle *mux;
- };
- 
-+static const struct software_node nodes[];
-+
-+static const struct software_node_ref_args pi3usb30532_ref = {
-+	&nodes[INT33FE_NODE_PI3USB30532]
-+};
-+
-+static const struct software_node_ref_args dp_ref = {
-+	&nodes[INT33FE_NODE_DISPLAYPORT]
-+};
-+
-+static struct software_node_ref_args mux_ref;
-+
-+static const struct software_node_reference usb_connector_refs[] = {
-+	{ "orientation-switch", 1, &pi3usb30532_ref},
-+	{ "mode-switch", 1, &pi3usb30532_ref},
-+	{ "displayport", 1, &dp_ref},
-+	{ }
-+};
-+
-+static const struct software_node_reference fusb302_refs[] = {
-+	{ "usb-role-switch", 1, &mux_ref},
-+	{ }
-+};
-+
- /*
-  * Grrr I severly dislike buggy BIOS-es. At least one BIOS enumerates
-  * the max17047 both through the INT33FE ACPI device (it is right there
-@@ -113,12 +135,12 @@ static const struct property_entry usb_connector_props[] = {
- };
- 
- static const struct software_node nodes[] = {
--	{ "fusb302", NULL, fusb302_props },
-+	{ "fusb302", NULL, fusb302_props, fusb302_refs },
- 	{ "max17047", NULL, max17047_props },
- 	{ "pi3usb30532" },
- 	{ "displayport" },
- 	{ "usb-role-switch" },
--	{ "connector", &nodes[0], usb_connector_props },
-+	{ "connector", &nodes[0], usb_connector_props, usb_connector_refs },
- 	{ }
- };
- 
-@@ -152,6 +174,7 @@ static int cht_int33fe_setup_mux(struct cht_int33fe_data *data)
- 
- 	data->mux = fwnode_handle_get(dev->fwnode);
- 	put_device(dev);
-+	mux_ref.node = to_software_node(data->mux);
- 
- 	return 0;
- }
-@@ -190,6 +213,7 @@ static void cht_int33fe_remove_nodes(struct cht_int33fe_data *data)
- 
- 	if (data->mux) {
- 		fwnode_handle_put(data->mux);
-+		mux_ref.node = NULL;
- 		data->mux = NULL;
- 	}
- 
-@@ -343,18 +367,6 @@ static int cht_int33fe_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto out_remove_nodes;
- 
--	data->connections[0].endpoint[0] = "port0";
--	data->connections[0].endpoint[1] = "i2c-pi3usb30532-switch";
--	data->connections[0].id = "orientation-switch";
--	data->connections[1].endpoint[0] = "port0";
--	data->connections[1].endpoint[1] = "i2c-pi3usb30532-mux";
--	data->connections[1].id = "mode-switch";
--	data->connections[2].endpoint[0] = "i2c-fusb302";
--	data->connections[2].endpoint[1] = "intel_xhci_usb_sw-role-switch";
--	data->connections[2].id = "usb-role-switch";
--
--	device_connections_add(data->connections);
--
- 	fwnode = software_node_fwnode(&nodes[INT33FE_NODE_FUSB302]);
- 	if (!fwnode) {
- 		ret = -ENODEV;
-@@ -400,8 +412,6 @@ static int cht_int33fe_probe(struct platform_device *pdev)
- out_unregister_max17047:
- 	i2c_unregister_device(data->max17047);
- 
--	device_connections_remove(data->connections);
--
- out_remove_nodes:
- 	cht_int33fe_remove_nodes(data);
- 
-@@ -416,7 +426,6 @@ static int cht_int33fe_remove(struct platform_device *pdev)
- 	i2c_unregister_device(data->fusb302);
- 	i2c_unregister_device(data->max17047);
- 
--	device_connections_remove(data->connections);
- 	cht_int33fe_remove_nodes(data);
- 
- 	return 0;
+ 	/*
 -- 
-2.20.1
+1.8.3.1
 
