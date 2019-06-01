@@ -2,42 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9203431FD9
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 17:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB3C31FA9
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 16:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbfFAP4g convert rfc822-to-8bit (ORCPT
+        id S1726251AbfFAOOM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Jun 2019 11:56:36 -0400
-Received: from antyk.al.uw.edu.pl ([193.0.78.5]:46697 "EHLO antyk.al.uw.edu.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725946AbfFAP4g (ORCPT
+        Sat, 1 Jun 2019 10:14:12 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:39763 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbfFAOOM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Jun 2019 11:56:36 -0400
-Received: from [102.165.34.17] ([102.165.34.17])
-        (authenticated bits=0)
-        by antyk.al.uw.edu.pl (8.14.9/8.14.9) with ESMTP id x517s1CP049314;
-        Sat, 1 Jun 2019 09:56:28 +0200 (CEST)
-        (envelope-from aleksandra.wrobel@forner.pl)
-Message-Id: <201906010756.x517s1CP049314@antyk.al.uw.edu.pl>
-Content-Type: text/plain; charset="iso-8859-1"
+        Sat, 1 Jun 2019 10:14:12 -0400
+Received: from [192.168.1.110] ([95.114.112.19]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N7yz7-1gSn9l1PIx-014y7V; Sat, 01 Jun 2019 16:14:10 +0200
+To:     LKML <linux-kernel@vger.kernel.org>, linux-acpi@vger.kernel.org,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Subject: How to inject fwnode/oftree/acpi data by platform driver ?
+Organization: metux IT consult
+Message-ID: <c15a9872-4ad4-1b7e-e34f-14549b5b55eb@metux.net>
+Date:   Sat, 1 Jun 2019 16:14:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Good day
-To:     Recipients <aleksandra.wrobel@forner.pl>
-From:   "Lucas Rudenson" <aleksandra.wrobel@forner.pl>
-Date:   Sat, 01 Jun 2019 00:56:18 -0700
-Reply-To: lukasrudg70@gmail.com
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.4.3 (antyk.al.uw.edu.pl [193.0.78.5]); Sat, 01 Jun 2019 09:56:31 +0200 (CEST)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:vbfLWOD3UONPL5v9tYMNFKhO32hwAlv2T2wf51k08qhcDR7xnND
+ 7nfiHZLcbks5p9X2mXYqddIGfRLmwmvBy+rg6ocRhZqy2JTQjiqtzTz95X8ly+j6tP0MIu2
+ MPXIK+3tD1P8tL10q2QwVU0bi8UWYiw05foBx+u0BaflR+Ne03h9nrjOA4GmRjNJgO4MAxo
+ HFpQ5gQ03IJSrmt2XZRYA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0C/Ji8CNAZk=:wNxJLB0sRHA5kdZOd6cYuA
+ BFAXfqb26rtNHKbL4EaQuGdgEbRLzR/xPGZA7EdUvb2Yv4+b/MVqtTGl2A4wbjAaKEZEsCPQW
+ SaJnqGNXIbheJVB43zL41BgNlmejzxGBGUr/0MyifjGR+hUIcwNy1XFSnYBNf8qIc6etOF/eZ
+ BBJBOawe2S+HzScmkdkhZ+sSiuwtvj0CjvE+EBne4KTkqAChKuSJ7/IFbyxq2g6eHhByZzXCn
+ YDIjGX15XaQ68et4OIiBWd5PEbXSt2cZLaYwg/mk0LZFnt43PnIF3Y97vJKxp7r0TwtLvsBJA
+ nygu/A9rmUvKN1h7pSy3KA+Q+C46pZO2mnviEScIEsJU8Sh+DhB17jYZc3T/yS32QtEsTiwLg
+ 4DauLHgaYI5gTSVpG3ejhi1vnlm/4ZNq/S/nl+gcvdZRDhf34A+lCCjtOjdGwPn99CCOedkn+
+ OZ+yIKfuCGWPrIov5seHyyf0G5HGjnMNIe4eRUCfxpmmYsFhyDr5faABQqXrhYLH/6ukmkGLw
+ siBpF0I8cVJay0BAFv9J14NJWYaKCj/K01baAgzhDsfjpy5/y01IPIMkamup7+ipGFFQ1yg3l
+ KuhMh2TvCXL6/65gqdO8QmYze2QzoZNjnTvlCsxH8tLFoPobIWP7U1FEZ8enqt/7Ysel5+ld3
+ RLeaUOJuaoiq31LlYGvl22dzofDYp5CYkQV8h+W3KAix1kg3E/vGIKq/Jhd1UWb4T74UvA+Dn
+ Rg8JCp2lCdJ3mr/oTWyLcb1Go2jFSCMQMJzNg9bGFaq2AEhDaabOSeEyeKE=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good day, My name is Lucas Rudenson, 50 years of age a Briton, the purpose of this email is to briefly introduce myself as the Accounting and Finance Manager of a crude Oil and Gas company here in United Kingdom. I wish to establish aprivate business partnership that is of utmost importance with you there in your home country.
+Hi folks,
 
-For details please acknowledge the receipt of this email by contacting me on my email: lukasrudg70@gmail.com
 
-Best regards,
- 
-Lucas Rudenson
+I'm looking for a way to inject fwnode data from a platform driver,
+in order to initialize generic drivers w/ board specific configuration.
+The idea is getting rid of passing driver specific pdata structs
+(which, IIRC, seem to be deprecated).
+
+An example usecase is the APUv2/3 board, which have things like gpios
+wired to buttons and LEDs. The board can only be detected via DMI
+string, no way to probe the platform devices - have to be initialized
+explicitly (that's how I'm already doing it now).
+
+The nicest way, IMHO, would be if I could just write some piece of DTS
+and some fancy magic all the rest under the hood. Such thing doesn't
+seem to exist yet. Does it make sense to implement that ? How could
+we do it ?
+
+Which other options do we have ?
+
+Or should we just leave everything as it is and stick w/ pdata structs ?
+
+
+thx
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
