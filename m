@@ -2,52 +2,42 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A54A319D2
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 08:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9203431FD9
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 17:56:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbfFAGJG convert rfc822-to-8bit (ORCPT
+        id S1726009AbfFAP4g convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Jun 2019 02:09:06 -0400
-Received: from server1.skillnet.com.co ([192.175.105.61]:52530 "EHLO
-        mail.projectbpo.co" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1726058AbfFAGJG (ORCPT
+        Sat, 1 Jun 2019 11:56:36 -0400
+Received: from antyk.al.uw.edu.pl ([193.0.78.5]:46697 "EHLO antyk.al.uw.edu.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725946AbfFAP4g (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Jun 2019 02:09:06 -0400
-X-Greylist: delayed 761 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 Jun 2019 02:09:06 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.projectbpo.co (Postfix) with ESMTP id E07E46EF8B762;
-        Sat,  1 Jun 2019 01:02:23 -0500 (-05)
-Received: from mail.projectbpo.co ([127.0.0.1])
-        by localhost (mail.projectbpo.co [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ybIQoImwMDVh; Sat,  1 Jun 2019 01:02:23 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.projectbpo.co (Postfix) with ESMTP id 0223A6EF8B775;
-        Sat,  1 Jun 2019 01:02:16 -0500 (-05)
-X-Virus-Scanned: amavisd-new at projectbpo.co
-Received: from mail.projectbpo.co ([127.0.0.1])
-        by localhost (mail.projectbpo.co [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id S9vVQ3IOQPri; Sat,  1 Jun 2019 01:02:16 -0500 (-05)
-Received: from [192.168.43.155] (unknown [41.203.78.170])
-        by mail.projectbpo.co (Postfix) with ESMTPSA id D88976EF8B75A;
-        Sat,  1 Jun 2019 01:01:41 -0500 (-05)
+        Sat, 1 Jun 2019 11:56:36 -0400
+Received: from [102.165.34.17] ([102.165.34.17])
+        (authenticated bits=0)
+        by antyk.al.uw.edu.pl (8.14.9/8.14.9) with ESMTP id x517s1CP049314;
+        Sat, 1 Jun 2019 09:56:28 +0200 (CEST)
+        (envelope-from aleksandra.wrobel@forner.pl)
+Message-Id: <201906010756.x517s1CP049314@antyk.al.uw.edu.pl>
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: DEAL
-To:     Recipients <avargasm.andina@gempresarial.co>
-From:   "Johann Reimann" <avargasm.andina@gempresarial.co>
-Date:   Sat, 01 Jun 2019 06:55:06 +0100
-Reply-To: johannreimann44@gmail.com
-Message-Id: <20190601060141.D88976EF8B75A@mail.projectbpo.co>
+Subject: Good day
+To:     Recipients <aleksandra.wrobel@forner.pl>
+From:   "Lucas Rudenson" <aleksandra.wrobel@forner.pl>
+Date:   Sat, 01 Jun 2019 00:56:18 -0700
+Reply-To: lukasrudg70@gmail.com
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.4.3 (antyk.al.uw.edu.pl [193.0.78.5]); Sat, 01 Jun 2019 09:56:31 +0200 (CEST)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good day,
+Good day, My name is Lucas Rudenson, 50 years of age a Briton, the purpose of this email is to briefly introduce myself as the Accounting and Finance Manager of a crude Oil and Gas company here in United Kingdom. I wish to establish aprivate business partnership that is of utmost importance with you there in your home country.
 
-My Name is Johann Reimann and i have something important to discuss with you but only with your permission i will proceed.
+For details please acknowledge the receipt of this email by contacting me on my email: lukasrudg70@gmail.com
 
-Regards
-J. Reimann
+Best regards,
+ 
+Lucas Rudenson
