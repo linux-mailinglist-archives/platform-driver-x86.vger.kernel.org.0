@@ -2,83 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB3C31FA9
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 16:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BED0432095
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jun 2019 21:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbfFAOOM (ORCPT
+        id S1726210AbfFATHZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Jun 2019 10:14:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:39763 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726135AbfFAOOM (ORCPT
+        Sat, 1 Jun 2019 15:07:25 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39856 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726143AbfFATHZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Jun 2019 10:14:12 -0400
-Received: from [192.168.1.110] ([95.114.112.19]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N7yz7-1gSn9l1PIx-014y7V; Sat, 01 Jun 2019 16:14:10 +0200
-To:     LKML <linux-kernel@vger.kernel.org>, linux-acpi@vger.kernel.org,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Subject: How to inject fwnode/oftree/acpi data by platform driver ?
-Organization: metux IT consult
-Message-ID: <c15a9872-4ad4-1b7e-e34f-14549b5b55eb@metux.net>
-Date:   Sat, 1 Jun 2019 16:14:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        Sat, 1 Jun 2019 15:07:25 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z23so7853624wma.4;
+        Sat, 01 Jun 2019 12:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:cc:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=9t2l3NuVxa0aZMyvkn87qI+SJPjkg845w5lS4yfH5bQ=;
+        b=BwcJC/Jm90DOAIpiy76hnt3jlP53J0ET/1wPixpJeicDUHajRxNCHoBH8iqtY8R5iE
+         SrqjM7lVUh+/NV9W30pSewkFQ0bOa2Q3mw8UWaLlC+aqHnpK85znwV/AkYvqN0wQJe7y
+         tXTkXuyYeONmfKHJmpvU+VC/T9cuMlX0YaeXSLpMiyWsYQbD5Q3jp8DVb/0DZbg95NKe
+         HZ+JiobxGjWJPQcl3YzvCdotM0broe/UiMu76ecWNgNUMmcffnnT3iw2OaE/wJDvopQy
+         IgFLkmVKPSpbf9xo+FS+OiOZ7HNzVb0wBs10rJOe1CShjQ7AFUMetSlHr6nR2n8Eiwrn
+         wkIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9t2l3NuVxa0aZMyvkn87qI+SJPjkg845w5lS4yfH5bQ=;
+        b=UbEIAFrux1dnc30UAdI3HON8jHsPwdA+meaxLm49A+MdK22zDsTwwAq83faNe3Oe7V
+         9TOd/YYZGf9spCP98R45kXYMG6zEBLi6AlLcHxgWjJ+KE8n8Unh48bKTN+LjB82iXvqh
+         3aukW7blf4KiRQxHwnmtSLH9NrQWDf7VHffDmHFrFee4t1DAvkOP/SUg0cmKQ1v1Ht7O
+         B4y7P84dLFZ+hXuScsAuhskc/zy+8Da0gM1OenbzlzjUMuQLiffBGkZKepTnvFEZRDUX
+         V1Un0B7bculU5P8Vy6GQIU35dlHoed3Hi4jK9vJAZPkc2gWTqZ4PrDr6+3p8nLWSdflX
+         8VBQ==
+X-Gm-Message-State: APjAAAV57Ho/CB8bpGRaAEEPB6YY079YrvytQqSIg9qWlbV/QAk87P+T
+        mYEZdnBVTvoTjpQbY6Vy47g=
+X-Google-Smtp-Source: APXvYqzWNOhVnskl2Yi09eRNWFwis8pVkN+fPY+PJ9XfnnxE+iWb60MHK5ITo4wXUp4IhaelPdvlQg==
+X-Received: by 2002:a1c:c105:: with SMTP id r5mr9502761wmf.46.1559416042468;
+        Sat, 01 Jun 2019 12:07:22 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A76A.dip0.t-ipconnect.de. [217.229.167.106])
+        by smtp.gmail.com with ESMTPSA id k184sm21379536wmk.0.2019.06.01.12.07.20
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sat, 01 Jun 2019 12:07:21 -0700 (PDT)
+Subject: Re: [RFC 0/2] Support for buttons on newer MS Surface devices
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+References: <20190516142523.117978-1-luzmaximilian@gmail.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <a0f93af3-c587-40d5-2a85-fdc0f9e6b79f@gmail.com>
+Date:   Sat, 1 Jun 2019 21:07:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190516142523.117978-1-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:vbfLWOD3UONPL5v9tYMNFKhO32hwAlv2T2wf51k08qhcDR7xnND
- 7nfiHZLcbks5p9X2mXYqddIGfRLmwmvBy+rg6ocRhZqy2JTQjiqtzTz95X8ly+j6tP0MIu2
- MPXIK+3tD1P8tL10q2QwVU0bi8UWYiw05foBx+u0BaflR+Ne03h9nrjOA4GmRjNJgO4MAxo
- HFpQ5gQ03IJSrmt2XZRYA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0C/Ji8CNAZk=:wNxJLB0sRHA5kdZOd6cYuA
- BFAXfqb26rtNHKbL4EaQuGdgEbRLzR/xPGZA7EdUvb2Yv4+b/MVqtTGl2A4wbjAaKEZEsCPQW
- SaJnqGNXIbheJVB43zL41BgNlmejzxGBGUr/0MyifjGR+hUIcwNy1XFSnYBNf8qIc6etOF/eZ
- BBJBOawe2S+HzScmkdkhZ+sSiuwtvj0CjvE+EBne4KTkqAChKuSJ7/IFbyxq2g6eHhByZzXCn
- YDIjGX15XaQ68et4OIiBWd5PEbXSt2cZLaYwg/mk0LZFnt43PnIF3Y97vJKxp7r0TwtLvsBJA
- nygu/A9rmUvKN1h7pSy3KA+Q+C46pZO2mnviEScIEsJU8Sh+DhB17jYZc3T/yS32QtEsTiwLg
- 4DauLHgaYI5gTSVpG3ejhi1vnlm/4ZNq/S/nl+gcvdZRDhf34A+lCCjtOjdGwPn99CCOedkn+
- OZ+yIKfuCGWPrIov5seHyyf0G5HGjnMNIe4eRUCfxpmmYsFhyDr5faABQqXrhYLH/6ukmkGLw
- siBpF0I8cVJay0BAFv9J14NJWYaKCj/K01baAgzhDsfjpy5/y01IPIMkamup7+ipGFFQ1yg3l
- KuhMh2TvCXL6/65gqdO8QmYze2QzoZNjnTvlCsxH8tLFoPobIWP7U1FEZ8enqt/7Ysel5+ld3
- RLeaUOJuaoiq31LlYGvl22dzofDYp5CYkQV8h+W3KAix1kg3E/vGIKq/Jhd1UWb4T74UvA+Dn
- Rg8JCp2lCdJ3mr/oTWyLcb1Go2jFSCMQMJzNg9bGFaq2AEhDaabOSeEyeKE=
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi folks,
+Hi,
+
+any comments on this?
+
+I should also mention that this has been tested via
+https://github.com/jakeday/linux-surface.
+
+Maximilian
 
 
-I'm looking for a way to inject fwnode data from a platform driver,
-in order to initialize generic drivers w/ board specific configuration.
-The idea is getting rid of passing driver specific pdata structs
-(which, IIRC, seem to be deprecated).
-
-An example usecase is the APUv2/3 board, which have things like gpios
-wired to buttons and LEDs. The board can only be detected via DMI
-string, no way to probe the platform devices - have to be initialized
-explicitly (that's how I'm already doing it now).
-
-The nicest way, IMHO, would be if I could just write some piece of DTS
-and some fancy magic all the rest under the hood. Such thing doesn't
-seem to exist yet. Does it make sense to implement that ? How could
-we do it ?
-
-Which other options do we have ?
-
-Or should we just leave everything as it is and stick w/ pdata structs ?
-
-
-thx
---mtx
-
--- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+On 5/16/19 4:25 PM, Maximilian Luz wrote:
+> This series adds suport for power and volume buttons on 5th and 6th
+> generation Microsoft Surface devices. Specifically, it adds support for
+> the power-button on the Surface Laptop 1 and Laptop 2, as well as
+> support for power- and (on-device) volume-buttons on the Surface Pro 5
+> (2017), Pro 6, and Book 2.
+> 
+> These devices use the same MSHW0040 device as on the Surface Pro 4,
+> however, whereas the Pro 4 uses an ACPI notify handler, the newer
+> devices use GPIO interrupts to signal these events.
+> 
+> The first patch of this series ensures that the surfacepro3_button
+> driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+> devices. The second patch adapts soc_button_array to implement the
+> actual button support.
+> 
+> I think the changes to soc_button_array in the second patch warrant a
+> thorough review. I've tried to make things a bit more generic to be able
+> to integrate arbitrary ACPI GPIO power-/volume-button devices more
+> easily, I'm not sure if there may be reasons against this.
+> 
+> Maximilian Luz (2):
+>    platform: Fix device check for surfacepro3_button
+>    input: soc_button_array for newer surface devices
+> 
+>   drivers/input/misc/soc_button_array.c     | 134 ++++++++++++++++++++--
+>   drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+>   2 files changed, 160 insertions(+), 12 deletions(-)
+> 
