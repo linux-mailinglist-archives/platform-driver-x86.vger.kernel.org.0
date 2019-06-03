@@ -2,86 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6BAC32E66
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Jun 2019 13:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EEFF33908
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Jun 2019 21:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728027AbfFCLP0 (ORCPT
+        id S1726157AbfFCTXo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 3 Jun 2019 07:15:26 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39246 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727455AbfFCLPZ (ORCPT
+        Mon, 3 Jun 2019 15:23:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59052 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726136AbfFCTXo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 3 Jun 2019 07:15:25 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x4so11617595wrt.6;
-        Mon, 03 Jun 2019 04:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QB+KRWQyEvFJ6NF1QW+2V4OsJn2/GknxGQT/dO5nBXQ=;
-        b=A+n68LNK/V7XMa9AhrfdGNMdMmXz4+16KxD2xav5JcBWwDnUhSpAWwK5ry3WDgNC+8
-         3dR+bvp/l/X+2z6CwFuLux9QEJ0gqJD7mmszHbgylUuaLGK33tsuLL6H3JkvJ7VXvw+E
-         Wh9IuhdIS9jE2u2nCHTm551MrVg3iPj09dm6guWC21lJtAHZqtbZu8iE30Jlnx5fneMl
-         ubjaLYiBiu52+QGjpE6UdtZsx3fGmV8RkHQdHmpnbNAeDBOhlyVRS22MoIhILeAZlZrg
-         7ejMYfxXtoKYGSL+CtOWH762k85LF0+RcY3s9NUaYy6a79/vDLrz9ZvKV7pL8fiTYJgd
-         bOYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QB+KRWQyEvFJ6NF1QW+2V4OsJn2/GknxGQT/dO5nBXQ=;
-        b=Uzg93vBUAiC0yqVYP+6312Do5f/EM9FJ5I9+mIQ7mwv28RzATqhLRmWDfC3sPlX/We
-         ymxBhKQuJeKAvQRtGnOI5qabWDCNGagMHV6BFALRUgkhekgaToFgYU9PDcuW8ob6cRhH
-         oimXgJV3EHQ3Urxr7qQGJjVzPFEvJLOI2NOP4P1sq7jqAiP0PrzyI+X5sjqa9Lyir9Ev
-         YCy4CYBOAS102RGe3GZV5TVPqfeDp4j5+Zo+00d/87iMsSa/wRHXIYSE9PF4eanM80Z5
-         wC+0gRUNhVOaD/RxKTb0EjdP2jhZqIUiWFbPePqgju2f2/H9Lp2CQ92qELfSDlv+68Yz
-         v3hg==
-X-Gm-Message-State: APjAAAUuZk6AaP2a4qjVnJ1jvM/p348DxE8Lrpjvq2d+vYLxFx0JpDAC
-        KvIvZzhHY69kwc3PeT/kUfE=
-X-Google-Smtp-Source: APXvYqzoT8H0VTkgXvyNfXsw9pGquUry83J8VpY4e0SLNyvPeOsdCfsvzCqVo9qTsrHgcfz3CK7qRA==
-X-Received: by 2002:adf:fc85:: with SMTP id g5mr15990524wrr.324.1559560524145;
-        Mon, 03 Jun 2019 04:15:24 -0700 (PDT)
-Received: from localhost.localdomain ([213.172.156.217])
-        by smtp.gmail.com with ESMTPSA id o14sm14171217wrp.77.2019.06.03.04.15.18
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 03 Jun 2019 04:15:23 -0700 (PDT)
-From:   Colin Sindle <csindle@gmail.com>
-To:     Eric Piel <eric.piel@tremplin-utc.net>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Mon, 3 Jun 2019 15:23:44 -0400
+Received: from localhost.localdomain (unknown [194.230.155.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF1A72673F;
+        Mon,  3 Jun 2019 19:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559589823;
+        bh=zSUCZi9f3ute9Iirc/j4KUANDwmTf9ovEvKzD92Z9Bw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T8PjXzzg1SsDfZCLz0MQmPvO3vIgdW+Udfpi4RFDHcWOFQF0yb0K4jMMcMQGMSNLn
+         6XlCgTdIvta9rRjbcyuIL3jzEoupRY+LJJ20EjwJXC0nV552BkRcbo9UXF1S7/mTXH
+         lvRF9WJp0kPt1mR9paKvil00fI3n4c5Uo5sq067g=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Colin Sindle <csindle@gmail.com>
-Subject: [PATCH] hp_accel: Add support for HP ProBook 450 G0.
-Date:   Mon,  3 Jun 2019 13:14:46 +0200
-Message-Id: <20190603111446.5395-1-csindle@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexander Shiyan <shc_work@mail.ru>,
+        Sinan Kaya <okaya@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH] platform/x86: Remove left-over BACKLIGHT_LCD_SUPPORT
+Date:   Mon,  3 Jun 2019 21:23:38 +0200
+Message-Id: <20190603192338.30836-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-HP ProBook 450 G0 needs a non-standard mapping (x_inverted).
+The CONFIG_BACKLIGHT_LCD_SUPPORT was removed in commit 8c5dc8d9f19c
+("video: backlight: Remove useless BACKLIGHT_LCD_SUPPORT kernel
+symbol"). Options protected by CONFIG_BACKLIGHT_LCD_SUPPORT are now
+available directly.
 
-Signed-off-by: Colin Sindle <csindle@gmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/platform/x86/hp_accel.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/platform/x86/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/platform/x86/hp_accel.c b/drivers/platform/x86/hp_accel.c
-index f61b8a176e20..7a2747455237 100644
---- a/drivers/platform/x86/hp_accel.c
-+++ b/drivers/platform/x86/hp_accel.c
-@@ -229,6 +229,7 @@ static const struct dmi_system_id lis3lv02d_dmi_ids[] = {
- 	AXIS_DMI_MATCH("HPB440G3", "HP ProBook 440 G3", x_inverted_usd),
- 	AXIS_DMI_MATCH("HPB440G4", "HP ProBook 440 G4", x_inverted),
- 	AXIS_DMI_MATCH("HPB442x", "HP ProBook 442", xy_rotated_left),
-+	AXIS_DMI_MATCH("HPB450G0", "HP ProBook 450 G0", x_inverted),
- 	AXIS_DMI_MATCH("HPB452x", "HP ProBook 452", y_inverted),
- 	AXIS_DMI_MATCH("HPB522x", "HP ProBook 522", xy_swap),
- 	AXIS_DMI_MATCH("HPB532x", "HP ProBook 532", y_inverted),
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 5d5cc6111081..bd15b47abcb4 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -906,7 +906,6 @@ config TOSHIBA_WMI
+ config ACPI_CMPC
+ 	tristate "CMPC Laptop Extras"
+ 	depends on ACPI && INPUT
+-	depends on BACKLIGHT_LCD_SUPPORT
+ 	depends on RFKILL || RFKILL=n
+ 	select BACKLIGHT_CLASS_DEVICE
+ 	help
+@@ -1130,7 +1129,6 @@ config INTEL_OAKTRAIL
+ config SAMSUNG_Q10
+ 	tristate "Samsung Q10 Extras"
+ 	depends on ACPI
+-	depends on BACKLIGHT_LCD_SUPPORT
+ 	select BACKLIGHT_CLASS_DEVICE
+ 	---help---
+ 	  This driver provides support for backlight control on Samsung Q10
 -- 
-2.20.1
+2.17.1
 
