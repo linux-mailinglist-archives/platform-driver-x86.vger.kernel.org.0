@@ -2,255 +2,267 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 729633235E
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Jun 2019 15:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CC5329AD
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Jun 2019 09:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726229AbfFBNU0 (ORCPT
+        id S1726719AbfFCHc6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 2 Jun 2019 09:20:26 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40526 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726084AbfFBNUZ (ORCPT
+        Mon, 3 Jun 2019 03:32:58 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:8090 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725975AbfFCHc5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 2 Jun 2019 09:20:25 -0400
-Received: by mail-wm1-f67.google.com with SMTP id u16so3414540wmc.5;
-        Sun, 02 Jun 2019 06:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XTwNe906qFumDaIG0AZBysUzGIWn0KYcPiQZdVgGgBw=;
-        b=ILzGGVIG+lMcnqXI0tTLfD9wEi5JQ0o51iUUpePofA6e+oDHD7lLaLoi3PTxqqqbQH
-         H3mwFWeuZUG727PZ25DL2tl/PS4VgV6Z4RwLzBLWuK0pPdtjadmMdKvogKLix+Ukps6d
-         XUv1tkWW8FW+LRf06TtdGFS/1kxHKW6DFpv7OAWEURmDEdJBzBW44bibIUJpI18dpJh2
-         u2hhqtECAvvjb+txjROdRUqYP+c2/1tYAJhlJx01VdL5od5Mijqzf9Yn2CnemTzdV3oP
-         y53ethPcC53mlrsESsrpTvF04W+5rP9EuwJfBfuz2SZczeVdHg3hG0hKZtazrCh/2uoq
-         dzCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XTwNe906qFumDaIG0AZBysUzGIWn0KYcPiQZdVgGgBw=;
-        b=huym70Q0uiWmcJp+VYMwxuqJSnCctfJG4+N1473Vtc9Wj6H+DwpONhe1PLKO3VZv2c
-         w1TozgPTsmL48n6VZ5/V2ngN1G1yb43bwBen+hIBw24fSPZZCGAFCZbmHq3V8Is0Xezt
-         vCFlprTroqclLJqw4CkLlUu5NoGO2WbaimRDFFt+CR61WsMKxj2YAppyijZUTqPFOVGi
-         8ajA+3kVrOqHg5zYSe9H+xpZ5SvU/lzkoX7zfctH4R9uCa5O6r8mYQl47r8InwgEW0mf
-         bSwBbJcmettX1i9m4sKHQ7jFSl9GEk5gXFa7v1WKOu6yb49mdgMwFyirKTzI01KAshlr
-         tppg==
-X-Gm-Message-State: APjAAAXrWzbFycuGHWlh9F4C4hk59jfDHnNuum2TQFf61ecBfFVxMZtn
-        CiQwFNR3M4GsRJuj8U6aXio=
-X-Google-Smtp-Source: APXvYqzsYFYOf+ERfUvXIY9dutCsJnUs0fKN/uPfd11jr2mLpzUvoGvC3cbhl+vF5Jsod5HjGoyGDw==
-X-Received: by 2002:a1c:48c5:: with SMTP id v188mr10990796wma.175.1559481622600;
-        Sun, 02 Jun 2019 06:20:22 -0700 (PDT)
-Received: from Pali-Latitude.lan ([2001:718:1e03:a01::1ca])
-        by smtp.gmail.com with ESMTPSA id b136sm15839022wme.30.2019.06.02.06.20.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 02 Jun 2019 06:20:21 -0700 (PDT)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>
-To:     Jean Delvare <jdelvare@suse.com>, Wolfram Sang <wsa@the-dreams.de>,
-        =?UTF-8?q?Micha=C5=82=20K=C4=99pie=C5=84?= <kernel@kempniu.pl>,
-        Steven Honeyman <stevenhoneyman@gmail.com>,
-        Valdis.Kletnieks@vt.edu,
-        Jochen Eisinger <jochen@penguin-breeder.org>,
-        Gabriele Mazzotta <gabriele.mzt@gmail.com>,
-        Andy Lutomirski <luto@kernel.org>, Mario_Limonciello@dell.com,
-        Alex Hung <alex.hung@canonical.com>,
-        Takashi Iwai <tiwai@suse.de>
-Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3] i2c: i801: Register optional lis3lv02d i2c device on Dell machines
-Date:   Sun,  2 Jun 2019 15:20:03 +0200
-Message-Id: <20190602132003.1911-1-pali.rohar@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180127133209.28995-1-pali.rohar@gmail.com>
-References: <20180127133209.28995-1-pali.rohar@gmail.com>
+        Mon, 3 Jun 2019 03:32:57 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 45HRbj0L33z9tyqk;
+        Mon,  3 Jun 2019 09:32:49 +0200 (CEST)
+Authentication-Results: localhost; dkim=pass
+        reason="1024-bit key; insecure key"
+        header.d=c-s.fr header.i=@c-s.fr header.b=KCHA/+I2; dkim-adsp=pass;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id f1ZXWwP5lEd5; Mon,  3 Jun 2019 09:32:48 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 45HRbh6GzZz9tyqD;
+        Mon,  3 Jun 2019 09:32:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
+        t=1559547168; bh=mFSnLp9SecdoefqVAi+zrsx7gCUNrqDDhzeAm7hNfcA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=KCHA/+I2NHjkZkiR233EwpdRJt5jFkb7BB5WvTUHNfzd/oweFVHs6D+raJnJ4JYpd
+         J+KQ8vTwYSp7XV7FCrl9nJmeWCQH+EPqi/mxK+DlAKOo2fjx8cf6H7S04ezRTgUM5E
+         wPjjz8mFCLKIrimihcCu7Fs69Nna3fpjCg3CfU9w=
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 704308B7B1;
+        Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id eaNrRzoQGBQV; Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
+Received: from PO15451 (po15451.idsi0.si.c-s.fr [172.25.231.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 1C9028B7A1;
+        Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
+Subject: Re: [PATCH 09/22] docs: mark orphan documents as such
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     kvm@vger.kernel.org,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        dri-devel@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        Paul Mackerras <paulus@samba.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Andrew Donnellan <ajd@linux.ibm.com>, linux-pm@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        Georgi Djakov <georgi.djakov@linaro.org>
+References: <cover.1559171394.git.mchehab+samsung@kernel.org>
+ <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
+From:   Christophe Leroy <christophe.leroy@c-s.fr>
+Message-ID: <2891a08c-50b1-db33-0e96-740d45c5235f@c-s.fr>
+Date:   Mon, 3 Jun 2019 09:32:54 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dell platform team told us that some (DMI whitelisted) Dell Latitude
-machines have ST microelectronics accelerometer at i2c address 0x29.
 
-Presence of that ST microelectronics accelerometer is verified by existence
-of SMO88xx ACPI device which represent that accelerometer. Unfortunately
-ACPI device does not specify i2c address.
 
-This patch registers lis3lv02d device for selected Dell Latitude machines
-at i2c address 0x29 after detection. And for Dell Vostro V131 machine at
-i2c address 0x1d which was manually detected.
+Le 30/05/2019 à 01:23, Mauro Carvalho Chehab a écrit :
+> Sphinx doesn't like orphan documents:
+> 
+>      Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
+>      Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
+>      Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
+>      Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+>      Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
+>      Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
+>      Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
+> 
+> So, while they aren't on any toctree, add :orphan: to them, in order
+> to silent this warning.
 
-Finally commit a7ae81952cda ("i2c: i801: Allow ACPI SystemIO OpRegion to
-conflict with PCI BAR") allowed to use i2c-i801 driver on Dell machines so
-lis3lv02d correctly initialize accelerometer.
+Are those files really not meant to be included in a toctree ?
 
-Tested on Dell Latitude E6440.
+Shouldn't we include them in the relevant toctree instead of just 
+shutting up Sphinx warnings ?
 
-Signed-off-by: Pali Rohár <pali.rohar@gmail.com>
+Christophe
 
----
-Changes since v2:
- * Use explicit list of SMOxx ACPI devices
-
-Changes since v1:
- * Added Dell Vostro V131 based on Michał Kępień testing
- * Changed DMI product structure to include also i2c address
----
- drivers/i2c/busses/i2c-i801.c       | 118 ++++++++++++++++++++++++++++++++++++
- drivers/platform/x86/dell-smo8800.c |   1 +
- 2 files changed, 119 insertions(+)
-
-diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-index ac7f7817dc89..2ac8ff41cc24 100644
---- a/drivers/i2c/busses/i2c-i801.c
-+++ b/drivers/i2c/busses/i2c-i801.c
-@@ -1134,6 +1134,121 @@ static void dmi_check_onboard_devices(const struct dmi_header *dm, void *adap)
- 	}
- }
- 
-+/* NOTE: Keep this list in sync with drivers/platform/x86/dell-smo8800.c */
-+static const struct acpi_device_id acpi_smo8800_ids[] = {
-+	{ "SMO8800", 0 },
-+	{ "SMO8801", 0 },
-+	{ "SMO8810", 0 },
-+	{ "SMO8811", 0 },
-+	{ "SMO8820", 0 },
-+	{ "SMO8821", 0 },
-+	{ "SMO8830", 0 },
-+	{ "SMO8831", 0 },
-+};
-+
-+static acpi_status check_acpi_smo88xx_device(acpi_handle obj_handle,
-+					     u32 nesting_level,
-+					     void *context,
-+					     void **return_value)
-+{
-+	struct acpi_device_info *info;
-+	acpi_status status;
-+	char *hid;
-+	int i;
-+
-+	status = acpi_get_object_info(obj_handle, &info);
-+	if (!ACPI_SUCCESS(status) || !(info->valid & ACPI_VALID_HID))
-+		return AE_OK;
-+
-+	hid = info->hardware_id.string;
-+	if (!hid)
-+		return AE_OK;
-+
-+	for (i = 0; i < ARRAY_SIZE(acpi_smo8800_ids); ++i) {
-+		if (strcmp(hid, acpi_smo8800_ids[i].id) == 0) {
-+			*((bool *)return_value) = true;
-+			return AE_CTRL_TERMINATE;
-+		}
-+	}
-+
-+	return AE_OK;
-+
-+}
-+
-+static bool is_dell_system_with_lis3lv02d(void)
-+{
-+	bool found;
-+	acpi_status status;
-+	const char *vendor;
-+
-+	vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-+	if (strcmp(vendor, "Dell Inc.") != 0)
-+		return false;
-+
-+	/*
-+	 * Check that ACPI device SMO88xx exists and is enabled. That ACPI
-+	 * device represent our ST microelectronics lis3lv02d accelerometer but
-+	 * unfortunately without any other information (like i2c address).
-+	 */
-+	found = false;
-+	status = acpi_get_devices(NULL, check_acpi_smo88xx_device, NULL,
-+				  (void **)&found);
-+	if (!ACPI_SUCCESS(status) || !found)
-+		return false;
-+
-+	return true;
-+}
-+
-+/*
-+ * Accelerometer's i2c address is not specified in DMI nor ACPI,
-+ * so it is needed to define mapping table based on DMI product names.
-+ */
-+static struct {
-+	const char *dmi_product_name;
-+	unsigned short i2c_addr;
-+} dell_lis3lv02d_devices[] = {
-+	/*
-+	 * Dell platform team told us that these Latitude devices have
-+	 * ST microelectronics accelerometer at i2c address 0x29.
-+	 */
-+	{ "Latitude E5250",     0x29 },
-+	{ "Latitude E5450",     0x29 },
-+	{ "Latitude E5550",     0x29 },
-+	{ "Latitude E6440",     0x29 },
-+	{ "Latitude E6440 ATG", 0x29 },
-+	{ "Latitude E6540",     0x29 },
-+	/*
-+	 * Additional individual entries were added after verification.
-+	 */
-+	{ "Vostro V131",        0x1d },
-+};
-+
-+static void register_dell_lis3lv02d_i2c_device(struct i801_priv *priv)
-+{
-+	struct i2c_board_info info;
-+	const char *dmi_product_name;
-+	int i;
-+
-+	dmi_product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
-+	for (i = 0; i < ARRAY_SIZE(dell_lis3lv02d_devices); ++i) {
-+		if (strcmp(dmi_product_name,
-+			   dell_lis3lv02d_devices[i].dmi_product_name) == 0)
-+			break;
-+	}
-+
-+	if (i == ARRAY_SIZE(dell_lis3lv02d_devices)) {
-+		dev_warn(&priv->pci_dev->dev,
-+			 "Accelerometer lis3lv02d is present on i2c bus but its"
-+			 " i2c address is unknown, skipping registration...\n");
-+		return;
-+	}
-+
-+	memset(&info, 0, sizeof(struct i2c_board_info));
-+	info.addr = dell_lis3lv02d_devices[i].i2c_addr;
-+	strlcpy(info.type, "lis3lv02d", I2C_NAME_SIZE);
-+	i2c_new_device(&priv->adapter, &info);
-+}
-+
- /* Register optional slaves */
- static void i801_probe_optional_slaves(struct i801_priv *priv)
- {
-@@ -1152,6 +1267,9 @@ static void i801_probe_optional_slaves(struct i801_priv *priv)
- 
- 	if (dmi_name_in_vendors("FUJITSU"))
- 		dmi_walk(dmi_check_onboard_devices, &priv->adapter);
-+
-+	if (is_dell_system_with_lis3lv02d())
-+		register_dell_lis3lv02d_i2c_device(priv);
- }
- #else
- static void __init input_apanel_init(void) {}
-diff --git a/drivers/platform/x86/dell-smo8800.c b/drivers/platform/x86/dell-smo8800.c
-index 5cdb09cba077..bfcc1d1b9b96 100644
---- a/drivers/platform/x86/dell-smo8800.c
-+++ b/drivers/platform/x86/dell-smo8800.c
-@@ -198,6 +198,7 @@ static int smo8800_remove(struct acpi_device *device)
- 	return 0;
- }
- 
-+/* NOTE: Keep this list in sync with drivers/i2c/busses/i2c-i801.c */
- static const struct acpi_device_id smo8800_ids[] = {
- 	{ "SMO8800", 0 },
- 	{ "SMO8801", 0 },
--- 
-2.11.0
-
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>   Documentation/accelerators/ocxl.rst                 | 2 ++
+>   Documentation/arm/stm32/overview.rst                | 2 ++
+>   Documentation/arm/stm32/stm32f429-overview.rst      | 2 ++
+>   Documentation/arm/stm32/stm32f746-overview.rst      | 2 ++
+>   Documentation/arm/stm32/stm32f769-overview.rst      | 2 ++
+>   Documentation/arm/stm32/stm32h743-overview.rst      | 2 ++
+>   Documentation/arm/stm32/stm32mp157-overview.rst     | 2 ++
+>   Documentation/gpu/msm-crash-dump.rst                | 2 ++
+>   Documentation/interconnect/interconnect.rst         | 2 ++
+>   Documentation/laptops/lg-laptop.rst                 | 2 ++
+>   Documentation/powerpc/isa-versions.rst              | 2 ++
+>   Documentation/virtual/kvm/amd-memory-encryption.rst | 2 ++
+>   Documentation/virtual/kvm/vcpu-requests.rst         | 2 ++
+>   13 files changed, 26 insertions(+)
+> 
+> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
+> index 14cefc020e2d..b1cea19a90f5 100644
+> --- a/Documentation/accelerators/ocxl.rst
+> +++ b/Documentation/accelerators/ocxl.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   ========================================================
+>   OpenCAPI (Open Coherent Accelerator Processor Interface)
+>   ========================================================
+> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
+> index 85cfc8410798..f7e734153860 100644
+> --- a/Documentation/arm/stm32/overview.rst
+> +++ b/Documentation/arm/stm32/overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   ========================
+>   STM32 ARM Linux Overview
+>   ========================
+> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
+> index 18feda97f483..65bbb1c3b423 100644
+> --- a/Documentation/arm/stm32/stm32f429-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f429-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   STM32F429 Overview
+>   ==================
+>   
+> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
+> index b5f4b6ce7656..42d593085015 100644
+> --- a/Documentation/arm/stm32/stm32f746-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f746-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   STM32F746 Overview
+>   ==================
+>   
+> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
+> index 228656ced2fe..f6adac862b17 100644
+> --- a/Documentation/arm/stm32/stm32f769-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f769-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   STM32F769 Overview
+>   ==================
+>   
+> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
+> index 3458dc00095d..c525835e7473 100644
+> --- a/Documentation/arm/stm32/stm32h743-overview.rst
+> +++ b/Documentation/arm/stm32/stm32h743-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   STM32H743 Overview
+>   ==================
+>   
+> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
+> index 62e176d47ca7..2c52cd020601 100644
+> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
+> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   STM32MP157 Overview
+>   ===================
+>   
+> diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
+> index 757cd257e0d8..240ef200f76c 100644
+> --- a/Documentation/gpu/msm-crash-dump.rst
+> +++ b/Documentation/gpu/msm-crash-dump.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   =====================
+>   MSM Crash Dump Format
+>   =====================
+> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
+> index c3e004893796..56e331dab70e 100644
+> --- a/Documentation/interconnect/interconnect.rst
+> +++ b/Documentation/interconnect/interconnect.rst
+> @@ -1,5 +1,7 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> +:orphan:
+> +
+>   =====================================
+>   GENERIC SYSTEM INTERCONNECT SUBSYSTEM
+>   =====================================
+> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
+> index aa503ee9b3bc..f2c2ffe31101 100644
+> --- a/Documentation/laptops/lg-laptop.rst
+> +++ b/Documentation/laptops/lg-laptop.rst
+> @@ -1,5 +1,7 @@
+>   .. SPDX-License-Identifier: GPL-2.0+
+>   
+> +:orphan:
+> +
+>   LG Gram laptop extra features
+>   =============================
+>   
+> diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
+> index 812e20cc898c..66c24140ebf1 100644
+> --- a/Documentation/powerpc/isa-versions.rst
+> +++ b/Documentation/powerpc/isa-versions.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   CPU to ISA Version Mapping
+>   ==========================
+>   
+> diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
+> index 659bbc093b52..33d697ab8a58 100644
+> --- a/Documentation/virtual/kvm/amd-memory-encryption.rst
+> +++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   ======================================
+>   Secure Encrypted Virtualization (SEV)
+>   ======================================
+> diff --git a/Documentation/virtual/kvm/vcpu-requests.rst b/Documentation/virtual/kvm/vcpu-requests.rst
+> index 5feb3706a7ae..c1807a1b92e6 100644
+> --- a/Documentation/virtual/kvm/vcpu-requests.rst
+> +++ b/Documentation/virtual/kvm/vcpu-requests.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>   =================
+>   KVM VCPU Requests
+>   =================
+> 
