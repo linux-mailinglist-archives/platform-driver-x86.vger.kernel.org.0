@@ -2,30 +2,26 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3660C34CE1
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2019 18:09:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B980A35039
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Jun 2019 21:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbfFDQJU (ORCPT
+        id S1726343AbfFDTYW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 4 Jun 2019 12:09:20 -0400
-Received: from mga09.intel.com ([134.134.136.24]:22656 "EHLO mga09.intel.com"
+        Tue, 4 Jun 2019 15:24:22 -0400
+Received: from mga18.intel.com ([134.134.136.126]:7030 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728208AbfFDQJU (ORCPT
+        id S1726179AbfFDTYW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 4 Jun 2019 12:09:20 -0400
-X-Amp-Result: UNSCANNABLE
+        Tue, 4 Jun 2019 15:24:22 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 09:09:19 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 12:24:21 -0700
 X-ExtLoop1: 1
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
-  by orsmga001.jf.intel.com with ESMTP; 04 Jun 2019 09:09:15 -0700
-Received: from andy by smile with local (Exim 4.92)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1hYBzu-0000nb-Qw; Tue, 04 Jun 2019 19:09:14 +0300
-Date:   Tue, 4 Jun 2019 19:09:14 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+Received: from rbhardw1-mobl.gar.corp.intel.com (HELO [10.252.76.77]) ([10.252.76.77])
+  by orsmga008.jf.intel.com with ESMTP; 04 Jun 2019 12:24:13 -0700
+Subject: Re: [PATCH] x86/cpu: Add Icelake-NNPI to Intel family
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, bp@suse.de,
         Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -38,69 +34,76 @@ Cc:     linux-kernel@vger.kernel.org, x86@kernel.org, bp@suse.de,
         Len Brown <lenb@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Linux PM <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH] x86/cpu: Add Icelake-NNPI to Intel family
-Message-ID: <20190604160914.GN9224@smile.fi.intel.com>
 References: <20190530123827.8218-1-rajneesh.bhardwaj@linux.intel.com>
+ <20190604160914.GN9224@smile.fi.intel.com>
+From:   "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@linux.intel.com>
+Message-ID: <79e33a93-6180-5a58-0d8c-b34276e710f3@linux.intel.com>
+Date:   Wed, 5 Jun 2019 00:54:12 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190530123827.8218-1-rajneesh.bhardwaj@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190604160914.GN9224@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, May 30, 2019 at 06:08:27PM +0530, Rajneesh Bhardwaj wrote:
-> Add the CPUID model number of Icelake Neural Network Processor for Deep
+Hi Andy
 
-I believe we spell "Ice Lake".
+On 04-Jun-19 9:39 PM, Andy Shevchenko wrote:
+> On Thu, May 30, 2019 at 06:08:27PM +0530, Rajneesh Bhardwaj wrote:
+>> Add the CPUID model number of Icelake Neural Network Processor for Deep
+> I believe we spell "Ice Lake".
 
-> Learning Inference (ICL-NNPI) to the Intel family list. Icelake NNPI uses
+I referred to https://patchwork.kernel.org/patch/10812551/ , 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6e394376ee89233508fa21d006546357f8efee31 
+and many others where it mentioned Icelake. I am fine to change it the 
+way you are suggesting, please confirm if its still needed and i will 
+send a v2.
 
-Ditto.
+Thank you.
 
-> model number 0x9D and this will be documented in a future version of Intel
-> Software Development Manual.
-> 
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Kan Liang <kan.liang@linux.intel.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: x86-ml <x86@kernel.org>
-> Cc: Linux PM <linux-pm@vger.kernel.org>
-> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-> ---
->  arch/x86/include/asm/intel-family.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/x86/include/asm/intel-family.h b/arch/x86/include/asm/intel-family.h
-> index 9f15384c504a..087de5d3b93a 100644
-> --- a/arch/x86/include/asm/intel-family.h
-> +++ b/arch/x86/include/asm/intel-family.h
-> @@ -53,6 +53,7 @@
->  #define INTEL_FAM6_CANNONLAKE_MOBILE	0x66
->  
->  #define INTEL_FAM6_ICELAKE_MOBILE	0x7E
-> +#define INTEL_FAM6_ICELAKE_NNPI		0x9D
->  
->  /* "Small Core" Processors (Atom) */
->  
-> -- 
-> 2.17.1
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+>> Learning Inference (ICL-NNPI) to the Intel family list. Icelake NNPI uses
+> Ditto.
+>
+>> model number 0x9D and this will be documented in a future version of Intel
+>> Software Development Manual.
+>>
+>> Cc: Borislav Petkov <bp@alien8.de>
+>> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+>> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Cc: "H. Peter Anvin" <hpa@zytor.com>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Kan Liang <kan.liang@linux.intel.com>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: platform-driver-x86@vger.kernel.org
+>> Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+>> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+>> Cc: Len Brown <lenb@kernel.org>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: x86-ml <x86@kernel.org>
+>> Cc: Linux PM <linux-pm@vger.kernel.org>
+>> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+>> ---
+>>   arch/x86/include/asm/intel-family.h | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/x86/include/asm/intel-family.h b/arch/x86/include/asm/intel-family.h
+>> index 9f15384c504a..087de5d3b93a 100644
+>> --- a/arch/x86/include/asm/intel-family.h
+>> +++ b/arch/x86/include/asm/intel-family.h
+>> @@ -53,6 +53,7 @@
+>>   #define INTEL_FAM6_CANNONLAKE_MOBILE	0x66
+>>   
+>>   #define INTEL_FAM6_ICELAKE_MOBILE	0x7E
+>> +#define INTEL_FAM6_ICELAKE_NNPI		0x9D
+>>   
+>>   /* "Small Core" Processors (Atom) */
+>>   
+>> -- 
+>> 2.17.1
+>>
