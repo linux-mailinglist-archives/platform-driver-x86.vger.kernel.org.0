@@ -2,256 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E86C356C5
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  5 Jun 2019 08:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A87B935810
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  5 Jun 2019 09:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbfFEGRJ (ORCPT
+        id S1726510AbfFEHvK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 5 Jun 2019 02:17:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60900 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726700AbfFEGRJ (ORCPT
+        Wed, 5 Jun 2019 03:51:10 -0400
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:57323 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725294AbfFEHvK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 5 Jun 2019 02:17:09 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x556DHtS049455
-        for <platform-driver-x86@vger.kernel.org>; Wed, 5 Jun 2019 02:17:08 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sx710jmkh-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <platform-driver-x86@vger.kernel.org>; Wed, 05 Jun 2019 02:17:07 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <platform-driver-x86@vger.kernel.org> from <ajd@linux.ibm.com>;
-        Wed, 5 Jun 2019 07:17:04 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 5 Jun 2019 07:16:58 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x556Gvcn42533004
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 5 Jun 2019 06:16:57 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BC6B95204E;
-        Wed,  5 Jun 2019 06:16:57 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 27FF352050;
-        Wed,  5 Jun 2019 06:16:57 +0000 (GMT)
-Received: from [10.61.2.125] (haven.au.ibm.com [9.192.254.114])
-        (using TLSv1.2 with cipher AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 110F4A01BD;
-        Wed,  5 Jun 2019 16:16:56 +1000 (AEST)
-Subject: Re: [PATCH v2 06/22] docs: mark orphan documents as such
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
- <4afa83787acec906c383978dc01f286940e28616.1559656538.git.mchehab+samsung@kernel.org>
-From:   Andrew Donnellan <ajd@linux.ibm.com>
-Date:   Wed, 5 Jun 2019 16:16:55 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <4afa83787acec906c383978dc01f286940e28616.1559656538.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-AU
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19060506-0016-0000-0000-00000284C794
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19060506-0017-0000-0000-000032E1DAC1
-Message-Id: <65ffdb35-1179-be57-6258-991a02a67a66@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-05_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906050039
+        Wed, 5 Jun 2019 03:51:10 -0400
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from vadimp@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 5 Jun 2019 10:51:06 +0300
+Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x557p6YS027363;
+        Wed, 5 Jun 2019 10:51:06 +0300
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     dvhart@infradead.org, andy.shevchenko@gmail.com
+Cc:     platform-driver-x86@vger.kernel.org,
+        Vadim Pasternak <vadimp@mellanox.com>
+Subject: [PATCH v1 platform] platform/x86: mlx-platform: Fix parent device in i2c-mux-reg device registration
+Date:   Wed,  5 Jun 2019 07:51:03 +0000
+Message-Id: <20190605075103.23616-1-vadimp@mellanox.com>
+X-Mailer: git-send-email 2.11.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 5/6/19 12:17 am, Mauro Carvalho Chehab wrote:
-> Sphinx doesn't like orphan documents:
-> 
->      Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
->      Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
->      Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
->      Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-> 
-> So, while they aren't on any toctree, add :orphan: to them, in order
-> to silent this warning.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Fix the issue found while running kernel with the option
+CONFIG_DEBUG_TEST_DRIVER_REMOVE.
+Driver 'mlx-platform' registers 'i2c_mlxcpld' device and then registers
+few underlying 'i2c-mux-reg' devices:
+	priv->pdev_i2c = platform_device_register_simple("i2c_mlxcpld", nr,
+							 NULL, 0);
+	...
+	for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+		priv->pdev_mux[i] = platform_device_register_resndata(
+						&mlxplat_dev->dev,
+						"i2c-mux-reg", i, NULL,
+						0, &mlxplat_mux_data[i],
+						sizeof(mlxplat_mux_data[i]));
 
-ocxl:
+But actual parent of "i2c-mux-reg" device is priv->pdev_i2c->dev and
+not mlxplat_dev->dev.
+Patch fixes parent device parameter in a call to
+platform_device_register_resndata() for "i2c-mux-reg".
 
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
+It solves the race during initialization flow while 'i2c_mlxcpld.1' is
+removing after probe, while 'i2c-mux-reg.0' is still in probing flow:
+'i2c_mlxcpld.1'	flow:	probe -> remove -> probe.
+'i2c-mux-reg.0'	flow:		  probe -> ...
 
-We should find somewhere to put it...
+[   12:621096] Registering platform device 'i2c_mlxcpld.1'. Parent at platform
+[   12:621117] device: 'i2c_mlxcpld.1': device_add
+[   12:621155] bus: 'platform': add device i2c_mlxcpld.1
+[   12:621384] Registering platform device 'i2c-mux-reg.0'. Parent at mlxplat
+[   12:621395] device: 'i2c-mux-reg.0': device_add
+[   12:621425] bus: 'platform': add device i2c-mux-reg.0
+[   12:621806] Registering platform device 'i2c-mux-reg.1'. Parent at mlxplat
+[   12:621828] device: 'i2c-mux-reg.1': device_add
+[   12:621892] bus: 'platform': add device i2c-mux-reg.1
+[   12:621906] bus: 'platform': add driver i2c_mlxcpld
+[   12:621996] bus: 'platform': driver_probe_device: matched device i2c_mlxcpld.1 with driver i2c_mlxcpld
+[   12:622003] bus: 'platform': really_probe: probing driver i2c_mlxcpld with device i2c_mlxcpld.1
+[   12:622100] i2c_mlxcpld i2c_mlxcpld.1: no default pinctrl state
+[   12:622293] device: 'i2c-1': device_add
+[   12:627280] bus: 'i2c': add device i2c-1
+[   12:627692] device: 'i2c-1': device_add
+[   12.629639] bus: 'platform': add driver i2c-mux-reg
+[   12.629718] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
+[   12.629723] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
+[   12.629818] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
+[   12.629981] platform i2c-mux-reg.0: Driver i2c-mux-reg requests probe deferral
+[   12.629986] platform i2c-mux-reg.0: Added to deferred list
+[   12.629992] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.1 with driver i2c-mux-reg
+[   12.629997] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.1
+[   12.630091] i2c-mux-reg i2c-mux-reg.1: no default pinctrl state
+[   12.630247] platform i2c-mux-reg.1: Driver i2c-mux-reg requests probe deferral
+[   12.630252] platform i2c-mux-reg.1: Added to deferred list
+[   12.640892] devices_kset: Moving i2c-mux-reg.0 to end of list
+[   12.640900] platform i2c-mux-reg.0: Retrying from deferred list
+[   12.640911] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
+[   12.640919] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
+[   12.640999] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
+[   12.641177] platform i2c-mux-reg.0: Driver i2c-mux-reg requests probe deferral
+[   12.641187] platform i2c-mux-reg.0: Added to deferred list
+[   12.641198] devices_kset: Moving i2c-mux-reg.1 to end of list
+[   12.641219] platform i2c-mux-reg.1: Retrying from deferred list
+[   12.641237] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.1 with driver i2c-mux-reg
+[   12.641247] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.1
+[   12.641331] i2c-mux-reg i2c-mux-reg.1: no default pinctrl state
+[   12.641465] platform i2c-mux-reg.1: Driver i2c-mux-reg requests probe deferral
+[   12.641469] platform i2c-mux-reg.1: Added to deferred list
+[   12.646427] device: 'i2c-1': device_add
+[   12.646647] bus: 'i2c': add device i2c-1
+[   12.647104] device: 'i2c-1': device_add
+[   12.669231] devices_kset: Moving i2c-mux-reg.0 to end of list
+[   12.669240] platform i2c-mux-reg.0: Retrying from deferred list
+[   12.669258] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
+[   12.669263] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
+[   12.669343] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
+[   12.669585] device: 'i2c-2': device_add
+[   12.669795] bus: 'i2c': add device i2c-2
+[   12.670201] device: 'i2c-2': device_add
+[   12.671427] i2c i2c-1: Added multiplexed i2c bus 2
+[   12.671514] device: 'i2c-3': device_add
+[   12.671724] bus: 'i2c': add device i2c-3
+[   12.672136] device: 'i2c-3': device_add
+[   12.673378] i2c i2c-1: Added multiplexed i2c bus 3
+[   12.673472] device: 'i2c-4': device_add
+[   12.673676] bus: 'i2c': add device i2c-4
+[   12.674060] device: 'i2c-4': device_add
+[   12.675861] i2c i2c-1: Added multiplexed i2c bus 4
+[   12.675941] device: 'i2c-5': device_add
+[   12.676150] bus: 'i2c': add device i2c-5
+[   12.676550] device: 'i2c-5': device_add
+[   12.678103] i2c i2c-1: Added multiplexed i2c bus 5
+[   12.678193] device: 'i2c-6': device_add
+[   12.678395] bus: 'i2c': add device i2c-6
+[   12.678774] device: 'i2c-6': device_add
+[   12.679969] i2c i2c-1: Added multiplexed i2c bus 6
+[   12.680065] device: 'i2c-7': device_add
+[   12.680275] bus: 'i2c': add device i2c-7
+[   12.680913] device: 'i2c-7': device_add
+[   12.682506] i2c i2c-1: Added multiplexed i2c bus 7
+[   12.682600] device: 'i2c-8': device_add
+[   12.682808] bus: 'i2c': add device i2c-8
+[   12.683189] device: 'i2c-8': device_add
+[   12.683907] device: 'i2c-1': device_unregister
+[   12.683945] device: 'i2c-1': device_unregister
+[   12.684387] device: 'i2c-1': device_create_release
+[   12.684536] bus: 'i2c': remove device i2c-1
+[   12.686019] i2c i2c-8: Failed to create compatibility class link
+[   12.686086] ------------[ cut here ]------------
+[   12.686087] can't create symlink to mux device
+[   12.686224] Workqueue: events deferred_probe_work_func
+[   12.686135] WARNING: CPU: 7 PID: 436 at drivers/i2c/i2c-mux.c:416 i2c_mux_add_adapter+0x729/0x7d0 [i2c_mux]
+[   12.686232] RIP: 0010:i2c_mux_add_adapter+0x729/0x7d0 [i2c_mux]
+[   0x190/0x190 [i2c_mux]
+[   12.686300]  ? i2c_mux_alloc+0xac/0x110 [i2c_mux]
+[   12.686306]  ? i2c_mux_reg_set+0x200/0x200 [i2c_mux_reg]
+[   12.686313]  i2c_mux_reg_probe+0x22c/0x731 [i2c_mux_reg]
+[   12.686322]  ? i2c_mux_reg_deselect+0x60/0x60 [i2c_mux_reg]
+[   12.686346]  platform_drv_probe+0xa8/0x110
+[   12.686351]  really_probe+0x185/0x720
+[   12.686358]  driver_probe_device+0xdf/0x1f0
+...
+[   12.686522] i2c i2c-1: Added multiplexed i2c bus 8
+[   12.686621] device: 'i2c-9': device_add
+[   12.686626] kobject_add_internal failed for i2c-9 (error: -2 parent: i2c-1)
+[   12.694729] i2c-core: adapter 'i2c-1-mux (chan_id 8)': can't register device (-2)
+[   12.705726] i2c i2c-1: failed to add mux-adapter 8 as bus 9 (error=-2)
+[   12.714494] device: 'i2c-8': device_unregister
+[   12.714537] device: 'i2c-8': device_unregister
 
-> ---
->   Documentation/accelerators/ocxl.rst             | 2 ++
->   Documentation/arm/stm32/overview.rst            | 2 ++
->   Documentation/arm/stm32/stm32f429-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32f746-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32f769-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32h743-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32mp157-overview.rst | 2 ++
->   Documentation/gpu/msm-crash-dump.rst            | 2 ++
->   Documentation/interconnect/interconnect.rst     | 2 ++
->   Documentation/laptops/lg-laptop.rst             | 2 ++
->   Documentation/powerpc/isa-versions.rst          | 2 ++
->   11 files changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
-> index 14cefc020e2d..b1cea19a90f5 100644
-> --- a/Documentation/accelerators/ocxl.rst
-> +++ b/Documentation/accelerators/ocxl.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================================================
->   OpenCAPI (Open Coherent Accelerator Processor Interface)
->   ========================================================
-> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
-> index 85cfc8410798..f7e734153860 100644
-> --- a/Documentation/arm/stm32/overview.rst
-> +++ b/Documentation/arm/stm32/overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================
->   STM32 ARM Linux Overview
->   ========================
-> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
-> index 18feda97f483..65bbb1c3b423 100644
-> --- a/Documentation/arm/stm32/stm32f429-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f429-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F429 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
-> index b5f4b6ce7656..42d593085015 100644
-> --- a/Documentation/arm/stm32/stm32f746-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f746-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F746 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
-> index 228656ced2fe..f6adac862b17 100644
-> --- a/Documentation/arm/stm32/stm32f769-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f769-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F769 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
-> index 3458dc00095d..c525835e7473 100644
-> --- a/Documentation/arm/stm32/stm32h743-overview.rst
-> +++ b/Documentation/arm/stm32/stm32h743-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32H743 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
-> index 62e176d47ca7..2c52cd020601 100644
-> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
-> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32MP157 Overview
->   ===================
->   
-> diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-> index 757cd257e0d8..240ef200f76c 100644
-> --- a/Documentation/gpu/msm-crash-dump.rst
-> +++ b/Documentation/gpu/msm-crash-dump.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   =====================
->   MSM Crash Dump Format
->   =====================
-> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
-> index c3e004893796..56e331dab70e 100644
-> --- a/Documentation/interconnect/interconnect.rst
-> +++ b/Documentation/interconnect/interconnect.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> +:orphan:
-> +
->   =====================================
->   GENERIC SYSTEM INTERCONNECT SUBSYSTEM
->   =====================================
-> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
-> index aa503ee9b3bc..f2c2ffe31101 100644
-> --- a/Documentation/laptops/lg-laptop.rst
-> +++ b/Documentation/laptops/lg-laptop.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0+
->   
-> +:orphan:
-> +
->   LG Gram laptop extra features
->   =============================
->   
-> diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
-> index 812e20cc898c..66c24140ebf1 100644
-> --- a/Documentation/powerpc/isa-versions.rst
-> +++ b/Documentation/powerpc/isa-versions.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   CPU to ISA Version Mapping
->   ==========================
->   
-> 
+Fixes: 6613d18e9038 ("platform/x86: mlx-platform: Move module from arch/x86")
+Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
+---
+ drivers/platform/x86/mlx-platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
+index cee039f57499..983f02b5b106 100644
+--- a/drivers/platform/x86/mlx-platform.c
++++ b/drivers/platform/x86/mlx-platform.c
+@@ -2032,7 +2032,7 @@ static int __init mlxplat_init(void)
+ 
+ 	for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+ 		priv->pdev_mux[i] = platform_device_register_resndata(
+-						&mlxplat_dev->dev,
++						&priv->pdev_i2c->dev,
+ 						"i2c-mux-reg", i, NULL,
+ 						0, &mlxplat_mux_data[i],
+ 						sizeof(mlxplat_mux_data[i]));
 -- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
+2.11.0
 
