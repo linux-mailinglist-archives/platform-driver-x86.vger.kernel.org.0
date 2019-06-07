@@ -2,95 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC1D38515
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  7 Jun 2019 09:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9576638C6D
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  7 Jun 2019 16:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725497AbfFGHdq (ORCPT
+        id S1728783AbfFGOQp convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 7 Jun 2019 03:33:46 -0400
-Received: from smtp4.iitb.ac.in ([103.21.127.18]:41552 "EHLO smtp1.iitb.ac.in"
+        Fri, 7 Jun 2019 10:16:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35012 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726711AbfFGHdq (ORCPT
+        id S1728523AbfFGOQp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:33:46 -0400
-X-Greylist: delayed 3391 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:33:44 EDT
-Received: from ldns1.iitb.ac.in (ldns1.iitb.ac.in [10.200.12.1])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id ABF5A10575B8
-        for <platform-driver-x86@vger.kernel.org>; Fri,  7 Jun 2019 12:01:33 +0530 (IST)
-Received: (qmail 27999 invoked by uid 510); 7 Jun 2019 12:01:33 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns1 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 2.069313 secs; 07 Jun 2019 12:01:33 +0530
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns1.iitb.ac.in
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
-        MISSING_HEADERS,PROPER_IITB_MSGID,T_RP_MATCHES_RCVD autolearn=disabled
-        version=3.4.1
-X-Spam-Pyzor: Reported 0 times.
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns1.iitb.ac.in) (10.200.1.25)
-  by ldns1.iitb.ac.in with SMTP; 7 Jun 2019 12:01:31 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns1.iitb.ac.in (Postfix) with ESMTP id 80518360036;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id E4B948902E55E;
-        Fri,  7 Jun 2019 12:01:16 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id uy24o_MU5OGU; Fri,  7 Jun 2019 12:01:16 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 5C3AC8902E548;
-        Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 2kbUWSjAc2AF; Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 0EEE684310111;
-        Fri,  7 Jun 2019 12:01:10 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:09 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <412557711.60336.1559889069980.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        Fri, 7 Jun 2019 10:16:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0F31FAECD;
+        Fri,  7 Jun 2019 14:16:44 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 16:16:40 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Pali =?UTF-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        =?UTF-8?B?TWljaGHFgiBLxJlwaWXFhA==?= <kernel@kempniu.pl>,
+        Steven Honeyman <stevenhoneyman@gmail.com>,
+        Valdis.Kletnieks@vt.edu,
+        Jochen Eisinger <jochen@penguin-breeder.org>,
+        Gabriele Mazzotta <gabriele.mzt@gmail.com>,
+        Andy Lutomirski <luto@kernel.org>, Mario_Limonciello@dell.com,
+        Alex Hung <alex.hung@canonical.com>,
+        Takashi Iwai <tiwai@suse.de>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5] i2c: i801: Register optional lis3lv02d I2C device on
+ Dell machines
+Message-ID: <20190607161640.0d90e1b9@endymion>
+In-Reply-To: <20190606181845.14091-1-pali.rohar@gmail.com>
+References: <20190606181845.14091-1-pali.rohar@gmail.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: SsslhYkcLNFU69da/wYft5cO9/ZYnA==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+On Thu,  6 Jun 2019 20:18:45 +0200, Pali Rohár wrote:
+> Dell platform team told us that some (DMI whitelisted) Dell Latitude
+> machines have ST microelectronics accelerometer at I2C address 0x29.
+> 
+> Presence of that ST microelectronics accelerometer is verified by existence
+> of SMO88xx ACPI device which represent that accelerometer. Unfortunately
+> ACPI device does not specify I2C address.
+> 
+> This patch registers lis3lv02d device for selected Dell Latitude machines
+> at I2C address 0x29 after detection. And for Dell Vostro V131 machine at
+> I2C address 0x1d which was manually detected.
+> 
+> Finally commit a7ae81952cda ("i2c: i801: Allow ACPI SystemIO OpRegion to
+> conflict with PCI BAR") allowed to use i2c-i801 driver on Dell machines so
+> lis3lv02d correctly initialize accelerometer.
+> 
+> Tested on Dell Latitude E6440.
+> 
+> Signed-off-by: Pali Rohár <pali.rohar@gmail.com>
+> 
+> ---
+> Changes since v4:
+>  * Remove usage of redundant acpi_bus_get_status_handle()
+>  * Update comment about acpi_get_devices()
+> (...)
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
+Looks all good now.
 
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
+Reviewed-by: Jean Delvare <jdelvare@suse.de>
 
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
-
-Thanks and I wait for your answer
-Martin Henry.
+Thanks!
+-- 
+Jean Delvare
+SUSE L3 Support
