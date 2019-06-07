@@ -2,87 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 298D039567
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  7 Jun 2019 21:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B01A39864
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Jun 2019 00:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729921AbfFGTSL (ORCPT
+        id S1730540AbfFGWQA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 7 Jun 2019 15:18:11 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:33520 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728752AbfFGTSL (ORCPT
+        Fri, 7 Jun 2019 18:16:00 -0400
+Received: from sauhun.de ([88.99.104.3]:46426 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729127AbfFGWQA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 7 Jun 2019 15:18:11 -0400
-Received: by mail-qt1-f196.google.com with SMTP id x2so2681046qtr.0
-        for <platform-driver-x86@vger.kernel.org>; Fri, 07 Jun 2019 12:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lca.pw; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=dBja0SaABhJ+vkH9oPP7a19xf2P1INI9IB5AOePiwvA=;
-        b=HGyoiJk46WZXALckZqXAv4TDiqPCegoidYZZjWY7PoqQNvjs9DPkpooeU4PvBTNaOi
-         PazRcvhLTQMU/UnjtO6jXv8SlzxazE+VJkcJ4Q5xItcQihAuw0SP3qnyz5a0wiiHiSue
-         qXlsA72lxUpE2qtlBg4nakCyxoFedqJA8BnAJXNqWsU/WRiAVNg/1RvHe7/OPP9pFe/5
-         7qU1PnoLmALXiQFoguW3R51sdTFFD1ps9euwnhwMujleUNf4YSOcijqw62yMcSFJitgR
-         jCTmb2A/q4dZAgp0XV1Dxafj5THK9WvZ72TXfqHVAnx1AZJa0HfbDpZr9RkG36Pvq4dK
-         Ycdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=dBja0SaABhJ+vkH9oPP7a19xf2P1INI9IB5AOePiwvA=;
-        b=gLYs3TgTc3g/EaF/E68sHUaCVY2KakiyjVms226EFg3ugyxjPztYQqQ669VbDD+5TH
-         VLMnInCMGSfAJjQUbE40e+dhF0NnwMlftY38dPcdO+x1qszuY1gwP7ogz08Y2Mct6y7u
-         Qc4ehSNqJ9lqQ4F4nRnDKl2e1p5lxdX1HjZvPLgMjOS14X25FPu8vkKvyOkfY1MskkFA
-         ypng5Mts52TftSFMxcDJnlIUZrZ/n7Gr32raXe1kzrHxaZqzkOmByiBZR7tKo8dM9AOQ
-         qyKy8dDGeYXO3Tfjgd+It3XT2u1MvjWLsa3aDLr1AbQeKKnTAIIyOEwIP9eo3GqL4SA0
-         63bg==
-X-Gm-Message-State: APjAAAUNajW7BAdtMjZR7Ms7joSZ83nNislmA5uJjoAEKQpzuz1VWyS6
-        EU60TGtcheXq98FhxPJtdZ6Sww==
-X-Google-Smtp-Source: APXvYqxcKoB0QsUOsyool9cAmaWLxyFtfiCIl+a5IdSf0kYmEwuYWP82X6YRRmeVT8wz3gTTAO00GA==
-X-Received: by 2002:a0c:96b9:: with SMTP id a54mr26876867qvd.135.1559935090299;
-        Fri, 07 Jun 2019 12:18:10 -0700 (PDT)
-Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id h128sm1638507qkc.27.2019.06.07.12.18.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 12:18:09 -0700 (PDT)
-From:   Qian Cai <cai@lca.pw>
-To:     akpm@linux-foundation.org
-Cc:     ard.biesheuvel@linaro.org, dvhart@infradead.org,
-        andy@infradead.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Qian Cai <cai@lca.pw>
-Subject: [RESEND PATCH] x86/efi: fix a -Wtype-limits compilation warning
-Date:   Fri,  7 Jun 2019 15:17:47 -0400
-Message-Id: <1559935067-4076-1-git-send-email-cai@lca.pw>
-X-Mailer: git-send-email 1.8.3.1
+        Fri, 7 Jun 2019 18:16:00 -0400
+Received: from localhost (p5486CE26.dip0.t-ipconnect.de [84.134.206.38])
+        by pokefinder.org (Postfix) with ESMTPSA id 95E123E43BA;
+        Sat,  8 Jun 2019 00:15:58 +0200 (CEST)
+Date:   Sat, 8 Jun 2019 00:15:58 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        =?utf-8?B?TWljaGHFgiBLxJlwaWXFhA==?= <kernel@kempniu.pl>,
+        Steven Honeyman <stevenhoneyman@gmail.com>,
+        Valdis.Kletnieks@vt.edu,
+        Jochen Eisinger <jochen@penguin-breeder.org>,
+        Gabriele Mazzotta <gabriele.mzt@gmail.com>,
+        Andy Lutomirski <luto@kernel.org>, Mario_Limonciello@dell.com,
+        Alex Hung <alex.hung@canonical.com>,
+        Takashi Iwai <tiwai@suse.de>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5] i2c: i801: Register optional lis3lv02d I2C device on
+ Dell machines
+Message-ID: <20190607221558.GB869@kunai>
+References: <20190606181845.14091-1-pali.rohar@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="A6N2fC+uXW/VQSAv"
+Content-Disposition: inline
+In-Reply-To: <20190606181845.14091-1-pali.rohar@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Compiling a kernel with W=1 generates this warning,
 
-arch/x86/platform/efi/quirks.c:731:16: warning: comparison of unsigned
-expression >= 0 is always true [-Wtype-limits]
+--A6N2fC+uXW/VQSAv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Qian Cai <cai@lca.pw>
----
- arch/x86/platform/efi/quirks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jun 06, 2019 at 08:18:45PM +0200, Pali Roh=C3=A1r wrote:
+> Dell platform team told us that some (DMI whitelisted) Dell Latitude
+> machines have ST microelectronics accelerometer at I2C address 0x29.
+>=20
+> Presence of that ST microelectronics accelerometer is verified by existen=
+ce
+> of SMO88xx ACPI device which represent that accelerometer. Unfortunately
+> ACPI device does not specify I2C address.
+>=20
+> This patch registers lis3lv02d device for selected Dell Latitude machines
+> at I2C address 0x29 after detection. And for Dell Vostro V131 machine at
+> I2C address 0x1d which was manually detected.
+>=20
+> Finally commit a7ae81952cda ("i2c: i801: Allow ACPI SystemIO OpRegion to
+> conflict with PCI BAR") allowed to use i2c-i801 driver on Dell machines so
+> lis3lv02d correctly initialize accelerometer.
+>=20
+> Tested on Dell Latitude E6440.
+>=20
+> Signed-off-by: Pali Roh=C3=A1r <pali.rohar@gmail.com>
+>=20
 
-diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-index 632b83885867..3b9fd679cea9 100644
---- a/arch/x86/platform/efi/quirks.c
-+++ b/arch/x86/platform/efi/quirks.c
-@@ -728,7 +728,7 @@ void efi_recover_from_page_fault(unsigned long phys_addr)
- 	 * Address range 0x0000 - 0x0fff is always mapped in the efi_pgd, so
- 	 * page faulting on these addresses isn't expected.
- 	 */
--	if (phys_addr >= 0x0000 && phys_addr <= 0x0fff)
-+	if (phys_addr <= 0x0fff)
- 		return;
- 
- 	/*
--- 
-1.8.3.1
+Applied to for-next, thanks for keeping at it!
 
+
+--A6N2fC+uXW/VQSAv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlz64h4ACgkQFA3kzBSg
+KbYD+g//aii1FojuiA4U0z0/JO99KdQT+W2HhcekFjKUQnnnsgLBw18QuP9AuaMC
+NG9HPCOP5o+7Q4kp85NEEKtbtLjNavO7vnfKydPbijv/ekNapQ+ZghA85ZEKmdX2
+b+D1vTQuHCcIueVJhJEnMCfWUo+MOKTyeXQL01piA8r8JvcQcbp3I9JWs4ul/ihN
+ggNnS3uJreXwMyM/Aulbhj3Ql9CVYZuhOswSI1BnMEtPdN9j/Y27yceWUF6lB7jw
+5QgBBmmFTvNTgQ2Rv7gZt+gr7jO+kYSkfMSXf0gMOzSFhjXsbHmSks7hNUuWVmkL
+L6VB9Lg1Iyl0Km1atYD2q7nA/8WCQuE/8AyidUQV+HxvEebypCdlj3y+baT33nbr
+VD16iosdzxGqNZpTalSzG/+QHvfrMQiem1tovZjhj/icW/o5khK53AGiLN1TFZVh
+S/o9R1SqiV5eLrShMZJp9RJSsVvoFOw3HG8mWjTZltYLwwfefmmITGJ8TDsjH3oV
+nyIQv2Ypo/6HCZGQ63x3TbK+OaQpdZJ1z3Rmbts6yKwJpE+nLPu6pZ0afFIYh39k
+ur0RZbSnvjAtHLNgQ1nU/84T+O+Fxn7K1qw/KpLZJaQkQM/qpxTsYPJNwk1F718/
+D30urkkl+PFQq68JZ3MU7wx3UxP+7V6wAd1B48Nvj9vFnPfif8E=
+=Ntf9
+-----END PGP SIGNATURE-----
+
+--A6N2fC+uXW/VQSAv--
