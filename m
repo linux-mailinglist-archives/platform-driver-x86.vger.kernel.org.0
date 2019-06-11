@@ -2,58 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A2B3D55F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 20:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F27BD3D56B
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 20:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407018AbfFKSVv (ORCPT
+        id S2407044AbfFKSXo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jun 2019 14:21:51 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39360 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405802AbfFKSVu (ORCPT
+        Tue, 11 Jun 2019 14:23:44 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45888 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405802AbfFKSXo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jun 2019 14:21:50 -0400
-Received: by mail-pf1-f196.google.com with SMTP id j2so7950808pfe.6
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Jun 2019 11:21:50 -0700 (PDT)
+        Tue, 11 Jun 2019 14:23:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w34so7408384pga.12;
+        Tue, 11 Jun 2019 11:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7X7l5zKPHXomoBUE/m5zRGh3FFo9aSBqPG/JWRyBMBE=;
-        b=A4fBoUd+O05obaFFUQknCkQydoZy63TLrv+0b0zz0ojEaKcmiQrYGdr9+3rVUmmdgt
-         6djZ/09hlwy52cK1uVzfRiWVH1GwaQQDzoN/LUeMrTKKsu3dv6utq/Q4LV/rJBp11BUv
-         ZpSl5XQoPtrluqwrry1xig91kcRqz29pIr3QTyLQyd54ryNXn+zBIuLJA8HvTCiEiBCC
-         LnV/6XnlMnrSWUOV3BMA7uzZ+Skk8qiYcvmXJZnzxY11ZwBjsWaxrwsMLRw87K3SNmD2
-         5v6XD6zXVvjLmXS8VoyxNosCdLfzj9wXlo25CVtOqfCJMfVjfXYZcrEwN4TqdxB4IzTF
-         bUYw==
+        bh=RUaqGS6QUgdTDoLllogq970LN7Ava4NDdFpVFqXYY/M=;
+        b=GiGCJBrmLCcwdoXR/hfEWhxRxVXP0yUu9sUUZqvg4wVFwA5vVS81R3w7B/Hws02GBs
+         bQf5m5LzSY2evhzZIaPcrTxdlRnOKG6JcgzyoPlFQaOBfdx4zG/zxciv5YgK+lrLTrxM
+         cYO9J/gPwcAT2TpewnRYZ31E6KAMbCy2diEh13IEFyvzxVtxzxo7VvptCqzuA/hlCovh
+         ZjKXMOGRmPvdeF+5XJnjjjFZqUja5TFKSjRPTAWJT6DPCrYdGGCmiq3H5dJ2O/MfvLXb
+         zKyrSiVi+o3Z7jKpHKP2VcOUjPmBH9gPMgDgTzpANCDXfrsR2Ml+cEgzRas33f/OlAYk
+         2KbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7X7l5zKPHXomoBUE/m5zRGh3FFo9aSBqPG/JWRyBMBE=;
-        b=FNVeoJIYTLD69YGD0Wr/rBrfewyqAQIRrvylG+KjengP1ODoprcvsuTYVgoh2DCdNp
-         GqgTlRdCuTJDc25QOUjEtRceE38N5tHY+88drKHPxeoSMxlNFE3sY+SMWZlSTkWGUTr5
-         dPfm+STgK9giwoXbJYSEd3BuByWgelFcLrscsz6RgJs9gma3VGICUUXlVbVaL73H+Bgk
-         DYk+7ZdskW7Xs8P5GgMg5BopTj52TzKP9IKKQF7OX2VMDlaH8WAN21jDq/N/DGZtnbXq
-         MLOYwleNHvAum1SCebTQ++ZePopZyF/CTu/Nn7tLwpI5/h+0IyfNwLTWqZlducwO9XKL
-         lPOw==
-X-Gm-Message-State: APjAAAU2bLt6pzLmC/LZE659Nn0PAdlmoaV6J12YyLMUfjClM+TEK439
-        KPAK4mU3WRq1rBluEUEoTmLsDbiGVhbOcNyaYeE=
-X-Google-Smtp-Source: APXvYqytw15hlcBXjowYQ0r4yX3J3zULHeYNxNlNxAZ7PdAbAeFJ9zuM7z7xF5ug+HKoDSee8BzEY8rUkF2Q2eJvWzE=
-X-Received: by 2002:aa7:9159:: with SMTP id 25mr81192809pfi.64.1560277309746;
- Tue, 11 Jun 2019 11:21:49 -0700 (PDT)
+        bh=RUaqGS6QUgdTDoLllogq970LN7Ava4NDdFpVFqXYY/M=;
+        b=a4rfAAxg0jllo/QKU8pgoIIbLO0XeL21wlXCWdXccyzINLgktHVvPeNPIAbYHo0NqZ
+         RMEkXkRKdmbad1TNtQ2+xis082vNVg/TEmpVUSYP+Md5a7ePy4KFbkvgfLg1D765cToC
+         o3g+b0ICuvopsCQ99//TegC2LRF1xdqNi3cHDQVI/1+nMaBkk7ZCM+A/EXVrRHGOTaaI
+         dMtTR9tywTiE0vlIEtdxKlV43poEuqAKUcXdowj8z12C5mHaK6UuAkYiUZIC5q2MbkxX
+         2uyM6hRswjexKiR8I0sYvqL0L52blMsEBfweHXHHQVA0Rh5j9Vx0B4ezxWeBYxeVusrp
+         zcSA==
+X-Gm-Message-State: APjAAAUf/AE30PGBwe+HkthjSMwyzaW2o8+0iRKG1/rV22F+mPPBCjJ9
+        0Oz71rQZz8u7wm1Vyb140WqPiUlYZ1L0EbQo0Hg=
+X-Google-Smtp-Source: APXvYqz0tqszhCDpzjSzH68sStNjjm2tLdRCgCOXbFIcDIoXYykPNvT0ZevAXzhMLOzrGgeFEbCuT5n6tl8XXCDe+dk=
+X-Received: by 2002:a17:90b:d8b:: with SMTP id bg11mr28168554pjb.30.1560277423232;
+ Tue, 11 Jun 2019 11:23:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190529083405.332762-1-lkundrak@v3.sk> <c532c24c-3486-c331-a2a5-da6fbdf9dad3@infradead.org>
-In-Reply-To: <c532c24c-3486-c331-a2a5-da6fbdf9dad3@infradead.org>
+References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+ <0bea1c7c4fc06c7edabbf3185c0cbbc6e85eafd0.1559933665.git.mchehab+samsung@kernel.org>
+ <CAHp75VfTNJOGZx-PoUXLRvzghqf6bVUdJ+yFjE9hNtDLCQ1=UA@mail.gmail.com> <20190611140501.11ba091b@coco.lan>
+In-Reply-To: <20190611140501.11ba091b@coco.lan>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 11 Jun 2019 21:21:39 +0300
-Message-ID: <CAHp75Ve7cdb_4kkhOBCtN3oqDtMmz1qQiowu1d0-FOMRE97cSw@mail.gmail.com>
-Subject: Re: platform/olpc
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     couple@zimbra.v3.sk, of@zimbra.v3.sk, bug@zimbra.v3.sk,
-        fixes@zimbra.v3.sk, Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        YueHaibing <yuehaibing@huawei.com>,
+Date:   Tue, 11 Jun 2019 21:23:32 +0300
+Message-ID: <CAHp75VcdMXHf=hz_m5ySZ-=fBU=qkFxry9Q-Dos9Jx0qoyHCXQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/20] docs: mark orphan documents as such
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        dri-devel@lists.freedesktop.org,
+        Linux PM <linux-pm@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -61,32 +83,48 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 8:19 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Tue, Jun 11, 2019 at 8:05 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 >
-> On 5/29/19 1:34 AM, Lubomir Rintel wrote:
-> > Hi,
-> >
-> > This set contains fixes for problems discovered with randconfig and 0-day
-> > robot running agaist linux-next and one rather embarassing problem
-> > introduced in the last OLPC EC patch set version.
-> >
-> > They apply on top of for-next branch of
-> > git://git.infradead.org/linux-platform-drivers-x86.git with two
-> > patches from YueHaibing's set [1].
-> >
-> >   Platform: OLPC: Add INPUT dependencies [2]
-> >   Platform: OLPC: Fix build error without CONFIG_SPI [3]
-> >
-> > [1] https://lore.kernel.org/lkml/20190528092806.20080-1-yuehaibing@huawei.com/
-> > [2] https://lore.kernel.org/lkml/20190528092806.20080-2-yuehaibing@huawei.com/
-> > [3] https://lore.kernel.org/lkml/20190528092806.20080-3-yuehaibing@huawei.com/
+> Em Tue, 11 Jun 2019 19:52:04 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
 >
-> Hello.
-> Would some platform maintainer be able to merge the 2 patches from Yue and
-> the 4 patches from Lubomir, please?  They would fix lots of build errors.
+> > On Fri, Jun 7, 2019 at 10:04 PM Mauro Carvalho Chehab
+> > <mchehab+samsung@kernel.org> wrote:
+> > > Sphinx doesn't like orphan documents:
+> >
+> > >     Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+> >
+> > >  Documentation/laptops/lg-laptop.rst             | 2 ++
+> >
+> > > diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
+> > > index aa503ee9b3bc..f2c2ffe31101 100644
+> > > --- a/Documentation/laptops/lg-laptop.rst
+> > > +++ b/Documentation/laptops/lg-laptop.rst
+> > > @@ -1,5 +1,7 @@
+> > >  .. SPDX-License-Identifier: GPL-2.0+
+> > >
+> > > +:orphan:
+> > > +
+> > >  LG Gram laptop extra features
+> > >  =============================
+> > >
+> >
+> > Can we rather create a toc tree there?
+> > It was a first document in reST format in that folder.
+>
+> Sure, but:
+>
+> 1) I have a patch converting the other files on this dir to rst:
+>
+>         https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_v4.1&id=abc13233035fdfdbc5ef2f2fbd3d127a1ab15530
+>
+> 2) It probably makes sense to move the entire dir to
+> Documentation/admin-guide.
+>
+> So, I would prefer to have the :orphan: here while (1) is not merged.
 
-All pushed.
-Sorry for the delay.
+Fine to me as long as you will drop it by the mentioned effort.
 
 -- 
 With Best Regards,
