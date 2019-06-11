@@ -2,78 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 300553D672
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 21:06:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF59C3D68C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 21:15:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407031AbfFKTG1 (ORCPT
+        id S2391232AbfFKTPv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jun 2019 15:06:27 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40912 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406995AbfFKTG1 (ORCPT
+        Tue, 11 Jun 2019 15:15:51 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:46056 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388777AbfFKTPv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jun 2019 15:06:27 -0400
-Received: by mail-pl1-f193.google.com with SMTP id a93so5515000pla.7;
-        Tue, 11 Jun 2019 12:06:26 -0700 (PDT)
+        Tue, 11 Jun 2019 15:15:51 -0400
+Received: by mail-pl1-f194.google.com with SMTP id bi6so5125837plb.12;
+        Tue, 11 Jun 2019 12:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3JZoAuRN+dQJFvqjiWMObWkX3snfaRON9kU780Nfc80=;
-        b=N5Olom/a8uFFm4PubhWxMt99kaR7gf+b3J5IcNw7IK18tC0pMmxPBJ2/52lI6I6IG6
-         0zuoU659YQGv6hsev5yyr7NHxfvFHkP1zhdnun8I5XHM2gLqzjxAA+3y7rfe06Tf7DAm
-         UGZDsi/V2OEPRukCESO+aJTZ7CncoHhhDHkcgrdtFlb+8qdRRSJTfhER02bE2GgQBCDM
-         A4bdKa05HeI3zvldIKzxLEUF+52zWlqw30iSnejKTt9BtWw5EgC6uBisO2wmUKrb4ldT
-         /J4RpkVeruE+Tezflzwbxl24Q9fNA910w4Ghs5uDaAqBGAgRGplWKp+8xKZ/0z9lyveP
-         br+g==
+        bh=7FbS5gmW4sJyWE7auBrgSPXqrri3yNCCY5hQxQmnq6k=;
+        b=Hs6KMGLtZO47eDQNot9zxlDHcKAAOl29gI57yQS301qXDHXAr3zj57bjv+WVSqJxTs
+         GDP6eZtSXWdPPUHMifCIRUUym6SQYY2xVkceJNFJ1C8eHpu362YQCy0tA4mp7HBMH4qh
+         OxML16/6Dyfrh2i7+/znD3r8eJPt7Thk8s6atvWvKSRp6F7TKWhMja6YqlYGh1rogFzb
+         ljm1teDN/vRQWY4Jydmu5sFLlpXeZLNnYDXZGrUnP++lix9HqdkwURWLtL77iHhsAEZ9
+         HD3VOJoliK5HaHnbixnCFwk+px84+Vdcilxf/ja+WE/UuqRmpn0GGujz/3BSkT0jWJXj
+         Tn6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3JZoAuRN+dQJFvqjiWMObWkX3snfaRON9kU780Nfc80=;
-        b=Q19IR9UOY9GMco5LB3SSkkOmv0PtGeGVVDerGtsJKysT08+cR2lWyrH+/DzO5bY6Og
-         +OcTJhr5A3NDEP2qGH0pmTBX4/15ktWYh9m2AXkw7SumbmYxOn5F7L2XmavZDCOLwnKb
-         WmUbj99UMGhob+14gDRlXhyWQyhJSYwFOmO+UsrvxG3dSDV6l+8gBj7XTwvrhweH88ym
-         B4mcGwE3VfvENDRK6gklO7SQoL9c92pBF7cn/2OLFj8aXOikDp1p/rTwlhSHVKARRDp/
-         4LV4LP8tG28D6taUXRV20CkTNPPkoHzcNx24gldo51lh69N1AxQRMI9bNo5L6fsPXQOT
-         E1kQ==
-X-Gm-Message-State: APjAAAXou6XLD0fP0PwHs92uq/YAvPmQOWTw146UVYiKix2x63gkFeWe
-        ZnAY5QW5bDW/icdmpLHjagkhQvcPY69lDgRRuSk=
-X-Google-Smtp-Source: APXvYqzvTWDm8W9aZG/57fKfGCOTuPY9ZUxtdsJvoLUWPQO6Pz+3gESDxSCGbqD7DNjiVoKPSI/3+aHwEGQdVyYRmGY=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr66852970plp.18.1560279986322;
- Tue, 11 Jun 2019 12:06:26 -0700 (PDT)
+        bh=7FbS5gmW4sJyWE7auBrgSPXqrri3yNCCY5hQxQmnq6k=;
+        b=ZFxCU9L7ZGQ+E0LrJmKDWNsXOiNNNedRk6DRle528js6QxYa2SDrvGH5tOs43zhIR4
+         tdaMZ2AGnG/klGO/thFjrggusCjKkALyME5eKZjXNYeUDoGNHQom0dFSnv717e5Vk7cT
+         PILHXOGcT/UHww1HPnbsfsrBfmfIq3s/bj4srO2zIvoPvmqh1TF+7mS1+x2kkTY0kBPU
+         bRM8Sc+uaIJMqpcNmO7A5vKm86z7x5WoOCQ3tqBCRPa7xabcqtdEujcz6bPf0XD2aPso
+         qVPdD83Mle6TaCPbnYWRABx7jxY/wK7HQ9qZT+VaryugTaQmej0amHdTr979U7UENz2l
+         wyHw==
+X-Gm-Message-State: APjAAAXUGveqjyBbp0+ouNIVNTeN5Ff+O1rU1hAXR6MyScjhUkuvPWwh
+        0qRoTXEQ3R8ze5xn98Emw2ijY8Wk7GkDm6tpb94=
+X-Google-Smtp-Source: APXvYqxzgNRzOrFhLfj/IIDljHbkD2oMXAJsYsEhL6lTPng9W+ZNM/k+dqr6H263Dvj/Qh9swhmK6XsSb4M1NeK9Z18=
+X-Received: by 2002:a17:902:694a:: with SMTP id k10mr4036693plt.255.1560280550936;
+ Tue, 11 Jun 2019 12:15:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
- <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com> <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com>
-In-Reply-To: <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com>
+References: <20190521062837.3887-1-hdegoede@redhat.com> <CAHp75Vf6qzq3O1qz481FRuT1MN2EZOV43FpoSCC-vqATzyRF8w@mail.gmail.com>
+ <0018e660-c1d4-2c42-837f-ceb13d575b86@redhat.com> <41f5c7ff-20a3-ba6a-7ee3-2d3956d8b5a8@redhat.com>
+In-Reply-To: <41f5c7ff-20a3-ba6a-7ee3-2d3956d8b5a8@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 11 Jun 2019 22:06:15 +0300
-Message-ID: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
-Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Tue, 11 Jun 2019 22:15:40 +0300
+Message-ID: <CAHp75Ve8No6pKr0NiNxiQhLRSnJ=w6VW2zsLA2FV9VjqsvvMQA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-wmi: Only Tell EC the OS will handle
+ display hotkeys from asus_nb_wmi
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Jo=C3=A3o_Paulo_Rechi_Vita?= <jprvita@endlessm.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, May 9, 2019 at 2:15 AM Rajat Jain <rajatja@google.com> wrote:
-
-> OK, NP. Just to be sure I understand,
+On Wed, Jun 5, 2019 at 9:15 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> 1) Please let me know if I should send in a fix (it would be
-> #include/linux/module.h and also add MODULE_LICENSE() I believe)?
-> 2) Would this be lined up for next version though?
+> Hi,
+>
+> On 28-05-19 15:37, Hans de Goede wrote:
+> > Hi,
+> >
+> > On 24-05-19 18:43, Andy Shevchenko wrote:
+> >> On Tue, May 21, 2019 at 9:28 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>>
+> >>> Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
+> >>> handle the display off hotkey") causes the backlight to be permanently off
+> >>> on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
+> >>> 1015BX, Asus EeePC 1025C).
+> >>>
+> >>> The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
+> >>> by that commit is made conditional in this commit and only enabled in
+> >>> the quirk_entry structs in the asus-nb-wmi driver fixing the broken
+> >>> display / backlight on various EeePC laptop models.
+> >>>
+> >>
+> >> Hmm... doesn't apply.
+> >
+> > That is likely because your review-andy branch contain a whole-bunch
+> > of asus-wmi patches.
+> >
+> > Since this is a patch fixing a regression this should go to the fixes
+> > branch. As the other patches so far are only in your review-andy branch
+> > it is probably best to merge this patch to for-next + fixes first and
+> > then rebase the set you have in review-andy on top, so that this can go
+> > to fixes without getting a merge conflict when the rest of the patches
+> > show up...
+>
+> Ping? This is a 5.x regression fix, as such it would be really good to
+> get this into 5.2 and then cherry-picked into 5.y.z.
+>
 
-Resend a complete series based on the latest stuff we have in our
-for-next branch.
+It doesn't apply to our fixes branch.
 
 -- 
 With Best Regards,
