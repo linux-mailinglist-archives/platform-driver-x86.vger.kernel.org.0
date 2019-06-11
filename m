@@ -2,198 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C6E3D616
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 21:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 300553D672
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jun 2019 21:06:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392230AbfFKTAr (ORCPT
+        id S2407031AbfFKTG1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jun 2019 15:00:47 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46786 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392229AbfFKTAr (ORCPT
+        Tue, 11 Jun 2019 15:06:27 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:40912 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406995AbfFKTG1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jun 2019 15:00:47 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 81so7991260pfy.13
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Jun 2019 12:00:46 -0700 (PDT)
+        Tue, 11 Jun 2019 15:06:27 -0400
+Received: by mail-pl1-f193.google.com with SMTP id a93so5515000pla.7;
+        Tue, 11 Jun 2019 12:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2aTa8cp+r4B4zpQMNEb2MVDJN0c0hqMYNPlHUSkR5zY=;
-        b=DzQMiI9Nk0AZblaD+GSWYu05wtJRv5xdHI0Eh6oTKU+3xMdaX+w3zMLEOsaTaFViYy
-         DM1xXjW6Z3FrtuTGPQSDF/vTFxh8rtwuICyF9HzbfCDdnl04MIKDhXHQ4x6xpXra8EV5
-         dXBtzVvwiMq93ovA6d7BoC+3L/nHhqTUORohy1LSFyWt+JrplWozDs6zMQKH5U2uAtPF
-         7hadTtmu/ovWkVftkIUp1JqI378oR1U6MK77V/TFPjTuw3/LNHwaYG6vUYlvtsA7CxhD
-         sIL2ilB12MAA1ImMjJmaW6xmgS6CQH51xuFSO50NiPd88fCvp2oadhsKcgXsDGm+jC9P
-         KzxA==
+        bh=3JZoAuRN+dQJFvqjiWMObWkX3snfaRON9kU780Nfc80=;
+        b=N5Olom/a8uFFm4PubhWxMt99kaR7gf+b3J5IcNw7IK18tC0pMmxPBJ2/52lI6I6IG6
+         0zuoU659YQGv6hsev5yyr7NHxfvFHkP1zhdnun8I5XHM2gLqzjxAA+3y7rfe06Tf7DAm
+         UGZDsi/V2OEPRukCESO+aJTZ7CncoHhhDHkcgrdtFlb+8qdRRSJTfhER02bE2GgQBCDM
+         A4bdKa05HeI3zvldIKzxLEUF+52zWlqw30iSnejKTt9BtWw5EgC6uBisO2wmUKrb4ldT
+         /J4RpkVeruE+Tezflzwbxl24Q9fNA910w4Ghs5uDaAqBGAgRGplWKp+8xKZ/0z9lyveP
+         br+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2aTa8cp+r4B4zpQMNEb2MVDJN0c0hqMYNPlHUSkR5zY=;
-        b=e2woAPuylq72n7FkUXjSOFj+Yh4lS1rNnwPn0tZuxCI+Jfo5sE+yrNV3jRC8QFm+nU
-         NGovNHH7GynTviZmhGJhci3W4Y39+kz0iNFXvTAvKsu8VaVcur0U1+A5Bz/EPbeItiQk
-         AvSYUb3eoIvY8/py2a5JaZKB6jiYTlirj503CBEBMSleBrw/AVKCY2+8Jv4vVgbrUZE4
-         1Qq5KiuhI2mJWbkstULZH1BVtrRVTDrkUNwYirBoWOVDzQFIUuGij3Mx9MacNvzKi2qn
-         0TJCkagUZyoXH7FFjhltNwfhJwNfmgtLKV0ELWk6wT43CWYCW/A8xZ3Sx2hqj6l9Plza
-         FiIQ==
-X-Gm-Message-State: APjAAAWgVjEs4kwMWy3JciViQk+Di9gm7RmX05HvvOy16XORst1JHpk5
-        2cKisI05wWMIFmwp01Ji13KtR/DobvsJBhpJxFI=
-X-Google-Smtp-Source: APXvYqzS78kywwuLa8pM2s/anE0jkNgQewr+TXtUZIVfmydGKDZ7m1seqgeQvjd1h9DDN+tBX8bBxjloJdSUwVHbvdU=
-X-Received: by 2002:aa7:9159:: with SMTP id 25mr81347275pfi.64.1560279646392;
- Tue, 11 Jun 2019 12:00:46 -0700 (PDT)
+        bh=3JZoAuRN+dQJFvqjiWMObWkX3snfaRON9kU780Nfc80=;
+        b=Q19IR9UOY9GMco5LB3SSkkOmv0PtGeGVVDerGtsJKysT08+cR2lWyrH+/DzO5bY6Og
+         +OcTJhr5A3NDEP2qGH0pmTBX4/15ktWYh9m2AXkw7SumbmYxOn5F7L2XmavZDCOLwnKb
+         WmUbj99UMGhob+14gDRlXhyWQyhJSYwFOmO+UsrvxG3dSDV6l+8gBj7XTwvrhweH88ym
+         B4mcGwE3VfvENDRK6gklO7SQoL9c92pBF7cn/2OLFj8aXOikDp1p/rTwlhSHVKARRDp/
+         4LV4LP8tG28D6taUXRV20CkTNPPkoHzcNx24gldo51lh69N1AxQRMI9bNo5L6fsPXQOT
+         E1kQ==
+X-Gm-Message-State: APjAAAXou6XLD0fP0PwHs92uq/YAvPmQOWTw146UVYiKix2x63gkFeWe
+        ZnAY5QW5bDW/icdmpLHjagkhQvcPY69lDgRRuSk=
+X-Google-Smtp-Source: APXvYqzvTWDm8W9aZG/57fKfGCOTuPY9ZUxtdsJvoLUWPQO6Pz+3gESDxSCGbqD7DNjiVoKPSI/3+aHwEGQdVyYRmGY=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr66852970plp.18.1560279986322;
+ Tue, 11 Jun 2019 12:06:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <13513063.74pX3ZfeIS@sanji> <CAHp75VdtuqS1+hqXuLT-0qZiy4WANXhnSmHr6=hUSxheqpiTJQ@mail.gmail.com>
- <CAJ=jquaSc9qjYde7A75KxzGV+XRqJokunV5CbAM28Qge-_Zvrw@mail.gmail.com>
- <1525059933.1098515.1355095072.21C4A0BE@webmail.messagingengine.com>
- <1525062909.1113096.1355123680.2B2A0D81@webmail.messagingengine.com> <CAJ=jquZmqQitoHz_asNfqvQhEWepGmNRhY-1kRC+2oyFjoA59Q@mail.gmail.com>
-In-Reply-To: <CAJ=jquZmqQitoHz_asNfqvQhEWepGmNRhY-1kRC+2oyFjoA59Q@mail.gmail.com>
+References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
+ <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com> <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com>
+In-Reply-To: <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 11 Jun 2019 22:00:35 +0300
-Message-ID: <CAHp75VcDMjaMWrj_h6Q-xm5AG=Cz1n1pzg1hwaOZGobdzRhfag@mail.gmail.com>
-Subject: Re: [PATCH] Make power-button key report the button-up event when the
- 5-button array does not exist
-To:     Alex Hung <alex.hung@canonical.com>
-Cc:     Tristian Celestin <tristiancelestin@fastmail.com>,
+Date:   Tue, 11 Jun 2019 22:06:15 +0300
+Message-ID: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
+Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Apr 30, 2018 at 8:20 AM Alex Hung <alex.hung@canonical.com> wrote:
->
-> On Sun, Apr 29, 2018 at 9:35 PM, Tristian Celestin
-> <tristiancelestin@fastmail.com> wrote:
-> > I have a patch ready, but I don't know the underlying cause of the problem, and this is preventing from writing a meaningful commit message.
->
-> According to my understanding, the original intel-hid spec supported
-> 0xC0 notification and events are reported by HDEM method, and an
-> update of "5 button array" added other notification numbers such as
-> 0xce for power button; however, some BIOS failed to report 5 button
-> array is supported via HEBC method, and the DMI quirk was a workaround
-> to always enable 5 button array.
->
-> I personally think a commit message similar to c454a99d4ce1cebb is
-> good enough, but Andy or Darren will provide more feedbacks if they
-> think a refinement is necessary.
->
+On Thu, May 9, 2019 at 2:15 AM Rajat Jain <rajatja@google.com> wrote:
 
-This is still in the patchwork queue by some reason.
-Can you elaborate if this needed or not? If so, would it be
-anticipated a new version?
-
-> >
-> >
-> > On Sun, Apr 29, 2018, at 8:45 PM, Tristian Celestin wrote:
-> >>
-> >>
-> >>
-> >> On Mon, Apr 23, 2018, at 8:55 PM, Alex Hung wrote:
-> >>> On Mon, Apr 23, 2018 at 7:36 AM, Andy Shevchenko
-> >>> <andy.shevchenko@gmail.com> wrote:
-> >>>> On Sun, Apr 22, 2018 at 1:25 AM, Tristian Celestin
-> >>>> <tristiancelestin@fastmail.com> wrote:
-> >>>>
-> >>>> Thanks for the patch.
-> >>>>
-> >>>> First of all, please, include all PDx86 maintainers to the discussion as well.
-> >>>> Second, please, use `git send-email` tool to send patches, it avoids
-> >>>> attachments.
-> >>
-> >> Thank you for the guidance. Will do.
-> >>
-> >>>>> I am running Fedora 28 and Android-x86 on a Dell Latitude 5175 tablet. The
-> >>>>> power button functionality is driven by the intel-hid driver. I am using
-> >>>>> kernel version 4.16.
-> >>>>>
-> >>>>> Currently, the intel-hid driver does not supply a KEY_POWER up event in cases
-> >>>>> where the platform doesn't expose the 5-button array. Without this patch, the
-> >>>>> power button can't reliably respond when the platform is running Android.
-> >>>>>
-> >>>>> When running Fedora, I can use the power button to suspend and resume the
-> >>>>> tablet. I can initiate this suspend by short-pressing the power button for a
-> >>>>> second, and can resume it using another short-press.
-> >>>>>
-> >>>>> When running Android-x86, I can only short-press the power button once. After
-> >>>>> the press, the button seems to no longer respond. This is problematic when
-> >>>>> using a short-press to initiate a suspend, since a subsequent short press will
-> >>>>> not wake the tablet.
-> >>>>>
-> >>>>> I used getevent to display the KeyEvents[1] detected by Android, and a
-> >>>>> combination of 'cat /proc/kmsg' and debug statements in the intel-hid driver
-> >>>>> to display the events generated by the driver. I found the block in the intel-
-> >>>>> hid driver that generates power button events for my device. On line 253 of
-> >>>>> intel-hid.c:
-> >>>>>
-> >>>>>       if (!priv->array) {
-> >>>>>               if (event == 0xce) {
-> >>>>>                       input_report_key(priv->input_dev, KEY_POWER, 1);
-> >>>>>                       input_sync(priv->input_dev);
-> >>>>>                       return;
-> >>>>>               }
-> >>>>>
-> >>>>>               if (event == 0xcf)
-> >>>>>                       return;
-> >>>>> }
-> >>>
-> >>> Thanks for the work. This somehow sounds similar to Wacom MobileStudio
-> >>> Pro that we worked on before. A quirk was added to enable 5 button
-> >>> array, and the commit is c454a99d4ce1cebb.
-> >>>
-> >>> Could you please try to add a DMI entry in button_array_table[] and
-> >>> verify the power button again? If this works, we can use the DMI quirk
-> >>> instead.
-> >>
-> >> Thank you for the guidance. I added a DMI entry to button_array_table[] for the Latitude 5175, and the
-> >> tablet now also responds to short presses while suspended.
-> >>
-> >>>>>
-> >>>>> When I short-press the power button, intel-hid produces a KEY_POWER down
-> >>>>> event, but doesn't produce a KEY_POWER up event when I release the power
-> >>>>> button. Suppose intel-hid has been mapped to the input device /dev/input/
-> >>>>> event19. Then, on Android-x86, the command "getevent -lt" produces the
-> >>>>> following output:
-> >>>>>
-> >>>>> /dev/input/event19: EV_KEY       KEY_POWER            DOWN
-> >>>>> /dev/input/event19: EV_SYN       SYN_REPORT           00000000
-> >>>>>
-> >>>>> Subsequent presses produced no output for that input device.
-> >>>>>
-> >>>>> When I added a call to input_report_key(...) and input_sync(...) on the
-> >>>>> KEY_POWER up event in the intel-hid driver, I could repeatedly short-press the
-> >>>>> power button and have Android respond appropriately, including resuming the
-> >>>>> device from suspend. My hunch as to why this is the case is that Android needs
-> >>>>> a paired KEY_POWER DOWN and UP event before it will handle the press.
-> >>>>
-> >>>> WRT, patch contents:
-> >>>> - please, do a proper commit message
-> >>>> - while it has crucial semantic mistake (missing {}) it suddenly works
-> >>>> because nothing behind the condition you had touched
-> >>>> - I would rather unify conditionals, though I would like to hear from
-> >>>> Alex and Dmitry if it's fine to do what you are trying to do in the
-> >>>> patch
-> >>>>
-> >>>> --
-> >>>> With Best Regards,
-> >>>> Andy Shevchenko
-> >>>
-> >>>
-> >>>
-> >>> --
-> >>> Cheers,
-> >>> Alex Hung
+> OK, NP. Just to be sure I understand,
 >
->
->
-> --
-> Cheers,
-> Alex Hung
+> 1) Please let me know if I should send in a fix (it would be
+> #include/linux/module.h and also add MODULE_LICENSE() I believe)?
+> 2) Would this be lined up for next version though?
 
-
+Resend a complete series based on the latest stuff we have in our
+for-next branch.
 
 -- 
 With Best Regards,
