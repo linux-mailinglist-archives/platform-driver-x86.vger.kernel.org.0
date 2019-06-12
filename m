@@ -2,112 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9479E425FD
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A19CC426E3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 15:03:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728658AbfFLMgH (ORCPT
+        id S1730728AbfFLNDA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jun 2019 08:36:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36498 "EHLO mail.kernel.org"
+        Wed, 12 Jun 2019 09:03:00 -0400
+Received: from myself5.de ([5.230.26.43]:43438 "EHLO myself5.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728606AbfFLMgH (ORCPT
+        id S1730214AbfFLNDA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:36:07 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86D5820874;
-        Wed, 12 Jun 2019 12:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560342967;
-        bh=3HOt9Y5a+Ju6nO9LGaOzbgHTq1M8TaQzr922dhQ5TnQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C11RJh7A4vZMWNXJuoazV3DYDx2qkdbblS3KcHXbH5hng0/TQ3s8E7oZgJ0MX0Nw4
-         tGPsVAmB8hSwvRRm8o3pcTcXOohgwOMHW33yXdhv3INzovfPGLs45olc1lE+CHaoGm
-         gze5n/2rwVKnAARiifQllQ/V91FNa4o3xJM1PTwY=
-Date:   Wed, 12 Jun 2019 14:36:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
-Cc:     dvhart@infradead.org, andy@infradead.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/8] platform: x86: dell-laptop: no need to check return
- value of debugfs_create functions
-Message-ID: <20190612123604.GB25718@kroah.com>
-References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
- <20190612121258.19535-3-gregkh@linuxfoundation.org>
- <20190612122105.miyyfkmae24kddwt@pali>
+        Wed, 12 Jun 2019 09:03:00 -0400
+X-Greylist: delayed 1199 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 09:02:59 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=myself5.de; s=mail;
+        h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=kaMCzSe33t2mDZfL48JawC3dylTfnzOCvJpCgH+Tfh4=;
+        b=PX/6A62NkVlH5hV5ULbHDmAaJnJh1oyv29QSxNEZkz3QZ3MWWlr24JbUTes84szYkTTfomClnBuf6ruPr9crcW5D7rrYauHYMjaqJm0gP7G2IDhC5PbRkjXhDqDu3Ch2T2+E8ZnhUvCIJDQFy6/WKbnt6dXHcYega9Qq6viHPGyUPThaIQNuCwkaqI5nRPHZq5nd2FsF3UMlE+yZfMdY+fPqbFuo/wZUMbaTky2HJuA02TYpOQD60gGiZOIccwBMmlMCLtST45wkoo4Zk+Pe0S/CMdq8iA6Kmv7u0r4MYrckT4Rt+KIr/exgXleJhDTYplsdRBGrxOYkWqURMDi4nQ==;
+Received: from hsi-kbw-046-005-003-194.hsi8.kabel-badenwuerttemberg.de ([46.5.3.194] helo=localhost)
+        by myself5.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.84_2)
+        (envelope-from <gpg@myself5.de>)
+        id 1hb2aZ-0005Hv-Um; Wed, 12 Jun 2019 14:42:52 +0200
+From:   Christian Oder <me@myself5.de>
+Cc:     Christian Oder <me@myself5.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
+Date:   Wed, 12 Jun 2019 14:40:53 +0200
+Message-Id: <20190612124053.119182-1-me@myself5.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612122105.miyyfkmae24kddwt@pali>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 02:21:05PM +0200, Pali Rohár wrote:
-> On Wednesday 12 June 2019 14:12:53 Greg Kroah-Hartman wrote:
-> > When calling debugfs functions, there is no need to ever check the
-> > return value.  The function can work or not, but the code logic should
-> > never do something different based on this.
-> > 
-> > Cc: Matthew Garrett <mjg59@srcf.ucam.org>
-> > Cc: "Pali Rohár" <pali.rohar@gmail.com>
-> > Cc: Darren Hart <dvhart@infradead.org>
-> > Cc: Andy Shevchenko <andy@infradead.org>
-> > Cc: platform-driver-x86@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  drivers/platform/x86/dell-laptop.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-> > index a561f653cf13..94a2f259031c 100644
-> > --- a/drivers/platform/x86/dell-laptop.c
-> > +++ b/drivers/platform/x86/dell-laptop.c
-> > @@ -2176,9 +2176,8 @@ static int __init dell_init(void)
-> >  	kbd_led_init(&platform_device->dev);
-> >  
-> >  	dell_laptop_dir = debugfs_create_dir("dell_laptop", NULL);
-> > -	if (dell_laptop_dir != NULL)
-> > -		debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > -				    &dell_debugfs_fops);
-> > +	debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > +			    &dell_debugfs_fops);
-> 
-> Hi!
-> 
-> So... debugfs_create_dir() can return NULL, right?
+Turns out the Hi10 Air is built by multiple companies so using Hampoo
+as a filter is not enough to cover all variants.
 
-Nope.
+This has been verified as working on the Hampoo and Morshow version.
 
-> And it is then OK to call
-> debugfs_create_file("rfkill", 0444, dell_laptop_dir, ...) with
-> dell_laptop_dir = NULL?
+Signed-off-by: Christian Oder <me@myself5.de>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Yes.
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index b662cb2d7cd5..61e7c4987d0d 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 		/* Chuwi Hi10 Air */
+ 		.driver_data = (void *)&chuwi_hi10_air_data,
+ 		.matches = {
+-			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
++			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
++			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+ 			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+ 		},
+ 	},
+-- 
+2.21.0
 
-> Where would be that "rfkill" file created?
-
-The root of debugfs.
-
-But, if debugfs_create_dir() return an error, and you pass that value
-into debugfs_create_file() it will happily just return an error back
-again, and move on.
-
-So it is always safe to pass the return value of one debugfs call into
-another, no need to check anything.  If the system is so messed up that
-debugfs_create_dir() fails (i.e. you are out of memory), failing to
-create a debugfs file is the least of your worries :)
-
-And even then, no need to change your code logic, the functionality of
-your code should never depend on if debugfs is working properly at the
-moment or not.
-
-thanks,
-
-greg k-h
