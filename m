@@ -2,160 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A25442547
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B5142577
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438688AbfFLMNd (ORCPT
+        id S1726696AbfFLMVK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jun 2019 08:13:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53714 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438674AbfFLMNa (ORCPT
+        Wed, 12 Jun 2019 08:21:10 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44917 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbfFLMVK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:13:30 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B10C2173C;
-        Wed, 12 Jun 2019 12:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560341609;
-        bh=VzkLSGcPjGZ9zxQTwow3pQZPqT0PVx6/J+e/zLME1/s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xIWVqNFE2nkFvJpuwYJPFllQ7QHMXPFGKAwUffq7vm6sBOZDxe4NeBynIO5OyfsFn
-         qGueKqvHKONrl2RTzjLAJuqBmBXDquwWF0twnRgyCUNvPxsPEXlMxxXY8fmHhTUB5y
-         F3QIsSdhBcDHHA4Sr16ou/mnQd85PzAWnMVP0OUc=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     dvhart@infradead.org, andy@infradead.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E. Box" <david.e.box@linux.intel.com>,
+        Wed, 12 Jun 2019 08:21:10 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b17so16655075wrq.11;
+        Wed, 12 Jun 2019 05:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=Bo1caLR1G0jnn9weiBquvmZo/dmE0TTjp0/Q1T2tn0c=;
+        b=JFi1N8xj9jc7EGt3dXYhe49EKdtE3DcBG0tPAqv/odNRVqgvDAYtJOkGl/is4rLkno
+         qrIYV0T3rczLo4nLU2cGmw0R+bTmdOGpCpcB046hYqC9AbWNBkMJuC0/Ttwk4EYOjUyn
+         zuZrrNOQWW9CoHidFBJo7aMsaM+u0Ggm+3cHuSoeuI8fhHtwOruPMM4cZ1F1G76/vur+
+         /CnbP9/REqmAcJXPJ5V6GZC3Eem0ua7evVOrGmb+ELGYd3Iaa/uAu1NyPpieV8OLvWq7
+         XzYELkY87g5j/tpWHrs0/Dy6J8ikzY0s/gQZyL6DVUotyWJDtiXhg+jb+WgazeYOO53B
+         i9sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=Bo1caLR1G0jnn9weiBquvmZo/dmE0TTjp0/Q1T2tn0c=;
+        b=UvQA8xVOlMDFC4i63FmhZfmVbdaK5A2hRS2gt2m8FoCIXcqcvapsSr0nPVx0gPeqDl
+         f/JH/ICDQbDovMTWYFGCkjnJT2lLH64VcfSgs3MhG+rCxdjDsdO22OuWw8beWNzoyOje
+         PPp/ncHdWkagFSKctGxTwGtHa5as76IThNMglh6vSTWo6tYOqEUUCqu7/aHhm609Zfnc
+         cPRf9GtHcIGI+oc2xynOf9lNC2mYkZe7b38B2ax8SuO6m3CiP1F2dQH3z1DrZ17HtwWp
+         KkYJ/pFGvNMg1vRCq/bYJ472H687gEQ/oJIuwHO5pHd2vKc0ut/xyy4g8w37VkWhxRA2
+         O5sQ==
+X-Gm-Message-State: APjAAAUzS4MkR/i8gQmD5r291ZVyDm+VHFCAJ3zFzDVaZwI/cTpUUOIB
+        KUHbV6yBeexzHe7QWrgeWfI=
+X-Google-Smtp-Source: APXvYqwuKom3R5s3HocfcJaXt+t+v/LMyRIzyqp14MaRVsULZ7zz5V+0DzTSxXUiVxkMMk17YKzaIw==
+X-Received: by 2002:adf:ec0f:: with SMTP id x15mr54907769wrn.165.1560342067900;
+        Wed, 12 Jun 2019 05:21:07 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id u6sm1372445wml.9.2019.06.12.05.21.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 12 Jun 2019 05:21:06 -0700 (PDT)
+Date:   Wed, 12 Jun 2019 14:21:05 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     dvhart@infradead.org, andy@infradead.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] platform: x86: intel_telemetry: no need to check return value of debugfs_create functions
-Date:   Wed, 12 Jun 2019 14:12:58 +0200
-Message-Id: <20190612121258.19535-8-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190612121258.19535-1-gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 3/8] platform: x86: dell-laptop: no need to check return
+ value of debugfs_create functions
+Message-ID: <20190612122105.miyyfkmae24kddwt@pali>
 References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
+ <20190612121258.19535-3-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190612121258.19535-3-gregkh@linuxfoundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When calling debugfs functions, there is no need to ever check the
-return value.  The function can work or not, but the code logic should
-never do something different based on this.
+On Wednesday 12 June 2019 14:12:53 Greg Kroah-Hartman wrote:
+> When calling debugfs functions, there is no need to ever check the
+> return value.  The function can work or not, but the code logic should
+> never do something different based on this.
+> 
+> Cc: Matthew Garrett <mjg59@srcf.ucam.org>
+> Cc: "Pali Rohár" <pali.rohar@gmail.com>
+> Cc: Darren Hart <dvhart@infradead.org>
+> Cc: Andy Shevchenko <andy@infradead.org>
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/platform/x86/dell-laptop.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+> index a561f653cf13..94a2f259031c 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -2176,9 +2176,8 @@ static int __init dell_init(void)
+>  	kbd_led_init(&platform_device->dev);
+>  
+>  	dell_laptop_dir = debugfs_create_dir("dell_laptop", NULL);
+> -	if (dell_laptop_dir != NULL)
+> -		debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
+> -				    &dell_debugfs_fops);
+> +	debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
+> +			    &dell_debugfs_fops);
 
-Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-Cc: "David E. Box" <david.e.box@linux.intel.com>
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
-Cc: platform-driver-x86@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- .../platform/x86/intel_telemetry_debugfs.c    | 78 ++++---------------
- 1 file changed, 16 insertions(+), 62 deletions(-)
+Hi!
 
-diff --git a/drivers/platform/x86/intel_telemetry_debugfs.c b/drivers/platform/x86/intel_telemetry_debugfs.c
-index 98ba9185a27b..e84d3e983e0c 100644
---- a/drivers/platform/x86/intel_telemetry_debugfs.c
-+++ b/drivers/platform/x86/intel_telemetry_debugfs.c
-@@ -900,7 +900,7 @@ static int __init telemetry_debugfs_init(void)
- {
- 	const struct x86_cpu_id *id;
- 	int err;
--	struct dentry *f;
-+	struct dentry *dir;
- 
- 	/* Only APL supported for now */
- 	id = x86_match_cpu(telemetry_debugfs_cpu_ids);
-@@ -923,68 +923,22 @@ static int __init telemetry_debugfs_init(void)
- 
- 	register_pm_notifier(&pm_notifier);
- 
--	err = -ENOMEM;
--	debugfs_conf->telemetry_dbg_dir = debugfs_create_dir("telemetry", NULL);
--	if (!debugfs_conf->telemetry_dbg_dir)
--		goto out_pm;
--
--	f = debugfs_create_file("pss_info", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir, NULL,
--				&telem_pss_states_fops);
--	if (!f) {
--		pr_err("pss_sample_info debugfs register failed\n");
--		goto out;
--	}
--
--	f = debugfs_create_file("ioss_info", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir, NULL,
--				&telem_ioss_states_fops);
--	if (!f) {
--		pr_err("ioss_sample_info debugfs register failed\n");
--		goto out;
--	}
--
--	f = debugfs_create_file("soc_states", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir,
--				NULL, &telem_soc_states_fops);
--	if (!f) {
--		pr_err("ioss_sample_info debugfs register failed\n");
--		goto out;
--	}
--
--	f = debugfs_create_file("s0ix_residency_usec", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir,
--				NULL, &telem_s0ix_fops);
--	if (!f) {
--		pr_err("s0ix_residency_usec debugfs register failed\n");
--		goto out;
--	}
--
--	f = debugfs_create_file("pss_trace_verbosity", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir, NULL,
--				&telem_pss_trc_verb_ops);
--	if (!f) {
--		pr_err("pss_trace_verbosity debugfs register failed\n");
--		goto out;
--	}
--
--	f = debugfs_create_file("ioss_trace_verbosity", S_IFREG | S_IRUGO,
--				debugfs_conf->telemetry_dbg_dir, NULL,
--				&telem_ioss_trc_verb_ops);
--	if (!f) {
--		pr_err("ioss_trace_verbosity debugfs register failed\n");
--		goto out;
--	}
--
-+	dir = debugfs_create_dir("telemetry", NULL);
-+	debugfs_conf->telemetry_dbg_dir = dir;
-+
-+	debugfs_create_file("pss_info", S_IFREG | S_IRUGO, dir, NULL,
-+			    &telem_pss_states_fops);
-+	debugfs_create_file("ioss_info", S_IFREG | S_IRUGO, dir, NULL,
-+			    &telem_ioss_states_fops);
-+	debugfs_create_file("soc_states", S_IFREG | S_IRUGO, dir, NULL,
-+			    &telem_soc_states_fops);
-+	debugfs_create_file("s0ix_residency_usec", S_IFREG | S_IRUGO, dir, NULL,
-+			    &telem_s0ix_fops);
-+	debugfs_create_file("pss_trace_verbosity", S_IFREG | S_IRUGO, dir, NULL,
-+			    &telem_pss_trc_verb_ops);
-+	debugfs_create_file("ioss_trace_verbosity", S_IFREG | S_IRUGO, dir,
-+			    NULL, &telem_ioss_trc_verb_ops);
- 	return 0;
--
--out:
--	debugfs_remove_recursive(debugfs_conf->telemetry_dbg_dir);
--	debugfs_conf->telemetry_dbg_dir = NULL;
--out_pm:
--	unregister_pm_notifier(&pm_notifier);
--
--	return err;
- }
- 
- static void __exit telemetry_debugfs_exit(void)
+So... debugfs_create_dir() can return NULL, right?
+
+And it is then OK to call
+debugfs_create_file("rfkill", 0444, dell_laptop_dir, ...) with
+dell_laptop_dir = NULL?
+
+Where would be that "rfkill" file created?
+
+>  
+>  	dell_laptop_register_notifier(&dell_laptop_notifier);
+>  
+
 -- 
-2.22.0
-
+Pali Rohár
+pali.rohar@gmail.com
