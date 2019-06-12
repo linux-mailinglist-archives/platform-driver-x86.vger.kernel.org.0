@@ -2,101 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C534264A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE19426BD
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439142AbfFLMrQ (ORCPT
+        id S2438527AbfFLMzW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jun 2019 08:47:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39702 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439095AbfFLMrQ (ORCPT
+        Wed, 12 Jun 2019 08:55:22 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44541 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438481AbfFLMzW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:47:16 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E31E420896;
-        Wed, 12 Jun 2019 12:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560343635;
-        bh=0QvY7pijT10DSAiLLHjqi4qCfFoPRdRX7HMvtEV5wN4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NjpWAxSkI/pC+ujjMnp6AHoaiEDUP2ckPWYQe7N+Ye0p75V426/yNLif79folKA3C
-         HR75eVjdFXYhaAtI8iQSosERcI5DyvZmF+uF5GCezLg0anhDqCrz/MseAa0BemOJa0
-         yOBIeyT5c8nJCaHTylDYm6XRndIeLZjsnCRD5v+Q=
-Date:   Wed, 12 Jun 2019 14:47:13 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
-Cc:     dvhart@infradead.org, andy@infradead.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/8] platform: x86: dell-laptop: no need to check return
- value of debugfs_create functions
-Message-ID: <20190612124713.GA27788@kroah.com>
-References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
- <20190612121258.19535-3-gregkh@linuxfoundation.org>
- <20190612122105.miyyfkmae24kddwt@pali>
- <20190612123604.GB25718@kroah.com>
- <20190612124411.nbjslftjtc72a25v@pali>
+        Wed, 12 Jun 2019 08:55:22 -0400
+Received: by mail-ed1-f65.google.com with SMTP id k8so25561692edr.11
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aD69m6otj68UH0Q7gUM0VGrtwF15HpBY3jIEQiF8Flk=;
+        b=P/xOJIaQowYsjXClrDGp7Gj39Wwjk0MUeERboGBwk7nlTlvjA8Ll1L+SM0Org4Ih4F
+         CpO54dcGnuzH40NH0BvzRV1yu5dhBIXSF36MqGgHhB9Z2FdO0kKzWLUGzDIOzeYsgx5y
+         VlKibJjrF+6HW/9lcn8cD5Dp51v2BkkbzMiPiqjB52rNTXrgLB3qkMwgI+UoPXhnD7TK
+         Fsq/ztm7UM4TOKDJzDwULd89F60OXlGjUjQsDk9LOfHNzAKp+Znzlk4pmU0RAfgDixhb
+         PcP84dI2WB/lg8dzzS9yY1H+Sowy0zEO3XrXjTMS57/21d+vDwP6KnC96OoQ+qVF1c83
+         PxNA==
+X-Gm-Message-State: APjAAAWTxyc5zWTjxo9sUfLs+vF7ZjFp3kXP+m0Wjzv/sKPsVLvyl/AB
+        EWSfGg83Wvuw5OH26SZnjwwmUAZ4e+4=
+X-Google-Smtp-Source: APXvYqyhz7ko/MVJXRvdEbK38K+R1dfbCIspcF/HYfRDUZR8RTCSLzD3QIbIVDj3ba/Wtxy12sgefQ==
+X-Received: by 2002:aa7:d30d:: with SMTP id p13mr4360291edq.292.1560344120330;
+        Wed, 12 Jun 2019 05:55:20 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id m4sm4526164edc.24.2019.06.12.05.55.19
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jun 2019 05:55:19 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Update Hi10 Air filter
+To:     Christian Oder <me@myself5.de>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190612124053.119182-1-me@myself5.de>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <736848fd-1c45-0bd9-bfd1-747c716bd953@redhat.com>
+Date:   Wed, 12 Jun 2019 14:55:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612124411.nbjslftjtc72a25v@pali>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190612124053.119182-1-me@myself5.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 02:44:11PM +0200, Pali Rohár wrote:
-> On Wednesday 12 June 2019 14:36:04 Greg Kroah-Hartman wrote:
-> > On Wed, Jun 12, 2019 at 02:21:05PM +0200, Pali Rohár wrote:
-> > > On Wednesday 12 June 2019 14:12:53 Greg Kroah-Hartman wrote:
-> > > > When calling debugfs functions, there is no need to ever check the
-> > > > return value.  The function can work or not, but the code logic should
-> > > > never do something different based on this.
-> > > > 
-> > > > Cc: Matthew Garrett <mjg59@srcf.ucam.org>
-> > > > Cc: "Pali Rohár" <pali.rohar@gmail.com>
-> > > > Cc: Darren Hart <dvhart@infradead.org>
-> > > > Cc: Andy Shevchenko <andy@infradead.org>
-> > > > Cc: platform-driver-x86@vger.kernel.org
-> > > > Cc: linux-kernel@vger.kernel.org
-> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > ---
-> > > >  drivers/platform/x86/dell-laptop.c | 5 ++---
-> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-> > > > index a561f653cf13..94a2f259031c 100644
-> > > > --- a/drivers/platform/x86/dell-laptop.c
-> > > > +++ b/drivers/platform/x86/dell-laptop.c
-> > > > @@ -2176,9 +2176,8 @@ static int __init dell_init(void)
-> > > >  	kbd_led_init(&platform_device->dev);
-> > > >  
-> > > >  	dell_laptop_dir = debugfs_create_dir("dell_laptop", NULL);
-> > > > -	if (dell_laptop_dir != NULL)
-> > > > -		debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > > > -				    &dell_debugfs_fops);
-> > > > +	debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > > > +			    &dell_debugfs_fops);
-> > > 
-> > > Hi!
-> > > 
-> > > So... debugfs_create_dir() can return NULL, right?
-> > 
-> > Nope.
-> 
-> Yea, now I see implementation. It does not return NULL on error, but
-> rather ERR_PTR.
-> 
-> So dell_laptop_dir is always not-NULL. And that check was wrong.
-> 
-> You can add my
-> Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+Hi,
 
-Thanks!
+On 12-06-19 14:40, Christian Oder wrote:
+> Turns out the Hi10 Air is built by multiple companies so using Hampoo
+> as a filter is not enough to cover all variants.
+> 
+> This has been verified as working on the Hampoo and Morshow version.
+> 
+> Signed-off-by: Christian Oder <me@myself5.de>
 
-greg k-h
+Patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+> ---
+>   drivers/platform/x86/touchscreen_dmi.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index b662cb2d7cd5..61e7c4987d0d 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -597,7 +597,8 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>   		/* Chuwi Hi10 Air */
+>   		.driver_data = (void *)&chuwi_hi10_air_data,
+>   		.matches = {
+> -			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> +			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI INNOVATION AND TECHNOLOGY(SHENZHEN)CO.LTD"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+>   			DMI_MATCH(DMI_PRODUCT_SKU, "P1W6_C109D_B"),
+>   		},
+>   	},
+> 
