@@ -2,149 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B12D4262D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84C534264A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Jun 2019 14:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727672AbfFLMoP (ORCPT
+        id S2439142AbfFLMrQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Jun 2019 08:44:15 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51100 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727386AbfFLMoP (ORCPT
+        Wed, 12 Jun 2019 08:47:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39702 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2439095AbfFLMrQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:44:15 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c66so6440268wmf.0;
-        Wed, 12 Jun 2019 05:44:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=SodGvDNuEqVdF6QsPWL21qwN7WUNZ/wWJeCs4cM+3TA=;
-        b=Tdb11PGej+gGN4BTnOqMLPD3CMwFvf27tv/eF0e2JD4T3vbJwSANESetelgMLHp9mL
-         y5V2om7gUVQ6Wxr7mA1WYNLXb0z5t2YEbMNXRZZZg+Uqwss4FKBPseD0pWbBpNjcZuXy
-         HubxlxmtpTn/Q3fs+1gnfZ9hNeyaRvlKO/uk75Z9LMYCGU85/couXbHdfA57BgN8aKvU
-         uC+iAdyFWgHhQ/WXXVNG21VMUsCkxn/V+Pe3ECgb+vj2qSXLPjWpdyauezOHMGf89AgB
-         LtOO06eNVNsjAtFvUrD+cPJ+svYS1yviSJBo/9+1bmwlCQRUkO63RhNnv/4xiZzbfY5g
-         sXlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=SodGvDNuEqVdF6QsPWL21qwN7WUNZ/wWJeCs4cM+3TA=;
-        b=raIu4k9Z1cTMIISlyxH3skS5YqTlf5iUOjdrMFRAPUU3S8u6NnI8NVi1xrSerhgGh4
-         19yROBfNnzPD4fz/wc3qJxaIMAQek0NpQ9X5JS7eECtrxvXN720lP5B+Wv1aLfMag3Z6
-         Bob6vwUXG69RfXig+A1PMrmdUOCX5JJmpJCG8G5z0+fm8G7SmREuFN8UWHUDmf0clp21
-         bCH1G+fXoyLzHfcqJ4irL5ACLNz6K2cqOE+87ZnAxyiXM1gXyvdpLP5qq792Nk8FRs8f
-         xcmp2Sp0TaLAQDidBUSAKhSU2VFbJU4mUCCMnSWj4to+jP+7ospXjWDxoQ50N3n+u9N5
-         Ef7Q==
-X-Gm-Message-State: APjAAAUtTNYVXScgj2FQvrXSktPJYGqulUUZEKEy0qDfIV7cJ5oWwc4m
-        NGBL6U8bRmotq1/NYXxK4Mo=
-X-Google-Smtp-Source: APXvYqw6aWXhnlBwsHOrkqfNZ1qvYvt3T1wVTVge1fwYuXw9hUKUbVOhnQdQ2XIVmSfQZa1VcTdJ2w==
-X-Received: by 2002:a1c:df46:: with SMTP id w67mr21106935wmg.69.1560343452839;
-        Wed, 12 Jun 2019 05:44:12 -0700 (PDT)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id l17sm16467263wrq.37.2019.06.12.05.44.11
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 12 Jun 2019 05:44:11 -0700 (PDT)
-Date:   Wed, 12 Jun 2019 14:44:11 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Wed, 12 Jun 2019 08:47:16 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E31E420896;
+        Wed, 12 Jun 2019 12:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560343635;
+        bh=0QvY7pijT10DSAiLLHjqi4qCfFoPRdRX7HMvtEV5wN4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NjpWAxSkI/pC+ujjMnp6AHoaiEDUP2ckPWYQe7N+Ye0p75V426/yNLif79folKA3C
+         HR75eVjdFXYhaAtI8iQSosERcI5DyvZmF+uF5GCezLg0anhDqCrz/MseAa0BemOJa0
+         yOBIeyT5c8nJCaHTylDYm6XRndIeLZjsnCRD5v+Q=
+Date:   Wed, 12 Jun 2019 14:47:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali.rohar@gmail.com>
 Cc:     dvhart@infradead.org, andy@infradead.org,
         Matthew Garrett <mjg59@srcf.ucam.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/8] platform: x86: dell-laptop: no need to check return
  value of debugfs_create functions
-Message-ID: <20190612124411.nbjslftjtc72a25v@pali>
+Message-ID: <20190612124713.GA27788@kroah.com>
 References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
  <20190612121258.19535-3-gregkh@linuxfoundation.org>
  <20190612122105.miyyfkmae24kddwt@pali>
  <20190612123604.GB25718@kroah.com>
+ <20190612124411.nbjslftjtc72a25v@pali>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190612123604.GB25718@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190612124411.nbjslftjtc72a25v@pali>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wednesday 12 June 2019 14:36:04 Greg Kroah-Hartman wrote:
-> On Wed, Jun 12, 2019 at 02:21:05PM +0200, Pali RohÃ¡r wrote:
-> > On Wednesday 12 June 2019 14:12:53 Greg Kroah-Hartman wrote:
-> > > When calling debugfs functions, there is no need to ever check the
-> > > return value.  The function can work or not, but the code logic should
-> > > never do something different based on this.
+On Wed, Jun 12, 2019 at 02:44:11PM +0200, Pali Rohár wrote:
+> On Wednesday 12 June 2019 14:36:04 Greg Kroah-Hartman wrote:
+> > On Wed, Jun 12, 2019 at 02:21:05PM +0200, Pali Rohár wrote:
+> > > On Wednesday 12 June 2019 14:12:53 Greg Kroah-Hartman wrote:
+> > > > When calling debugfs functions, there is no need to ever check the
+> > > > return value.  The function can work or not, but the code logic should
+> > > > never do something different based on this.
+> > > > 
+> > > > Cc: Matthew Garrett <mjg59@srcf.ucam.org>
+> > > > Cc: "Pali Rohár" <pali.rohar@gmail.com>
+> > > > Cc: Darren Hart <dvhart@infradead.org>
+> > > > Cc: Andy Shevchenko <andy@infradead.org>
+> > > > Cc: platform-driver-x86@vger.kernel.org
+> > > > Cc: linux-kernel@vger.kernel.org
+> > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > ---
+> > > >  drivers/platform/x86/dell-laptop.c | 5 ++---
+> > > >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+> > > > index a561f653cf13..94a2f259031c 100644
+> > > > --- a/drivers/platform/x86/dell-laptop.c
+> > > > +++ b/drivers/platform/x86/dell-laptop.c
+> > > > @@ -2176,9 +2176,8 @@ static int __init dell_init(void)
+> > > >  	kbd_led_init(&platform_device->dev);
+> > > >  
+> > > >  	dell_laptop_dir = debugfs_create_dir("dell_laptop", NULL);
+> > > > -	if (dell_laptop_dir != NULL)
+> > > > -		debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
+> > > > -				    &dell_debugfs_fops);
+> > > > +	debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
+> > > > +			    &dell_debugfs_fops);
 > > > 
-> > > Cc: Matthew Garrett <mjg59@srcf.ucam.org>
-> > > Cc: "Pali RohÃ¡r" <pali.rohar@gmail.com>
-> > > Cc: Darren Hart <dvhart@infradead.org>
-> > > Cc: Andy Shevchenko <andy@infradead.org>
-> > > Cc: platform-driver-x86@vger.kernel.org
-> > > Cc: linux-kernel@vger.kernel.org
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > ---
-> > >  drivers/platform/x86/dell-laptop.c | 5 ++---
-> > >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > > Hi!
 > > > 
-> > > diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-> > > index a561f653cf13..94a2f259031c 100644
-> > > --- a/drivers/platform/x86/dell-laptop.c
-> > > +++ b/drivers/platform/x86/dell-laptop.c
-> > > @@ -2176,9 +2176,8 @@ static int __init dell_init(void)
-> > >  	kbd_led_init(&platform_device->dev);
-> > >  
-> > >  	dell_laptop_dir = debugfs_create_dir("dell_laptop", NULL);
-> > > -	if (dell_laptop_dir != NULL)
-> > > -		debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > > -				    &dell_debugfs_fops);
-> > > +	debugfs_create_file("rfkill", 0444, dell_laptop_dir, NULL,
-> > > +			    &dell_debugfs_fops);
+> > > So... debugfs_create_dir() can return NULL, right?
 > > 
-> > Hi!
-> > 
-> > So... debugfs_create_dir() can return NULL, right?
+> > Nope.
 > 
-> Nope.
+> Yea, now I see implementation. It does not return NULL on error, but
+> rather ERR_PTR.
+> 
+> So dell_laptop_dir is always not-NULL. And that check was wrong.
+> 
+> You can add my
+> Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
 
-Yea, now I see implementation. It does not return NULL on error, but
-rather ERR_PTR.
+Thanks!
 
-So dell_laptop_dir is always not-NULL. And that check was wrong.
-
-You can add my
-Reviewed-by: Pali RohÃ¡r <pali.rohar@gmail.com>
-
-> > And it is then OK to call
-> > debugfs_create_file("rfkill", 0444, dell_laptop_dir, ...) with
-> > dell_laptop_dir = NULL?
-> 
-> Yes.
-> 
-> > Where would be that "rfkill" file created?
-> 
-> The root of debugfs.
-> 
-> But, if debugfs_create_dir() return an error, and you pass that value
-> into debugfs_create_file() it will happily just return an error back
-> again, and move on.
-> 
-> So it is always safe to pass the return value of one debugfs call into
-> another, no need to check anything.  If the system is so messed up that
-> debugfs_create_dir() fails (i.e. you are out of memory), failing to
-> create a debugfs file is the least of your worries :)
-> 
-> And even then, no need to change your code logic, the functionality of
-> your code should never depend on if debugfs is working properly at the
-> moment or not.
-> 
-> thanks,
-> 
-> greg k-h
-
--- 
-Pali RohÃ¡r
-pali.rohar@gmail.com
+greg k-h
