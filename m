@@ -2,237 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F40AC44694
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jun 2019 18:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3AFF44D66
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jun 2019 22:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730105AbfFMQws (ORCPT
+        id S1726490AbfFMU2N (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 13 Jun 2019 12:52:48 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:46651 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730101AbfFMDFF (ORCPT
+        Thu, 13 Jun 2019 16:28:13 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:60351 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726325AbfFMU2M (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Jun 2019 23:05:05 -0400
-Received: by mail-yb1-f193.google.com with SMTP id p8so7189267ybo.13;
-        Wed, 12 Jun 2019 20:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=avxwadTNE1a71wDomhQ/ZZmaD0txhopJrsKMB0EV4wo=;
-        b=E1AzkrzQ5MTzeWt0LWAN5qdswY5GbDun/Q8rZsfTeQ7WY8CGbJ5Xkx3W8elwusUpTE
-         OU+IffJv3JmhVhL6MQzVLP8FxTZAIXr/QQyz28jcgIgbxotGSESWKshcUlxORGFyfWrV
-         dUXxg8PdAQ1o4QGXhzFN4cvPpRI/u+6nP4w4IEe8ZbDKI2L596x2qzaN/V+rLj/tOyxs
-         IQFeXmLTnTGiL7TvFanIyKHCttX4wP5l0Lh7i/AcI9jj1Xjx8/fSWEkuU+fsq5F4koac
-         gsrJnDBAQYNR07cXZDFRthxJeiXyekeFfcB9yuwY/7BfmFcwhW/H55MvU8Dpy7+5OBRh
-         KlqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=avxwadTNE1a71wDomhQ/ZZmaD0txhopJrsKMB0EV4wo=;
-        b=KOoQPYMyQSqPLsX6JQSSQtGQx3FeD1L84Sw03eC1g5Xmd+FlV/plBwR6a6FH6jIu1W
-         WbYpmh6P7iixN5ZQpPiNzQk0ZZudj+npeJHCg8snRP+xQVFWJ3p2FafCVv8UXnYc59YR
-         ogJrAoiNxCJd0Oo8CKSe/c5q2EbhoLJ2mApkCyNvThtbrR4qUrNaEQJGz+YOH4h1/ySa
-         6r517ZxrYk8mrIrsdxSsCbdGHF08iAN6p9cZUd5kVh/lDgK/OFuWsl3tl1HdZfzj/5/S
-         jskj6qmgRK8JbAqrmT8UoCqE0aXHuVLOUTA1jps2IsfrsvHQt/BbNgOw6Y/vvuVJFy9n
-         CEFQ==
-X-Gm-Message-State: APjAAAVFVfSlvh9b9MjSQDhMPmriAY9zZOPzvkKnR4dCRaguh1Yj6urt
-        wgJXM9hOHnikXSFirCGhOBsRc9aJWQ==
-X-Google-Smtp-Source: APXvYqzNbq/DIp83v1nhwYJtQdaQss3Kk2KAfqHa2OG+ZxBlzUrkSMVEicDr+fufaPMXukd5YLwPnQ==
-X-Received: by 2002:a25:d9cc:: with SMTP id q195mr42965806ybg.390.1560395104284;
-        Wed, 12 Jun 2019 20:05:04 -0700 (PDT)
-Received: from 960.localdomain ([71.46.56.3])
-        by smtp.gmail.com with ESMTPSA id j184sm424831ywf.8.2019.06.12.20.05.03
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 20:05:03 -0700 (PDT)
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
+        Thu, 13 Jun 2019 16:28:12 -0400
+Received: from 79.184.253.190.ipv4.supernova.orange.pl (79.184.253.190) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
+ id c5908a95db0f861a; Thu, 13 Jun 2019 22:28:09 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     ayman.bagabas@gmail.com
-Subject: [PATCH v2 8/8] platform/x86: huawei-wmi: add debugfs files support
-Date:   Wed, 12 Jun 2019 23:04:15 -0400
-Message-Id: <20190613030416.25807-10-ayman.bagabas@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190613030416.25807-1-ayman.bagabas@gmail.com>
-References: <20190613030416.25807-1-ayman.bagabas@gmail.com>
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5 00/16] Software fwnode references
+Date:   Thu, 13 Jun 2019 22:28:08 +0200
+Message-ID: <3636687.Nc99FdWIM2@kreacher>
+In-Reply-To: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
+References: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-A debugfs interface that creates two attributes `arg` and `call` to set
-an argument to be called by the WMI device and show the results
-returned. This argument is a 64 bit long which complies the properties
-of the HWMI interface.
+On Friday, May 31, 2019 4:15:31 PM CEST Heikki Krogerus wrote:
+> Hi,
+> 
+> This is the fourth, and hopefully the final version, of my proposal to
+> make it possible to use fwnode_property_get_reference_args() also with
+> software nodes. The two issues reported by Hans in v4 are now fixed,
+> which were a typo in a comment, and the fwnode->secondary->secondary
+> of max17074 needs to have value ERR_PTR(-ENODEV).
+> 
+> v4 cover letter:
+> 
+> I'm not splitting this series in two after all. After thinking about
+> this for some time, I decided to add support for static software
+> nodes. I did not want to support them because I don't want to make it
+> easy to maintain board files, but in end they make the use of the
+> software nodes so much more easier compared to if we always had to
+> dynamically allocate them that it's a no-brainer. The references can
+> now be also described statically. Actually, those can now only be
+> described statically.
+> 
+> Hans! I applied (hopefully) all of the fixes you proposed in v3. I
+> hope you have time to test these.
+> 
+> v3 cover letter:
+> 
+> This is the third version of my proposal to add reference handling to
+> the software node code. In this version I renamed ACPI_NAME_SIZE to
+> ACPI_NAMESEG_SIZE in 6/13, and slit patch 9/13 in two separate patches
+> (9/13 and 10/13) as suggested by Andy. Patch 9/13 will now only move
+> the registration of max17047 out of probe, and 10/13 will introduce
+> the software nodes.
+> 
+> v2 cover letter:
+> 
+> This is the second version of this series. In this version I'm
+> introducing a new helper device_find_child_by_name() as proposed
+> by Andy. Andy requested also another helper that could be used for
+> chaining the fwnodes, but I decided not to add that now. I would like
+> to still think about how we should handle exceptions like if there
+> already is a secondary node assigned for a node.
+> 
+> v1 cover letter:
+> 
+> This series adds support for software fwnode reference handling. In
+> practice it means making fwnode_property_get_reference_args() function
+> usable in the drivers also with software nodes. I send the series
+> originally as RFC [1].
+> 
+> As the first user for the software node references, I'm converting
+> intel_cht_int33fe.c to use them as part of the series.
+> 
+> [1] https://lkml.org/lkml/2019/3/15/457
+> 
+> thanks,
+> 
+> Heikki Krogerus (16):
+>   software node: Allow node creation without properties
+>   software node: Simplify software_node_release() function
+>   software node: Add support for static node descriptors
+>   software node: Use kobject name when finding child nodes by name
+>   software node: Add software_node_get_reference_args()
+>   driver core: Add helper device_find_child_by_name()
+>   ACPI / property: Don't limit named child node matching to data nodes
+>   device property: Introduce fwnode_find_reference()
+>   device connection: Find connections also by checking the references
+>   usb: typec: Registering real device entries for the muxes
+>   platform/x86: intel_cht_int33fe: Register max17047 in its own function
+>   platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
+>   platform/x86: intel_cht_int33fe: Provide software nodes for the
+>     devices
+>   platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
+>   platform/x86: intel_cht_int33fe: Supply fwnodes for the external
+>     dependencies
+>   platform/x86: intel_cht_int33fe: Replacing the old connections with
+>     references
+> 
+>  drivers/acpi/property.c                  |  26 +-
+>  drivers/base/core.c                      |  28 ++
+>  drivers/base/devcon.c                    |  26 ++
+>  drivers/base/property.c                  |  24 ++
+>  drivers/base/swnode.c                    | 324 +++++++++++++++++------
+>  drivers/platform/x86/intel_cht_int33fe.c | 291 ++++++++++++++++----
+>  drivers/usb/roles/class.c                |   2 +-
+>  drivers/usb/typec/bus.h                  |  15 ++
+>  drivers/usb/typec/class.c                |  17 +-
+>  drivers/usb/typec/mux.c                  | 238 ++++++++++++-----
+>  drivers/usb/typec/mux/pi3usb30532.c      |  46 ++--
+>  include/linux/device.h                   |   2 +
+>  include/linux/property.h                 |  51 ++++
+>  include/linux/usb/typec_mux.h            |  62 ++---
+>  14 files changed, 903 insertions(+), 249 deletions(-)
+> 
+> 
 
-Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
----
- drivers/platform/x86/huawei-wmi.c | 117 ++++++++++++++++++++++++++++++
- 1 file changed, 117 insertions(+)
+All applied (but you know that already).
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index cc6745ff1bad..a74ddd9adb47 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/input.h>
-@@ -46,8 +47,14 @@ struct quirk_entry {
- 
- static struct quirk_entry *quirks;
- 
-+struct huawei_wmi_debug {
-+	struct dentry *root;
-+	u64 arg;
-+};
-+
- struct huawei_wmi {
- 	struct led_classdev cdev;
-+	struct huawei_wmi_debug debug;
- 	struct input_dev *idev[2];
- 	struct mutex wmi_lock;
- 	struct mutex battery_lock;
-@@ -463,6 +470,110 @@ static struct attribute *huawei_wmi_attrs[] = {
- 
- ATTRIBUTE_GROUPS(huawei_wmi);
- 
-+/* debugfs */
-+
-+static void huawei_wmi_debugfs_call_dump(struct seq_file *m, void *data,
-+		union acpi_object *obj)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	int i;
-+
-+	switch (obj->type) {
-+	case ACPI_TYPE_INTEGER:
-+		seq_printf(m, "0x%llx", obj->integer.value);
-+		break;
-+	case ACPI_TYPE_STRING:
-+		seq_printf(m, "\"%*s\"", obj->string.length, obj->string.pointer);
-+		break;
-+	case ACPI_TYPE_BUFFER:
-+		seq_printf(m, "{");
-+		for (i = 0; i < obj->buffer.length; i++) {
-+			seq_printf(m, "0x%02x", obj->buffer.pointer[i]);
-+			if (i < obj->buffer.length - 1)
-+				seq_printf(m, ",");
-+		}
-+		seq_printf(m, "}");
-+		break;
-+	case ACPI_TYPE_PACKAGE:
-+		seq_printf(m, "[");
-+		for (i = 0; i < obj->package.count; i++) {
-+			huawei_wmi_debugfs_call_dump(m, huawei, &obj->package.elements[i]);
-+			if (i < obj->package.count - 1)
-+				seq_printf(m, ",");
-+		}
-+		seq_printf(m, "]");
-+		break;
-+	default:
-+		dev_err(&huawei->pdev->dev, "Unexpected obj type, got %d\n", obj->type);
-+		return;
-+	}
-+}
-+
-+static int huawei_wmi_debugfs_call_show(struct seq_file *m, void *data)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	struct acpi_buffer out = { ACPI_ALLOCATE_BUFFER, NULL };
-+	struct acpi_buffer in;
-+	union acpi_object *obj;
-+	int err;
-+
-+	in.length = sizeof(u64);
-+	in.pointer = &huawei->debug.arg;
-+
-+	err = huawei_wmi_call(&huawei->pdev->dev, &in, &out);
-+	if (err)
-+		return err;
-+
-+	obj = out.pointer;
-+	if (!obj) {
-+		err = -EIO;
-+		goto fail_debugfs_call;
-+	}
-+
-+	huawei_wmi_debugfs_call_dump(m, huawei, obj);
-+
-+fail_debugfs_call:
-+	kfree(out.pointer);
-+	return err;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(huawei_wmi_debugfs_call);
-+
-+static void huawei_wmi_debugfs_exit(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+
-+	debugfs_remove_recursive(huawei->debug.root);
-+}
-+
-+static int huawei_wmi_debugfs_init(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+	struct dentry *dent;
-+
-+	huawei->debug.root = debugfs_create_dir("huawei-wmi", NULL);
-+	if (!huawei->debug.root) {
-+		dev_err(dev, "Failed to create debugfs directory\n");
-+		goto fail_debugfs;
-+	}
-+
-+	dent = debugfs_create_x64("arg", S_IRUGO | S_IWUSR, huawei->debug.root,
-+			&huawei->debug.arg);
-+	if (!dent)
-+		goto fail_debugfs;
-+
-+	dent = debugfs_create_file("call", S_IFREG | S_IRUSR,
-+			huawei->debug.root, huawei, &huawei_wmi_debugfs_call_fops);
-+	if (!dent)
-+		goto fail_debugfs;
-+
-+	return 0;
-+
-+fail_debugfs:
-+	huawei_wmi_debugfs_exit(dev);
-+	return -ENOMEM;
-+}
-+
- /* Input */
- 
- static void huawei_wmi_process_key(struct input_dev *idev, int code)
-@@ -597,7 +708,12 @@ static int huawei_wmi_probe(struct platform_device *pdev)
- 		err = huawei_wmi_leds_setup(&pdev->dev);
- 		if (err)
- 			dev_err(&pdev->dev, "Failed to setup leds\n");
-+
-+		err = huawei_wmi_debugfs_init(&pdev->dev);
-+		if (err)
-+			dev_err(&pdev->dev, "Failed to setup debugfs\n");
- 	}
-+
- 	return 0;
- }
- 
-@@ -610,6 +726,7 @@ static int huawei_wmi_remove(struct platform_device *pdev)
- 		wmi_remove_notify_handler(HWMI_EVENT_GUID);
- 
- 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
-+		huawei_wmi_debugfs_exit(&pdev->dev);
- 		sysfs_remove_group(&pdev->dev.kobj, &huawei_wmi_group);
- 	}
- 
--- 
-2.20.1
+Thanks!
+
+
+
 
