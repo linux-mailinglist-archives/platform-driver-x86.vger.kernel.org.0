@@ -2,138 +2,161 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3AFF44D66
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jun 2019 22:28:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AF9A454F8
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jun 2019 08:48:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbfFMU2N (ORCPT
+        id S1725972AbfFNGsQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 13 Jun 2019 16:28:13 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:60351 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726325AbfFMU2M (ORCPT
+        Fri, 14 Jun 2019 02:48:16 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:41591 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbfFNGsQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 13 Jun 2019 16:28:12 -0400
-Received: from 79.184.253.190.ipv4.supernova.orange.pl (79.184.253.190) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
- id c5908a95db0f861a; Thu, 13 Jun 2019 22:28:09 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5 00/16] Software fwnode references
-Date:   Thu, 13 Jun 2019 22:28:08 +0200
-Message-ID: <3636687.Nc99FdWIM2@kreacher>
-In-Reply-To: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
-References: <20190531141547.22728-1-heikki.krogerus@linux.intel.com>
+        Fri, 14 Jun 2019 02:48:16 -0400
+Received: by mail-pf1-f195.google.com with SMTP id m30so815611pff.8;
+        Thu, 13 Jun 2019 23:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H092MI60P2U9NZrqbDHdXedYcja7hdVNXwteHt6bh58=;
+        b=nkSG7RZhjcE0C6JYpK64ofYbTr6sCe/LLP68kVQlQi9+AwbXbdsygNM1rzYBre3W+k
+         FpkrqUIsF6y/Uvm3KTSWfgYOa9Wq4Ffjzp5acPhpvnHmUITTR4yJ8iOmPkf4urgcD5/4
+         2LRQF8trUyysxPEyxm1xhYGE+GSSFYeZqloet4wTrkENo5kDhKjdyfSa1x41P5GE7HTi
+         7cL8ube5Yo8ZzAfpd5bLEmU5iscZYO+cOY/KI/zZpmD57SoEvVsU4t1c+NsvFI2PtlU9
+         hgc0GHhtspF7BUs3eYQag1GH5QYlxLNdzW0ioDG2YN0hk7FlnaYNqiNTKSgo9gq1R6P6
+         NVXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H092MI60P2U9NZrqbDHdXedYcja7hdVNXwteHt6bh58=;
+        b=O3LPuN8FNhx5MEQNsgr3CydE8+YrJo30X86PyhMVDWV7sbWBvUWtM/RrGuc5hOn2uu
+         F9H/VCVVMJuBmpD7gkiAp/hkuO+sD+5/2CgWtOHG1+U2/VxxUN7u/HpPw67b9YqGS4B4
+         ugiyWNYX9dpqAzryf4G72z5u1jnBF0qdmdOHHBOwvx6VNJnc2I+4kbQCHzWKkEInQreL
+         X/mwK7AlswYEqLWSBLIJKBiA9yNQZxpgHi4VcZNZTydu9V81Beq9UCJ8pUhEeoIxZeRG
+         bbUgVe3v3aurN2DdtCVoBD7wM3bLSGHCJOWtDcCxQMOnI9xou3PZAH743oIaehgIFi1Z
+         24hg==
+X-Gm-Message-State: APjAAAXHsAsKktZP+DLRSKDugAIby3pEMgKZ7YQx9eOC788g/i08zgp3
+        FzV6fCN2agReSbv+/G7gAtzcxGwLxFGO9ydpznA=
+X-Google-Smtp-Source: APXvYqwTy0ziuttPL016M2x6Wxfcjm9lsVHGzUmgrAf3rcFj+T3/flj4H9A0ILZnwKJ3B5XVZc0gwCY1aYNf1Iqqbg4=
+X-Received: by 2002:a17:90b:d8b:: with SMTP id bg11mr9469564pjb.30.1560494895390;
+ Thu, 13 Jun 2019 23:48:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
+In-Reply-To: <20190612121258.19535-1-gregkh@linuxfoundation.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 14 Jun 2019 09:48:04 +0300
+Message-ID: <CAHp75VeQy9o6tHtqKEE3o9ijBE4c11cWcc00+RqCj+P1FOky1w@mail.gmail.com>
+Subject: Re: [PATCH 1/8] platform: x86: acer-wmi: no need to check return
+ value of debugfs_create functions
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Lee, Chun-Yi" <jlee@suse.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Friday, May 31, 2019 4:15:31 PM CEST Heikki Krogerus wrote:
-> Hi,
-> 
-> This is the fourth, and hopefully the final version, of my proposal to
-> make it possible to use fwnode_property_get_reference_args() also with
-> software nodes. The two issues reported by Hans in v4 are now fixed,
-> which were a typo in a comment, and the fwnode->secondary->secondary
-> of max17074 needs to have value ERR_PTR(-ENODEV).
-> 
-> v4 cover letter:
-> 
-> I'm not splitting this series in two after all. After thinking about
-> this for some time, I decided to add support for static software
-> nodes. I did not want to support them because I don't want to make it
-> easy to maintain board files, but in end they make the use of the
-> software nodes so much more easier compared to if we always had to
-> dynamically allocate them that it's a no-brainer. The references can
-> now be also described statically. Actually, those can now only be
-> described statically.
-> 
-> Hans! I applied (hopefully) all of the fixes you proposed in v3. I
-> hope you have time to test these.
-> 
-> v3 cover letter:
-> 
-> This is the third version of my proposal to add reference handling to
-> the software node code. In this version I renamed ACPI_NAME_SIZE to
-> ACPI_NAMESEG_SIZE in 6/13, and slit patch 9/13 in two separate patches
-> (9/13 and 10/13) as suggested by Andy. Patch 9/13 will now only move
-> the registration of max17047 out of probe, and 10/13 will introduce
-> the software nodes.
-> 
-> v2 cover letter:
-> 
-> This is the second version of this series. In this version I'm
-> introducing a new helper device_find_child_by_name() as proposed
-> by Andy. Andy requested also another helper that could be used for
-> chaining the fwnodes, but I decided not to add that now. I would like
-> to still think about how we should handle exceptions like if there
-> already is a secondary node assigned for a node.
-> 
-> v1 cover letter:
-> 
-> This series adds support for software fwnode reference handling. In
-> practice it means making fwnode_property_get_reference_args() function
-> usable in the drivers also with software nodes. I send the series
-> originally as RFC [1].
-> 
-> As the first user for the software node references, I'm converting
-> intel_cht_int33fe.c to use them as part of the series.
-> 
-> [1] https://lkml.org/lkml/2019/3/15/457
-> 
-> thanks,
-> 
-> Heikki Krogerus (16):
->   software node: Allow node creation without properties
->   software node: Simplify software_node_release() function
->   software node: Add support for static node descriptors
->   software node: Use kobject name when finding child nodes by name
->   software node: Add software_node_get_reference_args()
->   driver core: Add helper device_find_child_by_name()
->   ACPI / property: Don't limit named child node matching to data nodes
->   device property: Introduce fwnode_find_reference()
->   device connection: Find connections also by checking the references
->   usb: typec: Registering real device entries for the muxes
->   platform/x86: intel_cht_int33fe: Register max17047 in its own function
->   platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
->   platform/x86: intel_cht_int33fe: Provide software nodes for the
->     devices
->   platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
->   platform/x86: intel_cht_int33fe: Supply fwnodes for the external
->     dependencies
->   platform/x86: intel_cht_int33fe: Replacing the old connections with
->     references
-> 
->  drivers/acpi/property.c                  |  26 +-
->  drivers/base/core.c                      |  28 ++
->  drivers/base/devcon.c                    |  26 ++
->  drivers/base/property.c                  |  24 ++
->  drivers/base/swnode.c                    | 324 +++++++++++++++++------
->  drivers/platform/x86/intel_cht_int33fe.c | 291 ++++++++++++++++----
->  drivers/usb/roles/class.c                |   2 +-
->  drivers/usb/typec/bus.h                  |  15 ++
->  drivers/usb/typec/class.c                |  17 +-
->  drivers/usb/typec/mux.c                  | 238 ++++++++++++-----
->  drivers/usb/typec/mux/pi3usb30532.c      |  46 ++--
->  include/linux/device.h                   |   2 +
->  include/linux/property.h                 |  51 ++++
->  include/linux/usb/typec_mux.h            |  62 ++---
->  14 files changed, 903 insertions(+), 249 deletions(-)
-> 
-> 
+On Wed, Jun 12, 2019 at 3:13 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> When calling debugfs functions, there is no need to ever check the
+> return value.  The function can work or not, but the code logic should
+> never do something different based on this.
+>
+> Also, because there is no need to save the file dentry, remove the
+> variable that was saving it and just recursively delete the whole
+> directory.
+>
 
-All applied (but you know that already).
+Through which tree you want to proceed this?
 
-Thanks!
+> Cc: "Lee, Chun-Yi" <jlee@suse.com>
+> Cc: Darren Hart <dvhart@infradead.org>
+> Cc: Andy Shevchenko <andy@infradead.org>
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/platform/x86/acer-wmi.c | 29 +++++------------------------
+>  1 file changed, 5 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+> index 521b526cd467..f8f0e98b1f0b 100644
+> --- a/drivers/platform/x86/acer-wmi.c
+> +++ b/drivers/platform/x86/acer-wmi.c
+> @@ -259,7 +259,6 @@ struct acer_data {
+>
+>  struct acer_debug {
+>         struct dentry *root;
+> -       struct dentry *devices;
+>         u32 wmid_devices;
+>  };
+>
+> @@ -2148,29 +2147,15 @@ static struct platform_device *acer_platform_device;
+>
+>  static void remove_debugfs(void)
+>  {
+> -       debugfs_remove(interface->debug.devices);
+> -       debugfs_remove(interface->debug.root);
+> +       debugfs_remove_recursive(interface->debug.root);
+>  }
+>
+> -static int __init create_debugfs(void)
+> +static void __init create_debugfs(void)
+>  {
+>         interface->debug.root = debugfs_create_dir("acer-wmi", NULL);
+> -       if (!interface->debug.root) {
+> -               pr_err("Failed to create debugfs directory");
+> -               return -ENOMEM;
+> -       }
+>
+> -       interface->debug.devices = debugfs_create_u32("devices", S_IRUGO,
+> -                                       interface->debug.root,
+> -                                       &interface->debug.wmid_devices);
+> -       if (!interface->debug.devices)
+> -               goto error_debugfs;
+> -
+> -       return 0;
+> -
+> -error_debugfs:
+> -       remove_debugfs();
+> -       return -ENOMEM;
+> +       debugfs_create_u32("devices", S_IRUGO, interface->debug.root,
+> +                          &interface->debug.wmid_devices);
+>  }
+>
+>  static int __init acer_wmi_init(void)
+> @@ -2300,9 +2285,7 @@ static int __init acer_wmi_init(void)
+>
+>         if (wmi_has_guid(WMID_GUID2)) {
+>                 interface->debug.wmid_devices = get_wmid_devices();
+> -               err = create_debugfs();
+> -               if (err)
+> -                       goto error_create_debugfs;
+> +               create_debugfs();
+>         }
+>
+>         /* Override any initial settings with values from the commandline */
+> @@ -2310,8 +2293,6 @@ static int __init acer_wmi_init(void)
+>
+>         return 0;
+>
+> -error_create_debugfs:
+> -       platform_device_del(acer_platform_device);
+>  error_device_add:
+>         platform_device_put(acer_platform_device);
+>  error_device_alloc:
+> --
+> 2.22.0
+>
 
 
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
