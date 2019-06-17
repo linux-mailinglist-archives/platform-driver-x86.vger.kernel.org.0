@@ -2,75 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9FBB47AE5
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jun 2019 09:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B27748280
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jun 2019 14:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfFQH2s (ORCPT
+        id S1727846AbfFQMc0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Jun 2019 03:28:48 -0400
-Received: from slot0.nejknio.cf ([89.32.41.233]:44686 "EHLO slot0.nejknio.cf"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726557AbfFQH2s (ORCPT
+        Mon, 17 Jun 2019 08:32:26 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:33354 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfFQMcZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Jun 2019 03:28:48 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
- bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
- b=Q1p2oV7pTSDEZkMlWY+UuXSeA8YSp+hoqCmbkYojBl4qmXORmx27pxGKCiXkWFwcmdAley3XRAQ+
-   bapUOwp0gKdSr5ojvnaALKkl6ax8oq7CJiV48uB0NX7Qtk/87nml5SY40s0pjZkS3OFKkCN9JAWW
-   HCyqoy72UNcgXVQLuyB8us0UHYZ1iOikR0kIFw8PS7t4Kv2HzcYsimEHWGVnzjoSfozIj/XCNpXe
-   gAPXBGgjhcnqISgQ/vYEJJBv3PykqWlMar0dddT99XkaAHbTdrSoqdoFD90iGLBUfOI0WgIZTyp/
-   A4Pw98CaPvNwaU3RAfqGsOZVMoL8D6ib0/uqPw==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
- b=Hs8gETmkLGnp/D7odQkF99gouR/P4UPp9e4MSaCC5Sd1qZ6t6Tu+tYJBJ5f9hPCEwdPYKYFTuvk8
-   n3KZ6me/PMx4AjqVRtur7vF5D4hq8wmLjC++dqq7gFYVBq8E5N7O3BxLV0DMFhtll+yIyOHoeXAK
-   4qPVkOP8W7c1A60ulCvP+vPI8zc8ACF/x9iT1FlSQkGF7tHhARoXONec2kUa0wxrx+z0aCOsKjb5
-   i0eVpp4/UMYRx2r/esGNoOdV/z1DiG8Vw78Yva04GRXR9HtxBc+OgjaDH1w3pOc0kMYreV+rClJs
-   2GQd56M7CWH9+MaTRs7Tp6pNLxcGr5XQ+Nz0Bg==;
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 17 Jun 2019 08:32:25 -0400
+Received: by mail-pg1-f195.google.com with SMTP id k187so5758820pga.0;
+        Mon, 17 Jun 2019 05:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ETsv5V713PqfBbxptdNaDO/9A5O3HqtK22qegpsPBRM=;
+        b=I1ob8Mw2H2thmUye5x2sp6jGFUWg2hZKIUIc/UrJ+3N1DO8dQGyfs5jjf1X8TfiWyF
+         GE6xVtsVQKhU4Am+J1AK8bN0EH1spxrKp1IqsjoozcvJj9pJUru0j2GyVnpj79ISMr05
+         yNaNPNxyZnJ+7uajXj2oyTsWc+Rmkffu72ZghFlFCNXS9nFeWOyL1orT41z+DvjlYtN3
+         Gare/0NStEccjZLKTzGfOk+hUaGAH0UxRpLAuZ0gOLaHUEsMBQDICy6MK3ktHNK1/FCa
+         BgoRYJ2B1WM91HdLmOjgImT3TYFTU0ZTxabb5/8WcUuf8IwHscDfL4TkwcS57O0J/ep2
+         c6vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ETsv5V713PqfBbxptdNaDO/9A5O3HqtK22qegpsPBRM=;
+        b=LnPYBirZJt0bMUD2DY1+0dKLuffzUBVFJeJFTdANADiPQPTKnKRyEa6Mzn32jF436e
+         yJtZPfZi51gOLpC9XWnD3twE6X2r9glDQLaK6cNRmgT02ln37P5AOkVzK0m0iO8kiD4P
+         5Gotkp3ry7J/tgy2pHWoE70yg7j99nMM0zr8PtLezbJAH3aLmfWIvQjsSPoP+hFK7/wb
+         HH3Bf7er4FzbhQxhx0kTdn9nuEe46aKhC/+Qcw9Z/1gK89DxmNEFHinAbk3vj17cLeT0
+         x2xUCyeFT7IT7Gsp5Zc9UhrcS3umoWnPcshKhPdt+eoj+2I4UFoZ2yMWdjf3peP2/5pV
+         eKRQ==
+X-Gm-Message-State: APjAAAVibtklCNznIdPddahofKbAUrVIHg/5sDEKlYVKgX/ziMlTt8cZ
+        g1U3XKiQhCw4XPgzcen2ba1cLTu71zXJkJyuCKQ=
+X-Google-Smtp-Source: APXvYqy0mtPFb8J/e+TcLeJbV0prtKSvy/MF15YIH1l6Aq9HxxWDYk6n2e9vLDDfCY9aVzucB9Wm04E2uK0EkphnEW8=
+X-Received: by 2002:a63:f346:: with SMTP id t6mr43106755pgj.203.1560774744359;
+ Mon, 17 Jun 2019 05:32:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
-To:     Recipients <trade1@nejknio.cf>
-From:   "Mark Maths" <trade1@nejknio.cf>
-Date:   Mon, 17 Jun 2019 10:08:34 +0300
-Reply-To: purchase_m.maths@aol.com
-Message-ID: <0.0.1.D50.1D524DB6EE58518.0@slot0.nejknio.cf>
+References: <20190612121258.19535-1-gregkh@linuxfoundation.org>
+ <CAHp75VeQy9o6tHtqKEE3o9ijBE4c11cWcc00+RqCj+P1FOky1w@mail.gmail.com> <20190614065339.GB21447@kroah.com>
+In-Reply-To: <20190614065339.GB21447@kroah.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 17 Jun 2019 15:32:13 +0300
+Message-ID: <CAHp75Vc7HeHgkq6h9TKrNHO-g_5uDtbnD8jY9HpHLuu607AUkA@mail.gmail.com>
+Subject: Re: [PATCH 1/8] platform: x86: acer-wmi: no need to check return
+ value of debugfs_create functions
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Lee, Chun-Yi" <jlee@suse.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Sales team,
- =
+On Fri, Jun 14, 2019 at 9:53 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Jun 14, 2019 at 09:48:04AM +0300, Andy Shevchenko wrote:
+> > On Wed, Jun 12, 2019 at 3:13 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > When calling debugfs functions, there is no need to ever check the
+> > > return value.  The function can work or not, but the code logic should
+> > > never do something different based on this.
+> > >
+> > > Also, because there is no need to save the file dentry, remove the
+> > > variable that was saving it and just recursively delete the whole
+> > > directory.
+> > >
+> >
+> > Through which tree you want to proceed this?
+>
+> What ever is easier for you, I can take it through mine, as I have a lot
+> of other patches like this queued up already, or it can go through
+> yours.
 
-In furtherance to our market research, we have reviewed all your products t=
-ypes and we have finally interested in your product for our market here in =
+All 8 pushed to my review and testing queue, thanks!
 
-
-United State for your production. We introduce ourselves as Emilxa Tram SRL=
-, A general group of company located in the United State. =
-
-
-We are sourcing for new suppliers from your location =
-
-
-Kindly advice us if you accept new purchase orders, I will forward our PO f=
-or urgent order.
-
-Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
-m)
-
-Best regards.
-Mark Maths
-Company Address:
-Emilxa Tram SRL Company Limited
-P.O. Box 978
-Road Town
-Tortola
-British Virgin Islands
-Contact information:
-Tel: +1 (284) 493 7235
-Email: purchase_m.maths@aol.com
-https://meridianbvi.com/contact-us/
+-- 
+With Best Regards,
+Andy Shevchenko
