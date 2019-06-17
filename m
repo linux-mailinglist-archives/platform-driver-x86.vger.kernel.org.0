@@ -2,60 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D5A2458CF
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jun 2019 11:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9FBB47AE5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jun 2019 09:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbfFNJfh (ORCPT
+        id S1726571AbfFQH2s (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Jun 2019 05:35:37 -0400
-Received: from qf-corp.com ([43.252.215.172]:37769 "EHLO server1.qf-corp.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726083AbfFNJfh (ORCPT
+        Mon, 17 Jun 2019 03:28:48 -0400
+Received: from slot0.nejknio.cf ([89.32.41.233]:44686 "EHLO slot0.nejknio.cf"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726557AbfFQH2s (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Jun 2019 05:35:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=qf-corp.com
-        ; s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=x+wk2oDUMoo/hQHPqS9UCKstzOaLw+EthDvW07j7+BE=; b=dFMssUdmPPQ7bRfn/x86XcOMDU
-        DlgCdpsKCmJTOb7WWON+41jlPu7Im36pLdwbOLNdVABVOhVrpQbJ2vBwctBfHkBqpg7HZRh8C5Z/A
-        JnyilTXpMEdTozdTwlrsBKM0RrdVpjMY59TgK3bOfRu7cvbfg0YbO+ViBEslrYth5FwOT/KW1/ipZ
-        AsQEgtrfmQwNFv4u1U4+s4iy6mAYGGteBPvCYIz61paWk+ppIsLyth60g3QMU3aKBBXAC8nk/N9r8
-        XY8wLK+LHhA3MPQysdE8iHjiJGuuSWpCF2P+TQesp00vetI3auT0DaIcYpUI1vl7+n7amM+W5W9w2
-        KoC8HSbQ==;
-Received: from [::1] (port=47006 helo=server1.qf-corp.com)
-        by server1.qf-corp.com with esmtpa (Exim 4.92)
-        (envelope-from <admin@qf-corp.com>)
-        id 1hbiaG-0001L9-M6; Fri, 14 Jun 2019 17:33:20 +0800
+        Mon, 17 Jun 2019 03:28:48 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
+ bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
+ b=Q1p2oV7pTSDEZkMlWY+UuXSeA8YSp+hoqCmbkYojBl4qmXORmx27pxGKCiXkWFwcmdAley3XRAQ+
+   bapUOwp0gKdSr5ojvnaALKkl6ax8oq7CJiV48uB0NX7Qtk/87nml5SY40s0pjZkS3OFKkCN9JAWW
+   HCyqoy72UNcgXVQLuyB8us0UHYZ1iOikR0kIFw8PS7t4Kv2HzcYsimEHWGVnzjoSfozIj/XCNpXe
+   gAPXBGgjhcnqISgQ/vYEJJBv3PykqWlMar0dddT99XkaAHbTdrSoqdoFD90iGLBUfOI0WgIZTyp/
+   A4Pw98CaPvNwaU3RAfqGsOZVMoL8D6ib0/uqPw==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
+ b=Hs8gETmkLGnp/D7odQkF99gouR/P4UPp9e4MSaCC5Sd1qZ6t6Tu+tYJBJ5f9hPCEwdPYKYFTuvk8
+   n3KZ6me/PMx4AjqVRtur7vF5D4hq8wmLjC++dqq7gFYVBq8E5N7O3BxLV0DMFhtll+yIyOHoeXAK
+   4qPVkOP8W7c1A60ulCvP+vPI8zc8ACF/x9iT1FlSQkGF7tHhARoXONec2kUa0wxrx+z0aCOsKjb5
+   i0eVpp4/UMYRx2r/esGNoOdV/z1DiG8Vw78Yva04GRXR9HtxBc+OgjaDH1w3pOc0kMYreV+rClJs
+   2GQd56M7CWH9+MaTRs7Tp6pNLxcGr5XQ+Nz0Bg==;
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Fri, 14 Jun 2019 17:33:20 +0800
-From:   Herr David Williams <admin@qf-corp.com>
-To:     undisclosed-recipients:;
-Subject: dringender Kredit
-Reply-To: davidloaninvestment12@gmail.com
-Mail-Reply-To: davidloaninvestment12@gmail.com
-Message-ID: <79483b8f88be05f29233c9cf8f6833dd@qf-corp.com>
-X-Sender: admin@qf-corp.com
-User-Agent: Roundcube Webmail/1.3.8
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server1.qf-corp.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - qf-corp.com
-X-Get-Message-Sender-Via: server1.qf-corp.com: authenticated_id: admin@qf-corp.com
-X-Authenticated-Sender: server1.qf-corp.com: admin@qf-corp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
+To:     Recipients <trade1@nejknio.cf>
+From:   "Mark Maths" <trade1@nejknio.cf>
+Date:   Mon, 17 Jun 2019 10:08:34 +0300
+Reply-To: purchase_m.maths@aol.com
+Message-ID: <0.0.1.D50.1D524DB6EE58518.0@slot0.nejknio.cf>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Dear Sales team,
+ =
+
+In furtherance to our market research, we have reviewed all your products t=
+ypes and we have finally interested in your product for our market here in =
 
 
--- 
-Benötigen Sie dringend einen Kredit? Wenn ja, antworten Sie für weitere 
-Details
+United State for your production. We introduce ourselves as Emilxa Tram SRL=
+, A general group of company located in the United State. =
+
+
+We are sourcing for new suppliers from your location =
+
+
+Kindly advice us if you accept new purchase orders, I will forward our PO f=
+or urgent order.
+
+Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
+m)
+
+Best regards.
+Mark Maths
+Company Address:
+Emilxa Tram SRL Company Limited
+P.O. Box 978
+Road Town
+Tortola
+British Virgin Islands
+Contact information:
+Tel: +1 (284) 493 7235
+Email: purchase_m.maths@aol.com
+https://meridianbvi.com/contact-us/
