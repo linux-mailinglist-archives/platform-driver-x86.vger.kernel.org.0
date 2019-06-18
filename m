@@ -2,52 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5924AC3B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Jun 2019 22:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6404ACBA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Jun 2019 23:08:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730910AbfFRUye (ORCPT
+        id S1730546AbfFRVG2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 18 Jun 2019 16:54:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51054 "EHLO
+        Tue, 18 Jun 2019 17:06:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34754 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730786AbfFRUyA (ORCPT
+        with ESMTP id S1730852AbfFRVF4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 18 Jun 2019 16:54:00 -0400
+        Tue, 18 Jun 2019 17:05:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
         To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wdnxEop/Om+l7i8HWimUsvn9Qo3Rp57nhovuPAGDw1c=; b=U0MBYFv/32jMGQjGxV8WXV0BDa
-        WH3TYEIHHT2W2YesbgiR8QiVI6XCkU/a1WwgUCiTlTxUMtVeq32ZfduSA2bNHbprWAMI+fq7oVfMA
-        iOD5pJOdi5wzGi/JARq7pVdXT/Qki9FyBBagZd5ZT5EgHke5CwMbXZC88HTSbd0KMqFHccGdEH4Mh
-        IViTmOm2VOLIOMipIpsh/uN+/dBHsEaCbvlQ2+1z7ZAYw073h5xyb6Yw89V/aEmO9ngwxqgpBkFWO
-        FjbCD5LnBQGs5w37Hn7RZJ1a9NQWzyGtBp/gxVENsxnaLbRDhLVjBs+18sywZO+OfirOqfqmrKVL1
-        trxs+KAg==;
+        bh=FISmA4+yooQYp3UXQ1RSWHaYngXi1oOul8B4uyUy5LE=; b=PSJTf+ybuqVO2Rt29OuvJXzN+S
+        0KaaHzpgf1WzI7BpGiGlhRg435AgTjDzbKuSCvKpz8H61ttb+lIpYvJZmvnGGQva7XThVn0ASLdFO
+        9Sv0WxVy86ltUJNKalEO05AmMVzziCwwlqvDvuIilZ0XFgMWHZohbPsDuq6DbpuMUZ5hVKe8UKJdB
+        cdSxcGn+p3zCCT7zRTbtaWEx86QtRiVcFMv7k2KHn+aAhpmUsSQskpjRtBcp/E0lykGIQFuoLZ2Y3
+        Q3ZxPkahCCqsKocpkHHgvWrMnCriIMxK4DkNKT1Ssce+IYyScqgPdAaTh9WUWR2GG+xKPFBHd4Wpn
+        N2UAMvvg==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdL77-0008S1-GU; Tue, 18 Jun 2019 20:53:58 +0000
+        id 1hdLIc-0006yu-Ff; Tue, 18 Jun 2019 21:05:52 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdL70-00020E-7O; Tue, 18 Jun 2019 17:53:50 -0300
+        id 1hdLIZ-0002CX-VH; Tue, 18 Jun 2019 18:05:47 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 21/29] docs: laptops: convert to ReST
-Date:   Tue, 18 Jun 2019 17:53:39 -0300
-Message-Id: <2d5a615aa1f970225543302940ca23c7e560a159.1560890801.git.mchehab+samsung@kernel.org>
+        linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arch@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        kernel-hardening@lists.openwall.com,
+        linux-remoteproc@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        netdev@vger.kernel.org, linux-pwm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-gpio@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v1 12/22] docs: driver-api: add .rst files from the main dir
+Date:   Tue, 18 Jun 2019 18:05:36 -0300
+Message-Id: <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560891322.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
+In-Reply-To: <cover.1560891322.git.mchehab+samsung@kernel.org>
+References: <cover.1560891322.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -56,2327 +61,2309 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Rename the laptops documentation files to ReST, add an
-index for them and adjust in order to produce a nice html
-output via the Sphinx build system.
-
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+Those files belong to the driver-api guide. Add them to the
+driver-api book.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- Documentation/ABI/testing/sysfs-block-device  |   2 +-
- .../ABI/testing/sysfs-platform-asus-laptop    |   2 +-
- .../admin-guide/kernel-parameters.txt         |   2 +-
- .../{asus-laptop.txt => asus-laptop.rst}      |  92 ++--
- ...otection.txt => disk-shock-protection.rst} |  32 +-
- Documentation/laptops/index.rst               |  17 +
- .../{laptop-mode.txt => laptop-mode.rst}      | 509 +++++++++---------
- .../{sony-laptop.txt => sony-laptop.rst}      |  58 +-
- .../laptops/{sonypi.txt => sonypi.rst}        |  28 +-
- .../{thinkpad-acpi.txt => thinkpad-acpi.rst}  | 363 ++++++++-----
- .../{toshiba_haps.txt => toshiba_haps.rst}    |  47 +-
- Documentation/sysctl/vm.txt                   |   4 +-
- MAINTAINERS                                   |   2 +-
- drivers/char/Kconfig                          |   2 +-
- drivers/platform/x86/Kconfig                  |   4 +-
- 15 files changed, 660 insertions(+), 504 deletions(-)
- rename Documentation/laptops/{asus-laptop.txt => asus-laptop.rst} (84%)
- rename Documentation/laptops/{disk-shock-protection.txt => disk-shock-protection.rst} (91%)
- create mode 100644 Documentation/laptops/index.rst
- rename Documentation/laptops/{laptop-mode.txt => laptop-mode.rst} (62%)
- rename Documentation/laptops/{sony-laptop.txt => sony-laptop.rst} (85%)
- rename Documentation/laptops/{sonypi.txt => sonypi.rst} (87%)
- rename Documentation/laptops/{thinkpad-acpi.txt => thinkpad-acpi.rst} (89%)
- rename Documentation/laptops/{toshiba_haps.txt => toshiba_haps.rst} (60%)
 
-diff --git a/Documentation/ABI/testing/sysfs-block-device b/Documentation/ABI/testing/sysfs-block-device
-index 82ef6eab042d..0d57bbb4fddc 100644
---- a/Documentation/ABI/testing/sysfs-block-device
-+++ b/Documentation/ABI/testing/sysfs-block-device
-@@ -45,7 +45,7 @@ Description:
- 		- Values below -2 are rejected with -EINVAL
+I had to remove the long list of maintainers got by
+getpatch.pl, as it was too long. I opted to keep only the
+mailing lists.
+
+ Documentation/ABI/removed/sysfs-class-rfkill  |  2 +-
+ Documentation/ABI/stable/sysfs-class-rfkill   |  2 +-
+ .../ABI/testing/sysfs-class-switchtec         |  2 +-
+ Documentation/PCI/pci.rst                     |  2 +-
+ Documentation/admin-guide/hw-vuln/l1tf.rst    |  2 +-
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ .../admin-guide/kernel-per-cpu-kthreads.rst   |  2 +-
+ .../{ => driver-api}/atomic_bitops.rst        |  2 -
+ Documentation/{ => driver-api}/bt8xxgpio.rst  |  2 -
+ .../bus-virt-phys-mapping.rst                 |  2 -
+ .../{connector => driver-api}/connector.rst   |  2 -
+ .../{console => driver-api}/console.rst       |  2 -
+ Documentation/{ => driver-api}/crc32.rst      |  2 -
+ Documentation/{ => driver-api}/dcdbas.rst     |  2 -
+ .../{ => driver-api}/debugging-modules.rst    |  2 -
+ .../debugging-via-ohci1394.rst                |  2 -
+ Documentation/{ => driver-api}/dell_rbu.rst   |  2 -
+ Documentation/{ => driver-api}/digsig.rst     |  2 -
+ .../{EDID/howto.rst => driver-api/edid.rst}   |  2 -
+ Documentation/{ => driver-api}/eisa.rst       |  2 -
+ .../{ => driver-api}/futex-requeue-pi.rst     |  2 -
+ .../{ => driver-api}/gcc-plugins.rst          |  2 -
+ Documentation/{ => driver-api}/hwspinlock.rst |  2 -
+ Documentation/driver-api/index.rst            | 66 +++++++++++++++++++
+ Documentation/{ => driver-api}/io-mapping.rst |  2 -
+ .../{ => driver-api}/io_ordering.rst          |  2 -
+ .../{IPMI.rst => driver-api/ipmi.rst}         |  2 -
+ .../irq-affinity.rst}                         |  2 -
+ .../irq-domain.rst}                           |  2 -
+ Documentation/{IRQ.rst => driver-api/irq.rst} |  2 -
+ .../{ => driver-api}/irqflags-tracing.rst     |  2 -
+ Documentation/{ => driver-api}/isa.rst        |  2 -
+ Documentation/{ => driver-api}/isapnp.rst     |  2 -
+ Documentation/{ => driver-api}/kobject.rst    |  4 +-
+ Documentation/{ => driver-api}/kprobes.rst    |  2 -
+ Documentation/{ => driver-api}/kref.rst       |  2 -
+ .../pblk.txt => driver-api/lightnvm-pblk.rst} |  0
+ Documentation/{ => driver-api}/lzo.rst        |  2 -
+ Documentation/{ => driver-api}/mailbox.rst    |  2 -
+ .../{ => driver-api}/men-chameleon-bus.rst    |  2 -
+ Documentation/{ => driver-api}/nommu-mmap.rst |  2 -
+ Documentation/{ => driver-api}/ntb.rst        |  2 -
+ Documentation/{nvmem => driver-api}/nvmem.rst |  2 -
+ Documentation/{ => driver-api}/padata.rst     |  2 -
+ .../{ => driver-api}/parport-lowlevel.rst     |  2 -
+ .../{ => driver-api}/percpu-rw-semaphore.rst  |  2 -
+ Documentation/{ => driver-api}/pi-futex.rst   |  2 -
+ Documentation/driver-api/pps.rst              |  2 -
+ .../{ => driver-api}/preempt-locking.rst      |  2 -
+ .../{pti => driver-api}/pti_intel_mid.rst     |  2 -
+ Documentation/driver-api/ptp.rst              |  2 -
+ Documentation/{ => driver-api}/pwm.rst        |  2 -
+ Documentation/{ => driver-api}/rbtree.rst     |  2 -
+ Documentation/{ => driver-api}/remoteproc.rst |  4 +-
+ Documentation/{ => driver-api}/rfkill.rst     |  2 -
+ .../{ => driver-api}/robust-futex-ABI.rst     |  2 -
+ .../{ => driver-api}/robust-futexes.rst       |  2 -
+ Documentation/{ => driver-api}/rpmsg.rst      |  2 -
+ Documentation/{ => driver-api}/sgi-ioc4.rst   |  2 -
+ .../{SM501.rst => driver-api/sm501.rst}       |  2 -
+ .../{ => driver-api}/smsc_ece1099.rst         |  2 -
+ .../{ => driver-api}/speculation.rst          |  8 +--
+ .../{ => driver-api}/static-keys.rst          |  2 -
+ Documentation/{ => driver-api}/switchtec.rst  |  4 +-
+ Documentation/{ => driver-api}/sync_file.rst  |  2 -
+ Documentation/{ => driver-api}/tee.rst        |  2 -
+ .../{ => driver-api}/this_cpu_ops.rst         |  2 -
+ .../unaligned-memory-access.rst               |  2 -
+ .../{ => driver-api}/vfio-mediated-device.rst |  4 +-
+ Documentation/{ => driver-api}/vfio.rst       |  2 -
+ Documentation/{ => driver-api}/xillybus.rst   |  2 -
+ Documentation/{ => driver-api}/xz.rst         |  2 -
+ Documentation/{ => driver-api}/zorro.rst      |  2 -
+ Documentation/driver-model/device.rst         |  2 +-
+ Documentation/fb/fbcon.rst                    |  4 +-
+ Documentation/filesystems/sysfs.txt           |  2 +-
+ Documentation/gpu/drm-mm.rst                  |  2 +-
+ Documentation/ia64/irq-redir.rst              |  2 +-
+ Documentation/laptops/thinkpad-acpi.rst       |  6 +-
+ Documentation/locking/rt-mutex.rst            |  2 +-
+ Documentation/networking/scaling.rst          |  4 +-
+ Documentation/s390/vfio-ccw.rst               |  6 +-
+ Documentation/sysctl/kernel.rst               |  2 +-
+ Documentation/sysctl/vm.rst                   |  2 +-
+ Documentation/trace/kprobetrace.rst           |  2 +-
+ Documentation/translations/zh_CN/IRQ.txt      |  4 +-
+ .../translations/zh_CN/filesystems/sysfs.txt  |  2 +-
+ .../translations/zh_CN/io_ordering.txt        |  4 +-
+ Documentation/w1/w1.netlink                   |  2 +-
+ Documentation/watchdog/hpwdt.rst              |  2 +-
+ MAINTAINERS                                   | 46 ++++++-------
+ arch/Kconfig                                  |  4 +-
+ arch/unicore32/include/asm/io.h               |  2 +-
+ drivers/base/core.c                           |  2 +-
+ drivers/char/ipmi/Kconfig                     |  2 +-
+ drivers/char/ipmi/ipmi_si_hotmod.c            |  2 +-
+ drivers/char/ipmi/ipmi_si_intf.c              |  2 +-
+ drivers/dma-buf/Kconfig                       |  2 +-
+ drivers/gpio/Kconfig                          |  2 +-
+ drivers/gpu/drm/Kconfig                       |  2 +-
+ drivers/pci/switch/Kconfig                    |  2 +-
+ drivers/platform/x86/Kconfig                  |  4 +-
+ drivers/platform/x86/dcdbas.c                 |  2 +-
+ drivers/platform/x86/dell_rbu.c               |  2 +-
+ drivers/pnp/isapnp/Kconfig                    |  2 +-
+ drivers/tty/Kconfig                           |  2 +-
+ drivers/vfio/Kconfig                          |  2 +-
+ drivers/vfio/mdev/Kconfig                     |  2 +-
+ drivers/w1/Kconfig                            |  2 +-
+ include/asm-generic/bitops/atomic.h           |  2 +-
+ include/linux/io-mapping.h                    |  2 +-
+ include/linux/jump_label.h                    |  2 +-
+ include/linux/kobject.h                       |  2 +-
+ include/linux/kobject_ns.h                    |  2 +-
+ include/linux/rbtree.h                        |  2 +-
+ include/linux/rbtree_augmented.h              |  2 +-
+ init/Kconfig                                  |  2 +-
+ kernel/padata.c                               |  2 +-
+ lib/Kconfig                                   |  2 +-
+ lib/Kconfig.debug                             |  2 +-
+ lib/crc32.c                                   |  2 +-
+ lib/kobject.c                                 |  4 +-
+ lib/lzo/lzo1x_decompress_safe.c               |  2 +-
+ lib/xz/Kconfig                                |  2 +-
+ mm/Kconfig                                    |  2 +-
+ mm/nommu.c                                    |  2 +-
+ samples/Kconfig                               |  2 +-
+ samples/kprobes/kprobe_example.c              |  2 +-
+ samples/kprobes/kretprobe_example.c           |  2 +-
+ scripts/gcc-plugins/Kconfig                   |  2 +-
+ tools/include/linux/rbtree.h                  |  2 +-
+ tools/include/linux/rbtree_augmented.h        |  2 +-
+ 132 files changed, 173 insertions(+), 235 deletions(-)
+ rename Documentation/{ => driver-api}/atomic_bitops.rst (99%)
+ rename Documentation/{ => driver-api}/bt8xxgpio.rst (99%)
+ rename Documentation/{ => driver-api}/bus-virt-phys-mapping.rst (99%)
+ rename Documentation/{connector => driver-api}/connector.rst (99%)
+ rename Documentation/{console => driver-api}/console.rst (99%)
+ rename Documentation/{ => driver-api}/crc32.rst (99%)
+ rename Documentation/{ => driver-api}/dcdbas.rst (99%)
+ rename Documentation/{ => driver-api}/debugging-modules.rst (98%)
+ rename Documentation/{ => driver-api}/debugging-via-ohci1394.rst (99%)
+ rename Documentation/{ => driver-api}/dell_rbu.rst (99%)
+ rename Documentation/{ => driver-api}/digsig.rst (99%)
+ rename Documentation/{EDID/howto.rst => driver-api/edid.rst} (99%)
+ rename Documentation/{ => driver-api}/eisa.rst (99%)
+ rename Documentation/{ => driver-api}/futex-requeue-pi.rst (99%)
+ rename Documentation/{ => driver-api}/gcc-plugins.rst (99%)
+ rename Documentation/{ => driver-api}/hwspinlock.rst (99%)
+ rename Documentation/{ => driver-api}/io-mapping.rst (99%)
+ rename Documentation/{ => driver-api}/io_ordering.rst (99%)
+ rename Documentation/{IPMI.rst => driver-api/ipmi.rst} (99%)
+ rename Documentation/{IRQ-affinity.rst => driver-api/irq-affinity.rst} (99%)
+ rename Documentation/{IRQ-domain.rst => driver-api/irq-domain.rst} (99%)
+ rename Documentation/{IRQ.rst => driver-api/irq.rst} (99%)
+ rename Documentation/{ => driver-api}/irqflags-tracing.rst (99%)
+ rename Documentation/{ => driver-api}/isa.rst (99%)
+ rename Documentation/{ => driver-api}/isapnp.rst (98%)
+ rename Documentation/{ => driver-api}/kobject.rst (99%)
+ rename Documentation/{ => driver-api}/kprobes.rst (99%)
+ rename Documentation/{ => driver-api}/kref.rst (99%)
+ rename Documentation/{lightnvm/pblk.txt => driver-api/lightnvm-pblk.rst} (100%)
+ rename Documentation/{ => driver-api}/lzo.rst (99%)
+ rename Documentation/{ => driver-api}/mailbox.rst (99%)
+ rename Documentation/{ => driver-api}/men-chameleon-bus.rst (99%)
+ rename Documentation/{ => driver-api}/nommu-mmap.rst (99%)
+ rename Documentation/{ => driver-api}/ntb.rst (99%)
+ rename Documentation/{nvmem => driver-api}/nvmem.rst (99%)
+ rename Documentation/{ => driver-api}/padata.rst (99%)
+ rename Documentation/{ => driver-api}/parport-lowlevel.rst (99%)
+ rename Documentation/{ => driver-api}/percpu-rw-semaphore.rst (99%)
+ rename Documentation/{ => driver-api}/pi-futex.rst (99%)
+ rename Documentation/{ => driver-api}/preempt-locking.rst (99%)
+ rename Documentation/{pti => driver-api}/pti_intel_mid.rst (99%)
+ rename Documentation/{ => driver-api}/pwm.rst (99%)
+ rename Documentation/{ => driver-api}/rbtree.rst (99%)
+ rename Documentation/{ => driver-api}/remoteproc.rst (99%)
+ rename Documentation/{ => driver-api}/rfkill.rst (99%)
+ rename Documentation/{ => driver-api}/robust-futex-ABI.rst (99%)
+ rename Documentation/{ => driver-api}/robust-futexes.rst (99%)
+ rename Documentation/{ => driver-api}/rpmsg.rst (99%)
+ rename Documentation/{ => driver-api}/sgi-ioc4.rst (99%)
+ rename Documentation/{SM501.rst => driver-api/sm501.rst} (99%)
+ rename Documentation/{ => driver-api}/smsc_ece1099.rst (99%)
+ rename Documentation/{ => driver-api}/speculation.rst (99%)
+ rename Documentation/{ => driver-api}/static-keys.rst (99%)
+ rename Documentation/{ => driver-api}/switchtec.rst (97%)
+ rename Documentation/{ => driver-api}/sync_file.rst (99%)
+ rename Documentation/{ => driver-api}/tee.rst (99%)
+ rename Documentation/{ => driver-api}/this_cpu_ops.rst (99%)
+ rename Documentation/{ => driver-api}/unaligned-memory-access.rst (99%)
+ rename Documentation/{ => driver-api}/vfio-mediated-device.rst (99%)
+ rename Documentation/{ => driver-api}/vfio.rst (99%)
+ rename Documentation/{ => driver-api}/xillybus.rst (99%)
+ rename Documentation/{ => driver-api}/xz.rst (99%)
+ rename Documentation/{ => driver-api}/zorro.rst (99%)
+
+diff --git a/Documentation/ABI/removed/sysfs-class-rfkill b/Documentation/ABI/removed/sysfs-class-rfkill
+index 1652b2381dda..9c08c7f98ffb 100644
+--- a/Documentation/ABI/removed/sysfs-class-rfkill
++++ b/Documentation/ABI/removed/sysfs-class-rfkill
+@@ -1,6 +1,6 @@
+ rfkill - radio frequency (RF) connector kill switch support
  
- 		For more information, see
--		Documentation/laptops/disk-shock-protection.txt
-+		Documentation/laptops/disk-shock-protection.rst
+-For details to this subsystem look at Documentation/rfkill.rst.
++For details to this subsystem look at Documentation/driver-api/rfkill.rst.
  
+ What:		/sys/class/rfkill/rfkill[0-9]+/claim
+ Date:		09-Jul-2007
+diff --git a/Documentation/ABI/stable/sysfs-class-rfkill b/Documentation/ABI/stable/sysfs-class-rfkill
+index 68fd0afdad0d..5b154f922643 100644
+--- a/Documentation/ABI/stable/sysfs-class-rfkill
++++ b/Documentation/ABI/stable/sysfs-class-rfkill
+@@ -1,6 +1,6 @@
+ rfkill - radio frequency (RF) connector kill switch support
  
- What:		/sys/block/*/device/ncq_prio_enable
-diff --git a/Documentation/ABI/testing/sysfs-platform-asus-laptop b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-index cd9d667c3da2..d67fa4bafa70 100644
---- a/Documentation/ABI/testing/sysfs-platform-asus-laptop
-+++ b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-@@ -31,7 +31,7 @@ Description:
- 		To control the LED display, use the following :
- 		    echo 0x0T000DDD > /sys/devices/platform/asus_laptop/
- 		where T control the 3 letters display, and DDD the 3 digits display.
--		The DDD table can be found in Documentation/laptops/asus-laptop.txt
-+		The DDD table can be found in Documentation/laptops/asus-laptop.rst
+-For details to this subsystem look at Documentation/rfkill.rst.
++For details to this subsystem look at Documentation/driver-api/rfkill.rst.
  
- What:		/sys/devices/platform/asus_laptop/bluetooth
- Date:		January 2007
+ For the deprecated /sys/class/rfkill/*/claim knobs of this interface look in
+ Documentation/ABI/removed/sysfs-class-rfkill.
+diff --git a/Documentation/ABI/testing/sysfs-class-switchtec b/Documentation/ABI/testing/sysfs-class-switchtec
+index c8d80db1e32c..76c7a661a595 100644
+--- a/Documentation/ABI/testing/sysfs-class-switchtec
++++ b/Documentation/ABI/testing/sysfs-class-switchtec
+@@ -1,6 +1,6 @@
+ switchtec - Microsemi Switchtec PCI Switch Management Endpoint
+ 
+-For details on this subsystem look at Documentation/switchtec.rst.
++For details on this subsystem look at Documentation/driver-api/switchtec.rst.
+ 
+ What: 		/sys/class/switchtec
+ Date:		05-Jan-2017
+diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+index 840cbf5f37a7..0f52d172c9ac 100644
+--- a/Documentation/PCI/pci.rst
++++ b/Documentation/PCI/pci.rst
+@@ -239,7 +239,7 @@ from the PCI device config space. Use the values in the pci_dev structure
+ as the PCI "bus address" might have been remapped to a "host physical"
+ address by the arch/chip-set specific kernel support.
+ 
+-See Documentation/io-mapping.rst for how to access device registers
++See Documentation/driver-api/io-mapping.rst for how to access device registers
+ or device memory.
+ 
+ The device driver needs to call pci_request_region() to verify
+diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+index 9b1e6aafea1f..29449ba7773c 100644
+--- a/Documentation/admin-guide/hw-vuln/l1tf.rst
++++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+@@ -268,7 +268,7 @@ Guest mitigation mechanisms
+    /proc/irq/$NR/smp_affinity[_list] files. Limited documentation is
+    available at:
+ 
+-   https://www.kernel.org/doc/Documentation/IRQ-affinity.rst
++   https://www.kernel.org/doc/Documentation/driver-api/irq-affinity.rst
+ 
+ .. _smt_control:
+ 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3faf37b8b001..7abe677f8c5e 100644
+index 95885726778c..2f8751323f6d 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4356,7 +4356,7 @@
- 			Format: <integer>
+@@ -930,7 +930,7 @@
+ 			edid/1680x1050.bin, or edid/1920x1080.bin is given
+ 			and no file with the same name exists. Details and
+ 			instructions how to build your own EDID data are
+-			available in Documentation/EDID/howto.rst. An EDID
++			available in Documentation/driver-api/edid.rst. An EDID
+ 			data set will only be used for a particular connector,
+ 			if its name and a colon are prepended to the EDID
+ 			name. Each connector may use a unique EDID data
+@@ -3162,7 +3162,7 @@
+ 			See Documentation/sysctl/vm.rst for details.
  
- 	sonypi.*=	[HW] Sony Programmable I/O Control Device driver
--			See Documentation/laptops/sonypi.txt
-+			See Documentation/laptops/sonypi.rst
+ 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
+-			See Documentation/debugging-via-ohci1394.rst for more
++			See Documentation/driver-api/debugging-via-ohci1394.rst for more
+ 			info.
  
- 	spectre_v2=	[X86] Control mitigation of Spectre variant 2
- 			(indirect branch speculation) vulnerability.
-diff --git a/Documentation/laptops/asus-laptop.txt b/Documentation/laptops/asus-laptop.rst
-similarity index 84%
-rename from Documentation/laptops/asus-laptop.txt
-rename to Documentation/laptops/asus-laptop.rst
-index 5f2858712aa0..95176321a25a 100644
---- a/Documentation/laptops/asus-laptop.txt
-+++ b/Documentation/laptops/asus-laptop.rst
-@@ -1,6 +1,9 @@
-+==================
- Asus Laptop Extras
-+==================
+ 	olpc_ec_timeout= [OLPC] ms delay when issuing EC commands
+diff --git a/Documentation/admin-guide/kernel-per-cpu-kthreads.rst b/Documentation/admin-guide/kernel-per-cpu-kthreads.rst
+index d430048a0307..942b7835b9f6 100644
+--- a/Documentation/admin-guide/kernel-per-cpu-kthreads.rst
++++ b/Documentation/admin-guide/kernel-per-cpu-kthreads.rst
+@@ -10,7 +10,7 @@ them to a "housekeeping" CPU dedicated to such work.
+ References
+ ==========
  
- Version 0.1
-+
- August 6, 2009
+--	Documentation/IRQ-affinity.rst:  Binding interrupts to sets of CPUs.
++-	Documentation/driver-api/irq-affinity.rst:  Binding interrupts to sets of CPUs.
  
- Corentin Chary <corentincj@iksaif.net>
-@@ -10,11 +13,12 @@ http://acpi4asus.sf.net/
-  It may also support some MEDION, JVC or VICTOR laptops (such as MEDION 9675 or
-  VICTOR XP7210 for example). It makes all the extra buttons generate input
-  events (like keyboards).
-+
-  On some models adds support for changing the display brightness and output,
-  switching the LCD backlight on and off, and most importantly, allows you to
-  blink those fancy LEDs intended for reporting mail and wireless status.
+ -	Documentation/admin-guide/cgroup-v1:  Using cgroups to bind tasks to sets of CPUs.
  
--This driver supercedes the old asus_acpi driver.
-+This driver supersedes the old asus_acpi driver.
- 
- Requirements
- ------------
-@@ -49,7 +53,7 @@ Usage
-   see some lines like this :
- 
-       Asus Laptop Extras version 0.42
--        L2D model detected.
-+        - L2D model detected.
- 
-   If it is not the output you have on your laptop, send it (and the laptop's
-   DSDT) to me.
-@@ -68,9 +72,12 @@ Usage
- LEDs
- ----
- 
--  You can modify LEDs be echoing values to /sys/class/leds/asus::*/brightness :
-+  You can modify LEDs be echoing values to `/sys/class/leds/asus/*/brightness`::
-+
-     echo 1 >  /sys/class/leds/asus::mail/brightness
-+
-   will switch the mail LED on.
-+
-   You can also know if they are on/off by reading their content and use
-   kernel triggers like disk-activity or heartbeat.
- 
-@@ -81,7 +88,7 @@ Backlight
-   /sys/class/backlight/asus-laptop/. Brightness Values are between 0 and 15.
- 
- Wireless devices
-----------------
-+----------------
- 
-   You can turn the internal Bluetooth adapter on/off with the bluetooth entry
-   (only on models with Bluetooth). This usually controls the associated LED.
-@@ -93,18 +100,20 @@ Display switching
-   Note: the display switching code is currently considered EXPERIMENTAL.
- 
-   Switching works for the following models:
--    L3800C
--    A2500H
--    L5800C
--    M5200N
--    W1000N (albeit with some glitches)
--    M6700R
--    A6JC
--    F3J
-+
-+    - L3800C
-+    - A2500H
-+    - L5800C
-+    - M5200N
-+    - W1000N (albeit with some glitches)
-+    - M6700R
-+    - A6JC
-+    - F3J
- 
-   Switching doesn't work for the following:
--    M3700N
--    L2X00D (locks the laptop under certain conditions)
-+
-+    - M3700N
-+    - L2X00D (locks the laptop under certain conditions)
- 
-   To switch the displays, echo values from 0 to 15 to
-   /sys/devices/platform/asus-laptop/display. The significance of those values
-@@ -113,48 +122,51 @@ Display switching
-   +-------+-----+-----+-----+-----+-----+
-   | Bin   | Val | DVI | TV  | CRT | LCD |
-   +-------+-----+-----+-----+-----+-----+
--  + 0000  +   0 +     +     +     +     +
-+  | 0000  |   0 |     |     |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0001  +   1 +     +     +     +  X  +
-+  | 0001  |   1 |     |     |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 0010  +   2 +     +     +  X  +     +
-+  | 0010  |   2 |     |     |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0011  +   3 +     +     +  X  +  X  +
-+  | 0011  |   3 |     |     |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 0100  +   4 +     +  X  +     +     +
-+  | 0100  |   4 |     |  X  |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0101  +   5 +     +  X  +     + X   +
-+  | 0101  |   5 |     |  X  |     | X   |
-   +-------+-----+-----+-----+-----+-----+
--  + 0110  +   6 +     +  X  +  X  +     +
-+  | 0110  |   6 |     |  X  |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 0111  +   7 +     +  X  +  X  +  X  +
-+  | 0111  |   7 |     |  X  |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1000  +   8 +  X  +     +     +     +
-+  | 1000  |   8 |  X  |     |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1001  +   9 +  X  +     +     +  X  +
-+  | 1001  |   9 |  X  |     |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1010  +  10 +  X  +     +  X  +     +
-+  | 1010  |  10 |  X  |     |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1011  +  11 +  X  +     +  X  +  X  +
-+  | 1011  |  11 |  X  |     |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1100  +  12 +  X  +  X  +     +     +
-+  | 1100  |  12 |  X  |  X  |     |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1101  +  13 +  X  +  X  +     +  X  +
-+  | 1101  |  13 |  X  |  X  |     |  X  |
-   +-------+-----+-----+-----+-----+-----+
--  + 1110  +  14 +  X  +  X  +  X  +     +
-+  | 1110  |  14 |  X  |  X  |  X  |     |
-   +-------+-----+-----+-----+-----+-----+
--  + 1111  +  15 +  X  +  X  +  X  +  X  +
-+  | 1111  |  15 |  X  |  X  |  X  |  X  |
-   +-------+-----+-----+-----+-----+-----+
- 
-   In most cases, the appropriate displays must be plugged in for the above
-   combinations to work. TV-Out may need to be initialized at boot time.
- 
-   Debugging:
-+
-   1) Check whether the Fn+F8 key:
-+
-      a) does not lock the laptop (try a boot with noapic / nolapic if it does)
-      b) generates events (0x6n, where n is the value corresponding to the
-         configuration above)
-      c) actually works
-+
-      Record the disp value at every configuration.
-   2) Echo values from 0 to 15 to /sys/devices/platform/asus-laptop/display.
-      Record its value, note any change. If nothing changes, try a broader range,
-@@ -164,7 +176,7 @@ Display switching
- 
-   Note: on some machines (e.g. L3C), after the module has been loaded, only 0x6n
-   events are generated and no actual switching occurs. In such a case, a line
--  like:
-+  like::
- 
-     echo $((10#$arg-60)) > /sys/devices/platform/asus-laptop/display
- 
-@@ -180,15 +192,16 @@ LED display
-   several items of information.
- 
-   LED display works for the following models:
--    W1000N
--    W1J
- 
--  To control the LED display, use the following :
-+    - W1000N
-+    - W1J
-+
-+  To control the LED display, use the following::
- 
-     echo 0x0T000DDD > /sys/devices/platform/asus-laptop/
- 
-   where T control the 3 letters display, and DDD the 3 digits display,
--  according to the tables below.
-+  according to the tables below::
- 
-          DDD (digits)
-          000 to 999 = display digits
-@@ -208,8 +221,8 @@ LED display
-   For example "echo 0x01000001 >/sys/devices/platform/asus-laptop/ledd"
-   would display "DVD001".
- 
--Driver options:
-----------------
-+Driver options
-+--------------
- 
-  Options can be passed to the asus-laptop driver using the standard
-  module argument syntax (<param>=<value> when passing the option to the
-@@ -219,6 +232,7 @@ Driver options:
- 	     wapf: WAPF defines the behavior of the Fn+Fx wlan key
- 		   The significance of values is yet to be found, but
- 		   most of the time:
-+
- 		   - 0x0 should do nothing
- 		   - 0x1 should allow to control the device with Fn+Fx key.
- 		   - 0x4 should send an ACPI event (0x88) while pressing the Fn+Fx key
-@@ -237,7 +251,7 @@ Unsupported models
-  - ASUS L7300G
-  - ASUS L8400
- 
--Patches, Errors, Questions:
-+Patches, Errors, Questions
- --------------------------
- 
-  I appreciate any success or failure
-@@ -253,5 +267,5 @@ Patches, Errors, Questions:
-  Any other comments or patches are also more than welcome.
- 
-  acpi4asus-user@lists.sourceforge.net
-+
-  http://sourceforge.net/projects/acpi4asus
+diff --git a/Documentation/atomic_bitops.rst b/Documentation/driver-api/atomic_bitops.rst
+similarity index 99%
+rename from Documentation/atomic_bitops.rst
+rename to Documentation/driver-api/atomic_bitops.rst
+index b683bcb71185..7c7d33ee64f7 100644
+--- a/Documentation/atomic_bitops.rst
++++ b/Documentation/driver-api/atomic_bitops.rst
+@@ -1,5 +1,3 @@
+-:orphan:
 -
-diff --git a/Documentation/laptops/disk-shock-protection.txt b/Documentation/laptops/disk-shock-protection.rst
-similarity index 91%
-rename from Documentation/laptops/disk-shock-protection.txt
-rename to Documentation/laptops/disk-shock-protection.rst
-index 0e6ba2663834..e97c5f78d8c3 100644
---- a/Documentation/laptops/disk-shock-protection.txt
-+++ b/Documentation/laptops/disk-shock-protection.rst
-@@ -1,17 +1,18 @@
-+==========================
- Hard disk shock protection
+ =============
+ Atomic bitops
+ =============
+diff --git a/Documentation/bt8xxgpio.rst b/Documentation/driver-api/bt8xxgpio.rst
+similarity index 99%
+rename from Documentation/bt8xxgpio.rst
+rename to Documentation/driver-api/bt8xxgpio.rst
+index 093875e1b0aa..4f937bead52c 100644
+--- a/Documentation/bt8xxgpio.rst
++++ b/Documentation/driver-api/bt8xxgpio.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===================================================================
+ A driver for a selfmade cheap BT8xx based PCI GPIO-card (bt8xxgpio)
+ ===================================================================
+diff --git a/Documentation/bus-virt-phys-mapping.rst b/Documentation/driver-api/bus-virt-phys-mapping.rst
+similarity index 99%
+rename from Documentation/bus-virt-phys-mapping.rst
+rename to Documentation/driver-api/bus-virt-phys-mapping.rst
+index eefb0ae99ba8..80972916e88c 100644
+--- a/Documentation/bus-virt-phys-mapping.rst
++++ b/Documentation/driver-api/bus-virt-phys-mapping.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==========================================================
+ How to access I/O mapped memory from within device drivers
+ ==========================================================
+diff --git a/Documentation/connector/connector.rst b/Documentation/driver-api/connector.rst
+similarity index 99%
+rename from Documentation/connector/connector.rst
+rename to Documentation/driver-api/connector.rst
+index 24e26dc22dbf..2cf9b5adfe2a 100644
+--- a/Documentation/connector/connector.rst
++++ b/Documentation/driver-api/connector.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ================
+ Kernel Connector
+ ================
+diff --git a/Documentation/console/console.rst b/Documentation/driver-api/console.rst
+similarity index 99%
+rename from Documentation/console/console.rst
+rename to Documentation/driver-api/console.rst
+index b374141b027e..8b0205d27a71 100644
+--- a/Documentation/console/console.rst
++++ b/Documentation/driver-api/console.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============
+ Console Drivers
+ ===============
+diff --git a/Documentation/crc32.rst b/Documentation/driver-api/crc32.rst
+similarity index 99%
+rename from Documentation/crc32.rst
+rename to Documentation/driver-api/crc32.rst
+index f7c73d713a35..8a6860f33b4e 100644
+--- a/Documentation/crc32.rst
++++ b/Documentation/driver-api/crc32.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =================================
+ brief tutorial on CRC computation
+ =================================
+diff --git a/Documentation/dcdbas.rst b/Documentation/driver-api/dcdbas.rst
+similarity index 99%
+rename from Documentation/dcdbas.rst
+rename to Documentation/driver-api/dcdbas.rst
+index abbc2bfd58a7..309cc57a7c1c 100644
+--- a/Documentation/dcdbas.rst
++++ b/Documentation/driver-api/dcdbas.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===================================
+ Dell Systems Management Base Driver
+ ===================================
+diff --git a/Documentation/debugging-modules.rst b/Documentation/driver-api/debugging-modules.rst
+similarity index 98%
+rename from Documentation/debugging-modules.rst
+rename to Documentation/driver-api/debugging-modules.rst
+index 994f4b021a81..172ad4aec493 100644
+--- a/Documentation/debugging-modules.rst
++++ b/Documentation/driver-api/debugging-modules.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ Debugging Modules after 2.6.3
+ -----------------------------
+ 
+diff --git a/Documentation/debugging-via-ohci1394.rst b/Documentation/driver-api/debugging-via-ohci1394.rst
+similarity index 99%
+rename from Documentation/debugging-via-ohci1394.rst
+rename to Documentation/driver-api/debugging-via-ohci1394.rst
+index ead0196d94b7..981ad4f89fd3 100644
+--- a/Documentation/debugging-via-ohci1394.rst
++++ b/Documentation/driver-api/debugging-via-ohci1394.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================================================================
+ Using physical DMA provided by OHCI-1394 FireWire controllers for debugging
+ ===========================================================================
+diff --git a/Documentation/dell_rbu.rst b/Documentation/driver-api/dell_rbu.rst
+similarity index 99%
+rename from Documentation/dell_rbu.rst
+rename to Documentation/driver-api/dell_rbu.rst
+index 45cd18abd98f..f3bfa1a17961 100644
+--- a/Documentation/dell_rbu.rst
++++ b/Documentation/driver-api/dell_rbu.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =============================================================
+ Usage of the new open sourced rbu (Remote BIOS Update) driver
+ =============================================================
+diff --git a/Documentation/digsig.rst b/Documentation/driver-api/digsig.rst
+similarity index 99%
+rename from Documentation/digsig.rst
+rename to Documentation/driver-api/digsig.rst
+index 3597711d0df1..f6a8902d3ef7 100644
+--- a/Documentation/digsig.rst
++++ b/Documentation/driver-api/digsig.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==================================
+ Digital Signature Verification API
+ ==================================
+diff --git a/Documentation/EDID/howto.rst b/Documentation/driver-api/edid.rst
+similarity index 99%
+rename from Documentation/EDID/howto.rst
+rename to Documentation/driver-api/edid.rst
+index 725fd49a88ca..9a9b512e0ac9 100644
+--- a/Documentation/EDID/howto.rst
++++ b/Documentation/driver-api/edid.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ====
+ EDID
+ ====
+diff --git a/Documentation/eisa.rst b/Documentation/driver-api/eisa.rst
+similarity index 99%
+rename from Documentation/eisa.rst
+rename to Documentation/driver-api/eisa.rst
+index d98949908405..f388545a85a7 100644
+--- a/Documentation/eisa.rst
++++ b/Documentation/driver-api/eisa.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ================
+ EISA bus support
+ ================
+diff --git a/Documentation/futex-requeue-pi.rst b/Documentation/driver-api/futex-requeue-pi.rst
+similarity index 99%
+rename from Documentation/futex-requeue-pi.rst
+rename to Documentation/driver-api/futex-requeue-pi.rst
+index a90dbff26629..14ab5787b9a7 100644
+--- a/Documentation/futex-requeue-pi.rst
++++ b/Documentation/driver-api/futex-requeue-pi.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ================
+ Futex Requeue PI
+ ================
+diff --git a/Documentation/gcc-plugins.rst b/Documentation/driver-api/gcc-plugins.rst
+similarity index 99%
+rename from Documentation/gcc-plugins.rst
+rename to Documentation/driver-api/gcc-plugins.rst
+index e08d013c6de2..8502f24396fb 100644
+--- a/Documentation/gcc-plugins.rst
++++ b/Documentation/driver-api/gcc-plugins.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =========================
+ GCC plugin infrastructure
+ =========================
+diff --git a/Documentation/hwspinlock.rst b/Documentation/driver-api/hwspinlock.rst
+similarity index 99%
+rename from Documentation/hwspinlock.rst
+rename to Documentation/driver-api/hwspinlock.rst
+index 68297473647c..ed640a278185 100644
+--- a/Documentation/hwspinlock.rst
++++ b/Documentation/driver-api/hwspinlock.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================
+ Hardware Spinlock Framework
+ ===========================
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index c76a101c2a6b..bb2621b17212 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -60,6 +60,72 @@ available subsections can be seen below.
+    acpi/index
+    generic-counter
+ 
++   atomic_bitops
++   bt8xxgpio
++   bus-virt-phys-mapping
++   connector
++   console
++   crc32
++   dcdbas
++   debugging-modules
++   debugging-via-ohci1394
++   dell_rbu
++   digsig
++   edid
++   eisa
++   futex-requeue-pi
++   gcc-plugins
++   hwspinlock
++   io-mapping
++   io_ordering
++   ipmi
++   irq
++   irq-affinity
++   irq-domain
++   irqflags-tracing
++   isa
++   isapnp
++   kobject
++   kprobes
++   kref
++   lightnvm-pblk
++   lzo
++   mailbox
++   men-chameleon-bus
++   nommu-mmap
++   ntb
++   nvmem
++   padata
++   parport-lowlevel
++   percpu-rw-semaphore
++   pi-futex
++   pps
++   preempt-locking
++   pti_intel_mid
++   ptp
++   pwm
++   rbtree
++   remoteproc
++   rfkill
++   robust-futex-ABI
++   robust-futexes
++   rpmsg
++   sgi-ioc4
++   sm501
++   smsc_ece1099
++   speculation
++   static-keys
++   switchtec
++   sync_file
++   tee
++   this_cpu_ops
++   unaligned-memory-access
++   vfio
++   vfio-mediated-device
++   xillybus
++   xz
++   zorro
++
+ .. only::  subproject and html
+ 
+    Indices
+diff --git a/Documentation/io-mapping.rst b/Documentation/driver-api/io-mapping.rst
+similarity index 99%
+rename from Documentation/io-mapping.rst
+rename to Documentation/driver-api/io-mapping.rst
+index 82a2cacf9a29..a966239f04e4 100644
+--- a/Documentation/io-mapping.rst
++++ b/Documentation/driver-api/io-mapping.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ========================
+ The io_mapping functions
+ ========================
+diff --git a/Documentation/io_ordering.rst b/Documentation/driver-api/io_ordering.rst
+similarity index 99%
+rename from Documentation/io_ordering.rst
+rename to Documentation/driver-api/io_ordering.rst
+index 18ef889c100e..2ab303ce9a0d 100644
+--- a/Documentation/io_ordering.rst
++++ b/Documentation/driver-api/io_ordering.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==============================================
+ Ordering I/O writes to memory-mapped addresses
+ ==============================================
+diff --git a/Documentation/IPMI.rst b/Documentation/driver-api/ipmi.rst
+similarity index 99%
+rename from Documentation/IPMI.rst
+rename to Documentation/driver-api/ipmi.rst
+index f6c2d11710fe..5ef1047e2e66 100644
+--- a/Documentation/IPMI.rst
++++ b/Documentation/driver-api/ipmi.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =====================
+ The Linux IPMI Driver
+ =====================
+diff --git a/Documentation/IRQ-affinity.rst b/Documentation/driver-api/irq-affinity.rst
+similarity index 99%
+rename from Documentation/IRQ-affinity.rst
+rename to Documentation/driver-api/irq-affinity.rst
+index 49ba271349d6..29da5000836a 100644
+--- a/Documentation/IRQ-affinity.rst
++++ b/Documentation/driver-api/irq-affinity.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ================
+ SMP IRQ affinity
+ ================
+diff --git a/Documentation/IRQ-domain.rst b/Documentation/driver-api/irq-domain.rst
+similarity index 99%
+rename from Documentation/IRQ-domain.rst
+rename to Documentation/driver-api/irq-domain.rst
+index a610a8ea9a92..507775cce753 100644
+--- a/Documentation/IRQ-domain.rst
++++ b/Documentation/driver-api/irq-domain.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============================================
+ The irq_domain interrupt number mapping library
+ ===============================================
+diff --git a/Documentation/IRQ.rst b/Documentation/driver-api/irq.rst
+similarity index 99%
+rename from Documentation/IRQ.rst
+rename to Documentation/driver-api/irq.rst
+index a9f3e192c2cb..4273806a606b 100644
+--- a/Documentation/IRQ.rst
++++ b/Documentation/driver-api/irq.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============
+ What is an IRQ?
+ ===============
+diff --git a/Documentation/irqflags-tracing.rst b/Documentation/driver-api/irqflags-tracing.rst
+similarity index 99%
+rename from Documentation/irqflags-tracing.rst
+rename to Documentation/driver-api/irqflags-tracing.rst
+index a2fbbb1a62b9..27d0d5a9d6b4 100644
+--- a/Documentation/irqflags-tracing.rst
++++ b/Documentation/driver-api/irqflags-tracing.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =======================
+ IRQ-flags state tracing
+ =======================
+diff --git a/Documentation/isa.rst b/Documentation/driver-api/isa.rst
+similarity index 99%
+rename from Documentation/isa.rst
+rename to Documentation/driver-api/isa.rst
+index f3a412d266b0..def4a7b690b5 100644
+--- a/Documentation/isa.rst
++++ b/Documentation/driver-api/isa.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========
+ ISA Drivers
+ ===========
+diff --git a/Documentation/isapnp.rst b/Documentation/driver-api/isapnp.rst
+similarity index 98%
+rename from Documentation/isapnp.rst
+rename to Documentation/driver-api/isapnp.rst
+index 136a5e92be27..8d0840ac847b 100644
+--- a/Documentation/isapnp.rst
++++ b/Documentation/driver-api/isapnp.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==========================================================
+ ISA Plug & Play support by Jaroslav Kysela <perex@suse.cz>
+ ==========================================================
+diff --git a/Documentation/kobject.rst b/Documentation/driver-api/kobject.rst
+similarity index 99%
+rename from Documentation/kobject.rst
+rename to Documentation/driver-api/kobject.rst
+index 6117192bf3e6..9f8c42b48867 100644
+--- a/Documentation/kobject.rst
++++ b/Documentation/driver-api/kobject.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =====================================================================
+ Everything you never wanted to know about kobjects, ksets, and ktypes
+ =====================================================================
+@@ -212,7 +210,7 @@ statically and will warn the developer of this improper usage.
+ If all that you want to use a kobject for is to provide a reference counter
+ for your structure, please use the struct kref instead; a kobject would be
+ overkill.  For more information on how to use struct kref, please see the
+-file Documentation/kref.rst in the Linux kernel source tree.
++file Documentation/driver-api/kref.rst in the Linux kernel source tree.
+ 
+ 
+ Creating "simple" kobjects
+diff --git a/Documentation/kprobes.rst b/Documentation/driver-api/kprobes.rst
+similarity index 99%
+rename from Documentation/kprobes.rst
+rename to Documentation/driver-api/kprobes.rst
+index 6c0011755e68..a44cb5f49846 100644
+--- a/Documentation/kprobes.rst
++++ b/Documentation/driver-api/kprobes.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =======================
+ Kernel Probes (Kprobes)
+ =======================
+diff --git a/Documentation/kref.rst b/Documentation/driver-api/kref.rst
+similarity index 99%
+rename from Documentation/kref.rst
+rename to Documentation/driver-api/kref.rst
+index 470e3c1bacdc..3af384156d7e 100644
+--- a/Documentation/kref.rst
++++ b/Documentation/driver-api/kref.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===================================================
+ Adding reference counters (krefs) to kernel objects
+ ===================================================
+diff --git a/Documentation/lightnvm/pblk.txt b/Documentation/driver-api/lightnvm-pblk.rst
+similarity index 100%
+rename from Documentation/lightnvm/pblk.txt
+rename to Documentation/driver-api/lightnvm-pblk.rst
+diff --git a/Documentation/lzo.rst b/Documentation/driver-api/lzo.rst
+similarity index 99%
+rename from Documentation/lzo.rst
+rename to Documentation/driver-api/lzo.rst
+index 36965db785af..ca983328976b 100644
+--- a/Documentation/lzo.rst
++++ b/Documentation/driver-api/lzo.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================================================
+ LZO stream format as understood by Linux's LZO decompressor
+ ===========================================================
+diff --git a/Documentation/mailbox.rst b/Documentation/driver-api/mailbox.rst
+similarity index 99%
+rename from Documentation/mailbox.rst
+rename to Documentation/driver-api/mailbox.rst
+index 02e754db3567..0ed95009cc30 100644
+--- a/Documentation/mailbox.rst
++++ b/Documentation/driver-api/mailbox.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ============================
+ The Common Mailbox Framework
+ ============================
+diff --git a/Documentation/men-chameleon-bus.rst b/Documentation/driver-api/men-chameleon-bus.rst
+similarity index 99%
+rename from Documentation/men-chameleon-bus.rst
+rename to Documentation/driver-api/men-chameleon-bus.rst
+index 2d6175229e58..1b1f048aa748 100644
+--- a/Documentation/men-chameleon-bus.rst
++++ b/Documentation/driver-api/men-chameleon-bus.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =================
+ MEN Chameleon Bus
+ =================
+diff --git a/Documentation/nommu-mmap.rst b/Documentation/driver-api/nommu-mmap.rst
+similarity index 99%
+rename from Documentation/nommu-mmap.rst
+rename to Documentation/driver-api/nommu-mmap.rst
+index f7f75813dc9c..530fed08de2c 100644
+--- a/Documentation/nommu-mmap.rst
++++ b/Documentation/driver-api/nommu-mmap.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =============================
+ No-MMU memory mapping support
+ =============================
+diff --git a/Documentation/ntb.rst b/Documentation/driver-api/ntb.rst
+similarity index 99%
+rename from Documentation/ntb.rst
+rename to Documentation/driver-api/ntb.rst
+index a25e7814b898..87d1372da879 100644
+--- a/Documentation/ntb.rst
++++ b/Documentation/driver-api/ntb.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========
+ NTB Drivers
+ ===========
+diff --git a/Documentation/nvmem/nvmem.rst b/Documentation/driver-api/nvmem.rst
+similarity index 99%
+rename from Documentation/nvmem/nvmem.rst
+rename to Documentation/driver-api/nvmem.rst
+index 3866b6e066d5..c93a9c6cd878 100644
+--- a/Documentation/nvmem/nvmem.rst
++++ b/Documentation/driver-api/nvmem.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============
+ NVMEM Subsystem
+ ===============
+diff --git a/Documentation/padata.rst b/Documentation/driver-api/padata.rst
+similarity index 99%
+rename from Documentation/padata.rst
+rename to Documentation/driver-api/padata.rst
+index f8369d18c846..b103d0c82000 100644
+--- a/Documentation/padata.rst
++++ b/Documentation/driver-api/padata.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =======================================
+ The padata parallel execution mechanism
+ =======================================
+diff --git a/Documentation/parport-lowlevel.rst b/Documentation/driver-api/parport-lowlevel.rst
+similarity index 99%
+rename from Documentation/parport-lowlevel.rst
+rename to Documentation/driver-api/parport-lowlevel.rst
+index b8574d83d328..0633d70ffda7 100644
+--- a/Documentation/parport-lowlevel.rst
++++ b/Documentation/driver-api/parport-lowlevel.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===============================
+ PARPORT interface documentation
+ ===============================
+diff --git a/Documentation/percpu-rw-semaphore.rst b/Documentation/driver-api/percpu-rw-semaphore.rst
+similarity index 99%
+rename from Documentation/percpu-rw-semaphore.rst
+rename to Documentation/driver-api/percpu-rw-semaphore.rst
+index 5c39c88d3719..247de6410855 100644
+--- a/Documentation/percpu-rw-semaphore.rst
++++ b/Documentation/driver-api/percpu-rw-semaphore.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ====================
+ Percpu rw semaphores
+ ====================
+diff --git a/Documentation/pi-futex.rst b/Documentation/driver-api/pi-futex.rst
+similarity index 99%
+rename from Documentation/pi-futex.rst
+rename to Documentation/driver-api/pi-futex.rst
+index 884ba7f2aa10..c33ba2befbf8 100644
+--- a/Documentation/pi-futex.rst
++++ b/Documentation/driver-api/pi-futex.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ======================
+ Lightweight PI-futexes
+ ======================
+diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+index 1456d2c32ebd..262151a6dad5 100644
+--- a/Documentation/driver-api/pps.rst
++++ b/Documentation/driver-api/pps.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ======================
+ PPS - Pulse Per Second
+ ======================
+diff --git a/Documentation/preempt-locking.rst b/Documentation/driver-api/preempt-locking.rst
+similarity index 99%
+rename from Documentation/preempt-locking.rst
+rename to Documentation/driver-api/preempt-locking.rst
+index 4dfa1512a75b..291c2a45b3e8 100644
+--- a/Documentation/preempt-locking.rst
++++ b/Documentation/driver-api/preempt-locking.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================================================================
+ Proper Locking Under a Preemptible Kernel: Keeping Kernel Code Preempt-Safe
+ ===========================================================================
+diff --git a/Documentation/pti/pti_intel_mid.rst b/Documentation/driver-api/pti_intel_mid.rst
+similarity index 99%
+rename from Documentation/pti/pti_intel_mid.rst
+rename to Documentation/driver-api/pti_intel_mid.rst
+index ea05725174cb..a674317790ba 100644
+--- a/Documentation/pti/pti_intel_mid.rst
++++ b/Documentation/driver-api/pti_intel_mid.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =============
+ Intel MID PTI
+ =============
+diff --git a/Documentation/driver-api/ptp.rst b/Documentation/driver-api/ptp.rst
+index b6e65d66d37a..65c84a72e9fc 100644
+--- a/Documentation/driver-api/ptp.rst
++++ b/Documentation/driver-api/ptp.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================================
+ PTP hardware clock infrastructure for Linux
+ ===========================================
+diff --git a/Documentation/pwm.rst b/Documentation/driver-api/pwm.rst
+similarity index 99%
+rename from Documentation/pwm.rst
+rename to Documentation/driver-api/pwm.rst
+index 78d06b7f5427..8fbf0aa3ba2d 100644
+--- a/Documentation/pwm.rst
++++ b/Documentation/driver-api/pwm.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ======================================
+ Pulse Width Modulation (PWM) interface
+ ======================================
+diff --git a/Documentation/rbtree.rst b/Documentation/driver-api/rbtree.rst
+similarity index 99%
+rename from Documentation/rbtree.rst
+rename to Documentation/driver-api/rbtree.rst
+index c0cbda408050..8bbfcac8db46 100644
+--- a/Documentation/rbtree.rst
++++ b/Documentation/driver-api/rbtree.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =================================
+ Red-black Trees (rbtree) in Linux
+ =================================
+diff --git a/Documentation/remoteproc.rst b/Documentation/driver-api/remoteproc.rst
+similarity index 99%
+rename from Documentation/remoteproc.rst
+rename to Documentation/driver-api/remoteproc.rst
+index 71eb7728fcf3..2f525b00f8e7 100644
+--- a/Documentation/remoteproc.rst
++++ b/Documentation/driver-api/remoteproc.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
  ==========================
- 
- Author: Elias Oltmanns <eo@nebensachen.de>
-+
- Last modified: 2008-10-03
- 
- 
--0. Contents
-------------
-+.. 0. Contents
- 
--1. Intro
--2. The interface
--3. References
--4. CREDITS
-+   1. Intro
-+   2. The interface
-+   3. References
-+   4. CREDITS
- 
- 
- 1. Intro
-@@ -36,8 +37,8 @@ that).
- ----------------
- 
- For each ATA device, the kernel exports the file
--block/*/device/unload_heads in sysfs (here assumed to be mounted under
--/sys). Access to /sys/block/*/device/unload_heads is denied with
-+`block/*/device/unload_heads` in sysfs (here assumed to be mounted under
-+/sys). Access to `/sys/block/*/device/unload_heads` is denied with
- -EOPNOTSUPP if the device does not support the unload feature.
- Otherwise, writing an integer value to this file will take the heads
- of the respective drive off the platter and block all I/O operations
-@@ -54,18 +55,18 @@ cancel a previously set timeout and resume normal operation
- immediately by specifying a timeout of 0. Values below -2 are rejected
- with -EINVAL (see below for the special meaning of -1 and -2). If the
- timeout specified for a recent head park request has not yet expired,
--reading from /sys/block/*/device/unload_heads will report the number
-+reading from `/sys/block/*/device/unload_heads` will report the number
- of milliseconds remaining until normal operation will be resumed;
- otherwise, reading the unload_heads attribute will return 0.
- 
- For example, do the following in order to park the heads of drive
--/dev/sda and stop all I/O operations for five seconds:
-+/dev/sda and stop all I/O operations for five seconds::
- 
--# echo 5000 > /sys/block/sda/device/unload_heads
-+	# echo 5000 > /sys/block/sda/device/unload_heads
- 
--A simple
-+A simple::
- 
--# cat /sys/block/sda/device/unload_heads
-+	# cat /sys/block/sda/device/unload_heads
- 
- will show you how many milliseconds are left before normal operation
- will be resumed.
-@@ -112,9 +113,9 @@ unload_heads attribute. If you know that your device really does
- support the unload feature (for instance, because the vendor of your
- laptop or the hard drive itself told you so), then you can tell the
- kernel to enable the usage of this feature for that drive by writing
--the special value -1 to the unload_heads attribute:
-+the special value -1 to the unload_heads attribute::
- 
--# echo -1 > /sys/block/sda/device/unload_heads
-+	# echo -1 > /sys/block/sda/device/unload_heads
- 
- will enable the feature for /dev/sda, and giving -2 instead of -1 will
- disable it again.
-@@ -135,6 +136,7 @@ for use. Please feel free to add projects that have been the victims
- of my ignorance.
- 
- - http://www.thinkwiki.org/wiki/HDAPS
-+
-   See this page for information about Linux support of the hard disk
-   active protection system as implemented in IBM/Lenovo Thinkpads.
- 
-diff --git a/Documentation/laptops/index.rst b/Documentation/laptops/index.rst
-new file mode 100644
-index 000000000000..001a30910d09
---- /dev/null
-+++ b/Documentation/laptops/index.rst
-@@ -0,0 +1,17 @@
-+:orphan:
-+
-+==============
-+Laptop Drivers
-+==============
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   asus-laptop
-+   disk-shock-protection
-+   laptop-mode
-+   lg-laptop
-+   sony-laptop
-+   sonypi
-+   thinkpad-acpi
-+   toshiba_haps
-diff --git a/Documentation/laptops/laptop-mode.txt b/Documentation/laptops/laptop-mode.rst
-similarity index 62%
-rename from Documentation/laptops/laptop-mode.txt
-rename to Documentation/laptops/laptop-mode.rst
-index 1c707fc9b141..c984c4262f2e 100644
---- a/Documentation/laptops/laptop-mode.txt
-+++ b/Documentation/laptops/laptop-mode.rst
-@@ -1,8 +1,11 @@
-+===============================================
- How to conserve battery power using laptop-mode
-------------------------------------------------
-+===============================================
- 
- Document Author: Bart Samwel (bart@samwel.tk)
-+
- Date created: January 2, 2004
-+
- Last modified: December 06, 2004
- 
- Introduction
-@@ -12,17 +15,16 @@ Laptop mode is used to minimize the time that the hard disk needs to be spun up,
- to conserve battery power on laptops. It has been reported to cause significant
- power savings.
- 
--Contents
----------
-+.. Contents
- 
--* Introduction
--* Installation
--* Caveats
--* The Details
--* Tips & Tricks
--* Control script
--* ACPI integration
--* Monitoring tool
-+   * Introduction
-+   * Installation
-+   * Caveats
-+   * The Details
-+   * Tips & Tricks
-+   * Control script
-+   * ACPI integration
-+   * Monitoring tool
- 
- 
- Installation
-@@ -33,7 +35,7 @@ or anything. Simply install all the files included in this document, and
- laptop mode will automatically be started when you're on battery. For
- your convenience, a tarball containing an installer can be downloaded at:
- 
--http://www.samwel.tk/laptop_mode/laptop_mode/
-+	http://www.samwel.tk/laptop_mode/laptop_mode/
- 
- To configure laptop mode, you need to edit the configuration file, which is
- located in /etc/default/laptop-mode on Debian-based systems, or in
-@@ -209,7 +211,7 @@ Tips & Tricks
-   this on powerbooks too. I hope that this is a piece of information that
-   might be useful to the Laptop Mode patch or its users."
- 
--* In syslog.conf, you can prefix entries with a dash ``-'' to omit syncing the
-+* In syslog.conf, you can prefix entries with a dash `-` to omit syncing the
-   file after every logging. When you're using laptop-mode and your disk doesn't
-   spin down, this is a likely culprit.
- 
-@@ -233,83 +235,82 @@ configuration file
- It should be installed as /etc/default/laptop-mode on Debian, and as
- /etc/sysconfig/laptop-mode on Red Hat, SUSE, Mandrake, and other work-alikes.
- 
----------------------CONFIG FILE BEGIN-------------------------------------------
--# Maximum time, in seconds, of hard drive spindown time that you are
--# comfortable with. Worst case, it's possible that you could lose this
--# amount of work if your battery fails you while in laptop mode.
--#MAX_AGE=600
-+Config file::
- 
--# Automatically disable laptop mode when the number of minutes of battery
--# that you have left goes below this threshold.
--MINIMUM_BATTERY_MINUTES=10
-+  # Maximum time, in seconds, of hard drive spindown time that you are
-+  # comfortable with. Worst case, it's possible that you could lose this
-+  # amount of work if your battery fails you while in laptop mode.
-+  #MAX_AGE=600
- 
--# Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
--# by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
--# will read a complete MP3 at once, and will then spin down while the MP3/OGG is
--# playing.
--#READAHEAD=4096
-+  # Automatically disable laptop mode when the number of minutes of battery
-+  # that you have left goes below this threshold.
-+  MINIMUM_BATTERY_MINUTES=10
- 
--# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
--#DO_REMOUNTS=1
-+  # Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
-+  # by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
-+  # will read a complete MP3 at once, and will then spin down while the MP3/OGG is
-+  # playing.
-+  #READAHEAD=4096
- 
--# And shall we add the "noatime" option to that as well? (1=yes)
--#DO_REMOUNT_NOATIME=1
-+  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
-+  #DO_REMOUNTS=1
- 
--# Dirty synchronous ratio.  At this percentage of dirty pages the process
--# which
--# calls write() does its own writeback
--#DIRTY_RATIO=40
-+  # And shall we add the "noatime" option to that as well? (1=yes)
-+  #DO_REMOUNT_NOATIME=1
- 
--#
--# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
--# exceeded, the kernel will wake flusher threads which will then reduce the
--# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
--# so once some writeout has commenced, we do a lot of it.
--#
--#DIRTY_BACKGROUND_RATIO=5
-+  # Dirty synchronous ratio.  At this percentage of dirty pages the process
-+  # which
-+  # calls write() does its own writeback
-+  #DIRTY_RATIO=40
- 
--# kernel default dirty buffer age
--#DEF_AGE=30
--#DEF_UPDATE=5
--#DEF_DIRTY_BACKGROUND_RATIO=10
--#DEF_DIRTY_RATIO=40
--#DEF_XFS_AGE_BUFFER=15
--#DEF_XFS_SYNC_INTERVAL=30
--#DEF_XFS_BUFD_INTERVAL=1
-+  #
-+  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
-+  # exceeded, the kernel will wake flusher threads which will then reduce the
-+  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
-+  # so once some writeout has commenced, we do a lot of it.
-+  #
-+  #DIRTY_BACKGROUND_RATIO=5
- 
--# This must be adjusted manually to the value of HZ in the running kernel
--# on 2.4, until the XFS people change their 2.4 external interfaces to work in
--# centisecs. This can be automated, but it's a work in progress that still
--# needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
--# external interfaces, and that is currently always set to 100. So you don't
--# need to change this on 2.6.
--#XFS_HZ=100
-+  # kernel default dirty buffer age
-+  #DEF_AGE=30
-+  #DEF_UPDATE=5
-+  #DEF_DIRTY_BACKGROUND_RATIO=10
-+  #DEF_DIRTY_RATIO=40
-+  #DEF_XFS_AGE_BUFFER=15
-+  #DEF_XFS_SYNC_INTERVAL=30
-+  #DEF_XFS_BUFD_INTERVAL=1
- 
--# Should the maximum CPU frequency be adjusted down while on battery?
--# Requires CPUFreq to be setup.
--# See Documentation/admin-guide/pm/cpufreq.rst for more info
--#DO_CPU=0
-+  # This must be adjusted manually to the value of HZ in the running kernel
-+  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
-+  # centisecs. This can be automated, but it's a work in progress that still
-+  # needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
-+  # external interfaces, and that is currently always set to 100. So you don't
-+  # need to change this on 2.6.
-+  #XFS_HZ=100
- 
--# When on battery what is the maximum CPU speed that the system should
--# use? Legal values are "slowest" for the slowest speed that your
--# CPU is able to operate at, or a value listed in:
--# /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
--# Only applicable if DO_CPU=1.
--#CPU_MAXFREQ=slowest
-+  # Should the maximum CPU frequency be adjusted down while on battery?
-+  # Requires CPUFreq to be setup.
-+  # See Documentation/admin-guide/pm/cpufreq.rst for more info
-+  #DO_CPU=0
- 
--# Idle timeout for your hard drive (man hdparm for valid values, -S option)
--# Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
--#AC_HD=244
--#BATT_HD=4
-+  # When on battery what is the maximum CPU speed that the system should
-+  # use? Legal values are "slowest" for the slowest speed that your
-+  # CPU is able to operate at, or a value listed in:
-+  # /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
-+  # Only applicable if DO_CPU=1.
-+  #CPU_MAXFREQ=slowest
- 
--# The drives for which to adjust the idle timeout. Separate them by a space,
--# e.g. HD="/dev/hda /dev/hdb".
--#HD="/dev/hda"
-+  # Idle timeout for your hard drive (man hdparm for valid values, -S option)
-+  # Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
-+  #AC_HD=244
-+  #BATT_HD=4
- 
--# Set the spindown timeout on a hard drive?
--#DO_HD=1
-+  # The drives for which to adjust the idle timeout. Separate them by a space,
-+  # e.g. HD="/dev/hda /dev/hdb".
-+  #HD="/dev/hda"
- 
----------------------CONFIG FILE END---------------------------------------------
-+  # Set the spindown timeout on a hard drive?
-+  #DO_HD=1
- 
- 
- Control script
-@@ -318,125 +319,126 @@ Control script
- Please note that this control script works for the Linux 2.4 and 2.6 series (thanks
- to Kiko Piris).
- 
----------------------CONTROL SCRIPT BEGIN----------------------------------------
--#!/bin/bash
-+Control script::
- 
--# start or stop laptop_mode, best run by a power management daemon when
--# ac gets connected/disconnected from a laptop
--#
--# install as /sbin/laptop_mode
--#
--# Contributors to this script:   Kiko Piris
--#				 Bart Samwel
--#				 Micha Feigin
--#				 Andrew Morton
--#				 Herve Eychenne
--#				 Dax Kelson
--#
--# Original Linux 2.4 version by: Jens Axboe
-+  #!/bin/bash
- 
--#############################################################################
-+  # start or stop laptop_mode, best run by a power management daemon when
-+  # ac gets connected/disconnected from a laptop
-+  #
-+  # install as /sbin/laptop_mode
-+  #
-+  # Contributors to this script:   Kiko Piris
-+  #				 Bart Samwel
-+  #				 Micha Feigin
-+  #				 Andrew Morton
-+  #				 Herve Eychenne
-+  #				 Dax Kelson
-+  #
-+  # Original Linux 2.4 version by: Jens Axboe
- 
--# Source config
--if [ -f /etc/default/laptop-mode ] ; then
-+  #############################################################################
-+
-+  # Source config
-+  if [ -f /etc/default/laptop-mode ] ; then
- 	# Debian
- 	. /etc/default/laptop-mode
--elif [ -f /etc/sysconfig/laptop-mode ] ; then
-+  elif [ -f /etc/sysconfig/laptop-mode ] ; then
- 	# Others
--        . /etc/sysconfig/laptop-mode
--fi
-+          . /etc/sysconfig/laptop-mode
-+  fi
- 
--# Don't raise an error if the config file is incomplete
--# set defaults instead:
-+  # Don't raise an error if the config file is incomplete
-+  # set defaults instead:
- 
--# Maximum time, in seconds, of hard drive spindown time that you are
--# comfortable with. Worst case, it's possible that you could lose this
--# amount of work if your battery fails you while in laptop mode.
--MAX_AGE=${MAX_AGE:-'600'}
-+  # Maximum time, in seconds, of hard drive spindown time that you are
-+  # comfortable with. Worst case, it's possible that you could lose this
-+  # amount of work if your battery fails you while in laptop mode.
-+  MAX_AGE=${MAX_AGE:-'600'}
- 
--# Read-ahead, in kilobytes
--READAHEAD=${READAHEAD:-'4096'}
-+  # Read-ahead, in kilobytes
-+  READAHEAD=${READAHEAD:-'4096'}
- 
--# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
--DO_REMOUNTS=${DO_REMOUNTS:-'1'}
-+  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
-+  DO_REMOUNTS=${DO_REMOUNTS:-'1'}
- 
--# And shall we add the "noatime" option to that as well? (1=yes)
--DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
-+  # And shall we add the "noatime" option to that as well? (1=yes)
-+  DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
- 
--# Shall we adjust the idle timeout on a hard drive?
--DO_HD=${DO_HD:-'1'}
-+  # Shall we adjust the idle timeout on a hard drive?
-+  DO_HD=${DO_HD:-'1'}
- 
--# Adjust idle timeout on which hard drive?
--HD="${HD:-'/dev/hda'}"
-+  # Adjust idle timeout on which hard drive?
-+  HD="${HD:-'/dev/hda'}"
- 
--# spindown time for HD (hdparm -S values)
--AC_HD=${AC_HD:-'244'}
--BATT_HD=${BATT_HD:-'4'}
-+  # spindown time for HD (hdparm -S values)
-+  AC_HD=${AC_HD:-'244'}
-+  BATT_HD=${BATT_HD:-'4'}
- 
--# Dirty synchronous ratio.  At this percentage of dirty pages the process which
--# calls write() does its own writeback
--DIRTY_RATIO=${DIRTY_RATIO:-'40'}
-+  # Dirty synchronous ratio.  At this percentage of dirty pages the process which
-+  # calls write() does its own writeback
-+  DIRTY_RATIO=${DIRTY_RATIO:-'40'}
- 
--# cpu frequency scaling
--# See Documentation/admin-guide/pm/cpufreq.rst for more info
--DO_CPU=${CPU_MANAGE:-'0'}
--CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
-+  # cpu frequency scaling
-+  # See Documentation/admin-guide/pm/cpufreq.rst for more info
-+  DO_CPU=${CPU_MANAGE:-'0'}
-+  CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
- 
--#
--# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
--# exceeded, the kernel will wake flusher threads which will then reduce the
--# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
--# so once some writeout has commenced, we do a lot of it.
--#
--DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
-+  #
-+  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
-+  # exceeded, the kernel will wake flusher threads which will then reduce the
-+  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
-+  # so once some writeout has commenced, we do a lot of it.
-+  #
-+  DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
- 
--# kernel default dirty buffer age
--DEF_AGE=${DEF_AGE:-'30'}
--DEF_UPDATE=${DEF_UPDATE:-'5'}
--DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
--DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
--DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
--DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
--DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
-+  # kernel default dirty buffer age
-+  DEF_AGE=${DEF_AGE:-'30'}
-+  DEF_UPDATE=${DEF_UPDATE:-'5'}
-+  DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
-+  DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
-+  DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
-+  DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
-+  DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
- 
--# This must be adjusted manually to the value of HZ in the running kernel
--# on 2.4, until the XFS people change their 2.4 external interfaces to work in
--# centisecs. This can be automated, but it's a work in progress that still needs
--# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
--# interfaces, and that is currently always set to 100. So you don't need to
--# change this on 2.6.
--XFS_HZ=${XFS_HZ:-'100'}
-+  # This must be adjusted manually to the value of HZ in the running kernel
-+  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
-+  # centisecs. This can be automated, but it's a work in progress that still needs
-+  # some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
-+  # interfaces, and that is currently always set to 100. So you don't need to
-+  # change this on 2.6.
-+  XFS_HZ=${XFS_HZ:-'100'}
- 
--#############################################################################
-+  #############################################################################
- 
--KLEVEL="$(uname -r |
--             {
-+  KLEVEL="$(uname -r |
-+               {
- 	       IFS='.' read a b c
- 	       echo $a.$b
- 	     }
--)"
--case "$KLEVEL" in
-+  )"
-+  case "$KLEVEL" in
- 	"2.4"|"2.6")
- 		;;
- 	*)
- 		echo "Unhandled kernel version: $KLEVEL ('uname -r' = '$(uname -r)')" >&2
- 		exit 1
- 		;;
--esac
-+  esac
- 
--if [ ! -e /proc/sys/vm/laptop_mode ] ; then
-+  if [ ! -e /proc/sys/vm/laptop_mode ] ; then
- 	echo "Kernel is not patched with laptop_mode patch." >&2
- 	exit 1
--fi
-+  fi
- 
--if [ ! -w /proc/sys/vm/laptop_mode ] ; then
-+  if [ ! -w /proc/sys/vm/laptop_mode ] ; then
- 	echo "You do not have enough privileges to enable laptop_mode." >&2
- 	exit 1
--fi
-+  fi
- 
--# Remove an option (the first parameter) of the form option=<number> from
--# a mount options string (the rest of the parameters).
--parse_mount_opts () {
-+  # Remove an option (the first parameter) of the form option=<number> from
-+  # a mount options string (the rest of the parameters).
-+  parse_mount_opts () {
- 	OPT="$1"
- 	shift
- 	echo ",$*," | sed		\
-@@ -444,11 +446,11 @@ parse_mount_opts () {
- 	 -e 's/,,*/,/g'			\
- 	 -e 's/^,//'			\
- 	 -e 's/,$//'
--}
-+  }
- 
--# Remove an option (the first parameter) without any arguments from
--# a mount option string (the rest of the parameters).
--parse_nonumber_mount_opts () {
-+  # Remove an option (the first parameter) without any arguments from
-+  # a mount option string (the rest of the parameters).
-+  parse_nonumber_mount_opts () {
- 	OPT="$1"
- 	shift
- 	echo ",$*," | sed		\
-@@ -456,20 +458,20 @@ parse_nonumber_mount_opts () {
- 	 -e 's/,,*/,/g'			\
- 	 -e 's/^,//'			\
- 	 -e 's/,$//'
--}
-+  }
- 
--# Find out the state of a yes/no option (e.g. "atime"/"noatime") in
--# fstab for a given filesystem, and use this state to replace the
--# value of the option in another mount options string. The device
--# is the first argument, the option name the second, and the default
--# value the third. The remainder is the mount options string.
--#
--# Example:
--# parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
--#
--# If fstab contains, say, "rw" for this filesystem, then the result
--# will be "defaults,atime".
--parse_yesno_opts_wfstab () {
-+  # Find out the state of a yes/no option (e.g. "atime"/"noatime") in
-+  # fstab for a given filesystem, and use this state to replace the
-+  # value of the option in another mount options string. The device
-+  # is the first argument, the option name the second, and the default
-+  # value the third. The remainder is the mount options string.
-+  #
-+  # Example:
-+  # parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
-+  #
-+  # If fstab contains, say, "rw" for this filesystem, then the result
-+  # will be "defaults,atime".
-+  parse_yesno_opts_wfstab () {
- 	L_DEV="$1"
- 	OPT="$2"
- 	DEF_OPT="$3"
-@@ -491,21 +493,21 @@ parse_yesno_opts_wfstab () {
- 		# option not specified in fstab -- choose the default.
- 		echo "$PARSEDOPTS1,$DEF_OPT"
- 	fi
--}
-+  }
- 
--# Find out the state of a numbered option (e.g. "commit=NNN") in
--# fstab for a given filesystem, and use this state to replace the
--# value of the option in another mount options string. The device
--# is the first argument, and the option name the second. The
--# remainder is the mount options string in which the replacement
--# must be done.
--#
--# Example:
--# parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
--#
--# If fstab contains, say, "commit=3,rw" for this filesystem, then the
--# result will be "rw,commit=3".
--parse_mount_opts_wfstab () {
-+  # Find out the state of a numbered option (e.g. "commit=NNN") in
-+  # fstab for a given filesystem, and use this state to replace the
-+  # value of the option in another mount options string. The device
-+  # is the first argument, and the option name the second. The
-+  # remainder is the mount options string in which the replacement
-+  # must be done.
-+  #
-+  # Example:
-+  # parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
-+  #
-+  # If fstab contains, say, "commit=3,rw" for this filesystem, then the
-+  # result will be "rw,commit=3".
-+  parse_mount_opts_wfstab () {
- 	L_DEV="$1"
- 	OPT="$2"
- 	shift 2
-@@ -523,9 +525,9 @@ parse_mount_opts_wfstab () {
- 		# option not specified in fstab: set it to 0
- 		echo "$PARSEDOPTS1,$OPT=0"
- 	fi
--}
-+  }
- 
--deduce_fstype () {
-+  deduce_fstype () {
- 	MP="$1"
- 	# My root filesystem unfortunately has
- 	# type "unknown" in /etc/mtab. If we encounter
-@@ -538,13 +540,13 @@ deduce_fstype () {
- 			exit 0
- 		fi
- 	done
--}
-+  }
- 
--if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
-+  if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
- 	NOATIME_OPT=",noatime"
--fi
-+  fi
- 
--case "$1" in
-+  case "$1" in
- 	start)
- 		AGE=$((100*$MAX_AGE))
- 		XFS_AGE=$(($XFS_HZ*$MAX_AGE))
-@@ -687,10 +689,9 @@ case "$1" in
- 		exit 1
- 		;;
- 
--esac
-+  esac
- 
--exit 0
----------------------CONTROL SCRIPT END------------------------------------------
-+  exit 0
- 
- 
- ACPI integration
-@@ -701,78 +702,76 @@ kick off the laptop_mode script and run hdparm. The part that
- automatically disables laptop mode when the battery is low was
- written by Jan Topinski.
- 
-------------------/etc/acpi/events/ac_adapter BEGIN------------------------------
--event=ac_adapter
--action=/etc/acpi/actions/ac.sh %e
------------------/etc/acpi/events/ac_adapter END---------------------------------
-+/etc/acpi/events/ac_adapter::
- 
-+	event=ac_adapter
-+	action=/etc/acpi/actions/ac.sh %e
- 
-------------------/etc/acpi/events/battery BEGIN---------------------------------
--event=battery.*
--action=/etc/acpi/actions/battery.sh %e
------------------/etc/acpi/events/battery END------------------------------------
-+/etc/acpi/events/battery::
- 
-+	event=battery.*
-+	action=/etc/acpi/actions/battery.sh %e
- 
------------------/etc/acpi/actions/ac.sh BEGIN-----------------------------------
--#!/bin/bash
-+/etc/acpi/actions/ac.sh::
- 
--# ac on/offline event handler
-+  #!/bin/bash
- 
--status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
-+  # ac on/offline event handler
- 
--case $status in
--        "on-line")
--                /sbin/laptop_mode stop
--                exit 0
--        ;;
--        "off-line")
--                /sbin/laptop_mode start
--                exit 0
--        ;;
--esac
-----------------------------/etc/acpi/actions/ac.sh END--------------------------
-+  status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
- 
-+  case $status in
-+          "on-line")
-+                  /sbin/laptop_mode stop
-+                  exit 0
-+          ;;
-+          "off-line")
-+                  /sbin/laptop_mode start
-+                  exit 0
-+          ;;
-+  esac
- 
-----------------------------/etc/acpi/actions/battery.sh BEGIN-------------------
--#! /bin/bash
- 
--# Automatically disable laptop mode when the battery almost runs out.
-+/etc/acpi/actions/battery.sh::
- 
--BATT_INFO=/proc/acpi/battery/$2/state
-+  #! /bin/bash
- 
--if [[ -f /proc/sys/vm/laptop_mode ]]
--then
--   LM=`cat /proc/sys/vm/laptop_mode`
--   if [[ $LM -gt 0 ]]
--   then
--     if [[ -f $BATT_INFO ]]
-+  # Automatically disable laptop mode when the battery almost runs out.
-+
-+  BATT_INFO=/proc/acpi/battery/$2/state
-+
-+  if [[ -f /proc/sys/vm/laptop_mode ]]
-+  then
-+     LM=`cat /proc/sys/vm/laptop_mode`
-+     if [[ $LM -gt 0 ]]
-      then
--        # Source the config file only now that we know we need
--        if [ -f /etc/default/laptop-mode ] ; then
--                # Debian
--                . /etc/default/laptop-mode
--        elif [ -f /etc/sysconfig/laptop-mode ] ; then
--                # Others
--                . /etc/sysconfig/laptop-mode
--        fi
--        MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
-+       if [[ -f $BATT_INFO ]]
-+       then
-+          # Source the config file only now that we know we need
-+          if [ -f /etc/default/laptop-mode ] ; then
-+                  # Debian
-+                  . /etc/default/laptop-mode
-+          elif [ -f /etc/sysconfig/laptop-mode ] ; then
-+                  # Others
-+                  . /etc/sysconfig/laptop-mode
-+          fi
-+          MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
- 
--        ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
--        if [[ ACTION -eq "discharging" ]]
--        then
--           PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
--           REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
--        fi
--        if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
--        then
--           /sbin/laptop_mode stop
--        fi
--     else
--       logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
-+          ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
-+          if [[ ACTION -eq "discharging" ]]
-+          then
-+             PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
-+             REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
-+          fi
-+          if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
-+          then
-+             /sbin/laptop_mode stop
-+          fi
-+       else
-+         logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
-+       fi
-      fi
--   fi
--fi
-----------------------------/etc/acpi/actions/battery.sh END--------------------
-+  fi
- 
- 
- Monitoring tool
-diff --git a/Documentation/laptops/sony-laptop.txt b/Documentation/laptops/sony-laptop.rst
-similarity index 85%
-rename from Documentation/laptops/sony-laptop.txt
-rename to Documentation/laptops/sony-laptop.rst
-index 978b1e615155..9edcc7f6612f 100644
---- a/Documentation/laptops/sony-laptop.txt
-+++ b/Documentation/laptops/sony-laptop.rst
-@@ -1,7 +1,9 @@
-+=========================================
- Sony Notebook Control Driver (SNC) Readme
-------------------------------------------
--	Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
--	Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
-+=========================================
-+
-+	- Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
-+	- Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
- 
- This mini-driver drives the SNC and SPIC device present in the ACPI BIOS of the
- Sony Vaio laptops. This driver mixes both devices functions under the same
-@@ -10,6 +12,7 @@ obsoleted by sony-laptop now.
- 
- Fn keys (hotkeys):
- ------------------
-+
- Some models report hotkeys through the SNC or SPIC devices, such events are
- reported both through the ACPI subsystem as acpi events and through the INPUT
- subsystem. See the logs of /proc/bus/input/devices to find out what those
-@@ -28,11 +31,14 @@ If your laptop model supports it, you will find sysfs files in the
- /sys/class/backlight/sony/
- directory. You will be able to query and set the current screen
- brightness:
-+
-+	======================	=========================================
- 	brightness		get/set screen brightness (an integer
- 				between 0 and 7)
- 	actual_brightness	reading from this file will query the HW
- 				to get real brightness value
- 	max_brightness		the maximum brightness value
-+	======================	=========================================
- 
- 
- Platform specific:
-@@ -45,6 +51,8 @@ You then read/write integer values from/to those files by using
- standard UNIX tools.
- 
- The files are:
-+
-+	======================	==========================================
- 	brightness_default	screen brightness which will be set
- 				when the laptop will be rebooted
- 	cdpower			power on/off the internal CD drive
-@@ -53,21 +61,39 @@ The files are:
- 				(only in debug mode)
- 	bluetoothpower		power on/off the internal bluetooth device
- 	fanspeed		get/set the fan speed
-+	======================	==========================================
- 
- Note that some files may be missing if they are not supported
- by your particular laptop model.
- 
--Example usage:
-+Example usage::
-+
- 	# echo "1" > /sys/devices/platform/sony-laptop/brightness_default
--sets the lowest screen brightness for the next and later reboots,
-+
-+sets the lowest screen brightness for the next and later reboots
-+
-+::
-+
- 	# echo "8" > /sys/devices/platform/sony-laptop/brightness_default
--sets the highest screen brightness for the next and later reboots,
-+
-+sets the highest screen brightness for the next and later reboots
-+
-+::
-+
- 	# cat /sys/devices/platform/sony-laptop/brightness_default
--retrieves the value.
-+
-+retrieves the value
-+
-+::
- 
- 	# echo "0" > /sys/devices/platform/sony-laptop/audiopower
--powers off the sound card,
-+
-+powers off the sound card
-+
-+::
-+
- 	# echo "1" > /sys/devices/platform/sony-laptop/audiopower
-+
- powers on the sound card.
- 
- 
-@@ -76,7 +102,8 @@ RFkill control:
- More recent Vaio models expose a consistent set of ACPI methods to
- control radio frequency emitting devices. If you are a lucky owner of
- such a laptop you will find the necessary rfkill devices under
--/sys/class/rfkill. Check those starting with sony-* in
-+/sys/class/rfkill. Check those starting with sony-* in::
-+
- 	# grep . /sys/class/rfkill/*/{state,name}
- 
- 
-@@ -88,26 +115,29 @@ you are not afraid of any side effects doing strange things with
- your ACPI BIOS could have on your laptop), load the driver and
- pass the option 'debug=1'.
- 
--REPEAT: DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.
-+REPEAT:
-+	**DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.**
- 
- In your kernel logs you will find the list of all ACPI methods
- the SNC device has on your laptop.
- 
- * For new models you will see a long list of meaningless method names,
--reading the DSDT table source should reveal that:
-+  reading the DSDT table source should reveal that:
-+
- (1) the SNC device uses an internal capability lookup table
- (2) SN00 is used to find values in the lookup table
- (3) SN06 and SN07 are used to call into the real methods based on
-     offsets you can obtain iterating the table using SN00
- (4) SN02 used to enable events.
-+
- Some values in the capability lookup table are more or less known, see
- the code for all sony_call_snc_handle calls, others are more obscure.
- 
- * For old models you can see the GCDP/GCDP methods used to pwer on/off
--the CD drive, but there are others and they are usually different from
--model to model.
-+  the CD drive, but there are others and they are usually different from
-+  model to model.
- 
--I HAVE NO IDEA WHAT THOSE METHODS DO.
-+**I HAVE NO IDEA WHAT THOSE METHODS DO.**
- 
- The sony-laptop driver creates, for some of those methods (the most
- current ones found on several Vaio models), an entry under
-diff --git a/Documentation/laptops/sonypi.txt b/Documentation/laptops/sonypi.rst
-similarity index 87%
-rename from Documentation/laptops/sonypi.txt
-rename to Documentation/laptops/sonypi.rst
-index 606bdb9ce036..2a1975ed7ee4 100644
---- a/Documentation/laptops/sonypi.txt
-+++ b/Documentation/laptops/sonypi.rst
-@@ -1,11 +1,13 @@
-+==================================================
- Sony Programmable I/O Control Device Driver Readme
----------------------------------------------------
--	Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
--	Copyright (C) 2001-2002 Alcôve <www.alcove.com>
--	Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
--	Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
--	Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
--	Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
-+==================================================
-+
-+	- Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
-+	- Copyright (C) 2001-2002 Alcôve <www.alcove.com>
-+	- Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
-+	- Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
-+	- Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
-+	- Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
- 
- This driver enables access to the Sony Programmable I/O Control Device which
- can be found in many Sony Vaio laptops. Some newer Sony laptops (seems to be
-@@ -14,6 +16,7 @@ sonypi device and are not supported at all by this driver.
- 
- It will give access (through a user space utility) to some events those laptops
- generate, like:
-+
- 	- jogdial events (the small wheel on the side of Vaios)
- 	- capture button events (only on Vaio Picturebook series)
- 	- Fn keys
-@@ -49,6 +52,7 @@ module argument syntax (<param>=<value> when passing the option to the
- module or sonypi.<param>=<value> on the kernel boot line when sonypi is
- statically linked into the kernel). Those options are:
- 
-+	=============== =======================================================
- 	minor: 		minor number of the misc device /dev/sonypi,
- 			default is -1 (automatic allocation, see /proc/misc
- 			or kernel logs)
-@@ -86,6 +90,8 @@ statically linked into the kernel). Those options are:
- 			will be tried. You can use the following bits to
- 			construct your own event mask (from
- 			drivers/char/sonypi.h):
-+
-+				========================	======
- 				SONYPI_JOGGER_MASK 		0x0001
- 				SONYPI_CAPTURE_MASK 		0x0002
- 				SONYPI_FNKEY_MASK 		0x0004
-@@ -100,22 +106,24 @@ statically linked into the kernel). Those options are:
- 				SONYPI_MEMORYSTICK_MASK		0x0800
- 				SONYPI_BATTERY_MASK		0x1000
- 				SONYPI_WIRELESS_MASK		0x2000
-+				========================	======
- 
- 	useinput:	if set (which is the default) two input devices are
- 			created, one which interprets the jogdial events as
- 			mouse events, the other one which acts like a
- 			keyboard reporting the pressing of the special keys.
-+	=============== =======================================================
- 
- Module use:
- -----------
- 
- In order to automatically load the sonypi module on use, you can put those
--lines a configuration file in /etc/modprobe.d/:
-+lines a configuration file in /etc/modprobe.d/::
- 
- 	alias char-major-10-250 sonypi
- 	options sonypi minor=250
- 
--This supposes the use of minor 250 for the sonypi device:
-+This supposes the use of minor 250 for the sonypi device::
- 
- 	# mknod /dev/sonypi c 10 250
- 
-@@ -148,5 +156,5 @@ Bugs:
- 	  http://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
- 
- 	- since all development was done by reverse engineering, there is
--	  _absolutely no guarantee_ that this driver will not crash your
-+	  *absolutely no guarantee* that this driver will not crash your
- 	  laptop. Permanently.
-diff --git a/Documentation/laptops/thinkpad-acpi.txt b/Documentation/laptops/thinkpad-acpi.rst
-similarity index 89%
-rename from Documentation/laptops/thinkpad-acpi.txt
-rename to Documentation/laptops/thinkpad-acpi.rst
-index 75ef063622d2..19d52fc3c5e9 100644
---- a/Documentation/laptops/thinkpad-acpi.txt
-+++ b/Documentation/laptops/thinkpad-acpi.rst
-@@ -1,12 +1,15 @@
--		     ThinkPad ACPI Extras Driver
-+===========================
-+ThinkPad ACPI Extras Driver
-+===========================
- 
--                            Version 0.25
--                        October 16th,  2013
-+Version 0.25
- 
--               Borislav Deianov <borislav@users.sf.net>
--             Henrique de Moraes Holschuh <hmh@hmh.eng.br>
--                      http://ibm-acpi.sf.net/
-+October 16th,  2013
- 
-+- Borislav Deianov <borislav@users.sf.net>
-+- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-+
-+http://ibm-acpi.sf.net/
- 
- This is a Linux driver for the IBM and Lenovo ThinkPad laptops. It
- supports various features of these laptops which are accessible
-@@ -91,7 +94,8 @@ yet ready or stabilized, it is expected that this interface will change,
- and any and all userspace programs must deal with it.
- 
- 
--Notes about the sysfs interface:
-+Notes about the sysfs interface
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- Unlike what was done with the procfs interface, correctness when talking
- to the sysfs interfaces will be enforced, as will correctness in the
-@@ -129,6 +133,7 @@ Driver version
- --------------
- 
- procfs: /proc/acpi/ibm/driver
-+
- sysfs driver attribute: version
- 
- The driver name and version. No commands can be written to this file.
-@@ -141,9 +146,13 @@ sysfs driver attribute: interface_version
- 
- Version of the thinkpad-acpi sysfs interface, as an unsigned long
- (output in hex format: 0xAAAABBCC), where:
--	AAAA - major revision
--	BB - minor revision
--	CC - bugfix revision
-+
-+	AAAA
-+	  - major revision
-+	BB
-+	  - minor revision
-+	CC
-+	  - bugfix revision
- 
- The sysfs interface version changelog for the driver can be found at the
- end of this document.  Changes to the sysfs interface done by the kernel
-@@ -170,6 +179,7 @@ Hot keys
- --------
- 
- procfs: /proc/acpi/ibm/hotkey
-+
- sysfs device attribute: hotkey_*
- 
- In a ThinkPad, the ACPI HKEY handler is responsible for communicating
-@@ -181,7 +191,7 @@ firmware will behave in many situations.
- The driver enables the HKEY ("hot key") event reporting automatically
- when loaded, and disables it when it is removed.
- 
--The driver will report HKEY events in the following format:
-+The driver will report HKEY events in the following format::
- 
- 	ibm/hotkey HKEY 00000080 0000xxxx
- 
-@@ -217,9 +227,10 @@ ThinkPads, it is still possible to support some extra hotkeys by
- polling the "CMOS NVRAM" at least 10 times per second.  The driver
- attempts to enables this functionality automatically when required.
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
--The following commands can be written to the /proc/acpi/ibm/hotkey file:
-+The following commands can be written to the /proc/acpi/ibm/hotkey file::
- 
- 	echo 0xffffffff > /proc/acpi/ibm/hotkey -- enable all hot keys
- 	echo 0 > /proc/acpi/ibm/hotkey -- disable all possible hot keys
-@@ -227,7 +238,7 @@ The following commands can be written to the /proc/acpi/ibm/hotkey file:
- 	echo reset > /proc/acpi/ibm/hotkey -- restore the recommended mask
- 
- The following commands have been deprecated and will cause the kernel
--to log a warning:
-+to log a warning::
- 
- 	echo enable > /proc/acpi/ibm/hotkey -- does nothing
- 	echo disable > /proc/acpi/ibm/hotkey -- returns an error
-@@ -237,7 +248,8 @@ maintain maximum bug-to-bug compatibility, it does not report any masks,
- nor does it allow one to manipulate the hot key mask when the firmware
- does not support masks at all, even if NVRAM polling is in use.
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- 	hotkey_bios_enabled:
- 		DEPRECATED, WILL BE REMOVED SOON.
-@@ -349,7 +361,8 @@ sysfs notes:
- 
- 		This attribute has poll()/select() support.
- 
--input layer notes:
-+input layer notes
-+^^^^^^^^^^^^^^^^^
- 
- A Hot key is mapped to a single input layer EV_KEY event, possibly
- followed by an EV_MSC MSC_SCAN event that shall contain that key's scan
-@@ -362,11 +375,13 @@ remapping KEY_UNKNOWN keys.
- 
- The events are available in an input device, with the following id:
- 
--	Bus:		BUS_HOST
--	vendor:		0x1014 (PCI_VENDOR_ID_IBM)  or
-+	==============  ==============================
-+	Bus		BUS_HOST
-+	vendor		0x1014 (PCI_VENDOR_ID_IBM)  or
- 			0x17aa (PCI_VENDOR_ID_LENOVO)
--	product:	0x5054 ("TP")
--	version:	0x4101
-+	product		0x5054 ("TP")
-+	version		0x4101
-+	==============  ==============================
- 
- The version will have its LSB incremented if the keymap changes in a
- backwards-compatible way.  The MSB shall always be 0x41 for this input
-@@ -380,9 +395,10 @@ backwards-compatible change for this input device.
- 
- Thinkpad-acpi Hot Key event map (version 0x4101):
- 
-+=======	=======	==============	==============================================
- ACPI	Scan
- event	code	Key		Notes
+ Remote Processor Framework
+ ==========================
+@@ -24,7 +22,7 @@ for remote processors that supports this kind of communication. This way,
+ platform-specific remoteproc drivers only need to provide a few low-level
+ handlers, and then all rpmsg drivers will then just work
+ (for more information about the virtio-based rpmsg bus and its drivers,
+-please read Documentation/rpmsg.rst).
++please read Documentation/driver-api/rpmsg.rst).
+ Registration of other types of virtio devices is now also possible. Firmwares
+ just need to publish what kind of virtio devices do they support, and then
+ remoteproc will add those devices. This makes it possible to reuse the
+diff --git a/Documentation/rfkill.rst b/Documentation/driver-api/rfkill.rst
+similarity index 99%
+rename from Documentation/rfkill.rst
+rename to Documentation/driver-api/rfkill.rst
+index 4da9994e9bb4..7d3684e81df6 100644
+--- a/Documentation/rfkill.rst
++++ b/Documentation/driver-api/rfkill.rst
+@@ -1,5 +1,3 @@
+-:orphan:
 -
-+=======	=======	==============	==============================================
- 0x1001	0x00	FN+F1		-
- 
- 0x1002	0x01	FN+F2		IBM: battery (rare)
-@@ -426,7 +442,9 @@ event	code	Key		Notes
- 				or toggle screen expand
- 
- 0x1009	0x08	FN+F9		-
--	..	..		..
-+
-+...	...	...		...
-+
- 0x100B	0x0A	FN+F11		-
- 
- 0x100C	0x0B	FN+F12		Sleep to disk.  You are always
-@@ -480,8 +498,11 @@ event	code	Key		Notes
- 0x1018	0x17	THINKPAD	ThinkPad/Access IBM/Lenovo key
- 
- 0x1019	0x18	unknown
--..	..	..
-+
-+...	...	...
-+
- 0x1020	0x1F	unknown
-+=======	=======	==============	==============================================
- 
- The ThinkPad firmware does not allow one to differentiate when most hot
- keys are pressed or released (either that, or we don't know how to, yet).
-@@ -499,14 +520,17 @@ generate input device EV_KEY events.
- In addition to the EV_KEY events, thinkpad-acpi may also issue EV_SW
- events for switches:
- 
-+==============	==============================================
- SW_RFKILL_ALL	T60 and later hardware rfkill rocker switch
- SW_TABLET_MODE	Tablet ThinkPads HKEY events 0x5009 and 0x500A
-+==============	==============================================
- 
--Non hotkey ACPI HKEY event map:
---------------------------------
-+Non hotkey ACPI HKEY event map
-+------------------------------
- 
- Events that are never propagated by the driver:
- 
-+======		==================================================
- 0x2304		System is waking up from suspend to undock
- 0x2305		System is waking up from suspend to eject bay
- 0x2404		System is waking up from hibernation to undock
-@@ -519,10 +543,12 @@ Events that are never propagated by the driver:
- 0x6000		KEYBOARD: Numlock key pressed
- 0x6005		KEYBOARD: Fn key pressed (TO BE VERIFIED)
- 0x7000		Radio Switch may have changed state
-+======		==================================================
- 
- 
- Events that are propagated by the driver to userspace:
- 
-+======		=====================================================
- 0x2313		ALARM: System is waking up from suspend because
- 		the battery is nearly empty
- 0x2413		ALARM: System is waking up from hibernation because
-@@ -544,6 +570,7 @@ Events that are propagated by the driver to userspace:
- 0x6040		Nvidia Optimus/AC adapter related (TO BE VERIFIED)
- 0x60C0		X1 Yoga 2016, Tablet mode status changed
- 0x60F0		Thermal Transformation changed (GMTS, Windows)
-+======		=====================================================
- 
- Battery nearly empty alarms are a last resort attempt to get the
- operating system to hibernate or shutdown cleanly (0x2313), or shutdown
-@@ -562,7 +589,8 @@ cycle, or a system shutdown.  Obviously, something is very wrong if this
- happens.
- 
- 
--Brightness hotkey notes:
-+Brightness hotkey notes
-+^^^^^^^^^^^^^^^^^^^^^^^
- 
- Don't mess with the brightness hotkeys in a Thinkpad.  If you want
- notifications for OSD, use the sysfs backlight class event support.
-@@ -579,7 +607,9 @@ Bluetooth
- ---------
- 
- procfs: /proc/acpi/ibm/bluetooth
-+
- sysfs device attribute: bluetooth_enable (deprecated)
-+
- sysfs rfkill class: switch "tpacpi_bluetooth_sw"
- 
- This feature shows the presence and current state of a ThinkPad
-@@ -588,22 +618,25 @@ Bluetooth device in the internal ThinkPad CDC slot.
- If the ThinkPad supports it, the Bluetooth state is stored in NVRAM,
- so it is kept across reboots and power-off.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--If Bluetooth is installed, the following commands can be used:
-+If Bluetooth is installed, the following commands can be used::
- 
- 	echo enable > /proc/acpi/ibm/bluetooth
- 	echo disable > /proc/acpi/ibm/bluetooth
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- 	If the Bluetooth CDC card is installed, it can be enabled /
- 	disabled through the "bluetooth_enable" thinkpad-acpi device
- 	attribute, and its current status can also be queried.
- 
- 	enable:
--		0: disables Bluetooth / Bluetooth is disabled
--		1: enables Bluetooth / Bluetooth is enabled.
-+
-+		- 0: disables Bluetooth / Bluetooth is disabled
-+		- 1: enables Bluetooth / Bluetooth is enabled.
- 
- 	Note: this interface has been superseded by the	generic rfkill
- 	class.  It has been deprecated, and it will be removed in year
-@@ -617,7 +650,7 @@ Video output control -- /proc/acpi/ibm/video
- --------------------------------------------
- 
- This feature allows control over the devices used for video output -
--LCD, CRT or DVI (if available). The following commands are available:
-+LCD, CRT or DVI (if available). The following commands are available::
- 
- 	echo lcd_enable > /proc/acpi/ibm/video
- 	echo lcd_disable > /proc/acpi/ibm/video
-@@ -630,9 +663,10 @@ LCD, CRT or DVI (if available). The following commands are available:
- 	echo expand_toggle > /proc/acpi/ibm/video
- 	echo video_switch > /proc/acpi/ibm/video
- 
--NOTE: Access to this feature is restricted to processes owning the
--CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
--enough with some versions of X.org to crash it.
-+NOTE:
-+  Access to this feature is restricted to processes owning the
-+  CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
-+  enough with some versions of X.org to crash it.
- 
- Each video output device can be enabled or disabled individually.
- Reading /proc/acpi/ibm/video shows the status of each device.
-@@ -665,18 +699,21 @@ ThinkLight control
- ------------------
- 
- procfs: /proc/acpi/ibm/light
-+
- sysfs attributes: as per LED class, for the "tpacpi::thinklight" LED
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
- The ThinkLight status can be read and set through the procfs interface.  A
- few models which do not make the status available will show the ThinkLight
--status as "unknown". The available commands are:
-+status as "unknown". The available commands are::
- 
- 	echo on  > /proc/acpi/ibm/light
- 	echo off > /proc/acpi/ibm/light
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- The ThinkLight sysfs interface is documented by the LED class
- documentation, in Documentation/leds/leds-class.rst.  The ThinkLight LED name
-@@ -691,6 +728,7 @@ CMOS/UCMS control
- -----------------
- 
- procfs: /proc/acpi/ibm/cmos
-+
- sysfs device attribute: cmos_command
- 
- This feature is mostly used internally by the ACPI firmware to keep the legacy
-@@ -707,16 +745,16 @@ The range of valid cmos command numbers is 0 to 21, but not all have an
- effect and the behavior varies from model to model.  Here is the behavior
- on the X40 (tpb is the ThinkPad Buttons utility):
- 
--	0 - Related to "Volume down" key press
--	1 - Related to "Volume up" key press
--	2 - Related to "Mute on" key press
--	3 - Related to "Access IBM" key press
--	4 - Related to "LCD brightness up" key press
--	5 - Related to "LCD brightness down" key press
--	11 - Related to "toggle screen expansion" key press/function
--	12 - Related to "ThinkLight on"
--	13 - Related to "ThinkLight off"
--	14 - Related to "ThinkLight" key press (toggle ThinkLight)
-+	- 0 - Related to "Volume down" key press
-+	- 1 - Related to "Volume up" key press
-+	- 2 - Related to "Mute on" key press
-+	- 3 - Related to "Access IBM" key press
-+	- 4 - Related to "LCD brightness up" key press
-+	- 5 - Related to "LCD brightness down" key press
-+	- 11 - Related to "toggle screen expansion" key press/function
-+	- 12 - Related to "ThinkLight on"
-+	- 13 - Related to "ThinkLight off"
-+	- 14 - Related to "ThinkLight" key press (toggle ThinkLight)
- 
- The cmos command interface is prone to firmware split-brain problems, as
- in newer ThinkPads it is just a compatibility layer.  Do not use it, it is
-@@ -748,9 +786,10 @@ are aware of the consequences are welcome to enabling it.
- Audio mute and microphone mute LEDs are supported, but currently not
- visible to userspace. They are used by the snd-hda-intel audio driver.
- 
--procfs notes:
-+procfs notes
-+^^^^^^^^^^^^
- 
--The available commands are:
-+The available commands are::
- 
- 	echo '<LED number> on' >/proc/acpi/ibm/led
- 	echo '<LED number> off' >/proc/acpi/ibm/led
-@@ -760,23 +799,24 @@ The <LED number> range is 0 to 15. The set of LEDs that can be
- controlled varies from model to model. Here is the common ThinkPad
- mapping:
- 
--	0 - power
--	1 - battery (orange)
--	2 - battery (green)
--	3 - UltraBase/dock
--	4 - UltraBay
--	5 - UltraBase battery slot
--	6 - (unknown)
--	7 - standby
--	8 - dock status 1
--	9 - dock status 2
--	10, 11 - (unknown)
--	12 - thinkvantage
--	13, 14, 15 - (unknown)
-+	- 0 - power
-+	- 1 - battery (orange)
-+	- 2 - battery (green)
-+	- 3 - UltraBase/dock
-+	- 4 - UltraBay
-+	- 5 - UltraBase battery slot
-+	- 6 - (unknown)
-+	- 7 - standby
-+	- 8 - dock status 1
-+	- 9 - dock status 2
-+	- 10, 11 - (unknown)
-+	- 12 - thinkvantage
-+	- 13, 14, 15 - (unknown)
- 
- All of the above can be turned on and off and can be made to blink.
- 
--sysfs notes:
-+sysfs notes
-+^^^^^^^^^^^
- 
- The ThinkPad LED sysfs interface is described in detail by the LED class
- documentation, in Documentation/leds/leds-class.rst.
-@@ -815,7 +855,7 @@ The BEEP method is used internally by the ACPI firmware to provide
- audible alerts in various situations. This feature allows the same
- sounds to be triggered manually.
- 
--The commands are non-negative integer numbers:
-+The commands are non-negative integer numbers::
- 
- 	echo <number> >/proc/acpi/ibm/beep
- 
-@@ -823,25 +863,26 @@ The valid <number> range is 0 to 17. Not all numbers trigger sounds
- and the sounds vary from model to model. Here is the behavior on the
- X40:
- 
--	0 - stop a sound in progress (but use 17 to stop 16)
--	2 - two beeps, pause, third beep ("low battery")
--	3 - single beep
--	4 - high, followed by low-pitched beep ("unable")
--	5 - single beep
--	6 - very high, followed by high-pitched beep ("AC/DC")
--	7 - high-pitched beep
--	9 - three short beeps
--	10 - very long beep
--	12 - low-pitched beep
--	15 - three high-pitched beeps repeating constantly, stop with 0
--	16 - one medium-pitched beep repeating constantly, stop with 17
--	17 - stop 16
-+	- 0 - stop a sound in progress (but use 17 to stop 16)
-+	- 2 - two beeps, pause, third beep ("low battery")
-+	- 3 - single beep
-+	- 4 - high, followed by low-pitched beep ("unable")
-+	- 5 - single beep
-+	- 6 - very high, followed by high-pitched beep ("AC/DC")
-+	- 7 - high-pitched beep
-+	- 9 - three short beeps
-+	- 10 - very long beep
-+	- 12 - low-pitched beep
-+	- 15 - three high-pitched beeps repeating constantly, stop with 0
-+	- 16 - one medium-pitched beep repeating constantly, stop with 17
-+	- 17 - stop 16
- 
- 
- Temperature sensors
- -------------------
- 
- procfs: /proc/acpi/ibm/thermal
-+
- sysfs device attributes: (hwmon "thinkpad") temp*_input
- 
- Most ThinkPads include six or more separate temperature sensors but only
-@@ -850,10 +891,14 @@ feature shows readings from up to eight different sensors on older
- ThinkPads, and up to sixteen different sensors on newer ThinkPads.
- 
- For example, on the X40, a typical output may be:
--temperatures:   42 42 45 41 36 -128 33 -128
-+
-+temperatures:
-+	42 42 45 41 36 -128 33 -128
- 
- On the T43/p, a typical output may be:
--temperatures:   48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
-+
-+temperatures:
-+	48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
- 
- The mapping of thermal sensors to physical locations varies depending on
- system-board model (and thus, on ThinkPad model).
-@@ -863,46 +908,53 @@ tries to track down these locations for various models.
- 
- Most (newer?) models seem to follow this pattern:
- 
--1:  CPU
--2:  (depends on model)
--3:  (depends on model)
--4:  GPU
--5:  Main battery: main sensor
--6:  Bay battery: main sensor
--7:  Main battery: secondary sensor
--8:  Bay battery: secondary sensor
--9-15: (depends on model)
-+- 1:  CPU
-+- 2:  (depends on model)
-+- 3:  (depends on model)
-+- 4:  GPU
-+- 5:  Main battery: main sensor
-+- 6:  Bay battery: main sensor
-+- 7:  Main battery: secondary sensor
-+- 8:  Bay battery: secondary sensor
-+- 9-15: (depends on model)
- 
- For the R51 (source: Thomas Gruber):
--2:  Mini-PCI
--3:  Internal HDD
-+
-+- 2:  Mini-PCI
-+- 3:  Internal HDD
- 
- For the T43, T43/p (source: Shmidoax/Thinkwiki.org)
- http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
--2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
--3:  PCMCIA slot
--9:  MCH (northbridge) to DRAM Bus
--10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
--    card, under touchpad
--11: Power regulator, underside of system board, below F2 key
-+
-+- 2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
-+- 3:  PCMCIA slot
-+- 9:  MCH (northbridge) to DRAM Bus
-+- 10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
-+      card, under touchpad
-+- 11: Power regulator, underside of system board, below F2 key
- 
- The A31 has a very atypical layout for the thermal sensors
- (source: Milos Popovic, http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
--1:  CPU
--2:  Main Battery: main sensor
--3:  Power Converter
--4:  Bay Battery: main sensor
--5:  MCH (northbridge)
--6:  PCMCIA/ambient
--7:  Main Battery: secondary sensor
--8:  Bay Battery: secondary sensor
- 
-+- 1:  CPU
-+- 2:  Main Battery: main sensor
-+- 3:  Power Converter
-+- 4:  Bay Battery: main sensor
-+- 5:  MCH (northbridge)
-+- 6:  PCMCIA/ambient
-+- 7:  Main Battery: secondary sensor
-+- 8:  Bay Battery: secondary sensor
-+
-+
-+Procfs notes
-+^^^^^^^^^^^^
- 
--Procfs notes:
- 	Readings from sensors that are not available return -128.
- 	No commands can be written to this file.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
-+
- 	Sensors that are not available return the ENXIO error.  This
- 	status may change at runtime, as there are hotplug thermal
- 	sensors, like those inside the batteries and docks.
-@@ -921,6 +973,7 @@ ftp://ftp.suse.com/pub/people/trenn/sources/ec
- 
- Use it to determine the register holding the fan
- speed on some models. To do that, do the following:
-+
- 	- make sure the battery is fully charged
- 	- make sure the fan is running
- 	- use above mentioned tool to read out the EC
-@@ -941,6 +994,7 @@ LCD brightness control
- ----------------------
- 
- procfs: /proc/acpi/ibm/brightness
-+
- sysfs backlight device "thinkpad_screen"
- 
- This feature allows software control of the LCD brightness on ThinkPad
-@@ -985,15 +1039,17 @@ brightness_enable=0 forces it to be disabled.  brightness_enable=1
- forces it to be enabled when available, even if the standard ACPI
- interface is also available.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--	The available commands are:
-+The available commands are::
- 
- 	echo up   >/proc/acpi/ibm/brightness
- 	echo down >/proc/acpi/ibm/brightness
- 	echo 'level <level>' >/proc/acpi/ibm/brightness
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- The interface is implemented through the backlight sysfs class, which is
- poorly documented at this time.
-@@ -1038,6 +1094,7 @@ Volume control (Console Audio control)
- --------------------------------------
- 
- procfs: /proc/acpi/ibm/volume
-+
- ALSA: "ThinkPad Console Audio Control", default ID: "ThinkPadEC"
- 
- NOTE: by default, the volume control interface operates in read-only
-@@ -1053,7 +1110,8 @@ Software volume control should be done only in the main AC97/HDA
- mixer.
- 
- 
--About the ThinkPad Console Audio control:
-+About the ThinkPad Console Audio control
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- ThinkPads have a built-in amplifier and muting circuit that drives the
- console headphone and speakers.  This circuit is after the main AC97
-@@ -1092,13 +1150,14 @@ normal key presses to the operating system (thinkpad-acpi is not
- involved).
- 
- 
--The ThinkPad-ACPI volume control:
-+The ThinkPad-ACPI volume control
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- The preferred way to interact with the Console Audio control is the
- ALSA interface.
- 
- The legacy procfs interface allows one to read the current state,
--and if volume control is enabled, accepts the following commands:
-+and if volume control is enabled, accepts the following commands::
- 
- 	echo up   >/proc/acpi/ibm/volume
- 	echo down >/proc/acpi/ibm/volume
-@@ -1137,13 +1196,15 @@ Fan control and monitoring: fan speed, fan enable/disable
- ---------------------------------------------------------
- 
- procfs: /proc/acpi/ibm/fan
--sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1,
--			  pwm1_enable, fan2_input
-+
-+sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1, pwm1_enable, fan2_input
-+
- sysfs hwmon driver attributes: fan_watchdog
- 
--NOTE NOTE NOTE: fan control operations are disabled by default for
--safety reasons.  To enable them, the module parameter "fan_control=1"
--must be given to thinkpad-acpi.
-+NOTE NOTE NOTE:
-+   fan control operations are disabled by default for
-+   safety reasons.  To enable them, the module parameter "fan_control=1"
-+   must be given to thinkpad-acpi.
- 
- This feature attempts to show the current fan speed, control mode and
- other fan data that might be available.  The speed is read directly
-@@ -1154,7 +1215,8 @@ value on other models.
- Some Lenovo ThinkPads support a secondary fan.  This fan cannot be
- controlled separately, it shares the main fan control.
- 
--Fan levels:
-+Fan levels
-+^^^^^^^^^^
- 
- Most ThinkPad fans work in "levels" at the firmware interface.  Level 0
- stops the fan.  The higher the level, the higher the fan speed, although
-@@ -1209,9 +1271,10 @@ therefore, not suitable to protect against fan mode changes made through
- means other than the "enable", "disable", and "level" procfs fan
- commands, or the hwmon fan control sysfs interface.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--The fan may be enabled or disabled with the following commands:
-+The fan may be enabled or disabled with the following commands::
- 
- 	echo enable  >/proc/acpi/ibm/fan
- 	echo disable >/proc/acpi/ibm/fan
-@@ -1219,7 +1282,7 @@ The fan may be enabled or disabled with the following commands:
- Placing a fan on level 0 is the same as disabling it.  Enabling a fan
- will try to place it in a safe level if it is too slow or disabled.
- 
--The fan level can be controlled with the command:
-+The fan level can be controlled with the command::
- 
- 	echo 'level <level>' > /proc/acpi/ibm/fan
- 
-@@ -1231,7 +1294,7 @@ compatibility.
- 
- On the X31 and X40 (and ONLY on those models), the fan speed can be
- controlled to a certain degree.  Once the fan is running, it can be
--forced to run faster or slower with the following command:
-+forced to run faster or slower with the following command::
- 
- 	echo 'speed <speed>' > /proc/acpi/ibm/fan
- 
-@@ -1241,13 +1304,14 @@ effect or the fan speed eventually settles somewhere in that range.  The
- fan cannot be stopped or started with this command.  This functionality
- is incomplete, and not available through the sysfs interface.
- 
--To program the safety watchdog, use the "watchdog" command.
-+To program the safety watchdog, use the "watchdog" command::
- 
- 	echo 'watchdog <interval in seconds>' > /proc/acpi/ibm/fan
- 
- If you want to disable the watchdog, use 0 as the interval.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- The sysfs interface follows the hwmon subsystem guidelines for the most
- part, and the exception is the fan safety watchdog.
-@@ -1261,10 +1325,10 @@ to the firmware).
- Features not yet implemented by the driver return ENOSYS.
- 
- hwmon device attribute pwm1_enable:
--	0: PWM offline (fan is set to full-speed mode)
--	1: Manual PWM control (use pwm1 to set fan level)
--	2: Hardware PWM control (EC "auto" mode)
--	3: reserved (Software PWM control, not implemented yet)
-+	- 0: PWM offline (fan is set to full-speed mode)
-+	- 1: Manual PWM control (use pwm1 to set fan level)
-+	- 2: Hardware PWM control (EC "auto" mode)
-+	- 3: reserved (Software PWM control, not implemented yet)
- 
- 	Modes 0 and 2 are not supported by all ThinkPads, and the
- 	driver is not always able to detect this.  If it does know a
-@@ -1304,7 +1368,9 @@ WAN
- ---
- 
- procfs: /proc/acpi/ibm/wan
-+
- sysfs device attribute: wwan_enable (deprecated)
-+
- sysfs rfkill class: switch "tpacpi_wwan_sw"
- 
- This feature shows the presence and current state of the built-in
-@@ -1316,22 +1382,24 @@ so it is kept across reboots and power-off.
- It was tested on a Lenovo ThinkPad X60. It should probably work on other
- ThinkPad models which come with this module installed.
- 
--Procfs notes:
-+Procfs notes
-+^^^^^^^^^^^^
- 
--If the W-WAN card is installed, the following commands can be used:
-+If the W-WAN card is installed, the following commands can be used::
- 
- 	echo enable > /proc/acpi/ibm/wan
- 	echo disable > /proc/acpi/ibm/wan
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
- 
- 	If the W-WAN card is installed, it can be enabled /
- 	disabled through the "wwan_enable" thinkpad-acpi device
- 	attribute, and its current status can also be queried.
- 
- 	enable:
--		0: disables WWAN card / WWAN card is disabled
--		1: enables WWAN card / WWAN card is enabled.
-+		- 0: disables WWAN card / WWAN card is disabled
-+		- 1: enables WWAN card / WWAN card is enabled.
- 
- 	Note: this interface has been superseded by the	generic rfkill
- 	class.  It has been deprecated, and it will be removed in year
-@@ -1354,7 +1422,8 @@ sysfs rfkill class: switch "tpacpi_uwb_sw"
- This feature exports an rfkill controller for the UWB device, if one is
- present and enabled in the BIOS.
- 
--Sysfs notes:
-+Sysfs notes
-+^^^^^^^^^^^
+ ===============================
+ rfkill - RF kill switch support
+ ===============================
+diff --git a/Documentation/robust-futex-ABI.rst b/Documentation/driver-api/robust-futex-ABI.rst
+similarity index 99%
+rename from Documentation/robust-futex-ABI.rst
+rename to Documentation/driver-api/robust-futex-ABI.rst
+index 6d359b46610c..8a5d34abf726 100644
+--- a/Documentation/robust-futex-ABI.rst
++++ b/Documentation/driver-api/robust-futex-ABI.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ====================
+ The robust futex ABI
+ ====================
+diff --git a/Documentation/robust-futexes.rst b/Documentation/driver-api/robust-futexes.rst
+similarity index 99%
+rename from Documentation/robust-futexes.rst
+rename to Documentation/driver-api/robust-futexes.rst
+index 20beef77597a..6361fb01c9c1 100644
+--- a/Documentation/robust-futexes.rst
++++ b/Documentation/driver-api/robust-futexes.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ========================================
+ A description of what robust futexes are
+ ========================================
+diff --git a/Documentation/rpmsg.rst b/Documentation/driver-api/rpmsg.rst
+similarity index 99%
+rename from Documentation/rpmsg.rst
+rename to Documentation/driver-api/rpmsg.rst
+index ad53931f3e43..24b7a9e1a5f9 100644
+--- a/Documentation/rpmsg.rst
++++ b/Documentation/driver-api/rpmsg.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ============================================
+ Remote Processor Messaging (rpmsg) Framework
+ ============================================
+diff --git a/Documentation/sgi-ioc4.rst b/Documentation/driver-api/sgi-ioc4.rst
+similarity index 99%
+rename from Documentation/sgi-ioc4.rst
+rename to Documentation/driver-api/sgi-ioc4.rst
+index e6ed2e9b055b..72709222d3c0 100644
+--- a/Documentation/sgi-ioc4.rst
++++ b/Documentation/driver-api/sgi-ioc4.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ====================================
+ SGI IOC4 PCI (multi function) device
+ ====================================
+diff --git a/Documentation/SM501.rst b/Documentation/driver-api/sm501.rst
+similarity index 99%
+rename from Documentation/SM501.rst
+rename to Documentation/driver-api/sm501.rst
+index 772a9b5c7d49..882507453ba4 100644
+--- a/Documentation/SM501.rst
++++ b/Documentation/driver-api/sm501.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ .. include:: <isonum.txt>
+ 
+ ============
+diff --git a/Documentation/smsc_ece1099.rst b/Documentation/driver-api/smsc_ece1099.rst
+similarity index 99%
+rename from Documentation/smsc_ece1099.rst
+rename to Documentation/driver-api/smsc_ece1099.rst
+index a403fcd7c64d..079277421eaf 100644
+--- a/Documentation/smsc_ece1099.rst
++++ b/Documentation/driver-api/smsc_ece1099.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =================================================
+ Msc Keyboard Scan Expansion/GPIO Expansion device
+ =================================================
+diff --git a/Documentation/speculation.rst b/Documentation/driver-api/speculation.rst
+similarity index 99%
+rename from Documentation/speculation.rst
+rename to Documentation/driver-api/speculation.rst
+index e240f01b0983..47f8ad300695 100644
+--- a/Documentation/speculation.rst
++++ b/Documentation/driver-api/speculation.rst
+@@ -1,12 +1,10 @@
+-:orphan:
++===========
++Speculation
++===========
+ 
+ This document explains potential effects of speculation, and how undesirable
+ effects can be mitigated portably using common APIs.
+ 
+-===========
+-Speculation
+-===========
+-
+ To improve performance and minimize average latencies, many contemporary CPUs
+ employ speculative execution techniques such as branch prediction, performing
+ work which may be discarded at a later stage.
+diff --git a/Documentation/static-keys.rst b/Documentation/driver-api/static-keys.rst
+similarity index 99%
+rename from Documentation/static-keys.rst
+rename to Documentation/driver-api/static-keys.rst
+index bdf545e3a37f..9803e14639bf 100644
+--- a/Documentation/static-keys.rst
++++ b/Documentation/driver-api/static-keys.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========
+ Static Keys
+ ===========
+diff --git a/Documentation/switchtec.rst b/Documentation/driver-api/switchtec.rst
+similarity index 97%
+rename from Documentation/switchtec.rst
+rename to Documentation/driver-api/switchtec.rst
+index 6879c92de8e2..7611fdc53e19 100644
+--- a/Documentation/switchtec.rst
++++ b/Documentation/driver-api/switchtec.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ========================
+ Linux Switchtec Support
+ ========================
+@@ -99,6 +97,6 @@ the following configuration settings:
+ NT EP BAR 2 will be dynamically configured as a Direct Window, and
+ the configuration file does not need to configure it explicitly.
+ 
+-Please refer to Documentation/ntb.rst in Linux source tree for an overall
++Please refer to Documentation/driver-api/ntb.rst in Linux source tree for an overall
+ understanding of the Linux NTB stack. ntb_hw_switchtec works as an NTB
+ Hardware Driver in this stack.
+diff --git a/Documentation/sync_file.rst b/Documentation/driver-api/sync_file.rst
+similarity index 99%
+rename from Documentation/sync_file.rst
+rename to Documentation/driver-api/sync_file.rst
+index a65a67cc06fa..496fb2c3b3e6 100644
+--- a/Documentation/sync_file.rst
++++ b/Documentation/driver-api/sync_file.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===================
+ Sync File API Guide
+ ===================
+diff --git a/Documentation/tee.rst b/Documentation/driver-api/tee.rst
+similarity index 99%
+rename from Documentation/tee.rst
+rename to Documentation/driver-api/tee.rst
+index 5eacffb823b5..afacdf2fd1de 100644
+--- a/Documentation/tee.rst
++++ b/Documentation/driver-api/tee.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =============
+ TEE subsystem
+ =============
+diff --git a/Documentation/this_cpu_ops.rst b/Documentation/driver-api/this_cpu_ops.rst
+similarity index 99%
+rename from Documentation/this_cpu_ops.rst
+rename to Documentation/driver-api/this_cpu_ops.rst
+index a489d25ff549..5cb8b883ae83 100644
+--- a/Documentation/this_cpu_ops.rst
++++ b/Documentation/driver-api/this_cpu_ops.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===================
+ this_cpu operations
+ ===================
+diff --git a/Documentation/unaligned-memory-access.rst b/Documentation/driver-api/unaligned-memory-access.rst
+similarity index 99%
+rename from Documentation/unaligned-memory-access.rst
+rename to Documentation/driver-api/unaligned-memory-access.rst
+index 848013a8bc10..1ee82419d8aa 100644
+--- a/Documentation/unaligned-memory-access.rst
++++ b/Documentation/driver-api/unaligned-memory-access.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =========================
+ Unaligned Memory Accesses
+ =========================
+diff --git a/Documentation/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
+similarity index 99%
+rename from Documentation/vfio-mediated-device.rst
+rename to Documentation/driver-api/vfio-mediated-device.rst
+index 0ea57427e7e6..25eb7d5b834b 100644
+--- a/Documentation/vfio-mediated-device.rst
++++ b/Documentation/driver-api/vfio-mediated-device.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ .. include:: <isonum.txt>
+ 
+ =====================
+@@ -410,7 +408,7 @@ card.
+ References
+ ==========
+ 
+-1. See Documentation/vfio.rst for more information on VFIO.
++1. See Documentation/driver-api/vfio.rst for more information on VFIO.
+ 2. struct mdev_driver in include/linux/mdev.h
+ 3. struct mdev_parent_ops in include/linux/mdev.h
+ 4. struct vfio_iommu_driver_ops in include/linux/vfio.h
+diff --git a/Documentation/vfio.rst b/Documentation/driver-api/vfio.rst
+similarity index 99%
+rename from Documentation/vfio.rst
+rename to Documentation/driver-api/vfio.rst
+index 8a3fbd7d96f0..f1a4d3c3ba0b 100644
+--- a/Documentation/vfio.rst
++++ b/Documentation/driver-api/vfio.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==================================
+ VFIO - "Virtual Function I/O" [1]_
+ ==================================
+diff --git a/Documentation/xillybus.rst b/Documentation/driver-api/xillybus.rst
+similarity index 99%
+rename from Documentation/xillybus.rst
+rename to Documentation/driver-api/xillybus.rst
+index d99f4a37e8b6..2446ee303c09 100644
+--- a/Documentation/xillybus.rst
++++ b/Documentation/driver-api/xillybus.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==========================================
+ Xillybus driver for generic FPGA interface
+ ==========================================
+diff --git a/Documentation/xz.rst b/Documentation/driver-api/xz.rst
+similarity index 99%
+rename from Documentation/xz.rst
+rename to Documentation/driver-api/xz.rst
+index 205edc6646d5..b2220d03aa50 100644
+--- a/Documentation/xz.rst
++++ b/Documentation/driver-api/xz.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ============================
+ XZ data compression in Linux
+ ============================
+diff --git a/Documentation/zorro.rst b/Documentation/driver-api/zorro.rst
+similarity index 99%
+rename from Documentation/zorro.rst
+rename to Documentation/driver-api/zorro.rst
+index 7cd509f31d57..59fb1634d903 100644
+--- a/Documentation/zorro.rst
++++ b/Documentation/driver-api/zorro.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ========================================
+ Writing Device Drivers for Zorro Devices
+ ========================================
+diff --git a/Documentation/driver-model/device.rst b/Documentation/driver-model/device.rst
+index 17bcc483c4b1..b0734caf6b8f 100644
+--- a/Documentation/driver-model/device.rst
++++ b/Documentation/driver-model/device.rst
+@@ -53,7 +53,7 @@ Attributes of devices can be exported by a device driver through sysfs.
+ Please see Documentation/filesystems/sysfs.txt for more information
+ on how sysfs works.
+ 
+-As explained in Documentation/kobject.rst, device attributes must be
++As explained in Documentation/driver-api/kobject.rst, device attributes must be
+ created before the KOBJ_ADD uevent is generated. The only way to realize
+ that is by defining an attribute group.
+ 
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index 22112718dd5d..b9aafb733db9 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -187,7 +187,7 @@ the hardware. Thus, in a VGA console::
+ Assuming the VGA driver can be unloaded, one must first unbind the VGA driver
+ from the console layer before unloading the driver.  The VGA driver cannot be
+ unloaded if it is still bound to the console layer. (See
+-Documentation/console/console.rst for more information).
++Documentation/driver-api/console.rst for more information).
+ 
+ This is more complicated in the case of the framebuffer console (fbcon),
+ because fbcon is an intermediate layer between the console and the drivers::
+@@ -204,7 +204,7 @@ fbcon. Thus, there is no need to explicitly unbind the fbdev drivers from
+ fbcon.
+ 
+ So, how do we unbind fbcon from the console? Part of the answer is in
+-Documentation/console/console.rst. To summarize:
++Documentation/driver-api/console.rst. To summarize:
+ 
+ Echo a value to the bind file that represents the framebuffer console
+ driver. So assuming vtcon1 represents fbcon, then::
+diff --git a/Documentation/filesystems/sysfs.txt b/Documentation/filesystems/sysfs.txt
+index d159826c5cf3..20ab929c0e0c 100644
+--- a/Documentation/filesystems/sysfs.txt
++++ b/Documentation/filesystems/sysfs.txt
+@@ -16,7 +16,7 @@ a means to export kernel data structures, their attributes, and the
+ linkages between them to userspace. 
+ 
+ sysfs is tied inherently to the kobject infrastructure. Please read
+-Documentation/kobject.rst for more information concerning the kobject
++Documentation/driver-api/kobject.rst for more information concerning the kobject
+ interface. 
+ 
+ 
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index fa30dfcfc3c8..b0f948d8733b 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -320,7 +320,7 @@ struct :c:type:`struct file_operations <file_operations>` get_unmapped_area
+ field with a pointer on :c:func:`drm_gem_cma_get_unmapped_area`.
+ 
+ More detailed information about get_unmapped_area can be found in
+-Documentation/nommu-mmap.rst
++Documentation/driver-api/nommu-mmap.rst
+ 
+ Memory Coherency
+ ----------------
+diff --git a/Documentation/ia64/irq-redir.rst b/Documentation/ia64/irq-redir.rst
+index 0abc7b35f6c0..0cd7ba1b0b08 100644
+--- a/Documentation/ia64/irq-redir.rst
++++ b/Documentation/ia64/irq-redir.rst
+@@ -7,7 +7,7 @@ IRQ affinity on IA64 platforms
+ 
+ By writing to /proc/irq/IRQ#/smp_affinity the interrupt routing can be
+ controlled. The behavior on IA64 platforms is slightly different from
+-that described in Documentation/IRQ-affinity.rst for i386 systems.
++that described in Documentation/driver-api/irq-affinity.rst for i386 systems.
+ 
+ Because of the usage of SAPIC mode and physical destination mode the
+ IRQ target is one particular CPU and cannot be a mask of several
+diff --git a/Documentation/laptops/thinkpad-acpi.rst b/Documentation/laptops/thinkpad-acpi.rst
+index d0f0d16c21b9..adea0bf2acc5 100644
+--- a/Documentation/laptops/thinkpad-acpi.rst
++++ b/Documentation/laptops/thinkpad-acpi.rst
+@@ -643,7 +643,7 @@ Sysfs notes
+ 	2010.
+ 
+ 	rfkill controller switch "tpacpi_bluetooth_sw": refer to
+-	Documentation/rfkill.rst for details.
++	Documentation/driver-api/rfkill.rst for details.
+ 
+ 
+ Video output control -- /proc/acpi/ibm/video
+@@ -1406,7 +1406,7 @@ Sysfs notes
+ 	2010.
+ 
+ 	rfkill controller switch "tpacpi_wwan_sw": refer to
+-	Documentation/rfkill.rst for details.
++	Documentation/driver-api/rfkill.rst for details.
+ 
+ 
+ EXPERIMENTAL: UWB
+@@ -1426,7 +1426,7 @@ Sysfs notes
+ ^^^^^^^^^^^
  
  	rfkill controller switch "tpacpi_uwb_sw": refer to
- 	Documentation/rfkill.txt for details.
-@@ -1368,11 +1437,11 @@ This sysfs attribute controls the keyboard "face" that will be shown on the
- Lenovo X1 Carbon 2nd gen (2014)'s adaptive keyboard. The value can be read
- and set.
+-	Documentation/rfkill.rst for details.
++	Documentation/driver-api/rfkill.rst for details.
  
--1 = Home mode
--2 = Web-browser mode
--3 = Web-conference mode
--4 = Function mode
--5 = Layflat mode
-+- 1 = Home mode
-+- 2 = Web-browser mode
-+- 3 = Web-conference mode
-+- 4 = Function mode
-+- 5 = Layflat mode
+ Adaptive keyboard
+ -----------------
+diff --git a/Documentation/locking/rt-mutex.rst b/Documentation/locking/rt-mutex.rst
+index 6e3dcff802f9..18b5f0f0418e 100644
+--- a/Documentation/locking/rt-mutex.rst
++++ b/Documentation/locking/rt-mutex.rst
+@@ -4,7 +4,7 @@ RT-mutex subsystem with PI support
  
- For more details about which buttons will appear depending on the mode, please
- review the laptop's user guide:
-@@ -1382,13 +1451,13 @@ Multiple Commands, Module Parameters
- ------------------------------------
+ RT-mutexes with priority inheritance are used to support PI-futexes,
+ which enable pthread_mutex_t priority inheritance attributes
+-(PTHREAD_PRIO_INHERIT). [See Documentation/pi-futex.rst for more details
++(PTHREAD_PRIO_INHERIT). [See Documentation/driver-api/pi-futex.rst for more details
+ about PI-futexes.]
  
- Multiple commands can be written to the proc files in one shot by
--separating them with commas, for example:
-+separating them with commas, for example::
+ This technology was developed in the -rt tree and streamlined for
+diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
+index 05f0feb99320..a20325aa1330 100644
+--- a/Documentation/networking/scaling.rst
++++ b/Documentation/networking/scaling.rst
+@@ -81,7 +81,7 @@ of queues to IRQs can be determined from /proc/interrupts. By default,
+ an IRQ may be handled on any CPU. Because a non-negligible part of packet
+ processing takes place in receive interrupt handling, it is advantageous
+ to spread receive interrupts between CPUs. To manually adjust the IRQ
+-affinity of each interrupt see Documentation/IRQ-affinity.rst. Some systems
++affinity of each interrupt see Documentation/driver-api/irq-affinity.rst. Some systems
+ will be running irqbalance, a daemon that dynamically optimizes IRQ
+ assignments and as a result may override any manual settings.
  
- 	echo enable,0xffff > /proc/acpi/ibm/hotkey
- 	echo lcd_disable,crt_enable > /proc/acpi/ibm/video
+@@ -160,7 +160,7 @@ can be configured for each receive queue using a sysfs file entry::
  
- Commands can also be specified when loading the thinkpad-acpi module,
--for example:
-+for example::
- 
- 	modprobe thinkpad_acpi hotkey=enable,0xffff video=auto_disable
- 
-@@ -1397,14 +1466,16 @@ Enabling debugging output
- -------------------------
- 
- The module takes a debug parameter which can be used to selectively
--enable various classes of debugging output, for example:
-+enable various classes of debugging output, for example::
- 
- 	 modprobe thinkpad_acpi debug=0xffff
- 
- will enable all debugging output classes.  It takes a bitmask, so
- to enable more than one output class, just add their values.
- 
-+	=============		======================================
- 	Debug bitmask		Description
-+	=============		======================================
- 	0x8000			Disclose PID of userspace programs
- 				accessing some functions of the driver
- 	0x0001			Initialization and probing
-@@ -1415,6 +1486,7 @@ to enable more than one output class, just add their values.
- 	0x0010			Fan control
- 	0x0020			Backlight brightness
- 	0x0040			Audio mixer/volume control
-+	=============		======================================
- 
- There is also a kernel build option to enable more debugging
- information, which may be necessary to debug driver problems.
-@@ -1432,8 +1504,10 @@ the module parameter force_load=1.  Regardless of whether this works or
- not, please contact ibm-acpi-devel@lists.sourceforge.net with a report.
+ This file implements a bitmap of CPUs. RPS is disabled when it is zero
+ (the default), in which case packets are processed on the interrupting
+-CPU. Documentation/IRQ-affinity.rst explains how CPUs are assigned to
++CPU. Documentation/driver-api/irq-affinity.rst explains how CPUs are assigned to
+ the bitmap.
  
  
--Sysfs interface changelog:
-+Sysfs interface changelog
-+^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/Documentation/s390/vfio-ccw.rst b/Documentation/s390/vfio-ccw.rst
+index 87b5bb49b2f3..1e210c6afa88 100644
+--- a/Documentation/s390/vfio-ccw.rst
++++ b/Documentation/s390/vfio-ccw.rst
+@@ -38,7 +38,7 @@ every detail. More information/reference could be found here:
+   qemu/hw/s390x/css.c
  
-+=========	===============================================================
- 0x000100:	Initial sysfs support, as a single platform driver and
- 		device.
- 0x000200:	Hot key support for 32 hot keys, and radio slider switch
-@@ -1485,3 +1559,4 @@ Sysfs interface changelog:
- 0x030000:	Thermal and fan sysfs attributes were moved to the hwmon
- 		device instead of being attached to the backing platform
- 		device.
-+=========	===============================================================
-diff --git a/Documentation/laptops/toshiba_haps.txt b/Documentation/laptops/toshiba_haps.rst
-similarity index 60%
-rename from Documentation/laptops/toshiba_haps.txt
-rename to Documentation/laptops/toshiba_haps.rst
-index 0c1d88dedbde..11dfc428c080 100644
---- a/Documentation/laptops/toshiba_haps.txt
-+++ b/Documentation/laptops/toshiba_haps.rst
-@@ -1,18 +1,19 @@
--Kernel driver toshiba_haps
-+====================================
- Toshiba HDD Active Protection Sensor
- ====================================
+ For vfio mediated device framework:
+-- Documentation/vfio-mediated-device.rst
++- Documentation/driver-api/vfio-mediated-device.rst
  
-+Kernel driver: toshiba_haps
-+
- Author: Azael Avalos <coproscefalo@gmail.com>
+ Motivation of vfio-ccw
+ ----------------------
+@@ -322,5 +322,5 @@ Reference
+ 2. ESA/390 Common I/O Device Commands manual (IBM Form. No. SA22-7204)
+ 3. https://en.wikipedia.org/wiki/Channel_I/O
+ 4. Documentation/s390/cds.rst
+-5. Documentation/vfio.rst
+-6. Documentation/vfio-mediated-device.rst
++5. Documentation/driver-api/vfio.rst
++6. Documentation/driver-api/vfio-mediated-device.rst
+diff --git a/Documentation/sysctl/kernel.rst b/Documentation/sysctl/kernel.rst
+index 9324c3b1aa3e..6e9144bfba9c 100644
+--- a/Documentation/sysctl/kernel.rst
++++ b/Documentation/sysctl/kernel.rst
+@@ -50,7 +50,7 @@ show up in /proc/sys/kernel:
+ - kexec_load_disabled
+ - kptr_restrict
+ - l2cr                        [ PPC only ]
+-- modprobe                    ==> Documentation/debugging-modules.rst
++- modprobe                    ==> Documentation/driver-api/debugging-modules.rst
+ - modules_disabled
+ - msg_next_id		      [ sysv ipc ]
+ - msgmax
+diff --git a/Documentation/sysctl/vm.rst b/Documentation/sysctl/vm.rst
+index 43d594877df7..4940ab610eb7 100644
+--- a/Documentation/sysctl/vm.rst
++++ b/Documentation/sysctl/vm.rst
+@@ -580,7 +580,7 @@ trimming of allocations is initiated.
  
+ The default value is 1.
  
--0. Contents
-------------
-+.. 0. Contents
- 
--1. Description
--2. Interface
--3. Accelerometer axes
--4. Supported devices
--5. Usage
-+   1. Description
-+   2. Interface
-+   3. Accelerometer axes
-+   4. Supported devices
-+   5. Usage
- 
- 
- 1. Description
-@@ -32,17 +33,20 @@ file to set the desired protection level or sensor sensibility.
- ------------
- 
- This device comes with 3 methods:
--_STA -  Checks existence of the device, returning Zero if the device does not
-+
-+====	=====================================================================
-+_STA    Checks existence of the device, returning Zero if the device does not
- 	exists or is not supported.
--PTLV -  Sets the desired protection level.
--RSSS -  Shuts down the HDD protection interface for a few seconds,
-+PTLV    Sets the desired protection level.
-+RSSS    Shuts down the HDD protection interface for a few seconds,
- 	then restores normal operation.
-+====	=====================================================================
- 
- Note:
--The presence of Solid State Drives (SSD) can make this driver to fail loading,
--given the fact that such drives have no movable parts, and thus, not requiring
--any "protection" as well as failing during the evaluation of the _STA method
--found under this device.
-+  The presence of Solid State Drives (SSD) can make this driver to fail loading,
-+  given the fact that such drives have no movable parts, and thus, not requiring
-+  any "protection" as well as failing during the evaluation of the _STA method
-+  found under this device.
+-See Documentation/nommu-mmap.rst for more information.
++See Documentation/driver-api/nommu-mmap.rst for more information.
  
  
- 3. Accelerometer axes
-@@ -66,11 +70,18 @@ conventional HDD and not only SSD, or a combination of both HDD and SSD.
- --------
+ numa_zonelist_order
+diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+index 74f698affea1..caa0a8ba081e 100644
+--- a/Documentation/trace/kprobetrace.rst
++++ b/Documentation/trace/kprobetrace.rst
+@@ -40,7 +40,7 @@ Synopsis of kprobe_events
+  MEMADDR	: Address where the probe is inserted.
+  MAXACTIVE	: Maximum number of instances of the specified function that
+ 		  can be probed simultaneously, or 0 for the default value
+-		  as defined in Documentation/kprobes.rst section 1.3.1.
++		  as defined in Documentation/driver-api/kprobes.rst section 1.3.1.
  
- The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
--protection_level - The protection_level is readable and writeable, and
-+
-+================   ============================================================
-+protection_level   The protection_level is readable and writeable, and
- 		   provides a way to let userspace query the current protection
- 		   level, as well as set the desired protection level, the
- 		   available protection levels are:
--		   0 - Disabled | 1 - Low | 2 - Medium | 3 - High
--reset_protection - The reset_protection entry is writeable only, being "1"
-+
-+		   ============   =======   ==========   ========
-+		   0 - Disabled   1 - Low   2 - Medium   3 - High
-+		   ============   =======   ==========   ========
-+
-+reset_protection   The reset_protection entry is writeable only, being "1"
- 		   the only parameter it accepts, it is used to trigger
- 		   a reset of the protection interface.
-+================   ============================================================
-diff --git a/Documentation/sysctl/vm.txt b/Documentation/sysctl/vm.txt
-index 749322060f10..c5f0d44433a2 100644
---- a/Documentation/sysctl/vm.txt
-+++ b/Documentation/sysctl/vm.txt
-@@ -102,7 +102,7 @@ Changing this takes effect whenever an application requests memory.
- block_dump
+  FETCHARGS	: Arguments. Each probe can have up to 128 args.
+   %REG		: Fetch register REG
+diff --git a/Documentation/translations/zh_CN/IRQ.txt b/Documentation/translations/zh_CN/IRQ.txt
+index 0d9ec142e185..c6e77a1b14e7 100644
+--- a/Documentation/translations/zh_CN/IRQ.txt
++++ b/Documentation/translations/zh_CN/IRQ.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/IRQ.rst
++Chinese translated version of Documentation/driver-api/irq.rst
  
- block_dump enables block I/O debugging when set to a nonzero value. More
--information on block I/O debugging is in Documentation/laptops/laptop-mode.txt.
-+information on block I/O debugging is in Documentation/laptops/laptop-mode.rst.
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -9,7 +9,7 @@ or if there is a problem with the translation.
+ Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+ Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/IRQ.rst 的中文翻译
++Documentation/driver-api/irq.rst 的中文翻译
  
- ==============================================================
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/translations/zh_CN/filesystems/sysfs.txt b/Documentation/translations/zh_CN/filesystems/sysfs.txt
+index f5482e082399..0e0c6d3d4129 100644
+--- a/Documentation/translations/zh_CN/filesystems/sysfs.txt
++++ b/Documentation/translations/zh_CN/filesystems/sysfs.txt
+@@ -40,7 +40,7 @@ sysfs 是一个最初基于 ramfs 且位于内存的文件系统。它提供导
+ 数据结构及其属性，以及它们之间的关联到用户空间的方法。
  
-@@ -286,7 +286,7 @@ shared memory segment using hugetlb page.
- laptop_mode
+ sysfs 始终与 kobject 的底层结构紧密相关。请阅读
+-Documentation/kobject.rst 文档以获得更多关于 kobject 接口的
++Documentation/driver-api/kobject.rst 文档以获得更多关于 kobject 接口的
+ 信息。
  
- laptop_mode is a knob that controls "laptop mode". All the things that are
--controlled by this knob are discussed in Documentation/laptops/laptop-mode.txt.
-+controlled by this knob are discussed in Documentation/laptops/laptop-mode.rst.
  
- ==============================================================
+diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
+index 4e9727990c10..7bb3086227ae 100644
+--- a/Documentation/translations/zh_CN/io_ordering.txt
++++ b/Documentation/translations/zh_CN/io_ordering.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/io_ordering.rst
++Chinese translated version of Documentation/driver-api/io_ordering.rst
  
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -8,7 +8,7 @@ or if there is a problem with the translation.
+ 
+ Chinese maintainer: Lin Yongting <linyongting@gmail.com>
+ ---------------------------------------------------------------------
+-Documentation/io_ordering.rst 的中文翻译
++Documentation/driver-api/io_ordering.rst 的中文翻译
+ 
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/w1/w1.netlink b/Documentation/w1/w1.netlink
+index ef2727192d69..94ad4c420828 100644
+--- a/Documentation/w1/w1.netlink
++++ b/Documentation/w1/w1.netlink
+@@ -183,7 +183,7 @@ acknowledge number is set to seq+1.
+ Additional documantion, source code examples.
+ ============================================
+ 
+-1. Documentation/connector
++1. Documentation/driver-api/connector.rst
+ 2. http://www.ioremap.net/archive/w1
+ This archive includes userspace application w1d.c which uses
+ read/write/search commands for all master/slave devices found on the bus.
+diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
+index f4ba329f011f..437456bd91a4 100644
+--- a/Documentation/watchdog/hpwdt.rst
++++ b/Documentation/watchdog/hpwdt.rst
+@@ -44,7 +44,7 @@ Last reviewed: 08/20/2018
+  NOTE:
+        More information about watchdog drivers in general, including the ioctl
+        interface to /dev/watchdog can be found in
+-       Documentation/watchdog/watchdog-api.rst and Documentation/IPMI.rst.
++       Documentation/watchdog/watchdog-api.rst and Documentation/driver-api/ipmi.rst.
+ 
+  Due to limitations in the iLO hardware, the NMI pretimeout if enabled,
+  can only be set to 9 seconds.  Attempts to set pretimeout to other
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b7d5faf95e25..58e103015dea 100644
+index 98723afdbf0b..85a6f090ccc0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14756,7 +14756,7 @@ M:	Mattia Dongili <malattia@linux.it>
+@@ -4588,7 +4588,7 @@ DELL SYSTEMS MANAGEMENT BASE DRIVER (dcdbas)
+ M:	Stuart Hayes <stuart.w.hayes@gmail.com>
  L:	platform-driver-x86@vger.kernel.org
- W:	http://www.linux.it/~malattia/wiki/index.php/Sony_drivers
  S:	Maintained
--F:	Documentation/laptops/sony-laptop.txt
-+F:	Documentation/laptops/sony-laptop.rst
- F:	drivers/char/sonypi.c
- F:	drivers/platform/x86/sony-laptop.c
- F:	include/linux/sony-laptop.h
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index 466ebd84ad17..bb734066075f 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -382,7 +382,7 @@ config SONYPI
- 	  Device which can be found in many (all ?) Sony Vaio laptops.
+-F:	Documentation/dcdbas.rst
++F:	Documentation/driver-api/dcdbas.rst
+ F:	drivers/platform/x86/dcdbas.*
  
- 	  If you have one of those laptops, read
--	  <file:Documentation/laptops/sonypi.txt>, and say Y or M here.
-+	  <file:Documentation/laptops/sonypi.rst>, and say Y or M here.
+ DELL WMI NOTIFICATIONS DRIVER
+@@ -4966,7 +4966,7 @@ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ R:	"Rafael J. Wysocki" <rafael@kernel.org>
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+ S:	Supported
+-F:	Documentation/kobject.rst
++F:	Documentation/driver-api/kobject.rst
+ F:	drivers/base/
+ F:	fs/debugfs/
+ F:	fs/sysfs/
+@@ -6584,7 +6584,7 @@ F:	include/linux/futex.h
+ F:	include/uapi/linux/futex.h
+ F:	tools/testing/selftests/futex/
+ F:	tools/perf/bench/futex*
+-F:	Documentation/*futex*
++F:	Documentation/driver-api/*futex*
  
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sonypi.
+ GCC PLUGINS
+ M:	Kees Cook <keescook@chromium.org>
+@@ -6594,7 +6594,7 @@ S:	Maintained
+ F:	scripts/gcc-plugins/
+ F:	scripts/gcc-plugin.sh
+ F:	scripts/Makefile.gcc-plugins
+-F:	Documentation/gcc-plugins.rst
++F:	Documentation/driver-api/gcc-plugins.rst
+ 
+ GASKET DRIVER FRAMEWORK
+ M:	Rob Springer <rspringer@google.com>
+@@ -7022,7 +7022,7 @@ L:	linux-remoteproc@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ohad/hwspinlock.git
+ F:	Documentation/devicetree/bindings/hwlock/
+-F:	Documentation/hwspinlock.rst
++F:	Documentation/driver-api/hwspinlock.rst
+ F:	drivers/hwspinlock/
+ F:	include/linux/hwspinlock.h
+ 
+@@ -8292,7 +8292,7 @@ L:	openipmi-developer@lists.sourceforge.net (moderated for non-subscribers)
+ W:	http://openipmi.sourceforge.net/
+ S:	Supported
+ F:	Documentation/devicetree/bindings/ipmi/
+-F:	Documentation/IPMI.rst
++F:	Documentation/driver-api/ipmi.rst
+ F:	drivers/char/ipmi/
+ F:	include/linux/ipmi*
+ F:	include/uapi/linux/ipmi*
+@@ -8333,7 +8333,7 @@ IRQ DOMAINS (IRQ NUMBER MAPPING LIBRARY)
+ M:	Marc Zyngier <marc.zyngier@arm.com>
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+-F:	Documentation/IRQ-domain.rst
++F:	Documentation/driver-api/irq-domain.rst
+ F:	include/linux/irqdomain.h
+ F:	kernel/irq/irqdomain.c
+ F:	kernel/irq/msi.c
+@@ -8358,7 +8358,7 @@ F:	drivers/irqchip/
+ ISA
+ M:	William Breathitt Gray <vilhelm.gray@gmail.com>
+ S:	Maintained
+-F:	Documentation/isa.rst
++F:	Documentation/driver-api/isa.rst
+ F:	drivers/base/isa.c
+ F:	include/linux/isa.h
+ 
+@@ -8373,7 +8373,7 @@ F:	drivers/media/radio/radio-isa*
+ ISAPNP
+ M:	Jaroslav Kysela <perex@perex.cz>
+ S:	Maintained
+-F:	Documentation/isapnp.rst
++F:	Documentation/driver-api/isapnp.rst
+ F:	drivers/pnp/isapnp/
+ F:	include/linux/isapnp.h
+ 
+@@ -8823,7 +8823,7 @@ M:	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+ M:	"David S. Miller" <davem@davemloft.net>
+ M:	Masami Hiramatsu <mhiramat@kernel.org>
+ S:	Maintained
+-F:	Documentation/kprobes.rst
++F:	Documentation/driver-api/kprobes.rst
+ F:	include/linux/kprobes.h
+ F:	include/asm-generic/kprobes.h
+ F:	kernel/kprobes.c
+@@ -9182,7 +9182,7 @@ L:	linux-arch@vger.kernel.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+ F:	tools/memory-model/
+-F:	Documentation/atomic_bitops.rst
++F:	Documentation/driver-api/atomic_bitops.rst
+ F:	Documentation/atomic_t.txt
+ F:	Documentation/core-api/atomic_ops.rst
+ F:	Documentation/core-api/refcount-vs-atomic.rst
+@@ -10240,7 +10240,7 @@ M:	Johannes Thumshirn <morbidrsa@gmail.com>
+ S:	Maintained
+ F:	drivers/mcb/
+ F:	include/linux/mcb.h
+-F:	Documentation/men-chameleon-bus.rst
++F:	Documentation/driver-api/men-chameleon-bus.rst
+ 
+ MEN F21BMC (Board Management Controller)
+ M:	Andreas Werner <andreas.werner@men.de>
+@@ -11923,7 +11923,7 @@ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+ F:	kernel/padata.c
+ F:	include/linux/padata.h
+-F:	Documentation/padata.rst
++F:	Documentation/driver-api/padata.rst
+ 
+ PANASONIC LAPTOP ACPI EXTRAS DRIVER
+ M:	Harald Welte <laforge@gnumonks.org>
+@@ -11947,7 +11947,7 @@ F:	drivers/parport/
+ F:	include/linux/parport*.h
+ F:	drivers/char/ppdev.c
+ F:	include/uapi/linux/ppdev.h
+-F:	Documentation/parport*.rst
++F:	Documentation/driver-api/parport*.rst
+ 
+ PARAVIRT_OPS INTERFACE
+ M:	Juergen Gross <jgross@suse.com>
+@@ -12122,7 +12122,7 @@ M:	Kurt Schwemmer <kurt.schwemmer@microsemi.com>
+ M:	Logan Gunthorpe <logang@deltatee.com>
+ L:	linux-pci@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/switchtec.rst
++F:	Documentation/driver-api/switchtec.rst
+ F:	Documentation/ABI/testing/sysfs-class-switchtec
+ F:	drivers/pci/switch/switchtec*
+ F:	include/uapi/linux/switchtec_ioctl.h
+@@ -12884,7 +12884,7 @@ M:	Thierry Reding <thierry.reding@gmail.com>
+ L:	linux-pwm@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git
+-F:	Documentation/pwm.rst
++F:	Documentation/driver-api/pwm.rst
+ F:	Documentation/devicetree/bindings/pwm/
+ F:	include/linux/pwm.h
+ F:	drivers/pwm/
+@@ -13405,7 +13405,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ohad/remoteproc.git
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/remoteproc/
+ F:	Documentation/ABI/testing/sysfs-class-remoteproc
+-F:	Documentation/remoteproc.rst
++F:	Documentation/driver-api/remoteproc.rst
+ F:	drivers/remoteproc/
+ F:	include/linux/remoteproc.h
+ F:	include/linux/remoteproc/
+@@ -13417,7 +13417,7 @@ L:	linux-remoteproc@vger.kernel.org
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ohad/rpmsg.git
+ S:	Maintained
+ F:	drivers/rpmsg/
+-F:	Documentation/rpmsg.rst
++F:	Documentation/driver-api/rpmsg.rst
+ F:	Documentation/ABI/testing/sysfs-bus-rpmsg
+ F:	include/linux/rpmsg.h
+ F:	include/linux/rpmsg/
+@@ -13503,7 +13503,7 @@ W:	http://wireless.kernel.org/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211.git
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next.git
+ S:	Maintained
+-F:	Documentation/rfkill.rst
++F:	Documentation/driver-api/rfkill.rst
+ F:	Documentation/ABI/stable/sysfs-class-rfkill
+ F:	net/rfkill/
+ F:	include/linux/rfkill.h
+@@ -15211,7 +15211,7 @@ F:	drivers/dma-buf/dma-fence*
+ F:	drivers/dma-buf/sw_sync.c
+ F:	include/linux/sync_file.h
+ F:	include/uapi/linux/sync_file.h
+-F:	Documentation/sync_file.rst
++F:	Documentation/driver-api/sync_file.rst
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ 
+ SYNOPSYS ARC ARCHITECTURE
+@@ -15537,7 +15537,7 @@ S:	Maintained
+ F:	include/linux/tee_drv.h
+ F:	include/uapi/linux/tee.h
+ F:	drivers/tee/
+-F:	Documentation/tee.rst
++F:	Documentation/driver-api/tee.rst
+ 
+ TEGRA ARCHITECTURE SUPPORT
+ M:	Thierry Reding <thierry.reding@gmail.com>
+@@ -16706,7 +16706,7 @@ R:	Cornelia Huck <cohuck@redhat.com>
+ L:	kvm@vger.kernel.org
+ T:	git git://github.com/awilliam/linux-vfio.git
+ S:	Maintained
+-F:	Documentation/vfio.rst
++F:	Documentation/driver-api/vfio.rst
+ F:	drivers/vfio/
+ F:	include/linux/vfio.h
+ F:	include/uapi/linux/vfio.h
+@@ -16715,7 +16715,7 @@ VFIO MEDIATED DEVICE DRIVERS
+ M:	Kirti Wankhede <kwankhede@nvidia.com>
+ L:	kvm@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/vfio-mediated-device.rst
++F:	Documentation/driver-api/vfio-mediated-device.rst
+ F:	drivers/vfio/mdev/
+ F:	include/linux/mdev.h
+ F:	samples/vfio-mdev/
+diff --git a/arch/Kconfig b/arch/Kconfig
+index c2f2bee5b17b..bfc372208609 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -141,7 +141,7 @@ config HAVE_64BIT_ALIGNED_ACCESS
+ 	  accesses are required to be 64 bit aligned in this way even
+ 	  though it is not a 64 bit architecture.
+ 
+-	  See Documentation/unaligned-memory-access.rst for more
++	  See Documentation/driver-api/unaligned-memory-access.rst for more
+ 	  information on the topic of unaligned memory accesses.
+ 
+ config HAVE_EFFICIENT_UNALIGNED_ACCESS
+@@ -160,7 +160,7 @@ config HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	  problems with received packets if doing so would not help
+ 	  much.
+ 
+-	  See Documentation/unaligned-memory-access.rst for more
++	  See Documentation/driver-api/unaligned-memory-access.rst for more
+ 	  information on the topic of unaligned memory accesses.
+ 
+ config ARCH_USE_BUILTIN_BSWAP
+diff --git a/arch/unicore32/include/asm/io.h b/arch/unicore32/include/asm/io.h
+index 86877df4b1ee..e396d4f658f9 100644
+--- a/arch/unicore32/include/asm/io.h
++++ b/arch/unicore32/include/asm/io.h
+@@ -31,7 +31,7 @@ extern void __uc32_iounmap(volatile void __iomem *addr);
+  * ioremap and friends.
+  *
+  * ioremap takes a PCI memory address, as specified in
+- * Documentation/io-mapping.rst.
++ * Documentation/driver-api/io-mapping.rst.
+  *
+  */
+ #define ioremap(cookie, size)		__uc32_ioremap(cookie, size)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index f98b33e9ec19..e40e4a171cdd 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1063,7 +1063,7 @@ static void device_release(struct kobject *kobj)
+ 	else if (dev->class && dev->class->dev_release)
+ 		dev->class->dev_release(dev);
+ 	else
+-		WARN(1, KERN_ERR "Device '%s' does not have a release() function, it is broken and must be fixed. See Documentation/kobject.rst.\n",
++		WARN(1, KERN_ERR "Device '%s' does not have a release() function, it is broken and must be fixed. See Documentation/driver-api/kobject.rst.\n",
+ 			dev_name(dev));
+ 	kfree(p);
+ }
+diff --git a/drivers/char/ipmi/Kconfig b/drivers/char/ipmi/Kconfig
+index e59ee81bc22f..d7f89cce656f 100644
+--- a/drivers/char/ipmi/Kconfig
++++ b/drivers/char/ipmi/Kconfig
+@@ -14,7 +14,7 @@ menuconfig IPMI_HANDLER
+          IPMI is a standard for managing sensors (temperature,
+          voltage, etc.) in a system.
+ 
+-         See <file:Documentation/IPMI.rst> for more details on the driver.
++         See <file:Documentation/driver-api/ipmi.rst> for more details on the driver.
+ 
+ 	 If unsure, say N.
+ 
+diff --git a/drivers/char/ipmi/ipmi_si_hotmod.c b/drivers/char/ipmi/ipmi_si_hotmod.c
+index 2032f4ac52ac..4fbb4e18bae2 100644
+--- a/drivers/char/ipmi/ipmi_si_hotmod.c
++++ b/drivers/char/ipmi/ipmi_si_hotmod.c
+@@ -18,7 +18,7 @@ static int hotmod_handler(const char *val, const struct kernel_param *kp);
+ 
+ module_param_call(hotmod, hotmod_handler, NULL, NULL, 0200);
+ MODULE_PARM_DESC(hotmod, "Add and remove interfaces.  See"
+-		 " Documentation/IPMI.rst in the kernel sources for the"
++		 " Documentation/driver-api/ipmi.rst in the kernel sources for the"
+ 		 " gory details.");
+ 
+ /*
+diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
+index 7f729609979c..4a0258f886cf 100644
+--- a/drivers/char/ipmi/ipmi_si_intf.c
++++ b/drivers/char/ipmi/ipmi_si_intf.c
+@@ -977,7 +977,7 @@ static inline int ipmi_thread_busy_wait(enum si_sm_result smi_result,
+  * that are not BT and do not have interrupts.  It starts spinning
+  * when an operation is complete or until max_busy tells it to stop
+  * (if that is enabled).  See the paragraph on kimid_max_busy_us in
+- * Documentation/IPMI.rst for details.
++ * Documentation/driver-api/ipmi.rst for details.
+  */
+ static int ipmi_thread(void *data)
+ {
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index 9afc7bb638c3..b6a9c2f1bc41 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -15,7 +15,7 @@ config SYNC_FILE
+ 	  associated with a buffer. When a job is submitted to the GPU a fence
+ 	  is attached to the buffer and is transferred via userspace, using Sync
+ 	  Files fds, to the DRM driver for example. More details at
+-	  Documentation/sync_file.rst.
++	  Documentation/driver-api/sync_file.rst.
+ 
+ config SW_SYNC
+ 	bool "Sync File Validation Framework"
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 85cecf58bcf5..49f04621279c 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -1300,7 +1300,7 @@ config GPIO_BT8XX
+ 	  The card needs to be physically altered for using it as a
+ 	  GPIO card. For more information on how to build a GPIO card
+ 	  from a BT8xx TV card, see the documentation file at
+-	  Documentation/bt8xxgpio.rst
++	  Documentation/driver-api/bt8xxgpio.rst
+ 
+ 	  If unsure, say N.
+ 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index c3a6dd284c91..3c2cd3bf9ffc 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -141,7 +141,7 @@ config DRM_LOAD_EDID_FIRMWARE
+ 	  monitor are unable to provide appropriate EDID data. Since this
+ 	  feature is provided as a workaround for broken hardware, the
+ 	  default case is N. Details and instructions how to build your own
+-	  EDID data are given in Documentation/EDID/howto.rst.
++	  EDID data are given in Documentation/driver-api/edid.rst.
+ 
+ config DRM_DP_CEC
+ 	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+diff --git a/drivers/pci/switch/Kconfig b/drivers/pci/switch/Kconfig
+index c1f5226cd0e5..d370f4ce0492 100644
+--- a/drivers/pci/switch/Kconfig
++++ b/drivers/pci/switch/Kconfig
+@@ -9,7 +9,7 @@ config PCI_SW_SWITCHTEC
+ 	 Enables support for the management interface for the MicroSemi
+ 	 Switchtec series of PCIe switches. Supports userspace access
+ 	 to submit MRPC commands to the switch via /dev/switchtecX
+-	 devices. See <file:Documentation/switchtec.rst> for more
++	 devices. See <file:Documentation/driver-api/switchtec.rst> for more
+ 	 information.
+ 
+ endmenu
 diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index bd15b47abcb4..abae73f72e75 100644
+index 6cd4a620115d..9d866b6753fe 100644
 --- a/drivers/platform/x86/Kconfig
 +++ b/drivers/platform/x86/Kconfig
-@@ -451,7 +451,7 @@ config SONY_LAPTOP
- 	  screen brightness control, Fn keys and allows powering on/off some
- 	  devices.
+@@ -118,7 +118,7 @@ config DCDBAS
+ 	  Interrupts (SMIs) and Host Control Actions (system power cycle or
+ 	  power off after OS shutdown) on certain Dell systems.
  
--	  Read <file:Documentation/laptops/sony-laptop.txt> for more information.
-+	  Read <file:Documentation/laptops/sony-laptop.rst> for more information.
+-	  See <file:Documentation/dcdbas.rst> for more details on the driver
++	  See <file:Documentation/driver-api/dcdbas.rst> for more details on the driver
+ 	  and the Dell systems on which Dell systems management software makes
+ 	  use of this driver.
  
- config SONYPI_COMPAT
- 	bool "Sonypi compatibility"
-@@ -503,7 +503,7 @@ config THINKPAD_ACPI
- 	  support for Fn-Fx key combinations, Bluetooth control, video
- 	  output switching, ThinkLight control, UltraBay eject and more.
- 	  For more information about this driver see
--	  <file:Documentation/laptops/thinkpad-acpi.txt> and
-+	  <file:Documentation/laptops/thinkpad-acpi.rst> and
- 	  <http://ibm-acpi.sf.net/> .
+@@ -259,7 +259,7 @@ config DELL_RBU
+ 	 DELL system. Note you need a Dell OpenManage or Dell Update package (DUP)
+ 	 supporting application to communicate with the BIOS regarding the new
+ 	 image for the image update to take effect.
+-	 See <file:Documentation/dell_rbu.rst> for more details on the driver.
++	 See <file:Documentation/driver-api/dell_rbu.rst> for more details on the driver.
  
- 	  This driver was formerly known as ibm-acpi.
+ 
+ config FUJITSU_LAPTOP
+diff --git a/drivers/platform/x86/dcdbas.c b/drivers/platform/x86/dcdbas.c
+index ba8dff3511ec..84f4cc839cc3 100644
+--- a/drivers/platform/x86/dcdbas.c
++++ b/drivers/platform/x86/dcdbas.c
+@@ -7,7 +7,7 @@
+  *  and Host Control Actions (power cycle or power off after OS shutdown) on
+  *  Dell systems.
+  *
+- *  See Documentation/dcdbas.rst for more information.
++ *  See Documentation/driver-api/dcdbas.rst for more information.
+  *
+  *  Copyright (C) 1995-2006 Dell Inc.
+  */
+diff --git a/drivers/platform/x86/dell_rbu.c b/drivers/platform/x86/dell_rbu.c
+index 18400bb38e09..3691391fea6b 100644
+--- a/drivers/platform/x86/dell_rbu.c
++++ b/drivers/platform/x86/dell_rbu.c
+@@ -24,7 +24,7 @@
+  * on every time the packet data is written. This driver requires an
+  * application to break the BIOS image in to fixed sized packet chunks.
+  *
+- * See Documentation/dell_rbu.rst for more info.
++ * See Documentation/driver-api/dell_rbu.rst for more info.
+  */
+ #include <linux/init.h>
+ #include <linux/module.h>
+diff --git a/drivers/pnp/isapnp/Kconfig b/drivers/pnp/isapnp/Kconfig
+index c4ddf41c7fb8..d0479a563123 100644
+--- a/drivers/pnp/isapnp/Kconfig
++++ b/drivers/pnp/isapnp/Kconfig
+@@ -7,6 +7,6 @@ config ISAPNP
+ 	depends on ISA || COMPILE_TEST
+ 	help
+ 	  Say Y here if you would like support for ISA Plug and Play devices.
+-	  Some information is in <file:Documentation/isapnp.rst>.
++	  Some information is in <file:Documentation/driver-api/isapnp.rst>.
+ 
+ 	  If unsure, say Y.
+diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
+index 1cb50f19d58c..ee51b9514225 100644
+--- a/drivers/tty/Kconfig
++++ b/drivers/tty/Kconfig
+@@ -93,7 +93,7 @@ config VT_HW_CONSOLE_BINDING
+          select the console driver that will serve as the backend for the
+          virtual terminals.
+ 
+-	 See <file:Documentation/console/console.rst> for more
++	 See <file:Documentation/driver-api/console.rst> for more
+ 	 information. For framebuffer console users, please refer to
+ 	 <file:Documentation/fb/fbcon.rst>.
+ 
+diff --git a/drivers/vfio/Kconfig b/drivers/vfio/Kconfig
+index 5d6151392571..fd17db9b432f 100644
+--- a/drivers/vfio/Kconfig
++++ b/drivers/vfio/Kconfig
+@@ -25,7 +25,7 @@ menuconfig VFIO
+ 	select VFIO_IOMMU_TYPE1 if (X86 || S390 || ARM || ARM64)
+ 	help
+ 	  VFIO provides a framework for secure userspace device drivers.
+-	  See Documentation/vfio.rst for more details.
++	  See Documentation/driver-api/vfio.rst for more details.
+ 
+ 	  If you don't know what to do here, say N.
+ 
+diff --git a/drivers/vfio/mdev/Kconfig b/drivers/vfio/mdev/Kconfig
+index 10ec404acbfc..5da27f2100f9 100644
+--- a/drivers/vfio/mdev/Kconfig
++++ b/drivers/vfio/mdev/Kconfig
+@@ -6,7 +6,7 @@ config VFIO_MDEV
+ 	default n
+ 	help
+ 	  Provides a framework to virtualize devices.
+-	  See Documentation/vfio-mediated-device.rst for more details.
++	  See Documentation/driver-api/vfio-mediated-device.rst for more details.
+ 
+ 	  If you don't know what do here, say N.
+ 
+diff --git a/drivers/w1/Kconfig b/drivers/w1/Kconfig
+index 160053c0baea..3e7ad7b232fe 100644
+--- a/drivers/w1/Kconfig
++++ b/drivers/w1/Kconfig
+@@ -19,7 +19,7 @@ config W1_CON
+ 	default y
+ 	---help---
+ 	  This allows to communicate with userspace using connector. For more
+-	  information see <file:Documentation/connector/connector.rst>.
++	  information see <file:Documentation/driver-api/connector.rst>.
+ 	  There are three types of messages between w1 core and userspace:
+ 	  1. Events. They are generated each time new master or slave device found
+ 		either due to automatic or requested search.
+diff --git a/include/asm-generic/bitops/atomic.h b/include/asm-generic/bitops/atomic.h
+index 6ee11717bb65..0afe930eec72 100644
+--- a/include/asm-generic/bitops/atomic.h
++++ b/include/asm-generic/bitops/atomic.h
+@@ -8,7 +8,7 @@
+ 
+ /*
+  * Implementation of atomic bitops using atomic-fetch ops.
+- * See Documentation/atomic_bitops.rst for details.
++ * See Documentation/driver-api/atomic_bitops.rst for details.
+  */
+ 
+ static inline void set_bit(unsigned int nr, volatile unsigned long *p)
+diff --git a/include/linux/io-mapping.h b/include/linux/io-mapping.h
+index b90c540696a4..c8bf4852b352 100644
+--- a/include/linux/io-mapping.h
++++ b/include/linux/io-mapping.h
+@@ -28,7 +28,7 @@
+  * The io_mapping mechanism provides an abstraction for mapping
+  * individual pages from an io device to the CPU in an efficient fashion.
+  *
+- * See Documentation/io-mapping.rst
++ * See Documentation/driver-api/io-mapping.rst
+  */
+ 
+ struct io_mapping {
+diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
+index c3947cab2d27..32bdce895487 100644
+--- a/include/linux/jump_label.h
++++ b/include/linux/jump_label.h
+@@ -68,7 +68,7 @@
+  * Lacking toolchain and or architecture support, static keys fall back to a
+  * simple conditional branch.
+  *
+- * Additional babbling in: Documentation/static-keys.rst
++ * Additional babbling in: Documentation/driver-api/static-keys.rst
+  */
+ 
+ #ifndef __ASSEMBLY__
+diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+index 16f66fe28ec2..d32720743004 100644
+--- a/include/linux/kobject.h
++++ b/include/linux/kobject.h
+@@ -7,7 +7,7 @@
+  * Copyright (c) 2006-2008 Greg Kroah-Hartman <greg@kroah.com>
+  * Copyright (c) 2006-2008 Novell Inc.
+  *
+- * Please read Documentation/kobject.rst before using the kobject
++ * Please read Documentation/driver-api/kobject.rst before using the kobject
+  * interface, ESPECIALLY the parts about reference counts and object
+  * destructors.
+  */
+diff --git a/include/linux/kobject_ns.h b/include/linux/kobject_ns.h
+index 8c86c4641739..b5b7d387d63d 100644
+--- a/include/linux/kobject_ns.h
++++ b/include/linux/kobject_ns.h
+@@ -8,7 +8,7 @@
+  *
+  * Split from kobject.h by David Howells (dhowells@redhat.com)
+  *
+- * Please read Documentation/kobject.rst before using the kobject
++ * Please read Documentation/driver-api/kobject.rst before using the kobject
+  * interface, ESPECIALLY the parts about reference counts and object
+  * destructors.
+  */
+diff --git a/include/linux/rbtree.h b/include/linux/rbtree.h
+index 2c579b6000a5..d49f78a8be37 100644
+--- a/include/linux/rbtree.h
++++ b/include/linux/rbtree.h
+@@ -11,7 +11,7 @@
+   I know it's not the cleaner way,  but in C (not in C++) to get
+   performances and genericity...
+ 
+-  See Documentation/rbtree.rst for documentation and samples.
++  See Documentation/driver-api/rbtree.rst for documentation and samples.
+ */
+ 
+ #ifndef	_LINUX_RBTREE_H
+diff --git a/include/linux/rbtree_augmented.h b/include/linux/rbtree_augmented.h
+index b3f64a2935ae..5f31af0da0a9 100644
+--- a/include/linux/rbtree_augmented.h
++++ b/include/linux/rbtree_augmented.h
+@@ -21,7 +21,7 @@
+  * rb_insert_augmented() and rb_erase_augmented() are intended to be public.
+  * The rest are implementation details you are not expected to depend on.
+  *
+- * See Documentation/rbtree.rst for documentation and samples.
++ * See Documentation/driver-api/rbtree.rst for documentation and samples.
+  */
+ 
+ struct rb_augment_callbacks {
+diff --git a/init/Kconfig b/init/Kconfig
+index e02cfae73ce5..b9cfef1452e3 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1807,7 +1807,7 @@ config MMAP_ALLOW_UNINITIALIZED
+ 	  userspace.  Since that isn't generally a problem on no-MMU systems,
+ 	  it is normally safe to say Y here.
+ 
+-	  See Documentation/nommu-mmap.rst for more information.
++	  See Documentation/driver-api/nommu-mmap.rst for more information.
+ 
+ config SYSTEM_DATA_VERIFICATION
+ 	def_bool n
+diff --git a/kernel/padata.c b/kernel/padata.c
+index a567973bb1ba..fa3fb3b4705e 100644
+--- a/kernel/padata.c
++++ b/kernel/padata.c
+@@ -2,7 +2,7 @@
+ /*
+  * padata.c - generic interface to process data streams in parallel
+  *
+- * See Documentation/padata.rst for an api documentation.
++ * See Documentation/driver-api/padata.rst for an api documentation.
+  *
+  * Copyright (C) 2008, 2009 secunet Security Networks AG
+  * Copyright (C) 2008, 2009 Steffen Klassert <steffen.klassert@secunet.com>
+diff --git a/lib/Kconfig b/lib/Kconfig
+index 58e9dae6f424..f4785afbfd10 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -420,7 +420,7 @@ config INTERVAL_TREE
+ 
+ 	  See:
+ 
+-		Documentation/rbtree.rst
++		Documentation/driver-api/rbtree.rst
+ 
+ 	  for more information.
+ 
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index ce47efa5f4e4..47072d67fca1 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1682,7 +1682,7 @@ config PROVIDE_OHCI1394_DMA_INIT
+ 	  This code (~1k) is freed after boot. By then, the firewire stack
+ 	  in charge of the OHCI-1394 controllers should be used instead.
+ 
+-	  See Documentation/debugging-via-ohci1394.rst for more information.
++	  See Documentation/driver-api/debugging-via-ohci1394.rst for more information.
+ 
+ menuconfig RUNTIME_TESTING_MENU
+ 	bool "Runtime Testing"
+diff --git a/lib/crc32.c b/lib/crc32.c
+index 0de37ccc70dd..78d4cd8b709e 100644
+--- a/lib/crc32.c
++++ b/lib/crc32.c
+@@ -24,7 +24,7 @@
+  * Version 2.  See the file COPYING for more details.
+  */
+ 
+-/* see: Documentation/crc32.rst for a description of algorithms */
++/* see: Documentation/driver-api/crc32.rst for a description of algorithms */
+ 
+ #include <linux/crc32.h>
+ #include <linux/crc32poly.h>
+diff --git a/lib/kobject.c b/lib/kobject.c
+index 03157ff88495..fe01ed0504e2 100644
+--- a/lib/kobject.c
++++ b/lib/kobject.c
+@@ -6,7 +6,7 @@
+  * Copyright (c) 2006-2007 Greg Kroah-Hartman <greg@kroah.com>
+  * Copyright (c) 2006-2007 Novell Inc.
+  *
+- * Please see the file Documentation/kobject.rst for critical information
++ * Please see the file Documentation/driver-api/kobject.rst for critical information
+  * about using the kobject interface.
+  */
+ 
+@@ -668,7 +668,7 @@ static void kobject_cleanup(struct kobject *kobj)
+ 		 kobject_name(kobj), kobj, __func__, kobj->parent);
+ 
+ 	if (t && !t->release)
+-		pr_debug("kobject: '%s' (%p): does not have a release() function, it is broken and must be fixed. See Documentation/kobject.rst.\n",
++		pr_debug("kobject: '%s' (%p): does not have a release() function, it is broken and must be fixed. See Documentation/driver-api/kobject.rst.\n",
+ 			 kobject_name(kobj), kobj);
+ 
+ 	/* send "remove" if the caller did not do it but sent "add" */
+diff --git a/lib/lzo/lzo1x_decompress_safe.c b/lib/lzo/lzo1x_decompress_safe.c
+index 1642c28e6627..27401806c355 100644
+--- a/lib/lzo/lzo1x_decompress_safe.c
++++ b/lib/lzo/lzo1x_decompress_safe.c
+@@ -32,7 +32,7 @@
+  * depending on the base count. Since the base count is taken from a u8
+  * and a few bits, it is safe to assume that it will always be lower than
+  * or equal to 2*255, thus we can always prevent any overflow by accepting
+- * two less 255 steps. See Documentation/lzo.rst for more information.
++ * two less 255 steps. See Documentation/driver-api/lzo.rst for more information.
+  */
+ #define MAX_255_COUNT      ((((size_t)~0) / 255) - 2)
+ 
+diff --git a/lib/xz/Kconfig b/lib/xz/Kconfig
+index 314a89c13545..9d8a66fdea9b 100644
+--- a/lib/xz/Kconfig
++++ b/lib/xz/Kconfig
+@@ -5,7 +5,7 @@ config XZ_DEC
+ 	help
+ 	  LZMA2 compression algorithm and BCJ filters are supported using
+ 	  the .xz file format as the container. For integrity checking,
+-	  CRC32 is supported. See Documentation/xz.rst for more information.
++	  CRC32 is supported. See Documentation/driver-api/xz.rst for more information.
+ 
+ if XZ_DEC
+ 
+diff --git a/mm/Kconfig b/mm/Kconfig
+index ed5fe68590f4..9a0bbbeafb58 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -369,7 +369,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+ 	  This option specifies the initial value of this option.  The default
+ 	  of 1 says that all excess pages should be trimmed.
+ 
+-	  See Documentation/nommu-mmap.rst for more information.
++	  See Documentation/driver-api/nommu-mmap.rst for more information.
+ 
+ config TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+diff --git a/mm/nommu.c b/mm/nommu.c
+index 30a071ba838d..d44944512f07 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -5,7 +5,7 @@
+  *  Replacement code for mm functions to support CPU's that don't
+  *  have any form of memory management unit (thus no virtual memory).
+  *
+- *  See Documentation/nommu-mmap.rst
++ *  See Documentation/driver-api/nommu-mmap.rst
+  *
+  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
+diff --git a/samples/Kconfig b/samples/Kconfig
+index 9ec524b2e003..2b1b4d241e47 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -100,7 +100,7 @@ config SAMPLE_CONNECTOR
+ 	  When enabled, this builds both a sample kernel module for
+ 	  the connector interface and a user space tool to communicate
+ 	  with it.
+-	  See also Documentation/connector/connector.rst
++	  See also Documentation/driver-api/connector.rst
+ 
+ config SAMPLE_SECCOMP
+ 	bool "Build seccomp sample code"
+diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+index d76fd05304a5..1928cef27fd1 100644
+--- a/samples/kprobes/kprobe_example.c
++++ b/samples/kprobes/kprobe_example.c
+@@ -5,7 +5,7 @@
+  * stack trace and selected registers when _do_fork() is called.
+  *
+  * For more information on theory of operation of kprobes, see
+- * Documentation/kprobes.rst
++ * Documentation/driver-api/kprobes.rst
+  *
+  * You will see the trace data in /var/log/messages and on the console
+  * whenever _do_fork() is invoked to create a new process.
+diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
+index 9a2234ae0286..d007feaa92d4 100644
+--- a/samples/kprobes/kretprobe_example.c
++++ b/samples/kprobes/kretprobe_example.c
+@@ -11,7 +11,7 @@
+  * If no func_name is specified, _do_fork is instrumented
+  *
+  * For more information on theory of operation of kretprobes, see
+- * Documentation/kprobes.rst
++ * Documentation/driver-api/kprobes.rst
+  *
+  * Build and insert the kernel module as done in the kprobe example.
+  * You will see the trace data in /var/log/messages and on the console
+diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+index b4dc5b116bfe..4a568069728d 100644
+--- a/scripts/gcc-plugins/Kconfig
++++ b/scripts/gcc-plugins/Kconfig
+@@ -23,7 +23,7 @@ config GCC_PLUGINS
+ 	  GCC plugins are loadable modules that provide extra features to the
+ 	  compiler. They are useful for runtime instrumentation and static analysis.
+ 
+-	  See Documentation/gcc-plugins.rst for details.
++	  See Documentation/driver-api/gcc-plugins.rst for details.
+ 
+ menu "GCC plugins"
+ 	depends on GCC_PLUGINS
+diff --git a/tools/include/linux/rbtree.h b/tools/include/linux/rbtree.h
+index e96d7120ce2b..0a36c807f65d 100644
+--- a/tools/include/linux/rbtree.h
++++ b/tools/include/linux/rbtree.h
+@@ -11,7 +11,7 @@
+   I know it's not the cleaner way,  but in C (not in C++) to get
+   performances and genericity...
+ 
+-  See Documentation/rbtree.rst for documentation and samples.
++  See Documentation/driver-api/rbtree.rst for documentation and samples.
+ */
+ 
+ #ifndef __TOOLS_LINUX_PERF_RBTREE_H
+diff --git a/tools/include/linux/rbtree_augmented.h b/tools/include/linux/rbtree_augmented.h
+index c251bb16f2e9..201a873c2111 100644
+--- a/tools/include/linux/rbtree_augmented.h
++++ b/tools/include/linux/rbtree_augmented.h
+@@ -23,7 +23,7 @@
+  * rb_insert_augmented() and rb_erase_augmented() are intended to be public.
+  * The rest are implementation details you are not expected to depend on.
+  *
+- * See Documentation/rbtree.rst for documentation and samples.
++ * See Documentation/driver-api/rbtree.rst for documentation and samples.
+  */
+ 
+ struct rb_augment_callbacks {
 -- 
 2.21.0
 
