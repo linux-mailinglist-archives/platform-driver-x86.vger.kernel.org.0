@@ -2,101 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE594BC08
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Jun 2019 16:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 484414C036
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Jun 2019 19:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfFSOuy (ORCPT
+        id S1729955AbfFSRsJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 19 Jun 2019 10:50:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:30727 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725899AbfFSOuy (ORCPT
+        Wed, 19 Jun 2019 13:48:09 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:36593 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730046AbfFSRsI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 19 Jun 2019 10:50:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2019 07:50:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,392,1557212400"; 
-   d="scan'208";a="162065638"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Jun 2019 07:50:51 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 8B59F162; Wed, 19 Jun 2019 17:50:50 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] platform/x86: intel_int0002_vgpio: Get rid of custom ICPU() macro
-Date:   Wed, 19 Jun 2019 17:50:50 +0300
-Message-Id: <20190619145050.13876-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 19 Jun 2019 13:48:08 -0400
+Received: by mail-qt1-f194.google.com with SMTP id p15so36234qtl.3
+        for <platform-driver-x86@vger.kernel.org>; Wed, 19 Jun 2019 10:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lca.pw; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=dXV7QK2jBvzrpKqZ0H44fgbNkrbzKwjaMLPe99U+Pk0=;
+        b=fMqNpV6gaqU3mDpG5fcUKQPTEEQa6ArYNQPiTQZxCa9HznA1vPxmBUT7ZednAsRb07
+         ELjqYp7VwmrsS6Tdc5aaPT6LwigvoioQ+AyxlYqz7ssKx+Qe5HVAeBLOoN8roZ7JIVkm
+         oX8YYwHPfoWiaoTRzGFIOrfUgV74QegXaFy4FKbxkZfXv/wdx+y4LLatYy8BbELL94Mv
+         Gt58clfIrnqHPMubWDqk1GCixWRgFB78LLU1pMqKb9VEr9/RuDncFLPjNZ7RpQFRdSDj
+         Hs32oRB8WW4vkNQ9qij8Wgv/iImFxEqDILjQrpegAJbEjae0x10RvoyCfxN6ZpOfra8m
+         zR2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=dXV7QK2jBvzrpKqZ0H44fgbNkrbzKwjaMLPe99U+Pk0=;
+        b=YA3uXwx0H5MP9oVCrQ/4tI8l7P7G6OYxhpn/Nr9XgOfo4Xq/OjaVnS0p1XrwYSTJ4B
+         GmYq+YgHTao/8dg49i9/IYqCzR+UfCghL5yHOSx+KEuJH/bgxsK0SbUQeEjmuQ09nBqs
+         IzTnsSahepQXpctVVQUtu7rRDJS9QF5Z8BJjGWW6WmSHKFSUtsy6UG6KTk4F2AGnDcA7
+         BV6kxdBYHye8rEVyxKOirylXz/plKYWUoTi+1uNv9ziOvJw5aih0MKAGV1GnHoV1ABiJ
+         ZhFWaG1HH1ziKOKhlqwu/J3UMQLcu3GSE3jVbmD+0LEvGagyzDGufUEFH0fJ6QiQ0hqJ
+         IvCQ==
+X-Gm-Message-State: APjAAAWV3hHWjxgipBHDSMxd6Q1Yq3FfOBykBhChcNTO2sMZZVZ+LB49
+        NYD2VG5U/cKGTCXHxFXZqf/3JaF99rA=
+X-Google-Smtp-Source: APXvYqxywbv89LKe+7245WNQEyekTjsbFuLid+Nh9MmrzRaYzzhINqQ8eJdFHR8/g0lGeWI+UPJNQQ==
+X-Received: by 2002:ac8:2a69:: with SMTP id l38mr39177182qtl.212.1560966487512;
+        Wed, 19 Jun 2019 10:48:07 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id f25sm14278803qta.81.2019.06.19.10.48.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 19 Jun 2019 10:48:07 -0700 (PDT)
+From:   Qian Cai <cai@lca.pw>
+To:     bp@alien8.de
+Cc:     ard.biesheuvel@linaro.org, akpm@linux-foundation.org,
+        dvhart@infradead.org, andy@infradead.org, tglx@linutronix.de,
+        mingo@redhat.com, sai.praneeth.prakhya@intel.com, hpa@zytor.com,
+        x86@kernel.org, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Qian Cai <cai@lca.pw>
+Subject: [PATCH v2] x86/efi: fix a -Wtype-limits compilation warning
+Date:   Wed, 19 Jun 2019 13:47:44 -0400
+Message-Id: <1560966464-27644-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Replace custom grown macro with generic INTEL_CPU_FAM6() one.
+Compiling a kernel with W=1 generates this warning,
 
-No functional change intended.
+arch/x86/platform/efi/quirks.c:731:16: warning: comparison of unsigned
+expression >= 0 is always true [-Wtype-limits]
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Fixes: 3425d934fc03 ("efi/x86: Handle page faults occurring while running EFI runtime services")
+Signed-off-by: Qian Cai <cai@lca.pw>
 ---
- drivers/platform/x86/intel_int0002_vgpio.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
-index 1694a9aec77c..d9542c661ddc 100644
---- a/drivers/platform/x86/intel_int0002_vgpio.c
-+++ b/drivers/platform/x86/intel_int0002_vgpio.c
-@@ -51,17 +51,6 @@
- #define GPE0A_STS_PORT			0x420
- #define GPE0A_EN_PORT			0x428
- 
--#define BAYTRAIL			0x01
--#define CHERRYTRAIL			0x02
--
--#define ICPU(model, data) { X86_VENDOR_INTEL, 6, model, X86_FEATURE_ANY, data }
--
--static const struct x86_cpu_id int0002_cpu_ids[] = {
--	ICPU(INTEL_FAM6_ATOM_SILVERMONT, BAYTRAIL), /* Valleyview, Bay Trail  */
--	ICPU(INTEL_FAM6_ATOM_AIRMONT, CHERRYTRAIL), /* Braswell, Cherry Trail */
--	{}
--};
--
- /*
-  * As this is not a real GPIO at all, but just a hack to model an event in
-  * ACPI the get / set functions are dummy functions.
-@@ -157,6 +146,12 @@ static struct irq_chip int0002_cht_irqchip = {
+v2: Add a "Fixes" tag.
+
+ arch/x86/platform/efi/quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index 632b83885867..3b9fd679cea9 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -728,7 +728,7 @@ void efi_recover_from_page_fault(unsigned long phys_addr)
+ 	 * Address range 0x0000 - 0x0fff is always mapped in the efi_pgd, so
+ 	 * page faulting on these addresses isn't expected.
  	 */
- };
+-	if (phys_addr >= 0x0000 && phys_addr <= 0x0fff)
++	if (phys_addr <= 0x0fff)
+ 		return;
  
-+static const struct x86_cpu_id int0002_cpu_ids[] = {
-+	INTEL_CPU_FAM6(ATOM_SILVERMONT, int0002_byt_irqchip),	/* Valleyview, Bay Trail  */
-+	INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_cht_irqchip),	/* Braswell, Cherry Trail */
-+	{}
-+};
-+
- static int int0002_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -210,10 +205,7 @@ static int int0002_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	if (cpu_id->driver_data == BAYTRAIL)
--		irq_chip = &int0002_byt_irqchip;
--	else
--		irq_chip = &int0002_cht_irqchip;
-+	irq_chip = (struct irq_chip *)cpu_id->driver_data;
- 
- 	ret = gpiochip_irqchip_add(chip, irq_chip, 0, handle_edge_irq,
- 				   IRQ_TYPE_NONE);
+ 	/*
 -- 
-2.20.1
+1.8.3.1
 
