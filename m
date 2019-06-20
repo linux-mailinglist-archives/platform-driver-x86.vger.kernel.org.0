@@ -2,54 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E894D98A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jun 2019 20:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1165F4DAAC
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jun 2019 21:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbfFTSiu (ORCPT
+        id S1726533AbfFTTua (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Jun 2019 14:38:50 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35208 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfFTSit (ORCPT
+        Thu, 20 Jun 2019 15:50:30 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43785 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbfFTTua (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Jun 2019 14:38:49 -0400
-Received: by mail-pf1-f193.google.com with SMTP id d126so2157007pfd.2;
-        Thu, 20 Jun 2019 11:38:49 -0700 (PDT)
+        Thu, 20 Jun 2019 15:50:30 -0400
+Received: by mail-pl1-f195.google.com with SMTP id cl9so1788228plb.10;
+        Thu, 20 Jun 2019 12:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bkG79tXJS8BQ8axbZNY2AitSYAHH4g1Q7wXNHiD9B4E=;
-        b=rlzLgjdhlLurI68T3D1XEzFJCnZdj0RyOtmRyc4tE0cY+5VekBWQocVVzUQRH/tMII
-         K8WQTt7eHPWjzmA1FJCj6htxmStLF3W77MuyvOCQpK2txyiHBTYX8I7xSeLlDM0EFdx/
-         0qJsvulMGJ73Cj43ZjcAjbL73cw8zLRiNrItZC+mEvsc1PO2iEw5SwahqXMcaHwiT8uo
-         aHMWpBwanTyy/HAm8dVVFRSA1VEDP0pBB+gGfILXYdEhG18P2NUXYPNpDWkhWW4PvoIf
-         YxwqLUDQmZwua5+7YbSeiOmas52pJeneqRJKZENkIs2L96ikNh4031lwWnjcpwXeRZeo
-         ZrOw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Chemluuget4oibVqPmtz//KQ0k8owAqeEz6djJYfRuQ=;
+        b=jXStx7eHZX5+8yBlumX6fFxL+fL0cx8ELj6ffwxl74+YWKK4ELVJTopjbUUZqVCW+a
+         jVJGNZxRMYw1t/LgudlbQmXOU1clNGJjqCgVMT8VtdjhYRkjl5JShKuaEaSXgrDDaqDW
+         HChD7vxuezmDcPVOjYvG4oJsvamDI44yAGCHJuF7auw6QbT+JvbTuEc78+ZlwI/9qUbN
+         7jRcKW7o0Wfna61IwKU/ZK90qywqqLPZE+c5jsGam3EvxUDTkkJZHLr1R6Fm79UbiCzI
+         9xF/TIQ963PP4oYRNq4KovS8oBQPlDdkuSRAgp3bB3081tlqwJ+K3b6SQQGbqM6Pn2aP
+         WCkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bkG79tXJS8BQ8axbZNY2AitSYAHH4g1Q7wXNHiD9B4E=;
-        b=hKGZzcB6M9n8q3p0zknBON8owiFyxBkvbOp39iWWiBvmFWFIfnDzgOsOOKG7LTnjKX
-         eX1JlphbwpO1zxuAUSLd5M4rhp/N6VQh7F41R3iZait3sar0Ju/LUtyBsFw9UUIj1z0A
-         4FP849wLvZT/xmGAQ/OMloAWom1hy27evWs21F37tBvU7gSFoldt8j+a/qCJGmjMvqqt
-         5ay559qtChJwea4B5e4RIwoUOkcMLTAzhZqQz9VQkA8RO5OD5sBbLafHJtItrK5Mv0So
-         fICtOd/kgtCWgLHv2UXfISdke9rdnvtYH4LBn6t7LFeaVhUK9SttegsT1YlnPhBUMtfA
-         WBqQ==
-X-Gm-Message-State: APjAAAXqhYzNrgmdG1wYtX6uNpjQPsuU8riZdNk49scSNeCEQ18pVxc6
-        +UwvhXLGxJODiqq+56hMpG4=
-X-Google-Smtp-Source: APXvYqzYAntk/VNNv48T3x3QRxz76F1oMX/KguqhjnIKahO+YAXoSMVIspjknKUmlRT1f+C8aNn6tA==
-X-Received: by 2002:a17:90a:ac14:: with SMTP id o20mr1123136pjq.114.1561055928794;
-        Thu, 20 Jun 2019 11:38:48 -0700 (PDT)
-Received: from localhost.localdomain ([112.196.181.13])
-        by smtp.googlemail.com with ESMTPSA id z22sm311472pgu.28.2019.06.20.11.38.44
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 20 Jun 2019 11:38:48 -0700 (PDT)
-From:   Puranjay Mohan <puranjay12@gmail.com>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Puranjay Mohan <puranjay12@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Chemluuget4oibVqPmtz//KQ0k8owAqeEz6djJYfRuQ=;
+        b=cg/0MjbH0tJq4dQKdV5hFecggs+jGnDq7l2S45TYP4QUteI2nIOiF3lDBsSK84alg0
+         9yEeXHS/KYG9i2UfBAK18NvjBPP2dGUbogp59ZsBpktZmuHyM9AHtPO/Xm+Zdlmi9GTr
+         3H0+cqKRjDK2xaB7sK++lX/5px6G7F0eTwRhen3Nao5Wnql3RvXp9DB8SiAiVVAEJLc1
+         4nDlvQY02mf6N5OoTRevK8t8I6p8knxHI5/swf6IB4dXxWNL7yWxuloZgii510K5Z6oD
+         CognD83lAM3T+0isUaMYa8kAP5qY7z+lD0Xwiy8z0ZvtrPIyHB+e6HQ9lchv+j8hufnv
+         VB9w==
+X-Gm-Message-State: APjAAAXX0Zg4ObYVaXX+3mltoDt6Nqz3/jzfHrS4T5x9on8HQBQOpJC/
+        uVxynBE4h6WJziJRay308mj3uh5FKbVtANiLMoI=
+X-Google-Smtp-Source: APXvYqwyCNCi2l4ymEaHhEjUAMB28S5oOhnsG6URoz/ZlEO4SCoS9p1V6qoYeps+5fL1WyJ9C5vWGwPWBhMnDHr+REI=
+X-Received: by 2002:a17:902:ab90:: with SMTP id f16mr124039108plr.262.1561060229336;
+ Thu, 20 Jun 2019 12:50:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190620183827.23704-1-puranjay12@gmail.com>
+In-Reply-To: <20190620183827.23704-1-puranjay12@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 20 Jun 2019 22:50:17 +0300
+Message-ID: <CAHp75Ve+v7o=Ar=5Vc7yZndCxUNf3sn8YwpCHXMwdeJxuLKMoA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: platform: Delete x86-laptop-drivers.txt
+To:     Puranjay Mohan <puranjay12@gmail.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
@@ -59,51 +60,56 @@ Cc:     Puranjay Mohan <puranjay12@gmail.com>,
         linux-kernel-mentees@lists.linuxfoundation.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-Subject: [PATCH v2] Documentation: platform: Delete x86-laptop-drivers.txt
-Date:   Fri, 21 Jun 2019 00:08:27 +0530
-Message-Id: <20190620183827.23704-1-puranjay12@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The list of laptops supported by drivers in PDx86 subsystem is quite
-big and growing. x86-laptop-drivers.txt contains details of very few
-laptop models. Remove it because it does not  serve any purpose.
+On Thu, Jun 20, 2019 at 9:38 PM Puranjay Mohan <puranjay12@gmail.com> wrote:
+>
+> The list of laptops supported by drivers in PDx86 subsystem is quite
+> big and growing. x86-laptop-drivers.txt contains details of very few
+> laptop models. Remove it because it does not  serve any purpose.
+>
 
-Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
----
- Documentation/platform/x86-laptop-drivers.txt | 18 ------------------
- 1 file changed, 18 deletions(-)
- delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
-deleted file mode 100644
-index 01facd2590bb..000000000000
---- a/Documentation/platform/x86-laptop-drivers.txt
-+++ /dev/null
-@@ -1,18 +0,0 @@
--compal-laptop
--=============
--List of supported hardware:
--
--by Compal:
--	Compal FL90/IFL90
--	Compal FL91/IFL91
--	Compal FL92/JFL92
--	Compal FT00/IFT00
--
--by Dell:
--	Dell Vostro 1200
--	Dell Mini 9 (Inspiron 910)
--	Dell Mini 10 (Inspiron 1010)
--	Dell Mini 10v (Inspiron 1011)
--	Dell Mini 1012 (Inspiron 1012)
--	Dell Inspiron 11z (Inspiron 1110)
--	Dell Mini 12 (Inspiron 1210)
+> Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+> ---
+>  Documentation/platform/x86-laptop-drivers.txt | 18 ------------------
+>  1 file changed, 18 deletions(-)
+>  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
+>
+> diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
+> deleted file mode 100644
+> index 01facd2590bb..000000000000
+> --- a/Documentation/platform/x86-laptop-drivers.txt
+> +++ /dev/null
+> @@ -1,18 +0,0 @@
+> -compal-laptop
+> -=============
+> -List of supported hardware:
+> -
+> -by Compal:
+> -       Compal FL90/IFL90
+> -       Compal FL91/IFL91
+> -       Compal FL92/JFL92
+> -       Compal FT00/IFT00
+> -
+> -by Dell:
+> -       Dell Vostro 1200
+> -       Dell Mini 9 (Inspiron 910)
+> -       Dell Mini 10 (Inspiron 1010)
+> -       Dell Mini 10v (Inspiron 1011)
+> -       Dell Mini 1012 (Inspiron 1012)
+> -       Dell Inspiron 11z (Inspiron 1110)
+> -       Dell Mini 12 (Inspiron 1210)
+> --
+> 2.21.0
+>
+
+
 -- 
-2.21.0
-
+With Best Regards,
+Andy Shevchenko
