@@ -2,98 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDB254C764
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jun 2019 08:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 132C94CD1C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jun 2019 13:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfFTGTh (ORCPT
+        id S1726654AbfFTLvm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Jun 2019 02:19:37 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35834 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725889AbfFTGTh (ORCPT
+        Thu, 20 Jun 2019 07:51:42 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42280 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726391AbfFTLvm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Jun 2019 02:19:37 -0400
-Received: by mail-pf1-f196.google.com with SMTP id d126so1065938pfd.2;
-        Wed, 19 Jun 2019 23:19:36 -0700 (PDT)
+        Thu, 20 Jun 2019 07:51:42 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x17so2688339wrl.9;
+        Thu, 20 Jun 2019 04:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pv9PD1ay+GiAxyL2F08rSaEB+qNYRccK6KNGGstNtc0=;
-        b=ZuEUQhjrPXu9yBzsxPnZI2DJah4JJ2dovshjMTFXs8eK07Kty+rNA5j9jZg6fmnJ/D
-         J7M/HNJMUM067FxwylliGZxnxo2pwsw4noojO1LAc944hObz40/6k+gnJ5YWUvwkW4us
-         OE7LbvDP2PdSDRTthcs/NNm9j+mcpfFmBRkBwU8FLBbFHoj1CMfUT3xpff0zQ+/jifbF
-         l735VmfMAPoxJ5yuWIonm9BYllInLJSIKFUAfWQhHs0/z908ShLyjsejVRQ8oIL8yiTc
-         DEoJF1YbMdfQQRwmWu4TakB8XKUQybBqaLLRCJx9dHUyg7GpMpj4cQ4lyA67DeHFFrHp
-         JkvA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=96Go4rPJQEtcKvxvDEzsJJuj+W2bYPYU8UdDTcqGGh8=;
+        b=rKmSOdqg3lCj3oK0q1utDN1n/JQsDtCFdrUI5DoeZlG6vW4zCD1GCxbNeQ86FGvHtE
+         MPrzRiX8/eXHpHySNhhFNxyMGrLKe/UtI40af7qzdwpdxVSJbcJlTWx4ediGDfTLKsxg
+         vyfmNn3sTvIwDMclJwPg8JWVRBOE9sND3cCO0wxkiAbv6kNgjefRfACIVH1fSEicQREZ
+         1pBrxS7VdozZCEbruU6P6bn+VtLI/7JkIeby1IbHl1F6qSQrlnZ2JQNLyi8J/jG8ucbr
+         OOru3CdpMEqmawNjMAlsgHaSgVCSAYwAfPdCnyybSff1BYLoS11X9CcS27rkb5rt8suU
+         tBQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pv9PD1ay+GiAxyL2F08rSaEB+qNYRccK6KNGGstNtc0=;
-        b=GkbFhOt3he3U0uKygRXSB92w3QY6IfYhUeXQQ7Bq8UQ5Qzkd+to8VCxGTpASoiM0kP
-         i3pl+Ljc4qsaV+BjoC3eT96CTmjp6XrVBB6nOJIhpgc5+Q+4phMcy5drHOnDjXpXmMfs
-         mQ2OfcTz/WWnTsYTfVa8XKs1/CbYykA202VSnZXVVnNoyiH6OWTL6ygZ9BJfiJjK3K2o
-         thnQi4UesHoexmJo7GQQLSDXzIDfIm8whOir+P0iMWK8nFyaQKf6ppRtLLLXBOEQRWWF
-         WKOUahHw8YTcAoXB1OIbiU6XI34rXtzz/STYZUrItAKqZ0HRAUzjkwMrFedAeCvQ1h1V
-         HtBA==
-X-Gm-Message-State: APjAAAV8uAcs3sLzYncz17xA79mBUfOkaKS+w43Udvl/auFPrry15XDb
-        fZ9MnrtiJsyqFMsn4Ah9HcunVwRE3hyB5ZGo+zU=
-X-Google-Smtp-Source: APXvYqxy/Y9Gt1wrswVCJbGhyMrRkjteWD25yPuRNEsIYpcjRpFaTTu/TbedCcJKrXdVnM/VwKDpuxxAYGjKU+wkrjM=
-X-Received: by 2002:a17:90b:8d2:: with SMTP id ds18mr1391238pjb.132.1561011576503;
- Wed, 19 Jun 2019 23:19:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190618053227.31678-1-puranjay12@gmail.com> <20190618054158.GA3713@kroah.com>
- <20190618071717.2132a1b7@lwn.net> <20190618133948.GB5416@kroah.com> <8aeb222a-ee44-4125-45fd-ce9a741e7ecc@linuxfoundation.org>
-In-Reply-To: <8aeb222a-ee44-4125-45fd-ce9a741e7ecc@linuxfoundation.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 20 Jun 2019 09:19:25 +0300
-Message-ID: <CAHp75Vf__EtLVTOf0XvA3w7RPj+bnoQOud3gCXr1Fya0b_o4cw@mail.gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=96Go4rPJQEtcKvxvDEzsJJuj+W2bYPYU8UdDTcqGGh8=;
+        b=VglLVY0e1RiWRXtvAjdJWE6/BA28aykq5f0MoqVE2PNaZ2fjruihkzqXILaVOU2dBZ
+         BHDo4q7mcGRUE+6/K+ToAlJ8c5toCfOV6JkqcYn2BihKUH/s86mh/rEA53g4Iij5AAtV
+         LDWHbre1NS9qz3SW70kIDJWLHnto8r8cLaHuQUAPgVDGpWzCVm33mLwb5iTGqmTmmws6
+         uvqtwkTiM9pbgo5Sg59BtEK4RG0BuggxI8Un/0FQxoloBjwpMMOTGCTBkki9QZDnWYo3
+         V58Mpd4Io8yfXyp4ZAFOElTPUi3PhpkOJVYShH9/pwdqjk6ve/9AD2krM3ef7kDg4bhG
+         +GaQ==
+X-Gm-Message-State: APjAAAWgIsQ6cvEne5ubNvkOttgWsfmPkgKGakDsswoCLrVk86Kg8QPM
+        h6wBsIqRHPDUbJGHmRR05fjMm9ij
+X-Google-Smtp-Source: APXvYqxhqJdyQkUJehlXfnY/gXjhYcoFvOtcwmE9WImKcxs+LMXAzcj8srgcHbBqbNI2Yqwps+WmsA==
+X-Received: by 2002:adf:c614:: with SMTP id n20mr34300781wrg.17.1561031499425;
+        Thu, 20 Jun 2019 04:51:39 -0700 (PDT)
+Received: from xws.fritz.box (pD9E5A621.dip0.t-ipconnect.de. [217.229.166.33])
+        by smtp.gmail.com with ESMTPSA id s7sm7918213wmc.2.2019.06.20.04.51.37
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 20 Jun 2019 04:51:38 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Puranjay Mohan <puranjay12@gmail.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 0/2] Support for buttons on newer MS Surface devices
+Date:   Thu, 20 Jun 2019 13:50:54 +0200
+Message-Id: <20190620115056.4169-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 6:06 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
-> On 6/18/19 7:39 AM, Greg KH wrote:
-> > On Tue, Jun 18, 2019 at 07:17:17AM -0600, Jonathan Corbet wrote:
-> >> On Tue, 18 Jun 2019 07:41:58 +0200
-> >> Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>> On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
+This series adds suport for power and volume buttons on 5th and 6th
+generation Microsoft Surface devices. Specifically, it adds support for
+the power-button on the Surface Laptop 1 and Laptop 2, as well as
+support for power- and (on-device) volume-buttons on the Surface Pro 5
+(2017), Pro 6, and Book 2.
 
-> > I bet it should be deleted, but we should ask the platform driver
-> > maintainers first before we do that :)
+These devices use the same MSHW0040 device as on the Surface Pro 4,
+however, whereas the Pro 4 uses an ACPI notify handler, the newer
+devices use GPIO interrupts to signal these events.
 
-> Adding Platform driver maintainers Darren Hart and Andy Shevchenko, and
-> Compal laptop maintainer Cezary Jackiewicz to the discussion.
->
-> + platform-driver-x86@vger.kernel.org
->
-> Hi Darren, Andy, and Cezary,
->
-> Would it be okay to remove the x86-laptop-drivers.txt or should it be
-> converted to .rst and kept around?
+The first patch of this series ensures that the surfacepro3_button
+driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+devices. The second patch adapts soc_button_array to implement the
+actual button support.
 
-Shuan, thanks for heads up.
-The list of laptops supported by drivers in PDx86 subsystem is quite
-big and growing. The mentioned file contains less than per cent out of
-it and I don't think there is sense to make it up to date with
-thousands lines. Agree on removal.
+I think the changes to soc_button_array in the second patch warrant a
+thorough review. I've tried to make things a bit more generic to be able
+to integrate arbitrary ACPI GPIO power-/volume-button devices more
+easily, I'm not sure if there may be reasons against this.
+
+These patches have also been tested on various Surface devices via the
+github.com/jakeday/linux-surface patchset.
+
+Maximilian Luz (2):
+  platform: Fix device check for surfacepro3_button
+  input: soc_button_array for newer surface devices
+
+ drivers/input/misc/soc_button_array.c     | 134 ++++++++++++++++++++--
+ drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+ 2 files changed, 160 insertions(+), 12 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.22.0
+
