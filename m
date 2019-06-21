@@ -2,271 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 825C94DE92
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Jun 2019 03:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3AE04ECA1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Jun 2019 17:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbfFUBU7 (ORCPT
+        id S1726210AbfFUPyj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Jun 2019 21:20:59 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:40115 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726890AbfFUBU7 (ORCPT
+        Fri, 21 Jun 2019 11:54:39 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34779 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfFUPyj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Jun 2019 21:20:59 -0400
-Received: by mail-qt1-f201.google.com with SMTP id z6so6092943qtj.7
-        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Jun 2019 18:20:58 -0700 (PDT)
+        Fri, 21 Jun 2019 11:54:39 -0400
+Received: by mail-io1-f65.google.com with SMTP id k8so1245744iot.1
+        for <platform-driver-x86@vger.kernel.org>; Fri, 21 Jun 2019 08:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cGLXMU1YnQtnetBkOzKftKG7arjvZ1jbq9hetLwX05g=;
-        b=Iw35R/Eu6FmNCrNhbSTqcI8DB4KZg9y8SE61Gi0a251zS4oBVJz/PKWo5dHEDcHuMA
-         ulYfDpKSQ7DHuCNUjchUEJRqcRbx68VRynhJQwaLLu+VKOKHhnzPEV9wjkUu4S4UW+MP
-         2IQ27BL0XyVTLaF5ziFegxSpsI/rB565Doy+F2sQnORusCLMLcLN6T2olgPMAg/jSxm/
-         9nO1R23May7rA0O0PU+XqFBRYdHMtAJ4u5YP/e8c9LYTuB/oTbLa6UjGPVmPQGGTMCYk
-         1af4rDqeqIcr6RBLb/zkgGGfddqdHGiaeOYvXDITWZLVYjFTmTJDHLIYxaZdpWzmU3gO
-         EXGA==
+        bh=67Zwr0+JR5ftAH9XUiVHCrJ8ZWllxG5OsGyxy9ZC38U=;
+        b=PHUKIT0ZA3D4YNl0n8jtu3bk/mrY4ytlRjGB3rTDb7+ENS6p5Mu5RTIT8BarLvMCTH
+         gUUt+fPaymQJQez1UZ6QAZesqWJrySt+p1i0cDLoupf8DZ9WMJDGtaYPk7IxlBWw7Z1Y
+         H7yJVROh7kaYVz1Ck9fATi7Avsz9ofKCoHfMDIBia5wwCTpMdxyk/N3SntRzXKNYQtfu
+         I5kn+SsO+J0fWxgqcmq78xHSJdtdY5WuvM2c81CqjGs3krBniLMpYVXI1EzD+qvFHUh6
+         PX2RqoVKiWVfbcoTmU5ZeGBFmhc9bJf7ehLbfEvtq5Lp1VuBJi7+ylPD2Tgle8PrztfY
+         U3ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=cGLXMU1YnQtnetBkOzKftKG7arjvZ1jbq9hetLwX05g=;
-        b=XLOFlWWxTl+sdC7g4Q35YVzUyrqaXejoqcLicomuD3x4/luL3o+dg0h2LvX31cU9va
-         C3cp3A8NC1Jsxng67/nq54RRhnl9nwkAnAterpPZgfvWldcXSWkjE2dunNg746mpgLZb
-         AJyAlPZ2uzZeb54YfUeS42vWr+tiPFTbBkkV+twrmBY9dbbY/VeNYJFVHWoH2vvgy0iR
-         4Kxqo2zIRiOf4biWpv82xsb4mdrWEeWHlRFoEBgXbbWA7hP7YwHnFwUSS6IPtgjfhu74
-         AyJQmUQZE9j+NThfPbzpmkVw2K3K1f+lMHfjwnyVqjkDfy6sLNx03VIBITMiYQoM6xPG
-         2rDA==
-X-Gm-Message-State: APjAAAVutBig9yFaOXSz+r6yhEJG5+uuJQGduA/ZT4KE2xg7Cj1l0/AB
-        pReJgg6Tk4Ak9m8KnfOavRiL3j1N662x7eJT2esBrw==
-X-Google-Smtp-Source: APXvYqyTpU2hpzgS+S8uINHmKPXYdlgG4t76TC4JvSOnqT0fI7MdeIWKOfI5e1RekIkFoXgCBRLlZyGtRlZBgaPorNLSrg==
-X-Received: by 2002:ac8:458d:: with SMTP id l13mr117467574qtn.165.1561080058028;
- Thu, 20 Jun 2019 18:20:58 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 18:19:39 -0700
-In-Reply-To: <20190621011941.186255-1-matthewgarrett@google.com>
-Message-Id: <20190621011941.186255-29-matthewgarrett@google.com>
-Mime-Version: 1.0
-References: <20190621011941.186255-1-matthewgarrett@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH V33 28/30] debugfs: Restrict debugfs when the kernel is locked down
-From:   Matthew Garrett <matthewgarrett@google.com>
-To:     jmorris@namei.org
-Cc:     linux-security@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, David Howells <dhowells@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Matthew Garrett <matthewgarrett@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=67Zwr0+JR5ftAH9XUiVHCrJ8ZWllxG5OsGyxy9ZC38U=;
+        b=JMp+HuvtHiHYNv5A2PEfw/9W0KXHzqmVlss/T0oQabxq5Vcd0jMxE5K9P+q2OLAasE
+         3JIiPEjVXVS+68W13HmW6GjL+yIh9RY77xc9qLDrZo6ymCscmGoZjjnAsgxidGium6tg
+         qajrMbl5Po5fQPtjdne8et2eKXm2qCiWMt8Oq4mjKLBnuPPPM68zekwBW5VnXdd+Tr08
+         Dq2GKKLdK4LOOPnlldT1sMRZKsdxhMg0JsqCjDpnkQaI6uVQ8JkUDsoxHCv4PTuOzW13
+         ZDgB4YbeNKMnF//vlH5IkIWk1F7dNYWMKj5oZ47HGSE700BKLn+ZA5jh9acGnOZ/QXVD
+         SQMQ==
+X-Gm-Message-State: APjAAAUWaghe/ikNC88UPmqg6faKrMOHMa49M72ubfhkF1OnAnvYgDXh
+        kbDmnqOgkc4pY3fW4KThy1rKR0M3O74mBi8iR6TQokjtGlAxSQ==
+X-Google-Smtp-Source: APXvYqyi87dZ/gi5usy6mMIGsqoAR7PMShcYzW72U858qc3P99BF2m9iqkby4DNpe/dyc1JPF0bLnWX/rYQGsvwmFAE=
+X-Received: by 2002:a05:6602:98:: with SMTP id h24mr7359926iob.49.1561132478625;
+ Fri, 21 Jun 2019 08:54:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <1560966464-27644-1-git-send-email-cai@lca.pw> <FFF73D592F13FD46B8700F0A279B802F4F787D4B@ORSMSX114.amr.corp.intel.com>
+In-Reply-To: <FFF73D592F13FD46B8700F0A279B802F4F787D4B@ORSMSX114.amr.corp.intel.com>
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date:   Fri, 21 Jun 2019 17:54:27 +0200
+Message-ID: <CAKv+Gu8ynfn04eSNqJR__yFJMrp6=FptxTcN40YwomV4O5u=OA@mail.gmail.com>
+Subject: Re: [PATCH v2] x86/efi: fix a -Wtype-limits compilation warning
+To:     "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>
+Cc:     Qian Cai <cai@lca.pw>, "bp@alien8.de" <bp@alien8.de>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "dvhart@infradead.org" <dvhart@infradead.org>,
+        "andy@infradead.org" <andy@infradead.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: David Howells <dhowells@redhat.com>
+On Wed, 19 Jun 2019 at 19:53, Prakhya, Sai Praneeth
+<sai.praneeth.prakhya@intel.com> wrote:
+>
+> > Compiling a kernel with W=1 generates this warning,
+> >
+> > arch/x86/platform/efi/quirks.c:731:16: warning: comparison of unsigned
+> > expression >= 0 is always true [-Wtype-limits]
+> >
+> > Fixes: 3425d934fc03 ("efi/x86: Handle page faults occurring while running EFI
+> > runtime services")
+> > Signed-off-by: Qian Cai <cai@lca.pw>
+> > ---
+> >
+> > v2: Add a "Fixes" tag.
+>
+> Makes sense.
+> Thanks for the fix Qian Cai.
+>
 
-Disallow opening of debugfs files that might be used to muck around when
-the kernel is locked down as various drivers give raw access to hardware
-through debugfs.  Given the effort of auditing all 2000 or so files and
-manually fixing each one as necessary, I've chosen to apply a heuristic
-instead.  The following changes are made:
+Queued as a fix with Sai's ack
 
- (1) chmod and chown are disallowed on debugfs objects (though the root dir
-     can be modified by mount and remount, but I'm not worried about that).
-
- (2) When the kernel is locked down, only files with the following criteria
-     are permitted to be opened:
-
-	- The file must have mode 00444
-	- The file must not have ioctl methods
-	- The file must not have mmap
-
- (3) When the kernel is locked down, files may only be opened for reading.
-
-Normal device interaction should be done through configfs, sysfs or a
-miscdev, not debugfs.
-
-Note that this makes it unnecessary to specifically lock down show_dsts(),
-show_devs() and show_call() in the asus-wmi driver.
-
-I would actually prefer to lock down all files by default and have the
-the files unlocked by the creator.  This is tricky to manage correctly,
-though, as there are 19 creation functions and ~1600 call sites (some of
-them in loops scanning tables).
-
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-cc: acpi4asus-user@lists.sourceforge.net
-cc: platform-driver-x86@vger.kernel.org
-cc: Matthew Garrett <mjg59@srcf.ucam.org>
-cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Matthew Garrett <matthewgarrett@google.com>
----
- fs/debugfs/file.c            | 31 +++++++++++++++++++++++++++++++
- fs/debugfs/inode.c           | 31 +++++++++++++++++++++++++++++--
- include/linux/security.h     |  1 +
- security/lockdown/lockdown.c |  1 +
- 4 files changed, 62 insertions(+), 2 deletions(-)
-
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 4fce1da7db23..227b147350b7 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -19,6 +19,7 @@
- #include <linux/atomic.h>
- #include <linux/device.h>
- #include <linux/poll.h>
-+#include <linux/security.h>
- 
- #include "internal.h"
- 
-@@ -136,6 +137,25 @@ void debugfs_file_put(struct dentry *dentry)
- }
- EXPORT_SYMBOL_GPL(debugfs_file_put);
- 
-+/*
-+ * Only permit access to world-readable files when the kernel is locked down.
-+ * We also need to exclude any file that has ways to write or alter it as root
-+ * can bypass the permissions check.
-+ */
-+static bool debugfs_is_locked_down(struct inode *inode,
-+				   struct file *filp,
-+				   const struct file_operations *real_fops)
-+{
-+	if ((inode->i_mode & 07777) == 0444 &&
-+	    !(filp->f_mode & FMODE_WRITE) &&
-+	    !real_fops->unlocked_ioctl &&
-+	    !real_fops->compat_ioctl &&
-+	    !real_fops->mmap)
-+		return false;
-+
-+	return security_is_locked_down(LOCKDOWN_DEBUGFS);
-+}
-+
- static int open_proxy_open(struct inode *inode, struct file *filp)
- {
- 	struct dentry *dentry = F_DENTRY(filp);
-@@ -147,6 +167,12 @@ static int open_proxy_open(struct inode *inode, struct file *filp)
- 		return r == -EIO ? -ENOENT : r;
- 
- 	real_fops = debugfs_real_fops(filp);
-+
-+	if (debugfs_is_locked_down(inode, filp, real_fops)) {
-+		r = -EPERM;
-+		goto out;
-+	}
-+
- 	real_fops = fops_get(real_fops);
- 	if (!real_fops) {
- 		/* Huh? Module did not clean up after itself at exit? */
-@@ -272,6 +298,11 @@ static int full_proxy_open(struct inode *inode, struct file *filp)
- 		return r == -EIO ? -ENOENT : r;
- 
- 	real_fops = debugfs_real_fops(filp);
-+	if (debugfs_is_locked_down(inode, filp, real_fops)) {
-+		r = -EPERM;
-+		goto out;
-+	}
-+
- 	real_fops = fops_get(real_fops);
- 	if (!real_fops) {
- 		/* Huh? Module did not cleanup after itself at exit? */
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index 95b5e78c22b1..76b24fb3c911 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -23,6 +23,7 @@
- #include <linux/parser.h>
- #include <linux/magic.h>
- #include <linux/slab.h>
-+#include <linux/security.h>
- 
- #include "internal.h"
- 
-@@ -32,6 +33,31 @@ static struct vfsmount *debugfs_mount;
- static int debugfs_mount_count;
- static bool debugfs_registered;
- 
-+/*
-+ * Don't allow access attributes to be changed whilst the kernel is locked down
-+ * so that we can use the file mode as part of a heuristic to determine whether
-+ * to lock down individual files.
-+ */
-+static int debugfs_setattr(struct dentry *dentry, struct iattr *ia)
-+{
-+	if ((ia->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)) &&
-+	    security_is_locked_down(LOCKDOWN_DEBUGFS))
-+		return -EPERM;
-+	return simple_setattr(dentry, ia);
-+}
-+
-+static const struct inode_operations debugfs_file_inode_operations = {
-+	.setattr	= debugfs_setattr,
-+};
-+static const struct inode_operations debugfs_dir_inode_operations = {
-+	.lookup		= simple_lookup,
-+	.setattr	= debugfs_setattr,
-+};
-+static const struct inode_operations debugfs_symlink_inode_operations = {
-+	.get_link	= simple_get_link,
-+	.setattr	= debugfs_setattr,
-+};
-+
- static struct inode *debugfs_get_inode(struct super_block *sb)
- {
- 	struct inode *inode = new_inode(sb);
-@@ -356,6 +382,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
- 	inode->i_mode = mode;
- 	inode->i_private = data;
- 
-+	inode->i_op = &debugfs_file_inode_operations;
- 	inode->i_fop = proxy_fops;
- 	dentry->d_fsdata = (void *)((unsigned long)real_fops |
- 				DEBUGFS_FSDATA_IS_REAL_FOPS_BIT);
-@@ -516,7 +543,7 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
- 		return failed_creating(dentry);
- 
- 	inode->i_mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
--	inode->i_op = &simple_dir_inode_operations;
-+	inode->i_op = &debugfs_dir_inode_operations;
- 	inode->i_fop = &simple_dir_operations;
- 
- 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
-@@ -611,7 +638,7 @@ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
- 		return failed_creating(dentry);
- 	}
- 	inode->i_mode = S_IFLNK | S_IRWXUGO;
--	inode->i_op = &simple_symlink_inode_operations;
-+	inode->i_op = &debugfs_symlink_inode_operations;
- 	inode->i_link = link;
- 	d_instantiate(dentry, inode);
- 	return end_creating(dentry);
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 36a9daa13bb0..2563a9e3b415 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -94,6 +94,7 @@ enum lockdown_reason {
- 	LOCKDOWN_TIOCSSERIAL,
- 	LOCKDOWN_MODULE_PARAMETERS,
- 	LOCKDOWN_MMIOTRACE,
-+	LOCKDOWN_DEBUGFS,
- 	LOCKDOWN_INTEGRITY_MAX,
- 	LOCKDOWN_KCORE,
- 	LOCKDOWN_KPROBES,
-diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
-index 408f0048f8a2..a6f7b0770e78 100644
---- a/security/lockdown/lockdown.c
-+++ b/security/lockdown/lockdown.c
-@@ -30,6 +30,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
- 	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
- 	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
- 	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
-+	[LOCKDOWN_DEBUGFS] = "debugfs access",
- 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
- 	[LOCKDOWN_KCORE] = "/proc/kcore access",
- 	[LOCKDOWN_KPROBES] = "use of kprobes",
--- 
-2.22.0.410.gd8fdbe21b5-goog
-
+Thanks,
