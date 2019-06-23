@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C794FB86
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jun 2019 14:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E88934FB83
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jun 2019 14:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbfFWMQj (ORCPT
+        id S1726441AbfFWMQj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Sun, 23 Jun 2019 08:16:39 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60393 "EHLO
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60394 "EHLO
         mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726417AbfFWMQj (ORCPT
+        with ESMTP id S1726429AbfFWMQj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
         Sun, 23 Jun 2019 08:16:39 -0400
 Received: from Internal Mail-Server by MTLPINE2 (envelope-from vadimp@mellanox.com)
-        with ESMTPS (AES256-SHA encrypted); 23 Jun 2019 15:16:36 +0300
+        with ESMTPS (AES256-SHA encrypted); 23 Jun 2019 15:16:37 +0300
 Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x5NCGW1G001431;
-        Sun, 23 Jun 2019 15:16:36 +0300
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x5NCGW1H001431;
+        Sun, 23 Jun 2019 15:16:37 +0300
 From:   Vadim Pasternak <vadimp@mellanox.com>
 To:     andy.shevchenko@gmail.com, dvhart@infradead.org
 Cc:     platform-driver-x86@vger.kernel.org,
         Vadim Pasternak <vadimp@mellanox.com>
-Subject: [PATCH v1 platform-next 3/7] platform/x86: mlx-platform: Add regmap structure for the next generation systems
-Date:   Sun, 23 Jun 2019 12:16:26 +0000
-Message-Id: <20190623121630.17945-4-vadimp@mellanox.com>
+Subject: [PATCH v1 platform-next 4/7] platform/x86: mlx-platform: Modify DMI matching order
+Date:   Sun, 23 Jun 2019 12:16:27 +0000
+Message-Id: <20190623121630.17945-5-vadimp@mellanox.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190623121630.17945-1-vadimp@mellanox.com>
 References: <20190623121630.17945-1-vadimp@mellanox.com>
@@ -36,59 +36,124 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use separated regamp structures for old and next generation systems.
-Next generation systems don’t require write protection removing.
+Modify DMI matching order: perform matching based on  DMI_BOARD_NAME
+before matching based on DMI_BOARD_VENDOR and DMI_PRODUCT_NAME in order
+to reduce the number of ‘dmi_table’ entries necessary for new systems
+support and keep matching order in logical way.
+
+For example, the existing check for DMI_PRODUCT_NAME with prefixes
+“MSN27", “MSN24”, "MSB” matches systems MSN2700-BXXXX, MSN2700-XXXX,
+MSN2410-BXXXX, MSB7800-XXXX, where ‘XXXX’ specifies some systems
+hardware flavors.
+At the same time these systems also matched by DMI_BOARD_NAME
+“VMOD0001”, because they all have the same platform configuration (LED,
+interrupt control, mux etcetera).
+New systems with different platform configuration, but with similar
+DMI_PRODUCT_NAME  MSN2700-2XXXX, MSN2700-2XXXX, MSB7800-2XXXX are about
+to be added. These system have similar DMI_PRODUCT_NAME, since they
+have same ports configuration as their predecessors. All new systems
+will be matched by DMI_BOARD_NAME “VMOD0008”.
+With the change provided in the patch it is enough just to add
+“VMOD0008” match following natural after “VMOD0007”, otherwise
+“VMOD0008” or all “MSN2700-2XXXX”, “MSN2700-2XXXX”, “MSB7800-2XXXX”
+should be added on top of ‘mlxplat_dmi_table” in order to be matched
+before “MSN27", “MSN24”, "MSB”.
 
 Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
 ---
- drivers/platform/x86/mlx-platform.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/platform/x86/mlx-platform.c | 72 ++++++++++++++++++-------------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index 79afc7a9eaf9..85f98db5a236 100644
+index 85f98db5a236..8ed84cf4b668 100644
 --- a/drivers/platform/x86/mlx-platform.c
 +++ b/drivers/platform/x86/mlx-platform.c
-@@ -1710,6 +1710,11 @@ static const struct reg_default mlxplat_mlxcpld_regmap_default[] = {
- 	{ MLXPLAT_CPLD_LPC_REG_WD_CLEAR_WP_OFFSET, 0x00 },
+@@ -1882,6 +1882,42 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
+ 
+ static const struct dmi_system_id mlxplat_dmi_table[] __initconst = {
+ 	{
++		.callback = mlxplat_dmi_default_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0001"),
++		},
++	},
++	{
++		.callback = mlxplat_dmi_msn21xx_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0002"),
++		},
++	},
++	{
++		.callback = mlxplat_dmi_msn274x_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0003"),
++		},
++	},
++	{
++		.callback = mlxplat_dmi_msn201x_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0004"),
++		},
++	},
++	{
++		.callback = mlxplat_dmi_qmb7xx_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0005"),
++		},
++	},
++	{
++		.callback = mlxplat_dmi_qmb7xx_matched,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "VMOD0007"),
++		},
++	},
++	{
+ 		.callback = mlxplat_dmi_msn274x_matched,
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Mellanox Technologies"),
+@@ -1958,42 +1994,6 @@ static const struct dmi_system_id mlxplat_dmi_table[] __initconst = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "MSN38"),
+ 		},
+ 	},
+-	{
+-		.callback = mlxplat_dmi_default_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0001"),
+-		},
+-	},
+-	{
+-		.callback = mlxplat_dmi_msn21xx_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0002"),
+-		},
+-	},
+-	{
+-		.callback = mlxplat_dmi_msn274x_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0003"),
+-		},
+-	},
+-	{
+-		.callback = mlxplat_dmi_msn201x_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0004"),
+-		},
+-	},
+-	{
+-		.callback = mlxplat_dmi_qmb7xx_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0005"),
+-		},
+-	},
+-	{
+-		.callback = mlxplat_dmi_qmb7xx_matched,
+-		.matches = {
+-			DMI_MATCH(DMI_BOARD_NAME, "VMOD0007"),
+-		},
+-	},
+ 	{ }
  };
  
-+static const struct reg_default mlxplat_mlxcpld_regmap_ng[] = {
-+	{ MLXPLAT_CPLD_LPC_REG_PWM_CONTROL_OFFSET, 0x00 },
-+	{ MLXPLAT_CPLD_LPC_REG_WD_CLEAR_WP_OFFSET, 0x00 },
-+};
-+
- struct mlxplat_mlxcpld_regmap_context {
- 	void __iomem *base;
- };
-@@ -1748,6 +1753,20 @@ static const struct regmap_config mlxplat_mlxcpld_regmap_config = {
- 	.reg_write = mlxplat_mlxcpld_reg_write,
- };
- 
-+static const struct regmap_config mlxplat_mlxcpld_regmap_config_ng = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 255,
-+	.cache_type = REGCACHE_FLAT,
-+	.writeable_reg = mlxplat_mlxcpld_writeable_reg,
-+	.readable_reg = mlxplat_mlxcpld_readable_reg,
-+	.volatile_reg = mlxplat_mlxcpld_volatile_reg,
-+	.reg_defaults = mlxplat_mlxcpld_regmap_ng,
-+	.num_reg_defaults = ARRAY_SIZE(mlxplat_mlxcpld_regmap_ng),
-+	.reg_read = mlxplat_mlxcpld_reg_read,
-+	.reg_write = mlxplat_mlxcpld_reg_write,
-+};
-+
- static struct resource mlxplat_mlxcpld_resources[] = {
- 	[0] = DEFINE_RES_IRQ_NAMED(17, "mlxreg-hotplug"),
- };
-@@ -1856,6 +1875,7 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
- 	for (i = 0; i < ARRAY_SIZE(mlxplat_mlxcpld_wd_set_type2); i++)
- 		mlxplat_wd_data[i] = &mlxplat_mlxcpld_wd_set_type2[i];
- 	mlxplat_i2c = &mlxplat_mlxcpld_i2c_ng_data;
-+	mlxplat_regmap_config = &mlxplat_mlxcpld_regmap_config_ng;
- 
- 	return 1;
- };
 -- 
 2.11.0
 
