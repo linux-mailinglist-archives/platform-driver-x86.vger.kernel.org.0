@@ -2,158 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E88934FB83
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jun 2019 14:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 689944FB87
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jun 2019 14:16:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbfFWMQj (ORCPT
+        id S1726453AbfFWMQn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 23 Jun 2019 08:16:39 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60394 "EHLO
+        Sun, 23 Jun 2019 08:16:43 -0400
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60408 "EHLO
         mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726429AbfFWMQj (ORCPT
+        with ESMTP id S1726439AbfFWMQn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 23 Jun 2019 08:16:39 -0400
+        Sun, 23 Jun 2019 08:16:43 -0400
 Received: from Internal Mail-Server by MTLPINE2 (envelope-from vadimp@mellanox.com)
-        with ESMTPS (AES256-SHA encrypted); 23 Jun 2019 15:16:37 +0300
+        with ESMTPS (AES256-SHA encrypted); 23 Jun 2019 15:16:38 +0300
 Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x5NCGW1H001431;
-        Sun, 23 Jun 2019 15:16:37 +0300
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id x5NCGW1I001431;
+        Sun, 23 Jun 2019 15:16:38 +0300
 From:   Vadim Pasternak <vadimp@mellanox.com>
 To:     andy.shevchenko@gmail.com, dvhart@infradead.org
 Cc:     platform-driver-x86@vger.kernel.org,
         Vadim Pasternak <vadimp@mellanox.com>
-Subject: [PATCH v1 platform-next 4/7] platform/x86: mlx-platform: Modify DMI matching order
-Date:   Sun, 23 Jun 2019 12:16:27 +0000
-Message-Id: <20190623121630.17945-5-vadimp@mellanox.com>
+Subject: [PATCH v1 platform-next 5/7] platform/x86: mlx-platform: Add more reset cause attributes
+Date:   Sun, 23 Jun 2019 12:16:28 +0000
+Message-Id: <20190623121630.17945-6-vadimp@mellanox.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190623121630.17945-1-vadimp@mellanox.com>
 References: <20190623121630.17945-1-vadimp@mellanox.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Modify DMI matching order: perform matching based on  DMI_BOARD_NAME
-before matching based on DMI_BOARD_VENDOR and DMI_PRODUCT_NAME in order
-to reduce the number of ‘dmi_table’ entries necessary for new systems
-support and keep matching order in logical way.
-
-For example, the existing check for DMI_PRODUCT_NAME with prefixes
-“MSN27", “MSN24”, "MSB” matches systems MSN2700-BXXXX, MSN2700-XXXX,
-MSN2410-BXXXX, MSB7800-XXXX, where ‘XXXX’ specifies some systems
-hardware flavors.
-At the same time these systems also matched by DMI_BOARD_NAME
-“VMOD0001”, because they all have the same platform configuration (LED,
-interrupt control, mux etcetera).
-New systems with different platform configuration, but with similar
-DMI_PRODUCT_NAME  MSN2700-2XXXX, MSN2700-2XXXX, MSB7800-2XXXX are about
-to be added. These system have similar DMI_PRODUCT_NAME, since they
-have same ports configuration as their predecessors. All new systems
-will be matched by DMI_BOARD_NAME “VMOD0008”.
-With the change provided in the patch it is enough just to add
-“VMOD0008” match following natural after “VMOD0007”, otherwise
-“VMOD0008” or all “MSN2700-2XXXX”, “MSN2700-2XXXX”, “MSB7800-2XXXX”
-should be added on top of ‘mlxplat_dmi_table” in order to be matched
-before “MSN27", “MSN24”, "MSB”.
+Add more attributes for reset cause indication for the cases when
+system reset has been caused by watchdog, BIOS reload and COMEX
+thermal shutdown.
 
 Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
 ---
- drivers/platform/x86/mlx-platform.c | 72 ++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+ drivers/platform/x86/mlx-platform.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index 85f98db5a236..8ed84cf4b668 100644
+index 8ed84cf4b668..262fa6b1282b 100644
 --- a/drivers/platform/x86/mlx-platform.c
 +++ b/drivers/platform/x86/mlx-platform.c
-@@ -1882,6 +1882,42 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
- 
- static const struct dmi_system_id mlxplat_dmi_table[] __initconst = {
- 	{
-+		.callback = mlxplat_dmi_default_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0001"),
-+		},
-+	},
-+	{
-+		.callback = mlxplat_dmi_msn21xx_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0002"),
-+		},
-+	},
-+	{
-+		.callback = mlxplat_dmi_msn274x_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0003"),
-+		},
-+	},
-+	{
-+		.callback = mlxplat_dmi_msn201x_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0004"),
-+		},
-+	},
-+	{
-+		.callback = mlxplat_dmi_qmb7xx_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0005"),
-+		},
-+	},
-+	{
-+		.callback = mlxplat_dmi_qmb7xx_matched,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "VMOD0007"),
-+		},
-+	},
-+	{
- 		.callback = mlxplat_dmi_msn274x_matched,
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "Mellanox Technologies"),
-@@ -1958,42 +1994,6 @@ static const struct dmi_system_id mlxplat_dmi_table[] __initconst = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "MSN38"),
- 		},
+@@ -1127,6 +1127,12 @@ static struct mlxreg_core_data mlxplat_mlxcpld_msn21xx_regs_io_data[] = {
+ 		.mode = 0444,
  	},
--	{
--		.callback = mlxplat_dmi_default_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0001"),
--		},
--	},
--	{
--		.callback = mlxplat_dmi_msn21xx_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0002"),
--		},
--	},
--	{
--		.callback = mlxplat_dmi_msn274x_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0003"),
--		},
--	},
--	{
--		.callback = mlxplat_dmi_msn201x_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0004"),
--		},
--	},
--	{
--		.callback = mlxplat_dmi_qmb7xx_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0005"),
--		},
--	},
--	{
--		.callback = mlxplat_dmi_qmb7xx_matched,
--		.matches = {
--			DMI_MATCH(DMI_BOARD_NAME, "VMOD0007"),
--		},
--	},
- 	{ }
- };
- 
+ 	{
++		.label = "reset_sff_wd",
++		.reg = MLXPLAT_CPLD_LPC_REG_RST_CAUSE1_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(6),
++		.mode = 0444,
++	},
++	{
+ 		.label = "psu1_on",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_GP1_OFFSET,
+ 		.mask = GENMASK(7, 0) & ~BIT(0),
+@@ -1215,6 +1221,18 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_ng_regs_io_data[] = {
+ 		.mode = 0444,
+ 	},
+ 	{
++		.label = "reset_from_asic",
++		.reg = MLXPLAT_CPLD_LPC_REG_RESET_CAUSE_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(5),
++		.mode = 0444,
++	},
++	{
++		.label = "reset_swb_wd",
++		.reg = MLXPLAT_CPLD_LPC_REG_RESET_CAUSE_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(6),
++		.mode = 0444,
++	},
++	{
+ 		.label = "reset_asic_thermal",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_RESET_CAUSE_OFFSET,
+ 		.mask = GENMASK(7, 0) & ~BIT(7),
+@@ -1227,6 +1245,12 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_ng_regs_io_data[] = {
+ 		.mode = 0444,
+ 	},
+ 	{
++		.label = "reset_comex_wd",
++		.reg = MLXPLAT_CPLD_LPC_REG_RST_CAUSE1_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(6),
++		.mode = 0444,
++	},
++	{
+ 		.label = "reset_voltmon_upgrade_fail",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_RST_CAUSE2_OFFSET,
+ 		.mask = GENMASK(7, 0) & ~BIT(0),
+@@ -1239,6 +1263,18 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_ng_regs_io_data[] = {
+ 		.mode = 0444,
+ 	},
+ 	{
++		.label = "reset_comex_thermal",
++		.reg = MLXPLAT_CPLD_LPC_REG_RST_CAUSE2_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(3),
++		.mode = 0444,
++	},
++	{
++		.label = "reset_reload_bios",
++		.reg = MLXPLAT_CPLD_LPC_REG_RST_CAUSE2_OFFSET,
++		.mask = GENMASK(7, 0) & ~BIT(5),
++		.mode = 0444,
++	},
++	{
+ 		.label = "psu1_on",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_GP1_OFFSET,
+ 		.mask = GENMASK(7, 0) & ~BIT(0),
 -- 
 2.11.0
 
