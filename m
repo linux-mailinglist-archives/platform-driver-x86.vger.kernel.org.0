@@ -2,127 +2,153 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC7C558DF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Jun 2019 22:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B76CE5609E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Jun 2019 05:52:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbfFYUbQ (ORCPT
+        id S1727267AbfFZDnL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Jun 2019 16:31:16 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:41357 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726274AbfFYUbQ (ORCPT
+        Tue, 25 Jun 2019 23:43:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727259AbfFZDnK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Jun 2019 16:31:16 -0400
-Received: by mail-ed1-f67.google.com with SMTP id p15so29032349eds.8
-        for <platform-driver-x86@vger.kernel.org>; Tue, 25 Jun 2019 13:31:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ouCYZW6j2F9X9UEJz8UhFdPaz7qXxTi0skUGUYVPJg8=;
-        b=Yaku0OaPzRhuoN41a6+D/MJRL7PMWwnizZMYkUC6gaT9A+mkmUS0FF+SUcn/dvpI5G
-         2TKFyHsCif8RZG8/m+0QQNvxErfBL7npnj9bBcr52CxjaN8Lqh3Mnyb2/3/CFWGIMHZi
-         Voj71l5np6XRwTnWtZVNHoEm8d6U4canqmD72DJ8yoTPcSyNiB/wy4xinDPNasTCIEgL
-         BLHC0T7LALzT3g3DM36bZlBa4VBsA+qnX5qWelGtLogx+hmIQKcdYp2Yum9+DTW81jEM
-         ZcGiiyPTFnZsEUIqab0z2ISnsrTcLQJNDUX0mJ4cbfVNgBCnNvyy7pD+o7jLfz3W6K2o
-         pOng==
-X-Gm-Message-State: APjAAAWNAs7vX4QE7wjmLUZAIbvODQ+oY3jFAOeqrGE4CoJBsMXV8DlB
-        o2CqUGUXaQgIvZHpn+v6HlR2bw==
-X-Google-Smtp-Source: APXvYqyL122t/uCNJpHnytCFoUf/GBY/eGn/znXIiwaj9GqmlBtdCqFtAzPv5mdjJZBYRas4njeaWg==
-X-Received: by 2002:aa7:c692:: with SMTP id n18mr486235edq.220.1561494674353;
-        Tue, 25 Jun 2019 13:31:14 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id g16sm5070792edc.76.2019.06.25.13.31.13
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Jun 2019 13:31:13 -0700 (PDT)
-Subject: Re: [PATCH v1] platform/x86: intel_int0002_vgpio: Get rid of custom
- ICPU() macro
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190619145050.13876-1-andriy.shevchenko@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <bebb9c22-186d-8bd1-a12d-c97f22f2487a@redhat.com>
-Date:   Tue, 25 Jun 2019 22:31:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Tue, 25 Jun 2019 23:43:10 -0400
+Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B5E48216E3;
+        Wed, 26 Jun 2019 03:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561520590;
+        bh=hj9KGbkr4AqICPcOaWd8LGYkgMnOsDSZM4G15WuTWFA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Sqk8UGj8DD5xuGjgD4umAgMMSndgQUyJy9qyT7SNjLu6r5o0/Q/r7zgzKMy8ex+IR
+         dcJdDTuBo95Fhbq9Q2EP5X3XWTw4PDEYYTsCnOazcfAXnlUp7db5DVWLtnYNpF7ftm
+         y+H4AHeQJKytzX33p0zC0rB+Er+5EMMLnHIUSNSo=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 40/51] platform/x86: asus-wmi: Only Tell EC the OS will handle display hotkeys from asus_nb_wmi
+Date:   Tue, 25 Jun 2019 23:40:56 -0400
+Message-Id: <20190626034117.23247-40-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190626034117.23247-1-sashal@kernel.org>
+References: <20190626034117.23247-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190619145050.13876-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+From: Hans de Goede <hdegoede@redhat.com>
 
-On 19-06-19 16:50, Andy Shevchenko wrote:
-> Replace custom grown macro with generic INTEL_CPU_FAM6() one.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+[ Upstream commit 401fee8195d401b2b94dee57383f627050724d5b ]
 
-Patch looks good to me:
+Commit 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will
+handle the display off hotkey") causes the backlight to be permanently off
+on various EeePC laptop models using the eeepc-wmi driver (Asus EeePC
+1015BX, Asus EeePC 1025C).
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+The asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL) call added
+by that commit is made conditional in this commit and only enabled in
+the quirk_entry structs in the asus-nb-wmi driver fixing the broken
+display / backlight on various EeePC laptop models.
 
-Regards,
+Cc: João Paulo Rechi Vita <jprvita@endlessm.com>
+Fixes: 78f3ac76d9e5 ("platform/x86: asus-wmi: Tell the EC the OS will handle the display off hotkey")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/asus-nb-wmi.c | 8 ++++++++
+ drivers/platform/x86/asus-wmi.c    | 2 +-
+ drivers/platform/x86/asus-wmi.h    | 1 +
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-Hans
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index b6f2ff95c3ed..59f3a37a44d7 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -78,10 +78,12 @@ static bool asus_q500a_i8042_filter(unsigned char data, unsigned char str,
+ 
+ static struct quirk_entry quirk_asus_unknown = {
+ 	.wapf = 0,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_q500a = {
+ 	.i8042_filter = asus_q500a_i8042_filter,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ /*
+@@ -92,26 +94,32 @@ static struct quirk_entry quirk_asus_q500a = {
+ static struct quirk_entry quirk_asus_x55u = {
+ 	.wapf = 4,
+ 	.wmi_backlight_power = true,
++	.wmi_backlight_set_devstate = true,
+ 	.no_display_toggle = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_wapf4 = {
+ 	.wapf = 4,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_x200ca = {
+ 	.wapf = 2,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_ux303ub = {
+ 	.wmi_backlight_native = true,
++	.wmi_backlight_set_devstate = true,
+ };
+ 
+ static struct quirk_entry quirk_asus_x550lb = {
++	.wmi_backlight_set_devstate = true,
+ 	.xusb2pr = 0x01D9,
+ };
+ 
+ static struct quirk_entry quirk_asus_forceals = {
++	.wmi_backlight_set_devstate = true,
+ 	.wmi_force_als_set = true,
+ };
+ 
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index ee1fa93708ec..a66e99500c12 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -2131,7 +2131,7 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 		err = asus_wmi_backlight_init(asus);
+ 		if (err && err != -ENODEV)
+ 			goto fail_backlight;
+-	} else
++	} else if (asus->driver->quirks->wmi_backlight_set_devstate)
+ 		err = asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL);
+ 
+ 	status = wmi_install_notify_handler(asus->driver->event_guid,
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index 6c1311f4b04d..57a79bddb286 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -44,6 +44,7 @@ struct quirk_entry {
+ 	bool store_backlight_power;
+ 	bool wmi_backlight_power;
+ 	bool wmi_backlight_native;
++	bool wmi_backlight_set_devstate;
+ 	bool wmi_force_als_set;
+ 	int wapf;
+ 	/*
+-- 
+2.20.1
 
-> ---
->   drivers/platform/x86/intel_int0002_vgpio.c | 22 +++++++---------------
->   1 file changed, 7 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
-> index 1694a9aec77c..d9542c661ddc 100644
-> --- a/drivers/platform/x86/intel_int0002_vgpio.c
-> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
-> @@ -51,17 +51,6 @@
->   #define GPE0A_STS_PORT			0x420
->   #define GPE0A_EN_PORT			0x428
->   
-> -#define BAYTRAIL			0x01
-> -#define CHERRYTRAIL			0x02
-> -
-> -#define ICPU(model, data) { X86_VENDOR_INTEL, 6, model, X86_FEATURE_ANY, data }
-> -
-> -static const struct x86_cpu_id int0002_cpu_ids[] = {
-> -	ICPU(INTEL_FAM6_ATOM_SILVERMONT, BAYTRAIL), /* Valleyview, Bay Trail  */
-> -	ICPU(INTEL_FAM6_ATOM_AIRMONT, CHERRYTRAIL), /* Braswell, Cherry Trail */
-> -	{}
-> -};
-> -
->   /*
->    * As this is not a real GPIO at all, but just a hack to model an event in
->    * ACPI the get / set functions are dummy functions.
-> @@ -157,6 +146,12 @@ static struct irq_chip int0002_cht_irqchip = {
->   	 */
->   };
->   
-> +static const struct x86_cpu_id int0002_cpu_ids[] = {
-> +	INTEL_CPU_FAM6(ATOM_SILVERMONT, int0002_byt_irqchip),	/* Valleyview, Bay Trail  */
-> +	INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_cht_irqchip),	/* Braswell, Cherry Trail */
-> +	{}
-> +};
-> +
->   static int int0002_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
-> @@ -210,10 +205,7 @@ static int int0002_probe(struct platform_device *pdev)
->   		return ret;
->   	}
->   
-> -	if (cpu_id->driver_data == BAYTRAIL)
-> -		irq_chip = &int0002_byt_irqchip;
-> -	else
-> -		irq_chip = &int0002_cht_irqchip;
-> +	irq_chip = (struct irq_chip *)cpu_id->driver_data;
->   
->   	ret = gpiochip_irqchip_add(chip, irq_chip, 0, handle_edge_irq,
->   				   IRQ_TYPE_NONE);
-> 
