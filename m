@@ -2,202 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A6456029
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Jun 2019 05:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7BC056597
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Jun 2019 11:21:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727833AbfFZDpv (ORCPT
+        id S1725379AbfFZJV2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Jun 2019 23:45:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57522 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726672AbfFZDpv (ORCPT
+        Wed, 26 Jun 2019 05:21:28 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44576 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726042AbfFZJV2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:45:51 -0400
-Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F213920659;
-        Wed, 26 Jun 2019 03:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520749;
-        bh=hwCKJ4IR9Dhpm4c14OdzVDxfAACXnR9cVrjsM+or/KY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Zr4apaz0XQpoyMKOUH3BaspsiWm9ARQnLSlKrUU3/eGXEMQPpr0z9DKl7TWecWRfv
-         4qUW310psk7nG7Op3CQ48orU9dOruAQ5r6KnPqZpLT4VnQ0W7R9Gauqj4jesSS8LM7
-         Bab/kYktT505JU4zBexsRX5o+iUjQqBsDwXRn5dg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vadim Pasternak <vadimp@mellanox.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
+        Wed, 26 Jun 2019 05:21:28 -0400
+Received: by mail-lf1-f66.google.com with SMTP id r15so1053447lfm.11
+        for <platform-driver-x86@vger.kernel.org>; Wed, 26 Jun 2019 02:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VH7oTYHmSKHUcoWXP6UAO65cW8j0fNZN/krPrH7uTzw=;
+        b=PZMTkcInq+vHJgj0adZMZp1wjoAebcE9IFNwOiBoVEMC6pUz1aiL1+d3iu/YagqB1/
+         JgO9HV1VLMDyOQ1BlWQpxmFkUfhBKlEUpWZiDDfr0YdmyMxlBd/CP1uA/qSl3SC99wME
+         tgMY2lHiQSIDXUG4dqdLJkSlfHv8NPczFlgtq7pSBmc9Nn20Ruv1LQKfcDdpJEhGWdes
+         SPsmTUc3VbPN2ABO+JH7ZY0J2NYjLZ3HgqziucPXydA11s9sIek0B9vfRqrkAvCAgme0
+         Gkj5Z77IxVtc1+uDvpgsHKDzf3eoAJbGcxxJBZWVe7B9Rp5LjzLZ6AkwEn82Zst1TyWX
+         lldw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VH7oTYHmSKHUcoWXP6UAO65cW8j0fNZN/krPrH7uTzw=;
+        b=SxnEItj+C+LwT260664wi4CND6kL7Oz9yWMmS0M7q0+vTsbgzynqubs2o32mFJItsM
+         fIRiQ0AWrfstL4wVzwSZgPEcR4hG8mgKa7Hb0tue7cBGc5XoNlJeUT/m9m4EblG4MAWt
+         yypdHbF1Y0VS9rBM8weFFm3yxpsyXUJmBPabzHBubrb+tGgIF0dbe54EcBql4Y8KrYnn
+         pim3tqOyqeOGP0i1LMNEaN5YwTPVSgbETDl1lvAkbWnjdaNvm1dZkMKu+JrwI7ROqETE
+         7So8UDUoeSHbarsaQ7Cj2grm/J6QhAyzzIcMrFpgfWBqIRCY0MH2eNDUzglpKi+rqNf1
+         z9PQ==
+X-Gm-Message-State: APjAAAXSytiRueFRjuJtKGUfuWhZHn9x2TnbbhfxfRS354j+yyA0jyXy
+        a3wDszf047MR6O3AViMzS/HcQg==
+X-Google-Smtp-Source: APXvYqx4nNsucGWlVwflOOFUyu0fHQG1a47CpotZlPdhTw9fQDFNEjmc4eqUc3ZIPNJqMJQID7pKMA==
+X-Received: by 2002:ac2:47fa:: with SMTP id b26mr2094845lfp.82.1561540886416;
+        Wed, 26 Jun 2019 02:21:26 -0700 (PDT)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+        by smtp.gmail.com with ESMTPSA id m28sm2705394ljb.68.2019.06.26.02.21.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 26 Jun 2019 02:21:25 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     x86@kernel.org
+Cc:     linux-gpio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andres Salomon <dilinger@queued.net>,
+        linux-geode@lists.infradead.org,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 16/21] platform/x86: mlx-platform: Fix parent device in i2c-mux-reg device registration
-Date:   Tue, 25 Jun 2019 23:45:01 -0400
-Message-Id: <20190626034506.24125-16-sashal@kernel.org>
+Subject: [PATCH] x86: platform/geode: Drop <linux/gpio.h> includes
+Date:   Wed, 26 Jun 2019 11:21:19 +0200
+Message-Id: <20190626092119.3172-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626034506.24125-1-sashal@kernel.org>
-References: <20190626034506.24125-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Vadim Pasternak <vadimp@mellanox.com>
+These board files only use gpio_keys not gpio in general.
+This include is just surplus, delete it.
 
-[ Upstream commit 160da20b254dd4bfc5828f12c208fa831ad4be6c ]
-
-Fix the issue found while running kernel with the option
-CONFIG_DEBUG_TEST_DRIVER_REMOVE.
-Driver 'mlx-platform' registers 'i2c_mlxcpld' device and then registers
-few underlying 'i2c-mux-reg' devices:
-	priv->pdev_i2c = platform_device_register_simple("i2c_mlxcpld", nr,
-							 NULL, 0);
-	...
-	for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
-		priv->pdev_mux[i] = platform_device_register_resndata(
-						&mlxplat_dev->dev,
-						"i2c-mux-reg", i, NULL,
-						0, &mlxplat_mux_data[i],
-						sizeof(mlxplat_mux_data[i]));
-
-But actual parent of "i2c-mux-reg" device is priv->pdev_i2c->dev and
-not mlxplat_dev->dev.
-Patch fixes parent device parameter in a call to
-platform_device_register_resndata() for "i2c-mux-reg".
-
-It solves the race during initialization flow while 'i2c_mlxcpld.1' is
-removing after probe, while 'i2c-mux-reg.0' is still in probing flow:
-'i2c_mlxcpld.1'	flow:	probe -> remove -> probe.
-'i2c-mux-reg.0'	flow:		  probe -> ...
-
-[   12:621096] Registering platform device 'i2c_mlxcpld.1'. Parent at platform
-[   12:621117] device: 'i2c_mlxcpld.1': device_add
-[   12:621155] bus: 'platform': add device i2c_mlxcpld.1
-[   12:621384] Registering platform device 'i2c-mux-reg.0'. Parent at mlxplat
-[   12:621395] device: 'i2c-mux-reg.0': device_add
-[   12:621425] bus: 'platform': add device i2c-mux-reg.0
-[   12:621806] Registering platform device 'i2c-mux-reg.1'. Parent at mlxplat
-[   12:621828] device: 'i2c-mux-reg.1': device_add
-[   12:621892] bus: 'platform': add device i2c-mux-reg.1
-[   12:621906] bus: 'platform': add driver i2c_mlxcpld
-[   12:621996] bus: 'platform': driver_probe_device: matched device i2c_mlxcpld.1 with driver i2c_mlxcpld
-[   12:622003] bus: 'platform': really_probe: probing driver i2c_mlxcpld with device i2c_mlxcpld.1
-[   12:622100] i2c_mlxcpld i2c_mlxcpld.1: no default pinctrl state
-[   12:622293] device: 'i2c-1': device_add
-[   12:627280] bus: 'i2c': add device i2c-1
-[   12:627692] device: 'i2c-1': device_add
-[   12.629639] bus: 'platform': add driver i2c-mux-reg
-[   12.629718] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
-[   12.629723] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
-[   12.629818] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
-[   12.629981] platform i2c-mux-reg.0: Driver i2c-mux-reg requests probe deferral
-[   12.629986] platform i2c-mux-reg.0: Added to deferred list
-[   12.629992] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.1 with driver i2c-mux-reg
-[   12.629997] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.1
-[   12.630091] i2c-mux-reg i2c-mux-reg.1: no default pinctrl state
-[   12.630247] platform i2c-mux-reg.1: Driver i2c-mux-reg requests probe deferral
-[   12.630252] platform i2c-mux-reg.1: Added to deferred list
-[   12.640892] devices_kset: Moving i2c-mux-reg.0 to end of list
-[   12.640900] platform i2c-mux-reg.0: Retrying from deferred list
-[   12.640911] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
-[   12.640919] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
-[   12.640999] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
-[   12.641177] platform i2c-mux-reg.0: Driver i2c-mux-reg requests probe deferral
-[   12.641187] platform i2c-mux-reg.0: Added to deferred list
-[   12.641198] devices_kset: Moving i2c-mux-reg.1 to end of list
-[   12.641219] platform i2c-mux-reg.1: Retrying from deferred list
-[   12.641237] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.1 with driver i2c-mux-reg
-[   12.641247] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.1
-[   12.641331] i2c-mux-reg i2c-mux-reg.1: no default pinctrl state
-[   12.641465] platform i2c-mux-reg.1: Driver i2c-mux-reg requests probe deferral
-[   12.641469] platform i2c-mux-reg.1: Added to deferred list
-[   12.646427] device: 'i2c-1': device_add
-[   12.646647] bus: 'i2c': add device i2c-1
-[   12.647104] device: 'i2c-1': device_add
-[   12.669231] devices_kset: Moving i2c-mux-reg.0 to end of list
-[   12.669240] platform i2c-mux-reg.0: Retrying from deferred list
-[   12.669258] bus: 'platform': driver_probe_device: matched device i2c-mux-reg.0 with driver i2c-mux-reg
-[   12.669263] bus: 'platform': really_probe: probing driver i2c-mux-reg with device i2c-mux-reg.0
-[   12.669343] i2c-mux-reg i2c-mux-reg.0: no default pinctrl state
-[   12.669585] device: 'i2c-2': device_add
-[   12.669795] bus: 'i2c': add device i2c-2
-[   12.670201] device: 'i2c-2': device_add
-[   12.671427] i2c i2c-1: Added multiplexed i2c bus 2
-[   12.671514] device: 'i2c-3': device_add
-[   12.671724] bus: 'i2c': add device i2c-3
-[   12.672136] device: 'i2c-3': device_add
-[   12.673378] i2c i2c-1: Added multiplexed i2c bus 3
-[   12.673472] device: 'i2c-4': device_add
-[   12.673676] bus: 'i2c': add device i2c-4
-[   12.674060] device: 'i2c-4': device_add
-[   12.675861] i2c i2c-1: Added multiplexed i2c bus 4
-[   12.675941] device: 'i2c-5': device_add
-[   12.676150] bus: 'i2c': add device i2c-5
-[   12.676550] device: 'i2c-5': device_add
-[   12.678103] i2c i2c-1: Added multiplexed i2c bus 5
-[   12.678193] device: 'i2c-6': device_add
-[   12.678395] bus: 'i2c': add device i2c-6
-[   12.678774] device: 'i2c-6': device_add
-[   12.679969] i2c i2c-1: Added multiplexed i2c bus 6
-[   12.680065] device: 'i2c-7': device_add
-[   12.680275] bus: 'i2c': add device i2c-7
-[   12.680913] device: 'i2c-7': device_add
-[   12.682506] i2c i2c-1: Added multiplexed i2c bus 7
-[   12.682600] device: 'i2c-8': device_add
-[   12.682808] bus: 'i2c': add device i2c-8
-[   12.683189] device: 'i2c-8': device_add
-[   12.683907] device: 'i2c-1': device_unregister
-[   12.683945] device: 'i2c-1': device_unregister
-[   12.684387] device: 'i2c-1': device_create_release
-[   12.684536] bus: 'i2c': remove device i2c-1
-[   12.686019] i2c i2c-8: Failed to create compatibility class link
-[   12.686086] ------------[ cut here ]------------
-[   12.686087] can't create symlink to mux device
-[   12.686224] Workqueue: events deferred_probe_work_func
-[   12.686135] WARNING: CPU: 7 PID: 436 at drivers/i2c/i2c-mux.c:416 i2c_mux_add_adapter+0x729/0x7d0 [i2c_mux]
-[   12.686232] RIP: 0010:i2c_mux_add_adapter+0x729/0x7d0 [i2c_mux]
-[   0x190/0x190 [i2c_mux]
-[   12.686300]  ? i2c_mux_alloc+0xac/0x110 [i2c_mux]
-[   12.686306]  ? i2c_mux_reg_set+0x200/0x200 [i2c_mux_reg]
-[   12.686313]  i2c_mux_reg_probe+0x22c/0x731 [i2c_mux_reg]
-[   12.686322]  ? i2c_mux_reg_deselect+0x60/0x60 [i2c_mux_reg]
-[   12.686346]  platform_drv_probe+0xa8/0x110
-[   12.686351]  really_probe+0x185/0x720
-[   12.686358]  driver_probe_device+0xdf/0x1f0
-...
-[   12.686522] i2c i2c-1: Added multiplexed i2c bus 8
-[   12.686621] device: 'i2c-9': device_add
-[   12.686626] kobject_add_internal failed for i2c-9 (error: -2 parent: i2c-1)
-[   12.694729] i2c-core: adapter 'i2c-1-mux (chan_id 8)': can't register device (-2)
-[   12.705726] i2c i2c-1: failed to add mux-adapter 8 as bus 9 (error=-2)
-[   12.714494] device: 'i2c-8': device_unregister
-[   12.714537] device: 'i2c-8': device_unregister
-
-Fixes: 6613d18e9038 ("platform/x86: mlx-platform: Move module from arch/x86")
-Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: Andres Salomon <dilinger@queued.net>
+Cc: linux-geode@lists.infradead.org
+Cc: Andy Shevchenko <andy@infradead.org>
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: platform-driver-x86@vger.kernel.org
+Cc: x86@kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/platform/x86/mlx-platform.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/platform/geode/alix.c    | 1 -
+ arch/x86/platform/geode/geos.c    | 1 -
+ arch/x86/platform/geode/net5501.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index 4f3de2a8c4df..9aced80f31a2 100644
---- a/drivers/platform/x86/mlx-platform.c
-+++ b/drivers/platform/x86/mlx-platform.c
-@@ -318,7 +318,7 @@ static int __init mlxplat_init(void)
+diff --git a/arch/x86/platform/geode/alix.c b/arch/x86/platform/geode/alix.c
+index 1865c196f136..abcf27077bac 100644
+--- a/arch/x86/platform/geode/alix.c
++++ b/arch/x86/platform/geode/alix.c
+@@ -24,7 +24,6 @@
+ #include <linux/moduleparam.h>
+ #include <linux/leds.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
+ #include <linux/input.h>
+ #include <linux/gpio_keys.h>
+ #include <linux/dmi.h>
+diff --git a/arch/x86/platform/geode/geos.c b/arch/x86/platform/geode/geos.c
+index 4fcdb91318a0..529ad847d496 100644
+--- a/arch/x86/platform/geode/geos.c
++++ b/arch/x86/platform/geode/geos.c
+@@ -21,7 +21,6 @@
+ #include <linux/string.h>
+ #include <linux/leds.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
+ #include <linux/input.h>
+ #include <linux/gpio_keys.h>
+ #include <linux/dmi.h>
+diff --git a/arch/x86/platform/geode/net5501.c b/arch/x86/platform/geode/net5501.c
+index a2f6b982a729..30cb3377ecc7 100644
+--- a/arch/x86/platform/geode/net5501.c
++++ b/arch/x86/platform/geode/net5501.c
+@@ -22,7 +22,6 @@
+ #include <linux/string.h>
+ #include <linux/leds.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
+ #include <linux/input.h>
+ #include <linux/gpio_keys.h>
  
- 	for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
- 		priv->pdev_mux[i] = platform_device_register_resndata(
--						&mlxplat_dev->dev,
-+						&priv->pdev_i2c->dev,
- 						"i2c-mux-reg", i, NULL,
- 						0, &mlxplat_mux_data[i],
- 						sizeof(mlxplat_mux_data[i]));
 -- 
 2.20.1
 
