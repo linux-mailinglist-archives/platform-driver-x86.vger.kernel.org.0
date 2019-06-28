@@ -2,102 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 513C55920B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 05:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D63259A18
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 14:12:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbfF1DiN (ORCPT
+        id S1727051AbfF1MMi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Jun 2019 23:38:13 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:37933 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727143AbfF1DiN (ORCPT
+        Fri, 28 Jun 2019 08:12:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58280 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726940AbfF1MMh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Jun 2019 23:38:13 -0400
-Received: by mail-lf1-f65.google.com with SMTP id b11so2988417lfa.5
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Jun 2019 20:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PFAR1VyfRz8u+8JtXBWHxsN9qbzCO9vgXJys4jNPevE=;
-        b=DnAq9wWeUF4/tJ3xd3/E9iDEp59E1DKVpfYYqcNoRE5ld6ONQQVSXKRfVv8MwTIztr
-         pPKNz/8t16wutRg1tu9CGKqaTYhkfLeZbJQ3bd79Z32xN8k+MblNR37mKCk4OutG7fRr
-         23GdKdtowzQcjVaKAHLqU3KZ2UrpmnLSAtCH7ubUagYI1/yuOcw6IjNQAjb+ksr1tMrT
-         SmvrYAemTbPAKMKM3x3S9NFI//CpXPF6AnmQybzEoLJmFdOEyKR1K9kQepsLBUNc/DJN
-         weCD9AuNxwE9DoKFa9ZVOt/s8+oeDOdkMlQjZAdy6nkwsSf7EEvSQFbkCQb1XaOOmhEb
-         Sdtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PFAR1VyfRz8u+8JtXBWHxsN9qbzCO9vgXJys4jNPevE=;
-        b=B32DmuRSO2paB+jhJE/ZOOX34TPP+c1PMct4e+IW3ZepqggM/jWlsbjw47QmK1tFwC
-         YYkXQCtoSjWRenccXm4uxuGl2lblAT+Vl0sQELHswflZni8PJ2CXehVnLwyPoaQwV6re
-         y4UnetZZmbXmU/4XUPdBs+j6VY8ROGwSgfxWHQkMxOIsedK3XDFPpYWDvrN4CQioLWu0
-         NSoYjwnqmIFiWUAjO5bbyRwZwmgvyCm0I1FTytzsR1tDvOQ455NzI5PCZfwZAjoHJ+0i
-         tP0eKPUTtHLWTuh84a/mT4EEzWzy3NOvtfNLGMm6b3+19HBWBMndH9JvM440v9G/oViX
-         GFWA==
-X-Gm-Message-State: APjAAAX6bmRhQ019Y6eloF3sj18nrGLHMBRa365dUkSOub8jDEiWtxDz
-        FDeQQPJIl9TlG2sbgoStCLZfQweFKHJYNGOSIoEqRg==
-X-Google-Smtp-Source: APXvYqzx4zeAdw9gJozkJfqZ8idmtP4uO628k0/UGSICcNueyN6ahlH9h046vJEG/h4JYKM/NJ/Oulviun3B640f9P0=
-X-Received: by 2002:a19:ed07:: with SMTP id y7mr3996030lfy.56.1561693089958;
- Thu, 27 Jun 2019 20:38:09 -0700 (PDT)
+        Fri, 28 Jun 2019 08:12:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Ptxuhcj9Nnd93IGVkYIIiqtv0theLtZeYCYEFYFjzcQ=; b=iJ2Q7DMrmIn6Encrs9rppRJsg
+        FeL4mBoGRLfaKCHHXrV206GIZ3P/XJemOOMbKDJ1w3SXWtsq4LYO5EGt6J8qVs2Or4osVQfUxapi/
+        zjd+hS2S4uaEf7v6XI6b4710tSuAp66i3CHlRgr2MfjGGDbZW1DEQ9gmDkjZxESSIYJlH8OZ9HlkK
+        TFdqcGlGS1dlQlgTpXIwtU/CKPSGpMWA5VBUVqYCF/HlnncDfCbol6UXVluUS3GBn4xs2BOZRRdne
+        WnPt1VQf1Pp7XWZUQVTsRumVGa7ZhQipl4HHUoDpeOm5kmiY37Rdd4l5z+9p+ucjFP48Xjx6y80vH
+        qSast0vWA==;
+Received: from [186.213.242.156] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hgpk3-0005Bd-Cu; Fri, 28 Jun 2019 12:12:35 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hgpk0-0004zI-5t; Fri, 28 Jun 2019 09:12:32 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-leds@vger.kernel.org, kvm@vger.kernel.org,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Paul <sean@poorly.run>,
+        Darren Hart <dvhart@infradead.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Airlie <airlied@linux.ie>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/9] Some doc fixes
+Date:   Fri, 28 Jun 2019 09:12:22 -0300
+Message-Id: <cover.1561723736.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
- <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com>
- <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com> <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
-In-Reply-To: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Thu, 27 Jun 2019 20:37:33 -0700
-Message-ID: <CACK8Z6FN62e041-dwri6S+-34wSOxSsTAPjRmSw44uVJhtRz-A@mail.gmail.com>
-Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Andy,
+This patch series is against linux-next (next-20190627). I doubt those
+would apply cleanly against docs next tree.
 
-On Tue, Jun 11, 2019 at 12:06 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Thu, May 9, 2019 at 2:15 AM Rajat Jain <rajatja@google.com> wrote:
->
-> > OK, NP. Just to be sure I understand,
-> >
-> > 1) Please let me know if I should send in a fix (it would be
-> > #include/linux/module.h and also add MODULE_LICENSE() I believe)?
-> > 2) Would this be lined up for next version though?
->
-> Resend a complete series based on the latest stuff we have in our
-> for-next branch.
+So, please apply it via the subsystem trees. Otherwise, they could
+be pushed by the end of the merge window or for -rc1 via a docs tree.
 
-My apologies for the delay in resending. I just sent a v7 of the patch
-that was dropped:
-https://lkml.org/lkml/2019/6/27/1264
+Most, if not all were I already sent.
 
-Only 2 changes from the v6:
 
-#include <linux/module.h>
+Mauro Carvalho Chehab (9):
+  hrtimer: Use a bullet for the returns bullet list
+  docs: trace: fix a broken label
+  docs: signal: fix a kernel-doc markup
+  dt: leds-lm36274.txt: fix a broken reference to ti-lmu.txt
+  docs: fix some broken references due to txt->rst renames
+  docs: virtual: there are two orphan docs there
+  docs: gpu: add msm-crash-dump.rst to the index.rst file
+  drm: fix a reference for a renamed file: fb/modedb.rst
+  platform: x86: get rid of a non-existent document
 
-and
+ Documentation/devicetree/bindings/arm/idle-states.txt   | 2 +-
+ Documentation/devicetree/bindings/leds/leds-lm36274.txt | 2 +-
+ Documentation/gpu/drivers.rst                           | 1 +
+ Documentation/gpu/msm-crash-dump.rst                    | 2 --
+ Documentation/trace/kprobetrace.rst                     | 1 +
+ Documentation/virtual/kvm/amd-memory-encryption.rst     | 2 ++
+ Documentation/virtual/kvm/vcpu-requests.rst             | 2 ++
+ drivers/gpu/drm/drm_modes.c                             | 2 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.h                 | 2 +-
+ drivers/i2c/busses/i2c-nvidia-gpu.c                     | 2 +-
+ drivers/platform/x86/Kconfig                            | 3 ---
+ kernel/signal.c                                         | 2 +-
+ kernel/time/hrtimer.c                                   | 7 ++++---
+ 13 files changed, 16 insertions(+), 14 deletions(-)
 
-MODULE_LICENSE()
+-- 
+2.21.0
 
-Thanks & Best Regards,
 
-Rajat
-
->
-> --
-> With Best Regards,
-> Andy Shevchenko
