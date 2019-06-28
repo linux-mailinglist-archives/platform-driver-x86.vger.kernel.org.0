@@ -2,236 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08A3B591FD
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 05:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 513C55920B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 05:38:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbfF1DeV (ORCPT
+        id S1726565AbfF1DiN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Jun 2019 23:34:21 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:39752 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727153AbfF1DeU (ORCPT
+        Thu, 27 Jun 2019 23:38:13 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37933 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727143AbfF1DiN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Jun 2019 23:34:20 -0400
-Received: by mail-pl1-f201.google.com with SMTP id r7so2676634plo.6
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Jun 2019 20:34:20 -0700 (PDT)
+        Thu, 27 Jun 2019 23:38:13 -0400
+Received: by mail-lf1-f65.google.com with SMTP id b11so2988417lfa.5
+        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Jun 2019 20:38:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=x2lR1+VKuekhcKFQw7fZ2YlVIcSiByakmpDYjmQbEXk=;
-        b=PwesdFUOPQJ9cEAbu+/p4E4ND9Tg0NkVn+IXm60NR2gBNe3l6N93IOlxvzt7OQPRog
-         QWNan4NAdLr+Mg3R0RxOmI59h0X2nDusBqEI1nuo+XlN28oaq+X6qLak1j8VgDRL+TCq
-         LsTxMNQ5jCw7+IyvxMQFPMGfCsxTxb73z5aVa00YPG9blbRefWSX2E3ntsKstC0BuiMf
-         HHnmqTAHGiHvvFP3EkVTkJsVXXIUBpjgdjA24iH4IpKkwJnCK7Gh1m7rfXNCdKMlcp3Z
-         XcW2dVDimXOFKQB9w2Xj5e/tgbB6SoTk4rxyWO/Xgw5kxAvY2sLfJiPfUj4aPNNRHP3M
-         xjRA==
+        bh=PFAR1VyfRz8u+8JtXBWHxsN9qbzCO9vgXJys4jNPevE=;
+        b=DnAq9wWeUF4/tJ3xd3/E9iDEp59E1DKVpfYYqcNoRE5ld6ONQQVSXKRfVv8MwTIztr
+         pPKNz/8t16wutRg1tu9CGKqaTYhkfLeZbJQ3bd79Z32xN8k+MblNR37mKCk4OutG7fRr
+         23GdKdtowzQcjVaKAHLqU3KZ2UrpmnLSAtCH7ubUagYI1/yuOcw6IjNQAjb+ksr1tMrT
+         SmvrYAemTbPAKMKM3x3S9NFI//CpXPF6AnmQybzEoLJmFdOEyKR1K9kQepsLBUNc/DJN
+         weCD9AuNxwE9DoKFa9ZVOt/s8+oeDOdkMlQjZAdy6nkwsSf7EEvSQFbkCQb1XaOOmhEb
+         Sdtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=x2lR1+VKuekhcKFQw7fZ2YlVIcSiByakmpDYjmQbEXk=;
-        b=Avuj3iZth4cTblH9Bwf2hauO6lL7u3H9llp5Yx7SK5iDNL4T7Ix1d607J3sq0JS8xC
-         3UChlkbMVyd3t+32UJMZBwPRkjkRkE9roIFyaYNBZzt57CfZGogRpxguPqz4C0AgDnnF
-         /NeCsevZsigiq7LBucgAbaE8bZ7xEQAAqq1wnNBxG6kigDGgT+gxuhF7gieBX+WYwIMw
-         1/R2MA2iOmPRnYrK8jOPjZ7y8XNvjXFhndImUoCOBMCTspogpzfXgeeHAECV9nld6JpN
-         7C69ZdodmGsUHuUevAOui26+YOspRZxVUFF8GjwEKYxIw2m4zp4mqw6UO/BcN/VZyfY3
-         Mzaw==
-X-Gm-Message-State: APjAAAX1on/apyfqe2D6LB4ZmrZXPbcXpMRt9mGCs0NmETqK7aHP2fQX
-        4TbchXtW+tRj5QK7dk6SGa8Ea91oSsu9
-X-Google-Smtp-Source: APXvYqx6mDDUGTy9zOUnSsVtOhvKVEtagJvSOHG0t7Ri895e3PGP2h3+HTw7XHUmV26/K3XLxtEhCdHVYpgi
-X-Received: by 2002:a63:610e:: with SMTP id v14mr7097001pgb.221.1561692859737;
- Thu, 27 Jun 2019 20:34:19 -0700 (PDT)
-Date:   Thu, 27 Jun 2019 20:34:13 -0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PFAR1VyfRz8u+8JtXBWHxsN9qbzCO9vgXJys4jNPevE=;
+        b=B32DmuRSO2paB+jhJE/ZOOX34TPP+c1PMct4e+IW3ZepqggM/jWlsbjw47QmK1tFwC
+         YYkXQCtoSjWRenccXm4uxuGl2lblAT+Vl0sQELHswflZni8PJ2CXehVnLwyPoaQwV6re
+         y4UnetZZmbXmU/4XUPdBs+j6VY8ROGwSgfxWHQkMxOIsedK3XDFPpYWDvrN4CQioLWu0
+         NSoYjwnqmIFiWUAjO5bbyRwZwmgvyCm0I1FTytzsR1tDvOQ455NzI5PCZfwZAjoHJ+0i
+         tP0eKPUTtHLWTuh84a/mT4EEzWzy3NOvtfNLGMm6b3+19HBWBMndH9JvM440v9G/oViX
+         GFWA==
+X-Gm-Message-State: APjAAAX6bmRhQ019Y6eloF3sj18nrGLHMBRa365dUkSOub8jDEiWtxDz
+        FDeQQPJIl9TlG2sbgoStCLZfQweFKHJYNGOSIoEqRg==
+X-Google-Smtp-Source: APXvYqzx4zeAdw9gJozkJfqZ8idmtP4uO628k0/UGSICcNueyN6ahlH9h046vJEG/h4JYKM/NJ/Oulviun3B640f9P0=
+X-Received: by 2002:a19:ed07:: with SMTP id y7mr3996030lfy.56.1561693089958;
+ Thu, 27 Jun 2019 20:38:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190508173403.6088d0db@canb.auug.org.au> <fa0e68b2-b839-b187-150c-13391c197b99@infradead.org>
+ <CAHp75Veq2=XA124rG8urt3eVE3pcaUm0VdsV7Mxr9zjMpa7mjg@mail.gmail.com>
+ <CACK8Z6F2v8nyUYcnOrkp81WfK2D2NEmK=pcWybn1annrtqRwew@mail.gmail.com> <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
 In-Reply-To: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
-Message-Id: <20190628033413.8058-1-rajatja@google.com>
-Mime-Version: 1.0
-References: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v7] platform/x86: intel_pmc_core: Attach using APCI HID "INT33A1"
 From:   Rajat Jain <rajatja@google.com>
-To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Rajat Jain <rajatja@google.com>, furquan@google.com,
-        evgreen@google.com, rajatxjain@gmail.com
+Date:   Thu, 27 Jun 2019 20:37:33 -0700
+Message-ID: <CACK8Z6FN62e041-dwri6S+-34wSOxSsTAPjRmSw44uVJhtRz-A@mail.gmail.com>
+Subject: Re: linux-next: Tree for May 8 (drivers/platform/x86/intel_pmc_core_plat_drv.c)
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Most modern platforms already have the ACPI device "INT33A1" that could
-be used to attach to the driver. Switch the driver to using that and
-thus make the intel_pmc_core.c a pure platform_driver.
+Hi Andy,
 
-Some of the legacy platforms though, may still not have this ACPI device
-in their ACPI tables. Thus for such platforms, move the code to manually
-instantiate a platform_device into a new file of its own. This would
-instantiate the intel_pmc_core platform device and thus attach to
-the driver, if the ACPI device for the same ("INT33A1") is not present
-in a system where it should be. This was discussed here:
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
+On Tue, Jun 11, 2019 at 12:06 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Thu, May 9, 2019 at 2:15 AM Rajat Jain <rajatja@google.com> wrote:
+>
+> > OK, NP. Just to be sure I understand,
+> >
+> > 1) Please let me know if I should send in a fix (it would be
+> > #include/linux/module.h and also add MODULE_LICENSE() I believe)?
+> > 2) Would this be lined up for next version though?
+>
+> Resend a complete series based on the latest stuff we have in our
+> for-next branch.
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v7: Include module.h and add MODULE_LICENSE()
-v6: was here: https://patchwork.kernel.org/patch/10906387/
-    (The patchset was accepted, but this particular patch was later
-     dropped becasue it created some warnings in certain kernel
-     configurations: https://www.spinics.net/lists/linux-next/msg47611.html)
+My apologies for the delay in resending. I just sent a v7 of the patch
+that was dropped:
+https://lkml.org/lkml/2019/6/27/1264
 
- drivers/platform/x86/Makefile                 |  2 +-
- drivers/platform/x86/intel_pmc_core.c         | 40 +++---------
- .../platform/x86/intel_pmc_core_plat_drv.c    | 62 +++++++++++++++++++
- 3 files changed, 71 insertions(+), 33 deletions(-)
- create mode 100644 drivers/platform/x86/intel_pmc_core_plat_drv.c
+Only 2 changes from the v6:
 
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 87b0069bd781..4ba707111c27 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -89,7 +89,7 @@ obj-$(CONFIG_INTEL_BXTWC_PMIC_TMU)	+= intel_bxtwc_tmu.o
- obj-$(CONFIG_INTEL_TELEMETRY)	+= intel_telemetry_core.o \
- 				   intel_telemetry_pltdrv.o \
- 				   intel_telemetry_debugfs.o
--obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o
-+obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o intel_pmc_core_plat_drv.o
- obj-$(CONFIG_PMC_ATOM)		+= pmc_atom.o
- obj-$(CONFIG_MLX_PLATFORM)	+= mlx-platform.o
- obj-$(CONFIG_INTEL_TURBO_MAX_3) += intel_turbo_max_3.o
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 1d902230ba61..f20d08ad39ea 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -1023,47 +1023,23 @@ static const struct dev_pm_ops pmc_core_pm_ops = {
- 	SET_LATE_SYSTEM_SLEEP_PM_OPS(pmc_core_suspend, pmc_core_resume)
- };
- 
-+static const struct acpi_device_id pmc_core_acpi_ids[] = {
-+	{"INT33A1", 0}, /* _HID for Intel Power Engine, _CID PNP0D80*/
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, pmc_core_acpi_ids);
-+
- static struct platform_driver pmc_core_driver = {
- 	.driver = {
- 		.name = "intel_pmc_core",
-+		.acpi_match_table = ACPI_PTR(pmc_core_acpi_ids),
- 		.pm = &pmc_core_pm_ops,
- 	},
- 	.probe = pmc_core_probe,
- 	.remove = pmc_core_remove,
- };
- 
--static struct platform_device pmc_core_device = {
--	.name = "intel_pmc_core",
--};
--
--static int __init pmc_core_init(void)
--{
--	int ret;
--
--	if (!x86_match_cpu(intel_pmc_core_ids))
--		return -ENODEV;
--
--	ret = platform_driver_register(&pmc_core_driver);
--	if (ret)
--		return ret;
--
--	ret = platform_device_register(&pmc_core_device);
--	if (ret) {
--		platform_driver_unregister(&pmc_core_driver);
--		return ret;
--	}
--
--	return 0;
--}
--
--static void __exit pmc_core_exit(void)
--{
--	platform_device_unregister(&pmc_core_device);
--	platform_driver_unregister(&pmc_core_driver);
--}
--
--module_init(pmc_core_init)
--module_exit(pmc_core_exit)
-+module_platform_driver(pmc_core_driver);
- 
- MODULE_LICENSE("GPL v2");
- MODULE_DESCRIPTION("Intel PMC Core Driver");
-diff --git a/drivers/platform/x86/intel_pmc_core_plat_drv.c b/drivers/platform/x86/intel_pmc_core_plat_drv.c
-new file mode 100644
-index 000000000000..a8754a6db1b8
---- /dev/null
-+++ b/drivers/platform/x86/intel_pmc_core_plat_drv.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Intel PMC Core platform init
-+ * Copyright (c) 2019, Google Inc.
-+ * Author - Rajat Jain
-+ *
-+ * This code instantiates platform devices for intel_pmc_core driver, only
-+ * on supported platforms that may not have the ACPI devices in the ACPI tables.
-+ * No new platforms should be added here, because we expect that new platforms
-+ * should all have the ACPI device, which is the preferred way of enumeration.
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include <asm/cpu_device_id.h>
-+#include <asm/intel-family.h>
-+
-+static struct platform_device pmc_core_device = {
-+	.name = "intel_pmc_core",
-+};
-+
-+/*
-+ * intel_pmc_core_platform_ids is the list of platforms where we want to
-+ * instantiate the platform_device if not already instantiated. This is
-+ * different than intel_pmc_core_ids in intel_pmc_core.c which is the
-+ * list of platforms that the driver supports for pmc_core device. The
-+ * other list may grow, but this list should not.
-+ */
-+static const struct x86_cpu_id intel_pmc_core_platform_ids[] = {
-+	INTEL_CPU_FAM6(SKYLAKE_MOBILE, pmc_core_device),
-+	INTEL_CPU_FAM6(SKYLAKE_DESKTOP, pmc_core_device),
-+	INTEL_CPU_FAM6(KABYLAKE_MOBILE, pmc_core_device),
-+	INTEL_CPU_FAM6(KABYLAKE_DESKTOP, pmc_core_device),
-+	INTEL_CPU_FAM6(CANNONLAKE_MOBILE, pmc_core_device),
-+	INTEL_CPU_FAM6(ICELAKE_MOBILE, pmc_core_device),
-+	{}
-+};
-+MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
-+
-+static int __init pmc_core_platform_init(void)
-+{
-+	/* Skip creating the platform device if ACPI already has a device */
-+	if (acpi_dev_present("INT33A1", NULL, -1))
-+		return -ENODEV;
-+
-+	if (!x86_match_cpu(intel_pmc_core_platform_ids))
-+		return -ENODEV;
-+
-+	return platform_device_register(&pmc_core_device);
-+}
-+
-+static void __exit pmc_core_platform_exit(void)
-+{
-+	platform_device_unregister(&pmc_core_device);
-+}
-+
-+module_init(pmc_core_platform_init);
-+module_exit(pmc_core_platform_exit);
-+MODULE_LICENSE("GPL v2");
--- 
-2.22.0.410.gd8fdbe21b5-goog
+#include <linux/module.h>
 
+and
+
+MODULE_LICENSE()
+
+Thanks & Best Regards,
+
+Rajat
+
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
