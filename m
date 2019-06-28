@@ -2,277 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2DF159B37
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 14:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F1D59E34
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Jun 2019 16:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbfF1Map (ORCPT
+        id S1726730AbfF1OuB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 28 Jun 2019 08:30:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39478 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727079AbfF1Mao (ORCPT
+        Fri, 28 Jun 2019 10:50:01 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:45490 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfF1OuA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 28 Jun 2019 08:30:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TbYIpPdC3Cq9y8ZKdQeKfK7OSnLIO+oPvquwZsSYer4=; b=aWlkQwwuUxqbBv+R/AHv4OZl92
-        crBo162yAm1UYRzTXWlClGRcYIuneBPhbrDQB7ETRBbT2iyY0fQClFMVlX/iLHqixRMbdES4hhz5V
-        WnsJzjd8v20lURl1zBtdaGLDX+e35EOS4NUQ0cLM46fVnU3v8q9px+00q0H1lOLb/uBH4WkJyK4CI
-        dltB0ChMFyhNs/EGDD1GnQClQkCz0RwxO8Vw0pY/CNjV5kmNEkcDpWLE0GzH8U0J5cM9gDJO52w7G
-        iVUR1cpEDedyfBx6N7iU2qGLH60UkONZTOrRKCfrXr7MGfOnPNC4/38u6mSbaEpIXkA9iWZwE+8Jc
-        CkVQoMRQ==;
-Received: from [186.213.242.156] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hgq1U-00055H-BH; Fri, 28 Jun 2019 12:30:36 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hgq1S-0005SH-CW; Fri, 28 Jun 2019 09:30:34 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Fri, 28 Jun 2019 10:50:00 -0400
+Received: by mail-pl1-f195.google.com with SMTP id bi6so3366366plb.12;
+        Fri, 28 Jun 2019 07:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Yox1Etvd/O+wwizvg1jrjE81RtPEp0HNcZ5IkOo3Ak=;
+        b=YaNMjaTPCrB+bDLeQKq/X2mMqux5lvGVZPIzqMFreBdBTmpuScV01jzfHx3U6QaE7M
+         2aUSFp84Nv1IZIedckhwYFiFKlgNp5UOJvODsN2M/t5Pdydmvnwd+migHm1obnidoR2u
+         JblGFygQzhf8sE8WvrrJCsf4d7BXR6kssAnihJicnTu6RL/oUw9i4CL5aYjBulp2OZOg
+         VD9+SpNpvumFvIDkvnYhocFuL4+DgCnFxZgZ0wiC0lG8Dziyw8mwaB7RuQqCgR5ausm0
+         SD1H6tDbI2fZqYxqfPFnTX12Qq+C0nwghmlY326QyIWl4K1ik6YFIdRSVF0REueiz3/f
+         6rrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Yox1Etvd/O+wwizvg1jrjE81RtPEp0HNcZ5IkOo3Ak=;
+        b=sipIiEN2lN6BMLoLorUNArFGhBysL6bMpjdA/lSpQ2mphJ0JCAEwxUJRqWayLqwYtf
+         F+sv+5LZk5ULKgW0kS2kYbBYnpCQlMqnwc12GtwmugZOe4nzsOIGvxTtH73B2qYNPPAs
+         V7A6C2JygACqwWi057YuBhQBgVok8akuEd0DYoGO32eGXqGFpWx3haFAeBMOfZpn+Eh7
+         RPkiun0OZjoiJxDJL4dv0TYaz0Kgzar7Vz5yibdLJG3JK3RgjcLTHb4S5EbY+1u1zyUw
+         DDRJNhBTwfDurEk1seile61fBCQ1w4FgWrBZr6N0/KCcYSeQa+1/nVvWZQsEJL3qDQeQ
+         qyjw==
+X-Gm-Message-State: APjAAAXuPnGeaYRaJfObhYZYnI9zKPzPn1+8HGmT7+PnXrmowqjNU4wl
+        ZzSzPXNvvOBzZa6S6FYppz3tQBuANqENy1nc2R0tosE1RW0=
+X-Google-Smtp-Source: APXvYqz2CJc5HkKnMGYkO9OkYVTfzYJVA8oK2MsisH/DY8ZSO3O1PjNfe5djKMOja8J3xJgvIWxCVEpVxT59Iu992iU=
+X-Received: by 2002:a17:902:694a:: with SMTP id k10mr11968167plt.255.1561733399956;
+ Fri, 28 Jun 2019 07:49:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1561723736.git.mchehab+samsung@kernel.org> <9472251c3ff159b832b4e82d77836c44f89b49b0.1561723736.git.mchehab+samsung@kernel.org>
+In-Reply-To: <9472251c3ff159b832b4e82d77836c44f89b49b0.1561723736.git.mchehab+samsung@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 28 Jun 2019 17:49:48 +0300
+Message-ID: <CAHp75VfkWkVvvufTje1G+w=7gjsr7D2On-NsOsOoTEBNLVLJzQ@mail.gmail.com>
+Subject: Re: [PATCH 9/9] platform: x86: get rid of a non-existent document
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Mattia Dongili <malattia@linux.it>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 17/39] docs: admin-guide: add laptops documentation
-Date:   Fri, 28 Jun 2019 09:30:10 -0300
-Message-Id: <f5c35189e421a5fa02075d611f58506bffe77028.1561724493.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
-References: <cover.1561724493.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The docs under Documentation/laptops contain users specific
-information.
+On Fri, Jun 28, 2019 at 3:12 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Changeset 163ede97a9a2 ("Documentation: platform: Delete x86-laptop-drivers.txt")
+> removed the x86-laptop-drivers.txt file, but forgot to update its
+> Kconfig.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/ABI/testing/sysfs-block-device                  | 2 +-
- Documentation/ABI/testing/sysfs-platform-asus-laptop          | 2 +-
- Documentation/admin-guide/index.rst                           | 1 +
- Documentation/admin-guide/kernel-parameters.txt               | 2 +-
- Documentation/{ => admin-guide}/laptops/asus-laptop.rst       | 0
- .../{ => admin-guide}/laptops/disk-shock-protection.rst       | 0
- Documentation/{ => admin-guide}/laptops/index.rst             | 1 -
- Documentation/{ => admin-guide}/laptops/laptop-mode.rst       | 0
- Documentation/{ => admin-guide}/laptops/lg-laptop.rst         | 1 -
- Documentation/{ => admin-guide}/laptops/sony-laptop.rst       | 0
- Documentation/{ => admin-guide}/laptops/sonypi.rst            | 0
- Documentation/{ => admin-guide}/laptops/thinkpad-acpi.rst     | 0
- Documentation/{ => admin-guide}/laptops/toshiba_haps.rst      | 0
- Documentation/admin-guide/sysctl/vm.rst                       | 4 ++--
- MAINTAINERS                                                   | 4 ++--
- drivers/char/Kconfig                                          | 2 +-
- drivers/platform/x86/Kconfig                                  | 4 ++--
- 17 files changed, 11 insertions(+), 12 deletions(-)
- rename Documentation/{ => admin-guide}/laptops/asus-laptop.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/disk-shock-protection.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/index.rst (95%)
- rename Documentation/{ => admin-guide}/laptops/laptop-mode.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/lg-laptop.rst (99%)
- rename Documentation/{ => admin-guide}/laptops/sony-laptop.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/sonypi.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/thinkpad-acpi.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/toshiba_haps.rst (100%)
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-diff --git a/Documentation/ABI/testing/sysfs-block-device b/Documentation/ABI/testing/sysfs-block-device
-index 0d57bbb4fddc..17f2bc7dd261 100644
---- a/Documentation/ABI/testing/sysfs-block-device
-+++ b/Documentation/ABI/testing/sysfs-block-device
-@@ -45,7 +45,7 @@ Description:
- 		- Values below -2 are rejected with -EINVAL
- 
- 		For more information, see
--		Documentation/laptops/disk-shock-protection.rst
-+		Documentation/admin-guide/laptops/disk-shock-protection.rst
- 
- 
- What:		/sys/block/*/device/ncq_prio_enable
-diff --git a/Documentation/ABI/testing/sysfs-platform-asus-laptop b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-index d67fa4bafa70..8b0e8205a6a2 100644
---- a/Documentation/ABI/testing/sysfs-platform-asus-laptop
-+++ b/Documentation/ABI/testing/sysfs-platform-asus-laptop
-@@ -31,7 +31,7 @@ Description:
- 		To control the LED display, use the following :
- 		    echo 0x0T000DDD > /sys/devices/platform/asus_laptop/
- 		where T control the 3 letters display, and DDD the 3 digits display.
--		The DDD table can be found in Documentation/laptops/asus-laptop.rst
-+		The DDD table can be found in Documentation/admin-guide/laptops/asus-laptop.rst
- 
- What:		/sys/devices/platform/asus_laptop/bluetooth
- Date:		January 2007
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index acd0efa46e9d..9899b78dbe50 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -81,6 +81,7 @@ configure specific aspects of kernel behavior to your liking.
-    perf-security
-    acpi/index
-    device-mapper/index
-+   laptops/index
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a3d3da5baacb..e38b96d061f4 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4373,7 +4373,7 @@
- 			Format: <integer>
- 
- 	sonypi.*=	[HW] Sony Programmable I/O Control Device driver
--			See Documentation/laptops/sonypi.rst
-+			See Documentation/admin-guide/laptops/sonypi.rst
- 
- 	spectre_v2=	[X86] Control mitigation of Spectre variant 2
- 			(indirect branch speculation) vulnerability.
-diff --git a/Documentation/laptops/asus-laptop.rst b/Documentation/admin-guide/laptops/asus-laptop.rst
-similarity index 100%
-rename from Documentation/laptops/asus-laptop.rst
-rename to Documentation/admin-guide/laptops/asus-laptop.rst
-diff --git a/Documentation/laptops/disk-shock-protection.rst b/Documentation/admin-guide/laptops/disk-shock-protection.rst
-similarity index 100%
-rename from Documentation/laptops/disk-shock-protection.rst
-rename to Documentation/admin-guide/laptops/disk-shock-protection.rst
-diff --git a/Documentation/laptops/index.rst b/Documentation/admin-guide/laptops/index.rst
-similarity index 95%
-rename from Documentation/laptops/index.rst
-rename to Documentation/admin-guide/laptops/index.rst
-index 001a30910d09..6b554e39863b 100644
---- a/Documentation/laptops/index.rst
-+++ b/Documentation/admin-guide/laptops/index.rst
-@@ -1,4 +1,3 @@
--:orphan:
- 
- ==============
- Laptop Drivers
-diff --git a/Documentation/laptops/laptop-mode.rst b/Documentation/admin-guide/laptops/laptop-mode.rst
-similarity index 100%
-rename from Documentation/laptops/laptop-mode.rst
-rename to Documentation/admin-guide/laptops/laptop-mode.rst
-diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/admin-guide/laptops/lg-laptop.rst
-similarity index 99%
-rename from Documentation/laptops/lg-laptop.rst
-rename to Documentation/admin-guide/laptops/lg-laptop.rst
-index f2c2ffe31101..ce9b14671cb9 100644
---- a/Documentation/laptops/lg-laptop.rst
-+++ b/Documentation/admin-guide/laptops/lg-laptop.rst
-@@ -1,6 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
--:orphan:
- 
- LG Gram laptop extra features
- =============================
-diff --git a/Documentation/laptops/sony-laptop.rst b/Documentation/admin-guide/laptops/sony-laptop.rst
-similarity index 100%
-rename from Documentation/laptops/sony-laptop.rst
-rename to Documentation/admin-guide/laptops/sony-laptop.rst
-diff --git a/Documentation/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
-similarity index 100%
-rename from Documentation/laptops/sonypi.rst
-rename to Documentation/admin-guide/laptops/sonypi.rst
-diff --git a/Documentation/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-similarity index 100%
-rename from Documentation/laptops/thinkpad-acpi.rst
-rename to Documentation/admin-guide/laptops/thinkpad-acpi.rst
-diff --git a/Documentation/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
-similarity index 100%
-rename from Documentation/laptops/toshiba_haps.rst
-rename to Documentation/admin-guide/laptops/toshiba_haps.rst
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 5aceb5cd5ce7..64aeee1009ca 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -108,7 +108,7 @@ block_dump
- ==========
- 
- block_dump enables block I/O debugging when set to a nonzero value. More
--information on block I/O debugging is in Documentation/laptops/laptop-mode.rst.
-+information on block I/O debugging is in Documentation/admin-guide/laptops/laptop-mode.rst.
- 
- 
- compact_memory
-@@ -298,7 +298,7 @@ laptop_mode
- ===========
- 
- laptop_mode is a knob that controls "laptop mode". All the things that are
--controlled by this knob are discussed in Documentation/laptops/laptop-mode.rst.
-+controlled by this knob are discussed in Documentation/admin-guide/laptops/laptop-mode.rst.
- 
- 
- legacy_va_layout
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 40d057631004..d35ff73f718a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8978,7 +8978,7 @@ M:	Matan Ziv-Av <matan@svgalib.org>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	Documentation/ABI/testing/sysfs-platform-lg-laptop
--F:	Documentation/laptops/lg-laptop.rst
-+F:	Documentation/admin-guide/laptops/lg-laptop.rst
- F:	drivers/platform/x86/lg-laptop.c
- 
- LG2160 MEDIA DRIVER
-@@ -14830,7 +14830,7 @@ M:	Mattia Dongili <malattia@linux.it>
- L:	platform-driver-x86@vger.kernel.org
- W:	http://www.linux.it/~malattia/wiki/index.php/Sony_drivers
- S:	Maintained
--F:	Documentation/laptops/sony-laptop.rst
-+F:	Documentation/admin-guide/laptops/sony-laptop.rst
- F:	drivers/char/sonypi.c
- F:	drivers/platform/x86/sony-laptop.c
- F:	include/linux/sony-laptop.h
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index bb734066075f..442403abd73a 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -382,7 +382,7 @@ config SONYPI
- 	  Device which can be found in many (all ?) Sony Vaio laptops.
- 
- 	  If you have one of those laptops, read
--	  <file:Documentation/laptops/sonypi.rst>, and say Y or M here.
-+	  <file:Documentation/admin-guide/laptops/sonypi.rst>, and say Y or M here.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called sonypi.
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 1f616844fb87..85101c678693 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -448,7 +448,7 @@ config SONY_LAPTOP
- 	  screen brightness control, Fn keys and allows powering on/off some
- 	  devices.
- 
--	  Read <file:Documentation/laptops/sony-laptop.rst> for more information.
-+	  Read <file:Documentation/admin-guide/laptops/sony-laptop.rst> for more information.
- 
- config SONYPI_COMPAT
- 	bool "Sonypi compatibility"
-@@ -500,7 +500,7 @@ config THINKPAD_ACPI
- 	  support for Fn-Fx key combinations, Bluetooth control, video
- 	  output switching, ThinkLight control, UltraBay eject and more.
- 	  For more information about this driver see
--	  <file:Documentation/laptops/thinkpad-acpi.rst> and
-+	  <file:Documentation/admin-guide/laptops/thinkpad-acpi.rst> and
- 	  <http://ibm-acpi.sf.net/> .
- 
- 	  This driver was formerly known as ibm-acpi.
+>
+> Fixes: 163ede97a9a2 ("Documentation: platform: Delete x86-laptop-drivers.txt")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  drivers/platform/x86/Kconfig | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index bd15b47abcb4..c318501773bc 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -433,9 +433,6 @@ config COMPAL_LAPTOP
+>           It adds support for rfkill, Bluetooth, WLAN, LCD brightness, hwmon
+>           and battery charging level control.
+>
+> -         For a (possibly incomplete) list of supported laptops, please refer
+> -         to: Documentation/platform/x86-laptop-drivers.txt
+> -
+>  config SONY_LAPTOP
+>         tristate "Sony Laptop Extras"
+>         depends on ACPI
+> --
+> 2.21.0
+>
+
+
 -- 
-2.21.0
-
+With Best Regards,
+Andy Shevchenko
