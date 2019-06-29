@@ -2,111 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E22A5AA58
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 13:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B175AB5C
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 15:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbfF2LNO (ORCPT
+        id S1726809AbfF2NN3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 07:13:14 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37229 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726874AbfF2LNO (ORCPT
+        Sat, 29 Jun 2019 09:13:29 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42726 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726723AbfF2NN3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 07:13:14 -0400
-Received: by mail-pl1-f195.google.com with SMTP id bh12so4677784plb.4
-        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Jun 2019 04:13:14 -0700 (PDT)
+        Sat, 29 Jun 2019 09:13:29 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so4325229pff.9;
+        Sat, 29 Jun 2019 06:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Q+M1OurAYJPDfU+M28C7lM9Ualhvr49CB9wvgx2AZoE=;
-        b=I+rHEXcm9pS7BwHp8Wd9E501e1ZkrTnSUeYFOiNEEfHq1WezMQrcktdizKDUK6JHeU
-         d08W3gdTMJWMfuxAuaZz6+QiNMOlXyFzrDaxuW8hsVIG/1nKH8+PKosAX1oIU/xGDe6R
-         U466CNHbh1f+lC5ZvG+aJyJnuZ6bYRWzdjLFYi9et4+bnk7jujjz1Vpo3xvDxc/YzflY
-         zii/8VSCYjv9XJDhxR05rpL0bRcf+ajshSza584XAYhH6AIYXBG8KUF+IGh1JG0tJL0T
-         vD/y/948DsbCcuBAy/RapaRlb1zQe7BtLy72oH3TK/NuoyItnES8HR84PtUSXn3ciyyM
-         V5kg==
+         :cc;
+        bh=v2DTm96VMPC+SANDW7RytV3OF74ZXwHYzOKAcpOyecY=;
+        b=XhLZcTmJfYpzwjU0V7HvVdUhZri6ZRLPo6CgsE0VjEC4J16VMvpH24Eesk8x5bHP3x
+         teGqebXrb0ngVywSPTqMcBrkYktWGxwNL2MtRhWNaYc6pXy1FJo1CF4pPKxpjPPyzD4+
+         2tMoczuH33HirZ4jYCcVSGRGePN3QKNSIEri/XMfESioYKkt1jiH3FokHpxPc4MdaG6/
+         +mndJKJfOYHonRScIsBiRvSRM5JDHJwasqSl/YX2FGTYAL6RjbJqN3DZgi1f27tte8m8
+         gKcNS/73pls/mAYfrTaQa+Hx0foChjWIMq4i4Uiuz2hZxjV1pWGMm5N4tW7Cfp5CQoy7
+         D0bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Q+M1OurAYJPDfU+M28C7lM9Ualhvr49CB9wvgx2AZoE=;
-        b=CVrfxEUMDUzrv8anksnfq9N1T6SAqzyrAZzA68T6EyTmlK+5Ne7qMpEtrEeNifmU9K
-         4IRuv2J7An9hqKRI8l5Qngr9JYM2pdlQSUfb9NL9K1NuNXNjoNpnvPAogltull/nrQeq
-         eRxk/dfWI4wQLWRvSQ+NzEHwO6dPYZeouTSmG18ie0Ba6vJ/SVtsKKnRfEzeunNrGN4Q
-         3j/BfVLauvLDdjYQfr7aFplxhBVfJG7xq9zkcYNe+L15AByco3l0m/kKR5JS4ZABgnOL
-         SsjY8buww6dj0/XiJl7dETkhk+sDIdsztgwJDKnH7DLVckb5h49YxvSTVrZ4MR8moSEI
-         qf+w==
-X-Gm-Message-State: APjAAAXzKt3XEjrg9rD4KKccrYeINpaF+ILNRtCE80Tp3Dx5bspmCBYG
-        GnkOPyS6f4lDlBP2hM26yVUGzR+ZEMAz44JhbpU=
-X-Google-Smtp-Source: APXvYqwSwJnk7tgyGqw90/BpSKa4VdsftryTPxVWQ3Lm1xM7yoav+bsQOO/pRt7XwF8LJ06NaES8woLrmPKaGNTA0H0=
-X-Received: by 2002:a17:902:694a:: with SMTP id k10mr16955636plt.255.1561806793636;
- Sat, 29 Jun 2019 04:13:13 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=v2DTm96VMPC+SANDW7RytV3OF74ZXwHYzOKAcpOyecY=;
+        b=CdcuqBq8SOZto1Z5Fb9aIoQ+DO8nrAMCox6t7dP1nYzNuUWWe5HJujwq+EjCSP7eHV
+         Q4nII9WmQPodVkBSAsyLuZtEdbuPc6yQZKywAd8pXleXtYV3QTu9CScsuYJXuVOYgEO2
+         DcjauaPmPW0gahgON4X2wmWOaauJFy2niTaOLJQ52RTW+xF1+s59t2bHLi6dQzKi/k1w
+         taYb0NwkmO7tRgBxpQbhZiFJxHkd/vKQ/D+lYSS0iadVfw050phJAECD2LDACOYqVSHG
+         fsO+cjAvClMKA7hv4lhOB7ZiZHJSFmPn+0GKVGtTMfjaMgF2KuhDJFG5AWhOUr/0Dlqg
+         8UFA==
+X-Gm-Message-State: APjAAAXukIrbYIvyhdXt+eNVifZu8yW++RZKhntMbBuDaEerodptBhzA
+        UbwMLZ7RPBsDLS6InVVckKygEnMC9A4I0MaeovE=
+X-Google-Smtp-Source: APXvYqzzgy2Ar5SXbXmGpjU1jqnGIsd4seAiMWAf2/Ruk57oeKMXWDwjPXm8uEOwvVRpVONHEOFJRT8j4zUWPRji8eI=
+X-Received: by 2002:a63:f346:: with SMTP id t6mr15050123pgj.203.1561814008582;
+ Sat, 29 Jun 2019 06:13:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190629114136.45e90292@endymion>
-In-Reply-To: <20190629114136.45e90292@endymion>
+References: <20190508164934.GA20064@embeddedor> <20190508230645.GB32286@wrath> <b1869c7f-0927-9a30-a195-a188719c748c@embeddedor.com>
+In-Reply-To: <b1869c7f-0927-9a30-a195-a188719c748c@embeddedor.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 14:13:02 +0300
-Message-ID: <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
-Subject: Re: [PATCH] x86: apuv2: Fix softdep statement
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
+Date:   Sat, 29 Jun 2019 16:13:16 +0300
+Message-ID: <CAHp75Vf52tq9UWx9sr3VihZSddQMoEcqeXWzW4y6CJFq7cgH0w@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: acer-wmi: Mark expected switch fall-throughs
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Darren Hart <dvhart@infradead.org>, "Lee, Chun-Yi" <jlee@suse.com>,
         Andy Shevchenko <andy@infradead.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 12:41 PM Jean Delvare <jdelvare@suse.de> wrote:
+On Thu, May 9, 2019 at 4:48 AM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+
+> Commit 5c742b45dd5fbbb6cf74d3378341704f4b23c5e8 mentions that "This was fixed
+> in acer_acpi some time ago, but I forgot to port the patch over to acer-wmi
+> when it was merged." Notice that this driver (acer-wmi) is based on the
+> no-longer existing acer_acpi driver. But after googling for a while I could
+> found the fix the original author talks about:
 >
-> Only one MODULE_SOFTDEP statement is allowed per module. Multiple
-> dependencies must be expressed in a single statement.
-
-Some module init utils even do not support softdep.
-
-Nevertheless, the message is somewhat misleading. It's not "only one
-allowed" =E2=80=94 this is not true, it's "only first will be served".
-This is how I read kmod sources.
-
-And perhaps better to fix them?
-At least I would rather support somelike
-MODULE_SOFTDEP("pre: ...");
-MODULE_SOFTDEP("post: ...");
-
-> Signed-off-by: Jean Delvare <jdelvare@suse.de>
-> Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>
-> Cc: Darren Hart <dvhart@infradead.org>
-> Cc: Andy Shevchenko <andy@infradead.org>
-> ---
->  drivers/platform/x86/pcengines-apuv2.c |    4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> https://repo.or.cz/acer_acpi.git/commitdiff/74c08a38875ffa9989c3100947650ac8a388c189
 >
-> --- linux-5.1.orig/drivers/platform/x86/pcengines-apuv2.c       2019-05-0=
-6 02:42:58.000000000 +0200
-> +++ linux-5.1/drivers/platform/x86/pcengines-apuv2.c    2019-06-29 11:37:=
-48.062005738 +0200
-> @@ -255,6 +255,4 @@ MODULE_DESCRIPTION("PC Engines APUv2/APU
->  MODULE_LICENSE("GPL");
->  MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
->  MODULE_ALIAS("platform:pcengines-apuv2");
-> -MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME);
-> -MODULE_SOFTDEP("pre: platform:leds-gpio");
-> -MODULE_SOFTDEP("pre: platform:gpio_keys_polled");
-> +MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:leds=
--gpio platform:gpio_keys_polled");
->
->
-> --
-> Jean Delvare
-> SUSE L3 Support
+> So, the fix is indeed similar and contains the same fall-throughs from case
+> ACER_AMW0_V2 to case ACER_WMID in both functions get_u32() and set_u32().
 
+Pushed to my review and testing queue, thanks!
 
-
---
+-- 
 With Best Regards,
 Andy Shevchenko
