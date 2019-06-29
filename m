@@ -2,107 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6595A5ABBA
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 16:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12ED05ABBC
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 16:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbfF2OS4 (ORCPT
+        id S1726801AbfF2OTq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 10:18:56 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37803 "EHLO
+        Sat, 29 Jun 2019 10:19:46 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46166 "EHLO
         mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726770AbfF2OSz (ORCPT
+        with ESMTP id S1726770AbfF2OTq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 10:18:55 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 19so4383231pfa.4;
-        Sat, 29 Jun 2019 07:18:55 -0700 (PDT)
+        Sat, 29 Jun 2019 10:19:46 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 81so4360921pfy.13
+        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Jun 2019 07:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9l1i0e9E3KExb1TZXbw5YKfu9Vo+bOWox+DaR8ptz/0=;
-        b=MFWhNzQxVYHJePcbGzneqQOlwYaOUDSOOWNzLj0OIebF2gKLAxr74MnTynIPwCSGgf
-         a0tkEIKhIvIUv0QJTEsufCFsZYdRjCu7rDSSaZWACmh3jh2UFLQGMh2INzwd8KzR7vmA
-         EEOe4Pjw2CLV2+eFlhZXWzyibhLi/MCP9nHsqJeeJOvrh2sz/Zi5TIcMHKQCwc2lgzkP
-         U1a3qMDMgRC1uSKs/GmywAK8GukM2Z9KBeyk8cml0jENtk7SZRRonAuxxOUZ25B/ewXL
-         jSNvJAsJRgI9rd6hBKt/a+Mw+cQKrXGxyXcjPUA1XI/rU6Rk2nUbl8BCLpTvd++X+mHk
-         sLtw==
+         :cc:content-transfer-encoding;
+        bh=UgA/uf/sXIrIV0KRsDZAIKU8xKrdYv//bvWdwxCrxXc=;
+        b=bYhtDHjCOrqN/AT2HB6eU6HSs60zG0QTtssT4zLN6P3AT7VkFKER9p7f6iHIbe21TI
+         5bbrQRwqw9onBK9cJUqbgWfKGTOTJe+MWbjngDTW9ghCSu8Wei6V1ZV/o7rThggKewOU
+         YV54k0gulzcIFzOdb4tB76+7OtOFYUk5MIfUfLaGKn/jixMnQIokGUZzENbkEB3S3zWT
+         8IGTQFWOD/T4FwacmhP+1II6S3fDxAqE5QPV2uQ8Yy5ZMSjwz4bEsnPmS9vc+uFAloNy
+         s7CWatq8J1gHUTFP4KX+Afg8AVlmw3JHtWpl+yZsjZovtgi99ZHd22DH9eFFJM+2P5wV
+         wL/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9l1i0e9E3KExb1TZXbw5YKfu9Vo+bOWox+DaR8ptz/0=;
-        b=aRHiHzzRfhloICoqE1okxmH+d0YtQRFucuHqrJQa+LKnFwAzHGRbIGO0ajHCmrYu3d
-         2yjcMRwvRjft8GZqM5jF5IleFeMEO871EPWS3F3Kjv/beP1JtDlais1OgaoHRlKUj3r4
-         1gAhKJwwv5YjR5cEwdp3tZdueRlF6ThYjwN3OdUHlpSaYXJhHGHeRO1e7AltKfIFNMQs
-         xejAWoXVTQPj2FlHjcL4/i+zYdwCDwLs/dUo4Os4/B+GIUtZ1PE3GhpccvnRgNRy2B/s
-         lf/rcvW52ltOBDBqO8vcXzVmLh60XtfzV2hqwp8AwGSdYBTvrZ569Z6lsgTe9Zerx2A+
-         d5Fg==
-X-Gm-Message-State: APjAAAXORiNF8L40ld9x7sAQfwLVcQk02Scux4iVhRLP9zAt1f6FVwnw
-        po2oinCGJH5ZzE/5pM3InCd2eJbbBYPeh7d/Vf9dPWcVuEQzHQ==
-X-Google-Smtp-Source: APXvYqwsCXcJ0hqEdIMKkeabIEy3Bxzvp2QttSiZmMQtiFYgn6O5pn8dSB3wSQo7408fFYb5C7N0u7Kcgn0i/qFvX9I=
-X-Received: by 2002:a65:448b:: with SMTP id l11mr14456233pgq.74.1561817935162;
- Sat, 29 Jun 2019 07:18:55 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=UgA/uf/sXIrIV0KRsDZAIKU8xKrdYv//bvWdwxCrxXc=;
+        b=flQM1uQXapfTt3/PaI9+NsLVw7RoLxNhSCh8wEFM85bitqlQ08fuW/rwAZDY5XJZdA
+         YrPwqF4vvyF9URhL5D5FLpkhvmIXfHokKOpbAmaeJGTzTwC451mlJayCiwyEeydO/EZK
+         6SCE6w66DLoWjpi9/5vc1NrqyjdCnyMjTLABPCxow0HLxj9WLQKS92G7tuMMEH9HSZCS
+         /mFsDGBaOIdhAUVGU/dmWRMBZsB02vlML2QFm+QQDZKu5UKOsUrajfQTrxqDgsbg28FV
+         0Uf29U0APAObTdI05kExO3Y7KE1GbfFArB0MzfWXNAE3ZV9FHR8JWKvu99V3M8qw+YUR
+         dvKg==
+X-Gm-Message-State: APjAAAXL9ZL7iFGkzjbrzeDbq4+B+lXX3E2n0fMFBamesOT3gfBEFyuI
+        RU69GaSBTo41YpaRMJzU6jucvG3rvS/q9w3/WlY=
+X-Google-Smtp-Source: APXvYqxXj4o4MF7Q9ZcKKdf4zyxUsBWC1UV61o0Jmc4G5i9LUYFAh5IiJjBJL9Pm//Fdt0JkgtVqzeUxjgKlayD4yVw=
+X-Received: by 2002:a63:f346:: with SMTP id t6mr15332227pgj.203.1561817985470;
+ Sat, 29 Jun 2019 07:19:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190618133102.8083-1-linux-kernel-dev@beckhoff.com>
-In-Reply-To: <20190618133102.8083-1-linux-kernel-dev@beckhoff.com>
+References: <20190623121630.17945-1-vadimp@mellanox.com> <20190623121630.17945-8-vadimp@mellanox.com>
+In-Reply-To: <20190623121630.17945-8-vadimp@mellanox.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 17:18:44 +0300
-Message-ID: <CAHp75VfT6NvAv8C-bNKu36_9R=H1f05QRQppNA19R7O=1qhzRQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: pmc_atom: Add CB4063 Beckhoff Automation
- board to critclk_systems DMI table
-To:     linux-kernel-dev@beckhoff.com
-Cc:     Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Sat, 29 Jun 2019 17:19:34 +0300
+Message-ID: <CAHp75VfM59NHvKZyqKRzMwmKtM4EU4Ppv-A+UPBWybHH5OpVdg@mail.gmail.com>
+Subject: Re: [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplicated
+ attribute for mlxreg-io sysfs interfaces
+To:     Vadim Pasternak <vadimp@mellanox.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 4:34 PM <linux-kernel-dev@beckhoff.com> wrote:
+On Sun, Jun 23, 2019 at 3:16 PM Vadim Pasternak <vadimp@mellanox.com> wrote=
+:
 >
-> From: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
->
-> The CB4063 board uses pmc_plt_clk* clocks for ethernet controllers. This
-> adds it to the critclk_systems DMI table so the clocks are marked as
-> CLK_CRITICAL and not turned off.
+> Remove duplicated attribute =E2=80=98jtag_en=E2=80=99, add instead missed=
+ attribute
+> =E2=80=98cpld3_version=E2=80=99.
 >
 
-Pushed to my review and testing queue, thanks!
+This one doesn't apply.
 
-> Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
-> Signed-off-by: Steffen Dirkwinkel <s.dirkwinkel@beckhoff.com>
+> Fixes: 52675da1d087f ("Documentation/ABI: Add new attribute for mlxreg-io=
+ sysfs interfaces")
+> Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
 > ---
->  drivers/platform/x86/pmc_atom.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  Documentation/ABI/stable/sysfs-driver-mlxreg-io | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
-> index be802fd2182d..551ed44dd361 100644
-> --- a/drivers/platform/x86/pmc_atom.c
-> +++ b/drivers/platform/x86/pmc_atom.c
-> @@ -412,6 +412,14 @@ static const struct dmi_system_id critclk_systems[] = {
->                         DMI_MATCH(DMI_BOARD_NAME, "CB3163"),
->                 },
->         },
-> +       {
-> +               /* pmc_plt_clk* - are used for ethernet controllers */
-> +               .ident = "Beckhoff CB4063",
-> +               .matches = {
-> +                       DMI_MATCH(DMI_SYS_VENDOR, "Beckhoff Automation"),
-> +                       DMI_MATCH(DMI_BOARD_NAME, "CB4063"),
-> +               },
-> +       },
->         {
->                 /* pmc_plt_clk* - are used for ethernet controllers */
->                 .ident = "Beckhoff CB6263",
+> diff --git a/Documentation/ABI/stable/sysfs-driver-mlxreg-io b/Documentat=
+ion/ABI/stable/sysfs-driver-mlxreg-io
+> index 8ca498447aeb..54202975ac3b 100644
+> --- a/Documentation/ABI/stable/sysfs-driver-mlxreg-io
+> +++ b/Documentation/ABI/stable/sysfs-driver-mlxreg-io
+> @@ -29,7 +29,7 @@ Description:  This file shows the system fans direction=
+:
+>
+>                 The files are read only.
+>
+> -What:          /sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/jtag=
+_enable
+> +What:          /sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/cpld=
+3_version
+>
+>  Date:          November 2018
+>  KernelVersion: 5.0
 > --
-> 2.22.0
+> 2.11.0
+>
 
 
-
--- 
+--=20
 With Best Regards,
 Andy Shevchenko
