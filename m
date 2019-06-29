@@ -2,103 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C42A5AC6C
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 18:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 838615AD9D
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jun 2019 00:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726849AbfF2QFZ (ORCPT
+        id S1726925AbfF2WRC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 12:05:25 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44410 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbfF2QFZ (ORCPT
+        Sat, 29 Jun 2019 18:17:02 -0400
+Received: from mga03.intel.com ([134.134.136.65]:19062 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726923AbfF2WRC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 12:05:25 -0400
-Received: by mail-pg1-f196.google.com with SMTP id n2so3938514pgp.11
-        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Jun 2019 09:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iOdDxebyLm5nLTtoQ7ZLHPvBhyo6oT61HZ0uTWA/kY4=;
-        b=e6/GaMKfZiosWrZNDWLaozr5/GqA9JIjt67d6LJzJzVfolkH8vEbEx3y5EZLpLw/4B
-         PjejyvdyjhNhYndsgllyso7xQaA/Skg+8yXgMPoB28wUglQ9nTWLHewAha5X501Corsh
-         KMZrwSOGoImsy/nNeVJOosqQUvEzbNuHMvaBJfqYbkSM4nGIqgnlrjelayfEA4cV0IoY
-         HTgSVIuzz6dcaBj3GclHYvB2JNPfolijiLgUBCPXQKI6y02g2BViJ7gm696iAWb7g+ce
-         h/04BvPotStS+ZgbtRLjZBymwBc5/MTeZZmNPMp7/2n+Np+6o61plPtiFLBfIthGZ0zA
-         gcjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iOdDxebyLm5nLTtoQ7ZLHPvBhyo6oT61HZ0uTWA/kY4=;
-        b=dT7aFdodG7fv+uGbDECa5fQZ+Wwioo7VDL/VXsajlJ3iCqjZ+JhSj1ccD1/YKWIGxR
-         9d0uNYGH6dCz8qslhv9qqcts/RJHZhkDzQVu4qmhiXKd8lJ922T74B1upHPPr7ViFUfJ
-         PJSs2EiQtteXUEmbjrmCHl3D/leNT+G0yhfmB6b+jyqq2xaT/z9V7N9+Cxf4GViIbymP
-         H5MOD3w9sTeXD+kJriEkStKtizTfJdZ8xf141fFu4y/lUU+FNSD8tXW+Sbb+WU1NbVFB
-         mI1Dz6dhELBxYAWhnBB6NNSNdAsjzoEF6inG7SOu74MZj9MnRdVDvYIZ2saKfGUWocrV
-         RIYQ==
-X-Gm-Message-State: APjAAAX0Li/wzdxx+8TNCoT1Q/Qu5PReeUnCuRd5llUutmEcEeVHX/XF
-        GiV2CmKQgXjrh0sMLiz+Sjj8yhDPM5EGJSEMV0g=
-X-Google-Smtp-Source: APXvYqw6yWKgMizhoIxWZUEdl1Alc6igiAi2a4+zJQQkR4rQIPOi/cyr5H6fODIA1tvf9832shL5unJeUfYWZddkc/w=
-X-Received: by 2002:a63:c0e:: with SMTP id b14mr15136932pgl.4.1561824324862;
- Sat, 29 Jun 2019 09:05:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190623121630.17945-1-vadimp@mellanox.com> <20190623121630.17945-8-vadimp@mellanox.com>
- <CAHp75VfM59NHvKZyqKRzMwmKtM4EU4Ppv-A+UPBWybHH5OpVdg@mail.gmail.com> <AM6PR05MB5224710500839EFCA22D9908A2FF0@AM6PR05MB5224.eurprd05.prod.outlook.com>
-In-Reply-To: <AM6PR05MB5224710500839EFCA22D9908A2FF0@AM6PR05MB5224.eurprd05.prod.outlook.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 19:05:14 +0300
-Message-ID: <CAHp75Vf-_siT3-t3r11d1uv8602jAZMuASpY8M=bOgF2VJ9CFw@mail.gmail.com>
-Subject: Re: [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplicated
- attribute for mlxreg-io sysfs interfaces
-To:     Vadim Pasternak <vadimp@mellanox.com>
+        Sat, 29 Jun 2019 18:17:02 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Jun 2019 15:17:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,433,1557212400"; 
+   d="scan'208";a="168093690"
+Received: from spandruv-mobl3.jf.intel.com ([10.254.24.202])
+  by orsmga006.jf.intel.com with ESMTP; 29 Jun 2019 15:17:00 -0700
+Message-ID: <41765249d4384d48437eba9c8640ecf167e629d2.camel@linux.intel.com>
+Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
+ Select commands
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
+        prarit@redhat.com, darcari@redhat.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
+Date:   Sat, 29 Jun 2019 15:17:00 -0700
+In-Reply-To: <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
+References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
+         <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
+         <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com>
+         <1c4238f7d18d316df82d3ba1618fecdcf014f98a.camel@linux.intel.com>
+         <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 6:37 PM Vadim Pasternak <vadimp@mellanox.com> wrote=
-:
-> > -----Original Message-----
-> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Sent: Saturday, June 29, 2019 5:20 PM
-> > To: Vadim Pasternak <vadimp@mellanox.com>
-> > Cc: Darren Hart <dvhart@infradead.org>; Platform Driver <platform-drive=
-r-
-> > x86@vger.kernel.org>
-> > Subject: Re: [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplic=
-ated
-> > attribute for mlxreg-io sysfs interfaces
-> >
-> > On Sun, Jun 23, 2019 at 3:16 PM Vadim Pasternak <vadimp@mellanox.com>
-> > wrote:
-> > >
-> > > Remove duplicated attribute =E2=80=98jtag_en=E2=80=99, add instead mi=
-ssed attribute
-> > > =E2=80=98cpld3_version=E2=80=99.
-> > >
-> >
-> > This one doesn't apply.
->
-> Hi Andy,
->
-> I suppose this is because
-> [PATCH] ABI: sysfs-driver-mlxreg-io: fix the what fields
-> was not applied to for-next.
->
-> Could it be applied before
-> [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplicated attribute =
-for mlxreg-io sysfs interfaces
->
-> Or 7/7 just could be removed from the patchset, and I'll re-submit it
-> after ' ABI: sysfs-driver-mlxreg-io: fix the what fields' will be in?
+On Sat, 2019-06-29 at 19:03 +0300, Andy Shevchenko wrote:
+> On Sat, Jun 29, 2019 at 5:53 PM Srinivas Pandruvada
+> <srinivas.pandruvada@linux.intel.com> wrote:
+> > On Sat, 2019-06-29 at 17:31 +0300, Andy Shevchenko wrote:
+> > > On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
+> > > <srinivas.pandruvada@linux.intel.com> wrote:
+> > > I need an Ack from tools/power maintainer(s) for this.
+> > > Also see below.
+> > 
+> > MAINTAINER file doesn't call for any special name in this folder.
+> 
+> And this tells me perhaps this driver needs a MAINTAINER record?
+I will submit a MAINTAINER file update. I was waiting for reviews.
 
-Second option sounds plausible.
+Thanks,
+Srinivas
 
---=20
-With Best Regards,
-Andy Shevchenko
+> 
+> > $./scripts/get_maintainer.pl 0010-tools-power-x86-A-tool-to-
+> > validate-
+> > Intel-Speed-Selec.patch
+> > Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > (commit_signer:1/1=100%,authored:1/1=100%,added_lines:31/31=100%,ad
+> > ded_
+> > lines:231/231=100%,added_lines:1607/1607=100%,added_lines:721/721=1
+> > 00%,
+> > added_lines:479/479=100%)
+> > linux-kernel@vger.kernel.org (open list)
+> > 
+> > Len and Rafael can you ACK this tool patch?
+> 
+> 
+
