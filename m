@@ -2,253 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 216B45ABD0
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 16:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F08DD5AC2E
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 17:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726807AbfF2O35 (ORCPT
+        id S1726851AbfF2Phv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 10:29:57 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33096 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbfF2O34 (ORCPT
+        Sat, 29 Jun 2019 11:37:51 -0400
+Received: from mail-eopbgr130044.outbound.protection.outlook.com ([40.107.13.44]:30819
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726819AbfF2Phv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 10:29:56 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c14so4865056plo.0;
-        Sat, 29 Jun 2019 07:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IzEQFdLkePu8S+e70/CK1YpMHu8Z2SM5sgKtoalqcfg=;
-        b=aFuj1jqXXQJCz3Hl02arAoLjlgbIKdNTNoDFc4BFx1tkZljTyURdf0CVi7p7EOYujO
-         O4+v6wBK+aY0IPtlxAkeQ8NZLmQTWGXhBC5qeBFpa/UmHEmnCx5XwFtW0fNrT+X/6leu
-         CS0f78c5ZkkJwKIZgdR6xqJXawmNxBX5Rz3KPbQiS3Cpwn7h6P0sUNLk4kfvBY7f6obU
-         ASuIVnJ3O6AcScGHHjoOAMNHdf++iBjV5tb9k25wsqojPTMZXP71qdlMbK49lljPxqzT
-         BtXjHwqSnAoE1Q42/FIw5dDBX49/Rw3rOko1K4jJRgv0rg5x9HM7c4Qgq8y+hMgkFss2
-         uOAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IzEQFdLkePu8S+e70/CK1YpMHu8Z2SM5sgKtoalqcfg=;
-        b=ptAN9WS/AtOyvVJDQPt3BeLLr20NmeKZN6E3GLTkcbztmKWgNATW8tMa1X96M8yc05
-         OWoCYbrTQ+oVixVNE507IFaqdfSJV9VSvG3+CGPSdQ8qat3+68Mcgbg06qnV4CaE+qnb
-         qTRFWTCR4PtWawtK557NWRtLEXUTYMYqwTd98hUHhHXgqXXnRzX1exzjHWdkMG38AmBE
-         h35Jb1mz/fZEW8tPC0sNoe9K2QKQ5TCG3tQW639uBZnu+zJLk3tbQBiVH8FlDa9JiCPW
-         HRfKWUUnql3QvKUs1jnmNGdy3anDldjBCqIh8bK3rRZYGNKftaFaXoMza2YVvBZSu49w
-         mEPw==
-X-Gm-Message-State: APjAAAWzHDaepJTSDeiJSTEKShS5jSmVn6RFJ3MNwiOnVsjaI4oNGq03
-        RIXH8Zx0ykGa6jrPOlM2xsI//pRsbkti+Hmwibqe5HbEwZk=
-X-Google-Smtp-Source: APXvYqxWlaOhpJLHCFVvMiZFAgHSUrXnlwY0Glnic0EmtQ/yIsNdDuAkoahbBQx1lT5MN2/8Hre10UcxIX88goxrTfA=
-X-Received: by 2002:a17:902:ab90:: with SMTP id f16mr17658579plr.262.1561818595593;
- Sat, 29 Jun 2019 07:29:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 17:29:44 +0300
-Message-ID: <CAHp75VfHfpti=yC6RWvz_PPwWXVe+LSSQ0+2rXkXJApPXN+HGg@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Intel(R) Speed Select Technology
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sat, 29 Jun 2019 11:37:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vtwi/VRoQliHcdhMlD3b2M5FS3NX+kcPq4LtJjaoiR4=;
+ b=ffRQ+fnlTi9rp4yBiETeWUew5tt0Oj4NEQRwRukzJW2M3Mubga8F53UI/YcZdz8Ztz6RwVvFRFtvh/jI/cbSx0nX8VFRfHTIlzfOsmiq231nM7razr1ZOD9OBkp9Ju3wWWckCJ539vl/aQjdbLTkRGhCZVAp15dvSCZtAJui9+A=
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com (20.177.196.210) by
+ AM6PR05MB4358.eurprd05.prod.outlook.com (52.135.162.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.20; Sat, 29 Jun 2019 15:37:46 +0000
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::9c01:fb00:b03c:e594]) by AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::9c01:fb00:b03c:e594%4]) with mapi id 15.20.2032.016; Sat, 29 Jun 2019
+ 15:37:46 +0000
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Darren Hart <dvhart@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: RE: [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplicated
+ attribute for mlxreg-io sysfs interfaces
+Thread-Topic: [PATCH v1 platform-next 7/7] Documentation/ABI: Fix duplicated
+ attribute for mlxreg-io sysfs interfaces
+Thread-Index: AQHVKb2MfmVeAkXoxEiWfvPMjpuPSKayt94AgAATetA=
+Date:   Sat, 29 Jun 2019 15:37:46 +0000
+Message-ID: <AM6PR05MB5224710500839EFCA22D9908A2FF0@AM6PR05MB5224.eurprd05.prod.outlook.com>
+References: <20190623121630.17945-1-vadimp@mellanox.com>
+ <20190623121630.17945-8-vadimp@mellanox.com>
+ <CAHp75VfM59NHvKZyqKRzMwmKtM4EU4Ppv-A+UPBWybHH5OpVdg@mail.gmail.com>
+In-Reply-To: <CAHp75VfM59NHvKZyqKRzMwmKtM4EU4Ppv-A+UPBWybHH5OpVdg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vadimp@mellanox.com; 
+x-originating-ip: [84.108.218.72]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a990d2aa-46dc-4e52-4185-08d6fca7bc04
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:AM6PR05MB4358;
+x-ms-traffictypediagnostic: AM6PR05MB4358:
+x-microsoft-antispam-prvs: <AM6PR05MB435848880C7D42FC10892AF4A2FF0@AM6PR05MB4358.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0083A7F08A
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(396003)(366004)(39840400004)(136003)(13464003)(199004)(189003)(476003)(14444005)(11346002)(446003)(74316002)(478600001)(256004)(66066001)(86362001)(2906002)(64756008)(66476007)(66946007)(73956011)(76116006)(52536014)(305945005)(33656002)(486006)(7736002)(66556008)(68736007)(66446008)(8676002)(6116002)(76176011)(6916009)(5660300002)(9686003)(3846002)(55016002)(102836004)(99286004)(53936002)(6246003)(53546011)(71200400001)(6506007)(25786009)(4326008)(26005)(71190400001)(6436002)(14454004)(316002)(7696005)(54906003)(229853002)(8936002)(81166006)(186003)(81156014);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB4358;H:AM6PR05MB5224.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: e4+waouwPSDulsk+KlhksREuDtUGRO5cSuyRhEV3Qd7wjycNCBQCgH5DiWnbum0pzBiQvgGx/2jvV6i2KliHOAL5J7bRKU4YMdgQ86q+qmBUJUoL6zXVohgV2dwcruzrebX6SpxBSbDgzuUbrMG3fyubQ7m0EokA1x2J1U1RUl5bxv/eGXn2vIhuQZ2f4sc0GWNxYZgadMdFDjf6Ctkae+scoKI7t3Wg3LGCEL6O0FVMkddfcdXFe7FiaFb4KfsZ2F62KWj1dIB8sJlSWQSykN0Fyg+dIaSYVt/TFv1g9aqKcjsLk/EBZ+QPg6sEGXeyMz44VGryNIqwNOPSVboGsoaNTS6QIO2h5LvsG5NPdIUMUxgV1YFSTiWhRbk1FZnqFIg/Sn7Ka6O6UPKiPnSEWNiY/wtXJI4qrjo/NDNLW50=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a990d2aa-46dc-4e52-4185-08d6fca7bc04
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2019 15:37:46.1998
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vadimp@mellanox.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4358
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Intel=C2=AE Speed Select Technology (Intel=C2=AE SST) =E2=80=94 A powerfu=
-l new collection of
-> features giving more granular control over CPU performance for optimized =
-total
-> cost of ownership and performance. With Intel=C2=AE SST, one server can b=
-e configured
-> for power and performance for variety of diverse workload requirements. I=
-n the
-> Linux submission code. we are using ISST to specify Intel=C2=AE SST to av=
-oid confusion
-> with existing use of SST for "Smart Sound Technology".
->
-> Refer to these links for overview of the technology released with some In=
-tel=C2=AE Xeon=C2=AE
-> Scalable processor (5218N, 6230N, and 6252N):
-> https://www.intel.com/content/www/us/en/architecture-and-technology/speed=
--select-technology-article.html
-> https://builders.intel.com/docs/networkbuilders/intel-speed-select-techno=
-logy-base-frequency-enhancing-performance.pdf
->
-> The next generation of Intel=C2=AE Xeon=C2=AE processors are adding more =
-features to the
-> Intel=C2=AE Speed Select Technology and allow dynamic configuration of th=
-ese features
-> from OS-software level instead from BIOS. This submission is adding new f=
-eatures
-> and dynamic configuration capabilities .
->
->
-> Intel SST Features:
->
-> Intel=C2=AE SST=E2=80=94Performance Profile (PP or perf-profile):
-> This feature allows one server to be configured for different workload re=
-quirements
-> instead of deploying different servers based on the workload requirement =
-reducing total
-> cost of ownership. With a single server deployed, the same server can be =
-reconfigured
-> dynamically to one of the supported profiles to suit the specific workloa=
-d requirements.
-> This feature introduces a mechanism that allows multiple optimized perfor=
-mance profiles
-> per system via static and/or dynamic adjustment of TDP level and other pe=
-rformance
-> parameters.
->
-> Intel=C2=AE SST=E2=80=94Core power (CP or core-power):
-> An Interface that allows user to define per core priority. This defines a=
- mechanism
-> to distribute power among cores when there is a power constrained scenari=
-o. This defines
-> a class of service configuration. Each CPU core can be tied to a class of=
- service and hence
-> an associated priority.
->
-> Intel=C2=AE SST=E2=80=94Base Frequency (BF or base-freq):
-> The Intel=C2=AE SST-BF feature lets user control and direct base frequenc=
-y. If some critical
-> workload threads demand constant high guaranteed performance, then this f=
-eature can be
-> used to execute the thread at higher base frequency on specific set of CP=
-Us.
->
-> Intel=C2=AE SST=E2=80=94Turbo frequency (TF or turbo-freq):
-> Enables the ability to set different all core turbo ratio limits to cores=
- based on the priority.
-> Using this features some cores can be configured to get higher turbo freq=
-uency by designating
-> them as high priority at the cost of lower or no turbo frequency on the l=
-ow priority cores.
->
-> Implementation
->
-> The Intel=C2=AE SST features are implemented in the firmware executing in=
- the the power
-> management unit (we are calling PUNIT here for short). The mechanism to c=
-ontrol these
-> features are specific to firmware implementation for Intel=C2=AE Xeon=C2=
-=AE CPUs and are not architectural
-> features. The interface mechanism and semantics of the messages can chang=
-e in future Xeon
-> CPUs. Hence there is minimal kernel implementation by offering direct com=
-munication
-> to PUNIT via set of IOCTLs. The actual messages which can be sent to PUNI=
-T are specified
-> in the following document link:
->
-> https://github.com/intel/CommsPowerManagement/blob/master/intel_sst_os_in=
-terface/mailbox.md
->
-> The idea here is that user space software like cloud orchestration softwa=
-re based on their workload
-> requirement configure the system. There is a full featured "Intel Speed S=
-elect" utility
-> submitted to kernel power tools, which can be used to validate and exerci=
-se the features.
->
-> Types of PUNIT interfaces
-> There are two types of interfaces. One using Mail box communications, whi=
-ch is facilitated
-> by a PCI device or in some Xeon=C2=AE CPUs using MSRs; and other using an=
- MMIO interface, which is
-> used primarily for core prioritization. For hiding details a single chara=
-cter device is created
-> to handle IOCTLs. The following block diagram shows the implementation ov=
-erview.
->
->
-> User            User Space tool(intel-speed-select)/Cloud Orchestration s=
-oftware
->                                            IOCTLs
-> ---------------------------------------character device------------------=
-------------
-> kernel                          Common driver handling IOCTLs
->                         Mail Box drivers(PCI & MSR)     PCI MMIO driver
-> -------------------------------------------------------------------------=
--
-> Hardware                                    PUNIT
->
->
->
-
-Pushed to my review and testing queue, thanks!
-
-> Srinivas Pandruvada (10):
->   platform/x86: ISST: Update ioctl-number.txt for Intel Speed Select
->     interface
->   platform/x86: ISST: Add common API to register and handle ioctls
->   platform/x86: ISST: Store per CPU information
->   platform/x86: ISST: Add IOCTL to Translate Linux logical CPU to PUNIT
->     CPU number
->   platform/x86: ISST: Add Intel Speed Select mmio interface
->   platform/x86: ISST: Add Intel Speed Select mailbox interface via PCI
->   platform/x86: ISST: Add Intel Speed Select mailbox interface via MSRs
->   platform/x86: ISST: Add Intel Speed Select PUNIT MSR interface
->   platform/x86: ISST: Restore state on resume
->   tools/power/x86: A tool to validate Intel Speed Select commands
->
->  Documentation/ioctl/ioctl-number.txt          |    1 +
->  drivers/platform/x86/Kconfig                  |    2 +
->  drivers/platform/x86/Makefile                 |    1 +
->  .../x86/intel_speed_select_if/Kconfig         |   17 +
->  .../x86/intel_speed_select_if/Makefile        |   10 +
->  .../intel_speed_select_if/isst_if_common.c    |  672 +++++++
->  .../intel_speed_select_if/isst_if_common.h    |   69 +
->  .../intel_speed_select_if/isst_if_mbox_msr.c  |  216 +++
->  .../intel_speed_select_if/isst_if_mbox_pci.c  |  214 +++
->  .../x86/intel_speed_select_if/isst_if_mmio.c  |  180 ++
->  include/uapi/linux/isst_if.h                  |  172 ++
->  tools/power/x86/intel_speed_select/Makefile   |   31 +
->  tools/power/x86/intel_speed_select/isst.h     |  231 +++
->  .../x86/intel_speed_select/isst_config.c      | 1607 +++++++++++++++++
->  .../power/x86/intel_speed_select/isst_core.c  |  721 ++++++++
->  .../x86/intel_speed_select/isst_display.c     |  479 +++++
->  16 files changed, 4623 insertions(+)
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/Kconfig
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/Makefile
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_co=
-mmon.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_co=
-mmon.h
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mb=
-ox_msr.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mb=
-ox_pci.c
->  create mode 100644 drivers/platform/x86/intel_speed_select_if/isst_if_mm=
-io.c
->  create mode 100644 include/uapi/linux/isst_if.h
->  create mode 100644 tools/power/x86/intel_speed_select/Makefile
->  create mode 100644 tools/power/x86/intel_speed_select/isst.h
->  create mode 100644 tools/power/x86/intel_speed_select/isst_config.c
->  create mode 100644 tools/power/x86/intel_speed_select/isst_core.c
->  create mode 100644 tools/power/x86/intel_speed_select/isst_display.c
->
-> --
-> 2.17.2
->
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5keSBTaGV2Y2hlbmtv
+IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBTYXR1cmRheSwgSnVuZSAyOSwg
+MjAxOSA1OjIwIFBNDQo+IFRvOiBWYWRpbSBQYXN0ZXJuYWsgPHZhZGltcEBtZWxsYW5veC5jb20+
+DQo+IENjOiBEYXJyZW4gSGFydCA8ZHZoYXJ0QGluZnJhZGVhZC5vcmc+OyBQbGF0Zm9ybSBEcml2
+ZXIgPHBsYXRmb3JtLWRyaXZlci0NCj4geDg2QHZnZXIua2VybmVsLm9yZz4NCj4gU3ViamVjdDog
+UmU6IFtQQVRDSCB2MSBwbGF0Zm9ybS1uZXh0IDcvN10gRG9jdW1lbnRhdGlvbi9BQkk6IEZpeCBk
+dXBsaWNhdGVkDQo+IGF0dHJpYnV0ZSBmb3IgbWx4cmVnLWlvIHN5c2ZzIGludGVyZmFjZXMNCj4g
+DQo+IE9uIFN1biwgSnVuIDIzLCAyMDE5IGF0IDM6MTYgUE0gVmFkaW0gUGFzdGVybmFrIDx2YWRp
+bXBAbWVsbGFub3guY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IFJlbW92ZSBkdXBsaWNhdGVkIGF0
+dHJpYnV0ZSDigJhqdGFnX2Vu4oCZLCBhZGQgaW5zdGVhZCBtaXNzZWQgYXR0cmlidXRlDQo+ID4g
+4oCYY3BsZDNfdmVyc2lvbuKAmS4NCj4gPg0KPiANCj4gVGhpcyBvbmUgZG9lc24ndCBhcHBseS4N
+Cg0KSGkgQW5keSwNCg0KSSBzdXBwb3NlIHRoaXMgaXMgYmVjYXVzZQ0KW1BBVENIXSBBQkk6IHN5
+c2ZzLWRyaXZlci1tbHhyZWctaW86IGZpeCB0aGUgd2hhdCBmaWVsZHMNCndhcyBub3QgYXBwbGll
+ZCB0byBmb3ItbmV4dC4NCg0KQ291bGQgaXQgYmUgYXBwbGllZCBiZWZvcmUNCltQQVRDSCB2MSBw
+bGF0Zm9ybS1uZXh0IDcvN10gRG9jdW1lbnRhdGlvbi9BQkk6IEZpeCBkdXBsaWNhdGVkIGF0dHJp
+YnV0ZSBmb3IgbWx4cmVnLWlvIHN5c2ZzIGludGVyZmFjZXMNCg0KT3IgNy83IGp1c3QgY291bGQg
+YmUgcmVtb3ZlZCBmcm9tIHRoZSBwYXRjaHNldCwgYW5kIEknbGwgcmUtc3VibWl0IGl0DQphZnRl
+ciAnIEFCSTogc3lzZnMtZHJpdmVyLW1seHJlZy1pbzogZml4IHRoZSB3aGF0IGZpZWxkcycgd2ls
+bCBiZSBpbj8NCg0KVGhhbmtzLA0KVmFkaW0uDQoNCj4gDQo+ID4gRml4ZXM6IDUyNjc1ZGExZDA4
+N2YgKCJEb2N1bWVudGF0aW9uL0FCSTogQWRkIG5ldyBhdHRyaWJ1dGUgZm9yDQo+ID4gbWx4cmVn
+LWlvIHN5c2ZzIGludGVyZmFjZXMiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IFZhZGltIFBhc3Rlcm5h
+ayA8dmFkaW1wQG1lbGxhbm94LmNvbT4NCj4gPiAtLS0NCj4gPiAgRG9jdW1lbnRhdGlvbi9BQkkv
+c3RhYmxlL3N5c2ZzLWRyaXZlci1tbHhyZWctaW8gfCAyICstDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0Rv
+Y3VtZW50YXRpb24vQUJJL3N0YWJsZS9zeXNmcy1kcml2ZXItbWx4cmVnLWlvDQo+ID4gYi9Eb2N1
+bWVudGF0aW9uL0FCSS9zdGFibGUvc3lzZnMtZHJpdmVyLW1seHJlZy1pbw0KPiA+IGluZGV4IDhj
+YTQ5ODQ0N2FlYi4uNTQyMDI5NzVhYzNiIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24v
+QUJJL3N0YWJsZS9zeXNmcy1kcml2ZXItbWx4cmVnLWlvDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlv
+bi9BQkkvc3RhYmxlL3N5c2ZzLWRyaXZlci1tbHhyZWctaW8NCj4gPiBAQCAtMjksNyArMjksNyBA
+QCBEZXNjcmlwdGlvbjogIFRoaXMgZmlsZSBzaG93cyB0aGUgc3lzdGVtIGZhbnMgZGlyZWN0aW9u
+Og0KPiA+DQo+ID4gICAgICAgICAgICAgICAgIFRoZSBmaWxlcyBhcmUgcmVhZCBvbmx5Lg0KPiA+
+DQo+ID4gLVdoYXQ6ICAgICAgICAgIC9zeXMvZGV2aWNlcy9wbGF0Zm9ybS9tbHhwbGF0L21seHJl
+Zy0NCj4gaW8vaHdtb24vaHdtb24qL2p0YWdfZW5hYmxlDQo+ID4gK1doYXQ6ICAgICAgICAgIC9z
+eXMvZGV2aWNlcy9wbGF0Zm9ybS9tbHhwbGF0L21seHJlZy0NCj4gaW8vaHdtb24vaHdtb24qL2Nw
+bGQzX3ZlcnNpb24NCj4gPg0KPiA+ICBEYXRlOiAgICAgICAgICBOb3ZlbWJlciAyMDE4DQo+ID4g
+IEtlcm5lbFZlcnNpb246IDUuMA0KPiA+IC0tDQo+ID4gMi4xMS4wDQo+ID4NCj4gDQo+IA0KPiAt
+LQ0KPiBXaXRoIEJlc3QgUmVnYXJkcywNCj4gQW5keSBTaGV2Y2hlbmtvDQo=
