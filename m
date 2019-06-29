@@ -2,117 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFEDB5AB84
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 15:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B16D25ABB9
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 16:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbfF2NYX (ORCPT
+        id S1726810AbfF2OSj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 09:24:23 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41134 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbfF2NYX (ORCPT
+        Sat, 29 Jun 2019 10:18:39 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:41803 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726770AbfF2OSj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 09:24:23 -0400
-Received: by mail-pg1-f193.google.com with SMTP id q4so2363482pgj.8;
-        Sat, 29 Jun 2019 06:24:23 -0700 (PDT)
+        Sat, 29 Jun 2019 10:18:39 -0400
+Received: by mail-pf1-f195.google.com with SMTP id m30so4364565pff.8;
+        Sat, 29 Jun 2019 07:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GyjmIieAkSvtFPJ2RM/QvCR+edPTBd5UDZcV9pbUH70=;
-        b=WQm+cBYM3gl/LV62mWMLGd48RbcRoNGivwXmtpu2+hj4KHy0nqlFBNV/ulHzrlXtaB
-         xEVFcniaStIOW6xti2blE5qT62ejR4HIwE5BBytIrro/L4dbLrgrUAMMiGLIgJeZx8z6
-         O6JKMjiMPvvm8PQc+F2MQ2MhnmgzCuEcWsYfBbLTOqmHgH/oRrJ3R6M9dgm2f+9OjuYt
-         s9XalmOQI9c6qfz4833Tvf2Xj2pQ2Hm4KdUTxVwlTbCXYULATavJmzZ7kVlS83fnO4DB
-         aZZDlJpTYxeGNH/LUXi48CbIThFvCpAc4em7ijai2Wq9J42PsX3RpSS8UcG1xQyUkAgE
-         iYeg==
+        bh=TueofaNrt5ApDuSOVktMj9KHv4fYZr58pNUpGFN5EEg=;
+        b=K3c5PRK2DBwgX5OPGu3eaY3z29hUSjL5EER/VPUoZ+NV/sCZHsdUqHl1VY9gy9aCD4
+         A3xM6mm5WQ7IA9LN06mRuloytnBCEfdDOMzY/fwY5MlOAsCUgUen2A9ku/tgmQ3f80w2
+         9rKpDb8KtV+Bat2LOACJD1+UE8CN6Sb+vKz8pKgQV+lxLe2QVkXNaqV+qRTdMPlJSi3y
+         5wGnVIzgToKcb8eHjfFyxf1kjBVA5Fn+N1ift9cBiM00tQxFapcVfI85ePTkpHbtznfg
+         ia6zwFc0+Q+aLCX+p7/9VfdW48BgSMVF+9XSeU3l/SgIleM5rWSwq6IJ6pvuCQqtwBiM
+         4D2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GyjmIieAkSvtFPJ2RM/QvCR+edPTBd5UDZcV9pbUH70=;
-        b=WXm0QoZflbCVh9H/nOAVdDGPZY1TBktFkvzq1JfJfI6HIk5L9w/u6Eu+yXfSoj/sq5
-         axp1duAMo1beMzy45YPWzTWl7Bggko77uAo44tUVyR4liH6WjtLl4g1ig4HMb4Qrqikq
-         NUMx3atGLRZo73pin5CgbVwrMYwUFKpM4lqcqvZSvkzSmKvvKkmrD5maUlBM31hzBK4n
-         e64uiE+a+9Hhb1QKB7l6KtVyFZd5Z5E7b0OPnHFhtnltO3WuTP7ROPvfCN6ZMOZq87GM
-         ithrl/R5MxyY4fDgHZ9pe2/ZuyGGZklW2f3PzP6dmfR22ghLmGmRySF1AiDZ/VtKw0G+
-         xWfQ==
-X-Gm-Message-State: APjAAAWU30lIObUMfgX6F5QuSHB8QVYE/0ginRdxftbp8b+R8P26jmBQ
-        M4ODHeh0JVmOUutDPK2G2nkbVfSbAhCcfok2psc=
-X-Google-Smtp-Source: APXvYqz7AKBOSLAxjwKqdOQSXA9EF+XcoSJ++b/3XkGy9KzHMgJ8weg1o+idfwinPqCrqBEY/WfZvjF01mK2EO4qnZE=
-X-Received: by 2002:a17:90b:8d2:: with SMTP id ds18mr19791419pjb.132.1561814662655;
- Sat, 29 Jun 2019 06:24:22 -0700 (PDT)
+        bh=TueofaNrt5ApDuSOVktMj9KHv4fYZr58pNUpGFN5EEg=;
+        b=XKxzqhgF+2g8dcrgbi0fNtrwneduQkM5bXKd/6tcHMKpwU9MTNzj0a711lNZSdR2Tm
+         6c3PDGtvGyQZk1IP7HGlqGKStrpeT8Mn6FMH4a8fCBpUI+R9Ipig5DvDERa20eg7lfk6
+         /Q7oNWPGk1MOBnuFCMkD38eS3qYtf4OwCHKHZxwYLDZCGxGAfCuu4quRsCp3WGKTsRVN
+         7DKQl1O8vGixot/bq+8Dphgz4e7+GO12PVcnPfKL06JPSARSsp7dpDUBECWU9I6mxqM5
+         wvWWLYRCJxG8F9MMLq7qFaS8zsNzw+kEsXSDU8oGVQ8Ne/RxRm4WYedPrrUZkWT8YdKu
+         NM8A==
+X-Gm-Message-State: APjAAAVk4gOR+sdnqrf9IRG2tPAFMBRhl4jCLUuzdCCralX87NLpsohI
+        zNxxeMfS8SNOyeayJJc60N2hh4eUFzdsMfNmSDc=
+X-Google-Smtp-Source: APXvYqzeEJBbIfcvRZw2Q8SBHBej6B3PZhF/eC73Lp0rClzMxntIOGvVUos3bMGlvbUCF3AJEQVAmlCrb0jhc+FEwK8=
+X-Received: by 2002:a63:c0e:: with SMTP id b14mr14713106pgl.4.1561817918572;
+ Sat, 29 Jun 2019 07:18:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190528025727.6014-1-harry.pan@intel.com> <20190619082801.21699-1-harry.pan@intel.com>
-In-Reply-To: <20190619082801.21699-1-harry.pan@intel.com>
+References: <20190620115056.4169-1-luzmaximilian@gmail.com>
+In-Reply-To: <20190620115056.4169-1-luzmaximilian@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 16:24:11 +0300
-Message-ID: <CAHp75VdnL1CHvbo+JWwKVhCaqnT45GVVjtLKppnvnbOPfvbURw@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/x86: intel_pmc_core: transform Pkg C-state
- residency from TSC ticks into microseconds
-To:     Harry Pan <harry.pan@intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, gs0622@gmail.com,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Andy Shevchenko <andy@infradead.org>,
+Date:   Sat, 29 Jun 2019 17:18:26 +0300
+Message-ID: <CAHp75VcSDvjnS57mS2HyEvUyBRGv68yxXt7wCbJHK3pw98UiOg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Support for buttons on newer MS Surface devices
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Darren Hart <dvhart@infradead.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 11:29 AM Harry Pan <harry.pan@intel.com> wrote:
+On Thu, Jun 20, 2019 at 2:51 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
 >
-> Refer to the Intel SDM Vol.4, the package C-state residency counters
-> of modern IA micro-architecture are all ticking in TSC frequency,
-> hence we can apply simple math to transform the ticks into microseconds.
-> i.e.,
-> residency (ms) = count / tsc_khz
-> residency (us) = count / tsc_khz * 1000
+> This series adds suport for power and volume buttons on 5th and 6th
+> generation Microsoft Surface devices. Specifically, it adds support for
+> the power-button on the Surface Laptop 1 and Laptop 2, as well as
+> support for power- and (on-device) volume-buttons on the Surface Pro 5
+> (2017), Pro 6, and Book 2.
 >
-> This also aligns to other sysfs debug entries of residency counter in
-> the same metric in microseconds, benefits reading and scripting.
+> These devices use the same MSHW0040 device as on the Surface Pro 4,
+> however, whereas the Pro 4 uses an ACPI notify handler, the newer
+> devices use GPIO interrupts to signal these events.
 >
-> v2: restore the accidentally deleted newline, no function change.
-> v3: apply kernel do_div() macro to calculate division
+> The first patch of this series ensures that the surfacepro3_button
+> driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+> devices. The second patch adapts soc_button_array to implement the
+> actual button support.
 >
-> Signed-off-by: Harry Pan <harry.pan@intel.com>
+> I think the changes to soc_button_array in the second patch warrant a
+> thorough review. I've tried to make things a bit more generic to be able
+> to integrate arbitrary ACPI GPIO power-/volume-button devices more
+> easily, I'm not sure if there may be reasons against this.
+>
+> These patches have also been tested on various Surface devices via the
+> github.com/jakeday/linux-surface patchset.
 >
 
 Pushed to my review and testing queue, thanks!
 
-> ---
+> Maximilian Luz (2):
+>   platform: Fix device check for surfacepro3_button
+>   input: soc_button_array for newer surface devices
 >
->  drivers/platform/x86/intel_pmc_core.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-> index f2c621b55f49..ab798efacc85 100644
-> --- a/drivers/platform/x86/intel_pmc_core.c
-> +++ b/drivers/platform/x86/intel_pmc_core.c
-> @@ -24,6 +24,7 @@
->  #include <asm/cpu_device_id.h>
->  #include <asm/intel-family.h>
->  #include <asm/msr.h>
-> +#include <asm/tsc.h>
->
->  #include "intel_pmc_core.h"
->
-> @@ -738,7 +739,9 @@ static int pmc_core_pkgc_show(struct seq_file *s, void *unused)
->                 if (rdmsrl_safe(map[index].bit_mask, &pcstate_count))
->                         continue;
->
-> -               seq_printf(s, "%-8s : 0x%llx\n", map[index].name,
-> +               pcstate_count *= 1000;
-> +               do_div(pcstate_count, tsc_khz);
-> +               seq_printf(s, "%-8s : %llu\n", map[index].name,
->                            pcstate_count);
->         }
+>  drivers/input/misc/soc_button_array.c     | 134 ++++++++++++++++++++--
+>  drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+>  2 files changed, 160 insertions(+), 12 deletions(-)
 >
 > --
-> 2.20.1
+> 2.22.0
 >
 
 
