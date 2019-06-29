@@ -2,101 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B9C35AB6F
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 15:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53AA65AB79
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jun 2019 15:18:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfF2NRN (ORCPT
+        id S1726807AbfF2NS6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 09:17:13 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38419 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726723AbfF2NRN (ORCPT
+        Sat, 29 Jun 2019 09:18:58 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40300 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726723AbfF2NS6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 09:17:13 -0400
-Received: by mail-pl1-f193.google.com with SMTP id 9so4023290ple.5;
-        Sat, 29 Jun 2019 06:17:13 -0700 (PDT)
+        Sat, 29 Jun 2019 09:18:58 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p184so4329379pfp.7;
+        Sat, 29 Jun 2019 06:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uDIV4a0i1z5RBGO8wq6m3SKx8Sgt3IM3RbtpqDU5AZI=;
-        b=gfGn8M6cr8R5VydfYKQUZ+DdzJQXzDqvDzKRLpSA552gXQe8/4wkWGoirIbwxk97tO
-         B+1B4ufe1y0mhu+hRIdNU/M7dkK5JAsM+OjQRTn3oXZjowtJJ6x0POWUB/rUm6jfpEpW
-         KUbt59J2j/iBPjUTb/LxLROlTU2y/kUd4LTRcX2Rm6t4c16cUp+PIrIuyTLG+7XHyF2U
-         hTC70RkbX7bhoinJhV4Zxs8gwnreDubS/g/++0w837vV2jCxUI8mKkWc3qUSgrHCLXXE
-         2+9lYCcOI1xKoppCHM2nuP36F+qwJbVmPoenAH00vtXrtbbxfR+E3PoAl06cWGkxOGpf
-         zyag==
+        bh=uE4JWFxIDLE7QZ3dkStTMJSounb4q6HcO5SZYQs1Co8=;
+        b=q9+fIyAwictr27nY1/xezbD7JUcdXBpscjlxo3l3gnmjHwO9OVhpcl0jzKZgZh1JqC
+         QqEzj/eRMIUDqMRVfOZDUn7EtKVF8NwhnxhALgfB106kPs/Z52Hk92KtQiD03ijsyTDn
+         YiwokvLxYxlWjQ1Pl25vJ117xyscSn+y6Kkp98km57hiuDksTlCvycQm2kqygJBA8NJR
+         jlgJDTJxZEcZQWkxwHJuuNtiShnFoVQt9bfkgtK4iR90nvborGL/8cJty2AzzSiC9yHZ
+         21OssENh3LhW6n2l7FMoYdEiCcvT5WivVbp7Z6uBOMtIxriYSegkEEsjr9RLKlCgbbR/
+         9hVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uDIV4a0i1z5RBGO8wq6m3SKx8Sgt3IM3RbtpqDU5AZI=;
-        b=pb7CH6dwdJms7GJJRYM5aHIk0E6TpZ6MOLh6OfFf2RLVA9H8YrXiCLYqlgGUIyA74T
-         hanpimaJNM5Mi50qhs8LbJlZf2EJRd5fAtnUQY7eOQWxE/jkZoMHyRDuk4oiABCPLHxA
-         mJU2nP0yWlBZSVeagLh3aunZLneyWjDL3cBv1/bv3G19A7PnBUBidMOn/i1Ga7nX+pvl
-         D04jwDPFHMb0g7hXBUua45j5civQoC2l/Elvs+3WW0ud2ruVnYMUMFOVpPojc3xd/llB
-         EW8dmaFa0fSWaPWqBi4Ay3eLVj9aeayU1kB77kSh0DRLoePZEaWanOJmwQSmAvFfM7Uk
-         NYOw==
-X-Gm-Message-State: APjAAAWDUAqtaPWqNrp3Xlw0wNyGtJ+JdctesQzqOep2PMLipmfb3qiv
-        u4eB92z4t2otlbZnZSZFJhRJb56oDAMVX1P4D0I=
-X-Google-Smtp-Source: APXvYqwF7psoVrgqeU0y6nHrADGyWRXLHg94eI3RU+igsydbwSgstb5K9SHWRVnMPQXxX2FGnhY8ZFL1rw2M/btJYfs=
-X-Received: by 2002:a17:902:694a:: with SMTP id k10mr17467364plt.255.1561814232894;
- Sat, 29 Jun 2019 06:17:12 -0700 (PDT)
+        bh=uE4JWFxIDLE7QZ3dkStTMJSounb4q6HcO5SZYQs1Co8=;
+        b=LcN8SvQOPnXDZvu4WyFqzlNRcep30DVMBvcc5WBpjpMBGZ4Jt53dru+ydwbSy3IBsG
+         bXDvJcU3mBa51dswnl8VljQBzKKqKulFoIAhnZfaex0ZWgUqaK6s6mGSIUUpNdVkNYxW
+         psrm9rQkqEZrrM4Kty1KYQ5RrB9luys9mGYshRbMQyzkLJ9/iphwsdMX3wVyfwOED0eS
+         6lTdLcxS45DcyHQn81y7D0s3atH1YNue2Hj39j26x5HLQs0kBJXPdWuTvm9myltfrzUu
+         cR4yDnCeZ7NB4SqJwg2fP10lArMyqi4U0FDdj7vNmTmV5jnHokQEuZmX2jVLsuUhMCkt
+         mMpQ==
+X-Gm-Message-State: APjAAAWmhZwV2+3sJxYvcbXrDP/k6Fdhktb2KBOYK91n/RYrNxYOeBa+
+        hzrzn8ak1TFYz5l+SV2zB7QVyZABVq0oqNPpJSw=
+X-Google-Smtp-Source: APXvYqy0Ei/3YH571qP80ANeoil9DAzasU3yxaoAgq8C9V7FZozwLCDd6INRwEyMNG6uoBQOFSup6xXG/b4NkcGEoAA=
+X-Received: by 2002:a65:448b:: with SMTP id l11mr14215898pgq.74.1561814337909;
+ Sat, 29 Jun 2019 06:18:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559094951-25391-1-git-send-email-92siuyang@gmail.com>
-In-Reply-To: <1559094951-25391-1-git-send-email-92siuyang@gmail.com>
+References: <20190614080940.13640-1-rajneesh.bhardwaj@linux.intel.com>
+In-Reply-To: <20190614080940.13640-1-rajneesh.bhardwaj@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 29 Jun 2019 16:17:01 +0300
-Message-ID: <CAHp75Vc1gMowXgBPFaTo9_B_4B443+F2XDn_2xGj6chahk1wOg@mail.gmail.com>
-Subject: Re: [PATCH] intel_menlow: avoid null pointer deference error
-To:     Young Xiao <92siuyang@gmail.com>
-Cc:     Sujith Thomas <sujith.thomas@intel.com>,
+Date:   Sat, 29 Jun 2019 16:18:45 +0300
+Message-ID: <CAHp75VfMdKqpC3_gF-VzcJQqiWM9E0irORr60KLXyu8HuQg9KA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: intel_pmc_core: Add ICL-NNPI support to PMC Core
+To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 29, 2019 at 4:55 AM Young Xiao <92siuyang@gmail.com> wrote:
+On Fri, Jun 14, 2019 at 11:14 AM Rajneesh Bhardwaj
+<rajneesh.bhardwaj@linux.intel.com> wrote:
 >
-> Fix a null pointer deference by acpi_driver_data() if device is
-> null (dereference before check). We should only set cdev and check
-> this is OK after we are sure device is not null.
+> Ice Lake Neural Network Processor for deep learning inference a.k.a.
+> ICL-NNPI can re-use Ice Lake Mobile regmap to enable Intel PMC Core
+> driver on it.
 >
 
-Pushed to my review and testing queue, thanks!
+This will be postponed till next cycle since the CPU model will not
+appear before merge window.
+So, please, resend than (I guess somewhat in a month).
 
-> Signed-off-by: Young Xiao <92siuyang@gmail.com>
+> Cc: Darren Hart <dvhart@infradead.org>
+> Cc: Andy Shevchenko <andy@infradead.org>
+> Cc: platform-driver-x86@vger.kernel.org
+> Link: https://lkml.org/lkml/2019/6/5/1034
+> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
 > ---
->  drivers/platform/x86/intel_menlow.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  drivers/platform/x86/intel_pmc_core.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/platform/x86/intel_menlow.c b/drivers/platform/x86/intel_menlow.c
-> index 77eb870..28feb5c 100644
-> --- a/drivers/platform/x86/intel_menlow.c
-> +++ b/drivers/platform/x86/intel_menlow.c
-> @@ -180,9 +180,13 @@ static int intel_menlow_memory_add(struct acpi_device *device)
+> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+> index 1d902230ba61..be6cda89dcf5 100644
+> --- a/drivers/platform/x86/intel_pmc_core.c
+> +++ b/drivers/platform/x86/intel_pmc_core.c
+> @@ -815,6 +815,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
+>         INTEL_CPU_FAM6(KABYLAKE_DESKTOP, spt_reg_map),
+>         INTEL_CPU_FAM6(CANNONLAKE_MOBILE, cnp_reg_map),
+>         INTEL_CPU_FAM6(ICELAKE_MOBILE, icl_reg_map),
+> +       INTEL_CPU_FAM6(ICELAKE_NNPI, icl_reg_map),
+>         {}
+>  };
 >
->  static int intel_menlow_memory_remove(struct acpi_device *device)
->  {
-> -       struct thermal_cooling_device *cdev = acpi_driver_data(device);
-> +       struct thermal_cooling_device *cdev;
-> +
-> +       if (!device)
-> +               return -EINVAL;
->
-> -       if (!device || !cdev)
-> +       cdev = acpi_driver_data(device);
-> +       if (!cdev)
->                 return -EINVAL;
->
->         sysfs_remove_link(&device->dev.kobj, "thermal_cooling");
 > --
-> 2.7.4
+> 2.17.1
 >
 
 
