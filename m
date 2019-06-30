@@ -2,58 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AA7C5AEB6
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jun 2019 07:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8D55AEBA
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jun 2019 07:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbfF3Flt (ORCPT
+        id S1726968AbfF3Flw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 30 Jun 2019 01:41:49 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:34435 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbfF3Fls (ORCPT
+        Sun, 30 Jun 2019 01:41:52 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:41847 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbfF3Flv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 30 Jun 2019 01:41:48 -0400
-Received: by mail-vs1-f66.google.com with SMTP id q64so6764128vsd.1;
-        Sat, 29 Jun 2019 22:41:48 -0700 (PDT)
+        Sun, 30 Jun 2019 01:41:51 -0400
+Received: by mail-vs1-f65.google.com with SMTP id 2so6745600vso.8;
+        Sat, 29 Jun 2019 22:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YmPyHZ8dDaGq4wOOYUfRrP02saBuikUQohVrtGbVNIQ=;
-        b=oDsbwwHbK68Ni8qTmaH83d6uoBN2aaEfFMv3CNPeT20QpwXOzPAtvHUFSGXXWIBinQ
-         drXSxr2afFIEyF9fdJobBO9C9/XY7p+RKWYJebkrUUao7v1pYWK6cEbAeTWdaMmw1TjO
-         7pXdyMObIPh7+z1KDbtIPjZgx30RYW+QuYWrgrn+FTUWVrWttYz6iPAqSxsa7DlFyy4J
-         FI7/1ZU9iS/NyAI29RCpnRJ2xhlsK9aXPm9UcplfmY/xroLbTxq/9PCqnJR0ygSrqQrn
-         YIcMMus5Js6QE1kmPEz3yZTl+v475JwuJj3BhHWbTzhCB+8eGHrANVh51PglnHr/YjrO
-         R6zg==
+        bh=tCO4bB5RG1i1zaVkyEc6qftvnA4HN0QLB0O4PI95vVE=;
+        b=Claumc/bSvhmkaPdNUpy8Taf8SARFzxVzvtqYvLmkI2NV4GXM7R2dyhMyHEtq8F+3m
+         QA8a7r0Y7kNbRP70KFXgC57/X6IZIIN888k9nUAFdeEMPV0PpZbW0w1j0kGx8VU7Qvjc
+         P3GUvKFI/gNV2B3ZkzRHvvKlG04vjmtZbuXb8dtK1rYHrssFUw+icgJMQY+prnr13obe
+         fXFSrmsaOccryExTJS+mUzMrgqEhW7gkUrGQlNLI+grA1aMu2aodYNQjvqytvvndPorM
+         OI/DkstzT1a2KCgggq2ZWuRIX6suDZUvj+vY7Nl4wbh64fR//iRSEDFKHl71+/qUeMIm
+         ligA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YmPyHZ8dDaGq4wOOYUfRrP02saBuikUQohVrtGbVNIQ=;
-        b=Z0KJfc2DcCU8cDI5/jzV/umFCK02/KgeqpamN9z0zwZJBfiAFcuaYsEnhgOEIIj4XZ
-         ZhViLI7jXTqmDbYBLHcWFB5+b+nGTqsbxr4gc+91cFKs5l1j1w2goCkPn4SjGnjway8f
-         hDlSMcvazD93uUPaZFszGI1SRediPBQknbqDqwKN5QCf9R+bAt9Qhzl2Ha6r/YlAF0xC
-         8g+JYTMJCtKzPpOFcbadxp82HhU4e+HJjq/e7fZZg1Frikxyj4uzIfGaacUcP/h2VYAt
-         uYTWDmxnKlObgkQaK2K7fvKlIVzyKnnhbMEic59jcCYnfYJ43TWJUvcv77a/mbD+l1Pp
-         pzHg==
-X-Gm-Message-State: APjAAAV4w2ASVvSRDBTf1TDCH+/szBBkOXtdeLjp8+lfn8b7EXrx2t8Q
-        cZbUf0TGtfeMILAI96u67KSwtecjfg==
-X-Google-Smtp-Source: APXvYqz0OAK6Iu1jTdoJ+PWbEyVH33gAs/NHtWPY5wn2SejRysO4MQZWdB4YY56ysD8HkLYZPH9zZA==
-X-Received: by 2002:a67:f492:: with SMTP id o18mr10727937vsn.62.1561873307328;
-        Sat, 29 Jun 2019 22:41:47 -0700 (PDT)
+        bh=tCO4bB5RG1i1zaVkyEc6qftvnA4HN0QLB0O4PI95vVE=;
+        b=fStxABud1fY0kReOIXkS+1UibCUSydnelDW0JPKQLuXyJwpFyfqf5WQLCzT5J9rBye
+         36CrOVggVp+D8//uAqJy8CixFAgNeWESmswGD2sUnwN4L8y2l/nQSrvjtOStdIAhqQ20
+         w442F3v8PnJPkeNYhtUQJZ/zh88ZoxLybd5E/z1EGZd+JmYjFlQhv+4upCUQO1U9nsVS
+         lN5POixLKTveUwTJwRNYFMDo6tpG/Sdi4OfPKG0urWOygGHuDoqEF+gBDC8cNTCiCVNZ
+         aJN+G7+tuRjtIahCDbKqyXSL1iB7/wpfplnZP3sQMwXKR1BtO0CLHoP+u0oOE9EhbqFC
+         Y5pQ==
+X-Gm-Message-State: APjAAAXiRPBG/cimFre9Q2u/RWQHJAITIc9WV52M84AGw1xpavNx9wfT
+        uGoTkk2P+aWaQ/MiTtoE3A==
+X-Google-Smtp-Source: APXvYqxzpzthH1VQv9WA2DronCje4ZVLbcQZRCXt43nVNtNZmb/vNqpgGZ88zd8CfHLPLKS4sSUTmg==
+X-Received: by 2002:a67:887:: with SMTP id 129mr11361418vsi.82.1561873309837;
+        Sat, 29 Jun 2019 22:41:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:902:c200:6512:37bd:d695:3a39:ceb9])
-        by smtp.gmail.com with ESMTPSA id r136sm1926676vke.46.2019.06.29.22.41.46
+        by smtp.gmail.com with ESMTPSA id r136sm1926676vke.46.2019.06.29.22.41.49
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 29 Jun 2019 22:41:47 -0700 (PDT)
+        Sat, 29 Jun 2019 22:41:49 -0700 (PDT)
 From:   Ayman Bagabas <ayman.bagabas@gmail.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     ayman.bagabas@gmail.com
-Subject: [RFC 7/9] platform/x86: huawei-wmi: Add fn-lock support
-Date:   Sun, 30 Jun 2019 01:41:06 -0400
-Message-Id: <20190630054108.19205-8-ayman.bagabas@gmail.com>
+Subject: [RFC 8/9] platform/x86: huawei-wmi: Add sysfs interface support
+Date:   Sun, 30 Jun 2019 01:41:07 -0400
+Message-Id: <20190630054108.19205-9-ayman.bagabas@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190630054108.19205-1-ayman.bagabas@gmail.com>
 References: <20190630054108.19205-1-ayman.bagabas@gmail.com>
@@ -64,59 +64,128 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Huawei Matebook laptops uses Fn key and toggle to access F1-F12 keys.
-Along with that, there is this feature called fn-lock that inverts the
-behavior of this Fn key.
-
-Implement the basic functionality of this feature to be used later by
-sysfs interface support introduced in this series.
+Add sysfs interface to enable the use of battery charging thresholds and
+fn-lock support introduced in this series.
 
 Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
 ---
- drivers/platform/x86/huawei-wmi.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/platform/x86/huawei-wmi.c | 82 +++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
 diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index da3986cd0428..4159e10bda26 100644
+index 4159e10bda26..f7041fb71026 100644
 --- a/drivers/platform/x86/huawei-wmi.c
 +++ b/drivers/platform/x86/huawei-wmi.c
-@@ -351,6 +351,36 @@ static int huawei_wmi_battery_set(struct device *dev, int low, int high)
- 	return err;
+@@ -14,6 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
++#include <linux/sysfs.h>
+ #include <linux/wmi.h>
+ 
+ /*
+@@ -381,6 +382,80 @@ static int huawei_wmi_fn_lock_set(struct device *dev, int on)
+ 	return huawei_wmi_cmd(dev, *(u64 *)arg, NULL, NULL);
  }
  
-+/* Fn lock */
++/* sysfs */
 +
-+static int huawei_wmi_fn_lock_get(struct device *dev, int *on)
++static ssize_t charge_thresholds_show(struct device *dev,
++		struct device_attribute *attr,
++		char *buf)
 +{
-+	u8 ret[0x100] = { 0 };
-+	int err, i;
++	int err, low, high;
 +
-+	err = huawei_wmi_cmd(dev, FN_LOCK_GET, ret, 0x100);
++	err = huawei_wmi_battery_get(dev, &low, &high);
 +	if (err)
 +		return err;
 +
-+	/* Find the first non-zero value. Return status is ignored. */
-+	i = 1;
-+	do {
-+		*on = ret[i] - 1; // -1 undefined, 0 off, 1 on.
-+	} while (i < 0x100 && !ret[i++]);
-+
-+	return 0;
++	return sprintf(buf, "%d %d\n", low, high);
 +}
 +
-+static int huawei_wmi_fn_lock_set(struct device *dev, int on)
++static ssize_t charge_thresholds_store(struct device *dev,
++		struct device_attribute *attr,
++		const char *buf, size_t size)
 +{
-+	u8 arg[8];
++	int low, high, err;
 +
-+	*(u64 *)arg = FN_LOCK_SET;
-+	arg[2] = on + 1; // 0 undefined, 1 off, 2 on.
++	if (sscanf(buf, "%d %d", &low, &high) != 2 ||
++			low < 0 || high > 100 ||
++			low > high)
++		return -EINVAL;
 +
-+	return huawei_wmi_cmd(dev, *(u64 *)arg, NULL, NULL);
++	err = huawei_wmi_battery_set(dev, low, high);
++	if (err)
++		return err;
++
++	return size;
 +}
++
++static ssize_t fn_lock_state_show(struct device *dev,
++		struct device_attribute *attr,
++		char *buf)
++{
++	int err, on;
++
++	err = huawei_wmi_fn_lock_get(dev, &on);
++	if (err)
++		return err;
++
++	return sprintf(buf, "%d\n", on);
++}
++
++static ssize_t fn_lock_state_store(struct device *dev,
++		struct device_attribute *attr,
++		const char *buf, size_t size)
++{
++	int on, err;
++
++	if (kstrtoint(buf, 10, &on) ||
++			on < 0 || on > 1)
++		return -EINVAL;
++
++	err = huawei_wmi_fn_lock_set(dev, on);
++	if (err)
++		return err;
++
++	return size;
++}
++
++static DEVICE_ATTR_RW(charge_thresholds);
++static DEVICE_ATTR_RW(fn_lock_state);
++
++static struct attribute *huawei_wmi_attrs[] = {
++	&dev_attr_charge_thresholds.attr,
++	&dev_attr_fn_lock_state.attr,
++	NULL
++};
++
++ATTRIBUTE_GROUPS(huawei_wmi);
 +
  /* Input */
  
  static void huawei_wmi_process_key(struct input_dev *idev, int code)
+@@ -508,6 +583,12 @@ static int huawei_wmi_probe(struct platform_device *pdev)
+ 			dev_err(&pdev->dev, "Failed to setup leds\n");
+ 			return err;
+ 		}
++
++		err = sysfs_create_groups(&pdev->dev.kobj, huawei_wmi_groups);
++		if (err) {
++			dev_err(&pdev->dev, "Failed to create sysfs interface\n");
++			return err;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -522,6 +603,7 @@ static int huawei_wmi_remove(struct platform_device *pdev)
+ 		wmi_remove_notify_handler(HWMI_EVENT_GUID);
+ 
+ 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
++		sysfs_remove_groups(&pdev->dev.kobj, huawei_wmi_groups);
+ 	}
+ 
+ 	return 0;
 -- 
 2.20.1
 
