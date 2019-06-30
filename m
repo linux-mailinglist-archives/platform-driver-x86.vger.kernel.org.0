@@ -2,87 +2,173 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 838615AD9D
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jun 2019 00:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF245AEAD
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jun 2019 07:41:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbfF2WRC (ORCPT
+        id S1726549AbfF3FlZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jun 2019 18:17:02 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19062 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726923AbfF2WRC (ORCPT
+        Sun, 30 Jun 2019 01:41:25 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:38042 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfF3FlZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jun 2019 18:17:02 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Jun 2019 15:17:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,433,1557212400"; 
-   d="scan'208";a="168093690"
-Received: from spandruv-mobl3.jf.intel.com ([10.254.24.202])
-  by orsmga006.jf.intel.com with ESMTP; 29 Jun 2019 15:17:00 -0700
-Message-ID: <41765249d4384d48437eba9c8640ecf167e629d2.camel@linux.intel.com>
-Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
- Select commands
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Sun, 30 Jun 2019 01:41:25 -0400
+Received: by mail-vs1-f68.google.com with SMTP id k9so6754344vso.5;
+        Sat, 29 Jun 2019 22:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clQOczYwEsKKHOAzZidWMeMT4c+c0AdrHLZADibcT5I=;
+        b=W/mPOGsWnmXShX2vqkfncaWdrS7qRg6/Q1NYGxtqgZ+SH3up6HKAvKzs4/qYdRi0V/
+         RtZ4Z0HjgZOXP/27vA3bqMvIWO3SdEKlE1e91Nu4ZsBBKdQgGNCP+Farh/ROc609Hgwd
+         7qz2w6v31iNrCop4m4nqiFmmWxY/X5H0XGr/aWlBlxIb7wHIvqd4PY+8TanEkcZli+bV
+         mCHk4OPRyEqLUICPQWH3DpkTLeWsLu9e9uY/JKdqudig/8mFzRox7F0Iq7DEfru/QgKu
+         /4ipuPi4+b7lnC72+O7hEVeEQL91yFZuXR+b4cuCTIgJDHxmOlYa/7JRW4gvcJPU9K+w
+         xcIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clQOczYwEsKKHOAzZidWMeMT4c+c0AdrHLZADibcT5I=;
+        b=DYrNZmLOtA7fs5RJMfJLPwC08rR3W/AR59UWv1ZCBVbIswY07cUQDzsRY/mvqZmDob
+         dP+cj+g7xZVMRlHZ4hs0IxMyqV2ITX30QBkqDZjE301gXPdCiPfbU8TycM9hwXLokQ8P
+         JtxuS1CQj7QdyvVIiTgnpNgXm6NWbir0m8UjwTU4IU5uxBHkPnOTwj9/C7YoQY5/rXlW
+         qJ5KBVW1TgWw1mYa8Z7Jy5Hpo7qXEWM9mdF+OdSvxKDkmITqPkF2KhPm/rjhGVJvTwNc
+         oquhM2JDTTU2nhl+/FpVkqW1Yv1EjGjJS0nqye1ue447eIkFVX2apHWLsgQebbYXR/kz
+         Xy4A==
+X-Gm-Message-State: APjAAAXr7NBoNgWZiyK1olkJjIukZaVZh+Ekzt2ezGFHnJCka7glYpA5
+        Ra6NTeh8Jj3oPOWF/IZZ1w==
+X-Google-Smtp-Source: APXvYqw9LJGr9ejHAdvNsQ9iGU8WklErdwKaLxgXTbnEBJ8pZKaD42ZyLSYN5Fo7+9QPSAezcArV+Q==
+X-Received: by 2002:a67:ff0b:: with SMTP id v11mr10657498vsp.14.1561873283358;
+        Sat, 29 Jun 2019 22:41:23 -0700 (PDT)
+Received: from localhost.localdomain ([2601:902:c200:6512:37bd:d695:3a39:ceb9])
+        by smtp.gmail.com with ESMTPSA id r136sm1926676vke.46.2019.06.29.22.41.22
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 29 Jun 2019 22:41:22 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Date:   Sat, 29 Jun 2019 15:17:00 -0700
-In-Reply-To: <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
-References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
-         <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
-         <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com>
-         <1c4238f7d18d316df82d3ba1618fecdcf014f98a.camel@linux.intel.com>
-         <CAHp75VduxgJ6k4J2bB83Xbif0D0AGkxyDAdwvN64ybxdxXHXcw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     ayman.bagabas@gmail.com
+Subject: [RFC 0/9] platform/x86: Huawei WMI laptop extras driver
+Date:   Sun, 30 Jun 2019 01:40:59 -0400
+Message-Id: <20190630054108.19205-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, 2019-06-29 at 19:03 +0300, Andy Shevchenko wrote:
-> On Sat, Jun 29, 2019 at 5:53 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > On Sat, 2019-06-29 at 17:31 +0300, Andy Shevchenko wrote:
-> > > On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
-> > > <srinivas.pandruvada@linux.intel.com> wrote:
-> > > I need an Ack from tools/power maintainer(s) for this.
-> > > Also see below.
-> > 
-> > MAINTAINER file doesn't call for any special name in this folder.
-> 
-> And this tells me perhaps this driver needs a MAINTAINER record?
-I will submit a MAINTAINER file update. I was waiting for reviews.
+This patch series introduce changes to huawei-wmi driver that includes:
+* Move to platform driver
+* Implement WMI management interface
+* Add micmute LED support through WMI
+* Add battery charging protection support through WMI
+* Add fn-lock support through WMI
+* Implement driver quirks and parameters
+* Add a debugfs interface to WMI
 
-Thanks,
-Srinivas
+# Move to platform driver
 
-> 
-> > $./scripts/get_maintainer.pl 0010-tools-power-x86-A-tool-to-
-> > validate-
-> > Intel-Speed-Selec.patch
-> > Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > (commit_signer:1/1=100%,authored:1/1=100%,added_lines:31/31=100%,ad
-> > ded_
-> > lines:231/231=100%,added_lines:1607/1607=100%,added_lines:721/721=1
-> > 00%,
-> > added_lines:479/479=100%)
-> > linux-kernel@vger.kernel.org (open list)
-> > 
-> > Len and Rafael can you ACK this tool patch?
-> 
-> 
+The current driver offers hotkeys and micmute led support only. With
+these changes, a platform driver makes more sense since it handles these
+changes pretty nicely.
+
+# Implement WMI management interface
+
+Huawei Matebook laptops come with two WMI interfaces. The first being
+WMI0 which is considered "legacy" and AFAIK only found on the Matebook X
+released in 2017. The second has a UID of "HWMI" and is found in pretty
+much all models with a slight difference in implementation except for
+the Matebook X (2017). Since this model has two interfaces, some aspects
+are controlled through the legacy interface and some through the other
+interface. Currently, the legacy interface is not fully implemented and
+is only used for hotkeys and further debugging has to be done.
+
+The WMI interface takes a 64 bit integer, although uses 32 bits most of
+the time, and returns a 256-260 bytes buffer consists of either one ACPI
+buffer of 260 bytes, in the case of Matebook X (2017), or one ACPI
+package of two buffers, one with 4 bytes, and the other with 256 bytes.
+We only care about the latter 256 buffer in both cases since the 4 bytes
+always return zeros. The first byte of this 256 buffer always has the
+return status where 1 indicated error. Some models require calling the
+WMI interface twice to execute a command.
+
+# Add micmute LED support through WMI
+
+After implementing the WMI interface, micmute LED can be controlled
+easily. Models with the legacy interface fall back to ACPI EC method
+control since the legacy interface is not implemented.
+
+# Add battery charging protection support through WMI
+
+Most models, that has the WMI interface, are capable of battery
+protection where it can control battery charging thresholds and limits
+charging the battery to certain values.
+
+# Add fn-lock support through WMI
+
+The behavior of hotkeys is not the same among all models. Some models
+require fn-lock to do things like `Ctrl-Ins` or `Alt-PrtSc`. By default,
+hotkeys behave as special keys (media keys, Ins, etc), but if a modifier
+is used (ctrl, alt, shift) these keys behave as F1-F12 keys. If the Fn
+key is toggled on, the hotkeys with or without a modifier, behave as
+F1-F12 keys. This makes it impossible to use a modifier and `PrtSc` or
+`Ins`.
+
+Now, some models fix this by excluding `PrtSc` and `Ins` keys from being
+treated as F11 and F12 keys with the use of a modifier. However, some
+models do not, and fixes this by the so called fn-lock.
+
+Fn-lock inverts the behavior of the top row from special keys to F1-F12
+keys. So a modifier and a special key would be possible which make
+things like `Alt-Ins` possible. Now, with fn-lock we would have 4 modes:
+
+* Fn-key off & fn-lock off - hotkeys treated as special keys using a
+  modifier gives F1-F12 keys.
+* Fn-key on & fn-lock off - hotkeys treated as F1-F12 keys and using a
+  modifier gives F1-F12.
+* Fn-key off & fn-lock on - hotkeys are treated as F1-F12 keys and using
+  a modifier gives special keys.
+* Fn-key on & fn-lock on - hotkeys are treated as special keys and using
+  a modifier gives special keys.
+
+# Implement driver quirks and parameters
+
+The driver introduces 3 quirks and 2 parameters that can change the
+driver's behavior. These quirks being as:
+1. Fixes reporting brightness keys twice since it's already handled by
+   acpi-video.
+2. Some models need a short delay when setting battery thresholds to
+   prevent a race condition when two processes read/write.
+3. Matebook X (2017) handles micmute led through the "legacy" interface
+   which is not currently implemented. Use ACPI EC method to control
+   this led.
+
+and the 2 parameters can enforce the behavior of quirk 1 & 2.
+
+# Add a debugfs interface to WMI
+
+An interface to the WMI management interface that allows easier
+debugging.
+
+Ayman Bagabas (9):
+  platform/x86: huawei-wmi: rename guid and driver name
+  platform/x86: huawei-wmi: move to platform driver
+  platform/x86: huawei-wmi: implement huawei wmi management interface
+  platform/x86: huawei-wmi: add quirks and module parameters
+  platform/x86: huawei-wmi: control micmute led through wmi interface
+  platform/x86: huawei-wmi: add battery charging thresholds
+  platform/x86: huawei-wmi: add fn-lock support
+  platform/x86: huawei-wmi: add sysfs interface support
+  platform/x86: huawei-wmi: add debugfs support
+
+ drivers/platform/x86/huawei-wmi.c | 710 ++++++++++++++++++++++++++----
+ 1 file changed, 629 insertions(+), 81 deletions(-)
+
+-- 
+2.20.1
 
