@@ -2,114 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD6D35BF97
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jul 2019 17:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69EC05C39A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jul 2019 21:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbfGAPSx (ORCPT
+        id S1726442AbfGATYr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 1 Jul 2019 11:18:53 -0400
-Received: from mga14.intel.com ([192.55.52.115]:6226 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727423AbfGAPSx (ORCPT
+        Mon, 1 Jul 2019 15:24:47 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51954 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfGATYq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 1 Jul 2019 11:18:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Jul 2019 08:18:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,439,1557212400"; 
-   d="scan'208";a="174254068"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by orsmga002.jf.intel.com with ESMTP; 01 Jul 2019 08:18:52 -0700
-Message-ID: <b2cbda587c72bba045ef47412e348ed4e7fb07f2.camel@linux.intel.com>
-Subject: Re: [UPDATE][PATCH 10/10] tools/power/x86: A tool to validate Intel
- Speed Select commands
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+        Mon, 1 Jul 2019 15:24:46 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 207so637645wma.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 01 Jul 2019 12:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rQ47va1z3EjvfeSxTrEogACM2Pj7WtFTWx+mGWggtfo=;
+        b=pe1HA33lxjPq99pdaTLpR2i/T5cLoN0t6tm3r+6B7O2TbKba5BHKBn/dAc/Di6YUPE
+         DHOWdyWCaaGnRaK69zemrOqgyVPPulVmCf9oyfTyX80B6cvp8qVKmm2M5p5AVNMud5+B
+         3yCJp2kqIkLrbNZtmHuVWU0DlZSrImMKGZg1r06dY8kl8DN1WWfPSeflhOB1GIg6jf4B
+         blFkgffymU+IUiTOlC6ksfXUDtgA+YocDNfWoAevKBRsT3teROsYmbC/RdbYOp1Q6cVb
+         pyY+rZl+dDoEG9sEjmS0AXLZmEj9ZR7Aum8uSjqhu+9IvNAGUPznIuiY245wbkoGe8ZI
+         BtJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rQ47va1z3EjvfeSxTrEogACM2Pj7WtFTWx+mGWggtfo=;
+        b=SuJOZVsZIhbBnKsumKlY5Ci5NxHC9xsOkwxP2gONZQbNbaSZ0VldFK9BV4zjQ1bjSG
+         F5mMkcVGib3VfAEbz6oHSRIM6+ffCJ2G9hmtP9jaUE6lzIcIpnmqhVFtch3K02+fTblO
+         IggM/5Nlr0dW8v22uRooMNdANqdlVfeCCTJtjTS3VFg0TH+7EX1boPt4S41FW6k7xp+N
+         Yjlryd2wx63WeyeyNzUOG1WgDVBfATzb2al9h5Iqx4ooaafRcYPnWa2HnIS0BrnhkZwS
+         vqB3HAEExc3PMb1RKRU6LYUWjY2G2ddSAFIdH4WPWhMt6rHByA99KrPCJgjJ1miO+lr4
+         NONQ==
+X-Gm-Message-State: APjAAAX0U5o7o/KNVa7rVyU5xDcQgm9+2pSKw4OnTFweMqqce2UZJU1I
+        CFnSN5v0Tlxco7GzP0xzINp65HBSV2Cpb8elyZE=
+X-Google-Smtp-Source: APXvYqzghYbIPfuaLhZ7lRPK6rsoH8fUi8OqYnJDSTABr/nmO/Kes2l68NMRqBN8qJdu6arxTkQcdVLU08WWTEJKuzw=
+X-Received: by 2002:a1c:9dc4:: with SMTP id g187mr439875wme.86.1562009085322;
+ Mon, 01 Jul 2019 12:24:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190629114136.45e90292@endymion> <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
+In-Reply-To: <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
+From:   Lucas De Marchi <lucas.de.marchi@gmail.com>
+Date:   Mon, 1 Jul 2019 12:24:33 -0700
+Message-ID: <CAKi4VA+Oc_sip16eD0SnnX4r48MOCcTW6ShcVO8RX_Pqhdsiog@mail.gmail.com>
+Subject: Re: [PATCH] x86: apuv2: Fix softdep statement
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        prarit@redhat.com, darcari@redhat.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Date:   Mon, 01 Jul 2019 08:18:52 -0700
-In-Reply-To: <CAHp75Vf-p3O10_Ns_NY4JoWBS1S34z-NW0jVJdCdqszdGVmoQw@mail.gmail.com>
-References: <20190630171408.8673-1-srinivas.pandruvada@linux.intel.com>
-         <CAHp75Vf-p3O10_Ns_NY4JoWBS1S34z-NW0jVJdCdqszdGVmoQw@mail.gmail.com>
+Cc:     Jean Delvare <jdelvare@suse.de>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2019-07-01 at 14:32 +0300, Andy Shevchenko wrote:
-> On Sun, Jun 30, 2019 at 8:14 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > 
-> > The Intel(R) Speed select technologies contains four features.
-> > 
-> > Performance profile:An non architectural mechanism that allows
-> > multiple
-> > optimized performance profiles per system via static and/or dynamic
-> > adjustment of core count, workload, Tjmax, and TDP, etc. aka ISS
-> > in the documentation.
-> > 
-> > Base Frequency: Enables users to increase guaranteed base frequency
-> > on
-> > certain cores (high priority cores) in exchange for lower base
-> > frequency
-> > on remaining cores (low priority cores). aka PBF in the
-> > documenation.
-> > 
-> > Turbo frequency: Enables the ability to set different turbo ratio
-> > limits
-> > to cores based on priority. aka FACT in the documentation.
-> > 
-> > Core power: An Interface that allows user to define per core/tile
-> > priority.
-> > 
-> > There is a multi level help for commands and options. This can be
-> > used
-> > to check required arguments for each feature and commands for the
-> > feature.
-> > 
-> > To start navigating the features start with
-> > 
-> > $sudo intel-speed-select --help
-> > 
-> > For help on a specific feature for example
-> > $sudo intel-speed-select perf-profile --help
-> > 
-> > To get help for a command for a feature for example
-> > $sudo intel-speed-select perf-profile get-lock-status --help
-> > 
-> > Signed-off-by: Srinivas Pandruvada <
-> > srinivas.pandruvada@linux.intel.com>
+On Sat, Jun 29, 2019 at 4:13 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sat, Jun 29, 2019 at 12:41 PM Jean Delvare <jdelvare@suse.de> wrote:
+> >
+> > Only one MODULE_SOFTDEP statement is allowed per module. Multiple
+> > dependencies must be expressed in a single statement.
+>
+> Some module init utils even do not support softdep.
+
+not related to the patch in question... and module init tools has long
+been replaced by kmod.
+
+>
+> Nevertheless, the message is somewhat misleading. It's not "only one
+> allowed" =E2=80=94 this is not true, it's "only first will be served".
+> This is how I read kmod sources.
+>
+> And perhaps better to fix them?
+> At least I would rather support somelike
+> MODULE_SOFTDEP("pre: ...");
+> MODULE_SOFTDEP("post: ...");
+
+it is a bug, because multiple softdep statements like you suggest has
+never been supported.
+Either by kmod or module-init-tools.
+
+What it actually does is to replace the previous one. depmod will look
+into the ELF and generate
+a /lib/modules/$(uname -r)/modules.softdep file. That config file is
+loaded by kmod as any other
+config file with the same prio as others in /lib.
+
+Implementing what you ask would probably be done with
+MODULE_SOFTDEP_PRE() / MODULE_SOFTDEP_POST()
+and let the build system do the right thing. Not supported today and
+not easily backportable.
+
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Lucas De Marchi
+
+>
+> > Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> > Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>
+> > Cc: Darren Hart <dvhart@infradead.org>
+> > Cc: Andy Shevchenko <andy@infradead.org>
 > > ---
-> > Updates:
-> > - Copied Makefile from tools/gpio and moified the Makefile here
-> > - Added entry to tools/build/Makefile
-> > - Rename directory to match the executable name
-> > - Fix one error message
-> 
-> Thanks!
-> I pushed to my review and testing queue, while still waiting for some
-> ACKs.
-> 
-> It seems I can promote the driver itself now,w/o tools, if you want
-> me to do so.
-I am fine with driver only push if we don't get ACK by your deadline
-for the next kernel.
+> >  drivers/platform/x86/pcengines-apuv2.c |    4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > --- linux-5.1.orig/drivers/platform/x86/pcengines-apuv2.c       2019-05=
+-06 02:42:58.000000000 +0200
+> > +++ linux-5.1/drivers/platform/x86/pcengines-apuv2.c    2019-06-29 11:3=
+7:48.062005738 +0200
+> > @@ -255,6 +255,4 @@ MODULE_DESCRIPTION("PC Engines APUv2/APU
+> >  MODULE_LICENSE("GPL");
+> >  MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
+> >  MODULE_ALIAS("platform:pcengines-apuv2");
+> > -MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME);
+> > -MODULE_SOFTDEP("pre: platform:leds-gpio");
+> > -MODULE_SOFTDEP("pre: platform:gpio_keys_polled");
+> > +MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:le=
+ds-gpio platform:gpio_keys_polled");
+> >
+> >
+> > --
+> > Jean Delvare
+> > SUSE L3 Support
+>
+>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
 
-Thanks,
-Srinivas
 
 
+--=20
+Lucas De Marchi
