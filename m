@@ -2,86 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 555A45B319
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jul 2019 05:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BCA85B636
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jul 2019 09:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfGADYh (ORCPT
+        id S1727080AbfGAH6S convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 30 Jun 2019 23:24:37 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:44541 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbfGADYh (ORCPT
+        Mon, 1 Jul 2019 03:58:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54690 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727031AbfGAH6S (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 30 Jun 2019 23:24:37 -0400
-Received: by mail-pg1-f193.google.com with SMTP id i18so621014pgl.11;
-        Sun, 30 Jun 2019 20:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=VhkgpflQSTglp1xxSrutR/deUdtT15AWmO5q6HS2EJw=;
-        b=QwX/eN1NP+s31qkaBXHsA/4uNdz33T8GNlJUJHI4GrgssHadPqV388mV20DOlquTdy
-         zj2kwtYw4vvArOv83bPWOe9P3KAZKVHPAKYUhzy8MZBBZTWJg1DoHy/IsN0u+8VEXBkf
-         rB5HZf/8f0BtUeJoPLliBvjZMCmJOBEn0C1mH6gL0Whp365455b0gEXuFPSMBkwdeYyU
-         lDxgFjM2GExlBcZqjqBnKn6IjggO8Fr/4tc1Vnqk4Z88sHwfkcjhiOnTCrFMGWTzDOa6
-         CMuKN9QNWpZ5rjpcAakotv1oLnvuJ+BVmyOhd+sf/TghXe8wzsPWKE37m31VPuUx89Zr
-         NxIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=VhkgpflQSTglp1xxSrutR/deUdtT15AWmO5q6HS2EJw=;
-        b=PP6dyZpeSauy0eS5NzaoleQGpaft/nvjOXzhryEMwiOOy1wyIGGQ53UMFu9fW+lEH3
-         tG3Q3nE+0BmdKpeEIyeahJALaM1y8xPskdO070wd+H8p7dBalrxTh1pKmB1dD7eqVyDm
-         5CNmhncc2iDlVGa79T8lJct/jfxw49aJqX1uHEE01k6d7w6knrg5s8rF2hN3Mk2OfjVd
-         FMP7PCwky6lPqknpw1FaX4JvLr/96BlmWJcrXm9HIpoZU8D7bnT0goPUw2u95kNKLsCo
-         H8Tw26KNcfk7jYq1F4ATGPHk1SsUEugEB/QvOSIN2IsBKuWW45zAVxWNkcR8YGxLXAwA
-         Jd9A==
-X-Gm-Message-State: APjAAAUM2QPkDdnMS9La9LNYXKtbj9kr5ljShWvQmkXFWOh7bzZpXE0R
-        jcDKcY1vaEZyLaDOAz4ulv0w07TRQDE=
-X-Google-Smtp-Source: APXvYqypRRvqTRN4Zfwk4sGc5n91o0nELNv9VP+tB4FycyMgVLHbSCyjaJHLmURAxGTCk1dV372k/A==
-X-Received: by 2002:a17:90a:d14a:: with SMTP id t10mr28422499pjw.85.1561951476408;
-        Sun, 30 Jun 2019 20:24:36 -0700 (PDT)
-Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.googlemail.com with ESMTPSA id 137sm9185889pfz.112.2019.06.30.20.24.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 30 Jun 2019 20:24:36 -0700 (PDT)
-From:   Fuqian Huang <huangfq.daxian@gmail.com>
-Cc:     Fuqian Huang <huangfq.daxian@gmail.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
+        Mon, 1 Jul 2019 03:58:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 55342AEBD;
+        Mon,  1 Jul 2019 07:58:17 +0000 (UTC)
+Date:   Mon, 1 Jul 2019 09:58:15 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] platform: x86: Use dev_get_drvdata()
-Date:   Mon,  1 Jul 2019 11:24:26 +0800
-Message-Id: <20190701032426.26127-1-huangfq.daxian@gmail.com>
-X-Mailer: git-send-email 2.11.0
-To:     unlisted-recipients:; (no To-header on input)
+        Lucas De Marchi <lucas.de.marchi@gmail.com>
+Subject: Re: [PATCH] x86: apuv2: Fix softdep statement
+Message-ID: <20190701095815.3157a1da@endymion>
+In-Reply-To: <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
+References: <20190629114136.45e90292@endymion>
+        <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Using dev_get_drvdata directly.
+Hi Andy,
 
-Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Sat, 29 Jun 2019 14:13:02 +0300, Andy Shevchenko wrote:
+> On Sat, Jun 29, 2019 at 12:41 PM Jean Delvare <jdelvare@suse.de> wrote:
+> >
+> > Only one MODULE_SOFTDEP statement is allowed per module. Multiple
+> > dependencies must be expressed in a single statement.  
+> 
+> Some module init utils even do not support softdep.
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 9b18a184e0aa..49049b02a015 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1353,8 +1353,7 @@ static umode_t asus_hwmon_sysfs_is_visible(struct kobject *kobj,
- 					  struct attribute *attr, int idx)
- {
- 	struct device *dev = container_of(kobj, struct device, kobj);
--	struct platform_device *pdev = to_platform_device(dev->parent);
--	struct asus_wmi *asus = platform_get_drvdata(pdev);
-+	struct asus_wmi *asus = dev_get_drvdata(dev->parent);
- 	int dev_id = -1;
- 	int fan_attr = -1;
- 	u32 value = ASUS_WMI_UNSUPPORTED_METHOD;
--- 
-2.11.0
+And?
 
+> Nevertheless, the message is somewhat misleading. It's not "only one
+> allowed" — this is not true, it's "only first will be served".
+> This is how I read kmod sources.
+
+What practical difference does it make?
+
+> And perhaps better to fix them?
+
+It's not considered a bug, as it is already possible to have multiple
+dependencies listed, you only have to put them in the same statement.
+There are several other MODULE_* macros which also can be used only
+once per module (MODULE_LICENSE, MODULE_DESCRIPTION) so I see nothing
+fundamentally wrong with MODULE_SOFTDEP following the same model. The
+example provided clearly illustrates how multiple dependencies should
+be declared. One possible improvement would be to add a comment
+explicitly stating that this macro can only be used once per module.
+
+> At least I would rather support somelike
+> MODULE_SOFTDEP("pre: ...");
+> MODULE_SOFTDEP("post: ...");
+
+Feel free to implement this on your copious spare time if you think
+there is any actual value in this change. Personally I'm not sure and I
+just want to get the (driver) bug fixed. Fixing the driver is more
+simple and easier to backport if needed.
+
+> > Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> > Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>
+> > Cc: Darren Hart <dvhart@infradead.org>
+> > Cc: Andy Shevchenko <andy@infradead.org>
+> > ---
+> >  drivers/platform/x86/pcengines-apuv2.c |    4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > --- linux-5.1.orig/drivers/platform/x86/pcengines-apuv2.c       2019-05-06 02:42:58.000000000 +0200
+> > +++ linux-5.1/drivers/platform/x86/pcengines-apuv2.c    2019-06-29 11:37:48.062005738 +0200
+> > @@ -255,6 +255,4 @@ MODULE_DESCRIPTION("PC Engines APUv2/APU
+> >  MODULE_LICENSE("GPL");
+> >  MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
+> >  MODULE_ALIAS("platform:pcengines-apuv2");
+> > -MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME);
+> > -MODULE_SOFTDEP("pre: platform:leds-gpio");
+> > -MODULE_SOFTDEP("pre: platform:gpio_keys_polled");
+> > +MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:leds-gpio platform:gpio_keys_polled");
+> >
+> >
