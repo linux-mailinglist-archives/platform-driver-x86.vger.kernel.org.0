@@ -2,143 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69EC05C39A
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jul 2019 21:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A52CB5C65A
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 02:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfGATYr (ORCPT
+        id S1727023AbfGBAiW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 1 Jul 2019 15:24:47 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51954 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726076AbfGATYq (ORCPT
+        Mon, 1 Jul 2019 20:38:22 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41524 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726977AbfGBAiW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 1 Jul 2019 15:24:46 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so637645wma.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 01 Jul 2019 12:24:46 -0700 (PDT)
+        Mon, 1 Jul 2019 20:38:22 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so15705097wrm.8;
+        Mon, 01 Jul 2019 17:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rQ47va1z3EjvfeSxTrEogACM2Pj7WtFTWx+mGWggtfo=;
-        b=pe1HA33lxjPq99pdaTLpR2i/T5cLoN0t6tm3r+6B7O2TbKba5BHKBn/dAc/Di6YUPE
-         DHOWdyWCaaGnRaK69zemrOqgyVPPulVmCf9oyfTyX80B6cvp8qVKmm2M5p5AVNMud5+B
-         3yCJp2kqIkLrbNZtmHuVWU0DlZSrImMKGZg1r06dY8kl8DN1WWfPSeflhOB1GIg6jf4B
-         blFkgffymU+IUiTOlC6ksfXUDtgA+YocDNfWoAevKBRsT3teROsYmbC/RdbYOp1Q6cVb
-         pyY+rZl+dDoEG9sEjmS0AXLZmEj9ZR7Aum8uSjqhu+9IvNAGUPznIuiY245wbkoGe8ZI
-         BtJw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rVse8/70KlRnkr5stKb0afx2GZVUTkz5Ky6nNvkWhJ0=;
+        b=Mp6hT5stYzvQtGeKyvVabtSyO3oGCif0JCNJnawAzS+mi7cc+RHZI98200JnEL9zON
+         PlFFHKKFyp6AM7nHKr2tlWCSNmodub8BKny91xO2p3P4NmF2OWwaeOepQXJyCB50SKDC
+         Lcfbp4qBcgTxOFZUW2W0A0ObhDOMHdI1zHTrEqTETllUIKHij1j9cS6g+szV01BTtUdJ
+         xwNgepa6eMBvZ38Qsrm8GJVT3IbFTgP6CcYdHVx0lmhxYuee2LaxGnfc0DaSkhGLy/i8
+         j/wvQcm7ZT1mNNG601I0Jy/xBh+3RiM9C5NicAXQqcnAxGWSkNI2rvCI1nqruK0kGw3L
+         /buA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rQ47va1z3EjvfeSxTrEogACM2Pj7WtFTWx+mGWggtfo=;
-        b=SuJOZVsZIhbBnKsumKlY5Ci5NxHC9xsOkwxP2gONZQbNbaSZ0VldFK9BV4zjQ1bjSG
-         F5mMkcVGib3VfAEbz6oHSRIM6+ffCJ2G9hmtP9jaUE6lzIcIpnmqhVFtch3K02+fTblO
-         IggM/5Nlr0dW8v22uRooMNdANqdlVfeCCTJtjTS3VFg0TH+7EX1boPt4S41FW6k7xp+N
-         Yjlryd2wx63WeyeyNzUOG1WgDVBfATzb2al9h5Iqx4ooaafRcYPnWa2HnIS0BrnhkZwS
-         vqB3HAEExc3PMb1RKRU6LYUWjY2G2ddSAFIdH4WPWhMt6rHByA99KrPCJgjJ1miO+lr4
-         NONQ==
-X-Gm-Message-State: APjAAAX0U5o7o/KNVa7rVyU5xDcQgm9+2pSKw4OnTFweMqqce2UZJU1I
-        CFnSN5v0Tlxco7GzP0xzINp65HBSV2Cpb8elyZE=
-X-Google-Smtp-Source: APXvYqzghYbIPfuaLhZ7lRPK6rsoH8fUi8OqYnJDSTABr/nmO/Kes2l68NMRqBN8qJdu6arxTkQcdVLU08WWTEJKuzw=
-X-Received: by 2002:a1c:9dc4:: with SMTP id g187mr439875wme.86.1562009085322;
- Mon, 01 Jul 2019 12:24:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190629114136.45e90292@endymion> <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
-In-Reply-To: <CAHp75VcOSWVFCHX+gxRzVsjdLLt+3wOrt5mWjmYrM_GfBGN2yw@mail.gmail.com>
-From:   Lucas De Marchi <lucas.de.marchi@gmail.com>
-Date:   Mon, 1 Jul 2019 12:24:33 -0700
-Message-ID: <CAKi4VA+Oc_sip16eD0SnnX4r48MOCcTW6ShcVO8RX_Pqhdsiog@mail.gmail.com>
-Subject: Re: [PATCH] x86: apuv2: Fix softdep statement
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.de>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rVse8/70KlRnkr5stKb0afx2GZVUTkz5Ky6nNvkWhJ0=;
+        b=fdElCcsyo9RtXC5WIW1JflZmmUh80gzrR/nmJxGA1SwIBbv8TQ244ljbEHQek3qTCD
+         Dbjp6ZGtY+iZ2iRw0aH0YNEuKrsyGVuvBhaprkleB/r14ouDlY9DQaxxkjCNJc/OXT4l
+         OwckXnAk46wMVRGRO23FBy4kE84fuKL/8w7Fue+tlzAVhYbtn3jrbQbLy9Y3bcKlzer4
+         6VrF7/ZJ9JRPKt8VANtJb1etVaATtTsSjiNt30LDOZ0Un9E2qm9qubbNl/MFcErml40z
+         BYubG/BCof6NtJH9+8kyXx6yEcf9swkQc94ivM4cxZECuB0eVjtQJpyCLCbFHbKXelxS
+         28Hg==
+X-Gm-Message-State: APjAAAWO1ORoriea8I2af0L1+24Sqqx6cl+DT/PlBL17/PqUoZzsfWyZ
+        XltIRu+6OEsOoOk0x/HZdysIbRrT
+X-Google-Smtp-Source: APXvYqwnDuKCY+1R6+H0PCy5dnftOcQI0vFvHorJDmI1wACNuVm6Iy06UqHrDNE4S2fFVLJ5G3zoqg==
+X-Received: by 2002:adf:ec49:: with SMTP id w9mr19308394wrn.303.1562027899417;
+        Mon, 01 Jul 2019 17:38:19 -0700 (PDT)
+Received: from xws.fritz.box (p5487BBD4.dip0.t-ipconnect.de. [84.135.187.212])
+        by smtp.gmail.com with ESMTPSA id 60sm3066087wrc.68.2019.07.01.17.38.17
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 17:38:18 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 0/2] Support for buttons on newer MS Surface devices
+Date:   Tue,  2 Jul 2019 02:37:38 +0200
+Message-Id: <20190702003740.75970-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jun 29, 2019 at 4:13 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Sat, Jun 29, 2019 at 12:41 PM Jean Delvare <jdelvare@suse.de> wrote:
-> >
-> > Only one MODULE_SOFTDEP statement is allowed per module. Multiple
-> > dependencies must be expressed in a single statement.
->
-> Some module init utils even do not support softdep.
+This series adds suport for power and volume buttons on 5th and 6th
+generation Microsoft Surface devices. Specifically, it adds support for
+the power-button on the Surface Laptop 1 and Laptop 2, as well as
+support for power- and (on-device) volume-buttons on the Surface Pro 5
+(2017), Pro 6, and Book 2.
 
-not related to the patch in question... and module init tools has long
-been replaced by kmod.
+These devices use the same MSHW0040 device as on the Surface Pro 4,
+however, whereas the Pro 4 uses an ACPI notify handler, the newer
+devices use GPIO interrupts to signal these events.
 
->
-> Nevertheless, the message is somewhat misleading. It's not "only one
-> allowed" =E2=80=94 this is not true, it's "only first will be served".
-> This is how I read kmod sources.
->
-> And perhaps better to fix them?
-> At least I would rather support somelike
-> MODULE_SOFTDEP("pre: ...");
-> MODULE_SOFTDEP("post: ...");
+The first patch of this series ensures that the surfacepro3_button
+driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+devices. The second patch adapts soc_button_array to implement the
+actual button support.
 
-it is a bug, because multiple softdep statements like you suggest has
-never been supported.
-Either by kmod or module-init-tools.
+I think the changes to soc_button_array in the second patch warrant a
+thorough review. I've tried to make things a bit more generic to be able
+to integrate arbitrary ACPI GPIO power-/volume-button devices more
+easily, I'm not sure if there may be reasons against this.
 
-What it actually does is to replace the previous one. depmod will look
-into the ELF and generate
-a /lib/modules/$(uname -r)/modules.softdep file. That config file is
-loaded by kmod as any other
-config file with the same prio as others in /lib.
+These patches have also been tested on various Surface devices via the
+github.com/jakeday/linux-surface patchset.
 
-Implementing what you ask would probably be done with
-MODULE_SOFTDEP_PRE() / MODULE_SOFTDEP_POST()
-and let the build system do the right thing. Not supported today and
-not easily backportable.
+Changes since v1:
+  - [PATCH 1/2] platform: Fix device check for surfacepro3_button
+    No changes.
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+  - [PATCH 2/2] input: soc_button_array for newer surface devices
+    Ensure the patch compiles without CONFIG_ACPI.
 
-Lucas De Marchi
+Maximilian Luz (2):
+  platform: Fix device check for surfacepro3_button
+  input: soc_button_array for newer surface devices
 
->
-> > Signed-off-by: Jean Delvare <jdelvare@suse.de>
-> > Cc: "Enrico Weigelt, metux IT consult" <info@metux.net>
-> > Cc: Darren Hart <dvhart@infradead.org>
-> > Cc: Andy Shevchenko <andy@infradead.org>
-> > ---
-> >  drivers/platform/x86/pcengines-apuv2.c |    4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > --- linux-5.1.orig/drivers/platform/x86/pcengines-apuv2.c       2019-05=
--06 02:42:58.000000000 +0200
-> > +++ linux-5.1/drivers/platform/x86/pcengines-apuv2.c    2019-06-29 11:3=
-7:48.062005738 +0200
-> > @@ -255,6 +255,4 @@ MODULE_DESCRIPTION("PC Engines APUv2/APU
-> >  MODULE_LICENSE("GPL");
-> >  MODULE_DEVICE_TABLE(dmi, apu_gpio_dmi_table);
-> >  MODULE_ALIAS("platform:pcengines-apuv2");
-> > -MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME);
-> > -MODULE_SOFTDEP("pre: platform:leds-gpio");
-> > -MODULE_SOFTDEP("pre: platform:gpio_keys_polled");
-> > +MODULE_SOFTDEP("pre: platform:" AMD_FCH_GPIO_DRIVER_NAME " platform:le=
-ds-gpio platform:gpio_keys_polled");
-> >
-> >
-> > --
-> > Jean Delvare
-> > SUSE L3 Support
->
->
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+ drivers/input/misc/soc_button_array.c     | 145 ++++++++++++++++++++--
+ drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+ 2 files changed, 171 insertions(+), 12 deletions(-)
 
+-- 
+2.22.0
 
-
---=20
-Lucas De Marchi
