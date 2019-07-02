@@ -2,122 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A9B65D315
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 17:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B79E5D511
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 19:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbfGBPjm (ORCPT
+        id S1726369AbfGBRNk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Jul 2019 11:39:42 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:46240 "EHLO
+        Tue, 2 Jul 2019 13:13:40 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41870 "EHLO
         mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfGBPjm (ORCPT
+        with ESMTP id S1726303AbfGBRNk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Jul 2019 11:39:42 -0400
-Received: by mail-pl1-f196.google.com with SMTP id e5so555265pls.13;
-        Tue, 02 Jul 2019 08:39:42 -0700 (PDT)
+        Tue, 2 Jul 2019 13:13:40 -0400
+Received: by mail-pl1-f196.google.com with SMTP id m7so702164pls.8;
+        Tue, 02 Jul 2019 10:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=w6DLQuVdAB+70rPFj5zG0x4rnkj9q47LApr1XVz5BOE=;
-        b=PgopIKFRfZ1qWxKPnAqU5VkGmfaq67TmEY3X0GmaeLT1gm8x++/HAJ5Izgz0yXmgTs
-         E8yy2x8nrRsrrjOOM6GGeXaeRraFRGeM9uxaIRnjLu0QC7kwtoy+7ErBf9u7yd33BLdJ
-         QEEtUHEnvoTDLh/fTD2zEvNIVP0paptLYOt86XE1y+dWRqWuDylJbYCGOm1dtIhq6uqv
-         csTczpXKlIQpMzVl/ZjLzv6Ekyc3etNAJJun907ElKpeiGAarhtDpVLuP8FuJoUR7uYs
-         JltsTnGrEb+ioYQLHFc58dl4tNxE7lSrAVIQBcuq7KBrFL+Uxg5kzdZ7eyno5P3uo9UP
-         de5w==
+        bh=CMmY/EmBDHRwzGOg6QKWgI4bnbMuLFbtkiBtFkYdt0g=;
+        b=BptMFKNJAX+benhstGMez9zdl8mS2nykF4E5vC1Ha2dII7WT/F+yQAzjn3PJ3FZ52T
+         9RiwURv25KYuUh0Z59AX6JHoyIgTKYNberdr/l+vOQZDIXQNNlOQNCleW90fJ4H5KxDj
+         aeZa/OZ/qnog9Oz1/n/gtoItr5Qm/GfI2nhCqy/8Lmq+lcRZWIICHjFg7DiKsVmpxzGm
+         Rb2vsPwSFQybIjGgPyc8JfaOvx3F52kw0q+XD+y4fnA7cbpJN+GZbWIH47pBz/FdkasO
+         CFea1MJCNem6xn3CcbSG+xnT98207tebxox+M8nTI+4QEyqfR8Ojj8BonKFPk5HykYWe
+         v6FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=w6DLQuVdAB+70rPFj5zG0x4rnkj9q47LApr1XVz5BOE=;
-        b=ZGuOiq+Ft/gXK8LHb2rkswhYnz+diguD10k05xJMd/JOMH7LhMLSRynOgmgIpEqdFA
-         +17WwFKK/xgC87iepgcdYsf48Bb38jAzDbatVvbKyuGyhP02nOcQeDLdN0jCNhvlsmZU
-         84rgboKKb/M7BrxfPSqJ/PM0xomJQzX8yaOG3x76cDzBxnuJMDC9dy7NjoYwtvi9Bj6K
-         mzDpWlTc0zSMu+E3vmocDplL4gAX0ZkjbmWlbJovG22NNI8qrPgPQVkHCvFgo/3FHf56
-         9oREV5T7B7P1eC1xiPFFSHUnvHXx6YzHbdroIR2BM7rB9KYB9Ea4X/cLlbnQDNphfXA+
-         tznw==
-X-Gm-Message-State: APjAAAUJhollPmm5tJjArPBwklOhC3ui++qqzFMOFppU+vVmPmpUkbar
-        Ww5rnTTIyH/Zf8vtWYLvANrFM9XFYS/A5um8q9w=
-X-Google-Smtp-Source: APXvYqwQrJ6U6eF4weXu7VkVhxDBAmzuhhaXGfIrqf9EklZIpTcCCG993qa0uULXx7ClNVWryt/7c0BjX6WeDV1LlNU=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr36708263plp.18.1562081981801;
- Tue, 02 Jul 2019 08:39:41 -0700 (PDT)
+        bh=CMmY/EmBDHRwzGOg6QKWgI4bnbMuLFbtkiBtFkYdt0g=;
+        b=Jt/FJz7PotUQoQ5GvlmE6VN1aWMYeY+wa1Q0aeXL4RIsYeXj5lRBmx+Qj00BHJlGdd
+         Hk73q3DkJ0S0MB8IUgFxv/Uoqo9q1UxLeJTt4WG3LF2Jg/ckhEV1kMfu9+j9A7Xriyvd
+         0zInAvScBYv5el17kIM/eLASNDCGTrHBck+KtKK0lq+aXLJqhsJKpCYrKlm2f0gvDuAI
+         6qgeHncbi7r2uYBjIRIU9V5TQd37ob+PBFDUjMG8JlFIgEBUytTV1bb1nBGH0Hbirf9y
+         UcIuSzq2NGimYH8/7hAsvDl8k1e3OwJ58UWDdPVT0kGUc28QuB4T3AoHz4hRDzEGfDN8
+         iAIg==
+X-Gm-Message-State: APjAAAU2N0mWhxRQS+Hg1ayGb7ljs0snTh0/VdtL62KZDQvti/2ADxiK
+        KQl7hEBhg7dfVHEpBOt7xgvd1PpjOOWhv+b4XlM=
+X-Google-Smtp-Source: APXvYqwbztzyWoGiTMQMDfeT5/bfyf/ibZNPyr02y4RMWlBoY/ksPjxdsC3NfKSJXiOUiizWWVW6kqYH97ArSMcRR2M=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr37207521plp.18.1562087619463;
+ Tue, 02 Jul 2019 10:13:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
- <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
- <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com> <CAJvTdK=S1vPGg9HZjUxJN2aXSfSXBDyYYLawONA0PP_yKvf19A@mail.gmail.com>
-In-Reply-To: <CAJvTdK=S1vPGg9HZjUxJN2aXSfSXBDyYYLawONA0PP_yKvf19A@mail.gmail.com>
+References: <20190702003740.75970-1-luzmaximilian@gmail.com>
+In-Reply-To: <20190702003740.75970-1-luzmaximilian@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 2 Jul 2019 18:39:29 +0300
-Message-ID: <CAHp75VfY+u4L85VncaLYFcoFwa0OzTo__ZKZGboRXmyQ50mCOA@mail.gmail.com>
-Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
- Select commands
-To:     Len Brown <lenb@kernel.org>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+Date:   Tue, 2 Jul 2019 20:13:27 +0300
+Message-ID: <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Support for buttons on newer MS Surface devices
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Alan Cox <alan@linux.intel.com>,
-        Prarit Bhargava <prarit@redhat.com>,
-        David Arcari <darcari@redhat.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 2, 2019 at 5:42 PM Len Brown <lenb@kernel.org> wrote:
+On Tue, Jul 2, 2019 at 3:38 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
 >
-> Acked-by: Len Brown <len.brown@intel.com>
+> This series adds suport for power and volume buttons on 5th and 6th
+> generation Microsoft Surface devices. Specifically, it adds support for
+> the power-button on the Surface Laptop 1 and Laptop 2, as well as
+> support for power- and (on-device) volume-buttons on the Surface Pro 5
+> (2017), Pro 6, and Book 2.
+>
+> These devices use the same MSHW0040 device as on the Surface Pro 4,
+> however, whereas the Pro 4 uses an ACPI notify handler, the newer
+> devices use GPIO interrupts to signal these events.
+>
+> The first patch of this series ensures that the surfacepro3_button
+> driver, used for MSHW0040 on the Pro 4, does not probe for the newer
+> devices. The second patch adapts soc_button_array to implement the
+> actual button support.
+>
+> I think the changes to soc_button_array in the second patch warrant a
+> thorough review. I've tried to make things a bit more generic to be able
+> to integrate arbitrary ACPI GPIO power-/volume-button devices more
+> easily, I'm not sure if there may be reasons against this.
+>
+> These patches have also been tested on various Surface devices via the
+> github.com/jakeday/linux-surface patchset.
 >
 
-Thanks!
-I hope this is applicable for v2.
+> Changes since v1:
+>   - [PATCH 1/2] platform: Fix device check for surfacepro3_button
+>     No changes.
+>
+>   - [PATCH 2/2] input: soc_button_array for newer surface devices
+>     Ensure the patch compiles without CONFIG_ACPI.
 
-> On Sat, Jun 29, 2019 at 10:31 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> >
-> > On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
-> > <srinivas.pandruvada@linux.intel.com> wrote:
-> > >
-> > > The Intel(R) Speed select technologies contains four features.
-> > >
-> > > Performance profile:An non architectural mechanism that allows multiple
-> > > optimized performance profiles per system via static and/or dynamic
-> > > adjustment of core count, workload, Tjmax, and TDP, etc. aka ISS
-> > > in the documentation.
-> > >
-> > > Base Frequency: Enables users to increase guaranteed base frequency on
-> > > certain cores (high priority cores) in exchange for lower base frequency
-> > > on remaining cores (low priority cores). aka PBF in the documenation.
-> > >
-> > > Turbo frequency: Enables the ability to set different turbo ratio limits
-> > > to cores based on priority. aka FACT in the documentation.
-> > >
-> > > Core power: An Interface that allows user to define per core/tile
-> > > priority.
-> > >
-> > > There is a multi level help for commands and options. This can be used
-> > > to check required arguments for each feature and commands for the
-> > > feature.
-> > >
-> > > To start navigating the features start with
-> > >
-> > > $sudo intel-speed-select --help
-> > >
-> > > For help on a specific feature for example
-> > > $sudo intel-speed-select perf-profile --help
-> > >
-> > > To get help for a command for a feature for example
-> > > $sudo intel-speed-select perf-profile get-lock-status --help
-> > >
-> >
-> > I need an Ack from tools/power maintainer(s) for this.
+I re-pushed to my queue, though if you are going to send a new
+version, check my repository for the titles of the patches (you need
+to use correct templates for the subsystems).
+
+>
+> Maximilian Luz (2):
+>   platform: Fix device check for surfacepro3_button
+>   input: soc_button_array for newer surface devices
+>
+>  drivers/input/misc/soc_button_array.c     | 145 ++++++++++++++++++++--
+>  drivers/platform/x86/surfacepro3_button.c |  38 ++++++
+>  2 files changed, 171 insertions(+), 12 deletions(-)
+>
+> --
+> 2.22.0
+>
+
 
 -- 
 With Best Regards,
