@@ -2,89 +2,123 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A72335C6E7
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 04:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9B65D315
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 17:39:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbfGBCEl (ORCPT
+        id S1726702AbfGBPjm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 1 Jul 2019 22:04:41 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34475 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726486AbfGBCEl (ORCPT
+        Tue, 2 Jul 2019 11:39:42 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46240 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbfGBPjm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 1 Jul 2019 22:04:41 -0400
-Received: by mail-wr1-f66.google.com with SMTP id u18so7678537wru.1;
-        Mon, 01 Jul 2019 19:04:40 -0700 (PDT)
+        Tue, 2 Jul 2019 11:39:42 -0400
+Received: by mail-pl1-f196.google.com with SMTP id e5so555265pls.13;
+        Tue, 02 Jul 2019 08:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cC24HskbbBfAYQjpG+ffaC/VHKFfDt1GzRC+shKM3B4=;
-        b=AvujA4SnQ8zxnHu93jV87ajTEC54BPX56k7Cm/ule4kFTHu+IayTzJ3o5jb5pNDXfV
-         N1LbSfF1MU/L8mGuZcuSlS9FbPI8T5zbjmNedknRRKuKKcwWPcqlWFyvwJ/9+8v++q7D
-         Aq9fgIBn982l0WFRLX/AuWX5Fw0HHltAUuBFlBPSoOPxt1LQ5BmzgpcBefapWvMrM7Am
-         NeJt1v1DJ9xjKuKS0dW6BIgxy6KZNV6PUeTDRc+7XWRsVDAn/0wy83iY+PHiPe/e4yfc
-         1splfHMkDb+yB1AyjSkzRz+TYGNwBCLhAx/SHotCy6HFQC7PleD2WTYaddQaMJ+Prr9Z
-         2b3A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w6DLQuVdAB+70rPFj5zG0x4rnkj9q47LApr1XVz5BOE=;
+        b=PgopIKFRfZ1qWxKPnAqU5VkGmfaq67TmEY3X0GmaeLT1gm8x++/HAJ5Izgz0yXmgTs
+         E8yy2x8nrRsrrjOOM6GGeXaeRraFRGeM9uxaIRnjLu0QC7kwtoy+7ErBf9u7yd33BLdJ
+         QEEtUHEnvoTDLh/fTD2zEvNIVP0paptLYOt86XE1y+dWRqWuDylJbYCGOm1dtIhq6uqv
+         csTczpXKlIQpMzVl/ZjLzv6Ekyc3etNAJJun907ElKpeiGAarhtDpVLuP8FuJoUR7uYs
+         JltsTnGrEb+ioYQLHFc58dl4tNxE7lSrAVIQBcuq7KBrFL+Uxg5kzdZ7eyno5P3uo9UP
+         de5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cC24HskbbBfAYQjpG+ffaC/VHKFfDt1GzRC+shKM3B4=;
-        b=lCuSgp1AtLfaZDD8cyLJsY7R6NbvY3hN8TYHDLlVTOUQvotYzGij9SfVOFgQqIjx2I
-         GL6wMiNX40tlH6ytG55oZBXCfkqHMZg3ZtP38GONRsOMDQu49i8C0CzeASzwoAb6FVA1
-         oq34n3r4MsSM64AAYa4OQz3eam7u/JPr4FCz7BP0uOuY7czZz/cUQrfkv6xmo4k2QQxm
-         OrWOlxJTmp63ilrKdcRARSHzOM4fBxVHKuOtULGxxCjKntoBZWeNaovR+c6y/r9n0dcH
-         b6rZf5+iGgF4BzLhmkwOPEVLTu3rN1fBiX5fiUv2zWY5Jo3EfCzrXTAqU+vpDqwFAK/f
-         KVYQ==
-X-Gm-Message-State: APjAAAWlnwIiZThVJoOiEUW/JX99O5+H1aoQ2fUa5UWyBbrCXH8KxYMV
-        eSTjR7ZxQqh9nb0rLCmoaMo=
-X-Google-Smtp-Source: APXvYqzwMiWb7AaYJOGdenk/mB+FUODCRipS/iQOKLhn2j2Wxg8EvSYMHHlv5uD0y6hevjCLdUkLnw==
-X-Received: by 2002:adf:f649:: with SMTP id x9mr19259049wrp.86.1562033079629;
-        Mon, 01 Jul 2019 19:04:39 -0700 (PDT)
-Received: from [192.168.2.202] (pD9E5A169.dip0.t-ipconnect.de. [217.229.161.105])
-        by smtp.gmail.com with ESMTPSA id i16sm9091440wrm.37.2019.07.01.19.04.38
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Jul 2019 19:04:39 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] platform: Fix device check for surfacepro3_button
-To:     Yu Chen <yu.c.chen@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w6DLQuVdAB+70rPFj5zG0x4rnkj9q47LApr1XVz5BOE=;
+        b=ZGuOiq+Ft/gXK8LHb2rkswhYnz+diguD10k05xJMd/JOMH7LhMLSRynOgmgIpEqdFA
+         +17WwFKK/xgC87iepgcdYsf48Bb38jAzDbatVvbKyuGyhP02nOcQeDLdN0jCNhvlsmZU
+         84rgboKKb/M7BrxfPSqJ/PM0xomJQzX8yaOG3x76cDzBxnuJMDC9dy7NjoYwtvi9Bj6K
+         mzDpWlTc0zSMu+E3vmocDplL4gAX0ZkjbmWlbJovG22NNI8qrPgPQVkHCvFgo/3FHf56
+         9oREV5T7B7P1eC1xiPFFSHUnvHXx6YzHbdroIR2BM7rB9KYB9Ea4X/cLlbnQDNphfXA+
+         tznw==
+X-Gm-Message-State: APjAAAUJhollPmm5tJjArPBwklOhC3ui++qqzFMOFppU+vVmPmpUkbar
+        Ww5rnTTIyH/Zf8vtWYLvANrFM9XFYS/A5um8q9w=
+X-Google-Smtp-Source: APXvYqwQrJ6U6eF4weXu7VkVhxDBAmzuhhaXGfIrqf9EklZIpTcCCG993qa0uULXx7ClNVWryt/7c0BjX6WeDV1LlNU=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr36708263plp.18.1562081981801;
+ Tue, 02 Jul 2019 08:39:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190626223851.19138-1-srinivas.pandruvada@linux.intel.com>
+ <20190626223851.19138-11-srinivas.pandruvada@linux.intel.com>
+ <CAHp75VfMDpKyYnZkZw51dwcEt5neQwGuZUaB7yEFQW6fjRYCqg@mail.gmail.com> <CAJvTdK=S1vPGg9HZjUxJN2aXSfSXBDyYYLawONA0PP_yKvf19A@mail.gmail.com>
+In-Reply-To: <CAJvTdK=S1vPGg9HZjUxJN2aXSfSXBDyYYLawONA0PP_yKvf19A@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 2 Jul 2019 18:39:29 +0300
+Message-ID: <CAHp75VfY+u4L85VncaLYFcoFwa0OzTo__ZKZGboRXmyQ50mCOA@mail.gmail.com>
+Subject: Re: [PATCH 10/10] tools/power/x86: A tool to validate Intel Speed
+ Select commands
+To:     Len Brown <lenb@kernel.org>
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20190702003740.75970-1-luzmaximilian@gmail.com>
- <20190702003740.75970-2-luzmaximilian@gmail.com>
- <20190702011443.GA19902@chenyu-office.sh.intel.com>
- <91349d00-e7e2-887b-45e5-4689a401aa2f@gmail.com>
- <d7e17f54-4c33-fa8d-be03-9e507da8e495@gmail.com>
- <20190702015717.GA20346@chenyu-office.sh.intel.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <3eab65a6-90d6-d598-2b16-805c28864716@gmail.com>
-Date:   Tue, 2 Jul 2019 04:04:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190702015717.GA20346@chenyu-office.sh.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Alan Cox <alan@linux.intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
+        David Arcari <darcari@redhat.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/2/19 3:57 AM, Yu Chen wrote:
-> How about using a boolean, according to the function name, if a mshw0040 revison
-> is detected then returns true other wise false. Other than that,
-> Acked-by: Chen Yu <yu.c.chen@intel.com>
+On Tue, Jul 2, 2019 at 5:42 PM Len Brown <lenb@kernel.org> wrote:
+>
+> Acked-by: Len Brown <len.brown@intel.com>
+>
 
-I can change that if you want me to. Just thought this might be a bit
-more flexible in case we ever have to adapt the check for future device
-generations.
+Thanks!
+I hope this is applicable for v2.
 
-Thanks,
-Maximilian
+> On Sat, Jun 29, 2019 at 10:31 AM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> >
+> > On Thu, Jun 27, 2019 at 1:39 AM Srinivas Pandruvada
+> > <srinivas.pandruvada@linux.intel.com> wrote:
+> > >
+> > > The Intel(R) Speed select technologies contains four features.
+> > >
+> > > Performance profile:An non architectural mechanism that allows multiple
+> > > optimized performance profiles per system via static and/or dynamic
+> > > adjustment of core count, workload, Tjmax, and TDP, etc. aka ISS
+> > > in the documentation.
+> > >
+> > > Base Frequency: Enables users to increase guaranteed base frequency on
+> > > certain cores (high priority cores) in exchange for lower base frequency
+> > > on remaining cores (low priority cores). aka PBF in the documenation.
+> > >
+> > > Turbo frequency: Enables the ability to set different turbo ratio limits
+> > > to cores based on priority. aka FACT in the documentation.
+> > >
+> > > Core power: An Interface that allows user to define per core/tile
+> > > priority.
+> > >
+> > > There is a multi level help for commands and options. This can be used
+> > > to check required arguments for each feature and commands for the
+> > > feature.
+> > >
+> > > To start navigating the features start with
+> > >
+> > > $sudo intel-speed-select --help
+> > >
+> > > For help on a specific feature for example
+> > > $sudo intel-speed-select perf-profile --help
+> > >
+> > > To get help for a command for a feature for example
+> > > $sudo intel-speed-select perf-profile get-lock-status --help
+> > >
+> >
+> > I need an Ack from tools/power maintainer(s) for this.
+
+-- 
+With Best Regards,
+Andy Shevchenko
