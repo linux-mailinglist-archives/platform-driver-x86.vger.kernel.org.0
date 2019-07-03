@@ -2,68 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95B8D5DB2B
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 03:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 318065DB75
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 04:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbfGCBxp (ORCPT
+        id S1727622AbfGCCPi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Jul 2019 21:53:45 -0400
-Received: from mga18.intel.com ([134.134.136.126]:34402 "EHLO mga18.intel.com"
+        Tue, 2 Jul 2019 22:15:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53944 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726635AbfGCBxp (ORCPT
+        id S1727626AbfGCCPi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Jul 2019 21:53:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jul 2019 18:53:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; 
-   d="scan'208";a="247472324"
-Received: from unknown (HELO spandruv-mobl.amr.corp.intel.com) ([10.252.204.28])
-  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2019 18:53:43 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     dvhart@infradead.org, andy@infradead.org,
-        andriy.shevchenko@intel.com, corbet@lwn.net
-Cc:     rjw@rjwysocki.net, alan@linux.intel.com, lenb@kernel.org,
-        prarit@redhat.com, darcari@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
-Date:   Tue,  2 Jul 2019 18:53:31 -0700
-Message-Id: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
+        Tue, 2 Jul 2019 22:15:38 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 67686218A3;
+        Wed,  3 Jul 2019 02:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562120137;
+        bh=kxd6DhSp0GnWT3gKbEadLw4u2K2Ny8vIqZRTBU3o9zI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IP4pcFdYItVDa6lu9q8+cT88ZD/tCPgk0fJ0KK27f7rNtzR/Rb25VEOPpAXRJSGLl
+         mmU25ISJVJS2xtXONrIzkNhyZAFeXhKIQB61K1IZoURtUFTFv3v97rkxNRc4FUYwNQ
+         F9dkSoLpxM0NnoBsxzMzGIsX60BL6IxCVoj8aS3E=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Qian Cai <cai@lca.pw>,
+        "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Sasha Levin <sashal@kernel.org>, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 14/39] x86/efi: fix a -Wtype-limits compilation warning
+Date:   Tue,  2 Jul 2019 22:14:49 -0400
+Message-Id: <20190703021514.17727-14-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190703021514.17727-1-sashal@kernel.org>
+References: <20190703021514.17727-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Added myself as the maintainer.
+From: Qian Cai <cai@lca.pw>
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+[ Upstream commit 919aef44d73d5d0c04213cb1bc31149cc074e65e ]
+
+Compiling a kernel with W=1 generates this warning,
+
+arch/x86/platform/efi/quirks.c:731:16: warning: comparison of unsigned
+expression >= 0 is always true [-Wtype-limits]
+
+Fixes: 3425d934fc03 ("efi/x86: Handle page faults occurring while running ...")
+Signed-off-by: Qian Cai <cai@lca.pw>
+Acked-by: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/x86/platform/efi/quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5cfbea4ce575..b6ed7958372d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8101,6 +8101,14 @@ S:	Supported
- F:	drivers/infiniband/hw/i40iw/
- F:	include/uapi/rdma/i40iw-abi.h
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index a25a9fd987a9..529522c62d89 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -724,7 +724,7 @@ void efi_recover_from_page_fault(unsigned long phys_addr)
+ 	 * Address range 0x0000 - 0x0fff is always mapped in the efi_pgd, so
+ 	 * page faulting on these addresses isn't expected.
+ 	 */
+-	if (phys_addr >= 0x0000 && phys_addr <= 0x0fff)
++	if (phys_addr <= 0x0fff)
+ 		return;
  
-+INTEL SPEED SELECT TECHNOLOGY
-+M:	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/x86/intel_speed_select_if/
-+F:	tools/power/x86/intel-speed-select/
-+F:	include/uapi/linux/isst_if.h
-+
- INTEL TELEMETRY DRIVER
- M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
- M:	"David E. Box" <david.e.box@linux.intel.com>
+ 	/*
 -- 
-2.17.2
+2.20.1
 
