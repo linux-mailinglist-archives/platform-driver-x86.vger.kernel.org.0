@@ -2,85 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5EC75D533
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Jul 2019 19:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95B8D5DB2B
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 03:53:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbfGBR0d (ORCPT
+        id S1726821AbfGCBxp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Jul 2019 13:26:33 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33205 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbfGBR0c (ORCPT
+        Tue, 2 Jul 2019 21:53:45 -0400
+Received: from mga18.intel.com ([134.134.136.126]:34402 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726635AbfGCBxp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Jul 2019 13:26:32 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n9so18810838wru.0;
-        Tue, 02 Jul 2019 10:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GJQWdYjGRJbWGQyVM/pVQ8ZoWrqzt0Iwb6wDU6NZk2g=;
-        b=O+tny0zmZLUocyLGuzn577ZQeQVqyE3IVzVoF5ClP1sMNqM3CmWSRE4DR3QvA1BGmv
-         0LEmxDnJYQ/+nLk/aCAR8MsPwAleyo06XvyhWiyAh77rTCWL1ObF9kSyoxvCty4/GrOb
-         rLeINNDhVgwvCSw05cv+UnLNJZtJbxZxpCdx+ufK8prvVHLS+pmEad6ykSmqLtl3Vw/f
-         iDx5tMCkb1sA5CzLkn/5p4xHRx6DXSo++Gvnn0ranBCmUKuonBGE76kU/ozvhLmhw7uc
-         mSR5SbuMLIAoddU3Zk6+CyxAUuqaRdpsDoYN8HUyIK9AnRnqxJo17rD5BDb9/tIhdLyZ
-         wQ8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GJQWdYjGRJbWGQyVM/pVQ8ZoWrqzt0Iwb6wDU6NZk2g=;
-        b=PbR1O0Q5TcHYwQYf9T0exynGm7TCviZlMMNJjdhzBdZVAXcLb4wphEO+dj15Hbtd8v
-         a/4Q3ELttbs+foxuVflJi31GQwJEpjVSLW0SFVrZldd7AkoFP+EapUD7vxk7bHG/MJdf
-         30mUJn2wZOJcqHkQgpkySmHEpmA8PA944ajRC1FqnYQrqbud69xtJVYhwubCfdCT3Z9v
-         AZmvzelRKyORTaO/ISbfyYzP4NUyX2dryTUbnWFbp3Q/GpeWbuIgMatQqzmd6xXvJ2OF
-         S+brZrTEUY0IdfUyFWzhakK7Ezr21OZ29WbILhOoQBeyif9iBHSQq+IJALIpRrvPYhwV
-         kLEw==
-X-Gm-Message-State: APjAAAWM+1SwCzwt2WrVQswU54/b8y1E+YW0b0Rl1i22CwcmQkCoV4uF
-        Ca3WeXRRMMD6e6UeEmIRw/A=
-X-Google-Smtp-Source: APXvYqxJuQ0kjRWoYunRRlB7QJFYv0FpgfdFcDJ22PBoD8/5tt472sT0BHd+Y3eG4bgBajESQWs2iQ==
-X-Received: by 2002:adf:de8e:: with SMTP id w14mr26028921wrl.130.1562088390364;
-        Tue, 02 Jul 2019 10:26:30 -0700 (PDT)
-Received: from [192.168.2.202] (pD9E5A169.dip0.t-ipconnect.de. [217.229.161.105])
-        by smtp.gmail.com with ESMTPSA id p26sm18738909wrp.58.2019.07.02.10.26.28
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Jul 2019 10:26:29 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Support for buttons on newer MS Surface devices
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20190702003740.75970-1-luzmaximilian@gmail.com>
- <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <c50dbd58-c0d4-1a93-b292-68df209749b9@gmail.com>
-Date:   Tue, 2 Jul 2019 19:26:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <CAHp75Ve-f-piRxwG2u2djWGt2fUKkvZSDJ+XkjGKLmMZeLEYsw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 2 Jul 2019 21:53:45 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jul 2019 18:53:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; 
+   d="scan'208";a="247472324"
+Received: from unknown (HELO spandruv-mobl.amr.corp.intel.com) ([10.252.204.28])
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2019 18:53:43 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     dvhart@infradead.org, andy@infradead.org,
+        andriy.shevchenko@intel.com, corbet@lwn.net
+Cc:     rjw@rjwysocki.net, alan@linux.intel.com, lenb@kernel.org,
+        prarit@redhat.com, darcari@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
+Date:   Tue,  2 Jul 2019 18:53:31 -0700
+Message-Id: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/2/19 7:13 PM, Andy Shevchenko wrote:
-> I re-pushed to my queue, though if you are going to send a new
-> version, check my repository for the titles of the patches (you need
-> to use correct templates for the subsystems).
+Added myself as the maintainer.
 
-Got it, sorry for the inconvenience.
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thank you!
-Maximilian
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5cfbea4ce575..b6ed7958372d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8101,6 +8101,14 @@ S:	Supported
+ F:	drivers/infiniband/hw/i40iw/
+ F:	include/uapi/rdma/i40iw-abi.h
+ 
++INTEL SPEED SELECT TECHNOLOGY
++M:	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/intel_speed_select_if/
++F:	tools/power/x86/intel-speed-select/
++F:	include/uapi/linux/isst_if.h
++
+ INTEL TELEMETRY DRIVER
+ M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+ M:	"David E. Box" <david.e.box@linux.intel.com>
+-- 
+2.17.2
+
