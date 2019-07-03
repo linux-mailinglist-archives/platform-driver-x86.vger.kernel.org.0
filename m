@@ -2,105 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB81B5E7FD
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 17:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E5975E8F6
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 18:30:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbfGCPlg (ORCPT
+        id S1726969AbfGCQaA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 3 Jul 2019 11:41:36 -0400
-Received: from fallback18.mail.ru ([185.5.136.250]:49310 "EHLO
-        fallback18.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726718AbfGCPlg (ORCPT
+        Wed, 3 Jul 2019 12:30:00 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34668 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726686AbfGCQaA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 3 Jul 2019 11:41:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail;
-        h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From; bh=zR46rN/9K6Nv/G8PoM5HtAOAcJptYAc/7tZWvRpDr2M=;
-        b=Opn2WQRHwBaOkPvAD+IGA9Bv4hL3b1Xz4hSLqKASDkx4M6epbcj10GnBumpe9hX48nObrPtbHhG3M6Cf+KWixHdM++5Qv3BA7Y3j3TQUmQBaFli4XqKtSiFSiw7I1iJD7Ds8v8ayRbUYKBIn3pkm25tfK2+F0bgRLKppq/gLnBI=;
-Received: from [10.161.8.33] (port=45294 helo=smtp14.mail.ru)
-        by fallback18.m.smailru.net with esmtp (envelope-from <nemcev_aleksey@inbox.ru>)
-        id 1hihO1-0007Pv-KH
-        for platform-driver-x86@vger.kernel.org; Wed, 03 Jul 2019 18:41:33 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail;
-        h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From; bh=zR46rN/9K6Nv/G8PoM5HtAOAcJptYAc/7tZWvRpDr2M=;
-        b=Opn2WQRHwBaOkPvAD+IGA9Bv4hL3b1Xz4hSLqKASDkx4M6epbcj10GnBumpe9hX48nObrPtbHhG3M6Cf+KWixHdM++5Qv3BA7Y3j3TQUmQBaFli4XqKtSiFSiw7I1iJD7Ds8v8ayRbUYKBIn3pkm25tfK2+F0bgRLKppq/gLnBI=;
-Received: by smtp14.mail.ru with esmtpa (envelope-from <nemcev_aleksey@inbox.ru>)
-        id 1hihO0-0001vG-2L; Wed, 03 Jul 2019 18:41:32 +0300
-From:   Nemcev_Aleksey@inbox.ru
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Aleksey Nemcev <Nemcev_Aleksey@inbox.ru>
-Subject: [PATCH 4/4] platform/x86: asus-wmi: Add wmi_backlight_disable quirk
-Date:   Wed,  3 Jul 2019 18:41:02 +0300
-Message-Id: <20190703154102.20002-4-Nemcev_Aleksey@inbox.ru>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190703154102.20002-1-Nemcev_Aleksey@inbox.ru>
-References: <20190703154102.20002-1-Nemcev_Aleksey@inbox.ru>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-77F55803: 2D1AD755E866B1545A78504BD2AC294133C3DD4F2B53C4ED17ED78923D6B0CE41525770315BAB53328E8E641A45F6172
-X-7FA49CB5: 0D63561A33F958A50A026C60573BBA36FD68E4B5506F5294CA6DB79C7E6915A48941B15DA834481FA18204E546F3947CB861051D4BA689FCF6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8B3A703B70628EAD7BA471835C12D1D977C4224003CC8364767815B9869FA544D8D32BA5DBAC0009BE9E8FC8737B5C224901F8F2FECC0250C83AA81AA40904B5D9CF19DD082D7633A093541453170D46FCD81D268191BDAD3D78DA827A17800CE7B8DF8BCBF3A9906FCD04E86FAF290E2DBBC930A3941E20C675ECD9A6C639B01B78DA827A17800CE7A6F206C3C3CBDA8CA084E6503CB7830275ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC85D9B7C4F32B44FF57E8FBB06288C1946000306258E7E6ABB4E4A6367B16DE6309
-X-Mailru-Sender: BAC27832F44D5424910E42FD2D628468E35CA7FE35398775B3371D5F4858F91592A0E2AEE18925A2B5D628A7EF4494575C5F6E3C72ABB53BB0D9B300F142F0238EAA47040EB6BC244E4EA347F45ED768B49EAA7E57EF395F3453F38A29522196
-X-Mras: OK
-X-77F55803: E8DB3678F13EF3E07F9F52485CB584D7271FD7DF62800FDC8A2F546F6BD22D8120D17E6A58C3BAADC32952AB6B70CBF04377C52109CA8204
-X-7FA49CB5: 0D63561A33F958A55A140C4E4A4CEA2D6DE5A5629C987E2E01E33DD264EC52E08941B15DA834481FA18204E546F3947CB861051D4BA689FCF6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8B3A703B70628EAD7BA471835C12D1D977C4224003CC836476C0CAF46E325F83A50BF2EBBBDD9D6B0FECB2555BB02FD5A93B503F486389A921A5CC5B56E945C8DA
-X-Mailru-Sender: A5480F10D64C9005D917D4885F602B38603BC1C7A63DF611B5B8EE185B81EDFF0A95ADFD67C9AF73E50935EE66542E109654EF9EE9506939349998EA56B56CE1D251A790F4B35225EC94D6048180DDBE5FEEDEB644C299C0ED14614B50AE0675
-X-Mras: OK
+        Wed, 3 Jul 2019 12:30:00 -0400
+Received: by mail-pl1-f195.google.com with SMTP id i2so1533480plt.1;
+        Wed, 03 Jul 2019 09:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=sWA+8J2rSgIapxEvPrdhvzsbd/hl1uuQJT8SGPnww+g=;
+        b=FIZ+QjmOinajLJg2asmfCN0UL5nbWAIVO3EZ3yUaJUBmqqc9WUWCY/6EWbCnzxXGMe
+         LwA/1ZpnjqlYHyeggJ3Re9eD+AeoCWKcVk2a+LmOHmf6jhqgIDNailwMLDJDR8OJJaZ4
+         +4fKc/H01jPaCXf9gy8Sifze4cCTi17+49znbXfqXKPGXcUh7uRT/DzRwrj3YPWeWdMg
+         V2ya/cCRrCjxxuFRrQ6r1bD/MimWhE8kk5dwymljYoMPV+ia+5gc2uBHF4gHQbwuBX0A
+         WoYLz2QPapqy/YMwqW3+7sxsykF3BzXughF4YqwNHCehTk+etRfgNdVgs5luI2cnZEhy
+         DlSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=sWA+8J2rSgIapxEvPrdhvzsbd/hl1uuQJT8SGPnww+g=;
+        b=NX/w5WDfyyA53gkBlaYx84uw/hWnphJu8yeJ3cxnVBC9PepXmaZq2btQUKgaaitcv1
+         Am4hMRRsccqK08duN0LXNzOS0DZRXlJabgfFUIPvDhDLMhqx/oxI8d13B8GvxGcncosn
+         r1VuapZXNtMNf0OXRZNMVTSsjsfvtAWXpTHE8HmNk8H7mskMd2C9c1e/yF9hbKSeYMeM
+         OwlmQT1EMY3VfMghApmjP84MctVUpDijsTbG+6ApOS/ZbUrNVREJxMg/GqSwcPs7IH0d
+         e2lfJJWg2of/ONBQ1w/8s/Zd7DZ1hTpwi/mnJbktz7XA/59/yUqmEns+UoIp6ttQOC7L
+         nZug==
+X-Gm-Message-State: APjAAAVtI6zD/Yo9nPmran7v/FEuvEm0SvvuLJlY1obIqeErJvcWurHO
+        6iXQ09AIb60EcxFmF8xNO6I=
+X-Google-Smtp-Source: APXvYqwsafC/F/Y/6lwyuRes8D5JprdTxE1+fbLr1GrD1jiTOJCYdz+TVvfT9i4buk5iyZ7Ey2Qy7Q==
+X-Received: by 2002:a17:902:7248:: with SMTP id c8mr6203101pll.162.1562171399475;
+        Wed, 03 Jul 2019 09:29:59 -0700 (PDT)
+Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.googlemail.com with ESMTPSA id p13sm8179907pjb.30.2019.07.03.09.29.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 09:29:59 -0700 (PDT)
+From:   Fuqian Huang <huangfq.daxian@gmail.com>
+Cc:     Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fuqian Huang <huangfq.daxian@gmail.com>
+Subject: [PATCH v2 20/35] platform/x86/asus: Use kmemdup rather than duplicating its implementation
+Date:   Thu,  4 Jul 2019 00:29:51 +0800
+Message-Id: <20190703162951.32737-1-huangfq.daxian@gmail.com>
+X-Mailer: git-send-email 2.11.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Aleksey Nemcev <Nemcev_Aleksey@inbox.ru>
+kmemdup is introduced to duplicate a region of memory in a neat way.
+Rather than kmalloc/kzalloc + memcpy, which the programmer needs to
+write the size twice (sometimes lead to mistakes), kmemdup improves
+readability, leads to smaller code and also reduce the chances of mistakes.
+Suggestion to use kmemdup rather than using kmalloc/kzalloc + memcpy.
 
-This quirk is for some Asus notebooks like FX705GE with
-working ACPI backlight control, if asus-nb-wmi breaks it
-
-Fixes display backlight control on FX705GE after asus-nb-wmi module load
-
-Signed-off-by: Aleksey Nemcev <Nemcev_Aleksey@inbox.ru>
+Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
 ---
- drivers/platform/x86/asus-nb-wmi.c | 1 +
- drivers/platform/x86/asus-wmi.c    | 3 ++-
- drivers/platform/x86/asus-wmi.h    | 1 +
- 3 files changed, 4 insertions(+), 1 deletion(-)
+Changes in v2:
+  - Fix a typo in commit message (memset -> memcpy)
+  - Split into two patches.
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 5d98f5bdba14..94d1775c6934 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -88,6 +88,7 @@ static struct quirk_entry quirk_asus_x55u = {
- static struct quirk_entry quirk_asus_fx705ge = {
- 	.wmi_needs_3_args = true,
- 	.wmi_uses_dsts2 = true,
-+	.wmi_backlight_disable = true,
- };
- 
- static struct quirk_entry quirk_asus_wapf4 = {
+ drivers/platform/x86/asus-wmi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 4c62425f99c8..75022e816042 100644
+index 9b18a184e0aa..472b317ad814 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
-@@ -2254,7 +2254,8 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	if (asus->driver->quirks->xusb2pr)
- 		asus_wmi_set_xusb2pr(asus);
+@@ -260,12 +260,11 @@ static int asus_wmi_evaluate_method_agfn(const struct acpi_buffer args)
+ 	 * Copy to dma capable address otherwise memory corruption occurs as
+ 	 * bios has to be able to access it.
+ 	 */
+-	input.pointer = kzalloc(args.length, GFP_DMA | GFP_KERNEL);
++	input.pointer = kmemdup(args.pointer, args.length, GFP_DMA | GFP_KERNEL);
+ 	input.length = args.length;
+ 	if (!input.pointer)
+ 		return -ENOMEM;
+ 	phys_addr = virt_to_phys(input.pointer);
+-	memcpy(input.pointer, args.pointer, args.length);
  
--	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+	if (acpi_video_get_backlight_type() == acpi_backlight_vendor
-+	    && !asus->driver->quirks->wmi_backlight_disable) {
- 		err = asus_wmi_backlight_init(asus);
- 		if (err && err != -ENODEV)
- 			goto fail_backlight;
-diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-index 3d39de76b01b..df2aac92860b 100644
---- a/drivers/platform/x86/asus-wmi.h
-+++ b/drivers/platform/x86/asus-wmi.h
-@@ -35,6 +35,7 @@ struct quirk_entry {
- 	bool wmi_force_als_set;
- 	bool wmi_needs_3_args;
- 	bool wmi_uses_dsts2;
-+	bool wmi_backlight_disable;
- 	int wapf;
- 	/*
- 	 * For machines with AMD graphic chips, it will send out WMI event
+ 	status = asus_wmi_evaluate_method(ASUS_WMI_METHODID_AGFN,
+ 					phys_addr, 0, &retval);
 -- 
-2.20.1
+2.11.0
 
