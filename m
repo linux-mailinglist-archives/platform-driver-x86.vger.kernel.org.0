@@ -2,113 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 281685E40C
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 14:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9A635E539
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 15:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbfGCMey (ORCPT
+        id S1726679AbfGCNTS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 3 Jul 2019 08:34:54 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39456 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725847AbfGCMey (ORCPT
+        Wed, 3 Jul 2019 09:19:18 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45512 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726635AbfGCNTS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 3 Jul 2019 08:34:54 -0400
-Received: by mail-pf1-f194.google.com with SMTP id j2so1217048pfe.6;
-        Wed, 03 Jul 2019 05:34:53 -0700 (PDT)
+        Wed, 3 Jul 2019 09:19:18 -0400
+Received: by mail-pg1-f195.google.com with SMTP id o13so1231932pgp.12;
+        Wed, 03 Jul 2019 06:19:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/Zh20eDctD0uOEV0CBXCsFL9AJVrhJiOwnTyIfCiyLk=;
-        b=juR3nwN5y1Vfy8DPE02baVsCeSRViaMYHk+S4uDbhHuLH5MAq5ZIwCPPeWzuAoQWEr
-         q/T9d0d07vyhW0jpijo9gtha4BBIcpYi2CU89ryqxHp1sGIfC6/SjN0HjNyX26sArnx0
-         cBoQjhsQ/YfDu7kwOE3ROdTtmEeg5b5Dw7L3BSudvhU4oj8WoN4RJvFaVq5NhM+2kdj8
-         3UwWTG0RE5budldOxweKdMFtMLv171pdKA1M7atbl3RICeKlLGcyRh8tMSxZcIlvZ2pi
-         p06bjlxztC/ipuw+oN2f+CDqWl6eCxfowaT/e4ZKBvtp+c4zPmB7r/EFzDCEczeitNdB
-         ffMw==
+        h=from:to:cc:subject:date:message-id;
+        bh=Cs/Y84YOYpwUFwCANMN2rSejLTzy8FhytWYeNxufTp4=;
+        b=J23ACrWnvxU6RVchPSS8D1IZ0X5EqqEdAtBCpEeFfjySsLy8eOUlRZ2Ib9e8kfkIAI
+         4hPrjfBkURFnS5xXyguQjHab8UJz08M4GICEikAnf8C4HVhtflZwe+iEAyI916Bp7xCp
+         Uyy5HafGi/CMbBf9/hMeX3Wy+ypJ1SCuiTTeif5nIVFJwtWVChnzkWEnZ8yQej/u+X+5
+         ipQNmubxRyJqPisyZUi1W+eCBYR6JJ6Oq8KLh9//MfIv4z0kBsghzzqTmDDzelzGL9Oq
+         5KpxxynGrsvqaoUdcbJboG1FgfvryROvJOftCwi1G1O+305fAL5pQGfGiWiMrrLzWdat
+         YNfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Zh20eDctD0uOEV0CBXCsFL9AJVrhJiOwnTyIfCiyLk=;
-        b=KZrH5DsxJZxuRcL1SiGGTegunqU+xtFxiJNRA0YXxQ68lrwUh3CRXF+S7ilH2KYtjg
-         NBn3GJv6zQ0bDJDx5x6zqj3waex+slV2esiHF0wMdObO4RZokqEbgmWShPOKjtUcSUDK
-         xm0H3EuYVDa29StDP/iESg3Rcbs72mjmDZpnzaACyrE8vvSeQBYMxAJnoVUwB5gYdDYm
-         VDUs79wRYVy1d//WwTwhqNR0N5DlyuBAGF87JDuex06xorRwrp+WDCWBhPrDDxnEFLzT
-         94swsFZh2WicgApAtYEH6OYfXA5vhtYG6OaMvvmHUwjisuCvWSvmPNLoF/oRQQStZIx2
-         +jMg==
-X-Gm-Message-State: APjAAAW+e3moqodm/Vq75F72YnRbXeqsI+l3zuNeJRaGNZAdgmlTWpuv
-        9vm/m7I9MoYMbArfw2TisZ3E54trp9cU38AEowE=
-X-Google-Smtp-Source: APXvYqwhvsbepyecIWiKw8WItcH0EeKOA5NuVUrLIcR1ZqNEDhprorOf1qBquvFPxObqAxPod+IQn9sVj80Nhjpd0KU=
-X-Received: by 2002:a63:c0e:: with SMTP id b14mr36789780pgl.4.1562157293314;
- Wed, 03 Jul 2019 05:34:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com> <1893254.mYh7M8VbD2@kreacher>
-In-Reply-To: <1893254.mYh7M8VbD2@kreacher>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 3 Jul 2019 15:34:41 +0300
-Message-ID: <CAHp75VcALNWX-WsfvBt9Q4aE_6AzF=6WV9PUpdnszugi4z+nzw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Cs/Y84YOYpwUFwCANMN2rSejLTzy8FhytWYeNxufTp4=;
+        b=T6lx0jxDtQlSXc/hVUaoltl2TACKgB/FbjKlNtOJIhjcVzC5vVd/aMK6g5DLyQktz7
+         r7QIhUMuOO8qRI5OGoAJKX84Eg6qHDqfse//Oj447bUFyC+yen28PQoHkFO72wY263ib
+         bRd19Fy54n9peaFbYjCb+acuKqx0WCkgz9qM73IWmGOMm5jHo7C9H9DLtIuDEHyfLlvf
+         afwnZnUmpDTTC4rxHGBM9egqlzd1WlXgnuDRQgN8NGBxdF3uDf1B/Wjk7cC9RKLuywc3
+         o93Z392bAHddvotwVGRgAGPeipotcteY6FFs2VtcP0F1zh1C+N2o5kDPyQji1TMWrIJa
+         H3VQ==
+X-Gm-Message-State: APjAAAVI38/R3t7K3/6/W62ndV2kZcU+02n6OnmtuKwD3dUq0P5bRWuT
+        8sw/PlqzfxenSHxbImZTlQA=
+X-Google-Smtp-Source: APXvYqzPzysZ56Q6AcFY7zWWlRoN9Qnz+WihOdMtsntXZEjXPv/4u6YfQKqJ2lTQ4mZOBwJWEXmxiw==
+X-Received: by 2002:a63:b346:: with SMTP id x6mr20061918pgt.218.1562159957588;
+        Wed, 03 Jul 2019 06:19:17 -0700 (PDT)
+Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.googlemail.com with ESMTPSA id 135sm2534772pfb.137.2019.07.03.06.19.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 06:19:17 -0700 (PDT)
+From:   Fuqian Huang <huangfq.daxian@gmail.com>
+Cc:     Corentin Chary <corentin.chary@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alan Cox <alan@linux.intel.com>, Len Brown <lenb@kernel.org>,
-        Prarit Bhargava <prarit@redhat.com>,
-        David Arcari <darcari@redhat.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Fuqian Huang <huangfq.daxian@gmail.com>
+Subject: [PATCH 19/30] platform/x86: Use kmemdup rather than duplicating its implementation
+Date:   Wed,  3 Jul 2019 21:19:08 +0800
+Message-Id: <20190703131908.26138-1-huangfq.daxian@gmail.com>
+X-Mailer: git-send-email 2.11.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 3, 2019 at 2:59 PM Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
->
-> On Wednesday, July 3, 2019 3:53:31 AM CEST Srinivas Pandruvada wrote:
-> > Added myself as the maintainer.
-> >
-> > Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
+kmemdup is introduced to duplicate a region of memory in a neat way.
+Rather than kmalloc/kzalloc + memset, which the programmer needs to
+write the size twice (sometimes lead to mistakes), kmemdup improves
+readability, leads to smaller code and also reduce the chances of mistakes.
+Suggestion to use kmemdup rather than using kmalloc/kzalloc + memset.
 
-Pushed along with the driver, thanks!
+Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
+---
+ drivers/platform/x86/asus-wmi.c      |  3 +--
+ drivers/platform/x86/thinkpad_acpi.c | 17 +++++++----------
+ 2 files changed, 8 insertions(+), 12 deletions(-)
 
-> > ---
-> >  MAINTAINERS | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5cfbea4ce575..b6ed7958372d 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8101,6 +8101,14 @@ S:     Supported
-> >  F:   drivers/infiniband/hw/i40iw/
-> >  F:   include/uapi/rdma/i40iw-abi.h
-> >
-> > +INTEL SPEED SELECT TECHNOLOGY
-> > +M:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > +L:   platform-driver-x86@vger.kernel.org
-> > +S:   Maintained
-> > +F:   drivers/platform/x86/intel_speed_select_if/
-> > +F:   tools/power/x86/intel-speed-select/
-> > +F:   include/uapi/linux/isst_if.h
-> > +
-> >  INTEL TELEMETRY DRIVER
-> >  M:   Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-> >  M:   "David E. Box" <david.e.box@linux.intel.com>
-> >
->
->
->
->
-
-
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 9b18a184e0aa..472b317ad814 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -260,12 +260,11 @@ static int asus_wmi_evaluate_method_agfn(const struct acpi_buffer args)
+ 	 * Copy to dma capable address otherwise memory corruption occurs as
+ 	 * bios has to be able to access it.
+ 	 */
+-	input.pointer = kzalloc(args.length, GFP_DMA | GFP_KERNEL);
++	input.pointer = kmemdup(args.pointer, args.length, GFP_DMA | GFP_KERNEL);
+ 	input.length = args.length;
+ 	if (!input.pointer)
+ 		return -ENOMEM;
+ 	phys_addr = virt_to_phys(input.pointer);
+-	memcpy(input.pointer, args.pointer, args.length);
+ 
+ 	status = asus_wmi_evaluate_method(ASUS_WMI_METHODID_AGFN,
+ 					phys_addr, 0, &retval);
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 7bde4640ef34..d379bdf98a0f 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -3647,22 +3647,19 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
+ 		goto err_exit;
+ 
+ 	/* Set up key map */
+-	hotkey_keycode_map = kmalloc(TPACPI_HOTKEY_MAP_SIZE,
+-					GFP_KERNEL);
+-	if (!hotkey_keycode_map) {
+-		pr_err("failed to allocate memory for key map\n");
+-		res = -ENOMEM;
+-		goto err_exit;
+-	}
+-
+ 	keymap_id = tpacpi_check_quirks(tpacpi_keymap_qtable,
+ 					ARRAY_SIZE(tpacpi_keymap_qtable));
+ 	BUG_ON(keymap_id >= ARRAY_SIZE(tpacpi_keymaps));
+ 	dbg_printk(TPACPI_DBG_INIT | TPACPI_DBG_HKEY,
+ 		   "using keymap number %lu\n", keymap_id);
+ 
+-	memcpy(hotkey_keycode_map, &tpacpi_keymaps[keymap_id],
+-		TPACPI_HOTKEY_MAP_SIZE);
++	hotkey_keycode_map = kmemdup(&tpacpi_keymaps[keymap_id],
++			TPACPI_HOTKEY_MAP_SIZE,	GFP_KERNEL);
++	if (!hotkey_keycode_map) {
++		pr_err("failed to allocate memory for key map\n");
++		res = -ENOMEM;
++		goto err_exit;
++	}
+ 
+ 	input_set_capability(tpacpi_inputdev, EV_MSC, MSC_SCAN);
+ 	tpacpi_inputdev->keycodesize = TPACPI_HOTKEY_MAP_TYPESIZE;
 -- 
-With Best Regards,
-Andy Shevchenko
+2.11.0
+
