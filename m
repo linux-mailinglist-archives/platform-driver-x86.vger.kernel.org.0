@@ -2,72 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9A25E35A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 13:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7415E385
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jul 2019 14:10:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbfGCL7Y (ORCPT
+        id S1726413AbfGCMKB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 3 Jul 2019 07:59:24 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:43341 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbfGCL7Y (ORCPT
+        Wed, 3 Jul 2019 08:10:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43862 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726305AbfGCMKB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 3 Jul 2019 07:59:24 -0400
-Received: from 79.184.254.216.ipv4.supernova.orange.pl (79.184.254.216) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.267)
- id 8cb5d68938229b6e; Wed, 3 Jul 2019 13:59:21 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     dvhart@infradead.org, andy@infradead.org,
-        andriy.shevchenko@intel.com, corbet@lwn.net, alan@linux.intel.com,
-        lenb@kernel.org, prarit@redhat.com, darcari@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Update for Intel Speed Select Technology
-Date:   Wed, 03 Jul 2019 13:59:21 +0200
-Message-ID: <1893254.mYh7M8VbD2@kreacher>
-In-Reply-To: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com>
-References: <20190703015331.5449-1-srinivas.pandruvada@linux.intel.com>
+        Wed, 3 Jul 2019 08:10:01 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id DB066ABCD;
+        Wed,  3 Jul 2019 12:09:59 +0000 (UTC)
+Date:   Wed, 3 Jul 2019 14:09:58 +0200
+From:   Jean Delvare <jdelvare@suse.de>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     platform-driver-x86@vger.kernel.org,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>
+Subject: Re: [PATCH] x86: apuv2: Fix softdep statement
+Message-ID: <20190703140958.26dfde2b@endymion>
+In-Reply-To: <d3d8daee-d54d-8724-56f6-9ee900de7faa@metux.net>
+References: <20190629114136.45e90292@endymion>
+        <d3d8daee-d54d-8724-56f6-9ee900de7faa@metux.net>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wednesday, July 3, 2019 3:53:31 AM CEST Srinivas Pandruvada wrote:
-> Added myself as the maintainer.
+On Wed, 3 Jul 2019 13:13:03 +0200, Enrico Weigelt, metux IT consult wrote:
+> On 29.06.19 11:41, Jean Delvare wrote:
+> > Only one MODULE_SOFTDEP statement is allowed per module. Multiple
+> > dependencies must be expressed in a single statement.  
 > 
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> Thanks for the report. I'll give it a test on actual target, when I'm
+> back from travel.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5cfbea4ce575..b6ed7958372d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8101,6 +8101,14 @@ S:	Supported
->  F:	drivers/infiniband/hw/i40iw/
->  F:	include/uapi/rdma/i40iw-abi.h
->  
-> +INTEL SPEED SELECT TECHNOLOGY
-> +M:	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> +L:	platform-driver-x86@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/platform/x86/intel_speed_select_if/
-> +F:	tools/power/x86/intel-speed-select/
-> +F:	include/uapi/linux/isst_if.h
-> +
->  INTEL TELEMETRY DRIVER
->  M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
->  M:	"David E. Box" <david.e.box@linux.intel.com>
-> 
+> I recall some strange problems w/ module load order, maybe that's
+> exactly the missing piece.
 
+Thanks.
 
+> BTW: just curious whether you happen to be located in Nuremberg ?
+> (maybe we could have a coffee some day ;-)).
 
+Nope, I work from France. I have not been in Nuremberg for many years
+now, as most of my team is in Prague now so that's where I meet them.
 
+-- 
+Jean Delvare
+SUSE L3 Support
