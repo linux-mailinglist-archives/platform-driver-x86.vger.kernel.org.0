@@ -2,105 +2,52 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC1525F4DC
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 10:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D31ED5F52C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 11:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbfGDIrD (ORCPT
+        id S1727259AbfGDJKP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 4 Jul 2019 04:47:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54336 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727370AbfGDIrC (ORCPT
+        Thu, 4 Jul 2019 05:10:15 -0400
+Received: from host-88-217-225-28.customer.m-online.net ([88.217.225.28]:51098
+        "EHLO mail.dev.tdt.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727153AbfGDJKP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 4 Jul 2019 04:47:02 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6EE9C218C3;
-        Thu,  4 Jul 2019 08:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562230021;
-        bh=CR2vMXW7Pwdca3g4SWWNzk3XVKoCD2UKviwCYhPM3pQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=o1Et82JrF9NP/tVpQVBWUdlnxY/nEflYh8K7hW5NykztfVTuEbhersXWUsYWodVon
-         vnMnzeEMLhcn6EhibjrKRf/JDsTamYBSpSKVnCDPzhmeDEKgZ2ClGEZ+zyQVw0edes
-         UJphVtL2mOrE5FsgbQWM98EiBp5NXG4sUhwalrLE=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 07/11] video: fbdev: wm8505fb: convert platform driver to use dev_groups
-Date:   Thu,  4 Jul 2019 10:46:13 +0200
-Message-Id: <20190704084617.3602-8-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190704084617.3602-1-gregkh@linuxfoundation.org>
-References: <20190704084617.3602-1-gregkh@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 4 Jul 2019 05:10:15 -0400
+Received: from feckert01.dev.tdt.de (unknown [10.2.3.40])
+        by mail.dev.tdt.de (Postfix) with ESMTPSA id D9CD921441;
+        Thu,  4 Jul 2019 09:02:13 +0000 (UTC)
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     Eckert.Florian@googlemail.com, info@metux.net,
+        dvhart@infradead.org, andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Florian Eckert <fe@dev.tdt.de>
+Subject: [PATCH 0/3] Update pcengines-apuv2 platform device
+Date:   Thu,  4 Jul 2019 11:02:02 +0200
+Message-Id: <20190704090205.19400-1-fe@dev.tdt.de>
+X-Mailer: git-send-email 2.11.0
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+        autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.dev.tdt.de
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Platform drivers now have the option to have the platform core create
-and remove any needed sysfs attribute files.  So take advantage of that
-and do not register "by hand" a sysfs file.
+This patchset adds the following changes to this pcengines-apuv2
+platform device.
 
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
-Cc: platform-driver-x86@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/fbdev/wm8505fb.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+* Add mpcie reset gpio export
+* Add legacy leds gpio definitions
+* Update gpio buttion definitions
 
-diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
-index 8f0d5379861d..3b826da97035 100644
---- a/drivers/video/fbdev/wm8505fb.c
-+++ b/drivers/video/fbdev/wm8505fb.c
-@@ -184,6 +184,12 @@ static ssize_t contrast_store(struct device *dev,
- 
- static DEVICE_ATTR_RW(contrast);
- 
-+static struct attribute *wm8505fb_attrs[] = {
-+	&dev_attr_contrast.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(wm8505fb);
-+
- static inline u_int chan_to_field(u_int chan, struct fb_bitfield *bf)
- {
- 	chan &= 0xffff;
-@@ -369,10 +375,6 @@ static int wm8505fb_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = device_create_file(&pdev->dev, &dev_attr_contrast);
--	if (ret < 0)
--		fb_warn(&fbi->fb, "failed to register attributes (%d)\n", ret);
--
- 	fb_info(&fbi->fb, "%s frame buffer at 0x%lx-0x%lx\n",
- 		fbi->fb.fix.id, fbi->fb.fix.smem_start,
- 		fbi->fb.fix.smem_start + fbi->fb.fix.smem_len - 1);
-@@ -384,8 +386,6 @@ static int wm8505fb_remove(struct platform_device *pdev)
- {
- 	struct wm8505fb_info *fbi = platform_get_drvdata(pdev);
- 
--	device_remove_file(&pdev->dev, &dev_attr_contrast);
--
- 	unregister_framebuffer(&fbi->fb);
- 
- 	writel(0, fbi->regbase);
-@@ -402,6 +402,7 @@ static const struct of_device_id wmt_dt_ids[] = {
- };
- 
- static struct platform_driver wm8505fb_driver = {
-+	.dev_groups	= wm8505fb_groups,
- 	.probe		= wm8505fb_probe,
- 	.remove		= wm8505fb_remove,
- 	.driver		= {
+Florian Eckert (3):
+  platform/x86/pcengines-apuv2: add mpcie reset gpio export
+  platform/x86/pcengines-apuv2: add legacy leds gpio definitions
+  platform//x86/pcengines-apuv2: update gpio button definition
+
+ drivers/platform/x86/pcengines-apuv2.c | 32 ++++++++++++++++++++++++++++----
+ 1 file changed, 28 insertions(+), 4 deletions(-)
+
 -- 
-2.22.0
+2.11.0
 
