@@ -2,102 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DEF55FA0C
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 16:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 226695FAE1
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 17:31:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727414AbfGDO05 (ORCPT
+        id S1727721AbfGDPbq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 4 Jul 2019 10:26:57 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43558 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727308AbfGDO05 (ORCPT
+        Thu, 4 Jul 2019 11:31:46 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53420 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727510AbfGDPbq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 4 Jul 2019 10:26:57 -0400
-Received: by mail-pl1-f194.google.com with SMTP id cl9so3145041plb.10;
-        Thu, 04 Jul 2019 07:26:56 -0700 (PDT)
+        Thu, 4 Jul 2019 11:31:46 -0400
+Received: by mail-wm1-f66.google.com with SMTP id x15so6139222wmj.3;
+        Thu, 04 Jul 2019 08:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ea4/rODN6ph1QT9+xWsfxewM+yS9hO6SZGH8wLobuag=;
-        b=QoMthU5EO3/1uHCQ8F7N/qIc7VzqyGCf5AeOFGy5CY5RCYUKBU2whOqjvRkq64PAU5
-         OGRZJFVxwBzwiaUlvHyE533s93MMIoK1+MG6cO3oVujF8me/q/9eQZKE2DvjtidBhNbD
-         m5799fKYBMPo+UZoFXhe+FlQPcFYnUTvmBp/A1uosMMLLsmvDbDD/YB/T0F54xq2jtxD
-         I181vAanD31XZlV+vHlzCYr3if0fTVf8edbp9eMA+l1Gkqk/KDS/W/zwKysWMCN3vAkz
-         EtmESktASX6Df80R/TkZdu4yNdyD7ziwt3s9FrChbH/KCGBloR3nRdVU3q+rPaU6MULZ
-         FM6w==
+        h=subject:cc:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=0Xzci8CUbNvBihcDS7Q9xsEhF5+lWnqF471ghR2ZAAM=;
+        b=WANhg2KffhIxcHzBZjyQzNGYdvFl+2SSagDh2j/02zvsNp2peZbUbfqc4qS21kj9C8
+         VMFE0EQDX2kkO0+qI5ed7PvzZLN+3jzrSnomrGXtq5CRkR/cXdw8gv+4PR22jiUFAf9o
+         vDCuzgrqLNLxKWdxO5fP0iT75jJ/8Vuj2yXIhA3rn1lXmZTt1AspV3Txo+SUqMFwLAwt
+         olPDG+0YofaP3WwVgBAh/lDjG3t1C8uA9fEe5vkEgeK9/S7OStVSsYkp0q2dE7u3N3se
+         IysNLa+zTKtdwCThIs6Cg8bY1OihYtov0umvPzIcslA6JdmsX2zGX1/KQewtbVBFEM6K
+         0KZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ea4/rODN6ph1QT9+xWsfxewM+yS9hO6SZGH8wLobuag=;
-        b=nnJRKLrkl+y7ZiVgMNITCGV/YLJKsMm+S0gAWe6I7AHkRDWXXJ/xBcQCIFWp/X+NXT
-         PBSlhXwSK01sPLl+DUdHAP+y5ysT7Ksd3rzVMSwj82T6B6Ba6IHg/zNEln3AOmw0FKiE
-         r0er0dk0JZCcCUgmncfygRyOAZd7itOEi9kreC4bkhg4N3N69XekEDzuhIJBwIyGbL3E
-         VMp44OKRvCZUPtn8eJ3jsBhOKtvLJNOjlBJ3Ma2xZEV9wf0Zwyyflx/wRW7ww+mR6arD
-         5k4Vi74c50vzGRpdId+OV6T2hZnexp7DxGzKrUkOPh0oS6AyFr4NjuwX7AjWTdntkiZ3
-         gyaA==
-X-Gm-Message-State: APjAAAU/+iluNEu9QSD14silucnVoK2dFmJ91DhIAagZaib1tpjnlGTf
-        N82974rbMvCn40s+1aiBX4Q20SINNgNQm7MHcbg=
-X-Google-Smtp-Source: APXvYqxoD1hHCdHZW9TWHGw5ylN1zuQevVM9I8c5GP4kJf46/EVvQqbekyhYVEhiYnMeyQDA7IjdhWlgh2PBxHx4jnk=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr50649963plp.18.1562250416464;
- Thu, 04 Jul 2019 07:26:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190704090205.19400-1-fe@dev.tdt.de> <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
- <e2c50449b498c796de8258fac0b0aba6@dev.tdt.de>
-In-Reply-To: <e2c50449b498c796de8258fac0b0aba6@dev.tdt.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 4 Jul 2019 17:26:45 +0300
-Message-ID: <CAHp75VdHPRXgg6YsBM8uAfuM4CBs1HHn1condus6uW5BqC5COg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        h=x-gm-message-state:subject:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0Xzci8CUbNvBihcDS7Q9xsEhF5+lWnqF471ghR2ZAAM=;
+        b=RNWrl67FylJ7u1Md6IpBjEwQKRylYP3YRAVZ/KKZx5B/9SHBOyJgBef7Dnyfp9nMgP
+         LIDAx6jJ+FGfem3RV7xlZIbSujFV6fzZmP7xdo73EW7g134PUNc2J58wuKZnlBYZfF9x
+         lLF7V/p77yAH5HZUjv93etXWnv+5Hln43CUGGefwXvCqh8yN4EvQ+jfs3k27h46D5NkC
+         3nEa8+HWp6xwSwdC1+RHA/DE41x5Ub0jP3cL/IRgd+QN447sPxmj05VUJrIBIlwchdqO
+         abAhXil6KlOo9yp4nPba0F8SJTUTSZM0bRcwDbdH61O5f6rsSjXwZPZjicH+Sp94gNkC
+         PtmA==
+X-Gm-Message-State: APjAAAWh6Puvl4KAZ0xJuZdGRTkxYv7WH4ks0C1ZG4/67PCQKfmyUr8j
+        UacDKK3+RB7Z0649i7bB2Sc=
+X-Google-Smtp-Source: APXvYqwKPOB3FIvd6N6wGs1Vemf1h6LmBM+18pTf7PrTeGPbG5S2dAolDTJCU+JsvJT2k3EIvYAizg==
+X-Received: by 2002:a7b:c04f:: with SMTP id u15mr119524wmc.106.1562254303618;
+        Thu, 04 Jul 2019 08:31:43 -0700 (PDT)
+Received: from [192.168.2.202] (pD9E5A1AA.dip0.t-ipconnect.de. [217.229.161.170])
+        by smtp.gmail.com with ESMTPSA id o6sm10324355wra.27.2019.07.04.08.31.42
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jul 2019 08:31:42 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] input: soc_button_array for newer surface devices
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20190702003740.75970-1-luzmaximilian@gmail.com>
+ <20190702003740.75970-3-luzmaximilian@gmail.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <1d384979-38e8-ccb3-6462-0a8a5380f50d@gmail.com>
+Date:   Thu, 4 Jul 2019 17:31:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <20190702003740.75970-3-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jul 4, 2019 at 5:00 PM Florian Eckert <fe@dev.tdt.de> wrote:
->
-> Hello Andy,
->
-> thanks for feedback
->
-> >> This patchset adds the following changes to this pcengines-apuv2
-> >> platform device.
-> >>
-> >
-> > Before doing anything to this driver, what is the plan for previously
-> > upstreamed:
-> >
-> > drivers/leds/leds-apu.c
->
-> I think we can remove the related APU2/APU3 code stuff from this driver.
-> The recently added pcengines-apuv2 driver does *not* support the APU1.
-> So I think we need the related APU1 stuff if we still want to support
-> this board.
+On 7/2/19 2:37 AM, Maximilian Luz wrote:
+> +static int soc_device_check_MSHW0040(struct device *dev)
+> +{
+> +	acpi_handle handle = ACPI_HANDLE(dev);
+> +	union acpi_object *result;
+> +	u64 oem_platform_rev = 0;
+> +	int gpios;
+> +
+> +	// get OEM platform revision
+> +	result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
+> +					 MSHW0040_DSM_REVISION,
+> +					 MSHW0040_DSM_GET_OMPR, NULL,
+> +					 ACPI_TYPE_INTEGER);
+> +
+> +	if (result) {
+> +		oem_platform_rev = result->integer.value;
+> +		ACPI_FREE(result);
+> +	}
+> +
+> +	if (oem_platform_rev == 0)
+> +		return -ENODEV;
+> +
+> +	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
+> +
+> +	/*
+> +	 * We are _really_ expecting GPIOs here. If we do not get any, this
+> +	 * means the GPIO driver has not been loaded yet (which can happen).
+> +	 * Try again later.
+> +	 */
+> +	gpios = gpiod_count(dev, NULL);
+> +	if (gpios < 0)
+> +		return -EAGAIN;
+> +
+> +	return 0;
+> +}
 
-So, I would like to see some unification (since it's material for v5.4
-cycle anyway, we have time).
+Just had another look at this: Shouldn't the EAGAIN here be
+EPROBE_DEFER?
 
-> > arch/x86/platform/geode/alix.c
->
-> I think this is not related because this is a different platform driver.
-> Maybe we should move them to drivers/platform/x86?
+The reasoning is that we would want to defer probing of the driver if we
+can't get any GPIO pins, since we know that MSHW0040 should have some.
+It has in the past been reported that the driver didn't load properly
+(without this check), since it could happen that the GPIO subsystem
+wasn't quite ready yet when probing.
 
-You mentioned somewhere ALIx, can you elaborate if these are platforms
-of the same family (PC engines)?
-
-Looking into the code, I think we may unify all three under umbrella
-of one driver if the above is true.
-
-
---
-With Best Regards,
-Andy Shevchenko
+Best,
+Maximilian
