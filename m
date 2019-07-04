@@ -2,72 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A07E5F42D
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 09:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDBF5F184
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jul 2019 04:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfGDHzH (ORCPT
+        id S1727486AbfGDCgz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 4 Jul 2019 03:55:07 -0400
-Received: from [197.254.217.239] ([197.254.217.239]:53622 "EHLO mail.cert.sd"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726267AbfGDHzG (ORCPT
+        Wed, 3 Jul 2019 22:36:55 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39088 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727390AbfGDCgy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 4 Jul 2019 03:55:06 -0400
-X-Greylist: delayed 8667 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Jul 2019 03:55:06 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.cert.sd (Postfix) with ESMTP id 205FE50156B;
-        Thu,  4 Jul 2019 05:14:57 +0200 (CAT)
-Received: from mail.cert.sd ([127.0.0.1])
-        by localhost (mail.cert.sd [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ec98GXUTSAfj; Thu,  4 Jul 2019 05:14:56 +0200 (CAT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.cert.sd (Postfix) with ESMTP id EE2753E4209;
-        Thu,  4 Jul 2019 02:11:37 +0200 (CAT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cert.sd EE2753E4209
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cert.sd;
-        s=3B54D788-828F-11E8-945F-63B06BDA8568; t=1562199098;
-        bh=i6jGklZsYhvyS6O+r4vHl3fsu2UV4hnEJS7rdZ4svBg=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=YK7Qwjf6fefm8NdpMVekiylF9vEAQdhGVk9pNhG10WCKQ4TFrvQ6afeXhE1yEqg/7
-         M/ImroOFmGmF9lGFcgA7I/79dnUZyVcyoXAVIzV6eLhbEZG4X+e4ed/jkpK2oBRNH8
-         zpGR2jeoqizxRWFuHYdfhcI0jOM+JwKiNLH+4PBRCY8KC+U/zetK7F314iem3pRRvF
-         EnXh4J6zuiWxBVPb79dd254utx4aLNbd/KZ9iHpdhrakC94guqcHFnNCUWbE3xnLlS
-         Tfd/q1sZgGbPiDWrh9L1OXj2IQ0bDcV2/juZ7PaddDA3vlXl0th9+UPJTNDFux41lq
-         4qfqZrOmeraFw==
-X-Virus-Scanned: amavisd-new at mail.cert.sd
-Received: from mail.cert.sd ([127.0.0.1])
-        by localhost (mail.cert.sd [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id VoIoVNj0r_zF; Thu,  4 Jul 2019 02:11:37 +0200 (CAT)
-Received: from [192.168.0.101] (unknown [105.112.57.154])
-        by mail.cert.sd (Postfix) with ESMTPSA id 7BD4E46624B;
-        Wed,  3 Jul 2019 22:48:37 +0200 (CAT)
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: CASH GRANT / SPENDEN !!!
-To:     Recipients <moamar@cert.sd>
-From:   "LISA ROBINSON" <moamar@cert.sd>
-Date:   Wed, 03 Jul 2019 21:39:13 +0100
-Reply-To: charitylisajohnrobinson900@usa.com
-X-Antivirus: Avast (VPS 190703-4, 07/03/2019), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20190703204837.7BD4E46624B@mail.cert.sd>
+        Wed, 3 Jul 2019 22:36:54 -0400
+Received: by mail-pg1-f196.google.com with SMTP id u17so1668260pgi.6;
+        Wed, 03 Jul 2019 19:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=2ZSY8dUe+kI50ne1+y2CFQaSDYbQtEYZ74W1nwW0ZUY=;
+        b=aASMFOixncAfiUd8Qqgc4EqdBaToyLLuZM+xa4uQDSsHVH7ltixuSKu85mqmoXWET8
+         g0o70gB8g3/LDD8YL4UnRoHzU5BbyJmbDUWM63UTZuC0ebZOi6d+RMjRgpW+TrVztJei
+         bmvFuiWYzj5Wq6tjJl3SY4yIfoczJw8yaQdeh8zYp8VYP/5tk7gk7hAUQsQXgBtGcfi4
+         22B2dNbLzV5VOqsvlqf+It7FKmYWgSUnjbi5OuKeTfcbWIg3uaOPo1VUC+b9JTorhd+d
+         Db+YFE444zBWiXlPVH/OEHe2moyNufDbMxHJ6/mBscxOWhwPSIAn+4Sw+kdNpP2aCJ4/
+         QiAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=2ZSY8dUe+kI50ne1+y2CFQaSDYbQtEYZ74W1nwW0ZUY=;
+        b=Waj6hm7PWy/4lDLcgQomX0gUNE0y+IEfgYehBMjQrTE0mNsOXx7ugOYZOZb40Eydym
+         sPdb+njeEvyMKcouh+M77jTJxw+SoRnhGiDz7MJvuO64P4+zE1yOrDKQgAXWpvWSuqLv
+         URUMghOi1zSt+KRu4yZFbfkGhgF3qD6rpzsHbGXkoXt8+HW25mF7K2R9ZgUIi5uLL65K
+         wkKWYu79EYcYx/ub7Rz7uyXWI63PJZScWFZEONoyWbElGMfUofoGtUWqOn7odx8b0eAe
+         7vR9PDrOak9cxl67v/LdgyHX9GeFOV+2QA+DJDgTXx6JdWa9bmy1HcV8jcbAL2mxFQap
+         T2sA==
+X-Gm-Message-State: APjAAAU7t7kJ3YSGIFXMf8g+bJDjIatjPMTtJQotMAtfGcnDuSmnK0mD
+        bt04/JpU52EwnRYnliKORzA=
+X-Google-Smtp-Source: APXvYqwGJNJSefXjcEI6bpEEy9g2NVKZWfM3ppnnfn3UDO5NsGiImAV+lB544o11HM7uMNJoEZOHiQ==
+X-Received: by 2002:a17:90a:9a8d:: with SMTP id e13mr16763513pjp.77.1562207814017;
+        Wed, 03 Jul 2019 19:36:54 -0700 (PDT)
+Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.googlemail.com with ESMTPSA id v23sm3859428pff.185.2019.07.03.19.36.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jul 2019 19:36:53 -0700 (PDT)
+From:   Fuqian Huang <huangfq.daxian@gmail.com>
+Cc:     Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fuqian Huang <huangfq.daxian@gmail.com>
+Subject: [Patch v2 10/10] platform/x86/asus-wmi: using dev_get_drvdata directly
+Date:   Thu,  4 Jul 2019 10:36:47 +0800
+Message-Id: <20190704023647.4873-1-huangfq.daxian@gmail.com>
+X-Mailer: git-send-email 2.11.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Sehr geehrter Empf=E4nger, Sie wurden ausgew=E4hlt, um von Frau Lisa Robins=
-on (1.200.000,00 USD) als wohlt=E4tige Spende / Stipendium zu erhalten. Dah=
-er m=FCssen Sie sie f=FCr weitere Informationen per E-Mail kontaktieren.
+Several drivers cast a struct device pointer to a struct
+platform_device pointer only to then call platform_get_drvdata().
+To improve readability, these constructs can be simplified
+by using dev_get_drvdata() directly.
 
-
-Dear Beneficiary, You have been selected to receive ($1,200,000.00 USD) as =
-charity donation/grant from Mrs. Lisa Robinson.Therefore, you are required =
-to contact her through email for more details.
-
+Signed-off-by: Fuqian Huang <huangfq.daxian@gmail.com>
 ---
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+Changes in v2:
+  - Make the commit message more clearly.
+
+ drivers/platform/x86/asus-wmi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 9b18a184e0aa..49049b02a015 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -1353,8 +1353,7 @@ static umode_t asus_hwmon_sysfs_is_visible(struct kobject *kobj,
+ 					  struct attribute *attr, int idx)
+ {
+ 	struct device *dev = container_of(kobj, struct device, kobj);
+-	struct platform_device *pdev = to_platform_device(dev->parent);
+-	struct asus_wmi *asus = platform_get_drvdata(pdev);
++	struct asus_wmi *asus = dev_get_drvdata(dev->parent);
+ 	int dev_id = -1;
+ 	int fan_attr = -1;
+ 	u32 value = ASUS_WMI_UNSUPPORTED_METHOD;
+-- 
+2.11.0
 
