@@ -2,175 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB2856054D
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Jul 2019 13:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5749B6088C
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Jul 2019 17:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727607AbfGELgv (ORCPT
+        id S1726977AbfGEPA7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 Jul 2019 07:36:51 -0400
-Received: from host-88-217-225-28.customer.m-online.net ([88.217.225.28]:55434
-        "EHLO mail.dev.tdt.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726107AbfGELgu (ORCPT
+        Fri, 5 Jul 2019 11:00:59 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:44771 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726016AbfGEPA7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 Jul 2019 07:36:50 -0400
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id B24B42110C;
-        Fri,  5 Jul 2019 11:36:47 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 05 Jul 2019 13:36:47 +0200
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Eckert.Florian@googlemail.com,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Fri, 5 Jul 2019 11:00:59 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190705150057euoutp02a83728b0bf847f870879ed5e449f95f6~uiunWr4-s2970629706euoutp02b
+        for <platform-driver-x86@vger.kernel.org>; Fri,  5 Jul 2019 15:00:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190705150057euoutp02a83728b0bf847f870879ed5e449f95f6~uiunWr4-s2970629706euoutp02b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1562338857;
+        bh=/xUJ1oGUicspsjfxf97qw5gPt2tN+F48Se31VAevREk=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=iYuz9EdCk1v2sAhI82oVH4E+8CQ6457KUjT5qRdZmcFvyvsFBWLh3O7skMMxZC2Ab
+         KJxG3PFOZDbv1bah35ARwdktDymkY50RtNz3u2SgSaI/EdnvoEttNQtIoF0Q7ZgEnG
+         7VQaLHQxagTlIOyiDSfO22FX2pizFFHz/Z+cmkY8=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190705150056eucas1p2962a94d83c842bd45683fcc8bc2a6d1e~uiumo58iL0759907599eucas1p2-;
+        Fri,  5 Jul 2019 15:00:56 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 65.A5.04325.8266F1D5; Fri,  5
+        Jul 2019 16:00:56 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190705150056eucas1p219959ec433457ff884c9c3bcdf8baadb~uiul7uEKZ0031000310eucas1p2V;
+        Fri,  5 Jul 2019 15:00:56 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190705150055eusmtrp1e60e61430e6441af58406f10348db1df~uiultoWW60378503785eusmtrp1e;
+        Fri,  5 Jul 2019 15:00:55 +0000 (GMT)
+X-AuditID: cbfec7f5-b75ff700000010e5-e8-5d1f66289b89
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id A0.46.04146.7266F1D5; Fri,  5
+        Jul 2019 16:00:55 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190705150055eusmtip1fa6ef723a0ebf6332e8e9ab8b7628510~uiulQ9VCy1908119081eusmtip1L;
+        Fri,  5 Jul 2019 15:00:55 +0000 (GMT)
+Subject: Re: [PATCH 07/11] video: fbdev: wm8505fb: convert platform driver
+ to use dev_groups
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, Tony Prisk <linux@prisktech.co.nz>,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
-In-Reply-To: <CAHp75VdHPRXgg6YsBM8uAfuM4CBs1HHn1condus6uW5BqC5COg@mail.gmail.com>
-References: <20190704090205.19400-1-fe@dev.tdt.de>
- <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
- <e2c50449b498c796de8258fac0b0aba6@dev.tdt.de>
- <CAHp75VdHPRXgg6YsBM8uAfuM4CBs1HHn1condus6uW5BqC5COg@mail.gmail.com>
-Message-ID: <226c0a14b7a662be019d02eee4695d17@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.1.5
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
-        autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.dev.tdt.de
+        platform-driver-x86@vger.kernel.org
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <3331c596-8150-3113-fc92-ffc72d7565c1@samsung.com>
+Date:   Fri, 5 Jul 2019 17:00:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190704142602.GB6281@kroah.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBKsWRmVeSWpSXmKPExsWy7djP87oaafKxBr/uqlhMmvGf2eLK1/ds
+        Fl0LDSyaF69ns9j0+BqrxYm+D6wWl3fNYbNoubyC2WL1nhfMDpwem1doeeyfu4bd4373cSaP
+        zUvqPc7/b2H3+LxJLoAtissmJTUnsyy1SN8ugSvj/OvDrAXbWCsOTjjK2sB4jqWLkZNDQsBE
+        YuuCZexdjFwcQgIrGCWWrO9mhHC+MErcf3UdKvOZUaJ3agsjTMvcRU/ZQGwhgeWMEm3XBSGK
+        3jJKnFn8gxUkISwQJ9HY1MwOYosIGEv0n50FNolZYC6TxL+Xu8AmsQlYSUxsXwVm8wrYSTxd
+        9wVsKouAisTjRZ1gg0QFIiTuH9vAClEjKHFy5hOwwzkF9CR2vG5mArGZBcQlbj2ZD2XLS2x/
+        O4cZZJmEwDF2iam/DrBCnO0icfvrNqivhSVeHd/CDmHLSJye3MMC0bCOUeJvxwuo7u2MEssn
+        /2ODqLKWOHz8ItAkDqAVmhLrd+lDhB0lVu14wwwSlhDgk7jxVhDiCD6JSdumQ4V5JTrahCCq
+        1SQ2LNvABrO2a+dK5gmMSrOQvDYLyTuzkLwzC2HvAkaWVYziqaXFuempxcZ5qeV6xYm5xaV5
+        6XrJ+bmbGIHp6fS/4193MO77k3SIUYCDUYmH94STfKwQa2JZcWXuIUYJDmYlEd7EIKAQb0pi
+        ZVVqUX58UWlOavEhRmkOFiVx3mqGB9FCAumJJanZqakFqUUwWSYOTqkGRp40DydfQ6mEN4Yt
+        Dk7Pony6N/+9ndfZpqc1ib98b372DrFb3x/NcfnilHhmjWbTwmMrLlmqL9O+ZeDazcqQdmjJ
+        Rimf+h9fjth/fRMR8F8vNDa3/rXhsTn9T2oezuWd2fv/mTD7FXXDe+9LZwoHFH2WqnoQ/H7G
+        7CTvhay/K9/ckf1c+cR3nxJLcUaioRZzUXEiANcQNw1LAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xu7rqafKxBrsnGFlMmvGf2eLK1/ds
+        Fl0LDSyaF69ns9j0+BqrxYm+D6wWl3fNYbNoubyC2WL1nhfMDpwem1doeeyfu4bd4373cSaP
+        zUvqPc7/b2H3+LxJLoAtSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384m
+        JTUnsyy1SN8uQS/j/OvDrAXbWCsOTjjK2sB4jqWLkZNDQsBEYu6ip2wgtpDAUkaJu6tsuxg5
+        gOIyEsfXl0GUCEv8udYFVMIFVPKaUeLRm2Vg9cICcRJHl7azgtgiAsYS/WdnsYMUMQvMZZJ4
+        /+ANC0THNkaJvgsrmUCq2ASsJCa2r2IEsXkF7CServsCNolFQEXi8aJOsEmiAhESZ96vYIGo
+        EZQ4OfMJmM0poCex43Uz2BxmAXWJP/MuMUPY4hK3nsyHistLbH87h3kCo9AsJO2zkLTMQtIy
+        C0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIHRuO3Yz807GC9tDD7EKMDBqMTDe8JJ
+        PlaINbGsuDL3EKMEB7OSCG9iEFCINyWxsiq1KD++qDQntfgQoynQcxOZpUST84GJIq8k3tDU
+        0NzC0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA+NC6fN3XJN/bPw5T7R1w+rb
+        Ylk2aZcu/w+fdm1TkPwWo+8NjbbT5l83fq7t47/xfr2jmKARG3d859lrc9lqFprYcr2IVvmq
+        Oeeag/VkkUdCm0PdNvXUORv933Io8nN2F/vvJ4JhoqvDxWR2z+g/JLZ9zYslNdfrvmiuvnXl
+        28JpM5rY1616rRGkxFKckWioxVxUnAgAT5bQTtwCAAA=
+X-CMS-MailID: 20190705150056eucas1p219959ec433457ff884c9c3bcdf8baadb
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca
+References: <20190704084617.3602-1-gregkh@linuxfoundation.org>
+        <CGME20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca@epcas2p1.samsung.com>
+        <20190704142602.GB6281@kroah.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Andy
 
->> >> This patchset adds the following changes to this pcengines-apuv2
->> >> platform device.
->> >>
->> >
->> > Before doing anything to this driver, what is the plan for previously
->> > upstreamed:
->> >
->> > drivers/leds/leds-apu.c
->> 
->> I think we can remove the related APU2/APU3 code stuff from this 
->> driver.
->> The recently added pcengines-apuv2 driver does *not* support the APU1.
->> So I think we need the related APU1 stuff if we still want to support
->> this board.
+On 7/4/19 4:26 PM, Greg Kroah-Hartman wrote:
+> Platform drivers now have the option to have the platform core create
+> and remove any needed sysfs attribute files.  So take advantage of that
+> and do not register "by hand" a sysfs file.
 > 
-> So, I would like to see some unification (since it's material for v5.4
-> cycle anyway, we have time).
+> Cc: Tony Prisk <linux@prisktech.co.nz>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 
-A few thoughts and information about your suggestion to unify this.
-
-APU1 (PC-Engines) CPU "AMD G series T40E APU":
-This is also an old design and is not recommend for new design 
-(deprecated).
-Also not many were produced and are in the field.
-See https://pcengines.ch/apu.htm
-
-Platform-Device (LEDs, Button):
-I have no platform device description found in the linux sources.
-So the GPIO button should not work.
-
-LEDs-Driver:
-Only the LEDs should work with this device driver.
-This is shared additonal with new APU2/APU3.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/leds/leds-apu.c
-
-I think we should remove the APU2/APU3 stuff. This will now be handled 
-by the new gpio-amd-fch.c / pcengines-apuv2.c
-kombination.
-
-
-APU2/APU3/APU4 (PC-Engines) CPU "AMD Embedded G series GX-412TC":
-This is the newest design and is recommend for new products.
-See https://pcengines.ch/apu2.htm
-
-GPIO-Driver:
-The following driver is responsible for the GPIO export and handling
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpio/gpio-amd-fch.c
-
-Platform-Device (LEDs, Button):
-This Platform description is only valid for APU2/APU3 and not for APU1.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/pcengines-apuv2.c
-
-LEDs-Driver:
-We have an additional device only for LEDs this works for 
-APU1/APU2/APU3.
-I think we should remove the APU2/APU3 LEDs from the leds-apu device as 
-mentioned above.
-So this device supports only the APU1 LEDs.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/leds/leds-apu.c
-
-We could extend and/or rename the pcengienes-apuv2 device to support 
-also APU3 and the newest APU4.
-The APU2 does only have LEDs Button and the MPCIE2 reset lines see my 
-patch.
-The APU3 does have an additional the simswap pin.
-So the current pcengines-apuv2 platform is from my point of view wrong.
-We should change this to the following layout and add the legacy GPIO 
-numbering.
-
-This are the following GPIOs:
-
-APU2:
-LED1
-LED2
-LED3
-BUTTON
-MPCIE2
-MPCIE3
-
-APU3:
-LED1
-LED2
-LED3
-BUTTON
-MPCIE2
-MPCIE3
-SIMSWAP
-
-APU4:
-TODO
-
-
->> > arch/x86/platform/geode/alix.c
->> 
->> I think this is not related because this is a different platform 
->> driver.
->> Maybe we should move them to drivers/platform/x86?
-> 
-> You mentioned somewhere ALIx, can you elaborate if these are platforms
-> of the same family (PC engines)?
-> 
-> Looking into the code, I think we may unify all three under umbrella
-> of one driver if the above is true.
-
-ALIX (PC-Engines) CPU "AMD Geode LX":
-This is an old design we have already in use and is not recommend for 
-new design (deprecated)
-https://pcengines.ch/alix.htm
-
-GPIO-Driver:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpio/gpio-cs5535.c
-
-Platform-Device (LEDs, button):
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/platform/geode/alix.c
-
-I think we should leave the driver as it is because this is a different 
-design and has nothing to do with the PUs.
-The only thing I can imagine is to move the platform device to 
-"drivers/platform/x86", but this is cosmetic.
-I have only mentioned the alix board to explain why I think that we 
-should change the APU key code from the GPIO button to unify this.
-
-With Best Regards,
-
-Florian
-
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
