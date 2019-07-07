@@ -2,127 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5749B6088C
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  5 Jul 2019 17:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CAB9614B6
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  7 Jul 2019 13:30:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbfGEPA7 (ORCPT
+        id S1725981AbfGGLaX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 Jul 2019 11:00:59 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:44771 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbfGEPA7 (ORCPT
+        Sun, 7 Jul 2019 07:30:23 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46951 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725774AbfGGLaX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 Jul 2019 11:00:59 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190705150057euoutp02a83728b0bf847f870879ed5e449f95f6~uiunWr4-s2970629706euoutp02b
-        for <platform-driver-x86@vger.kernel.org>; Fri,  5 Jul 2019 15:00:57 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190705150057euoutp02a83728b0bf847f870879ed5e449f95f6~uiunWr4-s2970629706euoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1562338857;
-        bh=/xUJ1oGUicspsjfxf97qw5gPt2tN+F48Se31VAevREk=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=iYuz9EdCk1v2sAhI82oVH4E+8CQ6457KUjT5qRdZmcFvyvsFBWLh3O7skMMxZC2Ab
-         KJxG3PFOZDbv1bah35ARwdktDymkY50RtNz3u2SgSaI/EdnvoEttNQtIoF0Q7ZgEnG
-         7VQaLHQxagTlIOyiDSfO22FX2pizFFHz/Z+cmkY8=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190705150056eucas1p2962a94d83c842bd45683fcc8bc2a6d1e~uiumo58iL0759907599eucas1p2-;
-        Fri,  5 Jul 2019 15:00:56 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 65.A5.04325.8266F1D5; Fri,  5
-        Jul 2019 16:00:56 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20190705150056eucas1p219959ec433457ff884c9c3bcdf8baadb~uiul7uEKZ0031000310eucas1p2V;
-        Fri,  5 Jul 2019 15:00:56 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190705150055eusmtrp1e60e61430e6441af58406f10348db1df~uiultoWW60378503785eusmtrp1e;
-        Fri,  5 Jul 2019 15:00:55 +0000 (GMT)
-X-AuditID: cbfec7f5-b75ff700000010e5-e8-5d1f66289b89
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id A0.46.04146.7266F1D5; Fri,  5
-        Jul 2019 16:00:55 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20190705150055eusmtip1fa6ef723a0ebf6332e8e9ab8b7628510~uiulQ9VCy1908119081eusmtip1L;
-        Fri,  5 Jul 2019 15:00:55 +0000 (GMT)
-Subject: Re: [PATCH 07/11] video: fbdev: wm8505fb: convert platform driver
- to use dev_groups
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, Tony Prisk <linux@prisktech.co.nz>,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <3331c596-8150-3113-fc92-ffc72d7565c1@samsung.com>
-Date:   Fri, 5 Jul 2019 17:00:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.6.1
+        Sun, 7 Jul 2019 07:30:23 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i8so6210215pgm.13
+        for <platform-driver-x86@vger.kernel.org>; Sun, 07 Jul 2019 04:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IhNmU3jLzSPg/Bx4FmaJttrL0P0XQTqjXDGjwrCnLTs=;
+        b=CnHdUDTFExliqTB2qVSnjvCEp7fG1NJ4d/9G+wKTszd+ZAuYoJEjitw4b/PRyuUJea
+         323PnJbqZ4qCoGuSb/x1MPaM0qdFLBLl2xpKnq9aaCu1h7i2oJ/Q8CGj8OzJ96rDNm86
+         NHfSXTGJulCcg/vqivqRIFdMWj2gnRQg9m9GyKVFOPBG+BjOF3K8nv/MINlcGSPWG6aP
+         F7vrrGmWNBLZHcVhzLfzyXAMSSbmj51HdFRHtK+28aS3FOzCkC4/V28BTI0NJWa7lzl7
+         IELtSyzOoT8tMOqlkZ76AeTE8T2IyciAwS0lJ9Wh9sxFIl0+8kQlpKh/tJFa8oczg227
+         dIiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=IhNmU3jLzSPg/Bx4FmaJttrL0P0XQTqjXDGjwrCnLTs=;
+        b=ZuWvosEgQ+BPcwSTfnan66d0LyrOQ9AOWOEp2Z2pYLUfCylJr07dgbc5v96YhavOa+
+         HIvMkyf1yQXyFI7HLsXySflEmYPPzT6X90dIYW6wEr6bTHth7SNJPUXrpj8y4PwCaDjT
+         u8Lkz51NRBKnOUOfzOGnz86O1vLI0587PI8F3OnhCwX38fThKmErCS96tya2V0cJZCqK
+         ipdG2HnGxU5wT4CWreGvLGCyDrUwfGlJsw52eceHlVFSTykFefqCtFz58Y04gFOb6OU0
+         YuOdNxaXhZ322bFze1v9NW59HaFwTv7ZnfUtLUmmnEEj9EvesN7+kIbYI1/DBo+3+Yh2
+         Luzg==
+X-Gm-Message-State: APjAAAWOpAbzPjblsN/gC4yGzF22tUaBKFhySRb83WZQ7OnrjB2fHQzs
+        I6hT8tnlVInruDGtd1PKhyQ=
+X-Google-Smtp-Source: APXvYqyM2wf/GYlMT2Bc1g2YDh+K3uqgT2TybzrMN1sO8j+wLGNw6kcpQuS7gdgJs3TvazKVhTrOSQ==
+X-Received: by 2002:a17:90a:d80b:: with SMTP id a11mr16430587pjv.53.1562499022466;
+        Sun, 07 Jul 2019 04:30:22 -0700 (PDT)
+Received: from arch ([103.238.105.141])
+        by smtp.gmail.com with ESMTPSA id x128sm35408946pfd.17.2019.07.07.04.30.19
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 07 Jul 2019 04:30:21 -0700 (PDT)
+Date:   Sun, 7 Jul 2019 17:00:16 +0530
+From:   Amol Surati <suratiamol@gmail.com>
+To:     dilinger@queued.net, dvhart@infradead.org, andy@infradead.org
+Cc:     linux-geode@lists.infradead.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        suratiamol@gmail.com
+Subject: [PATCH] cs5535: use BIT() macro for defining bit-flags
+Message-ID: <20190707113016.GA30635@arch>
 MIME-Version: 1.0
-In-Reply-To: <20190704142602.GB6281@kroah.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBKsWRmVeSWpSXmKPExsWy7djP87oaafKxBr/uqlhMmvGf2eLK1/ds
-        Fl0LDSyaF69ns9j0+BqrxYm+D6wWl3fNYbNoubyC2WL1nhfMDpwem1doeeyfu4bd4373cSaP
-        zUvqPc7/b2H3+LxJLoAtissmJTUnsyy1SN8ugSvj/OvDrAXbWCsOTjjK2sB4jqWLkZNDQsBE
-        YuuCZexdjFwcQgIrGCWWrO9mhHC+MErcf3UdKvOZUaJ3agsjTMvcRU/ZQGwhgeWMEm3XBSGK
-        3jJKnFn8gxUkISwQJ9HY1MwOYosIGEv0n50FNolZYC6TxL+Xu8AmsQlYSUxsXwVm8wrYSTxd
-        9wVsKouAisTjRZ1gg0QFIiTuH9vAClEjKHFy5hOwwzkF9CR2vG5mArGZBcQlbj2ZD2XLS2x/
-        O4cZZJmEwDF2iam/DrBCnO0icfvrNqivhSVeHd/CDmHLSJye3MMC0bCOUeJvxwuo7u2MEssn
-        /2ODqLKWOHz8ItAkDqAVmhLrd+lDhB0lVu14wwwSlhDgk7jxVhDiCD6JSdumQ4V5JTrahCCq
-        1SQ2LNvABrO2a+dK5gmMSrOQvDYLyTuzkLwzC2HvAkaWVYziqaXFuempxcZ5qeV6xYm5xaV5
-        6XrJ+bmbGIHp6fS/4193MO77k3SIUYCDUYmH94STfKwQa2JZcWXuIUYJDmYlEd7EIKAQb0pi
-        ZVVqUX58UWlOavEhRmkOFiVx3mqGB9FCAumJJanZqakFqUUwWSYOTqkGRp40DydfQ6mEN4Yt
-        Dk7Pony6N/+9ndfZpqc1ib98b372DrFb3x/NcfnilHhmjWbTwmMrLlmqL9O+ZeDazcqQdmjJ
-        Rimf+h9fjth/fRMR8F8vNDa3/rXhsTn9T2oezuWd2fv/mTD7FXXDe+9LZwoHFH2WqnoQ/H7G
-        7CTvhay/K9/ckf1c+cR3nxJLcUaioRZzUXEiANcQNw1LAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRmVeSWpSXmKPExsVy+t/xu7rqafKxBrsnGFlMmvGf2eLK1/ds
-        Fl0LDSyaF69ns9j0+BqrxYm+D6wWl3fNYbNoubyC2WL1nhfMDpwem1doeeyfu4bd4373cSaP
-        zUvqPc7/b2H3+LxJLoAtSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384m
-        JTUnsyy1SN8uQS/j/OvDrAXbWCsOTjjK2sB4jqWLkZNDQsBEYu6ip2wgtpDAUkaJu6tsuxg5
-        gOIyEsfXl0GUCEv8udYFVMIFVPKaUeLRm2Vg9cICcRJHl7azgtgiAsYS/WdnsYMUMQvMZZJ4
-        /+ANC0THNkaJvgsrmUCq2ASsJCa2r2IEsXkF7CServsCNolFQEXi8aJOsEmiAhESZ96vYIGo
-        EZQ4OfMJmM0poCex43Uz2BxmAXWJP/MuMUPY4hK3nsyHistLbH87h3kCo9AsJO2zkLTMQtIy
-        C0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIHRuO3Yz807GC9tDD7EKMDBqMTDe8JJ
-        PlaINbGsuDL3EKMEB7OSCG9iEFCINyWxsiq1KD++qDQntfgQoynQcxOZpUST84GJIq8k3tDU
-        0NzC0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA+NC6fN3XJN/bPw5T7R1w+rb
-        Ylk2aZcu/w+fdm1TkPwWo+8NjbbT5l83fq7t47/xfr2jmKARG3d859lrc9lqFprYcr2IVvmq
-        Oeeag/VkkUdCm0PdNvXUORv933Io8nN2F/vvJ4JhoqvDxWR2z+g/JLZ9zYslNdfrvmiuvnXl
-        28JpM5rY1616rRGkxFKckWioxVxUnAgAT5bQTtwCAAA=
-X-CMS-MailID: 20190705150056eucas1p219959ec433457ff884c9c3bcdf8baadb
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca
-References: <20190704084617.3602-1-gregkh@linuxfoundation.org>
-        <CGME20190704142610epcas2p1f2dcbf38ea660bc26d306f2c0e1c71ca@epcas2p1.samsung.com>
-        <20190704142602.GB6281@kroah.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+The BIT() macro is available for defining the required bit-flags.
 
-On 7/4/19 4:26 PM, Greg Kroah-Hartman wrote:
-> Platform drivers now have the option to have the platform core create
-> and remove any needed sysfs attribute files.  So take advantage of that
-> and do not register "by hand" a sysfs file.
-> 
-> Cc: Tony Prisk <linux@prisktech.co.nz>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Since it operates on an unsigned value and expands to an unsigned result,
+using it, instead of an expression like (1 << x), also fixes the problem
+of shifting a signed 32-bit value by 31 bits. (e.g. 1 << 31. See
+CS5536_GPIOM7_PME_FLAG and CS5536_GPIOM7_PME_EN).
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
+Signed-off-by: Amol Surati <suratiamol@gmail.com>
+---
+ include/linux/cs5535.h | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/include/linux/cs5535.h b/include/linux/cs5535.h
+index 2be1120174eb..7c403855b456 100644
+--- a/include/linux/cs5535.h
++++ b/include/linux/cs5535.h
+@@ -91,21 +91,21 @@ static inline int cs5535_pic_unreqz_select_high(unsigned int group,
+ #define CS5536_PM_GPE0_EN	0x1c
+ 
+ /* CS5536_PM1_STS bits */
+-#define CS5536_WAK_FLAG		(1 << 15)
+-#define CS5536_RTC_FLAG		(1 << 10)
+-#define CS5536_PWRBTN_FLAG	(1 << 8)
++#define CS5536_WAK_FLAG		BIT(15)
++#define CS5536_RTC_FLAG		BIT(10)
++#define CS5536_PWRBTN_FLAG	BIT(8)
+ 
+ /* CS5536_PM1_EN bits */
+-#define CS5536_PM_PWRBTN	(1 << 8)
+-#define CS5536_PM_RTC		(1 << 10)
++#define CS5536_PM_PWRBTN	BIT(8)
++#define CS5536_PM_RTC		BIT(10)
+ 
+ /* CS5536_PM_GPE0_STS bits */
+-#define CS5536_GPIOM7_PME_FLAG	(1 << 31)
+-#define CS5536_GPIOM6_PME_FLAG	(1 << 30)
++#define CS5536_GPIOM7_PME_FLAG	BIT(31)
++#define CS5536_GPIOM6_PME_FLAG	BIT(30)
+ 
+ /* CS5536_PM_GPE0_EN bits */
+-#define CS5536_GPIOM7_PME_EN	(1 << 31)
+-#define CS5536_GPIOM6_PME_EN	(1 << 30)
++#define CS5536_GPIOM7_PME_EN	BIT(31)
++#define CS5536_GPIOM6_PME_EN	BIT(30)
+ 
+ /* VSA2 magic values */
+ #define VSA_VRC_INDEX		0xAC1C
+@@ -197,14 +197,14 @@ void cs5535_gpio_setup_event(unsigned offset, int pair, int pme);
+ #define MFGPT_REG_COUNTER	4
+ #define MFGPT_REG_SETUP		6
+ 
+-#define MFGPT_SETUP_CNTEN	(1 << 15)
+-#define MFGPT_SETUP_CMP2	(1 << 14)
+-#define MFGPT_SETUP_CMP1	(1 << 13)
+-#define MFGPT_SETUP_SETUP	(1 << 12)
+-#define MFGPT_SETUP_STOPEN	(1 << 11)
+-#define MFGPT_SETUP_EXTEN	(1 << 10)
+-#define MFGPT_SETUP_REVEN	(1 << 5)
+-#define MFGPT_SETUP_CLKSEL	(1 << 4)
++#define MFGPT_SETUP_CNTEN	BIT(15)
++#define MFGPT_SETUP_CMP2	BIT(14)
++#define MFGPT_SETUP_CMP1	BIT(13)
++#define MFGPT_SETUP_SETUP	BIT(12)
++#define MFGPT_SETUP_STOPEN	BIT(11)
++#define MFGPT_SETUP_EXTEN	BIT(10)
++#define MFGPT_SETUP_REVEN	BIT(5)
++#define MFGPT_SETUP_CLKSEL	BIT(4)
+ 
+ struct cs5535_mfgpt_timer;
+ 
+-- 
+2.22.0
+
