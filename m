@@ -2,72 +2,67 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2971F629CF
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DFD629D4
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729308AbfGHTm5 (ORCPT
+        id S1729333AbfGHToi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 15:42:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:57057 "EHLO
+        Mon, 8 Jul 2019 15:44:38 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:43563 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729234AbfGHTm5 (ORCPT
+        with ESMTP id S1729234AbfGHToi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 15:42:57 -0400
+        Mon, 8 Jul 2019 15:44:38 -0400
 Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MhWx1-1iNC0G2kWh-00eaLR; Mon, 08 Jul 2019 21:42:51 +0200
-Subject: Re: [PATCH 2/3] platform/x86/pcengines-apuv2: add legacy leds gpio
- definitions
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N5FtF-1iTM7u3Hyn-011E2v; Mon, 08 Jul 2019 21:44:31 +0200
+Subject: Re: [PATCH 1/3] platform/x86/pcengines-apuv2: add mpcie reset gpio
+ export
 To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
         info@metux.net, dvhart@infradead.org, andy@infradead.org
 Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190704090205.19400-1-fe@dev.tdt.de>
- <20190704090205.19400-3-fe@dev.tdt.de>
+ <20190704090205.19400-2-fe@dev.tdt.de>
 From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
 Organization: metux IT consult
-Message-ID: <bf9c82c3-bc6e-b701-afd4-b4e657cb09be@metux.net>
-Date:   Mon, 8 Jul 2019 21:42:50 +0200
+Message-ID: <3c469213-f2d7-aa7e-4028-e8ce463a4441@metux.net>
+Date:   Mon, 8 Jul 2019 21:44:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20190704090205.19400-3-fe@dev.tdt.de>
+In-Reply-To: <20190704090205.19400-2-fe@dev.tdt.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:8UZAoJ2cnJMqsaXzPuCfWX34iwNktO9clHcK5ez3G4Lz5QLzADM
- u7tdBR/4I1Cop5m78CVcWhFaouOb/q+7II0Dv1bJ+cDY31Rz27oFaf5d/rkf1LIkHcVjsKg
- E/O6pzJOl0UQhMIwcqBYqOWxHt1DG45crj1KLS4fDc2TnycYLfyvQlEf/sWzunSeRtFXM6v
- 9Pa57Gl3Dz/xK24eA1YZw==
+X-Provags-ID: V03:K1:gIMTdACTh5zJfJGnRQmnqYuTaHcSfSjTTs22et/Q1dKfU3mVaSh
+ BTAnlNobUwm3aytVGI9Q6j6/LEUVgzDBZBXO8gm17RbFG0TZHxyCDkYXCM3hY+sYcbC0Uwm
+ gCYFD4XaArmK8a3ZnxIlmXP84FW8dk7giVfG1+rltinA6TzQ2d7S4hwlq7I382u7lIx/wHO
+ 6X7n4Qd7gHdVc+RY/zoUQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5UuROpRbtSY=:EvjEmtQOhMZt+Q0DzmDf8Y
- lk2IJZQGbxEnREjwdyk/tSbprkVbi3OeYPuUIZZVFAUG5G0B7RJk6ed5tNnnX1Etos9J8zxzc
- wFCP0XO0VIEF1BX6PIVrJ9R8xKzcB1r+7hRuae9l6vVbHCQnfxfv4vy0rmP7aPdF5Ee/K8eyg
- ZeITjDNUS5p2F37n52NgMWqo+Z+Zb+IGyzf0zEC8m8Ltyw7N5TLmyekogU0zVJb4FsiKFQEhl
- B6GnEVhb8qOES+SHpTvtD/7KATkEaxk0ux29DjzInlK96VEyfu6ZvhCy/U/WdL+TXBkSIiLuO
- 3OgpHtU4oecEFWM/GxC/NMN6O+9Ic1XadxuWOmN3L5EsceCVnmFVMBjKuy19KDL4k4+G4T/5C
- 32Uy0PoXytVk+nNyXYydzT1vJo4/MQ1Mijz0lZqSXh4GdZmxCGMbtmHg8YkxNqdq4YBjg4MJX
- 11DzuNJ93Gg4IMr8ZpOuERE01gfipEbyiTIX7r/AlurjjWAmF+Y+tVx2OYswCJQx1j7Jysiz7
- 2fYcqS6jzYinrHtHbxbdBXUuAM4hNQXmFnPpXwqBJJE+YJvRZR0ZvmC3fI8WkZMT8yVTuuftN
- 6xithG9mqjhoEhojlOsKv0DHdzQND80iIiiffs5nduv/uYujcV8okQGMJ0Fjpt2j3V+zA2orS
- 7gosZz1l1PpoY+wERuqTr04W/u1GD5Mm0tSE9f7Q1nKSKGSvV/gEba659DNICfGi+dIWs32TU
- W8KhevZqIBoFe3RnbM6C5Zg3NZGyDnY6WvzaPwNremMgNv/rxpOt/K1bEh4=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rf3mH9IaJlw=:yHHNcCCx3slMgb1Nw7Qy1v
+ 6spnXvV3i0eci+7mFx77EIDcKXehjBgG1aTNuYO3gBhjdzuUcby+vhNQFnLGWL3snmIc66Bgi
+ 6mwgfUL/1f8osMUcukF6NVfPh9A+Bib8bUxAjt1N+sRco1B/9msMKcZOeDs8DIcE04eIqBWeU
+ 83Ivf4dqPSEeH9QkLLpniW2vTeotK3RYP2QTNYoQ0DaqVK7I3+kUX+T7hs0wvOX3y720KvQA4
+ U9jWS3Ahg95MvbOIb6dE50QKV4GTuYRyZujPSjfQZ1OHAUIw2at2sjCKqpA91rrJVn9ptAHn1
+ GsXzfgck+11IO7fpdglq2/pk+Bsq8x0dcyePTSLD/iZAOy7PM+tOaK4YWzWsOgGlHcmNOvtUd
+ 5zOofUdQ31FMxXLDqoAjSMgwz7cFWYcidAv2GdbPRi4z4iQase9avJqU1bSVQHTGX1i1Ln9iQ
+ r9d9OIyj1o3Zc3LuZ2b/KW9LN1vhTg4WF/UPUBbDJQOdetF14TzXyZS6rpwpIixs7u6TLuq/s
+ 5a6i8iR5VxF6XdqAQM4k2Aw/EgeZDfZ7ELC2uVaZlgfIQL8nzDOYHWNea5elVTwZ4gxOmBTyq
+ KQ/qWx1N2KsIYzieAt1YfRGhm+/otPef2bPMTam8YltUuCy9jS6zRCmOT3Rw3qNkBu5BgZStj
+ 0uLfR3ETZnURgwGHlfX90TdpbOoA0uwurDh4LIxv/UutBLVObVtYjDiGvFy4zEZHuWsfNxG3h
+ VQjylgmecRk/Gqs3wVLY8Aa/ci9NoAQarSisjVHX4o2bq/Njwwl1zhW4tRI=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On 04.07.19 11:02, Florian Eckert wrote:
-> Extend the apu2_leds definition to make the leds exportable via the
-> legacy gpio subsystem. 
+> On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
+> the ports from the userspace, add the definition to this platform
+> device. The gpio can then be exported by the legancy gpio subsystem to
+> toggle the mpcie reset pin.
 
-What for ? The gpios are bound to LED devices as that's exactly what
-they are: LEDs.
-
-> Without this change the leds are not visible
-> under "/sys/class/leds" and could not be configured.
-
-How so ? (I'm using exactly that all the day ...)
-
+Are you sure they're also available on APUv2 (not just v3) ?
 
 --mtx
 
