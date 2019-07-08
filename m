@@ -2,88 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66CB2629D9
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0339862B2D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 23:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729292AbfGHTpu (ORCPT
+        id S1730630AbfGHVjg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 15:45:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39079 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729234AbfGHTpu (ORCPT
+        Mon, 8 Jul 2019 17:39:36 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39505 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730589AbfGHVjg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 15:45:50 -0400
-Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MPooN-1i5nb70MGR-00Mtsx; Mon, 08 Jul 2019 21:45:46 +0200
-Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190704090205.19400-1-fe@dev.tdt.de>
- <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
-Date:   Mon, 8 Jul 2019 21:45:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        Mon, 8 Jul 2019 17:39:36 -0400
+Received: by mail-oi1-f196.google.com with SMTP id m202so13805801oig.6;
+        Mon, 08 Jul 2019 14:39:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=a3+NVcvGjIFNIsu4MkqNVhhsufaUW+do2rR/ZlfhCf0=;
+        b=N+kPkeGHfmLKrVRfMK/7bLr/rZOAgIAsbDF4yDakVtHKif5ouoeDvw0nUfhyQfF+ly
+         eHJzEmxHJtXgvP3zEq9SezyP/LbhpEj3IG8YiHdS0z8A3oeCZcdB/VcTXOPLoMud+FyI
+         lxsBMmc5zIYphA5/40ArRt3kx/QTMbZXlu0P1X5be5FxAb8i/5SuiBYdNN11R9JzayVl
+         tSEizMaNNWQRCQZzU5kXjI0DdA5v2chJ6OqAiyWDooqHXDXpWbMSHeVNsCmmmCVvbJQ9
+         kiok6UfWcjbQtMaGnpCH4L2nKA8FwN+lX+odXJBLr+PBpMPS2I3ifTucLcLLRoohzMsV
+         l40g==
+X-Gm-Message-State: APjAAAW+tqqNfkK9fpTgsKnLhUf+gxUZl9ImoyC3UjCipjnRxOK6JmUQ
+        RKZlJabNhIjqe8xG3mHrKZTTnnnYYMLHc2YmpLo=
+X-Google-Smtp-Source: APXvYqyieHJpGxx2Rx0jBZKetIMt84cplqpTBXybYOOeaI3d8n2wUaLHKlR6hT6AZIqbH73eQ3Jm2mwd/Muc8YLW16I=
+X-Received: by 2002:aca:4e89:: with SMTP id c131mr10844220oib.57.1562621975827;
+ Mon, 08 Jul 2019 14:39:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:SX0Kvt3nfm4cb+ofxX5Erb1XGfX3CX714EhQ9i3q8ACyJqZYvxe
- F96ZI6Y3dqRsTuXFfw4cpQb7UVyox4c8c+/XszL3fkE5wMLtazOXyLlY86+FF9nGKZiAPDK
- mvN2DioWM3Yr9pdQVyDuj/L3Mn9/SJ1d9kQ/vPnuUtJg7wCJzJ4ziX1/CZJV3sp8zHboA+9
- h6JLFbdT1qkP5mMB/CNTQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VIqJ3hSv9bM=:SGGvPSlbO/qebn98kaD65f
- vBJnq6tmbicJDehzT29nuYXGa/E/Vp//6KQ7gt+LYZVrsw/iohsZ1D1ka3ALU61iJcQ7ndlCl
- wNCuCA+7L/t1sZcMvig5zBOU7mZu6FK0OtlmUleNbCEdJSmbn67M36/MqkR95a9jgmEmHOtE/
- pfog87N8/m+quJGkugM/0L5owaTCDf+BQUeKxQO9yurwuu1aDz5EFmrne1jkEBn5fFlzwCtIi
- t2PEEB6MyEIlEZmgJnCjvqvxheyl49dXdFAbDh7kWs2RwgoMW9B+j1cAwdU/hbPSyRKmMXcS/
- /S53Jz9UzqVjow2H2fIXgMb8JDfVID+pb7KH6R9XtyUwzp/f6O5Rd/KJdZ9F70f6TnUcW173B
- jGPOF7rv8BE+bRGn26TPIucKZ+SBgVSRuq1vFVHP0QOW+Xr473NZBKMguQhB6nOKIJ3Rt6m1b
- GM2dyUbzFCYJcux3DxKn72Vj8y8cMTkt4eLgaLrJ8+ed+286AbofVcYC+SK6ogyVApCGauwK2
- t9TNW+jS4DTpqqM39aI1J5wz2gyfKUCgAYth8j+eVddXJcWlHqHAsvYXotasb9EkI7LgD+tVD
- uJa1YSLqLiJGSAwchFoOCTtIEzWZCJfwOsrp3RPoi09TMeuNNky1PGwX64mUrJZOCVsR1SLXZ
- 4M1VG/53D6MGNO5/qyM32zlUWdVmNo2b8afED+b5MbWu172LlXbfbVDd5i/GLXOYvnDOcP2fK
- WHAWdqh13F/1j5V+gamIxW18tDre3z7izWWmoFbJ8U+Ef2FLp8058xpzfU1sBrIq6V+aVFq3O
- Xa6W3yx1Sqds/F/hQeRPNO7KiQwg3LFsJ4dZ+SAujTFrjPTmzqbv5RZEK6YkLkYKm5eDYMt
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 8 Jul 2019 23:39:24 +0200
+Message-ID: <CAJZ5v0g8O+XLjSarCiZcj0LnSZYnCqGE3D6tfFD30wOZjprb2g@mail.gmail.com>
+Subject: [GIT PULL] Device properties framework updates for v5.3-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 04.07.19 15:39, Andy Shevchenko wrote:
-> On Thu, Jul 4, 2019 at 12:02 PM Florian Eckert <fe@dev.tdt.de> wrote:
->>
->> This patchset adds the following changes to this pcengines-apuv2
->> platform device.
->>
-> 
-> Before doing anything to this driver, what is the plan for previously
-> upstreamed:
-> 
-> drivers/leds/leds-apu.c
+Hi Linus,
 
-Only supports the three front LEDs, nothing else. (we've got more gpios
-that are not LEDs, eg. the front button, simsw, ...)
+Please pull from the tag
 
-> arch/x86/platform/geode/alix.c
+ git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+ devprop-5.3-rc1
 
-completely unrelated - very different chipset.
+with top-most commit 33ee09cd59ce154b64f9df942dfa5456db90d5f9
+
+ device property: Add helpers to count items in an array
+
+on top of commit f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a
+
+ Linux 5.2-rc3
+
+to receive device properties framework updates for 5.3-rc1.
+
+These add helpers for counting items in a property array and
+extend the "software nodes" support to be more convenient for
+representing device properties supplied by drivers and make
+the intel_cht_int33fe driver use that.
+
+Specifics:
+
+ - Add helpers to count items in a property array (Andy Shevchenko).
+
+ - Extend "software nodes" support to be more convenient for
+   representing device properties supplied by drivers (Heikki
+   Krogerus).
+
+ - Add device_find_child_by_name() helper to the driver core (Heikki
+   Krogerus).
+
+ - Extend device connection code to also look for references provided
+   via fwnode pointers (Heikki Krogerus).
+
+ - Start to register proper struct device objects for USB Type-C
+   muxes and orientation switches (Heikki Krogerus).
+
+ - Update the intel_cht_int33fe driver to describe devices in a more
+   general way with the help of "software nodes" (Heikki Krogerus).
+
+Thanks!
 
 
---mtx
+---------------
 
--- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Andy Shevchenko (1):
+      device property: Add helpers to count items in an array
+
+Heikki Krogerus (16):
+      software node: Allow node creation without properties
+      software node: Simplify software_node_release() function
+      software node: Add support for static node descriptors
+      software node: Use kobject name when finding child nodes by name
+      software node: Add software_node_get_reference_args()
+      driver core: Add helper device_find_child_by_name()
+      ACPI / property: Don't limit named child node matching to data nodes
+      device property: Introduce fwnode_find_reference()
+      device connection: Find connections also by checking the references
+      usb: typec: Registering real device entries for the muxes
+      platform/x86: intel_cht_int33fe: Register max17047 in its own function
+      platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
+      platform/x86: intel_cht_int33fe: Provide software nodes for the devices
+      platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
+      platform/x86: intel_cht_int33fe: Supply fwnodes for the external
+dependencies
+      platform/x86: intel_cht_int33fe: Replacing the old connections
+with references
+
+---------------
+
+ drivers/acpi/property.c                  |  26 ++-
+ drivers/base/core.c                      |  28 +++
+ drivers/base/devcon.c                    |  26 +++
+ drivers/base/property.c                  |  24 +++
+ drivers/base/swnode.c                    | 324 ++++++++++++++++++++++++-------
+ drivers/platform/x86/intel_cht_int33fe.c | 291 ++++++++++++++++++++++-----
+ drivers/usb/roles/class.c                |   2 +-
+ drivers/usb/typec/bus.h                  |  15 ++
+ drivers/usb/typec/class.c                |  17 +-
+ drivers/usb/typec/mux.c                  | 238 ++++++++++++++++-------
+ drivers/usb/typec/mux/pi3usb30532.c      |  46 +++--
+ include/linux/device.h                   |   2 +
+ include/linux/property.h                 |  95 +++++++++
+ include/linux/usb/typec_mux.h            |  62 +++---
+ 14 files changed, 947 insertions(+), 249 deletions(-)
