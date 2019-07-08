@@ -2,100 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 898946210C
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 17:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0586062993
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:28:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730384AbfGHPCS (ORCPT
+        id S2404381AbfGHT2H (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 11:02:18 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:41456 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730281AbfGHPCR (ORCPT
+        Mon, 8 Jul 2019 15:28:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:39173 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404375AbfGHT2G (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 11:02:17 -0400
-Received: by mail-pg1-f195.google.com with SMTP id q4so7836560pgj.8
-        for <platform-driver-x86@vger.kernel.org>; Mon, 08 Jul 2019 08:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TCkyfj5zkIAGRYzotBWrTg13lrS3rw2HrWrCo9hIKwM=;
-        b=EU+hC9r0fQ0ChhRMEAJOnSn6OsM1zdpn7T3RFMecLIrOjltkHzNzSxsInYEGeRinQu
-         P66mwWEkHj8759jf2/EJj367Ba95MTeo5XStpCe8EeQhFyd8ipm05Tn1qiwrimXc2HNd
-         orv5/yWe914seZxf0jyBc7O4yDT2jfNr6rxsWnbfUO5Qtl9rWho89Fvu23g97YQIkP+B
-         g1ym6XDaBpCJZc+n6yYTc0L1D+SUePozqtw9+6fr7wdMO+6Zp1maO2gwubxL2D0v0NQk
-         f3j2ZIBIlCU6TS98scTtIRUxF5rqXhbE4uWenmt2jULYU4yhfg0nwvnI210R7w2eRY/n
-         i3AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TCkyfj5zkIAGRYzotBWrTg13lrS3rw2HrWrCo9hIKwM=;
-        b=oqA5Ukz56KjlcpIjdS68Z82UvKwgSdLTANJOgTbAp9/z1epD5iVcCazFdksf5qSgU/
-         /guAQRXGUfWdjJyhvrmyyJEYkOWRCuKpXIkv+F5Nl7VMF+Kyz9K9ikjBByyIOrXejgbl
-         dbL82UYfn8aV3Z2qHxCFq8mQBSpMPE5Pxe4Ysff6hiLPD0D/dFowO/k48muZTuYKyrqV
-         LqxxL3ggkS1EWZk4aUhrvxYJX5tKy/VBIPTGpLj1/Egyui28CamEt7TuXlYIzyhOYkc+
-         JQJFscCfD5izih62tmzeD3VGGRs/lY26vLPd1jFSEqL7CIuq/4egRXw59Cm0clpO2VWJ
-         v2mg==
-X-Gm-Message-State: APjAAAWK+xOG09/2T/l3vmDJeRLIifNMVhMQR2n1xqSxoTu8npz4fIKK
-        jYyxkx1nkxNH0UwLteayUAl+zUc/097A6TVUo6jvIMY43wI=
-X-Google-Smtp-Source: APXvYqwPDp61iYfvbzG+tWLAba3guCu2Z9bz1u35h8ROeBXSpBVmtn3PQRTDIwAlFkmKfJkR4gVzuescasLUq+I2egA=
-X-Received: by 2002:a63:f346:: with SMTP id t6mr25141472pgj.203.1562598137194;
- Mon, 08 Jul 2019 08:02:17 -0700 (PDT)
+        Mon, 8 Jul 2019 15:28:06 -0400
+Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M4s91-1hkqgS06j9-001xKQ; Mon, 08 Jul 2019 21:27:59 +0200
+Subject: Re: [PATCH 3/3] platform//x86/pcengines-apuv2: update gpio button
+ definition
+To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
+        info@metux.net, dvhart@infradead.org, andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190704090205.19400-1-fe@dev.tdt.de>
+ <20190704090205.19400-4-fe@dev.tdt.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <add03c08-da1c-20f4-8d07-8ba2ecaf605c@metux.net>
+Date:   Mon, 8 Jul 2019 21:27:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <20190707113016.GA30635@arch> <CAHp75VfceRDnuRtdD_mR6mMZF_LH7u1ptPRXiA=DUfgTGebCPA@mail.gmail.com>
- <20190708085735.GA12241@arch>
-In-Reply-To: <20190708085735.GA12241@arch>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 8 Jul 2019 18:02:05 +0300
-Message-ID: <CAHp75VeDNeH1VzOvB3H5nrgint32BY9cGCNdE_pZZYT861ZrCQ@mail.gmail.com>
-Subject: Re: [PATCH] cs5535: use BIT() macro for defining bit-flags
-To:     Amol Surati <suratiamol@gmail.com>
-Cc:     dilinger@queued.net, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-geode@lists.infradead.org,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190704090205.19400-4-fe@dev.tdt.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:XTU1I8yyvapDQ1yZpWPgbGfrnAWtmhbqMcSITB3/pr9v7OA/zTM
+ zU6rgXDwC37IEnIU4GQg9m/6xWISYNuqD62/LUkF7ywpCxn0lzJPiGrPW54gA3LHQVKdTId
+ xCDRQyQehyQf+DtgRczc44HQusoopYacQPwi0JSMrYWwUVweDbtqA/FLd1KTdfdjMRz1l/v
+ rTq9v0N60w0ZeWozgJuWg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Mux62PNQ/oA=:7ZrzmV2BCrFlUFLAJhHi3s
+ nAzeLdrP+lJiyMrpg2KKSjMiFDVMo+eKzOmdw48DIjerR3HujBdBIBolMXkJEMIyQrzExjw3d
+ qBL/hei14WRq7bIaEzl5optjZNTK4HYIKRnq4ogixeD+25pdq0BOb0Chu9imzrRYVTXx1aeJR
+ L4Jo0VcnII86khqKoN8isIH1T8DLIj69XnR+qqdfxLOfgQQ1/om4v6U3Lb6mav+X4o1DbXxcI
+ kJZUrsEDvol1WaDzcb9Tm0rMeZqp7IOwRgOgsgXzOpILo+m+/6zsL+/kCcwJ2OIo5Lhk/ACVE
+ 0ipcLllNo60qQERM+y4C9ugKhKTZN5E3W+kv/Ezm5Vs3+42FNqGh5I3yxtKDaBR1dqoGt9Aih
+ QF10Vjt6xAi4ds3ocYWSs1dM5Jcl16gTARhBVmF8GdUDSgmgdxuDX12cB15k4f0/YNP0k+MYD
+ W1YiqH6pg51AulWqTdLI8YAkJLPOa9R9QKXYjjDweV3EPS5iiif+CPvafTDMYmUYv3WwhVkeL
+ Y4b4j/lyKFiVAgPbUIxtu755jcOet+AxS3DVFQfQ3uY2k0vIjRw3St5rW3xEXuDdu+U+Fho41
+ Nficnv1d2g2cyQ1ScsvV2NxlH4XbNv2NXlQKyzVMNx2jmaWOkS8xlgAMUpyfyJD2Pie6h1buB
+ 3BVx0lrv27s5wUXbcKCXWf5IWPxzoaiSdT1D2EZxhubVc4Y7nAMq9FYYeZ53Yx4tR3GimRoTA
+ IEEeBvHei+V5+8OYt2PF9qssTB9m841r1OO1Bpw9acOJ8D3AZ93BufyCzb8=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 8, 2019 at 11:57 AM Amol Surati <suratiamol@gmail.com> wrote:
->
-> On Mon, Jul 08, 2019 at 11:02:29AM +0300, Andy Shevchenko wrote:
-> > On Sun, Jul 7, 2019 at 2:30 PM Amol Surati <suratiamol@gmail.com> wrote:
-> > >
-> > > The BIT() macro is available for defining the required bit-flags.
-> >
-> > Shouldn't bits.h be added?
-> >
-> > > Since it operates on an unsigned value and expands to an unsigned result,
-> > > using it, instead of an expression like (1 << x), also fixes the problem
-> > > of shifting a signed 32-bit value by 31 bits. (e.g. 1 << 31. See
-> > > CS5536_GPIOM7_PME_FLAG and CS5536_GPIOM7_PME_EN).
-> >
-> > What problem?
-> > You need to describe that (UB by the standard, though gcc works fine,
-> > I never heard it utilizes such).
->
-> Yes. I will send a new version. I also missed including
-> <linux/bitops.h>, although the compilation with the default
-> configuration of my distro still succeeds without it, by chance.
->
-It's now in a separate bits.h. No need to include complete bitops.h.
+On 04.07.19 11:02, Florian Eckert wrote:
+> * Add the gpio number, so the button subsystem can find the right gpio.
+> * Change also the keycode from KEY_SETUP to KEY_RESTART, because it
+>   seems more expressive to me and in the Alix-Board, which is the
+>   predecessor, there isthis keycode defined too. I think this is also
+>   intended by Pcengines. Also many embedded systems defined in the kernel
+>   use this key code as well.
 
-> Thank you,
-> -amol
->
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
+In general, I'm not opposed to that, but I'll first have to check trough
+various userland code to make sure that it doesn't break
+anything in the field, before I can give my ack.
 
 
+--mtx
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
