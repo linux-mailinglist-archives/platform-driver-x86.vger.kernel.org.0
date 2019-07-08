@@ -2,95 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A6561C03
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 10:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B538761D2B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 12:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728552AbfGHI5l (ORCPT
+        id S1728353AbfGHKnj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 04:57:41 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41432 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727384AbfGHI5l (ORCPT
+        Mon, 8 Jul 2019 06:43:39 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:44657 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfGHKni (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 04:57:41 -0400
-Received: by mail-pl1-f196.google.com with SMTP id m9so4223928pls.8
-        for <platform-driver-x86@vger.kernel.org>; Mon, 08 Jul 2019 01:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=v0V2gKhEOCexXftVrvYOQjyieet4qf38FNorLA5y3ZQ=;
-        b=cY/Ee1ningUO+PY+zJoYZM3cqHbsTtyRJPSzO0JQRdbrB4kRLw5BHaLgJ4VnY93ge9
-         Q10lCtCb5tCQRsff3+9z5k6fyT4ADPKdDJYlXN1UXZWpPdq73OQrIROaw0X2xg/C2gSU
-         TLiP8z7dav9VnkyaOfN073KKIwhHktXaXKGeZiX6uBYfXjYafjEGx3vnaLBzJuJwwLJO
-         pbKkTeULhI2P1e8tOylp2GeDskxQRNpdqo67Jsw9KaNHrMrS/pMooRugJNK5Tzu1nyYB
-         nKHqyaXFAOxucpm4zBRCtV8XyWLyDbQqLn08wZ7qE+yvepA9okM/sfcLCQ7HjGr3TsJL
-         wzfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=v0V2gKhEOCexXftVrvYOQjyieet4qf38FNorLA5y3ZQ=;
-        b=TV0lqR7+A+IqhHfOlgev8kyl7BQPnb/MXcjkEh6QNIqsoDsXUl7K5INBHjgYKu3TZf
-         i20WUDwaMfYJWIozLVIb9QhawPaIFTxJLYSgQqQ3sao7qmC9/RDW8yf2HLee5P3VjhrM
-         XnBZOeqAyzYTE+RPb1AcRQ5ds0EUv8ZJhVoO/EDp4+1eP+g5VrIywkiwIRCKk2jD0zXS
-         uxI9RHPjdPokbGozVwzKwZ/LjFJnVJrvIZYFLiXYlSTKZhvfDWGv9vBvbICD7/J9+YB2
-         SMZUlQWFWb0gi/bW9Wtzz0P+116fNrfT1NlSqIb1gk8S2AmKRlL542GqBEFDt94LPDV8
-         XO4Q==
-X-Gm-Message-State: APjAAAVdHO0wK+I/9z4RufcpjN6/vHkovOX0DPH1llbJNEhWH3508X2O
-        eYpckKt9jb6R/hpoCM10y48=
-X-Google-Smtp-Source: APXvYqyGk4pHHEoMaQFdZM27g588/tNxBWO+fg60JatB5jYj0nK6H0LU9J20I9BiBx2JeZ3NlY9Ihg==
-X-Received: by 2002:a17:902:8c83:: with SMTP id t3mr22718715plo.93.1562576260618;
-        Mon, 08 Jul 2019 01:57:40 -0700 (PDT)
-Received: from arch ([103.85.10.69])
-        by smtp.gmail.com with ESMTPSA id 30sm22601273pjk.17.2019.07.08.01.57.37
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 08 Jul 2019 01:57:39 -0700 (PDT)
-Date:   Mon, 8 Jul 2019 14:27:35 +0530
-From:   Amol Surati <suratiamol@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     dilinger@queued.net, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-geode@lists.infradead.org,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] cs5535: use BIT() macro for defining bit-flags
-Message-ID: <20190708085735.GA12241@arch>
-References: <20190707113016.GA30635@arch>
- <CAHp75VfceRDnuRtdD_mR6mMZF_LH7u1ptPRXiA=DUfgTGebCPA@mail.gmail.com>
+        Mon, 8 Jul 2019 06:43:38 -0400
+Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N8nrc-1iXbIp3f9y-015u8i; Mon, 08 Jul 2019 12:43:25 +0200
+Subject: Re: [PATCH] platform/x86: Fix PCENGINES_APU2 Kconfig warning
+To:     YueHaibing <yuehaibing@huawei.com>, dvhart@infradead.org,
+        andy@infradead.org, linus.walleij@linaro.org,
+        rdunlap@infradead.org, info@metux.net
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+References: <20190704062725.50400-1-yuehaibing@huawei.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <603661e6-8694-4787-6cee-61cc6ba61fc2@metux.net>
+Date:   Mon, 8 Jul 2019 12:43:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfceRDnuRtdD_mR6mMZF_LH7u1ptPRXiA=DUfgTGebCPA@mail.gmail.com>
+In-Reply-To: <20190704062725.50400-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:k1ASFLMCv+5OWSYUYYtaraIfKomT4nTCcaVf4oT+GAFdybzzBGA
+ PMb83RA+PAxxOKE0M8vADo5wuHV1V/hOEXU5l+aZkjda3H4wt8MadTRAVhSMVQqlfXX5wXE
+ a+v+66cBXAt2x41H8wI8Yro2gERQGLi6T6V8YQd1IX6QBHvD5CMJLd4BOj3YoWuUstGPf/F
+ 1kAO0j4X3EQCrgCNrqGrA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Pkz+poKC/9g=:RQzTbx4w0e9jQQHrKZwyOK
+ S+jIiWDIfD8snEe3ikdQ3qPoVvo4Xypssgid430xCNfykbAuuGXrrFcO5kUtNsBAAj/VWPtT3
+ oasB7iSchd8DoF9OiKKa8LTIILFXQMIgYxrPutmXaECL4np2FESPe0ta7egNgf9Rk4iXBXvzE
+ ktl9nXyExrYYIu/0O1b1+72zn8gO6hR54yMUImSBoCfu+H9IZ7Ufx3JZAoYXHew739kjhlOil
+ ow5hccagNxFoVO3ekxB14bblysTE9MRpsr4uQrYsc3QqQ6Ho4staeQbG4RPyKK0+5AoyZnkGi
+ KKhD2162g7E/59YB/OVpgkuaftPmB0r4H15dgywkQU2uEvtOe2BrH1sbjUbz6AdxXpZxky8XR
+ WBNX+F47SHc+iIS3hes2fzMNkMTwGHM3XAi2yXm88wd2jyh976R4ultLTnQUlGz521i/KJQL6
+ Cr/iGv9LTbGNE8n0H9tlD1F8FjqUtQ2s/pNDfQPruSVLHlKrED/5+npsaKbEzAWI5yD2866OQ
+ m7XNLTZtdQ8MjerXFWgZ2sq1x4A8eeaiwWAIXQgMHfdoia12j9ef2eHAw5A9UxD06q0pI3Chz
+ ZQs8qRexnrY+AUJVoPp+3wQsI952+HtfPiLl8SVCAnPvMq0jb3F5bsBibQ0J2gkEwmY+c+bGd
+ cwNpe5SdjArjOIKbBAKCFHTNRi9hCI+3CWUcrXBzELjEZL4bx/q3TveG9GlaS4P6g0dNnRjOB
+ C1mcgoTbxzFeRkAG4kMamxuzgrM4jkc/QiyB31aZScT485Fj8S8CVAKtjw0=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 08, 2019 at 11:02:29AM +0300, Andy Shevchenko wrote:
-> On Sun, Jul 7, 2019 at 2:30 PM Amol Surati <suratiamol@gmail.com> wrote:
-> >
-> > The BIT() macro is available for defining the required bit-flags.
+On 04.07.19 08:27, YueHaibing wrote:
+> Fix Kconfig warning for PCENGINES_APU2 symbol:
 > 
-> Shouldn't bits.h be added?
+> WARNING: unmet direct dependencies detected for GPIO_AMD_FCH
+>   Depends on [n]: GPIOLIB [=n] && HAS_IOMEM [=y]
+>   Selected by [y]:
+>   - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
 > 
-> > Since it operates on an unsigned value and expands to an unsigned result,
-> > using it, instead of an expression like (1 << x), also fixes the problem
-> > of shifting a signed 32-bit value by 31 bits. (e.g. 1 << 31. See
-> > CS5536_GPIOM7_PME_FLAG and CS5536_GPIOM7_PME_EN).
+> WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+>   Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=y] && GPIOLIB [=n]
+>   Selected by [y]:
+>   - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
 > 
-> What problem?
-> You need to describe that (UB by the standard, though gcc works fine,
-> I never heard it utilizes such).
+> Add GPIOLIB dependency to fix it.
 
-Yes. I will send a new version. I also missed including
-<linux/bitops.h>, although the compilation with the default
-configuration of my distro still succeeds without it, by chance.
+hmm, I'm not really happy w/ the kernel config system at that point:
 
-Thank you,
--amol
+If the select on the gpio driver would just subsequently enable gpiolib,
+everything would be fine. But that contradicts how subsystems are
+currently handled - you first have to enable gpio subsystem before
+choosing anything that depends on it :(
 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+Could it make sense to refactor gpiolib in a way that pieces directly
+needed by gpio consumers or drivers (hmm, perhaps have separate
+dependency symbols for consumer vs driver) can be selected directly,
+even if the big gpio subsystem knob is disabled ? (but the other things
+like userland interfaces would remain disabled) ?
+
+OTOH, for this particular patch:
+
+Ack-By: Enrico Weigelt <info@metux.net>
+
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
