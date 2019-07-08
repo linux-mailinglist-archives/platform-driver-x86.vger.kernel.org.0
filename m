@@ -2,67 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58DFD629D4
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66CB2629D9
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 21:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729333AbfGHToi (ORCPT
+        id S1729292AbfGHTpu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 15:44:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:43563 "EHLO
+        Mon, 8 Jul 2019 15:45:50 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:39079 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729234AbfGHToi (ORCPT
+        with ESMTP id S1729234AbfGHTpu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 15:44:38 -0400
+        Mon, 8 Jul 2019 15:45:50 -0400
 Received: from [192.168.1.110] ([95.117.164.184]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N5FtF-1iTM7u3Hyn-011E2v; Mon, 08 Jul 2019 21:44:31 +0200
-Subject: Re: [PATCH 1/3] platform/x86/pcengines-apuv2: add mpcie reset gpio
- export
-To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
-        info@metux.net, dvhart@infradead.org, andy@infradead.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MPooN-1i5nb70MGR-00Mtsx; Mon, 08 Jul 2019 21:45:46 +0200
+Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20190704090205.19400-1-fe@dev.tdt.de>
- <20190704090205.19400-2-fe@dev.tdt.de>
+ <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
 From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
 Organization: metux IT consult
-Message-ID: <3c469213-f2d7-aa7e-4028-e8ce463a4441@metux.net>
-Date:   Mon, 8 Jul 2019 21:44:30 +0200
+Message-ID: <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
+Date:   Mon, 8 Jul 2019 21:45:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20190704090205.19400-2-fe@dev.tdt.de>
+In-Reply-To: <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:gIMTdACTh5zJfJGnRQmnqYuTaHcSfSjTTs22et/Q1dKfU3mVaSh
- BTAnlNobUwm3aytVGI9Q6j6/LEUVgzDBZBXO8gm17RbFG0TZHxyCDkYXCM3hY+sYcbC0Uwm
- gCYFD4XaArmK8a3ZnxIlmXP84FW8dk7giVfG1+rltinA6TzQ2d7S4hwlq7I382u7lIx/wHO
- 6X7n4Qd7gHdVc+RY/zoUQ==
+X-Provags-ID: V03:K1:SX0Kvt3nfm4cb+ofxX5Erb1XGfX3CX714EhQ9i3q8ACyJqZYvxe
+ F96ZI6Y3dqRsTuXFfw4cpQb7UVyox4c8c+/XszL3fkE5wMLtazOXyLlY86+FF9nGKZiAPDK
+ mvN2DioWM3Yr9pdQVyDuj/L3Mn9/SJ1d9kQ/vPnuUtJg7wCJzJ4ziX1/CZJV3sp8zHboA+9
+ h6JLFbdT1qkP5mMB/CNTQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rf3mH9IaJlw=:yHHNcCCx3slMgb1Nw7Qy1v
- 6spnXvV3i0eci+7mFx77EIDcKXehjBgG1aTNuYO3gBhjdzuUcby+vhNQFnLGWL3snmIc66Bgi
- 6mwgfUL/1f8osMUcukF6NVfPh9A+Bib8bUxAjt1N+sRco1B/9msMKcZOeDs8DIcE04eIqBWeU
- 83Ivf4dqPSEeH9QkLLpniW2vTeotK3RYP2QTNYoQ0DaqVK7I3+kUX+T7hs0wvOX3y720KvQA4
- U9jWS3Ahg95MvbOIb6dE50QKV4GTuYRyZujPSjfQZ1OHAUIw2at2sjCKqpA91rrJVn9ptAHn1
- GsXzfgck+11IO7fpdglq2/pk+Bsq8x0dcyePTSLD/iZAOy7PM+tOaK4YWzWsOgGlHcmNOvtUd
- 5zOofUdQ31FMxXLDqoAjSMgwz7cFWYcidAv2GdbPRi4z4iQase9avJqU1bSVQHTGX1i1Ln9iQ
- r9d9OIyj1o3Zc3LuZ2b/KW9LN1vhTg4WF/UPUBbDJQOdetF14TzXyZS6rpwpIixs7u6TLuq/s
- 5a6i8iR5VxF6XdqAQM4k2Aw/EgeZDfZ7ELC2uVaZlgfIQL8nzDOYHWNea5elVTwZ4gxOmBTyq
- KQ/qWx1N2KsIYzieAt1YfRGhm+/otPef2bPMTam8YltUuCy9jS6zRCmOT3Rw3qNkBu5BgZStj
- 0uLfR3ETZnURgwGHlfX90TdpbOoA0uwurDh4LIxv/UutBLVObVtYjDiGvFy4zEZHuWsfNxG3h
- VQjylgmecRk/Gqs3wVLY8Aa/ci9NoAQarSisjVHX4o2bq/Njwwl1zhW4tRI=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VIqJ3hSv9bM=:SGGvPSlbO/qebn98kaD65f
+ vBJnq6tmbicJDehzT29nuYXGa/E/Vp//6KQ7gt+LYZVrsw/iohsZ1D1ka3ALU61iJcQ7ndlCl
+ wNCuCA+7L/t1sZcMvig5zBOU7mZu6FK0OtlmUleNbCEdJSmbn67M36/MqkR95a9jgmEmHOtE/
+ pfog87N8/m+quJGkugM/0L5owaTCDf+BQUeKxQO9yurwuu1aDz5EFmrne1jkEBn5fFlzwCtIi
+ t2PEEB6MyEIlEZmgJnCjvqvxheyl49dXdFAbDh7kWs2RwgoMW9B+j1cAwdU/hbPSyRKmMXcS/
+ /S53Jz9UzqVjow2H2fIXgMb8JDfVID+pb7KH6R9XtyUwzp/f6O5Rd/KJdZ9F70f6TnUcW173B
+ jGPOF7rv8BE+bRGn26TPIucKZ+SBgVSRuq1vFVHP0QOW+Xr473NZBKMguQhB6nOKIJ3Rt6m1b
+ GM2dyUbzFCYJcux3DxKn72Vj8y8cMTkt4eLgaLrJ8+ed+286AbofVcYC+SK6ogyVApCGauwK2
+ t9TNW+jS4DTpqqM39aI1J5wz2gyfKUCgAYth8j+eVddXJcWlHqHAsvYXotasb9EkI7LgD+tVD
+ uJa1YSLqLiJGSAwchFoOCTtIEzWZCJfwOsrp3RPoi09TMeuNNky1PGwX64mUrJZOCVsR1SLXZ
+ 4M1VG/53D6MGNO5/qyM32zlUWdVmNo2b8afED+b5MbWu172LlXbfbVDd5i/GLXOYvnDOcP2fK
+ WHAWdqh13F/1j5V+gamIxW18tDre3z7izWWmoFbJ8U+Ef2FLp8058xpzfU1sBrIq6V+aVFq3O
+ Xa6W3yx1Sqds/F/hQeRPNO7KiQwg3LFsJ4dZ+SAujTFrjPTmzqbv5RZEK6YkLkYKm5eDYMt
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 04.07.19 11:02, Florian Eckert wrote:
-> On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
-> the ports from the userspace, add the definition to this platform
-> device. The gpio can then be exported by the legancy gpio subsystem to
-> toggle the mpcie reset pin.
+On 04.07.19 15:39, Andy Shevchenko wrote:
+> On Thu, Jul 4, 2019 at 12:02 PM Florian Eckert <fe@dev.tdt.de> wrote:
+>>
+>> This patchset adds the following changes to this pcengines-apuv2
+>> platform device.
+>>
+> 
+> Before doing anything to this driver, what is the plan for previously
+> upstreamed:
+> 
+> drivers/leds/leds-apu.c
 
-Are you sure they're also available on APUv2 (not just v3) ?
+Only supports the three front LEDs, nothing else. (we've got more gpios
+that are not LEDs, eg. the front button, simsw, ...)
+
+> arch/x86/platform/geode/alix.c
+
+completely unrelated - very different chipset.
+
 
 --mtx
 
