@@ -2,133 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0339862B2D
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jul 2019 23:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B2062D71
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jul 2019 03:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730630AbfGHVjg (ORCPT
+        id S1725857AbfGIBch (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jul 2019 17:39:36 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39505 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730589AbfGHVjg (ORCPT
+        Mon, 8 Jul 2019 21:32:37 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:43136 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725886AbfGIBcg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jul 2019 17:39:36 -0400
-Received: by mail-oi1-f196.google.com with SMTP id m202so13805801oig.6;
-        Mon, 08 Jul 2019 14:39:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=a3+NVcvGjIFNIsu4MkqNVhhsufaUW+do2rR/ZlfhCf0=;
-        b=N+kPkeGHfmLKrVRfMK/7bLr/rZOAgIAsbDF4yDakVtHKif5ouoeDvw0nUfhyQfF+ly
-         eHJzEmxHJtXgvP3zEq9SezyP/LbhpEj3IG8YiHdS0z8A3oeCZcdB/VcTXOPLoMud+FyI
-         lxsBMmc5zIYphA5/40ArRt3kx/QTMbZXlu0P1X5be5FxAb8i/5SuiBYdNN11R9JzayVl
-         tSEizMaNNWQRCQZzU5kXjI0DdA5v2chJ6OqAiyWDooqHXDXpWbMSHeVNsCmmmCVvbJQ9
-         kiok6UfWcjbQtMaGnpCH4L2nKA8FwN+lX+odXJBLr+PBpMPS2I3ifTucLcLLRoohzMsV
-         l40g==
-X-Gm-Message-State: APjAAAW+tqqNfkK9fpTgsKnLhUf+gxUZl9ImoyC3UjCipjnRxOK6JmUQ
-        RKZlJabNhIjqe8xG3mHrKZTTnnnYYMLHc2YmpLo=
-X-Google-Smtp-Source: APXvYqyieHJpGxx2Rx0jBZKetIMt84cplqpTBXybYOOeaI3d8n2wUaLHKlR6hT6AZIqbH73eQ3Jm2mwd/Muc8YLW16I=
-X-Received: by 2002:aca:4e89:: with SMTP id c131mr10844220oib.57.1562621975827;
- Mon, 08 Jul 2019 14:39:35 -0700 (PDT)
+        Mon, 8 Jul 2019 21:32:36 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 12C2C722F2C6693B8C29;
+        Tue,  9 Jul 2019 09:32:35 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 9 Jul 2019 09:32:29 +0800
+From:   Wei Yongjun <weiyongjun1@huawei.com>
+To:     Vadim Pasternak <vadimp@mellanox.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+CC:     Wei Yongjun <weiyongjun1@huawei.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] platform/x86: mlx-platform: Fix error handling in mlxplat_init()
+Date:   Tue, 9 Jul 2019 01:38:42 +0000
+Message-ID: <20190709013842.17344-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 8 Jul 2019 23:39:24 +0200
-Message-ID: <CAJZ5v0g8O+XLjSarCiZcj0LnSZYnCqGE3D6tfFD30wOZjprb2g@mail.gmail.com>
-Subject: [GIT PULL] Device properties framework updates for v5.3-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Linus,
+Add the missing platform_device_unregister() before return
+from mlxplat_init() in the error handling case.
 
-Please pull from the tag
+Fixes: 6b266e91a071 ("platform/x86: mlx-platform: Move regmap initialization before all drivers activation")
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/platform/x86/mlx-platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
- devprop-5.3-rc1
-
-with top-most commit 33ee09cd59ce154b64f9df942dfa5456db90d5f9
-
- device property: Add helpers to count items in an array
-
-on top of commit f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a
-
- Linux 5.2-rc3
-
-to receive device properties framework updates for 5.3-rc1.
-
-These add helpers for counting items in a property array and
-extend the "software nodes" support to be more convenient for
-representing device properties supplied by drivers and make
-the intel_cht_int33fe driver use that.
-
-Specifics:
-
- - Add helpers to count items in a property array (Andy Shevchenko).
-
- - Extend "software nodes" support to be more convenient for
-   representing device properties supplied by drivers (Heikki
-   Krogerus).
-
- - Add device_find_child_by_name() helper to the driver core (Heikki
-   Krogerus).
-
- - Extend device connection code to also look for references provided
-   via fwnode pointers (Heikki Krogerus).
-
- - Start to register proper struct device objects for USB Type-C
-   muxes and orientation switches (Heikki Krogerus).
-
- - Update the intel_cht_int33fe driver to describe devices in a more
-   general way with the help of "software nodes" (Heikki Krogerus).
-
-Thanks!
+diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
+index 2b98f299faa4..8fe51e43f1bc 100644
+--- a/drivers/platform/x86/mlx-platform.c
++++ b/drivers/platform/x86/mlx-platform.c
+@@ -2111,7 +2111,7 @@ static int __init mlxplat_init(void)
+ 					mlxplat_regmap_config);
+ 	if (IS_ERR(priv->regmap)) {
+ 		err = PTR_ERR(priv->regmap);
+-		return err;
++		goto fail_alloc;
+ 	}
+ 
+ 	err = mlxplat_mlxcpld_verify_bus_topology(&nr);
 
 
----------------
 
-Andy Shevchenko (1):
-      device property: Add helpers to count items in an array
-
-Heikki Krogerus (16):
-      software node: Allow node creation without properties
-      software node: Simplify software_node_release() function
-      software node: Add support for static node descriptors
-      software node: Use kobject name when finding child nodes by name
-      software node: Add software_node_get_reference_args()
-      driver core: Add helper device_find_child_by_name()
-      ACPI / property: Don't limit named child node matching to data nodes
-      device property: Introduce fwnode_find_reference()
-      device connection: Find connections also by checking the references
-      usb: typec: Registering real device entries for the muxes
-      platform/x86: intel_cht_int33fe: Register max17047 in its own function
-      platform/x86: intel_cht_int33fe: Remove unused fusb302 device property
-      platform/x86: intel_cht_int33fe: Provide software nodes for the devices
-      platform/x86: intel_cht_int33fe: Provide fwnode for the USB connector
-      platform/x86: intel_cht_int33fe: Supply fwnodes for the external
-dependencies
-      platform/x86: intel_cht_int33fe: Replacing the old connections
-with references
-
----------------
-
- drivers/acpi/property.c                  |  26 ++-
- drivers/base/core.c                      |  28 +++
- drivers/base/devcon.c                    |  26 +++
- drivers/base/property.c                  |  24 +++
- drivers/base/swnode.c                    | 324 ++++++++++++++++++++++++-------
- drivers/platform/x86/intel_cht_int33fe.c | 291 ++++++++++++++++++++++-----
- drivers/usb/roles/class.c                |   2 +-
- drivers/usb/typec/bus.h                  |  15 ++
- drivers/usb/typec/class.c                |  17 +-
- drivers/usb/typec/mux.c                  | 238 ++++++++++++++++-------
- drivers/usb/typec/mux/pi3usb30532.c      |  46 +++--
- include/linux/device.h                   |   2 +
- include/linux/property.h                 |  95 +++++++++
- include/linux/usb/typec_mux.h            |  62 +++---
- 14 files changed, 947 insertions(+), 249 deletions(-)
