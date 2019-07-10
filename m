@@ -2,127 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6363364687
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jul 2019 14:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4697C646C9
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jul 2019 15:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfGJMyF (ORCPT
+        id S1727525AbfGJNHW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 10 Jul 2019 08:54:05 -0400
-Received: from host-88-217-225-28.customer.m-online.net ([88.217.225.28]:49022
-        "EHLO mail.dev.tdt.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725956AbfGJMyF (ORCPT
+        Wed, 10 Jul 2019 09:07:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:41471 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbfGJNHV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 10 Jul 2019 08:54:05 -0400
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 478B5216E4;
-        Wed, 10 Jul 2019 12:54:03 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 10 Jul 2019 14:54:03 +0200
-From:   Florian Eckert <fe@dev.tdt.de>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Eckert.Florian@googlemail.com,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
-In-Reply-To: <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
+        Wed, 10 Jul 2019 09:07:21 -0400
+Received: from [192.168.1.110] ([95.117.121.26]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N0Ip5-1ifNjy1aHn-00xHFL; Wed, 10 Jul 2019 15:07:13 +0200
+Subject: Re: [PATCH 2/3] platform/x86/pcengines-apuv2: add legacy leds gpio
+ definitions
+To:     Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com, info@metux.net,
+        dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20190704090205.19400-1-fe@dev.tdt.de>
- <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
- <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
-Message-ID: <cc5bbcd7148ece53a075948f240bc66b@dev.tdt.de>
-X-Sender: fe@dev.tdt.de
-User-Agent: Roundcube Webmail/1.1.5
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
-        autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.dev.tdt.de
+ <20190704090205.19400-3-fe@dev.tdt.de>
+ <bf9c82c3-bc6e-b701-afd4-b4e657cb09be@metux.net>
+ <e4583be44ddaa1453c0caea37d73d57d@dev.tdt.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <b029d90c-06b6-a261-5cde-8034de052d7c@metux.net>
+Date:   Wed, 10 Jul 2019 15:07:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <e4583be44ddaa1453c0caea37d73d57d@dev.tdt.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:QedsUTmfx+jQYnQQMP1Zi2x49ZHzHbFgmrQho7VsqsJIETm+NdU
+ /zZSE//ROnKc8cenG5nqgJiMsb02qT8jUwGkEF6ontILnuHrXDU82aeodYoeH4Ymuu2dfDk
+ xv4SglFn3Ctow1ZY4t31fOSGEumeSyr0mxpF5hvsMpkz6uvHGCQHrdgDIce1uqcNuaibPrY
+ DIJJfNHwUG+zvWOJI5H8A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0Q7gNDk6p6I=:n34cJjHE6SMgU0GnzxdH8/
+ 3GopdLl59BRFSB8o3owh0TCTAjj8fQjBhcVrCJqGAdLEnuT0GAafqOJIbDiiOw5xy4mHG0/64
+ D2bsG7P1upu3+1zwcfKzzbPBXpDUfv6Rg5FIc454deglVPqtjLpLEm9Uz2gopJx5HWkMTtQn4
+ TOHggMlr02Wwn7Oe+zYTmEyKmJGI0sH/jCsZhk2zRCuqR8hzOIx6x5UwwsfI7ATgzpfCmQpTc
+ MQ6j7qHGUVnVRY0Jn3Sa9Z18Qi+eEOlXEFuwk7Jh4TL8qxN4r7ApPndH2f+ZNrtMUIKbemmAQ
+ QUwLT8STFScnFqgvXKIOTvY3S3LPWC9wSvmEh1Hgy2VGwYrZe3S59tbugqErO07gU5etPQCke
+ JC2i0e4IV9N2PElGbqTALqkqh37tCOeWxV9z3BDO59f/5fBxwEk46L6RdL4O3w58nl7TpuLx7
+ w9ITCJyral69KxhMtMhdDdBImjdv0xqr9r5T2wuZ6YdSPwwZf/VLFrtfMAiY+5C5ee9UHaw+n
+ Sa+6HH2rI/Qr5iwmg2/o+AvzRUXOYwCA0j1XpwhtluQbWX0vMYZRIPR2iOJd+/lhvimL5vT2K
+ yH5ZIA9lZDNZjG6TVO6ygPjChqgOi1LJ7cFMsV4UXaXplMXKz/WJZE+zOMAp0ojbuyTWoAmEK
+ fWsiqhBEsLCsk4C1rlcw5T7mZkLnQExLUN6JN6ECQQ2p/xZegf5+ICW2050nLCp/Ca0L4DNfN
+ CVu2s41qNrAAz5xJyDHKm7O1QUA4CAEYqCbPWpIV3N2cTyOpdw0tU3m8uA8=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 2019-07-08 21:45, Enrico Weigelt, metux IT consult wrote:
-> On 04.07.19 15:39, Andy Shevchenko wrote:
->> On Thu, Jul 4, 2019 at 12:02 PM Florian Eckert <fe@dev.tdt.de> wrote:
->>> 
->>> This patchset adds the following changes to this pcengines-apuv2
->>> platform device.
->>> 
->> 
->> Before doing anything to this driver, what is the plan for previously
->> upstreamed:
->> 
->> drivers/leds/leds-apu.c
+On 10.07.19 14:03, Florian Eckert wrote:
+
+> I have back ported your pcengines-apuv2 device and gpio-amd-fch GPIO
+> driver to the kernel version 4.19 on OpenWrt.
+> If I compile and load this without the change no LEDs are visible in
+> "/sys/class/leds"!
+
+Maybe this old kernel just ignored all entries w/o gpio ID. Note that
+these IDs are deprecated for quite a while and shouldn't be used in new
+code anymore.
+
+> From my point of view the connection between the GPIO and the LEDs
+> subsystem is missing.
+> How should the LED subsystem know which GPIO to use?
+
+See gpiod_lookup_table.
+
+> If I add the change to the pcengines-apuv2 device then the LEDs will be
+> visilbe under "/sys/class/leds"
+> and could be used, by OpenWrt userland.
 > 
-> Only supports the three front LEDs, nothing else. (we've got more gpios
-> that are not LEDs, eg. the front button, simsw, ...)
-> 
->> arch/x86/platform/geode/alix.c
-> 
-> completely unrelated - very different chipset.
-> 
-> 
-> --mtx
+> Mybe I miss something.
 
-I'm going to sum it all what we have
+Your patch is only valid for your backport onto this old kernel, not for
+recent mainline.
 
-ALIX family boards (https://www.pcengines.ch/alix.htm):
-CPU -> AMD Geode LX CPU
-Stays as it is different because it has a different CPU
 
-APU family boards (https://www.pcengines.ch/apu.htm):
-CPU -> AMD G series T40E APU
-Remove the related APU2 family stuff from the LEDs driver
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/leds/leds-apu.c
-this will be handled in the future by the platform device
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/pcengines-apuv2.c
-The other GPIOs are not supported by this platform. Only LEDs are 
-supported for now.
+--mtx
 
-APU2 family boards (https://www.pcengines.ch/apu2.htm):
-CPU -> AMD Embedded G series GX-412TC
-Add the additional mpcie reset pins and add additional board 
-descriptions to
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/pcengines-apuv2.c?h=v5.2#n61
-so we can distinguish between the APU2,APU3 and APU4 boards of the APU2 
-board family.
-
-My research in the pcengines documentation shows the following GPIO pins 
-for the individual boards which we can support.
-
-APU2:
-front-led1
-front-led2
-front-led3
-front-button
-mpcie2_reset
-mpcie3_reset
-
-APU3:
-front-led1
-front-led2
-front-led3
-front-button
-mpcie2_reset
-mpcie3_reset
-simswap
-
-APU4:
-front-led1
-front-led2
-front-led3
-front-button
-mpcie2_reset
-mpcie3_reset
-
-Until now we support aAPU2 and APU3 and treat it the same way. But the 
-APU2 does not have a simswap.
-
-Kind regards
-
-Florian
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
