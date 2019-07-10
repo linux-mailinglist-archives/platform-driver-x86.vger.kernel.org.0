@@ -2,49 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA2E64E6D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jul 2019 00:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEF3F645FB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jul 2019 14:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728006AbfGJWEf convert rfc822-to-8bit (ORCPT
+        id S1726642AbfGJMDm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 10 Jul 2019 18:04:35 -0400
-Received: from 50-244-196-250-static.hfc.comcastbusiness.net ([50.244.196.250]:56929
-        "EHLO hometime.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727991AbfGJWEe (ORCPT
+        Wed, 10 Jul 2019 08:03:42 -0400
+Received: from host-88-217-225-28.customer.m-online.net ([88.217.225.28]:39186
+        "EHLO mail.dev.tdt.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725911AbfGJMDm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 10 Jul 2019 18:04:34 -0400
-X-Greylist: delayed 18198 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jul 2019 18:04:22 EDT
-Received: from [100.120.45.199] ([195.181.172.132]) by hometime.com with Microsoft SMTPSVC(6.0.3790.4675);
-         Wed, 10 Jul 2019 00:54:49 -0500
-Content-Type: text/plain; charset="iso-8859-1"
+        Wed, 10 Jul 2019 08:03:42 -0400
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id 5F57D216E4;
+        Wed, 10 Jul 2019 12:03:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Greetings!
-To:     Recipients <fuqingzheng@asia.com>
-From:   fuqingzheng@asia.com
-Date:   Wed, 10 Jul 2019 07:54:14 +0200
-Reply-To: zhengfuqing@yandex.com
-X-Antivirus: Avast (VPS 190709-4, 09-07-2019), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <SBSmwmyTGe4M1jJOrYF00009312@hometime.com>
-X-OriginalArrivalTime: 10 Jul 2019 05:54:49.0534 (UTC) FILETIME=[FC47D5E0:01D536E3]
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 10 Jul 2019 14:03:40 +0200
+From:   Florian Eckert <fe@dev.tdt.de>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Eckert.Florian@googlemail.com, info@metux.net,
+        dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] platform/x86/pcengines-apuv2: add legacy leds gpio
+ definitions
+In-Reply-To: <bf9c82c3-bc6e-b701-afd4-b4e657cb09be@metux.net>
+References: <20190704090205.19400-1-fe@dev.tdt.de>
+ <20190704090205.19400-3-fe@dev.tdt.de>
+ <bf9c82c3-bc6e-b701-afd4-b4e657cb09be@metux.net>
+Message-ID: <e4583be44ddaa1453c0caea37d73d57d@dev.tdt.de>
+X-Sender: fe@dev.tdt.de
+User-Agent: Roundcube Webmail/1.1.5
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+        autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.dev.tdt.de
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good day,
+On 2019-07-08 21:42, Enrico Weigelt, metux IT consult wrote:
+> On 04.07.19 11:02, Florian Eckert wrote:
+>> Extend the apu2_leds definition to make the leds exportable via the
+>> legacy gpio subsystem.
+> 
+> What for ? The gpios are bound to LED devices as that's exactly what
+> they are: LEDs.
 
-  I have a mutual business proposal, which refers to the transfer of a large amount of money to an account abroad, with your help as a foreign partner as a beneficiary of the funds. Everything about this transaction will be legal without any bridge of financial authority both in my country and yours. If you are interested and I will give you more information about the project as soon as I receive your positive response.
+I have back ported your pcengines-apuv2 device and gpio-amd-fch GPIO 
+driver to the kernel version 4.19 on OpenWrt.
+If I compile and load this without the change no LEDs are visible in 
+"/sys/class/leds"!
 
-Best regards,
+ From my point of view the connection between the GPIO and the LEDs 
+subsystem is missing.
+How should the LED subsystem know which GPIO to use?
+If I add the change to the pcengines-apuv2 device then the LEDs will be 
+visilbe under "/sys/class/leds"
+and could be used, by OpenWrt userland.
 
-Executive Director.
- 
-ICBC. China
-
----
-Dit e-mailbericht is gecontroleerd op virussen met Avast antivirussoftware.
-https://www.avast.com/antivirus
-
+Mybe I miss something.
