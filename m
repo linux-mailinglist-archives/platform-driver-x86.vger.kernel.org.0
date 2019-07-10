@@ -2,57 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AE8663A7A
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jul 2019 20:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2C83640BE
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jul 2019 07:33:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727523AbfGISFb (ORCPT
+        id S1727123AbfGJFdd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Jul 2019 14:05:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35882 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726910AbfGISFN (ORCPT
+        Wed, 10 Jul 2019 01:33:33 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:42379 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725932AbfGJFdd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Jul 2019 14:05:13 -0400
-Subject: Re: [GIT PULL] Device properties framework updates for v5.3-rc1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562695513;
-        bh=+vNpwoN2lp1O2/h2yYLLFN2QzaPpKX+omBzKmNgf0iA=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=enKy1BDyzsr2hs0CMgLRYjkwwSaTxw0joMc7r8v2+AXT0lu2u0EBEv15+r4vv1yak
-         SQPNC9hmXR0M67h+IB6/JTtDTDRxXDsuY7ZOkdtj3TuU3MMfx+zUWHYzKdNkpTvVfg
-         e9UfHgiIpUi2x5GEh90jqZOSsEezbknZbjbI/G9g=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAJZ5v0g8O+XLjSarCiZcj0LnSZYnCqGE3D6tfFD30wOZjprb2g@mail.gmail.com>
-References: <CAJZ5v0g8O+XLjSarCiZcj0LnSZYnCqGE3D6tfFD30wOZjprb2g@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAJZ5v0g8O+XLjSarCiZcj0LnSZYnCqGE3D6tfFD30wOZjprb2g@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
- devprop-5.3-rc1
-X-PR-Tracked-Commit-Id: 33ee09cd59ce154b64f9df942dfa5456db90d5f9
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0415052db4f92b7e272fc15802ad8b8be672deea
-Message-Id: <156269551313.14383.5369373802013265503.pr-tracker-bot@kernel.org>
-Date:   Tue, 09 Jul 2019 18:05:13 +0000
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Wed, 10 Jul 2019 01:33:33 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1hl5EQ-0001zL-HT; Wed, 10 Jul 2019 05:33:31 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     eric.piel@tremplin-utc.net, dvhart@infradead.org,
+        andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH] platform/x86: hp_accel: Add support for HP ZBook 17 G5
+Date:   Wed, 10 Jul 2019 13:33:26 +0800
+Message-Id: <20190710053326.26247-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The pull request you sent on Mon, 8 Jul 2019 23:39:24 +0200:
+HP ZBook 17 G5 needs a non-standard mapping, x_inverted.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git devprop-5.3-rc1
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/platform/x86/hp_accel.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0415052db4f92b7e272fc15802ad8b8be672deea
-
-Thank you!
-
+diff --git a/drivers/platform/x86/hp_accel.c b/drivers/platform/x86/hp_accel.c
+index f61b8a176e20..cfc0e36a7a5e 100644
+--- a/drivers/platform/x86/hp_accel.c
++++ b/drivers/platform/x86/hp_accel.c
+@@ -239,6 +239,7 @@ static const struct dmi_system_id lis3lv02d_dmi_ids[] = {
+ 	AXIS_DMI_MATCH("HPB64xx", "HP EliteBook 84", xy_swap),
+ 	AXIS_DMI_MATCH("HPB65xx", "HP ProBook 65", x_inverted),
+ 	AXIS_DMI_MATCH("HPZBook15", "HP ZBook 15", x_inverted),
++	AXIS_DMI_MATCH("HPZBook17G5", "HP ZBook 17 G5", x_inverted),
+ 	AXIS_DMI_MATCH("HPZBook17", "HP ZBook 17", xy_swap_yz_inverted),
+ 	{ NULL, }
+ /* Laptop models without axis info (yet):
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.17.1
+
