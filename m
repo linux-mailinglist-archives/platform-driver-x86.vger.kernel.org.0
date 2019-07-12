@@ -2,97 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E11F666966
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 12 Jul 2019 10:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 983BD66FA1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 12 Jul 2019 15:08:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725929AbfGLIyz (ORCPT
+        id S1727291AbfGLNIH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 12 Jul 2019 04:54:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:39351 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfGLIyz (ORCPT
+        Fri, 12 Jul 2019 09:08:07 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:46567 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727335AbfGLNIH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 12 Jul 2019 04:54:55 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MC0HF-1hcGYX1ygP-00CUbG; Fri, 12 Jul 2019 10:54:40 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: pcengines-apu2 needs gpiolib
-Date:   Fri, 12 Jul 2019 10:54:16 +0200
-Message-Id: <20190712085437.4007720-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+        Fri, 12 Jul 2019 09:08:07 -0400
+Received: by mail-pl1-f193.google.com with SMTP id c2so4742627plz.13;
+        Fri, 12 Jul 2019 06:08:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a/+LlX3B3GK6gzdUV29pQh7HN2WOr3wu9bemUTyrzY8=;
+        b=E39w18PFiWeQhTjrabdORWHwdDJNL62AEaCIwYmr4jBJuWjbG/BXHIcCXAGCaraA/x
+         NaTPcxKeYs9qGJwkxlw4X4l6Tr7aVtrV7G7lFKNRfc+2fLROwyT9GOu1kDanxB54VfyV
+         +tH/enWGbzxP/znQ35j5/FWkec/QqeccAP3x5YipIuidSYcwzEqpJI56zEispYp7JNml
+         AVv5wVEHaxd2MROzG2314YMqJnR7j35HkSWjFuC0mrMu/hjhNi6IYMbKY2tzgvrWhnk7
+         hYjOgfnmHRWwR7iv6se6IwQ8qvA83qVSGQ+PxZr/CQyFI/Peduas6HYRrdkH4WYLWvWz
+         mQ1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a/+LlX3B3GK6gzdUV29pQh7HN2WOr3wu9bemUTyrzY8=;
+        b=T78TMh390lxX2iQcAUSAezetj7839pffm12BHya1b0Z0r7X2JZel3Mm43kQY1ZBKcc
+         HbSaRmDg5BW5WnVQvD1WVV7q/tbEIG+hViX9hNSFjnSO4oOH5pkyLGlr9zG6tEYwGlCN
+         hxht+zsbTdEA3yaFeBV0MeEe4x5GBGPFfGU1A4bTw6NVwsAcSTd/9EWvf5DBglGFiHSA
+         Hay3txo32wXN92oBUJaIfcFdc/M+hk9dyBB3n4sQrC8fnha0jIs2fuMN4kweDjppuFub
+         wDkDQGcSGWWvmHrQ0VI1SUx0hG/LMA2AMuWmeKYBDVwQGZ+gQlOsI5qG0WXwzXBzXzX7
+         NrJw==
+X-Gm-Message-State: APjAAAW1Bk+aMub6133vCZLACwuJMSDHe5zRNUfwA9FOMMGQDekKHbmF
+        jQtURxFmMvCTqet8H59gV3NKN7JLvEFB4/B1SPI=
+X-Google-Smtp-Source: APXvYqxSh6cQ1p47C7VHrhPhOFVjMS3zMNLTF75N1+ZULg2+Xs0sNUU8YkwS0FTHfB+jrdYvPzv5Pgj/5ks9F+e0MS4=
+X-Received: by 2002:a17:902:9349:: with SMTP id g9mr11230348plp.262.1562936886935;
+ Fri, 12 Jul 2019 06:08:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q5tPZJu9QNhMvB+Wjc3nD4+lt6P94lxXdaRle25TJJYOM/GHoiD
- /Ck9YlzlpO5LarKonCtXtY6s32D3RHStZ/uUlKcxN5hl6/5Q8d/8zFb2B4tCpX3rh/3EC7F
- prAVYFM+3zsSaFDP4Yf0HX1G1fSaPq787L7KWXquFwxEpl0DIvcpTwdL62bd+OPqmI3BF3W
- V5C2Cui+oFBnuSwh3lXeg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UryBGBMeQx4=:kSGxr+DizaqVDm43tZ3n4N
- 1/ubNIVL20pMkt/p5VJw0mi1kSmHkbWNqF1KNp/+CdZ7CtN9NyLpnwAkyl/ZqodCHm4de/IpB
- r1uA5TZZazzo0Pr4dqco8Mn7EJW/C7joDbzjB/RklUZpiIWmSt4GutOOagb028hift7Js602J
- WZZ6G694HH44qLQQ6ba5fb7ofpQ3bY6u/sWC35PoSCDLM/fmrhFaVBpyd8wRpeef1TZkdVPtH
- E+MBT+ergUp39Q+6HEhf6V4XWfcJifcVk+yWyW8sc2oK8kBf2aIV68i+jxERDjDwKSb9BYNpe
- m7z+XmVRrzbDDj7NSqvqIoUqfv1Hzykf5/kNuYE0o/04VkPZBxPILkc1TZm1gAK5AXduhxddb
- j+D5R5hNmharF2JSQrAEi9jmgDSHY6haYX5ghczeXbOsQCi+6dgX2qa9+o3c3acqQ+6ToWO+E
- 8njWP05diZlWuu2RNw83lTew3NQBysGjkG7n+UqTiXuKQmcFJ9Wvdavfu5F/DdyzGmH9uWcJK
- JnRBLrUm/2Gpu1SGTZgGmp611f5rNQjtp+f3TF1ipq8QCbC6vUrGQiKv0Rz9GUaL3E+FkPnfq
- i9ONNp8WCM7kelzX/rIB6z8t1KnK7kqXaHULkK6CHgxUNQOG2O5Y6f8GMScvupRh44c9dVgBW
- wiWTHD4luwvayUctO4hxX3SjbTupBAeGozktuTdq11NQTCD91ixWsd+GG5Xi9P06pV7smJJee
- 3PnvsgeYyL3rORargUuokfIjbkCnQp/hOtDA3w==
+References: <20190709013842.17344-1-weiyongjun1@huawei.com>
+In-Reply-To: <20190709013842.17344-1-weiyongjun1@huawei.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 12 Jul 2019 16:07:55 +0300
+Message-ID: <CAHp75Vf5_UjW6mXhn-rLPNjSaeRTJt7GGaseTXObk3t5HO-CLw@mail.gmail.com>
+Subject: Re: [PATCH -next] platform/x86: mlx-platform: Fix error handling in mlxplat_init()
+To:     Wei Yongjun <weiyongjun1@huawei.com>
+Cc:     Vadim Pasternak <vadimp@mellanox.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I ran into another build issue in randconfig testing for this driver,
-when CONFIG_GPIOLIB is not set:
+On Tue, Jul 9, 2019 at 4:32 AM Wei Yongjun <weiyongjun1@huawei.com> wrote:
+>
+> Add the missing platform_device_unregister() before return
+> from mlxplat_init() in the error handling case.
+>
 
-WARNING: unmet direct dependencies detected for GPIO_AMD_FCH
-  Depends on [n]: GPIOLIB [=n] && HAS_IOMEM [=y]
-  Selected by [y]:
-  - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+Applied, thanks!
 
-WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
-  Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=y] && GPIOLIB [=n]
-  Selected by [y]:
-  - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+> Fixes: 6b266e91a071 ("platform/x86: mlx-platform: Move regmap initialization before all drivers activation")
+> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+> ---
+>  drivers/platform/x86/mlx-platform.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
+> index 2b98f299faa4..8fe51e43f1bc 100644
+> --- a/drivers/platform/x86/mlx-platform.c
+> +++ b/drivers/platform/x86/mlx-platform.c
+> @@ -2111,7 +2111,7 @@ static int __init mlxplat_init(void)
+>                                         mlxplat_regmap_config);
+>         if (IS_ERR(priv->regmap)) {
+>                 err = PTR_ERR(priv->regmap);
+> -               return err;
+> +               goto fail_alloc;
+>         }
+>
+>         err = mlxplat_mlxcpld_verify_bus_topology(&nr);
+>
+>
+>
 
-Make the 'select' statements conditional on that so we don't have to
-introduce another 'select'.
 
-Fixes: f8eb0235f659 ("x86: pcengines apuv2 gpio/leds/keys platform driver")
-Fixes: a422bf11bdb4 ("platform/x86: fix PCENGINES_APU2 Kconfig warning")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/platform/x86/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index e869a5c760b6..cf48b9068843 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1324,8 +1324,8 @@ config PCENGINES_APU2
- 	tristate "PC Engines APUv2/3 front button and LEDs driver"
- 	depends on INPUT && INPUT_KEYBOARD
- 	depends on LEDS_CLASS
--	select GPIO_AMD_FCH
--	select KEYBOARD_GPIO_POLLED
-+	select GPIO_AMD_FCH if GPIOLIB
-+	select KEYBOARD_GPIO_POLLED if GPIOLIB
- 	select LEDS_GPIO
- 	help
- 	  This driver provides support for the front button and LEDs on
 -- 
-2.20.0
-
+With Best Regards,
+Andy Shevchenko
