@@ -2,50 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B5467AED
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 13 Jul 2019 17:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7FB68044
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 14 Jul 2019 18:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727809AbfGMPfC (ORCPT
+        id S1728278AbfGNQlh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 13 Jul 2019 11:35:02 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:46960 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbfGMPfC (ORCPT
+        Sun, 14 Jul 2019 12:41:37 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33742 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728065AbfGNQlg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 13 Jul 2019 11:35:02 -0400
-Received: by mail-qt1-f195.google.com with SMTP id h21so11326583qtn.13;
-        Sat, 13 Jul 2019 08:35:01 -0700 (PDT)
+        Sun, 14 Jul 2019 12:41:36 -0400
+Received: by mail-pl1-f194.google.com with SMTP id c14so7081369plo.0;
+        Sun, 14 Jul 2019 09:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3tsgI+YnFBKPFTQcdJwOqGeZBvFRLcOBoUybbZFi6xE=;
+        b=sIk6+R6AqIL9yxIMC9QTUhR4s8lNAczsIDjB+X5Mw0QyAmIRs2oQBlGGKjYwslUtl7
+         YHP+wR55Ilh2IXFfpCJLHhd99xDrVjP1GuSDfXqQTUonlNf+Ho82VbfS+P1szVqR0nVq
+         iVHy5pS9J2Nu8DCdEwWBW1IJ57oCcu0sLliq0MuO36fja5z5a5dTixoAQT+3bEJWkSoY
+         lnSc8NIHLm1xda2MWt7KCcwBNJRbq9ml+7mRmT85JsnfA4a+YGoAxmEQqFa20S59TBMc
+         CywQL6UosZvWfUwIn/IIGEwBmsvoBGYpkS0YRlg2q8CJClTmkZpzpoHNbNVWVrVlbR+e
+         Xgbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/VYOF52fJvexeKbOu9BKHZH1XPWQ9fg20nK1W0PVBPU=;
-        b=N6ZDCY84nmzm9o9fc7+bE+lRW3ZudNjOdihqZm35ZDybQ2EK7Uw+a5GsYJII3bHlrU
-         EsfdA3RToVDtZqZbfMEcpsSVGZGv3CFPjk5YjDp13LsuKbz9eemIVTH6NKm4i8kmKHPZ
-         aLrdI0Pnl71pTcafFbqwq+CpgyDNsglyHeIoPkfhPWe8QVxQwc1XXvC4fc/aUJcfQ7we
-         mIWm0vTPRSfRxvCOtxr+MlZUmokd8d48ZeY9KeN74APgzxN38aNcVdFAYeY8ANyj/V/F
-         wO2RLlZIzC499COdaI9tI+cLPuTOsZ3ZR/q/ejSog28ZoUGuPfvy/EADynjoElSFbeEG
-         iOfA==
-X-Gm-Message-State: APjAAAVONo95XOuRy1gfwTtFQVEPStdc49UQMkHJQWFN0KwKpVxjKHXY
-        v7KzCqCvVOORi14AwRJmfGgnW6xn4HyY/b9lJ44=
-X-Google-Smtp-Source: APXvYqx27JWKTE5WBop/U7bMtyQP/Kzr2bIFkryE+f5lOFq7JP5QSUbQfKs8QOW9ZjZHS4O4f+3uLloLQ3C7fGXHhRU=
-X-Received: by 2002:a0c:b88e:: with SMTP id y14mr11211808qvf.93.1563032100815;
- Sat, 13 Jul 2019 08:35:00 -0700 (PDT)
+        bh=3tsgI+YnFBKPFTQcdJwOqGeZBvFRLcOBoUybbZFi6xE=;
+        b=Q8k2PchNiJY36wYiyOLvpkg5WjAiHlre+Xn05zTrRnZzzCKnQaOeU9NiUzTtpXOpGh
+         o88qFOJCsJjUk0OP7QijHw32pcrq1TiXLBfsJpT4vaKGnZ2sAJ3EdPXgCxnSfHZIxGs8
+         /6wuQl5bXqIJ3xpm62Rev5zujyjNdeOSavVsQi579cGRX8aepVbrlJbbz3vCPSa4ywVS
+         8SyzXlZk42kU8KhwSsw4O7AO/xqmPtP7a5Y6JeGFmWaYFBSVCweEJOSN1h25by+9Euew
+         Z1inStfUl7j5FmKmTIMmKNTbjPGzxHpz1mvT52LcvEBekKPnfbWv/kdKE10CextkTXs5
+         Ku/g==
+X-Gm-Message-State: APjAAAULhsaTTMpsgSypVXDAMdTtlh+Otwv3ZrQtSdahnOnJiZTa7Ikl
+        BxF8QqwxIXDp8FMMg4MAIxLJsUzeYq8JpCiO+FU=
+X-Google-Smtp-Source: APXvYqx02xvUcnfyIvid7VBxGy85lExJKLWKmAhi3Cyh9/8zlXcpy0UrEUyGDqNsCITVR6cT+uSNJP8aXpGGsN6T9Gw=
+X-Received: by 2002:a17:902:934a:: with SMTP id g10mr24051874plp.18.1563122495946;
+ Sun, 14 Jul 2019 09:41:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712085437.4007720-1-arnd@arndb.de> <fb36b507-e637-e4d9-fdd4-2947eb7faf14@metux.net>
-In-Reply-To: <fb36b507-e637-e4d9-fdd4-2947eb7faf14@metux.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 13 Jul 2019 17:34:44 +0200
-Message-ID: <CAK8P3a3SPpQAbXu5+rHjEaF-MSVxVmG9sWy9hxu844HKn8JgLg@mail.gmail.com>
+References: <20190712085437.4007720-1-arnd@arndb.de>
+In-Reply-To: <20190712085437.4007720-1-arnd@arndb.de>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 14 Jul 2019 19:41:25 +0300
+Message-ID: <CAHp75VfGs9v_YoAfFcsQphqfR3-i+vb_2aS5GijJ8PgG5W0CWg@mail.gmail.com>
 Subject: Re: [PATCH] platform/x86: pcengines-apu2 needs gpiolib
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+To:     Arnd Bergmann <arnd@arndb.de>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
         "Enrico Weigelt, metux IT consult" <info@metux.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
@@ -56,35 +66,56 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jul 13, 2019 at 4:36 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
-> On 12.07.19 10:54, Arnd Bergmann wrote:
-> > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> > index e869a5c760b6..cf48b9068843 100644
-> > --- a/drivers/platform/x86/Kconfig
-> > +++ b/drivers/platform/x86/Kconfig
-> > @@ -1324,8 +1324,8 @@ config PCENGINES_APU2
-> >       tristate "PC Engines APUv2/3 front button and LEDs driver"
-> >       depends on INPUT && INPUT_KEYBOARD
-> >       depends on LEDS_CLASS
-> > -     select GPIO_AMD_FCH
-> > -     select KEYBOARD_GPIO_POLLED
-> > +     select GPIO_AMD_FCH if GPIOLIB
-> > +     select KEYBOARD_GPIO_POLLED if GPIOLIB
-> >       select LEDS_GPIO
-> >       help
-> >         This driver provides support for the front button and LEDs on
+On Fri, Jul 12, 2019 at 11:54 AM Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> That might compile but the driver won't work, if KEYBOARD_GPIO_POLLED
-> or GPIO_AMD_FCH isn't there.
+> I ran into another build issue in randconfig testing for this driver,
+> when CONFIG_GPIOLIB is not set:
+>
+> WARNING: unmet direct dependencies detected for GPIO_AMD_FCH
+>   Depends on [n]: GPIOLIB [=n] && HAS_IOMEM [=y]
+>   Selected by [y]:
+>   - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+>
+> WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
+>   Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=y] && GPIOLIB [=n]
+>   Selected by [y]:
+>   - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+>
+> Make the 'select' statements conditional on that so we don't have to
+> introduce another 'select'.
+>
 
-Right, I agree it's a bit inconsistent. A better way would probably
-be to turn all of the 'select' statements into 'depends on' here, or
-possibly just remove them and document in the help text what others
-are required.
+Thanks, I have applied the fix from YueHaibing, the idea is to depened
+on GPIOLIB.
 
-Generally using 'select' in order to save users from thinking causes
-more problems than it helps, as the build problems in this driver
-have already illustrated.
 
-      Arnd
+> Fixes: f8eb0235f659 ("x86: pcengines apuv2 gpio/leds/keys platform driver")
+> Fixes: a422bf11bdb4 ("platform/x86: fix PCENGINES_APU2 Kconfig warning")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/platform/x86/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index e869a5c760b6..cf48b9068843 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -1324,8 +1324,8 @@ config PCENGINES_APU2
+>         tristate "PC Engines APUv2/3 front button and LEDs driver"
+>         depends on INPUT && INPUT_KEYBOARD
+>         depends on LEDS_CLASS
+> -       select GPIO_AMD_FCH
+> -       select KEYBOARD_GPIO_POLLED
+> +       select GPIO_AMD_FCH if GPIOLIB
+> +       select KEYBOARD_GPIO_POLLED if GPIOLIB
+>         select LEDS_GPIO
+>         help
+>           This driver provides support for the front button and LEDs on
+> --
+> 2.20.0
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
