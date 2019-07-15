@@ -2,116 +2,272 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 952D169B33
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Jul 2019 21:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF8B69C02
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Jul 2019 22:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729525AbfGOTLZ (ORCPT
+        id S1732697AbfGOUBF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 Jul 2019 15:11:25 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:34922 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729432AbfGOTLZ (ORCPT
+        Mon, 15 Jul 2019 16:01:05 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:34122 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732737AbfGOUBD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 Jul 2019 15:11:25 -0400
-Received: by mail-ed1-f68.google.com with SMTP id w20so16518656edd.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Jul 2019 12:11:24 -0700 (PDT)
+        Mon, 15 Jul 2019 16:01:03 -0400
+Received: by mail-qt1-f201.google.com with SMTP id p34so15867589qtp.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Jul 2019 13:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rZ3XbJ3vO7+s1ZW42UKXro4p0M2GhlRNqkmKy9Kee7o=;
-        b=AS++UnAZZDHugdcthdfv3rXops+zn1jgg0HJmj/zdbSGzKMLj9zK8e/tfci1i5IC8J
-         XXUdOBSn0xRqKATYYEPGeHWlxmMMel+Uu9EYwDWfSa553ae7pJWVET4z4qzu5dez2LDU
-         0xIrOgYSxkNJRll3xzAnnr8Ov1KPNv4+/VATNQjdmKb+7sP3idBog5rsOXp8n9h6gmNP
-         yUGqsFq6zmVYxRc6e54sM0ipKWa4qIBave80x6VquOWb2GVsEGYGVny5TQ2wGzLJLZRm
-         vTMoBH3Buv7JWexjoYpH1jLSn8rLE+rXEok6GVz7uADU5K10Ek+cliq0xHmI8MuUGr6h
-         vhaw==
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=5rLBbkLuWE6Uq5BhJGP2mx4VNNWNNoOxTMDsDFqoaow=;
+        b=CHuZx8WQeViTXz0nQj0pyeMBJBBDdj/FPWpXCYtIJ686MTm2IbzT71dmVobUGZmgcR
+         mD/l2lyX8wXGxsMUd1szrEHIxDZSqyfVF7BvcxCtEDFndg1+ujTt2FGhWRBagOkyRmv/
+         LWJAx9mXSUcnyRIOwKtMBnHNe7NDbGzZQ14Sso5YKorV6irYEG3aMlxIfC6X2iwwslb4
+         kO/7QHinm0pnkTaPWvODGyiLAuoZa0F+LcPsncRvSvRLmqIBGLdqEO0s7wUIP4KKrOP3
+         jeDuM8Qj0quhoXY+lciMolxyGAXSL1EYeQiyi6d8DTE6hjh3HMFe/SuDh9WIBrVWOq2u
+         Binw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rZ3XbJ3vO7+s1ZW42UKXro4p0M2GhlRNqkmKy9Kee7o=;
-        b=oYDPaF/ONz2iVSxknJWegDrYSSKW60jLu/WSQzsMqeO8gmnO0KjD3YsQqSjcbApTda
-         n0nw19f3S2Hh6KZkCzP1iplmuEvrQKcUYmcXvpcpGzJm7uPmA0BPouDt4Zqs8Goc8I1/
-         oyGhEbj6dBOhrH6Kka9pADsyGKOURkK4ehfJ2Uotuatr8DFrs+dpshOl57rBLLzjL1HR
-         g+U2gGulQLCaeelabneXntJmU6ZueZkmFgfpfCFHVqFQSCJ+H3LsxPD0ksXeQesqspwy
-         PiPBu0J+STgBuIlbymjkWsXg1BY5wTr+vejK8DT9/qEPs31+YwjvRFgX6jeMoEYcZw9y
-         LyRQ==
-X-Gm-Message-State: APjAAAXnQxrkKOjN2PGFu/nANAxcNAhUettbOeBx7UEVjWb/5jB0xX4+
-        Q6ReyNMrQVS5iRLLSO0cbGK2hV6r
-X-Google-Smtp-Source: APXvYqw3U7XVpnzQvJHg2qGA189IF5URbfoLAwMP8b5BJ4LFpdNnheT+wwJ3jLF6nyo9cyuu5Gmc0g==
-X-Received: by 2002:a17:906:3919:: with SMTP id f25mr21511408eje.243.1563217883957;
-        Mon, 15 Jul 2019 12:11:23 -0700 (PDT)
-Received: from [192.168.20.141] ([194.99.104.18])
-        by smtp.gmail.com with ESMTPSA id z9sm5577563edd.53.2019.07.15.12.11.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 12:11:23 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: asus: Rename "fan mode" to "fan boost mode"
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Daniel Drake <drake@endlessm.com>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Upstreaming Team <linux@endlessm.com>
-References: <20190715064104.4514-1-drake@endlessm.com>
- <CAHp75Ve1oV5urnZOth-99qiWZO54ehBQhP6u54oumqHs8F8pzQ@mail.gmail.com>
-From:   Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
-Message-ID: <de877e84-a758-1b28-bfa9-ba2e621fc321@gmail.com>
-Date:   Mon, 15 Jul 2019 21:11:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <CAHp75Ve1oV5urnZOth-99qiWZO54ehBQhP6u54oumqHs8F8pzQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=5rLBbkLuWE6Uq5BhJGP2mx4VNNWNNoOxTMDsDFqoaow=;
+        b=PII6DSlhtZ7Y7Owf6woRrbhhqeGtF9WD4R7IEObIL2nFt0jzyWpXinj9kgTqSu4XPu
+         Ls5x/i/gzdo5sd65KweIJyZRW1dV94xdsTG8NUyVCrBozBN3YycOTGsxlIsfFUx6Md14
+         KHSc+A8nCHfQYmJdrKgbed6ptvw4wHRpkSeIPnXqMXT7wn44a8kQ8g/KAHDAoAWfmcc6
+         kDKR4NYp4sfyM3YlvLVvPNrrX4Rcv/UHuvcq3nmwx1lejBF2D5VB6e03TkGor4ThFHZ6
+         nGFlfcSYKnK7HK6DhLYRiLdoTtm4hgNkoUqnJdzgRAEPoB+Ax1wLHCxanuwM1BTRo3Rm
+         MSGg==
+X-Gm-Message-State: APjAAAX3s0Qt4MiaY9Xna9HHjMMHn45wC7934Ewre6y/0kv8tD4B2HMS
+        +wK4rylgIov9g/sLDa3mCD+e1Yn+wGUN5qmB41WskQ==
+X-Google-Smtp-Source: APXvYqztbYXmeq/Gu/+l2HVW/qUZmfeRu26r6ei9F/1qCLL5FdhEcGj/z53+mlrrRKThXz0wUkxgCYWUu3FPxO6zXHu0IQ==
+X-Received: by 2002:ac8:38c5:: with SMTP id g5mr19819458qtc.299.1563220862265;
+ Mon, 15 Jul 2019 13:01:02 -0700 (PDT)
+Date:   Mon, 15 Jul 2019 12:59:43 -0700
+In-Reply-To: <20190715195946.223443-1-matthewgarrett@google.com>
+Message-Id: <20190715195946.223443-27-matthewgarrett@google.com>
+Mime-Version: 1.0
+References: <20190715195946.223443-1-matthewgarrett@google.com>
+X-Mailer: git-send-email 2.22.0.510.g264f2c817a-goog
+Subject: [PATCH V35 26/29] debugfs: Restrict debugfs when the kernel is locked down
+From:   Matthew Garrett <matthewgarrett@google.com>
+To:     jmorris@namei.org
+Cc:     linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        David Howells <dhowells@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Matthew Garrett <matthewgarrett@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+From: David Howells <dhowells@redhat.com>
 
-it is reasonable that this should be renamed to "fan boost mode" if there is
-some other functionality that causes / will cause name conflict. It is
-definitely called so by the vendor. The reason I shortened it was to save typing
-as I thought that the extra word was for marketing purposes only.
+Disallow opening of debugfs files that might be used to muck around when
+the kernel is locked down as various drivers give raw access to hardware
+through debugfs.  Given the effort of auditing all 2000 or so files and
+manually fixing each one as necessary, I've chosen to apply a heuristic
+instead.  The following changes are made:
 
-Thanks,
-Yurii
+ (1) chmod and chown are disallowed on debugfs objects (though the root dir
+     can be modified by mount and remount, but I'm not worried about that).
 
-On 15.07.19 11:48, Andy Shevchenko wrote:
-> On Mon, Jul 15, 2019 at 9:41 AM Daniel Drake <drake@endlessm.com> wrote:
->>
->> The Asus WMI spec indicates that the function being controlled here
->> is called "Fan Boost Mode". The spec uses the term "fan mode" is used to
->> refer to other things, including functionality expected to appear on
->> future products.
->>
->> Rename "fan mode" to "fan boost mode" to improve consistency with the
->> spec and to avoid a future naming conflict.
->>
->> There is no interface breakage here since this has yet to be included
->> in an official kernel release. I also updated the kernel version listed
->> under ABI accordingly.
-> 
-> I would like to see if you have a consensus on this with Yurii. And by
-> some reason I didn't hear Corentin for some time.
-> 
->> Please consider for Linux-5.3, otherwise we'd have an official released
->> kernel using the "fan_mode" name which would be more controversial to
->> change later.
-> 
-> I am wondering why no one commented on this before...
-> 
->> -What:          /sys/devices/platform/<platform>/fan_mode
->> +What:          /sys/devices/platform/<platform>/fan_boost_mode
-> 
->>  Date:          Apr 2019
->> -KernelVersion: 5.2
->> +KernelVersion: 5.3
-> 
-> Probably date should be changed as well.
-> 
+ (2) When the kernel is locked down, only files with the following criteria
+     are permitted to be opened:
+
+	- The file must have mode 00444
+	- The file must not have ioctl methods
+	- The file must not have mmap
+
+ (3) When the kernel is locked down, files may only be opened for reading.
+
+Normal device interaction should be done through configfs, sysfs or a
+miscdev, not debugfs.
+
+Note that this makes it unnecessary to specifically lock down show_dsts(),
+show_devs() and show_call() in the asus-wmi driver.
+
+I would actually prefer to lock down all files by default and have the
+the files unlocked by the creator.  This is tricky to manage correctly,
+though, as there are 19 creation functions and ~1600 call sites (some of
+them in loops scanning tables).
+
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+cc: acpi4asus-user@lists.sourceforge.net
+cc: platform-driver-x86@vger.kernel.org
+cc: Matthew Garrett <mjg59@srcf.ucam.org>
+cc: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Matthew Garrett <matthewgarrett@google.com>
+---
+ fs/debugfs/file.c            | 30 ++++++++++++++++++++++++++++++
+ fs/debugfs/inode.c           | 32 ++++++++++++++++++++++++++++++--
+ include/linux/security.h     |  1 +
+ security/lockdown/lockdown.c |  1 +
+ 4 files changed, 62 insertions(+), 2 deletions(-)
+
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index 93e4ca6b2ad7..87846aad594b 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -19,6 +19,7 @@
+ #include <linux/atomic.h>
+ #include <linux/device.h>
+ #include <linux/poll.h>
++#include <linux/security.h>
+ 
+ #include "internal.h"
+ 
+@@ -136,6 +137,25 @@ void debugfs_file_put(struct dentry *dentry)
+ }
+ EXPORT_SYMBOL_GPL(debugfs_file_put);
+ 
++/*
++ * Only permit access to world-readable files when the kernel is locked down.
++ * We also need to exclude any file that has ways to write or alter it as root
++ * can bypass the permissions check.
++ */
++static bool debugfs_is_locked_down(struct inode *inode,
++				   struct file *filp,
++				   const struct file_operations *real_fops)
++{
++	if ((inode->i_mode & 07777) == 0444 &&
++	    !(filp->f_mode & FMODE_WRITE) &&
++	    !real_fops->unlocked_ioctl &&
++	    !real_fops->compat_ioctl &&
++	    !real_fops->mmap)
++		return false;
++
++	return security_locked_down(LOCKDOWN_DEBUGFS);
++}
++
+ static int open_proxy_open(struct inode *inode, struct file *filp)
+ {
+ 	struct dentry *dentry = F_DENTRY(filp);
+@@ -147,6 +167,11 @@ static int open_proxy_open(struct inode *inode, struct file *filp)
+ 		return r == -EIO ? -ENOENT : r;
+ 
+ 	real_fops = debugfs_real_fops(filp);
++
++	r = debugfs_is_locked_down(inode, filp, real_fops);
++	if (r)
++		goto out;
++
+ 	real_fops = fops_get(real_fops);
+ 	if (!real_fops) {
+ 		/* Huh? Module did not clean up after itself at exit? */
+@@ -272,6 +297,11 @@ static int full_proxy_open(struct inode *inode, struct file *filp)
+ 		return r == -EIO ? -ENOENT : r;
+ 
+ 	real_fops = debugfs_real_fops(filp);
++
++	r = debugfs_is_locked_down(inode, filp, real_fops);
++	if (r)
++		goto out;
++
+ 	real_fops = fops_get(real_fops);
+ 	if (!real_fops) {
+ 		/* Huh? Module did not cleanup after itself at exit? */
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index 042b688ed124..7b975dbb2bb4 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -26,6 +26,7 @@
+ #include <linux/parser.h>
+ #include <linux/magic.h>
+ #include <linux/slab.h>
++#include <linux/security.h>
+ 
+ #include "internal.h"
+ 
+@@ -35,6 +36,32 @@ static struct vfsmount *debugfs_mount;
+ static int debugfs_mount_count;
+ static bool debugfs_registered;
+ 
++/*
++ * Don't allow access attributes to be changed whilst the kernel is locked down
++ * so that we can use the file mode as part of a heuristic to determine whether
++ * to lock down individual files.
++ */
++static int debugfs_setattr(struct dentry *dentry, struct iattr *ia)
++{
++	int ret = security_locked_down(LOCKDOWN_DEBUGFS);
++
++	if (ret && (ia->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)))
++		return ret;
++	return simple_setattr(dentry, ia);
++}
++
++static const struct inode_operations debugfs_file_inode_operations = {
++	.setattr	= debugfs_setattr,
++};
++static const struct inode_operations debugfs_dir_inode_operations = {
++	.lookup		= simple_lookup,
++	.setattr	= debugfs_setattr,
++};
++static const struct inode_operations debugfs_symlink_inode_operations = {
++	.get_link	= simple_get_link,
++	.setattr	= debugfs_setattr,
++};
++
+ static struct inode *debugfs_get_inode(struct super_block *sb)
+ {
+ 	struct inode *inode = new_inode(sb);
+@@ -369,6 +396,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
+ 	inode->i_mode = mode;
+ 	inode->i_private = data;
+ 
++	inode->i_op = &debugfs_file_inode_operations;
+ 	inode->i_fop = proxy_fops;
+ 	dentry->d_fsdata = (void *)((unsigned long)real_fops |
+ 				DEBUGFS_FSDATA_IS_REAL_FOPS_BIT);
+@@ -532,7 +560,7 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
+ 	}
+ 
+ 	inode->i_mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
+-	inode->i_op = &simple_dir_inode_operations;
++	inode->i_op = &debugfs_dir_inode_operations;
+ 	inode->i_fop = &simple_dir_operations;
+ 
+ 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+@@ -632,7 +660,7 @@ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
+ 		return failed_creating(dentry);
+ 	}
+ 	inode->i_mode = S_IFLNK | S_IRWXUGO;
+-	inode->i_op = &simple_symlink_inode_operations;
++	inode->i_op = &debugfs_symlink_inode_operations;
+ 	inode->i_link = link;
+ 	d_instantiate(dentry, inode);
+ 	return end_creating(dentry);
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 8ef366de70b0..d92323b44a3f 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -115,6 +115,7 @@ enum lockdown_reason {
+ 	LOCKDOWN_TIOCSSERIAL,
+ 	LOCKDOWN_MODULE_PARAMETERS,
+ 	LOCKDOWN_MMIOTRACE,
++	LOCKDOWN_DEBUGFS,
+ 	LOCKDOWN_INTEGRITY_MAX,
+ 	LOCKDOWN_KCORE,
+ 	LOCKDOWN_KPROBES,
+diff --git a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+index e43c9d001e49..37ef46320ef4 100644
+--- a/security/lockdown/lockdown.c
++++ b/security/lockdown/lockdown.c
+@@ -30,6 +30,7 @@ static char *lockdown_reasons[LOCKDOWN_CONFIDENTIALITY_MAX+1] = {
+ 	[LOCKDOWN_TIOCSSERIAL] = "reconfiguration of serial port IO",
+ 	[LOCKDOWN_MODULE_PARAMETERS] = "unsafe module parameters",
+ 	[LOCKDOWN_MMIOTRACE] = "unsafe mmio",
++	[LOCKDOWN_DEBUGFS] = "debugfs access",
+ 	[LOCKDOWN_INTEGRITY_MAX] = "integrity",
+ 	[LOCKDOWN_KCORE] = "/proc/kcore access",
+ 	[LOCKDOWN_KPROBES] = "use of kprobes",
+-- 
+2.22.0.510.g264f2c817a-goog
+
