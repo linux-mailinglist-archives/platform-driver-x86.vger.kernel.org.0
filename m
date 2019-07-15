@@ -2,69 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2056882B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Jul 2019 13:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADFBC688C9
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Jul 2019 14:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729867AbfGOL2U (ORCPT
+        id S1729948AbfGOMPx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 Jul 2019 07:28:20 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38555 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729533AbfGOL2U (ORCPT
+        Mon, 15 Jul 2019 08:15:53 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:33059 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729946AbfGOMPx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 Jul 2019 07:28:20 -0400
-Received: by mail-pg1-f193.google.com with SMTP id z75so7570056pgz.5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 15 Jul 2019 04:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=R/z9C++HzdZHJokF8YQvAcRfrfxDb5Hvo0pKZKIfP9w=;
-        b=OzIg1VAJeIMJB/Y4canIFVMJdBPAmx4ga7UEOMcfZQyj7eCFMOT+bze3hADVIlEDK9
-         fzZzqmcdcLtzpuKf9IJRXA87DitaU5WpRehiiHhUXKeOxaIWVyps40jqFom4IVEM1OEr
-         dRjPFDLEUx1ec32Qoh5cxbgYedj3CoL49Bf3CHD2G7rF/prATd/UBVIDrbXBk0qt3ezB
-         j6ktlzPpegpoDgZXwnJ9M0guCMQv7/LLWwWNpREZeo1w36HzCFkZws3fbJSdip4DP7PU
-         G4qt79sRQmfk1tldX/TpDMBDQnIrepPazwR/vppJn4zTHahNt3Y0KIxFJ9W/DlHZCIQx
-         TnMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=R/z9C++HzdZHJokF8YQvAcRfrfxDb5Hvo0pKZKIfP9w=;
-        b=S7x4X6vQhLyOn3KRhCc09tKReMCCD1ZjZT2qDq/JbMmpRoKcpGU5zRvmdCWBkwDMmU
-         scqWIHXkrPz17L4zf1limhs9IG9aE0xVaEzE8v0MntQw4LXAZ99C0hTX4VriYHJ+n7VT
-         pgajO8eaS45/kQ85sq6dnMvus8O7MIw/RCnV5DSLKy9IdrWcRkbc2rfx56eUzFz49oCW
-         iouuxm+sjPnTVARAxJXTx9DRU7szCkfeb3UMinM2xh5fQYd2NseSRR65Q/qHoEPewjmz
-         pS3n8fFmNsvxYAX3zbsyEv13w/RQvFx+/1ubvpcUlzADq1OsN4k0/ZSLUsHJHgadCDPz
-         R+cA==
-X-Gm-Message-State: APjAAAUxcKGyZLe0Y5gBGvIYbOT1KNieXs3r/UZpgZuxW4wpUH4u/f39
-        BSdslUSOweHBuAjokkLVghhD6VuujoRAgpJJjGA=
-X-Google-Smtp-Source: APXvYqx17d1zjR90FafKotRU0qdG2/z0skghY6FM2kcIabvgdPoBeovDCeMoTagwqC0SrzIwWwXuX6pHvnMo1pkgd5I=
-X-Received: by 2002:a17:90a:ad93:: with SMTP id s19mr28685960pjq.36.1563190099759;
- Mon, 15 Jul 2019 04:28:19 -0700 (PDT)
+        Mon, 15 Jul 2019 08:15:53 -0400
+Received: from [192.168.1.110] ([95.118.111.244]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mate1-1iKwry29lL-00cQf8; Mon, 15 Jul 2019 14:15:45 +0200
+Subject: Re: [PATCH 1/3] platform/x86/pcengines-apuv2: add mpcie reset gpio
+ export
+To:     Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
+        info@metux.net, dvhart@infradead.org, andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190704090205.19400-1-fe@dev.tdt.de>
+ <20190704090205.19400-2-fe@dev.tdt.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <3e98bbd8-c051-4996-fc5a-88a58a2fa2d4@metux.net>
+Date:   Mon, 15 Jul 2019 14:15:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Received: by 2002:a17:90a:8c14:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:28:19
- -0700 (PDT)
-From:   John Jacob <jjacobvsusa@gmail.com>
-Date:   Mon, 15 Jul 2019 04:28:19 -0700
-Message-ID: <CAKZDKkBVzA=XACjiNNHnNJ2zsTJTEgZvr-iBPUU6iqitEdY3Fg@mail.gmail.com>
-Subject: Kindly Respond
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190704090205.19400-2-fe@dev.tdt.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:S2oNFKep22pqWXKixHD14ji3HNkueaIFIPSI83rcVj1+S575yXx
+ AC3CMH/pQUf5GRoNq54vEe+p33e0Ob9sTeHWErNpQ00hZ01xwz1Kdu+PcBJuXGyQH5/udbG
+ cP+KNWQ4u4zaxALeI+jP0rkrESDWWEK7ZDxH93VzxqjndLpwNmXH6SbTY9ldvwHwoPGTliI
+ wamzl4qtERO/eomhnQkJA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WP1wYsAWbI4=:Sbgx3DDxBqoDDN9KJtXCPH
+ 9c16Rj1sEH0FyLE16ELaKu9Prc0HMeGx3YjLSR03ZKvbFO5MFrmml1HfIMiGU15Q1U9yWzZP0
+ ZF8v9MJA1NxK1YrZS46IQ/9hJhSr/XWp4JHaBKIq/yb0r568eacpOLqISX3Oe/M7EbVMrjRVM
+ CtRX3BBGMQPyCqCKi0OYukzhu8h+KpJipMe694r++old0z+jxF+8Nub9Cst9Oa4g5HFIi5TEa
+ yCElbmsYhNhpXbgGxXx5/VK6kPmB/s573mD/lwMsinfBIKwNETdNXUOWjB5qd7MDH6qx+gQxo
+ n0dUE5XkyUJUgeLUcfoncvzeBN+XptN/BSMTC+w2P7srUxNwOcWKHLQWc+yRt0HmAZx3kwocA
+ rslPltB7jzO3jiCvEUSceweeh2siIWzdVWh1ZPq8QU/ZKq8u2po55LGSct75pycq2tY8K7TWF
+ QVwi1HP1fb8p7nCmSXBIp1NzL3590ln/v2nugxpr+vRYzx0WvSf99tOx7+tl5x7kQ0mLfGSEK
+ Ddem8fUMWvPxr+CYvVYdWS8pLvGGEPkIQup344Ynhbp7gyltTSZy7wXpa3iA9tN9vh3o1e06W
+ mmgmmiA0CGF0zqVsxrdKDfM2LVQyEGi7tv+GQMFFKKGbWzmP+tXpqd8skwRj4zoMhGp1kGZbF
+ PBdSb3DhUK7U62pWy1aDm8NEWNPMmGemPVl2+UvPtm3pSCFABiCFgX52mlckW/7wrlKraPZa5
+ vq70SsDBxoqrL0fgYj9RE1HQQacdZcO4JJx+ycDf0xLYR6XG2pOVSEIoLkw=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Sir,
+On 04.07.19 11:02, Florian Eckert wrote:
+> On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
+> the ports from the userspace, add the definition to this platform
+> device. The gpio can then be exported by the legancy gpio subsystem to
+> toggle the mpcie reset pin.
+>
 
-I am Barr Fredrick Mbogo a business consultant i have a lucrative
-business to discuss with you from the Eastern part of Africa Uganda
-aimed at agreed percentage upon your acceptance of my hand in business
-and friendship. Kindly respond to me if you are interested to partner
-with me for an update. Very important.
+Just tested your patch on an apu3. The driver itself seems to work,
+but the pins don't seem to actually do anything.
 
-Yours Sincerely,
-John Jacob,
-For,
-Barr Frederick Mbogo
-Business Consultant.
-Reply to: barrfredmbogo@consultant.com
+How exactly did you test it ? Do you have some test case ?
+
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
