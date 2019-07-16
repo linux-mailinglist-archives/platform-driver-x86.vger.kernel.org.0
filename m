@@ -2,53 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6876AC35
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Jul 2019 17:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 528FA6AE62
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Jul 2019 20:19:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbfGPPwq (ORCPT
+        id S2388354AbfGPSTJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 16 Jul 2019 11:52:46 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43241 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728121AbfGPPwp (ORCPT
+        Tue, 16 Jul 2019 14:19:09 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51603 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbfGPSTJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 16 Jul 2019 11:52:45 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so21499754wru.10;
-        Tue, 16 Jul 2019 08:52:44 -0700 (PDT)
+        Tue, 16 Jul 2019 14:19:09 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 207so19635391wma.1;
+        Tue, 16 Jul 2019 11:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CTuBz10dpzRMw27jIFDD0GAWYqxmo2+HWztpyEtT7Cs=;
-        b=IE3R3vaJgsC2kQ7mm/cWs5nW1v35kWOV4hUVTPQuXIE+d4R5Sf5WrORLqxvflpIBFn
-         mNwrHBBDTbNEwN6JHlCWfnoYR/6XIGeiFaQ5Tnradm0ED1R2+uzVYf9lrz28VXsx4QOl
-         56EL6P0C0h4bvC/AZ/J7lfqkcvct94pYaa4qChhAEIMkOdLEMp9KgndoHVCpg/MQrfh5
-         P0vm1ZSkOmLR+P/RCbDTkshtwkxp+/SiZKx+V9Gp5+hM+LQdngEiScjqVLog/RnLm2Va
-         vgoeR05abVUglf4g4GfQB/IgrpD8bumaaH15aJYroTe3dihe/9QZLcm26qLUav54DmxY
-         WA8A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lIqXsG3zHlSz/3p5h6qCoCToOwuWr8K0DIq1OkVbWWI=;
+        b=oet6rX2Aa+/ya/nYryVfgg+pPATQvZlrpAldgEvp+mYtomWOthIkW+mWivHQK53jmT
+         MUOItAcn1Uc7UzCG4RnJazfQf0uCID+7ZQIR4MkELDHMT8elKflwRjKaNn+Z3n5bLN/j
+         kvwwJvnSAaIwiOgG2X+v8frP9Cw4hFLO8TTXp/mPQxiAUB5ZNVzD5oilxUDjQqezsFtY
+         IS2NRIF5nW3x7yKQDYiF8tUfo5ILSRLAuMPXSAubethr7b23jG3cvtbwwXzmZ4lWf950
+         XIFwgQM8oX/AkvX+5TU7MxqGx5zz1kWDsu7FtRdeVXaT6S62nm1mUO/mr4tQrvHrAc9U
+         IyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CTuBz10dpzRMw27jIFDD0GAWYqxmo2+HWztpyEtT7Cs=;
-        b=ItoP2UiEwydoYVzcT5nwHzDoLSbBJzkfyp7t690e+HIOLAFmrvFRP5O0UpAYPKp7dT
-         G1/pm+m7lcexJS9ivhvWgjG3Grq0Uq9pJfuccwq6gGvKjAW6wESyOL0EYiOrIEXYt/c5
-         r7gx6vNdzf3+oVzo4220iaNa6UUMX/09lAfkfb37c7pO1AicwU0GiJGqYYFBqPh7S4Z8
-         iQMcBl5o6p7YQSBzyvUwBZE3KSrY9cVBwGh5uHUCL2QkOIWXemcj7tV3uzl8+eauhKKK
-         9/gs03oKgex2Mm++o4VJ7mGnvKSoY5ncvRXOvC8lqEcAHQIJZbQhLmwucbqnmxm8mlpC
-         GX2g==
-X-Gm-Message-State: APjAAAVZYoPmctMRNeGQH9txFVsqfcjuV+Rro7YX2OL1SxyS4fWAB9Gq
-        uqoY9GaVpL+Z/+ocOCJc0RA=
-X-Google-Smtp-Source: APXvYqwOW/1KCVV68x0nxArTP1dMeAYuDwBqKnARPWDMyfmR+OUSyJXxI0kWG6Ige26KulgfzygtZA==
-X-Received: by 2002:adf:ea4c:: with SMTP id j12mr38408437wrn.75.1563292363565;
-        Tue, 16 Jul 2019 08:52:43 -0700 (PDT)
-Received: from localhost (smbhubinfra01.hotspot.hub-one.net. [213.174.99.146])
-        by smtp.gmail.com with ESMTPSA id e7sm19973280wmd.0.2019.07.16.08.52.42
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Jul 2019 08:52:42 -0700 (PDT)
-Date:   Tue, 16 Jul 2019 09:21:35 +0200
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Maximilian Luz <luzmaximilian@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lIqXsG3zHlSz/3p5h6qCoCToOwuWr8K0DIq1OkVbWWI=;
+        b=pKerAmxpxSFX5/XwHcg+PBmrr42kYFiJAP5Od0R2HSfYdnxjjiiNTfjx5tfNzdp4wa
+         FjfpwniwbKjSrvFOu549PDtkkcf9KAWGCG4PxLEpXHXjnwM58pBgHwk1HKAWgVIpj2zD
+         bn9/aU1vJzn8esx865d+BLpNqYr9bB53fvryQL3w4X9oC1mS9dGtQ3YsTyyR9cmCA+VA
+         0L/2a71BvVfocQLmznYV+Tcqk3EkfDt/L2TuCDkEPPwofrKXHQUo2LFsxT1CHS+TbuxB
+         7Rf08SNxGk4Ro+S8N8mmXjuoO6SVLxtr/utsPVXZQBDFTNCK8gFUaGBEFyytqoBdFCpG
+         2JAw==
+X-Gm-Message-State: APjAAAWE/g9KD1+RGkC9Gf7O2+TFjLWv8Qg2nu1GzVSWx56C51XMMavz
+        XxNInnW++FUZg43FAsdBWA8=
+X-Google-Smtp-Source: APXvYqxmAXgR0/JYyKnKQYHuf7dNpJEuNY0ngKjqjnppH4MCHWif39inWlZ8tXDUomDtRFbndZ+f7g==
+X-Received: by 2002:a7b:cc81:: with SMTP id p1mr30432041wma.107.1563301146302;
+        Tue, 16 Jul 2019 11:19:06 -0700 (PDT)
+Received: from [192.168.2.202] (pD9EA39E9.dip0.t-ipconnect.de. [217.234.57.233])
+        by smtp.gmail.com with ESMTPSA id g131sm14596386wmf.37.2019.07.16.11.19.04
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jul 2019 11:19:05 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] input: soc_button_array for newer surface devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
@@ -56,80 +56,56 @@ Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v2 2/2] input: soc_button_array for newer surface devices
-Message-ID: <20190716072135.GA806@penguin>
 References: <20190702003740.75970-1-luzmaximilian@gmail.com>
  <20190702003740.75970-3-luzmaximilian@gmail.com>
+ <20190716072135.GA806@penguin>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <92e13b01-7353-1430-fb38-b5098d509da2@gmail.com>
+Date:   Tue, 16 Jul 2019 20:19:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190702003740.75970-3-luzmaximilian@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190716072135.GA806@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Maximilian,
 
-On Tue, Jul 02, 2019 at 02:37:40AM +0200, Maximilian Luz wrote:
-> Power and volume button support for 5th and 6th genration Microsoft
-> Surface devices via soc_button_array.
-> 
-> Note that these devices use the same MSHW0040 device as on the Surface
-> Pro 4, however the implementation is different (GPIOs vs. ACPI
-> notifications). Thus some checking is required to ensure we only load
-> this driver on the correct devices.
+Hi,
 
-When you are saying that Pro 4 and later models use different
-notifications, does this mean that Pro 4 does not define any GPIOs? If
-so can we use their presence as indicator whether we should be using
-this driver or not. I would like to avoid repeating the ACPI parsing
-code that you have in the platform driver.
+On 7/16/19 9:21 AM, Dmitry Torokhov wrote:
+> When you are saying that Pro 4 and later models use different
+> notifications, does this mean that Pro 4 does not define any GPIOs?
 
-> +static int soc_device_check_MSHW0040(struct device *dev)
-> +{
-> +	acpi_handle handle = ACPI_HANDLE(dev);
-> +	union acpi_object *result;
-> +	u64 oem_platform_rev = 0;
-> +	int gpios;
-> +
-> +	// get OEM platform revision
-> +	result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
-> +					 MSHW0040_DSM_REVISION,
-> +					 MSHW0040_DSM_GET_OMPR, NULL,
-> +					 ACPI_TYPE_INTEGER);
-> +
-> +	if (result) {
-> +		oem_platform_rev = result->integer.value;
-> +		ACPI_FREE(result);
-> +	}
-> +
-> +	if (oem_platform_rev == 0)
-> +		return -ENODEV;
-> +
-> +	dev_dbg(dev, "OEM Platform Revision %llu\n", oem_platform_rev);
-> +
-> +	/*
-> +	 * We are _really_ expecting GPIOs here. If we do not get any, this
-> +	 * means the GPIO driver has not been loaded yet (which can happen).
-> +	 * Try again later.
-> +	 */
-> +	gpios = gpiod_count(dev, NULL);
-> +	if (gpios < 0)
-> +		return -EAGAIN;
+Unfortunately, at least the Surface Book (first generation, buttons are
+handled the same way as on the Pro 4) has GPIOs defined in MSHW0040, but
+they are for different use. Specifically: They can detect if the
+clipboard (screen part of the device, the device basically has two parts
+that can be separated: clipboard and base) is being removed. Relying on
+the GPIOs was my first idea too, but that has been reported to shut down
+the Book 1 when the clipboard is detached.
 
-I do not believe -EAGAIN has any special meaning in the driver core;
-also when the GPIO controller is not ready gpiod_get() will return
--EPROBE_DEFER, which is the prober way if signalling that some resource
-is not yet available and probe should be retries at a later time.
+As far as I know, the OEM platform revision check is the easiest way to
+differentiate between those devices.
 
-Moreover, I do not believe that gpiod_count() needs GPIO controller to
-be ready, the count is taken from board firmware or static board file
-definition, so if gpiod_count() returns 0 it should be clear indication
-that the driver should not be used with the device.
+> I do not believe -EAGAIN has any special meaning in the driver core;
 
-Thanks.
+I think I got the -EAGAIN from an outdated LWN article when I first
+started working on this, thanks for confirming.
 
--- 
-Dmitry
+> also when the GPIO controller is not ready gpiod_get() will return
+> -EPROBE_DEFER, which is the prober way if signalling that some resource
+> is not yet available and probe should be retries at a later time.
+>
+> Moreover, I do not believe that gpiod_count() needs GPIO controller to
+> be ready, the count is taken from board firmware or static board file
+> definition, so if gpiod_count() returns 0 it should be clear indication
+> that the driver should not be used with the device.
+
+Thank you for this insight, I will update the patch accordingly.
+
+Maximilian
