@@ -2,84 +2,373 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A22BB6AE7E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Jul 2019 20:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE546B5CC
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Jul 2019 07:11:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728121AbfGPSYM (ORCPT
+        id S1726282AbfGQFLF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 16 Jul 2019 14:24:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58277 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbfGPSYM (ORCPT
+        Wed, 17 Jul 2019 01:11:05 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:43511 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfGQFLF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 16 Jul 2019 14:24:12 -0400
-Received: from [192.168.1.110] ([77.9.100.150]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1McpeM-1iMEhl1qug-00ZySm; Tue, 16 Jul 2019 20:24:03 +0200
-Subject: Re: [PATCH 1/3] platform/x86/pcengines-apuv2: add mpcie reset gpio
- export
-To:     Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com, info@metux.net,
-        dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190704090205.19400-1-fe@dev.tdt.de>
- <20190704090205.19400-2-fe@dev.tdt.de>
- <3e98bbd8-c051-4996-fc5a-88a58a2fa2d4@metux.net>
- <10c574cd0dfb1c607536c68fc1c60c06@dev.tdt.de>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <83ada4a1-c18b-95b4-0891-62ba3f3aa276@metux.net>
-Date:   Tue, 16 Jul 2019 20:23:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        Wed, 17 Jul 2019 01:11:05 -0400
+Received: by mail-pg1-f193.google.com with SMTP id f25so10535427pgv.10
+        for <platform-driver-x86@vger.kernel.org>; Tue, 16 Jul 2019 22:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9LuQJoRRFgDYcvPEhbO3TyxMS7PksVfR02RIF1zYuH4=;
+        b=RLuUlgCda6tquIydhMYQPvoQLVGnS9JYxA3vdeGJjaYLPES81azNV8QEoVm358RU15
+         mNvWRpwzyO2iLungXecPDmFPYQuW2kQefDwEyjdv9An/7nlOxkOndgz76iH3uYr+VwaA
+         Ca012ZS70jZA2GLfp6Rsk0IaOD8XYfUEOqHIkMVT5eqVm16B4yLDWWy9AFvmtcE2Z8j9
+         XFEv62uU7c99syA0oiIEEoIh2GWsNDfXayqJl/FbhsgjUXdR5hxdTNqloqIzqZliE7bf
+         mUpvIgUIMBnmC9YtWKc9TvaWMBN1ZIT33+vm/ukdvG6DPz4D5256DlvLrVos0VRHMjLu
+         HZkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9LuQJoRRFgDYcvPEhbO3TyxMS7PksVfR02RIF1zYuH4=;
+        b=Jn26Zp4hoK3ZANlZD6ftTyFQewuINsuvrrWVGCFM3yrYgC5weqUC7XOu+44mEsrVgZ
+         +G/CRg+C9eOMfzODztdNGYwx31dghFfcXIn+lFoAADKulaYy9KsKDjjYSK0xLAVlgYPi
+         wcA2kxjDLe9/7KIv9R7MZ+g3IS19CORk6IjMelkv/pIwv+yopn2IJcJVyMXbg+a1MLXK
+         T9Lo1IJSPUKlDp3DovYhfhTIFhIhL6pzcrFE74PZQvv/VSY7xrGNbmSEAdcFDkxejkch
+         7XC4O1JQr0gG5hRBE8y8bjEEcIwtT4wKVrbvNet1n4gLEGQ0+x0gUekElEAp5AeOwWhk
+         17ug==
+X-Gm-Message-State: APjAAAVSrfPffyyjWBMFFT/qQa5PPqTPiYyCrhm13jTd93ZGBQa4y1IC
+        0/oPuHeLYRJ2rvCu/64zc7F00g==
+X-Google-Smtp-Source: APXvYqx8aDPNB+n9d6pROZv4xBT5ROKOdSHwpaLN4pFAMNkqsChP2qy56zYXICYnNW6QZuNiMo5k9Q==
+X-Received: by 2002:a63:4404:: with SMTP id r4mr38285393pga.245.1563340264293;
+        Tue, 16 Jul 2019 22:11:04 -0700 (PDT)
+Received: from limbo.local (123-204-46-122.static.seed.net.tw. [123.204.46.122])
+        by smtp.gmail.com with ESMTPSA id k184sm19314769pgk.7.2019.07.16.22.11.01
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 16 Jul 2019 22:11:03 -0700 (PDT)
+From:   Daniel Drake <drake@endlessm.com>
+To:     corentin.chary@gmail.com, dvhart@infradead.org, andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, yurii.pavlovskyi@gmail.com,
+        linux@endlessm.com
+Subject: [PATCH v2] platform/x86: asus: Rename "fan mode" to "fan boost mode"
+Date:   Wed, 17 Jul 2019 13:10:58 +0800
+Message-Id: <20190717051058.4148-1-drake@endlessm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <10c574cd0dfb1c607536c68fc1c60c06@dev.tdt.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Y97lrr/VHMzPf29e+iDjUnnzt47qhyaSLt2xnZhzvB5BKT5Jx+d
- Tmqamh/dLY+Y+DZW2Qh8Lhc1YrxATtbDZmaufhUuApSZIfkEIT8PWMLKUljjky6xxqPZ3wE
- mSTS3vVyW6cGNUKzQtFwd2KONMqPCkQMl9F4vvJYH+2dzW2YsGBP5fi8qQ0tovErCCIQqAB
- 1VbTn0qZXbhwlYxmwFEZg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Y79y7TtvziE=:EbXoie/iMrI3/4PCV93mHC
- /Wn+8ZvCCk0C+OenRACTSIg+nRWnYq4T4GhEyFJTLEctaydFyyqL6JXvPeeb6Xk5FAwIEmzAi
- iiknRTSWwWw2josYVlkWNLDiFGik33nMjvhDCfTNM/WhQfdnCpDkQ+HxLmGRSX3thd2AuN4Wq
- KWSxyGGUChM6xX+UMcdM8vxymeeHMUCvBmKwcnaSQpHAoAc1VxdCthRCPjAk4NyQowqz0+721
- 6reUuwgWtLwJ3tWJKYZfMXJK2dOJt9xUIURaUS1jdHY4S24Kcy0ux+0NGQJeVSH8Zu6kEh+pi
- f6AIvV5ddPeTlKb72y6PX5yAbQkYwWaWTdCqgZnj8Ila9KFOoUIbOK+/gwkwEpZM9tVllYoTD
- 7k5Lx4/yWbGINZ6b2qkAseLs14UlKxtxm+BY3+ZO7Ms8rtybtLNe2ksKIBfryeqfNgCK2+ym0
- 8YRnQHn6xSuLlOQMhNteX8/QEmpAba9PHdtXYqY/qw33ry2J7tHXj2gR82Q4P8ib0kmkS6Cdu
- bBloPTmfd4jniXGMhA4hyL1aUwCw2NC6i7Hj8pYTbs5GeSuCRuCEMr/Q3ROCZ2wVZgL9+rxGt
- WGukwzduD62LXr8BN6lA2kGsiB23EvQYpDONPVDKJuF2v69UXlzYjrACJabS8XAkQWwEHWqA5
- /3NgUUReA55pIi8oXVBAK6OouXxEOlBDoHeNmvKJgVAhsNFazJ2RzWltuCKoMOZ6DjRYgYJiM
- ukFOUEC9Zea0Z5uP5iDilBOyWo8twH8j7ek0HD629o+QfYLQMK4H4IyZ1Ok=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 15.07.19 16:38, Florian Eckert wrote:
+The Asus WMI spec indicates that the function being controlled here
+is called "Fan Boost Mode". The user-facing documentation also calls it
+this.
 
-> I plugged in a mpcie  usb modem.
-> In my test case it was a EC25 from Quectel in mpcie2 port.
-> After that I did a reboot and exported the gpio via "/sys/class/gpio"
-> Then I executed the command "echo 0 > /sys/class/gpio/<name>/value" and
-> "echo 1 > /sys/class/gpio/<name>/value".
-> Then I have seen the log message in the kernel that the device did an
-> unregistration/registration
+The spec uses the term "fan mode" is used to refer to other things,
+including functionality expected to appear on future products.
+We missed this before as we are not dealing with the most readable of
+specs, and didn't forsee any confusion around shortening the name.
 
-hmm, did the same, tried both gpios (mpcie2_reset, mpcie3_reset), but
-nothin happened.
+Rename "fan mode" to "fan boost mode" to improve consistency with the
+spec and to avoid a future naming conflict.
 
-But strange: I'm missing some hw, modem doesn't appear ... I'll have to
-check again whether i've got unstable hw or missing some kernel config.
+There is no interface breakage here since this has yet to be included
+in an official kernel release. I also updated the kernel version listed
+under ABI accordingly.
 
+Signed-off-by: Daniel Drake <drake@endlessm.com>
+Acked-by: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+---
+ .../ABI/testing/sysfs-platform-asus-wmi       |   6 +-
+ drivers/platform/x86/asus-wmi.c               | 118 +++++++++---------
+ include/linux/platform_data/x86/asus-wmi.h    |   2 +-
+ 3 files changed, 66 insertions(+), 60 deletions(-)
 
---mtx
+Please consider for Linux-5.3, otherwise we'd have an official released
+kernel using the "fan_mode" name which would be more controversial to
+change later.
 
+v2:
+ - Also adjust date in ABI documentation
+ - mention how this was missed before in the commit msg
 
+diff --git a/Documentation/ABI/testing/sysfs-platform-asus-wmi b/Documentation/ABI/testing/sysfs-platform-asus-wmi
+index 87ae5cc983bf..9e99f2909612 100644
+--- a/Documentation/ABI/testing/sysfs-platform-asus-wmi
++++ b/Documentation/ABI/testing/sysfs-platform-asus-wmi
+@@ -37,9 +37,9 @@ Contact:	"AceLan Kao" <acelan.kao@canonical.com>
+ Description:
+ 		Resume on lid open. 1 means on, 0 means off.
+ 
+-What:		/sys/devices/platform/<platform>/fan_mode
+-Date:		Apr 2019
+-KernelVersion:	5.2
++What:		/sys/devices/platform/<platform>/fan_boost_mode
++Date:		Sep 2019
++KernelVersion:	5.3
+ Contact:	"Yurii Pavlovskyi" <yurii.pavlovskyi@gmail.com>
+ Description:
+ 		Fan boost mode:
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 508e6ad47793..65ce96dffdb1 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -81,12 +81,12 @@ MODULE_LICENSE("GPL");
+ #define ASUS_FAN_CTRL_MANUAL		1
+ #define ASUS_FAN_CTRL_AUTO		2
+ 
+-#define ASUS_FAN_MODE_NORMAL		0
+-#define ASUS_FAN_MODE_OVERBOOST		1
+-#define ASUS_FAN_MODE_OVERBOOST_MASK	0x01
+-#define ASUS_FAN_MODE_SILENT		2
+-#define ASUS_FAN_MODE_SILENT_MASK	0x02
+-#define ASUS_FAN_MODES_MASK		0x03
++#define ASUS_FAN_BOOST_MODE_NORMAL		0
++#define ASUS_FAN_BOOST_MODE_OVERBOOST		1
++#define ASUS_FAN_BOOST_MODE_OVERBOOST_MASK	0x01
++#define ASUS_FAN_BOOST_MODE_SILENT		2
++#define ASUS_FAN_BOOST_MODE_SILENT_MASK		0x02
++#define ASUS_FAN_BOOST_MODES_MASK		0x03
+ 
+ #define USB_INTEL_XUSB2PR		0xD0
+ #define PCI_DEVICE_ID_INTEL_LYNXPOINT_LP_XHCI	0x9c31
+@@ -195,9 +195,9 @@ struct asus_wmi {
+ 	int asus_hwmon_num_fans;
+ 	int asus_hwmon_pwm;
+ 
+-	bool fan_mode_available;
+-	u8 fan_mode_mask;
+-	u8 fan_mode;
++	bool fan_boost_mode_available;
++	u8 fan_boost_mode_mask;
++	u8 fan_boost_mode;
+ 
+ 	struct hotplug_slot hotplug_slot;
+ 	struct mutex hotplug_lock;
+@@ -1501,14 +1501,15 @@ static int asus_wmi_fan_init(struct asus_wmi *asus)
+ 
+ /* Fan mode *******************************************************************/
+ 
+-static int fan_mode_check_present(struct asus_wmi *asus)
++static int fan_boost_mode_check_present(struct asus_wmi *asus)
+ {
+ 	u32 result;
+ 	int err;
+ 
+-	asus->fan_mode_available = false;
++	asus->fan_boost_mode_available = false;
+ 
+-	err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_FAN_MODE, &result);
++	err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_FAN_BOOST_MODE,
++				    &result);
+ 	if (err) {
+ 		if (err == -ENODEV)
+ 			return 0;
+@@ -1517,72 +1518,77 @@ static int fan_mode_check_present(struct asus_wmi *asus)
+ 	}
+ 
+ 	if ((result & ASUS_WMI_DSTS_PRESENCE_BIT) &&
+-			(result & ASUS_FAN_MODES_MASK)) {
+-		asus->fan_mode_available = true;
+-		asus->fan_mode_mask = result & ASUS_FAN_MODES_MASK;
++			(result & ASUS_FAN_BOOST_MODES_MASK)) {
++		asus->fan_boost_mode_available = true;
++		asus->fan_boost_mode_mask = result & ASUS_FAN_BOOST_MODES_MASK;
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static int fan_mode_write(struct asus_wmi *asus)
++static int fan_boost_mode_write(struct asus_wmi *asus)
+ {
+ 	int err;
+ 	u8 value;
+ 	u32 retval;
+ 
+-	value = asus->fan_mode;
++	value = asus->fan_boost_mode;
+ 
+-	pr_info("Set fan mode: %u\n", value);
+-	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_FAN_MODE, value, &retval);
++	pr_info("Set fan boost mode: %u\n", value);
++	err = asus_wmi_set_devstate(ASUS_WMI_DEVID_FAN_BOOST_MODE, value,
++				    &retval);
+ 
+ 	if (err) {
+-		pr_warn("Failed to set fan mode: %d\n", err);
++		pr_warn("Failed to set fan boost mode: %d\n", err);
+ 		return err;
+ 	}
+ 
+ 	if (retval != 1) {
+-		pr_warn("Failed to set fan mode (retval): 0x%x\n", retval);
++		pr_warn("Failed to set fan boost mode (retval): 0x%x\n",
++			retval);
+ 		return -EIO;
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static int fan_mode_switch_next(struct asus_wmi *asus)
++static int fan_boost_mode_switch_next(struct asus_wmi *asus)
+ {
+-	if (asus->fan_mode == ASUS_FAN_MODE_NORMAL) {
+-		if (asus->fan_mode_mask & ASUS_FAN_MODE_OVERBOOST_MASK)
+-			asus->fan_mode = ASUS_FAN_MODE_OVERBOOST;
+-		else if (asus->fan_mode_mask & ASUS_FAN_MODE_SILENT_MASK)
+-			asus->fan_mode = ASUS_FAN_MODE_SILENT;
+-	} else if (asus->fan_mode == ASUS_FAN_MODE_OVERBOOST) {
+-		if (asus->fan_mode_mask & ASUS_FAN_MODE_SILENT_MASK)
+-			asus->fan_mode = ASUS_FAN_MODE_SILENT;
++	u8 mask = asus->fan_boost_mode_mask;
++
++	if (asus->fan_boost_mode == ASUS_FAN_BOOST_MODE_NORMAL) {
++		if (mask & ASUS_FAN_BOOST_MODE_OVERBOOST_MASK)
++			asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_OVERBOOST;
++		else if (mask & ASUS_FAN_BOOST_MODE_SILENT_MASK)
++			asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_SILENT;
++	} else if (asus->fan_boost_mode == ASUS_FAN_BOOST_MODE_OVERBOOST) {
++		if (mask & ASUS_FAN_BOOST_MODE_SILENT_MASK)
++			asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_SILENT;
+ 		else
+-			asus->fan_mode = ASUS_FAN_MODE_NORMAL;
++			asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
+ 	} else {
+-		asus->fan_mode = ASUS_FAN_MODE_NORMAL;
++		asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
+ 	}
+ 
+-	return fan_mode_write(asus);
++	return fan_boost_mode_write(asus);
+ }
+ 
+-static ssize_t fan_mode_show(struct device *dev,
+-		struct device_attribute *attr, char *buf)
++static ssize_t fan_boost_mode_show(struct device *dev,
++				   struct device_attribute *attr, char *buf)
+ {
+ 	struct asus_wmi *asus = dev_get_drvdata(dev);
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%d\n", asus->fan_mode);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", asus->fan_boost_mode);
+ }
+ 
+-static ssize_t fan_mode_store(struct device *dev, struct device_attribute *attr,
+-		const char *buf, size_t count)
++static ssize_t fan_boost_mode_store(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
+ {
+ 	int result;
+ 	u8 new_mode;
+-
+ 	struct asus_wmi *asus = dev_get_drvdata(dev);
++	u8 mask = asus->fan_boost_mode_mask;
+ 
+ 	result = kstrtou8(buf, 10, &new_mode);
+ 	if (result < 0) {
+@@ -1590,24 +1596,24 @@ static ssize_t fan_mode_store(struct device *dev, struct device_attribute *attr,
+ 		return result;
+ 	}
+ 
+-	if (new_mode == ASUS_FAN_MODE_OVERBOOST) {
+-		if (!(asus->fan_mode_mask & ASUS_FAN_MODE_OVERBOOST_MASK))
++	if (new_mode == ASUS_FAN_BOOST_MODE_OVERBOOST) {
++		if (!(mask & ASUS_FAN_BOOST_MODE_OVERBOOST_MASK))
+ 			return -EINVAL;
+-	} else if (new_mode == ASUS_FAN_MODE_SILENT) {
+-		if (!(asus->fan_mode_mask & ASUS_FAN_MODE_SILENT_MASK))
++	} else if (new_mode == ASUS_FAN_BOOST_MODE_SILENT) {
++		if (!(mask & ASUS_FAN_BOOST_MODE_SILENT_MASK))
+ 			return -EINVAL;
+-	} else if (new_mode != ASUS_FAN_MODE_NORMAL) {
++	} else if (new_mode != ASUS_FAN_BOOST_MODE_NORMAL) {
+ 		return -EINVAL;
+ 	}
+ 
+-	asus->fan_mode = new_mode;
+-	fan_mode_write(asus);
++	asus->fan_boost_mode = new_mode;
++	fan_boost_mode_write(asus);
+ 
+ 	return result;
+ }
+ 
+-// Fan mode: 0 - normal, 1 - overboost, 2 - silent
+-static DEVICE_ATTR_RW(fan_mode);
++// Fan boost mode: 0 - normal, 1 - overboost, 2 - silent
++static DEVICE_ATTR_RW(fan_boost_mode);
+ 
+ /* Backlight ******************************************************************/
+ 
+@@ -1887,8 +1893,8 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+ 		return;
+ 	}
+ 
+-	if (asus->fan_mode_available && code == NOTIFY_KBD_FBM) {
+-		fan_mode_switch_next(asus);
++	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
++		fan_boost_mode_switch_next(asus);
+ 		return;
+ 	}
+ 
+@@ -2048,7 +2054,7 @@ static struct attribute *platform_attributes[] = {
+ 	&dev_attr_touchpad.attr,
+ 	&dev_attr_lid_resume.attr,
+ 	&dev_attr_als_enable.attr,
+-	&dev_attr_fan_mode.attr,
++	&dev_attr_fan_boost_mode.attr,
+ 	NULL
+ };
+ 
+@@ -2070,8 +2076,8 @@ static umode_t asus_sysfs_is_visible(struct kobject *kobj,
+ 		devid = ASUS_WMI_DEVID_LID_RESUME;
+ 	else if (attr == &dev_attr_als_enable.attr)
+ 		devid = ASUS_WMI_DEVID_ALS_ENABLE;
+-	else if (attr == &dev_attr_fan_mode.attr)
+-		ok = asus->fan_mode_available;
++	else if (attr == &dev_attr_fan_boost_mode.attr)
++		ok = asus->fan_boost_mode_available;
+ 
+ 	if (devid != -1)
+ 		ok = !(asus_wmi_get_devstate_simple(asus, devid) < 0);
+@@ -2329,9 +2335,9 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 	if (err)
+ 		goto fail_platform;
+ 
+-	err = fan_mode_check_present(asus);
++	err = fan_boost_mode_check_present(asus);
+ 	if (err)
+-		goto fail_fan_mode;
++		goto fail_fan_boost_mode;
+ 
+ 	err = asus_wmi_sysfs_init(asus->platform_device);
+ 	if (err)
+@@ -2416,7 +2422,7 @@ static int asus_wmi_add(struct platform_device *pdev)
+ fail_input:
+ 	asus_wmi_sysfs_exit(asus->platform_device);
+ fail_sysfs:
+-fail_fan_mode:
++fail_fan_boost_mode:
+ fail_platform:
+ 	kfree(asus);
+ 	return err;
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 8551156b8dca..4802cd2c7309 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -57,7 +57,7 @@
+ #define ASUS_WMI_DEVID_KBD_BACKLIGHT	0x00050021
+ #define ASUS_WMI_DEVID_LIGHT_SENSOR	0x00050022 /* ?? */
+ #define ASUS_WMI_DEVID_LIGHTBAR		0x00050025
+-#define ASUS_WMI_DEVID_FAN_MODE		0x00110018
++#define ASUS_WMI_DEVID_FAN_BOOST_MODE	0x00110018
+ 
+ /* Misc */
+ #define ASUS_WMI_DEVID_CAMERA		0x00060013
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.20.1
+
