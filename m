@@ -2,41 +2,43 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DADB6DF69
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 06:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B2EA6DEE0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 06:31:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730618AbfGSEeu (ORCPT
+        id S1730011AbfGSEEX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 19 Jul 2019 00:34:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33502 "EHLO mail.kernel.org"
+        Fri, 19 Jul 2019 00:04:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729640AbfGSEBr (ORCPT
+        id S1730978AbfGSEEW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:01:47 -0400
+        Fri, 19 Jul 2019 00:04:22 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5DA4D21852;
-        Fri, 19 Jul 2019 04:01:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 30AEB218C3;
+        Fri, 19 Jul 2019 04:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563508906;
-        bh=0aSZODHBkOAbvibJ9SQqfbPnqgw2bJ8FpFrXYuyK1CU=;
+        s=default; t=1563509062;
+        bh=R8D/y3Ypq3CcEyxbVqjygTUGau6ejYuCCCQO8aVhrw4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mfoj0p+DWFLHfOC3Y+wBz2qviHhnNwajcnIRHBQPUGOh/6J+ljiM5b8EeWYkiaJ0i
-         gcNm/ChMRbhzOTxLNzSzgt+bvXTWJ7UdKmnQ0dSvUW5py6F4nWhLJyNS6TKO1k5T7a
-         ScBS0pKMHET6GWyfvv859Z9ny2X6UvDQIg3iLexg=
+        b=im0YdGqkdtOns02jBW/aiDbI/BRbtnzRINfJd/Rdi3gDPPVc/xZUqAu6E9/qmUdgg
+         C4rAq7S5qy//9HyrfOmGOfJ/WLFwpaQdktMUK5gIohf04QKAv8zMKqQb008/1CkAE/
+         4DhHXU/joQQhDmJQx3iUy8VY0mgvgRwy+RDMSsvY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     YueHaibing <yuehaibing@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+Cc:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
+        Daniel Drake <drake@endlessm.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
+        acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 151/171] platform/x86: Fix PCENGINES_APU2 Kconfig warning
-Date:   Thu, 18 Jul 2019 23:56:22 -0400
-Message-Id: <20190719035643.14300-151-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.1 046/141] platform/x86: asus-wmi: Increase input buffer size of WMI methods
+Date:   Fri, 19 Jul 2019 00:01:11 -0400
+Message-Id: <20190719040246.15945-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
-References: <20190719035643.14300-1-sashal@kernel.org>
+In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
+References: <20190719040246.15945-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,46 +48,89 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: YueHaibing <yuehaibing@huawei.com>
+From: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
 
-[ Upstream commit 7d67c8ac25fbc66ee254aa3e33329d1c9bc152ce ]
+[ Upstream commit 98e865a522983f2afde075648ec9d15ea4bb9194 ]
 
-Fix Kconfig warning for PCENGINES_APU2 symbol:
+The asus-nb-wmi driver is matched by WMI alias but fails to load on TUF
+Gaming series laptops producing multiple ACPI errors in the kernel log.
 
-WARNING: unmet direct dependencies detected for GPIO_AMD_FCH
-  Depends on [n]: GPIOLIB [=n] && HAS_IOMEM [=y]
-  Selected by [y]:
-  - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+The input buffer for WMI method invocation size is 2 dwords, whereas
+3 are expected by this model.
 
-WARNING: unmet direct dependencies detected for KEYBOARD_GPIO_POLLED
-  Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=y] && GPIOLIB [=n]
-  Selected by [y]:
-  - PCENGINES_APU2 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && INPUT [=y] && INPUT_KEYBOARD [=y] && LEDS_CLASS [=y]
+FX505GM:
+..
+Method (WMNB, 3, Serialized)
+{
+    P8XH (Zero, 0x11)
+    CreateDWordField (Arg2, Zero, IIA0)
+    CreateDWordField (Arg2, 0x04, IIA1)
+    CreateDWordField (Arg2, 0x08, IIA2)
+    Local0 = (Arg1 & 0xFFFFFFFF)
+    ...
 
-Add GPIOLIB dependency to fix it.
+Compare with older K54C:
+...
+Method (WMNB, 3, NotSerialized)
+{
+    CreateDWordField (Arg2, 0x00, IIA0)
+    CreateDWordField (Arg2, 0x04, IIA1)
+    Local0 = (Arg1 & 0xFFFFFFFF)
+    ...
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Fixes: f8eb0235f659 ("x86: pcengines apuv2 gpio/leds/keys platform driver")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Increase buffer size to 3 dwords. No negative consequences of this change
+are expected, as the input buffer size is not verified. The original
+function is replaced by a wrapper for a new method passing value 0 for the
+last parameter. The new function will be used to control RGB keyboard
+backlight.
+
+Signed-off-by: Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+Reviewed-by: Daniel Drake <drake@endlessm.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/asus-wmi.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 5d5cc6111081..7c2fd1d72e18 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1317,7 +1317,7 @@ config HUAWEI_WMI
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index a66e99500c12..79c9a3f98dce 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -95,6 +95,7 @@ static bool ashs_present(void)
+ struct bios_args {
+ 	u32 arg0;
+ 	u32 arg1;
++	u32 arg2; /* At least TUF Gaming series uses 3 dword input buffer. */
+ } __packed;
  
- config PCENGINES_APU2
- 	tristate "PC Engines APUv2/3 front button and LEDs driver"
--	depends on INPUT && INPUT_KEYBOARD
-+	depends on INPUT && INPUT_KEYBOARD && GPIOLIB
- 	depends on LEDS_CLASS
- 	select GPIO_AMD_FCH
- 	select KEYBOARD_GPIO_POLLED
+ /*
+@@ -219,11 +220,13 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
+ 	asus->inputdev = NULL;
+ }
+ 
+-int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
++static int asus_wmi_evaluate_method3(u32 method_id,
++		u32 arg0, u32 arg1, u32 arg2, u32 *retval)
+ {
+ 	struct bios_args args = {
+ 		.arg0 = arg0,
+ 		.arg1 = arg1,
++		.arg2 = arg2,
+ 	};
+ 	struct acpi_buffer input = { (acpi_size) sizeof(args), &args };
+ 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+@@ -255,6 +258,11 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
+ 
+ 	return 0;
+ }
++
++int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
++{
++	return asus_wmi_evaluate_method3(method_id, arg0, arg1, 0, retval);
++}
+ EXPORT_SYMBOL_GPL(asus_wmi_evaluate_method);
+ 
+ static int asus_wmi_evaluate_method_agfn(const struct acpi_buffer args)
 -- 
 2.20.1
 
