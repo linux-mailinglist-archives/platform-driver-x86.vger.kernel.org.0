@@ -2,35 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 745976E7A3
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 17:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 776016EA6B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 19:57:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728226AbfGSPB7 (ORCPT
+        id S1728583AbfGSR5c (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 19 Jul 2019 11:01:59 -0400
-Received: from [104.248.167.98] ([104.248.167.98]:53252 "EHLO TEST.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726072AbfGSPB7 (ORCPT
+        Fri, 19 Jul 2019 13:57:32 -0400
+Received: from proxy03.fsdata.se ([89.221.252.213]:10521 "EHLO
+        mail-gw01.fsdata.se" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727497AbfGSR5c (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 19 Jul 2019 11:01:59 -0400
-Received: from localhost (TEST [127.0.0.1])
-        by TEST.localdomain (Postfix) with SMTP id D05F16DCC52;
-        Fri, 19 Jul 2019 14:29:04 +0000 (UTC)
-From:   platezh_@mail.ru
-Reply-To: prodawez@armyspy.com
-To:     kEnKMxGG2platezh_@mail.ru
-Subject: =?utf-8?B?0JfQtNGA0LDQstGB0YLQstGD0LnRgtC1ISDQktCw0YEg?=
-        =?utf-8?B?0LjQvdGC0LXRgNC10YHRg9GO0YIg0LrQu9C40LXQvdGC?=
-        =?utf-8?B?0YHQutC40LUg0LHQsNC30Ysg0LTQsNC90L3Ri9GFPw==?=
+        Fri, 19 Jul 2019 13:57:32 -0400
+X-Greylist: delayed 319 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Jul 2019 13:57:32 EDT
+Received: from localhost (94.234.55.24) by DAG01.HMC.local (192.168.46.11)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 19 Jul 2019 19:57:28
+ +0200
+Date:   Fri, 19 Jul 2019 19:57:27 +0200
+From:   Mattias Jacobsson <2pi@mok.nu>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Platform Driver <platform-driver-x86@vger.kernel.org>, <2pi@mok.nu>
+Subject: Re: WMI driver extension
+Message-ID: <20190719175726.qum5owpztasntlal@mok.nu>
+References: <CAHp75VcYZZFutOHntdXYni3TLi4qNmo=XLmvFiMYn49-U-gGOQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8";
-Content-Transfer-Encoding: base64
-Message-Id: <20190719142904.D05F16DCC52@TEST.localdomain>
-Date:   Fri, 19 Jul 2019 14:29:04 +0000 (UTC)
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAHp75VcYZZFutOHntdXYni3TLi4qNmo=XLmvFiMYn49-U-gGOQ@mail.gmail.com>
+X-Originating-IP: [94.234.55.24]
+X-ClientProxiedBy: PROXY05.HMC.local (192.168.46.55) To DAG01.HMC.local
+ (192.168.46.11)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-0JfQtNGA0LDQstGB0YLQstGD0LnRgtC1ISDQktCw0YEg0LjQvdGC0LXRgNC10YHRg9GO0YIg0LrQ
-u9C40LXQvdGC0YHQutC40LUg0LHQsNC30Ysg0LTQsNC90L3Ri9GFPw0K
+On 2019-07-17, Andy Shevchenko wrote:
+> I have got a report from kbuild bot
+> 
+> >> include/linux/mod_devicetable.h:803: warning: Function parameter or member 'context' not described in 'wmi_device_id'
+> 
+> Care to fix it as follow up?
+
+Definitely, see patch "platform/x86: wmi: add missing struct parameter description".
+
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+
+Thanks,
+Mattias
