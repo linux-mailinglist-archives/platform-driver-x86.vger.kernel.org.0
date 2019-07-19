@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2EA6DEE0
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 06:31:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50DDA6E001
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jul 2019 06:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730011AbfGSEEX (ORCPT
+        id S1727286AbfGSD7E (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 19 Jul 2019 00:04:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36628 "EHLO mail.kernel.org"
+        Thu, 18 Jul 2019 23:59:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58486 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730978AbfGSEEW (ORCPT
+        id S1728429AbfGSD7D (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:04:22 -0400
+        Thu, 18 Jul 2019 23:59:03 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 30AEB218C3;
-        Fri, 19 Jul 2019 04:04:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8AE11218D0;
+        Fri, 19 Jul 2019 03:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509062;
-        bh=R8D/y3Ypq3CcEyxbVqjygTUGau6ejYuCCCQO8aVhrw4=;
+        s=default; t=1563508742;
+        bh=yJmRyrzBt/ZQZo6dAZhH1BB6xNTq2RP6aEkDuFKhFlE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=im0YdGqkdtOns02jBW/aiDbI/BRbtnzRINfJd/Rdi3gDPPVc/xZUqAu6E9/qmUdgg
-         C4rAq7S5qy//9HyrfOmGOfJ/WLFwpaQdktMUK5gIohf04QKAv8zMKqQb008/1CkAE/
-         4DhHXU/joQQhDmJQx3iUy8VY0mgvgRwy+RDMSsvY=
+        b=X1AehkT5+mFNEYjaYZ7AVpLXYlpSnHgh0vdkbvCz5699szOCDrX+WuoqylCVP4kwX
+         gTxKFO5551fNZrVa+Q8pMbbBzrkEDnO+BfLJidjRtp09isWYIm63nToh07fUImQag6
+         i6vcZ2thNwK74Au3GcY3DjeGitMFsO4BZTaYtfTI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
@@ -33,12 +33,12 @@ Cc:     Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 046/141] platform/x86: asus-wmi: Increase input buffer size of WMI methods
-Date:   Fri, 19 Jul 2019 00:01:11 -0400
-Message-Id: <20190719040246.15945-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 063/171] platform/x86: asus-wmi: Increase input buffer size of WMI methods
+Date:   Thu, 18 Jul 2019 23:54:54 -0400
+Message-Id: <20190719035643.14300-63-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
-References: <20190719040246.15945-1-sashal@kernel.org>
+In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
+References: <20190719035643.14300-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index a66e99500c12..79c9a3f98dce 100644
+index 9b18a184e0aa..abfa99d18fea 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
-@@ -95,6 +95,7 @@ static bool ashs_present(void)
+@@ -85,6 +85,7 @@ static bool ashs_present(void)
  struct bios_args {
  	u32 arg0;
  	u32 arg1;
@@ -104,7 +104,7 @@ index a66e99500c12..79c9a3f98dce 100644
  } __packed;
  
  /*
-@@ -219,11 +220,13 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
+@@ -211,11 +212,13 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
  	asus->inputdev = NULL;
  }
  
@@ -119,7 +119,7 @@ index a66e99500c12..79c9a3f98dce 100644
  	};
  	struct acpi_buffer input = { (acpi_size) sizeof(args), &args };
  	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
-@@ -255,6 +258,11 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
+@@ -247,6 +250,11 @@ int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval)
  
  	return 0;
  }
