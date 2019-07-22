@@ -2,94 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E076F7C9
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Jul 2019 05:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE9A6FAD4
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Jul 2019 10:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727658AbfGVDNM (ORCPT
+        id S1726339AbfGVIAj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 21 Jul 2019 23:13:12 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:39499 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726106AbfGVDNM (ORCPT
+        Mon, 22 Jul 2019 04:00:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:38443 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbfGVIAj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 21 Jul 2019 23:13:12 -0400
-Received: by mail-io1-f65.google.com with SMTP id f4so70770176ioh.6;
-        Sun, 21 Jul 2019 20:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7nLJ3KhNlJhRRaXlyF42twki4b3rKtuNTKBPyNlE3IQ=;
-        b=jqPXqG/oPAGlVy92Sm9qnxD+OvIzZqFK5eI5gg2EDcOH+fuIgBpRB3K+O0TVYQ9BUs
-         f0ZAPiqWdLDOPmgiMCL/esg6SNd1n7RWeM4qY5CrHnpCAHQg10/UjMBpwpuEWB5gOEhh
-         h8yfJW67AIj3gAJAdRaj9vxjdowL1kYOy82T9vuSsBsmGeT2uh5aDh7egYxp1+kSrXqX
-         sInjrHwlgAo70nXuCe/5RKlbNuUOAmBZkePRiahz3SKXFGVrhPRlx3GdwOj4QtFbQy8H
-         6MgI7Y/uPERUg6gmQg0ddE/lsYI16gGqbMeLcmvFCj1zUr77zjoAavCDZEhGiMJAxiWu
-         Ed5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7nLJ3KhNlJhRRaXlyF42twki4b3rKtuNTKBPyNlE3IQ=;
-        b=gJ6uJCEV4wwXYP1sb6SYPhmh8MPGSPZIxmliB3ojnoR/YA/qXPSfimjotyO7qYBkQu
-         krz0o7Ql8O4Iq4Pd1Z920b0hBOPrEWCmnyDIEaLgJkJE5kx1D+bBo5q+9sKQ6BVWf12p
-         zNERbtEmw2cHh6QdY/ksWfVqYJdDIkfl2v5H+H6l/KWZ2UnOApPyuFlX2MpHr1vLZ0dN
-         4bd1G0rsZDYM4/Z83CRvtqHxPG1ZVldVGwu6kSsf2sA5s/7l4hGjiHHwXk9BgOVRyAU9
-         GMAKj2jIU7eloZTmjJm+tds0U7bI/4A1pnarNfuOdMdo41HQ7iNFMWql8O5lHf/jrnkE
-         9ilw==
-X-Gm-Message-State: APjAAAV0+HIJ8ll2MzynAM2U4emUQbe9j6gXbvLl5KNlDV6VaI1/Q/Hh
-        YpD264NBXPbVBA5Plp5S6Xo=
-X-Google-Smtp-Source: APXvYqx4gv53O6eTeHDOY1PKbA2BRqMTgy2yzBJlA/ATL/NszLULz/MF+bvCTd4ZGVSB638JAjyW+g==
-X-Received: by 2002:a5d:9c46:: with SMTP id 6mr2898495iof.6.1563765191710;
-        Sun, 21 Jul 2019 20:13:11 -0700 (PDT)
-Received: from localhost.localdomain (c-73-243-191-173.hsd1.co.comcast.net. [73.243.191.173])
-        by smtp.gmail.com with ESMTPSA id v13sm32107611ioq.13.2019.07.21.20.13.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 21 Jul 2019 20:13:11 -0700 (PDT)
-From:   Kelsey Skunberg <skunberg.kelsey@gmail.com>
-To:     dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     bjorn@helgaas.com, rjw@rjwysocki.net, skunberg.kelsey@gmail.com,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] platform: x86: Remove acpi_has_method() call in wmi.c
-Date:   Sun, 21 Jul 2019 21:11:58 -0600
-Message-Id: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Mon, 22 Jul 2019 04:00:39 -0400
+Received: from [192.168.1.110] ([77.2.59.209]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N5lvf-1iVaVn2qDL-017DXl; Mon, 22 Jul 2019 10:00:16 +0200
+Subject: Re: [PATCH v3 2/2] Input: soc_button_array - Add support for newer
+ surface devices
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20190720150511.95076-1-luzmaximilian@gmail.com>
+ <20190720150511.95076-3-luzmaximilian@gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <a2f75544-54ce-abce-56a4-ca226dbed51f@metux.net>
+Date:   Mon, 22 Jul 2019 10:00:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190720150511.95076-3-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:kCelReQIxIaGbHBVJ+RjOKPzo90HvOdqUfwPCr9J7kyb+0H0zir
+ wwhPJhb9A/DanLN7FxvNGLqMO3VOdz/75c1AHYlaoAA2W5FV4FhGM1tUYzmWHQKx8mbRhKK
+ O9ZtfWE1Nxa7jiqO3Ct07LdETKKH9vZ3Sf3oT/kamDFNZKZZlcrUxmR4CfmFWG7lkPn+wwn
+ cj63RDkiVRc42A4ICYm+w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qwUQon797ZE=:CkWkEhX8ZpeCMjv9levot/
+ 4W6wL01V8iJ7uKkXMABG42/hMZn+al1R1yw1nkYlCyUteMsrLOtE7sPT9yrIZiFnV6KOOgJXW
+ eHEpjrCsxpMyCODHotFI7fd/NWtXUPMZQU9aySxInhov+TxP3FBwEDcrrUnUC8c1Z6D1B3Q9g
+ icGav6cf3E4hwFpGgEv/9dAT8/W7Edyvh/Qk8AXK3BQb7YkkL3iIrBWGFmnQMo8sq8+Obnhau
+ wWlfmy1EfbkXg9EVV/Kbq0xfi0Grmft7Crk5kFxlXghFvTbTZjPOCz7iQPGkX6av8zZL008qa
+ iQKfVdf9NTIg4aZPmfqNY0Rt0ofKKTkjuLe8cBrjmWRGdSMOExzEOr6+l+KeNnMRvHLm1HX1t
+ O/6OIv3vh3tV/3x3P0II5maODJu20WKa6AU9hkfKYNMj6cxlsi4StR2hJ0+SzHfrXc34T6t10
+ rY6W4EP/81DThWfkvp0FFQwwezSjyoOTLdnmlKkeBtHSGHEGAn2ifEAMOJS7p+D2qUVGHH6VU
+ c8x3oY/b+MQj4HsmgrUoTi8lZeYtltJHxfBnphAGzjR3m0WDRrz/DUBInUFz/RZbbH42DnGfp
+ 03x1RPyHH/SV8FA+UIim44hb86HSlchXabnBuN9FTzvtg/IRAQS0AtX3BovFlDvH4fbKnvmza
+ z/8xIbaTdlW2pbfOXeEDsRLXgSvtXFwCCf8QrjYoPJS8U9UcOZ0jsTIAofquTd+YI8wgq71dw
+ t8bmUf/T4hcvUPbmv+BNldLyOnfqlwwMveECm57Syhr5tjlXszJUKzMMC8w=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-acpi_has_method() is unnecessary within __query_block() and should be
-removed to avoid extra work.
+On 20.07.19 17:05, Maximilian Luz wrote:
+> Power and volume button support for 5th and 6th generation Microsoft
+> Surface devices via soc_button_array.
+> 
+> Note that these devices use the same MSHW0040 device as on the Surface
+> Pro 4, however the implementation is different (GPIOs vs. ACPI
+> notifications). Thus some checking is required to ensure we only load
+> this driver on the correct devices.
 
-wc_status is initialized to AE_ERROR before the acpi_has_method() call.
-acpi_has_method() and acpi_execute_simple_method() failing due to the
-method not existing will result in the same outcome from __query_block().
+Could this also used on the older (pre pro4) devices (also using the
+gpios directly, and leave off acpi notifications) ?
 
-Signed-off-by: Kelsey Skunberg <skunberg.kelsey@gmail.com>
----
- drivers/platform/x86/wmi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+--mtx
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 784cea8572c2..59e9aa0f9643 100644
---- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -340,9 +340,7 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
- 		 * expensive, but have no corresponding WCxx method. So we
- 		 * should not fail if this happens.
- 		 */
--		if (acpi_has_method(handle, wc_method))
--			wc_status = acpi_execute_simple_method(handle,
--								wc_method, 1);
-+		wc_status = acpi_execute_simple_method(handle, wc_method, 1);
- 	}
- 
- 	strcpy(method, "WQ");
 -- 
-2.20.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
