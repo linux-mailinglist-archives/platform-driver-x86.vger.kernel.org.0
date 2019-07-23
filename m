@@ -2,73 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E396D6FECB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Jul 2019 13:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18FE371249
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jul 2019 09:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729915AbfGVLgg (ORCPT
+        id S1729709AbfGWHG5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 22 Jul 2019 07:36:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:55717 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728034AbfGVLgg (ORCPT
+        Tue, 23 Jul 2019 03:06:57 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:40953 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725837AbfGWHG5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 22 Jul 2019 07:36:36 -0400
-Received: from orion.localdomain ([77.2.59.209]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MDyoU-1hfeiF40Ps-009zPi; Mon, 22 Jul 2019 13:36:29 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front button
-Date:   Mon, 22 Jul 2019 13:36:19 +0200
-Message-Id: <1563795379-7521-1-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-X-Provags-ID: V03:K1:xv3sdLlicg7odtFSbhiPyDIZ4SM9Cjl3T8XzhC+XWA/0cfZY1Cl
- sFwRqDGry7kIUVRTYAu5Dy33cBbLvV/iajDRT9GaSfhMxA1Tk/Ck5uctL6lsUdmO9gnzTRV
- rNB4f/ByQteTZHuhgCqqp/dKW4YoFZpnVMdnJBs4+iIIMGETOOdzT01mc/dOkaM16BBTPvn
- nYEPeS5q8rZgNxiLUThpg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5egK05G+yqo=:ir1F/wdYyU858FWrWL6L40
- lSZ4Wd8kiYnJoVUpHcTvi/PG1FfnEMCFSvVEkOGJP3vk4MY5/w+QliEcsqFVrfk+779/B0p6N
- x8v1WuhEqhsaf3+im5nPhWaxOU+X496chuFgjf5dpRzWzlablLuivmn6kxfzNBanJF9cwFFso
- 76BuvgwOxVroONDCpipC5oCwZ7gPaaL+PvCUFnP29Js4mCJ4wbgYUBg93rUgaOgB9DncBnSsE
- HIYBifwvzufn+7k8oHxEw54IVgm66jEA2y/ATwlJV8iSAOTYO/mv3q6Ty37HvmmIjm/1NtbN1
- kvQX/0o/UjkWrYn93uzBZH14tLt5uQ7xHA732nEtK4L1Ab6k78+AuHDR4gAL5CQ6G+ZhjVk57
- NGl3iJBwk7LbqPT4ab28c5EQZFYbJu0dPJUVqimjAURdxG05KKA1QSor6GonnHmzff93TwaBs
- 7SIV+FRTAsBHPK5LhIlqNA1TaOZab9J+C5qJTq19TCQfuneeKLBn5n9LTbHeqNtIIuUQT9RXe
- QFObKwqxt8RxdQQ0I78/3NYM9MiH1SB/I2vdHHcs0VI5ZypKrhqDhL2U4MuhHkJC8lO2Nlctn
- x/Pec7zyXYnqBpgDt/SZN2qCWCnRpcIUsZz+AovfLZ/lMoShHH5LcR5AbtyLZZf4Fx12DKKIZ
- beK17y6yLABF2sYs5VlpYvuyGXLbOjx7+trs+WO7MJDmacbxa5oR5H2QMavAxpb3lryeZrVyY
- FhaTXscXDpnQprm3H23Y7EjesiwpdWXTH6lUYg==
+        Tue, 23 Jul 2019 03:06:57 -0400
+Received: by mail-qt1-f196.google.com with SMTP id a15so40905641qtn.7;
+        Tue, 23 Jul 2019 00:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GcUNOoc2v5PTLCl4JCvdlXkVaBUqo/As5xzKXvt1t28=;
+        b=nZgUga+xdY6jCBsaRAYXpJtpWzFaSwcNoELz9qOpXT8hmo7gBdsgpSngqnxCfBKYZM
+         P4g1aOPWmbAX+Nc5Bj2fjFRnUt6rZJr8TjyqIb+xhXTtUatb01nagZGUADN8Oaph7PqD
+         kQZOf9hL00RQiPfKeDSw14UqYPcucRmoRa93JQ1Omh10BvUhW+wkeyeGjcEAMdOS1BKx
+         shToQF3CQ2VjInO6zdQP6BeZro3p/+Jpjc5gGQp/0zkhmobWIg5jOrNcvrMYkGBMrtr/
+         zsn7O1u50ANw42ntEnkIF1s7uIq1PGh55oCM9fWdkc+o2UDhdkaushoRBNJtbJiPwPfa
+         Txrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GcUNOoc2v5PTLCl4JCvdlXkVaBUqo/As5xzKXvt1t28=;
+        b=HQapfhyUrBmbISyzGV+dg0SYse674wZspAtr2eG+uPDkKdnZmoFcCtJYMGxA+oNiOW
+         9hTQT6D/XlO1sAIWx23Ey65zbjj9qcEApj/nHm3udfweeua5U8Jh87ItGWuM/fvDpoGZ
+         8yVOhK3dqtg7tJMsO6WHSNGXVAJk6YDYtRmqdOSMRS3PSLS/R9boJY/xZgUoScygK4iw
+         sm9o7LocHpy0g+ZHizW63o9PKyL/KsRvJ1QH6tUNbK7oEZrHS4tXH59pLzvBDGIq+2hB
+         dW2dMeTlL6CF7OIbKP6T8GP8uN2v2TuhISeSfUH5OcUvK/mlOGlJ3fr4WY0F1F6Rp4I2
+         O5Pg==
+X-Gm-Message-State: APjAAAXygZvUkQI1WlhrummIasx1rm2DlfDKY8v/3TvSrlnGMO9J92SS
+        P7TE+SLIt/lK1gprIi8FUzHl2NwORozn+yzHRdYfa8Or
+X-Google-Smtp-Source: APXvYqwxSty+MvD3lHiYpDhtBuXFnrUGzTStnfnsjIG65bGrsjR80dVtKo79EfT8W52iUcDLgzvh8TVH483ZMx7ACyU=
+X-Received: by 2002:ad4:5661:: with SMTP id bm1mr53662121qvb.119.1563865616201;
+ Tue, 23 Jul 2019 00:06:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190704090205.19400-1-fe@dev.tdt.de> <20190704090205.19400-4-fe@dev.tdt.de>
+ <cca95ba1-6ac0-a2eb-9ae6-914a8783c1ad@metux.net>
+In-Reply-To: <cca95ba1-6ac0-a2eb-9ae6-914a8783c1ad@metux.net>
+From:   Florian Eckert <eckert.florian@googlemail.com>
+Date:   Tue, 23 Jul 2019 09:06:45 +0200
+Message-ID: <CALPCC5wH_uAGYaHeM_d_yxxUZEd3f-MfhT7jdZSt9ythd08S9w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] platform//x86/pcengines-apuv2: update gpio button definition
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Florian Eckert <fe@dev.tdt.de>, info@metux.net,
+        dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Enrico Weigelt <info@metux.net>
+> I'd like to ack only the keycode change, but not the deprecated .gpio
+> field. I'll post a separate patch for the keycode change only.
 
-The keycode KEY_RESTART is more appropriate for the front button,
-as most people use it for things like restart or factory reset.
-
-Signed-off-by: Enrico Weigelt <info@metux.net>
----
- drivers/platform/x86/pcengines-apuv2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-index b0d3110..4138007c 100644
---- a/drivers/platform/x86/pcengines-apuv2.c
-+++ b/drivers/platform/x86/pcengines-apuv2.c
-@@ -93,7 +93,7 @@
- 
- static struct gpio_keys_button apu2_keys_buttons[] = {
- 	{
--		.code			= KEY_SETUP,
-+		.code			= KEY_RESTART,
- 		.active_low		= 1,
- 		.desc			= "front button",
- 		.type			= EV_KEY,
--- 
-1.9.1
-
+I am fine if we only change the keycode.
+Do I have to send a v2 patch set?
