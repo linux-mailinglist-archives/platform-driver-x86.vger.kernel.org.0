@@ -2,121 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE330720D5
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jul 2019 22:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 543E2722B7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jul 2019 01:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732854AbfGWUeQ (ORCPT
+        id S1729688AbfGWXAb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Jul 2019 16:34:16 -0400
-Received: from mga07.intel.com ([134.134.136.100]:63973 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729564AbfGWUeQ (ORCPT
+        Tue, 23 Jul 2019 19:00:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:57337 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728418AbfGWXAb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Jul 2019 16:34:16 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jul 2019 13:34:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,300,1559545200"; 
-   d="scan'208";a="253344182"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 23 Jul 2019 13:34:13 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id DE45E81; Tue, 23 Jul 2019 23:34:12 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Darren Hart <dvhart@infradead.org>,
+        Tue, 23 Jul 2019 19:00:31 -0400
+Received: from [192.168.1.110] ([95.118.72.89]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MSqbe-1hzWmY3zlm-00UIYa; Wed, 24 Jul 2019 01:00:21 +0200
+Subject: Re: [PATCH 3/3] platform//x86/pcengines-apuv2: update gpio button
+ definition
+To:     Florian Eckert <eckert.florian@googlemail.com>
+Cc:     Florian Eckert <fe@dev.tdt.de>, info@metux.net,
+        dvhart@infradead.org, andy@infradead.org,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Chun-Yi Lee <jlee@suse.com>
-Subject: [PATCH v1] platform/x86: acer-wmi: Switch to acpi_dev_get_first_match_dev()
-Date:   Tue, 23 Jul 2019 23:34:11 +0300
-Message-Id: <20190723203411.71448-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
+References: <20190704090205.19400-1-fe@dev.tdt.de>
+ <20190704090205.19400-4-fe@dev.tdt.de>
+ <cca95ba1-6ac0-a2eb-9ae6-914a8783c1ad@metux.net>
+ <CALPCC5wH_uAGYaHeM_d_yxxUZEd3f-MfhT7jdZSt9ythd08S9w@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <ab15f31b-e585-15c2-877a-5fcc13e85e14@metux.net>
+Date:   Wed, 24 Jul 2019 01:00:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALPCC5wH_uAGYaHeM_d_yxxUZEd3f-MfhT7jdZSt9ythd08S9w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:EX1j4GM+pOLE65MKiwTA8Ks36S6bIA+Y7Mhd6g2mbt9wg4ebVug
+ kqRDbgWT46bwxsFukXFSexKcJJPbVpE8uzNERTO/GR732zedwK0C2q9OrQSWHtDb51VJODw
+ gtujqmGVbXaj/VRY8I84d/wwX0SlAuzYicXDP8fWf8w9Uc+LDFZTVdfNgi2/vDG/qS3rxwe
+ cQn88ii5fnxPtp3PWojFw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IsyNBD5FIIg=:9ZSiUeXe9Qr2cxzGf5qCAo
+ v0GR4pblsBOU5yggDB/SNoh6X3cxXhWdWfsxSAW5FAvW8bVMnylmytJvYrdO/XBTJs/+br4Ic
+ FUQmpu/vpO1sWCouvjagy7iLZMZK8HKizzJm1r9fbNIp7q9e9i6nE2KmfJHWAztLw+pdTrZRb
+ +fHVDCW+uuO3VuQwK0YlqhImw5e901p3bflAF+Se+wdWgXVk6ufwjhQQkKR5PpnfWhKFjjE7g
+ LozO5mk+AzdRbgh0lV9iNwZn0IODGyVKUUOptVvfu/k2oGxicK2d6Dfd22LlZmQ+Nfr/IssSf
+ dVVro7ZoWM/noCe77DF/bXW/a+QRDqSzYxXw0OSuqh8brkHaop3sa7xPsNsz4vGbrVqRi40aD
+ bl6xQYxyeohOFI2YPd2TtlYdNgnWo5W8Arp0uRS1SGjUz3JNc46HbwcUNjAttgroWg/1G3IO2
+ MJIKr/fk8l8KejpxA5eToFCkXeH0dCltFOr65IzxyazgvmEvEnT4yi56tNV3WyaBhkNBMcCK3
+ xyGdGIc8OIWsmN9qxfk8wAtw9asyZVjhUvPqgIm7r2IlaNKjJzcoyt4BMXpXKkDe9lEkrCdFR
+ LtrIvy8L95gMg0yHohri1YryubtO2j2M78Zn0UfVpXx9mhmfi3PIfD6bsSy+V5K6O6kVqU6Zz
+ g1fa20sHXrQpItedcXfb5PcV0yVKRse9WgPUWMYqcGTg+gHSU2rCThoWg6YflTxbKEkRt2SYz
+ e2BWerFkaqkrfTclIu0NEPa6DpfqdIzPwelR1SCcQwuhyYM9LAHuSOrSoS0=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The acpi_dev_get_first_match_dev() helper will find and return
-an ACPI device pointer of the first registered device in the system
-by its HID.
+On 23.07.19 09:06, Florian Eckert wrote:
+>> I'd like to ack only the keycode change, but not the deprecated .gpio
+>> field. I'll post a separate patch for the keycode change only.
+> 
+> I am fine if we only change the keycode.
+> Do I have to send a v2 patch set?
+> 
 
-Use it instead of open coded variant.
+already sent one.
 
-Cc: Chun-Yi Lee <jlee@suse.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-- Chun-Yi, please, test it if possible
- drivers/platform/x86/acer-wmi.c | 49 +++++----------------------------
- 1 file changed, 7 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 62b54e137231..60c18f21588d 100644
---- a/drivers/platform/x86/acer-wmi.c
-+++ b/drivers/platform/x86/acer-wmi.c
-@@ -1881,52 +1881,17 @@ static int __init acer_wmi_enable_rf_button(void)
- 	return status;
- }
- 
--#define ACER_WMID_ACCEL_HID	"BST0001"
--
--static acpi_status __init acer_wmi_get_handle_cb(acpi_handle ah, u32 level,
--						void *ctx, void **retval)
--{
--	struct acpi_device *dev;
--
--	if (!strcmp(ctx, "SENR")) {
--		if (acpi_bus_get_device(ah, &dev))
--			return AE_OK;
--		if (strcmp(ACER_WMID_ACCEL_HID, acpi_device_hid(dev)))
--			return AE_OK;
--	} else
--		return AE_OK;
--
--	*(acpi_handle *)retval = ah;
--
--	return AE_CTRL_TERMINATE;
--}
--
--static int __init acer_wmi_get_handle(const char *name, const char *prop,
--					acpi_handle *ah)
--{
--	acpi_status status;
--	acpi_handle handle;
--
--	BUG_ON(!name || !ah);
--
--	handle = NULL;
--	status = acpi_get_devices(prop, acer_wmi_get_handle_cb,
--					(void *)name, &handle);
--	if (ACPI_SUCCESS(status) && handle) {
--		*ah = handle;
--		return 0;
--	} else {
--		return -ENODEV;
--	}
--}
--
- static int __init acer_wmi_accel_setup(void)
- {
-+	struct acpi_device *adev;
- 	int err;
- 
--	err = acer_wmi_get_handle("SENR", ACER_WMID_ACCEL_HID, &gsensor_handle);
--	if (err)
--		return err;
-+	adev = acpi_dev_get_first_match_dev("BST0001", NULL, -1);
-+	if (!adev)
-+		return -ENODEV;
-+
-+	gsensor_handle = acpi_device_handle(adev);
-+	acpi_dev_put(adev);
- 
- 	interface->capability |= ACER_CAP_ACCEL;
- 
 -- 
-2.20.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
