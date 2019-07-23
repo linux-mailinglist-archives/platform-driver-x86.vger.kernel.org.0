@@ -2,97 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C45207170C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jul 2019 13:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE330720D5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jul 2019 22:34:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389479AbfGWL3c (ORCPT
+        id S1732854AbfGWUeQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Jul 2019 07:29:32 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42221 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727826AbfGWL3c (ORCPT
+        Tue, 23 Jul 2019 16:34:16 -0400
+Received: from mga07.intel.com ([134.134.136.100]:63973 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729564AbfGWUeQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Jul 2019 07:29:32 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x1so27789687wrr.9;
-        Tue, 23 Jul 2019 04:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=f8H6U0+3Sk4VYW6Aa+OCSbWW6bgtEY44sozfQ1JdKIY=;
-        b=emqkyIl67MRV4609gb6UHgsPFJpQTqlY4AIKr/P6xdna1LnwSmTV4o+KTXRKbgKxJO
-         mqNeikCn49SdlGW+GBw61Y+n265yxRMms2f7q1XcqsSBSdSZkGBlSWI1FvVEuSvrQCMR
-         K5GNF5WX5EIMFNTL6wuv7rFLTPby8/mx2C/265t6R0/uuzT5ZP9jX8Jnzrnzw+M5P2oH
-         Kh5y9HyxFL0lRtqdeUKc4S0VrXuNDEpjv6DTSzz4NMGg2wvjHXtAUBCUjTe66k5w+PaF
-         3OgAQPu303zjhz+oXRI01G/vfdFYlK/tWYr710+6b3DtsOtsfaRYfN0R8wDC6s62Vi0S
-         Aq4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=f8H6U0+3Sk4VYW6Aa+OCSbWW6bgtEY44sozfQ1JdKIY=;
-        b=Zyr2nLKU9tEl4DVNtJP9IRDHW4tDEcav+WL9imX7Xk7K+zD+47WcCPigG8RLkVLGow
-         62VsbCMGdM3H6qdAEooV0PPUMVUMwCWmEC36q8QenGsIh/XCff6fjNP08Ipdc86ftlq2
-         6V1kcAAftuWu/ddG1ZVM5fsWnxouHM+pOpswfD98wZjhBo6rQQ6mBQKa60aI5s9uZ/+M
-         8OxxdweItfI3pMQU4oKBY1M3oXDw/YmBzvPFzVyzQFuW4UGzAv95nrI5IRQa8eRJIeha
-         9RRVXzkt9f7wZjk6jdii0fG4AggDBtgkKkyiEF3schY1SEH1rzw3YDUG9B0GhW0OdgPR
-         HCRA==
-X-Gm-Message-State: APjAAAVFmlXsXgFPrLosU3HUVntpxMNL77s6e4B/qhhZFRniVFmNQMNR
-        2AN3X4qx5J5tmpwl3xH6AoU=
-X-Google-Smtp-Source: APXvYqyRhaDv6KIgHD/AiOmbAATBBVRRDSQIUYC9zkJu06oXfg1tQ7o6XRww3imaVKsQ687Ybt6GfQ==
-X-Received: by 2002:adf:f204:: with SMTP id p4mr2251248wro.317.1563881370004;
-        Tue, 23 Jul 2019 04:29:30 -0700 (PDT)
-Received: from [192.168.2.202] (pD9E5A8B2.dip0.t-ipconnect.de. [217.229.168.178])
-        by smtp.gmail.com with ESMTPSA id t13sm52324256wrr.0.2019.07.23.04.29.28
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jul 2019 04:29:29 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] Input: soc_button_array - Add support for newer
- surface devices
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20190720150511.95076-1-luzmaximilian@gmail.com>
- <20190720150511.95076-3-luzmaximilian@gmail.com>
- <a2f75544-54ce-abce-56a4-ca226dbed51f@metux.net>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <901b9b74-4c59-9c6a-ce41-404d8885cb83@gmail.com>
-Date:   Tue, 23 Jul 2019 13:29:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 23 Jul 2019 16:34:16 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jul 2019 13:34:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,300,1559545200"; 
+   d="scan'208";a="253344182"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 23 Jul 2019 13:34:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id DE45E81; Tue, 23 Jul 2019 23:34:12 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Chun-Yi Lee <jlee@suse.com>
+Subject: [PATCH v1] platform/x86: acer-wmi: Switch to acpi_dev_get_first_match_dev()
+Date:   Tue, 23 Jul 2019 23:34:11 +0300
+Message-Id: <20190723203411.71448-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a2f75544-54ce-abce-56a4-ca226dbed51f@metux.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/22/19 10:00 AM, Enrico Weigelt, metux IT consult wrote:
-> On 20.07.19 17:05, Maximilian Luz wrote:
->> Power and volume button support for 5th and 6th generation Microsoft
->> Surface devices via soc_button_array.
->>
->> Note that these devices use the same MSHW0040 device as on the Surface
->> Pro 4, however the implementation is different (GPIOs vs. ACPI
->> notifications). Thus some checking is required to ensure we only load
->> this driver on the correct devices.
-> 
-> Could this also used on the older (pre pro4) devices (also using the
-> gpios directly, and leave off acpi notifications) ?
+The acpi_dev_get_first_match_dev() helper will find and return
+an ACPI device pointer of the first registered device in the system
+by its HID.
 
-As far as I can tell, no. The Pro 4 and Pro 3 don't have any GPIOs on
-MSHW0028/MSHW0040. Book 1 has GPIOs but for a different purpose. The Pro
-2 has a standard PNP0C0C power button (no idea how the volume buttons
-are handled there, but also seems to be different from what I can gather
-from DSDT). I can't say anything for the Pro 1 and non-Pro devices.
+Use it instead of open coded variant.
 
-Maximilian
+Cc: Chun-Yi Lee <jlee@suse.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+- Chun-Yi, please, test it if possible
+ drivers/platform/x86/acer-wmi.c | 49 +++++----------------------------
+ 1 file changed, 7 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+index 62b54e137231..60c18f21588d 100644
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -1881,52 +1881,17 @@ static int __init acer_wmi_enable_rf_button(void)
+ 	return status;
+ }
+ 
+-#define ACER_WMID_ACCEL_HID	"BST0001"
+-
+-static acpi_status __init acer_wmi_get_handle_cb(acpi_handle ah, u32 level,
+-						void *ctx, void **retval)
+-{
+-	struct acpi_device *dev;
+-
+-	if (!strcmp(ctx, "SENR")) {
+-		if (acpi_bus_get_device(ah, &dev))
+-			return AE_OK;
+-		if (strcmp(ACER_WMID_ACCEL_HID, acpi_device_hid(dev)))
+-			return AE_OK;
+-	} else
+-		return AE_OK;
+-
+-	*(acpi_handle *)retval = ah;
+-
+-	return AE_CTRL_TERMINATE;
+-}
+-
+-static int __init acer_wmi_get_handle(const char *name, const char *prop,
+-					acpi_handle *ah)
+-{
+-	acpi_status status;
+-	acpi_handle handle;
+-
+-	BUG_ON(!name || !ah);
+-
+-	handle = NULL;
+-	status = acpi_get_devices(prop, acer_wmi_get_handle_cb,
+-					(void *)name, &handle);
+-	if (ACPI_SUCCESS(status) && handle) {
+-		*ah = handle;
+-		return 0;
+-	} else {
+-		return -ENODEV;
+-	}
+-}
+-
+ static int __init acer_wmi_accel_setup(void)
+ {
++	struct acpi_device *adev;
+ 	int err;
+ 
+-	err = acer_wmi_get_handle("SENR", ACER_WMID_ACCEL_HID, &gsensor_handle);
+-	if (err)
+-		return err;
++	adev = acpi_dev_get_first_match_dev("BST0001", NULL, -1);
++	if (!adev)
++		return -ENODEV;
++
++	gsensor_handle = acpi_device_handle(adev);
++	acpi_dev_put(adev);
+ 
+ 	interface->capability |= ACER_CAP_ACCEL;
+ 
+-- 
+2.20.1
+
