@@ -2,74 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 543E2722B7
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jul 2019 01:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6564729AC
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jul 2019 10:14:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729688AbfGWXAb (ORCPT
+        id S1725909AbfGXIOl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Jul 2019 19:00:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:57337 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728418AbfGWXAb (ORCPT
+        Wed, 24 Jul 2019 04:14:41 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:36057 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725878AbfGXIOl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Jul 2019 19:00:31 -0400
-Received: from [192.168.1.110] ([95.118.72.89]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MSqbe-1hzWmY3zlm-00UIYa; Wed, 24 Jul 2019 01:00:21 +0200
-Subject: Re: [PATCH 3/3] platform//x86/pcengines-apuv2: update gpio button
- definition
-To:     Florian Eckert <eckert.florian@googlemail.com>
-Cc:     Florian Eckert <fe@dev.tdt.de>, info@metux.net,
-        dvhart@infradead.org, andy@infradead.org,
+        Wed, 24 Jul 2019 04:14:41 -0400
+Received: by mail-pf1-f195.google.com with SMTP id r7so20545570pfl.3;
+        Wed, 24 Jul 2019 01:14:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5nL72l4EofiZh5+AlPg28m/QGAR+oMZgweBNFc3hzc=;
+        b=EfUUBBBjL2IiBl5sR7u3tdIKqH7KsZxKAVLi90QycMrEJu4rp7EdLnzgRxj0FLMPXm
+         d0sKMvmzDx0TsF75DGYMdUNswpBudNcfSWYeki3ZIPW39rfnZtw8rEmslYNibio5tMvW
+         CpOWbbs3cEtapZSJcVWmbrJQ/qL8Hpg0L43qWV/YX9UDkLiJPkKnfhdc4STxpNpUI5Ko
+         +0nYVsDo+nMCgY3eUndfwVU1sSBmWd5tfCcxjicyP8XIVjOKx77rmmmXpYA3VHO3bj1j
+         s2CTc8/Ds1Ym6e02AcbAJBrF//qNVFM1JNs3gqayDprw0gyixzuo07eey9XvQK3iFc1+
+         4xwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L5nL72l4EofiZh5+AlPg28m/QGAR+oMZgweBNFc3hzc=;
+        b=qpmZgyjPWzcajtF6ykt8YX60cF3oB3jgdHHxY3Pf/SO378mAt49YqXGnzjJ6Fl5sIS
+         opz71t4pqPsuHH7Hh6y+MLbLiCmkguEagD/8wq2I5/G+hunIxudd6mqB09bHGb3VDoB5
+         uxtY18TfeF8+7w4eo1wCsVZ3WZ6qyWDk79pRwJtZKRFr9BMy2LKXRwvP5AE2DByEuGC2
+         XzwquLnBzjFwGkzYjMUop1QPZP8QNkvd7ZOAl60L456Hf36BeGrVCQdzTp2IjUhm2mS0
+         PHmVJvGNfN+vlaJCl4FDjewTOa+lJ57Wzu+hGHYq1ZWR8ECpqI2m3MODmIfUzhQQG7ZJ
+         ZF7Q==
+X-Gm-Message-State: APjAAAU2p4reczg7KX284Xig9UNnoRYgZ6AGPRl52tdR9E+Ngw/sAiZt
+        UhAiHSl8E4g+XAEnWD5XP6A=
+X-Google-Smtp-Source: APXvYqwpZs/mtGQ8G6lFgh7SCJpHFI7lv/GkUOr8Cg7v9sxMljdT82S4d8hOzIWkOkqXRf9vOmzsKQ==
+X-Received: by 2002:a63:ff66:: with SMTP id s38mr81212888pgk.363.1563956080876;
+        Wed, 24 Jul 2019 01:14:40 -0700 (PDT)
+Received: from localhost.localdomain (180-150-79-77.b4964f.syd.nbn.aussiebb.net. [180.150.79.77])
+        by smtp.gmail.com with ESMTPSA id q126sm1468146pfb.56.2019.07.24.01.14.37
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 24 Jul 2019 01:14:40 -0700 (PDT)
+From:   Rhys Kidd <rhyskidd@gmail.com>
+To:     Matthew Garrett <mjg59@google.com>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190704090205.19400-1-fe@dev.tdt.de>
- <20190704090205.19400-4-fe@dev.tdt.de>
- <cca95ba1-6ac0-a2eb-9ae6-914a8783c1ad@metux.net>
- <CALPCC5wH_uAGYaHeM_d_yxxUZEd3f-MfhT7jdZSt9ythd08S9w@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <ab15f31b-e585-15c2-877a-5fcc13e85e14@metux.net>
-Date:   Wed, 24 Jul 2019 01:00:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Cc:     Rhys Kidd <rhyskidd@gmail.com>
+Subject: [PATCH 1/3] platform/x86: dell-wmi: Ignore keyboard backlight change KBD_LED_ON_TOKEN
+Date:   Wed, 24 Jul 2019 18:14:13 +1000
+Message-Id: <20190724081415.8926-1-rhyskidd@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CALPCC5wH_uAGYaHeM_d_yxxUZEd3f-MfhT7jdZSt9ythd08S9w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:EX1j4GM+pOLE65MKiwTA8Ks36S6bIA+Y7Mhd6g2mbt9wg4ebVug
- kqRDbgWT46bwxsFukXFSexKcJJPbVpE8uzNERTO/GR732zedwK0C2q9OrQSWHtDb51VJODw
- gtujqmGVbXaj/VRY8I84d/wwX0SlAuzYicXDP8fWf8w9Uc+LDFZTVdfNgi2/vDG/qS3rxwe
- cQn88ii5fnxPtp3PWojFw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IsyNBD5FIIg=:9ZSiUeXe9Qr2cxzGf5qCAo
- v0GR4pblsBOU5yggDB/SNoh6X3cxXhWdWfsxSAW5FAvW8bVMnylmytJvYrdO/XBTJs/+br4Ic
- FUQmpu/vpO1sWCouvjagy7iLZMZK8HKizzJm1r9fbNIp7q9e9i6nE2KmfJHWAztLw+pdTrZRb
- +fHVDCW+uuO3VuQwK0YlqhImw5e901p3bflAF+Se+wdWgXVk6ufwjhQQkKR5PpnfWhKFjjE7g
- LozO5mk+AzdRbgh0lV9iNwZn0IODGyVKUUOptVvfu/k2oGxicK2d6Dfd22LlZmQ+Nfr/IssSf
- dVVro7ZoWM/noCe77DF/bXW/a+QRDqSzYxXw0OSuqh8brkHaop3sa7xPsNsz4vGbrVqRi40aD
- bl6xQYxyeohOFI2YPd2TtlYdNgnWo5W8Arp0uRS1SGjUz3JNc46HbwcUNjAttgroWg/1G3IO2
- MJIKr/fk8l8KejpxA5eToFCkXeH0dCltFOr65IzxyazgvmEvEnT4yi56tNV3WyaBhkNBMcCK3
- xyGdGIc8OIWsmN9qxfk8wAtw9asyZVjhUvPqgIm7r2IlaNKjJzcoyt4BMXpXKkDe9lEkrCdFR
- LtrIvy8L95gMg0yHohri1YryubtO2j2M78Zn0UfVpXx9mhmfi3PIfD6bsSy+V5K6O6kVqU6Zz
- g1fa20sHXrQpItedcXfb5PcV0yVKRse9WgPUWMYqcGTg+gHSU2rCThoWg6YflTxbKEkRt2SYz
- e2BWerFkaqkrfTclIu0NEPa6DpfqdIzPwelR1SCcQwuhyYM9LAHuSOrSoS0=
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 23.07.19 09:06, Florian Eckert wrote:
->> I'd like to ack only the keycode change, but not the deprecated .gpio
->> field. I'll post a separate patch for the keycode change only.
-> 
-> I am fine if we only change the keycode.
-> Do I have to send a v2 patch set?
-> 
+There's a wmi event generated by dell-wmi when pressing keyboard backlight
+toggle key:
+[1224203.948894] dell_wmi: Unknown key with type 0x0011 and code 0x01e2 pressed
 
-already sent one.
+This event is for notification purposes, let's ignore it.
 
+Signed-off-by: Rhys Kidd <rhyskidd@gmail.com>
+---
+ drivers/platform/x86/dell-wmi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+index 1f565fb69098..ae331ac119a1 100644
+--- a/drivers/platform/x86/dell-wmi.c
++++ b/drivers/platform/x86/dell-wmi.c
+@@ -312,6 +312,7 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
+ 
+ 	/* Keyboard backlight level changed */
+ 	{ KE_IGNORE, 0x01e1, { KEY_RESERVED } },
++	{ KE_IGNORE, 0x01e2, { KEY_RESERVED } },
+ 	{ KE_IGNORE, 0x02ea, { KEY_RESERVED } },
+ 	{ KE_IGNORE, 0x02eb, { KEY_RESERVED } },
+ 	{ KE_IGNORE, 0x02ec, { KEY_RESERVED } },
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.20.1
+
