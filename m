@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D79F73C32
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jul 2019 22:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6842973F9A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jul 2019 22:34:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388559AbfGXUHE (ORCPT
+        id S1728438AbfGXT1T (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 24 Jul 2019 16:07:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55232 "EHLO mail.kernel.org"
+        Wed, 24 Jul 2019 15:27:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44876 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392474AbfGXUEP (ORCPT
+        id S1729300AbfGXT1S (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 24 Jul 2019 16:04:15 -0400
+        Wed, 24 Jul 2019 15:27:18 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8947F21855;
-        Wed, 24 Jul 2019 20:04:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 46E9622ADB;
+        Wed, 24 Jul 2019 19:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563998654;
-        bh=JQKSJ1jhwu21v74Y60lwYJZUJ6awPSfOEu+ZXl0FSWs=;
+        s=default; t=1563996437;
+        bh=Mg85mgCrIy2xrtULGoIFToYq7KDasH/cpmwXbL5Delk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pc8z/fGvWUFXiacqNEa1f5XieIsYxA5iEvseuaySLBukPPyXMs5FOpN+VzmuMcInY
-         bVlqajzrbdg7yfqqmRTZKrTPFlE9s5KHDltLBg8uJ8nJZameiRRNf/Aad85hYbPQNg
-         H7t8yqbx0pwvem8Ph1E62N6nkbZ+lKL+hS1Icfn8=
+        b=ILm51VpgsReqCSeEv0U8hvuAYHYdxFeCyZ82ieQjfY+E24hmGhiG+l/hkFb8rQrWc
+         hQtvW3HEUABlw+Y8rEDKRFRtwhSxymx91RIgGtHSSjQHm/46x+Pa45wJc4v/D/mtpo
+         6Ncn1oUZorH12UWlivkJz8Wh5DyUirBOnRMz2lik=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,12 +43,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Len Brown <lenb@kernel.org>,
         Linux PM <linux-pm@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 067/271] x86/cpu: Add Ice Lake NNPI to Intel family
-Date:   Wed, 24 Jul 2019 21:18:56 +0200
-Message-Id: <20190724191700.928300974@linuxfoundation.org>
+Subject: [PATCH 5.2 096/413] x86/cpu: Add Ice Lake NNPI to Intel family
+Date:   Wed, 24 Jul 2019 21:16:27 +0200
+Message-Id: <20190724191741.925587451@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190724191655.268628197@linuxfoundation.org>
-References: <20190724191655.268628197@linuxfoundation.org>
+In-Reply-To: <20190724191735.096702571@linuxfoundation.org>
+References: <20190724191735.096702571@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -86,7 +86,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/x86/include/asm/intel-family.h b/arch/x86/include/asm/intel-family.h
-index 2e38fb82b91d..aebedbaf5260 100644
+index 310118805f57..f60ddd655c78 100644
 --- a/arch/x86/include/asm/intel-family.h
 +++ b/arch/x86/include/asm/intel-family.h
 @@ -56,6 +56,7 @@
