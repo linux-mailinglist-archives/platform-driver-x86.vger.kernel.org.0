@@ -2,55 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 008287553B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C0F775575
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:24:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbfGYRSJ (ORCPT
+        id S2391197AbfGYRYC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 13:18:09 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34532 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbfGYRSJ (ORCPT
+        Thu, 25 Jul 2019 13:24:02 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42778 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391148AbfGYRYB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:18:09 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b13so23086260pfo.1;
-        Thu, 25 Jul 2019 10:18:08 -0700 (PDT)
+        Thu, 25 Jul 2019 13:24:01 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so23080693pff.9;
+        Thu, 25 Jul 2019 10:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HJap+dnh5S9ROruerU1qhQPjtGzCUlM8yURyg5DcndQ=;
-        b=HGAaSCwd118cJMLiOTflCU2hHAG1cdmLwVE36gRdKeM2iPQ+EDOaGCSvmGnPD5t+Fl
-         FMxEYDi1bzvu2ne0PRqMsD7g4Ks/bhz/IfTdx7tJElpTq2v1Jsi7X/67r5B8biL4UuKO
-         fLfeN+8nIYCscbeykDM6+yh1MLO8VZQV8AghqWjmf3RYz7cwVj0TEKlmK/+xXLpHYCIW
-         WmuYygn4nlmL/wsWUIqBsCqGzQXarWuUTG26YQbkAbLX5AcFzSQ6Rhgd79LClUKlXjey
-         kK2B88jBY830WQ7NlxBkfj1t66U4kcATbScZx2zcsTata2iEyFQ8Frj1BnOjjILw6go5
-         noDw==
+        bh=XQkCw3tqYxNg25HyKYhw0IoWyx88axOMkKNb8Un50tc=;
+        b=dtqqC+qeDMpotBFXm5ofjdw8IToSv9qRF1RBf0M8CMZ3sK9KT9AFSltvF0j0mflCX+
+         Rf3WWNwqi+Kqwb40rz/Z9Fh/AwX7ZmQ8cylNu7Do05652MK/d/h0ZQ8BQzTBeDwWhhtb
+         rrtYEa8v/EEneyR5gVQHEFYmYIpeluOHPDM5jH3NuVdjahlqXBXVMZVR+OuzWsV5ia54
+         sRAWLjTKolit+S8ZmPPfu9+XWb/2qWY2je8D9kmkrUlR10tLH95eZLtd9+axD8uRPTGL
+         /f859Ji0UERJJcAsWJeMvSbxmf7wIBE6C2AjBQxj8gONXhn7GesJLt/QVfDc2lB/fPPh
+         kROw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HJap+dnh5S9ROruerU1qhQPjtGzCUlM8yURyg5DcndQ=;
-        b=GYXuOFNqQfrmMo5jN/8IEidEbeqFJ80dxPsxdjSDzwzo3bnraJbzSvF5F87p8oFedF
-         uGsWcIFGOcIGelTZy+K/+2WtWHo940bki5+OhMtgFIUaEyzkivmj9vH3xFK0GdBVczuH
-         1m+EcGquodJJjmRnZHwGVXk3t63iMvLw6PnwlHtieLVlI5GtEYVSwHI+C3+AZrA831C+
-         zU20XctlE90cetuaql8+F/gvUqD4v+Yh+woSUYtYFHD8ED20/e5o4vpS4s0NAQmcTNS8
-         p1Z9cvqvSF2LowDSaHSUXBPAPaEYugAWIIoY6qMcbYsoQlwcXLhELIyEW0eVgbd+itNA
-         8pIQ==
-X-Gm-Message-State: APjAAAXstG56ablcYCcrgCA1jx7Y+6+mDUpLAVOgXyPsdSVdEoPyb8OD
-        7STemz4rdopjTEF3jL9s4MXaEe32RIgB/AAjytpGStuP
-X-Google-Smtp-Source: APXvYqzr0fWKCsmymejb+p3P9kguT5isHBN3phbe3xEYH22AnzhCPCqyhDIBy/zgmQ2ZjOaP9MKLwC/sYPUNJadHPSY=
-X-Received: by 2002:a17:90a:35e6:: with SMTP id r93mr94315604pjb.20.1564075088344;
- Thu, 25 Jul 2019 10:18:08 -0700 (PDT)
+        bh=XQkCw3tqYxNg25HyKYhw0IoWyx88axOMkKNb8Un50tc=;
+        b=Fbo1dv5Qxkdqp1P0jbUQnvabvQPkfzS5sBNZOzYWXF2islHRuPPvMYvA/o/TI11znp
+         cixAJJ3HYu7oAfAs4Iugl8gcINaOsRV+DrzWu8og5Qok+0DloCMik9Xi8zUU55eQ9VTD
+         uClwjH2KWkTwQAbPXbm9t6XXT7KMnYPrlMGU4ansg4Nos9XHiY2Qa7w8ssYnAoqNYTBI
+         lMlPEEPGW0QUDVLgJsarnc2uDrSoHWXcCH+lyhOaLiWzoUaYzzAMYW3TEoBY2jeiW8hg
+         U0qeZVDu9bCgc3k9Wufxyn/6ztMPQWuKXtSboAW1XhXCvaSyLHYobfiGAWQ5On3cb/Cb
+         Jl8Q==
+X-Gm-Message-State: APjAAAWh1xEEX/cw8zNeXQ2n0cwSd0RKi9cw2qIJAKoZtbAQ9v9MOYbc
+        ROTFGj8ND1A87mR6KTXzh2KD65SOWHt/4Yll4Ao=
+X-Google-Smtp-Source: APXvYqxeocBj7MIhS7/W5mqQJNVfcLfk+fSnj7piRIl53LF4ZfMVc4I1OSx4rephqWmIkm+yiiNFFe540IkDy1F0KGU=
+X-Received: by 2002:a62:4e86:: with SMTP id c128mr17725609pfb.64.1564075441091;
+ Thu, 25 Jul 2019 10:24:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563795379-7521-1-git-send-email-info@metux.net>
-In-Reply-To: <1563795379-7521-1-git-send-email-info@metux.net>
+References: <20190614080940.13640-1-rajneesh.bhardwaj@linux.intel.com>
+ <CAHp75VfMdKqpC3_gF-VzcJQqiWM9E0irORr60KLXyu8HuQg9KA@mail.gmail.com> <37653b30-7a76-0896-ecb7-2fbeab4308ec@linux.intel.com>
+In-Reply-To: <37653b30-7a76-0896-ecb7-2fbeab4308ec@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 20:17:57 +0300
-Message-ID: <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front button
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Date:   Thu, 25 Jul 2019 20:23:50 +0300
+Message-ID: <CAHp75VdEZ_VMEk3GjYYtgvSCOOOAMhZj-98B-+t__UdB207T8Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: intel_pmc_core: Add ICL-NNPI support to PMC Core
+To:     "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@linux.intel.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
@@ -60,39 +62,28 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 2:36 PM Enrico Weigelt, metux IT consult
-<info@metux.net> wrote:
+On Thu, Jul 25, 2019 at 11:02 AM Bhardwaj, Rajneesh
+<rajneesh.bhardwaj@linux.intel.com> wrote:
 >
-> From: Enrico Weigelt <info@metux.net>
+> Hi Andy
 >
-> The keycode KEY_RESTART is more appropriate for the front button,
-> as most people use it for things like restart or factory reset.
+> On 29-Jun-19 6:48 PM, Andy Shevchenko wrote:
+> > On Fri, Jun 14, 2019 at 11:14 AM Rajneesh Bhardwaj
+> > <rajneesh.bhardwaj@linux.intel.com> wrote:
+> >> Ice Lake Neural Network Processor for deep learning inference a.k.a.
+> >> ICL-NNPI can re-use Ice Lake Mobile regmap to enable Intel PMC Core
+> >> driver on it.
+> >>
+> > This will be postponed till next cycle since the CPU model will not
+> > appear before merge window.
+> > So, please, resend than (I guess somewhat in a month).
 >
+>
+> The dependent CPUID Patch is now upstream,
+> https://github.com/torvalds/linux/blob/bed38c3e2dca01b358a62b5e73b46e875742fd75/arch/x86/include/asm/intel-family.h#L59
+> so can you please apply this one?
 
-Should it go as Fixes?
-
-> Signed-off-by: Enrico Weigelt <info@metux.net>
-> ---
->  drivers/platform/x86/pcengines-apuv2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-> index b0d3110..4138007c 100644
-> --- a/drivers/platform/x86/pcengines-apuv2.c
-> +++ b/drivers/platform/x86/pcengines-apuv2.c
-> @@ -93,7 +93,7 @@
->
->  static struct gpio_keys_button apu2_keys_buttons[] = {
->         {
-> -               .code                   = KEY_SETUP,
-> +               .code                   = KEY_RESTART,
->                 .active_low             = 1,
->                 .desc                   = "front button",
->                 .type                   = EV_KEY,
-> --
-> 1.9.1
->
-
+Yes, it's in plan for rc2.
 
 -- 
 With Best Regards,
