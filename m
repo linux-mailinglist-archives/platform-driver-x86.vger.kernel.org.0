@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 388BD75668
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF037566C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:59:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbfGYR7g (ORCPT
+        id S1727560AbfGYR7s (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 13:59:36 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45955 "EHLO
+        Thu, 25 Jul 2019 13:59:48 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:45965 "EHLO
         mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbfGYR7g (ORCPT
+        with ESMTP id S1726470AbfGYR7s (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:59:36 -0400
-Received: by mail-pl1-f196.google.com with SMTP id y8so23705041plr.12;
-        Thu, 25 Jul 2019 10:59:35 -0700 (PDT)
+        Thu, 25 Jul 2019 13:59:48 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y8so23705211plr.12;
+        Thu, 25 Jul 2019 10:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sD8Qbz3F022x60ATZ5KjEBJOK5fMSN6Xf6Iq9Z7g8hQ=;
-        b=gMnQOu5WwTbg3O/s/yXsQEHhj/P2PtF8naw13O4RCFeKBlMuVFClo4Y1RqhdykLmfg
-         8+qBXazBt3z6uls4+mDu+Oepo75hHOdWKgwmjyuq4pCuvvYEOSROBzx0LtImEh+u///U
-         XdnwlTMMy6iS3FlJzTg6uPieAu9oNQVxTNkRpJ+7rx8eu5ZZuvopfz80+2CTp+MXhxjk
-         RgGDh/zHyNdqhMY4Wc+DU6z3dwmphOsetoaCbW1eBbqAW0jqb5xsHsVNvylos+dpp74R
-         31GFQW3zGxqfcfgKnhrq/9696bP/MMRH+qIl+x+o+grQzQD/7yGYzLVd8J1rD+q2xwq7
-         176A==
+        bh=OZVrPWXD9IIoDuvUUXZFRARs0rzH7izNJWc43vWc8f4=;
+        b=Rd8ooyBcixiJoSdqb4r+koekA7w+22f1EZInuRgGZayKsTImv57+nvVQYZL0danr+M
+         Sds5eyhbJoV8JsxXcdzZX++mK9Yi6R2+Bf1WKE1xJCqXTbhdrUWWh8YhIecbkb+2m0RP
+         pwO/WRRPmCQQF0eu384aTLqLaMfZYry2Ph1FBhxdaUEbgOJ97orEH1MWJtM7YrnZjeCm
+         rbvXtV14AWqgCKY6M/bszS2GQ41hVOaITDg6NQjPT9ilbG0CP1EWTbAXXQKcAqcpB8tv
+         x36I+qxqiPQ1XKCGhNPZm0pd8BprINbwRyiZBm+oY9oRzva4PaVWmy9KlPvGMgqPpy5s
+         UZQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sD8Qbz3F022x60ATZ5KjEBJOK5fMSN6Xf6Iq9Z7g8hQ=;
-        b=UlAcUa6ripp8vqB9TI1GMqVEm2v6YlGWX+6bGGW5CPCOkyEQ3UQjPyUBThvnCdm//w
-         urtQu/QDVOken9fsG4rDmmDMm4E6gCu1/Pn4/NlVUrs0PtRMEMPKOcQpHlB/xWpHJHSS
-         636K17u+9EQvBrfHk4uFa3QaYUfqQfmv+bh3HjLC5pUvXYuSgeEf0jigwOj+x34Lm04T
-         8emY+T8tENJQqZ+C4nvra8zDRsihik/Tr4LPta23s2dYs2YJlQGWRs0Kqxa3VUqOaH9H
-         SZCfC4lNi61/Qzt6hYayScvDWrEcQYNT2eIkF++ENrgXExbq7qEk/qewLiMT7WGvUqD7
-         jugw==
-X-Gm-Message-State: APjAAAWlCH+tnUlL6bSII2eLZVMduq3+HEbxbLuLB7oLUuVYYLpiW4Gb
-        JzFbssrFVLzQqDbtM98QZfUi1DDhWC3RbLOsi8U=
-X-Google-Smtp-Source: APXvYqy9fnl5MV63hXBMQ0jVVZQkUpkT51ZucTSN0PXBtlq0zFEluvCPnQEb/Iq+EN77II36t8naQTkeAzn7t9qTBHc=
-X-Received: by 2002:a17:902:934a:: with SMTP id g10mr93864498plp.18.1564077575393;
- Thu, 25 Jul 2019 10:59:35 -0700 (PDT)
+        bh=OZVrPWXD9IIoDuvUUXZFRARs0rzH7izNJWc43vWc8f4=;
+        b=Gb6qo55LZCkJtfZO/A8qjI3WKr63QZp7ulvTE0Q/2J8eV//eJxk3BhEkMLhVqY+BRH
+         hvfD64VpShOp3XD1tfubn3QUE87nzN5TxfxuO2fg3m1XMR0DlCcWNeZIDXGl+mD3Ysp1
+         EQipOJNqxpWTH1brE1Co4E4zRCFQ4ooBtCNggsVr0EAh6SBCAjiWh0XgcgDZsbEhlNv6
+         GczPILFjIRVai+L2MZSjUOYmzDIvK2xuIpCB8VCEkyjivDr+5UrutwMauKYDiGE0P9/C
+         E7hKwBvz6YPQpLlgW1kWOiyHKvAKOLBIU6B7eXIVF7zRn1kAAGXefhsJoEjprLLMLHT2
+         /8Uw==
+X-Gm-Message-State: APjAAAV8zCMU70BVaR7Z6buCUuvYuK4GdRYHwjaoP0EIpcI7TOzThTGI
+        ZQ1LbJYM/I+aW8fpgg6UrgHCIqvuCoFGLnKXsIo=
+X-Google-Smtp-Source: APXvYqxoh8QwPJMI7vKxro0n0V1xubdW18NnEkgOBlXrTK6uAoXnZDlvo1y3YNW/+KWGJ4bcY3HtmR01RBWmVWAZF98=
+X-Received: by 2002:a17:902:9349:: with SMTP id g9mr90593495plp.262.1564077587755;
+ Thu, 25 Jul 2019 10:59:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190724081415.8926-1-rhyskidd@gmail.com>
-In-Reply-To: <20190724081415.8926-1-rhyskidd@gmail.com>
+References: <20190724081415.8926-1-rhyskidd@gmail.com> <20190724081415.8926-2-rhyskidd@gmail.com>
+In-Reply-To: <20190724081415.8926-2-rhyskidd@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 20:59:24 +0300
-Message-ID: <CAHp75VeWw1rHRO+BBpr4-cyMnptF0QYkX4RQ_PUxDjVnEoV99g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] platform/x86: dell-wmi: Ignore keyboard backlight
- change KBD_LED_ON_TOKEN
+Date:   Thu, 25 Jul 2019 20:59:36 +0300
+Message-ID: <CAHp75VcRDVBhSbYkUBy7cWCo7LPJD2OYZb3_mQ9jbJuNyDFjCQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] platform/x86: dell-wmi: Ignore keyboard backlight
+ change KBD_LED_AUTO_TOKEN
 To:     Rhys Kidd <rhyskidd@gmail.com>
 Cc:     Matthew Garrett <mjg59@google.com>,
         =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
@@ -67,7 +67,7 @@ On Wed, Jul 24, 2019 at 11:14 AM Rhys Kidd <rhyskidd@gmail.com> wrote:
 >
 > There's a wmi event generated by dell-wmi when pressing keyboard backlight
 > toggle key:
-> [1224203.948894] dell_wmi: Unknown key with type 0x0011 and code 0x01e2 pressed
+> [1224178.355650] dell_wmi: Unknown key with type 0x0011 and code 0x01e3 pressed
 >
 > This event is for notification purposes, let's ignore it.
 >
@@ -81,14 +81,14 @@ Pushed to my review and testing queue, thanks!
 >  1 file changed, 1 insertion(+)
 >
 > diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
-> index 1f565fb69098..ae331ac119a1 100644
+> index ae331ac119a1..68a8a4eba4e3 100644
 > --- a/drivers/platform/x86/dell-wmi.c
 > +++ b/drivers/platform/x86/dell-wmi.c
-> @@ -312,6 +312,7 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
->
+> @@ -313,6 +313,7 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
 >         /* Keyboard backlight level changed */
 >         { KE_IGNORE, 0x01e1, { KEY_RESERVED } },
-> +       { KE_IGNORE, 0x01e2, { KEY_RESERVED } },
+>         { KE_IGNORE, 0x01e2, { KEY_RESERVED } },
+> +       { KE_IGNORE, 0x01e3, { KEY_RESERVED } },
 >         { KE_IGNORE, 0x02ea, { KEY_RESERVED } },
 >         { KE_IGNORE, 0x02eb, { KEY_RESERVED } },
 >         { KE_IGNORE, 0x02ec, { KEY_RESERVED } },
@@ -97,6 +97,6 @@ Pushed to my review and testing queue, thanks!
 >
 
 
---
+-- 
 With Best Regards,
 Andy Shevchenko
