@@ -2,163 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB5187565D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7824D75665
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:58:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfGYR6G (ORCPT
+        id S1726769AbfGYR6z (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 13:58:06 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:46207 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbfGYR6F (ORCPT
+        Thu, 25 Jul 2019 13:58:55 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37743 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726432AbfGYR6z (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:58:05 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c2so23668067plz.13;
-        Thu, 25 Jul 2019 10:58:05 -0700 (PDT)
+        Thu, 25 Jul 2019 13:58:55 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 19so23132334pfa.4;
+        Thu, 25 Jul 2019 10:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TpXeI3bjGZJFrAoMRGWEMRsLJE/ZUctqhpPZgA4Uju4=;
-        b=ok+ytzS/Q9CbY/1VOtr6oEyeKil7vtncL3AnGuH9fdCXnD2A3GhbiqokFNplhJe3G/
-         URl/lfz/oqLFXBH1zlNAzZl+er5dJT4I0aDzQ334dCuaHSP6RYp5i51mgT8dOvggKnH4
-         58xT2Kt0AH2DICErB3525JLaUXiMmDdKIZhij64A0D6ESK/QbKu2cfMf/hGLml3RMAKX
-         72hrZ1d/ATtOmyfTyg0iaEIwOyoLXfNsWa57EYWC0VjAQ7/37np0/o+omNVxxi5cpY9W
-         r7HEh47aN1eWyA4lIoY+by12qXRtCcuhqdC+uLDYxKFrbIohVL7qaoYMspwy7zRKK4tM
-         bFnA==
+        bh=EcbsdgPjPxknJYKkO+mmuPOpVmHnp8WiVb7FywqYwjg=;
+        b=pLWb8Ybf6p6AINE/Tdedy/fPEWySwUCrqiOaullsWbXTwPvWJNDPUDuiLyuaeqdPl2
+         Tja42m2lpthvgCBUg3vB+siLXguL4TxbnQvCCa9JUzWh3IjkMSu78hir5+dxUQPURUch
+         waYSuuhJ/1VaYy1MqDgFGdCeDkmf6BTEeQef/9/5cJCzYyBXYroUgocT5unH1zf/Y+ti
+         m97wLUmcz9VC9bWK2EcJ7vDV6S2XFIpURzLpgx8xhKyka35NyR0vqts6PBf+Af/n0feU
+         jNqcK035dt+IbCWfOPrmuhX57k+TNyHJKdqCXGFUe6tRVrwYocCmH5EUIiaB1o4tT9EF
+         gouA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TpXeI3bjGZJFrAoMRGWEMRsLJE/ZUctqhpPZgA4Uju4=;
-        b=fKQpVDrYJUuTCrb1s6auTI8p/lQez5/Qrjuzv3/yVDvSgzDS6AqyN1DkIwf3siSxPY
-         bTK3TT0ijI5zqh2LvbrVmho6UQ7kGUDeIckkFuZuxulZ+wRO3zBvX4pR0WB8bbKEedLX
-         rK10FkZWmDug2Z2Zd8Kv1MwXnHAiYlD78ISi3TXIbEu/to568SAV+2Xc+hEOngkatgmT
-         J+IgVVvFDeEqItclDJWysVXu1oSAEanO+PrbSQoaVhd5dvwPyCIbCVubKQo/02THOppm
-         GcQziTs/SrcFAqYumgVG+U179J2AqivWJvw37ev03EYAd4SHXhWq0Nb6grCgvnZA6AMP
-         RP2w==
-X-Gm-Message-State: APjAAAU/huuFApT5jqHYOj366NOeVIJS8XehMAnwy38r2VGl65C/HS/c
-        SKvvPPwyisvjAz38KgLWdNvPingl81cododNtkY=
-X-Google-Smtp-Source: APXvYqz4A+vOh0bYalI3BQl0fT/OksBSxz+ankbzQWNMIQ4XulhQSKCsGcPC5zSqhii/b2k5b1DFsutGteopFql21Po=
-X-Received: by 2002:a17:902:694a:: with SMTP id k10mr91300116plt.255.1564077485133;
- Thu, 25 Jul 2019 10:58:05 -0700 (PDT)
+        bh=EcbsdgPjPxknJYKkO+mmuPOpVmHnp8WiVb7FywqYwjg=;
+        b=Ju/RS+OHVaXNh0mY15NFpIMs6o78ilK1YHkHCJ+RrJHYSBOJW+vjs2gjBKPf0IYMwh
+         XUL/r/qC+14CuU/gbGsvWcj9qYXMdc3XMbeIwR7JTwJljxIJn0fpYJqnSgiUtwKeSsMI
+         r7tlcUntuOwq0JGLtDbmAfT90yWSV+eRxULVkD8FmjRKigJ4VtR3o/c3+cxiUGYqyFMQ
+         pg0FMpQL2v/cLYabY0IAcL2ZjbPW5PCzcgcMf9Ym6si+ZSyxevGzvyxq1xk5j+5biSla
+         pctYkzSvtjoaalsBosN5/sSk+lg65nbLRMBstUi8PeVK+/QQNcFNhfes4Acj/NFsQ3bh
+         ssXw==
+X-Gm-Message-State: APjAAAVSPhdDM6xl1eGgag7DFLUVkpGZ9aELrTVFPObGv8RXPfRkR8DZ
+        96tnth16SSRH0XKE0Z6xfxVY3B89i9NWGZ+sYZmAh1ky
+X-Google-Smtp-Source: APXvYqyN0erH9siXVeIm9awtwpitcLsB2EqG7BsgEEtQTTANapqojgKu6xjwncNfk04+wAhB8I2p5pEvqaS6XOUtIUU=
+X-Received: by 2002:a63:e54f:: with SMTP id z15mr87139832pgj.4.1564077534693;
+ Thu, 25 Jul 2019 10:58:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190720150511.95076-1-luzmaximilian@gmail.com> <20190720150511.95076-2-luzmaximilian@gmail.com>
-In-Reply-To: <20190720150511.95076-2-luzmaximilian@gmail.com>
+References: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
+In-Reply-To: <20190722031158.70311-1-skunberg.kelsey@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 20:57:53 +0300
-Message-ID: <CAHp75Ve+3c-TFeN3Dh-DB75Rjft8mY2DA8vNkrFyp7JK-ZOjDA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] platform/x86: surfacepro3_button: Fix device check
-To:     Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
+Date:   Thu, 25 Jul 2019 20:58:43 +0300
+Message-ID: <CAHp75Vc4qSNs6Kx6BdO163fi=fYNfPNHy+m3XVpO5v755pu2DA@mail.gmail.com>
+Subject: Re: [PATCH] platform: x86: Remove acpi_has_method() call in wmi.c
+To:     Kelsey Skunberg <skunberg.kelsey@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        bjorn@helgaas.com, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jul 20, 2019 at 6:05 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+On Mon, Jul 22, 2019 at 6:13 AM Kelsey Skunberg
+<skunberg.kelsey@gmail.com> wrote:
 >
-> Do not use the surfacepro3_button driver on newer Microsoft Surface
-> models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
-> and possibly future generations) use the same device as the Surface Pro
-> 4 to represent their volume and power buttons (MSHW0040), but their
-> actual implementation is significantly different. This patch ensures
-> that the surfacepro3_button driver is only used on the Pro 3 and 4
-> models, allowing a different driver to bind on other models.
+> acpi_has_method() is unnecessary within __query_block() and should be
+> removed to avoid extra work.
+>
+> wc_status is initialized to AE_ERROR before the acpi_has_method() call.
+> acpi_has_method() and acpi_execute_simple_method() failing due to the
+> method not existing will result in the same outcome from __query_block().
 >
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Pushed to my review and testing queue, thanks!
 
-assuming it will go thru Input subsystem.
-
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+> Signed-off-by: Kelsey Skunberg <skunberg.kelsey@gmail.com>
 > ---
->  drivers/platform/x86/surfacepro3_button.c | 47 +++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
+>  drivers/platform/x86/wmi.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/drivers/platform/x86/surfacepro3_button.c b/drivers/platform/x86/surfacepro3_button.c
-> index 47c6d000465a..ec515223f654 100644
-> --- a/drivers/platform/x86/surfacepro3_button.c
-> +++ b/drivers/platform/x86/surfacepro3_button.c
-> @@ -20,6 +20,12 @@
->  #define SURFACE_BUTTON_OBJ_NAME                "VGBI"
->  #define SURFACE_BUTTON_DEVICE_NAME     "Surface Pro 3/4 Buttons"
+> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+> index 784cea8572c2..59e9aa0f9643 100644
+> --- a/drivers/platform/x86/wmi.c
+> +++ b/drivers/platform/x86/wmi.c
+> @@ -340,9 +340,7 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
+>                  * expensive, but have no corresponding WCxx method. So we
+>                  * should not fail if this happens.
+>                  */
+> -               if (acpi_has_method(handle, wc_method))
+> -                       wc_status = acpi_execute_simple_method(handle,
+> -                                                               wc_method, 1);
+> +               wc_status = acpi_execute_simple_method(handle, wc_method, 1);
+>         }
 >
-> +#define MSHW0040_DSM_REVISION          0x01
-> +#define MSHW0040_DSM_GET_OMPR          0x02    // get OEM Platform Revision
-> +static const guid_t MSHW0040_DSM_UUID =
-> +       GUID_INIT(0x6fd05c69, 0xcde3, 0x49f4, 0x95, 0xed, 0xab, 0x16, 0x65,
-> +                 0x49, 0x80, 0x35);
-> +
->  #define SURFACE_BUTTON_NOTIFY_TABLET_MODE      0xc8
->
->  #define SURFACE_BUTTON_NOTIFY_PRESS_POWER      0xc6
-> @@ -142,6 +148,44 @@ static int surface_button_resume(struct device *dev)
->  }
->  #endif
->
-> +/*
-> + * Surface Pro 4 and Surface Book 2 / Surface Pro 2017 use the same device
-> + * ID (MSHW0040) for the power/volume buttons. Make sure this is the right
-> + * device by checking for the _DSM method and OEM Platform Revision.
-> + *
-> + * Returns true if the driver should bind to this device, i.e. the device is
-> + * either MSWH0028 (Pro 3) or MSHW0040 on a Pro 4 or Book 1.
-> + */
-> +static bool surface_button_check_MSHW0040(struct acpi_device *dev)
-> +{
-> +       acpi_handle handle = dev->handle;
-> +       union acpi_object *result;
-> +       u64 oem_platform_rev = 0;       // valid revisions are nonzero
-> +
-> +       // get OEM platform revision
-> +       result = acpi_evaluate_dsm_typed(handle, &MSHW0040_DSM_UUID,
-> +                                        MSHW0040_DSM_REVISION,
-> +                                        MSHW0040_DSM_GET_OMPR,
-> +                                        NULL, ACPI_TYPE_INTEGER);
-> +
-> +       /*
-> +        * If evaluating the _DSM fails, the method is not present. This means
-> +        * that we have either MSHW0028 or MSHW0040 on Pro 4 or Book 1, so we
-> +        * should use this driver. We use revision 0 indicating it is
-> +        * unavailable.
-> +        */
-> +
-> +       if (result) {
-> +               oem_platform_rev = result->integer.value;
-> +               ACPI_FREE(result);
-> +       }
-> +
-> +       dev_dbg(&dev->dev, "OEM Platform Revision %llu\n", oem_platform_rev);
-> +
-> +       return oem_platform_rev == 0;
-> +}
-> +
-> +
->  static int surface_button_add(struct acpi_device *device)
->  {
->         struct surface_button *button;
-> @@ -154,6 +198,9 @@ static int surface_button_add(struct acpi_device *device)
->             strlen(SURFACE_BUTTON_OBJ_NAME)))
->                 return -ENODEV;
->
-> +       if (!surface_button_check_MSHW0040(device))
-> +               return -ENODEV;
-> +
->         button = kzalloc(sizeof(struct surface_button), GFP_KERNEL);
->         if (!button)
->                 return -ENOMEM;
+>         strcpy(method, "WQ");
 > --
-> 2.22.0
+> 2.20.1
 >
 
 
