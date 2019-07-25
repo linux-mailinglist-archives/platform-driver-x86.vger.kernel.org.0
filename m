@@ -2,113 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA7475679
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 20:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D244F7573B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 20:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbfGYSA2 (ORCPT
+        id S1726385AbfGYSuh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 14:00:28 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:33432 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbfGYSA2 (ORCPT
+        Thu, 25 Jul 2019 14:50:37 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:48045 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfGYSuh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 14:00:28 -0400
-Received: by mail-pg1-f196.google.com with SMTP id f20so14181848pgj.0;
-        Thu, 25 Jul 2019 11:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SDQdIEC5lAFm3yeqFyVPcDyvNShQJnmklTsND46m4Mo=;
-        b=hJjvEy0roGRFSuhkDSXa/ul/k1i0vNdVeJloGKhDdynILhOpibQ51mNlZHU/SJ1JR3
-         0PcEowfre3uztlefZfVYS2ddRqrM9qMM+xvkSCqZO9XVHeV4rB8gQOhPHIBt6+BdFJbt
-         B+TFOJuM4cgtgTQWQH8jIVrpCdsBHshclNNG4yXPpSgp/y82EDNBIGaqg7h8/JXBgEAe
-         vhj289uwT9t/W+suUpGkj3mvgIORKJPHoIwu/SniqyuunXAkzj8Y7x7/9Yos3XhN/s0V
-         fNpoZLDl5ZwPpOAGaRq+wcYXqnk6FKoptZkgoInhDJIiDExYRG6CLjebPFJW5RBkEBT/
-         s8MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SDQdIEC5lAFm3yeqFyVPcDyvNShQJnmklTsND46m4Mo=;
-        b=qseCXFYo7z4P2rJUtCndWrSKC1aRsiOv9ti9uiJbQjEgvrcYehXuCjEIBUoQ3wqTV2
-         sk3wAaM3eeSV1qRAl6JEfVDtALJouE6bZ18hz5tzeY0nraMdYLBIJLGFjWsDIda4bZkJ
-         AKX3zvSpzGnmooNx3WI5f1iQ5DNklUYcJH5LFhKlPebNollPG8lPCHMVQpbrsMazGu19
-         Bi5JDs1yqFwmoq+1CgP4KN1d7/zUCV+Db1LQiuIUXuAd2VOWEWWtpG3v4zO9arT2y6ei
-         diMTqbXdIDr7p6hT6B/oRVDjO4ajx5Zvb8iwORs4vs/tRF9yrAUXv3UQtCkPLMFmXp1F
-         zb4Q==
-X-Gm-Message-State: APjAAAX2/QlDJVxswMivW1UqhuGquHE0qOKn2Pg7kibUSS4jBdgB41dn
-        KdnFbba1IwWwdONt+6ubXqxpLrOmEYYIxk2ZOGg=
-X-Google-Smtp-Source: APXvYqyrE6xLoNR2w/exbD9prsM2fqEzylM0g8hZdXl3D+wr3dd1uBefoy94DYfjr5MdPA0xnmmqKDpX4CxkxaeoJyM=
-X-Received: by 2002:a63:6eca:: with SMTP id j193mr12231277pgc.74.1564077627929;
- Thu, 25 Jul 2019 11:00:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190724122320.21802-1-hslester96@gmail.com>
-In-Reply-To: <20190724122320.21802-1-hslester96@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 21:00:16 +0300
-Message-ID: <CAHp75VdpEZbBTw3vsvreeyWAANo=ZDtooqbChe0fF4ALQsstGw@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: ISST: Use dev_get_drvdata
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Thu, 25 Jul 2019 14:50:37 -0400
+Received: from [192.168.1.110] ([77.9.64.13]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MplHR-1iB9OC3j4f-00qED3; Thu, 25 Jul 2019 20:50:29 +0200
+Subject: Re: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front
+ button
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <1563795379-7521-1-git-send-email-info@metux.net>
+ <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <332c666b-1bb3-d4bb-ad1b-98b36992de71@metux.net>
+Date:   Thu, 25 Jul 2019 20:50:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:XiqGTu9NKDQaqBPl/cRzx6B2L6hJdXsvX7UKvJuvyThRln5/2wc
+ 4JKAh6aiHwbN1jfIYJ+iC/3yt8F1zl+G/MNO1rGfz/W+LqIVb+Po0NWaLCrcAtnDGiqCYl3
+ 3m8MvI+c5iHLG663eaKC3EnGHGJQZe79EyL3tYk/FnnnMPehMJuO2TXxcrh01I96uf9JBeG
+ yqVi9yF128SD8YGYnR8GQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rJTikcvc5w0=:VyljYWNl/5dnjxhggb6KKy
+ wYqZ+FrerODuxHwBPJ95Ta4FJoGGby1LEg1zhNnVhtkeBFZ0eLckSgp7sSlmc6W+zQVbwQzf5
+ Lz5xtlszHJgqKjD/p9jiOxUtoGdgRT7w4Qwih1daI5csXasBU1sn/gmPY1XNvHGAVWucMXQrp
+ J1JvvGgxKlny+cVxUWztpZSJo5SMLS8WauWX5/btQb+QTJz7HPwEdUW02ULujxjBir1qLr0qj
+ RaOaYsMFJ5D76NXaay4EcJkWror+ZbkPh8xqNlmRCXjwPsSFvlWZPYm/97yp/AZM5L7I7hXye
+ G2WrQr5fWaCPMmQ8ce0MDyj/DKuSNM4jN0ioPum0O20t/eecSPdaJFJ7A9n8YTCYrPhop1Z7q
+ qtUzPU0eHzvy1AFXE/Ijk33kXy0fztQHxA1Czsii6i5z9/t83hKwNyl8ZzVR3RHdUxdEZxbW5
+ VPdx4/WYIENacFsWZV5gWOg7oIBgrb6lCV1zKcg2McaQVOpm/PlyJMk9p60n31f5oVa8z02iv
+ eWMI+NImUkZailXjJYUuFr7fN85Q5oaax6HUfX+4dSgZBwhG6SaONMAH6bP4PyqZn0sG8ICEt
+ yg81lp0jNgRwRSmDgeGHPDbZN/otxHt/ofZtal+Ozu/Qi56S/HD4i5mFcLDpuRWBGc9lIfHfB
+ I6IdiyAyczzcp86gKwVro8hHnxARfrKJ/30XX491mmKZXCbrCZJXwmEmpfsH/TF7s11Re1DZP
+ lIDYIlyUQ8O+5L+owqyU66QU31RZ+97TeMMpOI8ZH9waay0837ESjW1N4a4=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 24, 2019 at 3:23 PM Chuhong Yuan <hslester96@gmail.com> wrote:
->
-> Instead of using to_pci_dev + pci_get_drvdata,
-> use dev_get_drvdata to make code simpler.
->
+On 25.07.19 19:17, Andy Shevchenko wrote:
+> On Mon, Jul 22, 2019 at 2:36 PM Enrico Weigelt, metux IT consult
+> <info@metux.net> wrote:
+>>
+>> From: Enrico Weigelt <info@metux.net>
+>>
+>> The keycode KEY_RESTART is more appropriate for the front button,
+>> as most people use it for things like restart or factory reset.
+>>
+> 
+> Should it go as Fixes?
 
-Pushed to my review and testing queue, thanks!
+I think so. Technically, the feature already worked, but the keycode
+wasn't semantically fine.
 
-> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> ---
->  drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-> index f7266a115a08..ad8c7c0df4d9 100644
-> --- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-> +++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-> @@ -132,11 +132,9 @@ static void isst_if_remove(struct pci_dev *pdev)
->
->  static int __maybe_unused isst_if_suspend(struct device *device)
->  {
-> -       struct pci_dev *pdev = to_pci_dev(device);
-> -       struct isst_if_device *punit_dev;
-> +       struct isst_if_device *punit_dev = dev_get_drvdata(device);
->         int i;
->
-> -       punit_dev = pci_get_drvdata(pdev);
->         for (i = 0; i < ARRAY_SIZE(punit_dev->range_0); ++i)
->                 punit_dev->range_0[i] = readl(punit_dev->punit_mmio +
->                                                 mmio_range[0].beg + 4 * i);
-> @@ -149,11 +147,9 @@ static int __maybe_unused isst_if_suspend(struct device *device)
->
->  static int __maybe_unused isst_if_resume(struct device *device)
->  {
-> -       struct pci_dev *pdev = to_pci_dev(device);
-> -       struct isst_if_device *punit_dev;
-> +       struct isst_if_device *punit_dev = dev_get_drvdata(device);
->         int i;
->
-> -       punit_dev = pci_get_drvdata(pdev);
->         for (i = 0; i < ARRAY_SIZE(punit_dev->range_0); ++i)
->                 writel(punit_dev->range_0[i], punit_dev->punit_mmio +
->                                                 mmio_range[0].beg + 4 * i);
-> --
-> 2.20.1
->
-
+--mtx
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
