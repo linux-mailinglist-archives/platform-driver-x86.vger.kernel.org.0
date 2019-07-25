@@ -2,92 +2,207 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3BEB757A0
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43D7D758A8
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 22:08:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726349AbfGYTMt (ORCPT
+        id S1726380AbfGYUIS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 15:12:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:50557 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726065AbfGYTMt (ORCPT
+        Thu, 25 Jul 2019 16:08:18 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:40149 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726583AbfGYUIS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 15:12:49 -0400
-Received: from [192.168.1.110] ([77.9.64.13]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M8hlZ-1hm2Cz1QRd-004kGV; Thu, 25 Jul 2019 21:12:44 +0200
-Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Florian Eckert <fe@dev.tdt.de>
-Cc:     Eckert.Florian@googlemail.com,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
+        Thu, 25 Jul 2019 16:08:18 -0400
+Received: by mail-yw1-f67.google.com with SMTP id b143so19636700ywb.7;
+        Thu, 25 Jul 2019 13:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UFkrbuX+oLNFQhyhGc+jS6F9bpBYz5h08ylEtreJ3DQ=;
+        b=hZFweKlME2IIHCkO0TLx7MqN/S3HyTp3kYWabTji0e7pUAEGIIOQzdDGrnnHlkvEfZ
+         INdqUa/RzzbD2yJw858NOS04SslASzrsnvNmGeXwk3flnE/vbmDG8sKAbkfW3UdzttoM
+         6+YPfaX3QRdUcujACdwXXD1YIJHXd+Q21r0q9wBXD/pgsRGllq5XHUafQeo3lBdtDPdt
+         Nm/Ea3FQiV1l4BoWAbt9rvTzv3WBlHEvCmdzrHEiXWqaJKLtKY1mlWdVdPdig0oQmDdB
+         Jt+PJFkBHiMsXSmbTXuOtg7FX/QkYcYo8ahXK3j6Sc7uI7bLNJkxhPHermP22cMxpSIt
+         CNRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UFkrbuX+oLNFQhyhGc+jS6F9bpBYz5h08ylEtreJ3DQ=;
+        b=PoEDKbL3lr4BWiHV2865Y/ymZXeVu4V0CQAAmSnJ18OC7HGEdzOFFQEUx9TiLOoX8x
+         efjgUcHS9NcfI/Ci4OZZe85LJxqAkjF9iwgm6Wt+GZs0/SSXscrmBsQ5nHVaqLjaXegv
+         D2YAJvLKUwPFxTbpoP54S05DuyiOMc2JsIgR6Kjc8lOb61x38XwHoTHGg6eTY3eAlXY9
+         R2woS8tWDBh0YS4VKeZdg+5dkAzFvdMmtpFGNnOTROJhkxH9hor9uulcVWPW7JRi0F+O
+         he6Pqweq+GTKKZyo7ltSRBlJPOoBKtmhZFtHTpxJ2d8/7jY6TY505wdKCzeiuZ2N4D96
+         mj5w==
+X-Gm-Message-State: APjAAAWWHPKfZeQRPmNk3g+cORruvwv3XU6nLlsSRz9Rsl9ylUe8NKis
+        oqqyMbT5SPkcUaps/yRjTg==
+X-Google-Smtp-Source: APXvYqyOVukgytuzL3rWdf7THHv2cc6Po98EjVQPPx9Kz2Q3yzYHyeLS26ZWvKCyUOoihsGDl4vtlg==
+X-Received: by 2002:a0d:ddcd:: with SMTP id g196mr51501055ywe.460.1564085297158;
+        Thu, 25 Jul 2019 13:08:17 -0700 (PDT)
+Received: from localhost ([12.156.111.130])
+        by smtp.gmail.com with ESMTPSA id v77sm12319996ywc.25.2019.07.25.13.08.16
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 25 Jul 2019 13:08:16 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 16:08:15 -0400
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190704090205.19400-1-fe@dev.tdt.de>
- <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
- <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
- <cc5bbcd7148ece53a075948f240bc66b@dev.tdt.de>
- <CAHp75Vct4O+P62vUo02e5iJy9JMFBDjijFf-JUxjRrMhf1XTEg@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <a453da4b-b5ab-2b30-5ab7-6214980baf7e@metux.net>
-Date:   Thu, 25 Jul 2019 21:12:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Subject: Re: [RFC 0/9] platform/x86: Huawei WMI laptop extras driver
+Message-ID: <20190725200509.snft3xy65ngaaxvs@960>
+References: <20190630054108.19205-1-ayman.bagabas@gmail.com>
+ <CAHp75VdKCms0ZsqCcq2wWaMFYE3G+kT8FFDQuw=CZKeyDov8pg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vct4O+P62vUo02e5iJy9JMFBDjijFf-JUxjRrMhf1XTEg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:xtoZTVXhxKKzbSKRgROfuYu8SsntAyy8Ke/HhDt3rB1AGAXU3C8
- qpwVNJiRrYT6E0kL0MHdEMY1LNer2lZc6f+F9cqL/WQ9+8v0sgrr0tf972JRBDlmescdkYm
- Z4YbEfb9+f9xDK+iyVTsGA6XXz9nsJ0PUi7MpvWJiBZM4DDYytF+1CkUT0eGj84uRFQHmRW
- gVD3lTXc10b6cFAB6nJRA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rtNxlECWR+E=:eFpoyS7kQadOvMs2DFumPo
- MggGu9S7CiUzA7VXNIFQzPGqXfrBtktRWpFSddURdG07+EvwmV1dz0zagjd/2X/aHJIrUj73c
- vU5uAHv8ZQhmP12MphML9GWmcpwk++LKDYgQu2EwAYCMCpBh2n943Eqqe8c9DDJi/paP3Gf0D
- 2naaaC9/6Pcnzs9ny3h9XbxAoNhdcMwRK94KtCV+YooekYSQAl+RJuIpalJtDAeoeEUsx5d/B
- imzk1+cBvlyfqKtWHJ7Ox00mYccVWXvNyIRvHNYnyWNQWg1URkiij8/W2dWzbzGUFe1i4Ogdq
- /vV+hqBRidyuwvwGGg/PTDmIVyIOGbwtv5z8QobIKSDYwYaXIYkalCgZsCiqVx3MV/h85EWWc
- jEUwtMQFJibpSDUwhovxn7twDNKnbvSVKZ/lNtCgWohrHmC0c4Ytd3xDljDKGaBLRW6VhUHp2
- zauBqIwFq7V8snRyuE2TzdkOc4G4PkY1iRZHLfmEhxrzJfdh/XOJvzmYZ53sj6yOIGNSULdBv
- cYIaTeAvvXeGCOBU1pps9lTn0kvwn4avgvSmCTpsIN8mMKeWgo2Be43Rh2A8b0yxNBsXpsCoD
- fOzwxnuy6t8SMPKyTGoNeTeZqtlqx4XqSrDOe+PXJeJ6ZH643chHaKJo1mdUTohUT87ltH0Hc
- CQAZdpxP6ZZgzN3O1NuC7J6q8KZ7H1i2mdbukt84omHmJat+0lZ3npQENRFWsAePruRlTVw+T
- ManOTRVIEC9LPpQdeM/CoMS5kqVD1IBRp9LAlOB+/awewUUvH7R+34gb0mM=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdKCms0ZsqCcq2wWaMFYE3G+kT8FFDQuw=CZKeyDov8pg@mail.gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 25.07.19 19:49, Andy Shevchenko wrote:
-
-Hi,
-
-> On Wed, Jul 10, 2019 at 3:54 PM Florian Eckert <fe@dev.tdt.de> wrote:
->>
->> On 2019-07-08 21:45, Enrico Weigelt, metux IT consult wrote:
->>> On 04.07.19 15:39, Andy Shevchenko wrote:
->>>> On Thu, Jul 4, 2019 at 12:02 PM Florian Eckert <fe@dev.tdt.de> wrote:
->>>>>
->>>>> This patchset adds the following changes to this pcengines-apuv2
->>>>> platform device.
+On 19/07/25 08:33PM, Andy Shevchenko wrote:
+> On Sun, Jun 30, 2019 at 8:41 AM Ayman Bagabas <ayman.bagabas@gmail.com> wrote:
+> >
+> > This patch series introduce changes to huawei-wmi driver that includes:
+> > * Move to platform driver
+> > * Implement WMI management interface
+> > * Add micmute LED support through WMI
+> > * Add battery charging protection support through WMI
+> > * Add fn-lock support through WMI
+> > * Implement driver quirks and parameters
+> > * Add a debugfs interface to WMI
+> >
+> > # Move to platform driver
+> >
+> > The current driver offers hotkeys and micmute led support only. With
+> > these changes, a platform driver makes more sense since it handles these
+> > changes pretty nicely.
+> >
+> > # Implement WMI management interface
+> >
+> > Huawei Matebook laptops come with two WMI interfaces. The first being
+> > WMI0 which is considered "legacy" and AFAIK only found on the Matebook X
+> > released in 2017. The second has a UID of "HWMI" and is found in pretty
+> > much all models with a slight difference in implementation except for
+> > the Matebook X (2017). Since this model has two interfaces, some aspects
+> > are controlled through the legacy interface and some through the other
+> > interface. Currently, the legacy interface is not fully implemented and
+> > is only used for hotkeys and further debugging has to be done.
+> >
+> > The WMI interface takes a 64 bit integer, although uses 32 bits most of
+> > the time, and returns a 256-260 bytes buffer consists of either one ACPI
+> > buffer of 260 bytes, in the case of Matebook X (2017), or one ACPI
+> > package of two buffers, one with 4 bytes, and the other with 256 bytes.
+> > We only care about the latter 256 buffer in both cases since the 4 bytes
+> > always return zeros. The first byte of this 256 buffer always has the
+> > return status where 1 indicated error. Some models require calling the
+> > WMI interface twice to execute a command.
+> >
+> > # Add micmute LED support through WMI
+> >
+> > After implementing the WMI interface, micmute LED can be controlled
+> > easily. Models with the legacy interface fall back to ACPI EC method
+> > control since the legacy interface is not implemented.
+> >
+> > # Add battery charging protection support through WMI
+> >
+> > Most models, that has the WMI interface, are capable of battery
+> > protection where it can control battery charging thresholds and limits
+> > charging the battery to certain values.
+> >
+> > # Add fn-lock support through WMI
+> >
+> > The behavior of hotkeys is not the same among all models. Some models
+> > require fn-lock to do things like `Ctrl-Ins` or `Alt-PrtSc`. By default,
+> > hotkeys behave as special keys (media keys, Ins, etc), but if a modifier
+> > is used (ctrl, alt, shift) these keys behave as F1-F12 keys. If the Fn
+> > key is toggled on, the hotkeys with or without a modifier, behave as
+> > F1-F12 keys. This makes it impossible to use a modifier and `PrtSc` or
+> > `Ins`.
+> >
+> > Now, some models fix this by excluding `PrtSc` and `Ins` keys from being
+> > treated as F11 and F12 keys with the use of a modifier. However, some
+> > models do not, and fixes this by the so called fn-lock.
+> >
+> > Fn-lock inverts the behavior of the top row from special keys to F1-F12
+> > keys. So a modifier and a special key would be possible which make
+> > things like `Alt-Ins` possible. Now, with fn-lock we would have 4 modes:
+> >
+> > * Fn-key off & fn-lock off - hotkeys treated as special keys using a
+> >   modifier gives F1-F12 keys.
+> > * Fn-key on & fn-lock off - hotkeys treated as F1-F12 keys and using a
+> >   modifier gives F1-F12.
+> > * Fn-key off & fn-lock on - hotkeys are treated as F1-F12 keys and using
+> >   a modifier gives special keys.
+> > * Fn-key on & fn-lock on - hotkeys are treated as special keys and using
+> >   a modifier gives special keys.
+> >
+> > # Implement driver quirks and parameters
+> >
+> > The driver introduces 3 quirks and 2 parameters that can change the
+> > driver's behavior. These quirks being as:
+> > 1. Fixes reporting brightness keys twice since it's already handled by
+> >    acpi-video.
+> > 2. Some models need a short delay when setting battery thresholds to
+> >    prevent a race condition when two processes read/write.
+> > 3. Matebook X (2017) handles micmute led through the "legacy" interface
+> >    which is not currently implemented. Use ACPI EC method to control
+> >    this led.
+> >
+> > and the 2 parameters can enforce the behavior of quirk 1 & 2.
+> >
+> > # Add a debugfs interface to WMI
+> >
+> > An interface to the WMI management interface that allows easier
+> > debugging.
+> >
 > 
-> Guys, I'm lost with this series.
-> So, for now I dropped them from queue, if needed, please resend a new version.
+> It doesn't apply to current for-next.
 
-@Andy: please take my patch for the keycode change, which I sent
-separately. (Florian's version also added raw gpio numnber).
+Hey Andi,
 
-@Florian: could you resend your patch for the reset pin addition ?
+I was basing them on the stable branch.
 
+It doesn't apply because of commit 440c4983de262f78033ec58f6abcd199a664327d
+(platform/x86: wmi: add context argument to the probe function)
 
---mtx
+One line change in huawei-wmi.c:
+-static int huawei_wmi_probe(struct wmi_device *wdev)
++static int huawei_wmi_probe(struct wmi_device *wdev, const void *context)
+
+I'll address that in the next version. For now, feedback is really
+appreciated.
+
+> 
+> > Ayman Bagabas (9):
+> >   platform/x86: huawei-wmi: rename guid and driver name
+> >   platform/x86: huawei-wmi: move to platform driver
+> >   platform/x86: huawei-wmi: implement huawei wmi management interface
+> >   platform/x86: huawei-wmi: add quirks and module parameters
+> >   platform/x86: huawei-wmi: control micmute led through wmi interface
+> >   platform/x86: huawei-wmi: add battery charging thresholds
+> >   platform/x86: huawei-wmi: add fn-lock support
+> >   platform/x86: huawei-wmi: add sysfs interface support
+> >   platform/x86: huawei-wmi: add debugfs support
+> >
+> >  drivers/platform/x86/huawei-wmi.c | 710 ++++++++++++++++++++++++++----
+> >  1 file changed, 629 insertions(+), 81 deletions(-)
+> >
+> > --
+> > 2.20.1
+> >
+> 
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
 
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Thank you,
+Ayman
