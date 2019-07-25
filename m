@@ -2,89 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB9EF75790
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BEB757A0
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbfGYTG0 (ORCPT
+        id S1726349AbfGYTMt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 15:06:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:55397 "EHLO
+        Thu, 25 Jul 2019 15:12:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:50557 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726065AbfGYTG0 (ORCPT
+        with ESMTP id S1726065AbfGYTMt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 15:06:26 -0400
+        Thu, 25 Jul 2019 15:12:49 -0400
 Received: from [192.168.1.110] ([77.9.64.13]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M42zo-1hqj4I0PNA-00070J; Thu, 25 Jul 2019 21:06:22 +0200
-Subject: Re: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front
- button
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M8hlZ-1hm2Cz1QRd-004kGV; Thu, 25 Jul 2019 21:12:44 +0200
+Subject: Re: [PATCH 0/3] Update pcengines-apuv2 platform device
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Florian Eckert <fe@dev.tdt.de>
+Cc:     Eckert.Florian@googlemail.com,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <1563795379-7521-1-git-send-email-info@metux.net>
- <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com>
- <332c666b-1bb3-d4bb-ad1b-98b36992de71@metux.net>
- <CAHp75Vf1pyWjK6hbrNqDjk4v=H0nZLzwKHNK51XteTCo4-QJLA@mail.gmail.com>
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20190704090205.19400-1-fe@dev.tdt.de>
+ <CAHp75Vcocs=9AwX32ouOWFc+wAduCFv2DT_p4JYPUVV0BumjqA@mail.gmail.com>
+ <4b43316c-3e05-0ce9-3ada-db22996205b9@metux.net>
+ <cc5bbcd7148ece53a075948f240bc66b@dev.tdt.de>
+ <CAHp75Vct4O+P62vUo02e5iJy9JMFBDjijFf-JUxjRrMhf1XTEg@mail.gmail.com>
 From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
 Organization: metux IT consult
-Message-ID: <37af3904-7fe7-d151-c82b-252f6bcd00ff@metux.net>
-Date:   Thu, 25 Jul 2019 21:06:20 +0200
+Message-ID: <a453da4b-b5ab-2b30-5ab7-6214980baf7e@metux.net>
+Date:   Thu, 25 Jul 2019 21:12:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vf1pyWjK6hbrNqDjk4v=H0nZLzwKHNK51XteTCo4-QJLA@mail.gmail.com>
+In-Reply-To: <CAHp75Vct4O+P62vUo02e5iJy9JMFBDjijFf-JUxjRrMhf1XTEg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:OzNkqz4gZEOjwxUGnzwnKJOJTBlNFxIvQgQRL0WogJOL2mHEyRk
- toz88ggiNGPV+M+D0NATi3K46FLl0x3vQjl6UTAFAEWKyLeASt9/ECRY61GzstH2KDXe7+U
- ZB2PY82HgP+qvGXeMYJyjyf0BJDgA8Za5a4jHCA40/LBTOqINTBzLFEv5Fc+Qi8MZ5GCPKu
- aTJyAP8pZWzUeSDc6XvkA==
+X-Provags-ID: V03:K1:xtoZTVXhxKKzbSKRgROfuYu8SsntAyy8Ke/HhDt3rB1AGAXU3C8
+ qpwVNJiRrYT6E0kL0MHdEMY1LNer2lZc6f+F9cqL/WQ9+8v0sgrr0tf972JRBDlmescdkYm
+ Z4YbEfb9+f9xDK+iyVTsGA6XXz9nsJ0PUi7MpvWJiBZM4DDYytF+1CkUT0eGj84uRFQHmRW
+ gVD3lTXc10b6cFAB6nJRA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IxcFeAWB7H4=:ZEaJ+Asa5Bkif/sVBqq9Qg
- Zo5bDZdZS1O1lc1M85//Aw+M8W0xWJz6ddme4FQj4zvwsO2nbgiREeQITKbIPxhb6xEzWxagI
- pod4fr2o2R81kZcA5sYlduWMx0TL9GbWCwzbM/LHK/TDloSG1qpHMzUuYnG4H5Cbqh4wIGnE1
- mB4StmoOQcGOQY/0QH3nY4PKIW6lyWwuCntbAx1uD/6zSvRrhSb4TVe9WpYwkO/uRLZE53Pg+
- aNb4Qiavl/T6ABI5dIeGHWgc6FthnqwbjVVVWBGcQkWCavCqTLzaUHIojkRLw8QLSDQNFFBfr
- 0fLOAWVfqapxsALWGX2O5QIcrEg8Bg5QBY4D+1aHSFrm6SGu5N2l5dwKh1kzIrTz5ml4Yak6i
- bEIB5e8u/TGn5bfphSIJVDnTCIgxyRrTBrnakMzOnQyNFvHmSOJ4TmVCx5qWsIGeLs+kbPArq
- Mu4LZp9umMbYVHZrvRLgnkF1FtdkXvBxYIRGcZnf6X+iZAWbEiedMvTSShn5eN9T17fAGhGZW
- lqAv8ZmQ6/CMld4qqjVkYdMpS9+Z/n8RJHf3mW9dmclmy8aCj9B0FYTqGz2bKpWSPQnjYBtDT
- R5LoYdPsFcfcUlr2+BnCYReZc4hK8f6rLO9DgCddx0GSL7FIFjWUlAM9hpsebmcxEZrrTyoyD
- dGm11KQmPU/2o8Wzc/z6xuojAINa6ICMWdF0qpxS4U6R0XdCtc6KQRklGwl1z4Rad7VzGAE0d
- sbwpxdUFf2Y1T2MCXclsHetDJQzSrKMLF2mPcxPYkeFSaguSf2vo1/rSJkk=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rtNxlECWR+E=:eFpoyS7kQadOvMs2DFumPo
+ MggGu9S7CiUzA7VXNIFQzPGqXfrBtktRWpFSddURdG07+EvwmV1dz0zagjd/2X/aHJIrUj73c
+ vU5uAHv8ZQhmP12MphML9GWmcpwk++LKDYgQu2EwAYCMCpBh2n943Eqqe8c9DDJi/paP3Gf0D
+ 2naaaC9/6Pcnzs9ny3h9XbxAoNhdcMwRK94KtCV+YooekYSQAl+RJuIpalJtDAeoeEUsx5d/B
+ imzk1+cBvlyfqKtWHJ7Ox00mYccVWXvNyIRvHNYnyWNQWg1URkiij8/W2dWzbzGUFe1i4Ogdq
+ /vV+hqBRidyuwvwGGg/PTDmIVyIOGbwtv5z8QobIKSDYwYaXIYkalCgZsCiqVx3MV/h85EWWc
+ jEUwtMQFJibpSDUwhovxn7twDNKnbvSVKZ/lNtCgWohrHmC0c4Ytd3xDljDKGaBLRW6VhUHp2
+ zauBqIwFq7V8snRyuE2TzdkOc4G4PkY1iRZHLfmEhxrzJfdh/XOJvzmYZ53sj6yOIGNSULdBv
+ cYIaTeAvvXeGCOBU1pps9lTn0kvwn4avgvSmCTpsIN8mMKeWgo2Be43Rh2A8b0yxNBsXpsCoD
+ fOzwxnuy6t8SMPKyTGoNeTeZqtlqx4XqSrDOe+PXJeJ6ZH643chHaKJo1mdUTohUT87ltH0Hc
+ CQAZdpxP6ZZgzN3O1NuC7J6q8KZ7H1i2mdbukt84omHmJat+0lZ3npQENRFWsAePruRlTVw+T
+ ManOTRVIEC9LPpQdeM/CoMS5kqVD1IBRp9LAlOB+/awewUUvH7R+34gb0mM=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 25.07.19 20:57, Andy Shevchenko wrote:
-> On Thu, Jul 25, 2019 at 9:50 PM Enrico Weigelt, metux IT consult
-> <lkml@metux.net> wrote:
->>
->> On 25.07.19 19:17, Andy Shevchenko wrote:
->>> On Mon, Jul 22, 2019 at 2:36 PM Enrico Weigelt, metux IT consult
->>> <info@metux.net> wrote:
->>>>
->>>> From: Enrico Weigelt <info@metux.net>
->>>>
->>>> The keycode KEY_RESTART is more appropriate for the front button,
->>>> as most people use it for things like restart or factory reset.
->>>>
->>>
->>> Should it go as Fixes?
->>
->> I think so. Technically, the feature already worked, but the keycode
->> wasn't semantically fine.
-> 
-> Can you provide a Fixes tag?
-> 
+On 25.07.19 19:49, Andy Shevchenko wrote:
 
-Okay, sent a v2.
+Hi,
 
+> On Wed, Jul 10, 2019 at 3:54 PM Florian Eckert <fe@dev.tdt.de> wrote:
+>>
+>> On 2019-07-08 21:45, Enrico Weigelt, metux IT consult wrote:
+>>> On 04.07.19 15:39, Andy Shevchenko wrote:
+>>>> On Thu, Jul 4, 2019 at 12:02 PM Florian Eckert <fe@dev.tdt.de> wrote:
+>>>>>
+>>>>> This patchset adds the following changes to this pcengines-apuv2
+>>>>> platform device.
+> 
+> Guys, I'm lost with this series.
+> So, for now I dropped them from queue, if needed, please resend a new version.
+
+@Andy: please take my patch for the keycode change, which I sent
+separately. (Florian's version also added raw gpio numnber).
+
+@Florian: could you resend your patch for the reset pin addition ?
+
+
+--mtx
 
 -- 
 Enrico Weigelt, metux IT consult
