@@ -2,86 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 080367576A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 20:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05E8D7578B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:05:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726305AbfGYS5x (ORCPT
+        id S1726303AbfGYTF4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 14:57:53 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45097 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726065AbfGYS5x (ORCPT
+        Thu, 25 Jul 2019 15:05:56 -0400
+Received: from mga11.intel.com ([192.55.52.93]:19125 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726065AbfGYTFy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 14:57:53 -0400
-Received: by mail-pg1-f193.google.com with SMTP id o13so23469649pgp.12;
-        Thu, 25 Jul 2019 11:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JfRsbfKjlbRjCKWjcvvv1UnYzfCDCkJeFmboNeFgmwo=;
-        b=k3OkogeECdRkYQBdG29C54EqVkAqeH3fQEAweqO3b6SrtO3qS/QXHoLN4agcqfaiEb
-         gdSjzIrhZOQ8g1hcXIFZKjJmWHe2zgulfHNvcBFUxVN2lhpi1Qebo7pSayp91LNnVlbL
-         d3B+ILCoSZ5rLv53plB1RAPCkSGHnTrsq16OoIsTrctUKUnYuH4XUGeO274Np6GEj135
-         munuuoXX94uXTs85yCHPF/GnSJNy5FNCbnUB2gsjhwozrb/bjdfxz6kNlmhj1dDOhS1H
-         4OgNFbPsXSE7E5VEu6EN9XXUkXe4gCXRKVZXOuYWAwRGNQB0uWRJc51WHkDgoVmbQELb
-         uqDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JfRsbfKjlbRjCKWjcvvv1UnYzfCDCkJeFmboNeFgmwo=;
-        b=J1LZ9Nh7z/QqL3L/9+yVru4EgtNBieIH9KDfyRswpnkebRh0xO81xxwof6YC5Ui+Hq
-         oSxZrzgRkmslAU1yw/p3XFWJ4bUmfxWueUr9MN3OU2sBJzFHF6RMZCT50i73uebn33oT
-         mqs0xRW1SOnaPa+EcFDrDKVX8IGZQgYbd90ukz4y/pBi8b07/m5LBdPOqBeRic7cbPuR
-         H241+5ahyz2+2ce2hZzSxAEYOyRPqLjmulLBH1A+HiIkxgt7kw4IfOn9KNPWvxffUTBj
-         lSKjOR3Vuu/E2arjfNw2qvF25ovGLeHPkqhkresitg86gIegT7l4ciPjB2QfxXo8V9wU
-         U3ZQ==
-X-Gm-Message-State: APjAAAW45c6ppjaqSgf/s6Ot7BX4rNlSIkzr+HA+PwjxgLgv7M3B1Qlw
-        saAiwStQ8qgSUtzTrQ1upPvQR/wjLCKWC/PvGD0=
-X-Google-Smtp-Source: APXvYqzGaw1ubEE+cNWmgus0kKUaWB8XQzNl4KJQPoBCFSFVOuftrYs3LVfuHcWf1maicgZeYxkC4+Mf1hXkKE8nc08=
-X-Received: by 2002:a62:14c4:: with SMTP id 187mr17644712pfu.241.1564081072772;
- Thu, 25 Jul 2019 11:57:52 -0700 (PDT)
+        Thu, 25 Jul 2019 15:05:54 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Jul 2019 12:05:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,307,1559545200"; 
+   d="scan'208";a="321764759"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2019 12:05:52 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 22F2581; Thu, 25 Jul 2019 22:05:51 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1] platform/x86: i2c-multi-instantiate: Use struct_size() helper
+Date:   Thu, 25 Jul 2019 22:05:50 +0300
+Message-Id: <20190725190550.63184-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1563795379-7521-1-git-send-email-info@metux.net>
- <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com> <332c666b-1bb3-d4bb-ad1b-98b36992de71@metux.net>
-In-Reply-To: <332c666b-1bb3-d4bb-ad1b-98b36992de71@metux.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 21:57:40 +0300
-Message-ID: <CAHp75Vf1pyWjK6hbrNqDjk4v=H0nZLzwKHNK51XteTCo4-QJLA@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front button
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 9:50 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
->
-> On 25.07.19 19:17, Andy Shevchenko wrote:
-> > On Mon, Jul 22, 2019 at 2:36 PM Enrico Weigelt, metux IT consult
-> > <info@metux.net> wrote:
-> >>
-> >> From: Enrico Weigelt <info@metux.net>
-> >>
-> >> The keycode KEY_RESTART is more appropriate for the front button,
-> >> as most people use it for things like restart or factory reset.
-> >>
-> >
-> > Should it go as Fixes?
->
-> I think so. Technically, the feature already worked, but the keycode
-> wasn't semantically fine.
+One of the more common cases of allocation size calculations is finding
+the size of a structure that has a zero-sized array at the end, along
+with memory for some number of elements for that array.
 
-Can you provide a Fixes tag?
+Make use of the struct_size() helper instead of an open-coded version
+in order to avoid any potential type mistakes.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/x86/i2c-multi-instantiate.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index 197d8a192721..61fe341a85aa 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -81,9 +81,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	multi = devm_kmalloc(dev,
+-			offsetof(struct i2c_multi_inst_data, clients[ret]),
+-			GFP_KERNEL);
++	multi = devm_kmalloc(dev, struct_size(multi, clients, ret), GFP_KERNEL);
+ 	if (!multi)
+ 		return -ENOMEM;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.20.1
+
