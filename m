@@ -2,98 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14D75748A8
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 10:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 008287553B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388873AbfGYICT (ORCPT
+        id S1726583AbfGYRSJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 04:02:19 -0400
-Received: from mga02.intel.com ([134.134.136.20]:62083 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388596AbfGYICT (ORCPT
+        Thu, 25 Jul 2019 13:18:09 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34532 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725878AbfGYRSJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 04:02:19 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Jul 2019 01:02:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,306,1559545200"; 
-   d="scan'208";a="170171070"
-Received: from rbhardw1-mobl.gar.corp.intel.com (HELO [10.66.75.233]) ([10.66.75.233])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Jul 2019 01:02:15 -0700
-Subject: Re: [PATCH] platform/x86: intel_pmc_core: Add ICL-NNPI support to PMC
- Core
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+        Thu, 25 Jul 2019 13:18:09 -0400
+Received: by mail-pf1-f195.google.com with SMTP id b13so23086260pfo.1;
+        Thu, 25 Jul 2019 10:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HJap+dnh5S9ROruerU1qhQPjtGzCUlM8yURyg5DcndQ=;
+        b=HGAaSCwd118cJMLiOTflCU2hHAG1cdmLwVE36gRdKeM2iPQ+EDOaGCSvmGnPD5t+Fl
+         FMxEYDi1bzvu2ne0PRqMsD7g4Ks/bhz/IfTdx7tJElpTq2v1Jsi7X/67r5B8biL4UuKO
+         fLfeN+8nIYCscbeykDM6+yh1MLO8VZQV8AghqWjmf3RYz7cwVj0TEKlmK/+xXLpHYCIW
+         WmuYygn4nlmL/wsWUIqBsCqGzQXarWuUTG26YQbkAbLX5AcFzSQ6Rhgd79LClUKlXjey
+         kK2B88jBY830WQ7NlxBkfj1t66U4kcATbScZx2zcsTata2iEyFQ8Frj1BnOjjILw6go5
+         noDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HJap+dnh5S9ROruerU1qhQPjtGzCUlM8yURyg5DcndQ=;
+        b=GYXuOFNqQfrmMo5jN/8IEidEbeqFJ80dxPsxdjSDzwzo3bnraJbzSvF5F87p8oFedF
+         uGsWcIFGOcIGelTZy+K/+2WtWHo940bki5+OhMtgFIUaEyzkivmj9vH3xFK0GdBVczuH
+         1m+EcGquodJJjmRnZHwGVXk3t63iMvLw6PnwlHtieLVlI5GtEYVSwHI+C3+AZrA831C+
+         zU20XctlE90cetuaql8+F/gvUqD4v+Yh+woSUYtYFHD8ED20/e5o4vpS4s0NAQmcTNS8
+         p1Z9cvqvSF2LowDSaHSUXBPAPaEYugAWIIoY6qMcbYsoQlwcXLhELIyEW0eVgbd+itNA
+         8pIQ==
+X-Gm-Message-State: APjAAAXstG56ablcYCcrgCA1jx7Y+6+mDUpLAVOgXyPsdSVdEoPyb8OD
+        7STemz4rdopjTEF3jL9s4MXaEe32RIgB/AAjytpGStuP
+X-Google-Smtp-Source: APXvYqzr0fWKCsmymejb+p3P9kguT5isHBN3phbe3xEYH22AnzhCPCqyhDIBy/zgmQ2ZjOaP9MKLwC/sYPUNJadHPSY=
+X-Received: by 2002:a17:90a:35e6:: with SMTP id r93mr94315604pjb.20.1564075088344;
+ Thu, 25 Jul 2019 10:18:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <1563795379-7521-1-git-send-email-info@metux.net>
+In-Reply-To: <1563795379-7521-1-git-send-email-info@metux.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 25 Jul 2019 20:17:57 +0300
+Message-ID: <CAHp75Vch3KNCkwp69a_fBtMy3B3k=NEbAmPZE2cn5HSn577HOw@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86/pcengines-apuv2: use KEY_RESTART for front button
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <20190614080940.13640-1-rajneesh.bhardwaj@linux.intel.com>
- <CAHp75VfMdKqpC3_gF-VzcJQqiWM9E0irORr60KLXyu8HuQg9KA@mail.gmail.com>
-From:   "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@linux.intel.com>
-Message-ID: <37653b30-7a76-0896-ecb7-2fbeab4308ec@linux.intel.com>
-Date:   Thu, 25 Jul 2019 13:32:15 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAHp75VfMdKqpC3_gF-VzcJQqiWM9E0irORr60KLXyu8HuQg9KA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Andy
-
-On 29-Jun-19 6:48 PM, Andy Shevchenko wrote:
-> On Fri, Jun 14, 2019 at 11:14 AM Rajneesh Bhardwaj
-> <rajneesh.bhardwaj@linux.intel.com> wrote:
->> Ice Lake Neural Network Processor for deep learning inference a.k.a.
->> ICL-NNPI can re-use Ice Lake Mobile regmap to enable Intel PMC Core
->> driver on it.
->>
-> This will be postponed till next cycle since the CPU model will not
-> appear before merge window.
-> So, please, resend than (I guess somewhat in a month).
-
-
-The dependent CPUID Patch is now upstream, 
-https://github.com/torvalds/linux/blob/bed38c3e2dca01b358a62b5e73b46e875742fd75/arch/x86/include/asm/intel-family.h#L59 
-so can you please apply this one?
-
-
-Thank you
-
-Rajneesh
-
-
+On Mon, Jul 22, 2019 at 2:36 PM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
 >
->> Cc: Darren Hart <dvhart@infradead.org>
->> Cc: Andy Shevchenko <andy@infradead.org>
->> Cc: platform-driver-x86@vger.kernel.org
->> Link: https://lkml.org/lkml/2019/6/5/1034
->> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
->> ---
->>   drivers/platform/x86/intel_pmc_core.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
->> index 1d902230ba61..be6cda89dcf5 100644
->> --- a/drivers/platform/x86/intel_pmc_core.c
->> +++ b/drivers/platform/x86/intel_pmc_core.c
->> @@ -815,6 +815,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
->>          INTEL_CPU_FAM6(KABYLAKE_DESKTOP, spt_reg_map),
->>          INTEL_CPU_FAM6(CANNONLAKE_MOBILE, cnp_reg_map),
->>          INTEL_CPU_FAM6(ICELAKE_MOBILE, icl_reg_map),
->> +       INTEL_CPU_FAM6(ICELAKE_NNPI, icl_reg_map),
->>          {}
->>   };
->>
->> --
->> 2.17.1
->>
+> From: Enrico Weigelt <info@metux.net>
 >
+> The keycode KEY_RESTART is more appropriate for the front button,
+> as most people use it for things like restart or factory reset.
+>
+
+Should it go as Fixes?
+
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  drivers/platform/x86/pcengines-apuv2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+> index b0d3110..4138007c 100644
+> --- a/drivers/platform/x86/pcengines-apuv2.c
+> +++ b/drivers/platform/x86/pcengines-apuv2.c
+> @@ -93,7 +93,7 @@
+>
+>  static struct gpio_keys_button apu2_keys_buttons[] = {
+>         {
+> -               .code                   = KEY_SETUP,
+> +               .code                   = KEY_RESTART,
+>                 .active_low             = 1,
+>                 .desc                   = "front button",
+>                 .type                   = EV_KEY,
+> --
+> 1.9.1
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
