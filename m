@@ -2,92 +2,260 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB3C755FA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F274575600
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 19:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389004AbfGYRo0 (ORCPT
+        id S2391394AbfGYRpW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 13:44:26 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36417 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388291AbfGYRo0 (ORCPT
+        Thu, 25 Jul 2019 13:45:22 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35800 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388291AbfGYRpW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 13:44:26 -0400
-Received: by mail-pg1-f196.google.com with SMTP id l21so23392117pgm.3;
-        Thu, 25 Jul 2019 10:44:25 -0700 (PDT)
+        Thu, 25 Jul 2019 13:45:22 -0400
+Received: by mail-pg1-f193.google.com with SMTP id s1so17089830pgr.2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 25 Jul 2019 10:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7+hFw6mo8dhy1omS9HVV0VfweWLThyGPqk2QfKYq4ZU=;
-        b=H0qV8PRhmbegWi5YPtSs+i0ZmRxlyoLvpYoJUmvM9KU87v6d8tOcggo0tK84goVIZu
-         GiLQk7yEnu6lO7FC3eHXF2bT4BCW5TKjmE8vjHwQooNqo/IOLsRdR0teaocYJNmmI+4D
-         cCGiUwSrzGQTuty48IP638/Pi1E579bXekHLt4NmVK5VJfsT2driSWc/elEpRSTBYGsl
-         j2r5Ky3IK8H4b2TJU2x9TOciXbIf9GCgt7GKSSGFe/N7w1oEEDgInsqdU58JH+VwrP29
-         aHOrgxLMvxx0scD2kUi+W6qxnbLtu8cLWSYteTxV+RbEuPfQL6IUGJbeq6loWj+8dHZ7
-         YRpg==
+        bh=Z2hXS4aIp+askbelNzmRZr64ww76nj816fhIYHKfid0=;
+        b=TKxARAgSY0MaF5npCa8QyKHGHrSB8zoud/0I97Dd9q4WqJlXU27cAi821Wf0SFpL2k
+         b8n5Mpmkz7Ez0Ec8F9KFn0hPS/1288nYa9oPXF2gR03K5HklKRUWTGzrEXd0ZSlHpRoX
+         WfZV40Y5/y/DnOhngkvzYUbjlVUkIS2QnIMDtYwOAuyYfX4eHYvjFeDpf/ewZF0fo1Rf
+         YzZwRKUd4Ks2mekPOEpztfyve2WooCE4+8UesCs0+lHfCaOvzo++Iwt1w76barf2nicW
+         otmWPWmr6SFu2CoHutra6ApCplxaILq2APmK5XFPb9R2vNzSjFG2CsbIVKscYYdOROPW
+         9UtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7+hFw6mo8dhy1omS9HVV0VfweWLThyGPqk2QfKYq4ZU=;
-        b=hJZnXYlyFBt33LQdScOW9znjbU6yAelEEFiqjCfamPFL3wBNARIRTMv2riDzU4LLvr
-         KGU0FpqMVVM8lyH8n//NKOp6Aw/ZegQgZlz6IX+c59JMCdq+NtHqvOupnwD3P/qhTbkD
-         7LA3pdilBEOcxfKGJFKFvPfjAwTXBDJ7zM2nACynO8McjBRYMvCbF7KG7YYRhB9ZBbbh
-         TYtKoj6QWE0787x90L68HoFGoniBqOVW6PQMtV2ShbKrRnDwsXxVudJ6ELHM4bSDx7up
-         9x2HC94ExgFhhjP+gzjbSOHxMdlyxK5Wlyg48VP6Wb/OPFgshwQE8P1l/9NZAg296Mz3
-         jkHg==
-X-Gm-Message-State: APjAAAVYC65RuNJXoLXWCjyzzXykYJ8gt20qyuYA0Csa3MKs6xqdPDpC
-        sdYT0nPwUNrCy8RkmH1PJ1QXHt9BjY2KZhJcnfABWQiIRsE=
-X-Google-Smtp-Source: APXvYqwlg7+rlIdaeVC3yQn1x571GTXmdJNlaBhqYAnDrq6lxpG7uy2bk/2gSfXMtbrz5Oz6TES072Y7A4293M7QT3Y=
-X-Received: by 2002:a63:1020:: with SMTP id f32mr57898657pgl.203.1564076665322;
- Thu, 25 Jul 2019 10:44:25 -0700 (PDT)
+        bh=Z2hXS4aIp+askbelNzmRZr64ww76nj816fhIYHKfid0=;
+        b=O2mvovYN3w9c861JNeIWP7Xes874wgtjXlKpp5JewJdM4Kd+tBviZQ3dI2mvhbyIcK
+         MXpYnQlFHCTcWnqEE2H0q3KmXd5RX8aiRlBzHcgTFr9UgLhDoR52/y8ulsajQJgq+gXK
+         R4Mkwok9gq9lHAxS17sivAJqmyTBPtfDjsDB2HcjkvMOy5ITNOsWcHYttqLjl98Iw52s
+         JVEH5aaDdBVDM/6xMfg2lw4Uxuei1WvB3dhHnXIHmBCUK/k1V1Sy0LApPvrCJgFNiTLL
+         NwDhNUTqfoSiQYf/Uw5V0blWQWDHNeX7qjuPJCOFC8lmpjcExPAFoNm0p8zt9N1km2oJ
+         uatg==
+X-Gm-Message-State: APjAAAXaPk2ocCf65BZNHPP0Qh9EMNqYmuoIdRC93JWj1dB9/vbbm5jV
+        SgNaqXkuKjAddKqXUEUJSqwD3wcWN+as1SzSt8O1IUXh
+X-Google-Smtp-Source: APXvYqwVBom4fhXMf/vAR9/ZNTopQUXBsvevI47d8tMUhvs1nHabju5viI+imt3t/vctNEMVQL5sgCn0vMFXLGQ2WR8=
+X-Received: by 2002:a62:16:: with SMTP id 22mr18486351pfa.151.1564076721123;
+ Thu, 25 Jul 2019 10:45:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190710053326.26247-1-kai.heng.feng@canonical.com>
-In-Reply-To: <20190710053326.26247-1-kai.heng.feng@canonical.com>
+References: <CAHp75VdzPvs0x_gT4HAMFj8KRYcQgk+ZXgC4yCPA25mS6qFFiQ@mail.gmail.com>
+ <20190710153221.379-1-alex@alexanderweb.de>
+In-Reply-To: <20190710153221.379-1-alex@alexanderweb.de>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 25 Jul 2019 20:44:13 +0300
-Message-ID: <CAHp75VdO01EmsYXPjXdjyzqa4vvs26H3yJ0C+fhxmY1hrgg+Xg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: hp_accel: Add support for HP ZBook 17 G5
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Eric Piel <eric.piel@tremplin-utc.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 25 Jul 2019 20:45:09 +0300
+Message-ID: <CAHp75VdMZMxGJpmi6wQMa8FJdzpkPq7nA=kFf4pUSrskrTtFeA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: Add Lenovo ThinkPad PrivacyGuard.
+To:     Alexander Schremmer <alex@alexanderweb.de>
+Cc:     Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 10, 2019 at 8:33 AM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
+On Wed, Jul 10, 2019 at 6:32 PM Alexander Schremmer
+<alex@alexanderweb.de> wrote:
 >
-> HP ZBook 17 G5 needs a non-standard mapping, x_inverted.
+> This feature is found optionally in T480s, T490, T490s.
+>
+> The feature is called lcdshadow and visible via
+> /proc/acpi/ibm/lcdshadow.
+>
+> The ACPI methods \_SB.PCI0.LPCB.EC.HKEY.{GSSS,SSSS,TSSS,CSSS} are
+> available in these machines. They get, set, toggle or change the state
+> apparently.
+>
+> The patch was tested on a 5.0 series kernel on a T480s.
 >
 
-Pushed to my review and testing queue, thanks!
+Thanks for an update!
+Unfortunately it doesn't apply since big batch of txt->rst conversion
+happened in this cycle. Care to fix and resend?
 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Signed-off-by: Alexander Schremmer <alex@alexanderweb.de>
 > ---
->  drivers/platform/x86/hp_accel.c | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/laptops/thinkpad-acpi.txt |  22 +++++
+>  drivers/platform/x86/thinkpad_acpi.c    | 112 ++++++++++++++++++++++++
+>  2 files changed, 134 insertions(+)
 >
-> diff --git a/drivers/platform/x86/hp_accel.c b/drivers/platform/x86/hp_accel.c
-> index f61b8a176e20..cfc0e36a7a5e 100644
-> --- a/drivers/platform/x86/hp_accel.c
-> +++ b/drivers/platform/x86/hp_accel.c
-> @@ -239,6 +239,7 @@ static const struct dmi_system_id lis3lv02d_dmi_ids[] = {
->         AXIS_DMI_MATCH("HPB64xx", "HP EliteBook 84", xy_swap),
->         AXIS_DMI_MATCH("HPB65xx", "HP ProBook 65", x_inverted),
->         AXIS_DMI_MATCH("HPZBook15", "HP ZBook 15", x_inverted),
-> +       AXIS_DMI_MATCH("HPZBook17G5", "HP ZBook 17 G5", x_inverted),
->         AXIS_DMI_MATCH("HPZBook17", "HP ZBook 17", xy_swap_yz_inverted),
->         { NULL, }
->  /* Laptop models without axis info (yet):
+> diff --git a/Documentation/laptops/thinkpad-acpi.txt b/Documentation/laptops/thinkpad-acpi.txt
+> index 6cced88de6da..3fff4b5b6aab 100644
+> --- a/Documentation/laptops/thinkpad-acpi.txt
+> +++ b/Documentation/laptops/thinkpad-acpi.txt
+> @@ -46,6 +46,7 @@ detailed description):
+>         - Fan control and monitoring: fan speed, fan enable/disable
+>         - WAN enable and disable
+>         - UWB enable and disable
+> +       - LCD Shadow (PrivacyGuard) enable and disable
+>
+>  A compatibility table by model and feature is maintained on the web
+>  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+> @@ -1341,6 +1342,27 @@ Sysfs notes:
+>         Documentation/rfkill.txt for details.
+>
+>
+> +LCD Shadow control
+> +------------------
+> +
+> +procfs: /proc/acpi/ibm/lcdshadow
+> +
+> +Some newer T480s and T490s ThinkPads provide a feature called
+> +PrivacyGuard. By turning this feature on, the usable vertical and
+> +horizontal viewing angles of the LCD can be limited (as if some privacy
+> +screen was applied manually in front of the display).
+> +
+> +procfs notes:
+> +
+> +The available commands are:
+> +
+> +       echo '0' >/proc/acpi/ibm/lcdshadow
+> +       echo '1' >/proc/acpi/ibm/lcdshadow
+> +
+> +The first command ensures the best viewing angle and the latter one turns
+> +on the feature, restricting the viewing angles.
+> +
+> +
+>  EXPERIMENTAL: UWB
+>  -----------------
+>
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index 71cfaf26efd1..8907b183b940 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -9729,6 +9729,114 @@ static struct ibm_struct battery_driver_data = {
+>         .exit = tpacpi_battery_exit,
+>  };
+>
+> +/*************************************************************************
+> + * LCD Shadow subdriver, for the Lenovo PrivacyGuard feature
+> + */
+> +
+> +
+> +static int lcdshadow_state;
+> +
+> +static int lcdshadow_on_off(bool state)
+> +{
+> +       acpi_handle set_shadow_handle;
+> +       int output;
+> +
+> +       if (ACPI_FAILURE(acpi_get_handle(
+> +                                       hkey_handle,
+> +                                       "SSSS",
+> +                                       &set_shadow_handle))) {
+> +               pr_warn("Thinkpad ACPI has no %s interface.\n", "SSSS");
+> +               return -EIO;
+> +       }
+> +
+> +       if (!acpi_evalf(set_shadow_handle, &output, NULL, "dd", (int)state))
+> +               return -EIO;
+> +
+> +       lcdshadow_state = state;
+> +       return 0;
+> +}
+> +
+> +static int lcdshadow_set(bool on)
+> +{
+> +       if (lcdshadow_state < 0)
+> +               return lcdshadow_state;
+> +       if (lcdshadow_state == on)
+> +               return 0;
+> +       return lcdshadow_on_off(on);
+> +}
+> +
+> +static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
+> +{
+> +       acpi_handle get_shadow_handle;
+> +       int output;
+> +
+> +       if (ACPI_FAILURE(acpi_get_handle(
+> +                                       hkey_handle,
+> +                                       "GSSS",
+> +                                       &get_shadow_handle))) {
+> +               lcdshadow_state = -ENODEV;
+> +               return 0;
+> +       }
+> +
+> +       if (!acpi_evalf(get_shadow_handle, &output, NULL, "dd", 0)) {
+> +               lcdshadow_state = -EIO;
+> +               return -EIO;
+> +       }
+> +       if (!(output & 0x10000)) {
+> +               lcdshadow_state = -ENODEV;
+> +               return 0;
+> +       }
+> +       lcdshadow_state = output & 0x1;
+> +
+> +       return 0;
+> +}
+> +
+> +static void lcdshadow_resume(void)
+> +{
+> +       if (lcdshadow_state >= 0)
+> +               lcdshadow_on_off(lcdshadow_state);
+> +}
+> +
+> +static int lcdshadow_read(struct seq_file *m)
+> +{
+> +       if (lcdshadow_state < 0) {
+> +               seq_puts(m, "status:\t\tnot supported\n");
+> +       } else {
+> +               seq_printf(m, "status:\t\t%d\n", lcdshadow_state);
+> +               seq_puts(m, "commands:\t0, 1\n");
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int lcdshadow_write(char *buf)
+> +{
+> +       char *cmd;
+> +       int state = -1;
+> +
+> +       if (lcdshadow_state < 0)
+> +               return -ENODEV;
+> +
+> +       while ((cmd = next_cmd(&buf))) {
+> +               if (strlencmp(cmd, "0") == 0)
+> +                       state = 0;
+> +               else if (strlencmp(cmd, "1") == 0)
+> +                       state = 1;
+> +       }
+> +
+> +       if (state == -1)
+> +               return -EINVAL;
+> +
+> +       return lcdshadow_set(state);
+> +}
+> +
+> +static struct ibm_struct lcdshadow_driver_data = {
+> +       .name = "lcdshadow",
+> +       .resume = lcdshadow_resume,
+> +       .read = lcdshadow_read,
+> +       .write = lcdshadow_write,
+> +};
+> +
+>  /****************************************************************************
+>   ****************************************************************************
+>   *
+> @@ -10210,6 +10318,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+>                 .init = tpacpi_battery_init,
+>                 .data = &battery_driver_data,
+>         },
+> +       {
+> +               .init = tpacpi_lcdshadow_init,
+> +               .data = &lcdshadow_driver_data,
+> +       },
+>  };
+>
+>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
 > --
-> 2.17.1
+> 2.20.1
 >
 
 
