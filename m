@@ -2,72 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05E8D7578B
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C8D7578E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jul 2019 21:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbfGYTF4 (ORCPT
+        id S1726366AbfGYTGM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Jul 2019 15:05:56 -0400
-Received: from mga11.intel.com ([192.55.52.93]:19125 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726065AbfGYTFy (ORCPT
+        Thu, 25 Jul 2019 15:06:12 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:51939 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbfGYTGL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Jul 2019 15:05:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Jul 2019 12:05:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,307,1559545200"; 
-   d="scan'208";a="321764759"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2019 12:05:52 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 22F2581; Thu, 25 Jul 2019 22:05:51 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] platform/x86: i2c-multi-instantiate: Use struct_size() helper
-Date:   Thu, 25 Jul 2019 22:05:50 +0300
-Message-Id: <20190725190550.63184-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 25 Jul 2019 15:06:11 -0400
+Received: from orion.localdomain ([77.9.64.13]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MFKCV-1hazTw0Drl-00FjDC; Thu, 25 Jul 2019 21:06:05 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2] platform/x86/pcengines-apuv2: use KEY_RESTART for front button
+Date:   Thu, 25 Jul 2019 21:06:03 +0200
+Message-Id: <1564081563-28322-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:adNwRs05/JGrziC0a2T4c+nfOAroExubb17H0iLxlQ33ip+kwz/
+ 7V7O6xwh96hqW3M4GD0lI+ijvGJF89qoi8v2j5Gsx9RbKeoJy5e0uEy5NTw86BA4UE2kVeZ
+ L987vPidVJkjN0zJ8WhBzZzI8yTP0y2C0x7MGK/tQUrtJFtYZq5wwMgi2qLC/0DJGSlYRgO
+ ZBbSdIWeB533Y8W4SXoBA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+SzGQ0XlC70=:ipwKXEW6l7cdJNKjcwxcGe
+ IeDZ9PF+8QLJpOLOCrbykmTRStnIXdLVSnn8XRmwDXKZQM+Oa0ynY9hULzXtj8zuVe34CzrrJ
+ wGUt9ebVvn0NgeoQ78oUDK0bE3A4LpwdGHUK96YLh1r3lFFFhuErwoOdsBP6A/9wJSbKpBJ1V
+ Stiy800JhX16UX5ozolpPtOcgzzyICF4LnT+6v/daxSjIwk2uxgRdixu95JoxFwaRspWVKbWo
+ sNEj/C58LSuARV5HSTebjBlTJ9FUCe5B7t0aw92X3l7Ce6wu2YFWWIb590BPLacb8ANA5OggE
+ A2S7JKSxqxgT/Ptx2e5OpUKJYBWpOqE6GUmDMMn/qHH6bGQApCmi27wpCdcMLeYVfildqwL2G
+ YzmnFnE5ffEhMNF1YKoe45FrZEWvkBXhuH523amSpkhIE8Hb/kxjKs0ipGB5+1J8l5aLQ9G/u
+ 6udYxlgqOQotJsgOklke8sqJ/+xX09L90wEIo5WhfrKGg4Ven1NYLjJKhRVs5Hvu6ECEohzUP
+ 523xZk9UGAYal2f+z4nxE38EmQEJR+oT99PgGYE/2VpgYaDbzar2thSo7PEXNR7hlFev0Wgkt
+ j3BupkqbRUuDx6AX+3yabA6Ttj+z8YXBT1yAOf54W1TXHqNcSOzgG+BRMzQ21ztPkdr21tEmd
+ iP974+lCw16gsk0Q+vvLNBvMlMgHJ2CZLuqSs9+/Bh8kCInVPsKXaVFJnahtsukKNTYK5xP1S
+ ecOvy145/vTT4XiJx+DZjinpjmK0BA0TRBoWKw==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-One of the more common cases of allocation size calculations is finding
-the size of a structure that has a zero-sized array at the end, along
-with memory for some number of elements for that array.
+From: Enrico Weigelt <info@metux.net>
 
-Make use of the struct_size() helper instead of an open-coded version
-in order to avoid any potential type mistakes.
+The keycode KEY_RESTART is more appropriate for the front button,
+as most people use it for things like restart or factory reset.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Enrico Weigelt <info@metux.net>
+Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe ("x86: pcengines apuv2 gpio/leds/keys platform driver")
 ---
- drivers/platform/x86/i2c-multi-instantiate.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/platform/x86/pcengines-apuv2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
-index 197d8a192721..61fe341a85aa 100644
---- a/drivers/platform/x86/i2c-multi-instantiate.c
-+++ b/drivers/platform/x86/i2c-multi-instantiate.c
-@@ -81,9 +81,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+index b0d3110..4138007c 100644
+--- a/drivers/platform/x86/pcengines-apuv2.c
++++ b/drivers/platform/x86/pcengines-apuv2.c
+@@ -93,7 +93,7 @@
  
--	multi = devm_kmalloc(dev,
--			offsetof(struct i2c_multi_inst_data, clients[ret]),
--			GFP_KERNEL);
-+	multi = devm_kmalloc(dev, struct_size(multi, clients, ret), GFP_KERNEL);
- 	if (!multi)
- 		return -ENOMEM;
- 
+ static struct gpio_keys_button apu2_keys_buttons[] = {
+ 	{
+-		.code			= KEY_SETUP,
++		.code			= KEY_RESTART,
+ 		.active_low		= 1,
+ 		.desc			= "front button",
+ 		.type			= EV_KEY,
 -- 
-2.20.1
+1.9.1
 
