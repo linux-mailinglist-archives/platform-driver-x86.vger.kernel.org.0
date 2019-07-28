@@ -2,105 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC3D77EE0
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Jul 2019 11:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A44077EF2
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Jul 2019 12:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725978AbfG1J5d (ORCPT
+        id S1725975AbfG1KBp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 28 Jul 2019 05:57:33 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:46672 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbfG1J5d (ORCPT
+        Sun, 28 Jul 2019 06:01:45 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37363 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbfG1KBo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 28 Jul 2019 05:57:33 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v24so55693767ljg.13;
-        Sun, 28 Jul 2019 02:57:31 -0700 (PDT)
+        Sun, 28 Jul 2019 06:01:44 -0400
+Received: by mail-lj1-f195.google.com with SMTP id z28so1332424ljn.4;
+        Sun, 28 Jul 2019 03:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=I5U5P2OB+CW1lAAzC/g4JOE6432qGwFP+/JSwm0jSHU=;
-        b=ZV53OTCsHDfSi2msA8fBNToBiGv1qSMCKgBQXDYU2lDS7+Vh64l0Pb6wOlXEw+vUT5
-         BrQdMuTWRPTsPW9wJ0fUQINwtKQjCoc1c1RqPp5JAz8SmrW/rBha8mnJF7LR1GERrUaj
-         LjesFwNlFmzF84GiwhpjettdBknui1n0kO2MLU+Pc6SsbafRJ7ApvOMJWe8kWYFTdI+Y
-         hNoTTnVK5r9Wr1aXZ9tiPSGv8QzT6eiCNYW/EN+iJxYX0YL2hhnUYbqDWsMd+T84+4Gi
-         sQ94QOp1j2tk3Wq36Uonm35FoGLlhHtqwNgvSFIP4KQWRJkQpeHazVQYN1crYcniSP/J
-         o7Wg==
+        bh=sW/UYb8mObeW8WWhGrXYNtg6fROLodUuxps6PdiCevM=;
+        b=GTd3qfwPiBY6r66aUOP7w5OkNRigCzsdeDxgx9QfHlvehm5O6Td0mfxff/fmNP3gCG
+         IWypwFBS3KslLR1miL6Dq3R4ybg/gO90GTIplQA3R1YvT4FVsKXycLCztZTMFUgchFgb
+         4FJFXvNy8Uc4Rdgreocq7tPzhjg3yhHt4FoPyh0LLV3G/pXeJYj1pnh++d85WOKWWije
+         tiUtNog7KNOdIOvjE/DX/eITTKFUlp6E/xCHw90ZgIzapljFJAfwtiJkgC9u8rrrhfqj
+         wGiVzLrCLT4nq1N27itnHdcjZZTEhJGLIIiUTedU0KmMzeUwiF7LsI/sHTdx0u8WmGcE
+         DsbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=I5U5P2OB+CW1lAAzC/g4JOE6432qGwFP+/JSwm0jSHU=;
-        b=EzzNnF7J2CIxGuapku4kwbt3M5nAsr1d7cdMuAAxqXCnuJHdR1R1NLlFCE/9gm502d
-         tnQX6QjfGFB7xEYc+MI6VoIJaC/CNLSLrOIUP1+IBR1XDGPAYBahOSLZB2WFjo0sbdyW
-         iwa3fLNZ0kTuX23LY3BY7iluBORseHvwkbRXkXbDBah5162SeJIb5a86R0X+mfCdRBMc
-         IndeOYA0qKccZ2mnxhYA8tEMhXcFGpcC36H+QczVYA4S2eo4P2muHBJyEoC7QyE4P3iA
-         468GbfXTiFk50LQ9Br4LG77NlR4S1jBg4GrfZRqIQ6P6ySePJNfPttUE3VbMKTZsqjLZ
-         SBLQ==
-X-Gm-Message-State: APjAAAX3xC6fwKr74lRf/1/bQ4p7rDtU206dGWs1f9PJvE3J+jxC7xOo
-        naNCSg3OqPLw7aFUA5Jweh0=
-X-Google-Smtp-Source: APXvYqwhw6OvM5th7He13Ewrm1ZQ2dCdDBT/HVP2qOAnliTHa6FW6BpkBP/nC5rQ9AHjO0hV9V2/2Q==
-X-Received: by 2002:a2e:9753:: with SMTP id f19mr54145925ljj.113.1564307850821;
-        Sun, 28 Jul 2019 02:57:30 -0700 (PDT)
+        bh=sW/UYb8mObeW8WWhGrXYNtg6fROLodUuxps6PdiCevM=;
+        b=cv5ibSdHob5xsOu89tNf+0P+5vsfS2W+9xbVXcS2CpGHXNyaNAqjgA/bqgNBHiQhMD
+         zdTajcFCdDwP9uM3LIedVwqnmaXTo7Pxj0Jp4nuQZ7ekgi9zDOZadOw353XnLTmCCe5Q
+         OKiR5nEfyIela0ptKhVIAhzWV1Wz6KZsKrEElVK/BWNgI6sRjm7YGjaGvWe98Txi0w8D
+         /AMiDZI+8ac0BGLX3QADNjVrbTZZMCI0Ly/CMSc+uL1B8x/oZxp1Rk8dbyPk95/6gcfd
+         7M1EcdSuFOvlcmcUUhbNwPcqonWaPMtK12erOVuYZ9Fiac4hZlqOh5TwlgeXptDBH49l
+         RYjQ==
+X-Gm-Message-State: APjAAAUwVfsNlSAuL5ZoGf4JglRmjL94IR+aBvylvhc/0Z2+Jt9VCzPs
+        D/K2gvi2zFpvnF9kD2ajp/s=
+X-Google-Smtp-Source: APXvYqyrdGp0WCa8L6yrZWZpKTMqFaslqOKreZnL5V8NJs9iTBN2gRammQeJCxnnvhM9Od/n9pDiOQ==
+X-Received: by 2002:a2e:8602:: with SMTP id a2mr51948647lji.206.1564308102149;
+        Sun, 28 Jul 2019 03:01:42 -0700 (PDT)
 Received: from localhost ([178.155.13.240])
-        by smtp.gmail.com with ESMTPSA id n187sm9919522lfa.30.2019.07.28.02.57.29
+        by smtp.gmail.com with ESMTPSA id u18sm9889983lfe.65.2019.07.28.03.01.40
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 28 Jul 2019 02:57:29 -0700 (PDT)
-Date:   Sun, 28 Jul 2019 12:57:26 +0300
+        Sun, 28 Jul 2019 03:01:41 -0700 (PDT)
+Date:   Sun, 28 Jul 2019 13:01:38 +0300
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Chen Yu <yu.c.chen@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v3 1/2] platform/x86: surfacepro3_button: Fix device check
-Message-ID: <20190728095726.GA775@penguin>
+Subject: Re: [PATCH v3 2/2] Input: soc_button_array - Add support for newer
+ surface devices
+Message-ID: <20190728100138.GC775@penguin>
 References: <20190720150511.95076-1-luzmaximilian@gmail.com>
- <20190720150511.95076-2-luzmaximilian@gmail.com>
- <CAHp75Ve+3c-TFeN3Dh-DB75Rjft8mY2DA8vNkrFyp7JK-ZOjDA@mail.gmail.com>
- <20190727091541.GD795@penguin>
- <CAHp75VdsL+-bhAUcxLKFKLZedN3gFD3jxnhELD1RtKGSHdagjw@mail.gmail.com>
+ <20190720150511.95076-3-luzmaximilian@gmail.com>
+ <20190727091443.GC795@penguin>
+ <fb53b082-4d83-83a6-1ae6-b9fae9dc750f@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75VdsL+-bhAUcxLKFKLZedN3gFD3jxnhELD1RtKGSHdagjw@mail.gmail.com>
+In-Reply-To: <fb53b082-4d83-83a6-1ae6-b9fae9dc750f@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jul 27, 2019 at 03:26:41PM +0300, Andy Shevchenko wrote:
-> On Sat, Jul 27, 2019 at 12:15 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Thu, Jul 25, 2019 at 08:57:53PM +0300, Andy Shevchenko wrote:
-> > > On Sat, Jul 20, 2019 at 6:05 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
-> > > >
-> > > > Do not use the surfacepro3_button driver on newer Microsoft Surface
-> > > > models, only use it on the Surface Pro 3 and 4. Newer models (5th, 6th
-> > > > and possibly future generations) use the same device as the Surface Pro
-> > > > 4 to represent their volume and power buttons (MSHW0040), but their
-> > > > actual implementation is significantly different. This patch ensures
-> > > > that the surfacepro3_button driver is only used on the Pro 3 and 4
-> > > > models, allowing a different driver to bind on other models.
-> > > >
-> > >
-> > > Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > >
-> > > assuming it will go thru Input subsystem.
-> >
-> > I can take it, but I do not think it is dependent on the other change
-> > and thus can go through platform tree as well.
+On Sat, Jul 27, 2019 at 02:01:26PM +0200, Maximilian Luz wrote:
+> On 7/27/19 11:14 AM, Dmitry Torokhov wrote:
+> > On Sat, Jul 20, 2019 at 05:05:11PM +0200, Maximilian Luz wrote:
+> > > -
+> > > -	error = gpiod_count(dev, NULL);
+> > > -	if (error < 0) {
+> > > -		dev_dbg(dev, "no GPIO attached, ignoring...\n");
+> > > -		return -ENODEV;
+> > 
+> > I do not think we need to move this into individual "check" functions.
+> > It is needed in all cases so we should keep it here.
+> > 
+> > How about version below?
 > 
-> Pkease, take it. I do not expect any changes to the driver this cycle.
+> Makes sense, looks good to me!
 
-OK, applied, thank you.
+OK, great, applied.
 
 -- 
 Dmitry
