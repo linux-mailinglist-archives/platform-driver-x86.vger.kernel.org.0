@@ -2,71 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDA3678789
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Jul 2019 10:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C324D78E34
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Jul 2019 16:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbfG2Igi (ORCPT
+        id S1727556AbfG2Ojf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Jul 2019 04:36:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:48653 "EHLO
+        Mon, 29 Jul 2019 10:39:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:54007 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726988AbfG2Igi (ORCPT
+        with ESMTP id S1726197AbfG2Ojf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:36:38 -0400
-Received: from [192.168.1.110] ([77.4.29.213]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MZSJa-1huoPJ0xEc-00WVTJ; Mon, 29 Jul 2019 10:35:27 +0200
-Subject: Re: platform/x86/pcengines-apuv2: Missing apu4
-To:     Gerhard Wiesinger <lists@wiesinger.com>,
-        Florian Eckert <fe@dev.tdt.de>, Eckert.Florian@googlemail.com,
-        info@metux.net, dvhart@infradead.org, andy@infradead.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <02b34d18-27bc-cb48-f698-03df61df7d91@wiesinger.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <343400be-bd86-b59c-cfa0-862780493450@metux.net>
-Date:   Mon, 29 Jul 2019 10:35:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <02b34d18-27bc-cb48-f698-03df61df7d91@wiesinger.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:EYQW+pBb9mnBt37sECCdyu8aLvd3jAYgcpuzZejxR8oUQYJ+pLC
- 3en+dryVKbf0yeQaWH/8FYu8LnLAzGpv+zUe05kvllEe5kKo3a/7THyndsTLDHK41HaaEBf
- yvOyth09RSvpUzvPue2c3BCoKTbUQBOmI2fYC36uKskzLQX3yMqcpO/G+kKvl/HMOiq0UpW
- tn5ljRGFk08gLamMrIrhQ==
+        Mon, 29 Jul 2019 10:39:35 -0400
+Received: from orion.localdomain ([77.4.29.213]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M1YtP-1hp5sB08vT-0037Xk; Mon, 29 Jul 2019 16:39:28 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform: x86: pcengines-apu2: wire up simswitch gpio as led
+Date:   Mon, 29 Jul 2019 16:39:26 +0200
+Message-Id: <1564411166-23693-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:ltH4E6R4g0MxzsYo+40DFZlGZaVFzz+3zZNAt208kreFs5oy0FK
+ AJjK8OeYKHEomYfHh44Xg8P556HSBdZXlghN2ZgKMsbS0GuvoDD4JYWUkqtnoDKgZrGdDrI
+ lu6Bub97UEYu0DT9FmY7qBZdI99gn7nHQCLieoDw7ndWdGw8MQWRKNXxjM0AVzCaYn/ZOWk
+ dV0Cr1YlHvoP0MEVfHGZw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZEEEIOHYPpA=:YhRTZxRfvidtRGaLn3sRPd
- Sav0rJlpP4j53wdUEhBT1qtGUtIalk8NE5KBiC3d3kpzmwtON5s61KDzssJ4pnejAwnQYy6e7
- yGHVkfy7Y9I7/7qeAD0d+V/a1bdozdZaIKmSoiDk53E6Le33oIh68SSYWasTbOXrSRGshiX/2
- Hkr+NbRslBQZSn+vvsL7M/aoUN1ubnyoad5EfutyXPHpJCSTrIIjwRhejjsUU3n/hx7lNs5Lh
- 0TI9DkjfM09WcfV0InW66qK8xiDyEuc0Mjm22/RbxrACp2GCMTaQ3w63l8DYjjmrvPjuR8sfy
- 26rmGsLV8FcnD5detOVqc4T485XrKFMsuXiXI4+o9ZBRp1gyWTD0EPHOrkrU5bXS7TKXXc2oI
- JdWMK0ECNwrk1eri8zuQg9PWV7y0iEL1j52P7sSfTIzHORlDAyOssTuK1IB2gX+1fumrd/6tZ
- uILNTSPTfWVz8uSkq4fuLOwWi4sgGmYTXvb5pQf2BkEX3KS83feG5paW4B4EX9utbXwjWQl+X
- kZGJE+MDpTreeQDOBr6uX/+iRG7JhZCwuzksPbr68zkkV6W7kDE+SHXg/V/5R0tTlyhaC1nlL
- Z3pJ7r59dRJ+6c5PD9z0GHXd3Rnt4kq3H7gPRZJEMvarjiTrR6YU4Geiu9PxpCZHenW/Axg5f
- WS4dEP6ZuEgpb1t1MGbLmabskQokpQ+yU0nc5jPIVZxdsn2UU6g6X7SgwoZiDwApMLOkhGCcR
- J0l6HuWynL1faAhWtwf/KY+yNZq24YYhK1MLRWT7aXe6nl2ISzGnRd9KO2w=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6drEupQFt28=:F1fb72R9MNDngMBysdYa3W
+ cDk718OJ0qyn02ZMnWUnhANgFu0pZOkbpfwH17U2XlR79UI+E9ayvLKIn9PZPrc6GA4BinS8o
+ vtXaui5h52kbU2ISmExV5l3jZ7lAjJCW84Qw823dL9r8bnN5sMkNpilI9Uqrj9W/goZ3Gdc1q
+ eyo6+xZTMg8vCBPcrn8VMpIZiCct38RsaSFpCSVV97RKSosr300Xs0z0oD5lY6SikP6ThdRsx
+ mfF4MfVpKWCA8yrsP9H3dOGAPXoNsqPdkFEQ0apbF81hMyNU00YPlrIvkgqG0ipuS0ZIlL93x
+ G7SJ/1tQ214psaOSwh+bORdu9emSyHGVlzbudCas60rOvEqRmQGtBMih8ZC2Y+jHVaK5Alpng
+ US9AdIIMSBYeu1Nt84M/AgNjGYPu9n6suVJjbMIZHQXWCTJUvGWObXP1UcVK1rjZko0+YNegk
+ ADV6jOs1nR2a95sFDWs9foQ142A5lQeicUQ5SIEsDPcM05DeiFYVSZPeHvDKIfoM+K53YHCNr
+ wL24noL1DyBMw0wfQXQybKbde45Pui/l6a8+w3Y5MKmFN47l7b1pCav0boO+OWVEdR9RVL3CL
+ a9KpOJWKQss8AqR6opKVNXrmVZX3y0TVGzgsKznNFh1WKFb8cjmM0SAc6cF6MThBtJ+L+nxlp
+ 0+n2boCO2OAkpbYr0Vc3ErArPgSpIELzd64VvKx+Yx09wIoJaKsWi0Ir7m28LBKbmV+HR0IYh
+ eCKOkdb9+59JNvVUcKch8y5KVCuO9ndBhKfs/Q==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 26.07.19 16:56, Gerhard Wiesinger wrote:
-> Hello,
-> 
-> I saw that the apu4 board is completly missing (also on 5.3rc1). Can you 
-> please add it. Should be very easy, see below.
+From: Enrico Weigelt <info@metux.net>
 
-Still in the pipeline - don't have an apu4 board for testing yet.
+The APU3+ boards have two SIM sockets, while only one of them
+can be routed to the mpcie slots at a time. Selection is done
+via simswap gpio.
 
+We currently don't have a fitting subsystem for those cases yet,
+so just wire it up to a LED for the time being. While this isn't
+really semantically correct, it's a good compromise.
 
---mtx
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ drivers/platform/x86/pcengines-apuv2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+index b0d3110..adecd6a 100644
+--- a/drivers/platform/x86/pcengines-apuv2.c
++++ b/drivers/platform/x86/pcengines-apuv2.c
+@@ -69,7 +69,8 @@
+ static const struct gpio_led apu2_leds[] = {
+ 	{ .name = "apu:green:1" },
+ 	{ .name = "apu:green:2" },
+-	{ .name = "apu:green:3" }
++	{ .name = "apu:green:3" },
++	{ .name = "apu:simswap" },
+ };
+ 
+ static const struct gpio_led_platform_data apu2_leds_pdata = {
+@@ -86,6 +87,8 @@
+ 				NULL, 1, GPIO_ACTIVE_LOW),
+ 		GPIO_LOOKUP_IDX(AMD_FCH_GPIO_DRIVER_NAME, APU2_GPIO_LINE_LED3,
+ 				NULL, 2, GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP_IDX(AMD_FCH_GPIO_DRIVER_NAME, APU2_GPIO_REG_SIMSWAP,
++				NULL, 3, GPIO_ACTIVE_LOW),
+ 	}
+ };
+ 
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+1.9.1
+
