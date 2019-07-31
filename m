@@ -2,127 +2,175 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46DAA7C3EB
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 15:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6620E7CAFB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 19:53:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728697AbfGaNqn (ORCPT
+        id S1728254AbfGaRxT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Jul 2019 09:46:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39001 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbfGaNqm (ORCPT
+        Wed, 31 Jul 2019 13:53:19 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:41256 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728083AbfGaRxT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:46:42 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f17so27914272pfn.6;
-        Wed, 31 Jul 2019 06:46:42 -0700 (PDT)
+        Wed, 31 Jul 2019 13:53:19 -0400
+Received: by mail-yb1-f195.google.com with SMTP id x188so2569443yba.8;
+        Wed, 31 Jul 2019 10:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RYIopWVWcpN8sf8fn3WkAJoSebITP0aCuEJMOu9tUgo=;
-        b=mBtfxVJW9PnBRKrB+uQBu32BkJW1DpQZK21apuGw6xkdbEf29gIZyyKKBNKsyyZm7T
-         Ga8GPsjvU27IBLreAzB7a7JBLV3nGCHxyflt8fC1EwA6VwdBfXDpx/LNS41rsT+kQ8Iy
-         zDWh6KkJWPSgwX3Ly9uADX1D/I/alhwGVlE8+MoaV6yis/Nx0NxQzD8Vasx70JUoBQLl
-         gFz9JRgRRM3XSE5pOVNr5yNywlr8SvsPxy3La4y8RJkVKMTT6V7kF44Efel3pU/5L+0q
-         wvIeY52cfH5D1V9uo9EVXnVAONdv7VVM9tng9EvnE42YXqooX738ht5TCdp+HtDTUlBG
-         PDkA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clQOczYwEsKKHOAzZidWMeMT4c+c0AdrHLZADibcT5I=;
+        b=qtPMGVH9PUQ/+dE6cuBI6LI/EtpmD15PTdVfRTwKmwp+oVagxHGMCTuNcYF1sOKQ6Y
+         u8nS9XEx7lSwYVrEuo91smZFoJltUuxWU+snobEQTKcmzcHgU5Zz6G2SnWnqtUdp070f
+         qCbhdYOFE54xYLAGIhxf+aclreDikaCBgfRecLXMBm92e3EBhAW0hR1b3uyYl5rxpANn
+         oja5mLEK3kqWPtA8uLrS/fgBoiP13kvlQdHLQCEsaAWiDAc4ICNk1VUMq+15bgnWteuD
+         H7jl4GHn6/jj7bOzWINYSIaG5bKn1gLi4w+WRMVB7fPuoaBv/0EgB1UXXNrAQhSHzHVw
+         eOLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RYIopWVWcpN8sf8fn3WkAJoSebITP0aCuEJMOu9tUgo=;
-        b=is3VUeFa+ROoe1ueeviahILRpGoR2vt0g0fmSFXpjKlk7pyQO2hKunV0EzJ0Cn4jZH
-         KO5Xhtdimwz8r8oj5JZoAT0d16sSx7n7MSVIHTF9zESJMjZzxQNpU3I8vBqbVVRAHyIo
-         Nodqm2o0ie0JZ61W8raZ+wTtWArG3leOmnk0rsl3JsaEwbWdBMWJ1wwnfoBJA1UcMPbC
-         pULnCulVKKosWPKe9oDozhic5MRbvTPJicRlLRlYfqF3aY4gHpGhzd39zRSEDHoQQHFo
-         EVPveuC2N97DngTTi+dwvM6EwTBrqrOxmSbPC3NKg0faCaLWEsbgo1nFrzhgzNGv8bIS
-         3nFA==
-X-Gm-Message-State: APjAAAWlji+V5KrzSYI7u2VRYI9OU/QiP1/JCRrZdnSWYZmfj3Xgr8Ky
-        EZAAeiIbq2Z/ixgXhHNT+FI=
-X-Google-Smtp-Source: APXvYqyJ632HMr8qTa4ZHPJ7wJMKy+mNNR1MgRTMRnjyHAyoRP9i2yT3EBmczwD7Wk7y+Y9PJWFOLg==
-X-Received: by 2002:a63:cb4f:: with SMTP id m15mr38212861pgi.100.1564580801437;
-        Wed, 31 Jul 2019 06:46:41 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u134sm66894809pfc.19.2019.07.31.06.46.40
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clQOczYwEsKKHOAzZidWMeMT4c+c0AdrHLZADibcT5I=;
+        b=LStJiUhAw8HIpuEfKH0uuOxDz2faCGRQX48YtwjoR2esGv2CQ8kfUdrk3siVpbLZnY
+         QUOXHiwN6JQdVb3Uh17rxNA7BUUxPy0Ipyf8qxEy41wOLJfqrxCC2+JKflKLc4Z9F3GC
+         MpXanMZJsJRbl9bmNO6940/qggpLqtXJ0fEH1tsD+m6SO0pt6A8Thqkr0ybDZb8yJgUO
+         ZLXiJltPBi3lX32c2aAg6/0SWwmZ45F+bWSLZSxNJ/+nhWK0u/cCb3dBmxWszYPrid+/
+         rMrOJrtXXEv9rkUSW8Y4j9m+nJXht9omeeJZd75+0dz29V1zUlulPtoxw9B0Tss+nWxb
+         DrhQ==
+X-Gm-Message-State: APjAAAWZVLmVwEMMhxbO2ZR8LbplT5KWgCMDrYvmkZupwV4ZCPronmHh
+        66AyPhoZqTMZnMKDYhR4YA==
+X-Google-Smtp-Source: APXvYqwit9zPBEeViX3dtDsHj4rWdLwUWJH8Ua/8RJmrOWwoJVi3KhXDMNknjfxTZW2sM6j8lXVznQ==
+X-Received: by 2002:a25:46c1:: with SMTP id t184mr78929704yba.13.1564595598056;
+        Wed, 31 Jul 2019 10:53:18 -0700 (PDT)
+Received: from localhost.localdomain ([12.156.111.130])
+        by smtp.gmail.com with ESMTPSA id w193sm10517294ywa.72.2019.07.31.10.53.17
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 31 Jul 2019 06:46:40 -0700 (PDT)
-Date:   Wed, 31 Jul 2019 06:46:38 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Richard Gong <richard.gong@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
- easily
-Message-ID: <20190731134638.GD147138@dtor-ws>
-References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
- <20190731131045.GB147138@dtor-ws>
- <20190731133840.GN23480@smile.fi.intel.com>
+        Wed, 31 Jul 2019 10:53:17 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ayman Bagabas <ayman.bagabas@gmail.com>
+Subject: [RFC 0/9] platform/x86: Huawei WMI laptop extras driver
+Date:   Wed, 31 Jul 2019 13:52:46 -0400
+Message-Id: <20190731175255.25676-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731133840.GN23480@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 04:38:40PM +0300, Andy Shevchenko wrote:
-> On Wed, Jul 31, 2019 at 06:10:45AM -0700, Dmitry Torokhov wrote:
-> > On Wed, Jul 31, 2019 at 02:43:39PM +0200, Greg Kroah-Hartman wrote:
-> > > This patch originally started out just as a way for platform drivers to
-> > > easily add a sysfs group in a race-free way, but thanks to Dmitry's
-> > > patch, this series now is for all drivers in the kernel (hey, a unified
-> > > driver model works!!!)
-> > > 
-> > > I've only converted a few platform drivers here in this series to show
-> > > how it works, but other busses can be converted after the first patch
-> > > goes into the tree.
-> > > 
-> > > Here's the original 00 message, for people to get an idea of what is
-> > > going on here:
-> > > 
-> > > If a platform driver wants to add a sysfs group, it has to do so in a
-> > > racy way, adding it after the driver is bound.  To resolve this issue,
-> > > have the platform driver core do this for the driver, making the
-> > > individual drivers logic smaller and simpler, and solving the race at
-> > > the same time.
-> > > 
-> > > All of these patches depend on the first patch.  I'll take the first one
-> > > through my driver-core tree, and any subsystem maintainer can either ack
-> > > their individul patch and I will be glad to also merge it, or they can
-> > > wait until after 5.4-rc1 when the core patch hits Linus's tree and then
-> > > take it, it's up to them.
-> > 
-> > Maybe make an immutable branch off 5.2 with just patch 1/10 so that
-> > subsystems (and the driver core tree itself) could pull it in at their
-> > leisure into their "*-next" branches and did not have to wait till 5.4
-> > or risk merge clashes?
-> 
-> Isn't cherry-pick enough for one patch?
+This patch series introduce changes to huawei-wmi driver that includes:
+* Move to platform driver
+* Implement WMI management interface
+* Add micmute LED support through WMI
+* Add battery charging protection support through WMI
+* Add fn-lock support through WMI
+* Implement driver quirks and parameters
+* Add a debugfs interface to WMI
 
-With cherry-picking you run into potential merge conflicts if Greg
-changes more code in the same area. Plus, once everything is merged into
-Linus' tree, there will be N git commits adding the same thing.
+# Move to platform driver
 
-With immutable branch there is a single git commit, so merges are
-guaranteed to be clean, with no conflicts.
+The current driver offers hotkeys and micmute led support only. With
+these changes, a platform driver makes more sense since it handles these
+changes pretty nicely.
 
-Thanks.
+# Implement WMI management interface
+
+Huawei Matebook laptops come with two WMI interfaces. The first being
+WMI0 which is considered "legacy" and AFAIK only found on the Matebook X
+released in 2017. The second has a UID of "HWMI" and is found in pretty
+much all models with a slight difference in implementation except for
+the Matebook X (2017). Since this model has two interfaces, some aspects
+are controlled through the legacy interface and some through the other
+interface. Currently, the legacy interface is not fully implemented and
+is only used for hotkeys and further debugging has to be done.
+
+The WMI interface takes a 64 bit integer, although uses 32 bits most of
+the time, and returns a 256-260 bytes buffer consists of either one ACPI
+buffer of 260 bytes, in the case of Matebook X (2017), or one ACPI
+package of two buffers, one with 4 bytes, and the other with 256 bytes.
+We only care about the latter 256 buffer in both cases since the 4 bytes
+always return zeros. The first byte of this 256 buffer always has the
+return status where 1 indicated error. Some models require calling the
+WMI interface twice to execute a command.
+
+# Add micmute LED support through WMI
+
+After implementing the WMI interface, micmute LED can be controlled
+easily. Models with the legacy interface fall back to ACPI EC method
+control since the legacy interface is not implemented.
+
+# Add battery charging protection support through WMI
+
+Most models, that has the WMI interface, are capable of battery
+protection where it can control battery charging thresholds and limits
+charging the battery to certain values.
+
+# Add fn-lock support through WMI
+
+The behavior of hotkeys is not the same among all models. Some models
+require fn-lock to do things like `Ctrl-Ins` or `Alt-PrtSc`. By default,
+hotkeys behave as special keys (media keys, Ins, etc), but if a modifier
+is used (ctrl, alt, shift) these keys behave as F1-F12 keys. If the Fn
+key is toggled on, the hotkeys with or without a modifier, behave as
+F1-F12 keys. This makes it impossible to use a modifier and `PrtSc` or
+`Ins`.
+
+Now, some models fix this by excluding `PrtSc` and `Ins` keys from being
+treated as F11 and F12 keys with the use of a modifier. However, some
+models do not, and fixes this by the so called fn-lock.
+
+Fn-lock inverts the behavior of the top row from special keys to F1-F12
+keys. So a modifier and a special key would be possible which make
+things like `Alt-Ins` possible. Now, with fn-lock we would have 4 modes:
+
+* Fn-key off & fn-lock off - hotkeys treated as special keys using a
+  modifier gives F1-F12 keys.
+* Fn-key on & fn-lock off - hotkeys treated as F1-F12 keys and using a
+  modifier gives F1-F12.
+* Fn-key off & fn-lock on - hotkeys are treated as F1-F12 keys and using
+  a modifier gives special keys.
+* Fn-key on & fn-lock on - hotkeys are treated as special keys and using
+  a modifier gives special keys.
+
+# Implement driver quirks and parameters
+
+The driver introduces 3 quirks and 2 parameters that can change the
+driver's behavior. These quirks being as:
+1. Fixes reporting brightness keys twice since it's already handled by
+   acpi-video.
+2. Some models need a short delay when setting battery thresholds to
+   prevent a race condition when two processes read/write.
+3. Matebook X (2017) handles micmute led through the "legacy" interface
+   which is not currently implemented. Use ACPI EC method to control
+   this led.
+
+and the 2 parameters can enforce the behavior of quirk 1 & 2.
+
+# Add a debugfs interface to WMI
+
+An interface to the WMI management interface that allows easier
+debugging.
+
+Ayman Bagabas (9):
+  platform/x86: huawei-wmi: rename guid and driver name
+  platform/x86: huawei-wmi: move to platform driver
+  platform/x86: huawei-wmi: implement huawei wmi management interface
+  platform/x86: huawei-wmi: add quirks and module parameters
+  platform/x86: huawei-wmi: control micmute led through wmi interface
+  platform/x86: huawei-wmi: add battery charging thresholds
+  platform/x86: huawei-wmi: add fn-lock support
+  platform/x86: huawei-wmi: add sysfs interface support
+  platform/x86: huawei-wmi: add debugfs support
+
+ drivers/platform/x86/huawei-wmi.c | 710 ++++++++++++++++++++++++++----
+ 1 file changed, 629 insertions(+), 81 deletions(-)
 
 -- 
-Dmitry
+2.20.1
+
+
