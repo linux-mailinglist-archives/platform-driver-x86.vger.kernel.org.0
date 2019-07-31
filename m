@@ -2,104 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 779857BA9D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 09:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F1657BD88
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 11:43:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725913AbfGaHVS (ORCPT
+        id S1727483AbfGaJnH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Jul 2019 03:21:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:53737 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725871AbfGaHVS (ORCPT
+        Wed, 31 Jul 2019 05:43:07 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:38890 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727409AbfGaJnH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Jul 2019 03:21:18 -0400
-Received: from orion.localdomain ([95.117.90.94]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MHG4W-1i5ySd0BOq-00DFI6; Wed, 31 Jul 2019 09:21:11 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86/pcengines-apuv2: add mpcie reset gpio export
-Date:   Wed, 31 Jul 2019 09:21:10 +0200
-Message-Id: <1564557670-10849-1-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-X-Provags-ID: V03:K1:23H81g46ISdROYhZ+nZlwYGRTmpz9RN/Lrhkne/d7WeRzvym52b
- 37kme98Qts62HCKnitY4e1aaSb8pYpYgnUtOY587MduhxWVKYQxbPMbP9IgeU4qwmMzNowP
- L4Et858Sy1rjfeqqljCplx3acZh5CCxS9MKjnQfqz+ILpbsNSiBnnIf4iq6RDigLv6gSZG8
- WGWM5vfFph1c/Jvvg8s4Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:b09l3q9YQlw=:GfeJo64D52RlYrgxBvRsNu
- VGp+Uy1xPtjXYHuDcagr7ntimY9xMwSolS9lJxnZ5giFv9RQQXNU4zYEEP25EVT75K9++ooyG
- jHOxv+hAnMuePyqya+tgWdp/bueQniWb5hgUcKUw7clfg/11Kgf2BXBWvXtH2UhOnVfwRVmBZ
- p3hPoBfzaJDeMQFC4OalDHwJRB7x0k5n2gRdGcfyx51TlZKv82EZS8eqgzBtY3pzYEccATCkZ
- YOJHhIkLoYwcQJkV7at5G/VkrTdhep9IDLXont8pUBGa/kIVunmEXd0xPh4e5LRGz7kRAQdNt
- uspBlnCcJTLIakLLY+x9rzqRtl21anpaTa+78SmwC49zbj/BbIJSAS3XYotxu/3Q5zWntGDVg
- Z/LVWUbBO3U6TjUYX1/lb6XpsFv/ln7ooTtfkbqZ3JHiaVrkLBce2K24piKGo69zBdTl439jt
- anIV62ac1lRe/l2Fsqkqi3MPCCwI064fdai7XObxViHZCniPNKbN9L4D0HGx6wWlCQehvpfV1
- tfL7aldQFTQoatuY9l+wqb3ULB8WfH85pXYS4wdACGyPjUlN3icK8gLwqNv7923oey+HWu6tH
- BvdAofDFeEtutMUt1FR/nh2MNXio1PWhz0zVtIN9mC7MGxkXccLwDV8XsMIPUks4zEivTU9TH
- 0HcLGVbfVQsw7dmW7/ogeTtSyHaH8YtgYA1MhFZC8nNpPISczyGEV3ky2fqRSitj1Mu0EiLcw
- 5ff7Ze0lOTLbwdFCshh5EmtWXTZZpcHZG+6FMQ==
+        Wed, 31 Jul 2019 05:43:07 -0400
+Received: by mail-pg1-f193.google.com with SMTP id f5so22874796pgu.5;
+        Wed, 31 Jul 2019 02:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4oxIi/BVkp1npNpIoCR/QsGlH2mZ+bVRBFIPULa5x70=;
+        b=t2jiJ6ZhaisYGYknSMnwAu1kKpTOw+FNjBs1HsPKgyNFkWEdHZ9ppFP4DxBJJ3u0FF
+         YnuKgYMWkZ5ampcjGoU2xvx174Tx9+HJ71NzQmbrwwRBgF4hHOVzFJKENud0EUhe7WTA
+         Qu6lw4qBKtl4K/Xi6s3Uy81jmociWmK2ln82Vy+MqsKodFBUQ7QBynJOkABsYlfSsl/a
+         OwVpMh1MWHS9qtRBa1q7qP/M2adizwI/qIG9ZuZgrufT1GRG9JFkAx8X943Awwy4y1y/
+         7BNwV6UjJ/P7/jQ70HxBfNqZa1BEZ4PjvBjM7PB0yaZXRwiDixFwrJSgqwS4gFex9wBa
+         TOdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4oxIi/BVkp1npNpIoCR/QsGlH2mZ+bVRBFIPULa5x70=;
+        b=IkWoLWOmHjPlPQPLDdLi1aH6MwpVotHFNIkxeCymoqPDWLcibnGnM5LZKUxt9ZmKv5
+         K3tpYk3sPEolYjcr97mqdtG0j8Xr4NR90XsMYBVMDLs3rD1u8pXeA71vhr4vIHF0tKj+
+         8SRi6QdMRWJL9JDC4YgYnTvTFd5NMguNnW3RLm6oCG5evp/aI9sNE4fkholODoBeb8OD
+         L7jTTBLGcSQMBMBemxfaFwkcG6h20pmLovzQqypji7vdGtCNpiwiQ95OtjmNB8haBkLI
+         5Da65Yi7MsOIVHL7Ckz1JMphLdPXBQ7Uj5YvsGlSeKC2tEiUclCXX8HrHoXFqoOZ1IKz
+         q7xg==
+X-Gm-Message-State: APjAAAV7BbpiWDU0geQhsUFRKNnaERJUGIIfjeWFaOufTHEpGabrv0Lp
+        yC5/AGieXDtBdHcL9ip9/x4GVmArFZmOFMyp1q0=
+X-Google-Smtp-Source: APXvYqw7HjLVmydb1zV/Bv8jyDvnbbbx7GuIOtPylFJ291+PFrzL5wYrfWLVUPjIAn2T2BcuVWPkcRr9QITaJ+zINDg=
+X-Received: by 2002:a63:1020:: with SMTP id f32mr84410504pgl.203.1564566186380;
+ Wed, 31 Jul 2019 02:43:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <1564557670-10849-1-git-send-email-info@metux.net>
+In-Reply-To: <1564557670-10849-1-git-send-email-info@metux.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 31 Jul 2019 12:42:55 +0300
+Message-ID: <CAHp75VfoVr8wjeNj5KBUsexgREaCJYcr=1dPLDcQNN=VUAtdTw@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86/pcengines-apuv2: add mpcie reset gpio export
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Florian Eckert <fe@dev.tdt.de>
+On Wed, Jul 31, 2019 at 10:21 AM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
+>
+> From: Florian Eckert <fe@dev.tdt.de>
+>
+> On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
+> the ports from the userspace, add the definition to this platform
+> device. The gpio can then be exported by the legancy gpio subsystem to
+> toggle the mpcie reset pin.
+>
+> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+> Acked-By: Enrico Weigelt <info@metux.net>
 
-On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
-the ports from the userspace, add the definition to this platform
-device. The gpio can then be exported by the legancy gpio subsystem to
-toggle the mpcie reset pin.
+I'm not sure why you resend this, where is the changelog, where is the
+version bump?..
 
-Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-Acked-By: Enrico Weigelt <info@metux.net>
-Author: Florian Eckert <fe@dev.tdt.de>
----
- drivers/platform/x86/pcengines-apuv2.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> Author: Florian Eckert <fe@dev.tdt.de>
 
-diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-index e4c68ef..56703656 100644
---- a/drivers/platform/x86/pcengines-apuv2.c
-+++ b/drivers/platform/x86/pcengines-apuv2.c
-@@ -32,6 +32,8 @@
- #define APU2_GPIO_REG_LED3		AMD_FCH_GPIO_REG_GPIO59_DEVSLP1
- #define APU2_GPIO_REG_MODESW		AMD_FCH_GPIO_REG_GPIO32_GE1
- #define APU2_GPIO_REG_SIMSWAP		AMD_FCH_GPIO_REG_GPIO33_GE2
-+#define APU2_GPIO_REG_MPCIE2		AMD_FCH_GPIO_REG_GPIO59_DEVSLP0
-+#define APU2_GPIO_REG_MPCIE3		AMD_FCH_GPIO_REG_GPIO51
- 
- /* order in which the gpio lines are defined in the register list */
- #define APU2_GPIO_LINE_LED1		0
-@@ -39,6 +41,8 @@
- #define APU2_GPIO_LINE_LED3		2
- #define APU2_GPIO_LINE_MODESW		3
- #define APU2_GPIO_LINE_SIMSWAP		4
-+#define APU2_GPIO_LINE_MPCIE2		5
-+#define APU2_GPIO_LINE_MPCIE3		6
- 
- /* gpio device */
- 
-@@ -48,6 +52,8 @@
- 	[APU2_GPIO_LINE_LED3]		= APU2_GPIO_REG_LED3,
- 	[APU2_GPIO_LINE_MODESW]		= APU2_GPIO_REG_MODESW,
- 	[APU2_GPIO_LINE_SIMSWAP]	= APU2_GPIO_REG_SIMSWAP,
-+	[APU2_GPIO_LINE_MPCIE2]		= APU2_GPIO_REG_MPCIE2,
-+	[APU2_GPIO_LINE_MPCIE3]		= APU2_GPIO_REG_MPCIE3,
- };
- 
- static const char * const apu2_gpio_names[] = {
-@@ -56,6 +62,8 @@
- 	[APU2_GPIO_LINE_LED3]		= "front-led3",
- 	[APU2_GPIO_LINE_MODESW]		= "front-button",
- 	[APU2_GPIO_LINE_SIMSWAP]	= "simswap",
-+	[APU2_GPIO_LINE_MPCIE2]		= "mpcie2_reset",
-+	[APU2_GPIO_LINE_MPCIE3]		= "mpcie3_reset",
- };
- 
- static const struct amd_fch_gpio_pdata board_apu2 = {
+...moreover, what's this? We have From line and the first SoB in the
+chain for authorship. If, in case, the author is not available and
+some rework done, we usually give a credit as Co-developed-by or in
+the commit message.
+
+> ---
+>  drivers/platform/x86/pcengines-apuv2.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+> index e4c68ef..56703656 100644
+> --- a/drivers/platform/x86/pcengines-apuv2.c
+> +++ b/drivers/platform/x86/pcengines-apuv2.c
+> @@ -32,6 +32,8 @@
+>  #define APU2_GPIO_REG_LED3             AMD_FCH_GPIO_REG_GPIO59_DEVSLP1
+>  #define APU2_GPIO_REG_MODESW           AMD_FCH_GPIO_REG_GPIO32_GE1
+>  #define APU2_GPIO_REG_SIMSWAP          AMD_FCH_GPIO_REG_GPIO33_GE2
+> +#define APU2_GPIO_REG_MPCIE2           AMD_FCH_GPIO_REG_GPIO59_DEVSLP0
+> +#define APU2_GPIO_REG_MPCIE3           AMD_FCH_GPIO_REG_GPIO51
+>
+>  /* order in which the gpio lines are defined in the register list */
+>  #define APU2_GPIO_LINE_LED1            0
+> @@ -39,6 +41,8 @@
+>  #define APU2_GPIO_LINE_LED3            2
+>  #define APU2_GPIO_LINE_MODESW          3
+>  #define APU2_GPIO_LINE_SIMSWAP         4
+> +#define APU2_GPIO_LINE_MPCIE2          5
+> +#define APU2_GPIO_LINE_MPCIE3          6
+>
+>  /* gpio device */
+>
+> @@ -48,6 +52,8 @@
+>         [APU2_GPIO_LINE_LED3]           = APU2_GPIO_REG_LED3,
+>         [APU2_GPIO_LINE_MODESW]         = APU2_GPIO_REG_MODESW,
+>         [APU2_GPIO_LINE_SIMSWAP]        = APU2_GPIO_REG_SIMSWAP,
+> +       [APU2_GPIO_LINE_MPCIE2]         = APU2_GPIO_REG_MPCIE2,
+> +       [APU2_GPIO_LINE_MPCIE3]         = APU2_GPIO_REG_MPCIE3,
+>  };
+>
+>  static const char * const apu2_gpio_names[] = {
+> @@ -56,6 +62,8 @@
+>         [APU2_GPIO_LINE_LED3]           = "front-led3",
+>         [APU2_GPIO_LINE_MODESW]         = "front-button",
+>         [APU2_GPIO_LINE_SIMSWAP]        = "simswap",
+> +       [APU2_GPIO_LINE_MPCIE2]         = "mpcie2_reset",
+> +       [APU2_GPIO_LINE_MPCIE3]         = "mpcie3_reset",
+>  };
+>
+>  static const struct amd_fch_gpio_pdata board_apu2 = {
+> --
+> 1.9.1
+>
+
+
 -- 
-1.9.1
-
+With Best Regards,
+Andy Shevchenko
