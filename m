@@ -2,100 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F284B7C3BA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 15:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E7DA7C3D9
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 15:43:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728964AbfGaNis (ORCPT
+        id S1728477AbfGaNne (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Jul 2019 09:38:48 -0400
-Received: from mga07.intel.com ([134.134.136.100]:13511 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727230AbfGaNis (ORCPT
+        Wed, 31 Jul 2019 09:43:34 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:43589 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbfGaNne (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:38:48 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Jul 2019 06:38:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,330,1559545200"; 
-   d="scan'208";a="163114354"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
-  by orsmga007.jf.intel.com with ESMTP; 31 Jul 2019 06:38:42 -0700
-Received: from andy by smile with local (Exim 4.92)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1hsooS-0000IS-9T; Wed, 31 Jul 2019 16:38:40 +0300
-Date:   Wed, 31 Jul 2019 16:38:40 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Richard Gong <richard.gong@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Borislav Petkov <bp@alien8.de>,
+        Wed, 31 Jul 2019 09:43:34 -0400
+Received: from [192.168.1.110] ([95.117.90.94]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M5g68-1hzwQB3xcI-007BDG; Wed, 31 Jul 2019 15:43:26 +0200
+Subject: Re: [PATCH] platform/x86/pcengines-apuv2: add mpcie reset gpio export
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Darren Hart <dvhart@infradead.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
- easily
-Message-ID: <20190731133840.GN23480@smile.fi.intel.com>
-References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
- <20190731131045.GB147138@dtor-ws>
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <1564557670-10849-1-git-send-email-info@metux.net>
+ <CAHp75VfoVr8wjeNj5KBUsexgREaCJYcr=1dPLDcQNN=VUAtdTw@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <b0a41728-7f7b-f91a-2eb8-9a1d713729ad@metux.net>
+Date:   Wed, 31 Jul 2019 15:43:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731131045.GB147138@dtor-ws>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAHp75VfoVr8wjeNj5KBUsexgREaCJYcr=1dPLDcQNN=VUAtdTw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:B/sT9pbw0l3Ry7twfUp/Uzs/E/pjZZNyG7tvZncjoCajuS3Q30d
+ kiV3siwc9D0XxrbhGBdPsq+5dKUAzaJKWErBGwPikjS/RpQ6uZdN8y08XkFsKssEdWVUTqF
+ GjBQ1144oggBK83fGvdWJA9kiQlFww6YqDwOolbLeCMF5p6mlSEsjY8ZL/3g/MA523eI9Ag
+ Y48lynAMy/+BCY7vonZpw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AD6YSxco7PQ=:hd6bSyIPdH2tyrVPwYWmEB
+ dZr2Qg0zHGI/3/hlxa9rKgW1TlU+xSUKb+T3UedOd7qOfus2HgclUXrcWmxGGAqHkwS0Q9g1y
+ BA2uFoi5nOBiLmswgld/T+dKbU9//3kkSpMAppfaNfAQM8dlJyGltSCiu+IIhJlSF7Jdwtrs5
+ oARSDUiZGmkF3YCQw6pR6L/UpRI6K4feM8eBsNRj5VhXIVzyYoW4pI1TpyaphKNPJdn56TCZ5
+ Z0xfTXF7MCrXGJKD1221ySug/yAl0OpZzLgnrxkwxVi5SLCD376mO2GzERWmp+uLSHuVsQtOC
+ F+M1wOWBOVBHrORSe+jCcVkicExdeTfYt/EEpZ8uHAx9Czf3EWEcaEDiK9koFk88ljwfW6Kdt
+ mJKhlzzJTbuH+//s81eCianU7Yxad7hhoCtpCj/GnkECQfkH3bVwKWwbfvYsX0Tjr+K9ZU2iN
+ P4lI3wztMxKNtVntmJTtTpfQ50g6etR8qsi8LSuRyMdt6/7qlASPOur+KjLnWmzcYJPWb9iIH
+ SE8l+Y+MLolQ50FUt5wN2GbXVnWaJkFeI9Ny5v5HM9VhUJ7D+PQCV53PRbDzo91jHZFJf02Mg
+ lqpi17l3Tol8GwApGa/kspzmqOb6OfHahX/iaecgSEuVoqanzQvaakSzsKbpzxlUBT+MoYDgy
+ 6H0jUqkVxyrZgJR5m8lUXreDc63EGpSPcgso8jAHc7AG3fRH3kS7vondcWQF/6MmyqKnvle1h
+ tLjtmvbajN6D/UjYaHA9XlW44+yW+dMaipYSw3djxzUNO2h1cpf1xHG5TrQ=
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 06:10:45AM -0700, Dmitry Torokhov wrote:
-> On Wed, Jul 31, 2019 at 02:43:39PM +0200, Greg Kroah-Hartman wrote:
-> > This patch originally started out just as a way for platform drivers to
-> > easily add a sysfs group in a race-free way, but thanks to Dmitry's
-> > patch, this series now is for all drivers in the kernel (hey, a unified
-> > driver model works!!!)
-> > 
-> > I've only converted a few platform drivers here in this series to show
-> > how it works, but other busses can be converted after the first patch
-> > goes into the tree.
-> > 
-> > Here's the original 00 message, for people to get an idea of what is
-> > going on here:
-> > 
-> > If a platform driver wants to add a sysfs group, it has to do so in a
-> > racy way, adding it after the driver is bound.  To resolve this issue,
-> > have the platform driver core do this for the driver, making the
-> > individual drivers logic smaller and simpler, and solving the race at
-> > the same time.
-> > 
-> > All of these patches depend on the first patch.  I'll take the first one
-> > through my driver-core tree, and any subsystem maintainer can either ack
-> > their individul patch and I will be glad to also merge it, or they can
-> > wait until after 5.4-rc1 when the core patch hits Linus's tree and then
-> > take it, it's up to them.
-> 
-> Maybe make an immutable branch off 5.2 with just patch 1/10 so that
-> subsystems (and the driver core tree itself) could pull it in at their
-> leisure into their "*-next" branches and did not have to wait till 5.4
-> or risk merge clashes?
+On 31.07.19 11:42, Andy Shevchenko wrote:
 
-Isn't cherry-pick enough for one patch?
+> I'm not sure why you resend this, where is the changelog, where is the
+> version bump?..
+
+I've just resent Florian's patch from my queue, as he didn't respond for
+several days and I've already acked it.
+
+
+--mtx
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
