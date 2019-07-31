@@ -2,136 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F1657BD88
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 11:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28B2E7C1DF
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 14:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727483AbfGaJnH (ORCPT
+        id S1726672AbfGaMn4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Jul 2019 05:43:07 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38890 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727409AbfGaJnH (ORCPT
+        Wed, 31 Jul 2019 08:43:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726467AbfGaMn4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Jul 2019 05:43:07 -0400
-Received: by mail-pg1-f193.google.com with SMTP id f5so22874796pgu.5;
-        Wed, 31 Jul 2019 02:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4oxIi/BVkp1npNpIoCR/QsGlH2mZ+bVRBFIPULa5x70=;
-        b=t2jiJ6ZhaisYGYknSMnwAu1kKpTOw+FNjBs1HsPKgyNFkWEdHZ9ppFP4DxBJJ3u0FF
-         YnuKgYMWkZ5ampcjGoU2xvx174Tx9+HJ71NzQmbrwwRBgF4hHOVzFJKENud0EUhe7WTA
-         Qu6lw4qBKtl4K/Xi6s3Uy81jmociWmK2ln82Vy+MqsKodFBUQ7QBynJOkABsYlfSsl/a
-         OwVpMh1MWHS9qtRBa1q7qP/M2adizwI/qIG9ZuZgrufT1GRG9JFkAx8X943Awwy4y1y/
-         7BNwV6UjJ/P7/jQ70HxBfNqZa1BEZ4PjvBjM7PB0yaZXRwiDixFwrJSgqwS4gFex9wBa
-         TOdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4oxIi/BVkp1npNpIoCR/QsGlH2mZ+bVRBFIPULa5x70=;
-        b=IkWoLWOmHjPlPQPLDdLi1aH6MwpVotHFNIkxeCymoqPDWLcibnGnM5LZKUxt9ZmKv5
-         K3tpYk3sPEolYjcr97mqdtG0j8Xr4NR90XsMYBVMDLs3rD1u8pXeA71vhr4vIHF0tKj+
-         8SRi6QdMRWJL9JDC4YgYnTvTFd5NMguNnW3RLm6oCG5evp/aI9sNE4fkholODoBeb8OD
-         L7jTTBLGcSQMBMBemxfaFwkcG6h20pmLovzQqypji7vdGtCNpiwiQ95OtjmNB8haBkLI
-         5Da65Yi7MsOIVHL7Ckz1JMphLdPXBQ7Uj5YvsGlSeKC2tEiUclCXX8HrHoXFqoOZ1IKz
-         q7xg==
-X-Gm-Message-State: APjAAAV7BbpiWDU0geQhsUFRKNnaERJUGIIfjeWFaOufTHEpGabrv0Lp
-        yC5/AGieXDtBdHcL9ip9/x4GVmArFZmOFMyp1q0=
-X-Google-Smtp-Source: APXvYqw7HjLVmydb1zV/Bv8jyDvnbbbx7GuIOtPylFJ291+PFrzL5wYrfWLVUPjIAn2T2BcuVWPkcRr9QITaJ+zINDg=
-X-Received: by 2002:a63:1020:: with SMTP id f32mr84410504pgl.203.1564566186380;
- Wed, 31 Jul 2019 02:43:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <1564557670-10849-1-git-send-email-info@metux.net>
-In-Reply-To: <1564557670-10849-1-git-send-email-info@metux.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 31 Jul 2019 12:42:55 +0300
-Message-ID: <CAHp75VfoVr8wjeNj5KBUsexgREaCJYcr=1dPLDcQNN=VUAtdTw@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86/pcengines-apuv2: add mpcie reset gpio export
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 31 Jul 2019 08:43:56 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 94935206B8;
+        Wed, 31 Jul 2019 12:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564577035;
+        bh=qdKt8xMkWx3WVKyGM6p4kgZa2A5bUHnif0uObDGpacs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=2PNMPi2HyAUo2pq0bnVlLzISd0g9zVsRAilNinPTip5E5cYDt4EuxnIXHElkwTvJH
+         dPcH2fxP7sNNLV5xbJKld4HmAQXtZsA0TJ9OOL2zD56aMvLQcivlBKx2iiQgNAw2U7
+         SBbEoWYOMqoaclJc4+S40fQvW5IGe6rMUuYu8HzU=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Borislav Petkov <bp@alien8.de>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 00/10] drivers, provide a way to add sysfs groups easily
+Date:   Wed, 31 Jul 2019 14:43:39 +0200
+Message-Id: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 10:21 AM Enrico Weigelt, metux IT consult
-<info@metux.net> wrote:
->
-> From: Florian Eckert <fe@dev.tdt.de>
->
-> On APUx we have also mpcie2/mpcie3 reset pins. To make it possible to reset
-> the ports from the userspace, add the definition to this platform
-> device. The gpio can then be exported by the legancy gpio subsystem to
-> toggle the mpcie reset pin.
->
-> Signed-off-by: Florian Eckert <fe@dev.tdt.de>
-> Acked-By: Enrico Weigelt <info@metux.net>
+This patch originally started out just as a way for platform drivers to
+easily add a sysfs group in a race-free way, but thanks to Dmitry's
+patch, this series now is for all drivers in the kernel (hey, a unified
+driver model works!!!)
 
-I'm not sure why you resend this, where is the changelog, where is the
-version bump?..
+I've only converted a few platform drivers here in this series to show
+how it works, but other busses can be converted after the first patch
+goes into the tree.
 
-> Author: Florian Eckert <fe@dev.tdt.de>
+Here's the original 00 message, for people to get an idea of what is
+going on here:
 
-...moreover, what's this? We have From line and the first SoB in the
-chain for authorship. If, in case, the author is not available and
-some rework done, we usually give a credit as Co-developed-by or in
-the commit message.
+If a platform driver wants to add a sysfs group, it has to do so in a
+racy way, adding it after the driver is bound.  To resolve this issue,
+have the platform driver core do this for the driver, making the
+individual drivers logic smaller and simpler, and solving the race at
+the same time.
 
-> ---
->  drivers/platform/x86/pcengines-apuv2.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-> index e4c68ef..56703656 100644
-> --- a/drivers/platform/x86/pcengines-apuv2.c
-> +++ b/drivers/platform/x86/pcengines-apuv2.c
-> @@ -32,6 +32,8 @@
->  #define APU2_GPIO_REG_LED3             AMD_FCH_GPIO_REG_GPIO59_DEVSLP1
->  #define APU2_GPIO_REG_MODESW           AMD_FCH_GPIO_REG_GPIO32_GE1
->  #define APU2_GPIO_REG_SIMSWAP          AMD_FCH_GPIO_REG_GPIO33_GE2
-> +#define APU2_GPIO_REG_MPCIE2           AMD_FCH_GPIO_REG_GPIO59_DEVSLP0
-> +#define APU2_GPIO_REG_MPCIE3           AMD_FCH_GPIO_REG_GPIO51
->
->  /* order in which the gpio lines are defined in the register list */
->  #define APU2_GPIO_LINE_LED1            0
-> @@ -39,6 +41,8 @@
->  #define APU2_GPIO_LINE_LED3            2
->  #define APU2_GPIO_LINE_MODESW          3
->  #define APU2_GPIO_LINE_SIMSWAP         4
-> +#define APU2_GPIO_LINE_MPCIE2          5
-> +#define APU2_GPIO_LINE_MPCIE3          6
->
->  /* gpio device */
->
-> @@ -48,6 +52,8 @@
->         [APU2_GPIO_LINE_LED3]           = APU2_GPIO_REG_LED3,
->         [APU2_GPIO_LINE_MODESW]         = APU2_GPIO_REG_MODESW,
->         [APU2_GPIO_LINE_SIMSWAP]        = APU2_GPIO_REG_SIMSWAP,
-> +       [APU2_GPIO_LINE_MPCIE2]         = APU2_GPIO_REG_MPCIE2,
-> +       [APU2_GPIO_LINE_MPCIE3]         = APU2_GPIO_REG_MPCIE3,
->  };
->
->  static const char * const apu2_gpio_names[] = {
-> @@ -56,6 +62,8 @@
->         [APU2_GPIO_LINE_LED3]           = "front-led3",
->         [APU2_GPIO_LINE_MODESW]         = "front-button",
->         [APU2_GPIO_LINE_SIMSWAP]        = "simswap",
-> +       [APU2_GPIO_LINE_MPCIE2]         = "mpcie2_reset",
-> +       [APU2_GPIO_LINE_MPCIE3]         = "mpcie3_reset",
->  };
->
->  static const struct amd_fch_gpio_pdata board_apu2 = {
-> --
-> 1.9.1
->
+All of these patches depend on the first patch.  I'll take the first one
+through my driver-core tree, and any subsystem maintainer can either ack
+their individul patch and I will be glad to also merge it, or they can
+wait until after 5.4-rc1 when the core patch hits Linus's tree and then
+take it, it's up to them.
 
+Thank to Richard Gong for the idea and the testing of the platform
+driver patch and to Dmitry Torokhov for rewriting the first patch to
+work well for all busses.
+
+-----
+
+V2 - work for all busses and not just platform drivers.
+
+
+Dmitry Torokhov (1):
+  driver core: add dev_groups to all drivers
+
+Greg Kroah-Hartman (9):
+  uio: uio_fsl_elbc_gpcm: convert platform driver to use dev_groups
+  input: keyboard: gpio_keys: convert platform driver to use dev_groups
+  input: axp20x-pek: convert platform driver to use dev_groups
+  firmware: arm_scpi: convert platform driver to use dev_groups
+  olpc: x01: convert platform driver to use dev_groups
+  platform: x86: hp-wmi: convert platform driver to use dev_groups
+  video: fbdev: wm8505fb: convert platform driver to use dev_groups
+  video: fbdev: w100fb: convert platform driver to use dev_groups
+  video: fbdev: sm501fb: convert platform driver to use dev_groups
+
+ arch/x86/platform/olpc/olpc-xo1-sci.c | 17 ++++------
+ drivers/base/dd.c                     | 14 ++++++++
+ drivers/firmware/arm_scpi.c           |  5 +--
+ drivers/input/keyboard/gpio_keys.c    | 13 ++------
+ drivers/input/misc/axp20x-pek.c       | 15 ++-------
+ drivers/platform/x86/hp-wmi.c         | 47 +++++++--------------------
+ drivers/uio/uio_fsl_elbc_gpcm.c       | 23 +++++--------
+ drivers/video/fbdev/sm501fb.c         | 37 +++++----------------
+ drivers/video/fbdev/w100fb.c          | 23 ++++++-------
+ drivers/video/fbdev/wm8505fb.c        | 13 ++++----
+ include/linux/device.h                |  3 ++
+ 11 files changed, 76 insertions(+), 134 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.22.0
+
