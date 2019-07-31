@@ -2,162 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D907C1F4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 14:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3AC17C2FB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 31 Jul 2019 15:10:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbfGaMoY (ORCPT
+        id S2388139AbfGaNKu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Jul 2019 08:44:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36782 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388055AbfGaMoV (ORCPT
+        Wed, 31 Jul 2019 09:10:50 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38618 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387696AbfGaNKu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Jul 2019 08:44:21 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 25B412089E;
-        Wed, 31 Jul 2019 12:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564577060;
-        bh=aQIf4vVZX+H6cS8o4sG55uCLuDksr6xmUzh8BYSCx/I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nZEmMe59qpAGyZT3/9u4H0VSjvaPvJP54cRteRdT7XTTJpNYypcbAFV7wEx9477Av
-         mpTUw42pxEjBfOZ5ojr8sGAvvrDKIWEjprJsRm1RtLCCPpad+N7BX4q1v0Pzgqx7Wh
-         28FiG7a8kxYf3po7Rd4YR7Oaa8HA6Gl17tZ+DovM=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org,
+        Wed, 31 Jul 2019 09:10:50 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y15so31861676pfn.5;
+        Wed, 31 Jul 2019 06:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rt+guMwNhJRHRn5IfYwFQ/sgOXInz6KxTo8lw7aiy5o=;
+        b=gs78//H7LNShCsnjSw8NmM/oTXR89tctjqExwGarNFR1HPDda39C7FVxzEan5zMHdK
+         6cB24JjcjAbQy8XtUkZodo4u6df686F71Mv/q7oDld/FoFf/tUwpH8Ya396ePXCTfD0o
+         Dvgu62a6MeZYYZInpUcG3Fb+JTJxaZenxvpq3gvsy/xll4qitJKWbPeGlVPtgYnCNQLR
+         EPlshKNhjkQhbqyB0pQFFls299RawuFj12qdOUx2n+J0Ko7JvNfb1x0RR0EIG+LYodIQ
+         anMWP0EuZVFFnYgh1OC+Xwui/N0TFC1OY/jUToGF5CcotzxoYJGX807D8jgfAJdSfeIG
+         A3ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rt+guMwNhJRHRn5IfYwFQ/sgOXInz6KxTo8lw7aiy5o=;
+        b=AKNGKz1NtvTBgOAbu8I2A5LswhiiCsbRGQo1k0WuPz+zduq/1J1WGhxG+qAQ2JUqR2
+         MXI+EiUVYJo62eLJ1gc1oJECx1+16LeD+WaUc/JV5bETsTRQiawmw6J2wt5GihJI/7gf
+         R2UaYKegKDa9K6jkhHx2HwJX+1J7X/9+Wzg6XCSdWDXWGYx+pbO/ji+2P4hMRIDTe8QS
+         8bCoRqhdfVzhnxipUpOCv7davMDbPNEmYNxKTzJ4UBaPS0vVvye8IDwgNGcImndr8RsU
+         SETIypH1VSr0BMQ9lS1oRaaoyFVSMJVub8rhkKdW/39EZb7jjLmy49rWZpzAVCU08CXz
+         0/DQ==
+X-Gm-Message-State: APjAAAWSYtsBZ7sJmtWhURZmTWbNtCJf6wkbjZybXoEHSsXcze9ImAfQ
+        IhWEXnlpSBiAuY4+qBC5fTQ=
+X-Google-Smtp-Source: APXvYqw6zrs3C36FlP+BQfVYwpgNJ/uT+OXNK7FouVI0RYpGcs21O7mEWzL/gYHEOWg9kiuYl3v9Hg==
+X-Received: by 2002:a17:90a:b908:: with SMTP id p8mr2967626pjr.94.1564578649195;
+        Wed, 31 Jul 2019 06:10:49 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id r12sm47427239pgb.73.2019.07.31.06.10.47
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 31 Jul 2019 06:10:48 -0700 (PDT)
+Date:   Wed, 31 Jul 2019 06:10:45 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org,
         Richard Gong <richard.gong@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Borislav Petkov <bp@alien8.de>,
         Darren Hart <dvhart@infradead.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v2 07/10] platform: x86: hp-wmi: convert platform driver to use dev_groups
-Date:   Wed, 31 Jul 2019 14:43:46 +0200
-Message-Id: <20190731124349.4474-8-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+        Tony Prisk <linux@prisktech.co.nz>,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
+ easily
+Message-ID: <20190731131045.GB147138@dtor-ws>
 References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Platform drivers now have the option to have the platform core create
-and remove any needed sysfs attribute files.  So take advantage of that
-and do not register "by hand" a bunch of sysfs files.
+On Wed, Jul 31, 2019 at 02:43:39PM +0200, Greg Kroah-Hartman wrote:
+> This patch originally started out just as a way for platform drivers to
+> easily add a sysfs group in a race-free way, but thanks to Dmitry's
+> patch, this series now is for all drivers in the kernel (hey, a unified
+> driver model works!!!)
+> 
+> I've only converted a few platform drivers here in this series to show
+> how it works, but other busses can be converted after the first patch
+> goes into the tree.
+> 
+> Here's the original 00 message, for people to get an idea of what is
+> going on here:
+> 
+> If a platform driver wants to add a sysfs group, it has to do so in a
+> racy way, adding it after the driver is bound.  To resolve this issue,
+> have the platform driver core do this for the driver, making the
+> individual drivers logic smaller and simpler, and solving the race at
+> the same time.
+> 
+> All of these patches depend on the first patch.  I'll take the first one
+> through my driver-core tree, and any subsystem maintainer can either ack
+> their individul patch and I will be glad to also merge it, or they can
+> wait until after 5.4-rc1 when the core patch hits Linus's tree and then
+> take it, it's up to them.
 
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: x86@kernel.org
-Cc: platform-driver-x86@vger.kernel.org
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/platform/x86/hp-wmi.c | 47 +++++++++--------------------------
- 1 file changed, 12 insertions(+), 35 deletions(-)
+Maybe make an immutable branch off 5.2 with just patch 1/10 so that
+subsystems (and the driver core tree itself) could pull it in at their
+leisure into their "*-next" branches and did not have to wait till 5.4
+or risk merge clashes?
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index 2521e45280b8..6bcbbb375401 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -502,6 +502,17 @@ static DEVICE_ATTR_RO(dock);
- static DEVICE_ATTR_RO(tablet);
- static DEVICE_ATTR_RW(postcode);
- 
-+static struct attribute *hp_wmi_attrs[] = {
-+	&dev_attr_display.attr,
-+	&dev_attr_hddtemp.attr,
-+	&dev_attr_als.attr,
-+	&dev_attr_dock.attr,
-+	&dev_attr_tablet.attr,
-+	&dev_attr_postcode.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(hp_wmi);
-+
- static void hp_wmi_notify(u32 value, void *context)
- {
- 	struct acpi_buffer response = { ACPI_ALLOCATE_BUFFER, NULL };
-@@ -678,16 +689,6 @@ static void hp_wmi_input_destroy(void)
- 	input_unregister_device(hp_wmi_input_dev);
- }
- 
--static void cleanup_sysfs(struct platform_device *device)
--{
--	device_remove_file(&device->dev, &dev_attr_display);
--	device_remove_file(&device->dev, &dev_attr_hddtemp);
--	device_remove_file(&device->dev, &dev_attr_als);
--	device_remove_file(&device->dev, &dev_attr_dock);
--	device_remove_file(&device->dev, &dev_attr_tablet);
--	device_remove_file(&device->dev, &dev_attr_postcode);
--}
--
- static int __init hp_wmi_rfkill_setup(struct platform_device *device)
- {
- 	int err, wireless;
-@@ -858,8 +859,6 @@ static int __init hp_wmi_rfkill2_setup(struct platform_device *device)
- 
- static int __init hp_wmi_bios_setup(struct platform_device *device)
- {
--	int err;
--
- 	/* clear detected rfkill devices */
- 	wifi_rfkill = NULL;
- 	bluetooth_rfkill = NULL;
-@@ -869,35 +868,12 @@ static int __init hp_wmi_bios_setup(struct platform_device *device)
- 	if (hp_wmi_rfkill_setup(device))
- 		hp_wmi_rfkill2_setup(device);
- 
--	err = device_create_file(&device->dev, &dev_attr_display);
--	if (err)
--		goto add_sysfs_error;
--	err = device_create_file(&device->dev, &dev_attr_hddtemp);
--	if (err)
--		goto add_sysfs_error;
--	err = device_create_file(&device->dev, &dev_attr_als);
--	if (err)
--		goto add_sysfs_error;
--	err = device_create_file(&device->dev, &dev_attr_dock);
--	if (err)
--		goto add_sysfs_error;
--	err = device_create_file(&device->dev, &dev_attr_tablet);
--	if (err)
--		goto add_sysfs_error;
--	err = device_create_file(&device->dev, &dev_attr_postcode);
--	if (err)
--		goto add_sysfs_error;
- 	return 0;
--
--add_sysfs_error:
--	cleanup_sysfs(device);
--	return err;
- }
- 
- static int __exit hp_wmi_bios_remove(struct platform_device *device)
- {
- 	int i;
--	cleanup_sysfs(device);
- 
- 	for (i = 0; i < rfkill2_count; i++) {
- 		rfkill_unregister(rfkill2[i].rfkill);
-@@ -966,6 +942,7 @@ static struct platform_driver hp_wmi_driver = {
- 	.driver = {
- 		.name = "hp-wmi",
- 		.pm = &hp_wmi_pm_ops,
-+		.dev_groups = hp_wmi_groups,
- 	},
- 	.remove = __exit_p(hp_wmi_bios_remove),
- };
+Thanks.
+
 -- 
-2.22.0
-
+Dmitry
