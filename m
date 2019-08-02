@@ -2,22 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1F47E348
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Aug 2019 21:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B1B7F539
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Aug 2019 12:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388609AbfHAT1Q (ORCPT
+        id S1726948AbfHBKjp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Aug 2019 15:27:16 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52525 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388565AbfHAT1Q (ORCPT
+        Fri, 2 Aug 2019 06:39:45 -0400
+Received: from shell.v3.sk ([90.176.6.54]:47610 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726170AbfHBKjp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Aug 2019 15:27:16 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 3710A8033D; Thu,  1 Aug 2019 21:27:02 +0200 (CEST)
-Date:   Thu, 1 Aug 2019 21:27:13 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Lubomir Rintel <lkundrak@v3.sk>
+        Fri, 2 Aug 2019 06:39:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 976D980536;
+        Fri,  2 Aug 2019 12:39:41 +0200 (CEST)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id l3f8uPEHJigc; Fri,  2 Aug 2019 12:39:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 2EBF88053A;
+        Fri,  2 Aug 2019 12:39:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id qTxvkqCPAoyF; Fri,  2 Aug 2019 12:39:36 +0200 (CEST)
+Received: from belphegor (nat-pool-brq-t.redhat.com [213.175.37.10])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id BB54380536;
+        Fri,  2 Aug 2019 12:39:35 +0200 (CEST)
+Message-ID: <390f31d2f85e8075d9b1e250a2ec093ac8769703.camel@v3.sk>
+Subject: Re: OLPC in 5.3? was Re: [PATCH v7 01/10] dt-bindings:
+ olpc,xo1.75-ec: Add OLPC XO-1.75 EC bindings
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -26,54 +42,47 @@ Cc:     Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
         Rob Herring <robh@kernel.org>
-Subject: OLPC in 5.3? was Re: [PATCH v7 01/10] dt-bindings: olpc,xo1.75-ec:
- Add OLPC XO-1.75 EC bindings
-Message-ID: <20190801192713.GA22373@amd>
+Date:   Fri, 02 Aug 2019 12:39:34 +0200
+In-Reply-To: <20190801192713.GA22373@amd>
 References: <20190513075641.1277716-1-lkundrak@v3.sk>
- <20190513075641.1277716-2-lkundrak@v3.sk>
- <20190513090743.GA19319@amd>
+         <20190513075641.1277716-2-lkundrak@v3.sk> <20190513090743.GA19319@amd>
+         <20190801192713.GA22373@amd>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
-Content-Disposition: inline
-In-Reply-To: <20190513090743.GA19319@amd>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hello Pavel,
 
---tThc/1wpZn/ma/RB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2019-08-01 at 21:27 +0200, Pavel Machek wrote:
+> Hi!
+> 
+> What is status of OLPC-1.75 in v5.3? IIRC most of the patches went in,
+> but I don't see suitable dts file in the tree. I tried porting one
+> from working (4.19 or so) kernel, but it was not quite trivial.
+> 
+> Is there time for dts to be merged?
 
-Hi!
+Short answer is that it's not absolutely necessary. With a new enough
+OpenFirmware, the firmware will just construct a correct FDT.
 
-What is status of OLPC-1.75 in v5.3? IIRC most of the patches went in,
-but I don't see suitable dts file in the tree. I tried porting one
-=66rom working (4.19 or so) kernel, but it was not quite trivial.
+To upgrade your machine to the new firmware, just copy 
+http://dev.laptop.org/~quozl/q4e00ja.rom to a FAT partition on a USB
+flash stick and run "flash u:\q4e00ja.rom" from the "ok" prompt.
+Then you'll be able to run stock mainline kernels happily.
 
-Is there time for dts to be merged?
+That said, it might still be useful to have a DTS file in tree (for
+reference, testing, machines with older firmware, etc.). I've now re-
+sent the MMP2 devicetree update patch set with the DTS file included
+and copied you on that one.
 
-Thanks,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+As usual, I'm thankful for testing, reviews and acks.
 
---tThc/1wpZn/ma/RB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Take care!
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Lubo
 
-iEYEARECAAYFAl1DPREACgkQMOfwapXb+vK+UACfbtL9ZP0PJCU/Baj7rJWVyQ+e
-P64An0T73nBmPyHevfV2Tm3Y1ZwpMgCk
-=1aTI
------END PGP SIGNATURE-----
-
---tThc/1wpZn/ma/RB--
