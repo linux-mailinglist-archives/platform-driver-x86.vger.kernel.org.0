@@ -2,85 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F287FB6D
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Aug 2019 15:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F006F803AF
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  3 Aug 2019 03:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393839AbfHBNqq (ORCPT
+        id S2389479AbfHCBWu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 2 Aug 2019 09:46:46 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41464 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393832AbfHBNqq (ORCPT
+        Fri, 2 Aug 2019 21:22:50 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35070 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388638AbfHCBWu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 2 Aug 2019 09:46:46 -0400
-Received: by mail-lj1-f195.google.com with SMTP id d24so72897085ljg.8
-        for <platform-driver-x86@vger.kernel.org>; Fri, 02 Aug 2019 06:46:45 -0700 (PDT)
+        Fri, 2 Aug 2019 21:22:50 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u14so36860414pfn.2;
+        Fri, 02 Aug 2019 18:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Mu7NYbreqoEOTwXaXQoIeI6193z1iQvheUkO76S1Lng=;
-        b=nC5Gtv5eDKt2LnSbL7CfQIQHnqfMPPm9o/9++Zl2SOrJrqV8hNGO3Z07qDwu8hUVo1
-         UWHElfXtE6fXlASAwqWUEqVNGnpuL547TNcakpoIm9zsgPzWV7h4UerS1JP2TkYytgZv
-         cJkLnDuIFO3jKU/qUEVJXeX7GHhCJ+0ApZ3sv7ZA/uxjdkyV6cUrFYAEaOLJhrYe+kN3
-         FCVIKElYP48I4LfPEFSYwpj7ck/d8rT8xF/N/xlJrMQKGHYnuROsF/kDkN4sVGtTVN7U
-         iWZN9va2oxccEjBUHH1I8HOrKqdME0EOkUamjjljtZwYBKQkOr187YmSiuujOuSi+4cq
-         wJuw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rfhcFrsiK1eMaZLWOciK6JmRLSFVHvQ33G78MdUQfZ8=;
+        b=NHlX7VGZmc9BoM7wwbp/Yy4E6TQZxfo/YxmYkjzOHGORl4muICxAXGWHf4OLJKaUVr
+         qOTT5JGhZoDV2AHJqmMLrla9IADnvu1C1PsvyCHqdYg2pWYqFhGtQaq6B0fS+42wmNmr
+         VeQVuFLlfCnwIKJK9+D6KDpxPokxEIWnL+xapq+v9HEVMfLfrMs+1jACBqEPROjB4duO
+         GkjnP88xuC/J5SrQIK4NzUq0Vx0ZyDZeIWE6MP6rfgimQa4BPhx+1+q0w2rHXKBrqUGF
+         ebcAHiMNlxqx2ZdUQoB+JH/0BzXFHMCQEHUCOYww871JebiUkQCAc6YTB/mxs9EAqI3U
+         uz0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Mu7NYbreqoEOTwXaXQoIeI6193z1iQvheUkO76S1Lng=;
-        b=ZrC1sYzctK8hqd41740XZdMJZYbvS4bi+TQcOptCAhU9/y9djNfsRpCeCKeQRZcscA
-         lrYgSxeMKUHmoyWPnHw/nNsxEdFUNzyArq/sKCx1asVbrw3HLA5jvxNv6O9tGvxvb1GI
-         X+E7Fefl2ssNY+JLSmEUXSkgPnM633f6UfueRjR8hmQ2GnYSrhalAMd6+9uraqARkMhh
-         loE1XbL9qzu9dz2vryErOuwc8pE/SgvdFtqO7YeyDHywhUNXO4NmxYOC9Yalixu8tzNK
-         dhpXVoG5KJMbpG5tUZC8R1C74jzG5WiM4p0KbyqAZDushKwm/wpyxyeI76SGC4XzY6Dn
-         Huxw==
-X-Gm-Message-State: APjAAAXf8CJ8Lhh8FuTqmsxTxo7NUEiD6GN2Y201cUG0JgiVnPkhdokS
-        glHoBnjxp3S7PdZESnbzM+ImQn7tlQZ+gYEMuQw=
-X-Google-Smtp-Source: APXvYqx4OmY1AxHI8lSBkBXp3iPsaoCRDFlcKOqUifX/8yT5hFDEpDX0tUdP36PKtB2Q9g5MJZN4hevnc1ERwblRltM=
-X-Received: by 2002:a2e:9657:: with SMTP id z23mr16848411ljh.116.1564753604387;
- Fri, 02 Aug 2019 06:46:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rfhcFrsiK1eMaZLWOciK6JmRLSFVHvQ33G78MdUQfZ8=;
+        b=JZCw0kOFOf+sMq7GFrVxMmxea0bK7qh2GZ8GyGD96wAOdmygog60lJku5XsNWb8cj4
+         yQ7dLk5y0qmU/m2cPb/VWyquVsDw029kVPz7Tq0Sm8D/vPG8iQyc/CnbBFJMsE9R8Qz5
+         Scwdoo3EpOm2PCQfly6hH0WJlucv89IajK263dL4aivkoAqx1A6NTqZScNRBVa/YUR+l
+         enhw9GyYExxtXo2g1UHj2dCzrEvz2cQGxbmnbR4Dxo7uwqK8vXxmJfHM7caMsvG1mL3r
+         +hdb6fOf37lLFrBJOy8C2+bwo4OSt7yI3egGoPzy95Jo4/H8iwa0m9x3mGSksyCx+MnQ
+         yMIg==
+X-Gm-Message-State: APjAAAUMq25Nm3pk2vSw4E5x8Lerw5Pf8gJcyxhHjqMSXevxLlWc9yG1
+        xHslfqDG9ZYxsIUy0XSXGrE=
+X-Google-Smtp-Source: APXvYqygOaJazj0lXej17ALNUYq/e5ccMUDgntSQuV0UINMXcEWEZJJOdl9Xw+VzuzYfXbIHtuazig==
+X-Received: by 2002:aa7:9293:: with SMTP id j19mr64203812pfa.90.1564795369236;
+        Fri, 02 Aug 2019 18:22:49 -0700 (PDT)
+Received: from localhost.localdomain ([2001:ee0:491f:d660:1bb4:8d5c:97bb:479d])
+        by smtp.gmail.com with ESMTPSA id c98sm10064941pje.1.2019.08.02.18.22.46
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 02 Aug 2019 18:22:48 -0700 (PDT)
+From:   ohaibuzzle@gmail.com
+To:     hdegoede@redhat.com
+Cc:     dvhart@infradead.org, andy@infradead.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Buzzle <ohaibuzzle@gmail.com>
+Subject: [PATCH] platform/x86: silead_dmi: Add touchscreen platform data for the Chuwi Surbook Mini tablet
+Date:   Sat,  3 Aug 2019 08:22:38 +0700
+Message-Id: <20190803012238.4099-1-ohaibuzzle@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Received: by 2002:a19:2d17:0:0:0:0:0 with HTTP; Fri, 2 Aug 2019 06:46:43 -0700 (PDT)
-Reply-To: frasma1000@gmail.com
-From:   "Sir.Francois Stamm" <ttapiaatt2@gmail.com>
-Date:   Fri, 2 Aug 2019 06:46:43 -0700
-Message-ID: <CAEYeuu+URvUMHza5bmHkEB2ngFW3vJ8WO=ePcYcs_EdhE9212g@mail.gmail.com>
-Subject: CHARITY WORK
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am Mr Francois Jean Stamm from Switzerland i am the chief delegate
-south Sudan red cross organisation, my objective to send this mail
-across to you on mere internet search of a friend from your country,i
-lost his contact , intent pump up your email is  to extend our
-humanitarian aid/assistance to your country  on behalf of my
-organization INTERNATIONAL COMMITTEE OF THE RED CROSS ORGANIZATION(
-ICRC) is an None governmental organization (NGO) at THE UNITED NATION
-is a journal of a humanitarian assistance such as:Transgression of
-Human Rights in Humanitarian Emergencies:The Case of Somali Refugees
-in Kenya and Zimbabwean Asylum-Seekers in South Africa Mapping
-Population Mobility in a Remote Context:Health Service Planning
-in the Whatnot District, Western Ethiopia,Humanitarian Challenges and
-Dilemmas in Crisis Settings.
+From: Buzzle <ohaibuzzle@gmail.com>
 
-Our objective is to reach the need and the less privileged globally
-through this project, we unanimously agreed to extend our charity work
-to your country as benefactor to this assistant project.
+---
+ drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-We need a sizable undisputed land in a good area where we can
-establish an orphanage home to effect life of the less
-privileged/orphans.On behalf of my organization International
-committee of the red cross organization(ICRC) I advised your urgent
-search of land at any cost as to enable the organization to exhibit
-action,furthermore the effective execution of this proposed project
-will be under your supervision .
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 4370e4add83a..72535b0268eb 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -136,6 +136,22 @@ static const struct ts_dmi_data chuwi_vi10_data = {
+ 	.properties     = chuwi_vi10_props,
+ };
+ 
++static const struct property_entry chuwi_surbook_mini_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 88),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 13),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 2040),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1524),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-surbook-mini.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	{ }
++};
++
++static const struct ts_dmi_data chuwi_surbook_mini_data = {
++	.acpi_name      = "MSSL1680:00",
++	.properties     = chuwi_surbook_mini_props,
++};
++
+ static const struct property_entry connect_tablet9_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 9),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
+@@ -646,6 +662,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "S165"),
+ 		},
+ 	},
++	{
++		/* Chuwi Surbook Mini (CWI540) */
++		.driver_data = (void *)&chuwi_surbook_mini_data,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "C3W6_AP108_4G"),
++		},
++	},
+ 	{
+ 		/* Connect Tablet 9 */
+ 		.driver_data = (void *)&connect_tablet9_data,
+-- 
+2.22.0
 
-Best Regards
-
-Francois
