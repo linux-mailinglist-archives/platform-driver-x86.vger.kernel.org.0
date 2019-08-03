@@ -2,107 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDC6680559
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  3 Aug 2019 10:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D70CF80584
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  3 Aug 2019 11:17:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387803AbfHCIsA (ORCPT
+        id S2388072AbfHCJRb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 3 Aug 2019 04:48:00 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45073 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387692AbfHCIr7 (ORCPT
+        Sat, 3 Aug 2019 05:17:31 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:41814 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388070AbfHCJRa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 3 Aug 2019 04:47:59 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id C481380318; Sat,  3 Aug 2019 10:47:44 +0200 (CEST)
-Date:   Sat, 3 Aug 2019 10:47:56 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: OLPC in 5.3? was Re: [PATCH v7 01/10] dt-bindings:
- olpc,xo1.75-ec: Add OLPC XO-1.75 EC bindings
-Message-ID: <20190803084755.GA8224@amd>
-References: <20190513075641.1277716-1-lkundrak@v3.sk>
- <20190513075641.1277716-2-lkundrak@v3.sk>
- <20190513090743.GA19319@amd>
- <20190801192713.GA22373@amd>
- <390f31d2f85e8075d9b1e250a2ec093ac8769703.camel@v3.sk>
+        Sat, 3 Aug 2019 05:17:30 -0400
+Received: by mail-ed1-f66.google.com with SMTP id p15so74428816eds.8
+        for <platform-driver-x86@vger.kernel.org>; Sat, 03 Aug 2019 02:17:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zCAo0bW/EBZ1iOue6uy5MuAsehAgp7TUATruNfkX3ts=;
+        b=AWVFiQTORClXmyZXHiS3mYYjhP+79N5BCkXlSH8xuppjxPlYWlIbR8D6TZTbdqv5ql
+         r9rPmWwf77l5CVzKHtz4PqamikBe61YwOVc+RYO5/ME2IiTU7RrnVXMMn83I/KY87Ihe
+         fojQDhKv/zdPRHt90dTo4j/OILPby75mzU29CESpfu+wZaQcQfUQFyUegVjTX9YxM33E
+         JGOrqsJaVJ7ml5WcyR0KjV3uvwq0jJ3j3QAXn7X3D9bDTDlEYKK1RDmqtglL8QxWRr35
+         yB86ErC/ncVV0v8lbFcEbvjz1CyzMoUlzM05jH8jTJD0I3f8EgGRAPK63L647exxjxLZ
+         J9Ig==
+X-Gm-Message-State: APjAAAUCCU2me7FQ+RCsTzUt4rURakO1QnzJeNJwW8vXTSRMpTRj6gpo
+        W93WArxTnB+mz/TzQRvZ6r7coQ==
+X-Google-Smtp-Source: APXvYqwiMWfjBJfkN7zoW2xVGOqSjLXzz2mk9b2gU2O1rj/QUfZyw+Fu+GUWy7m3r621vHk15MGSVg==
+X-Received: by 2002:a17:906:470a:: with SMTP id y10mr93492995ejq.115.1564823849209;
+        Sat, 03 Aug 2019 02:17:29 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id p1sm13462126ejo.77.2019.08.03.02.17.27
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Sat, 03 Aug 2019 02:17:28 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: silead_dmi: Add touchscreen platform data
+ for the Chuwi Surbook Mini tablet
+To:     ohaibuzzle@gmail.com
+Cc:     dvhart@infradead.org, andy@infradead.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190803012238.4099-1-ohaibuzzle@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <42805a0c-21c4-6940-4179-e492c2ee5782@redhat.com>
+Date:   Sat, 3 Aug 2019 11:17:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
-Content-Disposition: inline
-In-Reply-To: <390f31d2f85e8075d9b1e250a2ec093ac8769703.camel@v3.sk>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190803012238.4099-1-ohaibuzzle@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi "Buzzle",
 
---liOOAslEiF7prFVr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+To submit patches to the Linux kernel you need to use your real-name and
+provide a Signed-off-by: line with your real name, see:
 
-Hi!
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 
-> > What is status of OLPC-1.75 in v5.3? IIRC most of the patches went in,
-> > but I don't see suitable dts file in the tree. I tried porting one
-> > from working (4.19 or so) kernel, but it was not quite trivial.
-> >=20
-> > Is there time for dts to be merged?
->=20
-> Short answer is that it's not absolutely necessary. With a new enough
-> OpenFirmware, the firmware will just construct a correct FDT.
+Regards,
 
-> To upgrade your machine to the new firmware, just copy=20
-> http://dev.laptop.org/~quozl/q4e00ja.rom to a FAT partition on a USB
-> flash stick and run "flash u:\q4e00ja.rom" from the "ok" prompt.
-> Then you'll be able to run stock mainline kernels happily.
+Hans
 
-Aha, good, thanks. That went smoothly.
-
-> That said, it might still be useful to have a DTS file in tree (for
-> reference, testing, machines with older firmware, etc.). I've now re-
-> sent the MMP2 devicetree update patch set with the DTS file included
-> and copied you on that one.
-
-Yes: sometimes it is neccessary to modify the dts. I was changing the
-kernel command line, for example.
-
-> As usual, I'm thankful for testing, reviews and acks.
-
-I'll take a look. I tried 5.2 with defconfig from one of the branches
-(olpc_xo175_defconfig), and that does not boot.
-
-What config should I use? Is it enough to produce zImage and put it on
-the flashdisk with olpc.fth file? Is there some kind of documentation
-somewhere? :-).
-
-Thanks and best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---liOOAslEiF7prFVr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl1FSjsACgkQMOfwapXb+vJejgCgwOhDGjCagQoLmYOk3RUIcISI
-X6EAoJWL5JyswxbnkK51RiCTaV6D6nCw
-=NXI7
------END PGP SIGNATURE-----
-
---liOOAslEiF7prFVr--
+On 03-08-19 03:22, ohaibuzzle@gmail.com wrote:
+> From: Buzzle <ohaibuzzle@gmail.com>
+> 
+> ---
+>   drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index 4370e4add83a..72535b0268eb 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -136,6 +136,22 @@ static const struct ts_dmi_data chuwi_vi10_data = {
+>   	.properties     = chuwi_vi10_props,
+>   };
+>   
+> +static const struct property_entry chuwi_surbook_mini_props[] = {
+> +	PROPERTY_ENTRY_U32("touchscreen-min-x", 88),
+> +	PROPERTY_ENTRY_U32("touchscreen-min-y", 13),
+> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 2040),
+> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 1524),
+> +	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-chuwi-surbook-mini.fw"),
+> +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
+> +	{ }
+> +};
+> +
+> +static const struct ts_dmi_data chuwi_surbook_mini_data = {
+> +	.acpi_name      = "MSSL1680:00",
+> +	.properties     = chuwi_surbook_mini_props,
+> +};
+> +
+>   static const struct property_entry connect_tablet9_props[] = {
+>   	PROPERTY_ENTRY_U32("touchscreen-min-x", 9),
+>   	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
+> @@ -646,6 +662,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>   			DMI_MATCH(DMI_PRODUCT_NAME, "S165"),
+>   		},
+>   	},
+> +	{
+> +		/* Chuwi Surbook Mini (CWI540) */
+> +		.driver_data = (void *)&chuwi_surbook_mini_data,
+> +		.matches = {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "C3W6_AP108_4G"),
+> +		},
+> +	},
+>   	{
+>   		/* Connect Tablet 9 */
+>   		.driver_data = (void *)&connect_tablet9_data,
+> 
