@@ -2,95 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C87C280B30
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  4 Aug 2019 15:40:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 536F480B76
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  4 Aug 2019 17:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726065AbfHDNk1 (ORCPT
+        id S1726331AbfHDPap (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 4 Aug 2019 09:40:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32826 "EHLO mx1.redhat.com"
+        Sun, 4 Aug 2019 11:30:45 -0400
+Received: from mail.klausen.dk ([174.138.9.187]:60062 "EHLO mail.klausen.dk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726039AbfHDNk0 (ORCPT
+        id S1726181AbfHDPao (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 4 Aug 2019 09:40:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3063C796EF;
-        Sun,  4 Aug 2019 13:40:26 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-50.ams2.redhat.com [10.36.116.50])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B43D15C22D;
-        Sun,  4 Aug 2019 13:40:24 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        russianneuromancer@ya.ru
-Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the Irbis TW90 tablet
-Date:   Sun,  4 Aug 2019 15:40:23 +0200
-Message-Id: <20190804134023.3495-1-hdegoede@redhat.com>
+        Sun, 4 Aug 2019 11:30:44 -0400
+X-Greylist: delayed 511 seconds by postgrey-1.27 at vger.kernel.org; Sun, 04 Aug 2019 11:30:44 EDT
+From:   Kristian Klausen <kristian@klausen.dk>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+        t=1564932131;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kzZtMPyFQj29WLbsIskMKcZWhwGgSFxYvwpEJXX+VYE=;
+        b=WUJJRZh4Pb3Onox7kQeCAKSizr8aP5VnJaxSmAUxzmqzwNRKz0zz69NQNixWz7A0xrZs8X
+        I5lBI3M15kjrblIF6BCwHcq+jNH5Jhpb9tyQsaTdTO2MZv1lFTKXt9ZOZvyZlyDvmTVnPD
+        RNoaw/+xN4NhGKsUOU1j9OH4q1d5X2k=
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Kristian Klausen <kristian@klausen.dk>
+Subject: [PATCH] platform/x86: asus-nb-wmi: Support ALS on the Zenbook UX430UNR
+Date:   Sun,  4 Aug 2019 17:21:43 +0200
+Message-Id: <20190804152142.7956-1-kristian@klausen.dk>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Sun, 04 Aug 2019 13:40:26 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add touchscreen info for the Irbis TW90 tablet.
+This patch adds support for ALS on the Zenbook UX430UNR to the asus_nb_wmi
+driver.
 
-Reported-by: russianneuromancer@ya.ru
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Kristian Klausen <kristian@klausen.dk>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+There is a few other laptops in the UX430 series (UX430UA, UX430UN,
+UX430UAR), which probably need the same fix.
+Would it be better to match against UX430?
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 83dd6df674e8..20a943f519dd 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -273,6 +273,24 @@ static const struct ts_dmi_data gp_electronic_t701_data = {
- 	.properties	= gp_electronic_t701_props,
- };
- 
-+static const struct property_entry irbis_tw90_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1720),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1138),
-+	PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
-+	PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-+	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl3680-irbis_tw90.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	PROPERTY_ENTRY_BOOL("silead,home-button"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data irbis_tw90_data = {
-+	.acpi_name	= "MSSL1680:00",
-+	.properties	= irbis_tw90_props,
-+};
-+
- static const struct property_entry itworks_tw891_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
-@@ -780,6 +798,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "itWORKS.G.WI71C.JGBMRB"),
+ drivers/platform/x86/asus-nb-wmi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 2ebde0174937..b361c73636a4 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -402,6 +402,15 @@ static const struct dmi_system_id asus_quirks[] = {
  		},
+ 		.driver_data = &quirk_asus_forceals,
  	},
 +	{
-+		/* Irbis TW90 */
-+		.driver_data = (void *)&irbis_tw90_data,
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. UX430UNR",
 +		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "IRBIS"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TW90"),
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "UX430UNR"),
 +		},
++		.driver_data = &quirk_asus_forceals,
 +	},
- 	{
- 		/* I.T.Works TW891 */
- 		.driver_data = (void *)&itworks_tw891_data,
+ 	{},
+ };
+ 
 -- 
 2.22.0
 
