@@ -2,92 +2,154 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF775818DC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Aug 2019 14:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCFF82586
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Aug 2019 21:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbfHEMGl (ORCPT
+        id S1727830AbfHETXb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 5 Aug 2019 08:06:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49745 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727553AbfHEMGl (ORCPT
+        Mon, 5 Aug 2019 15:23:31 -0400
+Received: from mail.klausen.dk ([174.138.9.187]:59498 "EHLO mail.klausen.dk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727802AbfHETXb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 5 Aug 2019 08:06:41 -0400
-Received: from [192.168.1.110] ([77.7.70.5]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N0G5n-1iIikw2Pxv-00xL1r; Mon, 05 Aug 2019 14:06:33 +0200
-Subject: Re: [PATCH v2] platform/x86/pcengines-apuv2: use KEY_RESTART for
- front button
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <1564081563-28322-1-git-send-email-info@metux.net>
- <CAHp75Vem8QZVGx6x0p3JgxA6kH3pG+1_zU=cgiDUDSC5p2ODDQ@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <0b2802f8-5732-52e9-0a95-b28d23239ecd@metux.net>
-Date:   Mon, 5 Aug 2019 14:06:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 5 Aug 2019 15:23:31 -0400
+From:   Kristian Klausen <kristian@klausen.dk>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+        t=1565033008;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=HNrSCgf0wi7mukaR78ZbGTmVU02AngkzaBhxDQ/hsfU=;
+        b=3RL5cfukQOlifaB0o5iVfdFSw7/1GzFB/B0zAsSdjcwf/5feEy/iPLcmVztVIXJsW2Co6T
+        5sWUUVwgLxAp/F0oJmK+pGYPe8tcSsL83hVEABoK5XB7jFvD1V26aO/BW5mCsWgl0qtfDR
+        w8CXRhqxgslHYn+UBq+XdeP6FChYrHE=
+To:     platform-driver-x86@vger.kernel.org
+Cc:     Daniel Drake <drake@endlessm.com>,
+        Kristian Klausen <kristian@klausen.dk>
+Subject: [PATCH] platform/x86: asus-wmi: Add support for charge threshold
+Date:   Mon,  5 Aug 2019 21:23:05 +0200
+Message-Id: <20190805192305.9692-1-kristian@klausen.dk>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vem8QZVGx6x0p3JgxA6kH3pG+1_zU=cgiDUDSC5p2ODDQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:zILWaArSokcPaTMpjpK3s3auy6+xy9QkB0Sqa2fjj1HM1dZqmuv
- Ix+8GcRmNF/cR+R/tnxMEOWSW35LhjP0MIHQxt3iIncqiO/ZCntlzayFcV6n++CK9mD3MMM
- OmmW4PmGr2SDGSdUUxfMHtJ6pzX/GJ9Y5Lpjab/+E5CAS3/qFpG0BcfM6U8ikkoQh4XXlXv
- wHGzMMTVRrdHSvVsnM/RA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7g3//ffHaGE=:oheL3/eOGxapi9Z74+a1jf
- Ci8EQp5GHXvBIInQ30to+5OqO7cScSglZu4fjaQHal2dI9/1vXTSzOLSvZaVnnqgbnEujFuQj
- djcvLNXN/ndJ1eskLjO29pphZBryHQ9q5nkUygnJViNufpLCrGEyIpZ1U5m29MVgY9nhQUNGV
- OA72esDWVkmKC/Ny6DtZxrgs9YIG+BEia6EIlTLN+wsVQic3OWleRWYANEBXBBzwbx64UoYCh
- vbtjQyswTGdxeyEdjc45LpSMan8Dw82I0Jas5Sga5aCtHfUpe2OJ4Od+Fmd82BsdQIgikU3CR
- timBRvHZJSLfjo7GU2RApQqHg1kDmKbIq42Virdfz4oivJ1CRRihmso4Xk5sccZPpx5dKvyUb
- wq5Fgvy0R2k0KDIzkZcD+yR9ZzpwpHXkdZoJfgZwlzSBaSR+9Yqo5wp61FKwKoMrA5pjNW1Nj
- 9/OngJ0IBcbyn3tWt0V2/PTmUnptge+Z2mqnGcOZ87cTZepM3lJmUkz9wQ/DQBKvEU2t7xYFL
- jCZiXoKsZpLiFGDJzyzEWDcnb9P3obU35eiADOXe0a7kHYQupC7GpCzEQ3zl5rD2VMhu7wVFT
- fM18Fy6XaK8Jr0UA3BXAs0TVXxZQMCf1hIF2KlMtb3jUPYGRlTu0eJoq8/evHFxbgWfSpp+j+
- lBiMUZsSve2TGsKVi6DJBDFWkol/BEV2ClOlxhUGYSd73/7GQ9BOrZDTo9mSxQdjMW7pHyfhI
- bpa4ragtRgnueIkpajFtKHccKyDNjmw1Rp7RayIf28A/svQNQgX6VjD+QWU=
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 01.08.19 17:00, Andy Shevchenko wrote:
+Most newer ASUS laptops supports limiting the battery charge level, which
+help prolonging the battery life.
 
-Hi,
+Tested on a Zenbook UX430UNR.
 
-> On Thu, Jul 25, 2019 at 10:06 PM Enrico Weigelt, metux IT consult
-> <info@metux.net> wrote:
->>
->> From: Enrico Weigelt <info@metux.net>
->>
->> The keycode KEY_RESTART is more appropriate for the front button,
->> as most people use it for things like restart or factory reset.
->>
-> 
-> Applied, thanks!
+Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+---
+I'm not sure what to call it, is charge threshold good enough or do you
+have any better ideas?
 
-thx.
+ drivers/platform/x86/asus-wmi.c            | 48 ++++++++++++++++++++++
+ include/linux/platform_data/x86/asus-wmi.h |  1 +
+ 2 files changed, 49 insertions(+)
 
-> 
->> Signed-off-by: Enrico Weigelt <info@metux.net>
->> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe ("x86: pcengines apuv2 gpio/leds/keys platform driver")
-> 
-> Please, use allowed minimum (12 nowadays) characters of hash.
-
-hmm, do you happen to know how to configure tig to show the short hash ?
-
-
---mtx
-
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 34dfbed65332..22ae350e0a96 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -195,6 +195,8 @@ struct asus_wmi {
+ 	u8 fan_boost_mode_mask;
+ 	u8 fan_boost_mode;
+ 
++	int charge_threshold;
++
+ 	struct hotplug_slot hotplug_slot;
+ 	struct mutex hotplug_lock;
+ 	struct mutex wmi_lock;
+@@ -2075,6 +2077,43 @@ static ssize_t cpufv_store(struct device *dev, struct device_attribute *attr,
+ 
+ static DEVICE_ATTR_WO(cpufv);
+ 
++
++static ssize_t charge_threshold_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, size_t count)
++{
++	struct asus_wmi *asus = dev_get_drvdata(dev);
++	int value, ret, rv;
++
++	ret = kstrtouint(buf, 10, &value);
++
++	if (!count || ret != 0)
++		return -EINVAL;
++	if (value < 0 || value > 100)
++		return -EINVAL;
++
++	asus_wmi_set_devstate(ASUS_WMI_CHARGE_THRESHOLD, value, &rv);
++
++	if (rv != 1)
++		return -EIO;
++
++	/* There isn't any method in the DSDT to read the threshold, so we
++	 * save the threshold.
++	 */
++	asus->charge_threshold = value;
++	return count;
++}
++
++static ssize_t charge_threshold_show(struct device *dev,
++				     struct device_attribute *attr, char *buf)
++{
++	struct asus_wmi *asus = dev_get_drvdata(dev);
++
++	return sprintf(buf, "%d\n", asus->charge_threshold);
++}
++
++static DEVICE_ATTR_RW(charge_threshold);
++
+ static struct attribute *platform_attributes[] = {
+ 	&dev_attr_cpufv.attr,
+ 	&dev_attr_camera.attr,
+@@ -2083,6 +2122,7 @@ static struct attribute *platform_attributes[] = {
+ 	&dev_attr_lid_resume.attr,
+ 	&dev_attr_als_enable.attr,
+ 	&dev_attr_fan_boost_mode.attr,
++	&dev_attr_charge_threshold.attr,
+ 	NULL
+ };
+ 
+@@ -2106,6 +2146,8 @@ static umode_t asus_sysfs_is_visible(struct kobject *kobj,
+ 		devid = ASUS_WMI_DEVID_ALS_ENABLE;
+ 	else if (attr == &dev_attr_fan_boost_mode.attr)
+ 		ok = asus->fan_boost_mode_available;
++	else if (attr == &dev_attr_charge_threshold.attr)
++		devid = ASUS_WMI_CHARGE_THRESHOLD;
+ 
+ 	if (devid != -1)
+ 		ok = !(asus_wmi_get_devstate_simple(asus, devid) < 0);
+@@ -2434,6 +2476,12 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 	}
+ 
+ 	asus_wmi_debugfs_init(asus);
++	/* The charge threshold is only reset when the system is power cycled,
++	 * and we can't get the current threshold so let set it to 100% on
++	 * module load.
++	 */
++	asus_wmi_set_devstate(ASUS_WMI_CHARGE_THRESHOLD, 100, NULL);
++	asus->charge_threshold = 100;
+ 
+ 	return 0;
+ 
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 409e16064f4b..53934ef38d98 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -61,6 +61,7 @@
+ 
+ /* Misc */
+ #define ASUS_WMI_DEVID_CAMERA		0x00060013
++#define ASUS_WMI_CHARGE_THRESHOLD	0x00120057
+ 
+ /* Storage */
+ #define ASUS_WMI_DEVID_CARDREADER	0x00080013
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.22.0
+
