@@ -2,83 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBF6083CCF
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  6 Aug 2019 23:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AFEE84BA7
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Aug 2019 14:31:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbfHFVdc (ORCPT
+        id S1729625AbfHGMbj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 6 Aug 2019 17:33:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51330 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727021AbfHFVdc (ORCPT
+        Wed, 7 Aug 2019 08:31:39 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:40732 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729408AbfHGMbj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:33:32 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8392D217F4;
-        Tue,  6 Aug 2019 21:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127211;
-        bh=v6CLPFTPD9bw6DudDkxxB588VZFuwJvTzq5aEVjbx3k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XlOwvsdSekZrrKRCflNbhecbwHLrux0wJdbKWcj77jtXVUchOWDZQawujpMF1x5up
-         5a1vX5HnZSM7BzA99s5qVHPDFfatEApc9mQppodAk7K/dZITgBhBFb3MUC+2pRg8Zn
-         zlcCJdfAPZ+aiEGwZ60c4TPHEQFdapEb9YTNO5LE=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
+        Wed, 7 Aug 2019 08:31:39 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 77BFE80369; Wed,  7 Aug 2019 14:31:24 +0200 (CEST)
+Date:   Wed, 7 Aug 2019 14:31:36 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.2 09/59] platform/x86: intel_pmc_core: Add ICL-NNPI support to PMC Core
-Date:   Tue,  6 Aug 2019 17:32:29 -0400
-Message-Id: <20190806213319.19203-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
-References: <20190806213319.19203-1-sashal@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Mark Rutland <mark.rutland@arm.com>,
+        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: OLPC in 5.3? was Re: [PATCH v7 01/10] dt-bindings:
+ olpc,xo1.75-ec: Add OLPC XO-1.75 EC bindings
+Message-ID: <20190807123134.GA10407@amd>
+References: <20190513075641.1277716-1-lkundrak@v3.sk>
+ <20190513075641.1277716-2-lkundrak@v3.sk>
+ <20190513090743.GA19319@amd>
+ <20190801192713.GA22373@amd>
+ <390f31d2f85e8075d9b1e250a2ec093ac8769703.camel@v3.sk>
+ <20190803084755.GA8224@amd>
+ <42288023.4384.1565000772220.JavaMail.zimbra@v3.sk>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
+Content-Disposition: inline
+In-Reply-To: <42288023.4384.1565000772220.JavaMail.zimbra@v3.sk>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
 
-[ Upstream commit 66013e8ec6850f9c62df6aea555fe7668e84dc3c ]
+--17pEHd4RhPHOinZp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ice Lake Neural Network Processor for deep learning inference a.k.a.
-ICL-NNPI can re-use Ice Lake Mobile regmap to enable Intel PMC Core
-driver on it.
+Hi!
 
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
-Cc: platform-driver-x86@vger.kernel.org
-Link: https://lkml.org/lkml/2019/6/5/1034
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/intel_pmc_core.c | 1 +
- 1 file changed, 1 insertion(+)
+> I'm using [1].
+>=20
+> [1] https://raw.githubusercontent.com/hackerspace/olpc-xo175-linux/lr/olp=
+c-xo175/arch/arm/configs/olpc_xo175_defconfig
+>=20
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 1d902230ba611..be6cda89dcf5b 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -815,6 +815,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
- 	INTEL_CPU_FAM6(KABYLAKE_DESKTOP, spt_reg_map),
- 	INTEL_CPU_FAM6(CANNONLAKE_MOBILE, cnp_reg_map),
- 	INTEL_CPU_FAM6(ICELAKE_MOBILE, icl_reg_map),
-+	INTEL_CPU_FAM6(ICELAKE_NNPI, icl_reg_map),
- 	{}
- };
- 
--- 
-2.20.1
+Thanks a lot. I got it to work with 5.2 and 5.3-rc. One thing I
+noticed...
 
+"reboot: Restarting system", "Reboot failed --- System halted".
+
+> I'm wondering if it would make sense to include this upstream?
+> My guess was that nowadays multi_v7_defconfig that just works
+> on any DT-based platform is preferred to machine specific ones.
+>=20
+> However, this one would enable OLPC-specific drivers the
+> multi_v7_defconfig defconfig wouldn't.
+
+Yes, I believe that would be useful. Getting all the extras without
+that would be quite tricky.=20
+
+> > Is there some kind of documentation somewhere? :-).
+>=20
+> This is always a tough question. Short answer would be no.
+>=20
+> I'm happy to answer questions though, if the above wouldn't be
+> sufficient to make the thing boot for you.
+
+Ok, it seems to work now ;-). I'll make some notes...
+
+Best regards,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--17pEHd4RhPHOinZp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1KxKYACgkQMOfwapXb+vI8gACgr/mo99h+73gGIruJmfMPyCRg
+U7IAoKApKGX+y9Q0GxmeTM/KfmBHixdL
+=sbDP
+-----END PGP SIGNATURE-----
+
+--17pEHd4RhPHOinZp--
