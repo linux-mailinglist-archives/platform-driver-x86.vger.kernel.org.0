@@ -2,89 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFCA385D31
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Aug 2019 10:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD552860BB
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  8 Aug 2019 13:19:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731567AbfHHIof (ORCPT
+        id S1731844AbfHHLTr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 8 Aug 2019 04:44:35 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:55035 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728289AbfHHIof (ORCPT
+        Thu, 8 Aug 2019 07:19:47 -0400
+Received: from mga01.intel.com ([192.55.52.88]:25767 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731312AbfHHLTr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 8 Aug 2019 04:44:35 -0400
-Received: from 79.184.254.29.ipv4.supernova.orange.pl (79.184.254.29) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.275)
- id 4f9bbccdaa245767; Thu, 8 Aug 2019 10:44:32 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thu, 8 Aug 2019 07:19:47 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 04:19:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,360,1559545200"; 
+   d="scan'208";a="186319415"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
+  by orsmga002.jf.intel.com with ESMTP; 08 Aug 2019 04:19:43 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1hvgSL-0001t9-Rk; Thu, 08 Aug 2019 14:19:41 +0300
+Date:   Thu, 8 Aug 2019 14:19:41 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     platform-driver-x86@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         Linux PM <linux-pm@vger.kernel.org>,
         Linux ACPI <linux-acpi@vger.kernel.org>
-Subject: [PATCH 2/2] intel-hid: Disable button array during suspend-to-idle
-Date:   Thu, 08 Aug 2019 10:44:25 +0200
-Message-ID: <2765892.t9mEYBIOOk@kreacher>
-In-Reply-To: <1717835.1Yz4jNODO2@kreacher>
+Subject: Re: [PATCH 0/2] intel-hid: intel-vbtn: Suspend-related fix and update
+Message-ID: <20190808111941.GJ30120@smile.fi.intel.com>
 References: <1717835.1Yz4jNODO2@kreacher>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1717835.1Yz4jNODO2@kreacher>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Thu, Aug 08, 2019 at 10:40:19AM +0200, Rafael J. Wysocki wrote:
+> Hi,
+> 
+> These two patches fix a minor issue related to system suspend in the intel-hid
+> and intel-vbtn drivers and update the suspend/resume handling in intel-hid to
+> reduce special-casing in it somewhat.
+> 
 
-Notice that intel_button_array_enable() never disables the power
-button which is the only one needed to wake up the system from
-suspend-to-idle, so it can be safely called during suspend-to-idle
-as well as during "regular" system suspend, and rearrange the
-code in the driver's "suspend" and "resume" callbacks accordingly.
+AFAIR the original patches go via other than PDx86 tree.
+Thus, while patches are looking good to me,
 
-While at it, use pm_suspend_no_platform() to check if the current
-suspend-resume cycle is suspend-to-idle, as that is the only
-case when the device should be enabled while suspended.
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- drivers/platform/x86/intel-hid.c |   13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+> Please refer to the changelogs for details.
 
-Index: linux-pm/drivers/platform/x86/intel-hid.c
-===================================================================
---- linux-pm.orig/drivers/platform/x86/intel-hid.c
-+++ linux-pm/drivers/platform/x86/intel-hid.c
-@@ -274,10 +274,11 @@ static void intel_hid_pm_complete(struct
- 
- static int intel_hid_pl_suspend_handler(struct device *device)
- {
--	if (pm_suspend_via_firmware()) {
-+	intel_button_array_enable(device, false);
-+
-+	if (!pm_suspend_no_platform())
- 		intel_hid_set_enable(device, false);
--		intel_button_array_enable(device, false);
--	}
-+
- 	return 0;
- }
- 
-@@ -285,10 +286,10 @@ static int intel_hid_pl_resume_handler(s
- {
- 	intel_hid_pm_complete(device);
- 
--	if (pm_resume_via_firmware()) {
-+	if (!pm_suspend_no_platform())
- 		intel_hid_set_enable(device, true);
--		intel_button_array_enable(device, true);
--	}
-+
-+	intel_button_array_enable(device, true);
- 	return 0;
- }
- 
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
