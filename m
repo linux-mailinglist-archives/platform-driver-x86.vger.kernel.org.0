@@ -2,53 +2,71 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3075686D81
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Aug 2019 00:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4B87873DF
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  9 Aug 2019 10:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404450AbfHHW7l (ORCPT
+        id S2405765AbfHIIPd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 8 Aug 2019 18:59:41 -0400
-Received: from zmail1.ufrnet.br ([177.20.144.93]:60150 "EHLO zmail1.ufrnet.br"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725785AbfHHW7l (ORCPT
+        Fri, 9 Aug 2019 04:15:33 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37793 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfHIIPd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 8 Aug 2019 18:59:41 -0400
-X-Greylist: delayed 725 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Aug 2019 18:59:39 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by zmail1.ufrnet.br (Postfix) with ESMTP id 5652A3229B7;
-        Thu,  8 Aug 2019 19:42:39 -0300 (-03)
-Received: from zmail1.ufrnet.br ([127.0.0.1])
-        by localhost (zmail1.ufrnet.br [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id j6HcwWcrGTMs; Thu,  8 Aug 2019 19:42:39 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by zmail1.ufrnet.br (Postfix) with ESMTP id A64833229C3;
-        Thu,  8 Aug 2019 19:42:38 -0300 (-03)
-X-Virus-Scanned: amavisd-new at zmail1.ufrnet.br
-Received: from zmail1.ufrnet.br ([127.0.0.1])
-        by localhost (zmail1.ufrnet.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id cfLiMHsfpwvD; Thu,  8 Aug 2019 19:42:38 -0300 (-03)
-Received: from zmail1.ufrnet.br (zmail1.ufrnet.br [10.3.224.96])
-        by zmail1.ufrnet.br (Postfix) with ESMTP id 485953229AE;
-        Thu,  8 Aug 2019 19:42:37 -0300 (-03)
-Date:   Thu, 8 Aug 2019 19:42:37 -0300 (BRT)
-From:   "Mrs. Laura Cha Shih" <faep@ufrnet.br>
-Reply-To: "lauracha203@gmail.com" <lauracha203@gmail.com>
-Message-ID: <603534923.10612304.1565304157265.JavaMail.zimbra@ufrnet.br>
-Subject: Business Proposal !!!
+        Fri, 9 Aug 2019 04:15:33 -0400
+Received: by mail-ot1-f66.google.com with SMTP id s20so63989493otp.4;
+        Fri, 09 Aug 2019 01:15:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vnY7oAsY1586ACxhjBeo4HzooGDvWg/bO7dlEEDQ6lw=;
+        b=W4xi6YfwcjwWKsSEIGkzW3famA2I1TNwh6HCniGiDvW077yhXA4k6xl9h8/mQaKcsL
+         3mmzgR+TOJ0dXpZXR6rt0zfIMfEGlWcSqXbU/kjHNqhtAFnW5O8bvvjEPOAQeHQ4Bu2m
+         UeNzXSW2cJ0REzRndKE3/ytB4zBH9ONmm3OAIHd0ZpbRUVE7UfuVQM6Efu25Im6U8M0F
+         VHI+TTmGyuciNeYowtyBKREtz75ZZUfCMBGXVCuLDIEYE4Web8LWYCOUxqIhdd+JVpsT
+         VKrvTng3y4SU1B4IlJmFMcXOMu2bh9t49zeUfWB2GBOgkNW/KRccPIgzhvvgdNFEqwEn
+         RT6w==
+X-Gm-Message-State: APjAAAWxtF5kuat+woIuTVcB3meuf0kCe4mey5yiHQfY/CwlC+fb5kft
+        xCk0wO08LGSOq9etxcLGHAhUmmB9uimVO8tLRoA=
+X-Google-Smtp-Source: APXvYqxD5CZq8T4kQd204KLi1aG86Z1J38p4cBHVivVKXkMRm7iLcJLySC1n4t0d2NHxSE2hatpOs10CBonmjZQMous=
+X-Received: by 2002:a05:6830:8a:: with SMTP id a10mr15636164oto.167.1565338532516;
+ Fri, 09 Aug 2019 01:15:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.3.224.96]
-X-Mailer: Zimbra 8.8.12_GA_3803 (zclient/8.8.12_GA_3803)
-Thread-Index: an82l44uk31Tx+0b8EiIDHsfZ6SxPQ==
-Thread-Topic: Business Proposal !!!
-To:     unlisted-recipients:; (no To-header on input)
+References: <1717835.1Yz4jNODO2@kreacher> <20190808111941.GJ30120@smile.fi.intel.com>
+In-Reply-To: <20190808111941.GJ30120@smile.fi.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 9 Aug 2019 10:15:21 +0200
+Message-ID: <CAJZ5v0h+iHWMkS-vVHUHwd6AmYE2UR_CCoUjhBJH_-ik_jbVQQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] intel-hid: intel-vbtn: Suspend-related fix and update
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Thu, Aug 8, 2019 at 1:19 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Aug 08, 2019 at 10:40:19AM +0200, Rafael J. Wysocki wrote:
+> > Hi,
+> >
+> > These two patches fix a minor issue related to system suspend in the intel-hid
+> > and intel-vbtn drivers and update the suspend/resume handling in intel-hid to
+> > reduce special-casing in it somewhat.
+> >
+>
+> AFAIR the original patches go via other than PDx86 tree.
 
+That's correct.
 
-Greetings to you,I am Mrs. Laura Cha Shih, from Shanghai Banking Corporation Limited,(China). I have a business proposal worth USD$30,000,000 (Thirty Million United States Dollars Only) for you to transact with me. Reply For More Details.Best Regards
-Mrs. Laura Cha Shih
+> Thus, while patches are looking good to me,
+>
+> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Thanks!
