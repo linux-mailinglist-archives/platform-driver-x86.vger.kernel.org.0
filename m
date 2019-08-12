@@ -2,107 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 554FA8A409
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Aug 2019 19:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49D2F8A7D8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Aug 2019 22:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726453AbfHLRLL (ORCPT
+        id S1727297AbfHLUFS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Aug 2019 13:11:11 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45873 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726263AbfHLRLL (ORCPT
+        Mon, 12 Aug 2019 16:05:18 -0400
+Received: from mail.klausen.dk ([174.138.9.187]:54654 "EHLO mail.klausen.dk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727291AbfHLUFR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Aug 2019 13:11:11 -0400
-Received: by mail-wr1-f67.google.com with SMTP id q12so14968973wrj.12
-        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Aug 2019 10:11:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jFnuJZVQFPQyazcjhYDCZNSIR8govzD11YyaXFhq9aQ=;
-        b=W4yg0U09E7a7qU0WdlN3basVtMvavnyXww/SA28RredN9E8CLYsBCeRY16TavT0N4h
-         cQoBMIr+IXsayj8KfpRY1a/rsCApBXsFNcmimXPar2boTd8v8bTtZfRfMm1S4CNGG/hN
-         /lm9a6O0u9RQrBEDsAfj5r6vf0D33OYNk2kx4jIgeIGO1Cj7mMn+S8bXP+aZj0/UoVSC
-         v6j2xX8QTWm1sh06BzEA3yh5q42Chz6beuESWVxmfXfzitQA2Cq3jJ1f5ioFhhGIJmIw
-         59Ga9vHCqIlY7QRX1YsAMz827Lhwt9NzWG8lWNHSSeT9OG4evQm40MIqwrCcNNS9ukMw
-         zzQQ==
-X-Gm-Message-State: APjAAAXxvX3RxulVxApj8I0rNhEozfU/d6/rGl6qojKkJNctihYy10fp
-        +QW1NlgDyTGyWLodvF4xBXc66w==
-X-Google-Smtp-Source: APXvYqxzL49EWA/fgCz3RkTf2I1ICChJvJhQBDiqrRxJ0qWq26yZtdpRgea5sWN2rfqltVbdlm3eXA==
-X-Received: by 2002:adf:da4d:: with SMTP id r13mr43485095wrl.281.1565629868822;
-        Mon, 12 Aug 2019 10:11:08 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id m7sm176021wmi.18.2019.08.12.10.11.07
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Aug 2019 10:11:08 -0700 (PDT)
-Subject: Re: [PATCH v2] platform/x86/intel_cht_int33fe: Split code to microUSB
- and TypeC variants
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-References: <20190808215559.2029-1-jekhor@gmail.com>
- <20190808215559.2029-2-jekhor@gmail.com>
- <e7913031-4a0a-bcd9-2149-8e718b876a0e@redhat.com>
- <20190809145135.GC30248@jeknote.loshitsa1.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <13391bf6-b8d2-83ce-2bca-1c359829938f@redhat.com>
-Date:   Mon, 12 Aug 2019 19:11:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 12 Aug 2019 16:05:17 -0400
+Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support setting a maximum
+ charging percentage
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+        t=1565640315;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YVDBFcFZDEu/qrRwZcpyRkEUmojDyRVuYOTPGzngDLs=;
+        b=FUzgbR6xpoA0DkSgHAYa1ewI0MOrzcIYPSDq6HGaue9VB8/K7b7+JV5pqBwv76LMSYq5EI
+        eaSDPU4lffz2z4Dy5HVhtm10Cq1TAX0SLEkJgs0u1xY7k897Pm5oXzwQaTKX4HqoYBJpNv
+        neB53F9bAjQYpJ42uBUel6h04ezpaNQ=
+From:   Kristian Klausen <kristian@klausen.dk>
+To:     Daniel Drake <drake@endlessm.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <20190808195532.14220-1-kristian@klausen.dk>
+ <CAD8Lp47ouXSj_kZggoL2JJzOUmi38k0jjLK=M+8c3YE=YNe+QA@mail.gmail.com>
+ <67efc453-4286-774b-72ad-f3d494f44f7a@klausen.dk>
+Message-ID: <5cbfc3f3-38c8-d9e3-bf20-d91a9b5de24e@klausen.dk>
+Date:   Mon, 12 Aug 2019 22:05:14 +0200
 MIME-Version: 1.0
-In-Reply-To: <20190809145135.GC30248@jeknote.loshitsa1.net>
+In-Reply-To: <67efc453-4286-774b-72ad-f3d494f44f7a@klausen.dk>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 09-08-19 16:51, Yauhen Kharuzhy wrote:
-> On Fri, Aug 09, 2019 at 12:49:27PM +0200, Hans de Goede wrote:
->> Hi,
+On 12.08.2019 14.57, Kristian Klausen wrote:
+>> https://www.asus.com/us/support/FAQ/1032726/ doesn't really help us
+>> here, looks like it was not written by a native English speaker.
 >>
->> Overall this looks good, thank you for your work on this.
->>
->> I have some small remarks inline / below:
->>> +EXPORT_SYMBOL_GPL(cht_int33fe_check_hw_compatible);
->>> +
->>> +MODULE_DESCRIPTION("Intel Cherry Trail ACPI INT33FE pseudo device driver (common part)");
->>> +MODULE_AUTHOR("Yauhen Kharuzhy <jekhor@gmail.com>");
->>> +MODULE_LICENSE("GPL v2");
->>
->> I see from the Makefile changes that you are linking the common code
->> into both intel_cht_int33fe_typec.ko and into intel_cht_int33fe_musb.ko, that is fine
->> since it is tiny and not worth the trouble of creating its own .ko file for.
-> 
-> No, this Makefile fragment adds two targets for every config variables,
-> and intel_cht_int33fe_common.c compiles into one .ko file even if it was
-> added twice
+>> maximum_charging_percentage is a bit long, but how about
+>> max_battery_charge or max_charge ?
+> Maybe battery_max_charge to follow the same pattern as the LG/Samsumg 
+> modules (battery_care_limit/battery_life_extender).
+>
+> What do you think?
+I've done some more research. We should probably use the new battery 
+hooking API[1], in a way similar to the the thinkpad_acpi module[2]. 
+Naming wise we should use the recently added official charge control 
+knobs[3].
 
-Ah right, I misread it. But adding a new ko file just for the one helper function
-seems like massive overkill, the overhead will be quite big and on most systems
-all 3 .ko files will end up getting loaded anyways, so we should probably try to
-reduce the number of ko files here.
 
->> I do wonder what happens if you set the Kconfig value for both modules to Y,
->> since that will like put the common code twice in the builtin.a file, I guess / hope
->> ar is smart enough to only add it once, but I'm not sure... can you please give
->> this a try?
-> 
-> For both Y it should be OK, but for one M and one Y... OK, it need to be
-> corrected.
-
-How about moving the entire helper function into intel_cht_int33fe_common.h as
-static inline ... then both remaining .ko files get a private copy but since it is
-small that is fine. This nicely solves the need for a third .ko file and also
-problems with one of the Kconfig options being builtin and the other being modular.
-
-Regards,
-
-Hans
-
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa93854f7a7ed63d054405bf3779247d5300edd3
+[2] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2801b9683f740012863f7f0b1f0bc770c417fe72
+[3] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=813cab8f3994250e136819ae48fbd1c95d980466
