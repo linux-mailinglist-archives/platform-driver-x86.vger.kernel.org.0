@@ -2,220 +2,185 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACABE8ABF6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Aug 2019 02:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 222CD8B2C5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Aug 2019 10:44:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbfHMAam (ORCPT
+        id S1727326AbfHMIoj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Aug 2019 20:30:42 -0400
-Received: from mail.klausen.dk ([174.138.9.187]:35510 "EHLO mail.klausen.dk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726144AbfHMAal (ORCPT
+        Tue, 13 Aug 2019 04:44:39 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:40495 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725909AbfHMIoj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Aug 2019 20:30:41 -0400
-From:   Kristian Klausen <kristian@klausen.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-        t=1565656239;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=tt1occrlG5wTu/WlinfIK0R5uXMYwz3X6RevS6xVBeI=;
-        b=20QWxksaLT3m4pnkb9qDNG5+upimv4AloG/K+0//kibmgUmh47j5FLkGIEZyThO5/tvlwN
-        BIGrZ1/jLrUC2XYlIJuW16rpWeOwKWgyJQ3q1I6hgBx6rsjcmDr/LDGmZwlYU+zdHQRz+g
-        VJzmF659rXvnX7Uvhs6zj2JEOiYHChk=
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Daniel Drake <drake@endlessm.com>,
-        Kristian Klausen <kristian@klausen.dk>
-Subject: [PATCH v3] platform/x86: asus-wmi: Support setting a maximum charging percentage
-Date:   Tue, 13 Aug 2019 02:30:23 +0200
-Message-Id: <20190813003023.6748-1-kristian@klausen.dk>
-X-Mailer: git-send-email 2.22.0
+        Tue, 13 Aug 2019 04:44:39 -0400
+Received: by mail-ed1-f65.google.com with SMTP id h8so18076469edv.7
+        for <platform-driver-x86@vger.kernel.org>; Tue, 13 Aug 2019 01:44:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=r9PW4YFGMJVSTAt9dAtACKAg1TawK+0LXcHryi1J7HQ=;
+        b=JOaz2ub2yr5xM6ABD6xxP7P5WDO0hJ+33U2YEi37DDoR0OTq5DU7gO9XC6I0qXB20S
+         Er91hXn/NNtb2Qv7MWV4m69KFnAPU+WH+hSD5Zg2wXpMJDwHthUKCWcTNDEpjijE4vXP
+         lNasmCUWq7TkkI0ykkKodEABbjsI4fxP7nhFbDsFQXzPirRTcvR1/Tw+duOACzqZRMpN
+         dulIWkugv7dfaU9skv6d+uhTdzXku+pZ5ofoBQtHUxpQ5LRhcty58qulTWBq7/VSLX0i
+         /2vjaNUwclyGEKX3yz13ukkkPJfB6bKKOyIHZetVSCgMYrUrPl9DLxt+LvLECXFBM9T9
+         xAgg==
+X-Gm-Message-State: APjAAAVMi6ZszsUcfU3gupyjtN2rZVCUyI6cdJRNgmksd42FBV0i0kDo
+        XvN2k4ksXRspUO9XeSOG3zvSrZRGLoY=
+X-Google-Smtp-Source: APXvYqxnAputKG3FLSYJ07r7/EFPT40PjRg1S3LuOfoqbMrN8Hfc+o6bdcOPM24nlwDnNbqGYwSC3Q==
+X-Received: by 2002:a17:906:3518:: with SMTP id r24mr15473242eja.133.1565685877242;
+        Tue, 13 Aug 2019 01:44:37 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id p20sm1187675eja.59.2019.08.13.01.44.36
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Aug 2019 01:44:36 -0700 (PDT)
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2] platform/x86/intel_cht_int33fe: Split code to microUSB
+ and TypeC variants
+To:     Yauhen Kharuzhy <jekhor@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20190808215559.2029-1-jekhor@gmail.com>
+ <20190808215559.2029-2-jekhor@gmail.com>
+Message-ID: <3387c6f0-5b25-a6ff-3c83-052ba75b5e54@redhat.com>
+Date:   Tue, 13 Aug 2019 10:44:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808215559.2029-2-jekhor@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Most newer ASUS laptops supports settings a maximum charging percentage,
-which help prolonging the battery life.
+Hi,
 
-Tested on a Zenbook UX430UNR.
+One more remark to fix in v3 below:
 
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
----
-I can't pass the asus struct to asus_wmi_battery_{add,remove}, so I use a
-global variable. Is there any better way to do it?
-I think the implementation of asus_wmi_battery_{init,exit} could be
-improved, any ideas?
+On 8/8/19 11:55 PM, Yauhen Kharuzhy wrote:
+> Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
+> hardware has TypeC connector and register related devices described as
+> I2C connections in the _CRS resource.
+> 
+> There at least one hardware (Lenovo Yoga Book YB1-91L/F) with microUSB
+> connector exists. It has INT33FE device in the DSDT table but there are
+> only two I2C connection described: PMIC and BQ27452 battery fuel gauge.
+> 
+> Splitting existing INT33FE driver allow to maintain code for microUSB
+> variant separately and make it simpler.
+> 
+> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+> ---
 
-V3:
-Refactor to use the new battery hooking API[1] and knobs[2].
+<snip>
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa93854f7a7ed63d054405bf3779247d5300edd3
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=813cab8f3994250e136819ae48fbd1c95d980466
+> diff --git a/drivers/platform/x86/intel_cht_int33fe_common.c b/drivers/platform/x86/intel_cht_int33fe_common.c
+> new file mode 100644
+> index 000000000000..91c1b599dda8
+> --- /dev/null
+> +++ b/drivers/platform/x86/intel_cht_int33fe_common.c
+> @@ -0,0 +1,93 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Common code for Intel Cherry Trail ACPI INT33FE pseudo device drivers
+> + * (microUSB and TypeC connector variants)
+> + *
+> + * Copyright (c) 2019 Yauhen Kharuzhy <jekhor@gmail.com>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +
+> +#include "intel_cht_int33fe_common.h"
+> +
+> +#define EXPECTED_PTYPE		4
+> +
+> +static int cht_int33fe_i2c_res_filter(struct acpi_resource *ares, void *data)
+> +{
+> +	struct acpi_resource_i2c_serialbus *sb;
+> +	int *count = data;
+> +
+> +	if (i2c_acpi_get_i2c_resource(ares, &sb))
+> +		(*count)++;
+> +
+> +	return 1;
+> +}
+> +
+> +static int cht_int33fe_count_i2c_clients(struct device *dev)
+> +{
+> +	struct acpi_device *adev;
+> +	LIST_HEAD(resource_list);
+> +	int count = 0;
+> +
+> +	adev = ACPI_COMPANION(dev);
+> +	if (!adev)
+> +		return -EINVAL;
+> +
+> +	acpi_dev_get_resources(adev, &resource_list,
+> +			       cht_int33fe_i2c_res_filter, &count);
+> +
+> +	acpi_dev_free_resource_list(&resource_list);
+> +
+> +	return count;
+> +}
+> +
+> +int cht_int33fe_check_hw_compatible(struct device *dev,
+> +				    enum int33fe_hw_type hw_type)
+> +{
+> +	unsigned long long ptyp;
+> +	acpi_status status;
+> +	int i2c_expected;
+> +	int ret;
+> +
+> +	i2c_expected = (hw_type == INT33FE_HW_TYPEC) ? 4 : 2;
+> +
+> +	status = acpi_evaluate_integer(ACPI_HANDLE(dev), "PTYP", NULL, &ptyp);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_err(dev, "Error getting PTYPE\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	/*
+> +	 * The same ACPI HID is used for different configurations check PTYP
+> +	 * to ensure that we are dealing with the expected config.
+> +	 */
+> +	if (ptyp != EXPECTED_PTYPE)
+> +		return -ENODEV;
+> +
+> +	/* Check presence of INT34D3 (hardware-rev 3) expected for ptype == 4 */
+> +	if (!acpi_dev_present("INT34D3", "1", 3)) {
+> +		dev_err(dev, "Error PTYPE == %d, but no INT34D3 device\n",
+> +			EXPECTED_PTYPE);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = cht_int33fe_count_i2c_clients(dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (ret != i2c_expected) {
+> +		dev_info(dev, "I2C clients count (%d) is not %d, ignore (probably %s hardware)",
+> +			 ret, i2c_expected,
+> +			 (hw_type == INT33FE_HW_TYPEC) ? "microUSB" : "Type C");
 
-V2:
-Add sysfs documentation.
-Reorder ASUS_WMI_CHARGE_THRESHOLD and rename to ASUS_WMI_DEVID_RSOC.
-Add a comment explaining the charge_threshold variable.
-Rephrase the commit message (charge threshold -> maximum charging
-percentage).
+The intel_cht_int33fe_typec driver returns -EPROBE_DEFER in various places and now
+this dev_info will get printed for each probe attempt, until all the other drivers
+this depends on have been loaded and the probe succeeds. On one of my TypeC systems
+this message gets printed 28 times! :
 
-The sysfs knob is still called "charge_threshold", as
-maximum_charging_percentage seems a bit long.
-I did look on some of the other platform modules, the LG module
-use battery_care_limit and the Samsung module use
-battery_life_extender.
+[hans@shalem ~]$ dmesg | grep "I2C clients count" | wc -l
+28
 
- drivers/platform/x86/asus-wmi.c            | 91 ++++++++++++++++++++++
- include/linux/platform_data/x86/asus-wmi.h |  3 +
- 2 files changed, 94 insertions(+)
+Please change this to a dev_dbg
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 34dfbed65332..06c830c1c04f 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -26,6 +26,7 @@
- #include <linux/rfkill.h>
- #include <linux/pci.h>
- #include <linux/pci_hotplug.h>
-+#include <linux/power_supply.h>
- #include <linux/hwmon.h>
- #include <linux/hwmon-sysfs.h>
- #include <linux/debugfs.h>
-@@ -36,6 +37,7 @@
- #include <linux/acpi.h>
- #include <linux/dmi.h>
- #include <acpi/video.h>
-+#include <acpi/battery.h>
- 
- #include "asus-wmi.h"
- 
-@@ -368,6 +370,92 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
- 	return status == 0 && (retval & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
- 
-+/* Battery ********************************************************************/
-+
-+/* The battery maximum charging percentage */
-+static int charge_end_threshold;
-+
-+static ssize_t charge_control_end_threshold_store(struct device *dev,
-+						  struct device_attribute *attr,
-+						  const char *buf, size_t count)
-+{
-+	int value, ret, rv;
-+
-+	ret = kstrtouint(buf, 10, &value);
-+
-+	if (!count || ret != 0)
-+		return -EINVAL;
-+	if (value < 0 || value > 100)
-+		return -EINVAL;
-+
-+	asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, value, &rv);
-+
-+	if (rv != 1)
-+		return -EIO;
-+
-+	/* There isn't any method in the DSDT to read the threshold, so we
-+	 * save the threshold.
-+	 */
-+	charge_end_threshold = value;
-+	return count;
-+}
-+
-+static ssize_t charge_control_end_threshold_show(struct device *device,
-+						 struct device_attribute *attr,
-+						 char *buf)
-+{
-+	return sprintf(buf, "%d\n", charge_end_threshold);
-+}
-+
-+static DEVICE_ATTR_RW(charge_control_end_threshold);
-+
-+static int asus_wmi_battery_add(struct power_supply *battery)
-+{
-+	/* The WMI method does not provide a way to specific a battery, so we
-+	 * just assume it is the first battery.
-+	 */
-+	if (!strcmp(battery->desc->name, "BAT0") == 0)
-+		return -ENODEV;
-+
-+	if (device_create_file(&battery->dev,
-+	    &dev_attr_charge_control_end_threshold))
-+		return -ENODEV;
-+
-+	/* The charge threshold is only reset when the system is power cycled,
-+	 * and we can't get the current threshold so let set it to 100% when
-+	 * a battery is added.
-+	 */
-+	asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, 100, NULL);
-+	charge_end_threshold = 100;
-+
-+	return 0;
-+}
-+
-+static int asus_wmi_battery_remove(struct power_supply *battery)
-+{
-+	device_remove_file(&battery->dev,
-+			   &dev_attr_charge_control_end_threshold);
-+	return 0;
-+}
-+
-+static struct acpi_battery_hook battery_hook = {
-+	.add_battery = asus_wmi_battery_add,
-+	.remove_battery = asus_wmi_battery_remove,
-+	.name = "ASUS Battery Extension",
-+};
-+
-+static void asus_wmi_battery_init(struct asus_wmi *asus)
-+{
-+	if (asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_RSOC) >= 0)
-+		battery_hook_register(&battery_hook);
-+}
-+
-+static void asus_wmi_battery_exit(struct asus_wmi *asus)
-+{
-+	if (asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_RSOC) >= 0)
-+		battery_hook_unregister(&battery_hook);
-+}
-+
- /* LEDs ***********************************************************************/
- 
- /*
-@@ -2433,6 +2521,8 @@ static int asus_wmi_add(struct platform_device *pdev)
- 		goto fail_wmi_handler;
- 	}
- 
-+	asus_wmi_battery_init(asus);
-+
- 	asus_wmi_debugfs_init(asus);
- 
- 	return 0;
-@@ -2468,6 +2558,7 @@ static int asus_wmi_remove(struct platform_device *device)
- 	asus_wmi_debugfs_exit(asus);
- 	asus_wmi_sysfs_exit(asus->platform_device);
- 	asus_fan_set_auto(asus);
-+	asus_wmi_battery_exit(asus);
- 
- 	kfree(asus);
- 	return 0;
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 409e16064f4b..60249e22e844 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -81,6 +81,9 @@
- /* Deep S3 / Resume on LID open */
- #define ASUS_WMI_DEVID_LID_RESUME	0x00120031
- 
-+/* Maximum charging percentage */
-+#define ASUS_WMI_DEVID_RSOC		0x00120057
-+
- /* DSTS masks */
- #define ASUS_WMI_DSTS_STATUS_BIT	0x00000001
- #define ASUS_WMI_DSTS_UNKNOWN_BIT	0x00000002
--- 
-2.22.0
+Regards,
+
+Hans
 
