@@ -2,68 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 222CD8B2C5
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Aug 2019 10:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32A4B8B4FA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 13 Aug 2019 12:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727326AbfHMIoj (ORCPT
+        id S1728736AbfHMKG6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 13 Aug 2019 04:44:39 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:40495 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbfHMIoj (ORCPT
+        Tue, 13 Aug 2019 06:06:58 -0400
+Received: from mga01.intel.com ([192.55.52.88]:43054 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728410AbfHMKG6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 13 Aug 2019 04:44:39 -0400
-Received: by mail-ed1-f65.google.com with SMTP id h8so18076469edv.7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 13 Aug 2019 01:44:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r9PW4YFGMJVSTAt9dAtACKAg1TawK+0LXcHryi1J7HQ=;
-        b=JOaz2ub2yr5xM6ABD6xxP7P5WDO0hJ+33U2YEi37DDoR0OTq5DU7gO9XC6I0qXB20S
-         Er91hXn/NNtb2Qv7MWV4m69KFnAPU+WH+hSD5Zg2wXpMJDwHthUKCWcTNDEpjijE4vXP
-         lNasmCUWq7TkkI0ykkKodEABbjsI4fxP7nhFbDsFQXzPirRTcvR1/Tw+duOACzqZRMpN
-         dulIWkugv7dfaU9skv6d+uhTdzXku+pZ5ofoBQtHUxpQ5LRhcty58qulTWBq7/VSLX0i
-         /2vjaNUwclyGEKX3yz13ukkkPJfB6bKKOyIHZetVSCgMYrUrPl9DLxt+LvLECXFBM9T9
-         xAgg==
-X-Gm-Message-State: APjAAAVMi6ZszsUcfU3gupyjtN2rZVCUyI6cdJRNgmksd42FBV0i0kDo
-        XvN2k4ksXRspUO9XeSOG3zvSrZRGLoY=
-X-Google-Smtp-Source: APXvYqxnAputKG3FLSYJ07r7/EFPT40PjRg1S3LuOfoqbMrN8Hfc+o6bdcOPM24nlwDnNbqGYwSC3Q==
-X-Received: by 2002:a17:906:3518:: with SMTP id r24mr15473242eja.133.1565685877242;
-        Tue, 13 Aug 2019 01:44:37 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id p20sm1187675eja.59.2019.08.13.01.44.36
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Aug 2019 01:44:36 -0700 (PDT)
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2] platform/x86/intel_cht_int33fe: Split code to microUSB
- and TypeC variants
-To:     Yauhen Kharuzhy <jekhor@gmail.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        Tue, 13 Aug 2019 06:06:58 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 03:06:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,381,1559545200"; 
+   d="scan'208";a="194163262"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 13 Aug 2019 03:06:56 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 13 Aug 2019 13:06:55 +0300
+Date:   Tue, 13 Aug 2019 13:06:55 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Yauhen Kharuzhy <jekhor@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2] platform/x86/intel_cht_int33fe: Split code to
+ microUSB and TypeC variants
+Message-ID: <20190813100655.GC4691@kuha.fi.intel.com>
 References: <20190808215559.2029-1-jekhor@gmail.com>
  <20190808215559.2029-2-jekhor@gmail.com>
-Message-ID: <3387c6f0-5b25-a6ff-3c83-052ba75b5e54@redhat.com>
-Date:   Tue, 13 Aug 2019 10:44:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20190808215559.2029-2-jekhor@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-One more remark to fix in v3 below:
-
-On 8/8/19 11:55 PM, Yauhen Kharuzhy wrote:
+On Fri, Aug 09, 2019 at 12:55:59AM +0300, Yauhen Kharuzhy wrote:
 > Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
 > hardware has TypeC connector and register related devices described as
 > I2C connections in the _CRS resource.
@@ -77,110 +59,58 @@ On 8/8/19 11:55 PM, Yauhen Kharuzhy wrote:
 > 
 > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 > ---
+>  drivers/platform/x86/Kconfig                  |  24 +++-
+>  drivers/platform/x86/Makefile                 |   5 +-
+>  .../platform/x86/intel_cht_int33fe_common.c   |  93 ++++++++++++++++
+>  .../platform/x86/intel_cht_int33fe_common.h   |  23 ++++
+>  drivers/platform/x86/intel_cht_int33fe_musb.c | 105 ++++++++++++++++++
+>  ...ht_int33fe.c => intel_cht_int33fe_typec.c} |  26 +----
+>  6 files changed, 249 insertions(+), 27 deletions(-)
+>  create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
+>  create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
+>  create mode 100644 drivers/platform/x86/intel_cht_int33fe_musb.c
+>  rename drivers/platform/x86/{intel_cht_int33fe.c => intel_cht_int33fe_typec.c} (94%)
+> 
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 1b67bb578f9f..a34c5615d6ef 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -920,15 +920,15 @@ config ACPI_CMPC
+>  	  keys as input device, backlight device, tablet and accelerometer
+>  	  devices.
+>  
+> -config INTEL_CHT_INT33FE
+> -	tristate "Intel Cherry Trail ACPI INT33FE Driver"
+> +config INTEL_CHT_INT33FE_TYPEC
+> +	tristate "Intel Cherry Trail ACPI INT33FE Driver (typeC connector)"
+>  	depends on X86 && ACPI && I2C && REGULATOR
+>  	depends on CHARGER_BQ24190=y || (CHARGER_BQ24190=m && m)
+>  	depends on USB_ROLES_INTEL_XHCI=y || (USB_ROLES_INTEL_XHCI=m && m)
+>  	depends on TYPEC_MUX_PI3USB30532=y || (TYPEC_MUX_PI3USB30532=m && m)
+> -	---help---
+> +	help
+>  	  This driver add support for the INT33FE ACPI device found on
+> -	  some Intel Cherry Trail devices.
+> +	  some Intel Cherry Trail devices with USB TypeC connector.
+>  
+>  	  The INT33FE ACPI device has a CRS table with I2cSerialBusV2
+>  	  resources for 3 devices: Maxim MAX17047 Fuel Gauge Controller,
+> @@ -939,6 +939,22 @@ config INTEL_CHT_INT33FE
+>  	  If you enable this driver it is advised to also select
+>  	  CONFIG_TYPEC_FUSB302=m and CONFIG_BATTERY_MAX17042=m.
+>  
+> +config INTEL_CHT_INT33FE_MUSB
+> +	tristate "Intel Cherry Trail ACPI INT33FE Driver (mUSB connector)"
 
-<snip>
+Please don't use the term MUSB, musb, mUSB or microUSB. A collogue of
+mine noticed this thread, and was a bit confused about the use of the
+those terms here, and to be honest, so was I. MUSB is USB controller
+from Mentor Graphics. This is the driver for it: drivers/usb/musb/
 
-> diff --git a/drivers/platform/x86/intel_cht_int33fe_common.c b/drivers/platform/x86/intel_cht_int33fe_common.c
-> new file mode 100644
-> index 000000000000..91c1b599dda8
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_cht_int33fe_common.c
-> @@ -0,0 +1,93 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Common code for Intel Cherry Trail ACPI INT33FE pseudo device drivers
-> + * (microUSB and TypeC connector variants)
-> + *
-> + * Copyright (c) 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +
-> +#include "intel_cht_int33fe_common.h"
-> +
-> +#define EXPECTED_PTYPE		4
-> +
-> +static int cht_int33fe_i2c_res_filter(struct acpi_resource *ares, void *data)
-> +{
-> +	struct acpi_resource_i2c_serialbus *sb;
-> +	int *count = data;
-> +
-> +	if (i2c_acpi_get_i2c_resource(ares, &sb))
-> +		(*count)++;
-> +
-> +	return 1;
-> +}
-> +
-> +static int cht_int33fe_count_i2c_clients(struct device *dev)
-> +{
-> +	struct acpi_device *adev;
-> +	LIST_HEAD(resource_list);
-> +	int count = 0;
-> +
-> +	adev = ACPI_COMPANION(dev);
-> +	if (!adev)
-> +		return -EINVAL;
-> +
-> +	acpi_dev_get_resources(adev, &resource_list,
-> +			       cht_int33fe_i2c_res_filter, &count);
-> +
-> +	acpi_dev_free_resource_list(&resource_list);
-> +
-> +	return count;
-> +}
-> +
-> +int cht_int33fe_check_hw_compatible(struct device *dev,
-> +				    enum int33fe_hw_type hw_type)
-> +{
-> +	unsigned long long ptyp;
-> +	acpi_status status;
-> +	int i2c_expected;
-> +	int ret;
-> +
-> +	i2c_expected = (hw_type == INT33FE_HW_TYPEC) ? 4 : 2;
-> +
-> +	status = acpi_evaluate_integer(ACPI_HANDLE(dev), "PTYP", NULL, &ptyp);
-> +	if (ACPI_FAILURE(status)) {
-> +		dev_err(dev, "Error getting PTYPE\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	/*
-> +	 * The same ACPI HID is used for different configurations check PTYP
-> +	 * to ensure that we are dealing with the expected config.
-> +	 */
-> +	if (ptyp != EXPECTED_PTYPE)
-> +		return -ENODEV;
-> +
-> +	/* Check presence of INT34D3 (hardware-rev 3) expected for ptype == 4 */
-> +	if (!acpi_dev_present("INT34D3", "1", 3)) {
-> +		dev_err(dev, "Error PTYPE == %d, but no INT34D3 device\n",
-> +			EXPECTED_PTYPE);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = cht_int33fe_count_i2c_clients(dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (ret != i2c_expected) {
-> +		dev_info(dev, "I2C clients count (%d) is not %d, ignore (probably %s hardware)",
-> +			 ret, i2c_expected,
-> +			 (hw_type == INT33FE_HW_TYPEC) ? "microUSB" : "Type C");
+"micro-AB" and "uAB" are much more clear here. For the config option,
+how about simply INTEL_CHT_INT33FE_UAB
 
-The intel_cht_int33fe_typec driver returns -EPROBE_DEFER in various places and now
-this dev_info will get printed for each probe attempt, until all the other drivers
-this depends on have been loaded and the probe succeeds. On one of my TypeC systems
-this message gets printed 28 times! :
+thanks,
 
-[hans@shalem ~]$ dmesg | grep "I2C clients count" | wc -l
-28
-
-Please change this to a dev_dbg
-
-Regards,
-
-Hans
-
+-- 
+heikki
