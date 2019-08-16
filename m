@@ -2,122 +2,210 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35B8F8F8D9
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 04:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80A208FEC4
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:18:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbfHPC3w (ORCPT
+        id S1726985AbfHPJSZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 15 Aug 2019 22:29:52 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:50114 "EHLO aibo.runbox.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726215AbfHPC3v (ORCPT
+        Fri, 16 Aug 2019 05:18:25 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:37194 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726839AbfHPJSZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 15 Aug 2019 22:29:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-         s=rbselector1; h=Content-Transfer-Encoding:MIME-Version:References:
-        In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-        bh=8VbhEcPGlD1jR06LiS0BPOdxImUFEJIhW0+NTt0heb4=; b=IEnS2BL/zufWxOFgwpg7ST+/4P
-        ShC8HQuIFcoBnJUKuT3115ogqc3gDkdT7I6rLuSYk8Th1iSK5vJuydGewHgvvyEeixUBbF1AA5+/q
-        m48IYLifzFZ+E6+gLAQg1DMnwoy3yuhTrcleLpMI1gaqhd5aNsYwRd4+f3EEgbRmFTjl9YNXAkdRH
-        WGnAo9BbrnXTTUHlD8q6yr9efH2bQE5v7eJfVdhsply33F8KHwN1ssBWen8gz229PJ9sb1bNyWIVy
-        rFt4mqc1MgOxZ4swfb4G6vqC6nqBbutRsLH6584yng9tf2XJ0YbteDeSPcPrx6Bjp3wqI8l2k/bDq
-        /Xl9CrrQ==;
-Received: from [10.9.9.202] (helo=mailfront20.runbox)
-        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <m.v.b@runbox.com>)
-        id 1hyRGA-0006Oa-9I; Fri, 16 Aug 2019 03:42:30 +0200
-Received: by mailfront20.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1hyRFm-0008Lw-64; Fri, 16 Aug 2019 03:42:06 +0200
-From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
-To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Fri, 16 Aug 2019 05:18:25 -0400
+Received: by mail-ed1-f67.google.com with SMTP id f22so4565518edt.4
+        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Aug 2019 02:18:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=keUHSXeHK3AYp4ntqwFwQBvH6a3BDpAYi6yV738m7F4=;
+        b=T6Gxc1txzp9rE1OL/AI8pUX2FqW56CrfHR9jbOl1UfbAFzUw5ztHXyJZLTzO9D0cnW
+         +9YfF2kQ49kSdUvjW4G9N8jI7bfIwslxczNCkhlGWJsXCdJYMD+RntR05xN4rRfnlBRH
+         KHDJVp+rKU+hGdYX0JhLQdRwsA5Isb0zG7XlpI22CTsSyl6TUYuZQPpjLAe+hAxtniKt
+         Z/068/TEs7gkCCq5/+CxDCrgG4pQZb1giFVsL1JhEyZ80j0Ia7Mnum0lnqSOJ9ePGU78
+         JieKGE4G6lNdAHYhAj4GJWxr2LCxtBQ6YaxHLQO2si79Ynzr6xukNvEtBPUP6ZvgQV+H
+         A9zw==
+X-Gm-Message-State: APjAAAUjDrLMwSjMb4P0BoOe0JWYU43bfY873WNU+xNvvz6p50QQ5YnF
+        oh4AZR5CBtvGq0uIN89p4XhK+Q==
+X-Google-Smtp-Source: APXvYqyqzijaWvoIdssLrJyPUDkGQjkNAtITjb2S7noVuYbiRvKrd9ghsrmER/wl+ASMSvwg/nYD4g==
+X-Received: by 2002:a17:906:3e88:: with SMTP id a8mr8230484ejj.206.1565947103224;
+        Fri, 16 Aug 2019 02:18:23 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
+        by smtp.gmail.com with ESMTPSA id qc9sm743549ejb.47.2019.08.16.02.18.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Aug 2019 02:18:22 -0700 (PDT)
+Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
+To:     Linus Walleij <linus.walleij@linaro.org>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "M. Vefa Bicakci" <m.v.b@runbox.com>
-Subject: [PATCH] platform/x86: intel_pmc_core_pltdrv: Module removal warning fix
-Date:   Thu, 15 Aug 2019 21:41:40 -0400
-Message-Id: <20190816014140.10687-2-m.v.b@runbox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190816014140.10687-1-m.v.b@runbox.com>
-References: <20190816014140.10687-1-m.v.b@runbox.com>
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20190812135335.10104-1-linus.walleij@linaro.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com>
+Date:   Fri, 16 Aug 2019 11:18:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190812135335.10104-1-linus.walleij@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Prior to this commit, removing the intel_pmc_core_pltdrv module
-would cause the following warning:
+Hi Linus,
 
-  ------------[ cut here ]------------
-  Device 'intel_pmc_core.0' does not have a release() function, \
-    it is broken and must be fixed. See Documentation/kobject.txt.
-  WARNING: CPU: 0 PID: 2202 at drivers/base/core.c:1238 device_release+0x6f/0x80
-  Modules linked in: fuse intel_rapl_msr ip6table_filter ip6_tables ipt_REJECT \
-    nf_reject_ipv4 xt_conntrack iptable_filter xt_MASQUERADE iptable_nat nf_nat \
-    nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 libcrc32c intel_rapl_common \
-    intel_pmc_core_pltdrv(-) xen_netfront intel_pmc_core crct10dif_pclmul \
-    crc32_pclmul crc32c_intel ghash_clmulni_intel intel_rapl_perf pcspkr binfmt_misc \
-    u2mfn(O) xenfs xen_gntdev xen_gntalloc xen_blkback xen_privcmd xen_evtchn \
-    ip_tables overlay xen_blkfront
-  CPU: 0 PID: 2202 Comm: rmmod Tainted: G        W  O      5.3.0-rc3-next-20190809-1 #2
-  RIP: 0010:device_release+0x6f/0x80
-  Code: 48 8b 85 c0 02 00 00 48 85 c0 74 09 48 8b 40 40 48 85 c0 75 c6 48 8b 75 50 48 85 f6 74 10 48 c7 c7 58 68 12 82 e8 5f 62 a9 ff <0f> 0b eb b5 48 8b 75 00 eb ea 0f 1f 80 00 00 00 00 0f 1f 44 00 00
-  RSP: 0018:ffffc90000763ea8 EFLAGS: 00010286
-  RAX: 0000000000000000 RBX: ffffffff822da080 RCX: 0000000000000006
-  RDX: 0000000000000007 RSI: 0000000000000082 RDI: ffff88813ba17540
-  RBP: ffffffffc0107010 R08: 0000000000000195 R09: 000000000000000d
-  R10: 000000000000000a R11: ffffc90000763d65 R12: ffff88800c9e9000
-  R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-  FS:  000071250bf142c0(0000) GS:ffff88813ba00000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: 000060ab8fd82d49 CR3: 00000001273ba004 CR4: 00000000003606f0
-  Call Trace:
-   kobject_put+0x85/0x1b0
-   __x64_sys_delete_module+0x14b/0x270
-   do_syscall_64+0x5f/0x1a0
-   entry_SYSCALL_64_after_hwframe+0x44/0xa9
-  RIP: 0033:0x71250c031c6b
-  Code: 73 01 c3 48 8b 0d 1d 42 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d ed 41 0c 00 f7 d8 64 89 01 48
-  RSP: 002b:00007ffec29e6038 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
-  RAX: ffffffffffffffda RBX: 00006040bc3e07b0 RCX: 000071250c031c6b
-  RDX: 000000000000000a RSI: 0000000000000800 RDI: 00006040bc3e0818
-  RBP: 00007ffec29e6088 R08: 1999999999999999 R09: 0000000000000000
-  R10: 000071250c0a6ac0 R11: 0000000000000206 R12: 00007ffec29e6250
-  R13: 00007ffec29e67b7 R14: 00006040bc3e0260 R15: 00007ffec29e6090
-  ---[ end trace 5e5421608729d6f5 ]---
+On 12-08-19 15:53, Linus Walleij wrote:
+> We need to convert all old gpio irqchips to pass the irqchip
+> setup along when adding the gpio_chip. For more info see
+> drivers/gpio/TODO.
+> 
+> For chained irqchips this is a pretty straight-forward
+> conversion.
+> 
+> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Darren Hart <dvhart@infradead.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> Andy please merge this into your platform tree when you
+> feel happy with the patch, would be great of someone
+> can test it on hardware as well.
 
-This commit hence adds an empty release function for the driver.
+So I've just tested this on a Cherry Trail machine and
+the interrupt storm, fixing which is the reason the
+intel_int0002_vgpio.c driver was introduced, is back:
 
-Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
----
- drivers/platform/x86/intel_pmc_core_pltdrv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+[root@localhost ~]# cat /proc/interrupts | grep INT0002
+    9:          0   23429420          0          0   IO-APIC    9-fasteoi   acpi, INT0002
 
-diff --git a/drivers/platform/x86/intel_pmc_core_pltdrv.c b/drivers/platform/x86/intel_pmc_core_pltdrv.c
-index a8754a6db1b8..186540014c48 100644
---- a/drivers/platform/x86/intel_pmc_core_pltdrv.c
-+++ b/drivers/platform/x86/intel_pmc_core_pltdrv.c
-@@ -18,8 +18,16 @@
- #include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- 
-+static void intel_pmc_core_release(struct device *dev)
-+{
-+	/* Nothing to do. */
-+}
-+
- static struct platform_device pmc_core_device = {
- 	.name = "intel_pmc_core",
-+	.dev  = {
-+		.release = intel_pmc_core_release,
-+	},
- };
- 
- /*
--- 
-2.21.0
+23 million interrupts and counting, normally this is 0
+at boot low 10s after a suspend/resume with wakeup by
+USB keyboard.
 
+Notice that the driver has attached itself as shared irq-handler
+to the ACPI  IRQ,  but it seems something is going wrong with the
+registration of its own IRQ and/or for some reason the ACPI
+subsys is no longer attaching the ACPI event handler for the
+child IRQ to it, here is a the same command on a working
+kernel:
+
+[root@localhost ~]# cat /proc/interrupts | grep INT0002
+    9:          0          0          0          0   IO-APIC    9-fasteoi   acpi, INT0002
+  123:          0          0          0          0  INT0002 Virtual GPIO    2  ACPI:Event
+
+Do I need any patches on top of 5.3-rc4 to test this patch?
+
+Note that it is important that the single irq on the chip is
+advertised as irq number 2 (so the third irq) because that
+is what the ACPI event code expects:
+
+         Device (GPED)
+         {
+             Name (_ADR, Zero)  // _ADR: Address
+             Name (_HID, "INT0002" /* Virtual GPIO Controller */)  // _HID: Hardw
+             Name (_CID, "INT0002" /* Virtual GPIO Controller */)  // _CID: Compa
+             Name (_DDN, "Virtual GPIO controller")  // _DDN: DOS Device Name
+             ...
+             Method (_AEI, 0, NotSerialized)  // _AEI: ACPI Event Interrupts
+             {
+                 Name (RBUF, ResourceTemplate ()
+                 {
+                     GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullDown, 0x00
+                         "\\_SB.GPED", 0x00, ResourceConsumer, ,
+                         )
+                         {   // Pin list
+                             0x0002
+                         }
+                 })
+                 Return (RBUF) /* \_SB_.GPED._AEI.RBUF */
+             }
+
+             Method (_L02, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+             {
+                 ...
+             }
+         }
+
+Anyways, this will need to be fixed before we can merge this.
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>   drivers/platform/x86/intel_int0002_vgpio.c | 29 +++++++++-------------
+>   1 file changed, 12 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
+> index d9542c661ddc..493a97ce0b08 100644
+> --- a/drivers/platform/x86/intel_int0002_vgpio.c
+> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
+> @@ -156,8 +156,8 @@ static int int0002_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+>   	const struct x86_cpu_id *cpu_id;
+> -	struct irq_chip *irq_chip;
+>   	struct gpio_chip *chip;
+> +	struct gpio_irq_chip *girq;
+>   	int irq, ret;
+>   
+>   	/* Menlow has a different INT0002 device? <sigh> */
+> @@ -186,17 +186,9 @@ static int int0002_probe(struct platform_device *pdev)
+>   	chip->ngpio = GPE0A_PME_B0_VIRT_GPIO_PIN + 1;
+>   	chip->irq.need_valid_mask = true;
+>   
+> -	ret = devm_gpiochip_add_data(&pdev->dev, chip, NULL);
+> -	if (ret) {
+> -		dev_err(dev, "Error adding gpio chip: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	bitmap_clear(chip->irq.valid_mask, 0, GPE0A_PME_B0_VIRT_GPIO_PIN);
+> -
+>   	/*
+> -	 * We manually request the irq here instead of passing a flow-handler
+> -	 * to gpiochip_set_chained_irqchip, because the irq is shared.
+> +	 * We directly request the irq here instead of passing a flow-handler
+> +	 * to the gpio irqchip, because the irq is shared.
+>   	 */
+>   	ret = devm_request_irq(dev, irq, int0002_irq,
+>   			       IRQF_SHARED, "INT0002", chip);
+> @@ -204,17 +196,20 @@ static int int0002_probe(struct platform_device *pdev)
+>   		dev_err(dev, "Error requesting IRQ %d: %d\n", irq, ret);
+>   		return ret;
+>   	}
+> +	girq = &chip->irq;
+> +	girq->chip = (struct irq_chip *)cpu_id->driver_data;
+> +	girq->parent_handler = NULL;
+> +	girq->num_parents = 0;
+> +	girq->default_type = IRQ_TYPE_NONE;
+> +	girq->handler = handle_edge_irq;
+>   
+> -	irq_chip = (struct irq_chip *)cpu_id->driver_data;
+> -
+> -	ret = gpiochip_irqchip_add(chip, irq_chip, 0, handle_edge_irq,
+> -				   IRQ_TYPE_NONE);
+> +	ret = devm_gpiochip_add_data(&pdev->dev, chip, NULL);
+>   	if (ret) {
+> -		dev_err(dev, "Error adding irqchip: %d\n", ret);
+> +		dev_err(dev, "Error adding gpio chip: %d\n", ret);
+>   		return ret;
+>   	}
+>   
+> -	gpiochip_set_chained_irqchip(chip, irq_chip, irq, NULL);
+> +	bitmap_clear(chip->irq.valid_mask, 0, GPE0A_PME_B0_VIRT_GPIO_PIN);
+>   
+>   	return 0;
+>   }
+> 
