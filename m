@@ -2,210 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A208FEC4
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 091018FED0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:22:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfHPJSZ (ORCPT
+        id S1726863AbfHPJWL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 05:18:25 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:37194 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbfHPJSZ (ORCPT
+        Fri, 16 Aug 2019 05:22:11 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45821 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726810AbfHPJWL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 05:18:25 -0400
-Received: by mail-ed1-f67.google.com with SMTP id f22so4565518edt.4
-        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Aug 2019 02:18:23 -0700 (PDT)
+        Fri, 16 Aug 2019 05:22:11 -0400
+Received: by mail-pg1-f193.google.com with SMTP id o13so2645659pgp.12;
+        Fri, 16 Aug 2019 02:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9ecN5oXMiEZjV2F0Oa58Q+yKo9ivsAVzldeQfVYkRrE=;
+        b=cihxO+YY+3C2mg/dNbgdwcsdVTxEIPgKIFyXfek5ixCTfHXiS8CSjgrWyxznHeuw+m
+         9SSd6/oaNcu8jvDfJLQ75yDKGr6Acw7iuXqkaFGWw66lm+IfE/xdSuDxPuBFp+95GWYi
+         bw4e92tDtvr0mcnnPdUIQA3p01dO9LXwnvrNpoLe3D58SnGnQfqbriUe2Qb3MqJCoyUM
+         ZYU9OUwB6c984EMFKb9udJteBBut2o02SGBxlNByZ8LbwWPLwt2OCaiW/Lmi+1r6peyL
+         WVJnGidYs3GX2VlmydtYfp+lPe0HNSZZwha57X+JdIk7dKk1VtVnjthtoiUiT/FNWyNO
+         rx0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=keUHSXeHK3AYp4ntqwFwQBvH6a3BDpAYi6yV738m7F4=;
-        b=T6Gxc1txzp9rE1OL/AI8pUX2FqW56CrfHR9jbOl1UfbAFzUw5ztHXyJZLTzO9D0cnW
-         +9YfF2kQ49kSdUvjW4G9N8jI7bfIwslxczNCkhlGWJsXCdJYMD+RntR05xN4rRfnlBRH
-         KHDJVp+rKU+hGdYX0JhLQdRwsA5Isb0zG7XlpI22CTsSyl6TUYuZQPpjLAe+hAxtniKt
-         Z/068/TEs7gkCCq5/+CxDCrgG4pQZb1giFVsL1JhEyZ80j0Ia7Mnum0lnqSOJ9ePGU78
-         JieKGE4G6lNdAHYhAj4GJWxr2LCxtBQ6YaxHLQO2si79Ynzr6xukNvEtBPUP6ZvgQV+H
-         A9zw==
-X-Gm-Message-State: APjAAAUjDrLMwSjMb4P0BoOe0JWYU43bfY873WNU+xNvvz6p50QQ5YnF
-        oh4AZR5CBtvGq0uIN89p4XhK+Q==
-X-Google-Smtp-Source: APXvYqyqzijaWvoIdssLrJyPUDkGQjkNAtITjb2S7noVuYbiRvKrd9ghsrmER/wl+ASMSvwg/nYD4g==
-X-Received: by 2002:a17:906:3e88:: with SMTP id a8mr8230484ejj.206.1565947103224;
-        Fri, 16 Aug 2019 02:18:23 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id qc9sm743549ejb.47.2019.08.16.02.18.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Aug 2019 02:18:22 -0700 (PDT)
-Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9ecN5oXMiEZjV2F0Oa58Q+yKo9ivsAVzldeQfVYkRrE=;
+        b=A4U9Ms6pFzvqNEE4/h4lcSwF7iVxtSe7YeqAkG5oEKfjK+mMHiV866YsvG3LYzJKRm
+         EC5FjQGBRD428IVyLJj+/r/kJcp/legm2hVOumyoWCaRXdI2LTdCS49Ri5Gcn6hbez6b
+         sVHMfUkokVb11L1RSACreOrsZqyg2hFzFHep9tjBFO+l6/sPTpt9AttFOOqqrXE9BTNn
+         VCGSRGZI86H5cG0Hjz3aqxsUs7hhjDsB+FQFJEJYa1vvK4JvZFJ+9FWnbLOoIbVwW+Yj
+         OlP799cKlrqEvQrVxcHmbGZdQ/tBXULAg6aiF9BLBVF/vOO9orSeiYyNzNEQpFu9yOG5
+         auNw==
+X-Gm-Message-State: APjAAAVNGGeNud1EJ8Nte9Gzaw8rPDvP+oWRWWnHQJO+jK+GJIJw9d2X
+        i7T9ULY3braRMfO/pGHYcsmZcIm2I80mGXJZxyM=
+X-Google-Smtp-Source: APXvYqznoRkaQ5GGcoSzSFwlDt1oEQZmbLYLEWCLaguzIcJK2jrm5d8J8n4mqZwdgOew9hcmBQwx+uxIqxRS/ZS1Eyw=
+X-Received: by 2002:a63:e54f:: with SMTP id z15mr6915845pgj.4.1565947330601;
+ Fri, 16 Aug 2019 02:22:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190816014140.10687-1-m.v.b@runbox.com>
+In-Reply-To: <20190816014140.10687-1-m.v.b@runbox.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 16 Aug 2019 12:21:58 +0300
+Message-ID: <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: intel_pmc_core: Do not ioremap RAM
+To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Maxim Mikityanskiy <maxtram95@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20190812135335.10104-1-linus.walleij@linaro.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com>
-Date:   Fri, 16 Aug 2019 11:18:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190812135335.10104-1-linus.walleij@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Linus,
+On Fri, Aug 16, 2019 at 4:42 AM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
+>
+> On a Xen-based PVH virtual machine with more than 4 GiB of RAM,
+> intel_pmc_core fails initialization with the following warning message
+> from the kernel, indicating that the driver is attempting to ioremap
+> RAM:
+>
+>   ------------[ cut here ]------------
+>   ioremap on RAM at 0x00000000fe000000 - 0x00000000fe001fff
 
-On 12-08-19 15:53, Linus Walleij wrote:
-> We need to convert all old gpio irqchips to pass the irqchip
-> setup along when adding the gpio_chip. For more info see
-> drivers/gpio/TODO.
-> 
-> For chained irqchips this is a pretty straight-forward
-> conversion.
-> 
-> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Darren Hart <dvhart@infradead.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> Andy please merge this into your platform tree when you
-> feel happy with the patch, would be great of someone
-> can test it on hardware as well.
+> This issue appears to manifest itself because of the following fallback
+> mechanism in the driver:
+>
+>         if (lpit_read_residency_count_address(&slp_s0_addr))
+>                 pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
+>
+> The validity of address PMC_BASE_ADDR_DEFAULT (i.e., 0xFE000000) is not
+> verified by the driver, which is what this patch introduces. With this
+> patch, if address PMC_BASE_ADDR_DEFAULT is in RAM, then the driver will
+> not attempt to ioremap the aforementioned address.
 
-So I've just tested this on a Cherry Trail machine and
-the interrupt storm, fixing which is the reason the
-intel_int0002_vgpio.c driver was introduced, is back:
+Thank you for the patch.
+Is there anything preventing us to use memremap() in such case?
 
-[root@localhost ~]# cat /proc/interrupts | grep INT0002
-    9:          0   23429420          0          0   IO-APIC    9-fasteoi   acpi, INT0002
-
-23 million interrupts and counting, normally this is 0
-at boot low 10s after a suspend/resume with wakeup by
-USB keyboard.
-
-Notice that the driver has attached itself as shared irq-handler
-to the ACPI  IRQ,  but it seems something is going wrong with the
-registration of its own IRQ and/or for some reason the ACPI
-subsys is no longer attaching the ACPI event handler for the
-child IRQ to it, here is a the same command on a working
-kernel:
-
-[root@localhost ~]# cat /proc/interrupts | grep INT0002
-    9:          0          0          0          0   IO-APIC    9-fasteoi   acpi, INT0002
-  123:          0          0          0          0  INT0002 Virtual GPIO    2  ACPI:Event
-
-Do I need any patches on top of 5.3-rc4 to test this patch?
-
-Note that it is important that the single irq on the chip is
-advertised as irq number 2 (so the third irq) because that
-is what the ACPI event code expects:
-
-         Device (GPED)
-         {
-             Name (_ADR, Zero)  // _ADR: Address
-             Name (_HID, "INT0002" /* Virtual GPIO Controller */)  // _HID: Hardw
-             Name (_CID, "INT0002" /* Virtual GPIO Controller */)  // _CID: Compa
-             Name (_DDN, "Virtual GPIO controller")  // _DDN: DOS Device Name
-             ...
-             Method (_AEI, 0, NotSerialized)  // _AEI: ACPI Event Interrupts
-             {
-                 Name (RBUF, ResourceTemplate ()
-                 {
-                     GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullDown, 0x00
-                         "\\_SB.GPED", 0x00, ResourceConsumer, ,
-                         )
-                         {   // Pin list
-                             0x0002
-                         }
-                 })
-                 Return (RBUF) /* \_SB_.GPED._AEI.RBUF */
-             }
-
-             Method (_L02, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
-             {
-                 ...
-             }
-         }
-
-Anyways, this will need to be fixed before we can merge this.
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->   drivers/platform/x86/intel_int0002_vgpio.c | 29 +++++++++-------------
->   1 file changed, 12 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
-> index d9542c661ddc..493a97ce0b08 100644
-> --- a/drivers/platform/x86/intel_int0002_vgpio.c
-> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
-> @@ -156,8 +156,8 @@ static int int0002_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
->   	const struct x86_cpu_id *cpu_id;
-> -	struct irq_chip *irq_chip;
->   	struct gpio_chip *chip;
-> +	struct gpio_irq_chip *girq;
->   	int irq, ret;
->   
->   	/* Menlow has a different INT0002 device? <sigh> */
-> @@ -186,17 +186,9 @@ static int int0002_probe(struct platform_device *pdev)
->   	chip->ngpio = GPE0A_PME_B0_VIRT_GPIO_PIN + 1;
->   	chip->irq.need_valid_mask = true;
->   
-> -	ret = devm_gpiochip_add_data(&pdev->dev, chip, NULL);
-> -	if (ret) {
-> -		dev_err(dev, "Error adding gpio chip: %d\n", ret);
-> -		return ret;
-> -	}
-> -
-> -	bitmap_clear(chip->irq.valid_mask, 0, GPE0A_PME_B0_VIRT_GPIO_PIN);
-> -
->   	/*
-> -	 * We manually request the irq here instead of passing a flow-handler
-> -	 * to gpiochip_set_chained_irqchip, because the irq is shared.
-> +	 * We directly request the irq here instead of passing a flow-handler
-> +	 * to the gpio irqchip, because the irq is shared.
->   	 */
->   	ret = devm_request_irq(dev, irq, int0002_irq,
->   			       IRQF_SHARED, "INT0002", chip);
-> @@ -204,17 +196,20 @@ static int int0002_probe(struct platform_device *pdev)
->   		dev_err(dev, "Error requesting IRQ %d: %d\n", irq, ret);
->   		return ret;
->   	}
-> +	girq = &chip->irq;
-> +	girq->chip = (struct irq_chip *)cpu_id->driver_data;
-> +	girq->parent_handler = NULL;
-> +	girq->num_parents = 0;
-> +	girq->default_type = IRQ_TYPE_NONE;
-> +	girq->handler = handle_edge_irq;
->   
-> -	irq_chip = (struct irq_chip *)cpu_id->driver_data;
-> -
-> -	ret = gpiochip_irqchip_add(chip, irq_chip, 0, handle_edge_irq,
-> -				   IRQ_TYPE_NONE);
-> +	ret = devm_gpiochip_add_data(&pdev->dev, chip, NULL);
->   	if (ret) {
-> -		dev_err(dev, "Error adding irqchip: %d\n", ret);
-> +		dev_err(dev, "Error adding gpio chip: %d\n", ret);
->   		return ret;
->   	}
->   
-> -	gpiochip_set_chained_irqchip(chip, irq_chip, irq, NULL);
-> +	bitmap_clear(chip->irq.valid_mask, 0, GPE0A_PME_B0_VIRT_GPIO_PIN);
->   
->   	return 0;
->   }
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
