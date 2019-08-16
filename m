@@ -2,263 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E88918E32D
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 15 Aug 2019 05:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C5CC8F8B3
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 04:04:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728320AbfHOD2j (ORCPT
+        id S1726427AbfHPCE6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 14 Aug 2019 23:28:39 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:34563 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728517AbfHOD2j (ORCPT
+        Thu, 15 Aug 2019 22:04:58 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:54736 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726215AbfHPCE6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 14 Aug 2019 23:28:39 -0400
-Received: by mail-qt1-f194.google.com with SMTP id q4so1089375qtp.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 14 Aug 2019 20:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vmOEMpDgogk2v51C3ySUpxP4HnLnH+1N9fw2yd31Geo=;
-        b=Uc5DxlAGkAhiI64FBhotgrW/PGj4q0hydzGXVNPiRF/iZ9PzLfwn2xD4YFSvdNYW6R
-         6DlT/hsAcbNSydEpKxQbzKwnaPrHObYWQkL9hZC8W0N67RnG2NxpgEg9WSVG/Fh9oKXI
-         JKl7dnf8cdkvcZduuWILlOEn27S5HxETYfEC6DPjMXJjDZCRs/PX3O+MWTOv9nILU0TM
-         l6WE9bwjQTP2zlQdAg20Gn171fQnqxa+W/vmh+NEE9lk0zsAFjDVi8/OPVKWvcY5tqAL
-         yEb3PrGZIYE6m+9VsBxqHZorzp5D0yEXky+Q1pSfVtpjg8LQFQsYKrwZhF9z2a1Or5AE
-         MrpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vmOEMpDgogk2v51C3ySUpxP4HnLnH+1N9fw2yd31Geo=;
-        b=QuS3xIFek+h7823YsOCuxee4LbE5Rt7MWKXLC9rDHkwHNoLi+FOjU0skMCbwLSIshO
-         FNisBEbYwj9zmBYvg2hE6gs40A58oNgEWnJWObhbcw9v/RTDUr2u+x0Be3KA5kn6+zkF
-         kkp8liueePahdy8LSZLUJGkQOAWwXEULImqCOD2Zh7D0qvJ6Z2IN2nziMIEPYC8Tx2Ic
-         6/mH+A5Szb4Ogt3Ea2PwS+zdgvTPbsS4BsnfD1HYJSt5qN/ycjTgZxsEUTpwcI7ClNTW
-         pvzBRZ+WJFeHTvAg7a4xkU32C+rnCg6R3YmEU2dX9OZ1CkSOsmxJfjXRIDBtgHJu72/f
-         33OQ==
-X-Gm-Message-State: APjAAAUQcASRgfqd8sMjw9brv8lJC6IHGwOjGKTBi1sISPFXho8hsIPf
-        LgYbFIw0NfABNzpoIKF5VcNvIZHnNiet2oO+ysdq/x0nQos=
-X-Google-Smtp-Source: APXvYqy01b67x1bxC93EBVGcil5h6XOFZXFSqy4M2mywOEVNXGC/Rlx9qoDOb2+73etAoC4247QZqiU33xU7TduYNYM=
-X-Received: by 2002:ac8:2cd6:: with SMTP id 22mr2180764qtx.80.1565839717603;
- Wed, 14 Aug 2019 20:28:37 -0700 (PDT)
+        Thu, 15 Aug 2019 22:04:58 -0400
+X-Greylist: delayed 1366 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Aug 2019 22:04:57 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+         s=rbselector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+        Subject:Cc:To:From; bh=AxXdvmRz0FyxRO1keGuliLtutszAA0YA0qYNDpQSPoY=; b=I3Gzup
+        UFicd2GJj0D2bjdKo5evVXxZUMk4G4XANlEb7T90+O+yxw6WWIGiqIQsYLb7Dvnkc6aex8FUo4Tfs
+        hteRhVV65vqXP/rvatY0xZPbb5lJ1n5FmXtGoGJbdsTg2KYJ8XU1X46dBiIlplbNcHWJBkG5OLa4K
+        MFzjOj5mtxnuTWqQejcS01hAFUxND8SziitrGb84kvxlX7Up1f+o1rl8POqXcj3tVAMg9GgJC+BJW
+        crEBMf1QTBO227/VVFHlqySgJEDq+LcBMCYwdLcro1DANNaA0uxWchjPULqwAj04XXB/wwABAf8JW
+        h/vwwd0Yn8Vrl0FHvV/kuatDNbnA==;
+Received: from [10.9.9.202] (helo=mailfront20.runbox)
+        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <m.v.b@runbox.com>)
+        id 1hyRFn-0001lQ-SF; Fri, 16 Aug 2019 03:42:07 +0200
+Received: by mailfront20.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1hyRFk-0008Lw-JM; Fri, 16 Aug 2019 03:42:05 +0200
+From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
+To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "M. Vefa Bicakci" <m.v.b@runbox.com>
+Subject: [PATCH] platform/x86: intel_pmc_core: Do not ioremap RAM
+Date:   Thu, 15 Aug 2019 21:41:39 -0400
+Message-Id: <20190816014140.10687-1-m.v.b@runbox.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190813003023.6748-1-kristian@klausen.dk>
-In-Reply-To: <20190813003023.6748-1-kristian@klausen.dk>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Thu, 15 Aug 2019 11:28:26 +0800
-Message-ID: <CAD8Lp47pSr-0VWqSBTAAJe3Ny5gW2XMXXYxmiH5-EOk42MhvHw@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/x86: asus-wmi: Support setting a maximum
- charging percentage
-To:     Kristian Klausen <kristian@klausen.dk>,
-        =?UTF-8?Q?Ognjen_Gali=C4=87?= <smclt30p@gmail.com>,
-        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 8:30 AM Kristian Klausen <kristian@klausen.dk> wrote:
->
-> Most newer ASUS laptops supports settings a maximum charging percentage,
-> which help prolonging the battery life.
->
-> Tested on a Zenbook UX430UNR.
->
-> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
-> ---
-> I can't pass the asus struct to asus_wmi_battery_{add,remove}, so I use a
-> global variable. Is there any better way to do it?
-> I think the implementation of asus_wmi_battery_{init,exit} could be
-> improved, any ideas?
+On a Xen-based PVH virtual machine with more than 4 GiB of RAM,
+intel_pmc_core fails initialization with the following warning message
+from the kernel, indicating that the driver is attempting to ioremap
+RAM:
 
-Added Ognjen and Rafael.
-Is there a better way to have the sysfs file handlers of files added
-via the battery hooking API reach back to the device that hooked in,
-in order to access it's private data?
-I see that thinkpad_acpi also uses global variables for this :(
+  ------------[ cut here ]------------
+  ioremap on RAM at 0x00000000fe000000 - 0x00000000fe001fff
+  WARNING: CPU: 1 PID: 434 at arch/x86/mm/ioremap.c:186 __ioremap_caller.constprop.0+0x2aa/0x2c0
+  Modules linked in: intel_pmc_core_pltdrv(+) xen_netfront(+) intel_pmc_core \
+    crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel \
+    intel_rapl_perf pcspkr binfmt_misc u2mfn(O) xenfs xen_gntdev \
+    xen_gntalloc xen_blkback xen_privcmd xen_evtchn ip_tables overlay \
+    xen_blkfront
+  CPU: 1 PID: 434 Comm: systemd-udevd Tainted: G           O      5.3.0-rc3-next-20190809-1 #2
+  RIP: 0010:__ioremap_caller.constprop.0+0x2aa/0x2c0
+  Code: 05 0f c9 1b 01 49 09 c6 e9 8e fe ff ff 48 8d 54 24 28 48 c7 c7 68 87 0a 82 c6 05 c4 23 2b 01 01 48 8d 74 24 18 e8 d4 4a 06 00 <0f> 0b 45 31 ff e9 fe fe ff ff e8 e7 47 06 00 0f 1f 80 00 00 00 00
+  RSP: 0018:ffffc900002dfa20 EFLAGS: 00010282
+  RAX: 0000000000000000 RBX: ffffffffc0107000 RCX: 0000000000000006
+  RDX: 0000000000000007 RSI: 0000000000000092 RDI: ffff88813bb17540
+  RBP: 00000000fe000000 R08: 000000000000015f R09: 000000000000000a
+  R10: 000000000000000a R11: ffffc900002df8da R12: 0000000000002000
+  R13: 0000000000000000 R14: 0000000000000002 R15: ffffffff822da3a0
+  FS:  000072ecce666940(0000) GS:ffff88813bb00000(0000) knlGS:0000000000000000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: 0000785be7346d20 CR3: 000000000d872001 CR4: 00000000003606e0
+  Call Trace:
+   ? pmc_core_probe+0x87/0x2d0 [intel_pmc_core]
+   pmc_core_probe+0x87/0x2d0 [intel_pmc_core]
+   platform_drv_probe+0x35/0x80
+   really_probe+0x298/0x3c0
+   driver_probe_device+0x7a/0x100
+   ? driver_allows_async_probing+0x50/0x50
+   bus_for_each_drv+0x8f/0xd0
+   __device_attach+0xf0/0x170
+   bus_probe_device+0x8e/0xa0
+   device_add+0x692/0x7e0
+   platform_device_add+0xe9/0x240
+   ? 0xffffffffc00ec000
+   do_one_initcall+0x59/0x214
+   do_init_module+0x5c/0x230
+   load_module+0x258d/0x2840
+   ? __do_sys_finit_module+0xbb/0x120
+   __do_sys_finit_module+0xbb/0x120
+   do_syscall_64+0x5f/0x1a0
+   entry_SYSCALL_64_after_hwframe+0x44/0xa9
+  RIP: 0033:0x72eccf662fad
+  Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d ab 9e 0c 00 f7 d8 64 89 01 48
+  RSP: 002b:00007ffd3710d018 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+  RAX: ffffffffffffffda RBX: 000060ab8fda2530 RCX: 000072eccf662fad
+  RDX: 0000000000000000 RSI: 000072eccf2bd84d RDI: 0000000000000017
+  RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000007
+  R10: 0000000000000017 R11: 0000000000000246 R12: 000072eccf2bd84d
+  R13: 0000000000000000 R14: 000060ab8fd9b5e0 R15: 0000000000000007
+  ---[ end trace 5e5421608729d6f4 ]---
 
-> V3:
-> Refactor to use the new battery hooking API[1] and knobs[2].
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa93854f7a7ed63d054405bf3779247d5300edd3
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=813cab8f3994250e136819ae48fbd1c95d980466
->
-> V2:
-> Add sysfs documentation.
-> Reorder ASUS_WMI_CHARGE_THRESHOLD and rename to ASUS_WMI_DEVID_RSOC.
-> Add a comment explaining the charge_threshold variable.
-> Rephrase the commit message (charge threshold -> maximum charging
-> percentage).
->
-> The sysfs knob is still called "charge_threshold", as
-> maximum_charging_percentage seems a bit long.
-> I did look on some of the other platform modules, the LG module
-> use battery_care_limit and the Samsung module use
-> battery_life_extender.
->
->  drivers/platform/x86/asus-wmi.c            | 91 ++++++++++++++++++++++
->  include/linux/platform_data/x86/asus-wmi.h |  3 +
->  2 files changed, 94 insertions(+)
->
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 34dfbed65332..06c830c1c04f 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -26,6 +26,7 @@
->  #include <linux/rfkill.h>
->  #include <linux/pci.h>
->  #include <linux/pci_hotplug.h>
-> +#include <linux/power_supply.h>
->  #include <linux/hwmon.h>
->  #include <linux/hwmon-sysfs.h>
->  #include <linux/debugfs.h>
-> @@ -36,6 +37,7 @@
->  #include <linux/acpi.h>
->  #include <linux/dmi.h>
->  #include <acpi/video.h>
-> +#include <acpi/battery.h>
->
->  #include "asus-wmi.h"
->
-> @@ -368,6 +370,92 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
->         return status == 0 && (retval & ASUS_WMI_DSTS_PRESENCE_BIT);
->  }
->
-> +/* Battery ********************************************************************/
-> +
-> +/* The battery maximum charging percentage */
-> +static int charge_end_threshold;
-> +
-> +static ssize_t charge_control_end_threshold_store(struct device *dev,
-> +                                                 struct device_attribute *attr,
-> +                                                 const char *buf, size_t count)
-> +{
-> +       int value, ret, rv;
-> +
-> +       ret = kstrtouint(buf, 10, &value);
-> +
-> +       if (!count || ret != 0)
-> +               return -EINVAL;
-> +       if (value < 0 || value > 100)
-> +               return -EINVAL;
-> +
-> +       asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, value, &rv);
-> +
-> +       if (rv != 1)
-> +               return -EIO;
-> +
-> +       /* There isn't any method in the DSDT to read the threshold, so we
-> +        * save the threshold.
-> +        */
-> +       charge_end_threshold = value;
-> +       return count;
-> +}
-> +
-> +static ssize_t charge_control_end_threshold_show(struct device *device,
-> +                                                struct device_attribute *attr,
-> +                                                char *buf)
-> +{
-> +       return sprintf(buf, "%d\n", charge_end_threshold);
-> +}
-> +
-> +static DEVICE_ATTR_RW(charge_control_end_threshold);
-> +
-> +static int asus_wmi_battery_add(struct power_supply *battery)
-> +{
-> +       /* The WMI method does not provide a way to specific a battery, so we
-> +        * just assume it is the first battery.
-> +        */
-> +       if (!strcmp(battery->desc->name, "BAT0") == 0)
-> +               return -ENODEV;
-> +
-> +       if (device_create_file(&battery->dev,
-> +           &dev_attr_charge_control_end_threshold))
-> +               return -ENODEV;
-> +
-> +       /* The charge threshold is only reset when the system is power cycled,
-> +        * and we can't get the current threshold so let set it to 100% when
-> +        * a battery is added.
-> +        */
-> +       asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, 100, NULL);
-> +       charge_end_threshold = 100;
-> +
-> +       return 0;
-> +}
-> +
-> +static int asus_wmi_battery_remove(struct power_supply *battery)
-> +{
-> +       device_remove_file(&battery->dev,
-> +                          &dev_attr_charge_control_end_threshold);
-> +       return 0;
-> +}
-> +
-> +static struct acpi_battery_hook battery_hook = {
-> +       .add_battery = asus_wmi_battery_add,
-> +       .remove_battery = asus_wmi_battery_remove,
-> +       .name = "ASUS Battery Extension",
-> +};
-> +
-> +static void asus_wmi_battery_init(struct asus_wmi *asus)
-> +{
-> +       if (asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_RSOC) >= 0)
-> +               battery_hook_register(&battery_hook);
-> +}
+This issue appears to manifest itself because of the following fallback
+mechanism in the driver:
 
-asus_wmi_get_devstate_simple() checks ASUS_WMI_DSTS_STATUS_BIT and
-ASUS_WMI_DSTS_UNKNOWN_BIT for this device. However the spec makes no
-mentions of those bits being valid in this case.
-Your code probably works anyway but I think it would be better to use
-asus_wmi_dev_is_present() instead.
+	if (lpit_read_residency_count_address(&slp_s0_addr))
+		pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
 
-> +static void asus_wmi_battery_exit(struct asus_wmi *asus)
-> +{
-> +       if (asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_RSOC) >= 0)
-> +               battery_hook_unregister(&battery_hook);
-> +}
+The validity of address PMC_BASE_ADDR_DEFAULT (i.e., 0xFE000000) is not
+verified by the driver, which is what this patch introduces. With this
+patch, if address PMC_BASE_ADDR_DEFAULT is in RAM, then the driver will
+not attempt to ioremap the aforementioned address.
 
-The unregister here should probably happen on the condition that we
-previously registered the hook.
-Don't rely on the devstate bits, since they might have changed
-unpredictably (who knows), there might be a problem communicating with
-the hardware, etc.
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+---
+ drivers/platform/x86/intel_pmc_core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
->  /* LEDs ***********************************************************************/
->
->  /*
-> @@ -2433,6 +2521,8 @@ static int asus_wmi_add(struct platform_device *pdev)
->                 goto fail_wmi_handler;
->         }
->
-> +       asus_wmi_battery_init(asus);
-> +
->         asus_wmi_debugfs_init(asus);
->
->         return 0;
-> @@ -2468,6 +2558,7 @@ static int asus_wmi_remove(struct platform_device *device)
->         asus_wmi_debugfs_exit(asus);
->         asus_wmi_sysfs_exit(asus->platform_device);
->         asus_fan_set_auto(asus);
-> +       asus_wmi_battery_exit(asus);
->
->         kfree(asus);
->         return 0;
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index 409e16064f4b..60249e22e844 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -81,6 +81,9 @@
->  /* Deep S3 / Resume on LID open */
->  #define ASUS_WMI_DEVID_LID_RESUME      0x00120031
->
-> +/* Maximum charging percentage */
-> +#define ASUS_WMI_DEVID_RSOC            0x00120057
-> +
->  /* DSTS masks */
->  #define ASUS_WMI_DSTS_STATUS_BIT       0x00000001
->  #define ASUS_WMI_DSTS_UNKNOWN_BIT      0x00000002
-> --
-> 2.22.0
->
+diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+index c510d0d72475..3b6b8dcc4767 100644
+--- a/drivers/platform/x86/intel_pmc_core.c
++++ b/drivers/platform/x86/intel_pmc_core.c
+@@ -878,10 +878,14 @@ static int pmc_core_probe(struct platform_device *pdev)
+ 	if (pmcdev->map == &spt_reg_map && !pci_dev_present(pmc_pci_ids))
+ 		pmcdev->map = &cnp_reg_map;
+ 
+-	if (lpit_read_residency_count_address(&slp_s0_addr))
++	if (lpit_read_residency_count_address(&slp_s0_addr)) {
+ 		pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
+-	else
++
++		if (page_is_ram(PHYS_PFN(pmcdev->base_addr)))
++			return -ENODEV;
++	} else {
+ 		pmcdev->base_addr = slp_s0_addr - pmcdev->map->slp_s0_offset;
++	}
+ 
+ 	pmcdev->regbase = ioremap(pmcdev->base_addr,
+ 				  pmcdev->map->regmap_length);
+-- 
+2.21.0
+
