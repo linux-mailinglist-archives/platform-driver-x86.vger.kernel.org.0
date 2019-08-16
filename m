@@ -2,89 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 091018FED0
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BFCE8FF8A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726863AbfHPJWL (ORCPT
+        id S1726985AbfHPJ7u (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 05:22:11 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45821 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfHPJWL (ORCPT
+        Fri, 16 Aug 2019 05:59:50 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40182 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726952AbfHPJ7u (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 05:22:11 -0400
-Received: by mail-pg1-f193.google.com with SMTP id o13so2645659pgp.12;
-        Fri, 16 Aug 2019 02:22:11 -0700 (PDT)
+        Fri, 16 Aug 2019 05:59:50 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w10so2704309pgj.7;
+        Fri, 16 Aug 2019 02:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9ecN5oXMiEZjV2F0Oa58Q+yKo9ivsAVzldeQfVYkRrE=;
-        b=cihxO+YY+3C2mg/dNbgdwcsdVTxEIPgKIFyXfek5ixCTfHXiS8CSjgrWyxznHeuw+m
-         9SSd6/oaNcu8jvDfJLQ75yDKGr6Acw7iuXqkaFGWw66lm+IfE/xdSuDxPuBFp+95GWYi
-         bw4e92tDtvr0mcnnPdUIQA3p01dO9LXwnvrNpoLe3D58SnGnQfqbriUe2Qb3MqJCoyUM
-         ZYU9OUwB6c984EMFKb9udJteBBut2o02SGBxlNByZ8LbwWPLwt2OCaiW/Lmi+1r6peyL
-         WVJnGidYs3GX2VlmydtYfp+lPe0HNSZZwha57X+JdIk7dKk1VtVnjthtoiUiT/FNWyNO
-         rx0w==
+        bh=3RJ868aXiPHULJtcDv/VZQGfR90IvOiVqFEipy9b2xc=;
+        b=L40do2f9ImqUPtdVc6pnbgQHQgzZrgWZ39+TvoGzv0EqJVMK0KxOpZbXEyB1z6jRdg
+         G4bc2BHnntvBcfkAOhs4IFErqYoXcWa/s4gWqhzhlNu5HNHnV4G7C9ceLqDMKXrnk5uS
+         oExTx9VtLHUelOjCBTvIIlIDl33t2HvZxl0T0H9iw0sMS8uaiG3IhJ+lZcp/IjytAdrT
+         DoRT7mh+rHgaMmYT32eRgYKzMMQvluW6uoNj5N4C8Y9A6vfVFRK5iFEfzmJMqsg04jB+
+         7uPHbM6uZ6+UXezRqP/GUJIQqF3iRdHIht8sGcSlv2QUhCyjNCUN8BjdHNYoKZNXQJaS
+         Jjww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9ecN5oXMiEZjV2F0Oa58Q+yKo9ivsAVzldeQfVYkRrE=;
-        b=A4U9Ms6pFzvqNEE4/h4lcSwF7iVxtSe7YeqAkG5oEKfjK+mMHiV866YsvG3LYzJKRm
-         EC5FjQGBRD428IVyLJj+/r/kJcp/legm2hVOumyoWCaRXdI2LTdCS49Ri5Gcn6hbez6b
-         sVHMfUkokVb11L1RSACreOrsZqyg2hFzFHep9tjBFO+l6/sPTpt9AttFOOqqrXE9BTNn
-         VCGSRGZI86H5cG0Hjz3aqxsUs7hhjDsB+FQFJEJYa1vvK4JvZFJ+9FWnbLOoIbVwW+Yj
-         OlP799cKlrqEvQrVxcHmbGZdQ/tBXULAg6aiF9BLBVF/vOO9orSeiYyNzNEQpFu9yOG5
-         auNw==
-X-Gm-Message-State: APjAAAVNGGeNud1EJ8Nte9Gzaw8rPDvP+oWRWWnHQJO+jK+GJIJw9d2X
-        i7T9ULY3braRMfO/pGHYcsmZcIm2I80mGXJZxyM=
-X-Google-Smtp-Source: APXvYqznoRkaQ5GGcoSzSFwlDt1oEQZmbLYLEWCLaguzIcJK2jrm5d8J8n4mqZwdgOew9hcmBQwx+uxIqxRS/ZS1Eyw=
-X-Received: by 2002:a63:e54f:: with SMTP id z15mr6915845pgj.4.1565947330601;
- Fri, 16 Aug 2019 02:22:10 -0700 (PDT)
+        bh=3RJ868aXiPHULJtcDv/VZQGfR90IvOiVqFEipy9b2xc=;
+        b=Ah0+65WB5SqQr7SZw+bRKqZUIYudAVor1F7pzdohhwEoe+Zqb005UH5D3NgbuMHMqx
+         IsnCFrVjNZylHhPMVz6WOT5iyhqKJNVrUTYSHu2lz+/ik6r2hXnGvXhtST9f79IB3mZx
+         flv6o1a4YccJKPpGHOmwzgd6oWxRWdNKY+TxnJjdyONWNHMOyg7qngl536h3aRC9ZJz/
+         hSiBHB+l3RYgx1IE1cWXCG8Onl+GZGuuUjXgdKb4XDAgWh+wHEZY5e+Lcl4HqnnDCoTJ
+         SzWQuXavVR8HigyLjnN9LaNOUa/zf49CWu3wPXo35vLvBTti4bM3HyVJ+yBK5Y0jC/Kh
+         hoDg==
+X-Gm-Message-State: APjAAAX77NbPTekWKln66+3M+CygDE+ejMa+1FMWfs9sGzNmJikPl01T
+        lwC2JDwuULkxCcxnpJlTTiwMlUYILawngRZup78=
+X-Google-Smtp-Source: APXvYqz/jejcp/XKd4st6yncAqLqt1NZT2rPWWBrnrERF2jUHt6XO6g6ViKqt+2EuXU0IW4/S8+3fzV40UVPsV+nEps=
+X-Received: by 2002:a63:6eca:: with SMTP id j193mr6914701pgc.74.1565949589768;
+ Fri, 16 Aug 2019 02:59:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190816014140.10687-1-m.v.b@runbox.com>
-In-Reply-To: <20190816014140.10687-1-m.v.b@runbox.com>
+References: <20190804134023.3495-1-hdegoede@redhat.com>
+In-Reply-To: <20190804134023.3495-1-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 16 Aug 2019 12:21:58 +0300
-Message-ID: <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: intel_pmc_core: Do not ioremap RAM
-To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+Date:   Fri, 16 Aug 2019 12:59:38 +0300
+Message-ID: <CAHp75VcmBdO8Wr95-p7xOfdhG4KwfSyCwQOUQnrThLhw_h7Yjw@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the Irbis
+ TW90 tablet
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
+        "russianneuromancer @ ya . ru" <russianneuromancer@ya.ru>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 4:42 AM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
+On Sun, Aug 4, 2019 at 4:40 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> On a Xen-based PVH virtual machine with more than 4 GiB of RAM,
-> intel_pmc_core fails initialization with the following warning message
-> from the kernel, indicating that the driver is attempting to ioremap
-> RAM:
+> Add touchscreen info for the Irbis TW90 tablet.
 >
->   ------------[ cut here ]------------
->   ioremap on RAM at 0x00000000fe000000 - 0x00000000fe001fff
 
-> This issue appears to manifest itself because of the following fallback
-> mechanism in the driver:
->
->         if (lpit_read_residency_count_address(&slp_s0_addr))
->                 pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
->
-> The validity of address PMC_BASE_ADDR_DEFAULT (i.e., 0xFE000000) is not
-> verified by the driver, which is what this patch introduces. With this
-> patch, if address PMC_BASE_ADDR_DEFAULT is in RAM, then the driver will
-> not attempt to ioremap the aforementioned address.
+Pushed to my review and testing queue, thanks!
 
-Thank you for the patch.
-Is there anything preventing us to use memremap() in such case?
+> Reported-by: russianneuromancer@ya.ru
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index 83dd6df674e8..20a943f519dd 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -273,6 +273,24 @@ static const struct ts_dmi_data gp_electronic_t701_data = {
+>         .properties     = gp_electronic_t701_props,
+>  };
+>
+> +static const struct property_entry irbis_tw90_props[] = {
+> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1720),
+> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1138),
+> +       PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
+> +       PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
+> +       PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
+> +       PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
+> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl3680-irbis_tw90.fw"),
+> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +       { }
+> +};
+> +
+> +static const struct ts_dmi_data irbis_tw90_data = {
+> +       .acpi_name      = "MSSL1680:00",
+> +       .properties     = irbis_tw90_props,
+> +};
+> +
+>  static const struct property_entry itworks_tw891_props[] = {
+>         PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
+>         PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
+> @@ -780,6 +798,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+>                         DMI_MATCH(DMI_BIOS_VERSION, "itWORKS.G.WI71C.JGBMRB"),
+>                 },
+>         },
+> +       {
+> +               /* Irbis TW90 */
+> +               .driver_data = (void *)&irbis_tw90_data,
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "IRBIS"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "TW90"),
+> +               },
+> +       },
+>         {
+>                 /* I.T.Works TW891 */
+>                 .driver_data = (void *)&itworks_tw891_data,
+> --
+> 2.22.0
+>
+
 
 -- 
 With Best Regards,
