@@ -2,82 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 700588FFB7
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 12:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A5A90143
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 14:21:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfHPKH2 (ORCPT
+        id S1727118AbfHPMVB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 06:07:28 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:42893 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbfHPKH2 (ORCPT
+        Fri, 16 Aug 2019 08:21:01 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:48154 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727007AbfHPMVB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 06:07:28 -0400
-Received: by mail-pg1-f194.google.com with SMTP id p3so2710713pgb.9;
-        Fri, 16 Aug 2019 03:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=04KU+vp+TtW5D7u8h60nYy+7caTX8b0wR5hO9DSGzTI=;
-        b=YzQrFS+fytlAc0uVbBRv6JyaaRVNx6PvPNxKq8G5YWXyr1d8THyZhsxnb38URklet3
-         EcEM/xXymuDDSzDDYUT5xp2wSVkoF+gLZnuCI6htSW+PU2PpvLUKdocV7i47hSRdY7AT
-         2rzfO3o4N1URBNsC651go8G5Ocmyt9IgOoOFNlRXzBPc9nOH24jRS5IB5iVqi2N3CNd7
-         3FC/dx57PWYgVibloijd3J8rfAInrur+1YRjQy/5O0Aylr+ZD9eA3sl/aRPb2BuLW1vf
-         /NC4hgdtRuS+KTJAXxvDCh5tTSLu3Sqa4yBRek+ENer8m9rThCRP3f64+27SuxQJNa7B
-         SUWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=04KU+vp+TtW5D7u8h60nYy+7caTX8b0wR5hO9DSGzTI=;
-        b=X9tPx0RmsoRfmukY7ALGV17pJtA2M+6dkS6/3AHIGARl1RAEOapYHYK/Mz2tLZMerr
-         kH/kTDSm0ZMozfBOvSunR5w5/h3jjKHRbrv9IjLMKKE+sl6MmTJOpYZQVc0nWyYamiYf
-         tjqWERo6UQv/okf/CjF1Kwvi1MlNuXU+ady1gS+9fNGGZn/cC0I0oh4a45OWg4v7Iupq
-         BhOrIf9SCyEb0J6qEqvNVS0lbxHV+IM1L8tiK9mq/YQBAbXuJ7sZBE17iBTJAzziRGI1
-         UlNVwwMZsW1gZ+0/gn3dn2vdBmAJuQTE2SaExxShYLH9/2jf1enM3ewGcwC8aH13H28T
-         +eaw==
-X-Gm-Message-State: APjAAAWRqBb6XGY/dJ9qiJmL2N2b338xB1LOH2dW0LI7LqFHfM3+UGxt
-        ahYMUXrYLj57YjwdTqmLtTBkkuJuu60dEdueHJ0c9Ukk
-X-Google-Smtp-Source: APXvYqyHmk3MHs6a1rAxuf4xFb+k4ka2Yb+ud2qaN+6lrqc3xtXVgPLNOG2s+KniIgXOEThUO72RMCYMWnezbHPG6vQ=
-X-Received: by 2002:aa7:9713:: with SMTP id a19mr10002122pfg.64.1565950047819;
- Fri, 16 Aug 2019 03:07:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <1564081563-28322-1-git-send-email-info@metux.net>
- <CAHp75Vem8QZVGx6x0p3JgxA6kH3pG+1_zU=cgiDUDSC5p2ODDQ@mail.gmail.com> <0b2802f8-5732-52e9-0a95-b28d23239ecd@metux.net>
-In-Reply-To: <0b2802f8-5732-52e9-0a95-b28d23239ecd@metux.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 16 Aug 2019 13:07:16 +0300
-Message-ID: <CAHp75Ve2A+PhPYF7oN3LbWn5hb5gXO-6ox4tkDXMwAYJHS0=Kg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86/pcengines-apuv2: use KEY_RESTART for
- front button
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Fri, 16 Aug 2019 08:21:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+         s=rbselector1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+        References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
+        bh=BSu8IvWvvbvmrGb/CgKULzr7aYTiI6QZczZ8env2h1U=; b=QTkZSQVcELXjXkSq0+dXq4vNKe
+        Z9vQKAfK2tbEDiTWhDalupw7jgMTtZmSyU9iybb4gDQwyMmo3k241qjQRMhE/YHSa+X9bA/VMko6u
+        v1iq/lNAoo46FpYHfgsIEdMJNotE1UrKoL6t/cNKX/bg8GiR+ewcS368/HTNVaizneAQbOqiG4yrW
+        bliM1f5ue0C2u1RsiULBfmv8DxqLqrWNV9tEeKMAgRXqrCWTNyBTBxgX++33laohz3HriBgu4PeIF
+        9t8pO8P2Z0xMzUo/q7Hb0xECtxJIjTFhgvEzbMJaHvcyBoVOsdiidPZBabCLzF2K9bNCTWFtVzngS
+        Si5UYQkw==;
+Received: from [10.9.9.203] (helo=mailfront21.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <m.v.b@runbox.com>)
+        id 1hybE0-0003Sd-R7; Fri, 16 Aug 2019 14:20:56 +0200
+Received: by mailfront21.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1hybDn-0002aC-4s; Fri, 16 Aug 2019 14:20:43 +0200
+Date:   Fri, 16 Aug 2019 08:20:36 -0400
+From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy@infradead.org>
+Subject: Re: [PATCH] platform/x86: intel_pmc_core: Do not ioremap RAM
+Message-ID: <20190816082036.7b60c9f5@runbox.com>
+In-Reply-To: <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
+References: <20190816014140.10687-1-m.v.b@runbox.com>
+ <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Aug 5, 2019 at 3:06 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
-> On 01.08.19 17:00, Andy Shevchenko wrote:
-> > On Thu, Jul 25, 2019 at 10:06 PM Enrico Weigelt, metux IT consult
-> > <info@metux.net> wrote:
-> >> From: Enrico Weigelt <info@metux.net>
+On Fri, 16 Aug 2019 12:21:58 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-> >> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe ("x86: pcengines apuv2 gpio/leds/keys platform driver")
+> On Fri, Aug 16, 2019 at 4:42 AM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
 > >
-> > Please, use allowed minimum (12 nowadays) characters of hash.
->
-> hmm, do you happen to know how to configure tig to show the short hash ?
+> > On a Xen-based PVH virtual machine with more than 4 GiB of RAM,
+> > intel_pmc_core fails initialization with the following warning message
+> > from the kernel, indicating that the driver is attempting to ioremap
+> > RAM:
+> >
+> >   ------------[ cut here ]------------
+> >   ioremap on RAM at 0x00000000fe000000 - 0x00000000fe001fff  
+> 
+> > This issue appears to manifest itself because of the following fallback
+> > mechanism in the driver:
+> >
+> >         if (lpit_read_residency_count_address(&slp_s0_addr))
+> >                 pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
+> >
+> > The validity of address PMC_BASE_ADDR_DEFAULT (i.e., 0xFE000000) is not
+> > verified by the driver, which is what this patch introduces. With this
+> > patch, if address PMC_BASE_ADDR_DEFAULT is in RAM, then the driver will
+> > not attempt to ioremap the aforementioned address.  
+> 
+> Thank you for the patch.
 
-I have configured '--oneline' to show 12.
+Hello Andy,
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thank you for reviewing the patch!
+
+> Is there anything preventing us to use memremap() in such case?
+
+I re-read the documentation for memremap a few times along with taking
+a look at its code, but I think I am missing an important piece of
+information. As I understand it, depending on its flags, memremap would
+allow a section of RAM to be mapped for the PMC driver.
+
+The intention with this patch is to prevent the driver from being
+instantiated when the default/fallback memory address is in RAM, as
+this issue occurs with a non-administrative virtual machine (domU in
+Xen terminology) that does not simulate or pass-through a corresponding
+PMC device.
+
+I think that I have misunderstood your review comment though, so I
+would apppreciate it if you could elaborate.
+
+Thanks again for reviewing the patch,
+
+Vefa
+
+(Please note that my next reply may be delayed by about 10 hours.)
