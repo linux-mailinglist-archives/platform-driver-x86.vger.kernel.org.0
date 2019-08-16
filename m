@@ -2,123 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFCE8FF8A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 11:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C5B8FF96
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 12:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfHPJ7u (ORCPT
+        id S1727035AbfHPKA2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 05:59:50 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40182 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbfHPJ7u (ORCPT
+        Fri, 16 Aug 2019 06:00:28 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42428 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726981AbfHPKA2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 05:59:50 -0400
-Received: by mail-pg1-f196.google.com with SMTP id w10so2704309pgj.7;
-        Fri, 16 Aug 2019 02:59:50 -0700 (PDT)
+        Fri, 16 Aug 2019 06:00:28 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y1so2250784plp.9
+        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Aug 2019 03:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3RJ868aXiPHULJtcDv/VZQGfR90IvOiVqFEipy9b2xc=;
-        b=L40do2f9ImqUPtdVc6pnbgQHQgzZrgWZ39+TvoGzv0EqJVMK0KxOpZbXEyB1z6jRdg
-         G4bc2BHnntvBcfkAOhs4IFErqYoXcWa/s4gWqhzhlNu5HNHnV4G7C9ceLqDMKXrnk5uS
-         oExTx9VtLHUelOjCBTvIIlIDl33t2HvZxl0T0H9iw0sMS8uaiG3IhJ+lZcp/IjytAdrT
-         DoRT7mh+rHgaMmYT32eRgYKzMMQvluW6uoNj5N4C8Y9A6vfVFRK5iFEfzmJMqsg04jB+
-         7uPHbM6uZ6+UXezRqP/GUJIQqF3iRdHIht8sGcSlv2QUhCyjNCUN8BjdHNYoKZNXQJaS
-         Jjww==
+        bh=KyIeIrOcGD0b4Fk4I3OXA3l6qQOR1N65XYe481MO3+A=;
+        b=KrZhBfHcrYYGGYKsE4ohFYCoegTThDe7DhMFEWjSGFcjkoyqkY3auj4YTT1XoLyCRx
+         wHHRvmir46c0Xa+IotRwG5OWn+psXnzTWkVyOOf01kO+O5lQ0Tk6kTkcVV+XN0x4zyim
+         yLG5t2n1qrvwkGy/lQGU5rFq6dZq3+tSPmM0uv2nVfrDl1d98HKR6ejWuE2u20Zuf2kL
+         SWiYGh+rVYCY+mbwQD9XRwLN9nTBmM/rqxg0D/3c2fRsjByX8JcX7xRgmCeg496xa2qQ
+         /n0IkSG8cgHBRdRwryGUdIclq6j0ZVkaPNDCRCW5fOCaUmvsoSScf+M0Gkxsop8njmWl
+         f5Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3RJ868aXiPHULJtcDv/VZQGfR90IvOiVqFEipy9b2xc=;
-        b=Ah0+65WB5SqQr7SZw+bRKqZUIYudAVor1F7pzdohhwEoe+Zqb005UH5D3NgbuMHMqx
-         IsnCFrVjNZylHhPMVz6WOT5iyhqKJNVrUTYSHu2lz+/ik6r2hXnGvXhtST9f79IB3mZx
-         flv6o1a4YccJKPpGHOmwzgd6oWxRWdNKY+TxnJjdyONWNHMOyg7qngl536h3aRC9ZJz/
-         hSiBHB+l3RYgx1IE1cWXCG8Onl+GZGuuUjXgdKb4XDAgWh+wHEZY5e+Lcl4HqnnDCoTJ
-         SzWQuXavVR8HigyLjnN9LaNOUa/zf49CWu3wPXo35vLvBTti4bM3HyVJ+yBK5Y0jC/Kh
-         hoDg==
-X-Gm-Message-State: APjAAAX77NbPTekWKln66+3M+CygDE+ejMa+1FMWfs9sGzNmJikPl01T
-        lwC2JDwuULkxCcxnpJlTTiwMlUYILawngRZup78=
-X-Google-Smtp-Source: APXvYqz/jejcp/XKd4st6yncAqLqt1NZT2rPWWBrnrERF2jUHt6XO6g6ViKqt+2EuXU0IW4/S8+3fzV40UVPsV+nEps=
-X-Received: by 2002:a63:6eca:: with SMTP id j193mr6914701pgc.74.1565949589768;
- Fri, 16 Aug 2019 02:59:49 -0700 (PDT)
+        bh=KyIeIrOcGD0b4Fk4I3OXA3l6qQOR1N65XYe481MO3+A=;
+        b=KBQMSZoaWPbAfZnZIUC7C5pm79WFOOwGKTx88bXOYNkc+RVPxRvtAkug1ZiCYC6T7I
+         1RG9K/c1rZbH4WC4m1lMuOm6Yw4NLh0IJHynf0FwY0M8ryjz92QHzWy0r6bEsPIROlTV
+         KRylHywrNbl5mwSLjL1HftsLGccAozpN9DgNs3A78Owdl6fW40BFIST/W1Kv+D2CMsgd
+         kRqvKLJEZ12dIgTTIOXsJF2cjSHm/aYOfrqPTwn3CDVBWbgL+SQTfXEITy1DlDUHZlF3
+         0k5slhr3MtpsErbXTHTxTyvCBm8OQ5r9I5d47v+wklCyhzPEJrFfCgA/f1s5fdiE95Lb
+         4XZQ==
+X-Gm-Message-State: APjAAAUQYipnKcrbbhuFyaOXXbs5N5yLaO8KC19fEuHxDzjnP7ZhTx/m
+        Dh7/nW9SFtQI9MfhUors8mMm9obG2NAn/L1e4JuI3qP+QIs=
+X-Google-Smtp-Source: APXvYqwolEtcJ151r6CkNVr/+rXHI1GUnh1Wj2kPG887NwI4OIujiVEq2K2hoYokUl3DMs18Gd9g6Tl0SoA21zIW0Uo=
+X-Received: by 2002:a17:902:9348:: with SMTP id g8mr8657962plp.18.1565949627904;
+ Fri, 16 Aug 2019 03:00:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190804134023.3495-1-hdegoede@redhat.com>
-In-Reply-To: <20190804134023.3495-1-hdegoede@redhat.com>
+References: <20190804152142.7956-1-kristian@klausen.dk>
+In-Reply-To: <20190804152142.7956-1-kristian@klausen.dk>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 16 Aug 2019 12:59:38 +0300
-Message-ID: <CAHp75VcmBdO8Wr95-p7xOfdhG4KwfSyCwQOUQnrThLhw_h7Yjw@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the Irbis
- TW90 tablet
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "russianneuromancer @ ya . ru" <russianneuromancer@ya.ru>
+Date:   Fri, 16 Aug 2019 13:00:16 +0300
+Message-ID: <CAHp75VeQsk541RJZbbvjLT5YL+cmVqQ9UmxGu5OchPv2TsMG7g@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-nb-wmi: Support ALS on the Zenbook UX430UNR
+To:     Kristian Klausen <kristian@klausen.dk>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Aug 4, 2019 at 4:40 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Sun, Aug 4, 2019 at 6:32 PM Kristian Klausen <kristian@klausen.dk> wrote:
 >
-> Add touchscreen info for the Irbis TW90 tablet.
+> This patch adds support for ALS on the Zenbook UX430UNR to the asus_nb_wmi
+> driver.
 >
 
 Pushed to my review and testing queue, thanks!
 
-> Reported-by: russianneuromancer@ya.ru
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
 > ---
->  drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+> There is a few other laptops in the UX430 series (UX430UA, UX430UN,
+> UX430UAR), which probably need the same fix.
+> Would it be better to match against UX430?
+
+Let's see when we need to add next one.
+
 >
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 83dd6df674e8..20a943f519dd 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -273,6 +273,24 @@ static const struct ts_dmi_data gp_electronic_t701_data = {
->         .properties     = gp_electronic_t701_props,
->  };
+>  drivers/platform/x86/asus-nb-wmi.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> +static const struct property_entry irbis_tw90_props[] = {
-> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1720),
-> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1138),
-> +       PROPERTY_ENTRY_U32("touchscreen-min-x", 8),
-> +       PROPERTY_ENTRY_U32("touchscreen-min-y", 14),
-> +       PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-> +       PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
-> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl3680-irbis_tw90.fw"),
-> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +       { }
-> +};
-> +
-> +static const struct ts_dmi_data irbis_tw90_data = {
-> +       .acpi_name      = "MSSL1680:00",
-> +       .properties     = irbis_tw90_props,
-> +};
-> +
->  static const struct property_entry itworks_tw891_props[] = {
->         PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
->         PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
-> @@ -780,6 +798,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
->                         DMI_MATCH(DMI_BIOS_VERSION, "itWORKS.G.WI71C.JGBMRB"),
+> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+> index 2ebde0174937..b361c73636a4 100644
+> --- a/drivers/platform/x86/asus-nb-wmi.c
+> +++ b/drivers/platform/x86/asus-nb-wmi.c
+> @@ -402,6 +402,15 @@ static const struct dmi_system_id asus_quirks[] = {
 >                 },
+>                 .driver_data = &quirk_asus_forceals,
 >         },
 > +       {
-> +               /* Irbis TW90 */
-> +               .driver_data = (void *)&irbis_tw90_data,
+> +               .callback = dmi_matched,
+> +               .ident = "ASUSTeK COMPUTER INC. UX430UNR",
 > +               .matches = {
-> +                       DMI_MATCH(DMI_SYS_VENDOR, "IRBIS"),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "TW90"),
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "UX430UNR"),
 > +               },
+> +               .driver_data = &quirk_asus_forceals,
 > +       },
->         {
->                 /* I.T.Works TW891 */
->                 .driver_data = (void *)&itworks_tw891_data,
+>         {},
+>  };
+>
 > --
 > 2.22.0
 >
