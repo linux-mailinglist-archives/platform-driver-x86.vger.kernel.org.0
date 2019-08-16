@@ -2,103 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A5A90143
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 14:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 873EE90694
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 19:16:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbfHPMVB (ORCPT
+        id S1726884AbfHPRQ1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 08:21:01 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:48154 "EHLO aibo.runbox.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727007AbfHPMVB (ORCPT
+        Fri, 16 Aug 2019 13:16:27 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39935 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726822AbfHPRQ0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 08:21:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-         s=rbselector1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-        References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
-        bh=BSu8IvWvvbvmrGb/CgKULzr7aYTiI6QZczZ8env2h1U=; b=QTkZSQVcELXjXkSq0+dXq4vNKe
-        Z9vQKAfK2tbEDiTWhDalupw7jgMTtZmSyU9iybb4gDQwyMmo3k241qjQRMhE/YHSa+X9bA/VMko6u
-        v1iq/lNAoo46FpYHfgsIEdMJNotE1UrKoL6t/cNKX/bg8GiR+ewcS368/HTNVaizneAQbOqiG4yrW
-        bliM1f5ue0C2u1RsiULBfmv8DxqLqrWNV9tEeKMAgRXqrCWTNyBTBxgX++33laohz3HriBgu4PeIF
-        9t8pO8P2Z0xMzUo/q7Hb0xECtxJIjTFhgvEzbMJaHvcyBoVOsdiidPZBabCLzF2K9bNCTWFtVzngS
-        Si5UYQkw==;
-Received: from [10.9.9.203] (helo=mailfront21.runbox)
-        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <m.v.b@runbox.com>)
-        id 1hybE0-0003Sd-R7; Fri, 16 Aug 2019 14:20:56 +0200
-Received: by mailfront21.runbox with esmtpsa  [Authenticated alias (536975)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1hybDn-0002aC-4s; Fri, 16 Aug 2019 14:20:43 +0200
-Date:   Fri, 16 Aug 2019 08:20:36 -0400
-From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Subject: Re: [PATCH] platform/x86: intel_pmc_core: Do not ioremap RAM
-Message-ID: <20190816082036.7b60c9f5@runbox.com>
-In-Reply-To: <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
-References: <20190816014140.10687-1-m.v.b@runbox.com>
- <CAHp75Vc1BP9UXBWW1tv7T8v8vgqxZWngD+tN9=ZKkgc1imUVxQ@mail.gmail.com>
+        Fri, 16 Aug 2019 13:16:26 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x4so5952186ljj.6
+        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Aug 2019 10:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WmMRzoPxWhx9psOoMw9OEqT2sP4VXEVDL9ycaUr7aFE=;
+        b=Dv7/zbP/VFWxOHFXucTD6VUb+3RFRqqDoo6GnsZgicv+I4r2fnkbNIH3Gyj2WeiFDO
+         WbMBl4x8Qp9Cp4S68jkWQWR4No4cF8g1kVvK1rVO09gmuW9fmAYljIm9Um8DTw17RKhQ
+         A1NNPuV4OJyxvdUaj+bUIHJEbxi166R/S3P+0U1HwtsqqxbAXZKrw2a7jE0xEN6n7zKY
+         7+0NlbeCSh/GNWpq5p9cgkqHZMw/5bp2NwFTqaAJ2rNh97ud6EE9Unj93N+vmcQydjpz
+         vF40tmYEbZ9WUW5PIQGCIeSNYD1aKzyheK6SW5dAT5ryJ17fEDqxnsH54M3pASBLIjnd
+         Hecw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WmMRzoPxWhx9psOoMw9OEqT2sP4VXEVDL9ycaUr7aFE=;
+        b=IA8CszCjNAjGfmro3AHvViuLFuLXmTZiDLNPXzvIg2qEvQoIKOtrSN1NqP/9a5SZVw
+         N3m+B9RHVfZIdd5Ao4OzP1MGhoxw+kq+ihBeQuLZTWzAWCybi4MhTyTxDRt+We/K/yPJ
+         j1tWkx8oZS8972Rsz2vPC3Z2nkU0BYIa/ihKX++owPPOem6290sYuwzKmDdwSQ2ZXAvY
+         WC4KKFw0SQWQALCshxnCXjZEf9jFnO8axgQuiBdXE0AjwA8YA7lmdUqao9867vpGp7PM
+         1p2b9tu0QM3kHexrUMWvfBy0aZg5dTbvy8dr3APm/ZNeOIHrRZknpQ08TGQe0fM3M5+u
+         Chkw==
+X-Gm-Message-State: APjAAAUX0kO7+K1lKtmZttrS2dc44SUfkEXBSNWDu7o+0M6P8/+O3CEu
+        6AFpFSI8YxW+Ba6SdgB3lPCFUJGTDHHQf6/cU0hlCg==
+X-Google-Smtp-Source: APXvYqxbZkRaYNZUkbtaKkWyA37ouFLbm3vEWqm+KaLBbOGWDXJhR78RNk+uIm+tQZtrSs8sNE+BrSfTM5IwdfTnhlc=
+X-Received: by 2002:a2e:9903:: with SMTP id v3mr4598768lji.37.1565975784340;
+ Fri, 16 Aug 2019 10:16:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190812135335.10104-1-linus.walleij@linaro.org> <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com>
+In-Reply-To: <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 16 Aug 2019 19:16:12 +0200
+Message-ID: <CACRpkdZhd1Bk-cBaxGaKo-mMoCT8T7yGqbPWFBiL10x3xkgDgA@mail.gmail.com>
+Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86 <platform-driver-x86@vger.kernel.org>,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 16 Aug 2019 12:21:58 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Hi Hans,
 
-> On Fri, Aug 16, 2019 at 4:42 AM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
-> >
-> > On a Xen-based PVH virtual machine with more than 4 GiB of RAM,
-> > intel_pmc_core fails initialization with the following warning message
-> > from the kernel, indicating that the driver is attempting to ioremap
-> > RAM:
-> >
-> >   ------------[ cut here ]------------
-> >   ioremap on RAM at 0x00000000fe000000 - 0x00000000fe001fff  
-> 
-> > This issue appears to manifest itself because of the following fallback
-> > mechanism in the driver:
-> >
-> >         if (lpit_read_residency_count_address(&slp_s0_addr))
-> >                 pmcdev->base_addr = PMC_BASE_ADDR_DEFAULT;
-> >
-> > The validity of address PMC_BASE_ADDR_DEFAULT (i.e., 0xFE000000) is not
-> > verified by the driver, which is what this patch introduces. With this
-> > patch, if address PMC_BASE_ADDR_DEFAULT is in RAM, then the driver will
-> > not attempt to ioremap the aforementioned address.  
-> 
-> Thank you for the patch.
+On Fri, Aug 16, 2019 at 11:18 AM Hans de Goede <hdegoede@redhat.com> wrote:
 
-Hello Andy,
+> So I've just tested this on a Cherry Trail machine and
+> the interrupt storm, fixing which is the reason the
+> intel_int0002_vgpio.c driver was introduced, is back:
 
-Thank you for reviewing the patch!
+Sorry but just so I understand this report: when you say the
+interrupt storm is back, do you mean that this patch brings
+it back, or do you mean the interrupt storm is there
+even before this patch?
 
-> Is there anything preventing us to use memremap() in such case?
+This patch does bring semantic differences, but very
+small ones.
 
-I re-read the documentation for memremap a few times along with taking
-a look at its code, but I think I am missing an important piece of
-information. As I understand it, depending on its flags, memremap would
-allow a section of RAM to be mapped for the PMC driver.
+> Notice that the driver has attached itself as shared irq-handler
+> to the ACPI  IRQ
 
-The intention with this patch is to prevent the driver from being
-instantiated when the default/fallback memory address is in RAM, as
-this issue occurs with a non-administrative virtual machine (domU in
-Xen terminology) that does not simulate or pass-through a corresponding
-PMC device.
+What is it sharing it with?
 
-I think that I have misunderstood your review comment though, so I
-would apppreciate it if you could elaborate.
+> Do I need any patches on top of 5.3-rc4 to test this patch?
 
-Thanks again for reviewing the patch,
+No, none that I know of.
 
-Vefa
+It is weird that this driver registers a chained
+interrupt handler but int0002_irq() doesn't call
+chained_irq_[enter|exit].
 
-(Please note that my next reply may be delayed by about 10 hours.)
+I don't understand the ACPI code but I'm confused about
+a "virtual" GPIO controller with very real interrupt lines
+attached to it. If it is actually virtual then just trying to
+abuse gpiolib to cascade interrupts like the shared
+interrupts were some, you know, cascaded GPIO IRQ line,
+I guess all the consumers should just grab the interrupt
+independently and shared instead, the idea being that
+each of them will drop their pull of the shared level IRQ
+line until it is eventually deasserted.
+
+I'm just confused....
+
+Yours,
+Linus Walleij
