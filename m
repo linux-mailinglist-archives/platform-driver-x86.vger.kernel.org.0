@@ -2,172 +2,187 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E0B908A6
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 16 Aug 2019 21:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2738B91379
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 18 Aug 2019 00:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727600AbfHPTnr (ORCPT
+        id S1726298AbfHQW0k (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 16 Aug 2019 15:43:47 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:47023 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727770AbfHPTmp (ORCPT
+        Sat, 17 Aug 2019 18:26:40 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41901 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726265AbfHQW0k (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 16 Aug 2019 15:42:45 -0400
-Received: by mail-ed1-f66.google.com with SMTP id z51so6061285edz.13
-        for <platform-driver-x86@vger.kernel.org>; Fri, 16 Aug 2019 12:42:43 -0700 (PDT)
+        Sat, 17 Aug 2019 18:26:40 -0400
+Received: by mail-lj1-f193.google.com with SMTP id m24so8282862ljg.8
+        for <platform-driver-x86@vger.kernel.org>; Sat, 17 Aug 2019 15:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wgPjAzULUuyfheHoVLEnJ58DGwGFxq4sYpiskj0fSks=;
+        b=WGi8G7xnu8rc0L6Zj+3IGrUZ6W4QovFQc+aFbboLqUncV+mln9He7qHiQsdAsXSiNt
+         V6fdMBp0j8lUBKf8D3ehj0x2EUq9Bk0CJkDT39UfhZff3M/3mxCmseZGVjsiS5yzJVRZ
+         cRIp6lpLR2KbBRc9zNJuxXah3z+GoiGq5ZZoCY52ehzJFM4ZxaxZ1RZWS+0mVwI3Pats
+         wgVblCPkDl8rhMtim23PewCQCB7EDDVOdLmAcpdGsAwb0KM4IcNqzxFCREtesoJ5Al6q
+         Xx9Pw5H+9FX5/0RmtpQOYeNmvP9ha/a36i3q5tfdWeakGktJFLCFOyQFOTw/SQRCGUVd
+         lbmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jguDOx8LMDMOMDZikoYIij4QthF8nC+qQV1T0dKyn/8=;
-        b=cfiiA8dvvj9HkKaj5DyoYc7xa48Jdnx0I3NKFhxlDCkEWcSFv6jl1lAmrZGClAHzfp
-         /hnu/SU92qaZOO6tBpY0peE0SiRb0wv8fpmJ+VjIwSpmYtJMPMouN0mmBTaHmXauBZ8j
-         JsvZonS7hzp+aXhEbxlla8N6YZtis6ahwpSmGzTy2RUngtTCCkNcE/V00bqIgEDwL62g
-         grI4MpLogPuJhSQmYTuEUVgIr/h6WS1GOfG/9vnErIxkJSGmiRm/TP/IqqkcD6SCbwvT
-         EOhsYZb/7KHBEHkIpTSqEcN6Kal1QB9/0zn3YwXHmdEJC7Nmzg1CZ+WdaR3gSl+9hU3B
-         H/OA==
-X-Gm-Message-State: APjAAAX4Ortb+x/VDJdjwOLPzmqJdjXODHAlPCSM4ymg76iOSjOiiTRU
-        +U6wTkZit9Fm4/50eSYLO2dkMw==
-X-Google-Smtp-Source: APXvYqwmXLAxfy7cfTUdNHeoH/1kMGFBgT7zfe0NmBQEDC1A/WEwZZSMohv5GBCGGCfzMqufPwawdw==
-X-Received: by 2002:a17:906:d7a9:: with SMTP id pk9mr10979392ejb.171.1565984562999;
-        Fri, 16 Aug 2019 12:42:42 -0700 (PDT)
-Received: from dhcp-44-196.space.revspace.nl ([2a01:4f8:1c0c:6c86:46e0:a7ad:5246:f04d])
-        by smtp.gmail.com with ESMTPSA id a18sm930966ejp.2.2019.08.16.12.42.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Aug 2019 12:42:42 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wgPjAzULUuyfheHoVLEnJ58DGwGFxq4sYpiskj0fSks=;
+        b=hovc53rWbM0KprDpLp9CgwgPSI/mKTGs19ef+QtudoXW/nhMY/9QivDslBoJ42X7PV
+         mJXzJXkSlMiNxz52hP0viyadi18+o5on30C/ru8jjpVwJEZHbDt9l9qejKwzuj/oqx5P
+         e7cTGGT3gNiEo48DJ87dN3aydg1Dksm2yJmlXyksp7tPEITscN48d2pl9s+7cF3lC5h6
+         RzlnHIF935zhN2+XOQdkNTBTsRjkQtfSaZuJJElxwSBf24i5f4u4BWdapYpridvPdYcA
+         BZ9v9xpJM7Uak5mhfpyCCb6sVptOI2lHptwYr72ouhweSbMmZRWR17myPS3dyT9gE6sy
+         Ix5w==
+X-Gm-Message-State: APjAAAU+SJZh2QXfwnZmZ710aI65W0bJEXnKbQ3YimlqJdN0zI7WkxGX
+        RRCa2cKErltmS22Ub7soSnQIPNcoEfTKS+Vx4pNY2A==
+X-Google-Smtp-Source: APXvYqxRRhS1VS9bFyLtmUgcJleEcu1JZg5NoKaDUhgBum19qALrR1z857aVb5uEi/pQ5MGRdPDjNoOh4XhJeyyUYIc=
+X-Received: by 2002:a2e:80da:: with SMTP id r26mr6706822ljg.62.1566080797434;
+ Sat, 17 Aug 2019 15:26:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190812135335.10104-1-linus.walleij@linaro.org>
+ <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com> <CACRpkdZhd1Bk-cBaxGaKo-mMoCT8T7yGqbPWFBiL10x3xkgDgA@mail.gmail.com>
+ <495416a8-ca52-c55e-ec21-28ce31c3217f@redhat.com>
+In-Reply-To: <495416a8-ca52-c55e-ec21-28ce31c3217f@redhat.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 18 Aug 2019 00:26:25 +0200
+Message-ID: <CACRpkdavQKAhp+7dqu-vHajmoja4b2HUBv-6iAgEUyVKtEFZ7Q@mail.gmail.com>
 Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
-To:     Linus Walleij <linus.walleij@linaro.org>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86 <platform-driver-x86@vger.kernel.org>,
         Maxim Mikityanskiy <maxtram95@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20190812135335.10104-1-linus.walleij@linaro.org>
- <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com>
- <CACRpkdZhd1Bk-cBaxGaKo-mMoCT8T7yGqbPWFBiL10x3xkgDgA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <495416a8-ca52-c55e-ec21-28ce31c3217f@redhat.com>
-Date:   Fri, 16 Aug 2019 21:42:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CACRpkdZhd1Bk-cBaxGaKo-mMoCT8T7yGqbPWFBiL10x3xkgDgA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Fri, Aug 16, 2019 at 9:42 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 8/16/19 7:16 PM, Linus Walleij wrote:
 
-On 8/16/19 7:16 PM, Linus Walleij wrote:
-> Hi Hans,
-> 
-> On Fri, Aug 16, 2019 at 11:18 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->> So I've just tested this on a Cherry Trail machine and
->> the interrupt storm, fixing which is the reason the
->> intel_int0002_vgpio.c driver was introduced, is back:
-> 
-> Sorry but just so I understand this report: when you say the
-> interrupt storm is back, do you mean that this patch brings
-> it back, or do you mean the interrupt storm is there
-> even before this patch?
+> > Sorry but just so I understand this report: when you say the
+> > interrupt storm is back, do you mean that this patch brings
+> > it back, or do you mean the interrupt storm is there
+> > even before this patch?
+>
+> I mean that the patch brings it back, iow the patch causes
+> a regression.
 
-I mean that the patch brings it back, iow the patch causes
-a regression.
+Gnah that's too bad. :/
 
-> This patch does bring semantic differences, but very
-> small ones.
+> > This patch does bring semantic differences, but very
+> > small ones.
+>
+> Could it be that the parent device of the IRQ controller is
+> different after this?
 
-Could it be that the parent device of the IRQ controller is
-different after this? I think that the ACPI subsys relies
-on the parent being the INT0002 ACPI instantiated platform
-device.
+If you mean parent_device in struct irq_chip then no,
+the gpiolib core doesn't touch that neither before or
+after this patch.
 
->> Notice that the driver has attached itself as shared irq-handler
->> to the ACPI  IRQ
-> 
-> What is it sharing it with?
+> I think that the ACPI subsys relies
+> on the parent being the INT0002 ACPI instantiated platform
+> device.
 
-With the ACPI subsys, this IRQ is called the GPE which is an
-interrupt normally reserved for events to be handled by the
-ACPI subsys.
+But this driver never sets up parent_device in struct
+irq_chip even today... it just passes in in pretty open coded
+with NULL as parent_device (compiletime default).
 
->> Do I need any patches on top of 5.3-rc4 to test this patch?
-> 
-> No, none that I know of.
-> 
-> It is weird that this driver registers a chained
-> interrupt handler but int0002_irq() doesn't call
-> chained_irq_[enter|exit].
-> 
-> I don't understand the ACPI code but I'm confused about
-> a "virtual" GPIO controller with very real interrupt lines
-> attached to it. If it is actually virtual then just trying to
-> abuse gpiolib to cascade interrupts like the shared
-> interrupts were some, you know, cascaded GPIO IRQ line,
-> I guess all the consumers should just grab the interrupt
-> independently and shared instead, the idea being that
-> each of them will drop their pull of the shared level IRQ
-> line until it is eventually deasserted.
-> 
-> I'm just confused....
+> >> Notice that the driver has attached itself as shared irq-handler
+> >> to the ACPI  IRQ
+> >
+> > What is it sharing it with?
+>
+> With the ACPI subsys, this IRQ is called the GPE which is an
+> interrupt normally reserved for events to be handled by the
+> ACPI subsys.
 
-The ACPI subsys has the ability to attach an event handler
-written in ACPI byte code (AML code) to GPIO events (GPIO
-triggered IRQs), quoting the same piece of AML as before:
+Aha I get it, I think.
 
+> The ACPI subsys has the ability to attach an event handler
+> written in ACPI byte code (AML code) to GPIO events (GPIO
+> triggered IRQs), quoting the same piece of AML as before:
+>
+>
+>          Device (GPED)
+>          {
+>              Name (_ADR, Zero)  // _ADR: Address
+>              Name (_HID, "INT0002" /* Virtual GPIO Controller */)  // _HID: Hardw
+>              Name (_CID, "INT0002" /* Virtual GPIO Controller */)  // _CID: Compa
+>              Name (_DDN, "Virtual GPIO controller")  // _DDN: DOS Device Name
+>              ...
+>              Method (_AEI, 0, NotSerialized)  // _AEI: ACPI Event Interrupts
+>              {
+>                  Name (RBUF, ResourceTemplate ()
+>                  {
+>                      GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullDown, 0x00
+>                          "\\_SB.GPED", 0x00, ResourceConsumer, ,
+>                          )
+>                          {   // Pin list
+>                              0x0002
+>                          }
+>                  })
+>                  Return (RBUF) /* \_SB_.GPED._AEI.RBUF */
+>              }
+>
+>              Method (_L02, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
+>              {
+>                  ...
+>              }
+>          }
+>
+> So what we are seeing here is an AEI (ACPI Event Interrupt) entry pointing
+> to pin 2 of the INT0002 GPIO chip, note this is not a real GPIO chip, but
+> a way to attach an ACPI event handler to GPE interrupts, while only
+> running the event handler when a specific status bit is set.
 
-         Device (GPED)
-         {
-             Name (_ADR, Zero)  // _ADR: Address
-             Name (_HID, "INT0002" /* Virtual GPIO Controller */)  // _HID: Hardw
-             Name (_CID, "INT0002" /* Virtual GPIO Controller */)  // _CID: Compa
-             Name (_DDN, "Virtual GPIO controller")  // _DDN: DOS Device Name
-             ...
-             Method (_AEI, 0, NotSerialized)  // _AEI: ACPI Event Interrupts
-             {
-                 Name (RBUF, ResourceTemplate ()
-                 {
-                     GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullDown, 0x00
-                         "\\_SB.GPED", 0x00, ResourceConsumer, ,
-                         )
-                         {   // Pin list
-                             0x0002
-                         }
-                 })
-                 Return (RBUF) /* \_SB_.GPED._AEI.RBUF */
-             }
+I see ... that's a bit complex way to solve an easy problem but I
+guess the ACPI gods want it that way.
 
-             Method (_L02, 0, NotSerialized)  // _Lxx: Level-Triggered GPE
-             {
-                 ...
-             }
-         }
+> So what the ACPI subsys does is it looksup the GPIO with index 2
+> on the INT0003 gpiochip (which is unchanged) and the calls gpio_to_irq
+> on the found GPIO, it seems that the gpio_to_irq is no longer working,
+> causing the:
+>
+>   123:          0          0          0          0  INT0002 Virtual GPIO    2  ACPI:Event
+>
+> Line in cat/ /proc/interrupts to disappear. That or gpio_to_irq works
+> but then for some reason the subsequent request irq fails.
 
-So what we are seeing here is an AEI (ACPI Event Interrupt) entry pointing
-to pin 2 of the INT0002 GPIO chip, note this is not a real GPIO chip, but
-a way to attach an ACPI event handler to GPE interrupts, while only
-running the event handler when a specific status bit is set.
+OK I get it, I try to see what the problem may come from.
+I suspect gpio[d]_to_irq isn't working as expected for some
+reason.
 
-So what the ACPI subsys does is it looksup the GPIO with index 2
-on the INT0003 gpiochip (which is unchanged) and the calls gpio_to_irq
-on the found GPIO, it seems that the gpio_to_irq is no longer working,
-causing the:
+We are checking the valid_mask to see if the IRQ is valid for
+mapping. Could it be that something is wrong with the valid_mask?
 
-  123:          0          0          0          0  INT0002 Virtual GPIO    2  ACPI:Event
+It used to be that we:
 
-Line in cat/ /proc/interrupts to disappear. That or gpio_to_irq works
-but then for some reason the subsequent request irq fails.
+1. Set up the (only) GPIO chip
+2. Set up the valid mask (now allocated)
+3. Register the irqchip
+4. Register the irqhandler
 
-Regards,
+and now we instead:
 
-Hans
+1. Set up the (only) GPIO chip
+2. Register the irqchip
+3. Register the irqhandler
+4. Set up the valid mask (now allocated)
 
+The valid_mask in the GPIO chip itself has a special callback
+to set up the mask, maybe we need to have the same for
+the irqchip if that needs to happen in the same flow as
+before.
 
+It's a weird driver cascading a single GPIO IRQ that isn't
+really a GPIO so my head is spinning a bit :D
 
-
+Yours,
+Linus Walleij
