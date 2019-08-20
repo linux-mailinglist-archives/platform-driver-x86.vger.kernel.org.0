@@ -2,105 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B203F959FB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2019 10:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FFA95BC3
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2019 11:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729585AbfHTIld (ORCPT
+        id S1729374AbfHTJ4l (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 20 Aug 2019 04:41:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41021 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729546AbfHTIld (ORCPT
+        Tue, 20 Aug 2019 05:56:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:51889 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729333AbfHTJ4l (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:41:33 -0400
-Received: by mail-lj1-f195.google.com with SMTP id m24so4321464ljg.8
-        for <platform-driver-x86@vger.kernel.org>; Tue, 20 Aug 2019 01:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=whQZzhmbBZDOCTybvZluAr0mi4tOHfIsfYbXjPu4xUw=;
-        b=ewQIU96ST2XEa1jLQACBj+0jDEvituy7qCAwMb5yFyZSbNG5PSJIat9rwR07SNXEGn
-         n3J3Bj5/o6ORRwTEHdc/qlOJmsJ/6pJCpvXS3o27ZfN6J03aEzU+W+0aaKZ5iizMJqnV
-         QQnhK6FKroyHPzToZDXMSSH2LVBdJ2YOtWN3kez0kUxEnLO4MeNSzqr7I6CzFiVd6unR
-         IhfvlHhv9sm+5Zop2ivUU+XdunkU+I5GHhHoDhtA8w9Ps2oCThW07KXJY4wPdPEw4aoO
-         8HvVIlClN1Y6b865PjnfkoKNmM5Z7ET6O0vbzO7JoyI8QWpO1K9mbgl2OnLd0hqCjRKh
-         V6Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=whQZzhmbBZDOCTybvZluAr0mi4tOHfIsfYbXjPu4xUw=;
-        b=YhwMrlJ0P9kT8AUbs1KlqkDckyZ0PP14pg6uuucOZ8kTeMdwudPEin9OSd9chQTqxu
-         GG+A/JAxbBLTRN/kAfcyPXpU1TSW/axnkoDVWxuvm3pUyP1nGMyn7wlWaipdYzTylnTb
-         8UoVf/jgx62jPmuEC8+R5JGo4vB2l/ZBejy5Z2OEvbc6IiSkQuvwlnYJ22wKYiu2tW2y
-         z7q2vC8f46pMxOqfAIm9tFEqJnQYH2JLyRfF8h8e7lf2ySTgKr9wWT4gFPygm98gqQ6h
-         S5hIwuHQ2wRHQwchS3gZ1Z+Dbejvella40nw4dQLQKPJum9G0SrpVR6Wn10GKj5aWrxx
-         g9wA==
-X-Gm-Message-State: APjAAAWDUuHrYR7eZymdvDTXhUZsnTDn9R8rvwR0Wt4gwTOSFz8sP/5c
-        Dw+w/E8OgmktU61/3db2X5MQUXVXdAGrne7txNslgKeMhQihGg==
-X-Google-Smtp-Source: APXvYqyVgXqmcOWnXbgj6MUGD53aBn606C4ktWNHCaikEmaDwwZAGsZsQGa5DY/Zycwxx0QLDxnTpx+FejVE6XYQPbM=
-X-Received: by 2002:a2e:b174:: with SMTP id a20mr12394250ljm.108.1566290490882;
- Tue, 20 Aug 2019 01:41:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190812135335.10104-1-linus.walleij@linaro.org>
- <9cfe5abe-244a-e606-7b59-6832c053ea73@redhat.com> <20190818132433.GT30120@smile.fi.intel.com>
- <770d9bfa-aaad-1107-58f6-594cc95ffdb3@redhat.com> <20190818140419.GU30120@smile.fi.intel.com>
- <9d455011-bbe2-4a8c-0441-4291fc9e0d7b@redhat.com>
-In-Reply-To: <9d455011-bbe2-4a8c-0441-4291fc9e0d7b@redhat.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 20 Aug 2019 10:41:17 +0200
-Message-ID: <CACRpkdZ_0Hbj40zFAsp3YD6T-ZjmwDwUGG92W7fTDc2JWqTxhQ@mail.gmail.com>
-Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Thierry Reding <treding@nvidia.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86 <platform-driver-x86@vger.kernel.org>,
-        Maxim Mikityanskiy <maxtram95@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 20 Aug 2019 05:56:41 -0400
+Received: from orion.localdomain ([95.117.23.32]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MWR6x-1hjmFV3PPX-00Xsl0; Tue, 20 Aug 2019 11:56:34 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
+Date:   Tue, 20 Aug 2019 11:56:32 +0200
+Message-Id: <1566294992-703-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:WgNAV2krKnxLCY8x20TlniRC4puehCjaKaSvDFOd5zklm6NcQqU
+ Y2cAKov/DYvTPJOmQGexLLH4o3qcKzttVRBcRGNB9rTfCynrr0RZnphMEl6yvLbnzhGhbgI
+ gvyGEIqMgTyssIXblGVpLOHGUelv8cFFrVqa5n4T8N+OyDY10x4MvQwNs7Uw4zGRpSW3XyI
+ iZ1Wq54ASw0crmfWd3qsQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aiDu7tFnQlk=:ZoYeHiLsslBu2VpqoMiC46
+ Rav7ZP8oW+RPBE5p3EfdeL7a1K1Yydytv7TXBrlfzI8Bw/TEOPW8JwwsLEPRMV7vBaJwaLRBn
+ dRPAUIvlOs/34s7sKk6MErOY9rmv43R+XamOPk4Cr/1LrHYHMsgJS+WlDuDrD18kUwQCOLFOQ
+ LFt87WkZlXuz7rj6XcM/gz3EI42HoPV/WtVbQThjFdpvQebFgkf3x+9lofWAVFbW7aoVXzkTH
+ 5Rjv0E2jLZKHuSN0OxMFtFJSVb0BvashsA9vpc72ERUEI9nYexzU4vcWL09myXHVcXtOIcMY/
+ eEo4lXWHadfUs1n6BWsZHfloYo/n753vn7Mk0Vb9X2V7Y4uqmqX62zWt1wa/yRlynrZfGWBg5
+ jukXKb5UrHf/qx6jalhkNlTq+cC+Eon839lH+4l4e4nbPwGrzRtXMJdelnicbgVoNcqtOxONc
+ 7V2iEzGbQVvMXPR0oIjpzYDmwO7OP1HHC4o3EVT2D9w5y4mihSfXxwap4nPRiuY0ppJzKU8li
+ RKGaLogjjPP24+QiCE11oo+fi6a72FQCQuSSiNk15nsKiaNlj9LsTbsPmW2RVCchS+6n+AK/s
+ syRgmp6Bf/EqCpqPQyX2fHbd5n72bUNqU1elZP4jnvNZT/LzuuoCW94UX/GOu482Wuj4lVjUR
+ Mu/WLY2q21zwQbemch5lUiodVLm+rvm+nKqIkwZe7Ul5TrtSwhoTLjnz4vBgqHJUdYlgV6lgS
+ qk/3+RCyUw8jCVXKe0DJT1oOyK/8/3H/bcBweA==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Aug 18, 2019 at 6:19 PM Hans de Goede <hdegoede@redhat.com> wrote:
+GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
+need to match on DMI data.
 
-> Note that the gpio_chip structure already has a init_valid_mask
-> callback which runs after gpiochip_irqchip_init_valid_mask wich
-> allocs gpio_chip.irq.valid_mask, so we might use that, but:
->
-> That is intended to setup the valid_mask for the pins, not for
-> the IRQs, which would mean we are abusing it a bit and it runs
-> after gpiochip_add_irqchip(), which might be too late I guess.
+Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
+---
+ drivers/platform/x86/pcengines-apuv2.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Yeah there are two of them which is quite confusing. I am trying
-to clean up the mess step by step. The initialization of the valid_mask
-for the pins itself (which is BTW also there for ACPI mainly) is
-rewritten, I just merged these:
-https://lore.kernel.org/linux-gpio/20190819084904.30027-1-linus.walleij@linaro.org/
-https://lore.kernel.org/linux-gpio/20190819091140.622-1-linus.walleij@linaro.org/
-https://lore.kernel.org/linux-gpio/20190819093058.10863-1-linus.walleij@linaro.org/
+diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
+index e4c68ef..ea0c6bb 100644
+--- a/drivers/platform/x86/pcengines-apuv2.c
++++ b/drivers/platform/x86/pcengines-apuv2.c
+@@ -178,6 +178,33 @@
+ 		},
+ 		.driver_data = (void *)&board_apu2,
+ 	},
++	/* APU4 w/ legacy bios < 4.0.8 */
++	{
++		.ident        = "apu4",
++		.matches    = {
++			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
++			DMI_MATCH(DMI_BOARD_NAME, "APU4")
++		},
++		.driver_data = (void *)&board_apu2,
++	},
++	/* APU4 w/ legacy bios >= 4.0.8 */
++	{
++		.ident       = "apu4",
++		.matches     = {
++			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
++			DMI_MATCH(DMI_BOARD_NAME, "apu4")
++		},
++		.driver_data = (void *)&board_apu2,
++	},
++	/* APU4 w/ mainline bios */
++	{
++		.ident       = "apu4",
++		.matches     = {
++			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
++			DMI_MATCH(DMI_BOARD_NAME, "PC Engines apu4")
++		},
++		.driver_data = (void *)&board_apu2,
++	},
+ 	{}
+ };
+ 
+-- 
+1.9.1
 
-This makes things a bit clearer, now I "just" need to do the same
-for the gpio_irq_chip.
-
-> So it looks like we need a gpio_chip.irq.init_valid_mask callback
-> to fix this ordering problem and until this is fixed we should revert
-> 2e65e0fad935f578e998656d3e7be5a26e072b0e.
-
-Do you think this patch, created in response to an ACPI bug in
-similar vein for PL061 fixes the ordering problem:
-https://lore.kernel.org/linux-gpio/20190820080527.11796-1-linus.walleij@linaro.org/
-
-Just applying it on top and see if the interrups storm is fixed
-would be super...
-
-I actually don't think it is the setting up of .irq.valid_mask after
-registering the chip that is the problem, but rather the semantic
-ordering in the gpiochip_add_data_with_key() function that this
-patch tries to fix.
-
-Yours,
-Linus Walleij
