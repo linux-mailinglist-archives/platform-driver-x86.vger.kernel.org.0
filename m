@@ -2,81 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3289784F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2019 13:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3194197FDA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2019 18:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbfHULvk (ORCPT
+        id S1727464AbfHUQUZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Aug 2019 07:51:40 -0400
-Received: from sonic311-23.consmr.mail.ne1.yahoo.com ([66.163.188.204]:42108
-        "EHLO sonic311-23.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726351AbfHULvk (ORCPT
+        Wed, 21 Aug 2019 12:20:25 -0400
+Received: from mga07.intel.com ([134.134.136.100]:48365 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728194AbfHUQUZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Aug 2019 07:51:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1566388298; bh=ZGJE2xTxqlYu1cQnOsSVwM6bwiebtPuhO/I9HmNQ2ds=; h=Date:From:Reply-To:Subject:From:Subject; b=TnC83217M3vyYoMuizNs3mOQpH6uqZTHeQhNmy0opvTx0gIKDqYGZCoi1gIKiz/2uf35O6GrSt7wCELNO5AZnohzvuOkq6jIGQSOuB4rDgjTjQOrUjgiFcnutFO7AdOJtcl51h0vH4lcxfrkJvWJslfzxeIC4IaYVduEB2WrwGt4p7cSDIGQ0eDgOZnCvBMCDs58eUpPk66ISsNiCJDKQI1tDaKLvBj1V/xfpKCuganqzpT5SyLVlRt4WG0tg7sY8UgAVSm3ZC4/iPc4yKSf8annXuInvGaCEi17HoAj47hvLOXSDdnYLnljCmNU0TDtfItHHWRT9bfsnplm0BNDGA==
-X-YMail-OSG: gAYZS88VM1meKJucHT8B.ieQ5XdzkH7iRWgJgBdPOG.YsMcQS3q2j8wxYP_ufN7
- ecHa.Emq9_rQsYOQlZFyeOuHXN7RaUK93E_6ylkIYgMZtQpDjX3kDvyGl5iJfE.SJcrgUGQ2o0O1
- 4Mwc7wV8sob.6SJ56ei.yRbbnicA_mNdzDJlRUYztfVr86E4d94SKErwG1TAupObRQKyZktkKXwV
- nru7VAU.Wr.o8RmiukKx0wLsfBcyJ5zjwktuvYNYIBHGG1UpH1ObKZbZYTB4XMDxZ_f13QKpwVhA
- HCsOVH_RvqV5fgYJ9niiV_E4ZTwXkaNxuBT42A0LhKht1zOc8Gzd5wkKEXZUzkg5rdNjJ6Defhkt
- pMvLd10wg0yR7dU1JI9pTY_uKtimxM9dj6dirR0EVZzegq5zOcM3nEA4TD5Xt7xcvh7QNHhG4IUV
- U7yW53U3aicHG_xBpOt_MqTH12AtXxDgm4Ui3e9wHyUHYIYj6k0zm4NDq0WJTmrRMVHKpFr7PXM3
- hdEqglYMOVOLP7aHkbLA.xpfmMmbtbGdbnBpFnXn592Iday71HAjUxPeVzi3KbrAkgDP1V7yFJO9
- C3eU7pyGvq4AMKk_SaEsiwVHZ.hcXupruiL8sZ155pDw4dQUXHrTZ8l7Xbpn2WnHiXiE1cdJAn1U
- coj5xJf4xKhRsZuLoMxar0eaVLEXcSQh3joN3mfVZLW5VQ1OLJ9SEh1UR7LsSZzhktrHnPME2kcA
- cIzxx5NZS8j8.dTyN1vHYyAHegc2EiS7HU4guE3JMvEtFuD9KlsGyUrEtXhULC09aJCYTO0pXofJ
- sEWN2g4FIIzt6iK1dwK4lSeXzaPyswuxbdWeQHQevvb78XRAr16ERaVXnlgCVEj5nizdCcwvndQz
- ptzXTvXZ3ae61lufqx5hwtv9z2mKMR4UGfU70k0Dsz_5_mLZLa7UPim0bGkCIBUNdRQ2TOI_Vn_Y
- 2ge2UsBSP2Yk6eF6kHDdnSBR8Fz8dpX175Ya0qGNqymItflKSDc2FHlrQpoHZ6g2NhWoN9cUBxpb
- e3ywzVPvBn8jLReyb1cgai1M5H1EYIkQyMVwikAfqnM5mFbF_KWwjyx.CU5_tlM7V86f9tpLKB5U
- 9shBOQbtxh8Uy6K0NCKna9IET_JxNrXjo.CSrbPCptu8OuBg6OTi0kWo5BD8Wy.u1RNUFQ1MXHT2
- n_50gCk13JXe3t5EmQRthffELhR4PPev6TYOVcc35l8gMJ2SlchE2Z8xBQgrwuV1caGnAJopiX3G
- RHPRcG55K1TX0wV3Msw--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Wed, 21 Aug 2019 11:51:38 +0000
-Date:   Wed, 21 Aug 2019 11:51:37 +0000 (UTC)
-From:   western union payment depart <lukesanfo451@gmail.com>
-Reply-To: westerniunion09@gmail.com
-Message-ID: <860145312.137937.1566388297363@mail.yahoo.com>
-Subject: Attention: E-Mail Address Owner,
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-To:     unlisted-recipients:; (no To-header on input)
+        Wed, 21 Aug 2019 12:20:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 09:20:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,412,1559545200"; 
+   d="scan'208";a="330069428"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by orsmga004.jf.intel.com with ESMTP; 21 Aug 2019 09:20:24 -0700
+Message-ID: <1b68045227e852fb2f250d0ec858ae006490123f.camel@linux.intel.com>
+Subject: Re: [PATCH] tools/power: intel-speed-select:  Fix a read overflow
+ in isst_set_tdp_level_msr()
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Wed, 21 Aug 2019 09:20:24 -0700
+In-Reply-To: <20190821071403.GG26957@mwanda>
+References: <20190821071403.GG26957@mwanda>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Wed, 2019-08-21 at 10:14 +0300, Dan Carpenter wrote:
+> The isst_send_msr_command() function will read 8 bytes but we are
+> passing an address to an int (4 bytes) so it results in a read
+> overflow.
+> 
+> Fixes: 3fb4f7cd472c ("tools/power/x86: A tool to validate Intel Speed
+> Select commands")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
+> ---
+>  tools/power/x86/intel-speed-select/isst-core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tools/power/x86/intel-speed-select/isst-core.c
+> b/tools/power/x86/intel-speed-select/isst-core.c
+> index 8de4ac39a008..f724322856ed 100644
+> --- a/tools/power/x86/intel-speed-select/isst-core.c
+> +++ b/tools/power/x86/intel-speed-select/isst-core.c
+> @@ -190,6 +190,7 @@ int isst_get_get_trl(int cpu, int level, int
+> avx_level, int *trl)
+>  
+>  int isst_set_tdp_level_msr(int cpu, int tdp_level)
+>  {
+> +	unsigned long long level = tdp_level;
+>  	int ret;
+>  
+>  	debug_printf("cpu: tdp_level via MSR %d\n", cpu, tdp_level);
+> @@ -202,8 +203,7 @@ int isst_set_tdp_level_msr(int cpu, int
+> tdp_level)
+>  	if (tdp_level > 2)
+>  		return -1; /* invalid value */
+>  
+> -	ret = isst_send_msr_command(cpu, 0x64b, 1,
+> -				    (unsigned long long *)&tdp_level);
+> +	ret = isst_send_msr_command(cpu, 0x64b, 1, &level);
+>  	if (ret)
+>  		return ret;
+>  
 
-Website: www.westernunion.com
-Address: Plot 1261, Adela Hopewell Street CO / B / REP, Republic of Benin.
-Email: unionwestrn768@gmail.com
-
-Attention: E-Mail Address Owner,
-Sequel to the meeting held with the Federal Bureau of Investigation, The
-International Monetary Fund (IMF) is compensating all the victims and
-some email users who your name and email address was found on the list.
-However, we have agreed to effect your own payment through Western
-Union=C2=AE Money Transfer, $ 5,000 daily until the total amount of your
-compensation fund is transferred to you.
-
-BELOW IS THE MTCN AND TRACKING WEBSITE TO ENABLE YOU TRACK YOUR FIRST PROGR=
-AMMED APPROVED PAYMENT,
-
-https://www.westernunion.com/global-service/track-transfer
-This is your first payment information:
-
-MTCN #: 6947010915
-
-Amount Programmed: $ 5,000
-Track your first online payment now Money Transfer | Global Money
-
-You are advised to get back to the contact person through the email below
-for more information on how to receive your payment.
-Contact person :. . SIR. INNOCENT JOHNSON
-Email address :. . ( unionwestrn768@gmail.com )
-Thanks,
-SIR.INNOCENT JOHNSON
-Director of Western Union Money Transfer,
-Head Office of Benin Republic.
