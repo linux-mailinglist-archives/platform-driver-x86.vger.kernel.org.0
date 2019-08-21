@@ -2,106 +2,170 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E784597326
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2019 09:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87CC49745A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2019 10:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727683AbfHUHOO (ORCPT
+        id S1726487AbfHUIGO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Aug 2019 03:14:14 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:44934 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727504AbfHUHOO (ORCPT
+        Wed, 21 Aug 2019 04:06:14 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:63686 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfHUIGN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:14:14 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7L7DiYf087377;
-        Wed, 21 Aug 2019 07:14:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=2P4kNV5f2bdRIjdmMi0NVT3ayqfEeBJ0buEu0sEHelA=;
- b=hOJj2K/7bj8BlIDAFJp6J7fBEtTE+nqLHKwTNcuUtz86WpBSM+zqRcEpa5Y+P/EWDnnQ
- RIzBFeYdrUC3gC5lpm7UewwTkgVom/ERg9mjqb/Y91AgwDMhgLRteL77SEQI6xkqtYMf
- hPWSDs7roAsiSMh4n4wHG91ZeqFP8HxYcIrPyi1WqDeNkYBZGEALWsLe7SqtzJfSwaln
- Bu6NloHak4NreE8LL2ti9GICN1YW3PAjvmSorPUr5kiJVv6uXcAjndcu1XeIbFYPuZM5
- eZDNhcqXn7kUeoXRBGwPm57wqyf4BZ0c8Q3MeS28BZvptyHadGvJXULTvSm3METlHs/N jA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2ue9hpkbe3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Aug 2019 07:14:11 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7L7DACq166327;
-        Wed, 21 Aug 2019 07:14:11 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 2ugj7pk00t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 21 Aug 2019 07:14:11 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7L7EA2Z029385;
-        Wed, 21 Aug 2019 07:14:10 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 21 Aug 2019 00:14:09 -0700
-Date:   Wed, 21 Aug 2019 10:14:03 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH] tools/power: intel-speed-select:  Fix a read overflow in
- isst_set_tdp_level_msr()
-Message-ID: <20190821071403.GG26957@mwanda>
+        Wed, 21 Aug 2019 04:06:13 -0400
+Received: from 79.184.254.79.ipv4.supernova.orange.pl (79.184.254.79) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.275)
+ id 365a6345488f7933; Wed, 21 Aug 2019 10:06:10 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux ACPI <linux-acpi@vger.kernel.org>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kristian Klausen <kristian@klausen.dk>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] ACPI: PM: s2idle: Always set up EC GPE for system wakeup
+Date:   Wed, 21 Aug 2019 10:06:09 +0200
+Message-ID: <2671465.Ihf76VL9xe@kreacher>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9355 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1908210078
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9355 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1908210078
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The isst_send_msr_command() function will read 8 bytes but we are
-passing an address to an int (4 bytes) so it results in a read overflow.
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Fixes: 3fb4f7cd472c ("tools/power/x86: A tool to validate Intel Speed Select commands")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Commit 10a08fd65ec1 ("ACPI: PM: Set up EC GPE for system wakeup from
+drivers that need it") assumed that the EC GPE would only need to be
+set up for system wakeup if either the intel-hid or the intel-vbtn
+driver was in use, but that turns out to be incorrect.  In particular,
+on ASUS Zenbook UX430UNR/i7-8550U, if the EC GPE is not enabled while
+suspended, the system cannot be woken up by opening the lid or
+pressing a key, and that machine doesn't use any of the drivers
+mentioned above.
+
+For this reason, always set up the EC GPE for system wakeup from
+suspend-to-idle by setting and clearing its wake mask in the ACPI
+suspend-to-idle callbacks.
+
+Fixes: 10a08fd65ec1 ("ACPI: PM: Set up EC GPE for system wakeup from drivers that need it")
+Reported-by: Kristian Klausen <kristian@klausen.dk>
+Tested-by: Kristian Klausen <kristian@klausen.dk>
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- tools/power/x86/intel-speed-select/isst-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/power/x86/intel-speed-select/isst-core.c b/tools/power/x86/intel-speed-select/isst-core.c
-index 8de4ac39a008..f724322856ed 100644
---- a/tools/power/x86/intel-speed-select/isst-core.c
-+++ b/tools/power/x86/intel-speed-select/isst-core.c
-@@ -190,6 +190,7 @@ int isst_get_get_trl(int cpu, int level, int avx_level, int *trl)
+Commit 10a08fd65ec1 is present in linux-next.
+
+---
+ drivers/acpi/ec.c                 |    1 -
+ drivers/acpi/sleep.c              |   15 +++++++++++++--
+ drivers/platform/x86/intel-hid.c  |    5 +----
+ drivers/platform/x86/intel-vbtn.c |    5 +----
+ 4 files changed, 15 insertions(+), 11 deletions(-)
+
+Index: linux-pm/drivers/acpi/sleep.c
+===================================================================
+--- linux-pm.orig/drivers/acpi/sleep.c
++++ linux-pm/drivers/acpi/sleep.c
+@@ -938,6 +938,13 @@ static int lps0_device_attach(struct acp
+ 	if (mem_sleep_default > PM_SUSPEND_MEM && !acpi_sleep_default_s3)
+ 		mem_sleep_current = PM_SUSPEND_TO_IDLE;
  
- int isst_set_tdp_level_msr(int cpu, int tdp_level)
++	/*
++	 * Some LPS0 systems, like ASUS Zenbook UX430UNR/i7-8550U, require the
++	 * EC GPE to be enabled while suspended for certain wakeup devices to
++	 * work, so mark it as wakeup-capable.
++	 */
++	acpi_ec_mark_gpe_for_wake();
++
+ 	return 0;
+ }
+ 
+@@ -954,8 +961,10 @@ static int acpi_s2idle_begin(void)
+ 
+ static int acpi_s2idle_prepare(void)
  {
-+	unsigned long long level = tdp_level;
- 	int ret;
+-	if (acpi_sci_irq_valid())
++	if (acpi_sci_irq_valid()) {
+ 		enable_irq_wake(acpi_sci_irq);
++		acpi_ec_set_gpe_wake_mask(ACPI_GPE_ENABLE);
++	}
  
- 	debug_printf("cpu: tdp_level via MSR %d\n", cpu, tdp_level);
-@@ -202,8 +203,7 @@ int isst_set_tdp_level_msr(int cpu, int tdp_level)
- 	if (tdp_level > 2)
- 		return -1; /* invalid value */
+ 	acpi_enable_wakeup_devices(ACPI_STATE_S0);
  
--	ret = isst_send_msr_command(cpu, 0x64b, 1,
--				    (unsigned long long *)&tdp_level);
-+	ret = isst_send_msr_command(cpu, 0x64b, 1, &level);
- 	if (ret)
- 		return ret;
+@@ -1034,8 +1043,10 @@ static void acpi_s2idle_restore(void)
  
--- 
-2.20.1
+ 	acpi_disable_wakeup_devices(ACPI_STATE_S0);
+ 
+-	if (acpi_sci_irq_valid())
++	if (acpi_sci_irq_valid()) {
++		acpi_ec_set_gpe_wake_mask(ACPI_GPE_DISABLE);
+ 		disable_irq_wake(acpi_sci_irq);
++	}
+ }
+ 
+ static void acpi_s2idle_end(void)
+Index: linux-pm/drivers/platform/x86/intel-hid.c
+===================================================================
+--- linux-pm.orig/drivers/platform/x86/intel-hid.c
++++ linux-pm/drivers/platform/x86/intel-hid.c
+@@ -257,7 +257,6 @@ static int intel_hid_pm_prepare(struct d
+ 		struct intel_hid_priv *priv = dev_get_drvdata(device);
+ 
+ 		priv->wakeup_mode = true;
+-		acpi_ec_set_gpe_wake_mask(ACPI_GPE_ENABLE);
+ 	}
+ 	return 0;
+ }
+@@ -266,10 +265,8 @@ static void intel_hid_pm_complete(struct
+ {
+ 	struct intel_hid_priv *priv = dev_get_drvdata(device);
+ 
+-	if (priv->wakeup_mode) {
+-		acpi_ec_set_gpe_wake_mask(ACPI_GPE_DISABLE);
++	if (priv->wakeup_mode)
+ 		priv->wakeup_mode = false;
+-	}
+ }
+ 
+ static int intel_hid_pl_suspend_handler(struct device *device)
+Index: linux-pm/drivers/platform/x86/intel-vbtn.c
+===================================================================
+--- linux-pm.orig/drivers/platform/x86/intel-vbtn.c
++++ linux-pm/drivers/platform/x86/intel-vbtn.c
+@@ -205,7 +205,6 @@ static int intel_vbtn_pm_prepare(struct
+ 		struct intel_vbtn_priv *priv = dev_get_drvdata(dev);
+ 
+ 		priv->wakeup_mode = true;
+-		acpi_ec_set_gpe_wake_mask(ACPI_GPE_ENABLE);
+ 	}
+ 	return 0;
+ }
+@@ -214,10 +213,8 @@ static void intel_vbtn_pm_complete(struc
+ {
+ 	struct intel_vbtn_priv *priv = dev_get_drvdata(dev);
+ 
+-	if (priv->wakeup_mode) {
+-		acpi_ec_set_gpe_wake_mask(ACPI_GPE_DISABLE);
++	if (priv->wakeup_mode)
+ 		priv->wakeup_mode = false;
+-	}
+ }
+ 
+ static int intel_vbtn_pm_resume(struct device *dev)
+Index: linux-pm/drivers/acpi/ec.c
+===================================================================
+--- linux-pm.orig/drivers/acpi/ec.c
++++ linux-pm/drivers/acpi/ec.c
+@@ -1970,7 +1970,6 @@ void acpi_ec_set_gpe_wake_mask(u8 action
+ 	if (pm_suspend_no_platform() && first_ec && !ec_no_wakeup)
+ 		acpi_set_gpe_wake_mask(NULL, first_ec->gpe, action);
+ }
+-EXPORT_SYMBOL_GPL(acpi_ec_set_gpe_wake_mask);
+ 
+ bool acpi_ec_dispatch_gpe(void)
+ {
+
+
 
