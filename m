@@ -2,96 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FFA95BC3
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Aug 2019 11:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E784597326
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Aug 2019 09:14:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729374AbfHTJ4l (ORCPT
+        id S1727683AbfHUHOO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 20 Aug 2019 05:56:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:51889 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729333AbfHTJ4l (ORCPT
+        Wed, 21 Aug 2019 03:14:14 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:44934 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727504AbfHUHOO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:56:41 -0400
-Received: from orion.localdomain ([95.117.23.32]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MWR6x-1hjmFV3PPX-00Xsl0; Tue, 20 Aug 2019 11:56:34 +0200
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     info@metux.net, dvhart@infradead.org, andy@infradead.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
-Date:   Tue, 20 Aug 2019 11:56:32 +0200
-Message-Id: <1566294992-703-1-git-send-email-info@metux.net>
-X-Mailer: git-send-email 1.9.1
-X-Provags-ID: V03:K1:WgNAV2krKnxLCY8x20TlniRC4puehCjaKaSvDFOd5zklm6NcQqU
- Y2cAKov/DYvTPJOmQGexLLH4o3qcKzttVRBcRGNB9rTfCynrr0RZnphMEl6yvLbnzhGhbgI
- gvyGEIqMgTyssIXblGVpLOHGUelv8cFFrVqa5n4T8N+OyDY10x4MvQwNs7Uw4zGRpSW3XyI
- iZ1Wq54ASw0crmfWd3qsQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aiDu7tFnQlk=:ZoYeHiLsslBu2VpqoMiC46
- Rav7ZP8oW+RPBE5p3EfdeL7a1K1Yydytv7TXBrlfzI8Bw/TEOPW8JwwsLEPRMV7vBaJwaLRBn
- dRPAUIvlOs/34s7sKk6MErOY9rmv43R+XamOPk4Cr/1LrHYHMsgJS+WlDuDrD18kUwQCOLFOQ
- LFt87WkZlXuz7rj6XcM/gz3EI42HoPV/WtVbQThjFdpvQebFgkf3x+9lofWAVFbW7aoVXzkTH
- 5Rjv0E2jLZKHuSN0OxMFtFJSVb0BvashsA9vpc72ERUEI9nYexzU4vcWL09myXHVcXtOIcMY/
- eEo4lXWHadfUs1n6BWsZHfloYo/n753vn7Mk0Vb9X2V7Y4uqmqX62zWt1wa/yRlynrZfGWBg5
- jukXKb5UrHf/qx6jalhkNlTq+cC+Eon839lH+4l4e4nbPwGrzRtXMJdelnicbgVoNcqtOxONc
- 7V2iEzGbQVvMXPR0oIjpzYDmwO7OP1HHC4o3EVT2D9w5y4mihSfXxwap4nPRiuY0ppJzKU8li
- RKGaLogjjPP24+QiCE11oo+fi6a72FQCQuSSiNk15nsKiaNlj9LsTbsPmW2RVCchS+6n+AK/s
- syRgmp6Bf/EqCpqPQyX2fHbd5n72bUNqU1elZP4jnvNZT/LzuuoCW94UX/GOu482Wuj4lVjUR
- Mu/WLY2q21zwQbemch5lUiodVLm+rvm+nKqIkwZe7Ul5TrtSwhoTLjnz4vBgqHJUdYlgV6lgS
- qk/3+RCyUw8jCVXKe0DJT1oOyK/8/3H/bcBweA==
+        Wed, 21 Aug 2019 03:14:14 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7L7DiYf087377;
+        Wed, 21 Aug 2019 07:14:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=2P4kNV5f2bdRIjdmMi0NVT3ayqfEeBJ0buEu0sEHelA=;
+ b=hOJj2K/7bj8BlIDAFJp6J7fBEtTE+nqLHKwTNcuUtz86WpBSM+zqRcEpa5Y+P/EWDnnQ
+ RIzBFeYdrUC3gC5lpm7UewwTkgVom/ERg9mjqb/Y91AgwDMhgLRteL77SEQI6xkqtYMf
+ hPWSDs7roAsiSMh4n4wHG91ZeqFP8HxYcIrPyi1WqDeNkYBZGEALWsLe7SqtzJfSwaln
+ Bu6NloHak4NreE8LL2ti9GICN1YW3PAjvmSorPUr5kiJVv6uXcAjndcu1XeIbFYPuZM5
+ eZDNhcqXn7kUeoXRBGwPm57wqyf4BZ0c8Q3MeS28BZvptyHadGvJXULTvSm3METlHs/N jA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 2ue9hpkbe3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Aug 2019 07:14:11 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7L7DACq166327;
+        Wed, 21 Aug 2019 07:14:11 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 2ugj7pk00t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 21 Aug 2019 07:14:11 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7L7EA2Z029385;
+        Wed, 21 Aug 2019 07:14:10 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 21 Aug 2019 00:14:09 -0700
+Date:   Wed, 21 Aug 2019 10:14:03 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH] tools/power: intel-speed-select:  Fix a read overflow in
+ isst_set_tdp_level_msr()
+Message-ID: <20190821071403.GG26957@mwanda>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9355 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908210078
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9355 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908210078
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
-need to match on DMI data.
+The isst_send_msr_command() function will read 8 bytes but we are
+passing an address to an int (4 bytes) so it results in a read overflow.
 
-Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
+Fixes: 3fb4f7cd472c ("tools/power/x86: A tool to validate Intel Speed Select commands")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/platform/x86/pcengines-apuv2.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ tools/power/x86/intel-speed-select/isst-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-index e4c68ef..ea0c6bb 100644
---- a/drivers/platform/x86/pcengines-apuv2.c
-+++ b/drivers/platform/x86/pcengines-apuv2.c
-@@ -178,6 +178,33 @@
- 		},
- 		.driver_data = (void *)&board_apu2,
- 	},
-+	/* APU4 w/ legacy bios < 4.0.8 */
-+	{
-+		.ident        = "apu4",
-+		.matches    = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "APU4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
-+	/* APU4 w/ legacy bios >= 4.0.8 */
-+	{
-+		.ident       = "apu4",
-+		.matches     = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "apu4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
-+	/* APU4 w/ mainline bios */
-+	{
-+		.ident       = "apu4",
-+		.matches     = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "PC Engines apu4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
- 	{}
- };
+diff --git a/tools/power/x86/intel-speed-select/isst-core.c b/tools/power/x86/intel-speed-select/isst-core.c
+index 8de4ac39a008..f724322856ed 100644
+--- a/tools/power/x86/intel-speed-select/isst-core.c
++++ b/tools/power/x86/intel-speed-select/isst-core.c
+@@ -190,6 +190,7 @@ int isst_get_get_trl(int cpu, int level, int avx_level, int *trl)
+ 
+ int isst_set_tdp_level_msr(int cpu, int tdp_level)
+ {
++	unsigned long long level = tdp_level;
+ 	int ret;
+ 
+ 	debug_printf("cpu: tdp_level via MSR %d\n", cpu, tdp_level);
+@@ -202,8 +203,7 @@ int isst_set_tdp_level_msr(int cpu, int tdp_level)
+ 	if (tdp_level > 2)
+ 		return -1; /* invalid value */
+ 
+-	ret = isst_send_msr_command(cpu, 0x64b, 1,
+-				    (unsigned long long *)&tdp_level);
++	ret = isst_send_msr_command(cpu, 0x64b, 1, &level);
+ 	if (ret)
+ 		return ret;
  
 -- 
-1.9.1
+2.20.1
 
