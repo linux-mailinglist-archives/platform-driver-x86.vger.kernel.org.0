@@ -2,89 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E49B99AC8
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Aug 2019 19:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C9459A078
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Aug 2019 21:47:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390430AbfHVRIk (ORCPT
+        id S2389040AbfHVTrT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Aug 2019 13:08:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58190 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390422AbfHVRIi (ORCPT
+        Thu, 22 Aug 2019 15:47:19 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:44157 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbfHVTrS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Aug 2019 13:08:38 -0400
-Received: from sasha-vm.mshome.net (wsip-184-188-36-2.sd.sd.cox.net [184.188.36.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A58B2342A;
-        Thu, 22 Aug 2019 17:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566493717;
-        bh=v6CLPFTPD9bw6DudDkxxB588VZFuwJvTzq5aEVjbx3k=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l2xr8I9aJZmL3RiVmd0mfaFU11Q1BsUI3U82hv3kXoraV7Ynijbe1pQUtQEa0M+fy
-         sOZd/SMgXph00gBOziYezCBhCH+3JZzj19+OhM5r9ePSaQSp0a5KRstRsAqJ0OcG+n
-         X9ImhLcJqGV9X2hELbTB0y+DiPKXQLDA20TXxtU4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
+        Thu, 22 Aug 2019 15:47:18 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i18so4257632pgl.11;
+        Thu, 22 Aug 2019 12:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=geKo+r4JpYsWTyWrJg278HrPmOhiSRe0EiDLQt4J2MY=;
+        b=a6lfsgZHZTUqp/CIKlh691UsSMy3tNcuTSdW59qvWTTNQuxhgnRBn+IJqoI+N9FJJT
+         ru9IcW3OVUaw5WYIyI+U5v3Y8iIpIMBoUvyqkfXRsbscvxr8PW51w928bpbJtI4tayZ6
+         Tfo5JnDMz0tfnrJuQfgyhI2N+8iirlMe6fkggA913cL8UPzwBwHSRkRduoC2vxNVi8yd
+         ZYt8S1wCoMawjxJSLxj6TgSI8HoWW9dQi99O6Eu9OCSOSciYhqTTfBhukd8gcwVA3kv6
+         Stl4xLuIdkSw+3Fv6an5SA9gpikg1+5PMZ4zAl7JxxgWwSRfhak/JlD4ENAl/aee9DCn
+         1Ynw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=geKo+r4JpYsWTyWrJg278HrPmOhiSRe0EiDLQt4J2MY=;
+        b=iOSUVIFAk7omqCmsW9U97a+DapvvazuuVEYKTV2Tdo6E/J/XBebLV04cGY/ldJxsV3
+         Vzo5WDavUgFQdFpa9IFAAVptouYEkONAQmdaADPCl9Fm7cF3v4BAiPtzYjhMlnCV3vtU
+         4onwjoN3AvEvW59hkbHsoD8vx4Qg/vhF3cWRsz2gTTPTIbEMow8uz5mEUsG9KKdWCMAw
+         SfyntnYSZHBzFgJqennpGiNDflHoa84hyrleZKr0Irw33vLBBbgbrSqYm/btPrxPebEe
+         +y1BgIjfEhDZBe7mKjKNl5SCtWCjmSFCI6vsFOJzLZuj/d/kW881izuDFJdUVXTzGoZW
+         NIvw==
+X-Gm-Message-State: APjAAAXSJ22mzUOEPW3LYYKCbMgxxXrss//tpWIvOwtC2lda4wXJmk9/
+        9SyJAoY/pqn97WXkI6bzU+EMUb/Q3m+h/m3lhPSEzUa2UIs=
+X-Google-Smtp-Source: APXvYqzrpL9qj/EmLT6e3tFYK9qL3VK1t38d28pYNQeGk3WBfjVb4bjJ/bbHG/cTwmU4V1l3q2pV8jviw2jK/sH5eBc=
+X-Received: by 2002:a62:7503:: with SMTP id q3mr955466pfc.151.1566503237379;
+ Thu, 22 Aug 2019 12:47:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <1566294992-703-1-git-send-email-info@metux.net>
+In-Reply-To: <1566294992-703-1-git-send-email-info@metux.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 22 Aug 2019 22:47:05 +0300
+Message-ID: <CAHp75VfFf7y5iLHSgS+mXa4cE78BC=maF6PWtwEGfgyi2pXKCg@mail.gmail.com>
+Subject: Re: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.2 044/135] platform/x86: intel_pmc_core: Add ICL-NNPI support to PMC Core
-Date:   Thu, 22 Aug 2019 13:06:40 -0400
-Message-Id: <20190822170811.13303-45-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190822170811.13303-1-sashal@kernel.org>
-References: <20190822170811.13303-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-KernelTest-Patch: http://kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.2.10-rc1.gz
-X-KernelTest-Tree: git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-X-KernelTest-Branch: linux-5.2.y
-X-KernelTest-Patches: git://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
-X-KernelTest-Version: 5.2.10-rc1
-X-KernelTest-Deadline: 2019-08-24T17:07+00:00
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
+On Tue, Aug 20, 2019 at 12:56 PM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
+>
+> GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
+> need to match on DMI data.
+>
 
-[ Upstream commit 66013e8ec6850f9c62df6aea555fe7668e84dc3c ]
+> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
 
-Ice Lake Neural Network Processor for deep learning inference a.k.a.
-ICL-NNPI can re-use Ice Lake Mobile regmap to enable Intel PMC Core
-driver on it.
+Wrong format.
 
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
-Cc: platform-driver-x86@vger.kernel.org
-Link: https://lkml.org/lkml/2019/6/5/1034
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/intel_pmc_core.c | 1 +
- 1 file changed, 1 insertion(+)
+W/o SoB tag I can't take it.
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 1d902230ba611..be6cda89dcf5b 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -815,6 +815,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
- 	INTEL_CPU_FAM6(KABYLAKE_DESKTOP, spt_reg_map),
- 	INTEL_CPU_FAM6(CANNONLAKE_MOBILE, cnp_reg_map),
- 	INTEL_CPU_FAM6(ICELAKE_MOBILE, icl_reg_map),
-+	INTEL_CPU_FAM6(ICELAKE_NNPI, icl_reg_map),
- 	{}
- };
- 
 -- 
-2.20.1
-
+With Best Regards,
+Andy Shevchenko
