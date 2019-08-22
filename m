@@ -2,54 +2,250 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CD6C9A149
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 22 Aug 2019 22:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2EE89A332
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 23 Aug 2019 00:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393298AbfHVUj1 convert rfc822-to-8bit (ORCPT
+        id S2394082AbfHVWn7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 22 Aug 2019 16:39:27 -0400
-Received: from mail.physics.pub.ro ([141.85.216.3]:34096 "EHLO
-        physics1.physics.pub.ro" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387798AbfHVUj1 (ORCPT
+        Thu, 22 Aug 2019 18:43:59 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39711 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393934AbfHVWn7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 22 Aug 2019 16:39:27 -0400
-X-Greylist: delayed 29275 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Aug 2019 16:39:26 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by physics1.physics.pub.ro (Postfix) with ESMTP id F1F94E3AB0D;
-        Thu, 22 Aug 2019 13:50:05 +0300 (EEST)
-X-Virus-Scanned: amavisd-new at physics.pub.ro
-Received: from physics1.physics.pub.ro ([127.0.0.1])
-        by localhost (physics1.physics.pub.ro [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ug5yRA4XaeHb; Thu, 22 Aug 2019 13:50:05 +0300 (EEST)
-Received: from [10.51.176.174] (unknown [105.4.6.61])
-        by physics1.physics.pub.ro (Postfix) with ESMTPSA id EC9A7E3C725;
-        Thu, 22 Aug 2019 13:49:54 +0300 (EEST)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 22 Aug 2019 18:43:59 -0400
+Received: by mail-lf1-f67.google.com with SMTP id x3so5702973lfn.6
+        for <platform-driver-x86@vger.kernel.org>; Thu, 22 Aug 2019 15:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H8l7wiMMUHrZuNeEcqw+cMi/TFoxbqaAZ0zFmrdQUd8=;
+        b=e15u45FbA6x5Dg8BFxhCxSv2LU58YacddRWjaMbPYKxjhaDyYi/SqF+VKxPpK+qw3Y
+         7PI95YhnxrSaAOEKXgO2G0z5a4w3+6UMO1LnwkwBMHVjVIO35LisV0pWaXOzZxOOE86z
+         HfLqp1OaEFkW2olQ6bUpzoI+lvZrZ4403TJTGIxnmCgUA0R9jLd6+S9Cq1vRPOciPcU0
+         cazuAXrY5O9xySjFmq590OTmcclySR2NZ1x5rBMOv8ssSmemMH8j1eLwe6qkUmOo1qd7
+         3xB+jNokMD8Qt0HE6SFyH1K+PfJw+FI6lvxQtxLiJyyHFaI9sZgiB33rZJ4zVlO8kQrE
+         GxjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H8l7wiMMUHrZuNeEcqw+cMi/TFoxbqaAZ0zFmrdQUd8=;
+        b=PRESEV0Jf1bISKdo9OoTYimqj+5ZspfdXj6lQlb1aD28gAp/rUQi4XRtUr6MR0cpnv
+         K9VvQ7G9K0tyzfzq+cNbBwDx4sNoLI+ucsA/ptHqGeI5KnQaAVDgM/EYhFixKQceAD00
+         k1nno+5Hx3d9A6QAozGtXYBIKCakPrOy7Ba1JsarI8RZbjuowrpMb7PyosfXMrNOZh1e
+         UGzPhoTOTDHmHJYJ4/gt7Jo1uKN2Y+LZL8ff+F/rIYFGysdbCALRe2/O39epRv9597wP
+         EVyP+fIVLm4MJb0C5nDmYPa6nTR/BxytdYvnGyfFtgbpdHcWn70SQ+yn/j+gEwV1u+gv
+         jz6A==
+X-Gm-Message-State: APjAAAUlpd3VfGvmLg/ghCwzVKFctR0itA4Wh/BMwxMcarmNJ2+IC42k
+        GbZHihizYyuVtqe8WGKiBHJxVKy4eQCXi8eullVgFw==
+X-Google-Smtp-Source: APXvYqxJ3k6D9ZNQsdCbqjzAQc83gIEs28NFrbZn0szD6o/v6a7l4b6EWPCAQkmHgESTvWuHdx+n5rZN62XHk+3PhpA=
+X-Received: by 2002:a19:5218:: with SMTP id m24mr822179lfb.164.1566513835919;
+ Thu, 22 Aug 2019 15:43:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <niculae-tiberiu.puscas@physics.pub.ro>
-From:   ''Tayeb Souami'' <niculae-tiberiu.puscas@physics.pub.ro>
-Date:   Thu, 22 Aug 2019 12:49:48 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20190822104954.EC9A7E3C725@physics1.physics.pub.ro>
+References: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
+ <20190628033413.8058-1-rajatja@google.com>
+In-Reply-To: <20190628033413.8058-1-rajatja@google.com>
+From:   Rajat Jain <rajatja@google.com>
+Date:   Thu, 22 Aug 2019 15:43:19 -0700
+Message-ID: <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
+Subject: Re: [PATCH v7] platform/x86: intel_pmc_core: Attach using APCI HID "INT33A1"
+To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Furquan Shaikh <furquan@google.com>,
+        Evan Green <evgreen@google.com>,
+        Rajat Jain <rajatxjain@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Lieber Freund,
+On Thu, Jun 27, 2019 at 8:34 PM Rajat Jain <rajatja@google.com> wrote:
+>
+> Most modern platforms already have the ACPI device "INT33A1" that could
+> be used to attach to the driver. Switch the driver to using that and
+> thus make the intel_pmc_core.c a pure platform_driver.
+>
+> Some of the legacy platforms though, may still not have this ACPI device
+> in their ACPI tables. Thus for such platforms, move the code to manually
+> instantiate a platform_device into a new file of its own. This would
+> instantiate the intel_pmc_core platform device and thus attach to
+> the driver, if the ACPI device for the same ("INT33A1") is not present
+> in a system where it should be. This was discussed here:
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+HI Andy, Rajneesh, this seems to have fallen through the cracks. Any
+comments here on this patch?
 
-Das ist dein Spendencode: [TS530342018]
+Thanks,
 
-Antworten Sie mit dem SPENDE-CODE an diese E-Mail:Tayebsouam.spende@gmail.com
+Rajat
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
-Grüße
-Herr Tayeb Souami
+>
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> ---
+> v7: Include module.h and add MODULE_LICENSE()
+> v6: was here: https://patchwork.kernel.org/patch/10906387/
+>     (The patchset was accepted, but this particular patch was later
+>      dropped becasue it created some warnings in certain kernel
+>      configurations: https://www.spinics.net/lists/linux-next/msg47611.html)
+>
+>  drivers/platform/x86/Makefile                 |  2 +-
+>  drivers/platform/x86/intel_pmc_core.c         | 40 +++---------
+>  .../platform/x86/intel_pmc_core_plat_drv.c    | 62 +++++++++++++++++++
+>  3 files changed, 71 insertions(+), 33 deletions(-)
+>  create mode 100644 drivers/platform/x86/intel_pmc_core_plat_drv.c
+>
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index 87b0069bd781..4ba707111c27 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -89,7 +89,7 @@ obj-$(CONFIG_INTEL_BXTWC_PMIC_TMU)    += intel_bxtwc_tmu.o
+>  obj-$(CONFIG_INTEL_TELEMETRY)  += intel_telemetry_core.o \
+>                                    intel_telemetry_pltdrv.o \
+>                                    intel_telemetry_debugfs.o
+> -obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o
+> +obj-$(CONFIG_INTEL_PMC_CORE)    += intel_pmc_core.o intel_pmc_core_plat_drv.o
+>  obj-$(CONFIG_PMC_ATOM)         += pmc_atom.o
+>  obj-$(CONFIG_MLX_PLATFORM)     += mlx-platform.o
+>  obj-$(CONFIG_INTEL_TURBO_MAX_3) += intel_turbo_max_3.o
+> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+> index 1d902230ba61..f20d08ad39ea 100644
+> --- a/drivers/platform/x86/intel_pmc_core.c
+> +++ b/drivers/platform/x86/intel_pmc_core.c
+> @@ -1023,47 +1023,23 @@ static const struct dev_pm_ops pmc_core_pm_ops = {
+>         SET_LATE_SYSTEM_SLEEP_PM_OPS(pmc_core_suspend, pmc_core_resume)
+>  };
+>
+> +static const struct acpi_device_id pmc_core_acpi_ids[] = {
+> +       {"INT33A1", 0}, /* _HID for Intel Power Engine, _CID PNP0D80*/
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, pmc_core_acpi_ids);
+> +
+>  static struct platform_driver pmc_core_driver = {
+>         .driver = {
+>                 .name = "intel_pmc_core",
+> +               .acpi_match_table = ACPI_PTR(pmc_core_acpi_ids),
+>                 .pm = &pmc_core_pm_ops,
+>         },
+>         .probe = pmc_core_probe,
+>         .remove = pmc_core_remove,
+>  };
+>
+> -static struct platform_device pmc_core_device = {
+> -       .name = "intel_pmc_core",
+> -};
+> -
+> -static int __init pmc_core_init(void)
+> -{
+> -       int ret;
+> -
+> -       if (!x86_match_cpu(intel_pmc_core_ids))
+> -               return -ENODEV;
+> -
+> -       ret = platform_driver_register(&pmc_core_driver);
+> -       if (ret)
+> -               return ret;
+> -
+> -       ret = platform_device_register(&pmc_core_device);
+> -       if (ret) {
+> -               platform_driver_unregister(&pmc_core_driver);
+> -               return ret;
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+> -static void __exit pmc_core_exit(void)
+> -{
+> -       platform_device_unregister(&pmc_core_device);
+> -       platform_driver_unregister(&pmc_core_driver);
+> -}
+> -
+> -module_init(pmc_core_init)
+> -module_exit(pmc_core_exit)
+> +module_platform_driver(pmc_core_driver);
+>
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_DESCRIPTION("Intel PMC Core Driver");
+> diff --git a/drivers/platform/x86/intel_pmc_core_plat_drv.c b/drivers/platform/x86/intel_pmc_core_plat_drv.c
+> new file mode 100644
+> index 000000000000..a8754a6db1b8
+> --- /dev/null
+> +++ b/drivers/platform/x86/intel_pmc_core_plat_drv.c
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Intel PMC Core platform init
+> + * Copyright (c) 2019, Google Inc.
+> + * Author - Rajat Jain
+> + *
+> + * This code instantiates platform devices for intel_pmc_core driver, only
+> + * on supported platforms that may not have the ACPI devices in the ACPI tables.
+> + * No new platforms should be added here, because we expect that new platforms
+> + * should all have the ACPI device, which is the preferred way of enumeration.
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <asm/cpu_device_id.h>
+> +#include <asm/intel-family.h>
+> +
+> +static struct platform_device pmc_core_device = {
+> +       .name = "intel_pmc_core",
+> +};
+> +
+> +/*
+> + * intel_pmc_core_platform_ids is the list of platforms where we want to
+> + * instantiate the platform_device if not already instantiated. This is
+> + * different than intel_pmc_core_ids in intel_pmc_core.c which is the
+> + * list of platforms that the driver supports for pmc_core device. The
+> + * other list may grow, but this list should not.
+> + */
+> +static const struct x86_cpu_id intel_pmc_core_platform_ids[] = {
+> +       INTEL_CPU_FAM6(SKYLAKE_MOBILE, pmc_core_device),
+> +       INTEL_CPU_FAM6(SKYLAKE_DESKTOP, pmc_core_device),
+> +       INTEL_CPU_FAM6(KABYLAKE_MOBILE, pmc_core_device),
+> +       INTEL_CPU_FAM6(KABYLAKE_DESKTOP, pmc_core_device),
+> +       INTEL_CPU_FAM6(CANNONLAKE_MOBILE, pmc_core_device),
+> +       INTEL_CPU_FAM6(ICELAKE_MOBILE, pmc_core_device),
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(x86cpu, intel_pmc_core_platform_ids);
+> +
+> +static int __init pmc_core_platform_init(void)
+> +{
+> +       /* Skip creating the platform device if ACPI already has a device */
+> +       if (acpi_dev_present("INT33A1", NULL, -1))
+> +               return -ENODEV;
+> +
+> +       if (!x86_match_cpu(intel_pmc_core_platform_ids))
+> +               return -ENODEV;
+> +
+> +       return platform_device_register(&pmc_core_device);
+> +}
+> +
+> +static void __exit pmc_core_platform_exit(void)
+> +{
+> +       platform_device_unregister(&pmc_core_device);
+> +}
+> +
+> +module_init(pmc_core_platform_init);
+> +module_exit(pmc_core_platform_exit);
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.22.0.410.gd8fdbe21b5-goog
+>
