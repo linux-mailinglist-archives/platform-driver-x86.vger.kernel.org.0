@@ -2,98 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA111A5997
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Sep 2019 16:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BCAA5A43
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Sep 2019 17:12:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730874AbfIBOmT (ORCPT
+        id S1730884AbfIBPMT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Sep 2019 10:42:19 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:49634 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730559AbfIBOmT (ORCPT
+        Mon, 2 Sep 2019 11:12:19 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:32917 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730108AbfIBPMS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Sep 2019 10:42:19 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x82EdCxG167673;
-        Mon, 2 Sep 2019 14:41:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=nNxuQ+XhbrNcPxEVkBUve1gkarjWc5v6szxVPvvy5TA=;
- b=q5KH9/2oVwLsbq8tldipBF4TewYfyFoBbsTofIPDtnPdZyGSIyiZ7JR101vbyCZMCu8t
- q/KjdczMx8XkFQZ8gE+e0BXHe2msnfamhB4iwC/SCn9mSDfc6KnE9OYIQvPcHJz/+LdO
- InHmH3P8tllK2fdPE5qLaPHyBCVn3Ng/wja0etkjracPPQi1cccs3wHAQVZeZdP4am1U
- EzyWQTsIJt1GRMjmX6LrufrgewWgjC0wMeM+l7kIiuJEgYEjCAxCHooGW6zl2qv+ZoqS
- mOmqMbnDnHyRGqJKbdXi/FkaJfFgM3rW5Dqtf6Fb1m7QSrkPfV5ltSgsNC1x/b0tq3/P VQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2us4xk01d5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 02 Sep 2019 14:41:23 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x82EcPuh062943;
-        Mon, 2 Sep 2019 14:39:22 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 2uryv5akfs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 02 Sep 2019 14:39:22 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x82Ecvsc002191;
-        Mon, 2 Sep 2019 14:38:57 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 02 Sep 2019 07:38:57 -0700
-Date:   Mon, 2 Sep 2019 17:38:50 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Andy Shevchenko <andy@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] platform/x86: asus-wmi: Fix condition in
- charge_threshold_store()
-Message-ID: <20190902143850.GA607@mwanda>
+        Mon, 2 Sep 2019 11:12:18 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q10so4077214pfl.0;
+        Mon, 02 Sep 2019 08:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xc9euGGtT7Pr1uld4Ln2Q3TAbiAbjgOKZrQrgdPmz4c=;
+        b=VA79ZNkQmBSRKN0dDuCM+h1WJX11zP8Urt3xHCvut3A2oVKBl0KAd5JIBqbCjUUdzL
+         GG0siWyFZ9yxokmnzzOshSuIlmI9yLeufARi5xc8YHfA4Lt/FpeGnPWwEe+a9WJABOyQ
+         rucF0pF8MdWLzUVtYrJChPJ9yxvVhIv8S+ebXSWNzpTSEl9F2SMFyUh8dDfE6a8Uj10K
+         DfV9r79asr8MiWevVoUATn1C5CQ3CdmH8HIq/MvBVaMRPWbA4tNCP4FwDe1MzqsFE9PL
+         BNtCTIl71DwgELDbhXtd7MElAdfLpYfBQunTn1V9gUDQVijzb7hKqlGpTGZU/+rZ1nLt
+         BOKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xc9euGGtT7Pr1uld4Ln2Q3TAbiAbjgOKZrQrgdPmz4c=;
+        b=l7zsA+BphyvlwQKaJBD9+hrYgHLGIsJ/3jSb1BdVDk6NeNG41cG1ge1Y7U7h8pak/9
+         //wCiER0QxWozeVX1WngMZOpXEimqUUmSfr5cB60f8p+e74wn0CQNJ58NvFui8I/QjZy
+         QhAhITaA945GfUMcI6xhmk0v3ThMCQgEtfl584RL4zBiarVrsGbYAqoPPufdQT3VHKDz
+         ozjkkci08RHAsxJkxMKunpacVVh8Wyv4jvCCWiU0ZLtr5KxjB2SbaUOWtDp5qEXfVhRs
+         JYMPuHcAPlowk1eyPPbRkyA85mmLBejk1CHdqC01qck2AKRHNqDTnD0/tgeCupDW2fEk
+         FvIg==
+X-Gm-Message-State: APjAAAX6mjBTfoe8w7Bv8uyyGOHlU0Xrz0l6k8bf7AQn6YiuwY/INXYG
+        4206qupjd0+eURijmjDjCyh2UaLAQgzNv52I95k=
+X-Google-Smtp-Source: APXvYqzoJ7mS8gtUAr0mAUpJagYPd2XrREz1MfYPybV1BVR0VLquAZnGjeubkuYNh8/QGq8RFPLKyDTxMzPtivKOvVo=
+X-Received: by 2002:a63:1020:: with SMTP id f32mr26595688pgl.203.1567437138024;
+ Mon, 02 Sep 2019 08:12:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9367 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1909020165
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9367 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1909020166
+References: <20190902143850.GA607@mwanda>
+In-Reply-To: <20190902143850.GA607@mwanda>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 2 Sep 2019 18:12:07 +0300
+Message-ID: <CAHp75Vf=8L8fk0a=9auX5RboF8yCnfmz3JH9OGT7yAV3ZX1ybw@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-wmi: Fix condition in charge_threshold_store()
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This error handling is reversed so we return early.
+On Mon, Sep 2, 2019 at 5:41 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> This error handling is reversed so we return early.
+>
 
-Fixes: 84d8e80b0a36 ("platform/x86: asus-wmi: Refactor charge_threshold_store()")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/platform/x86/asus-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I will squash to the original commit since it's not yet upstream.
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 14467748b343..848b23764fc3 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -2068,7 +2068,7 @@ static ssize_t charge_threshold_store(struct device *dev,
- 		return -EINVAL;
- 
- 	ret = asus_wmi_set_devstate(ASUS_WMI_CHARGE_THRESHOLD, value, &rv);
--	if (!ret)
-+	if (ret)
- 		return ret;
- 
- 	if (rv != 1)
+Are you okay with this?
+
+> Fixes: 84d8e80b0a36 ("platform/x86: asus-wmi: Refactor charge_threshold_store()")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/platform/x86/asus-wmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 14467748b343..848b23764fc3 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -2068,7 +2068,7 @@ static ssize_t charge_threshold_store(struct device *dev,
+>                 return -EINVAL;
+>
+>         ret = asus_wmi_set_devstate(ASUS_WMI_CHARGE_THRESHOLD, value, &rv);
+> -       if (!ret)
+> +       if (ret)
+>                 return ret;
+>
+>         if (rv != 1)
+> --
+> 2.20.1
+>
+
+
 -- 
-2.20.1
-
+With Best Regards,
+Andy Shevchenko
