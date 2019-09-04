@@ -2,33 +2,34 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE51A7BA0
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Sep 2019 08:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14D92A7BF8
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Sep 2019 08:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbfIDGXW (ORCPT
+        id S1727787AbfIDGrx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Sep 2019 02:23:22 -0400
-Received: from thoth.sbs.de ([192.35.17.2]:44456 "EHLO thoth.sbs.de"
+        Wed, 4 Sep 2019 02:47:53 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:35105 "EHLO lizzard.sbs.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725267AbfIDGXW (ORCPT
+        id S1728209AbfIDGrx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Sep 2019 02:23:22 -0400
-X-Greylist: delayed 304 seconds by postgrey-1.27 at vger.kernel.org; Wed, 04 Sep 2019 02:23:21 EDT
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-        by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x846I4hZ020116
+        Wed, 4 Sep 2019 02:47:53 -0400
+X-Greylist: delayed 314 seconds by postgrey-1.27 at vger.kernel.org; Wed, 04 Sep 2019 02:47:52 EDT
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id x846gWAq028106
         (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 4 Sep 2019 08:18:04 +0200
+        Wed, 4 Sep 2019 08:42:32 +0200
 Received: from [167.87.42.80] ([167.87.42.80])
-        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x846I3Ow012563;
-        Wed, 4 Sep 2019 08:18:04 +0200
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x846gVpF006197;
+        Wed, 4 Sep 2019 08:42:31 +0200
 From:   Jan Kiszka <jan.kiszka@siemens.com>
-Subject: [PATCH] platform/x86: pmc_atom: Add Siemens SIMATIC IPC227E to
+Subject: [PATCH v2] platform/x86: pmc_atom: Add Siemens SIMATIC IPC227E to
+ critclk_systems DMI table
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <ddaeca63-eae8-e466-5c30-6e194b251bbb@siemens.com>
-Date:   Wed, 4 Sep 2019 08:18:03 +0200
+Message-ID: <c090302a-da38-5764-2a84-399ed6b333f5@siemens.com>
+Date:   Wed, 4 Sep 2019 08:42:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
@@ -49,6 +50,9 @@ to the critical systems list.
 Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
 Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
 ---
+
+Changes in v2:
+ - fixed cut-off subject line (local tooling bug...)
 
 Should go into stable as well, down to 4.19.
 
