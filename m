@@ -2,25 +2,25 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1762AAD74
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Sep 2019 22:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CA9EAAD7C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Sep 2019 23:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732650AbfIEU4K (ORCPT
+        id S1731878AbfIEVAO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Sep 2019 16:56:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52154 "EHLO mx1.redhat.com"
+        Thu, 5 Sep 2019 17:00:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38380 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726936AbfIEU4K (ORCPT
+        id S1726936AbfIEVAO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Sep 2019 16:56:10 -0400
+        Thu, 5 Sep 2019 17:00:14 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B938D308FC20;
-        Thu,  5 Sep 2019 20:56:09 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 50D4C30083ED;
+        Thu,  5 Sep 2019 21:00:14 +0000 (UTC)
 Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0F90D60A9D;
-        Thu,  5 Sep 2019 20:56:07 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C1C1C60610;
+        Thu,  5 Sep 2019 21:00:13 +0000 (UTC)
 Subject: Re: [PATCH v2 9/9] tools/power/x86/intel-speed-select: Fix memory
  leak
 To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
@@ -31,8 +31,8 @@ References: <20190905120311.15286-1-prarit@redhat.com>
  <20190905120311.15286-10-prarit@redhat.com>
  <f12560e59427ce7e038334a3b59bf084a748d998.camel@linux.intel.com>
 From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <46751746-283c-1aa0-7858-b3ca106dad49@redhat.com>
-Date:   Thu, 5 Sep 2019 16:56:07 -0400
+Message-ID: <13983f13-098e-4390-c014-43b59c4e2f27@redhat.com>
+Date:   Thu, 5 Sep 2019 17:00:13 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
@@ -41,7 +41,7 @@ Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 05 Sep 2019 20:56:09 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Thu, 05 Sep 2019 21:00:14 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
@@ -58,13 +58,13 @@ On 9/5/19 3:42 PM, Srinivas Pandruvada wrote:
 >> Fix the memory leaks by calling free_cpu_set().
 > Good to fix this. But after one command execution the process will
 > exit.
+> 
 
-Oh ... I didn't realize it was possible to execute multiple commands in one
-call.  I'll go off and fix that and send a v3.
+I'm sorry, I misunderstood your comment.  Yes, the process will exit after one
+command :)
 
 P.
 
-> 
 > Thanks,
 > Srinivas
 > 
