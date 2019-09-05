@@ -2,165 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0573A9443
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Sep 2019 22:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D346A9AE4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Sep 2019 08:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbfIDU7t (ORCPT
+        id S1731015AbfIEGrQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Sep 2019 16:59:49 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57442 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726495AbfIDU7t (ORCPT
+        Thu, 5 Sep 2019 02:47:16 -0400
+Received: from mail-pg1-f173.google.com ([209.85.215.173]:45431 "EHLO
+        mail-pg1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730778AbfIEGrQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Sep 2019 16:59:49 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Sep 2019 13:59:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,468,1559545200"; 
-   d="scan'208";a="187748999"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by orsmga006.jf.intel.com with ESMTP; 04 Sep 2019 13:59:48 -0700
-Message-ID: <6119c6d98c056b3a3377031b1e46fb0fa77e6af2.camel@linux.intel.com>
-Subject: Re: [PATCH 0/8] tools-power-x86-intel-speed-select: Fixes and
- updates for output
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     David Arcari <darcari@redhat.com>, linux-kernel@vger.kernel.org
-Date:   Wed, 04 Sep 2019 13:59:48 -0700
-In-Reply-To: <bab7688c-6ab6-16ad-d6f2-ade16af6892b@redhat.com>
-References: <20190903153734.11904-1-prarit@redhat.com>
-         <e6390a656dfd29b114b1e0659e3db169344cfa81.camel@linux.intel.com>
-         <bab7688c-6ab6-16ad-d6f2-ade16af6892b@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Thu, 5 Sep 2019 02:47:16 -0400
+Received: by mail-pg1-f173.google.com with SMTP id 4so825834pgm.12
+        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Sep 2019 23:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m+u4gLw6j2OSFXXXBdcLkgNGWPn9jRYBpIqHZ9wSpUY=;
+        b=bsEsTeBdupyvfF18sPED+AfjrT4VkMCIasoVqOQndDqhJ4mW7iCeV12ISAjKLqzlhg
+         brPtWu4/MkGI2kk02sHKg1iE0Q18Av+agkIiL5mU/HAEiRGIJBSmkEPtO2Tg+4ADgr5z
+         i820RYPAu2tWA+zu4Q4MnuP1H5eeYPE7XHB2eB2xhuT+LXVSIIEGKPLZwx+gkmAHv3+L
+         iDezZL8slbCBdb2TWc5/QVeMXYgeaGWY4b6rBaWBVHeZWgaq0vdTWO8W6bjNXJ6lO/Pl
+         08VBDNG2OzJgaGRxbmvM1kR5m1CGt8z7QVU5Z+KFWwUwgB7cEmS2nIRV27+cCzVak5SB
+         OFqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m+u4gLw6j2OSFXXXBdcLkgNGWPn9jRYBpIqHZ9wSpUY=;
+        b=IoC+cUWJVR5myzNohkL0B/V0C9Gcfpo1k616CYnqSyT7/3YEZf5YYQok8QNAAcVEk2
+         6ibYX7x2iiP3Sc6hsN9o8mVlftjYaFyZ8nrJSku3MZb7q7RRdWXFUelPfYNlvp8YTUdM
+         xIkv4792izHyPGTfB2Y+JI5BmuYerOshtO9ywF6ffglVsKhuxvwSz2h524pb7NlsOHDq
+         1PWXMQ18UXM3c0/0YOE9V0P3fALI1PBuhxgWicM3J+PtCzwRPRmkgjBuLOd0Ffahh3AX
+         pN2rJcLqZA5JogKBbCzstodlOnwWh8ZIeXnTFXZencM7Hs0tRZAU342RMHg8dSOXOfMf
+         BZVg==
+X-Gm-Message-State: APjAAAXa/e5DTWDSYDFlLDTqwlyLMYu9g8POKGNsIpQbK9jnS7BfP9Cp
+        2aK1OCqRBApAo230DdrljiXkMg==
+X-Google-Smtp-Source: APXvYqz4MUHdNeFbp0epKLUhUCIHdeA7O/1oxxGiDdlCc8F4pENinJdiupfeWhMkVhaIUz7yePapsg==
+X-Received: by 2002:a63:b919:: with SMTP id z25mr1716995pge.201.1567666035648;
+        Wed, 04 Sep 2019 23:47:15 -0700 (PDT)
+Received: from limbo.local (123-204-46-122.static.seed.net.tw. [123.204.46.122])
+        by smtp.gmail.com with ESMTPSA id 67sm1016041pjo.29.2019.09.04.23.47.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2019 23:47:14 -0700 (PDT)
+From:   Daniel Drake <drake@endlessm.com>
+To:     eric.piel@tremplin-utc.net, dvhart@infradead.org,
+        andy@infradead.org
+Cc:     pavel@suse.cz, platform-driver-x86@vger.kernel.org,
+        linux@endlessm.com, burman.yan@gmail.com
+Subject: [PATCH 1/2] lis3lv02d: update documentation references to neverball
+Date:   Thu,  5 Sep 2019 14:47:06 +0800
+Message-Id: <20190905064707.7640-1-drake@endlessm.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+In 2008 when this documentation was added, it was probably possible
+to use the accelerometer play neverball "out of the box" as described.
 
-On Wed, 2019-09-04 at 16:55 -0400, Prarit Bhargava wrote:
-> 
-> On 9/4/19 4:06 PM, Srinivas Pandruvada wrote:
-> > On Tue, 2019-09-03 at 11:37 -0400, Prarit Bhargava wrote:
-> > > Some general fixes and updates for intel-speed-select.  Fixes
-> > > include
-> > > some
-> > > typos as well as an off-by-one cpu count reporting
-> > > error.  Updates
-> > > for the
-> > > output are
-> > > 
-> > > - switching to MHz as a standard
-> > > - reporting CPU frequencies instead of ratios as a standard
-> > > - viewing a human-readable CPU list.
-> > > - avoiding reporting "0|1" as success|fail as these can be
-> > > confusing
-> > > for a
-> > >   user.
-> > 
-> > Series looks fine, except 8/8.
-> > So please submit v2. Better to resubmit as a series as v2, unless
-> > Andy
-> > has other preference.
-> 
-> Thanks Srinivas.
-> 
-> I have an additional patch.  It looks like there's a memory
-> leak.  Sorry for the
-> cut-and-paste but if okay I'll submit this as part of v2.  Reworking
-> the code
-> this way makes it easier to introduce CascadeLake-N support too.
-> 
-Looks good to me.
+That's not the case any more though.
+After fixing sdl to expose the device again
+(https://bugzilla.libsdl.org/show_bug.cgi?id=4789), the game is unplayable
+because modern versions of neverball configure the 3rd axis
+(usually the twisting action of a physical joystick) to rotate the field
+of view by default. Since the Z axis is ordinarily fully positive (as
+documented), this results in the field of view constantly rotating and the
+game is unplayable.
 
-> diff --git a/tools/power/x86/intel-speed-select/isst-config.c
-> b/tools/power/x86/
-> intel-speed-select/isst-config.c
-> index 78f0cebda1da..59753b3917bb 100644
-> --- a/tools/power/x86/intel-speed-select/isst-config.c
-> +++ b/tools/power/x86/intel-speed-select/isst-config.c
-> @@ -603,6 +603,10 @@ static int isst_fill_platform_info(void)
-> 
->         close(fd);
-> 
-> +       if (isst_platform_info.api_version > supported_api_ver) {
-> +               printf("Incompatible API versions; Upgrade of tool is
-> required\n");
-> +               return -1;
-> +       }
->         return 0;
->  }
-> 
-> @@ -1528,6 +1532,7 @@ static void cmdline(int argc, char **argv)
->  {
->         int opt;
->         int option_index = 0;
-> +       int ret;
-> 
->         static struct option long_options[] = {
->                 { "cpu", required_argument, 0, 'c' },
-> @@ -1589,13 +1594,14 @@ static void cmdline(int argc, char **argv)
->         set_max_cpu_num();
->         set_cpu_present_cpu_mask();
->         set_cpu_target_cpu_mask();
-> -       isst_fill_platform_info();
-> -       if (isst_platform_info.api_version > supported_api_ver) {
-> -               printf("Incompatible API versions; Upgrade of tool is
-> required\n");
-> -               exit(0);
-> -       }
-> +       ret = isst_fill_platform_info();
-> +       if (ret)
-> +               goto out;
-> 
->         process_command(argc, argv);
-> +out:
-> +       free_cpu_set(present_cpumask);
-> +       free_cpu_set(target_cpumask);
->  }
-> 
->  int main(int argc, char **argv)
-> 
-> P.
-> > 
-> > Thanks,
-> > Srinivas
-> > 
-> > > 
-> > > Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> > > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > > Cc: David Arcari <darcari@redhat.com>
-> > > Cc: linux-kernel@vger.kernel.org
-> > > 
-> > > Prarit Bhargava (8):
-> > >   tools/power/x86/intel-speed-select: Fix package typo
-> > >   tools/power/x86/intel-speed-select: Fix help option typo
-> > >   tools/power/x86/intel-speed-select: Fix cpu-count output
-> > >   tools/power/x86/intel-speed-select: Simplify output for turbo-
-> > > freq
-> > > and
-> > >     base-freq
-> > >   tools/power/x86/intel-speed-select: Switch output to MHz
-> > >   tools/power/x86/intel-speed-select: Change turbo ratio output
-> > > to
-> > >     maximum turbo frequency
-> > >   tools/power/x86/intel-speed-select: Output human readable CPU
-> > > list
-> > >   tools/power/x86/intel-speed-select: Output success/failed for
-> > > command
-> > >     output
-> > > 
-> > >  .../x86/intel-speed-select/isst-config.c      |   4 +-
-> > >  .../x86/intel-speed-select/isst-display.c     | 116
-> > > ++++++++++++--
-> > > ----
-> > >  2 files changed, 83 insertions(+), 37 deletions(-)
-> > > 
+Until I went closer into the details, this had me thinking that the
+accelerometer was not working correctly. Update the documentation to
+clarify.
+
+Signed-off-by: Daniel Drake <drake@endlessm.com>
+---
+ Documentation/misc-devices/lis3lv02d.rst | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/misc-devices/lis3lv02d.rst b/Documentation/misc-devices/lis3lv02d.rst
+index 959bd2b822cf..c6d3f2d616a4 100644
+--- a/Documentation/misc-devices/lis3lv02d.rst
++++ b/Documentation/misc-devices/lis3lv02d.rst
+@@ -20,7 +20,7 @@ This driver provides support for the accelerometer found in various HP laptops
+ sporting the feature officially called "HP Mobile Data Protection System 3D" or
+ "HP 3D DriveGuard". It detects automatically laptops with this sensor. Known
+ models (full list can be found in drivers/platform/x86/hp_accel.c) will have
+-their axis automatically oriented on standard way (eg: you can directly play
++their axis automatically oriented on standard way (eg: you can play
+ neverball). The accelerometer data is readable via
+ /sys/devices/platform/lis3lv02d. Reported values are scaled
+ to mg values (1/1000th of earth gravity).
+@@ -72,8 +72,7 @@ Axes orientation
+ ----------------
+ 
+ For better compatibility between the various laptops. The values reported by
+-the accelerometer are converted into a "standard" organisation of the axes
+-(aka "can play neverball out of the box"):
++the accelerometer are converted into a "standard" organisation of the axes:
+ 
+  * When the laptop is horizontal the position reported is about 0 for X and Y
+    and a positive value for Z
+@@ -82,6 +81,10 @@ the accelerometer are converted into a "standard" organisation of the axes
+    (becomes negative)
+  * If the laptop is put upside-down, Z becomes negative
+ 
++This configuration of X and Y axes works for playing neverball, as long
++as you configure it to ignore the Z axis (e.g. in neverballrc, set
++joystick_axis_x1 to point to a non-existent axis).
++
+ If your laptop model is not recognized (cf "dmesg"), you can send an
+ email to the maintainer to add it to the database.  When reporting a new
+ laptop, please include the output of "dmidecode" plus the value of
+-- 
+2.20.1
 
