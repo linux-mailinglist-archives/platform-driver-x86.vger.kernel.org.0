@@ -2,90 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB9B3AAEF1
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Sep 2019 01:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F690AAF1D
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Sep 2019 01:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbfIEXF5 (ORCPT
+        id S2388315AbfIEX37 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Sep 2019 19:05:57 -0400
-Received: from mga09.intel.com ([134.134.136.24]:49498 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbfIEXF5 (ORCPT
+        Thu, 5 Sep 2019 19:29:59 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35018 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732754AbfIEX36 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Sep 2019 19:05:57 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Sep 2019 16:05:57 -0700
-X-IronPort-AV: E=Sophos;i="5.64,471,1559545200"; 
-   d="scan'208";a="334712141"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.251.155.245])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Sep 2019 16:05:56 -0700
-Message-ID: <e02287479ad936142a21cbd7c6c00947ca0c5088.camel@linux.intel.com>
-Subject: Re: [PATCH v2 0/9] tools-power-x86-intel-speed-select: Fixes and
- updates for output
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     andriy.shevchenko@intel.com, David Arcari <darcari@redhat.com>,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 05 Sep 2019 16:05:55 -0700
-In-Reply-To: <20190905120311.15286-1-prarit@redhat.com>
-References: <20190905120311.15286-1-prarit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Thu, 5 Sep 2019 19:29:58 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 205so2958327pfw.2;
+        Thu, 05 Sep 2019 16:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=jtjFrbgie1B8vmotFZj58YoVLg9kCTIeE4Vs+aG5yy8=;
+        b=GjvkBbheJ20Oy02sUV3saiUzVXZKKF1U3bWFaz0/bwYzSt5iLGyB5m54e4TlykmKzo
+         9R+kTu2YK/dX8keMqxuC4k0rLU5EuyoWwd+CzHbi63GuS0IYBRZ7+TQ2BrieCyKMSjvh
+         WPXo/Byln+FM4SQ70G1sW0jEK1/MTSCmBhYbqh7qdJBGxc0/8O38ZGbuI7heP/utaxKI
+         Cz2flVZ0QavcT5olP8BXIBg8uj9iUMaPVy639ZwnYj+1YYhKFuhCUEML3tTJFnf3iaQL
+         bGJIevkUPwyjxW/qGiWEVldVj2KL+ZLPNDOdMsT872DnDJsFHQBDMhZjPm4nW65VUCyv
+         ek4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=jtjFrbgie1B8vmotFZj58YoVLg9kCTIeE4Vs+aG5yy8=;
+        b=U7KfonW/qKcw3T8tJDK49byclLmKf3lQ1K4e6sgNFWG38zJWaF/oHYtQk9uSVNVz6x
+         lBiDd5C9kBa3qVPWkbOYy12CVGVqk1QG6KyERu6r8UlZNtj+unW1/ByznpLRq8KH0fSc
+         hw9ZZo6CI5UorkMr07/yD5egLNc876yh/TDB8ENVhS8UYsu0TpY8PvEZirZf7ifO22x/
+         zHVPJsUj3pUNg1FKe9hAC+rpZ0D/De6qCoKetrh4G0K2UIVYT7zIrF70Zup43J1tTkxD
+         R785X+4jF/y5tMUmvlUn8K0UDyvG5AEe+g3g+fF++FhYKtn3HlygXf9cNOeoO5IYoJvr
+         l6Qg==
+X-Gm-Message-State: APjAAAWqxg7jSCqc+NWtk/PJ2MNt7WoOyZVT2r5aOJl8N+Ceb980B/fU
+        jsSxVt7CJzz0CDyq/XfDWu0=
+X-Google-Smtp-Source: APXvYqykDQgAMzPg7C//IqDAwj/aIIU2bV6z0vPnH6n0eclhrgVl5yyjHFf0Nj2yvspE2c57zxIrYg==
+X-Received: by 2002:a17:90a:6302:: with SMTP id e2mr6578753pjj.34.1567726197490;
+        Thu, 05 Sep 2019 16:29:57 -0700 (PDT)
+Received: from LGEARND20B15 ([27.122.242.75])
+        by smtp.gmail.com with ESMTPSA id v27sm8198814pgn.76.2019.09.05.16.29.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Sep 2019 16:29:57 -0700 (PDT)
+Date:   Fri, 6 Sep 2019 08:29:51 +0900
+From:   Austin Kim <austindh.kim@gmail.com>
+To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org
+Cc:     dvhart@infradead.org, andy@infradead.org, hpa@zytor.com,
+        x86@kernel.org, gregkh@linuxfoundation.org, allison@lohutok.net,
+        armijn@tjaldur.nl, kjlu@umn.edu,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] x86/platform/uv: move kmalloc() NULL check routine
+Message-ID: <20190905232951.GA28779@LGEARND20B15>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, 2019-09-05 at 08:03 -0400, Prarit Bhargava wrote:
-> Some general fixes and updates for intel-speed-select.  Fixes include
-> some
-> typos as well as an off-by-one cpu count reporting error.  Updates
-> for the
-> output are
-> 
-> - switching to MHz as a standard
-> - reporting CPU frequencies instead of ratios as a standard
-> - viewing a human-readable CPU list.
-> - avoiding reporting "0|1" as success|fail as these can be confusing
-> for a
->   user.
-> 
-> v2: Add additional patch to fix memory leak and remove help text in
-> 8/9.
+The result of kmalloc should have been checked ahead of below statement:
+	pqp = (struct bau_pq_entry *)vp;
 
-For the series
+Move BUG_ON(!vp) before above statement.
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+---
+ arch/x86/platform/uv/tlb_uv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: David Arcari <darcari@redhat.com>
-> Cc: linux-kernel@vger.kernel.org
-> 
-> Prarit Bhargava (9):
->   tools/power/x86/intel-speed-select: Fix package typo
->   tools/power/x86/intel-speed-select: Fix help option typo
->   tools/power/x86/intel-speed-select: Fix cpu-count output
->   tools/power/x86/intel-speed-select: Simplify output for turbo-freq
-> and
->     base-freq
->   tools/power/x86/intel-speed-select: Switch output to MHz
->   tools/power/x86/intel-speed-select: Change turbo ratio output to
->     maximum turbo frequency
->   tools/power/x86/intel-speed-select: Output human readable CPU list
->   tools/power/x86/intel-speed-select: Output success/failed for
-> command
->     output
->   tools/power/x86/intel-speed-select: Fix memory leak
-> 
->  .../x86/intel-speed-select/isst-config.c      |  21 +--
->  .../x86/intel-speed-select/isst-display.c     | 120 +++++++++++++---
-> --
->  2 files changed, 98 insertions(+), 43 deletions(-)
-> 
+diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
+index 20c389a..5f0a96bf 100644
+--- a/arch/x86/platform/uv/tlb_uv.c
++++ b/arch/x86/platform/uv/tlb_uv.c
+@@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
+ 
+ 	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
+ 	vp = kmalloc_node(plsize, GFP_KERNEL, node);
+-	pqp = (struct bau_pq_entry *)vp;
+-	BUG_ON(!pqp);
++	BUG_ON(!vp);
+ 
++	pqp = (struct bau_pq_entry *)vp;
+ 	cp = (char *)pqp + 31;
+ 	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
+ 
+-- 
+2.6.2
 
