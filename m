@@ -2,126 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CA9EAAD7C
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Sep 2019 23:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB9B3AAEF1
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Sep 2019 01:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731878AbfIEVAO (ORCPT
+        id S1726908AbfIEXF5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Sep 2019 17:00:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38380 "EHLO mx1.redhat.com"
+        Thu, 5 Sep 2019 19:05:57 -0400
+Received: from mga09.intel.com ([134.134.136.24]:49498 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726936AbfIEVAO (ORCPT
+        id S1726626AbfIEXF5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Sep 2019 17:00:14 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 50D4C30083ED;
-        Thu,  5 Sep 2019 21:00:14 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C1C1C60610;
-        Thu,  5 Sep 2019 21:00:13 +0000 (UTC)
-Subject: Re: [PATCH v2 9/9] tools/power/x86/intel-speed-select: Fix memory
- leak
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Thu, 5 Sep 2019 19:05:57 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Sep 2019 16:05:57 -0700
+X-IronPort-AV: E=Sophos;i="5.64,471,1559545200"; 
+   d="scan'208";a="334712141"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.251.155.245])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Sep 2019 16:05:56 -0700
+Message-ID: <e02287479ad936142a21cbd7c6c00947ca0c5088.camel@linux.intel.com>
+Subject: Re: [PATCH v2 0/9] tools-power-x86-intel-speed-select: Fixes and
+ updates for output
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>,
         platform-driver-x86@vger.kernel.org
 Cc:     andriy.shevchenko@intel.com, David Arcari <darcari@redhat.com>,
         linux-kernel@vger.kernel.org
+Date:   Thu, 05 Sep 2019 16:05:55 -0700
+In-Reply-To: <20190905120311.15286-1-prarit@redhat.com>
 References: <20190905120311.15286-1-prarit@redhat.com>
- <20190905120311.15286-10-prarit@redhat.com>
- <f12560e59427ce7e038334a3b59bf084a748d998.camel@linux.intel.com>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <13983f13-098e-4390-c014-43b59c4e2f27@redhat.com>
-Date:   Thu, 5 Sep 2019 17:00:13 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <f12560e59427ce7e038334a3b59bf084a748d998.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-1.fc28) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Thu, 05 Sep 2019 21:00:14 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Thu, 2019-09-05 at 08:03 -0400, Prarit Bhargava wrote:
+> Some general fixes and updates for intel-speed-select.  Fixes include
+> some
+> typos as well as an off-by-one cpu count reporting error.  Updates
+> for the
+> output are
+> 
+> - switching to MHz as a standard
+> - reporting CPU frequencies instead of ratios as a standard
+> - viewing a human-readable CPU list.
+> - avoiding reporting "0|1" as success|fail as these can be confusing
+> for a
+>   user.
+> 
+> v2: Add additional patch to fix memory leak and remove help text in
+> 8/9.
 
+For the series
 
-On 9/5/19 3:42 PM, Srinivas Pandruvada wrote:
-> On Thu, 2019-09-05 at 08:03 -0400, Prarit Bhargava wrote:
->> cpumasks are allocated by calling the alloc_cpu_mask() function and
->> are
->> never free'd.  They should be free'd after the commands have run.
->>
->> Fix the memory leaks by calling free_cpu_set().
-> Good to fix this. But after one command execution the process will
-> exit.
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+
+> 
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: David Arcari <darcari@redhat.com>
+> Cc: linux-kernel@vger.kernel.org
+> 
+> Prarit Bhargava (9):
+>   tools/power/x86/intel-speed-select: Fix package typo
+>   tools/power/x86/intel-speed-select: Fix help option typo
+>   tools/power/x86/intel-speed-select: Fix cpu-count output
+>   tools/power/x86/intel-speed-select: Simplify output for turbo-freq
+> and
+>     base-freq
+>   tools/power/x86/intel-speed-select: Switch output to MHz
+>   tools/power/x86/intel-speed-select: Change turbo ratio output to
+>     maximum turbo frequency
+>   tools/power/x86/intel-speed-select: Output human readable CPU list
+>   tools/power/x86/intel-speed-select: Output success/failed for
+> command
+>     output
+>   tools/power/x86/intel-speed-select: Fix memory leak
+> 
+>  .../x86/intel-speed-select/isst-config.c      |  21 +--
+>  .../x86/intel-speed-select/isst-display.c     | 120 +++++++++++++---
+> --
+>  2 files changed, 98 insertions(+), 43 deletions(-)
 > 
 
-I'm sorry, I misunderstood your comment.  Yes, the process will exit after one
-command :)
-
-P.
-
-> Thanks,
-> Srinivas
-> 
->>
->> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
->> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->> Cc: David Arcari <darcari@redhat.com>
->> Cc: linux-kernel@vger.kernel.org
->> ---
->>  tools/power/x86/intel-speed-select/isst-config.c | 16 +++++++++++---
->> --
->>  1 file changed, 11 insertions(+), 5 deletions(-)
->>
->> diff --git a/tools/power/x86/intel-speed-select/isst-config.c
->> b/tools/power/x86/intel-speed-select/isst-config.c
->> index 78f0cebda1da..59753b3917bb 100644
->> --- a/tools/power/x86/intel-speed-select/isst-config.c
->> +++ b/tools/power/x86/intel-speed-select/isst-config.c
->> @@ -603,6 +603,10 @@ static int isst_fill_platform_info(void)
->>  
->>  	close(fd);
->>  
->> +	if (isst_platform_info.api_version > supported_api_ver) {
->> +		printf("Incompatible API versions; Upgrade of tool is
->> required\n");
->> +		return -1;
->> +	}
->>  	return 0;
->>  }
->>  
->> @@ -1528,6 +1532,7 @@ static void cmdline(int argc, char **argv)
->>  {
->>  	int opt;
->>  	int option_index = 0;
->> +	int ret;
->>  
->>  	static struct option long_options[] = {
->>  		{ "cpu", required_argument, 0, 'c' },
->> @@ -1589,13 +1594,14 @@ static void cmdline(int argc, char **argv)
->>  	set_max_cpu_num();
->>  	set_cpu_present_cpu_mask();
->>  	set_cpu_target_cpu_mask();
->> -	isst_fill_platform_info();
->> -	if (isst_platform_info.api_version > supported_api_ver) {
->> -		printf("Incompatible API versions; Upgrade of tool is
->> required\n");
->> -		exit(0);
->> -	}
->> +	ret = isst_fill_platform_info();
->> +	if (ret)
->> +		goto out;
->>  
->>  	process_command(argc, argv);
->> +out:
->> +	free_cpu_set(present_cpumask);
->> +	free_cpu_set(target_cpumask);
->>  }
->>  
->>  int main(int argc, char **argv)
-> 
