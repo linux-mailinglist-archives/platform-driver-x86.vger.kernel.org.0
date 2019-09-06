@@ -2,89 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD6AAB668
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Sep 2019 12:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA62AB6FE
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Sep 2019 13:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387629AbfIFKxz (ORCPT
+        id S1726097AbfIFLRs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 6 Sep 2019 06:53:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39840 "EHLO mail.kernel.org"
+        Fri, 6 Sep 2019 07:17:48 -0400
+Received: from mga18.intel.com ([134.134.136.126]:31440 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731515AbfIFKxz (ORCPT
+        id S1726073AbfIFLRs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 6 Sep 2019 06:53:55 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA37A2070C;
-        Fri,  6 Sep 2019 10:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567767234;
-        bh=H+yTWQX57cegf2t72h7LJ305mRugKGEYc05Jr3cLZl0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X34lVF1/1G4jA3xOv7encmcLEKgk6EnvfH47jJK/im4kRjv2V70PBlcg4SG3UEw8P
-         VXV4kn/prPJPDQ0mvUVnK9YWs2xTRyqTwh+MEo3YvXamvvAht+6tt8L3mZQEMuvq99
-         BqTWRvdDx3LNTkLZ3D/CoiT09yEmkIdXHjg1jAE0=
-Date:   Fri, 6 Sep 2019 12:53:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Austin Kim <austindh.kim@gmail.com>, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        dvhart@infradead.org, andy@infradead.org, hpa@zytor.com,
-        allison@lohutok.net, armijn@tjaldur.nl, kjlu@umn.edu,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/platform/uv: move kmalloc() NULL check routine
-Message-ID: <20190906105352.GA8656@kroah.com>
-References: <20190905232951.GA28779@LGEARND20B15>
- <20190906093252.GB16843@kroah.com>
- <20190906104341.GW2349@hirez.programming.kicks-ass.net>
+        Fri, 6 Sep 2019 07:17:48 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Sep 2019 04:17:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,472,1559545200"; 
+   d="scan'208";a="199498957"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 06 Sep 2019 04:17:44 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 06 Sep 2019 14:17:44 +0300
+Date:   Fri, 6 Sep 2019 14:17:44 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/3] software node: implement reference properties
+Message-ID: <20190906111744.GA30048@kuha.fi.intel.com>
+References: <20190906043809.18990-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190906104341.GW2349@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190906043809.18990-1-dmitry.torokhov@gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 12:43:41PM +0200, Peter Zijlstra wrote:
-> On Fri, Sep 06, 2019 at 11:32:52AM +0200, Greg KH wrote:
-> > On Fri, Sep 06, 2019 at 08:29:51AM +0900, Austin Kim wrote:
-> > > The result of kmalloc should have been checked ahead of below statement:
-> > > 	pqp = (struct bau_pq_entry *)vp;
-> > > 
-> > > Move BUG_ON(!vp) before above statement.
-> > > 
-> > > Signed-off-by: Austin Kim <austindh.kim@gmail.com>
-> > > ---
-> > >  arch/x86/platform/uv/tlb_uv.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
-> > > index 20c389a..5f0a96bf 100644
-> > > --- a/arch/x86/platform/uv/tlb_uv.c
-> > > +++ b/arch/x86/platform/uv/tlb_uv.c
-> > > @@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
-> > >  
-> > >  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
-> > >  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
-> > > -	pqp = (struct bau_pq_entry *)vp;
-> > > -	BUG_ON(!pqp);
-> > > +	BUG_ON(!vp);
-> > 
-> > Ick!  Don't crash the whole machine if you are out of memory, that's a
-> > totally lazy and broken driver.  Fix this up properly please.
+On Thu, Sep 05, 2019 at 09:38:07PM -0700, Dmitry Torokhov wrote:
+> It is possible to store references to software nodes in the same fashion as
+> other static properties, so that users do not need to define separate
+> structures:
 > 
-> This is boot time init; if memory allocation fails, we're in trouble, no
-> way forward no way back.
+> const struct software_node gpio_bank_b_node = {
+> 	.name = "B",
+> };
 > 
-> It is not uncommon to have BUG_ON() for alloc failing during boot.
+> const struct property_entry simone_key_enter_props[] __initconst = {
+> 	PROPERTY_ENTRY_U32("linux,code", KEY_ENTER),
+> 	PROPERTY_ENTRY_STRING("label", "enter"),
+> 	PROPERTY_ENTRY_REF("gpios", &gpio_bank_b_node, 123, GPIO_ACTIVE_LOW),
+> 	{ }
+> };
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Hey, how come you get to get away with this here, and in the tty layer I
-had to do all sorts of foolish things just for the same "impossible"
-thing because syzbot found a way to emulate such lunacy?
+This looks really good to me. I'll wait for Andy's comments on the
+idea, but to me it makes sense.
 
-Just you wait until the fuzzers get ahold of this code...  :)
+Thanks Dmitry!
 
-greg k-h
+-- 
+heikki
