@@ -2,123 +2,137 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D3F2AC8AB
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 20:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D93D0AC8BC
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 20:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728254AbfIGSN6 (ORCPT
+        id S1732970AbfIGSSZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Sep 2019 14:13:58 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40105 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727014AbfIGSN6 (ORCPT
+        Sat, 7 Sep 2019 14:18:25 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:33067 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730750AbfIGSSY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Sep 2019 14:13:58 -0400
-Received: by mail-pf1-f193.google.com with SMTP id x127so6618209pfb.7;
-        Sat, 07 Sep 2019 11:13:57 -0700 (PDT)
+        Sat, 7 Sep 2019 14:18:24 -0400
+Received: by mail-pl1-f195.google.com with SMTP id t11so4703801plo.0;
+        Sat, 07 Sep 2019 11:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wqHYZLutmMZ+3gMlYgMzWUPkTeS750+QJLG76FxtJNo=;
-        b=PfzVUKLsocbeEuSnj5bm9x2dSTwd6yGnAoCLr2qVD/CzhZDjgXDb89INZPRVJWcKdT
-         RmPdJPvTRHgGKmA2ct92WGUdd9AsR23aFrVUGmxdumk7OiNJ8bFX7OXZk8r4dW0bBBGN
-         yrpW67nboPeh3hhnY67GAuzKvN++UE9V7lQFmfot6wp0ntmn0F7t42ddrWFiDTNDxiMC
-         ECUS1Ecu43EU2twm6uT22eMGnznpotrYUJVzxdS/4wLi6cEB/xLj6VAP2gOrhBnBvktM
-         /JN6pExBYaB1qfCz3Q7R6GPzpUkl8DPkX00ykb0VYhUGXJ2fqCMyy1wX2f+OZjaaOWEw
-         dJlQ==
+        bh=5KpXd8+E0H56p8I4bFGmpPfO+KfUXqH1zeKBuS+WLBA=;
+        b=PZc+/AErWKEp8Lf0CLmFpEsSwHYWZh1SVOV1LGkWNAe/8yzB9kF0/jQykiDIgt5Y6U
+         5X+N4Yja1Y/y6yUoXbA8ByP1KfYcybE1o48/SZ2tGz3g187M1Z+I8ygv7yvyX2MsJsSx
+         8sSL7lAi2PrJxygDeNja7dP39C4lwtJzx97rt1x9solRgyV8pnZqCq3N6wYJDtqHg9B8
+         Af3YJy7FBtplXzILhbcloIiy+Qhx46VgjcaeikDt6bKu5LDhOGIE0AQFtsZdg3iP2VMU
+         gO9D5A3FbiFWpCbe3l5mM/AzHcwChFz43JtAE3O8bB+7jBwp4/3nEImW54zjdXjAgNqW
+         IJug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wqHYZLutmMZ+3gMlYgMzWUPkTeS750+QJLG76FxtJNo=;
-        b=MY2xKtxGdv10YlEFHYzowRt6toK+WS6yiUuXANY/JR1DoEiGs5x6MhLzc2/NCo0tks
-         zEteqXACMdbDiCtdKrAxk/mJf4iwW6S1zBgO4v36MzHSgTZaUE+dZTdotCNBOr3UHkpw
-         7NjrIafnl8iderHOHj385Pb4FyhAoxpzw08Xd2ARDMA3xJ5Vuw6S/WHoIsVYaG0goN5x
-         1sbvEhtFX3prygeQUAZcCmTGC5aQW28DL3moNdWV6x0E7XLpko8oCOYt5ajCeT/DIphF
-         06MkW6x8As/aTnyBBt485kwojHIyEDHK/HWuaAcuL7JF5YxJcKmIgfUmfmdfA7JFKM+F
-         r2Kw==
-X-Gm-Message-State: APjAAAX1sGl/1yLudSaFltC3yOT75ieIiBYmJ305jb1LnWbLPD26aeiu
-        uwruWXwAMyi6zoOKqPm5HaADBDicfXeeMRZaRcAFrfV9td82jQ==
-X-Google-Smtp-Source: APXvYqxm8X4QtH8Tq84PuuUvLoXlsR+q0q7eYbFRmZ3IWrN6O2FiF6cJY3g7HFULHm1lDTI5P8sk2m8wFeYlVY6usYI=
-X-Received: by 2002:a17:90a:338b:: with SMTP id n11mr16965169pjb.132.1567880037349;
- Sat, 07 Sep 2019 11:13:57 -0700 (PDT)
+        bh=5KpXd8+E0H56p8I4bFGmpPfO+KfUXqH1zeKBuS+WLBA=;
+        b=m74z8a+4jHVDRt0YbVbIleE/t4EGnU+mAxr8cv14g/YuCgUfBl67okvvDq0dksv+Jp
+         TrBbZi54IvSAUpmxSHssdEIcLHIIF3ElOfu324g1Chz7P0FQ+JwUrb/fcEK2nuQC+qeG
+         W9T04hb+uHAUFcYW3WdB54CyvUlb53dKdsfq98oRllj6kc/doCqgziDXkDaujxe/aw+m
+         3qdRCGNAYkK2ZNA7U4SgHUpzNXfiiM9r43CySNUXS0N212ZKWoDdMuu1uCjbT7fMMIt8
+         lmT+lJOwycKIKU0Tp/HWDvaB2aqm9Z4Eq6S1O8ZcOCRvQzm8L5iW+vUW6kT717CiH3eX
+         UFJw==
+X-Gm-Message-State: APjAAAXFWoxaLHrbjtvpBo+tiump+/oepz36Es+4jKqktZHhum3rAXss
+        NA6yXceji+n56lPxfD+QCmzXvcqgs0cYV5f/ilM=
+X-Google-Smtp-Source: APXvYqwphaPzifCYArwcPAZCl2cUc6xY8wK8sS2Kvf2ZG7LnsD3XmU/MV5GZ6E5Y5q4JUlNCEWHcHHqy9svvakb0wHU=
+X-Received: by 2002:a17:902:9349:: with SMTP id g9mr15522432plp.262.1567880304287;
+ Sat, 07 Sep 2019 11:18:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190905120311.15286-1-prarit@redhat.com> <e02287479ad936142a21cbd7c6c00947ca0c5088.camel@linux.intel.com>
-In-Reply-To: <e02287479ad936142a21cbd7c6c00947ca0c5088.camel@linux.intel.com>
+References: <20190905233748.6822-1-srinivas.pandruvada@linux.intel.com>
+ <20190905233748.6822-2-srinivas.pandruvada@linux.intel.com>
+ <780a3faf-9e44-64f4-a354-bdee39af3af5@redhat.com> <20190906134655.GU2680@smile.fi.intel.com>
+ <6b576770a4bbe6c24ea524083dec5a16bf3c9e94.camel@linux.intel.com> <b8c7bd1204f7b4f75a5bccec4d7c41b1225928f7.camel@linux.intel.com>
+In-Reply-To: <b8c7bd1204f7b4f75a5bccec4d7c41b1225928f7.camel@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 7 Sep 2019 21:13:45 +0300
-Message-ID: <CAHp75Vf3KWLue_2UfNTNhDrXBX0YA+FRindbfX0sOzjhUcwKTg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] tools-power-x86-intel-speed-select: Fixes and
- updates for output
+Date:   Sat, 7 Sep 2019 21:18:13 +0300
+Message-ID: <CAHp75Vc9xMPW38Toh2jKv9YYYNV16837aAcXKMP6WaM-L8zcSQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tools/power/x86/intel-speed-select: Display core
+ count for bucket
 To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Prarit Bhargava <prarit@redhat.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Andriy Shevchenko <andriy.shevchenko@intel.com>,
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
         David Arcari <darcari@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Sep 6, 2019 at 10:58 AM Srinivas Pandruvada
+On Fri, Sep 6, 2019 at 10:47 PM Srinivas Pandruvada
 <srinivas.pandruvada@linux.intel.com> wrote:
 >
-> On Thu, 2019-09-05 at 08:03 -0400, Prarit Bhargava wrote:
-> > Some general fixes and updates for intel-speed-select.  Fixes include
-> > some
-> > typos as well as an off-by-one cpu count reporting error.  Updates
-> > for the
-> > output are
+> On Fri, 2019-09-06 at 07:50 -0700, Srinivas Pandruvada wrote:
+> > On Fri, 2019-09-06 at 16:46 +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 06, 2019 at 05:39:54AM -0400, Prarit Bhargava wrote:
+> > > > On 9/5/19 7:37 PM, Srinivas Pandruvada wrote:
+> > > > > Read the bucket and core count relationship via MSR and display
+> > > > > when displaying turbo ratio limits.
+> > > > > +       ret = isst_send_msr_command(cpu, 0x1ae, 0,
+> > > > > buckets_info);
+> > > >
+> > > > ^^^ you can get rid of the magic number 0x1ae by doing (sorry for
+> > > > the cut-and-paste)
+> > > >
+> > > > diff --git a/tools/power/x86/intel-speed-select/Makefile
+> > > > b/tools/power/x86/intel
+> > > > index 12c6939dca2a..087d802ad844 100644
+> > > > --- a/tools/power/x86/intel-speed-select/Makefile
+> > > > +++ b/tools/power/x86/intel-speed-select/Makefile
+> > > > @@ -15,6 +15,8 @@ endif
+> > > >  MAKEFLAGS += -r
+> > > >
+> > > >  override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
+> > > > +override CFLAGS += -I../../../include
+> > > > +override CFLAGS +=
+> > > > -DMSRHEADER='"../../../../arch/x86/include/asm/msr-index.h"'
 > >
-> > - switching to MHz as a standard
-> > - reporting CPU frequencies instead of ratios as a standard
-> > - viewing a human-readable CPU list.
-> > - avoiding reporting "0|1" as success|fail as these can be confusing
-> > for a
-> >   user.
-> >
-> > v2: Add additional patch to fix memory leak and remove help text in
-> > 8/9.
+> > No, we can't use msr_index.
+> This comment was meant for use of /dev/cpu/X/msr not msr_index.
+> I didn't want to bring in dependency on msr-index.h for couple of 2
+> MSRs and the names in msr-index.h doesn't really reflect the actual
+> processing, they are doing. For example MSR_TURBO_RATIO_LIMIT1 for
+> 0x1ae. The definition of 0x1AE is different on cpu model 0x55 and
+> beyond.
 >
-> For the series
->
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->
-
-Pushed to my review and testing queue, thanks!
-
-
 > >
-> > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > Cc: David Arcari <darcari@redhat.com>
-> > Cc: linux-kernel@vger.kernel.org
+
+It seems not applicable on top of tools patch series I had applied before.
+
+> > >
+> > > I guess it can be done in more neat way.
+> > >
+> > > > As I've been looking at this code I have been wondering why
+> > > > didn't
+> > > > you just use
+> > > > the standard /dev/cpu/X/msr interface that other x86 power
+> > > > utilities (turbostat,
+> > > > x86_energy_perf_policy) use?  Implementing msr_read() is trivial
+> > > > (warning
+> > > > untested and uncompiled code)
 > >
-> > Prarit Bhargava (9):
-> >   tools/power/x86/intel-speed-select: Fix package typo
-> >   tools/power/x86/intel-speed-select: Fix help option typo
-> >   tools/power/x86/intel-speed-select: Fix cpu-count output
-> >   tools/power/x86/intel-speed-select: Simplify output for turbo-freq
+> > No. We can't. The MSR interface is disabled on several distribution
 > > and
-> >     base-freq
-> >   tools/power/x86/intel-speed-select: Switch output to MHz
-> >   tools/power/x86/intel-speed-select: Change turbo ratio output to
-> >     maximum turbo frequency
-> >   tools/power/x86/intel-speed-select: Output human readable CPU list
-> >   tools/power/x86/intel-speed-select: Output success/failed for
-> > command
-> >     output
-> >   tools/power/x86/intel-speed-select: Fix memory leak
+> > platforms with secured boot. So some special MSRs are only allowed
+> > via
+> > this IOCTL interface.
 > >
-> >  .../x86/intel-speed-select/isst-config.c      |  21 +--
-> >  .../x86/intel-speed-select/isst-display.c     | 120 +++++++++++++---
-> > --
-> >  2 files changed, 98 insertions(+), 43 deletions(-)
+> > Thanks,
+> > Srinivas
 > >
+> >
+> > >
+> > > Actually good point!
+> > >
 >
 
 
---
+-- 
 With Best Regards,
 Andy Shevchenko
