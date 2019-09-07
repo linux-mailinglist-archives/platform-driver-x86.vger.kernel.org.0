@@ -2,187 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E85EAC78F
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 18:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE52EAC7A4
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 18:32:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391944AbfIGQNr (ORCPT
+        id S2392684AbfIGQcp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Sep 2019 12:13:47 -0400
-Received: from mga02.intel.com ([134.134.136.20]:6140 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388922AbfIGQNr (ORCPT
+        Sat, 7 Sep 2019 12:32:45 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46328 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392683AbfIGQco (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Sep 2019 12:13:47 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Sep 2019 09:13:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,477,1559545200"; 
-   d="scan'208";a="184812388"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Sep 2019 09:13:44 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1i6dLL-0007Tt-Qa; Sat, 07 Sep 2019 19:13:43 +0300
-Date:   Sat, 7 Sep 2019 19:13:43 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Sat, 7 Sep 2019 12:32:44 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q5so6522326pfg.13;
+        Sat, 07 Sep 2019 09:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=OWKMTVEpcjEgU67HpPrX0ZG66N8BrYaoMAyOS7ISkKw=;
+        b=YAACSMo4u3WzOCuq9vZYRponMeG5TUtWEDgBWfe/TC9c4cqYfea+DvSZObHWa6pdj7
+         Pe8jbcM+PEovYy1lKjoUxBiZYaYIF2jZGHHmEh08NcFiDNhAYRS3W+4aLhqYjaJ/cnk/
+         2BOlurNIp59gDSJdp0JD5HmeYez6Yb78SbbheEH4qZANHgT6lvSmgJf5huBLfWN1Sh8i
+         bxXUvaaPRY3dgHI5J9yXD1T2Zcs6pzy7Zc/IaIhWdvpwu7Z8eFUYW9N25Slu9gw520SP
+         v0QDigl/lOLbSkWYwausocQxD6JAdD+cyDPToU2QOohsVZJoj1itwxDh6SWbTZ8Bu6mc
+         /AaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OWKMTVEpcjEgU67HpPrX0ZG66N8BrYaoMAyOS7ISkKw=;
+        b=VIidkEbtriuXV2gL5lvzba3vUYXs9VcFCU8CWPoPwZALYO1QnzeEJ6bfoy3aULdwLP
+         VE4XXrZIAXAcNxrGnw3SOyw6MnhDjJioG8eWRIKOQmquBQLq4TTuWdtTvAoIsrINHKuj
+         kGsSVPe65EaZ7/R48wogddP98EcMZJharPmdtGxTX8xn/WSjnHwC6Bu6tRdHvWnZ0YbY
+         UNldEv4YT/YJr7YS1enT1N66JHAYuKhjBNZJbHx/23OAYTubDyTuCtvInbNs1DsziKb2
+         ueq2HWh48LpFr/M0VkABUfJf9I/Muc545F9OfvpdBgZ2bSbYFubJ64gLl1D20xAItgiz
+         QaOw==
+X-Gm-Message-State: APjAAAV7vYnaAlduUkTHLaGz+hwkS4GYyiDVZ6neHeXUVj4jw2m6aolg
+        AH7CaVNJfa2g+XGxxm5er5w=
+X-Google-Smtp-Source: APXvYqzHa92DDO9jXGHTroP2d6b2wkphlnLlSVKLHITC01IKwgahaaAGNPHPJsuQ6/zKIPGyykwEFA==
+X-Received: by 2002:a63:5648:: with SMTP id g8mr13024920pgm.81.1567873963790;
+        Sat, 07 Sep 2019 09:32:43 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id c125sm13601189pfa.107.2019.09.07.09.32.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Sep 2019 09:32:43 -0700 (PDT)
+Date:   Sat, 7 Sep 2019 09:32:40 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] software node: remove separate handling of
- references
-Message-ID: <20190907161343.GJ2680@smile.fi.intel.com>
+Subject: Re: [PATCH v2 1/3] software node: implement reference properties
+Message-ID: <20190907163240.GA27112@dtor-ws>
 References: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
- <20190906222611.223532-3-dmitry.torokhov@gmail.com>
+ <20190907160819.GH2680@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190906222611.223532-3-dmitry.torokhov@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20190907160819.GH2680@smile.fi.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 03:26:11PM -0700, Dmitry Torokhov wrote:
-> Now that all users of references have moved to reference properties,
-> we can remove separate handling of references.
+On Sat, Sep 07, 2019 at 07:08:19PM +0300, Andy Shevchenko wrote:
+> On Fri, Sep 06, 2019 at 03:26:09PM -0700, Dmitry Torokhov wrote:
+> > It is possible to store references to software nodes in the same fashion as
+> > other static properties, so that users do not need to define separate
+> > structures:
+> > 
+> > static const struct software_node gpio_bank_b_node = {
+> > 	.name = "B",
+> > };
+> > 
+> > static const struct property_entry simone_key_enter_props[] = {
+> > 	PROPERTY_ENTRY_U32("linux,code", KEY_ENTER),
+> > 	PROPERTY_ENTRY_STRING("label", "enter"),
+> > 	PROPERTY_ENTRY_REF("gpios", &gpio_bank_b_node, 123, GPIO_ACTIVE_LOW),
+> > 	{ }
+> > };
+> > 
 > 
+> Thanks for an update, my comments below.
+> 
+> > +	} else if (src->type == DEV_PROP_REF) {
+> > +		/* All reference properties must be arrays */
+> > +		return -EINVAL;
+> 
+> Hmm... What about to duplicate pointer under value union and use is_array to
+> distinguish which one to use? Because...
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Then we have to special-case copying this entry, similar to the pains we
+are going with the strings.
 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
 > 
-> v1->v2:
 > 
-> - dropped rename of struct software_node_ref_args ->
-> 	struct software_node_reference
+> > @@ -240,6 +254,7 @@ struct property_entry {
+> >  			const u32 *u32_data;
+> >  			const u64 *u64_data;
+> >  			const char * const *str;
+> > +			const struct software_node_ref_args *ref;
+> >  		} pointer;
 > 
->  drivers/base/swnode.c    | 44 +++++++++++++++-------------------------
->  include/linux/property.h | 14 -------------
->  2 files changed, 16 insertions(+), 42 deletions(-)
+> > +#define PROPERTY_ENTRY_REF(_name_, _ref_, ...)				\
+> > +(struct property_entry) {						\
+> > +	.name = _name_,							\
 > 
-> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index bd720d995123..5dc113de0cae 100644
-> --- a/drivers/base/swnode.c
-> +++ b/drivers/base/swnode.c
-> @@ -570,8 +570,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  				 struct fwnode_reference_args *args)
->  {
->  	struct swnode *swnode = to_swnode(fwnode);
-> -	const struct software_node_reference *ref;
-> -	const struct software_node_ref_args *ref_args;
-> +	const struct software_node_ref_args *ref;
->  	const struct property_entry *prop;
->  	struct fwnode_handle *refnode;
->  	int i;
-> @@ -580,36 +579,25 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  		return -ENOENT;
->  
->  	prop = property_entry_get(swnode->node->properties, propname);
-> -	if (prop) {
-> -		if (prop->type != DEV_PROP_REF)
-> -			return -EINVAL;
-> -
-> -		/*
-> -		 * We expect all references to be stored as arrays via
-> -		 * a pointer, even single ones.
-> -		 */
-> -		if (!prop->is_array)
-> -			return -EINVAL;
-> -
-> -		if (index * sizeof(*ref_args) >= prop->length)
-> -			return -ENOENT;
-> +	if (!prop)
-> +		return -ENOENT;
->  
-> -		ref_args = &prop->pointer.ref[index];
-> -	} else {
-> -		if (!swnode->node->references)
-> -			return -ENOENT;
-> +	if (prop->type != DEV_PROP_REF)
-> +		return -EINVAL;
->  
-> -		for (ref = swnode->node->references; ref->name; ref++)
-> -			if (!strcmp(ref->name, propname))
-> -				break;
-> +	/*
-> +	 * We expect all references to be stored as arrays via
-> +	 * a pointer, even single ones.
-> +	 */
-> +	if (!prop->is_array)
-> +		return -EINVAL;
->  
-> -		if (!ref->name || index > (ref->nrefs - 1))
-> -			return -ENOENT;
-> +	if (index * sizeof(*ref) >= prop->length)
-> +		return -ENOENT;
->  
-> -		ref_args = &ref->refs[index];
-> -	}
-> +	ref = &prop->pointer.ref[index];
->  
-> -	refnode = software_node_fwnode(ref_args->node);
-> +	refnode = software_node_fwnode(ref->node);
->  	if (!refnode)
->  		return -ENOENT;
->  
-> @@ -628,7 +616,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  	args->nargs = nargs;
->  
->  	for (i = 0; i < nargs; i++)
-> -		args->args[i] = ref_args->args[i];
-> +		args->args[i] = ref->args[i];
->  
->  	return 0;
->  }
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 6658403f6fa9..5e4adccd6404 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -415,30 +415,16 @@ int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
->  /* -------------------------------------------------------------------------- */
->  /* Software fwnode support - when HW description is incomplete or missing */
->  
-> -/**
-> - * struct software_node_reference - Named software node reference property
-> - * @name: Name of the property
-> - * @nrefs: Number of elements in @refs array
-> - * @refs: Array of references with optional arguments
-> - */
-> -struct software_node_reference {
-> -	const char *name;
-> -	unsigned int nrefs;
-> -	const struct software_node_ref_args *refs;
-> -};
-> -
->  /**
->   * struct software_node - Software node description
->   * @name: Name of the software node
->   * @parent: Parent of the software node
->   * @properties: Array of device properties
-> - * @references: Array of software node reference properties
->   */
->  struct software_node {
->  	const char *name;
->  	const struct software_node *parent;
->  	const struct property_entry *properties;
-> -	const struct software_node_reference *references;
->  };
->  
->  bool is_software_node(const struct fwnode_handle *fwnode);
-> -- 
-> 2.23.0.187.g17f5b7556c-goog
+> > +	.length = sizeof(struct software_node_ref_args),		\
 > 
+> Is it correct?
+
+Yes, we length is element size * number of elements.
+
+> 
+> > +	.type = DEV_PROP_REF,						\
+> 
+> > +	.is_array = true,						\
+> 
+> I really don't like this "cheating".
+
+This is not cheating. Any single value can be represented as an array of
+one element. Actually, the only reason we have this "is_array" business
+is because for scalar values and short strings it is much cheaper to
+store single value in-line instead of out of line + pointer, especially
+on 64 bit arches.
+
+If you want we can change is_array into is_inline.
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
