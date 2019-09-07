@@ -2,135 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1EBAC836
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF146AC83C
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392674AbfIGRh2 (ORCPT
+        id S2390263AbfIGRmJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Sep 2019 13:37:28 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:37262 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392520AbfIGRh2 (ORCPT
+        Sat, 7 Sep 2019 13:42:09 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33266 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389269AbfIGRmI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Sep 2019 13:37:28 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y5so3847747pfo.4;
-        Sat, 07 Sep 2019 10:37:28 -0700 (PDT)
+        Sat, 7 Sep 2019 13:42:08 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q10so6612656pfl.0;
+        Sat, 07 Sep 2019 10:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=nmtTMtCRHXQkcD6mr0VeqyrZqlBycsF5/nM1vue7H+8=;
-        b=rJplduLGDf4fqgHaIss9wjJ6B2xyohXHLiBWJbgXzIjnm0k1LTHT0YqPCKcaszgYSh
-         oJbUtgThxnY7MsyqbEuk9l2o+IM9kbpcdN6VWx6BdvKGPvAfDEDC+DU/R9FACbeCeS1u
-         LLQKXNSe2CJVMlAJ2prBj7fZUPdLuUmweqvHx73yq/Z944xiwNN/E6Ba53LcqToK45sy
-         KGct7VrJGNefLsSxWMIn5xlqIMsCoVcumfP3FxrKCkl1V2yAwDOKOCPz1UsA8Sn0N15h
-         ebdZc2qC1MU2K7Op17OppUDcfNUfQD+vRdKNByxwy7PAxflS5EPVGTOTprl3zCd40WfX
-         RC+g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A6Yx4Q7ZNAktHMtoIkw9cxLVNxvnMooP+6PjQIzFBLc=;
+        b=ocs8/0bksVzpQ95cJR3AwWOOV9i513yrPdmP6gDKvtyQvEXcoG71bn2ge1hJqtpafb
+         tfWqJoBj7iR/Wor7Z3xKECddouy9Z8L+UZdcazQK/pQWia1N6UV4qH7K7uBBk3SElx9Y
+         IlgPgsHN0XLa0c+Z7HapbhZKTtVViNB8hvxMvYbHssYfeCQclFUi+PlNW9sR3xSrRFNM
+         nYlpLTgAOSCoaovHrZ1p3cEMv1v0EbUpWeKRg4VYyxeTL2sAf+0/kF3nr2h27su6Mp9Z
+         m5ink4/eWgbxr2HIrt9ZkvHJ8iuxJJcIbLAYTEU/EgatG2Dm5m4yPA+OWpuxDuqNg43F
+         lQVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nmtTMtCRHXQkcD6mr0VeqyrZqlBycsF5/nM1vue7H+8=;
-        b=H0wez8bTvA88g+FwVRtCN7nhJUkmh9SH3BU1UEhxLoNeNNZ/54YSCPJWbY+14kr1B4
-         55Wr13Qx/FbTr0sxCqR3rEZRvtqCEZfC3up0uI9Em3KUUrjqfiRUPWnK6x9jLPt/XJ9n
-         gkHfaR9tjiARXdyEfDa02PYnJA8blA/MskqKnatLSztXMxL9g24ltauiA7SA9UJnn88n
-         Xc6Sy7+TiVEnBZ/KTR02Tlda/W3CFlgQwtLh6eljOa9uHbfgSBL73SGFe+1vdCXIJx0z
-         8rD/7OqWEi0DB6/lkREM90qSx4FoclYN1qR+MWcqpl8wYX6GMNHjes9NpIaUMcqq4O3z
-         jBjw==
-X-Gm-Message-State: APjAAAWllcyWoQz091BKsa3Y11Cm3POH8QJ1VkFwzNNvFrul7RwQ253V
-        UkmNp36gvcycrCowJX7ZY8732ziU
-X-Google-Smtp-Source: APXvYqzhoyFkgwajRfjIdUrkeCnUjGm4bqYwojIgJe2xKEXLxtsfWp772hVXqud1TTzozz2bQxNw9Q==
-X-Received: by 2002:a65:6104:: with SMTP id z4mr13201717pgu.27.1567877847273;
-        Sat, 07 Sep 2019 10:37:27 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id h18sm10325391pfn.53.2019.09.07.10.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Sep 2019 10:37:26 -0700 (PDT)
-Date:   Sat, 7 Sep 2019 10:37:24 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] software node: implement reference properties
-Message-ID: <20190907173724.GA145199@dtor-ws>
-References: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
- <20190907160819.GH2680@smile.fi.intel.com>
- <20190907163240.GA27112@dtor-ws>
- <20190907171251.GL2680@smile.fi.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A6Yx4Q7ZNAktHMtoIkw9cxLVNxvnMooP+6PjQIzFBLc=;
+        b=ILO0fyuRhsqvtjrWXotOPlD08el5l8i0R41p+zpNy+lIoS8G/EvZVzgtFdX5P5haKR
+         EyJUDqJagocl6nItrIWUEQX/d4adSub7RsEwLzS9pWIyWWQtvUvbfAWWKT6WbJHeHDiA
+         N3ExXjJkRBxhdOiGsD9XI1VHf6ZjaHH0jzoTN3w7qJO8A+aq86H9Ac0UZ2W6bKyMhXrX
+         3uLaBOviSlrNnbjDNLvxZQLlwyXzUZ/POEL2yPs8xDH4CICXbGkXZq9fYCZ/HYuFdvSn
+         gyHmfMrEJhAcda8bc/vpygowabrWZvlRj3E/q6lbciCpFEz5dgEI9GO4XVFGWdDFM9kH
+         4MDQ==
+X-Gm-Message-State: APjAAAUCN4BlTs19TpH9Nl+16To7AR21dB4JPmKOvUa7UinXdY4pM5gJ
+        gbQd/ByAne2k5Qf6YnkcVk4Qn2tJwpr+ijYwJ4M=
+X-Google-Smtp-Source: APXvYqzvmObvTUN4HY8G5nCEBvOUJFUN0TPumuiDt3SoNIdH2vPal13U8d3/ofd0kPyX4GXtuJs30GluvtL4ZAoNjTc=
+X-Received: by 2002:a63:1020:: with SMTP id f32mr14018816pgl.203.1567878128129;
+ Sat, 07 Sep 2019 10:42:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190907171251.GL2680@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
+ <20190628033413.8058-1-rajatja@google.com> <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
+In-Reply-To: <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 7 Sep 2019 20:41:57 +0300
+Message-ID: <CAHp75VdPY83U5dWJbca_ZCJwT6z8L+V4R+fY0aZTOkM=vNweYQ@mail.gmail.com>
+Subject: Re: [PATCH v7] platform/x86: intel_pmc_core: Attach using APCI HID "INT33A1"
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Furquan Shaikh <furquan@google.com>,
+        Evan Green <evgreen@google.com>,
+        Rajat Jain <rajatxjain@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Sep 07, 2019 at 08:12:51PM +0300, Andy Shevchenko wrote:
-> On Sat, Sep 07, 2019 at 09:32:40AM -0700, Dmitry Torokhov wrote:
-> > On Sat, Sep 07, 2019 at 07:08:19PM +0300, Andy Shevchenko wrote:
-> > > On Fri, Sep 06, 2019 at 03:26:09PM -0700, Dmitry Torokhov wrote:
-> 
-> > > > +	} else if (src->type == DEV_PROP_REF) {
-> > > > +		/* All reference properties must be arrays */
-> > > > +		return -EINVAL;
-> > > 
-> > > Hmm... What about to duplicate pointer under value union and use is_array to
-> > > distinguish which one to use? Because...
-> > 
-> > Then we have to special-case copying this entry, similar to the pains we
-> > are going with the strings.
-> 
-> I can't see it as a pain. Simple do the same kmemdup() for the case when
-> is_array = false and DEV_TYPE_REF?
+On Fri, Aug 23, 2019 at 1:44 AM Rajat Jain <rajatja@google.com> wrote:
+>
+> On Thu, Jun 27, 2019 at 8:34 PM Rajat Jain <rajatja@google.com> wrote:
+> >
+> > Most modern platforms already have the ACPI device "INT33A1" that could
+> > be used to attach to the driver. Switch the driver to using that and
+> > thus make the intel_pmc_core.c a pure platform_driver.
+> >
+> > Some of the legacy platforms though, may still not have this ACPI device
+> > in their ACPI tables. Thus for such platforms, move the code to manually
+> > instantiate a platform_device into a new file of its own. This would
+> > instantiate the intel_pmc_core platform device and thus attach to
+> > the driver, if the ACPI device for the same ("INT33A1") is not present
+> > in a system where it should be. This was discussed here:
+> > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
+>
+>
+> HI Andy, Rajneesh, this seems to have fallen through the cracks. Any
+> comments here on this patch?
 
-And then you need to make sure it is freed on error paths and when we
-remove property entries. This requires more checks and code. In contrast
-we already know how to handle out of line objects of arbitrary size.
-
-The only reason we have inline strings is because for shorter strings we
-save 4/8 bytes.
-
-> 
-> By the way, don't we need to update property_entry_{get,set}_pointer()?
-
-I do not see these, where are they?
-
-> 
-> > > > +	.is_array = true,						\
-> > > 
-> > > I really don't like this "cheating".
-> > 
-> > This is not cheating. Any single value can be represented as an array of
-> > one element. Actually, the only reason we have this "is_array" business
-> > is because for scalar values and short strings it is much cheaper to
-> > store single value in-line instead of out of line + pointer, especially
-> > on 64 bit arches.
-> 
-> Yes, and this is a lot of benefit!
-
-Yes, nobody argues against it. Here however we are dealing with a larger
-structure. There is absolutely no benefit of trying to separate single
-value vs array here.
-
-> 
-> > If you want we can change is_array into is_inline.
-> 
-> Nope, is_array is exactly what it tells us about the content. Its functional
-> load is to distinguish which union (value vs. pointer) we are using.
-
-No, it signifies whether the value is stored within property entry or
-outside. I can fit probably 8 bytes arrays into property entry
-structure, in which case is_array will definitely not reflect the data
-type.
-
-It is the type-specific accessors that know how to parse and fetch data
-from properties.
-
-Thanks.
+% git tag --list v5.3* --contains b02f6a2ef0a1
+v5.3-rc1
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
