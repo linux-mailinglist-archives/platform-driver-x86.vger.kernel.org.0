@@ -2,95 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF146AC83C
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC8B1AC850
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390263AbfIGRmJ (ORCPT
+        id S2406202AbfIGRpT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Sep 2019 13:42:09 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33266 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389269AbfIGRmI (ORCPT
+        Sat, 7 Sep 2019 13:45:19 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38618 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730303AbfIGRpT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Sep 2019 13:42:08 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so6612656pfl.0;
-        Sat, 07 Sep 2019 10:42:08 -0700 (PDT)
+        Sat, 7 Sep 2019 13:45:19 -0400
+Received: by mail-pl1-f196.google.com with SMTP id w11so4686675plp.5;
+        Sat, 07 Sep 2019 10:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=A6Yx4Q7ZNAktHMtoIkw9cxLVNxvnMooP+6PjQIzFBLc=;
-        b=ocs8/0bksVzpQ95cJR3AwWOOV9i513yrPdmP6gDKvtyQvEXcoG71bn2ge1hJqtpafb
-         tfWqJoBj7iR/Wor7Z3xKECddouy9Z8L+UZdcazQK/pQWia1N6UV4qH7K7uBBk3SElx9Y
-         IlgPgsHN0XLa0c+Z7HapbhZKTtVViNB8hvxMvYbHssYfeCQclFUi+PlNW9sR3xSrRFNM
-         nYlpLTgAOSCoaovHrZ1p3cEMv1v0EbUpWeKRg4VYyxeTL2sAf+0/kF3nr2h27su6Mp9Z
-         m5ink4/eWgbxr2HIrt9ZkvHJ8iuxJJcIbLAYTEU/EgatG2Dm5m4yPA+OWpuxDuqNg43F
-         lQVw==
+        bh=dcg38ZTiMrbxT3AvbPS3tOl5wkZh4p2pcA3bffhrVNk=;
+        b=bEOcjr7FFB3y9addvHDX1u+EPWhTG5fD6au4RfmqTKvtXselpGmjl2BUIqlnr6N/Qp
+         qLW7db1mV/dSommLrKeAJo/uKUZqH57RG6FtWG6f0oTHMpMrwmIcxFO/8KJmSoTeVjLF
+         Dp4DZXgmltmiMAhiCnAPwLV80hrf2bmMKFtCGqbsT4Ej1TZ7aOzOk61HI/35rPlB0qcc
+         qXIxR/RheLLysuBRv6iM+cxZc2Rkc6e/WsWh/L6Q6FEuX0Cno9G4pb2mPXKdC8iOF7Ah
+         yt5HGwHwar30N7+CVUP8hGjghGCprrcWxZornrFahTyp6o78AcwmKeXWcvp6+jF67iqg
+         JuPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=A6Yx4Q7ZNAktHMtoIkw9cxLVNxvnMooP+6PjQIzFBLc=;
-        b=ILO0fyuRhsqvtjrWXotOPlD08el5l8i0R41p+zpNy+lIoS8G/EvZVzgtFdX5P5haKR
-         EyJUDqJagocl6nItrIWUEQX/d4adSub7RsEwLzS9pWIyWWQtvUvbfAWWKT6WbJHeHDiA
-         N3ExXjJkRBxhdOiGsD9XI1VHf6ZjaHH0jzoTN3w7qJO8A+aq86H9Ac0UZ2W6bKyMhXrX
-         3uLaBOviSlrNnbjDNLvxZQLlwyXzUZ/POEL2yPs8xDH4CICXbGkXZq9fYCZ/HYuFdvSn
-         gyHmfMrEJhAcda8bc/vpygowabrWZvlRj3E/q6lbciCpFEz5dgEI9GO4XVFGWdDFM9kH
-         4MDQ==
-X-Gm-Message-State: APjAAAUCN4BlTs19TpH9Nl+16To7AR21dB4JPmKOvUa7UinXdY4pM5gJ
-        gbQd/ByAne2k5Qf6YnkcVk4Qn2tJwpr+ijYwJ4M=
-X-Google-Smtp-Source: APXvYqzvmObvTUN4HY8G5nCEBvOUJFUN0TPumuiDt3SoNIdH2vPal13U8d3/ofd0kPyX4GXtuJs30GluvtL4ZAoNjTc=
-X-Received: by 2002:a63:1020:: with SMTP id f32mr14018816pgl.203.1567878128129;
- Sat, 07 Sep 2019 10:42:08 -0700 (PDT)
+        bh=dcg38ZTiMrbxT3AvbPS3tOl5wkZh4p2pcA3bffhrVNk=;
+        b=I3H8dik33A+ExBtDLELLjfX4GEEiFoVH3AwkSFabbxU6v/M+z19hS6G5aJlsFXaoqq
+         SuBh8+xGWMKMIJ7hZlbtarZE55S/m9fqk/lR1/HBkjoNXfrcQb46va/XSudXFik6RG8x
+         6ySOq2uB2wNLbonuKj7z1wxqoRSDW5TkzUc3gbE9oQ42p/7gRapNTtFpRL0aan/oCZUL
+         P5/nOZ3Vw+ArjvuSm2LCu8EE8jFTF8a4DSKGfJan6Bau3MWF8MPQPqm7TUaFHyZinLR1
+         3JagrN0vTLEX7COF5dO7u+3NUWoN5A56nWpHYhLo4iJVyD/+It7DWDihY7Ypd+Nj0vTe
+         ckHg==
+X-Gm-Message-State: APjAAAXO8TAe44htElLUM/eV0yUCFiV874no3uRYTNN5ORXAB+QNDvAk
+        XPrSYb3Oc9g4oDiLIYvd/r74FFURXHMRy16KD9w=
+X-Google-Smtp-Source: APXvYqxZC4NL5fRb6BMOtqUaWq/8HnctZgYXCTqd1vOY3IlF9NFrVol7pLk+j6hJOWUWQdXrglEnwuB+BgmViCHVVjA=
+X-Received: by 2002:a17:902:9895:: with SMTP id s21mr15436348plp.255.1567878318332;
+ Sat, 07 Sep 2019 10:45:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
- <20190628033413.8058-1-rajatja@google.com> <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
-In-Reply-To: <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
+References: <20190823174815.27861-1-hdegoede@redhat.com> <20190823174815.27861-2-hdegoede@redhat.com>
+In-Reply-To: <20190823174815.27861-2-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 7 Sep 2019 20:41:57 +0300
-Message-ID: <CAHp75VdPY83U5dWJbca_ZCJwT6z8L+V4R+fY0aZTOkM=vNweYQ@mail.gmail.com>
-Subject: Re: [PATCH v7] platform/x86: intel_pmc_core: Attach using APCI HID "INT33A1"
-To:     Rajat Jain <rajatja@google.com>
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
+Date:   Sat, 7 Sep 2019 20:45:07 +0300
+Message-ID: <CAHp75VeJ9Ur9Z4o-pxNApdkb22Zb4sj2AJYRxWO6UFjN292DiA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] platform/x86: intel_int0002_vgpio: Use device_init_wakeup
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Furquan Shaikh <furquan@google.com>,
-        Evan Green <evgreen@google.com>,
-        Rajat Jain <rajatxjain@gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 1:44 AM Rajat Jain <rajatja@google.com> wrote:
+On Fri, Aug 23, 2019 at 8:48 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> On Thu, Jun 27, 2019 at 8:34 PM Rajat Jain <rajatja@google.com> wrote:
-> >
-> > Most modern platforms already have the ACPI device "INT33A1" that could
-> > be used to attach to the driver. Switch the driver to using that and
-> > thus make the intel_pmc_core.c a pure platform_driver.
-> >
-> > Some of the legacy platforms though, may still not have this ACPI device
-> > in their ACPI tables. Thus for such platforms, move the code to manually
-> > instantiate a platform_device into a new file of its own. This would
-> > instantiate the intel_pmc_core platform device and thus attach to
-> > the driver, if the ACPI device for the same ("INT33A1") is not present
-> > in a system where it should be. This was discussed here:
-> > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
+> Use device_init_wakeup and pm_wakeup_hard_event instead of directly
+> calling pm_system_wakeup(). This is the preferred way to do this and
+> this will allow the user to disable wakeup through INT0002 events
+> through sysfs.
 >
->
-> HI Andy, Rajneesh, this seems to have fallen through the cracks. Any
-> comments here on this patch?
 
-% git tag --list v5.3* --contains b02f6a2ef0a1
-v5.3-rc1
+Pushed to my review and testing queue, thanks!
 
--- 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/intel_int0002_vgpio.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
+> index 9ea1a2a19f86..f9fee682a8a2 100644
+> --- a/drivers/platform/x86/intel_int0002_vgpio.c
+> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
+> @@ -122,7 +122,7 @@ static irqreturn_t int0002_irq(int irq, void *data)
+>         generic_handle_irq(irq_find_mapping(chip->irq.domain,
+>                                             GPE0A_PME_B0_VIRT_GPIO_PIN));
+>
+> -       pm_system_wakeup();
+> +       pm_wakeup_hard_event(chip->parent);
+>
+>         return IRQ_HANDLED;
+>  }
+> @@ -217,6 +217,13 @@ static int int0002_probe(struct platform_device *pdev)
+>
+>         gpiochip_set_chained_irqchip(chip, irq_chip, irq, NULL);
+>
+> +       device_init_wakeup(dev, true);
+> +       return 0;
+> +}
+> +
+> +static int int0002_remove(struct platform_device *pdev)
+> +{
+> +       device_init_wakeup(&pdev->dev, false);
+>         return 0;
+>  }
+>
+> @@ -232,6 +239,7 @@ static struct platform_driver int0002_driver = {
+>                 .acpi_match_table       = int0002_acpi_ids,
+>         },
+>         .probe  = int0002_probe,
+> +       .remove = int0002_remove,
+>  };
+>
+>  module_platform_driver(int0002_driver);
+> --
+> 2.22.0
+>
+
+
+--
 With Best Regards,
 Andy Shevchenko
