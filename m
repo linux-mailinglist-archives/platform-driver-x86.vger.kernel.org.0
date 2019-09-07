@@ -2,145 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E048BAC292
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 00:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E6CAC786
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 18:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732567AbfIFWea (ORCPT
+        id S2394863AbfIGQIX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 6 Sep 2019 18:34:30 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:33829 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731251AbfIFWea (ORCPT
+        Sat, 7 Sep 2019 12:08:23 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35977 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731928AbfIGQIX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 6 Sep 2019 18:34:30 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n9so4316346pgc.1;
-        Fri, 06 Sep 2019 15:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZpqMRDsEnWje8qDdOAN5oOPxtbn7bHOIOEWjxUrvi7s=;
-        b=tYWVllhYKlMDZ2r7Wq7TnUhivSFF+Sy0Oi2/oJKauDogucHUjLMQsnKymMRmtDFw9w
-         16yOKhr5U4093WUFM1MRWsMBKzbUZVdTvL5yrlNBYBrLA/xZoVOXYPk73fHBd5cZj8P4
-         x73pFGmseM/d2+25erHgnC0QzWjj4JCmjtBihuupAf2GWRDvyFM1fcc4pCwdE9G3a5eR
-         0SbKcNBkdZZhV9zZAVzUnTdS8x4t69uarKTv8b0EC3Ojqy3jq0ci9ky4iKriiKrvIzKi
-         M5uf8SvvjYXgTOU8kGMUyQIl6CFjlvmURqqOFABwhPc7cMgIE4lPmm48qTCFhSCqeQ0X
-         g1VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZpqMRDsEnWje8qDdOAN5oOPxtbn7bHOIOEWjxUrvi7s=;
-        b=nYjXnGNgP6AAgdHEXqfsGIz1qQx+tmS7WHgYE1F3PiER2MdXSXGn8L/Zr3bAL5Xn3o
-         YJZFzyzFtwGmkBcrX6mu4KZs1WF3xAjlwmw2ioqQ/6wIzC2CHnTtcykhEyUvmVEegQdK
-         598oB7qfx0mvLAtkuepreWqtQb8LDbtWSfSEasdgarwAaOhYMiPtZ1II/GNVtOAKeUVK
-         Z+BILw8IMFY+cLtGgNkUVFEuRjMjx8ZSNXPYJh+UjDBoXHoocZ613RzhCy4XIXCOUkUq
-         8/mG4dTfKr77hb5dMtGM/TeSkC8Z63gq/SaDTyaY+Bwn/Ivejv1wBFUxeST33lcE19g8
-         /oTg==
-X-Gm-Message-State: APjAAAWOs8TkDzqi3pPTF3eRerC2qOEq7P8dNkXcb/3xS3Rn9/vWsLlv
-        F40GmV8jMa1nOJnSz6gXvrA=
-X-Google-Smtp-Source: APXvYqwSwgbEqyupt+cgiLhsx1UPtyF+6lcx0Ugziqs9xtFa+lewzuAyx1CIMH5ZhDQLnyXD56As3g==
-X-Received: by 2002:a62:75d2:: with SMTP id q201mr13434294pfc.43.1567809269057;
-        Fri, 06 Sep 2019 15:34:29 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id x9sm5223601pgp.75.2019.09.06.15.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2019 15:34:28 -0700 (PDT)
-Date:   Fri, 6 Sep 2019 15:34:26 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        Sat, 7 Sep 2019 12:08:23 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Sep 2019 09:08:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,477,1559545200"; 
+   d="scan'208";a="208536647"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004.fm.intel.com with ESMTP; 07 Sep 2019 09:08:20 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i6dG7-0007Qh-Js; Sat, 07 Sep 2019 19:08:19 +0300
+Date:   Sat, 7 Sep 2019 19:08:19 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/3] software node: implement reference properties
-Message-ID: <20190906223426.GT187474@dtor-ws>
-References: <20190906043809.18990-1-dmitry.torokhov@gmail.com>
- <20190906122743.GQ2680@smile.fi.intel.com>
+Subject: Re: [PATCH v2 1/3] software node: implement reference properties
+Message-ID: <20190907160819.GH2680@smile.fi.intel.com>
+References: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190906122743.GQ2680@smile.fi.intel.com>
+In-Reply-To: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 03:27:43PM +0300, Andy Shevchenko wrote:
-> On Thu, Sep 05, 2019 at 09:38:07PM -0700, Dmitry Torokhov wrote:
-> > It is possible to store references to software nodes in the same fashion as
-> > other static properties, so that users do not need to define separate
-> > structures:
-> > 
-> > const struct software_node gpio_bank_b_node = {
-> > 	.name = "B",
-> > };
+On Fri, Sep 06, 2019 at 03:26:09PM -0700, Dmitry Torokhov wrote:
+> It is possible to store references to software nodes in the same fashion as
+> other static properties, so that users do not need to define separate
+> structures:
 > 
-> Why this can't be __initconst?
-
-It may or it may not. I'll remove __inticonst from below as well to not
-confuse things.
-
+> static const struct software_node gpio_bank_b_node = {
+> 	.name = "B",
+> };
 > 
-> > const struct property_entry simone_key_enter_props[] __initconst = {
-> > 	PROPERTY_ENTRY_U32("linux,code", KEY_ENTER),
-> > 	PROPERTY_ENTRY_STRING("label", "enter"),
-> > 	PROPERTY_ENTRY_REF("gpios", &gpio_bank_b_node, 123, GPIO_ACTIVE_LOW),
-> > 	{ }
-> > };
+> static const struct property_entry simone_key_enter_props[] = {
+> 	PROPERTY_ENTRY_U32("linux,code", KEY_ENTER),
+> 	PROPERTY_ENTRY_STRING("label", "enter"),
+> 	PROPERTY_ENTRY_REF("gpios", &gpio_bank_b_node, 123, GPIO_ACTIVE_LOW),
+> 	{ }
+> };
 > 
-> So it's basically mimics the concept of phandle, right?
 
-Yes.
+Thanks for an update, my comments below.
 
-> 
-> > +		ref_args = prop->is_array ?
-> > +				&prop->pointer.ref[index] : &prop->value.ref;
-> 
-> Better to do if with explicit 'if ()' as it's done in the rest of the code.
-> 
-> 	if (prop->is_array)
-> 		ref_args = ...;
-> 	else
-> 		ref_args = ...;
+> +	} else if (src->type == DEV_PROP_REF) {
+> +		/* All reference properties must be arrays */
+> +		return -EINVAL;
 
-OK, it will be gone actually.
+Hmm... What about to duplicate pointer under value union and use is_array to
+distinguish which one to use? Because...
 
-> 
-> > -	DEV_PROP_MAX,
-> > +	DEV_PROP_MAX
-> 
-> It seems it wasn't ever used, so, can be dropped completely.
 
-OK.
+> @@ -240,6 +254,7 @@ struct property_entry {
+>  			const u32 *u32_data;
+>  			const u64 *u64_data;
+>  			const char * const *str;
+> +			const struct software_node_ref_args *ref;
+>  		} pointer;
 
-> 
-> > @@ -240,6 +255,7 @@ struct property_entry {
-> >  			const u32 *u32_data;
-> >  			const u64 *u64_data;
-> >  			const char * const *str;
-> > +			const struct software_node_ref_args *ref;
-> >  		} pointer;
-> >  		union {
-> >  			u8 u8_data;
-> > @@ -247,6 +263,7 @@ struct property_entry {
-> >  			u32 u32_data;
-> >  			u64 u64_data;
-> >  			const char *str;
-> > +			struct software_node_ref_args ref;
-> 
-> Hmm... This bumps the size of union a lot for each existing property_entry.
-> Is there any other way? Maybe we can keep pointer and allocate memory for it
-> when copying?
+> +#define PROPERTY_ENTRY_REF(_name_, _ref_, ...)				\
+> +(struct property_entry) {						\
+> +	.name = _name_,							\
 
-Right, I think we can always store references as arrays, even when we
-only need single entry, thus we do not need to increase the size of the
-structure.
+> +	.length = sizeof(struct software_node_ref_args),		\
 
-I just posted v2 implementing that, please take another look.
+Is it correct?
 
-Thanks.
+> +	.type = DEV_PROP_REF,						\
+
+> +	.is_array = true,						\
+
+I really don't like this "cheating".
+
+> +	.type = DEV_PROP_REF,						\
+> +	.pointer.ref = &(const struct software_node_ref_args) {		\
+> +		.node = _ref_,						\
+
+> +		.nargs = ARRAY_SIZE(((u64[]){ 0, ##__VA_ARGS__ })) - 1,	\
+
+Seems like you can drop pair of parentheses.
+
+> +		.args = { __VA_ARGS__ },				\
+> +	},								\
+> +}
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
