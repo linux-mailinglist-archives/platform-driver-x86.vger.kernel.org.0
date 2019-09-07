@@ -2,87 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A5D1AC82B
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B1EBAC836
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Sep 2019 19:37:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728988AbfIGRb4 (ORCPT
+        id S2392674AbfIGRh2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Sep 2019 13:31:56 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34660 "EHLO
+        Sat, 7 Sep 2019 13:37:28 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37262 "EHLO
         mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728507AbfIGRb4 (ORCPT
+        with ESMTP id S2392520AbfIGRh2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Sep 2019 13:31:56 -0400
-Received: by mail-pf1-f196.google.com with SMTP id r12so6614724pfh.1;
-        Sat, 07 Sep 2019 10:31:55 -0700 (PDT)
+        Sat, 7 Sep 2019 13:37:28 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y5so3847747pfo.4;
+        Sat, 07 Sep 2019 10:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YetYHJUHNVn/RWo99UYn2JfBZO2FhjtEM31luhQA6Gs=;
-        b=kFUzc9Cl0Uc48kvfJYux52vwcBjX11wQOufve/8FETes3y3F9eqoSXmq7wbbTMpFmj
-         Lu2N71aRSXZT+h645Jb0QNvXEMnYOUbfMw0vKx5EBd5glc25uZ0HhWz+ScwnRTfu736f
-         ZC5ioJNPAn4djbo+Ql24uBYN4huLZ9PXfZUBnnEdqTLk/n92/KHqCOWJKOgijR/bWniY
-         WaRwX+g+dVznAmVESMBscUFHTGPx10zvHig246oZzD2b4xeCJFr74YVBoKx4wZ64mzQR
-         H2q82OombYM6rt5NrD4WdJyBnWJVhKSWvtC2rAtBhFrK0ykRU7RcxK/OUhNRLzi8fqk2
-         6oxg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=nmtTMtCRHXQkcD6mr0VeqyrZqlBycsF5/nM1vue7H+8=;
+        b=rJplduLGDf4fqgHaIss9wjJ6B2xyohXHLiBWJbgXzIjnm0k1LTHT0YqPCKcaszgYSh
+         oJbUtgThxnY7MsyqbEuk9l2o+IM9kbpcdN6VWx6BdvKGPvAfDEDC+DU/R9FACbeCeS1u
+         LLQKXNSe2CJVMlAJ2prBj7fZUPdLuUmweqvHx73yq/Z944xiwNN/E6Ba53LcqToK45sy
+         KGct7VrJGNefLsSxWMIn5xlqIMsCoVcumfP3FxrKCkl1V2yAwDOKOCPz1UsA8Sn0N15h
+         ebdZc2qC1MU2K7Op17OppUDcfNUfQD+vRdKNByxwy7PAxflS5EPVGTOTprl3zCd40WfX
+         RC+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YetYHJUHNVn/RWo99UYn2JfBZO2FhjtEM31luhQA6Gs=;
-        b=mMspy+ejUHHu96ufJqWdHF9Ouhh9RpoVhG9tf+8U0nuvBAZkg3PB/ESzHkTPsSy9cq
-         SNoPtYngpFYLGXqE9UxOshYycV7ZbtWEaPGx5ICI/I1HE7FQsiPOV6B8xdaNcPIRZvxc
-         iczaeNB2imlHt2A6TV9NVZ7ijddBZxU4SAQ4KpGqFVLCT9NSgQ/0ZgOQU5vpzfH/6EpK
-         LLrlMMhZUiCVStV4yACaVMynVF/rZFEa0Uk7edOlBGjQ+nTOcJEYxahP1IOUvLfmOE9x
-         NSzPByf+mxarWZ1Q7JjMTihpmSahB8xz1J8JwkUu0jrqXR3eYIid+ZOW2y5hpidlOYo9
-         eZIA==
-X-Gm-Message-State: APjAAAXiR9rOPcQLDK8DtID2kX/7MqG0e/VTwUEmwMGMoxdZutucIMF7
-        Cc23pqQEPI/D+B8ngin++mAu0wBPF+PUqbwXKUo=
-X-Google-Smtp-Source: APXvYqwhEaWhgxhN4HWgW/eaASlELh8D7Hy8dww3kL8x+92LXM8YSyPEP2O5ytINpg3MVUNRv5Q2Rk22twOvQK4gREk=
-X-Received: by 2002:a17:90a:a881:: with SMTP id h1mr2973061pjq.20.1567877515359;
- Sat, 07 Sep 2019 10:31:55 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nmtTMtCRHXQkcD6mr0VeqyrZqlBycsF5/nM1vue7H+8=;
+        b=H0wez8bTvA88g+FwVRtCN7nhJUkmh9SH3BU1UEhxLoNeNNZ/54YSCPJWbY+14kr1B4
+         55Wr13Qx/FbTr0sxCqR3rEZRvtqCEZfC3up0uI9Em3KUUrjqfiRUPWnK6x9jLPt/XJ9n
+         gkHfaR9tjiARXdyEfDa02PYnJA8blA/MskqKnatLSztXMxL9g24ltauiA7SA9UJnn88n
+         Xc6Sy7+TiVEnBZ/KTR02Tlda/W3CFlgQwtLh6eljOa9uHbfgSBL73SGFe+1vdCXIJx0z
+         8rD/7OqWEi0DB6/lkREM90qSx4FoclYN1qR+MWcqpl8wYX6GMNHjes9NpIaUMcqq4O3z
+         jBjw==
+X-Gm-Message-State: APjAAAWllcyWoQz091BKsa3Y11Cm3POH8QJ1VkFwzNNvFrul7RwQ253V
+        UkmNp36gvcycrCowJX7ZY8732ziU
+X-Google-Smtp-Source: APXvYqzhoyFkgwajRfjIdUrkeCnUjGm4bqYwojIgJe2xKEXLxtsfWp772hVXqud1TTzozz2bQxNw9Q==
+X-Received: by 2002:a65:6104:: with SMTP id z4mr13201717pgu.27.1567877847273;
+        Sat, 07 Sep 2019 10:37:27 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id h18sm10325391pfn.53.2019.09.07.10.37.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Sep 2019 10:37:26 -0700 (PDT)
+Date:   Sat, 7 Sep 2019 10:37:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] software node: implement reference properties
+Message-ID: <20190907173724.GA145199@dtor-ws>
+References: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
+ <20190907160819.GH2680@smile.fi.intel.com>
+ <20190907163240.GA27112@dtor-ws>
+ <20190907171251.GL2680@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <1566294992-703-1-git-send-email-info@metux.net>
- <CAHp75VfFf7y5iLHSgS+mXa4cE78BC=maF6PWtwEGfgyi2pXKCg@mail.gmail.com> <8e9ee2a1-3731-9427-bd04-2d4327913aa3@metux.net>
-In-Reply-To: <8e9ee2a1-3731-9427-bd04-2d4327913aa3@metux.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 7 Sep 2019 20:31:44 +0300
-Message-ID: <CAHp75Vd_fW7Vb39u2efjt02+M50MDfvOJTrqkJ98CGwmSQORRw@mail.gmail.com>
-Subject: Re: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190907171251.GL2680@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 2:37 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
->
-> On 22.08.19 21:47, Andy Shevchenko wrote:
->
-> >> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
-> >
-> > Wrong format.
-> >
-> > W/o SoB tag I can't take it.
->
-> What's the correct format (what command shall I use to
-> create it correctly ?)
+On Sat, Sep 07, 2019 at 08:12:51PM +0300, Andy Shevchenko wrote:
+> On Sat, Sep 07, 2019 at 09:32:40AM -0700, Dmitry Torokhov wrote:
+> > On Sat, Sep 07, 2019 at 07:08:19PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 06, 2019 at 03:26:09PM -0700, Dmitry Torokhov wrote:
+> 
+> > > > +	} else if (src->type == DEV_PROP_REF) {
+> > > > +		/* All reference properties must be arrays */
+> > > > +		return -EINVAL;
+> > > 
+> > > Hmm... What about to duplicate pointer under value union and use is_array to
+> > > distinguish which one to use? Because...
+> > 
+> > Then we have to special-case copying this entry, similar to the pains we
+> > are going with the strings.
+> 
+> I can't see it as a pain. Simple do the same kmemdup() for the case when
+> is_array = false and DEV_TYPE_REF?
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+And then you need to make sure it is freed on error paths and when we
+remove property entries. This requires more checks and code. In contrast
+we already know how to handle out of line objects of arbitrary size.
 
-Section 11
+The only reason we have inline strings is because for shorter strings we
+save 4/8 bytes.
 
-And for this one Fixes is not needed. The APUv4 never worked before, correct?
+> 
+> By the way, don't we need to update property_entry_{get,set}_pointer()?
 
+I do not see these, where are they?
+
+> 
+> > > > +	.is_array = true,						\
+> > > 
+> > > I really don't like this "cheating".
+> > 
+> > This is not cheating. Any single value can be represented as an array of
+> > one element. Actually, the only reason we have this "is_array" business
+> > is because for scalar values and short strings it is much cheaper to
+> > store single value in-line instead of out of line + pointer, especially
+> > on 64 bit arches.
+> 
+> Yes, and this is a lot of benefit!
+
+Yes, nobody argues against it. Here however we are dealing with a larger
+structure. There is absolutely no benefit of trying to separate single
+value vs array here.
+
+> 
+> > If you want we can change is_array into is_inline.
+> 
+> Nope, is_array is exactly what it tells us about the content. Its functional
+> load is to distinguish which union (value vs. pointer) we are using.
+
+No, it signifies whether the value is stored within property entry or
+outside. I can fit probably 8 bytes arrays into property entry
+structure, in which case is_array will definitely not reflect the data
+type.
+
+It is the type-specific accessors that know how to parse and fetch data
+from properties.
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Dmitry
