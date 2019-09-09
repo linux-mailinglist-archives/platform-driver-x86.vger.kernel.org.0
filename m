@@ -2,269 +2,67 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5E4CADE0C
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 19:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 971EDADE10
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 19:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729547AbfIIRcJ (ORCPT
+        id S1729712AbfIIReY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 13:32:09 -0400
-Received: from mail.klausen.dk ([174.138.9.187]:46392 "EHLO mail.klausen.dk"
+        Mon, 9 Sep 2019 13:34:24 -0400
+Received: from mail.klausen.dk ([174.138.9.187]:46468 "EHLO mail.klausen.dk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728958AbfIIRcJ (ORCPT
+        id S1726836AbfIIReY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 13:32:09 -0400
-From:   Kristian Klausen <kristian@klausen.dk>
+        Mon, 9 Sep 2019 13:34:24 -0400
+Subject: Re: [PATCH v3] platform/x86: asus-wmi: Support setting a maximum
+ charging percentage
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-        t=1568050326;
+        t=1568050462;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5wevM/p9iJ3YrH6y1daUOgUCiygqTCA0iUwWqP5hK2U=;
-        b=K1yDgsClmCv8wUeVr4r3QLtM2Evc2XfcCHlnIiMK8wKHKtsVqnlxMEV2YFWVcQphTahDuX
-        0aowvqNuontsT0yGBbCqz6HZ6TZtqLMOu76FFocWLRo9vl2xwvftVWJPeRBY86ekyVOdxE
-        /2QMn04d+uNg6PE5hxiQsoOkI3IMbbg=
-To:     Platform Driver <platform-driver-x86@vger.kernel.org>
+        bh=vv8muC/JqlI8QHFeIdPbhXmdROgxvRw3ReC2dOP5YMY=;
+        b=dJ3VTEQ4fqL9pkkTrKPVQFEqvyxjcNmLUmJWgz/WqHnFDV5ZobHWIVJRt4Uqnv3yyKGX40
+        3dmQ1UN20Qa6TBDDFKzTMBU+S15g419ySkrpwcMc5mz50jAm+9kDGQg6uAADt+w15gYUF/
+        CwBg5LhLTTx2DmJHq/aejCp8yKn4FQM=
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Daniel Drake <drake@endlessm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kristian Klausen <kristian@klausen.dk>
-Subject: [PATCH 3/3] platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API
-Date:   Mon,  9 Sep 2019 19:31:28 +0200
-Message-Id: <20190909173128.1670-3-kristian@klausen.dk>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190909173128.1670-1-kristian@klausen.dk>
-References: <20190909173128.1670-1-kristian@klausen.dk>
+        =?UTF-8?Q?Ognjen_Gali=c4=87?= <smclt30p@gmail.com>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <20190813003023.6748-1-kristian@klausen.dk>
+ <CAD8Lp47pSr-0VWqSBTAAJe3Ny5gW2XMXXYxmiH5-EOk42MhvHw@mail.gmail.com>
+ <a5f6bd92-076b-57be-75d8-7509b86b5fea@klausen.dk>
+ <CAHp75Vek0Ti1jB8J+M09w2LxKpfq9SH8KZkzPwrtXzZr5Krr3w@mail.gmail.com>
+ <20190909113016.GW2680@smile.fi.intel.com>
+From:   Kristian Klausen <kristian@klausen.dk>
+Message-ID: <0107e8e5-0c4d-7e5b-fcd5-b96ae9b71c22@klausen.dk>
+Date:   Mon, 9 Sep 2019 19:34:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190909113016.GW2680@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-At the same time use the official naming for the knobs.
-
-Tested on a Zenbook UX430UNR.
-
-Signed-off-by: Kristian Klausen <kristian@klausen.dk>
----
- drivers/platform/x86/asus-wmi.c | 147 +++++++++++++++++++++-----------
- 1 file changed, 98 insertions(+), 49 deletions(-)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 92c149dc2e6e..4dad22c0384b 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -26,6 +26,7 @@
- #include <linux/rfkill.h>
- #include <linux/pci.h>
- #include <linux/pci_hotplug.h>
-+#include <linux/power_supply.h>
- #include <linux/hwmon.h>
- #include <linux/hwmon-sysfs.h>
- #include <linux/debugfs.h>
-@@ -36,6 +37,7 @@
- #include <linux/acpi.h>
- #include <linux/dmi.h>
- #include <acpi/video.h>
-+#include <acpi/battery.h>
- 
- #include "asus-wmi.h"
- 
-@@ -195,7 +197,8 @@ struct asus_wmi {
- 	u8 fan_boost_mode_mask;
- 	u8 fan_boost_mode;
- 
--	int charge_threshold;
-+	// The RSOC controls the maximum charging percentage.
-+	bool battery_rsoc_available;
- 
- 	struct hotplug_slot hotplug_slot;
- 	struct mutex hotplug_lock;
-@@ -369,6 +372,97 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
- 	return status == 0 && (retval & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
- 
-+/* Battery ********************************************************************/
-+
-+/* The battery maximum charging percentage */
-+static int charge_end_threshold;
-+
-+static ssize_t charge_control_end_threshold_store(struct device *dev,
-+						  struct device_attribute *attr,
-+						  const char *buf, size_t count)
-+{
-+	int value, ret, rv;
-+
-+	ret = kstrtouint(buf, 10, &value);
-+	if (ret)
-+		return ret;
-+
-+	if (value < 0 || value > 100)
-+		return -EINVAL;
-+
-+	ret = asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, value, &rv);
-+	if(ret)
-+		return ret;
-+
-+	if (rv != 1)
-+		return -EIO;
-+
-+	/* There isn't any method in the DSDT to read the threshold, so we
-+	 * save the threshold.
-+	 */
-+	charge_end_threshold = value;
-+	return count;
-+}
-+
-+static ssize_t charge_control_end_threshold_show(struct device *device,
-+						 struct device_attribute *attr,
-+						 char *buf)
-+{
-+	return sprintf(buf, "%d\n", charge_end_threshold);
-+}
-+
-+static DEVICE_ATTR_RW(charge_control_end_threshold);
-+
-+static int asus_wmi_battery_add(struct power_supply *battery)
-+{
-+	/* The WMI method does not provide a way to specific a battery, so we
-+	 * just assume it is the first battery.
-+	 */
-+	if (!strcmp(battery->desc->name, "BAT0") == 0)
-+		return -ENODEV;
-+
-+	if (device_create_file(&battery->dev,
-+	    &dev_attr_charge_control_end_threshold))
-+		return -ENODEV;
-+
-+	/* The charge threshold is only reset when the system is power cycled,
-+	 * and we can't get the current threshold so let set it to 100% when
-+	 * a battery is added.
-+	 */
-+	asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, 100, NULL);
-+	charge_end_threshold = 100;
-+
-+	return 0;
-+}
-+
-+static int asus_wmi_battery_remove(struct power_supply *battery)
-+{
-+	device_remove_file(&battery->dev,
-+			   &dev_attr_charge_control_end_threshold);
-+	return 0;
-+}
-+
-+static struct acpi_battery_hook battery_hook = {
-+	.add_battery = asus_wmi_battery_add,
-+	.remove_battery = asus_wmi_battery_remove,
-+	.name = "ASUS Battery Extension",
-+};
-+
-+static void asus_wmi_battery_init(struct asus_wmi *asus)
-+{
-+	asus->battery_rsoc_available = false;
-+	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_RSOC)) {
-+		asus->battery_rsoc_available = true;
-+		battery_hook_register(&battery_hook);
-+	}
-+}
-+
-+static void asus_wmi_battery_exit(struct asus_wmi *asus)
-+{
-+	if (asus->battery_rsoc_available)
-+		battery_hook_unregister(&battery_hook);
-+}
-+
- /* LEDs ***********************************************************************/
- 
- /*
-@@ -2052,45 +2146,6 @@ static ssize_t cpufv_store(struct device *dev, struct device_attribute *attr,
- 
- static DEVICE_ATTR_WO(cpufv);
- 
--
--static ssize_t charge_threshold_store(struct device *dev,
--				      struct device_attribute *attr,
--				      const char *buf, size_t count)
--{
--	struct asus_wmi *asus = dev_get_drvdata(dev);
--	int value, ret, rv;
--
--	ret = kstrtouint(buf, 10, &value);
--	if (ret)
--		return ret;
--
--	if (value < 0 || value > 100)
--		return -EINVAL;
--
--	ret = asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, value, &rv);
--	if (ret)
--		return ret;
--
--	if (rv != 1)
--		return -EIO;
--
--	/* There isn't any method in the DSDT to read the threshold, so we
--	 * save the threshold.
--	 */
--	asus->charge_threshold = value;
--	return count;
--}
--
--static ssize_t charge_threshold_show(struct device *dev,
--				     struct device_attribute *attr, char *buf)
--{
--	struct asus_wmi *asus = dev_get_drvdata(dev);
--
--	return sprintf(buf, "%d\n", asus->charge_threshold);
--}
--
--static DEVICE_ATTR_RW(charge_threshold);
--
- static struct attribute *platform_attributes[] = {
- 	&dev_attr_cpufv.attr,
- 	&dev_attr_camera.attr,
-@@ -2099,7 +2154,6 @@ static struct attribute *platform_attributes[] = {
- 	&dev_attr_lid_resume.attr,
- 	&dev_attr_als_enable.attr,
- 	&dev_attr_fan_boost_mode.attr,
--	&dev_attr_charge_threshold.attr,
- 	NULL
- };
- 
-@@ -2123,8 +2177,6 @@ static umode_t asus_sysfs_is_visible(struct kobject *kobj,
- 		devid = ASUS_WMI_DEVID_ALS_ENABLE;
- 	else if (attr == &dev_attr_fan_boost_mode.attr)
- 		ok = asus->fan_boost_mode_available;
--	else if (attr == &dev_attr_charge_threshold.attr)
--		devid = ASUS_WMI_DEVID_RSOC;
- 
- 	if (devid != -1)
- 		ok = !(asus_wmi_get_devstate_simple(asus, devid) < 0);
-@@ -2450,13 +2502,9 @@ static int asus_wmi_add(struct platform_device *pdev)
- 		goto fail_wmi_handler;
- 	}
- 
-+	asus_wmi_battery_init(asus);
-+
- 	asus_wmi_debugfs_init(asus);
--	/* The charge threshold is only reset when the system is power cycled,
--	 * and we can't get the current threshold so let set it to 100% on
--	 * module load.
--	 */
--	asus_wmi_set_devstate(ASUS_WMI_DEVID_RSOC, 100, NULL);
--	asus->charge_threshold = 100;
- 
- 	return 0;
- 
-@@ -2491,6 +2539,7 @@ static int asus_wmi_remove(struct platform_device *device)
- 	asus_wmi_debugfs_exit(asus);
- 	asus_wmi_sysfs_exit(asus->platform_device);
- 	asus_fan_set_auto(asus);
-+	asus_wmi_battery_exit(asus);
- 
- 	kfree(asus);
- 	return 0;
--- 
-2.23.0
-
+On 09.09.2019 13.30, Andy Shevchenko wrote:
+> On Sat, Sep 07, 2019 at 08:49:27PM +0300, Andy Shevchenko wrote:
+>> On Mon, Aug 26, 2019 at 10:09 PM Kristian Klausen <kristian@klausen.dk> wrote:
+>>> On 15.08.2019 05.28, Daniel Drake wrote:
+>>> I did notice that V1 of this patch has been merged into the for-next
+>>> branch by Andy[1].
+>>> Was that a mistake Andy? and how do you want me to proceed? Should I
+>>> create a refactoring patch? V1 really isn't the proper way to do this.
+>> Oh, I see. Can it be fixed quickly? Then refactoring patch on top of
+>> the branch is preferred.
+>> Otherwise I will remove the original from the tree. Just tell me which
+>> one is more solid.
+> Okay, there are a lot of patches on top right now. And we are at last week
+> before merge window. So, send me a followup fix on top of our for-next branch.
+>
+> Sorry for inconvenience.
+I just sent a refactoring patch series, feel free to change whatever is 
+needed.
