@@ -2,105 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC12FAD08A
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  8 Sep 2019 22:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BE9CAD483
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 10:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728987AbfIHUH0 (ORCPT
+        id S2388849AbfIIIQC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 8 Sep 2019 16:07:26 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:42691 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728817AbfIHUH0 (ORCPT
+        Mon, 9 Sep 2019 04:16:02 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33236 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388846AbfIIIQC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 8 Sep 2019 16:07:26 -0400
-Received: by mail-lf1-f68.google.com with SMTP id u13so8827406lfm.9
-        for <platform-driver-x86@vger.kernel.org>; Sun, 08 Sep 2019 13:07:25 -0700 (PDT)
+        Mon, 9 Sep 2019 04:16:02 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n190so7395966pgn.0;
+        Mon, 09 Sep 2019 01:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TuHIWFdcsxUJqPswaYj4b0GivTB6Jcoizn7SrmAv+OI=;
-        b=hpbl52co8tDUVi/7gHuODZirz/kPjg5s1T3Nnm+ujNoC3UW8LeJuFgjmu/QfpDpg6F
-         9KL5/fR9vyl6YVuwMxlmHCaPhitd5He6n/wXCO+wtNHY8gG9J6M+aOF6ofQwA0cxvSgq
-         xJwLdoNj8/+6d4ae319EYmqQyKdMAiDOnk8BdDMr4nPvyOQ4Y3VurcTOljU1a63qoKOc
-         OfzWgjijnGzIXdF0CBAxxaDM3F1mQnCu8BDmc82CqiVRB5AJ5YbcaRruZUOgs4HnWeKe
-         YZZWUzgDTPEfUWlQjZsBLu/seUOX81ornseYt+nkA4KJ8zLa7vLu9/GQyej9jXErdvfZ
-         Rf0A==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xo9CxSyoQ0CHZmaLVWqyldkLf50Cga4Ofde0KKklV7g=;
+        b=hjToWIKMAkWAdQ6XG7oGmxIUUPnR8XGvUY8guWwxiq8ntqBNw2MeAGwBjEZ699mMJj
+         fuRjtR6n5zXAYj9I5uDxsMrnypirEXuBtcjA682dMwipAuuNJoi1yqwOpONmnmHNVR6/
+         P5BKSrGkdPFbmULh0Ce70eXBZ3sx/88lZZxOpdJNk20Dmqyee2aMLERlbQmg2Ci5lq4k
+         Bl4HZhyUVq7WHXxI5zTdEQQPDu3kz4bUst8oUpwSykGTnk9fDLb1LxJ9VmMW5ejyDZ1G
+         m9oj+FFlk7HSx2F8SfSIhaEup5SK03sEwZEEeCGsl8eO7LLnvhG7LOuCpu3aT85Cbjdr
+         x26A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TuHIWFdcsxUJqPswaYj4b0GivTB6Jcoizn7SrmAv+OI=;
-        b=QL7Q0iPcvm4ZKfvTWOrl55tDsUx1M9j46N0Z4xVZU5w1I7tc6L2Ifj0Ix7e0RDfBQ/
-         c8F9xz/2QohXxNWqOwD9eEsLfQMafv6W0q+ca7FRyDN/0roXDxAyRuQrZFM0F9oHpb0/
-         xpxUcKePNIN4qYhsXSiRmF9V6ZO77Bi0N3SuM1K41XYRRZvohqp0zPv8TzXy2WTtwY8Q
-         U6qq2EQSG7c74lLdpPvPZ8XXfR2y1goTpoZGVeF3Y7zOhNc38kMpFG1BAAgic+X1TSCz
-         SomK99r+3omTu00C0duvPIHV8DCUkMVsZGCMXXmCeVA1N2009jtGXPq+ojS0MkzhQqdD
-         TRHg==
-X-Gm-Message-State: APjAAAXQDgWrT0o/eMs6XJDOoumkwTGHeqFDlfPwfbmopY/EdXnkMtBE
-        s3iCtRyX83gF0ZVnfp0p3Cnpm1Oa6SWNJYQWitGukg==
-X-Google-Smtp-Source: APXvYqz4xrYJV1IQUAk4dL9wEqpbEkQlxchr8/PvxBR9Y0AhwcXiPbiIw1LJ1wLsH0U4GO0jlz888uTPJr7by6oxYNw=
-X-Received: by 2002:ac2:4352:: with SMTP id o18mr14106857lfl.164.1567973244230;
- Sun, 08 Sep 2019 13:07:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xo9CxSyoQ0CHZmaLVWqyldkLf50Cga4Ofde0KKklV7g=;
+        b=LGGeJWBky9+LX0L7++Vtzn0pcE4rk+pQSFIuVpIGQldPjZIh5Il+67YL2AomRWw/fJ
+         +2PtYbLFKLd1sGkhkSoi0apyNrc/5kS7/c7jMi8hK4lp6VoOb/73WnZqz2YMcP8Mw9QX
+         yT6DPr4U2PWbLViI4megbmK/PNFw7oPd5nzc+a2s08KCwqh4ztdGm3jEXvMLRkmiq+Cw
+         d7cu9ZSDkuS+3nisSiAJl+FG6xfOXyNI2+vxMDiUsxGxAKOYBoV2k02j5RUr10klPKfV
+         DAqGpolB0T2WPxbyr52/aLD1e5Lz1GQCNvfsITbGXs29zY7NeeRwZpXDt8yQSSKgq7Nb
+         ycIA==
+X-Gm-Message-State: APjAAAVhs6Qw2CkU4uhos7FyFT34GK4hd+JeonbMJCATaqZdgckgZGn2
+        6SY5EEkanwjwppo1ZNS0kU0=
+X-Google-Smtp-Source: APXvYqxgJwJLbLbYzmC+ON7eAhJZPRv0vKs96O3fOZpekEMnckh9v2nh5rhT/ro60HkaFONusIpEqw==
+X-Received: by 2002:aa7:8592:: with SMTP id w18mr26574825pfn.237.1568016960833;
+        Mon, 09 Sep 2019 01:16:00 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id u65sm12686669pfu.104.2019.09.09.01.15.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2019 01:16:00 -0700 (PDT)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v3 00/13] software node: add support for reference properties
+Date:   Mon,  9 Sep 2019 01:15:44 -0700
+Message-Id: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
 MIME-Version: 1.0
-References: <CAHp75Ver=TNKxh8rdJs1xQYSLNsRLfEoFtcGG6hViug=cF6s_g@mail.gmail.com>
- <20190628033413.8058-1-rajatja@google.com> <CACK8Z6GYwPhz-+7zxxe-aG673Tbin=GYUvVZyL9cTgjqk_EXqA@mail.gmail.com>
- <CAHp75VdPY83U5dWJbca_ZCJwT6z8L+V4R+fY0aZTOkM=vNweYQ@mail.gmail.com>
-In-Reply-To: <CAHp75VdPY83U5dWJbca_ZCJwT6z8L+V4R+fY0aZTOkM=vNweYQ@mail.gmail.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Sun, 8 Sep 2019 13:06:47 -0700
-Message-ID: <CACK8Z6F5wjT0CE2ftjaB0_zEhK+P8UTSmzmzWZS3LD1688kgRw@mail.gmail.com>
-Subject: Re: [PATCH v7] platform/x86: intel_pmc_core: Attach using APCI HID "INT33A1"
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rafael J Wysocki <rafael.j.wysocki@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Furquan Shaikh <furquan@google.com>,
-        Evan Green <evgreen@google.com>,
-        Rajat Jain <rajatxjain@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Sep 7, 2019 at 10:42 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Fri, Aug 23, 2019 at 1:44 AM Rajat Jain <rajatja@google.com> wrote:
-> >
-> > On Thu, Jun 27, 2019 at 8:34 PM Rajat Jain <rajatja@google.com> wrote:
-> > >
-> > > Most modern platforms already have the ACPI device "INT33A1" that could
-> > > be used to attach to the driver. Switch the driver to using that and
-> > > thus make the intel_pmc_core.c a pure platform_driver.
-> > >
-> > > Some of the legacy platforms though, may still not have this ACPI device
-> > > in their ACPI tables. Thus for such platforms, move the code to manually
-> > > instantiate a platform_device into a new file of its own. This would
-> > > instantiate the intel_pmc_core platform device and thus attach to
-> > > the driver, if the ACPI device for the same ("INT33A1") is not present
-> > > in a system where it should be. This was discussed here:
-> > > https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1966991.html
-> >
-> >
-> > HI Andy, Rajneesh, this seems to have fallen through the cracks. Any
-> > comments here on this patch?
->
-> % git tag --list v5.3* --contains b02f6a2ef0a1
-> v5.3-rc1
+These series implement "references" properties for software nodes as true
+properties, instead of managing them completely separately.
 
-Oops, my apologies, I failed to notice it.
+The first 10 patches are generic cleanups and consolidation and unification
+of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
+patch #12 converts the user of references to the property syntax, and patch
+#13 removes the remains of references as entities that are managed
+separately.
 
-Thanks,
+Changes in v3:
+- added various cleanups before implementing reference properties
 
-Rajat
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+Changes in v2:
+- reworked code so that even single-entry reference properties are
+  stored as arrays (i.e. the software_node_ref_args instances are
+  not part of property_entry structure) to avoid size increase.
+  From user's POV nothing is changed, one can still use PROPERTY_ENTRY_REF
+  macro to define reference "inline".
+- dropped unused DEV_PROP_MAX
+- rebased on linux-next
+
+Dmitry Torokhov (13):
+  software node: remove DEV_PROP_MAX
+  software node: clean up property_copy_string_array()
+  software node: get rid of property_set_pointer()
+  software node: simplify property_get_pointer()
+  software node: remove property_entry_read_uNN_array functions
+  software node: unify PROPERTY_ENTRY_XXX macros
+  software node: simplify property_entry_read_string_array()
+  software node: introduce PROPERTY_ENTRY_ARRAY_XXX_LEN()
+  efi/apple-properties: use PROPERTY_ENTRY_U8_ARRAY_LEN
+  software node: rename is_array to is_inline
+  software node: implement reference properties
+  platform/x86: intel_cht_int33fe: use inline reference properties
+  software node: remove separate handling of references
+
+ drivers/base/swnode.c                    | 243 +++++++----------------
+ drivers/firmware/efi/apple-properties.c  |   8 +-
+ drivers/platform/x86/intel_cht_int33fe.c |  81 ++++----
+ include/linux/property.h                 | 154 +++++++-------
+ 4 files changed, 198 insertions(+), 288 deletions(-)
+
+-- 
+2.23.0.187.g17f5b7556c-goog
+
