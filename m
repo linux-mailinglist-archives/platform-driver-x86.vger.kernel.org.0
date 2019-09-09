@@ -2,83 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 079D9AD6C7
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 12:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AB2EAD7EE
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 13:30:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390849AbfIIKYj (ORCPT
+        id S2390878AbfIILa1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 06:24:39 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:43723 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390541AbfIIKYj (ORCPT
+        Mon, 9 Sep 2019 07:30:27 -0400
+Received: from mga11.intel.com ([192.55.52.93]:37465 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390515AbfIILa1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 06:24:39 -0400
-Received: by mail-pf1-f193.google.com with SMTP id d15so8856109pfo.10;
-        Mon, 09 Sep 2019 03:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TFxkLcFM2L005t3DbZeSiC0sSOohu++hNPyvW86VTOY=;
-        b=me4OldsRdLm3WspCc/Ie3BJ9OqOB5YsmhJzfiSb2X6o5smZWYH3KbVuqVlQEfxWLoa
-         jxryGnd+bLE6ctTjLgnpa5NknlTfGDpwoANw1MYtxA+4Yzb/t0OlAU0M+t3TncgIN9qk
-         HGwpE0tUZBPHFenA3Z9PMGL6ePZoNl8iWgBmKyWDZgPK0nWwE9Yul3KUpQOpnGV5sKDd
-         cljYozQzpw56pbzovoOCEUCyAV5WTsX4ATNd8BW6s4yHf+v/uYdFGe+6VzR8TJilXEC9
-         rfR0sSFUwF7CRVf9O2HkgbqQ0GiOKiSx8maGo6ysYe3u8hrlLay6jkjqssGtvj/6Es4F
-         wALQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TFxkLcFM2L005t3DbZeSiC0sSOohu++hNPyvW86VTOY=;
-        b=tZcOvLraJJkYCXPchux01vGGBMX9EDmRmVKtUVQdcdp7NBWy0rsqt22Acl4CBlJcuB
-         +lX+ueHTcw2zNbeKc4xc2nRM9TpWrrYKYST2U6d3XWgRVjFCBztXggruLD5i7gZ9PWmh
-         8ScWA4mZOA20S/INf3dd0LSf8MZr5ZbJUyG4JUv/vbQpUshyrWHqJ6kVtBkVvSaBqK3b
-         G0esUZZdpV+7mHjCnHjA9alMeluPdoTKAxHIa7r8dq3YEwa4tKOukNPQV1RZMNbaCz5k
-         JPQlHNC7m98/1XcuC3I1ehZpDhNPa1C+rk2bKCao/TDm4DpX0KzGCbW8x4PCwHNBhoxb
-         Y+xQ==
-X-Gm-Message-State: APjAAAUq4HuPMKh5hsexAajTW3SC8o55XmD7Y2jxgzUWffx2CLalbb9W
-        o8nslOSamQGsKdRv1B8qgnKlFbr7cIzCVgMhft0=
-X-Google-Smtp-Source: APXvYqwa6nj2RuFgUw1eBSPyZZvBn4m/PGDfUSeR4Z7mJ3wLGj4Puu2HUHymcWkIB+XWhH7GOss3sAuiN3DJbLJZd9A=
-X-Received: by 2002:aa7:86c8:: with SMTP id h8mr22887681pfo.241.1568024677885;
- Mon, 09 Sep 2019 03:24:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190905233748.6822-1-srinivas.pandruvada@linux.intel.com>
- <20190905233748.6822-2-srinivas.pandruvada@linux.intel.com>
- <780a3faf-9e44-64f4-a354-bdee39af3af5@redhat.com> <20190906134655.GU2680@smile.fi.intel.com>
- <6b576770a4bbe6c24ea524083dec5a16bf3c9e94.camel@linux.intel.com>
- <b8c7bd1204f7b4f75a5bccec4d7c41b1225928f7.camel@linux.intel.com>
- <CAHp75Vc9xMPW38Toh2jKv9YYYNV16837aAcXKMP6WaM-L8zcSQ@mail.gmail.com> <c6e4cedc4886fd689b3ff1df413ce62aa52cc544.camel@linux.intel.com>
-In-Reply-To: <c6e4cedc4886fd689b3ff1df413ce62aa52cc544.camel@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 9 Sep 2019 13:24:27 +0300
-Message-ID: <CAHp75VfzyyAXscYdSm7BoAZ9ViFiX7fpYkA_pPaTh3Q+Mn9fHA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] tools/power/x86/intel-speed-select: Display core
- count for bucket
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Prarit Bhargava <prarit@redhat.com>,
-        David Arcari <darcari@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 9 Sep 2019 07:30:27 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 04:30:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,484,1559545200"; 
+   d="scan'208";a="196168897"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002.jf.intel.com with ESMTP; 09 Sep 2019 04:30:19 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i7Hs8-0007c3-NP; Mon, 09 Sep 2019 14:30:16 +0300
+Date:   Mon, 9 Sep 2019 14:30:16 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Kristian Klausen <kristian@klausen.dk>
+Cc:     Daniel Drake <drake@endlessm.com>,
+        Ognjen =?utf-8?B?R2FsacSH?= <smclt30p@gmail.com>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3] platform/x86: asus-wmi: Support setting a maximum
+ charging percentage
+Message-ID: <20190909113016.GW2680@smile.fi.intel.com>
+References: <20190813003023.6748-1-kristian@klausen.dk>
+ <CAD8Lp47pSr-0VWqSBTAAJe3Ny5gW2XMXXYxmiH5-EOk42MhvHw@mail.gmail.com>
+ <a5f6bd92-076b-57be-75d8-7509b86b5fea@klausen.dk>
+ <CAHp75Vek0Ti1jB8J+M09w2LxKpfq9SH8KZkzPwrtXzZr5Krr3w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vek0Ti1jB8J+M09w2LxKpfq9SH8KZkzPwrtXzZr5Krr3w@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Sep 8, 2019 at 5:43 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
-> On Sat, 2019-09-07 at 21:18 +0300, Andy Shevchenko wrote:
-> > On Fri, Sep 6, 2019 at 10:47 PM Srinivas Pandruvada
-> > <srinivas.pandruvada@linux.intel.com> wrote:
+On Sat, Sep 07, 2019 at 08:49:27PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 26, 2019 at 10:09 PM Kristian Klausen <kristian@klausen.dk> wrote:
+> > On 15.08.2019 05.28, Daniel Drake wrote:
 
-> > It seems not applicable on top of tools patch series I had applied
-> > before.
-> I have rebased on the top of your review branch and resent.
+> > I did notice that V1 of this patch has been merged into the for-next
+> > branch by Andy[1].
+> > Was that a mistake Andy? and how do you want me to proceed? Should I
+> > create a refactoring patch? V1 really isn't the proper way to do this.
+> 
+> Oh, I see. Can it be fixed quickly? Then refactoring patch on top of
+> the branch is preferred.
+> Otherwise I will remove the original from the tree. Just tell me which
+> one is more solid.
 
-Pushed to my review and testing queue, thanks!
+Okay, there are a lot of patches on top right now. And we are at last week
+before merge window. So, send me a followup fix on top of our for-next branch.
+
+Sorry for inconvenience.
 
 -- 
 With Best Regards,
 Andy Shevchenko
+
+
