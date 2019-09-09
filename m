@@ -2,187 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7342AAD492
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 10:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1F1AD600
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 11:46:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389072AbfIIIQW (ORCPT
+        id S1729233AbfIIJqd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 04:16:22 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:44053 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389064AbfIIIQV (ORCPT
+        Mon, 9 Sep 2019 05:46:33 -0400
+Received: from mga09.intel.com ([134.134.136.24]:1941 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728187AbfIIJqd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 04:16:21 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q21so8652694pfn.11;
-        Mon, 09 Sep 2019 01:16:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UtLtNTXEdU6C/yU6HS/q4vOOCRlfD3VhKvtyNVUaElQ=;
-        b=p5EqRRlJRJIxCcqnSYcClS+b2Agv9cgjWAIYSC4ovPblZ+UMsneKfXyrhqaS6xZprR
-         /vgFUmG91ralYNG2gP858XxwLl/5EEhyNXRn8ZgT0vGSWE92Gnc58fsVEki5VW5aYrpp
-         tfo9tzxQIiPI4fnVDjv479YpDQBeGzzOqvdgFZdqN6PtK9HtXhwu9AGFlsp6mbHGBmyG
-         GJztfKCgKX7VC/a2d7/FcVk4gff2tk5KTibK/IW/aBFRZNzKSPcrojdO4UsTEoLvx/Ue
-         DQr66VhkRVqB56/o0Es4xfCGTEBvFmiz9pJ+fZ3oG5mk5t2N7smpjQPn0C4si+2LT2O6
-         U7hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UtLtNTXEdU6C/yU6HS/q4vOOCRlfD3VhKvtyNVUaElQ=;
-        b=O1FJ6r/3HShsnAywUlWJ8NMARLuu7LPb0F4UrvXQcDjt9lxAsqpxwRNndF+q62BJJZ
-         sNZYhPSMu6EzVQpT/xKxxLZ2Rz+/2PGvWhxmBFAfcUgRLkgT6TJLP3T2XXOpbivLBBv2
-         Uz0KDtLh0VQFBdy8b3p3N/eOTWHIT47iI6ORv8Au5DZOOEEkuPJZxQDgWtMJm2NmsrZF
-         796jgd8/wyVGZBXgO2ruP8Gpm2Do/ExQ2EOFslWNsDyngvjzrRcf4aoPVhTatNTpGTft
-         h8W/qi7+1BAFAAaZoruxc84RX7jv4yoLVUd2itKtEKosv9eL4ok8PE1YzikudClmlvpG
-         PIEw==
-X-Gm-Message-State: APjAAAXCEYOEI1BbVPtHdHdBXOimkO+8mmUa5JVB6zc7lvjqy4BGS+xa
-        d8zniTxsjjxM46J1b84g6GU=
-X-Google-Smtp-Source: APXvYqxwW2cQ3r9xbGMuuXjFn4yVwKa0UiWh32a4KuHhTp5JI7Q/rVYNDtrTcg/ShjeZsKLE8JfOYw==
-X-Received: by 2002:a63:394:: with SMTP id 142mr20558333pgd.43.1568016980256;
-        Mon, 09 Sep 2019 01:16:20 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id u65sm12686669pfu.104.2019.09.09.01.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 01:16:19 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mon, 9 Sep 2019 05:46:33 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 02:46:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,484,1559545200"; 
+   d="scan'208";a="191465252"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Sep 2019 02:46:30 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i7GFh-0006Eu-Dj; Mon, 09 Sep 2019 12:46:29 +0300
+Date:   Mon, 9 Sep 2019 12:46:29 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 13/13] software node: remove separate handling of references
-Date:   Mon,  9 Sep 2019 01:15:57 -0700
-Message-Id: <20190909081557.93766-14-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-In-Reply-To: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v3 01/13] software node: remove DEV_PROP_MAX
+Message-ID: <20190909094629.GP2680@smile.fi.intel.com>
 References: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
+ <20190909081557.93766-2-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190909081557.93766-2-dmitry.torokhov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Now that all users of references have moved to reference properties,
-we can remove separate handling of references.
+On Mon, Sep 09, 2019 at 01:15:45AM -0700, Dmitry Torokhov wrote:
+> This definition is not used anywhere, let's remove it.
+> 
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/base/swnode.c    | 44 +++++++++++++++-------------------------
- include/linux/property.h | 14 -------------
- 2 files changed, 16 insertions(+), 42 deletions(-)
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index 4aaad0c7b1eb..8085b39e23b4 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -452,8 +452,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 				 struct fwnode_reference_args *args)
- {
- 	struct swnode *swnode = to_swnode(fwnode);
--	const struct software_node_reference *ref;
--	const struct software_node_ref_args *ref_args;
-+	const struct software_node_ref_args *ref;
- 	const struct property_entry *prop;
- 	struct fwnode_handle *refnode;
- 	int i;
-@@ -462,36 +461,25 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 		return -ENOENT;
- 
- 	prop = property_entry_get(swnode->node->properties, propname);
--	if (prop) {
--		if (prop->type != DEV_PROP_REF)
--			return -EINVAL;
--
--		/*
--		 * We expect that references are never stored inline, even
--		 * single ones, as they are too big.
--		 */
--		if (prop->is_inline)
--			return -EINVAL;
--
--		if (index * sizeof(*ref_args) >= prop->length)
--			return -ENOENT;
-+	if (!prop)
-+		return -ENOENT;
- 
--		ref_args = &prop->pointer.ref[index];
--	} else {
--		if (!swnode->node->references)
--			return -ENOENT;
-+	if (prop->type != DEV_PROP_REF)
-+		return -EINVAL;
- 
--		for (ref = swnode->node->references; ref->name; ref++)
--			if (!strcmp(ref->name, propname))
--				break;
-+	/*
-+	 * We expect that references are never stored inline, even
-+	 * single ones, as they are too big.
-+	 */
-+	if (prop->is_inline)
-+		return -EINVAL;
- 
--		if (!ref->name || index > (ref->nrefs - 1))
--			return -ENOENT;
-+	if (index * sizeof(*ref) >= prop->length)
-+		return -ENOENT;
- 
--		ref_args = &ref->refs[index];
--	}
-+	ref = &prop->pointer.ref[index];
- 
--	refnode = software_node_fwnode(ref_args->node);
-+	refnode = software_node_fwnode(ref->node);
- 	if (!refnode)
- 		return -ENOENT;
- 
-@@ -510,7 +498,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 	args->nargs = nargs;
- 
- 	for (i = 0; i < nargs; i++)
--		args->args[i] = ref_args->args[i];
-+		args->args[i] = ref->args[i];
- 
- 	return 0;
- }
-diff --git a/include/linux/property.h b/include/linux/property.h
-index c9234fc43917..67cd38936c1e 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -419,30 +419,16 @@ int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
- /* -------------------------------------------------------------------------- */
- /* Software fwnode support - when HW description is incomplete or missing */
- 
--/**
-- * struct software_node_reference - Named software node reference property
-- * @name: Name of the property
-- * @nrefs: Number of elements in @refs array
-- * @refs: Array of references with optional arguments
-- */
--struct software_node_reference {
--	const char *name;
--	unsigned int nrefs;
--	const struct software_node_ref_args *refs;
--};
--
- /**
-  * struct software_node - Software node description
-  * @name: Name of the software node
-  * @parent: Parent of the software node
-  * @properties: Array of device properties
-- * @references: Array of software node reference properties
-  */
- struct software_node {
- 	const char *name;
- 	const struct software_node *parent;
- 	const struct property_entry *properties;
--	const struct software_node_reference *references;
- };
- 
- bool is_software_node(const struct fwnode_handle *fwnode);
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  include/linux/property.h | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index 9b3d4ca3a73a..44c1704f7163 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -22,7 +22,6 @@ enum dev_prop_type {
+>  	DEV_PROP_U32,
+>  	DEV_PROP_U64,
+>  	DEV_PROP_STRING,
+> -	DEV_PROP_MAX,
+>  };
+>  
+>  enum dev_dma_attr {
+> -- 
+> 2.23.0.187.g17f5b7556c-goog
+> 
+
 -- 
-2.23.0.187.g17f5b7556c-goog
+With Best Regards,
+Andy Shevchenko
+
 
