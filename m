@@ -2,44 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA7A9AD618
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 11:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 919CCAD66D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 12:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728978AbfIIJzJ (ORCPT
+        id S1729150AbfIIKJV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 05:55:09 -0400
-Received: from mga02.intel.com ([134.134.136.20]:48186 "EHLO mga02.intel.com"
+        Mon, 9 Sep 2019 06:09:21 -0400
+Received: from mga07.intel.com ([134.134.136.100]:15074 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728995AbfIIJzI (ORCPT
+        id S1728554AbfIIKJV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 05:55:08 -0400
+        Mon, 9 Sep 2019 06:09:21 -0400
 X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 02:55:08 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 03:09:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,484,1559545200"; 
-   d="scan'208";a="183770708"
+   d="scan'208";a="196150981"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2019 02:55:06 -0700
+  by orsmga002.jf.intel.com with ESMTP; 09 Sep 2019 03:09:19 -0700
 Received: from andy by smile with local (Exim 4.92.1)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1i7GO1-0006Jf-Bp; Mon, 09 Sep 2019 12:55:05 +0300
-Date:   Mon, 9 Sep 2019 12:55:05 +0300
+        id 1i7Gbm-0006RQ-1z; Mon, 09 Sep 2019 13:09:18 +0300
+Date:   Mon, 9 Sep 2019 13:09:18 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3 03/13] software node: get rid of property_set_pointer()
-Message-ID: <20190909095505.GQ2680@smile.fi.intel.com>
-References: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
- <20190909081557.93766-4-dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v2 1/3] software node: implement reference properties
+Message-ID: <20190909100918.GS2680@smile.fi.intel.com>
+References: <20190906222611.223532-1-dmitry.torokhov@gmail.com>
+ <20190907160819.GH2680@smile.fi.intel.com>
+ <20190907163240.GA27112@dtor-ws>
+ <20190907171251.GL2680@smile.fi.intel.com>
+ <20190907173724.GA145199@dtor-ws>
+ <20190907180348.GM2680@smile.fi.intel.com>
+ <20190907182335.GB145199@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190909081557.93766-4-dmitry.torokhov@gmail.com>
+In-Reply-To: <20190907182335.GB145199@dtor-ws>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -47,17 +52,59 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 09, 2019 at 01:15:47AM -0700, Dmitry Torokhov wrote:
-> Instead of explicitly setting values of integer types when copying property
-> entries lets just copy entire value union when processing non-array values.
+On Sat, Sep 07, 2019 at 11:23:35AM -0700, Dmitry Torokhov wrote:
+> On Sat, Sep 07, 2019 at 09:03:48PM +0300, Andy Shevchenko wrote:
+> > On Sat, Sep 07, 2019 at 10:37:24AM -0700, Dmitry Torokhov wrote:
+> > > On Sat, Sep 07, 2019 at 08:12:51PM +0300, Andy Shevchenko wrote:
+> > > > On Sat, Sep 07, 2019 at 09:32:40AM -0700, Dmitry Torokhov wrote:
+> > > > > On Sat, Sep 07, 2019 at 07:08:19PM +0300, Andy Shevchenko wrote:
+> > > > > > On Fri, Sep 06, 2019 at 03:26:09PM -0700, Dmitry Torokhov wrote:
+> > > > 
+> > > > > > > +	} else if (src->type == DEV_PROP_REF) {
+> > > > > > > +		/* All reference properties must be arrays */
+> > > > > > > +		return -EINVAL;
+> > > > > > 
+> > > > > > Hmm... What about to duplicate pointer under value union and use is_array to
+> > > > > > distinguish which one to use? Because...
+> > > > > 
+> > > > > Then we have to special-case copying this entry, similar to the pains we
+> > > > > are going with the strings.
+> > > > 
+> > > > I can't see it as a pain. Simple do the same kmemdup() for the case when
+> > > > is_array = false and DEV_TYPE_REF?
+> > > 
+> > > And then you need to make sure it is freed on error paths and when we
+> > > remove property entries. This requires more checks and code. In contrast
+> > > we already know how to handle out of line objects of arbitrary size.
+> > 
+> > We can put it one level up to be a sibling to value / pointer unions.
+> > In that case is_array can be anything (we just don't care).
 > 
-> When handling array values assign the pointer there using the newly introduced
-> "raw" pointer union member. This allows us to remove property_set_pointer().
+> I think it would be better if you sketched out your proposed data
+> structure(s) so we are talking about the same things. But please note
+> that when you are dealing with property arrays we need to keep the easy
+> way of defining them, which means we should not be splitting individual
+> entries.
 
-Is this reincarnation of 318a19718261?
-Have you read 63dcc7090137?
+This one:
 
-From me NAK.
+        union {
+                union {
+                        const u8 *u8_data;
+                        const u16 *u16_data;
+                        const u32 *u32_data;
+                        const u64 *u64_data;
+                        const char * const *str;
+                } pointer;
+                union {
+                        u8 u8_data;
+                        u16 u16_data;
+                        u32 u32_data;
+                        u64 u64_data;
+                        const char *str;
+                } value;
+		struct ... *ref;
+        };
 
 -- 
 With Best Regards,
