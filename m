@@ -2,89 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 512E8AD687
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 12:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 079D9AD6C7
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 12:25:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728824AbfIIKP7 (ORCPT
+        id S2390849AbfIIKYj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 06:15:59 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36513 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728358AbfIIKP7 (ORCPT
+        Mon, 9 Sep 2019 06:24:39 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43723 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390541AbfIIKYj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 06:15:59 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y22so8874435pfr.3;
-        Mon, 09 Sep 2019 03:15:58 -0700 (PDT)
+        Mon, 9 Sep 2019 06:24:39 -0400
+Received: by mail-pf1-f193.google.com with SMTP id d15so8856109pfo.10;
+        Mon, 09 Sep 2019 03:24:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=eR0ilnRAfilkxH900ZHRgTRnftEfS8psnkYh74iN2G8=;
-        b=YrkFlb7Ouz0PAGbWQPPET9Vm1z6rB9MKeH2TUiQOfxqfpd8IYwMax+ynsXGcePSstf
-         pty7Jyq7IY38DemBpRJVYg+LyMBDbItdUJqA0iDWcyVLS2DcQO2jSRKhhF0CEZ8KiG4G
-         Zu0UnruSlDHyzsPPg3s4tRwGaFgvOeKanVzxcYrUmjFLgYWfRe0p5a72K2LW5S8YJoLP
-         5PCZJ4vs5DIB6ZvC9I6qSN0mZrj2dV2werYFUgCw5cGSinoacm1SooKKfBEXCKl8ryCh
-         Lqw77PEpT8oujYE8YaQkggTNsTgekLwyS8GjIM9GncBKN0IY/DfPrN49Qvb79LE6oSch
-         arcg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TFxkLcFM2L005t3DbZeSiC0sSOohu++hNPyvW86VTOY=;
+        b=me4OldsRdLm3WspCc/Ie3BJ9OqOB5YsmhJzfiSb2X6o5smZWYH3KbVuqVlQEfxWLoa
+         jxryGnd+bLE6ctTjLgnpa5NknlTfGDpwoANw1MYtxA+4Yzb/t0OlAU0M+t3TncgIN9qk
+         HGwpE0tUZBPHFenA3Z9PMGL6ePZoNl8iWgBmKyWDZgPK0nWwE9Yul3KUpQOpnGV5sKDd
+         cljYozQzpw56pbzovoOCEUCyAV5WTsX4ATNd8BW6s4yHf+v/uYdFGe+6VzR8TJilXEC9
+         rfR0sSFUwF7CRVf9O2HkgbqQ0GiOKiSx8maGo6ysYe3u8hrlLay6jkjqssGtvj/6Es4F
+         wALQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=eR0ilnRAfilkxH900ZHRgTRnftEfS8psnkYh74iN2G8=;
-        b=TEsPADUZuM+8nOsohHhljlolm2UISmlrtbrIcqSh/bc+QLfJn0NUKDlZ0ifREUXIC7
-         nVDcvpW35uAAxJYADp/jwdKz729ZSPJ04nmwczE4sGaGsVdrafqFUYmHNHesO+vr9ZnR
-         rWP0qQhgPW+rSmwiK+rex8mEMslOtGDM1k9Qq484+/H56kqeKFhUBFHrJnPADZjhise8
-         nuKZJux/t5jxYC1fHudA1VesiJAn66aKmMFXL2pbLktZzxkUy93TmVnfdFWxyk6PS7GS
-         qAtYYS2A0b8YiUsxIz7kPn3793HRI2p5RbEeeNiiK52OE197ERtrNkj3JK4KkMcjRdfz
-         jluQ==
-X-Gm-Message-State: APjAAAUsQv9hxaUqJKGyaHA7D64eBpIxUB1wfjQxn/icbzu3CnQvupNM
-        hTXq9LSL2cLGYGtN+1JGJXE=
-X-Google-Smtp-Source: APXvYqxS2O+zqfJizPPe+/IqtHW21XlsLT7myUVM5OksTn6TphABvgwS/AfMz3KKlQe+ewkTC7hvHw==
-X-Received: by 2002:a17:90a:b116:: with SMTP id z22mr24702277pjq.108.1568024157961;
-        Mon, 09 Sep 2019 03:15:57 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id v7sm14812756pff.87.2019.09.09.03.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 03:15:57 -0700 (PDT)
-Date:   Mon, 9 Sep 2019 03:15:55 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3 03/13] software node: get rid of property_set_pointer()
-Message-ID: <20190909101555.GC145199@dtor-ws>
-References: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
- <20190909081557.93766-4-dmitry.torokhov@gmail.com>
- <20190909095505.GQ2680@smile.fi.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TFxkLcFM2L005t3DbZeSiC0sSOohu++hNPyvW86VTOY=;
+        b=tZcOvLraJJkYCXPchux01vGGBMX9EDmRmVKtUVQdcdp7NBWy0rsqt22Acl4CBlJcuB
+         +lX+ueHTcw2zNbeKc4xc2nRM9TpWrrYKYST2U6d3XWgRVjFCBztXggruLD5i7gZ9PWmh
+         8ScWA4mZOA20S/INf3dd0LSf8MZr5ZbJUyG4JUv/vbQpUshyrWHqJ6kVtBkVvSaBqK3b
+         G0esUZZdpV+7mHjCnHjA9alMeluPdoTKAxHIa7r8dq3YEwa4tKOukNPQV1RZMNbaCz5k
+         JPQlHNC7m98/1XcuC3I1ehZpDhNPa1C+rk2bKCao/TDm4DpX0KzGCbW8x4PCwHNBhoxb
+         Y+xQ==
+X-Gm-Message-State: APjAAAUq4HuPMKh5hsexAajTW3SC8o55XmD7Y2jxgzUWffx2CLalbb9W
+        o8nslOSamQGsKdRv1B8qgnKlFbr7cIzCVgMhft0=
+X-Google-Smtp-Source: APXvYqwa6nj2RuFgUw1eBSPyZZvBn4m/PGDfUSeR4Z7mJ3wLGj4Puu2HUHymcWkIB+XWhH7GOss3sAuiN3DJbLJZd9A=
+X-Received: by 2002:aa7:86c8:: with SMTP id h8mr22887681pfo.241.1568024677885;
+ Mon, 09 Sep 2019 03:24:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190909095505.GQ2680@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190905233748.6822-1-srinivas.pandruvada@linux.intel.com>
+ <20190905233748.6822-2-srinivas.pandruvada@linux.intel.com>
+ <780a3faf-9e44-64f4-a354-bdee39af3af5@redhat.com> <20190906134655.GU2680@smile.fi.intel.com>
+ <6b576770a4bbe6c24ea524083dec5a16bf3c9e94.camel@linux.intel.com>
+ <b8c7bd1204f7b4f75a5bccec4d7c41b1225928f7.camel@linux.intel.com>
+ <CAHp75Vc9xMPW38Toh2jKv9YYYNV16837aAcXKMP6WaM-L8zcSQ@mail.gmail.com> <c6e4cedc4886fd689b3ff1df413ce62aa52cc544.camel@linux.intel.com>
+In-Reply-To: <c6e4cedc4886fd689b3ff1df413ce62aa52cc544.camel@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 9 Sep 2019 13:24:27 +0300
+Message-ID: <CAHp75VfzyyAXscYdSm7BoAZ9ViFiX7fpYkA_pPaTh3Q+Mn9fHA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tools/power/x86/intel-speed-select: Display core
+ count for bucket
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
+        David Arcari <darcari@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 09, 2019 at 12:55:05PM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 09, 2019 at 01:15:47AM -0700, Dmitry Torokhov wrote:
-> > Instead of explicitly setting values of integer types when copying property
-> > entries lets just copy entire value union when processing non-array values.
-> > 
-> > When handling array values assign the pointer there using the newly introduced
-> > "raw" pointer union member. This allows us to remove property_set_pointer().
-> 
-> Is this reincarnation of 318a19718261?
-> Have you read 63dcc7090137?
+On Sun, Sep 8, 2019 at 5:43 PM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+> On Sat, 2019-09-07 at 21:18 +0300, Andy Shevchenko wrote:
+> > On Fri, Sep 6, 2019 at 10:47 PM Srinivas Pandruvada
+> > <srinivas.pandruvada@linux.intel.com> wrote:
 
-Okay, I think if I squash this and the followup patch to
-property_get_data() then we'll only go through the "raw" pointer to get
-to the non-inline data and therefore we will not have the union aliasing
-issue.
+> > It seems not applicable on top of tools patch series I had applied
+> > before.
+> I have rebased on the top of your review branch and resent.
 
-The in-line values never change their type when storing/accessing.
+Pushed to my review and testing queue, thanks!
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
