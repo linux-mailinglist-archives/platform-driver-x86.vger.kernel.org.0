@@ -2,91 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E69AD801
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 13:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB844ADA3B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Sep 2019 15:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729118AbfIILg5 (ORCPT
+        id S1728691AbfIINsN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Sep 2019 07:36:57 -0400
-Received: from mga07.intel.com ([134.134.136.100]:21481 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729036AbfIILg4 (ORCPT
+        Mon, 9 Sep 2019 09:48:13 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:39255 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727854AbfIINsM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Sep 2019 07:36:56 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Sep 2019 04:36:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,484,1559545200"; 
-   d="scan'208";a="183793654"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Sep 2019 04:36:54 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1i7HyW-0007fb-V1; Mon, 09 Sep 2019 14:36:52 +0300
-Date:   Mon, 9 Sep 2019 14:36:52 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Mon, 9 Sep 2019 09:48:12 -0400
+Received: by mail-pf1-f196.google.com with SMTP id i1so354081pfa.6;
+        Mon, 09 Sep 2019 06:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gBNE2kx800LnETQB7T7a8ghmuVEs85XpfEEauS23rlY=;
+        b=jQAA0ZH9kX4X+OGD7x+3SiChxzRIQn06JGYz0297S06/HeZ16A7V952T640b1zHLYC
+         dC+qIf9BX6BOec0wTNP1SOGWwMin06sZ1cyQxKpmepGYxP7MtEe+h/VB2qHjbB8FXrvR
+         No8q9oHoQvxRVpx7v4uRIJwbrOLZTWqLwn/n9CfMJSOjDd7kPBQIJvzylxa3lCJ9djJs
+         v0dvRBsPT3bcpeUdZqhjE7emE9AouOkiS94Nmhi9QKbeob7FAxIpBDGIFB1vcqODRRq6
+         QxDLuiAT4N4ZOtfciImM86tLCrmSvH6LJGAtZ6PfTwSFAbvwSMo673lqn296N9wqAETG
+         2pRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gBNE2kx800LnETQB7T7a8ghmuVEs85XpfEEauS23rlY=;
+        b=I29BKjGYWMOzrMcIIUQtcBiqz+p7NseWkOJ5r1bYb3ZZctwynTnDALiDrr1oo/Sizn
+         WhP0gAn/MsV1g8iF52qeYEAl+XaPBkGn91tM8IbuPTEyymgp50w4mbnjg7dZ5v0jnAwm
+         tTfQe6ySt9vQLf3uxWaJpujAH/tHuhMqn2j17X/vbUWUiX9cPKD6FIbUbx2cN6WCXQ30
+         lrh5xhb92/t/ukt6R3ztnKGT8HIxxRLkgFAhEpJz1cgG3yB5t+VHGtv1Xy0qY7uiECD7
+         ZcBtRiGnwgIRhven9XY2YnQf6Xk8+jzkf4eg9q8z6o0JOONF5uRDCEM0knKLc0xizs5S
+         hz0A==
+X-Gm-Message-State: APjAAAV0Z2IfU7tqf7bjBv9Bk4kGC0QuCJmvZw4wlCUFgrHfOC7HbHLY
+        Y5lexYK0OI19SrDbFyJirG8=
+X-Google-Smtp-Source: APXvYqzT4ME55beiaYQljF+iK2ZoRRbGqON0nCabcct/0ML/fYvT51eiNy/0gBeFxCmd9yF4WS1xXQ==
+X-Received: by 2002:a65:610a:: with SMTP id z10mr21998447pgu.178.1568036890314;
+        Mon, 09 Sep 2019 06:48:10 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id w26sm16575769pfi.140.2019.09.09.06.48.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2019 06:48:09 -0700 (PDT)
+Date:   Mon, 9 Sep 2019 06:48:07 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
 Subject: Re: [PATCH v3 03/13] software node: get rid of property_set_pointer()
-Message-ID: <20190909113652.GX2680@smile.fi.intel.com>
+Message-ID: <20190909134807.GD145199@dtor-ws>
 References: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
  <20190909081557.93766-4-dmitry.torokhov@gmail.com>
  <20190909095505.GQ2680@smile.fi.intel.com>
  <20190909101555.GC145199@dtor-ws>
+ <20190909113652.GX2680@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190909101555.GC145199@dtor-ws>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20190909113652.GX2680@smile.fi.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 09, 2019 at 03:15:55AM -0700, Dmitry Torokhov wrote:
-> On Mon, Sep 09, 2019 at 12:55:05PM +0300, Andy Shevchenko wrote:
-> > On Mon, Sep 09, 2019 at 01:15:47AM -0700, Dmitry Torokhov wrote:
-> > > Instead of explicitly setting values of integer types when copying property
-> > > entries lets just copy entire value union when processing non-array values.
+On Mon, Sep 09, 2019 at 02:36:52PM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 09, 2019 at 03:15:55AM -0700, Dmitry Torokhov wrote:
+> > On Mon, Sep 09, 2019 at 12:55:05PM +0300, Andy Shevchenko wrote:
+> > > On Mon, Sep 09, 2019 at 01:15:47AM -0700, Dmitry Torokhov wrote:
+> > > > Instead of explicitly setting values of integer types when copying property
+> > > > entries lets just copy entire value union when processing non-array values.
+> > > > 
+> > > > When handling array values assign the pointer there using the newly introduced
+> > > > "raw" pointer union member. This allows us to remove property_set_pointer().
 > > > 
-> > > When handling array values assign the pointer there using the newly introduced
-> > > "raw" pointer union member. This allows us to remove property_set_pointer().
+> > > Is this reincarnation of 318a19718261?
+> > > Have you read 63dcc7090137?
 > > 
-> > Is this reincarnation of 318a19718261?
-> > Have you read 63dcc7090137?
+> > Okay, I think if I squash this and the followup patch to
+> > property_get_data() then we'll only go through the "raw" pointer to get
+> > to the non-inline data and therefore we will not have the union aliasing
+> > issue.
+> > 
+> > The in-line values never change their type when storing/accessing.
 > 
-> Okay, I think if I squash this and the followup patch to
-> property_get_data() then we'll only go through the "raw" pointer to get
-> to the non-inline data and therefore we will not have the union aliasing
-> issue.
+> It might work, though it prevents to do type checking at compile time. So,
+> basically something like
 > 
-> The in-line values never change their type when storing/accessing.
+> 	struct obscure_things {
+> 		u8 *prop_array_val;
+> 		bla bla bla
+> 	};
+> 
+> 	struct property_entry entry;
+> 	struct obscure_things things;
+> 	...
+> 	entry.pointer.raw = &things;
+> 
+> which shouldn't be possible.
 
-It might work, though it prevents to do type checking at compile time. So,
-basically something like
+I think type checking is a red herring as we still can't validate the
+type. I believe the answer here is to not allow external users to poke
+in property_entry and use PROPERTY_ENTRY_XXX macros to construct
+entires, as I have done for the Apple EFI driver.
 
-	struct obscure_things {
-		u8 *prop_array_val;
-		bla bla bla
-	};
+> 
+> I dunno what others think about your proposal.
 
-	struct property_entry entry;
-	struct obscure_things things;
-	...
-	entry.pointer.raw = &things;
 
-which shouldn't be possible.
-
-I dunno what others think about your proposal.
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dmitry
