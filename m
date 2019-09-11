@@ -2,86 +2,132 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92337BC849
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Sep 2019 14:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E72ABDB60
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 11:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441036AbfIXMzW (ORCPT
+        id S1728883AbfIYJsW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 24 Sep 2019 08:55:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:46559 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395416AbfIXMzV (ORCPT
+        Wed, 25 Sep 2019 05:48:22 -0400
+Received: from drt.pacien.net ([5.2.64.213]:60442 "EHLO drt.pacien.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728683AbfIYJsW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 24 Sep 2019 08:55:21 -0400
-Received: from [192.168.1.110] ([95.114.122.209]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Mvbr4-1hvuHu0Nh0-00sh60; Tue, 24 Sep 2019 14:55:20 +0200
-To:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Subject: Portege Z930 extra keys and leds
-Organization: metux IT consult
-Message-ID: <09e715a0-08d2-100d-4bc3-c4f6c87f2a98@metux.net>
-Date:   Tue, 24 Sep 2019 14:55:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Wed, 25 Sep 2019 05:48:22 -0400
+Received: from lsn.pacien.net (mail.kea [10.0.3.108])
+        by drt.pacien.net (OpenSMTPD) with ESMTP id dd0b71fb;
+        Wed, 25 Sep 2019 09:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pacien.net;
+         s=lsn.pacien.net; h=Date:Message-ID:Cc:In-Reply-To:Subject:From:
+        Content-Transfer-Encoding:MIME-Version:Content-Type:Reply-To:To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=k5vM3iqTrJFHvMei5yw/jf63ySBSFhk36kIUWh5YeVw=; b=pERwqMKNUuPozpM/4UHdX/s4uj
+        qrvjxZnWPq1G0JyOl+92dL9ONg9Hn4xbwNfHHSiZAZTSepY0tbfJEHA//Awd2piv1to55Jmr1wunq
+        uJamQYi3hF45Zq5fgRls19Ka3VwG2s2oaM/XdXCCq/fmetvmMmwAlr6ugjM+AKxT90/lr6YxntCtF
+        ZEHNRafB71gZG1b7zJO0vMOPFKi4peEQX4pMvtv/TGgJA/dKl5oOQP4vMO7U1q2EL/CXveVvlrQh3
+        eOnILMmx3f527FGR5X/AYOvBWNiP3leE7J+TZVx3uQypvq8j2A8kuTwMuPcbTddJoCZP5QYXHXe/o
+        BOb2SClg==;
+Received: from warfstation.kea ([10.1.1.1] helo=localhost)
+        by lsn.pacien.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.2)
+        (envelope-from <pacien.trangirard@pacien.net>)
+        id 1iD3uE-0008Lc-8n; Wed, 25 Sep 2019 09:48:18 +0000
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:UOtB/iGkhXcNR2BZbMPmAZ0fHg4wQxTbYIoeGQ53EylKibPTAFt
- G1P0ZnuNCgtsKK0cC4u3ItXfZNL7xIOMcRp8SXjuybK1+U77ygL4390hM/3fVGRftTgyYyE
- Ju4swvvs72IQxewtwbFXm0JrxTk6gD6XFtb0jVLh6A0c8wA/qt7ugUbBzI6RtiAaRZ8kHPW
- B1ahgvvT5KLZxm/rvFJNQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:92czqRed0WA=:dbAyzHGkptE+ARtzgy3NwU
- 3cG9pSMEqeDj/cS5DXzQpFEAb+nOIjWJ2UoHanm8mlQcpZZyRVDnJeKZfdwnQgNMKJk19MicZ
- B7JoAz93W+TvB/rUugq+H2vp+l9VF2pI/Zkulwx/kYKiEat0xWhMSz6aWrlU7p8XkFMMZN61Y
- XYbpYMeS/2CdfJOp+0/3LYMljwOoRZb353QrvjBbK/o/EEWjcSSSZYvnz9pTc8ldpdtdOkqIZ
- S762jItWWM2XCW8IOhWaUcMoQ2PJmlj/KibXr68B9H11LZhglXDMER+SGgu4f+xuk18gPV+B1
- 9Om9TPpZ0ppr404B6ot4IlfDu4RXddiY72SDhzpsLAmGQOodOrMfr/xP5YccEIL2cquZt1RxJ
- L0vgXbKuamycUqZmJ1tN07KSLBdrBKw7IOfcpqP7Zjj8g7yWwXImx6LSCjkWhcdQoqZaK7kMa
- 6UudLlCZb/BwNquhmeXAk9NFWCKYu9EickzLiSodZHvFysmrWlPNMd04oag6hRXnu617MdZw7
- lL1HZYXyrOYcLTehH3KkKkSmZBeYPNBcre52gvVS7oexAWnrNKefeUIBhT+oSb1Gknr/obr/C
- 3MQpClG9Wfv0hzfrLInviJS66YV+ZZ85ZbP9B3GBxeeYPkWf14kQYEn85yZtCK82EXHAkhFhQ
- 9v7N4YtHZnZ4JCT2TdzTVCIGrmntqkVQGiH2Kje49zC8nMTLSh3Atso9Og4mqiaHPWRwgTSAT
- F7YiGt38HKwPoUkgl7E4HDBtkNhsv+qrtA9o040kqrbeFs89S1hfiWy9R7igO1Eq8aW07o9t+
- M2zwmpvnpM1qMnTB+BjeybqsvJt6Sc1Cgql7PNT8de7DZh8StbEwdhPbpS1QsF+fVp6hT9q53
- 3kVis/PSuXaFcO5gE//g==
+Content-Transfer-Encoding: quoted-printable
+From:   Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+Date:   Thu, 12 Sep 2019 00:07:45 +0200
+Subject: [PATCH v2] platform/x86: dell-laptop: fix broken kbd backlight on Inspiron 10xx
+In-Reply-To: <20190925082149.yjhmmb64i4h6sddi@pali>
+Cc:     Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>,
+        Mario Limonciello <Mario.Limonciello@dell.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Message-ID: <156940489220.8635.14349142383780268583@WARFSTATION>
+Date:   Wed, 25 Sep 2019 11:48:12 +0200
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello folks,
+This patch adds a quirk disabling keyboard backlight support for the
+Dell Inspiron 1012 and 1018.
 
+Those models wrongly report supporting keyboard backlight control
+features (through SMBIOS tokens) even though they're not equipped with
+a backlit keyboard. This led to broken controls being exposed
+through sysfs by this driver which froze the system when used.
 
-does anybody happen to know how to drive the extra keys and leds
-of Toshiba Portege Z930 notebook ?
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
+Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+---
+ drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-It has two extra keys above the keyboard (right next to the power
-button) and some indicator leds underneath the touch panel buttons.
-
-Toshiba originally ships the notebook with some strange Windows software
-(for some mysterious "ECO" mode) that reacts on these two buttons and
-drives at least the rightmost LED directly - so there has to be *some*
-way to control them by software.
-
-When in a terminal (on the console only when /dev/input/event10 -
-"Toshiba input device" is opened), both keys seem to generate an "x"
-keypress, but nothing coming in in the event device.
-
-Does anybody have an idea how to catch these key press events or
-how to drive this myserious ("ECO") led ?
-
-
-thx
---mtx
-
-
-PS: tried on an older 4.14 kernel - haven't had a chance to upgrade
-the notebook to something more recent :o
--- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell=
+-laptop.c
+index d27be2836bc2..ffe5abbdadda 100644
+--- a/drivers/platform/x86/dell-laptop.c
++++ b/drivers/platform/x86/dell-laptop.c
+@@ -33,6 +33,7 @@
+=20
+ struct quirk_entry {
+ 	bool touchpad_led;
++	bool kbd_broken_backlight;
+ 	bool kbd_led_levels_off_1;
+ 	bool kbd_missing_ac_tag;
+=20
+@@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 =3D {
+ 	.kbd_led_levels_off_1 =3D true,
+ };
+=20
++static struct quirk_entry quirk_dell_inspiron_1012 =3D {
++	.kbd_broken_backlight =3D true,
++};
++
+ static struct platform_driver platform_driver =3D {
+ 	.driver =3D {
+ 		.name =3D "dell-laptop",
+@@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __init=
+const =3D {
+ 		},
+ 		.driver_data =3D &quirk_dell_latitude_e6410,
+ 	},
++	{
++		.callback =3D dmi_matched,
++		.ident =3D "Dell Inspiron 1012",
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
++		},
++		.driver_data =3D &quirk_dell_inspiron_1012,
++	},
++	{
++		.callback =3D dmi_matched,
++		.ident =3D "Dell Inspiron 1018",
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
++		},
++		.driver_data =3D &quirk_dell_inspiron_1012,
++	},
+ 	{ }
+ };
+=20
+@@ -2040,6 +2063,9 @@ static int __init kbd_led_init(struct device *dev)
+ {
+ 	int ret;
+=20
++	if (quirks && quirks->kbd_broken_backlight)
++		return -ENODEV;
++
+ 	kbd_init();
+ 	if (!kbd_led_present)
+ 		return -ENODEV;
+--=20
+2.19.2
