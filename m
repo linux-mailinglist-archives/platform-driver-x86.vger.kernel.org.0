@@ -2,84 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C27D2AF7ED
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Sep 2019 10:29:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6E13AF818
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Sep 2019 10:37:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbfIKI3Y (ORCPT
+        id S1727079AbfIKIh3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 11 Sep 2019 04:29:24 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35486 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbfIKI3X (ORCPT
+        Wed, 11 Sep 2019 04:37:29 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42962 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726579AbfIKIh3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 11 Sep 2019 04:29:23 -0400
-Received: by mail-pf1-f193.google.com with SMTP id 205so13214175pfw.2;
-        Wed, 11 Sep 2019 01:29:23 -0700 (PDT)
+        Wed, 11 Sep 2019 04:37:29 -0400
+Received: by mail-pg1-f193.google.com with SMTP id p3so11155638pgb.9;
+        Wed, 11 Sep 2019 01:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cseoKH3oBWC+0X9v3aYbIoBEhdfQYccTgVaRfgik0vY=;
-        b=axEEe+Hjd0qUgXBA1Q21wmIpdcJgt6M+zh4nEhFd4PLZ6yE800H0StSMvYyrLcj9FD
-         xxTwdDrCrNN76gaUisORRQp/nUjrhoh6HuWA0YUQvY74dp/svbC3kDNNxrMO6nkB9u6r
-         UFbWzG/lf91E+KrnCzPUXLVVtpuMLe9rwnz1tMQ4Rre/zPDllih8QlYuTwpf7eutTM5V
-         f4kwhqb4hpFwQDX8++Vh65W2xsA1NbQjbE8Wft81gzoKK0rC3h/qYktUmByaedCQqctH
-         OTrpBxs4s1cFJtXgYriQg+kd/6vKl4sLcsqJUxTyNlOVHq1LEtpmOGh+JvHsjjFyiko4
-         8Qxg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XcgXl6vcI7fky/pyqfiJ2ZU/L3oI062mhDlNkD5vbkY=;
+        b=TNoM3s7RpMnHi7rVVC8z/RaWTFsUbcW2SItU6YdhdWxyDWyI0MwwmvDcrfMNR0XIXa
+         hNEOtQqvM5bTpCrsUdjlbzf8sQTfQ3/JQRc1jnh4VLsYkuSFqBcgf+t2h2EQkjazO6cF
+         9CvFluD2KBoabY9jevT51GUg8RQbjQEJL4zfCwTInYOS5lsIPuKDPvnOAYk7DS0DhTxB
+         o1jqDvZJ8v90TOrqVZkfpDBfrLUrFa2nMxehVLSIWMYzWnHTQv0LUYwvIvtk3ARPkHjr
+         coEDdt65vcq1EC4rdh1bzGKF8I200cDPBVMDZSr6+YOauIcrRQYflY+4SDjNnGJ6xkjF
+         dwNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cseoKH3oBWC+0X9v3aYbIoBEhdfQYccTgVaRfgik0vY=;
-        b=fcldAj6DqcO4PhRqyeb4vQh97F2ywxIO5Kft/Cnfen8J49/0aGQLGYjW5yNFlEfBCk
-         +ivgYSAPgvrF7EwpDkdDtoihlBJoZLlCQdB39Emr+AxoNep6eoBC0YULmsgyqXlRV5yQ
-         /X3oBWoyW9LaQ/5HR5BvGolu4E2gWblexrFv8T1M06akMnb3Pawtu8wLuYDI63F/73f/
-         sBK/knNlQqlCAENa1sbLBlbFKhiU6/EVdTuJgOnfoFU1nn3t7qr2pHIuQcCmWtAsGmI1
-         iqbcrGB0ihBe5Kr4G47vivXMpM1J3lnucRkePIPt1LgTOL4MNlrVkltSOjN5Xynu0nNl
-         s3Tw==
-X-Gm-Message-State: APjAAAX2gOI5P5nuKEqYaN03nOVIA1sM8gPuWZrd6MPm9lSPpLOX3DSp
-        GZBQSPncPWwngHhi0Iw+SfEbOXcLP/Ppvb49Nqs=
-X-Google-Smtp-Source: APXvYqy6XpTQ8EVzyGevKYt5w3jlnSBHVa6lohTLSVwPQuOiYvSW1aa0QNMhJpSwaRZWYGp4s1Cd9oXq+GMf5EoB61k=
-X-Received: by 2002:a63:c842:: with SMTP id l2mr31756878pgi.4.1568190562807;
- Wed, 11 Sep 2019 01:29:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190911051231.148032-1-dmitry.torokhov@gmail.com> <20190911051231.148032-7-dmitry.torokhov@gmail.com>
-In-Reply-To: <20190911051231.148032-7-dmitry.torokhov@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 11 Sep 2019 11:29:10 +0300
-Message-ID: <CAHp75Ve5NvhzOQ96OgbPh1LdsAtvk+A=aVu-oXKdhnB4PpL_og@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] software node: get rid of property_set_pointer()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XcgXl6vcI7fky/pyqfiJ2ZU/L3oI062mhDlNkD5vbkY=;
+        b=h0c0SuCMXAuCRhrlIOaABmWsIMMAthKhERqq+l8kpvUxBAg9oB5xzAByvP5Ee09MWB
+         rPceCSx+MJ2RFyavzyLpyFI4pwjY6+4IW543Q43oqu3Sv5N2USrGRDWsTJ4Ch76QSySb
+         nbi60XJuNzFQFjIabI/gkwd5cBdDu8Px7KhA19ALRmnu+OT9xvKsqt9CVSHh+nHlunhk
+         l83T1EpI8OqpZlNK4OhACdcEype0g6bNgj8GEagM6dyQbeFcTUydHTYn2Sf+msWDHMEK
+         ig+y+hcyWY2YG8jFL03nCh8hptZEohhNekZX6NB7VjV7pltPqFPneHRMjgC7GyVpT3W3
+         RDLw==
+X-Gm-Message-State: APjAAAUiQijZsJIoovsJIpbOlsAixODREQdDy6iNjY3BhPK/NByhFAZY
+        BcjJHyTXUAEsNNs7eyotdWM=
+X-Google-Smtp-Source: APXvYqxGnmNFIw1jCzeXu52A256RgHcF15CP6NRxYaVRdLJYFAuDQkWCJhlUPQelWxrS25JnzmSu5A==
+X-Received: by 2002:a17:90a:f0cc:: with SMTP id fa12mr4072557pjb.138.1568191048048;
+        Wed, 11 Sep 2019 01:37:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id u69sm18469729pgu.77.2019.09.11.01.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2019 01:37:27 -0700 (PDT)
+Date:   Wed, 11 Sep 2019 01:37:25 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 06/14] software node: get rid of property_set_pointer()
+Message-ID: <20190911083725.GF145199@dtor-ws>
+References: <20190911051231.148032-1-dmitry.torokhov@gmail.com>
+ <20190911051231.148032-7-dmitry.torokhov@gmail.com>
+ <CAHp75Ve5NvhzOQ96OgbPh1LdsAtvk+A=aVu-oXKdhnB4PpL_og@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Ve5NvhzOQ96OgbPh1LdsAtvk+A=aVu-oXKdhnB4PpL_og@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 11, 2019 at 8:15 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Instead of explicitly setting values of integer types when copying
-> property entries lets just copy entire value union when processing
-> non-array values.
->
-> When handling array values assign the pointer there using the newly
-> introduced "raw" pointer union member. This allows us to remove
-> property_set_pointer().
->
-> In property_get_pointer() we do not need to handle each data type
-> separately, we can simply return either the raw pointer or pointer to
-> values union.
+On Wed, Sep 11, 2019 at 11:29:10AM +0300, Andy Shevchenko wrote:
+> On Wed, Sep 11, 2019 at 8:15 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Instead of explicitly setting values of integer types when copying
+> > property entries lets just copy entire value union when processing
+> > non-array values.
+> >
+> > When handling array values assign the pointer there using the newly
+> > introduced "raw" pointer union member. This allows us to remove
+> > property_set_pointer().
+> >
+> > In property_get_pointer() we do not need to handle each data type
+> > separately, we can simply return either the raw pointer or pointer to
+> > values union.
+> 
+> Same as before, typechecking is good thing to have for my point of view.
+> Others may have different opinions.
 
-Same as before, typechecking is good thing to have for my point of view.
-Others may have different opinions.
+OK, I'll just point out that typechecking is a red herring here as
+everything was and still is accessed through void pointers, and we
+trusted the type set on property. Users of static properties should use
+PROPERTY_ENTRY_XXX() for initialization and do not poke into struct
+property_entry directly.
+
+I suppose it is up to Rafael to decide here.
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Dmitry
