@@ -2,91 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C43EB098C
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Sep 2019 09:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BB5FB0FEE
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Sep 2019 15:30:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729885AbfILHeC (ORCPT
+        id S1731840AbfILNaS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Sep 2019 03:34:02 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34725 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfILHeC (ORCPT
+        Thu, 12 Sep 2019 09:30:18 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40847 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731687AbfILNaS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Sep 2019 03:34:02 -0400
-Received: by mail-wr1-f66.google.com with SMTP id a11so17491807wrx.1;
-        Thu, 12 Sep 2019 00:34:00 -0700 (PDT)
+        Thu, 12 Sep 2019 09:30:18 -0400
+Received: by mail-pl1-f194.google.com with SMTP id y10so11786338pll.7;
+        Thu, 12 Sep 2019 06:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=DrTrC5gW++glk3rYAH0eIFlBDTa2thDxINX062QlkQ8=;
-        b=VSu/0Kv4rH91mI6hUqAvDdQz0fuwNejHwRYAwp44EFelnpATJeL9lhxAb1nqdaE9N2
-         CeIz5+z0m9RBRaARyvS72fS9VHK7MqyVbzhqg5I1NnS0K6NvFe+OI+nAxGX5Ml0m+1mu
-         EmeMcI+22hgzF3ndtIvZmd4MuNKRfNEl8T7vamr+EzZxiOYa0iueXRwezbK3HIbJYo5O
-         mZ5xOLPD2qnBDS98lbELJuf0qcyRKqsOiop6W8WIg2Eu7uTqm9NrbaRWeCfBjLQWXOh3
-         NX93kGphIhFE7NV9KpJEA9LoyWvMTF5zo5CnvwTK6UZlhN2/gtbCnWwPTHTWi7L3YA6A
-         koXA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=T7yOTc6AM6CK4gI48nKg1cFnDjTACpLQV/CXZUsKR78=;
+        b=tNjTicGxO56p1XVGcD8R3SxrHsRfwvYzbGKguNRV7sO40XGVOHV5rVXh16qYZhZgVt
+         DPoBqyuME4XSrI+umr8GzhBo+NKyF3MaYou3a0ojeUZYfLWPrIZ/EqIv6BNGMTLgxMDc
+         yk7ufN+8EYPqZFipnLczteXiDYrUABYvaZd7zitEDEG8aGbp+l9Tvop/dpQB2d8cqOfN
+         IbNtx6IYNzayMY+sSSQJJ6G4JPtsUccWz3mD3CAPEPrdiwnR4sHKg3aeh/YflHlEfLh/
+         Xrc1I2Wfqk5HA9/1CBmCiFlMGP4sFjnt1EuaFcNnhlBX6PUiYfwBnAjmvgzDABJ1+l5X
+         rjlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=DrTrC5gW++glk3rYAH0eIFlBDTa2thDxINX062QlkQ8=;
-        b=tMaabQsfNjrZDhek37l9CptkDo9+y8XxZ+i4ZztdGUhjkWF0gcIpAcBsP2uxPeP6LG
-         lH/fbnUedbh1N+/5CUPLMrdquENVh8GOC75AqDkkRhUp50nEJw1ZBcWLQm8o6erfX9zR
-         lrLF821n6twKVyMiVc5OhrNGb0d6qiiHoz/fV57+QxvzVOYZKCPAKrW7+9a1U6AQzXvd
-         o7eZIuNfJR4ASeOElH//Ia/tC1PBvLKCoeXwgUIoKS5L7nv3nzSQbbwZfaGOASMDyqNQ
-         XmSzA1c/tL02eaWexzs5GdWUgZWfLPBh66s4tcmp2My9N19+cp9cEUBeOOTaYvdBnXZR
-         zUZw==
-X-Gm-Message-State: APjAAAWSAARtYUV5cvy1oFXAfa2WvAJ8dX1Aqz0SUPnvkuopPIZ6pxik
-        2EL9tX/ESmUXmzqJMV1qFo4=
-X-Google-Smtp-Source: APXvYqx4PdJfOKThFwN3kCsebU/3k+8rQRRfilclB5KjqXUSPTFxJD+yPlIW7VU1sXQEpjS+Cbwsow==
-X-Received: by 2002:a05:6000:105:: with SMTP id o5mr5489284wrx.51.1568273640194;
-        Thu, 12 Sep 2019 00:34:00 -0700 (PDT)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id x6sm7830814wmf.38.2019.09.12.00.33.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 12 Sep 2019 00:33:59 -0700 (PDT)
-Date:   Thu, 12 Sep 2019 09:33:58 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
-Cc:     Matthew Garrett <mjg59@srcf.ucam.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=T7yOTc6AM6CK4gI48nKg1cFnDjTACpLQV/CXZUsKR78=;
+        b=ickVE1QgvkY8qLu2QT4dhxb8/MpMGVNdAG/KzPDTMvr209Kjm5l9SX84gA7mYa4lnD
+         vWSjQkbTnY8X1ICgqkTcbTkzpiilu5TM+VVDMDHqbo+K9e55t00aADwhq/wxaJ5NA1VX
+         6d67V8uWExy5QdJx/2fI+h56uTAWxzPOcs9OODGUZ15KBO7tMAMSgf18iJJIL2rRwYiu
+         uY+r3FbFat6UK3cfalNX20QZr8xA3TvUoLB5VSZhzGaTcu+RU3c3eJiu9IfUpHzGA/l9
+         dZCmcOiU13AxL5VpYPniQ4GSK7RMyP08teaaOsYeoSgGI7oV+z5WRJ+dOO591mEFBtZe
+         Smww==
+X-Gm-Message-State: APjAAAVOpSWBpB8JMsquC193GILEo0VI209L63WBGTpfU83bhWa5+WK1
+        HQdeWBxSDtjAt3SMwMMTZyUfPqJK3Du0vmDQFjw7f0HLREU=
+X-Google-Smtp-Source: APXvYqwojJdrFarStObqD+Wc9p1tMfp1r8LGvX3LBSNGJLOSHqNL50xJuCMKrck9hk4lYk9fbHFGsobbwWb1JIZXN20=
+X-Received: by 2002:a17:902:b208:: with SMTP id t8mr6801182plr.262.1568295017642;
+ Thu, 12 Sep 2019 06:30:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <156824368856.28378.14511879419677114177@WARFSTATION> <20190912073358.n5bxqosowhky5uhb@pali>
+In-Reply-To: <20190912073358.n5bxqosowhky5uhb@pali>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 12 Sep 2019 16:30:06 +0300
+Message-ID: <CAHp75VcRBqBBQ6S6KAGv2=KMLk1Jbq3aYOYkM6qLHvDoGP0XdQ@mail.gmail.com>
 Subject: Re: [PATCH] platform/x86: dell-laptop: fix phantom kbd backlight on
  Inspiron 10xx
-Message-ID: <20190912073358.n5bxqosowhky5uhb@pali>
-References: <156824368856.28378.14511879419677114177@WARFSTATION>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <156824368856.28378.14511879419677114177@WARFSTATION>
-User-Agent: NeoMutt/20170113 (1.7.2)
+To:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Mario Limonciello <mario.limonciello@dell.com>
+Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thursday 12 September 2019 01:14:48 Pacien TRAN-GIRARD wrote:
-> This patch registers a quirk disabling keyboard backlight support
-> for the Dell Inspiron 1012 and 1018.
-> 
-> Those models wrongly report supporting the KBD_LED_OFF_TOKEN and
-> KBD_LED_ON_TOKEN SMBIOS tokens, exposing keyboard brightness controls
-> through sysfs which freeze the system when used.
-> 
-> The associated SMBIOS calls never return and cause the system to
-> hang, notably at boot when systemd-backlight tries to restore
-> previous brightness settings.
++Cc: Mario
 
-Hi! This sounds like a firmware bug. Have you already reported it to Dell?
+On Thu, Sep 12, 2019 at 10:34 AM Pali Roh=C3=A1r <pali.rohar@gmail.com> wro=
+te:
+>
+> On Thursday 12 September 2019 01:14:48 Pacien TRAN-GIRARD wrote:
+> > This patch registers a quirk disabling keyboard backlight support
+> > for the Dell Inspiron 1012 and 1018.
+> >
+> > Those models wrongly report supporting the KBD_LED_OFF_TOKEN and
+> > KBD_LED_ON_TOKEN SMBIOS tokens, exposing keyboard brightness controls
+> > through sysfs which freeze the system when used.
+> >
+> > The associated SMBIOS calls never return and cause the system to
+> > hang, notably at boot when systemd-backlight tries to restore
+> > previous brightness settings.
+>
+> Hi! This sounds like a firmware bug. Have you already reported it to Dell=
+?
+>
+> > Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
+> > Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+>
+> --
+> Pali Roh=C3=A1r
+> pali.rohar@gmail.com
 
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=107651
-> Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
 
--- 
-Pali Rohár
-pali.rohar@gmail.com
+
+--=20
+With Best Regards,
+Andy Shevchenko
