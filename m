@@ -2,98 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB5FB0FEE
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Sep 2019 15:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9651AB1D73
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 13 Sep 2019 14:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731840AbfILNaS (ORCPT
+        id S1729811AbfIMMTH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Sep 2019 09:30:18 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40847 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731687AbfILNaS (ORCPT
+        Fri, 13 Sep 2019 08:19:07 -0400
+Received: from mga03.intel.com ([134.134.136.65]:37076 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729558AbfIMMTH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Sep 2019 09:30:18 -0400
-Received: by mail-pl1-f194.google.com with SMTP id y10so11786338pll.7;
-        Thu, 12 Sep 2019 06:30:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=T7yOTc6AM6CK4gI48nKg1cFnDjTACpLQV/CXZUsKR78=;
-        b=tNjTicGxO56p1XVGcD8R3SxrHsRfwvYzbGKguNRV7sO40XGVOHV5rVXh16qYZhZgVt
-         DPoBqyuME4XSrI+umr8GzhBo+NKyF3MaYou3a0ojeUZYfLWPrIZ/EqIv6BNGMTLgxMDc
-         yk7ufN+8EYPqZFipnLczteXiDYrUABYvaZd7zitEDEG8aGbp+l9Tvop/dpQB2d8cqOfN
-         IbNtx6IYNzayMY+sSSQJJ6G4JPtsUccWz3mD3CAPEPrdiwnR4sHKg3aeh/YflHlEfLh/
-         Xrc1I2Wfqk5HA9/1CBmCiFlMGP4sFjnt1EuaFcNnhlBX6PUiYfwBnAjmvgzDABJ1+l5X
-         rjlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=T7yOTc6AM6CK4gI48nKg1cFnDjTACpLQV/CXZUsKR78=;
-        b=ickVE1QgvkY8qLu2QT4dhxb8/MpMGVNdAG/KzPDTMvr209Kjm5l9SX84gA7mYa4lnD
-         vWSjQkbTnY8X1ICgqkTcbTkzpiilu5TM+VVDMDHqbo+K9e55t00aADwhq/wxaJ5NA1VX
-         6d67V8uWExy5QdJx/2fI+h56uTAWxzPOcs9OODGUZ15KBO7tMAMSgf18iJJIL2rRwYiu
-         uY+r3FbFat6UK3cfalNX20QZr8xA3TvUoLB5VSZhzGaTcu+RU3c3eJiu9IfUpHzGA/l9
-         dZCmcOiU13AxL5VpYPniQ4GSK7RMyP08teaaOsYeoSgGI7oV+z5WRJ+dOO591mEFBtZe
-         Smww==
-X-Gm-Message-State: APjAAAVOpSWBpB8JMsquC193GILEo0VI209L63WBGTpfU83bhWa5+WK1
-        HQdeWBxSDtjAt3SMwMMTZyUfPqJK3Du0vmDQFjw7f0HLREU=
-X-Google-Smtp-Source: APXvYqwojJdrFarStObqD+Wc9p1tMfp1r8LGvX3LBSNGJLOSHqNL50xJuCMKrck9hk4lYk9fbHFGsobbwWb1JIZXN20=
-X-Received: by 2002:a17:902:b208:: with SMTP id t8mr6801182plr.262.1568295017642;
- Thu, 12 Sep 2019 06:30:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <156824368856.28378.14511879419677114177@WARFSTATION> <20190912073358.n5bxqosowhky5uhb@pali>
-In-Reply-To: <20190912073358.n5bxqosowhky5uhb@pali>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 12 Sep 2019 16:30:06 +0300
-Message-ID: <CAHp75VcRBqBBQ6S6KAGv2=KMLk1Jbq3aYOYkM6qLHvDoGP0XdQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: dell-laptop: fix phantom kbd backlight on
- Inspiron 10xx
-To:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
-        Mario Limonciello <mario.limonciello@dell.com>
-Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Darren Hart <dvhart@infradead.org>,
+        Fri, 13 Sep 2019 08:19:07 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Sep 2019 05:19:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
+   d="scan'208";a="187801193"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003.jf.intel.com with ESMTP; 13 Sep 2019 05:19:04 -0700
+Received: from andy by smile with local (Exim 4.92.1)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1i8kXX-0003JB-6G; Fri, 13 Sep 2019 15:19:03 +0300
+Date:   Fri, 13 Sep 2019 15:19:03 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        platform-driver-x86@vger.kernel.org,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] platform: x86: vgpio: Pass irqchip when adding gpiochip
+Message-ID: <20190913121903.GO2680@smile.fi.intel.com>
+References: <20190812135335.10104-1-linus.walleij@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190812135335.10104-1-linus.walleij@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-+Cc: Mario
+On Mon, Aug 12, 2019 at 03:53:35PM +0200, Linus Walleij wrote:
+> We need to convert all old gpio irqchips to pass the irqchip
+> setup along when adding the gpio_chip. For more info see
+> drivers/gpio/TODO.
+> 
+> For chained irqchips this is a pretty straight-forward
+> conversion.
 
-On Thu, Sep 12, 2019 at 10:34 AM Pali Roh=C3=A1r <pali.rohar@gmail.com> wro=
-te:
->
-> On Thursday 12 September 2019 01:14:48 Pacien TRAN-GIRARD wrote:
-> > This patch registers a quirk disabling keyboard backlight support
-> > for the Dell Inspiron 1012 and 1018.
-> >
-> > Those models wrongly report supporting the KBD_LED_OFF_TOKEN and
-> > KBD_LED_ON_TOKEN SMBIOS tokens, exposing keyboard brightness controls
-> > through sysfs which freeze the system when used.
-> >
-> > The associated SMBIOS calls never return and cause the system to
-> > hang, notably at boot when systemd-backlight tries to restore
-> > previous brightness settings.
->
-> Hi! This sounds like a firmware bug. Have you already reported it to Dell=
-?
->
-> > Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
-> > Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
->
-> --
-> Pali Roh=C3=A1r
-> pali.rohar@gmail.com
+After Hans' patches against this driver and discussion about proper order of
+initialization the patch is not applicable anymore. Please, send v2 which
+supposed to satisfy above concerns.
 
+For now, I'm dropping it from my queue.
 
-
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
