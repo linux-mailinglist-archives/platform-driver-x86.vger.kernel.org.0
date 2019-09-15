@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C086B31E5
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Sep 2019 21:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F1EFB31E8
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Sep 2019 22:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726084AbfIOTzd (ORCPT
+        id S1725536AbfIOUCo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 15 Sep 2019 15:55:33 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44612 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfIOTzd (ORCPT
+        Sun, 15 Sep 2019 16:02:44 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36535 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725270AbfIOUCo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 15 Sep 2019 15:55:33 -0400
-Received: by mail-lf1-f65.google.com with SMTP id q11so10850662lfc.11
-        for <platform-driver-x86@vger.kernel.org>; Sun, 15 Sep 2019 12:55:30 -0700 (PDT)
+        Sun, 15 Sep 2019 16:02:44 -0400
+Received: by mail-lj1-f193.google.com with SMTP id v24so4161063ljj.3
+        for <platform-driver-x86@vger.kernel.org>; Sun, 15 Sep 2019 13:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Ch8NIQvWrdcTXBZrioUUHP8XojoYZq3h+rAdREVo/uQ=;
-        b=BL/sotLdSfC9Q0bP9I6ezadhYpy6xpTD3xT4Mbl2tv44Og7RltEezgwZlUTzeTIT+/
-         Y/LX2mWKLrhLEVBMlyxXTEMZvvfCqf6+rEgv03N/EY1ZwE217i80FPT6oAOt2HRTYowW
-         BEFDplXbsP2DJ+7P7128cUL6FrTf4YOY0XpSfjG1Jy6ygqBwnG8srsXc7h6akhSU7Iys
-         MwSW3En0BDfzJDcjXk0pwowNlDWnsR0nSlLJEs01T3+ajngGpJGrEncOAubH0VrZ0Mry
-         YQ/K23HYaKoPZyzAA4QVeheyZujutmkgiHN+F7illGDUiIIptCaSooPO+TfYroCHVsQB
-         Miiw==
+        bh=MvlfYmBmAGj/AVsiMO6I5buTa7Wq9f4smKRcBbJBnK8=;
+        b=WkCnml+8Dqy8VrkJBx2FCexuCP4MNGrBgcmI3Xqodl/Av1h2P6PpptE3YtFWLmyxlv
+         rNJK90gKtM6C9Ei1nltMl17Yxu868OrKwlyHAdRGcDEx37o33HrxBAMRg8ZEsiAVq/7r
+         WK50Hi00nlGwelnanZuvusNHfrJiZUA4QhcxOReRNs8uue0UOg0svZA318IrB5vCJu8a
+         cj5N2Gykt8EaQ0ZvQsWElsCOBJdlezpTnYdaeV98gwxyFcz8AufJaNPiwCV9Lun+GymF
+         K54+EdiDQC5eza4ftWxPDdf2RTZSRrK5MExS3Om+D6I32MLBuZUsKGfHG79NJFqy08xB
+         CBnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ch8NIQvWrdcTXBZrioUUHP8XojoYZq3h+rAdREVo/uQ=;
-        b=KZ0APf6eEywN9ulvWYdlE5vJDmOrXpOM/0x6qvgNZkK5Lnd0ptNt9cIQuNfN/1NI07
-         wipz6jSE//ZudYow6kXqfmfmx6c0G8K0oICrtqzlwBXB312+ao9gd+U8mN/AtqqcuGKy
-         +r4Kj2Kjmg/YfMRJ3LoP+ZDCm8Zx8FJ3VYZG6MPZphtkEbl9syDUq/cwdBxTtp/wWiNb
-         jAgMAP3otDlqhg7VrFgemBKc+HwvzpHf9QEKLnSFNoanf4D9kwy8VfytEXcAmC0u6sYA
-         2Ddbigw/H8FFX6m96uFCM+J1NPh6LsC2Py+R+/0F18l9IIFF0mTXpcDtRzAxw1KdvHXc
-         Deqg==
-X-Gm-Message-State: APjAAAVDi58vHTs399yCtIVnpKdpN/vqW+RGKc3fvJvYMVx4ieXo0Y4Z
-        PQ4NuhqKN+be3Ba58+r0nTo=
-X-Google-Smtp-Source: APXvYqwD1a4rdy7l2ylUdOJ5lVsP3LnoaCMOE7VpAXdNlZFMCBbxto/7/kbQXlWreUBJA1TXNj1uAg==
-X-Received: by 2002:a19:c017:: with SMTP id q23mr12527347lff.174.1568577329464;
-        Sun, 15 Sep 2019 12:55:29 -0700 (PDT)
+        bh=MvlfYmBmAGj/AVsiMO6I5buTa7Wq9f4smKRcBbJBnK8=;
+        b=Ny5cra5nmIesZ053fXaYa5BYJHYz1ZtE1CUJuQAjf/FFrlIpihMw88uFazRvfe8NHg
+         P64MmFyEBGBkZHIi3cEHra2RcdVtzcXVUQY4cIiuvlSPrMNdYrDqf3CZ/2VqkBt2bONn
+         Nf27IdnhEugntBqXpdRf2j4X3oqwVUYwidGfToqa2yDlhnKp+JlAUcI/MnBpURALW39V
+         p7Bb9I08xLhn9c3hkWqTq73wCpaqvBxIMs+OlZUzHAqe22mCu12N16IGOAHDoa++0Ezp
+         s7fZLkbs6A1PoKy0A43jd4IODGt7YtoHgMVT6cFmJVuPkpm0O0qDaZaqOrUJsoXvGbju
+         nDxA==
+X-Gm-Message-State: APjAAAUj6qKHR7MxzYxtVFGjZrUcq/lvhV9GBDQR4W4CU6yZufUaB/c9
+        tkuVXbCZ3Y1qmYUdnee8DvId5h/RbCM=
+X-Google-Smtp-Source: APXvYqzN/NoTU6/pcxxxkjmSfYicAUmClJrh/XgYmQq5k5rXwZzfxiKUJDVrKV2T4bT9FkHBRfKX9Q==
+X-Received: by 2002:a2e:551:: with SMTP id 78mr36052796ljf.48.1568577762248;
+        Sun, 15 Sep 2019 13:02:42 -0700 (PDT)
 Received: from localhost.localdomain ([46.216.138.44])
-        by smtp.gmail.com with ESMTPSA id 196sm4570973ljj.76.2019.09.15.12.55.27
+        by smtp.gmail.com with ESMTPSA id y204sm3206460lfa.64.2019.09.15.13.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Sep 2019 12:55:28 -0700 (PDT)
+        Sun, 15 Sep 2019 13:02:41 -0700 (PDT)
 Received: from [127.0.0.1] (helo=jeknote.loshitsa1.net)
         by localhost.localdomain with esmtp (Exim 4.92.1)
         (envelope-from <jekhor@gmail.com>)
-        id 1i9acI-0003p9-Bb; Sun, 15 Sep 2019 22:55:26 +0300
-Date:   Sun, 15 Sep 2019 22:55:26 +0300
+        id 1i9ajH-0003qc-Oh; Sun, 15 Sep 2019 23:02:39 +0300
+Date:   Sun, 15 Sep 2019 23:02:39 +0300
 From:   Yauhen Kharuzhy <jekhor@gmail.com>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     platform-driver-x86@vger.kernel.org,
@@ -58,77 +58,79 @@ Cc:     platform-driver-x86@vger.kernel.org,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Subject: Re: [PATCH v2] platform/x86/intel_cht_int33fe: Split code to
  microUSB and TypeC variants
-Message-ID: <20190915195526.GA14558@jeknote.loshitsa1.net>
+Message-ID: <20190915200239.GB14558@jeknote.loshitsa1.net>
 References: <20190808215559.2029-1-jekhor@gmail.com>
  <20190808215559.2029-2-jekhor@gmail.com>
- <e7913031-4a0a-bcd9-2149-8e718b876a0e@redhat.com>
- <20190809145135.GC30248@jeknote.loshitsa1.net>
- <13391bf6-b8d2-83ce-2bca-1c359829938f@redhat.com>
+ <73b283c9-bbfc-2c43-1cb0-ca0a245593c4@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <13391bf6-b8d2-83ce-2bca-1c359829938f@redhat.com>
+In-Reply-To: <73b283c9-bbfc-2c43-1cb0-ca0a245593c4@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-Sorry for last answer, I didn't notice your answers. I have returned to
-this project now for some time.
-
-On Mon, Aug 12, 2019 at 07:11:07PM +0200, Hans de Goede wrote:
+On Mon, Aug 12, 2019 at 07:07:32PM +0200, Hans de Goede wrote:
 > Hi,
 > 
-> On 09-08-19 16:51, Yauhen Kharuzhy wrote:
-> > On Fri, Aug 09, 2019 at 12:49:27PM +0200, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > Overall this looks good, thank you for your work on this.
-> > > 
-> > > I have some small remarks inline / below:
-> > > > +EXPORT_SYMBOL_GPL(cht_int33fe_check_hw_compatible);
-> > > > +
-> > > > +MODULE_DESCRIPTION("Intel Cherry Trail ACPI INT33FE pseudo device driver (common part)");
-> > > > +MODULE_AUTHOR("Yauhen Kharuzhy <jekhor@gmail.com>");
-> > > > +MODULE_LICENSE("GPL v2");
-> > > 
-> > > I see from the Makefile changes that you are linking the common code
-> > > into both intel_cht_int33fe_typec.ko and into intel_cht_int33fe_musb.ko, that is fine
-> > > since it is tiny and not worth the trouble of creating its own .ko file for.
+> One more remark inline.
+> 
+> On 8/8/19 11:55 PM, Yauhen Kharuzhy wrote:
+> > Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
+> > hardware has TypeC connector and register related devices described as
+> > I2C connections in the _CRS resource.
 > > 
-> > No, this Makefile fragment adds two targets for every config variables,
-> > and intel_cht_int33fe_common.c compiles into one .ko file even if it was
-> > added twice
-> 
-> Ah right, I misread it. But adding a new ko file just for the one helper function
-> seems like massive overkill, the overhead will be quite big and on most systems
-> all 3 .ko files will end up getting loaded anyways, so we should probably try to
-> reduce the number of ko files here.
-
-Sounds reasonable.
-
-> 
-> > > I do wonder what happens if you set the Kconfig value for both modules to Y,
-> > > since that will like put the common code twice in the builtin.a file, I guess / hope
-> > > ar is smart enough to only add it once, but I'm not sure... can you please give
-> > > this a try?
+> > There at least one hardware (Lenovo Yoga Book YB1-91L/F) with microUSB
+> > connector exists. It has INT33FE device in the DSDT table but there are
+> > only two I2C connection described: PMIC and BQ27452 battery fuel gauge.
 > > 
-> > For both Y it should be OK, but for one M and one Y... OK, it need to be
-> > corrected.
+> > Splitting existing INT33FE driver allow to maintain code for microUSB
+> > variant separately and make it simpler.
+> > 
+> > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+> > ---
 > 
-> How about moving the entire helper function into intel_cht_int33fe_common.h as
-> static inline ... then both remaining .ko files get a private copy but since it is
-> small that is fine. This nicely solves the need for a third .ko file and also
-> problems with one of the Kconfig options being builtin and the other being modular.
+> <snip>
+> > +	memset(&board_info, 0, sizeof(board_info));
+> > +	stracpy(board_info.type, "bq27542");
+> 
+> stracpy ? that does not compile for me, normally you would use:
+> 
+>         strlcpy(board_info.type, "bq27542", I2C_NAME_SIZE);
+> 
+> here, I've used this for my testing.
 
-Yes, but this header file will contain relative big piece of code which
-will be included to modules and compiled twice.
+Yes, stracpy() is new function found in linux-next, is used to copy
+string to array. It is wrapper around of strscpy()
 
-I think that I will use this approach and will move to separate module
-only when other common functions will be added.
+str*cpy() mess :)
 
+I use strscpy(board_info.type, "bq27542", ARRAY_SIZE(board_info.type))
+now for compiling with linus master branch.
+
+> 
+> > +	board_info.dev_name = "bq27542";
+> > +	board_info.properties = bq27xxx_props;
+> > +	data->battery_fg = i2c_acpi_new_device(dev, 1, &board_info);
+> > +
+> > +	if (IS_ERR(data->battery_fg)) {
+> > +		dev_err(dev, "Failed to register battery fuel gauge: %ld\n",
+> > +			PTR_ERR(data->battery_fg));
+> > +		return PTR_ERR(data->battery_fg);
+> > +	}
+> > +
+> > +	platform_set_drvdata(pdev, data);
+> > +
+> > +	return 0;
+> > +}
+> 
+> <snip>
+> 
+> With that fixed, I can confirm that everything still works as it should on a
+> device which uses this driver combined with a Type-C connector.
+
+Thanks!
 
 -- 
 Yauhen Kharuzhy
