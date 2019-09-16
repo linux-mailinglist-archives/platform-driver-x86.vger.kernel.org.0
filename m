@@ -2,556 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A049B3920
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 16 Sep 2019 13:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D16B39AE
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 16 Sep 2019 13:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729510AbfIPLKH (ORCPT
+        id S1727897AbfIPLqp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 16 Sep 2019 07:10:07 -0400
-Received: from correo.registraduria.gov.co ([201.232.123.13]:16707 "EHLO
-        registraduria.gov.co" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726081AbfIPLKG (ORCPT
+        Mon, 16 Sep 2019 07:46:45 -0400
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:8258 "EHLO mtaw.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726875AbfIPLqp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 16 Sep 2019 07:10:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; d=registraduria.gov.co; s=registraduria.gov.co; c=relaxed/simple;
-        q=dns/txt; i=@registraduria.gov.co; t=1568631133; x=1571223133;
-        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/OafjFCAA8wFEUxDYpw+GAIskNUKJVM53VDlAb8TQT4=;
-        b=ecZrBjprmIn6L0kjacB/9B6oHHDHM5yfi0FJTntl4+w8I7rMGmj3I7XN6RM86Msj
-        ngbMnMvb58v6HkPO/Xj+WjpA2fJ/JLqkhNqhZ6h8f1THqZ4Rsq+uh0Lim6vnMbUh
-        vqP+wisULRk1KVWy10Xhxk86mniVDYm3K92l4eg2R50=;
-X-AuditID: c0a8e818-52fff7000001bab9-e2-5d7f695d0148
-Received: from RNEC-MSG-00.registraduria.gov.co (rnec-msg-01.registraduria.gov.co [172.20.60.178])
-        by registraduria.gov.co (Symantec Messaging Gateway) with SMTP id 99.6E.47801.D596F7D5; Mon, 16 Sep 2019 05:52:13 -0500 (-05)
-Received: from RNEC-MSG-00.registraduria.gov.co (172.20.60.177) by
- RNEC-MSG-01.registraduria.gov.co (172.20.60.178) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Mon, 16 Sep 2019 05:57:04 -0500
-Received: from RNEC-MSG-00.registraduria.gov.co ([fe80::2c92:7fcd:a2d3:3ac5])
- by RNEC-MSG-00.registraduria.gov.co ([fe80::2c92:7fcd:a2d3:3ac5%20]) with
- mapi id 15.00.1395.000; Mon, 16 Sep 2019 05:53:31 -0500
-From:   Registraduria Municipal Caramanta - Antioquia 
-        <CaramantaAntioquia@registraduria.gov.co>
-To:     "NO-REPLY@MICROSOFT.NET" <NO-REPLY@MICROSOFT.NET>
-Subject: =?iso-8859-1?Q?Se_non_verifichi_il_tuo_account_entro_le_prossime_24_ore,_?=
- =?iso-8859-1?Q?il_tuo_account_verr=E0_sospeso?=
-Thread-Topic: =?iso-8859-1?Q?Se_non_verifichi_il_tuo_account_entro_le_prossime_24_ore,_?=
- =?iso-8859-1?Q?il_tuo_account_verr=E0_sospeso?=
-Thread-Index: AQHVbHwmPSCQBWknJU6qxvHkXkoYkw==
-Date:   Mon, 16 Sep 2019 10:53:31 +0000
-Message-ID: <1568660061467.24491@registraduria.gov.co>
-Accept-Language: es-ES, en-US
-Content-Language: es-ES
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.5.43]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 16 Sep 2019 07:46:45 -0400
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1568625445; h=X-Virus-Scanned:Content-Type:
+         MIME-Version:Content-Transfer-Encoding:Content-Description:
+         Subject:To:From:Date:Reply-To:Message-Id:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-SAAS-TrackingID:X-NAIMIME-Disclaimer:X-NAIMIME-Modified:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=6
+        /pZmFQC6AfQtx64WCm5mpv4OcL2DRwqn08dcLKFTI
+        w=; b=NL7/HXVXT3NTwcCTaUnIdoICfxoZeTv/etpoPo5SeITA
+        +S3syUjluo+jzhiXAPMbQsnvf5Wd3BrIgmLoqeFEuSmmcrt4gS
+        FnlWpAk1JQkMQrrXGE/dxmPqdeqtECiOHaktWbng7QPbVu/I5d
+        uyBKcHSlWc7l3f0XpHm9PO/UO/c=
+Received: from correo.seciti.cdmx.gob.mx (gdf-correo.cdmx.gob.mx [10.250.102.17]) by mtaw.cdmx.gob.mx with smtp
+         id 165c_0b95_bc0fdc3b_10ac_4b32_8ef1_06dcb0bbc63f;
+        Mon, 16 Sep 2019 04:17:24 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTP id 74BED3133;
+        Mon, 16 Sep 2019 04:17:22 -0500 (CDT)
+Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
+        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id K1f-eS6tGOgc; Mon, 16 Sep 2019 04:17:22 -0500 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTP id 6ADAA2D83;
+        Mon, 16 Sep 2019 04:17:00 -0500 (CDT)
+X-Virus-Scanned: amavisd-new at gdf-correo.df.gob.mx
+Received: from correo.seciti.cdmx.gob.mx ([127.0.0.1])
+        by localhost (gdf-correo.df.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 9ALluQaFdCJb; Mon, 16 Sep 2019 04:17:00 -0500 (CDT)
+Received: from [100.88.209.140] (8ta-250-4-117.telkomadsl.co.za [102.250.4.117])
+        by gdf-correo.df.gob.mx (Postfix) with ESMTPSA id 4D4A631C4;
+        Mon, 16 Sep 2019 04:16:24 -0500 (CDT)
+Content-Type: text/plain;
+  charset="utf-8"
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ua1ATVxTu3d0sKxK7hIBXFLXx0YptioB4fba1Kus4jrVVO3VKbSCBoAia
-        gOAb5CXhoQgqUALIQ/D9QoE0BQ2CWESCgi+CVVGEqAxootai010Ckj9nzn7f+b57zj1zl8IF
-        N+ycqcDgUJkiWBIkIm2J48I5Z7/yCdzp46YuGoYyywLQsc5UEnXor5LofeJrG/Smzx5pk5px
-        lJ1pJtHd0oM46nqSb4PaUyMJZEyJAag0o9IG9VS95yFtZTdA+zUtPJR2vBGgnNw8HPXWtwF0
-        PcmAo/S2wziK3deOoedJbzGU1HeOhwy6fB5qjWnAUZxmAUo++o8NKq5nodNRDwh0P74YR+f1
-        x3FUro9jVWm1JMpq67BBkWcSAYoqLgfocWYZhjSJe1gnTROrfd6DI22UCkcNUUp0LzaRh2rv
-        5gJ0vGciSu/TEEhvysTQnctGgNSl+3gov/gtiUy1JzB0whCPo7qUHh66qckmUeLtchK16Mpx
-        VPPiFIE6C1/wkEmjJlHekcWo5XYpgR50txHodHcXhhIa7b5dzeyuUhPMYW0Dj7leZ8aZvwqe
-        AKblyiGciat5iTFNFztJ5mnCcubV2bFMTdVDktl3wWzD7H6XTzCa+EgbprW6g2RuJWgJJkOV
-        Qvzgtdp2jlQWFLhJpvh63u+28rSGZLDB5BShSu+1iQQFfBUYRkHaE95Qq3gqYEsJ6EcAXi58
-        yeMIAV0HYOJekYW4CeDT6OR+gqTXwKtnsoEKUJSQng7L3mFcjQMdB+DhKjXgPoR0IoDnj7WS
-        liIx1JuXclqCngR3FSRgXM6nvWBJ2QPA5YB2gUca6/tznB4J76cn8Szd0bBQ24hbckfY1f5h
-        AHeD54sqCUs+Hn5I0AxoxfDO/nTSkk+Fhw89wy1n2cOrmY+JvUCYZXVElpUky0qSZSXJA8RR
-        MF65PkDpJwkOlincxQpZQKAyVCGRhikCJeKAkE1iv5CzgH0GF0s6YTk4qDWKdQCjgA4soTCR
-        I99FtNNHMMI3RLpZLlHK1yjCgmRKkZAvlrMw/yPsGxa0TuTMn8ahDh/RYFm4MkgWyj41HYAU
-        zsp+3r2VlUklm7fIFCEWMx0YTRGikfwtFxU+AjpAEipbJ5NtkCkG2RUUJYJ8B87Znm1eFuEf
-        GBQ6SLM6sRfL0NZMfzMu/I7b23wETtaEdT8YNUwHGMqObWpr/yzKDZL1ysCAAV8H/kt/FrUb
-        RPs9R/F9uVLBIDjk9zeoBpRJ86gKo/Z2qfNxSvUql43J/fGCOo+NRe1c7P63IB8XEJyD80h+
-        K2dHcx/ysOCPQzk78T/YssSnVgR3vvMYvpnDHa3woRZc57MblQYrZ7l7znDzd/fw8vNz85vh
-        5iXzl830kkrcfD3d0QyJ1MNz1tIF34VL3VcFSrxnbpF6Lwr3+376Wl93t7mzfjICI6AAO7yC
-        a8yO/UsO3YiA7xPAgsMHwP4LgZZC+wFsqBn3fNaHjraFjx86wg8nXWHzfyEw47wZg4YeDQ4N
-        NZkEvLyrlYQGdcVwWBp7yA4aCv8YAXUdFTQ0VbcI4N3KdgHMaDUJYF+ZwQHeitojhNf0dUJY
-        8apeCHO6jY5wV062E7xWbYTQXHJsFLymPeUMsyNzx8C+goyxMOfeqXEwo+vOZ1AbEyOCZxMa
-        J8CSLvUk2Pz05efQZG6eYmT3j7H7n+K3ndt/qCTUev+9M3dw+x9AB/bv4rGD2/8AODSvcyTm
-        +k3dwpred61J0nk7XM5tX5v8YluaRtNaA5tXRk+oGvFmytR0IbYhakliYe3KeO/RKgO+eHPP
-        Zo/xhOY3nUfbqtKUKtebM8LeVZzwdCy6tTFifdmfXe8n6fPKtlXr7NcZw1JUcEn4woi06NjT
-        +klFXe5JtW0FB4rG5pga0le8fbEsuvfHpqgjb/x3Sifu/7VQPs/7/idHHi8vjsl1Phl56ZcD
-        G5uMJUWTvbY8fCbZeCXG/umXxsm4eM2IS7P55YS6pnbZrTdyKo00v84LQlh4nKk3KmXp7JOp
-        CuWmS7URtL5p3I62y/JqYv6i+uLULyIrr86yrZl8Ztd2n7nP1Wb1kkV7n+ucckWEUi6Z5oor
-        lJL/AQTRbz9lBwAA
+Content-Transfer-Encoding: base64
+Content-Description: Mail message body
+Subject: Spende von 5 Millionen Euro
+To:     Recipients <mramirezg@mexicocity.gob.mx>
+From:   "Shane Missler" <mramirezg@mexicocity.gob.mx>
+Date:   Mon, 16 Sep 2019 11:16:05 +0200
+Reply-To: shanemissler.spende1@gmail.com
+Message-Id: <20190916091625.4D4A631C4@gdf-correo.df.gob.mx>
+X-AnalysisOut: [v=2.2 cv=UfEhcOaN c=1 sm=1 tr=0 p=NAessOE28N0A:10 p=01NpVV]
+X-AnalysisOut: [4txKbuBquBCNIA:9 p=OPvaR162FBY78wYZ:21 p=wwp16yEzG9Fj4K8O:]
+X-AnalysisOut: [21 p=09-KjHS_CW8A:10 p=bEr4i4eggGkA:10 p=-7VjjQDN59lQbO9Es]
+X-AnalysisOut: [jZ6:22 p=Lyqu6MUUigPyaOuRX7ce:22 a=KsSCQl7LcZej77FuluUcQw=]
+X-AnalysisOut: [=:117 a=/OApy5K6KW0L4rq3KjeYEA==:17 a=8nJEP1OIZ-IA:10 a=x7]
+X-AnalysisOut: [bEGLp0ZPQA:10 a=J70Eh1EUuV4A:10 a=pGLkceISAAAA:8 a=wPNLvfG]
+X-AnalysisOut: [TeEIA:10]
+X-SAAS-TrackingID: 5235f7d5.0.59468096.00-2274.99631022.s12p02m014.mxlogic.net
+X-NAIMIME-Disclaimer: 1
+X-NAIMIME-Modified: 1
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6634> : inlines <7140> : streams
+ <1832909> : uri <2904396>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Aggiorna il tuo account
-
-
-Il nostro record indica che il tuo account non =E8 stato aggiornato, il che=
- potrebbe comportare la chiusura del tuo account. Se non aggiorni il tuo ac=
-count, non sarai pi=F9 in grado di inviare e ricevere e-mail e ti verr=E0 n=
-egato l'accesso a molte delle nostre ultime conversazioni, contatti e alleg=
-ati migliorati.
-
-
-Prenditi un minuto per aggiornare il tuo account per un'esperienza di maili=
-ng pi=F9 rapida e completa.
-
-
-Fai clic qui per aggiornare il tuo account?<http://gernaral0012.000webhosta=
-pp.com/>
-
-
-Nota: il mancato aggiornamento della propria casella di posta comporter=E0 =
-la cancellazione permanente del proprio account.
-
-
-Grazie molto,
-
-Il team di sicurezza
-
-
-Copyright =A9 2019 Webmail .Inc. Tutti i diritti riservati.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?
-
-
-
-Confidencialidad: La informaci=F3n contenida en este mensaje de e-mail y su=
-s anexos, es confidencial y est=E1 reservada para el destinatario =FAnicame=
-nte. Si usted no es el destinatario o un empleado o agente responsable de e=
-nviar este mensaje al destinatario final, se le notifica que no est=E1 auto=
-rizado para revisar, retransmitir, imprimir, copiar, usar o distribuir este=
- e-mail o sus anexos. Si usted ha recibido este e-mail por error, por favor=
- comun=EDquelo inmediatamente v=EDa e-mail al remitente y tenga la amabilid=
-ad de borrarlo de su computadora o cualquier otro banco de datos. Muchas gr=
-acias.
-
-Confidentiality Notice: The information contained in this email message, in=
-cluding any attachment, is confidential and is intended only for the person=
- or entity to which it is addressed. If you are neither the intended recipi=
-ent nor the employee or agent responsible for delivering this message to th=
-e intended recipient, you are hereby notified that you may not review, retr=
-ansmit, convert to hard copy, copy, use or distribute this email message or=
- any attachments to it. If you have received this email in error, please co=
-ntact the sender immediately and delete this message from any computer or o=
-ther data bank. Thank you.
+RGllcyBpc3QgZWluZSBwZXJzw7ZubGljaGUgTWFpbCwgZGllIGljaCBhbiBTaWUgYWRyZXNzaWVy
+ZS4gSWNoIGJpbiBTSEFORSBNSVNTTEVSIGF1cyBGbG9yaWRhLCBVU0EuIFdpZSBTaWUgYmVyZWl0
+cyB3aXNzZW4sIGhhYmUgaWNoIGVpbmVuIExvdHRvLUphY2twb3QgaW4gSMO2aGUgdm9uIDQ1MSBN
+aW8uIFVTRCAoMzMwIE1pby4gR0JQKSBnZXdvbm5lbiB1bmQgZGFzIEdlbGQgaGF0IG1laW4gTGVi
+ZW4gdW5kIG1laW4gRmFtaWxpZW5sZWJlbiB2ZXLDpG5kZXJ0LCBhYmVyIGVzIHdpcmQgbWVpbiBI
+ZXJ6IG5pY2h0IHZlcsOkbmRlcm4sIHdpZSBpY2ggYW4gZGVtIFRhZyBzYWd0ZSwgYW4gZGVtIGlj
+aCBtZWluIEdlbGQgaGFiZSwgZGFzIGljaCB2ZXJ3ZW5kZW4gd2VyZGUgRGllc2VzIEdlbGQgZsO8
+ciBkaWUgSGlsZmUgZGVyIE1lbnNjaGhlaXQuIEljaCBoYWJlIGJlc2NobG9zc2VuLCBJaG5lbiB1
+bmQgSWhyZXIgR2VtZWluZGUgZWluZW4gQmV0cmFnIHZvbiA1IE1pbGxpb25lbiBFdXJvIHp1IHNw
+ZW5kZW4sIHVtIGRpZXNlIFNwZW5kZSBhbnp1Zm9yZGVybi4gRS1NYWlsOiAoc2hhbmVtaXNzbGVy
+MEBnbWFpbC5jb20pCgoKCgoKCgoKCgpMYSBpbmZvcm1hY2lvbiBjb250ZW5pZGEgZW4gZXN0ZSBj
+b3JyZW8sIGFzaSBjb21vIGxhIGNvbnRlbmlkYSBlbiBsb3MgZG9jdW1lbnRvcyBhbmV4b3MsIHB1
+ZWRlIGNvbnRlbmVyIGRhdG9zIHBlcnNvbmFsZXMsIHBvciBsbyBxdWUgc3UgZGlmdXNpb24gZXMg
+cmVzcG9uc2FiaWxpZGFkIGRlIHF1aWVuIGxvcyB0cmFuc21pdGUgeSBxdWllbiBsb3MgcmVjaWJl
+LCBlbiB0w6lybWlub3MgZGUgbG8gZGlzcHVlc3RvIHBvciBsYXMgZnJhY2Npb25lcyBJSSB5IFZJ
+SSBkZWwgYXJ0aWN1bG8gNCwgdWx0aW1vIHBhcnJhZm8gZGVsIGFydGljdWxvIDgsIGFydGljdWxv
+IDM2IHBhcnJhZm8gSUksIDM4IGZyYWNjaW9uIEkgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxhIExl
+eSBkZSBUcmFuc3BhcmVuY2lhIHkgQWNjZXNvIGEgbGEgSW5mb3JtYWNpb24gUHVibGljYSBkZWwg
+RGlzdHJpdG8gRmVkZXJhbC4NCkxvcyBEYXRvcyBQZXJzb25hbGVzIHNlIGVuY3VlbnRyYW4gcHJv
+dGVnaWRvcyBwb3IgbGEgTGV5IGRlIFByb3RlY2Npb24gZGUgRGF0b3MgUGVyc29uYWxlcyBkZWwg
+RGlzdHJpdG8gRmVkZXJhbCwgcG9yIGxvIHF1ZSBzdSBkaWZ1c2lvbiBzZSBlbmN1ZW50cmEgdHV0
+ZWxhZGEgZW4gc3VzIGFydGljdWxvcyAyLCA1LCAxNiwgMjEsIDQxIHkgZGVtYXMgcmVsYXRpdm9z
+IHkgYXBsaWNhYmxlcywgZGViaWVuZG8gc3VqZXRhcnNlIGVuIHN1IGNhc28sIGEgbGFzIGRpc3Bv
+c2ljaW9uZXMgcmVsYXRpdmFzIGEgbGEgY3JlYWNpb24sIG1vZGlmaWNhY2lvbiBvIHN1cHJlc2lv
+biBkZSBkYXRvcyBwZXJzb25hbGVzIHByZXZpc3Rvcy4gQXNpbWlzbW8sIGRlYmVyYSBlc3RhcnNl
+IGEgbG8gc2XDsWFsYWRvIGVuIGxvcyBudW1lcmFsZXMgMSAsIDMsIDEyLCAxOCwgMTksIDIwLCAy
+MSwgMjMsIDI0LCAyOSwgMzUgeSBkZW1hcyBhcGxpY2FibGVzIGRlIGxvcyBMaW5lYW1pZW50b3Mg
+cGFyYSBsYSBQcm90ZWNjaW9uIGRlIERhdG9zIFBlcnNvbmFsZXMgZW4gZWwgRGlzdHJpdG8gRmVk
+ZXJhbC4NCkVuIGVsIHVzbyBkZSBsYXMgdGVjbm9sb2dpYXMgZGUgbGEgaW5mb3JtYWNpb24geSBj
+b211bmljYWNpb25lcyBkZWwgR29iaWVybm8gZGVsIERpc3RyaXRvIEZlZGVyYWwsIGRlYmVyYSBv
+YnNlcnZhcnNlIHB1bnR1YWxtZW50ZSBsbyBkaXNwdWVzdG8gcG9yIGxhIExleSBHb2JpZXJubyBF
+bGVjdHJvbmljbyBkZWwgRGlzdHJpdG8gRmVkZXJhbCwgbGEgbGV5IHBhcmEgaGFjZXIgZGUgbGEg
+Q2l1ZGFkIGRlIE1leGljbyB1bmEgQ2l1ZGFkIE1hcyBBYmllcnRhLCBlbCBhcGFydGFkbyAxMCBk
+ZSBsYSBDaXJjdWxhciBVbm8gdmlnZW50ZSB5IGxhcyBOb3JtYXMgR2VuZXJhbGVzIHF1ZSBkZWJl
+cmFuIG9ic2VydmFyc2UgZW4gbWF0ZXJpYSBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpb24g
+ZW4gbGEgQWRtaW5pc3RyYWNpb24gUHVibGljYSBkZWwgRGlzdHJpdG8gRmVkZXJhbC4K
