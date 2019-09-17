@@ -2,61 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96075B4AB4
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Sep 2019 11:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9EF8B5662
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Sep 2019 21:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbfIQJhJ convert rfc822-to-8bit (ORCPT
+        id S1726540AbfIQTpT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Sep 2019 05:37:09 -0400
-Received: from mail.11d03.mspz7.gob.ec ([190.214.23.250]:51136 "EHLO
-        mail.11d03.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728112AbfIQJhG (ORCPT
+        Tue, 17 Sep 2019 15:45:19 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39711 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726475AbfIQTpT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Sep 2019 05:37:06 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTP id 5A6814065F59A;
-        Mon, 16 Sep 2019 23:41:20 -0500 (-05)
-Received: from mail.11d03.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d03.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id AdpITqFTo33q; Mon, 16 Sep 2019 23:41:20 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTP id DAF9D40573FB2;
-        Mon, 16 Sep 2019 23:41:15 -0500 (-05)
-X-Virus-Scanned: amavisd-new at 11d03.mspz7.gob.ec
-Received: from mail.11d03.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d03.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id pjR2iPLgesE8; Mon, 16 Sep 2019 23:41:15 -0500 (-05)
-Received: from [10.33.79.142] (unknown [105.4.0.133])
-        by mail.11d03.mspz7.gob.ec (Postfix) with ESMTPSA id B7D314065F568;
-        Mon, 16 Sep 2019 23:41:01 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 17 Sep 2019 15:45:19 -0400
+Received: by mail-lj1-f195.google.com with SMTP id s19so4805620lji.6;
+        Tue, 17 Sep 2019 12:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=glAfUtGhy1cDDW4ClQs75Rd7BWqQGXGFYsoau+F0hKg=;
+        b=dGq6AnxvlR0IfzSEL4Av8sUx/aIEfI9ZGPm/D5Ch1fqHUxZ6evZLRF+RlrWA7Z3+HG
+         kUN0w+be+ThLC+YXchNLFITpZwJkKpmHxdx0+jFTUX48C/SZDYF6eZOL52DizPI8XHnh
+         SpSZ2fQ6+iLAmli0VC8oZmNpfi9CduR6I116Avzn4ScSJBpS2h1hSXWvIPweWVk72coq
+         tj5Z6k8Dk5q0KY/LOZ+CboORC5DdnxGX5bEsQCCxu+Slo7oW/+iR8nVdZ7OvIoEMe5Of
+         cvZLn04eD52hAomQ0K1nS6yp4OVx3xH1qdpD8lkhVsyLIpNV5GZqjV/NnfA/ixMi5mpO
+         AvaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=glAfUtGhy1cDDW4ClQs75Rd7BWqQGXGFYsoau+F0hKg=;
+        b=AobkAente8Kyxf797A5yeqPatvMKomPfCxUkh4kYfAuRSpYCIpOQlMYKPVGeQEf0eH
+         DxlNflrYEftzx30D9IerqVH1G+8tiqgAAf5hDFiAvS98/gAyCyKhLt33fICNBAuX7t3y
+         o1loXuLJaoEaPrwRCYnZ0qS9mmankA/eQUdFl7pYfyAOQHsR5pIZeq6aPXZpESW8POSb
+         ijZ4pULVj4O9OV/afjQno3YAkxSp6dmilwGCoMfrC3cFDjUkHPh2Ml9jwudOqI4dnGRF
+         hmavmBfrLB+wvMKT63zYRrbNXePziDy53IDC6HN1Ilfl+l1jZiG+i0EQcp5Yufp/nOtz
+         u/+A==
+X-Gm-Message-State: APjAAAUJ25aPdkqNw5B5hZvdID+XLD0dnMLmTqD07mPv1Aq1YEBsYtrb
+        /QIrFtw4/XcnrpsCBXhlgMk=
+X-Google-Smtp-Source: APXvYqxVcOSeb4ui/whdivvWhL+7M+NWziGV2eJ528z2ZwwTcTTsTCMUSn91JEZYMvB1nRHGYM8gKw==
+X-Received: by 2002:a2e:810e:: with SMTP id d14mr39911ljg.160.1568749515241;
+        Tue, 17 Sep 2019 12:45:15 -0700 (PDT)
+Received: from localhost.localdomain ([46.216.138.44])
+        by smtp.gmail.com with ESMTPSA id k15sm614547ljg.65.2019.09.17.12.45.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 12:45:14 -0700 (PDT)
+Received: from jek by localhost.localdomain with local (Exim 4.92.1)
+        (envelope-from <jekhor@gmail.com>)
+        id 1iAJPW-0003qz-UI; Tue, 17 Sep 2019 22:45:14 +0300
+From:   Yauhen Kharuzhy <jekhor@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [PATCH v2 0/1] intel_cht_int33fe: Split code to USB TypeB and TypeC variants
+Date:   Tue, 17 Sep 2019 22:45:06 +0300
+Message-Id: <20190917194507.14771-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <vicenta.sinche@11d03.mspz7.gob.ec>
-From:   ''Tayeb souami'' <vicenta.sinche@11d03.mspz7.gob.ec>
-Date:   Tue, 17 Sep 2019 06:40:45 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20190917044101.B7D314065F568@mail.11d03.mspz7.gob.ec>
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Lieber Freund,
+Patch to support INT33FE ACPI pseudo-device on hardware with USB Type B
+connector.
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+v2:
+Instead of defining two separated modules with two separated config
+options, compile {common,typeb,typec} sources into one .ko module.
+Call needed variant-specific probe function based after of hardware type
+detection in common code.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+Yauhen Kharuzhy (1):
+  platform/x86/intel_cht_int33fe: Split code to USB TypeB and TypeC
+    variants
 
-Das ist dein Spendencode: [TS530342018]
+ drivers/platform/x86/Kconfig                  |  14 +-
+ drivers/platform/x86/Makefile                 |   4 +
+ .../platform/x86/intel_cht_int33fe_common.c   | 148 ++++++++++++++++++
+ .../platform/x86/intel_cht_int33fe_common.h   |  44 ++++++
+ .../platform/x86/intel_cht_int33fe_typeb.c    |  64 ++++++++
+ ...ht_int33fe.c => intel_cht_int33fe_typec.c} |  79 +---------
+ 6 files changed, 278 insertions(+), 75 deletions(-)
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_typeb.c
+ rename drivers/platform/x86/{intel_cht_int33fe.c => intel_cht_int33fe_typec.c} (83%)
 
-Antworten Sie mit dem SPENDE-CODE an diese 
+-- 
+2.20.1
 
-E-Mail:Tayebsouam.spende@gmail.com
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
