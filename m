@@ -2,78 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1FBB8ABE
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 08:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85AEB8B44
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 08:54:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408266AbfITGIR (ORCPT
+        id S2394771AbfITGyw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Sep 2019 02:08:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48136 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408261AbfITGIR (ORCPT
+        Fri, 20 Sep 2019 02:54:52 -0400
+Received: from 174968.cloudwaysapps.com ([167.99.71.181]:58086 "EHLO
+        174968.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2392605AbfITGyv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Sep 2019 02:08:17 -0400
-Received: from localhost (unknown [145.15.244.23])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64BDD20644;
-        Fri, 20 Sep 2019 06:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568959696;
-        bh=mWG1Jx2zQxwa3AhlOl1Bm5pNoGL7+pi+3Zp+OGk4y08=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2V3AKCpsCLu6C7lLk2VhFP/kd1dLmiut0wOoF7UVzSCoGo/Viq+ocwIZ3niFWS/Nk
-         ABbbBTIr4/z+SZybxUOxzaVdCh/+qKeTqxBEGwM7cX+cizCcBq8dQLKFEslwf1OfZw
-         kGPmNcztrnil27xJkwTiTQudpQE9bUmzvByDcp+I=
-Date:   Fri, 20 Sep 2019 08:08:12 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ayman Bagabas <ayman.bagabas@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sinan Kaya <okaya@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Takashi Iwai <tiwai@suse.de>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Peng Hao <peng.hao2@zte.com.cn>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] platform/x86: huawei-wmi: Add quirks and module
- parameters
-Message-ID: <20190920060812.GB473898@kroah.com>
-References: <20190920003938.21617-1-ayman.bagabas@gmail.com>
- <20190920003938.21617-3-ayman.bagabas@gmail.com>
+        Fri, 20 Sep 2019 02:54:51 -0400
+X-Greylist: delayed 123974 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Sep 2019 02:54:50 EDT
+Received: from 127.0.0.1 (174968.cloudwaysapps.com [127.0.0.1])
+        by 174968.cloudwaysapps.com (Postfix) with SMTP id 585A11ACE86;
+        Tue, 17 Sep 2019 20:20:29 +0000 (UTC)
+Received: from [110.67.42.223] by 127.0.0.1 SMTP id 002ykn3Uy56eNo; Tue, 17 Sep 2019 17:13:41 -0400
+Message-ID: <afc--v$6syss18@diyhyzbz>
+From:   "Mr Barrister Hans Erich" <server87@rhpamplonareformas.com>
+Reply-To: "Mr Barrister Hans Erich" <server87@rhpamplonareformas.com>
+To:     alexander@schmehl.info
+Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA !!!
+Date:   Tue, 17 Sep 19 17:13:41 GMT
+X-Mailer: Internet Mail Service (5.5.2650.21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190920003938.21617-3-ayman.bagabas@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: multipart/alternative;
+        boundary="B.9E_2.DF._EAFF__.5B"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Sep 19, 2019 at 08:39:07PM -0400, Ayman Bagabas wrote:
-> Introduce quirks and module parameters. 3 quirks are added:
-> 1. Fixes reporting brightness keys twice since it's already handled by
->    acpi-video.
-> 2. Some models need a short delay when setting battery thresholds to
->    prevent a race condition when two processes read/write. (will be used later)
-> 3. Matebook X (2017) handles micmute led through the "legacy" interface
->    which is not currently implemented. Use ACPI EC method to control
->    this led. (will be used later)
-> 
-> 2 module parameters are added to enable this short delay and/or report
->   brightness keys through this driver.
 
-module parameters are a pain to manage and handle over time.  Is there
-any way you can "automatically" figure this out, or use a sysfs file
-instead?
+--B.9E_2.DF._EAFF__.5B
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Greetings
 
-greg k-h
+My name is Barrister Hans Erich.
+
+I have a client who is interested to invest in your country, she is a well=
+ known politician in her country and deserve a lucrative investment partne=
+rship with you outside her country without any delay   Please can you mana=
+ge such investment please Kindly reply for further details.
+
+Your full names ---
+
+Your urgent response will be appreciated
+
+Thank you and God bless you.
+
+Barrister Hans Erich
+
+Yours sincerely,
+Barrister Hans Erich
+EMAIL:( barrister.erich@yahoo.com )
+
+--B.9E_2.DF._EAFF__.5B--
+
