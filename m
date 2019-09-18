@@ -2,82 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26BD6B6D0D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 21:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33FFFB6D35
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 22:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732068AbfIRT5F (ORCPT
+        id S2389802AbfIRUDv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Sep 2019 15:57:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:35733 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732061AbfIRT5F (ORCPT
+        Wed, 18 Sep 2019 16:03:51 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46994 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389813AbfIRUDv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Sep 2019 15:57:05 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1Mdf3x-1hbcQw3R8z-00Zf3m; Wed, 18 Sep 2019 21:56:55 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Wed, 18 Sep 2019 16:03:51 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q5so666677pfg.13;
+        Wed, 18 Sep 2019 13:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DA1nVWCwGZiuG0z+FpUS64gSHzee6LAQ0oy8pdAlQsU=;
+        b=OEJKl4nBl6ex6sKTzBbxuqQ6odXD819Xqz/R5bIJGCFf7RqnPEVasuNoxDdnNsIxYu
+         EVKwl/IqdW5B5k7xsYwAflsc72QNwewgRp0qDkeDHx1A3enfMnxPYKVDMAeUlxM5OmCL
+         xpqlBiKfA4NH0WZdey2ME+495ZpKoXF8n13z4JQxvi+oQDoo6u+lhXTUfAbl2MkqMveO
+         8ezK8DAr43WhmLWciPBtj8exOzXrYVb49GfW07c25hDYk6IyBz4FG5hjm0j+O2zraYQR
+         Qbr+LTFTk4aVdEoLNiTkhjJ/QfyDZUtc/QTCv6AAYiJ89vpLHBYhiVnJOjuruYRVt9Tj
+         tM6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DA1nVWCwGZiuG0z+FpUS64gSHzee6LAQ0oy8pdAlQsU=;
+        b=bFI7RNZs+U8j9eiO8wNbmPGcGsDimC2LJGjvDqctms3JOqSpb5H780XVVI4S50McqT
+         i4UWAORSZC/inA4E0c0r/vOGuJGyOC+tAgyd8GcfkxYh5r08E3avPp8sca3/BwHy27gv
+         TVleiIvh9E6es2XfEDHTDwEorumxUWaKepFl60TWyP2YDE8t2ES+SUWchQg85IhPhkG8
+         jVgGt9wXBqZthAbSoEG/cilM1ABIVNpIwF9wG4w3pBV8WGkZ8tlnmgyi1ri86YCHApS5
+         1hcbHeu4wcpihH482AccuxEFbCpp67j21HDZKh3ydjNvx7Sa1isX2UIiE3mrAGZkHWNb
+         IHFw==
+X-Gm-Message-State: APjAAAVtQjyueROiSRmnkpnL8AaQId+MtsC4KumVKcQeoUL8dqcGs1lC
+        hMDCDpEe45fvh608wUVGn3RZEoSeBi6muM0XW6Q=
+X-Google-Smtp-Source: APXvYqzgiSdaXROJHtHBgU43ShcZ2JFNuOzYcPhZ1/QT6UJGlgn8F68AHVw2AwAVKauwfKxMphD16qlMkzmCUNtHjTk=
+X-Received: by 2002:a63:1cd:: with SMTP id 196mr5543402pgb.74.1568837030705;
+ Wed, 18 Sep 2019 13:03:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190918195652.2137765-1-arnd@arndb.de>
+In-Reply-To: <20190918195652.2137765-1-arnd@arndb.de>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 18 Sep 2019 23:03:39 +0300
+Message-ID: <CAHp75VdLLkFSYhvvXtzyEVeay3reBaYfJuzfd6qQ4Rw+k7QLKQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-wmi: add ACPI_BATTERY dependency
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
         Kristian Klausen <kristian@klausen.dk>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: asus-wmi: add ACPI_BATTERY dependency
-Date:   Wed, 18 Sep 2019 21:56:33 +0200
-Message-Id: <20190918195652.2137765-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:O4l6j5E53fiS3NN7w2ynvgGmADBDg09qZ6Ikaebg4TXBbztuYwu
- ZJcxEY8zVsmmdUVpjTv4v71iGFcK0IjfTbmZDhwoWQTxgDRrBhf58rIMM0DP3w0jC6ifpWK
- ZP+2+pZO3r5IsFdJhur9hODjKZncOUkij/TqA5VOR8i8ct7LgtD1ub33RUDb5MJtdmshSt2
- czNXVxTV2wKKtgskuF/vA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:liiCRNrxY+4=:Y1cLuZg1twLvNKlKtXbzw0
- e9P0nXAdcBf63E1+/oCa/5cHEHsgfGbVorYdZypyghDrcRzC9f6S+BtC2EmcpGwiz7au9ih5D
- wDj2euRw2aUDZ5LIggIGXjPl4ra65mr2h9Naacb9GQkokoNnJd6NLnm1xyEzMtF2XDJNDpyBu
- VSqoBgnzF4A/j/QF1ekM3TnDfvVpj8y0WyeXdNcEQIE4Zkye9YnG4ag689NaupbkYAVTBz5sX
- GOzjOPNy4s5KoOYrOwEk2x6JT+i1l1pj/E5/jPFGsqmA7MRJOg4JD3odffxpdG16yI6of3fqy
- FjGMfCFG69UBzpm8G/5c7yGl0TTfWKSJvjeXdp+4UjogmRn6DEsGRr4RDU94nAa9Rz/MiQyoJ
- iddDLi8GgECx0JHwkfpne2nahd5z0ngv0WKjJPRA/UiLuHeudq5ieS+aOx/5rw6d7EsXlqfeH
- eYQ0CxPnOgiKrAASv07Mww4uqRb+Qs5JOtR9KWXZtcfJflPqHU5vqRDGkmeAGGXdpYL+vCFlz
- /+outmFmbTofWGHBDk98ios7oKhcxUMjmlrBLumWOHPF7iCU2NKFI778xUkbv6RAHFn0CsKwj
- iTLk46zpNPN6Bs5JlYjZ8rWI5iQFEp+l1GKRiCZcboVUPf6NUgRVfmZ6aEhL9w1EY3oQ3Nfq2
- DVnkis4LUZAnV8hw1+xiaj31485nH0lhZMOYnpoAHXwyI5PPlGZ9EfreA5GMmE3U9Fple7e+Y
- jLUnLXU3u09QjzNtyad5lfwVmhVxy7Z9Sy/dGgoCG572w0Y2aZ1jwkp19KtlfhpdeViD9qYMd
- r+KLtk9ZnPbdD0rDTNsEn+BIZgbHs0JJMcrVoubONDW90bqhaBROnNPbkGbe6jnEUBVchxdZO
- NLy28pjecwaShHEVvtXg==
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Without this dependency, we can run into a link failure:
+On Wed, Sep 18, 2019 at 10:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> Without this dependency, we can run into a link failure:
+>
+> drivers/platform/x86/asus-wmi.o: In function `asus_wmi_remove':
+> asus-wmi.c:(.text+0x430): undefined reference to `battery_hook_unregister'
+> drivers/platform/x86/asus-wmi.o: In function `asus_wmi_probe':
+> asus-wmi.c:(.text+0x2c6f): undefined reference to `battery_hook_register'
+>
 
-drivers/platform/x86/asus-wmi.o: In function `asus_wmi_remove':
-asus-wmi.c:(.text+0x430): undefined reference to `battery_hook_unregister'
-drivers/platform/x86/asus-wmi.o: In function `asus_wmi_probe':
-asus-wmi.c:(.text+0x2c6f): undefined reference to `battery_hook_register'
+Thanks, the similar is in my tree. I will send it later.
 
-Fixes: 7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/platform/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+> Fixes: 7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/platform/x86/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 1b67bb578f9f..d81de3f4f72e 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -680,6 +680,7 @@ config ASUS_WMI
+>         depends on RFKILL || RFKILL = n
+>         depends on HOTPLUG_PCI
+>         depends on ACPI_VIDEO || ACPI_VIDEO = n
+> +       depends on ACPI_BATTERY
+>         select INPUT_SPARSEKMAP
+>         select LEDS_CLASS
+>         select NEW_LEDS
+> --
+> 2.20.0
+>
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 1b67bb578f9f..d81de3f4f72e 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -680,6 +680,7 @@ config ASUS_WMI
- 	depends on RFKILL || RFKILL = n
- 	depends on HOTPLUG_PCI
- 	depends on ACPI_VIDEO || ACPI_VIDEO = n
-+	depends on ACPI_BATTERY
- 	select INPUT_SPARSEKMAP
- 	select LEDS_CLASS
- 	select NEW_LEDS
+
 -- 
-2.20.0
-
+With Best Regards,
+Andy Shevchenko
