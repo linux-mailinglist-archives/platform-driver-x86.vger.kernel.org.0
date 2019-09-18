@@ -2,84 +2,151 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C41CCB6255
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 13:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E4FBB625E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 13:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727606AbfIRLil (ORCPT
+        id S1727709AbfIRLmZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Sep 2019 07:38:41 -0400
-Received: from mga03.intel.com ([134.134.136.65]:51956 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727401AbfIRLik (ORCPT
+        Wed, 18 Sep 2019 07:42:25 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35130 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727598AbfIRLmZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Sep 2019 07:38:40 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Sep 2019 04:38:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,520,1559545200"; 
-   d="scan'208";a="202041528"
-Received: from kuha.fi.intel.com ([10.237.72.53])
-  by fmsmga001.fm.intel.com with SMTP; 18 Sep 2019 04:38:36 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 18 Sep 2019 14:38:35 +0300
-Date:   Wed, 18 Sep 2019 14:38:35 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
+        Wed, 18 Sep 2019 07:42:25 -0400
+Received: by mail-wr1-f67.google.com with SMTP id v8so6586775wrt.2;
+        Wed, 18 Sep 2019 04:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8xGyacSjSI79wvxydAPMNQhz2XUtmEOpWuQK2TP5Jcw=;
+        b=KoiNHZHrla/1XxwQAUT8bteHDmTHzbt9AV2nGb2Fy1zxytwetrAT4Ll9qfpeNpTp0J
+         1jBL8Gnnd9By2c7croJ5oAJQevcdHPooLZDMSF2qnMKIxza+V+0OnyDJo77h3jZ/cZY5
+         z5LElMhqpFnzuJ4CU3Gp9S2ogVPc/QyYwUrl4M/3vg8woVoY+16Cb9P/V7BsiPXklo6s
+         z+UMu3lfHD9yXghF/wkcXHtE09+EEX19iUGCT6B9hrdp5KbUZ2Vm0IkoVsi2RCrw9bxB
+         L+Wj6pnp2EEc78n3Eo0CBWLUJHsJsiRXFpRy1eQNiIN6cIcwTnd6gNXchlWbGxtQX4hE
+         CfBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8xGyacSjSI79wvxydAPMNQhz2XUtmEOpWuQK2TP5Jcw=;
+        b=FJtonkFzkNJVj5e09ZeLKhGrNZTRAWrBU4vMkLrvjhJLiCInpay+Pl+24pO4eAXLcr
+         TvP0+YdK6SPMhC3QwO1Z04g8qLyaENELYZuh+5m4HIf+PQ+GrwREy8cE6+c7aqhq2Vjt
+         lILhRmsAslDqvn3fNRGAuq/EH1uc0nEL7Z+NUjqhm29bZ8iiC+en5mfMTY1Qcy8KcdyW
+         yFYe29v3G2J/UaIh8lrEuTXaL6LqknppFWrk/SnwFUTCJpMMbrb38Qe37x9mybr8AQVl
+         gYYU5xvo1tlocOswWj2MWQCiMPU1xUBmvIHdPxdECtkKj/u/jveRU3RRfFWMTPRmeZVT
+         wK/g==
+X-Gm-Message-State: APjAAAXtQATFgB1Rq6iQjFsnKvWYOfEmgHKi5SBTgIF6gqOS5EsYNYtl
+        +y/S5Eer8OP+XyS0WwPY2Kg=
+X-Google-Smtp-Source: APXvYqxJyr4xqAiCKjS9sHPxfmlPZVo1zbtNlVrHE3CUd6LL9nUkIMHEZJrgMq08qVR2kpRJ/hbFHQ==
+X-Received: by 2002:adf:df81:: with SMTP id z1mr2845467wrl.295.1568806942580;
+        Wed, 18 Sep 2019 04:42:22 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-vpdn-93-125-15-224.telecom.by. [93.125.15.224])
+        by smtp.gmail.com with ESMTPSA id y3sm6166881wmg.2.2019.09.18.04.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Sep 2019 04:42:22 -0700 (PDT)
+Received: from [127.0.0.1] (helo=jeknote.loshitsa1.net)
+        by localhost.localdomain with esmtp (Exim 4.92.1)
+        (envelope-from <jekhor@gmail.com>)
+        id 1iAYLo-0007WY-CJ; Wed, 18 Sep 2019 14:42:24 +0300
+Date:   Wed, 18 Sep 2019 14:42:24 +0300
+From:   Yauhen Kharuzhy <jekhor@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>
 Subject: Re: [PATCH v2 1/1] platform/x86/intel_cht_int33fe: Split code to USB
  TypeB and TypeC variants
-Message-ID: <20190918113835.GA16243@kuha.fi.intel.com>
+Message-ID: <20190918114224.GA23318@jeknote.loshitsa1.net>
 References: <20190917194507.14771-1-jekhor@gmail.com>
  <20190917194507.14771-2-jekhor@gmail.com>
+ <f578a65b-af02-5fe8-dd59-9918c000da64@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190917194507.14771-2-jekhor@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <f578a65b-af02-5fe8-dd59-9918c000da64@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 10:45:07PM +0300, Yauhen Kharuzhy wrote:
-> Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
-> hardware has TypeC connector and register related devices described as
-> I2C connections in the _CRS resource.
+On Wed, Sep 18, 2019 at 11:20:21AM +0200, Hans de Goede wrote:
+> Hi,
 > 
-> There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with micro
-> USB B connector exists. It has INT33FE device in the DSDT table but
-> there are only two I2C connection described: PMIC and BQ27452 battery
-> fuel gauge.
+> On 17-09-2019 21:45, Yauhen Kharuzhy wrote:
+> > Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
+> > hardware has TypeC connector and register related devices described as
+> > I2C connections in the _CRS resource.
+> > 
+> > There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with micro
+> > USB B connector exists. It has INT33FE device in the DSDT table but
+> > there are only two I2C connection described: PMIC and BQ27452 battery
+> > fuel gauge.
+> > 
+> > Splitting existing INT33FE driver allow to maintain code for USB type B
+> > (AB) connector variant separately and make it simpler.
+> > 
+> > Split driver to intel_cht_int33fe_common.c and
+> > intel_cht_int33fe_{typeb,typec}.c. Compile all this source to one .ko
+> > module to make user experience easier.
+> > 
+> > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 > 
-> Splitting existing INT33FE driver allow to maintain code for USB type B
-> (AB) connector variant separately and make it simpler.
+> Thank you for doing this, this version looks much better IMHO.
+> 
+> Note that this does not apply to Linus' current master, please
+> rebase. Specifically this conflicts with this patch:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=78cd4bf53635d3aeb73435bc89eb6eb39450f315
+> 
+> Which just got merged. Instead of rebasing on Linus' master
+> (which is always a bit adventurous to use during the merge window)
+> you can also cherry-pick that single commit on top of v5.3
+> and use that as a base.
+> 
+> Note that that patch makes changes to struct cht_int33fe_data
+> specifically it drops the:
+> 
+> 	struct fwnode_handle *mux;
+> 
+> Member, so when rebasing you should drop that in the new
+> version of the struct on common.h .
+> 
+> Besides that this need a rebase, overall this looks good, I have some
+> small remarks inline:
 
-Sorry, but "Type B" is even more confusing here. Type B refers to the
-Standard-B USB connector, so _not_ the micro connector family. You can
-check the connector definitions from the latest USB 3.2 specification.
-The standard-b definition goes something like this:
+Arghh.. OK, I have rebased the patch but at current torvalds kernel
+i2c_acpi_new_device() fails with -EPROBE_DEFER at my hw, so I cannot check if it
+is fully working. But I will resend patch anyway soon, this error should
+not be related to the patch content.
 
-        "The standard _Type-B_ connector defined by the USB x specification."
+> > +	data->hw_type = ret;
+> > +	data->dev = dev;
+> > +
+> > +	switch (data->hw_type) {
+> 
+> I suggested adding hw_type to data so that it could be used to
+> select the right remove function in cht_int33fe_remove(),
+> since you are using a remove function pointer in data for this
+> (which is fine), there is no reason to store hw_type in
+> cht_int33fe_data anymore, please drop this and change the
+> 
+> 	switch (data->hw_type) {
+> 
+> to:
+> 
+> 	switch (ret) {
 
-Note that all the five supported connectors are listed in ch5
-"Mechanical":
+OK, sure
 
-        Standard-A
-        Standard-B
-        Micro-B
-        Micro-AB
-        Type-C
-
-So what was the problem with names that refer to the micro connector
-family, for example "micro-ab" or "micro-b"?
-
-
-thanks,
+> 
+> p.s.
+> 
+> I've done the rebase myself and I'm building a kernel with my re-based version of this
+> patch to test it on a typec device. I will get back to you with the results
+> (I expect things will just work, just making sure).
+> 
 
 -- 
-heikki
+Yauhen Kharuzhy
