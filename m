@@ -2,170 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3BB4B6F3F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 00:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12D9EB6F76
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 00:53:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731368AbfIRWLq (ORCPT
+        id S1727529AbfIRWxl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Sep 2019 18:11:46 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44765 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731416AbfIRWLq (ORCPT
+        Wed, 18 Sep 2019 18:53:41 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38465 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727231AbfIRWxl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Sep 2019 18:11:46 -0400
-Received: by mail-lf1-f67.google.com with SMTP id q11so780250lfc.11;
-        Wed, 18 Sep 2019 15:11:42 -0700 (PDT)
+        Wed, 18 Sep 2019 18:53:41 -0400
+Received: by mail-lj1-f196.google.com with SMTP id y23so1579908ljn.5;
+        Wed, 18 Sep 2019 15:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FGtTJRv0WAexJPi7bvgwGF4WgJCfkx1DCaTltgjAlVU=;
-        b=M46IeemIRzYpqjkDyfHzXQHjIMUSi3rXxve1/kyPLiLOZFIpbRs8kjk5rKjaeI/v9g
-         lqlYEbDEsUSSpMSMS6MP57UWyL1UMxpC4k/9Yo9iKKxF84pFZpnDBw1Ff32x5Io/cJi6
-         zhZG/s2fIJj666H3FR+7fBZgaUv2vtPN5zN12uxmzGjJJDWj7CKQ7i2usPRiKaEp48Pj
-         yLVStXhnaEsQSKXuA01iXi8UBaQcDDe9MAAsZl26/2qvOL6xzcJ5Vu8OWDxzkNLac+Ee
-         M57mFSK30pqdFAClIhonZzQeBVOmzbq+Kkz6as+Cbp4p5vt/d1qNEGzoKo319WSx72IK
-         ysmQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oBgEya19hkEV6u+IP0CcpkXVerH5sJM8TP+gqDzEHfQ=;
+        b=sGF7SByeWkmwTSt89TwX6PEEYbnVkTyi7zN86tFEKtvEQ4X1h4dlnKfyeiOFOIKRl8
+         wNMSgPu6y2mLNvO+OjTO+dwkW32JSaBVrWhROw5Qtff2VoDcTGBgddIYBhCEXd3l8NbW
+         ARJfiuxqhYMrDuT1v2XBJJA5kr4Ifq3UAkhk9ubgBzfuaaoqCqmTmAI7yQe6cjB/26BY
+         PrK/EszhIAo8uP2wG8ZkY0CyHIJYLBR024PJyC20H65lF91rLofeaamJGf695TWrGASd
+         DcvO1XNOfKX4CttQyrK4i5LnttMrSyTESV7qZ497TbXQV3Z3KzTgTKf1b+eCMMFmG4Rx
+         Byqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FGtTJRv0WAexJPi7bvgwGF4WgJCfkx1DCaTltgjAlVU=;
-        b=Sf1amaxbfhcL97Ebu1FGopF0V9GsaAsZsAyt9LmkvN346eNB7ATHOChsr9aP67BiP/
-         GZ+6drtQAcoZziiWjFbcMlSVaZkahtvAPWfmMjAMopf1qGMNn8FeljMn8Y01zgJ35NRN
-         v/yQ1crJAuw887FVUx/1zBcCj2NhnZtiO7q6JusoovOlm4p/++D5SywJUyDMTliPI9Ll
-         HDskGbyFNajlOeFJMbYo7yq0ckYswvDRRB0IL8J4/o8NlaWNOu18+ifwHh5Q1J9N7kQ6
-         QDXVk/+JXb6Oc+3QIy0ct407JTtQcg64wjvd3SkLCM8vCUMyM948tiQopPDZVEGZChzr
-         6lsw==
-X-Gm-Message-State: APjAAAUDLjSMbuVKUWU3c/40ntlK7YT78AwgZHf09vGrnRn1NM3Z1Arr
-        6FbNF6dcDZbgVVEw94GM1VU=
-X-Google-Smtp-Source: APXvYqzL7f00j06Ypzt5xtG8v75hLtY/W5pp2xqL7Oia3QNrEFKBxmrMLf9qximYIET7EbJrsk8jIw==
-X-Received: by 2002:a19:14f:: with SMTP id 76mr3142855lfb.92.1568844701534;
-        Wed, 18 Sep 2019 15:11:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oBgEya19hkEV6u+IP0CcpkXVerH5sJM8TP+gqDzEHfQ=;
+        b=YwmFv7tFYAy125enCP/tRXWXmOt5yMFroWQvRbwylNaPFRWIbBbhAZSval4hUo9SOE
+         uyM0L1phKs5e9oMJLlHQYIzEDq/q7QFBAZALxWxAefDeRtcI1DVxRi+1OBpv41JJch6J
+         4rDPBFUOBAsF6GlQChXmK3MFJJXYASlgYGCRVgrUMKPixd+YeaNA2DxeDwdsi7Qo022I
+         3laBozQTNiq7YMO11+SQ7ELyzXETlna8ZIcPMy1sqtnf8U7YBbDbmh+UMvS04XaF6g0h
+         OJAwcbNF/f65vjnXy+OKbZeImu+UH0TQpRN6/nmKjz6F1lKn/fgJUpisTZ4rdn8QVP+D
+         hGnA==
+X-Gm-Message-State: APjAAAU/LxME/vwwRADIMMNk0WwIOOtU6ZNu94V7sKyUdL3YlSsRUGC8
+        LXC/P3+6wtiVdDbM2wZ9Eko=
+X-Google-Smtp-Source: APXvYqwURpuQHxwmBffmdsH6T9Z3poSOmMBqYa9uspzpXbyr1FDBHcph73ubKoYufzj6gBHOD3B6Yw==
+X-Received: by 2002:a2e:9e8f:: with SMTP id f15mr3352776ljk.212.1568847218817;
+        Wed, 18 Sep 2019 15:53:38 -0700 (PDT)
 Received: from localhost.localdomain ([46.216.138.44])
-        by smtp.gmail.com with ESMTPSA id y3sm1203415lfh.97.2019.09.18.15.11.40
+        by smtp.gmail.com with ESMTPSA id k15sm1275327ljg.65.2019.09.18.15.53.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2019 15:11:40 -0700 (PDT)
-Received: from [127.0.0.1] (helo=jeknote.loshitsa1.net)
-        by localhost.localdomain with esmtp (Exim 4.92.1)
+        Wed, 18 Sep 2019 15:53:37 -0700 (PDT)
+Received: from jek by localhost.localdomain with local (Exim 4.92.1)
         (envelope-from <jekhor@gmail.com>)
-        id 1iAiAo-0002FA-7J; Thu, 19 Sep 2019 01:11:42 +0300
-Date:   Thu, 19 Sep 2019 01:11:42 +0300
+        id 1iAipP-0002Zm-AN; Thu, 19 Sep 2019 01:53:39 +0300
 From:   Yauhen Kharuzhy <jekhor@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>
-Subject: Re: [PATCH v2 1/1] platform/x86/intel_cht_int33fe: Split code to USB
- TypeB and TypeC variants
-Message-ID: <20190918221142.GB4859@jeknote.loshitsa1.net>
-References: <20190917194507.14771-1-jekhor@gmail.com>
- <20190917194507.14771-2-jekhor@gmail.com>
- <f578a65b-af02-5fe8-dd59-9918c000da64@redhat.com>
- <20190918114224.GA23318@jeknote.loshitsa1.net>
- <029c7865-b9b3-1e58-7092-6d8495de0116@redhat.com>
- <20190918203332.GA4859@jeknote.loshitsa1.net>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [PATCH v3 0/1] intel_cht_int33fe: Split code to USB Micro-B and Type-C variants
+Date:   Thu, 19 Sep 2019 01:53:36 +0300
+Message-Id: <20190918225337.9860-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190918203332.GA4859@jeknote.loshitsa1.net>
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 11:33:32PM +0300, Yauhen Kharuzhy wrote:
-> On Wed, Sep 18, 2019 at 10:12:43PM +0200, Hans de Goede wrote:
-> > Hi,
-> > 
-> > On 18-09-2019 13:42, Yauhen Kharuzhy wrote:
-> > > On Wed, Sep 18, 2019 at 11:20:21AM +0200, Hans de Goede wrote:
-> > > > Hi,
-> > > > 
-> > > > On 17-09-2019 21:45, Yauhen Kharuzhy wrote:
-> > > > > Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
-> > > > > hardware has TypeC connector and register related devices described as
-> > > > > I2C connections in the _CRS resource.
-> > > > > 
-> > > > > There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with micro
-> > > > > USB B connector exists. It has INT33FE device in the DSDT table but
-> > > > > there are only two I2C connection described: PMIC and BQ27452 battery
-> > > > > fuel gauge.
-> > > > > 
-> > > > > Splitting existing INT33FE driver allow to maintain code for USB type B
-> > > > > (AB) connector variant separately and make it simpler.
-> > > > > 
-> > > > > Split driver to intel_cht_int33fe_common.c and
-> > > > > intel_cht_int33fe_{typeb,typec}.c. Compile all this source to one .ko
-> > > > > module to make user experience easier.
-> > > > > 
-> > > > > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> > > > 
-> > > > Thank you for doing this, this version looks much better IMHO.
-> > > > 
-> > > > Note that this does not apply to Linus' current master, please
-> > > > rebase. Specifically this conflicts with this patch:
-> > > > 
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=78cd4bf53635d3aeb73435bc89eb6eb39450f315
-> > > > 
-> > > > Which just got merged. Instead of rebasing on Linus' master
-> > > > (which is always a bit adventurous to use during the merge window)
-> > > > you can also cherry-pick that single commit on top of v5.3
-> > > > and use that as a base.
-> > > > 
-> > > > Note that that patch makes changes to struct cht_int33fe_data
-> > > > specifically it drops the:
-> > > > 
-> > > > 	struct fwnode_handle *mux;
-> > > > 
-> > > > Member, so when rebasing you should drop that in the new
-> > > > version of the struct on common.h .
-> > > > 
-> > > > Besides that this need a rebase, overall this looks good, I have some
-> > > > small remarks inline:
-> > > 
-> > > Arghh.. OK, I have rebased the patch but at current torvalds kernel
-> > > i2c_acpi_new_device() fails with -EPROBE_DEFER at my hw, so I cannot check if it
-> > > is fully working. But I will resend patch anyway soon, this error should
-> > > not be related to the patch content.
-> > 
-> > Are you sure it is not working? -EPROBE_DEFER is normal(ish) it just means
-> > that the i2c-controller driver for the bus has not initialized yet.
-> > 
-> > If you are building the i2c_designware or acpi_lpss drivers as module, or if
-> > you are building the intel_cht_int33fe code into the kernel, then this
-> > is more or less expected to happen.
-> 
-> I would agree but i2cdetect/i2cget works for this bus as expected. I
-> remember that I met this bug at one of previous iterations, hm... As I remember
-> it was caused by this commit:
-> 00500147cbd3fc51353d0d003eaa9d31c72c0d50 drivers: Introduce device lookup variants by ACPI_COMPANION device.
-> 
-> This needs to be investigated.
+Patch to support INT33FE ACPI pseudo-device on hardware with USB Micro-B
+connector.
 
-It was reverted by commit merged today, so it is not an issue anymore:
+v4:
+- Micro-B variant: Don't print error to the kernel log if i2c_acpi_new_device()
+  has returned -EPROBE_DEFER.
 
-commit 644bf60088955421051e716ab9c8fe7fb7997fd7
-Author: Suzuki K Poulose <suzuki.poulose@arm.com>
-Date:   Thu Aug 1 11:20:24 2019 +0100
+v3:
+- Rename TypeB variant to Micro-B (we have only one such device for now and it
+  has Micro-B connector)
+- Rebase on current linus/master
+- Remove empty lines and replace "TypeC" by "Type-C"
 
-    i2c: Revert incorrect conversion to use generic helper
+v2:
+Instead of defining two separated modules with two separated config
+options, compile {common,typeb,typec} sources into one .ko module.
+Call needed variant-specific probe function based after of hardware type
+detection in common code.
 
+Yauhen Kharuzhy (1):
+  platform/x86/intel_cht_int33fe: Split code to USB Micro-B and Type-C
+    variants
 
-
-> > You can do "ls /sys/bus/i2c/devices" to check if it did succeed on
-> > later re-probe attempts (the fuel-gauge device should be there if
-> > things succeeded).
-> > 
-> > And you should probably do one more version, suppressing the dev_err
-> > on -EPROBE_DEFER like e.g. this snippet from the typec code:
-> 
-> OK, -EPROBE_DEFER was unexpected here for me...
-> 
->  
-> 
-> -- 
-> Yauhen Kharuzhy
+ drivers/platform/x86/Kconfig                  |  12 +-
+ drivers/platform/x86/Makefile                 |   4 +
+ .../platform/x86/intel_cht_int33fe_common.c   | 147 ++++++++++++++++++
+ .../platform/x86/intel_cht_int33fe_common.h   |  41 +++++
+ .../platform/x86/intel_cht_int33fe_microb.c   |  67 ++++++++
+ ...ht_int33fe.c => intel_cht_int33fe_typec.c} |  78 +---------
+ 6 files changed, 276 insertions(+), 73 deletions(-)
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_microb.c
+ rename drivers/platform/x86/{intel_cht_int33fe.c => intel_cht_int33fe_typec.c} (82%)
 
 -- 
-Yauhen Kharuzhy
+2.23.0.rc1
+
