@@ -2,63 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 741B4B5829
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 00:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEB96B5918
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 02:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfIQWnA (ORCPT
+        id S1728414AbfIRAwl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Sep 2019 18:43:00 -0400
-Received: from minerva.fahce.unlp.edu.ar ([163.10.30.2]:35463 "EHLO
-        mail.fahce.unlp.edu.ar" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726649AbfIQWnA (ORCPT
+        Tue, 17 Sep 2019 20:52:41 -0400
+Received: from mga05.intel.com ([192.55.52.43]:7725 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728383AbfIRAwk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Sep 2019 18:43:00 -0400
-X-Greylist: delayed 624 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Sep 2019 18:42:58 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.fahce.unlp.edu.ar (Postfix) with ESMTP id A525442214;
-        Tue, 17 Sep 2019 19:29:24 -0300 (-03)
-Received: from mail.fahce.unlp.edu.ar ([127.0.0.1])
-        by localhost (mail.fahce.unlp.edu.ar [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Gae0X4AX2cnO; Tue, 17 Sep 2019 19:29:24 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.fahce.unlp.edu.ar (Postfix) with ESMTP id 68CE441CD5;
-        Tue, 17 Sep 2019 19:29:23 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.fahce.unlp.edu.ar 68CE441CD5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fahce.unlp.edu.ar;
-        s=E73B5B28-DB89-11E8-B546-F4937DA551BC; t=1568759363;
-        bh=VMP0RSwhsca5ygCfjHx68zuRWpSW8i/8ShL5g18iFTc=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=ttDQTDvW200v1nnvU3qQIfJ0jGR9NKzYz5gOmLubWMde/IsVsOEAljvympWXQqQ5y
-         uDOr3XFTDM2F70bG/efO5je5FVuj4vOwgwZX+3rD19lgrDFEpnpo2MxWDl0FgYTrcG
-         +xa5DK5DGJF04VnSIZ/ZpMmyWrJ0pFIdyM6NXD6ecLlXp4rq0b9aLxTfq8MtuHvBjr
-         k4TogM4KYGPAanaHR25kcKArP4yqdDaWo/WFzfMWh4DQMp1z2aQdetNst63S5ECC1A
-         BXcp/u6id03orGk9UTf7yt6sAnwm4Zyw1bEffGx9qGr2hlGA5wIttuphyLbTvG+7Q7
-         Suw2JN9gCQz5g==
-X-Virus-Scanned: amavisd-new at mail.fahce.unlp.edu.ar
-Received: from mail.fahce.unlp.edu.ar ([127.0.0.1])
-        by localhost (mail.fahce.unlp.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id pmy-LEx8gWPV; Tue, 17 Sep 2019 19:29:23 -0300 (-03)
-Received: from mailbox01.fahce.unlp.edu.ar (mailbox01.fahce.unlp.edu.ar [163.10.30.17])
-        by mail.fahce.unlp.edu.ar (Postfix) with ESMTP id 324B1420EC;
-        Tue, 17 Sep 2019 19:29:20 -0300 (-03)
-Date:   Tue, 17 Sep 2019 19:29:19 -0300 (ART)
-From:   Mr Mikhail Fridman <gdarrigran@fahce.unlp.edu.ar>
-Reply-To: "mikhail_fridman111@126.com" <mikhail_fridman111@126.com>
-Message-ID: <1027104687.625791.1568759359927.JavaMail.zimbra@fahce.unlp.edu.ar>
-Subject: Charity Gift
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [163.10.30.19]
-X-Mailer: Zimbra 8.7.11_GA_3800 (zclient/8.7.11_GA_3800)
-Thread-Index: YOM+ekPzbaKkAA2LLr1NCX5+GcSIzw==
-Thread-Topic: Charity Gift
-To:     unlisted-recipients:; (no To-header on input)
+        Tue, 17 Sep 2019 20:52:40 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Sep 2019 17:52:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,518,1559545200"; 
+   d="scan'208";a="386722934"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.254.43.68])
+  by fmsmga005.fm.intel.com with ESMTP; 17 Sep 2019 17:52:40 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     andy.shevchenko@gmail.com, andriy.shevchenko@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        prarit@redhat.com, darcari@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] tools/power/x86/intel-speed-select: Fix perf-profile command output
+Date:   Tue, 17 Sep 2019 17:52:37 -0700
+Message-Id: <20190918005237.32337-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+commit "c016ae8f9fa04d361efc8629de49ad3af12b5262
+"tools/power/x86/intel-speed-select: Output success/failed for command
+output" introduced a regression in perf-profile outputs. With this
+the result field is changed to string interpreting every non zero
+value as errors. But these commands display on zero (>0) result.
+For example before this commit the display was:
 
+package-1
+  die-0
+    cpu-14
+        get-config-levels:4
 
-I, Mikhail Fridman have selected you specifically as one of my beneficiaries for my Charitable Donation of $5 Million Dollars, Check the link below for confirmation:https://www.rt.com/business/343781-mikhail-fridman-will-charity/I await your earliest response.Best Regards,
+Here the get-config-levels is interpreted as error and displayed
+as error with the above commit:
+
+package-1
+  die-0
+    cpu-14
+        get-config-levels:failed(error 4)
+
+Fix this issue by not using isst_display_result() to display such results,
+but define a new function which formats this data and prints.
+
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ .../x86/intel-speed-select/isst-config.c      |  4 ++--
+ .../x86/intel-speed-select/isst-display.c     | 20 +++++++++++++++++++
+ tools/power/x86/intel-speed-select/isst.h     |  3 ++-
+ 3 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
+index 6a54e165672d..2a9890c8395a 100644
+--- a/tools/power/x86/intel-speed-select/isst-config.c
++++ b/tools/power/x86/intel-speed-select/isst-config.c
+@@ -673,8 +673,8 @@ static void exec_on_get_ctdp_cpu(int cpu, void *arg1, void *arg2, void *arg3,
+ 	if (ret)
+ 		perror("get_tdp_*");
+ 	else
+-		isst_display_result(cpu, outf, "perf-profile", (char *)arg3,
+-				    *(unsigned int *)arg4);
++		isst_ctdp_display_core_info(cpu, outf, arg3,
++					    *(unsigned int *)arg4);
+ }
+ 
+ #define _get_tdp_level(desc, suffix, object, help)                                \
+diff --git a/tools/power/x86/intel-speed-select/isst-display.c b/tools/power/x86/intel-speed-select/isst-display.c
+index 2e6e5fcdbd7c..40346d534f78 100644
+--- a/tools/power/x86/intel-speed-select/isst-display.c
++++ b/tools/power/x86/intel-speed-select/isst-display.c
+@@ -287,6 +287,26 @@ static void _isst_fact_display_information(int cpu, FILE *outf, int level,
+ 	format_and_print(outf, base_level + 2, header, value);
+ }
+ 
++void isst_ctdp_display_core_info(int cpu, FILE *outf, char *prefix,
++				 unsigned int val)
++{
++	char header[256];
++	char value[256];
++
++	snprintf(header, sizeof(header), "package-%d",
++		 get_physical_package_id(cpu));
++	format_and_print(outf, 1, header, NULL);
++	snprintf(header, sizeof(header), "die-%d", get_physical_die_id(cpu));
++	format_and_print(outf, 2, header, NULL);
++	snprintf(header, sizeof(header), "cpu-%d", cpu);
++	format_and_print(outf, 3, header, NULL);
++
++	snprintf(value, sizeof(value), "%u", val);
++	format_and_print(outf, 4, prefix, value);
++
++	format_and_print(outf, 1, NULL, NULL);
++}
++
+ void isst_ctdp_display_information(int cpu, FILE *outf, int tdp_level,
+ 				   struct isst_pkg_ctdp *pkg_dev)
+ {
+diff --git a/tools/power/x86/intel-speed-select/isst.h b/tools/power/x86/intel-speed-select/isst.h
+index 09e16a41b57c..d280b27d600d 100644
+--- a/tools/power/x86/intel-speed-select/isst.h
++++ b/tools/power/x86/intel-speed-select/isst.h
+@@ -195,6 +195,8 @@ extern void isst_get_process_ctdp_complete(int cpu,
+ 					   struct isst_pkg_ctdp *pkg_dev);
+ extern void isst_ctdp_display_information(int cpu, FILE *outf, int tdp_level,
+ 					  struct isst_pkg_ctdp *pkg_dev);
++extern void isst_ctdp_display_core_info(int cpu, FILE *outf, char *prefix,
++					unsigned int val);
+ extern void isst_ctdp_display_information_start(FILE *outf);
+ extern void isst_ctdp_display_information_end(FILE *outf);
+ extern void isst_pbf_display_information(int cpu, FILE *outf, int level,
+@@ -235,5 +237,4 @@ extern void isst_display_result(int cpu, FILE *outf, char *feature, char *cmd,
+ extern int isst_clos_get_clos_information(int cpu, int *enable, int *type);
+ extern void isst_clos_display_clos_information(int cpu, FILE *outf,
+ 					       int clos_enable, int type);
+-
+ #endif
+-- 
+2.17.2
+
