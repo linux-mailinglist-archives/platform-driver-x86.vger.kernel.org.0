@@ -2,88 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3660FB6404
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 15:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 276F5B6711
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Sep 2019 17:27:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730589AbfIRNH1 (ORCPT
+        id S2387486AbfIRP1I (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Sep 2019 09:07:27 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:45897 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727001AbfIRNH1 (ORCPT
+        Wed, 18 Sep 2019 11:27:08 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:32974 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387466AbfIRP1I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Sep 2019 09:07:27 -0400
-Received: by mail-pl1-f196.google.com with SMTP id u12so447465pls.12;
-        Wed, 18 Sep 2019 06:07:26 -0700 (PDT)
+        Wed, 18 Sep 2019 11:27:08 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y127so24147lfc.0;
+        Wed, 18 Sep 2019 08:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8PF5nIJ+jYt7X/oj9VI26YgDuXnqnvQElnGgf6PKBKU=;
-        b=CptOw0hFcRgsZzonPLlM5hp/DQ4fCfs36m+tm/qkQal+OHbaPwmbp0UGP0VGTdbS6/
-         1N70hF12R5oe2JyYIMvPrK7nklhgd4gcrhjscYmIoGChtfShE9npcuFH0uPnU8a2BXv6
-         04PQVNIb4x6PX8v0dAZty2bnJvy1+FgB5iXgMaunYBNmy4h3YrUUqbX/QZK13FRByd3g
-         BoXIbTMCiBLu/CphQwShGqjTZxhqFrky8MOxO9mLTZ8u3pWgT2AAKBHmhZObNuzV+EuL
-         YKut4pMBr+n2tLT46NUdVaZiPovMimUCiLPtyJS/sQ0YnjmC0w1xZOcmtpnetdKJjVxs
-         qdtA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vFNPlzpgjhRtlSfLQHtm14uj7M2ySvaC2xD6si0VgWc=;
+        b=PfV1qSVapcf6sXPeKLDV5QiHhc6OYu1uI0SCAOgHrdGiIZIHdHTjO4eQ5re/SoDGd+
+         QZmkeI7lLuSJLyI3NdSeWxdoieYPyAJ2gi8DNR1zoP4FbYijvxEQWT9uB5+e490net52
+         KNPJRiyG+CIRRL49+p3aXbqJZVt6j/xVQOq00PJj1RGgMDbLXH5+EtWUJX+fNkNF7A4t
+         nzqiF1ej2MUAgEAn/xZudbpOubWqVdwWDtbaHrpxQzMFoNgPDuGQcKRGMrYDNR4rld8y
+         p6dzcA+ny3p2tKCIPUhH1yO2UDHJ3x5juSY+gk2y1QZ8cMQgVeyX/d661FDQgXFq2Oop
+         pX4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8PF5nIJ+jYt7X/oj9VI26YgDuXnqnvQElnGgf6PKBKU=;
-        b=M8wTMH+fEzRvgSSg7IvXKCyQk86JHTxx1RzOJO1E9wjwsaqmYGo3VIylmpLhV+75o6
-         v9bTjMssrC/m/IGS3XK4RPr2a8hsy6I4o2YLkdioxqH21C999KEPLpieo3E4l+lnf86B
-         0JEmHYn1gkpSrM0Kw/qDjh9CXXwGgfYc3FmRR7o63aZ017/oNaM+bUF5BbCEkN7m1D4C
-         cAj97r87aQvIXtgR9NmyH/M8tbZg7TkNFEXMzTnL9SjWfZTm0sa3pW7LUMqTTB7O2JaN
-         tpS6OL3EYjNcAuQZPYgjg8jBvJxxdi1RYgZU3UgGIz7jh04JXrhoMHoPoAPM8A2iFIw+
-         7UqA==
-X-Gm-Message-State: APjAAAVegng4HyAtiFzE6WMp8sDiu0yt1LZ6d3LEh/kYfe4YiTvYUi+0
-        PmWh5XQozHwwIeqWiBbd654PyZ8mg73z+ElF0cw=
-X-Google-Smtp-Source: APXvYqyHpOkH0A4Lg6RzofKUVA+U6jrBv3kh07YnVojlVqJxsaAVDPZmxzXots/ocDQKVAqG6Kvh8Nr+MMBw7hYu1Io=
-X-Received: by 2002:a17:902:968f:: with SMTP id n15mr4216536plp.18.1568812046476;
- Wed, 18 Sep 2019 06:07:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vFNPlzpgjhRtlSfLQHtm14uj7M2ySvaC2xD6si0VgWc=;
+        b=WLGg0dLcUjGfU1W1UjM6Aq6CUnZqF5a/JGTbdQcUgm1kcUSHbPBwZPF39b/Cdizh/5
+         KRmOdpcjs3l6DFd/tddirUJ1t6r1d01vvLgA4xX+OzFP8L1SQ27WT3u/O2lEf+3cElq4
+         p/xkH7oLfbei90IZZ2evtYy4yJa8UMS+xbZ6P+0PJuemfBaStrYo8Fl9LC8LX6cmtRrQ
+         qOV/tJB+Epm0M9CI+md0BWU90LF6hJlSPrT3j9DtzbZC+VFXG5nuyFeR3sw/NSGZj6vR
+         zvlgoidFn0ipSkxjJlbC+ONCmo4ExkrwA9Xz/tz4QMVSNTitdIeeml5qeaee7h/ATCvd
+         kw+A==
+X-Gm-Message-State: APjAAAVZ83fa/0FT5ZMjuBh5WxQ/batQXDnwIDYcGgKMyRCSY8seAiHb
+        Tp0IzJmGbdN0318IwX+FyWM=
+X-Google-Smtp-Source: APXvYqx5xmH0+U6XHXr9kQrGWxhRo4jxZDO8Xn77XabDzbNu1kA7C4J6oMiPN27o30Wyj2VvHLp8sw==
+X-Received: by 2002:ac2:46ee:: with SMTP id q14mr2265651lfo.152.1568820426113;
+        Wed, 18 Sep 2019 08:27:06 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-vpdn-93-125-15-224.telecom.by. [93.125.15.224])
+        by smtp.gmail.com with ESMTPSA id t27sm1068142lfl.48.2019.09.18.08.27.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Sep 2019 08:27:05 -0700 (PDT)
+Received: from jek by localhost.localdomain with local (Exim 4.92.1)
+        (envelope-from <jekhor@gmail.com>)
+        id 1iAbrG-0000rR-R9; Wed, 18 Sep 2019 18:27:06 +0300
+From:   Yauhen Kharuzhy <jekhor@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [PATCH v3 0/1] intel_cht_int33fe: Split code to USB Micro-B and Type-C variants
+Date:   Wed, 18 Sep 2019 18:27:04 +0300
+Message-Id: <20190918152705.3267-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-References: <20190917194507.14771-1-jekhor@gmail.com> <20190917194507.14771-2-jekhor@gmail.com>
-In-Reply-To: <20190917194507.14771-2-jekhor@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Sep 2019 16:07:15 +0300
-Message-ID: <CAHp75Vc1puy01=Ki6EiJfZTGPtgkWiar9GhEb7EX0OF7CmNo7w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] platform/x86/intel_cht_int33fe: Split code to USB
- TypeB and TypeC variants
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 10:45 PM Yauhen Kharuzhy <jekhor@gmail.com> wrote:
->
-> Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
-> hardware has TypeC connector and register related devices described as
-> I2C connections in the _CRS resource.
->
-> There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with micro
-> USB B connector exists. It has INT33FE device in the DSDT table but
-> there are only two I2C connection described: PMIC and BQ27452 battery
-> fuel gauge.
->
-> Splitting existing INT33FE driver allow to maintain code for USB type B
-> (AB) connector variant separately and make it simpler.
->
-> Split driver to intel_cht_int33fe_common.c and
-> intel_cht_int33fe_{typeb,typec}.c. Compile all this source to one .ko
-> module to make user experience easier.
+Patch to support INT33FE ACPI pseudo-device on hardware with USB Micro-B
+connector.
 
-Before sending new version also check that you spell correctly
-"Type-C" everywhere (except variable / function names).
+v3:
+- Rename TypeB variant to Micro-B (we have only one such device for now and it
+  has Micro-B connector)
+- Rebase on current linus/master
+- Remove empty lines and replace "TypeC" by "Type-C"
 
+v2:
+Instead of defining two separated modules with two separated config
+options, compile {common,typeb,typec} sources into one .ko module.
+Call needed variant-specific probe function based after of hardware type
+detection in common code.
+
+Yauhen Kharuzhy (1):
+  platform/x86/intel_cht_int33fe: Split code to USB Micro-B and Type-C
+    variants
+
+ drivers/platform/x86/Kconfig                  |  12 +-
+ drivers/platform/x86/Makefile                 |   4 +
+ .../platform/x86/intel_cht_int33fe_common.c   | 147 ++++++++++++++++++
+ .../platform/x86/intel_cht_int33fe_common.h   |  41 +++++
+ .../platform/x86/intel_cht_int33fe_microb.c   |  63 ++++++++
+ ...ht_int33fe.c => intel_cht_int33fe_typec.c} |  78 +---------
+ 6 files changed, 272 insertions(+), 73 deletions(-)
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_microb.c
+ rename drivers/platform/x86/{intel_cht_int33fe.c => intel_cht_int33fe_typec.c} (82%)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.23.0.rc1
+
