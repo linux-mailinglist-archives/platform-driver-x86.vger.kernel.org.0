@@ -2,100 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76FA7B7465
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 09:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2613B747A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 09:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfISHsY (ORCPT
+        id S2387421AbfISH4i (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 19 Sep 2019 03:48:24 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35397 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbfISHsY (ORCPT
+        Thu, 19 Sep 2019 03:56:38 -0400
+Received: from david.siemens.de ([192.35.17.14]:51090 "EHLO david.siemens.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387406AbfISH4i (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 19 Sep 2019 03:48:24 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v8so1993841wrt.2;
-        Thu, 19 Sep 2019 00:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=4+IikWYzTHVoP+qr/bH+QADSSsqMyHaDXXhUq1MQaqE=;
-        b=CdQ6YV2u8DkvN7NZv3oWamzT06hOVlVxmHK0/goVfJ5nYPRBaDq2MzukNnVes247od
-         6A/pVklUbgoTWlHmjo65l+vUzL1dxZJ+AJ6API3LDshNMG4Lo39mi2j3YMKQtdi5iyMX
-         k91ok8cbypGednfDRH+hiu/W01ecXreCaFnvov2ay/ZvgNslymEx+bxXLuqUz4U15Gb8
-         ///K99QyOBJ+RAtDcPlzICgC1FJJUllwS1e8anhhY7NAcdFGd4CT9Nuy0OR9tQw7YAqM
-         jg9jpcKKU4rut4Epc8K/jaWjD2wdGBsqFsaP3dO5xyAhyjGjDOX/e4MoIzBrY9b0vIwF
-         eThw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4+IikWYzTHVoP+qr/bH+QADSSsqMyHaDXXhUq1MQaqE=;
-        b=C2KKgeCLPKM9pXBpP6SY2v1p7a/Q1Rt165+3zpMoBuUBXcccFTIWmmGYdPemho5pqo
-         B8HrhXMMbfXkqpt0ECdFIcrns7kasXRDL4UJj9Rh/lddW/3WUYjWhiQcA6mKzl+527+t
-         ByzbZsWustE5tLsSuxqGIkadTYftdR5bpE2PQeSNsuHGMlF0U7dZFf3/Ya6F8P/n5Ae7
-         EH97RP3EMQK4s9wH2XIOuAFOro21T10YBrY8CTcOefIjNi4nNXSnBxDXhQPhQagMcB4U
-         YhBbeRKR1DoY8wtYBVMsJlXQU0nNMmbaV3iUlMBItv3Ki0GqYmSvShlA0P3af33KZYzz
-         9n4g==
-X-Gm-Message-State: APjAAAXg98RdtnRLIER1paG+gr/ELmObbEMfSHm4z3KgNRzKLzFjNcVF
-        qCuZvW+X+qyRG9QrgDGhebOjlPMjCmA=
-X-Google-Smtp-Source: APXvYqw+ahU3bBlwVkjXOnMv6LzIZQwXrl99hJ4LTJG7ynNbH/PcROfnsBVY/iP/I8DZyIaaNEALyg==
-X-Received: by 2002:adf:e485:: with SMTP id i5mr911416wrm.175.1568879302252;
-        Thu, 19 Sep 2019 00:48:22 -0700 (PDT)
-Received: from linux-code.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
-        by smtp.gmail.com with ESMTPSA id q66sm7120969wme.39.2019.09.19.00.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2019 00:48:21 -0700 (PDT)
-From:   Srikanth Krishnakar <skrishnakar@gmail.com>
-X-Google-Original-From: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
-To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 19 Sep 2019 03:56:38 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x8J7uAXm003815
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 19 Sep 2019 09:56:11 +0200
+Received: from [167.87.3.151] ([167.87.3.151])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x8J7u9wC019552;
+        Thu, 19 Sep 2019 09:56:09 +0200
+Subject: Re: [PATCH] platform/x86: pmc_atom: Add Siemens SIMATIC IPC2x7E to
+ critclk_systems DMI table
+To:     Srikanth Krishnakar <skrishnakar@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
         dvhart@infradead.org, andy@infradead.org
-Cc:     Cedric_Hombourger@mentor.com, Srikanth_Krishnakar@mentor.com,
-        jan.kiszka@siemens.com
-Subject: [PATCH] platform/x86: pmc_atom: Add Siemens SIMATIC IPC2x7E to critclk_systems DMI table
-Date:   Thu, 19 Sep 2019 13:15:56 +0530
-Message-Id: <20190919074556.25691-1-Srikanth_Krishnakar@mentor.com>
-X-Mailer: git-send-email 2.17.1
+Cc:     Cedric_Hombourger@mentor.com, Srikanth_Krishnakar@mentor.com
+References: <20190919074556.25691-1-Srikanth_Krishnakar@mentor.com>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <0e511b90-314d-1724-a046-d2efe26b3b96@siemens.com>
+Date:   Thu, 19 Sep 2019 09:56:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190919074556.25691-1-Srikanth_Krishnakar@mentor.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The SIMATIC IPC227E and IPC277E uses the PMC clock for on-board components
-and gets stuck during boot if the clock is disabled. Therefore, add this
-device to the critical systems list.
+On 19.09.19 09:45, Srikanth Krishnakar wrote:
+> The SIMATIC IPC227E and IPC277E uses the PMC clock for on-board components
+> and gets stuck during boot if the clock is disabled. Therefore, add this
+> device to the critical systems list.
+> 
+> The Board revision does vary in some instances and hence use PRODUCT_NAME
+> to allow the boards to boot with identical names.
+> 
+> Tested on SIMATIC IPC227E and IPC277E.
+> 
+> Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+> CC: Jan Kiszka <jan.kiszka@siemens.com>
+> CC: Cedric Hombourger <Cedric_Hombourger@mentor.com>
+> Signed-off-by: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
+> ---
+>   drivers/platform/x86/pmc_atom.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+> index 9aca5e7ce6d0..1e48c2ec684e 100644
+> --- a/drivers/platform/x86/pmc_atom.c
+> +++ b/drivers/platform/x86/pmc_atom.c
+> @@ -419,7 +419,14 @@ static const struct dmi_system_id critclk_systems[] = {
+>   		.ident = "SIMATIC IPC227E",
+>   		.matches = {
+>   			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
+> -			DMI_MATCH(DMI_PRODUCT_VERSION, "6ES7647-8B"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC227E"),
 
-The Board revision does vary in some instances and hence use PRODUCT_NAME
-to allow the boards to boot with identical names.
+NACK, this is breaking platform variant detection.
 
-Tested on SIMATIC IPC227E and IPC277E.
+> +		},
+> +	},
+> +	{
+> +		.ident = "SIMATIC IPC277E",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC277E"),
 
-Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
-CC: Jan Kiszka <jan.kiszka@siemens.com>
-CC: Cedric Hombourger <Cedric_Hombourger@mentor.com>
-Signed-off-by: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
----
- drivers/platform/x86/pmc_atom.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Let us clarify internally if we need to match on the same substring length as 
+for the 227E.
 
-diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
-index 9aca5e7ce6d0..1e48c2ec684e 100644
---- a/drivers/platform/x86/pmc_atom.c
-+++ b/drivers/platform/x86/pmc_atom.c
-@@ -419,7 +419,14 @@ static const struct dmi_system_id critclk_systems[] = {
- 		.ident = "SIMATIC IPC227E",
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "6ES7647-8B"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC227E"),
-+		},
-+	},
-+	{
-+		.ident = "SIMATIC IPC277E",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC277E"),
- 		},
- 	},
- 	{ /*sentinel*/ }
+Jan
+
+>   		},
+>   	},
+>   	{ /*sentinel*/ }
+> 
+
 -- 
-2.17.1
-
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
