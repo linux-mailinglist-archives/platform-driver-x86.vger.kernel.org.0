@@ -2,126 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBA03B7327
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 08:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76FA7B7465
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Sep 2019 09:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388026AbfISG11 (ORCPT
+        id S1727165AbfISHsY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 19 Sep 2019 02:27:27 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:33847 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387929AbfISG10 (ORCPT
+        Thu, 19 Sep 2019 03:48:24 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35397 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbfISHsY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 19 Sep 2019 02:27:26 -0400
-Received: by mail-pl1-f196.google.com with SMTP id d3so1130903plr.1;
-        Wed, 18 Sep 2019 23:27:26 -0700 (PDT)
+        Thu, 19 Sep 2019 03:48:24 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v8so1993841wrt.2;
+        Thu, 19 Sep 2019 00:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zYC9c0xzUXu9+1JCCZ/6grej11cpKjpeT/pQEN2qRIM=;
-        b=L4XqqS3n1K8UuyE00P2dcioyr7f2tslP+5gokPZOLa18lUOudGiu7ALFKe15xvlfUo
-         7vjfPuTuRyxc1/7y6sQSdrxfnIwkjzl/YYHWQX6V+CyxEXY46YqKUO2kjkbmHjkvXTVq
-         7tUPBr8X3Sa2LFFNwpbdbPWtfM22lzEFRdvGaZAB69HTMk5Dm0q1WYnKoZtlPgHiEk0e
-         KqffXAPAXw5JJCO0AMNRepTrcA8IxeJHpDz8Z7zok2jwhu/Dt3Ur2QnLFcUVJ3lzRpQW
-         KmzfJqTPjj9fcUAXsDCxwYnVUYc7Vro8fQAyiGoN5XpP0sZsiuqi9qR1/B1ymX1VKGvM
-         2Y9w==
+        h=from:to:cc:subject:date:message-id;
+        bh=4+IikWYzTHVoP+qr/bH+QADSSsqMyHaDXXhUq1MQaqE=;
+        b=CdQ6YV2u8DkvN7NZv3oWamzT06hOVlVxmHK0/goVfJ5nYPRBaDq2MzukNnVes247od
+         6A/pVklUbgoTWlHmjo65l+vUzL1dxZJ+AJ6API3LDshNMG4Lo39mi2j3YMKQtdi5iyMX
+         k91ok8cbypGednfDRH+hiu/W01ecXreCaFnvov2ay/ZvgNslymEx+bxXLuqUz4U15Gb8
+         ///K99QyOBJ+RAtDcPlzICgC1FJJUllwS1e8anhhY7NAcdFGd4CT9Nuy0OR9tQw7YAqM
+         jg9jpcKKU4rut4Epc8K/jaWjD2wdGBsqFsaP3dO5xyAhyjGjDOX/e4MoIzBrY9b0vIwF
+         eThw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zYC9c0xzUXu9+1JCCZ/6grej11cpKjpeT/pQEN2qRIM=;
-        b=Ne36q+C1wjSjhQbgu9Qf+xAx8Yrm3Xai6FUYs5nTfG6GMxP582+Q+fFV1MCmA+iYTx
-         rORv+bVFu9R8/h85edCIrN6QlakkvfaQAn2L2qsWXm1n+PclTl72qHHvLDf29cYJFX+e
-         PDIRpVpQugdb0L6+T+fDYZOyFm5ny8e6gNn90wDdmcpIjCkB2axERkYLEel4UVi6EZvn
-         mZIr16OSS0BoQjjnmL657Cg2TG8ihSy11z47yrbzLXgvF65MofANcXeJeP9DcMHu8HDB
-         p45DZwXshLYAy3UnLcenM/p73jSfY4dIttmIUgJuudOnm/NlOlWbV5egTiu+CYFWvJAz
-         yy3A==
-X-Gm-Message-State: APjAAAX6O+WbWn7JSjeqBWZMWFm0h0fgD8udE6bS340EXhCMp2d0sd5J
-        dw/XanWgb2Etj2u1d5gRIqyDlhQeo2hd6HMurU0=
-X-Google-Smtp-Source: APXvYqxqc5vMu+781v0PNAPt9FTbqLzUtIJNkufAV5+W4y8Md/hvxxXV5jBa5HhjvMAAvilAX5BBhy0UNuW0xh+HNoA=
-X-Received: by 2002:a17:902:b208:: with SMTP id t8mr8179629plr.262.1568874445884;
- Wed, 18 Sep 2019 23:27:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190918225337.9860-1-jekhor@gmail.com> <20190918225337.9860-2-jekhor@gmail.com>
-In-Reply-To: <20190918225337.9860-2-jekhor@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 19 Sep 2019 09:27:14 +0300
-Message-ID: <CAHp75Ve1mifO9iJJUo=zdFYi3X20ye=w1p0Z+-GmjQEpnmiS4Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] platform/x86/intel_cht_int33fe: Split code to USB
- Micro-B and Type-C variants
-To:     Yauhen Kharuzhy <jekhor@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4+IikWYzTHVoP+qr/bH+QADSSsqMyHaDXXhUq1MQaqE=;
+        b=C2KKgeCLPKM9pXBpP6SY2v1p7a/Q1Rt165+3zpMoBuUBXcccFTIWmmGYdPemho5pqo
+         B8HrhXMMbfXkqpt0ECdFIcrns7kasXRDL4UJj9Rh/lddW/3WUYjWhiQcA6mKzl+527+t
+         ByzbZsWustE5tLsSuxqGIkadTYftdR5bpE2PQeSNsuHGMlF0U7dZFf3/Ya6F8P/n5Ae7
+         EH97RP3EMQK4s9wH2XIOuAFOro21T10YBrY8CTcOefIjNi4nNXSnBxDXhQPhQagMcB4U
+         YhBbeRKR1DoY8wtYBVMsJlXQU0nNMmbaV3iUlMBItv3Ki0GqYmSvShlA0P3af33KZYzz
+         9n4g==
+X-Gm-Message-State: APjAAAXg98RdtnRLIER1paG+gr/ELmObbEMfSHm4z3KgNRzKLzFjNcVF
+        qCuZvW+X+qyRG9QrgDGhebOjlPMjCmA=
+X-Google-Smtp-Source: APXvYqw+ahU3bBlwVkjXOnMv6LzIZQwXrl99hJ4LTJG7ynNbH/PcROfnsBVY/iP/I8DZyIaaNEALyg==
+X-Received: by 2002:adf:e485:: with SMTP id i5mr911416wrm.175.1568879302252;
+        Thu, 19 Sep 2019 00:48:22 -0700 (PDT)
+Received: from linux-code.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
+        by smtp.gmail.com with ESMTPSA id q66sm7120969wme.39.2019.09.19.00.48.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Sep 2019 00:48:21 -0700 (PDT)
+From:   Srikanth Krishnakar <skrishnakar@gmail.com>
+X-Google-Original-From: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
+To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dvhart@infradead.org, andy@infradead.org
+Cc:     Cedric_Hombourger@mentor.com, Srikanth_Krishnakar@mentor.com,
+        jan.kiszka@siemens.com
+Subject: [PATCH] platform/x86: pmc_atom: Add Siemens SIMATIC IPC2x7E to critclk_systems DMI table
+Date:   Thu, 19 Sep 2019 13:15:56 +0530
+Message-Id: <20190919074556.25691-1-Srikanth_Krishnakar@mentor.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Sep 19, 2019 at 1:53 AM Yauhen Kharuzhy <jekhor@gmail.com> wrote:
->
+The SIMATIC IPC227E and IPC277E uses the PMC clock for on-board components
+and gets stuck during boot if the clock is disabled. Therefore, add this
+device to the critical systems list.
 
-You so fast with new versions that I had no chance to comment on.
-Finally here mine.
+The Board revision does vary in some instances and hence use PRODUCT_NAME
+to allow the boards to boot with identical names.
 
-> Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
-> hardware has Type-C connector and register related devices described as
-> I2C connections in the _CRS resource.
->
-> There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with Micro-B
-> USB connector exists. It has INT33FE device in the DSDT table but
-> there are only two I2C connection described: PMIC and BQ27452 battery
-> fuel gauge.
->
-> Splitting existing INT33FE driver allow to maintain code for USB Micro-B
-> (AB) connector variant separately and make it simpler.
+Tested on SIMATIC IPC227E and IPC277E.
 
-I didn't get what (AB) means in this context?
-Did you mean "(or AB)"?
+Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+CC: Jan Kiszka <jan.kiszka@siemens.com>
+CC: Cedric Hombourger <Cedric_Hombourger@mentor.com>
+Signed-off-by: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
+---
+ drivers/platform/x86/pmc_atom.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> Split driver to intel_cht_int33fe_common.c and
-> intel_cht_int33fe_{typeb,typec}.c. Compile all this sources to one .ko
-> module to make user experience easier.
-
-You forgot to replace typeb here.
-
-> -       ---help---
-> +       help
-
-This is unneeded churn
-
-
-
-> +         CONFIG_BATTERY_BQ27XXX=m and CONFIG_BATTERY_BQ27XXX_I2C=m for Micro-B
-> +         device and CONFIG_TYPEC_FUSB302=m and CONFIG_BATTERY_MAX17042=m
-
-First s/and/or/.
-
-> +         for Type-C device.
-
-> + * 1. The Whiskey Cove pmic, which is also described by the INT34D3 ACPI device
-
-pmic -> PMIC
-
-> +       if (IS_ERR(data->battery_fg)) {
-> +               int err = PTR_ERR(data->battery_fg);
-> +
-> +               if (err != -EPROBE_DEFER)
-> +                       dev_err(dev,
-> +                               "Failed to register battery fuel gauge: %d\n",
-> +                               err);
-> +               return err;
-> +       }
-> +
-> +       return 0;
-
-I would rather replace this altogether by return PTR_ERR_OR_ZERO()
-like it's done in the other function in the original driver.
-
+diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+index 9aca5e7ce6d0..1e48c2ec684e 100644
+--- a/drivers/platform/x86/pmc_atom.c
++++ b/drivers/platform/x86/pmc_atom.c
+@@ -419,7 +419,14 @@ static const struct dmi_system_id critclk_systems[] = {
+ 		.ident = "SIMATIC IPC227E",
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
+-			DMI_MATCH(DMI_PRODUCT_VERSION, "6ES7647-8B"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC227E"),
++		},
++	},
++	{
++		.ident = "SIMATIC IPC277E",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "SIMATIC IPC277E"),
+ 		},
+ 	},
+ 	{ /*sentinel*/ }
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
