@@ -2,58 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74BE9B88B2
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 02:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE1FBB8ABE
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 08:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393207AbfITAlH (ORCPT
+        id S2408266AbfITGIR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 19 Sep 2019 20:41:07 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:37268 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388479AbfITAlG (ORCPT
+        Fri, 20 Sep 2019 02:08:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48136 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2408261AbfITGIR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 19 Sep 2019 20:41:06 -0400
-Received: by mail-yw1-f65.google.com with SMTP id u65so1934615ywe.4;
-        Thu, 19 Sep 2019 17:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=i+tHQQIVQzEbeUZdVQWPUgZcFAD65xbujylPTpUTyNY=;
-        b=sOgv/y0MyWza+27Zo0Dc7UqOr37F51AjoqxT36vfivH0a/78d5FrCeqOt+nS4SspGQ
-         3gv3nVwJJZSEASyRTQjTMZZ7YCw4yT1TAFdZo9WMGfcfqrrz6KiL/WHlKsaR4t8Ujdda
-         q2fGY7110VRgX7Rmysp84DKarNZ5UDYIMGtRcDwzWdDo5emBJsql8w7gZaujFM2cKgsB
-         sdSeyxe8KErINM5eKZJcxMhxMxjcoBGA0eC+wFT7iyLAvECgyIJvWw2l3bRdaH1yCagL
-         NVG+s6UAa/ov3Ng1Y4XG8TDtSIVz8Cf+SkqGEQzNDXJzunP5/FNWA9bZH1KaTsh2vaIk
-         SdDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=i+tHQQIVQzEbeUZdVQWPUgZcFAD65xbujylPTpUTyNY=;
-        b=j6dOr1wh0Iid5YGReFjWCEytMlr8+/ViRa0oVQTglox9c/OW8SoGLsRb/AAMbCyNyp
-         gLCptxazY20gsgT7hSqbM6iBLarre24qjCQWJxHj3ZwFU4prCxcV5va+zteLc+yn4GqX
-         6ZWNFMjc8+qbKjlXGwrMRYqk0mc+wRqu7VqYF43Tfj74z7wiY+xpvZGGJZE4FtQ3ZXad
-         +OWRejW6azRFs8a+DhM2GGYeKtzwt4Do8l9BijwBy0MZEftqlKe+Hm96Y/ny+8JoD6l8
-         BilNvGyufyIp/0LcmGVRCS9AqEkpasqHVb/r1rRSLM5Qvn8DcJPNvGe1Ysbi2oMBUV/o
-         k5oA==
-X-Gm-Message-State: APjAAAVSCGfbk5m5FsE/6jlkncJb0jWDpAaFHFKfXUkLAcJqJ41Ca4FL
-        xbEFG533X2RKakGbcrYkdQ==
-X-Google-Smtp-Source: APXvYqyHFG04J+N3eQ8onFjXKxQ4GNnYQ3DIsL1OatK/Yttll4/63iXV3oDyUeEuNFVe0FdbdEOthQ==
-X-Received: by 2002:a81:5c57:: with SMTP id q84mr9802626ywb.88.1568940065549;
-        Thu, 19 Sep 2019 17:41:05 -0700 (PDT)
-Received: from 960.localdomain ([64.192.53.12])
-        by smtp.gmail.com with ESMTPSA id r63sm102802ywg.36.2019.09.19.17.41.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2019 17:41:05 -0700 (PDT)
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
+        Fri, 20 Sep 2019 02:08:17 -0400
+Received: from localhost (unknown [145.15.244.23])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 64BDD20644;
+        Fri, 20 Sep 2019 06:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568959696;
+        bh=mWG1Jx2zQxwa3AhlOl1Bm5pNoGL7+pi+3Zp+OGk4y08=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2V3AKCpsCLu6C7lLk2VhFP/kd1dLmiut0wOoF7UVzSCoGo/Viq+ocwIZ3niFWS/Nk
+         ABbbBTIr4/z+SZybxUOxzaVdCh/+qKeTqxBEGwM7cX+cizCcBq8dQLKFEslwf1OfZw
+         kGPmNcztrnil27xJkwTiTQudpQE9bUmzvByDcp+I=
+Date:   Fri, 20 Sep 2019 08:08:12 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ayman Bagabas <ayman.bagabas@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Sinan Kaya <okaya@kernel.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sinan Kaya <okaya@kernel.org>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         Takashi Iwai <tiwai@suse.de>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
         Stuart Hayes <stuart.w.hayes@gmail.com>,
         Matan Ziv-Av <matan@svgalib.org>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -62,150 +42,38 @@ To:     Darren Hart <dvhart@infradead.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Mattias Jacobsson <2pi@mok.nu>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] platform/x86: huawei-wmi: Add debugfs support
-Date:   Thu, 19 Sep 2019 20:39:11 -0400
-Message-Id: <20190920003938.21617-7-ayman.bagabas@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190920003938.21617-1-ayman.bagabas@gmail.com>
+Subject: Re: [PATCH v3 2/6] platform/x86: huawei-wmi: Add quirks and module
+ parameters
+Message-ID: <20190920060812.GB473898@kroah.com>
 References: <20190920003938.21617-1-ayman.bagabas@gmail.com>
+ <20190920003938.21617-3-ayman.bagabas@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190920003938.21617-3-ayman.bagabas@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add a debugfs interface that can be used to call the WMI management
-interface function if available.
+On Thu, Sep 19, 2019 at 08:39:07PM -0400, Ayman Bagabas wrote:
+> Introduce quirks and module parameters. 3 quirks are added:
+> 1. Fixes reporting brightness keys twice since it's already handled by
+>    acpi-video.
+> 2. Some models need a short delay when setting battery thresholds to
+>    prevent a race condition when two processes read/write. (will be used later)
+> 3. Matebook X (2017) handles micmute led through the "legacy" interface
+>    which is not currently implemented. Use ACPI EC method to control
+>    this led. (will be used later)
+> 
+> 2 module parameters are added to enable this short delay and/or report
+>   brightness keys through this driver.
 
-Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
----
- drivers/platform/x86/huawei-wmi.c | 91 +++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
+module parameters are a pain to manage and handle over time.  Is there
+any way you can "automatically" figure this out, or use a sysfs file
+instead?
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index 8fc11a296357..c8f41121160c 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/input.h>
-@@ -598,6 +599,94 @@ static void huawei_wmi_fn_lock_exit(struct device *dev)
- 		device_remove_file(dev, &dev_attr_fn_lock_state);
- }
- 
-+/* debugfs */
-+
-+static void huawei_wmi_debugfs_call_dump(struct seq_file *m, void *data,
-+		union acpi_object *obj)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	int i;
-+
-+	switch (obj->type) {
-+	case ACPI_TYPE_INTEGER:
-+		seq_printf(m, "0x%llx", obj->integer.value);
-+		break;
-+	case ACPI_TYPE_STRING:
-+		seq_printf(m, "\"%*s\"", obj->string.length, obj->string.pointer);
-+		break;
-+	case ACPI_TYPE_BUFFER:
-+		seq_puts(m, "{");
-+		for (i = 0; i < obj->buffer.length; i++) {
-+			seq_printf(m, "0x%02x", obj->buffer.pointer[i]);
-+			if (i < obj->buffer.length - 1)
-+				seq_puts(m, ",");
-+		}
-+		seq_puts(m, "}");
-+		break;
-+	case ACPI_TYPE_PACKAGE:
-+		seq_puts(m, "[");
-+		for (i = 0; i < obj->package.count; i++) {
-+			huawei_wmi_debugfs_call_dump(m, huawei, &obj->package.elements[i]);
-+			if (i < obj->package.count - 1)
-+				seq_puts(m, ",");
-+		}
-+		seq_puts(m, "]");
-+		break;
-+	default:
-+		dev_err(&huawei->pdev->dev, "Unexpected obj type, got %d\n", obj->type);
-+		return;
-+	}
-+}
-+
-+static int huawei_wmi_debugfs_call_show(struct seq_file *m, void *data)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	struct acpi_buffer out = { ACPI_ALLOCATE_BUFFER, NULL };
-+	struct acpi_buffer in;
-+	union acpi_object *obj;
-+	int err;
-+
-+	in.length = sizeof(u64);
-+	in.pointer = &huawei->debug.arg;
-+
-+	err = huawei_wmi_call(&in, &out);
-+	if (err)
-+		return err;
-+
-+	obj = out.pointer;
-+	if (!obj) {
-+		err = -EIO;
-+		goto fail_debugfs_call;
-+	}
-+
-+	huawei_wmi_debugfs_call_dump(m, huawei, obj);
-+
-+fail_debugfs_call:
-+	kfree(out.pointer);
-+	return err;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(huawei_wmi_debugfs_call);
-+
-+static void huawei_wmi_debugfs_setup(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+
-+	huawei->debug.root = debugfs_create_dir("huawei-wmi", NULL);
-+
-+	debugfs_create_x64("arg", 0644, huawei->debug.root,
-+		&huawei->debug.arg);
-+	debugfs_create_file("call", 0400,
-+		huawei->debug.root, huawei, &huawei_wmi_debugfs_call_fops);
-+}
-+
-+static void huawei_wmi_debugfs_exit(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+
-+	debugfs_remove_recursive(huawei->debug.root);
-+}
-+
- /* Input */
- 
- static void huawei_wmi_process_key(struct input_dev *idev, int code)
-@@ -723,6 +812,7 @@ static int huawei_wmi_probe(struct platform_device *pdev)
- 		huawei_wmi_leds_setup(&pdev->dev);
- 		huawei_wmi_fn_lock_setup(&pdev->dev);
- 		huawei_wmi_battery_setup(&pdev->dev);
-+		huawei_wmi_debugfs_setup(&pdev->dev);
- 	}
- 
- 	return 0;
-@@ -740,6 +830,7 @@ static int huawei_wmi_remove(struct platform_device *pdev)
- 	}
- 
- 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
-+		huawei_wmi_debugfs_exit(&pdev->dev);
- 		huawei_wmi_battery_exit(&pdev->dev);
- 		huawei_wmi_fn_lock_exit(&pdev->dev);
- 	}
--- 
-2.21.0
+thanks,
 
+greg k-h
