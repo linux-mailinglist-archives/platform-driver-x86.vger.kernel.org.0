@@ -2,102 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25DA5B8DD3
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 11:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22D42B8E33
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 12:02:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393343AbfITJdV (ORCPT
+        id S2405882AbfITKCh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Sep 2019 05:33:21 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51575 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393257AbfITJdV (ORCPT
+        Fri, 20 Sep 2019 06:02:37 -0400
+Received: from mga04.intel.com ([192.55.52.120]:58443 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405850AbfITKCh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Sep 2019 05:33:21 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 7so1677497wme.1;
-        Fri, 20 Sep 2019 02:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NrUm6zOy/EJ9ibCviGBB/bXjF+HcDw0sqxAwwkPU5YQ=;
-        b=E8x50LQQARW0bDW+w5d63gBizCAHESZUz/7+xvVDGBONbjH2uZkaBWSPPRoSqXsIyY
-         SBKd0OnR0uH1PUHLA9rpkBHS9g+/IX0YamCrah/BSfYOXhQREI0LW2T91fPie7uZ7D2u
-         Te4Oe7Ankb/cMBcHU1u+iBxIMsC3p6Ubec5hTBn3HlKTFPd8bKWjlCQYCPBx+Hxp458+
-         5LBax+bpp+cO1fuocLfVvvSwHfpwRIv955J5Zv3sni/f2kn+eJrFx5uP5F0qQuHBf6kv
-         fpSqyNXq9EMKlufxR9Qr4byxA+Sf18NM3z+PD60GQxCvom2nkx7T02qVDfApj+/hlAOE
-         zwKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=NrUm6zOy/EJ9ibCviGBB/bXjF+HcDw0sqxAwwkPU5YQ=;
-        b=sV591coUXDZELvErYj4BM4YuhEyxugw7EBn+t8x8cnWmLEOkGcvLcFg8lSMv3t6oya
-         W0Td/TxGHBuEKHnyuDxMVO1tT1vwhC6diIEuw/RFijxQvDeXsKZMpO1QO5TJEixXSx4X
-         9GAhhiQVwb5wGDDe9ziKebcuZalUM3Oc7x0U5GQwc+qmKcLolP7wXMsTQ+WY36JgvWfs
-         pE511PiHtJP+MhqPxYIE7J8CIESw/Autnu0phnENKrsVOS+dnqtvbXI/JT97Qh+n4O3+
-         1heMI7Chy8uXdR7OJUCHwoEI0/VW3ynP7+/U3fNY9/n4gey91XxQGppxPmXumcdAUZds
-         RHEw==
-X-Gm-Message-State: APjAAAWpNsGkmALumFwTgZvzMmRWQPFhfzIIFOzxapFfu7Ojx5dU3ocX
-        EebULCShFm0Cv7q3bsK0i4cIagjcJ9I=
-X-Google-Smtp-Source: APXvYqyykmr/1lYPAKZgF+2vPkYifML5oM0ue4sQIEA5SMH7KsYZIDn76PKiZEu0yUnlNOcZf+2JTg==
-X-Received: by 2002:a05:600c:114e:: with SMTP id z14mr2470460wmz.134.1568971998305;
-        Fri, 20 Sep 2019 02:33:18 -0700 (PDT)
-Received: from linux-code.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
-        by smtp.gmail.com with ESMTPSA id h63sm1760268wmf.15.2019.09.20.02.33.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2019 02:33:17 -0700 (PDT)
-From:   Srikanth Krishnakar <skrishnakar@gmail.com>
-X-Google-Original-From: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
-To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dvhart@infradead.org, andy@infradead.org, jan.kiszka@siemens.com
-Cc:     Cedric_Hombourger@mentor.com, volker.edenhofer@siemens.com,
-        Srikanth_Krishnakar@mentor.com
-Subject: [PATCH v2] platform/x86: pmc_atom: Add Siemens SIMATIC IPC277E to critclk_systems DMI table
-Date:   Fri, 20 Sep 2019 15:01:56 +0530
-Message-Id: <20190920093156.18885-1-Srikanth_Krishnakar@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <972f063e-e1da-7248-90ab-e9b12481641d@siemens.com>
-References: <972f063e-e1da-7248-90ab-e9b12481641d@siemens.com>
+        Fri, 20 Sep 2019 06:02:37 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Sep 2019 03:02:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,528,1559545200"; 
+   d="scan'208";a="202476935"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2019 03:02:35 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH] platform/x86: i2c-multi-instantiate: Derive the device name from parent
+Date:   Fri, 20 Sep 2019 13:02:33 +0300
+Message-Id: <20190920100233.12829-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The SIMATIC IPC277E uses the PMC clock for on-board components
-and gets stuck during boot if the clock is disabled. Therefore,
-add this device to the critical systems list.
+When naming the new devices, instead of using the ACPI ID in
+the name as base, using the parent device's name. That makes
+it possible to support multiple multi-instance i2c devices
+of the same type in the same system.
 
-Tested on SIMATIC IPC277E.
+This fixes an issue seen on some Intel Kaby Lake based
+boards:
 
-Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
-Reviewed-by: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: Cedric Hombourger <Cedric_Hombourger@mentor.com>
-Signed-off-by: Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>
+sysfs: cannot create duplicate filename '/devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-0/i2c-INT3515-tps6598x.0'
+
+Fixes: 2336dfadfb1e ("platform/x86: i2c-multi-instantiate: Allow to have same slaves")
+Cc: stable@vger.kernel.org
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
+ drivers/platform/x86/i2c-multi-instantiate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Suggested for linux-stable v4.14.x and above.
-Depends on ad0d315b4d4e ("platform/x86: pmc_atom: Add Siemens SIMATIC IPC227E to critclk_systems DMI table")
-
- drivers/platform/x86/pmc_atom.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
-index 9aca5e7ce6d0..07d1b911e72f 100644
---- a/drivers/platform/x86/pmc_atom.c
-+++ b/drivers/platform/x86/pmc_atom.c
-@@ -422,6 +422,13 @@ static const struct dmi_system_id critclk_systems[] = {
- 			DMI_MATCH(DMI_PRODUCT_VERSION, "6ES7647-8B"),
- 		},
- 	},
-+	{
-+		.ident = "SIMATIC IPC277E",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "6AV7882-0"),
-+		},
-+	},
- 	{ /*sentinel*/ }
- };
- 
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index 61fe341a85aa..ea68f6ed66ae 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -90,7 +90,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+ 	for (i = 0; i < multi->num_clients && inst_data[i].type; i++) {
+ 		memset(&board_info, 0, sizeof(board_info));
+ 		strlcpy(board_info.type, inst_data[i].type, I2C_NAME_SIZE);
+-		snprintf(name, sizeof(name), "%s-%s.%d", match->id,
++		snprintf(name, sizeof(name), "%s-%s.%d", dev_name(dev),
+ 			 inst_data[i].type, i);
+ 		board_info.dev_name = name;
+ 		switch (inst_data[i].flags & IRQ_RESOURCE_TYPE) {
 -- 
-2.17.1
+2.23.0
 
