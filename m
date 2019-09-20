@@ -2,127 +2,194 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E11B8E86
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 12:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1BDB94D1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Sep 2019 18:03:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393561AbfITKcq (ORCPT
+        id S1729310AbfITQDU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Sep 2019 06:32:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25615 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2393530AbfITKcq (ORCPT
+        Fri, 20 Sep 2019 12:03:20 -0400
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:46958 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729225AbfITQDU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Sep 2019 06:32:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1568975565;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fhP+6NrCs/UEtUjZ/ehCLBrFwEaQgimeTuvBc9x1eY0=;
-        b=CdIx5nb1nI9AKL2lkkZdwFw7Jol8PZpaaGc2Lf8OBJQ4cviihllo4E9dFCehEvUMbdV5Ky
-        eQPYmqwiOTG9ADegbG6qWlNoPebIrKv5HsBFcOskFWfxR0qSZNDbprORu94zu1TA2dBHjE
-        XVQCFVw1S7s7svryGHFzND99UEd27OU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-zL6iN9OyPuWQD66I6lPkIw-1; Fri, 20 Sep 2019 06:32:43 -0400
-Received: by mail-ed1-f70.google.com with SMTP id l5so757321edr.10
-        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Sep 2019 03:32:43 -0700 (PDT)
+        Fri, 20 Sep 2019 12:03:20 -0400
+Received: by mail-yb1-f194.google.com with SMTP id t2so2805274ybo.13;
+        Fri, 20 Sep 2019 09:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uf8TUqP7EYlLwV20qdPvpJcwERJyBXGKd4AgAHrl2p0=;
+        b=S0YTY/qiLC+vt0AhlB24j9SXlB5qQANaiZ7IgOv7gKjdnkoWuHf4dGtC0BdEWSLDgd
+         bPbiDUGqppVuqMF0cFnHvd0X3XUu7cakbWL4gn7wNyo4FTrVTN2Yu2YdxPqcfdDXQ5BI
+         /JeGcvcC3fw0BaoUiCoKLrSwPgPlI0Xtu4AXaaASuSeR3ZFoGCMKBR3aoU2rYpGxO4jR
+         lghl5orMDYR1lE1kYRCQHc0ekknAtvpsnR37s34+b6D2x9HlW727aNHp7SDBWtTOtGNG
+         1KFSTc1ZmSqj8eRXrBj5vnIwiZ98F8SPntU69qce2I0LIoPpDI1uY50Hmcm3OvzVlRFY
+         r0pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wQFzMMOI9IHEdpQikm6nRpd1SNKkoj0WCobwksclq0Y=;
-        b=qETQ4pYZSGbYA5Cr1as5wq7q3QXXpjUareZ+KBOftrbWwP+MFZk2X/NmmHl8Gc3s3s
-         y9ZHWmbghJrb4PTJoa4TtQfER69RU4eZWouafNjWmlHnbnDbTbHibNZY/vope8b703Zb
-         oc3Bj6XwyZCdwEwH5MOQLVut7leXYxmvPHjxkIhsqf8FSpT0pnQQ6qOHq2MqZrevgQ1J
-         9uzxNjzODar8sKq2qYW/LNWdoUGL75PCr+lT4fHbtNRcy2NqRl++mMLqXrXw2Wsms+hP
-         ShltGQzkXWhyPjDvrhF/1ihvOK0UFXpipvey6ZAU5Ijigk7VWhU64NXS1gISgU8WiHlB
-         ED0Q==
-X-Gm-Message-State: APjAAAXTZgDS43zkLGVrapcsriFJgG9a3qnj3LAzmrAEGYhi6N03HUbQ
-        KBMEAraV7IZ8bJp9J8JaJexUk/N1cL4QWdUB5A3QtC3jwihrDqCRorUaR+TIvU8TCfwDUPwQ+PK
-        SXWWm3Tcu5RUX3kehvOncoexhcEQjNTYIfw==
-X-Received: by 2002:a50:91d8:: with SMTP id h24mr8770061eda.61.1568975562286;
-        Fri, 20 Sep 2019 03:32:42 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxi9K7NP671bCTXdhkhM1E4ekPEY+uAShqKtKrT4/5Jeyl7RIGoVWiOzAx9m92Wz3CgQabPdQ==
-X-Received: by 2002:a50:91d8:: with SMTP id h24mr8770056eda.61.1568975562148;
-        Fri, 20 Sep 2019 03:32:42 -0700 (PDT)
-Received: from localhost.localdomain ([62.140.137.116])
-        by smtp.gmail.com with ESMTPSA id e13sm106370eje.52.2019.09.20.03.32.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2019 03:32:41 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: i2c-multi-instantiate: Derive the device
- name from parent
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20190920100233.12829-1-heikki.krogerus@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <cde45562-af19-77e9-b3c9-7b3eb7dcd459@redhat.com>
-Date:   Fri, 20 Sep 2019 12:32:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        bh=uf8TUqP7EYlLwV20qdPvpJcwERJyBXGKd4AgAHrl2p0=;
+        b=BXed1s8DwnUtaK9+NFGm47KiRf6xzjFC5ESmIUW94i0Dh08vvxvTBsjc3g7tokpd1J
+         UdFWvpufuPw9VK3nri5TKUc/D9m4eypARPYeZORrL5NeAbGvGSBXUMFHddlRigUGZiza
+         3M6qSFeUf/RiH+ItJZY6V43c3zsTw6cyHq+Af9eIbAzY/G4UJlJrmmBAk5TjiUnuRTKl
+         ZKi69tb+X7vpv2GS7UrCY12zm2PUTdjbxNfclLIBw5IhgWE0wLajA/x273MB7m4ncCss
+         32CplpWWWrGHdJt1qSz7kfRCR7oua19EM23TH2QiW628hgedfexELqdvj+85cMgbOfnr
+         o9Dw==
+X-Gm-Message-State: APjAAAV83/96mtgyn+TujNhNXDnTA31ilLvh7HNDxQgF7WiLUIS1wdRP
+        vZUmDLPoeHC81hlJx+lYyQ==
+X-Google-Smtp-Source: APXvYqxd0Ha1HvHrCr+lz/dx9T0Eq8M4K/ZmObuDOU8PNAwZ9iWTpLNYlf9vcMWeUlkwhya03kwvTQ==
+X-Received: by 2002:a25:4dc2:: with SMTP id a185mr11177731ybb.209.1568995398504;
+        Fri, 20 Sep 2019 09:03:18 -0700 (PDT)
+Received: from localhost.localdomain ([12.156.111.130])
+        by smtp.gmail.com with ESMTPSA id 207sm518086ywu.106.2019.09.20.09.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Sep 2019 09:03:17 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Peng Hao <peng.hao2@zte.com.cn>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6] platform/x86: Huawei WMI laptop extras driver
+Date:   Fri, 20 Sep 2019 12:02:33 -0400
+Message-Id: <20190920160250.12510-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190920100233.12829-1-heikki.krogerus@linux.intel.com>
-Content-Language: en-US
-X-MC-Unique: zL6iN9OyPuWQD66I6lPkIw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Changes in v4:
+* Use int and bint for module params.
 
-On 9/20/19 12:02 PM, Heikki Krogerus wrote:
-> When naming the new devices, instead of using the ACPI ID in
-> the name as base, using the parent device's name. That makes
-> it possible to support multiple multi-instance i2c devices
-> of the same type in the same system.
->=20
-> This fixes an issue seen on some Intel Kaby Lake based
-> boards:
->=20
-> sysfs: cannot create duplicate filename '/devices/pci0000:00/0000:00:15.0=
-/i2c_designware.0/i2c-0/i2c-INT3515-tps6598x.0'
->=20
-> Fixes: 2336dfadfb1e ("platform/x86: i2c-multi-instantiate: Allow to have =
-same slaves")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Changes in v3:
+* Kconfig changes
+* Fix NULL cast to int warning.
+* Add ACPI_BATTERY as a dependency.
 
-Patch looks good to me:
+Changes in v2:
+* Use battery charge control API.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+This patch series introduce changes to huawei-wmi driver that includes:
+* Move to platform driver
+* Implement driver quirks and parameters
+* Implement WMI management interface
+* Add micmute LED support through WMI
+* Add battery charging protection support through WMI
+* Add fn-lock support through WMI
+* Add a debugfs interface to WMI
 
-Regards,
+# Move to platform driver
 
-Hans
+The current driver offers hotkeys and micmute led support only. With
+these changes, a platform driver makes more sense since it handles these
+changes pretty nicely.
+
+# Implement WMI management interface
+
+Huawei Matebook laptops come with two WMI interfaces. The first being
+WMI0 which is considered "legacy" and AFAIK only found on the Matebook X
+released in 2017. The second has a UID of "HWMI" and is found in pretty
+much all models with a slight difference in implementation except for
+the Matebook X (2017). Since this model has two interfaces, some aspects
+are controlled through the legacy interface and some through the other
+interface. Currently, the legacy interface is not fully implemented and
+is only used for hotkeys and further debugging has to be done.
+
+The WMI interface takes a 64 bit integer, although uses 32 bits most of
+the time, and returns a 256-260 bytes buffer consists of either one ACPI
+buffer of 260 bytes, in the case of Matebook X (2017), or one ACPI
+package of two buffers, one with 4 bytes, and the other with 256 bytes.
+We only care about the latter 256 buffer in both cases since the 4 bytes
+always return zeros. The first byte of this 256 buffer always has the
+return status where 1 indicated error. Some models require calling the
+WMI interface twice to execute a command.
+
+# Add micmute LED support through WMI
+
+After implementing the WMI interface, micmute LED can be controlled
+easily. Models with the legacy interface fall back to ACPI EC method
+control since the legacy interface is not implemented.
+
+# Add battery charging protection support through WMI
+
+Most models, that has the WMI interface, are capable of battery
+protection where it can control battery charging thresholds and limits
+charging the battery to certain values.
+
+# Add fn-lock support through WMI
+
+The behavior of hotkeys is not the same among all models. Some models
+require fn-lock to do things like `Ctrl-Ins` or `Alt-PrtSc`. By default,
+hotkeys behave as special keys (media keys, Ins, etc), but if a modifier
+is used (ctrl, alt, shift) these keys behave as F1-F12 keys. If the Fn
+key is toggled on, the hotkeys with or without a modifier, behave as
+F1-F12 keys. This makes it impossible to use a modifier and `PrtSc` or
+`Ins`.
+
+Now, some models fix this by excluding `PrtSc` and `Ins` keys from being
+treated as F11 and F12 keys with the use of a modifier. However, some
+models do not, and fixes this by the so called fn-lock.
+
+Fn-lock inverts the behavior of the top row from special keys to F1-F12
+keys. So a modifier and a special key would be possible which make
+things like `Alt-Ins` possible. Now, with fn-lock we would have 4 modes:
+
+* Fn-key off & fn-lock off - hotkeys treated as special keys using a
+  modifier gives F1-F12 keys.
+* Fn-key on & fn-lock off - hotkeys treated as F1-F12 keys and using a
+  modifier gives F1-F12.
+* Fn-key off & fn-lock on - hotkeys are treated as F1-F12 keys and using
+  a modifier gives special keys.
+* Fn-key on & fn-lock on - hotkeys are treated as special keys and using
+  a modifier gives special keys.
+
+# Implement driver quirks and parameters
+
+The driver introduces 3 quirks and 2 parameters that can change the
+driver's behavior. These quirks being as:
+1. Fixes reporting brightness keys twice since it's already handled by
+   acpi-video.
+2. Some models need a short delay when setting battery thresholds to
+   prevent a race condition when two processes read/write.
+3. Matebook X (2017) handles micmute led through the "legacy" interface
+   which is not currently implemented. Use ACPI EC method to control
+   this led.
+
+and the 2 parameters can enforce the behavior of quirk 1 & 2.
+
+# Add a debugfs interface to WMI
+
+An interface to the WMI management interface that allows easier
+debugging.
+
+Ayman Bagabas (6):
+  platform/x86: huawei-wmi: Move to platform driver
+  platform/x86: huawei-wmi: Add quirks and module parameters
+  platform/x86: huawei-wmi: Implement huawei wmi management
+  platform/x86: huawei-wmi: Add battery charging thresholds
+  platform/x86: huawei-wmi: Add fn-lock support
+  platform/x86: huawei-wmi: Add debugfs support
+
+ drivers/platform/x86/Kconfig      |   8 +-
+ drivers/platform/x86/huawei-wmi.c | 874 ++++++++++++++++++++++++++----
+ 2 files changed, 786 insertions(+), 96 deletions(-)
 
 
-> ---
->   drivers/platform/x86/i2c-multi-instantiate.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platf=
-orm/x86/i2c-multi-instantiate.c
-> index 61fe341a85aa..ea68f6ed66ae 100644
-> --- a/drivers/platform/x86/i2c-multi-instantiate.c
-> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
-> @@ -90,7 +90,7 @@ static int i2c_multi_inst_probe(struct platform_device =
-*pdev)
->   =09for (i =3D 0; i < multi->num_clients && inst_data[i].type; i++) {
->   =09=09memset(&board_info, 0, sizeof(board_info));
->   =09=09strlcpy(board_info.type, inst_data[i].type, I2C_NAME_SIZE);
-> -=09=09snprintf(name, sizeof(name), "%s-%s.%d", match->id,
-> +=09=09snprintf(name, sizeof(name), "%s-%s.%d", dev_name(dev),
->   =09=09=09 inst_data[i].type, i);
->   =09=09board_info.dev_name =3D name;
->   =09=09switch (inst_data[i].flags & IRQ_RESOURCE_TYPE) {
->=20
+base-commit: 288b9117de5cc1b7fb80f54b7c17deed6f018641
+-- 
+2.21.0
 
