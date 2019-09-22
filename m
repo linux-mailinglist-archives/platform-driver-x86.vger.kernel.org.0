@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D19F1BA7FE
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 21:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394A9BA84D
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 21:49:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395171AbfIVTAr (ORCPT
+        id S2395397AbfIVTCF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 22 Sep 2019 15:00:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36654 "EHLO mail.kernel.org"
+        Sun, 22 Sep 2019 15:02:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38418 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393348AbfIVTAq (ORCPT
+        id S2395390AbfIVTCE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 22 Sep 2019 15:00:46 -0400
+        Sun, 22 Sep 2019 15:02:04 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 86C0421907;
-        Sun, 22 Sep 2019 19:00:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CE97C2186A;
+        Sun, 22 Sep 2019 19:02:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178845;
-        bh=rG6nBgBnTtfOrvY2n9Sy1gOvBYtA0aAbSvPL2jL4Wiw=;
+        s=default; t=1569178923;
+        bh=BrDoBTenExKjWcM+h6i58GVnPzZrlbh1uQ6q8BdcW50=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tac2mVUSN/IPoAwy57OkBhPIuuqTPXJV9LV6iAfOSiJJNgdp0CI903Z+idLhu+CPC
-         Hi7DPQFmN9aRD91/Shbd9t4Kh2ml7idvKGl9Xm2Uo1mgkONojMfTFx4IoI9ie++HvV
-         b1BOudL1ch3WWrsb02eWbJroSGnfChToGCoy/0Qg=
+        b=Hrxz5TTJvLGnpL8H5JnaFggvFLjmcqiF55C6zyMIHhW++Dtzn0jE3scdOB2etSoJc
+         JTMKeItp6pf0tZgsFOOeh+F9AFcX80VvIgjo83cmmDxXf20aCYus220XeqIma5kHCO
+         Ky1az8FBxPxzszbWjmNpcDO/unzoC7V3hs0adxZY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Austin Kim <austindh.kim@gmail.com>,
@@ -40,12 +40,12 @@ Cc:     Austin Kim <austindh.kim@gmail.com>,
         dvhart@infradead.org, gregkh@linuxfoundation.org, hpa@zytor.com,
         kjlu@umn.edu, platform-driver-x86@vger.kernel.org,
         Ingo Molnar <mingo@kernel.org>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.9 51/60] x86/platform/uv: Fix kmalloc() NULL check routine
-Date:   Sun, 22 Sep 2019 14:59:24 -0400
-Message-Id: <20190922185934.4305-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 38/44] x86/platform/uv: Fix kmalloc() NULL check routine
+Date:   Sun, 22 Sep 2019 15:00:56 -0400
+Message-Id: <20190922190103.4906-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922185934.4305-1-sashal@kernel.org>
-References: <20190922185934.4305-1-sashal@kernel.org>
+In-Reply-To: <20190922190103.4906-1-sashal@kernel.org>
+References: <20190922190103.4906-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -91,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
-index 16d4967d59ea2..814b01d4e519e 100644
+index 3b6ec42718e46..fd2149e8ca0f7 100644
 --- a/arch/x86/platform/uv/tlb_uv.c
 +++ b/arch/x86/platform/uv/tlb_uv.c
-@@ -1816,9 +1816,9 @@ static void pq_init(int node, int pnode)
+@@ -1784,9 +1784,9 @@ static void pq_init(int node, int pnode)
  
  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
