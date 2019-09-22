@@ -2,50 +2,41 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 394A9BA84D
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 21:49:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B1BBAADF
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 21:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395397AbfIVTCF (ORCPT
+        id S2437812AbfIVTbz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 22 Sep 2019 15:02:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38418 "EHLO mail.kernel.org"
+        Sun, 22 Sep 2019 15:31:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45534 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2395390AbfIVTCE (ORCPT
+        id S2391679AbfIVSsg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 22 Sep 2019 15:02:04 -0400
+        Sun, 22 Sep 2019 14:48:36 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE97C2186A;
-        Sun, 22 Sep 2019 19:02:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9AFED2196E;
+        Sun, 22 Sep 2019 18:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178923;
-        bh=BrDoBTenExKjWcM+h6i58GVnPzZrlbh1uQ6q8BdcW50=;
+        s=default; t=1569178115;
+        bh=TWjJkqkJlUZehErOcJO7xJ7Tm4AAI0bMcn2ZPApoIwQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Hrxz5TTJvLGnpL8H5JnaFggvFLjmcqiF55C6zyMIHhW++Dtzn0jE3scdOB2etSoJc
-         JTMKeItp6pf0tZgsFOOeh+F9AFcX80VvIgjo83cmmDxXf20aCYus220XeqIma5kHCO
-         Ky1az8FBxPxzszbWjmNpcDO/unzoC7V3hs0adxZY=
+        b=F7FsRjayGjbzMFXqFCJHAtJT+Q3f/VdwenrAODlcgZ8DKHnm4qbw+p8yoxU3pMuNd
+         EQzbFd50e8hWa+GQkBIuNRvpTUbTfemxrPk+N9BJHa1N5iEiCS2Sfjtuu4QLDk3nd0
+         /oXtIAV5X+zHsmyiqaJdxbjA/qquSN941mMGe5zQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Austin Kim <austindh.kim@gmail.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Hedi Berriche <hedi.berriche@hpe.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mike Travis <mike.travis@hpe.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Thomas Gleixner <tglx@linutronix.de>, allison@lohutok.net,
-        andy@infradead.org, armijn@tjaldur.nl, bp@alien8.de,
-        dvhart@infradead.org, gregkh@linuxfoundation.org, hpa@zytor.com,
-        kjlu@umn.edu, platform-driver-x86@vger.kernel.org,
-        Ingo Molnar <mingo@kernel.org>, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.4 38/44] x86/platform/uv: Fix kmalloc() NULL check routine
-Date:   Sun, 22 Sep 2019 15:00:56 -0400
-Message-Id: <20190922190103.4906-38-sashal@kernel.org>
+Cc:     "M. Vefa Bicakci" <m.v.b@runbox.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.3 172/203] platform/x86: intel_pmc_core_pltdrv: Module removal warning fix
+Date:   Sun, 22 Sep 2019 14:43:18 -0400
+Message-Id: <20190922184350.30563-172-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922190103.4906-1-sashal@kernel.org>
-References: <20190922190103.4906-1-sashal@kernel.org>
+In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
+References: <20190922184350.30563-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,57 +46,46 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Austin Kim <austindh.kim@gmail.com>
+From: "M. Vefa Bicakci" <m.v.b@runbox.com>
 
-[ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
+[ Upstream commit 0b43e41e93815ecd9616759cf5d64d3a7be8e6fb ]
 
-The result of kmalloc() should have been checked ahead of below statement:
+Prior to this commit, removing the intel_pmc_core_pltdrv module
+would cause the following warning:
 
-	pqp = (struct bau_pq_entry *)vp;
+  Device 'intel_pmc_core.0' does not have a release() function, it is broken and must be fixed. See Documentation/kobject.txt.
+  WARNING: CPU: 0 PID: 2202 at drivers/base/core.c:1238 device_release+0x6f/0x80
 
-Move BUG_ON(!vp) before above statement.
+This commit hence adds an empty release function for the driver.
 
-Signed-off-by: Austin Kim <austindh.kim@gmail.com>
-Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
-Cc: Hedi Berriche <hedi.berriche@hpe.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mike Travis <mike.travis@hpe.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Russ Anderson <russ.anderson@hpe.com>
-Cc: Steve Wahl <steve.wahl@hpe.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: allison@lohutok.net
-Cc: andy@infradead.org
-Cc: armijn@tjaldur.nl
-Cc: bp@alien8.de
-Cc: dvhart@infradead.org
-Cc: gregkh@linuxfoundation.org
-Cc: hpa@zytor.com
-Cc: kjlu@umn.edu
-Cc: platform-driver-x86@vger.kernel.org
-Link: https://lkml.kernel.org/r/20190905232951.GA28779@LGEARND20B15
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/x86/platform/uv/tlb_uv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/platform/x86/intel_pmc_core_pltdrv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
-index 3b6ec42718e46..fd2149e8ca0f7 100644
---- a/arch/x86/platform/uv/tlb_uv.c
-+++ b/arch/x86/platform/uv/tlb_uv.c
-@@ -1784,9 +1784,9 @@ static void pq_init(int node, int pnode)
+diff --git a/drivers/platform/x86/intel_pmc_core_pltdrv.c b/drivers/platform/x86/intel_pmc_core_pltdrv.c
+index a8754a6db1b8b..186540014c480 100644
+--- a/drivers/platform/x86/intel_pmc_core_pltdrv.c
++++ b/drivers/platform/x86/intel_pmc_core_pltdrv.c
+@@ -18,8 +18,16 @@
+ #include <asm/cpu_device_id.h>
+ #include <asm/intel-family.h>
  
- 	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
- 	vp = kmalloc_node(plsize, GFP_KERNEL, node);
--	pqp = (struct bau_pq_entry *)vp;
--	BUG_ON(!pqp);
-+	BUG_ON(!vp);
++static void intel_pmc_core_release(struct device *dev)
++{
++	/* Nothing to do. */
++}
++
+ static struct platform_device pmc_core_device = {
+ 	.name = "intel_pmc_core",
++	.dev  = {
++		.release = intel_pmc_core_release,
++	},
+ };
  
-+	pqp = (struct bau_pq_entry *)vp;
- 	cp = (char *)pqp + 31;
- 	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
- 
+ /*
 -- 
 2.20.1
 
