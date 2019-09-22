@@ -2,614 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCAFAB9F65
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 21 Sep 2019 20:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88D64BA2CD
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 15:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387411AbfIUSbl (ORCPT
+        id S1728949AbfIVNn1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 21 Sep 2019 14:31:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53024 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725681AbfIUSbk (ORCPT
+        Sun, 22 Sep 2019 09:43:27 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43872 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728488AbfIVNn1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 21 Sep 2019 14:31:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1569090698;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iMmYES6cWXo2cRJYFaJL8taRp6QpSJhtp34kC7n+WxY=;
-        b=dzSb6QiANKvtBUJqmo+IRJ3y8U9Tuoli/V5ZomaDRVT4HpRQZU4I66s7Bj0+Zb5SjvhxY3
-        jXlWNmw/usmBPxGLdZGPmTCV79s+bVm/JL5rdN7wAxFadfzlqyBGHKKinFCD8MuljOLhz8
-        w+OE29PuvC3BqR1WIjkzBxZvHKQXT6w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-dOwz7SJFPCq8lNvan0AlJA-1; Sat, 21 Sep 2019 14:31:36 -0400
-Received: by mail-ed1-f69.google.com with SMTP id d7so6286251edp.23
-        for <platform-driver-x86@vger.kernel.org>; Sat, 21 Sep 2019 11:31:36 -0700 (PDT)
+        Sun, 22 Sep 2019 09:43:27 -0400
+Received: by mail-wr1-f68.google.com with SMTP id q17so11124620wrx.10;
+        Sun, 22 Sep 2019 06:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6UhvR1aaBGYr0TReoDAG8Re2m9hxnBDY81KOwF03hpA=;
+        b=ZdYb/YQbfo/SxK9xKIITVGsVydZf6Ctcp6UX2zZX+jAVdS6VdDUcB+dYpGYQrI+q0y
+         EbNopeedEqXDCpgxUL/mqPJVvSt4JH1b9WPB2WSfox4DMDbmpWoNpmBhd8IGSVV/zmoX
+         Ko205y71nuBZQwXZ9+9PSGSCkHmGFni0D9vgGWtxeoLuFx1GUoaWK1Vf/HBOWxKkEKdy
+         KcSklD9Et64JvXLrvO53nvVDD0QnsF/2h7eoE40DqFBdHp2Kqotoc50za0IldI/7aKDr
+         8EmOWu9zPfEAFjp28eaNwT3LphxU0H4cgYx8PGkbv3Pi/2kMcgMSzR7SDvA7TRVCmFr3
+         fVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8S1IygJkwFJfElv+IibkE5fK/CX3MkZNXGql4mGIWVQ=;
-        b=cONKdQU6spHOmX1+vUBUBvwO3JzK25cwNi6Dz/KGYg7pU9h9aO+qzr89pj7USA4yDn
-         vDQBXltFaNZPpsgO/jW4btmNeLWTihJS7RVFMhIyI1I4+LCAbUKEZ5vIsdzGrdpczW0J
-         X7S9PE1QPifpZ8kJN/K3sQefFcBv6hlaVvY8rPu9aLlRM03cHEHfsDHCsrOMJFPJdFl5
-         yhQBrf8bH629TdaSomsA1h4w0ZimFULXxIz8c4wk/LUbhzMIzKCiSdxdWIiItaB5+m6b
-         K5/90kZ3c2PxV4pz1lP5tXYC6MBjcvcTLr5A/KHv9j2zZ67y1bkE57PEw2saPBElc8a1
-         CHZw==
-X-Gm-Message-State: APjAAAXVfkkC+inId1fjTPi1DYn9xcCp523uqIhXXXJzyKTMJ1x3o+wy
-        vvRS2BQ+mh+PbNZStr2LMXTdepAfaVohp0rN0ZPbbhxsJEbRB7Yx7Jpy7jxFh03y8uqhXBl1Q/B
-        asht6EFo3v8L2PJ9gl5MwhkBFWvitMZojuA==
-X-Received: by 2002:a50:f00c:: with SMTP id r12mr28778426edl.274.1569090695608;
-        Sat, 21 Sep 2019 11:31:35 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwFk3z1ot23jHQCWOjp3DxlmCDcY1LWitV3RPzTfIKpf/Z1su3YMxU7KsWZGrRqAbpsnS3ZGg==
-X-Received: by 2002:a50:f00c:: with SMTP id r12mr28778403edl.274.1569090695302;
-        Sat, 21 Sep 2019 11:31:35 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id t9sm575885eji.26.2019.09.21.11.31.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Sep 2019 11:31:34 -0700 (PDT)
-Subject: Re: [PATCH v5 1/1] platform/x86/intel_cht_int33fe: Split code to USB
- Micro-B and Type-C variants
-To:     Yauhen Kharuzhy <jekhor@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6UhvR1aaBGYr0TReoDAG8Re2m9hxnBDY81KOwF03hpA=;
+        b=lp1/8ZtYvYiTL3OZ8MCYhwQES6yKxYNk5bcPd+LCvATk1di3Axk/KY+dOy4SoCvDwJ
+         OQ+u6gn6Eu2qGOhc1zHgMUylcSC9tFGVGAN8LhKkiD0+znz5Wuly+QQZkc+/fb/9WMUB
+         OM8fr6CjI4iDNeK72dxpOXYdfuuqIp3ozMRUntb4eq1EXDP4rE4JtCTIQkE+tLJWJkZu
+         3l87yReCFQLo0H31jC6/b9Cj/WZ+AG76U3C3hdMqr2mv8YYd+Bv5cMtVcDM/Usx6ONv5
+         0mo0wdjEhPicz4xEo5ak5qPP7WqUdXOQMecmRx+3FrafxTHamXpY1jNeMpIYoMsyiejd
+         hKFg==
+X-Gm-Message-State: APjAAAVoARATG5fmHUtSCZFMflJVq70QCI6e58fjZ50DqkFbwB5xZeC8
+        dvarvY9tsIwm6EOQTbeKJA8=
+X-Google-Smtp-Source: APXvYqzmJH6PRbDYZzY4u7rcYVp2RK6T8a0b6pGf7x6BtVtw6CEMGPd+r7x8DPJPJ3sZ8/Yl3F+K9Q==
+X-Received: by 2002:adf:ec91:: with SMTP id z17mr19572644wrn.346.1569159805541;
+        Sun, 22 Sep 2019 06:43:25 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id f18sm5945519wrv.38.2019.09.22.06.43.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 22 Sep 2019 06:43:24 -0700 (PDT)
+Date:   Sun, 22 Sep 2019 15:43:23 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+Cc:     Matthew Garrett <mjg59@srcf.ucam.org>,
         Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>
-References: <20190920223356.6622-1-jekhor@gmail.com>
- <20190920223356.6622-2-jekhor@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <1cca117d-1951-0335-1aef-ac994c3c757b@redhat.com>
-Date:   Sat, 21 Sep 2019 20:31:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mario.limonciello@dell.com
+Subject: Re: [PATCH] platform/x86: dell-laptop: fix phantom kbd backlight on
+ Inspiron 10xx
+Message-ID: <20190922134323.mowwoyeuqoalpwsg@pali>
+References: <156824368856.28378.14511879419677114177@WARFSTATION>
+ <20190912073358.n5bxqosowhky5uhb@pali>
+ <156882055514.9370.16951540573597044820@WARFSTATION>
 MIME-Version: 1.0
-In-Reply-To: <20190920223356.6622-2-jekhor@gmail.com>
-Content-Language: en-US
-X-MC-Unique: dOwz7SJFPCq8lNvan0AlJA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="hve2rdbpgwpt5hzd"
+Content-Disposition: inline
+In-Reply-To: <156882055514.9370.16951540573597044820@WARFSTATION>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
 
-On 21-09-2019 00:33, Yauhen Kharuzhy wrote:
-> Existing intel_cht_int33fe ACPI pseudo-device driver assumes that
-> hardware has Type-C connector and register related devices described as
-> I2C connections in the _CRS resource.
+--hve2rdbpgwpt5hzd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wednesday 18 September 2019 17:29:15 Pacien TRAN-GIRARD wrote:
+> Quoting Pali Roh=C3=A1r (2019-09-12 09:33:58)
+> > On Thursday 12 September 2019 01:14:48 Pacien TRAN-GIRARD wrote:
+> > > This patch registers a quirk disabling keyboard backlight support
+> > > for the Dell Inspiron 1012 and 1018.
+> > >=20
+> > > Those models wrongly report supporting the KBD_LED_OFF_TOKEN and
+> > > KBD_LED_ON_TOKEN SMBIOS tokens, exposing keyboard brightness controls
+> > > through sysfs which freeze the system when used.
+> > >=20
+> > > The associated SMBIOS calls never return and cause the system to
+> > > hang, notably at boot when systemd-backlight tries to restore
+> > > previous brightness settings.
+> >=20
+> > Hi! This sounds like a firmware bug. Have you already reported it to De=
+ll?
 >=20
-> There is at least one hardware (Lenovo Yoga Book YB1-91L/F) with Micro-B
-> USB connector exists. It has INT33FE device in the DSDT table but
-> there are only two I2C connection described: PMIC and BQ27452 battery
-> fuel gauge.
+> Yes, the issue has been reported to Dell's technical support, which didn't
+> provide a satisfying answer.
+
+There were already some firmware problems with keyboard backlight and
+Mario posted this comment about Linux support:
+https://github.com/dell/libsmbios/issues/48#issuecomment-391328501
+
+Can you try to use libsmbios tools and if they do not work too, report
+problem also there?
+
+> I'm not familiar with Dell's policy, but I doubt that they would issue a
+> BIOS update for discontinued models from 2010.
+
+We need to wait what Mario wrote about this particular problem.
+
+> >=20
+> > > Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
+> > > Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+> >=20
+> > --=20
+> > Pali Rohr
+> > pali.rohar@gmail.com
 >=20
-> Splitting existing INT33FE driver allow to maintain code for USB Micro-B
-> (or AB) connector variant separately and make it simpler.
->=20
-> Split driver to intel_cht_int33fe_common.c and
-> intel_cht_int33fe_{microb,typec}.c. Compile all this sources to one .ko
-> module to make user experience easier.
->=20
-> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
+> --
+> Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
 
-This version still works for me on my typec device:
+--=20
+Pali Roh=C3=A1r
+pali.rohar@gmail.com
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
+--hve2rdbpgwpt5hzd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The code also looks good to me:
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+iF0EABECAB0WIQS4VrIQdKium2krgIWL8Mk9A+RDUgUCXYd6eQAKCRCL8Mk9A+RD
+UvCfAJ9OGlR6Lvdo/g0uHuS1xjs+xY+qYACdHJqEhlTHrOq7NT4TwVs7GLVSol4=
+=6851
+-----END PGP SIGNATURE-----
 
-Regards,
-
-Hans
-
-
-
-> ---
->   drivers/platform/x86/Kconfig                  |  10 +-
->   drivers/platform/x86/Makefile                 |   4 +
->   .../platform/x86/intel_cht_int33fe_common.c   | 147 ++++++++++++++++++
->   .../platform/x86/intel_cht_int33fe_common.h   |  41 +++++
->   .../platform/x86/intel_cht_int33fe_microb.c   |  57 +++++++
->   ...ht_int33fe.c =3D> intel_cht_int33fe_typec.c} |  78 +---------
->   6 files changed, 265 insertions(+), 72 deletions(-)
->   create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
->   create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
->   create mode 100644 drivers/platform/x86/intel_cht_int33fe_microb.c
->   rename drivers/platform/x86/{intel_cht_int33fe.c =3D> intel_cht_int33fe=
-_typec.c} (82%)
->=20
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 1b67bb578f9f..e9e5aa791caf 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -930,14 +930,20 @@ config INTEL_CHT_INT33FE
->   =09  This driver add support for the INT33FE ACPI device found on
->   =09  some Intel Cherry Trail devices.
->  =20
-> +=09  There are two kinds of INT33FE ACPI device possible: for hardware
-> +=09  with USB Type-C and Micro-B connectors. This driver supports both.
-> +
->   =09  The INT33FE ACPI device has a CRS table with I2cSerialBusV2
-> -=09  resources for 3 devices: Maxim MAX17047 Fuel Gauge Controller,
-> +=09  resources for Fuel Gauge Controller and (in the Type-C variant)
->   =09  FUSB302 USB Type-C Controller and PI3USB30532 USB switch.
->   =09  This driver instantiates i2c-clients for these, so that standard
->   =09  i2c drivers for these chips can bind to the them.
->  =20
->   =09  If you enable this driver it is advised to also select
-> -=09  CONFIG_TYPEC_FUSB302=3Dm and CONFIG_BATTERY_MAX17042=3Dm.
-> +=09  CONFIG_BATTERY_BQ27XXX=3Dm or CONFIG_BATTERY_BQ27XXX_I2C=3Dm for Mi=
-cro-B
-> +=09  device and CONFIG_TYPEC_FUSB302=3Dm and CONFIG_BATTERY_MAX17042=3Dm
-> +=09  for Type-C device.
-> +
->  =20
->   config INTEL_INT0002_VGPIO
->   =09tristate "Intel ACPI INT0002 Virtual GPIO driver"
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefil=
-e
-> index 415104033060..216d3b6fd6a7 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -61,6 +61,10 @@ obj-$(CONFIG_TOSHIBA_BT_RFKILL)=09+=3D toshiba_bluetoo=
-th.o
->   obj-$(CONFIG_TOSHIBA_HAPS)=09+=3D toshiba_haps.o
->   obj-$(CONFIG_TOSHIBA_WMI)=09+=3D toshiba-wmi.o
->   obj-$(CONFIG_INTEL_CHT_INT33FE)=09+=3D intel_cht_int33fe.o
-> +intel_cht_int33fe-objs=09=09:=3D intel_cht_int33fe_common.o \
-> +=09=09=09=09   intel_cht_int33fe_typec.o \
-> +=09=09=09=09   intel_cht_int33fe_microb.o
-> +
->   obj-$(CONFIG_INTEL_INT0002_VGPIO) +=3D intel_int0002_vgpio.o
->   obj-$(CONFIG_INTEL_HID_EVENT)=09+=3D intel-hid.o
->   obj-$(CONFIG_INTEL_VBTN)=09+=3D intel-vbtn.o
-> diff --git a/drivers/platform/x86/intel_cht_int33fe_common.c b/drivers/pl=
-atform/x86/intel_cht_int33fe_common.c
-> new file mode 100644
-> index 000000000000..42dd11623f56
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_cht_int33fe_common.c
-> @@ -0,0 +1,147 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Common code for Intel Cherry Trail ACPI INT33FE pseudo device drivers
-> + * (USB Micro-B and Type-C connector variants).
-> + *
-> + * Copyright (c) 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +#include "intel_cht_int33fe_common.h"
-> +
-> +#define EXPECTED_PTYPE=09=094
-> +
-> +static int cht_int33fe_i2c_res_filter(struct acpi_resource *ares, void *=
-data)
-> +{
-> +=09struct acpi_resource_i2c_serialbus *sb;
-> +=09int *count =3D data;
-> +
-> +=09if (i2c_acpi_get_i2c_resource(ares, &sb))
-> +=09=09(*count)++;
-> +
-> +=09return 1;
-> +}
-> +
-> +static int cht_int33fe_count_i2c_clients(struct device *dev)
-> +{
-> +=09struct acpi_device *adev;
-> +=09LIST_HEAD(resource_list);
-> +=09int count =3D 0;
-> +
-> +=09adev =3D ACPI_COMPANION(dev);
-> +=09if (!adev)
-> +=09=09return -EINVAL;
-> +
-> +=09acpi_dev_get_resources(adev, &resource_list,
-> +=09=09=09       cht_int33fe_i2c_res_filter, &count);
-> +
-> +=09acpi_dev_free_resource_list(&resource_list);
-> +
-> +=09return count;
-> +}
-> +
-> +static int cht_int33fe_check_hw_type(struct device *dev)
-> +{
-> +=09unsigned long long ptyp;
-> +=09acpi_status status;
-> +=09int ret;
-> +
-> +=09status =3D acpi_evaluate_integer(ACPI_HANDLE(dev), "PTYP", NULL, &pty=
-p);
-> +=09if (ACPI_FAILURE(status)) {
-> +=09=09dev_err(dev, "Error getting PTYPE\n");
-> +=09=09return -ENODEV;
-> +=09}
-> +
-> +=09/*
-> +=09 * The same ACPI HID is used for different configurations check PTYP
-> +=09 * to ensure that we are dealing with the expected config.
-> +=09 */
-> +=09if (ptyp !=3D EXPECTED_PTYPE)
-> +=09=09return -ENODEV;
-> +
-> +=09/* Check presence of INT34D3 (hardware-rev 3) expected for ptype =3D=
-=3D 4 */
-> +=09if (!acpi_dev_present("INT34D3", "1", 3)) {
-> +=09=09dev_err(dev, "Error PTYPE =3D=3D %d, but no INT34D3 device\n",
-> +=09=09=09EXPECTED_PTYPE);
-> +=09=09return -ENODEV;
-> +=09}
-> +
-> +=09ret =3D cht_int33fe_count_i2c_clients(dev);
-> +=09if (ret < 0)
-> +=09=09return ret;
-> +
-> +=09switch (ret) {
-> +=09case 2:
-> +=09=09return INT33FE_HW_MICROB;
-> +=09case 4:
-> +=09=09return INT33FE_HW_TYPEC;
-> +=09default:
-> +=09=09return -ENODEV;
-> +=09}
-> +}
-> +
-> +static int cht_int33fe_probe(struct platform_device *pdev)
-> +{
-> +=09struct cht_int33fe_data *data;
-> +=09struct device *dev =3D &pdev->dev;
-> +=09int ret;
-> +
-> +=09ret =3D cht_int33fe_check_hw_type(dev);
-> +=09if (ret < 0)
-> +=09=09return ret;
-> +
-> +=09data =3D devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +=09if (!data)
-> +=09=09return -ENOMEM;
-> +
-> +=09data->dev =3D dev;
-> +
-> +=09switch (ret) {
-> +=09case INT33FE_HW_MICROB:
-> +=09=09data->probe =3D cht_int33fe_microb_probe;
-> +=09=09data->remove =3D cht_int33fe_microb_remove;
-> +=09=09break;
-> +
-> +=09case INT33FE_HW_TYPEC:
-> +=09=09data->probe =3D cht_int33fe_typec_probe;
-> +=09=09data->remove =3D cht_int33fe_typec_remove;
-> +=09=09break;
-> +=09}
-> +
-> +=09platform_set_drvdata(pdev, data);
-> +
-> +=09return data->probe(data);
-> +}
-> +
-> +static int cht_int33fe_remove(struct platform_device *pdev)
-> +{
-> +=09struct cht_int33fe_data *data =3D platform_get_drvdata(pdev);
-> +
-> +=09return data->remove(data);
-> +}
-> +
-> +static const struct acpi_device_id cht_int33fe_acpi_ids[] =3D {
-> +=09{ "INT33FE", },
-> +=09{ }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, cht_int33fe_acpi_ids);
-> +
-> +static struct platform_driver cht_int33fe_driver =3D {
-> +=09.driver=09=3D {
-> +=09=09.name =3D "Intel Cherry Trail ACPI INT33FE driver",
-> +=09=09.acpi_match_table =3D ACPI_PTR(cht_int33fe_acpi_ids),
-> +=09},
-> +=09.probe =3D cht_int33fe_probe,
-> +=09.remove =3D cht_int33fe_remove,
-> +};
-> +
-> +module_platform_driver(cht_int33fe_driver);
-> +
-> +MODULE_DESCRIPTION("Intel Cherry Trail ACPI INT33FE pseudo device driver=
-");
-> +MODULE_AUTHOR("Yauhen Kharuzhy <jekhor@gmail.com>");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/platform/x86/intel_cht_int33fe_common.h b/drivers/pl=
-atform/x86/intel_cht_int33fe_common.h
-> new file mode 100644
-> index 000000000000..03cd45f4e8cb
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_cht_int33fe_common.h
-> @@ -0,0 +1,41 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Common code for Intel Cherry Trail ACPI INT33FE pseudo device drivers
-> + * (USB Micro-B and Type-C connector variants), header file
-> + *
-> + * Copyright (c) 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-> + */
-> +
-> +#ifndef _INTEL_CHT_INT33FE_COMMON_H
-> +#define _INTEL_CHT_INT33FE_COMMON_H
-> +
-> +#include <linux/device.h>
-> +#include <linux/fwnode.h>
-> +#include <linux/i2c.h>
-> +
-> +enum int33fe_hw_type {
-> +=09INT33FE_HW_MICROB,
-> +=09INT33FE_HW_TYPEC,
-> +};
-> +
-> +struct cht_int33fe_data {
-> +=09struct device *dev;
-> +
-> +=09int (*probe)(struct cht_int33fe_data *data);
-> +=09int (*remove)(struct cht_int33fe_data *data);
-> +
-> +=09struct i2c_client *battery_fg;
-> +
-> +=09/* Type-C only */
-> +=09struct i2c_client *fusb302;
-> +=09struct i2c_client *pi3usb30532;
-> +
-> +=09struct fwnode_handle *dp;
-> +};
-> +
-> +int cht_int33fe_microb_probe(struct cht_int33fe_data *data);
-> +int cht_int33fe_microb_remove(struct cht_int33fe_data *data);
-> +int cht_int33fe_typec_probe(struct cht_int33fe_data *data);
-> +int cht_int33fe_typec_remove(struct cht_int33fe_data *data);
-> +
-> +#endif /* _INTEL_CHT_INT33FE_COMMON_H */
-> diff --git a/drivers/platform/x86/intel_cht_int33fe_microb.c b/drivers/pl=
-atform/x86/intel_cht_int33fe_microb.c
-> new file mode 100644
-> index 000000000000..20b11e0d9a75
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_cht_int33fe_microb.c
-> @@ -0,0 +1,57 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Intel Cherry Trail ACPI INT33FE pseudo device driver for devices with
-> + * USB Micro-B connector (e.g. without of FUSB302 USB Type-C controller)
-> + *
-> + * Copyright (C) 2019 Yauhen Kharuzhy <jekhor@gmail.com>
-> + *
-> + * At least one Intel Cherry Trail based device which ship with Windows =
-10
-> + * (Lenovo YogaBook YB1-X91L/F tablet), have this weird INT33FE ACPI dev=
-ice
-> + * with a CRS table with 2 I2cSerialBusV2 resources, for 2 different chi=
-ps
-> + * attached to various i2c busses:
-> + * 1. The Whiskey Cove PMIC, which is also described by the INT34D3 ACPI=
- device
-> + * 2. TI BQ27542 Fuel Gauge Controller
-> + *
-> + * So this driver is a stub / pseudo driver whose only purpose is to
-> + * instantiate i2c-client for battery fuel gauge, so that standard i2c d=
-river
-> + * for these chip can bind to the it.
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +#include <linux/usb/pd.h>
-> +
-> +#include "intel_cht_int33fe_common.h"
-> +
-> +static const char * const bq27xxx_suppliers[] =3D { "bq25890-charger" };
-> +
-> +static const struct property_entry bq27xxx_props[] =3D {
-> +=09PROPERTY_ENTRY_STRING_ARRAY("supplied-from", bq27xxx_suppliers),
-> +=09{ }
-> +};
-> +
-> +int cht_int33fe_microb_probe(struct cht_int33fe_data *data)
-> +{
-> +=09struct device *dev =3D data->dev;
-> +=09struct i2c_board_info board_info;
-> +
-> +=09memset(&board_info, 0, sizeof(board_info));
-> +=09strscpy(board_info.type, "bq27542", ARRAY_SIZE(board_info.type));
-> +=09board_info.dev_name =3D "bq27542";
-> +=09board_info.properties =3D bq27xxx_props;
-> +=09data->battery_fg =3D i2c_acpi_new_device(dev, 1, &board_info);
-> +
-> +=09return PTR_ERR_OR_ZERO(data->battery_fg);
-> +}
-> +
-> +int cht_int33fe_microb_remove(struct cht_int33fe_data *data)
-> +{
-> +=09i2c_unregister_device(data->battery_fg);
-> +
-> +=09return 0;
-> +}
-> diff --git a/drivers/platform/x86/intel_cht_int33fe.c b/drivers/platform/=
-x86/intel_cht_int33fe_typec.c
-> similarity index 82%
-> rename from drivers/platform/x86/intel_cht_int33fe.c
-> rename to drivers/platform/x86/intel_cht_int33fe_typec.c
-> index 1d5d877b9582..2d097fc2dd46 100644
-> --- a/drivers/platform/x86/intel_cht_int33fe.c
-> +++ b/drivers/platform/x86/intel_cht_int33fe_typec.c
-> @@ -17,17 +17,15 @@
->    * for these chips can bind to the them.
->    */
->  =20
-> -#include <linux/acpi.h>
->   #include <linux/i2c.h>
->   #include <linux/interrupt.h>
-> -#include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/platform_device.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/slab.h>
->   #include <linux/usb/pd.h>
->  =20
-> -#define EXPECTED_PTYPE=09=094
-> +#include "intel_cht_int33fe_common.h"
->  =20
->   enum {
->   =09INT33FE_NODE_FUSB302,
-> @@ -38,14 +36,6 @@ enum {
->   =09INT33FE_NODE_MAX,
->   };
->  =20
-> -struct cht_int33fe_data {
-> -=09struct i2c_client *max17047;
-> -=09struct i2c_client *fusb302;
-> -=09struct i2c_client *pi3usb30532;
-> -
-> -=09struct fwnode_handle *dp;
-> -};
-> -
->   static const struct software_node nodes[];
->  =20
->   static const struct software_node_ref_args pi3usb30532_ref =3D {
-> @@ -251,43 +241,20 @@ cht_int33fe_register_max17047(struct device *dev, s=
-truct cht_int33fe_data *data)
->   =09strlcpy(board_info.type, "max17047", I2C_NAME_SIZE);
->   =09board_info.dev_name =3D "max17047";
->   =09board_info.fwnode =3D fwnode;
-> -=09data->max17047 =3D i2c_acpi_new_device(dev, 1, &board_info);
-> +=09data->battery_fg =3D i2c_acpi_new_device(dev, 1, &board_info);
->  =20
-> -=09return PTR_ERR_OR_ZERO(data->max17047);
-> +=09return PTR_ERR_OR_ZERO(data->battery_fg);
->   }
->  =20
-> -static int cht_int33fe_probe(struct platform_device *pdev)
-> +int cht_int33fe_typec_probe(struct cht_int33fe_data *data)
->   {
-> -=09struct device *dev =3D &pdev->dev;
-> +=09struct device *dev =3D data->dev;
->   =09struct i2c_board_info board_info;
-> -=09struct cht_int33fe_data *data;
->   =09struct fwnode_handle *fwnode;
->   =09struct regulator *regulator;
-> -=09unsigned long long ptyp;
-> -=09acpi_status status;
->   =09int fusb302_irq;
->   =09int ret;
->  =20
-> -=09status =3D acpi_evaluate_integer(ACPI_HANDLE(dev), "PTYP", NULL, &pty=
-p);
-> -=09if (ACPI_FAILURE(status)) {
-> -=09=09dev_err(dev, "Error getting PTYPE\n");
-> -=09=09return -ENODEV;
-> -=09}
-> -
-> -=09/*
-> -=09 * The same ACPI HID is used for different configurations check PTYP
-> -=09 * to ensure that we are dealing with the expected config.
-> -=09 */
-> -=09if (ptyp !=3D EXPECTED_PTYPE)
-> -=09=09return -ENODEV;
-> -
-> -=09/* Check presence of INT34D3 (hardware-rev 3) expected for ptype =3D=
-=3D 4 */
-> -=09if (!acpi_dev_present("INT34D3", "1", 3)) {
-> -=09=09dev_err(dev, "Error PTYPE =3D=3D %d, but no INT34D3 device\n",
-> -=09=09=09EXPECTED_PTYPE);
-> -=09=09return -ENODEV;
-> -=09}
-> -
->   =09/*
->   =09 * We expect the WC PMIC to be paired with a TI bq24292i charger-IC.
->   =09 * We check for the bq24292i vbus regulator here, this has 2 purpose=
-s:
-> @@ -317,10 +284,6 @@ static int cht_int33fe_probe(struct platform_device =
-*pdev)
->   =09=09return fusb302_irq;
->   =09}
->  =20
-> -=09data =3D devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> -=09if (!data)
-> -=09=09return -ENOMEM;
-> -
->   =09ret =3D cht_int33fe_add_nodes(data);
->   =09if (ret)
->   =09=09return ret;
-> @@ -365,15 +328,13 @@ static int cht_int33fe_probe(struct platform_device=
- *pdev)
->   =09=09goto out_unregister_fusb302;
->   =09}
->  =20
-> -=09platform_set_drvdata(pdev, data);
-> -
->   =09return 0;
->  =20
->   out_unregister_fusb302:
->   =09i2c_unregister_device(data->fusb302);
->  =20
->   out_unregister_max17047:
-> -=09i2c_unregister_device(data->max17047);
-> +=09i2c_unregister_device(data->battery_fg);
->  =20
->   out_remove_nodes:
->   =09cht_int33fe_remove_nodes(data);
-> @@ -381,36 +342,13 @@ static int cht_int33fe_probe(struct platform_device=
- *pdev)
->   =09return ret;
->   }
->  =20
-> -static int cht_int33fe_remove(struct platform_device *pdev)
-> +int cht_int33fe_typec_remove(struct cht_int33fe_data *data)
->   {
-> -=09struct cht_int33fe_data *data =3D platform_get_drvdata(pdev);
-> -
->   =09i2c_unregister_device(data->pi3usb30532);
->   =09i2c_unregister_device(data->fusb302);
-> -=09i2c_unregister_device(data->max17047);
-> +=09i2c_unregister_device(data->battery_fg);
->  =20
->   =09cht_int33fe_remove_nodes(data);
->  =20
->   =09return 0;
->   }
-> -
-> -static const struct acpi_device_id cht_int33fe_acpi_ids[] =3D {
-> -=09{ "INT33FE", },
-> -=09{ }
-> -};
-> -MODULE_DEVICE_TABLE(acpi, cht_int33fe_acpi_ids);
-> -
-> -static struct platform_driver cht_int33fe_driver =3D {
-> -=09.driver=09=3D {
-> -=09=09.name =3D "Intel Cherry Trail ACPI INT33FE driver",
-> -=09=09.acpi_match_table =3D ACPI_PTR(cht_int33fe_acpi_ids),
-> -=09},
-> -=09.probe =3D cht_int33fe_probe,
-> -=09.remove =3D cht_int33fe_remove,
-> -};
-> -
-> -module_platform_driver(cht_int33fe_driver);
-> -
-> -MODULE_DESCRIPTION("Intel Cherry Trail ACPI INT33FE pseudo device driver=
-");
-> -MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
-> -MODULE_LICENSE("GPL v2");
->=20
-
+--hve2rdbpgwpt5hzd--
