@@ -2,106 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C4ABADA7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Sep 2019 08:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3F4BB508
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Sep 2019 15:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392424AbfIWGG6 (ORCPT
+        id S2406972AbfIWNQp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Sep 2019 02:06:58 -0400
-Received: from mga11.intel.com ([192.55.52.93]:65031 "EHLO mga11.intel.com"
+        Mon, 23 Sep 2019 09:16:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39648 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387519AbfIWGG6 (ORCPT
+        id S2405137AbfIWNQp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Sep 2019 02:06:58 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 23:06:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; 
-   d="scan'208";a="188965441"
-Received: from shao2-debian.sh.intel.com (HELO localhost) ([10.239.13.6])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Sep 2019 23:06:54 -0700
-Date:   Mon, 23 Sep 2019 14:06:43 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Ayman Bagabas <ayman.bagabas@gmail.com>
-Cc:     kbuild-all@01.org, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Peng Hao <peng.hao2@zte.com.cn>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/6] platform/x86: huawei-wmi: Add battery charging
- thresholds
-Message-ID: <20190923060643.GE15734@shao2-debian>
+        Mon, 23 Sep 2019 09:16:45 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id BBF0AC0546D5;
+        Mon, 23 Sep 2019 13:16:44 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 355DA60BFB;
+        Mon, 23 Sep 2019 13:16:44 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Prarit Bhargava <prarit@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 0/2] intel-speed-select: Convert output to tables
+Date:   Mon, 23 Sep 2019 09:16:36 -0400
+Message-Id: <20190923131638.6668-1-prarit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190920160250.12510-5-ayman.bagabas@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Mon, 23 Sep 2019 13:16:44 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Ayman,
+The turbo ratio limits and turbo frequencies add a large amount of
+lines to the output.  The output can be truncated into human and
+machine readable tables to reduce the number of lines of output.
 
-Thank you for the patch! Perhaps something to improve:
+Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-[auto build test WARNING on next-20190918]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+Prarit Bhargava (2):
+  intel-speed-select: Display turbo-ratio-limits as a table
+  intel-speed-select: Display turbo frequencies in a table
 
-url:    https://github.com/0day-ci/linux/commits/Ayman-Bagabas/platform-x86-Huawei-WMI-laptop-extras-driver/20190921-072831
-base:   next-20190918
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
+ .../x86/intel-speed-select/isst-display.c     | 196 +++++++++---------
+ 1 file changed, 94 insertions(+), 102 deletions(-)
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+-- 
+2.21.0
 
-smatch warnings:
-drivers/platform/x86/huawei-wmi.c:327 huawei_wmi_battery_get() error: buffer overflow 'ret' 256 <= 256
-
-# https://github.com/0day-ci/linux/commit/2b04f79aef9a86ecb9483dd27a82498fa56bc0c9
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 2b04f79aef9a86ecb9483dd27a82498fa56bc0c9
-vim +/ret +327 drivers/platform/x86/huawei-wmi.c
-
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  311  
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  312  static int huawei_wmi_battery_get(int *start, int *end)
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  313  {
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  314  	u8 ret[0x100];
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  315  	int err, i;
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  316  
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  317  	err = huawei_wmi_cmd(BATTERY_THRESH_GET, ret, 0x100);
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  318  	if (err)
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  319  		return err;
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  320  
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  321  	/* Find the last two non-zero values. Return status is ignored. */
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  322  	i = 0x100;
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  323  	do {
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  324  		if (start)
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  325  			*start = ret[i-1];
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  326  		if (end)
-2b04f79aef9a86 Ayman Bagabas 2019-09-20 @327  			*end = ret[i];
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  328  	} while (i > 2 && !ret[i--]);
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  329  
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  330  	return 0;
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  331  }
-2b04f79aef9a86 Ayman Bagabas 2019-09-20  332  
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
