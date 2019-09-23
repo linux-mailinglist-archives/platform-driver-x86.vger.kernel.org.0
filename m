@@ -2,88 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E24D3BBBF1
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Sep 2019 20:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 261E8BBC5B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Sep 2019 21:45:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733183AbfIWS7O (ORCPT
+        id S1728478AbfIWTpi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Sep 2019 14:59:14 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39248 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733169AbfIWS7K (ORCPT
+        Mon, 23 Sep 2019 15:45:38 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37471 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728181AbfIWTpi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Sep 2019 14:59:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Sep 2019 11:59:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,541,1559545200"; 
-   d="scan'208";a="203187152"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Sep 2019 11:59:07 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andriy.shevchenko@intel.com
-Cc:     prarit@redhat.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 3/3] tools/power/x86/intel-speed-select: Refuse to disable core-power when getting used
-Date:   Mon, 23 Sep 2019 11:59:06 -0700
-Message-Id: <20190923185906.76032-4-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20190923185906.76032-1-srinivas.pandruvada@linux.intel.com>
-References: <20190923185906.76032-1-srinivas.pandruvada@linux.intel.com>
+        Mon, 23 Sep 2019 15:45:38 -0400
+Received: by mail-lj1-f195.google.com with SMTP id l21so14956125lje.4;
+        Mon, 23 Sep 2019 12:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=gwDAel33WMQqtovNB1KbiGxft8Ut6izN7ToSNAkleME=;
+        b=Yv9NQOxaxsUpVkjVju0Ku2Piny6tZMnztrF0hoU78XQcFyipSlHK8OH+0XJdhcAXXu
+         DfMhxaRn6eLyjdFsoSziIun7hNzxTHR3/mHoixq/4VpavE5b2zTfoFNU1tnIKJgAwYh3
+         xEGJsPqt+axA3Sh4bjN4hdpum0ewZvMQG1QsnfgVBUh0p/yROmS5Ns1eXU7w2LjZK3S/
+         jHI2od9mVIZ9YrFnTfFJ3vl4tu1IORYOIxG/KMuoOIf2CeRwXGr5hLRFdIen/Ym6+QHf
+         rkcZJ4Z4FK/dLijXrNTqxF+mb+WS5El4TTVogxz2GE8/byULkaXc6FP7msE+3IwcwAiA
+         hR9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=gwDAel33WMQqtovNB1KbiGxft8Ut6izN7ToSNAkleME=;
+        b=RVAT7lfQSVpNrvYBl0/zbWcjB+NmZR4GZGTFUV+ifWfunCFF/ii8DYwDY3/K3QVwym
+         YW1jkaQon/uT9KlZ/mx/aSNvQ0X6xJF77pAVS19wTMbTsVNzB1Ayai06VXhcwhhxZTbL
+         i9D4VlFfEr9xBFpZ2xFYVYgRpUbcms/w8OleiYGdFWSzuUP/Ta8JRPvy+EIC1gabAtg/
+         TtgTYxLHqTmft7Un4DuAoEr03fi7hx36w19S3NofFI2rDwHvmNfFjuyGWjLzT8Z5oTy7
+         +ljQuJhIRNXv1KQGBF9f5G8g4HhpOP9SLAN3Vp67DbJl1jeRCm6RIvjRmqSfFOBdkZ8e
+         sxIQ==
+X-Gm-Message-State: APjAAAXPhf2zJc3khXRPWyOmMvWLmdQ+4v6GpT40laJAzS0Kn3D9mD65
+        NcJA0UNcydEUoLkd7Lcn+NN4bFuW2CK8w8GURh85VgBCfg==
+X-Google-Smtp-Source: APXvYqyBNqDyQfdRnIKbGnBdPmHVX8SqkL5m0iS64hTwCXwrlnJPlNCSfEkI2e3BSMtAGtK3Y3JP69fPk69uPR+MvwY=
+X-Received: by 2002:a05:651c:20a:: with SMTP id y10mr586999ljn.163.1569267935769;
+ Mon, 23 Sep 2019 12:45:35 -0700 (PDT)
+MIME-Version: 1.0
+From:   Gabriel C <nix.or.die@gmail.com>
+Date:   Mon, 23 Sep 2019 21:45:05 +0200
+Message-ID: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
+Subject: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
+To:     platform-driver-x86@vger.kernel.org
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        "Lee, Chun-Yi" <jlee@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The turbo-freq feature is dependent on the core-power feature. If the
-core-power feature is disabled while the turbo-freq feature is enabled,
-this will break the turbo-freq feature. This is a firmware limitation,
-where they can't return error under this scenario.
+Hi guys,
 
-So when trying to disable core-power, make sure that the turbo-freq
-feature is not enabled. If it enabled, return error if user is trying to
-disable the core-power feature.
+I noticed some warning in dmesg on this Laptop.
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../power/x86/intel-speed-select/isst-core.c  | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Fn+right, Fn+left is BrightnessDown/Up and produce the following warning:
 
-diff --git a/tools/power/x86/intel-speed-select/isst-core.c b/tools/power/x86/intel-speed-select/isst-core.c
-index 6dee5332c9d3..67d32f2b9bea 100644
---- a/tools/power/x86/intel-speed-select/isst-core.c
-+++ b/tools/power/x86/intel-speed-select/isst-core.c
-@@ -649,6 +649,27 @@ int isst_pm_qos_config(int cpu, int enable_clos, int priority_type)
- 	unsigned int req, resp;
- 	int ret;
- 
-+	if (!enable_clos) {
-+		struct isst_pkg_ctdp pkg_dev;
-+		struct isst_pkg_ctdp_level_info ctdp_level;
-+
-+		ret = isst_get_ctdp_levels(cpu, &pkg_dev);
-+		if (ret) {
-+			debug_printf("isst_get_ctdp_levels\n");
-+			return ret;
-+		}
-+
-+		ret = isst_get_ctdp_control(cpu, pkg_dev.current_level,
-+					    &ctdp_level);
-+		if (ret)
-+			return ret;
-+
-+		if (ctdp_level.fact_enabled) {
-+			debug_printf("Turbo-freq feature must be disabled first\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	ret = isst_send_mbox_command(cpu, CONFIG_CLOS, CLOS_PM_QOS_CONFIG, 0, 0,
- 				     &resp);
- 	if (ret)
--- 
-2.17.2
+acer_wmi: Unknown function number - 4 - 0
 
+The brightness has some other issue on this Laptop but not sure
+who to blame on this. Probably amdgpu.?
+
+/sys/class/backlight/amdgpu_bl1/brightness <-> actual_brightness
+seems to mismatch.  EG: when brightness is 0 actual_brightness is still 5140.
+
+Unplugging the AC gives the following warning:
+
+acer_wmi: Unknown function number - 8 - 0
+
+When plugging the AC back I see;
+
+acer_wmi: Unknown function number - 8 - 1.
+
+I uploaded a dump of the acpi tables and dmidecode of the box.
+
+https://www.frugalware.org/~crazy/nitro5/ACPI
+https://www.frugalware.org/~crazy/nitro5/DMI
+
+Please let me know if you need any other informations.
+
+Best Regards,
+
+Gabriel C
