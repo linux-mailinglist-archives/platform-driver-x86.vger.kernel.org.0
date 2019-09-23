@@ -2,115 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9031BABA4
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 22 Sep 2019 22:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C4ABADA7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Sep 2019 08:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731879AbfIVU0T (ORCPT
+        id S2392424AbfIWGG6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 22 Sep 2019 16:26:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55494 "EHLO mail.kernel.org"
+        Mon, 23 Sep 2019 02:06:58 -0400
+Received: from mga11.intel.com ([192.55.52.93]:65031 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729448AbfIVU0T (ORCPT
+        id S2387519AbfIWGG6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 22 Sep 2019 16:26:19 -0400
-Received: from localhost (unknown [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41C2020644;
-        Sun, 22 Sep 2019 20:26:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569183978;
-        bh=ACizQUFYHGKWoMd8vZf3jhgppZadA/zQ5NL5LjTKYxk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1lpzry+VvaPNVUSq4wXF+ay/HTfQg37nhI79vgBN3yn8CtNdx4K1M7MiEHY7FOfRi
-         WCdV4u5g+DZJtvYDGT8JIFfJhidNrEAo7cGMXDZoHvs2NuRA5wiSHKiAHVaKbivGFq
-         lAWa3/ey4Krex4c2G10VVIH3jst4v7eQftl4FTSA=
-Date:   Sun, 22 Sep 2019 22:26:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Austin Kim <austindh.kim@gmail.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Hedi Berriche <hedi.berriche@hpe.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mike Travis <mike.travis@hpe.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Thomas Gleixner <tglx@linutronix.de>, allison@lohutok.net,
-        andy@infradead.org, armijn@tjaldur.nl, bp@alien8.de,
-        dvhart@infradead.org, hpa@zytor.com, kjlu@umn.edu,
-        platform-driver-x86@vger.kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH AUTOSEL 5.2 154/185] x86/platform/uv: Fix kmalloc() NULL
- check routine
-Message-ID: <20190922202611.GB2719513@kroah.com>
-References: <20190922184924.32534-1-sashal@kernel.org>
- <20190922184924.32534-154-sashal@kernel.org>
+        Mon, 23 Sep 2019 02:06:58 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 23:06:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; 
+   d="scan'208";a="188965441"
+Received: from shao2-debian.sh.intel.com (HELO localhost) ([10.239.13.6])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Sep 2019 23:06:54 -0700
+Date:   Mon, 23 Sep 2019 14:06:43 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Ayman Bagabas <ayman.bagabas@gmail.com>
+Cc:     kbuild-all@01.org, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Peng Hao <peng.hao2@zte.com.cn>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/6] platform/x86: huawei-wmi: Add battery charging
+ thresholds
+Message-ID: <20190923060643.GE15734@shao2-debian>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190922184924.32534-154-sashal@kernel.org>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190920160250.12510-5-ayman.bagabas@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Sep 22, 2019 at 02:48:52PM -0400, Sasha Levin wrote:
-> From: Austin Kim <austindh.kim@gmail.com>
-> 
-> [ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
-> 
-> The result of kmalloc() should have been checked ahead of below statement:
-> 
-> 	pqp = (struct bau_pq_entry *)vp;
-> 
-> Move BUG_ON(!vp) before above statement.
-> 
-> Signed-off-by: Austin Kim <austindh.kim@gmail.com>
-> Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
-> Cc: Hedi Berriche <hedi.berriche@hpe.com>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Mike Travis <mike.travis@hpe.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Russ Anderson <russ.anderson@hpe.com>
-> Cc: Steve Wahl <steve.wahl@hpe.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: allison@lohutok.net
-> Cc: andy@infradead.org
-> Cc: armijn@tjaldur.nl
-> Cc: bp@alien8.de
-> Cc: dvhart@infradead.org
-> Cc: gregkh@linuxfoundation.org
-> Cc: hpa@zytor.com
-> Cc: kjlu@umn.edu
-> Cc: platform-driver-x86@vger.kernel.org
-> Link: https://lkml.kernel.org/r/20190905232951.GA28779@LGEARND20B15
-> Signed-off-by: Ingo Molnar <mingo@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  arch/x86/platform/uv/tlb_uv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
-> index 0c7dfec4acac8..5a66d73620ce4 100644
-> --- a/arch/x86/platform/uv/tlb_uv.c
-> +++ b/arch/x86/platform/uv/tlb_uv.c
-> @@ -1815,9 +1815,9 @@ static void pq_init(int node, int pnode)
->  
->  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
->  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
-> -	pqp = (struct bau_pq_entry *)vp;
-> -	BUG_ON(!pqp);
-> +	BUG_ON(!vp);
->  
-> +	pqp = (struct bau_pq_entry *)vp;
->  	cp = (char *)pqp + 31;
->  	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
->  
+Hi Ayman,
 
-Please drop from everywhere.
+Thank you for the patch! Perhaps something to improve:
 
-thanks,
+[auto build test WARNING on next-20190918]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-greg k-h
+url:    https://github.com/0day-ci/linux/commits/Ayman-Bagabas/platform-x86-Huawei-WMI-laptop-extras-driver/20190921-072831
+base:   next-20190918
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+smatch warnings:
+drivers/platform/x86/huawei-wmi.c:327 huawei_wmi_battery_get() error: buffer overflow 'ret' 256 <= 256
+
+# https://github.com/0day-ci/linux/commit/2b04f79aef9a86ecb9483dd27a82498fa56bc0c9
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 2b04f79aef9a86ecb9483dd27a82498fa56bc0c9
+vim +/ret +327 drivers/platform/x86/huawei-wmi.c
+
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  311  
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  312  static int huawei_wmi_battery_get(int *start, int *end)
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  313  {
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  314  	u8 ret[0x100];
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  315  	int err, i;
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  316  
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  317  	err = huawei_wmi_cmd(BATTERY_THRESH_GET, ret, 0x100);
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  318  	if (err)
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  319  		return err;
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  320  
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  321  	/* Find the last two non-zero values. Return status is ignored. */
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  322  	i = 0x100;
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  323  	do {
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  324  		if (start)
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  325  			*start = ret[i-1];
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  326  		if (end)
+2b04f79aef9a86 Ayman Bagabas 2019-09-20 @327  			*end = ret[i];
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  328  	} while (i > 2 && !ret[i--]);
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  329  
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  330  	return 0;
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  331  }
+2b04f79aef9a86 Ayman Bagabas 2019-09-20  332  
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
