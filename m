@@ -2,225 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DD8BBC062
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Sep 2019 04:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92337BC849
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Sep 2019 14:55:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408769AbfIXCtr (ORCPT
+        id S2441036AbfIXMzW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Sep 2019 22:49:47 -0400
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:42008 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408131AbfIXCtr (ORCPT
+        Tue, 24 Sep 2019 08:55:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:46559 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395416AbfIXMzV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Sep 2019 22:49:47 -0400
-Received: by mail-ua1-f67.google.com with SMTP id r19so67287uap.9;
-        Mon, 23 Sep 2019 19:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=7PuLm4XsUDXNvaLPQfZjNtATDNXHns4lSD+JB2YvrXg=;
-        b=OCZk+gzPhiDrThBb7lyzL04h2RrNSVzZSoi5RjUro9w2YUwBQxGcIbZAVFHEe0KH3J
-         m6VpNh3hcdOOFeqVuZ39Lccxgbn5PXpUcGbG/dga+IzCFFerT/sboVV91U8fuv8v5c4w
-         Jclj5ju1Qoung282/OQ5AotzFUSNpCTijp+NhVzL3OwoZoTEa4wWkP1PwteSk7fLiIH5
-         DCx1C1KCqXh9UcSs5ITJlNkrUgvum97lk5Rbm67YanJePw8gxSP7/wdMBMI6+O4v18H+
-         KOLvi59pKaZZc9zWSbhTYKmOE6py5sgJJ1nFQF265aBTRITfAA1U8QQSvbspnJ739VtT
-         fubA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7PuLm4XsUDXNvaLPQfZjNtATDNXHns4lSD+JB2YvrXg=;
-        b=jCO3tk1rN792p6YFP72qbNZKqrboq032XPYcVe7RO/knHGjHaVPnY4mth6OQF6J0jU
-         pPJjQfcq2w1VXUf8eMCgi94JB1eKD3V59g/Xp+eb/SjwtspgirBIabmhzPv6+hcYweEA
-         G609PwPh13Kl3NlRzqgREaTmfGBuXvyrVdjpKgYBPrFP7DUuODTVBEjwZNhEVjXWEKed
-         ev3mjym3dBSOu96gAO7HHbendPPvYniWVsMej3Wn8PRjuQGx3bZIARHJ1YiSaa+LfjwO
-         WwqajjYFkY369z7RgXFCKopf4OodiKVex1xCS0pmbHbhONjQOoxxW9YPjeUcXXBW2pEh
-         tkJg==
-X-Gm-Message-State: APjAAAX7B87MKefQP5f6IJTIc/6q35aTn5PUfx7BiH125lWA4vgAtotG
-        dDlA+cZS8tclyDE7BoOEUA==
-X-Google-Smtp-Source: APXvYqzTvB687KpM3S8YhwWJ+mMNNCef3AyS1H0k+QFA5Y6MhvgYei5A6x54ooZh5Ej+ibWEDJ3PaA==
-X-Received: by 2002:ab0:77cc:: with SMTP id y12mr311990uar.110.1569293384050;
-        Mon, 23 Sep 2019 19:49:44 -0700 (PDT)
-Received: from localhost.localdomain ([2601:901:202:18cc:820:670:dd1:f572])
-        by smtp.gmail.com with ESMTPSA id o16sm46547uar.2.2019.09.23.19.49.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2019 19:49:43 -0700 (PDT)
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Peng Hao <peng.hao2@zte.com.cn>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/6] platform/x86: huawei-wmi: Add debugfs support
-Date:   Mon, 23 Sep 2019 22:48:11 -0400
-Message-Id: <20190924024821.497-7-ayman.bagabas@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190924024821.497-1-ayman.bagabas@gmail.com>
-References: <20190924024821.497-1-ayman.bagabas@gmail.com>
+        Tue, 24 Sep 2019 08:55:21 -0400
+Received: from [192.168.1.110] ([95.114.122.209]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mvbr4-1hvuHu0Nh0-00sh60; Tue, 24 Sep 2019 14:55:20 +0200
+To:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Subject: Portege Z930 extra keys and leds
+Organization: metux IT consult
+Message-ID: <09e715a0-08d2-100d-4bc3-c4f6c87f2a98@metux.net>
+Date:   Tue, 24 Sep 2019 14:55:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:UOtB/iGkhXcNR2BZbMPmAZ0fHg4wQxTbYIoeGQ53EylKibPTAFt
+ G1P0ZnuNCgtsKK0cC4u3ItXfZNL7xIOMcRp8SXjuybK1+U77ygL4390hM/3fVGRftTgyYyE
+ Ju4swvvs72IQxewtwbFXm0JrxTk6gD6XFtb0jVLh6A0c8wA/qt7ugUbBzI6RtiAaRZ8kHPW
+ B1ahgvvT5KLZxm/rvFJNQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:92czqRed0WA=:dbAyzHGkptE+ARtzgy3NwU
+ 3cG9pSMEqeDj/cS5DXzQpFEAb+nOIjWJ2UoHanm8mlQcpZZyRVDnJeKZfdwnQgNMKJk19MicZ
+ B7JoAz93W+TvB/rUugq+H2vp+l9VF2pI/Zkulwx/kYKiEat0xWhMSz6aWrlU7p8XkFMMZN61Y
+ XYbpYMeS/2CdfJOp+0/3LYMljwOoRZb353QrvjBbK/o/EEWjcSSSZYvnz9pTc8ldpdtdOkqIZ
+ S762jItWWM2XCW8IOhWaUcMoQ2PJmlj/KibXr68B9H11LZhglXDMER+SGgu4f+xuk18gPV+B1
+ 9Om9TPpZ0ppr404B6ot4IlfDu4RXddiY72SDhzpsLAmGQOodOrMfr/xP5YccEIL2cquZt1RxJ
+ L0vgXbKuamycUqZmJ1tN07KSLBdrBKw7IOfcpqP7Zjj8g7yWwXImx6LSCjkWhcdQoqZaK7kMa
+ 6UudLlCZb/BwNquhmeXAk9NFWCKYu9EickzLiSodZHvFysmrWlPNMd04oag6hRXnu617MdZw7
+ lL1HZYXyrOYcLTehH3KkKkSmZBeYPNBcre52gvVS7oexAWnrNKefeUIBhT+oSb1Gknr/obr/C
+ 3MQpClG9Wfv0hzfrLInviJS66YV+ZZ85ZbP9B3GBxeeYPkWf14kQYEn85yZtCK82EXHAkhFhQ
+ 9v7N4YtHZnZ4JCT2TdzTVCIGrmntqkVQGiH2Kje49zC8nMTLSh3Atso9Og4mqiaHPWRwgTSAT
+ F7YiGt38HKwPoUkgl7E4HDBtkNhsv+qrtA9o040kqrbeFs89S1hfiWy9R7igO1Eq8aW07o9t+
+ M2zwmpvnpM1qMnTB+BjeybqsvJt6Sc1Cgql7PNT8de7DZh8StbEwdhPbpS1QsF+fVp6hT9q53
+ 3kVis/PSuXaFcO5gE//g==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add a debugfs interface that can be used to call the WMI management
-interface function if available.
+Hello folks,
 
-Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
----
- drivers/platform/x86/huawei-wmi.c | 97 +++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index d550c63fcba7..6720f78c60c2 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/dmi.h>
- #include <linux/input.h>
-@@ -52,10 +53,16 @@ struct quirk_entry {
- 
- static struct quirk_entry *quirks;
- 
-+struct huawei_wmi_debug {
-+	struct dentry *root;
-+	u64 arg;
-+};
-+
- struct huawei_wmi {
- 	bool battery_available;
- 	bool fn_lock_available;
- 
-+	struct huawei_wmi_debug debug;
- 	struct input_dev *idev[2];
- 	struct led_classdev cdev;
- 	struct platform_device *pdev;
-@@ -592,6 +599,94 @@ static void huawei_wmi_fn_lock_exit(struct device *dev)
- 		device_remove_file(dev, &dev_attr_fn_lock_state);
- }
- 
-+/* debugfs */
-+
-+static void huawei_wmi_debugfs_call_dump(struct seq_file *m, void *data,
-+		union acpi_object *obj)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	int i;
-+
-+	switch (obj->type) {
-+	case ACPI_TYPE_INTEGER:
-+		seq_printf(m, "0x%llx", obj->integer.value);
-+		break;
-+	case ACPI_TYPE_STRING:
-+		seq_printf(m, "\"%*s\"", obj->string.length, obj->string.pointer);
-+		break;
-+	case ACPI_TYPE_BUFFER:
-+		seq_puts(m, "{");
-+		for (i = 0; i < obj->buffer.length; i++) {
-+			seq_printf(m, "0x%02x", obj->buffer.pointer[i]);
-+			if (i < obj->buffer.length - 1)
-+				seq_puts(m, ",");
-+		}
-+		seq_puts(m, "}");
-+		break;
-+	case ACPI_TYPE_PACKAGE:
-+		seq_puts(m, "[");
-+		for (i = 0; i < obj->package.count; i++) {
-+			huawei_wmi_debugfs_call_dump(m, huawei, &obj->package.elements[i]);
-+			if (i < obj->package.count - 1)
-+				seq_puts(m, ",");
-+		}
-+		seq_puts(m, "]");
-+		break;
-+	default:
-+		dev_err(&huawei->pdev->dev, "Unexpected obj type, got %d\n", obj->type);
-+		return;
-+	}
-+}
-+
-+static int huawei_wmi_debugfs_call_show(struct seq_file *m, void *data)
-+{
-+	struct huawei_wmi *huawei = m->private;
-+	struct acpi_buffer out = { ACPI_ALLOCATE_BUFFER, NULL };
-+	struct acpi_buffer in;
-+	union acpi_object *obj;
-+	int err;
-+
-+	in.length = sizeof(u64);
-+	in.pointer = &huawei->debug.arg;
-+
-+	err = huawei_wmi_call(&in, &out);
-+	if (err)
-+		return err;
-+
-+	obj = out.pointer;
-+	if (!obj) {
-+		err = -EIO;
-+		goto fail_debugfs_call;
-+	}
-+
-+	huawei_wmi_debugfs_call_dump(m, huawei, obj);
-+
-+fail_debugfs_call:
-+	kfree(out.pointer);
-+	return err;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(huawei_wmi_debugfs_call);
-+
-+static void huawei_wmi_debugfs_setup(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+
-+	huawei->debug.root = debugfs_create_dir("huawei-wmi", NULL);
-+
-+	debugfs_create_x64("arg", 0644, huawei->debug.root,
-+		&huawei->debug.arg);
-+	debugfs_create_file("call", 0400,
-+		huawei->debug.root, huawei, &huawei_wmi_debugfs_call_fops);
-+}
-+
-+static void huawei_wmi_debugfs_exit(struct device *dev)
-+{
-+	struct huawei_wmi *huawei = dev_get_drvdata(dev);
-+
-+	debugfs_remove_recursive(huawei->debug.root);
-+}
-+
- /* Input */
- 
- static void huawei_wmi_process_key(struct input_dev *idev, int code)
-@@ -717,6 +812,7 @@ static int huawei_wmi_probe(struct platform_device *pdev)
- 		huawei_wmi_leds_setup(&pdev->dev);
- 		huawei_wmi_fn_lock_setup(&pdev->dev);
- 		huawei_wmi_battery_setup(&pdev->dev);
-+		huawei_wmi_debugfs_setup(&pdev->dev);
- 	}
- 
- 	return 0;
-@@ -734,6 +830,7 @@ static int huawei_wmi_remove(struct platform_device *pdev)
- 	}
- 
- 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
-+		huawei_wmi_debugfs_exit(&pdev->dev);
- 		huawei_wmi_battery_exit(&pdev->dev);
- 		huawei_wmi_fn_lock_exit(&pdev->dev);
- 	}
+does anybody happen to know how to drive the extra keys and leds
+of Toshiba Portege Z930 notebook ?
+
+It has two extra keys above the keyboard (right next to the power
+button) and some indicator leds underneath the touch panel buttons.
+
+Toshiba originally ships the notebook with some strange Windows software
+(for some mysterious "ECO" mode) that reacts on these two buttons and
+drives at least the rightmost LED directly - so there has to be *some*
+way to control them by software.
+
+When in a terminal (on the console only when /dev/input/event10 -
+"Toshiba input device" is opened), both keys seem to generate an "x"
+keypress, but nothing coming in in the event device.
+
+Does anybody have an idea how to catch these key press events or
+how to drive this myserious ("ECO") led ?
+
+
+thx
+--mtx
+
+
+PS: tried on an older 4.14 kernel - haven't had a chance to upgrade
+the notebook to something more recent :o
 -- 
-2.21.0
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
