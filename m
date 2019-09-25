@@ -2,132 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E72ABDB60
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 11:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DD9BBD964
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 09:53:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728883AbfIYJsW (ORCPT
+        id S2437451AbfIYHxT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 25 Sep 2019 05:48:22 -0400
-Received: from drt.pacien.net ([5.2.64.213]:60442 "EHLO drt.pacien.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728683AbfIYJsW (ORCPT
+        Wed, 25 Sep 2019 03:53:19 -0400
+Received: from m4a0040g.houston.softwaregrp.com ([15.124.2.86]:40609 "EHLO
+        m4a0040g.houston.softwaregrp.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2633991AbfIYHxT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 25 Sep 2019 05:48:22 -0400
-Received: from lsn.pacien.net (mail.kea [10.0.3.108])
-        by drt.pacien.net (OpenSMTPD) with ESMTP id dd0b71fb;
-        Wed, 25 Sep 2019 09:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pacien.net;
-         s=lsn.pacien.net; h=Date:Message-ID:Cc:In-Reply-To:Subject:From:
-        Content-Transfer-Encoding:MIME-Version:Content-Type:Reply-To:To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=k5vM3iqTrJFHvMei5yw/jf63ySBSFhk36kIUWh5YeVw=; b=pERwqMKNUuPozpM/4UHdX/s4uj
-        qrvjxZnWPq1G0JyOl+92dL9ONg9Hn4xbwNfHHSiZAZTSepY0tbfJEHA//Awd2piv1to55Jmr1wunq
-        uJamQYi3hF45Zq5fgRls19Ka3VwG2s2oaM/XdXCCq/fmetvmMmwAlr6ugjM+AKxT90/lr6YxntCtF
-        ZEHNRafB71gZG1b7zJO0vMOPFKi4peEQX4pMvtv/TGgJA/dKl5oOQP4vMO7U1q2EL/CXveVvlrQh3
-        eOnILMmx3f527FGR5X/AYOvBWNiP3leE7J+TZVx3uQypvq8j2A8kuTwMuPcbTddJoCZP5QYXHXe/o
-        BOb2SClg==;
-Received: from warfstation.kea ([10.1.1.1] helo=localhost)
-        by lsn.pacien.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.2)
-        (envelope-from <pacien.trangirard@pacien.net>)
-        id 1iD3uE-0008Lc-8n; Wed, 25 Sep 2019 09:48:18 +0000
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-From:   Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
-Date:   Thu, 12 Sep 2019 00:07:45 +0200
-Subject: [PATCH v2] platform/x86: dell-laptop: fix broken kbd backlight on Inspiron 10xx
-In-Reply-To: <20190925082149.yjhmmb64i4h6sddi@pali>
-Cc:     Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>,
-        Mario Limonciello <Mario.Limonciello@dell.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Darren Hart <dvhart@infradead.org>,
+        Wed, 25 Sep 2019 03:53:19 -0400
+Received: FROM m4a0040g.houston.softwaregrp.com (15.120.17.147) BY m4a0040g.houston.softwaregrp.com WITH ESMTP;
+ Wed, 25 Sep 2019 07:52:18 +0000
+Received: from M9W0067.microfocus.com (2002:f79:be::f79:be) by
+ M4W0335.microfocus.com (2002:f78:1193::f78:1193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10; Wed, 25 Sep 2019 07:50:42 +0000
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (15.124.72.10) by
+ M9W0067.microfocus.com (15.121.0.190) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10 via Frontend Transport; Wed, 25 Sep 2019 07:50:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xvk0b0SdVGAOJNUZVkr/+DilJ3kUvWCZP35fNFpfBqH8kK7tKfVmwFhr5FVdf/Vj08C25fCGRWgFgA/3A95+XG8dczyZP1wxYLsTY11lP3/sXlQwkjr8hJnrp9M+QlFIx5vIqCQ9dYvLNokckEgvkMQ6tco39l2rfJE7oqYU1i5Q+tOnQD2XhOCZn2OeVW6U3JSfqQKaR0u11qXqEoUmOdPc8WmLm8GsJjyvcvA9EpeanjA1Jh82vNw6RQgKRQTZYYNYLDvo3WzNytqg8mki1Q3dQzEpbRDvlTd7gY5Kr8HzuUlUXlwgyQi3/bHwpR+esFFE1yZroF7TejlT2aTRAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eois5P32oIZv0K9DssAPNxTCkJ2DGjSmxNLh9Qo2MPM=;
+ b=WReTtKzqshS4lzDBeuN40K3QZ4IWoOOJWh9yI/Bvxgay1sXGUAg9TiUUBX8XYpM+kBvqnGzTm7zfr+fJ9wIQeUJksy41DEsI49rFYQpGPTlP5X9K4d57NCv/vayqEn3CBk4KkNXIzCwjupaVojo2PnhI0Cpo9I5fYCi37Tbel6PWxYORT5BIMEJXk85lEEs6Yc4uAx78UJCx/acwZvOFSURUlGgQ0fnt/SWgZ36DFMP3u02ey1YTzshpn8AjvDm49GJXwsddX+Zdy7cE+G5om8gjBOILoH9C34SAQ6JVR2KM28k9w8caCS5QP+YuloX6NPjZ303fa3eSJgdMIBrKbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Received: from MN2PR18MB2736.namprd18.prod.outlook.com (20.179.23.30) by
+ MN2PR18MB2685.namprd18.prod.outlook.com (20.179.82.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.20; Wed, 25 Sep 2019 07:50:36 +0000
+Received: from MN2PR18MB2736.namprd18.prod.outlook.com
+ ([fe80::a4a5:349f:5e99:fbaf]) by MN2PR18MB2736.namprd18.prod.outlook.com
+ ([fe80::a4a5:349f:5e99:fbaf%5]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
+ 07:50:36 +0000
+From:   Joey Lee <JLee@suse.com>
+To:     Gabriel C <nix.or.die@gmail.com>
+CC:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <156940489220.8635.14349142383780268583@WARFSTATION>
-Date:   Wed, 25 Sep 2019 11:48:12 +0200
-To:     unlisted-recipients:; (no To-header on input)
+        Darren Hart <dvhart@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
+Thread-Topic: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
+Thread-Index: AQHVckeCx20Ww7D6Ok6go3mJWdsWyac8BzoA
+Date:   Wed, 25 Sep 2019 07:50:36 +0000
+Message-ID: <20190925075026.GY3878@linux-l9pv.suse>
+References: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
+In-Reply-To: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: LO2P265CA0101.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:c::17) To MN2PR18MB2736.namprd18.prod.outlook.com
+ (2603:10b6:208:a4::30)
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=JLee@suse.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [60.251.47.116]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 33bcc37f-1b61-4fbc-2f08-08d7418d0d5b
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:MN2PR18MB2685;
+x-ms-traffictypediagnostic: MN2PR18MB2685:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <MN2PR18MB2685402CEF901AEB10C120D6A3870@MN2PR18MB2685.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:758;
+x-forefront-prvs: 01713B2841
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(396003)(346002)(136003)(366004)(199004)(189003)(1076003)(5660300002)(81156014)(99286004)(55236004)(52116002)(76176011)(26005)(6506007)(102836004)(386003)(186003)(446003)(11346002)(476003)(486006)(66446008)(64756008)(66556008)(66476007)(66946007)(7736002)(54906003)(14454004)(80792005)(966005)(25786009)(81166006)(8676002)(478600001)(36756003)(316002)(71200400001)(71190400001)(256004)(14444005)(6916009)(305945005)(33656002)(86362001)(8936002)(4326008)(6246003)(66066001)(6306002)(6436002)(6512007)(9686003)(6486002)(3846002)(6116002)(229853002)(2906002);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR18MB2685;H:MN2PR18MB2736.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: suse.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: si4p/fZ27J0LtuHl2icJ/ykSnoACjXlE01n2FJDmKO4LQS8BhYuBIw5+bDjanl/EGN0JhaU2xpHFSb9LBEGdDYORCQWsoukOoaL75l1H4eCQe4mdVG+zkmX5imYaheBjgi3pmxQxGYruwtD3FdfedUAsL9wvB0niXTzLpRRfS1CCuMaJc2f79/8gIh1i++u5LvFinz0ZGNHMbOQGfbEw0dM+WmQ/swwlVHeBTfI8d1gPOIB3MttJZz81Kallp/Omyh+PfOoxJZrRmWjTWYi7B8JKBMF+7FrR6dSPOMdk4AGKV/r7Du1KDnZwRGQD89Gg8rppD2PM4Rn5/Oz/vpSKKkoN8jrltNYpBvPNeZ1QD1U+HP6AHTvHVgQwNgeDIKYYYXZg4sWqQ/+zB/jVqfSOcRCiOltDba568bnH76SL1upVccCCJ+iX+Jh2kLvFflJ2r1Er2gp+sBmvN7+MQCIGQQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E5B6AC137F0D9645BF47A0B0835B6F54@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33bcc37f-1b61-4fbc-2f08-08d7418d0d5b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 07:50:36.8976
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rH8PXpCIwAw91vpopNh255ipBIQUfejMGJ7t83nolpPuSeHK31gklVGNT2mXzDA2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2685
+X-OriginatorOrg: suse.com
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This patch adds a quirk disabling keyboard backlight support for the
-Dell Inspiron 1012 and 1018.
+Hi Gabriel,
 
-Those models wrongly report supporting keyboard backlight control
-features (through SMBIOS tokens) even though they're not equipped with
-a backlit keyboard. This led to broken controls being exposed
-through sysfs by this driver which froze the system when used.
+On Mon, Sep 23, 2019 at 09:45:05PM +0200, Gabriel C wrote:
+> Hi guys,
+> 
+> I noticed some warning in dmesg on this Laptop.
+> 
+> Fn+right, Fn+left is BrightnessDown/Up and produce the following warning:
+> 
+> acer_wmi: Unknown function number - 4 - 0
+> 
+> The brightness has some other issue on this Laptop but not sure
+> who to blame on this. Probably amdgpu.?
+> 
+> /sys/class/backlight/amdgpu_bl1/brightness <-> actual_brightness
+> seems to mismatch.  EG: when brightness is 0 actual_brightness is still 5140.
+>
 
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
-Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
----
- drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Base on _BCM and _BQC in your DSDT. The backlight control is handled by EC.
+But, in some Acer machines that the _BCM is broken. You can try to modify
+brighess by echo to sys/class/backlight/acpi_video0/brightness
+ 
+> Unplugging the AC gives the following warning:
+> 
+> acer_wmi: Unknown function number - 8 - 0
+> 
+> When plugging the AC back I see;
+> 
+> acer_wmi: Unknown function number - 8 - 1.
+> 
+> I uploaded a dump of the acpi tables and dmidecode of the box.
+> 
+> https://www.frugalware.org/~crazy/nitro5/ACPI
+> https://www.frugalware.org/~crazy/nitro5/DMI
+> 
+> Please let me know if you need any other informations.
+>
 
-diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell=
--laptop.c
-index d27be2836bc2..ffe5abbdadda 100644
---- a/drivers/platform/x86/dell-laptop.c
-+++ b/drivers/platform/x86/dell-laptop.c
-@@ -33,6 +33,7 @@
-=20
- struct quirk_entry {
- 	bool touchpad_led;
-+	bool kbd_broken_backlight;
- 	bool kbd_led_levels_off_1;
- 	bool kbd_missing_ac_tag;
-=20
-@@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 =3D {
- 	.kbd_led_levels_off_1 =3D true,
- };
-=20
-+static struct quirk_entry quirk_dell_inspiron_1012 =3D {
-+	.kbd_broken_backlight =3D true,
-+};
-+
- static struct platform_driver platform_driver =3D {
- 	.driver =3D {
- 		.name =3D "dell-laptop",
-@@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __init=
-const =3D {
- 		},
- 		.driver_data =3D &quirk_dell_latitude_e6410,
- 	},
-+	{
-+		.callback =3D dmi_matched,
-+		.ident =3D "Dell Inspiron 1012",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
-+		},
-+		.driver_data =3D &quirk_dell_inspiron_1012,
-+	},
-+	{
-+		.callback =3D dmi_matched,
-+		.ident =3D "Dell Inspiron 1018",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
-+		},
-+		.driver_data =3D &quirk_dell_inspiron_1012,
-+	},
- 	{ }
- };
-=20
-@@ -2040,6 +2063,9 @@ static int __init kbd_led_init(struct device *dev)
- {
- 	int ret;
-=20
-+	if (quirks && quirks->kbd_broken_backlight)
-+		return -ENODEV;
-+
- 	kbd_init();
- 	if (!kbd_led_present)
- 		return -ENODEV;
---=20
-2.19.2
+Thanks for your report the behavior for the function 4 and function 8.
+Maybe we can use the platform event to do something. e.g. expose key code
+to userland. Unfortunately my working list is too long that I do not have
+time for it currently.
+
+Thanks a lot!
+Joey Lee 
