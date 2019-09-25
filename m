@@ -2,143 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DD9BBD964
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 09:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A19BD98A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 10:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437451AbfIYHxT convert rfc822-to-8bit (ORCPT
+        id S2406488AbfIYIHr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 25 Sep 2019 03:53:19 -0400
-Received: from m4a0040g.houston.softwaregrp.com ([15.124.2.86]:40609 "EHLO
-        m4a0040g.houston.softwaregrp.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2633991AbfIYHxT (ORCPT
+        Wed, 25 Sep 2019 04:07:47 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45322 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405820AbfIYIHr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 25 Sep 2019 03:53:19 -0400
-Received: FROM m4a0040g.houston.softwaregrp.com (15.120.17.147) BY m4a0040g.houston.softwaregrp.com WITH ESMTP;
- Wed, 25 Sep 2019 07:52:18 +0000
-Received: from M9W0067.microfocus.com (2002:f79:be::f79:be) by
- M4W0335.microfocus.com (2002:f78:1193::f78:1193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10; Wed, 25 Sep 2019 07:50:42 +0000
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (15.124.72.10) by
- M9W0067.microfocus.com (15.121.0.190) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10 via Frontend Transport; Wed, 25 Sep 2019 07:50:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xvk0b0SdVGAOJNUZVkr/+DilJ3kUvWCZP35fNFpfBqH8kK7tKfVmwFhr5FVdf/Vj08C25fCGRWgFgA/3A95+XG8dczyZP1wxYLsTY11lP3/sXlQwkjr8hJnrp9M+QlFIx5vIqCQ9dYvLNokckEgvkMQ6tco39l2rfJE7oqYU1i5Q+tOnQD2XhOCZn2OeVW6U3JSfqQKaR0u11qXqEoUmOdPc8WmLm8GsJjyvcvA9EpeanjA1Jh82vNw6RQgKRQTZYYNYLDvo3WzNytqg8mki1Q3dQzEpbRDvlTd7gY5Kr8HzuUlUXlwgyQi3/bHwpR+esFFE1yZroF7TejlT2aTRAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eois5P32oIZv0K9DssAPNxTCkJ2DGjSmxNLh9Qo2MPM=;
- b=WReTtKzqshS4lzDBeuN40K3QZ4IWoOOJWh9yI/Bvxgay1sXGUAg9TiUUBX8XYpM+kBvqnGzTm7zfr+fJ9wIQeUJksy41DEsI49rFYQpGPTlP5X9K4d57NCv/vayqEn3CBk4KkNXIzCwjupaVojo2PnhI0Cpo9I5fYCi37Tbel6PWxYORT5BIMEJXk85lEEs6Yc4uAx78UJCx/acwZvOFSURUlGgQ0fnt/SWgZ36DFMP3u02ey1YTzshpn8AjvDm49GJXwsddX+Zdy7cE+G5om8gjBOILoH9C34SAQ6JVR2KM28k9w8caCS5QP+YuloX6NPjZ303fa3eSJgdMIBrKbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Received: from MN2PR18MB2736.namprd18.prod.outlook.com (20.179.23.30) by
- MN2PR18MB2685.namprd18.prod.outlook.com (20.179.82.223) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Wed, 25 Sep 2019 07:50:36 +0000
-Received: from MN2PR18MB2736.namprd18.prod.outlook.com
- ([fe80::a4a5:349f:5e99:fbaf]) by MN2PR18MB2736.namprd18.prod.outlook.com
- ([fe80::a4a5:349f:5e99:fbaf%5]) with mapi id 15.20.2284.023; Wed, 25 Sep 2019
- 07:50:36 +0000
-From:   Joey Lee <JLee@suse.com>
-To:     Gabriel C <nix.or.die@gmail.com>
-CC:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
-Thread-Topic: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
-Thread-Index: AQHVckeCx20Ww7D6Ok6go3mJWdsWyac8BzoA
-Date:   Wed, 25 Sep 2019 07:50:36 +0000
-Message-ID: <20190925075026.GY3878@linux-l9pv.suse>
-References: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
-In-Reply-To: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: LO2P265CA0101.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:c::17) To MN2PR18MB2736.namprd18.prod.outlook.com
- (2603:10b6:208:a4::30)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=JLee@suse.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [60.251.47.116]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 33bcc37f-1b61-4fbc-2f08-08d7418d0d5b
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:MN2PR18MB2685;
-x-ms-traffictypediagnostic: MN2PR18MB2685:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <MN2PR18MB2685402CEF901AEB10C120D6A3870@MN2PR18MB2685.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:758;
-x-forefront-prvs: 01713B2841
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(396003)(346002)(136003)(366004)(199004)(189003)(1076003)(5660300002)(81156014)(99286004)(55236004)(52116002)(76176011)(26005)(6506007)(102836004)(386003)(186003)(446003)(11346002)(476003)(486006)(66446008)(64756008)(66556008)(66476007)(66946007)(7736002)(54906003)(14454004)(80792005)(966005)(25786009)(81166006)(8676002)(478600001)(36756003)(316002)(71200400001)(71190400001)(256004)(14444005)(6916009)(305945005)(33656002)(86362001)(8936002)(4326008)(6246003)(66066001)(6306002)(6436002)(6512007)(9686003)(6486002)(3846002)(6116002)(229853002)(2906002);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR18MB2685;H:MN2PR18MB2736.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: suse.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: si4p/fZ27J0LtuHl2icJ/ykSnoACjXlE01n2FJDmKO4LQS8BhYuBIw5+bDjanl/EGN0JhaU2xpHFSb9LBEGdDYORCQWsoukOoaL75l1H4eCQe4mdVG+zkmX5imYaheBjgi3pmxQxGYruwtD3FdfedUAsL9wvB0niXTzLpRRfS1CCuMaJc2f79/8gIh1i++u5LvFinz0ZGNHMbOQGfbEw0dM+WmQ/swwlVHeBTfI8d1gPOIB3MttJZz81Kallp/Omyh+PfOoxJZrRmWjTWYi7B8JKBMF+7FrR6dSPOMdk4AGKV/r7Du1KDnZwRGQD89Gg8rppD2PM4Rn5/Oz/vpSKKkoN8jrltNYpBvPNeZ1QD1U+HP6AHTvHVgQwNgeDIKYYYXZg4sWqQ/+zB/jVqfSOcRCiOltDba568bnH76SL1upVccCCJ+iX+Jh2kLvFflJ2r1Er2gp+sBmvN7+MQCIGQQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E5B6AC137F0D9645BF47A0B0835B6F54@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        Wed, 25 Sep 2019 04:07:47 -0400
+Received: by mail-pl1-f193.google.com with SMTP id u12so2061964pls.12;
+        Wed, 25 Sep 2019 01:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=I9xTtNwt/ddRBRmVEa6PjbkYWK8+44/EROKOCF09I4E=;
+        b=FnMdEFq2NIVbnFZRgogBOoKNlAk7UQ1uFwN1UmbbAIbbHtmevrwcSS0FtIP097bW2j
+         RYfYUTpgLp8usBIXdLx4eLQJO2eb4n/l1K20qUWO8nOx3gkAzpda7nnDJ8egOtxTFN7/
+         b1Vqj13V3YToUF6IuV/5LeZu0x1Cmp2eDCKaJqso62vTNBMnnxH2dVG0jD5lM0nKQJ4n
+         QMTe/1tTqut5KQkkrwVnlaDbXVL6cTJbzDQjXESEQh7Z8aRIwUHCW+4Ppu/+XZhAu8a3
+         FW9yAILeemJE8gNCtEL34PzBu0Wbuncg5dSBuL6jImDZ86FI64yOGZWBUMvM9c8JkcJ6
+         fv5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=I9xTtNwt/ddRBRmVEa6PjbkYWK8+44/EROKOCF09I4E=;
+        b=U8ioSo4bWiEaS1qFv4ri6WEapwVMpuW5NWj2F6YKE3XKHvxKhsbd2cqObrmGN1IjFs
+         bxePCZyRnfLwn9ycLg48SdTHCLWS2TOOYhW1AsEz7XhHzJ9wXL4r8Ii4QAOXDhA4pOgU
+         M1ReW1lMW/4kPtp5I5tjwcaO6YfWeTQFsBRbSM9qoaDMKnkBbkLdFFBMCgbxWwA7OT4Z
+         5DyEyzlxQwzkDP1ocWqPdTPETudQ+h+iSvM2gGQ506JIbtkm2ToenSIQGY3/7rUD841k
+         nagN2HWrMJCBDdphvat/cIYkWvCn/wu/wkcYxr5rKDsUHm+Z0gygDFWye44z3C9bsIur
+         ymaA==
+X-Gm-Message-State: APjAAAV+I2pokk3ZZ/Xc8U7MlfiQDK9vW4eMXB70E4AcYE5rAEuzBuMY
+        Tlnkp28WHWb76TjcdNlpFkuti8pUnszXYYglyzk=
+X-Google-Smtp-Source: APXvYqx/NhfLui6xTKQiaj/7wEEQlMArZPw8hSSqB/XWTSjN+xlNNkkowlHUbqD+QVq2l7DiHZ/v08C83T1aPYeaXWw=
+X-Received: by 2002:a17:902:b110:: with SMTP id q16mr7591414plr.262.1569398866679;
+ Wed, 25 Sep 2019 01:07:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33bcc37f-1b61-4fbc-2f08-08d7418d0d5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2019 07:50:36.8976
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rH8PXpCIwAw91vpopNh255ipBIQUfejMGJ7t83nolpPuSeHK31gklVGNT2mXzDA2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2685
-X-OriginatorOrg: suse.com
+References: <156824368856.28378.14511879419677114177@WARFSTATION>
+ <20190912073358.n5bxqosowhky5uhb@pali> <156882055514.9370.16951540573597044820@WARFSTATION>
+ <20190922134323.mowwoyeuqoalpwsg@pali> <baba1f72c68f4699955d2b7a52df65e1@AUSX13MPC105.AMER.DELL.COM>
+In-Reply-To: <baba1f72c68f4699955d2b7a52df65e1@AUSX13MPC105.AMER.DELL.COM>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 25 Sep 2019 11:07:35 +0300
+Message-ID: <CAHp75VfjhuFzTRg7X_ici6ACj54sQKH0mR8x9M-XAYk5cbTQ7g@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: dell-laptop: fix phantom kbd backlight on
+ Inspiron 10xx
+To:     Mario Limonciello <Mario.Limonciello@dell.com>
+Cc:     =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Gabriel,
+On Mon, Sep 23, 2019 at 4:24 PM <Mario.Limonciello@dell.com> wrote:
+> > From: Pali Roh=C3=A1r <pali.rohar@gmail.com>
+> > Sent: Sunday, September 22, 2019 8:43 AM
+> > To: Pacien TRAN-GIRARD
+> > Cc: Matthew Garrett; Darren Hart; Andy Shevchenko; platform-driver-
+> > x86@vger.kernel.org; linux-kernel@vger.kernel.org; Limonciello, Mario
+> > Subject: Re: [PATCH] platform/x86: dell-laptop: fix phantom kbd backlig=
+ht on
+> > Inspiron 10xx
 
-On Mon, Sep 23, 2019 at 09:45:05PM +0200, Gabriel C wrote:
-> Hi guys,
-> 
-> I noticed some warning in dmesg on this Laptop.
-> 
-> Fn+right, Fn+left is BrightnessDown/Up and produce the following warning:
-> 
-> acer_wmi: Unknown function number - 4 - 0
-> 
-> The brightness has some other issue on this Laptop but not sure
-> who to blame on this. Probably amdgpu.?
-> 
-> /sys/class/backlight/amdgpu_bl1/brightness <-> actual_brightness
-> seems to mismatch.  EG: when brightness is 0 actual_brightness is still 5140.
+> > We need to wait what Mario wrote about this particular problem.
+> >
 >
+> I agree an Inspiron is unlikely to be updated 9 years later.  I think the=
+ right thing
+> to do in this instance is to blacklist this particular platform in kernel=
+ driver.
 
-Base on _BCM and _BQC in your DSDT. The backlight control is handled by EC.
-But, in some Acer machines that the _BCM is broken. You can try to modify
-brighess by echo to sys/class/backlight/acpi_video0/brightness
- 
-> Unplugging the AC gives the following warning:
-> 
-> acer_wmi: Unknown function number - 8 - 0
-> 
-> When plugging the AC back I see;
-> 
-> acer_wmi: Unknown function number - 8 - 1.
-> 
-> I uploaded a dump of the acpi tables and dmidecode of the box.
-> 
-> https://www.frugalware.org/~crazy/nitro5/ACPI
-> https://www.frugalware.org/~crazy/nitro5/DMI
-> 
-> Please let me know if you need any other informations.
->
+Does it mean you are okay with the proposed patch? Can you give your tag th=
+en?
 
-Thanks for your report the behavior for the function 4 and function 8.
-Maybe we can use the platform event to do something. e.g. expose key code
-to userland. Unfortunately my working list is too long that I do not have
-time for it currently.
-
-Thanks a lot!
-Joey Lee 
+--=20
+With Best Regards,
+Andy Shevchenko
