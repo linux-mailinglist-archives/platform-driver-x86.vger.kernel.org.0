@@ -2,130 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFD6BE62F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 22:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB30DBE689
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Sep 2019 22:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731229AbfIYUL3 (ORCPT
+        id S2393113AbfIYUgn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 25 Sep 2019 16:11:29 -0400
-Received: from mail-lf1-f46.google.com ([209.85.167.46]:44926 "EHLO
-        mail-lf1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfIYUL2 (ORCPT
+        Wed, 25 Sep 2019 16:36:43 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33636 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727102AbfIYUgm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 25 Sep 2019 16:11:28 -0400
-Received: by mail-lf1-f46.google.com with SMTP id q11so5175264lfc.11;
-        Wed, 25 Sep 2019 13:11:27 -0700 (PDT)
+        Wed, 25 Sep 2019 16:36:42 -0400
+Received: by mail-pg1-f194.google.com with SMTP id i30so649242pgl.0;
+        Wed, 25 Sep 2019 13:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fHcbuntDnsVUfFhGW0BGHBxzBHdnDjeNwAIplYLCMj8=;
-        b=Uss1/B4KqOaSpr6tQBBN9sky6FM3tYRCnNj9bWQS+INaaGSFUR56mpbIV9kPbRtKEa
-         HVaPOnrEnv+FhGW4tuZ0oL9ZkvI49KYNbpWcRR1Q6HCdjt5t+e7wo7mwCNvqQ+urNa4/
-         3Xs4nYzRtcECBZLv3x43dVjXAfsc9ZFUpjsrNCWnqnA3NAtZuwh0AH2u/yH9jn2mejDj
-         tcgbRJXWMU6dwoUgdpC5C9/UHoaYrcedM8Q/PVWfPZ08NwYIYrpqA2xVaYiZ7dytabZ8
-         D4McVZRUaX5/xxVqYgyYuuxOvJiJBeTdQdjKGB/46Q1y/yF2YUd4/U+Nr5Q7OpbrtXgz
-         9Ggg==
+        bh=mAtkA8nDrn9I4KTY7uTd6CmJSg4Ilm+vbh5B0ecoufY=;
+        b=praqDt56LVvOt5maDOKiv60FehuiGIiUyMMgakA4/n4F1Y5Wu9lt23v7I6P2wFuYYl
+         L+VJ0XzVGjhz0dCCWnLL6SAVVsPUnXbE9mJUSVOx3y+PwdNFrf/9fDLNYoRojyTNMNrX
+         PIq8mJGr70AUKg2iZHkeivrk7CrYEOzmc0UH6IHGmd1LQzCXzm/UQ0l8+SDQhxqQu17S
+         U6spqDB/w9HYEEjsKQYWtVE1ZDe65WKF/tcy5t1Az+eD7xVRHGlvNlskozTV4YiEutmB
+         ABrWBqRlcmLDsmIXt0y+SDX/58lF8LmU+eDGu96u/N+O6dJgkm/m9iXKpOZE6y7QEiCK
+         Lmkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fHcbuntDnsVUfFhGW0BGHBxzBHdnDjeNwAIplYLCMj8=;
-        b=V3ZkwRMZztH5J87VAYXYZbeNkwl3trPgH7g0HgmbCGoaTg3gtELe89ag/g7FD9kso9
-         tArApylNTriNW6MzHZneM7f019dInI8W2PN+kE8K1LM6I8av85UQrzL/WGKXzX7kvqaI
-         jjRYBMo9h4jd8UtzBnrOHMJVEiw9LhLW1AF8bBoI/cE2STcazFWy3k0IorjBr42g5k5k
-         vZiMHVbKRI73qMYXJq5/1QZrco+zUPM4d7aQfCPeFnhA/j009XFRD4Ajz35+9FaxqiJ1
-         wgrp5TLJI2Pu4tByECY1OdqTrM9kPRrRExXKBpYvdqVVR0vUtaAPfeCQdYyqlzpKxCcU
-         nOrA==
-X-Gm-Message-State: APjAAAVsokjf6/U5BeNmh/W0N/fgow2AS3e2nqf+F9jR7QOEuWO6Dkux
-        0w1E7El+M4dFjxSIK6n86h0+da+sZcXDstuGDA==
-X-Google-Smtp-Source: APXvYqyUa5mOxCbWHyMUANxQpJWZJP05Ll7wzsQwf53oYLkkBF4IGhidOXK9OzhRS1TAAEqz+TI8qaFtvbKaGb42ako=
-X-Received: by 2002:ac2:554e:: with SMTP id l14mr7688848lfk.32.1569442286852;
- Wed, 25 Sep 2019 13:11:26 -0700 (PDT)
+        bh=mAtkA8nDrn9I4KTY7uTd6CmJSg4Ilm+vbh5B0ecoufY=;
+        b=MSVAYLZJEIJ27PiksS+8nBbpaG//RBgSs3X19o/6kENYkowou21sWRv8BbB2c7dKmU
+         4PkPfSnznsKPXUuXsa9oWvAFvCUNoO49xL7oaCM3r/FQ+X7RMUCsCEICKsvWqR72Oa9C
+         uV+APxUIcRcFOGwT6C+CBudHE7mDN5cBoE1gZnfPmkNFU0rYKHaMZeEaVEJ1Q6jBHpr3
+         XwE74vdMko/ORSq0k6PKDK+iC9zjNzsZ69Snxwx0/12mPheS2808SZT3uTb9gJlYy7nD
+         0kYntnjaG0U3NWj1J46bQKJSVzPT2SFNbOgkeMH8k3Uo45/Q/Sca73PzORVyeqsngfWq
+         FB9Q==
+X-Gm-Message-State: APjAAAXLfyIfZrOT/XM3mnqTGccYbQBzx/RubjCxB+BRKPILj0O1279o
+        0YIAX47X+2T98AAqBdmEyA3qW6wNroFyZOS2JB7AnzeQ
+X-Google-Smtp-Source: APXvYqwM82U/8nEK/BZofUrgB+RMaz6wUEX2FJXf3Zbu5MKYj+xia3+fSRhdQWJbAv5tFqwFHgGDNDK5TrGg53m69no=
+X-Received: by 2002:a17:90a:630b:: with SMTP id e11mr8844512pjj.132.1569443801994;
+ Wed, 25 Sep 2019 13:36:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAEJqkgjSes-4bSKbyfbNhXfcQwdEMzp8X4f72_SS=NpBoBtWmQ@mail.gmail.com>
- <20190925075026.GY3878@linux-l9pv.suse>
-In-Reply-To: <20190925075026.GY3878@linux-l9pv.suse>
-From:   Gabriel C <nix.or.die@gmail.com>
-Date:   Wed, 25 Sep 2019 22:10:55 +0200
-Message-ID: <CAEJqkgiZo6jyrpRnUYGUXY_hdtPQ1nmCXFkUQ0uyG4RKvV+W+w@mail.gmail.com>
-Subject: Re: acer_wmi: Unknown function(s) on Acer Nitro 5 (AN515-43-R8BF)
-To:     Joey Lee <JLee@suse.com>
-Cc:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
+References: <20190920223356.6622-1-jekhor@gmail.com> <20190920223356.6622-2-jekhor@gmail.com>
+ <1cca117d-1951-0335-1aef-ac994c3c757b@redhat.com> <CAHp75VcoS2OFr8kwM7vq0iCqf6BpyJ4SO7peAUHKxAXdgA7CMA@mail.gmail.com>
+ <20190925162712.GA3653@jeknote.loshitsa1.net> <CAHp75VfL0RUgMhZk=gesxBcBfRkfV8kC1zsN9TNg53qpUNVU0w@mail.gmail.com>
+ <20190925195617.GA8666@jeknote.loshitsa1.net>
+In-Reply-To: <20190925195617.GA8666@jeknote.loshitsa1.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 25 Sep 2019 23:36:30 +0300
+Message-ID: <CAHp75VeeVb5oaAGohLFHcT==fSr5M9tssbU7oY6FgfzRkq=yjg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] platform/x86/intel_cht_int33fe: Split code to USB
+ Micro-B and Type-C variants
+To:     Yauhen Kharuzhy <jekhor@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Am Mi., 25. Sept. 2019 um 09:53 Uhr schrieb Joey Lee <JLee@suse.com>:
+On Wed, Sep 25, 2019 at 10:56 PM Yauhen Kharuzhy <jekhor@gmail.com> wrote:
 >
-> Hi Gabriel,
+> On Wed, Sep 25, 2019 at 08:42:03PM +0300, Andy Shevchenko wrote:
+> > On Wed, Sep 25, 2019 at 7:27 PM Yauhen Kharuzhy <jekhor@gmail.com> wrote:
+> > > On Wed, Sep 25, 2019 at 06:02:22PM +0300, Andy Shevchenko wrote:
+> > > > On Sat, Sep 21, 2019 at 9:31 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >
+> > > > By some reason it doesn't apply.
+> > >
+> > > I have checked, and have no issues when applying this patch to the current
+> > > torvalds/master and linux-next/master branches (351c8a09b00b and 9e88347dedd8
+> > > commit IDs).
+> >
+> > It doesn't apply to the subsystem tree (for-next or my review branch)
 >
-> On Mon, Sep 23, 2019 at 09:45:05PM +0200, Gabriel C wrote:
-> > Hi guys,
-> >
-> > I noticed some warning in dmesg on this Laptop.
-> >
-> > Fn+right, Fn+left is BrightnessDown/Up and produce the following warning:
-> >
-> > acer_wmi: Unknown function number - 4 - 0
-> >
-> > The brightness has some other issue on this Laptop but not sure
-> > who to blame on this. Probably amdgpu.?
-> >
-> > /sys/class/backlight/amdgpu_bl1/brightness <-> actual_brightness
-> > seems to mismatch.  EG: when brightness is 0 actual_brightness is still 5140.
-> >
+> Yes, it doesn't apply because this subsystem tree doesn't contain commit
 >
-> Base on _BCM and _BQC in your DSDT. The backlight control is handled by EC.
-> But, in some Acer machines that the _BCM is broken. You can try to modify
-> brighess by echo to sys/class/backlight/acpi_video0/brightness
-
-Unfortunately, the only thing in /sys/class/backlight is amdgpu_bl1.
-Basically I should have 2 , acpi_video0 & acpi_video1 however none there.
-
+> "78cd4bf53635 platform/x86: intel_cht_int33fe: Use new API to gain access to the role switch"
 >
-> > Unplugging the AC gives the following warning:
-> >
-> > acer_wmi: Unknown function number - 8 - 0
-> >
-> > When plugging the AC back I see;
-> >
-> > acer_wmi: Unknown function number - 8 - 1.
-> >
-> > I uploaded a dump of the acpi tables and dmidecode of the box.
-> >
-> > https://www.frugalware.org/~crazy/nitro5/ACPI
-> > https://www.frugalware.org/~crazy/nitro5/DMI
-> >
-> > Please let me know if you need any other informations.
-> >
->
-> Thanks for your report the behavior for the function 4 and function 8.
-> Maybe we can use the platform event to do something. e.g. expose key code
-> to userland. Unfortunately my working list is too long that I do not have
-> time for it currently.
->
+> which was accepted to torvalds/master tree already.
 
-Is fine, no worry. Take your time. Things are working more or less so no rush.
+I see. Please, resend this after rc1 is out.
 
-Just one thing. While it is fine to report the Unknow functions/keys by default
-once reported upstream the user may want to silence these until implemented.
-In my case using the keys for the brightness floods the dmesg with
-these messages.
-
-Would be  maybe is possible to have some 'do_not_bug_me' module
-parameter to silence the
-Unknow functions/keys messages?
-
-> Thanks a lot!
-> Joey Lee
-
-BR,
-
-Gabriel C
+-- 
+With Best Regards,
+Andy Shevchenko
