@@ -2,197 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 292BABF382
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Sep 2019 14:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48587BF4C2
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Sep 2019 16:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbfIZMz1 (ORCPT
+        id S1726767AbfIZOMK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Sep 2019 08:55:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44570 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726888AbfIZMzS (ORCPT
+        Thu, 26 Sep 2019 10:12:10 -0400
+Received: from sonic306-21.consmr.mail.ne1.yahoo.com ([66.163.189.83]:38203
+        "EHLO sonic306-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726996AbfIZOMK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Sep 2019 08:55:18 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5A1BA30BC58E;
-        Thu, 26 Sep 2019 12:55:18 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D2063608C2;
-        Thu, 26 Sep 2019 12:55:17 +0000 (UTC)
-From:   Prarit Bhargava <prarit@redhat.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Prarit Bhargava <prarit@redhat.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 7/7] intel-speed-select: Implement base-freq commands on CascadeLake-N
-Date:   Thu, 26 Sep 2019 08:55:01 -0400
-Message-Id: <20190926125501.1616-8-prarit@redhat.com>
-In-Reply-To: <20190926125501.1616-1-prarit@redhat.com>
-References: <20190926125501.1616-1-prarit@redhat.com>
+        Thu, 26 Sep 2019 10:12:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1569507127; bh=euy9S2/4+kZy++A4IfrNsNY0nG5tpX3oraAf8XcNLZo=; h=Date:From:Reply-To:Subject:From:Subject; b=fAV7oa0qZ6MTYGebCdXEdFCkvKM3TQ3ioSN6vNYOzN+FvLkc4Oumpsp4vGz/l3JpAHkrgPFV97VEwbxcxDd8SovQjP6h4qnWfqpPghrkSGnUjjurDN65Wr1Qvn1X7sp6bbNZLtEJvzbG0dXoNnxZentzitsRf7RrXNkjLOQGWTFaOtID13Tnpm6YdlC9iSa7I+FLNlRPQtLIF47R+5Hkkaj1J+WgnfIarg5gkJyWVPSKbz4yMtUVabMKM3bsR+F2xKowi5bfnM+CzyFKeLT2QwFyNf+5JPOJMxelUYj+dRx6ACqZ/ezTto36xfJHDwrNQcngFXAutnNHmGliXrGoPw==
+X-YMail-OSG: SnH.NaYVM1lC4ODoDIZys1wQQv3Tmswd6iawdgjFJJx7qi_UHlPm0JeLoma7Qdr
+ oCAXaW1hPro.rY2ziYqEwqK5R7JdQ0g4HBFXjL3IJIBLGHZReNLpI.KzKfiQ7MwntH5.awvXk9fr
+ jwL99YlFkHXHDDF2Wu71kPf9VeJFrkB5QXNPC6OMSw1RDQylFEdpM7aJAOYx6hG6TSiC1twgIDFR
+ dzvba8Wd3QdUXn3gbZeL9KMOeMEtwcti7m7_KSUsO8v7moXo4yh679SvFYhveJ1s2HD1hYHrvqU5
+ xuUeWXZD2mMfdV1YoF6WbsxWk7M2g76SL3DTZR37f5Xurl6A4dvMD_V3q1dq5Lzm7cBdsd20rbwI
+ YLR6_tMMo5F16YkWqdXotPIcaRhGPWL0yq5e61sSee7VqD6nBKux4NBSqSnBWhTopVuTtcYgaSah
+ 58sb4ucPF20sji7DW_J99Fw3eFkcpYQ9kngBSSMjbvJWiXBaEb2nx4z8Oe4PHzuHHigFUgnyfuoo
+ PSf0J7tPkpQPHzQEDcR6JTgNViTkYDSNYtF8sdgzEseJ0YSx90uvHLKn2Xq4O5RzXV0In9OwZoJb
+ uSF6Fv.1XN_TTOjqryWKG86VaapgOg.wapMeWrqqnEMgzYA..GPcEejEy1.zloKnYp.TnPZuauXz
+ 3.VOXBCRYZktCOyK2wOJps1G87uOO5nLwJ48cgFr8XsiE_dBv0x_zukyBg84NVDSndhB_tmVVZTh
+ FMNtKLR0iwFB5RhA1qg.rJ6NgqX8GgiJG9syMCRkaA51FAm9.dEeR0.wl.iFlUZoAIOMTTz8XLpf
+ LHhLwjaJCWoWOJd9eCqwzuSss.6IqYEImAEp3GSbLbX0bP9jBoDv_pYOgyBh9QOva_avgWA.LE6t
+ b0k0MueVgM4WMYIsvd5SQqWVN8E_i9cErsDW9XpShG6IRW6z9EBBbxGrYLxkF_YXcRot2zx_x5FE
+ zJTU2BDlHFpiYM.OQmfbe6JF0P8DmuMtbyxtc1Xs060bWP6DPIErn8ipTUxQuIXFQsEMPOhiCHj6
+ 5kOW0llpv2GjeWvRHAUqhSE2RlQ5rMmvxiBUIQ8JFH0Jl0xSmbgODFMLvbPgViyhXFx5JA7i1xBn
+ JZ99vxZcwJHcD6eJrWgJM8PkP6l8Lyvmiq.b.W4X8Hb0bLhBsMGnZr1ceYOZj1kaFTtEFcAc6GQR
+ 23XPyH88OsLvnX1Cr5fVQnAx6HP6xbAqRNchCBsdf1y3jp1L1b8XmRFIZIEsC7Sprp0Xgjt0jWSG
+ daFOi0bCgpkgImPK.GZ0pLIunw.HYnq6n39iOpIGDh_EadUXyNlBwxD9toXQ-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ne1.yahoo.com with HTTP; Thu, 26 Sep 2019 14:12:07 +0000
+Date:   Thu, 26 Sep 2019 14:12:05 +0000 (UTC)
+From:   "Mrs. Caroline Mark" <goshtholy7@gmail.com>
+Reply-To: mrs.carolinemark@gmail.com
+Message-ID: <1743483321.7090241.1569507125523@mail.yahoo.com>
+Subject: Hello Dear.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Thu, 26 Sep 2019 12:55:18 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add functionality for base-freq info|enable|disable info on CascadeLake-N.
+Hello Dear.
 
-The enable command always returns success, and the disable command always
-returns failed because SST-BF cannot be enabled or disabled from the OS on
-CascadeLake-N.
+My name is  Mrs.carolinemark,I am 30years old  from USA united state of
+American medical doctor, starting from today, I was just going through
+the Internet search when your profile which i like it, all i need is
+good honest  and trustworthy friend, i have an important somethings to
+discus with you , which i know that is going to benefit you and i in
+future.
 
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../x86/intel-speed-select/isst-config.c      | 56 ++++++++++++++-----
- .../x86/intel-speed-select/isst-display.c     |  6 +-
- tools/power/x86/intel-speed-select/isst.h     |  3 +-
- 3 files changed, 49 insertions(+), 16 deletions(-)
+If you are honest and trustworthy person please get back to me by  email me at
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 0c66012fc5a1..24e6084a36b4 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -940,6 +940,18 @@ static void set_tdp_level(int arg)
- 	isst_ctdp_display_information_end(outf);
- }
- 
-+static void cn_dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2,
-+				       void *arg3, void *arg4)
-+{
-+	struct isst_pbf_info *pbf_info;
-+	struct isst_pkg_ctdp_level_info *ctdp_level;
-+
-+	ctdp_level = &cn_pkg_dev.ctdp_level[0];
-+	pbf_info = &ctdp_level->pbf_info;
-+
-+	isst_pbf_display_information(cpu, outf, tdp_level, pbf_info, cpu_model);
-+}
-+
- static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 				    void *arg4)
- {
-@@ -950,13 +962,16 @@ static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 	if (ret) {
- 		perror("isst_get_pbf_info");
- 	} else {
--		isst_pbf_display_information(cpu, outf, tdp_level, &pbf_info);
-+		isst_pbf_display_information(cpu, outf, tdp_level, &pbf_info,
-+					     cpu_model);
- 		isst_get_pbf_info_complete(&pbf_info);
- 	}
- }
- 
- static void dump_pbf_config(int arg)
- {
-+	void *fn;
-+
- 	if (cmd_help) {
- 		fprintf(stderr,
- 			"Print Intel(R) Speed Select Technology base frequency configuration for a TDP level\n");
-@@ -970,13 +985,18 @@ static void dump_pbf_config(int arg)
- 		exit(1);
- 	}
- 
-+	if (cpu_model != 0x55)
-+		fn = dump_pbf_config_for_cpu;
-+	else
-+		fn = cn_dump_pbf_config_for_cpu;
-+
- 	isst_ctdp_display_information_start(outf);
-+
- 	if (max_target_cpus)
--		for_each_online_target_cpu_in_set(dump_pbf_config_for_cpu, NULL,
--						  NULL, NULL, NULL);
-+		for_each_online_target_cpu_in_set(fn, NULL, NULL, NULL, NULL);
- 	else
--		for_each_online_package_in_set(dump_pbf_config_for_cpu, NULL,
--					       NULL, NULL, NULL);
-+		for_each_online_package_in_set(fn, NULL, NULL, NULL, NULL);
-+
- 	isst_ctdp_display_information_end(outf);
- }
- 
-@@ -986,17 +1006,24 @@ static void set_pbf_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 	int ret;
- 	int status = *(int *)arg4;
- 
--	ret = isst_set_pbf_fact_status(cpu, 1, status);
--	if (ret) {
--		perror("isst_set_pbf");
-+	if (cpu_model != 0x55) {
-+		ret = isst_set_pbf_fact_status(cpu, 1, status);
-+		if (ret) {
-+			perror("isst_set_pbf");
-+			return;
-+		}
-+
- 	} else {
--		if (status)
--			isst_display_result(cpu, outf, "base-freq", "enable",
--					    ret);
-+		if (status == 0)
-+			ret = -1;
- 		else
--			isst_display_result(cpu, outf, "base-freq", "disable",
--					    ret);
-+			ret = 0;
- 	}
-+
-+	if (status)
-+		isst_display_result(cpu, outf, "base-freq", "enable", ret);
-+	else
-+		isst_display_result(cpu, outf, "base-freq", "disable", ret);
- }
- 
- static void set_pbf_enable(int arg)
-@@ -1388,6 +1415,9 @@ static void get_clos_assoc(int arg)
- 
- static struct process_cmd_struct cn_cmds[] = {
- 	{ "perf-profile", "info", dump_isst_config, 0 },
-+	{ "base-freq", "info", dump_pbf_config, 0 },
-+	{ "base-freq", "enable", set_pbf_enable, 1 },
-+	{ "base-freq", "disable", set_pbf_enable, 0 },
- 	{ NULL, NULL, NULL, 0 }
- };
- 
-diff --git a/tools/power/x86/intel-speed-select/isst-display.c b/tools/power/x86/intel-speed-select/isst-display.c
-index 7d91a5de1b85..8cc8d963a55e 100644
---- a/tools/power/x86/intel-speed-select/isst-display.c
-+++ b/tools/power/x86/intel-speed-select/isst-display.c
-@@ -474,10 +474,12 @@ void isst_ctdp_display_information_end(FILE *outf)
- }
- 
- void isst_pbf_display_information(int cpu, FILE *outf, int level,
--				  struct isst_pbf_info *pbf_info)
-+				  struct isst_pbf_info *pbf_info,
-+				  int cpu_model)
- {
- 	print_package_info(cpu, outf);
--	_isst_pbf_display_information(cpu, outf, level, pbf_info, 4, 0);
-+	_isst_pbf_display_information(cpu, outf, level, pbf_info, 4,
-+				      cpu_model);
- 	format_and_print(outf, 1, NULL, NULL);
- }
- 
-diff --git a/tools/power/x86/intel-speed-select/isst.h b/tools/power/x86/intel-speed-select/isst.h
-index 35b0fec44d35..d94b46272ce2 100644
---- a/tools/power/x86/intel-speed-select/isst.h
-+++ b/tools/power/x86/intel-speed-select/isst.h
-@@ -203,7 +203,8 @@ extern void isst_ctdp_display_core_info(int cpu, FILE *outf, char *prefix,
- extern void isst_ctdp_display_information_start(FILE *outf);
- extern void isst_ctdp_display_information_end(FILE *outf);
- extern void isst_pbf_display_information(int cpu, FILE *outf, int level,
--					 struct isst_pbf_info *info);
-+					 struct isst_pbf_info *info,
-+					 int cpu_model);
- extern int isst_set_tdp_level(int cpu, int tdp_level);
- extern int isst_set_tdp_level_msr(int cpu, int tdp_level);
- extern int isst_set_pbf_fact_status(int cpu, int pbf, int enable);
--- 
-2.21.0
+Mrs.carolinemark@gmail.com
+
+I will be happy to see your reply for us to know each other better and
+give you my pictures and details about me.
+
+Yours
+Mrs.carolinemark
+
+
+
 
