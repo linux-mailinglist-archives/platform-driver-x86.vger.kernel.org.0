@@ -2,173 +2,175 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEA1BED16
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Sep 2019 10:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97426BEFA8
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Sep 2019 12:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbfIZILv (ORCPT
+        id S1726133AbfIZKc7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Sep 2019 04:11:51 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46371 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbfIZILv (ORCPT
+        Thu, 26 Sep 2019 06:32:59 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:41494 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726151AbfIZKc6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Sep 2019 04:11:51 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o18so1262418wrv.13;
-        Thu, 26 Sep 2019 01:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=gDALH1LBbhi9Y7gQ8eErUzmJUJ1kd3iAMb/qez5kxcs=;
-        b=qHZuGOjUmO1mYR7HEbj6/LE7vY302STFSNUPRMSIle9LIa4NJsT1AvcRvP9wjGAjQC
-         7eYlDNs9BfNmIydRTz2VaS6F1QFd798bBLKip+ITNF46bYNJHZEhXnh/YeVayZw5rFPJ
-         58R/bjemDaxuvXFh4ezRM6GlSq9qmH7dNwJ1YSNpBUi7+lYievP0nf2fqeGyWl15IJOJ
-         rltwlaVMeMvIwiB8zraRrCOzH4gRg1ZUMcc60N0+cPJJYbvUuIEH57tL+4AyEvpxpWHU
-         0JTJiLBJgPZcgZESrd/q++1kFQAjZ65bwijxAG5P4uy/bCz8nZ8Jl+5Lx+b2xZxl+Eor
-         w5Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=gDALH1LBbhi9Y7gQ8eErUzmJUJ1kd3iAMb/qez5kxcs=;
-        b=H2dM4tFWI3HyqP9RSN2isBNEPYU4lng2h+H95+NkEtprf0YNHcsCNpc6bJ3npbXtEf
-         KQ9439aKIkQTT9Yd0RHsLyrRPKfoS4iA/jMii5I7nTXUKCkqnPTlCGrAH6r+uZPJINFN
-         HZZIV3wxrdlpbTaUhGwq/EZntDDSJrEXWgRAamYQx3w/wGRASBVbMiqq29yIvMuWPoWv
-         GBsMSoXCCqDwRlLKtqD/a8Q+XPeQyiWiOCrcm5K1W0T60nuVTnvonhHZ/F2HRekyksJQ
-         bj5WIsN/a6tKBZyXYbWzaYzZyp4CLOtKYWA2ZskcfP0u39UvkXM6sISXZj//kWDKyZze
-         V6SA==
-X-Gm-Message-State: APjAAAVCveU384Er/hNlMLD9M7LAMBRkrthBHWkn3lFTODaStc7VPUI3
-        EF9KJWIoMbul/43skAZCTqPZ6g+l
-X-Google-Smtp-Source: APXvYqz3V5Vk5x+FIf12+jsNaGJQrfDBLBRpUm7ZB6mLNL8jaZF83U9H7rZqvmU2qPIUaFaKQr8t3A==
-X-Received: by 2002:a05:6000:14b:: with SMTP id r11mr1681937wrx.58.1569485507938;
-        Thu, 26 Sep 2019 01:11:47 -0700 (PDT)
-Received: from pali ([2a02:2b88:2:1::5cc6:2f])
-        by smtp.gmail.com with ESMTPSA id x129sm2136914wmg.8.2019.09.26.01.11.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 26 Sep 2019 01:11:47 -0700 (PDT)
-Date:   Thu, 26 Sep 2019 10:11:46 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
-        Mario Limonciello <Mario.Limonciello@dell.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Darren Hart <dvhart@infradead.org>,
+        Thu, 26 Sep 2019 06:32:58 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 4E49F23C0CE6DBC92132;
+        Thu, 26 Sep 2019 18:32:56 +0800 (CST)
+Received: from [127.0.0.1] (10.177.251.225) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Thu, 26 Sep 2019
+ 18:32:54 +0800
+Subject: Re: [PATCH 1/2] efi: Add efi_memmap_free() to free EFI memory map
+To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
+CC:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] platform/x86: dell-laptop: fix broken kbd backlight
- on Inspiron 10xx
-Message-ID: <20190926081146.f4f26kun7ekwqsgj@pali>
-References: <20190925082149.yjhmmb64i4h6sddi@pali>
- <156940489220.8635.14349142383780268583@WARFSTATION>
- <CAHp75VfkL3QGXYjeEEqr75SWCKo1SDEqS9q3YEQWYM4iXbUzcg@mail.gmail.com>
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <775bcf46-0f4e-a1a9-5a40-05f833cd7a1a@huawei.com>
+ <CAKv+Gu-dd5=TJ62GtCvZ5iPTRjqjSpPwx-oNQJ2dv9ZBHB0c8Q@mail.gmail.com>
+From:   Yunfeng Ye <yeyunfeng@huawei.com>
+Message-ID: <b2ab5f36-b747-8671-4c5f-92b603b6be3b@huawei.com>
+Date:   Thu, 26 Sep 2019 18:31:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VfkL3QGXYjeEEqr75SWCKo1SDEqS9q3YEQWYM4iXbUzcg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <CAKv+Gu-dd5=TJ62GtCvZ5iPTRjqjSpPwx-oNQJ2dv9ZBHB0c8Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.251.225]
+X-CFilter-Loop: Reflected
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wednesday 25 September 2019 18:06:40 Andy Shevchenko wrote:
-> On Wed, Sep 25, 2019 at 12:48 PM Pacien TRAN-GIRARD
-> <pacien.trangirard@pacien.net> wrote:
-> >
-> > This patch adds a quirk disabling keyboard backlight support for the
-> > Dell Inspiron 1012 and 1018.
-> >
-> > Those models wrongly report supporting keyboard backlight control
-> > features (through SMBIOS tokens) even though they're not equipped with
-> > a backlit keyboard. This led to broken controls being exposed
-> > through sysfs by this driver which froze the system when used.
-> >
-> 
-> Pali, are you okay with this one?
 
-So the real problem is that kbd backlight is not broken, but rather
-laptop is without backlight keyboard? I thought that just API was broken
-and keyboard backlight needs to be configured somehow else (via
-dedicated buttons, etc...).
 
-If yes, then I guess that check for quirk should be in kbd_init()
-function which do detection if keyboard backlight is present or not.
-And better name for quirk could be "kbd_led_not_present"...
+On 2019/9/25 23:29, Ard Biesheuvel wrote:
+> On Wed, 25 Sep 2019 at 11:17, Yunfeng Ye <yeyunfeng@huawei.com> wrote:
+>>
+>> In efi_fake_memmap(), the commit 20b1e22d01a4 ("x86/efi: Don't allocate
+>> memmap through memblock after mm_init()") replace memblock_alloc() with
+>> efi_memmap_alloc(), but there is no matching modification of
+>> memblock_free() when early_memremap() fail.
+>>
+>> Fix this by adding efi_memmap_free() to instead of memblock_free().
+>>
+>> Fixes: 20b1e22d01a4 ("x86/efi: Don't allocate memmap through memblock after mm_init()")
+>> Signed-off-by: Yunfeng Ye <yeyunfeng@huawei.com>
+> 
+> What happens if you try to call efi_memmap_free() /after/ slab has
+> become available on an allocation that was created before?
+> 
+I didn't met the failure path in efi_fake_memmap(), just looked at the code and
+found that the memory allocation using efi_memmap_free(), but free memory using
+memblock_free(), I think it's not correct.
 
-> > Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=107651
-> > Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
-> > ---
-> >  drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-> > index d27be2836bc2..ffe5abbdadda 100644
-> > --- a/drivers/platform/x86/dell-laptop.c
-> > +++ b/drivers/platform/x86/dell-laptop.c
-> > @@ -33,6 +33,7 @@
-> >
-> >  struct quirk_entry {
-> >         bool touchpad_led;
-> > +       bool kbd_broken_backlight;
-> >         bool kbd_led_levels_off_1;
-> >         bool kbd_missing_ac_tag;
-> >
-> > @@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 = {
-> >         .kbd_led_levels_off_1 = true,
-> >  };
-> >
-> > +static struct quirk_entry quirk_dell_inspiron_1012 = {
-> > +       .kbd_broken_backlight = true,
-> > +};
-> > +
-> >  static struct platform_driver platform_driver = {
-> >         .driver = {
-> >                 .name = "dell-laptop",
-> > @@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __initconst = {
-> >                 },
-> >                 .driver_data = &quirk_dell_latitude_e6410,
-> >         },
-> > +       {
-> > +               .callback = dmi_matched,
-> > +               .ident = "Dell Inspiron 1012",
-> > +               .matches = {
-> > +                       DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> > +                       DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
-> > +               },
-> > +               .driver_data = &quirk_dell_inspiron_1012,
-> > +       },
-> > +       {
-> > +               .callback = dmi_matched,
-> > +               .ident = "Dell Inspiron 1018",
-> > +               .matches = {
-> > +                       DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> > +                       DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
-> > +               },
-> > +               .driver_data = &quirk_dell_inspiron_1012,
-> > +       },
-> >         { }
-> >  };
-> >
-> > @@ -2040,6 +2063,9 @@ static int __init kbd_led_init(struct device *dev)
-> >  {
-> >         int ret;
-> >
-> > +       if (quirks && quirks->kbd_broken_backlight)
-> > +               return -ENODEV;
-> > +
-> >         kbd_init();
-> >         if (!kbd_led_present)
-> >                 return -ENODEV;
-> > --
-> > 2.19.2
+Also another series patch "[PATCH 2/2] x86/efi: Fix memory leak for EFI memmap
+reservations", using efi_memmap_free() for fixing the memory leak in the failure
+path.
+
+thanks.
+
+>> ---
+>>  drivers/firmware/efi/fake_mem.c |  2 +-
+>>  drivers/firmware/efi/memmap.c   | 34 ++++++++++++++++++++++++++++++++++
+>>  include/linux/efi.h             |  1 +
+>>  3 files changed, 36 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/firmware/efi/fake_mem.c b/drivers/firmware/efi/fake_mem.c
+>> index 9501edc..c2f69f6 100644
+>> --- a/drivers/firmware/efi/fake_mem.c
+>> +++ b/drivers/firmware/efi/fake_mem.c
+>> @@ -65,7 +65,7 @@ void __init efi_fake_memmap(void)
+>>         new_memmap = early_memremap(new_memmap_phy,
+>>                                     efi.memmap.desc_size * new_nr_map);
+>>         if (!new_memmap) {
+>> -               memblock_free(new_memmap_phy, efi.memmap.desc_size * new_nr_map);
+>> +               efi_memmap_free(new_memmap_phy, new_nr_map);
+>>                 return;
+>>         }
+>>
+>> diff --git a/drivers/firmware/efi/memmap.c b/drivers/firmware/efi/memmap.c
+>> index 38b686c..35dc189 100644
+>> --- a/drivers/firmware/efi/memmap.c
+>> +++ b/drivers/firmware/efi/memmap.c
+>> @@ -18,6 +18,11 @@ static phys_addr_t __init __efi_memmap_alloc_early(unsigned long size)
+>>         return memblock_phys_alloc(size, SMP_CACHE_BYTES);
+>>  }
+>>
+>> +static void __init __efi_memmap_free_early(phys_addr_t addr, unsigned long size)
+>> +{
+>> +       memblock_free(addr, size);
+>> +}
+>> +
+>>  static phys_addr_t __init __efi_memmap_alloc_late(unsigned long size)
+>>  {
+>>         unsigned int order = get_order(size);
+>> @@ -29,6 +34,15 @@ static phys_addr_t __init __efi_memmap_alloc_late(unsigned long size)
+>>         return PFN_PHYS(page_to_pfn(p));
+>>  }
+>>
+>> +static void __init __efi_memmap_free_late(phys_addr_t addr, unsigned long size)
+>> +{
+>> +       unsigned int order = get_order(size);
+>> +       struct page *p = pfn_to_page(PHYS_PFN(addr));
+>> +
+>> +       if (p)
+>> +               __free_pages(p, order);
+>> +}
+>> +
+>>  /**
+>>   * efi_memmap_alloc - Allocate memory for the EFI memory map
+>>   * @num_entries: Number of entries in the allocated map.
+>> @@ -50,6 +64,26 @@ phys_addr_t __init efi_memmap_alloc(unsigned int num_entries)
+>>  }
+>>
+>>  /**
+>> + * efi_memmap_free - Free memory for the EFI memory map
+>> + * @addr: Physical address of the EFI memory map to be freed.
+>> + * @num_entries: Number of the EFI memory map entries.
+>> + *
+>> + * Depending on whether mm_init() has already been invoked or not,
+>> + * either memblock or "normal" page free is used.
+>> + */
+>> +void __init efi_memmap_free(phys_addr_t addr, unsigned int num_entries)
+>> +{
+>> +       unsigned long size = num_entries * efi.memmap.desc_size;
+>> +
+>> +       if (slab_is_available()) {
+>> +               __efi_memmap_free_late(addr, size);
+>> +
+>> +               return;
+>> +       }
+>> +       __efi_memmap_free_early(addr, size);
+>> +}
+>> +
+>> +/**
+>>   * __efi_memmap_init - Common code for mapping the EFI memory map
+>>   * @data: EFI memory map data
+>>   * @late: Use early or late mapping function?
+>> diff --git a/include/linux/efi.h b/include/linux/efi.h
+>> index bd38370..8bb741a 100644
+>> --- a/include/linux/efi.h
+>> +++ b/include/linux/efi.h
+>> @@ -1057,6 +1057,7 @@ static inline efi_status_t efi_query_variable_store(u32 attributes,
+>>  extern void __iomem *efi_lookup_mapped_addr(u64 phys_addr);
+>>
+>>  extern phys_addr_t __init efi_memmap_alloc(unsigned int num_entries);
+>> +extern void __init efi_memmap_free(phys_addr_t addr, unsigned int num_entries);
+>>  extern int __init efi_memmap_init_early(struct efi_memory_map_data *data);
+>>  extern int __init efi_memmap_init_late(phys_addr_t addr, unsigned long size);
+>>  extern void __init efi_memmap_unmap(void);
+>> --
+>> 1.8.3.1
+>>
 > 
-> 
+> .
 > 
 
--- 
-Pali Rohár
-pali.rohar@gmail.com
