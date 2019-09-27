@@ -2,131 +2,161 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6CDEC0D28
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Sep 2019 23:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF2D0C0DB9
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Sep 2019 23:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbfI0VTN (ORCPT
+        id S1728191AbfI0V7C (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Sep 2019 17:19:13 -0400
-Received: from drt.pacien.net ([5.2.64.213]:36668 "EHLO drt.pacien.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725306AbfI0VTM (ORCPT
+        Fri, 27 Sep 2019 17:59:02 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38680 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726029AbfI0V7B (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Sep 2019 17:19:12 -0400
-Received: from lsn.pacien.net (mail.kea [10.0.3.108])
-        by drt.pacien.net (OpenSMTPD) with ESMTP id be8358c7;
-        Fri, 27 Sep 2019 21:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pacien.net;
-         s=lsn.pacien.net; h=Date:Message-ID:Subject:To:From:Cc:References:
-        In-Reply-To:Content-Transfer-Encoding:MIME-Version:Content-Type:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=e5S26ZKLBZQ6C5oRLkB+Hi9vtUZLDXXi8MTbU//OIck=; b=W/6VBmEIIaiv4xiR2ErwCybmlu
-        Zv/RUYuAjcB+KKZYz6Jf6qhUDj0nE7mq8rc7tGWSZc6Hxmi+cIeT9pBp/s8jJFJu3rYkk9s7DWsWl
-        XaSeyhG30CeS688vnb8KydKNy2DuIu0FGn2Uafpgf2Lvz+dnQJ2jMW5axOngeH0zcNM8mblxCyCZS
-        BJhUWCIIwHeYne1WDKPvH9K9cAhhVD8rgnBvyZTwd1jto8Rr0YK5s2EEZWapZC7Dq2AAXhaWW+6tz
-        HxY0lmCgh3x3tnbGopF6a6zhJ8OwXpnxMEVbTu8ck8r/NLOXiqsDdXZf7MkaLSFRog6odiWvCU5ef
-        VvWeVUog==;
-Received: from warfstation.kea ([10.1.1.1] helo=localhost)
-        by lsn.pacien.net with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.2)
-        (envelope-from <pacien.trangirard@pacien.net>)
-        id 1iDxdt-0006W5-JI; Fri, 27 Sep 2019 21:19:09 +0000
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190926081146.f4f26kun7ekwqsgj@pali>
-References: <20190925082149.yjhmmb64i4h6sddi@pali> <156940489220.8635.14349142383780268583@WARFSTATION> <CAHp75VfkL3QGXYjeEEqr75SWCKo1SDEqS9q3YEQWYM4iXbUzcg@mail.gmail.com> <20190926081146.f4f26kun7ekwqsgj@pali>
-Cc:     Mario Limonciello <Mario.Limonciello@dell.com>,
+        Fri, 27 Sep 2019 17:59:01 -0400
+Received: by mail-wr1-f68.google.com with SMTP id w12so4765485wro.5;
+        Fri, 27 Sep 2019 14:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=nmWQQvfqWuf0mNpkURyNgi32z0SNup1KrWxjTu1cNXg=;
+        b=shpIXuWOEsKbw5ZQpddLvQzjEZBqU7Oc0Dm+v1fIj2oSB5hSYmoD1FKn3pz7INBY41
+         koSzQqGmWlNuHc08LIwKJ7VyY6aOewLLN0eoTm2xhWQ/WNCe2Trl/HB8LT8xc/SZFA3G
+         SyiB71V3mhBNgV0mGxv5OjoNOLEYK5Y2okxStAk6Nct6d54TDkhumt5xlZJvWH7OZSDT
+         vCMrl0JyaBbIJfmFocbXtifi3D5RvDkqRhPE0xqgWd05g7FJBsPi0E5c90Mz8jUXzPTn
+         GWc9RdVWyUKfPsydH1tVzYu7TIVIX/lw18/zBfzX3pvhOPnEMie+/LTcx/K0ihaawZTf
+         ycSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=nmWQQvfqWuf0mNpkURyNgi32z0SNup1KrWxjTu1cNXg=;
+        b=nT4U6FUR+U/0zN9mWRjEwOZMKYezmfgxQWHCYwdVaDk3vaxpYvII3URpc53OblGRet
+         subuXY/iCPyqGgQQk6okUa0FpclOnaO3AL/ieeYbshpT/XZ3Rg53u2uhDXo8cJ4vedJ8
+         HZ7QIQWilzR1qRZlrJLX+LGAHKt6rSSBzZbYPyPTy7xEuLe4y6EAh/VKoTHs9byaz2jJ
+         UuGNQO+Zk4M4/muEMtPHa00Ms+sau/k5+rNRqQTmYlb8CEDwpioS2kpsjmoI60s9e1Qd
+         HNIhvMZoLV1TTt3GMb69ONYrhVVB3nVSB2Yna5EfY93eJvLkgKcd4y5DIBxc4ZrC/Zn0
+         KS/Q==
+X-Gm-Message-State: APjAAAUiuHWn5jOwrK6tBynKwmRVsXLZgB0wpiNRxRx5r7hhy3VMarCb
+        9yzt65lOcUkT+S2z+YEOLU8=
+X-Google-Smtp-Source: APXvYqxhiYEa0AcqxlXM10edC7R6X0fKcS4A6xMBQbogEdHwDGqwC8YIvmD8pVUTF6n7bqoqzibSvA==
+X-Received: by 2002:adf:a350:: with SMTP id d16mr4624804wrb.326.1569621539364;
+        Fri, 27 Sep 2019 14:58:59 -0700 (PDT)
+Received: from pali ([2a02:2b88:2:1::5cc6:2f])
+        by smtp.gmail.com with ESMTPSA id o22sm10924646wra.96.2019.09.27.14.58.57
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 27 Sep 2019 14:58:58 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 23:58:56 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali.rohar@gmail.com>
+To:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mario Limonciello <Mario.Limonciello@dell.com>,
         Matthew Garrett <mjg59@srcf.ucam.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-From:   Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
-To:     Pali Rohar <pali.rohar@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v3] platform/x86: dell-laptop: disable kbd backlight on Inspiron 10xx
-Message-ID: <156961914387.417.14261217089484891942@WARFSTATION>
-Date:   Fri, 27 Sep 2019 23:19:03 +0200
+Subject: Re: [PATCH v3] platform/x86: dell-laptop: disable kbd backlight on
+ Inspiron 10xx
+Message-ID: <20190927215856.v3zxxcg7klijanxh@pali>
+References: <20190925082149.yjhmmb64i4h6sddi@pali>
+ <156940489220.8635.14349142383780268583@WARFSTATION>
+ <CAHp75VfkL3QGXYjeEEqr75SWCKo1SDEqS9q3YEQWYM4iXbUzcg@mail.gmail.com>
+ <20190926081146.f4f26kun7ekwqsgj@pali>
+ <156961914387.417.14261217089484891942@WARFSTATION>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <156961914387.417.14261217089484891942@WARFSTATION>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This patch adds a quirk disabling keyboard backlight support for the
-Dell Inspiron 1012 and 1018.
+On Friday 27 September 2019 23:19:03 Pacien TRAN-GIRARD wrote:
+> This patch adds a quirk disabling keyboard backlight support for the
+> Dell Inspiron 1012 and 1018.
+> 
+> Those models wrongly report supporting keyboard backlight control
+> features (through SMBIOS tokens) even though they're not equipped with
+> a backlit keyboard. This led to broken controls being exposed
+> through sysfs by this driver which froze the system when used.
+> 
+> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=107651
+> Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+> ---
 
-Those models wrongly report supporting keyboard backlight control
-features (through SMBIOS tokens) even though they're not equipped with
-a backlit keyboard. This led to broken controls being exposed
-through sysfs by this driver which froze the system when used.
+Thank you for update! Now it is clear what is the problem
+and you can add my
 
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=3D107651
-Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
----
- drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
 
-diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell=
--laptop.c
-index d27be2836bc2..74e988f839e8 100644
---- a/drivers/platform/x86/dell-laptop.c
-+++ b/drivers/platform/x86/dell-laptop.c
-@@ -33,6 +33,7 @@
-=20
- struct quirk_entry {
- 	bool touchpad_led;
-+	bool kbd_led_not_present;
- 	bool kbd_led_levels_off_1;
- 	bool kbd_missing_ac_tag;
-=20
-@@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 =3D {
- 	.kbd_led_levels_off_1 =3D true,
- };
-=20
-+static struct quirk_entry quirk_dell_inspiron_1012 =3D {
-+	.kbd_led_not_present =3D true,
-+};
-+
- static struct platform_driver platform_driver =3D {
- 	.driver =3D {
- 		.name =3D "dell-laptop",
-@@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __init=
-const =3D {
- 		},
- 		.driver_data =3D &quirk_dell_latitude_e6410,
- 	},
-+	{
-+		.callback =3D dmi_matched,
-+		.ident =3D "Dell Inspiron 1012",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
-+		},
-+		.driver_data =3D &quirk_dell_inspiron_1012,
-+	},
-+	{
-+		.callback =3D dmi_matched,
-+		.ident =3D "Dell Inspiron 1018",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
-+		},
-+		.driver_data =3D &quirk_dell_inspiron_1012,
-+	},
- 	{ }
- };
-=20
-@@ -1493,6 +1516,9 @@ static void kbd_init(void)
- {
- 	int ret;
-=20
-+	if (quirks && quirks->kbd_led_not_present)
-+		return;
-+
- 	ret =3D kbd_init_info();
- 	kbd_init_tokens();
-=20
---=20
-2.19.2
+>  drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+> index d27be2836bc2..74e988f839e8 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -33,6 +33,7 @@
+>  
+>  struct quirk_entry {
+>  	bool touchpad_led;
+> +	bool kbd_led_not_present;
+>  	bool kbd_led_levels_off_1;
+>  	bool kbd_missing_ac_tag;
+>  
+> @@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 = {
+>  	.kbd_led_levels_off_1 = true,
+>  };
+>  
+> +static struct quirk_entry quirk_dell_inspiron_1012 = {
+> +	.kbd_led_not_present = true,
+> +};
+> +
+>  static struct platform_driver platform_driver = {
+>  	.driver = {
+>  		.name = "dell-laptop",
+> @@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __initconst = {
+>  		},
+>  		.driver_data = &quirk_dell_latitude_e6410,
+>  	},
+> +	{
+> +		.callback = dmi_matched,
+> +		.ident = "Dell Inspiron 1012",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
+> +		},
+> +		.driver_data = &quirk_dell_inspiron_1012,
+> +	},
+> +	{
+> +		.callback = dmi_matched,
+> +		.ident = "Dell Inspiron 1018",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
+> +		},
+> +		.driver_data = &quirk_dell_inspiron_1012,
+> +	},
+>  	{ }
+>  };
+>  
+> @@ -1493,6 +1516,9 @@ static void kbd_init(void)
+>  {
+>  	int ret;
+>  
+> +	if (quirks && quirks->kbd_led_not_present)
+> +		return;
+> +
+>  	ret = kbd_init_info();
+>  	kbd_init_tokens();
+>  
+
+-- 
+Pali Rohár
+pali.rohar@gmail.com
