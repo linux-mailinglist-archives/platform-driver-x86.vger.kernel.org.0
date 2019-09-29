@@ -2,90 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA2E2C184B
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 29 Sep 2019 19:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 320B2C19C4
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Sep 2019 01:28:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729671AbfI2RcL (ORCPT
+        id S1729171AbfI2X2b (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 29 Sep 2019 13:32:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729662AbfI2RcK (ORCPT
+        Sun, 29 Sep 2019 19:28:31 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:41551 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbfI2X2b (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:32:10 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AF3921928;
-        Sun, 29 Sep 2019 17:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778330;
-        bh=BEnfgb96q4UyJzbI8cOPcJZOQlozNTSU2+Qi33Sg6eg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GUWQdNzkezozomdseBJU/lyal1lO7XmQVIg9iyWxnB4JAcvJ9kwGuCdh2LZbJrRMO
-         pnBEmU8P0WO5ndKPrE7AN6cxyOtquFAGPoIDMnUMsQHEj0SMKnKnUaGfaoiN3tPz0d
-         ZoxOw4ziiFt9MC36aQoeUUYgdBeGa4q0to9av6GM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Youquan Song <youquan.song@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 40/49] tools/power/x86/intel-speed-select: Fix high priority core mask over count
-Date:   Sun, 29 Sep 2019 13:30:40 -0400
-Message-Id: <20190929173053.8400-40-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173053.8400-1-sashal@kernel.org>
-References: <20190929173053.8400-1-sashal@kernel.org>
+        Sun, 29 Sep 2019 19:28:31 -0400
+Received: by mail-io1-f67.google.com with SMTP id n26so4782577ioj.8
+        for <platform-driver-x86@vger.kernel.org>; Sun, 29 Sep 2019 16:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=MJv6I57WxylS6CeVH2HZp8R81qnloFhtV0boAtJeagg=;
+        b=e38Zc3gJ88q7CInjAYss9oCh2rly9wWjlHDfH58Oclc0em+20D8PNIqn5M+ceJ6M69
+         roJri9Z+auMufboxxqvFSWhFUvBH3fggCMY9REAJcPXTmUtc6Qt1yb/38bcRVKu0Cd9t
+         HzKaU0Ov7D06tOwm5RCokq6uCxMyIvHWzahx1fjQ2qdfqaEserDJ6mRWdN9MWD0nMbDl
+         xl/ZuFQo+Ux/UApozm8yS/DNUzBVR69ovtM7fipBO5LhGkbfXNVL+oRlvF3jWtWxPUTI
+         fXYXKxoAHQAzd02uAxODLBiq2iV2u/9GEyg8yJ7ZCNtKNJIQ9W1NncSD9ljF9K4tTuvL
+         hJcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=MJv6I57WxylS6CeVH2HZp8R81qnloFhtV0boAtJeagg=;
+        b=k8gf8H0b2AbP07bBuEaYu2HwbvWXbUunI0wfgEtyXnyQMme0IXqCOrWzuBUsnTyAP7
+         b32cAokdqzNNBLGlO21nZOHdvS1Po7gKRFjJ8H1P7hg/C1S+T3KIMTb+c0lCIhPNsSWw
+         9m6Sr6cNxCMmuTQYKBvJeWHGM7ZQBdGFlBZlFQkDRtk6FrkzWilwVaGmbQ3DLx+VPWAy
+         1rfH8x0YLpYJHwVEQpjvtTT63YlO5b5OF3xjXS70dR4ZJgnNtjsb5MiSobf/uJ4if+k7
+         P31aVPSEIBSzjGp6D5IAAO2uB33HleZTpqII97dgh02S9S3scdE+X01O1+mK6YQUp4G9
+         v85A==
+X-Gm-Message-State: APjAAAWiT5LEKKiYNmu+nZaBBbKK7Q9wNJFHaJvhPOjjUlUf89zNa3jz
+        1s8VnLf0egUGns+7oWwk8svh7k7/mSjaJghy4wU=
+X-Google-Smtp-Source: APXvYqwpR9ZqXUIXWvm4NWyahnqADbgCsIvwdzPU3HQyvkFkPE6WA+1k+AANlctFFcD5y2Sb2AYcxwtA8/Fte0Sa7us=
+X-Received: by 2002:a02:6a22:: with SMTP id l34mr9046612jac.33.1569799711025;
+ Sun, 29 Sep 2019 16:28:31 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a4f:2886:0:0:0:0:0 with HTTP; Sun, 29 Sep 2019 16:28:30
+ -0700 (PDT)
+Reply-To: joeakaba00@gmail.com
+From:   joe akaba <kouevigathk@gmail.com>
+Date:   Mon, 30 Sep 2019 01:28:30 +0200
+Message-ID: <CAMpCND2GpoLAG01maCSK_RvjtS-07tbiN01V9pSgngmmNGFURQ@mail.gmail.com>
+Subject: hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Youquan Song <youquan.song@intel.com>
+Hello
 
-[ Upstream commit 44460efe44e05eae2f21e57d06d542bbbb792e65 ]
+My name is Joe Akaba I am a lawyer by profession. I wish to offer you
+the next of kin to my client. You will inherit the sum of ($8.5 Million)
+dollars my client left in the bank before his death.
 
-If the CPU package has the less logical CPU than topo_max_cpus, but un-present
-CPU's punit_cpu_core will be initiated to 0 and they will be count to core 0
+My client is a citizen of your country who died in auto crash with his wife
+and only son. I will be entitled with 50% of the total fund while 50% will
+be for you.
+Please contact my private email here for more details:joeakaba00@gmail.com
 
-Like below, there are only 10 high priority cores (20 logical CPUs) in the CPU
-package, but it count to 27 logic CPUs.
+Many thanks in advance,
+Mr.Joe Akaba
 
-./intel-speed-select base-freq info -l 0 | grep mask
-        high-priority-cpu-mask:7f000179,f000179f
 
-With the fix patch:
-./intel-speed-select base-freq info -l 0
-        high-priority-cpu-mask:00000179,f000179f
+Hallo
 
-Signed-off-by: Youquan Song <youquan.song@intel.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- tools/power/x86/intel-speed-select/isst-config.c | 3 +++
- 1 file changed, 3 insertions(+)
+Mein Name ist Joe Akaba . Ich bin von Beruf Rechtsanwalt. Ich m=C3=B6chte
+Ihnen anbieten
+die n=C3=A4chsten Verwandten zu meinem Klienten. Sie erben die Summe von
+($8.5 Millionen US-Dollar)
+Dollar, die mein Kunde vor seinem Tod in der Bank gelassen hat.
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 91c5ad1685a15..a6b1487b5f0f6 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -402,6 +402,9 @@ void set_cpu_mask_from_punit_coremask(int cpu, unsigned long long core_mask,
- 			int j;
- 
- 			for (j = 0; j < topo_max_cpus; ++j) {
-+				if (!CPU_ISSET_S(j, present_cpumask_size, present_cpumask))
-+					continue;
-+
- 				if (cpu_map[j].pkg_id == pkg_id &&
- 				    cpu_map[j].die_id == die_id &&
- 				    cpu_map[j].punit_cpu_core == i) {
--- 
-2.20.1
+Mein Mandant ist ein Staatsb=C3=BCrger Ihres Landes, der mit seiner Frau
+bei einem Autounfall ums Leben gekommen ist
+und nur Sohn. Ich werde mit 50% des Gesamtfonds berechtigt sein, w=C3=A4hre=
+nd 50%
+sein f=C3=BCr dich.
+Bitte kontaktieren Sie meine private E-Mail hier f=C3=BCr weitere
+Informationen: joeakaba00@gmail.com
 
+Vielen Dank im Voraus,
+Mr.Joe Akaba
