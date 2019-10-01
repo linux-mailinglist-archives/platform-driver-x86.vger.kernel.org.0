@@ -2,60 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A95C3FD8
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 20:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D79FBC3FDF
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 20:31:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725905AbfJAS3K (ORCPT
+        id S1726038AbfJASbX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 14:29:10 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:41864 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbfJAS3K (ORCPT
+        Tue, 1 Oct 2019 14:31:23 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36357 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725848AbfJASbX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 14:29:10 -0400
-Received: by mail-pf1-f196.google.com with SMTP id q7so8648998pfh.8;
-        Tue, 01 Oct 2019 11:29:09 -0700 (PDT)
+        Tue, 1 Oct 2019 14:31:23 -0400
+Received: by mail-pf1-f194.google.com with SMTP id y22so8667354pfr.3;
+        Tue, 01 Oct 2019 11:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=ja9C7M5sFJjoPKU4RR/Wi/K8l9IsDkFus8luOrSez3g=;
-        b=NvEJ6IYsI8JNz/qRxedwgpW6PcfOMYLQasklUAkdS2Z0ykPRFweDnQS9zHNfyz3Zzf
-         KYnnFDz+Yz9U6k5Ee0IP1jQI6TiNixz5Rorv5MxLLz2tbcnPolUHPtDyDHYhWN8JA9D5
-         e7elZXs2H7nUDJpKbAMog8X52lbaAu4oiENnHKgsBR9Dn5oeUq5Q9wlZ+H1H6yx7Bj9h
-         D1eoOiAP2lQ3CyC/SSsYdsIcmDUbHd/GumDbgD2icRDRmPl7eUN/cm4ZMCmDYrzSkdm6
-         ynIdJ2088kPv7uH4d1tI494YX+DGP6y4fbu9qjmzlxW0HrOMI78C6GEfBdtLLL+wdJ5Z
-         aOvg==
+        bh=arMSnWH98XCoDlHjSZUPJPEG3cokhAhIPN7LwmIgzUs=;
+        b=lhEirZCh5nxZ4iRfjGf4VUdY52h5ojfOr8Swaj7rZyIYf1AMjWCfajORhJYT9sPrDr
+         a5spfK9ROnChj848CTO8zV33JtQX7dXTSpZMVS2ki1kCIqQ6+1THNT97yQRcXc3KpXuN
+         1a6re2PTq3ZQxgP7PGC0cp8t4oOJ5MkZVlWmyuWYXQhomiRDoxeNJvYa+EPm5FuyWmhn
+         J3cWQ1u2fhIv6Uhu45G6piOsNlXDSz5OB7T0ap9Lvdf2sVSsvY0dN/yUTqQsB0/TKu6X
+         t+Eo+8aY4sXHVYs/+bQ0vxjWC2CuG/mmSPgEFvBhWkyVkfzBhKyEbloEayWZ0BIJgPRC
+         yT2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=ja9C7M5sFJjoPKU4RR/Wi/K8l9IsDkFus8luOrSez3g=;
-        b=TUm3qvLvwaAk3kQInbr7dJJRYjfvY7QqfGcy0gfdp+CVBqCoqDBZjDG2rgewN8PDxA
-         gDKy3HuVJoqhz4uU8/jhCKCVl5bGIDSg5vea1VyGw6+YGxndjmu1g+K9PvD6xhecH7Gf
-         ux+D8w/hhXJi/XMtmo7hgXTf9usSdHXyJQYHmtRBYWV9noofUHbYotZG8+XGygXU+Wq7
-         bt2xYS4+kJ6tBQ5lm8AGx4jZTePgI9dIAtGjaGGqainFdb9jkssQS5PSLkXB05oaf8PW
-         QN6YsUircP8xBEYwaE2Zy61vLqwbc5x2g/Eht115fx06sfA5VEpVq2ig8yFXFRZeJdXv
-         9DNg==
-X-Gm-Message-State: APjAAAUI7QH/KnK5ajTzIfoIrcULk51cykiKYm5Af6pYYxWpmiKZ1YzD
-        S71L6Xzrc3YQf19QlE2PBX8L/7OH
-X-Google-Smtp-Source: APXvYqyZV01Wif1VcyCXD8ruBQ6Jh5eygEXOsJIeQztQ51OcTUeQbA4pJ1IqES/tpVDO6dSt3bIjzQ==
-X-Received: by 2002:aa7:9e05:: with SMTP id y5mr30491157pfq.38.1569954548966;
-        Tue, 01 Oct 2019 11:29:08 -0700 (PDT)
+        bh=arMSnWH98XCoDlHjSZUPJPEG3cokhAhIPN7LwmIgzUs=;
+        b=TKj85xO8f+UzHqNzo09FthwTefpRUexoaEiAftNClfhTz1dFgo9MoCdEZXU2YiQc/c
+         F2VTOkx8dIJYkKC+arxY+qqewKId0iC93F2KgZFDzTCo8+DMw+qchl5zOSdRxO64cMJu
+         miOBef3z+WWdh9uIgluqeEaHISo1Y88CKvpJi2hOhljkg7QrZ0QEJkyFx1rN62ZZiMr8
+         DDAe0jhNwFnd/GLoOlHC4P0kXukt2D43AU382piYMKxPydQXgNIn2T6g08nhjfaEFjPA
+         La0qZm+poHT68pqppZesruYrWZeT+U8AC1iDEcR+EFPTzGYUenQIJ1mxYkIXfZh38W+t
+         5Sqw==
+X-Gm-Message-State: APjAAAXiG3ANWFPpGrvjQ4Vm41M1uFbKu/xLGG57Ye2XXipMuTpr0VH/
+        El+bnaO1FI7hxDJyuAoJCAk=
+X-Google-Smtp-Source: APXvYqwq/SNgyXdZ6GYWRrMsU4mo9f/ZOTfMiP4hePBUnu01cEXRzydijF3rCUBDqJrOwQ/PIVCYqg==
+X-Received: by 2002:a63:c807:: with SMTP id z7mr16415853pgg.6.1569954681741;
+        Tue, 01 Oct 2019 11:31:21 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k5sm26262875pfp.109.2019.10.01.11.29.07
+        by smtp.gmail.com with ESMTPSA id z22sm17851572pgf.10.2019.10.01.11.31.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:29:08 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 11:29:05 -0700
+        Tue, 01 Oct 2019 11:31:21 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 11:31:19 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net
-Subject: [PATCH] platform/x86: asus-laptop: switch to using polled mode of
- input devices
-Message-ID: <20191001182905.GA260106@dtor-ws>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: peaq-wmi: switch to using polled mode of input
+ devices
+Message-ID: <20191001183119.GA261696@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -66,172 +65,153 @@ List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts Asus laptop driver to use the
+retiring input_polled_dev. This converts peaq-wmi driver to use the
 polling mode of standard input devices and removes dependency on
 INPUT_POLLDEV.
 
-Also removed no longed needed set_bit(EV_ABS, ...) as
-input_set_abs_params() does it for us.
+Because the new polling coded does not allow peeking inside the poller
+structure to get the poll interval, we change the "debounce" process to
+operate on the time basis, instead of counting events.
+
+We also fix error handling during initialization, as previously we leaked
+input device structure when we failed to register it.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/platform/x86/Kconfig       |  1 -
- drivers/platform/x86/asus-laptop.c | 70 +++++++++++++++---------------
- 2 files changed, 35 insertions(+), 36 deletions(-)
+ drivers/platform/x86/Kconfig    |  1 -
+ drivers/platform/x86/peaq-wmi.c | 64 +++++++++++++++++++++------------
+ 2 files changed, 41 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 1b67bb578f9f..f0a93f630455 100644
+index f0a93f630455..c703c78c59f3 100644
 --- a/drivers/platform/x86/Kconfig
 +++ b/drivers/platform/x86/Kconfig
-@@ -94,7 +94,6 @@ config ASUS_LAPTOP
- 	depends on RFKILL || RFKILL = n
- 	depends on ACPI_VIDEO || ACPI_VIDEO = n
- 	select INPUT_SPARSEKMAP
+@@ -804,7 +804,6 @@ config PEAQ_WMI
+ 	tristate "PEAQ 2-in-1 WMI hotkey driver"
+ 	depends on ACPI_WMI
+ 	depends on INPUT
 -	select INPUT_POLLDEV
- 	---help---
- 	  This is a driver for Asus laptops, Lenovo SL and the Pegatron
- 	  Lucid tablet. It may also support some MEDION, JVC or VICTOR
-diff --git a/drivers/platform/x86/asus-laptop.c b/drivers/platform/x86/asus-laptop.c
-index 472af7edf0af..537e5f6f16d3 100644
---- a/drivers/platform/x86/asus-laptop.c
-+++ b/drivers/platform/x86/asus-laptop.c
-@@ -244,7 +244,7 @@ struct asus_laptop {
+ 	help
+ 	 Say Y here if you want to support WMI-based hotkeys on PEAQ 2-in-1s.
  
- 	struct input_dev *inputdev;
- 	struct key_entry *keymap;
--	struct input_polled_dev *pega_accel_poll;
-+	struct input_dev *pega_accel_poll;
+diff --git a/drivers/platform/x86/peaq-wmi.c b/drivers/platform/x86/peaq-wmi.c
+index fdeb3624c529..0861d8a00aa0 100644
+--- a/drivers/platform/x86/peaq-wmi.c
++++ b/drivers/platform/x86/peaq-wmi.c
+@@ -18,8 +18,7 @@
  
- 	struct asus_led wled;
- 	struct asus_led bled;
-@@ -446,9 +446,9 @@ static int pega_acc_axis(struct asus_laptop *asus, int curr, char *method)
- 	return clamp_val((short)val, -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP);
- }
+ MODULE_ALIAS("wmi:"PEAQ_DOLBY_BUTTON_GUID);
  
--static void pega_accel_poll(struct input_polled_dev *ipd)
-+static void pega_accel_poll(struct input_dev *input)
+-static unsigned int peaq_ignore_events_counter;
+-static struct input_polled_dev *peaq_poll_dev;
++static struct input_dev *peaq_poll_dev;
+ 
+ /*
+  * The Dolby button (yes really a Dolby button) causes an ACPI variable to get
+@@ -28,8 +27,10 @@ static struct input_polled_dev *peaq_poll_dev;
+  * (if polling after the release) or twice (polling between press and release).
+  * We ignore events for 0.5s after the first event to avoid reporting 2 presses.
+  */
+-static void peaq_wmi_poll(struct input_polled_dev *dev)
++static void peaq_wmi_poll(struct input_dev *input_dev)
  {
--	struct device *parent = ipd->input->dev.parent;
-+	struct device *parent = input->dev.parent;
- 	struct asus_laptop *asus = dev_get_drvdata(parent);
++	static unsigned long last_event_time;
++	static bool had_events;
+ 	union acpi_object obj;
+ 	acpi_status status;
+ 	u32 dummy = 0;
+@@ -44,22 +45,25 @@ static void peaq_wmi_poll(struct input_polled_dev *dev)
+ 		return;
  
- 	/* In some cases, the very first call to poll causes a
-@@ -457,10 +457,10 @@ static void pega_accel_poll(struct input_polled_dev *ipd)
- 	 * device, and perhaps a firmware bug. Fake the first report. */
- 	if (!asus->pega_acc_live) {
- 		asus->pega_acc_live = true;
--		input_report_abs(ipd->input, ABS_X, 0);
--		input_report_abs(ipd->input, ABS_Y, 0);
--		input_report_abs(ipd->input, ABS_Z, 0);
--		input_sync(ipd->input);
-+		input_report_abs(input, ABS_X, 0);
-+		input_report_abs(input, ABS_Y, 0);
-+		input_report_abs(input, ABS_Z, 0);
-+		input_sync(input);
+ 	if (obj.type != ACPI_TYPE_INTEGER) {
+-		dev_err(&peaq_poll_dev->input->dev,
++		dev_err(&input_dev->dev,
+ 			"Error WMBC did not return an integer\n");
  		return;
  	}
  
-@@ -471,25 +471,24 @@ static void pega_accel_poll(struct input_polled_dev *ipd)
- 	/* Note transform, convert to "right/up/out" in the native
- 	 * landscape orientation (i.e. the vector is the direction of
- 	 * "real up" in the device's cartiesian coordinates). */
--	input_report_abs(ipd->input, ABS_X, -asus->pega_acc_x);
--	input_report_abs(ipd->input, ABS_Y, -asus->pega_acc_y);
--	input_report_abs(ipd->input, ABS_Z,  asus->pega_acc_z);
--	input_sync(ipd->input);
-+	input_report_abs(input, ABS_X, -asus->pega_acc_x);
-+	input_report_abs(input, ABS_Y, -asus->pega_acc_y);
-+	input_report_abs(input, ABS_Z,  asus->pega_acc_z);
-+	input_sync(input);
+-	if (peaq_ignore_events_counter && peaq_ignore_events_counter--)
++	if (!obj.integer.value)
+ 		return;
+ 
+-	if (obj.integer.value) {
+-		input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 1);
+-		input_sync(peaq_poll_dev->input);
+-		input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 0);
+-		input_sync(peaq_poll_dev->input);
+-		peaq_ignore_events_counter = max(1u,
+-			PEAQ_POLL_IGNORE_MS / peaq_poll_dev->poll_interval);
+-	}
++	if (had_events && time_before(jiffies, last_event_time +
++					msecs_to_jiffies(PEAQ_POLL_IGNORE_MS)))
++		return;
++
++	input_event(input_dev, EV_KEY, KEY_SOUND, 1);
++	input_sync(input_dev);
++	input_event(input_dev, EV_KEY, KEY_SOUND, 0);
++	input_sync(input_dev);
++
++	last_event_time = jiffies;
++	had_events = true;
  }
  
- static void pega_accel_exit(struct asus_laptop *asus)
- {
- 	if (asus->pega_accel_poll) {
--		input_unregister_polled_device(asus->pega_accel_poll);
--		input_free_polled_device(asus->pega_accel_poll);
-+		input_unregister_device(asus->pega_accel_poll);
-+		asus->pega_accel_poll = NULL;
- 	}
--	asus->pega_accel_poll = NULL;
- }
+ /* Some other devices (Shuttle XS35) use the same WMI GUID for other purposes */
+@@ -75,6 +79,8 @@ static const struct dmi_system_id peaq_dmi_table[] __initconst = {
  
- static int pega_accel_init(struct asus_laptop *asus)
+ static int __init peaq_wmi_init(void)
  {
- 	int err;
--	struct input_polled_dev *ipd;
-+	struct input_dev *input;
- 
- 	if (!asus->is_pega_lucid)
++	int err;
++
+ 	/* WMI GUID is not unique, also check for a DMI match */
+ 	if (!dmi_check_system(peaq_dmi_table))
  		return -ENODEV;
-@@ -499,37 +498,39 @@ static int pega_accel_init(struct asus_laptop *asus)
- 	    acpi_check_handle(asus->handle, METHOD_XLRZ, NULL))
+@@ -82,24 +88,36 @@ static int __init peaq_wmi_init(void)
+ 	if (!wmi_has_guid(PEAQ_DOLBY_BUTTON_GUID))
  		return -ENODEV;
  
--	ipd = input_allocate_polled_device();
--	if (!ipd)
-+	input = input_allocate_device();
-+	if (!input)
+-	peaq_poll_dev = input_allocate_polled_device();
++	peaq_poll_dev = input_allocate_device();
+ 	if (!peaq_poll_dev)
  		return -ENOMEM;
  
--	ipd->poll = pega_accel_poll;
--	ipd->poll_interval = 125;
--	ipd->poll_interval_min = 50;
--	ipd->poll_interval_max = 2000;
--
--	ipd->input->name = PEGA_ACCEL_DESC;
--	ipd->input->phys = PEGA_ACCEL_NAME "/input0";
--	ipd->input->dev.parent = &asus->platform_device->dev;
--	ipd->input->id.bustype = BUS_HOST;
-+	input->name = PEGA_ACCEL_DESC;
-+	input->phys = PEGA_ACCEL_NAME "/input0";
-+	input->dev.parent = &asus->platform_device->dev;
-+	input->id.bustype = BUS_HOST;
- 
--	set_bit(EV_ABS, ipd->input->evbit);
--	input_set_abs_params(ipd->input, ABS_X,
-+	input_set_abs_params(input, ABS_X,
- 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
--	input_set_abs_params(ipd->input, ABS_Y,
-+	input_set_abs_params(input, ABS_Y,
- 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
--	input_set_abs_params(ipd->input, ABS_Z,
-+	input_set_abs_params(input, ABS_Z,
- 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
- 
--	err = input_register_polled_device(ipd);
-+	err = input_setup_polling(input, pega_accel_poll);
- 	if (err)
- 		goto exit;
- 
--	asus->pega_accel_poll = ipd;
-+	input_set_poll_interval(input, 125);
-+	input_set_min_poll_interval(input, 50);
-+	input_set_max_poll_interval(input, 2000);
+-	peaq_poll_dev->poll = peaq_wmi_poll;
+-	peaq_poll_dev->poll_interval = PEAQ_POLL_INTERVAL_MS;
+-	peaq_poll_dev->poll_interval_max = PEAQ_POLL_MAX_MS;
+-	peaq_poll_dev->input->name = "PEAQ WMI hotkeys";
+-	peaq_poll_dev->input->phys = "wmi/input0";
+-	peaq_poll_dev->input->id.bustype = BUS_HOST;
+-	input_set_capability(peaq_poll_dev->input, EV_KEY, KEY_SOUND);
++	peaq_poll_dev->name = "PEAQ WMI hotkeys";
++	peaq_poll_dev->phys = "wmi/input0";
++	peaq_poll_dev->id.bustype = BUS_HOST;
++	input_set_capability(peaq_poll_dev, EV_KEY, KEY_SOUND);
 +
-+	err = input_register_device(input);
++	err = input_setup_polling(peaq_poll_dev, peaq_wmi_poll);
 +	if (err)
-+		goto exit;
++		goto err_out;
 +
-+	asus->pega_accel_poll = input;
- 	return 0;
++	input_set_poll_interval(peaq_poll_dev, PEAQ_POLL_INTERVAL_MS);
++	input_set_max_poll_interval(peaq_poll_dev, PEAQ_POLL_MAX_MS);
++
++	err = input_register_device(peaq_poll_dev);
++	if (err)
++		goto err_out;
++
++	return 0;
  
- exit:
--	input_free_polled_device(ipd);
-+	input_free_device(input);
- 	return err;
+-	return input_register_polled_device(peaq_poll_dev);
++err_out:
++	input_free_device(peaq_poll_dev);
++	return err;
  }
  
-@@ -1550,8 +1551,7 @@ static void asus_acpi_notify(struct acpi_device *device, u32 event)
+ static void __exit peaq_wmi_exit(void)
+ {
+-	input_unregister_polled_device(peaq_poll_dev);
++	input_unregister_device(peaq_poll_dev);
+ }
  
- 	/* Accelerometer "coarse orientation change" event */
- 	if (asus->pega_accel_poll && event == 0xEA) {
--		kobject_uevent(&asus->pega_accel_poll->input->dev.kobj,
--			       KOBJ_CHANGE);
-+		kobject_uevent(&asus->pega_accel_poll->dev.kobj, KOBJ_CHANGE);
- 		return ;
- 	}
- 
+ module_init(peaq_wmi_init);
 -- 
 2.23.0.444.g18eeb5a265-goog
 
