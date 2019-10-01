@@ -2,59 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D79FBC3FDF
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 20:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E91C3FE6
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 20:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbfJASbX (ORCPT
+        id S1725884AbfJASc7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 14:31:23 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36357 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbfJASbX (ORCPT
+        Tue, 1 Oct 2019 14:32:59 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:39932 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfJASc7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 14:31:23 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y22so8667354pfr.3;
-        Tue, 01 Oct 2019 11:31:22 -0700 (PDT)
+        Tue, 1 Oct 2019 14:32:59 -0400
+Received: by mail-pf1-f193.google.com with SMTP id v4so8659970pff.6;
+        Tue, 01 Oct 2019 11:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=arMSnWH98XCoDlHjSZUPJPEG3cokhAhIPN7LwmIgzUs=;
-        b=lhEirZCh5nxZ4iRfjGf4VUdY52h5ojfOr8Swaj7rZyIYf1AMjWCfajORhJYT9sPrDr
-         a5spfK9ROnChj848CTO8zV33JtQX7dXTSpZMVS2ki1kCIqQ6+1THNT97yQRcXc3KpXuN
-         1a6re2PTq3ZQxgP7PGC0cp8t4oOJ5MkZVlWmyuWYXQhomiRDoxeNJvYa+EPm5FuyWmhn
-         J3cWQ1u2fhIv6Uhu45G6piOsNlXDSz5OB7T0ap9Lvdf2sVSsvY0dN/yUTqQsB0/TKu6X
-         t+Eo+8aY4sXHVYs/+bQ0vxjWC2CuG/mmSPgEFvBhWkyVkfzBhKyEbloEayWZ0BIJgPRC
-         yT2A==
+        bh=LMdi2McCDxZRbLnAN862GjfxKtXUKfDyQePozoGYyBs=;
+        b=Ti9+bb5zBdC5dlCGFIxdxeBoDU5fCGmb4wuhM1tvxL4hVUQG+tDO79ExKQoRyWnlco
+         BeFUtsFE8BYt+hQfysi8Cy5XSD3lqTAZNC4DP/b4aVEBgcfqNHK8GxtMKyXG23v1bc3I
+         XH39eV0sOwkb5bn414EYun6EsqUhTk6vxX0Ty0UJoeCGIowzTDnh4Dn7YaGtxs3L43b/
+         P3psXAAatSkQebMjHB47bPYV+9w2cfp2CNSfZYmeSlMHAwm8aZeCKIeEz0jyyEMLPnxd
+         VzXDCd1B6D9VUelLzMnDlmfoxhOvCMIBzc0Wd+Z5/1q3VE3OO5A0JKyFEYlo46KA4IFr
+         vDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=arMSnWH98XCoDlHjSZUPJPEG3cokhAhIPN7LwmIgzUs=;
-        b=TKj85xO8f+UzHqNzo09FthwTefpRUexoaEiAftNClfhTz1dFgo9MoCdEZXU2YiQc/c
-         F2VTOkx8dIJYkKC+arxY+qqewKId0iC93F2KgZFDzTCo8+DMw+qchl5zOSdRxO64cMJu
-         miOBef3z+WWdh9uIgluqeEaHISo1Y88CKvpJi2hOhljkg7QrZ0QEJkyFx1rN62ZZiMr8
-         DDAe0jhNwFnd/GLoOlHC4P0kXukt2D43AU382piYMKxPydQXgNIn2T6g08nhjfaEFjPA
-         La0qZm+poHT68pqppZesruYrWZeT+U8AC1iDEcR+EFPTzGYUenQIJ1mxYkIXfZh38W+t
-         5Sqw==
-X-Gm-Message-State: APjAAAXiG3ANWFPpGrvjQ4Vm41M1uFbKu/xLGG57Ye2XXipMuTpr0VH/
-        El+bnaO1FI7hxDJyuAoJCAk=
-X-Google-Smtp-Source: APXvYqwq/SNgyXdZ6GYWRrMsU4mo9f/ZOTfMiP4hePBUnu01cEXRzydijF3rCUBDqJrOwQ/PIVCYqg==
-X-Received: by 2002:a63:c807:: with SMTP id z7mr16415853pgg.6.1569954681741;
-        Tue, 01 Oct 2019 11:31:21 -0700 (PDT)
+        bh=LMdi2McCDxZRbLnAN862GjfxKtXUKfDyQePozoGYyBs=;
+        b=n/UJ2alu2TTqgT427tWBfu1zDHARjlKrSUtWQ3m7Bs3H8/zOTRNotRYCCltqZ9KEFv
+         WOcyPVi1BFBei/lrZad+g0ERtzjmpXJngIvUfBNw1vaSZUTZ+94EhUmZ8NNIdcj33qCW
+         KykxCaNM+w4St7HOBuMflpCNeEVLLQE6RB0iN/ZUh3KPgoN9IwqcBKG3dkiQg9gwMWcQ
+         tRkmQI2Ooy6OZk9csgNfWpJ8QXpuNPP3ersJiKHHFt+vnP7eiAK92rgNVJQDNm1UX5T8
+         7+vQOLqgEzdHkPbElnUJd6wsGQrLFmwO2U0k39+Z3ZwO37oIhNxr0FS+KHzh98UnEk9j
+         B2Jg==
+X-Gm-Message-State: APjAAAWD6Bxi2OjR4sSdDP+uV348Xv+ksRE1M3oiGO3nk6I1FWQQ041g
+        rvqzTA+XxAvAJERn3bU+JqHSwb2O
+X-Google-Smtp-Source: APXvYqzKWSV5NEYPbEjGqCLEeDvVhX8Z538/VlsY/SmWH0FH4C5YS4kzVXj2fhi+LcQ9qw3Hz1QIDQ==
+X-Received: by 2002:a17:90a:24a1:: with SMTP id i30mr7490024pje.128.1569954777087;
+        Tue, 01 Oct 2019 11:32:57 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id z22sm17851572pgf.10.2019.10.01.11.31.20
+        by smtp.gmail.com with ESMTPSA id m19sm3146373pjl.28.2019.10.01.11.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:31:21 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 11:31:19 -0700
+        Tue, 01 Oct 2019 11:32:55 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 11:32:53 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     Frank Seidel <frank@f-seidel.de>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: peaq-wmi: switch to using polled mode of input
+Subject: [PATCH] platform/x86: hdaps: switch to using polled mode of input
  devices
-Message-ID: <20191001183119.GA261696@dtor-ws>
+Message-ID: <20191001183253.GA2344@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -65,153 +65,125 @@ List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts peaq-wmi driver to use the
+retiring input_polled_dev. This converts hdaps driver to use the
 polling mode of standard input devices and removes dependency on
 INPUT_POLLDEV.
 
-Because the new polling coded does not allow peeking inside the poller
-structure to get the poll interval, we change the "debounce" process to
-operate on the time basis, instead of counting events.
-
-We also fix error handling during initialization, as previously we leaked
-input device structure when we failed to register it.
-
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/platform/x86/Kconfig    |  1 -
- drivers/platform/x86/peaq-wmi.c | 64 +++++++++++++++++++++------------
- 2 files changed, 41 insertions(+), 24 deletions(-)
+ drivers/platform/x86/Kconfig |  1 -
+ drivers/platform/x86/hdaps.c | 38 +++++++++++++++++-------------------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index f0a93f630455..c703c78c59f3 100644
+index c703c78c59f3..8690e311f407 100644
 --- a/drivers/platform/x86/Kconfig
 +++ b/drivers/platform/x86/Kconfig
-@@ -804,7 +804,6 @@ config PEAQ_WMI
- 	tristate "PEAQ 2-in-1 WMI hotkey driver"
- 	depends on ACPI_WMI
+@@ -622,7 +622,6 @@ config THINKPAD_ACPI_HOTKEY_POLL
+ config SENSORS_HDAPS
+ 	tristate "Thinkpad Hard Drive Active Protection System (hdaps)"
  	depends on INPUT
 -	select INPUT_POLLDEV
  	help
- 	 Say Y here if you want to support WMI-based hotkeys on PEAQ 2-in-1s.
+ 	  This driver provides support for the IBM Hard Drive Active Protection
+ 	  System (hdaps), which provides an accelerometer and other misc. data.
+diff --git a/drivers/platform/x86/hdaps.c b/drivers/platform/x86/hdaps.c
+index 3adcb0de0193..84d3d0af4e40 100644
+--- a/drivers/platform/x86/hdaps.c
++++ b/drivers/platform/x86/hdaps.c
+@@ -59,7 +59,7 @@
+ #define HDAPS_BOTH_AXES		(HDAPS_X_AXIS | HDAPS_Y_AXIS)
  
-diff --git a/drivers/platform/x86/peaq-wmi.c b/drivers/platform/x86/peaq-wmi.c
-index fdeb3624c529..0861d8a00aa0 100644
---- a/drivers/platform/x86/peaq-wmi.c
-+++ b/drivers/platform/x86/peaq-wmi.c
-@@ -18,8 +18,7 @@
+ static struct platform_device *pdev;
+-static struct input_polled_dev *hdaps_idev;
++static struct input_dev *hdaps_idev;
+ static unsigned int hdaps_invert;
+ static u8 km_activity;
+ static int rest_x;
+@@ -318,9 +318,8 @@ static void hdaps_calibrate(void)
+ 	__hdaps_read_pair(HDAPS_PORT_XPOS, HDAPS_PORT_YPOS, &rest_x, &rest_y);
+ }
  
- MODULE_ALIAS("wmi:"PEAQ_DOLBY_BUTTON_GUID);
- 
--static unsigned int peaq_ignore_events_counter;
--static struct input_polled_dev *peaq_poll_dev;
-+static struct input_dev *peaq_poll_dev;
- 
- /*
-  * The Dolby button (yes really a Dolby button) causes an ACPI variable to get
-@@ -28,8 +27,10 @@ static struct input_polled_dev *peaq_poll_dev;
-  * (if polling after the release) or twice (polling between press and release).
-  * We ignore events for 0.5s after the first event to avoid reporting 2 presses.
-  */
--static void peaq_wmi_poll(struct input_polled_dev *dev)
-+static void peaq_wmi_poll(struct input_dev *input_dev)
+-static void hdaps_mousedev_poll(struct input_polled_dev *dev)
++static void hdaps_mousedev_poll(struct input_dev *input_dev)
  {
-+	static unsigned long last_event_time;
-+	static bool had_events;
- 	union acpi_object obj;
- 	acpi_status status;
- 	u32 dummy = 0;
-@@ -44,22 +45,25 @@ static void peaq_wmi_poll(struct input_polled_dev *dev)
- 		return;
+-	struct input_dev *input_dev = dev->input;
+ 	int x, y;
  
- 	if (obj.type != ACPI_TYPE_INTEGER) {
--		dev_err(&peaq_poll_dev->input->dev,
-+		dev_err(&input_dev->dev,
- 			"Error WMBC did not return an integer\n");
- 		return;
+ 	mutex_lock(&hdaps_mtx);
+@@ -531,7 +530,6 @@ static const struct dmi_system_id hdaps_whitelist[] __initconst = {
+ 
+ static int __init hdaps_init(void)
+ {
+-	struct input_dev *idev;
+ 	int ret;
+ 
+ 	if (!dmi_check_system(hdaps_whitelist)) {
+@@ -559,31 +557,32 @@ static int __init hdaps_init(void)
+ 	if (ret)
+ 		goto out_device;
+ 
+-	hdaps_idev = input_allocate_polled_device();
++	hdaps_idev = input_allocate_device();
+ 	if (!hdaps_idev) {
+ 		ret = -ENOMEM;
+ 		goto out_group;
  	}
  
--	if (peaq_ignore_events_counter && peaq_ignore_events_counter--)
-+	if (!obj.integer.value)
- 		return;
+-	hdaps_idev->poll = hdaps_mousedev_poll;
+-	hdaps_idev->poll_interval = HDAPS_POLL_INTERVAL;
+-
+ 	/* initial calibrate for the input device */
+ 	hdaps_calibrate();
  
--	if (obj.integer.value) {
--		input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 1);
--		input_sync(peaq_poll_dev->input);
--		input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 0);
--		input_sync(peaq_poll_dev->input);
--		peaq_ignore_events_counter = max(1u,
--			PEAQ_POLL_IGNORE_MS / peaq_poll_dev->poll_interval);
--	}
-+	if (had_events && time_before(jiffies, last_event_time +
-+					msecs_to_jiffies(PEAQ_POLL_IGNORE_MS)))
-+		return;
+ 	/* initialize the input class */
+-	idev = hdaps_idev->input;
+-	idev->name = "hdaps";
+-	idev->phys = "isa1600/input0";
+-	idev->id.bustype = BUS_ISA;
+-	idev->dev.parent = &pdev->dev;
+-	idev->evbit[0] = BIT_MASK(EV_ABS);
+-	input_set_abs_params(idev, ABS_X,
++	hdaps_idev->name = "hdaps";
++	hdaps_idev->phys = "isa1600/input0";
++	hdaps_idev->id.bustype = BUS_ISA;
++	hdaps_idev->dev.parent = &pdev->dev;
++	input_set_abs_params(hdaps_idev, ABS_X,
+ 			-256, 256, HDAPS_INPUT_FUZZ, HDAPS_INPUT_FLAT);
+-	input_set_abs_params(idev, ABS_Y,
++	input_set_abs_params(hdaps_idev, ABS_Y,
+ 			-256, 256, HDAPS_INPUT_FUZZ, HDAPS_INPUT_FLAT);
+ 
+-	ret = input_register_polled_device(hdaps_idev);
++	ret = input_setup_polling(hdaps_idev, hdaps_mousedev_poll);
++	if (ret)
++		goto out_idev;
 +
-+	input_event(input_dev, EV_KEY, KEY_SOUND, 1);
-+	input_sync(input_dev);
-+	input_event(input_dev, EV_KEY, KEY_SOUND, 0);
-+	input_sync(input_dev);
++	input_set_poll_interval(hdaps_idev, HDAPS_POLL_INTERVAL);
 +
-+	last_event_time = jiffies;
-+	had_events = true;
- }
++	ret = input_register_device(hdaps_idev);
+ 	if (ret)
+ 		goto out_idev;
  
- /* Some other devices (Shuttle XS35) use the same WMI GUID for other purposes */
-@@ -75,6 +79,8 @@ static const struct dmi_system_id peaq_dmi_table[] __initconst = {
+@@ -591,7 +590,7 @@ static int __init hdaps_init(void)
+ 	return 0;
  
- static int __init peaq_wmi_init(void)
+ out_idev:
+-	input_free_polled_device(hdaps_idev);
++	input_free_device(hdaps_idev);
+ out_group:
+ 	sysfs_remove_group(&pdev->dev.kobj, &hdaps_attribute_group);
+ out_device:
+@@ -607,8 +606,7 @@ static int __init hdaps_init(void)
+ 
+ static void __exit hdaps_exit(void)
  {
-+	int err;
-+
- 	/* WMI GUID is not unique, also check for a DMI match */
- 	if (!dmi_check_system(peaq_dmi_table))
- 		return -ENODEV;
-@@ -82,24 +88,36 @@ static int __init peaq_wmi_init(void)
- 	if (!wmi_has_guid(PEAQ_DOLBY_BUTTON_GUID))
- 		return -ENODEV;
- 
--	peaq_poll_dev = input_allocate_polled_device();
-+	peaq_poll_dev = input_allocate_device();
- 	if (!peaq_poll_dev)
- 		return -ENOMEM;
- 
--	peaq_poll_dev->poll = peaq_wmi_poll;
--	peaq_poll_dev->poll_interval = PEAQ_POLL_INTERVAL_MS;
--	peaq_poll_dev->poll_interval_max = PEAQ_POLL_MAX_MS;
--	peaq_poll_dev->input->name = "PEAQ WMI hotkeys";
--	peaq_poll_dev->input->phys = "wmi/input0";
--	peaq_poll_dev->input->id.bustype = BUS_HOST;
--	input_set_capability(peaq_poll_dev->input, EV_KEY, KEY_SOUND);
-+	peaq_poll_dev->name = "PEAQ WMI hotkeys";
-+	peaq_poll_dev->phys = "wmi/input0";
-+	peaq_poll_dev->id.bustype = BUS_HOST;
-+	input_set_capability(peaq_poll_dev, EV_KEY, KEY_SOUND);
-+
-+	err = input_setup_polling(peaq_poll_dev, peaq_wmi_poll);
-+	if (err)
-+		goto err_out;
-+
-+	input_set_poll_interval(peaq_poll_dev, PEAQ_POLL_INTERVAL_MS);
-+	input_set_max_poll_interval(peaq_poll_dev, PEAQ_POLL_MAX_MS);
-+
-+	err = input_register_device(peaq_poll_dev);
-+	if (err)
-+		goto err_out;
-+
-+	return 0;
- 
--	return input_register_polled_device(peaq_poll_dev);
-+err_out:
-+	input_free_device(peaq_poll_dev);
-+	return err;
- }
- 
- static void __exit peaq_wmi_exit(void)
- {
--	input_unregister_polled_device(peaq_poll_dev);
-+	input_unregister_device(peaq_poll_dev);
- }
- 
- module_init(peaq_wmi_init);
+-	input_unregister_polled_device(hdaps_idev);
+-	input_free_polled_device(hdaps_idev);
++	input_unregister_device(hdaps_idev);
+ 	sysfs_remove_group(&pdev->dev.kobj, &hdaps_attribute_group);
+ 	platform_device_unregister(pdev);
+ 	platform_driver_unregister(&hdaps_driver);
 -- 
 2.23.0.444.g18eeb5a265-goog
 
