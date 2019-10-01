@@ -2,203 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B228C4095
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 21:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9574AC40C5
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 21:14:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726747AbfJAS7m (ORCPT
+        id S1726186AbfJATOH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 14:59:42 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:40129 "EHLO
+        Tue, 1 Oct 2019 15:14:07 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42940 "EHLO
         mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbfJAS7l (ORCPT
+        with ESMTP id S1725844AbfJATOH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 14:59:41 -0400
-Received: by mail-pf1-f194.google.com with SMTP id x127so8717005pfb.7;
-        Tue, 01 Oct 2019 11:59:41 -0700 (PDT)
+        Tue, 1 Oct 2019 15:14:07 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q12so8752036pff.9;
+        Tue, 01 Oct 2019 12:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=Ue9WEiXN0NY6jDswgxK3rYiIr4dycJEw2xKtEKCD/z8=;
-        b=M3s1t3zFecXww+PQpdEj9hd0XoRyPzEauJxiB9xDAAGeokvtFsroHcLMi6FlmBSal1
-         scN/7Doijqf+UCHJyMh8Y/YWXq2XYlWvDSSOxS7vDHCYZvavvUCDJdIUS51aVqUqe9Ch
-         cIckCNk+oUYsIXExE6e7Mti/9rDNG3weNi/3eJ1uG6K8xUuqG28ozRaJ6GA8Sg8eedYC
-         k6wWQbIU2kbkkzEfKhgBRC6TiA+dRiXtAdh/mt4CE1TQOyD1oPdL6SMqt0VBJbLb7qrN
-         OBxj2oPof51VrrWYByipmAn/HUL6QFvYB3gqtetHJsZTf6PiomK2ha/LjZgbAO7ZnHdZ
-         xNgg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9bQcsJ17lYCiIijlkWSB0Rqxgr7cc1Fcv0k0NaxvXaE=;
+        b=g48xqbtWXL0UIDVkSIXX3Sk2sQPYSjgvHFFr+gt0IloT/2hT7UQGOFpQUJ4gl/fpOD
+         xyaqjJnnNBRUXWTgWdmCPJshSDpkvTvhktEyz8QNAg7cMOGee3aKGviSAlntA0mfBbJm
+         ms6+n1YIDBDQycDmsQ3w2MIaQkehUos8gfMK3UBcrPFzOXoWAXWSc530KFZdry7RM6Gi
+         YJnLjEx4m8o+16PE+Rb10XGyRU7S9lLlZPODCf+nDmgQZY8qn4khrHDGGXnQ/Oxp5XIA
+         GenBbh3b+N52YxJhlxqXG5cFZXczApmphpPghdTwy83njnT71NVyt29XGsjYuRyzY/LW
+         cxBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=Ue9WEiXN0NY6jDswgxK3rYiIr4dycJEw2xKtEKCD/z8=;
-        b=lR9viI4VSgt5+zQoJyHpJa/SMd5gWHlDah5rxz6kDpcV7YaWAjSgFSXoQN6a/9dfyM
-         WTiUSDJdUFaYoTg2YSIedjpPNli97SP44CsZdCK+AITkX1mR7s8mcF8lf0Ou6mIiTHTI
-         RAZ5LWNKM+BVvZs/XvS6D956LvWJfTmjwjTK8mBPJ1ZEFqQl88PfGrviTtcKLNRWU2e7
-         QGguPDEjWHi3bsAV7rPMq1tR65TH+g8+W3d1ggzAJtC/KZEuwMW8May50mLbUKtRbM/6
-         XBMaO69PNemU+1cTM/EleRKdX3uCCXd/qG2x6bbbbmQsqFnJoQYuKWvsdvcDEBk+g4rX
-         lvCw==
-X-Gm-Message-State: APjAAAXwe7o4E54vx+zMaY4X1hgZS419OBHjind5Y15tp7JrAwlnXofG
-        ZiVLhMp6ueeQw5TRzY0gA2e7ArCw
-X-Google-Smtp-Source: APXvYqwGaaNpiSP++STc8GwOk+gPo2eLlhet3Xal3Q3FslMyU8gafFMdjSh+qkWbZiF6fr+lDW2JcQ==
-X-Received: by 2002:a65:64d0:: with SMTP id t16mr32348196pgv.0.1569956380428;
-        Tue, 01 Oct 2019 11:59:40 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id x10sm26153087pfr.44.2019.10.01.11.59.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2019 11:59:39 -0700 (PDT)
-Date:   Tue, 1 Oct 2019 11:59:37 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Frank Seidel <frank@f-seidel.de>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/x86: hdaps: switch to using polled mode of input
- devices
-Message-ID: <20191001185937.GA49109@dtor-ws>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9bQcsJ17lYCiIijlkWSB0Rqxgr7cc1Fcv0k0NaxvXaE=;
+        b=T7i2rC9wMZfwYOmK3zizw81ayQCQBgCBEExDiWwEuFG7GW3KwVpcrtz3TuoGsXOtyW
+         TnD9vfMttXRnSjcEvvW1+09XG5f5/pNhI7oPffel8x+0JA2zqC1l2A16dn2Mozw7IZdd
+         BRd+Zo0C6BSKd4likRqYuR3LGRhtSa0xe+eCnktA1ATXnkRnJZnKm23hIwZaXk3Mr2dt
+         PouZFUvB1s+TwiM04SlA6xSc0oic3kK/R/pjJSLEogMm/G87ZmBAopNE4g8T84aPQ/n7
+         ikeQuodz7anu+w27Fc3gx5MxYKliysF13Je0rVn+yB71SKA51owLDC9LIoz8jdMZILne
+         RTXQ==
+X-Gm-Message-State: APjAAAWLxeCl7thgRGFahDDPJRBZuOy21xgi8o4PgNjKNlpYW2zqGCt5
+        EhSqYFZW7icQ9qpxBNSMGe61RnlMLuwbZA/9gPjBYs2bhPM=
+X-Google-Smtp-Source: APXvYqyNBGbiR21TBJJP5b6s6nYlDdJfRoJF5dCJCX05G314HglBuUKlKfVOVbyVwXbHcIrm25QQTl8ovJpC4uAHaDQ=
+X-Received: by 2002:a63:170e:: with SMTP id x14mr31605996pgl.4.1569957246718;
+ Tue, 01 Oct 2019 12:14:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191001185822.GA48020@dtor-ws>
+In-Reply-To: <20191001185822.GA48020@dtor-ws>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 1 Oct 2019 22:13:53 +0300
+Message-ID: <CAHp75VedN8BCgkFHx599LRU-mFqm451Lz5OJtOU_x5rQWMSKPQ@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/x86: peaq-wmi: switch to using polled mode of
+ input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-We have added polled mode to the normal input devices with the intent of
-retiring input_polled_dev. This converts hdaps driver to use the
-polling mode of standard input devices and removes dependency on
-INPUT_POLLDEV.
+On Tue, Oct 1, 2019 at 9:58 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> We have added polled mode to the normal input devices with the intent of
+> retiring input_polled_dev. This converts peaq-wmi driver to use the
+> polling mode of standard input devices and removes dependency on
+> INPUT_POLLDEV.
+>
+> Because the new polling coded does not allow peeking inside the poller
+> structure to get the poll interval, we change the "debounce" process to
+> operate on the time basis, instead of counting events.
+>
+> We also fix error handling during initialization, as previously we leaked
+> input device structure when we failed to register it.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+>         if (obj.type != ACPI_TYPE_INTEGER) {
+> -               dev_err(&peaq_poll_dev->input->dev,
+> +               dev_err(&input_dev->dev,
+>                         "Error WMBC did not return an integer\n");
 
-v2: include input.h instead of input-polldev.h
+It seems it can be one line now.
 
- drivers/platform/x86/Kconfig |  1 -
- drivers/platform/x86/hdaps.c | 40 +++++++++++++++++-------------------
- 2 files changed, 19 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index c703c78c59f3..8690e311f407 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -622,7 +622,6 @@ config THINKPAD_ACPI_HOTKEY_POLL
- config SENSORS_HDAPS
- 	tristate "Thinkpad Hard Drive Active Protection System (hdaps)"
- 	depends on INPUT
--	select INPUT_POLLDEV
- 	help
- 	  This driver provides support for the IBM Hard Drive Active Protection
- 	  System (hdaps), which provides an accelerometer and other misc. data.
-diff --git a/drivers/platform/x86/hdaps.c b/drivers/platform/x86/hdaps.c
-index 3adcb0de0193..04c4da6692d7 100644
---- a/drivers/platform/x86/hdaps.c
-+++ b/drivers/platform/x86/hdaps.c
-@@ -18,7 +18,7 @@
- 
- #include <linux/delay.h>
- #include <linux/platform_device.h>
--#include <linux/input-polldev.h>
-+#include <linux/input.h>
- #include <linux/kernel.h>
- #include <linux/mutex.h>
- #include <linux/module.h>
-@@ -59,7 +59,7 @@
- #define HDAPS_BOTH_AXES		(HDAPS_X_AXIS | HDAPS_Y_AXIS)
- 
- static struct platform_device *pdev;
--static struct input_polled_dev *hdaps_idev;
-+static struct input_dev *hdaps_idev;
- static unsigned int hdaps_invert;
- static u8 km_activity;
- static int rest_x;
-@@ -318,9 +318,8 @@ static void hdaps_calibrate(void)
- 	__hdaps_read_pair(HDAPS_PORT_XPOS, HDAPS_PORT_YPOS, &rest_x, &rest_y);
- }
- 
--static void hdaps_mousedev_poll(struct input_polled_dev *dev)
-+static void hdaps_mousedev_poll(struct input_dev *input_dev)
- {
--	struct input_dev *input_dev = dev->input;
- 	int x, y;
- 
- 	mutex_lock(&hdaps_mtx);
-@@ -531,7 +530,6 @@ static const struct dmi_system_id hdaps_whitelist[] __initconst = {
- 
- static int __init hdaps_init(void)
- {
--	struct input_dev *idev;
- 	int ret;
- 
- 	if (!dmi_check_system(hdaps_whitelist)) {
-@@ -559,31 +557,32 @@ static int __init hdaps_init(void)
- 	if (ret)
- 		goto out_device;
- 
--	hdaps_idev = input_allocate_polled_device();
-+	hdaps_idev = input_allocate_device();
- 	if (!hdaps_idev) {
- 		ret = -ENOMEM;
- 		goto out_group;
- 	}
- 
--	hdaps_idev->poll = hdaps_mousedev_poll;
--	hdaps_idev->poll_interval = HDAPS_POLL_INTERVAL;
--
- 	/* initial calibrate for the input device */
- 	hdaps_calibrate();
- 
- 	/* initialize the input class */
--	idev = hdaps_idev->input;
--	idev->name = "hdaps";
--	idev->phys = "isa1600/input0";
--	idev->id.bustype = BUS_ISA;
--	idev->dev.parent = &pdev->dev;
--	idev->evbit[0] = BIT_MASK(EV_ABS);
--	input_set_abs_params(idev, ABS_X,
-+	hdaps_idev->name = "hdaps";
-+	hdaps_idev->phys = "isa1600/input0";
-+	hdaps_idev->id.bustype = BUS_ISA;
-+	hdaps_idev->dev.parent = &pdev->dev;
-+	input_set_abs_params(hdaps_idev, ABS_X,
- 			-256, 256, HDAPS_INPUT_FUZZ, HDAPS_INPUT_FLAT);
--	input_set_abs_params(idev, ABS_Y,
-+	input_set_abs_params(hdaps_idev, ABS_Y,
- 			-256, 256, HDAPS_INPUT_FUZZ, HDAPS_INPUT_FLAT);
- 
--	ret = input_register_polled_device(hdaps_idev);
-+	ret = input_setup_polling(hdaps_idev, hdaps_mousedev_poll);
-+	if (ret)
-+		goto out_idev;
-+
-+	input_set_poll_interval(hdaps_idev, HDAPS_POLL_INTERVAL);
-+
-+	ret = input_register_device(hdaps_idev);
- 	if (ret)
- 		goto out_idev;
- 
-@@ -591,7 +590,7 @@ static int __init hdaps_init(void)
- 	return 0;
- 
- out_idev:
--	input_free_polled_device(hdaps_idev);
-+	input_free_device(hdaps_idev);
- out_group:
- 	sysfs_remove_group(&pdev->dev.kobj, &hdaps_attribute_group);
- out_device:
-@@ -607,8 +606,7 @@ static int __init hdaps_init(void)
- 
- static void __exit hdaps_exit(void)
- {
--	input_unregister_polled_device(hdaps_idev);
--	input_free_polled_device(hdaps_idev);
-+	input_unregister_device(hdaps_idev);
- 	sysfs_remove_group(&pdev->dev.kobj, &hdaps_attribute_group);
- 	platform_device_unregister(pdev);
- 	platform_driver_unregister(&hdaps_driver);
--- 
-2.23.0.444.g18eeb5a265-goog
-
+>                 return;
+>         }
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
