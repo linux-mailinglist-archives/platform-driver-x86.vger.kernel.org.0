@@ -2,125 +2,239 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACACBC39E7
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 18:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5A95C3FD8
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 20:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729564AbfJAQGE (ORCPT
+        id S1725905AbfJAS3K (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 12:06:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40252 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726327AbfJAQGD (ORCPT
+        Tue, 1 Oct 2019 14:29:10 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41864 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725848AbfJAS3K (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 12:06:03 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1F12F2133F;
-        Tue,  1 Oct 2019 16:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569945962;
-        bh=viFORMoHYlBKltHccmiUPBbIQT2qPwJiFLuYDJ9RYV8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uCi/zPA34gykz3giHeAXKfNiK+GAE+llviRRM/TR33ENpTcX2YcStrK9s8fPEBeeU
-         7tdU3nNIJ8lBVZeMfxaCH1rBUhWGIpYzBQzL0HS63v7UMEeo40YPnOgxBAyESxqGJh
-         0pbrgcp2h5i2q4wmuVUXGGgxGWql/tTc8ejB+rsg=
-Date:   Tue, 1 Oct 2019 12:06:01 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Austin Kim <austindh.kim@gmail.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Hedi Berriche <hedi.berriche@hpe.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Mike Travis <mike.travis@hpe.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Thomas Gleixner <tglx@linutronix.de>, allison@lohutok.net,
-        andy@infradead.org, armijn@tjaldur.nl, bp@alien8.de,
-        dvhart@infradead.org, hpa@zytor.com, kjlu@umn.edu,
-        platform-driver-x86@vger.kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL
- check routine
-Message-ID: <20191001160601.GX8171@sasha-vm>
-References: <20190922184350.30563-1-sashal@kernel.org>
- <20190922184350.30563-169-sashal@kernel.org>
- <20190922202544.GA2719513@kroah.com>
+        Tue, 1 Oct 2019 14:29:10 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q7so8648998pfh.8;
+        Tue, 01 Oct 2019 11:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=ja9C7M5sFJjoPKU4RR/Wi/K8l9IsDkFus8luOrSez3g=;
+        b=NvEJ6IYsI8JNz/qRxedwgpW6PcfOMYLQasklUAkdS2Z0ykPRFweDnQS9zHNfyz3Zzf
+         KYnnFDz+Yz9U6k5Ee0IP1jQI6TiNixz5Rorv5MxLLz2tbcnPolUHPtDyDHYhWN8JA9D5
+         e7elZXs2H7nUDJpKbAMog8X52lbaAu4oiENnHKgsBR9Dn5oeUq5Q9wlZ+H1H6yx7Bj9h
+         D1eoOiAP2lQ3CyC/SSsYdsIcmDUbHd/GumDbgD2icRDRmPl7eUN/cm4ZMCmDYrzSkdm6
+         ynIdJ2088kPv7uH4d1tI494YX+DGP6y4fbu9qjmzlxW0HrOMI78C6GEfBdtLLL+wdJ5Z
+         aOvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=ja9C7M5sFJjoPKU4RR/Wi/K8l9IsDkFus8luOrSez3g=;
+        b=TUm3qvLvwaAk3kQInbr7dJJRYjfvY7QqfGcy0gfdp+CVBqCoqDBZjDG2rgewN8PDxA
+         gDKy3HuVJoqhz4uU8/jhCKCVl5bGIDSg5vea1VyGw6+YGxndjmu1g+K9PvD6xhecH7Gf
+         ux+D8w/hhXJi/XMtmo7hgXTf9usSdHXyJQYHmtRBYWV9noofUHbYotZG8+XGygXU+Wq7
+         bt2xYS4+kJ6tBQ5lm8AGx4jZTePgI9dIAtGjaGGqainFdb9jkssQS5PSLkXB05oaf8PW
+         QN6YsUircP8xBEYwaE2Zy61vLqwbc5x2g/Eht115fx06sfA5VEpVq2ig8yFXFRZeJdXv
+         9DNg==
+X-Gm-Message-State: APjAAAUI7QH/KnK5ajTzIfoIrcULk51cykiKYm5Af6pYYxWpmiKZ1YzD
+        S71L6Xzrc3YQf19QlE2PBX8L/7OH
+X-Google-Smtp-Source: APXvYqyZV01Wif1VcyCXD8ruBQ6Jh5eygEXOsJIeQztQ51OcTUeQbA4pJ1IqES/tpVDO6dSt3bIjzQ==
+X-Received: by 2002:aa7:9e05:: with SMTP id y5mr30491157pfq.38.1569954548966;
+        Tue, 01 Oct 2019 11:29:08 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id k5sm26262875pfp.109.2019.10.01.11.29.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 11:29:08 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 11:29:05 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Corentin Chary <corentin.chary@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net
+Subject: [PATCH] platform/x86: asus-laptop: switch to using polled mode of
+ input devices
+Message-ID: <20191001182905.GA260106@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190922202544.GA2719513@kroah.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Sep 22, 2019 at 10:25:44PM +0200, Greg KH wrote:
->On Sun, Sep 22, 2019 at 02:43:15PM -0400, Sasha Levin wrote:
->> From: Austin Kim <austindh.kim@gmail.com>
->>
->> [ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
->>
->> The result of kmalloc() should have been checked ahead of below statement:
->>
->> 	pqp = (struct bau_pq_entry *)vp;
->>
->> Move BUG_ON(!vp) before above statement.
->>
->> Signed-off-by: Austin Kim <austindh.kim@gmail.com>
->> Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
->> Cc: Hedi Berriche <hedi.berriche@hpe.com>
->> Cc: Linus Torvalds <torvalds@linux-foundation.org>
->> Cc: Mike Travis <mike.travis@hpe.com>
->> Cc: Peter Zijlstra <peterz@infradead.org>
->> Cc: Russ Anderson <russ.anderson@hpe.com>
->> Cc: Steve Wahl <steve.wahl@hpe.com>
->> Cc: Thomas Gleixner <tglx@linutronix.de>
->> Cc: allison@lohutok.net
->> Cc: andy@infradead.org
->> Cc: armijn@tjaldur.nl
->> Cc: bp@alien8.de
->> Cc: dvhart@infradead.org
->> Cc: gregkh@linuxfoundation.org
->> Cc: hpa@zytor.com
->> Cc: kjlu@umn.edu
->> Cc: platform-driver-x86@vger.kernel.org
->> Link: https://lkml.kernel.org/r/20190905232951.GA28779@LGEARND20B15
->> Signed-off-by: Ingo Molnar <mingo@kernel.org>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  arch/x86/platform/uv/tlb_uv.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
->> index 20c389a91b803..5f0a96bf27a1f 100644
->> --- a/arch/x86/platform/uv/tlb_uv.c
->> +++ b/arch/x86/platform/uv/tlb_uv.c
->> @@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
->>
->>  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
->>  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
->> -	pqp = (struct bau_pq_entry *)vp;
->> -	BUG_ON(!pqp);
->> +	BUG_ON(!vp);
->>
->> +	pqp = (struct bau_pq_entry *)vp;
->>  	cp = (char *)pqp + 31;
->>  	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
->>
->
->How did this even get merged in the first place?  I thought a number of
->us complained about it.
->
->This isn't any change in code, and the original is just fine, the author
->didn't realize how C works :(
->
->Please drop this.
+We have added polled mode to the normal input devices with the intent of
+retiring input_polled_dev. This converts Asus laptop driver to use the
+polling mode of standard input devices and removes dependency on
+INPUT_POLLDEV.
 
-Heh, I've dropped it.
+Also removed no longed needed set_bit(EV_ABS, ...) as
+input_set_abs_params() does it for us.
 
---
-Thanks,
-Sasha
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/platform/x86/Kconfig       |  1 -
+ drivers/platform/x86/asus-laptop.c | 70 +++++++++++++++---------------
+ 2 files changed, 35 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 1b67bb578f9f..f0a93f630455 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -94,7 +94,6 @@ config ASUS_LAPTOP
+ 	depends on RFKILL || RFKILL = n
+ 	depends on ACPI_VIDEO || ACPI_VIDEO = n
+ 	select INPUT_SPARSEKMAP
+-	select INPUT_POLLDEV
+ 	---help---
+ 	  This is a driver for Asus laptops, Lenovo SL and the Pegatron
+ 	  Lucid tablet. It may also support some MEDION, JVC or VICTOR
+diff --git a/drivers/platform/x86/asus-laptop.c b/drivers/platform/x86/asus-laptop.c
+index 472af7edf0af..537e5f6f16d3 100644
+--- a/drivers/platform/x86/asus-laptop.c
++++ b/drivers/platform/x86/asus-laptop.c
+@@ -244,7 +244,7 @@ struct asus_laptop {
+ 
+ 	struct input_dev *inputdev;
+ 	struct key_entry *keymap;
+-	struct input_polled_dev *pega_accel_poll;
++	struct input_dev *pega_accel_poll;
+ 
+ 	struct asus_led wled;
+ 	struct asus_led bled;
+@@ -446,9 +446,9 @@ static int pega_acc_axis(struct asus_laptop *asus, int curr, char *method)
+ 	return clamp_val((short)val, -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP);
+ }
+ 
+-static void pega_accel_poll(struct input_polled_dev *ipd)
++static void pega_accel_poll(struct input_dev *input)
+ {
+-	struct device *parent = ipd->input->dev.parent;
++	struct device *parent = input->dev.parent;
+ 	struct asus_laptop *asus = dev_get_drvdata(parent);
+ 
+ 	/* In some cases, the very first call to poll causes a
+@@ -457,10 +457,10 @@ static void pega_accel_poll(struct input_polled_dev *ipd)
+ 	 * device, and perhaps a firmware bug. Fake the first report. */
+ 	if (!asus->pega_acc_live) {
+ 		asus->pega_acc_live = true;
+-		input_report_abs(ipd->input, ABS_X, 0);
+-		input_report_abs(ipd->input, ABS_Y, 0);
+-		input_report_abs(ipd->input, ABS_Z, 0);
+-		input_sync(ipd->input);
++		input_report_abs(input, ABS_X, 0);
++		input_report_abs(input, ABS_Y, 0);
++		input_report_abs(input, ABS_Z, 0);
++		input_sync(input);
+ 		return;
+ 	}
+ 
+@@ -471,25 +471,24 @@ static void pega_accel_poll(struct input_polled_dev *ipd)
+ 	/* Note transform, convert to "right/up/out" in the native
+ 	 * landscape orientation (i.e. the vector is the direction of
+ 	 * "real up" in the device's cartiesian coordinates). */
+-	input_report_abs(ipd->input, ABS_X, -asus->pega_acc_x);
+-	input_report_abs(ipd->input, ABS_Y, -asus->pega_acc_y);
+-	input_report_abs(ipd->input, ABS_Z,  asus->pega_acc_z);
+-	input_sync(ipd->input);
++	input_report_abs(input, ABS_X, -asus->pega_acc_x);
++	input_report_abs(input, ABS_Y, -asus->pega_acc_y);
++	input_report_abs(input, ABS_Z,  asus->pega_acc_z);
++	input_sync(input);
+ }
+ 
+ static void pega_accel_exit(struct asus_laptop *asus)
+ {
+ 	if (asus->pega_accel_poll) {
+-		input_unregister_polled_device(asus->pega_accel_poll);
+-		input_free_polled_device(asus->pega_accel_poll);
++		input_unregister_device(asus->pega_accel_poll);
++		asus->pega_accel_poll = NULL;
+ 	}
+-	asus->pega_accel_poll = NULL;
+ }
+ 
+ static int pega_accel_init(struct asus_laptop *asus)
+ {
+ 	int err;
+-	struct input_polled_dev *ipd;
++	struct input_dev *input;
+ 
+ 	if (!asus->is_pega_lucid)
+ 		return -ENODEV;
+@@ -499,37 +498,39 @@ static int pega_accel_init(struct asus_laptop *asus)
+ 	    acpi_check_handle(asus->handle, METHOD_XLRZ, NULL))
+ 		return -ENODEV;
+ 
+-	ipd = input_allocate_polled_device();
+-	if (!ipd)
++	input = input_allocate_device();
++	if (!input)
+ 		return -ENOMEM;
+ 
+-	ipd->poll = pega_accel_poll;
+-	ipd->poll_interval = 125;
+-	ipd->poll_interval_min = 50;
+-	ipd->poll_interval_max = 2000;
+-
+-	ipd->input->name = PEGA_ACCEL_DESC;
+-	ipd->input->phys = PEGA_ACCEL_NAME "/input0";
+-	ipd->input->dev.parent = &asus->platform_device->dev;
+-	ipd->input->id.bustype = BUS_HOST;
++	input->name = PEGA_ACCEL_DESC;
++	input->phys = PEGA_ACCEL_NAME "/input0";
++	input->dev.parent = &asus->platform_device->dev;
++	input->id.bustype = BUS_HOST;
+ 
+-	set_bit(EV_ABS, ipd->input->evbit);
+-	input_set_abs_params(ipd->input, ABS_X,
++	input_set_abs_params(input, ABS_X,
+ 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
+-	input_set_abs_params(ipd->input, ABS_Y,
++	input_set_abs_params(input, ABS_Y,
+ 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
+-	input_set_abs_params(ipd->input, ABS_Z,
++	input_set_abs_params(input, ABS_Z,
+ 			     -PEGA_ACC_CLAMP, PEGA_ACC_CLAMP, 0, 0);
+ 
+-	err = input_register_polled_device(ipd);
++	err = input_setup_polling(input, pega_accel_poll);
+ 	if (err)
+ 		goto exit;
+ 
+-	asus->pega_accel_poll = ipd;
++	input_set_poll_interval(input, 125);
++	input_set_min_poll_interval(input, 50);
++	input_set_max_poll_interval(input, 2000);
++
++	err = input_register_device(input);
++	if (err)
++		goto exit;
++
++	asus->pega_accel_poll = input;
+ 	return 0;
+ 
+ exit:
+-	input_free_polled_device(ipd);
++	input_free_device(input);
+ 	return err;
+ }
+ 
+@@ -1550,8 +1551,7 @@ static void asus_acpi_notify(struct acpi_device *device, u32 event)
+ 
+ 	/* Accelerometer "coarse orientation change" event */
+ 	if (asus->pega_accel_poll && event == 0xEA) {
+-		kobject_uevent(&asus->pega_accel_poll->input->dev.kobj,
+-			       KOBJ_CHANGE);
++		kobject_uevent(&asus->pega_accel_poll->dev.kobj, KOBJ_CHANGE);
+ 		return ;
+ 	}
+ 
+-- 
+2.23.0.444.g18eeb5a265-goog
+
+
+-- 
+Dmitry
