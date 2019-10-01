@@ -2,93 +2,125 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A99B3C3060
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 11:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACACBC39E7
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 18:08:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729554AbfJAJjX (ORCPT
+        id S1729564AbfJAQGE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 05:39:23 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:45813 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729538AbfJAJjX (ORCPT
+        Tue, 1 Oct 2019 12:06:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40252 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726327AbfJAQGD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 05:39:23 -0400
-Received: by mail-qk1-f194.google.com with SMTP id z67so10510707qkb.12
-        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Oct 2019 02:39:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=x6ZXQQxzoml14NVErNzUyQEmyrBF8ArDdBNS8Uodmbo=;
-        b=SNcTNKZusPIzT0tNaFTT+SZ1TrMDHINPTd8e+aQyod3iJpDxo3qGgHuvlUnKSnTRBj
-         dYkTR+UBgfnQmqZrSFT5H8QS+E6Rb1wOW3Qzai4hZ1WNCW4ts2Ifr/PycGZEAfYyrwXS
-         ZkJeUgXcswH+4mm0B6KrmGZPR4JiuUXsLQL+ppQ9HCouEpH143PQx8b2oVLH1EJYT0+s
-         0A1bQpHEtel5gLFvCfRxGxK8FQ3YmkX+a4HSbUKg9BFwZx2XrrvBblfhB2WFh8QV8KR3
-         /MMm/U3Qz7k97zF0iWRQO/V4Qn8JzN7Ww8ZT+8YQ8aGTx3KX4galjQQMctRf6iPkJJeO
-         KMPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=x6ZXQQxzoml14NVErNzUyQEmyrBF8ArDdBNS8Uodmbo=;
-        b=LPJbSPtNLkF2P0lic3Na9SFf9dzHHp248u8IohG7K1j2lE45Pwxcah0zg8OByj/mdq
-         CqFH7BFRExwXyEZaqkVZFo2YIMyt1B1qh0OVf5dQ4FlluLck8l63OBOywViLb9ClNmJ+
-         9VM9xFNC76AcTaYPeNKOx8Do7rXJrC96otbwLZwBe969I7Qaegyhu4hvf96VRbohLnb+
-         misx1nhLjxnRp1mf6CIXDz8EvNZolqpdn69woR6PNijGnfWJ9Bf2NZUXcnrF/dPKXBRR
-         tJ79zVyO9L4onNTmcqGJxCAxJb63vJr35DSmBmfax4e22B4O0wRDuGvexwQJnTBSBAia
-         EezA==
-X-Gm-Message-State: APjAAAUIZKsA2JXb0AcmsdXVrNW8dvXBKeJgZ+KPnuXlH3ufTtzhicMz
-        TG6tcwJOJ2LhE0+R1DC1JwNBD+o0aQP6aMsFCw==
-X-Google-Smtp-Source: APXvYqzd+ZTVQMAeQwVao4ff//LPPCqU4fLp6Hz70jEz/mbUEnuaOFv71zqc3/7AfAp1YSrASLbThvP2zxlJrniNeoE=
-X-Received: by 2002:a05:620a:140b:: with SMTP id d11mr4979696qkj.22.1569922762727;
- Tue, 01 Oct 2019 02:39:22 -0700 (PDT)
+        Tue, 1 Oct 2019 12:06:03 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F12F2133F;
+        Tue,  1 Oct 2019 16:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569945962;
+        bh=viFORMoHYlBKltHccmiUPBbIQT2qPwJiFLuYDJ9RYV8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uCi/zPA34gykz3giHeAXKfNiK+GAE+llviRRM/TR33ENpTcX2YcStrK9s8fPEBeeU
+         7tdU3nNIJ8lBVZeMfxaCH1rBUhWGIpYzBQzL0HS63v7UMEeo40YPnOgxBAyESxqGJh
+         0pbrgcp2h5i2q4wmuVUXGGgxGWql/tTc8ejB+rsg=
+Date:   Tue, 1 Oct 2019 12:06:01 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Austin Kim <austindh.kim@gmail.com>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        Hedi Berriche <hedi.berriche@hpe.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mike Travis <mike.travis@hpe.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        Steve Wahl <steve.wahl@hpe.com>,
+        Thomas Gleixner <tglx@linutronix.de>, allison@lohutok.net,
+        andy@infradead.org, armijn@tjaldur.nl, bp@alien8.de,
+        dvhart@infradead.org, hpa@zytor.com, kjlu@umn.edu,
+        platform-driver-x86@vger.kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: Re: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL
+ check routine
+Message-ID: <20191001160601.GX8171@sasha-vm>
+References: <20190922184350.30563-1-sashal@kernel.org>
+ <20190922184350.30563-169-sashal@kernel.org>
+ <20190922202544.GA2719513@kroah.com>
 MIME-Version: 1.0
-Received: by 2002:ac8:5205:0:0:0:0:0 with HTTP; Tue, 1 Oct 2019 02:39:21 -0700 (PDT)
-Reply-To: eddywilliam0003@gmail.com
-From:   eddy william <smithhason13@gmail.com>
-Date:   Tue, 1 Oct 2019 11:39:21 +0200
-Message-ID: <CAE9dMzbxxdWyqEQya_tittjwHQwQo37scoM17g+XLkx0YwWWag@mail.gmail.com>
-Subject: hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20190922202544.GA2719513@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello
+On Sun, Sep 22, 2019 at 10:25:44PM +0200, Greg KH wrote:
+>On Sun, Sep 22, 2019 at 02:43:15PM -0400, Sasha Levin wrote:
+>> From: Austin Kim <austindh.kim@gmail.com>
+>>
+>> [ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
+>>
+>> The result of kmalloc() should have been checked ahead of below statement:
+>>
+>> 	pqp = (struct bau_pq_entry *)vp;
+>>
+>> Move BUG_ON(!vp) before above statement.
+>>
+>> Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+>> Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+>> Cc: Hedi Berriche <hedi.berriche@hpe.com>
+>> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+>> Cc: Mike Travis <mike.travis@hpe.com>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: Russ Anderson <russ.anderson@hpe.com>
+>> Cc: Steve Wahl <steve.wahl@hpe.com>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: allison@lohutok.net
+>> Cc: andy@infradead.org
+>> Cc: armijn@tjaldur.nl
+>> Cc: bp@alien8.de
+>> Cc: dvhart@infradead.org
+>> Cc: gregkh@linuxfoundation.org
+>> Cc: hpa@zytor.com
+>> Cc: kjlu@umn.edu
+>> Cc: platform-driver-x86@vger.kernel.org
+>> Link: https://lkml.kernel.org/r/20190905232951.GA28779@LGEARND20B15
+>> Signed-off-by: Ingo Molnar <mingo@kernel.org>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> ---
+>>  arch/x86/platform/uv/tlb_uv.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
+>> index 20c389a91b803..5f0a96bf27a1f 100644
+>> --- a/arch/x86/platform/uv/tlb_uv.c
+>> +++ b/arch/x86/platform/uv/tlb_uv.c
+>> @@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
+>>
+>>  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
+>>  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
+>> -	pqp = (struct bau_pq_entry *)vp;
+>> -	BUG_ON(!pqp);
+>> +	BUG_ON(!vp);
+>>
+>> +	pqp = (struct bau_pq_entry *)vp;
+>>  	cp = (char *)pqp + 31;
+>>  	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
+>>
+>
+>How did this even get merged in the first place?  I thought a number of
+>us complained about it.
+>
+>This isn't any change in code, and the original is just fine, the author
+>didn't realize how C works :(
+>
+>Please drop this.
 
-My name is Eddy William I am a lawyer by profession. I wish to offer you
-the next of kin to my client. You will inherit the sum of ($14.2 Million)
-dollars my client left in the bank before his death.
+Heh, I've dropped it.
 
-My client is a citizen of your country who died in auto crash with his wife
-and only son. I will be entitled with 50% of the total fund while 50% will
-be for you.
-Please contact my private email here for more details:eddywilliam0003@gmail=
-.com
-
-Many thanks in advance,
-Mr.Eddy William
-
-
-Hallo
-
-Mein Name ist Eddy William . Ich bin von Beruf Rechtsanwalt. Ich m=C3=B6cht=
-e
-Ihnen anbieten
-die n=C3=A4chsten Verwandten zu meinem Klienten. Sie erben die Summe von
-($14.2 Millionen US-Dollar)
-Dollar, die mein Kunde vor seinem Tod in der Bank gelassen hat.
-
-Mein Mandant ist ein Staatsb=C3=BCrger Ihres Landes, der mit seiner Frau
-bei einem Autounfall ums Leben gekommen ist
-und nur Sohn. Ich werde mit 50% des Gesamtfonds berechtigt sein, w=C3=A4hre=
-nd 50%
-sein f=C3=BCr dich.
-Bitte kontaktieren Sie meine private E-Mail hier f=C3=BCr weitere
-Informationen: eddywilliam0003@gmail.com
-
-Vielen Dank im Voraus,
-Mr.Eddy William
+--
+Thanks,
+Sasha
