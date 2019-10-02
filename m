@@ -2,91 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9574AC40C5
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Oct 2019 21:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3E1C4993
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  2 Oct 2019 10:34:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726186AbfJATOH (ORCPT
+        id S1727465AbfJBIeM convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Oct 2019 15:14:07 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42940 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbfJATOH (ORCPT
+        Wed, 2 Oct 2019 04:34:12 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:20224 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727334AbfJBIeM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Oct 2019 15:14:07 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q12so8752036pff.9;
-        Tue, 01 Oct 2019 12:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9bQcsJ17lYCiIijlkWSB0Rqxgr7cc1Fcv0k0NaxvXaE=;
-        b=g48xqbtWXL0UIDVkSIXX3Sk2sQPYSjgvHFFr+gt0IloT/2hT7UQGOFpQUJ4gl/fpOD
-         xyaqjJnnNBRUXWTgWdmCPJshSDpkvTvhktEyz8QNAg7cMOGee3aKGviSAlntA0mfBbJm
-         ms6+n1YIDBDQycDmsQ3w2MIaQkehUos8gfMK3UBcrPFzOXoWAXWSc530KFZdry7RM6Gi
-         YJnLjEx4m8o+16PE+Rb10XGyRU7S9lLlZPODCf+nDmgQZY8qn4khrHDGGXnQ/Oxp5XIA
-         GenBbh3b+N52YxJhlxqXG5cFZXczApmphpPghdTwy83njnT71NVyt29XGsjYuRyzY/LW
-         cxBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9bQcsJ17lYCiIijlkWSB0Rqxgr7cc1Fcv0k0NaxvXaE=;
-        b=T7i2rC9wMZfwYOmK3zizw81ayQCQBgCBEExDiWwEuFG7GW3KwVpcrtz3TuoGsXOtyW
-         TnD9vfMttXRnSjcEvvW1+09XG5f5/pNhI7oPffel8x+0JA2zqC1l2A16dn2Mozw7IZdd
-         BRd+Zo0C6BSKd4likRqYuR3LGRhtSa0xe+eCnktA1ATXnkRnJZnKm23hIwZaXk3Mr2dt
-         PouZFUvB1s+TwiM04SlA6xSc0oic3kK/R/pjJSLEogMm/G87ZmBAopNE4g8T84aPQ/n7
-         ikeQuodz7anu+w27Fc3gx5MxYKliysF13Je0rVn+yB71SKA51owLDC9LIoz8jdMZILne
-         RTXQ==
-X-Gm-Message-State: APjAAAWLxeCl7thgRGFahDDPJRBZuOy21xgi8o4PgNjKNlpYW2zqGCt5
-        EhSqYFZW7icQ9qpxBNSMGe61RnlMLuwbZA/9gPjBYs2bhPM=
-X-Google-Smtp-Source: APXvYqyNBGbiR21TBJJP5b6s6nYlDdJfRoJF5dCJCX05G314HglBuUKlKfVOVbyVwXbHcIrm25QQTl8ovJpC4uAHaDQ=
-X-Received: by 2002:a63:170e:: with SMTP id x14mr31605996pgl.4.1569957246718;
- Tue, 01 Oct 2019 12:14:06 -0700 (PDT)
+        Wed, 2 Oct 2019 04:34:12 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-106-A4o3tKQ9OZitIOq_xjIfUQ-1; Wed, 02 Oct 2019 09:34:09 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Wed, 2 Oct 2019 09:34:08 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Wed, 2 Oct 2019 09:34:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Sasha Levin' <sashal@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Austin Kim <austindh.kim@gmail.com>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        "Hedi Berriche" <hedi.berriche@hpe.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Mike Travis <mike.travis@hpe.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        "Steve Wahl" <steve.wahl@hpe.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "allison@lohutok.net" <allison@lohutok.net>,
+        "andy@infradead.org" <andy@infradead.org>,
+        "armijn@tjaldur.nl" <armijn@tjaldur.nl>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dvhart@infradead.org" <dvhart@infradead.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "kjlu@umn.edu" <kjlu@umn.edu>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        Ingo Molnar <mingo@kernel.org>
+Subject: RE: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL
+ check routine
+Thread-Topic: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL
+ check routine
+Thread-Index: AQHVeHIkSedJbnEQTUevg+MgQTj4iqdHBdUw
+Date:   Wed, 2 Oct 2019 08:34:08 +0000
+Message-ID: <ea163ee8ba4446978732c2c6607bd6da@AcuMS.aculab.com>
+References: <20190922184350.30563-1-sashal@kernel.org>
+ <20190922184350.30563-169-sashal@kernel.org>
+ <20190922202544.GA2719513@kroah.com> <20191001160601.GX8171@sasha-vm>
+In-Reply-To: <20191001160601.GX8171@sasha-vm>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-References: <20191001185822.GA48020@dtor-ws>
-In-Reply-To: <20191001185822.GA48020@dtor-ws>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 1 Oct 2019 22:13:53 +0300
-Message-ID: <CAHp75VedN8BCgkFHx599LRU-mFqm451Lz5OJtOU_x5rQWMSKPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: peaq-wmi: switch to using polled mode of
- input devices
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MC-Unique: A4o3tKQ9OZitIOq_xjIfUQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Oct 1, 2019 at 9:58 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> We have added polled mode to the normal input devices with the intent of
-> retiring input_polled_dev. This converts peaq-wmi driver to use the
-> polling mode of standard input devices and removes dependency on
-> INPUT_POLLDEV.
->
-> Because the new polling coded does not allow peeking inside the poller
-> structure to get the poll interval, we change the "debounce" process to
-> operate on the time basis, instead of counting events.
->
-> We also fix error handling during initialization, as previously we leaked
-> input device structure when we failed to register it.
+From: Sasha Levin
+> Sent: 01 October 2019 17:06
+> Subject: Re: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL check routine
+> 
+> On Sun, Sep 22, 2019 at 10:25:44PM +0200, Greg KH wrote:
+> >On Sun, Sep 22, 2019 at 02:43:15PM -0400, Sasha Levin wrote:
+> >> From: Austin Kim <austindh.kim@gmail.com>
+> >>
+> >> [ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
+> >>
+> >> The result of kmalloc() should have been checked ahead of below statement:
+> >>
+> >> 	pqp = (struct bau_pq_entry *)vp;
+> >>
+> >> Move BUG_ON(!vp) before above statement.
+> >>
+> >> Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+...
+> >> ---
+> >>  arch/x86/platform/uv/tlb_uv.c | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
+> >> index 20c389a91b803..5f0a96bf27a1f 100644
+> >> --- a/arch/x86/platform/uv/tlb_uv.c
+> >> +++ b/arch/x86/platform/uv/tlb_uv.c
+> >> @@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
+> >>
+> >>  	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
+> >>  	vp = kmalloc_node(plsize, GFP_KERNEL, node);
+> >> -	pqp = (struct bau_pq_entry *)vp;
+> >> -	BUG_ON(!pqp);
+> >> +	BUG_ON(!vp);
+> >>
+> >> +	pqp = (struct bau_pq_entry *)vp;
+> >>  	cp = (char *)pqp + 31;
+> >>  	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
+> >>
+> >
+> >How did this even get merged in the first place?  I thought a number of
+> >us complained about it.
+> >
+> >This isn't any change in code, and the original is just fine, the author
+> >didn't realize how C works :(
 
->         if (obj.type != ACPI_TYPE_INTEGER) {
-> -               dev_err(&peaq_poll_dev->input->dev,
-> +               dev_err(&input_dev->dev,
->                         "Error WMBC did not return an integer\n");
+Mind you, the code itself if pretty horrid.
+Looks like it is aligning to 32 bytes, easier done by:
+	pqp = (void *)((unsigned long)vp + 31 & ~31);
+(and there's a roundup macro to obfuscate it somewhere.)
+But I'd also expect to see a matching '+ 31' in the size passed to kmalloc().
+Not to mention a comment!
 
-It seems it can be one line now.
+	David
 
->                 return;
->         }
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
--- 
-With Best Regards,
-Andy Shevchenko
