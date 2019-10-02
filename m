@@ -2,146 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D046C8B63
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  2 Oct 2019 16:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B8EC900F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  2 Oct 2019 19:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727920AbfJBOhL (ORCPT
+        id S1727737AbfJBRk5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 2 Oct 2019 10:37:11 -0400
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:33430 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726951AbfJBOhK (ORCPT
+        Wed, 2 Oct 2019 13:40:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33542 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727721AbfJBRk4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 2 Oct 2019 10:37:10 -0400
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x92EQN8M016140;
-        Wed, 2 Oct 2019 14:36:14 GMT
-Received: from g4t3427.houston.hpe.com (g4t3427.houston.hpe.com [15.241.140.73])
-        by mx0b-002e3701.pphosted.com with ESMTP id 2vck9maha3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Oct 2019 14:36:14 +0000
-Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
-        by g4t3427.houston.hpe.com (Postfix) with ESMTP id AC04A57;
-        Wed,  2 Oct 2019 14:35:53 +0000 (UTC)
-Received: from [16.116.130.10] (unknown [16.116.130.10])
-        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id E92F445;
-        Wed,  2 Oct 2019 14:35:49 +0000 (UTC)
-Subject: Re: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL
- check routine
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Sasha Levin' <sashal@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Austin Kim <austindh.kim@gmail.com>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Hedi Berriche <hedi.berriche@hpe.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "allison@lohutok.net" <allison@lohutok.net>,
-        "andy@infradead.org" <andy@infradead.org>,
-        "armijn@tjaldur.nl" <armijn@tjaldur.nl>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dvhart@infradead.org" <dvhart@infradead.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "kjlu@umn.edu" <kjlu@umn.edu>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Ingo Molnar <mingo@kernel.org>
-References: <20190922184350.30563-1-sashal@kernel.org>
- <20190922184350.30563-169-sashal@kernel.org>
- <20190922202544.GA2719513@kroah.com> <20191001160601.GX8171@sasha-vm>
- <ea163ee8ba4446978732c2c6607bd6da@AcuMS.aculab.com>
-From:   Mike Travis <mike.travis@hpe.com>
-Message-ID: <c3ecfbb0-b1d2-9af9-97e9-408a45b696d4@hpe.com>
-Date:   Wed, 2 Oct 2019 07:35:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 2 Oct 2019 13:40:56 -0400
+Received: by mail-pg1-f194.google.com with SMTP id q1so4225815pgb.0;
+        Wed, 02 Oct 2019 10:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=3B+j3JqzIPiwRwXNo1J8LATwL3AzjaBnib1ySfRTIoc=;
+        b=Av1ir+Ao+x17YdibrMWnEgNmaJJCUHEvAu20IEqcps5c8MeVSADHxFvmsBzSUxg8O3
+         GrxFw+usqScrNh1RQeYIyVpUHv1uGf2t+gF5cMY1aDgIeqEGoPSS1sJa1ZdCg/jh7f1o
+         FDME/pZMBiIg0wTkqKlqHts4elcX0nU2s4SEJMM2AIRD6owXrrNz4GKDmsCuJURi2adL
+         IsbAoptvFMsA+SxovgTgVg00Kh0d+lKIrmMAOcWlTysteia/deAgLmcEq5Vf1yCd/ic0
+         yTjpebKbubBmWzk6gPONH0UYT7Hlv95mqI482xgU5rIyA6V0+rHw3M2v7LFsRoCcVsGi
+         JCFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=3B+j3JqzIPiwRwXNo1J8LATwL3AzjaBnib1ySfRTIoc=;
+        b=BnKW+4KESsbDCac10o2S78zHirKMgI7kL87Ngs6jZjwJMI3TxBwVMugWhH+iHimeF0
+         vISlvPQLkGUcp244AgNp6FNRr/12vDAfkt9WmbLjUmYQKAQVzjTSHW2q8YDX89C0u7V4
+         I33RuTiLhEwY+iJsoWfhE1Nh++Ho0chgrcyfDfw0EMVirCEjh2qoE/WK3Iv/FtnxWEVK
+         sWTwevifZGh86PPyYX+P3/h7wB1s56KVBGKdbp2jzofJtqkZAj7L7rkMfknzlUWLMcTG
+         RscvVCPlmC0nb5AjMYRmd23eOBXLM9yNRFKGwZdMfZ1yfi/d3MvqvHcSEH98ivqY5sRu
+         cb2w==
+X-Gm-Message-State: APjAAAVmdtmMq72cnLYiF1kK5Az1hgGVWMG6dYDmz1W+j8sXiiULlgWZ
+        4anQk1oP02berfR/LlG5Zzg=
+X-Google-Smtp-Source: APXvYqxqcW/QajeJaU/n0ZHFqEjZnuYDGy8tJZXfiBOcltu+XczbqQp5CCKZ30jAlQDR3FdJRVEMzg==
+X-Received: by 2002:a63:f20d:: with SMTP id v13mr4862571pgh.175.1570038055634;
+        Wed, 02 Oct 2019 10:40:55 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id r1sm15310pgv.70.2019.10.02.10.40.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2019 10:40:54 -0700 (PDT)
+Date:   Wed, 2 Oct 2019 10:40:52 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Azael Avalos <coproscefalo@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: toshiba_acpi: do not select INPUT_POLLDEV
+Message-ID: <20191002174052.GA37723@dtor-ws>
 MIME-Version: 1.0
-In-Reply-To: <ea163ee8ba4446978732c2c6607bd6da@AcuMS.aculab.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-02_06:2019-10-01,2019-10-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1031 priorityscore=1501 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1908290000 definitions=main-1910020137
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+The driver does not use polling mode of input devices, and this config
+option is going away, so let's not reference it.
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/platform/x86/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 8690e311f407..9ecb02226be8 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -830,7 +830,6 @@ config ACPI_TOSHIBA
+ 	depends on ACPI_VIDEO || ACPI_VIDEO = n
+ 	depends on RFKILL || RFKILL = n
+ 	depends on IIO
+-	select INPUT_POLLDEV
+ 	select INPUT_SPARSEKMAP
+ 	---help---
+ 	  This driver adds support for access to certain system settings
+-- 
+2.23.0.444.g18eeb5a265-goog
 
 
-On 10/2/2019 1:34 AM, David Laight wrote:
-> From: Sasha Levin
->> Sent: 01 October 2019 17:06
->> Subject: Re: [PATCH AUTOSEL 5.3 169/203] x86/platform/uv: Fix kmalloc() NULL check routine
->>
->> On Sun, Sep 22, 2019 at 10:25:44PM +0200, Greg KH wrote:
->>> On Sun, Sep 22, 2019 at 02:43:15PM -0400, Sasha Levin wrote:
->>>> From: Austin Kim <austindh.kim@gmail.com>
->>>>
->>>> [ Upstream commit 864b23f0169d5bff677e8443a7a90dfd6b090afc ]
->>>>
->>>> The result of kmalloc() should have been checked ahead of below statement:
->>>>
->>>> 	pqp = (struct bau_pq_entry *)vp;
->>>>
->>>> Move BUG_ON(!vp) before above statement.
->>>>
->>>> Signed-off-by: Austin Kim <austindh.kim@gmail.com>
-> ...
->>>> ---
->>>>   arch/x86/platform/uv/tlb_uv.c | 4 ++--
->>>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/arch/x86/platform/uv/tlb_uv.c b/arch/x86/platform/uv/tlb_uv.c
->>>> index 20c389a91b803..5f0a96bf27a1f 100644
->>>> --- a/arch/x86/platform/uv/tlb_uv.c
->>>> +++ b/arch/x86/platform/uv/tlb_uv.c
->>>> @@ -1804,9 +1804,9 @@ static void pq_init(int node, int pnode)
->>>>
->>>>   	plsize = (DEST_Q_SIZE + 1) * sizeof(struct bau_pq_entry);
->>>>   	vp = kmalloc_node(plsize, GFP_KERNEL, node);
->>>> -	pqp = (struct bau_pq_entry *)vp;
->>>> -	BUG_ON(!pqp);
->>>> +	BUG_ON(!vp);
->>>>
->>>> +	pqp = (struct bau_pq_entry *)vp;
->>>>   	cp = (char *)pqp + 31;
->>>>   	pqp = (struct bau_pq_entry *)(((unsigned long)cp >> 5) << 5);
->>>>
->>>
->>> How did this even get merged in the first place?  I thought a number of
->>> us complained about it.
->>>
->>> This isn't any change in code, and the original is just fine, the author
->>> didn't realize how C works :(
-> 
-> Mind you, the code itself if pretty horrid.
-> Looks like it is aligning to 32 bytes, easier done by:
-> 	pqp = (void *)((unsigned long)vp + 31 & ~31);
-> (and there's a roundup macro to obfuscate it somewhere.)
-> But I'd also expect to see a matching '+ 31' in the size passed to kmalloc().
-> Not to mention a comment!
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
-
-Thanks, I will put all of these comments in my notes.  This whole 
-function is slated to move to a specialized UV APIC driver since it uses 
-a unique scaling feature available in the UV hardware.  (The original 
-author has long retired.)
-
--Mike
+-- 
+Dmitry
