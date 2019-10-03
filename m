@@ -2,75 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87385C9A05
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 10:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B5BDC9E14
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 14:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728769AbfJCIjg (ORCPT
+        id S1728660AbfJCMLV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 3 Oct 2019 04:39:36 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41716 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726039AbfJCIjg (ORCPT
+        Thu, 3 Oct 2019 08:11:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59222 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbfJCMLV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 3 Oct 2019 04:39:36 -0400
-Received: by mail-ot1-f67.google.com with SMTP id g13so1552841otp.8;
-        Thu, 03 Oct 2019 01:39:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CGS17e/sJHPecy4McwsfU+3XcXYeoZrnNJIhi8gCwtc=;
-        b=Di/gKMRVcX8wcatzimNmDoKw9xo4Sa6M5vciLmjBjuCwc7Unq/Ap8VgB+fGvHOh5fa
-         +QK1FWTOFoV5TQINpruElkO2WkcF358Xr7x0WDAHPPsl6PvdYeMFJWJn3ax33MZkGZTd
-         AT+fl6OgO7dVk289hb1EOzUEMqdRq7bVZkN/vsIAp/92pQxZcGdk9HhLKzYbHIGPrdhe
-         JP7JMTHhkPpltR59ffYj+910mISdFDBaD55SLFXPuvZIbf0+rpBeSJxbWTwS3focf/Ap
-         ABle5dAcaAI/6GxTvAU0agwsufnLvd1CsUdPlOV/D1cygz/9d/nF3eC9TYlfsjowrIut
-         jTGQ==
-X-Gm-Message-State: APjAAAVkiOalJIPIAcHiZ8LeAWJ0aClzNeWZlN6Noeg1uFLOQgJtW1Eq
-        eAJxBHoiHtpuCdo5afXl+Kgoem66B4hK/9t/nUw=
-X-Google-Smtp-Source: APXvYqxHLhCyLM3XP3x+V9PAlN2EIVZgZVON4Mw9o3+uu4a/vd4uSkAqII+8k9ZkApijMnoBhg4QidvwtIKvtG1TBJ0=
-X-Received: by 2002:a9d:664:: with SMTP id 91mr5673717otn.189.1570091975427;
- Thu, 03 Oct 2019 01:39:35 -0700 (PDT)
+        Thu, 3 Oct 2019 08:11:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7D4473091753;
+        Thu,  3 Oct 2019 12:11:21 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE5235C226;
+        Thu,  3 Oct 2019 12:11:20 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
+        Prarit Bhargava <prarit@redhat.com>
+Subject: [PATCH v2 0/7] Add CascadeLake-N Support
+Date:   Thu,  3 Oct 2019 08:11:05 -0400
+Message-Id: <20191003121112.25870-1-prarit@redhat.com>
 MIME-Version: 1.0
-References: <20190911051231.148032-1-dmitry.torokhov@gmail.com> <20191003003227.GA246700@dtor-ws>
-In-Reply-To: <20191003003227.GA246700@dtor-ws>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 3 Oct 2019 10:39:24 +0200
-Message-ID: <CAJZ5v0jF5vafYFSJ=p3ew_tCbj1T1zRznZDoPTL47Pdj9-rrCg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/14] software node: add support for reference properties
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Thu, 03 Oct 2019 12:11:21 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Oct 3, 2019 at 2:32 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Rafael,
->
-> On Tue, Sep 10, 2019 at 10:12:17PM -0700, Dmitry Torokhov wrote:
-> > These series implement "references" properties for software nodes as true
-> > properties, instead of managing them completely separately.
-> >
-> > The first 10 patches are generic cleanups and consolidation and unification
-> > of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
-> > patch #12 converts the user of references to the property syntax, and patch
-> > #13 removes the remains of references as entities that are managed
-> > separately.
->
-> Now that merge window is over could you please take a look at the
-> series?
+Add support for SST-BF on CascadeLake-N support.  The CascadeLake-N
+processor only support SST-BF and not other SST functionality.
 
-I will.
+v2: Updated with comments from Srinivas (use common clx_n_* function names,
+common is_clx_n_platform() function call to identify CascadeLake-N)
 
-It would help to resend the whole series with a CC to linux-acpi, though.
+Signed-off-by: Prarit Bhargava <prarit@redhat.com>
 
-Thanks!
+Prarit Bhargava (7):
+  intel-speed-select: Add int argument to command functions
+  intel-speed-select: Make process_command generic
+  intel-speed-select: Add check for CascadeLake-N models
+  intel-speed-select: Add configuration for CascadeLake-N
+  intel-speed-select: Implement CascadeLake-N help and command functions
+    structures
+  intel-speed-select: Implement 'perf-profile info' on CascadeLake-N
+  intel-speed-select: Implement base-freq commands on CascadeLake-N
+
+ .../x86/intel-speed-select/isst-config.c      | 493 ++++++++++++------
+ .../x86/intel-speed-select/isst-display.c     |  14 +-
+ tools/power/x86/intel-speed-select/isst.h     |   3 +
+ 3 files changed, 339 insertions(+), 171 deletions(-)
+
+-- 
+2.18.1
+
