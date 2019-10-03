@@ -2,179 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A01ABC9E1B
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 14:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A91F4C9EE4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 14:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbfJCML1 (ORCPT
+        id S1730207AbfJCMxR convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 3 Oct 2019 08:11:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51876 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729462AbfJCML0 (ORCPT
+        Thu, 3 Oct 2019 08:53:17 -0400
+Received: from mail.17d12.saludzona2.gob.ec ([181.211.35.246]:60504 "EHLO
+        mail.17d12.mspz2.gob.ec" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1730203AbfJCMxR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 3 Oct 2019 08:11:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2D95818C7780;
-        Thu,  3 Oct 2019 12:11:26 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A30355C226;
-        Thu,  3 Oct 2019 12:11:25 +0000 (UTC)
-From:   Prarit Bhargava <prarit@redhat.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
-        Prarit Bhargava <prarit@redhat.com>
-Subject: [PATCH v2 7/7] intel-speed-select: Implement base-freq commands on CascadeLake-N
-Date:   Thu,  3 Oct 2019 08:11:12 -0400
-Message-Id: <20191003121112.25870-8-prarit@redhat.com>
-In-Reply-To: <20191003121112.25870-1-prarit@redhat.com>
-References: <20191003121112.25870-1-prarit@redhat.com>
+        Thu, 3 Oct 2019 08:53:17 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.17d12.mspz2.gob.ec (Postfix) with ESMTP id 02B682092080E;
+        Thu,  3 Oct 2019 03:32:58 -0500 (-05)
+Received: from mail.17d12.mspz2.gob.ec ([127.0.0.1])
+        by localhost (mail.17d12.mspz2.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id lW8Xjaugdp1P; Thu,  3 Oct 2019 03:32:57 -0500 (-05)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.17d12.mspz2.gob.ec (Postfix) with ESMTP id 1722C2091943A;
+        Thu,  3 Oct 2019 03:26:21 -0500 (-05)
+X-Virus-Scanned: amavisd-new at 17d12.mspz2.gob.ec
+Received: from mail.17d12.mspz2.gob.ec ([127.0.0.1])
+        by localhost (mail.17d12.mspz2.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id BUUvKmhKUrCg; Thu,  3 Oct 2019 03:26:21 -0500 (-05)
+Received: from [192.168.1.184] (unknown [41.13.212.66])
+        by mail.17d12.mspz2.gob.ec (Postfix) with ESMTPSA id 30F042084440B;
+        Thu,  3 Oct 2019 03:21:23 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.70]); Thu, 03 Oct 2019 12:11:26 +0000 (UTC)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Meine Spende an dich.
+To:     Recipients <victoria.caiza@17d12.mspz2.gob.ec>
+From:   "Herr Manuel Franco" <victoria.caiza@17d12.mspz2.gob.ec>
+Date:   Thu, 03 Oct 2019 01:21:16 -0700
+Reply-To: Manuelfrancco@hotmail.com
+X-Antivirus: Avast (VPS 191002-4, 10/02/2019), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20191003082125.30F042084440B@mail.17d12.mspz2.gob.ec>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add functionality for base-freq info|enable|disable info on CascadeLake-N.
+Hallo lieber, mein Name ist Manuel Franco, Gewinner des Power Ball Jackpots im April 2019 in Höhe von 786 Millionen US-Dollar. Siehe: Ich spende 4.600.000,00 € für wohltätige Zwecke, um Ihnen und den Armen in Ihrer Gemeinde zu helfen. Senden Sie mir eine E-Mail an: manuelfrancco@hotmail.com, um weitere Informationen zum Erhalt meiner Spende zu erhalten 
 
-The enable command always returns success, and the disable command always
-returns failed because SST-BF cannot be enabled or disabled from the OS on
-CascadeLake-N.
-
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
 ---
- .../x86/intel-speed-select/isst-config.c      | 68 +++++++++++++------
- 1 file changed, 48 insertions(+), 20 deletions(-)
-
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index d9b580139a07..7c7f0551eda1 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -836,7 +836,7 @@ static void clx_n_config(void)
- 	ctdp_level->fact_enabled = 0;
- }
- 
--static void dump_cn_config_for_cpu(int cpu, void *arg1, void *arg2,
-+static void dump_clx_n_config_for_cpu(int cpu, void *arg1, void *arg2,
- 				   void *arg3, void *arg4)
- {
- 	isst_ctdp_display_information(cpu, outf, tdp_level, &clx_n_pkg_dev);
-@@ -876,7 +876,7 @@ static void dump_isst_config(int arg)
- 	if (!is_clx_n_platform())
- 		fn = dump_isst_config_for_cpu;
- 	else
--		fn = dump_cn_config_for_cpu;
-+		fn = dump_clx_n_config_for_cpu;
- 
- 	isst_ctdp_display_information_start(outf);
- 
-@@ -951,6 +951,18 @@ static void set_tdp_level(int arg)
- 	isst_ctdp_display_information_end(outf);
- }
- 
-+static void clx_n_dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2,
-+				       void *arg3, void *arg4)
-+{
-+	struct isst_pbf_info *pbf_info;
-+	struct isst_pkg_ctdp_level_info *ctdp_level;
-+
-+	ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
-+	pbf_info = &ctdp_level->pbf_info;
-+
-+	isst_pbf_display_information(cpu, outf, tdp_level, pbf_info);
-+}
-+
- static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 				    void *arg4)
- {
-@@ -968,6 +980,8 @@ static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 
- static void dump_pbf_config(int arg)
- {
-+	void *fn;
-+
- 	if (cmd_help) {
- 		fprintf(stderr,
- 			"Print Intel(R) Speed Select Technology base frequency configuration for a TDP level\n");
-@@ -981,13 +995,18 @@ static void dump_pbf_config(int arg)
- 		exit(1);
- 	}
- 
-+	if (!is_clx_n_platform())
-+		fn = dump_pbf_config_for_cpu;
-+	else
-+		fn = clx_n_dump_pbf_config_for_cpu;
-+
- 	isst_ctdp_display_information_start(outf);
-+
- 	if (max_target_cpus)
--		for_each_online_target_cpu_in_set(dump_pbf_config_for_cpu, NULL,
--						  NULL, NULL, NULL);
-+		for_each_online_target_cpu_in_set(fn, NULL, NULL, NULL, NULL);
- 	else
--		for_each_online_package_in_set(dump_pbf_config_for_cpu, NULL,
--					       NULL, NULL, NULL);
-+		for_each_online_package_in_set(fn, NULL, NULL, NULL, NULL);
-+
- 	isst_ctdp_display_information_end(outf);
- }
- 
-@@ -1165,21 +1184,27 @@ static void set_pbf_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 	int ret;
- 	int status = *(int *)arg4;
- 
--	ret = isst_set_pbf_fact_status(cpu, 1, status);
--	if (ret) {
--		perror("isst_set_pbf");
--	} else {
--		if (status) {
--			if (auto_mode)
--				ret = set_pbf_core_power(cpu);
--			isst_display_result(cpu, outf, "base-freq", "enable",
--					    ret);
--		} else {
--			if (auto_mode)
--				isst_pm_qos_config(cpu, 0, 0);
--			isst_display_result(cpu, outf, "base-freq", "disable",
--					    ret);
-+	if (!is_clx_n_platform()) {
-+		ret = isst_set_pbf_fact_status(cpu, 1, status);
-+		if (ret) {
-+			perror("isst_set_pbf");
-+			return;
- 		}
-+	} else {
-+		if (status == 0)
-+			ret = -1;
-+		else
-+			ret = 0;
-+	}
-+
-+	if (status) {
-+		if (auto_mode)
-+			ret = set_pbf_core_power(cpu);
-+		isst_display_result(cpu, outf, "base-freq", "enable", ret);
-+	} else {
-+		if (auto_mode)
-+			isst_pm_qos_config(cpu, 0, 0);
-+		isst_display_result(cpu, outf, "base-freq", "disable", ret);
- 	}
- }
- 
-@@ -1645,6 +1670,9 @@ static void get_clos_assoc(int arg)
- 
- static struct process_cmd_struct clx_n_cmds[] = {
- 	{ "perf-profile", "info", dump_isst_config, 0 },
-+	{ "base-freq", "info", dump_pbf_config, 0 },
-+	{ "base-freq", "enable", set_pbf_enable, 1 },
-+	{ "base-freq", "disable", set_pbf_enable, 0 },
- 	{ NULL, NULL, NULL, 0 }
- };
- 
--- 
-2.18.1
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
 
