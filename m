@@ -2,87 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A79C95E5
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 02:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87385C9A05
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Oct 2019 10:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbfJCAcb (ORCPT
+        id S1728769AbfJCIjg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 2 Oct 2019 20:32:31 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:44554 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725799AbfJCAcb (ORCPT
+        Thu, 3 Oct 2019 04:39:36 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41716 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbfJCIjg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 2 Oct 2019 20:32:31 -0400
-Received: by mail-pl1-f196.google.com with SMTP id q15so625238pll.11;
-        Wed, 02 Oct 2019 17:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=o1TIRlC1z/dl/LTUyWy/efSVnkwk6x9140U6Si01wU4=;
-        b=dOU+nmwudhqoZvQLG9+J/ACujOqfUk6xUL5AzEnVQuqWbp+uM123MXBhtPC18N6vnk
-         zHbYAUe7qgd3VYaXnN9En7sQ3VUN/JwBgCF2cyuYnP+oOph1ykKI0XpT4DmCBQh6HOvF
-         gv4/XbXBOVxt4qp6y7IvkXaETrfp/iKPkBZERx6glyDRmak7hYGYi5l2hX4Mo1vNCJ6B
-         BXUFdpYyCMPK1Hu6ABW9a4iONhxrs+4yz5nUYhYYOmhVG2dOPhz5JDABMLwWW9EEzEwl
-         XxvMKHtFCgq0okpqBr6GmQfjWlqHllMnW51+rsSgH/PIEnHa/7k6O9DwTLUOXOdJXHHF
-         uFSw==
+        Thu, 3 Oct 2019 04:39:36 -0400
+Received: by mail-ot1-f67.google.com with SMTP id g13so1552841otp.8;
+        Thu, 03 Oct 2019 01:39:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=o1TIRlC1z/dl/LTUyWy/efSVnkwk6x9140U6Si01wU4=;
-        b=YQqaMgqozIq6kdAYlLfR6V0ycCnz0EVa75N0UUHgkyBi7gMao7XLgnhCRo7aYFBktX
-         QB5eTg/NBGe6q7ctjTkTMiNWU46eo6687c16NoA8s2ZPvpWFYF1oR0dagg6s97LPRWDO
-         H0qjz3xjeufJl7NRgFXPFEKKC9yWQQ7/NYaX4VtEdXxfGl9rRhhebtczQ7E+tBSITGSJ
-         O/yS916CQjSw6j75syZFe7tWD+2qsXTxKIchQb7Trjo7CLJay0AQzoJWiRXnAWIJe4ZX
-         jBNx4dpWhCSKKrna8hbOr9+Ej9kjdfQ8+B6qQI1bZvE7JA2cawqOHCuAgmgCYS1ZC5Vj
-         7Uhw==
-X-Gm-Message-State: APjAAAWwfnqoiRwYTHsiym26IHCKPdNnSvg44jFrnXNUvBVEvRNgDv7g
-        VFmekdmaONkWJM55tOd492Q=
-X-Google-Smtp-Source: APXvYqz0eDbafq0+btZpCwrNr/sFyFbRHLDE5SbJKcjXrxXqm9Iqp6uSCnsFE777PX9L+AXUY4u8kg==
-X-Received: by 2002:a17:902:b949:: with SMTP id h9mr6895255pls.35.1570062749891;
-        Wed, 02 Oct 2019 17:32:29 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e184sm630163pfa.87.2019.10.02.17.32.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 17:32:29 -0700 (PDT)
-Date:   Wed, 2 Oct 2019 17:32:27 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 00/14] software node: add support for reference
- properties
-Message-ID: <20191003003227.GA246700@dtor-ws>
-References: <20190911051231.148032-1-dmitry.torokhov@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CGS17e/sJHPecy4McwsfU+3XcXYeoZrnNJIhi8gCwtc=;
+        b=Di/gKMRVcX8wcatzimNmDoKw9xo4Sa6M5vciLmjBjuCwc7Unq/Ap8VgB+fGvHOh5fa
+         +QK1FWTOFoV5TQINpruElkO2WkcF358Xr7x0WDAHPPsl6PvdYeMFJWJn3ax33MZkGZTd
+         AT+fl6OgO7dVk289hb1EOzUEMqdRq7bVZkN/vsIAp/92pQxZcGdk9HhLKzYbHIGPrdhe
+         JP7JMTHhkPpltR59ffYj+910mISdFDBaD55SLFXPuvZIbf0+rpBeSJxbWTwS3focf/Ap
+         ABle5dAcaAI/6GxTvAU0agwsufnLvd1CsUdPlOV/D1cygz/9d/nF3eC9TYlfsjowrIut
+         jTGQ==
+X-Gm-Message-State: APjAAAVkiOalJIPIAcHiZ8LeAWJ0aClzNeWZlN6Noeg1uFLOQgJtW1Eq
+        eAJxBHoiHtpuCdo5afXl+Kgoem66B4hK/9t/nUw=
+X-Google-Smtp-Source: APXvYqxHLhCyLM3XP3x+V9PAlN2EIVZgZVON4Mw9o3+uu4a/vd4uSkAqII+8k9ZkApijMnoBhg4QidvwtIKvtG1TBJ0=
+X-Received: by 2002:a9d:664:: with SMTP id 91mr5673717otn.189.1570091975427;
+ Thu, 03 Oct 2019 01:39:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190911051231.148032-1-dmitry.torokhov@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190911051231.148032-1-dmitry.torokhov@gmail.com> <20191003003227.GA246700@dtor-ws>
+In-Reply-To: <20191003003227.GA246700@dtor-ws>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 3 Oct 2019 10:39:24 +0200
+Message-ID: <CAJZ5v0jF5vafYFSJ=p3ew_tCbj1T1zRznZDoPTL47Pdj9-rrCg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] software node: add support for reference properties
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Rafael,
+On Thu, Oct 3, 2019 at 2:32 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Rafael,
+>
+> On Tue, Sep 10, 2019 at 10:12:17PM -0700, Dmitry Torokhov wrote:
+> > These series implement "references" properties for software nodes as true
+> > properties, instead of managing them completely separately.
+> >
+> > The first 10 patches are generic cleanups and consolidation and unification
+> > of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
+> > patch #12 converts the user of references to the property syntax, and patch
+> > #13 removes the remains of references as entities that are managed
+> > separately.
+>
+> Now that merge window is over could you please take a look at the
+> series?
 
-On Tue, Sep 10, 2019 at 10:12:17PM -0700, Dmitry Torokhov wrote:
-> These series implement "references" properties for software nodes as true
-> properties, instead of managing them completely separately.
-> 
-> The first 10 patches are generic cleanups and consolidation and unification
-> of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
-> patch #12 converts the user of references to the property syntax, and patch
-> #13 removes the remains of references as entities that are managed
-> separately.
+I will.
 
-Now that merge window is over could you please take a look at the
-series?
+It would help to resend the whole series with a CC to linux-acpi, though.
 
 Thanks!
-
--- 
-Dmitry
