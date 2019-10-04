@@ -2,125 +2,149 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E18ECBE12
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Oct 2019 16:52:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC414CC172
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Oct 2019 19:15:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389609AbfJDOwP (ORCPT
+        id S2387573AbfJDRPW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Oct 2019 10:52:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43374 "EHLO mx1.redhat.com"
+        Fri, 4 Oct 2019 13:15:22 -0400
+Received: from mga03.intel.com ([134.134.136.65]:37198 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388870AbfJDOwO (ORCPT
+        id S2387534AbfJDRPW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Oct 2019 10:52:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2373489F39E;
-        Fri,  4 Oct 2019 14:52:14 +0000 (UTC)
-Received: from dhcp-44-196.space.revspace.nl (ovpn-112-43.ams2.redhat.com [10.36.112.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D994B5C1D8;
-        Fri,  4 Oct 2019 14:52:06 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v7 8/8] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Fri,  4 Oct 2019 16:50:56 +0200
-Message-Id: <20191004145056.43267-9-hdegoede@redhat.com>
-In-Reply-To: <20191004145056.43267-1-hdegoede@redhat.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.68]); Fri, 04 Oct 2019 14:52:14 +0000 (UTC)
+        Fri, 4 Oct 2019 13:15:22 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 10:15:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,257,1566889200"; 
+   d="scan'208";a="195621580"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by orsmga003.jf.intel.com with ESMTP; 04 Oct 2019 10:15:21 -0700
+Message-ID: <b1895913e2adaff4daf7be6b919e50714b418fe8.camel@linux.intel.com>
+Subject: Re: [PATCH v2 3/7] intel-speed-select: Add check for CascadeLake-N
+ models
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@intel.com>
+Date:   Fri, 04 Oct 2019 10:15:21 -0700
+In-Reply-To: <20191003121112.25870-4-prarit@redhat.com>
+References: <20191003121112.25870-1-prarit@redhat.com>
+         <20191003121112.25870-4-prarit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
+On Thu, 2019-10-03 at 08:11 -0400, Prarit Bhargava wrote:
+> Three CascadeLake-N models (6252N, 6230N, and 5218N) have SST-PBF
+> support.
+> 
+> Return an error if the CascadeLake processor is not one of these
+> specific
+> models.
+> 
+This patch sigfaults immediately on CLX.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
+> v2: Add is_clx_n_platform()
+> 
+> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+> ---
+>  .../x86/intel-speed-select/isst-config.c      | 44
+> ++++++++++++++++++-
+>  1 file changed, 42 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tools/power/x86/intel-speed-select/isst-config.c
+> b/tools/power/x86/intel-speed-select/isst-config.c
+> index f4a23678416e..734a7960458c 100644
+> --- a/tools/power/x86/intel-speed-select/isst-config.c
+> +++ b/tools/power/x86/intel-speed-select/isst-config.c
+> @@ -23,6 +23,7 @@ static int debug_flag;
+>  static FILE *outf;
+>  
+>  static int cpu_model;
+> +static int cpu_stepping;
+>  
+>  #define MAX_CPUS_IN_ONE_REQ 64
+>  static short max_target_cpus;
+> @@ -72,7 +73,16 @@ void debug_printf(const char *format, ...)
+>  	va_end(args);
+>  }
+>  
+> -static void update_cpu_model(void)
+> +
+> +int is_clx_n_platform(void)
+> +{
+> +	if (cpu_model == 0x55)
+> +		if (cpu_stepping == 0x6 || cpu_stepping == 0x7)
+> +			return 1;
+> +	return 0;
+> +}
+> +
+> +static int update_cpu_model(void)
+>  {
+>  	unsigned int ebx, ecx, edx;
+>  	unsigned int fms, family;
+> @@ -82,6 +92,34 @@ static void update_cpu_model(void)
+>  	cpu_model = (fms >> 4) & 0xf;
+>  	if (family == 6 || family == 0xf)
+>  		cpu_model += ((fms >> 16) & 0xf) << 4;
+> +
+> +	cpu_stepping = fms & 0xf;
+> +
+> +	/* only three CascadeLake-N models are supported */
+> +	if (is_clx_n_platform()) {
+> +		FILE *fp;
+> +		size_t n;
+> +		char *line;
+Need n = 0 and *line = NULL here as getline() will require if it has to
+allocate.
 
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Anyway I will update the patchset and post after test.
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 8a7d5c8df114..8bfef880e216 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data = {
- 	.properties     = chuwi_vi8_props,
- };
- 
-+static const struct ts_dmi_data chuwi_vi8_plus_data = {
-+	.embedded_fw = {
-+		.name	= "chipone/icn8505-HAMP0002.fw",
-+		.prefix = { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+		.length	= 35012,
-+		.sha256	= { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+			    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+			    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+			    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+	},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- 	PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -709,6 +721,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- 		},
- 	},
-+	{
-+		/* Chuwi Vi8 Plus (CWI519) */
-+		.driver_data = (void *)&chuwi_vi8_plus_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+		},
-+	},
- 	{
- 		/* Chuwi Vi10 (CWI505) */
- 		.driver_data = (void *)&chuwi_vi10_data,
-@@ -1085,6 +1106,9 @@ static int __init ts_dmi_init(void)
- 		return 0; /* Not an error */
- 
- 	ts_data = dmi_id->driver_data;
-+	/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+	if (!ts_data->properties)
-+		return 0;
- 
- 	error = bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- 	if (error)
--- 
-2.23.0
+Thanks,
+Srinivas
+> +		int ret = 1;
+> +
+> +		fp = fopen("/proc/cpuinfo", "r");
+> +		if (!fp)
+> +			err(-1, "cannot open /proc/cpuinfo\n");
+> +
+> +		while (getline(&line, &n, fp) > 0) {
+> +			if (strstr(line, "model name")) {
+> +				if (strstr(line, "6252N") ||
+> +				    strstr(line, "6230N") ||
+> +				    strstr(line, "5218N"))
+> +					ret = 0;
+> +				break;
+> +			}
+> +		}
+> +		free(line);
+> +		fclose(fp);
+> +		return ret;
+> +	}
+> +	return 0;
+>  }
+>  
+>  /* Open a file, and exit on failure */
+> @@ -1889,7 +1927,9 @@ static void cmdline(int argc, char **argv)
+>  		fprintf(stderr, "Feature name and|or command not
+> specified\n");
+>  		exit(0);
+>  	}
+> -	update_cpu_model();
+> +	ret = update_cpu_model();
+> +	if (ret)
+> +		err(-1, "Invalid CPU model (%d)\n", cpu_model);
+>  	printf("Intel(R) Speed Select Technology\n");
+>  	printf("Executing on CPU model:%d[0x%x]\n", cpu_model,
+> cpu_model);
+>  	set_max_cpu_num();
 
