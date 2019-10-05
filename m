@@ -2,129 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77352CC92D
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Oct 2019 11:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61975CC976
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Oct 2019 12:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbfJEJxi (ORCPT
+        id S1727715AbfJEKzz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 5 Oct 2019 05:53:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36476 "EHLO mx1.redhat.com"
+        Sat, 5 Oct 2019 06:55:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43592 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbfJEJxi (ORCPT
+        id S1727597AbfJEKzz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 5 Oct 2019 05:53:38 -0400
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Sat, 5 Oct 2019 06:55:55 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8432E89AC9
-        for <platform-driver-x86@vger.kernel.org>; Sat,  5 Oct 2019 09:53:37 +0000 (UTC)
-Received: by mail-ed1-f72.google.com with SMTP id h3so5677297edd.7
-        for <platform-driver-x86@vger.kernel.org>; Sat, 05 Oct 2019 02:53:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2TT+gPwEwmW+zFxrJh0O9g568TTXNfZtDWLTnBvu+Q0=;
-        b=jSjL67moQqrOSOJLbtZze1WAbEqI6zpStVG2PXDeH6J/PMrOuld3vkONy3b1T0ZJqt
-         wQSAVvU/f0s52LiZM2hZKZPGSAO25ptrVXQAWpefI9vtIfUHziXw6eGlWD/iduqxfsXg
-         rNgDc2xSedhHSPx22MLNuEs2tmkfYMth94HzVSsIdEOyVT9/s1H7yCtpZOB1yHMbNjKe
-         dUGzDe4b4YMGe2k5uJ2zEqQ3/1tqm5G+s72bLELik02ZIZDazDBZy+VjrZbASTanTT9t
-         TxDxhZu+hzaXQj17QUcr0xcTyjRFAas1bsWhvw5/QnsbHW5v2na7oUOoO/IIUT2yZRib
-         UyFA==
-X-Gm-Message-State: APjAAAWu6fuPmCs9Nm/ubcqQUu67tX8id+PV+tL8C7mjkkNiM6jjPIT0
-        ihFVUpCe2Jrxu0U1NwZtrls2hThXpTvStjTVbhGpq6M9XqxWqJbzna8wcVdVCp1ogV3VEK7A/oP
-        4NqQ1NpX8Cx/hEDmcnDvFXKDGYL9S8r3c5w==
-X-Received: by 2002:a50:ac0d:: with SMTP id v13mr19492070edc.189.1570269216294;
-        Sat, 05 Oct 2019 02:53:36 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyZOxlWwMcBg7l7MOzB/AEriI2yXyATuHMn4uTP960+sqT3K43d/RA7nIyKJE/vnMnlvyaS+g==
-X-Received: by 2002:a50:ac0d:: with SMTP id v13mr19492050edc.189.1570269216115;
-        Sat, 05 Oct 2019 02:53:36 -0700 (PDT)
-Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
-        by smtp.gmail.com with ESMTPSA id ba28sm1752166edb.4.2019.10.05.02.53.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Oct 2019 02:53:35 -0700 (PDT)
-Subject: Re: [PATCH v7 4/8] firmware: Add new platform fallback mechanism and
- firmware_request_platform()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-5-hdegoede@redhat.com> <20191004231733.GF22365@dtor-ws>
+        by mx1.redhat.com (Postfix) with ESMTPS id 7B93F89810C;
+        Sat,  5 Oct 2019 10:55:54 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-45.ams2.redhat.com [10.36.116.45])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1C7A55D9DC;
+        Sat,  5 Oct 2019 10:55:52 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c75ceb3a-799a-378a-dbff-c4c4f57575b4@redhat.com>
-Date:   Sat, 5 Oct 2019 11:53:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH 5.4 regression fix] Input: soc_button_array - partial revert of support for newer surface devices
+Date:   Sat,  5 Oct 2019 12:55:51 +0200
+Message-Id: <20191005105551.353273-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191004231733.GF22365@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.67]); Sat, 05 Oct 2019 10:55:54 +0000 (UTC)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Dmitry,
+Commit c394159310d0 ("Input: soc_button_array - add support for newer
+surface devices") not only added support for the MSHW0040 ACPI HID,
+but for some reason it also makes changes to the error handling of the
+soc_button_lookup_gpio() call in soc_button_device_create(). Note ideally
+this seamingly unrelated change would have been made in a separate commit,
+with a message explaining the what and why of this change.
 
-On 05-10-2019 01:17, Dmitry Torokhov wrote:
-> Hi Hans,
-> 
-> On Fri, Oct 04, 2019 at 04:50:52PM +0200, Hans de Goede wrote:
->> In some cases the platform's main firmware (e.g. the UEFI fw) may contain
->> an embedded copy of device firmware which needs to be (re)loaded into the
->> peripheral. Normally such firmware would be part of linux-firmware, but in
->> some cases this is not feasible, for 2 reasons:
->>
->> 1) The firmware is customized for a specific use-case of the chipset / use
->> with a specific hardware model, so we cannot have a single firmware file
->> for the chipset. E.g. touchscreen controller firmwares are compiled
->> specifically for the hardware model they are used with, as they are
->> calibrated for a specific model digitizer.
->>
->> 2) Despite repeated attempts we have failed to get permission to
->> redistribute the firmware. This is especially a problem with customized
->> firmwares, these get created by the chip vendor for a specific ODM and the
->> copyright may partially belong with the ODM, so the chip vendor cannot
->> give a blanket permission to distribute these.
->>
->> This commit adds a new platform fallback mechanism to the firmware loader
->> which will try to lookup a device fw copy embedded in the platform's main
->> firmware if direct filesystem lookup fails.
->>
->> Drivers which need such embedded fw copies can enable this fallback
->> mechanism by using the new firmware_request_platform() function.
-> 
-> Why would drivers not want to fetch firmware from system firmware if it
-> is not present on disk? I would say let driver to opt-out of this
-> fallback, but default request_firmware() should do it by default.
+I guess this change may have been added to deal with -EPROBE_DEFER errors,
+but in case of the existing support for PNP0C40 devices, treating
+-EPROBE_DEFER as any other error is deliberate, see the comment this
+commit adds for why.
 
-Only few devices / device-drivers have / need firmware which is
-embedded in the system-fw. Checking for this introduces an extra call
-in the firmware-loader path and the firmware-loader maintainer have
-requested to make this opt-in, rather then opt-out, so that these changes
-do not impact the many many other drivers which do not need this.
+The actual returning of -EPROBE_DEFER to the caller of soc_button_probe()
+introduced by the new error checking causes a serious regression:
 
-To be precise so far only the 2 touchscreen drivers for which patches
-are in this series are known to benefit from this approach. So since this
-is somewhat of a special case opt-in makes more sense then opt-out.
+On devices with so called virtual GPIOs soc_button_lookup_gpio() will
+always return -EPROBE_DEFER for these fake GPIOs, when this happens
+during the second call of soc_button_device_create() we already have
+successfully registered our first child. This causes the kernel to think
+we are making progress with probing things even though we unregister the
+child before again before we return the -EPROBE_DEFER. Since we are making
+progress the kernel will retry deferred-probes again immediately ending
+up stuck in a loop with the following showing in dmesg:
 
-Regards,
+[  124.022697] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6537
+[  124.040764] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6538
+[  124.056967] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6539
+[  124.072143] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6540
+[  124.092373] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6541
+[  124.108065] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6542
+[  124.128483] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6543
+[  124.147141] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6544
+[  124.165070] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6545
+[  124.179775] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6546
+[  124.202726] input: gpio-keys as /devices/platform/INTCFD9:00/gpio-keys.0.auto/input/input6547
+<continues on and on and on>
 
-Hans
+And 1 CPU core being stuck at 100% and udev hanging since it is waiting
+for the modprobe of soc_button_array to return.
 
+This patch reverts the soc_button_lookup_gpio() error handling changes,
+fixing this regression.
+
+Fixes: c394159310d0 ("Input: soc_button_array - add support for newer surface devices")
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=205031
+Cc: Maximilian Luz <luzmaximilian@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/misc/soc_button_array.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 97e3639e99d0..97761421d6dd 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -92,11 +92,18 @@ soc_button_device_create(struct platform_device *pdev,
+ 			continue;
+ 
+ 		gpio = soc_button_lookup_gpio(&pdev->dev, info->acpi_index);
+-		if (gpio < 0 && gpio != -ENOENT) {
+-			error = gpio;
+-			goto err_free_mem;
+-		} else if (!gpio_is_valid(gpio)) {
+-			/* Skip GPIO if not present */
++		if (!gpio_is_valid(gpio)) {
++			/*
++			 * Skip GPIO if not present. Note we deliberately
++			 * ignore -EPROBE_DEFER errors here. On some devices
++			 * Intel is using so called virtual GPIOs which are not
++			 * GPIOs at all but some way for AML code to check some
++			 * random status bits without need a custom opregion.
++			 * In some cases the resources table we parse points to
++			 * such a virtual GPIO, since these are not real GPIOs
++			 * we do not have a driver for these so they will never
++			 * show up, therefor we ignore -EPROBE_DEFER.
++			 */
+ 			continue;
+ 		}
+ 
+-- 
+2.23.0
 
