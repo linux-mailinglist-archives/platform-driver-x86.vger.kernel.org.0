@@ -2,114 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5CE9CCCA4
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Oct 2019 22:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C620CCCB2
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Oct 2019 22:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729707AbfJEUO7 (ORCPT
+        id S1725801AbfJEUkn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 5 Oct 2019 16:14:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42146 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729509AbfJEUO6 (ORCPT
+        Sat, 5 Oct 2019 16:40:43 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34005 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfJEUkn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 5 Oct 2019 16:14:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570306496;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=74m7R2QCNiRN5XO1W/NvGcgKkkecv4UuoVhWV1iP+dQ=;
-        b=MoHvUZPEzSKzHDaQUEwkVufiJH/2wWth71O5KEgBuyTCUcq/c22y74Km7m3QQShCmy6kGf
-        BxhyWeU36qc3xoKIwh7/WIaluXHGWVoVbNPHZT29shxh2OevuJ7BYyOOdSzjWQ6CShDe2+
-        aqWsJxPner+gqMB9U4uUgqPSgbNzWyI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-mkO4kltBMTqrIo2aLwSs6Q-1; Sat, 05 Oct 2019 16:14:55 -0400
-Received: by mail-ed1-f69.google.com with SMTP id h3so6338390edd.7
-        for <platform-driver-x86@vger.kernel.org>; Sat, 05 Oct 2019 13:14:55 -0700 (PDT)
+        Sat, 5 Oct 2019 16:40:43 -0400
+Received: by mail-wm1-f68.google.com with SMTP id y135so12009263wmc.1;
+        Sat, 05 Oct 2019 13:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q8WJRi0w+JucyJTQXwPEtHORhuJYf52VkHY1/4TQuJ0=;
+        b=WRKlSZyVDpkSgKEmSNWdq6MEy0HlZLp5uuRTrDXqhexNH3rQMF541w8+PYZ1l5vZHU
+         T5U4ArtCC54wwPxFZ0xJqNuPT1wozzeMWToyKRcaxDhBMQ1V2MdMTcBrzEt+YHeRNPbC
+         lVUXGH473IW1Q7bGueDxaejsGf4ODWnWdyNveoXwZ/eJ0FK77aNm395dxguTtAbahsw5
+         m4JRwZ999IoS8KflVF30gP4MGNdGCRH3V4NS4JEggX6kflhVGV9XidbIfaTsqajWpXnY
+         9Ov8X7sf4n9WuEyboR9rub1jwmSCknAULiO0MEyng5YthG9RRVJn3OIRdB2dApCTQIEw
+         BjrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=tDL81Jt6nq7ggiYD7GVJv4TfLui66vmNV5jvA1q5UxI=;
-        b=txLLSOxMQjP1toSyXeIDs2AFhEOUl/OKMznqj67IZvWyTXt4SP+p9H2cTvNnGDnwO8
-         TNN0F4Mi45vKRLZ09Ea+3Dhz+w1A2qeskIL1vpypvOk2nCDXVtyr8JqFWK9TexfpJwXV
-         kK/KW5cp3nPVlLI18L/cT/DAALEuB2AMlCiQbBNy3OBZFXEc4L0UR5qsgQGAYY/1+/NE
-         oli9Ozuqua2cYvm3/ZJzFSjHWp/2o6oqPFNWROZquOmLEaaKsi+8mBASb2F218e1qIx0
-         +MI46p8c3nLGeU31ZZt0m/XoT5B5NYWUkhJ4qz/1TFFC/eLuOcxGLubEK7x/fzvYltXz
-         Z1+w==
-X-Gm-Message-State: APjAAAVGDOj9g7IPepCHmzUbPqShx5IWrsy4RtjvpcpVRXLHkTesK1Mt
-        ijN9y++IvrcNGxHD8I3TqUOdHtNRwIKADF2orz0u1Q1eXzBCN/2utxc/fcXWmhNENAlu9xj4NMY
-        DKc7gF8WggpFTFqwfoKdIpRx1gQ3Kuwi5PQ==
-X-Received: by 2002:a50:cd1a:: with SMTP id z26mr21461289edi.75.1570306493955;
-        Sat, 05 Oct 2019 13:14:53 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwVWCrzdITY+i/ypf9AQx5ArY37dHswT/NrqAvrmx3g0SZ9rXFiUE3dKcN2ZWzo1xfXVJOhQg==
-X-Received: by 2002:a50:cd1a:: with SMTP id z26mr21461273edi.75.1570306493729;
-        Sat, 05 Oct 2019 13:14:53 -0700 (PDT)
-Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
-        by smtp.gmail.com with ESMTPSA id c22sm2245620edc.9.2019.10.05.13.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Oct 2019 13:14:52 -0700 (PDT)
-Subject: Re: [PATCH 5.4 regression fix] Input: soc_button_array - partial
- revert of support for newer surface devices
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191005105551.353273-1-hdegoede@redhat.com>
- <222c364a-bc2b-5960-3fe4-7d1ce222e3e2@gmail.com>
- <96cea5be-d285-8323-1ab2-9c8e87993165@redhat.com>
- <65b265d2-f7a8-bcd7-e63f-f8efb7349324@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <ef31abf6-b3f2-f3aa-1536-3ecd5fc819e1@redhat.com>
-Date:   Sat, 5 Oct 2019 22:14:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        bh=Q8WJRi0w+JucyJTQXwPEtHORhuJYf52VkHY1/4TQuJ0=;
+        b=D9Xc6YeB/XOlKw3+uGOcyxk0eV4k22FD8V0aEbL+gDixtNl7vHdnLjynFohjmdB+RR
+         ZfHcQXVkNS2bjFUDJCkjr29bfbPGTAgHPRVdbUTU1lITmLoq8+taDG2mtB9L+QTaTWIO
+         F/BfvwcGG+fI5uoTh5Sa2ka322u32vmyFflw4oOK45JpcWek2IHEhtKbbmXIN2yC3M1x
+         eKtIu2NT0L7NBYjbphVFRqUzauMjqbYwORaq/5RDPHSm8Aya/q4kkuVDat4hFrgFBUnh
+         h8qEzXxb/qYg71U8aHslvgwszi3d2tZ1s58WLZNlFdHqtfb24izub8PTfmnkN6pSIsqd
+         +q8w==
+X-Gm-Message-State: APjAAAU3QRndn4tHsfU/4QpJc238SMshY4i6CsSGuVTxIdjLU1kjbi9q
+        oJr6JLLFS1kVY6GgNpSdZkw=
+X-Google-Smtp-Source: APXvYqzCbtTs4mGzrCjvseYWpGG6LgyFamJeK8tLwT47+NKa77g7/ICt7sIdKLWaK0ArgzS6V0irsA==
+X-Received: by 2002:a05:600c:219a:: with SMTP id e26mr5257023wme.86.1570308040870;
+        Sat, 05 Oct 2019 13:40:40 -0700 (PDT)
+Received: from localhost.localdomain ([46.216.80.53])
+        by smtp.gmail.com with ESMTPSA id d193sm10850048wmd.0.2019.10.05.13.40.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Oct 2019 13:40:40 -0700 (PDT)
+Received: from jek by localhost.localdomain with local (Exim 4.92.1)
+        (envelope-from <jekhor@gmail.com>)
+        id 1iGqtF-0006bx-5Q; Sat, 05 Oct 2019 23:42:57 +0300
+From:   Yauhen Kharuzhy <jekhor@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Andy Shevchenko <andy@infradead.org>,
+        Yauhen Kharuzhy <jekhor@gmail.com>
+Subject: [PATCH RESEND v5 0/1] intel_cht_int33fe: Split code to USB Micro-B and Type-C variants
+Date:   Sat,  5 Oct 2019 23:42:54 +0300
+Message-Id: <20191005204255.25371-1-jekhor@gmail.com>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-In-Reply-To: <65b265d2-f7a8-bcd7-e63f-f8efb7349324@gmail.com>
-Content-Language: en-US
-X-MC-Unique: mkO4kltBMTqrIo2aLwSs6Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Patch to support INT33FE ACPI pseudo-device on hardware with USB Micro-B
+connector.
 
-On 05-10-2019 17:01, Maximilian Luz wrote:
-> Hi, again
->=20
-> On 10/5/19 3:20 PM, Hans de Goede wrote:
->> Ok, on x86 the GPIO drivers really should all be builtin because
->> various ACPI methods including device D0 / D3 (power-on/off) methods
->> may depend on them. So normally this should never happen.
->>
->> If this (-EPROBE_DEFER on surface devices) somehow still is happening
->> please let me know and we will figure something out.
->=20
-> I have never personally experienced this, only received reports which
-> indicated this and that the change (as well as manually reloading
-> soc_button_array) fixed it. I will come back to you if I hear anything
-> in regards to this again.
->=20
-> I have now also tested your patch on the Surface Book 2. Does not cause
-> any issues as far as I can tell.
->=20
-> Tested-by: Maximilian Luz <luzmaximilian@gmail.com>
->=20
-> And if that is needed/wanted
->=20
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
+v5:
+- Spelling corrections in Kconfig, commit description and comments;
+- Micro-B code: Remove warning at fuel gauge registration failure and
+  use PTR_ERR_OR_ZERO() for simplicity.
 
-Great, thank you.
+v4:
+- Micro-B variant: Don't print error to the kernel log if i2c_acpi_new_device()
+  has returned -EPROBE_DEFER.
 
-Regards,
+v3:
+- Rename TypeB variant to Micro-B (we have only one such device for now and it
+  has Micro-B connector)
+- Rebase on current linus/master
+- Remove empty lines and replace "TypeC" by "Type-C"
 
-Hans
+v2:
+Instead of defining two separated modules with two separated config
+options, compile {common,typeb,typec} sources into one .ko module.
+Call needed variant-specific probe function based after of hardware type
+detection in common code.
+
+Yauhen Kharuzhy (1):
+  platform/x86/intel_cht_int33fe: Split code to USB Micro-B and Type-C
+    variants
+
+ drivers/platform/x86/Kconfig                  |  10 +-
+ drivers/platform/x86/Makefile                 |   4 +
+ .../platform/x86/intel_cht_int33fe_common.c   | 147 ++++++++++++++++++
+ .../platform/x86/intel_cht_int33fe_common.h   |  41 +++++
+ .../platform/x86/intel_cht_int33fe_microb.c   |  57 +++++++
+ ...ht_int33fe.c => intel_cht_int33fe_typec.c} |  78 +---------
+ 6 files changed, 265 insertions(+), 72 deletions(-)
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.c
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_common.h
+ create mode 100644 drivers/platform/x86/intel_cht_int33fe_microb.c
+ rename drivers/platform/x86/{intel_cht_int33fe.c => intel_cht_int33fe_typec.c} (82%)
+
+-- 
+2.23.0.rc1
 
