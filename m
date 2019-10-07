@@ -2,145 +2,124 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 469A4CE843
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Oct 2019 17:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A9DCE8C6
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Oct 2019 18:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbfJGPtM (ORCPT
+        id S1727947AbfJGQLo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Oct 2019 11:49:12 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:57639 "EHLO
-        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728657AbfJGPtL (ORCPT
+        Mon, 7 Oct 2019 12:11:44 -0400
+Received: from ns1.tgtizmir.com ([217.116.196.59]:44457 "EHLO ns1.tgtizmir.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727791AbfJGQLo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Oct 2019 11:49:11 -0400
-Received: from Internal Mail-Server by MTLPINE1 (envelope-from lsun@mellanox.com)
-        with ESMTPS (AES256-SHA encrypted); 7 Oct 2019 17:49:05 +0200
-Received: from farm-0002.mtbu.labs.mlnx (farm-0002.mtbu.labs.mlnx [10.15.2.32])
-        by mtbu-labmailer.labs.mlnx (8.14.4/8.14.4) with ESMTP id x97Fn43U000955;
-        Mon, 7 Oct 2019 11:49:04 -0400
-Received: (from lsun@localhost)
-        by farm-0002.mtbu.labs.mlnx (8.14.7/8.13.8/Submit) id x97Fn3lR032584;
-        Mon, 7 Oct 2019 11:49:03 -0400
-From:   Liming Sun <lsun@mellanox.com>
-To:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Liming Sun <lsun@mellanox.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: [PATCH v6 2/2] platform/mellanox/mlxbf-bootctl: Add the ABI definitions
-Date:   Mon,  7 Oct 2019 11:48:47 -0400
-Message-Id: <1570463327-32541-2-git-send-email-lsun@mellanox.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1570463327-32541-1-git-send-email-lsun@mellanox.com>
-References: <1570463327-32541-1-git-send-email-lsun@mellanox.com>
-In-Reply-To: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
-References: <0b74e9ad12360b56bc0a3c2ca972798c424f2610.1548790896.git.lsun@mellanox.com>
+        Mon, 7 Oct 2019 12:11:44 -0400
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by ns1.tgtizmir.com (Postfix) with SMTP id 70B5F54D5B3;
+        Mon,  7 Oct 2019 04:35:43 +0300 (+03)
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received-SPF: pass (ns1.tgtizmir.com: localhost is always allowed.) client-ip=127.0.0.1; envelope-from=dave@dbsoundfactory.com; helo=127.0.0.1;
+Received: from [148.221.230.143] by 127.0.0.1 with ESMTP id C16F6DB47B7; Mon, 07 Oct 2019 00:36:41 -0100
+Message-ID: <u3xu71q53-26-8dqi9-7-7a@xitoce>
+From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+To:     planeta@geocities.com
+Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
+Date:   Mon, 07 Oct 19 00:36:41 GMT
+X-Mailer: Microsoft Outlook Express 5.00.2919.6700
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+        boundary=".F.ED2A68C5DB75."
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This commit adds the ABI definitions exposed to userspace for
-the platform/mellanox/mlxbf-bootctl driver.
 
-Reviewed-by: Vadim Pasternak <vadimp@mellanox.com>
-Signed-off-by: Liming Sun <lsun@mellanox.com>
----
-v5->v6:
-    Fixes for comments from Mark:
-    - Changed to use device attributes (DEVICE_ATTR_xx) instead of
-      driver attributes (DRIVER_ATTR_xx) for the exported sysfs
-      attributes.
----
- .../ABI/testing/sysfs-platform-mellanox-bootctl    | 58 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+--.F.ED2A68C5DB75.
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-new file mode 100644
-index 0000000..b60a46e
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-@@ -0,0 +1,58 @@
-+What:		/sys/bus/platform/devices/MLNXBF04:00/driver/lifecycle_state
-+Date:		Oct 2019
-+KernelVersion:	5.4
-+Contact:	"Liming Sun <lsun@mellanox.com>"
-+Description:
-+		The Life-cycle state of the SoC, which could be one of the
-+		following values.
-+		  Production - Production state and can be updated to secure
-+		  GA Secured - Secure chip and not able to change state
-+		  GA Non-Secured - Non-Secure chip and not able to change state
-+		  RMA - Return Merchandise Authorization
-+
-+What:		/sys/bus/platform/devices/MLNXBF04:00/driver/post_reset_wdog
-+Date:		Oct 2019
-+KernelVersion:	5.4
-+Contact:	"Liming Sun <lsun@mellanox.com>"
-+Description:
-+		The watchdog setting in seconds for the next booting. It's used
-+		to reboot the chip and recover it to the old state if the new
-+		boot partition fails.
-+
-+What:		/sys/bus/platform/devices/MLNXBF04:00/driver/reset_action
-+Date:		Oct 2019
-+KernelVersion:	5.4
-+Contact:	"Liming Sun <lsun@mellanox.com>"
-+Description:
-+		The source of the boot stream for the next reset. It could be
-+		one of the following values.
-+		  external - boot from external source (USB or PCIe)
-+		  emmc - boot from the onchip eMMC
-+		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
-+
-+What:		/sys/bus/platform/devices/MLNXBF04:00/driver/second_reset_action
-+Date:		Oct 2019
-+KernelVersion:	5.4
-+Contact:	"Liming Sun <lsun@mellanox.com>"
-+Description:
-+		Update the source of the boot stream after next reset. It could
-+		be one of the following values and will be applied after next
-+		reset.
-+		  external - boot from external source (USB or PCIe)
-+		  emmc - boot from the onchip eMMC
-+		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
-+		  swap_emmc - swap the primary / secondary boot partition
-+		  none - cancel the action
-+
-+What:		/sys/bus/platform/devices/MLNXBF04:00/driver/secure_boot_fuse_state
-+Date:		Oct 2019
-+KernelVersion:	5.4
-+Contact:	"Liming Sun <lsun@mellanox.com>"
-+Description:
-+		The state of eFuse versions with the following values.
-+		  InUse - burnt, valid and currently in use
-+		  Used - burnt and valid
-+		  Free - not burnt and free to use
-+		  Skipped - not burnt but not free (skipped)
-+		  Wasted - burnt and invalid
-+		  Invalid - not burnt but marked as valid (error state).
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55199ef..c2ff283 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10435,6 +10435,7 @@ M:	Darren Hart <dvhart@infradead.org>
- M:	Vadim Pasternak <vadimp@mellanox.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Supported
-+F:	Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
- F:	drivers/platform/mellanox/
- F:	include/linux/platform_data/mlxreg.h
- 
--- 
-1.8.3.1
+Greetings
+
+My name is Barrister Hans Erich.
+
+I have a client who is interested to invest in your country, she is a well=
+ known politician in her country and deserve a lucrative investment partne=
+rship with you outside her country without any delay   Please can you mana=
+ge such investment please Kindly reply for further details.
+
+Your full names --------
+
+
+Your urgent response will be appreciated
+
+Thank you and God bless you.
+
+Barrister Hans Erich
+
+Yours sincerely,
+Barrister Hans Erich
+CONTACT: hanserich9helmut@gmail.com
+
+--.F.ED2A68C5DB75.--
 
