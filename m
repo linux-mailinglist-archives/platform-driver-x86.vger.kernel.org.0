@@ -2,126 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0543ECEC91
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Oct 2019 21:18:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81C7CCECC9
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Oct 2019 21:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728212AbfJGTSB (ORCPT
+        id S1728877AbfJGTbJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Oct 2019 15:18:01 -0400
-Received: from mga05.intel.com ([192.55.52.43]:21010 "EHLO mga05.intel.com"
+        Mon, 7 Oct 2019 15:31:09 -0400
+Received: from mga09.intel.com ([134.134.136.24]:26154 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728187AbfJGTSB (ORCPT
+        id S1728079AbfJGTbI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Oct 2019 15:18:01 -0400
+        Mon, 7 Oct 2019 15:31:08 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Oct 2019 12:18:00 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Oct 2019 12:31:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,269,1566889200"; 
-   d="scan'208";a="344820197"
+   d="scan'208";a="192372871"
 Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by orsmga004.jf.intel.com with ESMTP; 07 Oct 2019 12:18:00 -0700
-Message-ID: <00b61947ffe509d02383903a059067517dd2605c.camel@linux.intel.com>
-Subject: Re: [PATCH v2 3/7] intel-speed-select: Add check for CascadeLake-N
- models
+  by fmsmga008.fm.intel.com with ESMTP; 07 Oct 2019 12:31:07 -0700
 From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Prarit Bhargava <prarit@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 07 Oct 2019 12:18:00 -0700
-In-Reply-To: <20191007100313.GP32742@smile.fi.intel.com>
-References: <20191003121112.25870-1-prarit@redhat.com>
-         <20191003121112.25870-4-prarit@redhat.com>
-         <b1895913e2adaff4daf7be6b919e50714b418fe8.camel@linux.intel.com>
-         <20191007100313.GP32742@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+To:     andriy.shevchenko@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        prarit@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH v3 0/6]  Add CascadeLake-N Support
+Date:   Mon,  7 Oct 2019 12:30:54 -0700
+Message-Id: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2019-10-07 at 13:03 +0300, Andy Shevchenko wrote:
-> On Fri, Oct 04, 2019 at 10:15:21AM -0700, Srinivas Pandruvada wrote:
-> > On Thu, 2019-10-03 at 08:11 -0400, Prarit Bhargava wrote:
-> > > +	/* only three CascadeLake-N models are supported */
-> > > +	if (is_clx_n_platform()) {
-> > > +		FILE *fp;
-> > > +		size_t n;
-> > > +		char *line;
-> > 
-> > Need n = 0 and *line = NULL here as getline() will require if it
-> > has to
-> > allocate.
-> 
-> Good catch and thus...
-> 
-> > > +		int ret = 1;
-> > > +
-> > > +		fp = fopen("/proc/cpuinfo", "r");
-> > > +		if (!fp)
-> > > +			err(-1, "cannot open /proc/cpuinfo\n");
-> > > +
-> > > +		while (getline(&line, &n, fp) > 0) {
-> > > +			if (strstr(line, "model name")) {
-> > > +				if (strstr(line, "6252N") ||
-> > > +				    strstr(line, "6230N") ||
-> > > +				    strstr(line, "5218N"))
-> > > +					ret = 0;
-> > > +				break;
-> > > +			}
-> 
-> Missed free(line) here.
-This may not be required. After the first call geline() allocated a
-buffer and will reuse it during next call. If it is not enough it will
-realloc even if the buffer is passed by user via malloc().
+Add support for SST-BF on CascadeLake-N support.  The CascadeLake-N
+processor only support SST-BF and not other SST functionality.
 
-From man page:
+v3:
+Fix crash due to geline
+Fix display to perf-profile info and base-freq info command
+Fix output for coremask
+Fix base frequency CPU list. This should be displayed for a package
+Auto mode support for base-freq enable/disable
+One of the patch for config only change folded to next one where it is
+used.
 
-"
-If *lineptr is set to NULL and *n is set 0 before the call, then
-       getline() will allocate a buffer for storing the line.  This
-buffer
-       should be freed by the user program even if getline() failed.
+The patch 1 has nothing to do with the CLX-N. It saves some bytes in the
+size.
 
-       Alternatively, before calling getline(), *lineptr can contain a
-       pointer to a malloc(3)-allocated buffer *n bytes in size.  If
-the
-       buffer is not large enough to hold the line, getline() resizes
-it
-       with realloc(3), updating *lineptr and *n as necessary.
+v2: Updated with comments from Srinivas (use common clx_n_* function names,
+common is_clx_n_platform() function call to identify CascadeLake-N)
 
-       In either case, on a successful call, *lineptr and *n will be
-updated
-       to reflect the buffer address and allocated size respectively.
-"
 
-> 
-> > > +		}
-> > > +		free(line);
-> > > +		fclose(fp);
-> > > +		return ret;
-> > > +	}
-> > > +	return 0;
-> > >  }
-> > >  
-> > >  /* Open a file, and exit on failure */
-> > > @@ -1889,7 +1927,9 @@ static void cmdline(int argc, char **argv)
-> > >  		fprintf(stderr, "Feature name and|or command not
-> > > specified\n");
-> > >  		exit(0);
-> > >  	}
-> > > -	update_cpu_model();
-> > > +	ret = update_cpu_model();
-> > > +	if (ret)
-> > > +		err(-1, "Invalid CPU model (%d)\n", cpu_model);
-> > >  	printf("Intel(R) Speed Select Technology\n");
-> > >  	printf("Executing on CPU model:%d[0x%x]\n", cpu_model,
-> > > cpu_model);
-> > >  	set_max_cpu_num();
-> 
-> 
+Prarit Bhargava (6):
+  tools/power/x86/intel-speed-select: Add int argument to command
+    functions
+  tools/power/x86/intel-speed-select: Make process_command generic
+  tools/power/x86/intel-speed-select: Add check for CascadeLake-N models
+  tools/power/x86/intel-speed-select: Implement CascadeLake-N help and
+    command functions structures
+  tools/power/x86/intel-speed-select: Implement 'perf-profile info' on
+    CascadeLake-N
+  tools/power/x86/intel-speed-select: Implement base-freq commands on
+    CascadeLake-N
+
+ .../x86/intel-speed-select/isst-config.c      | 523 ++++++++++++------
+ .../x86/intel-speed-select/isst-display.c     |  14 +-
+ tools/power/x86/intel-speed-select/isst.h     |   3 +
+ 3 files changed, 383 insertions(+), 157 deletions(-)
+
+-- 
+2.17.2
 
