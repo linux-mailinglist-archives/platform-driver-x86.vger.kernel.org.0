@@ -2,101 +2,263 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67008CF7BA
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Oct 2019 13:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7EFCFADD
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Oct 2019 15:03:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbfJHLFU (ORCPT
+        id S1730915AbfJHNDU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Oct 2019 07:05:20 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35491 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730118AbfJHLFU (ORCPT
+        Tue, 8 Oct 2019 09:03:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36201 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730872AbfJHNDT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Oct 2019 07:05:20 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v8so18902678wrt.2;
-        Tue, 08 Oct 2019 04:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=J92IWr2VJrY20cgBoCqlCjKaHqq8B9mSOS3pdXzLByg=;
-        b=GKdJOsXaS7oy+vYxeRfBem2DpcZoE6xluLj7B3VZTd++gIRdIJHAcBwflVR9iSzhQz
-         4agGD+SXLAQpDauw+zsmyJmc6rRgnr9DExjP2T7luIcMToCWeoU58bsgQvtMzaxWkRY4
-         Yh7pen97p38z77CKnPJnh2YPRXmecSZDn5dNy5gVegEQUeHiEj3ILmYDYCH6lP0lPMQV
-         Uxxiy9i6L7xJ5CBeziZ8AkQTnSX7D72++VNm0FsKLTLNQggABvslqBOxcNTTzly3Mcwm
-         tQjQvDNBWsHZxyvcN5Git1HIfvbXLuuPnSinhKmCgnUGTiymalAPRNBzrtya3eV4Ko/d
-         Z0JA==
+        Tue, 8 Oct 2019 09:03:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1570539797;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dxmMftRW33ilmvHEF4q513oM2n5F6dAceKEAMgpG0is=;
+        b=KVN1vWniz+4bop06l0kCSL7cokFvhMMK7lwHOymE/Nf7GNkFXg3M69NSXvgqaoq5u2tFld
+        F2GmDAWLZmm4szGhyFzmJsTz9GwJ59cggY2N4ak20bsHlM5Q0u9lq/mX8cyaM8wmQj0nJ2
+        0ch17jLGz5C+FaViqs+v9Krmoq1RGhE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-PhkTwFLRMkSY8RGhf3l7yA-1; Tue, 08 Oct 2019 09:03:16 -0400
+Received: by mail-wm1-f70.google.com with SMTP id j125so1354325wmj.6
+        for <platform-driver-x86@vger.kernel.org>; Tue, 08 Oct 2019 06:03:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=J92IWr2VJrY20cgBoCqlCjKaHqq8B9mSOS3pdXzLByg=;
-        b=eRoiECqRaY3kYbXNEVkLVYA04ewDU7GuVsekHS0xalFyvae5nfNIws1ybPtN34IDSA
-         mAayZ81e//su919o5JjDuurfOfaCRz+aBKddvJGpnr97QLo6aLsFuJRkP8ExOHWSeOWq
-         kCyu44u1CbFpL5REJ7hOgS9+Zd4r9CKQQtvqNRwSIPc0mHLD3bnbsgMCa6wUGr8ZJ3Uz
-         fIUYgjWZ/fKm33gwBR56iqmm/DPvQgv3EnOdgkDuQ1cCzc7qeCRbzFO27ScP8JNoITCS
-         P+KPVlc8jICTGwe/kRFomRLu1ERS8cURWKOY26mAw0jNV0zQwgm9sSh/yrmp0lSUda7+
-         DqNw==
-X-Gm-Message-State: APjAAAWm5M3/MTiph7ZBQH9FYYwKsHxoNbsrgBrYMypyWn4lthLYrDxt
-        r7tnZEV4Ipcp6xQ1VW9/puQ=
-X-Google-Smtp-Source: APXvYqw0NawJTWZiuMShXAIsYRAaf5X0VI1pfia9S89FIVn+31OYEpLhXWLX+LczhmPApHBFq4cRVw==
-X-Received: by 2002:a5d:4102:: with SMTP id l2mr27721246wrp.348.1570532715866;
-        Tue, 08 Oct 2019 04:05:15 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id e15sm21826909wrt.94.2019.10.08.04.05.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 04:05:15 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 13:05:12 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kwfb3UTIvU2cGizqrnufWeXc1wS5svvR5Zo+8/126Po=;
+        b=Ad8YVQkm/Wos5EFj271el1AQJcDwAlVokRqd73OBxOZE7osLHWD9F0OSYScT6TIW0i
+         0bnOYWfhCAeM40NqJZwFVD1hspZevbx3+C6KFvEyRSul07z2nEoXYFK8QG9NuBVzdswj
+         +6mo40PXn8dAOPgXN/mfWWYBfrULniWXoEg+I9sp6RDsQkfqmFJ2TzeEAeJg0nB1yW5k
+         CWi/RQcbqG+Aa+qeCSBHkwM813d8Ku5cHmMPH+kPZW6G5Oj8HoXUCGpzmtuu5vTEd0D4
+         PwN7Dx777ZYgdxiwIHSXfcWBOKxESPcxPuAG2exoVgziziC5lWfC9cNo/MsrqXOdPBWt
+         FDGg==
+X-Gm-Message-State: APjAAAWx/0Z1JbL9vCtdBVpg4uKA5afC/yQv5MwRJToxFY9uflmBkTTH
+        4H6xqMiMXRf52q47nDjFo8Kmq2uJqAaxdRp7vOD/9/PSqP4HCC4gqlBF1nvviPlt0NiIIekx0Yg
+        vvD+iKQlPnedbryYu4Ckm6UJ93UTQRC2wjw==
+X-Received: by 2002:adf:9788:: with SMTP id s8mr24547826wrb.123.1570539795029;
+        Tue, 08 Oct 2019 06:03:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw0DpB3v9g0M+22at0sVGbIN0Mzw5ciphF17zruCFbCOO1LrtxBueQb7h8rBK/F6qE9Hm+TDA==
+X-Received: by 2002:adf:9788:: with SMTP id s8mr24547787wrb.123.1570539794791;
+        Tue, 08 Oct 2019 06:03:14 -0700 (PDT)
+Received: from shalem.localdomain (2001-1c00-0c14-2800-ec23-a060-24d5-2453.cable.dynamic.v6.ziggo.nl. [2001:1c00:c14:2800:ec23:a060:24d5:2453])
+        by smtp.gmail.com with ESMTPSA id y186sm6647679wmd.26.2019.10.08.06.03.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2019 06:03:13 -0700 (PDT)
+Subject: Re: [PATCH v2] platform/x86: peaq-wmi: switch to using polled mode of
+ input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20191008110512.GA116541@gmail.com>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191007141956.GA25347@gmail.com>
- <c7f1678f-ff03-1c3a-02e3-a68025b87969@redhat.com>
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191001185822.GA48020@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <bb766307-2d9c-fc6d-588a-9394a2b852e8@redhat.com>
+Date:   Tue, 8 Oct 2019 15:03:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7f1678f-ff03-1c3a-02e3-a68025b87969@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191001185822.GA48020@dtor-ws>
+Content-Language: en-US
+X-MC-Unique: PhkTwFLRMkSY8RGhf3l7yA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi,
 
-* Hans de Goede <hdegoede@redhat.com> wrote:
+On 01-10-2019 20:58, Dmitry Torokhov wrote:
+> We have added polled mode to the normal input devices with the intent of
+> retiring input_polled_dev. This converts peaq-wmi driver to use the
+> polling mode of standard input devices and removes dependency on
+> INPUT_POLLDEV.
+>=20
+> Because the new polling coded does not allow peeking inside the poller
+> structure to get the poll interval, we change the "debounce" process to
+> operate on the time basis, instead of counting events.
+>=20
+> We also fix error handling during initialization, as previously we leaked
+> input device structure when we failed to register it.
+>=20
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-> > So I was looking for a high level 0/ boilerplate description of this
-> > series, to explain what "EFI embedded fw" is, what problems it solves and
-> > how it helps the kernel in general - and found this in 2/8:
-> 
-> Sorry you had to dig into the individual patch changelogs for that
-> I sorta assumed that everyone involved would still vaguely remember
-> what this series is about.
+Patch looks good to me and I've also given this a test-run on the
+hw which uses this driver:
 
-Wasn't *that* hard to do and I intended to read the patches anyway. ;-)
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com>
 
-Thanks for the explanation and the answers, this all looks good to me in 
-principle and in implementation as well.
+Regards,
 
-Thanks,
+Hans
 
-	Ingo
+
+
+> ---
+>=20
+> v2: include input.h instead of input-polldev.h
+>=20
+>   drivers/platform/x86/Kconfig    |  1 -
+>   drivers/platform/x86/peaq-wmi.c | 66 +++++++++++++++++++++------------
+>   2 files changed, 42 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index f0a93f630455..c703c78c59f3 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -804,7 +804,6 @@ config PEAQ_WMI
+>   =09tristate "PEAQ 2-in-1 WMI hotkey driver"
+>   =09depends on ACPI_WMI
+>   =09depends on INPUT
+> -=09select INPUT_POLLDEV
+>   =09help
+>   =09 Say Y here if you want to support WMI-based hotkeys on PEAQ 2-in-1s=
+.
+>  =20
+> diff --git a/drivers/platform/x86/peaq-wmi.c b/drivers/platform/x86/peaq-=
+wmi.c
+> index fdeb3624c529..cf9c44c20a82 100644
+> --- a/drivers/platform/x86/peaq-wmi.c
+> +++ b/drivers/platform/x86/peaq-wmi.c
+> @@ -6,7 +6,7 @@
+>  =20
+>   #include <linux/acpi.h>
+>   #include <linux/dmi.h>
+> -#include <linux/input-polldev.h>
+> +#include <linux/input.h>
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+>  =20
+> @@ -18,8 +18,7 @@
+>  =20
+>   MODULE_ALIAS("wmi:"PEAQ_DOLBY_BUTTON_GUID);
+>  =20
+> -static unsigned int peaq_ignore_events_counter;
+> -static struct input_polled_dev *peaq_poll_dev;
+> +static struct input_dev *peaq_poll_dev;
+>  =20
+>   /*
+>    * The Dolby button (yes really a Dolby button) causes an ACPI variable=
+ to get
+> @@ -28,8 +27,10 @@ static struct input_polled_dev *peaq_poll_dev;
+>    * (if polling after the release) or twice (polling between press and r=
+elease).
+>    * We ignore events for 0.5s after the first event to avoid reporting 2=
+ presses.
+>    */
+> -static void peaq_wmi_poll(struct input_polled_dev *dev)
+> +static void peaq_wmi_poll(struct input_dev *input_dev)
+>   {
+> +=09static unsigned long last_event_time;
+> +=09static bool had_events;
+>   =09union acpi_object obj;
+>   =09acpi_status status;
+>   =09u32 dummy =3D 0;
+> @@ -44,22 +45,25 @@ static void peaq_wmi_poll(struct input_polled_dev *de=
+v)
+>   =09=09return;
+>  =20
+>   =09if (obj.type !=3D ACPI_TYPE_INTEGER) {
+> -=09=09dev_err(&peaq_poll_dev->input->dev,
+> +=09=09dev_err(&input_dev->dev,
+>   =09=09=09"Error WMBC did not return an integer\n");
+>   =09=09return;
+>   =09}
+>  =20
+> -=09if (peaq_ignore_events_counter && peaq_ignore_events_counter--)
+> +=09if (!obj.integer.value)
+>   =09=09return;
+>  =20
+> -=09if (obj.integer.value) {
+> -=09=09input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 1);
+> -=09=09input_sync(peaq_poll_dev->input);
+> -=09=09input_event(peaq_poll_dev->input, EV_KEY, KEY_SOUND, 0);
+> -=09=09input_sync(peaq_poll_dev->input);
+> -=09=09peaq_ignore_events_counter =3D max(1u,
+> -=09=09=09PEAQ_POLL_IGNORE_MS / peaq_poll_dev->poll_interval);
+> -=09}
+> +=09if (had_events && time_before(jiffies, last_event_time +
+> +=09=09=09=09=09msecs_to_jiffies(PEAQ_POLL_IGNORE_MS)))
+> +=09=09return;
+> +
+> +=09input_event(input_dev, EV_KEY, KEY_SOUND, 1);
+> +=09input_sync(input_dev);
+> +=09input_event(input_dev, EV_KEY, KEY_SOUND, 0);
+> +=09input_sync(input_dev);
+> +
+> +=09last_event_time =3D jiffies;
+> +=09had_events =3D true;
+>   }
+>  =20
+>   /* Some other devices (Shuttle XS35) use the same WMI GUID for other pu=
+rposes */
+> @@ -75,6 +79,8 @@ static const struct dmi_system_id peaq_dmi_table[] __in=
+itconst =3D {
+>  =20
+>   static int __init peaq_wmi_init(void)
+>   {
+> +=09int err;
+> +
+>   =09/* WMI GUID is not unique, also check for a DMI match */
+>   =09if (!dmi_check_system(peaq_dmi_table))
+>   =09=09return -ENODEV;
+> @@ -82,24 +88,36 @@ static int __init peaq_wmi_init(void)
+>   =09if (!wmi_has_guid(PEAQ_DOLBY_BUTTON_GUID))
+>   =09=09return -ENODEV;
+>  =20
+> -=09peaq_poll_dev =3D input_allocate_polled_device();
+> +=09peaq_poll_dev =3D input_allocate_device();
+>   =09if (!peaq_poll_dev)
+>   =09=09return -ENOMEM;
+>  =20
+> -=09peaq_poll_dev->poll =3D peaq_wmi_poll;
+> -=09peaq_poll_dev->poll_interval =3D PEAQ_POLL_INTERVAL_MS;
+> -=09peaq_poll_dev->poll_interval_max =3D PEAQ_POLL_MAX_MS;
+> -=09peaq_poll_dev->input->name =3D "PEAQ WMI hotkeys";
+> -=09peaq_poll_dev->input->phys =3D "wmi/input0";
+> -=09peaq_poll_dev->input->id.bustype =3D BUS_HOST;
+> -=09input_set_capability(peaq_poll_dev->input, EV_KEY, KEY_SOUND);
+> +=09peaq_poll_dev->name =3D "PEAQ WMI hotkeys";
+> +=09peaq_poll_dev->phys =3D "wmi/input0";
+> +=09peaq_poll_dev->id.bustype =3D BUS_HOST;
+> +=09input_set_capability(peaq_poll_dev, EV_KEY, KEY_SOUND);
+> +
+> +=09err =3D input_setup_polling(peaq_poll_dev, peaq_wmi_poll);
+> +=09if (err)
+> +=09=09goto err_out;
+> +
+> +=09input_set_poll_interval(peaq_poll_dev, PEAQ_POLL_INTERVAL_MS);
+> +=09input_set_max_poll_interval(peaq_poll_dev, PEAQ_POLL_MAX_MS);
+> +
+> +=09err =3D input_register_device(peaq_poll_dev);
+> +=09if (err)
+> +=09=09goto err_out;
+> +
+> +=09return 0;
+>  =20
+> -=09return input_register_polled_device(peaq_poll_dev);
+> +err_out:
+> +=09input_free_device(peaq_poll_dev);
+> +=09return err;
+>   }
+>  =20
+>   static void __exit peaq_wmi_exit(void)
+>   {
+> -=09input_unregister_polled_device(peaq_poll_dev);
+> +=09input_unregister_device(peaq_poll_dev);
+>   }
+>  =20
+>   module_init(peaq_wmi_init);
+>=20
+
