@@ -2,174 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F1ECCECCE
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Oct 2019 21:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE48BCF472
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Oct 2019 10:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729133AbfJGTbL (ORCPT
+        id S1730384AbfJHIDM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Oct 2019 15:31:11 -0400
-Received: from mga09.intel.com ([134.134.136.24]:26156 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729091AbfJGTbK (ORCPT
+        Tue, 8 Oct 2019 04:03:12 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:46105 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730292AbfJHIDM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Oct 2019 15:31:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Oct 2019 12:31:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,269,1566889200"; 
-   d="scan'208";a="192372897"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Oct 2019 12:31:09 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andriy.shevchenko@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        prarit@redhat.com,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v3 6/6] tools/power/x86/intel-speed-select: Implement base-freq commands on CascadeLake-N
-Date:   Mon,  7 Oct 2019 12:31:00 -0700
-Message-Id: <20191007193100.36934-7-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
-References: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
+        Tue, 8 Oct 2019 04:03:12 -0400
+Received: by mail-qt1-f193.google.com with SMTP id u22so23786360qtq.13
+        for <platform-driver-x86@vger.kernel.org>; Tue, 08 Oct 2019 01:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=zMQWoMlbtRckJcAFhKudH6hAdOl11JUXh6khJneQffs=;
+        b=n+aZ83LVrCQ2Rf6W9qerzYd7R5tcgkDwPLVLAJx0oWheosUGve8OJOUVaFExH1Uj5K
+         a7ofQ94YKaC4ttXJZMH9sG0tgJuCnnz7B/wtTGIdD2A5LZW+R9iGAyQn2BalF8Wwwfup
+         g3gj2IiLp5+abC8g+gsfWvkHg+3aSL7IqO4DGbwwspqoGdbCM0B/gmPr98JMO6G79Dak
+         wMorDWcS2T/cubbAdceRd4GR13S3OqldYtPdD3sSFk/dgbD+aKiwfK5pR+c++Z1vmwMy
+         CPksfQgsqDh5QdrWzTGFbcNyyNzeWEPaI+n2w28Z+M0TJgnL35DnFNJwUXnIKgRmkWel
+         JFTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=zMQWoMlbtRckJcAFhKudH6hAdOl11JUXh6khJneQffs=;
+        b=NsWrVR57xuBqVuoX+/KH5TF1QvVCBBQp7gig3cVHXF6IQzBc5Zj864FrFKEr9lDt4h
+         0qDCpysvdZvFFshoIm2G5YxzM8ztuUQnV6XwGTuhUgKeYzj1dHvHTTYpsbVfzyXwUqmG
+         ywQT+mO16pj5hF3wNIVUIZZe86DGzVjwws3BmhqDJ/qDXuxKCckXWamTaTOoRwYhaRf3
+         Lw8FGuu6msRPSJd21oLh2Y+VJu2YWA4kMI+IKl2LUGvqhFMYjVOsR9DfpSLAnyhQp6vp
+         diun2pxNWduN0MvsO+n4I0U98JFrJ2ww9yNncVFmvUbzyrsyc3Ff/r+NGlF/EgdW5V2/
+         dYfg==
+X-Gm-Message-State: APjAAAXeMx3T6699CVTtY6mGm5IitevBA03kqrx1XR86p72r0gN3QTY+
+        FQgqfRIZq8jcxXM5deQYhtG94ar3GfstpxFvPUs=
+X-Google-Smtp-Source: APXvYqzOIQuGlc8T70f041UH1TKhoPXL0aVpqxRxmUz7y/1YZYZQ6TYIPRx0N9YnY5oGkAF1m2aYSb9dyE+OJa7B2D0=
+X-Received: by 2002:ad4:4712:: with SMTP id k18mr30977225qvz.97.1570521790492;
+ Tue, 08 Oct 2019 01:03:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac8:6e89:0:0:0:0:0 with HTTP; Tue, 8 Oct 2019 01:03:10 -0700 (PDT)
+Reply-To: agaddafi077@gmail.com
+From:   Mrs A Gaddafi <aishagaddafi42@gmail.com>
+Date:   Tue, 8 Oct 2019 01:03:10 -0700
+Message-ID: <CAPJzYcVvOg2MXi+V1Pjvp0uQfOM95-ain25_ORRWZyj8JE_eAQ@mail.gmail.com>
+Subject: Best Regards
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Prarit Bhargava <prarit@redhat.com>
+Dear Friend,
 
-Add functionality for base-freq info|enable|disable info on CascadeLake-N.
+I came across your e-mail contact prior a private search whilst in
+need of your partnership for investment assistance in your country. I
+am opportune to use this medium to exhibit my legal intentions towards
+investing to your country under your management. I am fully convinced
+that you will really be of help as a business partner.
 
-Sample output:
-Intel(R) Speed Select Technology
-Executing on CPU model:85[0x55]
- package-0
-  die-0
-    cpu-0
-      speed-select-base-freq
-        high-priority-base-frequency(MHz):2700000
-        high-priority-cpu-mask:00000000,0000e8c0
-        high-priority-cpu-list:6,7,11,13,14,15
-        low-priority-base-frequency(MHz):2100000
- package-1
-  die-0
-    cpu-20
-      speed-select-base-freq
-        high-priority-base-frequency(MHz):2700000
-        high-priority-cpu-mask:0000000e,8c000000
-        high-priority-cpu-list:26,27,31,33,34,35
-        low-priority-base-frequency(MHz):2100000
+My name is Aisha  Gaddafi a single Mother and a Widow and i have three
+Children. I am the only biological Daughter of late Libyan President
+(Late Colonel Muammar Gaddafi).
 
-The enable command always returns success, and the disable command always
-returns failed because SST-BF cannot be enabled or disabled from the OS on
-CascadeLake-N.
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner.  I am planning to go into investment
+projects in your country of origin or present country of Location to
+assist me establish the investments project.
 
-Enable command also have support for --auto|-a option, which sets cpufreq
-scaling_min to max, so that the high priority base frequency can be the
-required minimum for high priority cores. Disable command with -a/--auto
-option reset the setting back to the min frequency.
+ I am willing to negotiate investment/business profit sharing ratio
+with you base on the future investment earning profits.
 
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../x86/intel-speed-select/isst-config.c      | 51 +++++++++++++++++--
- 1 file changed, 47 insertions(+), 4 deletions(-)
+If you are willing to handle this project on my behalf kindly reply
+urgent to enable me provide you more details about myself and more
+information about the release of the investment funds.
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 3c0eb4240df4..1c20048b42e7 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -1005,6 +1005,26 @@ static void set_tdp_level(int arg)
- 	isst_ctdp_display_information_end(outf);
- }
- 
-+static void clx_n_dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2,
-+				       void *arg3, void *arg4)
-+{
-+	int ret;
-+
-+	ret = clx_n_config(cpu);
-+	if (ret) {
-+		perror("isst_get_process_ctdp");
-+	} else {
-+		struct isst_pkg_ctdp_level_info *ctdp_level;
-+		struct isst_pbf_info *pbf_info;
-+
-+		ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
-+		pbf_info = &ctdp_level->pbf_info;
-+		isst_pbf_display_information(cpu, outf, tdp_level, pbf_info);
-+		free_cpu_set(ctdp_level->core_cpumask);
-+		free_cpu_set(pbf_info->core_cpumask);
-+	}
-+}
-+
- static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 				    void *arg4)
- {
-@@ -1022,6 +1042,8 @@ static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 
- static void dump_pbf_config(int arg)
- {
-+	void *fn;
-+
- 	if (cmd_help) {
- 		fprintf(stderr,
- 			"Print Intel(R) Speed Select Technology base frequency configuration for a TDP level\n");
-@@ -1035,13 +1057,18 @@ static void dump_pbf_config(int arg)
- 		exit(1);
- 	}
- 
-+	if (!is_clx_n_platform())
-+		fn = dump_pbf_config_for_cpu;
-+	else
-+		fn = clx_n_dump_pbf_config_for_cpu;
-+
- 	isst_ctdp_display_information_start(outf);
-+
- 	if (max_target_cpus)
--		for_each_online_target_cpu_in_set(dump_pbf_config_for_cpu, NULL,
--						  NULL, NULL, NULL);
-+		for_each_online_target_cpu_in_set(fn, NULL, NULL, NULL, NULL);
- 	else
--		for_each_online_package_in_set(dump_pbf_config_for_cpu, NULL,
--					       NULL, NULL, NULL);
-+		for_each_online_package_in_set(fn, NULL, NULL, NULL, NULL);
-+
- 	isst_ctdp_display_information_end(outf);
- }
- 
-@@ -1235,6 +1262,19 @@ static void set_pbf_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 	int ret;
- 	int status = *(int *)arg4;
- 
-+	if (is_clx_n_platform()) {
-+		if (status == 0) {
-+			ret = -1;
-+			if (auto_mode)
-+				set_scaling_min_to_cpuinfo_min(cpu);
-+		} else {
-+			ret = 0;
-+			if (auto_mode)
-+				set_scaling_min_to_cpuinfo_max(cpu);
-+		}
-+		goto disp_result;
-+	}
-+
- 	if (auto_mode) {
- 		if (status) {
- 			ret = set_pbf_core_power(cpu);
-@@ -1763,6 +1803,9 @@ static void get_clos_assoc(int arg)
- 
- static struct process_cmd_struct clx_n_cmds[] = {
- 	{ "perf-profile", "info", dump_isst_config, 0 },
-+	{ "base-freq", "info", dump_pbf_config, 0 },
-+	{ "base-freq", "enable", set_pbf_enable, 1 },
-+	{ "base-freq", "disable", set_pbf_enable, 0 },
- 	{ NULL, NULL, NULL, 0 }
- };
- 
--- 
-2.17.2
+I appreciate Your Urgent Reply to my email address:
 
+Best Regards
+Mrs Aisha Gaddafi
