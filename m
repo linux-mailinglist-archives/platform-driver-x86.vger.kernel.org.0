@@ -2,191 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AF8CD10C3
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2019 16:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C298DD12CE
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2019 17:32:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731187AbfJIOCK (ORCPT
+        id S1730674AbfJIPcB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 9 Oct 2019 10:02:10 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44766 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731338AbfJIOCI (ORCPT
+        Wed, 9 Oct 2019 11:32:01 -0400
+Received: from mga14.intel.com ([192.55.52.115]:41215 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729644AbfJIPcA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 9 Oct 2019 10:02:08 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z9so3141106wrl.11
-        for <platform-driver-x86@vger.kernel.org>; Wed, 09 Oct 2019 07:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZGDUmf8vQElxXW6jlDEJJ26hKrxEvdzngHjwzVdydCI=;
-        b=MV7CRBzotQ1VCRustpsQe1/OamCkR6/QHzmRMP9C1rqyIGQQBMUsKMaH6R4yksGlFC
-         wTuer6mkSjer8uPDRDhDyq0gopJLuz8qQhBBtJTz+HEUFf8/G8g9qrYQbE45vyTg0Egv
-         FY1DRqmw53YVZvszSbwqeZOBRMNdw637nZNQelAOB/Sc5iW8NHI7/s2YqKT3PJS5vf10
-         ow1YVlxUleDtCxbb4tR/16B6MlRqkLZ8GjW3G+9u+bBRm6GyWGRuoWWBW2id2cCD9Pxs
-         eTt9WU9BrU+lcsHxEyOk0prD9pvx506E/DGYNaI2JRUpIHXSgYR0F2FPTainkwtfOisC
-         vtkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZGDUmf8vQElxXW6jlDEJJ26hKrxEvdzngHjwzVdydCI=;
-        b=aGkhCysDaQFS+8Wp7duEZyR5BLxw3av0wgcHx+dJuz8HlQZvQvCAX6Yssk/5ruF21j
-         aykUv5QGM5NrVA8mYSyqhjYKaiaU8aVrojn845f4KdtJXP9wWXHXBlfZnlBKM6z9pcJG
-         tmD47NeHsO9krWvn2UkU3xQJBK1+AkA6IQ68D4A8tLm6tVd8y9lJ0lgQZ1m1SEo/0Z/h
-         6CoBTDg/g5Ph7qkDhxTT+igU+nfSdssuJWaEXAGP1TtOKblaMFVybHot66/ahXtjAopV
-         ETwsKcXHkXdb2W/3E3h9QqJXZNaHorggTwR11tv9F1XEVOUOk/73GG3F/d+O2XYDbwPV
-         VPtA==
-X-Gm-Message-State: APjAAAUqDher9/bl12mXx5A53sV8osSbIpM58TToOsEuh/fIAB8CD8ML
-        yQHKFUMauRiqUNLEhY1xtJJw/ewD5c96hguqaHetEw==
-X-Google-Smtp-Source: APXvYqxXsXcxHW2JT3gu+25BnBOo2zJYevT1fUUUiXoZf/pfeoaZAGuBbvOTwiv9z1XVkFvK7IgN305kAzNL96RO0Dg=
-X-Received: by 2002:adf:f5c2:: with SMTP id k2mr3313430wrp.0.1570629724936;
- Wed, 09 Oct 2019 07:02:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191004145056.43267-1-hdegoede@redhat.com> <20191004145056.43267-2-hdegoede@redhat.com>
- <CAKv+Gu9OU3rS-j+L+pxpK7HZi41XtQZTq9BDs6VpUC8RCq5X6g@mail.gmail.com>
- <c0256726-0aa3-b005-0a18-7b6a41533a0b@redhat.com> <CAKv+Gu9YLesC1abXAcUMe+0BE8Vv52Y_BhN-1Ps+h161Q00KKQ@mail.gmail.com>
- <81c648d6-428e-d978-246b-9a87d43c5d21@redhat.com>
-In-Reply-To: <81c648d6-428e-d978-246b-9a87d43c5d21@redhat.com>
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Wed, 9 Oct 2019 16:01:53 +0200
-Message-ID: <CAKv+Gu-Mj4+nqmAeKGSAzLPpnqOO=yDug_S4MVUQ7B+Sw6WBYQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/8] efi: Export boot-services code and data as debugfs-blobs
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-input@vger.kernel.org
+        Wed, 9 Oct 2019 11:32:00 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Oct 2019 08:31:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,276,1566889200"; 
+   d="scan'208";a="368776750"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by orsmga005.jf.intel.com with ESMTP; 09 Oct 2019 08:31:57 -0700
+Message-ID: <2bdd9810959f1e3babb1684c95caf1e65bf45081.camel@linux.intel.com>
+Subject: Re: [PATCH 0/3] Auto configuration mode and error
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 09 Oct 2019 08:31:57 -0700
+In-Reply-To: <CAHp75VeJPNhuWK0NiTg9dWk9Kg26ApzVi7NUKfGxydHm1v6bPA@mail.gmail.com>
+References: <20190923185906.76032-1-srinivas.pandruvada@linux.intel.com>
+         <CAHp75VeJPNhuWK0NiTg9dWk9Kg26ApzVi7NUKfGxydHm1v6bPA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 9 Oct 2019 at 15:59, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 09-10-2019 15:35, Ard Biesheuvel wrote:
-> > On Wed, 9 Oct 2019 at 15:18, Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 09-10-2019 15:07, Ard Biesheuvel wrote:
-> >>> On Fri, 4 Oct 2019 at 16:51, Hans de Goede <hdegoede@redhat.com> wrote:
-> >>>>
-> >>>> Sometimes it is useful to be able to dump the efi boot-services code and
-> >>>> data. This commit adds these as debugfs-blobs to /sys/kernel/debug/efi,
-> >>>> but only if efi=debug is passed on the kernel-commandline as this requires
-> >>>> not freeing those memory-regions, which costs 20+ MB of RAM.
-> >>>>
-> >>>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >>>> Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>> ---
-> >>>> Changes in v5:
-> >>>> -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
-> >>>>
-> >>>> Changes in v4:
-> >>>> -Add new EFI_BOOT_SERVICES flag and use it to determine if the boot-services
-> >>>>    memory segments are available (and thus if it makes sense to register the
-> >>>>    debugfs bits for them)
-> >>>>
-> >>>> Changes in v2:
-> >>>> -Do not call pr_err on debugfs call failures
-> >>>> ---
-> >>>>    arch/x86/platform/efi/efi.c    |  1 +
-> >>>>    arch/x86/platform/efi/quirks.c |  4 +++
-> >>>>    drivers/firmware/efi/efi.c     | 53 ++++++++++++++++++++++++++++++++++
-> >>>>    include/linux/efi.h            |  1 +
-> >>>>    4 files changed, 59 insertions(+)
-> >>>>
-> >>>> diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
-> >>>> index c202e1b07e29..847730f7e74b 100644
-> >>>> --- a/arch/x86/platform/efi/efi.c
-> >>>> +++ b/arch/x86/platform/efi/efi.c
-> >>>> @@ -232,6 +232,7 @@ int __init efi_memblock_x86_reserve_range(void)
-> >>>>                efi.memmap.desc_version);
-> >>>>
-> >>>>           memblock_reserve(pmap, efi.memmap.nr_map * efi.memmap.desc_size);
-> >>>> +       set_bit(EFI_PRESERVE_BS_REGIONS, &efi.flags);
-> >>>
-> >>> Should we add a Kconfig symbol to opt into this behavior [set by the
-> >>> driver in question], instead of always preserving all boot services
-> >>> regions on all x86 systems?
-> >>
-> >> This bit does not control anything, it merely signals that the arch early
-> >> boot EFI code keeps the boot-services code around, which is something
-> >> which the x86 code already does. Where as e.g. on arm / aarch64 this is
-> >> freed early on, this ties in with the other bits:
-> >>
-> >>>
-> >>>>
-> >>>>           return 0;
-> >>>>    }
-> >>>> diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-> >>>> index 3b9fd679cea9..fab12ebf0ada 100644
-> >>>> --- a/arch/x86/platform/efi/quirks.c
-> >>>> +++ b/arch/x86/platform/efi/quirks.c
-> >>>> @@ -411,6 +411,10 @@ void __init efi_free_boot_services(void)
-> >>>>           int num_entries = 0;
-> >>>>           void *new, *new_md;
-> >>>>
-> >>>> +       /* Keep all regions for /sys/kernel/debug/efi */
-> >>>> +       if (efi_enabled(EFI_DBG))
-> >>>> +               return;
-> >>>> +
-> >>
-> >> This is the point where normally on x86 we do actually free the boot-services
-> >> code which is a lot later then on other arches. And this new code actually
-> >> does change things to keep the boot-services code *forever* but only
-> >> if EFI debugging is enabled on the kernel commandline.
-> >>
-> >
-> > I get this part. But at some point, your driver is going to expect
-> > this memory to be preserved even if EFI_DBG is not set, right? My
-> > question was whether we should only opt into that if such a driver is
-> > enabled in the first place.
->
-> Ah, I see. No even with CONFIG_EFI_EMBEDDED_FIRMWARE selected, the
-> boot-services code still gets free-ed. The efi_get_embedded_fw()
-> function from drivers/firmware/efi/embedded-firmware.c runs before
-> efi_free_boot_services() and it memdup-s any found firmwares, so it
-> does not cause the EFI boot-services code to stick around longer
-> then usual.
->
-> The only thing which does cause it to stick around is enabling
-> EFI debugging with efi=debug, so that the various efi segments
-> (not only the code-services ones) can be inspected as debugfs
-> blobs.
->
-> Basically this first patch of the series is independent of the
-> rest. It is part of the series, because adding new
-> efi_embedded_fw_desc structs to the table of firmwares to check
-> for becomes a lot easier when we can easily inspect the efi
-> segments and see if they contain the firmware we want.
->
->
-> As for Kconfig options, the compiling of
-> drivers/firmware/efi/embedded-firmware.c is controlled by
-> CONFIG_EFI_EMBEDDED_FIRMWARE which is a hidden option, which
-> can be selected by code which needs this. currently this is
-> only selected by CONFIG_TOUCHSCREEN_DMI which is defined
-> in drivers/platform/x86/Kconfig.
->
+On Wed, 2019-10-09 at 14:46 +0300, Andy Shevchenko wrote:
+> On Thu, Sep 26, 2019 at 1:32 AM Srinivas Pandruvada
+> <srinivas.pandruvada@linux.intel.com> wrote:
+> > 
+> > These are some changes, which help users to use the base-freq and
+> > turbo-freq features without going through multiple steps for
+> > basic configuration. Also add some error when user is trying
+> > to disable core-power feature while it is getting used.
+> > 
+> > None of these patches are urgent and can wait for kernel version
+> > v5.5.
+> 
+> I'm completely lost in ISST patches.
+> Please send an updated version of the entire bunch of changes for
+> ISST
+> driver and do the same for tools.
+There are no changes in driver.
+Only tool.
 
-OK, thanks for clearing that up.
+Let me send in one series, both mine and Prarit's patches, which can be
+applied on top of 5.4-rc2.
+
+Thanks,
+Srinivas
+
+
+> Thanks.
+> 
+> I'm going to drop these ones from my review queue, so, I'm expecting
+> it as a part of new version against tools.
+> 
+
