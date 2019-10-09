@@ -2,81 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19CDBD0DE6
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2019 13:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F82ED0DF1
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Oct 2019 13:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbfJILqf (ORCPT
+        id S1729566AbfJILsf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 9 Oct 2019 07:46:35 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42290 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfJILqf (ORCPT
+        Wed, 9 Oct 2019 07:48:35 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41162 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbfJILsf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 9 Oct 2019 07:46:35 -0400
-Received: by mail-pg1-f196.google.com with SMTP id z12so1241194pgp.9;
-        Wed, 09 Oct 2019 04:46:33 -0700 (PDT)
+        Wed, 9 Oct 2019 07:48:35 -0400
+Received: by mail-pg1-f195.google.com with SMTP id t3so1245059pga.8
+        for <platform-driver-x86@vger.kernel.org>; Wed, 09 Oct 2019 04:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uS9mErjexiYqpscpzCPSEdkzAe7OAyNyD3avSiLikIM=;
-        b=KmHbCL/QwB0yoKhsX8fQN1LgGHi9YP7I/icWDLTIMYedCvFYFVNPGzgrullChnyvi2
-         BTMcjy5eqbVvope4/Lex7VBfrb53Ryr2VEeB93WDezcP/Gj6n4cWWKvrOCEvGHhYtyV2
-         gx0fy+rEaxCoMgDX4og/6vgJa3OpJGTVZKLX6eht58ChV4sMUlPjFlra6GjUuq07enWk
-         GXRJdVqG4VgNVpvZGvj6bChhqSt2ChiE3ce06Pyr49Y+cfqGvjpmcVIqBC8A3vU8YFbA
-         QCKkTemvCr/s5E+eY4NRs8E2UlQYq2Tc0DQ3CNk2rec0F6L0lcPDxuwzoJG6yA8cTF8f
-         hftA==
+        bh=z6HVe28LVjSoydPXeuLMHw5NzfsuuRF7D+qGQEgzmGY=;
+        b=RQDZQ7B0dWaFQ/AlsFMu5PtOb10hfvc+xZQrQvbqWcIHVoYJcG+h2utypgecKigpkZ
+         dF2xtE8LODe3W+7dHnOfhNDze9PZCXIF0+sMIYr4I+c5c3pJpJnIkCztMnc5MZeXyTsq
+         vOC7APaQgswCYCL1oxbqJIvOa7qQb4cbdsezx1jU2k3Jrb92E+c92YYalMdc3sRvTD4T
+         pT2sQBl/UHjDkugBLBJQE/5FmshHlSfmnzTx4rYC5OCLPFBNhEe26zfLXZFtjzc+J3/q
+         SQmFctvizxAQOwT7GY0CazSs+NC3iqSgPp8h2OCSkmHBvZ1FbZR93Owvht9PMmMnBWnw
+         8ftA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uS9mErjexiYqpscpzCPSEdkzAe7OAyNyD3avSiLikIM=;
-        b=GzJMDqTdioTH/RlwzjQbK5iLT2AEa9R8Aje9CqrntQ9hdF8+glGN+0Bn5ROFr8kUtW
-         3WNEH9GpWlsbT9uejHABPhCbkaGdePOuj+x4w9fF7s9ClUVAqXv8c7kyuuFG7+jJzgdQ
-         UffEb/a3jjkvbY7Brm2zMhyQkQxlIYkiAP8EGFCpplupI+sK26knRZIgTV0X7abJidpe
-         hWUR7Mp8ZDXOM6cmQs12H8j9/XfDJUHSP1IF26SAFlVAk0qNnAQGzJFXIMLtGt5vsi3s
-         0Tu1ayVOgT9PfZjmnogLu8htfIjOUFVghMdza8x9eKVc71teKqUDJiiHly1vh4ODKCdD
-         fC3A==
-X-Gm-Message-State: APjAAAW+IXwTlwidkJ8X1teJRyZNP50qArdodfDsZcnsstL4TrPFEvYX
-        Kbkf+uDHhR6wXqvh42cyf6TDVDWrtoCkM5IhtnA=
-X-Google-Smtp-Source: APXvYqw3fvOCCwZdu8etRKGUl+A0EcL6W+NwnuNaYHNthGzXg84eYTZMvn61pHZyFs8vXT75iPcVvqpMk9zcr+f7CXo=
-X-Received: by 2002:a65:5a08:: with SMTP id y8mr3834154pgs.4.1570621593361;
- Wed, 09 Oct 2019 04:46:33 -0700 (PDT)
+        bh=z6HVe28LVjSoydPXeuLMHw5NzfsuuRF7D+qGQEgzmGY=;
+        b=Okb5tg5xpeTEkzBovJa1EQe8cISATMik1Iho30dY75N8JZYJZ6X1tTTgO7Vd5RNEwQ
+         mBEq08lP4gB/GtEuwaJowdvNgMNvJdEiXPuI35+8oSD5CkXfZ9ZZg6U2jsPhnbRzIMlV
+         /FGIZH74rYy0Q5YhJV3Q4tqnTZORCuf0GBjhzaBt1xpCJtSl/7jDA8VIKOLgdoXpI2H3
+         nEAJR3wYxs+Hy4RjSf9BVPYCxNINjDBvX+AVMSw/aBV34IWT8XvIyX6zyxsCKFT3uQPM
+         8keVDgO3XizO8i+pqDog/bB2iqK8sRWWpPQSxZovHyhU1z9ios13/Skw49ZZx2Ul80Vo
+         JrCQ==
+X-Gm-Message-State: APjAAAVOLOiNHFd/YBxp109cJXdOFPac96y6H48I7oUykT3RbjiI6Fn3
+        HicSez7k4Oo3yY5XiB5q2BZVHfx+ihHP1/DRQY46VWjC/Wg=
+X-Google-Smtp-Source: APXvYqwehiRls5p3knVDqZDNAdQ+jA2/KpuN/s8atpxVyWlK+SVtgOtH7ovckV9FipnwCmJNOpv28r2Y5AxFAOpwZnI=
+X-Received: by 2002:a65:5bca:: with SMTP id o10mr3760661pgr.74.1570621714817;
+ Wed, 09 Oct 2019 04:48:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190923185906.76032-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20190923185906.76032-1-srinivas.pandruvada@linux.intel.com>
+References: <957bc038-c2d7-4ffb-a209-a4b8dfe95454@www.fastmail.com> <0dda9d66-3d7a-4f59-83ee-772e7d2f445e@www.fastmail.com>
+In-Reply-To: <0dda9d66-3d7a-4f59-83ee-772e7d2f445e@www.fastmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 9 Oct 2019 14:46:22 +0300
-Message-ID: <CAHp75VeJPNhuWK0NiTg9dWk9Kg26ApzVi7NUKfGxydHm1v6bPA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Auto configuration mode and error
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Andriy Shevchenko <andriy.shevchenko@intel.com>,
-        Prarit Bhargava <prarit@redhat.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 9 Oct 2019 14:48:24 +0300
+Message-ID: <CAHp75Vd5=W-X+B9nQFt9RQ66fPVZe3O8cjb94U+ga4T0SxPzhw@mail.gmail.com>
+Subject: Re: platform/x86: system76_acpi: Add System76 ACPI driver
+To:     Jeremy Soller <jeremy@system76.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        productdev@system76.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 1:32 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
+On Tue, Oct 8, 2019 at 10:23 PM Jeremy Soller <jeremy@system76.com> wrote:
 >
-> These are some changes, which help users to use the base-freq and
-> turbo-freq features without going through multiple steps for
-> basic configuration. Also add some error when user is trying
-> to disable core-power feature while it is getting used.
+> Resent this as https://patchwork.kernel.org/patch/11180033/
 >
-> None of these patches are urgent and can wait for kernel version v5.5.
+> On Thu, Sep 26, 2019, at 11:47 AM, Jeremy Soller wrote:
+> > Add System76 ACPI driver, which allows for control of keyboard
+> > backlight and airplane mode LED on System76 machines running open
+> > firmware.
 
-I'm completely lost in ISST patches.
-Please send an updated version of the entire bunch of changes for ISST
-driver and do the same for tools.
-Thanks.
+First of all, no need to resend if there was no issues / comments to address.
+But if do it, please, will increase a version number.
 
-I'm going to drop these ones from my review queue, so, I'm expecting
-it as a part of new version against tools.
+Now I'm dropping all these from my queue and wait for v2.
 
 -- 
 With Best Regards,
