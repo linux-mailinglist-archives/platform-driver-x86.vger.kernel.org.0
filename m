@@ -2,174 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBDEAD3245
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Oct 2019 22:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC571D367B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 02:47:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbfJJUaL (ORCPT
+        id S1727588AbfJKArb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Oct 2019 16:30:11 -0400
-Received: from mga17.intel.com ([192.55.52.151]:30902 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726986AbfJJU37 (ORCPT
+        Thu, 10 Oct 2019 20:47:31 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45808 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727100AbfJKAra (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Oct 2019 16:29:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2019 13:29:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,281,1566889200"; 
-   d="scan'208";a="277902043"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by orsmga001.jf.intel.com with ESMTP; 10 Oct 2019 13:29:51 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andriy.shevchenko@intel.com
-Cc:     prarit@redhat.com, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [RESEND][PATCH 10/10] tools/power/x86/intel-speed-select: Implement base-freq commands on CascadeLake-N
-Date:   Thu, 10 Oct 2019 13:29:45 -0700
-Message-Id: <20191010202945.73616-11-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20191010202945.73616-1-srinivas.pandruvada@linux.intel.com>
-References: <20191010202945.73616-1-srinivas.pandruvada@linux.intel.com>
+        Thu, 10 Oct 2019 20:47:30 -0400
+Received: by mail-pg1-f193.google.com with SMTP id r1so3548886pgj.12;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=XYUsDF5LK7A0bep4RfUjjO6eu7m00xiDrfzh+6ctTRAPT9U9rGrm1f18yhoiC0yNuv
+         Nh6Q/vQBZAQi46sXFInFLsQG0rJ1TvPS5C1Tzn9S2554Cx/vjGYs8EZZxhQbjpFJJD6E
+         mq8y5nzxGtZqZ1HZVJIwUBzjLVcdQnK48XQKSiZxCb5muTP28sGxfiW6xttjRfoJz1zx
+         NeVb7DJA0yv4PR4ePzAAkYf/zV1zufAalbNWeepOGoaGE35/H2qLJoSmoA/Zwa9D29j3
+         KdTdgOaUArg8q/IgOcapzDuoHM5mLyE0yT9A/fXjWCpAe9PjwgLrM34bKVinTnpaDnwf
+         ODjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JczpVAzRBwwAOYFIGonlJX1sjgIClw2IMnks9yUvCfI=;
+        b=HpU5WoO+kB1v8CJVMiWALXKWGQ4HAjWji8I9PqE4xNRImHSWREkqflqJYgLFtGMv/q
+         hEGnt4K2wFRtt5tIv8VzcCT6TPjK9vrU3CfVX92DxGwjETIRKQZp4uIAan8F+xEvLHa1
+         TKTcnbNRFDb6+/WFC1SSfgc+JOjJsqe/ppyfxJ9vHQVGtIAiNRSuTe1Xs5Nxl97E2rx+
+         S2YmYgIFd2mV2OnhPC68i9AeOOnskX7PogCqS7l+wvsKYk2fEDzPGC3s/GFtJFn1NmH+
+         wPp24bc2rS/d6I5Wqai8TN8Uuy5f6loavNmz6XdTJdK2h8Svkcw5/lvn58/83woF7E2E
+         9oAQ==
+X-Gm-Message-State: APjAAAX+Vn15IDVtXusV+n3pC0M8VclZxB8OTvsdzoYMyBynVcfLnPSk
+        3Lb3shHs+x12rYkCO2Lmi32qV+Dx
+X-Google-Smtp-Source: APXvYqzLzsgjSK5rwCHu1G+VT4kiDmY0wF5F/U3chf6VGS4WhHCVPn+dKofGWhykmg9t9+gtci7OYg==
+X-Received: by 2002:a65:66d1:: with SMTP id c17mr13897375pgw.169.1570754848017;
+        Thu, 10 Oct 2019 17:47:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id d76sm7692503pfd.185.2019.10.10.17.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2019 17:47:27 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 17:47:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 5/8] Input: silead - Switch to
+ firmware_request_platform for retreiving the fw
+Message-ID: <20191011004724.GC229325@dtor-ws>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-6-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004145056.43267-6-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Prarit Bhargava <prarit@redhat.com>
+On Fri, Oct 04, 2019 at 04:50:53PM +0200, Hans de Goede wrote:
+> Unfortunately sofar we have been unable to get permission to redistribute
+> Silead touchscreen firmwares in linux-firmware. This means that people
+> need to find and install the firmware themselves before the touchscreen
+> will work
+> 
+> Some UEFI/x86 tablets with a Silead touchscreen have a copy of the fw
+> embedded in their UEFI boot-services code.
+> 
+> This commit makes the silead driver use the new firmware_request_platform
+> function, which will fallback to looking for such an embedded copy when
+> direct filesystem lookup fails. This will make the touchscreen work OOTB
+> on devices where there is a fw copy embedded in the UEFI code.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Add functionality for base-freq info|enable|disable info on CascadeLake-N.
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Sample output:
-Intel(R) Speed Select Technology
-Executing on CPU model:85[0x55]
- package-0
-  die-0
-    cpu-0
-      speed-select-base-freq
-        high-priority-base-frequency(MHz):2700000
-        high-priority-cpu-mask:00000000,0000e8c0
-        high-priority-cpu-list:6,7,11,13,14,15
-        low-priority-base-frequency(MHz):2100000
- package-1
-  die-0
-    cpu-20
-      speed-select-base-freq
-        high-priority-base-frequency(MHz):2700000
-        high-priority-cpu-mask:0000000e,8c000000
-        high-priority-cpu-list:26,27,31,33,34,35
-        low-priority-base-frequency(MHz):2100000
+> ---
+>  drivers/input/touchscreen/silead.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+> index ad8b6a2bfd36..8fa2f3b7cfd8 100644
+> --- a/drivers/input/touchscreen/silead.c
+> +++ b/drivers/input/touchscreen/silead.c
+> @@ -288,7 +288,7 @@ static int silead_ts_load_fw(struct i2c_client *client)
+>  
+>  	dev_dbg(dev, "Firmware file name: %s", data->fw_name);
+>  
+> -	error = request_firmware(&fw, data->fw_name, dev);
+> +	error = firmware_request_platform(&fw, data->fw_name, dev);
+>  	if (error) {
+>  		dev_err(dev, "Firmware request error %d\n", error);
+>  		return error;
+> -- 
+> 2.23.0
+> 
 
-The enable command always returns success, and the disable command always
-returns failed because SST-BF cannot be enabled or disabled from the OS on
-CascadeLake-N.
-
-Enable command also have support for --auto|-a option, which sets cpufreq
-scaling_min to max, so that the high priority base frequency can be the
-required minimum for high priority cores. Disable command with -a/--auto
-option reset the setting back to the min frequency.
-
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../x86/intel-speed-select/isst-config.c      | 51 +++++++++++++++++--
- 1 file changed, 47 insertions(+), 4 deletions(-)
-
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 3c0eb4240df4..1c20048b42e7 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -1005,6 +1005,26 @@ static void set_tdp_level(int arg)
- 	isst_ctdp_display_information_end(outf);
- }
- 
-+static void clx_n_dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2,
-+				       void *arg3, void *arg4)
-+{
-+	int ret;
-+
-+	ret = clx_n_config(cpu);
-+	if (ret) {
-+		perror("isst_get_process_ctdp");
-+	} else {
-+		struct isst_pkg_ctdp_level_info *ctdp_level;
-+		struct isst_pbf_info *pbf_info;
-+
-+		ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
-+		pbf_info = &ctdp_level->pbf_info;
-+		isst_pbf_display_information(cpu, outf, tdp_level, pbf_info);
-+		free_cpu_set(ctdp_level->core_cpumask);
-+		free_cpu_set(pbf_info->core_cpumask);
-+	}
-+}
-+
- static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 				    void *arg4)
- {
-@@ -1022,6 +1042,8 @@ static void dump_pbf_config_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 
- static void dump_pbf_config(int arg)
- {
-+	void *fn;
-+
- 	if (cmd_help) {
- 		fprintf(stderr,
- 			"Print Intel(R) Speed Select Technology base frequency configuration for a TDP level\n");
-@@ -1035,13 +1057,18 @@ static void dump_pbf_config(int arg)
- 		exit(1);
- 	}
- 
-+	if (!is_clx_n_platform())
-+		fn = dump_pbf_config_for_cpu;
-+	else
-+		fn = clx_n_dump_pbf_config_for_cpu;
-+
- 	isst_ctdp_display_information_start(outf);
-+
- 	if (max_target_cpus)
--		for_each_online_target_cpu_in_set(dump_pbf_config_for_cpu, NULL,
--						  NULL, NULL, NULL);
-+		for_each_online_target_cpu_in_set(fn, NULL, NULL, NULL, NULL);
- 	else
--		for_each_online_package_in_set(dump_pbf_config_for_cpu, NULL,
--					       NULL, NULL, NULL);
-+		for_each_online_package_in_set(fn, NULL, NULL, NULL, NULL);
-+
- 	isst_ctdp_display_information_end(outf);
- }
- 
-@@ -1235,6 +1262,19 @@ static void set_pbf_for_cpu(int cpu, void *arg1, void *arg2, void *arg3,
- 	int ret;
- 	int status = *(int *)arg4;
- 
-+	if (is_clx_n_platform()) {
-+		if (status == 0) {
-+			ret = -1;
-+			if (auto_mode)
-+				set_scaling_min_to_cpuinfo_min(cpu);
-+		} else {
-+			ret = 0;
-+			if (auto_mode)
-+				set_scaling_min_to_cpuinfo_max(cpu);
-+		}
-+		goto disp_result;
-+	}
-+
- 	if (auto_mode) {
- 		if (status) {
- 			ret = set_pbf_core_power(cpu);
-@@ -1763,6 +1803,9 @@ static void get_clos_assoc(int arg)
- 
- static struct process_cmd_struct clx_n_cmds[] = {
- 	{ "perf-profile", "info", dump_isst_config, 0 },
-+	{ "base-freq", "info", dump_pbf_config, 0 },
-+	{ "base-freq", "enable", set_pbf_enable, 1 },
-+	{ "base-freq", "disable", set_pbf_enable, 0 },
- 	{ NULL, NULL, NULL, 0 }
- };
- 
 -- 
-2.17.2
-
+Dmitry
