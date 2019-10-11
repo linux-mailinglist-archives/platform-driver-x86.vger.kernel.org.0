@@ -2,193 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4119D4A97
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 12 Oct 2019 01:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D65D4AEE
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 12 Oct 2019 01:25:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728239AbfJKXHs (ORCPT
+        id S1726521AbfJKXZ3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Oct 2019 19:07:48 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38977 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728209AbfJKXHq (ORCPT
+        Fri, 11 Oct 2019 19:25:29 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40733 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbfJKXZ3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Oct 2019 19:07:46 -0400
-Received: by mail-pg1-f196.google.com with SMTP id e1so6611813pgj.6;
-        Fri, 11 Oct 2019 16:07:44 -0700 (PDT)
+        Fri, 11 Oct 2019 19:25:29 -0400
+Received: by mail-pg1-f193.google.com with SMTP id d26so6625175pgl.7;
+        Fri, 11 Oct 2019 16:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S0//uf0M37JZw3nISBvezCORU54B4ZZcLP9zD7cFu34=;
-        b=pC0LY6U/44gpmU6UUdSKZ9hNbdX8XXx2aDAnQiDTvUbEHGMtEWH+zjvk/M1Fyyy9Uu
-         xmwZW4Z9rhpzRoU3FjmHFis9MTRtqwiih6//B2XJKnJaQrnfwvbt/XhyfoB8MjpPCGO6
-         im7v6KeOh5samYuQW4qSthXnynnvTej/HiybhKjTvY6/lZnqWnzk9VMYo1NuH9vfhofK
-         AGQF0K6MP0OnOVKLhMcZT06M1JO80M7jte1K0A06hoKVy1OAZrWEEi5Soh/A2Iq7eLoP
-         sHx1C5KCtDWf9WHyyKkV/VH2X/+saF+w42bAh//w5CI5ufKLMYlz7fkTDIKiycjQE2z3
-         Ebgg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HnsIqNSAtnoJLnhTI4m9IprOfs8bbDJOo1Of/k4CbPs=;
+        b=D+Opywxho/fylFT2LWEAP6j5OPPr2dqlzRLD4+iZVbtAOYC2H870MSixJjPbT+a2R7
+         bRKx0sltCM9ClNnea5U/Te9lFaIaDO1ftD43XzpWZweD1itONjyjgPaxOl+Q9QP84GiN
+         mMtIDQJ2FikqJU7gEvRVRN3YW1Jd1JFVWEfYXs/kZfpZK7U1g9U+8biY74HvfB4CuJoG
+         gqj6zj8SklOgvbby165385jGh9EJcePEoQmVlVz0pGkQl4VjmKAV2zB4VC3FIMxAVXQz
+         z3agur2s4+5oqAMglWLeb5ahYTQbaVLU19+p85RVlX8hDK68ZtKokjxKvWpbUdZTorpW
+         faaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S0//uf0M37JZw3nISBvezCORU54B4ZZcLP9zD7cFu34=;
-        b=iH7cBjV3Ea2yvLMwKiTYlwuGj7ZjmFr7RVfB20ZMl0gyPdIriEYmRibzb9SQ8rfYj1
-         k0Fl+Qrr+BwGcgRAm4aSYfYoLL1psAoau3Q+p/hGJZVdLJi7DcXBU9+n/xnhh0CvpH7X
-         efSpAXlDEsgSkBih+cZQloI46uPO76RCK6ykUba7eX3ZjyXoJ9PXrbXrvHTan7bIJByU
-         w7m5jYh6GRMlWrr0s1gxpjPT+bQzGK86EkUuo8O3fNvi2eRTmd8EmJfU2iKebV26MGv9
-         PwsnDObta2r00F3SEIgKcNeflFKjAw7qUp1wXMQpTBsVS5kty7PMadY2NPHt9zOnjCyx
-         3zxQ==
-X-Gm-Message-State: APjAAAUpF6acDDB5v96KDdmAoWsUl17N3ctivAB9E2DrkJglD9MIKQOo
-        3RyQLUFvDOIDIFvOps8+UvZxOvKP
-X-Google-Smtp-Source: APXvYqz/TR8uDeeYkhJAxOu1rC6UATHW4Lrnd0hhlLSi5qIrvJirjHPF8WSDaOTCRaZDRVJ+X/YTjw==
-X-Received: by 2002:a17:90a:19c1:: with SMTP id 1mr20378906pjj.52.1570835264154;
-        Fri, 11 Oct 2019 16:07:44 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id w2sm11529251pfn.57.2019.10.11.16.07.41
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HnsIqNSAtnoJLnhTI4m9IprOfs8bbDJOo1Of/k4CbPs=;
+        b=ODISBCTuCGp/4+x/cIR4f1zfBDRZUX3odGqH0jQuMauGIm/8Pae3PDK+e4Lvz7x6qS
+         QuX+1dYBnHzfIZ1y3DBg8ZmgG6VCHjn0fz3dwI4NWc7cYj5l4EsFQUcC1/2CrhPQLqzO
+         apuqxgAbADpKZxeJ0BFIKGksV8Pnp9/WCsFjsv7ZQe4S1dDcy3zpTtKxT1DWW5PHNyWc
+         LSQMMNegQTOAzOQFVBEO/oPv/6ijgfzS2gZ8Qg7ohmIFs/ZEWQDIjOfmFfhQwVxueOIm
+         AtJckvAofG8gGxpcApT7AQWzxjT/BQ+59mv0WCJnrzBInUwRWsl2o9QuNgpdqvc0Zr4G
+         VDCA==
+X-Gm-Message-State: APjAAAWzLMARZcVVhRyZNK9gv26JktSiEG1IKcoiZ20DiIbqd0DhZ7O1
+        /RVFig9c55F2JH2nEqwsO+g=
+X-Google-Smtp-Source: APXvYqxebJmOFiwTGaq1+voYZcoiDHsNHOIOYRtB9AW9N6yBuO+rivRsq8DOFpc/+AFF1oYVf9C0Pg==
+X-Received: by 2002:a63:28f:: with SMTP id 137mr3636145pgc.336.1570836328408;
+        Fri, 11 Oct 2019 16:25:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id q76sm23268116pfc.86.2019.10.11.16.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 16:07:42 -0700 (PDT)
+        Fri, 11 Oct 2019 16:25:27 -0700 (PDT)
+Date:   Fri, 11 Oct 2019 16:25:26 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v5 14/14] software node: remove separate handling of references
-Date:   Fri, 11 Oct 2019 16:07:21 -0700
-Message-Id: <20191011230721.206646-15-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
-In-Reply-To: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
-References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v4 00/14] software node: add support for reference
+ properties
+Message-ID: <20191011232526.GL229325@dtor-ws>
+References: <20190911051231.148032-1-dmitry.torokhov@gmail.com>
+ <20191003003227.GA246700@dtor-ws>
+ <CAJZ5v0jF5vafYFSJ=p3ew_tCbj1T1zRznZDoPTL47Pdj9-rrCg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0jF5vafYFSJ=p3ew_tCbj1T1zRznZDoPTL47Pdj9-rrCg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Now that all users of references have moved to reference properties,
-we can remove separate handling of references.
+On Thu, Oct 03, 2019 at 10:39:24AM +0200, Rafael J. Wysocki wrote:
+> On Thu, Oct 3, 2019 at 2:32 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Rafael,
+> >
+> > On Tue, Sep 10, 2019 at 10:12:17PM -0700, Dmitry Torokhov wrote:
+> > > These series implement "references" properties for software nodes as true
+> > > properties, instead of managing them completely separately.
+> > >
+> > > The first 10 patches are generic cleanups and consolidation and unification
+> > > of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
+> > > patch #12 converts the user of references to the property syntax, and patch
+> > > #13 removes the remains of references as entities that are managed
+> > > separately.
+> >
+> > Now that merge window is over could you please take a look at the
+> > series?
+> 
+> I will.
+> 
+> It would help to resend the whole series with a CC to linux-acpi, though.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/base/swnode.c    | 46 +++++++++++++++-------------------------
- include/linux/property.h | 14 ------------
- 2 files changed, 17 insertions(+), 43 deletions(-)
+Rebased to next-20191011 and sent to linux-acpi and others.
 
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index a5b592a4e956..4cb62cd105db 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -465,9 +465,8 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 				 struct fwnode_reference_args *args)
- {
- 	struct swnode *swnode = to_swnode(fwnode);
--	const struct software_node_reference *ref;
- 	const struct software_node_ref_args *ref_array;
--	const struct software_node_ref_args *ref_args;
-+	const struct software_node_ref_args *ref;
- 	const struct property_entry *prop;
- 	struct fwnode_handle *refnode;
- 	int i;
-@@ -476,37 +475,26 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 		return -ENOENT;
- 
- 	prop = property_entry_get(swnode->node->properties, propname);
--	if (prop) {
--		if (prop->type != DEV_PROP_REF)
--			return -EINVAL;
--
--		/*
--		 * We expect that references are never stored inline, even
--		 * single ones, as they are too big.
--		 */
--		if (prop->is_inline)
--			return -EINVAL;
--
--		if (index * sizeof(*ref_args) >= prop->length)
--			return -ENOENT;
-+	if (!prop)
-+		return -ENOENT;
- 
--		ref_array = prop->pointer;
--		ref_args = &ref_array[index];
--	} else {
--		if (!swnode->node->references)
--			return -ENOENT;
-+	if (prop->type != DEV_PROP_REF)
-+		return -EINVAL;
- 
--		for (ref = swnode->node->references; ref->name; ref++)
--			if (!strcmp(ref->name, propname))
--				break;
-+	/*
-+	 * We expect that references are never stored inline, even
-+	 * single ones, as they are too big.
-+	 */
-+	if (prop->is_inline)
-+		return -EINVAL;
- 
--		if (!ref->name || index > (ref->nrefs - 1))
--			return -ENOENT;
-+	if (index * sizeof(*ref) >= prop->length)
-+		return -ENOENT;
- 
--		ref_args = &ref->refs[index];
--	}
-+	ref_array = prop->pointer;
-+	ref = &ref_array[index];
- 
--	refnode = software_node_fwnode(ref_args->node);
-+	refnode = software_node_fwnode(ref->node);
- 	if (!refnode)
- 		return -ENOENT;
- 
-@@ -525,7 +513,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
- 	args->nargs = nargs;
- 
- 	for (i = 0; i < nargs; i++)
--		args->args[i] = ref_args->args[i];
-+		args->args[i] = ref->args[i];
- 
- 	return 0;
- }
-diff --git a/include/linux/property.h b/include/linux/property.h
-index 08d3e9d126ef..fa5a2ddc0c7b 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -412,30 +412,16 @@ int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
- /* -------------------------------------------------------------------------- */
- /* Software fwnode support - when HW description is incomplete or missing */
- 
--/**
-- * struct software_node_reference - Named software node reference property
-- * @name: Name of the property
-- * @nrefs: Number of elements in @refs array
-- * @refs: Array of references with optional arguments
-- */
--struct software_node_reference {
--	const char *name;
--	unsigned int nrefs;
--	const struct software_node_ref_args *refs;
--};
--
- /**
-  * struct software_node - Software node description
-  * @name: Name of the software node
-  * @parent: Parent of the software node
-  * @properties: Array of device properties
-- * @references: Array of software node reference properties
-  */
- struct software_node {
- 	const char *name;
- 	const struct software_node *parent;
- 	const struct property_entry *properties;
--	const struct software_node_reference *references;
- };
- 
- bool is_software_node(const struct fwnode_handle *fwnode);
+Thanks!
+
 -- 
-2.23.0.700.g56cf767bdb-goog
-
+Dmitry
