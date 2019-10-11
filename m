@@ -2,101 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2ABAD42E6
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 16:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F35FD4354
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 16:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728571AbfJKOba (ORCPT
+        id S1726631AbfJKOrQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Oct 2019 10:31:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42044 "EHLO mx1.redhat.com"
+        Fri, 11 Oct 2019 10:47:16 -0400
+Received: from mga06.intel.com ([134.134.136.31]:5061 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728195AbfJKOb3 (ORCPT
+        id S1726328AbfJKOrP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Oct 2019 10:31:29 -0400
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 785408E588
-        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Oct 2019 14:31:29 +0000 (UTC)
-Received: by mail-ed1-f70.google.com with SMTP id k5so5867606edx.13
-        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Oct 2019 07:31:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e7jeAeBI7smw0DkvEKb+yEiLD6lnpDm/GMM/0BPj+Sg=;
-        b=ZY//bEL7KmBFTOZ8izedUYhMQHluC/MY+YfbksbwjBqzythI2G9OwOrJCtgsR35t4M
-         iaNBLqsGAPc4U9xcNc+cPWWmfE4qO1jMmPD/AbsdmARMw4HDmAA7gYY5hi0/RaRf3zIJ
-         hjL8SKWOfGoz1mWiQqZAveJlaDjy5/pTZNad+335mSHKrP6wjdD9UfKYtAKG3soezlqs
-         XSpyIiWL7JDaN4I1tOXK+rFjzpd0exii9BwderpLrCs6M8vIJUDxXI6On2rssq/ig8/e
-         3JQuI1ukYhMQtW+rKiy/T6KXJ9COtc0Y50WTbIeYkFjsS6M6dCen0u/eqK1jecQIZwbf
-         ZKTA==
-X-Gm-Message-State: APjAAAVvAEXW4Y/o6tNXUKqsI7uWReCPFpGivMsMzgyq6szRDRuSVevu
-        efGyp5IHZTmDFOkZ5N8XRxx+676Onjxmi/84yJvX5lbtwEQiRVgNHa/4O697yLdGuxbEaM1IzsX
-        RxtclxDNY9kVVqu1UNHb5dJTEIDLhiedwhA==
-X-Received: by 2002:a17:906:2319:: with SMTP id l25mr14159777eja.309.1570804288242;
-        Fri, 11 Oct 2019 07:31:28 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwoRZoAH1NMErSVdJalwF7TdgOzUSOFWLs4mQa22TgCcFbTlVZIC719vTCBSczupc1e7bsjHQ==
-X-Received: by 2002:a17:906:2319:: with SMTP id l25mr14159752eja.309.1570804288071;
-        Fri, 11 Oct 2019 07:31:28 -0700 (PDT)
-Received: from dhcp-44-196.space.revspace.nl ([2a0e:5700:4:11:6eb:1143:b8be:2b8])
-        by smtp.gmail.com with ESMTPSA id s22sm1224314eja.91.2019.10.11.07.31.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Oct 2019 07:31:27 -0700 (PDT)
-Subject: Re: [PATCH v7 0/8] efi/firmware/platform-x86: Add EFI embedded fw
- support
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191011141036.GK16384@42.do-not-panic.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <7fed4882-efa7-18d0-1ef6-9138fbdddfc4@redhat.com>
-Date:   Fri, 11 Oct 2019 16:31:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        Fri, 11 Oct 2019 10:47:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 07:47:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,284,1566889200"; 
+   d="scan'208";a="197597586"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003.jf.intel.com with ESMTP; 11 Oct 2019 07:47:13 -0700
+Received: from andy by smile with local (Exim 4.92.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1iIwCG-00005r-VH; Fri, 11 Oct 2019 17:47:12 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v1] platform/x86: i2c-multi-instantiate: Fail the probe if no IRQ provided
+Date:   Fri, 11 Oct 2019 17:47:12 +0300
+Message-Id: <20191011144712.32766-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191011141036.GK16384@42.do-not-panic.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+For APIC case of interrupt we don't fail a ->probe() of the driver,
+which makes kernel to print a lot of warnings from the children.
 
-On 10/11/19 4:10 PM, Luis Chamberlain wrote:
-> Hey Hans, thanks for staying on top of this and follow up! For some
-> reason the universe conspired against your first and last patch ([1/8],
-> [8/8]), and I never got them. Could you bounce these or resend in case
-> others confirm they also didn't get it?
+We have two options here:
+- switch to platform_get_irq_optional(), though it won't stop children
+  to be probed and failed
+- fail the ->probe() of i2c-multi-instantiate
 
-I have received feedback from others on the first patch, so at least
-that one has reached others. I've bounced patches 1 and 8 to you.
+Since the in reality we never had devices in the wild where IRQ resource
+is optional, the latter solution suits the best.
 
-> While at it, can you Cc scott.branden@broadcom.com in further
-> communications about this patchset, he's interest in some other changes
-> we'll need to coordinate if we get to have some other development in
-> line for the next merge window.
+Fixes: 799d3379a672 ("platform/x86: i2c-multi-instantiate: Introduce IOAPIC IRQ support")
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/platform/x86/i2c-multi-instantiate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Will do.
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index ea68f6ed66ae..ffb8d5d1eb5f 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -108,6 +108,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+ 			if (ret < 0) {
+ 				dev_dbg(dev, "Error requesting irq at index %d: %d\n",
+ 					inst_data[i].irq_idx, ret);
++				goto error;
+ 			}
+ 			board_info.irq = ret;
+ 			break;
+-- 
+2.23.0
 
-Regards,
-
-Hans
