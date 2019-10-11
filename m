@@ -2,123 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1F04D367E
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 02:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56FF3D3C2A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 11:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727686AbfJKAsF (ORCPT
+        id S1727710AbfJKJUS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Oct 2019 20:48:05 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:41559 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727100AbfJKAsE (ORCPT
+        Fri, 11 Oct 2019 05:20:18 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:58254 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726585AbfJKJUS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Oct 2019 20:48:04 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t10so3629793plr.8;
-        Thu, 10 Oct 2019 17:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ETkbKQ05O2dMgkNycPpQVBwLCdAj/RDEFMvpT31Ux5Y=;
-        b=Zj/GSkEAIsW6/Hj5LpHp+UIaiS6HA2moMvIqo7XXXd4jtJ5ltiBYBMWqZhgVpvZkTg
-         ItD6yLbI/7v5mDqRvJqDoHc9LQB5JUHYJiLcJvMFrdJDqxGW8fWkq72MnWenAarlKGvS
-         bMbbllWxwhpfAWChsT6819vcv6rR5GHao+hDdBFw5B+qS2Fn/MEsvjU/qbiKR64F7SWs
-         n2o0yICmO+TlAHQG5owjwGCDWM9dVi9/ZxOzx3jxyabP/wzzvDeyhVCdbV8aY4gIhRfS
-         TKvtNM3kAA9lVPViPUmTstxCThqoRoSrscEC/7+IYOPj1NFcfqDVupo+g3IEx53iBGAI
-         nmcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ETkbKQ05O2dMgkNycPpQVBwLCdAj/RDEFMvpT31Ux5Y=;
-        b=YPdHbywcqUKtw/600kIBAXQ4/2jWjq/M8f+biEj1JRn3PdMHYRs+syjbExXW56GNWR
-         3zijBFipescvM/u4fP9ciJH/QGL455AMsfhv0kM+VXuuJ6mg1nv0QM97Mw/2KiwAENlt
-         4bny/hGPaugtdhYbTRN7T3pVn0t7JFktMNXR40w9PDOAWJsezG8GUKRiyHzVmnlLJiJM
-         poXzyda3MgFodsYvjFmIczJNn/XiN6A+xMeSfQPzWTgoXSvmSbklavqEokh90H3o444q
-         Z+ar1o0Cw8eSHqAac6pJf31LBYbpxedycbyOEwToW1CyYRK/Hehdqo/QhHu1jRghbGsP
-         o5MA==
-X-Gm-Message-State: APjAAAWikUDKZqyAcekhErzwCQD1mKtKHgUqtQ8RKnr14sHzZtrQmu1p
-        MzNHvWOj2wBateIRGWxQaEk=
-X-Google-Smtp-Source: APXvYqw78u960V+A6kZKXgqbzv4NJaOehd9R02KWBPRr/QBxVXaeO/mbfXmlS+E62ZuZ/m/gwPzdlA==
-X-Received: by 2002:a17:902:6bc9:: with SMTP id m9mr11980058plt.227.1570754882044;
-        Thu, 10 Oct 2019 17:48:02 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id e127sm7453781pfe.37.2019.10.10.17.48.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 17:48:01 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 17:47:59 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7 6/8] Input: icn8505 - Switch to
- firmware_request_platform for retreiving the fw
-Message-ID: <20191011004759.GD229325@dtor-ws>
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-7-hdegoede@redhat.com>
+        Fri, 11 Oct 2019 05:20:18 -0400
+Received: from 79.184.255.36.ipv4.supernova.orange.pl (79.184.255.36) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
+ id 2d3f3e9dc60e16fd; Fri, 11 Oct 2019 11:20:15 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v3 00/13] software node: add support for reference properties
+Date:   Fri, 11 Oct 2019 11:20:15 +0200
+Message-ID: <8497734.zbLCBLinYR@kreacher>
+In-Reply-To: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
+References: <20190909081557.93766-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191004145056.43267-7-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 04:50:54PM +0200, Hans de Goede wrote:
-> Unfortunately sofar we have been unable to get permission to redistribute
-> icn8505 touchscreen firmwares in linux-firmware. This means that people
-> need to find and install the firmware themselves before the touchscreen
-> will work
+On Monday, September 9, 2019 10:15:44 AM CEST Dmitry Torokhov wrote:
+> These series implement "references" properties for software nodes as true
+> properties, instead of managing them completely separately.
 > 
-> Some UEFI/x86 tablets with an icn8505 touchscreen have a copy of the fw
-> embedded in their UEFI boot-services code.
+> The first 10 patches are generic cleanups and consolidation and unification
+> of the existing code; patch #11 implements PROPERTY_EMTRY_REF() and friends;
+> patch #12 converts the user of references to the property syntax, and patch
+> #13 removes the remains of references as entities that are managed
+> separately.
 > 
-> This commit makes the icn8505 driver use the new firmware_request_platform
-> function, which will fallback to looking for such an embedded copy when
-> direct filesystem lookup fails. This will make the touchscreen work OOTB
-> on devices where there is a fw copy embedded in the UEFI code.
+> Changes in v3:
+> - added various cleanups before implementing reference properties
 > 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Changes in v2:
+> - reworked code so that even single-entry reference properties are
+>   stored as arrays (i.e. the software_node_ref_args instances are
+>   not part of property_entry structure) to avoid size increase.
+>   From user's POV nothing is changed, one can still use PROPERTY_ENTRY_REF
+>   macro to define reference "inline".
+> - dropped unused DEV_PROP_MAX
+> - rebased on linux-next
+> 
+> Dmitry Torokhov (13):
+>   software node: remove DEV_PROP_MAX
+>   software node: clean up property_copy_string_array()
+>   software node: get rid of property_set_pointer()
+>   software node: simplify property_get_pointer()
+>   software node: remove property_entry_read_uNN_array functions
+>   software node: unify PROPERTY_ENTRY_XXX macros
+>   software node: simplify property_entry_read_string_array()
+>   software node: introduce PROPERTY_ENTRY_ARRAY_XXX_LEN()
+>   efi/apple-properties: use PROPERTY_ENTRY_U8_ARRAY_LEN
+>   software node: rename is_array to is_inline
+>   software node: implement reference properties
+>   platform/x86: intel_cht_int33fe: use inline reference properties
+>   software node: remove separate handling of references
+> 
+>  drivers/base/swnode.c                    | 243 +++++++----------------
+>  drivers/firmware/efi/apple-properties.c  |   8 +-
+>  drivers/platform/x86/intel_cht_int33fe.c |  81 ++++----
+>  include/linux/property.h                 | 154 +++++++-------
+>  4 files changed, 198 insertions(+), 288 deletions(-)
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+I think that this is still relevant, so can you please resend it with a CC
+to linux-acpi@vger.kernel.org?  It would be much easier to handle for me then.
 
-Feel free to merge with the rest of the series.
 
-> ---
->  drivers/input/touchscreen/chipone_icn8505.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/chipone_icn8505.c b/drivers/input/touchscreen/chipone_icn8505.c
-> index c768186ce856..f9ca5502ac8c 100644
-> --- a/drivers/input/touchscreen/chipone_icn8505.c
-> +++ b/drivers/input/touchscreen/chipone_icn8505.c
-> @@ -288,7 +288,7 @@ static int icn8505_upload_fw(struct icn8505_data *icn8505)
->  	 * we may need it at resume. Having loaded it once will make the
->  	 * firmware class code cache it at suspend/resume.
->  	 */
-> -	error = request_firmware(&fw, icn8505->firmware_name, dev);
-> +	error = firmware_request_platform(&fw, icn8505->firmware_name, dev);
->  	if (error) {
->  		dev_err(dev, "Firmware request error %d\n", error);
->  		return error;
-> -- 
-> 2.23.0
-> 
 
--- 
-Dmitry
