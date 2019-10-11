@@ -2,87 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD4F3D43CC
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 17:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FEBD4432
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Oct 2019 17:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727714AbfJKPHc (ORCPT
+        id S1727956AbfJKP3Y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Oct 2019 11:07:32 -0400
-Received: from mga07.intel.com ([134.134.136.100]:59762 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726332AbfJKPHb (ORCPT
+        Fri, 11 Oct 2019 11:29:24 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:36484 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbfJKP3X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:07:31 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 08:07:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,284,1566889200"; 
-   d="scan'208";a="207444150"
-Received: from kuha.fi.intel.com ([10.237.72.53])
-  by fmsmga001.fm.intel.com with SMTP; 11 Oct 2019 08:07:28 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 11 Oct 2019 18:07:28 +0300
-Date:   Fri, 11 Oct 2019 18:07:27 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v1] platform/x86: i2c-multi-instantiate: Fail the probe
- if no IRQ provided
-Message-ID: <20191011150727.GC32191@kuha.fi.intel.com>
-References: <20191011144712.32766-1-andriy.shevchenko@linux.intel.com>
+        Fri, 11 Oct 2019 11:29:23 -0400
+Received: by mail-pg1-f193.google.com with SMTP id 23so6006219pgk.3;
+        Fri, 11 Oct 2019 08:29:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cb+CuGiPFhTsjsET+vWIxmNhs5/xA7pJX6xm8jBmGpg=;
+        b=fpt5X2ZMVc9IuTJ2DQ0GVwI0Px4HqOiD7k1U0wKljj2FMmHeo6SyqW8ZEJetyb2OF7
+         C1LymmBvyu3TZcGcZj6fsM5myh2AfEZF9sdBDItCo1JUOzgE03uvRv83is8t07P29sWA
+         XcJX2LMU+FgyT7J8knfi2YX/+jKeTdJ5cYZpYXq7i/85X/bUpmu5KWLu34orbGpms2Gq
+         mzl5KgIzSpsw6NYUnz+zIBQp04SPNTryvlomvFSKSzNpoKIKK19kl+eXEL5pWxuLx1Cs
+         45NKR3OWexEs80ihEoc2M7gvjN5mN1j5cazMZhkCrUfztYMnFjBwjLaHQSDq3Ay1toGD
+         b3cg==
+X-Gm-Message-State: APjAAAVQJ9PPiowT1nHUslRnjNMLPiV0iXwRn5BkhfcYvEKbo+1fDMPZ
+        MfR2jfPCZMv3LqfQ+HemkwU=
+X-Google-Smtp-Source: APXvYqzQGIxVvL/RVKdZUGIOFS+l3gvznBmd+kdBx1Iip2tJWpJsNSmo6lTIrjfB8HSt2qDcGX7GxA==
+X-Received: by 2002:aa7:9ed2:: with SMTP id r18mr16643022pfq.1.1570807762693;
+        Fri, 11 Oct 2019 08:29:22 -0700 (PDT)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id 7sm7894675pgx.26.2019.10.11.08.29.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2019 08:29:21 -0700 (PDT)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id A969E403EA; Fri, 11 Oct 2019 15:29:20 +0000 (UTC)
+Date:   Fri, 11 Oct 2019 15:29:20 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 4/8] firmware: Add new platform fallback mechanism and
+ firmware_request_platform()
+Message-ID: <20191011152920.GQ16384@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-5-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191011144712.32766-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191004145056.43267-5-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 05:47:12PM +0300, Andy Shevchenko wrote:
-> For APIC case of interrupt we don't fail a ->probe() of the driver,
-> which makes kernel to print a lot of warnings from the children.
-> 
-> We have two options here:
-> - switch to platform_get_irq_optional(), though it won't stop children
->   to be probed and failed
-> - fail the ->probe() of i2c-multi-instantiate
-> 
-> Since the in reality we never had devices in the wild where IRQ resource
-> is optional, the latter solution suits the best.
-> 
-> Fixes: 799d3379a672 ("platform/x86: i2c-multi-instantiate: Introduce IOAPIC IRQ support")
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Fri, Oct 04, 2019 at 04:50:52PM +0200, Hans de Goede wrote:
+> diff --git a/drivers/base/firmware_loader/Makefile b/drivers/base/firmware_loader/Makefile
+> index 0b2dfa6259c9..fec75895faae 100644
+> --- a/drivers/base/firmware_loader/Makefile
+> +++ b/drivers/base/firmware_loader/Makefile
+> @@ -3,7 +3,7 @@
+>  
+>  obj-$(CONFIG_FW_LOADER_USER_HELPER) += fallback_table.o
+>  obj-$(CONFIG_FW_LOADER)	+= firmware_class.o
+> -firmware_class-objs := main.o
+> +firmware_class-objs := main.o fallback_platform.o
+>  firmware_class-$(CONFIG_FW_LOADER_USER_HELPER) += fallback.o
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Why not just:
 
-> ---
->  drivers/platform/x86/i2c-multi-instantiate.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
-> index ea68f6ed66ae..ffb8d5d1eb5f 100644
-> --- a/drivers/platform/x86/i2c-multi-instantiate.c
-> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
-> @@ -108,6 +108,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
->  			if (ret < 0) {
->  				dev_dbg(dev, "Error requesting irq at index %d: %d\n",
->  					inst_data[i].irq_idx, ret);
-> +				goto error;
->  			}
->  			board_info.irq = ret;
->  			break;
-> -- 
-> 2.23.0
+firmware_class-$(CONFIG_EFI_EMBEDDED_FIRMWARE) += fallback_platform.o
 
-thanks,
+>  obj-y += builtin/
+> diff --git a/drivers/base/firmware_loader/fallback.h b/drivers/base/firmware_loader/fallback.h
+> index 21063503e4ea..c4350f2e7cc2 100644
+> --- a/drivers/base/firmware_loader/fallback.h
+> +++ b/drivers/base/firmware_loader/fallback.h
+> @@ -66,4 +66,6 @@ static inline void unregister_sysfs_loader(void)
+>  }
+>  #endif /* CONFIG_FW_LOADER_USER_HELPER */
+>  
+> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt_flags);
+> +
 
--- 
-heikki
+Inline this if not defined.
+
+>  #endif /* __FIRMWARE_FALLBACK_H */
+> diff --git a/drivers/base/firmware_loader/fallback_platform.c b/drivers/base/firmware_loader/fallback_platform.c
+> new file mode 100644
+> index 000000000000..7e9d730e36bf
+> --- /dev/null
+> +++ b/drivers/base/firmware_loader/fallback_platform.c
+> @@ -0,0 +1,33 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/efi_embedded_fw.h>
+> +#include <linux/property.h>
+> +#include <linux/security.h>
+> +#include <linux/vmalloc.h>
+> +
+> +#include "fallback.h"
+> +#include "firmware.h"
+> +
+> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt_flags)
+> +{
+> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
+
+And we can do away with this eyesore.
+
+Otherwise looks good!
+
+  Luis
