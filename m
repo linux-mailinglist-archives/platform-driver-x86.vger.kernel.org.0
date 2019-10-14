@@ -2,73 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2C6AD6389
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 15:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1ED5D64C8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 16:10:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729858AbfJNNPw (ORCPT
+        id S1732437AbfJNOKT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Oct 2019 09:15:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43696 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725989AbfJNNPv (ORCPT
+        Mon, 14 Oct 2019 10:10:19 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38796 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732349AbfJNOKS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Oct 2019 09:15:51 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D931B3082E4E;
-        Mon, 14 Oct 2019 13:15:51 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 64D786046B;
-        Mon, 14 Oct 2019 13:15:51 +0000 (UTC)
-Subject: Re: [PATCH v3 0/6] Add CascadeLake-N Support
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        andriy.shevchenko@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <67aaedb2-dc74-7a60-7345-1c160e6b08e5@redhat.com>
-Date:   Mon, 14 Oct 2019 09:15:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 14 Oct 2019 10:10:18 -0400
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iK139-0001Ft-NS; Mon, 14 Oct 2019 16:10:15 +0200
+Date:   Mon, 14 Oct 2019 16:10:15 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+cc:     kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-mm@kvack.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org, iommu@lists.linux-foundation.org,
+        "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
+        gavin.guo@canonical.com, halves@canonical.com,
+        ioanna-maria.alifieraki@canonical.com, jay.vosburgh@canonical.com,
+        mfo@canonical.com
+Subject: Re: Advice on oops - memory trap on non-memory access instruction
+ (invalid CR2?)
+In-Reply-To: <66eeae28-bfd3-c7a0-011c-801981b74243@canonical.com>
+Message-ID: <alpine.DEB.2.21.1910141602270.2531@nanos.tec.linutronix.de>
+References: <66eeae28-bfd3-c7a0-011c-801981b74243@canonical.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Mon, 14 Oct 2019 13:15:51 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Mon, 14 Oct 2019, Guilherme G. Piccoli wrote:
+> Modules linked in: <...>
+> CPU: 40 PID: 78274 Comm: qemu-system-x86 Tainted: P W  OE
+
+Tainted: P     - Proprietary module loaded ...
+
+Try again without that module
+
+Tainted: W     - Warning issued before
+
+Are you sure that that warning is harmless and unrelated?
+
+> 4.4.0-45-generic #66~14.04.1-Ubuntu
+
+Does the same problem happen with a not so dead kernel? CR2 handling got
+quite some updates/fixes since then.
+
+Thanks,
+
+	tglx
 
 
-On 10/7/19 3:30 PM, Srinivas Pandruvada wrote:
-> Add support for SST-BF on CascadeLake-N support.  The CascadeLake-N
-> processor only support SST-BF and not other SST functionality.
->
-
-Sorry Srinivas, was away from keyboard all last week :(
-
-> v3:
-> Fix crash due to geline
-
-^^^ curious how you hit this?  I was repeatedly testing and couldn't
-get it to happen.
-
-> Fix display to perf-profile info and base-freq info command
-> Fix output for coremask
-> Fix base frequency CPU list. This should be displayed for a package
-> Auto mode support for base-freq enable/disable
-> One of the patch for config only change folded to next one where it is
-> used.
->
-> The patch 1 has nothing to do with the CLX-N. It saves some bytes in the
-> size.
->
-
-Reviewed-by: Prarit Bhargava <prarit@redhat.com>
-
-P.
