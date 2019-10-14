@@ -2,79 +2,178 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D147D67A1
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 18:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8527D6C46
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 01:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387432AbfJNQr7 (ORCPT
+        id S1726813AbfJNX5x (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Oct 2019 12:47:59 -0400
-Received: from mga03.intel.com ([134.134.136.65]:7621 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730030AbfJNQr7 (ORCPT
+        Mon, 14 Oct 2019 19:57:53 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44226 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726812AbfJNX5w (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Oct 2019 12:47:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 09:47:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,296,1566889200"; 
-   d="scan'208";a="396530204"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Oct 2019 09:47:57 -0700
-Message-ID: <0c18136df4c261afaa55debc72f9a2d3249771e1.camel@linux.intel.com>
-Subject: Re: [PATCH v3 0/6] Add CascadeLake-N Support
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>, andriy.shevchenko@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 14 Oct 2019 09:47:56 -0700
-In-Reply-To: <67aaedb2-dc74-7a60-7345-1c160e6b08e5@redhat.com>
-References: <20191007193100.36934-1-srinivas.pandruvada@linux.intel.com>
-         <67aaedb2-dc74-7a60-7345-1c160e6b08e5@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Mon, 14 Oct 2019 19:57:52 -0400
+Received: by mail-pl1-f196.google.com with SMTP id q15so8668585pll.11;
+        Mon, 14 Oct 2019 16:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PvXicvKODDLIBrrmqaNFFvvMmJzFOFLga8h9y3ZgZGc=;
+        b=IxuAc88QtjB+R1hTHXCTLux1d9f6r1BsDQ5Cbfit9zZ5g5PKFdHOoc1N7Hoghz+zvB
+         hrbzn9MYAxffJvXXRzkiFE0en0cir+eBsQ82qbaX12xegOYP5kdFENTxBR1TmxTPloru
+         /fwWhtQr52rqIefsqSYphEyLClfmYN3IgCtbOdYMOx2hzJHah3NUAlztMfaltRVihCRK
+         Q2y7UyiSI+2Wo3TUu1upsqn0emTa5udSO906FvxYFwqlSvIldo/nL+H0BECy/ghcyQos
+         /XfPZMF0gb4LYMYrcY2ijnXJ1lbWxxUlFO0Adm9jNZsMiK/F6rZy4kF0df6UMKPqst77
+         qFSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PvXicvKODDLIBrrmqaNFFvvMmJzFOFLga8h9y3ZgZGc=;
+        b=j47E/XtL7IlPMi4xilOe9odDXR5Tg16c8ZTLVlElz6uIheKmmMJivuVbaXl0erj7dZ
+         UFoo9fCrqd/XKagg4IOUsstJq2VflQbKMIbWDz62QIHd6fms5Me1valN2c4rUr38UdTj
+         EL7lWoz2Wq5HfHteHQ7LNGPs9hjYPBpJtXW644nwnF5b3dsyCtJIg/O5H6rVhwWIvpdX
+         SUdAhs02RWM82qGVtJoPmqEbeiGB9G2p5sKFfslpJTGovwIVNegUL7fnh3GtN4Qc+7WR
+         KkevG6cRYxNjpwFoMOJgvApfkHxt7/MuEXHZ/UjpuSeNfcEUZElu8x0yz/xDvwClsOwP
+         Ec3A==
+X-Gm-Message-State: APjAAAVG4PkR7MiO5wQUVHZ1LWw+o7HOHxmdNw744BI5FzFvGCdbGyzQ
+        dXiXX+3Pi/AQF0gWpuKQt6k=
+X-Google-Smtp-Source: APXvYqwMpDhZmsbOwgQ61I4KBxC7rbT1HjnTGoHHSJFP+sCgNEt7Uw3duYXbb1+UcEXxmo1MbaF/HQ==
+X-Received: by 2002:a17:902:9008:: with SMTP id a8mr33076756plp.218.1571097471651;
+        Mon, 14 Oct 2019 16:57:51 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id h6sm24862693pfg.123.2019.10.14.16.57.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 16:57:50 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 16:57:47 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5 00/14] software node: add support for reference
+ properties
+Message-ID: <20191014235747.GA105649@dtor-ws>
+References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
+ <20191014073837.GI32742@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191014073837.GI32742@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2019-10-14 at 09:15 -0400, Prarit Bhargava wrote:
-> 
-> On 10/7/19 3:30 PM, Srinivas Pandruvada wrote:
-> > Add support for SST-BF on CascadeLake-N support.  The CascadeLake-N
-> > processor only support SST-BF and not other SST functionality.
+On Mon, Oct 14, 2019 at 10:38:37AM +0300, Andy Shevchenko wrote:
+> On Fri, Oct 11, 2019 at 04:07:07PM -0700, Dmitry Torokhov wrote:
+> > These series implement "references" properties for software nodes as true
+> > properties, instead of managing them completely separately.
 > > 
+> > The first 10 patches are generic cleanups and consolidation and
+> > unification of the existing code; patch #11 implements moving of small
+> > properties inline when copying property entries; patch #12 implements
+> > PROPERTY_ENTRY_REF() and friends; patch #13 converts the user of
+> > references to the property syntax, and patch #14 removes the remains of
+> > references as entities that are managed separately.
 > 
-> Sorry Srinivas, was away from keyboard all last week :(
-> 
-> > v3:
-> > Fix crash due to geline
-> 
-> ^^^ curious how you hit this?  I was repeatedly testing and couldn't
-> get it to happen.
-I guess this depend on weather the local variable happen to be NULL.
-This happens 100% on the system I am testing.
+> Can we get some test cases?
 
-Thanks,
-Srinivas
+Something like this? (I'll beef it up if we decide KUnit is OK for
+this).
 
-> 
-> > Fix display to perf-profile info and base-freq info command
-> > Fix output for coremask
-> > Fix base frequency CPU list. This should be displayed for a package
-> > Auto mode support for base-freq enable/disable
-> > One of the patch for config only change folded to next one where it
-> > is
-> > used.
-> > 
-> > The patch 1 has nothing to do with the CLX-N. It saves some bytes
-> > in the
-> > size.
-> > 
-> 
-> Reviewed-by: Prarit Bhargava <prarit@redhat.com>
-> 
-> P.
+From 0b8256ceed44760e63becb5b9636099d9fc17a4c Mon Sep 17 00:00:00 2001
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date: Mon, 14 Oct 2019 16:55:12 -0700
+Subject: [PATCH] software node: add basic init tests
 
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/base/test/Makefile              |  2 +
+ drivers/base/test/property-entry-test.c | 56 +++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 drivers/base/test/property-entry-test.c
+
+diff --git a/drivers/base/test/Makefile b/drivers/base/test/Makefile
+index 0f1f7277a013..22143102e5d2 100644
+--- a/drivers/base/test/Makefile
++++ b/drivers/base/test/Makefile
+@@ -1,2 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_TEST_ASYNC_DRIVER_PROBE)	+= test_async_driver_probe.o
++
++obj-$(CONFIG_KUNIT) += property-entry-test.o
+diff --git a/drivers/base/test/property-entry-test.c b/drivers/base/test/property-entry-test.c
+new file mode 100644
+index 000000000000..cd6a405734a0
+--- /dev/null
++++ b/drivers/base/test/property-entry-test.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0
++// Unit tests for property entries API
++//
++// Copyright 2019 Google LLC.
++
++#include <kunit/test.h>
++#include <linux/property.h>
++#include <linux/types.h>
++
++static void pe_test_move_inline_u8(struct kunit *test)
++{
++	u8 u8_array_small[8] = { 0 };
++	u8 u8_array_big[128] = { 0 };
++	struct property_entry entries[] = {
++		PROPERTY_ENTRY_U8_ARRAY("small", u8_array_small),
++		PROPERTY_ENTRY_U8_ARRAY("big", u8_array_big),
++		{ }
++	};
++	struct property_entry *copy;
++
++	copy = property_entries_dup(entries);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, copy);
++	KUNIT_EXPECT_TRUE(test, copy[0].is_inline);
++	KUNIT_EXPECT_FALSE(test, copy[1].is_inline);
++}
++
++static void pe_test_move_inline_str(struct kunit *test)
++{
++	char *str_array_small[] = { "a" };
++	char *str_array_big[] = { "a", "b", "c", "d" };
++	struct property_entry entries[] = {
++		PROPERTY_ENTRY_STRING_ARRAY("small", str_array_small),
++		PROPERTY_ENTRY_STRING_ARRAY("big", str_array_big),
++		{ }
++	};
++	struct property_entry *copy;
++
++	copy = property_entries_dup(entries);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, copy);
++	KUNIT_EXPECT_TRUE(test, copy[0].is_inline);
++	KUNIT_EXPECT_FALSE(test, copy[1].is_inline);
++}
++
++
++static struct kunit_case property_entry_test_cases[] = {
++	KUNIT_CASE(pe_test_move_inline_u8),
++	KUNIT_CASE(pe_test_move_inline_str),
++	{ }
++};
++
++static struct kunit_suite property_entry_test_suite = {
++	.name = "property-entry",
++	.test_cases = property_entry_test_cases,
++};
++
++kunit_test_suite(property_entry_test_suite);
+-- 
+2.23.0.700.g56cf767bdb-goog
+
+
+-- 
+Dmitry
