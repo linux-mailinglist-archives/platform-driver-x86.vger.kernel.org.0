@@ -2,169 +2,245 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B6B4D54CD
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 13 Oct 2019 08:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E470D59FE
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 05:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727974AbfJMGXz (ORCPT
+        id S1729861AbfJNDdA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 13 Oct 2019 02:23:55 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38273 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbfJMGXz (ORCPT
+        Sun, 13 Oct 2019 23:33:00 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:50611 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729776AbfJNDdA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 13 Oct 2019 02:23:55 -0400
-Received: by mail-pf1-f195.google.com with SMTP id h195so8533606pfe.5;
-        Sat, 12 Oct 2019 23:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5eAeBtymwWzWnzR8l2A7/RM2ROOsOpGfG8hUMk0mlW4=;
-        b=jda3HR+16RcTF8c7KGYZ0KkV/GcM59GIC22PWLPJ41jQCCMx42ZTbC4Go+SHG8uOsN
-         zD9Y6ltddf5wAXAAqaXYBIzuwb0254PeqmwRU1ryVYncbuN1YiWeSv/0cRvM5Y7QPtQX
-         Kq0uqHCYZNcjoL/vO3Xq+sH43Kwa7vyHBlFpQ1ro9JmciFdzKqpcAhK+UTS9ELKxTX4I
-         7RMgQeosY7P4DblvMYeNUqGPzdGwjrpKc7VtqpJDxjZUHLYLY/qNW7DjSKg56qSO+qDL
-         FSU/CUlxp9ndOU4uXrfCMpPk0/yMiR2IyIDVvrBEBfLt7wTLucCsh3IcMFvfpQMp+R8I
-         wxGQ==
+        Sun, 13 Oct 2019 23:33:00 -0400
+Received: from mail-pg1-f197.google.com ([209.85.215.197])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1iJr6P-0002lS-52
+        for platform-driver-x86@vger.kernel.org; Mon, 14 Oct 2019 03:32:57 +0000
+Received: by mail-pg1-f197.google.com with SMTP id e13so5986147pgi.21
+        for <platform-driver-x86@vger.kernel.org>; Sun, 13 Oct 2019 20:32:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5eAeBtymwWzWnzR8l2A7/RM2ROOsOpGfG8hUMk0mlW4=;
-        b=mp2QKsmj+bIaJTQcR17zhPIZEutpo88/bXaE5kNuvVZi7EopB0DtANidT9STCZBXRT
-         3N7tcCY834ZU3q6lSyLhuMtiuIKM4T181869TWYFO5vbavv7MjaQA2nxA+KJ19xGsIBs
-         n/9iYJVySTfma4R+DZS5Qg2Ttq/VEUfx/DnbDWKLmNUf08hgcm2VpJt4beWnuH4tWAob
-         LZVpHOfkaQZpZLbFMpiKpSDXg18Mt6qNpugb+Cv89U6IlpgMi3CvWzQoSihQPF7dyNHU
-         PCVRk/2avwqCeQYH5mIqB/QMp0POl0Aj8hikS9P0NjiZz6Hhmb/VlU7AjLFaG9euCmN6
-         5Zkw==
-X-Gm-Message-State: APjAAAWHKV/rfOV91j6Lie60e27ezrjK3h0i0NgzMMXKadhtH1mvzI9D
-        aUeuM1p/03K+8ZbkDAD+2riIYJk2nWWN7B8n6Rc=
-X-Google-Smtp-Source: APXvYqz+Ib92xlYbc0zQ+h/EYI9nkOxpO/3BtsUfc5FLQoeJMoxYAVC+P7oRwWch8D5uw/KNqkXhnbHTrzxfZKf4Qxk=
-X-Received: by 2002:a17:90a:b391:: with SMTP id e17mr29194193pjr.132.1570947834316;
- Sat, 12 Oct 2019 23:23:54 -0700 (PDT)
+        h=x-gm-message-state:from:subject:openpgp:autocrypt:to:cc:message-id
+         :date:user-agent:mime-version:content-language
+         :content-transfer-encoding;
+        bh=qpfcAmKpl2b/HiWpJ3cfXiy7slVXGH0ea6iXSLmAGXs=;
+        b=Av8Y+93k1PUavAezC1lY4RAjuuzNXOzaIc85yMjowzocn3khp8KrsWSJtfAwzUAWcn
+         /Nh3c96Vo6DNVJ2BYcru19SPREAS9HxLoL/5DCqAA/jQRZ84JunBArlAiDgNfMbGUJRn
+         z4Stz0qmgAbPrE3t4EB/HqtatcwMcGI8jU92mFc1GtF5BV2jnwJ1gP2q+keDN8eThws7
+         Xf1l5Mnee3vheR6pKl25VMCy5KdIjRqmhiIu7mIi5Vj+8CZb03rWrTuAPFP0q+P2S9A9
+         0zPQTtKgDBvOBW55UeePE65NSpoqbzuE7LK8jBej2xKeuseblmsSxYkJz1B8Dx5R6Yd+
+         q12Q==
+X-Gm-Message-State: APjAAAWsIT4LiIMq7zfAZTfvwbnCNG7gyqpfRP70nYEhOy0ruMB6hXer
+        PvQn6hoRXPfrimt1zLXPpc5204reououjXycibjUeLgrp+gLT9BolkgykkIbTF/8xKVVFZCD6c0
+        CPbTIuOykQybIkEYBtSnYplRo5E+/yd4F1FL+95VfdiW1LmUl93s=
+X-Received: by 2002:a17:902:8343:: with SMTP id z3mr13767090pln.70.1571023974471;
+        Sun, 13 Oct 2019 20:32:54 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxuXMABRDTnFj4gTpFpuLt6/Rcp/hakTHeKL0SFyHFS6muX1HtCmc2N6Mxh1+GUIrESBDxXHg==
+X-Received: by 2002:a17:902:8343:: with SMTP id z3mr13767064pln.70.1571023973966;
+        Sun, 13 Oct 2019 20:32:53 -0700 (PDT)
+Received: from [192.168.0.239] ([177.183.163.179])
+        by smtp.gmail.com with ESMTPSA id i16sm13864868pfa.184.2019.10.13.20.32.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 13 Oct 2019 20:32:53 -0700 (PDT)
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Subject: Advice on oops - memory trap on non-memory access instruction
+ (invalid CR2?)
+Openpgp: preference=signencrypt
+Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
+ mQENBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
+ Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
+ 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
+ irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
+ 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
+ AAG0LUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPokBNwQT
+ AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
+ 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
+ 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
+ q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
+ iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
+ LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltveuQENBFpVBxcBCADbxD6J
+ aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
+ pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
+ kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
+ nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
+ bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAGJAR8EGAEIAAkFAlpV
+ BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
+ 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
+ egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
+ Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
+ kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
+ X18zwLgdiQ==
+To:     kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-mm@kvack.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org, iommu@lists.linux-foundation.org
+Cc:     gpiccoli@canonical.com,
+        "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
+        gavin.guo@canonical.com, halves@canonical.com,
+        ioanna-maria.alifieraki@canonical.com, jay.vosburgh@canonical.com,
+        mfo@canonical.com
+Message-ID: <66eeae28-bfd3-c7a0-011c-801981b74243@canonical.com>
+Date:   Mon, 14 Oct 2019 00:32:38 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191012171114.6589-1-j.neuschaefer@gmx.net> <20191012171114.6589-2-j.neuschaefer@gmx.net>
-In-Reply-To: <20191012171114.6589-2-j.neuschaefer@gmx.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 13 Oct 2019 09:23:42 +0300
-Message-ID: <CAHp75VfJLDd315SUx+s6WN6-mp-gUSZmhDbydU91_oe0pLbYwg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] docs: admin-guide: Move Dell RBU document from driver-api
-To:     =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Stuart Hayes <stuart.w.hayes@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Shobhit Kukreti <shobhitkukreti@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Sinan Kaya <okaya@kernel.org>, Takashi Iwai <tiwai@suse.de>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Peng Hao <peng.hao2@zte.com.cn>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 8:17 PM Jonathan Neusch=C3=A4fer
-<j.neuschaefer@gmx.net> wrote:
->
-> This document describes how an admin can use the dell_rbu driver, rather
-> than any in-kernel API details.
+Hello kernel community, I'm investigating a recurrent problem, and
+hereby I'm seeking some advice - perhaps anybody reading this had
+similar issue, for example. I've iterated some mailing-lists I thought
+would be of interest, apologize if I miss any or if I shouldn't have
+included some.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+We have a kernel memory oops due to invalid read/write, but the trap
+happens in a non-memory access instruction.
 
-> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> ---
->  Documentation/{driver-api =3D> admin-guide}/dell_rbu.rst | 0
->  Documentation/admin-guide/index.rst                    | 1 +
->  Documentation/driver-api/index.rst                     | 1 -
->  drivers/platform/x86/Kconfig                           | 2 +-
->  drivers/platform/x86/dell_rbu.c                        | 2 +-
->  5 files changed, 3 insertions(+), 3 deletions(-)
->  rename Documentation/{driver-api =3D> admin-guide}/dell_rbu.rst (100%)
->
-> diff --git a/Documentation/driver-api/dell_rbu.rst b/Documentation/admin-=
-guide/dell_rbu.rst
-> similarity index 100%
-> rename from Documentation/driver-api/dell_rbu.rst
-> rename to Documentation/admin-guide/dell_rbu.rst
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-gu=
-ide/index.rst
-> index 545ea26364b7..4405b7485312 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -72,6 +72,7 @@ configure specific aspects of kernel behavior to your l=
-iking.
->     clearing-warn-once
->     cpu-load
->     cputopology
-> +   dell_rbu
->     device-mapper/index
->     efi-stub
->     ext4
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-ap=
-i/index.rst
-> index 2b3b6949381e..6a3ac50f51f0 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -72,7 +72,6 @@ available subsections can be seen below.
->     connector
->     console
->     dcdbas
-> -   dell_rbu
->     edid
->     eisa
->     ipmb
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index ae21d08c65e8..a890f47fbeec 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -259,7 +259,7 @@ config DELL_RBU
->          DELL system. Note you need a Dell OpenManage or Dell Update pack=
-age (DUP)
->          supporting application to communicate with the BIOS regarding th=
-e new
->          image for the image update to take effect.
-> -        See <file:Documentation/driver-api/dell_rbu.rst> for more detail=
-s on the driver.
-> +        See <file:Documentation/admin-guide/dell_rbu.rst> for more detai=
-ls on the driver.
->
->
->  config FUJITSU_LAPTOP
-> diff --git a/drivers/platform/x86/dell_rbu.c b/drivers/platform/x86/dell_=
-rbu.c
-> index 3691391fea6b..7d5453326b43 100644
-> --- a/drivers/platform/x86/dell_rbu.c
-> +++ b/drivers/platform/x86/dell_rbu.c
-> @@ -24,7 +24,7 @@
->   * on every time the packet data is written. This driver requires an
->   * application to break the BIOS image in to fixed sized packet chunks.
->   *
-> - * See Documentation/driver-api/dell_rbu.rst for more info.
-> + * See Documentation/admin-guide/dell_rbu.rst for more info.
->   */
->  #include <linux/init.h>
->  #include <linux/module.h>
-> --
-> 2.20.1
->
+Example in [0] below. We can see a read access to offset 0x458, while it
+seems KVM was sending IPI. The "Code" line though (and EIP analysis with
+objdump in the vmlinux image) shows the trapping instruction as:
+
+2b:*84 c0 test %al,%al <-- trapping instruction
+
+This instruction clearly shouldn't trap by invalid memory access. Also,
+this 0x458 offset seems not present in the code, based on assembly
+analysis done [1]. We had 3 or 4 more reports like this, some have
+invalid address on write (again #PF), some #GP - in all of them, the
+trapping insn is a non-memory related opcode.
+
+We understand x86 (should) have precise exceptions, so some hypothesis
+right now are related with:
+
+(a) Invalid CR2 - perhaps due to a System Management Interrupt, firmware
+code executed and caused an invalid memory access, polluting CR2.
+
+(b) Error in processor - there are some errata on Xeon processors, which
+Intel claims never were observed in commercial systems.
+
+(c) Error in kernel reporting when the oops happens - though we
+investigate this deeply, and the exception handlers are quite concise
+assembly routines that stacks processor generated data.
+
+(d) Some KVM/vAPIC related failure that may be caused by guest MMAPed
+APIC area bad access during interrupt virtualization.
+
+(e) Intel processor do not present precise interrupts.
+
+All of them are unlikely - maybe I'm not seeing something obvious, hence
+this advice request. Below there's a more detailed analysis of the
+registers of the aforementioned oops splat [2].
+
+We are aware of the old version of kernel, unfortunately the user
+reporting this issue is unable to update right now. Any
+direction/suggestion/advice to obtain more data or prove/disprove some
+of our hypothesis is highly appreciated. Any questions are also
+appreciated, feel free to respond with any ideas you might have.
+
+Thanks,
 
 
---=20
-With Best Regards,
-Andy Shevchenko
+Guilherme
+--
+
+
+[0]
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000458
+IP: [<ffffffffc079baf6>] kvm_irq_delivery_to_apic+0x56/0x220 [kvm]
+PGD 0
+Oops: 0000 [#1] SMP
+Modules linked in: <...>
+CPU: 40 PID: 78274 Comm: qemu-system-x86 Tainted: P W  OE
+4.4.0-45-generic #66~14.04.1-Ubuntu
+Hardware name: Dell Inc. PowerEdge R630/02C2CP, BIOS 2.1.7 06/16/2016
+task: ffff8800594dd280 ti: ffff880169168000 task.ti: ffff880169168000
+RIP: 0010:[<ffffffffc079baf6>]  [<ffffffffc079baf6>]
+kvm_irq_delivery_to_apic+0x56/0x220 [kvm]
+RSP: 0018:ffff88016916bbe8  EFLAGS: 00010282
+RAX: 0000000000000001 RBX: 0000000000000300 RCX: 0000000000000003
+RDX: 0000000000000040 RSI: 0000000000000010 RDI: ffff88016916bba8
+RBP: ffff88016916bc30 R08: 0000000000000004 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: 00000000000008fd
+R13: 0000000000000004 R14: ffff88004d3e8000 R15: ffff88016916bc40
+FS:  00007fbd67fff700(0000) GS:ffff881ffeb00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000458 CR3: 00000001961a9000 CR4: 00000000003426e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Stack:
+ 0000000000000001 0000000000000000 ffff882194b81400 0000000194b81410
+ 0000000000000300 00000000000008fd 0000000000000004 ffff882194b81400
+ 0000000000000001 ffff88016916bc78 ffffffffc0796d20 08000000000000fd
+Call Trace:
+ [<addr>] apic_reg_write+0x110/0x5f0 [kvm]
+ [<addr>] kvm_apic_write_nodecode+0x4b/0x60 [kvm]
+ [<addr>] handle_apic_write+0x1e/0x30 [kvm_intel]
+ [<addr>] vmx_handle_exit+0x288/0xbf0 [kvm_intel]
+ [<addr>] vcpu_enter_guest+0x8b4/0x10a0 [kvm]
+ [<addr>] ? kvm_vcpu_block+0x191/0x2d0 [kvm]
+ [<addr>] ? prepare_to_wait_event+0xf0/0xf0
+ [<addr>] kvm_arch_vcpu_ioctl_run+0xc4/0x3d0 [kvm]
+ [<addr>] kvm_vcpu_ioctl+0x2ab/0x640 [kvm]
+ [<addr>] do_vfs_ioctl+0x2dd/0x4c0
+ [<addr>] ? __audit_syscall_entry+0xaf/0x100
+ [<addr>] ? do_audit_syscall_entry+0x66/0x70
+ [<addr>] SyS_ioctl+0x79/0x90
+ [<addr>] entry_SYSCALL_64_fastpath+0x16/0x75
+Code: d4 ff ff ff ff 75 0d 81 7a 10 ff 00 00 00 0f 84 7d 01 00 00 4c 8b
+45 c0 48 8b 75 c8 48 8d 4d d4 4c 89 fa 4c 89 f7 e8 ca be ff ff <84> c0
+0f 85 0c 01 00 00 41 8b 86 f0 09 00 00 85 c0 0f 8e fd 00
+RIP  [<ffffffffc079baf6>] kvm_irq_delivery_to_apic+0x56/0x220 [kvm]
+RSP <ffff88016916bbe8> CR2: 0000000000000458
+--
+
+
+[1] Assembly analysis: https://pastebin.ubuntu.com/p/hdHNmvFtd8/
+--
+
+
+[2] More detailed analysis of registers:
+
+%rax = 1 [return from kvm_irq_delivery_to_apic_fast()]
+
+%rbx = 0x300 [ICR_LO register - this value comes from
+kvm_apic_write_nodecode(), in which the offset / register is assigned to
+%ebx.
+
+%rdi = &bitmap
+%rsi = 16 (0x10) from "for_each_set_bit(i, &bitmap, 16)" in function
+kvm_irq_delivery_to_apic_fast().
+
+%rcx = i in above loop
+%rdx = 64 (0x40 - BITS_PER_LONG, set inside find_next_bit() in the above
+loop)
+
+%r8 = 4 ->  accumulates the return of kvm_apic_set_irq() - it means 4
+IRQs were delivered successfully. It could have been zeroed in the
+process, and IRQs that were discarded don't accumulate here, so the
+value doesn't say much.
+
+%r14 = (struct kvm*) apic->vcpu->kvm
+%r15 = (kvm_lapic_irq*) irq [stack-like addr, as it came from
+apic_send_ipi(), in which irq is declared in stack - from the stack
+dump, it is 0xffffffffc0796d20]
+
+%r12 = apic->regs[ICR_LO] -> important register, describes the IPI data;
+value of 0x8fd means:
+
+bits 0-7 (vector): 253
+bits 8-10 (delivery mode): 0 -> fixed
+bit 11 (destination logic): 1 -> logical
+bit 12 (delivery status): 0 -> idle
+bit 14 (level): 0 -> De-assert [oddity: Intel SDM vol 3 (10.6.1) claims
+this should be 1 in Xeon processors]
+bit 15 (trigger mode): 0 -> Edge
+bits 18-19 (shorthand): No
+
+%r13 = irq.dest_id == apic->regs[ICR_HI] / some transformation of this
+register <it's a xapic system, not x2apic>
