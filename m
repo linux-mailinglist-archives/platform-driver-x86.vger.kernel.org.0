@@ -2,98 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A40D60C2
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 12:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB4BD61CB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Oct 2019 13:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731305AbfJNK6e (ORCPT
+        id S1731059AbfJNL5m (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Oct 2019 06:58:34 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:35748 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731733AbfJNK6e (ORCPT
+        Mon, 14 Oct 2019 07:57:42 -0400
+Received: from mga01.intel.com ([192.55.52.88]:38801 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726589AbfJNL5m (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Oct 2019 06:58:34 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9EAsdlB049219;
-        Mon, 14 Oct 2019 10:58:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=JxNFKJQ1/TwQHwpYDoccS955n/1smajXveBFvYBY/vw=;
- b=P4RITGS+ZeZG4xTWChbqpoa27cvsqfcCtMiMAxd6XEZvSWrXomL1tlJgad458jnITTa7
- LQcm1T4mVWtbk5Dd7r6u7Avs2N6T9zkCyurErBEWN5MVSz1xvxvRC/mrK2pzFGOuz8Am
- 9u+xqY0G9jFRP+G5uSKreboIG8RWOP7AU+Q4MFd2I/iAZvPVadrtfx1Ch/h4gJQvQfnY
- NPB9CjNJfydgBD2+UaiyiPSEYQCgdk2IBkRPK4BuhtQ+lUaboVtAQtlc6k5OAzLs0coS
- GPc8VczDz4o7ocgnm/V2bReHcd4BZTF+5TG+pLqw6N+INOPKsjhincNuLk38lPLq8F8H eQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2vk68u83mm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Oct 2019 10:58:13 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9EAvhr6185611;
-        Mon, 14 Oct 2019 10:58:12 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2vks06j1xj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Oct 2019 10:58:12 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9EAw9WQ011035;
-        Mon, 14 Oct 2019 10:58:09 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 14 Oct 2019 10:58:08 +0000
-Date:   Mon, 14 Oct 2019 13:58:01 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
+        Mon, 14 Oct 2019 07:57:42 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 04:57:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; 
+   d="scan'208";a="194977073"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Oct 2019 04:57:40 -0700
+Received: from andy by smile with local (Exim 4.92.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1iJyyp-00040q-AV; Mon, 14 Oct 2019 14:57:39 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Darren Hart <dvhart@infradead.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Mattias Jacobsson <2pi@mok.nu>, Takashi Iwai <tiwai@suse.de>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] platform/x86: huawei-wmi: Fix a precision vs width printf bug
-Message-ID: <20191014105801.GA31759@mwanda>
+        platform-driver-x86@vger.kernel.org, Ammy Yi <ammy.yi@intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: [RESEND][PATCH v1] platform/x86: i2c-multi-instantiate: Fail the probe if no IRQ provided
+Date:   Mon, 14 Oct 2019 14:57:39 +0300
+Message-Id: <20191014115739.15342-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9409 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910140107
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9409 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910140106
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This was supposed to be precision "%.*s" instead of width "%*s".  It's
-possible that this results in printing beyond the end of the string.
+For APIC case of interrupt we don't fail a ->probe() of the driver,
+which makes kernel to print a lot of warnings from the children.
 
-Fixes: a970b95345ab ("platform/x86: huawei-wmi: Add debugfs support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+We have two options here:
+- switch to platform_get_irq_optional(), though it won't stop children
+  to be probed and failed
+- fail the ->probe() of i2c-multi-instantiate
+
+Since the in reality we never had devices in the wild where IRQ resource
+is optional, the latter solution suits the best.
+
+Fixes: 799d3379a672 ("platform/x86: i2c-multi-instantiate: Introduce IOAPIC IRQ support")
+Reported-by: Ammy Yi <ammy.yi@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/platform/x86/huawei-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Cc Ammy
+ drivers/platform/x86/i2c-multi-instantiate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index 6720f78c60c2..69a7be8dafcd 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -612,7 +612,7 @@ static void huawei_wmi_debugfs_call_dump(struct seq_file *m, void *data,
- 		seq_printf(m, "0x%llx", obj->integer.value);
- 		break;
- 	case ACPI_TYPE_STRING:
--		seq_printf(m, "\"%*s\"", obj->string.length, obj->string.pointer);
-+		seq_printf(m, "\"%.*s\"", obj->string.length, obj->string.pointer);
- 		break;
- 	case ACPI_TYPE_BUFFER:
- 		seq_puts(m, "{");
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index ea68f6ed66ae..ffb8d5d1eb5f 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -108,6 +108,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+ 			if (ret < 0) {
+ 				dev_dbg(dev, "Error requesting irq at index %d: %d\n",
+ 					inst_data[i].irq_idx, ret);
++				goto error;
+ 			}
+ 			board_info.irq = ret;
+ 			break;
 -- 
-2.20.1
+2.23.0
 
