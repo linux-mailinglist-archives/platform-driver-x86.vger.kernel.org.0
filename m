@@ -2,103 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4337FD7F5E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 20:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F39BDD7F97
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 21:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbfJOSti (ORCPT
+        id S2389273AbfJOTI7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Oct 2019 14:49:38 -0400
-Received: from gateway24.websitewelcome.com ([192.185.51.110]:31594 "EHLO
-        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728258AbfJOSti (ORCPT
+        Tue, 15 Oct 2019 15:08:59 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:46596 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726478AbfJOTI7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Oct 2019 14:49:38 -0400
-X-Greylist: delayed 1406 seconds by postgrey-1.27 at vger.kernel.org; Tue, 15 Oct 2019 14:49:36 EDT
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id C6AF2160C7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Oct 2019 13:26:08 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id KRWKiOQxVHunhKRWKi1G7g; Tue, 15 Oct 2019 13:26:08 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=h9r1/ws24FPcET1Unnl3HF3aff7NQ3NhjeVSLBi8B2k=; b=fXSuKxc70sbDsCkDiz+3QDL8Ry
-        P7NHu7tBjChuYuJko5lOMl00gne5dzqcEeS8W3XAtClSWhNMlpb/QSzJW5/SXhL4Y8ralH28LFbZQ
-        C98EViQiXclMd73BNfxlpWHAAVINgvox/JYHAbQzU97vgkon9b0hPxA/WtRr3JIkdaKzbchJ/V3HT
-        TCpGU4WQehqYef9N+3J0gWZabFtkWaMUfO+qaHJHyW0m2UPE9oCyOizwabP629qZPDfj/kyLmnloE
-        g3ZrwzcI2wR7WxzZbsgfdlYgI1p+MFAspJs18tD9z2e+BaaqLN6f8pi6hWiKaxSHPrep8vUNMhCCD
-        KLv6dm8w==;
-Received: from [187.192.22.73] (port=40792 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1iKRWJ-001U0t-Ix; Tue, 15 Oct 2019 13:26:07 -0500
-Date:   Tue, 15 Oct 2019 13:25:49 -0500
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] platform/x86: huawei-wmi: Fix misuse of strcmp() function
-Message-ID: <20191015182549.GA13772@embeddedor>
+        Tue, 15 Oct 2019 15:08:59 -0400
+Received: by mail-yw1-f67.google.com with SMTP id l64so7622826ywe.13;
+        Tue, 15 Oct 2019 12:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=vwcalfo0nj8jqf6x0P9ha0tnIv3sLojEIn4D2EyQfQA=;
+        b=PKdKio749L09WSgW3MVYy+qidUxNVF63exMQyMYgFaPmXoymBwDF2QKwjg3mt5G1Eb
+         pLVHKbQ9L4+0rKrw9ootuTTr3bhwwWgG0vS2PnDA1cUYEUqtMY7gHLNyCT+XCyfwwjpB
+         zzi66QIz44iVXLqQAAuOKSWkZbXJWzLxyJD7FUrM62REFQJnDaWDaReE4OXP9KwZnp/7
+         kCJrCfkobRAv+gcJv48BTrcN6oRShMEu+aVDg1Zqhq99Ypb41twtmUpYJo2Ae82XIxEp
+         kCf5HdOgjy5MjRX1rr+NM9JQ4KbldMuPUE3ugZ1hq3Ai1KhpXBh1RaZW6GCkweQaikFr
+         2MAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=vwcalfo0nj8jqf6x0P9ha0tnIv3sLojEIn4D2EyQfQA=;
+        b=SJSGuZeXCzP2QD/FPKFhft91xKHE8cB+wcLt3NL0BkH9HlW0WEdsisp7OO56LZF4WD
+         W5Oz9GcJ5jmmx77K6SnkQN2cCHuKSP2HKxs37pepHoqSxBNEaaS8QYD7tTdMrX9+pGLl
+         Ke07wgZNW/nhq9ZCWuxo/+HmcC9POvceacptcwaRFgrq0JMPFvqNF0+gHU9j7eJFJtCk
+         eLchlNS0Ou3A9/W6RVg18GdJZo401/TPzP7GFgO4gswDHWZB+/v9vO/1dYIyIGkQwppO
+         2SJ2LyyZGddLGrlXEtSfPe3UAxBeVMgh9eB7rWeTLmsM3e/VVJlPzRHKo5zGP+1E0sjK
+         YG6A==
+X-Gm-Message-State: APjAAAXRoyPgIlQxbEQNi+gj3LAu2S3i5a6k15ERHWh0bJtwIFIgqcBu
+        RlutBEDb7Sy66c95Y3AZvg==
+X-Google-Smtp-Source: APXvYqyBFRC7bbBOnpMBP0iijziJzkCnwBfMmkTyrvGtTOZ5MxkMdLyJozDW4iaZpvwCIKnY68puQg==
+X-Received: by 2002:a81:2396:: with SMTP id j144mr17565583ywj.219.1571166538119;
+        Tue, 15 Oct 2019 12:08:58 -0700 (PDT)
+Received: from 960 ([12.156.111.130])
+        by smtp.gmail.com with ESMTPSA id 137sm5466855ywp.64.2019.10.15.12.08.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 12:08:57 -0700 (PDT)
+Message-ID: <336c7fa6eebdbada759c9ad30a0a6b85af6f6c58.camel@gmail.com>
+Subject: Re: [PATCH] platform/x86: huawei-wmi: Fix misuse of strcmp()
+ function
+From:   ayman.bagabas@gmail.com
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 15 Oct 2019 15:08:57 -0400
+In-Reply-To: <20191015182549.GA13772@embeddedor>
+References: <20191015182549.GA13772@embeddedor>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.192.22.73
-X-Source-L: No
-X-Exim-ID: 1iKRWJ-001U0t-Ix
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [187.192.22.73]:40792
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Comparing the result of strcmp directly with 1 may cause it to be
-misinterpreted. Note that strcmp may return an integer besides -1,
-0, or 1.
+Hi Gustavo,
 
-Fix this by returning -ENODEV only when strcmp() returns a value
-other than 0.
+On Tue, 2019-10-15 at 13:25 -0500, Gustavo A. R. Silva wrote:
+> Comparing the result of strcmp directly with 1 may cause it to be
+> misinterpreted. Note that strcmp may return an integer besides -1,
+> 0, or 1.
+> 
+> Fix this by returning -ENODEV only when strcmp() returns a value
+> other than 0.
+> 
+> Addresses-Coverity-ID: 1487035 ("Misuse of memcmp-style function")
+> Fixes: b7527d0f4502 ("platform/x86: huawei-wmi: Add battery charging
+> thresholds")
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>  drivers/platform/x86/huawei-wmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/huawei-wmi.c
+> b/drivers/platform/x86/huawei-wmi.c
+> index 6720f78c60c2..b43f76acbfea 100644
+> --- a/drivers/platform/x86/huawei-wmi.c
+> +++ b/drivers/platform/x86/huawei-wmi.c
+> @@ -470,7 +470,7 @@ static DEVICE_ATTR_RW(charge_control_thresholds);
+>  static int huawei_wmi_battery_add(struct power_supply *battery)
+>  {
+>  	/* Huawei laptops come with one battery only */
+> -	if (strcmp(battery->desc->name, "BAT") != 1)
 
-Addresses-Coverity-ID: 1487035 ("Misuse of memcmp-style function")
-Fixes: b7527d0f4502 ("platform/x86: huawei-wmi: Add battery charging thresholds")
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/platform/x86/huawei-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note we don't have a battery number in BATx, strcmp would return 1 if
+battery->desc->name is "BAT0" or any one digit. This is a desired
+behavior where some Huawei laptops identify the first battery as "BAT1"
+and this would match if name is greater than "BAT" by one digit.
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index 6720f78c60c2..b43f76acbfea 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -470,7 +470,7 @@ static DEVICE_ATTR_RW(charge_control_thresholds);
- static int huawei_wmi_battery_add(struct power_supply *battery)
- {
- 	/* Huawei laptops come with one battery only */
--	if (strcmp(battery->desc->name, "BAT") != 1)
-+	if (strcmp(battery->desc->name, "BAT"))
- 		return -ENODEV;
- 
- 	device_create_file(&battery->dev, &dev_attr_charge_control_start_threshold);
--- 
-2.23.0
+Maybe strcmp(battery->desc->name, "BAT") < 0 is a better way to go.
+
+> +	if (strcmp(battery->desc->name, "BAT"))
+>  		return -ENODEV;
+
+Now this would always return ENODEV.
+
+Thank you,
+Ayman
+
+>  
+>  	device_create_file(&battery->dev,
+> &dev_attr_charge_control_start_threshold);
 
