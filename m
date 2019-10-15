@@ -2,178 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8527D6C46
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 01:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB5C6D713E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 10:39:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbfJNX5x (ORCPT
+        id S1727476AbfJOIj5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Oct 2019 19:57:53 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:44226 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbfJNX5w (ORCPT
+        Tue, 15 Oct 2019 04:39:57 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:46962 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbfJOIj4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Oct 2019 19:57:52 -0400
-Received: by mail-pl1-f196.google.com with SMTP id q15so8668585pll.11;
-        Mon, 14 Oct 2019 16:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PvXicvKODDLIBrrmqaNFFvvMmJzFOFLga8h9y3ZgZGc=;
-        b=IxuAc88QtjB+R1hTHXCTLux1d9f6r1BsDQ5Cbfit9zZ5g5PKFdHOoc1N7Hoghz+zvB
-         hrbzn9MYAxffJvXXRzkiFE0en0cir+eBsQ82qbaX12xegOYP5kdFENTxBR1TmxTPloru
-         /fwWhtQr52rqIefsqSYphEyLClfmYN3IgCtbOdYMOx2hzJHah3NUAlztMfaltRVihCRK
-         Q2y7UyiSI+2Wo3TUu1upsqn0emTa5udSO906FvxYFwqlSvIldo/nL+H0BECy/ghcyQos
-         /XfPZMF0gb4LYMYrcY2ijnXJ1lbWxxUlFO0Adm9jNZsMiK/F6rZy4kF0df6UMKPqst77
-         qFSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PvXicvKODDLIBrrmqaNFFvvMmJzFOFLga8h9y3ZgZGc=;
-        b=j47E/XtL7IlPMi4xilOe9odDXR5Tg16c8ZTLVlElz6uIheKmmMJivuVbaXl0erj7dZ
-         UFoo9fCrqd/XKagg4IOUsstJq2VflQbKMIbWDz62QIHd6fms5Me1valN2c4rUr38UdTj
-         EL7lWoz2Wq5HfHteHQ7LNGPs9hjYPBpJtXW644nwnF5b3dsyCtJIg/O5H6rVhwWIvpdX
-         SUdAhs02RWM82qGVtJoPmqEbeiGB9G2p5sKFfslpJTGovwIVNegUL7fnh3GtN4Qc+7WR
-         KkevG6cRYxNjpwFoMOJgvApfkHxt7/MuEXHZ/UjpuSeNfcEUZElu8x0yz/xDvwClsOwP
-         Ec3A==
-X-Gm-Message-State: APjAAAVG4PkR7MiO5wQUVHZ1LWw+o7HOHxmdNw744BI5FzFvGCdbGyzQ
-        dXiXX+3Pi/AQF0gWpuKQt6k=
-X-Google-Smtp-Source: APXvYqwMpDhZmsbOwgQ61I4KBxC7rbT1HjnTGoHHSJFP+sCgNEt7Uw3duYXbb1+UcEXxmo1MbaF/HQ==
-X-Received: by 2002:a17:902:9008:: with SMTP id a8mr33076756plp.218.1571097471651;
-        Mon, 14 Oct 2019 16:57:51 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id h6sm24862693pfg.123.2019.10.14.16.57.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 16:57:50 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 16:57:47 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5 00/14] software node: add support for reference
- properties
-Message-ID: <20191014235747.GA105649@dtor-ws>
-References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
- <20191014073837.GI32742@smile.fi.intel.com>
+        Tue, 15 Oct 2019 04:39:56 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F8cOk9178994;
+        Tue, 15 Oct 2019 08:39:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=ARgJngw/EKwo7//1vnF1N8vdv7+VDvf0AqFaDb+ArC8=;
+ b=WjIQD1PCdG8gNqNaB4rr68DTWdc5GwKT9T8LDyX/d5fU4RXXt7n/Uno1y8fdniBOPp7X
+ tfItlcZ0j4CmBWhGSixmMmMSdK4xnZZAM1So5KMBKdkmV2gbI6VT0wtuhFv6TQyTDyiE
+ D4Sax8+H56C8cYelm5Zr0lG0O+QzLgIUQ3xXYG+b0ghE4YaWUXxF4GxERx/i/AD9pi0L
+ SC/ij6fiPRXvR//QxR8PrbdyydYXPiq9RsX3zjGBAYxhiwPzfS08Egj0JaLu3M+SQ/sn
+ G9jfh+CVpjMcKuP2IFUzuBpGeIMDvkS/ZO6Xb0rjDGl9NqjjvTkNPIepcTc7cxi4dJJq hw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2vk68ue96d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 08:39:09 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F8ckIx076448;
+        Tue, 15 Oct 2019 08:39:08 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 2vkrbmh85f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 08:39:06 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9F8ckaZ007044;
+        Tue, 15 Oct 2019 08:38:46 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 15 Oct 2019 08:38:46 +0000
+Date:   Tue, 15 Oct 2019 11:38:38 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>
+Cc:     Andy Shevchenko <andy@infradead.org>, Takashi Iwai <tiwai@suse.de>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] platform/x86: huawei-wmi: make validation stricter in
+ huawei_wmi_battery_set()
+Message-ID: <20191015083837.GA29104@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191014073837.GI32742@smile.fi.intel.com>
+X-Mailer: git-send-email haha only kidding
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910150080
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910150081
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 10:38:37AM +0300, Andy Shevchenko wrote:
-> On Fri, Oct 11, 2019 at 04:07:07PM -0700, Dmitry Torokhov wrote:
-> > These series implement "references" properties for software nodes as true
-> > properties, instead of managing them completely separately.
-> > 
-> > The first 10 patches are generic cleanups and consolidation and
-> > unification of the existing code; patch #11 implements moving of small
-> > properties inline when copying property entries; patch #12 implements
-> > PROPERTY_ENTRY_REF() and friends; patch #13 converts the user of
-> > references to the property syntax, and patch #14 removes the remains of
-> > references as entities that are managed separately.
-> 
-> Can we get some test cases?
+I don't think it makes sense for "end" to be negative or for even for it
+to be less than "start".  That also means that "start" can't be more
+than 100 which is good.
 
-Something like this? (I'll beef it up if we decide KUnit is OK for
-this).
-
-From 0b8256ceed44760e63becb5b9636099d9fc17a4c Mon Sep 17 00:00:00 2001
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 14 Oct 2019 16:55:12 -0700
-Subject: [PATCH] software node: add basic init tests
-
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Fixes: b7527d0f4502 ("platform/x86: huawei-wmi: Add battery charging thresholds")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/base/test/Makefile              |  2 +
- drivers/base/test/property-entry-test.c | 56 +++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 drivers/base/test/property-entry-test.c
+ drivers/platform/x86/huawei-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/base/test/Makefile b/drivers/base/test/Makefile
-index 0f1f7277a013..22143102e5d2 100644
---- a/drivers/base/test/Makefile
-+++ b/drivers/base/test/Makefile
-@@ -1,2 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_TEST_ASYNC_DRIVER_PROBE)	+= test_async_driver_probe.o
-+
-+obj-$(CONFIG_KUNIT) += property-entry-test.o
-diff --git a/drivers/base/test/property-entry-test.c b/drivers/base/test/property-entry-test.c
-new file mode 100644
-index 000000000000..cd6a405734a0
---- /dev/null
-+++ b/drivers/base/test/property-entry-test.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Unit tests for property entries API
-+//
-+// Copyright 2019 Google LLC.
-+
-+#include <kunit/test.h>
-+#include <linux/property.h>
-+#include <linux/types.h>
-+
-+static void pe_test_move_inline_u8(struct kunit *test)
-+{
-+	u8 u8_array_small[8] = { 0 };
-+	u8 u8_array_big[128] = { 0 };
-+	struct property_entry entries[] = {
-+		PROPERTY_ENTRY_U8_ARRAY("small", u8_array_small),
-+		PROPERTY_ENTRY_U8_ARRAY("big", u8_array_big),
-+		{ }
-+	};
-+	struct property_entry *copy;
-+
-+	copy = property_entries_dup(entries);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, copy);
-+	KUNIT_EXPECT_TRUE(test, copy[0].is_inline);
-+	KUNIT_EXPECT_FALSE(test, copy[1].is_inline);
-+}
-+
-+static void pe_test_move_inline_str(struct kunit *test)
-+{
-+	char *str_array_small[] = { "a" };
-+	char *str_array_big[] = { "a", "b", "c", "d" };
-+	struct property_entry entries[] = {
-+		PROPERTY_ENTRY_STRING_ARRAY("small", str_array_small),
-+		PROPERTY_ENTRY_STRING_ARRAY("big", str_array_big),
-+		{ }
-+	};
-+	struct property_entry *copy;
-+
-+	copy = property_entries_dup(entries);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, copy);
-+	KUNIT_EXPECT_TRUE(test, copy[0].is_inline);
-+	KUNIT_EXPECT_FALSE(test, copy[1].is_inline);
-+}
-+
-+
-+static struct kunit_case property_entry_test_cases[] = {
-+	KUNIT_CASE(pe_test_move_inline_u8),
-+	KUNIT_CASE(pe_test_move_inline_str),
-+	{ }
-+};
-+
-+static struct kunit_suite property_entry_test_suite = {
-+	.name = "property-entry",
-+	.test_cases = property_entry_test_cases,
-+};
-+
-+kunit_test_suite(property_entry_test_suite);
+diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
+index 6720f78c60c2..02a505a72172 100644
+--- a/drivers/platform/x86/huawei-wmi.c
++++ b/drivers/platform/x86/huawei-wmi.c
+@@ -343,7 +343,7 @@ static int huawei_wmi_battery_set(int start, int end)
+ 	union hwmi_arg arg;
+ 	int err;
+ 
+-	if (start < 0 || end > 100)
++	if (start < 0 || end < start || end > 100)
+ 		return -EINVAL;
+ 
+ 	arg.cmd = BATTERY_THRESH_SET;
 -- 
-2.23.0.700.g56cf767bdb-goog
+2.20.1
 
-
--- 
-Dmitry
