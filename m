@@ -2,116 +2,151 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6133D7756
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 15:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F330BD79AB
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 17:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728467AbfJONUu (ORCPT
+        id S2387420AbfJOPWF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Oct 2019 09:20:50 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:35232 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728386AbfJONUt (ORCPT
+        Tue, 15 Oct 2019 11:22:05 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:42624 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387418AbfJOPWE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Oct 2019 09:20:49 -0400
-Received: by mail-yw1-f65.google.com with SMTP id r134so7324640ywg.2;
-        Tue, 15 Oct 2019 06:20:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=D3fT6mJQ0MI3tnwGYI9a5cNsV8GCpshvfBo2XlqzibE=;
-        b=JSDWOhRTQR7mcD2V+Sv4e2n37vg6VoRXbzilaYZz3Siqcw+f2p8I8FG1NqtLQpXm+6
-         P9YGUWyf/gBw8Yze048gCOiEqBw5KI9q6h1GBINFYm5+bn38Nsa32FEJB7yysMd1S0nK
-         VJCT0MhOylRBChpMqW1d/9J/fHwVuzwDKHg/zdjHOeiySQE0yc9sdwgYyKMKl3G9wTxb
-         Uf3zdyIgL9gUe8uXeybJkZrTD2G0ddJdcoUhPwCGV0pfezLRgixaxztVeKzkkiOxyXe2
-         ASqP8dggBcyk6J0eJYVAcXxQyy62v7UsydVFnI+cEwALKPOnPg3kgBH8uOSblKtNpRU9
-         HPig==
+        Tue, 15 Oct 2019 11:22:04 -0400
+Received: from mail-pl1-f200.google.com ([209.85.214.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <gpiccoli@canonical.com>)
+        id 1iKOeA-0001Eu-4p
+        for platform-driver-x86@vger.kernel.org; Tue, 15 Oct 2019 15:22:02 +0000
+Received: by mail-pl1-f200.google.com with SMTP id y13so12259043plr.17
+        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Oct 2019 08:22:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=D3fT6mJQ0MI3tnwGYI9a5cNsV8GCpshvfBo2XlqzibE=;
-        b=d989PQjvwx+3h6mMZ0PtYrG2jHZtno/XDtajLSy4giJee6WqNd4RZi/CZ4teX/sGNG
-         2B4HfLOAChOboSudlLnPzkQl30MrqKtbuH1alaGXq1eiAzoyLgw8gqyP3aXxQ+kurnEZ
-         KYl0ssvNlLiosADlB1CNbRL61ZFbW2+hFSukRPwnPr5GgJw4tjkb3OM20RHZTbA4acsv
-         CZqRLEMyvzFAGrfjs4cVkVzgVQ7qXCbg+pCqO02ciEj9FR8RGHxgm+nYnUqkQHQQl7M0
-         vF+5IzCXxG9PAHa0zs3Z1RBdQBzVm00KSQ+xTIdSvIloRDkAUSVbk1++28hA9wRCO2Om
-         k9cw==
-X-Gm-Message-State: APjAAAWDZSlFWuA5C9CLAMJjMZ9WKecT/SYD5q4jjcrZXxSqtgem820j
-        sYqoollwGaEVGTwpkFAwFA==
-X-Google-Smtp-Source: APXvYqzPaJpFM2drv34anPBYkT5+u0Wp61PBbm/yyybELyaJC0imWzJwOd60Ii1krEpXotxdd/+eNg==
-X-Received: by 2002:a81:6c4c:: with SMTP id h73mr15215118ywc.262.1571145647145;
-        Tue, 15 Oct 2019 06:20:47 -0700 (PDT)
-Received: from 960 ([12.156.111.130])
-        by smtp.gmail.com with ESMTPSA id l2sm5163256ywd.16.2019.10.15.06.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 06:20:46 -0700 (PDT)
-Message-ID: <4eaef0a107796895fc59989d1481676f794fcac5.camel@gmail.com>
-Subject: Re: [PATCH] platform/x86: huawei-wmi: make validation stricter in
- huawei_wmi_battery_set()
-From:   ayman.bagabas@gmail.com
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Date:   Tue, 15 Oct 2019 09:20:35 -0400
-In-Reply-To: <20191015124623.GF21344@kadam>
-References: <20191015083837.GA29104@mwanda>
-         <CAB3uXr63uUwxBjkeeoftZ6HYm_hmN+E5EUhu15_Mta2qruOugA@mail.gmail.com>
-         <20191015124623.GF21344@kadam>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=4uWEMUtO+/0Vvy5QnKlN0NMPVmJvd5IxagN1D1K9RuM=;
+        b=fUXn8WwcCO7urXGWAy9dYJ4tplhx4AyIsySf52Je/jmDTyQz8SbQ67eKi94oz5gbFY
+         zrIREsOXT3DmebmdmZ1L/myfVz6mNiD2I3/c1Q2YQwy1+Pev8t5ENWVTomdMfXrXqWwr
+         /p5PiUNlZcxGNG/vBu+W3N4u1zgmhqZMmg8DwCr/iutvVg2pzx8j6kWCn6ZrbzQFurcg
+         aergphOg3Zoy7PDKEISSryBedK2oYROodlL9PEMmZOlhmO5+ev3keLKmj0Iih63y0mqX
+         6BqT9AwBg+E1qaWzcGAZb7RsWNxGCTcdT5ws3zww2ZBGyocoMGdyqMQqT3FYiySB4V4n
+         mPGg==
+X-Gm-Message-State: APjAAAUZ/hsF3ioUQry3s1N65AugEeDaYNej24CXNRwLg56k/JTiXaCm
+        1zwsOGScpMN5T1c/uCbs4QBV3MCqT7M3G9/dvTfF/Od+KkfllukGFW66OXFeJaLJZ2py3Y7Slqe
+        rwlbUT648x6+fCFJOCToJzAOJIaK3S/rAeo0rWgY40yjwOyJxJck=
+X-Received: by 2002:a63:3c41:: with SMTP id i1mr4452937pgn.287.1571152920612;
+        Tue, 15 Oct 2019 08:22:00 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzqIwZ8/hi+1TI04wvVCUT6kOctE1TYvzNEHURTZj+QItUndJsJWTqG0o6Iq6T0rUfS9prSFw==
+X-Received: by 2002:a63:3c41:: with SMTP id i1mr4452910pgn.287.1571152920254;
+        Tue, 15 Oct 2019 08:22:00 -0700 (PDT)
+Received: from [192.168.1.200] (201-92-249-168.dsl.telesp.net.br. [201.92.249.168])
+        by smtp.gmail.com with ESMTPSA id r21sm28603670pfc.27.2019.10.15.08.21.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Oct 2019 08:21:59 -0700 (PDT)
+Subject: Re: Advice on oops - memory trap on non-memory access instruction
+ (invalid CR2?)
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-mm@kvack.org, platform-driver-x86@vger.kernel.org,
+        x86@kernel.org, iommu@lists.linux-foundation.org,
+        "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
+        gavin.guo@canonical.com, halves@canonical.com,
+        ioanna-maria.alifieraki@canonical.com, jay.vosburgh@canonical.com,
+        mfo@canonical.com
+References: <66eeae28-bfd3-c7a0-011c-801981b74243@canonical.com>
+ <alpine.DEB.2.21.1910141602270.2531@nanos.tec.linutronix.de>
+From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
+ mQENBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
+ Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
+ 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
+ irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
+ 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
+ AAG0LUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPokBNwQT
+ AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
+ 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
+ 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
+ q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
+ iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
+ LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltveuQENBFpVBxcBCADbxD6J
+ aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
+ pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
+ kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
+ nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
+ bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAGJAR8EGAEIAAkFAlpV
+ BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
+ 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
+ egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
+ Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
+ kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
+ X18zwLgdiQ==
+Message-ID: <331f83c2-1d52-dfdb-1006-e910ff20c3a5@canonical.com>
+Date:   Tue, 15 Oct 2019 12:21:45 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <alpine.DEB.2.21.1910141602270.2531@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 2019-10-15 at 15:46 +0300, Dan Carpenter wrote:
-> On Tue, Oct 15, 2019 at 08:21:59AM -0400, Ayman Bagabas wrote:
-> > Hi Dan
-> > 
-> > On Tue, Oct 15, 2019, 4:39 AM Dan Carpenter <
-> > dan.carpenter@oracle.com>
-> > wrote:
-> > 
-> > > I don't think it makes sense for "end" to be negative or for even
-> > > for it
-> > > to be less than "start".  That also means that "start" can't be
-> > > more
-> > > than 100 which is good.
-> > > 
-> > 
-> > While this makes sense, you run into issues where you cannot set
-> > "start"
-> > before "end" and vice versa.
-> > 
-> > Take this scenario, you have start=70 and end=90, now you want to
-> > set these
-> > to start=40 and end=60, you would have to set "start" first before
-> > you can
-> > change the value of "end" otherwise you will run into EINVAL. Now
-> > imagine
-> > you wanna go the opposite direction, you would have to set "end"
-> > before you
-> > can change "start".
-> > I think having a little wiggle room is fine for such scenarios.
-> > 
+On 14/10/2019 11:10, Thomas Gleixner wrote:
+> On Mon, 14 Oct 2019, Guilherme G. Piccoli wrote:
+>> Modules linked in: <...>
+>> CPU: 40 PID: 78274 Comm: qemu-system-x86 Tainted: P W  OE
 > 
-> I haven't tested this code...  What you're describing sounds really
-> very weird to me, but I will accept that you know more about your
-> use cases than I do.
+> Tainted: P     - Proprietary module loaded ...
 > 
-> My other concern is that right now you can set start > 100 or end <
-> 0.
+> Try again without that module
 
-We should check for these cases.
+Thanks Thomas, for the prompt response. This is some ScaleIO stuff, I
+guess it's part of customer setup, and I agree would be better to not
+have this kind of module loaded. Anyway, the analysis of oops show a
+quite odd situation that we'd like to at least have a strong clue before
+saying the scaleio stuff is the culprit.
 
 > 
-> regards,
-> dan carpenter
+> Tainted: W     - Warning issued before
+> 
+> Are you sure that that warning is harmless and unrelated?
 > 
 
+Sorry I didn't mention that before, the warn is:
+
+[5946866.593060] WARNING: CPU: 42 PID: 173056 at
+/build/linux-lts-xenial-80t3lB/linux-lts-xenial-4.4.0/arch/x86/events/intel/core.c:1868
+intel_pmu_handle_irq+0x2d4/0x470()
+[5946866.593061] perfevents: irq loop stuck!
+
+It happened ~700 days before the oops (yeah, the uptime is quite large,
+about 900 days when the oops happened heh).
+
+
+>> 4.4.0-45-generic #66~14.04.1-Ubuntu
+> 
+> Does the same problem happen with a not so dead kernel? CR2 handling got
+> quite some updates/fixes since then.
+
+Unfortunately we don't have ways to test that for now, but your comment
+is quite interesting - we can take a look in the CR2 fixes since v4.4.
+
+But what do you think about having a #PF while the instruction pointed
+in the oops Code section (and the RIP address) is not a memory-related insn?
+
+Thanks,
+
+
+Guilherme
+> 
+> Thanks,
+> 
+> 	tglx
+> 
+> 
