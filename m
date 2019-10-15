@@ -2,85 +2,108 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76677D765E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 14:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F22D76C5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 14:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727913AbfJOMUd (ORCPT
+        id S1726424AbfJOMqy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Oct 2019 08:20:33 -0400
-Received: from mga11.intel.com ([192.55.52.93]:26185 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725810AbfJOMUc (ORCPT
+        Tue, 15 Oct 2019 08:46:54 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:53658 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfJOMqy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Oct 2019 08:20:32 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Oct 2019 05:20:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,299,1566889200"; 
-   d="scan'208";a="198590734"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 15 Oct 2019 05:20:29 -0700
-Received: from andy by smile with local (Exim 4.92.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iKLoS-0007eW-MV; Tue, 15 Oct 2019 15:20:28 +0300
-Date:   Tue, 15 Oct 2019 15:20:28 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5 11/14] software node: move small properties inline
- when copying
-Message-ID: <20191015122028.GI32742@smile.fi.intel.com>
-References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
- <20191011230721.206646-12-dmitry.torokhov@gmail.com>
+        Tue, 15 Oct 2019 08:46:54 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9FCivSY187110;
+        Tue, 15 Oct 2019 12:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=TxP0ZWs0Ifhgzr9mzKZ5K8VfBbMXyx7BesdvQuxDWL4=;
+ b=TgUlqaBGOJKG4fHX334bsbAgcF/WLNv6HPiMv80K3LFGMwN9sX0yjWJfG65KoL14Iv6l
+ jNtjc3ZBMD8bVoanWIXlAfJokXaDcxObjB5eVRqaJtJmYP8akalnuomIGNrXf8D8vav2
+ k1IB9mSrNgNG8kAn9jLOvmNkYdnJ67BE0EI5b+EHTqdVf95iV5RhTT3DjEgm8ZpJhujP
+ FTR4fQwrZplv+b7l5VntezIyN0cnLXMhRRnziZpBxzwaKZ9UG6nD0Y7Qy6V4GiIXk9RB
+ NznvbDBteI+8TMkZlUsAY/KI9ArBlIhACNl0sI1BSMVjv1415HLFZzjwbI8/HiCBkmC8 TQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2vk7fr7hhs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 12:46:35 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9FCh3Le134869;
+        Tue, 15 Oct 2019 12:46:35 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2vn7184x0m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 12:46:35 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9FCkXqt017011;
+        Tue, 15 Oct 2019 12:46:33 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 15 Oct 2019 12:46:32 +0000
+Date:   Tue, 15 Oct 2019 15:46:23 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Ayman Bagabas <ayman.bagabas@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: huawei-wmi: make validation stricter in
+ huawei_wmi_battery_set()
+Message-ID: <20191015124623.GF21344@kadam>
+References: <20191015083837.GA29104@mwanda>
+ <CAB3uXr63uUwxBjkeeoftZ6HYm_hmN+E5EUhu15_Mta2qruOugA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191011230721.206646-12-dmitry.torokhov@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAB3uXr63uUwxBjkeeoftZ6HYm_hmN+E5EUhu15_Mta2qruOugA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910150116
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910150116
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 04:07:18PM -0700, Dmitry Torokhov wrote:
-> When copying/duplicating set of properties, move smaller properties that
-> were stored separately directly inside property entry structures. We can
-> move:
+On Tue, Oct 15, 2019 at 08:21:59AM -0400, Ayman Bagabas wrote:
+> Hi Dan
 > 
-> - up to 8 bytes from U8 arrays
-> - up to 4 words
-> - up to 2 double words
-> - one U64 value
-> - one or 2 strings.
+> On Tue, Oct 15, 2019, 4:39 AM Dan Carpenter <dan.carpenter@oracle.com>
+> wrote:
+> 
+> > I don't think it makes sense for "end" to be negative or for even for it
+> > to be less than "start".  That also means that "start" can't be more
+> > than 100 which is good.
+> >
+> 
+> While this makes sense, you run into issues where you cannot set "start"
+> before "end" and vice versa.
+> 
+> Take this scenario, you have start=70 and end=90, now you want to set these
+> to start=40 and end=60, you would have to set "start" first before you can
+> change the value of "end" otherwise you will run into EINVAL. Now imagine
+> you wanna go the opposite direction, you would have to set "end" before you
+> can change "start".
+> I think having a little wiggle room is fine for such scenarios.
+> 
 
-Can you show where you extract such values?
+I haven't tested this code...  What you're describing sounds really
+very weird to me, but I will accept that you know more about your
+use cases than I do.
 
-> +	if (!dst->is_inline && dst->length <= sizeof(dst->value)) {
-> +		/* We have an opportunity to move the data inline */
-> +		const void *tmp = dst->pointer;
-> +
+My other concern is that right now you can set start > 100 or end < 0.
 
-> +		memcpy(&dst->value, tmp, dst->length);
-
-...because this is strange trick.
-
-> +		dst->is_inline = true;
-> +
-> +		kfree(tmp);
-> +	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
