@@ -2,151 +2,144 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F330BD79AB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 17:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95334D7E59
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Oct 2019 20:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387420AbfJOPWF (ORCPT
+        id S2388976AbfJOSCm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Oct 2019 11:22:05 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42624 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387418AbfJOPWE (ORCPT
+        Tue, 15 Oct 2019 14:02:42 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39426 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725820AbfJOSCl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Oct 2019 11:22:04 -0400
-Received: from mail-pl1-f200.google.com ([209.85.214.200])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <gpiccoli@canonical.com>)
-        id 1iKOeA-0001Eu-4p
-        for platform-driver-x86@vger.kernel.org; Tue, 15 Oct 2019 15:22:02 +0000
-Received: by mail-pl1-f200.google.com with SMTP id y13so12259043plr.17
-        for <platform-driver-x86@vger.kernel.org>; Tue, 15 Oct 2019 08:22:02 -0700 (PDT)
+        Tue, 15 Oct 2019 14:02:41 -0400
+Received: by mail-pl1-f193.google.com with SMTP id s17so9949036plp.6;
+        Tue, 15 Oct 2019 11:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=z8vZY3UjYGee0rVR6bJWDTeILO13q3DsBmT7g8D5CqE=;
+        b=Yh1LUCBfKlisSW5aft0X27Z7Yn3scBV0ebad7io6LVBj2c3tHvRnoHTaJSqLf296+9
+         uhJPZm4gc5jGPcAg5fHjzTXFXl31R34LQGTU6ZRCXeIc+gMrTv7OJ4goNXrSNViX9X/n
+         qXQmTSElNpCuTSInmJXKBaetLLKyZZdzJeHhdte7UDazZdJWMms4NI0XXpLk0+ghINhA
+         SZx1w5QoVQgFXFNbZdeK2zX+cVOj54vnVvgtEgQHPU0OucR8uY7jzbOJvk4pJUHPl8Uv
+         NRSs4bM/nGvnflwGssWNzXexl/UM2a8u/UyMJV3y7Tlngg+/M0Bd5w5FqxQXGZTHHkdy
+         3Nkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=4uWEMUtO+/0Vvy5QnKlN0NMPVmJvd5IxagN1D1K9RuM=;
-        b=fUXn8WwcCO7urXGWAy9dYJ4tplhx4AyIsySf52Je/jmDTyQz8SbQ67eKi94oz5gbFY
-         zrIREsOXT3DmebmdmZ1L/myfVz6mNiD2I3/c1Q2YQwy1+Pev8t5ENWVTomdMfXrXqWwr
-         /p5PiUNlZcxGNG/vBu+W3N4u1zgmhqZMmg8DwCr/iutvVg2pzx8j6kWCn6ZrbzQFurcg
-         aergphOg3Zoy7PDKEISSryBedK2oYROodlL9PEMmZOlhmO5+ev3keLKmj0Iih63y0mqX
-         6BqT9AwBg+E1qaWzcGAZb7RsWNxGCTcdT5ws3zww2ZBGyocoMGdyqMQqT3FYiySB4V4n
-         mPGg==
-X-Gm-Message-State: APjAAAUZ/hsF3ioUQry3s1N65AugEeDaYNej24CXNRwLg56k/JTiXaCm
-        1zwsOGScpMN5T1c/uCbs4QBV3MCqT7M3G9/dvTfF/Od+KkfllukGFW66OXFeJaLJZ2py3Y7Slqe
-        rwlbUT648x6+fCFJOCToJzAOJIaK3S/rAeo0rWgY40yjwOyJxJck=
-X-Received: by 2002:a63:3c41:: with SMTP id i1mr4452937pgn.287.1571152920612;
-        Tue, 15 Oct 2019 08:22:00 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzqIwZ8/hi+1TI04wvVCUT6kOctE1TYvzNEHURTZj+QItUndJsJWTqG0o6Iq6T0rUfS9prSFw==
-X-Received: by 2002:a63:3c41:: with SMTP id i1mr4452910pgn.287.1571152920254;
-        Tue, 15 Oct 2019 08:22:00 -0700 (PDT)
-Received: from [192.168.1.200] (201-92-249-168.dsl.telesp.net.br. [201.92.249.168])
-        by smtp.gmail.com with ESMTPSA id r21sm28603670pfc.27.2019.10.15.08.21.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Oct 2019 08:21:59 -0700 (PDT)
-Subject: Re: Advice on oops - memory trap on non-memory access instruction
- (invalid CR2?)
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-mm@kvack.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org, iommu@lists.linux-foundation.org,
-        "Guilherme G. Piccoli" <kernel@gpiccoli.net>,
-        gavin.guo@canonical.com, halves@canonical.com,
-        ioanna-maria.alifieraki@canonical.com, jay.vosburgh@canonical.com,
-        mfo@canonical.com
-References: <66eeae28-bfd3-c7a0-011c-801981b74243@canonical.com>
- <alpine.DEB.2.21.1910141602270.2531@nanos.tec.linutronix.de>
-From:   "Guilherme G. Piccoli" <gpiccoli@canonical.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gpiccoli@canonical.com; prefer-encrypt=mutual; keydata=
- mQENBFpVBxcBCADPNKmu2iNKLepiv8+Ssx7+fVR8lrL7cvakMNFPXsXk+f0Bgq9NazNKWJIn
- Qxpa1iEWTZcLS8ikjatHMECJJqWlt2YcjU5MGbH1mZh+bT3RxrJRhxONz5e5YILyNp7jX+Vh
- 30rhj3J0vdrlIhPS8/bAt5tvTb3ceWEic9mWZMsosPavsKVcLIO6iZFlzXVu2WJ9cov8eQM/
- irIgzvmFEcRyiQ4K+XUhuA0ccGwgvoJv4/GWVPJFHfMX9+dat0Ev8HQEbN/mko/bUS4Wprdv
- 7HR5tP9efSLucnsVzay0O6niZ61e5c97oUa9bdqHyApkCnGgKCpg7OZqLMM9Y3EcdMIJABEB
- AAG0LUd1aWxoZXJtZSBHLiBQaWNjb2xpIDxncGljY29saUBjYW5vbmljYWwuY29tPokBNwQT
- AQgAIQUCWmClvQIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDOR5EF9K/7Gza3B/9d
- 5yczvEwvlh6ksYq+juyuElLvNwMFuyMPsvMfP38UslU8S3lf+ETukN1S8XVdeq9yscwtsRW/
- 4YoUwHinJGRovqy8gFlm3SAtjfdqysgJqUJwBmOtcsHkmvFXJmPPGVoH9rMCUr9s6VDPox8f
- q2W5M7XE9YpsfchS/0fMn+DenhQpV3W6pbLtuDvH/81GKrhxO8whSEkByZbbc+mqRhUSTdN3
- iMpRL0sULKPVYbVMbQEAnfJJ1LDkPqlTikAgt3peP7AaSpGs1e3pFzSEEW1VD2jIUmmDku0D
- LmTHRl4t9KpbU/H2/OPZkrm7809QovJGRAxjLLPcYOAP7DUeltveuQENBFpVBxcBCADbxD6J
- aNw/KgiSsbx5Sv8nNqO1ObTjhDR1wJw+02Bar9DGuFvx5/qs3ArSZkl8qX0X9Vhptk8rYnkn
- pfcrtPBYLoux8zmrGPA5vRgK2ItvSc0WN31YR/6nqnMfeC4CumFa/yLl26uzHJa5RYYQ47jg
- kZPehpc7IqEQ5IKy6cCKjgAkuvM1rDP1kWQ9noVhTUFr2SYVTT/WBHqUWorjhu57/OREo+Tl
- nxI1KrnmW0DbF52tYoHLt85dK10HQrV35OEFXuz0QPSNrYJT0CZHpUprkUxrupDgkM+2F5LI
- bIcaIQ4uDMWRyHpDbczQtmTke0x41AeIND3GUc+PQ4hWGp9XABEBAAGJAR8EGAEIAAkFAlpV
- BxcCGwwACgkQzkeRBfSv+xv1wwgAj39/45O3eHN5pK0XMyiRF4ihH9p1+8JVfBoSQw7AJ6oU
- 1Hoa+sZnlag/l2GTjC8dfEGNoZd3aRxqfkTrpu2TcfT6jIAsxGjnu+fUCoRNZzmjvRziw3T8
- egSPz+GbNXrTXB8g/nc9mqHPPprOiVHDSK8aGoBqkQAPZDjUtRwVx112wtaQwArT2+bDbb/Y
- Yh6gTrYoRYHo6FuQl5YsHop/fmTahpTx11IMjuh6IJQ+lvdpdfYJ6hmAZ9kiVszDF6pGFVkY
- kHWtnE2Aa5qkxnA2HoFpqFifNWn5TyvJFpyqwVhVI8XYtXyVHub/WbXLWQwSJA4OHmqU8gDl
- X18zwLgdiQ==
-Message-ID: <331f83c2-1d52-dfdb-1006-e910ff20c3a5@canonical.com>
-Date:   Tue, 15 Oct 2019 12:21:45 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=z8vZY3UjYGee0rVR6bJWDTeILO13q3DsBmT7g8D5CqE=;
+        b=iZv5lQ6o+/kQkqJH8m4/jQP19MfREaFVWkm+e/Kv2XuoZmar+1LElMBdWTubaGfwB5
+         LDEAMQ70AGY60AfzMK8u3VNI4i0ubqWHjZ88yuNnyZKPq8HMA2urCQQru1QBDm45spJe
+         A6GXM9cfZflj6y5y0ZVg8NVrOHl2aety5Y4nv9Bf+I0QD/9qtlmUk9+ABi72FdQP+1M9
+         9UnfaBCEqogv2/qPOtfnvnbjzGglcARTFFxfsMmL5c5pq94Oosgf0BRpb/EnHJWHZpOW
+         U1Z/hJTDoW7MHxOwnzAC1L6+toA/ityQnztV1+RKDLg51DoossPa9+stPb0KDiXUBwnf
+         xmCw==
+X-Gm-Message-State: APjAAAWTttbgDfTVo/ScZbu0ITLITz4dTt8bCrib5iYB6Hl8lJMJwihx
+        YO8f9rOxiimyhftN8P3jouWHM/fd
+X-Google-Smtp-Source: APXvYqxkWnBL+x9PExP4ITEzDQtYCrjG6zT3F068IaSil8nFMxXZpISLdsrwWxHkwZQFeT8LyPU6rA==
+X-Received: by 2002:a17:902:a5c3:: with SMTP id t3mr37290040plq.335.1571162560542;
+        Tue, 15 Oct 2019 11:02:40 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id c1sm33439904pfb.135.2019.10.15.11.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 11:02:39 -0700 (PDT)
+Date:   Tue, 15 Oct 2019 11:02:36 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v5 03/14] efi/apple-properties: use
+ PROPERTY_ENTRY_U8_ARRAY_LEN
+Message-ID: <20191015180236.GB105649@dtor-ws>
+References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
+ <20191011230721.206646-4-dmitry.torokhov@gmail.com>
+ <20191015120149.GD32742@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1910141602270.2531@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191015120149.GD32742@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 14/10/2019 11:10, Thomas Gleixner wrote:
-> On Mon, 14 Oct 2019, Guilherme G. Piccoli wrote:
->> Modules linked in: <...>
->> CPU: 40 PID: 78274 Comm: qemu-system-x86 Tainted: P W  OE
+On Tue, Oct 15, 2019 at 03:01:49PM +0300, Andy Shevchenko wrote:
+> On Fri, Oct 11, 2019 at 04:07:10PM -0700, Dmitry Torokhov wrote:
+> > Let's switch to using PROPERTY_ENTRY_U8_ARRAY_LEN() to initialize
+> > property entries. Also, when dumping data, rely on local variables
+> > instead of poking into the property entry structure directly.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/firmware/efi/apple-properties.c | 18 ++++++++----------
+> >  1 file changed, 8 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/firmware/efi/apple-properties.c b/drivers/firmware/efi/apple-properties.c
+> > index 0e206c9e0d7a..5ccf39986a14 100644
+> > --- a/drivers/firmware/efi/apple-properties.c
+> > +++ b/drivers/firmware/efi/apple-properties.c
+> > @@ -53,7 +53,8 @@ static void __init unmarshal_key_value_pairs(struct dev_header *dev_header,
+> >  
+> >  	for (i = 0; i < dev_header->prop_count; i++) {
+> >  		int remaining = dev_header->len - (ptr - (void *)dev_header);
+> > -		u32 key_len, val_len;
+> > +		u32 key_len, val_len, entry_len;
+> > +		const u8 *entry_data;
+> >  		char *key;
+> >  
+> >  		if (sizeof(key_len) > remaining)
+> > @@ -85,17 +86,14 @@ static void __init unmarshal_key_value_pairs(struct dev_header *dev_header,
+> >  		ucs2_as_utf8(key, ptr + sizeof(key_len),
+> >  			     key_len - sizeof(key_len));
+> >  
+> > -		entry[i].name = key;
+> > -		entry[i].length = val_len - sizeof(val_len);
+> > -		entry[i].is_array = !!entry[i].length;
+> > -		entry[i].type = DEV_PROP_U8;
+> > -		entry[i].pointer.u8_data = ptr + key_len + sizeof(val_len);
+> > -
+> > +		entry_data = ptr + key_len + sizeof(val_len);
+> > +		entry_len = val_len - sizeof(val_len);
+> > +		entry[i] = PROPERTY_ENTRY_U8_ARRAY_LEN(key, entry_data,
+> > +						       entry_len);
 > 
-> Tainted: P     - Proprietary module loaded ...
+> I would rather leave on one line.
+
+I am trying to stay withing 80 char limit by default, but do not have
+strong opinion on the code I do not maintain. Up to Ard I suppose.
+
+> Nevertheless,
 > 
-> Try again without that module
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Thanks Thomas, for the prompt response. This is some ScaleIO stuff, I
-guess it's part of customer setup, and I agree would be better to not
-have this kind of module loaded. Anyway, the analysis of oops show a
-quite odd situation that we'd like to at least have a strong clue before
-saying the scaleio stuff is the culprit.
+Thank you for looking the patches over.
 
 > 
-> Tainted: W     - Warning issued before
+> >  		if (dump_properties) {
+> > -			dev_info(dev, "property: %s\n", entry[i].name);
+> > +			dev_info(dev, "property: %s\n", key);
+> >  			print_hex_dump(KERN_INFO, pr_fmt(), DUMP_PREFIX_OFFSET,
+> > -				16, 1, entry[i].pointer.u8_data,
+> > -				entry[i].length, true);
+> > +				16, 1, entry_data, entry_len, true);
+> >  		}
+> >  
+> >  		ptr += key_len + val_len;
+> > -- 
+> > 2.23.0.700.g56cf767bdb-goog
+> > 
 > 
-> Are you sure that that warning is harmless and unrelated?
-> 
 
-Sorry I didn't mention that before, the warn is:
+Thanks.
 
-[5946866.593060] WARNING: CPU: 42 PID: 173056 at
-/build/linux-lts-xenial-80t3lB/linux-lts-xenial-4.4.0/arch/x86/events/intel/core.c:1868
-intel_pmu_handle_irq+0x2d4/0x470()
-[5946866.593061] perfevents: irq loop stuck!
-
-It happened ~700 days before the oops (yeah, the uptime is quite large,
-about 900 days when the oops happened heh).
-
-
->> 4.4.0-45-generic #66~14.04.1-Ubuntu
-> 
-> Does the same problem happen with a not so dead kernel? CR2 handling got
-> quite some updates/fixes since then.
-
-Unfortunately we don't have ways to test that for now, but your comment
-is quite interesting - we can take a look in the CR2 fixes since v4.4.
-
-But what do you think about having a #PF while the instruction pointed
-in the oops Code section (and the RIP address) is not a memory-related insn?
-
-Thanks,
-
-
-Guilherme
-> 
-> Thanks,
-> 
-> 	tglx
-> 
-> 
+-- 
+Dmitry
