@@ -2,79 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F211D8A6E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Oct 2019 10:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA1E1D8B37
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Oct 2019 10:40:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390594AbfJPIC2 (ORCPT
+        id S2389897AbfJPIk2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Oct 2019 04:02:28 -0400
-Received: from mga01.intel.com ([192.55.52.88]:4761 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730874AbfJPIC2 (ORCPT
+        Wed, 16 Oct 2019 04:40:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22056 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2389893AbfJPIk1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:02:28 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Oct 2019 01:02:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,303,1566889200"; 
-   d="scan'208";a="186079660"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007.jf.intel.com with ESMTP; 16 Oct 2019 01:02:25 -0700
-Received: from andy by smile with local (Exim 4.92.2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1iKeGG-0006Wq-9i; Wed, 16 Oct 2019 11:02:24 +0300
-Date:   Wed, 16 Oct 2019 11:02:24 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v5 00/14] software node: add support for reference
- properties
-Message-ID: <20191016080224.GR32742@smile.fi.intel.com>
-References: <20191011230721.206646-1-dmitry.torokhov@gmail.com>
- <20191014073837.GI32742@smile.fi.intel.com>
- <20191014235747.GA105649@dtor-ws>
+        Wed, 16 Oct 2019 04:40:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571215226;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=myCsujhckN7mGUJHoiC199vTbztTMXRznb7dLdXDuiU=;
+        b=ZfXnsT9eBnI5oVP96FMY4E2LszL5AgnLCDssDCGKF8ch6dpzWyzHAeYd8mZ3KNH8esOc3O
+        5oEkBgqVzy66Fg4e6fLN0EZMLHE4QSAaBGwb+yZRoEokQU3VsUFW4yRQW2sW9Y/Uxd4lOq
+        2PeOwdGmLDJLaNABKhtp7cy8yttGOc0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-aJuThK2GMpORQrHfazw73w-1; Wed, 16 Oct 2019 04:40:21 -0400
+Received: by mail-wm1-f71.google.com with SMTP id s19so670302wmj.0
+        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Oct 2019 01:40:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ntyadbXs7VDt7FQBmjZ76KNlx690UeZCCELiKGewZ6s=;
+        b=LtPHwQfj2+ozJokl2+cZM3EyzUZibkJJMHJ4s/3tHBn8/1h7BPunDJQLVDZBt0bg9Y
+         OLaQCVy0DzQ9NnJk+HAwEYmgArApPQcPc4J7JzPV64wYCYkTHu78hYfdxB1LwoGyWPy/
+         wuwoQgi/kIf+Sy3pJO+vp5iwh68Tq8IywvSxMcNetLPCkaWVbdzdRGi83CDy+MuhAnXQ
+         qqqtRlTDsyk71Rsbe++XfcnQw1DAIumwWdwkoUaxPo1dlUlYxL22Oyl/wWhMZ0emZplW
+         Vt+l18Qaj7adBNtyeUrw0I2mTe90Ws/3ZPbu3rSZbiawaMvMzGVasu1/g7Hx2NatgI9O
+         1ZBQ==
+X-Gm-Message-State: APjAAAWXN7jK6hVqvNL5YUCZHuDK4/PqCDJRL0rxmwkxXEI0kZy4qyak
+        1tqxlxN5qm6C7ODlvEwh+7xArlulJKGXW++q65aYYHpcmT93evMcHMXpTK762ymiCFFd8UUPPBu
+        0D1u/tUWRJL8iodIn+6Eb0rhfnV0cNxYPzg==
+X-Received: by 2002:adf:f101:: with SMTP id r1mr1710313wro.320.1571215219905;
+        Wed, 16 Oct 2019 01:40:19 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyvoIQ4LOf0gV2qLnaowbxKt5t1NDgINZNLM3EjbVpZopbtdc36oYCIcVLMAAnTgcJ1m4QxcA==
+X-Received: by 2002:adf:f101:: with SMTP id r1mr1710296wro.320.1571215219673;
+        Wed, 16 Oct 2019 01:40:19 -0700 (PDT)
+Received: from dhcp-44-196.space.revspace.nl ([2a0e:5700:4:11:6eb:1143:b8be:2b8])
+        by smtp.gmail.com with ESMTPSA id f8sm1462810wmb.37.2019.10.16.01.40.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2019 01:40:19 -0700 (PDT)
+Subject: Re: [RESEND][PATCH v1] platform/x86: i2c-multi-instantiate: Fail the
+ probe if no IRQ provided
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org, Ammy Yi <ammy.yi@intel.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20191014115739.15342-1-andriy.shevchenko@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <bf1a28d9-30d6-3730-ea08-c7ae2b3c8e79@redhat.com>
+Date:   Wed, 16 Oct 2019 10:40:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191014235747.GA105649@dtor-ws>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191014115739.15342-1-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+X-MC-Unique: aJuThK2GMpORQrHfazw73w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 04:57:47PM -0700, Dmitry Torokhov wrote:
-> On Mon, Oct 14, 2019 at 10:38:37AM +0300, Andy Shevchenko wrote:
-> > On Fri, Oct 11, 2019 at 04:07:07PM -0700, Dmitry Torokhov wrote:
-> > > These series implement "references" properties for software nodes as true
-> > > properties, instead of managing them completely separately.
-> > > 
-> > > The first 10 patches are generic cleanups and consolidation and
-> > > unification of the existing code; patch #11 implements moving of small
-> > > properties inline when copying property entries; patch #12 implements
-> > > PROPERTY_ENTRY_REF() and friends; patch #13 converts the user of
-> > > references to the property syntax, and patch #14 removes the remains of
-> > > references as entities that are managed separately.
-> > 
-> > Can we get some test cases?
-> 
-> Something like this? (I'll beef it up if we decide KUnit is OK for
-> this).
+Hi,
 
-As a starter, yes.
+On 10/14/19 1:57 PM, Andy Shevchenko wrote:
+> For APIC case of interrupt we don't fail a ->probe() of the driver,
+> which makes kernel to print a lot of warnings from the children.
+>=20
+> We have two options here:
+> - switch to platform_get_irq_optional(), though it won't stop children
+>    to be probed and failed
+> - fail the ->probe() of i2c-multi-instantiate
+>=20
+> Since the in reality we never had devices in the wild where IRQ resource
+> is optional, the latter solution suits the best.
+>=20
+> Fixes: 799d3379a672 ("platform/x86: i2c-multi-instantiate: Introduce IOAP=
+IC IRQ support")
+> Reported-by: Ammy Yi <ammy.yi@intel.com>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+I thought I already replied to this, but the archive disagrees. Patch
+looks good to me:
 
+Reviewed-by; Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+> ---
+> - Cc Ammy
+>   drivers/platform/x86/i2c-multi-instantiate.c | 1 +
+>   1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platf=
+orm/x86/i2c-multi-instantiate.c
+> index ea68f6ed66ae..ffb8d5d1eb5f 100644
+> --- a/drivers/platform/x86/i2c-multi-instantiate.c
+> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
+> @@ -108,6 +108,7 @@ static int i2c_multi_inst_probe(struct platform_devic=
+e *pdev)
+>   =09=09=09if (ret < 0) {
+>   =09=09=09=09dev_dbg(dev, "Error requesting irq at index %d: %d\n",
+>   =09=09=09=09=09inst_data[i].irq_idx, ret);
+> +=09=09=09=09goto error;
+>   =09=09=09}
+>   =09=09=09board_info.irq =3D ret;
+>   =09=09=09break;
+>=20
 
