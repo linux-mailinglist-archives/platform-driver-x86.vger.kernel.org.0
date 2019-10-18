@@ -2,64 +2,30 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D263DD508
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 19 Oct 2019 00:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E865DD543
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 19 Oct 2019 01:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391239AbfJRWmk (ORCPT
+        id S1731699AbfJRXRw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 18 Oct 2019 18:42:40 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:44116 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726827AbfJRWmk (ORCPT
+        Fri, 18 Oct 2019 19:17:52 -0400
+Received: from piie.net ([80.82.223.85]:44836 "EHLO piie.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730239AbfJRXRv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:42:40 -0400
-Received: by mail-yb1-f193.google.com with SMTP id v1so2300682ybo.11;
-        Fri, 18 Oct 2019 15:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=WvT6llug8K7grtGTEVP8teBbNB9xwEIQgTbnaQCarqA=;
-        b=NTI6bv/Phk+bn8UhCzQDEe8765VKffHg6fSlaLZ9tOdvyvi8kxdKlKifkp2iNuAQWg
-         f8p7zHL4OtfLIsgLu43eGXPeueYzKzWMOvgmTCqNFbdxBu8cmEtg059hsuoTx5nQKcbb
-         PXJg/YRtQPNDcl2VCq5Y/U3kpgKiWWC59tgPOZrGYFLq9v1dkzikBPO4aq7tXM2KAN52
-         z5n5pK2Mm0PExWMUHiLkQYHuK0cHyjjGKyv1t53uFVKZDUP+uHgZ5CuoNM4B2uQjMFeD
-         O3gYXehL2GjSVA6D9zU2E/fN4CVwB1MF9DcQ1BjXGJlEcW3TbppomFlRALPWxc9g9mEq
-         Y6nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WvT6llug8K7grtGTEVP8teBbNB9xwEIQgTbnaQCarqA=;
-        b=BzgO+XfZKcJnCCuM5rghFZNpihTarywv8Ce49yeC8sBu8/uc33vLh6960SY3Lo4Hbx
-         PTO4DWs+mhNr6UtwnSXVnRcrnYLFETw1WFtMi2RVDoDVAHrHIpDDIXDvUWBjH3FElBdw
-         ZLTln34IZ3HCe7D447NIAbcXiEZjY61Z3GuUDa3GgZ/JULC9x/o9Z/B5SwVrj6nI+/zf
-         oPKA5Z09oYtgyyooe6FwtX9Xg+Spoqi3GCHXxq0Z0bGqX3qIHmZlldtlw/ys2m7gpod9
-         rNzGmyLGMJV2ei1IGYzxBw6G+/15VIfAYk3w5Zx6aiaA0fUZo+iz+TgFAOnjnjXUb4sQ
-         TPPQ==
-X-Gm-Message-State: APjAAAXvwCo9+1/247JMQvgyI9TzGrUvIrCESzQYuM6ZOt1pYEtVbiw7
-        k1bdZymmAhIsS0dsPtBIig==
-X-Google-Smtp-Source: APXvYqyGiQ5zs3604TFg/MCSHC7inrtSY7DzlvMyqOrSpFF4P4OJqc4ntmgqGz1UIBCzpQKl1dPNEg==
-X-Received: by 2002:a05:6902:510:: with SMTP id x16mr7341660ybs.324.1571438559250;
-        Fri, 18 Oct 2019 15:42:39 -0700 (PDT)
-Received: from 960.localdomain ([64.192.53.12])
-        by smtp.gmail.com with ESMTPSA id d188sm1645412ywa.88.2019.10.18.15.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2019 15:42:38 -0700 (PDT)
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        kbuild test robot <lkp@intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: huawei-wmi: No need to check for battery name
-Date:   Fri, 18 Oct 2019 18:42:14 -0400
-Message-Id: <20191018224221.15495-2-ayman.bagabas@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191018224221.15495-1-ayman.bagabas@gmail.com>
-References: <20191018224221.15495-1-ayman.bagabas@gmail.com>
+        Fri, 18 Oct 2019 19:17:51 -0400
+Received: from localhost (HSI-KBW-078-043-057-186.hsi4.kabel-badenwuerttemberg.de [78.43.57.186])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        by piie.net (Postfix) with ESMTPSA id CAB8A161D;
+        Sat, 19 Oct 2019 01:11:10 +0200 (CEST)
+From:   Peter Kaestle <peter@piie.net>
+To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     Peter Feuerer <peter@piie.net>, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Subject: [PATCH 1/2] platform/x86: Adding support for Acer Aspire 7551
+Date:   Sat, 19 Oct 2019 00:59:35 +0200
+Message-Id: <20191018225936.131763-1-peter@piie.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -67,27 +33,39 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-No need to check for battery name, we already check if the WMI function is
-available in huawei_wmi_battery_setup.
----
- drivers/platform/x86/huawei-wmi.c | 4 ----
- 1 file changed, 4 deletions(-)
+From: Peter Feuerer <peter@piie.net>
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index 26041d44286a..7373a65a61d3 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -471,10 +471,6 @@ static DEVICE_ATTR_RW(charge_control_thresholds);
- 
- static int huawei_wmi_battery_add(struct power_supply *battery)
- {
--	/* Huawei laptops come with one battery only */
--	if (strcmp(battery->desc->name, "BAT") != 1)
--		return -ENODEV;
--
- 	device_create_file(&battery->dev, &dev_attr_charge_control_start_threshold);
- 	device_create_file(&battery->dev, &dev_attr_charge_control_end_threshold);
- 
+platform/x86: Adding support for Acer Aspire 7551
+
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: Andy Shevchenko <andy@infradead.org>
+Signed-off-by: Peter Feuerer <peter@piie.net>
+
+---
+ drivers/platform/x86/acerhdf.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 5ea8da5f0f70..d40f365d8d7a 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -224,6 +224,8 @@ static const struct bios_settings bios_tbl[] __initconst = {
+ 	{"Acer", "Aspire 5739G", "V1.3311", 0x55, 0x58, {0x20, 0x00}, 0},
+ 	/* Acer TravelMate 7730 */
+ 	{"Acer", "TravelMate 7730G", "v0.3509", 0x55, 0x58, {0xaf, 0x00}, 0},
++	/* Acer Aspire 7551 */
++	{"Acer", "Aspire 7551", "V1.18", 0x93, 0xa8, {0x14, 0x04}, 1},
+ 	/* Acer TravelMate TM8573T */
+ 	{"Acer", "TM8573T", "V1.13", 0x93, 0xa8, {0x14, 0x04}, 1},
+ 	/* Gateway */
+@@ -815,6 +817,7 @@ MODULE_ALIAS("dmi:*:*Acer*:pnAspire*5739G:");
+ MODULE_ALIAS("dmi:*:*Acer*:pnAspire*One*753:");
+ MODULE_ALIAS("dmi:*:*Acer*:pnAspire*5315:");
+ MODULE_ALIAS("dmi:*:*Acer*:TravelMate*7730G:");
++MODULE_ALIAS("dmi:*:*Acer*:pnAspire*7551:");
+ MODULE_ALIAS("dmi:*:*Acer*:TM8573T:");
+ MODULE_ALIAS("dmi:*:*Gateway*:pnAOA*:");
+ MODULE_ALIAS("dmi:*:*Gateway*:pnLT31*:");
 -- 
-2.21.0
+2.23.0
 
