@@ -2,103 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 365A5DDBBD
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Oct 2019 02:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14533DDBD7
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Oct 2019 03:25:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbfJTAdS (ORCPT
+        id S1726204AbfJTBZp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 19 Oct 2019 20:33:18 -0400
-Received: from mail-vk1-f193.google.com ([209.85.221.193]:43004 "EHLO
-        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfJTAdS (ORCPT
+        Sat, 19 Oct 2019 21:25:45 -0400
+Received: from mail-vk1-f195.google.com ([209.85.221.195]:35243 "EHLO
+        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbfJTBZp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 19 Oct 2019 20:33:18 -0400
-Received: by mail-vk1-f193.google.com with SMTP id f1so2027733vkh.9;
-        Sat, 19 Oct 2019 17:33:17 -0700 (PDT)
+        Sat, 19 Oct 2019 21:25:45 -0400
+Received: by mail-vk1-f195.google.com with SMTP id d66so2042262vka.2;
+        Sat, 19 Oct 2019 18:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=44KfTZ2cJOchaunhfhbiqY31EYfMkgKESbwiMZKSonU=;
-        b=dIviEHOfOTLhHGkpYgZiS6o0yow0O3jd7UAXaidTDSiT3So21awMpawthsdY+ePJcg
-         iBmdL6Ggec93yDyyiyae1cwUpuWeD61LQOYcjbJPr33LcIWaXf+k1D7tMrlvia0IaQF6
-         DAE2k27dHg2tmPvKxTb3qLe9zDXo8bWL5Pdi8wd0d09Xq8LEISq0+2vFELxCH82OeWs1
-         IuB71YCF0zkmohbGyMEtUYlt8a4cWq+NolOTfbbfcA9YX7KsfD0AL81DbrrvKw+kYaXH
-         Sar1NVQlEJsDp2Jilyarw37gRSd5LgTO0jBoOdLHuepiWgttmV5wdFFAUpNTSsrHDfn8
-         RX6Q==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WUQmpU57mDzIzJ7kVuY9aLBqmE4vAg2xVScwQnfYVek=;
+        b=VREnqwrGuOTZgcYTrRLcK6YrDIs4afZyP4PixPARCe+B6Z9AIjH/HtE7EtjZH5Qtvp
+         NpOh1BNeYXUZYR6EPBB0XBGE5ZhdnSJaWj1+GbM39Oi0jSLgTCt10IpVnOcz6yriUDcV
+         u0atdmQg2Bxfy9VAatCMlpfavbckcDj547LK8C/jNy66BuzqlTZy4CnmhLXwfLCixLAt
+         n9wWcSPjeX2Z4kyuzh41VeV+vdtVoGYVu+c3TZQK+QHy8/oVIrZrfpMcYTF9DC60Piuj
+         EogJNEwaETfIKre1CrJilnOPZW+e/TFTDEZVpbp1/o3hQKMQ7DoQhxnk0Px1HEJ588Kf
+         1SPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=44KfTZ2cJOchaunhfhbiqY31EYfMkgKESbwiMZKSonU=;
-        b=sa1Ma5E/ekucdCZT7/QlSC6GuHVxk29cxpx4bgQTqK5ERQZ9z4SPtWR7PaDXz+NWDc
-         X9qpkkeQgtIG6Hnzq4g85/ffiHzyTT7q4swkH62D4b+whhm9abCLW59xHPRuu4eFniph
-         7s0oxPtUx2gMLQgW7wFQ+xUJfYAEzvyG1LHhc+Eao4ReC6O8yldoPYppvOIVCJYrzNnj
-         CiVYzdEfl2ENZqxXC7po0pvJzb++kTyoAqcI5SoQQy7Dt215XTnNw+ksQtvgMMJGXuvK
-         cH4ZxNi6NtxSblHHwsJ9irzy7DHeMcQloIkdjGO20LNAnZsnYccl3TB7MEhrylQWP2Uf
-         rG8w==
-X-Gm-Message-State: APjAAAW9qYKpt6SmxkWF2MFJmxVViH+YO4kv5z/+VIAGC1teovQ3lmz8
-        mV87OpwnwIgk8jOz4EmPCg==
-X-Google-Smtp-Source: APXvYqxS7T5I11JaN77YECLCFShH6EfDyKIpFbPjEsgv7XfPD9IVGaEokzyBer6Ai5hamzej+ZNv/w==
-X-Received: by 2002:a1f:2e0a:: with SMTP id u10mr9293443vku.79.1571531596512;
-        Sat, 19 Oct 2019 17:33:16 -0700 (PDT)
-Received: from 960ws ([2601:901:202:18cc:6890:3fdd:51d1:9d8c])
-        by smtp.gmail.com with ESMTPSA id l199sm2825424vke.49.2019.10.19.17.33.15
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WUQmpU57mDzIzJ7kVuY9aLBqmE4vAg2xVScwQnfYVek=;
+        b=dSJqbyzlc1BMn3p+tSFbYDFtz3LRGGuUB1OGr2syVrJLM4Xas7bLl5i483BKpxBRC1
+         ZfYX0lQmrUG+r4YAn4Ui6Cq3HqNUIdAF6kQsfNK9gPlUf6BNWUGlA7UPevNfxd1yKptS
+         Rr47gc915Z6LfeZvnbRZBi3JYGObmCWUNaOX1vPXDWzXCijsNoT4cVXkmkF4nc9HjAHa
+         FYtkPQAwTjYw9PP+kBc88a0jpq5XEO7hnifysSlF+FOlpcjwaTuQeJNcXvN15411ptHP
+         VjVLvYKBbENzwgLunC94eq0RBMWXJDgRvYFChMZYZzxIPxxkKYRbsox32D/S2zDn1r9K
+         gQ2Q==
+X-Gm-Message-State: APjAAAV9AkYBI+gGj3vFWJBM3Mf8k1eZQp08C6xP2z5IFrctStc8Swid
+        2lw0gPaORvNtonc/t0xOhxQrAtgflipR
+X-Google-Smtp-Source: APXvYqxMP+Fd9epgUAKdmVQhgIXHkSaxyH+Zy7aA0KHxHcQam9rSH5sm/Wy4Rt1CkpMX1+kgCZSrcQ==
+X-Received: by 2002:a1f:9712:: with SMTP id z18mr9416651vkd.22.1571534743688;
+        Sat, 19 Oct 2019 18:25:43 -0700 (PDT)
+Received: from localhost.localdomain ([2601:901:202:18cc:820:670:dd1:f572])
+        by smtp.gmail.com with ESMTPSA id r27sm2282148uae.7.2019.10.19.18.25.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2019 17:33:16 -0700 (PDT)
-Message-ID: <482708553d5dc6cec2d4513391d81a22928fd4b2.camel@gmail.com>
-Subject: Re: [PATCH 2/2] platform/x86: huawei-wmi: No need to check for
- battery name
-From:   ayman.bagabas@gmail.com
+        Sat, 19 Oct 2019 18:25:43 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Mattias Jacobsson <2pi@mok.nu>, Takashi Iwai <tiwai@suse.de>,
         kbuild test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sat, 19 Oct 2019 20:33:14 -0400
-In-Reply-To: <20191018224221.15495-2-ayman.bagabas@gmail.com>
-References: <20191018224221.15495-1-ayman.bagabas@gmail.com>
-         <20191018224221.15495-2-ayman.bagabas@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+Subject: [PATCH] platform/x86: huawei-wmi: Remove unnecessary battery mutex
+Date:   Sat, 19 Oct 2019 21:24:58 -0400
+Message-Id: <20191020012504.17919-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 2019-10-18 at 18:42 -0400, Ayman Bagabas wrote:
-> No need to check for battery name, we already check if the WMI
-> function is
-> available in huawei_wmi_battery_setup.
+battery_lock mutex is never used and not needed.
 
+Fixes: 355a070b09ab ("platform/x86: huawei-wmi: Add battery charging thresholds")
 Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
+---
+ drivers/platform/x86/huawei-wmi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Thank you,
-Ayman
-> ---
->  drivers/platform/x86/huawei-wmi.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/huawei-wmi.c
-> b/drivers/platform/x86/huawei-wmi.c
-> index 26041d44286a..7373a65a61d3 100644
-> --- a/drivers/platform/x86/huawei-wmi.c
-> +++ b/drivers/platform/x86/huawei-wmi.c
-> @@ -471,10 +471,6 @@ static
-> DEVICE_ATTR_RW(charge_control_thresholds);
->  
->  static int huawei_wmi_battery_add(struct power_supply *battery)
->  {
-> -	/* Huawei laptops come with one battery only */
-> -	if (strcmp(battery->desc->name, "BAT") != 1)
-> -		return -ENODEV;
-> -
->  	device_create_file(&battery->dev,
-> &dev_attr_charge_control_start_threshold);
->  	device_create_file(&battery->dev,
-> &dev_attr_charge_control_end_threshold);
->  
+diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
+index 7373a65a61d3..a2d846c4a7ee 100644
+--- a/drivers/platform/x86/huawei-wmi.c
++++ b/drivers/platform/x86/huawei-wmi.c
+@@ -67,7 +67,6 @@ struct huawei_wmi {
+ 	struct led_classdev cdev;
+ 	struct device *dev;
+ 
+-	struct mutex battery_lock;
+ 	struct mutex wmi_lock;
+ };
+ 
+@@ -807,7 +806,6 @@ static int huawei_wmi_probe(struct platform_device *pdev)
+ 
+ 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
+ 		mutex_init(&huawei_wmi->wmi_lock);
+-		mutex_init(&huawei_wmi->battery_lock);
+ 
+ 		huawei_wmi_leds_setup(&pdev->dev);
+ 		huawei_wmi_fn_lock_setup(&pdev->dev);
+
+base-commit: fd13c8622a5ad4f7317b64de4f6aa2de1962220e
+prerequisite-patch-id: 7639f479e344d2a1be074f93dc5e5530611928f9
+prerequisite-patch-id: ad5932635d0c0d531a99e15e239f81ecc69b47d6
+-- 
+2.21.0
 
