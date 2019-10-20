@@ -2,79 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82ACADDD3C
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Oct 2019 10:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4450DDF9D
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Oct 2019 19:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbfJTICW (ORCPT
+        id S1726556AbfJTRA3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 20 Oct 2019 04:02:22 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34627 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725823AbfJTICW (ORCPT
+        Sun, 20 Oct 2019 13:00:29 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:43737 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726504AbfJTRA2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 20 Oct 2019 04:02:22 -0400
-Received: by mail-pl1-f194.google.com with SMTP id k7so4999727pll.1
-        for <platform-driver-x86@vger.kernel.org>; Sun, 20 Oct 2019 01:02:22 -0700 (PDT)
+        Sun, 20 Oct 2019 13:00:28 -0400
+Received: by mail-vk1-f196.google.com with SMTP id i21so199316vka.10;
+        Sun, 20 Oct 2019 10:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hGxLiKriszNNauF+dxxESOpBvAgD9yGPZLuaMzscZV4=;
-        b=YnTFRL0vdiNQpcOS4LyxvUPGwI2Jh244rdcLmtRFcboXJCSOnBdPO5X2ACohwuGAGS
-         lyxTtoITk3LZ0lfhX+SvMhvuZQpPWterx7RoYh0qhzIJKkulxH7S4BX7BHVO6U2mQoRQ
-         9i9V3VbYcSPg+sCJV60X7/qKtSZ25zUxRXYGryGDpumBMhn1eGGI1mUIMThI/wLxqUZK
-         iz5yemS9FsPsynt9h8WaYCgJgZsuv4sdPBsKgoTKRDfxlrn2YKqxJfdGy2lbMaZfgLzj
-         M8vSdZGDZ+KZnV7Kg9GGf0e1xvqhX7DAVAY/SwEUuazSVpNAEcdAzjIoUg5tFC2U4vy0
-         EQcQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7xTKcAHDsuXP3J9ZHHpeh3KHfStzUnhUUmFI7W4D55s=;
+        b=HOyNo4WvAqisv+1p12J+bckQ+w3fyRj4Za0GVf9Gai7P9M2/MFs5LZI3bIHD4ycpEG
+         YJu+xDgmwAjqKsfyEdEnXTw/fc23VDLNfZcvIKjrzytnKIh3yrFLVeCBT41bow7TdaXJ
+         mRQ0lK3VRFXFZtJ0/a3W1bUlRJ7u+Woz3PYxOPoZSRPlATyCkLWqPMsceE3AeIKHJRdX
+         qpucNtbVSJhjMpPopBwNJUgKxc4SlI/4kMkQGuteVJKnEXs+dPOGBFUDgdvh4V/tFxpV
+         2TbOoZGFHX1yWnNYSjkTSehMPe1tJHn5Kn43kMQG8RBUMOei7xC1kZhgT5w4kh00Gd0L
+         KL0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hGxLiKriszNNauF+dxxESOpBvAgD9yGPZLuaMzscZV4=;
-        b=l1XRz2T8dPJZkSnaecfmmMrNY5TtUrdjLjzosr/0EFnWg2dPQGudnjQMbOtv8ha21A
-         2J7UHSKEBqY6Q2Lhk8V/7sDgyILztN9nt8GIcxCXP0orwIv/UR9RKrwGTD0phwUhWHls
-         zhQu1PtGdI9PaoFWNq1ZzbgJ2259YplkR8t1h9k1Meb0VjGaOHw4Z4pQ665t1U8lZ7oD
-         yUd1wJ63yX7/Ayr+NIv6F82QC6f5GHkiy4SBCa73EmauhFvQ955fcojUAP2wLlbXRxpq
-         SL2Dvxib1lgOJ8FS6kZyda2byIMr2A13NrjWze5i1ilMjMdmOTBaiQ/8EASeQ1m8pSrm
-         UinA==
-X-Gm-Message-State: APjAAAXAAF8cbXKslxUf1ERpwNi3nPUh10U1T5hZXlD0IRKcYDbJ5vk9
-        jo5h7lYMQ9faBk4Lj0XBoBoCROaFrP3a107i/sQ=
-X-Google-Smtp-Source: APXvYqyedFMSI8u5j3lNvyIS2fStLMWt+XlUkCqvyNd9Py3WgwJC2Yqivg2o0N7vVu6ACAuOkCQyKkfdLUcACq2rack=
-X-Received: by 2002:a17:902:9881:: with SMTP id s1mr18980345plp.18.1571558541849;
- Sun, 20 Oct 2019 01:02:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7xTKcAHDsuXP3J9ZHHpeh3KHfStzUnhUUmFI7W4D55s=;
+        b=HGo8WQV18fEvFm8CjJuD++3nF6+Ci1z9kcdI8EwD+0+wr5e6IeuHUNUFUst3O7IGz7
+         c15bd9F8Z+xeG0SdcBUCoQZoOD3wJTsRsSSagdfQruK73Fe7duSFcCjiAKjeXvCrx6vQ
+         l9dRd3off06Vg7IKm9vmsi6hL/ShsOTeJ+QSPucM0SuRe7Yyd3XeoJOcYFboGNUHQtvF
+         y+fg0nkeqHE50NjgnjvPW5bOcmx8dt92xXXdRYvLxeguelJZgTjJ51raaNqOcwO8ZVIK
+         zePn+scD1r9bESO036u7rbpohyvLI/yr688imdGzR/ZUR5vnrvDMJaCSdLjtp3t/TzkJ
+         7+gw==
+X-Gm-Message-State: APjAAAUUD+fe288f2N8IzyMX+JAoVwLMhJuw61uGyvBzv6zhT7mP667A
+        YzZuhcn7k8Pcut8NXO3aBg==
+X-Google-Smtp-Source: APXvYqx8dy1VdnoJuEUxEP2aZNFtgDDh3RRXasgijwFdpUtwC5iTSuTjGxbRQehlW5ONyG9g40ukhQ==
+X-Received: by 2002:a1f:a48a:: with SMTP id n132mr10687027vke.68.1571590827355;
+        Sun, 20 Oct 2019 10:00:27 -0700 (PDT)
+Received: from localhost.localdomain ([2601:901:202:18cc:820:670:dd1:f572])
+        by smtp.gmail.com with ESMTPSA id n126sm612962vke.51.2019.10.20.10.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Oct 2019 10:00:26 -0700 (PDT)
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
+        kbuild test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] platform/x86: huawei-wmi: Stricter battery thresholds set
+Date:   Sun, 20 Oct 2019 13:00:07 -0400
+Message-Id: <20191020170020.26251-1-ayman.bagabas@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191014115739.15342-1-andriy.shevchenko@linux.intel.com> <bf1a28d9-30d6-3730-ea08-c7ae2b3c8e79@redhat.com>
-In-Reply-To: <bf1a28d9-30d6-3730-ea08-c7ae2b3c8e79@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sun, 20 Oct 2019 11:02:10 +0300
-Message-ID: <CAHp75VdC9=cthNgQDUxK3h9kHON5JCTbMkQn+otcrXLvHbOgbQ@mail.gmail.com>
-Subject: Re: [RESEND][PATCH v1] platform/x86: i2c-multi-instantiate: Fail the
- probe if no IRQ provided
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Ammy Yi <ammy.yi@intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 4:01 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 10/14/19 1:57 PM, Andy Shevchenko wrote:
-> > For APIC case of interrupt we don't fail a ->probe() of the driver,
-> > which makes kernel to print a lot of warnings from the children.
+Check if battery thresholds are within 0 and 100.
 
-> I thought I already replied to this, but the archive disagrees. Patch
-> looks good to me:
->
-> Reviewed-by; Hans de Goede <hdegoede@redhat.com>
+Fixes: 355a070b09ab ("platform/x86: huawei-wmi: Add battery charging thresholds")
+Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
+---
+ drivers/platform/x86/huawei-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you!
-Sorry, it went without your Rb tag.
+diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
+index 5837d1b8693d..26041d44286a 100644
+--- a/drivers/platform/x86/huawei-wmi.c
++++ b/drivers/platform/x86/huawei-wmi.c
+@@ -345,7 +345,7 @@ static int huawei_wmi_battery_set(int start, int end)
+ 	union hwmi_arg arg;
+ 	int err;
+ 
+-	if (start < 0 || end > 100)
++	if (start < 0 || end < 0 || start > 100 || end > 100)
+ 		return -EINVAL;
+ 
+ 	arg.cmd = BATTERY_THRESH_SET;
 
+base-commit: c4b9850b3676869ac0def5885d781d17f64b3a86
 -- 
-With Best Regards,
-Andy Shevchenko
+2.21.0
+
