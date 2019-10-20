@@ -2,99 +2,294 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C521DDFA1
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Oct 2019 19:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4BA1DE14C
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 21 Oct 2019 01:47:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726645AbfJTRAw (ORCPT
+        id S1726604AbfJTXrr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 20 Oct 2019 13:00:52 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:45227 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726504AbfJTRAw (ORCPT
+        Sun, 20 Oct 2019 19:47:47 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43023 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726200AbfJTXrq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 20 Oct 2019 13:00:52 -0400
-Received: by mail-vs1-f66.google.com with SMTP id e19so7309836vsb.12;
-        Sun, 20 Oct 2019 10:00:50 -0700 (PDT)
+        Sun, 20 Oct 2019 19:47:46 -0400
+Received: by mail-pf1-f193.google.com with SMTP id a2so7213289pfo.10;
+        Sun, 20 Oct 2019 16:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Z3rFbdU+SplPcjhPOqnh6Ex901p18xA+QjA1SeUaWkw=;
-        b=LqpjWLD8LLWxBJgS4hvN2oCSEiU5rjiaPgS+Dzz8QcV2skMzKalLhWugfPSCZYlugw
-         9B4RIMV3npSVJ7O/DXNuErQT2KlGOcBxmnDfX/Fsi/3r2J/jkekCmsdFMB1GhAwl69xa
-         bVvr3nobbXQ5A2f49tCEO9Eiqbu8XIKbBfHgIR/TZ/3A/vZheBpk3eObUrgSOOkN/Gaj
-         jNJ6I31J8AzzayGDeOaRYg7jpEhJlVKer1Actg1Q9aZW7BDspap01pZcqklx5OePC8RY
-         tRF2v62tLIdfZey4bg7eAVw6xcv+VHfwoQy8SrruzC5UK3s7yNB2bAo1ZB0eAbTnq0cn
-         krdg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=LgAyQ8X2dZ7cKsLLWDHjFUGHzz/QMm5gx18yOHpKukg=;
+        b=k1Bb/nlmXD53ATW6OvZcm7AyDorWveXkNEw2pgD/QYNIGtYkYSOB7ijzcKboZuIp8A
+         xSiHDprKUIbg6zTeIURwjNzGCJk5zxbrUkCGpScZklmhSGSRB9jJtJhNlU2o2GOxyWuA
+         P/3CEduN0zVyRukFRoOzGIRJB9EJ3hyawnyYO9iC1zAfRZS6K2iXLFKx+P4I3vJaWHyP
+         pOsDYU5WWFZrU0VGJ3d64Yj8ZUe3PA8pJkf3nQqJ9e2OBggPEnRFQ04moJoYnkQUgsc3
+         CzpaLD1k9Ijich20JrD3mqJtNs0Xw5J41Ozxvmjrm/gYZ87ByrkRU4FZR3aOS1NisHGY
+         SKTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z3rFbdU+SplPcjhPOqnh6Ex901p18xA+QjA1SeUaWkw=;
-        b=Ir4r3DXwCbQa+q22D17GiAz8qttr+1gBhN7lbs9aqVjmWCzYLo1JoGXN77KKjZJ+HT
-         5IkY0gAPlP3dXtMTI4N2ve4Ug8fJqR0uQKnl5Rx7dcxpdJ4nvoj+B8A+NZ72h07k3eLl
-         nB+NebHikt9Irf4QAuStt++VWCnuIxVWLnhyQgktYrvygKc3EpGAjK7yXxD2ih704mzB
-         0M8zQvcku540I79QxP7xU2Gax2VIKN1xrsFqUyTAzTW9Et96C7EExP4mE+ec9u1/Z064
-         TKt2FImLjy14HBIOKpu04IHzh4wlnIgUjt3bIUa6VJjmcq3H93+3sM5GVAlTLMSdKDZr
-         ovsg==
-X-Gm-Message-State: APjAAAWpYJWNy2h1ES3hsoY/ZxicYrXB6WisOx7qhfl/60wPBD/ElyQE
-        KtSqCf24ZEw+rzb2+yrSQw==
-X-Google-Smtp-Source: APXvYqyrs6R30s8uibpzuM+64Scem0970K4MY9fjtJ05Zk0lFUy1F+qOyu6EY9rlWKrHNWV80Hct2w==
-X-Received: by 2002:a67:e3da:: with SMTP id k26mr10838781vsm.81.1571590850153;
-        Sun, 20 Oct 2019 10:00:50 -0700 (PDT)
-Received: from localhost.localdomain ([2601:901:202:18cc:820:670:dd1:f572])
-        by smtp.gmail.com with ESMTPSA id n126sm612962vke.51.2019.10.20.10.00.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2019 10:00:49 -0700 (PDT)
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Takashi Iwai <tiwai@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
-        kbuild test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] platform/x86: huawei-wmi: Remove unnecessary battery mutex
-Date:   Sun, 20 Oct 2019 13:00:09 -0400
-Message-Id: <20191020170020.26251-3-ayman.bagabas@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191020170020.26251-1-ayman.bagabas@gmail.com>
-References: <20191020170020.26251-1-ayman.bagabas@gmail.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=LgAyQ8X2dZ7cKsLLWDHjFUGHzz/QMm5gx18yOHpKukg=;
+        b=MWwM+Ru5sJDLYiztauZaUt6qZ6mkuPK5RQu8UOxEDV+AneMI2Ay0wjsj1rktL5XnBb
+         A4ywIUlRhv6va8ii76IpXLMTH9cFRUebT6+i53g9uKI1FC2ibe4P1Kc9LQpt/psYPh+s
+         nZy5reLoGdeSqLKB8bb0D3VQo+LF334J6VfyjsZmaev1MDw7pm9SpCrKoEpZYZFIk0LL
+         PLo8kzfhPYhyyQumQbY3dZHL/g7xihEeGJqjYWeE9njJKE+AOh+vdgmx6l9RnCWpx/aC
+         CHV8XUKqh3VxGCIs+veN4V0hKS80SDfiDC7l2e2QsCZ6qE0TeTO408EcwTdkJOwTHSzt
+         YkEw==
+X-Gm-Message-State: APjAAAWaJjDYr1oHwdy0Ffdgbky6Kc5c0+JLFYE5tf01a0xgDoFl3nBK
+        +1px5L3q4dM785BHeipeqco=
+X-Google-Smtp-Source: APXvYqwC9IHw5VKNldON4KI2crz5Ud5utEmrBYmzSrf1yGvTmElp23gyVtRSMbMbJy7VaVTjIoRhCg==
+X-Received: by 2002:aa7:955a:: with SMTP id w26mr20106550pfq.193.1571615265319;
+        Sun, 20 Oct 2019 16:47:45 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j17sm12688918pfr.70.2019.10.20.16.47.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 20 Oct 2019 16:47:44 -0700 (PDT)
+Date:   Sun, 20 Oct 2019 16:47:42 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: typec: tcpm: Remove tcpc_config configuration
+ mechanism
+Message-ID: <20191020234742.GA18123@roeck-us.net>
+References: <20191018195719.94634-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191018195719.94634-1-hdegoede@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-battery_lock mutex is never used and not needed.
+On Fri, Oct 18, 2019 at 09:57:17PM +0200, Hans de Goede wrote:
+> All configuration can and should be done through fwnodes instead of
+> through the tcpc_config struct and there are no existing users left of
+> struct tcpc_config, so lets remove it.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Fixes: 355a070b09ab ("platform/x86: huawei-wmi: Add battery charging thresholds")
-Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
----
- drivers/platform/x86/huawei-wmi.c | 2 --
- 1 file changed, 2 deletions(-)
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-index 7373a65a61d3..a2d846c4a7ee 100644
---- a/drivers/platform/x86/huawei-wmi.c
-+++ b/drivers/platform/x86/huawei-wmi.c
-@@ -67,7 +67,6 @@ struct huawei_wmi {
- 	struct led_classdev cdev;
- 	struct device *dev;
- 
--	struct mutex battery_lock;
- 	struct mutex wmi_lock;
- };
- 
-@@ -807,7 +806,6 @@ static int huawei_wmi_probe(struct platform_device *pdev)
- 
- 	if (wmi_has_guid(HWMI_METHOD_GUID)) {
- 		mutex_init(&huawei_wmi->wmi_lock);
--		mutex_init(&huawei_wmi->battery_lock);
- 
- 		huawei_wmi_leds_setup(&pdev->dev);
- 		huawei_wmi_fn_lock_setup(&pdev->dev);
--- 
-2.21.0
-
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 90 ++---------------------------------
+>  include/linux/usb/tcpm.h      | 41 ----------------
+>  2 files changed, 3 insertions(+), 128 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 5f61d9977a15..c5fa18759f8e 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -380,9 +380,6 @@ static enum tcpm_state tcpm_default_state(struct tcpm_port *port)
+>  			return SNK_UNATTACHED;
+>  		else if (port->try_role == TYPEC_SOURCE)
+>  			return SRC_UNATTACHED;
+> -		else if (port->tcpc->config &&
+> -			 port->tcpc->config->default_role == TYPEC_SINK)
+> -			return SNK_UNATTACHED;
+>  		/* Fall through to return SRC_UNATTACHED */
+>  	} else if (port->port_type == TYPEC_PORT_SNK) {
+>  		return SNK_UNATTACHED;
+> @@ -4131,7 +4128,7 @@ static int tcpm_try_role(const struct typec_capability *cap, int role)
+>  	mutex_lock(&port->lock);
+>  	if (tcpc->try_role)
+>  		ret = tcpc->try_role(tcpc, role);
+> -	if (!ret && (!tcpc->config || !tcpc->config->try_role_hw))
+> +	if (!ret)
+>  		port->try_role = role;
+>  	port->try_src_count = 0;
+>  	port->try_snk_count = 0;
+> @@ -4368,34 +4365,6 @@ void tcpm_tcpc_reset(struct tcpm_port *port)
+>  }
+>  EXPORT_SYMBOL_GPL(tcpm_tcpc_reset);
+>  
+> -static int tcpm_copy_pdos(u32 *dest_pdo, const u32 *src_pdo,
+> -			  unsigned int nr_pdo)
+> -{
+> -	unsigned int i;
+> -
+> -	if (nr_pdo > PDO_MAX_OBJECTS)
+> -		nr_pdo = PDO_MAX_OBJECTS;
+> -
+> -	for (i = 0; i < nr_pdo; i++)
+> -		dest_pdo[i] = src_pdo[i];
+> -
+> -	return nr_pdo;
+> -}
+> -
+> -static int tcpm_copy_vdos(u32 *dest_vdo, const u32 *src_vdo,
+> -			  unsigned int nr_vdo)
+> -{
+> -	unsigned int i;
+> -
+> -	if (nr_vdo > VDO_MAX_OBJECTS)
+> -		nr_vdo = VDO_MAX_OBJECTS;
+> -
+> -	for (i = 0; i < nr_vdo; i++)
+> -		dest_vdo[i] = src_vdo[i];
+> -
+> -	return nr_vdo;
+> -}
+> -
+>  static int tcpm_fw_get_caps(struct tcpm_port *port,
+>  			    struct fwnode_handle *fwnode)
+>  {
+> @@ -4698,35 +4667,10 @@ static int devm_tcpm_psy_register(struct tcpm_port *port)
+>  	return PTR_ERR_OR_ZERO(port->psy);
+>  }
+>  
+> -static int tcpm_copy_caps(struct tcpm_port *port,
+> -			  const struct tcpc_config *tcfg)
+> -{
+> -	if (tcpm_validate_caps(port, tcfg->src_pdo, tcfg->nr_src_pdo) ||
+> -	    tcpm_validate_caps(port, tcfg->snk_pdo, tcfg->nr_snk_pdo))
+> -		return -EINVAL;
+> -
+> -	port->nr_src_pdo = tcpm_copy_pdos(port->src_pdo, tcfg->src_pdo,
+> -					  tcfg->nr_src_pdo);
+> -	port->nr_snk_pdo = tcpm_copy_pdos(port->snk_pdo, tcfg->snk_pdo,
+> -					  tcfg->nr_snk_pdo);
+> -
+> -	port->nr_snk_vdo = tcpm_copy_vdos(port->snk_vdo, tcfg->snk_vdo,
+> -					  tcfg->nr_snk_vdo);
+> -
+> -	port->operating_snk_mw = tcfg->operating_snk_mw;
+> -
+> -	port->typec_caps.prefer_role = tcfg->default_role;
+> -	port->typec_caps.type = tcfg->type;
+> -	port->typec_caps.data = tcfg->data;
+> -	port->self_powered = tcfg->self_powered;
+> -
+> -	return 0;
+> -}
+> -
+>  struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+>  {
+>  	struct tcpm_port *port;
+> -	int i, err;
+> +	int err;
+>  
+>  	if (!dev || !tcpc ||
+>  	    !tcpc->get_vbus || !tcpc->set_cc || !tcpc->get_cc ||
+> @@ -4759,15 +4703,10 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+>  	tcpm_debugfs_init(port);
+>  
+>  	err = tcpm_fw_get_caps(port, tcpc->fwnode);
+> -	if ((err < 0) && tcpc->config)
+> -		err = tcpm_copy_caps(port, tcpc->config);
+>  	if (err < 0)
+>  		goto out_destroy_wq;
+>  
+> -	if (!tcpc->config || !tcpc->config->try_role_hw)
+> -		port->try_role = port->typec_caps.prefer_role;
+> -	else
+> -		port->try_role = TYPEC_NO_PREFERRED_ROLE;
+> +	port->try_role = port->typec_caps.prefer_role;
+>  
+>  	port->typec_caps.fwnode = tcpc->fwnode;
+>  	port->typec_caps.revision = 0x0120;	/* Type-C spec release 1.2 */
+> @@ -4797,29 +4736,6 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+>  		goto out_role_sw_put;
+>  	}
+>  
+> -	if (tcpc->config && tcpc->config->alt_modes) {
+> -		const struct typec_altmode_desc *paltmode = tcpc->config->alt_modes;
+> -
+> -		i = 0;
+> -		while (paltmode->svid && i < ARRAY_SIZE(port->port_altmode)) {
+> -			struct typec_altmode *alt;
+> -
+> -			alt = typec_port_register_altmode(port->typec_port,
+> -							  paltmode);
+> -			if (IS_ERR(alt)) {
+> -				tcpm_log(port,
+> -					 "%s: failed to register port alternate mode 0x%x",
+> -					 dev_name(dev), paltmode->svid);
+> -				break;
+> -			}
+> -			typec_altmode_set_drvdata(alt, port);
+> -			alt->ops = &tcpm_altmode_ops;
+> -			port->port_altmode[i] = alt;
+> -			i++;
+> -			paltmode++;
+> -		}
+> -	}
+> -
+>  	mutex_lock(&port->lock);
+>  	tcpm_init(port);
+>  	mutex_unlock(&port->lock);
+> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+> index f516955a0cf4..e7979c01c351 100644
+> --- a/include/linux/usb/tcpm.h
+> +++ b/include/linux/usb/tcpm.h
+> @@ -46,45 +46,6 @@ enum tcpm_transmit_type {
+>  	TCPC_TX_BIST_MODE_2 = 7
+>  };
+>  
+> -/**
+> - * struct tcpc_config - Port configuration
+> - * @src_pdo:	PDO parameters sent to port partner as response to
+> - *		PD_CTRL_GET_SOURCE_CAP message
+> - * @nr_src_pdo:	Number of entries in @src_pdo
+> - * @snk_pdo:	PDO parameters sent to partner as response to
+> - *		PD_CTRL_GET_SINK_CAP message
+> - * @nr_snk_pdo:	Number of entries in @snk_pdo
+> - * @operating_snk_mw:
+> - *		Required operating sink power in mW
+> - * @type:	Port type (TYPEC_PORT_DFP, TYPEC_PORT_UFP, or
+> - *		TYPEC_PORT_DRP)
+> - * @default_role:
+> - *		Default port role (TYPEC_SINK or TYPEC_SOURCE).
+> - *		Set to TYPEC_NO_PREFERRED_ROLE if no default role.
+> - * @try_role_hw:True if try.{Src,Snk} is implemented in hardware
+> - * @alt_modes:	List of supported alternate modes
+> - */
+> -struct tcpc_config {
+> -	const u32 *src_pdo;
+> -	unsigned int nr_src_pdo;
+> -
+> -	const u32 *snk_pdo;
+> -	unsigned int nr_snk_pdo;
+> -
+> -	const u32 *snk_vdo;
+> -	unsigned int nr_snk_vdo;
+> -
+> -	unsigned int operating_snk_mw;
+> -
+> -	enum typec_port_type type;
+> -	enum typec_port_data data;
+> -	enum typec_role default_role;
+> -	bool try_role_hw;	/* try.{src,snk} implemented in hardware */
+> -	bool self_powered;	/* port belongs to a self powered device */
+> -
+> -	const struct typec_altmode_desc *alt_modes;
+> -};
+> -
+>  /* Mux state attributes */
+>  #define TCPC_MUX_USB_ENABLED		BIT(0)	/* USB enabled */
+>  #define TCPC_MUX_DP_ENABLED		BIT(1)	/* DP enabled */
+> @@ -92,7 +53,6 @@ struct tcpc_config {
+>  
+>  /**
+>   * struct tcpc_dev - Port configuration and callback functions
+> - * @config:	Pointer to port configuration
+>   * @fwnode:	Pointer to port fwnode
+>   * @get_vbus:	Called to read current VBUS state
+>   * @get_current_limit:
+> @@ -121,7 +81,6 @@ struct tcpc_config {
+>   * @mux:	Pointer to multiplexer data
+>   */
+>  struct tcpc_dev {
+> -	const struct tcpc_config *config;
+>  	struct fwnode_handle *fwnode;
+>  
+>  	int (*init)(struct tcpc_dev *dev);
+> -- 
+> 2.23.0
+> 
