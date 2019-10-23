@@ -2,151 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A9D0E231B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2019 21:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B380E231C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2019 21:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391314AbfJWTHT (ORCPT
+        id S2391315AbfJWTIX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 23 Oct 2019 15:07:19 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37775 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389752AbfJWTHS (ORCPT
+        Wed, 23 Oct 2019 15:08:23 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37873 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389752AbfJWTIX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 23 Oct 2019 15:07:18 -0400
-Received: by mail-pg1-f194.google.com with SMTP id p1so12693280pgi.4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Oct 2019 12:07:18 -0700 (PDT)
+        Wed, 23 Oct 2019 15:08:23 -0400
+Received: by mail-pg1-f193.google.com with SMTP id p1so12694847pgi.4;
+        Wed, 23 Oct 2019 12:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AtmI0HzUozYTs+3GGLQE5qc2gNrA1Y91W75VQO2spm0=;
-        b=jk1pEjPV42b3Cvcq05036DwuF+yxt4U0UdvIFPKJs6Qx3Tbmo3VEGqsysYjCUl68dG
-         20R/6xUdRWdLawKvWE1oXXbC5IMZIBDUoOJBZVWNgXXkPQolMj7qk6YRLQgVG9apegX+
-         yflnH5VmxIDSpSJH9vikaxKEA0/SYEz6QGLkhhrN3mZNHZ8apm7Yj7u5eXVYiDL5EMhH
-         9RfZWKIG5OqoCfcT/u0YlN9qv5Qu2h01ERtpScOVA35sLXIN0YqSjht9i9xgS1PGe8x2
-         PQrgQjoWLtE5F6MJxCisnGzXZ35ETqS4z8QPGJo2q4g+Ojqy6njWShQftpczMm8KPGWn
-         RvuQ==
+        bh=MxX/DmpVboZjshq+xEtg+czp+G1yghOR3A33pj8rse0=;
+        b=EdxrRycMQG2Bq+4TKZg+FfJ1SlAtfiPjaHX35fLqSiGOLA8eMpzPSmWmoBzylbt2DF
+         KkvsZb6U4lpRflsxFcdYVSDiNHkkl6ViN1R/W1AwwwaCh8EZJIUvo5czEm4SoJ1EQXem
+         rGJ97ALVJHg0SgGm6Jb8Hln5qtYXA127/qKEe5UYUXvuPxm6Jawhoo9ADsa3rXSn2DNT
+         lkbuLfvy4x68581mBueCG5f71ezcAg6GRy7CME2N+z9CE8hJ3qHP5skXsxBdC5hjf/Ln
+         OjXPKEa30h9gjbOwVmitOx69UNxtflLqrKJYh631mbwFSYSCljZNBWMAHfuoilz8M0Rb
+         W1RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AtmI0HzUozYTs+3GGLQE5qc2gNrA1Y91W75VQO2spm0=;
-        b=lcPsbpQbwvI5UWoVkonyL91BF1ZhI9csgCePYJU5iMeWjWxbWqrNtDxA04LkXqg3nL
-         Uctqc5ALJhmNtoVOpIDVzWxAohKXHMZbDRgsFYJ54ONhFAi5n2gtD+JOp1gVGClxYII2
-         NufE5NyfFpo1IK9djQLkhwBJQA7RReOCHIPv6gSpnlRPvfkflxApsYWmrtpsfCk3TCTE
-         vQj6Vm/PjjbVDk06p3rdBgGcVBknkoBP5s8fvtyFX7pqxdtM+QalpyB8TIRgKFhbBa4Y
-         4ZNCrxGWBnAQ9NQ0VzOid1yGfQf6i5st3h/ezRtJ63CvIQHuPTQWY+8lwOMAVj0rjT7q
-         yvyw==
-X-Gm-Message-State: APjAAAVC7KZrgD3lyDxtFQb1d5063SA+JYfePbNaJQH+jAZgGKA9p8xG
-        YYjt/9lszq7TfDq9QE3jUmN/CpYryqxYHWV04NEivpjktUA=
-X-Google-Smtp-Source: APXvYqxQmVdtVK53TJkGejpPQXQ7icd/78Hfh9ht9q4Vun+blwu3P6cSilPeHDGkm4jcmHp9CCH1y55z3tI+lLkGJv8=
-X-Received: by 2002:a63:d0a:: with SMTP id c10mr12245722pgl.203.1571857637713;
- Wed, 23 Oct 2019 12:07:17 -0700 (PDT)
+        bh=MxX/DmpVboZjshq+xEtg+czp+G1yghOR3A33pj8rse0=;
+        b=nAAYlHWZXZqeeSTlNrX2KB1kapU3I5m2MurOXTteS0QvADhW4gNqKrQUXxKxsyoGlf
+         01Nk6jhZDm5DDf87y4HBICZm/KdZMUHow2MDCMUp7Ksis6epE4xqgH4015HxW6yVE6ty
+         7WKAgT2WfiHednif6XhAsD9PH1HGaVCs2bh2/LnfFl5rQnFV/VTuDTKXq9VYFaZBJ9Fw
+         zhUUh8S4DVKpYi968+JYEx0ktR9LPir+BpJ5/Fad2sb/Uto8xOVbmyc1gfjXPLZOG3p6
+         NaW8j9S6iv+ZYEMWUYmzQMRjtyHytPJYnoZks4Rma2tw02MgPHBdrlwerQcOtYbA5AfR
+         zXEg==
+X-Gm-Message-State: APjAAAUW4TU41bnGwMtLel9o5Nqy0BNfbXnqD2915WBjhL2IhnoZ393T
+        vQFqG8irkJ7gGA3c0MQO+rq2zNZdjLnlltUaIuM=
+X-Google-Smtp-Source: APXvYqwEin0+/jsXwQNm/vxdFCBXHX86fl3Tm6aT6NKthLdEtaFBZC10goQGEE0Fy0nlLOqnTNwk5dIX/EwWchLQJRU=
+X-Received: by 2002:aa7:8b02:: with SMTP id f2mr13097433pfd.151.1571857702529;
+ Wed, 23 Oct 2019 12:08:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191022210128.12042-1-linus.walleij@linaro.org>
-In-Reply-To: <20191022210128.12042-1-linus.walleij@linaro.org>
+References: <20191023185323.13552-1-hdegoede@redhat.com>
+In-Reply-To: <20191023185323.13552-1-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 23 Oct 2019 22:07:06 +0300
-Message-ID: <CAHp75VfP-XrphS86d7jEpzjDhYz-mrgHztoNLhh0TDoonK8Qvg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: intel_int0002_vgpio: Pass irqchip when
- adding gpiochip
-To:     Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 23 Oct 2019 22:08:10 +0300
+Message-ID: <CAHp75VfhKzXfJEwHLdkwJHPXmL6bCRMtvo-0aCSQxdiHQyXHHQ@mail.gmail.com>
+Subject: Re: [PATCH resend] Add touchscreen platform data for the Schneider
+ SCT101CTM tablet
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Daniel Gorbea Ainz <danielgorbea@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 12:03 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Wed, Oct 23, 2019 at 9:53 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> We need to convert all old gpio irqchips to pass the irqchip
-> setup along when adding the gpio_chip. For more info see
-> drivers/gpio/TODO.
+> From: Daniel Gorbea Ainz <danielgorbea@hotmail.com>
 >
-> For chained irqchips this is a pretty straight-forward
-> conversion. This driver requests the IRQ directly in the driver
-> so it needs to pass a NULL parent handler. We may revisit this
-> code later and pull reqular shared IRQ handler into
-> gpiolib, so leave a FIXME.
->
+> Add touchscreen platform data for the Schneider SCT101CTM tablet
 
-Thanks!
-Code looks fine to me, though I will wait for Hans to confirm it
-doesn't break anything.
+Thanks, now patchwork sees it.
 
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Daniel Gorbea <danielgorbea@hotmail.com>
+
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+I'm not sure you need to put Rb when you have your SoB.
+Do you think it's fine if I remove Rb when applying?
+
 > ---
->  drivers/platform/x86/intel_int0002_vgpio.c | 28 +++++++++++-----------
->  1 file changed, 14 insertions(+), 14 deletions(-)
+> hdegoede: Resend from my email address as vger.kernel.org does not like
+> Daniel's emails
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 >
-> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
-> index af233b7b77f2..f14e2c5f9da5 100644
-> --- a/drivers/platform/x86/intel_int0002_vgpio.c
-> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
-> @@ -164,8 +164,8 @@ static int int0002_probe(struct platform_device *pdev)
->  {
->         struct device *dev = &pdev->dev;
->         const struct x86_cpu_id *cpu_id;
-> -       struct irq_chip *irq_chip;
->         struct gpio_chip *chip;
-> +       struct gpio_irq_chip *girq;
->         int irq, ret;
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index 8bfef880e216..ba494ace83d4 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -549,6 +549,24 @@ static const struct ts_dmi_data pov_mobii_wintab_p1006w_v10_data = {
+>         .properties     = pov_mobii_wintab_p1006w_v10_props,
+>  };
 >
->         /* Menlow has a different INT0002 device? <sigh> */
-> @@ -192,15 +192,11 @@ static int int0002_probe(struct platform_device *pdev)
->         chip->ngpio = GPE0A_PME_B0_VIRT_GPIO_PIN + 1;
->         chip->irq.init_valid_mask = int0002_init_irq_valid_mask;
->
-> -       ret = devm_gpiochip_add_data(&pdev->dev, chip, NULL);
-> -       if (ret) {
-> -               dev_err(dev, "Error adding gpio chip: %d\n", ret);
-> -               return ret;
-> -       }
-> -
->         /*
-> -        * We manually request the irq here instead of passing a flow-handler
-> +        * We directly request the irq here instead of passing a flow-handler
->          * to gpiochip_set_chained_irqchip, because the irq is shared.
-> +        * FIXME: augment this if we managed to pull handling of shared
-> +        * IRQs into gpiolib.
->          */
->         ret = devm_request_irq(dev, irq, int0002_irq,
->                                IRQF_SHARED, "INT0002", chip);
-> @@ -209,17 +205,21 @@ static int int0002_probe(struct platform_device *pdev)
->                 return ret;
->         }
->
-> -       irq_chip = (struct irq_chip *)cpu_id->driver_data;
-> +       girq = &chip->irq;
-> +       girq->chip = (struct irq_chip *)cpu_id->driver_data;
-> +       /* This let us handle the parent IRQ in the driver */
-> +       girq->parent_handler = NULL;
-> +       girq->num_parents = 0;
-> +       girq->parents = NULL;
-> +       girq->default_type = IRQ_TYPE_NONE;
-> +       girq->handler = handle_edge_irq;
->
-> -       ret = gpiochip_irqchip_add(chip, irq_chip, 0, handle_edge_irq,
-> -                                  IRQ_TYPE_NONE);
-> +       ret = devm_gpiochip_add_data(dev, chip, NULL);
->         if (ret) {
-> -               dev_err(dev, "Error adding irqchip: %d\n", ret);
-> +               dev_err(dev, "Error adding gpio chip: %d\n", ret);
->                 return ret;
->         }
->
-> -       gpiochip_set_chained_irqchip(chip, irq_chip, irq, NULL);
-> -
->         device_init_wakeup(dev, true);
->         return 0;
->  }
+> +static const struct property_entry schneider_sct101ctm_props[] = {
+> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
+> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
+> +       PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
+> +       PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
+> +       PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
+> +       PROPERTY_ENTRY_STRING("firmware-name",
+> +                             "gsl1680-schneider-sct101ctm.fw"),
+> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +       { }
+> +};
+> +
+> +static const struct ts_dmi_data schneider_sct101ctm_data = {
+> +       .acpi_name      = "MSSL1680:00",
+> +       .properties     = schneider_sct101ctm_props,
+> +};
+> +
+>  static const struct property_entry teclast_x3_plus_props[] = {
+>         PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+>         PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+> @@ -968,6 +986,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+>                         DMI_EXACT_MATCH(DMI_BOARD_NAME, "0E57"),
+>                 },
+>         },
+> +       {
+> +               /* Schneider SCT101CTM */
+> +               .driver_data = (void *)&schneider_sct101ctm_data,
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "Default string"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "SCT101CTM"),
+> +               },
+> +       },
+>         {
+>                 /* Teclast X3 Plus */
+>                 .driver_data = (void *)&teclast_x3_plus_data,
 > --
-> 2.21.0
+> 2.23.0
 >
 
 
