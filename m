@@ -2,114 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E241E21F4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2019 19:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72A3BE22C3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Oct 2019 20:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731217AbfJWRmN (ORCPT
+        id S2404015AbfJWSxc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 23 Oct 2019 13:42:13 -0400
-Received: from smtp-out.abv.bg ([194.153.145.99]:42911 "EHLO smtp-out.abv.bg"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729283AbfJWRmM (ORCPT
+        Wed, 23 Oct 2019 14:53:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60943 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2389636AbfJWSxc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 23 Oct 2019 13:42:12 -0400
-X-Greylist: delayed 441 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Oct 2019 13:42:11 EDT
-Received: from nm83.abv.bg (nm83.ni.bg [192.168.151.146])
-        by smtp-out.abv.bg (Postfix) with UTF8SMTP id DE65C3E30
-        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Oct 2019 20:34:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abv.bg; s=smtp-out;
-        t=1571852088; bh=mKm5HfGtO1I4wK51VlhDXTetqi78gMZd+P5boJCxlPs=;
-        h=Date:From:To:Subject:From;
-        b=i/wZLMrDZRowoA0mbrkaYjRmDqrsB3QwoOpjCyeaSf7pJSpQZObBTnXboN+ms5uiC
-         Bzne+MNUjxr/Ol609NZKpCzs58t6EPOoNofK93nzGspNpcCqpkY9vCovlHfdEl4lDW
-         veBCv3hNc78iep+tx4BRP6zcae1isb0Pi5mjB63c=
-Received: from nm83.abv.bg (localhost [127.0.0.1])
-        by nm83.abv.bg (Postfix) with UTF8SMTP id B062E9D7FA
-        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Oct 2019 20:34:48 +0300 (EEST)
-Date:   Wed, 23 Oct 2019 20:34:47 +0300 (EEST)
-From:   Kristian Angelov <kristiana2000@abv.bg>
-To:     platform-driver-x86@vger.kernel.org
-Message-ID: <214485435.80619.1571852088722@nm83.abv.bg>
-Subject: ASUS FX505DT wmi backlight/amdgpu backlight conflict
+        Wed, 23 Oct 2019 14:53:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571856811;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ecQ98e61/2Ea388fkZplfUt1Z60f+MBx+DeZm7DbqNw=;
+        b=Ah5HGVC626wlMRKhJyHH2Ncsbngly1vgYVNQnJTuQogBhVnqJf3kZw67CxZ4si+3tHdOzE
+        ZKyjGMf8xVOouU4IA0jhNQ6wtictGOQr3Tygd8aaWSB8TNs1Mw0qeC0+fzhD9Y7yS4lZYv
+        bl8rE2iv4ES0WaXDAyaiWFohM07QKr0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-7Lp0hEqHM_2VEfj9KFOBVA-1; Wed, 23 Oct 2019 14:53:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FEE01005500;
+        Wed, 23 Oct 2019 18:53:26 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-79.ams2.redhat.com [10.36.116.79])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 62CC360C57;
+        Wed, 23 Oct 2019 18:53:25 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Daniel Gorbea Ainz <danielgorbea@hotmail.com>
+Subject: [PATCH resend] Add touchscreen platform data for the Schneider SCT101CTM tablet
+Date:   Wed, 23 Oct 2019 20:53:23 +0200
+Message-Id: <20191023185323.13552-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: AbvMail 3.0
-X-Originating-IP: 217.105.38.84
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 7Lp0hEqHM_2VEfj9KFOBVA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+From: Daniel Gorbea Ainz <danielgorbea@hotmail.com>
 
+Add touchscreen platform data for the Schneider SCT101CTM tablet
 
-I own an ASUS FX505DT (integrated vega amdgpu), and the backlight control seems
-to be conflicting with the asus-nb-wmi driver.
+Signed-off-by: Daniel Gorbea <danielgorbea@hotmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+hdegoede: Resend from my email address as vger.kernel.org does not like
+Daniel's emails
+---
+ drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-
-Upon booting normally with a standard kernel 5.3.7 on Arch, the asus-nb-wmi
-driver gets loaded properly. It does not create any backlight devices in
-/sys/class/backlight. However, ACPI-video seems to fail to get created and I get
-This in my systemd log:
-
-
-systemd-backlight[771]: Failed to get backlight or LED device 'backlight:acpi_vi
-deo0': No such device
-
-
-This implies that acpi_video0 gets registered by systemd but fails early on
-during the boot process. Regardless, backlight seems to work fine using the
-hotkeys as the only device present in /sys/class/backlight is amdgpu_bl0.
-
-
-As any sane person, I want to remove those nasty fail messages from my log. with
-the solution being to set acpi_backlight=vendor in my boot flags, which stops
-acpi_video0 from being registered and removes the log, however asus-nb-wmi kicks
-in and registers it's own backlight device. There are two backlight devices
-currently active amdgpu_bl0 and asus-nb-wmi and the latter does not control the
-backlight but seems to take priority in the keybinds.
-
-
-I looked throught the driver and implemented the following:
-
-
-index b361c73..e0ca145 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -105,6 +105,11 @@ static struct quirk_entry quirk_asus_x550lb = {
- 	.xusb2pr = 0x01D9,
- };
- 
-+static struct quirk_entry quirk_asus_fx505dt = {
-+	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/=
+touchscreen_dmi.c
+index 8bfef880e216..ba494ace83d4 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -549,6 +549,24 @@ static const struct ts_dmi_data pov_mobii_wintab_p1006=
+w_v10_data =3D {
+ =09.properties=09=3D pov_mobii_wintab_p1006w_v10_props,
+ };
+=20
++static const struct property_entry schneider_sct101ctm_props[] =3D {
++=09PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
++=09PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
++=09PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
++=09PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++=09PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++=09PROPERTY_ENTRY_STRING("firmware-name",
++=09=09=09      "gsl1680-schneider-sct101ctm.fw"),
++=09PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++=09PROPERTY_ENTRY_BOOL("silead,home-button"),
++=09{ }
 +};
 +
- static struct quirk_entry quirk_asus_forceals = {
- 	.wmi_backlight_set_devstate = true,
- 	.wmi_force_als_set = true,
-@@ -411,6 +416,15 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_forceals,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. FX505DT TESTING",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "FX505DT"),
-+		},
-+		.driver_data = &quirk_asus_fx505dt,
-+	},
- 	{},
- };
++static const struct ts_dmi_data schneider_sct101ctm_data =3D {
++=09.acpi_name=09=3D "MSSL1680:00",
++=09.properties=09=3D schneider_sct101ctm_props,
++};
++
+ static const struct property_entry teclast_x3_plus_props[] =3D {
+ =09PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+ =09PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+@@ -968,6 +986,14 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
+ {
+ =09=09=09DMI_EXACT_MATCH(DMI_BOARD_NAME, "0E57"),
+ =09=09},
+ =09},
++=09{
++=09=09/* Schneider SCT101CTM */
++=09=09.driver_data =3D (void *)&schneider_sct101ctm_data,
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Default string"),
++=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "SCT101CTM"),
++=09=09},
++=09},
+ =09{
+ =09=09/* Teclast X3 Plus */
+ =09=09.driver_data =3D (void *)&teclast_x3_plus_data,
+--=20
+2.23.0
 
-
-where wmi_backlight_power is supposed to prevent the creation (or use) of this
-new backlight device. However this does not seem to be the case. So far the only
-way the backlight works is with acpi_backlight not defined at all. If I set it
-to anything, even video, it creates another worthless backlight device. I do
-believe this is either a bug in asus-wmi and wmi_backlight_power doing not what
-it's supposed to. Either that or I am mistaken as to how any of this works, and
-would like help with implementing my device.
