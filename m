@@ -2,65 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B915E5869
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 26 Oct 2019 06:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8535FE5CE2
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 26 Oct 2019 15:33:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725834AbfJZEDP (ORCPT
+        id S1727574AbfJZNRz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 26 Oct 2019 00:03:15 -0400
-Received: from mta147.atlashoster.net ([5.39.37.51]:38737 "EHLO rajiweb.com"
+        Sat, 26 Oct 2019 09:17:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbfJZEDP (ORCPT
+        id S1727563AbfJZNRz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 26 Oct 2019 00:03:15 -0400
-X-Greylist: delayed 57086 seconds by postgrey-1.27 at vger.kernel.org; Sat, 26 Oct 2019 00:03:14 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=noudeu.com;
-         s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=eW4oia9U94AZzYr70xneAWl7LFkhnhsIxwR0Ug4GFC0=; b=hGD0uNqa2xPFfyTycEE0sPdCnX
-        ylGiMNhSTqBVEKJT2gnOGh0hHzsEBeUV/LA2/KfEwOgtJelx7z8G6Qvl3yzPSZV263ba8Dxohe2nM
-        Fst+UDeBgK1I8ED9zFNBmWHG8qtkW7lEgLSRmqjbOoySVafETKk9D8TGKdMEFtDltaelec1D8ySG8
-        GLM+S0+B60cUgrPcTFdneCbi5UBS2HtpNcOAdaJRFJORruitXcK0vTBjEYMpQ6PtEy0PYE/X4Lafg
-        o+iNBf7P44+AOm2F9Zzgs4ERi9Ht5+8PxtCumsOYEmSEVjZOOZVp2u7o+q8lQUvaIiDC5stAa8jUc
-        CQv0u0oQ==;
-Received: from [::1] (port=59578 helo=hosting.atlashoster.net)
-        by hosting.atlashoster.net with esmtpa (Exim 4.92)
-        (envelope-from <andrewkabore1@gmail.com>)
-        id 1iNxZo-0002rR-66; Fri, 25 Oct 2019 13:16:16 +0200
+        Sat, 26 Oct 2019 09:17:55 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8382A214DA;
+        Sat, 26 Oct 2019 13:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572095874;
+        bh=7S5rOoF8/lGt10heURodpPUnIlrI6Ut+qHhem2+PfUY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=KKb8zwjayST2V+g/Gy5Q5ldMnUETd+3MEDdzANiPb6JFYZPbLiHcE7zSVyclfKIjq
+         i+3fP9hDUz455EHCjuVHBpVdr25hmlr5af+4Kqe9CSX6rL+/JyV9564FtflQbS6BQe
+         Q0LQIhn1CJugQHcnxHycbS3k9itG7AZ0nUSfL+ns=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ammy Yi <ammy.yi@intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.3 63/99] platform/x86: i2c-multi-instantiate: Fail the probe if no IRQ provided
+Date:   Sat, 26 Oct 2019 09:15:24 -0400
+Message-Id: <20191026131600.2507-63-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191026131600.2507-1-sashal@kernel.org>
+References: <20191026131600.2507-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 25 Oct 2019 13:16:16 +0200
-From:   Mr Andrew Kabore <andrewkabore1@gmail.com>
-To:     undisclosed-recipients:;
-Subject: Greetings
-Reply-To: mrandrewkabore@naver.com
-Mail-Reply-To: mrandrewkabore@naver.com
-Message-ID: <45948119f97d43c9882b4e30a51b9efd@gmail.com>
-X-Sender: andrewkabore1@gmail.com
-User-Agent: Roundcube Webmail/1.3.8
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hosting.atlashoster.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - gmail.com
-X-Get-Message-Sender-Via: hosting.atlashoster.net: authenticated_id: contact@noudeu.com
-X-Authenticated-Sender: hosting.atlashoster.net: contact@noudeu.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+[ Upstream commit 832392db9747b9c95724d37fc6a5dadd3d4ec514 ]
 
+For APIC case of interrupt we don't fail a ->probe() of the driver,
+which makes kernel to print a lot of warnings from the children.
+
+We have two options here:
+- switch to platform_get_irq_optional(), though it won't stop children
+  to be probed and failed
+- fail the ->probe() of i2c-multi-instantiate
+
+Since the in reality we never had devices in the wild where IRQ resource
+is optional, the latter solution suits the best.
+
+Fixes: 799d3379a672 ("platform/x86: i2c-multi-instantiate: Introduce IOAPIC IRQ support")
+Reported-by: Ammy Yi <ammy.yi@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/i2c-multi-instantiate.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index 70efa3d298253..b66e5aa6bf588 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -110,6 +110,7 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+ 			if (ret < 0) {
+ 				dev_dbg(dev, "Error requesting irq at index %d: %d\n",
+ 					inst_data[i].irq_idx, ret);
++				goto error;
+ 			}
+ 			board_info.irq = ret;
+ 			break;
 -- 
-Hello dear, I need your assistance to transfer money sum of $usd35 
-million, Get back to me for more details.
-Mr. Andrew
+2.20.1
+
