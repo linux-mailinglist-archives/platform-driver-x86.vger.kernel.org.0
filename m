@@ -2,107 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A0DEEDD14
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 11:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61395EDD3B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 12:03:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728804AbfKDKz5 (ORCPT
+        id S1727236AbfKDLDI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Nov 2019 05:55:57 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:44784 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728663AbfKDKz5 (ORCPT
+        Mon, 4 Nov 2019 06:03:08 -0500
+Received: from mga04.intel.com ([192.55.52.120]:13206 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726526AbfKDLDI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Nov 2019 05:55:57 -0500
-Received: by mail-qt1-f194.google.com with SMTP id o11so18150681qtr.11;
-        Mon, 04 Nov 2019 02:55:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=rvo1SHxB9nVYQAjRXc27dF5Hg8RmRrQzx7MdaM7VmNk=;
-        b=dXKI99YzHJ7cWkZ1hQUuEdTfaXZk3kat6uEDvhwPD2N/VlwI2UQ3sKAOIdf9qiBcMg
-         k9VB6gsJ6VAE3AytNwdOQsiWAMB5DdQLECd+WxBntCp+DgW/Cfe7y85m0/RG7DwYGym8
-         r+FSwc1ame1Yi5RWV+mHOyrv0cie3RRmdR1YEoC4qOHQSdKlIhmgpPsFg8fRpC/F40Sx
-         5lNnEn9I37pYzOKr+Sicerj7F2oWnK1nQLMbNNTQ7MVcz+52fb2wKt8BJ4yf7arot2GO
-         Ptqombc87PyDNOZkDRGRXwh1w6CZb3yLl9MfK883ERE+aX6atclJVojBr6MgPEP18EY6
-         5yUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=rvo1SHxB9nVYQAjRXc27dF5Hg8RmRrQzx7MdaM7VmNk=;
-        b=oZAGDphXl8JdFfy82aEODNcPbcHM5YUItowCOu40czoLPcTjWcEmkEmzXxlu0tjS6X
-         q3UiAgGSbUC9sraFsIbTkF9ROthclxrNCsRqnfsGJQUfJ9kX1WTYFh1NLhz5xfCcc4kY
-         Z4HGFDF/j7NahSnVPHYLwsNt5yw7mJPKtAgsw0JQBRLTY9VIrei2rbvYApDj7/jBieTi
-         IEqdfQjGkpBr7c48fvLr0bIHHfpT8azKJzmRaaqqXuTB68RdiCNYLY62VVDjcgTbFe8I
-         Zzlwrx9tKOJxxHHSyj41QjdENlKUn2SFSBYsi9uuNiU6aSYJFnRtaDqHja59i0cCz2S5
-         Nyeg==
-X-Gm-Message-State: APjAAAXz40v/oHFsaeBFmaoRSKBScBujw6HKkzrnbtzfR7Qb6BhT/hxb
-        L9V7Z+pexSosnTwnPB/9cTnrRAAh0MaYKWwyN+lF9Fg885I=
-X-Google-Smtp-Source: APXvYqygXMl4HsPWL+b5uxs86pmRyBHmjRYiwkZDhTm8Pg+KmODCvvi3F+xSQaJ5/4Ihk1T7mz8m3DcVaUj1jA5EIX0=
-X-Received: by 2002:ac8:23d3:: with SMTP id r19mr12004769qtr.297.1572864955304;
- Mon, 04 Nov 2019 02:55:55 -0800 (PST)
-MIME-Version: 1.0
-References: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
-In-Reply-To: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
-From:   Leon Maxx <leonmaxx@gmail.com>
-Date:   Mon, 4 Nov 2019 12:55:44 +0200
-Message-ID: <CAPW-Pu3a7UjhW3wZ7jMLMEwj5goabqgHp2Vf7tQyzT3XwZr8cg@mail.gmail.com>
-Subject: [RFC PATCH 3/3] platform/x86: asus_wmi: Set default fan boost mode to normal
-To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net, andy@infradead.org,
-        dvhart@infradead.org, corentin.chary@gmail.com,
-        Daniel Drake <drake@endlessm.com>, yurii.pavlovskyi@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 4 Nov 2019 06:03:08 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 03:03:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; 
+   d="scan'208";a="232021208"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga002.fm.intel.com with ESMTP; 04 Nov 2019 03:03:07 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     andriy.shevchenko@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        prarit@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 00/10] tools/power/x86/intel-speed-select: New version
+Date:   Mon,  4 Nov 2019 03:02:36 -0800
+Message-Id: <20191104110246.70465-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Set default fan boost mode to normal for multiple reasons:
+This adds support for the new version of Intel(R) Speed select
+implementation. Also some fixes for CLX-N platform.
 
-1) existing code assumes that laptop started in normal mode and that is
-not always true.
-2) FX705DY/FX505DY starts in silent mode and under heavy CPU load it
-overheats and drops CPU frequency to 399MHz [1]. Setting fan mode to
-normal avoids overheating.
+Srinivas Pandruvada (10):
+  tools/power/x86/intel-speed-select: Extend command set for
+    perf-profile
+  tools/power/x86/intel-speed-select: Change display of "avx" to "avx2"
+  tools/power/x86/intel-speed-select: Correct CLX-N frequency units
+  tools/power/x86/intel-speed-select: Auto mode for CLX
+  tools/power/x86/intel-speed-select: Use mailbox for CLOS_PM_QOS_CONFIG
+  tools/power/x86/intel-speed-select: Make CLOS frequency in MHz
+  tools/power/x86/intel-speed-select: Use Frequency weight for CLOS
+  tools/power/x86/intel-speed-select: Support platform with limited
+    Intel(R) Speed Select
+  tools/power/x86/intel-speed-select: Use core count for base-freq mask
+  tools/power/x86/intel-speed-select: Increment version
 
-[1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
+ .../x86/intel-speed-select/isst-config.c      | 178 ++++++++++++++----
+ .../power/x86/intel-speed-select/isst-core.c  | 146 ++++++++++++--
+ .../x86/intel-speed-select/isst-display.c     | 139 +++++++++-----
+ tools/power/x86/intel-speed-select/isst.h     |   2 +
+ 4 files changed, 366 insertions(+), 99 deletions(-)
 
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index f4e5840..70c5fbb 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1674,6 +1674,18 @@ static int fan_boost_mode_write(struct asus_wmi *asus)
-  return 0;
- }
-
-+static int fan_boost_mode_set_default(struct asus_wmi *asus)
-+{
-+ int result = 0;
-+
-+ if (asus->fan_boost_mode_available) {
-+ asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
-+ result = fan_boost_mode_write(asus);
-+ }
-+
-+ return result;
-+}
-+
- static int fan_boost_mode_switch_next(struct asus_wmi *asus)
- {
-  u8 mask = asus->fan_boost_mode_mask;
-@@ -2450,6 +2462,7 @@ static int asus_wmi_add(struct platform_device *pdev)
-  err = fan_boost_mode_check_present(asus);
-  if (err)
-  goto fail_fan_boost_mode;
-+ fan_boost_mode_set_default(asus);
-
-  err = asus_wmi_sysfs_init(asus->platform_device);
-  if (err)
 -- 
-1.8.3.1
+2.17.2
+
