@@ -2,120 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22CE6EE765
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 19:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09E88EEB3A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 22:34:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728377AbfKDS3M (ORCPT
+        id S1728377AbfKDVen (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Nov 2019 13:29:12 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45775 "EHLO
+        Mon, 4 Nov 2019 16:34:43 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37848 "EHLO
         mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727998AbfKDS3M (ORCPT
+        with ESMTP id S1728602AbfKDVem (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Nov 2019 13:29:12 -0500
-Received: by mail-lj1-f193.google.com with SMTP id n21so5143748ljg.12;
-        Mon, 04 Nov 2019 10:29:10 -0800 (PST)
+        Mon, 4 Nov 2019 16:34:42 -0500
+Received: by mail-lj1-f193.google.com with SMTP id l20so664928lje.4;
+        Mon, 04 Nov 2019 13:34:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=iurp4sakzOCEdz++tzDZDRAOZsuv2t30XmhXJuaXI1U=;
-        b=FhP+Coa4xrCVJSA2wk7Q++T98lLzBYox7OuEhQcApIOnJrozp+CsznourVqj/8o78R
-         5e/VbPwzAMaFVm9seppk9L8NuaEpUZJY4/QtAiZ3BSwuIh4t31v70qwf8BxK5xZSrmAG
-         CtjYaOc/1agpSiXygv2Dkq88D1UAIZpe2mnu+2y7pWNOTJZf0LnCXjd/IRWpCX1Xr2JD
-         i41vqVGZ8mBWtK0cRN0bjqlCN+FzKhe76TzrcSvGCCMLZcLU/ucPzp4tOYk4cdsQSWcj
-         9VY6KEa6aA2lOD1nKBI0bHpPZSROO6a+ZIL+LMcD8qTf/gZ7hsOEGI7MmGAfkK+c7PZG
-         6qXQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f4G0b4Obygl/9es40ye6c4vJu0dcrHqI1qZPAhJWA5g=;
+        b=IzBzn7rTgFdSNP2vz4FylyK7hZALct7piKMK0UT2Pwegcd2Et0rC7PORBtE7fcmEIq
+         DJ3SUCU3+Qh5TjrbEoMfWLggWQ082IOgHRRd1mR0eY8IJI3LOqOJyDyodXPvp1tqI8kZ
+         s02hbJqpMhNxRiOdSyRg/AUTD73YbfZZBaSAJuWsEv4MdHn6GdMPOhtjcd77C1wsO7uw
+         eLNJtK78IRJLwRWox0MQDNORFD6fdcaLkK3gbmKwIU9UOEqNIDdyDexVgrKZcJtMhp4L
+         7B80K2fyhdd3rwMVKALkzopgkGbDX/52Rwk1QsFiTibw031A5WjJMlAYs7naA6rnkZql
+         5XpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=iurp4sakzOCEdz++tzDZDRAOZsuv2t30XmhXJuaXI1U=;
-        b=ZsgNSQRxDpKAIwmOCOLW98+fCp5qgUrYPFaEWIiv6oLKqgaJrbuEyVpt2Q7e8WQVv6
-         D0/83GwWFrZtvMjNj+ujRwaZVgVCanU6o+7XcvQqddmUIhNJ4F3bSbUjjOIcSD9pU434
-         GcctBJCWrZJm37dYsVKIsNicbM7cNue4S+pgDgQlv4L+KyDXxeRPyRbl6hQy+NmDmZtQ
-         Ya/iJfn9C7NF5IalP0biVonnROZWVs7+MvVYnEZauBQEO3e9kpqQ5tPTDtRKcjJuPUUl
-         pouOqsfSrnzWqlLJCIhuEM9q+bg9ohDhgMrHhQR3g3SaEQtp+F5lh/Dka9Pw0Rn9zbqL
-         ZeMg==
-X-Gm-Message-State: APjAAAU6LoNcgyZ1HAyrdhFZPU1d6mPuXctxMtJqErNK0BRfDFJVgaSD
-        b58aqTTw4mYfQtOjZwFmn9I=
-X-Google-Smtp-Source: APXvYqyQZbSkgVYTSJZRZbeBrgTs168W78IMreE/jqweUokSAkJEf3JMrVEnQd+u4Nw9Jlt1+JfhzQ==
-X-Received: by 2002:a05:651c:1127:: with SMTP id e7mr11371383ljo.70.1572892149961;
-        Mon, 04 Nov 2019 10:29:09 -0800 (PST)
-Received: from [10.0.0.92] ([91.237.107.85])
-        by smtp.gmail.com with ESMTPSA id a11sm7159646ljp.97.2019.11.04.10.29.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2019 10:29:09 -0800 (PST)
-Subject: [RFC PATCH 3/3] platform/x86: asus_wmi: Set default fan boost mode to
- normal
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f4G0b4Obygl/9es40ye6c4vJu0dcrHqI1qZPAhJWA5g=;
+        b=XBxoi9SEyLkQDQk7YGm5f4lwHfklOg9hkHhqs1wdSNaQJMLXaUvOBHpPhy6Vz09C5m
+         NyZYScdMsM0xm3+hwVNE6AZtMf5EmVcRlBwPNtXabKZuuGhjdJQPe5m7/BMzpQ6al1pS
+         GYMuIMKanb4urwalzhgtfIBhaFhUfnBnOJH2GIKDQDszddx1aHpNda9jXXrM1z+xoTf3
+         hvi0iHltSjbKtazUARoI1ujR6+h9rEjgoeoHP4F1906421Ly5xxZDcLc0bh09MKqhOTW
+         3Az1YAFPOVZVijEUdvzdSzHGdOhF/ZFR/5Kka3ncezzvv4JM0Crrlqrj+O9L85lhl3ub
+         CccQ==
+X-Gm-Message-State: APjAAAUy603SXd1XhV1j2sijGsl7eVJqxPQYLQPIwNuiokhNrJRWAZUH
+        6MjLWvRnwbr5FltDNoCr+d3rU3IjfZI=
+X-Google-Smtp-Source: APXvYqxz3M6HCJRMuwHMqLXb/F2TzfwgO25hHvvLiCniwY27OH8x778qvS1tvbysXkc6Lm5xzEQcuA==
+X-Received: by 2002:a2e:7c12:: with SMTP id x18mr11183266ljc.130.1572903280493;
+        Mon, 04 Nov 2019 13:34:40 -0800 (PST)
+Received: from localhost.localdomain ([91.237.107.85])
+        by smtp.googlemail.com with ESMTPSA id m62sm85114lfa.10.2019.11.04.13.34.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 13:34:39 -0800 (PST)
 From:   Leonid Maksymchuk <leonmaxx@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     platform-driver-x86@vger.kernel.org,
         acpi4asus-user@lists.sourceforge.net, chiu@endlessm.com,
         yurii.pavlovskyi@gmail.com, kristian@klausen.dk,
-        andy@infradead.org, dvhart@infradead.org, corentin.chary@gmail.com
-References: <d3dbac09-3c93-c695-ae52-4b599a0a78c6@gmail.com>
-Message-ID: <a0494561-3e48-d777-f228-e6dbe580f48a@gmail.com>
-Date:   Mon, 4 Nov 2019 20:29:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        andy@infradead.org, dvhart@infradead.org, corentin.chary@gmail.com,
+        Leonid Maksymchuk <leonmaxx@gmail.com>
+Subject: [PATCH v2 0/3] asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
+Date:   Mon,  4 Nov 2019 23:34:17 +0200
+Message-Id: <20191104213417.18036-1-leonmaxx@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <d3dbac09-3c93-c695-ae52-4b599a0a78c6@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Set default fan boost mode to normal for multiple reasons:
+Hi,
 
-1) existing code assumes that laptop started in normal mode and that is
-    not always correct.
-2) FX705DY/FX505DY starts in silent mode and under heavy CPU load it
-    overheats and drops CPU frequency to 399MHz [1]. Setting fan mode to
-    normal avoids overheating.
+this patch series adds support of ASUS TUF laptops on Ryzen CPUs to existing
+asus_wmi platform driver and also fixes minor bug.
 
-[1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
+v2: fixed indentation.
 
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
----
-  drivers/platform/x86/asus-wmi.c | 13 +++++++++++++
-  1 file changed, 13 insertions(+)
+Leonid Maksymchuk (3):
+  asus_wmi: Fix return value of fan_boost_mode_store
+  asus_wmi: Add support for fan boost mode on FX505DY/FX705DY
+  asus_wmi: Set default fan boost mode to normal
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index f4e5840..70c5fbb 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1674,6 +1674,18 @@ static int fan_boost_mode_write(struct asus_wmi *asus)
-  	return 0;
-  }
-  
-+static int fan_boost_mode_set_default(struct asus_wmi *asus)
-+{
-+	int result = 0;
-+
-+	if (asus->fan_boost_mode_available) {
-+		asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
-+		result = fan_boost_mode_write(asus);
-+	}
-+
-+	return result;
-+}
-+
-  static int fan_boost_mode_switch_next(struct asus_wmi *asus)
-  {
-  	u8 mask = asus->fan_boost_mode_mask;
-@@ -2450,6 +2462,7 @@ static int asus_wmi_add(struct platform_device *pdev)
-  	err = fan_boost_mode_check_present(asus);
-  	if (err)
-  		goto fail_fan_boost_mode;
-+	fan_boost_mode_set_default(asus);
-  
-  	err = asus_wmi_sysfs_init(asus->platform_device);
-  	if (err)
+ drivers/platform/x86/asus-wmi.c            | 57 ++++++++++++++++++++++--------
+ include/linux/platform_data/x86/asus-wmi.h |  1 +
+ 2 files changed, 43 insertions(+), 15 deletions(-)
+
 -- 
 1.8.3.1
 
