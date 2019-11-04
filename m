@@ -2,45 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B584EECF4E
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 Nov 2019 15:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72987EDCEC
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 11:53:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbfKBOsP (ORCPT
+        id S1728542AbfKDKxF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 2 Nov 2019 10:48:15 -0400
-Received: from [211.53.128.215] ([211.53.128.215]:21896 "EHLO MAIL.isd.co.kr"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726437AbfKBOsO (ORCPT
+        Mon, 4 Nov 2019 05:53:05 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:34624 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726364AbfKDKxF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 2 Nov 2019 10:48:14 -0400
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Sat, 02 Nov 2019 10:48:14 EDT
-Received: from 192.168.1.163 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
- with Microsoft SMTP Server id 14.3.123.3; Sat, 2 Nov 2019 23:43:07 +0900
-Date:   Sat, 2 Nov 2019 15:43:03 +0100
-From:   Peter Wong <choimj@isd.co.kr>
-Reply-To: Peter Wong <pw178484@gmail.com>
-To:     <platform-driver-x86@vger.kernel.org>
-Message-ID: <24348561.64076.1572705786087.JavaMail.cash@webmail.isd.co.kr>
-Subject: Your opportunity
+        Mon, 4 Nov 2019 05:53:05 -0500
+Received: by mail-qt1-f196.google.com with SMTP id h2so9968889qto.1;
+        Mon, 04 Nov 2019 02:53:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=wBiUmcDstWLkNGFI112Kv0VvZlPGkJFQqYWydYG4yjs=;
+        b=OyAJ8njzmcrjHgQAGYTuuBXB1hoLuN/6Z6aDFiiaRTX/xJ8g6Mt7m1qJOjy6BTN/c+
+         XHoB+20oIlo1Ce6V7JqqxGBZEZbLyzsqj5ColWQqfBi7Wu5lnq8DAzDabndJYuCnV9g6
+         T81lB6NP0+rcEzsCRRMHHOZdfTy2WRH0gY8a2ry9dLyYlqXgGIQO9GSaYLC+MIZVIEjH
+         oVMyN/P4x5SxlP4ehwUlmpe6NESNcCB3kk2b81jCrVb8L9kK493Kb7hmLmVQPsMnC3mg
+         DBVto5peDkrj4fY3kzn582xpYalTGTxVNQQitpDTRQ674NbCPJn7RKqXBVx4xtGr8QxJ
+         mo6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=wBiUmcDstWLkNGFI112Kv0VvZlPGkJFQqYWydYG4yjs=;
+        b=dWPv66U/OtUVScG+FWrc2Pw9lQKgqYSXNxxzlQL7GVSFVC/+EmyT2da9F8RPloxGmd
+         Y/FUVZkOidmAAtYsBgCql0/RqIvbT6xKO0lX0OwVcwy+N5DDXTG501Y2LdJ2NAgRoxy2
+         w3d6yxBy1ot6mJzti5EeK1ziyv33RciXeJcwMJfMOusIyeIo/AZgnRmfoz+NP7Ep2EjD
+         P0ls23Cr/gVzRYmb7+Gfm4j2g8/e/ldGuOBD2Sch7XO18YG+wzxvlI54tUty4tP28oZc
+         /t5So3lzR85ryr9e/SQd/tKVWZG/bvtrL+VTZAB3eeVNcfa7aFCnc4FFUnsFQQTCY48R
+         3vxg==
+X-Gm-Message-State: APjAAAVwafrS4ipYqXg30DfhI6N/s3xWW3VZ5s0DVG24+SN8D3gNGByB
+        1lqLHCm1VcVnRLozUkiI4DIanzsXdqfQ3qCmbEVWhT8RTew=
+X-Google-Smtp-Source: APXvYqziMCwP+xvqtt37T+x49RTUx+d+DF4WMdxTYIbcMUY5Gi8/fJG5C5nyP3s7kOH9HJ/Lcvd2r7d+QwtMZCmQvxI=
+X-Received: by 2002:a05:6214:2b:: with SMTP id b11mr21827281qvr.194.1572864784244;
+ Mon, 04 Nov 2019 02:53:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [217.217.179.17]
+From:   Leon Maxx <leonmaxx@gmail.com>
+Date:   Mon, 4 Nov 2019 12:52:53 +0200
+Message-ID: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
+Subject: [RFC PATCH 0/3] asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
+To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, andy@infradead.org,
+        dvhart@infradead.org, corentin.chary@gmail.com, drake@endlessm.com,
+        yurii.pavlovskyi@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings,
+Hi,
 
-Find this mail very confidential. reply for more details
+this patch series adds support of ASUS TUF laptops on Ryzen CPUs to existing
+asus_wmi platform driver and also fixes minor bug.
 
-Thanks.
-Peter Wong
+Leonid Maksimchuk (3):
+  platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
+  platform/x86: asus_wmi: Support fan boost mode on FX505DY/FX705DY
+  platform/x86: asus_wmi: Set default fan boost mode to normal
 
-
-
-
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
-
+ drivers/platform/x86/asus-wmi.c            | 57 +++++++++++++++++++++--------
+ include/linux/platform_data/x86/asus-wmi.h |  1 +
+ 2 files changed, 43 insertions(+), 15 deletions(-)
