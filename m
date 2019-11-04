@@ -2,92 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74BFBEE29A
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 15:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76DB5EE58E
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 18:08:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728012AbfKDOdv (ORCPT
+        id S1729240AbfKDRIE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Nov 2019 09:33:51 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42232 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727861AbfKDOdu (ORCPT
+        Mon, 4 Nov 2019 12:08:04 -0500
+Received: from david.siemens.de ([192.35.17.14]:56344 "EHLO david.siemens.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727998AbfKDRIE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Nov 2019 09:33:50 -0500
-Received: by mail-pg1-f196.google.com with SMTP id s23so8033142pgo.9;
-        Mon, 04 Nov 2019 06:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y0LjwwudNxoKXLMFauDhc+7y1KSWawa3U8V/1y04qhY=;
-        b=W3u/M/m8YPcgoIbvOq3z+AScd9MMk40jPqIPQgOzYCSQ5/gufeqYXWhrfS4AkTVd1Q
-         jYOl1O8z/3IGl+X7b8MQ4Y/poh2Sweu4BsvaK3vOlnl/jY8mv8TTNCwLaraIPdxPoG0G
-         JraidkM2O04yJwgYQbYt71l7lm0ZmKblXMAnCkjNV5RKQ4kAtpv23/1JAYFQvW5Xk7kS
-         KLfd6BS+5CvHrCgEzAQS2xPBiuWiAs9p4UXpG7pLCAZ3H9vxT7z1YEGnaBr5fgN74N0N
-         ie7IpevCE9DizovPo7YE+exr0mDFZfYVYsRPWrFWovUcHvpuK1Eij7O7GRdlQT9gSoQk
-         XpaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y0LjwwudNxoKXLMFauDhc+7y1KSWawa3U8V/1y04qhY=;
-        b=BdzBCll3Zzkhh2SQpohKFzbdXkOhCUr9lgk9ie+QrRg2LqH84DrH487G1SPJn1vbnS
-         ldEDjyFw9//s873xJLYeiIxhXjHFGfVxwcY3rc/nE9evxM0+a+f8Wt3S5OW3UR/Wvywo
-         ho1pFhQ8cQrnEwMLspydCDfw5qDR4lQ1kirXNtxhtBHVL36jyN95cT+9Dr4Hc5YHo5P6
-         CV+TbSQe2eClcpI7A+VEi9kCe3oRCXih9nsGy6yLUSZ8DSFqRrWF1UIOFshf7zp1Cbpd
-         Q+krnXtE+u9VTm1m/vQ46rKZrVZWsiiDtdL8Xh1uQTKXPLvylVBm/Kytmh2GwD3SNz+t
-         RyhQ==
-X-Gm-Message-State: APjAAAU0eGVH4EhFjg2WdQBwaQGutdDY9hE8MQcxb1QH63mvkDgulGVo
-        glllZSOlOlcQIER2F3af1peJ8z2ct31pU4uR4qw=
-X-Google-Smtp-Source: APXvYqzWBznWzT1SNSexxUG7YFpcNOyrpq2OEJL3zO7BFJXo/sn/h9Fo+N22Dk38B51SR9YoC/Pw8q12nowE0T29nEE=
-X-Received: by 2002:a65:5542:: with SMTP id t2mr29785749pgr.74.1572878030045;
- Mon, 04 Nov 2019 06:33:50 -0800 (PST)
+        Mon, 4 Nov 2019 12:08:04 -0500
+X-Greylist: delayed 2763 seconds by postgrey-1.27 at vger.kernel.org; Mon, 04 Nov 2019 12:08:03 EST
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id xA4GLSU1016106
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 4 Nov 2019 17:21:29 +0100
+Received: from [139.25.68.37] ([139.25.68.37])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id xA4GKI3G003009;
+        Mon, 4 Nov 2019 17:20:18 +0100
+Subject: Re: [PATCH v2] platform/x86: pmc_atom: Add Siemens SIMATIC IPC227E to
+ critclk_systems DMI table
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+To:     Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>,
+        Henning Schild <henning.schild@siemens.com>
+References: <c090302a-da38-5764-2a84-399ed6b333f5@siemens.com>
+Message-ID: <16119dad-9597-ecdc-a0e7-e386030659ce@siemens.com>
+Date:   Mon, 4 Nov 2019 17:20:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
-In-Reply-To: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 4 Nov 2019 16:33:38 +0200
-Message-ID: <CAHp75VdWSfR+4kMA470ZVBHiDi_HCGOwS6q=xOg0neubcxGG8Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
-To:     Leon Maxx <leonmaxx@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Daniel Drake <drake@endlessm.com>,
-        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <c090302a-da38-5764-2a84-399ed6b333f5@siemens.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 12:53 PM Leon Maxx <leonmaxx@gmail.com> wrote:
->
-> Hi,
->
-> this patch series adds support of ASUS TUF laptops on Ryzen CPUs to existing
-> asus_wmi platform driver and also fixes minor bug.
->
+On 04.09.19 08:42, Jan Kiszka wrote:
+> From: Jan Kiszka <jan.kiszka@siemens.com>
+> 
+> The SIMATIC IPC227E uses the PMC clock for on-board components and gets
+> stuck during boot if the clock is disabled. Therefore, add this device
+> to the critical systems list.
+> 
+> Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+> ---
+> 
+> Changes in v2:
+>  - fixed cut-off subject line (local tooling bug...)
+> 
+> Should go into stable as well, down to 4.19.
 
-All three patches are broken. Please, fix your MTA / MUA (for the
-latter one it's highly recommended to use git-send-email).
-You may test patches by sending to another address you have in some
-extarnal domain.
+This one is in 5.4-rc now (as ad0d315b4d4e). Is it also queued somewhere
+for stable kernels? IIRC, it's generally the privilege of the subsystem
+maintainer to propose formally to stable.
 
-> Leonid Maksimchuk (3):
->   platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
->   platform/x86: asus_wmi: Support fan boost mode on FX505DY/FX705DY
->   platform/x86: asus_wmi: Set default fan boost mode to normal
->
->  drivers/platform/x86/asus-wmi.c            | 57 +++++++++++++++++++++--------
->  include/linux/platform_data/x86/asus-wmi.h |  1 +
->  2 files changed, 43 insertions(+), 15 deletions(-)
+I've received reports from users down at 4.14 with the need for it (4.9
+is unaffected). And the same applies to f110d252ae79 ("platform/x86:
+pmc_atom: Add Siemens SIMATIC IPC277E to critclk_systems DMI table").
 
+TIA!
+Jan
 
+> 
+>  drivers/platform/x86/pmc_atom.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+> index aa53648a2214..9aca5e7ce6d0 100644
+> --- a/drivers/platform/x86/pmc_atom.c
+> +++ b/drivers/platform/x86/pmc_atom.c
+> @@ -415,6 +415,13 @@ static const struct dmi_system_id critclk_systems[] = {
+>  			DMI_MATCH(DMI_BOARD_NAME, "CB6363"),
+>  		},
+>  	},
+> +	{
+> +		.ident = "SIMATIC IPC227E",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
+> +			DMI_MATCH(DMI_PRODUCT_VERSION, "6ES7647-8B"),
+> +		},
+> +	},
+>  	{ /*sentinel*/ }
+>  };
+>  
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
