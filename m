@@ -2,63 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2860FEDD46
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 12:03:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A9E2EE289
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Nov 2019 15:31:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728482AbfKDLDO (ORCPT
+        id S1728012AbfKDObU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Nov 2019 06:03:14 -0500
-Received: from mga04.intel.com ([192.55.52.120]:13206 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728556AbfKDLDL (ORCPT
+        Mon, 4 Nov 2019 09:31:20 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:33851 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727838AbfKDObU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Nov 2019 06:03:11 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 03:03:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; 
-   d="scan'208";a="232021254"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Nov 2019 03:03:11 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andriy.shevchenko@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        prarit@redhat.com,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 10/10] tools/power/x86/intel-speed-select: Increment version
-Date:   Mon,  4 Nov 2019 03:02:46 -0800
-Message-Id: <20191104110246.70465-11-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20191104110246.70465-1-srinivas.pandruvada@linux.intel.com>
-References: <20191104110246.70465-1-srinivas.pandruvada@linux.intel.com>
+        Mon, 4 Nov 2019 09:31:20 -0500
+Received: by mail-pg1-f193.google.com with SMTP id e4so11430799pgs.1;
+        Mon, 04 Nov 2019 06:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rHM+Nw/8jOJvv4TBTdEZSFA2s4Y3e3lovWANcXpAB3E=;
+        b=hIOdbhWwtMCBydD/NiFvFvyTYNWGcsVlwT1ldA2nksr7jJXY22Eb4rwji4+5s2FsCe
+         SOsKwzFHhFBYe4/V/zi41UNssZFcfRhgmifDni4n/QPlABu6o7Abnhj4phbNvGyMgl/L
+         wplo3DdL9N0IVfahkBM87ROl593oSo7UfUfu8kFNAMe47FoJiYyyqX91YxbeUQ8E1IV6
+         NTkPC0N9WDQjypbK0NOkYI592Q9DmYBrifVHUEK2oqq9wN4cy3xEspZgkTZUOxIdtE6E
+         xoEkeaoZjtYQ/lkWLue0sQSul8k7nhah597D1nZqGG7yGbQMPX50TaVLGsktsqxqsWO4
+         VE0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rHM+Nw/8jOJvv4TBTdEZSFA2s4Y3e3lovWANcXpAB3E=;
+        b=Am/JrSweTNB7VEODen6U3fWGmCSal/A/Ggt1keJoZQySxBvChDK5vAgDMpluHFaIAU
+         7BUP2KGWcwzpZXBTj0fLfLpRuVHNyHVK+VINYJw77tv/8sp6rlpAuQpAbLobBMfFVIci
+         8sEPmDnEUzyiqD67Zqxae4vtZwhx37HVLmQoNIf6nGiGTdxj6Lwni2aJ5AdlnbL8tIkd
+         yyyUfkeyVHX0RSDhaYtd4Oc6E68K7rGcu/9jnIum2PSKoyPQRcVR6DYGWBiARIogQzyj
+         XqlZuAkZONvTkwr5Ih8JhBCjFGMCZEsMGMkc8ex3L6Ye3dIuVuuNZDboq7lDjahpCbmc
+         Flyw==
+X-Gm-Message-State: APjAAAWRNYLuFMZ6CzCYCGP6F0MK6h/B0+qu97FWvpy56wqGxt2VJQXd
+        CDbucoW/N8ueV7HubfJiUvb80z8fdTioHmd8Bsmt41xFDpE=
+X-Google-Smtp-Source: APXvYqw6KOPjWc2b09oNvxgMcJ2S3F00dCe5H/tm0SJ/9zK/yaeulcXhQWqKh2vy08N3hQv5MkL86yZkiAJrnfbHs7k=
+X-Received: by 2002:a62:1ad6:: with SMTP id a205mr31347462pfa.64.1572877878124;
+ Mon, 04 Nov 2019 06:31:18 -0800 (PST)
+MIME-Version: 1.0
+References: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
+ <CAPW-Pu0qCfNXwjDW90To5ZpwtfpXAzm93CWFaUvA_9YQW5Ke-g@mail.gmail.com>
+In-Reply-To: <CAPW-Pu0qCfNXwjDW90To5ZpwtfpXAzm93CWFaUvA_9YQW5Ke-g@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 4 Nov 2019 16:31:07 +0200
+Message-ID: <CAHp75VfxN-CEeMiQDfuBge81sFnDbQuOQ-W4Ksc3d2QGJCWC1w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
+To:     Leon Maxx <leonmaxx@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Daniel Drake <drake@endlessm.com>,
+        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Since the tool now adds support for another Intel SST implementation,
-increment version number.
+On Mon, Nov 4, 2019 at 12:54 PM Leon Maxx <leonmaxx@gmail.com> wrote:
+>
+> Function fan_boost_mode_store should return number of bytes written
+> but instead it returns return value of kstrtou8 which is 0 if
+> conversion is succefull. This leads to infinite loop after any
+> write to it's SysFS entry.
+>
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- tools/power/x86/intel-speed-select/isst-config.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes tag missing.
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index e0bad43697dc..944183f9ed5a 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -15,7 +15,7 @@ struct process_cmd_struct {
- 	int arg;
- };
- 
--static const char *version_str = "v1.0";
-+static const char *version_str = "v1.1";
- static const int supported_api_ver = 1;
- static struct isst_if_platform_info isst_platform_info;
- static char *progname;
+> Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
+> ---
+>  drivers/platform/x86/asus-wmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 821b08e..723aa4d 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -1718,7 +1718,7 @@ static ssize_t fan_boost_mode_store(struct device *dev,
+>   asus->fan_boost_mode = new_mode;
+>   fan_boost_mode_write(asus);
+>
+> - return result;
+> + return count;
+>  }
+>
+>  // Fan boost mode: 0 - normal, 1 - overboost, 2 - silent
+> --
+> 1.8.3.1
+
+
+
 -- 
-2.17.2
-
+With Best Regards,
+Andy Shevchenko
