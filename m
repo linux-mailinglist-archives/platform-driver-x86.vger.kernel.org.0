@@ -2,72 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8430FF04F9
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Nov 2019 19:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A34A9F05DA
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Nov 2019 20:21:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390423AbfKESVy (ORCPT
+        id S2390782AbfKETVC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Nov 2019 13:21:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34403 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389356AbfKESVy (ORCPT
+        Tue, 5 Nov 2019 14:21:02 -0500
+Received: from mga14.intel.com ([192.55.52.115]:36435 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389691AbfKETVC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Nov 2019 13:21:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572978113;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=w9g15sENYBEZnjXMt46nW0z05EByEidvyKLXDGTiGtk=;
-        b=MDj6K9ouAzeVjurOs7zKasZQmfKRli1usT0rBvUE5nqZWsdGZZAywZOEBbsh7tlUVEHYIx
-        GqTMIZdYadz9R1BEvOSJFtCVgu/jJqd3FDHambnYxKXcfzdH4K/DMLM38yZ0G62rjpefpm
-        2E/SxpJ/Vy1TXiJPLuiYOcNLcryzeew=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-Dwlai_faOi6eYeoD9w8hrg-1; Tue, 05 Nov 2019 13:21:52 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6E581005500;
-        Tue,  5 Nov 2019 18:21:50 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 63A8D5C1BB;
-        Tue,  5 Nov 2019 18:21:50 +0000 (UTC)
+        Tue, 5 Nov 2019 14:21:02 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2019 11:21:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,271,1569308400"; 
+   d="scan'208";a="212602897"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2019 11:21:02 -0800
+Message-ID: <3c81a1af52a4bff13ed166cf73ae34bcdd17f08d.camel@linux.intel.com>
 Subject: Re: [RESEND][PATCH 00/10] intel-speed-select tool updates targetted
  for 5.5
-To:     andriy.shevchenko@intel.com
-Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>, andriy.shevchenko@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 05 Nov 2019 11:21:02 -0800
+In-Reply-To: <905ec7d0-bc1b-987c-a9db-e898d7ba7e96@redhat.com>
 References: <20191010202945.73616-1-srinivas.pandruvada@linux.intel.com>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <905ec7d0-bc1b-987c-a9db-e898d7ba7e96@redhat.com>
-Date:   Tue, 5 Nov 2019 13:21:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20191010202945.73616-1-srinivas.pandruvada@linux.intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Dwlai_faOi6eYeoD9w8hrg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+         <905ec7d0-bc1b-987c-a9db-e898d7ba7e96@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Tue, 2019-11-05 at 13:21 -0500, Prarit Bhargava wrote:
+> 
+> On 10/10/19 4:29 PM, Srinivas Pandruvada wrote:
+> > There are no new patches in this series. This is just for clean
+> > apply on
+> > 5.4-rc1 for Andriy.
+> > 
+> 
+> Andriy, what is the location of your "next" tree?
+> 
 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/tools/power/x86/intel-speed-select?h=next-20191105
 
-On 10/10/19 4:29 PM, Srinivas Pandruvada wrote:
-> There are no new patches in this series. This is just for clean apply on
-> 5.4-rc1 for Andriy.
->=20
-
-Andriy, what is the location of your "next" tree?
+They include all patches, except which I sent yesterday.
 
 Thanks,
+Srinivas
 
-P.
+
+> Thanks,
+> 
+> P.
+> 
 
