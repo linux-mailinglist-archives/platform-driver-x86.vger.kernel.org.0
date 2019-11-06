@@ -2,138 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B91F0AA8
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Nov 2019 00:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F07F0F98
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Nov 2019 08:05:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730722AbfKEX5C (ORCPT
+        id S1731602AbfKFHDa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Nov 2019 18:57:02 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39785 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730704AbfKEX5A (ORCPT
+        Wed, 6 Nov 2019 02:03:30 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40850 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731601AbfKFHDa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Nov 2019 18:57:00 -0500
-Received: by mail-pf1-f196.google.com with SMTP id x28so14132428pfo.6;
-        Tue, 05 Nov 2019 15:56:59 -0800 (PST)
+        Wed, 6 Nov 2019 02:03:30 -0500
+Received: by mail-pl1-f194.google.com with SMTP id e3so8860402plt.7;
+        Tue, 05 Nov 2019 23:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Lyd/uQwCMyHvu0EwXvw/80bYdPYYHY4g1rXnVpIYvtQ=;
-        b=QUBzc0rQ+6OSXZ6QoHFh7qoNgThIJgzdzc+UcxyU3G/RUF4bLMI8JGxLftWHgt2X7H
-         nmHUOLAxFBgQFQgeu/QJoC3WRDETTCsdRAB5L89zXLZGvUqwy5AJZYzQWMb5uEDY1hVC
-         ncY/51LRWT+JvGoOqhJqo896nyMeRsDLO/QQaU2MbluuwnchgsOijC6iB6WnL+VNtt2I
-         xVcnV7j4QY86iD4aEZJ1cWcUlo3ZcgHwDRKfe4toB1OSf6Eu+uXgLzdSmTpAFZAmHNg1
-         QivA+SZSuL29lwcneC10YMMvbvpLTXPn9km3/HrkOa08C1rXu0puE5rmtQ8xOZXF8tUc
-         h4RQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WN6t2RxJTrcSpXWmkeYE7YP/Liw+XUS9WWZURfMVu18=;
+        b=e0d3mmTA3q+QfxCGgXPi0MsudpNOZYUrnPNw83QkvDpwth/fkqJuxRIWo2EkiK6DLz
+         IeJqc46wle64sFTk8FuEVNXLJrRk4prjD8RX/WOCZ3/OzvEtypYyfPtU5PDwGwVBfbER
+         JZ0wW0gPRcE7OhCBImVi2VYJfOdqvaoQzUjUwOqUge+mExV/crPCKnPmNGjcnAxP6h/g
+         kpEJECsmzWVub9jtDJw+OWKvohu1AcTJXc0BlSGYF18mnqPh6cQ7sE964JYSDrwXExk9
+         ipSMejz88ZGZHsVszIpIEsBdqxIxj1pzUwHj3TFpbT4z1CfnxmrmnuDUWfIoCUysFjAc
+         qxQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Lyd/uQwCMyHvu0EwXvw/80bYdPYYHY4g1rXnVpIYvtQ=;
-        b=ZANrDJl5eC6fW3M8tvzTv/FxYeuknppAWmyD1Fb0q33GIMCIAgAJ+q1Ov2qF/jjL67
-         XS1s9P7zASTXVo0YKzu60oAeUD9NQe6E4rDlGoVQnzP8gODn6reTX92CsMRjsEU2F01G
-         oGbQZEKti7XQKrEVscbIj6fUqiKp4PvGM5EgEKhm41EIAvp5zELIR/ZkbkgTA/S+VQhQ
-         mWUZp45yuj44Mm3RDYbxV8z1J1ru17Frszm3/AX1OXCYk2TgSuBIuDC/By00RClXkwVu
-         Pz0kbjK3/EOqxjutTdIh+PHpSV7Qb5xMjtSWDXWK8Q8aeS0L438AVP1yq26yrXg6IMIZ
-         4PNA==
-X-Gm-Message-State: APjAAAVgCIjHGzRPrgVFHv8ch9rt9pXkIxPbdE2rvDo1UiesM16k1s5I
-        /EDgeaIjsZgZs18Y4Hvh2dl5fBj8
-X-Google-Smtp-Source: APXvYqw1tZlGJpnft6JBqkIg80ds5OGJJXsVz3MvtryZMlCAINilHgvNVbjSVNUMeenci+2YHQO2CQ==
-X-Received: by 2002:a65:404b:: with SMTP id h11mr39237598pgp.28.1572998218903;
-        Tue, 05 Nov 2019 15:56:58 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id q34sm564387pjb.15.2019.11.05.15.56.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 15:56:58 -0800 (PST)
-Date:   Tue, 5 Nov 2019 15:56:56 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v6 11/15] software node: move small properties inline
- when copying
-Message-ID: <20191105235656.GW57214@dtor-ws>
-References: <20191023200233.86616-1-dmitry.torokhov@gmail.com>
- <20191023200233.86616-12-dmitry.torokhov@gmail.com>
- <47671501.dVG71sAca0@kreacher>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WN6t2RxJTrcSpXWmkeYE7YP/Liw+XUS9WWZURfMVu18=;
+        b=I6mHt/7wRhqQXrPE7pTLs641uAzSNpqG7uGqj8Y/0c5B5e/D1rDBfPSrPYLKNF8lCo
+         Y76nNVUCl8gZtbn85gQML7oMY0cBIkveXX35DpcU2XOaAm9hWLTgeyk0Sb3OU8yso3ie
+         VlLbXsOEhG1jZaJoUqLbhAeWL5Mns/QH144svv0GEnsiUuqvS1nlnZ2qyPjVhrisz0+g
+         iy/1ECYv/97LIjYMiOcQN1Oj6pZTfHGkiun5Sk7woOWH9G9aGYDaV79j9iyPBn7rSnOC
+         xYgdpYd6QZt4RNZIdlqG4saEoHeemsCKtI4TyRiFnzERZxeh5U6CzUwOgOOmF/bHE2QL
+         R15w==
+X-Gm-Message-State: APjAAAX7M97vjtRaNB+6oXdAU+triff4QK6tmxl9jYSnoGt/yfKIORV0
+        +llJNJiRIhQ6bpnj5sYD7C5oOng+MLB1WE7rhZ0=
+X-Google-Smtp-Source: APXvYqw4jyXL6u9kK1PwIkQAjG0ZoqTmBU33xW+M3eN+g5vMz4eih/Rdu9J4jTWVAlWUjIE3n3XB5B69aeDKKfte098=
+X-Received: by 2002:a17:902:bb84:: with SMTP id m4mr1006603pls.255.1573023809520;
+ Tue, 05 Nov 2019 23:03:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47671501.dVG71sAca0@kreacher>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191104213417.18036-1-leonmaxx@gmail.com> <20191104213907.18413-1-leonmaxx@gmail.com>
+In-Reply-To: <20191104213907.18413-1-leonmaxx@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 6 Nov 2019 09:03:17 +0200
+Message-ID: <CAHp75VfgTAa8TgTYn99gr_F4mmVuJZgEu=JcDE+bOnAO-pqqxA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] platform/x86: asus_wmi: Set default fan boost mode
+ to normal
+To:     Leonid Maksymchuk <leonmaxx@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Chris Chiu <chiu@endlessm.com>,
+        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
+        Kristian Klausen <kristian@klausen.dk>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Rafael,
+On Mon, Nov 4, 2019 at 11:39 PM Leonid Maksymchuk <leonmaxx@gmail.com> wrote:
+>
+> Set default fan boost mode to normal for multiple reasons:
+>
+> 1) existing code assumes that laptop started in normal mode and that is
+>    not always correct.
+> 2) FX705DY/FX505DY starts in silent mode and under heavy CPU load it
+>    overheats and drops CPU frequency to 399MHz [1]. Setting fan mode to
+>    normal avoids overheating.
+>
+> [1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
+>
+> Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
 
-On Wed, Nov 06, 2019 at 12:42:02AM +0100, Rafael J. Wysocki wrote:
-> On Wednesday, October 23, 2019 10:02:29 PM CET Dmitry Torokhov wrote:
-> > When copying/duplicating set of properties, move smaller properties that
-> > were stored separately directly inside property entry structures. We can
-> > move:
-> > 
-> > - up to 8 bytes from U8 arrays
-> > - up to 4 words
-> > - up to 2 double words
-> > - one U64 value
-> > - one or 2 strings.
-> 
-> Yes, we can do that, but how much of a difference does this really make?
+> +static int fan_boost_mode_set_default(struct asus_wmi *asus)
+> +{
+> +       int result = 0;
+> +
+> +       if (asus->fan_boost_mode_available) {
+> +               asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
+> +               result = fan_boost_mode_write(asus);
+> +       }
+> +
+> +       return result;
+> +}
 
-Arguably not much I think, but it was pretty cheap to do.
+This can be refactored
 
-> 
-> Also, how can one distinguish between a single-value property and an inline
-> array which this change?  By looking at the length?
-
-We do not really need to distinguish between the 2. The device
-properties API is typically wrap single values around arrays (i.e. it is
-perfectly fine to use scalar API to fetch first element of array and use
-array API to fetch a scalar). So we have property of certain type with
-certain number of elements, and it can either be stored inside
-property_entry structure, or outside of it. They are 2 orthogonal
-concepts.
-
-> 
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > ---
-> >  drivers/base/swnode.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> > index 18a30fb3cc58..49e1108aa4b7 100644
-> > --- a/drivers/base/swnode.c
-> > +++ b/drivers/base/swnode.c
-> > @@ -280,6 +280,16 @@ static int property_entry_copy_data(struct property_entry *dst,
-> >  	if (!dst->name)
-> >  		goto out_free_data;
-> >  
-> > +	if (!dst->is_inline && dst->length <= sizeof(dst->value)) {
-> > +		/* We have an opportunity to move the data inline */
-> > +		const void *tmp = dst->pointer;
-> > +
-> > +		memcpy(&dst->value, tmp, dst->length);
-> > +		dst->is_inline = true;
-> > +
-> > +		kfree(tmp);
-> 
-> This would have been more useful if we had been able to avoid making the
-> allocation altogether.
-
-OK, I can do that and re-send this patch and the one with the tests. In
-the mean time, can you please consider patches 12-14? They can be
-applied even if you temporarily drop this one (#11).
-
-Thanks.
+if (!foo)
+  return 0;
+...
+return bar(asus);
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
