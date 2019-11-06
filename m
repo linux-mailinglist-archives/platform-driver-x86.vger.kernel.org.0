@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F07F0F98
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Nov 2019 08:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0289F0FBD
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Nov 2019 08:05:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731602AbfKFHDa (ORCPT
+        id S1731805AbfKFHEp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 Nov 2019 02:03:30 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40850 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731601AbfKFHDa (ORCPT
+        Wed, 6 Nov 2019 02:04:45 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44225 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731321AbfKFHEo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 Nov 2019 02:03:30 -0500
-Received: by mail-pl1-f194.google.com with SMTP id e3so8860402plt.7;
-        Tue, 05 Nov 2019 23:03:30 -0800 (PST)
+        Wed, 6 Nov 2019 02:04:44 -0500
+Received: by mail-pg1-f196.google.com with SMTP id f19so7385781pgk.11;
+        Tue, 05 Nov 2019 23:04:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WN6t2RxJTrcSpXWmkeYE7YP/Liw+XUS9WWZURfMVu18=;
-        b=e0d3mmTA3q+QfxCGgXPi0MsudpNOZYUrnPNw83QkvDpwth/fkqJuxRIWo2EkiK6DLz
-         IeJqc46wle64sFTk8FuEVNXLJrRk4prjD8RX/WOCZ3/OzvEtypYyfPtU5PDwGwVBfbER
-         JZ0wW0gPRcE7OhCBImVi2VYJfOdqvaoQzUjUwOqUge+mExV/crPCKnPmNGjcnAxP6h/g
-         kpEJECsmzWVub9jtDJw+OWKvohu1AcTJXc0BlSGYF18mnqPh6cQ7sE964JYSDrwXExk9
-         ipSMejz88ZGZHsVszIpIEsBdqxIxj1pzUwHj3TFpbT4z1CfnxmrmnuDUWfIoCUysFjAc
-         qxQg==
+        bh=1tK6qAgSyW1KVyDgDREpaqmKGvD0WIXvKK/Qd6b0nDE=;
+        b=ae+CLWxdJ3cYhTJypVyTMiKYRRBjtcupazQX7FhuFJgEqDORogowjNmDWmOLcAmf3D
+         GotCPztGZjZW8WqD3qfU8baB4BYxEQ3rqzAyZya6Akj/Ixf2TRZyZ0h5O2mc3NdTjU0T
+         RAF2UP80BV91SDlLUacf0n4+28QvsyB0XCIJbtTc2aqvIIiKP4LcUESt9URLbTN7XRGi
+         Y2eX1QJMpis4kGBTmHXTBzsxs8PgML7Ul81JS8JNFt0/qUA3mXVyKitcaWwrFYSXgOa4
+         iHPnvCdA1nVzxLUpYdZ4ECjok20iHKwwcLOuCsamCiNroVDCTAfjUClIfegTtyq/VPe/
+         0QUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WN6t2RxJTrcSpXWmkeYE7YP/Liw+XUS9WWZURfMVu18=;
-        b=I6mHt/7wRhqQXrPE7pTLs641uAzSNpqG7uGqj8Y/0c5B5e/D1rDBfPSrPYLKNF8lCo
-         Y76nNVUCl8gZtbn85gQML7oMY0cBIkveXX35DpcU2XOaAm9hWLTgeyk0Sb3OU8yso3ie
-         VlLbXsOEhG1jZaJoUqLbhAeWL5Mns/QH144svv0GEnsiUuqvS1nlnZ2qyPjVhrisz0+g
-         iy/1ECYv/97LIjYMiOcQN1Oj6pZTfHGkiun5Sk7woOWH9G9aGYDaV79j9iyPBn7rSnOC
-         xYgdpYd6QZt4RNZIdlqG4saEoHeemsCKtI4TyRiFnzERZxeh5U6CzUwOgOOmF/bHE2QL
-         R15w==
-X-Gm-Message-State: APjAAAX7M97vjtRaNB+6oXdAU+triff4QK6tmxl9jYSnoGt/yfKIORV0
-        +llJNJiRIhQ6bpnj5sYD7C5oOng+MLB1WE7rhZ0=
-X-Google-Smtp-Source: APXvYqw4jyXL6u9kK1PwIkQAjG0ZoqTmBU33xW+M3eN+g5vMz4eih/Rdu9J4jTWVAlWUjIE3n3XB5B69aeDKKfte098=
-X-Received: by 2002:a17:902:bb84:: with SMTP id m4mr1006603pls.255.1573023809520;
- Tue, 05 Nov 2019 23:03:29 -0800 (PST)
+        bh=1tK6qAgSyW1KVyDgDREpaqmKGvD0WIXvKK/Qd6b0nDE=;
+        b=KVqoFEpAfdEoiNPpY962euGWhqnxDe5u/7xQ5N3WvD0rdpYW4GZhWh5nnhU0m02o2I
+         hm0TOsDVXOlmn89W0HDm76f5zOvTLCPWzPdQebT0NeQkF9HJye0152em4RnHpXrOCaaA
+         eiW7ci4/NoNs4w6qI3H2V40nG/0EQ+Gc2jDcWKyic0+sPe5gQh/U1i6n3Ss4r3BGcAOg
+         dKxxKXNeVbnLClxFDA4MRD5w6kYAQt6Ic71NnoPCDy+8smLsn21CNwtT59ReWnG4QcPA
+         f0EBHh5weWe8f+8IEbNKvLH5yJpVFIC6juBeURdKBo1cEGUPO2p6ecKN/mkQiIOYRAhO
+         366w==
+X-Gm-Message-State: APjAAAUUTiFCd+TQwFaZdnZbX/MWByBGqk4bd7GRqxo0yn2vxPkZFPJ5
+        LdDYxzvUmX09j8CrAb7NDOrEa2QZP5rNhNAscjnjPdQJNig=
+X-Google-Smtp-Source: APXvYqzc4zZKIjN/CYg0KVgxmIzcwQx4OV/6km/EjesoJzoAGNrpR9KJz6tgaXVSYgCHP/jXRqIizOArh/yNANwLH0o=
+X-Received: by 2002:a65:5542:: with SMTP id t2mr1165282pgr.74.1573023882548;
+ Tue, 05 Nov 2019 23:04:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20191104213417.18036-1-leonmaxx@gmail.com> <20191104213907.18413-1-leonmaxx@gmail.com>
-In-Reply-To: <20191104213907.18413-1-leonmaxx@gmail.com>
+References: <20191104213828.18278-1-leonmaxx@gmail.com> <201911050736.UAVD3aIV%lkp@intel.com>
+In-Reply-To: <201911050736.UAVD3aIV%lkp@intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 6 Nov 2019 09:03:17 +0200
-Message-ID: <CAHp75VfgTAa8TgTYn99gr_F4mmVuJZgEu=JcDE+bOnAO-pqqxA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] platform/x86: asus_wmi: Set default fan boost mode
- to normal
-To:     Leonid Maksymchuk <leonmaxx@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Wed, 6 Nov 2019 09:04:31 +0200
+Message-ID: <CAHp75VdS5T8xVn_FFWX4DbAvP34CP3J2Ax_j9row9APQw0PY2w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] platform/x86: asus_wmi: Support fan boost mode on FX505DY/FX705DY
+To:     kbuild test robot <lkp@intel.com>
+Cc:     Leonid Maksymchuk <leonmaxx@gmail.com>, kbuild-all@lists.01.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
         Chris Chiu <chiu@endlessm.com>,
@@ -66,38 +66,17 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 11:39 PM Leonid Maksymchuk <leonmaxx@gmail.com> wrote:
+On Tue, Nov 5, 2019 at 2:01 AM kbuild test robot <lkp@intel.com> wrote:
 >
-> Set default fan boost mode to normal for multiple reasons:
+> Hi Leonid,
 >
-> 1) existing code assumes that laptop started in normal mode and that is
->    not always correct.
-> 2) FX705DY/FX505DY starts in silent mode and under heavy CPU load it
->    overheats and drops CPU frequency to 399MHz [1]. Setting fan mode to
->    normal avoids overheating.
+> Thank you for the patch! Yet something to improve:
 >
-> [1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
->
-> Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v5.4-rc6 next-20191031]
 
-> +static int fan_boost_mode_set_default(struct asus_wmi *asus)
-> +{
-> +       int result = 0;
-> +
-> +       if (asus->fan_boost_mode_available) {
-> +               asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
-> +               result = fan_boost_mode_write(asus);
-> +       }
-> +
-> +       return result;
-> +}
-
-This can be refactored
-
-if (!foo)
-  return 0;
-...
-return bar(asus);
+Leonid, I may not accept patches that contributor didn't even compile.
+How had you tested?
 
 -- 
 With Best Regards,
