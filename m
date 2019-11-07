@@ -2,102 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41878F1021
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Nov 2019 08:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0365CF32F0
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Nov 2019 16:27:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729311AbfKFHVm (ORCPT
+        id S1727142AbfKGP13 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 Nov 2019 02:21:42 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34404 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbfKFHVm (ORCPT
+        Thu, 7 Nov 2019 10:27:29 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43582 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726640AbfKGP13 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 Nov 2019 02:21:42 -0500
-Received: by mail-pf1-f194.google.com with SMTP id n13so6454249pff.1;
-        Tue, 05 Nov 2019 23:21:41 -0800 (PST)
+        Thu, 7 Nov 2019 10:27:29 -0500
+Received: by mail-pf1-f193.google.com with SMTP id 3so2832629pfb.10;
+        Thu, 07 Nov 2019 07:27:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RjcWseZDp53ZsKtc5YLxUsse+m3KARrZ1Ou63MXjdxQ=;
-        b=GanIKZ9MrdVtBmKUbTdfFXkeiCjXtfZJ2sAWIt7dqViG995heeXhR12lcDHp4Emy0w
-         m6Zn2lJmHsEdLZ8jT60LNbMuTcgOSxGjszVigD/1RPxx/aKJC0Q2Y5wwCC2aRAe6zQK/
-         NWv4SdxPlHL9MJgDY6XJWg+QBHq2KT927l211txYZ2pUckdmTThNiMdxT0VZpcVqWdja
-         GTvzYKvKETktYTQnpsar89tAHTNhZNbtC7qz1nJL9ywYaySOjKkaG3uSzLCbhzYhKMSw
-         lDpxBi2gf+sz+fyGrh8tsa8F63bfv62cKMzEQReLKwnHx2b2IjvayiN0k4uuCyUZYoyO
-         M2qA==
+        bh=yilNLCr1c6Ml6FQ1FJVrLK12cLXoyvMqaAPZ1XR1bBE=;
+        b=ddw4oBqFIe9B3eABR985yxY2hyMhaBDvBNajIrJF4ywTO8qJO27QmhfYUH46EBomv7
+         8QgeBGJARRXT0nT5zQca4fxBJ8J8vdl74VScUxBCeTtqjehzcYRF6mRNMfQkJREKe66/
+         2/+QMRFBQXQYRzgmWhChXijxNntU7iDTMezUXqxfoAZL/aDG+7KzTD2ZPxhiN/9YVa7n
+         VIHsnoi4gxbzdvVDqOOx8BkeHh+Zh5VEohqOhbswOBwLwGFpBJ3qe1xzskLvMWbOIC9m
+         otS9L1QpABxXbGngujhkgJWLx3lsqpUPMDDDnhMmlAKz8qf2zYrBI9msvInhOG8+IHiX
+         oxIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RjcWseZDp53ZsKtc5YLxUsse+m3KARrZ1Ou63MXjdxQ=;
-        b=MnXdrAj2ZuPYm4wVVE66i/hluSW8FCs0zULZ5Dh9gQmoqWKr5tkh2U8tL3pSkseJ0V
-         vq3MASyrEsNEZx1WaddDcjhaclGoxdM8A8VKDTBESuQfwP8dRukcaEo1xS0W2PmCE0PI
-         MfFQX29sWV/wd6dqoRj8Q0Q0jcHdEEyUDog4gxKrWQV85rvGkyRUFJ4TL31kQ3vpdP5B
-         C3GyAkj6gDoipiVThANX6oTKDpp1sXW/7YLwZ9Tl63olntO9cXsxfeTtp4BeJWhYiyPD
-         CwUy9btCm82RoKcDpdPgR6fvSnIPxZsEnDZb/usZAk5MiAwDHbuuRCskJICMmx3AZ42l
-         YiKg==
-X-Gm-Message-State: APjAAAVvt//L+b7JXZQTehss6v1uzBHn49oArWLH3buSOoRuFtBJsB8b
-        zM3JEetDK4xrqwbLAvpywm1f86U5cpI1uQPqejU=
-X-Google-Smtp-Source: APXvYqwiBxDuq0Qr009Xx2Cx16r9gU2XC0rGWaLGYHUJDm1uLLJ/41h46s+FlxHihfoFLZfWrPOmuWKgHGe8w48SPyI=
-X-Received: by 2002:a17:90b:958:: with SMTP id dw24mr1895113pjb.30.1573024901387;
- Tue, 05 Nov 2019 23:21:41 -0800 (PST)
+        bh=yilNLCr1c6Ml6FQ1FJVrLK12cLXoyvMqaAPZ1XR1bBE=;
+        b=mpH8ENvuUp4pmeYgixxc7zG37oIWzy0OHb1C39ejt3BTmKo9p+oBW+fqZJcAG1YDq/
+         uKRttWs/bJaG9F1IGJqq9QUqc3slMRjqTCBkNU5OVktHiyFLBO3+LneV8gdeC1VO3x7/
+         hJG1FV3v0k5nG/lmNtrYDz5uWBREQvdgtTghNil0fTTTSgSGfMKNIrPWoDvZDO5Urqmf
+         bpZjCLRIz2nQALaRk0J3gxLYjDcTtabYw1SJLoXI596lCWABPe8/NsDjff+wHTgS2w+i
+         dBpTL1+Gb1vgur4vgkgTbAyBtm8yihpgYmSaarcnIq74zH5/2yQgDlOFqFJy6y+GmGC2
+         783w==
+X-Gm-Message-State: APjAAAUiQm4pR2+w3/0JL0nvw1IvhRm4yO8vLoRvMOqAT2jEU+iD/z0p
+        PVe9A7qrCXcNC78kKJ589KUdl8VGA2Q9ibUG/hc=
+X-Google-Smtp-Source: APXvYqxpLmz49ioA8Vq155EazIHx2dJN5w3RjuTuADatwrxxP3OP2aDmZ1B3eoTR73XTlwo14VI08FPtGOUFVF+tzJ8=
+X-Received: by 2002:a63:3c6:: with SMTP id 189mr5152538pgd.4.1573140448063;
+ Thu, 07 Nov 2019 07:27:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20191104213417.18036-1-leonmaxx@gmail.com>
-In-Reply-To: <20191104213417.18036-1-leonmaxx@gmail.com>
+References: <20190926192603.18647-1-gayatri.kammela@intel.com>
+ <CAHp75Vcrp2ffDCE=tm2dwSEhwfPCPWGhb-Nw0v-7ga2y=_dL8w@mail.gmail.com>
+ <BL0PR11MB31709BA9A5F4E4F5455D913CF2820@BL0PR11MB3170.namprd11.prod.outlook.com>
+ <MN2PR11MB37113F569E63A2CF3D2AC70BF2660@MN2PR11MB3711.namprd11.prod.outlook.com>
+In-Reply-To: <MN2PR11MB37113F569E63A2CF3D2AC70BF2660@MN2PR11MB3711.namprd11.prod.outlook.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 6 Nov 2019 09:21:30 +0200
-Message-ID: <CAHp75VfS_AC+QmCY5M1VXd6QJLFQ=YtTdY4yDrJMPPMY_JxYLg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
-To:     Leonid Maksymchuk <leonmaxx@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Chris Chiu <chiu@endlessm.com>,
-        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
-        Kristian Klausen <kristian@klausen.dk>,
-        Andy Shevchenko <andy@infradead.org>,
+Date:   Thu, 7 Nov 2019 17:27:17 +0200
+Message-ID: <CAHp75Vc=+ZLLqv0_w6NzW5j8BLhCBVoNzFtQ7856c6WsogYTUg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/5] Add Tiger Lake/Elkhart Lake support to pmc_core driver
+To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Liang, Kan" <kan.liang@intel.com>,
+        "Box, David E" <david.e.box@intel.com>,
+        "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 11:34 PM Leonid Maksymchuk <leonmaxx@gmail.com> wrote:
+On Mon, Oct 28, 2019 at 6:41 PM Kammela, Gayatri
+<gayatri.kammela@intel.com> wrote:
 >
-> Hi,
+> > -----Original Message-----
+> > From: Kammela, Gayatri
+> > Sent: Monday, September 30, 2019 11:24 AM
+> > To: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > Cc: Platform Driver <platform-driver-x86@vger.kernel.org>; Somayaji,
+> > Vishwanath <vishwanath.somayaji@intel.com>; Darren Hart
+> > <dvhart@infradead.org>; Linux Kernel Mailing List <linux-
+> > kernel@vger.kernel.org>; Prestopine, Charles D
+> > <charles.d.prestopine@intel.com>; Peter Zijlstra <peterz@infradead.org>;
+> > Pandruvada, Srinivas <srinivas.pandruvada@intel.com>; Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com>; Liang, Kan <kan.liang@intel.com>;
+> > Box, David E <david.e.box@intel.com>; Bhardwaj, Rajneesh
+> > <rajneesh.bhardwaj@intel.com>; Luck, Tony <tony.luck@intel.com>
+> > Subject: RE: [PATCH v1 0/5] Add Tiger Lake/Elkhart Lake support to pmc_core
+> > driver
+> >
+> > > On Thu, Sep 26, 2019 at 9:43 PM Gayatri Kammela
+> > > <gayatri.kammela@intel.com> wrote:
+> > >
+> > > Thank you for the series, I'll comment them later.
+> > Thank you Andy!
+> > >
 >
-> this patch series adds support of ASUS TUF laptops on Ryzen CPUs to existing
-> asus_wmi platform driver and also fixes minor bug.
->
-> v2: fixed indentation.
+> Hi Andy! I'm wondering if you have any comments for this patch series. Thanks!
 
-Usual versioning
-RFC [RFC v2, ...]
-v1
-v2, ...
-
-Okay, next one will be v3 to avoid overlapping.
-
-I'll take first patch later, but I also will give more comments to patch 2.
-Please, give me time to review it properly.
-
->
-> Leonid Maksymchuk (3):
->   asus_wmi: Fix return value of fan_boost_mode_store
->   asus_wmi: Add support for fan boost mode on FX505DY/FX705DY
->   asus_wmi: Set default fan boost mode to normal
->
->  drivers/platform/x86/asus-wmi.c            | 57 ++++++++++++++++++++++--------
->  include/linux/platform_data/x86/asus-wmi.h |  1 +
->  2 files changed, 43 insertions(+), 15 deletions(-)
->
-> --
-> 1.8.3.1
->
-
+Please, address above mentioned comments and send a v2. I'll push it
+to review branch.
 
 -- 
 With Best Regards,
