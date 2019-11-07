@@ -2,98 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D48F3567
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Nov 2019 18:07:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B082F3580
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 Nov 2019 18:15:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727606AbfKGRGy (ORCPT
+        id S1729171AbfKGRPl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 Nov 2019 12:06:54 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37396 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726231AbfKGRGx (ORCPT
+        Thu, 7 Nov 2019 12:15:41 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44215 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727132AbfKGRPl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 Nov 2019 12:06:53 -0500
-Received: by mail-pl1-f193.google.com with SMTP id p13so1915446pll.4;
-        Thu, 07 Nov 2019 09:06:53 -0800 (PST)
+        Thu, 7 Nov 2019 12:15:41 -0500
+Received: by mail-pf1-f195.google.com with SMTP id q26so2973873pfn.11;
+        Thu, 07 Nov 2019 09:15:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zFenQO1uO033OtRYRFVT+RuzXPzATz6f1SyjAS7X/Jc=;
-        b=VSsGkd2zRXqf4yGpuJWJoOLrDNdS0XCJmzix9IMI22/1qiHzi08puucdhcdYA7zMQX
-         xZLzWEopV1llt2xUiHBGbtkILyLWfAxWXi4DzZqUYzDwgpKU0ByQ99HlmFH1xI6ePRxF
-         L7ljyAyw+0q+9RB6muIeZAooXhdeBQ2PeyAfiFhoWS1aqegqRgqJB3OYN/5Aa5x71Xip
-         IZklkXPoBT09zMgqXSo5Mr5cmZjKqbMLWtuun5IE8deiVUDt0YDbgRna4G9fjMk6C9Rb
-         rZYMd+snfMOQEiBW16LuKgLbkq1i+3qutnjVevY3BdysTtpil3eZS7iiyrKaWl6eHcTh
-         AbHg==
+        bh=ZrnrvjovC3aqTNqak27aggWsYvWoIu3bYN3JGt2+Qt4=;
+        b=ZJC2AhdOvajdEQiS/g9J8KcfeyC1oD39dC+iDACNSo9jPZxqnzoRVVRnS9jjzIjaXY
+         Ct5ZtGZscwAisnIvyUzl12jmx8Cg9sCmH2cXvGciB1mhXrUOOTA4chkRHz1Xdns+4ZvD
+         AkS7itR+lLy9JNw3eRkQbO8oS0CVrndlKu9nKnT6wBQjBMQWg4gv2NVhYPhOxkLrlfxM
+         AOaU+eNIcdBGjHTXYwuA40c4mR2GxW4sdYOAjU/wqoS4OH2ozq8pvHw/mopbMX9fXVDV
+         xHh97lKBbBTd7/zdKW69sLkSIJTSUMqkRhycN8AL6VkMDQUlDfvV2y6YEIDQKC7gPbdz
+         KSow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zFenQO1uO033OtRYRFVT+RuzXPzATz6f1SyjAS7X/Jc=;
-        b=LisbYoj/LmUwJLNwfNAQRs1LGjOgcGPfqPsWkQA7nRufgdcRc5yYzkC1WmOhq1eHTM
-         R10t04uJlQKy2G+aE18kHv85ZOGUR4arW7oRYiXNyFHgJneSz8KRkdluW6lWZV6K0Y2G
-         WwoQUFDfGcHiW3cbrvq5S1JWRK7TiqQl4K6tTjz9xYKcyDs0hdDBAH0+pF4o8+CGaJNE
-         jiW7JbMfDCq2Upq70nZ7S4/Ft1o/Y0jh9gTbZcHCd01L+9SACdH3wu9zbc/ACQsQ448T
-         XHzpS3o06x24ji72EzPGtMfqKEJjhf4VycPydN0OS9btMAJHNlAHXVHlYJNkrSen0MQt
-         Uyng==
-X-Gm-Message-State: APjAAAU+2OT125X3tDFFNWvQJaXvRvHnsiiGtHRNcys6XFcHBE25L/4W
-        y+uY1g5yURuXo7ZvkbdLjMBB6PAdt9ZsbQZkWGg=
-X-Google-Smtp-Source: APXvYqw6fl5teTYOVb9yiqAIgldG8eE7YH++BStjhnp5fFwGzMFX/LjS71YQz/AY1msiDKKkujUjm+jLuoxBusynTfU=
-X-Received: by 2002:a17:90a:d102:: with SMTP id l2mr6690436pju.132.1573146412872;
- Thu, 07 Nov 2019 09:06:52 -0800 (PST)
+        bh=ZrnrvjovC3aqTNqak27aggWsYvWoIu3bYN3JGt2+Qt4=;
+        b=Bshz0HDbfGjx5/wFT1Mb5hSCUOrV9V0ubNO549Src24WkbKgpkWrgJyktMBsI6846r
+         F6AM2CZw940NCjvaR7qQkudbqT6wm92ImlULp0PnPRTDyJRmfy0DeD4ghNzWLo3ziDRb
+         UiA1tXzR+4n3PoEhklvPDIOl+WYeYFyaMjcG7snUaX7rDXHGomdO0z7u8GOBcWW59NYL
+         +tMwrTFluFk/uJI10SfkCSrm38Qs4gNh0+A/pupb1qUw6AGV82p6tDlEAHkGlNBNmAyh
+         MCFHLsujo+kwUIGjoj3RmYta6met7TCLID0PsNLL/MQRJhkDNa9S0nc3itH2WdMrHlIf
+         O1gw==
+X-Gm-Message-State: APjAAAVqAUK1X+HYOketY4pP7DCCkAzM5ojlAk92TWQJ3W5WUzcrUxkC
+        FW5OpkfsleoF/YydzCuLwKf/E3DOzFFVOvYTxA8=
+X-Google-Smtp-Source: APXvYqx2MfX6bvc66zcIX6xz7d5ceVYWDNE71sT4bWbHByywkg7iCaDjU4nirf9pMBFHXquBEV26c0HPS5K7yN5YyEk=
+X-Received: by 2002:a63:3c6:: with SMTP id 189mr5749899pgd.4.1573146938852;
+ Thu, 07 Nov 2019 09:15:38 -0800 (PST)
 MIME-Version: 1.0
-References: <c090302a-da38-5764-2a84-399ed6b333f5@siemens.com> <16119dad-9597-ecdc-a0e7-e386030659ce@siemens.com>
-In-Reply-To: <16119dad-9597-ecdc-a0e7-e386030659ce@siemens.com>
+References: <20191104213417.18036-1-leonmaxx@gmail.com> <20191104213828.18278-1-leonmaxx@gmail.com>
+In-Reply-To: <20191104213828.18278-1-leonmaxx@gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 7 Nov 2019 19:06:42 +0200
-Message-ID: <CAHp75VfBS9tjDSaoN2AoBshyQR+x781Zyw61bVSKheNVtNi8rg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: pmc_atom: Add Siemens SIMATIC IPC227E to
- critclk_systems DMI table
-To:     Jan Kiszka <jan.kiszka@siemens.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
+Date:   Thu, 7 Nov 2019 19:15:28 +0200
+Message-ID: <CAHp75VfNu_G7zzaCV9JF+Ua9otSTftJgtgr9N4qhQNR0o+QHtA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] platform/x86: asus_wmi: Support fan boost mode on FX505DY/FX705DY
+To:     Leonid Maksymchuk <leonmaxx@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Chris Chiu <chiu@endlessm.com>,
+        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>,
+        Kristian Klausen <kristian@klausen.dk>,
+        Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Srikanth Krishnakar <Srikanth_Krishnakar@mentor.com>,
-        Henning Schild <henning.schild@siemens.com>
+        Corentin Chary <corentin.chary@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 6:21 PM Jan Kiszka <jan.kiszka@siemens.com> wrote:
+On Mon, Nov 4, 2019 at 11:38 PM Leonid Maksymchuk <leonmaxx@gmail.com> wrote:
+> On ASUS FX505DY/FX705DY laptops fan boost mode is same as in other
+> TUF laptop models but have different ACPI device ID and different key
+> code.
+
+> +       if (err == 0 &&
+> +                       (result & ASUS_WMI_DSTS_PRESENCE_BIT) &&
+> +                       (result & ASUS_FAN_BOOST_MODES_MASK)) {
+> +               asus->fan_boost_mode_available = 1;
+> +               asus->fan_boost_mode_mask = result & ASUS_FAN_BOOST_MODES_MASK;
+> +               return 0;
+>         }
 >
-> On 04.09.19 08:42, Jan Kiszka wrote:
-> > From: Jan Kiszka <jan.kiszka@siemens.com>
-> >
-> > The SIMATIC IPC227E uses the PMC clock for on-board components and gets
-> > stuck during boot if the clock is disabled. Therefore, add this device
-> > to the critical systems list.
-> >
-> > Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
-> > Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> > ---
-> >
-> > Changes in v2:
-> >  - fixed cut-off subject line (local tooling bug...)
-> >
-> > Should go into stable as well, down to 4.19.
->
-> This one is in 5.4-rc now (as ad0d315b4d4e). Is it also queued somewhere
-> for stable kernels? IIRC, it's generally the privilege of the subsystem
-> maintainer to propose formally to stable.
+> -       if ((result & ASUS_WMI_DSTS_PRESENCE_BIT) &&
+> +       err = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_FAN_BOOST_MODE_2,
+> +                                   &result);
+> +
+> +       if (err == 0 &&
+> +                       (result & ASUS_WMI_DSTS_PRESENCE_BIT) &&
+>                         (result & ASUS_FAN_BOOST_MODES_MASK)) {
+> -               asus->fan_boost_mode_available = true;
+> +               asus->fan_boost_mode_available = 2;
+>                 asus->fan_boost_mode_mask = result & ASUS_FAN_BOOST_MODES_MASK;
+>         }
 
-Anybody can resend for stable putting maintainer to Cc as long as the
-original commit is in upstream.
+The above differs only in one value to give and one value to set, I
+suppose you may introduce an additional helper to it
 
-Nevertheless, I just resend it.
+> +       if (err == -ENODEV)
+> +               return 0;
 
-> I've received reports from users down at 4.14 with the need for it (4.9
-> is unaffected). And the same applies to f110d252ae79 ("platform/x86:
-> pmc_atom: Add Siemens SIMATIC IPC277E to critclk_systems DMI table").
+This should be explained or even separated to another patch. It
+changes behaviour of the original code, why?
 
+> +       u32 dev_id = asus->fan_boost_mode_available == 1 ?
+> +                       ASUS_WMI_DEVID_FAN_BOOST_MODE :
+> +                       ASUS_WMI_DEVID_FAN_BOOST_MODE_2;
+
+I would prefer to see
+ if (...)
+  call with mode
+else
+  call with mode_2
+
+below.
+
+> -       err = asus_wmi_set_devstate(ASUS_WMI_DEVID_FAN_BOOST_MODE, value,
+> -                                   &retval);
+> +       err = asus_wmi_set_devstate(dev_id, value, &retval);
 
 -- 
 With Best Regards,
