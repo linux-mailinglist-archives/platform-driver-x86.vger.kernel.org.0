@@ -2,50 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6F8F5160
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 17:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FAECF516A
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 17:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbfKHQnm (ORCPT
+        id S1727612AbfKHQog (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 8 Nov 2019 11:43:42 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41432 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbfKHQnl (ORCPT
+        Fri, 8 Nov 2019 11:44:36 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:46571 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727149AbfKHQof (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 8 Nov 2019 11:43:41 -0500
-Received: by mail-lf1-f67.google.com with SMTP id j14so4937655lfb.8;
-        Fri, 08 Nov 2019 08:43:40 -0800 (PST)
+        Fri, 8 Nov 2019 11:44:35 -0500
+Received: by mail-lj1-f193.google.com with SMTP id e9so6865315ljp.13;
+        Fri, 08 Nov 2019 08:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QQ9Okkt9tA9DcQ4nFpYeZ1WKHytWDSMkKTvTbeicM/E=;
-        b=WEgXKDDOlyqloOBhHSSpkydfNPJ03NP3InerMKtkGE7BGl9rgKG8ashzNF8/l1+yR0
-         H+IjxkCoWYJ1owLsaRCBPRQ6hocLxEmE0HkcSwMEwASexM4/dl5VKSLC0FZikE6TqJkq
-         svoSmD3NDUTcsq92uGofM9gTB8MIJeVhmNYzxeUdGf3kIl3ARzSZAMf3QX0GfY1Hww/3
-         09/PeZbkYQaefV5xpmNtyw/Kve4potPWEOl0cXRK2pZaXYLTZ2Il1aTPS3LdK1MWuGVU
-         LUcX3LcWpM+dk7dDV0X0pPfn8rZGUcgCDd7YfwqFmaGq663F7E3gT1oxUjG3XEF3FCH8
-         5Uug==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cK+IGE/NngSL6LBLRuXqj1unYMeLxTCgHc31IK6M3A8=;
+        b=com7jnRF5SZ9/ccNJQmHeb811+9z4q6zQpNqargqN4kMxwN+PtSkDWcgGhb66Uhr7s
+         pCcM4eXTHQren2dDDoxjDXnlFGcfagRddvzKf3yB/A3Lmezgp4N2RYrfEFH8TpgXHc73
+         +Is0fXX2zvLQAKUuT6+VLdGgh7rhB2ennX5FHcI6XPFIJVQYXX6jehAZjwB0itJuy4jU
+         baXmWFAt85GVpj+/wuOplH8pIYVd7Tsf4olpr4ABfPrOKd6CpHkJLzDRYi7awb/7oxcd
+         cW3fwLLHXvhekF7F5RGUUsT2cd9PtOR1Yued636PH6yHmffOwZMNhyCa2qALr999aqV+
+         Amng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QQ9Okkt9tA9DcQ4nFpYeZ1WKHytWDSMkKTvTbeicM/E=;
-        b=WNA3oWU5ZfJN5TcchMj/PjtBAES2VMAcnzTn67NeNbWMKunB8UbPPirmIDiR2Cgpty
-         A58CAtnLygszhDkBOyCDF48gjZCWnxy1JG4E9E9YdcaI/qsFlnwKYc5Lz8TWu2UaLDSo
-         +lrruAQJ/N3FgAffAyBBKT+9ivuptlZ8EEYeL6Yy/jY6uw8Vs6zwOc6NEZXVSacTHNrE
-         oVM0Psgf3TwgqfWnYtal2WfZ93m7gP1Sk9EDoKJ/nE+aUAwk9RuaID8+GtVRt6t1RZtg
-         l/k1aKPUyJj4B5vLSQ+ArNE59sxrExRfyNY5dCUaRbUSubxtmbuKRvFud8QH9EB40w8F
-         6x5w==
-X-Gm-Message-State: APjAAAVNIoc2DGWRoQPVAlj9DOS8/dv4phZiKSTw7ZHj9ZZhG7zR374o
-        vhjPDc8hWpNWmWXnj1GHKzO4eQRyWAs=
-X-Google-Smtp-Source: APXvYqyPGYgKX6sIBRZoLrk6RVsabIfXRiR0Rz/knooZTmYPnbXuSAVw6N4BvTqOogMFWgVCslX7rw==
-X-Received: by 2002:ac2:4248:: with SMTP id m8mr7247338lfl.94.1573231419472;
-        Fri, 08 Nov 2019 08:43:39 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cK+IGE/NngSL6LBLRuXqj1unYMeLxTCgHc31IK6M3A8=;
+        b=ocJquGb7sQhav0TouIOmaCZJ7yhmoIKHhgqbWLP9mIyn4OE0RT7O68m34dE+S+/lHU
+         grI304MFh+2FDkfuQqqQIPqi/ZkQ+3Br7vCNIvbEINO4sYbV2QvYStFzT2kvRlRMmOzq
+         S1ofUDjHKwgdsFjO3RZxaVnW/1fyA6hgpsJC1PEkdyrdl5kCMEks5FwJiiNTunUTLHZT
+         4/e2WLTWyur7miER/GnfqvfjLuFxcV/AK7fen07K5ZaeHbqAn2NT9v92GLIbQEAtnCe+
+         eRjd9lZGwtmPjdmO81b5Yaj6sKKBVeZGSUzeUyNyTqijqYRbj4kJgG6kTy6lsWhMyaxX
+         qGMQ==
+X-Gm-Message-State: APjAAAU5jZ9NaVyn3AbtE9tigc7PoAMLwPYAEY8FR5fx7ytVxahsolIO
+        YLjiLze2jYw0+TiJPcpw449XbayjJio=
+X-Google-Smtp-Source: APXvYqwnqP1/jFgP5c/CIcNf5IFpRJbWD/bxegdrv46BVSwI40CW/JtrxhItMkGjkKVpEuZwWMQAmg==
+X-Received: by 2002:a2e:9112:: with SMTP id m18mr7712122ljg.75.1573231472347;
+        Fri, 08 Nov 2019 08:44:32 -0800 (PST)
 Received: from localhost.localdomain ([91.237.107.85])
-        by smtp.googlemail.com with ESMTPSA id a81sm3616844ljf.49.2019.11.08.08.43.37
+        by smtp.googlemail.com with ESMTPSA id z19sm2696415ljk.66.2019.11.08.08.44.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2019 08:43:38 -0800 (PST)
+        Fri, 08 Nov 2019 08:44:31 -0800 (PST)
 From:   Leonid Maksymchuk <leonmaxx@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     platform-driver-x86@vger.kernel.org,
@@ -53,10 +53,12 @@ Cc:     platform-driver-x86@vger.kernel.org,
         yurii.pavlovskyi@gmail.com, kristian@klausen.dk,
         andy@infradead.org, dvhart@infradead.org, corentin.chary@gmail.com,
         Leonid Maksymchuk <leonmaxx@gmail.com>
-Subject: [PATCH v4 0/3] asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
-Date:   Fri,  8 Nov 2019 18:43:17 +0200
-Message-Id: <20191108164317.2874-1-leonmaxx@gmail.com>
+Subject: [PATCH v4 1/3] asus_wmi: Fix return value of fan_boost_mode_store
+Date:   Fri,  8 Nov 2019 18:44:16 +0200
+Message-Id: <20191108164416.2969-1-leonmaxx@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191108164317.2874-1-leonmaxx@gmail.com>
+References: <20191108164317.2874-1-leonmaxx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -64,24 +66,30 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Function fan_boost_mode_store should return number of bytes written
+but instead it returns return value of kstrtou8 which is 0 if
+conversion is succefull. This leads to infinite loop after any
+write to it's SysFS entry.
 
-this patch series adds support of ASUS TUF laptops on Ryzen CPUs to
-existing asus_wmi platform driver and also fixes minor bug.
+Fixes: b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
+Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
+---
+ drivers/platform/x86/asus-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2: fixed indentation.
-v3: patches 2/3 and 3/3 are refactored.
-v4: patch 2/3 are simplified.
-
-Leonid Maksymchuk (3):
-  asus_wmi: Fix return value of fan_boost_mode_store
-  asus_wmi: Support fan boost mode on FX505DY/FX705DY
-  asus_wmi: Set default fan boost mode to normal
-
- drivers/platform/x86/asus-wmi.c            | 41 +++++++++++++++++-----
- include/linux/platform_data/x86/asus-wmi.h |  1 +
- 2 files changed, 34 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 821b08e01635..723aa4d969dc 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -1718,7 +1718,7 @@ static ssize_t fan_boost_mode_store(struct device *dev,
+ 	asus->fan_boost_mode = new_mode;
+ 	fan_boost_mode_write(asus);
+ 
+-	return result;
++	return count;
+ }
+ 
+ // Fan boost mode: 0 - normal, 1 - overboost, 2 - silent
 -- 
 2.23.0
 
