@@ -2,140 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87554F3C79
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 01:04:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D99F3CBC
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 01:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbfKHAEf (ORCPT
+        id S1725930AbfKHASI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 Nov 2019 19:04:35 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:48860 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725940AbfKHAEe (ORCPT
+        Thu, 7 Nov 2019 19:18:08 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36896 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfKHASI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 Nov 2019 19:04:34 -0500
-Received: from 79.184.254.83.ipv4.supernova.orange.pl (79.184.254.83) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
- id 4b51c36d0c6d2e90; Fri, 8 Nov 2019 01:04:31 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thu, 7 Nov 2019 19:18:08 -0500
+Received: by mail-pf1-f196.google.com with SMTP id p24so3556966pfn.4;
+        Thu, 07 Nov 2019 16:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N5uDsHtEnAyV8LSXcbH33x3kolR6+Pd+L+XI2h0ZELA=;
+        b=JRNakx9yETLweznBgCj2Te6iCoo7Yk7x9osXt0sKe+QG7XBEGDFOMgjMuq662AM38W
+         WYIau2/vV1hgThm6474EWPVfcy1rlpr7V9gw5A7epAKELMNgdM88d9rA/R+ArDoo7jd8
+         VjKtdyKu+TcARD5PDIVBPn10GGihdwTs9qLbC47a9A9TbHLSJmhuvTibVDPXdtFsHtSs
+         C7lX/Xv6SJTaLM19/kRdkp3c8cJNJrb+fK3Q32AoNo9YCD438YaDetTDpq/SGmOIgbUv
+         c66q7tMnO02vbTInKc4o0vRrAxAvkBFNGbfv/6/V0AsS0ILgxHF3YlXw/BjcWOE5C6l1
+         LZyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N5uDsHtEnAyV8LSXcbH33x3kolR6+Pd+L+XI2h0ZELA=;
+        b=QX+q8xo/j4bTW84JPGT5If4MpFdpFpKgO597JsG13peTyGzf0qouMYZCJscSW0+A+H
+         wwZuR4yhNbezwLkFH/3sPfL4wZarfMYXNl5SpXPZAfnMp/Ey+7IY0NWkQDVcV3iM0S7g
+         cM/BGgikcK+EybciElfwdBtHldMidOdRMTmqTfmzlCaWdhBpg1R8Y8MYoHmkl2giplXX
+         YwxNTT++iWkv/RHBLNnVSCIQCty2iIcCi85Bh/L6FIjWO0vbmWdV0POhThAsTTAnnB5Q
+         nNnyzRJRbPgEMiC9VOAjQERS9Do3hsDRYr+fdxqx177I7pXgcOxt5t4CalYZQZ8+Ncla
+         I/rw==
+X-Gm-Message-State: APjAAAUkImpkbXQFQeDEbN1W2uh36Z6Y7jOYAuGHpI3mI6Inr/DHO650
+        ac9LDcWcn70uhgemaqStOMQ=
+X-Google-Smtp-Source: APXvYqy4Lzc9D8X48KWYpp9KjxD+6XJ9XparNQWCvrQusK/mtGINDs+3sU14TBkXf0GcODY1UnSfUQ==
+X-Received: by 2002:a63:2042:: with SMTP id r2mr8220794pgm.32.1573172286899;
+        Thu, 07 Nov 2019 16:18:06 -0800 (PST)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id m68sm3688764pfb.122.2019.11.07.16.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2019 16:18:06 -0800 (PST)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v6 11/15] software node: move small properties inline when copying
-Date:   Fri, 08 Nov 2019 01:04:31 +0100
-Message-ID: <3310518.lfHdziMng4@kreacher>
-In-Reply-To: <20191105235656.GW57214@dtor-ws>
-References: <20191023200233.86616-1-dmitry.torokhov@gmail.com> <47671501.dVG71sAca0@kreacher> <20191105235656.GW57214@dtor-ws>
+Subject: [PATCH v7 0/6] software node: add support for reference properties
+Date:   Thu,  7 Nov 2019 16:17:57 -0800
+Message-Id: <20191108001803.191541-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wednesday, November 6, 2019 12:56:56 AM CET Dmitry Torokhov wrote:
-> Hi Rafael,
-> 
-> On Wed, Nov 06, 2019 at 12:42:02AM +0100, Rafael J. Wysocki wrote:
-> > On Wednesday, October 23, 2019 10:02:29 PM CET Dmitry Torokhov wrote:
-> > > When copying/duplicating set of properties, move smaller properties that
-> > > were stored separately directly inside property entry structures. We can
-> > > move:
-> > > 
-> > > - up to 8 bytes from U8 arrays
-> > > - up to 4 words
-> > > - up to 2 double words
-> > > - one U64 value
-> > > - one or 2 strings.
-> > 
-> > Yes, we can do that, but how much of a difference does this really make?
-> 
-> Arguably not much I think, but it was pretty cheap to do.
-> 
-> > 
-> > Also, how can one distinguish between a single-value property and an inline
-> > array which this change?  By looking at the length?
-> 
-> We do not really need to distinguish between the 2. The device
-> properties API is typically wrap single values around arrays (i.e. it is
-> perfectly fine to use scalar API to fetch first element of array and use
-> array API to fetch a scalar). So we have property of certain type with
-> certain number of elements, and it can either be stored inside
-> property_entry structure, or outside of it. They are 2 orthogonal
-> concepts.
-> 
-> > 
-> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > ---
-> > >  drivers/base/swnode.c | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > > 
-> > > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> > > index 18a30fb3cc58..49e1108aa4b7 100644
-> > > --- a/drivers/base/swnode.c
-> > > +++ b/drivers/base/swnode.c
-> > > @@ -280,6 +280,16 @@ static int property_entry_copy_data(struct property_entry *dst,
-> > >  	if (!dst->name)
-> > >  		goto out_free_data;
-> > >  
-> > > +	if (!dst->is_inline && dst->length <= sizeof(dst->value)) {
-> > > +		/* We have an opportunity to move the data inline */
-> > > +		const void *tmp = dst->pointer;
-> > > +
-> > > +		memcpy(&dst->value, tmp, dst->length);
-> > > +		dst->is_inline = true;
-> > > +
-> > > +		kfree(tmp);
-> > 
-> > This would have been more useful if we had been able to avoid making the
-> > allocation altogether.
-> 
-> OK, I can do that and re-send this patch and the one with the tests.
+These series implement "references" properties for software nodes as true
+properties, instead of managing them completely separately.
 
-But if you do that, IMO it would be prudent to extend the definition of
-struct property_entry like this:
+The first 2 patches do away with separate handling of arrays vs
+single-value properties, and treat everything as arrays (which really
+matches how we handle OF or ACPI properties). Instead we recognize that
+data, if it is small enough, may be embedded into property_entry
+structure. As a side effect, properties can be converted from having their
+data stored separately to embedding their data when they are being copied.
 
- struct property_entry {
- 	const char *name;
- 	size_t length;
- 	bool is_array;
- 	enum dev_prop_type type;
- 	union {
- 		union {
- 			const u8 *u8_data;
- 			const u16 *u16_data;
- 			const u32 *u32_data;
- 			const u64 *u64_data;
- 			const char * const *str;
- 		} pointer;
- 		union {
- 			u8 u8_data;
- 			u16 u16_data;
- 			u32 u32_data;
- 			u64 u64_data;
- 			const char *str;
-+			u8 u8_buf[sizeof(u64)];
-+			u16 u16_buf[sizeof(u64)/sizeof(u16)];
-+			u32 u32_buf[sizeof(u64)/sizeof(u32)];
-+			char char_buf[sizeof(u64)];
- 		} value;
- 	};
- };
+Patch #3 implements PROPERTY_ENTRY_REF() and friends; patch #4 converts
+the user of references to the property syntax, and patch #5 removes the
+remains of references as entities that are managed separately.
 
-to make it clear that the value field is going to be used as an array in
-some cases.
+Patch #6 adds unit tests to verify that the handling of property
+entries is correct.
 
-> In the mean time, can you please consider patches 12-14?
+Changed in v7:
+- rebased onto next-20191107
+- dropped already applied patches
+- reworked patch that moved small properties inline on copying to
+  avoid temporary allocation
+- cleaned up logic for embedding vs storing values out-of-line
+- fixed handling of embedded 2-element string array on x32
 
-I cannot find drivers/platform/x86/intel_cht_int33fe_typec.c in the mainline,
-so I cannot apply patch [13/15] now and I'm not sure how useful it would be
-to apply patches [10,12/15] without the other two.
+Changes in v6:
+- rebased onto next-20191023
+- fixed patch moving small properties inline
+- fixed handling boolean properties after is_array -> is_inline
+  conversion
+- changed comments around is_inline "stored directly" vs embedded
+  in one place (Andy)
+- added unit tests for property entries based on KUnit framework
+- added Any's reviewed-by/acked-by
 
+Changes in v5:
+- rebased onto next-20191011
 
+Changes in v4:
+- dealt with union aliasing concerns
+- inline small properties on copy
+
+Changes in v3:
+- added various cleanups before implementing reference properties
+
+Changes in v2:
+- reworked code so that even single-entry reference properties are
+  stored as arrays (i.e. the software_node_ref_args instances are
+  not part of property_entry structure) to avoid size increase.
+  From user's POV nothing is changed, one can still use PROPERTY_ENTRY_REF
+  macro to define reference "inline".
+- dropped unused DEV_PROP_MAX
+- rebased on linux-next
+
+Dmitry Torokhov (6):
+  software node: rename is_array to is_inline
+  software node: allow embedding of small arrays into property_entry
+  software node: implement reference properties
+  platform/x86: intel_cht_int33fe: use inline reference properties
+  software node: remove separate handling of references
+  software node: add basic tests for property entries
+
+ drivers/base/swnode.c                         | 142 +++---
+ drivers/base/test/Makefile                    |   2 +
+ drivers/base/test/property-entry-test.c       | 472 ++++++++++++++++++
+ .../platform/x86/intel_cht_int33fe_typec.c    |  81 +--
+ include/linux/property.h                      |  84 ++--
+ 5 files changed, 640 insertions(+), 141 deletions(-)
+ create mode 100644 drivers/base/test/property-entry-test.c
+
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
 
