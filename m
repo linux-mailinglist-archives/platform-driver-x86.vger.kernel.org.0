@@ -2,113 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94E58F3BEE
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 00:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87554F3C79
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 Nov 2019 01:04:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbfKGXFM (ORCPT
+        id S1726054AbfKHAEf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 Nov 2019 18:05:12 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:36840 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbfKGXFM (ORCPT
+        Thu, 7 Nov 2019 19:04:35 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:48860 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbfKHAEe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 Nov 2019 18:05:12 -0500
-Received: by mail-lf1-f68.google.com with SMTP id m6so2927187lfl.3;
-        Thu, 07 Nov 2019 15:05:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Qh1AeCz8eA6zmulN69qbNwKR1BsfwhZTioKSRTvkL3s=;
-        b=H6eQY235ZUufhirzG/FMY+QW+MMkR5AeVIQ9atA8pC4O8NbNFpudtjJyx2M37BmKma
-         tSfz05UC/lmDgOleSzcySKRZpG34WxYGzPOTKf6Rp8FUs2v8lVkyZvLW1+CXDQC/9p1X
-         3C7QdQzGjfraJonx6a9RpCwF1gW+lp1ctVql+GUplVKBGlNQ0QthPg5iTdTBgur3DwqJ
-         zzrgdF5Zqc+pfZS7/QAX6sHVEBcLaIiEQtRIooLbetmTIlcWE6koIdK+v/xPLfn1T3J0
-         0rQZi7/TQDVROGVzGskBOVXzZxUAAYYztglFEHRn2Y4c0DrYhWgMf1APcigRIpjI0fUp
-         RJeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Qh1AeCz8eA6zmulN69qbNwKR1BsfwhZTioKSRTvkL3s=;
-        b=ITZrVC/Uwfl/J56hzBDrVmXrHo9XdY2Yt4M+p7e8qRerZbuNUdvJIpyZWeZtISyMLh
-         KgwpA5wjLcIdOXvUB43AnPRXu7t/YTeh1C59W4wpLKLUWLk0HRfERNiK9l+RoK6isqiM
-         VGM0+dWVWWqpTvXrcO9rODHsvGu4mzNSnzknOUYq7vl/7iMmBjG78LMJiWFDbkly+rXO
-         V0yk6l7egfcKdCtPDDxhFxK4BHvVkslY4u38djga6J6EfBtNX/K7XwpKwYtRQK/k/mwX
-         d0NhnvpFQEC3gsjPxC72CS86BasCyF44GVRTdY3xS7SiN54LNQFsO5Ig3/XF7RgufIud
-         HUOA==
-X-Gm-Message-State: APjAAAWt8UNNVwwXVqTD/gSllT1dAhKJRGs39JxYqZ2hwRe4oOJRcgD7
-        AFpnN/nXFnmu8/+RQzsCN+1Ib8yosAw=
-X-Google-Smtp-Source: APXvYqyVGAOaeBedDtYlz53PFyZjB3gajDQWaZrwBhwlLsvYOIeFI9ug2eQ0Z+w+xPMJGWX88ewLnw==
-X-Received: by 2002:ac2:5453:: with SMTP id d19mr4331022lfn.181.1573167909899;
-        Thu, 07 Nov 2019 15:05:09 -0800 (PST)
-Received: from localhost.localdomain ([91.237.107.85])
-        by smtp.googlemail.com with ESMTPSA id y5sm1556113lfg.5.2019.11.07.15.05.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 15:05:09 -0800 (PST)
-From:   Leonid Maksymchuk <leonmaxx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net, chiu@endlessm.com,
-        yurii.pavlovskyi@gmail.com, kristian@klausen.dk,
-        andy@infradead.org, dvhart@infradead.org, corentin.chary@gmail.com,
-        Leonid Maksymchuk <leonmaxx@gmail.com>
-Subject: [PATCH v3 3/3] asus_wmi: Set default fan boost mode to normal
-Date:   Fri,  8 Nov 2019 01:04:58 +0200
-Message-Id: <20191107230458.30922-1-leonmaxx@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191107230105.30574-1-leonmaxx@gmail.com>
-References: <20191107230105.30574-1-leonmaxx@gmail.com>
+        Thu, 7 Nov 2019 19:04:34 -0500
+Received: from 79.184.254.83.ipv4.supernova.orange.pl (79.184.254.83) (HELO kreacher.localnet)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.292)
+ id 4b51c36d0c6d2e90; Fri, 8 Nov 2019 01:04:31 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v6 11/15] software node: move small properties inline when copying
+Date:   Fri, 08 Nov 2019 01:04:31 +0100
+Message-ID: <3310518.lfHdziMng4@kreacher>
+In-Reply-To: <20191105235656.GW57214@dtor-ws>
+References: <20191023200233.86616-1-dmitry.torokhov@gmail.com> <47671501.dVG71sAca0@kreacher> <20191105235656.GW57214@dtor-ws>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Set default fan boost mode to normal for multiple reasons:
+On Wednesday, November 6, 2019 12:56:56 AM CET Dmitry Torokhov wrote:
+> Hi Rafael,
+> 
+> On Wed, Nov 06, 2019 at 12:42:02AM +0100, Rafael J. Wysocki wrote:
+> > On Wednesday, October 23, 2019 10:02:29 PM CET Dmitry Torokhov wrote:
+> > > When copying/duplicating set of properties, move smaller properties that
+> > > were stored separately directly inside property entry structures. We can
+> > > move:
+> > > 
+> > > - up to 8 bytes from U8 arrays
+> > > - up to 4 words
+> > > - up to 2 double words
+> > > - one U64 value
+> > > - one or 2 strings.
+> > 
+> > Yes, we can do that, but how much of a difference does this really make?
+> 
+> Arguably not much I think, but it was pretty cheap to do.
+> 
+> > 
+> > Also, how can one distinguish between a single-value property and an inline
+> > array which this change?  By looking at the length?
+> 
+> We do not really need to distinguish between the 2. The device
+> properties API is typically wrap single values around arrays (i.e. it is
+> perfectly fine to use scalar API to fetch first element of array and use
+> array API to fetch a scalar). So we have property of certain type with
+> certain number of elements, and it can either be stored inside
+> property_entry structure, or outside of it. They are 2 orthogonal
+> concepts.
+> 
+> > 
+> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > ---
+> > >  drivers/base/swnode.c | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > > 
+> > > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> > > index 18a30fb3cc58..49e1108aa4b7 100644
+> > > --- a/drivers/base/swnode.c
+> > > +++ b/drivers/base/swnode.c
+> > > @@ -280,6 +280,16 @@ static int property_entry_copy_data(struct property_entry *dst,
+> > >  	if (!dst->name)
+> > >  		goto out_free_data;
+> > >  
+> > > +	if (!dst->is_inline && dst->length <= sizeof(dst->value)) {
+> > > +		/* We have an opportunity to move the data inline */
+> > > +		const void *tmp = dst->pointer;
+> > > +
+> > > +		memcpy(&dst->value, tmp, dst->length);
+> > > +		dst->is_inline = true;
+> > > +
+> > > +		kfree(tmp);
+> > 
+> > This would have been more useful if we had been able to avoid making the
+> > allocation altogether.
+> 
+> OK, I can do that and re-send this patch and the one with the tests.
 
-1) existing code assumes that laptop started in normal mode and that is
-   not always correct.
-2) FX705DY/FX505DY starts in silent mode and under heavy CPU load it
-   overheats and drops CPU frequency to 399MHz [1]. Setting fan mode to
-   normal avoids overheating.
+But if you do that, IMO it would be prudent to extend the definition of
+struct property_entry like this:
 
-[1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
+ struct property_entry {
+ 	const char *name;
+ 	size_t length;
+ 	bool is_array;
+ 	enum dev_prop_type type;
+ 	union {
+ 		union {
+ 			const u8 *u8_data;
+ 			const u16 *u16_data;
+ 			const u32 *u32_data;
+ 			const u64 *u64_data;
+ 			const char * const *str;
+ 		} pointer;
+ 		union {
+ 			u8 u8_data;
+ 			u16 u16_data;
+ 			u32 u32_data;
+ 			u64 u64_data;
+ 			const char *str;
++			u8 u8_buf[sizeof(u64)];
++			u16 u16_buf[sizeof(u64)/sizeof(u16)];
++			u32 u32_buf[sizeof(u64)/sizeof(u32)];
++			char char_buf[sizeof(u64)];
+ 		} value;
+ 	};
+ };
 
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+to make it clear that the value field is going to be used as an array in
+some cases.
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 311658807dfe..435e1420fb40 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1678,6 +1678,15 @@ static int fan_boost_mode_write(struct asus_wmi *asus)
- 	return 0;
- }
- 
-+static int fan_boost_mode_set_default(struct asus_wmi *asus)
-+{
-+	if (!asus->fan_boost_mode_available)
-+		return 0;
-+
-+	asus->fan_boost_mode = ASUS_FAN_BOOST_MODE_NORMAL;
-+	return fan_boost_mode_write(asus);
-+}
-+
- static int fan_boost_mode_switch_next(struct asus_wmi *asus)
- {
- 	u8 mask = asus->fan_boost_mode_mask;
-@@ -2454,6 +2463,7 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	err = fan_boost_mode_check_present(asus);
- 	if (err)
- 		goto fail_fan_boost_mode;
-+	fan_boost_mode_set_default(asus);
- 
- 	err = asus_wmi_sysfs_init(asus->platform_device);
- 	if (err)
--- 
-2.23.0
+> In the mean time, can you please consider patches 12-14?
+
+I cannot find drivers/platform/x86/intel_cht_int33fe_typec.c in the mainline,
+so I cannot apply patch [13/15] now and I'm not sure how useful it would be
+to apply patches [10,12/15] without the other two.
+
+
 
