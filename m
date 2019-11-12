@@ -2,112 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1E5FF91C1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2019 15:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8716F92EA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2019 15:44:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbfKLORS (ORCPT
+        id S1726388AbfKLOoh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 Nov 2019 09:17:18 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47863 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727310AbfKLORR (ORCPT
+        Tue, 12 Nov 2019 09:44:37 -0500
+Received: from mail-eopbgr20044.outbound.protection.outlook.com ([40.107.2.44]:23809
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725997AbfKLOoh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 Nov 2019 09:17:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573568236;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=a7B/szubeZq42YZldG2uwMh1+KLmbg60Npq16IJbOZM=;
-        b=Ybmwf7xHgJtba8x6YzRYUNYCjUCm3hUus3oggO5M4uNPP7wagQeZ7Q+UaIYhTvPrRpuGoU
-        gxCaTDLkUJj+141PWW91FNQLA3q3uzyIqOwMEBetl7dof6X8tq5m3QY+JaiTnhod8K3TuJ
-        mWdMDGdN+LYfOPOMa80rbyFx+QFrOgM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-cDLH9rFnPaSiVN6nncmdAg-1; Tue, 12 Nov 2019 09:17:15 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF8D7477;
-        Tue, 12 Nov 2019 14:17:14 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.172])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A736299BD;
-        Tue, 12 Nov 2019 14:17:13 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        youling257 <youling257@gmail.com>
-Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the ezpad 6 m4 tablet
-Date:   Tue, 12 Nov 2019 15:17:11 +0100
-Message-Id: <20191112141711.26220-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: cDLH9rFnPaSiVN6nncmdAg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+        Tue, 12 Nov 2019 09:44:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T0PPZVOSMGyZwrz/7CVGjtFQeVPfyLcSqB/85XfVNz/QFz31yTwoGFcnfHDYhOdons26MEkUsenE5UxUxVB79da9gTwbZ2WGlPUKfUuEmws9olOqIXujo/6BYxUsU4KlBB2fgaQyV/IfCIZ00qwRpxkx+SBgcPBiYUT044Vzm6VPlMUl0XKK5UkgeWvf9kB9Sr3gwL1PFWKlZUP2mV+0zqwAHBpmI9XqKwoIZE7eE9+vr6+jXI5DeRnSsZ99RO67kms1GshZal8pzNjyIzuQqh/GqxGkmvrYN1DMZTBTCLCKZm4q+kn2pYaFcwYwtKEEiDSdxeUVRQA8Thev40y3ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qJBCRhGgD2SeQzGj6Xc8Qs8GSBb0ySVBmMtwAF7LFRA=;
+ b=W137Kmd2Sww/c9s1AYk7Uh1h+GFLvHLXC+avibJXQMIEzyBzaK3TK9b4pvhuDZKMo5sesep9uuw91DeQq3oxvYhA2g/e5tDxQK6n/g/97A3y6HqxVPug5uba1vNtAKYNd2g8VkNYnjmQsEqHjifh6CDKshTh+kkraNXDymPClD3XxrGtcwCysfrHE1o0XrsdikX6zxbizFq/r0UWRuXvgTyerAZmjJKy+HSClgIpVqWJOunsFsNsRjmJje/o2UKcVc+Yq7tOl0BioATrkRIHHoq/MkzI1nUPBWoCLj/oSI+GUEfJdEp7vkcv/v8bmAfvGgm4bJFpZJ/F6u+jqbZhXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qJBCRhGgD2SeQzGj6Xc8Qs8GSBb0ySVBmMtwAF7LFRA=;
+ b=Kaa+jI1rDLhwGTGuH9/5Zpw1DKiup/eguTpsluZ32WHL+qAdz6byMiXCT5LXqjICAkD0h/M1kUx3x1GIDgVwGP5JxgC9OSsuthoKv5QKx4Pymk5D4TAWK5F8+olUcuOGvDjBCNGwW7TH6FLRwVVCoj6sYBr1s0HujBeg/reM/0c=
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com (20.177.196.210) by
+ AM6PR05MB4231.eurprd05.prod.outlook.com (52.135.161.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.24; Tue, 12 Nov 2019 14:44:32 +0000
+Received: from AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::59a9:b6c3:97d8:ff0f]) by AM6PR05MB5224.eurprd05.prod.outlook.com
+ ([fe80::59a9:b6c3:97d8:ff0f%3]) with mapi id 15.20.2451.023; Tue, 12 Nov 2019
+ 14:44:32 +0000
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     Shravan Ramani <sramani@mellanox.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>
+CC:     Liming Sun <lsun@mellanox.com>,
+        Shravan Ramani <sramani@mellanox.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
+Thread-Topic: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
+Thread-Index: AQHVmJ1B8i6N8wQYJ0iG7pe+aDUVfKeHm2Xw
+Date:   Tue, 12 Nov 2019 14:44:32 +0000
+Message-ID: <AM6PR05MB522463C06CB3E7528F18281FA2770@AM6PR05MB5224.eurprd05.prod.outlook.com>
+References: <cover.1573460910.git.sramani@mellanox.com>
+In-Reply-To: <cover.1573460910.git.sramani@mellanox.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vadimp@mellanox.com; 
+x-originating-ip: [193.47.165.251]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7d3bf689-86b2-4daa-b4e9-08d7677ed4ba
+x-ms-traffictypediagnostic: AM6PR05MB4231:|AM6PR05MB4231:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR05MB4231E6953C117CDD9E603317A2770@AM6PR05MB4231.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 021975AE46
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(189003)(199004)(13464003)(6116002)(476003)(6436002)(11346002)(66476007)(66556008)(66946007)(64756008)(66446008)(71190400001)(446003)(229853002)(71200400001)(55016002)(256004)(478600001)(3846002)(4326008)(52536014)(76116006)(9686003)(86362001)(8936002)(186003)(74316002)(81166006)(76176011)(7736002)(486006)(14454004)(81156014)(5660300002)(33656002)(2906002)(8676002)(54906003)(99286004)(102836004)(53546011)(6506007)(316002)(110136005)(6246003)(66066001)(26005)(305945005)(25786009)(7696005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB4231;H:AM6PR05MB5224.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TOq/zN6wrK018YCYGq9OjuxUT06xk/f1ilYFzYrbjcbtDzIAQe+gs75TVzNWU0vuqaY7DenCSDFTVHDjs0Z2AFjOKQpWpW3EGBLIdiHJu3yZ01Na3Y93e4wAE0dqTUXlBO8S506Cob9um9sM8Bf34RljmfNczJTTbsgW+GIUkns48UFeG+tnpT6O00cBMLIW+6df8tdf1o2kh9XeljkdRFVaSS8CeqRlsJmz/40b/iISdHktKfS+yWjhcVyd5OC5nOM8GYMsxWCKf92iTFXnGIrs8adoKK9GPhcKym18fxRrlp6E3/3nw6dwbiA5kqGI1BClSEcbhLncIRaF2oteYsCfB1sgF1uesvaCZnvLnaYt8cneqPkoqlvkfcnpgb2yUksYe13yn8dK1JfKBPiHP8KjruyGpIQBjUm5Qh0ZJK9r6axRfwt3szQrcNgRNZgt
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3bf689-86b2-4daa-b4e9-08d7677ed4ba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 14:44:32.7071
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CWyL6WuJOB0Alu72Hzxz3BTktiKdsgxjts3CsMqaM1N/a45J5RIUC4/J1QEUnor2sSt5Qa92qnskN68wzBztSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4231
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add touchscreen info for the Jumper EZpad 6 m4 tablet.
 
-Reported-and-tested-by: youling257 <youling257@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/touchscreen_dmi.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/=
-touchscreen_dmi.c
-index ba494ace83d4..4a09b479cda5 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -343,6 +343,22 @@ static const struct ts_dmi_data jumper_ezpad_6_pro_b_d=
-ata =3D {
- =09.properties     =3D jumper_ezpad_6_pro_b_props,
- };
-=20
-+static const struct property_entry jumper_ezpad_6_m4_props[] =3D {
-+=09PROPERTY_ENTRY_U32("touchscreen-min-x", 35),
-+=09PROPERTY_ENTRY_U32("touchscreen-min-y", 15),
-+=09PROPERTY_ENTRY_U32("touchscreen-size-x", 1950),
-+=09PROPERTY_ENTRY_U32("touchscreen-size-y", 1525),
-+=09PROPERTY_ENTRY_STRING("firmware-name", "gsl3692-jumper-ezpad-6-m4.fw"),
-+=09PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+=09PROPERTY_ENTRY_BOOL("silead,home-button"),
-+=09{ }
-+};
-+
-+static const struct ts_dmi_data jumper_ezpad_6_m4_data =3D {
-+=09.acpi_name=09=3D "MSSL1680:00",
-+=09.properties=09=3D jumper_ezpad_6_m4_props,
-+};
-+
- static const struct property_entry jumper_ezpad_mini3_props[] =3D {
- =09PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
- =09PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
-@@ -866,6 +882,16 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
- {
- =09=09=09DMI_MATCH(DMI_BIOS_DATE, "04/24/2018"),
- =09=09},
- =09},
-+=09{
-+=09=09/* Jumper EZpad 6 m4 */
-+=09=09.driver_data =3D (void *)&jumper_ezpad_6_m4_data,
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "jumper"),
-+=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "EZpad"),
-+=09=09=09/* Jumper8.S106x.A00C.1066 with the version dropped */
-+=09=09=09DMI_MATCH(DMI_BIOS_VERSION, "Jumper8.S106x"),
-+=09=09},
-+=09},
- =09{
- =09=09/* Jumper EZpad mini3 */
- =09=09.driver_data =3D (void *)&jumper_ezpad_mini3_data,
---=20
-2.23.0
+> -----Original Message-----
+> From: Shravan Kumar Ramani <sramani@mellanox.com>
+> Sent: Monday, November 11, 2019 4:35 PM
+> To: Andy Shevchenko <andy@infradead.org>; Darren Hart
+> <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>
+> Cc: Liming Sun <lsun@mellanox.com>; Shravan Ramani
+> <sramani@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-
+> kernel@vger.kernel.org
+> Subject: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
+>=20
+> This patch adds support for Mellanox BlueField TRIO PCIe host controller.
+> The driver supports multiple TRIO instances and provides a sysfs interfac=
+e to
+> allow the user to read/set the L3 cache profile for transactions going th=
+rough
+> the TRIO. It also provides an interrupt handler for the TRIO blocks.
+
+Hi Shravan,
+
+Could you, please, explain what TRIO PCIe host controller?
+What is TRIO, is it some internal name or it's some standard terminology?
+If it's internal, please, explain for what it stands for.
+
+Same for TRIO instances. Are there some host side PCI instances?
+What are the purpose of them?
+
+Could you, please, also explain the system configuration?
+
+
+>=20
+> Shravan Kumar Ramani (1):
+>   platform/mellanox: Add Mellanox TRIO driver
+>=20
+>  MAINTAINERS                            |   5 +
+>  drivers/platform/mellanox/Kconfig      |   8 +
+>  drivers/platform/mellanox/Makefile     |   1 +
+>  drivers/platform/mellanox/mlxbf-trio.c | 624
+> +++++++++++++++++++++++++++++++++
+>  4 files changed, 638 insertions(+)
+>  create mode 100644 drivers/platform/mellanox/mlxbf-trio.c
+>=20
+> --
+> 2.1.2
 
