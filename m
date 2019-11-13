@@ -2,102 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9B24FABC9
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 09:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A82BFFB628
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 18:17:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbfKMIIR (ORCPT
+        id S1727361AbfKMRRE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Nov 2019 03:08:17 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:36806 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725966AbfKMIIR (ORCPT
+        Wed, 13 Nov 2019 12:17:04 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41292 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726392AbfKMRRE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Nov 2019 03:08:17 -0500
-Received: by mail-pl1-f194.google.com with SMTP id d7so744100pls.3;
-        Wed, 13 Nov 2019 00:08:16 -0800 (PST)
+        Wed, 13 Nov 2019 12:17:04 -0500
+Received: by mail-wr1-f66.google.com with SMTP id b18so1809760wrj.8
+        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Nov 2019 09:17:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=r/fMeIkVi21iCxbzdp/QtDTjojD14k6gpd4DZsn8Mfc=;
-        b=Kia/RTbdDuikn8K2sIqQ13gm0tv6sDP07tY29CBKsGwKy97BoJsg7Fisv59LRmWi9S
-         yBfqQxyHlQVknQDMTzD6ZEhXqWzVJV5j7u0jrvYH41wTM10AvlxQc7iF479JoRpX9oy8
-         0GZmrsb1tFYDlx0adGQfM4UkXqjIwnim+zWbpcvmP/ZL0SGxHRY+B31QAemUXBOOwLdu
-         dJtKJzR0vxeZGDzirMjmYGj4KArYJnHurFwX4KCzTj9H1jJPVBTkcmGyQkiAfrFyfAk3
-         9d2nB/cSrsOjLt+32yllLHfrXLs9BaDHiJFMMxmhkxnJVPapOhq1OQh7xeh73a6GKdtS
-         cDtw==
+        d=svgalib-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:in-reply-to:references:to:from:date:subject;
+        bh=kJ/QJuLwRVNogdV4oTyh10DbfNaFy4rwlTQCRY5pR68=;
+        b=UHFWcY+AWCkiFQdYFzQHsQgxlSK8LdVkkzAnevsTk6LZ6FXyFhFM8zmhKEWPrIoZdv
+         4ftSNEwF1fPBYFPG/DglNzK6OX96ut/wZO/VwYyrOZrBBtFoiiNwLlQBL/JLFex/awTC
+         Gc7Gav7+AcAIUkSFlknEc7rL8v0meZ3rQSwe+ueFSOqrOS+r+42dYNLlihAT3ZGOQZZ3
+         JnHX5aeZ3qdt+O6YjF4vRritML54qsCj6pzHg7HU7rrjxqxfITXLTsZ5OOQa10LZpgPi
+         M2ggmQF01IVay4t5NDINdnQyteZi1mj2MlgtIckS0eVdXo1J8PXCzJN0nrTsglNMpz4r
+         +0iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=r/fMeIkVi21iCxbzdp/QtDTjojD14k6gpd4DZsn8Mfc=;
-        b=lYWvIL2MP/2oaBHRnxsFUFDV6fu3JW0MaGgK2gCl7klZhVPQcYnqGtZqWJdthey5XH
-         FiNqb6IkdVHwjyeAll//+P0ZJYRW3Mp6dZCGnuJEBNrdh2BTKd/cYfpqgiARei7vcw3h
-         Vtio2+uaQk/5H6cLmpTKvXNgMIsoSdsjzviTtYfmkhDn3pRaJUDzELsBZPgT75yHYKoW
-         vDdRxtg/S4koeWqF6FgjeoMy3j5QkE/ozvAhMDGPQUnN6kDCqnr+CDoCejFu9LCtmqqf
-         FDRfT3kS45lJwzOcc6lk9MGW9RHZSIZVFgTbhpFmzbrevBUcZuOGbCwbR2APx/ZGDngU
-         sQDQ==
-X-Gm-Message-State: APjAAAVU9QBgIm4DlTM2KiAdU22ex71Q1WooDCTRZq1RlMVWvBZpDQrR
-        VzdUQkzEKod7UBU+dQzxGRo=
-X-Google-Smtp-Source: APXvYqzlqfNgUOQUFtgA1SgTzDdplApu1eiVfos7BMyyaBnYSfBaHTGR9AWA/+byAysIo48izLxjYA==
-X-Received: by 2002:a17:902:4c:: with SMTP id 70mr2315305pla.4.1573632496113;
-        Wed, 13 Nov 2019 00:08:16 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id em16sm1417281pjb.21.2019.11.13.00.08.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 00:08:15 -0800 (PST)
-Date:   Wed, 13 Nov 2019 00:08:13 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v8 1/6] software node: rename is_array to is_inline
-Message-ID: <20191113080813.GO13374@dtor-ws>
-References: <20191108042225.45391-1-dmitry.torokhov@gmail.com>
- <20191108042225.45391-2-dmitry.torokhov@gmail.com>
- <87woc4s1xg.fsf@miraculix.mork.no>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87woc4s1xg.fsf@miraculix.mork.no>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:message-id:in-reply-to:references:to:from:date
+         :subject;
+        bh=kJ/QJuLwRVNogdV4oTyh10DbfNaFy4rwlTQCRY5pR68=;
+        b=Mh6r3nKZ0NCWZmYOYhgeBZ55ed58sYIm6PS2nt6uSvuutZZwIZp0+T/GPcR+ranwc7
+         wjD+vjX3zjEZYaRZupX7w0N92cAt14VOnMH3zcxf2XU5EqJXvBydH/gQGcin99KGPU8E
+         J3ao1XSioydqUiY3WtMXuzura3OwaEwWU3umQfWDH3jXat1C4Ryv+Ke7vLxANjHLgbyg
+         YFSeLkCMUctQehCJNygyAv8G9g1GdOD7Tz0kyyOWe1Z80j4A7o4ANKtbbO4qi69ySL0V
+         UdIy/c9ybGqUZbbquruVa+xPGJDSRzAoJMm6I0gV5B2GNP5Ue6smzU6h2yvp8boFTabg
+         R3Bg==
+X-Gm-Message-State: APjAAAVS+Yu+J82cDKuHHxKs0Iq3TLPkSvnB0LAVh5mDUIe9DW+jCj/8
+        yFXmtxa93eND+5UnJgglGlWaqS9JmA==
+X-Google-Smtp-Source: APXvYqwZDTb43hDNKdu90l2Gf+1B/F53d45RKWGsKQAF87ZmqKdwjeHbXQ3IuG2RSe0peVBCHryEnw==
+X-Received: by 2002:adf:db92:: with SMTP id u18mr3766625wri.1.1573665421636;
+        Wed, 13 Nov 2019 09:17:01 -0800 (PST)
+Received: from matan ([2a02:ed0:6b03:5d01:69cd:3baf:b47e:a78f])
+        by smtp.gmail.com with ESMTPSA id j66sm2593445wma.19.2019.11.13.09.17.00
+        for <platform-driver-x86@vger.kernel.org>
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 13 Nov 2019 09:17:00 -0800 (PST)
+Message-Id: <84d87b964f9ed3fa9f0cb0afe1baf3ba417cde8a.1573664004.git.matan@svgalib.org>
+In-Reply-To: <cover.1573664004.git.matan@svgalib.org>
+References: <cover.1573664004.git.matan@svgalib.org>
+To:     Platform Driver <platform-driver-x86@vger.kernel.org>
+From:   Matan Ziv-Av <matan@svgalib.org>
+Date:   Wed, 13 Nov 2019 17:40:30 +0200
+Subject: [PATCH 1/7] Add module version and fix whitespace
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Nov 13, 2019 at 07:52:43AM +0100, Bjørn Mork wrote:
-> Dmitry Torokhov <dmitry.torokhov@gmail.com> writes:
-> 
-> > We do not need a special flag to know if we are dealing with an array,
-> > as we can get that data from ratio between element length and the data
-> > size, however we do need a flag to know whether the data is stored
-> > directly inside property_entry or separately.
-> 
-> Doesn't a non-null prop->pointer tell you this?
+- Add module version information
+- Fix a small whitespace inconsistency
 
-No it does not because pointer is a part of a union.
 
-> 
-> And inverting the flag is unnecessarily risky IMHO. An all-zero prop
-> might now result in dereferencing a NULL prop->pointer instead of using
-> the empty prop->value.  Now I haven't looked at the code to see if this
-> is a real problem.  But I believe it's better not having to do that
-> anyway...
+Signed-off-by: Matan Ziv-Av <matan@svgalib.org>
+---
+ drivers/platform/x86/lg-laptop.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-All-zero property is a terminator and thus we will not dereference
-anything.
-
-Thanks.
-
+diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
+index c0bb1f864dfe..78d3e3d2e51a 100644
+--- a/drivers/platform/x86/lg-laptop.c
++++ b/drivers/platform/x86/lg-laptop.c
+@@ -26,6 +26,7 @@
+ MODULE_AUTHOR("Matan Ziv-Av");
+ MODULE_DESCRIPTION("LG WMI Hotkey Driver");
+ MODULE_LICENSE("GPL");
++MODULE_VERSION("1.1");
+ 
+ #define WMI_EVENT_GUID0	"E4FB94F9-7F2B-4173-AD1A-CD1D95086248"
+ #define WMI_EVENT_GUID1	"023B133E-49D1-4E10-B313-698220140DC2"
+@@ -69,7 +70,7 @@ static u32 inited;
+ #define INIT_INPUT_ACPI         0x04
+ #define INIT_TPAD_LED           0x08
+ #define INIT_KBD_LED            0x10
+-#define INIT_SPARSE_KEYMAP        0x80
++#define INIT_SPARSE_KEYMAP      0x80
+ 
+ static const struct key_entry wmi_keymap[] = {
+ 	{KE_KEY, 0x70, {KEY_F15} },	 /* LG control panel (F1) */
 -- 
-Dmitry
+2.21.0
+
