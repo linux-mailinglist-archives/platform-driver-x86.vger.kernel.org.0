@@ -2,41 +2,41 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08369FA196
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 02:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 851F9FA544
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 03:22:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728692AbfKMB6T (ORCPT
+        id S1728639AbfKMBxk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 Nov 2019 20:58:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51968 "EHLO mail.kernel.org"
+        Tue, 12 Nov 2019 20:53:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43568 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728959AbfKMB6T (ORCPT
+        id S1728638AbfKMBxk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:58:19 -0500
+        Tue, 12 Nov 2019 20:53:40 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28D0B222CF;
-        Wed, 13 Nov 2019 01:58:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9BBE122468;
+        Wed, 13 Nov 2019 01:53:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573610298;
-        bh=mVeXe/oLVm/UKSIJ1sNGQhVuu2K8tzzVlbBA6ZHxeuw=;
+        s=default; t=1573610019;
+        bh=4wa0y7siKNPCymmJxLw0kfiWr913Znmfw02HWPsD7t8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iddatUHQySqaYqPKnq3+lYJFpEW/vsoUp2oOHcIMtdUPRnAfOTXPYparycpkCG6BK
-         zBTudqG9QZGEJgGaJyZkGcVIscWeMhLGZpDd/PzOxHOYBi9dd5WnP3rVhr3HHQQFra
-         V1goB+5JL1xfMBN1hxUkjtJhdeTC/JSB/mW1j9PU=
+        b=rtBwTg5b0g7Wda0brAiIHxPxBvW3kjABPlkpYhtVbMmGqBclCEKqLYnsKi/MY4HC7
+         fU7JfX1v8eMZQAFg0jC/i17amjI88+7yS32lbRgsznA3KygY5WBcDvPAl/wfAtNYsN
+         NYrfh7sX4DsRHGgzfhbgxL7F3FQIr4Qp0Rl2pN+Y=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Julian Sax <jsbc@gmx.de>, Hans de Goede <hdegoede@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 070/115] Input: silead - try firmware reload after unsuccessful resume
-Date:   Tue, 12 Nov 2019 20:55:37 -0500
-Message-Id: <20191113015622.11592-70-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 121/209] Input: silead - try firmware reload after unsuccessful resume
+Date:   Tue, 12 Nov 2019 20:48:57 -0500
+Message-Id: <20191113015025.9685-121-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191113015622.11592-1-sashal@kernel.org>
-References: <20191113015622.11592-1-sashal@kernel.org>
+In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
+References: <20191113015025.9685-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 13 insertions(+)
 
 diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-index 0dbcf105f7db3..7c0eeef29b3cb 100644
+index e5c3b066bd2a1..06f0eb04a8fd4 100644
 --- a/drivers/input/touchscreen/silead.c
 +++ b/drivers/input/touchscreen/silead.c
-@@ -534,20 +534,33 @@ static int __maybe_unused silead_ts_suspend(struct device *dev)
+@@ -558,20 +558,33 @@ static int __maybe_unused silead_ts_suspend(struct device *dev)
  static int __maybe_unused silead_ts_resume(struct device *dev)
  {
  	struct i2c_client *client = to_i2c_client(dev);
