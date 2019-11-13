@@ -2,138 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8716F92EA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Nov 2019 15:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08369FA196
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 02:58:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726388AbfKLOoh (ORCPT
+        id S1728692AbfKMB6T (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 Nov 2019 09:44:37 -0500
-Received: from mail-eopbgr20044.outbound.protection.outlook.com ([40.107.2.44]:23809
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725997AbfKLOoh (ORCPT
+        Tue, 12 Nov 2019 20:58:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51968 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728959AbfKMB6T (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 Nov 2019 09:44:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T0PPZVOSMGyZwrz/7CVGjtFQeVPfyLcSqB/85XfVNz/QFz31yTwoGFcnfHDYhOdons26MEkUsenE5UxUxVB79da9gTwbZ2WGlPUKfUuEmws9olOqIXujo/6BYxUsU4KlBB2fgaQyV/IfCIZ00qwRpxkx+SBgcPBiYUT044Vzm6VPlMUl0XKK5UkgeWvf9kB9Sr3gwL1PFWKlZUP2mV+0zqwAHBpmI9XqKwoIZE7eE9+vr6+jXI5DeRnSsZ99RO67kms1GshZal8pzNjyIzuQqh/GqxGkmvrYN1DMZTBTCLCKZm4q+kn2pYaFcwYwtKEEiDSdxeUVRQA8Thev40y3ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qJBCRhGgD2SeQzGj6Xc8Qs8GSBb0ySVBmMtwAF7LFRA=;
- b=W137Kmd2Sww/c9s1AYk7Uh1h+GFLvHLXC+avibJXQMIEzyBzaK3TK9b4pvhuDZKMo5sesep9uuw91DeQq3oxvYhA2g/e5tDxQK6n/g/97A3y6HqxVPug5uba1vNtAKYNd2g8VkNYnjmQsEqHjifh6CDKshTh+kkraNXDymPClD3XxrGtcwCysfrHE1o0XrsdikX6zxbizFq/r0UWRuXvgTyerAZmjJKy+HSClgIpVqWJOunsFsNsRjmJje/o2UKcVc+Yq7tOl0BioATrkRIHHoq/MkzI1nUPBWoCLj/oSI+GUEfJdEp7vkcv/v8bmAfvGgm4bJFpZJ/F6u+jqbZhXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qJBCRhGgD2SeQzGj6Xc8Qs8GSBb0ySVBmMtwAF7LFRA=;
- b=Kaa+jI1rDLhwGTGuH9/5Zpw1DKiup/eguTpsluZ32WHL+qAdz6byMiXCT5LXqjICAkD0h/M1kUx3x1GIDgVwGP5JxgC9OSsuthoKv5QKx4Pymk5D4TAWK5F8+olUcuOGvDjBCNGwW7TH6FLRwVVCoj6sYBr1s0HujBeg/reM/0c=
-Received: from AM6PR05MB5224.eurprd05.prod.outlook.com (20.177.196.210) by
- AM6PR05MB4231.eurprd05.prod.outlook.com (52.135.161.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.24; Tue, 12 Nov 2019 14:44:32 +0000
-Received: from AM6PR05MB5224.eurprd05.prod.outlook.com
- ([fe80::59a9:b6c3:97d8:ff0f]) by AM6PR05MB5224.eurprd05.prod.outlook.com
- ([fe80::59a9:b6c3:97d8:ff0f%3]) with mapi id 15.20.2451.023; Tue, 12 Nov 2019
- 14:44:32 +0000
-From:   Vadim Pasternak <vadimp@mellanox.com>
-To:     Shravan Ramani <sramani@mellanox.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-CC:     Liming Sun <lsun@mellanox.com>,
-        Shravan Ramani <sramani@mellanox.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
-Thread-Topic: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
-Thread-Index: AQHVmJ1B8i6N8wQYJ0iG7pe+aDUVfKeHm2Xw
-Date:   Tue, 12 Nov 2019 14:44:32 +0000
-Message-ID: <AM6PR05MB522463C06CB3E7528F18281FA2770@AM6PR05MB5224.eurprd05.prod.outlook.com>
-References: <cover.1573460910.git.sramani@mellanox.com>
-In-Reply-To: <cover.1573460910.git.sramani@mellanox.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vadimp@mellanox.com; 
-x-originating-ip: [193.47.165.251]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7d3bf689-86b2-4daa-b4e9-08d7677ed4ba
-x-ms-traffictypediagnostic: AM6PR05MB4231:|AM6PR05MB4231:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR05MB4231E6953C117CDD9E603317A2770@AM6PR05MB4231.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 021975AE46
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(189003)(199004)(13464003)(6116002)(476003)(6436002)(11346002)(66476007)(66556008)(66946007)(64756008)(66446008)(71190400001)(446003)(229853002)(71200400001)(55016002)(256004)(478600001)(3846002)(4326008)(52536014)(76116006)(9686003)(86362001)(8936002)(186003)(74316002)(81166006)(76176011)(7736002)(486006)(14454004)(81156014)(5660300002)(33656002)(2906002)(8676002)(54906003)(99286004)(102836004)(53546011)(6506007)(316002)(110136005)(6246003)(66066001)(26005)(305945005)(25786009)(7696005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR05MB4231;H:AM6PR05MB5224.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: TOq/zN6wrK018YCYGq9OjuxUT06xk/f1ilYFzYrbjcbtDzIAQe+gs75TVzNWU0vuqaY7DenCSDFTVHDjs0Z2AFjOKQpWpW3EGBLIdiHJu3yZ01Na3Y93e4wAE0dqTUXlBO8S506Cob9um9sM8Bf34RljmfNczJTTbsgW+GIUkns48UFeG+tnpT6O00cBMLIW+6df8tdf1o2kh9XeljkdRFVaSS8CeqRlsJmz/40b/iISdHktKfS+yWjhcVyd5OC5nOM8GYMsxWCKf92iTFXnGIrs8adoKK9GPhcKym18fxRrlp6E3/3nw6dwbiA5kqGI1BClSEcbhLncIRaF2oteYsCfB1sgF1uesvaCZnvLnaYt8cneqPkoqlvkfcnpgb2yUksYe13yn8dK1JfKBPiHP8KjruyGpIQBjUm5Qh0ZJK9r6axRfwt3szQrcNgRNZgt
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 12 Nov 2019 20:58:19 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28D0B222CF;
+        Wed, 13 Nov 2019 01:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573610298;
+        bh=mVeXe/oLVm/UKSIJ1sNGQhVuu2K8tzzVlbBA6ZHxeuw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=iddatUHQySqaYqPKnq3+lYJFpEW/vsoUp2oOHcIMtdUPRnAfOTXPYparycpkCG6BK
+         zBTudqG9QZGEJgGaJyZkGcVIscWeMhLGZpDd/PzOxHOYBi9dd5WnP3rVhr3HHQQFra
+         V1goB+5JL1xfMBN1hxUkjtJhdeTC/JSB/mW1j9PU=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Julian Sax <jsbc@gmx.de>, Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 070/115] Input: silead - try firmware reload after unsuccessful resume
+Date:   Tue, 12 Nov 2019 20:55:37 -0500
+Message-Id: <20191113015622.11592-70-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191113015622.11592-1-sashal@kernel.org>
+References: <20191113015622.11592-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d3bf689-86b2-4daa-b4e9-08d7677ed4ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 14:44:32.7071
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CWyL6WuJOB0Alu72Hzxz3BTktiKdsgxjts3CsMqaM1N/a45J5RIUC4/J1QEUnor2sSt5Qa92qnskN68wzBztSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB4231
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+From: Julian Sax <jsbc@gmx.de>
 
+[ Upstream commit dde27443211062e841806feaf690674b7c3a599f ]
 
-> -----Original Message-----
-> From: Shravan Kumar Ramani <sramani@mellanox.com>
-> Sent: Monday, November 11, 2019 4:35 PM
-> To: Andy Shevchenko <andy@infradead.org>; Darren Hart
-> <dvhart@infradead.org>; Vadim Pasternak <vadimp@mellanox.com>
-> Cc: Liming Sun <lsun@mellanox.com>; Shravan Ramani
-> <sramani@mellanox.com>; platform-driver-x86@vger.kernel.org; linux-
-> kernel@vger.kernel.org
-> Subject: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
->=20
-> This patch adds support for Mellanox BlueField TRIO PCIe host controller.
-> The driver supports multiple TRIO instances and provides a sysfs interfac=
-e to
-> allow the user to read/set the L3 cache profile for transactions going th=
-rough
-> the TRIO. It also provides an interrupt handler for the TRIO blocks.
+A certain silead controller (Chip ID: 0x56810000) loses its firmware
+after suspend, causing the resume to fail. This patch tries to load
+the firmware, should a resume error occur and retries the resuming.
 
-Hi Shravan,
+Signed-off-by: Julian Sax <jsbc@gmx.de>
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/silead.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Could you, please, explain what TRIO PCIe host controller?
-What is TRIO, is it some internal name or it's some standard terminology?
-If it's internal, please, explain for what it stands for.
-
-Same for TRIO instances. Are there some host side PCI instances?
-What are the purpose of them?
-
-Could you, please, also explain the system configuration?
-
-
->=20
-> Shravan Kumar Ramani (1):
->   platform/mellanox: Add Mellanox TRIO driver
->=20
->  MAINTAINERS                            |   5 +
->  drivers/platform/mellanox/Kconfig      |   8 +
->  drivers/platform/mellanox/Makefile     |   1 +
->  drivers/platform/mellanox/mlxbf-trio.c | 624
-> +++++++++++++++++++++++++++++++++
->  4 files changed, 638 insertions(+)
->  create mode 100644 drivers/platform/mellanox/mlxbf-trio.c
->=20
-> --
-> 2.1.2
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 0dbcf105f7db3..7c0eeef29b3cb 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -534,20 +534,33 @@ static int __maybe_unused silead_ts_suspend(struct device *dev)
+ static int __maybe_unused silead_ts_resume(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
++	bool second_try = false;
+ 	int error, status;
+ 
+ 	silead_ts_set_power(client, SILEAD_POWER_ON);
+ 
++ retry:
+ 	error = silead_ts_reset(client);
+ 	if (error)
+ 		return error;
+ 
++	if (second_try) {
++		error = silead_ts_load_fw(client);
++		if (error)
++			return error;
++	}
++
+ 	error = silead_ts_startup(client);
+ 	if (error)
+ 		return error;
+ 
+ 	status = silead_ts_get_status(client);
+ 	if (status != SILEAD_STATUS_OK) {
++		if (!second_try) {
++			second_try = true;
++			dev_dbg(dev, "Reloading firmware after unsuccessful resume\n");
++			goto retry;
++		}
+ 		dev_err(dev, "Resume error, status: 0x%02x\n", status);
+ 		return -ENODEV;
+ 	}
+-- 
+2.20.1
 
