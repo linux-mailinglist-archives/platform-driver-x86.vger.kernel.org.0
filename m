@@ -2,92 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A82BFFB628
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 18:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C826EFB62A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Nov 2019 18:17:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727361AbfKMRRE (ORCPT
+        id S1727779AbfKMRRj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Nov 2019 12:17:04 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41292 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726392AbfKMRRE (ORCPT
+        Wed, 13 Nov 2019 12:17:39 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:40257 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727756AbfKMRRj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Nov 2019 12:17:04 -0500
-Received: by mail-wr1-f66.google.com with SMTP id b18so1809760wrj.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Nov 2019 09:17:02 -0800 (PST)
+        Wed, 13 Nov 2019 12:17:39 -0500
+Received: by mail-wr1-f67.google.com with SMTP id i10so3290787wrs.7
+        for <platform-driver-x86@vger.kernel.org>; Wed, 13 Nov 2019 09:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=svgalib-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:in-reply-to:references:to:from:date:subject;
-        bh=kJ/QJuLwRVNogdV4oTyh10DbfNaFy4rwlTQCRY5pR68=;
-        b=UHFWcY+AWCkiFQdYFzQHsQgxlSK8LdVkkzAnevsTk6LZ6FXyFhFM8zmhKEWPrIoZdv
-         4ftSNEwF1fPBYFPG/DglNzK6OX96ut/wZO/VwYyrOZrBBtFoiiNwLlQBL/JLFex/awTC
-         Gc7Gav7+AcAIUkSFlknEc7rL8v0meZ3rQSwe+ueFSOqrOS+r+42dYNLlihAT3ZGOQZZ3
-         JnHX5aeZ3qdt+O6YjF4vRritML54qsCj6pzHg7HU7rrjxqxfITXLTsZ5OOQa10LZpgPi
-         M2ggmQF01IVay4t5NDINdnQyteZi1mj2MlgtIckS0eVdXo1J8PXCzJN0nrTsglNMpz4r
-         +0iQ==
+        bh=RKHOe/VuKJG2BYY4s/Pq+VgKSC7IeWJxAphZkjtpWdY=;
+        b=N+I9WcCoW9AzklHeuHduF9YRftOorWDvdB0ZKCX+QQz84VX0H7P58BmY+UsnXIxbDC
+         kMeSVT56EqGQcT7v/A+Rwla4WtxccAM6U95O9GK/pZ2tFMj++/bdp8R/9EXXXDy6UWnT
+         ew5pqkjqcF66yQb/Mqg5snN1p5sZ0PhDth9xs5fiLzFkyZXPpaEPW00JSjACuT9s5/j3
+         oQ4fpqzDPYOrQ2mfMaj5dsMB0kpjx1ivq/UA/rgPf8DZkvW+yHxskXL2TznX/EczgLGb
+         U5E8Vzb5jaonQ5yEXgNszBxGh1e0friUQZ7rox1yzclbBKkVDYCXJZGdHxz6VOM/XTvt
+         5AFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:in-reply-to:references:to:from:date
          :subject;
-        bh=kJ/QJuLwRVNogdV4oTyh10DbfNaFy4rwlTQCRY5pR68=;
-        b=Mh6r3nKZ0NCWZmYOYhgeBZ55ed58sYIm6PS2nt6uSvuutZZwIZp0+T/GPcR+ranwc7
-         wjD+vjX3zjEZYaRZupX7w0N92cAt14VOnMH3zcxf2XU5EqJXvBydH/gQGcin99KGPU8E
-         J3ao1XSioydqUiY3WtMXuzura3OwaEwWU3umQfWDH3jXat1C4Ryv+Ke7vLxANjHLgbyg
-         YFSeLkCMUctQehCJNygyAv8G9g1GdOD7Tz0kyyOWe1Z80j4A7o4ANKtbbO4qi69ySL0V
-         UdIy/c9ybGqUZbbquruVa+xPGJDSRzAoJMm6I0gV5B2GNP5Ue6smzU6h2yvp8boFTabg
-         R3Bg==
-X-Gm-Message-State: APjAAAVS+Yu+J82cDKuHHxKs0Iq3TLPkSvnB0LAVh5mDUIe9DW+jCj/8
-        yFXmtxa93eND+5UnJgglGlWaqS9JmA==
-X-Google-Smtp-Source: APXvYqwZDTb43hDNKdu90l2Gf+1B/F53d45RKWGsKQAF87ZmqKdwjeHbXQ3IuG2RSe0peVBCHryEnw==
-X-Received: by 2002:adf:db92:: with SMTP id u18mr3766625wri.1.1573665421636;
-        Wed, 13 Nov 2019 09:17:01 -0800 (PST)
+        bh=RKHOe/VuKJG2BYY4s/Pq+VgKSC7IeWJxAphZkjtpWdY=;
+        b=Wj3wb6GI3ryZawYRwaoWuJPG32rTm7JnPsIIw12rDjQ9Ge3H5JxUZ3M28/O7SUuWjZ
+         tiSs0Y/hHSx1moouiI+g9G5Egu+UTpwSJHYCg67KHvK8puR1qfivScAYKnKd0pRNYm5R
+         DH3WcPAmu9iJMxXw8OyXok982rhkAAYag9/PNe8wxK0UrJz4hvIcOhep0euLY80QJMsy
+         fv1p2spRkBANlvX3qAzmrnED2jSxSE3+z3Kss3fDSWmDjJmOSDAF/ZAVugXEI0iqDrlp
+         G5owhCzNV2iwHPkZpAHV/xfF6dRimanRsPZgghIS4k383ah07Gi4+53GGYADYLt9nWWI
+         08JQ==
+X-Gm-Message-State: APjAAAXHYsdWRFHVLko8brhb7PcoRCuOBTiPwqOVcy5gU6zUnC3KwPq6
+        67/6d8QjC2hR4x/1+xfGEf+ttwUS/A==
+X-Google-Smtp-Source: APXvYqx9welhntBJX3JBg0OFhvOjpoWHPvXRZojuVcGbieplVYcL3G/BjzyXTRcqzPIt51B1ZdcX4Q==
+X-Received: by 2002:adf:c641:: with SMTP id u1mr1710179wrg.361.1573665455340;
+        Wed, 13 Nov 2019 09:17:35 -0800 (PST)
 Received: from matan ([2a02:ed0:6b03:5d01:69cd:3baf:b47e:a78f])
-        by smtp.gmail.com with ESMTPSA id j66sm2593445wma.19.2019.11.13.09.17.00
+        by smtp.gmail.com with ESMTPSA id x6sm3815007wrw.34.2019.11.13.09.17.34
         for <platform-driver-x86@vger.kernel.org>
         (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 13 Nov 2019 09:17:00 -0800 (PST)
-Message-Id: <84d87b964f9ed3fa9f0cb0afe1baf3ba417cde8a.1573664004.git.matan@svgalib.org>
+        Wed, 13 Nov 2019 09:17:34 -0800 (PST)
+Message-Id: <13bfc53c39fcf7f38012c664ee8bcbfcbb738b3d.1573664004.git.matan@svgalib.org>
 In-Reply-To: <cover.1573664004.git.matan@svgalib.org>
 References: <cover.1573664004.git.matan@svgalib.org>
 To:     Platform Driver <platform-driver-x86@vger.kernel.org>
 From:   Matan Ziv-Av <matan@svgalib.org>
-Date:   Wed, 13 Nov 2019 17:40:30 +0200
-Subject: [PATCH 1/7] Add module version and fix whitespace
+Date:   Wed, 13 Nov 2019 17:42:35 +0200
+Subject: [PATCH 2/7] Use a small buffer instead of a full page for sysfs
+ boolean output
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-- Add module version information
-- Fix a small whitespace inconsistency
-
+reader_mode_show is now called also from within the driver, on a buffer 
+allocated on the stack, so make sure it only uses a small buffer.
 
 Signed-off-by: Matan Ziv-Av <matan@svgalib.org>
 ---
- drivers/platform/x86/lg-laptop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/platform/x86/lg-laptop.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
-index c0bb1f864dfe..78d3e3d2e51a 100644
+index 78d3e3d2e51a..ab79457d5ffe 100644
 --- a/drivers/platform/x86/lg-laptop.c
 +++ b/drivers/platform/x86/lg-laptop.c
-@@ -26,6 +26,7 @@
- MODULE_AUTHOR("Matan Ziv-Av");
- MODULE_DESCRIPTION("LG WMI Hotkey Driver");
+@@ -28,6 +28,8 @@ MODULE_DESCRIPTION("LG WMI Hotkey Driver");
  MODULE_LICENSE("GPL");
-+MODULE_VERSION("1.1");
+ MODULE_VERSION("1.1");
  
++#define BUFFER_SIZE 16
++
  #define WMI_EVENT_GUID0	"E4FB94F9-7F2B-4173-AD1A-CD1D95086248"
  #define WMI_EVENT_GUID1	"023B133E-49D1-4E10-B313-698220140DC2"
-@@ -69,7 +70,7 @@ static u32 inited;
- #define INIT_INPUT_ACPI         0x04
- #define INIT_TPAD_LED           0x08
- #define INIT_KBD_LED            0x10
--#define INIT_SPARSE_KEYMAP        0x80
-+#define INIT_SPARSE_KEYMAP      0x80
+ #define WMI_EVENT_GUID2	"37BE1AC0-C3F2-4B1F-BFBE-8FDEAF2814D6"
+@@ -406,7 +408,7 @@ static ssize_t reader_mode_show(struct device *dev,
  
- static const struct key_entry wmi_keymap[] = {
- 	{KE_KEY, 0x70, {KEY_F15} },	 /* LG control panel (F1) */
+ 	kfree(r);
+ 
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return snprintf(buffer, BUFFER_SIZE, "%d\n", status);
+ }
+ 
+ static ssize_t fn_lock_store(struct device *dev,
 -- 
 2.21.0
 
