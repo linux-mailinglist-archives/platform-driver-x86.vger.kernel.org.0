@@ -2,162 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE8CDFCE21
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Nov 2019 19:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74589FCED8
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Nov 2019 20:42:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727016AbfKNSuZ (ORCPT
+        id S1726755AbfKNTmi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 Nov 2019 13:50:25 -0500
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:29524 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727001AbfKNSuZ (ORCPT
+        Thu, 14 Nov 2019 14:42:38 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36048 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726474AbfKNTmi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 Nov 2019 13:50:25 -0500
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAEIeMBw017965;
-        Thu, 14 Nov 2019 13:50:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=sZFGNfZ2DG3LR7lUZjUFvxpuyRguwkKOcS+Q4/EZkXo=;
- b=sGJtJ6dfJ7jtJB6ScanNIBbtSuA0azwzK//bRHmDlaG1IgxR7X9BGJ72ctvfg5iulF7F
- 0C6fSmTRy6K8a1xmIxdoo1g8GH1xhdiscDIuOamSQndbawmdGq/IOQe6YkD83quCK6+H
- bvb5cUFsYRqng2ngucacSXl0KToryuUcB5XgPt/IRUaypwprpOPF2HFw8u6vL9qP2xOg
- Wzrg5D7Hh2NNfJyRqoYdd0LMdnN/pJxvXlOUCbDaOstOP4l44KRa9gw8IP376WycVRY9
- FXlGrqYHuI/x3uV+uv1AQriLY4xMHtRZR8n2beDi6POYpO4MseM1m9yD1QdTQZfTTCMo jQ== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0a-00154904.pphosted.com with ESMTP id 2w7pqcdvsg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Nov 2019 13:50:24 -0500
-Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAEIceVf191639;
-        Thu, 14 Nov 2019 13:50:23 -0500
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 2w91u9kp36-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Nov 2019 13:50:22 -0500
-X-LoopCount0: from 10.166.132.129
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="487653472"
-From:   <Mario.Limonciello@dell.com>
-To:     <gayatri.kammela@intel.com>, <platform-driver-x86@vger.kernel.org>
-CC:     <vishwanath.somayaji@intel.com>, <dvhart@infradead.org>,
-        <linux-kernel@vger.kernel.org>, <charles.d.prestopine@intel.com>,
-        <peterz@infradead.org>, <srinivas.pandruvada@intel.com>,
-        <andriy.shevchenko@linux.intel.com>, <kan.liang@intel.com>,
-        <david.e.box@intel.com>, <rajneesh.bhardwaj@intel.com>,
-        <tony.luck@intel.com>
-Subject: RE: [PATCH v3 7/7] platform/x86: Add Comet Lake (CML) platform
- support to intel_pmc_core driver
-Thread-Topic: [PATCH v3 7/7] platform/x86: Add Comet Lake (CML) platform
- support to intel_pmc_core driver
-Thread-Index: AQHVmw07yStVNeDMPEaQYhzmHi5q/KeLAfQg
-Date:   Thu, 14 Nov 2019 18:50:20 +0000
-Message-ID: <3acd91d2694c456da2af7256ed1dcf9c@AUSX13MPC105.AMER.DELL.COM>
-References: <cover.1573750525.git.gayatri.kammela@intel.com>
- <d43af9c7b3c536c489cdb925adb2204256099952.1573750525.git.gayatri.kammela@intel.com>
-In-Reply-To: <d43af9c7b3c536c489cdb925adb2204256099952.1573750525.git.gayatri.kammela@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2019-11-14T18:50:18.5668120Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
- aiplabel=External Public
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.143.242.75]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 14 Nov 2019 14:42:38 -0500
+Received: by mail-pg1-f195.google.com with SMTP id k13so4450013pgh.3;
+        Thu, 14 Nov 2019 11:42:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xREiFSWcPI1chhBi4DLb96WHUmNYxgUaObZlX9ct32s=;
+        b=RqQ1/TaigRFRI/T+wCoz5yQ/SAOH68FOaVXZGcIlLVoRQGNR2qjXJpy+qkqSag12GQ
+         TvKjacB8VJfHwyddFEts3dNAhavwJj4aXdn1yTlr6HykjbM6+tw7b2JE1RQsF/wRnzd1
+         poyIPDTdKn35ixj3J75x0OpLcP95KtFJknfADoa4gsngqjy2PxpH+jVasTSu9iIgVhQU
+         0vYvAHQ/lmQ8l/05JuoMpZLGaznBS8fWi3WT0tB1x3Gb1KkKu3VnhQQYxoGuKZCJWpWA
+         EAXN24vuziaCvLgLepTlzoTokFTIDXpmIs0yi7DcsF744HuVA2peF55r/P9McEp391Pj
+         l4+Q==
+X-Gm-Message-State: APjAAAXYnO0m7n9cxbuV4p2Dgp8RTGNQn6e7GWTShQMjrfz+/e4M173w
+        enSVQFoeFD0HoydIm6SdxoI=
+X-Google-Smtp-Source: APXvYqzHzrMhVUuOmrOcvLurwFjLtxHMm3bi+6VC0x6/lYAs2TDGf9BuvH95YORH/zvzQl05Qrz/4g==
+X-Received: by 2002:a17:90a:aa8f:: with SMTP id l15mr14680183pjq.52.1573760555946;
+        Thu, 14 Nov 2019 11:42:35 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id o15sm12166006pgf.2.2019.11.14.11.42.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2019 11:42:34 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id BBC3D403DC; Thu, 14 Nov 2019 19:42:33 +0000 (UTC)
+Date:   Thu, 14 Nov 2019 19:42:33 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
+Message-ID: <20191114194233.GE11244@42.do-not-panic.com>
+References: <20191004145056.43267-1-hdegoede@redhat.com>
+ <20191004145056.43267-3-hdegoede@redhat.com>
+ <20191011144834.GL16384@42.do-not-panic.com>
+ <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-14_05:2019-11-14,2019-11-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=991 impostorscore=0
- adultscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011
- malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911140157
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 phishscore=0
- bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0 impostorscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 malwarescore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911140157
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
-> owner@vger.kernel.org> On Behalf Of Gayatri Kammela
-> Sent: Thursday, November 14, 2019 11:01 AM
-> To: platform-driver-x86@vger.kernel.org
-> Cc: vishwanath.somayaji@intel.com; dvhart@infradead.org; linux-
-> kernel@vger.kernel.org; charles.d.prestopine@intel.com; Gayatri Kammela; =
-Peter
-> Zijlstra; Srinivas Pandruvada; Andy Shevchenko; Kan Liang; David E . Box;=
- Rajneesh
-> Bhardwaj; Tony Luck
-> Subject: [PATCH v3 7/7] platform/x86: Add Comet Lake (CML) platform suppo=
-rt to
-> intel_pmc_core driver
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> Add Comet Lake to the list of the platforms that intel_pmc_core driver
-> supports for pmc_core device.
->=20
-> Just like Ice Lake, Tiger Lake and Elkhart Lake, Comet Lake can also
-> reuse all the Cannon Lake PCH IPs. No additional effort is needed to
-> enable but to simply reuse them.
->=20
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Kan Liang <kan.liang@intel.com>
-> Cc: David E. Box <david.e.box@intel.com>
-> Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
-> ---
->  drivers/platform/x86/intel_pmc_core.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/platform/x86/intel_pmc_core.c
-> b/drivers/platform/x86/intel_pmc_core.c
-> index 94081710e0de..a9b33ac4e52d 100644
-> --- a/drivers/platform/x86/intel_pmc_core.c
-> +++ b/drivers/platform/x86/intel_pmc_core.c
-> @@ -165,6 +165,7 @@ static const struct pmc_reg_map spt_reg_map =3D {
->=20
->  /* Cannon Lake: PGD PFET Enable Ack Status Register(s) bitmap */
->  static const struct pmc_bit_map cnp_pfear_map[] =3D {
-> +	/* Reserved for Cannon Lake but valid for Comet Lake */
->  	{"PMC",                 BIT(0)},
->  	{"OPI-DMI",             BIT(1)},
->  	{"SPI/eSPI",            BIT(2)},
-> @@ -879,6 +880,8 @@ static const struct x86_cpu_id intel_pmc_core_ids[] =
-=3D {
->  	INTEL_CPU_FAM6(TIGERLAKE_L, tgl_reg_map),
->  	INTEL_CPU_FAM6(TIGERLAKE, tgl_reg_map),
->  	INTEL_CPU_FAM6(ATOM_TREMONT, tgl_reg_map),
-> +	INTEL_CPU_FAM6(COMETLAKE, cnp_reg_map),
-> +	INTEL_CPU_FAM6(COMETLAKE_L, cnp_reg_map),
->  	{}
->  };
->=20
+On Thu, Nov 14, 2019 at 12:27:01PM +0100, Hans de Goede wrote:
+> Hi Luis,
+> 
+> Thank you for the reviews and sorry for being a bit slow to respind.
+> 
+> On 11-10-2019 16:48, Luis Chamberlain wrote:
+> > On Fri, Oct 04, 2019 at 04:50:50PM +0200, Hans de Goede wrote:
+> > > +static int __init efi_check_md_for_embedded_firmware(
+> > > +	efi_memory_desc_t *md, const struct efi_embedded_fw_desc *desc)
+> > > +{
+> > > +	const u64 prefix = *((u64 *)desc->prefix);
+> > > +	struct sha256_state sctx;
+> > > +	struct embedded_fw *fw;
+> > > +	u8 sha256[32];
+> > > +	u64 i, size;
+> > > +	void *map;
+> > > +
+> > > +	size = md->num_pages << EFI_PAGE_SHIFT;
+> > > +	map = memremap(md->phys_addr, size, MEMREMAP_WB);
+> > 
+> > Since our limitaiton is the init process must have mostly finished,
+> > it implies early x86 boot code cannot use this, what measures can we
+> > take to prevent / check for such conditions to be detected and
+> > gracefully errored out?
+> 
+> As with all (EFI) early boot code, there simply is a certain order
+> in which things need to be done. This needs to happen after the basic
+> mm is setup, but before efi_free_boot_services() gets called, there
+> isn't really a way to check for all these conditions. As with all
+> early boot code, people making changes need to be careful to not
+> break stuff.
 
-Just a nit, that I'm not sure if there is a policy around.
-Shouldn't the order of these reflect the actual order they're available to =
-the
-marketplace?  So CML may want to come earlier in the patch series to reflec=
-t
-that aspect.
+I rather we take a proactive measure here and add whatever it is we need
+to ensure the API works only when its supposed to, rather than try and
+fail, and then expect the user to know these things.
 
+I'd prefer if we at least try to address this.
+
+> > > +	if (!map) {
+> > > +		pr_err("Error mapping EFI mem at %#llx\n", md->phys_addr);
+> > > +		return -ENOMEM;
+> > > +	}
+> > > +
+> > > +	size -= desc->length;
+> > 
+> > Remind me again, why we decrement the size here?
+> 
+> Basically this is another way of writing:
+> 
+> 	for (i = 0; (i + desc->length) < size; i += 8) {
+> 
+> > I was going to ask if we didn't need a:
+> > 
+> > if (desc->length > size) {
+> > 	memunmap(map);
+> > 	return -EINVAL;
+> > }
+> 
+> That is a good point, unlikely but still a good point,
+> so I guess that writing:
+> 
+> 	for (i = 0; (i + desc->length) < size; i += 8) {
+> 
+> Instead would better as that avoids the need for that check.
+> I will fix this for the next version.
+
+Great thanks.
+
+  Luis
