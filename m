@@ -2,89 +2,42 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E978AFC55A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Nov 2019 12:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D99FFCB46
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 Nov 2019 18:01:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbfKNLcS (ORCPT
+        id S1727048AbfKNRBg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 Nov 2019 06:32:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42097 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726115AbfKNLcR (ORCPT
+        Thu, 14 Nov 2019 12:01:36 -0500
+Received: from mga04.intel.com ([192.55.52.120]:50118 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726605AbfKNRBf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 Nov 2019 06:32:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573731136;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eGPDOxJmq8wLYBcctg35/K5PZf59EHJV9VNjXKlhwZM=;
-        b=Y7luye9DT8hhH0jQI+ZRaCaak3zA5ZSfRMMRD6HGysnB9O8/AIOejLteLfh+/kWYTjrmKq
-        FHmHkWJ9iyUZ/zVZI3l5vBSC5lCGmvLDeE9kB4yKCcUDhDpF5LOllNRcWZlGK32XtBM8A+
-        8TpPb2t17u4tU5pbBsSToS6ksl4vBUE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-KKR2ZHK-MGifqF2zkJI0gQ-1; Thu, 14 Nov 2019 06:32:15 -0500
-Received: by mail-wm1-f69.google.com with SMTP id i23so3183532wmb.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 14 Nov 2019 03:32:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RZt45pQgw79xE9XzgdJC+yG0nkXIvZyJYcV8pb1nd04=;
-        b=bulvsjcC021tCSaTxh2WBkvEEg5IXlDKw+rQboQHLG5hs6vjdSgQAp7iV6HQT8vVrD
-         csjzfxuEuUzBsMCIpufA2idgiw+S3bjVr2C3Dj9J8V7T2jsKxXu+ZYsXaiRh1iY9e1Na
-         ngFTlZf5rtA7gAhvjLK7wc4R/K9y1/batowARzhCGQtvLrOPHtbE1PxY4Jf+G4D87mia
-         WeUbNyKDOL5lx2aewkuCM2Uqm/XtAVS7qxD5l1SbKxkNCl5PVEyb64CVJndevtU85cCv
-         FqG1DcUwIU7vEqpxaIBM0KL7RNLhMk7GqJ/uLG0nBH02IdAMkfpv/LpD5wQZpWtoMJN7
-         0Hmg==
-X-Gm-Message-State: APjAAAV7LU435h41hBN55Ggn0anMwDXd5UhAIbPI1G9do+dpCRfd+Ruk
-        lqYWvF72Fn0xE1tOw8+OK+3S9l3YGHF0vqrfd7F/GpDIcIevTk7N76ZhtUgescyUiRczkAJLMAT
-        /53ig+zdojsuJBJr2xVg1Kw3J+d3UuscYjA==
-X-Received: by 2002:a7b:c748:: with SMTP id w8mr7892855wmk.114.1573731133957;
-        Thu, 14 Nov 2019 03:32:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxqb+wuHoXkrqv7G9jT1s8K11NZRcID1zCY+N4NxoahPNLiVW38bJon4GNLKPoo8ktQX+wLDg==
-X-Received: by 2002:a7b:c748:: with SMTP id w8mr7892833wmk.114.1573731133769;
-        Thu, 14 Nov 2019 03:32:13 -0800 (PST)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id 205sm13554570wmb.3.2019.11.14.03.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Nov 2019 03:32:12 -0800 (PST)
-Subject: Re: [PATCH v7 4/8] firmware: Add new platform fallback mechanism and
- firmware_request_platform()
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-5-hdegoede@redhat.com>
- <20191011152920.GQ16384@42.do-not-panic.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <b09922ec-a71e-c1ca-adcc-15f7fd02c2f4@redhat.com>
-Date:   Thu, 14 Nov 2019 12:32:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <20191011152920.GQ16384@42.do-not-panic.com>
-Content-Language: en-US
-X-MC-Unique: KKR2ZHK-MGifqF2zkJI0gQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+        Thu, 14 Nov 2019 12:01:35 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2019 09:01:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,304,1569308400"; 
+   d="scan'208";a="257506326"
+Received: from unknown (HELO gayuk-dev-mach.sc.intel.com) ([10.3.79.161])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Nov 2019 09:01:35 -0800
+From:   Gayatri Kammela <gayatri.kammela@intel.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     vishwanath.somayaji@intel.com, dvhart@infradead.org,
+        linux-kernel@vger.kernel.org, charles.d.prestopine@intel.com,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kan Liang <kan.liang@intel.com>,
+        "David E . Box" <david.e.box@intel.com>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v3 0/7] x86/intel_pmc_core: Add Tiger Lake, Elkhart Lake
+Date:   Thu, 14 Nov 2019 09:01:13 -0800
+Message-Id: <cover.1573750525.git.gayatri.kammela@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
@@ -92,73 +45,51 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 11-10-2019 17:29, Luis Chamberlain wrote:
-> On Fri, Oct 04, 2019 at 04:50:52PM +0200, Hans de Goede wrote:
->> diff --git a/drivers/base/firmware_loader/Makefile b/drivers/base/firmwa=
-re_loader/Makefile
->> index 0b2dfa6259c9..fec75895faae 100644
->> --- a/drivers/base/firmware_loader/Makefile
->> +++ b/drivers/base/firmware_loader/Makefile
->> @@ -3,7 +3,7 @@
->>  =20
->>   obj-$(CONFIG_FW_LOADER_USER_HELPER) +=3D fallback_table.o
->>   obj-$(CONFIG_FW_LOADER)=09+=3D firmware_class.o
->> -firmware_class-objs :=3D main.o
->> +firmware_class-objs :=3D main.o fallback_platform.o
->>   firmware_class-$(CONFIG_FW_LOADER_USER_HELPER) +=3D fallback.o
->=20
-> Why not just:
->=20
-> firmware_class-$(CONFIG_EFI_EMBEDDED_FIRMWARE) +=3D fallback_platform.o
->=20
->>   obj-y +=3D builtin/
->> diff --git a/drivers/base/firmware_loader/fallback.h b/drivers/base/firm=
-ware_loader/fallback.h
->> index 21063503e4ea..c4350f2e7cc2 100644
->> --- a/drivers/base/firmware_loader/fallback.h
->> +++ b/drivers/base/firmware_loader/fallback.h
->> @@ -66,4 +66,6 @@ static inline void unregister_sysfs_loader(void)
->>   }
->>   #endif /* CONFIG_FW_LOADER_USER_HELPER */
->>  =20
->> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt=
-_flags);
->> +
->=20
-> Inline this if not defined.
->=20
->>   #endif /* __FIRMWARE_FALLBACK_H */
->> diff --git a/drivers/base/firmware_loader/fallback_platform.c b/drivers/=
-base/firmware_loader/fallback_platform.c
->> new file mode 100644
->> index 000000000000..7e9d730e36bf
->> --- /dev/null
->> +++ b/drivers/base/firmware_loader/fallback_platform.c
->> @@ -0,0 +1,33 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include <linux/efi_embedded_fw.h>
->> +#include <linux/property.h>
->> +#include <linux/security.h>
->> +#include <linux/vmalloc.h>
->> +
->> +#include "fallback.h"
->> +#include "firmware.h"
->> +
->> +int firmware_fallback_platform(struct fw_priv *fw_priv, enum fw_opt opt=
-_flags)
->> +{
->> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
->=20
-> And we can do away with this eyesore.
+Patch 1: Fix SoC naming inconsistency
+Patch 2: Cleans up termination lines
+Patch 3: Refactor driver for ease of adding new SoCs
+Patch 4: Add debugfs entry for PCH IPs only if platform supports
+Patch 5: Add Tiger Lake legacy support to pmc_core
+Patch 6: Add Elkhart Lake legacy support to pmc_core
+patch 7: Add Comet Lake legacy support to pmc_core
 
-Ok will fix for the next version.
+All the information regarding the PCH IPs and names of IPs will be
+available in Intel's Platform Controller Hub (PCH) External Design
+Specification (EDS) document expected to be released in 2020 before
+product launch.
 
-> Otherwise looks good!
+Changes since v1:
+1) Added a patch that fixes the naming inconsistency.
+2) Fixed the prefix of all the patches.
 
-Thanks.
+Changes since v2:
+1) Add Comet Lake legacy support to pmc_core up on Dell's request
 
-Regards,
+Gayatri Kammela (7):
+  x86/intel_pmc_core: Fix the SoC naming inconsistency
+  x86/intel_pmc_core: Clean up: Remove comma after the termination line
+  x86/intel_pmc_core: Create platform dependent pmc bitmap structs
+  x86/intel_pmc_core: Make debugfs entry for pch_ip_power_gating_status
+    conditional
+  platform/x86: Add Tiger Lake (TGL) platform support to intel_pmc_core
+    driver
+  platform/x86: Add Atom based Elkhart Lake (EHL) platform support to
+    intel_pmc_core driver
+  platform/x86: Add Comet Lake (CML) platform support to intel_pmc_core
+    driver
 
-Hans
+ drivers/platform/x86/intel_pmc_core.c | 121 ++++++++++++++++++++------
+ drivers/platform/x86/intel_pmc_core.h |   2 +-
+ 2 files changed, 96 insertions(+), 27 deletions(-)
+
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Kan Liang <kan.liang@intel.com>
+Cc: David E. Box <david.e.box@intel.com>
+Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+
+-- 
+2.17.1
 
