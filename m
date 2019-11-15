@@ -2,154 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49222FDD14
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 13:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA14FDFA4
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 15:07:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727405AbfKOMKJ (ORCPT
+        id S1727406AbfKOOH0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 Nov 2019 07:10:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32527 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727380AbfKOMKJ (ORCPT
+        Fri, 15 Nov 2019 09:07:26 -0500
+Received: from mga07.intel.com ([134.134.136.100]:3884 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727380AbfKOOHZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 Nov 2019 07:10:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573819808;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4SLCfbXrVulZogYj/s2/SbxodvpIYXr2n3EpWJPZhgM=;
-        b=PBLukaEqHyjPwXP2q6j15H7BHeAVqbBlnf8pqR/SfO3oi7mnbIN5PHvQZ7wyqc2EfUl+FH
-        N7N/LVB3nINFDe2OgJtQ2m2wjpldS/RNosMi7c7iPvlhrdgPaXRxjYkLtW8Hrv7bYtKulj
-        9zAmhzV6vybTkEYZkLMBdNfXWKjpnOs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-eCn4b4GCOXKlOc46aC0jkg-1; Fri, 15 Nov 2019 07:10:02 -0500
-Received: by mail-wm1-f72.google.com with SMTP id t203so5905902wmt.7
-        for <platform-driver-x86@vger.kernel.org>; Fri, 15 Nov 2019 04:10:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=s4+dQMXVTzdXBza6cpCVy4c3dq1dN1YlKsihA8W4Y8Y=;
-        b=LoN/xjPGeboto+3jjCbMhel2bScfHEIy93wLneWDeXvbFgmjI1mPkn+Re6VmA6h3rI
-         uHiRll2tFU6PxLX8i0kyon+EOjgQRt1eRrDI+LQUtAAkhRW5QRs9y1VN2aw2kWSkmpE+
-         i5fe6f/tUzeDt6wL2hj50VMuMMH/bIRwCH9CxH/s2y/XXThIDG9XkhbEZJmTNlFw+dBm
-         zNmJqGHfK+Ft7OXYmywZV+QkgbBmeKajQFepkDsyk6TUaAdoYecUs50zvWmWiTPye4/P
-         ihwJ3585ZnXrBBnv/wAMysYB5+gn3m1G/NIxqQrxOh2u+WYsB5lrIgCN5bDetYtb5zxr
-         CwYw==
-X-Gm-Message-State: APjAAAW1eMCHe9D1IZnRSfLoTvEMCIkkBInnz+0UJFWVln6P3i4GgjWC
-        YdhVw3Bf2iGWURsDEuCdBEtYPQHpDs5Z4ocxSlC7VFx3FpZnxsrYv42i/4mfhN1znrXWBmwAwb+
-        NGawuk1yvsNU8a0kBETiQIPIQksX54djR/Q==
-X-Received: by 2002:a1c:30b:: with SMTP id 11mr13131551wmd.171.1573819801058;
-        Fri, 15 Nov 2019 04:10:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxVn+PxOzHLWEYlmy0V5fELKmqUNxPX2dvbZL7DihUzDLfdB4tPBTsaLy1Ld99Eg+Qze1qseg==
-X-Received: by 2002:a1c:30b:: with SMTP id 11mr13131526wmd.171.1573819800855;
-        Fri, 15 Nov 2019 04:10:00 -0800 (PST)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id y8sm9103529wmi.9.2019.11.15.04.09.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Nov 2019 04:10:00 -0800 (PST)
-Subject: Re: [PATCH v7 2/8] efi: Add embedded peripheral firmware support
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
+        Fri, 15 Nov 2019 09:07:25 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Nov 2019 06:07:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,308,1569308400"; 
+   d="scan'208";a="214784671"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 15 Nov 2019 06:07:21 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 15 Nov 2019 16:07:20 +0200
+Date:   Fri, 15 Nov 2019 16:07:20 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20191004145056.43267-1-hdegoede@redhat.com>
- <20191004145056.43267-3-hdegoede@redhat.com>
- <20191011144834.GL16384@42.do-not-panic.com>
- <e7bd40ff-20d1-3aed-8516-9fffd4c3a207@redhat.com>
- <20191114194233.GE11244@42.do-not-panic.com>
- <f00804ae-e556-35e4-d0a3-cd9201fdd2d0@redhat.com>
- <9b0a0121-3e63-0602-6c0d-00547e389f76@redhat.com>
- <20191114215009.GF11244@42.do-not-panic.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <d7546f63-5472-b867-4e79-912edf9cfa6c@redhat.com>
-Date:   Fri, 15 Nov 2019 13:09:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        Guenter Roeck <linux@roeck-us.net>,
+        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/3] usb: typec: tcpm: Add support for configuring DP
+ altmode through device-properties
+Message-ID: <20191115140720.GF4013@kuha.fi.intel.com>
+References: <20191018195719.94634-1-hdegoede@redhat.com>
+ <20191018195719.94634-2-hdegoede@redhat.com>
+ <20191021065549.GA28049@kuha.fi.intel.com>
+ <5a42617c-12f9-64af-7ea5-8cf6754843aa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191114215009.GF11244@42.do-not-panic.com>
-Content-Language: en-US
-X-MC-Unique: eCn4b4GCOXKlOc46aC0jkg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a42617c-12f9-64af-7ea5-8cf6754843aa@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Thu, Nov 14, 2019 at 12:16:09PM +0100, Hans de Goede wrote:
+> 
+> Hi,
+> 
+> On 21-10-2019 08:55, Heikki Krogerus wrote:
+> > Hi Hans,
+> > 
+> > On Fri, Oct 18, 2019 at 09:57:18PM +0200, Hans de Goede wrote:
+> > > Add support for configuring display-port altmode through device-properties.
+> > > 
+> > > We could try to add a generic mechanism for describing altmodes in
+> > > device-properties, but various altmodes will likely need altmode specific
+> > > configuration. E.g. the display-port altmode needs some way to describe
+> > > which set of DP pins on the GPU is connected to the USB Type-C connector.
+> > > 
+> > > As such it is better to have a separate set of altmode specific properties
+> > > per altmode and this commit adds a property for basic display-port altmode
+> > > support.
+> > > 
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > ---
+> > >   .../bindings/connector/usb-connector.txt      |  3 ++
+> > >   drivers/usb/typec/tcpm/tcpm.c                 | 33 +++++++++++++++++++
+> > >   2 files changed, 36 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/connector/usb-connector.txt b/Documentation/devicetree/bindings/connector/usb-connector.txt
+> > > index d357987181ee..7bae3cc9c76a 100644
+> > > --- a/Documentation/devicetree/bindings/connector/usb-connector.txt
+> > > +++ b/Documentation/devicetree/bindings/connector/usb-connector.txt
+> > > @@ -38,6 +38,9 @@ Optional properties for usb-c-connector:
+> > >     or Try.SRC, should be "sink" for Try.SNK or "source" for Try.SRC.
+> > >   - data-role: should be one of "host", "device", "dual"(DRD) if typec
+> > >     connector supports USB data.
+> > > +- displayport-vdo: The presenence of this property indicates that the
+> > > +  usb-connector supports displayport-altmode (svid 0xff01), the value of
+> > > +  this property is an u32 with the vdo value for the displayport-altmode,
+> > 
+> > No, let's not take this approach.
+> > 
+> > Every alternate mode a connector supports will need to have its own
+> > "sub-fwnode" under the connector fwnode. I thought we agreed this
+> > earlier?
+> > 
+> > In any case, those sub-nodes will have default device properties named
+> > "svid" and "vdo". If the alternate mode still needs some other
+> > details, it can have other device properties that are specific to it,
+> > but note that displayport alt mode does not need anything extra. The
+> > "vdo" will already tells which pin configurations the connector
+> > supports and that is all that the driver needs to know.
+> > 
+> > After we have the sub-nodes, it's not a big deal to walk through the
+> > child-nodes the port has during port registration and register the
+> > port alternate modes at the same time. That we can do in
+> > typec_register_port(), so we do not need to do it in every driver
+> > separately.
+> 
+> Yes we did agree to do the sub-fwnode thingie. But since this is a hobby
+> project I do not have a whole lot of time to work on this.
+> 
+> So when I started working on this, I though that the approach from this
+> patch-set would be more KISS and IMHO it works out well. But the sub-fwnode
+> approach is probably more future proof.
+> 
+> Anyways as said I do not have a whole lot of time to work on this,
+> if you want to go the sub-fwnode route, perhaps you can do a PoC
+> patch series for this? I would be happy to test this and if necessary
+> work it into something which works for the DP case.
 
-On 14-11-2019 22:50, Luis Chamberlain wrote:
-> On Thu, Nov 14, 2019 at 09:48:38PM +0100, Hans de Goede wrote:
+Sure, I'll prepare something for that once I have some spare time.
 
-<snip>
+> Doing the port alternate modes registration from typec_register_port()
+> does sound like a good idea.
+> 
+> The first patch in this series is independent of this and IMHO it
+> would be good to get that upstream regardless of this alt-mode
+> registration stuff, so I will resend that as a standalone patch.
 
->> But I guess what you really want is some error to be thrown if someone
->> calls firmware_request_platform() before we are ready.
->=20
-> Yes.
->=20
->> I guess I could make efi_check_for_embedded_firmwares() which scans
->> for known firmwares and saved a copy set a flag that it has run.
->>
->> And then combine that with making efi_get_embedded_fw() (which underpins
->> firmware_request_platform()) print a warning when called if that flag
->> is not set yet.
+OK,
 
-<snip>
+thanks,
 
-> That'd be great.
-
-So I've been working on this, my first though was to use WARN_ON as
-calling this too early would be a bug, but there is a bunch of
-normal circumstances where efi_check_for_embedded_firmwares() never
-runs. One of the being classic BIOS boot, but e.g. also when running
-paravirtualized in a paravirt env. using UEFI.
-
-Normally we should not end up calling efi_get_embedded_fw() in those
-cases, for one it is unlikely for any drivers using firmware_request_platfo=
-rm()
-to be used in such an environment, and if we somehow do end up with
-a case where firmware_request_platform() is called, since the EFI
-emebedded fw fallback then will not work I would expect a copy of
-the necessary fw to be under /lib/firmware so we never hit the fallback.
-
-This all makes efi_get_embedded_fw() getting called in cases where
-efi_check_for_embedded_firmwares() will never run unlikely, but not
-impossible. Making a WARN_ON the wrong thing to do so for v8 of this
-patch-set I will add a pr_warn for this.
-
-Note I've looked into detecting all the circumstances where it is normal
-for efi_check_for_embedded_firmwares() to never run, but after tracing
-the call path leading up to it getting called I've found that a check
-for that is complicated and more importantly error-prone and likely
-to get out of sync with reality if any of the functions higher up
-the call path ever change the conditions.
-
-So a pr_warn it is, and since as explained one would normally not
-expect to ever hit the fallback on systems where
-efi_check_for_embedded_firmwares() does not get called, I see no
-harm in simply always printing the warning if
-efi_check_for_embedded_firmwares() was not called.
-
-Regards,
-
-Hans
-
+-- 
+heikki
