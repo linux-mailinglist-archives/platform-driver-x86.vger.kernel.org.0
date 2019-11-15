@@ -2,81 +2,44 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDD35FD474
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 06:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B4A7FDC3D
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 12:28:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbfKOFe5 (ORCPT
+        id S1727196AbfKOL2P (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 Nov 2019 00:34:57 -0500
-Received: from mail5.windriver.com ([192.103.53.11]:48684 "EHLO mail5.wrs.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725848AbfKOFe5 (ORCPT
+        Fri, 15 Nov 2019 06:28:15 -0500
+Received: from [211.53.128.215] ([211.53.128.215]:25837 "EHLO MAIL.isd.co.kr"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727135AbfKOL2P (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 Nov 2019 00:34:57 -0500
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-        by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xAF5Yh0X027136
-        (version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-        Thu, 14 Nov 2019 21:34:43 -0800
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.468.0; Thu, 14 Nov 2019
- 21:34:42 -0800
-From:   Yongxin Liu <yongxin.liu@windriver.com>
-To:     <andy@infradead.org>, <dvhart@infradead.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <mario.limonciello@dell.com>
-Subject: [PATCH] Revert "platform/x86: wmi: Destroy on cleanup rather than unregister"
-Date:   Fri, 15 Nov 2019 13:27:10 +0800
-Message-ID: <20191115052710.46880-1-yongxin.liu@windriver.com>
-X-Mailer: git-send-email 2.14.4
+        Fri, 15 Nov 2019 06:28:15 -0500
+Received: from 192.168.1.3 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
+ with Microsoft SMTP Server id 14.3.123.3; Fri, 15 Nov 2019 20:27:42 +0900
+Date:   Fri, 15 Nov 2019 12:28:09 +0100
+From:   Peter Wong <choimj@isd.co.kr>
+Reply-To: Peter Wong <pw178483@gmail.com>
+To:     <platform-driver-x86@vger.kernel.org>
+Message-ID: <21437993.29667.1573817291113.JavaMail.cash@webmail.isd.co.kr>
+Subject: Investment opportunity
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [217.217.179.17]
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This reverts commit 7b11e8989618581bc0226ad313264cdc05d48d86.
+Greetings,
 
-Consider the following hardware setting.
+Find attached email very confidential. reply for more details
 
-|-PNP0C14:00
-|  |-- device #1
-|-PNP0C14:01
-|  |-- device #2
+Thanks.
+Peter Wong
 
-When unloading wmi driver module, device #2 will be first unregistered.
-But device_destroy() using MKDEV(0, 0) will locate PNP0C14:00 first
-and unregister it. This is incorrect. Should use device_unregister() to
-unregister the real parent device.
 
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
----
- drivers/platform/x86/wmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 59e9aa0f9643..e16f660aa117 100644
---- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -1347,7 +1347,7 @@ static int acpi_wmi_remove(struct platform_device *device)
- 	acpi_remove_address_space_handler(acpi_device->handle,
- 				ACPI_ADR_SPACE_EC, &acpi_wmi_ec_space_handler);
- 	wmi_free_devices(acpi_device);
--	device_destroy(&wmi_bus_class, MKDEV(0, 0));
-+	device_unregister((struct device *)dev_get_drvdata(&device->dev));
- 
- 	return 0;
- }
-@@ -1401,7 +1401,7 @@ static int acpi_wmi_probe(struct platform_device *device)
- 	return 0;
- 
- err_remove_busdev:
--	device_destroy(&wmi_bus_class, MKDEV(0, 0));
-+	device_unregister(wmi_bus_dev);
- 
- err_remove_notify_handler:
- 	acpi_remove_notify_handler(acpi_device->handle, ACPI_DEVICE_NOTIFY,
--- 
-2.14.4
+
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
 
