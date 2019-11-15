@@ -2,88 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CF78FE204
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 16:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8C5DFE66E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Nov 2019 21:35:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbfKOPvB (ORCPT
+        id S1726599AbfKOUfZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 Nov 2019 10:51:01 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:43758 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727559AbfKOPvB (ORCPT
+        Fri, 15 Nov 2019 15:35:25 -0500
+Received: from mga12.intel.com ([192.55.52.136]:52619 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726549AbfKOUfY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 Nov 2019 10:51:01 -0500
-Received: by mail-il1-f196.google.com with SMTP id r9so9548976ilq.10
-        for <platform-driver-x86@vger.kernel.org>; Fri, 15 Nov 2019 07:51:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=sPTcrSAKtR2oC7hgOnSb5nen+ryHI/9y7ChDzNxeenHNQxQeL6Ac+ajvGsMflqv+WM
-         YUBj9LG47a+5CzPQ/RBX2S7jh3ajsKt4Nnm8UBP2EtbJPo/6WWAOpCQinbw13FoTIo7c
-         olsk1wqPUnC7HhfF4NWjWgkf0WQyGTCtDMsXbk8Z/jMbeXnrLYPQmoB//VH0ghpVKMTg
-         8sm4DB2r6so/RaI5P6OnhkLRzU/a0tX276gYSx0bizDo2B7hKk4E6oqzGJjq+rSr4OFi
-         PyD/Nmo1LswJGYZppUxGZZwUcQHwl2XwhfWYTfJlCe2zvT22GyUwdsfzbh6oFHhqvjeO
-         H/Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=ENkmWIayNTmHs+pnoZ27tLDdPwulTqNwEKHgJb/AMWbhG8w/zfThcVGE1uoHnuL6+D
-         Uxy747AdAqjInwBR/FRGBFryG4piWfFTwPmfKwZRp/9Zi7hMQHvYP3RH8Qjo8wP8Nt6P
-         eydnWV7/oehl6cKtxyqm+D2D7B1w6yKCavFtOsOeqHHmBWeSnirRgClxHxJ74FPo92la
-         8xvk5jy6Kc6AEs/HymLSIpqlQZ3G6/NtbzG5Y/Lz3L0NssYMNBLaCMRgOCPc2O6AD7FU
-         hb/pQPPuQbUXKNi5qZvfLJCn/CFj4uAeh2lrd4kmiBPy81QQ0AGzL67MtKAw+IPq1zvy
-         Avgg==
-X-Gm-Message-State: APjAAAVeNHaq3bF47uxnnOcKynq/OzQ4cocHGV+Wx0072X0EcWJ1OG+A
-        /CAaNyzyDasuBmajoOd1njyRVkdenenl0fralA==
-X-Google-Smtp-Source: APXvYqyBmgvRZwLNODDm7zJYrmJ2r6Gqsv4DZhzIlWIcpc08YdUey7tLlotN/pfz2n8OuwEl5vxSFqmOg3MYsX7HtLo=
-X-Received: by 2002:a92:b686:: with SMTP id m6mr1411409ill.35.1573833060704;
- Fri, 15 Nov 2019 07:51:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:51:00
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:51:00 +0100
-Message-ID: <CABHzvr=i57ej0Oi2AFFg-+nqwGeuYZD=EqwO1vknU41y8V8DLw@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 15 Nov 2019 15:35:24 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Nov 2019 12:35:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,309,1569308400"; 
+   d="scan'208";a="406784562"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga006.fm.intel.com with ESMTP; 15 Nov 2019 12:35:24 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     andriy.shevchenko@intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        prarit@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] tools/power/x86/intel-speed-select: Ignore missing config level
+Date:   Fri, 15 Nov 2019 12:35:22 -0800
+Message-Id: <20191115203522.54170-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+It is possible that certain config levels are not available, even
+if the max level includes the level. There can be missing levels in
+some platforms. So ignore the level when called for information dump
+for all levels and fail if specifically ask for the missing level.
+
+Here the changes is to continue reading information about other levels
+even if we fail to get information for the current level. But use the
+"processed" flag to indicate the failure. When the "processed" flag is
+not set, don't dump information about that level.
+
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ tools/power/x86/intel-speed-select/isst-core.c    | 8 ++++----
+ tools/power/x86/intel-speed-select/isst-display.c | 3 ++-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/tools/power/x86/intel-speed-select/isst-core.c b/tools/power/x86/intel-speed-select/isst-core.c
+index 52698553de92..aa19c9998e6c 100644
+--- a/tools/power/x86/intel-speed-select/isst-core.c
++++ b/tools/power/x86/intel-speed-select/isst-core.c
+@@ -646,7 +646,6 @@ int isst_get_process_ctdp(int cpu, int tdp_level, struct isst_pkg_ctdp *pkg_dev)
+ 			     i);
+ 		ctdp_level = &pkg_dev->ctdp_level[i];
+ 
+-		ctdp_level->processed = 1;
+ 		ctdp_level->level = i;
+ 		ctdp_level->control_cpu = cpu;
+ 		ctdp_level->pkg_id = get_physical_package_id(cpu);
+@@ -654,7 +653,10 @@ int isst_get_process_ctdp(int cpu, int tdp_level, struct isst_pkg_ctdp *pkg_dev)
+ 
+ 		ret = isst_get_ctdp_control(cpu, i, ctdp_level);
+ 		if (ret)
+-			return ret;
++			continue;
++
++		pkg_dev->processed = 1;
++		ctdp_level->processed = 1;
+ 
+ 		if (ctdp_level->pbf_support) {
+ 			ret = isst_get_pbf_info(cpu, i, &ctdp_level->pbf_info);
+@@ -724,8 +726,6 @@ int isst_get_process_ctdp(int cpu, int tdp_level, struct isst_pkg_ctdp *pkg_dev)
+ 		isst_get_uncore_mem_freq(cpu, i, ctdp_level);
+ 	}
+ 
+-	pkg_dev->processed = 1;
+-
+ 	return 0;
+ }
+ 
+diff --git a/tools/power/x86/intel-speed-select/isst-display.c b/tools/power/x86/intel-speed-select/isst-display.c
+index c976bfe9b503..040dd09d5eee 100644
+--- a/tools/power/x86/intel-speed-select/isst-display.c
++++ b/tools/power/x86/intel-speed-select/isst-display.c
+@@ -315,7 +315,8 @@ void isst_ctdp_display_information(int cpu, FILE *outf, int tdp_level,
+ 	char value[256];
+ 	int i, base_level = 1;
+ 
+-	print_package_info(cpu, outf);
++	if (pkg_dev->processed)
++		print_package_info(cpu, outf);
+ 
+ 	for (i = 0; i <= pkg_dev->levels; ++i) {
+ 		struct isst_pkg_ctdp_level_info *ctdp_level;
+-- 
+2.17.2
+
