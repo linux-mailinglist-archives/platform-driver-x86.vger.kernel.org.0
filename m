@@ -2,81 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 514CDFFD4F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Nov 2019 04:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 545861002DC
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Nov 2019 11:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfKRDXp (ORCPT
+        id S1726490AbfKRKrY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 17 Nov 2019 22:23:45 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:41218 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbfKRDXo (ORCPT
+        Mon, 18 Nov 2019 05:47:24 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:34674 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbfKRKrY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 17 Nov 2019 22:23:44 -0500
-Received: by mail-qk1-f195.google.com with SMTP id m125so13202495qkd.8
-        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Nov 2019 19:23:42 -0800 (PST)
+        Mon, 18 Nov 2019 05:47:24 -0500
+Received: by mail-pg1-f195.google.com with SMTP id z188so9474454pgb.1;
+        Mon, 18 Nov 2019 02:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z/WWVtJiMHUrRDu47kJ1UrISL3WhpKZ+7R1m8ty1A4M=;
-        b=xVzDLpTe30ifpZKIstj89kf608mwe33D7oh+AM0D8jmCBvsdc3XKDhdBt0mgdAhbc+
-         /U54ACogQkHH2eGNpEaK+E83hB34scLPxk3s/T6SsH1RdlgnXhwRvFDGleslzQeR2ZsT
-         PFkWX6UjBr73JvfAoUMI6ZbqETw3ChGLAZNK1ZaJbIXohUUhFX72eqkyTA8ehQq9MwID
-         iAm0J8rY8HdpflMWYs+hZn94nEGz2J9dck2Q0yJgOGdzvo/DzK95sL+2jrL1ELB6Mm2Z
-         9+92w1uppdmWv6m7/kMWARJRFlTX+9zNBbPSNYKPMAGloorZdIz1BG/BIIIUDKAachb5
-         /wZg==
+        bh=Dge8oGHILOMVpeHYXPYEEqzdaTbTgZkgcFraEKUk5Iw=;
+        b=HtoXSgQeDMMxc5Almr2lsw2p6Uk0TomEHQWZp/YE3klijiuXaP/HtEkaD07T387JVp
+         SJfq2dljQY2IWXxTqWA9EOwisHAhCFM/G4lCLqy2DUIrCH7Ha/KDcoO1jiL2kMvuQ5N5
+         a2lUYxRmI+sxqTkWBQN496KiQ8S804wP0NX9LdAvFnR1Ksuo4exwAm0oKUmlBIXzWR4c
+         0zNzE5AtxrQt71Huc8eHjyfKBw1f25nl2Owqaa2EIlS/JKr/CIb1I0+nUK8BcCav1/HC
+         EA2EIsy5zMpkh1WzDW4wHlMIeBm5WZufOmgGvzpdTMlPSLe7qG3xFWx7jwAHUbhlWzys
+         i4Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z/WWVtJiMHUrRDu47kJ1UrISL3WhpKZ+7R1m8ty1A4M=;
-        b=C2lYmrRHd/c/OKO/wEX5JpwMZbONzuNnfLjEMUgLlyqRhtMaXGK6jzPekclrn7jjEz
-         L/7iPQsGE+AcoBVJd8N9K/oHyPz5Sh7fH8cW1QVxjadHq6hpmQ+l4Bm8qfwDIXfIu4wx
-         KZDqj4LO2kKC+q28510CC/KYh1kAQUOXOYhYxoCcQkB3IjOR9yxym9DxiaD5lsD5BDVQ
-         GGDGFii+0eUd0crCg3Y99RXJ2ouh7OomYvxX+jxA8jOxlhqEXhQ1vRI5QyrBcwvymKA2
-         /4CBZ3hsPvyf2gExbrO3sbMMud3Fd7UYcPisgc4JC9fpVSiOQcp73L4mF2Oun7Ilbcbw
-         X6jA==
-X-Gm-Message-State: APjAAAUUdj6yghsHUoXgBo++c4L6TtvMPonQKQ3DSaN0CR4TX39N1v0B
-        Mlqonw1grnY3si+0e7ldW9zSoGZEh+F8aWXgmZDtPlG/evmQXw==
-X-Google-Smtp-Source: APXvYqxavYdgZDzCU3SkD+tXQK6wOU0KmNcr0ZNhN+PD+7FZ5HbApP+ux3kn4eUQ4wmdtbLwX9IqDXsPQy6K2cY4Nhs=
-X-Received: by 2002:a05:620a:12c3:: with SMTP id e3mr22273021qkl.14.1574047421962;
- Sun, 17 Nov 2019 19:23:41 -0800 (PST)
+        bh=Dge8oGHILOMVpeHYXPYEEqzdaTbTgZkgcFraEKUk5Iw=;
+        b=a4/lXH1U1cFGM7rtjAFAtjcfg6Lb9Vq19ecCe1EOlgOvgy+dn4T3Bc/lQjMjt4EGjv
+         eu4Y7y3GcA9J7IShwvOGBjMu3DqWubTZr8tZwIbo+41apGtM5I+nty1CCzdDbQSIdbBw
+         vJN+eijoXrdUUzAi5SDvwQfG75MQw0No4KaTLONmMysrwqAmpH5aHuIGrN9aVPdyiNvQ
+         li6GFF3RWzOPJPPS0wCWky8s5koSI45klM2UE3ucnoJZD+qicA06QRX7lC34J9/DKrSe
+         vgDxB27LvTDXQpQaN2LLFObPjIv7u82aV8uAMbi0cGPi9EMv9hRRDoyyOdS8GZ4Ut4pw
+         0Rjg==
+X-Gm-Message-State: APjAAAXV8+JDDXXiuvt2W/RBkbhX99T5hP7bZqGjtY/SkJRTWn6dIojF
+        ZfuhyRkq5edtUYXpiubHfPVCe0ioFZOZsdNmf6g=
+X-Google-Smtp-Source: APXvYqx6vi0UhJpubvhU/knhFdFxdxzoVMkqr6flgKEmwAWcrWS+2xYp0m7NdJDseyWgwuuzE1KAyGSaRhcMMxfdj5Q=
+X-Received: by 2002:a65:5542:: with SMTP id t2mr14392758pgr.74.1574074042336;
+ Mon, 18 Nov 2019 02:47:22 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPW-Pu0KuxqbKSQ2JQaxh5AHbdZdNQZJfOgxoe_XZSxow+9e3A@mail.gmail.com>
- <CAPW-Pu2g3yiD8H5yUhAsCCN0vMzojoQ6QOn+4iOKCzHizE4T4A@mail.gmail.com>
-In-Reply-To: <CAPW-Pu2g3yiD8H5yUhAsCCN0vMzojoQ6QOn+4iOKCzHizE4T4A@mail.gmail.com>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Mon, 18 Nov 2019 11:23:31 +0800
-Message-ID: <CAD8Lp46Sx004FiZm+1Lus_KBafCAvP5tdnRpE+NEkoEMWNz+jg@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] platform/x86: asus_wmi: Support fan boost mode on FX505DY/FX705DY
-To:     Leon Maxx <leonmaxx@gmail.com>
-Cc:     Linux Kernel <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Andy Shevchenko <andy@infradead.org>,
+References: <cover.1573460910.git.sramani@mellanox.com>
+In-Reply-To: <cover.1573460910.git.sramani@mellanox.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 18 Nov 2019 12:47:11 +0200
+Message-ID: <CAHp75VdWM8Y7TAbVYNoo9vV2N+ZYDZWWGHtgvt8WjD5KiFfZRA@mail.gmail.com>
+Subject: Re: [PATCH v1] platform/mellanox: Add Mellanox TRIO driver
+To:     Shravan Kumar Ramani <sramani@mellanox.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Yurii Pavlovskyi <yurii.pavlovskyi@gmail.com>
+        Vadim Pasternak <vadimp@mellanox.com>,
+        Liming Sun <lsun@mellanox.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 6:55 PM Leon Maxx <leonmaxx@gmail.com> wrote:
+On Mon, Nov 11, 2019 at 4:35 PM Shravan Kumar Ramani
+<sramani@mellanox.com> wrote:
 >
-> On ASUS FX505DY/FX705DY laptops fan boost mode is same as in other
-> TUF laptop models but have different ACPI device ID and different key
-> code.
+> This patch adds support for Mellanox BlueField TRIO PCIe host controller.
+> The driver supports multiple TRIO instances and provides a sysfs interface
+> to allow the user to read/set the L3 cache profile for transactions going
+> through the TRIO. It also provides an interrupt handler for the TRIO blocks.
 
-In the spec (which is not publically available, sorry), this
-0x00120075 device is described as "Throttle thermal policy" which
-takes values 0 for default, 1 for overboost, 2 for silent.
+Besides on-going review, this doesn't apply. So, please check that you
+rebase it on top of our for-next branch, thanks!
 
-I don't know exactly how this differs from "fan boost" but I suggest
-mirroring the spec here, offer this as a separate sysfs control named
-according to the spec, separate it from fan boost mode.
+P.S. I'll wait for v2 with Vadim's comments being addressed.
 
-Thanks,
-Daniel
+>
+> Shravan Kumar Ramani (1):
+>   platform/mellanox: Add Mellanox TRIO driver
+>
+>  MAINTAINERS                            |   5 +
+>  drivers/platform/mellanox/Kconfig      |   8 +
+>  drivers/platform/mellanox/Makefile     |   1 +
+>  drivers/platform/mellanox/mlxbf-trio.c | 624 +++++++++++++++++++++++++++++++++
+>  4 files changed, 638 insertions(+)
+>  create mode 100644 drivers/platform/mellanox/mlxbf-trio.c
+>
+> --
+> 2.1.2
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
