@@ -2,133 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EFB1100B27
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Nov 2019 19:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF69A100B5B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Nov 2019 19:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbfKRSLU (ORCPT
+        id S1726423AbfKRSS4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Nov 2019 13:11:20 -0500
-Received: from mga06.intel.com ([134.134.136.31]:52731 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726216AbfKRSLU (ORCPT
+        Mon, 18 Nov 2019 13:18:56 -0500
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:34220 "EHLO
+        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726541AbfKRSSz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Nov 2019 13:11:20 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 10:11:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,321,1569308400"; 
-   d="scan'208";a="204271701"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Nov 2019 10:11:19 -0800
-Received: from fmsmsx111.amr.corp.intel.com (10.18.116.5) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 18 Nov 2019 10:11:19 -0800
-Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
- fmsmsx111.amr.corp.intel.com (10.18.116.5) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 18 Nov 2019 10:11:18 -0800
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (104.47.49.57) by
- edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Mon, 18 Nov 2019 10:11:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GN2Uxq93iLNrCbGVkCYtbfIkPRJzo3/efwZc+otHt/iQKj5JG68gHHfH2Bw1ehO0JQo9tPvZ6dGs3I7GiE0ZztxsWK8oGmUSNCJ3Xcss+zZKhjRd5/hArREp6ZltWUQLX+kr9gPVlrs00oydHA/2DB9S/EreX60cFA/nafcivh5lPApbTo0T54OtGDYQmu6N5l4r0QGSF3sZVYZmuAlpkW/VE2rvmRnCWjYfrJjFoStuOzaLFcYa1DJhDU0Lt4e6Uw1BARWa9Z0AkzH5EDDnGfid+IYGvycf9ngMdt+TT1MRh/yvgF+LKymo9eBRPjWpC/dKUC2o2FP1t/89ILAoYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijYLgXB9cJ4wamXaQV6GC+S7dDn7nQ3c+JKbKTNQZMQ=;
- b=Mk5ljxKQc9kpEymYjaSeW4DIDxj6TAHMhcWPBiNwRgBp0jh1IGgXfXvyb8e8/2QBml5tVi0ux9Ln5d4n4YwJ/UBfy0a2TUSZFFA56LL5z86qSK3LyGC+YDm0jrzyMT/MFkeRv+1QDGhRObXl7zOhoHOGCzgoyoqVJPR0VmsC/mPyZhD0q6EFEKeFidHDB06tLBJqCBBlYPRzEFG/AdOadeZvcSVGO4FtpDNBf1lxetz4lRiDZdcNKAmUMXB2QX+VS17yt2jtlbJu9a9WQzHb9Sdmzv6f/SCTHj0fV7yxRBha9g/xk0Uui1tCRyzwbd674TRNRYXcIl9F0UGjj2XsZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijYLgXB9cJ4wamXaQV6GC+S7dDn7nQ3c+JKbKTNQZMQ=;
- b=TiJrYAy264JLr2iBLDLiDuamaY6Kk66vtXiPPp7cjh+o+EotBPOfCJMPSkojKNTn4SoVGre/FnerQpH8VVISdUVIi5u+XbcwMBCx6kmSkeEV713Xh6jXSgwBkqlipiw648xpjjZSK5YW1B1jjVwvGdqT9DWdN7+goUIvXKcBhfo=
-Received: from MN2PR11MB3711.namprd11.prod.outlook.com (20.178.254.154) by
- MN2PR11MB3568.namprd11.prod.outlook.com (20.178.251.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2451.23; Mon, 18 Nov 2019 18:11:17 +0000
-Received: from MN2PR11MB3711.namprd11.prod.outlook.com
- ([fe80::e8c0:cc46:c44f:4718]) by MN2PR11MB3711.namprd11.prod.outlook.com
- ([fe80::e8c0:cc46:c44f:4718%7]) with mapi id 15.20.2451.029; Mon, 18 Nov 2019
- 18:11:17 +0000
-From:   "Kammela, Gayatri" <gayatri.kammela@intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Liang, Kan" <kan.liang@intel.com>,
-        "Box, David E" <david.e.box@intel.com>,
-        "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>
+        Mon, 18 Nov 2019 13:18:55 -0500
+Received: from pps.filterd (m0170392.ppops.net [127.0.0.1])
+        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAIIA4Pv006358;
+        Mon, 18 Nov 2019 13:18:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=fmtd2iqBbFAO+k5+TNL8jMvexpF7b7aXX6LntGCOHZs=;
+ b=V2IuX7pL+Dtqg5r/Gw4TqQJm7cYi7aGb5Im1xfZKevqQ87hSr8IyXfhfuE6X0KWiskUJ
+ OPACDAHlhJp1n9mSad7rsrBVlsdZrXkF8TXZZEVoU4BpOR2LrzmF+4PGxO6uj6ooG0Ej
+ sqriwTwGmBBINvE5TlPvgBoHPh8VTnwNG0qwqjQEP4kVNpYRKvyAuAseNs+WTvPwF7bC
+ kIk7nz8nPvNWHJEkImDoq5Oom2jNtdnba8OZKdD3IV6LCn3pJE+c2GM+8zXhsa81NENG
+ DkMMUC12pFw9y0whKkElR167UGqSc5MxaJRiEIISW+Wj9ddRRNojT0X992FTxjYPQsY4 dg== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0a-00154904.pphosted.com with ESMTP id 2wad5f05rq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 18 Nov 2019 13:18:54 -0500
+Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
+        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAII88Sw052981;
+        Mon, 18 Nov 2019 13:18:53 -0500
+Received: from ausc60ps301.us.dell.com (ausc60ps301.us.dell.com [143.166.148.206])
+        by mx0a-00154901.pphosted.com with ESMTP id 2wacmg0rva-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 18 Nov 2019 13:18:53 -0500
+X-LoopCount0: from 10.166.132.132
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="1378781001"
+From:   <Mario.Limonciello@dell.com>
+To:     <gayatri.kammela@intel.com>, <andy.shevchenko@gmail.com>
+CC:     <platform-driver-x86@vger.kernel.org>,
+        <vishwanath.somayaji@intel.com>, <dvhart@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <charles.d.prestopine@intel.com>,
+        <peterz@infradead.org>, <srinivas.pandruvada@intel.com>,
+        <andriy.shevchenko@linux.intel.com>, <kan.liang@intel.com>,
+        <david.e.box@intel.com>, <rajneesh.bhardwaj@intel.com>,
+        <tony.luck@intel.com>
 Subject: RE: [PATCH v3 0/7] x86/intel_pmc_core: Add Tiger Lake, Elkhart Lake
 Thread-Topic: [PATCH v3 0/7] x86/intel_pmc_core: Add Tiger Lake, Elkhart Lake
-Thread-Index: AQHVmw09Ng4h5B/XbUSLQOyDkS2U/KeQxdyAgAB50+A=
-Date:   Mon, 18 Nov 2019 18:11:16 +0000
-Message-ID: <MN2PR11MB3711EDFC967C295689E109DEF24D0@MN2PR11MB3711.namprd11.prod.outlook.com>
+Thread-Index: AQHVnf4HfWi4zwIc4UmHAQEsNxXTkKeRn7wA//+dHYA=
+Date:   Mon, 18 Nov 2019 18:18:51 +0000
+Message-ID: <9b880cb6585d4608814598517fe5d675@AUSX13MPC105.AMER.DELL.COM>
 References: <cover.1573750525.git.gayatri.kammela@intel.com>
  <CAHp75Vfrd-BAZ7H_LuQfz32yaap1X3gEnqZ2-9EPQ+j_b0f93g@mail.gmail.com>
-In-Reply-To: <CAHp75Vfrd-BAZ7H_LuQfz32yaap1X3gEnqZ2-9EPQ+j_b0f93g@mail.gmail.com>
+ <MN2PR11MB3711EDFC967C295689E109DEF24D0@MN2PR11MB3711.namprd11.prod.outlook.com>
+In-Reply-To: <MN2PR11MB3711EDFC967C295689E109DEF24D0@MN2PR11MB3711.namprd11.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMmE4NzFjNDQtY2MwMS00OTgwLTgwNDEtMmI2YWE4OTg4Y2QwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiVXFtSzN4ZmNcLzNmUzY1bXloWHR1ZjhPZDI1MUtkZm8yXC9RWVBBMkJIbndnTUZBQyt1RnZmUWhrb3lJWDFQSk9XIn0=
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-x-ctpclassification: CTP_NT
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=gayatri.kammela@intel.com; 
-x-originating-ip: [192.55.52.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d2fb3425-23b1-4c69-b190-08d76c52b4c7
-x-ms-traffictypediagnostic: MN2PR11MB3568:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR11MB3568D86A2587387565EB9B09F24D0@MN2PR11MB3568.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0225B0D5BC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(136003)(396003)(39860400002)(376002)(189003)(199004)(6436002)(14444005)(316002)(6506007)(99286004)(186003)(26005)(74316002)(102836004)(7736002)(66066001)(76176011)(4326008)(4744005)(71200400001)(71190400001)(5660300002)(14454004)(81156014)(81166006)(6916009)(8676002)(305945005)(86362001)(478600001)(7696005)(6246003)(2906002)(9686003)(8936002)(52536014)(33656002)(11346002)(76116006)(6116002)(3846002)(229853002)(54906003)(256004)(486006)(25786009)(66446008)(446003)(64756008)(476003)(66946007)(66476007)(66556008)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR11MB3568;H:MN2PR11MB3711.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yfZ4y+AIDicqPrqoc+Oc7Oxcz67WQCMWSeMSwifHgxX+6L0UsfuyekZMA6g4Bs/zuxPGeOMjUTuhndT2562UVBYOrjEhyxjw7OHy4OwxBEM/doFAxJjMBT4GOlPYKpCDB0bBD3h6ofdKHrcEDNddxUHICtCnrzet3lxUSbFTwUynE0eaxFPhorPSQBU/RfULTi6DNU8bcX12IrafD7HqP0jd1YNt7RSTz/gzuELKgOPLzIGxCrVKqMrbj4DaAnlvDPFovt1FhP0Zeb1zRAp3Pvbv97JM2b01SQMktiGuj8AzQ8Z8ur2FZqCj7qtcfXd6XUewqisf1nfdVnhA+t1UlgQbmtoLT5WRg4Rz+xkXWJaZJ+KnQoDMwmqBL0zntek8YyaXOu9bf73jYuk6dTCp5zAD6NyTKkLOG+XPbzgHKJTShItvhD4BD2wINK9iR3kb
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.143.18.86]
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2fb3425-23b1-4c69-b190-08d76c52b4c7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2019 18:11:17.0439
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TAhPGN/2LF8X2M8jcszvdy6u0bDqY9uztfiizeHSs/tdGDNNox3DkT1tu1q/xziuHybAAHdyBN1E7tc7CZwFt1eB6jmsBbp9jmBTXB3GLb8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB3568
-X-OriginatorOrg: intel.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-18_05:2019-11-15,2019-11-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ malwarescore=0 priorityscore=1501 clxscore=1015 mlxlogscore=999
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911180155
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911180155
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PiA+IEFsbCB0aGUgaW5mb3JtYXRpb24gcmVnYXJkaW5nIHRoZSBQQ0ggSVBzIGFuZCBuYW1lcyBv
-ZiBJUHMgd2lsbCBiZQ0KPiA+IGF2YWlsYWJsZSBpbiBJbnRlbCdzIFBsYXRmb3JtIENvbnRyb2xs
-ZXIgSHViIChQQ0gpIEV4dGVybmFsIERlc2lnbg0KPiA+IFNwZWNpZmljYXRpb24gKEVEUykgZG9j
-dW1lbnQgZXhwZWN0ZWQgdG8gYmUgcmVsZWFzZWQgaW4gMjAyMCBiZWZvcmUNCj4gPiBwcm9kdWN0
-IGxhdW5jaC4NCj4gDQo+IFRoYW5rcywgdGhvdWdoIHlvdSBmb3Jnb3QgdG8gZml4IGFsbCBwcmVm
-aXhlcyBpbiB0aGUgbWFpbHMuIFdlIGhhdmUNCj4gcGxhdGZvcm0veDg2OiAkRFJJVkVSX05BTUU6
-IC4uLg0KPiANCkhpIEFuZHkhIFNvcnJ5IEkgdGhpbmsgSSBtaXN1bmRlcnN0b29kIHlvdXIgY29t
-bWVudCBsYXN0IHRpbWUuIEp1c3QgdG8gbWFrZSBzdXJlLCB0aGUgcHJlZml4IHNob3VsZCB0aGUg
-cGF0dGVybiBpbiB0aGlzIGNhc2UNCiJwbGF0Zm9ybS94ODY6IGludGVsX3BtY19jb3JlOiAiIGFu
-ZCBzaG91bGQgYmUgc2FtZSBmb3IgYWxsIHRoZSBwYXRjaGVzIGluIHRoZSBzZXJpZXMgcmlnaHQ/
-DQoNCj4gQWxzbyBjb25zaWRlciBNYXJpbydzIGNvbW1lbnQgKEkgZGlkbid0IGhlYXIgYmFjayBm
-cm9tIHlvdSBvbiBpdCkuDQpTb3JyeSBhYm91dCB0aGF0LiBJIGFtIHBsYW5uaW5nIG9uIHNlbmRp
-bmcgaXQgYSBzaW5nbGUgcGF0Y2ggZXhjbHVkaW5nIGl0IGZyb20gdGhlIHNlcmllcyBzaW5jZSB3
-ZSByZWNlaXZlZCBhIHJlcXVlc3QgZnJvbSBEZWxsLiBQbGVhc2UgbGV0IG1lIGtub3cgaWYgeW91
-IHRoaW5rIHRoaXMgcGF0Y2ggc2hvdWxkIGJlIGluY2x1ZGVkIGluIHRoZSBzZXJpZXMuIA0K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBwbGF0Zm9ybS1kcml2ZXIteDg2
+LW93bmVyQHZnZXIua2VybmVsLm9yZyA8cGxhdGZvcm0tZHJpdmVyLXg4Ni0NCj4gb3duZXJAdmdl
+ci5rZXJuZWwub3JnPiBPbiBCZWhhbGYgT2YgS2FtbWVsYSwgR2F5YXRyaQ0KPiBTZW50OiBNb25k
+YXksIE5vdmVtYmVyIDE4LCAyMDE5IDEyOjExIFBNDQo+IFRvOiBBbmR5IFNoZXZjaGVua28NCj4g
+Q2M6IFBsYXRmb3JtIERyaXZlcjsgU29tYXlhamksIFZpc2h3YW5hdGg7IERhcnJlbiBIYXJ0OyBM
+aW51eCBLZXJuZWwgTWFpbGluZw0KPiBMaXN0OyBQcmVzdG9waW5lLCBDaGFybGVzIEQ7IFBldGVy
+IFppamxzdHJhOyBQYW5kcnV2YWRhLCBTcmluaXZhczsgQW5keQ0KPiBTaGV2Y2hlbmtvOyBMaWFu
+ZywgS2FuOyBCb3gsIERhdmlkIEU7IEJoYXJkd2FqLCBSYWpuZWVzaDsgTHVjaywgVG9ueQ0KPiBT
+dWJqZWN0OiBSRTogW1BBVENIIHYzIDAvN10geDg2L2ludGVsX3BtY19jb3JlOiBBZGQgVGlnZXIg
+TGFrZSwgRWxraGFydCBMYWtlDQo+IA0KPiANCj4gW0VYVEVSTkFMIEVNQUlMXQ0KPiANCj4gPiA+
+IEFsbCB0aGUgaW5mb3JtYXRpb24gcmVnYXJkaW5nIHRoZSBQQ0ggSVBzIGFuZCBuYW1lcyBvZiBJ
+UHMgd2lsbCBiZQ0KPiA+ID4gYXZhaWxhYmxlIGluIEludGVsJ3MgUGxhdGZvcm0gQ29udHJvbGxl
+ciBIdWIgKFBDSCkgRXh0ZXJuYWwgRGVzaWduDQo+ID4gPiBTcGVjaWZpY2F0aW9uIChFRFMpIGRv
+Y3VtZW50IGV4cGVjdGVkIHRvIGJlIHJlbGVhc2VkIGluIDIwMjAgYmVmb3JlDQo+ID4gPiBwcm9k
+dWN0IGxhdW5jaC4NCj4gPg0KPiA+IFRoYW5rcywgdGhvdWdoIHlvdSBmb3Jnb3QgdG8gZml4IGFs
+bCBwcmVmaXhlcyBpbiB0aGUgbWFpbHMuIFdlIGhhdmUNCj4gPiBwbGF0Zm9ybS94ODY6ICREUklW
+RVJfTkFNRTogLi4uDQo+ID4NCj4gSGkgQW5keSEgU29ycnkgSSB0aGluayBJIG1pc3VuZGVyc3Rv
+b2QgeW91ciBjb21tZW50IGxhc3QgdGltZS4gSnVzdCB0byBtYWtlDQo+IHN1cmUsIHRoZSBwcmVm
+aXggc2hvdWxkIHRoZSBwYXR0ZXJuIGluIHRoaXMgY2FzZQ0KPiAicGxhdGZvcm0veDg2OiBpbnRl
+bF9wbWNfY29yZTogIiBhbmQgc2hvdWxkIGJlIHNhbWUgZm9yIGFsbCB0aGUgcGF0Y2hlcyBpbiB0
+aGUNCj4gc2VyaWVzIHJpZ2h0Pw0KPiANCj4gPiBBbHNvIGNvbnNpZGVyIE1hcmlvJ3MgY29tbWVu
+dCAoSSBkaWRuJ3QgaGVhciBiYWNrIGZyb20geW91IG9uIGl0KS4NCj4gU29ycnkgYWJvdXQgdGhh
+dC4gSSBhbSBwbGFubmluZyBvbiBzZW5kaW5nIGl0IGEgc2luZ2xlIHBhdGNoIGV4Y2x1ZGluZyBp
+dCBmcm9tIHRoZQ0KPiBzZXJpZXMgc2luY2Ugd2UgcmVjZWl2ZWQgYSByZXF1ZXN0IGZyb20gRGVs
+bC4gUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSB0aGluayB0aGlzDQo+IHBhdGNoIHNob3VsZCBi
+ZSBpbmNsdWRlZCBpbiB0aGUgc2VyaWVzLg0KDQpKdXN0IHRvIG1ha2UgaXQgY2xlYXIgdG8gdGhv
+c2Ugb24gdGhlIGxpc3QgLSB0aGUgcmVxdWVzdCBmcm9tIERlbGwgd2FzIG9mZiBsaXN0IGFuZCBz
+ZXBhcmF0ZWx5DQpmcm9tIG15IGNvbW1lbnQgaW4gYWRqdXN0aW5nIHRoZSBvcmRlcmluZy4gIEEg
+Y29udmVuaWVudCBzaWRlIGVmZmVjdCBpcyB0aGF0IGl0IHdpbGwNCnRha2UgaW50byBjb25zaWRl
+cmF0aW9uIG15IGNvbW1lbnQgdG9vIDopDQo=
