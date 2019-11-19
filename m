@@ -2,32 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B8FE100FEF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Nov 2019 01:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42FDF1022A4
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Nov 2019 12:10:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727464AbfKSAVy (ORCPT
+        id S1727665AbfKSLKV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Nov 2019 19:21:54 -0500
-Received: from mga18.intel.com ([134.134.136.126]:64626 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727446AbfKSAVx (ORCPT
+        Tue, 19 Nov 2019 06:10:21 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:39805 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726000AbfKSLKU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Nov 2019 19:21:53 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 16:21:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,321,1569308400"; 
-   d="scan'208";a="215412063"
-Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2019 16:21:51 -0800
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
+        Tue, 19 Nov 2019 06:10:20 -0500
+Received: by mail-wm1-f67.google.com with SMTP id t26so3051969wmi.4;
+        Tue, 19 Nov 2019 03:10:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NYWeXLuQGLvOPwK8pHNuzurveHjA/E4XL3deYT2CQ6Q=;
+        b=skdJ1UEHu5PJl89Mkk9VRRqLagIUdwLLzIvfE7qxc79DduSNiquwoFXzoJXVUbZ9zw
+         g1cNgucakgJrNBfc9PtJPQUQH7hiPIbQNdvm4HfPAxaPqEE5yDoU/Fm0WZrr770x6z9Z
+         1mV4N6EIFIO+H5heFTgopWe3ElCwZHNDP6TrB6ZxXDF+BVJoJCgzBj9WZ81yUaCLfyGK
+         QBfOV9xXA4+nU1SmqoIng5FZDcMYQif9wRQNWBuakBreDAgwkdsGdC6lPo7bjUeRutEb
+         FqwSvcrmf/LrgaSpoIWvYSkunbCfPVklaj+EQbJw7jUcxpmgoRV0aJoU4yUuzBudNnyu
+         7iYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NYWeXLuQGLvOPwK8pHNuzurveHjA/E4XL3deYT2CQ6Q=;
+        b=hZmXTyiyx7aVpTe+a8ydQ0G4XT+90owkQ5cxH1ixfdTTwdvTgb0r4PkMJeqhvjlpV5
+         vZWknw9yZOszz1sQUHUC/AzaE74Vwxy9ZhC1/zSmm2vinDq19hphlDcM4QQCshQe6CU+
+         HJXBERLE6vh7N0to9kNRNm/mr1mYY47a0dJ+LE2uwVZCltntBE2ZVUjDA55HdUVxlONc
+         JnKUEqVZUxEZ5DsRLjLe5yLoSHBIh8umj3Rgk58xywo86ikHpsoBkyQza/nD/LFsYnZH
+         k/YAIO/ro2U8w205N0idlkMnzyDb5qGSlou/o67wPxA1ItWynr5d6ProFXaSuYhB4WiW
+         nwSw==
+X-Gm-Message-State: APjAAAURyIdLbu0gCAqW4G/EW90ZQ3Rrmta4rIEKzEu/L9lVmkJfbXdL
+        aQYaC6TW1B09T3/3NR/mxoA=
+X-Google-Smtp-Source: APXvYqxkMDs2asP+vgJXKZTaN6ik3+6S/o6ZGiHDU8XukZ5zzOg6DqoFabjwqzDackICD1Kv7aubiw==
+X-Received: by 2002:a7b:cb4a:: with SMTP id v10mr4628412wmj.106.1574161816817;
+        Tue, 19 Nov 2019 03:10:16 -0800 (PST)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id z4sm2754237wmf.36.2019.11.19.03.10.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2019 03:10:15 -0800 (PST)
+Date:   Tue, 19 Nov 2019 12:10:12 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
-Cc:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -54,78 +81,75 @@ Cc:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
         linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         linux-acpi@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 12/12] x86/ACPI/sleep: Move acpi_wakeup_address() definition into sleep.c
-Date:   Mon, 18 Nov 2019 16:21:21 -0800
-Message-Id: <20191119002121.4107-13-sean.j.christopherson@intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191119002121.4107-1-sean.j.christopherson@intel.com>
+Subject: Re: [PATCH 00/12] treewide: break dependencies on x86's RM header
+Message-ID: <20191119111012.GA109842@gmail.com>
 References: <20191119002121.4107-1-sean.j.christopherson@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191119002121.4107-1-sean.j.christopherson@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Move the definition of acpi_wakeup_address() into sleep.c to break
-linux/acpi.h's dependency (by way of asm/acpi.h) on asm/realmode.h.
-Everyone and their mother includes linux/acpi.h, i.e. modifying
-realmode.h results in a full kernel rebuild, which makes the already
-inscrutable real mode boot code even more difficult to understand and is
-positively rage inducing when trying to make changes to x86's boot flow.
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
----
- arch/x86/include/asm/acpi.h  |  6 +-----
- arch/x86/kernel/acpi/sleep.c | 11 +++++++++++
- 2 files changed, 12 insertions(+), 5 deletions(-)
+* Sean Christopherson <sean.j.christopherson@intel.com> wrote:
 
-diff --git a/arch/x86/include/asm/acpi.h b/arch/x86/include/asm/acpi.h
-index 57788ec6fa82..0cae3f773d44 100644
---- a/arch/x86/include/asm/acpi.h
-+++ b/arch/x86/include/asm/acpi.h
-@@ -13,7 +13,6 @@
- #include <asm/processor.h>
- #include <asm/mmu.h>
- #include <asm/mpspec.h>
--#include <asm/realmode.h>
- #include <asm/x86_init.h>
- 
- #ifdef CONFIG_ACPI_APEI
-@@ -62,10 +61,7 @@ static inline void acpi_disable_pci(void)
- extern int (*acpi_suspend_lowlevel)(void);
- 
- /* Physical address to resume after wakeup */
--static inline unsigned long acpi_wakeup_address(void)
--{
--	return ((unsigned long)(real_mode_header->wakeup_start));
--}
-+unsigned long acpi_wakeup_address(void);
- 
- /*
-  * Check if the CPU can handle C2 and deeper
-diff --git a/arch/x86/kernel/acpi/sleep.c b/arch/x86/kernel/acpi/sleep.c
-index ca13851f0570..44d3fb1a1de3 100644
---- a/arch/x86/kernel/acpi/sleep.c
-+++ b/arch/x86/kernel/acpi/sleep.c
-@@ -26,6 +26,17 @@ unsigned long acpi_realmode_flags;
- static char temp_stack[4096];
- #endif
- 
-+/**
-+ * acpi_wakeup_address - provide physical address for S3 wakeup
-+ *
-+ * Returns the physical address where the kernel should be resumed after the
-+ * system awakes from S3, e.g. for programming into the firmware waking vector.
-+ */
-+unsigned long acpi_wakeup_address(void)
-+{
-+	return ((unsigned long)(real_mode_header->wakeup_start));
-+}
-+
- /**
-  * x86_acpi_enter_sleep_state - enter sleep state
-  * @state: Sleep state to enter.
--- 
-2.24.0
+> x86's asm/realmode.h, which defines low level structures, variables and
+> helpers used to bring up APs during SMP boot, ends up getting included in
+> practically every nook and cranny of the kernel because the address used
+> by ACPI for resuming from S3 also happens to be stored in the real mode
+> header, and ACPI bleeds the dependency into its widely included headers.
+> 
+> As a result, modifying realmode.h for even the most trivial change to the
+> boot code triggers a full kernel rebuild, which is frustrating to say the
+> least as it some of the most difficult code to get exactly right *and* is
+> also some of the most functionally isolated code in the kernel.
+> 
+> To break the kernel's widespread dependency on realmode.h, add a wrapper
+> in the aforementioned ACPI S3 code to access the real mode header instead
+> of derefencing the header directly in asm/acpi.h and thereby exposing it
+> to the world via linux/acpi.h.
+> 
+> Build tested on x86 with allyesconfig and allmodconfig, so hopefully there
+> aren't more build issues lurking, but at this point it wouldn't surprise
+> me in the least if this somehow manages to break the build.
+> 
+> Based on tip/master, commit ceceaf1f12ba ("Merge branch 'WIP.x86/cleanups'").
+> 
+> Patch Synopsis:
+>   - Patches 01-09 fix a variety of build errors that arise when patch 12
+>     drops realmode.h from asm/acpi.h.  Most of the errors are quite absurb
+>     as they have no relation whatsoever to x86's RM boot code, but occur
+>     because realmode.h happens to include asm/io.h.
 
+Yeah, these kind of parasitic header dependencies are the main driving 
+force behind kernel header spaghetti hell: it's super easy to add a new 
+header, but very hard to remove them...
+
+Hence they practically only accumulate.
+
+As a result header removal patches get priority, from me at least. :-)
+
+>   - Patch 10 removes a spurious include of realmode.h from an ACPI header.
+> 
+>   - Patches 11 and 12 implement the wrapper and move it out of acpi.h.
+
+So if the ACPI maintainers are fine with -tip carrying patches #11 and #12
+then I'd be glad to route these patches upstream.
+
+I've applied them to tip:WIP.core/headers as a work-in-progress tree, and 
+I'm testing them on randconfigs to make sure there's no broken 
+dependencies. I'll wait for the ACPI acks.
+
+I edited the title of patch 12 slightly, to:
+
+   c8bceb321209: x86/ACPI/sleep: Move acpi_wakeup_address() definition into sleep.c, remove <asm/realmode.h> from <asm/acpi.h>
+
+to make sure the big header dependency change is obvious at first sight.
+
+Thanks,
+
+	Ingo
