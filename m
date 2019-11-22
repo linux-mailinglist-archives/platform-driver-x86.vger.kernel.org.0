@@ -2,67 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 866601071F8
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2019 13:10:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E91FA1077BD
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Nov 2019 19:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbfKVMKN (ORCPT
+        id S1726905AbfKVS4x (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Nov 2019 07:10:13 -0500
-Received: from canardo.mork.no ([148.122.252.1]:40595 "EHLO canardo.mork.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726686AbfKVMKM (ORCPT
+        Fri, 22 Nov 2019 13:56:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29822 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726698AbfKVS4w (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Nov 2019 07:10:12 -0500
-Received: from miraculix.mork.no ([IPv6:2a02:2121:282:b3eb:68e2:39ff:fe1c:1a78])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id xAMCA2ZK024257
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Fri, 22 Nov 2019 13:10:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1574424603; bh=Zn0KvcZXnPXpBNWH0DiuFbkAHELGuxXUH0gZ2EV4wlM=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=gqK/ajgLoia9egUwprnScsd5Klkvud9SAB+eXZlaxsx++nPBixAPhBQQIT1Rt83Jg
-         12BtRA8K/9bxJILLYRUjpDerUTrPizjTRk6yDb88bl5QFGxkfpPvcVf00ImZSbDLkv
-         /a6YsoHa+mR60aGEu/lOkMvhHkVl/nGiwD13J60o=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.92)
-        (envelope-from <bjorn@mork.no>)
-        id 1iY7l6-00073r-PT; Fri, 22 Nov 2019 13:09:56 +0100
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Yongxin Liu <yongxin.liu@windriver.com>
-Cc:     <andy@infradead.org>, <dvhart@infradead.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <mario.limonciello@dell.com>
-Subject: Re: [PATCH] Revert "platform/x86: wmi: Destroy on cleanup rather than unregister"
-Organization: m
-References: <20191115052710.46880-1-yongxin.liu@windriver.com>
-        <87blt45eew.fsf@miraculix.mork.no>
-Date:   Fri, 22 Nov 2019 13:09:56 +0100
-In-Reply-To: <87blt45eew.fsf@miraculix.mork.no> (=?utf-8?Q?=22Bj=C3=B8rn?=
- Mork"'s message of
-        "Fri, 22 Nov 2019 12:38:47 +0100")
-Message-ID: <8736eg5cyz.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Fri, 22 Nov 2019 13:56:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574449011;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=o7UQGsdc4PZZnnBT3bf9nk8GRbUpAvujWuHFxrAdQpo=;
+        b=SL5NLUpIdlzbA3g8IPSYmum/RZ+h9KARO0JenplfuOr/+7DqhB+Ut6MJC4jsWHo1xwsQ/u
+        pwtuv+4yXRtXjQZrQU08t/I6lgr1Fbfv1zy6FD/ODjs36qS5S11/b8yhUlec6v//g00xEt
+        2HcHehT2Ys/YIaFewtlxuVNQirBVZMw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-6M9qtd2wP8WoJT3OZJATWQ-1; Fri, 22 Nov 2019 13:56:50 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA1548018A3;
+        Fri, 22 Nov 2019 18:56:48 +0000 (UTC)
+Received: from dhcp-44-196.space.revspace.nl (unknown [10.36.112.13])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 062552937D;
+        Fri, 22 Nov 2019 18:56:46 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 1/2] platform/x86: hp-wmi: Fix ACPI errors caused by too small buffer
+Date:   Fri, 22 Nov 2019 19:56:40 +0100
+Message-Id: <20191122185641.60711-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 6M9qtd2wP8WoJT3OZJATWQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.101.4 at canardo
-X-Virus-Status: Clean
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Bj=C3=B8rn Mork <bjorn@mork.no> writes:
+The HP WMI calls may take up to 128 bytes of data as input, and
+the AML methods implementing the WMI calls, declare a couple of fields for
+accessing input in different sizes, specifycally the HWMC method contains:
 
-> Maybe we should add a WARN_ON(!MAJOR(devt)) or similar to
-> device_destroy() to prevent similar future problems?
+        CreateField (Arg1, 0x80, 0x0400, D128)
 
-No, that's definitely not a good idea.  We have examples like
-drivers/tty/vt/vt.c which (ab)use the devt with zero major and a
-unique minor to keep track of devices.  So forget about any warning.
+Even though we do not use any of the WMI command-types which need a buffer
+of this size, the APCI interpreter still tries to create it as it is
+declared in generoc code at the top of the HWMC method which runs before
+the code looks at which command-type is requested.
 
-But the device_destroy's with a static MKDEV(0,0) should be removed.
+This results in many of these errors on many different HP laptop models:
 
+[   14.459261] ACPI Error: Field [D128] at 1152 exceeds Buffer [NULL] size =
+160 (bits) (20170303/dsopcode-236)
+[   14.459268] ACPI Error: Method parse/execution failed [\HWMC] (Node ffff=
+8edcc61507f8), AE_AML_BUFFER_LIMIT (20170303/psparse-543)
+[   14.459279] ACPI Error: Method parse/execution failed [\_SB.WMID.WMAA] (=
+Node ffff8edcc61523c0), AE_AML_BUFFER_LIMIT (20170303/psparse-543)
 
+This commit increases the size of the data element of the bios_args struct
+to 128 bytes fixing these errors.
 
-Bj=C3=B8rn
+Cc: stable@vger.kernel.org
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D197007
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D201981
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1520703
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/hp-wmi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
+index 6bcbbb375401..e64ae58ec22b 100644
+--- a/drivers/platform/x86/hp-wmi.c
++++ b/drivers/platform/x86/hp-wmi.c
+@@ -65,7 +65,7 @@ struct bios_args {
+ =09u32 command;
+ =09u32 commandtype;
+ =09u32 datasize;
+-=09u32 data;
++=09u8 data[128];
+ };
+=20
+ enum hp_wmi_commandtype {
+@@ -216,7 +216,7 @@ static int hp_wmi_perform_query(int query, enum hp_wmi_=
+command command,
+ =09=09.command =3D command,
+ =09=09.commandtype =3D query,
+ =09=09.datasize =3D insize,
+-=09=09.data =3D 0,
++=09=09.data =3D { 0 },
+ =09};
+ =09struct acpi_buffer input =3D { sizeof(struct bios_args), &args };
+ =09struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
+@@ -228,7 +228,7 @@ static int hp_wmi_perform_query(int query, enum hp_wmi_=
+command command,
+=20
+ =09if (WARN_ON(insize > sizeof(args.data)))
+ =09=09return -EINVAL;
+-=09memcpy(&args.data, buffer, insize);
++=09memcpy(&args.data[0], buffer, insize);
+=20
+ =09wmi_evaluate_method(HPWMI_BIOS_GUID, 0, mid, &input, &output);
+=20
+--=20
+2.23.0
+
