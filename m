@@ -2,76 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FA5F108CB3
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Nov 2019 12:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E9F3109274
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Nov 2019 18:00:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbfKYLP1 (ORCPT
+        id S1729004AbfKYRAg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 25 Nov 2019 06:15:27 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37024 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbfKYLP1 (ORCPT
+        Mon, 25 Nov 2019 12:00:36 -0500
+Received: from mga05.intel.com ([192.55.52.43]:20026 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728924AbfKYRAg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 25 Nov 2019 06:15:27 -0500
-Received: by mail-pf1-f195.google.com with SMTP id p24so7223871pfn.4;
-        Mon, 25 Nov 2019 03:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=70lfioNuAj/Ldn/hkMoS28PuEmF1/cpUW0s4SKkaIas=;
-        b=jCQiCCirDVnhqhQ1IOwYezVGxYO6+Vxlf1XnDlfzY7V62HdZCTbInFGl7WB7NsHCWh
-         3kxsgOvPDhsEDse6h6jRkIfaSsjYcm8G4LXjtuQZ4HlEzCNQsYRHrWhr+P0K2WOGm+ta
-         v+86UjtLpw6T4LlCEnHbbrtiWPhK6ikrYF3qhNSUMB6H7JQrsO+SnI6IkSMUwo86wzAU
-         jASWtdqufwIlGNoLEj0Y0R8DsnLMvmF1XEd5RZz6rXHRW0ud9tkP1liE23x/ZvaUNHpQ
-         4qJmxWhWllK4Y9OuM+9XCNbVNydGqyn31SEXuWh6mKhiQWEHvBtH6tOVlaLYOfC71QIk
-         HbQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=70lfioNuAj/Ldn/hkMoS28PuEmF1/cpUW0s4SKkaIas=;
-        b=R2bvxJygdeg3wjnelPt5MBKHp+gbXfVF8PRlQCfejhYjU0hUmF8LSlIr2UoTkPEFw7
-         FisusWjr3uEOM3eMflTXWZcge3uzbKYU/A5LF6QU0YAPL0eRTK8l+OMCcJ+baz5IkjUz
-         JG5bkmwueNqF0PFDu5sGbf+eR28iUE4H+pJPphLshd74fjh3HKzT89nTFuzCxMPXWJN5
-         YD7Yi8qNLH6eXcB7iJnx6/XbKkXuyStXllUDsY5PUztD6Qp/6gk7Cq9+joIFp1n7zI52
-         HDbFrmjzthnVD8Q0fnlTbWIDDmp+1Cg1vXNXH9SOaCVJ1lQVMWdCtGEM67vL+yjwiNr6
-         Ihlw==
-X-Gm-Message-State: APjAAAUZq/LNtJnQ8+yxgVcLZd/M3ptus1Z1BwiqHCTOEP4MlKJ4yOAw
-        LmNiaae56tOMi9ecnuIKImHMUegAx6SV/EkPyj3grGXR
-X-Google-Smtp-Source: APXvYqz84v21tBVjguah6amB8yGJXN7Fs+Y2+wxRHWy2SedZtehCLKXWX1scC4ZB/rhSC7/kKrgk2hznzkQIDGraKNE=
-X-Received: by 2002:a63:3c6:: with SMTP id 189mr31419958pgd.4.1574680526578;
- Mon, 25 Nov 2019 03:15:26 -0800 (PST)
+        Mon, 25 Nov 2019 12:00:36 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Nov 2019 09:00:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,242,1571727600"; 
+   d="scan'208";a="216967925"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.41])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Nov 2019 09:00:34 -0800
+Date:   Mon, 25 Nov 2019 09:00:34 -0800
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Len Brown <len.brown@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Nadav Amit <namit@vmware.com>,
+        "VMware, Inc." <pv-drivers@vmware.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Jie Yang <yang.jie@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-acpi@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 11/12] ACPI/sleep: Convert acpi_wakeup_address into a
+ function
+Message-ID: <20191125170034.GB12178@linux.intel.com>
+References: <20191119002121.4107-1-sean.j.christopherson@intel.com>
+ <20191119002121.4107-12-sean.j.christopherson@intel.com>
+ <7338293.UcAxln0NAJ@kreacher>
+ <20191125104803.v6goacte2vjakx64@ucw.cz>
 MIME-Version: 1.0
-References: <20191121155743.28755-1-info@metux.net>
-In-Reply-To: <20191121155743.28755-1-info@metux.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 25 Nov 2019 13:15:16 +0200
-Message-ID: <CAHp75Vfh5PhGDFCZ0RZuvYwT_4A3nnfJhqnhThEXr=Dq6ie7ZA@mail.gmail.com>
-Subject: Re: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191125104803.v6goacte2vjakx64@ucw.cz>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 5:58 PM Enrico Weigelt, metux IT consult
-<info@metux.net> wrote:
->
-> GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
-> need to match on DMI data.
->
-> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
+On Mon, Nov 25, 2019 at 11:48:03AM +0100, Pavel Machek wrote:
+> > On Tuesday, November 19, 2019 1:21:20 AM CET Sean Christopherson wrote:
+> > > Convert acpi_wakeup_address from a raw variable into a function so that
+> > > x86 can wrap its dereference of the real mode boot header in a function
+> > > instead of broadcasting it to the world via a #define.  This sets the
+> > > stage for a future patch to move the definition of acpi_wakeup_address()
+> > > out of asm/acpi.h and thus break acpi.h's dependency on asm/realmode.h.
+> > > 
+> > > No functional change intended.
+> > > 
+> > > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> > 
+> > Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > 
+> > > --- a/drivers/acpi/sleep.c
+> > > +++ b/drivers/acpi/sleep.c
+> > > @@ -63,9 +63,9 @@ static int acpi_sleep_prepare(u32 acpi_state)
+> > >  #ifdef CONFIG_ACPI_SLEEP
+> > >  	/* do we have a wakeup address for S2 and S3? */
+> > >  	if (acpi_state == ACPI_STATE_S3) {
+> > > -		if (!acpi_wakeup_address)
+> > > +		if (!acpi_wakeup_address())
+> > >  			return -EFAULT;
+> > > -		acpi_set_waking_vector(acpi_wakeup_address);
+> > > +		acpi_set_waking_vector(acpi_wakeup_address());
+> > >  
+> 
+> You might want to store result in a variable... especially since you are
+> turning inline function into real one in a next patch.
+> 
+> And maybe function should be called get_acip_wakeup_address or
+> something? This way it is easy to mistake actual wakeup address from
+> function that gets it...
 
-The Fixes tag format is wrong.
-You are not first time contributor...
+Agreed on both counts.
 
-Also the question why do you have it here? Do we have any regression
-(something worked and stopped working)?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Ingo,
+
+Would you prefer a v2 of the entire series (with Acks and removal of Fixes),
+or a v2 that includes only the last two patches?
