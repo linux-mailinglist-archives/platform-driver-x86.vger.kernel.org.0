@@ -2,110 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD2810839B
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 24 Nov 2019 15:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1309108C46
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Nov 2019 11:48:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbfKXOIz (ORCPT
+        id S1727574AbfKYKsG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 24 Nov 2019 09:08:55 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39758 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbfKXOIz (ORCPT
+        Mon, 25 Nov 2019 05:48:06 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:52386 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727278AbfKYKsF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 24 Nov 2019 09:08:55 -0500
-Received: by mail-lf1-f68.google.com with SMTP id f18so8905188lfj.6;
-        Sun, 24 Nov 2019 06:08:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=djNoRlTWtwWVMyo0eztbYD8jcaOBK45bmqDNKrBX3ow=;
-        b=W+OD4E+xl6FIPz9xKbR7vI/nBDy4v3vm2WSmWFBRLpogBWc+SsHwRwydh1evXXc1EN
-         YIfS3anD0wN/Kg1e4j+/1ARXkZqc2E/TPm/TceqYHGUWy7tgMLx5rbgEQQokoj/5jhNf
-         7+wM073BWI5qFuhHYeFrAOLRIRMKQnOigWlDp+mv31JscR2BUa0VtnQd36o2+op2p1Yh
-         c7Vh905t7Ctx05VH5yy6fixfCo8VQECiuX8h47eUusjnM1qIowtnm72wlZG1FBzyzdHq
-         8y/w6UAcqQq81MVzhQHYHOcGMa4chLOIIv41OfGM5efYZmZYq5fVVJb6vASbBRRNwVMY
-         Dh7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=djNoRlTWtwWVMyo0eztbYD8jcaOBK45bmqDNKrBX3ow=;
-        b=KWzobwUfsfQWruXlxWlmgRLvM+WVD/KLEOr04+bmGx1kIbDiHC9kDz7jv+MH0M38dw
-         tEGxq3iHTdWRIifQwwCIHztu5a23R8tC4YbECpbxKysEM9qbYHOuxx8zPjfrMoXjWIjz
-         NyNm/2PmHEdtYkd4GVCHySGMBEYqbh9gTQl25zgurt7/SVNa2QwfjLHoVAUTvIBOL0p6
-         6dQDNK4SvFZblcNkYN7ihSvUQpDHkzG3MfacLR8EFG73DdtEeh4T95zXaMY86PUk5FUs
-         lOElAjIpDOQJsy4hCNEh91QD7dBD/0GoUIJpkV9ErvzLTtUrwZTFtItQTgbQkCx3TtdJ
-         8QLA==
-X-Gm-Message-State: APjAAAUr5t1XXOrXl0tFD18e7nZjn/157LoXu+Hgr+WyAA9KoZficrpE
-        76+kxDOuFOeZeewPZs07XpF+q8Uk4a0=
-X-Google-Smtp-Source: APXvYqySRYbqTJAQgylFf4+k1D9oORKTVhxHwZ3oTPW3BcyKuowO1r82MV6ZxlVb1cMNvENtnO19GA==
-X-Received: by 2002:ac2:4191:: with SMTP id z17mr6752629lfh.22.1574604532666;
-        Sun, 24 Nov 2019 06:08:52 -0800 (PST)
-Received: from localhost.localdomain ([91.237.107.85])
-        by smtp.googlemail.com with ESMTPSA id i8sm2000110lfl.80.2019.11.24.06.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2019 06:08:52 -0800 (PST)
-From:   Leonid Maksymchuk <leonmaxx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net, chiu@endlessm.com,
-        kristian@klausen.dk, andy@infradead.org, dvhart@infradead.org,
-        corentin.chary@gmail.com, Leonid Maksymchuk <leonmaxx@gmail.com>
-Subject: [PATCH v5 2/2] platform/x86 asus_wmi: Set throttle thermal policy to default
-Date:   Sun, 24 Nov 2019 16:08:41 +0200
-Message-Id: <20191124140841.20929-1-leonmaxx@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191124140625.20736-1-leonmaxx@gmail.com>
-References: <20191124140625.20736-1-leonmaxx@gmail.com>
+        Mon, 25 Nov 2019 05:48:05 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 141771C1FD1; Mon, 25 Nov 2019 11:48:03 +0100 (CET)
+Date:   Mon, 25 Nov 2019 11:48:03 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Len Brown <len.brown@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Nadav Amit <namit@vmware.com>,
+        "VMware, Inc." <pv-drivers@vmware.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Jie Yang <yang.jie@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-acpi@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 11/12] ACPI/sleep: Convert acpi_wakeup_address into a
+ function
+Message-ID: <20191125104803.v6goacte2vjakx64@ucw.cz>
+References: <20191119002121.4107-1-sean.j.christopherson@intel.com>
+ <20191119002121.4107-12-sean.j.christopherson@intel.com>
+ <7338293.UcAxln0NAJ@kreacher>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7338293.UcAxln0NAJ@kreacher>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-ASUS TUF FX705DY/FX505DY starts in silent mode and under heavy
-CPU load it overheats and drops CPU frequency to 399MHz and stays
-at it until reboot [1]. Set throttle thermal policy to default
-to avoid overheating and throttlig.
+> On Tuesday, November 19, 2019 1:21:20 AM CET Sean Christopherson wrote:
+> > Convert acpi_wakeup_address from a raw variable into a function so that
+> > x86 can wrap its dereference of the real mode boot header in a function
+> > instead of broadcasting it to the world via a #define.  This sets the
+> > stage for a future patch to move the definition of acpi_wakeup_address()
+> > out of asm/acpi.h and thus break acpi.h's dependency on asm/realmode.h.
+> > 
+> > No functional change intended.
+> > 
+> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> 
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> > --- a/drivers/acpi/sleep.c
+> > +++ b/drivers/acpi/sleep.c
+> > @@ -63,9 +63,9 @@ static int acpi_sleep_prepare(u32 acpi_state)
+> >  #ifdef CONFIG_ACPI_SLEEP
+> >  	/* do we have a wakeup address for S2 and S3? */
+> >  	if (acpi_state == ACPI_STATE_S3) {
+> > -		if (!acpi_wakeup_address)
+> > +		if (!acpi_wakeup_address())
+> >  			return -EFAULT;
+> > -		acpi_set_waking_vector(acpi_wakeup_address);
+> > +		acpi_set_waking_vector(acpi_wakeup_address());
+> >  
 
-[1] Link: https://bugzilla.kernel.org/show_bug.cgi?id=203733
+You might want to store result in a variable... especially since you are
+turning inline function into real one in a next patch.
 
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+And maybe function should be called get_acip_wakeup_address or
+something? This way it is easy to mistake actual wakeup address from
+function that gets it...
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 88faea6..fe571d1 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1782,6 +1782,15 @@ static int throttle_thermal_policy_write(struct asus_wmi *asus)
- 	return 0;
- }
- 
-+static int throttle_thermal_policy_set_default(struct asus_wmi *asus)
-+{
-+	if (!asus->throttle_thermal_policy_available)
-+		return 0;
-+
-+	asus->throttle_thermal_policy_mode = ASUS_THROTTLE_THERMAL_POLICY_DEFAULT;
-+	return throttle_thermal_policy_write(asus);
-+}
-+
- static int throttle_thermal_policy_switch_next(struct asus_wmi *asus)
- {
- 	u8 new_mode = asus->throttle_thermal_policy_mode + 1;
-@@ -2552,6 +2561,8 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	err = throttle_thermal_policy_check_present(asus);
- 	if (err)
- 		goto fail_throttle_thermal_policy;
-+	else
-+		throttle_thermal_policy_set_default(asus);
- 
- 	err = asus_wmi_sysfs_init(asus->platform_device);
- 	if (err)
--- 
-1.8.3.1
-
+Best regards,
+									Pavel
+> 
+> 
