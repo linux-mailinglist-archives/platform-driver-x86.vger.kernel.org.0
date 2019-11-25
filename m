@@ -2,133 +2,75 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D10BE108CAE
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Nov 2019 12:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FA5F108CB3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Nov 2019 12:15:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbfKYLMy (ORCPT
+        id S1727555AbfKYLP1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 25 Nov 2019 06:12:54 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:42151 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727395AbfKYLMx (ORCPT
+        Mon, 25 Nov 2019 06:15:27 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37024 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727495AbfKYLP1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 25 Nov 2019 06:12:53 -0500
-Received: by mail-pg1-f194.google.com with SMTP id q17so7015892pgt.9;
-        Mon, 25 Nov 2019 03:12:53 -0800 (PST)
+        Mon, 25 Nov 2019 06:15:27 -0500
+Received: by mail-pf1-f195.google.com with SMTP id p24so7223871pfn.4;
+        Mon, 25 Nov 2019 03:15:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QfpO6+VriHjE6MTSEfJjnPs1DI4xFhz3n8jBm6AClVA=;
-        b=SkDbl5EejLsawhQGIGbP5LNRgzNCp6dbSmbcvdoE77wCHVXh0MJ9OWgW+NA6YYmYvJ
-         LXpTHhTDg5q4kC/VwCe2tUo5rBRUBPd7P5szZwLZDV0bAWSwFjWIjUs1JZp2K77jbLUX
-         hXpurxr6KhK7y3douqB8NpWhhXKvxYh6InayiDiNeY9JW0RienG94z6GPp3lXqa0beCJ
-         xqRAsU2UHHROtBrcHSeK52RW88MSjIll5B7wLPTdh+8ObkaF1H6EYM0ci9Pn6MNJ5ZRa
-         IMn2Mzdr7SslIsudVbO7NJ3R8SXJeDwfFmTeIhMCOVHboA138y5t3Ep9nipx8I9LKKAE
-         xodw==
+        bh=70lfioNuAj/Ldn/hkMoS28PuEmF1/cpUW0s4SKkaIas=;
+        b=jCQiCCirDVnhqhQ1IOwYezVGxYO6+Vxlf1XnDlfzY7V62HdZCTbInFGl7WB7NsHCWh
+         3kxsgOvPDhsEDse6h6jRkIfaSsjYcm8G4LXjtuQZ4HlEzCNQsYRHrWhr+P0K2WOGm+ta
+         v+86UjtLpw6T4LlCEnHbbrtiWPhK6ikrYF3qhNSUMB6H7JQrsO+SnI6IkSMUwo86wzAU
+         jASWtdqufwIlGNoLEj0Y0R8DsnLMvmF1XEd5RZz6rXHRW0ud9tkP1liE23x/ZvaUNHpQ
+         4qJmxWhWllK4Y9OuM+9XCNbVNydGqyn31SEXuWh6mKhiQWEHvBtH6tOVlaLYOfC71QIk
+         HbQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QfpO6+VriHjE6MTSEfJjnPs1DI4xFhz3n8jBm6AClVA=;
-        b=TmBII9kkwaMAcJAaihntdp/GesuS2D2PC95lRUJkaTk/n8s3nUlsX+0G7uPz5mU3XJ
-         Xxs/uynwLk8lNiAeeTVgVKf8W31/dkggmP1bqQDEqunMMNM1jCuKkqn8DzmjQUcJJJuV
-         ht3zpoHxJliPtW863yGrS0OJPV1HBNllB9PaVsQFSs92WUA9QYKybp4lKdyfSEko4+KZ
-         aIfwuo6ChkVVsDULcGqxIgJkl7/KKJVn1sMJLfh0uN0KyElN2+5Q5ojetuNNyZI1H+y+
-         yeSck6WiRdwVZT/GAburWELdCbDiCiLHD4CcKX8EOpxlpmYWv2ryqCRu0zEkYDUWq2pN
-         fxNg==
-X-Gm-Message-State: APjAAAX0VGv0Ok6KQvODS9EeCrDn13aMuDt6dOf138QwzlXo+wq1zE0Q
-        7Xmn7VcPdzVUVqADo1dkJhckkrOWh4jLYSWfwLA=
-X-Google-Smtp-Source: APXvYqwOuqlvoScFSmIKOVDPZRulf63cB+znh4uPuBAVEUyd0Cj+R4rO9PNf5PXr0+IewxRhcl5Jl13BPejaBtMiOsw=
-X-Received: by 2002:a65:5542:: with SMTP id t2mr30988775pgr.74.1574680373146;
- Mon, 25 Nov 2019 03:12:53 -0800 (PST)
+        bh=70lfioNuAj/Ldn/hkMoS28PuEmF1/cpUW0s4SKkaIas=;
+        b=R2bvxJygdeg3wjnelPt5MBKHp+gbXfVF8PRlQCfejhYjU0hUmF8LSlIr2UoTkPEFw7
+         FisusWjr3uEOM3eMflTXWZcge3uzbKYU/A5LF6QU0YAPL0eRTK8l+OMCcJ+baz5IkjUz
+         JG5bkmwueNqF0PFDu5sGbf+eR28iUE4H+pJPphLshd74fjh3HKzT89nTFuzCxMPXWJN5
+         YD7Yi8qNLH6eXcB7iJnx6/XbKkXuyStXllUDsY5PUztD6Qp/6gk7Cq9+joIFp1n7zI52
+         HDbFrmjzthnVD8Q0fnlTbWIDDmp+1Cg1vXNXH9SOaCVJ1lQVMWdCtGEM67vL+yjwiNr6
+         Ihlw==
+X-Gm-Message-State: APjAAAUZq/LNtJnQ8+yxgVcLZd/M3ptus1Z1BwiqHCTOEP4MlKJ4yOAw
+        LmNiaae56tOMi9ecnuIKImHMUegAx6SV/EkPyj3grGXR
+X-Google-Smtp-Source: APXvYqz84v21tBVjguah6amB8yGJXN7Fs+Y2+wxRHWy2SedZtehCLKXWX1scC4ZB/rhSC7/kKrgk2hznzkQIDGraKNE=
+X-Received: by 2002:a63:3c6:: with SMTP id 189mr31419958pgd.4.1574680526578;
+ Mon, 25 Nov 2019 03:15:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20191124140625.20736-1-leonmaxx@gmail.com> <20191124140744.20830-1-leonmaxx@gmail.com>
-In-Reply-To: <20191124140744.20830-1-leonmaxx@gmail.com>
+References: <20191121155743.28755-1-info@metux.net>
+In-Reply-To: <20191121155743.28755-1-info@metux.net>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 25 Nov 2019 13:12:43 +0200
-Message-ID: <CAHp75VcVj5=DQ8faTtC2CWk86-VMPGroQ+aCK+tLpkFEyPe-MQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] platform/x86 asus_wmi: Support throttle thermal policy
-To:     Leonid Maksymchuk <leonmaxx@gmail.com>
+Date:   Mon, 25 Nov 2019 13:15:16 +0200
+Message-ID: <CAHp75Vfh5PhGDFCZ0RZuvYwT_4A3nnfJhqnhThEXr=Dq6ie7ZA@mail.gmail.com>
+Subject: Re: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Chris Chiu <chiu@endlessm.com>,
-        Kristian Klausen <kristian@klausen.dk>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Nov 24, 2019 at 4:07 PM Leonid Maksymchuk <leonmaxx@gmail.com> wrote:
+On Thu, Nov 21, 2019 at 5:58 PM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
 >
-> Throttle thermal policy ACPI device is used to control CPU cooling and
+> GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
+> need to match on DMI data.
+>
+> Fixes: f8eb0235f65989fc5521c40c78d1261e7f25cdbe
 
-> throttling. This patch adds sysfs entry for setting current mode and
-> Fn+F5 hotkey that switches to next.
+The Fixes tag format is wrong.
+You are not first time contributor...
 
-sysfs means ABI. ABI must be documented.
-
-> Policy modes:
-> * 0x00 - default
-> * 0x01 - overboost
-> * 0x02 - silent
-
-> +static int throttle_thermal_policy_check_present(struct asus_wmi *asus)
-> +{
-> +       u32 result;
-> +       int err;
-> +
-> +       asus->throttle_thermal_policy_available = false;
-> +
-> +       err = asus_wmi_get_devstate(asus,
-> +                                   ASUS_WMI_DEVID_THROTTLE_THERMAL_POLICY,
-> +                                   &result);
-> +       if (err) {
-> +               if (err == -ENODEV)
-> +                       return 0;
-
-> +               else
-
-Redundant.
-
-> +                       return err;
-> +       }
-> +
-
-> +       if ((result & ASUS_WMI_DSTS_PRESENCE_BIT))
-
-Too many parentheses.
-
-> +               asus->throttle_thermal_policy_available = true;
-> +
-> +       return 0;
-> +}
-
-> +       pr_info("Set throttle thermal policy: %u\n", value);
-
-Do we really need this message?
-
-> +       return scnprintf(buf, PAGE_SIZE, "%d\n",
-> +                        asus->throttle_thermal_policy_mode);
-
-Can it be one line?
-
-> +       result = kstrtou8(buf, 10, &new_mode);
-> +       if (result < 0) {
-
-> +               pr_warn("Trying to store invalid value\n");
-
-Redundant. By error code user space will get a message.
-
-> +               return result;
-> +       }
-
-
+Also the question why do you have it here? Do we have any regression
+(something worked and stopped working)?
 
 -- 
 With Best Regards,
