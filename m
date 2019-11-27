@@ -2,118 +2,207 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8151810B45E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Nov 2019 18:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FD9310BFBD
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Nov 2019 22:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfK0RZf (ORCPT
+        id S1727313AbfK0Ud5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 27 Nov 2019 12:25:35 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35013 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbfK0RZf (ORCPT
+        Wed, 27 Nov 2019 15:33:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33982 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727010AbfK0Ud5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 27 Nov 2019 12:25:35 -0500
-Received: by mail-wm1-f67.google.com with SMTP id n5so8497877wmc.0;
-        Wed, 27 Nov 2019 09:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GIWTen+5j6jzQO7o6tpc6/Z9sJf3yIWCCW0dpewfY9w=;
-        b=RlV38rohZsHWP6W2uu20DWA/s1IhZ2IC/SYB4xs7hy9qevDfnWn/I0nKHjnjaUv8kv
-         qR5MSZfR2nZs6CI8hdoweycKsJ6lFJCSxY5T3ZtSxiH8ajmRQWw6ZrKS7tBrtZs1RsuO
-         oDfO6GINiNf7+J6qhHu+P79MwTiu/duNRgLG7LUpuvEGb30gESPBtzmfn1wYzkg6IqDW
-         rrI/BuhMwZeZ/AimV5lPWII/FJ0x7ftyFV0GwlrHqoJnb6AeAfBPRT3DsNQ6vofG88vp
-         HGizPYbvoD6TBzOU0YmAW4VjQHyO7Ibte43yjLebSO+Pru4z3lsiOoaMy3J+unILV/c4
-         mzSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GIWTen+5j6jzQO7o6tpc6/Z9sJf3yIWCCW0dpewfY9w=;
-        b=HUzBMnyViYjozRosJkzllVam8vsBmBOqFs6SV7JRI++dCUQKmSGS3Pkb2anq6Meqo1
-         scPgBEt8tMLmTE/RsvnpFycSKNl38NqudfzRMYdn/doyugSzYFfObBYLbDW4Bnt82f/v
-         Mbkaiahb14VYbVvTRMOfahYRfKWinmSwjnwfda0GN93alNAo9eqWLlLFM/e9HCI0CWv8
-         1NCvcN8hGEBDNptTEUyZnu4peDHmMJsado1tPKMR5qaM5KbXrtJ6X7y9c1Zeh6j7oCg5
-         PoJ6prZUmHWv2GlGzjNXzxM+/42z4qW1bwQEJnQXgzaATtPL3Cxo2G6m9gKDZtV1m3pA
-         P99Q==
-X-Gm-Message-State: APjAAAXSIZNcP4xXQXYJXPurGcZUFdc7nNoF1sPV8Rqm1MTtS2y5RwAk
-        4Qndtc9KIW4PPXnZsbFJJiE=
-X-Google-Smtp-Source: APXvYqxFiW/Mp2X1vB+r+J0HbWgWDFGtW9f4Sr2KuXrzxMISLMbu42rPGv6iTdCJnEauHcYx2r0kjw==
-X-Received: by 2002:a7b:c936:: with SMTP id h22mr5860604wml.115.1574875532538;
-        Wed, 27 Nov 2019 09:25:32 -0800 (PST)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id 76sm7691881wma.0.2019.11.27.09.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2019 09:25:31 -0800 (PST)
-Date:   Wed, 27 Nov 2019 18:25:28 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-        Jie Yang <yang.jie@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-acpi@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2 00/12] treewide: break dependencies on x86's RM header
-Message-ID: <20191127172528.GB10957@gmail.com>
-References: <20191126165417.22423-1-sean.j.christopherson@intel.com>
- <20191127072057.GB94748@gmail.com>
- <20191127144703.GA18530@linux.intel.com>
+        Wed, 27 Nov 2019 15:33:57 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99EF1207DD;
+        Wed, 27 Nov 2019 20:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574886836;
+        bh=/ZRotHjey/YKP0r1aSt4Hx6GoatAfbEulyBQrcaXrGY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=iY9vmViSrHMFB9hsAxDbBQc0ESgAN+zcFbuePfXxbRgPHzrh6KiirlUrtzpFnSXql
+         6x+tICiizB2UH90ZKubu8zLg5oVxUfZkYvQSANzsGGtKiLdFlUU5or79PHUpcskQut
+         wN9pvLQHTFaETrjq+/7zsZNnNUG0nQQ3+27a17t8=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Oleksij Rempel <linux@rempel-privat.de>,
+        Alex Henrie <alexhenrie24@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        Darren Hart <dvhart@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.4 012/132] platform/x86: asus-wmi: Filter buggy scan codes on ASUS Q500A
+Date:   Wed, 27 Nov 2019 21:30:03 +0100
+Message-Id: <20191127202909.678527786@linuxfoundation.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191127202857.270233486@linuxfoundation.org>
+References: <20191127202857.270233486@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191127144703.GA18530@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+From: Oleksij Rempel <linux@rempel-privat.de>
 
-* Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+[ Upstream commit b5643539b82559b858b8efe3fc8343f66cf9a0b5 ]
 
-> > You didn't include every patch from v1 though, such us my fix to 
-> > Quark:
-> > 
-> >   [PATCH] x86/platform/intel/quark: Explicitly include linux/io.h for virt_to_phys()
-> > 
-> > I've applied that one too and your updated patches, and it's now all 
-> > pushed out into tip:WIP.core/headers.
-> 
-> Sorry, it wasn't clear to me whether or not to include that one.  Next 
-> time I'll ask.
+Some revisions of the ASUS Q500A series have a keyboard related
+issue which is reproducible only after Windows with installed ASUS
+tools is started.
 
-No problem - in general it's best to include all, because in general it's 
-much easier for maintainers to leave out something than to remember to 
-add it back in. ;-)
+In this case the Linux side will have a blocked keyboard or
+report incorrect or incomplete hotkey events.
 
-Thanks,
+To make Linux work properly again, a complete power down
+(unplug power supply and remove battery) is needed.
 
-	Ingo
+Linux/atkbd after a clean start will get the following code on VOLUME_UP
+key: {0xe0, 0x30, 0xe0, 0xb0}. After Windows, the same key will generate
+this codes: {0xe1, 0x23, 0xe0, 0x30, 0xe0, 0xb0}. As result atkdb will
+be confused by buggy codes.
+
+This patch is filtering this buggy code out.
+
+https://bugzilla.kernel.org/show_bug.cgi?id=119391
+
+Signed-off-by: Oleksij Rempel <linux@rempel-privat.de>
+Cc: Alex Henrie <alexhenrie24@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Corentin Chary <corentin.chary@gmail.com>
+Cc: acpi4asus-user@lists.sourceforge.net
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+[dvhart: Add return after pr_warn to avoid false confirmation of filter]
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/asus-nb-wmi.c | 45 ++++++++++++++++++++++++++++++
+ drivers/platform/x86/asus-wmi.h    |  4 +++
+ 2 files changed, 49 insertions(+)
+
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 734f95c09508f..904e28d4db528 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -27,6 +27,7 @@
+ #include <linux/input/sparse-keymap.h>
+ #include <linux/fb.h>
+ #include <linux/dmi.h>
++#include <linux/i8042.h>
+ 
+ #include "asus-wmi.h"
+ 
+@@ -55,10 +56,34 @@ MODULE_PARM_DESC(wapf, "WAPF value");
+ 
+ static struct quirk_entry *quirks;
+ 
++static bool asus_q500a_i8042_filter(unsigned char data, unsigned char str,
++			      struct serio *port)
++{
++	static bool extended;
++	bool ret = false;
++
++	if (str & I8042_STR_AUXDATA)
++		return false;
++
++	if (unlikely(data == 0xe1)) {
++		extended = true;
++		ret = true;
++	} else if (unlikely(extended)) {
++		extended = false;
++		ret = true;
++	}
++
++	return ret;
++}
++
+ static struct quirk_entry quirk_asus_unknown = {
+ 	.wapf = 0,
+ };
+ 
++static struct quirk_entry quirk_asus_q500a = {
++	.i8042_filter = asus_q500a_i8042_filter,
++};
++
+ /*
+  * For those machines that need software to control bt/wifi status
+  * and can't adjust brightness through ACPI interface
+@@ -94,6 +119,15 @@ static int dmi_matched(const struct dmi_system_id *dmi)
+ }
+ 
+ static const struct dmi_system_id asus_quirks[] = {
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. Q500A",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Q500A"),
++		},
++		.driver_data = &quirk_asus_q500a,
++	},
+ 	{
+ 		.callback = dmi_matched,
+ 		.ident = "ASUSTeK COMPUTER INC. U32U",
+@@ -365,6 +399,8 @@ static const struct dmi_system_id asus_quirks[] = {
+ 
+ static void asus_nb_wmi_quirks(struct asus_wmi_driver *driver)
+ {
++	int ret;
++
+ 	quirks = &quirk_asus_unknown;
+ 	dmi_check_system(asus_quirks);
+ 
+@@ -376,6 +412,15 @@ static void asus_nb_wmi_quirks(struct asus_wmi_driver *driver)
+ 		quirks->wapf = wapf;
+ 	else
+ 		wapf = quirks->wapf;
++
++	if (quirks->i8042_filter) {
++		ret = i8042_install_filter(quirks->i8042_filter);
++		if (ret) {
++			pr_warn("Unable to install key filter\n");
++			return;
++		}
++		pr_info("Using i8042 filter function for receiving events\n");
++	}
+ }
+ 
+ static const struct key_entry asus_nb_wmi_keymap[] = {
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index 5de1df510ebd8..dd2e6cc0f3d48 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -28,6 +28,7 @@
+ #define _ASUS_WMI_H_
+ 
+ #include <linux/platform_device.h>
++#include <linux/i8042.h>
+ 
+ #define ASUS_WMI_KEY_IGNORE (-1)
+ #define ASUS_WMI_BRN_DOWN	0x20
+@@ -51,6 +52,9 @@ struct quirk_entry {
+ 	 * and let the ACPI interrupt to send out the key event.
+ 	 */
+ 	int no_display_toggle;
++
++	bool (*i8042_filter)(unsigned char data, unsigned char str,
++			     struct serio *serio);
+ };
+ 
+ struct asus_wmi_driver {
+-- 
+2.20.1
+
+
+
