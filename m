@@ -2,107 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D84310BDA7
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Nov 2019 22:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E709010D36C
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 29 Nov 2019 10:46:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731464AbfK0Van (ORCPT
+        id S1726709AbfK2Jqw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 27 Nov 2019 16:30:43 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:36718 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730315AbfK0Vam (ORCPT
+        Fri, 29 Nov 2019 04:46:52 -0500
+Received: from thoth.sbs.de ([192.35.17.2]:39011 "EHLO thoth.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbfK2Jqw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 27 Nov 2019 16:30:42 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 6ECFA1C228B; Wed, 27 Nov 2019 22:30:38 +0100 (CET)
-Date:   Wed, 27 Nov 2019 22:30:37 +0100
-From:   Pavel Machek <pavel@denx.de>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Fri, 29 Nov 2019 04:46:52 -0500
+X-Greylist: delayed 1632 seconds by postgrey-1.27 at vger.kernel.org; Fri, 29 Nov 2019 04:46:50 EST
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+        by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id xAT9JVmQ023199
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 29 Nov 2019 10:19:31 +0100
+Received: from dev.vm6.ccp.siemens.com (md1quwnc.ad001.siemens.net [139.16.77.128])
+        by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id xAT9JTqo031799;
+        Fri, 29 Nov 2019 10:19:30 +0100
+Received: from dev.localdomain (localhost [127.0.0.1])
+        by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 4B0EE23CE8B7;
+        Fri, 29 Nov 2019 10:19:29 +0100 (CET)
+From:   Michael Haener <michael.haener@siemens.com>
+To:     andy@infradead.org
+Cc:     Michael Haener <michael.haener@siemens.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-        Jie Yang <yang.jie@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-acpi@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2 11/12] ACPI/sleep: Convert acpi_wakeup_address into a
- function
-Message-ID: <20191127213037.GB20612@amd>
-References: <20191126165417.22423-1-sean.j.christopherson@intel.com>
- <20191126165417.22423-12-sean.j.christopherson@intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZfOjI3PrQbgiZnxM"
-Content-Disposition: inline
-In-Reply-To: <20191126165417.22423-12-sean.j.christopherson@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: pmc_atom: Add Siemens CONNECT X300 to critclk_systems DMI table
+Date:   Fri, 29 Nov 2019 10:16:49 +0100
+Message-Id: <20191129091650.4765-1-michael.haener@siemens.com>
+X-Mailer: git-send-email 2.11.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+The CONNECT X300 uses the PMC clock for on-board components and gets
+stuck during boot if the clock is disabled. Therefore, add this
+device to the critical systems list.
+Tested on CONNECT X300.
 
---ZfOjI3PrQbgiZnxM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 648e921888ad ("clk: x86: Stop marking clocks as CLK_IS_CRITICAL")
+Signed-off-by: Michael Haener <michael.haener@siemens.com>
+---
+ drivers/platform/x86/pmc_atom.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On Tue 2019-11-26 08:54:16, Sean Christopherson wrote:
-> Convert acpi_wakeup_address from a raw variable into a function so that
-> x86 can wrap its dereference of the real mode boot header in a function
-> instead of broadcasting it to the world via a #define.  This sets the
-> stage for a future patch to move x86's definition of the new function,
-> acpi_get_wakeup_address(), out of asm/acpi.h and thus break acpi.h's
-> dependency on asm/realmode.h.
->=20
-> No functional change intended.
->=20
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+diff --git a/drivers/platform/x86/pmc_atom.c b/drivers/platform/x86/pmc_atom.c
+index 07d1b911e72f..57f06ca114a6 100644
+--- a/drivers/platform/x86/pmc_atom.c
++++ b/drivers/platform/x86/pmc_atom.c
+@@ -429,6 +429,14 @@ static const struct dmi_system_id critclk_systems[] = {
+ 			DMI_MATCH(DMI_PRODUCT_VERSION, "6AV7882-0"),
+ 		},
+ 	},
++	{
++		.ident = "CONNECT X300",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "SIEMENS AG"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "A5E45074588")
++		},
++	},
++
+ 	{ /*sentinel*/ }
+ };
+ 
+-- 
+2.11.0
 
-Thanks!
-
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---ZfOjI3PrQbgiZnxM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl3e6v0ACgkQMOfwapXb+vIvKgCgj+csmgRVJU3LjSgRtQ9xs4OL
-1n8An0cFCD4JerAugYVERVISU8Tw+N8s
-=cvdZ
------END PGP SIGNATURE-----
-
---ZfOjI3PrQbgiZnxM--
