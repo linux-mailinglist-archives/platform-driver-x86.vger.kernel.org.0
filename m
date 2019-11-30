@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C0010DD2F
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 Nov 2019 09:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7BB010DD30
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 Nov 2019 09:53:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725887AbfK3Ixk (ORCPT
+        id S1725947AbfK3Ixn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 30 Nov 2019 03:53:40 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40145 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbfK3Ixk (ORCPT
+        Sat, 30 Nov 2019 03:53:43 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40146 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbfK3Ixm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 30 Nov 2019 03:53:40 -0500
-Received: by mail-wm1-f68.google.com with SMTP id y5so17410504wmi.5
-        for <platform-driver-x86@vger.kernel.org>; Sat, 30 Nov 2019 00:53:38 -0800 (PST)
+        Sat, 30 Nov 2019 03:53:42 -0500
+Received: by mail-wm1-f66.google.com with SMTP id y5so17410561wmi.5
+        for <platform-driver-x86@vger.kernel.org>; Sat, 30 Nov 2019 00:53:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=svgalib-org.20150623.gappssmtp.com; s=20150623;
         h=message-id:in-reply-to:references:from:date:subject:to;
-        bh=USqBAeKS9vDKDTcR3GflnhSYrOv2Ef8XnGW36gbHde8=;
-        b=l4vx0Ozgk9COi2brcSxuMus40Rc+s8/Lw9N+upDRQtucmYNYowpl/OkXOzDOQUKtXm
-         Dso6/d1osAJDrY+HYbynxGH4baQK0O0nsxq6VifMOlSstvZ5RBeRuUpimE6wAvlZU9TT
-         k8dcDmWbhJFq6jkYC1CqJ47KsQjMwTyoTAgp+SMMATakhEu2JftcSIuxueLe1/khMp0A
-         qZ9oEWv+j4IepjqKFbnE8o0q7eFIlcey476FGoy47qQ5pQBRz+kldNyGteRZD21OUjCk
-         TT+h9BSalFzB41ROmiTjPZSnZfs1ZAdOdz2U2mr0Y5sP4KXDPc+ixhW6sEPnglol87eo
-         89Qg==
+        bh=wUzBo8WprLwhIYpds2E6kfsyeNJOPBho8igETDbKAi4=;
+        b=UzpvPx/gpkkqrv8jMLosqdwVi5aV/5rWXnLPd/BoJwB7ZZL6N1Q0v27HdYuGzkhbXd
+         9pGz5klIgSOSKP5Jq6QB44jtsHE+H1ug6X04YN3cHcoqLyJwD+NLNagqv2tcWLzWdTFl
+         qwMgNATToDHSkAVMvQvEHmmZP6haSYUMFREVdq7xD+08WqoVvVuVMCO57kjL2M07Exmz
+         S1y3R6F9LlH2MEAZBSchrewMZh5EWjxoLOzN4hxuC67BzepcZsE502PboY2i8eZ59+4P
+         H/Dvtu1U+gsBwGSc0/vt64hkcHD199WmDQRw/2CI6d+iDU6RVUyRn8qGpyk0Tb5efjUQ
+         E4XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:in-reply-to:references:from:date
          :subject:to;
-        bh=USqBAeKS9vDKDTcR3GflnhSYrOv2Ef8XnGW36gbHde8=;
-        b=g8f6oQno/E5RQzrA5wtSeAf5u5Mwnwbj88zLcccHnHKiEEFB+eqG3khjdCpD2oUEJY
-         AyXfgBRO8vp9/SxwLRIBeGeT2eg2F1fqM8PGaHTt3F06EvXZMmK385lZOK/OeoFlOtoc
-         FosqLvm4p91CHsibVb3JJTBziYiUnzJke7nuVqsWNHVsyHBVWv90F/51io6ss3bCoMm4
-         x3dHZPZ2sN80b2e8RwvRE0MyEu/b9cyiPyyjZT8Ogpk1DvDWphS+E5cX60/Evoh/QA4A
-         zStmljyssaa9VXNBD4J7FWv0wbY6gmiO7HLwFMQa2ifP94HuLolRZ1btuzd1SDOPD8Sk
-         ec2A==
-X-Gm-Message-State: APjAAAXU2MyLtHgvkzPzthp9b+AkSDwDB0rco9EK8n0KjhqeU0ht7h0R
-        K1gWOE2C7fpP90AR7i4Syc+i3C2Bag==
-X-Google-Smtp-Source: APXvYqwqhdaebv0L5+mhbwUb/5xi6jJJ1YpW8g0NwBHJzpNd3GDA2NH86x2UoQP4fN236ATGPWtsQA==
-X-Received: by 2002:a1c:8086:: with SMTP id b128mr16252175wmd.80.1575104017403;
-        Sat, 30 Nov 2019 00:53:37 -0800 (PST)
+        bh=wUzBo8WprLwhIYpds2E6kfsyeNJOPBho8igETDbKAi4=;
+        b=h0vC9JhytsTdT6wM8DFt8ApiMcrAAAC7EDX5mel21TxukwksMuntnczmHfLmDA07kB
+         IBMyMHKYGEnGJ3Zs31so+o11OST/qCoM8JhaFwTviRHIYIufxIwio3ik63fd6g9YQzon
+         dl04xO+T6spfeEAVmpBa35nEtR/uKPvw5I2y/ESa5Hii+OoO1sXvhLRUPrj9qWnPsW8X
+         u5Az/YzOk8494HxSmwTZVl2mqoxb4Y2vLN26pzbmfTultebQVTEfqsCwh5OzLQQ38EsP
+         e895c7kix876KmvEPDM7w5DFtGJ4lGgUlXD+AehQCSfSy3E6+KcHgljdiXcj0p/Rm/QZ
+         cfxg==
+X-Gm-Message-State: APjAAAXsZprlGQ3J/WUIeJpiAdIl7uO2UFZCln/5eciNSjt4CEHyJsSl
+        GMdGF7U+kJgfgq5WXNkzmBYX
+X-Google-Smtp-Source: APXvYqwONGMVRQTqbC+nOrL3nNuBEUBco7BuqyY+LfGVFjonKLgvOKchV4NypYfgHbU5CL08Iim3AQ==
+X-Received: by 2002:a1c:9e49:: with SMTP id h70mr18315400wme.79.1575104019614;
+        Sat, 30 Nov 2019 00:53:39 -0800 (PST)
 Received: from matan ([2a02:ed0:5d47:4801:a552:bfc5:60c3:bcda])
-        by smtp.gmail.com with ESMTPSA id d8sm9097609wre.13.2019.11.30.00.53.36
+        by smtp.gmail.com with ESMTPSA id b17sm6098871wrx.15.2019.11.30.00.53.38
         (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 30 Nov 2019 00:53:36 -0800 (PST)
-Message-Id: <cab87eefeb0c84d6481674729a9efd48d18123e6.1575103866.git.matan@svgalib.org>
+        Sat, 30 Nov 2019 00:53:39 -0800 (PST)
+Message-Id: <39f4fb68c150f5da49e864ecdab3f25e93529e7f.1575103866.git.matan@svgalib.org>
 In-Reply-To: <cover.1575103866.git.matan@svgalib.org>
 References: <cover.1575103866.git.matan@svgalib.org>
 From:   Matan Ziv-Av <matan@svgalib.org>
-Date:   Sat, 30 Nov 2019 10:41:54 +0200
-Subject: [PATCH V2 4/7] platform/x86: lg-laptop.c: Get model name and year
- from DMI product name
+Date:   Sat, 30 Nov 2019 10:42:45 +0200
+Subject: [PATCH V2 5/7] platform/x86: lg-laptop.c: Manage battery limit
+ correctly for 2019 models
 To:     Platform Driver <platform-driver-x86@vger.kernel.org>,
         Andy Shevchenko <andy@infradead.org>
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -59,59 +59,84 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Model year seems to be encoded simply in the DMI product name, so take it
-from there. Tablet for factor is still not handled differently.
+Read/write battery charging limit using WMBB instead of WMAB for 2019
+and newer models.
 
 Signed-off-by: Matan Ziv-Av <matan@svgalib.org>
 ---
- drivers/platform/x86/lg-laptop.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/platform/x86/lg-laptop.c | 40 +++++++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
-index 2f0ce69d8e31..d4c49f822394 100644
+index d4c49f822394..ccdc93be2a9b 100644
 --- a/drivers/platform/x86/lg-laptop.c
 +++ b/drivers/platform/x86/lg-laptop.c
-@@ -8,6 +8,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+@@ -75,6 +75,8 @@ static u32 inited;
+ #define INIT_KBD_LED            0x10
+ #define INIT_SPARSE_KEYMAP      0x80
  
- #include <linux/acpi.h>
-+#include <linux/dmi.h>
- #include <linux/input.h>
- #include <linux/input/sparse-keymap.h>
- #include <linux/kernel.h>
-@@ -606,6 +607,8 @@ static struct platform_driver pf_driver = {
- static int acpi_add(struct acpi_device *device)
- {
- 	int ret;
-+	const char *product;
-+	int year = 2017;
++static int battery_limit_use_wmbb;
++
+ static const struct key_entry wmi_keymap[] = {
+ 	{KE_KEY, 0x70, {KEY_F15} },	 /* LG control panel (F1) */
+ 	{KE_KEY, 0x74, {KEY_F13} },	 /* Touchpad toggle (F5) */
+@@ -466,7 +468,11 @@ static ssize_t battery_care_limit_store(struct device *dev,
+ 	if (value == 100 || value == 80) {
+ 		union acpi_object *r;
  
- 	if (pf_device)
- 		return 0;
-@@ -624,6 +627,27 @@ static int acpi_add(struct acpi_device *device)
- 		goto out_platform_registered;
- 	}
+-		r = lg_wmab(WM_BATT_LIMIT, WM_SET, value);
++		if (!battery_limit_use_wmbb)
++			r = lg_wmab(WM_BATT_LIMIT, WM_SET, value);
++		else
++			r = lg_wmbb(WMBB_BATT_LIMIT, WM_SET, value);
++
+ 		if (!r)
+ 			return -EIO;
  
-+	product = dmi_get_system_info(DMI_PRODUCT_NAME);
-+	if (strlen(product) > 4)
-+		switch (product[4]) {
-+		case '5':
-+		case '6':
-+			year = 2016;
-+			break;
-+		case '7':
-+			year = 2017;
-+			break;
-+		case '8':
-+			year = 2018;
-+			break;
-+		case '9':
-+			year = 2019;
-+			break;
-+		default:
-+			year = 2019;
+@@ -484,16 +490,29 @@ static ssize_t battery_care_limit_show(struct device *dev,
+ 	unsigned int status;
+ 	union acpi_object *r;
+ 
+-	r = lg_wmab(WM_BATT_LIMIT, WM_GET, 0);
+-	if (!r)
+-		return -EIO;
++	if (!battery_limit_use_wmbb) {
++		r = lg_wmab(WM_BATT_LIMIT, WM_GET, 0);
++		if (!r)
++			return -EIO;
+ 
+-	if (r->type != ACPI_TYPE_INTEGER) {
+-		kfree(r);
+-		return -EIO;
+-	}
++		if (r->type != ACPI_TYPE_INTEGER) {
++			kfree(r);
++			return -EIO;
 +		}
-+	pr_info("product: %s  year: %d  debug v4\n", product, year);
++
++		status = r->integer.value;
++	} else {
++		r = lg_wmbb(WMBB_BATT_LIMIT, WM_GET, 0);
++		if (!r)
++			return -EIO;
+ 
+-	status = r->integer.value;
++		if (r->type != ACPI_TYPE_BUFFER) {
++			kfree(r);
++			return -EIO;
++		}
++
++		status = r->buffer.pointer[0x10];
++	}
+ 	kfree(r);
+ 	if (status != 80 && status != 100)
+ 		status = 0;
+@@ -648,6 +667,9 @@ static int acpi_add(struct acpi_device *device)
+ 		}
+ 	pr_info("product: %s  year: %d  debug v4\n", product, year);
+ 
++	if (year >= 2019)
++		battery_limit_use_wmbb = 1;
 +
  	ret = sysfs_create_group(&pf_device->dev.kobj, &dev_attribute_group);
  	if (ret)
