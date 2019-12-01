@@ -2,78 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D9810DD2A
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 Nov 2019 09:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B8810E331
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  1 Dec 2019 19:42:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725792AbfK3Ixa (ORCPT
+        id S1727296AbfLASmr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 30 Nov 2019 03:53:30 -0500
-Received: from mail-wr1-f54.google.com ([209.85.221.54]:44164 "EHLO
-        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfK3Ixa (ORCPT
+        Sun, 1 Dec 2019 13:42:47 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:13726 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726965AbfLASmq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 30 Nov 2019 03:53:30 -0500
-Received: by mail-wr1-f54.google.com with SMTP id q10so1615588wrm.11
-        for <platform-driver-x86@vger.kernel.org>; Sat, 30 Nov 2019 00:53:28 -0800 (PST)
+        Sun, 1 Dec 2019 13:42:46 -0500
+X-Greylist: delayed 7900 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:42:45 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=svgalib-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:from:date:subject:to;
-        bh=TgfKb1LKW36qJ5JdqekhGn4X5BL44Fi4eKLSm7hhsRc=;
-        b=1KKluKG/RCq2Aq/2xQbD+YZGjGbDLCgVAtHehlw3KqmfA9R6e7o4cLbFT3CtkMTMu0
-         kbrF34AUB93eiL6dlsSNarixJsX72s0rQtZP4ASd8YRGH5K3fj1Q4n9EJf1V1x18ZFve
-         QYbaruxCdzU+zoDrU50TsoXPbUf8QcCj84+7upss/RuQ0yoTU39XWYySGNB6nm4hvgbi
-         K0H+S8Dh4qqK9lSgvbSZgeXHgtvnqO28RFhFcZ5MGUX+lAS26VmMO5NYEn/DjnFKxuz9
-         PvFbe6eX1HDL2t2788afg7Qjzj5eB6HxfQVLrrphvai8koJrgPkW7vaVJP7vBcFsV/5I
-         rpww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:date:subject:to;
-        bh=TgfKb1LKW36qJ5JdqekhGn4X5BL44Fi4eKLSm7hhsRc=;
-        b=XLB58q+JRVXVo2ojfGQXzygVniAYodbgsq+Y20dQhbLWTMGb/OW8DcRfiKW5q0Odaj
-         YNnTXu0L8b5koKW6UiKII0DGQMozljM9Dbs9wSDkFjavGh4C8ocFOJiqpMIuGfak5/Yz
-         Eu1thrmtO3bJvTHpJ0KpzZDdMvTXJQTqJRf4PSduWk9D5Hk9V15j+0rj2NwgMAEGVi02
-         7ZnsqR06yGPIPg4Kie76RVTa6W9F8X62jfLAIw9ynWTs1Ig2aDtLwYVqGeGxM0I+TFac
-         FqeC4i5TVey0Dpg11M1YlgH9UH6McM6hUvUt/gBsl+KCDso8G+0sobme6zB0UDv/TcRB
-         puGg==
-X-Gm-Message-State: APjAAAWd4JIJ/M7KGTtevXPrF3zbpSH5wDjrehYZZv1NavIXgSvLcBj5
-        le34ar5y9j8ofulkF8D8Q+pskW3seA==
-X-Google-Smtp-Source: APXvYqxT+NQqUpJxMk4byH6B8Yt0NcJlqO09MFclOqA0HGzUC4Zd7BiTKDdhrxy+uJRvztP2moc7Ng==
-X-Received: by 2002:adf:db41:: with SMTP id f1mr57491408wrj.351.1575104008083;
-        Sat, 30 Nov 2019 00:53:28 -0800 (PST)
-Received: from matan ([2a02:ed0:5d47:4801:a552:bfc5:60c3:bcda])
-        by smtp.gmail.com with ESMTPSA id c1sm1600244wmk.22.2019.11.30.00.53.26
-        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 30 Nov 2019 00:53:26 -0800 (PST)
-Message-Id: <cover.1575103866.git.matan@svgalib.org>
-From:   Matan Ziv-Av <matan@svgalib.org>
-Date:   Sat, 30 Nov 2019 10:51:06 +0200
-Subject: [PATCH V2 0/7] *** SUBJECT HERE ***
-To:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217664; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=XwpTNYsfI+UegI/dWsS6En1Epw3Q7cf5JazoMhVtVtQr
+        2N3Zp6KwVAZHkRv7AkhPndvVNZRA8WMeG5X4G+pstm2mgR2SI+
+        Cr5wpogV9fVHefd5+AnCSPeiCADcLp8wexSfaAUNLva1qmtnaQ
+        cp7PLcEMViU2Lp2r2aBWZF9FqqU=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 217f_6674_95ca04ee_3301_4ba2_beda_eab7171e4f58;
+        Sun, 01 Dec 2019 10:27:43 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 2D82E1E2EA9;
+        Sun,  1 Dec 2019 10:19:00 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id NIPIsVI2M9bB; Sun,  1 Dec 2019 10:19:00 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 300ED1E3043;
+        Sun,  1 Dec 2019 10:14:29 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 300ED1E3043
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216869;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=m0An4rYBCvg1QPIjSCc8adxfBHxldUVyEUaeDPgTaMIApEZ9+Uc24UAQyCIo4yrUX
+         mm7a3I77dpaWFuhwJSeF7XPAXWIFLx8sq09RgRMZw3+TpnKf2SqJ39wZNS7ujGQV1s
+         ILv+5dDbEg6VVuBHD71fvnIjDMD0Rg34NJriQ4Vk=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 3fqyisVt1Xeb; Sun,  1 Dec 2019 10:14:29 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id 592891E3271;
+        Sun,  1 Dec 2019 10:06:01 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:05:54 +0100
+Message-Id: <20191201160601.592891E3271@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=aPKAkf1m c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: df9e3ed5.0.105116972.00-2382.176707258.s12p02m016.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949750>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-*** BLURB HERE ***
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
-Matan Ziv-Av (7):
-  platform/x86: lg-laptop.c: Add module version and fix whitespace
-  platform/x86: lg-laptop.c: Use a small buffer instead of a full page
-    for sysfs
-  platform/x86: lg-laptop.c: Fix a bug in writing fan mode value
-  platform/x86: lg-laptop.c: Get model name and year from DMI product
-    name
-  platform/x86: lg-laptop.c: Manage battery limit correctly for 2019
-    models
-  platform/x86: lg-laptop.c: Expose reader mode as a LED, rather than a
-    sysfs file for 2018 and newer models
-  platform/x86: lg-laptop.c: Document difference in reader mode handling
 
- .../admin-guide/laptops/lg-laptop.rst         |  13 ++-
- drivers/platform/x86/lg-laptop.c              | 106 +++++++++++++++---
- 2 files changed, 102 insertions(+), 17 deletions(-)
-
--- 
-2.21.0
-
+EMail: allenandvioletlargeaward@gmail.com
