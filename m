@@ -2,91 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56B8810E331
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  1 Dec 2019 19:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F61E112978
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2019 11:46:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbfLASmr (ORCPT
+        id S1727445AbfLDKqC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 1 Dec 2019 13:42:47 -0500
-Received: from mtax.cdmx.gob.mx ([187.141.35.197]:13726 "EHLO mtax.cdmx.gob.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726965AbfLASmq (ORCPT
+        Wed, 4 Dec 2019 05:46:02 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:41995 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727331AbfLDKqC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 1 Dec 2019 13:42:46 -0500
-X-Greylist: delayed 7900 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:42:45 EST
-X-NAI-Header: Modified by McAfee Email Gateway (4500)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
-        t=1575217664; h=DKIM-Filter:X-Virus-Scanned:
-         Content-Type:MIME-Version:Content-Transfer-Encoding:
-         Content-Description:Subject:To:From:Date:Message-Id:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
-         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
-         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
-        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
-        8=; b=XwpTNYsfI+UegI/dWsS6En1Epw3Q7cf5JazoMhVtVtQr
-        2N3Zp6KwVAZHkRv7AkhPndvVNZRA8WMeG5X4G+pstm2mgR2SI+
-        Cr5wpogV9fVHefd5+AnCSPeiCADcLp8wexSfaAUNLva1qmtnaQ
-        cp7PLcEMViU2Lp2r2aBWZF9FqqU=
-Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
-        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
-         id 217f_6674_95ca04ee_3301_4ba2_beda_eab7171e4f58;
-        Sun, 01 Dec 2019 10:27:43 -0600
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id 2D82E1E2EA9;
-        Sun,  1 Dec 2019 10:19:00 -0600 (CST)
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NIPIsVI2M9bB; Sun,  1 Dec 2019 10:19:00 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id 300ED1E3043;
-        Sun,  1 Dec 2019 10:14:29 -0600 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 300ED1E3043
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
-        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216869;
-        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Message-Id;
-        b=m0An4rYBCvg1QPIjSCc8adxfBHxldUVyEUaeDPgTaMIApEZ9+Uc24UAQyCIo4yrUX
-         mm7a3I77dpaWFuhwJSeF7XPAXWIFLx8sq09RgRMZw3+TpnKf2SqJ39wZNS7ujGQV1s
-         ILv+5dDbEg6VVuBHD71fvnIjDMD0Rg34NJriQ4Vk=
-X-Virus-Scanned: amavisd-new at cdmx.gob.mx
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 3fqyisVt1Xeb; Sun,  1 Dec 2019 10:14:29 -0600 (CST)
-Received: from [192.168.0.104] (unknown [188.125.168.160])
-        by cdmx.gob.mx (Postfix) with ESMTPSA id 592891E3271;
-        Sun,  1 Dec 2019 10:06:01 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        Wed, 4 Dec 2019 05:46:02 -0500
+Received: from [192.168.1.155] ([77.9.37.28]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M2OIy-1iczKn3h1y-003yzC; Wed, 04 Dec 2019 11:45:56 +0100
+Subject: Re: [PATCH V2 1/7] platform/x86: lg-laptop.c: Add module version and
+ fix whitespace
+To:     Matan Ziv-Av <matan@svgalib.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Andy Shevchenko <andy@infradead.org>
+References: <cover.1575103866.git.matan@svgalib.org>
+ <61c52c2146085859728f496388d886581b877c41.1575103866.git.matan@svgalib.org>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <b65e75e2-1036-8a4e-f72b-a70c3a390e83@metux.net>
+Date:   Wed, 4 Dec 2019 11:45:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Congratulations
-To:     Recipients <aac-styfe@cdmx.gob.mx>
-From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
-Date:   Sun, 01 Dec 2019 17:05:54 +0100
-Message-Id: <20191201160601.592891E3271@cdmx.gob.mx>
-X-AnalysisOut: [v=2.2 cv=aPKAkf1m c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
-X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
-X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
-X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
-X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
-X-SAAS-TrackingID: df9e3ed5.0.105116972.00-2382.176707258.s12p02m016.mxlogic.net
-X-NAI-Spam-Flag: NO
-X-NAI-Spam-Threshold: 3
-X-NAI-Spam-Score: -5000
-X-NAI-Spam-Rules: 1 Rules triggered
-        WHITELISTED=-5000
-X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
- <1840193> : uri <2949750>
+In-Reply-To: <61c52c2146085859728f496388d886581b877c41.1575103866.git.matan@svgalib.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cz7iI9ILsBicTSi12C195SLT90dFmcJSNzCdR+MH2MIJ8X6vd9W
+ qo1fgqu6qDVrgdV48F1R7yUag+uuHcvQ8202i2F5Jzkg/EflRAOzTiKrSxD2uMJPZTm09tk
+ iDuWhMmPkuUEv1/vtNveU5Zr722EdL8tDwi4GbclJmrBOVy2qU0hgRDmvC0M1lCaKPXScee
+ nDgME8KIDQWPFHTmBcKPw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HLjaDoZzl4E=:ECp7g772km6ZnzB4NEHeH4
+ lnv5jl6DtAO2Mih+RGokRJolcFq9qF9lPlGv9GwjFh+aSeUt+qv5baFQH1qR01jdyJSCo5eF6
+ rTZZ109KxMN1WrlH4tQXHVP2emMyUX8RhuBKFGekobhVPbWMxcLsySpb5qccUNyhRfrPx82TD
+ qH81vVjwbXXs1LKZheOqTby8WthpazdDY89TbcZgOLtoENMX/GOvIOywFw0J3Gw4saY5OEHJH
+ S8bgLuevRnUBISTa3g6Bd8aAy/lOu5rsLPKGVjWLeRz9mfu+VS0mxLWOm0yhfOSTl8r+r67oh
+ MHZZKqC3jGBqWAJWg4xdcvwTceDmqH7D/ZbQlyTyZKlNBIByiLM0hJP/bRcIXK9xauELCGso1
+ QuAh/c4pFtr+7wmF7PV2xih9CjO2kSFXh0iET+1A2Z0vfIiBa5olj5NLF1Aa0jZUoW4+rKs7p
+ ZJLPoMT+l8mhVyXdMJMb8/4TDPJ8UJ+W4udeSgbmc10YMPQNyaqa2xrDn6dPWH5Hn879R3xOk
+ hNlzgDMY3Gv5UupLXocV9oAdTTLFq1UgjLOO3ILclcKXbkGqUjK+WjBSA/1v8P9est7XaTe2e
+ iKIL8kxp4cRFMhGEymd9njlpVTr++1h61S5UuTXaWeWBWwpS5Rz4qb/LrmUkjXaHs1TU+4lnM
+ 1UMfMfOiICVXjEeD+LS8tD3h+hkjhXig/AGGc9SfojOlS5Xckml0UCg3PMVvRWT1qiX4dH6XR
+ ckuZnRqV8mNozc4hrf3criif+q37zKXjaMpojXnQL8BeXoyqANUIjpEEycjf4gmvlCQz7GjiF
+ 9F4wYTEf+nLI1QUnS3QPOtv3PMpmtGWh6qxa+EvZOLGzxkJJ3dBvws9MJIsnsFUJy3w7Udvaw
+ HacXfhgKvSXMnMmApgUw==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
- them with this email for more information =
+On 30.11.19 09:40, Matan Ziv-Av wrote:
+> Add module version and fix a small whitespace discrepancy.
+> 
+> Signed-off-by: Matan Ziv-Av <matan@svgalib.org>
+> ---
+>  drivers/platform/x86/lg-laptop.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
+> index c0bb1f864dfe..78d3e3d2e51a 100644
+> --- a/drivers/platform/x86/lg-laptop.c
+> +++ b/drivers/platform/x86/lg-laptop.c
+> @@ -26,6 +26,7 @@
+>  MODULE_AUTHOR("Matan Ziv-Av");
+>  MODULE_DESCRIPTION("LG WMI Hotkey Driver");
+>  MODULE_LICENSE("GPL");
+> +MODULE_VERSION("1.1");
+
+Does MODULE_VERSION() really make sense ?
+What's the exact semantics behind those version numbers (in relation to
+kernel version) - when do they get increased ?
 
 
-EMail: allenandvioletlargeaward@gmail.com
+--mtx
+
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
