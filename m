@@ -2,87 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F61E112978
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2019 11:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 538B2112B77
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Dec 2019 13:26:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbfLDKqC (ORCPT
+        id S1727268AbfLDM0u (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Dec 2019 05:46:02 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:41995 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727331AbfLDKqC (ORCPT
+        Wed, 4 Dec 2019 07:26:50 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:34479 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbfLDM0u (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Dec 2019 05:46:02 -0500
-Received: from [192.168.1.155] ([77.9.37.28]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M2OIy-1iczKn3h1y-003yzC; Wed, 04 Dec 2019 11:45:56 +0100
-Subject: Re: [PATCH V2 1/7] platform/x86: lg-laptop.c: Add module version and
- fix whitespace
-To:     Matan Ziv-Av <matan@svgalib.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>
-References: <cover.1575103866.git.matan@svgalib.org>
- <61c52c2146085859728f496388d886581b877c41.1575103866.git.matan@svgalib.org>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <b65e75e2-1036-8a4e-f72b-a70c3a390e83@metux.net>
-Date:   Wed, 4 Dec 2019 11:45:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 4 Dec 2019 07:26:50 -0500
+Received: by mail-ed1-f65.google.com with SMTP id cx19so6499250edb.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Dec 2019 04:26:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=vGJW3fZsDG9eK76ecnI3+kFIxEuaNGXo6b8O9BKD6kO5Ffvae9u87sf2xwfUshJ1MZ
+         l0pBQB7nbMsU8mpI0NsfMOUNomrDqyOnWK4Eoyypfi9f1bsNpkF2fCZNiwyBvIKrEqEj
+         nCXElhd5PkNRMb8t2HHPUlVvOZywzZH36paNa2wpPQ1V0KZx3SPtVVazqegz/U5Q9T5G
+         mQGtqogSRzqUqoFmdIU+olKepSg1BgclMtkuloc3PRULWN1hEug2+kh1oxspDFEYvyam
+         GUFJrTr0eWRm6+9iGJL2606O5CBo5ITrUW3juVfXSjluJU3tHxkTIcCydb0aMCpMloDW
+         PcKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=SMK8NaMnPq2+m8Gtoj3z3DrvW2WjXqOMRAWjP/WDF1CqXgDWixIWWNbloZy4fVqQq2
+         btjErIpfar1OYWC/LrLTkXCHN7QDR8sFD+RwBL6tJMA/Q4Ptqum+xjHTCp/hQG2EA5VF
+         hXkKPNdgSgXfLI6uZn8upZxJSdTZ7Vq6cPpqO4bQKR+znC7WePvkfDXRfblEbFLCWjW2
+         waMOgd0lCfr51xjP0ZlauMttnGtOZWAf1WaTQvd8+kWYNHf45qk9u6lqWJsBV4gscwXc
+         RDfdr3PV+x2g6YVStgabbMnqZ4bpUeiUkMTdwLWub56NBvL7HpqCiSbeLxYqKCRFj72x
+         LQQw==
+X-Gm-Message-State: APjAAAXNwKtMW0IBQ+cJjhQnCC86TQWiAgjLye87H/IdjWfJdXxY4Cgu
+        tufqOBuDs3MqxmXL4PjOqqn3egt+93mluxdnvXs=
+X-Google-Smtp-Source: APXvYqzbA7EBkphe9M4DmNOsYn//C5jzbygqJS7mxX0Jnds57WMDBDPeA8ENjFxKOagulu6bOl0acWA2r1uVj/k1jcc=
+X-Received: by 2002:aa7:df8f:: with SMTP id b15mr3730544edy.214.1575462408653;
+ Wed, 04 Dec 2019 04:26:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <61c52c2146085859728f496388d886581b877c41.1575103866.git.matan@svgalib.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:cz7iI9ILsBicTSi12C195SLT90dFmcJSNzCdR+MH2MIJ8X6vd9W
- qo1fgqu6qDVrgdV48F1R7yUag+uuHcvQ8202i2F5Jzkg/EflRAOzTiKrSxD2uMJPZTm09tk
- iDuWhMmPkuUEv1/vtNveU5Zr722EdL8tDwi4GbclJmrBOVy2qU0hgRDmvC0M1lCaKPXScee
- nDgME8KIDQWPFHTmBcKPw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HLjaDoZzl4E=:ECp7g772km6ZnzB4NEHeH4
- lnv5jl6DtAO2Mih+RGokRJolcFq9qF9lPlGv9GwjFh+aSeUt+qv5baFQH1qR01jdyJSCo5eF6
- rTZZ109KxMN1WrlH4tQXHVP2emMyUX8RhuBKFGekobhVPbWMxcLsySpb5qccUNyhRfrPx82TD
- qH81vVjwbXXs1LKZheOqTby8WthpazdDY89TbcZgOLtoENMX/GOvIOywFw0J3Gw4saY5OEHJH
- S8bgLuevRnUBISTa3g6Bd8aAy/lOu5rsLPKGVjWLeRz9mfu+VS0mxLWOm0yhfOSTl8r+r67oh
- MHZZKqC3jGBqWAJWg4xdcvwTceDmqH7D/ZbQlyTyZKlNBIByiLM0hJP/bRcIXK9xauELCGso1
- QuAh/c4pFtr+7wmF7PV2xih9CjO2kSFXh0iET+1A2Z0vfIiBa5olj5NLF1Aa0jZUoW4+rKs7p
- ZJLPoMT+l8mhVyXdMJMb8/4TDPJ8UJ+W4udeSgbmc10YMPQNyaqa2xrDn6dPWH5Hn879R3xOk
- hNlzgDMY3Gv5UupLXocV9oAdTTLFq1UgjLOO3ILclcKXbkGqUjK+WjBSA/1v8P9est7XaTe2e
- iKIL8kxp4cRFMhGEymd9njlpVTr++1h61S5UuTXaWeWBWwpS5Rz4qb/LrmUkjXaHs1TU+4lnM
- 1UMfMfOiICVXjEeD+LS8tD3h+hkjhXig/AGGc9SfojOlS5Xckml0UCg3PMVvRWT1qiX4dH6XR
- ckuZnRqV8mNozc4hrf3criif+q37zKXjaMpojXnQL8BeXoyqANUIjpEEycjf4gmvlCQz7GjiF
- 9F4wYTEf+nLI1QUnS3QPOtv3PMpmtGWh6qxa+EvZOLGzxkJJ3dBvws9MJIsnsFUJy3w7Udvaw
- HacXfhgKvSXMnMmApgUw==
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:26:48
+ -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
+Date:   Wed, 4 Dec 2019 13:26:48 +0100
+Message-ID: <CAOE+jADAxBngzhnXGizXnp_Yj-EVh_WJ_d8acSnyiz-cmRcOwg@mail.gmail.com>
+Subject: God has remembered your prayers I have already sent you Money Gram
+ payment of $5000.00 today, MG 1029-8096
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 30.11.19 09:40, Matan Ziv-Av wrote:
-> Add module version and fix a small whitespace discrepancy.
-> 
-> Signed-off-by: Matan Ziv-Av <matan@svgalib.org>
-> ---
->  drivers/platform/x86/lg-laptop.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/lg-laptop.c b/drivers/platform/x86/lg-laptop.c
-> index c0bb1f864dfe..78d3e3d2e51a 100644
-> --- a/drivers/platform/x86/lg-laptop.c
-> +++ b/drivers/platform/x86/lg-laptop.c
-> @@ -26,6 +26,7 @@
->  MODULE_AUTHOR("Matan Ziv-Av");
->  MODULE_DESCRIPTION("LG WMI Hotkey Driver");
->  MODULE_LICENSE("GPL");
-> +MODULE_VERSION("1.1");
+Attn, dear Beneficiary.
 
-Does MODULE_VERSION() really make sense ?
-What's the exact semantics behind those version numbers (in relation to
-kernel version) - when do they get increased ?
+God has remembered your prayers
+I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
+This is because we have finally concluded to effect your transfer
+funds of $4.8,000.000usd
+through MONEY GRAM International Fund transfer Service
+Each payment will be sending to you by $5000.00 daily until the
+($4.8,000.000usd) is completely transferred
+we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
+So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
 
+Contact person Mrs. Alan Ude
+Dir. MONEY GRAM Service,Benin
+Phone number: +229 98856728
+E-mail: moneygram.1820@outlook.fr
 
---mtx
+Ask him to give you the complete mtcn, sender name, question and
+answer to enable you
+pick up the $5000.00 sent today,
+Also you are instructed to re-confirm your information's
+to Mrs.Alan Ude as listed below to avoid wrong transactions.
 
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+(1Your Full name:............................................
+(2 Phone number.....................................................
+(3 Contact address:.....................................
+(4 Age:..................................................................
+(5 Country..............................................
+(6) Sex .................................................................
+(7) your occupation...........................................
+
+(8)Passport/By Attach or Drivers License Number:
+Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
+Note please: I have paid service fees for you but the only money you
+are required
+to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
+pick up your transfer today.
+
+Send it to via Money Gram
+Receiver's Name-----Alan Ude
+Country----------Benin
+Address-----------Cotonou
+Quest--------Honest
+Ans-----------Trust
+
+I done all my best for you to receive your transfer now ok.
+We need your urgent reply
+Best Regards
+Rev.Dr Emmanuel Okoye
+CEO Ecobank-benin
+
+If we did not receive it urgent from you today,
+I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
+representative.
