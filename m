@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87AC91140EA
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2019 13:40:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 615021140EF
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2019 13:42:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729109AbfLEMkY (ORCPT
+        id S1729099AbfLEMmW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Dec 2019 07:40:24 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:41306 "EHLO
+        Thu, 5 Dec 2019 07:42:22 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:45626 "EHLO
         mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729099AbfLEMkY (ORCPT
+        with ESMTP id S1729048AbfLEMmV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Dec 2019 07:40:24 -0500
-Received: by mail-pj1-f67.google.com with SMTP id ca19so1253243pjb.8
-        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Dec 2019 04:40:24 -0800 (PST)
+        Thu, 5 Dec 2019 07:42:21 -0500
+Received: by mail-pj1-f67.google.com with SMTP id r11so1247141pjp.12
+        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Dec 2019 04:42:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bNP2lOx/Z5/3LjBCkXtf2SLVjmnV7gS1nEHTW/kLoTU=;
-        b=E7JB/dPfnVgPowY35rAqCRrXz38PYFILcl2G9/iDU2IX/VncqzqLd3tpOQn6facPSq
-         ha0r3pbQdLVu3VuGh7QI0sMpf/cKLd6/6B1MkWdVKVQk74uSA48JArmgpmpukuozwp0o
-         2XkgFu3G+4HcFJQbiFwTrUI4d1kJ+jSt5OJfEYOFtCUDmAmhnT7bobl03hdNx23yyhcM
-         xYJG2S0zB8tSilbLfutgRanvGbs9P3Qu0ZPwBtCmmXM6o3wcel3jmWWwmX5g4zYvqezL
-         W8XDXqIRYZIh995MC5n2eGAVA9SEyki1Hf8BDHGHwtLT27zb1MdUhkmn3xrGV0JBUya7
-         vNeQ==
+        bh=de1EoRO5izxdJWjKCeVzss+guPdt7ApnmnfJ/o2AUTk=;
+        b=SEh7U1/kB70RZCtGQI1+S5qtUVFVS//NXnKst3LNiKFg+i1e6TUjxlbXNAbx48ypi9
+         Dy5aCPHNbDNLRx3nLECiXiEv+rviUQLQkIbkYbTszbMrQbEJMOMLHWKnNzDinKlffif0
+         zJ0zlLjogZe/Ca9+CEYn3tyEmyWqCpfsUE0i4nKTres+i9+TnX3luZGfF7/aZJ9g/TrX
+         uNK2ZssWL49cebheZsIH4r3j9C0ibrtZvNR1w8PoWT5bTUBRzqLmo8NOWKDHSttHeLbt
+         ajKcUmWW4cdDFJSEaNEkMr8BgGmAVOF5lvpqxwFhP2vg94vcU2wWFBIeEvACmJOb7WmH
+         H+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bNP2lOx/Z5/3LjBCkXtf2SLVjmnV7gS1nEHTW/kLoTU=;
-        b=WIBv0rWL1aYfH2wJRZ3hAkFOVDR7UbJ0jxhpORYjIeZHQwf2igpgyxfoX509Fc5Am2
-         cTX9AeDAXeW54xcwibDD5CpPFZPHR19HNqweMvyQe40uHT+D4cTdEY0KBWOSvecaKUFW
-         fMo1vSclwncZFvIyu4tVAxlovvMjMwDepaM7diOeCaIEIQWXtm9uwkMvj9+wk+FEpUpG
-         iQzo0wizFB9KW9xHt1nj4LAbpCKq2KX/SWU3zHLAbWKxqfIo220Em6E9hQAN/giF/3vd
-         7TcA/VnX3XUX20KOwg412QOzG3fGYkGP7Y6UzleBIrg5o/5kRu3AiupXAY76lM9Li1Oq
-         Gjgw==
-X-Gm-Message-State: APjAAAXKYojjPpV5AXTbRJ7Qs5LbyrDRXcD1nkdrc92/vfhF7dFJ3Ikk
-        pFO85jTQ7jEQiPiMVq8EUoT7nvop2ktlqjuT2zwwAsBHEJY=
-X-Google-Smtp-Source: APXvYqx9Rs2iZL1eMm6tOYuXYzkdC85BlRR0vQRcVcfOWh6IIiBe6HobmUE1IUZIMcpSlhoMnsECUyvsFNTa2kLe66o=
-X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr9110514pjb.30.1575549623963;
- Thu, 05 Dec 2019 04:40:23 -0800 (PST)
+        bh=de1EoRO5izxdJWjKCeVzss+guPdt7ApnmnfJ/o2AUTk=;
+        b=NvzEiTLt7kKsimLuf2ERxAx1i+8bR6ZWFO/xKzi6zohHUjGLfI6wuMeJlcwYSpNJnl
+         VRaHpeUONui/0V2p0+O4CZGTnRaFBvGuTdkQ7cHXYFsfduLAXsXpTNT0fIFsIQLj7DvC
+         6Np5vFxUkLCmPvp5WpiDEgcKA+gfsKcJNKKJdQoffWWxDdpwmczfGwQsxf+2cbbKLddx
+         dUVlfZr6fACB7Bfa8B168EZxHFi4sgZZqsOIaAIfwLOucre4/dUzeKn4iO1TfsHRePr5
+         7IQYnleO+V5VNrd7jMAa0E48oIVwgwyluuarg7iTj4BRD9oh6mkOXdOnvD4qB7cBJioy
+         D3SQ==
+X-Gm-Message-State: APjAAAUEFn1XRm7OmlIRehQY7sGoPI6B+DPzTEZnaf2aVgDhg4c6rQkG
+        XGy6vEi1bQogNhB8EFwXGey5zcmIt5FgDy3eYt7yUD8Z
+X-Google-Smtp-Source: APXvYqz76wHLcv4HyIC8i8CVcbN8G6U4nQ7IecpFpYL1k6QXkvVtgw37lF3H03MUD/Yn3bu2qABpAC2DjnZRMhebTEY=
+X-Received: by 2002:a17:902:9308:: with SMTP id bc8mr8933930plb.18.1575549741040;
+ Thu, 05 Dec 2019 04:42:21 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1575103866.git.matan@svgalib.org> <f13d1bfa52cc76a134c7616b1416aab426f8b99c.1575103866.git.matan@svgalib.org>
-In-Reply-To: <f13d1bfa52cc76a134c7616b1416aab426f8b99c.1575103866.git.matan@svgalib.org>
+References: <cover.1575103866.git.matan@svgalib.org> <42c3dd11018c45d402a5112be2f3a3fb884baf5a.1575103866.git.matan@svgalib.org>
+In-Reply-To: <42c3dd11018c45d402a5112be2f3a3fb884baf5a.1575103866.git.matan@svgalib.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 5 Dec 2019 14:40:14 +0200
-Message-ID: <CAHp75VeWhnOa=tP65DsizXF1W4_8yYyEZ1yw2EEXjFQDBX3MyA@mail.gmail.com>
-Subject: Re: [PATCH V2 6/7] platform/x86: lg-laptop.c: Expose reader mode as a
- LED, rather than a sysfs file for 2018 and newer models
+Date:   Thu, 5 Dec 2019 14:42:11 +0200
+Message-ID: <CAHp75VcKaNcG5OXu8VMMQps5KmY8UjtXvoMPP=D9KcRzD8ZbvA@mail.gmail.com>
+Subject: Re: [PATCH V2 2/7] platform/x86: lg-laptop.c: Use a small buffer
+ instead of a full page for sysfs
 To:     Matan Ziv-Av <matan@svgalib.org>
 Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
         Andy Shevchenko <andy@infradead.org>
@@ -61,29 +61,17 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Sat, Nov 30, 2019 at 10:53 AM Matan Ziv-Av <matan@svgalib.org> wrote:
 >
-> On 2018 and newer models, setting reader mode does not change display
-> Gamma, so treat reader mode as a LED, instead of a switch.
+> reader_mode_show() is now called from the driver itself, so only allow
 
->  static struct attribute *dev_attributes[] = {
->         &dev_attr_fan_mode.attr,
->         &dev_attr_usb_charge.attr,
-> -       &dev_attr_reader_mode.attr,
->         &dev_attr_fn_lock.attr,
->         &dev_attr_battery_care_limit.attr,
-> +       &dev_attr_reader_mode.attr, // This is last, to be easily removed
->         NULL
->  };
+Where?
 
-Can't you simple add it at run-time?
+> a small buffer for the boolean text.
+> -       return snprintf(buffer, PAGE_SIZE, "%d\n", status);
+> +       return snprintf(buffer, BUFFER_SIZE, "%d\n", status);
+>  }
 
-> +       if (year >= 2018)
-> +               dev_attributes[4] = NULL; // Remove reader mode special file.
-> +
+No, this doesn't make sense, Actually sprintf() can be used here.
 
-I don't like this code. It's fragile against changes and makes
-maintenance harder.
-See acpi_tad_probe() for example how it's done.
-
--- 
+--
 With Best Regards,
 Andy Shevchenko
