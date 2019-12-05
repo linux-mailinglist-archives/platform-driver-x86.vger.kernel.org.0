@@ -2,54 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 615021140EF
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2019 13:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54B1B1140FB
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Dec 2019 13:46:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729099AbfLEMmW (ORCPT
+        id S1729109AbfLEMqv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Dec 2019 07:42:22 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:45626 "EHLO
+        Thu, 5 Dec 2019 07:46:51 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:44940 "EHLO
         mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729048AbfLEMmV (ORCPT
+        with ESMTP id S1729096AbfLEMqv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Dec 2019 07:42:21 -0500
-Received: by mail-pj1-f67.google.com with SMTP id r11so1247141pjp.12
-        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Dec 2019 04:42:21 -0800 (PST)
+        Thu, 5 Dec 2019 07:46:51 -0500
+Received: by mail-pj1-f67.google.com with SMTP id w5so1253243pjh.11
+        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Dec 2019 04:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=de1EoRO5izxdJWjKCeVzss+guPdt7ApnmnfJ/o2AUTk=;
-        b=SEh7U1/kB70RZCtGQI1+S5qtUVFVS//NXnKst3LNiKFg+i1e6TUjxlbXNAbx48ypi9
-         Dy5aCPHNbDNLRx3nLECiXiEv+rviUQLQkIbkYbTszbMrQbEJMOMLHWKnNzDinKlffif0
-         zJ0zlLjogZe/Ca9+CEYn3tyEmyWqCpfsUE0i4nKTres+i9+TnX3luZGfF7/aZJ9g/TrX
-         uNK2ZssWL49cebheZsIH4r3j9C0ibrtZvNR1w8PoWT5bTUBRzqLmo8NOWKDHSttHeLbt
-         ajKcUmWW4cdDFJSEaNEkMr8BgGmAVOF5lvpqxwFhP2vg94vcU2wWFBIeEvACmJOb7WmH
-         H+jQ==
+        bh=RDx8w62r1GCpdkSSbyf/5eQaYpbHz7BmYKCZfE/GCtI=;
+        b=EPKsDEK2Si5c/ihncdlRJkoDzfCPotpF+3FF+fIP5ahsUhUODbniuyyf103WySBjkh
+         QnqsBGcZV8VxEzQP3fJUiP9KvsLUak12iNK9CYm0ICex9tHbgbZiLXRDXXqjnAVDvPK/
+         XlcWUhEhOcHZNlTM4EdiqAesj6FmVqwbM7rai7Dbn3Ff64wGsmcw9b1I2ufTgI2MJtT7
+         mNNHBD3Z+JL2HyewHZp60zgpaC5QTzmI1v/9QNZzrVO8z3pLPTG1bbdSO4tm7vGjq7Hf
+         5qHtYkCoASPuvSBYxJ5B5Qr7vEm9glwn9lJ9rgBbWpB2xHz8mkieaXmaxJKYM11M7rfu
+         M89A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=de1EoRO5izxdJWjKCeVzss+guPdt7ApnmnfJ/o2AUTk=;
-        b=NvzEiTLt7kKsimLuf2ERxAx1i+8bR6ZWFO/xKzi6zohHUjGLfI6wuMeJlcwYSpNJnl
-         VRaHpeUONui/0V2p0+O4CZGTnRaFBvGuTdkQ7cHXYFsfduLAXsXpTNT0fIFsIQLj7DvC
-         6Np5vFxUkLCmPvp5WpiDEgcKA+gfsKcJNKKJdQoffWWxDdpwmczfGwQsxf+2cbbKLddx
-         dUVlfZr6fACB7Bfa8B168EZxHFi4sgZZqsOIaAIfwLOucre4/dUzeKn4iO1TfsHRePr5
-         7IQYnleO+V5VNrd7jMAa0E48oIVwgwyluuarg7iTj4BRD9oh6mkOXdOnvD4qB7cBJioy
-         D3SQ==
-X-Gm-Message-State: APjAAAUEFn1XRm7OmlIRehQY7sGoPI6B+DPzTEZnaf2aVgDhg4c6rQkG
-        XGy6vEi1bQogNhB8EFwXGey5zcmIt5FgDy3eYt7yUD8Z
-X-Google-Smtp-Source: APXvYqz76wHLcv4HyIC8i8CVcbN8G6U4nQ7IecpFpYL1k6QXkvVtgw37lF3H03MUD/Yn3bu2qABpAC2DjnZRMhebTEY=
-X-Received: by 2002:a17:902:9308:: with SMTP id bc8mr8933930plb.18.1575549741040;
- Thu, 05 Dec 2019 04:42:21 -0800 (PST)
+        bh=RDx8w62r1GCpdkSSbyf/5eQaYpbHz7BmYKCZfE/GCtI=;
+        b=OZBNTxjA0JpMZOZwFYTLv0V8u7ANIccXEZEsn6NUSBz9hdl3h1uUB8QHdFHhmiibIB
+         zMt/Txa+kynyj3e/B8KYzVfB/ZbBPIaBBprJeXC4PIwyUrg4THjcMmkHQ/B/Qsz4BzDW
+         q2jVnaSlVgSdsDj+jBFDS/PV9MFc9Dfbo1eKY2RbKBhh4mVnyQk2f+/ooQ83UIiQCgkU
+         FJp3a06fAZ11D+MJs/zNk9JcbZkATuF0dPhRLs8pvjWrTOam28o+V0Qr+MxfpWddhHAN
+         ynYxds3G2/2d8J77035C+77JAg5bDLJ1qKQ7QgPSS9t3qqe3R6Oe9YESyK3sBg/axDjS
+         zP6w==
+X-Gm-Message-State: APjAAAXQPtk7HBv5yb5VOGqAnWPbH399+lsdhyy0iG4+ThjwZDCNwKU0
+        PdJOXNDTQ455EL4OsAgEK0vPU8wuq6Ms6rreUCg=
+X-Google-Smtp-Source: APXvYqwDPZrSJNg/06VYw/NXy3nuxBeGnopfX6uvi1KARYXnY3yKAZzfDgTVUPNyg+2WgGWUP72xFvjUV/9bhBNEhfI=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr9353374pjq.132.1575550010934;
+ Thu, 05 Dec 2019 04:46:50 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1575103866.git.matan@svgalib.org> <42c3dd11018c45d402a5112be2f3a3fb884baf5a.1575103866.git.matan@svgalib.org>
-In-Reply-To: <42c3dd11018c45d402a5112be2f3a3fb884baf5a.1575103866.git.matan@svgalib.org>
+References: <cover.1575103866.git.matan@svgalib.org> <f13d1bfa52cc76a134c7616b1416aab426f8b99c.1575103866.git.matan@svgalib.org>
+In-Reply-To: <f13d1bfa52cc76a134c7616b1416aab426f8b99c.1575103866.git.matan@svgalib.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 5 Dec 2019 14:42:11 +0200
-Message-ID: <CAHp75VcKaNcG5OXu8VMMQps5KmY8UjtXvoMPP=D9KcRzD8ZbvA@mail.gmail.com>
-Subject: Re: [PATCH V2 2/7] platform/x86: lg-laptop.c: Use a small buffer
- instead of a full page for sysfs
+Date:   Thu, 5 Dec 2019 14:46:41 +0200
+Message-ID: <CAHp75Veg_S2p-nSBYUUoGxiO4Ta070cVFrb9+CaHDvL4WM3_ew@mail.gmail.com>
+Subject: Re: [PATCH V2 6/7] platform/x86: lg-laptop.c: Expose reader mode as a
+ LED, rather than a sysfs file for 2018 and newer models
 To:     Matan Ziv-Av <matan@svgalib.org>
 Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
         Andy Shevchenko <andy@infradead.org>
@@ -61,17 +61,38 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Sat, Nov 30, 2019 at 10:53 AM Matan Ziv-Av <matan@svgalib.org> wrote:
 >
-> reader_mode_show() is now called from the driver itself, so only allow
+> On 2018 and newer models, setting reader mode does not change display
+> Gamma, so treat reader mode as a LED, instead of a switch.
 
-Where?
+> +static void reader_mode_led_set(struct led_classdev *cdev,
+> +                               enum led_brightness brightness)
+> +{
+> +       reader_mode_store(NULL, NULL, brightness == LED_OFF ? "0" : "1", 1);
+> +}
+> +
+> +static enum led_brightness reader_mode_led_get(struct led_classdev *cdev)
+> +{
+> +       char buf[BUFFER_SIZE];
+> +
+> +       reader_mode_show(NULL, NULL, buf);
+> +       return buf[0] != '0';
+> +}
 
-> a small buffer for the boolean text.
-> -       return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-> +       return snprintf(buffer, BUFFER_SIZE, "%d\n", status);
->  }
+Ah, I see not. No, this is abusing the API. Please, don't do like this.
+If you need a common code, split it out to a helper function(s) and
+re-use in both.
 
-No, this doesn't make sense, Actually sprintf() can be used here.
+>         if (inited & INIT_TPAD_LED)
+>                 led_classdev_unregister(&tpad_led);
+>
+> +       if (inited & INIT_RDMODE_LED)
+> +               led_classdev_unregister(&reader_mode_led);
 
---
+LED framework is protected against NULL or ERR pointer values in the
+device, so this and actually above check are not needed anymore.
+
+See the commit 1dbb9fb4082c for the details.
+
+-- 
 With Best Regards,
 Andy Shevchenko
