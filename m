@@ -2,106 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B33B117176
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 17:22:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 293EE117331
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 18:55:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbfLIQWl (ORCPT
+        id S1726230AbfLIRzN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Dec 2019 11:22:41 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42166 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbfLIQWl (ORCPT
+        Mon, 9 Dec 2019 12:55:13 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:44927 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfLIRzN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Dec 2019 11:22:41 -0500
-Received: by mail-pl1-f196.google.com with SMTP id x13so6002958plr.9;
-        Mon, 09 Dec 2019 08:22:41 -0800 (PST)
+        Mon, 9 Dec 2019 12:55:13 -0500
+Received: by mail-pj1-f68.google.com with SMTP id w5so6196508pjh.11;
+        Mon, 09 Dec 2019 09:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rxCCKK6EbTljivQeXfzc5xr/RzcnsI4Myx01Zz/zBfw=;
-        b=cQU+mceGpsWaoTO3m+Fi0YxKvpce+Z6P/uDX6T0zHFnz85nwH3tiu5RRmygUwSXCf7
-         TEh3q6eAhHAucqtHpWDyBHjWC85IsLAa/jxREnhhRrwqjF2HT+SFWeM2PFTQ1Hkb22uQ
-         DdvO3G/CM3lU+dZdwWHLIhRrhQKzCPTEN2yDVbWeevbFQYTrwe13uU1QVEJyTkekKeNv
-         xSdfwa0VYbW+oSFwYuB8M0BCAIK2FDPDWlnfjueQ9UEoaR4i+RArgRtfudeluV30dgkV
-         7UcyiW5dIfvP7LYTARsxo5gbc5PF4c+AYSKVStmz3nOb3/mbJOHTVYuDVj8vO76TACPF
-         aVHg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SsqygZ4YCo4j3CPJutqJnes1g7ycYKj7ltHKReWe+Gs=;
+        b=M0vtoKurcQ764RfQwrwT/k/ZKqXKn9Ee1w23DhEgDUZdvdoQspb79L/9bGCi4biZTp
+         peoeg6kKsbCddp15JX4SY6C7p8ayogc6zk2BZxPiQjXejKf/DvUzQ16eluUPs6T8LNsT
+         wQmXhhoLiwxUIP9Vp1g5AOEbUyno2bQMySZS1AD4zpMr/btwQn3hWx4fAxzH4g4PEtRi
+         BGw7dHyItMxguaEw5DVYviiqQcporrm2wHEFHXub9MhqkvnZUCoomF8zT3F465vMTWAs
+         ieXcAuF+qT9/XDgxdSo4g3y4L3AyDYGzIgDPISNmLttjPIR0HRaooZE5WpgdEYjaAWFF
+         /JzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rxCCKK6EbTljivQeXfzc5xr/RzcnsI4Myx01Zz/zBfw=;
-        b=JSC5qEEMZEvdy+bQzvTgag8w34vx4PsGkPBodubNk80lgIpFCw9uujhk3lo6GuuVNt
-         diBxLHX44L5Ts3Z5IbqMqzPriCuLLq3cFoOjLr9x+XTjFJVSjmf7Ni9pHGedxRjh8jO0
-         Pzz0DrJRIbQ0KB5Who8IJIzFSCRl3eO78Sq2z6FHiWqpckvjMHn0BTxZiicsfYKB57ez
-         RSvOuGwuEIg8qgbBWyHGGXoXAXwSyw5nKQq7Z+b/IIjc2S/ygL2SdjfkrGpRYoC0jgOZ
-         vgCZgGcxLwkmE/JX3MRV+m8W2XtIF0O9Q65vtY6g/eaL1kVX8BJMjYMUWewdw2pB+s0W
-         kTyw==
-X-Gm-Message-State: APjAAAUsOfUxt3wxBGHzZUSjovEjd+xhEuHJeJUHH56KY7S35XAA6LAH
-        kiqWhOJKuVpn8NrRBg8BSdo=
-X-Google-Smtp-Source: APXvYqwmTxa/n1SRZwfjfU0EtpbVQwa9rTCwUJjQsyj0HpbQUeqo/X8PJPcCdGY6LwsPqm2kEONJjg==
-X-Received: by 2002:a17:90a:8a0c:: with SMTP id w12mr33242359pjn.61.1575908561176;
-        Mon, 09 Dec 2019 08:22:41 -0800 (PST)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id n26sm46000pgd.46.2019.12.09.08.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2019 08:22:40 -0800 (PST)
-From:   Chuhong Yuan <hslester96@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SsqygZ4YCo4j3CPJutqJnes1g7ycYKj7ltHKReWe+Gs=;
+        b=QWs6o6hh4jCm6ijghU6V5xSYVtnW3lqlS/PLm2hoxf18hKIUS/AZJj7Jg4Qu7BVhcC
+         YiPsW6G8ywBZY1O+hPPVYHfEUsE3N+WmnpBqFaxGwjliyng/yT0e/MJHEimvmEE60KLJ
+         r/F75TML6K8bM4qhQjbyjoCOTJ0kVgEvNuXHGP+T1RMQGIG7u2vdsRLyXcmg5D9w8CF9
+         Vsg3TuX5ol6DNgl9TdW0hBjC7E3LJy+l0LCHMO70CxR8vz6JhwPDUs+lDUHo+o5IhnpP
+         AHVJHaI5C3bIAReGXV+fOXiN4NXARwLQa+pDnHoLvdMiGcp7OtrIWFFhQx9QgM+9ZAe9
+         fRGA==
+X-Gm-Message-State: APjAAAUnYo4TWMMuVcM2W0qFsTwtI72a7y1N/YXaxqz4IEMwNsncUgDF
+        s9Z3UtU55sMoaDzV4W/ZYqB3TRwwHHGPQFoXj2k=
+X-Google-Smtp-Source: APXvYqyaZDb88dg1QjoymH5nyMq7xEnGayvd36T6GyERKX+UHXR+dcnSpoR6IQn+XdeTZQ3xVZosN/08+YuJXOxZYnc=
+X-Received: by 2002:a17:90a:2004:: with SMTP id n4mr300754pjc.20.1575914112694;
+ Mon, 09 Dec 2019 09:55:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20191209162230.14991-1-hslester96@gmail.com>
+In-Reply-To: <20191209162230.14991-1-hslester96@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 9 Dec 2019 19:55:03 +0200
+Message-ID: <CAHp75VfienOzF0NVqS9+YDVSwqCB27E16SWKLy3_Yf4b5Ggbmw@mail.gmail.com>
+Subject: Re: [PATCH] x86/platform/goldfish: add a check for platform_device_register_simple
+To:     Chuhong Yuan <hslester96@gmail.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Bruce Beare <bruce.j.beare@intel.com>,
         Sheng Yang <sheng@linux.intel.com>,
         Yunhong Jiang <yunhong.jiang@intel.com>,
         Alan Cox <alan@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] x86/platform/goldfish: add a check for platform_device_register_simple
-Date:   Tue, 10 Dec 2019 00:22:30 +0800
-Message-Id: <20191209162230.14991-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.24.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-goldfish_init() misses a check for platform_device_register_simple().
-Add a check to fix it.
+On Mon, Dec 9, 2019 at 6:22 PM Chuhong Yuan <hslester96@gmail.com> wrote:
+>
+> goldfish_init() misses a check for platform_device_register_simple().
+> Add a check to fix it.
 
-Fixes: ddd70cf93d78 ("goldfish: platform device for x86")
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- arch/x86/platform/goldfish/goldfish.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Thanks for a patch. My comments below.
 
-diff --git a/arch/x86/platform/goldfish/goldfish.c b/arch/x86/platform/goldfish/goldfish.c
-index 6b6f8b4360dd..e9694baf6e72 100644
---- a/arch/x86/platform/goldfish/goldfish.c
-+++ b/arch/x86/platform/goldfish/goldfish.c
-@@ -44,11 +44,16 @@ __setup("goldfish", goldfish_setup);
- 
- static int __init goldfish_init(void)
- {
-+	struct platform_device *pdev;
-+
- 	if (!goldfish_enable)
- 		return -ENODEV;
- 
--	platform_device_register_simple("goldfish_pdev_bus", -1,
--					goldfish_pdev_bus_resources, 2);
-+	pdev =  platform_device_register_simple("goldfish_pdev_bus", -1,
-+					goldfish_pdev_bus_resources, 2);
-+	if (IS_ERR(pdev))
-+		return PTR_ERR(pdev);
-+
- 	return 0;
- }
- device_initcall(goldfish_init);
+>  static int __init goldfish_init(void)
+>  {
+> +       struct platform_device *pdev;
+> +
+>         if (!goldfish_enable)
+>                 return -ENODEV;
+>
+> -       platform_device_register_simple("goldfish_pdev_bus", -1,
+> -                                       goldfish_pdev_bus_resources, 2);
+
+> +       pdev =  platform_device_register_simple("goldfish_pdev_bus", -1,
+
+Perhaps idea for a separate patch or maybe here:
+-1 -> PLATFORM_DEVID_NONE
+
+> +                                       goldfish_pdev_bus_resources, 2);
+
+> +       if (IS_ERR(pdev))
+> +               return PTR_ERR(pdev);
+> +
+>         return 0;
+
+This can use PTR_ERR_OR_ZERO() macro instead.
+
+>  }
+
+
 -- 
-2.24.0
-
+With Best Regards,
+Andy Shevchenko
