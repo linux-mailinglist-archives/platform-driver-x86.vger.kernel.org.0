@@ -2,106 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 293EE117331
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 18:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B65411756A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 20:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbfLIRzN (ORCPT
+        id S1726741AbfLITOE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Dec 2019 12:55:13 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:44927 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbfLIRzN (ORCPT
+        Mon, 9 Dec 2019 14:14:04 -0500
+Received: from ale.deltatee.com ([207.54.116.67]:56026 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726230AbfLITOE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Dec 2019 12:55:13 -0500
-Received: by mail-pj1-f68.google.com with SMTP id w5so6196508pjh.11;
-        Mon, 09 Dec 2019 09:55:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SsqygZ4YCo4j3CPJutqJnes1g7ycYKj7ltHKReWe+Gs=;
-        b=M0vtoKurcQ764RfQwrwT/k/ZKqXKn9Ee1w23DhEgDUZdvdoQspb79L/9bGCi4biZTp
-         peoeg6kKsbCddp15JX4SY6C7p8ayogc6zk2BZxPiQjXejKf/DvUzQ16eluUPs6T8LNsT
-         wQmXhhoLiwxUIP9Vp1g5AOEbUyno2bQMySZS1AD4zpMr/btwQn3hWx4fAxzH4g4PEtRi
-         BGw7dHyItMxguaEw5DVYviiqQcporrm2wHEFHXub9MhqkvnZUCoomF8zT3F465vMTWAs
-         ieXcAuF+qT9/XDgxdSo4g3y4L3AyDYGzIgDPISNmLttjPIR0HRaooZE5WpgdEYjaAWFF
-         /JzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SsqygZ4YCo4j3CPJutqJnes1g7ycYKj7ltHKReWe+Gs=;
-        b=QWs6o6hh4jCm6ijghU6V5xSYVtnW3lqlS/PLm2hoxf18hKIUS/AZJj7Jg4Qu7BVhcC
-         YiPsW6G8ywBZY1O+hPPVYHfEUsE3N+WmnpBqFaxGwjliyng/yT0e/MJHEimvmEE60KLJ
-         r/F75TML6K8bM4qhQjbyjoCOTJ0kVgEvNuXHGP+T1RMQGIG7u2vdsRLyXcmg5D9w8CF9
-         Vsg3TuX5ol6DNgl9TdW0hBjC7E3LJy+l0LCHMO70CxR8vz6JhwPDUs+lDUHo+o5IhnpP
-         AHVJHaI5C3bIAReGXV+fOXiN4NXARwLQa+pDnHoLvdMiGcp7OtrIWFFhQx9QgM+9ZAe9
-         fRGA==
-X-Gm-Message-State: APjAAAUnYo4TWMMuVcM2W0qFsTwtI72a7y1N/YXaxqz4IEMwNsncUgDF
-        s9Z3UtU55sMoaDzV4W/ZYqB3TRwwHHGPQFoXj2k=
-X-Google-Smtp-Source: APXvYqyaZDb88dg1QjoymH5nyMq7xEnGayvd36T6GyERKX+UHXR+dcnSpoR6IQn+XdeTZQ3xVZosN/08+YuJXOxZYnc=
-X-Received: by 2002:a17:90a:2004:: with SMTP id n4mr300754pjc.20.1575914112694;
- Mon, 09 Dec 2019 09:55:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20191209162230.14991-1-hslester96@gmail.com>
-In-Reply-To: <20191209162230.14991-1-hslester96@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 9 Dec 2019 19:55:03 +0200
-Message-ID: <CAHp75VfienOzF0NVqS9+YDVSwqCB27E16SWKLy3_Yf4b5Ggbmw@mail.gmail.com>
-Subject: Re: [PATCH] x86/platform/goldfish: add a check for platform_device_register_simple
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Mon, 9 Dec 2019 14:14:04 -0500
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1ieOTk-00025k-Lg; Mon, 09 Dec 2019 12:13:57 -0700
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1ieOTd-0001Me-0k; Mon, 09 Dec 2019 12:13:49 -0700
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Christoph Hellwig <hch@lst.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Bruce Beare <bruce.j.beare@intel.com>,
-        Sheng Yang <sheng@linux.intel.com>,
-        Yunhong Jiang <yunhong.jiang@intel.com>,
-        Alan Cox <alan@linux.intel.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Mon,  9 Dec 2019 12:13:40 -0700
+Message-Id: <20191209191346.5197-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-mm@kvack.org, hch@lst.de, dan.j.williams@intel.com, akpm@linux-foundation.org, catalin.marinas@arm.com, benh@kernel.crashing.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, will@kernel.org, luto@kernel.org, peterz@infradead.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        MYRULES_NO_TEXT autolearn=no autolearn_force=no version=3.4.2
+Subject: [PATCH 0/6] Allow setting caching mode in arch_add_memory() for P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Dec 9, 2019 at 6:22 PM Chuhong Yuan <hslester96@gmail.com> wrote:
->
-> goldfish_init() misses a check for platform_device_register_simple().
-> Add a check to fix it.
+Hi,
 
-Thanks for a patch. My comments below.
+Currently, the page tables created using memremap_pages() are always
+created with the PAGE_KERNEL cacheing mode. However, the P2PDMA code
+is creating pages for PCI BAR memory which should never be accessed
+through the cache and instead use either WC or UC. This still works in
+most cases, on x86, because the MTRR registers typically override the
+caching settings in the page tables for all of the IO memory to be
+UC-. However, this tends not to work so well on other arches or
+some rare x86 machines that have firmware which does not setup the
+MTRR registers in this way.
 
->  static int __init goldfish_init(void)
->  {
-> +       struct platform_device *pdev;
-> +
->         if (!goldfish_enable)
->                 return -ENODEV;
->
-> -       platform_device_register_simple("goldfish_pdev_bus", -1,
-> -                                       goldfish_pdev_bus_resources, 2);
+Instead of this, this series proposes a change to arch_add_memory()
+to take the pgprot required by the mapping which allows us to
+explicitly set pagetable entries for P2PDMA memory to WC.
 
-> +       pdev =  platform_device_register_simple("goldfish_pdev_bus", -1,
+This changes is pretty routine for most of the arches: x86_64, s390, arm64
+and powerpc simply need to thread the pgprot through to where the page tables
+are setup. x86_32 unfortunately sets up the page tables at boot so
+must use _set_memory_prot() to change their caching mode. ia64 and sh
+don't appear to have an easy way to change the page tables so, for now
+at least, we just return -EINVAL on such mappings and thus they will
+not support P2PDMA memory until the work for this is done.
 
-Perhaps idea for a separate patch or maybe here:
--1 -> PLATFORM_DEVID_NONE
+Thanks,
 
-> +                                       goldfish_pdev_bus_resources, 2);
+Logan
 
-> +       if (IS_ERR(pdev))
-> +               return PTR_ERR(pdev);
-> +
->         return 0;
+--
 
-This can use PTR_ERR_OR_ZERO() macro instead.
+Logan Gunthorpe (6):
+  x86/mm: Thread pgprot_t through init_memory_mapping()
+  x86/mm: Introduce _set_memory_prot()
+  powerpc/mm: Thread pgprot_t through create_section_mapping()
+  s390/mm: Thread pgprot_t through vmem_add_mapping()
+  mm, memory_hotplug: Provide argument for the pgprot_t in
+    arch_add_memory()
+  mm/memremap: Set caching mode for PCI P2PDMA memory to WC
 
->  }
+ arch/arm64/mm/mmu.c                        |  4 +--
+ arch/ia64/mm/init.c                        |  5 +++-
+ arch/powerpc/include/asm/book3s/64/hash.h  |  3 +-
+ arch/powerpc/include/asm/book3s/64/radix.h |  3 +-
+ arch/powerpc/include/asm/sparsemem.h       |  3 +-
+ arch/powerpc/mm/book3s64/hash_utils.c      |  5 ++--
+ arch/powerpc/mm/book3s64/pgtable.c         |  7 +++--
+ arch/powerpc/mm/book3s64/radix_pgtable.c   | 18 +++++++-----
+ arch/powerpc/mm/mem.c                      |  7 +++--
+ arch/s390/include/asm/pgtable.h            |  3 +-
+ arch/s390/mm/extmem.c                      |  3 +-
+ arch/s390/mm/init.c                        |  4 +--
+ arch/s390/mm/vmem.c                        | 10 +++----
+ arch/sh/mm/init.c                          |  5 +++-
+ arch/x86/include/asm/page_types.h          |  3 --
+ arch/x86/include/asm/pgtable.h             |  3 ++
+ arch/x86/include/asm/set_memory.h          |  1 +
+ arch/x86/kernel/amd_gart_64.c              |  3 +-
+ arch/x86/mm/init.c                         |  9 +++---
+ arch/x86/mm/init_32.c                      | 10 +++++--
+ arch/x86/mm/init_64.c                      | 34 ++++++++++++----------
+ arch/x86/mm/mm_internal.h                  |  3 +-
+ arch/x86/mm/pageattr.c                     |  7 +++++
+ arch/x86/platform/efi/efi_64.c             |  3 +-
+ include/linux/memory_hotplug.h             |  2 +-
+ mm/memory_hotplug.c                        |  2 +-
+ mm/memremap.c                              |  5 +++-
+ 27 files changed, 104 insertions(+), 61 deletions(-)
 
-
--- 
-With Best Regards,
-Andy Shevchenko
+--
+2.20.1
