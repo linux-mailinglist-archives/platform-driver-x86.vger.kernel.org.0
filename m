@@ -2,61 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11D781177CC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 21:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 692361177E0
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Dec 2019 22:00:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbfLIUw7 (ORCPT
+        id S1726741AbfLIVAZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Dec 2019 15:52:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21413 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726668AbfLIUw6 (ORCPT
+        Mon, 9 Dec 2019 16:00:25 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:45825 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726642AbfLIVAZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Dec 2019 15:52:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575924778;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LJBASH3qoTGdWSdB+LrXLR7p2EO5j8Zhq+6mo6vrhH0=;
-        b=DDJ5mn2nvKxk9svUPJnjqygA78j4uGUaJruRrP4K+6vgSDlzORL45QTwePTXG3EpCmkLfX
-        dFD2f91LOJaflw+DO8E/0d2KqgEb86bjZNLyh0iXLB/mnB1dkyC+OGh359FKzEOyH3pjxu
-        9bLnot6PfqQt6yvgNpYRD01Q1dDtFgc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-q3bW2w7dMiKZAwcG_544sA-1; Mon, 09 Dec 2019 15:52:56 -0500
-Received: by mail-wm1-f70.google.com with SMTP id z2so140089wmf.5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 09 Dec 2019 12:52:56 -0800 (PST)
+        Mon, 9 Dec 2019 16:00:25 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 59so13485121otp.12
+        for <platform-driver-x86@vger.kernel.org>; Mon, 09 Dec 2019 13:00:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VMFJWolzCCUGyRUuaILC3spwwtCuqvBuPYOOVXEp/aA=;
+        b=xJUcW/ZJZqhBrirgnJUXRH9YFWt+xzEM6e4gecFQ6NSsUXaM8QRtq93mV3xIMtdnxI
+         hwZO34hrDP+h/SvMzEgMKtvQJdml3hl4u8Dk2JbZ+yNZrYeuwfs+GQHvGkrOXCYjVYBM
+         h1YB45XPZeWKDmwzWRJaxFbllbHyJwyu4Y4ZrjVAHuwCJoklEOKkhF2iY7wakYwatD0Y
+         yTsZilbwBrxKad2PDw+AsboTcGf+TSYC6FfXq2xZl9CL2FrRHGKjDB93f5M6o2gRfjWa
+         f5oibYzs7r3R8ibaS0mzMWQ1NjYVhoDKOJkf0PiqFM7DbE27F0s5OMjWrpQToA9BqDrr
+         kc+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=NGEL1NSYmJ/OoSlxzf6M70RXjEhwqgGKnWSMvOS+jtM=;
-        b=oo+yAutfeXwbOKYRkjCf/14O8f330Yum9WyKwu4blc1wF1H9RVywYMqxe2u3wWtmhh
-         Fey9XFQKb7krmOES7wqlrqOuzxlVcxgS682v4jai+drXVy3z4YbZhvxkByoNL8eKJrYr
-         h2dJugMPoeYVrmjRvYSzdzxq+yUfhkwYR1Ju6z0T5P5nf1uZSvv8MqHmvgOzIF4nAek/
-         J8zOljdxUtSI1HHSZP+I5MrX1oXcmSJ0GZPNr58mMH3iycf72o2YS5d9mf1oHR05t7z3
-         v+Xq358l6BxzfyxwM4r3ueXpBBFLwX1ADyjB4NE7WJ5vTaZBJrqKlkZ8w3KijVKS9ArD
-         rPLA==
-X-Gm-Message-State: APjAAAV8cj3+uzdzrvmpzuXLsX3dDx0cxYcyBsBWwpb4a2YxXT/ZY20I
-        aHD1MqPZzTVdXAo3IRAWmzIXRPN3JTVXqgIjq8R+QHxaYBG8BSy/VhJgy9FHM1ECauD2hqeHNvq
-        qlptYEx3FsGOjOcx0agJHq1Uc04i0lgA5Bw==
-X-Received: by 2002:a1c:4c10:: with SMTP id z16mr1076741wmf.136.1575924775716;
-        Mon, 09 Dec 2019 12:52:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzZrY86SAs9HX0pRhK9obPbaChosiTAnQWyc7+/5zfbpOwHVpMjKo7v99fnszsIjFo82bF44w==
-X-Received: by 2002:a1c:4c10:: with SMTP id z16mr1076719wmf.136.1575924775493;
-        Mon, 09 Dec 2019 12:52:55 -0800 (PST)
-Received: from [192.168.3.122] (p5B0C63FA.dip0.t-ipconnect.de. [91.12.99.250])
-        by smtp.gmail.com with ESMTPSA id d8sm726691wre.13.2019.12.09.12.52.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2019 12:52:54 -0800 (PST)
-From:   David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 5/6] mm, memory_hotplug: Provide argument for the pgprot_t in arch_add_memory()
-Date:   Mon, 9 Dec 2019 21:52:53 +0100
-Message-Id: <F98E5D42-BD24-4A01-95EF-44329DDF8190@redhat.com>
-References: <CAPcyv4hpXCZxV5p7WaeGgE7ceujBBa5NOz9Z8fepDHOt6zHO2A@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VMFJWolzCCUGyRUuaILC3spwwtCuqvBuPYOOVXEp/aA=;
+        b=Vckb6TmOri58bM5DgsoTS/tveQj0DZmVFGUv+PkQ4InzyLcarJDXY4pX97Q+POoqQ+
+         Z5FfemAiWeY43q6WCdU2e3GcNmo3tIWRP5BPD9k6Ert2sYcccM1/hO7/PI4R+2jq439C
+         6m9iV/Nb+z7IGyb6UA7JRU7wKKB8H0U32jVeoUsZifh8324YnC3l/e5ZeHquTI7q95+d
+         e7AGM766T6L6RV1tbbqWHH0K9xGPNAaSudQU9Z6lmDcZ3vZWUdyc1JWsUx2zpGeV2DTE
+         IW1DYqr6JTwEE6ScPFUSU702OBRCYukh8NWrRT2xIqF6RW59IxyA33iMqD1JpS7hyi/m
+         Z/Ag==
+X-Gm-Message-State: APjAAAUnuc8E5Bblov8qhn32qtP+cQwtBZtnDWm2Ql1/7YWqvfj3P7FB
+        KkcfrUcdcOymr37Y/bvNhlXd7OaOlO0o/fV/cuC79Q==
+X-Google-Smtp-Source: APXvYqwi+gYj1cVL4mF8Xopoq9y5To6+x5iJhC9e0WbcEazDDmPLdLZBK/hlPgH1EYJCfb16RNbXAt7Qn0TURN7r5Vw=
+X-Received: by 2002:a9d:4789:: with SMTP id b9mr21728446otf.247.1575925224491;
+ Mon, 09 Dec 2019 13:00:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20191209191346.5197-1-logang@deltatee.com> <20191209191346.5197-6-logang@deltatee.com>
+ <ce50d9da-c60e-05a1-a86b-3bb3629de502@redhat.com> <f34a4c52-cc95-15ed-8a72-c05ab4fd6d33@deltatee.com>
+ <20191209204128.GC7658@dhcp22.suse.cz>
+In-Reply-To: <20191209204128.GC7658@dhcp22.suse.cz>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Mon, 9 Dec 2019 13:00:13 -0800
+Message-ID: <CAPcyv4iKKw8cuFyDrY2VLN2ecd-qAbDCfYa7SufuhUb59e89Rw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] mm, memory_hotplug: Provide argument for the pgprot_t
+ in arch_add_memory()
+To:     Michal Hocko <mhocko@kernel.org>
 Cc:     Logan Gunthorpe <logang@deltatee.com>,
         David Hildenbrand <david@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -75,106 +71,95 @@ Cc:     Logan Gunthorpe <logang@deltatee.com>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Michal Hocko <mhocko@suse.com>
-In-Reply-To: <CAPcyv4hpXCZxV5p7WaeGgE7ceujBBa5NOz9Z8fepDHOt6zHO2A@mail.gmail.com>
-To:     Dan Williams <dan.j.williams@intel.com>
-X-Mailer: iPhone Mail (17A878)
-X-MC-Unique: q3bW2w7dMiKZAwcG_544sA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        Peter Zijlstra <peterz@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Mon, Dec 9, 2019 at 12:47 PM Michal Hocko <mhocko@kernel.org> wrote:
+>
+> On Mon 09-12-19 13:24:19, Logan Gunthorpe wrote:
+> >
+> >
+> > On 2019-12-09 12:23 p.m., David Hildenbrand wrote:
+> > > On 09.12.19 20:13, Logan Gunthorpe wrote:
+> > >> devm_memremap_pages() is currently used by the PCI P2PDMA code to create
+> > >> struct page mappings for IO memory. At present, these mappings are created
+> > >> with PAGE_KERNEL which implies setting the PAT bits to be WB. However, on
+> > >> x86, an mtrr register will typically override this and force the cache
+> > >> type to be UC-. In the case firmware doesn't set this register it is
+> > >> effectively WB and will typically result in a machine check exception
+> > >> when it's accessed.
+> > >>
+> > >> Other arches are not currently likely to function correctly seeing they
+> > >> don't have any MTRR registers to fall back on.
+> > >>
+> > >> To solve this, add an argument to arch_add_memory() to explicitly
+> > >> set the pgprot value to a specific value.
+> > >>
+> > >> Of the arches that support MEMORY_HOTPLUG: x86_64, s390 and arm64 is a
+> > >> simple change to pass the pgprot_t down to their respective functions
+> > >> which set up the page tables. For x86_32, set the page tables explicitly
+> > >> using _set_memory_prot() (seeing they are already mapped). For sh, reject
+> > >> anything but PAGE_KERNEL settings -- this should be fine, for now, seeing
+> > >> sh doesn't support ZONE_DEVICE anyway.
+> > >>
+> > >> Cc: Dan Williams <dan.j.williams@intel.com>
+> > >> Cc: David Hildenbrand <david@redhat.com>
+> > >> Cc: Michal Hocko <mhocko@suse.com>
+> > >> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> > >> ---
+> > >>  arch/arm64/mm/mmu.c            | 4 ++--
+> > >>  arch/ia64/mm/init.c            | 5 ++++-
+> > >>  arch/powerpc/mm/mem.c          | 4 ++--
+> > >>  arch/s390/mm/init.c            | 4 ++--
+> > >>  arch/sh/mm/init.c              | 5 ++++-
+> > >>  arch/x86/mm/init_32.c          | 7 ++++++-
+> > >>  arch/x86/mm/init_64.c          | 4 ++--
+> > >>  include/linux/memory_hotplug.h | 2 +-
+> > >>  mm/memory_hotplug.c            | 2 +-
+> > >>  mm/memremap.c                  | 2 +-
+> > >>  10 files changed, 25 insertions(+), 14 deletions(-)
+> > >>
+> > >> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> > >> index 60c929f3683b..48b65272df15 100644
+> > >> --- a/arch/arm64/mm/mmu.c
+> > >> +++ b/arch/arm64/mm/mmu.c
+> > >> @@ -1050,7 +1050,7 @@ int p4d_free_pud_page(p4d_t *p4d, unsigned long addr)
+> > >>  }
+> > >>
+> > >>  #ifdef CONFIG_MEMORY_HOTPLUG
+> > >> -int arch_add_memory(int nid, u64 start, u64 size,
+> > >> +int arch_add_memory(int nid, u64 start, u64 size, pgprot_t prot,
+> > >>                    struct mhp_restrictions *restrictions)
+> > >
+> > > Can we fiddle that into "struct mhp_restrictions" instead?
+> >
+> > Yes, if that's what people want, it's pretty trivial to do. I chose not
+> > to do it that way because it doesn't get passed down to add_pages() and
+> > it's not really a "restriction". If I don't hear any objections, I will
+> > do that for v2.
+>
+> I do agree that restriction is not the best fit. But I consider prot
+> argument to complicate the API to all users even though it is not really
+> clear whether we are going to have many users really benefiting from it.
+> Look at the vmalloc API and try to find how many users of __vmalloc do
+> not use PAGE_KERNEL.
 
+At least for this I can foresee at least one more user in the
+pipeline, encrypted memory support for persistent memory mappings that
+will store the key-id in the ptes.
 
-> Am 09.12.2019 um 21:43 schrieb Dan Williams <dan.j.williams@intel.com>:
->=20
-> =EF=BB=BFOn Mon, Dec 9, 2019 at 12:24 PM Logan Gunthorpe <logang@deltatee=
-.com> wrote:
->>=20
->>=20
->>=20
->>> On 2019-12-09 12:23 p.m., David Hildenbrand wrote:
->>> On 09.12.19 20:13, Logan Gunthorpe wrote:
->>>> devm_memremap_pages() is currently used by the PCI P2PDMA code to crea=
-te
->>>> struct page mappings for IO memory. At present, these mappings are cre=
-ated
->>>> with PAGE_KERNEL which implies setting the PAT bits to be WB. However,=
- on
->>>> x86, an mtrr register will typically override this and force the cache
->>>> type to be UC-. In the case firmware doesn't set this register it is
->>>> effectively WB and will typically result in a machine check exception
->>>> when it's accessed.
->>>>=20
->>>> Other arches are not currently likely to function correctly seeing the=
-y
->>>> don't have any MTRR registers to fall back on.
->>>>=20
->>>> To solve this, add an argument to arch_add_memory() to explicitly
->>>> set the pgprot value to a specific value.
->>>>=20
->>>> Of the arches that support MEMORY_HOTPLUG: x86_64, s390 and arm64 is a
->>>> simple change to pass the pgprot_t down to their respective functions
->>>> which set up the page tables. For x86_32, set the page tables explicit=
-ly
->>>> using _set_memory_prot() (seeing they are already mapped). For sh, rej=
-ect
->>>> anything but PAGE_KERNEL settings -- this should be fine, for now, see=
-ing
->>>> sh doesn't support ZONE_DEVICE anyway.
->>>>=20
->>>> Cc: Dan Williams <dan.j.williams@intel.com>
->>>> Cc: David Hildenbrand <david@redhat.com>
->>>> Cc: Michal Hocko <mhocko@suse.com>
->>>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->>>> ---
->>>> arch/arm64/mm/mmu.c            | 4 ++--
->>>> arch/ia64/mm/init.c            | 5 ++++-
->>>> arch/powerpc/mm/mem.c          | 4 ++--
->>>> arch/s390/mm/init.c            | 4 ++--
->>>> arch/sh/mm/init.c              | 5 ++++-
->>>> arch/x86/mm/init_32.c          | 7 ++++++-
->>>> arch/x86/mm/init_64.c          | 4 ++--
->>>> include/linux/memory_hotplug.h | 2 +-
->>>> mm/memory_hotplug.c            | 2 +-
->>>> mm/memremap.c                  | 2 +-
->>>> 10 files changed, 25 insertions(+), 14 deletions(-)
->>>>=20
->>>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
->>>> index 60c929f3683b..48b65272df15 100644
->>>> --- a/arch/arm64/mm/mmu.c
->>>> +++ b/arch/arm64/mm/mmu.c
->>>> @@ -1050,7 +1050,7 @@ int p4d_free_pud_page(p4d_t *p4d, unsigned long =
-addr)
->>>> }
->>>>=20
->>>> #ifdef CONFIG_MEMORY_HOTPLUG
->>>> -int arch_add_memory(int nid, u64 start, u64 size,
->>>> +int arch_add_memory(int nid, u64 start, u64 size, pgprot_t prot,
->>>>                     struct mhp_restrictions *restrictions)
->>>=20
->>> Can we fiddle that into "struct mhp_restrictions" instead?
->>=20
->> Yes, if that's what people want, it's pretty trivial to do. I chose not
->> to do it that way because it doesn't get passed down to add_pages() and
->> it's not really a "restriction". If I don't hear any objections, I will
->> do that for v2.
->=20
-> +1 to storing this information alongside the altmap in that structure.
-> However, I agree struct mhp_restrictions, with the MHP_MEMBLOCK_API
-> flag now gone, has lost all of its "restrictions". How about dropping
-> the 'flags' property and renaming the struct to 'struct
-> mhp_modifiers'?
->=20
+>
+> So I can see two options. One of them is to add arch_add_memory_prot
+> that would allow to have give and extra prot argument or simply call
+> an arch independent API to change the protection after arch_add_memory.
+> The later sounds like much less code. The memory shouldn't be in use by
+> anybody at that stage yet AFAIU. Maybe there even is an API like that.
 
-I=E2=80=98d prefer that over an arch_add_memory_protected() as suggested by=
- Michal. But if we can change it after adding the memory (as also suggested=
- by Michal), that would also be nice.
-
-Cheers!
-
+I'm ok with passing it the same way as altmap or a new
+arch_add_memory_prot() my only hangup with after the fact changes is
+the wasted effort it inflicts in the init path for potentially large
+address ranges.
