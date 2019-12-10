@@ -2,142 +2,157 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8AEC118754
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Dec 2019 12:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37D21119FAE
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 11 Dec 2019 00:53:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727320AbfLJLwO (ORCPT
+        id S1726801AbfLJXx2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 Dec 2019 06:52:14 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40426 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727905AbfLJLwL (ORCPT
+        Tue, 10 Dec 2019 18:53:28 -0500
+Received: from ale.deltatee.com ([207.54.116.67]:45848 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726631AbfLJXx1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 Dec 2019 06:52:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575978731;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o+ceyNOAgwOHGOedPh8jjnXDmvLZ/5D9KblQB5Ic6zg=;
-        b=NOcmYAsv96UCuJdgeZ9i/PHUJ/KaPxTyCHQyytRgauEQJBDT0zi2mHVW3bTDkcRDnWAHwB
-        iIDfn1qIwIUGZJt7WVXwoIH2OZMQMN+af2l/w8Tu4840RqS00V8eHG+PUhGFlG1SQB104a
-        7mj2Bsgra8lokeNO9+5jq0J7RR7HGAk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-h4-2ZKNJO5u6Rm6_XEW3bQ-1; Tue, 10 Dec 2019 06:52:07 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6551618044BC;
-        Tue, 10 Dec 2019 11:52:04 +0000 (UTC)
-Received: from shalem.localdomain.com (unknown [10.36.118.144])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AEC4D5DA60;
-        Tue, 10 Dec 2019 11:52:00 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Tue, 10 Dec 2019 18:53:27 -0500
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1iepJ1-0006ir-2c; Tue, 10 Dec 2019 16:52:40 -0700
+To:     David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@kernel.org>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh <linux-sh@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v10 10/10] platform/x86: touchscreen_dmi: Add info for the Chuwi Vi8 Plus tablet
-Date:   Tue, 10 Dec 2019 12:51:17 +0100
-Message-Id: <20191210115117.303935-11-hdegoede@redhat.com>
-In-Reply-To: <20191210115117.303935-1-hdegoede@redhat.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+References: <20191209191346.5197-1-logang@deltatee.com>
+ <20191209191346.5197-6-logang@deltatee.com>
+ <ce50d9da-c60e-05a1-a86b-3bb3629de502@redhat.com>
+ <f34a4c52-cc95-15ed-8a72-c05ab4fd6d33@deltatee.com>
+ <CAPcyv4hpXCZxV5p7WaeGgE7ceujBBa5NOz9Z8fepDHOt6zHO2A@mail.gmail.com>
+ <20191210100432.GC10404@dhcp22.suse.cz>
+ <6da2b279-6a6d-d89c-a34c-962ed021d91d@redhat.com>
+ <20191210103452.GF10404@dhcp22.suse.cz>
+ <a9d6cfe8-39fb-accf-acdc-7cce5578bf2f@redhat.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <297b7cc0-c5bc-a4c6-83eb-afc008395234@deltatee.com>
+Date:   Tue, 10 Dec 2019 16:52:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: h4-2ZKNJO5u6Rm6_XEW3bQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a9d6cfe8-39fb-accf-acdc-7cce5578bf2f@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: peterz@infradead.org, luto@kernel.org, dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com, tglx@linutronix.de, benh@kernel.crashing.org, will@kernel.org, catalin.marinas@arm.com, akpm@linux-foundation.org, hch@lst.de, linux-mm@kvack.org, platform-driver-x86@vger.kernel.org, linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-ia64@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dan.j.williams@intel.com, mhocko@kernel.org, david@redhat.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        GREYLIST_ISWHITE autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH 5/6] mm, memory_hotplug: Provide argument for the pgprot_t
+ in arch_add_memory()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add touchscreen info for the Chuwi Vi8 Plus tablet. This tablet uses a
-Chipone ICN8505 touchscreen controller, with the firmware used by the
-touchscreen embedded in the EFI firmware.
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v7:
-- Remove PROPERTY_ENTRY_BOOL("efi-embedded-firmware") properties entry,
-  as this is no longer necessary
 
-Changes in v6:
-- Switch from crc sums to SHA256 hashes for the firmware hash
----
- drivers/platform/x86/touchscreen_dmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On 2019-12-10 4:25 a.m., David Hildenbrand wrote:
+> On 10.12.19 11:34, Michal Hocko wrote:
+>> On Tue 10-12-19 11:09:46, David Hildenbrand wrote:
+>>> On 10.12.19 11:04, Michal Hocko wrote:
+>>>> On Mon 09-12-19 12:43:40, Dan Williams wrote:
+>>>>> On Mon, Dec 9, 2019 at 12:24 PM Logan Gunthorpe <logang@deltatee.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 2019-12-09 12:23 p.m., David Hildenbrand wrote:
+>>>>>>> On 09.12.19 20:13, Logan Gunthorpe wrote:
+>>>> [...]
+>>>>>>>>  #ifdef CONFIG_MEMORY_HOTPLUG
+>>>>>>>> -int arch_add_memory(int nid, u64 start, u64 size,
+>>>>>>>> +int arch_add_memory(int nid, u64 start, u64 size, pgprot_t prot,
+>>>>>>>>                      struct mhp_restrictions *restrictions)
+>>>>>>>
+>>>>>>> Can we fiddle that into "struct mhp_restrictions" instead?
+>>>>>>
+>>>>>> Yes, if that's what people want, it's pretty trivial to do. I chose not
+>>>>>> to do it that way because it doesn't get passed down to add_pages() and
+>>>>>> it's not really a "restriction". If I don't hear any objections, I will
+>>>>>> do that for v2.
+>>>>>
+>>>>> +1 to storing this information alongside the altmap in that structure.
+>>>>> However, I agree struct mhp_restrictions, with the MHP_MEMBLOCK_API
+>>>>> flag now gone, has lost all of its "restrictions". How about dropping
+>>>>> the 'flags' property and renaming the struct to 'struct
+>>>>> mhp_modifiers'?
+>>>>
+>>>> Hmm, this email somehow didn't end up in my inbox so I have missed it
+>>>> before replying.
+>>>>
+>>>> Well, mhp_modifiers makes some sense and it would reduce the API
+>>>> proliferation but how do you expect the prot part to be handled?
+>>>> I really do not want people to think about PAGE_KERNEL or which
+>>>> protection to use because my experience tells that this will get copied
+>>>> without much thinking or simply will break with some odd usecases.
+>>>> So how exactly this would be used?
+>>>
+>>> I was thinking about exactly the same "issue".
+>>>
+>>> 1. default initialization via a function
+>>>
+>>> memhp_modifier_default_init(&modified);
+>>>
+>>> 2. a flag that unlocks the prot field (default:0). Without the flag, it
+>>> is ignored. We can keep the current initialization then.
+>>>
+>>> Other ideas?
+>>
+>> 3. a prot mask to apply on top of PAGE_KERNEL? Or would that be
+>> insufficient/clumsy?
+>>
+> 
+> If it works for the given use case, I guess this would be simple and ok.
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/=
-touchscreen_dmi.c
-index 4449e4c0b26b..4a09b479cda5 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -132,6 +132,18 @@ static const struct ts_dmi_data chuwi_vi8_data =3D {
- =09.properties     =3D chuwi_vi8_props,
- };
-=20
-+static const struct ts_dmi_data chuwi_vi8_plus_data =3D {
-+=09.embedded_fw =3D {
-+=09=09.name=09=3D "chipone/icn8505-HAMP0002.fw",
-+=09=09.prefix =3D { 0xb0, 0x07, 0x00, 0x00, 0xe4, 0x07, 0x00, 0x00 },
-+=09=09.length=09=3D 35012,
-+=09=09.sha256=09=3D { 0x93, 0xe5, 0x49, 0xe0, 0xb6, 0xa2, 0xb4, 0xb3,
-+=09=09=09    0x88, 0x96, 0x34, 0x97, 0x5e, 0xa8, 0x13, 0x78,
-+=09=09=09    0x72, 0x98, 0xb8, 0x29, 0xeb, 0x5c, 0xa7, 0xf1,
-+=09=09=09    0x25, 0x13, 0x43, 0xf4, 0x30, 0x7c, 0xfc, 0x7c },
-+=09},
-+};
-+
- static const struct property_entry chuwi_vi10_props[] =3D {
- =09PROPERTY_ENTRY_U32("touchscreen-min-x", 0),
- =09PROPERTY_ENTRY_U32("touchscreen-min-y", 4),
-@@ -743,6 +755,15 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
- {
- =09=09=09DMI_MATCH(DMI_BIOS_VERSION, "CHUWI.D86JLBNR"),
- =09=09},
- =09},
-+=09{
-+=09=09/* Chuwi Vi8 Plus (CWI519) */
-+=09=09.driver_data =3D (void *)&chuwi_vi8_plus_data,
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Hampoo"),
-+=09=09=09DMI_MATCH(DMI_PRODUCT_NAME, "D2D3_Vi8A1"),
-+=09=09=09DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
-+=09=09},
-+=09},
- =09{
- =09=09/* Chuwi Vi10 (CWI505) */
- =09=09.driver_data =3D (void *)&chuwi_vi10_data,
-@@ -1137,6 +1158,9 @@ static int __init ts_dmi_init(void)
- =09=09return 0; /* Not an error */
-=20
- =09ts_data =3D dmi_id->driver_data;
-+=09/* Some dmi table entries only provide an efi_embedded_fw_desc */
-+=09if (!ts_data->properties)
-+=09=09return 0;
-=20
- =09error =3D bus_register_notifier(&i2c_bus_type, &ts_dmi_notifier);
- =09if (error)
---=20
-2.23.0
+I don't see how we can do that without a ton of work. The pgport_t is
+architecture specific so we'd need to add mask functions to every
+architecture for every page cache type we need to use. I don't think
+that's a good idea.
 
+I think I slightly prefer option 2 over the above.  But I'd actually
+prefer callers have to think about the caching type seeing when we grew
+the second user (memremap_pages()) and it was paired with
+track_pfn_remap(), it was actually subtly wrong because it could create
+a mapping that track_pfn_remap() disagreed with. In fact, PAGE_KERNEL
+has already been specified in memremap_pages() for ages, it was just
+ignored when it got to the arch_add_memory() step which is were this
+issue comes from.
+
+In my opinion, having a coder and reviewer see PAGE_KERNEL and ask if
+that makes sense is a benefit. Having it hidden because we don't want
+people to think about it is worse, harder to understand and results in
+bugs that are more difficult to spot.
+
+Though, we may be overthinking this: arch_add_memory() is a low level
+non-exported API that's currently used in exactly two places. I don't
+think there's going to be many, if any, valid new use cases coming up
+for it in the future. That's more what memremap_pages() is for.
+
+Logan
