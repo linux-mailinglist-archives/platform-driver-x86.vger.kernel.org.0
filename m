@@ -2,115 +2,76 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0FA11D5FD
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2019 19:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1693111D988
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2019 23:39:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730570AbfLLSku (ORCPT
+        id S1730846AbfLLWjK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Dec 2019 13:40:50 -0500
-Received: from mga01.intel.com ([192.55.52.88]:22235 "EHLO mga01.intel.com"
+        Thu, 12 Dec 2019 17:39:10 -0500
+Received: from mga04.intel.com ([192.55.52.120]:35642 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730524AbfLLSko (ORCPT
+        id S1730707AbfLLWjK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Dec 2019 13:40:44 -0500
+        Thu, 12 Dec 2019 17:39:10 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2019 10:40:42 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2019 14:39:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,306,1571727600"; 
-   d="scan'208";a="211205418"
+X-IronPort-AV: E=Sophos;i="5.69,307,1571727600"; 
+   d="scan'208";a="220787450"
 Received: from gayuk-dev-mach.sc.intel.com ([10.3.79.172])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Dec 2019 10:40:42 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2019 14:39:09 -0800
 From:   Gayatri Kammela <gayatri.kammela@intel.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     vishwanath.somayaji@intel.com, dvhart@infradead.org,
-        linux-kernel@vger.kernel.org, mika.westerberg@intel.com,
-        charles.d.prestopine@intel.com,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+To:     linux-pm@vger.kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, alex.hung@canonical.com,
+        linux-acpi@vger.kernel.org, lenb@kernel.org, rjw@rjwysocki.net,
+        linux-kernel@vger.kernel.org, daniel.lezcano@linaro.org,
+        amit.kucheria@verdurent.com, charles.d.prestopine@intel.com,
+        dvhart@infradead.org, Gayatri Kammela <gayatri.kammela@intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kan Liang <kan.liang@intel.com>,
-        "David E . Box" <david.e.box@intel.com>,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v4 5/5] platform/x86: intel_pmc_core: Add Atom based Elkhart Lake (EHL) platform support to intel_pmc_core driver
-Date:   Thu, 12 Dec 2019 10:38:47 -0800
-Message-Id: <672ca6d153dd714687ab990f9fe5327296e9a242.1576105486.git.gayatri.kammela@intel.com>
+        Zhang Rui <rui.zhang@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Subject: [PATCH v1 0/4] drivers: Add Tiger Lake hardware IDs to support acpi,
+Date:   Thu, 12 Dec 2019 14:37:16 -0800
+Message-Id: <cover.1576189376.git.gayatri.kammela@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1576105486.git.gayatri.kammela@intel.com>
-References: <cover.1576105486.git.gayatri.kammela@intel.com>
-In-Reply-To: <cover.1576105486.git.gayatri.kammela@intel.com>
-References: <cover.1576105486.git.gayatri.kammela@intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add Elkhart Lake to the list of the platforms that intel_pmc_core
-driver supports for pmc_core device.
+Hi,
 
-Just like Ice Lake and Tiger Lake, Elkhart Lake can also reuse all the
-Cannon Lake PCH IPs. Also, it uses the same PCH IPs of Tiger Lake, no
-additional effort is needed to enable but to simply reuse them.
+Tiger Lake supports devices whose hardware IDs are changed for various
+drivers. Hence, add the new hardware IDs.
 
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Patch 1: Add Tiger Lake support to DPTF driver
+Patch 2: Add Tiger Lake support to fan driver
+Patch 3: Add Tiger Lake support to Intel's HID driver
+Patch 4: Add Tiger Lake support to thermal driver
+
+Gayatri Kammela (4):
+  acpi: dptf: Add new Tiger Lake hardware IDs to support DPTF drivers in
+    acpi
+  acpi: fan: Add new Tiger Lake hardware ID to support fan driver in
+    acpi
+  platform/x86: intel-hid: Add new Tiger Lake hardware ID to support HID
+    driver
+  thermal: int340x_thermal: Add new Tiger Lake hardware IDs to support
+    thermal driver
+
+ drivers/acpi/dptf/dptf_power.c                          | 1 +
+ drivers/acpi/dptf/int340x_thermal.c                     | 4 ++++
+ drivers/acpi/fan.c                                      | 1 +
+ drivers/platform/x86/intel-hid.c                        | 1 +
+ drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 1 +
+ drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 1 +
+ 6 files changed, 9 insertions(+)
+
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Kan Liang <kan.liang@intel.com>
-Cc: David E. Box <david.e.box@intel.com>
-Cc: Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
----
- drivers/platform/x86/intel_pmc_core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index b18782e48a5d..017776551cc5 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -192,8 +192,8 @@ static const struct pmc_bit_map cnp_pfear_map[] = {
- 	{"SPE",                 BIT(5)},
- 	{"Fuse",                BIT(6)},
- 	/*
--	 * Reserved for Cannon Lake but valid for Ice Lake, Comet Lake
--	 * and Tiger Lake.
-+	 * Reserved for Cannon Lake but valid for Ice Lake, Comet Lake,
-+	 * Tiger Lake and Elkhart Lake.
- 	 */
- 	{"SBR8",		BIT(7)},
- 
-@@ -239,8 +239,8 @@ static const struct pmc_bit_map cnp_pfear_map[] = {
- 	{"HDA_PGD5",            BIT(3)},
- 	{"HDA_PGD6",            BIT(4)},
- 	/*
--	 * Reserved for Cannon Lake but valid for Ice Lake, Comet Lake
--	 * and Tiger Lake.
-+	 * Reserved for Cannon Lake but valid for Ice Lake, Comet Lake,
-+	 * Tiger Lake and ELkhart Lake.
- 	 */
- 	{"PSF6",		BIT(5)},
- 	{"PSF7",		BIT(6)},
-@@ -273,7 +273,7 @@ static const struct pmc_bit_map *ext_icl_pfear_map[] = {
- };
- 
- static const struct pmc_bit_map tgl_pfear_map[] = {
--	/* Tiger Lake generation onwards only */
-+	/* Tiger Lake and Elkhart Lake generation onwards only */
- 	{"PSF9",		BIT(0)},
- 	{"RES_66",		BIT(1)},
- 	{"RES_67",		BIT(2)},
-@@ -881,6 +881,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
- 	INTEL_CPU_FAM6(COMETLAKE_L, cnp_reg_map),
- 	INTEL_CPU_FAM6(TIGERLAKE_L, tgl_reg_map),
- 	INTEL_CPU_FAM6(TIGERLAKE, tgl_reg_map),
-+	INTEL_CPU_FAM6(ATOM_TREMONT, tgl_reg_map),
- 	{}
- };
- 
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
 -- 
 2.17.1
 
