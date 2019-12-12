@@ -2,97 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC1F11CE49
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2019 14:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5C7511D275
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 12 Dec 2019 17:41:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729425AbfLLN21 (ORCPT
+        id S1729915AbfLLQlg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 12 Dec 2019 08:28:27 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:33467 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729170AbfLLN20 (ORCPT
+        Thu, 12 Dec 2019 11:41:36 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36300 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729852AbfLLQlf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 12 Dec 2019 08:28:26 -0500
-Received: from orion.localdomain ([77.9.34.244]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N3Gok-1hfLzv0MEc-010PqN; Thu, 12 Dec 2019 14:28:25 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     info@metux.net, platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform: x86: pcengines-apuv2: detect apuv4 board
-Date:   Thu, 12 Dec 2019 14:27:56 +0100
-Message-Id: <20191212132756.23767-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:uYYbIXN6u977H9q2Z7ur9CNmsRycQWJnvxo7HOOu296jowcOUQq
- vWCwj+YdqYxO7l1Vv/pIsjvOLImJsIyZ0roYxGJrCZ18GVrGPYvidnwrQuPIZnNNOzHhSe7
- VsZriHCDsIzD7sqHNpTxdSTGYDMaAUgTlrwF5iKaL/ellvpiJuDQBptv+T861saiXljbUHa
- DuyFOH/WMnHQ1zXy86r9w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pC0Z+e3jamc=:ufdPHa2HX7OwotodO9gCr3
- b33f6XAYXOkQ5tUALcFwY/U5kDslDf0dJ33SFXJs7PEfRlxt2zfRFkVH1pmW1f9aFS79JgHEH
- eHmvj/rOBd2/4L5I6hBFUtf2Srk0Ysb2cwQBCrzWTz8zLVpEPTxMc/T1Ntt0ptgw8QOKYDRHb
- yyT+H7VDCrcY4AFWqmk2iaR/uQn9m7NWNWEJQhj6csRqvbpOqI1hNOq36L3QHk81oVmcGRu65
- qkp7LN7HJbreCn+yKgyyI2EBRJBrafNlpPWKKtgfZ6pizphzb/eSBCcRncuKm8brW3ywPcI3t
- zR0OT1qrzMwSNg2rgn06dETVl8IPfoMoxpt+Fw+Fh7y7Il4bNigxM3ghaWDNqaop+o7QIQ2sg
- kJWzJq27cGtmBXfCHbwxj/6Q1jYgkVguYN0OybAGM7e82u3mmbu/Z13NB48wjPf+YOeBi22oL
- 1pYiMK1vStL3PWmzX/ivhEmB/yL7Sq4TZn+bt7doS0mXe/9K+/dS/8bS05K+io1y+04jr9D6i
- kdvmAJeiIue92/pWZFaUAAodCE7j6mnp8Vb3PXc3bxmx0a7TJPh/uBje0BdX1mcuFtosdpeDn
- yZ5iyNPkHfgLf33IVENaRNjjoQQp66ldKlBF26EgLDtH47M0pCkinxEqIG8sn3vvdA2Yf8Dou
- b4jOYSOrWXxSMuODwRq5tt9m4E3eU5UxZLeez7oH48P9wf7kgLiT4R0xKoVfIez6Rzx+Aqohy
- 3+q/G7YQKEasMJwr/cnbW+y885aRl4mz2Sm6SicIFtrTnUwNvDZWRWzEpgIYqA6REpJHpv/xk
- BjiqrYUgTHfRxXb5kayDmCcUFR/7+p+PYLNjG5wtt1hvQVXz3rl5JYdJnZNvkJdbKhDTjitKJ
- mJPD8fMO8YecZwLHbMxQ==
+        Thu, 12 Dec 2019 11:41:35 -0500
+Received: by mail-oi1-f196.google.com with SMTP id c16so911263oic.3;
+        Thu, 12 Dec 2019 08:41:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kAhkMJgoZo1BWz+qs5Xno3OsSKZ86r1MkClH94NFChM=;
+        b=ZGBqSKgXkEU8zPLpGwOZI18a87nXD3r2fvq+D0pW0f6ala7KTcbSKdwgARMwzpLDo4
+         /sq6isXWuLTvxs9DS/Od/BRQV71ITatVSEE8jrjkTiQI/F+F6bAy/8MAtD/lKC7CTOvu
+         8yt+sbayYou0QAebyUFWnsK3+qC4E6/QN1h0DJLlpfocwiR+l7Vnz51BvA4nMGtaADPP
+         dJGrGuvRiL2ONf0lcuvqYuw2Zwj9camNbSiRGy8mXJKS4lj2SLgJPOOYxROStCWYZzq5
+         1zhmyYzlD73Fz09SK7yo71qm4vVCFOCALtGbpUxvPPlVEAbVv0fDDm0sLv5YVamB1UD2
+         44zg==
+X-Gm-Message-State: APjAAAXV64tNbqEUDxHk2raeRvNW+E07L16mGZy1zciz+572uUlwJFdh
+        JLHMnQaOXQdnvrepsOLi/1WCPIFCn9o+xe1++jk=
+X-Google-Smtp-Source: APXvYqz/HR4b555gMUmBfIr+En2JhqxAwZmSDSEDPYWP867i+78mHmWSktUG5yszyRCA4BCxfwarPEWTLzzeFMNk+PY=
+X-Received: by 2002:a05:6808:b38:: with SMTP id t24mr5694666oij.110.1576168894436;
+ Thu, 12 Dec 2019 08:41:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20191108042225.45391-1-dmitry.torokhov@gmail.com>
+ <20191108042225.45391-2-dmitry.torokhov@gmail.com> <CGME20191212111237eucas1p1a278d2d5d2437e3219896367e82604cc@eucas1p1.samsung.com>
+ <b3f6ca8b-dbdf-0cec-aa8f-47ffcc5c5307@samsung.com> <20191212112825.GK32742@smile.fi.intel.com>
+In-Reply-To: <20191212112825.GK32742@smile.fi.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 12 Dec 2019 17:41:21 +0100
+Message-ID: <CAJZ5v0i3dSOSa37yWLM+zDVnMKVTkOxbyKD4vo0KVwj_uFB26Q@mail.gmail.com>
+Subject: Re: [PATCH v8 1/6] software node: rename is_array to is_inline
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-GPIO stuff on APUv4 seems to be the same as on APUv2, so we just
-need to match on DMI data.
+On Thu, Dec 12, 2019 at 12:28 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Dec 12, 2019 at 12:12:36PM +0100, Marek Szyprowski wrote:
+> > Dear All,
+> >
+> > On 08.11.2019 05:22, Dmitry Torokhov wrote:
+> > > We do not need a special flag to know if we are dealing with an array,
+> > > as we can get that data from ratio between element length and the data
+> > > size, however we do need a flag to know whether the data is stored
+> > > directly inside property_entry or separately.
+> > >
+> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> >
+> > Today I've noticed that this patch got merged to linux-next as commit
+> > e6bff4665c595b5a4aff173848851ed49ac3bfad. Sadly it breaks DWC3/xHCI
+> > driver operation on Samsung Exynos5 SoCs (and probably on other SoCs
+> > which use DWC3 in host mode too). I get the following errors during boot:
+> >
+> > dwc3 12000000.dwc3: failed to add properties to xHCI
+> > dwc3 12000000.dwc3: failed to initialize host
+> > dwc3: probe of 12000000.dwc3 failed with error -61
+> >
+> > Here is a full kernel log from Exynos5250-based Snow Chromebook on KernelCI:
+> >
+> > https://storage.kernelci.org/next/master/next-20191212/arm/exynos_defconfig/gcc-8/lab-collabora/boot-exynos5250-snow.txt
+> >
+> > (lack of 'ref' clk is not related nor fatal to the driver operation).
+> >
+> > The code which fails after this patch is located in
+> > drivers/usb/dwc3/host.c. Let me know if I can help more in locating the bug.
+>
+> Thank you for report.
+>
+> I think we should not have that patch in the fist place... I used to have
+> a bad feeling about it and then forgot about it existence.
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- drivers/platform/x86/pcengines-apuv2.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Well, I think you mean the [2/6].
 
-diff --git a/drivers/platform/x86/pcengines-apuv2.c b/drivers/platform/x86/pcengines-apuv2.c
-index 48b112b4f0b0..49f25bffce3c 100644
---- a/drivers/platform/x86/pcengines-apuv2.c
-+++ b/drivers/platform/x86/pcengines-apuv2.c
-@@ -189,6 +189,33 @@ static const struct dmi_system_id apu_gpio_dmi_table[] __initconst = {
- 		},
- 		.driver_data = (void *)&board_apu2,
- 	},
-+	/* APU4 w/ legacy bios < 4.0.8 */
-+	{
-+		.ident        = "apu4",
-+		.matches    = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "APU4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
-+	/* APU4 w/ legacy bios >= 4.0.8 */
-+	{
-+		.ident       = "apu4",
-+		.matches     = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "apu4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
-+	/* APU4 w/ mainline bios */
-+	{
-+		.ident       = "apu4",
-+		.matches     = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
-+			DMI_MATCH(DMI_BOARD_NAME, "PC Engines apu4")
-+		},
-+		.driver_data = (void *)&board_apu2,
-+	},
- 	{}
- };
- 
--- 
-2.11.0
+The $subject one really shouldn't change functionality, we must have
+missed something here.
 
+Anyway, I'll drop this branch from the linux-next one for now.
