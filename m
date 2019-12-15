@@ -2,93 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBC3011EF0A
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 14 Dec 2019 01:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EDAC11F826
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Dec 2019 15:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726769AbfLNAOq (ORCPT
+        id S1726125AbfLOOZp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 13 Dec 2019 19:14:46 -0500
-Received: from mga03.intel.com ([134.134.136.65]:57956 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726638AbfLNAOo (ORCPT
+        Sun, 15 Dec 2019 09:25:45 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34953 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726118AbfLOOZo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 13 Dec 2019 19:14:44 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Dec 2019 16:14:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; 
-   d="scan'208";a="216585272"
-Received: from spandruv-mobl.jf.intel.com ([10.255.89.247])
-  by orsmga006.jf.intel.com with ESMTP; 13 Dec 2019 16:14:43 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     dvhart@infradead.org, andy@infradead.org, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lenb@kernel.org, rjw@rjwysocki.net,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 2/2] admin guide/pm: Admin guide for Intel Uncore Frequency limits
-Date:   Fri, 13 Dec 2019 16:14:08 -0800
-Message-Id: <20191214001408.4878-2-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20191214001408.4878-1-srinivas.pandruvada@linux.intel.com>
-References: <20191214001408.4878-1-srinivas.pandruvada@linux.intel.com>
+        Sun, 15 Dec 2019 09:25:44 -0500
+Received: by mail-lj1-f196.google.com with SMTP id j6so3896404lja.2;
+        Sun, 15 Dec 2019 06:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cJydTZHkesdHgSzZFjvg4ewf57EUtmZOykP8heOTn30=;
+        b=LbEDLRMrDEcGDNF0xxcPisZn1hl8ND2yW75hdo/Y4LGFQ5hiaBAnW51Y/WqLQvZ/uw
+         WhQOP+IDn8TKLWDLvLb9cq2dKP1scfxTujlmCDYL6LguWPyZ2XKbrwMLQCh3uyfPAv65
+         eRkXDInR6z1oivB6wmOe5JMhXgeLxEBokK53FtL7HyFN2S4HNTWMPZ19EvCcfzT8nZwe
+         TzzdwJ4h9IABZJToRiwWCde7k84KveJMkPz5iNY0f3A9S+FkynzqodFiFpCgjQwi3VMr
+         NG0JnG5fcRbvg/eobzmpp/mUweNlWHMYgnsdE6AFZYLw43E2pma7QChN+mKwVunlZpJm
+         BG1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cJydTZHkesdHgSzZFjvg4ewf57EUtmZOykP8heOTn30=;
+        b=H8KhWa+1nkJ84GAlUx4PBpU1lFMxy5BMgnlk6F3HI5fmbmXOhD/VFc3mljT24lYCkJ
+         jmemTT5kvASU4dCVxsLmFn1vzFTiLYieW4Iy4cY6xpDAIfhBdVFyGsCepVWA31n5BGbQ
+         j6fj1Qdmqr3WimV/TP/Szt21M/2tVbl10c1+gfytUxIMZLlelF44lBO69pLyTsV5dYQ3
+         uuH7Go60rEcNfTJbU2YwJJJ+1/TJVCQfPkfd4SWsLBcaDNmeY5M5SlugHunSbVkcjJaa
+         50pl3eHVi9hDiOLk9+hldubx8K6di3qUA0Pt7fKWYaGXqLtLm1o/S1vKcJvtcxN0Ofna
+         qGZw==
+X-Gm-Message-State: APjAAAVgEYoKddfMKHnH3EhBeYXX/6NB/+hMZotztxR95liVQiECKkz7
+        dJ7gn/nTBuIonzBnADQqWsiPFUqy
+X-Google-Smtp-Source: APXvYqxsPx5OunWlr3wv/mjK/7x/Yv4AlnYMaKswEgT7Cg2yW5NJYHucmCKoCEvGEgdkmJo6BL+Q/w==
+X-Received: by 2002:a2e:91c1:: with SMTP id u1mr16402744ljg.181.1576419942130;
+        Sun, 15 Dec 2019 06:25:42 -0800 (PST)
+Received: from localhost.localdomain ([91.237.107.85])
+        by smtp.googlemail.com with ESMTPSA id t6sm8364634ljj.62.2019.12.15.06.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Dec 2019 06:25:41 -0800 (PST)
+From:   Leonid Maksymchuk <leonmaxx@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-api@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net, chiu@endlessm.com,
+        yurii.pavlovskyi@gmail.com, kristian@klausen.dk,
+        andy@infradead.org, dvhart@infradead.org, corentin.chary@gmail.com,
+        Leonid Maksymchuk <leonmaxx@gmail.com>
+Subject: [PATCH v6 0/2] platform/x86: asus_wmi: Support of ASUS TUF laptops on Ryzen CPUs
+Date:   Sun, 15 Dec 2019 16:25:27 +0200
+Message-Id: <20191215142527.13780-1-leonmaxx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Added documentation for the attributes to control uncore frequency
-selection.
+Hi,
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
- .../admin-guide/pm/working-state.rst          |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
+this patch series adds support of Throttle themal policy ACPI device to
+existing asus_wmi platform driver. Support of this device is required
+for ASUS TUF laptops on Ryzen CPUs to properly work on Linux.
 
-diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
-new file mode 100644
-index 000000000000..0986d9ab59d6
---- /dev/null
-+++ b/Documentation/admin-guide/pm/intel_uncore.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Intel® Uncore Frequency Selection
-+=========================================================
-+
-+The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
-+
-+But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
-+
-+The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
-+The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
-+"package_00_die_00" for package 0 and die 0.
-+
-+Attributes:
-+
-+power_up_max_freq_khz (READ ONLY): This is the power up value of the maximum uncore frequency in KHz. This is sampled during the driver initialization time. This is not the absolute maximum uncore frequency as there is no capability for the Operating System to read that. This can be used as a reference to roll back settings once user changed this limit.
-+
-+power_up_min_freq_khz (READ ONLY): This is the power up value of the minimum uncore frequency in KHz. This is not the absolute minimum uncore frequency. This can be used as a reference to roll back settings once user changed this limit.
-+
-+max_freq_khz (READ, WRITE): This presents current maximum uncore frequency. User can modify this attribute to change to a new maximum uncore frequency in KHz.
-+
-+min_freq_khz (READ, WRITE): This presents current minimum uncore frequency. User can modify this attribute to change to a new minimum uncore frequency in KHz.
-diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
-index fc298eb1234b..15094cf0a234 100644
---- a/Documentation/admin-guide/pm/working-state.rst
-+++ b/Documentation/admin-guide/pm/working-state.rst
-@@ -11,3 +11,4 @@ Working-State Power Management
-    cpufreq
-    intel_pstate
-    intel_epb
-+   intel_uncore
+v2: fixed indentation.
+v3: patches 2/3 and 3/3 are refactored.
+v4: patch 2/3 are simplified.
+v5: add new device instead of merging with fan boost mode.
+v6: document new ABI, simplify code.
+
+Leonid Maksymchuk (2):
+  platform/x86: asus_wmi: Support throttle thermal policy
+  platform/x86: asus_wmi: Set throttle thermal policy to default
+
+ .../ABI/testing/sysfs-platform-asus-wmi       |  10 ++
+ drivers/platform/x86/asus-wmi.c               | 124 ++++++++++++++++++
+ include/linux/platform_data/x86/asus-wmi.h    |   1 +
+ 3 files changed, 135 insertions(+)
+
 -- 
-2.17.2
+2.24.0
 
