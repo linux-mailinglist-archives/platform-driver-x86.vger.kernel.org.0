@@ -2,98 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4357D1221D7
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Dec 2019 03:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D21912355D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Dec 2019 20:06:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbfLQCHm (ORCPT
+        id S1727620AbfLQTGO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 16 Dec 2019 21:07:42 -0500
-Received: from mga14.intel.com ([192.55.52.115]:36892 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726133AbfLQCHm (ORCPT
+        Tue, 17 Dec 2019 14:06:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30560 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726623AbfLQTGO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 16 Dec 2019 21:07:42 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Dec 2019 17:37:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,323,1571727600"; 
-   d="scan'208";a="217616412"
-Received: from rzhang1-mobile.sh.intel.com ([10.239.195.243])
-  by orsmga003.jf.intel.com with ESMTP; 16 Dec 2019 17:37:09 -0800
-Message-ID: <2dcde56646eea0a8d8002d0b07b1702d64284034.camel@intel.com>
-Subject: Re: [PATCH v3 5/5] thermal: int340x_thermal: Add new Tiger Lake
- hardware IDs to support thermal driver
-From:   Zhang Rui <rui.zhang@intel.com>
-To:     Gayatri Kammela <gayatri.kammela@intel.com>,
-        linux-pm@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, alex.hung@canonical.com,
-        linux-acpi@vger.kernel.org, lenb@kernel.org, rjw@rjwysocki.net,
-        linux-kernel@vger.kernel.org, daniel.lezcano@linaro.org,
-        amit.kucheria@verdurent.com, charles.d.prestopine@intel.com,
-        dvhart@infradead.org, "Rafael J . Wysocki" <rafael@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Date:   Tue, 17 Dec 2019 09:37:09 +0800
-In-Reply-To: <354062a481f1b8b207fa7035abb50fcb80e8ce32.1576520244.git.gayatri.kammela@intel.com>
-References: <cover.1576520244.git.gayatri.kammela@intel.com>
-         <354062a481f1b8b207fa7035abb50fcb80e8ce32.1576520244.git.gayatri.kammela@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Tue, 17 Dec 2019 14:06:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1576609573;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=b0zxRRtx431jc/y/uldsiCxJPFBL7PynAZnho2SH+cY=;
+        b=CE+hrIYol8R+OYGv/be3oeOCE25DhjbEdbhAIqVNRQJfLuQripdra+wECRK42cZFB5SMRs
+        s2eUHpKAVYfIihGhjxAl+pB6lP1LiOFXQz7e440MlaV+7I33DVLCEG6IkM47RbTC6LIcZ7
+        T1J/AlOaHCMXXrswiFkMealoX5274qM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-_Bi380WDNKqpTK94Ahy16A-1; Tue, 17 Dec 2019 14:06:08 -0500
+X-MC-Unique: _Bi380WDNKqpTK94Ahy16A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25F910866FE;
+        Tue, 17 Dec 2019 19:06:07 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-227.ams2.redhat.com [10.36.116.227])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 623C319C58;
+        Tue, 17 Dec 2019 19:06:06 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH] platform/x86: hp-wmi: Make buffer for HPWMI_FEATURE2_QUERY 128 bytes
+Date:   Tue, 17 Dec 2019 20:06:04 +0100
+Message-Id: <20191217190604.638467-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2019-12-16 at 10:31 -0800, Gayatri Kammela wrote:
-> Tiger Lake has a new unique hardware IDs to support thermal driver.
-> Hence, add them.
-> 
-> Cc: Rafael J. Wysocki <rafael@kernel.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Zhang rui <rui.zhang@intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Reviewed-by: Pandruvada, Srinivas <srinivas.pandruvada@intel.com>
-> Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
+At least on the HP Envy x360 15-cp0xxx model the WMI interface
+for HPWMI_FEATURE2_QUERY requires an outsize of at least 128 bytes,
+otherwise it fails with an error code 5 (HPWMI_RET_INVALID_PARAMETERS):
 
-Acked-by: Zhang Rui <rui.zhang@intel.com>
+Dec 06 00:59:38 kernel: hp_wmi: query 0xd returned error 0x5
 
-thanks,
-rui
-> ---
->  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 1 +
->  drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> index 3517883b5cdb..efae0c02d898 100644
-> --- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> +++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> @@ -369,6 +369,7 @@ static int int3400_thermal_remove(struct
-> platform_device *pdev)
->  }
->  
->  static const struct acpi_device_id int3400_thermal_match[] = {
-> +	{"INT1040", 0},
->  	{"INT3400", 0},
->  	{}
->  };
-> diff --git a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> index a7bbd8584ae2..aeece1e136a5 100644
-> --- a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> +++ b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> @@ -282,6 +282,7 @@ static int int3403_remove(struct platform_device
-> *pdev)
->  }
->  
->  static const struct acpi_device_id int3403_device_ids[] = {
-> +	{"INT1043", 0},
->  	{"INT3403", 0},
->  	{"", 0},
->  };
+We do not care about the contents of the buffer, we just want to know
+if the HPWMI_FEATURE2_QUERY command is supported.
+
+This commits bumps the buffer size, fixing the error.
+
+Cc: stable@vger.kernel.org
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1520703
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/hp-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.=
+c
+index 9579a706fc08..a881b709af25 100644
+--- a/drivers/platform/x86/hp-wmi.c
++++ b/drivers/platform/x86/hp-wmi.c
+@@ -300,7 +300,7 @@ static int __init hp_wmi_bios_2008_later(void)
+=20
+ static int __init hp_wmi_bios_2009_later(void)
+ {
+-	int state =3D 0;
++	u8 state[128];
+ 	int ret =3D hp_wmi_perform_query(HPWMI_FEATURE2_QUERY, HPWMI_READ, &sta=
+te,
+ 				       sizeof(state), sizeof(state));
+ 	if (!ret)
+--=20
+2.23.0
 
