@@ -2,94 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6E6124FF2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 18:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C9F1250B4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 19:35:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727327AbfLRR7y (ORCPT
+        id S1726939AbfLRSfh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Dec 2019 12:59:54 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43484 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbfLRR7y (ORCPT
+        Wed, 18 Dec 2019 13:35:37 -0500
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:59259 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726960AbfLRSfg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Dec 2019 12:59:54 -0500
-Received: by mail-pl1-f194.google.com with SMTP id p27so1298415pli.10;
-        Wed, 18 Dec 2019 09:59:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YqZeMQZTEcUUCzzL1OhPW2qHvSBKC8GWokh+0MirbcQ=;
-        b=HUVPJd9Q/xHyIh4YH3n0sQIBzAwgTRy1Kq8PES0Z1JoVfeGnyOMeEPRQpcq3jpfMqT
-         LZR6AQVW5RRLZImHjNBm0JJOSfyrIsfyCbG+sq6q3WmFZHvF2D+BZcpZJwiO3N2WbX43
-         kZ1YcGGsOvsDwwUUw244Duaz8z65aHWhMrnWMe2iu245bfIoYUqHhmtL1YF8to96Zcyl
-         3h7Fg5Hj4AfVrNaz1oDwyd1q+B2KG4EGzT7eMNXtjJNUjghqvHvOJ27iQgDsVekITPmz
-         LIXFy9XF+6CQCsfwmQHHwfsI2NbbhYcmNBPMfv+qhIF62x+07/sMqk4ODdox50EVQDvB
-         Vw/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YqZeMQZTEcUUCzzL1OhPW2qHvSBKC8GWokh+0MirbcQ=;
-        b=Ax/E2bI3qLIQdY4HT87O9ilL2afEw28x5YhrTG8I8P9lv934cS0+iU/Z5RnMl87Kws
-         AMLOX1Ro5NLt+BhgtP9118gV3N4QDjE6ND+LIjrZNMCVWMCwVs5WAV8lv6W9xlAend3b
-         DSUONzKXbU0ABeO+5GiMBEvD91kErf9g8ympKoer86opZeQlTJPa6FKKLnDmv/Aa4Hfm
-         c+1tkOvCLi4lK5bnz1x/EcEkOcLZM9jTfCLbvV7PFjHFIQr1QJ+pDJFm1phbTbSy/883
-         R5MY7edwqwM/TokcVReZQYDbJR12EGgjrkurOpzmeEVh0+2ZuxpXsI4bQqWZCKvKrdk7
-         DROg==
-X-Gm-Message-State: APjAAAXr8z/Wiw/j/+HEkc1yJwpYPsHCGX1uHCZxcbRYnz/Bhk5FHS0F
-        fdsm5a809ZN38jzXf/CP4ouKS8EX9wObnoqbplg=
-X-Google-Smtp-Source: APXvYqwS3MKiBp0OHcgTppeczhbj0nDd+RGE4RAfER1ebVTGKhuVrzyOpOFPkEpSjYliru0d70jxYBQA7jJJrpSGndQ=
-X-Received: by 2002:a17:902:6901:: with SMTP id j1mr4311950plk.18.1576691993059;
- Wed, 18 Dec 2019 09:59:53 -0800 (PST)
-MIME-Version: 1.0
-References: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
- <1576682676-31957-1-git-send-email-lsun@mellanox.com>
-In-Reply-To: <1576682676-31957-1-git-send-email-lsun@mellanox.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Dec 2019 19:59:43 +0200
-Message-ID: <CAHp75VfYwxviATZnmYcgzkKKGw47ki=BZQYw4xRmUrfNqsiBww@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/mellanox: fix the mlx-bootctl sysfs
-To:     Liming Sun <lsun@mellanox.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
+        Wed, 18 Dec 2019 13:35:36 -0500
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from lsun@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 18 Dec 2019 20:35:31 +0200
+Received: from bu-lab53.mtbu.labs.mlnx (bu-lab53.mtbu.labs.mlnx [10.15.8.107])
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id xBIIZUI4016428;
+        Wed, 18 Dec 2019 20:35:31 +0200
+Received: from bu-lab53.mtbu.labs.mlnx (localhost [127.0.0.1])
+        by bu-lab53.mtbu.labs.mlnx (8.14.7/8.14.7) with ESMTP id xBIIZU24163581;
+        Wed, 18 Dec 2019 13:35:30 -0500
+Received: (from lsun@localhost)
+        by bu-lab53.mtbu.labs.mlnx (8.14.7/8.14.7/Submit) id xBIIZSQ0163580;
+        Wed, 18 Dec 2019 13:35:28 -0500
+From:   Liming Sun <lsun@mellanox.com>
+To:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
         Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        David Woods <dwoods@mellanox.com>
+Cc:     Liming Sun <lsun@mellanox.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] platform/mellanox: fix the mlx-bootctl sysfs
+Date:   Wed, 18 Dec 2019 13:35:27 -0500
+Message-Id: <1576694127-163542-1-git-send-email-lsun@mellanox.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
+References: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 5:25 PM Liming Sun <lsun@mellanox.com> wrote:
->
-> This is a follow-up commit for the sysfs attributes to change
-> from DRIVER_ATTR to DEVICE_ATTR according to some initial comments.
-> In such case, it's better to point the sysfs path to the device
-> itself instead of the driver. The ABI document is also updated.
->
-> Fixes: 79e29cb8fbc5 ("platform/mellanox: Add bootctl driver for Mellanox BlueField Soc")
-> Signed-off-by: Liming Sun <lsun@mellanox.com>
+This is a follow-up commit for the sysfs attributes to change
+from DRIVER_ATTR to DEVICE_ATTR according to some initial comments.
+In such case, it's better to point the sysfs path to the device
+itself instead of the driver. The ABI document is also updated.
 
-...
+Fixes: 79e29cb8fbc5 ("platform/mellanox: Add bootctl driver for Mellanox BlueField Soc")
+Signed-off-by: Liming Sun <lsun@mellanox.com>
+---
+v3->v4:
+    Fixes for comments from Andy
+    - Simplify the change with ATTRIBUTE_GROUPS();
+v2->v3:
+    Fixes for comments from Andy
+    - Convert to use dev_groups;
+v1->v2:
+    Fixes for comments from Andy
+    - Added the Fixes tag;
+v1: Initial version.
+---
+ Documentation/ABI/testing/sysfs-platform-mellanox-bootctl | 10 +++++-----
+ drivers/platform/mellanox/mlxbf-bootctl.c                 |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-> -ATTRIBUTE_GROUPS(mlxbf_bootctl);
-
-What's wrong with above macro?
-
-> +static const struct attribute_group mlxbf_bootctl_group = {
-> +       .attrs  = mlxbf_bootctl_attrs,
-> +};
-
-...
-
-> +static const struct attribute_group *mlxbf_bootctl_dev_groups[] = {
-> +       &mlxbf_bootctl_group,
-> +       NULL
-> +};
-
+diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+index c65a805..401d202 100644
+--- a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
++++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/lifecycle_state
++What:		/sys/bus/platform/devices/MLNXBF04:00/lifecycle_state
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -10,7 +10,7 @@ Description:
+ 		  GA Non-Secured - Non-Secure chip and not able to change state
+ 		  RMA - Return Merchandise Authorization
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/post_reset_wdog
++What:		/sys/bus/platform/devices/MLNXBF04:00/post_reset_wdog
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -19,7 +19,7 @@ Description:
+ 		to reboot the chip and recover it to the old state if the new
+ 		boot partition fails.
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/reset_action
++What:		/sys/bus/platform/devices/MLNXBF04:00/reset_action
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -30,7 +30,7 @@ Description:
+ 		  emmc - boot from the onchip eMMC
+ 		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/second_reset_action
++What:		/sys/bus/platform/devices/MLNXBF04:00/second_reset_action
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -44,7 +44,7 @@ Description:
+ 		  swap_emmc - swap the primary / secondary boot partition
+ 		  none - cancel the action
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/secure_boot_fuse_state
++What:		/sys/bus/platform/devices/MLNXBF04:00/secure_boot_fuse_state
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+diff --git a/drivers/platform/mellanox/mlxbf-bootctl.c b/drivers/platform/mellanox/mlxbf-bootctl.c
+index 61753b6..5d21c6a 100644
+--- a/drivers/platform/mellanox/mlxbf-bootctl.c
++++ b/drivers/platform/mellanox/mlxbf-bootctl.c
+@@ -309,7 +309,7 @@ static int mlxbf_bootctl_probe(struct platform_device *pdev)
+ 	.probe = mlxbf_bootctl_probe,
+ 	.driver = {
+ 		.name = "mlxbf-bootctl",
+-		.groups = mlxbf_bootctl_groups,
++		.dev_groups = mlxbf_bootctl_groups,
+ 		.acpi_match_table = mlxbf_bootctl_acpi_ids,
+ 	}
+ };
 -- 
-With Best Regards,
-Andy Shevchenko
+1.8.3.1
+
