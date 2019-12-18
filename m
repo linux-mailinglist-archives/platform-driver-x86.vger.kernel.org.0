@@ -2,88 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D21912355D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Dec 2019 20:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A637B12441B
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 11:17:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbfLQTGO (ORCPT
+        id S1726723AbfLRKRb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Dec 2019 14:06:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30560 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726623AbfLQTGO (ORCPT
+        Wed, 18 Dec 2019 05:17:31 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:47052 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbfLRKRb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Dec 2019 14:06:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576609573;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=b0zxRRtx431jc/y/uldsiCxJPFBL7PynAZnho2SH+cY=;
-        b=CE+hrIYol8R+OYGv/be3oeOCE25DhjbEdbhAIqVNRQJfLuQripdra+wECRK42cZFB5SMRs
-        s2eUHpKAVYfIihGhjxAl+pB6lP1LiOFXQz7e440MlaV+7I33DVLCEG6IkM47RbTC6LIcZ7
-        T1J/AlOaHCMXXrswiFkMealoX5274qM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-_Bi380WDNKqpTK94Ahy16A-1; Tue, 17 Dec 2019 14:06:08 -0500
-X-MC-Unique: _Bi380WDNKqpTK94Ahy16A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25F910866FE;
-        Tue, 17 Dec 2019 19:06:07 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-227.ams2.redhat.com [10.36.116.227])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 623C319C58;
-        Tue, 17 Dec 2019 19:06:06 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH] platform/x86: hp-wmi: Make buffer for HPWMI_FEATURE2_QUERY 128 bytes
-Date:   Tue, 17 Dec 2019 20:06:04 +0100
-Message-Id: <20191217190604.638467-1-hdegoede@redhat.com>
+        Wed, 18 Dec 2019 05:17:31 -0500
+Received: by mail-pl1-f196.google.com with SMTP id y8so751734pll.13;
+        Wed, 18 Dec 2019 02:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M9u/AAhgp7vczaWl5nRaS1BNA2aTAiH2Swv5B8ibH/Q=;
+        b=csWjRkJ8ifwjkXfMnaGss5kZ3MngkIY+uU3MmTF0fjYfCz09pVZnvfS0t2+u6fCY5u
+         XiElqaZ2m0CgIWwTkQAsXf8YyGnxyEHVOIJKNokeVb8GZ9kb1AxIeSyqoNU90HU24Mcf
+         T1vZNZ5pKgowYBfyYtzNaWHlW92S1t9iKht+RkFxnw63U005rLNlL0ufy3h1GorbtFzh
+         P/6Hq831StBoti94+hvtB53jy8tsxYzhT3KP4L2mV64tS6G23XyPiPmXUM3qkmZTmyfU
+         4eb8DUWjzjfxBoU1lzWc/q/5yTIfq0ul4XrtiPe0j+8c+cZXWq/GGZMD4Fn8RTejcuNi
+         tibA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M9u/AAhgp7vczaWl5nRaS1BNA2aTAiH2Swv5B8ibH/Q=;
+        b=jqvoqjVsjIGw41tegF/QbFPAMvr+KBlwmePjTLYpvDliApSLwRK4PjWs24vfTNE+BE
+         cjVes494kNqEbpU8qXqAvvB14E/GfjWldNiOohH+A7I7QBLH/91WmNKfwzOdYlBRNWWm
+         Iy8odnZCsLjR2g45KSMivFWAzpfXzYZv4ZbHRS03gLZlcVH3x+jiPXiz7bICmC3TM3UF
+         1HQ+TsSvwHkUz3IP9izAwZ+8Jd1b9QrP41RZV3Yp9CPrsFMbzXm0bGtvCodKdQiyN+/P
+         FI7XZKhj6F1hYr0X/+aULsgP/1LTGvHxFJt/q+Pgj1tYEz9PKtYoEuv6rixofsCskEe+
+         V2Pw==
+X-Gm-Message-State: APjAAAUy4T8dauCOq8bO372yROQ9Yl5gF9BDhGsrSC2OXvFo2PB73Q9M
+        u9uqYO3aESvBDmhxsJIY/bRjkfkN9uMoH2sYvvY=
+X-Google-Smtp-Source: APXvYqzkCy2aaHhQ4KsBIIbZJOe/vQs2YULgfDTU+9TvKf8ov3kabEdE3fGrQQXxhlhovh7ZPbPDlSa/0/j4zbEIla8=
+X-Received: by 2002:a17:902:8d96:: with SMTP id v22mr1849928plo.262.1576664250410;
+ Wed, 18 Dec 2019 02:17:30 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Content-Transfer-Encoding: quoted-printable
+References: <20191217190604.638467-1-hdegoede@redhat.com>
+In-Reply-To: <20191217190604.638467-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 18 Dec 2019 12:17:20 +0200
+Message-ID: <CAHp75Vf8CDwW731uD4OMzB69P-D1AN3PzCMFBGGD4fvBFccpLg@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: hp-wmi: Make buffer for HPWMI_FEATURE2_QUERY
+ 128 bytes
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-At least on the HP Envy x360 15-cp0xxx model the WMI interface
-for HPWMI_FEATURE2_QUERY requires an outsize of at least 128 bytes,
-otherwise it fails with an error code 5 (HPWMI_RET_INVALID_PARAMETERS):
+On Tue, Dec 17, 2019 at 9:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> At least on the HP Envy x360 15-cp0xxx model the WMI interface
+> for HPWMI_FEATURE2_QUERY requires an outsize of at least 128 bytes,
+> otherwise it fails with an error code 5 (HPWMI_RET_INVALID_PARAMETERS):
+>
+> Dec 06 00:59:38 kernel: hp_wmi: query 0xd returned error 0x5
+>
+> We do not care about the contents of the buffer, we just want to know
+> if the HPWMI_FEATURE2_QUERY command is supported.
+>
+> This commits bumps the buffer size, fixing the error.
+>
 
-Dec 06 00:59:38 kernel: hp_wmi: query 0xd returned error 0x5
+Fixes tag?
 
-We do not care about the contents of the buffer, we just want to know
-if the HPWMI_FEATURE2_QUERY command is supported.
+> Cc: stable@vger.kernel.org
+> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1520703
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/hp-wmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
+> index 9579a706fc08..a881b709af25 100644
+> --- a/drivers/platform/x86/hp-wmi.c
+> +++ b/drivers/platform/x86/hp-wmi.c
+> @@ -300,7 +300,7 @@ static int __init hp_wmi_bios_2008_later(void)
+>
+>  static int __init hp_wmi_bios_2009_later(void)
+>  {
+> -       int state = 0;
+> +       u8 state[128];
+>         int ret = hp_wmi_perform_query(HPWMI_FEATURE2_QUERY, HPWMI_READ, &state,
+>                                        sizeof(state), sizeof(state));
+>         if (!ret)
+> --
+> 2.23.0
+>
 
-This commits bumps the buffer size, fixing the error.
 
-Cc: stable@vger.kernel.org
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1520703
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/hp-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.=
-c
-index 9579a706fc08..a881b709af25 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -300,7 +300,7 @@ static int __init hp_wmi_bios_2008_later(void)
-=20
- static int __init hp_wmi_bios_2009_later(void)
- {
--	int state =3D 0;
-+	u8 state[128];
- 	int ret =3D hp_wmi_perform_query(HPWMI_FEATURE2_QUERY, HPWMI_READ, &sta=
-te,
- 				       sizeof(state), sizeof(state));
- 	if (!ret)
---=20
-2.23.0
-
+-- 
+With Best Regards,
+Andy Shevchenko
