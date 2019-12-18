@@ -2,82 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2883124AAD
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 16:08:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03798124B4B
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 16:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfLRPI1 (ORCPT
+        id S1726980AbfLRPPB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Dec 2019 10:08:27 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45688 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727001AbfLRPI0 (ORCPT
+        Wed, 18 Dec 2019 10:15:01 -0500
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:34595 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726922AbfLRPPB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Dec 2019 10:08:26 -0500
-Received: by mail-pl1-f193.google.com with SMTP id b22so1087436pls.12;
-        Wed, 18 Dec 2019 07:08:26 -0800 (PST)
+        Wed, 18 Dec 2019 10:15:01 -0500
+Received: by mail-yb1-f193.google.com with SMTP id k17so877674ybp.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 18 Dec 2019 07:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O/Gc+Nk4cNpzcx2hTPtC5UA91cr7QkRAoGkZhjoba98=;
-        b=XuUNTTR+Bu2rLHcBfVuIRId9B2MzsCQF/RCiW7UGzMo8S1CCFvzCeJu/cCqXY2gF3Z
-         8uN+SlNxaMWN5XO2P0+VVEliyvh1lMqxSvorxCHzvrMpsz1rDXCAuW4N4viH6JyPaMKh
-         6bvh70wcFUEtLHugk2Os8spnDmlKoPuo1xKnpYGNAyCMduKQeI+N8qyCQ/5E21QHWR6c
-         zVagatbkJ/GTkBGRQ6/cAiUdVvgI0cEyFXJk6tMTOnWTVpOV3rz89wFb0rVBoWojwFzm
-         XZ0qlCjcE96lKKj1qv6KGNvY+siu0GRojufEjmN4Id2PeVjoqRJtJy5eXmM7uwsRdsPH
-         qw5g==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=g0d/v8UI5p18g1IrEZp+wIUQV7tnF+/0DUJ++d3/e575Qv+f9CKuU6t0As0WcczPDn
+         fPZMCx1mwAIiEbuGmPCfGH1059jyss8035l3dwhsdQJqkXnje8lfBJ8UToTuHqIUZ6J5
+         sQsUS3x1CMdfVtb09bmHp1FL0VJTa/Tcp20fj/Oq3gNNu/1PSghEHk54UPhqi0m/18EO
+         aQWMQgLqg5kkXFzef2riNqQDIvdy9KFhecuq/+NkyJh4FtLnuTulBQEXHDJUDIxOODE3
+         Hd08c1wyBHCqKEIZQXudZYS2J63AseWFfG9oLP3z5O444odyGo8HTEK+Eg8SpVzDGVyN
+         /G5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O/Gc+Nk4cNpzcx2hTPtC5UA91cr7QkRAoGkZhjoba98=;
-        b=CBA+X62cO83inZRgTi+TV7N2CNVxHhanTHSR0wKHLCo46N7RGqy0nLc+I8pXiPjItG
-         dgH3TvYNZKa546PctOiuXUtBlbGki2WcqVoCkx1Mx+RJvU2cs1cXV6PEZqbxGsm4qp6v
-         q9YiARwF6vOh6KMudDFkTWOMaw5GkDpin+i+eKmp80m586CScWkqJVShXn5SX/uIYPP9
-         IHMAHjv7hN1gYdB8qmFnDmOQ7JtUeYX5KMn86nrAFuzO+kyQijCRxc4iuXYKX01tLT2V
-         HVfSkUaygRhlY1IIJAFyufRDy0OtwZqQ72tIMxTUvCgcToYuXhNnYw/hUR5zzcd9abX6
-         GKlg==
-X-Gm-Message-State: APjAAAVYL4H0plj/67OIiNsE2Yp4EkiE7qW9hhWLtbeEdF1N/aBnbWO0
-        4dwvQ3rMg//sZEyLCExRLj3huwLwJyVQ8j15Aedkl+Xp
-X-Google-Smtp-Source: APXvYqyMjxN7aSTmKOU9lPUYY/iVdbF3GF6BLMviv+qeEUyw+kvAG7vn1ONmiCDgg70PSgbR6aBkdCw9x/6zJE3Gq5I=
-X-Received: by 2002:a17:902:6901:: with SMTP id j1mr3404514plk.18.1576681706038;
- Wed, 18 Dec 2019 07:08:26 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=Cuh18rDIyxebuI1KrnoMwX7jnlCzBdYU3J0183ICbrCVaRBNM8ENAvsyjQKTWSuTtF
+         oQ7sBaVb21VBKZ2rlSyNonJnIMJOTGZtJXfyaM45BIAfnymLd+7QRzb61MsDc8HMFXUd
+         J+1Jy0VlU5xUVa1UqFPJSOBIN0cJwvcIO5jYNvtyWzTI9szLYvNH9wK4dCFjiSA2iI39
+         SZRGhEBKMItzXbSRmfVQmySV+lrAGa5PrMrYG23mrvau2SXxfrilvpJ39k6tSdHys/YF
+         DVtRRsbSSB2UKPUGRa2dn8w8UuQZRyPOvv0MJDhRQcJ4FPEfnIhVfOGswLCmCdfAKKeT
+         b8eA==
+X-Gm-Message-State: APjAAAUThEx5IfGI0cSzJd794chL2vHOgh2qkAEhz0souibB+szd4PrF
+        8/F/nUbC/q7FNw6KRYwpMKZihFDRG1xKjmi24g==
+X-Google-Smtp-Source: APXvYqwtRhFloBAbA0M5vuqFHOdQnEIaBWrrpqW3bQoAOSTvww2Ue6nEfkFmvfPXxeei1CpfDIim4J030OByni3uIH8=
+X-Received: by 2002:a25:6c03:: with SMTP id h3mr2403468ybc.213.1576682100858;
+ Wed, 18 Dec 2019 07:15:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20191217190604.638467-1-hdegoede@redhat.com> <CAHp75Vf8CDwW731uD4OMzB69P-D1AN3PzCMFBGGD4fvBFccpLg@mail.gmail.com>
- <92800c93-9d03-ab26-e71f-ce40df1ad3bc@redhat.com>
-In-Reply-To: <92800c93-9d03-ab26-e71f-ce40df1ad3bc@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Dec 2019 17:08:15 +0200
-Message-ID: <CAHp75Ve7wsd96yn97JihBq1QpLkKLtuhqKvcp-o8yeviCTvkwA@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: hp-wmi: Make buffer for HPWMI_FEATURE2_QUERY
- 128 bytes
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Stable <stable@vger.kernel.org>
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:14:36
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:14:36 +0100
+Message-ID: <CABHzvrn+LGo+EDzX6bgowYmHJUC6g=W82dGGy=7Z6+_k_Hf4ag@mail.gmail.com>
+Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 1:18 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 18-12-2019 11:17, Andy Shevchenko wrote:
-> > On Tue, Dec 17, 2019 at 9:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
+Attn Dear.
 
-> > Fixes tag?
->
-> The HPWMI_FEATURE2_QUERY call was introduced in 8a1513b4932, so I guess
-> this should have a:
->
-> Fixes: 8a1513b4932 ("hp-wmi: limit hotkey enable")
->
-> Tag, shall I send a v2 with this, or can you add it while applying the patch?
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
-I added it.
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
+
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
+
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
+
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
