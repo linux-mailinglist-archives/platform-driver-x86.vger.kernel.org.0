@@ -2,95 +2,142 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03798124B4B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 16:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3A4E124B9E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 16:25:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbfLRPPB (ORCPT
+        id S1727006AbfLRPZ3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Dec 2019 10:15:01 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:34595 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726922AbfLRPPB (ORCPT
+        Wed, 18 Dec 2019 10:25:29 -0500
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:41912 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726723AbfLRPZ3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Dec 2019 10:15:01 -0500
-Received: by mail-yb1-f193.google.com with SMTP id k17so877674ybp.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 18 Dec 2019 07:15:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=g0d/v8UI5p18g1IrEZp+wIUQV7tnF+/0DUJ++d3/e575Qv+f9CKuU6t0As0WcczPDn
-         fPZMCx1mwAIiEbuGmPCfGH1059jyss8035l3dwhsdQJqkXnje8lfBJ8UToTuHqIUZ6J5
-         sQsUS3x1CMdfVtb09bmHp1FL0VJTa/Tcp20fj/Oq3gNNu/1PSghEHk54UPhqi0m/18EO
-         aQWMQgLqg5kkXFzef2riNqQDIvdy9KFhecuq/+NkyJh4FtLnuTulBQEXHDJUDIxOODE3
-         Hd08c1wyBHCqKEIZQXudZYS2J63AseWFfG9oLP3z5O444odyGo8HTEK+Eg8SpVzDGVyN
-         /G5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=Cuh18rDIyxebuI1KrnoMwX7jnlCzBdYU3J0183ICbrCVaRBNM8ENAvsyjQKTWSuTtF
-         oQ7sBaVb21VBKZ2rlSyNonJnIMJOTGZtJXfyaM45BIAfnymLd+7QRzb61MsDc8HMFXUd
-         J+1Jy0VlU5xUVa1UqFPJSOBIN0cJwvcIO5jYNvtyWzTI9szLYvNH9wK4dCFjiSA2iI39
-         SZRGhEBKMItzXbSRmfVQmySV+lrAGa5PrMrYG23mrvau2SXxfrilvpJ39k6tSdHys/YF
-         DVtRRsbSSB2UKPUGRa2dn8w8UuQZRyPOvv0MJDhRQcJ4FPEfnIhVfOGswLCmCdfAKKeT
-         b8eA==
-X-Gm-Message-State: APjAAAUThEx5IfGI0cSzJd794chL2vHOgh2qkAEhz0souibB+szd4PrF
-        8/F/nUbC/q7FNw6KRYwpMKZihFDRG1xKjmi24g==
-X-Google-Smtp-Source: APXvYqwtRhFloBAbA0M5vuqFHOdQnEIaBWrrpqW3bQoAOSTvww2Ue6nEfkFmvfPXxeei1CpfDIim4J030OByni3uIH8=
-X-Received: by 2002:a25:6c03:: with SMTP id h3mr2403468ybc.213.1576682100858;
- Wed, 18 Dec 2019 07:15:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:14:36
- -0800 (PST)
-Reply-To: dhl.expresscourier102156@outlook.fr
-From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
-Date:   Wed, 18 Dec 2019 16:14:36 +0100
-Message-ID: <CABHzvrn+LGo+EDzX6bgowYmHJUC6g=W82dGGy=7Z6+_k_Hf4ag@mail.gmail.com>
-Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 18 Dec 2019 10:25:29 -0500
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from lsun@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 18 Dec 2019 17:25:23 +0200
+Received: from farm-0002.mtbu.labs.mlnx (farm-0002.mtbu.labs.mlnx [10.15.2.32])
+        by mtbu-labmailer.labs.mlnx (8.14.4/8.14.4) with ESMTP id xBIFPLBc025573;
+        Wed, 18 Dec 2019 10:25:21 -0500
+Received: (from lsun@localhost)
+        by farm-0002.mtbu.labs.mlnx (8.14.7/8.13.8/Submit) id xBIFPJx6032084;
+        Wed, 18 Dec 2019 10:25:19 -0500
+From:   Liming Sun <lsun@mellanox.com>
+To:     Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        David Woods <dwoods@mellanox.com>
+Cc:     Liming Sun <lsun@mellanox.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] platform/mellanox: fix the mlx-bootctl sysfs
+Date:   Wed, 18 Dec 2019 10:24:36 -0500
+Message-Id: <1576682676-31957-1-git-send-email-lsun@mellanox.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
+References: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Attn Dear.
+This is a follow-up commit for the sysfs attributes to change
+from DRIVER_ATTR to DEVICE_ATTR according to some initial comments.
+In such case, it's better to point the sysfs path to the device
+itself instead of the driver. The ABI document is also updated.
 
-Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
-ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
-=9900, as
-approved this morning, Date, 18/12/2019. Through the Intruction from
-INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
+Fixes: 79e29cb8fbc5 ("platform/mellanox: Add bootctl driver for Mellanox BlueField Soc")
+Signed-off-by: Liming Sun <lsun@mellanox.com>
+---
+v2->v3:
+    Fixes for comments from Andy
+    - Convert to use dev_groups;
+v1->v2:
+    Fixes for comments from Andy
+    - Added the Fixes tag;
+v1: Initial version.
+---
+ Documentation/ABI/testing/sysfs-platform-mellanox-bootctl | 10 +++++-----
+ drivers/platform/mellanox/mlxbf-bootctl.c                 | 11 +++++++++--
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-REGISTRATION NO :EG58945
-PARCEL NUMBER: 140479
-Delivery Schuleded now,
-Finally all we required from you is your ATM Card Proccessing Delivery
-fees $19.00 only which you must send to this DHL service to enable us
-dispatch the parcel to your destination today.
+diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+index c65a805..401d202 100644
+--- a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
++++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/lifecycle_state
++What:		/sys/bus/platform/devices/MLNXBF04:00/lifecycle_state
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -10,7 +10,7 @@ Description:
+ 		  GA Non-Secured - Non-Secure chip and not able to change state
+ 		  RMA - Return Merchandise Authorization
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/post_reset_wdog
++What:		/sys/bus/platform/devices/MLNXBF04:00/post_reset_wdog
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -19,7 +19,7 @@ Description:
+ 		to reboot the chip and recover it to the old state if the new
+ 		boot partition fails.
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/reset_action
++What:		/sys/bus/platform/devices/MLNXBF04:00/reset_action
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -30,7 +30,7 @@ Description:
+ 		  emmc - boot from the onchip eMMC
+ 		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/second_reset_action
++What:		/sys/bus/platform/devices/MLNXBF04:00/second_reset_action
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+@@ -44,7 +44,7 @@ Description:
+ 		  swap_emmc - swap the primary / secondary boot partition
+ 		  none - cancel the action
+ 
+-What:		/sys/bus/platform/devices/MLNXBF04:00/driver/secure_boot_fuse_state
++What:		/sys/bus/platform/devices/MLNXBF04:00/secure_boot_fuse_state
+ Date:		Oct 2019
+ KernelVersion:	5.5
+ Contact:	"Liming Sun <lsun@mellanox.com>"
+diff --git a/drivers/platform/mellanox/mlxbf-bootctl.c b/drivers/platform/mellanox/mlxbf-bootctl.c
+index 61753b6..472dc74 100644
+--- a/drivers/platform/mellanox/mlxbf-bootctl.c
++++ b/drivers/platform/mellanox/mlxbf-bootctl.c
+@@ -259,7 +259,9 @@ static ssize_t secure_boot_fuse_state_show(struct device *dev,
+ 	NULL
+ };
+ 
+-ATTRIBUTE_GROUPS(mlxbf_bootctl);
++static const struct attribute_group mlxbf_bootctl_group = {
++	.attrs	= mlxbf_bootctl_attrs,
++};
+ 
+ static const struct acpi_device_id mlxbf_bootctl_acpi_ids[] = {
+ 	{"MLNXBF04", 0},
+@@ -305,11 +307,16 @@ static int mlxbf_bootctl_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct attribute_group *mlxbf_bootctl_dev_groups[] = {
++	&mlxbf_bootctl_group,
++	NULL
++};
++
+ static struct platform_driver mlxbf_bootctl_driver = {
+ 	.probe = mlxbf_bootctl_probe,
+ 	.driver = {
+ 		.name = "mlxbf-bootctl",
+-		.groups = mlxbf_bootctl_groups,
++		.dev_groups = mlxbf_bootctl_dev_groups,
+ 		.acpi_match_table = mlxbf_bootctl_acpi_ids,
+ 	}
+ };
+-- 
+1.8.3.1
 
-Here is our receiving payment details.
-You are advised to send it Via Money Gram Service.
-
-Receiver's Name--------Alan Ude
-Country-------Benin Republic.
-City/ Address--------Cotonou
-Test Question--------In God
-Answer-------We Trust
-Amount------------$US19.00 only
-Mtcn-------------
-Sender's Name-------
-
-Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
-Is Due for delivery to your address today upon confirmation of
-required fee from you asap.
-
-Call us on this phone number for any inquiry. +229 62819378
-Awaiting your urgent response.
-
-MS. MARYANNA B. THOMASON, Shipment director, DHL Express
-Courier Company-Benin
