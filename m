@@ -2,97 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 239EB124779
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 14:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2883124AAD
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 16:08:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbfLRNBK (ORCPT
+        id S1727024AbfLRPI1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Dec 2019 08:01:10 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35309 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726743AbfLRNBK (ORCPT
+        Wed, 18 Dec 2019 10:08:27 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45688 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727001AbfLRPI0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Dec 2019 08:01:10 -0500
-Received: by mail-pl1-f196.google.com with SMTP id g6so958869plt.2;
-        Wed, 18 Dec 2019 05:01:09 -0800 (PST)
+        Wed, 18 Dec 2019 10:08:26 -0500
+Received: by mail-pl1-f193.google.com with SMTP id b22so1087436pls.12;
+        Wed, 18 Dec 2019 07:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mZptkc+GxTuIJF+XEs6PYuaFq609ei0Ww4tW+wMvzUM=;
-        b=QWOnSco1vUEci+FTu/ERgDd5ODTU1yRgJ5CFxyks7cwHl4SPTSh9BiEBSYQLctIy7R
-         cRmFSdGo/gBlsCkZ1WJxCKDU5HyanPNu1/gD0TC6OLlNz3TBAgta8qVs/n1bSsBwpEA6
-         mshJNtOTuralAKZB6982zhyzKUWGjIh8RlZILaaJ3eMDWu8fUggnpcLL2ubQBjbQFQwB
-         HZ4ZPiBvqXI3wIkCkm7YcKINTxqm3Rdu9YM5HO8nWzzn3XQN5JvyfuPlzDUZmMRlvwEv
-         r4bW1w+4UHmLAtrYhdH+ENS1Yn/ZDipN+quvGMFCSQXxWaskH1ljD71DSio+gNpJEcOm
-         n+6A==
+        bh=O/Gc+Nk4cNpzcx2hTPtC5UA91cr7QkRAoGkZhjoba98=;
+        b=XuUNTTR+Bu2rLHcBfVuIRId9B2MzsCQF/RCiW7UGzMo8S1CCFvzCeJu/cCqXY2gF3Z
+         8uN+SlNxaMWN5XO2P0+VVEliyvh1lMqxSvorxCHzvrMpsz1rDXCAuW4N4viH6JyPaMKh
+         6bvh70wcFUEtLHugk2Os8spnDmlKoPuo1xKnpYGNAyCMduKQeI+N8qyCQ/5E21QHWR6c
+         zVagatbkJ/GTkBGRQ6/cAiUdVvgI0cEyFXJk6tMTOnWTVpOV3rz89wFb0rVBoWojwFzm
+         XZ0qlCjcE96lKKj1qv6KGNvY+siu0GRojufEjmN4Id2PeVjoqRJtJy5eXmM7uwsRdsPH
+         qw5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mZptkc+GxTuIJF+XEs6PYuaFq609ei0Ww4tW+wMvzUM=;
-        b=uh3kjctHD5+/YoqgQkvxCBNuKAOVxfmZ6xSdpWQA7qOA7UYMIYeI6eDB44+tG4s4hu
-         PtN39IPEGVlJJvcxJuqAR/85DrgpMgSQYVGti9hjHhQM7emZtpgKD89PZKi8wo+q5Y7d
-         84E/QWbGI0GZw6HqI/1vgfw6LpvKa5KUBD5wxbQwjt/4uHVvjWG0MFDXfjcpHHdM0wwy
-         vtZc8KvMOmFA03OcBUvT3EjpV5YDZ2D8gRTaKa6ZVmXwskPi5T/82e9/F7T5qocuQJFw
-         oft+yKjWPIO77X1GG9xUGBbdcfsrOKhl6Z6oAuaIykdAfGc6DLAkwAej8fcYRtf7vWv3
-         Bjig==
-X-Gm-Message-State: APjAAAXPR9gl5cCc75cT8YfQV//OjePMQuEYpx8z8MD4FWXVcMmtv7Pg
-        vM82caRgnZP56+c7Db04/2K+mNXn7zlqZGqk4Ek=
-X-Google-Smtp-Source: APXvYqwFa1VVOox0bgLP/ZaV5eFPyn9nZy4cqLbzhsgajI+6QuOaRSW6NB+26LHIswhsE7DftaQPinQ0v/uyPNAg+vs=
-X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr2702457pjb.30.1576674069386;
- Wed, 18 Dec 2019 05:01:09 -0800 (PST)
+        bh=O/Gc+Nk4cNpzcx2hTPtC5UA91cr7QkRAoGkZhjoba98=;
+        b=CBA+X62cO83inZRgTi+TV7N2CNVxHhanTHSR0wKHLCo46N7RGqy0nLc+I8pXiPjItG
+         dgH3TvYNZKa546PctOiuXUtBlbGki2WcqVoCkx1Mx+RJvU2cs1cXV6PEZqbxGsm4qp6v
+         q9YiARwF6vOh6KMudDFkTWOMaw5GkDpin+i+eKmp80m586CScWkqJVShXn5SX/uIYPP9
+         IHMAHjv7hN1gYdB8qmFnDmOQ7JtUeYX5KMn86nrAFuzO+kyQijCRxc4iuXYKX01tLT2V
+         HVfSkUaygRhlY1IIJAFyufRDy0OtwZqQ72tIMxTUvCgcToYuXhNnYw/hUR5zzcd9abX6
+         GKlg==
+X-Gm-Message-State: APjAAAVYL4H0plj/67OIiNsE2Yp4EkiE7qW9hhWLtbeEdF1N/aBnbWO0
+        4dwvQ3rMg//sZEyLCExRLj3huwLwJyVQ8j15Aedkl+Xp
+X-Google-Smtp-Source: APXvYqyMjxN7aSTmKOU9lPUYY/iVdbF3GF6BLMviv+qeEUyw+kvAG7vn1ONmiCDgg70PSgbR6aBkdCw9x/6zJE3Gq5I=
+X-Received: by 2002:a17:902:6901:: with SMTP id j1mr3404514plk.18.1576681706038;
+ Wed, 18 Dec 2019 07:08:26 -0800 (PST)
 MIME-Version: 1.0
-References: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
- <1576250484-27291-1-git-send-email-lsun@mellanox.com>
-In-Reply-To: <1576250484-27291-1-git-send-email-lsun@mellanox.com>
+References: <20191217190604.638467-1-hdegoede@redhat.com> <CAHp75Vf8CDwW731uD4OMzB69P-D1AN3PzCMFBGGD4fvBFccpLg@mail.gmail.com>
+ <92800c93-9d03-ab26-e71f-ce40df1ad3bc@redhat.com>
+In-Reply-To: <92800c93-9d03-ab26-e71f-ce40df1ad3bc@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 18 Dec 2019 15:00:59 +0200
-Message-ID: <CAHp75VfVL8fs_VXQgL85QPnW2N+zsLq4dWYkhs3xdMAjcfRgTg@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/mellanox: fix the mlx-bootctl sysfs
-To:     Liming Sun <lsun@mellanox.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
+Date:   Wed, 18 Dec 2019 17:08:15 +0200
+Message-ID: <CAHp75Ve7wsd96yn97JihBq1QpLkKLtuhqKvcp-o8yeviCTvkwA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: hp-wmi: Make buffer for HPWMI_FEATURE2_QUERY
+ 128 bytes
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 5:21 PM Liming Sun <lsun@mellanox.com> wrote:
+On Wed, Dec 18, 2019 at 1:18 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 18-12-2019 11:17, Andy Shevchenko wrote:
+> > On Tue, Dec 17, 2019 at 9:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
 
-> +       ret = sysfs_create_group(&dev->kobj, &mlxbf_bootctl_group);
-> +       if (ret) {
-> +               dev_err(dev, "failed to create attributes, err=%d\n", ret);
-> +               return ret;
-> +       }
-> +
->         /* Ensure we have the UUID we expect for this service. */
->         arm_smccc_smc(MLXBF_BOOTCTL_SIP_SVC_UID, 0, 0, 0, 0, 0, 0, 0, &res);
->         guid_parse(mlxbf_bootctl_svc_uuid_str, &guid);
-> @@ -305,8 +312,16 @@ static int mlxbf_bootctl_probe(struct platform_device *pdev)
->         return 0;
->  }
+> > Fixes tag?
 >
-> +static int mlxbf_bootctl_remove(struct platform_device *pdev)
-> +{
-> +       sysfs_remove_group(&pdev->dev.kobj, &mlxbf_bootctl_group);
-> +
-> +       return 0;
-> +}
-> +
->  static struct platform_driver mlxbf_bootctl_driver = {
->         .probe = mlxbf_bootctl_probe,
-> +       .remove = mlxbf_bootctl_remove,
->         .driver = {
->                 .name = "mlxbf-bootctl",
->                 .groups = mlxbf_bootctl_groups,
+> The HPWMI_FEATURE2_QUERY call was introduced in 8a1513b4932, so I guess
+> this should have a:
+>
+> Fixes: 8a1513b4932 ("hp-wmi: limit hotkey enable")
+>
+> Tag, shall I send a v2 with this, or can you add it while applying the patch?
 
-Please, use dev_groups member of the struct driver instead of above approach.
+I added it.
 
 -- 
 With Best Regards,
