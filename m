@@ -2,120 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E0DF1250B8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Dec 2019 19:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8424E1264BC
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 19 Dec 2019 15:30:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbfLRSga (ORCPT
+        id S1726777AbfLSOaK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 18 Dec 2019 13:36:30 -0500
-Received: from mail-eopbgr10062.outbound.protection.outlook.com ([40.107.1.62]:3815
-        "EHLO EUR02-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726699AbfLRSga (ORCPT
+        Thu, 19 Dec 2019 09:30:10 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39761 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726767AbfLSOaJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 18 Dec 2019 13:36:30 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VMXoqjdKYb0wE6fKiJIMp6sc392Y5fM8gsIUcFRlTDflqQmYxrJa4OHX/MEhKd0JPNPxm5YNDSM3eai8a1BdzsduYJhOKe/MsVyYAZdn1qy8ZGN4w36LTEegRepN/QORCN0yAL0sgIdQ92jwBBXmh/GKzM/zeHSqGBuP6jQG0DGVzUppu5VHsu7bx7Q2lE7PzXMCzedJqeKip+hfnS0bWzs1Qv5SD7FxLyHk7My6jQzzSWvayG5KT02xPLeWKNG3T6lKNWdNmnXuzuSqLWdOxtAk/Pw4jJ9tQGOxaXKg+8yjfrDa+o2l7DhNZSQSdiQRe108lSPm0rX9lXZc67k70g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7d9fp1neM2ZuJB67k0YLWpsIqQkE9CyljUJXOov+nVE=;
- b=Cn3qeWgryLXkXg8seVSPUIp3XBJ8QL8aHzzI0SnTgJRuYvCiHPNXgAENXb6nHj+jhzIzv9FAn+QwvrdGsC14q48eOZl/wgzr3tfX2LO3k+MsCF4SvtDiQhBUE0yYJKITgZmdKPjT+MnB7/WpgADPciw0J1ZKgoe1wSRffW0bDWiD+Z7MBlgU91SN6qssc56lG3xHdghJH5HLNSvxfEIIernyRve/FrqMJuhZI1Ud8lMhFxfCnr0lGJWxqdGaFB47j75lvsLXSyP09zQOWKavTiS+NHde1VDea+aHjjruyomXfV7Q2wXPIW2yQYdU3OwEzv7ygbOiyoeRL07mdcjicw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7d9fp1neM2ZuJB67k0YLWpsIqQkE9CyljUJXOov+nVE=;
- b=FXhKWQKEiwlFEiNotjEXX5JvFXR7w3Sll+nW0pZ4wqiWw0XZLLWlb15u0hU1MMYtTpkZTSs/LrP78JzbpBXPYVVHNJCVQoE4hRTuyCwVZ9FlJ9nJyp9xVSQgGrycmkK031BFKZNYGuvK8gZdBOMSojJdb7OB04VDSPXt/s3l5Vc=
-Received: from DB6PR05MB3223.eurprd05.prod.outlook.com (10.175.232.149) by
- DB6PR05MB4647.eurprd05.prod.outlook.com (10.168.21.159) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.20; Wed, 18 Dec 2019 18:36:25 +0000
-Received: from DB6PR05MB3223.eurprd05.prod.outlook.com
- ([fe80::4127:4f1a:a073:a987]) by DB6PR05MB3223.eurprd05.prod.outlook.com
- ([fe80::4127:4f1a:a073:a987%4]) with mapi id 15.20.2538.019; Wed, 18 Dec 2019
- 18:36:25 +0000
-From:   Liming Sun <lsun@mellanox.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        David Woods <dwoods@mellanox.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3] platform/mellanox: fix the mlx-bootctl sysfs
-Thread-Topic: [PATCH v3] platform/mellanox: fix the mlx-bootctl sysfs
-Thread-Index: AQHVtbdkdC7X5TRbx0CQavEp0YMqiafALmuAgAAKB+A=
-Date:   Wed, 18 Dec 2019 18:36:25 +0000
-Message-ID: <DB6PR05MB3223550D527DC5C37FCF9720A1530@DB6PR05MB3223.eurprd05.prod.outlook.com>
-References: <94727fab054309cd98c876748fd27b130ce5031f.1575918870.git.lsun@mellanox.com>
- <1576682676-31957-1-git-send-email-lsun@mellanox.com>
- <CAHp75VfYwxviATZnmYcgzkKKGw47ki=BZQYw4xRmUrfNqsiBww@mail.gmail.com>
-In-Reply-To: <CAHp75VfYwxviATZnmYcgzkKKGw47ki=BZQYw4xRmUrfNqsiBww@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=lsun@mellanox.com; 
-x-originating-ip: [216.156.69.42]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c6789040-3fe1-4ea5-8013-08d783e93054
-x-ms-traffictypediagnostic: DB6PR05MB4647:|DB6PR05MB4647:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR05MB46471D1434F51272B46415ADA1530@DB6PR05MB4647.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:862;
-x-forefront-prvs: 0255DF69B9
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(13464003)(189003)(199004)(8936002)(81166006)(54906003)(478600001)(9686003)(55016002)(81156014)(6916009)(2906002)(8676002)(5660300002)(86362001)(71200400001)(6506007)(66446008)(64756008)(66556008)(66946007)(7696005)(316002)(53546011)(66476007)(186003)(76116006)(26005)(52536014)(33656002)(4326008);DIR:OUT;SFP:1101;SCL:1;SRVR:DB6PR05MB4647;H:DB6PR05MB3223.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hKJa2GmR/sY3NNSVi8u+uaIM9x04KibNiMfJkB6FHl1vx5jzW/JR7cHu22VpNWNfn1BpU0qNsOP9Fsoce+b5sM0fymNjMpeV1QPMnl3DUNcRkb5YXRbY0QQVMFMJ86nNsIrBpsOD5qqa+Pib5DYh0qFyvuZufcoDg/KWJ3oOYQqgZxiXgsxfzCxEnKatLQtkgZ67v16ITGMBSvkKDNmhjPpwf/gfyy/mwCB0FVpVPuYYT5AlziIMN+qkH5jHlDcrNaERIQl91+MKts/3g8/Xc7AGel0xp8mSAUsbrlZXDILiKwjfKyJ4ualHUu9UkkiV52eAn1VceytwrCaptv8cjXxLuVc+2aZEZciDuDNbNo1299CkwnkkSbF1R+T1DAjqfDr2flNf9x8vBxw0Wjhxek6gqGoQMiw9+LUDgX/F6p0+x/Xk/huRBVghfFAjTP9jMmsBVKzqV3HY3CV7Mft2XPCP1RqhOY8xNCHKCGJGC+2JvVlJ8aBuEXnyAZDQs1+p
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 19 Dec 2019 09:30:09 -0500
+Received: by mail-pl1-f193.google.com with SMTP id z3so2635522plk.6;
+        Thu, 19 Dec 2019 06:30:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=5t4vAswEOX1SfsHlXsZAbvag2JXNNPB0kS5z+7nIlZU=;
+        b=tDCWrfuq6GSykvPgq+3DTz7yLWgt428pu+ADVZtMN2o9F/u5Tnj8gX6CQeYGuktLsC
+         njzdRXgF0oTS/HuHW8zZ0/Hi5hPeqtulhwE2eH27XZCbFKg6Rqj6w/depYVtdH+I0ZtW
+         CBAEp7mW2pnG4LJ4/vIjUjYTfsq3j9JLjMYjD49wMWk6vmHF58WdLMP9rrXIj9gHAnSP
+         yB9kfCxsLq0qFb+Q2fhrSueZe649Da4jLqjvIYUe1drVFvQdt7kd/0ikyMax7IImcSaE
+         7PSpGTmKIXuznobgi3GtLJmIBgIZ3/L0kKOMMPfWPzXk+sXh0EeCkNozIBJhsD03eBrf
+         RsQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=5t4vAswEOX1SfsHlXsZAbvag2JXNNPB0kS5z+7nIlZU=;
+        b=h0f9p1K2tStMWjmVRygQ8D37x2rWO9BJe/lFcOi242CjNDQJH9S4K30r5G7sm2B8At
+         BzQgqo9bk3cqwVsJWzkGvg07Bq9pMcp3OR4KBctb6aLYAK5W06e/HkrOwe0oHnfbVgen
+         NnUz3SSa8xV1Kq7bV8xXLrIlpXw3hQKCRpk6JFaFAakIL9NS1k6MJe4r8Hyf7J5xUdRU
+         X373oxKz3G9ondFxR3J+TQBIjxBwV4yJoQEpgw0aXkahKJ2T5c4n7UUvu4wySni4gVUB
+         dccdUpXT2JODueEIFvnWFpmLeMH1Nm/Bh5WPKeX6+W98bCHTvk3BlMFw2d6RsGne2MFo
+         fKlg==
+X-Gm-Message-State: APjAAAVyUncjIPn0iwrxKf5CCbHQoLazGZEEisJpjtk01Mrh55i2CVwC
+        ygcdnKBzGjQBV8RR7IUtV3Q=
+X-Google-Smtp-Source: APXvYqyR3kU9o7p3yM9RBMiJysPdrvk8AFBebRAa9eURJu+LWRNgvXRALah0eRgoTy4lTKmXGZITUQ==
+X-Received: by 2002:a17:902:8bc4:: with SMTP id r4mr9185759plo.291.1576765809019;
+        Thu, 19 Dec 2019 06:30:09 -0800 (PST)
+Received: from nishad ([106.51.232.103])
+        by smtp.gmail.com with ESMTPSA id r2sm7639129pgv.16.2019.12.19.06.30.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 19 Dec 2019 06:30:08 -0800 (PST)
+Date:   Thu, 19 Dec 2019 20:00:01 +0530
+From:   Nishad Kamdar <nishadkamdar@gmail.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: intel-ips: Use the correct style for SPDX
+ License Identifier
+Message-ID: <20191219142958.GA3594@nishad>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6789040-3fe1-4ea5-8013-08d783e93054
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2019 18:36:25.5758
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kdE79rbCzMxY3pZ8GdPH6DkhzFuVs7jD31ES21acwy8upW89xlw8QfaPyYOw8iykwA9VamBZEpxXa/acgqmf4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR05MB4647
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-U29ycnkgSSBtaXN1bmRlcnN0b29kIHRoZSBsYXN0IGNvbW1lbnQuIFZlcmlmaWVkIGFuZCBwb3N0
-ZWQgdjQuDQoNCi0gTGltaW5nDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJv
-bTogQW5keSBTaGV2Y2hlbmtvIDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBX
-ZWRuZXNkYXksIERlY2VtYmVyIDE4LCAyMDE5IDE6MDAgUE0NCj4gVG86IExpbWluZyBTdW4gPGxz
-dW5AbWVsbGFub3guY29tPg0KPiBDYzogQW5keSBTaGV2Y2hlbmtvIDxhbmR5QGluZnJhZGVhZC5v
-cmc+OyBEYXJyZW4gSGFydCA8ZHZoYXJ0QGluZnJhZGVhZC5vcmc+OyBWYWRpbSBQYXN0ZXJuYWsg
-PHZhZGltcEBtZWxsYW5veC5jb20+OyBEYXZpZA0KPiBXb29kcyA8ZHdvb2RzQG1lbGxhbm94LmNv
-bT47IFBsYXRmb3JtIERyaXZlciA8cGxhdGZvcm0tZHJpdmVyLXg4NkB2Z2VyLmtlcm5lbC5vcmc+
-OyBMaW51eCBLZXJuZWwgTWFpbGluZyBMaXN0IDxsaW51eC0NCj4ga2VybmVsQHZnZXIua2VybmVs
-Lm9yZz4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2M10gcGxhdGZvcm0vbWVsbGFub3g6IGZpeCB0
-aGUgbWx4LWJvb3RjdGwgc3lzZnMNCj4gDQo+IE9uIFdlZCwgRGVjIDE4LCAyMDE5IGF0IDU6MjUg
-UE0gTGltaW5nIFN1biA8bHN1bkBtZWxsYW5veC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gVGhpcyBp
-cyBhIGZvbGxvdy11cCBjb21taXQgZm9yIHRoZSBzeXNmcyBhdHRyaWJ1dGVzIHRvIGNoYW5nZQ0K
-PiA+IGZyb20gRFJJVkVSX0FUVFIgdG8gREVWSUNFX0FUVFIgYWNjb3JkaW5nIHRvIHNvbWUgaW5p
-dGlhbCBjb21tZW50cy4NCj4gPiBJbiBzdWNoIGNhc2UsIGl0J3MgYmV0dGVyIHRvIHBvaW50IHRo
-ZSBzeXNmcyBwYXRoIHRvIHRoZSBkZXZpY2UNCj4gPiBpdHNlbGYgaW5zdGVhZCBvZiB0aGUgZHJp
-dmVyLiBUaGUgQUJJIGRvY3VtZW50IGlzIGFsc28gdXBkYXRlZC4NCj4gPg0KPiA+IEZpeGVzOiA3
-OWUyOWNiOGZiYzUgKCJwbGF0Zm9ybS9tZWxsYW5veDogQWRkIGJvb3RjdGwgZHJpdmVyIGZvciBN
-ZWxsYW5veCBCbHVlRmllbGQgU29jIikNCj4gPiBTaWduZWQtb2ZmLWJ5OiBMaW1pbmcgU3VuIDxs
-c3VuQG1lbGxhbm94LmNvbT4NCj4gDQo+IC4uLg0KPiANCj4gPiAtQVRUUklCVVRFX0dST1VQUyht
-bHhiZl9ib290Y3RsKTsNCj4gDQo+IFdoYXQncyB3cm9uZyB3aXRoIGFib3ZlIG1hY3JvPw0KPiAN
-Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBhdHRyaWJ1dGVfZ3JvdXAgbWx4YmZfYm9vdGN0bF9n
-cm91cCA9IHsNCj4gPiArICAgICAgIC5hdHRycyAgPSBtbHhiZl9ib290Y3RsX2F0dHJzLA0KPiA+
-ICt9Ow0KPiANCj4gLi4uDQo+IA0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9n
-cm91cCAqbWx4YmZfYm9vdGN0bF9kZXZfZ3JvdXBzW10gPSB7DQo+ID4gKyAgICAgICAmbWx4YmZf
-Ym9vdGN0bF9ncm91cCwNCj4gPiArICAgICAgIE5VTEwNCj4gPiArfTsNCj4gDQo+IC0tDQo+IFdp
-dGggQmVzdCBSZWdhcmRzLA0KPiBBbmR5IFNoZXZjaGVua28NCg==
+This patch corrects the SPDX License Identifier style in
+header files related to x86 Platform Specific Drivers.
+For C header files Documentation/process/license-rules.rst
+mandates C-like comments (opposed to C source files where
+C++ style should be used).
+
+Changes made by using a script provided by Joe Perches here:
+https://lkml.org/lkml/2019/2/7/46.
+
+Suggested-by: Joe Perches <joe@perches.com>
+Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
+---
+ drivers/platform/x86/intel_ips.h      | 2 +-
+ drivers/platform/x86/intel_pmc_core.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/platform/x86/intel_ips.h b/drivers/platform/x86/intel_ips.h
+index 512ad234ad0d..35ed9711c7b9 100644
+--- a/drivers/platform/x86/intel_ips.h
++++ b/drivers/platform/x86/intel_ips.h
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Copyright (c) 2010 Intel Corporation
+  */
+diff --git a/drivers/platform/x86/intel_pmc_core.h b/drivers/platform/x86/intel_pmc_core.h
+index fdee5772e532..8203ae38dc46 100644
+--- a/drivers/platform/x86/intel_pmc_core.h
++++ b/drivers/platform/x86/intel_pmc_core.h
+@@ -1,4 +1,4 @@
+-// SPDX-License-Identifier: GPL-2.0
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+  * Intel Core SoC Power Management Controller Header File
+  *
+-- 
+2.17.1
+
