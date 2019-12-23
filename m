@@ -2,164 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEB0E1287ED
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 21 Dec 2019 08:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 234E7129417
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Dec 2019 11:17:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbfLUH0r (ORCPT
+        id S1726664AbfLWKRQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 21 Dec 2019 02:26:47 -0500
-Received: from [167.172.186.51] ([167.172.186.51]:39892 "EHLO shell.v3.sk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725845AbfLUH0r (ORCPT
+        Mon, 23 Dec 2019 05:17:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59743 "EHLO eggs.gnu.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726090AbfLWKRQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 21 Dec 2019 02:26:47 -0500
-X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Dec 2019 02:26:45 EST
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 12B60DFCCD;
-        Sat, 21 Dec 2019 07:18:00 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 9PF6KEseIP_b; Sat, 21 Dec 2019 07:17:59 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 6BF3FDFCCE;
-        Sat, 21 Dec 2019 07:17:59 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id pD3hHw7_mY0S; Sat, 21 Dec 2019 07:17:59 +0000 (UTC)
-Received: from furthur.lan (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 0DD0DDFCCD;
-        Sat, 21 Dec 2019 07:17:59 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH] power: supply: olpc_battery: fix the power supply name
-Date:   Sat, 21 Dec 2019 08:17:51 +0100
-Message-Id: <20191221071751.269025-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.24.1
+        Mon, 23 Dec 2019 05:17:16 -0500
+Received: from fencepost.gnu.org ([2001:470:142:3::e]:54529)
+        by eggs.gnu.org with esmtp (Exim 4.71)
+        (envelope-from <ebrahim@gnu.org>)
+        id 1ijKm2-0005zu-O3
+        for platform-driver-x86@vger.kernel.org; Mon, 23 Dec 2019 05:17:14 -0500
+Received: from ip124.ip-151-80-200.eu ([151.80.200.124]:34884 helo=[10.8.0.97])
+        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+        (Exim 4.82)
+        (envelope-from <ebrahim@gnu.org>)
+        id 1ijKm2-00032a-5z
+        for platform-driver-x86@vger.kernel.org; Mon, 23 Dec 2019 05:17:14 -0500
+To:     platform-driver-x86@vger.kernel.org
+Subject: [PATCH] drm/i915: Fix enable OA report logic
+From:   Ebrahim Byagowi <ebrahim@gnu.org>
+Message-ID: <d24e431a-a5ca-6bb0-812c-bb368ee64876@gnu.org>
+Date:   Mon, 23 Dec 2019 13:47:10 +0330
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The framework is unhappy about them, because it uses the names in sysfs
-attributes:
 
-  power_supply olpc-ac: hwmon: 'olpc-ac' is not a valid name attribute, p=
-lease fix
-  power_supply olpc-battery: hwmon: 'olpc-battery' is not a valid name at=
-tribute, please fix
+Clang raises
 
-See also commit 648cd48c9e56 ("hwmon: Do not accept invalid name
-attributes") and commit 74d3b6419772 ("hwmon: Relax name attribute
-validation for new APIs").
+  drivers/gpu/drm/i915/i915_perf.c:2474:50: warning: operator '?:' has lower precedence than '|'; '|' will be evaluated first [-Wbitwise-conditional-parentheses]
+                             !(stream->sample_flags & SAMPLE_OA_REPORT) ?
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+  drivers/gpu/drm/i915/i915_perf.c:2474:50: note: place parentheses around the '|' expression to silence this warning
+                             !(stream->sample_flags & SAMPLE_OA_REPORT) ?
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+  drivers/gpu/drm/i915/i915_perf.c:2474:50: note: place parentheses around the '?:' expression to evaluate it first
+                             !(stream->sample_flags & SAMPLE_OA_REPORT) ?
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+with -Wbitwise-conditional-parentheses and apparently is right
+as '|' is evaluated before '?:' which doesn't seem to be the intention
+here so let's put parentheses in the right place to fix it.
+
+Signed-off-by: Ebrahim Byagowi <ebrahim@gnu.org>
 ---
- arch/x86/platform/olpc/olpc-xo1-sci.c  | 4 ++--
- arch/x86/platform/olpc/olpc-xo15-sci.c | 4 ++--
- drivers/platform/olpc/olpc-xo175-ec.c  | 4 ++--
- drivers/power/supply/olpc_battery.c    | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/i915_perf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/platform/olpc/olpc-xo1-sci.c b/arch/x86/platform/ol=
-pc/olpc-xo1-sci.c
-index 99a28ce2244c7..09bd195cc9012 100644
---- a/arch/x86/platform/olpc/olpc-xo1-sci.c
-+++ b/arch/x86/platform/olpc/olpc-xo1-sci.c
-@@ -53,7 +53,7 @@ static const char * const lid_wake_mode_names[] =3D {
-=20
- static void battery_status_changed(void)
- {
--	struct power_supply *psy =3D power_supply_get_by_name("olpc-battery");
-+	struct power_supply *psy =3D power_supply_get_by_name("olpc_battery");
-=20
- 	if (psy) {
- 		power_supply_changed(psy);
-@@ -63,7 +63,7 @@ static void battery_status_changed(void)
-=20
- static void ac_status_changed(void)
- {
--	struct power_supply *psy =3D power_supply_get_by_name("olpc-ac");
-+	struct power_supply *psy =3D power_supply_get_by_name("olpc_ac");
-=20
- 	if (psy) {
- 		power_supply_changed(psy);
-diff --git a/arch/x86/platform/olpc/olpc-xo15-sci.c b/arch/x86/platform/o=
-lpc/olpc-xo15-sci.c
-index 6d193bb36021b..7bc1ea6a47974 100644
---- a/arch/x86/platform/olpc/olpc-xo15-sci.c
-+++ b/arch/x86/platform/olpc/olpc-xo15-sci.c
-@@ -75,7 +75,7 @@ static struct kobj_attribute lid_wake_on_close_attr =3D
-=20
- static void battery_status_changed(void)
- {
--	struct power_supply *psy =3D power_supply_get_by_name("olpc-battery");
-+	struct power_supply *psy =3D power_supply_get_by_name("olpc_battery");
-=20
- 	if (psy) {
- 		power_supply_changed(psy);
-@@ -85,7 +85,7 @@ static void battery_status_changed(void)
-=20
- static void ac_status_changed(void)
- {
--	struct power_supply *psy =3D power_supply_get_by_name("olpc-ac");
-+	struct power_supply *psy =3D power_supply_get_by_name("olpc_ac");
-=20
- 	if (psy) {
- 		power_supply_changed(psy);
-diff --git a/drivers/platform/olpc/olpc-xo175-ec.c b/drivers/platform/olp=
-c/olpc-xo175-ec.c
-index 83ed1fbf73cfd..5e1d14e35f20b 100644
---- a/drivers/platform/olpc/olpc-xo175-ec.c
-+++ b/drivers/platform/olpc/olpc-xo175-ec.c
-@@ -410,7 +410,7 @@ static void olpc_xo175_ec_complete(void *arg)
- 		dev_dbg(dev, "got event %.2x\n", byte);
- 		switch (byte) {
- 		case EVENT_AC_CHANGE:
--			psy =3D power_supply_get_by_name("olpc-ac");
-+			psy =3D power_supply_get_by_name("olpc_ac");
- 			if (psy) {
- 				power_supply_changed(psy);
- 				power_supply_put(psy);
-@@ -420,7 +420,7 @@ static void olpc_xo175_ec_complete(void *arg)
- 		case EVENT_BATTERY_CRITICAL:
- 		case EVENT_BATTERY_SOC_CHANGE:
- 		case EVENT_BATTERY_ERROR:
--			psy =3D power_supply_get_by_name("olpc-battery");
-+			psy =3D power_supply_get_by_name("olpc_battery");
- 			if (psy) {
- 				power_supply_changed(psy);
- 				power_supply_put(psy);
-diff --git a/drivers/power/supply/olpc_battery.c b/drivers/power/supply/o=
-lpc_battery.c
-index ad0e9e0edb3f8..e0476ec06601d 100644
---- a/drivers/power/supply/olpc_battery.c
-+++ b/drivers/power/supply/olpc_battery.c
-@@ -88,7 +88,7 @@ static enum power_supply_property olpc_ac_props[] =3D {
- };
-=20
- static const struct power_supply_desc olpc_ac_desc =3D {
--	.name =3D "olpc-ac",
-+	.name =3D "olpc_ac",
- 	.type =3D POWER_SUPPLY_TYPE_MAINS,
- 	.properties =3D olpc_ac_props,
- 	.num_properties =3D ARRAY_SIZE(olpc_ac_props),
-@@ -605,7 +605,7 @@ static const struct attribute_group *olpc_bat_sysfs_g=
-roups[] =3D {
-  *********************************************************************/
-=20
- static struct power_supply_desc olpc_bat_desc =3D {
--	.name =3D "olpc-battery",
-+	.name =3D "olpc_battery",
- 	.get_property =3D olpc_bat_get_property,
- 	.use_for_apm =3D 1,
- };
---=20
-2.24.1
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index 2ae14bc14931..db963f7c2e2e 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -2471,9 +2471,9 @@ static int gen12_enable_metric_set(struct i915_perf_stream *stream)
+ 			    * If the user didn't require OA reports, instruct the
+ 			    * hardware not to emit ctx switch reports.
+ 			    */
+-			   !(stream->sample_flags & SAMPLE_OA_REPORT) ?
+-			   _MASKED_BIT_ENABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS) :
+-			   _MASKED_BIT_DISABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS));
++			   (!(stream->sample_flags & SAMPLE_OA_REPORT) ?
++			    _MASKED_BIT_ENABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS) :
++			    _MASKED_BIT_DISABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS)));
+ 
+ 	intel_uncore_write(uncore, GEN12_OAG_OAGLBCTXCTRL, periodic ?
+ 			   (GEN12_OAG_OAGLBCTXCTRL_COUNTER_RESUME |
+-- 
+2.24.0
 
