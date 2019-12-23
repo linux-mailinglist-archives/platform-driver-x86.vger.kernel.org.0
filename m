@@ -2,97 +2,224 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E387F1296F0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Dec 2019 15:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 231F2129871
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Dec 2019 16:46:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727190AbfLWORf (ORCPT
+        id S1726787AbfLWPqy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Dec 2019 09:17:35 -0500
-Received: from mga03.intel.com ([134.134.136.65]:47069 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727183AbfLWORc (ORCPT
+        Mon, 23 Dec 2019 10:46:54 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:53821 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726717AbfLWPqx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Dec 2019 09:17:32 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Dec 2019 06:17:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,347,1571727600"; 
-   d="scan'208";a="417276281"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Dec 2019 06:17:28 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id C0540BF0; Mon, 23 Dec 2019 16:17:18 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mon, 23 Dec 2019 10:46:53 -0500
+Received: by mail-pj1-f68.google.com with SMTP id n96so7618268pjc.3;
+        Mon, 23 Dec 2019 07:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9q4Qa+3dR5izkjY49fumDCLPkPXgq/tKTsRV9qz0S84=;
+        b=YKu/7y4WgHJkHt1yzJt3Ev2jp1cfNULuFfThl0N+6Lm/2sLUL2HbiA3oBq6V5dl/JX
+         qNV8n3utnhBwV6OImR02VvF4JKBdlTCl9D2OSLQ6C4XYfEspK4QjplttKsRUNJuytdEM
+         JPbvSS5fZXG9Ze/T3C129EwKYKJym1UeLj7L/nf92xkcTzEb6Tmbw3Qeu3ggved0c8fv
+         fNkxgCgks950qWhxa/HFfR1Yn4+rp2yx3LlFu5LhERupr5YUHtlRY4toDGvqiWwK13mk
+         NjQDIsgA7JfCwJcy5U1E0cvUTaW9v1DfkQ2HSa6VcR/qspsXRl+WAkV0kYk4YusPlPqd
+         CV7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9q4Qa+3dR5izkjY49fumDCLPkPXgq/tKTsRV9qz0S84=;
+        b=HIUozIyy9N52CIvqixKIVdzNtKq4yxmaUJYak/mD0I+rASxxFy/wZjgPNUU93FBjqk
+         /Q45lEf0SDeIBjy7/+zSJ30bsuT+BKPlKQGAK64ultS1YnpWU4EGGrJDgLYAQR46hEy5
+         YEj/vaTuu6apAe51sAlCtoweSOzk4WH5Iv4pqcZt4s0XksfE/cAdHunq0Ik3c5Aq7XO+
+         LOuHZm+e/eJyeK6XqfQdgCGQKXyjUqV/WdlmF3XgS84qGwd6KeV6qGy+4TvrLjLZOJYE
+         0pVZDZKh9JxWdvZHvggd91vYTuHT097h6FoJBGAeB05rmMM/PBvJ1F+V6GjfSsZz/RlT
+         vZFg==
+X-Gm-Message-State: APjAAAVx1LCxaKp3YpkFKdNTF4BLEUL1w4NLGBN98F7jnSAXHFF9MK0b
+        ZcoiS5jiz5yhKM/Vzs+ai32GSydv
+X-Google-Smtp-Source: APXvYqz3t8Gx3zLKmx9tay6TK1Vxg62MFuznpIoi3itolHAXVqfHyXGjpWSwC8UWoIBhzumtqdFX3w==
+X-Received: by 2002:a17:902:bd46:: with SMTP id b6mr31113821plx.239.1577116012538;
+        Mon, 23 Dec 2019 07:46:52 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k23sm21829545pgg.7.2019.12.23.07.46.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Dec 2019 07:46:51 -0800 (PST)
+Subject: Re: [PATCH 16/37] watchdog: intel-mid_wdt: Convert to use new SCU IPC
+ API
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>, x86@kernel.org
 Cc:     Zha Qipeng <qipeng.zha@intel.com>,
         Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
         "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 37/37] MAINTAINERS: Update entry for Intel Broxton PMC driver
-Date:   Mon, 23 Dec 2019 17:17:16 +0300
-Message-Id: <20191223141716.13727-38-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191223141716.13727-1-mika.westerberg@linux.intel.com>
 References: <20191223141716.13727-1-mika.westerberg@linux.intel.com>
+ <20191223141716.13727-17-mika.westerberg@linux.intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <0a488bbc-e101-0479-2968-1fb9acef69fc@roeck-us.net>
+Date:   Mon, 23 Dec 2019 07:46:50 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191223141716.13727-17-mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver lives now under MFD so split the current entry into two parts
-and add me as co-maintainer of the Intel Broxton PMC driver. While there
-correct formatting of Zha Qipeng's email address.
+On 12/23/19 6:16 AM, Mika Westerberg wrote:
+> This converts the Intel MID watchdog driver over the new SCU IPC API
+> where the SCU IPC instance is passed to the functions.
+> 
+> While there drop useless print at the end of probe.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- MAINTAINERS | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+If you say that you drop the statement you should actually do so.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ffa3371bc750..939a86db2f34 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8277,6 +8277,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL BROXTON PMC DRIVER
-+M:	Mika Westerberg <mika.westerberg@linux.intel.com>
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+S:	Maintained
-+F:	drivers/mfd/intel_pmc_bxt.c
-+F:	include/linux/mfd/intel_pmc_bxt.h
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-@@ -8485,13 +8492,11 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
- 
--INTEL PMC/P-Unit IPC DRIVER
--M:	Zha Qipeng<qipeng.zha@intel.com>
-+INTEL P-Unit IPC DRIVER
-+M:	Zha Qipeng <qipeng.zha@intel.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
--F:	drivers/platform/x86/intel_pmc_ipc.c
- F:	drivers/platform/x86/intel_punit_ipc.c
--F:	arch/x86/include/asm/intel_pmc_ipc.h
- F:	arch/x86/include/asm/intel_punit_ipc.h
- 
- INTEL PMIC GPIO DRIVERS
--- 
-2.24.0
+Guenter
+
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> ---
+>   drivers/watchdog/intel-mid_wdt.c | 53 ++++++++++++++++++++++----------
+>   1 file changed, 37 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/watchdog/intel-mid_wdt.c b/drivers/watchdog/intel-mid_wdt.c
+> index 470213abfd3d..1ae03b64ef8b 100644
+> --- a/drivers/watchdog/intel-mid_wdt.c
+> +++ b/drivers/watchdog/intel-mid_wdt.c
+> @@ -33,14 +33,24 @@ enum {
+>   	SCU_WATCHDOG_KEEPALIVE,
+>   };
+>   
+> -static inline int wdt_command(int sub, u32 *in, int inlen)
+> +struct mid_wdt {
+> +	struct watchdog_device wd;
+> +	struct device *dev;
+> +	struct intel_scu_ipc_dev *scu;
+> +};
+> +
+> +static inline int
+> +wdt_command(struct mid_wdt *mid, int sub, const void *in, size_t inlen, size_t size)
+>   {
+> -	return intel_scu_ipc_command(IPC_WATCHDOG, sub, in, inlen, NULL, 0);
+> +	struct intel_scu_ipc_dev *scu = mid->scu;
+> +
+> +	return intel_scu_ipc_dev_command_with_size(scu, IPC_WATCHDOG, sub, in,
+> +						   inlen, size, NULL, 0);
+>   }
+>   
+>   static int wdt_start(struct watchdog_device *wd)
+>   {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>   	int ret, in_size;
+>   	int timeout = wd->timeout;
+>   	struct ipc_wd_start {
+> @@ -49,38 +59,41 @@ static int wdt_start(struct watchdog_device *wd)
+>   	} ipc_wd_start = { timeout - MID_WDT_PRETIMEOUT, timeout };
+>   
+>   	/*
+> -	 * SCU expects the input size for watchdog IPC to
+> -	 * be based on 4 bytes
+> +	 * SCU expects the input size for watchdog IPC to be 2 which is the
+> +	 * size of the structure in dwords. SCU IPC normally takes bytes
+> +	 * but this is a special case where we specify size to be different
+> +	 * than inlen.
+>   	 */
+>   	in_size = DIV_ROUND_UP(sizeof(ipc_wd_start), 4);
+>   
+> -	ret = wdt_command(SCU_WATCHDOG_START, (u32 *)&ipc_wd_start, in_size);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_START, &ipc_wd_start,
+> +			  sizeof(ipc_wd_start), in_size);
+>   	if (ret)
+> -		dev_crit(dev, "error starting watchdog: %d\n", ret);
+> +		dev_crit(mid->dev, "error starting watchdog: %d\n", ret);
+>   
+>   	return ret;
+>   }
+>   
+>   static int wdt_ping(struct watchdog_device *wd)
+>   {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>   	int ret;
+>   
+> -	ret = wdt_command(SCU_WATCHDOG_KEEPALIVE, NULL, 0);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_KEEPALIVE, NULL, 0, 0);
+>   	if (ret)
+> -		dev_crit(dev, "Error executing keepalive: %d\n", ret);
+> +		dev_crit(mid->dev, "Error executing keepalive: %d\n", ret);
+>   
+>   	return ret;
+>   }
+>   
+>   static int wdt_stop(struct watchdog_device *wd)
+>   {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>   	int ret;
+>   
+> -	ret = wdt_command(SCU_WATCHDOG_STOP, NULL, 0);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_STOP, NULL, 0, 0);
+>   	if (ret)
+> -		dev_crit(dev, "Error stopping watchdog: %d\n", ret);
+> +		dev_crit(mid->dev, "Error stopping watchdog: %d\n", ret);
+>   
+>   	return ret;
+>   }
+> @@ -110,6 +123,7 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>   	struct device *dev = &pdev->dev;
+>   	struct watchdog_device *wdt_dev;
+>   	struct intel_mid_wdt_pdata *pdata = dev->platform_data;
+> +	struct mid_wdt *mid;
+>   	int ret;
+>   
+>   	if (!pdata) {
+> @@ -123,10 +137,13 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>   			return ret;
+>   	}
+>   
+> -	wdt_dev = devm_kzalloc(dev, sizeof(*wdt_dev), GFP_KERNEL);
+> -	if (!wdt_dev)
+> +	mid = devm_kzalloc(dev, sizeof(*mid), GFP_KERNEL);
+> +	if (!mid)
+>   		return -ENOMEM;
+>   
+> +	mid->dev = dev;
+> +	wdt_dev = &mid->wd;
+> +
+>   	wdt_dev->info = &mid_wdt_info;
+>   	wdt_dev->ops = &mid_wdt_ops;
+>   	wdt_dev->min_timeout = MID_WDT_TIMEOUT_MIN;
+> @@ -135,7 +152,7 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>   	wdt_dev->parent = dev;
+>   
+>   	watchdog_set_nowayout(wdt_dev, WATCHDOG_NOWAYOUT);
+> -	watchdog_set_drvdata(wdt_dev, dev);
+> +	watchdog_set_drvdata(wdt_dev, mid);
+>   
+>   	ret = devm_request_irq(dev, pdata->irq, mid_wdt_irq,
+>   			       IRQF_SHARED | IRQF_NO_SUSPEND, "watchdog",
+> @@ -145,6 +162,10 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>   		return ret;
+>   	}
+>   
+> +	mid->scu = devm_intel_scu_ipc_dev_get(dev);
+> +	if (!mid->scu)
+> +		return -EPROBE_DEFER;
+> +
+>   	/*
+>   	 * The firmware followed by U-Boot leaves the watchdog running
+>   	 * with the default threshold which may vary. When we get here
+> 
 
