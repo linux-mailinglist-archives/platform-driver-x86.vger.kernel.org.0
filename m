@@ -2,88 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC208129A60
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Dec 2019 20:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25065129F99
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Dec 2019 10:04:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726881AbfLWTce (ORCPT
+        id S1726245AbfLXJEs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Dec 2019 14:32:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36772 "EHLO eggs.gnu.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726766AbfLWTce (ORCPT
+        Tue, 24 Dec 2019 04:04:48 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:37208 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726213AbfLXJEj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Dec 2019 14:32:34 -0500
-Received: from fencepost.gnu.org ([2001:470:142:3::e]:32935)
-        by eggs.gnu.org with esmtp (Exim 4.71)
-        (envelope-from <ebrahim@gnu.org>)
-        id 1ijTRQ-00064Z-VJ
-        for platform-driver-x86@vger.kernel.org; Mon, 23 Dec 2019 14:32:33 -0500
-Received: from ip124.ip-151-80-200.eu ([151.80.200.124]:34484 helo=[10.8.0.169])
-        by fencepost.gnu.org with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-        (Exim 4.82)
-        (envelope-from <ebrahim@gnu.org>)
-        id 1ijTRQ-0002DX-5i
-        for platform-driver-x86@vger.kernel.org; Mon, 23 Dec 2019 14:32:32 -0500
-Subject: Re: [PATCH] drm/i915: Fix enable OA report logic
-From:   Ebrahim Byagowi <ebrahim@gnu.org>
-To:     platform-driver-x86@vger.kernel.org
-References: <d24e431a-a5ca-6bb0-812c-bb368ee64876@gnu.org>
-Message-ID: <2f3e8cbd-d5e0-a8f1-e663-53abb9fe27b5@gnu.org>
-Date:   Mon, 23 Dec 2019 23:02:26 +0330
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        Tue, 24 Dec 2019 04:04:39 -0500
+Received: by mail-qv1-f65.google.com with SMTP id f16so7275282qvi.4
+        for <platform-driver-x86@vger.kernel.org>; Tue, 24 Dec 2019 01:04:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=T+/t7noVmCnipzpx0EipiuoSs8D3VSnUxNHRKwid9CC0wiDbW+X/7ifkYeunyqedwQ
+         BGdMrKiSqKnqF0r8Ye2KwFtk0h3GLL39TxNb3CHAu3bXzv5AN/Kgu5ag8P+iBs/MQlQV
+         uiWtOeIaQkWcLsKNf6KZJnk5gu30Oe2Wb5W5ckfQ5559XhNTvEvyadD8dkI5XOU8pCG3
+         aEK2B3iE+wm7bJkjfR7s8BrUNiVlj+YT1q1jfY76M++ddXl3Ujhw972TMvRh6ukNAwlj
+         XJqSDAmeFoGE6A8arcoUtdb2DZEBYbduX+OXcqMJa9a6fPb761KxhkI0pSMZmZbjw+/9
+         dW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=Pi4h5TP+S3U2FkHmbHM0yVYbC5XW6BFmgB736LeYeKEBtlJi+dJeTY99WL5tOPjgrX
+         T7lEvZnYd+LwyBZFXOLUJnV4m6xqwvhb37PqBQ5TP1fL2uuEIuGRFXv6E/GoBiAq0ZN6
+         ndH77UK36NALvAecXlQlJ8pqex6cpSEDatsA9cmqtUj3f9ei8njASHg4YMAGn0dNCDhH
+         FZsab7c38K1pVTAqKECExbLd3GmGErr1aA3cRCaEmNp7eVBul5IkmyexDvN8bu8FPdEq
+         TSBNg0SaqYcaKlWPf4Du7tKJ84GjILy6znFE/3Da37/XtCgUbIwWn4Y3QsTPGUvsLy4Y
+         zjzA==
+X-Gm-Message-State: APjAAAVl7M3OQpvfricGfRLuF+axqdBZVDka1ByTsUb56u1W7JdKP6xY
+        W3/bK687afmVo+BLrcqm+WxEvDbKjtYI6CuJWZ4=
+X-Google-Smtp-Source: APXvYqxVGVmKHh36H3FtCwgzZ5FU95JoblzpuCw5SoZ9RS/aHnMUAQsP+TIBYVHkaxqYCJ5qeKl56QyyoiPTbeZ5we0=
+X-Received: by 2002:a0c:fac7:: with SMTP id p7mr27888544qvo.46.1577178276846;
+ Tue, 24 Dec 2019 01:04:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <d24e431a-a5ca-6bb0-812c-bb368ee64876@gnu.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+Received: by 2002:ad4:530a:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 01:04:36
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <anthonymoore105@gmail.com>
+Date:   Tue, 24 Dec 2019 09:04:36 +0000
+Message-ID: <CAKqrdYCodJzPTTHz6kph8Sgthe6xHddAUidHBCggQaKHYA7ZUw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hey there, am new here so not sure if is the right mailing list to submit this patch,
-if not please let me know where it should be uploaded. Thanks!
-
-On 12/23/19 1:47 PM, Ebrahim Byagowi wrote:
-> 
-> Clang raises
-> 
->   drivers/gpu/drm/i915/i915_perf.c:2474:50: warning: operator '?:' has lower precedence than '|'; '|' will be evaluated first [-Wbitwise-conditional-parentheses]
->                              !(stream->sample_flags & SAMPLE_OA_REPORT) ?
->                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
->   drivers/gpu/drm/i915/i915_perf.c:2474:50: note: place parentheses around the '|' expression to silence this warning
->                              !(stream->sample_flags & SAMPLE_OA_REPORT) ?
->                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
->   drivers/gpu/drm/i915/i915_perf.c:2474:50: note: place parentheses around the '?:' expression to evaluate it first
->                              !(stream->sample_flags & SAMPLE_OA_REPORT) ?
->                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-> 
-> with -Wbitwise-conditional-parentheses and apparently is right
-> as '|' is evaluated before '?:' which doesn't seem to be the intention
-> here so let's put parentheses in the right place to fix it.
-> 
-> Signed-off-by: Ebrahim Byagowi <ebrahim@gnu.org>
-> ---
->  drivers/gpu/drm/i915/i915_perf.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 2ae14bc14931..db963f7c2e2e 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -2471,9 +2471,9 @@ static int gen12_enable_metric_set(struct i915_perf_stream *stream)
->  			    * If the user didn't require OA reports, instruct the
->  			    * hardware not to emit ctx switch reports.
->  			    */
-> -			   !(stream->sample_flags & SAMPLE_OA_REPORT) ?
-> -			   _MASKED_BIT_ENABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS) :
-> -			   _MASKED_BIT_DISABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS));
-> +			   (!(stream->sample_flags & SAMPLE_OA_REPORT) ?
-> +			    _MASKED_BIT_ENABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS) :
-> +			    _MASKED_BIT_DISABLE(GEN12_OAG_OA_DEBUG_DISABLE_CTX_SWITCH_REPORTS)));
->  
->  	intel_uncore_write(uncore, GEN12_OAG_OAGLBCTXCTRL, periodic ?
->  			   (GEN12_OAG_OAGLBCTXCTRL_COUNTER_RESUME |
-> 
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
