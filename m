@@ -2,82 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E93012AE95
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Dec 2019 21:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E2412AEFC
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Dec 2019 22:54:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfLZUmH (ORCPT
+        id S1726653AbfLZVyu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Dec 2019 15:42:07 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:39285 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbfLZUmH (ORCPT
+        Thu, 26 Dec 2019 16:54:50 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:60494 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbfLZVyu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Dec 2019 15:42:07 -0500
-Received: by mail-yw1-f67.google.com with SMTP id h126so10596462ywc.6;
-        Thu, 26 Dec 2019 12:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=g86qrskhZaRGjgxmstzX/LzWZezxaIn6S4dfDOioLNc=;
-        b=ju0iqBtCnCnRzhHPSabea6qcNcgjTcoZTuWNuXELMsATmmtOTvqb2CE7WydBM8iUTb
-         /gcEOkUclsx6k5jU5kxaokTJWZH5n1jGh9Y1QP3HYvQCs14jVQox0MjJJCZYLW4qJM7q
-         xvvWKw2xIQdWge6Ek0GPn5sScOxj2kXuDFkEM1RR0GNatT8UjzizaPTzFFy/bognj0Bx
-         YLo0Nty+67EKBWMR+VXnMY6Ec4W5kDjtsTqlrnUElcdptcN9GZ2P5FirxMezi5ZrDpDt
-         q3bDVJWS7vg3it6AKzdSp1T+vwqzoWbJ8BC7T7K/X40u4u4tcbF1hW5K9Mna3JiEKT9C
-         o7xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g86qrskhZaRGjgxmstzX/LzWZezxaIn6S4dfDOioLNc=;
-        b=QKdNsetTJ/TA92QyrQhTyiSSr744gkgacx4BxSD4S9zhEuXWFugKDUd2AuFNgbxWRt
-         GvEQZP/yYP+SVPs87xKIyVC9Oc+gMkP39OncyoJ78ffYV8qE9TaB1a/jCXfFy0v8MAm1
-         abrqwxsKMCZzOvm5XQ8eTjTs9H/U6EDBEoeC2wL/06nHcaqhS/9nlU88lXwskW0AiKqB
-         D/YPKsRWNQ37gY8vJ763O/cOHqYHSxao4bsVKvaiiQ6KS5SVjczDwIpG6lwipkJOrYZY
-         w8jHj9fQ7EmFqakW+HbOrTW8ZHJg8tz4UIc5t/1JS0XjkH38jFYGsAjU1lcUyJRQWzET
-         5ihQ==
-X-Gm-Message-State: APjAAAXN6qqgcT0gmZK7frn2YvHlswd/T74d6+YETFBxDExEvuSOxS+n
-        gCTg/D5Sgkbi+LEXMD9S1Zsp48w=
-X-Google-Smtp-Source: APXvYqzJGlQHJhPxiU5x5y4opucYX2yp8WR5sheWemmFHpMxLNx6Q4Rvb2ghhuSMJDRwFJgqMBtnSg==
-X-Received: by 2002:a81:7016:: with SMTP id l22mr34108773ywc.69.1577392926123;
-        Thu, 26 Dec 2019 12:42:06 -0800 (PST)
-Received: from localhost ([12.156.111.130])
-        by smtp.gmail.com with ESMTPSA id w74sm12626034ywa.71.2019.12.26.12.42.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2019 12:42:05 -0800 (PST)
-Date:   Thu, 26 Dec 2019 15:42:05 -0500
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
+        Thu, 26 Dec 2019 16:54:50 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBQLsX3v177502;
+        Thu, 26 Dec 2019 21:54:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=71+yLHXaaKx31W+eL5+aS24elM+JNkc3yBB8kz/sz+8=;
+ b=M4hcyRY1dMlEvCFXcp/4HcD4hg7A3Qb+nEBY1PQVYlIdLOEErqdN/DRqC1SL7+xzGh40
+ raevVb1zx14cGHrP/Bbr1o6mPNT77sAFS8bEWhBp3Tlwp2HUaVP/6o0oqVN1S2hRuIg7
+ 2Mn8SX8Bvv3uWGxlo4bbe0aFSUeHc54pxPP/7Uyqx2k14gd7LQ9IQrE32/jFZkENIAAA
+ JJIPrXIdhjJ++tMLN5A6mg+KYCqvdOamQhddmpOlXdahPv5kbVPLDW0qNRflMpjeT+Dm
+ YuZjKkLSfBrnnRSS68nViZT1q5fdGKyTtQKHnOiOAg3KjHSK4Jc3P+fBwwU2le0RoWF0 JQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 2x1attucsq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Dec 2019 21:54:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBQLmMhm178145;
+        Thu, 26 Dec 2019 21:54:32 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2x4t3yt9vx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 26 Dec 2019 21:54:32 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBQLsQu3003301;
+        Thu, 26 Dec 2019 21:54:26 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 26 Dec 2019 13:54:26 -0800
+Date:   Fri, 27 Dec 2019 00:54:18 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Ayman Bagabas <ayman.bagabas@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mattias Jacobsson <2pi@mok.nu>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
         kbuild test robot <lkp@intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] platform/x86: huawei-wmi: Fix a possible NULL deref
-Message-ID: <20191226204205.qzfcmohulcfbcl4e@960>
+Message-ID: <20191226215418.GA3889@kadam>
 References: <20191225235841.14393-1-ayman.bagabas@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20191225235841.14393-1-ayman.bagabas@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9482 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912260192
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9482 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912260193
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Please ignore this patch I'll be sending another one. guid->guid_string
-is always true.
-
-On 19/12/25 06:58PM, Ayman Bagabas wrote:
+On Wed, Dec 25, 2019 at 06:58:38PM -0500, Ayman Bagabas wrote:
 > We're iterating over a NULL terminated array.
->
+
+This changelog is kind of messed up.  This is how it looks in context:
+https://marc.info/?l=linux-kernel&m=157731837511760&w=2
+The subject and the commit message are far apart.  What's wrong with
+iterating over a NULL terminated array?  The changelog doesn't say which
+variable is NULL.
+
+> 
 > Fixes: 1ac9abeb2e5b ("platform/x86: huawei-wmi: Move to platform driver")
 > Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
 > ---
 >  drivers/platform/x86/huawei-wmi.c | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
->
+> 
 > diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
 > index a2d846c4a7ee..42d461eeeff4 100644
 > --- a/drivers/platform/x86/huawei-wmi.c
@@ -87,32 +99,12 @@ On 19/12/25 06:58PM, Ayman Bagabas wrote:
 >  {
 >  	const struct wmi_device_id *guid = huawei_wmi_events_id_table;
 > +	struct input_dev *idev = *huawei_wmi->idev;
->  	int err;
->
->  	platform_set_drvdata(pdev, huawei_wmi);
->  	huawei_wmi->dev = &pdev->dev;
->
-> -	while (*guid->guid_string) {
-> -		struct input_dev *idev = *huawei_wmi->idev;
-> +	while (guid->guid_string) {
->
->  		if (wmi_has_guid(guid->guid_string)) {
->  			err = huawei_wmi_input_setup(&pdev->dev, guid->guid_string, &idev);
-> @@ -820,7 +820,7 @@ static int huawei_wmi_remove(struct platform_device *pdev)
->  {
->  	const struct wmi_device_id *guid = huawei_wmi_events_id_table;
->
-> -	while (*guid->guid_string) {
-> +	while (guid->guid_string) {
->  		if (wmi_has_guid(guid->guid_string))
->  			huawei_wmi_input_exit(&pdev->dev, guid->guid_string);
->
->
-> base-commit: 46cf053efec6a3a5f343fead837777efe8252a46
-> --
-> 2.24.1
->
 
---
-Thank you,
-Ayman
+This line seems like an unrelated change.  I'm still not sure the
+justification for this.  I really hate puzzling over patches to try
+figure out why a patch is making changes.
+
+regards,
+dan carpenter
+
+
