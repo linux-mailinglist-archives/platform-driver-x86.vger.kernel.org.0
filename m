@@ -2,109 +2,158 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E2412AEFC
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Dec 2019 22:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FD612B38D
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 10:33:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726653AbfLZVyu (ORCPT
+        id S1726270AbfL0Jdo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Dec 2019 16:54:50 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:60494 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbfLZVyu (ORCPT
+        Fri, 27 Dec 2019 04:33:44 -0500
+Received: from mx0a-00010702.pphosted.com ([148.163.156.75]:55754 "EHLO
+        mx0b-00010702.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725904AbfL0Jdo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Dec 2019 16:54:50 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBQLsX3v177502;
-        Thu, 26 Dec 2019 21:54:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=71+yLHXaaKx31W+eL5+aS24elM+JNkc3yBB8kz/sz+8=;
- b=M4hcyRY1dMlEvCFXcp/4HcD4hg7A3Qb+nEBY1PQVYlIdLOEErqdN/DRqC1SL7+xzGh40
- raevVb1zx14cGHrP/Bbr1o6mPNT77sAFS8bEWhBp3Tlwp2HUaVP/6o0oqVN1S2hRuIg7
- 2Mn8SX8Bvv3uWGxlo4bbe0aFSUeHc54pxPP/7Uyqx2k14gd7LQ9IQrE32/jFZkENIAAA
- JJIPrXIdhjJ++tMLN5A6mg+KYCqvdOamQhddmpOlXdahPv5kbVPLDW0qNRflMpjeT+Dm
- YuZjKkLSfBrnnRSS68nViZT1q5fdGKyTtQKHnOiOAg3KjHSK4Jc3P+fBwwU2le0RoWF0 JQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 2x1attucsq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Dec 2019 21:54:33 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBQLmMhm178145;
-        Thu, 26 Dec 2019 21:54:32 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 2x4t3yt9vx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 26 Dec 2019 21:54:32 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBQLsQu3003301;
-        Thu, 26 Dec 2019 21:54:26 GMT
-Received: from kadam (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 26 Dec 2019 13:54:26 -0800
-Date:   Fri, 27 Dec 2019 00:54:18 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Ayman Bagabas <ayman.bagabas@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        kbuild test robot <lkp@intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: huawei-wmi: Fix a possible NULL deref
-Message-ID: <20191226215418.GA3889@kadam>
-References: <20191225235841.14393-1-ayman.bagabas@gmail.com>
+        Fri, 27 Dec 2019 04:33:44 -0500
+X-Greylist: delayed 6147 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Dec 2019 04:33:43 EST
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+        by mx0a-00010702.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xBR7o2ji026549;
+        Fri, 27 Dec 2019 01:51:09 -0600
+Received: from nam02-cy1-obe.outbound.protection.outlook.com (mail-cys01nam02lp2053.outbound.protection.outlook.com [104.47.37.53])
+        by mx0a-00010702.pphosted.com with ESMTP id 2x1ht0v0c7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Dec 2019 01:51:08 -0600
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b+AiQgLZphcwJnylMm+ovqtqVeOylcayZUxR0y6ZDzia0YP43eZovbqBEWAh+/JVgUUe+CY2M/ojhWbI2qZ7D8J3/Sx/s2icOrTWeG19DNw4scpxm8iYTER30ioSUylrBnbnmCoWqCgBXwNM4milA91WBIX8RkNo5nNU/ZL92Ee+XlRvRstz7gTKvlt4A4XkDUuvuHz/4VWzHfKy1+HaC1nMkAQ9aEPhBrGuTu0JL/M3gezYh0EKYrSBtF45MQ4gFodT5nDAZ0LFY/fQuARpQ7ZaCcDwZ7dE3+a5JNodpIDLpA57hMAJ9sSKbbKw4FdFzzdO/9QQU88pNhadZ4ilNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vr+BKJ/WykkDsomNLPJmm9XgEnfsmA8LK65nPBeP5aY=;
+ b=nNBKE7hiCL5KNwoeQCsjp6ijBbzTkVYLLxQFAi7/MtxuqBWvRNP7BB5cyPjzVQX0CTpYe72v5S4RBK3BV1tkBU96rZV4eftH2loC+DtbhYubhlEQTqx/9MO3mWJxUqRKtha4DEGgPfwVq5wweffxRHUVKVvi3fTUC7iuJYhVh9FL54x++zfv0jqNLVdP8YNj0XiTdCUzJ4XNxr9/NGt8lJ76MbdDO5hQyVK4GpxjiJNoovC9ZCDAfBkfIhwLHPgMMaCtG2M9nOc/JXkJ4X1PxuFaEmI5U6UVv9cAmY8a6oLj4p0TYyUzxwOyaDtR2XVIAUHv7BNsvVUuqbj+3TMjCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vr+BKJ/WykkDsomNLPJmm9XgEnfsmA8LK65nPBeP5aY=;
+ b=OiySrtD7toWV15O/tzNxt1QqjvzWyD63d4YIvJlGct8Xw4YO8IgeebK+AWyAjP2qW77lmyqpH5IriXbfPPKuIzTGjs9tsJPanrZ7ruq5cv5g5xvxFwgB6ep7Isjhn6GKYvzMPjMKqzVk6DT0SamuiRubSpmwWE4uBU7BXWsNj8k=
+Received: from MN2PR04MB6255.namprd04.prod.outlook.com (20.178.245.75) by
+ MN2PR04MB5821.namprd04.prod.outlook.com (20.179.22.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2581.12; Fri, 27 Dec 2019 07:51:07 +0000
+Received: from MN2PR04MB6255.namprd04.prod.outlook.com
+ ([fe80::9868:19c9:2875:b0ab]) by MN2PR04MB6255.namprd04.prod.outlook.com
+ ([fe80::9868:19c9:2875:b0ab%5]) with mapi id 15.20.2581.007; Fri, 27 Dec 2019
+ 07:51:07 +0000
+From:   Kar Hin Ong <kar.hin.ong@ni.com>
+To:     linux-rt-users <linux-rt-users@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "linux-x86_64@vger.kernel.org" <linux-x86_64@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+CC:     Gratian Crisan <gratian.crisan@ni.com>
+Subject: "oneshot" interrupt causes another interrupt to be fired erroneously
+ in Intel Haswell system
+Thread-Topic: "oneshot" interrupt causes another interrupt to be fired
+ erroneously in Intel Haswell system
+Thread-Index: AdW8ilVAAvaA3JdCTRaY/KqJbPF6vA==
+Date:   Fri, 27 Dec 2019 07:51:07 +0000
+Message-ID: <MN2PR04MB6255567B0B0060B0A8954605C32A0@MN2PR04MB6255.namprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [130.164.75.18]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6a12e843-41c6-4532-7be0-08d78aa1883c
+x-ms-traffictypediagnostic: MN2PR04MB5821:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB5821FE42D9C4C633F8BB90F1C32A0@MN2PR04MB5821.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0264FEA5C3
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(366004)(376002)(346002)(396003)(39860400002)(189003)(199004)(478600001)(26005)(7696005)(966005)(5660300002)(186003)(52536014)(86362001)(71200400001)(64756008)(66446008)(66476007)(6506007)(76116006)(66946007)(66556008)(110136005)(316002)(2906002)(8676002)(81156014)(81166006)(4326008)(33656002)(9686003)(8936002)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR04MB5821;H:MN2PR04MB6255.namprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: ni.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pjVcvvOEjNneDlbCK7nrN+EPn2kTDVt5CKSFA11jw5tpl3ZqCd4No6ANoPbGfsn1+CH8XSIo20DMHGbiCFFI75dt4blSFxtzQJxsXl2dxB3bcnRK5rtA2Rtk5nZ92UZyE+s3aXOfNcJoTuSqgetRfAQItC9Td254/11P7b7jEKCbFwLZu8zLF74sSD30PrMc5dtS5jyiSljh+0235EtOWLDsS48fuqikC8Vo9o12G/42o2EU/WBveYMcl9cSuT2k/uqbpGUVzPasc58JQVgWLfdprAafdamZlGfPL0hznmalnkvypdtge3oSMZFHNrCfP4oS4IhDsbzkvJdQMVDG1GKxXTJh1ZVhyxR/HeDLu+Ph+wOOgDu2k0Ex2L2+ufNSQmZ7sZVVXcEQ4JpXRYUZX6TY9tFrghX2IRPUVJ+2RozmpbHCc0ClXt/0yBFXZutmyHLiFgpPjtp/XwPqVyAkQciXd3zqTMcFX5eVrpZe2ek=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191225235841.14393-1-ayman.bagabas@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9482 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1912260192
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9482 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1912260193
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a12e843-41c6-4532-7be0-08d78aa1883c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Dec 2019 07:51:07.3649
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e6maJfPBHzb90lxtLYWCyCH88hauxx0d/+Vb4N8ILuQ/bjnXxkeXVq7vONZe7zKzeo2H4+IOMQd/BMqx/Jhsqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5821
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-27_01:2019-12-24,2019-12-27 signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy score=30 malwarescore=0
+ clxscore=1011 priorityscore=1501 mlxlogscore=687 spamscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 suspectscore=0 classifier=spam adjust=30 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1912270063
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Dec 25, 2019 at 06:58:38PM -0500, Ayman Bagabas wrote:
-> We're iterating over a NULL terminated array.
+Hi,
 
-This changelog is kind of messed up.  This is how it looks in context:
-https://marc.info/?l=linux-kernel&m=157731837511760&w=2
-The subject and the commit message are far apart.  What's wrong with
-iterating over a NULL terminated array?  The changelog doesn't say which
-variable is NULL.
+I've an Intel Haswell system running Linux kernel v4.14 with preempt_rt pat=
+ch. The system contain 2 IOAPICs: IOAPIC 1 is on the PCH where IOAPIC 2 is =
+on the CPU.
 
-> 
-> Fixes: 1ac9abeb2e5b ("platform/x86: huawei-wmi: Move to platform driver")
-> Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
-> ---
->  drivers/platform/x86/huawei-wmi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-> index a2d846c4a7ee..42d461eeeff4 100644
-> --- a/drivers/platform/x86/huawei-wmi.c
-> +++ b/drivers/platform/x86/huawei-wmi.c
-> @@ -784,13 +784,13 @@ static const struct wmi_device_id huawei_wmi_events_id_table[] = {
->  static int huawei_wmi_probe(struct platform_device *pdev)
->  {
->  	const struct wmi_device_id *guid = huawei_wmi_events_id_table;
-> +	struct input_dev *idev = *huawei_wmi->idev;
+I observed that whenever a PCI device is firing interrupt (INTx) to Pin 20 =
+of IOAPIC 2 (GSI 44); the kernel will receives 2 interrupts:=20
+   1. Interrupt from Pin 20 of IOAPIC 2  -> Expected
+   2. Interrupt from Pin 19 of IOAPIC 1  -> UNEXPECTED, erroneously trigger=
+ed
 
-This line seems like an unrelated change.  I'm still not sure the
-justification for this.  I really hate puzzling over patches to try
-figure out why a patch is making changes.
+The unexpected interrupt is unhandled eventually. When this scenario happen=
+ more than 99,000 times, kernel disables the interrupt line (Pin 19 of IOAP=
+IC 1) and causing device that has requested it become malfunction.
+I managed to also reproduced this issue on RHEL 8 and Ubuntu 19.04, 19.10 (=
+without preempt_rt patch) after added "threadirqs" to the kernel command li=
+ne.
 
-regards,
-dan carpenter
+After digging further, I noticed that the said issue is happened whenever a=
+n interrupt pin on IOAPIC 2 is masked:
+ - Masking Pin 20 of IOAPIC 2 triggers Pin 19 of IOAPIC 1 =20
+ - Masking Pin 22 of IOAPIC 2 triggers Pin 18 of IOAPIC 1 =20
+
+I learnt that kernel will explicitly mask a specific interrupt pin before e=
+xecute its handler, if the interrupt is configured as "oneshot" (i.e. threa=
+ded). Source: https://elixir.bootlin.com/linux/v4.14/source/kernel/irq/chip=
+.c#L695 =20
+This explained why it only happened on RTOS and Desktop Linux with "threadi=
+rqs" flag, because these configurations forces the interrupt handler to be =
+threaded.
+
+From Intel Xeon Processor E5/E7 v3 Product Family External Design Specifica=
+tion (EDS), Volume One: Architecture, section 13.1 (Legacy PCI Interrupt Ha=
+ndling), it mention:
+"If the I/OxAPIC entry is masked (via the 'mask' bit in the corresponding R=
+edirection Table Entry), then the corresponding PCI Express interrupt(s) is=
+ forwarded to the legacy PCH"
+
+My interpretation is: when kernel receive a "oneshot" interrupt, it mask th=
+e line before start handling it.=20
+At this moment, if the interrupt line is still asserting, then the interrup=
+t signal will be routed to the IOAPIC in PCH, and hence causing another int=
+errupt to be fired erroneously and unhandled. =20
+
+Since the "route_to_pci" behaviour is documented in Intel spec, I presume i=
+t's a feature rather than a bug.
+If this is a feature for intel processors, should the kernel irq handling r=
+outine be patched to handle it?=20
+
+Thanks.
+Kar Hin Ong
+
 
 
