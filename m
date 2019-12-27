@@ -2,65 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81A1912B3C0
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 10:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CB512B5BC
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 16:57:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726365AbfL0J7Z (ORCPT
+        id S1726602AbfL0P5L (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Dec 2019 04:59:25 -0500
-Received: from mga02.intel.com ([134.134.136.20]:18292 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726014AbfL0J7Z (ORCPT
+        Fri, 27 Dec 2019 10:57:11 -0500
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:44581 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726365AbfL0P5L (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Dec 2019 04:59:25 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Dec 2019 01:59:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,362,1571727600"; 
-   d="scan'208";a="223734275"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 27 Dec 2019 01:59:20 -0800
-Received: by lahna (sSMTP sendmail emulation); Fri, 27 Dec 2019 11:59:20 +0200
-Date:   Fri, 27 Dec 2019 11:59:20 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Fri, 27 Dec 2019 10:57:11 -0500
+Received: by mail-yw1-f68.google.com with SMTP id t141so11415861ywc.11;
+        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BiQOKb56p1ie1sc7/zk5XIY9A7njVsnU/Z7f74v1ws4=;
+        b=Gy690DZ7EtGnqq+4IM4+RF/OnBqcOcaJEYInJ1mD9Ns2ltmazp2u9ihFntKhzb/Fkh
+         gNtjvQ971Ph1FX3+9UvBezQfI8dH2i3RBMOTQwEWO7s8LMA4q3rIst1nc4Ty9jMeOIor
+         SFyJaQ/Umf+YSe8Uy1sqlKOlGpAHEdNRD+l0ttFhN8945kOoo/O4CtYdkoeBLgelEZ12
+         Z3dXHp0NCZ9Un9f/C2FjWxK7m1IbQY+ZS2ifuDNcLZHDEgbPGgHAZ2qP5Xq+ZFo32RZg
+         KNk5lALW8LCJRyniatAqE9feGIAf8V3vZdw8qmHVuSgqbVAB3ejfiJ6xdeS8tHwXL91O
+         m/jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BiQOKb56p1ie1sc7/zk5XIY9A7njVsnU/Z7f74v1ws4=;
+        b=sYUosr2w1BQvsCi/kYUaw6b08tqt/+qxJ/8TnStE+OrT1UM1syI64SaMloLO+rtcfH
+         BFbdY2aT9yAetGKQQEh4fwnQw10WYsE1XTXFJqwO+S0RHG24wAmjXCS37AJYAWIZxalJ
+         9pzghWEfDof9FQFwfu0evLvq9d5HMVkuLWJ3g4VQGDQXobttcrzmCODQvwy6NjR0RE6s
+         zXGNIKU0pKk29wcgGd7eSOTxeW2N8twMK9ukwvmtGGsruWpQzXTxgXEkvpb8mzVHY8Wp
+         QD2/vEJBAx2ImEhGTrNbek6myRg/Riiw/iSMAzk4yOx09g6/3X3laVhhPCvCV0Gi5Smf
+         mQ3Q==
+X-Gm-Message-State: APjAAAXlbG6oDVU19y/3MYA6YZubc5i5xfbCQ+9+MgMCdugXSo2IdpzP
+        6Vn8KheYVUoqS5mB6IXJww==
+X-Google-Smtp-Source: APXvYqwMkbapAIncVSopx3B3vyv8N79XTKlT6CNOA3xgHugUPMHaWnqeiWLplmINdePWP4eoYlpvww==
+X-Received: by 2002:a0d:d64d:: with SMTP id y74mr39860256ywd.386.1577462230355;
+        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
+Received: from localhost ([64.192.53.12])
+        by smtp.gmail.com with ESMTPSA id q16sm13916240ywa.110.2019.12.27.07.57.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
+Date:   Fri, 27 Dec 2019 10:57:09 -0500
+From:   Ayman Bagabas <ayman.bagabas@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        kbuild test robot <lkp@intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 16/37] watchdog: intel-mid_wdt: Convert to use new SCU
- IPC API
-Message-ID: <20191227095920.GR2628@lahna.fi.intel.com>
-References: <20191223141716.13727-1-mika.westerberg@linux.intel.com>
- <20191223141716.13727-17-mika.westerberg@linux.intel.com>
- <0a488bbc-e101-0479-2968-1fb9acef69fc@roeck-us.net>
+Subject: Re: [PATCH] platform/x86: huawei-wmi: Fix a possible NULL deref
+Message-ID: <20191227155709.6wztlhhzn6qljalp@960>
+References: <20191225235841.14393-1-ayman.bagabas@gmail.com>
+ <20191226215418.GA3889@kadam>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0a488bbc-e101-0479-2968-1fb9acef69fc@roeck-us.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20191226215418.GA3889@kadam>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Dec 23, 2019 at 07:46:50AM -0800, Guenter Roeck wrote:
-> On 12/23/19 6:16 AM, Mika Westerberg wrote:
-> > This converts the Intel MID watchdog driver over the new SCU IPC API
-> > where the SCU IPC instance is passed to the functions.
-> > 
-> > While there drop useless print at the end of probe.
-> 
-> If you say that you drop the statement you should actually do so.
+On 19/12/27 12:54AM, Dan Carpenter wrote:
+> On Wed, Dec 25, 2019 at 06:58:38PM -0500, Ayman Bagabas wrote:
+> > We're iterating over a NULL terminated array.
+>
+> This changelog is kind of messed up.  This is how it looks in context:
+> https://marc.info/?l=linux-kernel&m=157731837511760&w=2
+> The subject and the commit message are far apart.  What's wrong with
+> iterating over a NULL terminated array?  The changelog doesn't say which
+> variable is NULL.
+>
 
-Oops. I did that originally but during internal review I ended up
-removing that part. Will fix the changelog in the next version.
+I'm really sorry for my poor subject and commit message that shouldn't happen again.
+
+This is not an issue, the problem occurs to me when I try to use this
+module on kernel 5.0, particularly, when iterating over the struct
+wmi_device_id array. On kernel 5.0, I'm getting a NULL pointer
+dereference on *guid->guid_string on the 3rd NULL struct in the array.
+This is happening because the definition of struct wmi_device_id in <5.1 is
+
+struct wmi_device_id {
+	const char *guid_string;
+};
+
+Compared to this where guid->guid_string is not NULL
+
+struct wmi_device_id {
+	const char guid_string[UUID_STRING_LEN+1];
+};
+
+> >
+> > Fixes: 1ac9abeb2e5b ("platform/x86: huawei-wmi: Move to platform driver")
+> > Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
+> > ---
+> >  drivers/platform/x86/huawei-wmi.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
+> > index a2d846c4a7ee..42d461eeeff4 100644
+> > --- a/drivers/platform/x86/huawei-wmi.c
+> > +++ b/drivers/platform/x86/huawei-wmi.c
+> > @@ -784,13 +784,13 @@ static const struct wmi_device_id huawei_wmi_events_id_table[] = {
+> >  static int huawei_wmi_probe(struct platform_device *pdev)
+> >  {
+> >  	const struct wmi_device_id *guid = huawei_wmi_events_id_table;
+> > +	struct input_dev *idev = *huawei_wmi->idev;
+>
+> This line seems like an unrelated change.  I'm still not sure the
+> justification for this.  I really hate puzzling over patches to try
+> figure out why a patch is making changes.
+
+This one is a logical error, we have an array of input_dev pointers for
+each guid. Defining idev in the loop would always reset the pointer to
+the first element in the array. The address of each pointer then passed
+to huawei_wmi_input_setup to allocate an input device. We want to keep a
+pointer to each allocated input device in the static huawei_wmi struct.
+
+>
+> regards,
+> dan carpenter
+>
+>
+
+--
+Thank you,
+Ayman
