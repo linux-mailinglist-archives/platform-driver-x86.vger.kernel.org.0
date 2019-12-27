@@ -2,133 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54CB512B5BC
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 16:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB4112B8D8
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 18:58:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbfL0P5L (ORCPT
+        id S1727592AbfL0R6V (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Dec 2019 10:57:11 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:44581 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbfL0P5L (ORCPT
+        Fri, 27 Dec 2019 12:58:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37622 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727401AbfL0Rl0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Dec 2019 10:57:11 -0500
-Received: by mail-yw1-f68.google.com with SMTP id t141so11415861ywc.11;
-        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BiQOKb56p1ie1sc7/zk5XIY9A7njVsnU/Z7f74v1ws4=;
-        b=Gy690DZ7EtGnqq+4IM4+RF/OnBqcOcaJEYInJ1mD9Ns2ltmazp2u9ihFntKhzb/Fkh
-         gNtjvQ971Ph1FX3+9UvBezQfI8dH2i3RBMOTQwEWO7s8LMA4q3rIst1nc4Ty9jMeOIor
-         SFyJaQ/Umf+YSe8Uy1sqlKOlGpAHEdNRD+l0ttFhN8945kOoo/O4CtYdkoeBLgelEZ12
-         Z3dXHp0NCZ9Un9f/C2FjWxK7m1IbQY+ZS2ifuDNcLZHDEgbPGgHAZ2qP5Xq+ZFo32RZg
-         KNk5lALW8LCJRyniatAqE9feGIAf8V3vZdw8qmHVuSgqbVAB3ejfiJ6xdeS8tHwXL91O
-         m/jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BiQOKb56p1ie1sc7/zk5XIY9A7njVsnU/Z7f74v1ws4=;
-        b=sYUosr2w1BQvsCi/kYUaw6b08tqt/+qxJ/8TnStE+OrT1UM1syI64SaMloLO+rtcfH
-         BFbdY2aT9yAetGKQQEh4fwnQw10WYsE1XTXFJqwO+S0RHG24wAmjXCS37AJYAWIZxalJ
-         9pzghWEfDof9FQFwfu0evLvq9d5HMVkuLWJ3g4VQGDQXobttcrzmCODQvwy6NjR0RE6s
-         zXGNIKU0pKk29wcgGd7eSOTxeW2N8twMK9ukwvmtGGsruWpQzXTxgXEkvpb8mzVHY8Wp
-         QD2/vEJBAx2ImEhGTrNbek6myRg/Riiw/iSMAzk4yOx09g6/3X3laVhhPCvCV0Gi5Smf
-         mQ3Q==
-X-Gm-Message-State: APjAAAXlbG6oDVU19y/3MYA6YZubc5i5xfbCQ+9+MgMCdugXSo2IdpzP
-        6Vn8KheYVUoqS5mB6IXJww==
-X-Google-Smtp-Source: APXvYqwMkbapAIncVSopx3B3vyv8N79XTKlT6CNOA3xgHugUPMHaWnqeiWLplmINdePWP4eoYlpvww==
-X-Received: by 2002:a0d:d64d:: with SMTP id y74mr39860256ywd.386.1577462230355;
-        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
-Received: from localhost ([64.192.53.12])
-        by smtp.gmail.com with ESMTPSA id q16sm13916240ywa.110.2019.12.27.07.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2019 07:57:10 -0800 (PST)
-Date:   Fri, 27 Dec 2019 10:57:09 -0500
-From:   Ayman Bagabas <ayman.bagabas@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        kbuild test robot <lkp@intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: huawei-wmi: Fix a possible NULL deref
-Message-ID: <20191227155709.6wztlhhzn6qljalp@960>
-References: <20191225235841.14393-1-ayman.bagabas@gmail.com>
- <20191226215418.GA3889@kadam>
+        Fri, 27 Dec 2019 12:41:26 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F322A22B48;
+        Fri, 27 Dec 2019 17:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577468484;
+        bh=PAOUSNAxojEzCiLlv75nNZS799ylz9MjHsY1qAlDUQ4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Q4zdVrjxH4agQM6pwN7FRkBdsqmC2+5lQLTXW7cymaVqUQW0lP/4bWnCIGg2t8HaR
+         w2E/vCJ4tJT9T/fgDgceK2cO64RqAsQ1eG/GdsfJf2bf2RkCaNMBCoLIGlghEHPCzi
+         MB5xlSw4XCy59M3XNkwzcxUniX/E2x/rzbhqLwrY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dave Young <dyoung@redhat.com>,
+        Michael Weiser <michael@weiser.dinsnail.net>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        Ingo Molnar <mingo@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org, x86@kernel.org
+Subject: [PATCH AUTOSEL 5.4 022/187] x86/efi: Update e820 with reserved EFI boot services data to fix kexec breakage
+Date:   Fri, 27 Dec 2019 12:38:10 -0500
+Message-Id: <20191227174055.4923-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191227174055.4923-1-sashal@kernel.org>
+References: <20191227174055.4923-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191226215418.GA3889@kadam>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 19/12/27 12:54AM, Dan Carpenter wrote:
-> On Wed, Dec 25, 2019 at 06:58:38PM -0500, Ayman Bagabas wrote:
-> > We're iterating over a NULL terminated array.
->
-> This changelog is kind of messed up.  This is how it looks in context:
-> https://marc.info/?l=linux-kernel&m=157731837511760&w=2
-> The subject and the commit message are far apart.  What's wrong with
-> iterating over a NULL terminated array?  The changelog doesn't say which
-> variable is NULL.
->
+From: Dave Young <dyoung@redhat.com>
 
-I'm really sorry for my poor subject and commit message that shouldn't happen again.
+[ Upstream commit af164898482817a1d487964b68f3c21bae7a1beb ]
 
-This is not an issue, the problem occurs to me when I try to use this
-module on kernel 5.0, particularly, when iterating over the struct
-wmi_device_id array. On kernel 5.0, I'm getting a NULL pointer
-dereference on *guid->guid_string on the 3rd NULL struct in the array.
-This is happening because the definition of struct wmi_device_id in <5.1 is
+Michael Weiser reported that he got this error during a kexec rebooting:
 
-struct wmi_device_id {
-	const char *guid_string;
-};
+  esrt: Unsupported ESRT version 2904149718861218184.
 
-Compared to this where guid->guid_string is not NULL
+The ESRT memory stays in EFI boot services data, and it was reserved
+in kernel via efi_mem_reserve().  The initial purpose of the reservation
+is to reuse the EFI boot services data across kexec reboot. For example
+the BGRT image data and some ESRT memory like Michael reported.
 
-struct wmi_device_id {
-	const char guid_string[UUID_STRING_LEN+1];
-};
+But although the memory is reserved it is not updated in the X86 E820 table,
+and kexec_file_load() iterates system RAM in the IO resource list to find places
+for kernel, initramfs and other stuff. In Michael's case the kexec loaded
+initramfs overwrote the ESRT memory and then the failure happened.
 
-> >
-> > Fixes: 1ac9abeb2e5b ("platform/x86: huawei-wmi: Move to platform driver")
-> > Signed-off-by: Ayman Bagabas <ayman.bagabas@gmail.com>
-> > ---
-> >  drivers/platform/x86/huawei-wmi.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/platform/x86/huawei-wmi.c b/drivers/platform/x86/huawei-wmi.c
-> > index a2d846c4a7ee..42d461eeeff4 100644
-> > --- a/drivers/platform/x86/huawei-wmi.c
-> > +++ b/drivers/platform/x86/huawei-wmi.c
-> > @@ -784,13 +784,13 @@ static const struct wmi_device_id huawei_wmi_events_id_table[] = {
-> >  static int huawei_wmi_probe(struct platform_device *pdev)
-> >  {
-> >  	const struct wmi_device_id *guid = huawei_wmi_events_id_table;
-> > +	struct input_dev *idev = *huawei_wmi->idev;
->
-> This line seems like an unrelated change.  I'm still not sure the
-> justification for this.  I really hate puzzling over patches to try
-> figure out why a patch is making changes.
+Since kexec_file_load() depends on the E820 table being updated, just fix this
+by updating the reserved EFI boot services memory as reserved type in E820.
 
-This one is a logical error, we have an array of input_dev pointers for
-each guid. Defining idev in the loop would always reset the pointer to
-the first element in the array. The address of each pointer then passed
-to huawei_wmi_input_setup to allocate an input device. We want to keep a
-pointer to each allocated input device in the static huawei_wmi struct.
+Originally any memory descriptors with EFI_MEMORY_RUNTIME attribute are
+bypassed in the reservation code path because they are assumed as reserved.
 
->
-> regards,
-> dan carpenter
->
->
+But the reservation is still needed for multiple kexec reboots,
+and it is the only possible case we come here thus just drop the code
+chunk, then everything works without side effects.
 
---
-Thank you,
-Ayman
+On my machine the ESRT memory sits in an EFI runtime data range, it does
+not trigger the problem, but I successfully tested with BGRT instead.
+both kexec_load() and kexec_file_load() work and kdump works as well.
+
+[ mingo: Edited the changelog. ]
+
+Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
+Tested-by: Michael Weiser <michael@weiser.dinsnail.net>
+Signed-off-by: Dave Young <dyoung@redhat.com>
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: H. Peter Anvin <hpa@zytor.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: kexec@lists.infradead.org
+Cc: linux-efi@vger.kernel.org
+Link: https://lkml.kernel.org/r/20191204075233.GA10520@dhcp-128-65.nay.redhat.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/x86/platform/efi/quirks.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
+index 3b9fd679cea9..aefe845dff59 100644
+--- a/arch/x86/platform/efi/quirks.c
++++ b/arch/x86/platform/efi/quirks.c
+@@ -260,10 +260,6 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
+ 		return;
+ 	}
+ 
+-	/* No need to reserve regions that will never be freed. */
+-	if (md.attribute & EFI_MEMORY_RUNTIME)
+-		return;
+-
+ 	size += addr % EFI_PAGE_SIZE;
+ 	size = round_up(size, EFI_PAGE_SIZE);
+ 	addr = round_down(addr, EFI_PAGE_SIZE);
+@@ -293,6 +289,8 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
+ 	early_memunmap(new, new_size);
+ 
+ 	efi_memmap_install(new_phys, num_entries);
++	e820__range_update(addr, size, E820_TYPE_RAM, E820_TYPE_RESERVED);
++	e820__update_table(e820_table);
+ }
+ 
+ /*
+-- 
+2.20.1
+
