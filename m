@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BB4112B8D8
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 18:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 278D412B79E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 18:51:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727592AbfL0R6V (ORCPT
+        id S1728347AbfL0RoH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Dec 2019 12:58:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37622 "EHLO mail.kernel.org"
+        Fri, 27 Dec 2019 12:44:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727401AbfL0Rl0 (ORCPT
+        id S1727892AbfL0RoG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Dec 2019 12:41:26 -0500
+        Fri, 27 Dec 2019 12:44:06 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F322A22B48;
-        Fri, 27 Dec 2019 17:41:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D30621582;
+        Fri, 27 Dec 2019 17:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577468484;
-        bh=PAOUSNAxojEzCiLlv75nNZS799ylz9MjHsY1qAlDUQ4=;
+        s=default; t=1577468645;
+        bh=GO7tGw4PWBWDUud0LUtRlKZcxaeqxivaTtMUKSsvUI8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q4zdVrjxH4agQM6pwN7FRkBdsqmC2+5lQLTXW7cymaVqUQW0lP/4bWnCIGg2t8HaR
-         w2E/vCJ4tJT9T/fgDgceK2cO64RqAsQ1eG/GdsfJf2bf2RkCaNMBCoLIGlghEHPCzi
-         MB5xlSw4XCy59M3XNkwzcxUniX/E2x/rzbhqLwrY=
+        b=YVELbQLvNvUEp1wqOI4Qr/JqArQ2PX8cDD+EbR02A33JwppmSvntUFNtKdSguWEdH
+         bSygsd8U75u2IyBEEVa5LUbGkRO/EcUgejwMB8xLVqxXbd+PbGEDgwFNfPDofXRbLm
+         Hmn135iH5kDBvDPSvb955NJDECzjhfndOmWpWz/A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dave Young <dyoung@redhat.com>,
@@ -40,12 +40,12 @@ Cc:     Dave Young <dyoung@redhat.com>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: [PATCH AUTOSEL 5.4 022/187] x86/efi: Update e820 with reserved EFI boot services data to fix kexec breakage
-Date:   Fri, 27 Dec 2019 12:38:10 -0500
-Message-Id: <20191227174055.4923-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/84] x86/efi: Update e820 with reserved EFI boot services data to fix kexec breakage
+Date:   Fri, 27 Dec 2019 12:42:38 -0500
+Message-Id: <20191227174352.6264-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227174055.4923-1-sashal@kernel.org>
-References: <20191227174055.4923-1-sashal@kernel.org>
+In-Reply-To: <20191227174352.6264-1-sashal@kernel.org>
+References: <20191227174352.6264-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -109,10 +109,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-index 3b9fd679cea9..aefe845dff59 100644
+index 844d31cb8a0c..c9873c9168ad 100644
 --- a/arch/x86/platform/efi/quirks.c
 +++ b/arch/x86/platform/efi/quirks.c
-@@ -260,10 +260,6 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
+@@ -259,10 +259,6 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
  		return;
  	}
  
@@ -123,7 +123,7 @@ index 3b9fd679cea9..aefe845dff59 100644
  	size += addr % EFI_PAGE_SIZE;
  	size = round_up(size, EFI_PAGE_SIZE);
  	addr = round_down(addr, EFI_PAGE_SIZE);
-@@ -293,6 +289,8 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
+@@ -292,6 +288,8 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
  	early_memunmap(new, new_size);
  
  	efi_memmap_install(new_phys, num_entries);
