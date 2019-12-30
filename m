@@ -2,136 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA96612B9B9
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Dec 2019 19:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C3B712CDB7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Dec 2019 09:32:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727512AbfL0SCd (ORCPT
+        id S1727233AbfL3Ick (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Dec 2019 13:02:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59358 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727510AbfL0SCc (ORCPT
+        Mon, 30 Dec 2019 03:32:40 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33319 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727221AbfL3Ick (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Dec 2019 13:02:32 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A1C5922B48;
-        Fri, 27 Dec 2019 18:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577469751;
-        bh=GKYrCZ9/aDSL9Px/0Qf08dFJn+ZicSl101ldxGOtSH8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lUfjiCc1qpxm0wILDcimGRolnWgX/DtzfXSWl70PCM3lqK2YpAQpXHaBGk5lTSalt
-         g/+pwWyWlFGuxA2ngo7dI0ERGR8sbgj9Zw1Hcnnd8hoc2T1vkXWoI2Vc4sEfvwOYlG
-         Smq7b9pfMXK/qmlIlYBBCLW0s8FD2HgBBxAyKTX8=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dave Young <dyoung@redhat.com>,
-        Michael Weiser <michael@weiser.dinsnail.net>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        Ingo Molnar <mingo@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: [PATCH AUTOSEL 4.14 06/57] x86/efi: Update e820 with reserved EFI boot services data to fix kexec breakage
-Date:   Fri, 27 Dec 2019 13:01:31 -0500
-Message-Id: <20191227180222.7076-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227180222.7076-1-sashal@kernel.org>
-References: <20191227180222.7076-1-sashal@kernel.org>
+        Mon, 30 Dec 2019 03:32:40 -0500
+Received: by mail-pf1-f196.google.com with SMTP id z16so17929789pfk.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 30 Dec 2019 00:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3s7ohP3Z8i+XydTTvz21BD2f0Cry8Bo5p1LTlT19B4g=;
+        b=EA7HTUbqUnIitOM9hMwC5NmMDjt5Dl9ltD+1qxOpdpPIW9UHf7+tI7Qy/oQwAtA4vW
+         H6HG7HTUJCxGZnGuaxRKAwpEFnEbvqT/ImBccHuptDEIE4FQ9VW0q76DkR3wdHnkWOdi
+         1Pgp9zYBO+fenX2k0p4jKRuM1OBeVz2LRwwGeoZh7J9sFelNo3LBBSDQ14VzONb1FfRh
+         2ddpzvkaDCB/SjXaFrZ2MLI/tNWetR+/WwmDDHlplsZZwcA0P7zS4Q+TLTsk4HOh75sX
+         gdTGlErVdECuB1qagkgC+e6uynre1XT9kVuEnutUu31MJIq47pBHbO9ts8g2c1SV9taI
+         tcxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3s7ohP3Z8i+XydTTvz21BD2f0Cry8Bo5p1LTlT19B4g=;
+        b=pkM9h0PooUJJpB+MegDp5DPyXB62DibTIf6Bl89fuqDPIrUm1T0QK4bax84nDkHZKa
+         AqXPlAxpOxXOd2+7ze4lmXvKhbNYlna542eVCj1xAsEUM4ldAeiM+NNHD/NsbrjV8jGo
+         +tegvNHgfGrQR1nDJuk2tny9R6BqHNJwBi7VdBaRYjNZiFuJflee5klfhEwSQo1ZfOOL
+         tK9kP71sLdmlOHIsQshaYMhYatvx7xqxu3GF9Vyk8A8tlNKkreMIEHh2SVCnVf7bFgDo
+         OTPxil4GILXc+tsD0lEpBUu3DMYw9w4ldUGgOJVkpj5uoFU+975h003VtqFXuq8g9MGe
+         BGWw==
+X-Gm-Message-State: APjAAAWAxIa8yWB//5yZ9hfsY5w65Gbb9nm2BV1XBbk2ALNBUlyDN8Gi
+        pTcSkzqatf16ClRCGP/ZtKq0FQ==
+X-Google-Smtp-Source: APXvYqxFKKazEmaMHoujQh5jNJgTodqHmA3KCyczG78X9j4EM0Vr0BNNLetv2mkg+9uwCmoNZ4gBDQ==
+X-Received: by 2002:aa7:979a:: with SMTP id o26mr70387114pfp.0.1577694760024;
+        Mon, 30 Dec 2019 00:32:40 -0800 (PST)
+Received: from localhost.localdomain (123-204-46-122.static.seed.net.tw. [123.204.46.122])
+        by smtp.gmail.com with ESMTPSA id 17sm51485268pfv.142.2019.12.30.00.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Dec 2019 00:32:39 -0800 (PST)
+From:   Jian-Hong Pan <jian-hong@endlessm.com>
+To:     Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@endlessm.com, Jian-Hong Pan <jian-hong@endlessm.com>
+Subject: [PATCH] platform/x86: asus-wmi: Fix keyboard brightness cannot be set to 0
+Date:   Mon, 30 Dec 2019 16:30:45 +0800
+Message-Id: <20191230083044.11582-1-jian-hong@endlessm.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Dave Young <dyoung@redhat.com>
+Some of ASUS laptops like UX431FL keyboard backlight cannot be set to
+brightness 0. According to ASUS' information, the brightness should be
+0x80 ~ 0x83. This patch fixes it by following the logic.
 
-[ Upstream commit af164898482817a1d487964b68f3c21bae7a1beb ]
-
-Michael Weiser reported that he got this error during a kexec rebooting:
-
-  esrt: Unsupported ESRT version 2904149718861218184.
-
-The ESRT memory stays in EFI boot services data, and it was reserved
-in kernel via efi_mem_reserve().  The initial purpose of the reservation
-is to reuse the EFI boot services data across kexec reboot. For example
-the BGRT image data and some ESRT memory like Michael reported.
-
-But although the memory is reserved it is not updated in the X86 E820 table,
-and kexec_file_load() iterates system RAM in the IO resource list to find places
-for kernel, initramfs and other stuff. In Michael's case the kexec loaded
-initramfs overwrote the ESRT memory and then the failure happened.
-
-Since kexec_file_load() depends on the E820 table being updated, just fix this
-by updating the reserved EFI boot services memory as reserved type in E820.
-
-Originally any memory descriptors with EFI_MEMORY_RUNTIME attribute are
-bypassed in the reservation code path because they are assumed as reserved.
-
-But the reservation is still needed for multiple kexec reboots,
-and it is the only possible case we come here thus just drop the code
-chunk, then everything works without side effects.
-
-On my machine the ESRT memory sits in an EFI runtime data range, it does
-not trigger the problem, but I successfully tested with BGRT instead.
-both kexec_load() and kexec_file_load() work and kdump works as well.
-
-[ mingo: Edited the changelog. ]
-
-Reported-by: Michael Weiser <michael@weiser.dinsnail.net>
-Tested-by: Michael Weiser <michael@weiser.dinsnail.net>
-Signed-off-by: Dave Young <dyoung@redhat.com>
-Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Eric W. Biederman <ebiederm@xmission.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: kexec@lists.infradead.org
-Cc: linux-efi@vger.kernel.org
-Link: https://lkml.kernel.org/r/20191204075233.GA10520@dhcp-128-65.nay.redhat.com
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: e9809c0b9670 ("asus-wmi: add keyboard backlight support")
+Signed-off-by: Jian-Hong Pan <jian-hong@endlessm.com>
 ---
- arch/x86/platform/efi/quirks.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/platform/x86/asus-wmi.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/arch/x86/platform/efi/quirks.c b/arch/x86/platform/efi/quirks.c
-index 5b513ccffde4..cadd7fd290fa 100644
---- a/arch/x86/platform/efi/quirks.c
-+++ b/arch/x86/platform/efi/quirks.c
-@@ -257,10 +257,6 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
- 		return;
- 	}
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 821b08e01635..982f0cc8270c 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -512,13 +512,7 @@ static void kbd_led_update(struct asus_wmi *asus)
+ {
+ 	int ctrl_param = 0;
  
--	/* No need to reserve regions that will never be freed. */
--	if (md.attribute & EFI_MEMORY_RUNTIME)
--		return;
+-	/*
+-	 * bits 0-2: level
+-	 * bit 7: light on/off
+-	 */
+-	if (asus->kbd_led_wk > 0)
+-		ctrl_param = 0x80 | (asus->kbd_led_wk & 0x7F);
 -
- 	size += addr % EFI_PAGE_SIZE;
- 	size = round_up(size, EFI_PAGE_SIZE);
- 	addr = round_down(addr, EFI_PAGE_SIZE);
-@@ -290,6 +286,8 @@ void __init efi_arch_mem_reserve(phys_addr_t addr, u64 size)
- 	early_memunmap(new, new_size);
- 
- 	efi_memmap_install(new_phys, num_entries);
-+	e820__range_update(addr, size, E820_TYPE_RAM, E820_TYPE_RESERVED);
-+	e820__update_table(e820_table);
++	ctrl_param = 0x80 | (asus->kbd_led_wk & 0x7F);
+ 	asus_wmi_set_devstate(ASUS_WMI_DEVID_KBD_BACKLIGHT, ctrl_param, NULL);
  }
  
- /*
 -- 
 2.20.1
 
