@@ -2,194 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1291812D6B9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 Dec 2019 07:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B27412D7E2
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 Dec 2019 11:29:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbfLaGxu (ORCPT
+        id S1727064AbfLaK30 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 31 Dec 2019 01:53:50 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:33145 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725497AbfLaGxu (ORCPT
+        Tue, 31 Dec 2019 05:29:26 -0500
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60197 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726643AbfLaK30 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 31 Dec 2019 01:53:50 -0500
-Received: by mail-qk1-f196.google.com with SMTP id d71so19956407qkc.0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 30 Dec 2019 22:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d8oUvpDvzRH5Q0vMA5hSnqJhBgUakZh+XLGeAmOlRnA=;
-        b=DalUh6mATH2DoFJXM3BCv/x0xcU29Mo6A9vhC5r9fczuQzKa8rK4khRyyFkla0HPSt
-         WXgEevDSkf6TLwG6qYfeJtcZh7JCsn9oAgmvaDR9MPFcAogSK/lWoJYPAiyj/u7HrUjQ
-         KhUYxoe1mwFicr9u/UkaDff9IlSZ5K8c5eUlxRLNGpnB+FZzgXIFMTL9yXz56nTptORa
-         qlP3yKhKBXQZ97RMLizIdAKrmSd4tEVXZxMJwBo8WTbP4LNaQRvYIUNAL43DvSt5zb0Y
-         JdzLIUZg8mMrcitF0vUuaqp93mpW6ePUvWb3KJzNwjjmWVKMXbegOJVl5eLSgjhoYfcP
-         GsMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d8oUvpDvzRH5Q0vMA5hSnqJhBgUakZh+XLGeAmOlRnA=;
-        b=Plcd0nVWpkOgcylyP5zHGwJReyH4Gb1zjmc//dVg9NmgsB9FCd4PqMwnODYqqRIFyW
-         CFi3aRvq8RXuubbzgmI+EHgWlBQJAnpZoopv2uMdybmScJ2oWysutZEY5IEjxN1yPE0f
-         zrbooNqZ7l3T0uLWpifMIDvbRho8psldeacM48Qt2EKOvcqma7jbkPj1PvpB4f83/kqi
-         KvNad12q3zGJKVgYjlmOvoSEEa5Jjv3GcQWaM3P+8BwH1mJDCTcplMcQlkAsUuu7U4CD
-         LvScYpNvqAwFkJzY+xT/oBONnhNsWFWF5bAQT+ze8j9HTFwHoDccSXTUkqhbsI5Oac1V
-         pX+A==
-X-Gm-Message-State: APjAAAVkHkuoE6lYvOd23IMpsK/12rkkerdTczBjPJJxHObPR79N/u5Q
-        QxNhTgQdiBAx08fsFo2ba41bCkAbN9x/7YZ4U5E0cQ==
-X-Google-Smtp-Source: APXvYqxjFQQ8f95+v4SL/EkqDB90/1NqXUvaD+c/be5LkfStv9ZQRYM6wy0IJqjmGOwN7fXZA8OgxqVESY85LvoYTxI=
-X-Received: by 2002:ae9:f003:: with SMTP id l3mr58038977qkg.457.1577775228982;
- Mon, 30 Dec 2019 22:53:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20191230083044.11582-1-jian-hong@endlessm.com>
-In-Reply-To: <20191230083044.11582-1-jian-hong@endlessm.com>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Tue, 31 Dec 2019 14:53:37 +0800
-Message-ID: <CAD8Lp45Le=s=1Q9oi0JCJTPepNmX002hK7W6UwKztTq09QBUgw@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: asus-wmi: Fix keyboard brightness cannot be
- set to 0
-To:     Jian-Hong Pan <jian-hong@endlessm.com>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Upstreaming Team <linux@endlessm.com>,
-        nweibley@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 31 Dec 2019 05:29:26 -0500
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 31 Dec 2019 12:29:19 +0200
+Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id xBVATJ7X008518;
+        Tue, 31 Dec 2019 12:29:19 +0200
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     andy@infradead.org, dvhart@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vadim Pasternak <vadimp@mellanox.com>
+Subject: [PATCH platform-next v1 0/9] platform/x86: Mellanox new system classes and new features
+Date:   Tue, 31 Dec 2019 10:29:08 +0000
+Message-Id: <20191231102917.24181-1-vadimp@mellanox.com>
+X-Mailer: git-send-email 2.11.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Dec 30, 2019 at 4:32 PM Jian-Hong Pan <jian-hong@endlessm.com> wrote:
->
-> Some of ASUS laptops like UX431FL keyboard backlight cannot be set to
-> brightness 0. According to ASUS' information, the brightness should be
-> 0x80 ~ 0x83. This patch fixes it by following the logic.
->
-> Fixes: e9809c0b9670 ("asus-wmi: add keyboard backlight support")
+The patchset adds new features for the existing Mellanox systems
+and introduces two new system classes.
 
-The spec says says bit 7 is Set light on, and bits 0~3 are level,
-similar to the comment being removed. But indeed it isn't entirely
-clear about how to turn it off (since what does Light on but level 0
-mean?).
+Patch #1 adds new attributes.
+Patches #2-#3 extend documentation.
+Patches #4 contains cosmetic changes.
+Patches #5-#6 introduce new system class for the systems equipped with
+Spectrum 1 (32x100GbE Ethernet switch) device and Switch-IB/Switch-IB2
+devices (36x100Gbe InfiniBand switch).
+Patches #7-#8 add support for new group capability register
+Patch #9 introduces new system class for the systems equipped
+with new switch device Spectrum 3 (32x400GbE/64x200G/128x100G Ethernet
+switch).
 
-This code goes back to 2011, so there's a risk of inversely affecting
-old models with this change.
+Vadim Pasternak (9):
+  platform/x86: mlx-platform: Add more definitions for system attributes
+  Documentation/ABI: Fix attributes for mlxreg-io sysfs interfaces
+  Documentation/ABI: Add new attribute for mlxreg-io sysfs interfaces
+  platform/x86: mlx-platform: Cosmetic changes
+  platform/x86: mlx-platform: Set system mux configuration based on
+    system type
+  platform/x86: mlx-platform: Add support for new system type
+  platform/x86: mlx-platform: Add support for new capability register
+  platform/mellanox: mlxreg-hotplug: Add support for new capability
+    register
+  platform/x86: mlx-platform: Add support for next generation systems
 
-I checked our DSDT collection and the behaviour is quite inconsistent.
+ Documentation/ABI/stable/sysfs-driver-mlxreg-io |  83 +++-
+ drivers/platform/mellanox/mlxreg-hotplug.c      |  14 +
+ drivers/platform/x86/mlx-platform.c             | 564 +++++++++++++++++++++++-
+ include/linux/platform_data/mlxreg.h            |   2 +
+ 4 files changed, 643 insertions(+), 20 deletions(-)
 
-On the UX431FLC that you fixed with this patch, we reach:
+-- 
+2.11.0
 
-        Method (SLKI, 1, NotSerialized)
-        {
-            Local0 = (Arg0 & 0x80)
-            If (Local0)
-            {
-                Local1 = (Arg0 & 0x7F)
-                If ((Local1 >= 0x04))
-                {
-                    Local1 = Zero
-                }
-
-                \_SB.PCI0.LPCB.H_EC.KBLL = Local1
-                KBLV = Local1
-            }
-
-            Return (Local0)
-        }
-
-Nothing will happen unless bit 0x80 is set. So that's why your patch
-fixes the problem in this case. But In 81 DSDTs examined this is the
-only model that exhibits this behaviour. Perhaps it is the very latest
-revision that will be rolled out from this point.
-
-Many other models have this:
-
-        Name (PWKB, Buffer (0x04)
-        {
-             0x00, 0x55, 0xAA, 0xFF                           // .U..
-        })
-        Method (SLKB, 1, NotSerialized)
-        {
-            KBLV = (Arg0 & 0x7F)
-            If ((Arg0 & 0x80))
-            {
-                Local0 = DerefOf (PWKB [KBLV])
-            }
-            Else
-            {
-                Local0 = Zero
-            }
-
-            ST9E (0x1F, 0xFF, Local0)
-            Return (One)
-        }
-
-for which your patch is also OK. You can follow it through and see
-that value 0x0 and 0x80 both result in the same single register write
-of value 0.
-
-But there are 30 models (e.g. UX331UN) that will see a behaviour
-change via this patch:
-
-        Method (SLKB, 1, NotSerialized)
-        {
-            KBLV = (Arg0 & 0x7F)
-            If ((Arg0 & 0x80))
-            {
-                Local0 = 0x0900
-                Local0 += 0xF0
-                WRAM (Local0, KBLV)
-                Local0 = DerefOf (PWKB [KBLV])
-            }
-            Else
-            {
-                Local0 = Zero
-            }
-
-            ST9E (0x1F, 0xFF, Local0)
-            Return (One)
-        }
-
-Here, writing 0x80 to turn off the keyboard LED will result in an
-additional WRAM(0x9f0, 0) call that was not there before. I think we
-should double check this detail.
-
-Let's see if we can borrow one of the affected models and double check
-this patch there before proceeding. I'll follow up internally.
-
-(I also checked eeepc, but it seems like they don't have a keyboard backlight)
-
-
-> Signed-off-by: Jian-Hong Pan <jian-hong@endlessm.com>
-> ---
->  drivers/platform/x86/asus-wmi.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 821b08e01635..982f0cc8270c 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -512,13 +512,7 @@ static void kbd_led_update(struct asus_wmi *asus)
->  {
->         int ctrl_param = 0;
->
-> -       /*
-> -        * bits 0-2: level
-> -        * bit 7: light on/off
-> -        */
-> -       if (asus->kbd_led_wk > 0)
-> -               ctrl_param = 0x80 | (asus->kbd_led_wk & 0x7F);
-> -
-> +       ctrl_param = 0x80 | (asus->kbd_led_wk & 0x7F);
->         asus_wmi_set_devstate(ASUS_WMI_DEVID_KBD_BACKLIGHT, ctrl_param, NULL);
->  }
->
-> --
-> 2.20.1
->
