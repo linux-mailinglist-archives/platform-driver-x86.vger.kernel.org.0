@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5FA12E488
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jan 2020 10:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A77EC12E497
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jan 2020 10:50:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727936AbgABJpe (ORCPT
+        id S1727958AbgABJup (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jan 2020 04:45:34 -0500
-Received: from mga09.intel.com ([134.134.136.24]:28281 "EHLO mga09.intel.com"
+        Thu, 2 Jan 2020 04:50:45 -0500
+Received: from mga06.intel.com ([134.134.136.31]:51088 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727924AbgABJpe (ORCPT
+        id S1727924AbgABJup (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jan 2020 04:45:34 -0500
+        Thu, 2 Jan 2020 04:50:45 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2020 01:45:33 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2020 01:50:45 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,386,1571727600"; 
-   d="scan'208";a="224733854"
+   d="scan'208";a="224734562"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 02 Jan 2020 01:45:29 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 02 Jan 2020 11:45:29 +0200
-Date:   Thu, 2 Jan 2020 11:45:29 +0200
+  by fmsmga001.fm.intel.com with SMTP; 02 Jan 2020 01:50:40 -0800
+Received: by lahna (sSMTP sendmail emulation); Thu, 02 Jan 2020 11:50:40 +0200
+Date:   Thu, 2 Jan 2020 11:50:40 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -37,33 +37,39 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 26/37] mfd: intel_soc_pmic: Add SCU IPC member to struct
- intel_soc_pmic
-Message-ID: <20200102094529.GC465886@lahna.fi.intel.com>
+Subject: Re: [PATCH 33/37] platform/x86: intel_pmc_ipc: Move under MFD
+Message-ID: <20200102095040.GE465886@lahna.fi.intel.com>
 References: <20191223141716.13727-1-mika.westerberg@linux.intel.com>
- <20191223141716.13727-27-mika.westerberg@linux.intel.com>
- <20200102090132.GD22390@dell>
+ <20191223141716.13727-34-mika.westerberg@linux.intel.com>
+ <20200102094126.GG22390@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200102090132.GD22390@dell>
+In-Reply-To: <20200102094126.GG22390@dell>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jan 02, 2020 at 09:01:32AM +0000, Lee Jones wrote:
+On Thu, Jan 02, 2020 at 09:41:26AM +0000, Lee Jones wrote:
 > On Mon, 23 Dec 2019, Mika Westerberg wrote:
 > 
-> > Both PMIC drivers (intel_soc_pmic_mrfld and intel_soc_pmic_bxtwc) will
-> > be using this field going forward to access the SCU IPC instance.
-> > 
-> > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > ---
-> >  include/linux/mfd/intel_soc_pmic.h | 1 +
-> >  1 file changed, 1 insertion(+)
+> > This driver only creates a bunch of platform devices sharing resources
+> > belonging to the PMC device. This is pretty much what MFD subsystem is
+> > for so move the driver there, renaming it to intel_pmc_bxt.c which
+> > should be more clear what it is. We convert the driver to call MFD APIs
+> > in subsequent patches.
 > 
-> This might be a good time to add a Kerneldoc header.
+> Nope.  Not happening.
+> 
+> It's not appropriate to dump a 1000+ line source file into MFD without
+> a thorough review.  For starters, the 100's of lines of code which
+> support the bespoke IPC APIs should remain within the 'platform'
+> domain.
+> 
+> It's okay to move the subordinate device registration into MFD, but it
+> will need to be converted *whilst* transferring it, rather than the
+> dump/edit method currently implemented.
 
-Good point. I'll add it in v2.
+OK, will do so in v2.
