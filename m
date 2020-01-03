@@ -2,244 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A61F12F75D
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2020 12:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57B1A12F96B
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jan 2020 16:01:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727646AbgACLgS (ORCPT
+        id S1727942AbgACPBO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jan 2020 06:36:18 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35352 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727629AbgACLgS (ORCPT
+        Fri, 3 Jan 2020 10:01:14 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51103 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727797AbgACPBO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jan 2020 06:36:18 -0500
-Received: by mail-wm1-f66.google.com with SMTP id p17so8334010wmb.0
-        for <platform-driver-x86@vger.kernel.org>; Fri, 03 Jan 2020 03:36:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=W7DT90yNYzpotuhZbO7YzjctV3QDX926/xXbSOdOjQY=;
-        b=ZBaIyouJ0qA70SM7p5DyerQa2uQWgDtJhC4GbSx0hOsI/TDxuRvkxLeM/Gjh4+t5BD
-         8mLL88na5LlyM+Ru9ClkIF5V49bhZwiyL/B6iVR0HZkRuCVGXbUNp29rm56yXDXGXn1L
-         hsY2+qw9x8qVEtcjCKfRG7L2odRQTpMZ99hFiBshe/fli1jftchSUwVU5ao7NcjChP0g
-         QFYGSRUMT8eUf5VgN0lNextSA2ZWGhhUZ5g7aApgoes0q0yvjzWNeE1KhdkRM5Qcr3XQ
-         uxxCr8ik6WFbMku8P4ydKLZE9RHbiD+Od7OgjiflWZbAiaIfXkNNHX5W6M4PUjo1ZjYV
-         TF7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W7DT90yNYzpotuhZbO7YzjctV3QDX926/xXbSOdOjQY=;
-        b=bTAWC38jVBqjdQZJKizmij3oktPNe3K1QYpOC8t3lX7846E3/yI97R6fXJtcERPC+q
-         iDG/onxZx1jLYL5Jb/TSCRdowgyVI+zq7Iahcrd6TxxytBqsCkju0Wf/hHW24mgR81Go
-         Ex6k+dczD5ygssirfiRObIipLWDBqzbnXWFvW8ekie3vIz3Z0dfPNee6FNueh+sa8xw/
-         RktS2av9M6N2BTQsUvOq69eNOf0aHe3VN/MjYjPrXuofgdREL5AugBdVhyP3trsRCbhW
-         Gk8bhZoz8AYuc9fr85SMarUEjYqfv15guSejF7aVuLoAunhGgI+QAdMJva1ybE3J1a0w
-         t3Dw==
-X-Gm-Message-State: APjAAAUq8Idmgp1yW66pHZeSDyrPP/ej4aEGs1sam2HcAp4UqjcTkU5I
-        WXxcsiJrRmiGoFTJCxm8Skf/6DTM5+ecDb5YTUsgcQ==
-X-Google-Smtp-Source: APXvYqydiWnwY4UHWadUrF7IJW2FmFX3+OirWMWypHZ7Si7pbMd/pNtvurx2xKUHmEQ4etOr9y6r2vkU3Mpz1OxIG8Q=
-X-Received: by 2002:a1c:3dc3:: with SMTP id k186mr18546289wma.95.1578051375492;
- Fri, 03 Jan 2020 03:36:15 -0800 (PST)
+        Fri, 3 Jan 2020 10:01:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578063671;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=dmmU7Y4tXxpLxtzH+JL6KsCdBtRAVF0QRT/RRTASmHY=;
+        b=iLuxrVMV5HpDiTT1R5RofR54HTqyMHiG51B5+UXbyL2JkXStDXM/w9DIb0TLwtX6yZKeLS
+        uD2QpSqtHjxNw3lb2TlC1dCo+zgSsi6RWzY9+CBeK9zzL8+rQR6lNPUrKDGVt0209N+iMs
+        FJlH9/T8QOSRVkH39Q0ccA6KrScIvw0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-hOiYr5TWOg623DI68S7aVA-1; Fri, 03 Jan 2020 10:01:07 -0500
+X-MC-Unique: hOiYr5TWOg623DI68S7aVA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8576F802574;
+        Fri,  3 Jan 2020 15:01:06 +0000 (UTC)
+Received: from dhcp-44-196.space.revspace.nl (ovpn-112-44.ams2.redhat.com [10.36.112.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 16CAE7D973;
+        Fri,  3 Jan 2020 15:01:03 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tim Josten <timjosten@gmail.com>
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the PiPO W11 tablet
+Date:   Fri,  3 Jan 2020 16:00:59 +0100
+Message-Id: <20200103150059.14762-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20191210115117.303935-1-hdegoede@redhat.com> <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
-In-Reply-To: <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Fri, 3 Jan 2020 12:36:04 +0100
-Message-ID: <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
-Subject: Re: [PATCH v10 00/10] efi/firmware/platform-x86: Add EFI embedded fw support
-To:     Hans de Goede <hdegoede@redhat.com>, Ingo Molnar <mingo@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 3 Jan 2020 at 12:27, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> Since I send this out, efi-next has seen some changes causing the first
-> 2 patches to no longer cleanly apply. So it looks like we need to
-> merge this one bit at a time with immutable branches.
->
-> Ard, the first 2 patches in this series should be merged through your
-> efi tree. AFAIK everyone is happy with them in their current state
-> so they are ready for merging. Can you create an immutable branch
-> with these 2 patches and merge that into your efi-next branch?
->
-> Note if you do the immutable branch on 5.5-rc1 + just these 2 patches,
-> there will be a conflict when you merge this into efi-next, but it is
-> trivial to resolve.
->
+From: Tim Josten <timjosten@gmail.com>
 
-I will need to defer to Ingo here, as he usually applies the EFI
-changes piecemeal rather than merging my branches directly.
+Add touchscreen info for the PiPO W11 tablet.
 
-I'd be fine with just annotating the conflict in the pull request if
-it is trivial, though, but it is really up to Luis and Ingo to align
-here.
+Signed-off-by: Tim Josten <timjosten@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 28 ++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-Note that I was just about to send out a PR for the second batch of
-EFI changes, but there will be more this cycle in any case.
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x8=
+6/touchscreen_dmi.c
+index 4a09b479cda5..3c9d913b71b3 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -511,6 +511,23 @@ static const struct ts_dmi_data pipo_w2s_data =3D {
+ 	.properties	=3D pipo_w2s_props,
+ };
+=20
++static const struct property_entry pipo_w11_props[] =3D {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 15),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1984),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1532),
++	PROPERTY_ENTRY_STRING("firmware-name",
++			      "gsl1680-pipo-w11.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data pipo_w11_data =3D {
++	.acpi_name	=3D "MSSL1680:00",
++	.properties	=3D pipo_w11_props,
++};
++
+ static const struct property_entry pov_mobii_wintab_p800w_v20_props[] =3D=
+ {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 32),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
+@@ -969,6 +986,17 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
+ {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "W2S"),
+ 		},
+ 	},
++	{
++		/* Pipo W11 */
++		.driver_data =3D (void *)&pipo_w11_data,
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "PIPO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "To be filled by O.E.M."),
++			/* Above matches are too generic, add bios-ver match */
++			DMI_MATCH(DMI_BIOS_VERSION,
++				  "JS-BI-10.6-SF133GR300-GA55B-024-F"),
++		},
++	},
+ 	{
+ 		/* Ployer Momo7w (same hardware as the Trekstor ST70416-6) */
+ 		.driver_data =3D (void *)&trekstor_surftab_wintron70_data,
+--=20
+2.23.0
 
-
-
-> Luis, the rest of the series is almost ready for merging, it just needs
-> your review of the 2 new patches (patch 5 and 6) adding the selftests for
-> the new firmware_request_platform api, if you can review those that would
-> be great.
->
-> Regards,
->
-> Hans
->
->
->
-> On 10-12-2019 12:51, Hans de Goede wrote:
-> > Hi All,
-> >
-> > Here is v10 of my patch-set to add support for EFI embedded fw to the
-> > kernel. This version has been rebased on top 5.5-rc1 to fix 2 conflicts
-> > with the first 2 (efi) patches in the series. There are no changes
-> > versus v9 other then the rebase.
-> >
-> > Below is the cover-letter of v9:
-> >
-> > The main new feature in this version is the addition of some selftests for
-> > the new firmware_request_platform api (patch 5 and 6, both new). My plan
-> > was to send the patches adding the selftests out as a follow up series.
-> >
-> > But during unrelated testing of my personal tree I found a small but nasty
-> > bug in the "efi: Add embedded peripheral firmware support" patch, the minor
-> > refactoring done in v8 exposed a bug which causes a hard crash on boot for
-> > devices which have a DMI match in the touchscreen_dmi_table but do not use
-> > EFI-embedded fw, this is fixed in this new version.
-> >
-> > Assuming the 2 new patches adding the selftests are ok, I believe that
-> > this series is ready for merging now.  I believe it would be best to merge
-> > patches 1-8 through Greg's driver-core tree where firmware-loader changes go.
-> > The non firmware patches already have Acked-by-s from the maintainers of
-> > the EFI/input trees.
-> >
-> > Patches 9-10 touch a quirks file under drivers/platform/x86 which sees
-> > multipe updates each cycle. So my proposal is that once 1-8 has landed
-> > Greg creates an immutable branch with those changes and then
-> > Andy and/or Darren can merge in that branch and then apply 9 and 10.
-> >
-> > Regards,
-> >
-> > Hans
-> >
-> >
-> > Changes in v10:
-> > - Rebase on top of 5.5-rc1
-> >
-> > Changes in v9:
-> > - Add 2 new patches adding selftests
-> > - At least touchscreen_dmi.c uses the same dmi_table for its own private
-> >    data and the fw_desc structs, putting the fw_desc struct first in the
-> >    data driver_data points to so that the dmi_table can be shared with
-> >    efi_check_for_embedded_firmwares(). But not all entries there have
-> >    embedded-fw so in some cases the fw_desc is empty (zero-ed out).
-> >    This can lead to a possible crash because fw_desc->length now is
-> >    less then 8, so if the segment size is close enough to a multiple of the
-> >    page_size, then the memcmp to check the prefix my segfault. Crashing the
-> >    machine. v9 checks for and skips these empty fw_desc entries avoiding this.
-> > - Add static inline wrapper for firmware_request_platform() to firmware.h,
-> >    for when CONFIG_FW_LOADER is not set
-> >
-> > Changes in v8:
-> > - Add pr_warn if there are mode then EFI_DEBUGFS_MAX_BLOBS boot service segments
-> > - Document how the EFI debugfs boot_service_code? files can be used to check for
-> >    embedded firmware
-> > - Properly deal with the case of an EFI segment being smaller then the fw we
-> >    are looking for
-> > - Log a warning when efi_get_embedded_fw get called while we did not (yet)
-> >    check for embedded firmwares
-> > - Only build fallback_platform.c if CONFIG_EFI_EMBEDDED_FIRMWARE is defined,
-> >    otherwise make firmware_fallback_platform() a static inline stub
-> >
-> > Changes in v7:
-> > - Split drivers/firmware/efi and drivers/base/firmware_loader changes into
-> >    2 patches
-> > - Use new, standalone, lib/crypto/sha256.c code
-> > - Address kdoc comments from Randy Dunlap
-> > - Add new FW_OPT_FALLBACK_PLATFORM flag and firmware_request_platform()
-> >    _request_firmware() wrapper, as requested by Luis R. Rodriguez
-> > - Stop using "efi-embedded-firmware" device-property, now that drivers need to
-> >    use the new firmware_request_platform() to enable fallback to a device fw
-> >    copy embedded in the platform's main firmware, we no longer need a property
-> >    on the device to trigger this behavior
-> > - Use security_kernel_load_data instead of calling
-> >    security_kernel_read_file with a NULL file pointer argument
-> > - Move the docs to Documentation/driver-api/firmware/fallback-mechanisms.rst
-> > - Document the new firmware_request_platform() function in
-> >    Documentation/driver-api/firmware/request_firmware.rst
-> > - Add 2 new patches for the silead and chipone-icn8505 touchscreen drivers
-> >    to use the new firmware_request_platform() method
-> > - Rebased on top of 5.4-rc1
-> >
-> > Changes in v6:
-> > -Rework code to remove casts from if (prefix == mem) comparison
-> > -Use SHA256 hashes instead of crc32 sums
-> > -Add new READING_FIRMWARE_EFI_EMBEDDED read_file_id and use it
-> > -Call security_kernel_read_file(NULL, READING_FIRMWARE_EFI_EMBEDDED)
-> >   to check if this is allowed before looking at EFI embedded fw
-> > -Document why we are not using the PI Firmware Volume protocol
-> >
-> > Changes in v5:
-> > -Rename the EFI_BOOT_SERVICES flag to EFI_PRESERVE_BS_REGIONS
-> >
-> > Changes in v4:
-> > -Drop note in docs about EFI_FIRMWARE_VOLUME_PROTOCOL, it is not part of
-> >   UEFI proper, so the EFI maintainers don't want us referring people to it
-> > -Use new EFI_BOOT_SERVICES flag
-> > -Put the new fw_get_efi_embedded_fw() function in its own fallback_efi.c
-> >   file which only gets built when EFI_EMBEDDED_FIRMWARE is selected
-> > -Define an empty stub for fw_get_efi_embedded_fw() in fallback.h hwen
-> >   EFI_EMBEDDED_FIRMWARE is not selected, to avoid the need for #ifdefs
-> >   in firmware_loader/main.c
-> > -Properly call security_kernel_post_read_file() on the firmware returned
-> >   by efi_get_embedded_fw() to make sure that we are allowed to use it
-> >
-> > Changes in v2:
-> > -Rebased on driver-core/driver-core-next
-> > -Add documentation describing the EFI embedded firmware mechanism to:
-> >   Documentation/driver-api/firmware/request_firmware.rst
-> > -Add a new EFI_EMBEDDED_FIRMWARE Kconfig bool and only build the embedded
-> >   fw support if this is set. This is an invisible option which should be
-> >   selected by drivers which need this
-> > -Remove the efi_embedded_fw_desc and dmi_system_id-s for known devices
-> >   from the efi-embedded-fw code, instead drivers using this are expected to
-> >   export a dmi_system_id array, with each entries' driver_data pointing to a
-> >   efi_embedded_fw_desc struct and register this with the efi-embedded-fw code
-> > -Use kmemdup to make a copy instead of efi_mem_reserve()-ing the firmware,
-> >   this avoids us messing with the EFI memmap and avoids the need to make
-> >   changes to efi_mem_desc_lookup()
-> > -Make the firmware-loader code only fallback to efi_get_embedded_fw() if the
-> >   passed in device has the "efi-embedded-firmware" device-property bool set
-> > -Skip usermodehelper fallback when "efi-embedded-firmware" device-property
-> >   is set
-> >
-> >
->
