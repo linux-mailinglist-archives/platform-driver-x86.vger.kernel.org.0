@@ -2,114 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DDD9131A90
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Jan 2020 22:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2869132F9D
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Jan 2020 20:38:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727134AbgAFVfI (ORCPT
+        id S1728486AbgAGTiv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Jan 2020 16:35:08 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44558 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgAFVfH (ORCPT
+        Tue, 7 Jan 2020 14:38:51 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:36662 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728364AbgAGTiv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Jan 2020 16:35:07 -0500
-Received: by mail-pg1-f196.google.com with SMTP id x7so27439383pgl.11;
-        Mon, 06 Jan 2020 13:35:07 -0800 (PST)
+        Tue, 7 Jan 2020 14:38:51 -0500
+Received: by mail-ed1-f67.google.com with SMTP id j17so602082edp.3
+        for <platform-driver-x86@vger.kernel.org>; Tue, 07 Jan 2020 11:38:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SCzDKsOe410kBo95ZZZZK5kGqhXg3f31XLk6pABWpi4=;
+        b=L54hg/tCr/i4fniMukKpZ0/DJBltHa6n+sdYMCjqIDzPmI+Jd1yPsfLeHe5wzeNPgm
+         AmijbWw1cMLZEEvBNWPvg01r1KvKrSaFwA0ZudvlzsRw88Qfy37tadgS/anlxBhQiSCG
+         xoMTOWoLObpjM/5fNZWkby8aqQZX/yItAbCjDG2o42/z9NLBhDNAP6Feo8a6apSqoeYs
+         G6ogRHK7CY+nQ2/skayhH/R/cIZ54hmjOY7b7m5ixGpTbJZWgbrKHStVzlihEzpgy+ft
+         rlA9J1E2E/aYwGeZkNsfKa5AjVLL+9MPQxVE8DlpS/AYPUP8BBkXbTzNKXz/3E8ZSyiI
+         WrKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m5JbUZHGVS7KhF/eteOGbVRmf/p5dDdWHItMOmdV+PY=;
-        b=KXEBFPr7uLQ4erGLtuIgSp+jERI4sICam+LtekOisclwM/7Qx2N3YufOUEUvR5OLLO
-         XdTzdU8wj6aTXkVgZQghUWNKX8HHrujLuUn7U/6QdzzfigQDunDmhBZPk7pTbg4HAn09
-         8ux3h6/ue1ptdVg7cPXq2UwMXsxX3J3i0cCAbZXn4HTwJig05+Ff2b8/ARSw65Au3Z4c
-         WDfXSfvuEh9BNLMKuAY1hTMyoLvov63knvGkpmFO2OaYyzPQivH3SevLolpROMrsxRba
-         mpsaWA5DwVT6nUFBEWYEFJ7GnNTFP0nIBGlGku150zrhA4iZjYHmjachj/FdlaSVvnle
-         omPg==
-X-Gm-Message-State: APjAAAUaDyzvedV6CbNNLujbyp3HLCfwfxN1tinkfl0NdZXKzsJpBi6I
-        DUjEMlCNofyeOBCdPVIJ0v8=
-X-Google-Smtp-Source: APXvYqw182QJjFmapUgFthZkzGtp0VoNIvjQLkmo3FZplcl6V6fewGd0Km+oD9FveLcEgGfjcf+wSw==
-X-Received: by 2002:a62:486:: with SMTP id 128mr111783695pfe.236.1578346506948;
-        Mon, 06 Jan 2020 13:35:06 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id g22sm74464874pgk.85.2020.01.06.13.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2020 13:35:05 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 2F19740321; Mon,  6 Jan 2020 21:35:05 +0000 (UTC)
-Date:   Mon, 6 Jan 2020 21:35:05 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v10 00/10] efi/firmware/platform-x86: Add EFI embedded fw
- support
-Message-ID: <20200106213505.GW11244@42.do-not-panic.com>
-References: <20191210115117.303935-1-hdegoede@redhat.com>
- <66f45932-756d-0bb0-d7a8-330d61785663@redhat.com>
- <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SCzDKsOe410kBo95ZZZZK5kGqhXg3f31XLk6pABWpi4=;
+        b=Grf7w+DzfTnEKHp1CZ/oj9HKYUszcK3htt6okPXRU7nf9TBGoubdH1PCy4YsrGrIbl
+         f7YEcobJs5CheSAfrPBzEL1fnkRgWvu5fy/5ClUqmogXW/x1LWP0YynNGvOYpsB7gYq6
+         kX0kCyN4BZ05BCZsgm7jXDPDqaiy1eK0oSDuKrF016qgxB5R96rt5cYz+u/DRdE9KuGq
+         mZD+4dVoripF86pxdhiiCG4UWjFmyqZdG0yHc7P5gRrblJjiHhu54wJ4thzyokmwfCtm
+         R8+8vnXW5wG8nbSMdVq+i9iUBFdD6cUmnCeDtLHN9tXCyF8gq9jfzQCFduUH0+jBVSG/
+         zPqg==
+X-Gm-Message-State: APjAAAVD8+g9hq3A2lZL+SR/PQ5rokHqcAFMPWOkGVztBW2CbH2DjcEx
+        uuRsQo+fI0MnYjazTykv87BS4Oh2QtgNsf+2Ot8=
+X-Google-Smtp-Source: APXvYqxtBgoovyTuNsmY8G/gQZ/FJegLdgRjuJSX1vaRzNUL1GPoKAovwwTuwB2/J6m6nvisFubv43bCxkbIUEKR/Mk=
+X-Received: by 2002:aa7:d84b:: with SMTP id f11mr1628207eds.96.1578425929747;
+ Tue, 07 Jan 2020 11:38:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKv+Gu_X+UM95MJJMjT69upL9zN3H9BnUkv8s9TjcpevANbYEw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Tue, 7 Jan 2020 11:38:49
+ -0800 (PST)
+Reply-To: dhlexpresscouriercompany.nyusa@gmail.com
+From:   "Dr. William Johnson" <eco.bank1204@gmail.com>
+Date:   Tue, 7 Jan 2020 20:38:49 +0100
+Message-ID: <CAOE+jABm-LLg345ogYJ2P-tuYGirao6RNrVTcQh+om-S0Cuf2A@mail.gmail.com>
+Subject: ATTN Dear Beneficiary. Goodnews
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Jan 03, 2020 at 12:36:04PM +0100, Ard Biesheuvel wrote:
-> On Fri, 3 Jan 2020 at 12:27, Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi All,
-> >
-> > Since I send this out, efi-next has seen some changes causing the first
-> > 2 patches to no longer cleanly apply. So it looks like we need to
-> > merge this one bit at a time with immutable branches.
-> >
-> > Ard, the first 2 patches in this series should be merged through your
-> > efi tree. AFAIK everyone is happy with them in their current state
-> > so they are ready for merging. Can you create an immutable branch
-> > with these 2 patches and merge that into your efi-next branch?
-> >
-> > Note if you do the immutable branch on 5.5-rc1 + just these 2 patches,
-> > there will be a conflict when you merge this into efi-next, but it is
-> > trivial to resolve.
-> >
-> 
-> I will need to defer to Ingo here, as he usually applies the EFI
-> changes piecemeal rather than merging my branches directly.
-> 
-> I'd be fine with just annotating the conflict in the pull request if
-> it is trivial, though, but it is really up to Luis and Ingo to align
-> here.
-
-I don't have a tree, and firmware goes Greg's driver core tree so
-actually its up to Greg and Ingo on how this gets merged. But it seems
-you just have one issue to fix:
-
-[PATCH v10 05/10] test_firmware: add support for firmware_request_platform
-
-There is a few set of empty lines added and I had one comment on the
-release of the firmware.
-
-Other than this, I agree this seems ready to be merged.
-
-  Luis
+ATTN Dear Beneficiary.
+Goodnews
+I have Registered your Prepaid ATM Master Card
+worth $15.800,000.00 US DOLLARS Courier company asigned to deliver it
+to you today.
+So contact Dhl office New York to receive your Prepaid ATM Master Card
+worth $15.8Million US DOLLARS now.
+Contact Person: Mrs. Mary Michael, Director, DHL Courier Company-NY USA. 10218
+Email. dhlexpresscouriercompany.nyusa@gmail.com
+Call the office +(202) 890-8752
+Rec-Confirmed your mailing address to the office as I listed below.
+Your Full Name--------------
+House Address-----------
+Your working Phone Number----------------
+ID copy-------------------------
+Sex-----------------------------
+Note,delivery fee to your address is only $25.00. send it to this
+company urgent on itunes card today so that DHL will deliver this
+Prepaid ATM Master Card to you today according to our finally
+agreement.
+Thanks for coperations,
+Dr. William Johnson
