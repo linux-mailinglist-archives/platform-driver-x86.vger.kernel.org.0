@@ -2,138 +2,221 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED253134355
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 14:05:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D39013465E
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 16:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgAHNF5 (ORCPT
+        id S1727241AbgAHPhT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 08:05:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34085 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726672AbgAHNF4 (ORCPT
+        Wed, 8 Jan 2020 10:37:19 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:41975 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726254AbgAHPhT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 08:05:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578488755;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4ZyNWhxAqEND9gNENO394kM2pqYdc/AHJLcS0vI9DMM=;
-        b=V0rsKkqxMPD34JQ7SEAWZ7S0anxhp62DfBSB9fFGnhXUtFsXRqXpUfszw4cacxPWbkZP8N
-        VRBESF5r3k/OTzVwoLjeSz7ceU4XJdM/C4y0DdEgiWbmBbqaJjsqsbuO+FP9ohL3qJLKiY
-        AjrPQbkRhjpQFOBEfcFhVunaHFgirbo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-MM3oB5xbOpGhmysGNT3AtA-1; Wed, 08 Jan 2020 08:05:54 -0500
-X-MC-Unique: MM3oB5xbOpGhmysGNT3AtA-1
-Received: by mail-wm1-f69.google.com with SMTP id q26so382584wmq.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 08 Jan 2020 05:05:54 -0800 (PST)
+        Wed, 8 Jan 2020 10:37:19 -0500
+Received: by mail-pf1-f194.google.com with SMTP id w62so1804428pfw.8;
+        Wed, 08 Jan 2020 07:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wy+5js3zItzE+IXXbeD47P8dVoT/DlGMYBOUFxo/F6U=;
+        b=lMqE4TEgNDVBlfw96Y2zHwAXzEgQfDR+tKoGRswRrOoTCZ5QcK1b2oNxUVT6ESdR65
+         54Cgtyj/I3escskYKCImI+73GI3g0r1Oi0P89GkDvMsgi3PTRbzYQ8IyTXipo+zDkgWp
+         jMmAaresu5JBtECYoxsF+RPZa1h5hftriyTc2wMjRwDWmjbEpv1bZSPQT8Dy/36LJQoN
+         5zLRIoO+XfdoOxYjTMlOH1Urbj8CuGMyUK1j09uE1M8iVWzv+SeHGpeFJaZ+3fg9xGwC
+         /o0sylUt2598r/xd5MAu0+wXbO8Mrh2c1baPhGCz7b7uFBcmY6/EI7TgZipvSYg/prhF
+         yxXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4ZyNWhxAqEND9gNENO394kM2pqYdc/AHJLcS0vI9DMM=;
-        b=ixFZ+1PX6/W/WwmZD5nXzyjAxqhxx+96mzPea4bbaKD2EbtWoTg4EBehY3+R1yBtPZ
-         5pdqvw8Ge6jhB9YOQjFqlDWCJ1vFsm9dVaDwQ+aimKrr60LS4N0h0ObVl2qP5S2254Xd
-         aRLH1zhADxMQiAYnPAWgGYVovUvZjV+PACtCo5JOaUJle+NCzfl7lNbiU867QhNKlgtp
-         h1EhV6qeGkwEfHPXVOW/0XoidPguDYTJcldgoKY7qNxD06rwH6nWcM4k24R7Gj01Pn94
-         j+NDQ9kJoAoJxfunOMLmh7NwrK3tj8uOhxJtOZyjBZ/CV9tcR/eCmXasoYTVQe/DZC55
-         i0Xg==
-X-Gm-Message-State: APjAAAUMfh1uCKOGr7iUbwnkFMWEbht8jXH7P2uIVZD2p+xaehiOB8yU
-        r43MU/iDoHqXtLx1Mo6T/xJrAZ41kLnIoFuYkCmF+86Nd7zBBV0/9lOa5TDj+UWBWsFHfJUPy60
-        mrMMbUl5kFDS4bTXNx20MwzRr4GwPiqCwGw==
-X-Received: by 2002:adf:9104:: with SMTP id j4mr4487911wrj.221.1578488752746;
-        Wed, 08 Jan 2020 05:05:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwt6raJ7XXDO0y1F3AZXYQAKrwGE7wlqeRaiMVFND1I9TfQEzmcWJEIWeRKIEM6yMULuh+dcQ==
-X-Received: by 2002:adf:9104:: with SMTP id j4mr4487891wrj.221.1578488752529;
-        Wed, 08 Jan 2020 05:05:52 -0800 (PST)
-Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
-        by smtp.gmail.com with ESMTPSA id g9sm4245246wro.67.2020.01.08.05.05.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2020 05:05:50 -0800 (PST)
-Subject: Re: [PATCH 2/2] platform/x86: GPD pocket fan: Allow somewhat
- lower/higher temperature limits
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jason Anderson <jasona.594@gmail.com>
-References: <20200106144219.525215-1-hdegoede@redhat.com>
- <20200106144219.525215-2-hdegoede@redhat.com>
- <CAHp75Ve5XF-UZw6D-OUCkgOPMYH0DgT1L5uVNGRuLmZ6Cjd1KA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <2df70a79-10e1-ea9e-0425-dcc46c1e28bc@redhat.com>
-Date:   Wed, 8 Jan 2020 14:05:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wy+5js3zItzE+IXXbeD47P8dVoT/DlGMYBOUFxo/F6U=;
+        b=iELvG5d6Rk9545HL84rwqs3SvtYnVb2jXLGpMuJ27aQ/N+tYNV0x91xT5iXxLrmOM0
+         XFjtKn26hADdL7M6vaB820yacCd8vl3SQtvRpE++z3cO2feQnVzXqaBEntjcpY/lC51t
+         PSKB5baqacCirnnTQl2pjhFi0ELgGKRwuFYFqQ4zrUIJlkJkqW93kVNuVaUssMq3XPs3
+         F+x9m2UvADbV+tmu/foOSMu7+GE6pxLCCwUM0KnnWg9XTqgkcJcyYFaUwXKCKYZlPV6p
+         +bIaxoZlH71BuyvtqN1zPa595LhhFmLpEsL6S6zEcDkaecFzhNC+WxPgoFRAiZ1cqER5
+         DTMw==
+X-Gm-Message-State: APjAAAW6nnlcWDPdq2bYUu2AxfyH5GxuMfzM6YEKTyLyUU23MO1Yy05N
+        a+ZGiCvYTDp87ZmQ+/tX1qQ=
+X-Google-Smtp-Source: APXvYqwi6h0/ie8f17s4N/dBQCyRk0wsW47YVhXZJ/+Afy1WdhX+ZOy0D3QpneDpiPS3ang8Z74EZg==
+X-Received: by 2002:a63:5d4d:: with SMTP id o13mr5694523pgm.182.1578497838426;
+        Wed, 08 Jan 2020 07:37:18 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r37sm3698843pjb.7.2020.01.08.07.37.17
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 08 Jan 2020 07:37:17 -0800 (PST)
+Date:   Wed, 8 Jan 2020 07:37:16 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 16/36] watchdog: intel-mid_wdt: Convert to use new SCU
+ IPC API
+Message-ID: <20200108153716.GC28530@roeck-us.net>
+References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
+ <20200108114201.27908-17-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Ve5XF-UZw6D-OUCkgOPMYH0DgT1L5uVNGRuLmZ6Cjd1KA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200108114201.27908-17-mika.westerberg@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 08-01-2020 13:23, Andy Shevchenko wrote:
-> On Mon, Jan 6, 2020 at 4:42 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Allow the user to configure the fan to turn on / speed-up at lower
->> thresholds then before (20 degrees Celcius as minimum instead of 40) and
->> likewise also allow the user to delay the fan speeding-up till the
->> temperature hits 90 degrees Celcius (was 70).
->>
->> Cc: Jason Anderson <jasona.594@gmail.com>
+On Wed, Jan 08, 2020 at 02:41:41PM +0300, Mika Westerberg wrote:
+> This converts the Intel MID watchdog driver over the new SCU IPC API
+> where the SCU IPC instance is passed to the functions.
 > 
->> Reported-by: Jason Anderson <jasona.594@gmail.com>
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+
+Acked-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
+>  drivers/watchdog/intel-mid_wdt.c | 53 ++++++++++++++++++++++----------
+>  1 file changed, 37 insertions(+), 16 deletions(-)
 > 
-> My understanding of this tag that the report assumes a bug to fix
-> followed up with a corresponding Fixes tag.
-
-Well in a way the old min/max for the limits being to strict a bug
-and Jason pointed this out so I want to give him credit for that.
-
-OTHO Fixes: feels a little bit to strong, even without a Cc: stable
-tag, commits with Fixes: in there are almost guaranteed to be picked
-up for the stable series and in this case that seems unnecessary to me.
-
-If you do want to add a Fixes: tag then adding the one from patch 1/2
-makes the most sense.
-
-Regards,
-
-Hans
-
-
-
+> diff --git a/drivers/watchdog/intel-mid_wdt.c b/drivers/watchdog/intel-mid_wdt.c
+> index 470213abfd3d..1ae03b64ef8b 100644
+> --- a/drivers/watchdog/intel-mid_wdt.c
+> +++ b/drivers/watchdog/intel-mid_wdt.c
+> @@ -33,14 +33,24 @@ enum {
+>  	SCU_WATCHDOG_KEEPALIVE,
+>  };
+>  
+> -static inline int wdt_command(int sub, u32 *in, int inlen)
+> +struct mid_wdt {
+> +	struct watchdog_device wd;
+> +	struct device *dev;
+> +	struct intel_scu_ipc_dev *scu;
+> +};
+> +
+> +static inline int
+> +wdt_command(struct mid_wdt *mid, int sub, const void *in, size_t inlen, size_t size)
+>  {
+> -	return intel_scu_ipc_command(IPC_WATCHDOG, sub, in, inlen, NULL, 0);
+> +	struct intel_scu_ipc_dev *scu = mid->scu;
+> +
+> +	return intel_scu_ipc_dev_command_with_size(scu, IPC_WATCHDOG, sub, in,
+> +						   inlen, size, NULL, 0);
+>  }
+>  
+>  static int wdt_start(struct watchdog_device *wd)
+>  {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>  	int ret, in_size;
+>  	int timeout = wd->timeout;
+>  	struct ipc_wd_start {
+> @@ -49,38 +59,41 @@ static int wdt_start(struct watchdog_device *wd)
+>  	} ipc_wd_start = { timeout - MID_WDT_PRETIMEOUT, timeout };
+>  
+>  	/*
+> -	 * SCU expects the input size for watchdog IPC to
+> -	 * be based on 4 bytes
+> +	 * SCU expects the input size for watchdog IPC to be 2 which is the
+> +	 * size of the structure in dwords. SCU IPC normally takes bytes
+> +	 * but this is a special case where we specify size to be different
+> +	 * than inlen.
+>  	 */
+>  	in_size = DIV_ROUND_UP(sizeof(ipc_wd_start), 4);
+>  
+> -	ret = wdt_command(SCU_WATCHDOG_START, (u32 *)&ipc_wd_start, in_size);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_START, &ipc_wd_start,
+> +			  sizeof(ipc_wd_start), in_size);
+>  	if (ret)
+> -		dev_crit(dev, "error starting watchdog: %d\n", ret);
+> +		dev_crit(mid->dev, "error starting watchdog: %d\n", ret);
+>  
+>  	return ret;
+>  }
+>  
+>  static int wdt_ping(struct watchdog_device *wd)
+>  {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>  	int ret;
+>  
+> -	ret = wdt_command(SCU_WATCHDOG_KEEPALIVE, NULL, 0);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_KEEPALIVE, NULL, 0, 0);
+>  	if (ret)
+> -		dev_crit(dev, "Error executing keepalive: %d\n", ret);
+> +		dev_crit(mid->dev, "Error executing keepalive: %d\n", ret);
+>  
+>  	return ret;
+>  }
+>  
+>  static int wdt_stop(struct watchdog_device *wd)
+>  {
+> -	struct device *dev = watchdog_get_drvdata(wd);
+> +	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+>  	int ret;
+>  
+> -	ret = wdt_command(SCU_WATCHDOG_STOP, NULL, 0);
+> +	ret = wdt_command(mid, SCU_WATCHDOG_STOP, NULL, 0, 0);
+>  	if (ret)
+> -		dev_crit(dev, "Error stopping watchdog: %d\n", ret);
+> +		dev_crit(mid->dev, "Error stopping watchdog: %d\n", ret);
+>  
+>  	return ret;
+>  }
+> @@ -110,6 +123,7 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>  	struct device *dev = &pdev->dev;
+>  	struct watchdog_device *wdt_dev;
+>  	struct intel_mid_wdt_pdata *pdata = dev->platform_data;
+> +	struct mid_wdt *mid;
+>  	int ret;
+>  
+>  	if (!pdata) {
+> @@ -123,10 +137,13 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>  			return ret;
+>  	}
+>  
+> -	wdt_dev = devm_kzalloc(dev, sizeof(*wdt_dev), GFP_KERNEL);
+> -	if (!wdt_dev)
+> +	mid = devm_kzalloc(dev, sizeof(*mid), GFP_KERNEL);
+> +	if (!mid)
+>  		return -ENOMEM;
+>  
+> +	mid->dev = dev;
+> +	wdt_dev = &mid->wd;
+> +
+>  	wdt_dev->info = &mid_wdt_info;
+>  	wdt_dev->ops = &mid_wdt_ops;
+>  	wdt_dev->min_timeout = MID_WDT_TIMEOUT_MIN;
+> @@ -135,7 +152,7 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>  	wdt_dev->parent = dev;
+>  
+>  	watchdog_set_nowayout(wdt_dev, WATCHDOG_NOWAYOUT);
+> -	watchdog_set_drvdata(wdt_dev, dev);
+> +	watchdog_set_drvdata(wdt_dev, mid);
+>  
+>  	ret = devm_request_irq(dev, pdata->irq, mid_wdt_irq,
+>  			       IRQF_SHARED | IRQF_NO_SUSPEND, "watchdog",
+> @@ -145,6 +162,10 @@ static int mid_wdt_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> +	mid->scu = devm_intel_scu_ipc_dev_get(dev);
+> +	if (!mid->scu)
+> +		return -EPROBE_DEFER;
+> +
+>  	/*
+>  	 * The firmware followed by U-Boot leaves the watchdog running
+>  	 * with the default threshold which may vary. When we get here
+> -- 
+> 2.24.1
 > 
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/platform/x86/gpd-pocket-fan.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86/gpd-pocket-fan.c
->> index 1e6a42f2ea8a..0ffcbf9bc18e 100644
->> --- a/drivers/platform/x86/gpd-pocket-fan.c
->> +++ b/drivers/platform/x86/gpd-pocket-fan.c
->> @@ -126,7 +126,7 @@ static int gpd_pocket_fan_probe(struct platform_device *pdev)
->>          int i;
->>
->>          for (i = 0; i < ARRAY_SIZE(temp_limits); i++) {
->> -               if (temp_limits[i] < 40000 || temp_limits[i] > 70000) {
->> +               if (temp_limits[i] < 20000 || temp_limits[i] > 90000) {
->>                          dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and 70000)\n",
->>                                  temp_limits[i]);
->>                          temp_limits[0] = TEMP_LIMIT0_DEFAULT;
->> --
->> 2.24.1
->>
-> 
-> 
-
