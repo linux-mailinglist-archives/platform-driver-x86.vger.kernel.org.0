@@ -2,31 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CABBD13484D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 17:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70A53134854
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 17:46:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727370AbgAHQqO (ORCPT
+        id S1729359AbgAHQqa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 11:46:14 -0500
-Received: from mga01.intel.com ([192.55.52.88]:37069 "EHLO mga01.intel.com"
+        Wed, 8 Jan 2020 11:46:30 -0500
+Received: from mga02.intel.com ([134.134.136.20]:21840 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727148AbgAHQqN (ORCPT
+        id S1729328AbgAHQqa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 11:46:13 -0500
+        Wed, 8 Jan 2020 11:46:30 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 08:46:13 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 08:46:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
-   d="scan'208";a="211594685"
+   d="scan'208";a="216006151"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007.jf.intel.com with ESMTP; 08 Jan 2020 08:46:09 -0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Jan 2020 08:46:25 -0800
 Received: from andy by smile with local (Exim 4.93)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipETB-0005XQ-FM; Wed, 08 Jan 2020 18:46:09 +0200
-Date:   Wed, 8 Jan 2020 18:46:09 +0200
+        id 1ipETR-0005Xi-Mb; Wed, 08 Jan 2020 18:46:25 +0200
+Date:   Wed, 8 Jan 2020 18:46:25 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -42,15 +42,15 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 18/36] platform/x86: intel_pmc_ipc: Make
- intel_pmc_gcr_update() static
-Message-ID: <20200108164609.GH32742@smile.fi.intel.com>
+Subject: Re: [PATCH v2 19/36] platform/x86: intel_pmc_ipc: Make
+ intel_pmc_ipc_simple_command() static
+Message-ID: <20200108164625.GI32742@smile.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-19-mika.westerberg@linux.intel.com>
+ <20200108114201.27908-20-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200108114201.27908-19-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200108114201.27908-20-mika.westerberg@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -58,13 +58,13 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 02:41:43PM +0300, Mika Westerberg wrote:
+On Wed, Jan 08, 2020 at 02:41:44PM +0300, Mika Westerberg wrote:
 > This function is not called outside of intel_pmc_ipc.c so we can make it
 > static instead.
-> 
 
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+> 
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > ---
 >  arch/x86/include/asm/intel_pmc_ipc.h | 6 ------
@@ -72,50 +72,50 @@ Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 >  2 files changed, 1 insertion(+), 8 deletions(-)
 > 
 > diff --git a/arch/x86/include/asm/intel_pmc_ipc.h b/arch/x86/include/asm/intel_pmc_ipc.h
-> index 9e7adcdbe031..3b2e8b461520 100644
+> index 3b2e8b461520..b4f804877651 100644
 > --- a/arch/x86/include/asm/intel_pmc_ipc.h
 > +++ b/arch/x86/include/asm/intel_pmc_ipc.h
-> @@ -40,7 +40,6 @@ int intel_pmc_s0ix_counter_read(u64 *data);
->  int intel_pmc_gcr_read(u32 offset, u32 *data);
->  int intel_pmc_gcr_read64(u32 offset, u64 *data);
->  int intel_pmc_gcr_write(u32 offset, u32 data);
-> -int intel_pmc_gcr_update(u32 offset, u32 mask, u32 val);
+> @@ -31,7 +31,6 @@
+>  
+>  #if IS_ENABLED(CONFIG_INTEL_PMC_IPC)
+>  
+> -int intel_pmc_ipc_simple_command(int cmd, int sub);
+>  int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
+>  		u32 *out, u32 outlen, u32 dptr, u32 sptr);
+>  int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
+> @@ -43,11 +42,6 @@ int intel_pmc_gcr_write(u32 offset, u32 data);
 >  
 >  #else
 >  
-> @@ -81,11 +80,6 @@ static inline int intel_pmc_gcr_write(u32 offset, u32 data)
->  	return -EINVAL;
->  }
->  
-> -static inline int intel_pmc_gcr_update(u32 offset, u32 mask, u32 val)
+> -static inline int intel_pmc_ipc_simple_command(int cmd, int sub)
 > -{
 > -	return -EINVAL;
 > -}
 > -
->  #endif /*CONFIG_INTEL_PMC_IPC*/
->  
->  #endif
+>  static inline int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
+>  		u32 *out, u32 outlen, u32 dptr, u32 sptr)
+>  {
 > diff --git a/drivers/platform/x86/intel_pmc_ipc.c b/drivers/platform/x86/intel_pmc_ipc.c
-> index 5c1da2bb1435..9229c7a16536 100644
+> index 9229c7a16536..53551f5474a7 100644
 > --- a/drivers/platform/x86/intel_pmc_ipc.c
 > +++ b/drivers/platform/x86/intel_pmc_ipc.c
-> @@ -309,7 +309,7 @@ EXPORT_SYMBOL_GPL(intel_pmc_gcr_write);
+> @@ -404,7 +404,7 @@ static int intel_pmc_ipc_check_status(void)
 >   *
->   * Return:	negative value on error or 0 on success.
+>   * Return:	an IPC error code or 0 on success.
 >   */
-> -int intel_pmc_gcr_update(u32 offset, u32 mask, u32 val)
-> +static int intel_pmc_gcr_update(u32 offset, u32 mask, u32 val)
+> -int intel_pmc_ipc_simple_command(int cmd, int sub)
+> +static int intel_pmc_ipc_simple_command(int cmd, int sub)
 >  {
->  	u32 new_val;
->  	int ret = 0;
-> @@ -339,7 +339,6 @@ int intel_pmc_gcr_update(u32 offset, u32 mask, u32 val)
->  	spin_unlock(&ipcdev.gcr_lock);
+>  	int ret;
+>  
+> @@ -419,7 +419,6 @@ int intel_pmc_ipc_simple_command(int cmd, int sub)
+>  
 >  	return ret;
 >  }
-> -EXPORT_SYMBOL_GPL(intel_pmc_gcr_update);
+> -EXPORT_SYMBOL_GPL(intel_pmc_ipc_simple_command);
 >  
->  static int update_no_reboot_bit(void *priv, bool set)
->  {
+>  /**
+>   * intel_pmc_ipc_raw_cmd() - IPC command with data and pointers
 > -- 
 > 2.24.1
 > 
