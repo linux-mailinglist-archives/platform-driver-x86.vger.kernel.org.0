@@ -2,31 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A9E1348A9
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 17:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E813E1348AF
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 17:58:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729586AbgAHQ6C (ORCPT
+        id S1729606AbgAHQ6d (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 11:58:02 -0500
-Received: from mga05.intel.com ([192.55.52.43]:46379 "EHLO mga05.intel.com"
+        Wed, 8 Jan 2020 11:58:33 -0500
+Received: from mga02.intel.com ([134.134.136.20]:22870 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727308AbgAHQ6C (ORCPT
+        id S1727308AbgAHQ6c (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 11:58:02 -0500
+        Wed, 8 Jan 2020 11:58:32 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 08:57:54 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 08:58:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
-   d="scan'208";a="422974167"
+   d="scan'208";a="216008936"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Jan 2020 08:57:49 -0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Jan 2020 08:58:28 -0800
 Received: from andy by smile with local (Exim 4.93)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipEeT-0005gJ-AJ; Wed, 08 Jan 2020 18:57:49 +0200
-Date:   Wed, 8 Jan 2020 18:57:49 +0200
+        id 1ipEf6-0005gm-7m; Wed, 08 Jan 2020 18:58:28 +0200
+Date:   Wed, 8 Jan 2020 18:58:28 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -42,15 +42,15 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 30/36] platform/x86: intel_pmc_ipc: Drop
- intel_pmc_ipc_command()
-Message-ID: <20200108165749.GP32742@smile.fi.intel.com>
+Subject: Re: [PATCH v2 33/36] platform/x86: intel_pmc_ipc: Use octal
+ permissions in sysfs attributes
+Message-ID: <20200108165828.GQ32742@smile.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-31-mika.westerberg@linux.intel.com>
+ <20200108114201.27908-34-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200108114201.27908-31-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200108114201.27908-34-mika.westerberg@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -58,75 +58,44 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 02:41:55PM +0300, Mika Westerberg wrote:
-> Now that all callers have been converted over to the SCU IPC API we can
-> drop intel_pmc_ipc_command().
+On Wed, Jan 08, 2020 at 02:41:58PM +0300, Mika Westerberg wrote:
+> This is the current preferred way so replace the S_IWUSR with the
+> corresponding octal value. While there move the attributes to follow
+> directly their store functions.
+> 
 
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> 
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > ---
->  arch/x86/include/asm/intel_pmc_ipc.h |  8 --------
->  drivers/platform/x86/intel_pmc_ipc.c | 21 ---------------------
->  2 files changed, 29 deletions(-)
+>  drivers/platform/x86/intel_pmc_ipc.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/x86/include/asm/intel_pmc_ipc.h b/arch/x86/include/asm/intel_pmc_ipc.h
-> index ddc964b9c78c..22848df5faaf 100644
-> --- a/arch/x86/include/asm/intel_pmc_ipc.h
-> +++ b/arch/x86/include/asm/intel_pmc_ipc.h
-> @@ -27,19 +27,11 @@
->  
->  #if IS_ENABLED(CONFIG_INTEL_PMC_IPC)
->  
-> -int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
-> -		u32 *out, u32 outlen);
->  int intel_pmc_s0ix_counter_read(u64 *data);
->  int intel_pmc_gcr_read64(u32 offset, u64 *data);
->  
->  #else
->  
-> -static inline int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
-> -		u32 *out, u32 outlen)
-> -{
-> -	return -EINVAL;
-> -}
-> -
->  static inline int intel_pmc_s0ix_counter_read(u64 *data)
->  {
->  	return -EINVAL;
 > diff --git a/drivers/platform/x86/intel_pmc_ipc.c b/drivers/platform/x86/intel_pmc_ipc.c
-> index 10505fbd01b5..241bce603183 100644
+> index acec1c6d2069..20a4bb72aeac 100644
 > --- a/drivers/platform/x86/intel_pmc_ipc.c
 > +++ b/drivers/platform/x86/intel_pmc_ipc.c
-> @@ -194,27 +194,6 @@ static int update_no_reboot_bit(void *priv, bool set)
->  				    PMC_CFG_NO_REBOOT_MASK, value);
+> @@ -215,6 +215,7 @@ static ssize_t intel_pmc_ipc_simple_cmd_store(struct device *dev,
+>  	}
+>  	return (ssize_t)count;
 >  }
+> +static DEVICE_ATTR(simplecmd, 0200, NULL, intel_pmc_ipc_simple_cmd_store);
 >  
-> -/**
-> - * intel_pmc_ipc_command() -  IPC command with input/output data
-> - * @cmd:	IPC command code.
-> - * @sub:	IPC command sub type.
-> - * @in:		input data of this IPC command.
-> - * @inlen:	input data length in bytes.
-> - * @out:	output data of this IPC command.
-> - * @outlen:	output data length in dwords.
-> - *
-> - * Send an IPC command to PMC with input/output data.
-> - *
-> - * Return:	an IPC error code or 0 on success.
-> - */
-> -int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
-> -			  u32 *out, u32 outlen)
-> -{
-> -	return intel_scu_ipc_dev_command(NULL, cmd, sub, in, inlen, out,
-> -					 outlen);
-> -}
-> -EXPORT_SYMBOL_GPL(intel_pmc_ipc_command);
+>  static ssize_t intel_pmc_ipc_northpeak_store(struct device *dev,
+>  					     struct device_attribute *attr,
+> @@ -240,11 +241,7 @@ static ssize_t intel_pmc_ipc_northpeak_store(struct device *dev,
+>  	}
+>  	return (ssize_t)count;
+>  }
 > -
->  static int ipc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  {
->  	struct intel_pmc_ipc_dev *pmc = &ipcdev;
+> -static DEVICE_ATTR(simplecmd, S_IWUSR,
+> -		   NULL, intel_pmc_ipc_simple_cmd_store);
+> -static DEVICE_ATTR(northpeak, S_IWUSR,
+> -		   NULL, intel_pmc_ipc_northpeak_store);
+> +static DEVICE_ATTR(northpeak, 0200, NULL, intel_pmc_ipc_northpeak_store);
+>  
+>  static struct attribute *intel_ipc_attrs[] = {
+>  	&dev_attr_northpeak.attr,
 > -- 
 > 2.24.1
 > 
