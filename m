@@ -2,156 +2,154 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69543134194
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 13:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F296913419C
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 13:27:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727595AbgAHMYD (ORCPT
+        id S1727370AbgAHM11 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 07:24:03 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43964 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726967AbgAHMYD (ORCPT
+        Wed, 8 Jan 2020 07:27:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55061 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726967AbgAHM10 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 07:24:03 -0500
-Received: by mail-pg1-f194.google.com with SMTP id k197so1490926pga.10;
-        Wed, 08 Jan 2020 04:24:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FimBHJzaK0+hvUwMczWq5KMiQgEkmFVQr2l4bwrxpl4=;
-        b=fS/D3ze8BLHvhSfqLds0RkX7mXGktHNcVEswaRStYZJnSvbhdBV73qiau2+qscPAw/
-         xycIgCoaR7TsK2pJwBcdpu6Nuvf5Wgya7LEZy/ejCBFZ/3ZS0B74gngIIYAhUHjNj/zi
-         DgmWz+JaPD+4sKxXXvXbBfAaRNIMrrPZecYLwUhBj6WQgJiMMyhfdJEcuZ1+On3HkuWj
-         xurCM0haEuiqqBIkkQdgz5AMtig8lU8ZToMjYRF0aQH+nAgoE36FDoH8V+68+JKeT+o9
-         pAr+5vKjGntCFF9vMI/m4cM1vvB958SBdV/G5/KFwBj0Sj3bpfd0f94CZnQSZ7zbPlul
-         JA3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FimBHJzaK0+hvUwMczWq5KMiQgEkmFVQr2l4bwrxpl4=;
-        b=hshUb+DRe/6mpQN0nR+OXswFLXiv3W5gxdovDvH6ZKeM3QccGtdnPz1CvT9gN7/gmL
-         UurY9Mi0VgkEQc5gvd2z0aZq310qNO/ctxx+7Vq11iytwqjRCrNedZTYbHCqwVxTyoQn
-         Dhfgr8CRljklOWc7X0/6HeRB/ozFmBlxYqU7mlpbGRknm7L8Zs3DjLjfd5SqOpz/+xj5
-         BArgaoZwgKOD5c5isAnBioa3njwPAscUKmKjLoqPQ0gDHEvCaGIuZpwnKVYkRxJxIYqe
-         gwbC5jAKAyA3urGuuf5tId00h1XHG/QN2B7rvroca7X+F7OJCmmLz1kQCp97FHX9cEZI
-         bNYw==
-X-Gm-Message-State: APjAAAXvxSPDet+Ggj6WLbTPpck91rR3p0oMqDR22Z3A3TGerDbB3HjK
-        I84S/UudwfCM8EYLgFSrSwBMAVH85yfaOU8Ca3M=
-X-Google-Smtp-Source: APXvYqwgoDXCANBomqGXARmKolSKbug3Em9RM2qXD8GXaDBp3/kR8EEcBZZd8Q3yFTAZHTAHICsaspNFthhzS43Udtk=
-X-Received: by 2002:a65:5242:: with SMTP id q2mr4844790pgp.74.1578486242452;
- Wed, 08 Jan 2020 04:24:02 -0800 (PST)
+        Wed, 8 Jan 2020 07:27:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578486445;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=YcX/h1ODx2t0WC6vtgv1THC5OeL0byNIZX5cdZODUBE=;
+        b=YUIsYgOYlAG5o8FRcM8XyG/4dXgNRMBT/ty2gm+jxOqUz0CVrlaKOrGyQHJU8yZCeRvAaf
+        nl9k9/cEGCrAP2k0l+jAf+pU3y0HzjLjS0ZkkUpZMJEEjVbxk546bRH18oygQhiy4qi73W
+        zz/j6GG+dl1/eMfWuO5dZA9xZbvwYQY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-gQTG7dlrPFaZcQHmyglyFA-1; Wed, 08 Jan 2020 07:27:24 -0500
+X-MC-Unique: gQTG7dlrPFaZcQHmyglyFA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4FDD800D53;
+        Wed,  8 Jan 2020 12:27:19 +0000 (UTC)
+Received: from [10.36.117.90] (ovpn-117-90.ams2.redhat.com [10.36.117.90])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 38C3C19C58;
+        Wed,  8 Jan 2020 12:27:15 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] mm/memory_hotplug: Drop the flags field from
+ struct mhp_restrictions
+To:     Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>
+References: <20200107205959.7575-1-logang@deltatee.com>
+ <20200107205959.7575-2-logang@deltatee.com>
+From:   David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <c3c3c475-f828-13f7-b5c9-f691ef0fe1ff@redhat.com>
+Date:   Wed, 8 Jan 2020 13:27:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <20200106144219.525215-1-hdegoede@redhat.com>
-In-Reply-To: <20200106144219.525215-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Jan 2020 14:23:53 +0200
-Message-ID: <CAHp75Vdqd9GQ8eM9mk+4jr54MojySH+ZKGZSJ7mNBHy567XGPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] platform/x86: GPD pocket fan: Use default values when
- wrong modparams are given
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Stable <stable@vger.kernel.org>,
-        Jason Anderson <jasona.594@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200107205959.7575-2-logang@deltatee.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 6, 2020 at 4:42 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Use our default values when wrong module-parameters are given, instead of
-> refusing to load. Refusing to load leaves the fan at the BIOS default
-> setting, which is "Off". The CPU's thermal throttling should protect the
-> system from damage, but not-loading is really not the best fallback in this
-> case.
->
-> This commit fixes this by re-setting module-parameter values to their
-> defaults if they are out of range, instead of failing the probe with
-> -EINVAL.
->
-> Cc: stable@vger.kernel.org
-> Cc: Jason Anderson <jasona.594@gmail.com>
-> Reported-by: Jason Anderson <jasona.594@gmail.com>
-> Fixes: 594ce6db326e ("platform/x86: GPD pocket fan: Use a min-speed of 2 while charging")
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On 07.01.20 21:59, Logan Gunthorpe wrote:
+> This variable is not used anywhere and should therefore be removed
+> from the structure.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 > ---
->  drivers/platform/x86/gpd-pocket-fan.c | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86/gpd-pocket-fan.c
-> index be85ed966bf3..1e6a42f2ea8a 100644
-> --- a/drivers/platform/x86/gpd-pocket-fan.c
-> +++ b/drivers/platform/x86/gpd-pocket-fan.c
-> @@ -16,17 +16,26 @@
->
->  #define MAX_SPEED 3
->
-> -static int temp_limits[3] = { 55000, 60000, 65000 };
-> +#define TEMP_LIMIT0_DEFAULT    55000
-> +#define TEMP_LIMIT1_DEFAULT    60000
-> +#define TEMP_LIMIT2_DEFAULT    65000
-> +
-> +#define HYSTERESIS_DEFAULT     3000
-> +
-> +#define SPEED_ON_AC_DEFAULT    2
-> +
-> +static int temp_limits[3] = {
-> +       TEMP_LIMIT0_DEFAULT, TEMP_LIMIT1_DEFAULT, TEMP_LIMIT2_DEFAULT };
+>  include/linux/memory_hotplug.h | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> index ba0dca6aac6e..e47a29761088 100644
+> --- a/include/linux/memory_hotplug.h
+> +++ b/include/linux/memory_hotplug.h
+> @@ -55,11 +55,9 @@ enum {
+>  
+>  /*
+>   * Restrictions for the memory hotplug:
+> - * flags:  MHP_ flags
+>   * altmap: alternative allocator for memmap array
+>   */
+>  struct mhp_restrictions {
+> -	unsigned long flags;
+>  	struct vmem_altmap *altmap;
+>  };
 
-I would rather put }; on the next line.
-But okay, I'll do it myself when applying.
+We wanted to use that for the "vmemmap on added memory" config knob. But
+that might still take some time and we might actually realize it using
+the altmap instead (hopefully :) ).
 
->  module_param_array(temp_limits, int, NULL, 0444);
->  MODULE_PARM_DESC(temp_limits,
->                  "Millicelsius values above which the fan speed increases");
->
-> -static int hysteresis = 3000;
-> +static int hysteresis = HYSTERESIS_DEFAULT;
->  module_param(hysteresis, int, 0444);
->  MODULE_PARM_DESC(hysteresis,
->                  "Hysteresis in millicelsius before lowering the fan speed");
->
-> -static int speed_on_ac = 2;
-> +static int speed_on_ac = SPEED_ON_AC_DEFAULT;
->  module_param(speed_on_ac, int, 0444);
->  MODULE_PARM_DESC(speed_on_ac,
->                  "minimum fan speed to allow when system is powered by AC");
-> @@ -120,18 +129,21 @@ static int gpd_pocket_fan_probe(struct platform_device *pdev)
->                 if (temp_limits[i] < 40000 || temp_limits[i] > 70000) {
->                         dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and 70000)\n",
->                                 temp_limits[i]);
-> -                       return -EINVAL;
-> +                       temp_limits[0] = TEMP_LIMIT0_DEFAULT;
-> +                       temp_limits[1] = TEMP_LIMIT1_DEFAULT;
-> +                       temp_limits[2] = TEMP_LIMIT2_DEFAULT;
-> +                       break;
->                 }
->         }
->         if (hysteresis < 1000 || hysteresis > 10000) {
->                 dev_err(&pdev->dev, "Invalid hysteresis %d (must be between 1000 and 10000)\n",
->                         hysteresis);
-> -               return -EINVAL;
-> +               hysteresis = HYSTERESIS_DEFAULT;
->         }
->         if (speed_on_ac < 0 || speed_on_ac > MAX_SPEED) {
->                 dev_err(&pdev->dev, "Invalid speed_on_ac %d (must be between 0 and 3)\n",
->                         speed_on_ac);
-> -               return -EINVAL;
-> +               speed_on_ac = SPEED_ON_AC_DEFAULT;
->         }
->
->         fan = devm_kzalloc(&pdev->dev, sizeof(*fan), GFP_KERNEL);
-> --
-> 2.24.1
->
-
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Thanks,
+
+David / dhildenb
+
