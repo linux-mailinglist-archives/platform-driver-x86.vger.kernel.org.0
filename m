@@ -2,147 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF771348E3
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 519971348F4
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:17:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729516AbgAHRMt (ORCPT
+        id S1729663AbgAHRRJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 12:12:49 -0500
-Received: from mga17.intel.com ([192.55.52.151]:14599 "EHLO mga17.intel.com"
+        Wed, 8 Jan 2020 12:17:09 -0500
+Received: from ale.deltatee.com ([207.54.116.67]:44074 "EHLO ale.deltatee.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726401AbgAHRMt (ORCPT
+        id S1728234AbgAHRRJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 12:12:49 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:12:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
-   d="scan'208";a="216013815"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 08 Jan 2020 09:12:44 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipEsu-0005pI-6f; Wed, 08 Jan 2020 19:12:44 +0200
-Date:   Wed, 8 Jan 2020 19:12:44 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
+        Wed, 8 Jan 2020 12:17:09 -0500
+Received: from s0106ac1f6bb1ecac.cg.shawcable.net ([70.73.163.230] helo=[192.168.11.155])
+        by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1ipEwl-0004HY-1g; Wed, 08 Jan 2020 10:16:44 -0700
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/36] platform/x86: intel_scu_ipc: Sleeping is fine
- when polling
-Message-ID: <20200108171244.GT32742@smile.fi.intel.com>
-References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-8-mika.westerberg@linux.intel.com>
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>
+References: <20200107205959.7575-1-logang@deltatee.com>
+ <20200107205959.7575-3-logang@deltatee.com>
+ <3e432695-e3a9-2aae-e9f5-1b6454886c06@redhat.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <eef4ec73-8823-9f20-93ed-5c09f18c437a@deltatee.com>
+Date:   Wed, 8 Jan 2020 10:16:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200108114201.27908-8-mika.westerberg@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3e432695-e3a9-2aae-e9f5-1b6454886c06@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.73.163.230
+X-SA-Exim-Rcpt-To: ebadger@gigaio.com, peterz@infradead.org, luto@kernel.org, dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com, tglx@linutronix.de, benh@kernel.crashing.org, will@kernel.org, catalin.marinas@arm.com, hch@lst.de, akpm@linux-foundation.org, mhocko@kernel.org, dan.j.williams@intel.com, linux-mm@kvack.org, platform-driver-x86@vger.kernel.org, linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-ia64@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, david@redhat.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v2 2/8] mm/memory_hotplug: Rename mhp_restrictions to
+ mhp_modifiers
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 02:41:32PM +0300, Mika Westerberg wrote:
-> There is no reason why the driver would need to block other threads from
-> running the CPU while it is waiting for the SCU IPC to complete its
-> work. For this reason switch the driver to use usleep_range() instead
-> with a bit more relaxed polling loop.
 
-I agree on this and if somebody finds a race condition that had been hidden by
-the original code it will mean that somewhere else something is completely
-broken.
 
+On 2020-01-08 5:28 a.m., David Hildenbrand wrote:
+> On 07.01.20 21:59, Logan Gunthorpe wrote:
+>> The mhp_restrictions struct really doesn't specify anything resembling
+>> a restriction anymore so rename it to be mhp_modifiers.
 > 
-> Also add constant for the timeout and use the same value for both
-> polling and interrupt modes.
+> I wonder if something like "mhp_params" would be even better. It's
+> essentially just a way to avoid changing call chains rough-out all archs
+> whenever we want to add a new parameter.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Sure, that does sound a bit nicer to me. I can change it for v3.
 
-> 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> ---
->  drivers/platform/x86/intel_scu_ipc.c | 29 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
-> index 43eaf9400c67..8db0644900a3 100644
-> --- a/drivers/platform/x86/intel_scu_ipc.c
-> +++ b/drivers/platform/x86/intel_scu_ipc.c
-> @@ -79,6 +79,9 @@ static struct intel_scu_ipc_dev  ipcdev; /* Only one for now */
->  #define IPC_WRITE_BUFFER	0x80
->  #define IPC_READ_BUFFER		0x90
->  
-> +/* Timeout in jiffies */
-> +#define IPC_TIMEOUT		(3 * HZ)
-> +
->  static DEFINE_MUTEX(ipclock); /* lock used to prevent multiple call to SCU */
->  
->  /*
-> @@ -132,24 +135,20 @@ static inline u32 ipc_data_readl(struct intel_scu_ipc_dev *scu, u32 offset)
->  /* Wait till scu status is busy */
->  static inline int busy_loop(struct intel_scu_ipc_dev *scu)
->  {
-> -	u32 status = ipc_read_status(scu);
-> -	u32 loop_count = 100000;
-> +	unsigned long end = jiffies + msecs_to_jiffies(IPC_TIMEOUT);
->  
-> -	/* break if scu doesn't reset busy bit after huge retry */
-> -	while ((status & IPC_STATUS_BUSY) && --loop_count) {
-> -		udelay(1); /* scu processing time is in few u secods */
-> -		status = ipc_read_status(scu);
-> -	}
-> +	do {
-> +		u32 status;
->  
-> -	if (status & IPC_STATUS_BUSY) {
-> -		dev_err(scu->dev, "IPC timed out");
-> -		return -ETIMEDOUT;
-> -	}
-> +		status = ipc_read_status(scu);
-> +		if (!(status & IPC_STATUS_BUSY))
-> +			return (status & IPC_STATUS_ERR) ? -EIO : 0;
->  
-> -	if (status & IPC_STATUS_ERR)
-> -		return -EIO;
-> +		usleep_range(50, 100);
-> +	} while (time_before(jiffies, end));
->  
-> -	return 0;
-> +	dev_err(scu->dev, "IPC timed out");
-> +	return -ETIMEDOUT;
->  }
->  
->  /* Wait till ipc ioc interrupt is received or timeout in 3 HZ */
-> @@ -157,7 +156,7 @@ static inline int ipc_wait_for_interrupt(struct intel_scu_ipc_dev *scu)
->  {
->  	int status;
->  
-> -	if (!wait_for_completion_timeout(&scu->cmd_complete, 3 * HZ)) {
-> +	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT)) {
->  		dev_err(scu->dev, "IPC timed out\n");
->  		return -ETIMEDOUT;
->  	}
-> -- 
-> 2.24.1
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Logan
