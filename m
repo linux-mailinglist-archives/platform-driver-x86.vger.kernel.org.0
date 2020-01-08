@@ -2,100 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4791340C5
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 12:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 226E813418F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 13:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727791AbgAHLmW (ORCPT
+        id S1727833AbgAHMXW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 06:42:22 -0500
-Received: from mga09.intel.com ([134.134.136.24]:62294 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727771AbgAHLmU (ORCPT
+        Wed, 8 Jan 2020 07:23:22 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:40261 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbgAHMXV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 06:42:20 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 03:42:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; 
-   d="scan'208";a="422891954"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Jan 2020 03:42:15 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 70745727; Wed,  8 Jan 2020 13:42:03 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 36/36] MAINTAINERS: Update entry for Intel Broxton PMC driver
-Date:   Wed,  8 Jan 2020 14:42:01 +0300
-Message-Id: <20200108114201.27908-37-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
-References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
+        Wed, 8 Jan 2020 07:23:21 -0500
+Received: by mail-pj1-f66.google.com with SMTP id bg7so1000110pjb.5;
+        Wed, 08 Jan 2020 04:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CDt3/BmyCi3mmATBGnzyjL+1pu0FJmQfjeOFbDPbHbs=;
+        b=mr0z9Qd3OHCtlC7Y1VH+a5kwe2AtiJHdt5NH8/suy8BPRJjgUTP8848yfITr8/2Qb0
+         7Sxi9R+vcvxEEpKXOviY9Mt3vpLogXiZnsaDxKzISWnrCe2MC6ySwZsNTlOEp9e8ebJy
+         LeHjyzrSOH3NSHCYw7AFx56h0TMdX+wNvxxhQGxiVrPgHVHjkRxQy+ac3sy+yzu42Tsz
+         RNM2bS40U6yi1fHultAIDEQ8X2tw/hcntfPqB4ZcBXOTuIOfE31NDZXHPSTogDqM+ohZ
+         NvklttjOgdW6pbz3xBKPQV6L2g4O91C2N8NwcO447Jzt4TYPVwS7j9vXfaGHkdtAUccc
+         ZvKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CDt3/BmyCi3mmATBGnzyjL+1pu0FJmQfjeOFbDPbHbs=;
+        b=mr4WyFaIiXXtQAUKrtg6tNGtUPqem8ldC5I3kMivQbBr3XkcbO0wFwsFSyYDbtBMXN
+         H9ezs8Y31Q+ZbudDXgZZNxW9pr6fyYD8xH6pWBQbdKDXZcxBifPQIctCVKXt1BVGHCLh
+         OHhhvaQaEOY0CivqK/pcLKHYoS6snb7wDJXjIf6UAIdXB+Iyn0NpsEYz1bSFzuuQyjUn
+         W2hn6iWBpmyjLFLjTBqNmPb5caiSDRlcQoscfS/lykheBOlV+EevbY69tVy7JqaXfgTv
+         P+6B5XLlGvpqw0GIbacJbOtGZqmgdWpr8dmBXq2vxGxQKxYIP7ejw+HzAVKrx/vAY9ri
+         TXzQ==
+X-Gm-Message-State: APjAAAWXtLy8KcdSkpG4xNzrugynuPY1CWyRw21i1OYq4SuRgybew7nd
+        BA7dk2Nt/Ri1puatWjnYhpAADS8LCLCfjwmMTEM=
+X-Google-Smtp-Source: APXvYqwUPjcUZSMwCFvi1PiYTPG4JryE3mqB72Ywf4lMGCoFsW6uzceoa/MK0SVe6wXNAuAPSIxN9OksFbp3SExd9L8=
+X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr4033544pjb.30.1578486200238;
+ Wed, 08 Jan 2020 04:23:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200106144219.525215-1-hdegoede@redhat.com> <20200106144219.525215-2-hdegoede@redhat.com>
+In-Reply-To: <20200106144219.525215-2-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 8 Jan 2020 14:23:11 +0200
+Message-ID: <CAHp75Ve5XF-UZw6D-OUCkgOPMYH0DgT1L5uVNGRuLmZ6Cjd1KA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] platform/x86: GPD pocket fan: Allow somewhat
+ lower/higher temperature limits
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jason Anderson <jasona.594@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver lives now under MFD so split the current entry into two parts
-and add me as co-maintainer of the Intel Broxton PMC driver. While there
-correct formatting of Zha Qipeng's email address.
+On Mon, Jan 6, 2020 at 4:42 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Allow the user to configure the fan to turn on / speed-up at lower
+> thresholds then before (20 degrees Celcius as minimum instead of 40) and
+> likewise also allow the user to delay the fan speeding-up till the
+> temperature hits 90 degrees Celcius (was 70).
+>
+> Cc: Jason Anderson <jasona.594@gmail.com>
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- MAINTAINERS | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+> Reported-by: Jason Anderson <jasona.594@gmail.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8982c6e013b3..11b8bb4e2867 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8280,6 +8280,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL BROXTON PMC DRIVER
-+M:	Mika Westerberg <mika.westerberg@linux.intel.com>
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+S:	Maintained
-+F:	drivers/mfd/intel_pmc_bxt.c
-+F:	include/linux/mfd/intel_pmc_bxt.h
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-@@ -8488,13 +8495,11 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
- 
--INTEL PMC/P-Unit IPC DRIVER
--M:	Zha Qipeng<qipeng.zha@intel.com>
-+INTEL P-Unit IPC DRIVER
-+M:	Zha Qipeng <qipeng.zha@intel.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
--F:	drivers/platform/x86/intel_pmc_ipc.c
- F:	drivers/platform/x86/intel_punit_ipc.c
--F:	arch/x86/include/asm/intel_pmc_ipc.h
- F:	arch/x86/include/asm/intel_punit_ipc.h
- 
- INTEL PMIC GPIO DRIVERS
+My understanding of this tag that the report assumes a bug to fix
+followed up with a corresponding Fixes tag.
+
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/gpd-pocket-fan.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86/gpd-pocket-fan.c
+> index 1e6a42f2ea8a..0ffcbf9bc18e 100644
+> --- a/drivers/platform/x86/gpd-pocket-fan.c
+> +++ b/drivers/platform/x86/gpd-pocket-fan.c
+> @@ -126,7 +126,7 @@ static int gpd_pocket_fan_probe(struct platform_device *pdev)
+>         int i;
+>
+>         for (i = 0; i < ARRAY_SIZE(temp_limits); i++) {
+> -               if (temp_limits[i] < 40000 || temp_limits[i] > 70000) {
+> +               if (temp_limits[i] < 20000 || temp_limits[i] > 90000) {
+>                         dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and 70000)\n",
+>                                 temp_limits[i]);
+>                         temp_limits[0] = TEMP_LIMIT0_DEFAULT;
+> --
+> 2.24.1
+>
+
+
 -- 
-2.24.1
-
+With Best Regards,
+Andy Shevchenko
