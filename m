@@ -2,30 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC43134957
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7559213495F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:30:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727585AbgAHR2a (ORCPT
+        id S1727986AbgAHRaw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 12:28:30 -0500
-Received: from mga14.intel.com ([192.55.52.115]:26056 "EHLO mga14.intel.com"
+        Wed, 8 Jan 2020 12:30:52 -0500
+Received: from mga11.intel.com ([192.55.52.93]:8375 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727579AbgAHR2a (ORCPT
+        id S1727579AbgAHRaw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 12:28:30 -0500
-X-Amp-Result: UNSCANNABLE
+        Wed, 8 Jan 2020 12:30:52 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:28:29 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:30:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
-   d="scan'208";a="225940503"
+   d="scan'208";a="223600628"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2020 09:28:25 -0800
+  by orsmga003.jf.intel.com with ESMTP; 08 Jan 2020 09:30:47 -0800
 Received: from andy by smile with local (Exim 4.93)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipF85-0005yq-Cs; Wed, 08 Jan 2020 19:28:25 +0200
-Date:   Wed, 8 Jan 2020 19:28:25 +0200
+        id 1ipFAO-00061S-2n; Wed, 08 Jan 2020 19:30:48 +0200
+Date:   Wed, 8 Jan 2020 19:30:48 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -41,15 +42,15 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 24/36] platform/x86: intel_scu_ipc: Add function to
- remove SCU IPC
-Message-ID: <20200108172825.GV32742@smile.fi.intel.com>
+Subject: Re: [PATCH v2 35/36] mfd: intel_pmc_bxt: Switch to use
+ driver->dev_groups
+Message-ID: <20200108173048.GW32742@smile.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-25-mika.westerberg@linux.intel.com>
+ <20200108114201.27908-36-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200108114201.27908-25-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200108114201.27908-36-mika.westerberg@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -57,58 +58,82 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 02:41:49PM +0300, Mika Westerberg wrote:
-> Drivers such as intel_pmc_ipc.c can be unloaded as well so in order to
-> support those in this driver add a new function that can be called to
-> remove the SCU IPC if the driver is unloaded.
+On Wed, Jan 08, 2020 at 02:42:00PM +0300, Mika Westerberg wrote:
+> The driver core provides support for adding additional attributes for
+> devices via new ->dev_groups member of struct device_driver.
+
+I'm wondering if we can also do this before converting to MFD.
+
+> Convert the
+> driver to use that instead of adding the attributes manually.
 > 
 
+After addressing above and below comments,
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > ---
->  arch/x86/include/asm/intel_scu_ipc.h |  1 +
->  drivers/platform/x86/intel_scu_ipc.c | 18 ++++++++++++++++++
->  2 files changed, 19 insertions(+)
+>  drivers/mfd/intel_pmc_bxt.c | 21 +++++++--------------
+>  1 file changed, 7 insertions(+), 14 deletions(-)
 > 
-> diff --git a/arch/x86/include/asm/intel_scu_ipc.h b/arch/x86/include/asm/intel_scu_ipc.h
-> index 9895b60386c5..250127eb1e38 100644
-> --- a/arch/x86/include/asm/intel_scu_ipc.h
-> +++ b/arch/x86/include/asm/intel_scu_ipc.h
-> @@ -32,6 +32,7 @@ struct intel_scu_ipc_pdata {
+> diff --git a/drivers/mfd/intel_pmc_bxt.c b/drivers/mfd/intel_pmc_bxt.c
+> index 76f166c1455b..9f2eb75bdf78 100644
+> --- a/drivers/mfd/intel_pmc_bxt.c
+> +++ b/drivers/mfd/intel_pmc_bxt.c
+> @@ -244,6 +244,11 @@ static const struct attribute_group intel_pmc_group = {
+>  	.attrs = intel_pmc_attrs,
+>  };
 >  
->  struct intel_scu_ipc_dev *
->  intel_scu_ipc_probe(struct device *dev, const struct intel_scu_ipc_pdata *pdata);
-> +void intel_scu_ipc_remove(struct intel_scu_ipc_dev *scu);
->  
->  struct intel_scu_ipc_dev *intel_scu_ipc_dev_get(void);
->  void intel_scu_ipc_dev_put(struct intel_scu_ipc_dev *scu);
-> diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
-> index cc29f504adcf..9fa0ea95198b 100644
-> --- a/drivers/platform/x86/intel_scu_ipc.c
-> +++ b/drivers/platform/x86/intel_scu_ipc.c
-> @@ -566,3 +566,21 @@ intel_scu_ipc_probe(struct device *dev, const struct intel_scu_ipc_pdata *pdata)
->  	return scu;
->  }
->  EXPORT_SYMBOL_GPL(intel_scu_ipc_probe);
+> +static const struct attribute_group *intel_pmc_groups[] = {
+> +	&intel_pmc_group,
+
+> +	NULL,
+
+Comma is not needed for terminator lines.
+
+> +};
 > +
-> +/**
-> + * intel_scu_ipc_remove() - Remove SCU IPC
-> + * @scu: SCU IPC handle
-> + *
-> + * This unregisters the SCU IPC device and releases the interrupt.
-> + */
-> +void intel_scu_ipc_remove(struct intel_scu_ipc_dev *scu)
-> +{
-> +	mutex_lock(&ipclock);
-> +	if (!WARN_ON(!scu->dev)) {
-> +		if (scu->irq > 0)
-> +			devm_free_irq(scu->dev, scu->irq, scu);
-> +		scu->dev = NULL;
-> +	}
-> +	mutex_unlock(&ipclock);
-> +}
-> +EXPORT_SYMBOL_GPL(intel_scu_ipc_remove);
+>  static int pmc_create_punit_device(void)
+>  {
+>  	struct mfd_cell punit = {
+> @@ -492,27 +497,14 @@ static int intel_pmc_probe(struct platform_device *pdev)
+>  	ret = pmc_create_devices();
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "Failed to create pmc devices\n");
+> -		goto err_ipc;
+> -	}
+> -
+> -	ret = sysfs_create_group(&pdev->dev.kobj, &intel_pmc_group);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to create sysfs group %d\n",
+> -			ret);
+> -		goto err_ipc;
+> +		intel_scu_ipc_remove(scu);
+>  	}
+>  
+> -	return 0;
+> -
+> -err_ipc:
+> -	intel_scu_ipc_remove(scu);
+> -
+>  	return ret;
+>  }
+>  
+>  static int intel_pmc_remove(struct platform_device *pdev)
+>  {
+> -	sysfs_remove_group(&pdev->dev.kobj, &intel_pmc_group);
+>  	intel_scu_ipc_remove(platform_get_drvdata(pdev));
+>  	pmcdev.dev = NULL;
+>  	return 0;
+> @@ -524,6 +516,7 @@ static struct platform_driver intel_pmc_driver = {
+>  	.driver = {
+>  		.name = "intel_pmc_bxt",
+>  		.acpi_match_table = ACPI_PTR(intel_pmc_acpi_ids),
+> +		.dev_groups = intel_pmc_groups,
+>  	},
+>  };
+>  
 > -- 
 > 2.24.1
 > 
