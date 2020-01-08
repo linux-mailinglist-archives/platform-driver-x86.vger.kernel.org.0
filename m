@@ -2,31 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC0C61348C2
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A596B1348D2
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  8 Jan 2020 18:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729525AbgAHRDe (ORCPT
+        id S1729534AbgAHRHT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 8 Jan 2020 12:03:34 -0500
-Received: from mga01.intel.com ([192.55.52.88]:38801 "EHLO mga01.intel.com"
+        Wed, 8 Jan 2020 12:07:19 -0500
+Received: from mga01.intel.com ([192.55.52.88]:39140 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729516AbgAHRDd (ORCPT
+        id S1729516AbgAHRHT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 8 Jan 2020 12:03:33 -0500
+        Wed, 8 Jan 2020 12:07:19 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:03:33 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 09:06:32 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
-   d="scan'208";a="422976068"
+   d="scan'208";a="303609752"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Jan 2020 09:03:29 -0800
+  by orsmga001.jf.intel.com with ESMTP; 08 Jan 2020 09:06:26 -0800
 Received: from andy by smile with local (Exim 4.93)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipEjx-0005kR-9r; Wed, 08 Jan 2020 19:03:29 +0200
-Date:   Wed, 8 Jan 2020 19:03:29 +0200
+        id 1ipEmp-0005m3-02; Wed, 08 Jan 2020 19:06:27 +0200
+Date:   Wed, 8 Jan 2020 19:06:26 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -42,15 +42,15 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 32/36] platform/x86: intel_pmc_ipc: Move PCI IDs to
- intel_scu_pcidrv.c
-Message-ID: <20200108170329.GR32742@smile.fi.intel.com>
+Subject: Re: [PATCH v2 36/36] MAINTAINERS: Update entry for Intel Broxton PMC
+ driver
+Message-ID: <20200108170626.GS32742@smile.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-33-mika.westerberg@linux.intel.com>
+ <20200108114201.27908-37-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200108114201.27908-33-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200108114201.27908-37-mika.westerberg@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -58,211 +58,53 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 02:41:57PM +0300, Mika Westerberg wrote:
-> The PCI probe driver in intel_pmc_ipc.c is a duplicate of what we
-> already have in intel_scu_pcidrv.c with the exception that the later also
-> creates SCU specific devices. Move the PCI IDs from the intel_pmc_ipc.c
-> to intel_scu.c and use driver_data to detect whether SCU devices need to
-> be created or not.
-> 
-> Also update Kconfig entry to mention all platforms supported by the
-> Intel SCU PCI driver.
+On Wed, Jan 08, 2020 at 02:42:01PM +0300, Mika Westerberg wrote:
+> The driver lives now under MFD so split the current entry into two parts
+> and add me as co-maintainer of the Intel Broxton PMC driver. While there
+> correct formatting of Zha Qipeng's email address.
 
-One comment below. After addressing,
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 > 
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > ---
->  drivers/platform/x86/Kconfig            | 13 +++--
->  drivers/platform/x86/intel_pmc_ipc.c    | 73 +------------------------
->  drivers/platform/x86/intel_scu_pcidrv.c | 21 +++++--
->  3 files changed, 27 insertions(+), 80 deletions(-)
+>  MAINTAINERS | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 797683c5d005..1c5afb9e4965 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -994,13 +994,18 @@ config INTEL_SCU
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8982c6e013b3..11b8bb4e2867 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8280,6 +8280,13 @@ L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/platform/x86/intel_atomisp2_pm.c
 >  
->  config INTEL_SCU_PCI
->  	bool "Intel SCU PCI driver"
-> -	depends on X86_INTEL_MID
-> +	depends on X86_INTEL_MID || PCI
-
-Dependency on PCI is much more generic than Intel MID one. I think we may drop
-X86_INTEL_MID here completely -- less users of it better.
-
->  	select INTEL_SCU
->  	help
->  	  SCU is used to bridge the communications between kernel and
->  	  SCU on some embedded Intel x86 platforms. It also creates
-> -	  devices that are connected to the SoC through the SCU. This is
-> -	  not needed for PC-type machines.
-> +	  devices that are connected to the SoC through the SCU.
-> +	  Platforms supported:
-> +	    Medfield
-> +	    Clovertrail
-> +	    Merrifield
-> +	    Broxton
-> +	    Apollo Lake
->  
->  config INTEL_SCU_IPC_UTIL
->  	tristate "Intel SCU IPC utility driver"
-> @@ -1192,7 +1197,7 @@ config INTEL_SMARTCONNECT
->  
->  config INTEL_PMC_IPC
->  	tristate "Intel PMC IPC Driver"
-> -	depends on ACPI && PCI
-> +	depends on ACPI
->  	select INTEL_SCU_IPC
->  	---help---
->  	This driver provides support for PMC control on some Intel platforms.
-> diff --git a/drivers/platform/x86/intel_pmc_ipc.c b/drivers/platform/x86/intel_pmc_ipc.c
-> index 241bce603183..acec1c6d2069 100644
-> --- a/drivers/platform/x86/intel_pmc_ipc.c
-> +++ b/drivers/platform/x86/intel_pmc_ipc.c
-> @@ -17,7 +17,6 @@
->  #include <linux/interrupt.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
->  #include <linux/module.h>
-> -#include <linux/pci.h>
->  #include <linux/platform_device.h>
->  
->  #include <asm/intel_pmc_ipc.h>
-> @@ -194,62 +193,6 @@ static int update_no_reboot_bit(void *priv, bool set)
->  				    PMC_CFG_NO_REBOOT_MASK, value);
->  }
->  
-> -static int ipc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> -{
-> -	struct intel_pmc_ipc_dev *pmc = &ipcdev;
-> -	struct intel_scu_ipc_pdata pdata;
-> -	struct intel_scu_ipc_dev *scu;
-> -	int ret;
-> -
-> -	/* Only one PMC is supported */
-> -	if (pmc->dev)
-> -		return -EBUSY;
-> -
-> -	memset(&pdata, 0, sizeof(pdata));
-> -	spin_lock_init(&ipcdev.gcr_lock);
-> -
-> -	ret = pcim_enable_device(pdev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = pcim_iomap_regions(pdev, 1 << 0, pci_name(pdev));
-> -	if (ret)
-> -		return ret;
-> -
-> -	pdata.ipc_regs = pcim_iomap_table(pdev)[0];
-> -
-> -	scu = intel_scu_ipc_probe(&pdev->dev, &pdata);
-> -	if (IS_ERR(scu))
-> -		return PTR_ERR(scu);
-> -
-> -	pmc->dev = &pdev->dev;
-> -
-> -	pci_set_drvdata(pdev, scu);
-> -
-> -	return 0;
-> -}
-> -
-> -static void ipc_pci_remove(struct pci_dev *pdev)
-> -{
-> -	intel_scu_ipc_remove(pci_get_drvdata(pdev));
-> -	ipcdev.dev = NULL;
-> -}
-> -
-> -static const struct pci_device_id ipc_pci_ids[] = {
-> -	{PCI_VDEVICE(INTEL, 0x0a94), 0},
-> -	{PCI_VDEVICE(INTEL, 0x1a94), 0},
-> -	{PCI_VDEVICE(INTEL, 0x5a94), 0},
-> -	{ 0,}
-> -};
-> -MODULE_DEVICE_TABLE(pci, ipc_pci_ids);
-> -
-> -static struct pci_driver ipc_pci_driver = {
-> -	.name = "intel_pmc_ipc",
-> -	.id_table = ipc_pci_ids,
-> -	.probe = ipc_pci_probe,
-> -	.remove = ipc_pci_remove,
-> -};
-> -
->  static ssize_t intel_pmc_ipc_simple_cmd_store(struct device *dev,
->  					      struct device_attribute *attr,
->  					      const char *buf, size_t count)
-> @@ -697,25 +640,11 @@ static struct platform_driver ipc_plat_driver = {
->  
->  static int __init intel_pmc_ipc_init(void)
->  {
-> -	int ret;
-> -
-> -	ret = platform_driver_register(&ipc_plat_driver);
-> -	if (ret) {
-> -		pr_err("Failed to register PMC ipc platform driver\n");
-> -		return ret;
-> -	}
-> -	ret = pci_register_driver(&ipc_pci_driver);
-> -	if (ret) {
-> -		pr_err("Failed to register PMC ipc pci driver\n");
-> -		platform_driver_unregister(&ipc_plat_driver);
-> -		return ret;
-> -	}
-> -	return ret;
-> +	return platform_driver_register(&ipc_plat_driver);
->  }
->  
->  static void __exit intel_pmc_ipc_exit(void)
->  {
-> -	pci_unregister_driver(&ipc_pci_driver);
->  	platform_driver_unregister(&ipc_plat_driver);
->  }
->  
-> diff --git a/drivers/platform/x86/intel_scu_pcidrv.c b/drivers/platform/x86/intel_scu_pcidrv.c
-> index 42030bdb3e08..4f2a7ca5c5f7 100644
-> --- a/drivers/platform/x86/intel_scu_pcidrv.c
-> +++ b/drivers/platform/x86/intel_scu_pcidrv.c
-> @@ -17,6 +17,7 @@
->  static int intel_scu_pci_probe(struct pci_dev *pdev,
->  			       const struct pci_device_id *id)
->  {
-> +	void (*setup_fn)(void) = (void (*)(void))id->driver_data;
->  	struct intel_scu_ipc_pdata *pdata;
->  	struct intel_scu_ipc_dev *scu;
->  	int ret;
-> @@ -40,14 +41,26 @@ static int intel_scu_pci_probe(struct pci_dev *pdev,
->  	if (IS_ERR(scu))
->  		return PTR_ERR(scu);
->  
-> -	intel_scu_devices_create();
-> +	if (setup_fn)
-> +		setup_fn();
->  	return 0;
->  }
->  
-> +static void intel_mid_scu_setup(void)
-> +{
-> +	intel_scu_devices_create();
-> +}
+> +INTEL BROXTON PMC DRIVER
+> +M:	Mika Westerberg <mika.westerberg@linux.intel.com>
+> +M:	Zha Qipeng <qipeng.zha@intel.com>
+> +S:	Maintained
+> +F:	drivers/mfd/intel_pmc_bxt.c
+> +F:	include/linux/mfd/intel_pmc_bxt.h
 > +
->  static const struct pci_device_id pci_ids[] = {
-> -	{ PCI_VDEVICE(INTEL, 0x080e) },
-> -	{ PCI_VDEVICE(INTEL, 0x08ea) },
-> -	{ PCI_VDEVICE(INTEL, 0x11a0) },
-> +	{ PCI_VDEVICE(INTEL, 0x080e),
-> +	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
-> +	{ PCI_VDEVICE(INTEL, 0x08ea),
-> +	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
-> +	{ PCI_VDEVICE(INTEL, 0x0a94) },
-> +	{ PCI_VDEVICE(INTEL, 0x11a0),
-> +	  .driver_data = (kernel_ulong_t)intel_mid_scu_setup },
-> +	{ PCI_VDEVICE(INTEL, 0x1a94) },
-> +	{ PCI_VDEVICE(INTEL, 0x5a94) },
->  	{}
->  };
+>  INTEL C600 SERIES SAS CONTROLLER DRIVER
+>  M:	Intel SCU Linux support <intel-linux-scu@intel.com>
+>  M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
+> @@ -8488,13 +8495,11 @@ L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/platform/x86/intel_pmc_core*
 >  
+> -INTEL PMC/P-Unit IPC DRIVER
+> -M:	Zha Qipeng<qipeng.zha@intel.com>
+> +INTEL P-Unit IPC DRIVER
+> +M:	Zha Qipeng <qipeng.zha@intel.com>
+>  L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+> -F:	drivers/platform/x86/intel_pmc_ipc.c
+>  F:	drivers/platform/x86/intel_punit_ipc.c
+> -F:	arch/x86/include/asm/intel_pmc_ipc.h
+>  F:	arch/x86/include/asm/intel_punit_ipc.h
+>  
+>  INTEL PMIC GPIO DRIVERS
 > -- 
 > 2.24.1
 > 
