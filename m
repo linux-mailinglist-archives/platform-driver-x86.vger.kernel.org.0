@@ -2,101 +2,183 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1E71135B4D
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 15:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E79135C54
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 16:10:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731628AbgAIOZV (ORCPT
+        id S1730742AbgAIPKH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jan 2020 09:25:21 -0500
-Received: from mga18.intel.com ([134.134.136.126]:29444 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727854AbgAIOZU (ORCPT
+        Thu, 9 Jan 2020 10:10:07 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:34736 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729483AbgAIPKH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jan 2020 09:25:20 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jan 2020 06:25:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; 
-   d="scan'208";a="421795166"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2020 06:25:15 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ipYkN-00012Z-DF; Thu, 09 Jan 2020 16:25:15 +0200
-Date:   Thu, 9 Jan 2020 16:25:15 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 34/36] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200109142515.GS32742@smile.fi.intel.com>
-References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108114201.27908-35-mika.westerberg@linux.intel.com>
- <20200109114354.GP32742@smile.fi.intel.com>
- <20200109114753.GF2838@lahna.fi.intel.com>
- <20200109125727.GG2838@lahna.fi.intel.com>
+        Thu, 9 Jan 2020 10:10:07 -0500
+Received: by mail-pl1-f194.google.com with SMTP id x17so2691431pln.1;
+        Thu, 09 Jan 2020 07:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1DdEpgV3qSTUavFzlgz+OfLM8pMDHuE+us22+FmCcxA=;
+        b=AaSXI6prgQa5mOunsrwbxtu/8XiUkd6z17wEwhka38z+UxSftRqeY5dWFJYUmiAkhr
+         q5n704lrCTYwTx5SMsA9okpdE4eHneDbPzCwy6tHGxKpw0+dMXKO4XWI0DLGIfDre9el
+         z2SBGi/394Z8/2WFduIjqWn9lxkC+XLiRjhcLUhcK4TZg+6H1gmg3jWjw4E3jgdMD6tp
+         BFieUZHHq2BQ+xTbAwUCtBSy8gzDlzp0Jce+8Ro8I2fc79gBclaKLIuHZoVhLrR5jgV/
+         9JtTBM/chAVC6sh4ngcmTGWIQtG2IsFKP6mi7KskRnA72Pua4zeda2qT4ryy1Howykce
+         iW0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1DdEpgV3qSTUavFzlgz+OfLM8pMDHuE+us22+FmCcxA=;
+        b=JtlFylI1SCQwPkpdsPBXKy0QeNjohrMUvfsyDK2BQpBhn/5VtKK5EBb4d3ncWipKiq
+         4Mf+q08/zGLcpublnxfrMH9hAozUToDDu6EQTn5HpAxXC82U+2v1smP57oFtyZ5oAlKc
+         elKUYHPxIHobpHxSh8Gc/XZzHE4z+YhGkzdCXctKMBEp1I2jUSWZ9xgyP19xf3ycc+If
+         jQkRLxG6CQqdLiivuUV8/pOpbn6DUGhOcKJSLSdLZyuCMoUUjahFwAPyk4CZvJ9E8yEo
+         DiYKl5epV/4bTaUhAxKIZLYKK3UrvKi6FtYJfvDYRelqPkYd7jZ0u8fF1MwKzmohuIF9
+         nbOA==
+X-Gm-Message-State: APjAAAXSB2sTSEYpcNK/5/7iiuAa1W6Lv2eMqRmhKBScYLNWHpTq26Z0
+        JekheOt7PeCgdVQHvquPi4O2AtElAISQg8nj/bg=
+X-Google-Smtp-Source: APXvYqxW4/RLnKlf959Q6Ahn+JSRYHZfjihIXmV92wTSiJEu+KPYezvWYFBC44j20+G4RoCdssnDt+ehSt3D62Pt7wM=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr5945398pjq.132.1578582605791;
+ Thu, 09 Jan 2020 07:10:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200109125727.GG2838@lahna.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191221071751.269025-1-lkundrak@v3.sk>
+In-Reply-To: <20191221071751.269025-1-lkundrak@v3.sk>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 9 Jan 2020 17:09:57 +0200
+Message-ID: <CAHp75VcYoWqvgLv-PmgxqhrHmYOH5=Nru6Msj3rryT=jL+y9xw@mail.gmail.com>
+Subject: Re: [PATCH] power: supply: olpc_battery: fix the power supply name
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Sebastian Reichel <sre@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jan 09, 2020 at 02:57:27PM +0200, Mika Westerberg wrote:
-> On Thu, Jan 09, 2020 at 01:47:59PM +0200, Mika Westerberg wrote:
-> > > >  config INTEL_SOC_PMIC_BXTWC
-> > > >  	tristate "Support for Intel Broxton Whiskey Cove PMIC"
-> > > > -	depends on INTEL_PMC_IPC
-> > > > +	depends on MFD_INTEL_PMC_BXT
-> > > >  	select MFD_CORE
-> > > >  	select REGMAP_IRQ
-> > > >  	help
-> > > > @@ -632,6 +632,18 @@ config MFD_INTEL_MSIC
-> > > >  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
-> > > >  	  devices used in Intel Medfield platforms.
-> > > >  
-> > > > +config MFD_INTEL_PMC_BXT
-> > > > +	tristate "Intel PMC Driver for Broxton"
-> > > 
-> > > > +	depends on X86 && X86_PLATFORM_DEVICES && ACPI
-> > > 
-> > > Is the X86_PLATFORM_DEVICES dependency compulsory?
-> > > Quick grep shows that none of drivers (except nouveau) relies on it.
-> > 
-> > Well, we need that to be able to do the "select INTEL_SCU_IPC" below.
-> > I'm happy to change it if you have a better alternative ;-)
-> 
-> Just to provide more information. If I don't have that dependency I get
-> warnings like this:
-> 
-> WARNING: unmet direct dependencies detected for INTEL_SCU_IPC
->   Depends on [n]: X86 [=y] && X86_PLATFORM_DEVICES [=n]
->     Selected by [y]:
->       - MFD_INTEL_PMC_BXT [=y] && HAS_IOMEM [=y] && X86 [=y] && ACPI [=y]
+On Sat, Dec 21, 2019 at 9:18 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
+>
+> The framework is unhappy about them, because it uses the names in sysfs
+> attributes:
+>
+>   power_supply olpc-ac: hwmon: 'olpc-ac' is not a valid name attribute, please fix
+>   power_supply olpc-battery: hwmon: 'olpc-battery' is not a valid name attribute, please fix
 
-I see, thanks for elaboration.
-Please, just split them one per line.
+I'm wondering if it's an ABI change and how user space is supposed to
+cope with it.
+
+>
+> See also commit 648cd48c9e56 ("hwmon: Do not accept invalid name
+> attributes") and commit 74d3b6419772 ("hwmon: Relax name attribute
+> validation for new APIs").
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  arch/x86/platform/olpc/olpc-xo1-sci.c  | 4 ++--
+>  arch/x86/platform/olpc/olpc-xo15-sci.c | 4 ++--
+>  drivers/platform/olpc/olpc-xo175-ec.c  | 4 ++--
+>  drivers/power/supply/olpc_battery.c    | 4 ++--
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/x86/platform/olpc/olpc-xo1-sci.c b/arch/x86/platform/olpc/olpc-xo1-sci.c
+> index 99a28ce2244c7..09bd195cc9012 100644
+> --- a/arch/x86/platform/olpc/olpc-xo1-sci.c
+> +++ b/arch/x86/platform/olpc/olpc-xo1-sci.c
+> @@ -53,7 +53,7 @@ static const char * const lid_wake_mode_names[] = {
+>
+>  static void battery_status_changed(void)
+>  {
+> -       struct power_supply *psy = power_supply_get_by_name("olpc-battery");
+> +       struct power_supply *psy = power_supply_get_by_name("olpc_battery");
+>
+>         if (psy) {
+>                 power_supply_changed(psy);
+> @@ -63,7 +63,7 @@ static void battery_status_changed(void)
+>
+>  static void ac_status_changed(void)
+>  {
+> -       struct power_supply *psy = power_supply_get_by_name("olpc-ac");
+> +       struct power_supply *psy = power_supply_get_by_name("olpc_ac");
+>
+>         if (psy) {
+>                 power_supply_changed(psy);
+> diff --git a/arch/x86/platform/olpc/olpc-xo15-sci.c b/arch/x86/platform/olpc/olpc-xo15-sci.c
+> index 6d193bb36021b..7bc1ea6a47974 100644
+> --- a/arch/x86/platform/olpc/olpc-xo15-sci.c
+> +++ b/arch/x86/platform/olpc/olpc-xo15-sci.c
+> @@ -75,7 +75,7 @@ static struct kobj_attribute lid_wake_on_close_attr =
+>
+>  static void battery_status_changed(void)
+>  {
+> -       struct power_supply *psy = power_supply_get_by_name("olpc-battery");
+> +       struct power_supply *psy = power_supply_get_by_name("olpc_battery");
+>
+>         if (psy) {
+>                 power_supply_changed(psy);
+> @@ -85,7 +85,7 @@ static void battery_status_changed(void)
+>
+>  static void ac_status_changed(void)
+>  {
+> -       struct power_supply *psy = power_supply_get_by_name("olpc-ac");
+> +       struct power_supply *psy = power_supply_get_by_name("olpc_ac");
+>
+>         if (psy) {
+>                 power_supply_changed(psy);
+> diff --git a/drivers/platform/olpc/olpc-xo175-ec.c b/drivers/platform/olpc/olpc-xo175-ec.c
+> index 83ed1fbf73cfd..5e1d14e35f20b 100644
+> --- a/drivers/platform/olpc/olpc-xo175-ec.c
+> +++ b/drivers/platform/olpc/olpc-xo175-ec.c
+> @@ -410,7 +410,7 @@ static void olpc_xo175_ec_complete(void *arg)
+>                 dev_dbg(dev, "got event %.2x\n", byte);
+>                 switch (byte) {
+>                 case EVENT_AC_CHANGE:
+> -                       psy = power_supply_get_by_name("olpc-ac");
+> +                       psy = power_supply_get_by_name("olpc_ac");
+>                         if (psy) {
+>                                 power_supply_changed(psy);
+>                                 power_supply_put(psy);
+> @@ -420,7 +420,7 @@ static void olpc_xo175_ec_complete(void *arg)
+>                 case EVENT_BATTERY_CRITICAL:
+>                 case EVENT_BATTERY_SOC_CHANGE:
+>                 case EVENT_BATTERY_ERROR:
+> -                       psy = power_supply_get_by_name("olpc-battery");
+> +                       psy = power_supply_get_by_name("olpc_battery");
+>                         if (psy) {
+>                                 power_supply_changed(psy);
+>                                 power_supply_put(psy);
+> diff --git a/drivers/power/supply/olpc_battery.c b/drivers/power/supply/olpc_battery.c
+> index ad0e9e0edb3f8..e0476ec06601d 100644
+> --- a/drivers/power/supply/olpc_battery.c
+> +++ b/drivers/power/supply/olpc_battery.c
+> @@ -88,7 +88,7 @@ static enum power_supply_property olpc_ac_props[] = {
+>  };
+>
+>  static const struct power_supply_desc olpc_ac_desc = {
+> -       .name = "olpc-ac",
+> +       .name = "olpc_ac",
+>         .type = POWER_SUPPLY_TYPE_MAINS,
+>         .properties = olpc_ac_props,
+>         .num_properties = ARRAY_SIZE(olpc_ac_props),
+> @@ -605,7 +605,7 @@ static const struct attribute_group *olpc_bat_sysfs_groups[] = {
+>   *********************************************************************/
+>
+>  static struct power_supply_desc olpc_bat_desc = {
+> -       .name = "olpc-battery",
+> +       .name = "olpc_battery",
+>         .get_property = olpc_bat_get_property,
+>         .use_for_apm = 1,
+>  };
+> --
+> 2.24.1
+>
+
 
 -- 
 With Best Regards,
 Andy Shevchenko
-
-
