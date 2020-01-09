@@ -2,28 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E24913585F
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 12:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BBB613599C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 13:57:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbgAILr7 (ORCPT
+        id S1729523AbgAIM5f (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jan 2020 06:47:59 -0500
-Received: from mga14.intel.com ([192.55.52.115]:42248 "EHLO mga14.intel.com"
+        Thu, 9 Jan 2020 07:57:35 -0500
+Received: from mga09.intel.com ([134.134.136.24]:49911 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727701AbgAILr7 (ORCPT
+        id S1727701AbgAIM5f (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jan 2020 06:47:59 -0500
-X-Amp-Result: UNSCANNABLE
+        Thu, 9 Jan 2020 07:57:35 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jan 2020 03:47:58 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jan 2020 04:57:34 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,413,1571727600"; 
-   d="scan'208";a="227236495"
+   d="scan'208";a="227394836"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 09 Jan 2020 03:47:54 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 09 Jan 2020 13:47:53 +0200
-Date:   Thu, 9 Jan 2020 13:47:53 +0200
+  by fmsmga001.fm.intel.com with SMTP; 09 Jan 2020 04:57:28 -0800
+Received: by lahna (sSMTP sendmail emulation); Thu, 09 Jan 2020 14:57:27 +0200
+Date:   Thu, 9 Jan 2020 14:57:27 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -40,91 +41,48 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 34/36] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200109114753.GF2838@lahna.fi.intel.com>
+Message-ID: <20200109125727.GG2838@lahna.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
  <20200108114201.27908-35-mika.westerberg@linux.intel.com>
  <20200109114354.GP32742@smile.fi.intel.com>
+ <20200109114753.GF2838@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200109114354.GP32742@smile.fi.intel.com>
+In-Reply-To: <20200109114753.GF2838@lahna.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jan 09, 2020 at 01:43:54PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 08, 2020 at 02:41:59PM +0300, Mika Westerberg wrote:
-> > This driver only creates a bunch of platform devices sharing resources
-> > belonging to the PMC device. This is pretty much what MFD subsystem is
-> > for so move the driver there, renaming it to intel_pmc_bxt.c which
-> > should be more clear what it is.
+On Thu, Jan 09, 2020 at 01:47:59PM +0200, Mika Westerberg wrote:
+> > >  config INTEL_SOC_PMIC_BXTWC
+> > >  	tristate "Support for Intel Broxton Whiskey Cove PMIC"
+> > > -	depends on INTEL_PMC_IPC
+> > > +	depends on MFD_INTEL_PMC_BXT
+> > >  	select MFD_CORE
+> > >  	select REGMAP_IRQ
+> > >  	help
+> > > @@ -632,6 +632,18 @@ config MFD_INTEL_MSIC
+> > >  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
+> > >  	  devices used in Intel Medfield platforms.
+> > >  
+> > > +config MFD_INTEL_PMC_BXT
+> > > +	tristate "Intel PMC Driver for Broxton"
 > > 
-> > MFD subsystem provides nice helper APIs for subdevice creation so
-> > convert the driver to use those. Unfortunately the ACPI device includes
-> > separate resources for most of the subdevices so we cannot simply call
-> > mfd_add_devices() to create all of them but instead we need to call it
-> > separately for each device.
-> 
-> Comments below, after addressing,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-Thanks!
-
-> > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > ---
-> >  drivers/mfd/Kconfig                           |  14 +-
-> >  drivers/mfd/Makefile                          |   1 +
-> >  .../intel_pmc_ipc.c => mfd/intel_pmc_bxt.c}   | 394 +++++++-----------
-> >  drivers/platform/x86/Kconfig                  |  16 +-
-> >  drivers/platform/x86/Makefile                 |   1 -
-> >  .../platform/x86/intel_telemetry_debugfs.c    |   2 +-
-> >  drivers/usb/typec/tcpm/Kconfig                |   2 +-
-> >  .../linux/mfd/intel_pmc_bxt.h                 |  11 +-
-> >  8 files changed, 171 insertions(+), 270 deletions(-)
-> >  rename drivers/{platform/x86/intel_pmc_ipc.c => mfd/intel_pmc_bxt.c} (50%)
-> >  rename arch/x86/include/asm/intel_pmc_ipc.h => include/linux/mfd/intel_pmc_bxt.h (83%)
+> > > +	depends on X86 && X86_PLATFORM_DEVICES && ACPI
 > > 
-> > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > index 59515142438e..04542feffe25 100644
-> > --- a/drivers/mfd/Kconfig
-> > +++ b/drivers/mfd/Kconfig
-> > @@ -551,7 +551,7 @@ config INTEL_SOC_PMIC
-> >  
-> >  config INTEL_SOC_PMIC_BXTWC
-> >  	tristate "Support for Intel Broxton Whiskey Cove PMIC"
-> > -	depends on INTEL_PMC_IPC
-> > +	depends on MFD_INTEL_PMC_BXT
-> >  	select MFD_CORE
-> >  	select REGMAP_IRQ
-> >  	help
-> > @@ -632,6 +632,18 @@ config MFD_INTEL_MSIC
-> >  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
-> >  	  devices used in Intel Medfield platforms.
-> >  
-> > +config MFD_INTEL_PMC_BXT
-> > +	tristate "Intel PMC Driver for Broxton"
+> > Is the X86_PLATFORM_DEVICES dependency compulsory?
+> > Quick grep shows that none of drivers (except nouveau) relies on it.
 > 
-> > +	depends on X86 && X86_PLATFORM_DEVICES && ACPI
-> 
-> Is the X86_PLATFORM_DEVICES dependency compulsory?
-> Quick grep shows that none of drivers (except nouveau) relies on it.
+> Well, we need that to be able to do the "select INTEL_SCU_IPC" below.
+> I'm happy to change it if you have a better alternative ;-)
 
-Well, we need that to be able to do the "select INTEL_SCU_IPC" below.
-I'm happy to change it if you have a better alternative ;-)
+Just to provide more information. If I don't have that dependency I get
+warnings like this:
 
-> For the rest two I think we might split one per line to be consistent with
-> existing example(s) in  drivers/mfd/Kconfig.
-
-OK
-
-> 
-> > +	select INTEL_SCU_IPC
-> > +	select MFD_CORE
-> > +	help
-> > +	  This driver provides support for PMC (Power Management
-> > +	  Controller) on Intel Broxton and Apollo Lake. PMC is a
-> > +	  multi-function device that exposes IPC, General Control
-> > +	  Register and P-unit access. In addition this creates devices
-> > +	  for iTCO watchdog and telemetry that are part of the PMC.
+WARNING: unmet direct dependencies detected for INTEL_SCU_IPC
+  Depends on [n]: X86 [=y] && X86_PLATFORM_DEVICES [=n]
+    Selected by [y]:
+      - MFD_INTEL_PMC_BXT [=y] && HAS_IOMEM [=y] && X86 [=y] && ACPI [=y]
