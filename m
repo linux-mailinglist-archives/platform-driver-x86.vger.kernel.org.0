@@ -2,31 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBB613599C
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 13:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1E71135B4D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 15:25:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729523AbgAIM5f (ORCPT
+        id S1731628AbgAIOZV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jan 2020 07:57:35 -0500
-Received: from mga09.intel.com ([134.134.136.24]:49911 "EHLO mga09.intel.com"
+        Thu, 9 Jan 2020 09:25:21 -0500
+Received: from mga18.intel.com ([134.134.136.126]:29444 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727701AbgAIM5f (ORCPT
+        id S1727854AbgAIOZU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jan 2020 07:57:35 -0500
+        Thu, 9 Jan 2020 09:25:20 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jan 2020 04:57:34 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jan 2020 06:25:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,413,1571727600"; 
-   d="scan'208";a="227394836"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 09 Jan 2020 04:57:28 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 09 Jan 2020 14:57:27 +0200
-Date:   Thu, 9 Jan 2020 14:57:27 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; 
+   d="scan'208";a="421795166"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005.fm.intel.com with ESMTP; 09 Jan 2020 06:25:15 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ipYkN-00012Z-DF; Thu, 09 Jan 2020 16:25:15 +0200
+Date:   Thu, 9 Jan 2020 16:25:15 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -41,48 +43,60 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 34/36] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200109125727.GG2838@lahna.fi.intel.com>
+Message-ID: <20200109142515.GS32742@smile.fi.intel.com>
 References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
  <20200108114201.27908-35-mika.westerberg@linux.intel.com>
  <20200109114354.GP32742@smile.fi.intel.com>
  <20200109114753.GF2838@lahna.fi.intel.com>
+ <20200109125727.GG2838@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200109114753.GF2838@lahna.fi.intel.com>
+In-Reply-To: <20200109125727.GG2838@lahna.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jan 09, 2020 at 01:47:59PM +0200, Mika Westerberg wrote:
-> > >  config INTEL_SOC_PMIC_BXTWC
-> > >  	tristate "Support for Intel Broxton Whiskey Cove PMIC"
-> > > -	depends on INTEL_PMC_IPC
-> > > +	depends on MFD_INTEL_PMC_BXT
-> > >  	select MFD_CORE
-> > >  	select REGMAP_IRQ
-> > >  	help
-> > > @@ -632,6 +632,18 @@ config MFD_INTEL_MSIC
-> > >  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
-> > >  	  devices used in Intel Medfield platforms.
-> > >  
-> > > +config MFD_INTEL_PMC_BXT
-> > > +	tristate "Intel PMC Driver for Broxton"
+On Thu, Jan 09, 2020 at 02:57:27PM +0200, Mika Westerberg wrote:
+> On Thu, Jan 09, 2020 at 01:47:59PM +0200, Mika Westerberg wrote:
+> > > >  config INTEL_SOC_PMIC_BXTWC
+> > > >  	tristate "Support for Intel Broxton Whiskey Cove PMIC"
+> > > > -	depends on INTEL_PMC_IPC
+> > > > +	depends on MFD_INTEL_PMC_BXT
+> > > >  	select MFD_CORE
+> > > >  	select REGMAP_IRQ
+> > > >  	help
+> > > > @@ -632,6 +632,18 @@ config MFD_INTEL_MSIC
+> > > >  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
+> > > >  	  devices used in Intel Medfield platforms.
+> > > >  
+> > > > +config MFD_INTEL_PMC_BXT
+> > > > +	tristate "Intel PMC Driver for Broxton"
+> > > 
+> > > > +	depends on X86 && X86_PLATFORM_DEVICES && ACPI
+> > > 
+> > > Is the X86_PLATFORM_DEVICES dependency compulsory?
+> > > Quick grep shows that none of drivers (except nouveau) relies on it.
 > > 
-> > > +	depends on X86 && X86_PLATFORM_DEVICES && ACPI
-> > 
-> > Is the X86_PLATFORM_DEVICES dependency compulsory?
-> > Quick grep shows that none of drivers (except nouveau) relies on it.
+> > Well, we need that to be able to do the "select INTEL_SCU_IPC" below.
+> > I'm happy to change it if you have a better alternative ;-)
 > 
-> Well, we need that to be able to do the "select INTEL_SCU_IPC" below.
-> I'm happy to change it if you have a better alternative ;-)
+> Just to provide more information. If I don't have that dependency I get
+> warnings like this:
+> 
+> WARNING: unmet direct dependencies detected for INTEL_SCU_IPC
+>   Depends on [n]: X86 [=y] && X86_PLATFORM_DEVICES [=n]
+>     Selected by [y]:
+>       - MFD_INTEL_PMC_BXT [=y] && HAS_IOMEM [=y] && X86 [=y] && ACPI [=y]
 
-Just to provide more information. If I don't have that dependency I get
-warnings like this:
+I see, thanks for elaboration.
+Please, just split them one per line.
 
-WARNING: unmet direct dependencies detected for INTEL_SCU_IPC
-  Depends on [n]: X86 [=y] && X86_PLATFORM_DEVICES [=n]
-    Selected by [y]:
-      - MFD_INTEL_PMC_BXT [=y] && HAS_IOMEM [=y] && X86 [=y] && ACPI [=y]
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
