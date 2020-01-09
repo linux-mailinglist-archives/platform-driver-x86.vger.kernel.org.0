@@ -2,107 +2,153 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 091C1135314
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 07:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05FFF13533B
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 07:36:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgAIGNW (ORCPT
+        id S1727985AbgAIGgd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jan 2020 01:13:22 -0500
-Received: from mga01.intel.com ([192.55.52.88]:32600 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725899AbgAIGNW (ORCPT
+        Thu, 9 Jan 2020 01:36:33 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:40645 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728032AbgAIGgd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jan 2020 01:13:22 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 22:13:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,412,1571727600"; 
-   d="scan'208";a="226400153"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 08 Jan 2020 22:13:17 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 09 Jan 2020 08:13:16 +0200
-Date:   Thu, 9 Jan 2020 08:13:16 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
+        Thu, 9 Jan 2020 01:36:33 -0500
+Received: by mail-pg1-f194.google.com with SMTP id k25so2715072pgt.7;
+        Wed, 08 Jan 2020 22:36:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=Gc8W5S1Ur3wJ9TCtlMqhIuhs+JTASQlzSkw6Uribzpo=;
+        b=bImzlfp3uh2oGPQGEvh42E1XqJgVewlMDLfL2Z9c0q/7G493Sf9BoVogyHFhFJRdMU
+         ssZuB7u4QL4qr1vFuqWxZxghCcaIxnCwyq2tn0V00VHTe8GmBkchdqmnGcT6Du93IRX/
+         DaaIFrFQks3f60CbgxSb7CybOKL7nueECfEsXZSJynniaDhmbbf/klQjcrluTRgAkFpg
+         GqgwWqEyEWr6JKl4FeA40f+MB746uE00l5Va42HXVCzfWLuhtN06QBCJJhKoTsjMWOww
+         r/ammwiKSEyL5mhtN+qWXz+AyJT21dZwZXT5ZveZ7Ru1rkg7vfePhBX1FPb8zcwg9iko
+         W7fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=Gc8W5S1Ur3wJ9TCtlMqhIuhs+JTASQlzSkw6Uribzpo=;
+        b=tsLwqEsND5xrA37yn27IeynTSBn8kFxadQXxXupp3+ODXo3kScKtSVxGMPYl3yCrHX
+         nVnIHPMhbxHc+cwaY67xlua9BUTunqI/iJ/7c8cHdli455MinN7OpH24bzkHJksMlIb4
+         2C/xmCeUEq4ZYf1ohBgM9DFqJGfD27DdcmCjdwEXo987T0GU5wo2+EJ2msZvRDUxu9Ku
+         ySwQ1pCuQJfg3+ltUW73NvqMJm3ZKbLaatCDH6xF63qwxKcshiDhnV/J1vDMf9d+/9wX
+         OyHmO4mcXbyXTA0exMQTXGytOkpxe3p/NLxzySX50qS65G05t/+HSX9/xBt8kpvePr8u
+         GDFA==
+X-Gm-Message-State: APjAAAW6TfebahgxkrL3lkZXTwftKN2gMgEyliaQaSeTfHQ0OBLaoPQ4
+        4kndxOXV/crFMQJqXYKy8h8=
+X-Google-Smtp-Source: APXvYqxYe0iv7Ehxk//Vc86TGJ/zKBeixPPVxjeaczSSXJySWXAXnp+NpESZeD13tzUoWciyuq0Bww==
+X-Received: by 2002:a63:e84d:: with SMTP id a13mr9970394pgk.274.1578551792132;
+        Wed, 08 Jan 2020 22:36:32 -0800 (PST)
+Received: from localhost ([43.224.245.180])
+        by smtp.gmail.com with ESMTPSA id d26sm5727483pgv.66.2020.01.08.22.36.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 Jan 2020 22:36:31 -0800 (PST)
+From:   liuyang34 <yangliuxm34@gmail.com>
+X-Google-Original-From: liuyang34 <liuyang34@xiaomi.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Richard Fontana <rfontana@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/36] platform/x86: Rework intel_scu_ipc and
- intel_pmc_ipc drivers
-Message-ID: <20200109061316.GB2838@lahna.fi.intel.com>
-References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
- <20200108173444.GZ32742@smile.fi.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200108173444.GZ32742@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Allison Randal <allison@lohutok.net>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc:     liuyang34 <liuyang34@xiaomi.com>
+Subject: [PATCH] x86: event, use scnprintf instead of snprintf
+Date:   Thu,  9 Jan 2020 14:36:26 +0800
+Message-Id: <5fc0611a37b6c73fb524b8469cced8fd4cefc6a1.1578550730.git.liuyang34@xiaomi.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1578550730.git.liuyang34@xiaomi.com>
+References: <cover.1578550730.git.liuyang34@xiaomi.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 07:34:44PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 08, 2020 at 02:41:25PM +0300, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
-> > IPC communications with minor differences. This duplication does not make
-> > much sense so this series reworks the two drivers so that there is only a
-> > single implementation of the SCU IPC. In addition to that the API will be
-> > updated to take SCU instance pointer as an argument, and most of the
-> > callers will be converted to this new API. The old API is left there but
-> > the plan is to get rid the callers and then the old API as well (this is
-> > something we are working with Andy Shevchenko).
-> > 
-> > The intel_pmc_ipc.c is then moved under MFD which suits better for this
-> > kind of a driver that pretty much sets up the SCU IPC and then creates a
-> > bunch of platform devices for the things sitting behind the PMC. The driver
-> > is renamed to intel_pmc_bxt.c which should follow the existing conventions
-> > under drivers/mfd (and it is only meant for Intel Broxton derivatives).
-> > 
-> > Previous version of the series:
-> > 
-> >   https://www.spinics.net/lists/platform-driver-x86/msg20359.html
-> > 
-> > Changes from the previous version:
-> > 
-> >   * Update changelog of patch 16 according to what the patch actually does.
-> >   * Add kernel-doc for struct intel_soc_pmic.
-> >   * Move octal permission patch to be before MFD conversion.
-> >   * Convert the intel_pmc_bxt.c to MFD APIs whilst it is being moved under
-> >     drivers/mfd.
-> 
-> Hmm... I didn't see you appended Lee's ACKs.
+the return size will low than PAGE_SIZE but maybe over 40 in show_sysctl_tfa,
+so use scnprintf instead of snprintf to get real size
 
-I thought those were for his own reference:
+Signed-off-by: liuyang34 <liuyang34@xiaomi.com>
+---
+ arch/x86/events/intel/core.c    | 6 +++---
+ arch/x86/events/intel/pt.c      | 2 +-
+ arch/x86/platform/uv/uv_sysfs.c | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-  For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+index 3be51aa..bf287b4 100644
+--- a/arch/x86/events/intel/core.c
++++ b/arch/x86/events/intel/core.c
+@@ -4372,7 +4372,7 @@ static ssize_t show_sysctl_tfa(struct device *cdev,
+ 			      struct device_attribute *attr,
+ 			      char *buf)
+ {
+-	return snprintf(buf, 40, "%d\n", allow_tsx_force_abort);
++	return scnprintf(buf, 40, "%d\n", allow_tsx_force_abort);
+ }
+ 
+ static ssize_t set_sysctl_tfa(struct device *cdev,
+@@ -4406,7 +4406,7 @@ static ssize_t branches_show(struct device *cdev,
+ 			     struct device_attribute *attr,
+ 			     char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%d\n", x86_pmu.lbr_nr);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", x86_pmu.lbr_nr);
+ }
+ 
+ static DEVICE_ATTR_RO(branches);
+@@ -4422,7 +4422,7 @@ static ssize_t pmu_name_show(struct device *cdev,
+ 			     struct device_attribute *attr,
+ 			     char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%s\n", pmu_name_str);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", pmu_name_str);
+ }
+ 
+ static DEVICE_ATTR_RO(pmu_name);
+diff --git a/arch/x86/events/intel/pt.c b/arch/x86/events/intel/pt.c
+index 1db7a51..4ca7ed9 100644
+--- a/arch/x86/events/intel/pt.c
++++ b/arch/x86/events/intel/pt.c
+@@ -92,7 +92,7 @@ static ssize_t pt_cap_show(struct device *cdev,
+ 		container_of(attr, struct dev_ext_attribute, attr);
+ 	enum pt_capabilities cap = (long)ea->var;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%x\n", intel_pt_validate_hw_cap(cap));
++	return scnprintf(buf, PAGE_SIZE, "%x\n", intel_pt_validate_hw_cap(cap));
+ }
+ 
+ static struct attribute_group pt_cap_group __ro_after_init = {
+diff --git a/arch/x86/platform/uv/uv_sysfs.c b/arch/x86/platform/uv/uv_sysfs.c
+index 6221473..aa44c82 100644
+--- a/arch/x86/platform/uv/uv_sysfs.c
++++ b/arch/x86/platform/uv/uv_sysfs.c
+@@ -15,13 +15,13 @@ struct kobject *sgi_uv_kobj;
+ static ssize_t partition_id_show(struct kobject *kobj,
+ 			struct kobj_attribute *attr, char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%ld\n", sn_partition_id);
++	return scnprintf(buf, PAGE_SIZE, "%ld\n", sn_partition_id);
+ }
+ 
+ static ssize_t coherence_id_show(struct kobject *kobj,
+ 			struct kobj_attribute *attr, char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%ld\n", uv_partition_coherence_id());
++	return scnprintf(buf, PAGE_SIZE, "%ld\n", uv_partition_coherence_id());
+ }
+ 
+ static struct kobj_attribute partition_id_attr =
+-- 
+2.7.4
 
-I can add them if that's not the case.
-
-> > I'm including all x86 maintainers just to be sure they are aware of this as
-> > I'm not sure if x86@kernel.org reaches them all. Let me know if you have
-> > issues with this series.
-> > 
-> > I would prefer this to be merged through platform/x86 or MFD trees assuming
-> > there are no objections.
-> 
-> I'm almost reviewed it (few patches left which I plan to do soon), I'm fine if
-> it goes via other tree.
-
-Thanks a lot for the review!
