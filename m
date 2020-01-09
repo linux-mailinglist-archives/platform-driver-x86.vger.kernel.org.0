@@ -2,53 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A65D135C66
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 16:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D2C9135C7C
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jan 2020 16:20:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729139AbgAIPQX (ORCPT
+        id S1732054AbgAIPT6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jan 2020 10:16:23 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45644 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728431AbgAIPQX (ORCPT
+        Thu, 9 Jan 2020 10:19:58 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45034 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727945AbgAIPT6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jan 2020 10:16:23 -0500
-Received: by mail-pg1-f195.google.com with SMTP id b9so3342379pgk.12;
-        Thu, 09 Jan 2020 07:16:22 -0800 (PST)
+        Thu, 9 Jan 2020 10:19:58 -0500
+Received: by mail-pl1-f193.google.com with SMTP id az3so2678698plb.11;
+        Thu, 09 Jan 2020 07:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=r8x3KQtdmLCGHQVMYlEwX9SAKLMp3jvxPuMlzPlJ4tQ=;
-        b=B/81MK+aNeBQJoCL8tlwF9wWgD686trbtuROKH0xoRZ0Xqs588QFBY9P6tgWHDyTxv
-         QyHjGIDcEKP6eHN5w57X6enHflhWsM/WWcEwY0UQQQTNPa6BlrKacq/JxvURvZ7vIO/Y
-         dYAu3vmxRSLYEljiuTamb7hS/fHgFYVo3s2jGDf+s9IGP3sO8quWOoqBbEKlPq01ZxSJ
-         upjATrnswkmLP1oSDadYVmvsxTpyyDGxQV1c3EVbTwIWhaZXATfjgpX2zVpnclEFh63d
-         4u7qbR9L/oG5G07dSZrVkodwRFKry9LvFQWk0/Hj1z8ojBo4VkEtXke17Q18aAbkU5U8
-         5kEA==
+        bh=kaoDmnIv7fq2bK3Pw8FgyMWXUExVVooadbufCm0vA28=;
+        b=lyJZFdTEmsR9yvYDQNZzfGSP/2DugXvk4aOPsCFKrQT9EZ/FM87d4Iyefb8hCBmCYY
+         BxBESnnvF2jCUGboub4ZrzhLzxkGFInZn0UxfZ/rL0ncnEVhSkeAswDKaZkYNi21b2rv
+         G+v8QpvJrB14eRmtbcprQi0mr2IwaQ2GiG8MTj7dSBSukpdNHX5Wd0b7dwwKFfPJffsL
+         8CnBoNXjca8eQ88Mi++1dqJ3Fjh7q+UYjDTQRxxwpY+x3JbyMeq2VmeGEOJdN9QVCwo8
+         H0Ge/orqiM8/imsKOvVVKiOjz4/yL0moBTrorDHigUsxOnFAEBOJWZbCQOTcKS0AN4vW
+         XzrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=r8x3KQtdmLCGHQVMYlEwX9SAKLMp3jvxPuMlzPlJ4tQ=;
-        b=Kjop1woQBDH69TUoOSnyeXelBPREOizmwD4qWvOVJ/Vaw2MeZM9VMFKXETEJ4lq9fK
-         +TO2cd5/rBqpsalROMT/uvIzOiGw664mlCURLy/LbxffRyRixywX9MTKzvxKvBE+kEQx
-         twDcFBui87DkM1HPfDo4tG4WpRJTwaRl7ACg1mWRbn3MwFPDT2FQbB/lUPLGfyXx9up1
-         4XMPIxxcaCaYrehrC5RGi6urHNWr/NrgWZoHj86osWkJJMGK4pbcxlpaYJCvD7vKmJKB
-         I/r93foD7Rgs/zkrWsIsZFYAPy7Q13BOXCJL0sP9Favm3qXwftT6acSJVO6aGiNyFC4M
-         WfCw==
-X-Gm-Message-State: APjAAAXwoPc3qPy4eJE5o/PjpsSxclBIUXEDDnPz4tAqEoZDnr2Z5DQN
-        JR+Cp6hmdAW3RK2byXxoNWIIC5Z9lUTSpn9Jux4=
-X-Google-Smtp-Source: APXvYqxVs+WHk742H4qNx1RfprwAhLCoHofNTwximDsXi0CRghIlz56lP75MPfGosrYXm1d2XDOpK4ib6Ekbg6SHQ5U=
-X-Received: by 2002:a63:3d8e:: with SMTP id k136mr11632479pga.4.1578582982149;
- Thu, 09 Jan 2020 07:16:22 -0800 (PST)
+        bh=kaoDmnIv7fq2bK3Pw8FgyMWXUExVVooadbufCm0vA28=;
+        b=IqYeraTib9ykZLx30PH+fMomL3rpK8e9Pi8Y9EE8gxtKofM38M8E1Hmlq5NA/mWPoS
+         I8qliRgJvZ7BL7XD+ZAn+p/D0ROcAqKm35WB264HwhAbgsb7GSjDukgbDaXlZ8vlMTT4
+         xpuf0mk1NAjXQG++KOfz2LJuHdce/iDv8cZTjWa0vjlrUQo/pMhBAE6s/P7VPSnBFJFn
+         IS4ResM/1E1/tkHIa5+dRoTbA1Bi5HSmUNMxPvbIrS7akvWWtss+GCGNnnWiL/I3ATZ0
+         /GPYKqD7+RW+hpB9DiiSG2n2NdjcO3fiP1vMY35SjH7BYv+i33wZunGNTKViBwMfAAcj
+         3uNA==
+X-Gm-Message-State: APjAAAWARmleGdKzyPBCq9OxiBGyvF/f38Wx+kZODtjQc3A0UwJ/ApgT
+        Ce1bYA+P6dm5XAyWxPxFdLiQK5TpXcCR6VOhBVs=
+X-Google-Smtp-Source: APXvYqxhuE5QNaRo6ld2eSQ3WmfothXr4TxMa54D/0je9favVr1ekS9+70FUrtMomTf69mLcXfdQV46lBGB7QucFG+w=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr6005030pjq.132.1578583197418;
+ Thu, 09 Jan 2020 07:19:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20191231102917.24181-1-vadimp@mellanox.com> <20191231102917.24181-5-vadimp@mellanox.com>
-In-Reply-To: <20191231102917.24181-5-vadimp@mellanox.com>
+References: <20191231102917.24181-1-vadimp@mellanox.com> <20191231102917.24181-6-vadimp@mellanox.com>
+In-Reply-To: <20191231102917.24181-6-vadimp@mellanox.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jan 2020 17:16:13 +0200
-Message-ID: <CAHp75VfJL8o1=5tVkicnMXUJ+Ry9q2r3oGD1x-B7Om_5Dvnkig@mail.gmail.com>
-Subject: Re: [PATCH platform-next v1 4/9] platform/x86: mlx-platform: Cosmetic changes
+Date:   Thu, 9 Jan 2020 17:19:48 +0200
+Message-ID: <CAHp75VfYzy9jq3c2YjszJpCb33EWYh-fvuZv_vAenfKLGDEY0A@mail.gmail.com>
+Subject: Re: [PATCH platform-next v1 5/9] platform/x86: mlx-platform: Set
+ system mux configuration based on system type
 To:     Vadim Pasternak <vadimp@mellanox.com>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
@@ -62,67 +63,174 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Tue, Dec 31, 2019 at 12:29 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
 >
-> Remove redundant semicolons at the end of few functions.
+> Separate assignment for systems mux configuration based on system type,
+> instead of setting the same configuration for the all.
+> The motivation is to allow introduction of new systems types with the
+> different mux topology.
 >
-
-Sounds like this can be patch in the beginning of the series.
-(Taking into account any bug fixes that have to prepend all the rest,
-like Documentation fix)
-
 > Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
 > ---
->  drivers/platform/x86/mlx-platform.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/platform/x86/mlx-platform.c | 46 ++++++++++++++++++++++++++-----------
+>  1 file changed, 33 insertions(+), 13 deletions(-)
 >
 > diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-> index aed6ac18074e..7e92dc52071f 100644
+> index 7e92dc52071f..0a41668b1587 100644
 > --- a/drivers/platform/x86/mlx-platform.c
 > +++ b/drivers/platform/x86/mlx-platform.c
-> @@ -1918,7 +1918,7 @@ static int __init mlxplat_dmi_default_matched(const struct dmi_system_id *dmi)
->         mlxplat_wd_data[0] = &mlxplat_mlxcpld_wd_set_type1[0];
+> @@ -219,7 +219,7 @@ static const int mlxplat_default_channels[][MLXPLAT_CPLD_GRP_CHNL_NUM] = {
+>  static const int mlxplat_msn21xx_channels[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
 >
->         return 1;
-> -};
-> +}
+>  /* Platform mux data */
+> -static struct i2c_mux_reg_platform_data mlxplat_mux_data[] = {
+> +static struct i2c_mux_reg_platform_data mlxplat_default_mux_data[] = {
+>         {
+>                 .parent = 1,
+>                 .base_nr = MLXPLAT_CPLD_CH1,
+> @@ -239,6 +239,11 @@ static struct i2c_mux_reg_platform_data mlxplat_mux_data[] = {
 >
->  static int __init mlxplat_dmi_msn21xx_matched(const struct dmi_system_id *dmi)
+>  };
+>
+> +/* Platform mux configuration variables */
+> +static int mlxplat_max_adap_num;
+> +static int mlxplat_mux_num;
+> +static struct i2c_mux_reg_platform_data *mlxplat_mux_data;
+> +
+>  /* Platform hotplug devices */
+>  static struct i2c_board_info mlxplat_mlxcpld_psu[] = {
+>         {
+> @@ -1905,7 +1910,10 @@ static int __init mlxplat_dmi_default_matched(const struct dmi_system_id *dmi)
 >  {
-> @@ -1937,7 +1937,7 @@ static int __init mlxplat_dmi_msn21xx_matched(const struct dmi_system_id *dmi)
->         mlxplat_wd_data[0] = &mlxplat_mlxcpld_wd_set_type1[0];
+>         int i;
 >
->         return 1;
-> -};
-> +}
->
->  static int __init mlxplat_dmi_msn274x_matched(const struct dmi_system_id *dmi)
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       mlxplat_max_adap_num = MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM;
+> +       mlxplat_mux_num = ARRAY_SIZE(mlxplat_default_mux_data);
+> +       mlxplat_mux_data = mlxplat_default_mux_data;
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 mlxplat_mux_data[i].values = mlxplat_default_channels[i];
+>                 mlxplat_mux_data[i].n_values =
+>                                 ARRAY_SIZE(mlxplat_default_channels[i]);
+> @@ -1924,7 +1932,10 @@ static int __init mlxplat_dmi_msn21xx_matched(const struct dmi_system_id *dmi)
 >  {
-> @@ -1956,7 +1956,7 @@ static int __init mlxplat_dmi_msn274x_matched(const struct dmi_system_id *dmi)
->         mlxplat_wd_data[0] = &mlxplat_mlxcpld_wd_set_type1[0];
+>         int i;
 >
->         return 1;
-> -};
-> +}
->
->  static int __init mlxplat_dmi_msn201x_matched(const struct dmi_system_id *dmi)
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       mlxplat_max_adap_num = MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM;
+> +       mlxplat_mux_num = ARRAY_SIZE(mlxplat_default_mux_data);
+> +       mlxplat_mux_data = mlxplat_default_mux_data;
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 mlxplat_mux_data[i].values = mlxplat_msn21xx_channels;
+>                 mlxplat_mux_data[i].n_values =
+>                                 ARRAY_SIZE(mlxplat_msn21xx_channels);
+> @@ -1943,7 +1954,10 @@ static int __init mlxplat_dmi_msn274x_matched(const struct dmi_system_id *dmi)
 >  {
-> @@ -1975,7 +1975,7 @@ static int __init mlxplat_dmi_msn201x_matched(const struct dmi_system_id *dmi)
->         mlxplat_wd_data[0] = &mlxplat_mlxcpld_wd_set_type1[0];
+>         int i;
 >
->         return 1;
-> -};
-> +}
->
->  static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       mlxplat_max_adap_num = MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM;
+> +       mlxplat_mux_num = ARRAY_SIZE(mlxplat_default_mux_data);
+> +       mlxplat_mux_data = mlxplat_default_mux_data;
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 mlxplat_mux_data[i].values = mlxplat_msn21xx_channels;
+>                 mlxplat_mux_data[i].n_values =
+>                                 ARRAY_SIZE(mlxplat_msn21xx_channels);
+> @@ -1962,7 +1976,10 @@ static int __init mlxplat_dmi_msn201x_matched(const struct dmi_system_id *dmi)
 >  {
-> @@ -1998,7 +1998,7 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
+>         int i;
+>
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       mlxplat_max_adap_num = MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM;
+> +       mlxplat_mux_num = ARRAY_SIZE(mlxplat_default_mux_data);
+> +       mlxplat_mux_data = mlxplat_default_mux_data;
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 mlxplat_mux_data[i].values = mlxplat_msn21xx_channels;
+>                 mlxplat_mux_data[i].n_values =
+>                                 ARRAY_SIZE(mlxplat_msn21xx_channels);
+> @@ -1981,7 +1998,10 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
+>  {
+>         int i;
+>
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       mlxplat_max_adap_num = MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM;
+> +       mlxplat_mux_num = ARRAY_SIZE(mlxplat_default_mux_data);
+> +       mlxplat_mux_data = mlxplat_default_mux_data;
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 mlxplat_mux_data[i].values = mlxplat_msn21xx_channels;
+>                 mlxplat_mux_data[i].n_values =
+>                                 ARRAY_SIZE(mlxplat_msn21xx_channels);
+> @@ -1998,7 +2018,7 @@ static int __init mlxplat_dmi_qmb7xx_matched(const struct dmi_system_id *dmi)
 >         mlxplat_regmap_config = &mlxplat_mlxcpld_regmap_config_ng;
 >
 >         return 1;
-> -};
-> +}
+> -}
+> +};
+
+And this, how does it happen?
+
 >
 >  static const struct dmi_system_id mlxplat_dmi_table[] __initconst = {
 >         {
+> @@ -2127,7 +2147,7 @@ static int mlxplat_mlxcpld_verify_bus_topology(int *nr)
+>         /* Scan adapters from expected id to verify it is free. */
+>         *nr = MLXPLAT_CPLD_PHYS_ADAPTER_DEF_NR;
+>         for (i = MLXPLAT_CPLD_PHYS_ADAPTER_DEF_NR; i <
+
+> -            MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM; i++) {
+> +            mlxplat_max_adap_num; i++) {
+
+I'm wondering why 'i <; is left on previous line, or, otherwise, the
+limit is on next one.
+
+>                 search_adap = i2c_get_adapter(i);
+>                 if (search_adap) {
+>                         i2c_put_adapter(search_adap);
+> @@ -2141,12 +2161,12 @@ static int mlxplat_mlxcpld_verify_bus_topology(int *nr)
+>         }
+>
+>         /* Return with error if free id for adapter is not found. */
+> -       if (i == MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM)
+> +       if (i == mlxplat_max_adap_num)
+>                 return -ENODEV;
+>
+>         /* Shift adapter ids, since expected parent adapter is not free. */
+>         *nr = i;
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 shift = *nr - mlxplat_mux_data[i].parent;
+>                 mlxplat_mux_data[i].parent = *nr;
+>                 mlxplat_mux_data[i].base_nr += shift;
+> @@ -2202,7 +2222,7 @@ static int __init mlxplat_init(void)
+>         if (nr < 0)
+>                 goto fail_alloc;
+>
+> -       nr = (nr == MLXPLAT_CPLD_MAX_PHYS_ADAPTER_NUM) ? -1 : nr;
+> +       nr = (nr == mlxplat_max_adap_num) ? -1 : nr;
+>         if (mlxplat_i2c)
+>                 mlxplat_i2c->regmap = priv->regmap;
+>         priv->pdev_i2c = platform_device_register_resndata(
+> @@ -2215,7 +2235,7 @@ static int __init mlxplat_init(void)
+>                 goto fail_alloc;
+>         }
+>
+> -       for (i = 0; i < ARRAY_SIZE(mlxplat_mux_data); i++) {
+> +       for (i = 0; i < mlxplat_mux_num; i++) {
+>                 priv->pdev_mux[i] = platform_device_register_resndata(
+>                                                 &priv->pdev_i2c->dev,
+>                                                 "i2c-mux-reg", i, NULL,
+> @@ -2349,7 +2369,7 @@ static void __exit mlxplat_exit(void)
+>         platform_device_unregister(priv->pdev_led);
+>         platform_device_unregister(priv->pdev_hotplug);
+>
+> -       for (i = ARRAY_SIZE(mlxplat_mux_data) - 1; i >= 0 ; i--)
+
+> +       for (i = mlxplat_mux_num - 1; i >= 0 ; i--)
+
+It is basically
+  while (i--)
+
+>                 platform_device_unregister(priv->pdev_mux[i]);
+>
+>         platform_device_unregister(priv->pdev_i2c);
 > --
 > 2.11.0
 >
