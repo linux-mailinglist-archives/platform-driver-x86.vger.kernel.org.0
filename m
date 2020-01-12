@@ -2,47 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9DB1383C4
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 11 Jan 2020 23:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08989138631
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Jan 2020 13:18:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731332AbgAKWNP convert rfc822-to-8bit (ORCPT
+        id S1732760AbgALMSy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Jan 2020 17:13:15 -0500
-Received: from mail.a-hostel.com ([193.193.200.100]:54634 "EHLO
-        mail.a-hostel.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731132AbgAKWNO (ORCPT
+        Sun, 12 Jan 2020 07:18:54 -0500
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:60747 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1732694AbgALMSy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Jan 2020 17:13:14 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.a-hostel.com (Postfix) with ESMTP id E59BE1B493DF;
-        Sun, 12 Jan 2020 00:13:01 +0200 (EET)
-Received: from mail.a-hostel.com ([127.0.0.1])
-        by localhost (mail.a-hostel.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ivvJg2GXwiVK; Sun, 12 Jan 2020 00:13:01 +0200 (EET)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.a-hostel.com (Postfix) with ESMTP id 8575B1B46202;
-        Sun, 12 Jan 2020 00:13:01 +0200 (EET)
-X-Virus-Scanned: amavisd-new at a-hostel.com
-Received: from mail.a-hostel.com ([127.0.0.1])
-        by localhost (mail.a-hostel.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id XDJUSG7Onhus; Sun, 12 Jan 2020 00:13:01 +0200 (EET)
-Received: from DESKTOP-RUPS5UG.. (102-182-120-157.ip.afrihost.co.za [102.182.120.157])
-        by mail.a-hostel.com (Postfix) with ESMTPSA id 2EAAC1B49433;
-        Sun, 12 Jan 2020 00:12:56 +0200 (EET)
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: IMFC-Finanzierung
-To:     Recipients <reservations@hotel-khreschatyk.kiev.ua>
-From:   "IMFC-Finanzierung" <reservations@hotel-khreschatyk.kiev.ua>
-Date:   Sat, 11 Jan 2020 14:12:52 -0800
-Reply-To: imfcompensationfunding@gmail.com
-Message-Id: <20200111221257.2EAAC1B49433@mail.a-hostel.com>
+        Sun, 12 Jan 2020 07:18:54 -0500
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 12 Jan 2020 14:18:51 +0200
+Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 00CCIpSO023227;
+        Sun, 12 Jan 2020 14:18:51 +0200
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     andy@infradead.org, dvhart@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vadim Pasternak <vadimp@mellanox.com>
+Subject: [PATCH platform-next v2 00/10] platform/x86: Mellanox new system classes and new features
+Date:   Sun, 12 Jan 2020 12:18:39 +0000
+Message-Id: <20200112121849.7056-1-vadimp@mellanox.com>
+X-Mailer: git-send-email 2.11.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Sie haben sich für den IMFC-Zuschuss von 2.500.000,00 Euro qualifiziert (Frau Ronnie Mara Holbrook) Email: imfcompensationfunding@gmail.com  
-Weitere Informationen zum Einfordern Ihrer Gelder
+The patchset adds new features for the existing Mellanox systems
+and introduces two new system classes.
+
+Patch #1 contains cosmetic changes.
+Patch #2 fixes wrong attribute name in documentation.
+Patch #3 adds missed attribute name in documentation.
+Patch #4 adds more definitions for system attributes
+Patches #5 extends documentation.
+Patches #6-#7 introduce new system class for the systems equipped with
+Spectrum 1 (32x100GbE Ethernet switch) device and Switch-IB/Switch-IB2
+devices (36x100Gbe InfiniBand switch).
+Patches #7-#8 add support for new group capability register
+Patches #10 introduces new system class for the systems equipped
+with new switch device Spectrum 3 (32x400GbE/64x200G/128x100G Ethernet
+switch).
+
+Vadim Pasternak (10):
+  platform/x86: mlx-platform: Cosmetic changes
+  Documentation/ABI: Fix documentation inconsistency for mlxreg-io sysfs
+    interfaces
+  Documentation/ABI: Add missed attribute for mlxreg-io sysfs interfaces
+  platform/x86: mlx-platform: Add more definitions for system attributes
+  Documentation/ABI: Add new attribute for mlxreg-io sysfs interfaces
+  platform/x86: mlx-platform: Set system mux configuration based on
+    system type
+  platform/x86: mlx-platform: Add support for new system type
+  platform/x86: mlx-platform: Add support for new capability register
+  platform/mellanox: mlxreg-hotplug: Add support for new capability
+    register
+  platform/x86: mlx-platform: Add support for next generation systems
+
+ Documentation/ABI/stable/sysfs-driver-mlxreg-io |  83 +++-
+ drivers/platform/mellanox/mlxreg-hotplug.c      |  14 +
+ drivers/platform/x86/mlx-platform.c             | 564 +++++++++++++++++++++++-
+ include/linux/platform_data/mlxreg.h            |   2 +
+ 4 files changed, 643 insertions(+), 20 deletions(-)
+
+-- 
+2.11.0
+
