@@ -2,96 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1DF4138A18
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 05:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D916138B84
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 06:59:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387460AbgAMEBs (ORCPT
+        id S1728748AbgAMF7c (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 12 Jan 2020 23:01:48 -0500
-Received: from mga07.intel.com ([134.134.136.100]:29568 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387415AbgAMEBr (ORCPT
+        Mon, 13 Jan 2020 00:59:32 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:41362 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726804AbgAMF7c (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 12 Jan 2020 23:01:47 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jan 2020 20:01:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,427,1571727600"; 
-   d="scan'208";a="424184843"
-Received: from spandruv-mobl3.jf.intel.com ([10.251.135.218])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Jan 2020 20:01:45 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
-        andy@kernel.org, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore Frequency limits
-Date:   Sun, 12 Jan 2020 20:01:43 -0800
-Message-Id: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
+        Mon, 13 Jan 2020 00:59:32 -0500
+Received: by mail-qt1-f196.google.com with SMTP id k40so8143941qtk.8
+        for <platform-driver-x86@vger.kernel.org>; Sun, 12 Jan 2020 21:59:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=axyFVeACXX6eyIqs0YOyvhud1GxF23BjKaYE42pSlJV+gAWdF9gYvU0u/zDfnrPEy2
+         kR2ZRFuxxdIO4F6OS0uBN1aVWYR2ewyKrbbvE6pIG3T2I7iqQ73ikejQAd37AO2k5TW+
+         2sx6e2bqJyuqA1WcWQZcJZ9/kyPC9pBe6185WcquxqYIhlaIba+/EXzvj9C850rnOEXZ
+         cC8cJqZQkLjsll2015Aoj3Xa8uotVmhONranyus3vN1La/WIPor70HTQZ1wfG3iiDeHz
+         GyQ/ql5mi09uECXc2bCwm4eNVjm7Adbb69sRBiLC3wDqqjADHrTalR9XMKSzk0GOdHfR
+         Vcmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=ndEz/v7f4zPtkKsNf90vaaJg9HggsyQTPfDKAPhxsV7tJPk9zC+QakAnvZUsKz3alE
+         mGve5BcBh7GdYdEVfQV6FaBAXnXvq6lt9xMeG0RaMByzIouRa82zCP0LRN4dcAiMKw8A
+         S2oqH9qOcY473EdK9f52XYV6x2bQWh41FtpcgQozMWrPmAwWQq2qnIr/8P4DYq2ak0wy
+         cKJ6z+8RimVMa3mXxfkAD9izddoxsICkDkb2NP9fvJcBhyyREiWb2kXhhU52csIYooNb
+         XrsmjrvH5L8WX/MU3XbChCSGkftVdV5b34e+kEczgFoMYpPKNY9EGYjtoIRIDmEJAsBo
+         1l3w==
+X-Gm-Message-State: APjAAAVXZv098REbgzD85GmoKKQmiwFF6KVXgwXTeDPvW5sQUwGOgKQZ
+        oWfR1XpOgT83Ti+jnwztSWw4KtfG2U3EFfV6h50=
+X-Google-Smtp-Source: APXvYqzd8BUjsKZ0MJKU06jDaxaN+ppx7TtK+iZjRNnHb+0olyYn+vcTOPlwE9gQ84l5aRInYzFTaq3q5yFb/PlSLTA=
+X-Received: by 2002:aed:3eee:: with SMTP id o43mr12932886qtf.33.1578895170126;
+ Sun, 12 Jan 2020 21:59:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a0c:f94e:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:59:29
+ -0800 (PST)
+Reply-To: rickschaech@gmail.com
+From:   Rick Schaech <cicija016@gmail.com>
+Date:   Mon, 13 Jan 2020 01:59:29 -0400
+Message-ID: <CAERxQtSfR_snviQ950=Tn4fnNAp6TgcAw1bmuVwM-Jx5Gzjkmw@mail.gmail.com>
+Subject: I wait for your swift response,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Added documentation for the attributes to control uncore frequency
-selection.
+Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
+know we have not meet each other before but sometimes in life God have
+a reason of bringing two people from two different countries together
+as business partners or life partners.
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-v2:
- - Split the documentation patch to another patch to merge via different
-    tree
+My dear friend, I have the sum of 15.7 Million USD i wish to put in
+your name due to the death of my late client who died several years
+ago as his next of kin column still remain blank. Though the internet
+medium is highly abuse these days but am assuring you that this
+transaction is legitimate and I am contacting you that we may have a
+deal, note for your cooperation and collaboration 40% of the sum will
+be for you while the other 60% will be for me as well. I wait for your
+swift response for more details. please forward your response to my
+personal E-mail: rickschaech@gmail.com
 
- Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
- .../admin-guide/pm/working-state.rst          |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
-
-diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
-new file mode 100644
-index 000000000000..d75be65fb16a
---- /dev/null
-+++ b/Documentation/admin-guide/pm/intel_uncore.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Intel® Uncore Frequency Selection
-+=========================================================
-+
-+The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
-+
-+But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
-+
-+The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
-+The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
-+"package_00_die_00" for package 0 and die 0.
-+
-+Attributes:
-+
-+initial_max_freq_khz (READ ONLY): This is the power up value of the maximum uncore frequency in KHz. This is sampled during the driver initialization time. This is not the absolute maximum uncore frequency as there is no capability for the Operating System to read that. This can be used as a reference to roll back settings once user changed this limit.
-+
-+initial_min_freq_khz (READ ONLY): This is the power up value of the minimum uncore frequency in KHz. This is sampled during the driver initialization time. This is not the absolute minimum uncore frequency. This can be used as a reference to roll back settings once user changed this limit.
-+
-+max_freq_khz (READ, WRITE): This presents current maximum uncore frequency. User can modify this attribute to change to a new maximum uncore frequency in KHz.
-+
-+min_freq_khz (READ, WRITE): This presents current minimum uncore frequency. User can modify this attribute to change to a new minimum uncore frequency in KHz.
-diff --git a/Documentation/admin-guide/pm/working-state.rst b/Documentation/admin-guide/pm/working-state.rst
-index fc298eb1234b..15094cf0a234 100644
---- a/Documentation/admin-guide/pm/working-state.rst
-+++ b/Documentation/admin-guide/pm/working-state.rst
-@@ -11,3 +11,4 @@ Working-State Power Management
-    cpufreq
-    intel_pstate
-    intel_epb
-+   intel_uncore
--- 
-2.24.1
-
+Yours sincerely,
+Rick Schaech.
