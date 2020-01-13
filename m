@@ -2,100 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3DC1392AC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 14:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E51D213933D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 15:13:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728977AbgAMN4l (ORCPT
+        id S1726163AbgAMONA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 08:56:41 -0500
-Received: from mga05.intel.com ([192.55.52.43]:12785 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728964AbgAMN4l (ORCPT
+        Mon, 13 Jan 2020 09:13:00 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33386 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbgAMOM7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 08:56:41 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jan 2020 05:56:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,429,1571727600"; 
-   d="scan'208";a="247709312"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2020 05:56:37 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 9BDFE9FE; Mon, 13 Jan 2020 15:56:25 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 36/36] MAINTAINERS: Update entry for Intel Broxton PMC driver
-Date:   Mon, 13 Jan 2020 16:56:23 +0300
-Message-Id: <20200113135623.56286-37-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200113135623.56286-1-mika.westerberg@linux.intel.com>
-References: <20200113135623.56286-1-mika.westerberg@linux.intel.com>
+        Mon, 13 Jan 2020 09:12:59 -0500
+Received: by mail-pf1-f195.google.com with SMTP id z16so4955957pfk.0;
+        Mon, 13 Jan 2020 06:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TbDxzBZlkrSTf8Q5Gq/R4NCF+S0om70sRP7YbF9S2BY=;
+        b=bVe3mmVXecfEAK2KJOpP0ohHJFJNfxvIfPMOgFdHB3vzCi0k++1ZDibiNa5CN+u5lK
+         HgLBwj4b1Kv2+S26Qd9IoMUVUjqSHEBwnBnTCIh+1zYOmyJicxuFNWIB3gdHm2Uqc65X
+         E4mEeus0sad/xiAy2ND883zgZNathI9IKoelbJa7JTmZ/UAuO4p21LZlX2QXvWEOXJGz
+         7z/bWgWQ76FLtJMhnIwXmprwrccMtLBA1afr0xLyJUkNJjA3DswYenPBUFf7LtyIPVYZ
+         hsxrwUDKz3U5K6ieWoHR8dkOzhW9HjwCP13Nuq2CYHAnACgpYjEe7R6DL9mDkBWJabwv
+         vonQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TbDxzBZlkrSTf8Q5Gq/R4NCF+S0om70sRP7YbF9S2BY=;
+        b=jx9mNqUZIx6LNHDdF/R873Axv3HIYN8MDiLCtziz4fTy5dArtai+F+VShQrARt44C1
+         0+f5QKWuwISXW6FmwreFyn9W0okRzuMO+K1ntSeCVfdFvvo5A8P6Xfx50X9fLZnwsgMi
+         BO5qXedctWGyPYI4b2OdfTWVKRAdXGphTIKZKgp2oj7Zhdhbmoe4P9MpFSNmejJUqCV+
+         hTgGl/+Bx16ZEtx913qr6RtkYeNSpDN/GYoT/T5zi7G1c7Y8Rb6YrTEfiH74GwFwOPW+
+         bXaABoZAyAIgqIQ7WYKTBSQrX3eS8TxJ45BvhYQhbcKvwCP64m72sOtcGMyHIdy8c5yn
+         4EoQ==
+X-Gm-Message-State: APjAAAVyEqhI3wS3BqIJ7z8Rdnm2LenGxIGqBYjIKpxWVSwPat5aqHN+
+        zE6hsz0+L9h+fMiYGYslbxIhMQhvQ6EeLQfEHto=
+X-Google-Smtp-Source: APXvYqzYULl0Hsa/J48+y4HwI789S+2T/iumJXRsZZq+eRIjdJcwzi4sNC28KwSAtriKbEs5VVJjr35tl1BchJr4voo=
+X-Received: by 2002:a63:3d8e:: with SMTP id k136mr20749109pga.4.1578924779029;
+ Mon, 13 Jan 2020 06:12:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200112121849.7056-1-vadimp@mellanox.com> <20200112121849.7056-4-vadimp@mellanox.com>
+In-Reply-To: <20200112121849.7056-4-vadimp@mellanox.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 13 Jan 2020 16:12:50 +0200
+Message-ID: <CAHp75VdFV5OZ=U8yiuDLsff8+swET8dtikrQo_8N6ZdvhC9Q=g@mail.gmail.com>
+Subject: Re: [PATCH platform-next v2 03/10] Documentation/ABI: Add missed
+ attribute for mlxreg-io sysfs interfaces
+To:     Vadim Pasternak <vadimp@mellanox.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver lives now under MFD so split the current entry into two parts
-and add me as co-maintainer of the Intel Broxton PMC driver. While there
-correct formatting of Zha Qipeng's email address.
+On Sun, Jan 12, 2020 at 2:19 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
+>
+> Add missed "cpld4_version" attribute.
+>
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- MAINTAINERS | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Fixes tag?
+Also see below.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4017e6b760be..fc8bc60b1ff2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8280,6 +8280,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL BROXTON PMC DRIVER
-+M:	Mika Westerberg <mika.westerberg@linux.intel.com>
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+S:	Maintained
-+F:	drivers/mfd/intel_pmc_bxt.c
-+F:	include/linux/mfd/intel_pmc_bxt.h
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-@@ -8488,13 +8495,11 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
- 
--INTEL PMC/P-Unit IPC DRIVER
--M:	Zha Qipeng<qipeng.zha@intel.com>
-+INTEL P-Unit IPC DRIVER
-+M:	Zha Qipeng <qipeng.zha@intel.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
--F:	drivers/platform/x86/intel_pmc_ipc.c
- F:	drivers/platform/x86/intel_punit_ipc.c
--F:	arch/x86/include/asm/intel_pmc_ipc.h
- F:	arch/x86/include/asm/intel_punit_ipc.h
- 
- INTEL PMIC GPIO DRIVERS
+...
+
+> +What:          /sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/cpld4_version
+
+> +
+
+Can we get some consistency here, i.e. drop blank lines between What
+and Date everywhere?
+(Separate patch)
+
+> +Date:          November 2018
+> +KernelVersion: 5.0
+> +Contact:       Vadim Pasternak <vadimpmellanox.com>
+> +Description:   These files show with which CPLD versions have been burned
+> +               on LED board.
+> +
+> +               The files are read only.
+> +
+
+...following by the starting each section with What keyword.
+
+(Separate patch)
+
+>  Date:          June 2019
+>  KernelVersion: 5.3
+>  Contact:       Vadim Pasternak <vadimpmellanox.com>
+
+
 -- 
-2.24.1
-
+With Best Regards,
+Andy Shevchenko
