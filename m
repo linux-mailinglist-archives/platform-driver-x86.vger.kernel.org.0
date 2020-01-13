@@ -2,74 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2A60138B83
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 06:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 198F9138B99
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 07:05:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgAMF7b (ORCPT
+        id S1729293AbgAMGFu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 00:59:31 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:34520 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726804AbgAMF7b (ORCPT
+        Mon, 13 Jan 2020 01:05:50 -0500
+Received: from sonic309-55.consmr.mail.ne1.yahoo.com ([66.163.184.181]:33349
+        "EHLO sonic309-55.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725909AbgAMGFu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 00:59:31 -0500
-Received: by mail-qk1-f195.google.com with SMTP id j9so7537261qkk.1
-        for <platform-driver-x86@vger.kernel.org>; Sun, 12 Jan 2020 21:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=EmLvesZSPfaVxxCCRbQvW4utOr0qaXRKXdTPnpyV6d+qJjDlAqsSsCilkOROkPdnV3
-         VTvoPWru+9kEnbGUWjfxIhTQPJYWPMo1B4AN3Lsv4BkKAo5PbnbJZuHPgwjn8DfX2x0Z
-         P3s6swXbOPqKsbdD0wq8afXgKJ7HptZ5jDmLnBi+kJBJ8HJ09iMWBWDp+Tv3tgDOuCT8
-         3G8SBxPDX2Axx00qS99rQ4N2HycFDovDzO6fqHgOlITNgiMfKspdhGVQLyisbowfkzsI
-         03uNv4NMtMEWCXW5i1qV2m5j4pQ8bsufeSFRebHyJNY4kVDKJnPmWsXGUC6H2py6SBiD
-         2bCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=WSIn/xVVmmBQ2mHyxLq4Nrjdux+fMkfcAUWWPwtMO4+uO2AhisPiUGqMnrCLjO4utH
-         PQSFStx0nvK1h7dg4n+f3WPd3zAOp0T+KhzRGF2TvxcLd6l/Kl1kqDeNTpcmkAmZBJh/
-         xAxkxuxJp2fP+uyU8IznbPK/N7ZL5wC5bQxcoLtZnni5GimOlYU82KdK5Dv2FMwEv++i
-         YwQ3demwjSV2Z3EQQ6RsdDu1meR9F1ScAo8OaJRtmmhJDdutmQk6GKA3lZI3DnpDbvEi
-         P3UFW2HbrcYkT87vS9F142VABmqwWft6qy04AYm+r5jgtKEE6S1hSH6Jv2lAk0ws+FGW
-         3UpA==
-X-Gm-Message-State: APjAAAU/mPlHahgjWnjOSM7EgBkT7E7mCL+gIWrxeoegL85wKcb8DfV4
-        AVs3aQby+J+x0Fe8Rvg40GhFEdV9KKIc4mnmVDk=
-X-Google-Smtp-Source: APXvYqyCD8wys1jCb8dLFB3N3d8GkEI1NaKrc0zKNdOM7uYlHh2OCQGPXV8j6n5WpiLXkM9fsRll5mIIh/lb+agtjuQ=
-X-Received: by 2002:a37:9c52:: with SMTP id f79mr10212976qke.371.1578895170103;
- Sun, 12 Jan 2020 21:59:30 -0800 (PST)
+        Mon, 13 Jan 2020 01:05:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1578895549; bh=MfKEolHbzz2mCd/tesaYgAQ6iiREmzkdd98c3dPn76Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=TfinPtlhwvZ2TPyfBoWjpAD0fYJNZGs6dBcIIxcdhj3f9pWGs9sw6KItGz2WwLSGI1y/tv59buHDi/NRr0IPgMIehAmYelr5meRKamntddbplDkjIBiBAhwfJ9nNckx3KjFziPv/26tXJAw56HS2CzoXaxOHu4IO+kvQ1i2wS16FxJI/i743XycF7FQOu/41nMsz3gkIFMhuqetPfCpXWrqZ9Dx0UN1E8QckGeSNCtgdPZp4c+dJBMHGd4QukLHXkuXFBvK8Ihy+qXIJEP8WGPF3Hp9Oaf7z6th9nlduIi9S2E8siy92D+bkTtChQsxMwNHaelTn4lkVDNzFr4K4+w==
+X-YMail-OSG: 9HdIMIAVM1mB88WmRxbOqoGPBwEcYji4Vuk1tg_6aTzvboH9XzkWWHAGI0SLcUL
+ bkqVoaxhsf4jhRmGaQ_vhA4DpIQ.map5sz5KxMMrS9Helghi2WtdhpeqXcdX0f4U_35gSeBMg3FV
+ SDokLphVi219nOrDJ2WOQcGPxqeXq7SvWnil7lrdtxqWsWx8tctDgfbyPixhWMidnUF13DkkWu_p
+ gcvXhBvSwWs04yJqr8XQT_c8HcSg_c6XFwRAdRbqOlYhDBuWasGywzAOZYSLNFpct4Nz1LEFtA9O
+ 7FPC0R7m0rZJMX4qzdo0Qevk8nyttGEGM4h9jEFi.QRL8S8bLbYNhXtaYXTr2qTUYd369ejJMBvb
+ JrqgIGVBmT8gPc4_Gc7wqcQD45DjFxR1oByrxLwTIMqFjyD2P5SYgdGcQ4EZo8CbF3W2Fc5GFxeq
+ HQZKnm1VBOhA8rCVO3WNuirf5vX4RrJCvYAcKbqzyTY_91w1OXDSosZE0C627vEk37K9IKLrGbDw
+ k.r_SbD.09OzxSqv_5hspQ4q4g29zdkc2Rm4GAd_ym.JZsjk62chdQ1yC3Q2EF4G6ZklyQReCssD
+ BU_NMXXvcVB0I1Jvh0BUkxB6vliB6UUEVowZDg.Lj_R71dt0DOqY0AZUxm7GAn0uFdno1DIiyX3O
+ qZ.NB.vFjkOuPFYJ_5ZulkwDjQ6NY__gqSJBAuMC7wXleh536H_07O3g5YYTToMrZqCu0dplSX8q
+ qwJ898VnWJBbFKy4XI06XtQb5EuSdd89tdJ0ZOUBWYgLQeMSU9o.9kxpzgJqIYmoVguisyWWEPt8
+ UJiQelkKotW0v4R0B8Q1be.3kQL3fmel7fOmmMqPx3EIrSBn1kahRofTbJDup6TFMbDuNlJuZuL5
+ THMBdCaUqtnBuDGUZGjs9sGwYMqkwmu7_l38PxYz66Ttha1HHRLzaMWluQwhrAnUPSKV3nSdD3qG
+ 0ZpE.pSpwtrQzkhEvsXlx0s9coCMb_RcfSbblIebvcQ529XL7gQjc3Ukqg.psmjMiaeodfaDGNNo
+ CYkErl7HgNs_RAhBVn1LWIAU7Ysx.I6N2D6wrMVb4GFCaKYZeptZla6u0NCz.5PJXhnwZKWjvD2K
+ 6mi5dfeRbKXogm0PjIEjm6SuOB1Sl0AMVeScoMf7pMSzWg9PLyj.aRiMPjSXb6hOh8irzepU1xz_
+ ccg3XZsvQA2ARUk4kQSInjGP3cYoKmzdMSUlT9RYGfmrG6X0yMR1GeNMJVo_6St80Ovrgp7F8YOF
+ wiCxFSUL371mjos54h02CgRna4zXqZbwUmFUyCu.OaQwQe4c7gvrlZu4jnw8jB2kGNSVKHoAr02D
+ ooVEB_2qXe__tzbV4FzgiwwQpfmkXbi2DCwVs.ZTMNEXdEjuMttnEUZcAHXS1s0TTrsqh5.wUC5.
+ w
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Mon, 13 Jan 2020 06:05:49 +0000
+Date:   Mon, 13 Jan 2020 06:03:48 +0000 (UTC)
+From:   Capital Alliance <xvcnvnmnmnm@bavfton.com>
+Reply-To: capitalalliance01@accountant.com
+Message-ID: <1115390143.10570267.1578895428947@mail.yahoo.com>
+Subject: Darlehensangebot zu niedrigem Zinssatz
 MIME-Version: 1.0
-Received: by 2002:a0c:f94e:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:59:29
- -0800 (PST)
-Reply-To: rickschaech@gmail.com
-From:   Rick Schaech <cicija016@gmail.com>
-Date:   Mon, 13 Jan 2020 01:59:29 -0400
-Message-ID: <CAERxQtTrFNa0WsBZYqVPnNCNPA-Z+55Ct68g42LznE97KmK6Eg@mail.gmail.com>
-Subject: I wait for your swift response,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <1115390143.10570267.1578895428947.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.14873 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
-know we have not meet each other before but sometimes in life God have
-a reason of bringing two people from two different countries together
-as business partners or life partners.
 
-My dear friend, I have the sum of 15.7 Million USD i wish to put in
-your name due to the death of my late client who died several years
-ago as his next of kin column still remain blank. Though the internet
-medium is highly abuse these days but am assuring you that this
-transaction is legitimate and I am contacting you that we may have a
-deal, note for your cooperation and collaboration 40% of the sum will
-be for you while the other 60% will be for me as well. I wait for your
-swift response for more details. please forward your response to my
-personal E-mail: rickschaech@gmail.com
 
-Yours sincerely,
-Rick Schaech.
+Guten Tag, wir bieten Privatpersonen und Unternehmen Darlehen an, die nach =
+dringenden Darlehen f=C3=BCr Unternehmensgr=C3=BCndungen, f=C3=BCr Unterneh=
+menserweiterungen, Autokredite, Studentendarlehen und mehr suchen. Wir biet=
+en sowohl Unternehmen als auch Privatanlegern kurz- und langfristige Darleh=
+en usw. an. F=C3=BCr weitere Informationen senden Sie uns bitte eine E-Mail=
+ an capitalalliance01@accountant.com
