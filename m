@@ -2,60 +2,44 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 320721394B3
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 16:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 497B1139531
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 16:50:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbgAMPWm (ORCPT
+        id S1728641AbgAMPuJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 10:22:42 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44735 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726567AbgAMPWm (ORCPT
+        Mon, 13 Jan 2020 10:50:09 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:36476 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbgAMPuJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 10:22:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578928961;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VOTGMvgDQlL7dRbs3ZO0Cylb6qsjQ7963pN+mQ0JZwc=;
-        b=PfcFbwBseCR56yGf3vMdHiX/Xs05gX37iVXiXndqnFiL4Jv5XugqskjnzPfzZu+ltc9QGH
-        z6rOpinEmysQLnHsRzKmvw1nQ4Y/N5Pwt3X9sPL4XEuCKcf68dp8Qifc4C2gbJ1f+P3Ink
-        +u0DPhjBc5WE0qBbuH9eP3h6vOSzs68=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-pBt8KeAjNnun5nK3LfIdgw-1; Mon, 13 Jan 2020 10:22:39 -0500
-X-MC-Unique: pBt8KeAjNnun5nK3LfIdgw-1
-Received: by mail-wm1-f70.google.com with SMTP id q206so745009wme.9
-        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Jan 2020 07:22:39 -0800 (PST)
+        Mon, 13 Jan 2020 10:50:09 -0500
+Received: by mail-yw1-f67.google.com with SMTP id n184so6374978ywc.3;
+        Mon, 13 Jan 2020 07:50:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=VOTGMvgDQlL7dRbs3ZO0Cylb6qsjQ7963pN+mQ0JZwc=;
-        b=iBBQvb+LgEgbSlOqkEC4YVzCXcYP8CWQstoX+yzFzp8pDUmpHW770PFQOuwGC6qJXw
-         sFGGwOc6zszeclv1DCp6oSzeIPK44FuW3o61jp7PglcaUt4Y1/SqbEsbFQrbKL6lXGJ1
-         XQCVajpVY4jy/4ZONe9Tl36djSMgUl18ep/6w4N2u/v+12+2Ke6FlXYLgObley3rRR/P
-         IzKEJW8iKLVcqGcEeJldPJGYSSI7jsVSnO/gXITTX375Xg0g/4/kIK6teFdTxqp6aREe
-         22EuPkSzT7QL+pTZeyJfs7O8jEqZxC0O9WJulfxeZpuAFUgwwLGx7Qk9ar0QW6RS411Z
-         gWUA==
-X-Gm-Message-State: APjAAAVlW0LCjhda+a1hAtZor0CrS4KdRNGueIGTeNrmz5CTN2nPiOfI
-        uuDpC3SlA6k49sUoA6W0GbyEWFxCkb1f+sty42gSJYDHODsZwulBmaJ4WiUr/uzhua9wT6LtsrL
-        5sulpGGTQr6cQHN5EhmiW4ENM7doNf9XPdw==
-X-Received: by 2002:a1c:a406:: with SMTP id n6mr20939392wme.40.1578928958680;
-        Mon, 13 Jan 2020 07:22:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyUmkECQJyn5SeeaSEv+fAyzoafrVckwo+t9N110O05ZIO2UB7J1Jik4S2xxmzSNHA+roPuQw==
-X-Received: by 2002:a1c:a406:: with SMTP id n6mr20939363wme.40.1578928958439;
-        Mon, 13 Jan 2020 07:22:38 -0800 (PST)
-Received: from shalem.localdomain (2001-1c00-0c0c-fe00-7e79-4dac-39d0-9c14.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:7e79:4dac:39d0:9c14])
-        by smtp.gmail.com with ESMTPSA id j12sm16877545wrw.54.2020.01.13.07.22.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jan 2020 07:22:37 -0800 (PST)
-Subject: Re: [PATCH v11 05/10] test_firmware: add support for
- firmware_request_platform
-To:     Luis Chamberlain <mcgrof@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=P7zkiitkCWsuSRKPmAwAK7CcYVjDngYZSCq21E01NRk=;
+        b=rmvepy1x5AqgPVLurPEniloBeaJ0Q1QKeRGpndF2ifpZQ73OV3EUZb0epbw0BBJ0zD
+         6VYKXQLrmKZYG2hvhBAnCXwpeh0ACOS6xMK1CBrrM0vMNmCjUNPYMXKm1KCnNpcws1NQ
+         KvEXhdUJiaUaV4f5m+k9ItmFETt0cyh6Luk62RVyjB/kFubHj4PW4yVn4vcwWIa4PbiS
+         pLbeB+OzgVXUfDJXXoU3sDG2p0fo4FiVQWhK2bemBaAiRaJcNqBUjQ6gePRAz6Z+gI1p
+         KKJd+59/7v9VNyqb7r3Bx6irnyvx2fwkvGq1I6NafL4DrFuw5t8C/D9frxzpWklGoUhW
+         RvHQ==
+X-Gm-Message-State: APjAAAVjB+okExrPtoMz3lKoGEK9TnSwHkWOOWW9ZMUVu/8iSH9yspYl
+        tMzH7D24xuif6c0J9ejzUrA=
+X-Google-Smtp-Source: APXvYqwysToLWulQEKKQYs42+APLU16g4SfL5vezVQaE09a4FXcdkrOwmGA1950TxEodJ/XryowyeA==
+X-Received: by 2002:a0d:e697:: with SMTP id p145mr13360006ywe.199.1578930607860;
+        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id 144sm5172420ywy.20.2020.01.13.07.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 1E9EB4018C; Mon, 13 Jan 2020 15:50:06 +0000 (UTC)
+Date:   Mon, 13 Jan 2020 15:50:06 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
@@ -71,141 +55,35 @@ Cc:     Ard Biesheuvel <ardb@kernel.org>,
         platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-input@vger.kernel.org
+Subject: Re: [PATCH v11 05/10] test_firmware: add support for
+ firmware_request_platform
+Message-ID: <20200113155006.GC11244@42.do-not-panic.com>
 References: <20200111145703.533809-1-hdegoede@redhat.com>
  <20200111145703.533809-6-hdegoede@redhat.com>
  <20200113145328.GA11244@42.do-not-panic.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
-Date:   Mon, 13 Jan 2020 16:22:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200113145328.GA11244@42.do-not-panic.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Mon, Jan 13, 2020 at 04:22:36PM +0100, Hans de Goede wrote:
+> 
+> test_firmware and dropping the mutex calls is better. I will make
+> this change for v12 of this series.
+> 
+> I'll send out a v12 once the remarks from Andy Lutomirski's
+> have also been discussed.
 
-On 13-01-2020 15:53, Luis Chamberlain wrote:
-> On Sat, Jan 11, 2020 at 03:56:58PM +0100, Hans de Goede wrote:
->> Add support for testing firmware_request_platform through a new
->> trigger_request_platform trigger.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Changes in v11:
->> - Drop a few empty lines which were accidentally introduced
-> 
-> But you didn't address my other feedback.
-> 
->> --- a/lib/test_firmware.c
->> +++ b/lib/test_firmware.c
->> @@ -507,6 +508,61 @@ static ssize_t trigger_request_store(struct device *dev,
->>   }
->>   static DEVICE_ATTR_WO(trigger_request);
->>   
->> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
->> +static ssize_t trigger_request_platform_store(struct device *dev,
->> +					      struct device_attribute *attr,
->> +					      const char *buf, size_t count)
->> +{
->> +	static const u8 test_data[] = {
->> +		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
->> +		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
->> +		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
->> +		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
->> +	};
->> +	struct efi_embedded_fw fw;
->> +	int rc;
->> +	char *name;
->> +
->> +	name = kstrndup(buf, count, GFP_KERNEL);
->> +	if (!name)
->> +		return -ENOSPC;
->> +
->> +	pr_info("inserting test platform fw '%s'\n", name);
->> +	fw.name = name;
->> +	fw.data = (void *)test_data;
->> +	fw.length = sizeof(test_data);
->> +	list_add(&fw.list, &efi_embedded_fw_list);
->> +
->> +	pr_info("loading '%s'\n", name);
->> +
-> 
-> I mentioned this in my last review, and it seems you forgot to address
-> this.
+Sure, just think twice about loosing the ability to access the
+test_firmware pointer from userspace. If you can find value
+in extending your tests then keep it, otherwise if its just
+to do the actual test in C in the call itself, it makes sense
+to avoid it for that test case.
 
-I did address this in my reply to your review, as explained there,
-the check + free on test_firmware before calling firmware_request_platform()
-is necessary because test_firmware may be non NULL when entering
-the function (continued below) ...
-
-> But now some more feedback:
-> 
-> These two:
-> 
->> +	mutex_lock(&test_fw_mutex);
->> +	release_firmware(test_firmware);
-> 
-> You are doing this because this is a test, but a typical driver will
-> do this after, and we don't loose anything in doing this after. Can you
-> move the mutex lock and assign the pointer to a temporary used pointer
-> for the call, *after* your call.
-> 
-> But since your test is not using any interfaces to query information
-> about the firmware, and you are just doing the test in C code right
-> away, instead of say, using a trigger for later use in userspace,
-> you can just do away with the mutex lock and make the call use its
-> own pointer:
-> 
-> 	rc = firmware_request_platform(&tmp_test_firmware, name, dev);
-> 	if (rc) {
-> 		...
-> 	}
-> 	/* Your test branch code goes here */
-> 
-> I see no reason why you use the test_firmware pointer.
-
-I agree that using a private/local firmware pointer instead of
-test_firmware and dropping the mutex calls is better. I will make
-this change for v12 of this series.
-
-I'll send out a v12 once the remarks from Andy Lutomirski's
-have also been discussed.
-
-Regards,
-
-Hans
-
-
-> 
->> +	test_firmware = NULL;
->> +	rc = firmware_request_platform(&test_firmware, name, dev);
->> +	if (rc) {
->> +		pr_info("load of '%s' failed: %d\n", name, rc);
->> +		goto out;
->> +	}
->> +	if (test_firmware->size != sizeof(test_data) ||
->> +	    memcmp(test_firmware->data, test_data, sizeof(test_data)) != 0) {
->> +		pr_info("firmware contents mismatch for '%s'\n", name);
->> +		rc = -EINVAL;
->> +		goto out;
->> +	}
->> +	pr_info("loaded: %zu\n", test_firmware->size);
->> +	rc = count;
->> +
->> +out:
->> +	mutex_unlock(&test_fw_mutex);
->> +
->> +	list_del(&fw.list);
->> +	kfree(name);
->> +
->> +	return rc;
->> +}
-> 
-
+  Luis
