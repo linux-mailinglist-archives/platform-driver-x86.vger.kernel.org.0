@@ -2,85 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A915D138C1B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 08:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86863138E1E
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 10:47:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbgAMHB4 (ORCPT
+        id S1726934AbgAMJrW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 02:01:56 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34121 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbgAMHB4 (ORCPT
+        Mon, 13 Jan 2020 04:47:22 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41004 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbgAMJrW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 02:01:56 -0500
-Received: by mail-io1-f68.google.com with SMTP id z193so8690782iof.1;
-        Sun, 12 Jan 2020 23:01:56 -0800 (PST)
+        Mon, 13 Jan 2020 04:47:22 -0500
+Received: by mail-pl1-f195.google.com with SMTP id bd4so3617571plb.8;
+        Mon, 13 Jan 2020 01:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FsbDRNDzst0FCtsqjfZvoh3SmvfRwKfaGKtf0fe77Cg=;
-        b=hLVQDXo+f/4m+HPEpUBTCuRm5kEY0TbHBcB440yq8M2l8WzJbQ+bgwnaXrRDUomiaF
-         Q4O0KpINremcEoF5CKoTPyppT9U8DJWHqGh1HowO2YfQcZThUGaSzrhAkjoXfmm983dy
-         AOwhmuaSQ1STiWtf1SXa01NQJDj59gd0wVqM8e2iiHzbNEiSybD7aEAKv6EjMYePDefc
-         wSxiFfT5fR4AVSAJUJ/ZUXh3ujsj9veaQJuPTyknX2zT3Bdj8zO2HFTK7FFhjVWgR7rP
-         B3eyBW3VKw9UohnPlnDSnpjIOd636ecF0/U5gyFwpruZKHgDuigqJUcPiWtIhGtN8Dus
-         2qIw==
+        bh=uCMNSM2YWU7OdfPY0KDWK/UsBJTsJh3PQ6XKci9NR5g=;
+        b=n7+aPgbKNmWCktCGNGApcuXwJCTY3dFaS3uFoKybzke/8+bwhjyxinixvHaHmJKPgP
+         DasXUQQCY/I9oEI2KjSGenR9hyqEQIl+aHliVZLmmOReAgpIBH/7ZCGel+ScjHrWHVfx
+         2kcMoNQDPlFtfHekTfBIrvXZFPbzXSZflg7XDyHduRvUHRPSav6u6CxikDZZYdDk8qEr
+         yUeFMfCXNLu1BorZzGt3Q7Jrd9USEOLi2Wnp2DkhjN6U25VhHgdQXbX8t58Gc0i/qj41
+         Oqie0I/v8Ek5F4nMwF2yNmUDe7FG/Bez3MgkITb48/0AKsJV1H4AECdQMASGAmqQLG+r
+         TuGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FsbDRNDzst0FCtsqjfZvoh3SmvfRwKfaGKtf0fe77Cg=;
-        b=b3FA9Wdy4wP/GbCsw0OllnRj0nQZrYB9RmBlobAvk4KIfoeN0Ma+IsmKBWcEtAs8IX
-         r0dqK1AaC7fMUtG8uMO3Dc1evIoHKjGzX4iElJ81UHCtdD3W7BlvF9hg0XJCwgcgE2jM
-         Icjwacan5kxUbBOjQR8bS4t/MyLq05xZ/ZsFO3Tfjhbhfh1jdM9mU4eBy3ewx37K7C5/
-         z+sRBj5JJ4kDSjOLkZfDAh0mNl7RlO++yvCUEvXsaA8GJkyiYSneHtc/76GQyfO0COCe
-         f6cxvmbqa+jne+96Ilya31xgHaefJWYh+k/JwI6psIAS4XaAgRVQALo62cItScD3nwph
-         E+wA==
-X-Gm-Message-State: APjAAAW1SU405AmOwVpRApSmCY7t6TpVMUohO0H9l4R7lEWJCzoGcUZz
-        0h7WOIK3qD/n3M7/scfkZay4KhWLfdCrg/ZToXu34K/i
-X-Google-Smtp-Source: APXvYqzGYNzwerPDVXJt98iCwKwkWXo73GvAPltHNbIX2803TWfkhayXO1co9EjWgWenJpGusF3nvl9YaWD/LCBEU9M=
-X-Received: by 2002:a05:6602:25d3:: with SMTP id d19mr11146853iop.217.1578898916004;
- Sun, 12 Jan 2020 23:01:56 -0800 (PST)
+        bh=uCMNSM2YWU7OdfPY0KDWK/UsBJTsJh3PQ6XKci9NR5g=;
+        b=cMwV5Wfj+cZxwbSz+gULOlg2KRIO+Ik+Bx08B0ZR+mtgBk4O2+HvpRSNVk3npl1Fyu
+         3OZjRHFXw7m68Wtq1fB3sfh2/GCPT9Gz5iTDii1d4ZZv4aUzmOM2oi1CxggZqWZHexmm
+         lzmuXkL4EaSlFD0+Eye86tFTzJeJTTIoYlv5YPpJJouPymyH/nVwa/BjiM0GfG9+8C0u
+         gbif7frcf/N3uFUuq5X5E0oUrl3RjDEvQxyaTT3+Tz7UkdJG984M2jCrlbemq3sm2q+c
+         Za4Jiby+DFuMtnTzB9HGcV/ObsPpOp5gclhWH5XTaufBzC34MR/STJRKoEuvwYHXp5zD
+         JRZw==
+X-Gm-Message-State: APjAAAX+OR0LwEIVkBMmC3312e8sIKckfCODo2p2vzbohMEc+8bz+iqx
+        2W5PNLT8VHoyTfO5ML4/0flwrumW+qtR+uxDv0I=
+X-Google-Smtp-Source: APXvYqxNrNWCLL6w3pQ5BzobULESjpTm7i7g5N84Rx1bsmE2KzfIyPXehRvkcqQHNfZoTcUWO1vcPnX8xEewxJ27ZJ0=
+X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr21855651pjq.132.1578908841355;
+ Mon, 13 Jan 2020 01:47:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113035917.1419452-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20200113035917.1419452-1-srinivas.pandruvada@linux.intel.com>
-From:   Yu Chen <yu.chen.surf@gmail.com>
-Date:   Mon, 13 Jan 2020 15:00:38 +0800
-Message-ID: <CADjb_WQkq0R8eCNvZgtjytc3dcn9_65pzCt9brYZHo6ATy5wuw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] platform/x86: Add support for Uncore frequency control
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     andy@infradead.org, dvhart@infradead.org,
-        Len Brown <lenb@kernel.org>, andy@kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org
+References: <20191230083044.11582-1-jian-hong@endlessm.com>
+ <CAD8Lp45Le=s=1Q9oi0JCJTPepNmX002hK7W6UwKztTq09QBUgw@mail.gmail.com> <CAD8Lp44Vd6Moi+UmbdZDsQx-e_CHoHbgtZHpf8sV_yuHwzRrBA@mail.gmail.com>
+In-Reply-To: <CAD8Lp44Vd6Moi+UmbdZDsQx-e_CHoHbgtZHpf8sV_yuHwzRrBA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 13 Jan 2020 11:47:12 +0200
+Message-ID: <CAHp75VcPuhRJ8q4x7UUrJV5AMEGV2iMm6_KrVaH8+GtE3AjaOQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-wmi: Fix keyboard brightness cannot be
+ set to 0
+To:     Daniel Drake <drake@endlessm.com>
+Cc:     Jian-Hong Pan <jian-hong@endlessm.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Linux Upstreaming Team <linux@endlessm.com>,
+        nweibley@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Srinivas,
-On Mon, Jan 13, 2020 at 11:59 AM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
-> +
-> +/* Common function to set min/max ratios to be used by sysfs callbacks */
-> +static int uncore_write_ratio(struct uncore_data *data, unsigned int input,
-> +                             int set_max)
-> +{
-> +       int ret;
-> +       u64 cap;
-> +
-> +       mutex_lock(&uncore_lock);
-> +
-> +       input /= UNCORE_FREQ_KHZ_MULTIPLIER;
-> +       if (!input || input > 0x7F) {
-> +               ret = -EINVAL;
-> +               goto finish_write;
-> +       }
-> +
-> +       rdmsrl(MSR_UNCORE_RATIO_LIMIT, cap);
-Should it be rdmsrl_on_cpu()?
+On Mon, Jan 13, 2020 at 5:47 AM Daniel Drake <drake@endlessm.com> wrote:
+>
+> On Tue, Dec 31, 2019 at 2:53 PM Daniel Drake <drake@endlessm.com> wrote:
+> > Here, writing 0x80 to turn off the keyboard LED will result in an
+> > additional WRAM(0x9f0, 0) call that was not there before. I think we
+> > should double check this detail.
+> >
+> > Let's see if we can borrow one of the affected models and double check
+> > this patch there before proceeding. I'll follow up internally.
+>
+> Asus were unable to find a product sample with the affected behaviour.
+> They did provide us with one from the list I had made, but with a
+> newer BIOS version where that behaviour has been eliminated. They also
+> advised that always setting bit 7 is the way they do it on Windows. So
+> I don't think we have the opportunity for extra verification, but it
+> should be safe.
+>
 
-Thanks,
-Chenyu
+> Reviewed-by: Daniel Drake <drake@endlessm.com>
+
+Thank you, Daniel! I'll queue it soon to my tree.
+
+-- 
+With Best Regards,
+Andy Shevchenko
