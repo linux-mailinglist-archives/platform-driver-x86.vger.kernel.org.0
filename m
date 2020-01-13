@@ -2,93 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86863138E1E
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 10:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29569138F46
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 11:37:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726934AbgAMJrW (ORCPT
+        id S1726109AbgAMKht (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 04:47:22 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:41004 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbgAMJrW (ORCPT
+        Mon, 13 Jan 2020 05:37:49 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36397 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbgAMKht (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 04:47:22 -0500
-Received: by mail-pl1-f195.google.com with SMTP id bd4so3617571plb.8;
-        Mon, 13 Jan 2020 01:47:21 -0800 (PST)
+        Mon, 13 Jan 2020 05:37:49 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p17so9044242wma.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Jan 2020 02:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uCMNSM2YWU7OdfPY0KDWK/UsBJTsJh3PQ6XKci9NR5g=;
-        b=n7+aPgbKNmWCktCGNGApcuXwJCTY3dFaS3uFoKybzke/8+bwhjyxinixvHaHmJKPgP
-         DasXUQQCY/I9oEI2KjSGenR9hyqEQIl+aHliVZLmmOReAgpIBH/7ZCGel+ScjHrWHVfx
-         2kcMoNQDPlFtfHekTfBIrvXZFPbzXSZflg7XDyHduRvUHRPSav6u6CxikDZZYdDk8qEr
-         yUeFMfCXNLu1BorZzGt3Q7Jrd9USEOLi2Wnp2DkhjN6U25VhHgdQXbX8t58Gc0i/qj41
-         Oqie0I/v8Ek5F4nMwF2yNmUDe7FG/Bez3MgkITb48/0AKsJV1H4AECdQMASGAmqQLG+r
-         TuGA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=6WqfNTaoz9oUMKahiQ01rs4vy1pCQ6D74ABCSMutBuE=;
+        b=KwwD0GTQaXZZEd9qvsPWrmSvdhwE/+9roNnWdzL6+nRcY4o4LGQXhfRbEJ55u4rK67
+         +yN1z17AJeQ8HQFv0MPfDNClSImQYxqGnNesJOSAgYH9EnqYdaY3Z08WKqwrjllEQaBw
+         7ei8/kF8ft2CDRH6OeXQkozWm2+cu8wi+QpZ4Gy2BMGyTVafS0Hog0hJX7eC/A75y8Wg
+         p1dJr7YQ2+SIostZhlMiIl+yL64jj/bDegDz97Py4aD5pUr/4kLdYjrP9jI0rQs3m9Y9
+         af9M8ymhjZ/WHBOJGtUdpQkWKjolU5moZqG8DBbrPt0AM1X+5PHgzlS+RY8P3RGKXqXk
+         GaUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uCMNSM2YWU7OdfPY0KDWK/UsBJTsJh3PQ6XKci9NR5g=;
-        b=cMwV5Wfj+cZxwbSz+gULOlg2KRIO+Ik+Bx08B0ZR+mtgBk4O2+HvpRSNVk3npl1Fyu
-         3OZjRHFXw7m68Wtq1fB3sfh2/GCPT9Gz5iTDii1d4ZZv4aUzmOM2oi1CxggZqWZHexmm
-         lzmuXkL4EaSlFD0+Eye86tFTzJeJTTIoYlv5YPpJJouPymyH/nVwa/BjiM0GfG9+8C0u
-         gbif7frcf/N3uFUuq5X5E0oUrl3RjDEvQxyaTT3+Tz7UkdJG984M2jCrlbemq3sm2q+c
-         Za4Jiby+DFuMtnTzB9HGcV/ObsPpOp5gclhWH5XTaufBzC34MR/STJRKoEuvwYHXp5zD
-         JRZw==
-X-Gm-Message-State: APjAAAX+OR0LwEIVkBMmC3312e8sIKckfCODo2p2vzbohMEc+8bz+iqx
-        2W5PNLT8VHoyTfO5ML4/0flwrumW+qtR+uxDv0I=
-X-Google-Smtp-Source: APXvYqxNrNWCLL6w3pQ5BzobULESjpTm7i7g5N84Rx1bsmE2KzfIyPXehRvkcqQHNfZoTcUWO1vcPnX8xEewxJ27ZJ0=
-X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr21855651pjq.132.1578908841355;
- Mon, 13 Jan 2020 01:47:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20191230083044.11582-1-jian-hong@endlessm.com>
- <CAD8Lp45Le=s=1Q9oi0JCJTPepNmX002hK7W6UwKztTq09QBUgw@mail.gmail.com> <CAD8Lp44Vd6Moi+UmbdZDsQx-e_CHoHbgtZHpf8sV_yuHwzRrBA@mail.gmail.com>
-In-Reply-To: <CAD8Lp44Vd6Moi+UmbdZDsQx-e_CHoHbgtZHpf8sV_yuHwzRrBA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 13 Jan 2020 11:47:12 +0200
-Message-ID: <CAHp75VcPuhRJ8q4x7UUrJV5AMEGV2iMm6_KrVaH8+GtE3AjaOQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: asus-wmi: Fix keyboard brightness cannot be
- set to 0
-To:     Daniel Drake <drake@endlessm.com>
-Cc:     Jian-Hong Pan <jian-hong@endlessm.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=6WqfNTaoz9oUMKahiQ01rs4vy1pCQ6D74ABCSMutBuE=;
+        b=UauNWrTxJBiC+LODUWVtDt7b7qZvLqIkKk6vUT35Ux5MZFK/odn7bJvPyE9oNpnlRn
+         pMOMLvwh4QP0hhjEUWRF6/TGdFQ0tpBLu/I3h5iY63+n3Fs+xrbleTHH3BJokRetbh/e
+         OJBryoWHC3eW/1VkuQhCXGGd+JyBVeEqkXd7v2pgpDHvuyQK94HhCzWjcLko/NGedoFC
+         DFVGbp8XmXqXv30zCwtHlBQDOUMW03Ey24RDxp2pBY6/NKZNeX7c/oYrX3dM5mxJDOW7
+         CzuysUBcKscNC7YV95GlUplbCSYmy4KfMY8tyh7VYNHNQRsc5HgkBWXwVZqQ8R5SS68C
+         K9GQ==
+X-Gm-Message-State: APjAAAXXF/FgKHLSTdhJvCRxSz5um/xuQuUr1nztkC0eGGhcIir0nB40
+        0ZbSPD3CCZ7631z/q7VNIAGyYw==
+X-Google-Smtp-Source: APXvYqzCv1Hxba5fCGbGRxgMoRyFZbg/AOD0UK4Y6Z6J4lWP46slDzTi8e91CleKQGucqy4XNlGr/A==
+X-Received: by 2002:a7b:cf12:: with SMTP id l18mr20495147wmg.66.1578911867398;
+        Mon, 13 Jan 2020 02:37:47 -0800 (PST)
+Received: from dell ([95.147.198.95])
+        by smtp.gmail.com with ESMTPSA id o16sm14272405wmc.18.2020.01.13.02.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 02:37:46 -0800 (PST)
+Date:   Mon, 13 Jan 2020 10:38:07 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Linux Upstreaming Team <linux@endlessm.com>,
-        nweibley@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/36] platform/x86: Rework intel_scu_ipc and
+ intel_pmc_ipc drivers
+Message-ID: <20200113103807.GA5414@dell>
+References: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200108114201.27908-1-mika.westerberg@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 5:47 AM Daniel Drake <drake@endlessm.com> wrote:
->
-> On Tue, Dec 31, 2019 at 2:53 PM Daniel Drake <drake@endlessm.com> wrote:
-> > Here, writing 0x80 to turn off the keyboard LED will result in an
-> > additional WRAM(0x9f0, 0) call that was not there before. I think we
-> > should double check this detail.
-> >
-> > Let's see if we can borrow one of the affected models and double check
-> > this patch there before proceeding. I'll follow up internally.
->
-> Asus were unable to find a product sample with the affected behaviour.
-> They did provide us with one from the list I had made, but with a
-> newer BIOS version where that behaviour has been eliminated. They also
-> advised that always setting bit 7 is the way they do it on Windows. So
-> I don't think we have the opportunity for extra verification, but it
-> should be safe.
->
+On Wed, 08 Jan 2020, Mika Westerberg wrote:
 
-> Reviewed-by: Daniel Drake <drake@endlessm.com>
+> Hi,
+> 
+> Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
+> IPC communications with minor differences. This duplication does not make
+> much sense so this series reworks the two drivers so that there is only a
+> single implementation of the SCU IPC. In addition to that the API will be
+> updated to take SCU instance pointer as an argument, and most of the
+> callers will be converted to this new API. The old API is left there but
+> the plan is to get rid the callers and then the old API as well (this is
+> something we are working with Andy Shevchenko).
+> 
+> The intel_pmc_ipc.c is then moved under MFD which suits better for this
+> kind of a driver that pretty much sets up the SCU IPC and then creates a
+> bunch of platform devices for the things sitting behind the PMC. The driver
+> is renamed to intel_pmc_bxt.c which should follow the existing conventions
+> under drivers/mfd (and it is only meant for Intel Broxton derivatives).
+> 
+> Previous version of the series:
+> 
+>   https://www.spinics.net/lists/platform-driver-x86/msg20359.html
+> 
+> Changes from the previous version:
+> 
+>   * Update changelog of patch 16 according to what the patch actually does.
+>   * Add kernel-doc for struct intel_soc_pmic.
+>   * Move octal permission patch to be before MFD conversion.
+>   * Convert the intel_pmc_bxt.c to MFD APIs whilst it is being moved under
+>     drivers/mfd.
+> 
+> I'm including all x86 maintainers just to be sure they are aware of this as
+> I'm not sure if x86@kernel.org reaches them all. Let me know if you have
+> issues with this series.
+> 
+> I would prefer this to be merged through platform/x86 or MFD trees assuming
+> there are no objections.
+> 
+> I have tested this on Intel Edison (Merrifield) and Joule (Broxton-M).
 
-Thank you, Daniel! I'll queue it soon to my tree.
+FYI, I'm waiting until v3 before I conduct my review.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
