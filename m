@@ -2,60 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 198F9138B99
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 07:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A915D138C1B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 08:01:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729293AbgAMGFu (ORCPT
+        id S1726976AbgAMHB4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 01:05:50 -0500
-Received: from sonic309-55.consmr.mail.ne1.yahoo.com ([66.163.184.181]:33349
-        "EHLO sonic309-55.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725909AbgAMGFu (ORCPT
+        Mon, 13 Jan 2020 02:01:56 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:34121 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725954AbgAMHB4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 01:05:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1578895549; bh=MfKEolHbzz2mCd/tesaYgAQ6iiREmzkdd98c3dPn76Q=; h=Date:From:Reply-To:Subject:References:From:Subject; b=TfinPtlhwvZ2TPyfBoWjpAD0fYJNZGs6dBcIIxcdhj3f9pWGs9sw6KItGz2WwLSGI1y/tv59buHDi/NRr0IPgMIehAmYelr5meRKamntddbplDkjIBiBAhwfJ9nNckx3KjFziPv/26tXJAw56HS2CzoXaxOHu4IO+kvQ1i2wS16FxJI/i743XycF7FQOu/41nMsz3gkIFMhuqetPfCpXWrqZ9Dx0UN1E8QckGeSNCtgdPZp4c+dJBMHGd4QukLHXkuXFBvK8Ihy+qXIJEP8WGPF3Hp9Oaf7z6th9nlduIi9S2E8siy92D+bkTtChQsxMwNHaelTn4lkVDNzFr4K4+w==
-X-YMail-OSG: 9HdIMIAVM1mB88WmRxbOqoGPBwEcYji4Vuk1tg_6aTzvboH9XzkWWHAGI0SLcUL
- bkqVoaxhsf4jhRmGaQ_vhA4DpIQ.map5sz5KxMMrS9Helghi2WtdhpeqXcdX0f4U_35gSeBMg3FV
- SDokLphVi219nOrDJ2WOQcGPxqeXq7SvWnil7lrdtxqWsWx8tctDgfbyPixhWMidnUF13DkkWu_p
- gcvXhBvSwWs04yJqr8XQT_c8HcSg_c6XFwRAdRbqOlYhDBuWasGywzAOZYSLNFpct4Nz1LEFtA9O
- 7FPC0R7m0rZJMX4qzdo0Qevk8nyttGEGM4h9jEFi.QRL8S8bLbYNhXtaYXTr2qTUYd369ejJMBvb
- JrqgIGVBmT8gPc4_Gc7wqcQD45DjFxR1oByrxLwTIMqFjyD2P5SYgdGcQ4EZo8CbF3W2Fc5GFxeq
- HQZKnm1VBOhA8rCVO3WNuirf5vX4RrJCvYAcKbqzyTY_91w1OXDSosZE0C627vEk37K9IKLrGbDw
- k.r_SbD.09OzxSqv_5hspQ4q4g29zdkc2Rm4GAd_ym.JZsjk62chdQ1yC3Q2EF4G6ZklyQReCssD
- BU_NMXXvcVB0I1Jvh0BUkxB6vliB6UUEVowZDg.Lj_R71dt0DOqY0AZUxm7GAn0uFdno1DIiyX3O
- qZ.NB.vFjkOuPFYJ_5ZulkwDjQ6NY__gqSJBAuMC7wXleh536H_07O3g5YYTToMrZqCu0dplSX8q
- qwJ898VnWJBbFKy4XI06XtQb5EuSdd89tdJ0ZOUBWYgLQeMSU9o.9kxpzgJqIYmoVguisyWWEPt8
- UJiQelkKotW0v4R0B8Q1be.3kQL3fmel7fOmmMqPx3EIrSBn1kahRofTbJDup6TFMbDuNlJuZuL5
- THMBdCaUqtnBuDGUZGjs9sGwYMqkwmu7_l38PxYz66Ttha1HHRLzaMWluQwhrAnUPSKV3nSdD3qG
- 0ZpE.pSpwtrQzkhEvsXlx0s9coCMb_RcfSbblIebvcQ529XL7gQjc3Ukqg.psmjMiaeodfaDGNNo
- CYkErl7HgNs_RAhBVn1LWIAU7Ysx.I6N2D6wrMVb4GFCaKYZeptZla6u0NCz.5PJXhnwZKWjvD2K
- 6mi5dfeRbKXogm0PjIEjm6SuOB1Sl0AMVeScoMf7pMSzWg9PLyj.aRiMPjSXb6hOh8irzepU1xz_
- ccg3XZsvQA2ARUk4kQSInjGP3cYoKmzdMSUlT9RYGfmrG6X0yMR1GeNMJVo_6St80Ovrgp7F8YOF
- wiCxFSUL371mjos54h02CgRna4zXqZbwUmFUyCu.OaQwQe4c7gvrlZu4jnw8jB2kGNSVKHoAr02D
- ooVEB_2qXe__tzbV4FzgiwwQpfmkXbi2DCwVs.ZTMNEXdEjuMttnEUZcAHXS1s0TTrsqh5.wUC5.
- w
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Mon, 13 Jan 2020 06:05:49 +0000
-Date:   Mon, 13 Jan 2020 06:03:48 +0000 (UTC)
-From:   Capital Alliance <xvcnvnmnmnm@bavfton.com>
-Reply-To: capitalalliance01@accountant.com
-Message-ID: <1115390143.10570267.1578895428947@mail.yahoo.com>
-Subject: Darlehensangebot zu niedrigem Zinssatz
+        Mon, 13 Jan 2020 02:01:56 -0500
+Received: by mail-io1-f68.google.com with SMTP id z193so8690782iof.1;
+        Sun, 12 Jan 2020 23:01:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FsbDRNDzst0FCtsqjfZvoh3SmvfRwKfaGKtf0fe77Cg=;
+        b=hLVQDXo+f/4m+HPEpUBTCuRm5kEY0TbHBcB440yq8M2l8WzJbQ+bgwnaXrRDUomiaF
+         Q4O0KpINremcEoF5CKoTPyppT9U8DJWHqGh1HowO2YfQcZThUGaSzrhAkjoXfmm983dy
+         AOwhmuaSQ1STiWtf1SXa01NQJDj59gd0wVqM8e2iiHzbNEiSybD7aEAKv6EjMYePDefc
+         wSxiFfT5fR4AVSAJUJ/ZUXh3ujsj9veaQJuPTyknX2zT3Bdj8zO2HFTK7FFhjVWgR7rP
+         B3eyBW3VKw9UohnPlnDSnpjIOd636ecF0/U5gyFwpruZKHgDuigqJUcPiWtIhGtN8Dus
+         2qIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FsbDRNDzst0FCtsqjfZvoh3SmvfRwKfaGKtf0fe77Cg=;
+        b=b3FA9Wdy4wP/GbCsw0OllnRj0nQZrYB9RmBlobAvk4KIfoeN0Ma+IsmKBWcEtAs8IX
+         r0dqK1AaC7fMUtG8uMO3Dc1evIoHKjGzX4iElJ81UHCtdD3W7BlvF9hg0XJCwgcgE2jM
+         Icjwacan5kxUbBOjQR8bS4t/MyLq05xZ/ZsFO3Tfjhbhfh1jdM9mU4eBy3ewx37K7C5/
+         z+sRBj5JJ4kDSjOLkZfDAh0mNl7RlO++yvCUEvXsaA8GJkyiYSneHtc/76GQyfO0COCe
+         f6cxvmbqa+jne+96Ilya31xgHaefJWYh+k/JwI6psIAS4XaAgRVQALo62cItScD3nwph
+         E+wA==
+X-Gm-Message-State: APjAAAW1SU405AmOwVpRApSmCY7t6TpVMUohO0H9l4R7lEWJCzoGcUZz
+        0h7WOIK3qD/n3M7/scfkZay4KhWLfdCrg/ZToXu34K/i
+X-Google-Smtp-Source: APXvYqzGYNzwerPDVXJt98iCwKwkWXo73GvAPltHNbIX2803TWfkhayXO1co9EjWgWenJpGusF3nvl9YaWD/LCBEU9M=
+X-Received: by 2002:a05:6602:25d3:: with SMTP id d19mr11146853iop.217.1578898916004;
+ Sun, 12 Jan 2020 23:01:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1115390143.10570267.1578895428947.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.14873 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+References: <20200113035917.1419452-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <20200113035917.1419452-1-srinivas.pandruvada@linux.intel.com>
+From:   Yu Chen <yu.chen.surf@gmail.com>
+Date:   Mon, 13 Jan 2020 15:00:38 +0800
+Message-ID: <CADjb_WQkq0R8eCNvZgtjytc3dcn9_65pzCt9brYZHo6ATy5wuw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] platform/x86: Add support for Uncore frequency control
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     andy@infradead.org, dvhart@infradead.org,
+        Len Brown <lenb@kernel.org>, andy@kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi Srinivas,
+On Mon, Jan 13, 2020 at 11:59 AM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+> +
+> +/* Common function to set min/max ratios to be used by sysfs callbacks */
+> +static int uncore_write_ratio(struct uncore_data *data, unsigned int input,
+> +                             int set_max)
+> +{
+> +       int ret;
+> +       u64 cap;
+> +
+> +       mutex_lock(&uncore_lock);
+> +
+> +       input /= UNCORE_FREQ_KHZ_MULTIPLIER;
+> +       if (!input || input > 0x7F) {
+> +               ret = -EINVAL;
+> +               goto finish_write;
+> +       }
+> +
+> +       rdmsrl(MSR_UNCORE_RATIO_LIMIT, cap);
+Should it be rdmsrl_on_cpu()?
 
-
-Guten Tag, wir bieten Privatpersonen und Unternehmen Darlehen an, die nach =
-dringenden Darlehen f=C3=BCr Unternehmensgr=C3=BCndungen, f=C3=BCr Unterneh=
-menserweiterungen, Autokredite, Studentendarlehen und mehr suchen. Wir biet=
-en sowohl Unternehmen als auch Privatanlegern kurz- und langfristige Darleh=
-en usw. an. F=C3=BCr weitere Informationen senden Sie uns bitte eine E-Mail=
- an capitalalliance01@accountant.com
+Thanks,
+Chenyu
