@@ -2,81 +2,166 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7A46139341
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 15:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 116F3139400
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 15:53:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728512AbgAMON4 (ORCPT
+        id S1728755AbgAMOxc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 09:13:56 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45357 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726505AbgAMONz (ORCPT
+        Mon, 13 Jan 2020 09:53:32 -0500
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:35918 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbgAMOxb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 09:13:55 -0500
-Received: by mail-pg1-f195.google.com with SMTP id b9so4750920pgk.12;
-        Mon, 13 Jan 2020 06:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ooESu2KqswDRqhNGZc0aoUVn4IzIIWFGmVQ0kvWO+jw=;
-        b=hkx8vWMRlro4Ki5q3YwW6PB+OaNyEzwgR66eyk492de6U5Z0SQrS8wi274M62He5Xd
-         /rzZSL1EOvZt18JqoFsRTGT9XXT2enP0uH4S/MPdzCEah4AQ29qfdJ5Wx9ftpW/UVd4w
-         ftFQo6cCv8Sxo3DVxItSZQjXf0Ew81fbAHvlnk4VQnTeN5AaSFuuykPbf5qhsAwA7aGJ
-         jTNQ6d0WBnxFDONSRiIr5OGvbg9ha5AOwtVsdLblOILP/y6RhEIxex7JJYiCsZdi2ZWR
-         HGHkTkC4OmKeB2NSj2md65of8uBIoq34GphcHUXNWOoP/UYpQsmAKP6gupBsEMlo58aB
-         P88g==
+        Mon, 13 Jan 2020 09:53:31 -0500
+Received: by mail-yw1-f68.google.com with SMTP id n184so6207779ywc.3;
+        Mon, 13 Jan 2020 06:53:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ooESu2KqswDRqhNGZc0aoUVn4IzIIWFGmVQ0kvWO+jw=;
-        b=YNhGu/ntYOlgqCjiseP35Oum1HLtbRmKZwVDa4mrZi3XDSx+fFlsHjwym32QqLEGoU
-         B7Yn9OGv72TxSdYI5bGHVi0m9Xt5tmBjIAfQo/fJ1sHr+P4ORz0zY96XUDqvvMh9w74u
-         KEtLhiobvIuKyh9j/90oWyA58TS+dXoC3F1NSLeJAtX1XPAXsxCO6ZkZ2LNaGg6FQm/t
-         gwdCuPMQKv3n9pyiioJf31JPMwKDyPRcxG54YIbjAHk6Info/zqgck4qtlyGDwNDizKU
-         g8KFX04QJS0OUeJKzNz0fN/iY588h6bv3M9ZFXOWHJwbE5Vbj6zj3fIln7Cur4icgUB0
-         U6Lg==
-X-Gm-Message-State: APjAAAUv5j9dVmtfLKmIn9rn6ePK5sz0QzAtm3q4UasApNi9MLFw0GWs
-        NQLCrCI78Xv//kCCApXeayOEPalAGsL66G1RrmA=
-X-Google-Smtp-Source: APXvYqzjq/UL2Gsb+iJDoh4NHQbGxkdFVfAxm66SGFl00o/UfspyC4st0WU2mo6xH1Gh1qF6T2p2ZS2kMLPAZO6yQLg=
-X-Received: by 2002:a63:3d8e:: with SMTP id k136mr20754113pga.4.1578924834953;
- Mon, 13 Jan 2020 06:13:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20200112121849.7056-1-vadimp@mellanox.com> <20200112121849.7056-6-vadimp@mellanox.com>
-In-Reply-To: <20200112121849.7056-6-vadimp@mellanox.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 13 Jan 2020 16:13:46 +0200
-Message-ID: <CAHp75VdTfZHFNrMq4pAVFY6OZWHDXMnEwa4pqWcG2v05MWVzvA@mail.gmail.com>
-Subject: Re: [PATCH platform-next v2 05/10] Documentation/ABI: Add new
- attribute for mlxreg-io sysfs interfaces
-To:     Vadim Pasternak <vadimp@mellanox.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qWmNQjvuX9zJ6z0ZcNWGk9QjxjID7F47ltFXDEuoyJw=;
+        b=KuISl8anpqsedhLi4oTf62YMROo851MNeTMEzY2Q8zpix+hmYoBl8kJrFC92nvz9qM
+         i8Qdxqh9Evv649mi6nlWZdSdasSoLaZpsvSGZ4IXhigwARdQTvS1rVzrKdECuJd6GPoC
+         pD0Md9tuJ8KOnKeiugprI33ENVopxEn1i+If2wr7TjHietKC+lsCCXuaVfKp8w1Gq5Sg
+         f5DkqjUybaXYGM09jZWQP8YDVaJ5pQPgrwm4dPKxCrrQVRnzQAdU/9MmojetjkogG+MN
+         kmNsDUxL51yzYalDqXMAXhomHRZ8Hh++if1RK9ORpAR0vcQHvM0OfVRlw/q/1fA75d62
+         gV9A==
+X-Gm-Message-State: APjAAAWKuMdilVO1RY4KUxxE5SaX6oHOUgZvCNT6AJ2hfMZ2d4sAkK/J
+        IYQ0xV8QHir2djDqZGqwQ4w=
+X-Google-Smtp-Source: APXvYqzIKDnngH4Et6AZ6y2I+FvMl/cZfena1h9B3Jr7aE7gC3QwWC04QUyGSx/Gqnnuyrmf8U3Trg==
+X-Received: by 2002:a25:24f:: with SMTP id 76mr13616157ybc.330.1578927210604;
+        Mon, 13 Jan 2020 06:53:30 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id i84sm5189537ywc.43.2020.01.13.06.53.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2020 06:53:29 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 1BDDE4018C; Mon, 13 Jan 2020 14:53:28 +0000 (UTC)
+Date:   Mon, 13 Jan 2020 14:53:28 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v11 05/10] test_firmware: add support for
+ firmware_request_platform
+Message-ID: <20200113145328.GA11244@42.do-not-panic.com>
+References: <20200111145703.533809-1-hdegoede@redhat.com>
+ <20200111145703.533809-6-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200111145703.533809-6-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Jan 12, 2020 at 2:19 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
->
-> Add documentation for the new attributes for:
-> - Exposing reset causes types asserted by: platform reset, SoC reset,
->   AC power failure, software power off request.
-> - Setting and removing system VPD (EEPROM) hardware write protection.
-> - Voltage regulator devices configuration update status and firmware
->   version.
-> - Setting PCIe ASIC reset to disable or enable state during PCIe root
->   complex reset.
-> - System static topology identification, like system's static I2C
->   topology, number and type of FPGA devices within the system and so on.
->
+On Sat, Jan 11, 2020 at 03:56:58PM +0100, Hans de Goede wrote:
+> Add support for testing firmware_request_platform through a new
+> trigger_request_platform trigger.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v11:
+> - Drop a few empty lines which were accidentally introduced
 
-Same comments as per previous patch (style related)
+But you didn't address my other feedback.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> --- a/lib/test_firmware.c
+> +++ b/lib/test_firmware.c
+> @@ -507,6 +508,61 @@ static ssize_t trigger_request_store(struct device *dev,
+>  }
+>  static DEVICE_ATTR_WO(trigger_request);
+>  
+> +#ifdef CONFIG_EFI_EMBEDDED_FIRMWARE
+> +static ssize_t trigger_request_platform_store(struct device *dev,
+> +					      struct device_attribute *attr,
+> +					      const char *buf, size_t count)
+> +{
+> +	static const u8 test_data[] = {
+> +		0x55, 0xaa, 0x55, 0xaa, 0x01, 0x02, 0x03, 0x04,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x05, 0x06, 0x07, 0x08,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x10, 0x20, 0x30, 0x40,
+> +		0x55, 0xaa, 0x55, 0xaa, 0x50, 0x60, 0x70, 0x80
+> +	};
+> +	struct efi_embedded_fw fw;
+> +	int rc;
+> +	char *name;
+> +
+> +	name = kstrndup(buf, count, GFP_KERNEL);
+> +	if (!name)
+> +		return -ENOSPC;
+> +
+> +	pr_info("inserting test platform fw '%s'\n", name);
+> +	fw.name = name;
+> +	fw.data = (void *)test_data;
+> +	fw.length = sizeof(test_data);
+> +	list_add(&fw.list, &efi_embedded_fw_list);
+> +
+> +	pr_info("loading '%s'\n", name);
+> +
+
+I mentioned this in my last review, and it seems you forgot to address
+this. But now some more feedback:
+
+These two:
+
+> +	mutex_lock(&test_fw_mutex);
+> +	release_firmware(test_firmware);
+
+You are doing this because this is a test, but a typical driver will
+do this after, and we don't loose anything in doing this after. Can you
+move the mutex lock and assign the pointer to a temporary used pointer
+for the call, *after* your call.
+
+But since your test is not using any interfaces to query information
+about the firmware, and you are just doing the test in C code right
+away, instead of say, using a trigger for later use in userspace,
+you can just do away with the mutex lock and make the call use its
+own pointer:
+
+	rc = firmware_request_platform(&tmp_test_firmware, name, dev);
+	if (rc) {
+		...
+	}
+	/* Your test branch code goes here */
+
+I see no reason why you use the test_firmware pointer.
+
+> +	test_firmware = NULL;
+> +	rc = firmware_request_platform(&test_firmware, name, dev);
+> +	if (rc) {
+> +		pr_info("load of '%s' failed: %d\n", name, rc);
+> +		goto out;
+> +	}
+> +	if (test_firmware->size != sizeof(test_data) ||
+> +	    memcmp(test_firmware->data, test_data, sizeof(test_data)) != 0) {
+> +		pr_info("firmware contents mismatch for '%s'\n", name);
+> +		rc = -EINVAL;
+> +		goto out;
+> +	}
+> +	pr_info("loaded: %zu\n", test_firmware->size);
+> +	rc = count;
+> +
+> +out:
+> +	mutex_unlock(&test_fw_mutex);
+> +
+> +	list_del(&fw.list);
+> +	kfree(name);
+> +
+> +	return rc;
+> +}
