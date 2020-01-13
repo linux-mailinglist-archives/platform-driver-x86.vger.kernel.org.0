@@ -2,88 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 497B1139531
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 16:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EA14139636
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jan 2020 17:28:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728641AbgAMPuJ (ORCPT
+        id S1728850AbgAMQ2n (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jan 2020 10:50:09 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:36476 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727222AbgAMPuJ (ORCPT
+        Mon, 13 Jan 2020 11:28:43 -0500
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:37914 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726567AbgAMQ2n (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jan 2020 10:50:09 -0500
-Received: by mail-yw1-f67.google.com with SMTP id n184so6374978ywc.3;
-        Mon, 13 Jan 2020 07:50:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P7zkiitkCWsuSRKPmAwAK7CcYVjDngYZSCq21E01NRk=;
-        b=rmvepy1x5AqgPVLurPEniloBeaJ0Q1QKeRGpndF2ifpZQ73OV3EUZb0epbw0BBJ0zD
-         6VYKXQLrmKZYG2hvhBAnCXwpeh0ACOS6xMK1CBrrM0vMNmCjUNPYMXKm1KCnNpcws1NQ
-         KvEXhdUJiaUaV4f5m+k9ItmFETt0cyh6Luk62RVyjB/kFubHj4PW4yVn4vcwWIa4PbiS
-         pLbeB+OzgVXUfDJXXoU3sDG2p0fo4FiVQWhK2bemBaAiRaJcNqBUjQ6gePRAz6Z+gI1p
-         KKJd+59/7v9VNyqb7r3Bx6irnyvx2fwkvGq1I6NafL4DrFuw5t8C/D9frxzpWklGoUhW
-         RvHQ==
-X-Gm-Message-State: APjAAAVjB+okExrPtoMz3lKoGEK9TnSwHkWOOWW9ZMUVu/8iSH9yspYl
-        tMzH7D24xuif6c0J9ejzUrA=
-X-Google-Smtp-Source: APXvYqwysToLWulQEKKQYs42+APLU16g4SfL5vezVQaE09a4FXcdkrOwmGA1950TxEodJ/XryowyeA==
-X-Received: by 2002:a0d:e697:: with SMTP id p145mr13360006ywe.199.1578930607860;
-        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id 144sm5172420ywy.20.2020.01.13.07.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 07:50:07 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 1E9EB4018C; Mon, 13 Jan 2020 15:50:06 +0000 (UTC)
-Date:   Mon, 13 Jan 2020 15:50:06 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v11 05/10] test_firmware: add support for
- firmware_request_platform
-Message-ID: <20200113155006.GC11244@42.do-not-panic.com>
-References: <20200111145703.533809-1-hdegoede@redhat.com>
- <20200111145703.533809-6-hdegoede@redhat.com>
- <20200113145328.GA11244@42.do-not-panic.com>
- <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54f70265-265b-ad23-7d2d-af0b27ab1475@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Mon, 13 Jan 2020 11:28:43 -0500
+Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 13 Jan 2020 18:28:40 +0200
+Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 00DGSefV032667;
+        Mon, 13 Jan 2020 18:28:40 +0200
+From:   Vadim Pasternak <vadimp@mellanox.com>
+To:     andy@infradead.org, dvhart@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Vadim Pasternak <vadimp@mellanox.com>
+Subject: [PATCH platform-next v3 00/11] platform/x86: Mellanox new system classes and new features
+Date:   Mon, 13 Jan 2020 16:28:28 +0000
+Message-Id: <20200113162839.18103-1-vadimp@mellanox.com>
+X-Mailer: git-send-email 2.11.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 04:22:36PM +0100, Hans de Goede wrote:
-> 
-> test_firmware and dropping the mutex calls is better. I will make
-> this change for v12 of this series.
-> 
-> I'll send out a v12 once the remarks from Andy Lutomirski's
-> have also been discussed.
+The patchset adds new features for the existing Mellanox systems
+and introduces two new system classes.
 
-Sure, just think twice about loosing the ability to access the
-test_firmware pointer from userspace. If you can find value
-in extending your tests then keep it, otherwise if its just
-to do the actual test in C in the call itself, it makes sense
-to avoid it for that test case.
+Patch #1 contains cosmetic changes.
+Patch #2 fixes wrong attribute name in documentation.
+Patch #3 adds missed attribute name in documentation.
+Patch #4 provides style changes in documentation.
+Patch #5 adds more definitions for system attributes
+Patches #6 extends documentation.
+Patches #7-#8 introduce new system class for the systems equipped with
+Spectrum 1 (32x100GbE Ethernet switch) device and Switch-IB/Switch-IB2
+devices (36x100Gbe InfiniBand switch).
+Patches #9-#10 add support for new group capability register
+Patches #11 introduces new system class for the systems equipped
+with new switch device Spectrum 3 (32x400GbE/64x200G/128x100G Ethernet
+switch).
 
-  Luis
+Vadim Pasternak (11):
+  platform/x86: mlx-platform: Cosmetic changes
+  Documentation/ABI: Fix documentation inconsistency for mlxreg-io sysfs
+    interfaces
+  Documentation/ABI: Add missed attribute for mlxreg-io sysfs interfaces
+  Documentation/ABI: Style changes
+  platform/x86: mlx-platform: Add more definitions for system attributes
+  Documentation/ABI: Add new attribute for mlxreg-io sysfs interfaces
+  platform/x86: mlx-platform: Set system mux configuration based on
+    system type
+  platform/x86: mlx-platform: Add support for new system type
+  platform/x86: mlx-platform: Add support for new capability register
+  platform/mellanox: mlxreg-hotplug: Add support for new capability
+    register
+  platform/x86: mlx-platform: Add support for next generation systems
+
+ Documentation/ABI/stable/sysfs-driver-mlxreg-io |  92 +++-
+ drivers/platform/mellanox/mlxreg-hotplug.c      |  14 +
+ drivers/platform/x86/mlx-platform.c             | 564 +++++++++++++++++++++++-
+ include/linux/platform_data/mlxreg.h            |   2 +
+ 4 files changed, 641 insertions(+), 31 deletions(-)
+
+-- 
+2.11.0
+
