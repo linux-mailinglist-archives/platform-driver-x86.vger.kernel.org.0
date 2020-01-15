@@ -2,53 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8DF713BB37
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jan 2020 09:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F288813BB72
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jan 2020 09:44:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbgAOIfY (ORCPT
+        id S1729125AbgAOInx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Jan 2020 03:35:24 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44035 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728949AbgAOIfY (ORCPT
+        Wed, 15 Jan 2020 03:43:53 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46740 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726472AbgAOInx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Jan 2020 03:35:24 -0500
-Received: by mail-wr1-f66.google.com with SMTP id q10so14821518wrm.11
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jan 2020 00:35:22 -0800 (PST)
+        Wed, 15 Jan 2020 03:43:53 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z7so14807455wrl.13
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jan 2020 00:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=eRvli8YgKFQe9cmU0K1p9rrpoZHufZcYBpYEQaHFxL0=;
-        b=TzetdqJlk2YpzjDvvTf+s9/5hFLcEJ6a80x3YuiXaTKcdPgGPYxVV1IDvy+rNDOyXQ
-         LZ1W21CxFua4fF4kY71Sc57rGadWD02u9qf50TppfkKWcaVkX13w+Q9kdOf7G8VzSIX/
-         HmouHIozIM3HWApUantWldT2IblvUt+dlVBWmfduZfMlpjJxAcPMBzozA99HwAwSm196
-         MRLGYTWzTJ1wvalh+ygTf0QMhXLu7jjnbWG9h7gWrI8KjEQuKcHki8VaTm0pE8pEYsjd
-         mZt0jCYOJPrxe/Gc5GxLIj7yTzqJq4LFOh+BhFma8S7Rq6U5WqQMskyEp2JzW8yLIaSB
-         Os3Q==
+        bh=JgJxRJ3XdO/mGpmO1AU6iAV+74WpEq8F/G6duRRzsrg=;
+        b=LEMqk30iZ9eJOob2PxVAoEtQ1V1FVARgOanVxg23K23TlNYZofIhM5Fqmdd/gnvkvx
+         eP9aJ/Ziqn/M+7X5rPzPkKvKPi7jyNNozvGpW3EEgBdCtX5zLIrR7eTdUqkCWvq4cxfD
+         2+CbRb8GKVkX6UFLVUeNvb6XSytUrEHi1LWrYHtd7zN3fIq5UOXEGHX2CJeiWL7Qqn4+
+         jNhNc0ZaJaDDBz4KyimfYc+7gwzy6ULP+F1vYKkRLW9elOz5UpATUtESCYjDeyHSjrQb
+         1CckX2prCA/MWzouLK9b8znrzMyA3kINC0y/vdyLsAvbXQ224zNksdkjOfAR03vqxLUr
+         Ipyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=eRvli8YgKFQe9cmU0K1p9rrpoZHufZcYBpYEQaHFxL0=;
-        b=qnc41UDYZZ9UdPYi6D2Ylr2mwUxGY3AAcfWMtJyOqZLo3d65megdvtRjhPjy3kRPL9
-         qVmBI6NILFbDv6VtZaUUcGoAH9Y8vhDFnx5tPxXmGTukHkaGcvuDJvKYLeIf95UNew8I
-         fh+BopWAsgwO1nP/8480vEsre4395uRvigcjW6hmRocLtAAWwROTaFHrWpQYgSQc2Uo2
-         5YtztSzwDcVXSBGmJMM93MH+Phy+DTSQS13tIfSLtus8lr4WIPoF4HKI0qfpDBlk1ekk
-         xv/eokA1tzD+mo9YsI5WRqDo5nItnJAnCsMfPRC04GlrT0a829pLIjELEWiLVI+zXdbR
-         YjnA==
-X-Gm-Message-State: APjAAAV/aSK6UDggr8iYlgsY+0vIL2tDSVyH7QnG64eEluiStcKDjAzC
-        K2I+kTUGMPEE6CUWiruS66Nycw==
-X-Google-Smtp-Source: APXvYqyFVbyRKHUlTeFYYSnileyEVNZAT2S8Vj+lX47u+REFC9a2MnrTs1PAGRM9sksjK04cyg63TA==
-X-Received: by 2002:adf:dd52:: with SMTP id u18mr29974817wrm.131.1579077322109;
-        Wed, 15 Jan 2020 00:35:22 -0800 (PST)
+        bh=JgJxRJ3XdO/mGpmO1AU6iAV+74WpEq8F/G6duRRzsrg=;
+        b=RoCduIc5iSvKBV/BaeXm3l+xs84+U/o/q2Kz/T0lh6lDOH7YQitI3Rm4uV6U283EmB
+         pKvRpUWFJAa5VAoURNpkYoYBifOV5TGjXBVLJKiTwb8AIZBfTYOm+ik8mSNEubORi6kV
+         ohp/KMQkMSM4odhkKqSPm+JmHnJVCu7AGYmEOkz6U/uuh+i27I/8WHdtr/UWyF6QvXDP
+         oC85GeGKmeN0DuQcJDhdwbKPjCkomlZs4Mok32+3fJaT0Di6Dc2dYNVrSvsnbav3RpEH
+         Kf+X4yUi+lrLBMWA55MrpnNhoO5aH+HIdNDEo6ge/YVU1ODwohHQwEwsB7Vg1Kj7EBwG
+         lGoA==
+X-Gm-Message-State: APjAAAXsucN/OZm87NaO3NGuZ1DWT0/SA44oq6UVDdx+GstLKFU7AzbF
+        v1Be5z+R/5KypS66jHkQB2Wu8g==
+X-Google-Smtp-Source: APXvYqwpifldiukskyzSH16X5ZU/IcnLnfby0n/XDK7fM++cvEcfBnkYcVOF03qVLRnQbL3LwL5srA==
+X-Received: by 2002:adf:eb46:: with SMTP id u6mr30582601wrn.239.1579077830593;
+        Wed, 15 Jan 2020 00:43:50 -0800 (PST)
 Received: from dell ([2.27.35.221])
-        by smtp.gmail.com with ESMTPSA id 18sm21181823wmf.1.2020.01.15.00.35.20
+        by smtp.gmail.com with ESMTPSA id e12sm23609153wrn.56.2020.01.15.00.43.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 00:35:21 -0800 (PST)
-Date:   Wed, 15 Jan 2020 08:35:41 +0000
+        Wed, 15 Jan 2020 00:43:50 -0800 (PST)
+Date:   Wed, 15 Jan 2020 08:44:10 +0000
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -63,16 +63,16 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 12/36] platform/x86: intel_scu_ipc: Split out SCU IPC
- functionality from the SCU driver
-Message-ID: <20200115083541.GF325@dell>
+Subject: Re: [PATCH v3 26/36] mfd: intel_soc_pmic: Add SCU IPC member to
+ struct intel_soc_pmic
+Message-ID: <20200115084410.GG325@dell>
 References: <20200113135623.56286-1-mika.westerberg@linux.intel.com>
- <20200113135623.56286-13-mika.westerberg@linux.intel.com>
+ <20200113135623.56286-27-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200113135623.56286-13-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200113135623.56286-27-mika.westerberg@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
@@ -81,60 +81,75 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Mon, 13 Jan 2020, Mika Westerberg wrote:
 
-> The SCU IPC functionality is usable outside of Intel MID devices. For
-> example modern Intel CPUs include the same thing but now it is called
-> PMC (Power Management Controller) instead of SCU. To make the IPC
-> available for those split the driver into library part (intel_scu_ipc.c)
-> and the SCU PCI driver part (intel_scu_pcidrv.c) which then calls the
-> former before it goes and creates rest of the SCU devices.
+> Both PMIC drivers (intel_soc_pmic_mrfld and intel_soc_pmic_bxtwc) will
+> be using this field going forward to access the SCU IPC instance.
 > 
-> We also split the Kconfig symbols so that INTEL_SCU_IPC enables the SCU
-> IPC library and INTEL_SCU_PCI the SCU driver and convert the users
-> accordingly. While there remove default y from the INTEL_SCU_PCI symbol
-> as it is already selected by X86_INTEL_MID.
+> While there add kernel-doc for the intel_soc_pmic structure.
 > 
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  arch/x86/Kconfig                        |  2 +-
->  arch/x86/include/asm/intel_scu_ipc.h    | 14 +++++
-
->  drivers/mfd/Kconfig                     |  4 +-
-
-For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-
->  drivers/platform/x86/Kconfig            | 26 ++++++---
->  drivers/platform/x86/Makefile           |  1 +
->  drivers/platform/x86/intel_scu_ipc.c    | 75 +++++++++----------------
->  drivers/platform/x86/intel_scu_pcidrv.c | 61 ++++++++++++++++++++
->  7 files changed, 122 insertions(+), 61 deletions(-)
->  create mode 100644 drivers/platform/x86/intel_scu_pcidrv.c
-
-[...]
-
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index 420900852166..59515142438e 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -593,7 +593,7 @@ config INTEL_SOC_PMIC_MRFLD
->  	tristate "Support for Intel Merrifield Basin Cove PMIC"
->  	depends on GPIOLIB
->  	depends on ACPI
-> -	depends on INTEL_SCU_IPC
-> +	depends on INTEL_SCU
->  	select MFD_CORE
->  	select REGMAP_IRQ
->  	help
-> @@ -625,7 +625,7 @@ config MFD_INTEL_LPSS_PCI
+>  include/linux/mfd/intel_soc_pmic.h | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/include/linux/mfd/intel_soc_pmic.h b/include/linux/mfd/intel_soc_pmic.h
+> index bfecd6bd4990..bda22d750be6 100644
+> --- a/include/linux/mfd/intel_soc_pmic.h
+> +++ b/include/linux/mfd/intel_soc_pmic.h
+> @@ -13,6 +13,20 @@
 >  
->  config MFD_INTEL_MSIC
->  	bool "Intel MSIC"
-> -	depends on INTEL_SCU_IPC
-> +	depends on INTEL_SCU
->  	select MFD_CORE
->  	help
->  	  Select this option to enable access to Intel MSIC (Avatele
+>  #include <linux/regmap.h>
+>  
+> +/**
+> + * struct intel_soc_pmic - Intel SoC PMIC data
+> + * @irq: Interrupt number
+
+Whose IRQ is this?  I guess the parent's/PMIC's?
+
+> + * @regmap: Pointer to the regmap structure
+
+Whose Regmap is this?  I guess the parent's/PMIC's?
+
+> + * @irq_chip_data: IRQ chip data for the PMIC itself
+> + * @irq_chip_data_pwrbtn: Chained IRQ chip data for the power button
+> + * @irq_chip_data_tmu: Chained IRQ chip data for the TMU
+> + * @irq_chip_data_bcu: Chained IRQ chip data for the BCU
+> + * @irq_chip_data_adc: Chained IRQ chip data for the ADC
+> + * @irq_chip_data_chgr: Chained IRQ chip data for the CHGR
+> + * @irq_chip_data_crit: Chained IRQ chip data for the CRIT
+
+Documentation is an ideal place to expand out these abbreviations.
+
+> + * @dev: Pointer to the PMIC device
+> + * @scu: SCU IPC pointer used for IPC operations
+
+By this description I would have expected to find a struct of ops
+(operations [call-backs]), but instead I found this:
+
+ struct intel_scu_ipc_dev {
+         struct device *dev;
+         void __iomem *ipc_base;
+         void __iomem *i2c_base;
+         struct completion cmd_complete;
+         u8 irq_mode;
+ };
+
+Probably better to describe it as a "pointer to SCU (whatever that
+means) IPC (slightly more common, but still better to expand I think)
+device data structure".
+
+> + */
+>  struct intel_soc_pmic {
+>  	int irq;
+>  	struct regmap *regmap;
+> @@ -24,6 +38,7 @@ struct intel_soc_pmic {
+>  	struct regmap_irq_chip_data *irq_chip_data_chgr;
+>  	struct regmap_irq_chip_data *irq_chip_data_crit;
+>  	struct device *dev;
+> +	struct intel_scu_ipc_dev *scu;
+>  };
+>  
+>  int intel_soc_pmic_exec_mipi_pmic_seq_element(u16 i2c_address, u32 reg_address,
 
 -- 
 Lee Jones [李琼斯]
