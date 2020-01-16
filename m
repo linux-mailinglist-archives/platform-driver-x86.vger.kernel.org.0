@@ -2,79 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 945E313C9CF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jan 2020 17:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6489213D571
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jan 2020 08:57:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729026AbgAOQl4 (ORCPT
+        id S1729221AbgAPH5Q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Jan 2020 11:41:56 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42373 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726165AbgAOQl4 (ORCPT
+        Thu, 16 Jan 2020 02:57:16 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:46855 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726369AbgAPH5Q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Jan 2020 11:41:56 -0500
-Received: by mail-pf1-f194.google.com with SMTP id 4so8766118pfz.9;
-        Wed, 15 Jan 2020 08:41:56 -0800 (PST)
+        Thu, 16 Jan 2020 02:57:16 -0500
+Received: by mail-qk1-f194.google.com with SMTP id r14so18266856qke.13
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jan 2020 23:57:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=aempEEEjQYesosjqji6vEsgtizhKHStva/XUb02NRJ0=;
+        b=qk84ctN6DBzSab/qAVwBSJBlDaqLZ2EWFFYKEuax3N8V4KxWrWGEpGISkfJRyjuSyu
+         fxQl4jeSFcil7/fq+r2U1ul421Q2C5kfvtHqlb/PhFfEXRo7WBIBQSFIt1VWoFkDnqyR
+         FoVao275U45w/4X9xVkVnETy13J7vAVesXmpJKjvfbmq+zovrs8gVA3ZyTpn8b3JiXF/
+         vE+M9qrt2FK4XmaOKQdlnzCmLSFO8ltxEysw3PB5+B008WVjOMXzsvZ8Hdqeh+oX9Ndw
+         SNOyssRNdBix0HaTMYpvFefec00psXqXbeSP7Xyfzhndsth8H5yAMENvsLpLbv11ViBm
+         B0Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YP7CTNz6a3dCy8zDMExrzBPIrn10Z5e0Mt+2YEGXARo=;
-        b=eBiwTYRssRB+1iDkTlcP9SMuJxtsIh20QBhd5432ccnH2vRB02CIURRjggZb448yOp
-         41iybHiaeJEvGPi1zaozRncbWrWSbsY+D5HV4gQk0fqwY8QEykghAoSu+C2y2swsywz1
-         4MNY242lAJpvxBIPK0cUVWPgEjN6DyLPgv3d2C11VDnvLdJwZ2OpEc9ideNX4Snbu7Je
-         sCijRJk5QxqzsNmZ2K+al/z+yZsiAyafr6PdyNiAcWY+mFPx67/1LmfZ5cexmN45Zywh
-         aSnuySi3szcfxbyiuSNEJ6TyB19WoO/Oq2vInRpdkQt3XJjrUGAdRaSGmaK0sAIDMjig
-         CK6Q==
-X-Gm-Message-State: APjAAAVjMIxTB8TiOY/NjDUzA/9KUxgudiRrdWzPxp/2aS5USOzLk/rF
-        LjgiEcDyp6letct/YPEs8Uw=
-X-Google-Smtp-Source: APXvYqxK8dMz2VMI8rXkr5KWiQx0VbRzpUJsbzljQrzDmqj8pcR/I7pAnlYdj654L9Lu5WAwdBlMcA==
-X-Received: by 2002:a63:4b49:: with SMTP id k9mr33873427pgl.269.1579106515626;
-        Wed, 15 Jan 2020 08:41:55 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id r8sm287748pjo.22.2020.01.15.08.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 08:41:54 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id 02E6840244; Wed, 15 Jan 2020 16:41:54 +0000 (UTC)
-Date:   Wed, 15 Jan 2020 16:41:53 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v12 06/10] selftests: firmware: Add
- firmware_request_platform tests
-Message-ID: <20200115164153.GG11244@42.do-not-panic.com>
-References: <20200115163554.101315-1-hdegoede@redhat.com>
- <20200115163554.101315-7-hdegoede@redhat.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=aempEEEjQYesosjqji6vEsgtizhKHStva/XUb02NRJ0=;
+        b=IYQPHEF29G2fqVG3nCSlHwpFbF0m/g/FZYNKf8ok+vZVJll7HsMEBQV6mxINkZ7jpE
+         kGGMTOns8uE49Mp+c9bPGvUkyjuPsZArNl3MJcDccrhA+sRqiE/fIic5b662/XylaxSb
+         GIX9cqib48goCLbepbGabX7xpFdhYXAdqNUspNhG9lTkqaY/e4PIJfQGJl7UScuhp5gl
+         FREO4rzgxSSd3T/T+WGyXW1tgcx13PxAjP+U92AvyrGuxt60ejr58/0By5ZAvwFDp8Bs
+         uTw14xdcPTuPixcnN0C1zGk3kg4dvnUExFQY4+1tGkdG4f7f7j6BS/8kR1vO2dGHhIwC
+         zrDA==
+X-Gm-Message-State: APjAAAWnHKv5VXgl7zAPjV18lbR/XY3We3N1BbotAWn3edkhloBvj37H
+        RFK+P2y/URvfDS4XMHSsyi1L1YEj1st0OyOPkMI=
+X-Google-Smtp-Source: APXvYqzAPOLxtwjzB2eYG05ec7HKrtFGEb84p+XQNpaOK4Qd1eqVv8ptSIXQVgDkdZ7iRVoNa6IZid0+RAydUJ+F22w=
+X-Received: by 2002:a37:9a13:: with SMTP id c19mr30860574qke.365.1579161435229;
+ Wed, 15 Jan 2020 23:57:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200115163554.101315-7-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a0c:d812:0:0:0:0:0 with HTTP; Wed, 15 Jan 2020 23:57:14
+ -0800 (PST)
+Reply-To: offficcemuo@gmail.com
+From:   "Mr. Blake Arnold" <agbolawservcess@gmail.com>
+Date:   Thu, 16 Jan 2020 08:57:14 +0100
+Message-ID: <CAGngUW9RqFxPC-ihpQPW6fN5PUCBz4JNyQZUNgGvQFMxc9gWjw@mail.gmail.com>
+Subject: Hello...
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 05:35:50PM +0100, Hans de Goede wrote:
-> Add tests cases for checking the new firmware_request_platform api.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Hello
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+Can I please talk to you? It's important, If yes please get back to
+me.
 
-  Luis
+Thank you.
+Mr.Blake Arnold
