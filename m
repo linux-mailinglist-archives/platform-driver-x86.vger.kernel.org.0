@@ -2,106 +2,62 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1C613F60A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jan 2020 20:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3CBB13FB15
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jan 2020 22:09:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388829AbgAPRGF (ORCPT
+        id S1730284AbgAPVIy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Jan 2020 12:06:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35766 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388823AbgAPRGE (ORCPT
+        Thu, 16 Jan 2020 16:08:54 -0500
+Received: from mail.conatel.gob.ve ([201.248.69.230]:42750 "EHLO
+        mail.conatel.gob.ve" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbgAPVIy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:06:04 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D982A22464;
-        Thu, 16 Jan 2020 17:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194363;
-        bh=sujWSidxGQh0FrodT21X75t2dAsJYhleL/Z93fr0TOg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P5pLo4XWTbVGO61eKMpQBGOIEz8Dt2wVOHmyNDkaWCYvsHPA8j4dlsU88qjsUExRO
-         YQil4kPuC/kDifcTuHLpJ9R/4MzCI4YgNqx03qsxqHsqK2AJJhmx77XsDnbr9+XGff
-         57A3DCwF5BWU3QFv5Po6HlKGYPbcuIUlkgENixBQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Colin Ian King <colin.king@canonical.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 299/671] platform/x86: alienware-wmi: fix kfree on potentially uninitialized pointer
-Date:   Thu, 16 Jan 2020 11:58:57 -0500
-Message-Id: <20200116170509.12787-36-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
-References: <20200116170509.12787-1-sashal@kernel.org>
+        Thu, 16 Jan 2020 16:08:54 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.conatel.gob.ve (Postfix) with ESMTP id 332B01185842;
+        Thu, 16 Jan 2020 16:03:53 -0400 (-04)
+Received: from mail.conatel.gob.ve ([127.0.0.1])
+        by localhost (mail.conatel.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 09GUZFpfPtXo; Thu, 16 Jan 2020 16:03:50 -0400 (-04)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.conatel.gob.ve (Postfix) with ESMTP id 5D673118547C;
+        Thu, 16 Jan 2020 16:03:45 -0400 (-04)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.conatel.gob.ve 5D673118547C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conatel.gob.ve;
+        s=5C18DDE8-FD64-11E3-A8EF-B68B774165DB; t=1579205025;
+        bh=ONiYfY8hL3XO0+q3v6QnQFSpO+07GWJt9BD1PSEvgfw=;
+        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
+         Content-Transfer-Encoding;
+        b=QSZE216PbqMXF0L9Ng9oNPKLaYlBqvrkIUXP5geuzZzTpPrn2WuyqoqLfCKGtodFK
+         MG2VZHX696rtfKsOukD97UQPpeEpZtpY+NpdEvsLkHsYrcdbzsM/FhuAjiWDVhAk8T
+         22RJVqb4xFq0AO4hbuJY8okHmnJZgGjEfKPJ1tvo=
+X-Virus-Scanned: amavisd-new at conatel.gob.ve
+Received: from mail.conatel.gob.ve ([127.0.0.1])
+        by localhost (mail.conatel.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id xQmj-SafKhn2; Thu, 16 Jan 2020 16:03:44 -0400 (-04)
+Received: from mail.conatel.gob.ve (correo.conatel.int [10.1.1.21])
+        by mail.conatel.gob.ve (Postfix) with ESMTP id BFE6D1181C3C;
+        Thu, 16 Jan 2020 16:03:42 -0400 (-04)
+Date:   Thu, 16 Jan 2020 15:33:42 -0430 (VET)
+From:   manuel franco <hmorales@conatel.gob.ve>
+Reply-To: manuel franco <manuelfrancospende11@gmail.com>
+Message-ID: <2026920710.459550.1579205022640.JavaMail.zimbra@conatel.gob.ve>
+Subject: Spende von 2 Millionen Euro.
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [105.0.3.30]
+X-Mailer: Zimbra 8.6.0_GA_1242 (zclient/8.6.0_GA_1242)
+Thread-Topic: Spende von 2 Millionen Euro.
+Thread-Index: 3ECvalvOH0rxYdm/RaDQHaM86zzfzQ==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit 98e2630284ab741804bd0713e932e725466f2f84 ]
 
-Currently the kfree of output.pointer can be potentially freeing
-an uninitalized pointer in the case where out_data is NULL. Fix this
-by reworking the case where out_data is not-null to perform the
-ACPI status check and also the kfree of outpoint.pointer in one block
-and hence ensuring the pointer is only freed when it has been used.
 
-Also replace the if (ptr != NULL) idiom with just if (ptr).
-
-Fixes: ff0e9f26288d ("platform/x86: alienware-wmi: Correct a memory leak")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Signed-off-by: Darren Hart (VMware) <dvhart@infradead.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/alienware-wmi.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/platform/x86/alienware-wmi.c b/drivers/platform/x86/alienware-wmi.c
-index f10af5c383c5..c0d1555735cd 100644
---- a/drivers/platform/x86/alienware-wmi.c
-+++ b/drivers/platform/x86/alienware-wmi.c
-@@ -522,23 +522,22 @@ static acpi_status alienware_wmax_command(struct wmax_basic_args *in_args,
- 
- 	input.length = (acpi_size) sizeof(*in_args);
- 	input.pointer = in_args;
--	if (out_data != NULL) {
-+	if (out_data) {
- 		output.length = ACPI_ALLOCATE_BUFFER;
- 		output.pointer = NULL;
- 		status = wmi_evaluate_method(WMAX_CONTROL_GUID, 0,
- 					     command, &input, &output);
--	} else
-+		if (ACPI_SUCCESS(status)) {
-+			obj = (union acpi_object *)output.pointer;
-+			if (obj && obj->type == ACPI_TYPE_INTEGER)
-+				*out_data = (u32)obj->integer.value;
-+		}
-+		kfree(output.pointer);
-+	} else {
- 		status = wmi_evaluate_method(WMAX_CONTROL_GUID, 0,
- 					     command, &input, NULL);
--
--	if (ACPI_SUCCESS(status) && out_data != NULL) {
--		obj = (union acpi_object *)output.pointer;
--		if (obj && obj->type == ACPI_TYPE_INTEGER)
--			*out_data = (u32) obj->integer.value;
- 	}
--	kfree(output.pointer);
- 	return status;
--
- }
- 
- /*
--- 
-2.20.1
-
+Hallo
+Sie wurden ausgewaumlhlt, um die Summe von euro 2.000.000,00 (zwei Millionen Euro) in meinem laufenden Wohltaumltigkeitsprogramm zu erhalten. Fur  weitere Informationen senden Sie bitte ein Email: manuelfrancospende@gmail.com
