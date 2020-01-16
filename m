@@ -2,40 +2,40 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9857313F1CB
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jan 2020 19:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A90213F689
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jan 2020 20:05:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391936AbgAPRZX (ORCPT
+        id S1733180AbgAPRCF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Jan 2020 12:25:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33090 "EHLO mail.kernel.org"
+        Thu, 16 Jan 2020 12:02:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54254 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391930AbgAPRZX (ORCPT
+        id S2388252AbgAPRCE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:25:23 -0500
+        Thu, 16 Jan 2020 12:02:04 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6A3D9246CA;
-        Thu, 16 Jan 2020 17:25:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A9FBC2467E;
+        Thu, 16 Jan 2020 17:02:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195523;
-        bh=g6uqihEh1P5ymdNJpITG83arTR8dSTBoMRFQPVWkLPM=;
+        s=default; t=1579194124;
+        bh=K01wSvsQAwkygxhcrxNqXKveyTlHnvIRavqzWTKFLLE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u4u0ulRPdf9ZgXihtUg3ShwzXNtluWfKa3IcNaNYiy6aiEkyg426bX5Tf+jXutBHu
-         STITvF/1UnXKenJOacPT2NRFL3crDOJbpRnbzIqnYPQ4fdfgTKGOcB1t3QkEmfE3Q3
-         Hc0TQWDgCSFyhdHZvmF38AbdifqEDDq8WUge6TzQ=
+        b=jl/Bw9+vL8elnCP4O5OG1mSDqjKqp1PLoC5sf9lt6PSPVSy6CyNMT9iQPKenM+l7C
+         C4w012RWUDoJw66+d3/k1JM+9Ws1+5xVc0/PVoZ7xmYCIFq10rzuJfDTgzASC6/qje
+         /jcGiXNyUPd3tKUxieHiEcg7Jmr2i79SNtHZGp2g=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mattias Jacobsson <2pi@mok.nu>, Darren Hart <dvhart@infradead.org>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 120/371] platform/x86: wmi: fix potential null pointer dereference
-Date:   Thu, 16 Jan 2020 12:19:52 -0500
-Message-Id: <20200116172403.18149-63-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 216/671] platform/x86: wmi: fix potential null pointer dereference
+Date:   Thu, 16 Jan 2020 11:52:05 -0500
+Message-Id: <20200116165940.10720-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
-References: <20200116172403.18149-1-sashal@kernel.org>
+In-Reply-To: <20200116165940.10720-1-sashal@kernel.org>
+References: <20200116165940.10720-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 7f8fa42a1084..a56e997816b2 100644
+index 04791ea5d97b..35cdc3998eb5 100644
 --- a/drivers/platform/x86/wmi.c
 +++ b/drivers/platform/x86/wmi.c
-@@ -748,6 +748,9 @@ static int wmi_dev_match(struct device *dev, struct device_driver *driver)
+@@ -768,6 +768,9 @@ static int wmi_dev_match(struct device *dev, struct device_driver *driver)
  	struct wmi_block *wblock = dev_to_wblock(dev);
  	const struct wmi_device_id *id = wmi_driver->id_table;
  
