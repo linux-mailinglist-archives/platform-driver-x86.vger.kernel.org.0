@@ -2,56 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66ED71428F9
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jan 2020 12:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82808142903
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jan 2020 12:14:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgATLM7 (ORCPT
+        id S1726761AbgATLOh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Jan 2020 06:12:59 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45256 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726650AbgATLM7 (ORCPT
+        Mon, 20 Jan 2020 06:14:37 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39574 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726451AbgATLOh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Jan 2020 06:12:59 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j42so29055978wrj.12
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jan 2020 03:12:58 -0800 (PST)
+        Mon, 20 Jan 2020 06:14:37 -0500
+Received: by mail-wr1-f67.google.com with SMTP id y11so29099161wrt.6
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Jan 2020 03:14:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=HlltTZpAEDLvscRb688hqMcZim5skpAdya8N3DvxZEM=;
-        b=UXD+EDxFhXSrpENIh2A/85v6fyes50rL1DiydfBrrvhrh6DNi9F+AYVNeheFVXBxCJ
-         rGaRLMVLeDk7c9vYNEQ6xdXdgeJPqbLah7k34UX9s6IFGZTDtVmaTFFdMbqTrDW5LNCM
-         hU19egfqAtCu6kYb2IvHL2KT8v7Gn612jjhrAVh5NxbkhO46gNGG2Z5TKQvoi4yMZipc
-         EK5jOZ8a2x12A0c27EKdljk+Ea/kU/GzLZdwxlC/FrBdhL1R/6pf86oBjHi7R4TngeEX
-         Uh3A0Uceu9xjf7K1PCKrA8imYxWxO2zlRJKdJ/mc4TfYME1FKfO7F7AFWZZXSgDJa8W8
-         +Caw==
+        bh=MLTZFPkjIVTzjTUJPG0GQ7JUAyMN3WoGalm3BKLJ7uU=;
+        b=PU4f5YGvwhz9nKHkxC9h0SOSEtjVAayEf3i28kxO+eSOizCINzkqdUBipr/DlZ+Tat
+         z+H1ny4xJDEr7U4BMT66LsDt95kihsc8Lzkjd9euZ7aucT/10xyQ/HgiAEmqPB9Wi4zN
+         fV+fUEMJ+G+oeA5coQUKM5dY0AT8qZcOEaIejUw1B5gCA8OCzAn4KAQ1YLRmYzcN9/4r
+         q55sf6Aes/LjqXvbFLqzV7ap8oEXfHhzEerWGT4n+ae1m5pMZJnRUOHvLjm3JeKhP51b
+         XaAJxSO2o2mt+IPrjzAEc2XfHRRN84Ql645KlEG4PiW/DRdKqJUrDekrGc7o09fR8CTh
+         zCAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=HlltTZpAEDLvscRb688hqMcZim5skpAdya8N3DvxZEM=;
-        b=tH+fhELVekb2ln/lJoHCu3knlJwirsSkxgeeiTLylEYXgZuZvlNVk6GBaKcD6uyhPV
-         cttrNeGyYNhgDH2vgq5psG1ugVbVNItqbLmhv8Duv9XoTu/oWdp4CvjlK/U0emVBL49d
-         naajIo1K3amFzXy5l8cv1bB6DT2hHncEWajA2Vackn3JIu0JGTQTJGsFxU6mlILso9B2
-         WJAelNsBvPhvDoGffyqXEOSYG7qFXWX+s0OSeEi77irRG/CSyiU6bEiEN25Oc024UmHf
-         PMPmBok+oh72MTBsbRQLEW+z4UGMoAM0OeTxRqDcDkt7gxC5Oio8cIjDPuXqd2myzaGJ
-         m02w==
-X-Gm-Message-State: APjAAAXWZ8Mw0QFOa3SL1si/gt4gBfQG+/J938QYr3HUQZzgf+3Khs85
-        6MDvSa3MpVhlNTodmltFYc0Q8g==
-X-Google-Smtp-Source: APXvYqxQHGbEwEkD/O3AcaNIUudE99Tt5DRIuc3ysO5EJhjUT1/um+Fyx5PMGE3tKu56OqMRzGjN5A==
-X-Received: by 2002:a5d:480f:: with SMTP id l15mr17182858wrq.305.1579518777252;
-        Mon, 20 Jan 2020 03:12:57 -0800 (PST)
+        bh=MLTZFPkjIVTzjTUJPG0GQ7JUAyMN3WoGalm3BKLJ7uU=;
+        b=cgbots6KU6QieKfV+yv2B/W3N6QQiNGuzGXoDNTy5/3n9ZrcNwql8LM7shLEfOa3ES
+         ZqSwnvSvxcDwL++qHXOupwz7cgMpUxEgdjz8MDUiUz1uodgvI0QiB4k1UaZQCIoBRi0V
+         ebtFreIDhGIZ3aWeGph/hP2QFs5p0l2HZ1K4tme0rwx8xVguoAOeiHh5iKP82JWTHfv0
+         fkGNuBtIJglbx8hcqxmZK1IWkztm1rghHkxmXgpF4YMvhEfEwYlS1kFe0IlhigbZvumP
+         xDYUzSzA/6SnMxNeIkVN9pFy+8pFTFGY2S3dI3wvd8tivAJ+oaWyGIeRkz/D1ZG4vW73
+         Jc8g==
+X-Gm-Message-State: APjAAAWMle9xUNdvgkX14Tu3LczL1yPwu2XwdrugIO/zTzA4YxD8Ok68
+        Uw4IJ3JMipV7ezOUK6HTedYuYQ==
+X-Google-Smtp-Source: APXvYqytziXSBvUudozXjrvT1+OyixIcrmWxfebeA0//fm/82uAbuWMv0hmjSOZymA7vF9JeJ01GNA==
+X-Received: by 2002:a5d:49c7:: with SMTP id t7mr17246479wrs.369.1579518875038;
+        Mon, 20 Jan 2020 03:14:35 -0800 (PST)
 Received: from dell ([2.27.35.227])
-        by smtp.gmail.com with ESMTPSA id g9sm47501170wro.67.2020.01.20.03.12.56
+        by smtp.gmail.com with ESMTPSA id j12sm47914128wrt.55.2020.01.20.03.14.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 03:12:56 -0800 (PST)
-Date:   Mon, 20 Jan 2020 11:13:12 +0000
+        Mon, 20 Jan 2020 03:14:34 -0800 (PST)
+Date:   Mon, 20 Jan 2020 11:14:50 +0000
 From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -65,64 +64,42 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 35/36] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200120111312.GD15507@dell>
+Message-ID: <20200120111450.GE15507@dell>
 References: <20200113135623.56286-1-mika.westerberg@linux.intel.com>
  <20200113135623.56286-36-mika.westerberg@linux.intel.com>
  <20200116132108.GH325@dell>
  <20200116143730.GE2838@lahna.fi.intel.com>
  <20200117113202.GH15507@dell>
- <20200120092650.GI2665@lahna.fi.intel.com>
- <20200120111159.GC15507@dell>
+ <20200117142750.GP2838@lahna.fi.intel.com>
+ <20200120081246.GS15507@dell>
+ <20200120091258.GH2665@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200120111159.GC15507@dell>
+In-Reply-To: <20200120091258.GH2665@lahna.fi.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> Adding Mark (the Regmap Maintainer) to the conversation.
+On Mon, 20 Jan 2020, Mika Westerberg wrote:
 
-Fingers faster than brain!
+> On Mon, Jan 20, 2020 at 08:12:46AM +0000, Lee Jones wrote:
+> > > Well, by "library" I mean that the SCU IPC itself does not bind to
+> > > anything but instead it gets called by different drivers such as this
+> > > one passing the device pointer that is the SCU IPC device. Here for
+> > > example it is the platfrom device created from an ACPI description.
+> > 
+> > Not keen on that at all.  Why can it not be a platform device?
+> 
+> We also call the same library from a PCI driver (intel_scu_pcidrv.c in
+> this series) where the device is of type struct pci_dev.
 
-I'll actually add him this time - sorry for the noise!
+Not sure I understand the issue.
 
-> On Mon, 20 Jan 2020, Mika Westerberg wrote:
-> > On Fri, Jan 17, 2020 at 11:32:02AM +0000, Lee Jones wrote:
-> > > [...]
-> > > 
-> > > > > Looks like Regmap could save you the trouble here.
-> > > > 
-> > > > Agreed.
-> > > 
-> > > Great.
-> > 
-> > I started to implement regmap for this driver but I run into some
-> > problems. The registers we read/write are all 64-bit and accessed trough
-> > readq/writeq accessors. However, the regmap API takes unsigned int:
-> > 
-> >   int regmap_write(struct regmap *map, unsigned int reg, unsigned int val);
-> >   int regmap_read(struct regmap *map, unsigned int reg, unsigned int *val);
-> > 
-> > I'm not sure how we can take advantage of this API with the 64-bit
-> > registers. There are "raw" versions of the functions that take void
-> > pointer like:
-> > 
-> >  int regmap_raw_read(struct regmap *map, unsigned int reg,
-> >                      void *val, size_t val_len);
-> > 
-> > but looking at the implementation if the register gets cached it
-> > internally does reads in unsigned int sized chunks (if I understand it
-> > right).
-> > 
-> > Any ideas how this can be done?
- 
-Mark,
-
-  Does Regmap support 64bit accesses?
+What does the device do?
 
 -- 
 Lee Jones [李琼斯]
