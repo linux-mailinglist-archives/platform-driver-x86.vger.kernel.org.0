@@ -2,31 +2,26 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77CB51442B0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2020 18:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE0791442BF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2020 18:07:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbgAURAa (ORCPT
+        id S1728852AbgAURHA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Jan 2020 12:00:30 -0500
-Received: from mga04.intel.com ([192.55.52.120]:51940 "EHLO mga04.intel.com"
+        Tue, 21 Jan 2020 12:07:00 -0500
+Received: from foss.arm.com ([217.140.110.172]:46040 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726555AbgAURA3 (ORCPT
+        id S1726714AbgAURG7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Jan 2020 12:00:29 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 09:00:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,346,1574150400"; 
-   d="scan'208";a="280112750"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 21 Jan 2020 09:00:23 -0800
-Received: by lahna (sSMTP sendmail emulation); Tue, 21 Jan 2020 19:00:22 +0200
-Date:   Tue, 21 Jan 2020 19:00:22 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Mark Brown <broonie@kernel.org>
+        Tue, 21 Jan 2020 12:06:59 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC40F30E;
+        Tue, 21 Jan 2020 09:06:58 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3190E3F6C4;
+        Tue, 21 Jan 2020 09:06:58 -0800 (PST)
+Date:   Tue, 21 Jan 2020 17:06:56 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
@@ -42,40 +37,54 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 00/38] platform/x86: Rework intel_scu_ipc and
  intel_pmc_ipc drivers
-Message-ID: <20200121170022.GA2665@lahna.fi.intel.com>
+Message-ID: <20200121170656.GI4656@sirena.org.uk>
 References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
  <20200121162157.GD4656@sirena.org.uk>
  <20200121163312.GZ2665@lahna.fi.intel.com>
  <20200121164515.GG4656@sirena.org.uk>
+ <20200121170022.GA2665@lahna.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="pe+tqlI1iYzVj1X/"
 Content-Disposition: inline
-In-Reply-To: <20200121164515.GG4656@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200121170022.GA2665@lahna.fi.intel.com>
+X-Cookie: You too can wear a nose mitten.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 04:45:15PM +0000, Mark Brown wrote:
-> On Tue, Jan 21, 2020 at 06:33:12PM +0200, Mika Westerberg wrote:
-> 
-> > Sorry about that. I included you because there was suggestion from Lee
-> > to convert the MFD driver in patch 37 to use regmap but the registers
-> > are all 64-bit and it was not clear whether regmap supports that:
-> 
-> >   https://www.spinics.net/lists/platform-driver-x86/msg20652.html
-> 
-> > Looking at the regmap API it seems to deal mostly with "unsigned int"
-> > which does not work well with the 64-bit MMIO registers but I may be
-> > missing something.
-> 
-> It should work fine on architectures with 64 bit ints but otherwise it's
-> not supported (and doing so would hurt the API pretty badly so I'm not
-> sure it would make sense but patches welcome).
 
-OK, thanks for the clarification. I guess in this case we can probably
-just live without using it, if that's fine for Lee and others. The new
-MFD driver itself is ~500 lines so not sure how much regmap would help
-there, and we only expose two simple functions for the subdevices both
-dealing with 64-bit registers.
+--pe+tqlI1iYzVj1X/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Jan 21, 2020 at 07:00:22PM +0200, Mika Westerberg wrote:
+
+> OK, thanks for the clarification. I guess in this case we can probably
+> just live without using it, if that's fine for Lee and others. The new
+> MFD driver itself is ~500 lines so not sure how much regmap would help
+> there, and we only expose two simple functions for the subdevices both
+> dealing with 64-bit registers.
+
+The usual motivation is all the diagnostic infrastructure you get with
+regmap - tracepoints for I/O and the ability to dump the register map in
+debugfs mainly.
+
+--pe+tqlI1iYzVj1X/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4nL7AACgkQJNaLcl1U
+h9CYXQf5ARVExYEyXhd/b8vqn9kwQ5n79Izrai7EPKOa/3PxMUBu1546nympiQTk
+AyGalWpOBNIMs0/CqVxUcytTvcVSVBJ80dN6XA3ZcYqaYVLB603cgxrXDgarnh6k
+TjA/vMZFJklxeOUM4OmTDQHgKKt1gj0v7Bs5mNxUNJbYKfxksrWoM94S/Ywx5nke
+A/fmlnV4WkO5x2fVh2A7oHV5HqTuK2+C9bYXsEzSky8Vza88PhTBeBxZ/MXugndy
+xOugKpkM04hYZBv/c1/CD86T4fZisCMZeBJ+TIJHE4q7q4PylFJ1ZKZm8lWAnQnC
+iHOUsYkSPtNk98Sw4/1cz3UYEe2w8g==
+=lI9Q
+-----END PGP SIGNATURE-----
+
+--pe+tqlI1iYzVj1X/--
