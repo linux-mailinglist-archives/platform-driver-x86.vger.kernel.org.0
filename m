@@ -2,26 +2,30 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0448144210
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2020 17:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50910144238
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jan 2020 17:33:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728779AbgAUQWB (ORCPT
+        id S1728779AbgAUQdS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Jan 2020 11:22:01 -0500
-Received: from foss.arm.com ([217.140.110.172]:45460 "EHLO foss.arm.com"
+        Tue, 21 Jan 2020 11:33:18 -0500
+Received: from mga14.intel.com ([192.55.52.115]:38444 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729273AbgAUQWA (ORCPT
+        id S1726968AbgAUQdR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Jan 2020 11:22:00 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B06F30E;
-        Tue, 21 Jan 2020 08:22:00 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5879C3F68E;
-        Tue, 21 Jan 2020 08:21:59 -0800 (PST)
-Date:   Tue, 21 Jan 2020 16:21:57 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+        Tue, 21 Jan 2020 11:33:17 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 08:33:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,346,1574150400"; 
+   d="scan'208";a="280046622"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 21 Jan 2020 08:33:12 -0800
+Received: by lahna (sSMTP sendmail emulation); Tue, 21 Jan 2020 18:33:12 +0200
+Date:   Tue, 21 Jan 2020 18:33:12 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Mark Brown <broonie@kernel.org>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
@@ -37,49 +41,37 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 00/38] platform/x86: Rework intel_scu_ipc and
  intel_pmc_ipc drivers
-Message-ID: <20200121162157.GD4656@sirena.org.uk>
+Message-ID: <20200121163312.GZ2665@lahna.fi.intel.com>
 References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
+ <20200121162157.GD4656@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q9KOos5vDmpwPx9o"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
-X-Cookie: You too can wear a nose mitten.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200121162157.GD4656@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Tue, Jan 21, 2020 at 04:21:57PM +0000, Mark Brown wrote:
+> On Tue, Jan 21, 2020 at 07:00:36PM +0300, Mika Westerberg wrote:
+> 
+> > Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
+> > IPC communications with minor differences. This duplication does not make
+> > much sense so this series reworks the two drivers so that there is only a
+> > single implementation of the SCU IPC. In addition to that the API will be
+> 
+> This is a 40 (!) patch series and looking at the subjects and diffstat I
+> can't tell if there's something in particular that you're looking for me
+> to review?
 
---q9KOos5vDmpwPx9o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sorry about that. I included you because there was suggestion from Lee
+to convert the MFD driver in patch 37 to use regmap but the registers
+are all 64-bit and it was not clear whether regmap supports that:
 
-On Tue, Jan 21, 2020 at 07:00:36PM +0300, Mika Westerberg wrote:
+  https://www.spinics.net/lists/platform-driver-x86/msg20652.html
 
-> Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
-> IPC communications with minor differences. This duplication does not make
-> much sense so this series reworks the two drivers so that there is only a
-> single implementation of the SCU IPC. In addition to that the API will be
-
-This is a 40 (!) patch series and looking at the subjects and diffstat I
-can't tell if there's something in particular that you're looking for me
-to review?
-
---q9KOos5vDmpwPx9o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4nJSUACgkQJNaLcl1U
-h9BLZQf/VjNChJv9k7JPur4zWfGS9+F5nNaFNi/af//akiLUMZatxAjyHirSeg4w
-ijrObLzU6lw/gTnSukoe7UMUK36nerMpELth4L6PYNl1xUGX3YI/nvNY8kUu3TuA
-HqKDeckqzB17Mxqel0BWiieLSNBxtQiNm/kpPnAmXV8lxFKeAcbfJQPlqg3DbYb0
-7axbbqExSm8QBYbi4sbsXS+s5rRhVvCF1WBUqIckF8ui+P58pXuTTN1IiCSghXlB
-BID9lv+jXGFAdzS0db11i/qpJnLY1Bq7uX6/i4KwhNq+62Mnb+IhxKrxNgoEkQY3
-I3vQWHmuJqIED0G0Uqv9o1kZHx4zig==
-=d0Tm
------END PGP SIGNATURE-----
-
---q9KOos5vDmpwPx9o--
+Looking at the regmap API it seems to deal mostly with "unsigned int"
+which does not work well with the 64-bit MMIO registers but I may be
+missing something.
