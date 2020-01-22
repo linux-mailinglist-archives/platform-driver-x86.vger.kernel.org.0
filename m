@@ -2,31 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10197145494
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 13:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7194614568F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 14:36:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbgAVMxL (ORCPT
+        id S1731795AbgAVN1s (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 07:53:11 -0500
-Received: from mga01.intel.com ([192.55.52.88]:10066 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727453AbgAVMxL (ORCPT
+        Wed, 22 Jan 2020 08:27:48 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39705 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730960AbgAVN1r (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 07:53:11 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 04:53:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="283659268"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 22 Jan 2020 04:53:02 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 22 Jan 2020 14:53:00 +0200
-Date:   Wed, 22 Jan 2020 14:53:00 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
+        Wed, 22 Jan 2020 08:27:47 -0500
+Received: by mail-wr1-f67.google.com with SMTP id y11so7250024wrt.6
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Jan 2020 05:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=jxYjF1m7XVJ6yybgNC7PWK2OFBXviRpzBklnqTmBfrc=;
+        b=KCjP0s0u1syQwG7xSgBAkB7NM6G2zwgALAMpMu4MUwf57nzgUcuDYJveJ4U9g+6xYW
+         G6PKJc8TiUZCoUm7cCu4MQUE+8H19cfQwiZ4uC61vqiypTbUm/KMMsl8CDG/7qqQGjbG
+         yn0y4ljg3jMtahbG8BkbDkg1k4DhiYnrgytUdWXC7K8o1B/RP7lJfpPoHGlmep+KGpOo
+         DmR22mqQ3cKgZtb4G5hRfHvGt/IMLpUJPR0ANOa34je3lBDJdRQv5lpIf7pYlMVWOPyf
+         8eJ5Z0ROAIkZA0Iy+NltNxg8SeamFHZrXnrr0zY5ZfSfbtrh2DUDJ/LdiQtZve3Zcf/B
+         CaHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=jxYjF1m7XVJ6yybgNC7PWK2OFBXviRpzBklnqTmBfrc=;
+        b=g8diEHUjH6QNBo7RNaWL1dmAyS3+e7pDIcChTjBA5TAy39NVZuni28FSBm/tKZbXZb
+         Ke1PcmKN5n5FGG8cLMFydiVQVAsMnbfKg8b0ydrIqngmHziH4lEdecV7wnWTw07yHYBv
+         Q7gKUPv8YIzXuLNluG3dSl+MV1HpIGb6bBSo0YNTx0ShVBdp7f53BL9ho3GG65+JgpAN
+         rNto7UiRrB+TF9LJxNwBn+vdsyYzfYuEJqAnEfPJghgE6aLZF0WFNdzyefHUVYd78aZD
+         uMXK1COgac8tFB5YtUtlmbbSbHKeWgadmbcs5s5o0eXal4yWpC+QQGzdDmlmW8D4nXSC
+         5mDg==
+X-Gm-Message-State: APjAAAV4E1a7fAVBM94CwS3LgHaoAUclazra9OZwCUP46Hxt/2lTvA/k
+        RxIEWatrT+XlGdvfKcqqJ/CNqg==
+X-Google-Smtp-Source: APXvYqxRR7C7wAkzSx2A3Iw/Hy6BV0R2oBVkQXOxu3NbXbaRXGg2QsuNN71lzk4nBUNqTavF8LqBCQ==
+X-Received: by 2002:a5d:44ca:: with SMTP id z10mr11301374wrr.266.1579699664807;
+        Wed, 22 Jan 2020 05:27:44 -0800 (PST)
+Received: from dell ([2.27.35.227])
+        by smtp.gmail.com with ESMTPSA id p18sm4086602wmg.4.2020.01.22.05.27.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2020 05:27:44 -0800 (PST)
+Date:   Wed, 22 Jan 2020 13:27:57 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -41,64 +65,83 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mark Brown <broonie@kernel.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 37/38] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200122125300.GO2665@lahna.fi.intel.com>
+Message-ID: <20200122132757.GM15507@dell>
 References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
  <20200121160114.60007-38-mika.westerberg@linux.intel.com>
  <20200122123454.GL15507@dell>
+ <20200122125300.GO2665@lahna.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200122123454.GL15507@dell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200122125300.GO2665@lahna.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 12:34:54PM +0000, Lee Jones wrote:
-> > +static int intel_pmc_probe(struct platform_device *pdev)
-> > +{
-> > +	struct intel_scu_ipc_pdata pdata = {};
-> > +	struct intel_pmc_dev *pmc;
-> > +	int ret;
-> > +
-> > +	pmc = devm_kzalloc(&pdev->dev, sizeof(*pmc), GFP_KERNEL);
-> > +	if (!pmc)
-> > +		return -ENOMEM;
-> > +
-> > +	pmc->dev = &pdev->dev;
-> > +	spin_lock_init(&pmc->gcr_lock);
-> > +
-> > +	ret = intel_pmc_get_resources(pdev, pmc, &pdata);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Failed to request resources\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	pmc->scu = devm_intel_scu_ipc_register(&pdev->dev, &pdata);
-> > +	if (IS_ERR(pmc->scu))
-> > +		return PTR_ERR(pmc->scu);
+On Wed, 22 Jan 2020, Mika Westerberg wrote:
+
+> On Wed, Jan 22, 2020 at 12:34:54PM +0000, Lee Jones wrote:
+> > > +static int intel_pmc_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct intel_scu_ipc_pdata pdata = {};
+> > > +	struct intel_pmc_dev *pmc;
+> > > +	int ret;
+> > > +
+> > > +	pmc = devm_kzalloc(&pdev->dev, sizeof(*pmc), GFP_KERNEL);
+> > > +	if (!pmc)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	pmc->dev = &pdev->dev;
+> > > +	spin_lock_init(&pmc->gcr_lock);
+> > > +
+> > > +	ret = intel_pmc_get_resources(pdev, pmc, &pdata);
+> > > +	if (ret) {
+> > > +		dev_err(&pdev->dev, "Failed to request resources\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	pmc->scu = devm_intel_scu_ipc_register(&pdev->dev, &pdata);
+> > > +	if (IS_ERR(pmc->scu))
+> > > +		return PTR_ERR(pmc->scu);
+> > 
+> > *_register is better than *_probe.  If it was called that (or maybe
+> > *_init) initially I may have missed the issue altogether ...
+> > 
+> > However, I still think it the SCU IPC *device* needs to be a device
+> > driver and abide by the rules, ensuring it uses the device driver
+> > model/API.  As such, it should be registered and probed as a device.
 > 
-> *_register is better than *_probe.  If it was called that (or maybe
-> *_init) initially I may have missed the issue altogether ...
-> 
-> However, I still think it the SCU IPC *device* needs to be a device
-> driver and abide by the rules, ensuring it uses the device driver
-> model/API.  As such, it should be registered and probed as a device.
+> Which type of device you suggest here? And which bus it should be
+> registered to? I think we can make this create a platform_device but
+> then we would need to do that from the PCI driver as well which seems
+> unnecessary since we already have the struct pci_dev.
 
-Which type of device you suggest here? And which bus it should be
-registered to? I think we can make this create a platform_device but
-then we would need to do that from the PCI driver as well which seems
-unnecessary since we already have the struct pci_dev.
+What kind of device is it?
 
-For instance in drivers/mfd/intel-lpss* we use similar approach (the
-core part is library that gets called by probe drivers (ACPI, PCI). We
-don't create any additional platform_devices.
+Refrain from using platform device, unless it is one please.
 
-There is another twist. Ideally we would like to see the SCU IPC probed
-and intialized before the MFD children so that we know the SCU IPC is
-ready by the time the children devices are created. I guess we could
-work it around by returning -EPROBE_DEFER but that does not feel right
-to be honest.
+> For instance in drivers/mfd/intel-lpss* we use similar approach (the
+> core part is library that gets called by probe drivers (ACPI, PCI). We
+> don't create any additional platform_devices.
 
-Thanks!
+That's different.  Here the *-acpi.c and *-pci.c are only used as
+registration hooks into the same device.  The semantics we're
+discussing are seemingly used to probe/init a different device in a
+separate subsystem.
+
+> There is another twist. Ideally we would like to see the SCU IPC probed
+> and intialized before the MFD children so that we know the SCU IPC is
+> ready by the time the children devices are created. I guess we could
+> work it around by returning -EPROBE_DEFER but that does not feel right
+> to be honest.
+
+That's precisely what -EPROBE_DEFER was designed for.
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
