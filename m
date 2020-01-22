@@ -2,33 +2,35 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E41145811
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 15:45:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1984414582E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 15:49:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgAVOpa (ORCPT
+        id S1725911AbgAVOtn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 09:45:30 -0500
-Received: from mga02.intel.com ([134.134.136.20]:32636 "EHLO mga02.intel.com"
+        Wed, 22 Jan 2020 09:49:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725884AbgAVOpa (ORCPT
+        id S1725802AbgAVOtn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 09:45:30 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 06:45:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="283998546"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 22 Jan 2020 06:45:24 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 22 Jan 2020 16:45:23 +0200
-Date:   Wed, 22 Jan 2020 16:45:23 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
+        Wed, 22 Jan 2020 09:49:43 -0500
+Received: from localhost (unknown [84.241.205.26])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F83321835;
+        Wed, 22 Jan 2020 14:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579704582;
+        bh=YzGQHHuNBzeqfnOJVGKpDcH5nkWq3UPDi+bDM6C5ln8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j3xy4VPwHJI5qA7vr/Pf/Y8BQEx8TCchvpzTuTFNyTDsd2yj01MajBw8JgI63jd5B
+         WhtbDunGfk3PgKCy/jUoNY7gCqQWr+Ugi4hnkNs4hbvjs2x+RagMd4fxLwphwXzMTd
+         4orYSuvtROZO0DwguPXdufU/lkahqofC+vKJG9gg=
+Date:   Wed, 22 Jan 2020 15:49:39 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
+        Lee Jones <lee.jones@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
@@ -36,42 +38,51 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         "David E . Box" <david.e.box@linux.intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         Mark Brown <broonie@kernel.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 37/38] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200122144523.GX2665@lahna.fi.intel.com>
+Subject: Re: [PATCH v4 14/38] platform/x86: intel_scu_ipc: Introduce new SCU
+ IPC API
+Message-ID: <20200122144939.GA59473@kroah.com>
 References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
- <20200121160114.60007-38-mika.westerberg@linux.intel.com>
- <20200122123454.GL15507@dell>
- <20200122125300.GO2665@lahna.fi.intel.com>
- <20200122132757.GM15507@dell>
+ <20200121160114.60007-15-mika.westerberg@linux.intel.com>
+ <20200122134359.GE4963@kroah.com>
+ <20200122144048.GV2665@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200122132757.GM15507@dell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200122144048.GV2665@lahna.fi.intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 01:27:57PM +0000, Lee Jones wrote:
-> > Which type of device you suggest here? And which bus it should be
-> > registered to? I think we can make this create a platform_device but
-> > then we would need to do that from the PCI driver as well which seems
-> > unnecessary since we already have the struct pci_dev.
+On Wed, Jan 22, 2020 at 04:40:48PM +0200, Mika Westerberg wrote:
+> On Wed, Jan 22, 2020 at 02:43:59PM +0100, Greg Kroah-Hartman wrote:
+> > > +	if (!scu->dev)
+> > > +		goto err_unlock;
+> > > +	if (!try_module_get(scu->dev->driver->owner))
+> > > +		goto err_unlock;
+> > > +	mutex_unlock(&ipclock);
+> > > +	return scu;
+> > 
+> > NO REFERENCE COUNT INCREMENT???
 > 
-> What kind of device is it?
+> You mean increment the scu->dev reference count? I kind of thought that
+> the try_module_get() should make sure the thing stays there as long as
+> the caller has not called _put() but now when I think about it bit more
+> we would need to do device_get() here as well.
 
-It is either part of an ACPI device (platform_device) or a PCI device
-depending on the platform.
+module reference counts handle _code_ while structure reference counts
+handle _data_.
 
-> Refrain from using platform device, unless it is one please.
+You should almost never need to worry about module reference counts if
+your code is structured properly, only handle the reference counts on
+the pointers you throw around.
 
-OK.
+The fact that you are even calling try_module_get() is a huge flag that
+something is wrong here.
 
-Greg suggested making the SCU IPC functionality a class and I think it
-fits here nicely so I'm going to try that next if nobody objects. I'll
-send the first cleanup patches separately.
+thanks,
+
+greg k-h
