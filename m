@@ -2,28 +2,28 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF7A1145A27
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 780F2145A1C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:46:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729129AbgAVQqr (ORCPT
+        id S1728811AbgAVQq3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 11:46:47 -0500
-Received: from mga17.intel.com ([192.55.52.151]:56371 "EHLO mga17.intel.com"
+        Wed, 22 Jan 2020 11:46:29 -0500
+Received: from mga02.intel.com ([134.134.136.20]:42576 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729066AbgAVQqk (ORCPT
+        id S1726621AbgAVQq0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 11:46:40 -0500
+        Wed, 22 Jan 2020 11:46:26 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:46:39 -0800
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:46:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="245106264"
+   d="scan'208";a="400060814"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 22 Jan 2020 08:46:20 -0800
+  by orsmga005.jf.intel.com with ESMTP; 22 Jan 2020 08:46:21 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id EAD43202; Wed, 22 Jan 2020 18:46:19 +0200 (EET)
+        id 05BD229D; Wed, 22 Jan 2020 18:46:20 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>
@@ -34,9 +34,9 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/9] platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_simple_command() static
-Date:   Wed, 22 Jan 2020 19:46:12 +0300
-Message-Id: <20200122164619.73563-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/9] platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_raw_cmd() static
+Date:   Wed, 22 Jan 2020 19:46:13 +0300
+Message-Id: <20200122164619.73563-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
 References: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
@@ -53,55 +53,59 @@ static instead.
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- arch/x86/include/asm/intel_pmc_ipc.h | 6 ------
- drivers/platform/x86/intel_pmc_ipc.c | 3 +--
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ arch/x86/include/asm/intel_pmc_ipc.h | 8 --------
+ drivers/platform/x86/intel_pmc_ipc.c | 5 ++---
+ 2 files changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/arch/x86/include/asm/intel_pmc_ipc.h b/arch/x86/include/asm/intel_pmc_ipc.h
-index 3b2e8b461520..b4f804877651 100644
+index b4f804877651..966ff2171ff9 100644
 --- a/arch/x86/include/asm/intel_pmc_ipc.h
 +++ b/arch/x86/include/asm/intel_pmc_ipc.h
-@@ -31,7 +31,6 @@
+@@ -31,8 +31,6 @@
  
  #if IS_ENABLED(CONFIG_INTEL_PMC_IPC)
  
--int intel_pmc_ipc_simple_command(int cmd, int sub);
- int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
- 		u32 *out, u32 outlen, u32 dptr, u32 sptr);
+-int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
+-		u32 *out, u32 outlen, u32 dptr, u32 sptr);
  int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
-@@ -43,11 +42,6 @@ int intel_pmc_gcr_write(u32 offset, u32 data);
+ 		u32 *out, u32 outlen);
+ int intel_pmc_s0ix_counter_read(u64 *data);
+@@ -42,12 +40,6 @@ int intel_pmc_gcr_write(u32 offset, u32 data);
  
  #else
  
--static inline int intel_pmc_ipc_simple_command(int cmd, int sub)
+-static inline int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
+-		u32 *out, u32 outlen, u32 dptr, u32 sptr)
 -{
 -	return -EINVAL;
 -}
 -
- static inline int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen,
- 		u32 *out, u32 outlen, u32 dptr, u32 sptr)
+ static inline int intel_pmc_ipc_command(u32 cmd, u32 sub, u8 *in, u32 inlen,
+ 		u32 *out, u32 outlen)
  {
 diff --git a/drivers/platform/x86/intel_pmc_ipc.c b/drivers/platform/x86/intel_pmc_ipc.c
-index 9229c7a16536..53551f5474a7 100644
+index 53551f5474a7..83f47df1c4a5 100644
 --- a/drivers/platform/x86/intel_pmc_ipc.c
 +++ b/drivers/platform/x86/intel_pmc_ipc.c
-@@ -404,7 +404,7 @@ static int intel_pmc_ipc_check_status(void)
+@@ -435,8 +435,8 @@ static int intel_pmc_ipc_simple_command(int cmd, int sub)
   *
   * Return:	an IPC error code or 0 on success.
   */
--int intel_pmc_ipc_simple_command(int cmd, int sub)
-+static int intel_pmc_ipc_simple_command(int cmd, int sub)
+-int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen, u32 *out,
+-			  u32 outlen, u32 dptr, u32 sptr)
++static int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen, u32 *out,
++				 u32 outlen, u32 dptr, u32 sptr)
  {
+ 	u32 wbuf[4] = { 0 };
  	int ret;
- 
-@@ -419,7 +419,6 @@ int intel_pmc_ipc_simple_command(int cmd, int sub)
+@@ -468,7 +468,6 @@ int intel_pmc_ipc_raw_cmd(u32 cmd, u32 sub, u8 *in, u32 inlen, u32 *out,
  
  	return ret;
  }
--EXPORT_SYMBOL_GPL(intel_pmc_ipc_simple_command);
+-EXPORT_SYMBOL_GPL(intel_pmc_ipc_raw_cmd);
  
  /**
-  * intel_pmc_ipc_raw_cmd() - IPC command with data and pointers
+  * intel_pmc_ipc_command() -  IPC command with input/output data
 -- 
 2.24.1
 
