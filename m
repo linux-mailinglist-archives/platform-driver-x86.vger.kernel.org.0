@@ -2,116 +2,180 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A51A144847
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 00:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9322C144BC4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 07:33:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbgAUX2a (ORCPT
+        id S1725836AbgAVGdI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Jan 2020 18:28:30 -0500
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:49174 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgAUX2a (ORCPT
+        Wed, 22 Jan 2020 01:33:08 -0500
+Received: from mga18.intel.com ([134.134.136.126]:39912 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725805AbgAVGdI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Jan 2020 18:28:30 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 482PqK49mlz9vKTV
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jan 2020 23:28:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AHH63mBek8_K for <platform-driver-x86@vger.kernel.org>;
-        Tue, 21 Jan 2020 17:28:29 -0600 (CST)
-Received: from mail-yw1-f69.google.com (mail-yw1-f69.google.com [209.85.161.69])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 482PqK3BRcz9vKT9
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jan 2020 17:28:29 -0600 (CST)
-Received: by mail-yw1-f69.google.com with SMTP id v126so3779878ywf.7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Jan 2020 15:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QDSoCgRn2awPXZIHPqZUcbJK/YN9MXXwLcpipylIxRc=;
-        b=DJF3Jr9OAWSaXREE+ECGzJQ5H8j/Jkoj8rXQIpqijNt8TCHZSHdERIn73pa9hMPS/x
-         tQGZa5WSYDCgkyZe3xlHX3B3/43tfSLcYkb1bbADEz7wvM/WzQHTHwbT6WIox9rHC35E
-         MjWBDfezMfGjiFMhWlc2m+HVCFqT78YPAARiqOZEVCSgS013htZ8zsgV2JYSDByYszs/
-         7FmTdfL8BGNkoUuE8GXnnfoo6viEbZ0wPgElhBhlVhFZKwsXb5brVQBLO/04xf//Od4s
-         cidUon7N+snecewRd3Y7FMtBqPVs9aCtx7qGOy3HcAil8WVb1BiE7K/V9c7HthWpytq1
-         MfIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QDSoCgRn2awPXZIHPqZUcbJK/YN9MXXwLcpipylIxRc=;
-        b=tXbDBmSj3N/34175a5upH6uMIFuxErzNly2hYChw4JujBDnPXjrXygFv4UpUMb+DTI
-         8me2hONrmSCIdq/pLFf3lhpP8QB6RN3+BMPPndIOHSB53muqnOah6ziXLAK0x+fcE7Im
-         na9cADqAlHtjrNjudcQ0MIaTmzoWdl5O8S+MeLdWa+lmQTuSgak9mwxjsEBM1Iu1u8gM
-         +ZPWNk04UmQptE2aCZRYLjnk/bPdqMRAE9vPAcv7eMeZVnMak0z6/D+yC06gv+AvxGCG
-         QPXXz80kQ+k7j4U3pkh8bNv7pNbAUL/HT38lEO/eT2QaVYjj+5Z3ZUgAxk8dW08anIkB
-         XdGw==
-X-Gm-Message-State: APjAAAUg1hOLqspq18dnXvGof57YF/yi1aSjqwHGyp7bNw59cyGAUJsJ
-        sXtyw9JrBTGVfW0J/3CQWC/RLk0jiVOwleWCd5qtwJlwwU4gvPj8VJ/PC6wnRYKDTHvIWiiSlQd
-        E4w8JnlR3/hlodZIM+OEt52aUs7sU1q28VQLwwg==
-X-Received: by 2002:a81:b645:: with SMTP id h5mr5497663ywk.350.1579649308881;
-        Tue, 21 Jan 2020 15:28:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzIsms8HwlBlMjPYZ9klO4Ont2Y1e8CBZEjaa8VIBUstS21NtE1l/1pwdtycPZcQfR4MgjCMg==
-X-Received: by 2002:a81:b645:: with SMTP id h5mr5497642ywk.350.1579649308608;
-        Tue, 21 Jan 2020 15:28:28 -0800 (PST)
-Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
-        by smtp.gmail.com with ESMTPSA id g190sm17580313ywf.41.2020.01.21.15.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 15:28:28 -0800 (PST)
-From:   Aditya Pakki <pakki001@umn.edu>
-To:     pakki001@umn.edu
-Cc:     kjlu@umn.edu, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Juergen Gross <jgross@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Allison Randal <allison@lohutok.net>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] x86/platform/olpc: Fix the error handling of memblock_alloc failure
-Date:   Tue, 21 Jan 2020 17:28:16 -0600
-Message-Id: <20200121232818.28018-1-pakki001@umn.edu>
-X-Mailer: git-send-email 2.20.1
+        Wed, 22 Jan 2020 01:33:08 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 22:33:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,348,1574150400"; 
+   d="scan'208";a="275523717"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jan 2020 22:33:05 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1iu9ZZ-0007w0-Er; Wed, 22 Jan 2020 14:33:05 +0800
+Date:   Wed, 22 Jan 2020 14:32:38 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
+ a3e2b51ca31f56317d2b88fe226b06306aecc5b6
+Message-ID: <5e27ec86.Olr/kD4a4USeIhOi%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-In case of an error in memblock_alloc, the code calls both panic and
-BUG_ON. Revert the error handling to BUG_ON.
+tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
+branch HEAD: a3e2b51ca31f56317d2b88fe226b06306aecc5b6  platform/x86: asus-nb-wmi: Support left round button on N56VB
 
-Fixes: 8a7f97b902f4 (add checks for the return value of memblock_alloc*())
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+elapsed time: 2688m
+
+configs tested: 122
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+openrisc             randconfig-a001-20200120
+xtensa               randconfig-a001-20200120
+csky                 randconfig-a001-20200120
+sh                   randconfig-a001-20200120
+s390                 randconfig-a001-20200120
+parisc                        c3000_defconfig
+parisc                         b180_defconfig
+parisc                              defconfig
+parisc                            allnoconfig
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                              fedora-25
+x86_64                                  kexec
+m68k                          multi_defconfig
+m68k                       m5475evb_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                     edosk2674_defconfig
+m68k                           sun3_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+riscv                          rv32_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+riscv                    nommu_virt_defconfig
+riscv                            allyesconfig
+s390                              allnoconfig
+s390                             alldefconfig
+s390                          debug_defconfig
+s390                             allmodconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+s390                             allyesconfig
+arc                  randconfig-a001-20200122
+arm                  randconfig-a001-20200122
+arm64                randconfig-a001-20200122
+ia64                 randconfig-a001-20200122
+powerpc              randconfig-a001-20200122
+sparc                randconfig-a001-20200122
+openrisc             randconfig-a001-20200121
+csky                 randconfig-a001-20200121
+xtensa               randconfig-a001-20200121
+sh                   randconfig-a001-20200121
+s390                 randconfig-a001-20200121
+sparc64                          allyesconfig
+sparc                               defconfig
+sparc64                           allnoconfig
+sparc64                             defconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+ia64                             alldefconfig
+mips                             allmodconfig
+mips                           32r2_defconfig
+mips                             allyesconfig
+mips                              allnoconfig
+arm                              allmodconfig
+arm                         at91_dt_defconfig
+arm64                               defconfig
+arm                        multi_v5_defconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+arm                               allnoconfig
+arm                           efm32_defconfig
+arm                           sunxi_defconfig
+arm64                             allnoconfig
+arm64                            allmodconfig
+arm                          exynos_defconfig
+arm                        shmobile_defconfig
+arm                        multi_v7_defconfig
+i386                              allnoconfig
+nds32                               defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+xtensa                       common_defconfig
+openrisc                    or1ksim_defconfig
+nios2                         3c120_defconfig
+xtensa                          iss_defconfig
+c6x                        evmc6678_defconfig
+c6x                              allyesconfig
+nios2                         10m50_defconfig
+openrisc                 simple_smp_defconfig
+i386                 randconfig-d002-20200121
+x86_64               randconfig-d003-20200121
+x86_64               randconfig-d002-20200121
+i386                 randconfig-d001-20200121
+riscv                randconfig-a001-20200121
+alpha                randconfig-a001-20200121
+parisc               randconfig-a001-20200121
+m68k                 randconfig-a001-20200121
+nds32                randconfig-a001-20200121
+sh                               allmodconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                                allnoconfig
+sh                            titan_defconfig
+h8300                randconfig-a001-20200122
+nios2                randconfig-a001-20200122
+c6x                  randconfig-a001-20200122
+sparc64              randconfig-a001-20200122
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+powerpc                           allnoconfig
+h8300                randconfig-a001-20200121
+nios2                randconfig-a001-20200121
+c6x                  randconfig-a001-20200121
+microblaze           randconfig-a001-20200121
+sparc64              randconfig-a001-20200121
+arc                              allyesconfig
+microblaze                    nommu_defconfig
+microblaze                      mmu_defconfig
+arc                                 defconfig
+
 ---
- arch/x86/platform/olpc/olpc_dt.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/arch/x86/platform/olpc/olpc_dt.c b/arch/x86/platform/olpc/olpc_dt.c
-index 26d1f6693789..92d5ce1232ab 100644
---- a/arch/x86/platform/olpc/olpc_dt.c
-+++ b/arch/x86/platform/olpc/olpc_dt.c
-@@ -137,9 +137,6 @@ void * __init prom_early_alloc(unsigned long size)
- 		 * wasted bootmem) and hand off chunks of it to callers.
- 		 */
- 		res = memblock_alloc(chunk_size, SMP_CACHE_BYTES);
--		if (!res)
--			panic("%s: Failed to allocate %zu bytes\n", __func__,
--			      chunk_size);
- 		BUG_ON(!res);
- 		prom_early_allocated += chunk_size;
- 		memset(res, 0, chunk_size);
--- 
-2.20.1
-
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
