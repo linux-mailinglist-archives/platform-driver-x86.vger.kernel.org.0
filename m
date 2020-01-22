@@ -2,55 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7FC14546D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 13:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10197145494
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 13:53:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729146AbgAVMen (ORCPT
+        id S1728900AbgAVMxL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 07:34:43 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44196 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726204AbgAVMen (ORCPT
+        Wed, 22 Jan 2020 07:53:11 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10066 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727453AbgAVMxL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 07:34:43 -0500
-Received: by mail-wr1-f68.google.com with SMTP id q10so7046270wrm.11
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Jan 2020 04:34:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=2GhRGBXZ61sShjbspHfKcYEQZWltM3X6lSFo674t7to=;
-        b=FwwQRJcqKeYK89XfK/oqpBjkHe/ET6/B3wFHE96E1Fv3USCGYrXz9UWnYqIIpb5LZl
-         3lao0QZ5pbKC9hTFCkWQpXIlGmbZn9zxuC45CJxLz0BYfpmQ7/wh7a8uQQ34mpwT9iwY
-         HUpqTyFvG/+ob791WuSKlYbkXJSC5pwZPfWl/yyLx3TUHGLnbxk4CUNgCDfXlkGphLSF
-         fKtM7fuQBc4UZ7JbUhGLuGCVOx3N/QP8cmt4s9w/4V9aFcOjHlqsFUXc/udsPrYW2N4J
-         dBgkK00wbTZVqv0kfRSOenAE5uIDp/JdvVdFVCdRN31LkQgcjg4NXB33kakpPDRqhJR8
-         EgTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=2GhRGBXZ61sShjbspHfKcYEQZWltM3X6lSFo674t7to=;
-        b=MGAp2IeklapeKWiDSY/yMRdDrMaez+c4B142X6/vmvtbSVSgCWx2NEFfBGY3oiZUUE
-         u1YZQKAC+Hf6q3og6WTOUUwSEulXu8Vs1aLFSp7gu14LGCg0S6uAZTcxPor4/bER1EUn
-         cfyESvnTQPQvT68JefM7Q/HfTyqPymYN2iaSu7a95KBWSKP6FyaSfiPckh51MLrzRqSE
-         q1K9BnqbPzLUBeFwm5NVDkK7pUDSWswCYFvG/U11dtIojckgAXgSZ3k0imNqrRyoK76G
-         ayKGaILiRKqwtIYGgcmNeLTiv2KMtnY18+s85ZzaRiftrWHWA+7sdPWtLaavu9EET4k0
-         mx+Q==
-X-Gm-Message-State: APjAAAUw1wVQTmYqI5q48EpvZ9V6l3HIuifnODQqMiYKxCQSPq2xDwbx
-        J6JxWztDTMSnxSaivHxIMAxwug==
-X-Google-Smtp-Source: APXvYqyByoPvWV0lN8iAWU7bNGHwXyB94LMbplyJgmq9E//WLFRbgrouqlRAp+2Y9VbNJ+oLcMjDBQ==
-X-Received: by 2002:a05:6000:cb:: with SMTP id q11mr11101981wrx.14.1579696481402;
-        Wed, 22 Jan 2020 04:34:41 -0800 (PST)
-Received: from dell ([2.27.35.227])
-        by smtp.gmail.com with ESMTPSA id h8sm60333141wrx.63.2020.01.22.04.34.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 04:34:40 -0800 (PST)
-Date:   Wed, 22 Jan 2020 12:34:54 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+        Wed, 22 Jan 2020 07:53:11 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 04:53:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
+   d="scan'208";a="283659268"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 22 Jan 2020 04:53:02 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 22 Jan 2020 14:53:00 +0200
+Date:   Wed, 22 Jan 2020 14:53:00 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -65,107 +41,64 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mark Brown <broonie@kernel.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 37/38] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200122123454.GL15507@dell>
+Message-ID: <20200122125300.GO2665@lahna.fi.intel.com>
 References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
  <20200121160114.60007-38-mika.westerberg@linux.intel.com>
+ <20200122123454.GL15507@dell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200121160114.60007-38-mika.westerberg@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200122123454.GL15507@dell>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 21 Jan 2020, Mika Westerberg wrote:
-
-> This driver only creates a bunch of platform devices sharing resources
-> belonging to the PMC device. This is pretty much what MFD subsystem is
-> for so move the driver there, renaming it to intel_pmc_bxt.c which
-> should be more clear what it is.
+On Wed, Jan 22, 2020 at 12:34:54PM +0000, Lee Jones wrote:
+> > +static int intel_pmc_probe(struct platform_device *pdev)
+> > +{
+> > +	struct intel_scu_ipc_pdata pdata = {};
+> > +	struct intel_pmc_dev *pmc;
+> > +	int ret;
+> > +
+> > +	pmc = devm_kzalloc(&pdev->dev, sizeof(*pmc), GFP_KERNEL);
+> > +	if (!pmc)
+> > +		return -ENOMEM;
+> > +
+> > +	pmc->dev = &pdev->dev;
+> > +	spin_lock_init(&pmc->gcr_lock);
+> > +
+> > +	ret = intel_pmc_get_resources(pdev, pmc, &pdata);
+> > +	if (ret) {
+> > +		dev_err(&pdev->dev, "Failed to request resources\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	pmc->scu = devm_intel_scu_ipc_register(&pdev->dev, &pdata);
+> > +	if (IS_ERR(pmc->scu))
+> > +		return PTR_ERR(pmc->scu);
 > 
-> MFD subsystem provides nice helper APIs for subdevice creation so
-> convert the driver to use those. Unfortunately the ACPI device includes
-> separate resources for most of the subdevices so we cannot simply call
-> mfd_add_devices() to create all of them but instead we need to call it
-> separately for each device.
+> *_register is better than *_probe.  If it was called that (or maybe
+> *_init) initially I may have missed the issue altogether ...
 > 
-> The new MFD driver continues to expose two sysfs attributes that allow
-> userspace to send IPC commands to the PMC/SCU to avoid breaking any
-> existing applications that may use these. Generally this is bad idea so
-> document this in the ABI documentation.
-> 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> ---
->  .../ABI/obsolete/sysfs-driver-intel_pmc_bxt   |  22 +
->  arch/x86/include/asm/intel_pmc_ipc.h          |  47 --
->  arch/x86/include/asm/intel_telemetry.h        |   1 +
->  drivers/mfd/Kconfig                           |  16 +-
->  drivers/mfd/Makefile                          |   1 +
->  drivers/mfd/intel_pmc_bxt.c                   | 496 ++++++++++++++
->  drivers/platform/x86/Kconfig                  |  16 +-
->  drivers/platform/x86/Makefile                 |   1 -
->  drivers/platform/x86/intel_pmc_ipc.c          | 645 ------------------
->  .../platform/x86/intel_telemetry_debugfs.c    |  12 +-
->  drivers/platform/x86/intel_telemetry_pltdrv.c |   2 +
->  drivers/usb/typec/tcpm/Kconfig                |   2 +-
->  include/linux/mfd/intel_pmc_bxt.h             |  21 +
->  13 files changed, 572 insertions(+), 710 deletions(-)
->  create mode 100644 Documentation/ABI/obsolete/sysfs-driver-intel_pmc_bxt
->  delete mode 100644 arch/x86/include/asm/intel_pmc_ipc.h
->  create mode 100644 drivers/mfd/intel_pmc_bxt.c
->  delete mode 100644 drivers/platform/x86/intel_pmc_ipc.c
->  create mode 100644 include/linux/mfd/intel_pmc_bxt.h
+> However, I still think it the SCU IPC *device* needs to be a device
+> driver and abide by the rules, ensuring it uses the device driver
+> model/API.  As such, it should be registered and probed as a device.
 
-[...]
+Which type of device you suggest here? And which bus it should be
+registered to? I think we can make this create a platform_device but
+then we would need to do that from the PCI driver as well which seems
+unnecessary since we already have the struct pci_dev.
 
-> +static int intel_pmc_probe(struct platform_device *pdev)
-> +{
-> +	struct intel_scu_ipc_pdata pdata = {};
-> +	struct intel_pmc_dev *pmc;
-> +	int ret;
-> +
-> +	pmc = devm_kzalloc(&pdev->dev, sizeof(*pmc), GFP_KERNEL);
-> +	if (!pmc)
-> +		return -ENOMEM;
-> +
-> +	pmc->dev = &pdev->dev;
-> +	spin_lock_init(&pmc->gcr_lock);
-> +
-> +	ret = intel_pmc_get_resources(pdev, pmc, &pdata);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to request resources\n");
-> +		return ret;
-> +	}
-> +
-> +	pmc->scu = devm_intel_scu_ipc_register(&pdev->dev, &pdata);
-> +	if (IS_ERR(pmc->scu))
-> +		return PTR_ERR(pmc->scu);
+For instance in drivers/mfd/intel-lpss* we use similar approach (the
+core part is library that gets called by probe drivers (ACPI, PCI). We
+don't create any additional platform_devices.
 
-*_register is better than *_probe.  If it was called that (or maybe
-*_init) initially I may have missed the issue altogether ...
+There is another twist. Ideally we would like to see the SCU IPC probed
+and intialized before the MFD children so that we know the SCU IPC is
+ready by the time the children devices are created. I guess we could
+work it around by returning -EPROBE_DEFER but that does not feel right
+to be honest.
 
-However, I still think it the SCU IPC *device* needs to be a device
-driver and abide by the rules, ensuring it uses the device driver
-model/API.  As such, it should be registered and probed as a device.
-
-If you require something from it you should call into it (perhaps
-using a register function like above), but that should be done *after*
-the device has been bound and probed.
-
-> +	platform_set_drvdata(pdev, pmc);
-> +
-> +	ret = intel_pmc_create_devices(pmc);
-> +	if (ret)
-> +		dev_err(&pdev->dev, "Failed to create PMC devices\n");
-> +
-> +	return ret;
-> +}
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Thanks!
