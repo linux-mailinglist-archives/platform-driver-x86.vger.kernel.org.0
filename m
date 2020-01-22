@@ -2,36 +2,36 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C6ED14594A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90A0A1459A3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:18:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgAVQFY (ORCPT
+        id S1725883AbgAVQSq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 11:05:24 -0500
-Received: from mga18.intel.com ([134.134.136.126]:19822 "EHLO mga18.intel.com"
+        Wed, 22 Jan 2020 11:18:46 -0500
+Received: from mga14.intel.com ([192.55.52.115]:56521 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725972AbgAVQFY (ORCPT
+        id S1725868AbgAVQSq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 11:05:24 -0500
+        Wed, 22 Jan 2020 11:18:46 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:05:24 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:18:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="221267945"
+   d="scan'208";a="222081051"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Jan 2020 08:05:22 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2020 08:18:44 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 2EAF51AD; Wed, 22 Jan 2020 18:05:20 +0200 (EET)
+        id DC0061AD; Wed, 22 Jan 2020 18:18:43 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+To:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>
 Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: intel_mid_powerbtn: Take a copy of ddata
-Date:   Wed, 22 Jan 2020 19:05:20 +0300
-Message-Id: <20200122160520.55362-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH] platform/x86: intel_scu_ipcutil: Remove default y from Kconfig
+Date:   Wed, 22 Jan 2020 19:18:43 +0300
+Message-Id: <20200122161843.68296-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,41 +40,32 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver gets driver_data from memory that is marked as const (which
-is probably put to read-only memory) and it then modifies it. This
-likely causes some sort of fault to happen.
+This driver is by no means essential for system to boot up so remove
+default y from it.
 
-Fix this by taking a copy of the structure.
-
-Fixes: c94a8ff14de3 ("platform/x86: intel_mid_powerbtn: make mid_pb_ddata const")
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-This was part of the bigger series [1] but I'll send this one separately
-because this is just a simple fix.
+This was part of a bigger series [1] but since this is an independent
+change, I'll send it separately.
 
 [1] https://lkml.org/lkml/2020/1/21/678
 
- drivers/platform/x86/intel_mid_powerbtn.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/platform/x86/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel_mid_powerbtn.c b/drivers/platform/x86/intel_mid_powerbtn.c
-index 292bace83f1e..6f436836fe50 100644
---- a/drivers/platform/x86/intel_mid_powerbtn.c
-+++ b/drivers/platform/x86/intel_mid_powerbtn.c
-@@ -146,9 +146,10 @@ static int mid_pb_probe(struct platform_device *pdev)
- 
- 	input_set_capability(input, EV_KEY, KEY_POWER);
- 
--	ddata = (struct mid_pb_ddata *)id->driver_data;
-+	ddata = devm_kmemdup(&pdev->dev, (void *)id->driver_data,
-+			     sizeof(*ddata), GFP_KERNEL);
- 	if (!ddata)
--		return -ENODATA;
-+		return -ENOMEM;
- 
- 	ddata->dev = &pdev->dev;
- 	ddata->irq = irq;
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 27d5b40fb717..dd4326736d11 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -997,7 +997,6 @@ config INTEL_SCU_IPC
+ config INTEL_SCU_IPC_UTIL
+ 	tristate "Intel SCU IPC utility driver"
+ 	depends on INTEL_SCU_IPC
+-	default y
+ 	---help---
+ 	  The IPC Util driver provides an interface with the SCU enabling
+ 	  low level access for debug work and updating the firmware. Say
 -- 
 2.24.1
 
