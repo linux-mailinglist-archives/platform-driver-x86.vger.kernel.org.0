@@ -2,36 +2,40 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A0A1459A3
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E1921459D8
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:28:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725883AbgAVQSq (ORCPT
+        id S1728939AbgAVQ20 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 11:18:46 -0500
-Received: from mga14.intel.com ([192.55.52.115]:56521 "EHLO mga14.intel.com"
+        Wed, 22 Jan 2020 11:28:26 -0500
+Received: from mga17.intel.com ([192.55.52.151]:54723 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725868AbgAVQSq (ORCPT
+        id S1728665AbgAVQ2V (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 11:18:46 -0500
+        Wed, 22 Jan 2020 11:28:21 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:18:46 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:28:20 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="222081051"
+   d="scan'208";a="222083128"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2020 08:18:44 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jan 2020 08:28:15 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id DC0061AD; Wed, 22 Jan 2020 18:18:43 +0200 (EET)
+        id 2F4331AD; Wed, 22 Jan 2020 18:28:13 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: intel_scu_ipcutil: Remove default y from Kconfig
-Date:   Wed, 22 Jan 2020 19:18:43 +0300
-Message-Id: <20200122161843.68296-1-mika.westerberg@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/10] platform/x86: intel_scu_ipc: A fix and cleanups
+Date:   Wed, 22 Jan 2020 19:28:03 +0300
+Message-Id: <20200122162813.26070-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -40,32 +44,34 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This driver is by no means essential for system to boot up so remove
-default y from it.
+Hi,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-This was part of a bigger series [1] but since this is an independent
-change, I'll send it separately.
+As suggested by Greg in the discussion around my SCU/PMC IPC rework series [1],
+I split the cleanups touching intel_scu_ipc driver in a separate series
+that can be applied independly.
+
+The first patch fixes interrupt support to work in Intel Merrifield. The
+rest of the patches are cleanups mostly removing code that is not used
+anywhere.
 
 [1] https://lkml.org/lkml/2020/1/21/678
 
- drivers/platform/x86/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Mika Westerberg (10):
+  platform/x86: intel_scu_ipc: Fix interrupt support
+  platform/x86: intel_scu_ipc: Add constants for register offsets
+  platform/x86: intel_scu_ipc: Remove Lincroft support
+  platform/x86: intel_scu_ipc: Drop intel_scu_ipc_i2c_cntrl()
+  platform/x86: intel_scu_ipc: Sleeping is fine when polling
+  platform/x86: intel_scu_ipc: Drop unused prototype intel_scu_ipc_fw_update()
+  platform/x86: intel_scu_ipc: Drop unused macros
+  platform/x86: intel_scu_ipc: Drop intel_scu_ipc_io[read|write][8|16]()
+  platform/x86: intel_scu_ipc: Drop intel_scu_ipc_raw_command()
+  platform/x86: intel_scu_ipc: Reformat kernel-doc comments of exported functions
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 27d5b40fb717..dd4326736d11 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -997,7 +997,6 @@ config INTEL_SCU_IPC
- config INTEL_SCU_IPC_UTIL
- 	tristate "Intel SCU IPC utility driver"
- 	depends on INTEL_SCU_IPC
--	default y
- 	---help---
- 	  The IPC Util driver provides an interface with the SCU enabling
- 	  low level access for debug work and updating the firmware. Say
+ arch/x86/include/asm/intel_scu_ipc.h |  20 --
+ drivers/platform/x86/intel_scu_ipc.c | 414 ++++++---------------------
+ 2 files changed, 91 insertions(+), 343 deletions(-)
+
 -- 
 2.24.1
 
