@@ -2,104 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FCB14680A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E28F814680E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:32:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgAWMcU (ORCPT
+        id S1728609AbgAWMco (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 07:32:20 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:38654 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbgAWMcU (ORCPT
+        Thu, 23 Jan 2020 07:32:44 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:33536 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727847AbgAWMco (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 07:32:20 -0500
-Received: by mail-pj1-f65.google.com with SMTP id l35so1231194pje.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jan 2020 04:32:19 -0800 (PST)
+        Thu, 23 Jan 2020 07:32:44 -0500
+Received: by mail-pf1-f194.google.com with SMTP id z16so1491765pfk.0;
+        Thu, 23 Jan 2020 04:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Zc8o67yU7TeI8P+0quC9ED0K/zMCW8wUMcpc20XgyF8=;
-        b=m1icPr45TmAnHFvF3TmNtgmozX147KHau+GNgDPsY8e+kzAQnf72p5VzuVItqurWH8
-         fcmzvJS/coBU3lBcsUvPBn/hmDdczgH+awGLX1x83Le96sfYOjIvFxbUl/bJ4jm8FjKB
-         tgeX2aOcGn+2rsjgWD1t69dfmOrLy9N1by6/YjH0k78gwKnrfpOmomQsQhGl7PFPtv4z
-         xVP9steU1ACoPIo+nu7I2bGjoEIpDmd83+hwoJExn8DW5+gp+x+mP81qTryJmkDhZuRW
-         0mPVzjB1++JU2RA1LIwuaPsP3AxNzRoagGkbqrvwuRlPBTuam8bESWxof2Et1f3v9DQg
-         vQMw==
+        bh=+UrfVxCXukIQNwayQaXCUBflPDHxJxAsXlJUl97UvbA=;
+        b=J9ZqyXrIkldPAMknOgVFzm6lBt2yr32pTPEtW/XqKZqKW+crhXFCmDAmIedLKXJ9CW
+         7x/ZuKxkbLc6gjAk1HZbefAJoBuF4s3AaBs4ES5VrV96E5FAMeSvrnEeqnbm14Ev4fEZ
+         RZaufLQzHLwtNEJpS+EW6rq6If2+JeQB8F99bqTtfmefQV+IB/TSyn7YC04sWvrLmMuB
+         iDz6vJTMcrrwdO3uoQ7Ft+XC1bm146PukPy0WQ35Y5eSKX27mc+5TV51sjFj4YTt+sx2
+         aLavNHcmXhXVTcMzDF3rCqGL/CcluOKCcUAdAxBpzattkVaCpilCOE+SxKJmxu6j6kNp
+         p8CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Zc8o67yU7TeI8P+0quC9ED0K/zMCW8wUMcpc20XgyF8=;
-        b=JC/BhLp5JIKBJeSHV9GDoT4YL+ufuCsJZxjpe6Sz5gu304TtuDhEOnA6NVYyKYVZZ6
-         oTPOMXwL7F+MYj1ZR5JyovXp56ELJmeY0UYm+4NGNvh2ICfPtyfvDlGtfMmsKfhgkSu1
-         4Z8/tnj7F6YQb934TlU5zjsR7ikAeZYyscnixk+lwz+Q8zYCfMtlBIECX312xzxj2oQb
-         ooWjDLrM6+VOEUe1ApKPvYGXVvwwSCaS+F0y02bvqq4RB1aDCpc4t4fLaKUMxBYOJarE
-         dtgnuj/vLGms1pPTgs686o9dbk0z+X4xiJBEiEz/WrFQiYMjB4xgQPgqat3Tngp4ii+6
-         p6FQ==
-X-Gm-Message-State: APjAAAWrlWuUATAVrECkCMxEGPdksUy4EU+BdiPXFSto50y9Qyh8tvqo
-        m0ZCyG12raLiRhf9Ch1tKMogtHNOc6GOKi1wbxY=
-X-Google-Smtp-Source: APXvYqyFQrWwiC2cgqYo1NCoZiqWum2ZeVE3XeQfwJlTF3VW0QdtO2QyxVecBf1YrgnpbRV30D6hsKOWww3SlBGvYeQ=
-X-Received: by 2002:a17:902:a9c7:: with SMTP id b7mr15775308plr.255.1579782739602;
- Thu, 23 Jan 2020 04:32:19 -0800 (PST)
+        bh=+UrfVxCXukIQNwayQaXCUBflPDHxJxAsXlJUl97UvbA=;
+        b=mv1NHjT35oLU4vJvHQaoKyoZO1NcIHIQ8wF5azv3QgZD3aPbmwQ4MAyWakeU3yziFB
+         Xozzb77T8PFPLKKr4F3z37uDbVL4g73iJwK1iKBpFida1BJEUzQcPw/2gwkqwIuzsH3g
+         61JnxzU/SUUzzEhxh0pzLQIZd5b2bizim2HF8wr9UI6sfdq1STAXZvqxxsNu97zgZ7i9
+         QpDVrb53FoC7a+/r1hM7qT4VhqAcBZWEc6qH209ODZeXD4ZL6gjl3aVIk0yJSj+m+eSw
+         zgWmqx8NbdxNVGzj74HAWW3oEw576WMRiMkulRkN5zRV6LGxod/7uNrrz/6Az8+6hCm/
+         noRg==
+X-Gm-Message-State: APjAAAUsPKRqPEvvEnf5RpHTI6T38BQvlOWMiuBa0EIV6zALqQ7zVwtP
+        IU13oO02231E/30IZQxfNjE7OauO5wQ+p9su91A=
+X-Google-Smtp-Source: APXvYqwQHXX8uKu5xifP3s+WmVCLVrN61RB8PkBIwkN3i1SfQk2qpxlsIgUdxXQt4N4z5Zgod6lw5RIpGsNOzwlTc4E=
+X-Received: by 2002:a63:941:: with SMTP id 62mr3883320pgj.203.1579782763361;
+ Thu, 23 Jan 2020 04:32:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20200122160520.55362-1-mika.westerberg@linux.intel.com>
-In-Reply-To: <20200122160520.55362-1-mika.westerberg@linux.intel.com>
+References: <20200114192217.580364-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <20200114192217.580364-1-srinivas.pandruvada@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 23 Jan 2020 14:32:11 +0200
-Message-ID: <CAHp75VdCHuyGjLA=KUJVd2ELx9B_5QBX7KbZjAnOxXLxkxMFZQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: intel_mid_powerbtn: Take a copy of ddata
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+Date:   Thu, 23 Jan 2020 14:32:34 +0200
+Message-ID: <CAHp75VcJXC6jtgXcxV2ikEEw_q=UPHyHYCST9QvyhWK+oRGvnQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Intel Speed Select Core Power Support
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Prarit Bhargava <prarit@redhat.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 6:06 PM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
+On Tue, Jan 14, 2020 at 9:22 PM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
 >
-> The driver gets driver_data from memory that is marked as const (which
-> is probably put to read-only memory) and it then modifies it. This
-> likely causes some sort of fault to happen.
->
-> Fix this by taking a copy of the structure.
+> This series add core-power or SST-CP support. Also fixes some display
+> issue with SST-TF.
 >
 
 Pushed to my review and testing queue, thanks!
 
-> Fixes: c94a8ff14de3 ("platform/x86: intel_mid_powerbtn: make mid_pb_ddata const")
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> This was part of the bigger series [1] but I'll send this one separately
-> because this is just a simple fix.
+> Srinivas Pandruvada (5):
+>   platform/x86: ISST: Allow additional core-power mailbox commands
+>   tools/power/x86/intel-speed-select: Add support for core-power
+>     discovery
+>   tools/power/x86/intel-speed-select: Fix result display for turbo-freq
+>     auto mode
+>   tools/power/x86/intel-speed-select: Change the order for clos disable
+>   tools/power/x86/intel-speed-select: Update version
 >
-> [1] https://lkml.org/lkml/2020/1/21/678
+>  .../intel_speed_select_if/isst_if_common.c    |  3 +
+>  .../x86/intel-speed-select/isst-config.c      | 34 ++++++------
+>  .../power/x86/intel-speed-select/isst-core.c  | 55 +++++++++++++++++++
+>  .../x86/intel-speed-select/isst-display.c     | 27 ++++++---
+>  tools/power/x86/intel-speed-select/isst.h     |  6 ++
+>  5 files changed, 100 insertions(+), 25 deletions(-)
 >
->  drivers/platform/x86/intel_mid_powerbtn.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/platform/x86/intel_mid_powerbtn.c b/drivers/platform/x86/intel_mid_powerbtn.c
-> index 292bace83f1e..6f436836fe50 100644
-> --- a/drivers/platform/x86/intel_mid_powerbtn.c
-> +++ b/drivers/platform/x86/intel_mid_powerbtn.c
-> @@ -146,9 +146,10 @@ static int mid_pb_probe(struct platform_device *pdev)
->
->         input_set_capability(input, EV_KEY, KEY_POWER);
->
-> -       ddata = (struct mid_pb_ddata *)id->driver_data;
-> +       ddata = devm_kmemdup(&pdev->dev, (void *)id->driver_data,
-> +                            sizeof(*ddata), GFP_KERNEL);
->         if (!ddata)
-> -               return -ENODATA;
-> +               return -ENOMEM;
->
->         ddata->dev = &pdev->dev;
->         ddata->irq = irq;
 > --
 > 2.24.1
 >
