@@ -2,90 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83BAF146407
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 10:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB0BF146803
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:31:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726188AbgAWJCQ (ORCPT
+        id S1726260AbgAWMbl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 04:02:16 -0500
-Received: from mga02.intel.com ([134.134.136.20]:42400 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725785AbgAWJCQ (ORCPT
+        Thu, 23 Jan 2020 07:31:41 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38315 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbgAWMbk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 04:02:16 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jan 2020 00:56:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,353,1574150400"; 
-   d="scan'208";a="287240587"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 23 Jan 2020 00:56:17 -0800
-Received: by lahna (sSMTP sendmail emulation); Thu, 23 Jan 2020 10:56:16 +0200
-Date:   Thu, 23 Jan 2020 10:56:16 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thu, 23 Jan 2020 07:31:40 -0500
+Received: by mail-pl1-f196.google.com with SMTP id t6so1302166plj.5;
+        Thu, 23 Jan 2020 04:31:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TITrwanSGiU03FmHy+zum6Nkoqyj/cmVKfyRMr4GNWo=;
+        b=id8AesVWOlIhfnb+lp2I+MnTAT2ey6G20E+NiVRUdkSy4HrZd4KWmyL8WWoWJ1nWnC
+         fbryARk6Sotm4FAz4TgBCoLo71GbzbvAQMlBtot+4O0CnDNtb9YU4Um04juN7Mk1qwpJ
+         XNNHLOANMM02Czx8lM3DbVWoONeposIlLmcEGUzWuD0iaXr/JOOsnScCKs3SKiju+NYS
+         BQ+uuau/50hCFZ2+AcRoR8ZuiLhQu9zZcCRDwaZCjNdPSm+3b06CqzvcX/v2ZaHDthwv
+         ops0NfrG+j3ERvq6PEbZOJ7xhU0/qXZSW0H/9a4kaG0zez4qnR8kxtZ1eYYwICrFXjsp
+         PYJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TITrwanSGiU03FmHy+zum6Nkoqyj/cmVKfyRMr4GNWo=;
+        b=BUR4sjuqE0ra7veRZnoHRkxiO16NqT3s4RIWi3XuoSmHEJrL/kaapaBUy5eGtQlFaq
+         6VcV+XxBXEko990H8o0EOBOGIvS3FDVAEmDQ8epXIvzgTizO3AzYe1XXj0GyUT+eAb3K
+         0gMlf33ZRwUyxc4HkPzOKzSh3s0f2syODIUOJponIPFy7R0JgZ0bwV4j6YAwyRUcCp4C
+         neeX/TgU673tO09Pq3qId7jkjecUPQkCQjIPYkiU6+/nQksRQ/oe7u++QazqmQB0STqf
+         3VqwL0Aa+RhmQgT/UGHVk3nM4fCc3QTrzkUe/DlycZu6jyr0G0naaVXJZy3iDsG3KPpA
+         sCxA==
+X-Gm-Message-State: APjAAAUizKRi15/xeyy740Wjw1y6TEoAbUSZxDJR2QJIytu3iXVpC4Tr
+        y2MswVoYblBA+cDYh5H4uBrwPz5fDP7Qj9BtZXw=
+X-Google-Smtp-Source: APXvYqzpzxV1B6BZar8ghIA1x+GCPO6IVcHS+YMO7C2DJjhLGiy+Yf/fnfDcSDkEjknCBhmm/hwt/d/lUaNV9ytxENs=
+X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr4321527pjb.30.1579782700146;
+ Thu, 23 Jan 2020 04:31:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 23 Jan 2020 14:31:31 +0200
+Message-ID: <CAHp75VcTeT0Brhe+in-XKfwwaaXSwfRK0ceNVgUPd_TOpk1TqQ@mail.gmail.com>
+Subject: Re: [PATCH 0/9] platform/x86: intel_pmc_ipc: Cleanups
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Brown <broonie@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 37/38] platform/x86: intel_pmc_ipc: Convert to MFD
-Message-ID: <20200123085616.GF2665@lahna.fi.intel.com>
-References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
- <20200121160114.60007-38-mika.westerberg@linux.intel.com>
- <20200122123454.GL15507@dell>
- <20200122125300.GO2665@lahna.fi.intel.com>
- <20200122132757.GM15507@dell>
- <20200122144523.GX2665@lahna.fi.intel.com>
- <20200123080142.GP15507@dell>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200123080142.GP15507@dell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 08:01:42AM +0000, Lee Jones wrote:
-> On Wed, 22 Jan 2020, Mika Westerberg wrote:
-> 
-> > On Wed, Jan 22, 2020 at 01:27:57PM +0000, Lee Jones wrote:
-> > > > Which type of device you suggest here? And which bus it should be
-> > > > registered to? I think we can make this create a platform_device but
-> > > > then we would need to do that from the PCI driver as well which seems
-> > > > unnecessary since we already have the struct pci_dev.
-> > > 
-> > > What kind of device is it?
-> > 
-> > It is either part of an ACPI device (platform_device) or a PCI device
-> > depending on the platform.
-> > 
-> > > Refrain from using platform device, unless it is one please.
-> > 
-> > OK.
-> > 
-> > Greg suggested making the SCU IPC functionality a class and I think it
-> > fits here nicely so I'm going to try that next if nobody objects. I'll
-> > send the first cleanup patches separately.
-> 
-> Sounds good.
+On Wed, Jan 22, 2020 at 6:46 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> Hi,
+>
+> This is another independent cleanup series that I split out from my SCU/PMC
+> IPC rework patch set [1] as suggested by Greg. This removes code that is
+> not used anywhere and makes certain functions static as they are not called
+> outside of the driver. We also make the driver to use driver->dev_groups to
+> expose sysfs attributes.
+>
+> [1] https://lkml.org/lkml/2020/1/21/678
+>
 
-FYI, I the cleanup patch series can be found here:
+Pushed to my review and testing queue, thanks!
 
-https://www.spinics.net/lists/platform-driver-x86/msg20728.html
-https://www.spinics.net/lists/platform-driver-x86/msg20729.html
-https://www.spinics.net/lists/platform-driver-x86/msg20734.html
-https://www.spinics.net/lists/platform-driver-x86/msg20750.html
+> Mika Westerberg (9):
+>   platform/x86: intel_pmc_ipc: Make intel_pmc_gcr_update() static
+>   platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_simple_command() static
+>   platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_raw_cmd() static
+>   platform/x86: intel_pmc_ipc: Drop intel_pmc_gcr_read() and intel_pmc_gcr_write()
+>   platform/x86: intel_pmc_ipc: Drop ipc_data_readb()
+>   platform/x86: intel_pmc_ipc: Get rid of unnecessary includes
+>   platform/x86: intel_pmc_ipc: Use octal permissions in sysfs attributes
+>   platform/x86: intel_pmc_ipc: Propagate error from kstrtoul()
+>   platform/x86: intel_pmc_ipc: Switch to use driver->dev_groups
+>
+>  arch/x86/include/asm/intel_pmc_ipc.h |  32 --------
+>  drivers/platform/x86/intel_pmc_ipc.c | 114 ++++-----------------------
+>  2 files changed, 16 insertions(+), 130 deletions(-)
+>
+> --
+> 2.24.1
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
