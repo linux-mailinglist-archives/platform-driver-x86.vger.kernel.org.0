@@ -2,114 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB15145A26
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jan 2020 17:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1488B1462FC
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 09:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgAVQqk (ORCPT
+        id S1725785AbgAWIBc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jan 2020 11:46:40 -0500
-Received: from mga12.intel.com ([192.55.52.136]:42798 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728760AbgAVQq3 (ORCPT
+        Thu, 23 Jan 2020 03:01:32 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40878 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbgAWIBb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jan 2020 11:46:29 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Jan 2020 08:46:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,350,1574150400"; 
-   d="scan'208";a="221278206"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Jan 2020 08:46:25 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 42B204DB; Wed, 22 Jan 2020 18:46:20 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Thu, 23 Jan 2020 03:01:31 -0500
+Received: by mail-wr1-f65.google.com with SMTP id c14so1952609wrn.7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jan 2020 00:01:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=R+FbpZ9Vb49+TjvLZCwmovH5x+NpT0b9MCXQeRi4iaw=;
+        b=WpbRkF0gd/AHPTow/6O4uJYyullaxBVlxFlo899UJgx8grcJ2ArsnoUrjQfO7rM1uU
+         w6TuQ9tjZcwoQJOosgtcXcutXa4FhjX0+5MWUZ6xGZQUnKmtb9vS3r+kZEBzoZTkmnAl
+         PNKEGuSCt5Nok/9UJdqABRb2sW4ICZo1PZ7sM2DRiPaiaOaDyf2sLVF0pRw8h5gZU83A
+         gv6ME43amhCy88bJKCVHSO0e6kHsU3QowDaz+8c0TqSjPGj2T8ew2HQdACFkS3gsmCIz
+         /WQSKWmEoDWLrD02HXTjnV2+7LmeRNCzAwh1DGC5tgAxbRx+B7SGDWDQT5ZsGHXGI8gS
+         tDRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=R+FbpZ9Vb49+TjvLZCwmovH5x+NpT0b9MCXQeRi4iaw=;
+        b=S+H9cPzBYhUSVxefzyd1CFchSGWLEIaxRR4feFejctSqZ+Kr2yhb37HH2FLEaB5Rdu
+         TrlU0VJDkYmyFBS840nyAVNX90nM4gct5iQx4Lp2H/nFil8I+9fiSo1EoGm/9T2kf+5E
+         X7sfejpUHrSQ00faP0yPlATDjk7cAQBFi4KKzAO5bnIN3bJKozpyyEtBDEZaPEvOrMc/
+         zsojXKOs8/6mDd/j179xY0Fq7/yrDeUUxZ08YueZNu4wZ49PHeT7oHm6LmZFCfpI0hnf
+         Y9zgQ+Cc9HpZyQYcO7aZcnEjye+8IZo0USjMjI6QtORN+207OXzN/z/4ai/i471amAQh
+         yOCQ==
+X-Gm-Message-State: APjAAAUVZ13YT/1AmILfmbmZD6NUnsogkIe74MDJwFzfPu4ocBNjT0dd
+        +KB2naUNiFLEXLhwo4dtfWdTBg==
+X-Google-Smtp-Source: APXvYqwj5eR+g+mDnB5c9lVZNCKpo5UV/rYlef1uJMqn0W4226bEd71KH95SIuuF96EgTkH5Bl9CaA==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr16166384wrp.359.1579766489342;
+        Thu, 23 Jan 2020 00:01:29 -0800 (PST)
+Received: from dell ([2.27.35.227])
+        by smtp.gmail.com with ESMTPSA id w22sm1552914wmk.34.2020.01.23.00.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jan 2020 00:01:28 -0800 (PST)
+Date:   Thu, 23 Jan 2020 08:01:42 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Brown <broonie@kernel.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] platform/x86: intel_pmc_ipc: Switch to use driver->dev_groups
-Date:   Wed, 22 Jan 2020 19:46:19 +0300
-Message-Id: <20200122164619.73563-10-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
-References: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH v4 37/38] platform/x86: intel_pmc_ipc: Convert to MFD
+Message-ID: <20200123080142.GP15507@dell>
+References: <20200121160114.60007-1-mika.westerberg@linux.intel.com>
+ <20200121160114.60007-38-mika.westerberg@linux.intel.com>
+ <20200122123454.GL15507@dell>
+ <20200122125300.GO2665@lahna.fi.intel.com>
+ <20200122132757.GM15507@dell>
+ <20200122144523.GX2665@lahna.fi.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200122144523.GX2665@lahna.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver core provides support for adding additional attributes for
-devices via new ->dev_groups member of struct device_driver. Convert the
-driver to use that instead of adding the attributes manually.
+On Wed, 22 Jan 2020, Mika Westerberg wrote:
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/platform/x86/intel_pmc_ipc.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+> On Wed, Jan 22, 2020 at 01:27:57PM +0000, Lee Jones wrote:
+> > > Which type of device you suggest here? And which bus it should be
+> > > registered to? I think we can make this create a platform_device but
+> > > then we would need to do that from the PCI driver as well which seems
+> > > unnecessary since we already have the struct pci_dev.
+> > 
+> > What kind of device is it?
+> 
+> It is either part of an ACPI device (platform_device) or a PCI device
+> depending on the platform.
+> 
+> > Refrain from using platform device, unless it is one please.
+> 
+> OK.
+> 
+> Greg suggested making the SCU IPC functionality a class and I think it
+> fits here nicely so I'm going to try that next if nobody objects. I'll
+> send the first cleanup patches separately.
 
-diff --git a/drivers/platform/x86/intel_pmc_ipc.c b/drivers/platform/x86/intel_pmc_ipc.c
-index 7b180ead064a..2433bf73f1ed 100644
---- a/drivers/platform/x86/intel_pmc_ipc.c
-+++ b/drivers/platform/x86/intel_pmc_ipc.c
-@@ -539,6 +539,11 @@ static const struct attribute_group intel_ipc_group = {
- 	.attrs = intel_ipc_attrs,
- };
- 
-+static const struct attribute_group *intel_ipc_groups[] = {
-+	&intel_ipc_group,
-+	NULL
-+};
-+
- static struct resource punit_res_array[] = {
- 	/* Punit BIOS */
- 	{
-@@ -879,18 +884,10 @@ static int ipc_plat_probe(struct platform_device *pdev)
- 		goto err_irq;
- 	}
- 
--	ret = sysfs_create_group(&pdev->dev.kobj, &intel_ipc_group);
--	if (ret) {
--		dev_err(&pdev->dev, "Failed to create sysfs group %d\n",
--			ret);
--		goto err_sys;
--	}
--
- 	ipcdev.has_gcr_regs = true;
- 
- 	return 0;
--err_sys:
--	devm_free_irq(&pdev->dev, ipcdev.irq, &ipcdev);
-+
- err_irq:
- 	platform_device_unregister(ipcdev.tco_dev);
- 	platform_device_unregister(ipcdev.punit_dev);
-@@ -901,7 +898,6 @@ static int ipc_plat_probe(struct platform_device *pdev)
- 
- static int ipc_plat_remove(struct platform_device *pdev)
- {
--	sysfs_remove_group(&pdev->dev.kobj, &intel_ipc_group);
- 	devm_free_irq(&pdev->dev, ipcdev.irq, &ipcdev);
- 	platform_device_unregister(ipcdev.tco_dev);
- 	platform_device_unregister(ipcdev.punit_dev);
-@@ -916,6 +912,7 @@ static struct platform_driver ipc_plat_driver = {
- 	.driver = {
- 		.name = "pmc-ipc-plat",
- 		.acpi_match_table = ACPI_PTR(ipc_acpi_ids),
-+		.dev_groups = intel_ipc_groups,
- 	},
- };
- 
+Sounds good.
+
 -- 
-2.24.1
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
