@@ -2,53 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0BF146803
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3710A146807
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbgAWMbl (ORCPT
+        id S1726191AbgAWMby (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 07:31:41 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38315 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726191AbgAWMbk (ORCPT
+        Thu, 23 Jan 2020 07:31:54 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44068 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726026AbgAWMby (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 07:31:40 -0500
-Received: by mail-pl1-f196.google.com with SMTP id t6so1302166plj.5;
-        Thu, 23 Jan 2020 04:31:40 -0800 (PST)
+        Thu, 23 Jan 2020 07:31:54 -0500
+Received: by mail-pg1-f195.google.com with SMTP id x7so1303347pgl.11;
+        Thu, 23 Jan 2020 04:31:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TITrwanSGiU03FmHy+zum6Nkoqyj/cmVKfyRMr4GNWo=;
-        b=id8AesVWOlIhfnb+lp2I+MnTAT2ey6G20E+NiVRUdkSy4HrZd4KWmyL8WWoWJ1nWnC
-         fbryARk6Sotm4FAz4TgBCoLo71GbzbvAQMlBtot+4O0CnDNtb9YU4Um04juN7Mk1qwpJ
-         XNNHLOANMM02Czx8lM3DbVWoONeposIlLmcEGUzWuD0iaXr/JOOsnScCKs3SKiju+NYS
-         BQ+uuau/50hCFZ2+AcRoR8ZuiLhQu9zZcCRDwaZCjNdPSm+3b06CqzvcX/v2ZaHDthwv
-         ops0NfrG+j3ERvq6PEbZOJ7xhU0/qXZSW0H/9a4kaG0zez4qnR8kxtZ1eYYwICrFXjsp
-         PYJA==
+        bh=mALYq/4B8QcZuONsnvpCBnkZlfTpOKAuDKOOHArR8vU=;
+        b=rp1GPfDEfMxU6fnJc1HVBDZtNCd7Z0sTR8WhNP/gD6Mr0YoLi23eUvi9JTsFZCHYc6
+         JWHtAZU4aYcPd1wGWFFznYVWygcK3JhUtHWz2Nf34BVrVZ49EdTQVC3RoTbt/XPiWvV7
+         kQGuhGSF2WTrw3b9IeeKbRUDiZBydMuM3r4lNh4dqVYkslolXZwDMVc23PRAH2Zcddns
+         b8v9lMbx/Nt39bzON1iU/iP76hiIqzpkXOMMTNIpgZ4N5GYxJ3GYwcebplyF+aMgh/+v
+         WFRYG8V3IqbopWVW7bUkLsd9qrrWp6pXUcttcGdpFoI8PB6IXIoQUXeThhV47er8zLOR
+         aKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TITrwanSGiU03FmHy+zum6Nkoqyj/cmVKfyRMr4GNWo=;
-        b=BUR4sjuqE0ra7veRZnoHRkxiO16NqT3s4RIWi3XuoSmHEJrL/kaapaBUy5eGtQlFaq
-         6VcV+XxBXEko990H8o0EOBOGIvS3FDVAEmDQ8epXIvzgTizO3AzYe1XXj0GyUT+eAb3K
-         0gMlf33ZRwUyxc4HkPzOKzSh3s0f2syODIUOJponIPFy7R0JgZ0bwV4j6YAwyRUcCp4C
-         neeX/TgU673tO09Pq3qId7jkjecUPQkCQjIPYkiU6+/nQksRQ/oe7u++QazqmQB0STqf
-         3VqwL0Aa+RhmQgT/UGHVk3nM4fCc3QTrzkUe/DlycZu6jyr0G0naaVXJZy3iDsG3KPpA
-         sCxA==
-X-Gm-Message-State: APjAAAUizKRi15/xeyy740Wjw1y6TEoAbUSZxDJR2QJIytu3iXVpC4Tr
-        y2MswVoYblBA+cDYh5H4uBrwPz5fDP7Qj9BtZXw=
-X-Google-Smtp-Source: APXvYqzpzxV1B6BZar8ghIA1x+GCPO6IVcHS+YMO7C2DJjhLGiy+Yf/fnfDcSDkEjknCBhmm/hwt/d/lUaNV9ytxENs=
-X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr4321527pjb.30.1579782700146;
- Thu, 23 Jan 2020 04:31:40 -0800 (PST)
+        bh=mALYq/4B8QcZuONsnvpCBnkZlfTpOKAuDKOOHArR8vU=;
+        b=Tg+QIlcSFdPcepWkkJDr7MfuWAKPWwukH0pdhFRLcbGZcKq3zxAI+ILGpxy9O9n67B
+         upDiMeq92o8btAtkmvqhtvua5+KMlKufoJqdfM2Rq+pL5TjjRRdy/PowSbldHGqu/jm1
+         aZ9a5ym0RcE2FBUDf8aR1mtIlZVcMxPwb/LsqM5CMxkYw56KXAXtCrUq23SltqguT0S/
+         20P/hQXK/bI1n12k0/hcptroygNJsTgLlr6G382qydsFuuWtkvuV7uReOa75NZ9yPLJE
+         WJSHf270U8TSAqqp5vWlhxVNIsFzKqUrs459Vsl4rUHR2QGDX1cMIhP+D9ANTliVn6cu
+         pF1g==
+X-Gm-Message-State: APjAAAXCda4MbCXmg/Jx6Fwn2WCVk6imq6FU7vwhbiHeQqSh+jU7/l5h
+        lbjInAyQzV5syI6zJ9ntHw68Mux/jti5zKbG+Bx5sd0QdUeRwA==
+X-Google-Smtp-Source: APXvYqycZLlXd5CX5Mr8IJQEk10buLH5J4PWwb3ZVLbSxSN9G1zNw9zZDHofVvV1hMH+PlC+XAYcg8OivqZhp3Fs8MQ=
+X-Received: by 2002:a63:941:: with SMTP id 62mr3879440pgj.203.1579782713786;
+ Thu, 23 Jan 2020 04:31:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
-In-Reply-To: <20200122164619.73563-1-mika.westerberg@linux.intel.com>
+References: <20200122162813.26070-1-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200122162813.26070-1-mika.westerberg@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 23 Jan 2020 14:31:31 +0200
-Message-ID: <CAHp75VcTeT0Brhe+in-XKfwwaaXSwfRK0ceNVgUPd_TOpk1TqQ@mail.gmail.com>
-Subject: Re: [PATCH 0/9] platform/x86: intel_pmc_ipc: Cleanups
+Date:   Thu, 23 Jan 2020 14:31:45 +0200
+Message-ID: <CAHp75VfEA3gpAceLjhjDKZQSE6O7tQ0g9nnyyDiReSevjhZruw@mail.gmail.com>
+Subject: Re: [PATCH 00/10] platform/x86: intel_scu_ipc: A fix and cleanups
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
@@ -56,7 +56,6 @@ Cc:     Andy Shevchenko <andy@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H . Peter Anvin" <hpa@zytor.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Zha Qipeng <qipeng.zha@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
@@ -66,36 +65,39 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 6:46 PM Mika Westerberg
+On Wed, Jan 22, 2020 at 6:28 PM Mika Westerberg
 <mika.westerberg@linux.intel.com> wrote:
 >
 > Hi,
 >
-> This is another independent cleanup series that I split out from my SCU/PMC
-> IPC rework patch set [1] as suggested by Greg. This removes code that is
-> not used anywhere and makes certain functions static as they are not called
-> outside of the driver. We also make the driver to use driver->dev_groups to
-> expose sysfs attributes.
+> As suggested by Greg in the discussion around my SCU/PMC IPC rework series [1],
+> I split the cleanups touching intel_scu_ipc driver in a separate series
+> that can be applied independly.
 >
-> [1] https://lkml.org/lkml/2020/1/21/678
+> The first patch fixes interrupt support to work in Intel Merrifield. The
+> rest of the patches are cleanups mostly removing code that is not used
+> anywhere.
 >
 
 Pushed to my review and testing queue, thanks!
 
-> Mika Westerberg (9):
->   platform/x86: intel_pmc_ipc: Make intel_pmc_gcr_update() static
->   platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_simple_command() static
->   platform/x86: intel_pmc_ipc: Make intel_pmc_ipc_raw_cmd() static
->   platform/x86: intel_pmc_ipc: Drop intel_pmc_gcr_read() and intel_pmc_gcr_write()
->   platform/x86: intel_pmc_ipc: Drop ipc_data_readb()
->   platform/x86: intel_pmc_ipc: Get rid of unnecessary includes
->   platform/x86: intel_pmc_ipc: Use octal permissions in sysfs attributes
->   platform/x86: intel_pmc_ipc: Propagate error from kstrtoul()
->   platform/x86: intel_pmc_ipc: Switch to use driver->dev_groups
+> [1] https://lkml.org/lkml/2020/1/21/678
 >
->  arch/x86/include/asm/intel_pmc_ipc.h |  32 --------
->  drivers/platform/x86/intel_pmc_ipc.c | 114 ++++-----------------------
->  2 files changed, 16 insertions(+), 130 deletions(-)
+> Mika Westerberg (10):
+>   platform/x86: intel_scu_ipc: Fix interrupt support
+>   platform/x86: intel_scu_ipc: Add constants for register offsets
+>   platform/x86: intel_scu_ipc: Remove Lincroft support
+>   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_i2c_cntrl()
+>   platform/x86: intel_scu_ipc: Sleeping is fine when polling
+>   platform/x86: intel_scu_ipc: Drop unused prototype intel_scu_ipc_fw_update()
+>   platform/x86: intel_scu_ipc: Drop unused macros
+>   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_io[read|write][8|16]()
+>   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_raw_command()
+>   platform/x86: intel_scu_ipc: Reformat kernel-doc comments of exported functions
+>
+>  arch/x86/include/asm/intel_scu_ipc.h |  20 --
+>  drivers/platform/x86/intel_scu_ipc.c | 414 ++++++---------------------
+>  2 files changed, 91 insertions(+), 343 deletions(-)
 >
 > --
 > 2.24.1
