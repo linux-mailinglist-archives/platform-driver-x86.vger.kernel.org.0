@@ -2,103 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3710A146807
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E280146809
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:32:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbgAWMby (ORCPT
+        id S1726260AbgAWMcH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 07:31:54 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44068 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbgAWMby (ORCPT
+        Thu, 23 Jan 2020 07:32:07 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33477 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbgAWMcH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 07:31:54 -0500
-Received: by mail-pg1-f195.google.com with SMTP id x7so1303347pgl.11;
-        Thu, 23 Jan 2020 04:31:54 -0800 (PST)
+        Thu, 23 Jan 2020 07:32:07 -0500
+Received: by mail-pf1-f193.google.com with SMTP id z16so1491000pfk.0
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Jan 2020 04:32:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mALYq/4B8QcZuONsnvpCBnkZlfTpOKAuDKOOHArR8vU=;
-        b=rp1GPfDEfMxU6fnJc1HVBDZtNCd7Z0sTR8WhNP/gD6Mr0YoLi23eUvi9JTsFZCHYc6
-         JWHtAZU4aYcPd1wGWFFznYVWygcK3JhUtHWz2Nf34BVrVZ49EdTQVC3RoTbt/XPiWvV7
-         kQGuhGSF2WTrw3b9IeeKbRUDiZBydMuM3r4lNh4dqVYkslolXZwDMVc23PRAH2Zcddns
-         b8v9lMbx/Nt39bzON1iU/iP76hiIqzpkXOMMTNIpgZ4N5GYxJ3GYwcebplyF+aMgh/+v
-         WFRYG8V3IqbopWVW7bUkLsd9qrrWp6pXUcttcGdpFoI8PB6IXIoQUXeThhV47er8zLOR
-         aKlg==
+        bh=qIrakNM8z64JoTRpb+V7GpMXb/NJKAb6VsLJ6QYEPbU=;
+        b=DoBmWAd2jwZGs8caI+N+ERtubzcQdiIr8q+jEX1KYf4n5HouAaRN/9idhWDVLG712A
+         ATRNSVB1BPUrAOPGxVpYHD7WLvzj+EPRAO4gxFdDVwvgG3ixE4S8tnHPYB2bFf08nm8Q
+         LKkKM7ALFsafs7NSBActs0vTLSWvjvI3BsGPWQ/7oiBJYR0FX9avzbFWqgNI+JDjju75
+         2gsSpu64wupl6yAg0Np+7wqwyh2HRXVthBWAKgRLMsdDbH4Owrl67J5Inr2ZRrhtq9X4
+         JyxAiH1cE/OwCDj44FCUjlUbsK9TUhW5JHsWG7bhbr9E7LlLKZ443vmol7lPI3vVRmaD
+         YemA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mALYq/4B8QcZuONsnvpCBnkZlfTpOKAuDKOOHArR8vU=;
-        b=Tg+QIlcSFdPcepWkkJDr7MfuWAKPWwukH0pdhFRLcbGZcKq3zxAI+ILGpxy9O9n67B
-         upDiMeq92o8btAtkmvqhtvua5+KMlKufoJqdfM2Rq+pL5TjjRRdy/PowSbldHGqu/jm1
-         aZ9a5ym0RcE2FBUDf8aR1mtIlZVcMxPwb/LsqM5CMxkYw56KXAXtCrUq23SltqguT0S/
-         20P/hQXK/bI1n12k0/hcptroygNJsTgLlr6G382qydsFuuWtkvuV7uReOa75NZ9yPLJE
-         WJSHf270U8TSAqqp5vWlhxVNIsFzKqUrs459Vsl4rUHR2QGDX1cMIhP+D9ANTliVn6cu
-         pF1g==
-X-Gm-Message-State: APjAAAXCda4MbCXmg/Jx6Fwn2WCVk6imq6FU7vwhbiHeQqSh+jU7/l5h
-        lbjInAyQzV5syI6zJ9ntHw68Mux/jti5zKbG+Bx5sd0QdUeRwA==
-X-Google-Smtp-Source: APXvYqycZLlXd5CX5Mr8IJQEk10buLH5J4PWwb3ZVLbSxSN9G1zNw9zZDHofVvV1hMH+PlC+XAYcg8OivqZhp3Fs8MQ=
-X-Received: by 2002:a63:941:: with SMTP id 62mr3879440pgj.203.1579782713786;
- Thu, 23 Jan 2020 04:31:53 -0800 (PST)
+        bh=qIrakNM8z64JoTRpb+V7GpMXb/NJKAb6VsLJ6QYEPbU=;
+        b=gbnngC+9afMqogthHrYF75sfa7o1x09so/cTkiSH++68Z/x3OjaxjkjKgqKEnkde6f
+         z6csxOw7mSKtx8T+6mkI1eueEHor38epbtRq+OJ36i9yuWC/rSMelmyki31cpwSs9bCy
+         l6iI+GtDgRtdp5I+oAzAHXUgL6TJTAppaPbGQKOp6MZOn1USmdXuaHZoqG2QUKsSqlii
+         lY26WweMUgRLtKMaQHkOuG71m0J+NF1VA/l1JIImpoqKcB4R84aRHjCvOndNnbdf9f2U
+         wpJwPkdfJRNDAo/Dm7PLEMSaH6w78e9yynb20vTpX9PB4cos8prP3zOkk/PIurUafS8s
+         XClg==
+X-Gm-Message-State: APjAAAVw80HDXq7goRM9Sm3iaeacUkrQmvYF+rAnGlY2u9pJ/hKB07Dw
+        StJMqxV/QJwLQxdyoYm4KT4tje5rxZJQ0G952cTpibkcu+M0rg==
+X-Google-Smtp-Source: APXvYqwkPewOg9FGfvhmb7YbQwJvEjLc5Qw7ribrbVAVmkG2a+6kIuv7uAhUprPT5BRlyXxzshcw1VuRZbZoGZqv2X0=
+X-Received: by 2002:aa7:9474:: with SMTP id t20mr7040024pfq.241.1579782726772;
+ Thu, 23 Jan 2020 04:32:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20200122162813.26070-1-mika.westerberg@linux.intel.com>
-In-Reply-To: <20200122162813.26070-1-mika.westerberg@linux.intel.com>
+References: <20200122161843.68296-1-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200122161843.68296-1-mika.westerberg@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 23 Jan 2020 14:31:45 +0200
-Message-ID: <CAHp75VfEA3gpAceLjhjDKZQSE6O7tQ0g9nnyyDiReSevjhZruw@mail.gmail.com>
-Subject: Re: [PATCH 00/10] platform/x86: intel_scu_ipc: A fix and cleanups
+Date:   Thu, 23 Jan 2020 14:31:58 +0200
+Message-ID: <CAHp75VcE_s69T5ap0iA05kYwvipk+e7i2hSwK6_utUkYbP=Kjg@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: intel_scu_ipcutil: Remove default y from Kconfig
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 6:28 PM Mika Westerberg
+On Wed, Jan 22, 2020 at 6:18 PM Mika Westerberg
 <mika.westerberg@linux.intel.com> wrote:
 >
-> Hi,
->
-> As suggested by Greg in the discussion around my SCU/PMC IPC rework series [1],
-> I split the cleanups touching intel_scu_ipc driver in a separate series
-> that can be applied independly.
->
-> The first patch fixes interrupt support to work in Intel Merrifield. The
-> rest of the patches are cleanups mostly removing code that is not used
-> anywhere.
->
+> This driver is by no means essential for system to boot up so remove
+> default y from it.
 
 Pushed to my review and testing queue, thanks!
 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> This was part of a bigger series [1] but since this is an independent
+> change, I'll send it separately.
+>
 > [1] https://lkml.org/lkml/2020/1/21/678
 >
-> Mika Westerberg (10):
->   platform/x86: intel_scu_ipc: Fix interrupt support
->   platform/x86: intel_scu_ipc: Add constants for register offsets
->   platform/x86: intel_scu_ipc: Remove Lincroft support
->   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_i2c_cntrl()
->   platform/x86: intel_scu_ipc: Sleeping is fine when polling
->   platform/x86: intel_scu_ipc: Drop unused prototype intel_scu_ipc_fw_update()
->   platform/x86: intel_scu_ipc: Drop unused macros
->   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_io[read|write][8|16]()
->   platform/x86: intel_scu_ipc: Drop intel_scu_ipc_raw_command()
->   platform/x86: intel_scu_ipc: Reformat kernel-doc comments of exported functions
+>  drivers/platform/x86/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
 >
->  arch/x86/include/asm/intel_scu_ipc.h |  20 --
->  drivers/platform/x86/intel_scu_ipc.c | 414 ++++++---------------------
->  2 files changed, 91 insertions(+), 343 deletions(-)
->
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 27d5b40fb717..dd4326736d11 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -997,7 +997,6 @@ config INTEL_SCU_IPC
+>  config INTEL_SCU_IPC_UTIL
+>         tristate "Intel SCU IPC utility driver"
+>         depends on INTEL_SCU_IPC
+> -       default y
+>         ---help---
+>           The IPC Util driver provides an interface with the SCU enabling
+>           low level access for debug work and updating the firmware. Say
 > --
 > 2.24.1
 >
