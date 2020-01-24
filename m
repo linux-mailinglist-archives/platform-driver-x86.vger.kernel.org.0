@@ -2,97 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 051F1146811
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jan 2020 13:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6744147697
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 02:20:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbgAWMc4 (ORCPT
+        id S1730325AbgAXBRR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 07:32:56 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44163 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbgAWMc4 (ORCPT
+        Thu, 23 Jan 2020 20:17:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60108 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730353AbgAXBRR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 07:32:56 -0500
-Received: by mail-pg1-f196.google.com with SMTP id x7so1304640pgl.11;
-        Thu, 23 Jan 2020 04:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/11L1E5QyjlzkgnXDD/v6OgaG1EmfkWKUNXz4u6w/m0=;
-        b=Rq8pZaCc0JgMhRJ+7o+ps3seQ83uNrt0lwoiJ0V0rmnWZn3CjHcVKoem0P8aKk+MUg
-         y9xIiCj9c40gkaRkeYwdgRrt4afvtZWFumXaxBZ1mK6Jl7kEfHSM0Ui8enW6BBvbztZy
-         wywL50iaFfB7dc11926Ix8pDq36H50XiV7RoU2IUdjUr1+LIFKU+Na5wf9OEbirGsqKZ
-         3lg+M9Vuc8kgdSzbcQTFFIowD1HtUueIwa4vnQxBrBDitWPwQDOnBIYGJsLlXZM9LRCa
-         sQFPyHZIjfBSlqwZmXr6WpTdLVvcHY7tb4K2CjCa7ETNpv4BUsg+U9fq3plWCwyIcXEG
-         wBYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/11L1E5QyjlzkgnXDD/v6OgaG1EmfkWKUNXz4u6w/m0=;
-        b=gLHHQPbgtux7Y/czrhvuv+IwrSmKaDw0PGKWYPWsTSySDb8qj70MpmczX4+Zpzz5A4
-         N1lRx5hw4E+KstKLcLbImfyeZbe8cWazMZriAGsHOo1JZh8tQF6YmU+/HboryRGiLy8Z
-         g0ac3xpD6EI1Pq77DeVU5arhPYmoKHZEfTBgy9VzYkDfsynX9R9dsk8EpfRy5JoBCEP3
-         JcSDtE0QsYuVIkI8UbDpJqxaRFrS8rsCQNH4EQStyU4H323s2g8QwX9+g1KyAcC+6PLY
-         ETKmfPECu0M6hv9LgBRE2FX2lK7jMkokOce6smRcbZxH42Fk1ueQSBmGGHR6KJhpLcCY
-         0YfA==
-X-Gm-Message-State: APjAAAVwkFT/Yo1SiylB24D2KE3FDd+sl8g2H7b0FjA71QtbWszZj98b
-        MfZB0nlbltogMu+QZ32XExBH4lEA7Y/Slrg+wpY=
-X-Google-Smtp-Source: APXvYqz3HMTDhYos5s0HqKfsUkanfyrk6xYXMbYRlcb2DUIHOlRxFcSvx8wLPxVSnV9SHonzsBYwtDRhuQvZY0La8Bo=
-X-Received: by 2002:a62:1a09:: with SMTP id a9mr7253617pfa.64.1579782775414;
- Thu, 23 Jan 2020 04:32:55 -0800 (PST)
+        Thu, 23 Jan 2020 20:17:17 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3D92221D7D;
+        Fri, 24 Jan 2020 01:17:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579828636;
+        bh=we9Q9vZM3fRN0P7XpVa4W3a77BMdSXDk9LtUjGvXW74=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bh3RxcxsA7lDRAqvLZezoW0LlBngjDy9RFXIbHJy8l+jbQMJkpG796Pn3oh3JL4mi
+         N+tEyVezQEtvLVa6HyTqk0xBwYPq7ojTuAhyK+XdYmUfMeud0owMU0hHZhQDN3F1xv
+         9PqZoDZzvO92gmsFyE14sc2/k0ApHWXfJz/x5QHg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 06/33] platform/x86: dell-laptop: disable kbd backlight on Inspiron 10xx
+Date:   Thu, 23 Jan 2020 20:16:41 -0500
+Message-Id: <20200124011708.18232-6-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
+References: <20200124011708.18232-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20200113223927.102509-1-paul@crapouillou.net>
-In-Reply-To: <20200113223927.102509-1-paul@crapouillou.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 23 Jan 2020 14:32:47 +0200
-Message-ID: <CAHp75VdYL-CXaQYmpdJad5nd3uzBd8A9k3pyHgjdcASMHCAtqg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: asus-nb-wmi: Support left round button on N56VB
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Corentin Chary <corentin.chary@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jan 14, 2020 at 12:39 AM Paul Cercueil <paul@crapouillou.net> wrote:
->
-> The N56VB laptop has a round button located on the left side above the
-> keyboard. Map it to F13 since it does not have any predeterminated
-> purpose.
->
+From: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
 
-Pushed to my review and testing queue, thanks!
+[ Upstream commit 10b65e2915b2fcc606d173e98a972850101fb4c4 ]
 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/platform/x86/asus-nb-wmi.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-> index b361c73636a4..6f12747a359a 100644
-> --- a/drivers/platform/x86/asus-nb-wmi.c
-> +++ b/drivers/platform/x86/asus-nb-wmi.c
-> @@ -471,6 +471,7 @@ static const struct key_entry asus_nb_wmi_keymap[] = {
->         { KE_KEY, 0x67, { KEY_SWITCHVIDEOMODE } }, /* SDSP LCD + CRT + TV */
->         { KE_KEY, 0x6B, { KEY_TOUCHPAD_TOGGLE } },
->         { KE_IGNORE, 0x6E, },  /* Low Battery notification */
-> +       { KE_KEY, 0x71, { KEY_F13 } }, /* General-purpose button */
->         { KE_KEY, 0x7a, { KEY_ALS_TOGGLE } }, /* Ambient Light Sensor Toggle */
->         { KE_KEY, 0x7c, { KEY_MICMUTE } },
->         { KE_KEY, 0x7D, { KEY_BLUETOOTH } }, /* Bluetooth Enable */
-> --
-> 2.24.1
->
+This patch adds a quirk disabling keyboard backlight support for the
+Dell Inspiron 1012 and 1018.
 
+Those models wrongly report supporting keyboard backlight control
+features (through SMBIOS tokens) even though they're not equipped with
+a backlit keyboard. This led to broken controls being exposed
+through sysfs by this driver which froze the system when used.
 
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=107651
+Signed-off-by: Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>
+Reviewed-by: Mario Limonciello <mario.limonciello@dell.com>
+Reviewed-by: Pali Rohár <pali.rohar@gmail.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/dell-laptop.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+index d27be2836bc21..74e988f839e85 100644
+--- a/drivers/platform/x86/dell-laptop.c
++++ b/drivers/platform/x86/dell-laptop.c
+@@ -33,6 +33,7 @@
+ 
+ struct quirk_entry {
+ 	bool touchpad_led;
++	bool kbd_led_not_present;
+ 	bool kbd_led_levels_off_1;
+ 	bool kbd_missing_ac_tag;
+ 
+@@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 = {
+ 	.kbd_led_levels_off_1 = true,
+ };
+ 
++static struct quirk_entry quirk_dell_inspiron_1012 = {
++	.kbd_led_not_present = true,
++};
++
+ static struct platform_driver platform_driver = {
+ 	.driver = {
+ 		.name = "dell-laptop",
+@@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __initconst = {
+ 		},
+ 		.driver_data = &quirk_dell_latitude_e6410,
+ 	},
++	{
++		.callback = dmi_matched,
++		.ident = "Dell Inspiron 1012",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1012"),
++		},
++		.driver_data = &quirk_dell_inspiron_1012,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "Dell Inspiron 1018",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Inspiron 1018"),
++		},
++		.driver_data = &quirk_dell_inspiron_1012,
++	},
+ 	{ }
+ };
+ 
+@@ -1493,6 +1516,9 @@ static void kbd_init(void)
+ {
+ 	int ret;
+ 
++	if (quirks && quirks->kbd_led_not_present)
++		return;
++
+ 	ret = kbd_init_info();
+ 	kbd_init_tokens();
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.20.1
+
