@@ -2,129 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A267147A33
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 10:17:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79A70148999
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 15:36:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730322AbgAXJQz (ORCPT
+        id S1730291AbgAXOgG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Jan 2020 04:16:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37486 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730291AbgAXJQz (ORCPT
+        Fri, 24 Jan 2020 09:36:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39482 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391490AbgAXOTR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Jan 2020 04:16:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1579857413;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eVwp3U5GzOX2o0jWqVHj3WHwgjI/zlg9dOk4xt7JmuA=;
-        b=VQOkVf103fQn8r2Iy5fiqFBIMOqqer1SkL9v9y4w8NF9hT/dA+OeXhMEwlCaR/hecFS5Jx
-        EV9gwXK/uBV6SMHq8oFvmbRxwY3PgitLDIlkCJPoX+bCD/u82VPrSF21z5RrCjGIj3ZnIR
-        Ib6sXLf5CY7iKz+BHjaTRIzbn0IcbzA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-Pn2P0J5yNouH_1MWCAu0vA-1; Fri, 24 Jan 2020 04:16:52 -0500
-X-MC-Unique: Pn2P0J5yNouH_1MWCAu0vA-1
-Received: by mail-wm1-f70.google.com with SMTP id m21so428119wmg.6
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Jan 2020 01:16:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=eVwp3U5GzOX2o0jWqVHj3WHwgjI/zlg9dOk4xt7JmuA=;
-        b=VbzRcj2haWvVQCPjCMYB+MONMce3NXsAgXmAyIb8pVzvgY0ZW9PdqCthEz4OmXSyDn
-         1fKWSvNV9slSC7UDSiXKEavGsxu6vHvIYi+7qtNwXAkk6Za889XaapDHm8yxUPvmgjFT
-         ofzvKtzeaLn65p6ZhplQWCVobEsQUJTYsSh28+rujiTDAsIxdbO+m6FVir7XtgmQkg7h
-         5LyyqpflwyL1fhHzsce2jRf4/Er3J2SUE59c/1j4FkQcft5ma54q5w1LgdjaybK4Kdct
-         wwYwVFaEUZI3oInmagKACd/S5toJWZgtu++51d6bv5iqHAJrzVe3cjGExPmxfJAzjIe/
-         WkRg==
-X-Gm-Message-State: APjAAAXnjmGan0WusTKm1NVfhQClNCT2IiH8exf7xyj5T5yhkamk3oHx
-        jyZkoLRSu10cfdDgW2hrVUARomwasZU1Gs126/MvRfPvW/M76ow2wfVN+vIDUuz5Q0cOIq3floo
-        tQL6CdCVL9SBh6PLP99PZYwMZReB6b0VkLQ==
-X-Received: by 2002:a1c:a445:: with SMTP id n66mr2460526wme.151.1579857411387;
-        Fri, 24 Jan 2020 01:16:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxUiU565WJyxONGgI7w4xQRq/ENXZEynENvjhqk4CBvmo8g5IcgWmw96rLrMcfuNGJKf9m74A==
-X-Received: by 2002:a1c:a445:: with SMTP id n66mr2460489wme.151.1579857411156;
-        Fri, 24 Jan 2020 01:16:51 -0800 (PST)
-Received: from localhost.localdomain ([109.38.141.136])
-        by smtp.gmail.com with ESMTPSA id a132sm6060770wme.3.2020.01.24.01.16.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2020 01:16:50 -0800 (PST)
-Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
- FW_OPT_NOFALLBACK_SYSFS
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Lutomirski <luto@kernel.org>
-Cc:     Ard Biesheuvel <ardb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Jones <pjones@redhat.com>,
-        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-References: <20200115163554.101315-1-hdegoede@redhat.com>
- <20200115163554.101315-4-hdegoede@redhat.com>
- <20200124085751.GA2957916@kroah.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
-Date:   Fri, 24 Jan 2020 10:16:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        Fri, 24 Jan 2020 09:19:17 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1C60821734;
+        Fri, 24 Jan 2020 14:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579875556;
+        bh=pYJmhRfn9YOi7piJCSMO3M5A4Rv0EXDHpAb2QRyajSE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=KGAS7QpEvP2SU7no3ZTRorXB6eO7DCuNEkhpokzjJQnbJdBnrXUgKPl27f2UcmlJL
+         w5+SZu5PFloCPFUmg1l694HTHfPsaMSC1LDhFDAKBgAlrIZbM4u4U86Q5cZgpuCIvT
+         o99nBaqFJXby/zSxzP1rTR+82QznKzU/7rmgxc3I=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Jason Anderson <jasona.594@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 051/107] platform/x86: GPD pocket fan: Allow somewhat lower/higher temperature limits
+Date:   Fri, 24 Jan 2020 09:17:21 -0500
+Message-Id: <20200124141817.28793-51-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200124141817.28793-1-sashal@kernel.org>
+References: <20200124141817.28793-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200124085751.GA2957916@kroah.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+From: Hans de Goede <hdegoede@redhat.com>
 
-On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
-> On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
->> This is a preparation patch for adding a new platform fallback mechanism,
->> which will have its own enable/disable FW_OPT_xxx option.
->>
->> Note this also fixes a typo in one of the re-wordwrapped comments:
->> enfoce -> enforce.
->>
->> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> I've taken this in my tree for now in a quest to try to get others to
-> pay attention to this series...
+[ Upstream commit 1f27dbd8265dbb379926c8f6a4453fe7fe26d7a3 ]
 
-Thank you.
+Allow the user to configure the fan to turn on / speed-up at lower
+thresholds then before (20 degrees Celcius as minimum instead of 40) and
+likewise also allow the user to delay the fan speeding-up till the
+temperature hits 90 degrees Celcius (was 70).
 
-As mentioned before I believe that this series is ready for merging now.
+Cc: Jason Anderson <jasona.594@gmail.com>
+Reported-by: Jason Anderson <jasona.594@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/gpd-pocket-fan.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andy Lutomirski had one last change request for v12 of the second
-patch in the series, specifically to replace the loop searching for
-the prefix with a memem, but the kernel does not have memmem.
-
-Andy, are you ok with v12 as is, given that we don't have memmem ?
-
-Assuming Andy is ok with v12 as is, then to merge this we need
-to probably wait for 5.6-rc1 and then have the x86/efi folks do
-an immutable branch with the first 2 patches of the series.
-
-After that you (Greg) can merge patches 3-10 (after merging the
-branch) and the platform/drivers/x86 folks can take 11 and 12
-(also after merging the branch).
-
-Regards,
-
-Hans
+diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86/gpd-pocket-fan.c
+index 73eb1572b9662..b471b86c28fe8 100644
+--- a/drivers/platform/x86/gpd-pocket-fan.c
++++ b/drivers/platform/x86/gpd-pocket-fan.c
+@@ -127,7 +127,7 @@ static int gpd_pocket_fan_probe(struct platform_device *pdev)
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(temp_limits); i++) {
+-		if (temp_limits[i] < 40000 || temp_limits[i] > 70000) {
++		if (temp_limits[i] < 20000 || temp_limits[i] > 90000) {
+ 			dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and 70000)\n",
+ 				temp_limits[i]);
+ 			temp_limits[0] = TEMP_LIMIT0_DEFAULT;
+-- 
+2.20.1
 
