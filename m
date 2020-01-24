@@ -2,82 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED4A71488B8
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 15:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10329148CA9
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 18:00:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404983AbgAXOUm (ORCPT
+        id S2390089AbgAXRAl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Jan 2020 09:20:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41978 "EHLO mail.kernel.org"
+        Fri, 24 Jan 2020 12:00:41 -0500
+Received: from ms.lwn.net ([45.79.88.28]:46224 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404964AbgAXOUl (ORCPT
+        id S2389999AbgAXRAl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Jan 2020 09:20:41 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Fri, 24 Jan 2020 12:00:41 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35F4722527;
-        Fri, 24 Jan 2020 14:20:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579875641;
-        bh=pYJmhRfn9YOi7piJCSMO3M5A4Rv0EXDHpAb2QRyajSE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZfbPKGV8vO+0HYTRvfBiZcYUvAtAz+TN9E5j3TXddgrDY5idKwqEyNBhTQeZG96O8
-         MNvF0otU9FrPqRrN8vP18Uq4X0oe7pMBR4yB2nq639HLgrKQVxyNTsqT4WQ5MaFcaM
-         lsBhO3ig2vUGz1sh2Rn3YrpM866yzP8XoHgSpIds=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Jason Anderson <jasona.594@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 24/56] platform/x86: GPD pocket fan: Allow somewhat lower/higher temperature limits
-Date:   Fri, 24 Jan 2020 09:19:40 -0500
-Message-Id: <20200124142012.29752-24-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124142012.29752-1-sashal@kernel.org>
-References: <20200124142012.29752-1-sashal@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id 9A4DD2D6;
+        Fri, 24 Jan 2020 17:00:40 +0000 (UTC)
+Date:   Fri, 24 Jan 2020 10:00:39 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
+        andy@kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore
+ Frequency limits
+Message-ID: <20200124100039.70116459@lwn.net>
+In-Reply-To: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
+References: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+On Sun, 12 Jan 2020 20:01:43 -0800
+Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
 
-[ Upstream commit 1f27dbd8265dbb379926c8f6a4453fe7fe26d7a3 ]
+> Added documentation for the attributes to control uncore frequency
+> selection.
+> 
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> ---
+> v2:
+>  - Split the documentation patch to another patch to merge via different
+>     tree
 
-Allow the user to configure the fan to turn on / speed-up at lower
-thresholds then before (20 degrees Celcius as minimum instead of 40) and
-likewise also allow the user to delay the fan speeding-up till the
-temperature hits 90 degrees Celcius (was 70).
+Which tree did you have in mind?  PM stuff tends to go through Rafael's
+tree, normally, which is fine.
 
-Cc: Jason Anderson <jasona.594@gmail.com>
-Reported-by: Jason Anderson <jasona.594@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/gpd-pocket-fan.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
+>  .../admin-guide/pm/working-state.rst          |  1 +
+>  2 files changed, 24 insertions(+)
+>  create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
+> 
+> diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
+> new file mode 100644
+> index 000000000000..d75be65fb16a
+> --- /dev/null
+> +++ b/Documentation/admin-guide/pm/intel_uncore.rst
+> @@ -0,0 +1,23 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================================================
+> +Intel® Uncore Frequency Selection
 
-diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86/gpd-pocket-fan.c
-index 73eb1572b9662..b471b86c28fe8 100644
---- a/drivers/platform/x86/gpd-pocket-fan.c
-+++ b/drivers/platform/x86/gpd-pocket-fan.c
-@@ -127,7 +127,7 @@ static int gpd_pocket_fan_probe(struct platform_device *pdev)
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(temp_limits); i++) {
--		if (temp_limits[i] < 40000 || temp_limits[i] > 70000) {
-+		if (temp_limits[i] < 20000 || temp_limits[i] > 90000) {
- 			dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and 70000)\n",
- 				temp_limits[i]);
- 			temp_limits[0] = TEMP_LIMIT0_DEFAULT;
--- 
-2.20.1
+I would really like to avoid adding ® symbols throughout the docs.  I get
+grief for non-ASCII symbols that actually have a need to be there; this
+isn't one of those.  
+
+> +=========================================================
+> +
+> +The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
+
+I would say that this violates the 80-character limit by a character or
+two...  The entire patch has this problem.
+
+> +
+> +But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
+
+less jitter (singular)
+
+> +
+> +The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
+> +The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
+> +"package_00_die_00" for package 0 and die 0.
+
+This may not render as you would like; use an RST literal block here.
+
+Thanks,
+
+jon
 
