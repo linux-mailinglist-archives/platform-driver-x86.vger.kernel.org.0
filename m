@@ -2,97 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10329148CA9
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 18:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0755F148E03
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 19:53:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390089AbgAXRAl (ORCPT
+        id S2387621AbgAXSxW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Jan 2020 12:00:41 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46224 "EHLO ms.lwn.net"
+        Fri, 24 Jan 2020 13:53:22 -0500
+Received: from mga04.intel.com ([192.55.52.120]:59351 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389999AbgAXRAl (ORCPT
+        id S2387486AbgAXSxW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Jan 2020 12:00:41 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9A4DD2D6;
-        Fri, 24 Jan 2020 17:00:40 +0000 (UTC)
-Date:   Fri, 24 Jan 2020 10:00:39 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
-        andy@kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore
- Frequency limits
-Message-ID: <20200124100039.70116459@lwn.net>
-In-Reply-To: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
-References: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Fri, 24 Jan 2020 13:53:22 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jan 2020 10:53:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,358,1574150400"; 
+   d="scan'208";a="222692766"
+Received: from unknown (HELO gayuk-dev-mach.sc.intel.com) ([10.3.79.172])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2020 10:53:21 -0800
+From:   Gayatri Kammela <gayatri.kammela@intel.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, vishwanath.somayaji@intel.com,
+        dvhart@infradead.org, mika.westerberg@intel.com,
+        peterz@infradead.org, charles.d.prestopine@intel.com,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David Box <david.e.box@intel.com>
+Subject: [PATCH v1 0/7] platform/x86: intel_pmc_core: Add debugfs entries
+Date:   Fri, 24 Jan 2020 10:50:21 -0800
+Message-Id: <cover.1579890793.git.gayatri.kammela@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, 12 Jan 2020 20:01:43 -0800
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+Hi,
 
-> Added documentation for the attributes to control uncore frequency
-> selection.
-> 
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v2:
->  - Split the documentation patch to another patch to merge via different
->     tree
+Tiger Lake platform supports 8 sub-states/low power modes of S0ix. Add
+debugfs entries to pmc_core driver to access low power mode registers
+and residencies.
 
-Which tree did you have in mind?  PM stuff tends to go through Rafael's
-tree, normally, which is fine.
+Patch 1: Add debugfs entry to access sub-state residencies
+Patch 2: Add debugfs entry for low power mode status registers
+Patch 3: Refactor the driver by removing redundant code
+Patch 4: Remove slp_s0 attributes from tgl_reg_map
+Patch 5: Add an additional parameter to pmc_core_lpm_display_map()
+Patch 6: Dump low power status registers on an S0ix.y failure
+Patch 7: Add debugfs support to access live status registers
 
->  Documentation/admin-guide/pm/intel_uncore.rst | 23 +++++++++++++++++++
->  .../admin-guide/pm/working-state.rst          |  1 +
->  2 files changed, 24 insertions(+)
->  create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
-> 
-> diff --git a/Documentation/admin-guide/pm/intel_uncore.rst b/Documentation/admin-guide/pm/intel_uncore.rst
-> new file mode 100644
-> index 000000000000..d75be65fb16a
-> --- /dev/null
-> +++ b/Documentation/admin-guide/pm/intel_uncore.rst
-> @@ -0,0 +1,23 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=========================================================
-> +Intel® Uncore Frequency Selection
+Gayatri Kammela (7):
+  platform/x86: intel_pmc_core: Add debugfs entry to access sub-state
+    residencies
+  platform/x86: intel_pmc_core: Add debugfs entry for low power mode
+    status registers
+  platform/x86: intel_pmc_core: Refactor the driver by removing
+    redundant code
+  platform/x86: intel_pmc_core: Remove slp_s0 attributes from
+    tgl_reg_map
+  platform/x86: intel_pmc_core: Add an additional parameter to
+    pmc_core_lpm_display()
+  platform/x86: intel_pmc_core: Dump low power status registers on an
+    S0ix.y failure
+  platform/x86: intel_pmc_core: Add debugfs support to access live
+    status registers
 
-I would really like to avoid adding ® symbols throughout the docs.  I get
-grief for non-ASCII symbols that actually have a need to be there; this
-isn't one of those.  
+ drivers/platform/x86/intel_pmc_core.c | 301 +++++++++++++++++++++++---
+ drivers/platform/x86/intel_pmc_core.h |  28 +++
+ 2 files changed, 302 insertions(+), 27 deletions(-)
 
-> +=========================================================
-> +
-> +The uncore frequency in the Intel(R) hardware is selected based on internal heuristics, which uses the current selected performance state and various system power constraints. In majority of the cases this selection is the most optimal, so there is no need for placing external constraints from the Operating System.
-
-I would say that this violates the 80-character limit by a character or
-two...  The entire patch has this problem.
-
-> +
-> +But there are some customers who wants less jitters from dynamic uncore frequency selection. For them, power saving is much lower priority than consistent performance. Currently these customers uses MSR 0x620, to place hard limits on the maximum and the minimum uncore frequency. They can now use Linux sysfs to place these limits and also have additional capability to place hard limits under power constraint scenario.
-
-less jitter (singular)
-
-> +
-> +The Uncore frequency section attributes are present under "/sys/devices/system/cpu/intel_uncore_frequency".
-> +The scope of these attributes is per die in multi-die systems or package wide in non multi-die systems. There is a unique folder for each die or package. For example:
-> +"package_00_die_00" for package 0 and die 0.
-
-This may not render as you would like; use an RST literal block here.
-
-Thanks,
-
-jon
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: David Box <david.e.box@intel.com>
+-- 
+2.17.1
 
