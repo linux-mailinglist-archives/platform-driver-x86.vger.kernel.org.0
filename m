@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6744147697
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 02:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE61A14764F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Jan 2020 02:19:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730325AbgAXBRR (ORCPT
+        id S1729504AbgAXBTO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Jan 2020 20:17:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60108 "EHLO mail.kernel.org"
+        Thu, 23 Jan 2020 20:19:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32824 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730353AbgAXBRR (ORCPT
+        id S1726232AbgAXBRt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:17:17 -0500
+        Thu, 23 Jan 2020 20:17:49 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D92221D7D;
-        Fri, 24 Jan 2020 01:17:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 54A0221D7D;
+        Fri, 24 Jan 2020 01:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828636;
-        bh=we9Q9vZM3fRN0P7XpVa4W3a77BMdSXDk9LtUjGvXW74=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Bh3RxcxsA7lDRAqvLZezoW0LlBngjDy9RFXIbHJy8l+jbQMJkpG796Pn3oh3JL4mi
-         N+tEyVezQEtvLVa6HyTqk0xBwYPq7ojTuAhyK+XdYmUfMeud0owMU0hHZhQDN3F1xv
-         9PqZoDZzvO92gmsFyE14sc2/k0ApHWXfJz/x5QHg=
+        s=default; t=1579828669;
+        bh=HAP1qeT1fMGgx/Oo/Gp+yGVNtUk2NbKLKvDDB7a2iFY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bbPlniBzVnAuF19hyrf2iEAh/ikwoj3PFbl/wzF5qQRpEt3Te/8Jf3QpkJu71NBuP
+         ORw8phyPnhQGHnMuf+FjT0poAtmBn5Zu1kypNNvH2IrUHMkgK0gq4XOvhWf5aJTGDi
+         BcGdoXVYCalLqPhrxVrNAW3S/r6ZRCeSYAoAefhw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
@@ -33,12 +33,10 @@ Cc:     Pacien TRAN-GIRARD <pacien.trangirard@pacien.net>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/33] platform/x86: dell-laptop: disable kbd backlight on Inspiron 10xx
-Date:   Thu, 23 Jan 2020 20:16:41 -0500
-Message-Id: <20200124011708.18232-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 01/11] platform/x86: dell-laptop: disable kbd backlight on Inspiron 10xx
+Date:   Thu, 23 Jan 2020 20:17:37 -0500
+Message-Id: <20200124011747.18575-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
-References: <20200124011708.18232-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -72,10 +70,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 26 insertions(+)
 
 diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-index d27be2836bc21..74e988f839e85 100644
+index 3433986d52200..949dbc8aab413 100644
 --- a/drivers/platform/x86/dell-laptop.c
 +++ b/drivers/platform/x86/dell-laptop.c
-@@ -33,6 +33,7 @@
+@@ -37,6 +37,7 @@
  
  struct quirk_entry {
  	bool touchpad_led;
@@ -83,7 +81,7 @@ index d27be2836bc21..74e988f839e85 100644
  	bool kbd_led_levels_off_1;
  	bool kbd_missing_ac_tag;
  
-@@ -73,6 +74,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 = {
+@@ -77,6 +78,10 @@ static struct quirk_entry quirk_dell_latitude_e6410 = {
  	.kbd_led_levels_off_1 = true,
  };
  
@@ -94,7 +92,7 @@ index d27be2836bc21..74e988f839e85 100644
  static struct platform_driver platform_driver = {
  	.driver = {
  		.name = "dell-laptop",
-@@ -310,6 +315,24 @@ static const struct dmi_system_id dell_quirks[] __initconst = {
+@@ -314,6 +319,24 @@ static const struct dmi_system_id dell_quirks[] __initconst = {
  		},
  		.driver_data = &quirk_dell_latitude_e6410,
  	},
@@ -119,7 +117,7 @@ index d27be2836bc21..74e988f839e85 100644
  	{ }
  };
  
-@@ -1493,6 +1516,9 @@ static void kbd_init(void)
+@@ -1497,6 +1520,9 @@ static void kbd_init(void)
  {
  	int ret;
  
