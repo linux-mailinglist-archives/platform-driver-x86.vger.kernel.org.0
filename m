@@ -2,118 +2,165 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A20914A241
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jan 2020 11:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 862F714A963
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jan 2020 19:02:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730072AbgA0KtZ (ORCPT
+        id S1725893AbgA0SCn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jan 2020 05:49:25 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:39277 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbgA0KtZ (ORCPT
+        Mon, 27 Jan 2020 13:02:43 -0500
+Received: from mga03.intel.com ([134.134.136.65]:32891 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725845AbgA0SCn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jan 2020 05:49:25 -0500
-Received: by mail-pj1-f67.google.com with SMTP id e9so42531pjr.4;
-        Mon, 27 Jan 2020 02:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xtm+leoXUJLg/QLQGOWhYGdBnWUC+AmA5nMXgden8Uw=;
-        b=Vz5pI7Wg23M2qIwRhor/vfZutBwNSe2Frgo+BLCdCgoKNLBbZwd/z70MSTZxIEpevG
-         IQbDwJlXVxsutsJaDPw1xNIFnwWlFxeCYiFz4y3lTVw8m3vOMUkA6vPsysz5V2MOg5yp
-         6xhhP0MIhHDtEyldFEkCHicsSROcfecbMFCECsuHiiD6zCej9RC5O9+JVk+uktPi77vf
-         tOYibUyLvqUG/ey9h3jw74oB3IV/jXz43c4uxM5MhsIiiPZIDOnImM5qAkiIlgy4iq7Y
-         LWsKS6jp8+HGELuhcsarzTYKGju7ypo8lfzCS2LK0XiyTP/Zwxp5khfWullGDLmwcGHe
-         /YUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xtm+leoXUJLg/QLQGOWhYGdBnWUC+AmA5nMXgden8Uw=;
-        b=mQBURL6wS47pWOfe754Ms/HkE9/eAoiAxpU2yjIC0V8r92zgcPrm9h4SFEluCYHK4G
-         3tNtrNlnpR+4vmuE+AbjTUYIqCFLTbDiVNPoyK+2E1am5m+6UzJ/8vDrZXSEo3KBSv4d
-         0j6D+FqGlV8gBJwwhMqdQ1NvvknX2cdxBbjMU/X/NtaPiBLLV4nMllq016TjM0L62apn
-         AT2d4zQuN7MHmuuyAFTFugOw7O0KZZGIV2Gi1O5x1JNBBUaI0bmNZC89P7XQvsEdn6k5
-         93Ad5gFb20FXfRiE8TJ69+t1yAtr1cGabeF7cRLyuMYUQBYeRhywXFA3mLc4wUu4TEgn
-         qadw==
-X-Gm-Message-State: APjAAAV+cZmBrj2JcM8NbgHaIEzePL4B/QAuMMjgs/5xwLO0adNSBT6g
-        a3SzqszN03njOIl+fVE49QTj5TFdpt0r0EUEHD8=
-X-Google-Smtp-Source: APXvYqwdyDe4ndb1UUPujLtoEA+tSqFFx3x0PsewrJWiAaT61DTtEW2t1q0boz+qCcyGxOxlU4aceiClvXB6eWkerI0=
-X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr13780980pjb.30.1580122164762;
- Mon, 27 Jan 2020 02:49:24 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1579890793.git.gayatri.kammela@intel.com>
-In-Reply-To: <cover.1579890793.git.gayatri.kammela@intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jan 2020 12:49:16 +0200
-Message-ID: <CAHp75Vfb38BEh2OZkO2EoQgCyBxaLoiwh8S_qKiPQRX1g+ZA2Q@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] platform/x86: intel_pmc_core: Add debugfs entries
-To:     Gayatri Kammela <gayatri.kammela@intel.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Mon, 27 Jan 2020 13:02:43 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jan 2020 10:02:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,370,1574150400"; 
+   d="scan'208";a="221806784"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+  by orsmga008.jf.intel.com with ESMTP; 27 Jan 2020 10:02:42 -0800
+Received: from fmsmsx161.amr.corp.intel.com (10.18.125.9) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 27 Jan 2020 10:02:41 -0800
+Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
+ FMSMSX161.amr.corp.intel.com (10.18.125.9) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 27 Jan 2020 10:02:41 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
+ by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Mon, 27 Jan 2020 10:02:41 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cjnw+KS0Ubu570cdO2iGodz1+4CtFc2Vs3n5EugnMxXTg5ELOXbf+7XZmhaTS6R1L4TbqlyoZ6LqmefHjnhbq0DxXE6W2BeCQI3YQM4Mpp4D2k6GBRdNLQgqBPqr8IGCmEssOy86AeF+yCocM/rYDIEOUvyHcL5s89uxaf5xg+QB412LJSWUWSl/6p3odvZqBEu5oGCkNND3QuNvHbMQ4ex1YA8/2iLncJgCdIfPZnxrILyEjelGCIQMdErU+0r0gf1aw1F//juCh94GQfzPxQV6Ox0r0oj+dqHF1Q3vNnKp2Sbwbiu8oRco/C5+AfPpr3Mt26yqrIHntEE4GbNthA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ux2/K7EAriV0n6DTUs2UDSeUP8ukGf5a8knE91WPFKI=;
+ b=ARstxll+xHYixgFaxtAuASMJEV3rV7EUHfASd5LWA3Adb/Vxxz952TkRLJpIDQiPRG3gssRyuNlqJA3UrlbLqM+gnODkTTq0kWIT2aXxpWBtmO6falP23J1IclCASBbs5Qtt28C7PRofkr8Py0YUe2k+iHLKQYnlWDbZb14uYRyJlMC/0ctKR45eRMTlRq8H8lw8fZqAf7W/FdEl188JWt9uBu+9w6l/p7CLHEqPyOdazNpgXFTQuYw5A2OGcoacTclCFzPp6v1R8qULyBM4Va+DNMnpdi11PTFAgWV7qr+2xLeT+72m8/M6gY1sXLOy14xx57J9NIAf/To5dbTdcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ux2/K7EAriV0n6DTUs2UDSeUP8ukGf5a8knE91WPFKI=;
+ b=SgyJTeTIbkT6Z6lX3SEp/tlYT5ShDwnvoc3vt3QBxfUkEG+Z+lMDLd751TtSucffqgyeYzPqo1Ne3udeciPw/pO4Z1f5WVUlpXvz4y9QFIpxReBsOm/pXH8drqBpmB7HXyR6HG1aQCB9xdZ4fHcaSA1P7PP2tnTJd2T8bFcaBGU=
+Received: from BL0PR11MB3107.namprd11.prod.outlook.com (20.177.205.12) by
+ BL0PR11MB3076.namprd11.prod.outlook.com (20.177.206.213) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.20; Mon, 27 Jan 2020 18:02:32 +0000
+Received: from BL0PR11MB3107.namprd11.prod.outlook.com
+ ([fe80::1979:abd1:5faf:5611]) by BL0PR11MB3107.namprd11.prod.outlook.com
+ ([fe80::1979:abd1:5faf:5611%3]) with mapi id 15.20.2665.026; Mon, 27 Jan 2020
+ 18:02:32 +0000
+From:   "Kammela, Gayatri" <gayatri.kammela@intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
         Darren Hart <dvhart@infradead.org>,
-        Mika Westerberg <mika.westerberg@intel.com>,
+        "Westerberg, Mika" <mika.westerberg@intel.com>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        David Box <david.e.box@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Box, David E" <david.e.box@intel.com>
+Subject: RE: [PATCH v1 0/7] platform/x86: intel_pmc_core: Add debugfs entries
+Thread-Topic: [PATCH v1 0/7] platform/x86: intel_pmc_core: Add debugfs entries
+Thread-Index: AQHV0uehR65JqlDsd0qQ+gWeMY04Aqf+WQcAgAB1iqA=
+Date:   Mon, 27 Jan 2020 18:02:32 +0000
+Message-ID: <BL0PR11MB31071AD85775C09B8EC26608F20B0@BL0PR11MB3107.namprd11.prod.outlook.com>
+References: <cover.1579890793.git.gayatri.kammela@intel.com>
+ <CAHp75Vfb38BEh2OZkO2EoQgCyBxaLoiwh8S_qKiPQRX1g+ZA2Q@mail.gmail.com>
+In-Reply-To: <CAHp75Vfb38BEh2OZkO2EoQgCyBxaLoiwh8S_qKiPQRX1g+ZA2Q@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=gayatri.kammela@intel.com; 
+x-originating-ip: [134.134.136.208]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f9c789a4-0f3b-462d-aec7-08d7a3531511
+x-ms-traffictypediagnostic: BL0PR11MB3076:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL0PR11MB3076DA924398DB468DBA6FD7F20B0@BL0PR11MB3076.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 02951C14DC
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(376002)(346002)(136003)(366004)(189003)(199004)(71200400001)(6916009)(53546011)(6506007)(7696005)(478600001)(316002)(54906003)(8676002)(33656002)(86362001)(55016002)(9686003)(2906002)(26005)(4326008)(66476007)(5660300002)(64756008)(8936002)(81156014)(81166006)(66446008)(66946007)(66556008)(52536014)(186003)(76116006);DIR:OUT;SFP:1102;SCL:1;SRVR:BL0PR11MB3076;H:BL0PR11MB3107.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UG/HRfInY63dJA2An3gRjI8D0jujujya/JH0o/VOVNA6Kk4IJH1kONEQKynPqv/gvC/NycpOdUSvMEXLf9ZFOIuIGi2uqRXc+/oSTxwTXEIXWLAnPnEfVP2gN7EEu3+igqokYEEHiUe/whhtsSaL0/PfPvXqrfFHfgPKlQp6p3WUFA0+bCC/1tNN3IuCHU28LTm2vL7TgbKxUYsPM5PQ57wjlc7+lPVC0jiczMhaSsGDTak0J7a0z+fuAZ3Ip2H63asZphZcDNykJXEDtsPN86T5hrOmW29yAnwe5ueDSiIR8fARool0s+t14Cp8Ohp02cMH+TYO4mNDqTcgHlRoBtXMKKOg1JkYaiCCFGSB7iH0W/ZfbE+6sn2H0O3tPZ937ByE9L42x0YWKGmTCt1YJHYfyF0+Jvt7AI4v0CUgbsfg85XH1p+VQniTi157R9za
+x-ms-exchange-antispam-messagedata: 71S5CQThF2z7Of/3fMwASntJ532zBFzgjGl1RIRi88hZyG9G0wD2L1B7OJxWz5zaq7D31XOyugQRtQP4NB5hMR0Qeod/ohj2jXAZ4xvSyb38IJLAp35Ne8aEIMEHLe9f7GYHYX3wTGcyA+b+HyPwpQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9c789a4-0f3b-462d-aec7-08d7a3531511
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2020 18:02:32.5538
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hwnDXV+yhbcCzkAEVGEiYb0vmEAtUHayV3s2uEkNK0ZiShIh+7SXDH4T2CWy/ZjKfHVdiB72myoCeE2go7u/OQXrVTKTXCbd+QL4P+ZnkT8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3076
+X-OriginatorOrg: intel.com
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 10:59 PM Gayatri Kammela
-<gayatri.kammela@intel.com> wrote:
->
-> Hi,
->
-> Tiger Lake platform supports 8 sub-states/low power modes of S0ix. Add
-> debugfs entries to pmc_core driver to access low power mode registers
-> and residencies.
->
-> Patch 1: Add debugfs entry to access sub-state residencies
-> Patch 2: Add debugfs entry for low power mode status registers
-> Patch 3: Refactor the driver by removing redundant code
-> Patch 4: Remove slp_s0 attributes from tgl_reg_map
-> Patch 5: Add an additional parameter to pmc_core_lpm_display_map()
-> Patch 6: Dump low power status registers on an S0ix.y failure
-> Patch 7: Add debugfs support to access live status registers
-
-It doesn't apply to our for-next branch.
-
->
-> Gayatri Kammela (7):
->   platform/x86: intel_pmc_core: Add debugfs entry to access sub-state
->     residencies
->   platform/x86: intel_pmc_core: Add debugfs entry for low power mode
->     status registers
->   platform/x86: intel_pmc_core: Refactor the driver by removing
->     redundant code
->   platform/x86: intel_pmc_core: Remove slp_s0 attributes from
->     tgl_reg_map
->   platform/x86: intel_pmc_core: Add an additional parameter to
->     pmc_core_lpm_display()
->   platform/x86: intel_pmc_core: Dump low power status registers on an
->     S0ix.y failure
->   platform/x86: intel_pmc_core: Add debugfs support to access live
->     status registers
->
->  drivers/platform/x86/intel_pmc_core.c | 301 +++++++++++++++++++++++---
->  drivers/platform/x86/intel_pmc_core.h |  28 +++
->  2 files changed, 302 insertions(+), 27 deletions(-)
->
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: David Box <david.e.box@intel.com>
-> --
-> 2.17.1
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5keSBTaGV2Y2hlbmtv
+IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBNb25kYXksIEphbnVhcnkgMjcs
+IDIwMjAgMjo0OSBBTQ0KPiBUbzogS2FtbWVsYSwgR2F5YXRyaSA8Z2F5YXRyaS5rYW1tZWxhQGlu
+dGVsLmNvbT4NCj4gQ2M6IFBsYXRmb3JtIERyaXZlciA8cGxhdGZvcm0tZHJpdmVyLXg4NkB2Z2Vy
+Lmtlcm5lbC5vcmc+OyBMaW51eCBLZXJuZWwNCj4gTWFpbGluZyBMaXN0IDxsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnPjsgU29tYXlhamksIFZpc2h3YW5hdGgNCj4gPHZpc2h3YW5hdGguc29t
+YXlhamlAaW50ZWwuY29tPjsgRGFycmVuIEhhcnQgPGR2aGFydEBpbmZyYWRlYWQub3JnPjsNCj4g
+V2VzdGVyYmVyZywgTWlrYSA8bWlrYS53ZXN0ZXJiZXJnQGludGVsLmNvbT47IFBldGVyIFppamxz
+dHJhIChJbnRlbCkNCj4gPHBldGVyekBpbmZyYWRlYWQub3JnPjsgUHJlc3RvcGluZSwgQ2hhcmxl
+cyBEDQo+IDxjaGFybGVzLmQucHJlc3RvcGluZUBpbnRlbC5jb20+OyBQYW5kcnV2YWRhLCBTcmlu
+aXZhcw0KPiA8c3Jpbml2YXMucGFuZHJ1dmFkYUBpbnRlbC5jb20+OyBBbmR5IFNoZXZjaGVua28N
+Cj4gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT47IEJveCwgRGF2aWQgRQ0KPiA8
+ZGF2aWQuZS5ib3hAaW50ZWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxIDAvN10gcGxh
+dGZvcm0veDg2OiBpbnRlbF9wbWNfY29yZTogQWRkIGRlYnVnZnMNCj4gZW50cmllcw0KPiANCj4g
+T24gRnJpLCBKYW4gMjQsIDIwMjAgYXQgMTA6NTkgUE0gR2F5YXRyaSBLYW1tZWxhDQo+IDxnYXlh
+dHJpLmthbW1lbGFAaW50ZWwuY29tPiB3cm90ZToNCj4gPg0KPiA+IEhpLA0KPiA+DQo+ID4gVGln
+ZXIgTGFrZSBwbGF0Zm9ybSBzdXBwb3J0cyA4IHN1Yi1zdGF0ZXMvbG93IHBvd2VyIG1vZGVzIG9m
+IFMwaXguIEFkZA0KPiA+IGRlYnVnZnMgZW50cmllcyB0byBwbWNfY29yZSBkcml2ZXIgdG8gYWNj
+ZXNzIGxvdyBwb3dlciBtb2RlIHJlZ2lzdGVycw0KPiA+IGFuZCByZXNpZGVuY2llcy4NCj4gPg0K
+PiA+IFBhdGNoIDE6IEFkZCBkZWJ1Z2ZzIGVudHJ5IHRvIGFjY2VzcyBzdWItc3RhdGUgcmVzaWRl
+bmNpZXMgUGF0Y2ggMjoNCj4gPiBBZGQgZGVidWdmcyBlbnRyeSBmb3IgbG93IHBvd2VyIG1vZGUg
+c3RhdHVzIHJlZ2lzdGVycyBQYXRjaCAzOg0KPiA+IFJlZmFjdG9yIHRoZSBkcml2ZXIgYnkgcmVt
+b3ZpbmcgcmVkdW5kYW50IGNvZGUgUGF0Y2ggNDogUmVtb3ZlIHNscF9zMA0KPiA+IGF0dHJpYnV0
+ZXMgZnJvbSB0Z2xfcmVnX21hcCBQYXRjaCA1OiBBZGQgYW4gYWRkaXRpb25hbCBwYXJhbWV0ZXIg
+dG8NCj4gPiBwbWNfY29yZV9scG1fZGlzcGxheV9tYXAoKSBQYXRjaCA2OiBEdW1wIGxvdyBwb3dl
+ciBzdGF0dXMgcmVnaXN0ZXJzIG9uDQo+ID4gYW4gUzBpeC55IGZhaWx1cmUgUGF0Y2ggNzogQWRk
+IGRlYnVnZnMgc3VwcG9ydCB0byBhY2Nlc3MgbGl2ZSBzdGF0dXMNCj4gPiByZWdpc3RlcnMNCj4g
+DQo+IEl0IGRvZXNuJ3QgYXBwbHkgdG8gb3VyIGZvci1uZXh0IGJyYW5jaC4NClNvcnJ5IHRvIGhl
+YXIgdGhhdC4gSSd2ZSByZWJhc2VkIHRoZSBzZXJpZXMgb24gbWFpbmxpbmUgNS41LXJjNy4gU2hv
+dWxkIEkgcmViYXNlIGl0IG9uIGZvci1uZXh0IGJyYW5jaD8NCj4gDQo+ID4NCj4gPiBHYXlhdHJp
+IEthbW1lbGEgKDcpOg0KPiA+ICAgcGxhdGZvcm0veDg2OiBpbnRlbF9wbWNfY29yZTogQWRkIGRl
+YnVnZnMgZW50cnkgdG8gYWNjZXNzIHN1Yi1zdGF0ZQ0KPiA+ICAgICByZXNpZGVuY2llcw0KPiA+
+ICAgcGxhdGZvcm0veDg2OiBpbnRlbF9wbWNfY29yZTogQWRkIGRlYnVnZnMgZW50cnkgZm9yIGxv
+dyBwb3dlciBtb2RlDQo+ID4gICAgIHN0YXR1cyByZWdpc3RlcnMNCj4gPiAgIHBsYXRmb3JtL3g4
+NjogaW50ZWxfcG1jX2NvcmU6IFJlZmFjdG9yIHRoZSBkcml2ZXIgYnkgcmVtb3ZpbmcNCj4gPiAg
+ICAgcmVkdW5kYW50IGNvZGUNCj4gPiAgIHBsYXRmb3JtL3g4NjogaW50ZWxfcG1jX2NvcmU6IFJl
+bW92ZSBzbHBfczAgYXR0cmlidXRlcyBmcm9tDQo+ID4gICAgIHRnbF9yZWdfbWFwDQo+ID4gICBw
+bGF0Zm9ybS94ODY6IGludGVsX3BtY19jb3JlOiBBZGQgYW4gYWRkaXRpb25hbCBwYXJhbWV0ZXIg
+dG8NCj4gPiAgICAgcG1jX2NvcmVfbHBtX2Rpc3BsYXkoKQ0KPiA+ICAgcGxhdGZvcm0veDg2OiBp
+bnRlbF9wbWNfY29yZTogRHVtcCBsb3cgcG93ZXIgc3RhdHVzIHJlZ2lzdGVycyBvbiBhbg0KPiA+
+ICAgICBTMGl4LnkgZmFpbHVyZQ0KPiA+ICAgcGxhdGZvcm0veDg2OiBpbnRlbF9wbWNfY29yZTog
+QWRkIGRlYnVnZnMgc3VwcG9ydCB0byBhY2Nlc3MgbGl2ZQ0KPiA+ICAgICBzdGF0dXMgcmVnaXN0
+ZXJzDQo+ID4NCj4gPiAgZHJpdmVycy9wbGF0Zm9ybS94ODYvaW50ZWxfcG1jX2NvcmUuYyB8IDMw
+MQ0KPiA+ICsrKysrKysrKysrKysrKysrKysrKysrLS0tICBkcml2ZXJzL3BsYXRmb3JtL3g4Ni9p
+bnRlbF9wbWNfY29yZS5oIHwNCj4gPiAyOCArKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzMDIg
+aW5zZXJ0aW9ucygrKSwgMjcgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBDYzogU3Jpbml2YXMgUGFu
+ZHJ1dmFkYSA8c3Jpbml2YXMucGFuZHJ1dmFkYUBpbnRlbC5jb20+DQo+ID4gQ2M6IEFuZHkgU2hl
+dmNoZW5rbyA8YW5kcml5LnNoZXZjaGVua29AbGludXguaW50ZWwuY29tPg0KPiA+IENjOiBEYXZp
+ZCBCb3ggPGRhdmlkLmUuYm94QGludGVsLmNvbT4NCj4gPiAtLQ0KPiA+IDIuMTcuMQ0KPiA+DQo+
+IA0KPiANCj4gLS0NCj4gV2l0aCBCZXN0IFJlZ2FyZHMsDQo+IEFuZHkgU2hldmNoZW5rbw0K
