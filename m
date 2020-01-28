@@ -2,80 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30C6814AA22
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jan 2020 20:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E66B14B084
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jan 2020 08:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbgA0TAF (ORCPT
+        id S1725848AbgA1HqR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jan 2020 14:00:05 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:39659 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725845AbgA0TAF (ORCPT
+        Tue, 28 Jan 2020 02:46:17 -0500
+Received: from mga07.intel.com ([134.134.136.100]:58075 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725825AbgA1HqR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jan 2020 14:00:05 -0500
-Received: by mail-pg1-f193.google.com with SMTP id 4so5605781pgd.6;
-        Mon, 27 Jan 2020 11:00:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e6sl1WyHJ4Ip52KUSKf7apZBysjt7eqvb1zHoaMOHOw=;
-        b=Qz1gUD7mJddt+heAmFgSTshMOyPBuO0vbPZguVq1Xld4KOl4Ze16AAaGB6g+jvt2ph
-         sl80BH6J6Iw8cg6orTLYgnxu8EaZvdkGTuH6Z7TuQytJD5xLxie8YNC6g3sQchhuanbc
-         ahiKGgIT/h1Nxuq/UCjZvz4DJHgqj8mnVvuyRtuZBEI/I0JbPV0kYKhdGaQHloWX5Iu0
-         nCEmzE7HC8olP1mW0qJiM0ZonKZlKDa4bg52ncLT7tyR6+o87s2h2FCZ36yCgjXjL4J7
-         o5iN1l89tjx3zpN04G6+LZ7htHXtVtU+LhwEJFF5S1fd0k02PJZsjR+7eqyEohQuG5mr
-         G9mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e6sl1WyHJ4Ip52KUSKf7apZBysjt7eqvb1zHoaMOHOw=;
-        b=FY/Ab97Gm9nilb7j8XefSeyPhJMBJ6UmBGwQ9FcsSg6AYjk0OE+2PqLq9v/DgQ3KrE
-         t2L20wlcx1eXs0PSAQFryFzw4opI7VlHn89FJMFXeg5eTgBQMdG0/lB9ntuMyTSL++bX
-         5mI3s34fRJ/uJ/7+huJGaI9wFzV5Yq6vhmv30y92tNEine8gxPTLakstsR7fs/3ifOOL
-         ZZSX5bCvugIfh64OikPx3CZn+VwpLIueZ4Z38ujo5+ZaOzowT9yWOhuyqe9IlXiEHp+h
-         lrx5n7/zEjNa2fi+BIkoMheK1/UwC+f86G32tc7hjiofXP2Z16g9nNnmGfBilBw9wMzc
-         ZLNw==
-X-Gm-Message-State: APjAAAUpIE77gxKbJidqVt9CT4lplf+rx0Vqx8QSrBr9Ehc09ZxfYBle
-        j3S6sQ2iW/YCOMNSCX1FGsFi4DyXw5Hp5ixF2R0=
-X-Google-Smtp-Source: APXvYqxbKhlEoUxLh6NaLra5dXJLQg0YH2Fwt1lIbowYePNbzGr63mPVZjVOJDC5Kp3xnXQ+n5vA/87S+9x9Sa9/dlM=
-X-Received: by 2002:a62:1a09:: with SMTP id a9mr77330pfa.64.1580151604306;
- Mon, 27 Jan 2020 11:00:04 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1579890793.git.gayatri.kammela@intel.com>
- <CAHp75Vfb38BEh2OZkO2EoQgCyBxaLoiwh8S_qKiPQRX1g+ZA2Q@mail.gmail.com> <BL0PR11MB31071AD85775C09B8EC26608F20B0@BL0PR11MB3107.namprd11.prod.outlook.com>
-In-Reply-To: <BL0PR11MB31071AD85775C09B8EC26608F20B0@BL0PR11MB3107.namprd11.prod.outlook.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jan 2020 20:59:48 +0200
-Message-ID: <CAHp75VeRAWsqxfjOxw97SBPRLvcyF=SGrN84hT=UUNC6yQ6-_A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] platform/x86: intel_pmc_core: Add debugfs entries
-To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        "Westerberg, Mika" <mika.westerberg@intel.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Box, David E" <david.e.box@intel.com>
+        Tue, 28 Jan 2020 02:46:17 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jan 2020 23:46:14 -0800
+X-IronPort-AV: E=Sophos;i="5.70,372,1574150400"; 
+   d="scan'208";a="308519690"
+Received: from vinayver-mobl1.gar.corp.intel.com ([10.252.174.80])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jan 2020 23:46:09 -0800
+Message-ID: <6eba5e502636ec8a0be279f48097c7137a95aa13.camel@linux.intel.com>
+Subject: Re: [PATCH v2] admin guide/pm: Admin guide for Intel Uncore
+ Frequency limits
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     andy@infradead.org, dvhart@infradead.org, lenb@kernel.org,
+        andy@kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org
+Date:   Mon, 27 Jan 2020 23:46:02 -0800
+In-Reply-To: <20200124100039.70116459@lwn.net>
+References: <20200113040143.1419770-1-srinivas.pandruvada@linux.intel.com>
+         <20200124100039.70116459@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 27, 2020 at 8:03 PM Kammela, Gayatri
-<gayatri.kammela@intel.com> wrote:
+On Fri, 2020-01-24 at 10:00 -0700, Jonathan Corbet wrote:
+> On Sun, 12 Jan 2020 20:01:43 -0800
+> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+> 
+> > Added documentation for the attributes to control uncore frequency
+> > selection.
+> > 
+> > Signed-off-by: Srinivas Pandruvada <
+> > srinivas.pandruvada@linux.intel.com>
+> > ---
+> > v2:
+> >  - Split the documentation patch to another patch to merge via
+> > different
+> >     tree
+> 
+> Which tree did you have in mind?  PM stuff tends to go through
+> Rafael's
+> tree, normally, which is fine.
+Linux PM tree is fine. I will add necessary --to and --cc to my next
+version of the patch with the suggested changes from you.
 
-> > It doesn't apply to our for-next branch.
-> Sorry to hear that. I've rebased the series on mainline 5.5-rc7. Should I rebase it on for-next branch?
+Thanks,
+Srinivas
 
-You should always base your branch on the for-next (whatever it's
-being called) of the subsystem your series against of.
+> 
+> >  Documentation/admin-guide/pm/intel_uncore.rst | 23
+> > +++++++++++++++++++
+> >  .../admin-guide/pm/working-state.rst          |  1 +
+> >  2 files changed, 24 insertions(+)
+> >  create mode 100644 Documentation/admin-guide/pm/intel_uncore.rst
+> > 
+> > diff --git a/Documentation/admin-guide/pm/intel_uncore.rst
+> > b/Documentation/admin-guide/pm/intel_uncore.rst
+> > new file mode 100644
+> > index 000000000000..d75be65fb16a
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/pm/intel_uncore.rst
+> > @@ -0,0 +1,23 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=========================================================
+> > +Intel® Uncore Frequency Selection
+> 
+> I would really like to avoid adding ® symbols throughout the docs.  I
+> get
+> grief for non-ASCII symbols that actually have a need to be there;
+> this
+> isn't one of those.  
+> 
+> > +=========================================================
+> > +
+> > +The uncore frequency in the Intel(R) hardware is selected based on
+> > internal heuristics, which uses the current selected performance
+> > state and various system power constraints. In majority of the
+> > cases this selection is the most optimal, so there is no need for
+> > placing external constraints from the Operating System.
+> 
+> I would say that this violates the 80-character limit by a character
+> or
+> two...  The entire patch has this problem.
+> 
+> > +
+> > +But there are some customers who wants less jitters from dynamic
+> > uncore frequency selection. For them, power saving is much lower
+> > priority than consistent performance. Currently these customers
+> > uses MSR 0x620, to place hard limits on the maximum and the minimum
+> > uncore frequency. They can now use Linux sysfs to place these
+> > limits and also have additional capability to place hard limits
+> > under power constraint scenario.
+> 
+> less jitter (singular)
+> 
+> > +
+> > +The Uncore frequency section attributes are present under
+> > "/sys/devices/system/cpu/intel_uncore_frequency".
+> > +The scope of these attributes is per die in multi-die systems or
+> > package wide in non multi-die systems. There is a unique folder for
+> > each die or package. For example:
+> > +"package_00_die_00" for package 0 and die 0.
+> 
+> This may not render as you would like; use an RST literal block here.
+> 
+> Thanks,
+> 
+> jon
+> 
 
--- 
-With Best Regards,
-Andy Shevchenko
