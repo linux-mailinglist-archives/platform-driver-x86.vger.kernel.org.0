@@ -2,84 +2,293 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C878B14EE93
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 Jan 2020 15:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5344A14F814
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Feb 2020 15:41:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728985AbgAaOiG (ORCPT
+        id S1726505AbgBAOli (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 31 Jan 2020 09:38:06 -0500
-Received: from ned.t-8ch.de ([212.47.237.191]:37364 "EHLO ned.t-8ch.de"
+        Sat, 1 Feb 2020 09:41:38 -0500
+Received: from mga11.intel.com ([192.55.52.93]:33938 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729060AbgAaOiF (ORCPT
+        id S1726497AbgBAOli (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 31 Jan 2020 09:38:05 -0500
-From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1580481445;
-        bh=lQqAJct9Yuo28e2dXgyV7zV5l+ie2h3xCuN3ZDZgzwM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Mo1hrMOy2XUB0qm3UVpsPM6dGt9espikJCl1ifrhbiXLyphxJPouwAUYmvzto5AtI
-         sjYqNhE04DJKJtg4C91uiQQFrgNQIEwTJ9LG2vWUvz/K0UWKnh0N01NmjSBMCnw1jC
-         vKfaJNtCxJzOZdfWWJDOD8L76qh/mwXQR2ESg8ug=
-To:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v2 3/3] platform/x86: thinkpad_acpi: restore old battery charge attributes
-Date:   Fri, 31 Jan 2020 15:36:50 +0100
-Message-Id: <20200131143650.4149-4-linux@weissschuh.net>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200131143650.4149-3-linux@weissschuh.net>
-References: <20200131143650.4149-1-linux@weissschuh.net>
- <20200131143650.4149-2-linux@weissschuh.net>
- <20200131143650.4149-3-linux@weissschuh.net>
+        Sat, 1 Feb 2020 09:41:38 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Feb 2020 06:41:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,390,1574150400"; 
+   d="scan'208";a="223443423"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 01 Feb 2020 06:41:34 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1ixtxl-0006ry-V8; Sat, 01 Feb 2020 22:41:33 +0800
+Date:   Sat, 01 Feb 2020 22:41:04 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
+ 407d14e619b1249eef142163b078312ed7c821cb
+Message-ID: <5e358e00.dfOY6KdcwR74fhgJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Alias the new standard attributes to their previous names, preserving
-backwards compatibility.
+tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
+branch HEAD: 407d14e619b1249eef142163b078312ed7c821cb  platform/x86: thinkpad_acpi: remove unused defines
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+elapsed time: 2889m
+
+configs tested: 235
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+sparc                            allyesconfig
+parisc                              defconfig
+arc                              allyesconfig
+parisc                         b180_defconfig
+m68k                           sun3_defconfig
+c6x                        evmc6678_defconfig
+microblaze                    nommu_defconfig
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+c6x                              allyesconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+parisc                            allnoconfig
+parisc                            allyesonfig
+parisc                        c3000_defconfig
+x86_64               randconfig-a001-20200130
+x86_64               randconfig-a002-20200130
+x86_64               randconfig-a003-20200130
+i386                 randconfig-a001-20200130
+i386                 randconfig-a002-20200130
+i386                 randconfig-a003-20200130
+x86_64               randconfig-a001-20200129
+x86_64               randconfig-a002-20200129
+x86_64               randconfig-a003-20200129
+i386                 randconfig-a001-20200129
+i386                 randconfig-a002-20200129
+i386                 randconfig-a003-20200129
+x86_64               randconfig-a001-20200131
+x86_64               randconfig-a002-20200131
+x86_64               randconfig-a003-20200131
+i386                 randconfig-a001-20200131
+i386                 randconfig-a002-20200131
+i386                 randconfig-a003-20200131
+alpha                randconfig-a001-20200130
+m68k                 randconfig-a001-20200130
+mips                 randconfig-a001-20200130
+nds32                randconfig-a001-20200130
+parisc               randconfig-a001-20200130
+riscv                randconfig-a001-20200130
+alpha                randconfig-a001-20200131
+m68k                 randconfig-a001-20200131
+mips                 randconfig-a001-20200131
+nds32                randconfig-a001-20200131
+parisc               randconfig-a001-20200131
+c6x                  randconfig-a001-20200130
+h8300                randconfig-a001-20200130
+microblaze           randconfig-a001-20200130
+nios2                randconfig-a001-20200130
+sparc64              randconfig-a001-20200130
+c6x                  randconfig-a001-20200131
+h8300                randconfig-a001-20200131
+microblaze           randconfig-a001-20200131
+nios2                randconfig-a001-20200131
+sparc64              randconfig-a001-20200131
+csky                 randconfig-a001-20200130
+openrisc             randconfig-a001-20200130
+s390                 randconfig-a001-20200130
+sh                   randconfig-a001-20200130
+xtensa               randconfig-a001-20200130
+x86_64               randconfig-b001-20200131
+x86_64               randconfig-b002-20200131
+x86_64               randconfig-b003-20200131
+i386                 randconfig-b001-20200131
+i386                 randconfig-b002-20200131
+i386                 randconfig-b003-20200131
+x86_64               randconfig-b001-20200129
+x86_64               randconfig-b002-20200129
+x86_64               randconfig-b003-20200129
+i386                 randconfig-b001-20200129
+i386                 randconfig-b002-20200129
+i386                 randconfig-b003-20200129
+x86_64               randconfig-c001-20200131
+x86_64               randconfig-c002-20200131
+x86_64               randconfig-c003-20200131
+i386                 randconfig-c001-20200131
+i386                 randconfig-c002-20200131
+i386                 randconfig-c003-20200131
+x86_64               randconfig-c001-20200129
+x86_64               randconfig-c002-20200129
+x86_64               randconfig-c003-20200129
+i386                 randconfig-c001-20200129
+i386                 randconfig-c002-20200129
+i386                 randconfig-c003-20200129
+x86_64               randconfig-d001-20200129
+x86_64               randconfig-d002-20200129
+x86_64               randconfig-d003-20200129
+i386                 randconfig-d001-20200129
+i386                 randconfig-d002-20200129
+i386                 randconfig-d003-20200129
+x86_64               randconfig-d001-20200130
+x86_64               randconfig-d002-20200130
+x86_64               randconfig-d003-20200130
+i386                 randconfig-d001-20200130
+i386                 randconfig-d002-20200130
+i386                 randconfig-d003-20200130
+x86_64               randconfig-d001-20200131
+x86_64               randconfig-d002-20200131
+x86_64               randconfig-d003-20200131
+i386                 randconfig-d001-20200131
+i386                 randconfig-d002-20200131
+i386                 randconfig-d003-20200131
+i386                 randconfig-e002-20200129
+x86_64               randconfig-e002-20200129
+i386                 randconfig-e001-20200129
+i386                 randconfig-e003-20200129
+x86_64               randconfig-e003-20200129
+x86_64               randconfig-e001-20200129
+x86_64               randconfig-f001-20200130
+x86_64               randconfig-f002-20200130
+x86_64               randconfig-f003-20200130
+i386                 randconfig-f001-20200130
+i386                 randconfig-f002-20200130
+i386                 randconfig-f003-20200130
+x86_64               randconfig-f001-20200129
+x86_64               randconfig-f002-20200129
+x86_64               randconfig-f003-20200129
+i386                 randconfig-f001-20200129
+i386                 randconfig-f002-20200129
+i386                 randconfig-f003-20200129
+x86_64               randconfig-g001-20200129
+x86_64               randconfig-g002-20200129
+x86_64               randconfig-g003-20200129
+i386                 randconfig-g001-20200129
+i386                 randconfig-g002-20200129
+i386                 randconfig-g003-20200129
+x86_64               randconfig-g001-20200130
+x86_64               randconfig-g002-20200130
+x86_64               randconfig-g003-20200130
+i386                 randconfig-g001-20200130
+i386                 randconfig-g002-20200130
+i386                 randconfig-g003-20200130
+x86_64               randconfig-h001-20200129
+x86_64               randconfig-h002-20200129
+x86_64               randconfig-h003-20200129
+i386                 randconfig-h001-20200129
+i386                 randconfig-h002-20200129
+i386                 randconfig-h003-20200129
+arc                  randconfig-a001-20200131
+arm                  randconfig-a001-20200131
+arm64                randconfig-a001-20200131
+ia64                 randconfig-a001-20200131
+powerpc              randconfig-a001-20200131
+sparc                randconfig-a001-20200131
+arc                  randconfig-a001-20200130
+arm                  randconfig-a001-20200130
+arm64                randconfig-a001-20200130
+ia64                 randconfig-a001-20200130
+powerpc              randconfig-a001-20200130
+sparc                randconfig-a001-20200130
+arc                  randconfig-a001-20200129
+arm                  randconfig-a001-20200129
+arm64                randconfig-a001-20200129
+ia64                 randconfig-a001-20200129
+powerpc              randconfig-a001-20200129
+sparc                randconfig-a001-20200129
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
 ---
- drivers/platform/x86/thinkpad_acpi.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 5f0e3299778a..2cbcd2e3092f 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -9638,10 +9638,24 @@ static ssize_t charge_control_end_threshold_store(struct device *dev,
- 
- static DEVICE_ATTR_RW(charge_control_start_threshold);
- static DEVICE_ATTR_RW(charge_control_end_threshold);
-+struct device_attribute dev_attr_charge_start_threshold = __ATTR(
-+	charge_start_threshold,
-+	0644,
-+	charge_control_start_threshold_show,
-+	charge_control_start_threshold_store
-+);
-+struct device_attribute dev_attr_charge_stop_threshold = __ATTR(
-+	charge_stop_threshold,
-+	0644,
-+	charge_control_end_threshold_show,
-+	charge_control_end_threshold_store
-+);
- 
- static struct attribute *tpacpi_battery_attrs[] = {
- 	&dev_attr_charge_control_start_threshold.attr,
- 	&dev_attr_charge_control_end_threshold.attr,
-+	&dev_attr_charge_start_threshold.attr,
-+	&dev_attr_charge_stop_threshold.attr,
- 	NULL,
- };
- 
--- 
-2.25.0
-
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
