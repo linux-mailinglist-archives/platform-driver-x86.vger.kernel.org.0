@@ -2,48 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65F851561BB
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2020 01:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3623E15659A
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 Feb 2020 18:00:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgBHABq convert rfc822-to-8bit (ORCPT
+        id S1727443AbgBHRA5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 7 Feb 2020 19:01:46 -0500
-Received: from 27.137.46.186.static.anycast.cnt-grms.ec ([186.46.137.27]:46968
-        "EHLO mail.urcuqui.gob.ec" rhost-flags-OK-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1727131AbgBHABq (ORCPT
+        Sat, 8 Feb 2020 12:00:57 -0500
+Received: from mga06.intel.com ([134.134.136.31]:14586 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727341AbgBHRA5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 7 Feb 2020 19:01:46 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.urcuqui.gob.ec (Postfix) with ESMTP id C626834CD05EA;
-        Fri,  7 Feb 2020 11:29:50 -0500 (-05)
-Received: from mail.urcuqui.gob.ec ([127.0.0.1])
-        by localhost (mail.urcuqui.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 91B-wOEWbjCl; Fri,  7 Feb 2020 11:29:50 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.urcuqui.gob.ec (Postfix) with ESMTP id 0520A34CD31F7;
-        Fri,  7 Feb 2020 11:29:43 -0500 (-05)
-X-Virus-Scanned: amavisd-new at urcuqui.gob.ec
-Received: from mail.urcuqui.gob.ec ([127.0.0.1])
-        by localhost (mail.urcuqui.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id aYNd6h3YAG4w; Fri,  7 Feb 2020 11:29:42 -0500 (-05)
-Received: from [10.109.206.133] (unknown [105.12.2.160])
-        by mail.urcuqui.gob.ec (Postfix) with ESMTPSA id 2494534CD31D0;
-        Fri,  7 Feb 2020 11:29:28 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        Sat, 8 Feb 2020 12:00:57 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Feb 2020 09:00:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,418,1574150400"; 
+   d="scan'208";a="232687537"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
+  by orsmga003.jf.intel.com with ESMTP; 08 Feb 2020 09:00:56 -0800
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     dvhart@infradead.org, andy@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 0/2] x86/platform: intel-uncore-frequnecy bug fixes
+Date:   Sat,  8 Feb 2020 09:00:50 -0800
+Message-Id: <20200208170052.57712-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Spende von 2 Millionen Euro  
-To:     Recipients <ivan.gallegos@urcuqui.gob.ec>
-From:   "manuel franco" <ivan.gallegos@urcuqui.gob.ec>
-Date:   Fri, 07 Feb 2020 18:29:10 +0200
-Reply-To: manuelfrancospende1@gmail.com
-Message-Id: <20200207162929.2494534CD31D0@mail.urcuqui.gob.ec>
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hallo
+This patchset fix issue reported by static checker and potential
+race condition.
 
-Sie wurden ausgewählt, um die Summe von € 2.000.000,00 (zwei Millionen Euro) in meinem laufenden Wohltätigkeitsprogramm zu erhalten. Für weitere Informationen senden Sie bitte ein Email an: manuelfrancospende@gmail.com
+Srinivas Pandruvada (2):
+  platform/x86/intel-uncore-freq: Fix static checker issue and potential
+    race condition
+  platform/x86/intel-uncore-freq: Add release callback
+
+ drivers/platform/x86/intel-uncore-frequency.c | 51 ++++++++++++-------
+ 1 file changed, 33 insertions(+), 18 deletions(-)
+
+-- 
+2.20.1
+
