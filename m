@@ -2,80 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B24FB1583DE
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Feb 2020 20:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D26AC158A31
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Feb 2020 08:06:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbgBJTos (ORCPT
+        id S1727843AbgBKHGK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 10 Feb 2020 14:44:48 -0500
-Received: from mga17.intel.com ([192.55.52.151]:63657 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727003AbgBJTos (ORCPT
+        Tue, 11 Feb 2020 02:06:10 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:46262 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727686AbgBKHGJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 10 Feb 2020 14:44:48 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Feb 2020 11:44:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,426,1574150400"; 
-   d="scan'208";a="405689163"
-Received: from gayuk-dev-mach.sc.intel.com ([10.3.79.171])
-  by orsmga005.jf.intel.com with ESMTP; 10 Feb 2020 11:44:46 -0800
-From:   Gayatri Kammela <gayatri.kammela@intel.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, vishwanath.somayaji@intel.com,
-        dvhart@infradead.org, mika.westerberg@intel.com,
-        peterz@infradead.org, charles.d.prestopine@intel.com,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
-        "David E . Box" <david.e.box@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] platform/x86: intel_pmc_core: Bug: Fix the order of the parameters passed to pmc_core_lpm_display()
-Date:   Mon, 10 Feb 2020 11:40:38 -0800
-Message-Id: <e0564ff97744f4bf916cd59ecb0d8fdb63806229.1581361984.git.gayatri.kammela@intel.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 11 Feb 2020 02:06:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=2m3bJGcjxT5w2At1D6gwWee6qZSAoYez4Br/b+/pfLg=; b=BdxaDYVl1q7FXFALHROLjfbP2X
+        rnmeYPRJzn21xXVs0qg+Nw3pnX+VvQMBc3jRB+6TYRLy0OQY0AifZwyD3jyxjIoMXoYW6s7XJp6uD
+        XepOs/4dcpSjTOsRj3KVDQohqS7C0a4b8gTJ7IdhZCCes29UJgpJpor8I5puhD0ly6/M5HaEwzM/f
+        VcpEidrvaJu0Kp/gJXRoVVVyZTIO8MUalO43SKXxdu2qpAjA89d5OSXz0TgRQzErLFemrE0pQ0JYn
+        NR/4OjXKTOOwzaK8nRCZbE8zsfY1jSckC1dtIlLgzYKeVZn0SKfvDmArZKIsABcUsBRJQOnbQ17PD
+        B7F9r7iA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j1PcX-0002HA-5y; Tue, 11 Feb 2020 07:06:09 +0000
+Subject: Re: linux-next: Tree for Feb 11
+ (drivers/platform/x86/intel_pmc_core.c)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
+References: <20200211130054.001bfce9@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f0d576b6-7204-0caf-1ca8-aae6c82d3b8d@infradead.org>
+Date:   Mon, 10 Feb 2020 23:06:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200211130054.001bfce9@canb.auug.org.au>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The parameters passed to pmc_core_lpm_display() which is called by
-pmc_core_resume() are not in the right order and hence will not dump the
-low power status registers on an S0ix.y failure even if it is compiled
-(with warnings).
+On 2/10/20 6:00 PM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20200210:
+> 
 
-Fix the bug by passing the parameters in right order.
+on i386:
 
-Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Cc: David E. Box <david.e.box@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
----
+Function args are reversed (offset and status);
 
-Hi Andy,
-The reason for not catching this bug earlier was not passing the "-Werror"
-flag while compiling. I apologize for overlooking the warnings. I wanted to
-send v3 of the series, but I have noticed the patch series has been merged in
-to for-next branch. I have made sure, no warnings or errors are seen before
-sending this fix.
+../drivers/platform/x86/intel_pmc_core.c: In function 'pmc_core_resume':
+../drivers/platform/x86/intel_pmc_core.c:1329:43: warning: passing argument 4 of 'pmc_core_lpm_display' makes integer from pointer without a cast [-Wint-conversion]
+   pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
+                                           ^~~~~~~~
+../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'u32 {aka unsigned int}' but argument is of type 'char *'
+ static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
+             ^~~~~~~~~~~~~~~~~~~~
+../drivers/platform/x86/intel_pmc_core.c:1329:53: warning: passing argument 5 of 'pmc_core_lpm_display' makes pointer from integer without a cast [-Wint-conversion]
+   pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
+                                                     ^~~~~~
+../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'const char *' but argument is of type 'int'
+ static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
+             ^~~~~~~~~~~~~~~~~~~~
 
- drivers/platform/x86/intel_pmc_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 753d51087838..f4a36fbabf4c 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -1326,7 +1326,7 @@ static int pmc_core_resume(struct device *dev)
- 	if (pmcdev->map->slps0_dbg_maps)
- 		pmc_core_slps0_display(pmcdev, dev, NULL);
- 	if (pmcdev->map->lpm_sts)
--		pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
-+		pmc_core_lpm_display(pmcdev, dev, NULL, offset, "STATUS", maps);
- 
- 	return 0;
- }
 -- 
-2.17.1
-
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
