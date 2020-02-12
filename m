@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1707815A823
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58C7015A836
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:48:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbgBLLow (ORCPT
+        id S1727264AbgBLLsM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 06:44:52 -0500
-Received: from mga14.intel.com ([192.55.52.115]:46720 "EHLO mga14.intel.com"
+        Wed, 12 Feb 2020 06:48:12 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10182 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727987AbgBLLow (ORCPT
+        id S1726775AbgBLLsM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 06:44:52 -0500
+        Wed, 12 Feb 2020 06:48:12 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:44:51 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:48:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="347499922"
+   d="scan'208";a="347500425"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:44:47 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:44:46 +0200
-Date:   Wed, 12 Feb 2020 13:44:46 +0200
+  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:48:07 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:48:06 +0200
+Date:   Wed, 12 Feb 2020 13:48:06 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -39,37 +39,44 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 09/18] mfd: intel_soc_pmic: Add SCU IPC member to
- struct intel_soc_pmic
-Message-ID: <20200212114446.GY2667@lahna.fi.intel.com>
+Subject: Re: [PATCH v5 18/18] MAINTAINERS: Update entry for Intel Broxton PMC
+ driver
+Message-ID: <20200212114806.GZ2667@lahna.fi.intel.com>
 References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-10-mika.westerberg@linux.intel.com>
- <20200211155706.GH10400@smile.fi.intel.com>
+ <20200211132603.73509-19-mika.westerberg@linux.intel.com>
+ <20200211160133.GI10400@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211155706.GH10400@smile.fi.intel.com>
+In-Reply-To: <20200211160133.GI10400@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 05:57:06PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2020 at 04:25:54PM +0300, Mika Westerberg wrote:
-> > Both PMIC drivers (intel_soc_pmic_mrfld and intel_soc_pmic_bxtwc) will
-> > be using this field going forward to access the SCU IPC instance.
-> > 
-> > While there add kernel-doc for the intel_soc_pmic structure.
+On Tue, Feb 11, 2020 at 06:01:33PM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2020 at 04:26:03PM +0300, Mika Westerberg wrote:
+> > The driver lives now under MFD so split the current entry into two parts
+> > and add me as co-maintainer of the Intel Broxton PMC driver. While there
+> > correct formatting of Zha Qipeng's email address.
 > 
-> > + * @irq_chip_data_pwrbtn: Chained IRQ chip data for the power button
-> > + * @irq_chip_data_tmu: Chained IRQ chip data for the time management unit
-> > + * @irq_chip_data_bcu: Chained IRQ chip data for the burst control unit
-> > + * @irq_chip_data_adc: Chained IRQ chip data for the general purpose ADC
-> > + * @irq_chip_data_chgr: Chained IRQ chip data for the external charger
-> > + * @irq_chip_data_crit: Chained IRQ chip data for the critical event handler
+> ...
 > 
-> Perhaps capitalize the decoded abbreviation, e.g.
-> general purpose ADC -> General Purpose ADC ?
+> > -INTEL PMC/P-Unit IPC DRIVER
+> > -M:	Zha Qipeng<qipeng.zha@intel.com>
+> > +INTEL P-Unit IPC DRIVER
+> > +M:	Zha Qipeng <qipeng.zha@intel.com>
+> >  L:	platform-driver-x86@vger.kernel.org
+> >  S:	Maintained
+> > -F:	arch/x86/include/asm/intel_pmc_ipc.h
+> >  F:	arch/x86/include/asm/intel_punit_ipc.h
+> > -F:	drivers/platform/x86/intel_pmc_ipc.c
+> >  F:	drivers/platform/x86/intel_punit_ipc.c
+> >  
+> >  INTEL PMIC GPIO DRIVERS
+> 
+> Does it stays at the same place after executing parse-maintainers.pl?
 
-Sure.
+Good point, the entry needs to be moved in the correct place to keep it
+sorted alphabetically since the name changes now from PMC -> P-Unit.
