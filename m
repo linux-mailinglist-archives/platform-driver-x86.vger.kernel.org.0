@@ -2,66 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A378815A95F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 13:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2398515AAE2
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 15:23:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbgBLMpN (ORCPT
+        id S1728094AbgBLOXd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 07:45:13 -0500
-Received: from mga17.intel.com ([192.55.52.151]:43739 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727835AbgBLMpN (ORCPT
+        Wed, 12 Feb 2020 09:23:33 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40689 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727781AbgBLOXd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 07:45:13 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 04:45:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="347510198"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 04:45:08 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 14:45:08 +0200
-Date:   Wed, 12 Feb 2020 14:45:08 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 03/18] platform/x86: intel_scu_ipc: Introduce new SCU
- IPC API
-Message-ID: <20200212124508.GE2667@lahna.fi.intel.com>
-References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-4-mika.westerberg@linux.intel.com>
- <20200211154841.GF10400@smile.fi.intel.com>
- <20200212114341.GW2667@lahna.fi.intel.com>
- <20200212115541.GT10400@smile.fi.intel.com>
+        Wed, 12 Feb 2020 09:23:33 -0500
+Received: by mail-pf1-f193.google.com with SMTP id q8so1320608pfh.7;
+        Wed, 12 Feb 2020 06:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2CG8ksxxPOqr0AnERJ/PdtG9O/daCfWo5DfUdNbgZas=;
+        b=JllzjkrRB5hg0Jei6ang1AiW8KaPckknGXzSJuwpvLzqlt3vERdsiwP74Qo3BXwspr
+         hR87nSv3mDIl1cgRTrISAy0eQNeyrwQf0JIAggE6iXYzQO/Ce3tBoRWiEZWhLMFwTE6Z
+         tHRD1JoUhop4fVlY8UMyW0HeLIhfoAVHQgG3mdIHDmYb2h21XnwLjBSkLhmrl7DvuLEt
+         GugQr+KTRou6MiXtV6soXwBZfW3H+R2sTIldasINr+OzHTKx+yAaUh93myPq3WY2uOpN
+         XuwRJ4Sc75dPv008QC9S7r5jVkTwGdI09GCvUtWUNbsM6zSuD9eeuzm290qcpIP1ESZ/
+         f/5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2CG8ksxxPOqr0AnERJ/PdtG9O/daCfWo5DfUdNbgZas=;
+        b=Ytp8WQSjFYsAc2jT7u7W0J0Vloyj8vdBG7dCbp1NylEWv1i7tvINgTPs9mnYcvDfT9
+         raizbKcup/33TMgfIWtqyllVk6aFEQzJcXLeyO8Ky5lVp7kuHXl4hvkjpPlHyvz8ScPa
+         +goVOfjuhhXRD0phz4k9CoXpAhASS8DCdmNJGxWVUh73YcLZDOH8KMT5cs3flPLINU0g
+         Ol43vKwVwyCWGSTP/bJ7l01ExmMwLGT+zZrIoh5JHrq0mhcfPixizpD+vbuCMH1XNNNG
+         cJW4YIP4aUtyuRmYxrB3KI5wZuyqMnKV5vvFEuc6SkLyx6NkfYiL5i/Wx5WnJ78wGy/s
+         q1gg==
+X-Gm-Message-State: APjAAAXd7F9bUzkEpk6LWOBwyaOR8qmZOnq/7Z7QfLg4PQ5EQ3NrZWCJ
+        q0N8xmmVuEVWaiCICdLgEcuqN+g0ysWuxael57I=
+X-Google-Smtp-Source: APXvYqwwT802Htg8/QLgGZfEl3X3B9sS1Nqnk9ag0wVeXU9UXD0zSNNN+/vGOTk50zGCdWCOveiGwSni6DcNPzpy4uU=
+X-Received: by 2002:a65:5242:: with SMTP id q2mr12353141pgp.74.1581517412831;
+ Wed, 12 Feb 2020 06:23:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200212115541.GT10400@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200211130054.001bfce9@canb.auug.org.au> <f0d576b6-7204-0caf-1ca8-aae6c82d3b8d@infradead.org>
+In-Reply-To: <f0d576b6-7204-0caf-1ca8-aae6c82d3b8d@infradead.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 12 Feb 2020 16:23:25 +0200
+Message-ID: <CAHp75Ve3oenxkSCr9FC14MErQeN6pwrafemgKUNMwxUDr+aYKA@mail.gmail.com>
+Subject: Re: linux-next: Tree for Feb 11 (drivers/platform/x86/intel_pmc_core.c)
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 01:55:41PM +0200, Andy Shevchenko wrote:
-> > No problem doing that but I'm not sure what's the benefit over what is
-> > done now?
-> 
-> That's what I'm trying to figure out. Would it be? Maybe you can play with it
-> locally and decide which one is better?
+On Tue, Feb 11, 2020 at 9:32 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 2/10/20 6:00 PM, Stephen Rothwell wrote:
+> > Hi all,
+> >
+> > Changes since 20200210:
+> >
+>
+> on i386:
+>
+> Function args are reversed (offset and status);
+>
+> ../drivers/platform/x86/intel_pmc_core.c: In function 'pmc_core_resume':
+> ../drivers/platform/x86/intel_pmc_core.c:1329:43: warning: passing argument 4 of 'pmc_core_lpm_display' makes integer from pointer without a cast [-Wint-conversion]
+>    pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
+>                                            ^~~~~~~~
+> ../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'u32 {aka unsigned int}' but argument is of type 'char *'
+>  static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
+>              ^~~~~~~~~~~~~~~~~~~~
+> ../drivers/platform/x86/intel_pmc_core.c:1329:53: warning: passing argument 5 of 'pmc_core_lpm_display' makes pointer from integer without a cast [-Wint-conversion]
+>    pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
+>                                                      ^~~~~~
+> ../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'const char *' but argument is of type 'int'
+>  static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
+>              ^~~~~~~~~~~~~~~~~~~~
 
-OK, I'll try that.
+Thank you, it should be fixed in today's Linux Next.
+
+-- 
+With Best Regards,
+Andy Shevchenko
