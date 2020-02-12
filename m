@@ -2,33 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D4C115A866
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A06BF15A86E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:57:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728449AbgBLLzq (ORCPT
+        id S1728098AbgBLL5X (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 06:55:46 -0500
-Received: from mga06.intel.com ([134.134.136.31]:60416 "EHLO mga06.intel.com"
+        Wed, 12 Feb 2020 06:57:23 -0500
+Received: from mga07.intel.com ([134.134.136.100]:52644 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728445AbgBLLzp (ORCPT
+        id S1728049AbgBLL5X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 06:55:45 -0500
+        Wed, 12 Feb 2020 06:57:23 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:55:44 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:57:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="227804226"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Feb 2020 03:55:40 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1j1qcH-000vnl-Fl; Wed, 12 Feb 2020 13:55:41 +0200
-Date:   Wed, 12 Feb 2020 13:55:41 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+   d="scan'208";a="347501773"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:57:17 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:57:17 +0200
+Date:   Wed, 12 Feb 2020 13:57:17 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -41,52 +39,29 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 03/18] platform/x86: intel_scu_ipc: Introduce new SCU
- IPC API
-Message-ID: <20200212115541.GT10400@smile.fi.intel.com>
+Subject: Re: [PATCH v5 02/18] platform/x86: intel_scu_ipc: Log more
+ information if SCU IPC command fails
+Message-ID: <20200212115717.GA2667@lahna.fi.intel.com>
 References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-4-mika.westerberg@linux.intel.com>
- <20200211154841.GF10400@smile.fi.intel.com>
- <20200212114341.GW2667@lahna.fi.intel.com>
+ <20200211132603.73509-3-mika.westerberg@linux.intel.com>
+ <20200211154138.GE10400@smile.fi.intel.com>
+ <20200212113649.GV2667@lahna.fi.intel.com>
+ <20200212115442.GS10400@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200212114341.GW2667@lahna.fi.intel.com>
+In-Reply-To: <20200212115442.GS10400@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 01:43:41PM +0200, Mika Westerberg wrote:
-> On Tue, Feb 11, 2020 at 05:48:41PM +0200, Andy Shevchenko wrote:
-> > On Tue, Feb 11, 2020 at 04:25:48PM +0300, Mika Westerberg wrote:
-> > > The current SCU IPC API has been operating on a single instance and
-> > > there has been no way to pin the providing module in place when the SCU
-> > > IPC is in use.
-> > > 
-> > > This implements a new API that takes the SCU IPC instance as first
-> > > parameter (NULL means the single instance is being used). The SCU IPC
-> > > instance can be retrieved by calling new function
-> > > intel_scu_ipc_dev_get() that take care of pinning the providing module
-> > > in place as long as intel_scu_ipc_dev_put() is not called.
-> > > 
-> > > The old API and constants that are still being used are left there to
-> > > support existing users that cannot be converted easily but they are put
-> > > to a separate header that is subject to be removed eventually.
-> > > Subsequent patches will convert most of the users over to the new API.
-> > 
-> > I'm thinking now if it would be better to do this in two steps, i.e. split out
-> > legacy header first and then introduce new API?
+On Wed, Feb 12, 2020 at 01:54:42PM +0200, Andy Shevchenko wrote:
+> > You mean move outside of the lock? This one calls ipc_data_readl()
+> > which should be under the lock.
 > 
-> No problem doing that but I'm not sure what's the benefit over what is
-> done now?
+> I meant to move dev_err() out of the lock. The rest of course requires to stay
+> under it.
 
-That's what I'm trying to figure out. Would it be? Maybe you can play with it
-locally and decide which one is better?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+OK, got it :)
