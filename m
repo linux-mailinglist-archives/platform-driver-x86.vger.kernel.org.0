@@ -2,80 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8516715A179
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 07:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3B6E15A7F6
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:34:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728222AbgBLG7Y (ORCPT
+        id S1725874AbgBLLeW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 01:59:24 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:45716 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728148AbgBLG7X (ORCPT
+        Wed, 12 Feb 2020 06:34:22 -0500
+Received: from mga14.intel.com ([192.55.52.115]:46023 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgBLLeV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 01:59:23 -0500
-Received: by mail-io1-f67.google.com with SMTP id i11so987703ioi.12
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Feb 2020 22:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=RFjST6WTWl2HErgo/MFlw9oz3Ck4pyxWRgkJWzlGF00=;
-        b=E/xhvH7Rx+D5I3m109G7OYzhjMcGdYPupfOC0oYn3sdIG9J91BUvkhKRkxEET/5G3p
-         1o8kEHrmoQDjjHNm+VezMT9C5puevmtrk40T1BJCmZJs9IP7MX++khIItOqpeX+6xIAf
-         ktfl5ftdk27IMJRUQgReIQdpH358/fRAPuPKN+beRbhcoi4iXkDWwlbVUnQZNK7K/Iyr
-         ptDdgCRFjTCKvdf7st8Quy5f+L8KHXA0o4RIaAMJn9WMphsJHSkn1cztrXUku+bxt5hn
-         L4f09kQa/KwgpwCbHMS704KIvHgISBlMBaKkdZg02kqrSppLO1PjezXWPQzrCPnCmEyb
-         ieKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=RFjST6WTWl2HErgo/MFlw9oz3Ck4pyxWRgkJWzlGF00=;
-        b=HvzJMfROd+tYMjHS4z1R6sn1o2vvgTAF39y5+jqMFleF3r+NTpDzRC51w5p1i45QFg
-         Pz1XCvLvcYjo8KZRa1WkyASOkGlCCDdaFL3pL0K+eK4xVIgIDq9z5urTAABvc2cH6A7s
-         HBf/d77iWi+iKZfsPL7lgoQ0jsU1GBZMDhdu6JYcy+dNeNub5N5pvlksCsnMn69ThqHW
-         3Iz0mejJjCu1S9uPEk0V3dy+zj/Hwv+OYMLqZLo4qdD/ZJJtHzckgd0C/fCsCoI3MF8o
-         3pRgSkmsfxkTXWf9BV4geb4AHFAxMLueBbo6gfWZtpSsSD5eFAD59V8irKHT1zA84Vug
-         ympw==
-X-Gm-Message-State: APjAAAUP8Gq4vTP0dm9UEnKXjleekBwkCpFQMJ5hOG/0lWz38z2id8zx
-        qHVUzNBBqNP/TO9uA2KyM7gmU+dWwgRw9tINdrQ=
-X-Google-Smtp-Source: APXvYqymLPw/iEt9QVvz/QTbUP33Nd0lITL1AxVkBt2a9q31/MlFt9TPms0WitNr7YaRbskD60g7uIj95hkARRX2KtE=
-X-Received: by 2002:a6b:6108:: with SMTP id v8mr15942002iob.210.1581490763037;
- Tue, 11 Feb 2020 22:59:23 -0800 (PST)
+        Wed, 12 Feb 2020 06:34:21 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:34:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
+   d="scan'208";a="347498820"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:34:16 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:34:16 +0200
+Date:   Wed, 12 Feb 2020 13:34:16 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 01/18] platform/x86: intel_scu_ipc: Split out SCU IPC
+ functionality from the SCU driver
+Message-ID: <20200212113416.GU2667@lahna.fi.intel.com>
+References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
+ <20200211132603.73509-2-mika.westerberg@linux.intel.com>
+ <20200211153924.GD10400@smile.fi.intel.com>
 MIME-Version: 1.0
-Received: by 2002:a02:1049:0:0:0:0:0 with HTTP; Tue, 11 Feb 2020 22:59:22
- -0800 (PST)
-Reply-To: dunawattara96@outlook.com
-From:   Mr Duna Wattara <mrharword.somda@gmail.com>
-Date:   Tue, 11 Feb 2020 22:59:22 -0800
-Message-ID: <CACA8Y7uG+ABh0ROph44nXjVWuv=ZW-9AAkV=4bbWeUG3Jm23dg@mail.gmail.com>
-Subject: with due respect
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200211153924.GD10400@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Friend,
+On Tue, Feb 11, 2020 at 05:39:24PM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2020 at 04:25:46PM +0300, Mika Westerberg wrote:
+> > The SCU IPC functionality is usable outside of Intel MID devices. For
+> > example modern Intel CPUs include the same thing but now it is called
+> > PMC (Power Management Controller) instead of SCU. To make the IPC
+> > available for those split the driver into core part (intel_scu_ipc.c)
+> > and the SCU PCI driver part (intel_scu_pcidrv.c) which then calls the
+> > former before it goes and creates rest of the SCU devices. The SCU IPC
+> > will also register a new class that gets assigned to the device that is
+> > created under the parent PCI device.
+> > 
+> > We also split the Kconfig symbols so that INTEL_SCU_IPC enables the SCU
+> > IPC library and INTEL_SCU_PCI the SCU driver and convert the users
+> > accordingly. While there remove default y from the INTEL_SCU_PCI symbol
+> > as it is already selected by X86_INTEL_MID.
+> 
+> ...
+> 
+> >  config INTEL_SCU_IPC
+> 
+> > +config INTEL_SCU
+> 
+> > +config INTEL_SCU_PCI
+> 
+> >  config INTEL_SCU_IPC_UTIL
+> ...
+> 
+> >  obj-$(CONFIG_INTEL_PUNIT_IPC)		+= intel_punit_ipc.o
+> >  obj-$(CONFIG_INTEL_SCU_IPC)		+= intel_scu_ipc.o
+> >  obj-$(CONFIG_INTEL_SCU_IPC_UTIL)	+= intel_scu_ipcutil.o
+> > +obj-$(CONFIG_INTEL_SCU_PCI)		+= intel_scu_pcidrv.o
+> 
+> Please, keep the symbol ordering (whatever you choose) the same
+> in Makefile and Kconfig.
 
-I know that this mail will come to you as a surprise as we have never
-met before, but need not to worry as I am contacting you independently
-of my investigation and no one is informed of this communication.
-
-I need your urgent assistance in transferring the sum of $11.3million
-immediately to your private account.The money has been here in our
-Bank lying dormant for years now without anybody coming for the claim of it.
-
-I want to release the money to you as the relative to our deceased
-customer (the account owner) who died a long with his supposed NEXT OF
-KIN since 16th October 2005. The Banking laws here does not allow such
-money to stay more than 15 years, because the money will be recalled
-to the Bank treasury account as unclaimed fund.
-
-By indicating your interest I will send you the full details on how
-the business will be executed.
-
-Please respond urgently and delete if you are not interested.
-
-Best Regards,
-Mr. Duna Wattara.
+OK, will do.
