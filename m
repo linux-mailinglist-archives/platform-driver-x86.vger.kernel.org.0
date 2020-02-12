@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D3F15A7FE
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A1F215A81F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:43:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgBLLgz (ORCPT
+        id S1728271AbgBLLnr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 06:36:55 -0500
-Received: from mga17.intel.com ([192.55.52.151]:38964 "EHLO mga17.intel.com"
+        Wed, 12 Feb 2020 06:43:47 -0500
+Received: from mga17.intel.com ([192.55.52.151]:39394 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgBLLgy (ORCPT
+        id S1728139AbgBLLnr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 06:36:54 -0500
+        Wed, 12 Feb 2020 06:43:47 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:36:54 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:43:46 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="347499073"
+   d="scan'208";a="347499795"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:36:49 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:36:49 +0200
-Date:   Wed, 12 Feb 2020 13:36:49 +0200
+  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:43:42 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:43:41 +0200
+Date:   Wed, 12 Feb 2020 13:43:41 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -39,70 +39,41 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 02/18] platform/x86: intel_scu_ipc: Log more
- information if SCU IPC command fails
-Message-ID: <20200212113649.GV2667@lahna.fi.intel.com>
+Subject: Re: [PATCH v5 03/18] platform/x86: intel_scu_ipc: Introduce new SCU
+ IPC API
+Message-ID: <20200212114341.GW2667@lahna.fi.intel.com>
 References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-3-mika.westerberg@linux.intel.com>
- <20200211154138.GE10400@smile.fi.intel.com>
+ <20200211132603.73509-4-mika.westerberg@linux.intel.com>
+ <20200211154841.GF10400@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211154138.GE10400@smile.fi.intel.com>
+In-Reply-To: <20200211154841.GF10400@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 05:41:38PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2020 at 04:25:47PM +0300, Mika Westerberg wrote:
-> > Currently we only log an error if the command times out which makes it
-> > hard to figure out the failing command. This changes the driver to log
-> > command and subcommand with the error code which should make debugging
-> > easier. This also allows us to simplify the callers as they don't need
-> > to log these errors themselves.
+On Tue, Feb 11, 2020 at 05:48:41PM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2020 at 04:25:48PM +0300, Mika Westerberg wrote:
+> > The current SCU IPC API has been operating on a single instance and
+> > there has been no way to pin the providing module in place when the SCU
+> > IPC is in use.
 > > 
+> > This implements a new API that takes the SCU IPC instance as first
+> > parameter (NULL means the single instance is being used). The SCU IPC
+> > instance can be retrieved by calling new function
+> > intel_scu_ipc_dev_get() that take care of pinning the providing module
+> > in place as long as intel_scu_ipc_dev_put() is not called.
+> > 
+> > The old API and constants that are still being used are left there to
+> > support existing users that cannot be converted easily but they are put
+> > to a separate header that is subject to be removed eventually.
+> > Subsequent patches will convert most of the users over to the new API.
 > 
-> Thanks, my comments below.
-> 
-> ...
-> 
-> >  	scu = ipcdev;
-> > -	ipc_command(scu, sub << 12 | cmd);
-> > +	cmdval = sub << 12 | cmd;
-> > +	ipc_command(scu, cmdval);
-> >  	err = intel_scu_ipc_check_status(scu);
-> 
-> > +	if (err)
-> > +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval,
-> > +			err);
-> 
-> We may move it out of the mutex, right? Also, please keep it one line.
+> I'm thinking now if it would be better to do this in two steps, i.e. split out
+> legacy header first and then introduce new API?
 
-Yup.
-
-> >  	mutex_unlock(&ipclock);
-> >  	return err;
-> 
-> ...
-> 
-> >  	mutex_lock(&ipclock);
-> 
-> > +	cmdval = (inlen << 16) | (sub << 12) | cmd;
-> > +	ipc_command(scu, cmdval);
-> >  	err = intel_scu_ipc_check_status(scu);
-> > -
-> > -	if (!err) {
-> > +	if (err) {
-> > +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval,
-> > +			err);
-> > +	} else {
-> >  		for (i = 0; i < outlen; i++)
-> >  			*out++ = ipc_data_readl(scu, 4 * i);
-> >  	}
-> 
-> It's not visible in this context but it looks like above applies here as well.
-
-You mean move outside of the lock? This one calls ipc_data_readl()
-which should be under the lock.
+No problem doing that but I'm not sure what's the benefit over what is
+done now?
