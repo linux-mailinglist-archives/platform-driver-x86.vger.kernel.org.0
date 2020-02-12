@@ -2,31 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58C7015A836
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2CE715A857
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:54:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbgBLLsM (ORCPT
+        id S1727007AbgBLLyq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 06:48:12 -0500
-Received: from mga01.intel.com ([192.55.52.88]:10182 "EHLO mga01.intel.com"
+        Wed, 12 Feb 2020 06:54:46 -0500
+Received: from mga02.intel.com ([134.134.136.20]:64718 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726775AbgBLLsM (ORCPT
+        id S1725781AbgBLLyq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 06:48:12 -0500
+        Wed, 12 Feb 2020 06:54:46 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:48:11 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:54:45 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="347500425"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:48:07 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:48:06 +0200
-Date:   Wed, 12 Feb 2020 13:48:06 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="251888571"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002.jf.intel.com with ESMTP; 12 Feb 2020 03:54:41 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1j1qbK-000vnD-9n; Wed, 12 Feb 2020 13:54:42 +0200
+Date:   Wed, 12 Feb 2020 13:54:42 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,44 +41,54 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 18/18] MAINTAINERS: Update entry for Intel Broxton PMC
- driver
-Message-ID: <20200212114806.GZ2667@lahna.fi.intel.com>
+Subject: Re: [PATCH v5 02/18] platform/x86: intel_scu_ipc: Log more
+ information if SCU IPC command fails
+Message-ID: <20200212115442.GS10400@smile.fi.intel.com>
 References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-19-mika.westerberg@linux.intel.com>
- <20200211160133.GI10400@smile.fi.intel.com>
+ <20200211132603.73509-3-mika.westerberg@linux.intel.com>
+ <20200211154138.GE10400@smile.fi.intel.com>
+ <20200212113649.GV2667@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211160133.GI10400@smile.fi.intel.com>
+In-Reply-To: <20200212113649.GV2667@lahna.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 06:01:33PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2020 at 04:26:03PM +0300, Mika Westerberg wrote:
-> > The driver lives now under MFD so split the current entry into two parts
-> > and add me as co-maintainer of the Intel Broxton PMC driver. While there
-> > correct formatting of Zha Qipeng's email address.
-> 
-> ...
-> 
-> > -INTEL PMC/P-Unit IPC DRIVER
-> > -M:	Zha Qipeng<qipeng.zha@intel.com>
-> > +INTEL P-Unit IPC DRIVER
-> > +M:	Zha Qipeng <qipeng.zha@intel.com>
-> >  L:	platform-driver-x86@vger.kernel.org
-> >  S:	Maintained
-> > -F:	arch/x86/include/asm/intel_pmc_ipc.h
-> >  F:	arch/x86/include/asm/intel_punit_ipc.h
-> > -F:	drivers/platform/x86/intel_pmc_ipc.c
-> >  F:	drivers/platform/x86/intel_punit_ipc.c
-> >  
-> >  INTEL PMIC GPIO DRIVERS
-> 
-> Does it stays at the same place after executing parse-maintainers.pl?
+On Wed, Feb 12, 2020 at 01:36:49PM +0200, Mika Westerberg wrote:
+> On Tue, Feb 11, 2020 at 05:41:38PM +0200, Andy Shevchenko wrote:
+> > On Tue, Feb 11, 2020 at 04:25:47PM +0300, Mika Westerberg wrote:
 
-Good point, the entry needs to be moved in the correct place to keep it
-sorted alphabetically since the name changes now from PMC -> P-Unit.
+...
+
+> > >  	mutex_lock(&ipclock);
+> > 
+> > > +	cmdval = (inlen << 16) | (sub << 12) | cmd;
+> > > +	ipc_command(scu, cmdval);
+> > >  	err = intel_scu_ipc_check_status(scu);
+> > > -
+> > > -	if (!err) {
+> > > +	if (err) {
+> > > +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval,
+> > > +			err);
+> > > +	} else {
+> > >  		for (i = 0; i < outlen; i++)
+> > >  			*out++ = ipc_data_readl(scu, 4 * i);
+> > >  	}
+> > 
+> > It's not visible in this context but it looks like above applies here as well.
+> 
+> You mean move outside of the lock? This one calls ipc_data_readl()
+> which should be under the lock.
+
+I meant to move dev_err() out of the lock. The rest of course requires to stay
+under it.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
