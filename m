@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3B6E15A7F6
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D3F15A7FE
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 12:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbgBLLeW (ORCPT
+        id S1726146AbgBLLgz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 06:34:22 -0500
-Received: from mga14.intel.com ([192.55.52.115]:46023 "EHLO mga14.intel.com"
+        Wed, 12 Feb 2020 06:36:55 -0500
+Received: from mga17.intel.com ([192.55.52.151]:38964 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgBLLeV (ORCPT
+        id S1725781AbgBLLgy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 06:34:21 -0500
+        Wed, 12 Feb 2020 06:36:54 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:34:21 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Feb 2020 03:36:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; 
-   d="scan'208";a="347498820"
+   d="scan'208";a="347499073"
 Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:34:16 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:34:16 +0200
-Date:   Wed, 12 Feb 2020 13:34:16 +0200
+  by fmsmga001.fm.intel.com with SMTP; 12 Feb 2020 03:36:49 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Feb 2020 13:36:49 +0200
+Date:   Wed, 12 Feb 2020 13:36:49 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -39,55 +39,70 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 01/18] platform/x86: intel_scu_ipc: Split out SCU IPC
- functionality from the SCU driver
-Message-ID: <20200212113416.GU2667@lahna.fi.intel.com>
+Subject: Re: [PATCH v5 02/18] platform/x86: intel_scu_ipc: Log more
+ information if SCU IPC command fails
+Message-ID: <20200212113649.GV2667@lahna.fi.intel.com>
 References: <20200211132603.73509-1-mika.westerberg@linux.intel.com>
- <20200211132603.73509-2-mika.westerberg@linux.intel.com>
- <20200211153924.GD10400@smile.fi.intel.com>
+ <20200211132603.73509-3-mika.westerberg@linux.intel.com>
+ <20200211154138.GE10400@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200211153924.GD10400@smile.fi.intel.com>
+In-Reply-To: <20200211154138.GE10400@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 05:39:24PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2020 at 04:25:46PM +0300, Mika Westerberg wrote:
-> > The SCU IPC functionality is usable outside of Intel MID devices. For
-> > example modern Intel CPUs include the same thing but now it is called
-> > PMC (Power Management Controller) instead of SCU. To make the IPC
-> > available for those split the driver into core part (intel_scu_ipc.c)
-> > and the SCU PCI driver part (intel_scu_pcidrv.c) which then calls the
-> > former before it goes and creates rest of the SCU devices. The SCU IPC
-> > will also register a new class that gets assigned to the device that is
-> > created under the parent PCI device.
+On Tue, Feb 11, 2020 at 05:41:38PM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2020 at 04:25:47PM +0300, Mika Westerberg wrote:
+> > Currently we only log an error if the command times out which makes it
+> > hard to figure out the failing command. This changes the driver to log
+> > command and subcommand with the error code which should make debugging
+> > easier. This also allows us to simplify the callers as they don't need
+> > to log these errors themselves.
 > > 
-> > We also split the Kconfig symbols so that INTEL_SCU_IPC enables the SCU
-> > IPC library and INTEL_SCU_PCI the SCU driver and convert the users
-> > accordingly. While there remove default y from the INTEL_SCU_PCI symbol
-> > as it is already selected by X86_INTEL_MID.
+> 
+> Thanks, my comments below.
 > 
 > ...
 > 
-> >  config INTEL_SCU_IPC
+> >  	scu = ipcdev;
+> > -	ipc_command(scu, sub << 12 | cmd);
+> > +	cmdval = sub << 12 | cmd;
+> > +	ipc_command(scu, cmdval);
+> >  	err = intel_scu_ipc_check_status(scu);
 > 
-> > +config INTEL_SCU
+> > +	if (err)
+> > +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval,
+> > +			err);
 > 
-> > +config INTEL_SCU_PCI
-> 
-> >  config INTEL_SCU_IPC_UTIL
-> ...
-> 
-> >  obj-$(CONFIG_INTEL_PUNIT_IPC)		+= intel_punit_ipc.o
-> >  obj-$(CONFIG_INTEL_SCU_IPC)		+= intel_scu_ipc.o
-> >  obj-$(CONFIG_INTEL_SCU_IPC_UTIL)	+= intel_scu_ipcutil.o
-> > +obj-$(CONFIG_INTEL_SCU_PCI)		+= intel_scu_pcidrv.o
-> 
-> Please, keep the symbol ordering (whatever you choose) the same
-> in Makefile and Kconfig.
+> We may move it out of the mutex, right? Also, please keep it one line.
 
-OK, will do.
+Yup.
+
+> >  	mutex_unlock(&ipclock);
+> >  	return err;
+> 
+> ...
+> 
+> >  	mutex_lock(&ipclock);
+> 
+> > +	cmdval = (inlen << 16) | (sub << 12) | cmd;
+> > +	ipc_command(scu, cmdval);
+> >  	err = intel_scu_ipc_check_status(scu);
+> > -
+> > -	if (!err) {
+> > +	if (err) {
+> > +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval,
+> > +			err);
+> > +	} else {
+> >  		for (i = 0; i < outlen; i++)
+> >  			*out++ = ipc_data_readl(scu, 4 * i);
+> >  	}
+> 
+> It's not visible in this context but it looks like above applies here as well.
+
+You mean move outside of the lock? This one calls ipc_data_readl()
+which should be under the lock.
