@@ -2,94 +2,123 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2398515AAE2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 12 Feb 2020 15:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1112C15B688
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Feb 2020 02:18:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728094AbgBLOXd (ORCPT
+        id S1729514AbgBMBRs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 12 Feb 2020 09:23:33 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40689 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727781AbgBLOXd (ORCPT
+        Wed, 12 Feb 2020 20:17:48 -0500
+Received: from gateway32.websitewelcome.com ([192.185.145.108]:28325 "EHLO
+        gateway32.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729244AbgBMBRs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 12 Feb 2020 09:23:33 -0500
-Received: by mail-pf1-f193.google.com with SMTP id q8so1320608pfh.7;
-        Wed, 12 Feb 2020 06:23:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2CG8ksxxPOqr0AnERJ/PdtG9O/daCfWo5DfUdNbgZas=;
-        b=JllzjkrRB5hg0Jei6ang1AiW8KaPckknGXzSJuwpvLzqlt3vERdsiwP74Qo3BXwspr
-         hR87nSv3mDIl1cgRTrISAy0eQNeyrwQf0JIAggE6iXYzQO/Ce3tBoRWiEZWhLMFwTE6Z
-         tHRD1JoUhop4fVlY8UMyW0HeLIhfoAVHQgG3mdIHDmYb2h21XnwLjBSkLhmrl7DvuLEt
-         GugQr+KTRou6MiXtV6soXwBZfW3H+R2sTIldasINr+OzHTKx+yAaUh93myPq3WY2uOpN
-         XuwRJ4Sc75dPv008QC9S7r5jVkTwGdI09GCvUtWUNbsM6zSuD9eeuzm290qcpIP1ESZ/
-         f/5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2CG8ksxxPOqr0AnERJ/PdtG9O/daCfWo5DfUdNbgZas=;
-        b=Ytp8WQSjFYsAc2jT7u7W0J0Vloyj8vdBG7dCbp1NylEWv1i7tvINgTPs9mnYcvDfT9
-         raizbKcup/33TMgfIWtqyllVk6aFEQzJcXLeyO8Ky5lVp7kuHXl4hvkjpPlHyvz8ScPa
-         +goVOfjuhhXRD0phz4k9CoXpAhASS8DCdmNJGxWVUh73YcLZDOH8KMT5cs3flPLINU0g
-         Ol43vKwVwyCWGSTP/bJ7l01ExmMwLGT+zZrIoh5JHrq0mhcfPixizpD+vbuCMH1XNNNG
-         cJW4YIP4aUtyuRmYxrB3KI5wZuyqMnKV5vvFEuc6SkLyx6NkfYiL5i/Wx5WnJ78wGy/s
-         q1gg==
-X-Gm-Message-State: APjAAAXd7F9bUzkEpk6LWOBwyaOR8qmZOnq/7Z7QfLg4PQ5EQ3NrZWCJ
-        q0N8xmmVuEVWaiCICdLgEcuqN+g0ysWuxael57I=
-X-Google-Smtp-Source: APXvYqwwT802Htg8/QLgGZfEl3X3B9sS1Nqnk9ag0wVeXU9UXD0zSNNN+/vGOTk50zGCdWCOveiGwSni6DcNPzpy4uU=
-X-Received: by 2002:a65:5242:: with SMTP id q2mr12353141pgp.74.1581517412831;
- Wed, 12 Feb 2020 06:23:32 -0800 (PST)
+        Wed, 12 Feb 2020 20:17:48 -0500
+X-Greylist: delayed 1337 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Feb 2020 20:17:47 EST
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+        by gateway32.websitewelcome.com (Postfix) with ESMTP id E1A43B1F2C
+        for <platform-driver-x86@vger.kernel.org>; Wed, 12 Feb 2020 18:55:29 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 22mvjCMpMAGTX22mvjOVXy; Wed, 12 Feb 2020 18:55:29 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hqjhoUQv+EY20/Nx26UEQj1s5SdWkNkvsRNYkR8wtW4=; b=kRri0apnQfzr8jDn1LQ/1qqf6S
+        uUy2K5PghegCKCHnDYe5axuyvoF68R2tS5MSoimOy1eNA+sePzJCPjEndQg8KWK+er4OCmmaPCWhY
+        qaDOoNmLPLuLnqDtiDXELFBZE2YIpymIWzur9IM7mDPsBsAgqcyKzBwCaVRVx8OEkzb9rNbPKHmoh
+        WJ3v5QeeVJC5d8ANAMBkFXNaxWbMJh8cKUcJXZfE5OFYnCn7XjbjxcHqsRfZRKgasYY7qLFdZJgiX
+        PG+GRzH6xrFeDkzPVd/O6ANDaO7RyzSm0jWOUpI6YVKlMuTvE5G/ory+e9TlxJw7ggQy3nouiYz/S
+        nsP++9zA==;
+Received: from [200.68.141.42] (port=17615 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j22mt-003o7A-Jg; Wed, 12 Feb 2020 18:55:28 -0600
+Date:   Wed, 12 Feb 2020 18:55:25 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] platform/x86: i2c-multi-instantiate: Replace zero-length
+ array with flexible-array member
+Message-ID: <20200213005525.GA11420@embeddedor.com>
 MIME-Version: 1.0
-References: <20200211130054.001bfce9@canb.auug.org.au> <f0d576b6-7204-0caf-1ca8-aae6c82d3b8d@infradead.org>
-In-Reply-To: <f0d576b6-7204-0caf-1ca8-aae6c82d3b8d@infradead.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 12 Feb 2020 16:23:25 +0200
-Message-ID: <CAHp75Ve3oenxkSCr9FC14MErQeN6pwrafemgKUNMwxUDr+aYKA@mail.gmail.com>
-Subject: Re: linux-next: Tree for Feb 11 (drivers/platform/x86/intel_pmc_core.c)
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.141.42
+X-Source-L: No
+X-Exim-ID: 1j22mt-003o7A-Jg
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.141.42]:17615
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 80
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 9:32 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 2/10/20 6:00 PM, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > Changes since 20200210:
-> >
->
-> on i386:
->
-> Function args are reversed (offset and status);
->
-> ../drivers/platform/x86/intel_pmc_core.c: In function 'pmc_core_resume':
-> ../drivers/platform/x86/intel_pmc_core.c:1329:43: warning: passing argument 4 of 'pmc_core_lpm_display' makes integer from pointer without a cast [-Wint-conversion]
->    pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
->                                            ^~~~~~~~
-> ../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'u32 {aka unsigned int}' but argument is of type 'char *'
->  static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
->              ^~~~~~~~~~~~~~~~~~~~
-> ../drivers/platform/x86/intel_pmc_core.c:1329:53: warning: passing argument 5 of 'pmc_core_lpm_display' makes pointer from integer without a cast [-Wint-conversion]
->    pmc_core_lpm_display(pmcdev, dev, NULL, "STATUS", offset, maps);
->                                                      ^~~~~~
-> ../drivers/platform/x86/intel_pmc_core.c:977:13: note: expected 'const char *' but argument is of type 'int'
->  static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
->              ^~~~~~~~~~~~~~~~~~~~
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-Thank you, it should be fixed in today's Linux Next.
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
+
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
+
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
+
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/platform/x86/i2c-multi-instantiate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+index ffb8d5d1eb5f..6acc8457866e 100644
+--- a/drivers/platform/x86/i2c-multi-instantiate.c
++++ b/drivers/platform/x86/i2c-multi-instantiate.c
+@@ -28,7 +28,7 @@ struct i2c_inst_data {
+ 
+ struct i2c_multi_inst_data {
+ 	int num_clients;
+-	struct i2c_client *clients[0];
++	struct i2c_client *clients[];
+ };
+ 
+ static int i2c_multi_inst_count(struct acpi_resource *ares, void *data)
 -- 
-With Best Regards,
-Andy Shevchenko
+2.23.0
+
