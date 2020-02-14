@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D42415ECBC
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 18:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 975BD15E93A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 18:05:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390797AbgBNR3g (ORCPT
+        id S2388007AbgBNRFm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Feb 2020 12:29:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59542 "EHLO mail.kernel.org"
+        Fri, 14 Feb 2020 12:05:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390793AbgBNQHv (ORCPT
+        id S2404055AbgBNQPA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:07:51 -0500
+        Fri, 14 Feb 2020 11:15:00 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 584FD206D7;
-        Fri, 14 Feb 2020 16:07:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2638A246E2;
+        Fri, 14 Feb 2020 16:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696470;
-        bh=+JV1zX3XquiSEzUQgobeArAwwcIAYgouiRF7J9Wtenk=;
+        s=default; t=1581696899;
+        bh=C1v+ShQ1N1QW7naAQ+oLxC/VhO0Hozp6QIKDYeQARzw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=z7hDl1ICw73kyDJlWeVPBNbZoYv8+MOjFFGdy/SL+77XAZwAbpNG5cVVWVkJMgNrl
-         laMM04nwGNCp12EYxlQc5ZvI8TybbcI7dwPa3OY4KU9krfbaC09wMwIVbYoq5N67u3
-         2uRRftSgMV8ieE+q0p5yOswjNewool1olHLlYu/c=
+        b=GmMeSJezskTBbOSVz3GsWnNZfrykVuMj8LuTKLNFpuTjMt471PK+zbL2iSDwDc03Y
+         AQt0F3nVBkmxX2bSscro6DAqy/8oszkzZdsthAk/6LKBHCzIu9I2/BxLRVDfCGJMoC
+         7YX6B/hYj+41oNklSU8oO5z87xeCQ0GkbFnYsbOg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ard Biesheuvel <ardb@kernel.org>,
@@ -35,12 +35,12 @@ Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: [PATCH AUTOSEL 5.4 279/459] efi/x86: Don't panic or BUG() on non-critical error conditions
-Date:   Fri, 14 Feb 2020 10:58:49 -0500
-Message-Id: <20200214160149.11681-279-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 150/252] efi/x86: Don't panic or BUG() on non-critical error conditions
+Date:   Fri, 14 Feb 2020 11:10:05 -0500
+Message-Id: <20200214161147.15842-150-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
+In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
+References: <20200214161147.15842-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/arch/x86/platform/efi/efi.c b/arch/x86/platform/efi/efi.c
-index 8a4f389330396..01d7ca492741d 100644
+index 5b0275310070e..e7f19dec16b97 100644
 --- a/arch/x86/platform/efi/efi.c
 +++ b/arch/x86/platform/efi/efi.c
-@@ -954,16 +954,14 @@ static void __init __efi_enter_virtual_mode(void)
+@@ -930,16 +930,14 @@ static void __init __efi_enter_virtual_mode(void)
  
  	if (efi_alloc_page_tables()) {
  		pr_err("Failed to allocate EFI page tables\n");
@@ -101,7 +101,7 @@ index 8a4f389330396..01d7ca492741d 100644
  	}
  
  	pa = __pa(new_memmap);
-@@ -977,8 +975,7 @@ static void __init __efi_enter_virtual_mode(void)
+@@ -953,8 +951,7 @@ static void __init __efi_enter_virtual_mode(void)
  
  	if (efi_memmap_init_late(pa, efi.memmap.desc_size * count)) {
  		pr_err("Failed to remap late EFI memory map\n");
@@ -111,7 +111,7 @@ index 8a4f389330396..01d7ca492741d 100644
  	}
  
  	if (efi_enabled(EFI_DBG)) {
-@@ -986,12 +983,11 @@ static void __init __efi_enter_virtual_mode(void)
+@@ -962,12 +959,11 @@ static void __init __efi_enter_virtual_mode(void)
  		efi_print_memmap();
  	}
  
@@ -128,7 +128,7 @@ index 8a4f389330396..01d7ca492741d 100644
  
  	efi_sync_low_kernel_mappings();
  
-@@ -1011,9 +1007,9 @@ static void __init __efi_enter_virtual_mode(void)
+@@ -987,9 +983,9 @@ static void __init __efi_enter_virtual_mode(void)
  	}
  
  	if (status != EFI_SUCCESS) {
@@ -140,8 +140,8 @@ index 8a4f389330396..01d7ca492741d 100644
 +		goto err;
  	}
  
- 	efi_free_boot_services();
-@@ -1042,6 +1038,10 @@ static void __init __efi_enter_virtual_mode(void)
+ 	/*
+@@ -1016,6 +1012,10 @@ static void __init __efi_enter_virtual_mode(void)
  
  	/* clean DUMMY object */
  	efi_delete_dummy_variable();
@@ -153,10 +153,10 @@ index 8a4f389330396..01d7ca492741d 100644
  
  void __init efi_enter_virtual_mode(void)
 diff --git a/arch/x86/platform/efi/efi_64.c b/arch/x86/platform/efi/efi_64.c
-index 08ce8177c3af1..52a1e5192fa80 100644
+index ee5d08f25ce45..6db8f3598c800 100644
 --- a/arch/x86/platform/efi/efi_64.c
 +++ b/arch/x86/platform/efi/efi_64.c
-@@ -392,11 +392,12 @@ int __init efi_setup_page_tables(unsigned long pa_memmap, unsigned num_pages)
+@@ -389,11 +389,12 @@ int __init efi_setup_page_tables(unsigned long pa_memmap, unsigned num_pages)
  		return 0;
  
  	page = alloc_page(GFP_KERNEL|__GFP_DMA32);
