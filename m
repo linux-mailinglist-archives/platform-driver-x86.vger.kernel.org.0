@@ -2,41 +2,41 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC36015E8BC
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 18:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABBE15F03A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 18:54:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389624AbgBNRC0 (ORCPT
+        id S2388535AbgBNP6Q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Feb 2020 12:02:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46736 "EHLO mail.kernel.org"
+        Fri, 14 Feb 2020 10:58:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404229AbgBNQQH (ORCPT
+        id S2388531AbgBNP6P (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:16:07 -0500
+        Fri, 14 Feb 2020 10:58:15 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A516F246FF;
-        Fri, 14 Feb 2020 16:16:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35728206D7;
+        Fri, 14 Feb 2020 15:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696967;
-        bh=3lggvye2TNtsXGcR8Lo/AZGOvArFDvKoC+VW/0FRLvE=;
+        s=default; t=1581695894;
+        bh=JQyV7h7MDSPsXbQS6xdlVyY3X/As6cvGw2AbBgL/xlU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aKb5MAmPPKp3Sl/75EYzBKmzNpdPcf97DUOR+Cai4ERr1wFpTDFYgigpB9pYThxlY
-         vR0PjWnSaZk7JArckWkI4cdC7G2tnhAUJ1mHlan5gtRw4GUKVnwUB7FPNZMCKIHYnl
-         zKZEy5xioCeoeonhHr1FAcLFTDkhsldNMk9N1QpA=
+        b=A2PgPbGxCERWH/2CWL/GYgMFYlBC1RlX7YElTZuPADkS93wiMvGE3LJMEKWp767NC
+         bin4N3005/KwJib6L1dDnGntgDEy5YLHgi98b38B4EWUnd+3V3kHTxYZ2uH84DWy+U
+         NBqh2Qz+mT3XA67+Sd+BS3z7lh/jqmmjAlx4tUCo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 206/252] platform/x86: intel_mid_powerbtn: Take a copy of ddata
-Date:   Fri, 14 Feb 2020 11:11:01 -0500
-Message-Id: <20200214161147.15842-206-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 437/542] platform/x86: intel_mid_powerbtn: Take a copy of ddata
+Date:   Fri, 14 Feb 2020 10:47:09 -0500
+Message-Id: <20200214154854.6746-437-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
-References: <20200214161147.15842-1-sashal@kernel.org>
+In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
+References: <20200214154854.6746-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/platform/x86/intel_mid_powerbtn.c b/drivers/platform/x86/intel_mid_powerbtn.c
-index 5ad44204a9c3c..10dbd6cac48ae 100644
+index 292bace83f1e3..6f436836fe501 100644
 --- a/drivers/platform/x86/intel_mid_powerbtn.c
 +++ b/drivers/platform/x86/intel_mid_powerbtn.c
-@@ -158,9 +158,10 @@ static int mid_pb_probe(struct platform_device *pdev)
+@@ -146,9 +146,10 @@ static int mid_pb_probe(struct platform_device *pdev)
  
  	input_set_capability(input, EV_KEY, KEY_POWER);
  
