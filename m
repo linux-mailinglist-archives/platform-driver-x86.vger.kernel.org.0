@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB71615E01B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 17:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A160715E804
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Feb 2020 17:58:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391975AbgBNQMV (ORCPT
+        id S2394349AbgBNQ5P (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 14 Feb 2020 11:12:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39726 "EHLO mail.kernel.org"
+        Fri, 14 Feb 2020 11:57:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49384 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391968AbgBNQMV (ORCPT
+        id S2404556AbgBNQRr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:12:21 -0500
+        Fri, 14 Feb 2020 11:17:47 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C398824697;
-        Fri, 14 Feb 2020 16:12:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 72EB5246EB;
+        Fri, 14 Feb 2020 16:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696740;
+        s=default; t=1581697066;
         bh=FDLTKae5L6Lt5h3s6D/TeS96VdvhDxPetZvWw6O8jx4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2gYtf6cyXICXjE2Si97U/Tn8p3YjL4ZQqB+iyjWGT/bTJXvRaV/m7j9DdUs69qvna
-         udTpvXuiLswjZzOYeqVbzUNfteEdbWFC1XEXwmEJZpEgU+6NG5J7F+YlqpP1C2Efcp
-         yMYHv8pLsD47lbAMO8DjmNaFJzSsToJuKilsshGI=
+        b=iQH8ahVm9eNUFCI5tsy5d+sTnguyNMHHA376AvwrBIjwxQQdzOAPaB3BFTdgiraNJ
+         OUvb0cZV90E3/pUgvKHefbmMQwbzTgwUpJxz6W3FkRV7w1z/iqI7WnUPvEPk8Zy4/5
+         54QRG+yuBQaKYbLmxGkH9l9e1JsDuZ/xTKSkV36k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ard Biesheuvel <ardb@kernel.org>,
@@ -35,12 +35,12 @@ Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: [PATCH AUTOSEL 4.19 024/252] efi/x86: Map the entire EFI vendor string before copying it
-Date:   Fri, 14 Feb 2020 11:07:59 -0500
-Message-Id: <20200214161147.15842-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 023/186] efi/x86: Map the entire EFI vendor string before copying it
+Date:   Fri, 14 Feb 2020 11:14:32 -0500
+Message-Id: <20200214161715.18113-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
-References: <20200214161147.15842-1-sashal@kernel.org>
+In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
+References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
