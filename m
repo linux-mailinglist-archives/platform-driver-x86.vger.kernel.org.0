@@ -2,67 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D37015FD6C
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 15 Feb 2020 08:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 227A5160399
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 16 Feb 2020 11:34:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725880AbgBOH6k (ORCPT
+        id S1727797AbgBPKep (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 15 Feb 2020 02:58:40 -0500
-Received: from correo.santafe.edu.ar ([200.12.192.40]:37090 "EHLO
-        correo.santafe.edu.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgBOH6k (ORCPT
+        Sun, 16 Feb 2020 05:34:45 -0500
+Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:32143 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727780AbgBPKep (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 15 Feb 2020 02:58:40 -0500
-Received: from correo.santafe.edu.ar (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTP id 48KN0s0PbfzDk9
-        for <platform-driver-x86@vger.kernel.org>; Sat, 15 Feb 2020 04:58:37 -0300 (-03)
-Authentication-Results: correo.santafe.edu.ar (amavisd-new);
-        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
-        header.d=santafe.edu.ar
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=santafe.edu.ar;
-         h=organization:message-id:user-agent:reply-to:to:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version; s=dkim; t=1581753516; x=1584345517; bh=kr4nXjjOYQ
-        tLgNquFEYCGjXPYzIGSnmjV7cADD2KRo8=; b=B9vqYtIxjtM9hVk+npZ+aT3tBz
-        FXnztVmvwmy/X1n3ytWLNUahiu4p+aQA6AiqqRtL9urQ5UmVZAV3UYT3y2hu9eij
-        9O5aii4y/XYhi4Qs7RbF63UuDzqoFZGPRAcrYaCgwwKS8DlpnwWTnzBZp0ojkt9N
-        iQOsQJwQv3OPPhyCo=
-X-Virus-Scanned: Debian amavisd-new at debian9-asiserver.santafe.gob.ar
-X-Spam-Flag: NO
-X-Spam-Score: 3.271
-X-Spam-Level: ***
-X-Spam-Status: No, score=3.271 tagged_above=2 required=6.2
-        tests=[ALL_TRUSTED=-1, FREEMAIL_FORGED_REPLYTO=2.503,
-        LOTS_OF_MONEY=0.001, MISSING_SUBJECT=1.767]
-        autolearn=no autolearn_force=no
-Received: from correo.santafe.edu.ar ([127.0.0.1])
-        by correo.santafe.edu.ar (correo.santafe.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 23GpXegIhrrQ for <platform-driver-x86@vger.kernel.org>;
-        Sat, 15 Feb 2020 04:58:36 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTPSA id 48KMvZ55DPzCj1;
-        Sat, 15 Feb 2020 04:54:02 -0300 (-03)
+        Sun, 16 Feb 2020 05:34:45 -0500
+Received: from localhost.localdomain ([93.22.36.246])
+        by mwinf5d13 with ME
+        id 3Nag220045JeL2d03NaghB; Sun, 16 Feb 2020 11:34:43 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 16 Feb 2020 11:34:43 +0100
+X-ME-IP: 93.22.36.246
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     dvhart@infradead.org, andy@infradead.org,
+        mchehab+samsung@kernel.org, dmitry.torokhov@gmail.com,
+        gregkh@linuxfoundation.org, ayman.bagabas@gmail.com,
+        srinivas.pandruvada@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] platform/x86: Kconfig: Fix a typo
+Date:   Sun, 16 Feb 2020 11:34:37 +0100
+Message-Id: <20200216103437.19500-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 14 Feb 2020 23:54:02 -0800
-From:   mprim37 alcorta <mprim37_alcorta@santafe.edu.ar>
-To:     undisclosed-recipients:;
-Reply-To: julieleeach@yahoo.com
-User-Agent: Roundcube Webmail
-Message-ID: <c343df0922b8d44c71fc7e4952f427b1@santafe.edu.ar>
-X-Sender: mprim37_alcorta@santafe.edu.ar
-Organization: mprim37_alcorta@santafe.edu.ar
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+'paramaters' should be 'parameters'
 
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/platform/x86/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 664ead09c7fb..ae75b19e8649 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1213,7 +1213,7 @@ config INTEL_RST
+         tristate "Intel Rapid Start Technology Driver"
+ 	depends on ACPI
+ 	---help---
+-	  This driver provides support for modifying paramaters on systems
++	  This driver provides support for modifying parameters on systems
+ 	  equipped with Intel's Rapid Start Technology. When put in an ACPI
+ 	  sleep state, these devices will wake after either a configured
+ 	  timeout or when the system battery reaches a critical state,
 -- 
-Hello, my name is Julie Leach, winner of the  Power Ball Jackpot in 
-October 2015.I want to donate $3,000,000 for charity to help you and the 
-poor children in your community. Send me an email to: 
-julieleeach@yahoo.com for more information on how to receive my donation
+2.20.1
+
