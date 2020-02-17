@@ -2,34 +2,37 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDDED1612E2
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Feb 2020 14:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A28E16142F
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Feb 2020 15:08:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgBQNPB (ORCPT
+        id S1728619AbgBQOIy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Feb 2020 08:15:01 -0500
-Received: from mga09.intel.com ([134.134.136.24]:30905 "EHLO mga09.intel.com"
+        Mon, 17 Feb 2020 09:08:54 -0500
+Received: from mga12.intel.com ([192.55.52.136]:46221 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728928AbgBQNPA (ORCPT
+        id S1728149AbgBQOIy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Feb 2020 08:15:00 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
+        Mon, 17 Feb 2020 09:08:54 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 05:15:00 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 06:08:52 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,452,1574150400"; 
-   d="scan'208";a="282522783"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2020 05:14:56 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 7A4108B4; Mon, 17 Feb 2020 15:14:47 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
+   d="scan'208";a="433801867"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005.fm.intel.com with ESMTP; 17 Feb 2020 06:08:50 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1j3h4t-002ozz-Do; Mon, 17 Feb 2020 16:08:51 +0200
+Date:   Mon, 17 Feb 2020 16:08:51 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         Zha Qipeng <qipeng.zha@intel.com>,
@@ -37,79 +40,116 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 19/19] MAINTAINERS: Update entry for Intel Broxton PMC driver
-Date:   Mon, 17 Feb 2020 16:14:46 +0300
-Message-Id: <20200217131446.32818-20-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
+Subject: Re: [PATCH v6 02/19] platform/x86: intel_scu_ipc: Log more
+ information if SCU IPC command fails
+Message-ID: <20200217140851.GC10400@smile.fi.intel.com>
 References: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
+ <20200217131446.32818-3-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200217131446.32818-3-mika.westerberg@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver lives now under MFD so split the current entry into two parts
-and add me as co-maintainer of the Intel Broxton PMC driver. While there
-correct formatting of Zha Qipeng's email address.
+On Mon, Feb 17, 2020 at 04:14:29PM +0300, Mika Westerberg wrote:
+> Currently we only log an error if the command times out which makes it
+> hard to figure out the failing command. This changes the driver to log
+> command and subcommand with the error code which should make debugging
+> easier. This also allows us to simplify the callers as they don't need
+> to log these errors themselves.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- MAINTAINERS | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4d4e3241bf99..20e4353260f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8371,6 +8371,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL BROXTON PMC DRIVER
-+M:	Mika Westerberg <mika.westerberg@linux.intel.com>
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+S:	Maintained
-+F:	drivers/mfd/intel_pmc_bxt.c
-+F:	include/linux/mfd/intel_pmc_bxt.h
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-@@ -8579,6 +8586,13 @@ F:	drivers/dma/mic_x100_dma.c
- F:	drivers/dma/mic_x100_dma.h
- F:	Documentation/mic/
- 
-+INTEL P-Unit IPC DRIVER
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	arch/x86/include/asm/intel_punit_ipc.h
-+F:	drivers/platform/x86/intel_punit_ipc.c
-+
- INTEL PMC CORE DRIVER
- M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
- M:	Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-@@ -8586,15 +8600,6 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
- 
--INTEL PMC/P-Unit IPC DRIVER
--M:	Zha Qipeng<qipeng.zha@intel.com>
--L:	platform-driver-x86@vger.kernel.org
--S:	Maintained
--F:	arch/x86/include/asm/intel_pmc_ipc.h
--F:	arch/x86/include/asm/intel_punit_ipc.h
--F:	drivers/platform/x86/intel_pmc_ipc.c
--F:	drivers/platform/x86/intel_punit_ipc.c
--
- INTEL PMIC GPIO DRIVERS
- M:	Andy Shevchenko <andy@kernel.org>
- S:	Maintained
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> ---
+>  drivers/platform/x86/intel_scu_ipc.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
+> index 19c2cc41fb05..7512d550b375 100644
+> --- a/drivers/platform/x86/intel_scu_ipc.c
+> +++ b/drivers/platform/x86/intel_scu_ipc.c
+> @@ -147,7 +147,6 @@ static inline int busy_loop(struct intel_scu_ipc_dev *scu)
+>  		usleep_range(50, 100);
+>  	} while (time_before(jiffies, end));
+>  
+> -	dev_err(&scu->dev, "IPC timed out");
+>  	return -ETIMEDOUT;
+>  }
+>  
+> @@ -156,10 +155,8 @@ static inline int ipc_wait_for_interrupt(struct intel_scu_ipc_dev *scu)
+>  {
+>  	int status;
+>  
+> -	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT)) {
+> -		dev_err(&scu->dev, "IPC timed out\n");
+> +	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT))
+>  		return -ETIMEDOUT;
+> -	}
+>  
+>  	status = ipc_read_status(scu);
+>  	if (status & IPC_STATUS_ERR)
+> @@ -331,6 +328,7 @@ EXPORT_SYMBOL(intel_scu_ipc_update_register);
+>  int intel_scu_ipc_simple_command(int cmd, int sub)
+>  {
+>  	struct intel_scu_ipc_dev *scu;
+> +	u32 cmdval;
+>  	int err;
+>  
+>  	mutex_lock(&ipclock);
+> @@ -339,9 +337,12 @@ int intel_scu_ipc_simple_command(int cmd, int sub)
+>  		return -ENODEV;
+>  	}
+>  	scu = ipcdev;
+> -	ipc_command(scu, sub << 12 | cmd);
+> +	cmdval = sub << 12 | cmd;
+> +	ipc_command(scu, cmdval);
+>  	err = intel_scu_ipc_check_status(scu);
+>  	mutex_unlock(&ipclock);
+> +	if (err)
+> +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval, err);
+>  	return err;
+>  }
+>  EXPORT_SYMBOL(intel_scu_ipc_simple_command);
+> @@ -362,6 +363,7 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
+>  			  u32 *out, int outlen)
+>  {
+>  	struct intel_scu_ipc_dev *scu;
+> +	u32 cmdval;
+>  	int i, err;
+>  
+>  	mutex_lock(&ipclock);
+> @@ -374,7 +376,8 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
+>  	for (i = 0; i < inlen; i++)
+>  		ipc_data_writel(scu, *in++, 4 * i);
+>  
+> -	ipc_command(scu, (inlen << 16) | (sub << 12) | cmd);
+> +	cmdval = (inlen << 16) | (sub << 12) | cmd;
+> +	ipc_command(scu, cmdval);
+>  	err = intel_scu_ipc_check_status(scu);
+>  
+>  	if (!err) {
+> @@ -383,6 +386,8 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
+>  	}
+>  
+>  	mutex_unlock(&ipclock);
+> +	if (err)
+> +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval, err);
+>  	return err;
+>  }
+>  EXPORT_SYMBOL(intel_scu_ipc_command);
+> -- 
+> 2.25.0
+> 
+
 -- 
-2.25.0
+With Best Regards,
+Andy Shevchenko
+
 
