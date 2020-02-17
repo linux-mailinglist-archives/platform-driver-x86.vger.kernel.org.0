@@ -2,31 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A28E16142F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Feb 2020 15:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D884E161439
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Feb 2020 15:11:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728619AbgBQOIy (ORCPT
+        id S1728855AbgBQOLQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Feb 2020 09:08:54 -0500
-Received: from mga12.intel.com ([192.55.52.136]:46221 "EHLO mga12.intel.com"
+        Mon, 17 Feb 2020 09:11:16 -0500
+Received: from mga03.intel.com ([134.134.136.65]:12540 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728149AbgBQOIy (ORCPT
+        id S1727739AbgBQOLQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Feb 2020 09:08:54 -0500
+        Mon, 17 Feb 2020 09:11:16 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 06:08:52 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 06:11:14 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,452,1574150400"; 
-   d="scan'208";a="433801867"
+   d="scan'208";a="348504253"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Feb 2020 06:08:50 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2020 06:11:09 -0800
 Received: from andy by smile with local (Exim 4.93)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1j3h4t-002ozz-Do; Mon, 17 Feb 2020 16:08:51 +0200
-Date:   Mon, 17 Feb 2020 16:08:51 +0200
+        id 1j3h79-002p1K-3f; Mon, 17 Feb 2020 16:11:11 +0200
+Date:   Mon, 17 Feb 2020 16:11:11 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
@@ -41,109 +41,176 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 02/19] platform/x86: intel_scu_ipc: Log more
- information if SCU IPC command fails
-Message-ID: <20200217140851.GC10400@smile.fi.intel.com>
+Subject: Re: [PATCH v6 03/19] platform/x86: intel_scu_ipc: Move legacy SCU
+ IPC API to a separate header
+Message-ID: <20200217141111.GD10400@smile.fi.intel.com>
 References: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
- <20200217131446.32818-3-mika.westerberg@linux.intel.com>
+ <20200217131446.32818-4-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200217131446.32818-3-mika.westerberg@linux.intel.com>
+In-Reply-To: <20200217131446.32818-4-mika.westerberg@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 04:14:29PM +0300, Mika Westerberg wrote:
-> Currently we only log an error if the command times out which makes it
-> hard to figure out the failing command. This changes the driver to log
-> command and subcommand with the error code which should make debugging
-> easier. This also allows us to simplify the callers as they don't need
-> to log these errors themselves.
+On Mon, Feb 17, 2020 at 04:14:30PM +0300, Mika Westerberg wrote:
+> In preparation for introducing a new API for SCU IPC, move the legacy
+> API and constants to a separate header that is is subject to be removed
+> eventually.
 
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> 
 > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 > ---
->  drivers/platform/x86/intel_scu_ipc.c | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
+>  arch/x86/include/asm/intel_scu_ipc.h        | 56 +------------------
+>  arch/x86/include/asm/intel_scu_ipc_legacy.h | 62 +++++++++++++++++++++
+>  2 files changed, 63 insertions(+), 55 deletions(-)
+>  create mode 100644 arch/x86/include/asm/intel_scu_ipc_legacy.h
 > 
-> diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
-> index 19c2cc41fb05..7512d550b375 100644
-> --- a/drivers/platform/x86/intel_scu_ipc.c
-> +++ b/drivers/platform/x86/intel_scu_ipc.c
-> @@ -147,7 +147,6 @@ static inline int busy_loop(struct intel_scu_ipc_dev *scu)
->  		usleep_range(50, 100);
->  	} while (time_before(jiffies, end));
+> diff --git a/arch/x86/include/asm/intel_scu_ipc.h b/arch/x86/include/asm/intel_scu_ipc.h
+> index 78f939782a67..a2f4694a253c 100644
+> --- a/arch/x86/include/asm/intel_scu_ipc.h
+> +++ b/arch/x86/include/asm/intel_scu_ipc.h
+> @@ -3,22 +3,6 @@
+>  #define  _ASM_X86_INTEL_SCU_IPC_H_
 >  
-> -	dev_err(&scu->dev, "IPC timed out");
->  	return -ETIMEDOUT;
->  }
+>  #include <linux/ioport.h>
+> -#include <linux/notifier.h>
+> -
+> -#define IPCMSG_INDIRECT_READ	0x02
+> -#define IPCMSG_INDIRECT_WRITE	0x05
+> -
+> -#define IPCMSG_COLD_OFF		0x80	/* Only for Tangier */
+> -
+> -#define IPCMSG_WARM_RESET	0xF0
+> -#define IPCMSG_COLD_RESET	0xF1
+> -#define IPCMSG_SOFT_RESET	0xF2
+> -#define IPCMSG_COLD_BOOT	0xF3
+> -
+> -#define IPCMSG_VRTC		0xFA	 /* Set vRTC device */
+> -	/* Command id associated with message IPCMSG_VRTC */
+> -	#define IPC_CMD_VRTC_SETTIME      1 /* Set time */
+> -	#define IPC_CMD_VRTC_SETALARM     2 /* Set alarm */
 >  
-> @@ -156,10 +155,8 @@ static inline int ipc_wait_for_interrupt(struct intel_scu_ipc_dev *scu)
->  {
->  	int status;
+>  struct device;
+>  struct intel_scu_ipc_dev;
+> @@ -37,44 +21,6 @@ struct intel_scu_ipc_dev *
+>  intel_scu_ipc_register(struct device *parent,
+>  		       const struct intel_scu_ipc_pdata *pdata);
 >  
-> -	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT)) {
-> -		dev_err(&scu->dev, "IPC timed out\n");
-> +	if (!wait_for_completion_timeout(&scu->cmd_complete, IPC_TIMEOUT))
->  		return -ETIMEDOUT;
-> -	}
+> -/* Read single register */
+> -int intel_scu_ipc_ioread8(u16 addr, u8 *data);
+> -
+> -/* Read a vector */
+> -int intel_scu_ipc_readv(u16 *addr, u8 *data, int len);
+> -
+> -/* Write single register */
+> -int intel_scu_ipc_iowrite8(u16 addr, u8 data);
+> -
+> -/* Write a vector */
+> -int intel_scu_ipc_writev(u16 *addr, u8 *data, int len);
+> -
+> -/* Update single register based on the mask */
+> -int intel_scu_ipc_update_register(u16 addr, u8 data, u8 mask);
+> -
+> -/* Issue commands to the SCU with or without data */
+> -int intel_scu_ipc_simple_command(int cmd, int sub);
+> -int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
+> -			  u32 *out, int outlen);
+> -
+> -extern struct blocking_notifier_head intel_scu_notifier;
+> -
+> -static inline void intel_scu_notifier_add(struct notifier_block *nb)
+> -{
+> -	blocking_notifier_chain_register(&intel_scu_notifier, nb);
+> -}
+> -
+> -static inline void intel_scu_notifier_remove(struct notifier_block *nb)
+> -{
+> -	blocking_notifier_chain_unregister(&intel_scu_notifier, nb);
+> -}
+> -
+> -static inline int intel_scu_notifier_post(unsigned long v, void *p)
+> -{
+> -	return blocking_notifier_call_chain(&intel_scu_notifier, v, p);
+> -}
+> -
+> -#define		SCU_AVAILABLE		1
+> -#define		SCU_DOWN		2
+> +#include <asm/intel_scu_ipc_legacy.h>
 >  
->  	status = ipc_read_status(scu);
->  	if (status & IPC_STATUS_ERR)
-> @@ -331,6 +328,7 @@ EXPORT_SYMBOL(intel_scu_ipc_update_register);
->  int intel_scu_ipc_simple_command(int cmd, int sub)
->  {
->  	struct intel_scu_ipc_dev *scu;
-> +	u32 cmdval;
->  	int err;
->  
->  	mutex_lock(&ipclock);
-> @@ -339,9 +337,12 @@ int intel_scu_ipc_simple_command(int cmd, int sub)
->  		return -ENODEV;
->  	}
->  	scu = ipcdev;
-> -	ipc_command(scu, sub << 12 | cmd);
-> +	cmdval = sub << 12 | cmd;
-> +	ipc_command(scu, cmdval);
->  	err = intel_scu_ipc_check_status(scu);
->  	mutex_unlock(&ipclock);
-> +	if (err)
-> +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval, err);
->  	return err;
->  }
->  EXPORT_SYMBOL(intel_scu_ipc_simple_command);
-> @@ -362,6 +363,7 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
->  			  u32 *out, int outlen)
->  {
->  	struct intel_scu_ipc_dev *scu;
-> +	u32 cmdval;
->  	int i, err;
->  
->  	mutex_lock(&ipclock);
-> @@ -374,7 +376,8 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
->  	for (i = 0; i < inlen; i++)
->  		ipc_data_writel(scu, *in++, 4 * i);
->  
-> -	ipc_command(scu, (inlen << 16) | (sub << 12) | cmd);
-> +	cmdval = (inlen << 16) | (sub << 12) | cmd;
-> +	ipc_command(scu, cmdval);
->  	err = intel_scu_ipc_check_status(scu);
->  
->  	if (!err) {
-> @@ -383,6 +386,8 @@ int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
->  	}
->  
->  	mutex_unlock(&ipclock);
-> +	if (err)
-> +		dev_err(&scu->dev, "IPC command %#x failed with %d\n", cmdval, err);
->  	return err;
->  }
->  EXPORT_SYMBOL(intel_scu_ipc_command);
+>  #endif
+> diff --git a/arch/x86/include/asm/intel_scu_ipc_legacy.h b/arch/x86/include/asm/intel_scu_ipc_legacy.h
+> new file mode 100644
+> index 000000000000..d3a02bc07edd
+> --- /dev/null
+> +++ b/arch/x86/include/asm/intel_scu_ipc_legacy.h
+> @@ -0,0 +1,62 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ASM_X86_INTEL_SCU_IPC_LEGACY_H_
+> +#define _ASM_X86_INTEL_SCU_IPC_LEGACY_H_
+> +
+> +#include <linux/notifier.h>
+> +
+> +#define IPCMSG_INDIRECT_READ	0x02
+> +#define IPCMSG_INDIRECT_WRITE	0x05
+> +
+> +#define IPCMSG_COLD_OFF		0x80	/* Only for Tangier */
+> +
+> +#define IPCMSG_WARM_RESET	0xF0
+> +#define IPCMSG_COLD_RESET	0xF1
+> +#define IPCMSG_SOFT_RESET	0xF2
+> +#define IPCMSG_COLD_BOOT	0xF3
+> +
+> +#define IPCMSG_VRTC		0xFA	/* Set vRTC device */
+> +/* Command id associated with message IPCMSG_VRTC */
+> +#define IPC_CMD_VRTC_SETTIME      1	/* Set time */
+> +#define IPC_CMD_VRTC_SETALARM     2	/* Set alarm */
+> +
+> +/* Read single register */
+> +int intel_scu_ipc_ioread8(u16 addr, u8 *data);
+> +
+> +/* Read a vector */
+> +int intel_scu_ipc_readv(u16 *addr, u8 *data, int len);
+> +
+> +/* Write single register */
+> +int intel_scu_ipc_iowrite8(u16 addr, u8 data);
+> +
+> +/* Write a vector */
+> +int intel_scu_ipc_writev(u16 *addr, u8 *data, int len);
+> +
+> +/* Update single register based on the mask */
+> +int intel_scu_ipc_update_register(u16 addr, u8 data, u8 mask);
+> +
+> +/* Issue commands to the SCU with or without data */
+> +int intel_scu_ipc_simple_command(int cmd, int sub);
+> +int intel_scu_ipc_command(int cmd, int sub, u32 *in, int inlen,
+> +			  u32 *out, int outlen);
+> +
+> +extern struct blocking_notifier_head intel_scu_notifier;
+> +
+> +static inline void intel_scu_notifier_add(struct notifier_block *nb)
+> +{
+> +	blocking_notifier_chain_register(&intel_scu_notifier, nb);
+> +}
+> +
+> +static inline void intel_scu_notifier_remove(struct notifier_block *nb)
+> +{
+> +	blocking_notifier_chain_unregister(&intel_scu_notifier, nb);
+> +}
+> +
+> +static inline int intel_scu_notifier_post(unsigned long v, void *p)
+> +{
+> +	return blocking_notifier_call_chain(&intel_scu_notifier, v, p);
+> +}
+> +
+> +#define		SCU_AVAILABLE		1
+> +#define		SCU_DOWN		2
+> +
+> +#endif
 > -- 
 > 2.25.0
 > 
