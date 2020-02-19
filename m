@@ -2,64 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F2F3164766
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2020 15:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 958EB164C70
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2020 18:47:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgBSOsM convert rfc822-to-8bit (ORCPT
+        id S1726680AbgBSRrz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 19 Feb 2020 09:48:12 -0500
-Received: from scm.imp.edu.mx ([132.247.16.103]:28696 "EHLO scm.imp.edu.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726450AbgBSOsM (ORCPT
+        Wed, 19 Feb 2020 12:47:55 -0500
+Received: from correo.santafe.edu.ar ([200.12.192.40]:56934 "EHLO
+        correo.santafe.edu.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726634AbgBSRrz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 19 Feb 2020 09:48:12 -0500
+        Wed, 19 Feb 2020 12:47:55 -0500
+Received: from correo.santafe.edu.ar (localhost [127.0.0.1])
+        by correo.santafe.edu.ar (Postfix) with ESMTP id 48N4tv40Jjz3n5
+        for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2020 14:47:51 -0300 (-03)
+Authentication-Results: correo.santafe.edu.ar (amavisd-new);
+        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
+        header.d=santafe.edu.ar
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=santafe.edu.ar;
+         h=content-transfer-encoding:message-id:user-agent:to:from:from
+        :date:date:content-type:content-type:mime-version; s=dkim; t=
+        1582134471; x=1584726472; bh=uVE757ybKOvpC1jegTi0yfwid6gk2XgIsC5
+        AzAid9zU=; b=B4wWXwpFKw1lyDcouPGQMOnmP0T8nwh3t0D5+J8J08t4eR15azn
+        rXT2Kym3+sHKezkKfTC9tjayD2CfjR3xJ8mLzlfXgsCrFOfT3TEBUk/GK+drA1hL
+        F0nkRoayIyB+j5J4eqVZpCAD0rhgu1UwjSPAi6ttKowLnjAMMFvY7hsA=
+X-Virus-Scanned: Debian amavisd-new at debian9-asiserver.santafe.gob.ar
+Received: from correo.santafe.edu.ar ([127.0.0.1])
+        by correo.santafe.edu.ar (correo.santafe.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id YL1tPIWbJTSi for <platform-driver-x86@vger.kernel.org>;
+        Wed, 19 Feb 2020 14:47:51 -0300 (-03)
 Received: from localhost (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 18417188C98;
-        Wed, 19 Feb 2020 07:50:56 -0600 (CST)
-X-Virus-Scanned: by SpamTitan at imp.edu.mx
-Received: from scm.imp.edu.mx (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id B8F2918CF5A;
-        Wed, 19 Feb 2020 05:39:55 -0600 (CST)
-Authentication-Results: scm.imp.edu.mx; none
-Received: from imp.edu.mx (unknown [10.249.93.105])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 36BD318FCEE;
-        Wed, 19 Feb 2020 05:36:16 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id 21F491800E5E01;
-        Wed, 19 Feb 2020 05:36:17 -0600 (CST)
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id jDtJaYKpu6iy; Wed, 19 Feb 2020 05:36:17 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id F3F8A180629A27;
-        Wed, 19 Feb 2020 05:36:16 -0600 (CST)
-X-Virus-Scanned: amavisd-new at imp.edu.mx
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xzMY038gqNs9; Wed, 19 Feb 2020 05:36:16 -0600 (CST)
-Received: from [45.147.4.119] (unknown [45.147.4.119])
-        by imp.edu.mx (Postfix) with ESMTPSA id 91BBD1800E5E01;
-        Wed, 19 Feb 2020 05:36:15 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        by correo.santafe.edu.ar (Postfix) with ESMTPSA id 48N4t01bMZz3cb;
+        Wed, 19 Feb 2020 14:47:04 -0300 (-03)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: 19-02-2020
-To:     Recipients <mucios@imp.edu.mx>
-From:   "urs portmann" <mucios@imp.edu.mx>
-Date:   Wed, 19 Feb 2020 22:36:14 +1100
-Reply-To: onube@qq.com
-Message-Id: <20200219113615.91BBD1800E5E01@imp.edu.mx>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date:   Wed, 19 Feb 2020 09:47:04 -0800
+From:   eamarilla@santafe.edu.ar
+To:     undisclosed-recipients:;
+User-Agent: Roundcube Webmail
+Message-ID: <0ef7dc30bc2a6c05d1d913eb2d99662f@santafe.edu.ar>
+X-Sender: eamarilla@santafe.edu.ar
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Guten Morgen,
-                                          19-02-2020
-Wir haben versucht, Sie zu erreichen und haben noch nichts von Ihnen gehört. Haben Sie unsere letzte E-Mail über Ihre S.p.e.n.d.e erhalten? Wenn nicht, melden Sie sich bitte bei uns, um weitere Informationen zu erhalten.
+Ben=C3=B6tigen Sie 100% Finanzen? Ich kann Ihren finanziellen Bedarf mit=20
+weniger Amortisationsproblemen decken. Deshalb finanzieren wir Sie f=C3=BC=
+r=20
+nur 2%. Unabh=C3=A4ngig von Ihren Umst=C3=A4nden, selbstst=C3=A4ndig, im =
+Ruhestand, mit=20
+einer schlechten Bonit=C3=A4t, k=C3=B6nnen wir Ihnen bei einer flexiblen=20
+R=C3=BCckzahlung =C3=BCber einen Zeitraum von 2 bis 30 Jahren helfen. Kon=
+taktieren=20
+Sie uns: phillipbrooks100@gmail.com
 
-Wir warten darauf, von Ihnen zu hören, sobald Sie diese Nachricht erhalten, die Sie bei der weiteren Vorgehensweise unterstützt.
-
-Mfg
-urs portmann
+Do you need 100% Finance? I can service your financial need with less=20
+payback problem That Is why we fund you for just 2%. Whatever your=20
+Circumstances, self employed, retired, have a poor credit rating, we=20
+could help flexible repayment over 2 to 30 years.Contact=20
+us:phillipbrooks100@gmail.com
