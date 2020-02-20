@@ -2,65 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 958EB164C70
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 19 Feb 2020 18:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F211655C4
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Feb 2020 04:40:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgBSRrz (ORCPT
+        id S1727506AbgBTDkN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 19 Feb 2020 12:47:55 -0500
-Received: from correo.santafe.edu.ar ([200.12.192.40]:56934 "EHLO
-        correo.santafe.edu.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbgBSRrz (ORCPT
+        Wed, 19 Feb 2020 22:40:13 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:10654 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727476AbgBTDkN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:47:55 -0500
-Received: from correo.santafe.edu.ar (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTP id 48N4tv40Jjz3n5
-        for <platform-driver-x86@vger.kernel.org>; Wed, 19 Feb 2020 14:47:51 -0300 (-03)
-Authentication-Results: correo.santafe.edu.ar (amavisd-new);
-        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
-        header.d=santafe.edu.ar
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=santafe.edu.ar;
-         h=content-transfer-encoding:message-id:user-agent:to:from:from
-        :date:date:content-type:content-type:mime-version; s=dkim; t=
-        1582134471; x=1584726472; bh=uVE757ybKOvpC1jegTi0yfwid6gk2XgIsC5
-        AzAid9zU=; b=B4wWXwpFKw1lyDcouPGQMOnmP0T8nwh3t0D5+J8J08t4eR15azn
-        rXT2Kym3+sHKezkKfTC9tjayD2CfjR3xJ8mLzlfXgsCrFOfT3TEBUk/GK+drA1hL
-        F0nkRoayIyB+j5J4eqVZpCAD0rhgu1UwjSPAi6ttKowLnjAMMFvY7hsA=
-X-Virus-Scanned: Debian amavisd-new at debian9-asiserver.santafe.gob.ar
-Received: from correo.santafe.edu.ar ([127.0.0.1])
-        by correo.santafe.edu.ar (correo.santafe.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id YL1tPIWbJTSi for <platform-driver-x86@vger.kernel.org>;
-        Wed, 19 Feb 2020 14:47:51 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTPSA id 48N4t01bMZz3cb;
-        Wed, 19 Feb 2020 14:47:04 -0300 (-03)
+        Wed, 19 Feb 2020 22:40:13 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 4F7AF69BE5179A3B8D1E;
+        Thu, 20 Feb 2020 11:40:11 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 20 Feb 2020 11:40:03 +0800
+From:   Chen Zhou <chenzhou10@huawei.com>
+To:     <rajneesh.bhardwaj@intel.com>, <vishwanath.somayaji@intel.com>
+CC:     <dvhart@infradead.org>, <andy@infradead.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <chenzhou10@huawei.com>
+Subject: [PATCH -next] platform/x86: intel_pmc_core: fix build error without CONFIG_DEBUG_FS
+Date:   Thu, 20 Feb 2020 11:33:35 +0800
+Message-ID: <20200220033335.106963-1-chenzhou10@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date:   Wed, 19 Feb 2020 09:47:04 -0800
-From:   eamarilla@santafe.edu.ar
-To:     undisclosed-recipients:;
-User-Agent: Roundcube Webmail
-Message-ID: <0ef7dc30bc2a6c05d1d913eb2d99662f@santafe.edu.ar>
-X-Sender: eamarilla@santafe.edu.ar
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Ben=C3=B6tigen Sie 100% Finanzen? Ich kann Ihren finanziellen Bedarf mit=20
-weniger Amortisationsproblemen decken. Deshalb finanzieren wir Sie f=C3=BC=
-r=20
-nur 2%. Unabh=C3=A4ngig von Ihren Umst=C3=A4nden, selbstst=C3=A4ndig, im =
-Ruhestand, mit=20
-einer schlechten Bonit=C3=A4t, k=C3=B6nnen wir Ihnen bei einer flexiblen=20
-R=C3=BCckzahlung =C3=BCber einen Zeitraum von 2 bis 30 Jahren helfen. Kon=
-taktieren=20
-Sie uns: phillipbrooks100@gmail.com
+If CONFIG_DEBUG_FS is n, build fails:
 
-Do you need 100% Finance? I can service your financial need with less=20
-payback problem That Is why we fund you for just 2%. Whatever your=20
-Circumstances, self employed, retired, have a poor credit rating, we=20
-could help flexible repayment over 2 to 30 years.Contact=20
-us:phillipbrooks100@gmail.com
+drivers/platform/x86/intel_pmc_core.c: In function pmc_core_resume:
+drivers/platform/x86/intel_pmc_core.c:1327:3: error: implicit declaration of function pmc_core_slps0_display; did you mean pmc_core_is_pc10_failed? [-Werror=implicit-function-declaration]
+   pmc_core_slps0_display(pmcdev, dev, NULL);
+      ^~~~~~~~~~~~~~~~~~~~~~
+
+Function pmc_core_slps0_display() is responsible for displaying debug
+registers, which is under CONFIG_DEBUG_FS.
+
+Providing the static inline stub whenever CONFIG_DEBUG_FS is disabled
+to fix this. Function pmc_core_lpm_display() is the same.
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+---
+ drivers/platform/x86/intel_pmc_core.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+index f4a36fb..939f8e0 100644
+--- a/drivers/platform/x86/intel_pmc_core.c
++++ b/drivers/platform/x86/intel_pmc_core.c
+@@ -1117,6 +1117,20 @@ static void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
+ 	}
+ }
+ #else
++static inline void pmc_core_slps0_display(struct pmc_dev *pmcdev,
++					   struct device *dev,
++					   struct seq_file *s)
++{
++}
++
++static inline void pmc_core_lpm_display(struct pmc_dev *pmcdev,
++					 struct device *dev,
++					 struct seq_file *s, u32 offset,
++					 const char *str,
++					 const struct pmc_bit_map **maps)
++{
++}
++
+ static inline void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
+ {
+ }
+-- 
+2.7.4
+
