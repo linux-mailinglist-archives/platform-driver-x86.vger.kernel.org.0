@@ -2,155 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 977CA1666EB
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Feb 2020 20:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14DE416700A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Feb 2020 08:09:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728334AbgBTTNv (ORCPT
+        id S1727053AbgBUHJP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Feb 2020 14:13:51 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40117 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728315AbgBTTNv (ORCPT
+        Fri, 21 Feb 2020 02:09:15 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:35583 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726201AbgBUHJP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Feb 2020 14:13:51 -0500
-Received: by mail-lf1-f67.google.com with SMTP id c23so3987068lfi.7
-        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Feb 2020 11:13:50 -0800 (PST)
+        Fri, 21 Feb 2020 02:09:15 -0500
+Received: by mail-qk1-f193.google.com with SMTP id v2so987677qkj.2
+        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Feb 2020 23:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jtGfCZ6Tt9nUtJs/4fCZbyPWZOZzIWbBkr2JPN+tTJ8=;
-        b=YGBQF1DwPBtMmghk2sblaYVP5/14qwbXmY/QJcnKFI9whyFZjAeC8/6poFolPl9sHk
-         15xN02AviSmyITu7QB9VdCGClnENhzaUzT0+Padx+4z5I0Ml73Z6jKoH4cUIPWi6XRov
-         daM0gPriqHZy87AFnXdWz4XDbM3cmh8uagZJoDG5Dohn4QSU6WsDmsp865rsBbyIZB4o
-         feMlIJRP/8hJ3IaIIOijFujFaxe9jV5AUZqWb17+Ww08CNgkSteV4cQsRCT1V/LFJOYi
-         N/noj6dQi7+yD1icEzllmTVLaR2q20B96dB+5RPMC9I6Jh4uLdPqnIFOxC3MBhxxMMSJ
-         uh2A==
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=KppfXZZpJPEi/CjZSEtvqmbI5qt1QsjN8iLsZFEVchY=;
+        b=ugLP1g9hhSv9GDkyskpZSqYOB7e/Q7Goa3jfdHx12MJydxNNRiv9Fbvy3bNhLTmRny
+         U9zFWqiABjG/DkN/IQGwWlHs8ch0rDlyOoPMAyKkOL+yvLKrxXbpNr4CmIfp820KUUMB
+         99WIobBbLzUN7cGAn/396EaAFVLRnrwUa2DCPRQZqku5Ol9+yYnhKidW/P8sOECjwjli
+         3377bYwYE1hws4m3HyJbkGvDpOXRa9rywnkhvRQltsspPyqnbRr0wKWJw1utbLOGIFNI
+         G5ZGphpKD3rLVaQxRaBRfRX9wf2JRBL3KBBMvC5up+wLg5FtvURcNc4DiWmB4Eac9eEO
+         PK+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jtGfCZ6Tt9nUtJs/4fCZbyPWZOZzIWbBkr2JPN+tTJ8=;
-        b=FdZQB0WnDz7xT7sPmYWSPweB4EH/s5p6N3ku5s7HWE8jIjRPf3H0JVVYPKwKiIV4XU
-         27Kqo49tvgk89TyCkEjkUzUOjJtCaqrPR1FID5PZGInaVng+DsGGDNiWUOC1QWdiugJY
-         1vMXsOxFs1YOFPsxLtx9DgiK/gu8mfP2q0U91M4cLR1ikd2SizTmUIVm766aJf8iPMRb
-         6OjB0n3gT0IQJeOK8x0isTP1JCVr83VP+ezBdxFKPyqDyi/hxkQySCGGCcQ/UFIkJf7J
-         5I2b6fGeTuaf1KLKdt/h4rfDe+EWMsrf9aAFxmvTBB5Zpnn/GM7MgRXUidsaiq0DOulp
-         kyOA==
-X-Gm-Message-State: APjAAAUPGa6BmL48M0jJBO+V5cTXk0fh7/hSebCZeYyiCDTs8Aa3eoSb
-        vmmZx9A50eGzW0Us/7aVDmYf6+X3rjh75xLRABnRJg==
-X-Google-Smtp-Source: APXvYqzg8s50xmcwT+LpIu6nvPTBFwgpY+hE0DY/gee/4/ibTmwRrPaemXe5HVlQzJgdENN2Q7BMW397mtDgSpOswVg=
-X-Received: by 2002:a19:5e1d:: with SMTP id s29mr17601785lfb.21.1582226028830;
- Thu, 20 Feb 2020 11:13:48 -0800 (PST)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=KppfXZZpJPEi/CjZSEtvqmbI5qt1QsjN8iLsZFEVchY=;
+        b=dWvmk9QtM+tA/BZjCALfiW4OCEuV86ktWgUxsKB4f7r+yAjmQDAl0eqNpdlgcf6Zs+
+         QDC4BO5RCHnb9v5YcvAQkABj6N9AvvuWiSVrfFHGWzMTAYnhAgLDp0etBAbQu7JP6PAM
+         BgLYzUOuIhmLwhYfhibeo34Xu4VnLrRC6BrFeFymLIXuryFXUlEkL5pBDmcLZkilWFLN
+         lPRe6Lqg/7pLy87XEc20FGS7HOcSV+a0MTlO0QhvNvU/xfeRRCTCJKHQY08dp3sv9HXi
+         x/mjFqNUKHILBwxcKIsdafazAxa5W+wQBPszgwoq3eo1qLgfxFK9ibBQHmEg+8kTw57K
+         /hCA==
+X-Gm-Message-State: APjAAAU0w86cihwvX3eC0jkAraG4VofMfgl9mDnkcUat9nmRLcOhpCyr
+        oiT9mmcgfsaXpuJNKgwm9yTpwR7nrHH/wynyqq0=
+X-Google-Smtp-Source: APXvYqwlnumsGVZVPaaHtFaHEy6FYwg01uFUe76ZBc0IFoKLJUgsnoxVTHEji7SzPHImFABQiM7f1WtVP9PjD8PBNns=
+X-Received: by 2002:a37:8683:: with SMTP id i125mr32505247qkd.491.1582268954047;
+ Thu, 20 Feb 2020 23:09:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220074637.7578-1-njoshi1@lenovo.com> <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
- <HK2PR0302MB25937E2946BF38583B3A905DBD130@HK2PR0302MB2593.apcprd03.prod.outlook.com>
- <CACK8Z6GwuOnJUUscriGwKWGBp5PFKyuqUkFYC8tEXa0UEuEZww@mail.gmail.com> <PS1PR0302MB260492DDE243BE0A64A39AA7BD130@PS1PR0302MB2604.apcprd03.prod.outlook.com>
-In-Reply-To: <PS1PR0302MB260492DDE243BE0A64A39AA7BD130@PS1PR0302MB2604.apcprd03.prod.outlook.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Thu, 20 Feb 2020 11:13:12 -0800
-Message-ID: <CACK8Z6HWkafL4EzOndRyiA3k-VyUg8bQ=2diw_wJSxSTyqsE+w@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] thinkpad_acpi: Add sysfs entry for
- lcdshadow feature
-To:     Mark Pearson <mpearson@lenovo.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Nitin Joshi <nitjoshi@gmail.com>,
-        Mat King <mathewk@google.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Nitin Joshi1 <njoshi1@lenovo.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Received: by 2002:a05:6214:68c:0:0:0:0 with HTTP; Thu, 20 Feb 2020 23:09:13
+ -0800 (PST)
+From:   Mrs Carlsen Monika <carlsen.monika@gmail.com>
+Date:   Fri, 21 Feb 2020 08:09:13 +0100
+X-Google-Sender-Auth: GmLAFJk_VBYZmLGR-xKv-Lvvb3U
+Message-ID: <CAFOfhhP8aKD2n+69rBQ1qMHBpn-uu_B=VPmYLb_uT5VBuEByEw@mail.gmail.com>
+Subject: Greetings My Dear, Please I Need Your Help.
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Mark,
+Greetings My Dear,
 
+    I sent this mail praying it will found you in a good condition of
+health, since I myself are in a very critical health condition in
+which I  sleep every night without knowing if I may be alive to see
+the next day. I am Mrs. Monika John  Carlsen from Denmark wife of late
+Mr John Carlsen, a widow suffering from long time illness. I have some
+funds I inherited from my late husband, the sum of (eleven million
+dollars) my Doctor told me recently that I have serious sickness which
+is cancer problem. What disturbs me most is my stroke sickness. Having
+known my condition, I decided to donate this fund to a good person
+that will utilize it the way i am going to instruct herein. I need a
+very honest and God fearing person who can claim this money and use it
+for Charity works, for orphanages, widows and also  build schools for
+less privileges that will be named after my late husband if possible
+and to promote the word of God and the effort that the house of God is
+maintained.
 
-On Thu, Feb 20, 2020 at 11:03 AM Mark Pearson <mpearson@lenovo.com> wrote:
->
-> Hi Rajat,
->
-> > -----Original Message-----
-> > From: Rajat Jain <rajatja@google.com>
-> > Sent: Thursday, February 20, 2020 1:39 PM
-> > >
-> > > For this particular issue what is the best way to contribute and get
-> > > involved? We'd like to make it so ePrivacy can be used more easily fr=
-om
-> > > Linux. I agree a more generic way of controlling it would be good.
-> > > I looked at the proposed patch from Rajat
-> > > (https://lkml.org/lkml/2019/10/22/967) - it seems like a good solutio=
-n to me.
-> > > We can help with testing that on our platforms if that would be usefu=
-l.
-> >
-> > Thanks you, just so that you know, the latest patchset is at:
-> > https://lkml.org/lkml/2019/12/20/794
-> >
-> > It would be great to get some additional testing if possible. I can
-> > send a sample ACPI (for our platform) in case it helps.
-> >
-> Sounds good - we'll definitely try this out and see how it goes. I suspec=
-t we'll have some questions once we try it out and get more familiar.
->
-> > >
-> > > I need to understand how we connect that implementation with the ACPI
-> > > controls we have (as I believe what we have are thinkpad specific and=
- not to
-> > > a drm spec; we need to confirm that). We also have the ACPI events th=
-at
-> > > notify if ePrivacy was changed by the hotkeys and that seems like som=
-ething
-> > > that should be done in thinkpad_acpi.c and not the drm code.
-> > >
-> > > Not sure if the two need to be connected somehow (or if handling the
-> > > event is actually not important and polling is acceptable)?
-> >
-> > So there was some brief discussion about this on my patches - but
-> > atleast on  the platforms I have seen, there was no way to change the
-> > privacy screen out of software / kernel control. Essentially, if there
-> > are hotkeys, they would send an input event to the kernel, who'd send
-> > them to userspace, who'd use the DRM method to toggle the privacy
-> > screen. Thus the current version of the patch only supports
-> > controlling the privacy screen via set() method. The get() method just
-> > returns the cached value.I hope that works for you.
-> >
-> OK - on the thinkpads we have function+D as a 'hotkey' to control the fea=
-ture...and my understanding is that bypasses everything and goes straight t=
-o the firmware.
->
-> The changes Nitin had been working on in thinkpad_acpi.c was to make this=
- more Linux and friendly - provide a sysfs hook for user space to connect t=
-o with the aim of allowing it to be configured from user space and have on =
-screen display when it was triggered etc.
->
-> I'm personally not sure yet how this ties up with the DRM method - more d=
-igging required. I'm intrigued to see if it works on our systems (sadly I d=
-on't have anything with that feature available on my desk right now...I nee=
-d to get my hands on one)
+I do not want a situation where this money will be used in an ungodly
+manner. That's why I'm taking this decision. I'm not afraid of death
+so I know where I'm going. I accept this decision because I do not
+have any child who will inherit this money after I die. Please I want
+your sincerely and urgent answer to know if you will be able to
+execute this project, and I will give you more information on how the
+fund will be transferred to your bank account. I am waiting for your
+reply.
 
-Just FYI, Here is the brief discussion we had about an interrupt
-mechanism to support a (hardware based) "kill switch" for the privacy
-screen.
-https://lkml.org/lkml/2019/10/25/992
-
-Thanks,
-
-Rajat
-
->
-> Thanks
-> Mark
+May God Bless you,
+Mrs. Monika John  Carlsen
