@@ -2,86 +2,157 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DE416700A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Feb 2020 08:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F81167D79
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Feb 2020 13:28:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbgBUHJP (ORCPT
+        id S1726909AbgBUM2H (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 21 Feb 2020 02:09:15 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:35583 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726201AbgBUHJP (ORCPT
+        Fri, 21 Feb 2020 07:28:07 -0500
+Received: from mga03.intel.com ([134.134.136.65]:3690 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726410AbgBUM2H (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 21 Feb 2020 02:09:15 -0500
-Received: by mail-qk1-f193.google.com with SMTP id v2so987677qkj.2
-        for <platform-driver-x86@vger.kernel.org>; Thu, 20 Feb 2020 23:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=KppfXZZpJPEi/CjZSEtvqmbI5qt1QsjN8iLsZFEVchY=;
-        b=ugLP1g9hhSv9GDkyskpZSqYOB7e/Q7Goa3jfdHx12MJydxNNRiv9Fbvy3bNhLTmRny
-         U9zFWqiABjG/DkN/IQGwWlHs8ch0rDlyOoPMAyKkOL+yvLKrxXbpNr4CmIfp820KUUMB
-         99WIobBbLzUN7cGAn/396EaAFVLRnrwUa2DCPRQZqku5Ol9+yYnhKidW/P8sOECjwjli
-         3377bYwYE1hws4m3HyJbkGvDpOXRa9rywnkhvRQltsspPyqnbRr0wKWJw1utbLOGIFNI
-         G5ZGphpKD3rLVaQxRaBRfRX9wf2JRBL3KBBMvC5up+wLg5FtvURcNc4DiWmB4Eac9eEO
-         PK+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=KppfXZZpJPEi/CjZSEtvqmbI5qt1QsjN8iLsZFEVchY=;
-        b=dWvmk9QtM+tA/BZjCALfiW4OCEuV86ktWgUxsKB4f7r+yAjmQDAl0eqNpdlgcf6Zs+
-         QDC4BO5RCHnb9v5YcvAQkABj6N9AvvuWiSVrfFHGWzMTAYnhAgLDp0etBAbQu7JP6PAM
-         BgLYzUOuIhmLwhYfhibeo34Xu4VnLrRC6BrFeFymLIXuryFXUlEkL5pBDmcLZkilWFLN
-         lPRe6Lqg/7pLy87XEc20FGS7HOcSV+a0MTlO0QhvNvU/xfeRRCTCJKHQY08dp3sv9HXi
-         x/mjFqNUKHILBwxcKIsdafazAxa5W+wQBPszgwoq3eo1qLgfxFK9ibBQHmEg+8kTw57K
-         /hCA==
-X-Gm-Message-State: APjAAAU0w86cihwvX3eC0jkAraG4VofMfgl9mDnkcUat9nmRLcOhpCyr
-        oiT9mmcgfsaXpuJNKgwm9yTpwR7nrHH/wynyqq0=
-X-Google-Smtp-Source: APXvYqwlnumsGVZVPaaHtFaHEy6FYwg01uFUe76ZBc0IFoKLJUgsnoxVTHEji7SzPHImFABQiM7f1WtVP9PjD8PBNns=
-X-Received: by 2002:a37:8683:: with SMTP id i125mr32505247qkd.491.1582268954047;
- Thu, 20 Feb 2020 23:09:14 -0800 (PST)
+        Fri, 21 Feb 2020 07:28:07 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Feb 2020 04:28:06 -0800
+X-IronPort-AV: E=Sophos;i="5.70,468,1574150400"; 
+   d="scan'208";a="229837267"
+Received: from jmiler-mobl.ger.corp.intel.com (HELO localhost) ([10.249.38.187])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Feb 2020 04:28:01 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Rajat Jain <rajatja@google.com>, Mark Pearson <mpearson@lenovo.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Nitin Joshi <nitjoshi@gmail.com>,
+        Mat King <mathewk@google.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Nitin Joshi1 <njoshi1@lenovo.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [External] Re: [PATCH] thinkpad_acpi: Add sysfs entry for lcdshadow feature
+In-Reply-To: <CACK8Z6HWkafL4EzOndRyiA3k-VyUg8bQ=2diw_wJSxSTyqsE+w@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200220074637.7578-1-njoshi1@lenovo.com> <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com> <HK2PR0302MB25937E2946BF38583B3A905DBD130@HK2PR0302MB2593.apcprd03.prod.outlook.com> <CACK8Z6GwuOnJUUscriGwKWGBp5PFKyuqUkFYC8tEXa0UEuEZww@mail.gmail.com> <PS1PR0302MB260492DDE243BE0A64A39AA7BD130@PS1PR0302MB2604.apcprd03.prod.outlook.com> <CACK8Z6HWkafL4EzOndRyiA3k-VyUg8bQ=2diw_wJSxSTyqsE+w@mail.gmail.com>
+Date:   Fri, 21 Feb 2020 14:28:06 +0200
+Message-ID: <87tv3kxgyx.fsf@intel.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6214:68c:0:0:0:0 with HTTP; Thu, 20 Feb 2020 23:09:13
- -0800 (PST)
-From:   Mrs Carlsen Monika <carlsen.monika@gmail.com>
-Date:   Fri, 21 Feb 2020 08:09:13 +0100
-X-Google-Sender-Auth: GmLAFJk_VBYZmLGR-xKv-Lvvb3U
-Message-ID: <CAFOfhhP8aKD2n+69rBQ1qMHBpn-uu_B=VPmYLb_uT5VBuEByEw@mail.gmail.com>
-Subject: Greetings My Dear, Please I Need Your Help.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings My Dear,
+On Thu, 20 Feb 2020, Rajat Jain <rajatja@google.com> wrote:
+> Hi Mark,
+>
+>
+> On Thu, Feb 20, 2020 at 11:03 AM Mark Pearson <mpearson@lenovo.com> wrote:
+>>
+>> Hi Rajat,
+>>
+>> > -----Original Message-----
+>> > From: Rajat Jain <rajatja@google.com>
+>> > Sent: Thursday, February 20, 2020 1:39 PM
+>> > >
+>> > > For this particular issue what is the best way to contribute and get
+>> > > involved? We'd like to make it so ePrivacy can be used more easily from
+>> > > Linux. I agree a more generic way of controlling it would be good.
+>> > > I looked at the proposed patch from Rajat
+>> > > (https://lkml.org/lkml/2019/10/22/967) - it seems like a good solution to me.
+>> > > We can help with testing that on our platforms if that would be useful.
+>> >
+>> > Thanks you, just so that you know, the latest patchset is at:
+>> > https://lkml.org/lkml/2019/12/20/794
+>> >
+>> > It would be great to get some additional testing if possible. I can
+>> > send a sample ACPI (for our platform) in case it helps.
+>> >
+>> Sounds good - we'll definitely try this out and see how it goes. I
+>> suspect we'll have some questions once we try it out and get more
+>> familiar.
+>>
+>> > >
+>> > > I need to understand how we connect that implementation with the ACPI
+>> > > controls we have (as I believe what we have are thinkpad specific and not to
+>> > > a drm spec; we need to confirm that). We also have the ACPI events that
+>> > > notify if ePrivacy was changed by the hotkeys and that seems like something
+>> > > that should be done in thinkpad_acpi.c and not the drm code.
+>> > >
+>> > > Not sure if the two need to be connected somehow (or if handling the
+>> > > event is actually not important and polling is acceptable)?
+>> >
+>> > So there was some brief discussion about this on my patches - but
+>> > atleast on  the platforms I have seen, there was no way to change the
+>> > privacy screen out of software / kernel control. Essentially, if there
+>> > are hotkeys, they would send an input event to the kernel, who'd send
+>> > them to userspace, who'd use the DRM method to toggle the privacy
+>> > screen. Thus the current version of the patch only supports
+>> > controlling the privacy screen via set() method. The get() method just
+>> > returns the cached value.I hope that works for you.
+>> >
+>> OK - on the thinkpads we have function+D as a 'hotkey' to control the
+>> feature...and my understanding is that bypasses everything and goes
+>> straight to the firmware.
 
-    I sent this mail praying it will found you in a good condition of
-health, since I myself are in a very critical health condition in
-which I  sleep every night without knowing if I may be alive to see
-the next day. I am Mrs. Monika John  Carlsen from Denmark wife of late
-Mr John Carlsen, a widow suffering from long time illness. I have some
-funds I inherited from my late husband, the sum of (eleven million
-dollars) my Doctor told me recently that I have serious sickness which
-is cancer problem. What disturbs me most is my stroke sickness. Having
-known my condition, I decided to donate this fund to a good person
-that will utilize it the way i am going to instruct herein. I need a
-very honest and God fearing person who can claim this money and use it
-for Charity works, for orphanages, widows and also  build schools for
-less privileges that will be named after my late husband if possible
-and to promote the word of God and the effort that the house of God is
-maintained.
+In general I think it's preferrable if the hotkey sends the key event to
+userspace that then makes the policy decision of what, if anything, to
+do with it. Everything is much easier if the policy is in userspace
+control. For example, you could define content based policies for
+enabling privacy screen, something that is definitely not possible with
+firmware.
 
-I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision. I'm not afraid of death
-so I know where I'm going. I accept this decision because I do not
-have any child who will inherit this money after I die. Please I want
-your sincerely and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your
-reply.
+I emphatize with the desire to just bypass everything at the
+hardware/firmware level, because that is totally in your control (as an
+OEM), and requires no interaction with the operating system
+initially. Exposing the read-only state of the privacy screen is
+helpful, but prevents the OS from building more advanced features on
+top, failing to reach the full potential of the nice hardware feature.
 
-May God Bless you,
-Mrs. Monika John  Carlsen
+That said, we obviously do need to take such hardware/firmware
+implementations into account as well.
+
+>> The changes Nitin had been working on in thinkpad_acpi.c was to make
+>> this more Linux and friendly - provide a sysfs hook for user space to
+>> connect to with the aim of allowing it to be configured from user
+>> space and have on screen display when it was triggered etc.
+
+IMO one of the problems with using sysfs for this is that it's not
+connected with the graphics subsystem. The userspace has to go out of
+its way to make the connection between the privacy screen and the
+display. It shouldn't have to. It's a property of the display, not some
+unrelated device (although, technically, I presume in hardware it might
+be ;).
+
+We've made the mistake with backlight before, and we still somewhat
+struggle with it. Please let's not repeat that.
+
+>> I'm personally not sure yet how this ties up with the DRM method -
+>> more digging required. I'm intrigued to see if it works on our
+>> systems (sadly I don't have anything with that feature available on
+>> my desk right now...I need to get my hands on one)
+>
+> Just FYI, Here is the brief discussion we had about an interrupt
+> mechanism to support a (hardware based) "kill switch" for the privacy
+> screen.
+> https://lkml.org/lkml/2019/10/25/992
+
+I agree with Pekka's mail [1] in that thread.
+
+BR,
+Jani.
+
+
+[1] https://lkml.org/lkml/2019/10/28/94
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
