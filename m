@@ -2,91 +2,61 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ECB3167DAB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Feb 2020 13:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C51416867A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 21 Feb 2020 19:25:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgBUMp7 (ORCPT
+        id S1729477AbgBUSZT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 21 Feb 2020 07:45:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31874 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727787AbgBUMp7 (ORCPT
+        Fri, 21 Feb 2020 13:25:19 -0500
+Received: from ale.deltatee.com ([207.54.116.67]:59100 "EHLO ale.deltatee.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725947AbgBUSZS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 21 Feb 2020 07:45:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582289158;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pBLVBUs542X1Vq8pAdGQmP+xNdNH0Q/EkNS8GTw8+pk=;
-        b=Mzz797SWC2S3tBoONw3G+xn6WMWNPNCAl6KTS9neesuvAhs88tUMd0nxK+vHUcD71v95GV
-        +jYPkddKAvztRwPU6ZZ2NlCfUa30Q817Cs8/cXc0O5r8Dx3RdfYukCUIOuqwd/HQry/U9G
-        jBY06j/woogjsXQGb3ib6XIu66/9bhw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-ivuche2WPzigOVPtwMSpFQ-1; Fri, 21 Feb 2020 07:45:56 -0500
-X-MC-Unique: ivuche2WPzigOVPtwMSpFQ-1
-Received: by mail-wr1-f70.google.com with SMTP id u18so963638wrn.11
-        for <platform-driver-x86@vger.kernel.org>; Fri, 21 Feb 2020 04:45:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=pBLVBUs542X1Vq8pAdGQmP+xNdNH0Q/EkNS8GTw8+pk=;
-        b=mezPxjDiSYV6Q/Tg9ydOxkwfhS/w7+hmmZGA0oWv3M0F4n1iYQKdjQ7ddvB5RI0AQZ
-         PSUdkf9j/BVPD/Dq4ua8PSuURGP/oNooX9eCJGLBWmEJ9Jd997O56PsWu+tC6OQUgqM0
-         JK8VsP9ujp3lFuww+Hlfd/ap2LtDZVrBzmrXs9Wo1Ks+X10RFHOGyZs5dCRVHGX6K64W
-         hiY3zNcZU11rQdPeZfnThNerq02pW3KHjQYf+4YW4uHZVn+YBIVVrq+PcJdpsZ0MQcDC
-         gQ/3Gg9IEprIQ9wh7r+DVbSQPXZ/DHKKwCpjUQFlmKTRRCkkPl784b6odtxZyMoaoDPN
-         GELg==
-X-Gm-Message-State: APjAAAWw+50bQzCS6ye5RTb/LKf5Q5Sm9nDKtufg1iBKxQtQENTMUL0x
-        CiMD+kJ/arFC8QBIXuqgtMaKa9ynOJN3P8sPJfQGQ+a7zvqt+aDdB5q3dr97W7PjmXeEht1Fn/d
-        sroFgJRokdQWLXFcb2SegInTn1xwU/hmOiA==
-X-Received: by 2002:adf:f084:: with SMTP id n4mr48240482wro.200.1582289155137;
-        Fri, 21 Feb 2020 04:45:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxtiGq5NOrdy9I6IUtNFUV96T4BBoSP5U202t66huPoYfCrAk+zdHN+jraDhS1vrqNKI/yqCw==
-X-Received: by 2002:adf:f084:: with SMTP id n4mr48240462wro.200.1582289154929;
-        Fri, 21 Feb 2020 04:45:54 -0800 (PST)
-Received: from dhcp-64-37.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id r6sm3972501wrq.92.2020.02.21.04.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2020 04:45:54 -0800 (PST)
-Message-ID: <eea7179c93b5a5f3766c169f71567e1d75dda304.camel@redhat.com>
-Subject: Re: [External] Re: [PATCH] thinkpad_acpi: Add sysfs entry for
- lcdshadow feature
-From:   Benjamin Berg <bberg@redhat.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Rajat Jain <rajatja@google.com>,
-        Mark Pearson <mpearson@lenovo.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Nitin Joshi <nitjoshi@gmail.com>,
-        Mat King <mathewk@google.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Nitin Joshi1 <njoshi1@lenovo.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-Date:   Fri, 21 Feb 2020 13:45:53 +0100
-In-Reply-To: <87tv3kxgyx.fsf@intel.com>
-References: <20200220074637.7578-1-njoshi1@lenovo.com>
-         <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
-         <HK2PR0302MB25937E2946BF38583B3A905DBD130@HK2PR0302MB2593.apcprd03.prod.outlook.com>
-         <CACK8Z6GwuOnJUUscriGwKWGBp5PFKyuqUkFYC8tEXa0UEuEZww@mail.gmail.com>
-         <PS1PR0302MB260492DDE243BE0A64A39AA7BD130@PS1PR0302MB2604.apcprd03.prod.outlook.com>
-         <CACK8Z6HWkafL4EzOndRyiA3k-VyUg8bQ=2diw_wJSxSTyqsE+w@mail.gmail.com>
-         <87tv3kxgyx.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Fri, 21 Feb 2020 13:25:18 -0500
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+        by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1j5CzA-00057k-6t; Fri, 21 Feb 2020 11:25:14 -0700
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+        (envelope-from <gunthorp@deltatee.com>)
+        id 1j5Cz2-0007NZ-VO; Fri, 21 Feb 2020 11:25:05 -0700
+From:   Logan Gunthorpe <logang@deltatee.com>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>,
+        Logan Gunthorpe <logang@deltatee.com>
+Date:   Fri, 21 Feb 2020 11:24:56 -0700
+Message-Id: <20200221182503.28317-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-mm@kvack.org, dan.j.williams@intel.com, akpm@linux-foundation.org, hch@lst.de, catalin.marinas@arm.com, benh@kernel.crashing.org, tglx@linutronix.de, david@redhat.com, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, mhocko@kernel.org, will@kernel.org, luto@kernel.org, peterz@infradead.org, ebadger@gigaio.com, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-8.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        GREYLIST_ISWHITE,MYRULES_NO_TEXT autolearn=ham autolearn_force=no
+        version=3.4.2
+Subject: [PATCH v3 0/7] Allow setting caching mode in arch_add_memory() for P2PDMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
@@ -94,32 +64,99 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On Fri, 2020-02-21 at 14:28 +0200, Jani Nikula wrote:
-> In general I think it's preferrable if the hotkey sends the key event to
-> userspace that then makes the policy decision of what, if anything, to
-> do with it. Everything is much easier if the policy is in userspace
-> control. For example, you could define content based policies for
-> enabling privacy screen, something that is definitely not possible with
-> firmware.
-> 
-> I emphatize with the desire to just bypass everything at the
-> hardware/firmware level, because that is totally in your control (as an
-> OEM), and requires no interaction with the operating system
-> initially. Exposing the read-only state of the privacy screen is
-> helpful, but prevents the OS from building more advanced features on
-> top, failing to reach the full potential of the nice hardware feature.
+This is v3 of the patchset which cleans up a number of minor issues
+from the feedback of v2 and rebases onto v5.6-rc2. Additional feedback
+is welcome.
 
-There seems to be a slight misunderstanding here. On the Lenovo laptops
-the feature is automatically adjusted by the Firmware. However, the
-setting itself is read/write and it can also be controlled from
-userspace.
+Thanks,
 
-In principle, I agree that it makes sense to control these things from
-software and have a toggle key event that is send around. It has the
-unfortunate disadvantage though that it requires updating the entire
-userspace. Including the ugly side effect that we continue to have
-trouble to support these things on X11 due protocol restrictions with
-"high" key codes (>= 248).
+Logan
 
-Benjamin
+--
 
+Changes in v3:
+ * Rebased onto v5.6-rc2
+ * Rename mhp_modifiers to mhp_params per David with an updated kernel
+   doc per Dan
+ * Drop support for s390 per David seeing it does not support
+   ZONE_DEVICE yet and there was a potential problem with huge pages.
+ * Added WARN_ON_ONCE in cases where arches recieve non PAGE_KERNEL
+   parameters
+ * Collected David and Micheal's Reviewed-By and Acked-by Tags
+
+Changes in v2:
+ * Rebased onto v5.5-rc5
+ * Renamed mhp_restrictions to mhp_modifiers and added the pgprot field
+   to that structure instead of using an argument for
+   arch_add_memory().
+ * Add patch to drop the unused flags field in mhp_restrictions
+
+A git branch is available here:
+
+https://github.com/sbates130272/linux-p2pmem remap_pages_cache_v3
+
+--
+
+Currently, the page tables created using memremap_pages() are always
+created with the PAGE_KERNEL cacheing mode. However, the P2PDMA code
+is creating pages for PCI BAR memory which should never be accessed
+through the cache and instead use either WC or UC. This still works in
+most cases, on x86, because the MTRR registers typically override the
+caching settings in the page tables for all of the IO memory to be
+UC-. However, this tends not to work so well on other arches or
+some rare x86 machines that have firmware which does not setup the
+MTRR registers in this way.
+
+Instead of this, this series proposes a change to arch_add_memory()
+to take the pgprot required by the mapping which allows us to
+explicitly set pagetable entries for P2PDMA memory to WC.
+
+This changes is pretty routine for most of the arches: x86_64, s390, arm64
+and powerpc simply need to thread the pgprot through to where the page
+tables are setup. x86_32 unfortunately sets up the page tables at boot so
+must use _set_memory_prot() to change their caching mode. ia64 and sh
+don't appear to have an easy way to change the page tables so, for now
+at least, we just return -EINVAL on such mappings and thus they will
+not support P2PDMA memory until the work for this is done.
+
+--
+
+Logan Gunthorpe (7):
+  mm/memory_hotplug: Drop the flags field from struct mhp_restrictions
+  mm/memory_hotplug: Rename mhp_restrictions to mhp_params
+  x86/mm: Thread pgprot_t through init_memory_mapping()
+  x86/mm: Introduce _set_memory_prot()
+  powerpc/mm: Thread pgprot_t through create_section_mapping()
+  mm/memory_hotplug: Add pgprot_t to mhp_params
+  mm/memremap: Set caching mode for PCI P2PDMA memory to WC
+
+ arch/arm64/mm/mmu.c                        |  7 ++--
+ arch/ia64/mm/init.c                        |  7 ++--
+ arch/powerpc/include/asm/book3s/64/hash.h  |  3 +-
+ arch/powerpc/include/asm/book3s/64/radix.h |  3 +-
+ arch/powerpc/include/asm/sparsemem.h       |  3 +-
+ arch/powerpc/mm/book3s64/hash_utils.c      |  5 +--
+ arch/powerpc/mm/book3s64/pgtable.c         |  7 ++--
+ arch/powerpc/mm/book3s64/radix_pgtable.c   | 18 ++++++----
+ arch/powerpc/mm/mem.c                      | 10 +++---
+ arch/s390/mm/init.c                        |  9 +++--
+ arch/sh/mm/init.c                          |  7 ++--
+ arch/x86/include/asm/page_types.h          |  3 --
+ arch/x86/include/asm/pgtable.h             |  3 ++
+ arch/x86/include/asm/set_memory.h          |  1 +
+ arch/x86/kernel/amd_gart_64.c              |  3 +-
+ arch/x86/mm/init.c                         |  9 ++---
+ arch/x86/mm/init_32.c                      | 12 +++++--
+ arch/x86/mm/init_64.c                      | 40 ++++++++++++----------
+ arch/x86/mm/mm_internal.h                  |  3 +-
+ arch/x86/mm/pat/set_memory.c               |  7 ++++
+ arch/x86/platform/uv/bios_uv.c             |  3 +-
+ include/linux/memory_hotplug.h             | 20 +++++------
+ mm/memory_hotplug.c                        | 11 +++---
+ mm/memremap.c                              | 17 +++++----
+ 24 files changed, 130 insertions(+), 81 deletions(-)
+
+
+base-commit: 11a48a5a18c63fd7621bb050228cebf13566e4d8
+--
+2.20.1
