@@ -2,101 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8E616AA18
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 16:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F2916B4AB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 23:56:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727859AbgBXP3i (ORCPT
+        id S1727851AbgBXW42 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Feb 2020 10:29:38 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39068 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727581AbgBXP3i (ORCPT
+        Mon, 24 Feb 2020 17:56:28 -0500
+Received: from mail.stpi.in ([164.164.128.107]:57457 "EHLO mail.stpi.in"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726651AbgBXW41 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Feb 2020 10:29:38 -0500
-Received: by mail-wm1-f67.google.com with SMTP id c84so9866815wme.4
-        for <platform-driver-x86@vger.kernel.org>; Mon, 24 Feb 2020 07:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=AXpFOJp0zSaTFAP+me7G07Iilsucf3whVGy3CIL9cVI=;
-        b=aqlsWUNPbsW9l28BYG/n5HyXAUrCXzZQydP4nPSMTpgPgE7D9QXgxjLMGZtexm0jFa
-         Lm0qzuluSGBlNKpNchaYfMS7nS4loKI4RVOfhX/JnJHzd1YsDB7DZQ2fLXN+WfCRCCwY
-         WG1Ya2gJH4sFiQA0nkfGCminkhxH73nrSrsG248xK8Vsxv4+9/G4unhB5wOMtmOdLg3z
-         T++jB+yd5dzHPinJnxW7PyAGeyfKhUA87XxmdT+hlSywoCt3/R27XGzCwFqCxruLTIvf
-         MhPbb1KfkobcJenuHhtKE2Zp0Z6UKs74Y9KPa8uejUm6zAnbQ0OgJ4JOrxktbnc9zJnP
-         Tsvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=AXpFOJp0zSaTFAP+me7G07Iilsucf3whVGy3CIL9cVI=;
-        b=tQ2xwmRRE4a7FNG2IXmlcCktNABSw8wnQ4aUaMOyzGVv1a3cHVX+UqF0YQYE5jH+t7
-         SVNFzVJiz0ZKB27UYcShUILO69jfUUwC1NdfDbTqmLDJT5Q5m7xlbjwwAFL6S4x1z13l
-         RIZxOCY9CC8kbBZ5jVfS8oWncg3taf4K63GIEmZeziLAkDMrvq9U+4zHgxNEop+sx9b9
-         p64+kgf0PsU/ud0VQH+3EDXWjI6GrLsdD7+6nQ4dZ50/sy5TB5LY2BorMxmQ7fbgKv+n
-         ltK4CVmPuBoEA4zgAJARdXEg4wzbWka+f1W8Baoz6GVyiGSeyFSJNVH+p1S2SHKSaxjJ
-         7iKA==
-X-Gm-Message-State: APjAAAWrDaaEqBePSCAvuBOqwjFxzw5wRtn5HJrdQwE1+jdi0X5gMq9d
-        vn7p6Xo7SdMbdX4wYQ3HW7a5sA==
-X-Google-Smtp-Source: APXvYqyW7u01kII2K7pYNHauJqRc75jIktUIXQaMXO5DBluLiHAFSlxuEEylaK9W/agE16CWGXMiNQ==
-X-Received: by 2002:a7b:c14e:: with SMTP id z14mr22226152wmi.58.1582558176258;
-        Mon, 24 Feb 2020 07:29:36 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id f8sm18200741wru.12.2020.02.24.07.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 07:29:35 -0800 (PST)
-Date:   Mon, 24 Feb 2020 15:30:06 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 10/19] mfd: intel_soc_pmic: Add SCU IPC member to
- struct intel_soc_pmic
-Message-ID: <20200224153006.GV3494@dell>
-References: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
- <20200217131446.32818-11-mika.westerberg@linux.intel.com>
+        Mon, 24 Feb 2020 17:56:27 -0500
+X-Greylist: delayed 744 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Feb 2020 17:56:27 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.stpi.in (Postfix) with ESMTP id BD293C212C;
+        Tue, 25 Feb 2020 04:13:55 +0530 (IST)
+Received: from mail.stpi.in ([127.0.0.1])
+        by localhost (mail.stpi.in [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id B0XhtqW-IgMl; Tue, 25 Feb 2020 04:13:55 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.stpi.in (Postfix) with ESMTP id 1E30AC21DC;
+        Tue, 25 Feb 2020 04:13:54 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.stpi.in 1E30AC21DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stpi.in; s=dkim;
+        t=1582584235; bh=Y1PNbyMg86lISbRq6ApZzJqQWvAFR+Owaoo8w/QDh6o=;
+        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
+         Content-Transfer-Encoding;
+        b=I1pwJqt06KTCZ4SBJFE8d3bVfZCwfSAACkzXLMiPHJ9G/91uUkZuXlfIhWqk+tVe3
+         TkjhfmoNod8J3g4b9Sp54OTaKMyDzDrbHj7ZXtXRjGg/9uGa9IwqynyuBerF4ZSwDV
+         DKUlOArKzjoBG5M9bdFShWqsVdwLmOCbQ5DZ36IM=
+X-Virus-Scanned: amavisd-new at stpi.in
+Received: from mail.stpi.in ([127.0.0.1])
+        by localhost (mail.stpi.in [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id mfxw-z69aPEA; Tue, 25 Feb 2020 04:13:53 +0530 (IST)
+Received: from mail.stpi.in (mail.stpi.in [164.164.128.107])
+        by mail.stpi.in (Postfix) with ESMTP id D7A27C212C;
+        Tue, 25 Feb 2020 04:13:31 +0530 (IST)
+Date:   Tue, 25 Feb 2020 04:13:31 +0530 (IST)
+From:   David Johnson <thirupati.yedla@stpi.in>
+Reply-To: David Johnson <johnsondavid57td@gmail.com>
+Message-ID: <1547186098.159306.1582584211798.JavaMail.zimbra@stpi.in>
+Subject: Ich spende fur dich
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200217131446.32818-11-mika.westerberg@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [43.241.70.142]
+X-Mailer: Zimbra 8.0.9_GA_6191 (ZimbraWebClient - GC79 (Win)/8.0.9_GA_6191)
+Thread-Topic: Ich spende fur dich
+Thread-Index: YFGr7kzwRJNctto4sI12yG6L+5Ct+g==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 17 Feb 2020, Mika Westerberg wrote:
 
-> Both PMIC drivers (intel_soc_pmic_mrfld and intel_soc_pmic_bxtwc) will
-> be using this field going forward to access the SCU IPC instance.
-> 
-> While there add kernel-doc for the intel_soc_pmic structure.
-> 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/linux/mfd/intel_soc_pmic.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
 
-For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+Guten Tag,
+Mein Name ist David Johnson, Der Gewinner von Zweihundertachtundneunzig Mil=
+lionen Dreihunderttausend US-Dollar ($ 298,300,000).
+Ich komme aus New York, 57 Jahre alt. Dieser Sieg hat mein ganzes Leben ver=
+=C3=A4ndert. Ich m=C3=B6chte dir neunhundertf=C3=BCnfzigtausend Dollar ($ 9=
+50,000) f=C3=BCr wohlt=C3=A4tige Zwecke spenden.
+Kontaktieren Sie mich zur=C3=BCck, um weitere Informationen =C3=BCber meine=
+ E-Mail zu erhalten: johnsondavid57td@gmail.com
+Ich w=C3=BCnsche dir einen sch=C3=B6nen Tag.
+David Johnson
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
