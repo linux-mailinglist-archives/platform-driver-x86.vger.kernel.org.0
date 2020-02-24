@@ -2,117 +2,133 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB424169BB0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 02:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9798E16A156
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 10:12:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727167AbgBXBO6 (ORCPT
+        id S1727959AbgBXJMU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 23 Feb 2020 20:14:58 -0500
-Received: from mail.klausen.dk ([174.138.9.187]:32858 "EHLO mail.klausen.dk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727158AbgBXBO5 (ORCPT
+        Mon, 24 Feb 2020 04:12:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40219 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727887AbgBXJML (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 23 Feb 2020 20:14:57 -0500
-Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the
- first battery is named BATT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-        t=1582506895;
+        Mon, 24 Feb 2020 04:12:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582535529;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6cFIO25+cFryi3atUkmzmXjlocwuRKEsmDPIziFxrX0=;
-        b=iab7zxFxcmHh0TT/S4PrUZXLyND1722D0+LXC23BaDjzsMpi7A9cUWpXty83RYSFQO5zNc
-        +/IB5SBa4z+1VnCkWcJ4lbM9I0rNBQxw7aUw0KHLGmrTTV/Thhx9nA25MYDCs+BneJY1ji
-        0/VhCBfX019r7s9F/W1WKRBEbXZ7RNA=
-To:     Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Cc:     stable@vger.kernel.org
-References: <20200223181832.17131-1-kristian@klausen.dk>
- <20200224011017.C5207208C4@mail.kernel.org>
-From:   Kristian Klausen <kristian@klausen.dk>
-Message-ID: <e700ebdc-3dce-c151-3ea5-f7ab1e4cb07f@klausen.dk>
-Date:   Mon, 24 Feb 2020 02:14:54 +0100
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=dmb0RTH1axsQyoKZK4Qs+mYxX0tLJ+ZXHM8KfTxIyzU=;
+        b=Hu1l3tIiWmIWc7ISG32I8gRstmGPtEccD80pEOZAmvx55mkcV8Uv7POiSQSjQ3GY33OiOg
+        X64Q3x2QB2KZX4ZwYsOPpeqVKJ8V6sLeR1cJT9LALWOyeq6zvPT8rlB0NrcetQW0MzjMlT
+        OXCc8vQdWKA2oOjIpn2b4IDTFzJ5TAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-IGyW_UW9MfSb-QdX7lWO8w-1; Mon, 24 Feb 2020 04:12:07 -0500
+X-MC-Unique: IGyW_UW9MfSb-QdX7lWO8w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7EB185735C;
+        Mon, 24 Feb 2020 09:12:04 +0000 (UTC)
+Received: from [10.36.118.8] (unknown [10.36.118.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 93D0E393;
+        Mon, 24 Feb 2020 09:11:53 +0000 (UTC)
+Subject: Re: [PATCH v3 2/7] mm/memory_hotplug: Rename mhp_restrictions to
+ mhp_params
+To:     Logan Gunthorpe <logang@deltatee.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>
+References: <20200221182503.28317-1-logang@deltatee.com>
+ <20200221182503.28317-3-logang@deltatee.com>
+From:   David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <e428521d-3509-5403-f8d8-c584a7d4d320@redhat.com>
+Date:   Mon, 24 Feb 2020 10:11:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200224011017.C5207208C4@mail.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200221182503.28317-3-logang@deltatee.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: da
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 24.02.2020 02.10, Sasha Levin wrote:
-> Hi,
->
-> [This is an automated email]
->
-> This commit has been processed because it contains a -stable tag.
-> The stable tag indicates that it's relevant for the following trees: all
->
-> The bot has tested the following trees: v5.5.5, v5.4.21, v4.19.105, v4.14.171, v4.9.214, v4.4.214.
->
-> v5.5.5: Build OK!
-> v5.4.21: Build OK!
-> v4.19.105: Failed to apply! Possible dependencies:
->      11e87702be65 ("PCI: pciehp: Differentiate between surprise and safe removal")
->      125450f81441 ("PCI: hotplug: Embed hotplug_slot")
->      5790a9c78e78 ("PCI: pciehp: Unify controller and slot structs")
->      7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
->      80696f991424 ("PCI: pciehp: Tolerate Presence Detect hardwired to zero")
->      81c4b5bf30de ("PCI: hotplug: Constify hotplug_slot_ops")
->      a7da21613c4e ("PCI: hotplug: Drop hotplug_slot_info")
->      b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
->      eee6e273843d ("PCI: pciehp: Drop hotplug_slot_ops wrappers")
->
-> v4.14.171: Failed to apply! Possible dependencies:
->      125450f81441 ("PCI: hotplug: Embed hotplug_slot")
->      4aed1cd6fb95 ("PCI: pciehp: Document struct slot and struct controller")
->      51bbf9bee34f ("PCI: hotplug: Demidlayer registration with the core")
->      5790a9c78e78 ("PCI: pciehp: Unify controller and slot structs")
->      7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
->      81c4b5bf30de ("PCI: hotplug: Constify hotplug_slot_ops")
->      97c6f25d5828 ("PCI/hotplug: ppc: correct a php_slot usage after free")
->      a7da21613c4e ("PCI: hotplug: Drop hotplug_slot_info")
->      b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
->      c7abb2352c29 ("PCI: Remove unnecessary messages for memory allocation failures")
->      dbb3d78f61ba ("platform/x86: asus-wmi: Call led hw_changed API on kbd brightness change")
->      ed99d29b2b15 ("platform/x86: asus-wmi: Add keyboard backlight toggle support")
->
-> v4.9.214: Failed to apply! Possible dependencies:
->      125450f81441 ("PCI: hotplug: Embed hotplug_slot")
->      4aed1cd6fb95 ("PCI: pciehp: Document struct slot and struct controller")
->      51bbf9bee34f ("PCI: hotplug: Demidlayer registration with the core")
->      5790a9c78e78 ("PCI: pciehp: Unify controller and slot structs")
->      7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
->      81c4b5bf30de ("PCI: hotplug: Constify hotplug_slot_ops")
->      97c6f25d5828 ("PCI/hotplug: ppc: correct a php_slot usage after free")
->      a7da21613c4e ("PCI: hotplug: Drop hotplug_slot_info")
->      b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
->      c7abb2352c29 ("PCI: Remove unnecessary messages for memory allocation failures")
->      dbb3d78f61ba ("platform/x86: asus-wmi: Call led hw_changed API on kbd brightness change")
->      ed99d29b2b15 ("platform/x86: asus-wmi: Add keyboard backlight toggle support")
->
-> v4.4.214: Failed to apply! Possible dependencies:
->      125450f81441 ("PCI: hotplug: Embed hotplug_slot")
->      2ac83cccabbc ("PCI: hotplug: Use list_for_each_entry() to simplify code")
->      51bbf9bee34f ("PCI: hotplug: Demidlayer registration with the core")
->      66725152fb9f ("PCI/hotplug: PowerPC PowerNV PCI hotplug driver")
->      7973353e92ee ("platform/x86: asus-wmi: Refactor charge threshold to use the battery hooking API")
->      89379f165a1b ("PCI/hotplug: pnv_php: export symbols and move struct types needed by cxl")
->      97c6f25d5828 ("PCI/hotplug: ppc: correct a php_slot usage after free")
->      a7da21613c4e ("PCI: hotplug: Drop hotplug_slot_info")
->      b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
->      dbb3d78f61ba ("platform/x86: asus-wmi: Call led hw_changed API on kbd brightness change")
->      ed99d29b2b15 ("platform/x86: asus-wmi: Add keyboard backlight toggle support")
->      ef69b03dfd32 ("MAINTAINERS: Add powerpc drivers to the powerpc section")
->      ff3ce480e8b5 ("PCI: Fix all whitespace issues")
->
->
-> NOTE: The patch will not be queued to stable trees until it is upstream.
->
-> How should we proceed with this patch?
+On 21.02.20 19:24, Logan Gunthorpe wrote:
+> The mhp_restrictions struct really doesn't specify anything resembling
+> a restriction anymore so rename it to be mhp_params as it is a list
+> of extended parameters.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 
-The patch should only be applied to the v5.4 and v5.5 trees.
-- Kristian
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
