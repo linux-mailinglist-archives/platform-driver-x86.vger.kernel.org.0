@@ -2,30 +2,30 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4043C169B94
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 02:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68361169B96
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 02:10:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbgBXBKR (ORCPT
+        id S1727180AbgBXBKT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 23 Feb 2020 20:10:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46190 "EHLO mail.kernel.org"
+        Sun, 23 Feb 2020 20:10:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46226 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727167AbgBXBKR (ORCPT
+        id S1727167AbgBXBKS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 23 Feb 2020 20:10:17 -0500
+        Sun, 23 Feb 2020 20:10:18 -0500
 Received: from localhost (unknown [137.135.114.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9FC2B208C3;
-        Mon, 24 Feb 2020 01:10:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C5207208C4;
+        Mon, 24 Feb 2020 01:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582506616;
+        s=default; t=1582506618;
         bh=bNmnhRvLAHHShiho3id6NWFT/f7CDbpbOjyUuNDByJk=;
         h=Date:From:To:To:To:Cc:Cc:Cc:Subject:In-Reply-To:References:From;
-        b=2r0BjHkRaEVrehj3WL+OSx5sbp8hPT4bbgD0id6tXJtyu1R/LjXxPinCWev+qC2oM
-         pk0FcxnTNnVBSV03gyIWmvCC0WM4CvgroEcIMvQolNhveHFJC18utZ5kZ2W8Xgcsx8
-         kYV7q7rLpMvLIxPp2nOXMf0sPFom017JasvMCKgE=
-Date:   Mon, 24 Feb 2020 01:10:15 +0000
+        b=ivPx5O9U5t2uyz3x2J4ct2/nehP+SP6xj6t4ebZB8ae01QhWZ2H8NizE9/u62VvI/
+         HdFo0pi/K/kBbK9mMD2x36bCQtMouvEK3KruIVqeNf20Rse7l7CYOhJLROpH1kSKv+
+         CqGYP8FTjc7P3636PBmWorUAl4gGSzb8UZ2RCmrw=
+Date:   Mon, 24 Feb 2020 01:10:17 +0000
 From:   Sasha Levin <sashal@kernel.org>
 To:     Sasha Levin <sashal@kernel.org>
 To:     Kristian Klausen <kristian@klausen.dk>
@@ -33,10 +33,10 @@ To:     platform-driver-x86@vger.kernel.org
 Cc:     Kristian Klausen <kristian@klausen.dk>, stable@vger.kernel.org
 Cc:     stable@vger.kernel.org
 Cc:     stable@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: asus-wmi: Support laptops where the first battery is named BATT
-In-Reply-To: <20200223175424.15613-1-kristian@klausen.dk>
-References: <20200223175424.15613-1-kristian@klausen.dk>
-Message-Id: <20200224011016.9FC2B208C3@mail.kernel.org>
+Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the first battery is named BATT
+In-Reply-To: <20200223181832.17131-1-kristian@klausen.dk>
+References: <20200223181832.17131-1-kristian@klausen.dk>
+Message-Id: <20200224011017.C5207208C4@mail.kernel.org>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
