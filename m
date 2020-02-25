@@ -2,86 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F7716BDFA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2020 10:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B3A16BE5F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2020 11:13:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729296AbgBYJzg (ORCPT
+        id S1730012AbgBYKNZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Feb 2020 04:55:36 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:47002 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbgBYJzg (ORCPT
+        Tue, 25 Feb 2020 05:13:25 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:40006 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729702AbgBYKNZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Feb 2020 04:55:36 -0500
-Received: by mail-pf1-f196.google.com with SMTP id k29so6884806pfp.13;
-        Tue, 25 Feb 2020 01:55:36 -0800 (PST)
+        Tue, 25 Feb 2020 05:13:25 -0500
+Received: by mail-pj1-f68.google.com with SMTP id 12so1066274pjb.5;
+        Tue, 25 Feb 2020 02:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9/TmeUl6Orrpw9iJyKF2cvUy7KVXMYW9mff75+x6dlg=;
-        b=j3u7m08y2p7UzNFy01ACdbJzicLjNJIvbEY9WAS5mq+9u3PvywiKG6KcsUKU7z939M
-         gFIftcqkFtBEe7t90qhq94XBNYhnInkzS5+25Rf37EV3IAyKEX8Wh0IqvvpHc0zONKyB
-         vjnzsHm/isvySFAT+zBuVtSMw3q8de0ckQd1rt24D471oW/KFv10SLQqk40Ay3ECfAyn
-         E2LIctw1utjuKHWZu55Zz5/tubRbEZHp4aiJ/0pDcNdOVsHuIlAV5Pz88bcg9F/L38m4
-         eUX4DNudeFL2cVlAmzL0U+Ld6cItm7xLK1GiJ+iVUYEOOuE5raAcgFpOPgmlfZC3xAyd
-         LOPw==
+        bh=12J4Dxh+XhShPnFqF0gVzP/G/+ksyPC2hCO7kPNDBLI=;
+        b=Dz54Z+lUs9k0m+Luhfh7C1Fj9xaIpP14H9bxZCEpQXtiq/H0Z96EQVI9M9kpWLvwpm
+         YQLBjkj3mCu4qHBXDq3YzF4Bk/R13jqVxazQKvaKFNtHoAR+npJhwlWFvueZNJrAOVqF
+         M3I2khOhqvoNZro3JIcTvQ63SoLjOdIrrqvx3oRpB0sAXtSMwYwexkP+DAwi0mjtx9MQ
+         egBRU3rLhacSn/3pfs7YE8alg6aywxsOQ1FCWshq5kpvNKy0flDx+EcxRN0XFzayFjqL
+         tcgq+Srpg/bsU3cbmjYvdSNsB8DZ6vWw6TWgQGy4aOvvpV3b0LrTVm/DvDj/EET0KDCl
+         633g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9/TmeUl6Orrpw9iJyKF2cvUy7KVXMYW9mff75+x6dlg=;
-        b=sYUPpABhwa9Aufj55H1r0r98dRBHl+DRqTchZGua6D/NkzfU5QmUrZ+7XUAEBy3Rn8
-         jQ4v4AWTFoZ8vYiGtPx75XsggggMgmtY1SxUBLfETdSwY8h/MF493/F3Q8YhVxXR8wzy
-         uEhhZtkHbTdA/+22wCiLVoZs8XR4saup4jD/xeVm5Swojkel9SOzvkLfC3H8tyfMVuEw
-         we6ey7Y24qQGKFiKDLJJP3aDq5mc6Q/c7plr64BzYabj/Qfe/CjI7U6AfKLLEkk0Fo5f
-         nN5fT4EkFOI7lr3QluKUWCaJ59tkjeG8XOjYA/AsTnxLMNJmkf4FvpobWpUx+P5nzF1S
-         sXVg==
-X-Gm-Message-State: APjAAAXGRJXZpPbuP4ENfvCKC+5TSUW6dMf6kD0jDABSLk9wDRbvCniZ
-        L0LfSDcy67nIXwdo/tJmH/Zehm1CVsSxCcNtosk=
-X-Google-Smtp-Source: APXvYqzw30KS5AwcFDpf0LcS9a3PXLWY+Y8GNLgLcjUUR/GN3NQPfrg4ufmdTSQNpFB1xo7YihEx0iWBm7wFRycE2Oc=
-X-Received: by 2002:a63:798a:: with SMTP id u132mr59871900pgc.203.1582624535612;
- Tue, 25 Feb 2020 01:55:35 -0800 (PST)
+        bh=12J4Dxh+XhShPnFqF0gVzP/G/+ksyPC2hCO7kPNDBLI=;
+        b=EolVeQmB+2vPySZaZSiJ2WjxsDjPDdbUEZIcS5AhSe9gZQcuSk6D0nSQJ7a2kAg/Go
+         h6+SsMuGiaagmnXt/B0RVh2lico98i1yzp3WiexDFRzUx40UGIMo1GJXc/NSOWr4KgRg
+         iZuAzdH9CopR7l/w19kiiTSYTYEYXGNu4il8SsKy8HNqUENiLDXvXBXZFU3Zr1rxDyMk
+         Wu8lGgJnvjt0tyUwIqQ/GG9yJigCM3VJzQSzBFGnWAoa/OxPEkLlbEbxNntHvWKup3oi
+         jCoRu/lb2ynpNjaSwyv72a9mKh22sv6nWCAYJtoPM1WPug0iGxu0+DRjZsngTTjY8L4S
+         2dkA==
+X-Gm-Message-State: APjAAAUqTZlQmU+nyQuBQO6PXue06MPufO83oLtc4jBMiRbT/SC2DR10
+        FWGZOfLYNqR0t9H7Oa5GpdPhyTEsBb9ul6MgnNc=
+X-Google-Smtp-Source: APXvYqyyPThktYRxMm92/qqFIrJhM0G2sMcptnG/lYcePqOC/5g38MfCgOLnn7TJPKPLFaSgzqN8wydbYuug39TYzvk=
+X-Received: by 2002:a17:902:b598:: with SMTP id a24mr53059634pls.262.1582625604524;
+ Tue, 25 Feb 2020 02:13:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20200223181832.17131-1-kristian@klausen.dk> <20200224011017.C5207208C4@mail.kernel.org>
- <e700ebdc-3dce-c151-3ea5-f7ab1e4cb07f@klausen.dk> <CAHp75VcAZZ-d1BQON0ciLoCGt5=1qh4s1jLGhDdApicT+7BEGg@mail.gmail.com>
- <af54a82e-0b9f-1e88-8741-bd4a3658d8e7@klausen.dk>
-In-Reply-To: <af54a82e-0b9f-1e88-8741-bd4a3658d8e7@klausen.dk>
+References: <20200220033335.106963-1-chenzhou10@huawei.com>
+In-Reply-To: <20200220033335.106963-1-chenzhou10@huawei.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 25 Feb 2020 11:55:27 +0200
-Message-ID: <CAHp75VfGkn_oGCNyP=RWo9fHvh8YzEy6e7cDCczJefsq2HMRFw@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the
- first battery is named BATT
-To:     Kristian Klausen <kristian@klausen.dk>
-Cc:     Sasha Levin <sashal@kernel.org>,
+Date:   Tue, 25 Feb 2020 12:13:16 +0200
+Message-ID: <CAHp75Vf3Bsjj+0ebkxMatZfUGDJ=upOHBFHfOs_PDOnFTnRJYQ@mail.gmail.com>
+Subject: Re: [PATCH -next] platform/x86: intel_pmc_core: fix build error
+ without CONFIG_DEBUG_FS
+To:     Chen Zhou <chenzhou10@huawei.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>
+Cc:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Stable <stable@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 11:51 AM Kristian Klausen <kristian@klausen.dk> wrote:
-> On 25.02.2020 10.30, Andy Shevchenko wrote:
-> > On Mon, Feb 24, 2020 at 3:15 AM Kristian Klausen <kristian@klausen.dk> wrote:
-> >> On 24.02.2020 02.10, Sasha Levin wrote:
-> >>> NOTE: The patch will not be queued to stable trees until it is upstream.
-> >>>
-> >>> How should we proceed with this patch?
-> >> The patch should only be applied to the v5.4 and v5.5 trees.
-> > I'm not sure I got this right. Do we have already this change in upstream?
-> > I don't see it there. So, why there is no mention of the v5.6 and
-> > current upstream in above list?
+On Thu, Feb 20, 2020 at 5:40 AM Chen Zhou <chenzhou10@huawei.com> wrote:
 >
-> Sorry about that, my response does not make any sense.
-> The change isn't upstream yet, and should be applied upstream first and
-> the 5.4 and 5.6 tree tree if possible.
+> If CONFIG_DEBUG_FS is n, build fails:
+>
+> drivers/platform/x86/intel_pmc_core.c: In function pmc_core_resume:
+> drivers/platform/x86/intel_pmc_core.c:1327:3: error: implicit declaration of function pmc_core_slps0_display; did you mean pmc_core_is_pc10_failed? [-Werror=implicit-function-declaration]
+>    pmc_core_slps0_display(pmcdev, dev, NULL);
+>       ^~~~~~~~~~~~~~~~~~~~~~
+>
+> Function pmc_core_slps0_display() is responsible for displaying debug
+> registers, which is under CONFIG_DEBUG_FS.
+>
+> Providing the static inline stub whenever CONFIG_DEBUG_FS is disabled
+> to fix this. Function pmc_core_lpm_display() is the same.
 
-The usual pattern is to add Fixes tag and Cc: stable@.
+Thank you for the patch, but I think it's not the right approach.
+Basically we need to move those functions outside of #if
+IS_ENABLED(CONFIG_DEBUG_FS).
+(Move them upper).
 
-> Was I wrong CC'ing stable@vger.kernel.org? (suggested by git send-email
-> due to "Cc: stable@vger.kernel.org")
+Also I have noticed another issue in pmc_core_lpm_display(). It uses
+tgl_lpm_maps directly. It shouldn't.
+
+Cc: Gayatri.
+
+Gayatri, care to fix?
+
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> ---
+>  drivers/platform/x86/intel_pmc_core.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
+> index f4a36fb..939f8e0 100644
+> --- a/drivers/platform/x86/intel_pmc_core.c
+> +++ b/drivers/platform/x86/intel_pmc_core.c
+> @@ -1117,6 +1117,20 @@ static void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
+>         }
+>  }
+>  #else
+> +static inline void pmc_core_slps0_display(struct pmc_dev *pmcdev,
+> +                                          struct device *dev,
+> +                                          struct seq_file *s)
+> +{
+> +}
+> +
+> +static inline void pmc_core_lpm_display(struct pmc_dev *pmcdev,
+> +                                        struct device *dev,
+> +                                        struct seq_file *s, u32 offset,
+> +                                        const char *str,
+> +                                        const struct pmc_bit_map **maps)
+> +{
+> +}
+> +
+>  static inline void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
+>  {
+>  }
+> --
+> 2.7.4
+>
+
 
 -- 
 With Best Regards,
