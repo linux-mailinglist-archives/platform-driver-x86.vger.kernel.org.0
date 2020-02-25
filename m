@@ -2,70 +2,111 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F2916B4AB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Feb 2020 23:56:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D0C116BD19
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2020 10:15:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbgBXW42 (ORCPT
+        id S1726867AbgBYJPG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 24 Feb 2020 17:56:28 -0500
-Received: from mail.stpi.in ([164.164.128.107]:57457 "EHLO mail.stpi.in"
+        Tue, 25 Feb 2020 04:15:06 -0500
+Received: from mail.klausen.dk ([174.138.9.187]:49304 "EHLO mail.klausen.dk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726651AbgBXW41 (ORCPT
+        id S1725783AbgBYJPG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 24 Feb 2020 17:56:27 -0500
-X-Greylist: delayed 744 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Feb 2020 17:56:27 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.stpi.in (Postfix) with ESMTP id BD293C212C;
-        Tue, 25 Feb 2020 04:13:55 +0530 (IST)
-Received: from mail.stpi.in ([127.0.0.1])
-        by localhost (mail.stpi.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id B0XhtqW-IgMl; Tue, 25 Feb 2020 04:13:55 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.stpi.in (Postfix) with ESMTP id 1E30AC21DC;
-        Tue, 25 Feb 2020 04:13:54 +0530 (IST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.stpi.in 1E30AC21DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stpi.in; s=dkim;
-        t=1582584235; bh=Y1PNbyMg86lISbRq6ApZzJqQWvAFR+Owaoo8w/QDh6o=;
-        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
-         Content-Transfer-Encoding;
-        b=I1pwJqt06KTCZ4SBJFE8d3bVfZCwfSAACkzXLMiPHJ9G/91uUkZuXlfIhWqk+tVe3
-         TkjhfmoNod8J3g4b9Sp54OTaKMyDzDrbHj7ZXtXRjGg/9uGa9IwqynyuBerF4ZSwDV
-         DKUlOArKzjoBG5M9bdFShWqsVdwLmOCbQ5DZ36IM=
-X-Virus-Scanned: amavisd-new at stpi.in
-Received: from mail.stpi.in ([127.0.0.1])
-        by localhost (mail.stpi.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mfxw-z69aPEA; Tue, 25 Feb 2020 04:13:53 +0530 (IST)
-Received: from mail.stpi.in (mail.stpi.in [164.164.128.107])
-        by mail.stpi.in (Postfix) with ESMTP id D7A27C212C;
-        Tue, 25 Feb 2020 04:13:31 +0530 (IST)
-Date:   Tue, 25 Feb 2020 04:13:31 +0530 (IST)
-From:   David Johnson <thirupati.yedla@stpi.in>
-Reply-To: David Johnson <johnsondavid57td@gmail.com>
-Message-ID: <1547186098.159306.1582584211798.JavaMail.zimbra@stpi.in>
-Subject: Ich spende fur dich
+        Tue, 25 Feb 2020 04:15:06 -0500
+Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the
+ first battery is named BATT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
+        t=1582622102;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CEpcdcIaX+aTTrlzIoPpc59X01WjPRhI8OhDnKdk8bY=;
+        b=ipXWSSPkb5dPbuS80TuF9sRK7MVJ/uWQVvTYaDpkPR4pAuH/LowcVWlxfPKFUXzW43qbJV
+        CL9MdRhtivMAgFPqiAsDBqQcr0FNULhNX3aPGELN3T9MbWGbz3ge3FUtQ7vF0AdMsfeIlN
+        T82MqQ6r7JO1UxZyoSto3m25YEY3ANw=
+To:     platform-driver-x86@vger.kernel.org
+Cc:     stable@vger.kernel.org
+References: <20200223181832.17131-1-kristian@klausen.dk>
+From:   Kristian Klausen <kristian@klausen.dk>
+Message-ID: <4e447fb1-a8a5-92e1-85be-6c23de20683c@klausen.dk>
+Date:   Tue, 25 Feb 2020 10:15:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [43.241.70.142]
-X-Mailer: Zimbra 8.0.9_GA_6191 (ZimbraWebClient - GC79 (Win)/8.0.9_GA_6191)
-Thread-Topic: Ich spende fur dich
-Thread-Index: YFGr7kzwRJNctto4sI12yG6L+5Ct+g==
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20200223181832.17131-1-kristian@klausen.dk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On 23.02.2020 19.18, Kristian Klausen wrote:
+> The WMI method to set the charge threshold does not provide a
+> way to specific a battery, so we assume it is the first/primary
+> battery (by checking if the name is BAT0).
+> On some newer ASUS laptops (Zenbook UM431DA) though, the
+> primary/first battery isn't named BAT0 but BATT, so we need
+> to support that case.
+>
+> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
+> Cc: stable@vger.kernel.org
+> ---
+> I'm not sure if this is candidate for -stable, it fix a real bug
+> (charge threshold doesn't work on newer ASUS laptops) which has been
+> reported by a user[1], but is that enough?
+> I had a quick look at[2], can this be considered a "something
+> critical"? It "bothers people"[1]. My point: I'm not sure..
+>
+> I'm unsure if there is a bettery way to fix this. Maybe a counter
+> would be better (+1 for every new battery)? It would probably need
+> to be atomic to prevent race condition (I'm not sure how this code
+> is run), but this "fix" is way simpler.
+>
+> Please do not accept this patch just yet, I'm waiting for the tester
+> to either confirm or deny credit[3].
 
+Please add:
+Reported-by: Alberto Gomez Marin
+Tested-by: Alberto Gomez Marin
 
-Guten Tag,
-Mein Name ist David Johnson, Der Gewinner von Zweihundertachtundneunzig Mil=
-lionen Dreihunderttausend US-Dollar ($ 298,300,000).
-Ich komme aus New York, 57 Jahre alt. Dieser Sieg hat mein ganzes Leben ver=
-=C3=A4ndert. Ich m=C3=B6chte dir neunhundertf=C3=BCnfzigtausend Dollar ($ 9=
-50,000) f=C3=BCr wohlt=C3=A4tige Zwecke spenden.
-Kontaktieren Sie mich zur=C3=BCck, um weitere Informationen =C3=BCber meine=
- E-Mail zu erhalten: johnsondavid57td@gmail.com
-Ich w=C3=BCnsche dir einen sch=C3=B6nen Tag.
-David Johnson
+Is a email required? The tester prefer not to disclose his email 
+address[1]. The tester didn't test this exact patch, but the only change 
+is a line break and no parenthesis, so it should be the same[2].
+[1] 
+https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3187929
+[2] 
+https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3185442
+
+>
+> [1] https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3186025
+> [2] https://www.kernel.org/doc/html/v5.5/process/stable-kernel-rules.html
+> [3] https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3186429
+>
+> v2:
+> Add base commit
+> Remove uneeded parenthesis and adjust styling
+>
+>   drivers/platform/x86/asus-wmi.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index 612ef5526226..01becbe2a9a8 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -426,8 +426,11 @@ static int asus_wmi_battery_add(struct power_supply *battery)
+>   {
+>   	/* The WMI method does not provide a way to specific a battery, so we
+>   	 * just assume it is the first battery.
+> +	 * Note: On some newer ASUS laptops (Zenbook UM431DA), the primary/first
+> +	 * battery is named BATT.
+>   	 */
+> -	if (strcmp(battery->desc->name, "BAT0") != 0)
+> +	if (strcmp(battery->desc->name, "BAT0") != 0 &&
+> +	    strcmp(battery->desc->name, "BATT") != 0)
+>   		return -ENODEV;
+>   
+>   	if (device_create_file(&battery->dev,
+>
+> base-commit: 11a48a5a18c63fd7621bb050228cebf13566e4d8
 
