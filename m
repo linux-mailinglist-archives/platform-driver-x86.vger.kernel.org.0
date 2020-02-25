@@ -2,111 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D0C116BD19
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2020 10:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63FCA16BD2F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Feb 2020 10:24:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726867AbgBYJPG (ORCPT
+        id S1728981AbgBYJY2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Feb 2020 04:15:06 -0500
-Received: from mail.klausen.dk ([174.138.9.187]:49304 "EHLO mail.klausen.dk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbgBYJPG (ORCPT
+        Tue, 25 Feb 2020 04:24:28 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46593 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726764AbgBYJY2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Feb 2020 04:15:06 -0500
-Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the
- first battery is named BATT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-        t=1582622102;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CEpcdcIaX+aTTrlzIoPpc59X01WjPRhI8OhDnKdk8bY=;
-        b=ipXWSSPkb5dPbuS80TuF9sRK7MVJ/uWQVvTYaDpkPR4pAuH/LowcVWlxfPKFUXzW43qbJV
-        CL9MdRhtivMAgFPqiAsDBqQcr0FNULhNX3aPGELN3T9MbWGbz3ge3FUtQ7vF0AdMsfeIlN
-        T82MqQ6r7JO1UxZyoSto3m25YEY3ANw=
-To:     platform-driver-x86@vger.kernel.org
-Cc:     stable@vger.kernel.org
-References: <20200223181832.17131-1-kristian@klausen.dk>
-From:   Kristian Klausen <kristian@klausen.dk>
-Message-ID: <4e447fb1-a8a5-92e1-85be-6c23de20683c@klausen.dk>
-Date:   Tue, 25 Feb 2020 10:15:01 +0100
+        Tue, 25 Feb 2020 04:24:28 -0500
+Received: by mail-wr1-f65.google.com with SMTP id j7so1273155wrp.13
+        for <platform-driver-x86@vger.kernel.org>; Tue, 25 Feb 2020 01:24:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=B2Wn7bp8mwDsyKil1xJSYrr5dzE0ECUygFczfDQtiCc=;
+        b=UX/uBkctcPJP7Z9Ef3O9L7Rh8MRawKboHaoXxjT/K66NeGwG0xk3hLaVqNsZib8s2m
+         X5X251q1fKiBr05kj8dAU1xM1nk70DwP0UEVz4cQptIEKTTjTFGM+I6Fp/l2yLHju8Uc
+         b1Y56hmnySg6k0r0yqRIUS+Vbz9zP9Oq2Bka56+o+ZdH05r9+ENl+1C7RwhWreRM/YKX
+         uvALM6Hqi5NPnpd/9wXgl/21UdavNoJjnyfOr7r2wP/SDXRCkM0N7gJdzA2l4onPDIu8
+         FX0Slj6HNRxpG8w1fgeCB/RKyvDj0Hn7z3iNkh7Ky6ft4T9vxNXOvf4PcZElGbN7saqa
+         r7ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=B2Wn7bp8mwDsyKil1xJSYrr5dzE0ECUygFczfDQtiCc=;
+        b=ayDPki1OBCXyD1zGEOZgYW4Sn+4SwL0wYotz8pZlbbNnpY54VJr6G8mU+TZE9AOAET
+         reyq4yE4IVfPuEig1sKHa8YscbGrv7dJn3PYeVIRYQgUX8SevjhJglsBWcGgA8tYgqf5
+         KyRlqMVbGW93mKio71YTN+vekI5bn1Gyi6af9epBbWTRBp5wI3CvruaJFQuiHqw+BE+/
+         O9S88s2mdS4hZJ9ubgP3pwOKSCFVy6FG/K2cKG/M7BGhsMwCa/gxcBRpV8uBcTY0Ijgr
+         +A3v588tvYq6pc8C4e098vBAHkk0u1QYRSYM+AaWvKwi5Bz5aCDqIhv7myGceefbc3sp
+         GmCQ==
+X-Gm-Message-State: APjAAAVEC6uTuKwu61aU/RO98fLGxCWIkc/rbRwUwDwZZpPDBXt2oHBf
+        Ltvf1DhjoMYC3y0nLrwj7PuGrQ==
+X-Google-Smtp-Source: APXvYqyFOfTgV+V6vmdVHCuWMMJUDmnzwi6Ot5XHkHO9FlpDBsFTOAzK2PxOP/WSt92wo2kSTR0qPA==
+X-Received: by 2002:adf:aadb:: with SMTP id i27mr75876977wrc.105.1582622666951;
+        Tue, 25 Feb 2020 01:24:26 -0800 (PST)
+Received: from dell ([2.31.163.122])
+        by smtp.gmail.com with ESMTPSA id a22sm3344132wmd.20.2020.02.25.01.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 01:24:25 -0800 (PST)
+Date:   Tue, 25 Feb 2020 09:24:57 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 11/19] mfd: intel_soc_pmic_bxtwc: Convert to use new
+ SCU IPC API
+Message-ID: <20200225092457.GY3494@dell>
+References: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
+ <20200217131446.32818-12-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200223181832.17131-1-kristian@klausen.dk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200217131446.32818-12-mika.westerberg@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 23.02.2020 19.18, Kristian Klausen wrote:
-> The WMI method to set the charge threshold does not provide a
-> way to specific a battery, so we assume it is the first/primary
-> battery (by checking if the name is BAT0).
-> On some newer ASUS laptops (Zenbook UM431DA) though, the
-> primary/first battery isn't named BAT0 but BATT, so we need
-> to support that case.
->
-> Signed-off-by: Kristian Klausen <kristian@klausen.dk>
-> Cc: stable@vger.kernel.org
+On Mon, 17 Feb 2020, Mika Westerberg wrote:
+
+> Convert the Intel Broxton Whiskey Cover PMIC driver to use the new SCU
+> IPC API. This allows us to get rid of the PMC IPC implementation which
+> is now covered in SCU IPC driver. We drop the error log if the IPC
+> command fails because intel_scu_ipc_dev_command() does that already.
+> 
+> Also move PMIC specific IPC message constants to the PMIC driver from
+> the intel_pmc_ipc.h header.
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
-> I'm not sure if this is candidate for -stable, it fix a real bug
-> (charge threshold doesn't work on newer ASUS laptops) which has been
-> reported by a user[1], but is that enough?
-> I had a quick look at[2], can this be considered a "something
-> critical"? It "bothers people"[1]. My point: I'm not sure..
->
-> I'm unsure if there is a bettery way to fix this. Maybe a counter
-> would be better (+1 for every new battery)? It would probably need
-> to be atomic to prevent race condition (I'm not sure how this code
-> is run), but this "fix" is way simpler.
->
-> Please do not accept this patch just yet, I'm waiting for the tester
-> to either confirm or deny credit[3].
+>  arch/x86/include/asm/intel_pmc_ipc.h |  3 ---
+>  drivers/mfd/intel_soc_pmic_bxtwc.c   | 34 ++++++++++++++--------------
+>  2 files changed, 17 insertions(+), 20 deletions(-)
 
-Please add:
-Reported-by: Alberto Gomez Marin
-Tested-by: Alberto Gomez Marin
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
-Is a email required? The tester prefer not to disclose his email 
-address[1]. The tester didn't test this exact patch, but the only change 
-is a line break and no parenthesis, so it should be the same[2].
-[1] 
-https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3187929
-[2] 
-https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3185442
-
->
-> [1] https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3186025
-> [2] https://www.kernel.org/doc/html/v5.5/process/stable-kernel-rules.html
-> [3] https://gist.github.com/klausenbusk/643f15320ae8997427155c38be13e445#gistcomment-3186429
->
-> v2:
-> Add base commit
-> Remove uneeded parenthesis and adjust styling
->
->   drivers/platform/x86/asus-wmi.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 612ef5526226..01becbe2a9a8 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -426,8 +426,11 @@ static int asus_wmi_battery_add(struct power_supply *battery)
->   {
->   	/* The WMI method does not provide a way to specific a battery, so we
->   	 * just assume it is the first battery.
-> +	 * Note: On some newer ASUS laptops (Zenbook UM431DA), the primary/first
-> +	 * battery is named BATT.
->   	 */
-> -	if (strcmp(battery->desc->name, "BAT0") != 0)
-> +	if (strcmp(battery->desc->name, "BAT0") != 0 &&
-> +	    strcmp(battery->desc->name, "BATT") != 0)
->   		return -ENODEV;
->   
->   	if (device_create_file(&battery->dev,
->
-> base-commit: 11a48a5a18c63fd7621bb050228cebf13566e4d8
-
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
