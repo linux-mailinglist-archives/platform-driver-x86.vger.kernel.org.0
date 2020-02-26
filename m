@@ -2,99 +2,185 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BA1216F82A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Feb 2020 07:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 188F116F99C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Feb 2020 09:33:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgBZGol (ORCPT
+        id S1726764AbgBZIdW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 26 Feb 2020 01:44:41 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46063 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbgBZGol (ORCPT
+        Wed, 26 Feb 2020 03:33:22 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42022 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726425AbgBZIdW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 26 Feb 2020 01:44:41 -0500
-Received: by mail-wr1-f66.google.com with SMTP id v2so463644wrp.12
-        for <platform-driver-x86@vger.kernel.org>; Tue, 25 Feb 2020 22:44:40 -0800 (PST)
+        Wed, 26 Feb 2020 03:33:22 -0500
+Received: by mail-pg1-f193.google.com with SMTP id h8so944249pgs.9;
+        Wed, 26 Feb 2020 00:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=+KPHLK60Od8Tz3at5CtY8IsfsFpWA/aEWA5NAOhb0WU=;
-        b=Qj/tpUstLELK5vv6XqennEvqhI9Dn1aambXr8LWCAJ6RuIMxB4e0WMnhKK5YG/SBdd
-         hByGxHZcQhTwcMBvErtFpZIRGnXN5cjYHubnkEswYSUXOcwaGjaKJyolTBbvUlUbxybe
-         2/mjGV4Oc+ubFZ9mAfVT7rDyiWVJr3Db4gbr64XQc6JXYc9WBJK7L+FiGWITA6ZPIfaz
-         KXCLkXdbt2luMqQsf7MjdoZqzFyrxj0RJ60O+aCRx5ACbZ997AYNKLJYFtSWoMyL8hzn
-         yP6fjO2FqSLFJVwfqlO22iGfHrdfyfvq6IWt1Z7IVFMwUwStXWHe8flFmc80KUMBWT0C
-         cDBQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XqlxF81Ri1fm02o+lsTCsP4GTUvxZgWE/G6mwZn7NMg=;
+        b=OFfWmgW/gYHRAZpBGxkDWL0DtZcua2+xHMA15CCD9P1f899OfOItFHWzBT0bVm10sv
+         nGvy+baVNbXyP/if3rC3KlukKmlFEavseT/069nLGmeHSxbJM8QVFUCnDqvhOkQADZIj
+         uVtkHadsa5YelUuxNRxDDT8u1pT3qIyBQXfstFeq8tWcQoPtIFBviho4E8cj9NlhvaXa
+         5g51dV1hHmsRrHGQr1P/cjYm04Xk7EblzsD/swLpUEqu6+nNWo/zU59m/Vu075NN3l6t
+         JHAG1eiqOAUW8WMdMAZj7TiW2OwPYkjkyFZMxxCJYwHyKpsmnDKSzmBYx4T6VXu+9389
+         AiBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=+KPHLK60Od8Tz3at5CtY8IsfsFpWA/aEWA5NAOhb0WU=;
-        b=dm6SScd5OW4TWJGaMlAj4ckYGWkhFz1vutH4htACmsIRCnvk1jEI/Z3zaPDCWRAyOT
-         oEfra/Ljz86Zanpvhs0HoGeahwzBQRLGruv79a+b1rQ734ucMXZ64eZzA2881PTvblkC
-         naie7CxUwdqqnbI9oYRBbtsR2l/6EQXzoDY4IyR/rg66IORHrrsTd9dbXqSIAkC617S1
-         KFsvLVKvNTMBeElGFQKApvwUM5AuGt9AyICZLzDkXbgyS+lg21QPXIPca3u1KHyUVd8v
-         K3TeSxF0tleRiVytCaI8WOBxrfUIkP/5la1u1cowzYim1G5coqROWJYlracxUQmXGQRf
-         KP3Q==
-X-Gm-Message-State: APjAAAVEc7GC/MHwp0H9GXRxgITwFeEh1+ZK2cmbRkXnvnVKyvKZo44n
-        dg2rEs0D7wMPiL9pFYS8DpOPOszx/Tc=
-X-Google-Smtp-Source: APXvYqzzKWMArtaFbi5nyEZ/y+P8oPK5jIkuzcSZocgxqUWUIHT0bV17ls7m2M7xepaDkZ5R4ou4BQ==
-X-Received: by 2002:a5d:56ca:: with SMTP id m10mr3653907wrw.313.1582699479274;
-        Tue, 25 Feb 2020 22:44:39 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id g25sm8002307wmh.3.2020.02.25.22.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 22:44:38 -0800 (PST)
-Date:   Wed, 26 Feb 2020 06:45:10 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 12/19] mfd: intel_soc_pmic_mrfld: Convert to use new
- SCU IPC API
-Message-ID: <20200226064510.GZ3494@dell>
-References: <20200217131446.32818-1-mika.westerberg@linux.intel.com>
- <20200217131446.32818-13-mika.westerberg@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XqlxF81Ri1fm02o+lsTCsP4GTUvxZgWE/G6mwZn7NMg=;
+        b=eKjaUDQjFowJEOw5M1OUekR1MmyNAN3jPVwmDJCZwqQ4XR3O6og86dPob12qyIlJhc
+         1qst3irNfc5yGIxc8xukOJbuNnsPkRNdSHpBAgMNrCBJaxki2H5nqr3cy34LUn3rMokO
+         X4jhRVbeaaJZEM8YM2bKuKtFFk+Hc74qPUAPntZ0DgelDzhNK8tX4cGb4pYvI2ZH7Lg/
+         R0HInPK55aKzOaUpZM0Kw7ar1Kjiyetcx3cU0BcuGYUFsrzhfRtyTNE3rY5cdwA3GEyw
+         pLzV8ZA79RqD/FiWzB640WNd2aWofeWJXLa8HNvQrbmePe4mrFZd5B2BzIZ9lfF8Pe/1
+         t5Pg==
+X-Gm-Message-State: APjAAAXEOy/BuvX3Zt1lJgJd0cyH9aX/ODGsfDzIC2JgrOYoISgCmavK
+        Bsa1oq5U0tYr34s/3APGM3dz6S5P2y3LHXSchIM=
+X-Google-Smtp-Source: APXvYqxSrK38j0pUinifgPK5b5g707sn/C8uL7DptCzOZtLnjxvEKjEPsB3FOBFYIx3TUnX4UMm3w1N77GYYH6ltC7A=
+X-Received: by 2002:a62:1a09:: with SMTP id a9mr3201886pfa.64.1582706000275;
+ Wed, 26 Feb 2020 00:33:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200217131446.32818-13-mika.westerberg@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200220033335.106963-1-chenzhou10@huawei.com>
+ <CAHp75Vf3Bsjj+0ebkxMatZfUGDJ=upOHBFHfOs_PDOnFTnRJYQ@mail.gmail.com>
+ <BN8PR11MB362069564569B69E42C00086F2ED0@BN8PR11MB3620.namprd11.prod.outlook.com>
+ <BYAPR11MB3624FB3A1FC8F5C43D8F6DC4F2EA0@BYAPR11MB3624.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB3624FB3A1FC8F5C43D8F6DC4F2EA0@BYAPR11MB3624.namprd11.prod.outlook.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 26 Feb 2020 10:33:08 +0200
+Message-ID: <CAHp75VfkZyuu8QZ-Kc+9-yZkD_OUGxzBiXQDAQQ0oKxrJ_KR_w@mail.gmail.com>
+Subject: Re: [PATCH -next] platform/x86: intel_pmc_core: fix build error
+ without CONFIG_DEBUG_FS
+To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Chen Zhou <chenzhou10@huawei.com>,
+        Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
+        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 17 Feb 2020, Mika Westerberg wrote:
+On Wed, Feb 26, 2020 at 3:56 AM Kammela, Gayatri
+<gayatri.kammela@intel.com> wrote:
+> > -----Original Message-----
+> > From: Kammela, Gayatri
+> > Sent: Tuesday, February 25, 2020 9:11 AM
+> > To: Andy Shevchenko <andy.shevchenko@gmail.com>; Chen Zhou
+> > <chenzhou10@huawei.com>
+> > Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>; Somayaji,
+> > Vishwanath <vishwanath.somayaji@intel.com>; Darren Hart
+> > <dvhart@infradead.org>; Andy Shevchenko <andy@infradead.org>;
+> > Platform Driver <platform-driver-x86@vger.kernel.org>; Linux Kernel Mailing
+> > List <linux-kernel@vger.kernel.org>
+> > Subject: RE: [PATCH -next] platform/x86: intel_pmc_core: fix build error
+> > without CONFIG_DEBUG_FS
+> >
+> > > -----Original Message-----
+> > > From: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > > Sent: Tuesday, February 25, 2020 2:13 AM
+> > > To: Chen Zhou <chenzhou10@huawei.com>; Kammela, Gayatri
+> > > <gayatri.kammela@intel.com>
+> > > Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>; Somayaji,
+> > > Vishwanath <vishwanath.somayaji@intel.com>; Darren Hart
+> > > <dvhart@infradead.org>; Andy Shevchenko <andy@infradead.org>;
+> > Platform
+> > > Driver <platform-driver-x86@vger.kernel.org>; Linux Kernel Mailing
+> > > List <linux-kernel@vger.kernel.org>
+> > > Subject: Re: [PATCH -next] platform/x86: intel_pmc_core: fix build
+> > > error without CONFIG_DEBUG_FS
+> > >
+> > > On Thu, Feb 20, 2020 at 5:40 AM Chen Zhou <chenzhou10@huawei.com>
+> > > wrote:
+> > > >
+> > > > If CONFIG_DEBUG_FS is n, build fails:
+> > > >
+> > > > drivers/platform/x86/intel_pmc_core.c: In function pmc_core_resume:
+> > > > drivers/platform/x86/intel_pmc_core.c:1327:3: error: implicit
+> > > > declaration
+> > > of function pmc_core_slps0_display; did you mean
+> > > pmc_core_is_pc10_failed? [-Werror=implicit-function-declaration]
+> > > >    pmc_core_slps0_display(pmcdev, dev, NULL);
+> > > >       ^~~~~~~~~~~~~~~~~~~~~~
+> > > >
+> > > > Function pmc_core_slps0_display() is responsible for displaying
+> > > > debug registers, which is under CONFIG_DEBUG_FS.
+> > > >
+> > > > Providing the static inline stub whenever CONFIG_DEBUG_FS is
+> > > > disabled to fix this. Function pmc_core_lpm_display() is the same.
+> > >
+> > > Thank you for the patch, but I think it's not the right approach.
+> > > Basically we need to move those functions outside of #if
+> > > IS_ENABLED(CONFIG_DEBUG_FS).
+> > > (Move them upper).
+> > Agreed
+> > >
+> > > Also I have noticed another issue in pmc_core_lpm_display(). It uses
+> > > tgl_lpm_maps directly. It shouldn't.
+> > >
+> > > Cc: Gayatri.
+> > >
+> > > Gayatri, care to fix?
+> > Hi Andy, caught this bug in our internal regression too. I will send the patch
+> > shortly. Thanks!
+>
+> Update: Andy, I have 4 small fixes for the patch series merged in for-next branch.
 
-> This converts the Intel Merrifield PMIC driver over the new SCU IPC API
-> where the SCU IPC instance is passed to the functions.
-> 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/mfd/intel_soc_pmic_mrfld.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+I don't see it in the mailing list.
+Please check if you send them correctly.
 
-For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+There are more bug reports coming. We must fix this ASAP.
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+>  I am wondering if I should send the fixup patches or if you drop the patch series from for-next branch, I can send out the new version that includes all these fixes. Please suggest. Thanks!
+>
+> > >
+> > > > Reported-by: Hulk Robot <hulkci@huawei.com>
+> > > > Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> > > > ---
+> > > >  drivers/platform/x86/intel_pmc_core.c | 14 ++++++++++++++
+> > > >  1 file changed, 14 insertions(+)
+> > > >
+> > > > diff --git a/drivers/platform/x86/intel_pmc_core.c
+> > > > b/drivers/platform/x86/intel_pmc_core.c
+> > > > index f4a36fb..939f8e0 100644
+> > > > --- a/drivers/platform/x86/intel_pmc_core.c
+> > > > +++ b/drivers/platform/x86/intel_pmc_core.c
+> > > > @@ -1117,6 +1117,20 @@ static void pmc_core_dbgfs_register(struct
+> > > pmc_dev *pmcdev)
+> > > >         }
+> > > >  }
+> > > >  #else
+> > > > +static inline void pmc_core_slps0_display(struct pmc_dev *pmcdev,
+> > > > +                                          struct device *dev,
+> > > > +                                          struct seq_file *s) { }
+> > > > +
+> > > > +static inline void pmc_core_lpm_display(struct pmc_dev *pmcdev,
+> > > > +                                        struct device *dev,
+> > > > +                                        struct seq_file *s, u32 offset,
+> > > > +                                        const char *str,
+> > > > +                                        const struct pmc_bit_map
+> > > > +**maps) { }
+> > > > +
+> > > >  static inline void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
+> > > > { }
+> > > > --
+> > > > 2.7.4
+> > > >
+> > >
+> > >
+> > > --
+> > > With Best Regards,
+> > > Andy Shevchenko
+
+
+
+--
+With Best Regards,
+Andy Shevchenko
