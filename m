@@ -2,23 +2,24 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2C7E172841
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Feb 2020 20:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57E00172912
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Feb 2020 20:59:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729170AbgB0TAZ (ORCPT
+        id S1730009AbgB0T7M (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Feb 2020 14:00:25 -0500
-Received: from gateway24.websitewelcome.com ([192.185.51.202]:18355 "EHLO
-        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729722AbgB0TAZ (ORCPT
+        Thu, 27 Feb 2020 14:59:12 -0500
+Received: from gateway31.websitewelcome.com ([192.185.144.218]:34306 "EHLO
+        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729594AbgB0T7L (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Feb 2020 14:00:25 -0500
-Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id A6029164E4E
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Feb 2020 13:00:22 -0600 (CST)
+        Thu, 27 Feb 2020 14:59:11 -0500
+X-Greylist: delayed 1304 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Feb 2020 14:59:11 EST
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+        by gateway31.websitewelcome.com (Postfix) with ESMTP id 4906FA7DE3
+        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Feb 2020 13:37:27 -0600 (CST)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id 7OOUjsE6y8vkB7OOUjn9Fx; Thu, 27 Feb 2020 13:00:22 -0600
+        id 7OyNjgBwdXVkQ7OyNj1EJD; Thu, 27 Feb 2020 13:37:27 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
@@ -26,17 +27,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=xPdpr7VCntBNlIVxjaNS2ZZ6lXWwbXtp6xi29Xr5uvI=; b=x+zYLfhO48uDimLs6PXYtacVHc
-        HCdP0gSTVgdU/22FHyocKZNNBjOpoJqRHlFFalgKD55lJKSNm+OmH+M1pFEBBj29qsGzsyZ5K5yFl
-        HxJoLBXhM7Sjo/PLmR5Q5qzmdBRVDaSewshoTn/9FoSTTyqvr5qXgNOhBy2EqaEJl6eTL5EtBMIkG
-        y0d1ssEUixbcf+BMoPYxFc1WAoPn1iCWpea7zR1cHSFimag0PiXawcKRK+59jR8/FQ4rtg02mbHqd
-        gN7dhDHHZqdw58+Q1QJpPUg0xJtND1Vt//At/wUDxcTUwyxrPwuJ8F2IpD8DjAn3lNweMHp6m4WBf
-        opJcoXRg==;
-Received: from [201.162.168.186] (port=16708 helo=[192.168.43.132])
+        bh=4gb8p6d0Mjwo9pk2cCI0J6uw+J2lcrgcJX166Kq0C0g=; b=NEEoLlzYRc2vv6jygUGn0G8FLz
+        UjTdeWzYCPg9IszwezS1wiral1Lw+ZwfCt9E5mdM/LDJAAXrisIX3hWhpbwUtXyiGmAhBaief75/q
+        p8Thl5QB+/3ZLFvYhDNmpTff9OLHcfchBQSqFX4dV/Ep2wgQEi7jdZ47HE3XhdDJrBmLcGr+aQQYh
+        +0xV4oNiW6GmeTDDRuy1xdDWTQGu+7zPAL7M1g5JLk9NNK4huFbG6wo7ga69sNj3qxHbttNwiqgit
+        rqKH16zqmR5vZTx4QzamYVi28XU7Hpr3h6qHb6OPcBBU93VxNTetgsY+JC+2BD9RpbT3jM+dyYCBT
+        5qzz6/zg==;
+Received: from [201.162.169.69] (port=18479 helo=[192.168.43.132])
         by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
         (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1j7OOT-00491K-04; Thu, 27 Feb 2020 13:00:22 -0600
+        id 1j7OyM-0005Cy-BA; Thu, 27 Feb 2020 13:37:27 -0600
 Subject: Re: [PATCH] platform/x86: i2c-multi-instantiate: Replace zero-length
  array with flexible-array member
 To:     Hans de Goede <hdegoede@redhat.com>,
@@ -44,6 +45,8 @@ To:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>
 Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200213005525.GA11420@embeddedor.com>
+ <f8281f16-b47e-41d6-f67b-1300bc5affff@embeddedor.com>
+ <582c09ec-a6aa-72fe-7566-7fb70c156c4d@redhat.com>
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Autocrypt: addr=gustavo@embeddedor.com; keydata=
  xsFNBFssHAwBEADIy3ZoPq3z5UpsUknd2v+IQud4TMJnJLTeXgTf4biSDSrXn73JQgsISBwG
@@ -88,30 +91,30 @@ Autocrypt: addr=gustavo@embeddedor.com; keydata=
  YJWH93PN+ZUh6i6Rd2U/i8jH5WvzR57UeWxE4P8bQc0hNGrUsHQH6bpHV2lbuhDdqo+cM9eh
  GZEO3+gCDFmKrjspZjkJbB5Gadzvts5fcWGOXEvuT8uQSvl+vEL0g6vczsyPBtqoBLa9SNrS
  VtSixD1uOgytAP7RWS474w==
-Message-ID: <f8281f16-b47e-41d6-f67b-1300bc5affff@embeddedor.com>
-Date:   Thu, 27 Feb 2020 13:03:10 -0600
+Message-ID: <50d9bf1b-e8a4-4ca8-ed40-fbbcd297218d@embeddedor.com>
+Date:   Thu, 27 Feb 2020 13:40:17 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200213005525.GA11420@embeddedor.com>
+In-Reply-To: <582c09ec-a6aa-72fe-7566-7fb70c156c4d@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
 X-AntiAbuse: Original Domain - vger.kernel.org
 X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
 X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
-X-Source-IP: 201.162.168.186
+X-Source-IP: 201.162.169.69
 X-Source-L: No
-X-Exim-ID: 1j7OOT-00491K-04
+X-Exim-ID: 1j7OyM-0005Cy-BA
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: ([192.168.43.132]) [201.162.168.186]:16708
+X-Source-Sender: ([192.168.43.132]) [201.162.169.69]:18479
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
+X-Email-Count: 21
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -119,59 +122,77 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi all,
 
-Friendly ping: who can take this?
 
-Thanks
+On 2/27/20 13:01, Hans de Goede wrote:
+> Hi,
+> 
+> 
+> On 2/27/20 8:03 PM, Gustavo A. R. Silva wrote:
+>> Hi all,
+>>
+>> Friendly ping: who can take this?
+> 
+> FWIW, the patch looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+
+Thanks, Hans.
 --
 Gustavo
 
-On 2/12/20 18:55, Gustavo A. R. Silva wrote:
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
+> Regards,
 > 
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
+> Hans
 > 
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
 > 
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
 > 
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
-> 
-> This issue was found with the help of Coccinelle.
-> 
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-> ---
->  drivers/platform/x86/i2c-multi-instantiate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
-> index ffb8d5d1eb5f..6acc8457866e 100644
-> --- a/drivers/platform/x86/i2c-multi-instantiate.c
-> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
-> @@ -28,7 +28,7 @@ struct i2c_inst_data {
->  
->  struct i2c_multi_inst_data {
->  	int num_clients;
-> -	struct i2c_client *clients[0];
-> +	struct i2c_client *clients[];
->  };
->  
->  static int i2c_multi_inst_count(struct acpi_resource *ares, void *data)
+>> On 2/12/20 18:55, Gustavo A. R. Silva wrote:
+>>> The current codebase makes use of the zero-length array language
+>>> extension to the C90 standard, but the preferred mechanism to declare
+>>> variable-length types such as these ones is a flexible array member[1][2],
+>>> introduced in C99:
+>>>
+>>> struct foo {
+>>>          int stuff;
+>>>          struct boo array[];
+>>> };
+>>>
+>>> By making use of the mechanism above, we will get a compiler warning
+>>> in case the flexible array does not occur last in the structure, which
+>>> will help us prevent some kind of undefined behavior bugs from being
+>>> inadvertently introduced[3] to the codebase from now on.
+>>>
+>>> Also, notice that, dynamic memory allocations won't be affected by
+>>> this change:
+>>>
+>>> "Flexible array members have incomplete type, and so the sizeof operator
+>>> may not be applied. As a quirk of the original implementation of
+>>> zero-length arrays, sizeof evaluates to zero."[1]
+>>>
+>>> This issue was found with the help of Coccinelle.
+>>>
+>>> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+>>> [2] https://github.com/KSPP/linux/issues/21
+>>> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+>>>
+>>> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+>>> ---
+>>>   drivers/platform/x86/i2c-multi-instantiate.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+>>> index ffb8d5d1eb5f..6acc8457866e 100644
+>>> --- a/drivers/platform/x86/i2c-multi-instantiate.c
+>>> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
+>>> @@ -28,7 +28,7 @@ struct i2c_inst_data {
+>>>     struct i2c_multi_inst_data {
+>>>       int num_clients;
+>>> -    struct i2c_client *clients[0];
+>>> +    struct i2c_client *clients[];
+>>>   };
+>>>     static int i2c_multi_inst_count(struct acpi_resource *ares, void *data)
+>>>
+>>
 > 
