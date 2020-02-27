@@ -2,192 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55655172295
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Feb 2020 16:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A55EC1724D3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Feb 2020 18:17:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729510AbgB0PxL (ORCPT
+        id S1729704AbgB0RRH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Feb 2020 10:53:11 -0500
-Received: from mga06.intel.com ([134.134.136.31]:10250 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729110AbgB0PxL (ORCPT
+        Thu, 27 Feb 2020 12:17:07 -0500
+Received: from mail-qv1-f68.google.com ([209.85.219.68]:40172 "EHLO
+        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729668AbgB0RRH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Feb 2020 10:53:11 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 07:53:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,492,1574150400"; 
-   d="scan'208";a="230812823"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2020 07:53:08 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 27 Feb 2020 07:53:09 -0800
-Received: from orsmsx606.amr.corp.intel.com (10.22.229.19) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 27 Feb 2020 07:53:09 -0800
-Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
- orsmsx606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 27 Feb 2020 07:53:09 -0800
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (104.47.45.58) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Thu, 27 Feb 2020 07:53:06 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lK7FnAFM+6mUxeiTSBsXuRP/jFynbz4Sif4GAaqlTvDKZnFzX2KQ/fqo9UP35pXs8biayfUsTDxivA1Eq8ln69FtumO1HN9fAzXHobfDJ9a+M4GqEIxnCe/BatymoqoZUpVPPUj+4R7lr69Bm58p+kOtSslQK3BPd+bje5q5W3VgeYG6VKEPsk4AiNFPma0RNeqrT+BG1mub1eAeUDNw0YuIRF9i0PX74VRQkbwhti2QJ7uyKOTkYXmZqzw9CkMmVtCveUJds6VhZ38WVU5gIBtwdLqVs4IVh17xpU+sN+7PP4KS7lWK1yT+Tnx6hQ+NnccNg3mcAgqanpE574Okew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xo5KM/pFQLqrObYxeJLp3dgM2GpyznAEib5TGZAW4nw=;
- b=Lk9lXWUvhIJcjik3BsGUIqUgv/ak7g+kEEjb4UKXHmb0nfXz6eZ+E0AYqSZouQb37CRC8NjCevvES7Fu3WEnPy5gz5AxNLehlklY4BNNEsyn/skvntIVVCYevuT3KRAB6SV2czP8EhuwGL/9PRq7dyZP+7Fh2Cs1rO/ivpdc6NMxTF0JT1bip+f9N0jMSpXP8QssDF/M8kSVLawP3VKhzu+7QGEODRniC1G76SqPLED1mF/qRqHS9zZSAdt24f4c/a+H6brPzAry2B7X5KswwNKGP7hUS/mPasyp8yDBJ8s47XPodgfkc/3AfVQzjL8RePjAFe2DWUD8BpEYun4njQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xo5KM/pFQLqrObYxeJLp3dgM2GpyznAEib5TGZAW4nw=;
- b=k6I+FpxRn8teFtwO/3OrT02kzOwjgR5VOkWe0FLgekJPgWonc785+JTLi4EX/06pF6KbayUIH6l+SKJg6X+gDaiP0qnycBo7cy67E25Hogpgi7LQihWqBodDh81Qr/kfAdzfYOakEzIpdMpQX3OVBotj7tCpzTvR1QIDC6BY11k=
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
- by BYAPR11MB2613.namprd11.prod.outlook.com (2603:10b6:a02:cd::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.25; Thu, 27 Feb
- 2020 15:52:59 +0000
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::d17e:dcc4:4196:87ab]) by BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::d17e:dcc4:4196:87ab%7]) with mapi id 15.20.2772.012; Thu, 27 Feb 2020
- 15:52:59 +0000
-From:   "Kammela, Gayatri" <gayatri.kammela@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
-        "dvhart@infradead.org" <dvhart@infradead.org>,
-        "Westerberg, Mika" <mika.westerberg@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        "Box, David E" <david.e.box@intel.com>
-Subject: RE: [PATCH v1 0/4] platform/x86: intel_pmc_core: Add bug fixes or
- code
-Thread-Topic: [PATCH v1 0/4] platform/x86: intel_pmc_core: Add bug fixes or
- code
-Thread-Index: AQHV7RhQHomQqbAPK0KsSv1d/KuGBqguzj2AgABiWkA=
-Date:   Thu, 27 Feb 2020 15:52:59 +0000
-Message-ID: <BYAPR11MB362461968CAAC427A185AC5CF2EB0@BYAPR11MB3624.namprd11.prod.outlook.com>
-References: <cover.1582770011.git.gayatri.kammela@intel.com>
- <20200227095643.GB1224808@smile.fi.intel.com>
-In-Reply-To: <20200227095643.GB1224808@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=gayatri.kammela@intel.com; 
-x-originating-ip: [134.134.136.201]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4f2db5dc-849a-4616-9fcb-08d7bb9d1ece
-x-ms-traffictypediagnostic: BYAPR11MB2613:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB26134787A3B6B2C802894E42F2EB0@BYAPR11MB2613.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 03264AEA72
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(366004)(346002)(396003)(199004)(189003)(66446008)(66556008)(66476007)(26005)(81166006)(8676002)(64756008)(6916009)(5660300002)(316002)(76116006)(55016002)(81156014)(186003)(66946007)(7696005)(6506007)(478600001)(71200400001)(52536014)(4326008)(54906003)(9686003)(2906002)(53546011)(33656002)(8936002)(966005)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR11MB2613;H:BYAPR11MB3624.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7B8CgwHA4ZpSx40aT2yjjPza/yeQV+HHMGHqJYVqKal/Xx6EZi1c7uMgrZ5zOK3DJmO8wYNyV4RNjzDT2TJ4m4K736UcEaW31nVhRJn7C3rdRZa9it3n8zmSG6zDTsbdtSK77e+Xq4UGoFuhzJXn7IFGsveJ2mov+Lpx+Y1shpXpg7+hJRjtr3U9EVVFO7UK8yJMw0Tb/r+diq940quC53M0q9mRWrjPtFdPV5uin1a6pRzLtTUZWpX1wqSFDSMaZS4JP2eB7o/MoSzKXLbNFpEQcelq2G1PJx6udQbL2FIaRMgEc8UjVix3tjl25NISunAOcIVVvOr+9WKwmLXMZu1m7KFquBi8+ivwPFXzWbPp/0WFoN2427af50zgMYkIsU5XCogbiMHDQxfpOa9mTeF/KtNEmGBOtzTNrGvotYlXB9eW68D9cmWmEsW5+xOoc+UM/OnIS7Wu5zH+QB3yu9Ry2far42hp+swMbiAtx2R4aLkja8CLdmlPHJJDQ88iq0hxK4WVrwrVFWv+9rui/w==
-x-ms-exchange-antispam-messagedata: t/HbVYhZ6i9qMOGlaGdzJeyPr1miWa79OLQMQ1lObju+Kn1tSzXeFVCE8XDYkDnJehiakrrhHCP6U6s3Hdk7qIf/jG9lK+RvZuZnpMxfwWdlDTY9N40UiLnmp74nU6li+yhl7exE4uLvQOPETaF/rg==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 27 Feb 2020 12:17:07 -0500
+Received: by mail-qv1-f68.google.com with SMTP id ea1so1894832qvb.7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Feb 2020 09:17:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ARo9Rla66Kxeu/Z2V78mx/ehDWu077QNPWdzDFxfOJY=;
+        b=dth2WWWZKp9HGsnWrcnEGnyDwu2blK8iDXb8vLMtoeR2VaMJ3fz37+cGHyNAha/rWV
+         dK1sGTg22oiYuz24KPwTF2AS2YzOdqQyu6b+TiUBCYZk9V0zbua+mDMo3YTMUSvN9nIT
+         EMJKHUaXkpfsveCsIHveNriBa6Vtjb0vFsMy7lGIqEqrtAiZ99Xs/sQZQxUbkx1mzgHf
+         AVJsII2Jxg233IpQwYAVVL3i04SYIDZ8pS2nl8aTFh1Sh2y4snmhOeu+kOn7LsejaKvN
+         5rYQfvFElRSnuNIftRZI411+PoKrYCAMkJ59tu4Fy8L8tWs1KfJP0Uu0uqOwYZUWVb/k
+         btJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ARo9Rla66Kxeu/Z2V78mx/ehDWu077QNPWdzDFxfOJY=;
+        b=BpWhn5Q1FpgYy7M+oWiKQJEpuULDtC90emQcjNtcq57aIlfnXkr98MI3XcXL0WiZm4
+         AAqpVUDbA4+xnWDj6ErlfJ4TN4SsneLLDqf7FbE1xX/EoJisYVDZo4U+lc4iZt3ti+D4
+         DZctjdmkf82cDYoxwqM9JM1JvIZS80V2D4NLUAHUFPrdo9822MClQvpC6YIOA7FZVtIn
+         LHz+3BjzCAQJA7MKXQ+3Pmf0LZKIq/1nFsbNhJcB/5dKP+8GRM4C46AYIqlgbwY4sHek
+         VKIMySKvRCqbquZhCjcHIiBdSbBWLqnSWlzT4pcFZPifjqlu5UYNKJiGP3e9IPPwgc4D
+         ReCw==
+X-Gm-Message-State: APjAAAVMA0XM1jWM+3oDfPY8T8HVwtFSwqWJJ3cXLqP2zw0wA9UhGN7M
+        B6QOOH0f5wkRRYbknw/uotR1/A==
+X-Google-Smtp-Source: APXvYqzIGS93ngPFOoj3vliIAB10vgE4M/ehyQsI06gG80887mNylpBqlEfVijkpuc5v919Oz9PGMQ==
+X-Received: by 2002:ad4:5429:: with SMTP id g9mr757799qvt.134.1582823826213;
+        Thu, 27 Feb 2020 09:17:06 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id x14sm3375572qkf.99.2020.02.27.09.17.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Feb 2020 09:17:05 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1j7MmW-0003YD-SC; Thu, 27 Feb 2020 13:17:04 -0400
+Date:   Thu, 27 Feb 2020 13:17:04 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>
+Subject: Re: [PATCH v3 0/7] Allow setting caching mode in arch_add_memory()
+ for P2PDMA
+Message-ID: <20200227171704.GK31668@ziepe.ca>
+References: <20200221182503.28317-1-logang@deltatee.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f2db5dc-849a-4616-9fcb-08d7bb9d1ece
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2020 15:52:59.6412
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pUtmQYATdfQVLAneSvlFnHLP398oEFjdEN69G3HaKMf43tovOx6nS6uEV9WFYOCZB4wUecyPAQqTi8vYhpPnME/OjKrsBgQEtFd7O6Hgd0o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2613
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200221182503.28317-1-logang@deltatee.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Sent: Thursday, February 27, 2020 1:57 AM
-> To: Kammela, Gayatri <gayatri.kammela@intel.com>
-> Cc: platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org;
-> Somayaji, Vishwanath <vishwanath.somayaji@intel.com>;
-> dvhart@infradead.org; Westerberg, Mika <mika.westerberg@intel.com>;
-> peterz@infradead.org; Prestopine, Charles D
-> <charles.d.prestopine@intel.com>; Chen Zhou <chenzhou10@huawei.com>;
-> Box, David E <david.e.box@intel.com>
-> Subject: Re: [PATCH v1 0/4] platform/x86: intel_pmc_core: Add bug fixes o=
-r
-> code
->=20
-> On Wed, Feb 26, 2020 at 06:43:26PM -0800, Gayatri Kammela wrote:
-> > Hi,
-> >
-> > This patch series consists of bug fixes and code optimization for the
-> > series https://patchwork.kernel.org/patch/11365325/
-> >
-> > Patch 1: Make pmc_core_lpm_display() generic Patch 2: Relocate both
-> > pmc_core_slps0_display() and pmc_core_lpm_display() Patch 3: Remove
-> > the duplicate if() condition to create debugfs entry Patch 4: Add back
-> > slp_s0_offset attribute back to tgl_reg_map
->=20
-> Let's do other way around, i.e. patch 2 as a first in the series, so I ma=
-y fix the
-> current (visible) issue.
-
-Hi Andy,  sure I will change the order and send the version 2
-
->=20
-> Then fix the kbuild bot complains and send the rest.
-
-Sure, I will do that. Thanks!
-
->=20
-> >
-> > Gayatri Kammela (4):
-> >   platform/x86: intel_pmc_core: fix: Make pmc_core_lpm_display() generi=
-c
-> >     for platforms that support sub-states
-> >   platform/x86: intel_pmc_core: fix: Relocate pmc_core_slps0_display()
-> >     and pmc_core_lpm_display() to outside of CONFIG_DEBUG_FS
-> >   platform/x86: intel_pmc_core: fix: Remove the duplicate if() to creat=
-e
-> >     debugfs entry for substate_live_status_registers
-> >   platform/x86: intel_pmc_core: fix: Add slp_s0_offset attribute back t=
-o
-> >     tgl_reg_map
-> >
-> >  drivers/platform/x86/intel_pmc_core.c | 131
-> > +++++++++++++-------------
-> >  1 file changed, 66 insertions(+), 65 deletions(-)
-> >
-> > Cc: Chen Zhou <chenzhou10@huawei.com>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: David Box <david.e.box@intel.com>
-> > --
-> > 2.17.1
-> >
->=20
+On Fri, Feb 21, 2020 at 11:24:56AM -0700, Logan Gunthorpe wrote:
+> Hi,
+> 
+> This is v3 of the patchset which cleans up a number of minor issues
+> from the feedback of v2 and rebases onto v5.6-rc2. Additional feedback
+> is welcome.
+> 
+> Thanks,
+> 
+> Logan
+> 
 > --
-> With Best Regards,
-> Andy Shevchenko
->=20
+> 
+> Changes in v3:
+>  * Rebased onto v5.6-rc2
+>  * Rename mhp_modifiers to mhp_params per David with an updated kernel
+>    doc per Dan
+>  * Drop support for s390 per David seeing it does not support
+>    ZONE_DEVICE yet and there was a potential problem with huge pages.
+>  * Added WARN_ON_ONCE in cases where arches recieve non PAGE_KERNEL
+>    parameters
+>  * Collected David and Micheal's Reviewed-By and Acked-by Tags
+> 
+> Changes in v2:
+>  * Rebased onto v5.5-rc5
+>  * Renamed mhp_restrictions to mhp_modifiers and added the pgprot field
+>    to that structure instead of using an argument for
+>    arch_add_memory().
+>  * Add patch to drop the unused flags field in mhp_restrictions
+> 
+> A git branch is available here:
+> 
+> https://github.com/sbates130272/linux-p2pmem remap_pages_cache_v3
+> 
+> --
+> 
+> Currently, the page tables created using memremap_pages() are always
+> created with the PAGE_KERNEL cacheing mode. However, the P2PDMA code
+> is creating pages for PCI BAR memory which should never be accessed
+> through the cache and instead use either WC or UC. This still works in
+> most cases, on x86, because the MTRR registers typically override the
+> caching settings in the page tables for all of the IO memory to be
+> UC-. However, this tends not to work so well on other arches or
+> some rare x86 machines that have firmware which does not setup the
+> MTRR registers in this way.
+> 
+> Instead of this, this series proposes a change to arch_add_memory()
+> to take the pgprot required by the mapping which allows us to
+> explicitly set pagetable entries for P2PDMA memory to WC.
 
+Is there a particular reason why WC was selected here? I thought for
+the p2pdma cases there was no kernel user that touched the memory?
+
+I definitely forsee devices where we want UC instead.
+
+Even so, the whole idea looks like the right direction to me.
+
+Jason
