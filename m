@@ -2,77 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FFE5172C54
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Feb 2020 00:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 275981734F2
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Feb 2020 11:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730179AbgB0XdY (ORCPT
+        id S1726440AbgB1KG3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Feb 2020 18:33:24 -0500
-Received: from mga12.intel.com ([192.55.52.136]:32153 "EHLO mga12.intel.com"
+        Fri, 28 Feb 2020 05:06:29 -0500
+Received: from mga17.intel.com ([192.55.52.151]:51206 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730160AbgB0XdY (ORCPT
+        id S1726400AbgB1KG3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Feb 2020 18:33:24 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
+        Fri, 28 Feb 2020 05:06:29 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Feb 2020 15:33:23 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Feb 2020 02:06:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; 
-   d="scan'208";a="261672777"
-Received: from gayuk-dev-mach.sc.intel.com ([10.3.79.171])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Feb 2020 15:33:23 -0800
-From:   Gayatri Kammela <gayatri.kammela@intel.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, vishwanath.somayaji@intel.com,
-        dvhart@infradead.org, mika.westerberg@intel.com,
-        peterz@infradead.org, charles.d.prestopine@intel.com,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+X-IronPort-AV: E=Sophos;i="5.70,495,1574150400"; 
+   d="scan'208";a="232491608"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Feb 2020 02:06:26 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1j7cXM-005OMX-AT; Fri, 28 Feb 2020 12:06:28 +0200
+Date:   Fri, 28 Feb 2020 12:06:28 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Gayatri Kammela <gayatri.kammela@intel.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vishwanath.somayaji@intel.com, dvhart@infradead.org,
+        mika.westerberg@intel.com, peterz@infradead.org,
+        charles.d.prestopine@intel.com, Chen Zhou <chenzhou10@huawei.com>,
         "David E . Box" <david.e.box@intel.com>
-Subject: [PATCH v2 4/4] platform/x86: intel_pmc_core: fix: Add slp_s0_offset attribute back to tgl_reg_map
-Date:   Thu, 27 Feb 2020 15:29:16 -0800
-Message-Id: <e2a2e6f48ffadf3caf9bfd77679424d1a4238fa0.1582845395.git.gayatri.kammela@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1582845395.git.gayatri.kammela@intel.com>
+Subject: Re: [PATCH v2 2/4] platform/x86: intel_pmc_core: fix: Make
+ pmc_core_lpm_display() generic for platforms that support sub-states
+Message-ID: <20200228100628.GJ1224808@smile.fi.intel.com>
 References: <cover.1582845395.git.gayatri.kammela@intel.com>
-In-Reply-To: <cover.1582845395.git.gayatri.kammela@intel.com>
-References: <cover.1582845395.git.gayatri.kammela@intel.com>
+ <49e90f024d89746d5955331e023231149210917c.1582845395.git.gayatri.kammela@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49e90f024d89746d5955331e023231149210917c.1582845395.git.gayatri.kammela@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-If platforms such as Tiger Lake has sub-states of S0ix, then attributes
-such as slps0_dbg_offset become invalid. But slp_s0_offset is still
-valid as it is used to get the pmcdev_base_addr.
+On Thu, Feb 27, 2020 at 03:29:14PM -0800, Gayatri Kammela wrote:
+> Currently pmc_core_lpm_display() uses array of struct pointers i.e.,
+> tgl_lpm_maps for Tiger Lake directly to iterate through and to get the
+> number of status/live status registers which is hardcoded and cannot
+> be re-used for future platforms that support sub-states. To maintain
+> readability, make pmc_core_lpm_display() generic, so that it can re-used
+> for future platforms.
 
-Hence, add back slp_s0_offset and remove slps0_dbg_offset attributes.
+This patch need more work, see below.
+That said, I would prefer to see it last in the series for next version.
 
-Cc: Chen Zhou <chenzhou10@huawei.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: David E. Box <david.e.box@intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
----
- drivers/platform/x86/intel_pmc_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index f6cc80987257..364a3c4e1c89 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -557,9 +557,9 @@ static const struct pmc_bit_map *tgl_lpm_maps[] = {
- 
- static const struct pmc_reg_map tgl_reg_map = {
- 	.pfear_sts = ext_tgl_pfear_map,
-+	.slp_s0_offset = CNP_PMC_SLP_S0_RES_COUNTER_OFFSET,
- 	.ltr_show_sts = cnp_ltr_show_map,
- 	.msr_sts = msr_map,
--	.slps0_dbg_offset = CNP_PMC_SLPS0_DBG_OFFSET,
- 	.ltr_ignore_offset = CNP_PMC_LTR_IGNORE_OFFSET,
- 	.regmap_length = CNP_PMC_MMIO_REG_LEN,
- 	.ppfear0_offset = CNP_PMC_HOST_PPFEAR0A,
+> +	lpm_regs = kmalloc_array(arr_size, sizeof(*lpm_regs), GFP_KERNEL);
+
+No error check?
+Besides that it is obvious memory leak.
+
+> +	for (index = 0; maps[index]; index++) {
+>  		lpm_regs[index] = pmc_core_reg_read(pmcdev, offset);
+>  		offset += 4;
+>  	}
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
