@@ -2,192 +2,125 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C8591762B1
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 19:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 945C1176319
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 19:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbgCBS3e (ORCPT
+        id S1727388AbgCBSr0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Mar 2020 13:29:34 -0500
-Received: from mga03.intel.com ([134.134.136.65]:59966 "EHLO mga03.intel.com"
+        Mon, 2 Mar 2020 13:47:26 -0500
+Received: from ale.deltatee.com ([207.54.116.67]:56870 "EHLO ale.deltatee.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727413AbgCBS3d (ORCPT
+        id S1726451AbgCBSr0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Mar 2020 13:29:33 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 10:29:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; 
-   d="scan'208";a="233457280"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-  by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2020 10:29:31 -0800
-Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
- ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 2 Mar 2020 10:29:31 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Mon, 2 Mar 2020 10:29:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=efPBPJUAzRXvhOezBpsMTooMficFLx3RVZ2i2tpPiliXU8kgMupvdfSq5moGAt8UWB/81rbbd55RGJgi+8jrrCzNf0kmyNJtRqwfl5tSrVyirg8fh6fkA0fCOZFh7ZYjCEVK4E7v54+OhFG2OzxCCsHOy3UbJLSg6rUhf0Zvwe5zhUN7KM52FTR8yjw9C/saMAwr6r1BAhWcoa/XfrRnMBC+RnkVF7Mtc4z8nT1XTqGz3GzTcoxPlcw94n1ft2bp+4/pUKFGt29coTmKeCojizd9tlfzWGDYoOVrl9d31E0H6YnJ8wUqY4SqNYqwc1d9NkCHO+cqroHExU8eabAKGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RTmJk80nQOgoQmg6DzNFYFG2vI8GlIV9e2IeyAlpGV4=;
- b=C0+g+fvAadojTu0Ro6Ei8Cc4wRqq0GetjWJGq0P21mmwYB/sD1f7MCtIxsf4xeU8H8n69Sfh1886HzsAHbKPYQmpv2mN3ksu+YvXF+ewPIIlHwsWs7EGdy9qbyCNmQ17J8bF1UJi4NcUgyuJad+gVlO1NsnTI3/5gx+6gtsNIZrUDsmpdT22rIAlP54KPXp7cQtaXKoRX2wvnyl+l5W/2DF2eZq4Id5iTPIQyOjobowZRh6iR0g437t6muijEsjGHysr/6ss1MmEVD9nwd+bVza227jNv8GjG3fX1TWCXQvfgX0CdsB4+MM/fuQE6Hb9vslX5Bp0e9nWLJsXgFVmgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RTmJk80nQOgoQmg6DzNFYFG2vI8GlIV9e2IeyAlpGV4=;
- b=L/cWQC2CzBG+XDk5ZUZ4zZqmWwQl8aOaCPfgNcoNeB3mXd2LzaFqmz5uxFM5+jcZknTuOzV8RwoASREw3uu9URi0u2aM21YxbaQY+pwJof6kl9I1Dlk2DHz7zOaBpU2SUM5blKFrIBrMbcNMhqOTrOlvD08WGNe3IW7fSAMVNNo=
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
- by BYAPR11MB3096.namprd11.prod.outlook.com (2603:10b6:a03:8f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Mon, 2 Mar
- 2020 18:29:29 +0000
-Received: from BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::d17e:dcc4:4196:87ab]) by BYAPR11MB3624.namprd11.prod.outlook.com
- ([fe80::d17e:dcc4:4196:87ab%7]) with mapi id 15.20.2772.019; Mon, 2 Mar 2020
- 18:29:29 +0000
-From:   "Kammela, Gayatri" <gayatri.kammela@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
-        "dvhart@infradead.org" <dvhart@infradead.org>,
-        "Westerberg, Mika" <mika.westerberg@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        "Box, David E" <david.e.box@intel.com>
-Subject: RE: [PATCH v3 0/5] platform/x86: intel_pmc_core: Add bug fixes or
- code
-Thread-Topic: [PATCH v3 0/5] platform/x86: intel_pmc_core: Add bug fixes or
- code
-Thread-Index: AQHV8ArQghD0dS6yzkaNkpM4RGGi9qg1Q1OAgABJMxA=
-Date:   Mon, 2 Mar 2020 18:29:29 +0000
-Message-ID: <BYAPR11MB362421570806431752364CD3F2E70@BYAPR11MB3624.namprd11.prod.outlook.com>
-References: <cover.1583093898.git.gayatri.kammela@intel.com>
- <20200302125427.GV1224808@smile.fi.intel.com>
-In-Reply-To: <20200302125427.GV1224808@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=gayatri.kammela@intel.com; 
-x-originating-ip: [134.134.136.208]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 816dbcca-8049-4920-eeb5-08d7bed7a531
-x-ms-traffictypediagnostic: BYAPR11MB3096:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB3096893FF1088B8E55FD5577F2E70@BYAPR11MB3096.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:635;
-x-forefront-prvs: 033054F29A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(39860400002)(366004)(136003)(346002)(396003)(189003)(199004)(9686003)(2906002)(55016002)(6916009)(54906003)(26005)(6506007)(81156014)(81166006)(7696005)(33656002)(8936002)(53546011)(52536014)(186003)(5660300002)(71200400001)(4326008)(966005)(66946007)(66476007)(66556008)(64756008)(478600001)(316002)(66446008)(86362001)(76116006)(8676002);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR11MB3096;H:BYAPR11MB3624.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yOTMLu4wFqk2TOh0Ik2DkhyhO4Zm8cuinLzGMa7XtI5RI0jEYn8G8jRkYwwdA8irLuXXthaDcyXGaBOhK/goqXcTcVsmLTLG76TwdInM9JysX7+gBMp3ThS624PY4HyrM6kgvipTYa5tSs15I9HzoMbHlLnZ/DZN5UhmLLaWS7lIb/lshjgRjvj7+O+sAasdFWH5qA9ii+E1VXq8ZRbqdMZB16SsS1Ex5/o2w2n+ZtTeq9EjZzUSwMUEHue0B7qhW/Otoox1RtlZwDS4xT2CuuQ5MWzzyxam2dAA1Dk4yemThPxo6X12Epnm+rQ37K13lAHd+rScDtXOdN9jZ4eq9xT1ZtJeARv8lxPtWJs8WA+HVLhPeRZ/BdIk8LofKswzQ6+TzhLSlZZJvOOLCR47nKiuS8XNw8mrz37DCVFI7qbHmsVVUg3YKZk/b6jI26fTiMvegwXmzi3fAwLnul43jl+3XGsv5txHdThSp+W8BsONUtn2Ha5hO6barFPhFdBOPZUUhxw3TN3+rxlRSPNVPg==
-x-ms-exchange-antispam-messagedata: Ga2aHfWfLShRx5+TBQB+eIC71qocFVmGBK/DoUJNe3n4lxqOyF6tRgykkd7FMHETazVxuMnBtUD/dKvpHe/jP/w0YpfRN9jQVWzy4Ye3CpTlFCjsEGtTuK1E0upX8D0HWIEW+0zyfJJbhihpT2yvgQ==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 2 Mar 2020 13:47:26 -0500
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.92)
+        (envelope-from <logang@deltatee.com>)
+        id 1j8q54-0005pv-89; Mon, 02 Mar 2020 11:46:19 -0700
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Linux-sh <linux-sh@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org, Linux MM <linux-mm@kvack.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>
+References: <20200221182503.28317-1-logang@deltatee.com>
+ <20200221182503.28317-5-logang@deltatee.com>
+ <CAPcyv4j=bZ5KBPp6PbViERdDe+HZpV_W6qbSJupTNAzyfiK6xg@mail.gmail.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <1be997b0-e17a-5d48-efad-a01d84d5e496@deltatee.com>
+Date:   Mon, 2 Mar 2020 11:46:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 816dbcca-8049-4920-eeb5-08d7bed7a531
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2020 18:29:29.3394
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oeIVNwgoVhZipn3L525KEjwcmZtMjWp+3XMreujVqGD5NJZN7EaqXqx4t9mCBXkKk5KoIl44v27GnnyGczU1aK67OgOIhugX/wA9Zq0X4SU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3096
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAPcyv4j=bZ5KBPp6PbViERdDe+HZpV_W6qbSJupTNAzyfiK6xg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: x86@kernel.org, hpa@zytor.com, ebadger@gigaio.com, peterz@infradead.org, luto@kernel.org, dave.hansen@linux.intel.com, bp@alien8.de, mingo@redhat.com, tglx@linutronix.de, benh@kernel.crashing.org, will@kernel.org, catalin.marinas@arm.com, hch@lst.de, akpm@linux-foundation.org, david@redhat.com, mhocko@kernel.org, linux-mm@kvack.org, platform-driver-x86@vger.kernel.org, linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-ia64@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dan.j.williams@intel.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        SURBL_BLOCKED,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.2
+Subject: Re: [PATCH v3 4/7] x86/mm: Introduce _set_memory_prot()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Sent: Monday, March 2, 2020 4:54 AM
-> To: Kammela, Gayatri <gayatri.kammela@intel.com>
-> Cc: platform-driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org;
-> Somayaji, Vishwanath <vishwanath.somayaji@intel.com>;
-> dvhart@infradead.org; Westerberg, Mika <mika.westerberg@intel.com>;
-> peterz@infradead.org; Prestopine, Charles D
-> <charles.d.prestopine@intel.com>; Chen Zhou <chenzhou10@huawei.com>;
-> Box, David E <david.e.box@intel.com>
-> Subject: Re: [PATCH v3 0/5] platform/x86: intel_pmc_core: Add bug fixes o=
-r
-> code
->=20
-> On Sun, Mar 01, 2020 at 12:44:21PM -0800, Gayatri Kammela wrote:
-> > Hi,
-> >
-> > This patch series consists of bug fixes and code optimization for the
-> > series https://patchwork.kernel.org/patch/11365325/
-> >
->=20
-> I had applied first four, the fifth requires additional work.
-> When send a new version, do it only for last one.
 
-Thanks Andy! I will send the 5th patch alone in new version.
 
->=20
-> > Patch 1: Relocate both pmc_core_slps0_display() and
-> > pmc_core_lpm_display() Patch 2: Remove the duplicate if() condition to
-> > create debugfs entry Patch 3: Add back slp_s0_offset attribute back to
-> > tgl_reg_map Patch 4: Make pmc_core_substate_res_show() generic Patch
-> > 5: Make pmc_core_lpm_display() generic
-> >
-> > Changes since v1:
-> > 1) Changed the order of the patches i.e., patch 2 in v1 is made first i=
-n
-> >    the order for v2.
-> > 2) Fixed the warnings reported by kbuild test robot.
-> >
-> > Changes since v2:
-> > 1) Add "Make pmc_core_substate_res_show() generic" patch to v3.
-> > 2) Fixed the memory leak issue in pmc_core_lpm_display().
-> > 3) Moved patch 2 in v2 to the last in the series in v3.
-> >
-> > Gayatri Kammela (5):
-> >   platform/x86: intel_pmc_core: fix: Relocate pmc_core_slps0_display()
-> >     and pmc_core_lpm_display() to outside of CONFIG_DEBUG_FS
-> >   platform/x86: intel_pmc_core: fix: Remove the duplicate if() to creat=
-e
-> >     debugfs entry for substate_live_status_registers
-> >   platform/x86: intel_pmc_core: fix: Add slp_s0_offset attribute back t=
-o
-> >     tgl_reg_map
-> >   platform/x86: intel_pmc_core: Make pmc_core_substate_res_show()
-> >     generic
-> >   platform/x86: intel_pmc_core: fix: Make pmc_core_lpm_display() generi=
-c
-> >     for platforms that support sub-states
-> >
-> >  drivers/platform/x86/intel_pmc_core.c | 148 +++++++++++++++-----------
-> >  drivers/platform/x86/intel_pmc_core.h |   3 +-
-> >  2 files changed, 85 insertions(+), 66 deletions(-)
-> >
-> > base-commit: 7adb1e8aeeb5d4d88012568b2049599c1a247cf2
-> >
-> > Cc: Chen Zhou <chenzhou10@huawei.com>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: David Box <david.e.box@intel.com>
-> > --
-> > 2.17.1
-> >
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
->=20
+On 2020-02-29 3:33 p.m., Dan Williams wrote:
+> On Fri, Feb 21, 2020 at 10:25 AM Logan Gunthorpe <logang@deltatee.com> wrote:
+>>
+>> For use in the 32bit arch_add_memory() to set the pgprot type of the
+>> memory to add.
+>>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Borislav Petkov <bp@alien8.de>
+>> Cc: "H. Peter Anvin" <hpa@zytor.com>
+>> Cc: x86@kernel.org
+>> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+>> Cc: Andy Lutomirski <luto@kernel.org>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+>> ---
+>>  arch/x86/include/asm/set_memory.h | 1 +
+>>  arch/x86/mm/pat/set_memory.c      | 7 +++++++
+>>  2 files changed, 8 insertions(+)
+>>
+>> diff --git a/arch/x86/include/asm/set_memory.h b/arch/x86/include/asm/set_memory.h
+>> index 64c3dce374e5..0aca959cf9a4 100644
+>> --- a/arch/x86/include/asm/set_memory.h
+>> +++ b/arch/x86/include/asm/set_memory.h
+>> @@ -34,6 +34,7 @@
+>>   * The caller is required to take care of these.
+>>   */
+>>
+>> +int _set_memory_prot(unsigned long addr, int numpages, pgprot_t prot);
+> 
+> I wonder if this should be separated from the naming convention of the
+> other routines because this is only an internal helper for code paths
+> where the prot was established by an upper layer. For example, I
+> expect that the kernel does not want new usages to make the mistake of
+> calling:
+> 
+>    _set_memory_prot(..., pgprot_writecombine(pgprot))
+> 
+> ...instead of
+> 
+>     _set_memory_wc()
+> 
+> I'm thinking just a double underscore rename (__set_memory_prot) and a
+> kerneldoc comment for that  pointing people to use the direct
+> _set_memory_<cachemode> helpers.
 
+Thanks! Will do. Note, though, that even _set_memory_wc() is an internal
+x86-specific function. But the extra comment and underscore still make
+sense.
+
+> With that you can add:
+> 
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> 
