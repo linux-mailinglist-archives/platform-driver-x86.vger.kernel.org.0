@@ -2,32 +2,34 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A37A0175F35
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 457B617601B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 17:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbgCBQHy (ORCPT
+        id S1726872AbgCBQhU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Mar 2020 11:07:54 -0500
-Received: from mga18.intel.com ([134.134.136.126]:48322 "EHLO mga18.intel.com"
+        Mon, 2 Mar 2020 11:37:20 -0500
+Received: from mga02.intel.com ([134.134.136.20]:59458 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726969AbgCBQHy (ORCPT
+        id S1726946AbgCBQhT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Mar 2020 11:07:54 -0500
+        Mon, 2 Mar 2020 11:37:19 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 08:07:52 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 08:37:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; 
-   d="scan'208";a="351570455"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 02 Mar 2020 08:07:47 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 02 Mar 2020 18:07:46 +0200
-Date:   Mon, 2 Mar 2020 18:07:46 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+   d="scan'208";a="233422345"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 02 Mar 2020 08:37:09 -0800
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1j8o46-006J9M-Vu; Mon, 02 Mar 2020 18:37:10 +0200
+Date:   Mon, 2 Mar 2020 18:37:10 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
         Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -41,39 +43,50 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v7 00/19] platform/x86: Rework intel_scu_ipc and
  intel_pmc_ipc drivers
-Message-ID: <20200302160746.GF2540@lahna.fi.intel.com>
+Message-ID: <20200302163710.GI1224808@smile.fi.intel.com>
 References: <20200302133327.55929-1-mika.westerberg@linux.intel.com>
  <20200302142621.GB3494@dell>
  <20200302143803.GI2667@lahna.fi.intel.com>
  <20200302151924.GC3494@dell>
  <20200302154205.GF1224808@smile.fi.intel.com>
  <20200302155716.GD3494@dell>
+ <20200302160746.GF2540@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200302155716.GD3494@dell>
+In-Reply-To: <20200302160746.GF2540@lahna.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 03:57:16PM +0000, Lee Jones wrote:
-> > This series has dependencies to PDx86 (as mentioned in cover letter).
+On Mon, Mar 02, 2020 at 06:07:46PM +0200, Mika Westerberg wrote:
+> On Mon, Mar 02, 2020 at 03:57:16PM +0000, Lee Jones wrote:
+> > > This series has dependencies to PDx86 (as mentioned in cover letter).
+> > > 
+> > > What do you prefer then, me to:
+> > > a) prepare ib from what I have, then you take it followed by me taking your ib, or
+> > > b) take everything and prepare ib for you?
 > > 
-> > What do you prefer then, me to:
-> > a) prepare ib from what I have, then you take it followed by me taking your ib, or
-> > b) take everything and prepare ib for you?
+> > Either would be fine by me.
 > 
-> Either would be fine by me.
+> I would prefer these to go through pdx86 because of the dependency.
+> 
+> > What kind of dependencies are they?  Are they protected by Kconfig
+> > options?  Another way of asking that would be to say, would this set
+> > throw build errors if I tried to apply and build it or would it just
+> > refuse to compile?
+> 
+> They do not apply cleanly because linux-platform-drivers-x86.git/for-next
+> re-organizes Kconfig and Makefile entries. I think they should still
+> build fine, though.
 
-I would prefer these to go through pdx86 because of the dependency.
+So, then it's third possible way, to build this on top of MFD next followed by
+importing an ib to PDx86 with conflict resolution.
 
-> What kind of dependencies are they?  Are they protected by Kconfig
-> options?  Another way of asking that would be to say, would this set
-> throw build errors if I tried to apply and build it or would it just
-> refuse to compile?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-They do not apply cleanly because linux-platform-drivers-x86.git/for-next
-re-organizes Kconfig and Makefile entries. I think they should still
-build fine, though.
+
