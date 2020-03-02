@@ -2,33 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14781175E70
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 16:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E48B7175EDE
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 16:56:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbgCBPmJ (ORCPT
+        id S1727268AbgCBP4o (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Mar 2020 10:42:09 -0500
-Received: from mga09.intel.com ([134.134.136.24]:23080 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727423AbgCBPmI (ORCPT
+        Mon, 2 Mar 2020 10:56:44 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50550 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727117AbgCBP4o (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Mar 2020 10:42:08 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 07:42:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; 
-   d="scan'208";a="351565302"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2020 07:42:04 -0800
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1j8nCn-006IRf-It; Mon, 02 Mar 2020 17:42:05 +0200
-Date:   Mon, 2 Mar 2020 17:42:05 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
+        Mon, 2 Mar 2020 10:56:44 -0500
+Received: by mail-wm1-f66.google.com with SMTP id a5so11820491wmb.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 02 Mar 2020 07:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=b3t9aJpKXeK1YZcEru2kIhftxfshYeOnQjG1qownOxY=;
+        b=ZCsQqhund0Bl0vrZ/HLmfGsxW+P97mm6Y+YzcAOyx3EZrWRw4XooGbDN+QpGa1Ff+t
+         rOU1jPTnvzhZJpv8mVleUEAlwCumB5yvqkGKBZ+Reqzf2gjtxfN6p4nLZdAejZsEFZi8
+         J42O9Dz4ZbEEvFyfXMZB6YRvFfnbL6WDvEX/gJZzYq3HkjXK6UTterIVApuC45TkTFdc
+         RnsE9Gln2hTWvPcFWyUFAyuuuTZvCMALA2vcVfGRaOrMTYGUJ8nyYCpQmE+oX/mucTzO
+         b2IksTI3UbgY1wNEuHSOrKHpUmWNsZxzwSPRmbThfD5UAZjbNkckm3sBD6yAu0gjFWyw
+         D4Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=b3t9aJpKXeK1YZcEru2kIhftxfshYeOnQjG1qownOxY=;
+        b=UmG0qZDvjE6sksn558SiYgaQ3WjEwvBsLln8X7Y+MGOkn1FwDMqmUZJNQ8uBoi4HG3
+         hoi4FLYRJDypZDuvHD0Ic116vsVs6NLdJCnfP5e1xjq/iQadW9n6JB/V0iauP3+IWgev
+         dcV/E42yLVGR9/SvOGW5bSCum+7Pf4V9KRIwdCZCi2BlaI/OcOUyknB59x/I9Otjg6EQ
+         t9kPjOSqEGDb9NB1XkJ4TsptHxKwbjbdTM5EUXyJtfRe4+RB0p5wnqyr0/K5lvbBQ0o6
+         wuaA2BCRAp+lMblpVHyhTBieyn4B+zD50PBe/IaNTFNxtPsxPOsYVUKWER8QPb0EtBJm
+         AqSQ==
+X-Gm-Message-State: ANhLgQ21YLJzo77DBhTThhgRyeE6uWsB25sIzAoIqGpMoSfGRSksWuko
+        Sf5LdeqV4/nRKcypE6di3dhav5CJ3qA=
+X-Google-Smtp-Source: ADFU+vu0GIhLzLXDBquuqbkjLhURd3FsUF9wGfdQaK+BZVVoyVOi2JRI+GBMEtGns797d/283FHtkA==
+X-Received: by 2002:a1c:5f41:: with SMTP id t62mr128259wmb.42.1583164601025;
+        Mon, 02 Mar 2020 07:56:41 -0800 (PST)
+Received: from dell ([2.31.163.122])
+        by smtp.gmail.com with ESMTPSA id o24sm15918154wmh.28.2020.03.02.07.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 07:56:40 -0800 (PST)
+Date:   Mon, 2 Mar 2020 15:57:16 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,88 +65,99 @@ Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v7 00/19] platform/x86: Rework intel_scu_ipc and
  intel_pmc_ipc drivers
-Message-ID: <20200302154205.GF1224808@smile.fi.intel.com>
+Message-ID: <20200302155716.GD3494@dell>
 References: <20200302133327.55929-1-mika.westerberg@linux.intel.com>
  <20200302142621.GB3494@dell>
  <20200302143803.GI2667@lahna.fi.intel.com>
  <20200302151924.GC3494@dell>
+ <20200302154205.GF1224808@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200302151924.GC3494@dell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200302154205.GF1224808@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 03:19:24PM +0000, Lee Jones wrote:
-> On Mon, 02 Mar 2020, Mika Westerberg wrote:
-> > On Mon, Mar 02, 2020 at 02:26:21PM +0000, Lee Jones wrote:
-> > > On Mon, 02 Mar 2020, Mika Westerberg wrote:
+On Mon, 02 Mar 2020, Andy Shevchenko wrote:
 
-> > > > Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
-> > > > IPC communications with minor differences. This duplication does not make
-> > > > much sense so this series reworks the two drivers so that there is only a
-> > > > single implementation of the SCU IPC. In addition to that the API will be
-> > > > updated to take SCU instance pointer as an argument, and most of the
-> > > > callers will be converted to this new API. The old API is left there but
-> > > > the plan is to get rid the callers and then the old API as well (this is
-> > > > something we are working with Andy Shevchenko).
+> On Mon, Mar 02, 2020 at 03:19:24PM +0000, Lee Jones wrote:
+> > On Mon, 02 Mar 2020, Mika Westerberg wrote:
+> > > On Mon, Mar 02, 2020 at 02:26:21PM +0000, Lee Jones wrote:
+> > > > On Mon, 02 Mar 2020, Mika Westerberg wrote:
+> 
+> > > > > Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
+> > > > > IPC communications with minor differences. This duplication does not make
+> > > > > much sense so this series reworks the two drivers so that there is only a
+> > > > > single implementation of the SCU IPC. In addition to that the API will be
+> > > > > updated to take SCU instance pointer as an argument, and most of the
+> > > > > callers will be converted to this new API. The old API is left there but
+> > > > > the plan is to get rid the callers and then the old API as well (this is
+> > > > > something we are working with Andy Shevchenko).
+> > > > > 
+> > > > > The intel_pmc_ipc.c is then moved under MFD which suits better for this
+> > > > > kind of a driver that pretty much sets up the SCU IPC and then creates a
+> > > > > bunch of platform devices for the things sitting behind the PMC. The driver
+> > > > > is renamed to intel_pmc_bxt.c which should follow the existing conventions
+> > > > > under drivers/mfd (and it is only meant for Intel Broxton derivatives).
+> > > > > 
+> > > > > This is on top of platform-driver-x86.git/for-next branch because there is
+> > > > > already some cleanup work queued that re-organizes Kconfig and Makefile
+> > > > > entries.
+> > > > > 
+> > > > > I have tested this on Intel Joule (Broxton-M) board.
+> > > > > 
+> > > > > Changes from v6:
+> > > > > 
+> > > > >   * Added Reviewed-by tag from Andy
+> > > > >   * Expanded PMC, IPC and IA acronyms
+> > > > >   * Drop TCO_DEVICE_NAME, PUNIT_DEVICE_NAME and TELEMETRY_DEVICE_NAME
+> > > > >   * Move struct intel_pmc_dev into include/linux/mfd/intel_pmc_bxt.h
+> > > > >   * Add PMC_DEVICE_MAX to the enum and use it
+> > > > >   * Add kernel-docs for simplecmd_store() and northpeak_store()
+> > > > >   * Use if (ret) return ret; over the ternary operator
+> > > > >   * Drop "This is index X" from comments
+> > > > >   * Use acpi_has_watchdog() to determine whether iTCO_wdt is added or not.
+> > > > >   * Rename intel_scu_ipc_pdata -> intel_scu_ipc_data to make it less
+> > > > >     confusing wrt. platform data for platform drivers.
 > > > > 
-> > > > The intel_pmc_ipc.c is then moved under MFD which suits better for this
-> > > > kind of a driver that pretty much sets up the SCU IPC and then creates a
-> > > > bunch of platform devices for the things sitting behind the PMC. The driver
-> > > > is renamed to intel_pmc_bxt.c which should follow the existing conventions
-> > > > under drivers/mfd (and it is only meant for Intel Broxton derivatives).
-> > > > 
-> > > > This is on top of platform-driver-x86.git/for-next branch because there is
-> > > > already some cleanup work queued that re-organizes Kconfig and Makefile
-> > > > entries.
-> > > > 
-> > > > I have tested this on Intel Joule (Broxton-M) board.
-> > > > 
-> > > > Changes from v6:
-> > > > 
-> > > >   * Added Reviewed-by tag from Andy
-> > > >   * Expanded PMC, IPC and IA acronyms
-> > > >   * Drop TCO_DEVICE_NAME, PUNIT_DEVICE_NAME and TELEMETRY_DEVICE_NAME
-> > > >   * Move struct intel_pmc_dev into include/linux/mfd/intel_pmc_bxt.h
-> > > >   * Add PMC_DEVICE_MAX to the enum and use it
-> > > >   * Add kernel-docs for simplecmd_store() and northpeak_store()
-> > > >   * Use if (ret) return ret; over the ternary operator
-> > > >   * Drop "This is index X" from comments
-> > > >   * Use acpi_has_watchdog() to determine whether iTCO_wdt is added or not.
-> > > >   * Rename intel_scu_ipc_pdata -> intel_scu_ipc_data to make it less
-> > > >     confusing wrt. platform data for platform drivers.
+> > > > Any reason why you've dropped all my tags?
 > > > 
-> > > Any reason why you've dropped all my tags?
+> > > You mean these?
+> > > 
+> > > For my own reference:
+> > >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> > > 
+> > > I wasn't really sure what to do with them. They are not in the normal
+> > > tag format I've seen so I thought you use them yourself somehow to
+> > > manage your mailboxes. I can add them back if needed.
 > > 
-> > You mean these?
+> > Yes, please add them, so I can track them.
 > > 
-> > For my own reference:
-> >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> > It normally means that I plan to take the set through MFD and
+> > subsequently send an immutable pull-request out to the other
+> > Maintainers once all the other Acks have been provided.
 > > 
-> > I wasn't really sure what to do with them. They are not in the normal
-> > tag format I've seen so I thought you use them yourself somehow to
-> > manage your mailboxes. I can add them back if needed.
+> > MFD handles these kinds of cross-subsystem patch-sets often.
 > 
-> Yes, please add them, so I can track them.
+> This series has dependencies to PDx86 (as mentioned in cover letter).
 > 
-> It normally means that I plan to take the set through MFD and
-> subsequently send an immutable pull-request out to the other
-> Maintainers once all the other Acks have been provided.
-> 
-> MFD handles these kinds of cross-subsystem patch-sets often.
+> What do you prefer then, me to:
+> a) prepare ib from what I have, then you take it followed by me taking your ib, or
+> b) take everything and prepare ib for you?
 
-This series has dependencies to PDx86 (as mentioned in cover letter).
+Either would be fine by me.
 
-What do you prefer then, me to:
-a) prepare ib from what I have, then you take it followed by me taking your ib, or
-b) take everything and prepare ib for you?
+What kind of dependencies are they?  Are they protected by Kconfig
+options?  Another way of asking that would be to say, would this set
+throw build errors if I tried to apply and build it or would it just
+refuse to compile?
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
