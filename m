@@ -2,55 +2,31 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72786175E05
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 16:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7453E175E22
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Mar 2020 16:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbgCBPSw (ORCPT
+        id S1726831AbgCBPZc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Mar 2020 10:18:52 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53359 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727335AbgCBPSv (ORCPT
+        Mon, 2 Mar 2020 10:25:32 -0500
+Received: from mga02.intel.com ([134.134.136.20]:54179 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726805AbgCBPZc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Mar 2020 10:18:51 -0500
-Received: by mail-wm1-f65.google.com with SMTP id f15so11643033wml.3
-        for <platform-driver-x86@vger.kernel.org>; Mon, 02 Mar 2020 07:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=FfGCzyuM1FF4tXwyg52CuI8TXntOiqploqh0HUEy4NI=;
-        b=oOewtFw6V0G8S5MMSYcosVIQLSvrp3qra6NujycuyjHpNha1tBZQVpBUHqld1x+246
-         NydllS1/71Y0ECUD9b2V9TY0j6r+WK+qsc66ywF2HZqorS6zRzM7RZnA8rgojs1v5h9p
-         /9nEDscV+WDvV01CBokIGxLmi0mjpY14TCr8XSC8UTCqGX9j2k4VOVPFuJ8GlNhK3FBd
-         bR6d1WPlPFMb9VOdvYIexSHW3CSs/MxLeYo0KgT+YINYC4jSp9k76yKJBO/PRXVlWK3K
-         c+0z80jbJ3cww/W5tIAw48YscF9LqznT9oBbCFB+fPuWCmidPbeVPdN/j08TQ4urmaRY
-         cbbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=FfGCzyuM1FF4tXwyg52CuI8TXntOiqploqh0HUEy4NI=;
-        b=jDoYqmJTCgWjU2mpcJE1Ndy4LbdNJslW/rlxV1CJ19EixyJNqZB0iuNzg9aYdZy7wg
-         CJiPgboO5ISdqnXeJNU935pdl9c+bVkyGWuJ9fT0SwJBWaJvc7tm7qXgyZ4gHk0hUusH
-         hIbIHalCAbBjSgF+oqquSCpYEHSm0gtaRS3X+KINw3yuFEijbKEOXwDasINPxdUst0C8
-         i25oA31FzdALak3ydIIARdqJr7Rw0wcmgT/Rsn1FROy546lHwNsEqekeWLMBFdOhd8ex
-         G9cP30b9IScu2QxXJNicAb3kxz72PuRYBDeM97L4CMGEpKGZDR+8EKDd+OiWTNFxB7An
-         uTqA==
-X-Gm-Message-State: ANhLgQ1yNJ6+mbePw786PPwmIpxBOm376JxiQPslOgne1ruIv5Ia66OI
-        MILuX7cP1BYv8mIPbrjPk8CmUA==
-X-Google-Smtp-Source: ADFU+vubFBZ38Hl4t+bQp7qMPsZlMtvLHJ5es54H4Ae86JjLqb6AYOoYNbKi5zGROrIxX6nKRM8xRA==
-X-Received: by 2002:a1c:791a:: with SMTP id l26mr3876wme.58.1583162329063;
-        Mon, 02 Mar 2020 07:18:49 -0800 (PST)
-Received: from dell ([2.31.163.122])
-        by smtp.gmail.com with ESMTPSA id o16sm13600468wrj.5.2020.03.02.07.18.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 07:18:48 -0800 (PST)
-Date:   Mon, 2 Mar 2020 15:19:24 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+        Mon, 2 Mar 2020 10:25:32 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Mar 2020 07:25:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,507,1574150400"; 
+   d="scan'208";a="351562614"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 02 Mar 2020 07:25:26 -0800
+Received: by lahna (sSMTP sendmail emulation); Mon, 02 Mar 2020 17:25:25 +0200
+Date:   Mon, 2 Mar 2020 17:25:25 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -65,84 +41,32 @@ Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v7 00/19] platform/x86: Rework intel_scu_ipc and
  intel_pmc_ipc drivers
-Message-ID: <20200302151924.GC3494@dell>
+Message-ID: <20200302152525.GB2540@lahna.fi.intel.com>
 References: <20200302133327.55929-1-mika.westerberg@linux.intel.com>
  <20200302142621.GB3494@dell>
  <20200302143803.GI2667@lahna.fi.intel.com>
+ <20200302151924.GC3494@dell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200302143803.GI2667@lahna.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200302151924.GC3494@dell>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 02 Mar 2020, Mika Westerberg wrote:
-
-> On Mon, Mar 02, 2020 at 02:26:21PM +0000, Lee Jones wrote:
-> > On Mon, 02 Mar 2020, Mika Westerberg wrote:
-> > 
-> > > Hi all,
-> > > 
-> > > Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
-> > > IPC communications with minor differences. This duplication does not make
-> > > much sense so this series reworks the two drivers so that there is only a
-> > > single implementation of the SCU IPC. In addition to that the API will be
-> > > updated to take SCU instance pointer as an argument, and most of the
-> > > callers will be converted to this new API. The old API is left there but
-> > > the plan is to get rid the callers and then the old API as well (this is
-> > > something we are working with Andy Shevchenko).
-> > > 
-> > > The intel_pmc_ipc.c is then moved under MFD which suits better for this
-> > > kind of a driver that pretty much sets up the SCU IPC and then creates a
-> > > bunch of platform devices for the things sitting behind the PMC. The driver
-> > > is renamed to intel_pmc_bxt.c which should follow the existing conventions
-> > > under drivers/mfd (and it is only meant for Intel Broxton derivatives).
-> > > 
-> > > This is on top of platform-driver-x86.git/for-next branch because there is
-> > > already some cleanup work queued that re-organizes Kconfig and Makefile
-> > > entries.
-> > > 
-> > > I have tested this on Intel Joule (Broxton-M) board.
-> > > 
-> > > Changes from v6:
-> > > 
-> > >   * Added Reviewed-by tag from Andy
-> > >   * Expanded PMC, IPC and IA acronyms
-> > >   * Drop TCO_DEVICE_NAME, PUNIT_DEVICE_NAME and TELEMETRY_DEVICE_NAME
-> > >   * Move struct intel_pmc_dev into include/linux/mfd/intel_pmc_bxt.h
-> > >   * Add PMC_DEVICE_MAX to the enum and use it
-> > >   * Add kernel-docs for simplecmd_store() and northpeak_store()
-> > >   * Use if (ret) return ret; over the ternary operator
-> > >   * Drop "This is index X" from comments
-> > >   * Use acpi_has_watchdog() to determine whether iTCO_wdt is added or not.
-> > >   * Rename intel_scu_ipc_pdata -> intel_scu_ipc_data to make it less
-> > >     confusing wrt. platform data for platform drivers.
-> > 
-> > Any reason why you've dropped all my tags?
+On Mon, Mar 02, 2020 at 03:19:24PM +0000, Lee Jones wrote:
+> > I wasn't really sure what to do with them. They are not in the normal
+> > tag format I've seen so I thought you use them yourself somehow to
+> > manage your mailboxes. I can add them back if needed.
 > 
-> You mean these?
+> Yes, please add them, so I can track them.
 > 
-> For my own reference:                                                                                                                                                                       
->   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> It normally means that I plan to take the set through MFD and
+> subsequently send an immutable pull-request out to the other
+> Maintainers once all the other Acks have been provided.
 > 
-> I wasn't really sure what to do with them. They are not in the normal
-> tag format I've seen so I thought you use them yourself somehow to
-> manage your mailboxes. I can add them back if needed.
+> MFD handles these kinds of cross-subsystem patch-sets often.
 
-Yes, please add them, so I can track them.
-
-It normally means that I plan to take the set through MFD and
-subsequently send an immutable pull-request out to the other
-Maintainers once all the other Acks have been provided.
-
-MFD handles these kinds of cross-subsystem patch-sets often.
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+OK, thanks for the explanation. I'll re-send with your acks added then.
