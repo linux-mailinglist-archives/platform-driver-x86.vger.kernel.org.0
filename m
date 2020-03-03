@@ -2,84 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D902176F7E
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Mar 2020 07:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 225F117730C
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Mar 2020 10:50:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbgCCGdA (ORCPT
+        id S1727587AbgCCJuJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 3 Mar 2020 01:33:00 -0500
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:40882 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725440AbgCCGdA (ORCPT
+        Tue, 3 Mar 2020 04:50:09 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:33500 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728257AbgCCJuJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 3 Mar 2020 01:33:00 -0500
-Received: by mail-vs1-f68.google.com with SMTP id c18so1661221vsq.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 02 Mar 2020 22:32:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=na7KQLR3x5PuoONbMHDphI0U8+NkHY+U9l/hu64w3TU=;
-        b=eSf5umsyPAIjnaJ4HyJFK/9oh09D4O1YBNJOE3zZzXXTYJ+WynE23jbtqiw8DyFPNF
-         B4PNMP4yq1IZRdSSBw8Ag4UtQnJYPXRa9ETd9WG0WI4h18y0vvH5WL6+kp4vUfD59tI6
-         PKf/1tMmPR6hFqxHC27QV32YDqUQ6qjxrG3sR1E9gRJE7yc+dzvDF7OYLEMe8AJhK7Ig
-         b6PM/J8Zameuv9EXdnggEH0MFEYUM8uDAsfBW4s042USIscCnlUKOanGbj4v2roxAAWm
-         j1DFdJNh/IPFxCWdT+mU43SYH46w8avyJkUa594nH4G6MgyIha94PsYY73WrL1+AGZhZ
-         LlAw==
+        Tue, 3 Mar 2020 04:50:09 -0500
+Received: by mail-wr1-f65.google.com with SMTP id x7so3526953wrr.0;
+        Tue, 03 Mar 2020 01:50:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=na7KQLR3x5PuoONbMHDphI0U8+NkHY+U9l/hu64w3TU=;
-        b=PNWKI9SKr+3I3hQYi7ydOOdZNZ+l28b7CX9Ogp4r6diJVbpkPHcqRgqn45ETHT4+N/
-         BxfElhBydtrMWCYxSSH4rT82J/0dtNu3f4Gz5Iau8YjDVIVV0bzo4o7Mlrlzlj/LaYOe
-         qZDYuo5up1cSedxDAE+BBUY6tkcEXILQgP/oHpKxNCjgb8gGstuJrDrBq/hkngAqfw9F
-         tnefvXfMWBTgJbUKVtdSAFEgkEiKdSs9cSLPMuC8p+yFFDZKNtwsEWfiSAfIxWk38pLd
-         2E5qzSrdJE++OOoIxp6KBwIFqtKPLHXhFq1UcYvKsqHmFZUZCtITU8bqcyY3VQSRcYC1
-         gMbw==
-X-Gm-Message-State: ANhLgQ1JWhefisx6zS7lGhK+NvXyjSQL8z4ersnLDIfZwqH9DEsPbq0t
-        ocns9mOGwBX1G+pCNz197EqLmHYTWNBEtwSr+wU=
-X-Google-Smtp-Source: ADFU+vuymTvJTugSyF9CFbAoK+/QhnLx7jtbvM08PV0UCROULG2Fy3LbH1PJSUomek5Y80Qd8wihtlJgy5fijAKUYuI=
-X-Received: by 2002:a67:dc6:: with SMTP id 189mr76549vsn.214.1583217178749;
- Mon, 02 Mar 2020 22:32:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y99FbCmw9OnfxHbqxZIXhqJVIqMSByuY8qfyzjJA6uY=;
+        b=Wva2l0lshsUmNZAHvot2+xBGKy8fq1fI/WESP5+j/0zs5PaXRZ8zZY1WS6Pje67dCY
+         vC4zgUpCU4klkhX0Et3BgKjtcW1nw+J/tNntOxtp0P0RNxZzXYCUfWe28jxuSz2iSD4w
+         U+Ex/IE+stnDx/INKhKXwm440nXDEElvkwaqjIESVDjhvVCX5DdQa4UzARmLmD/sl43n
+         4tggBCBASYL0OxKRtj0mtu7+qwn5Ix3ZtvwntI6+HXNHd0zXqA7Xq1IvEfmcjkZdxAxs
+         /p7aD/WlUT7Objm+pfMMrw2gqZ9aTFPg7bRApQhk3aswn5lpWnS+fuRN7Pq/dAhWIsln
+         gPCA==
+X-Gm-Message-State: ANhLgQ2UPTryJ6eB7ydECFfnaHkowgGWCc+J95sXCxupOfs8FT/OeChX
+        BmbNLODPGjs4wo5MLbjmEzQ=
+X-Google-Smtp-Source: ADFU+vuwthCqGkSbyuUa0Z+cIz/BhBDMexJ+IcEdZ4dQctXNHctdxSNdlijFijlYre1w0hRSFX3F9Q==
+X-Received: by 2002:a5d:4a10:: with SMTP id m16mr4435706wrq.333.1583229006583;
+        Tue, 03 Mar 2020 01:50:06 -0800 (PST)
+Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
+        by smtp.gmail.com with ESMTPSA id u8sm3096766wmm.15.2020.03.03.01.50.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2020 01:50:05 -0800 (PST)
+Date:   Tue, 3 Mar 2020 10:50:05 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Eric Badger <ebadger@gigaio.com>
+Subject: Re: [PATCH v3 1/7] mm/memory_hotplug: Drop the flags field from
+ struct mhp_restrictions
+Message-ID: <20200303095005.GE4380@dhcp22.suse.cz>
+References: <20200221182503.28317-1-logang@deltatee.com>
+ <20200221182503.28317-2-logang@deltatee.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:371:0:0:0:0:0 with HTTP; Mon, 2 Mar 2020 22:32:58 -0800 (PST)
-Reply-To: abdoul.hassan01@gmail.com
-From:   MR Abdoul Hassan <issa.maho1@gmail.com>
-Date:   Mon, 2 Mar 2020 22:32:58 -0800
-Message-ID: <CAMot+=fyR_XPH-NtER-tg7AXi8C0Rh4zWpum6jGyYQe=gjL8bQ@mail.gmail.com>
-Subject: I want to seek your assistance
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200221182503.28317-2-logang@deltatee.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Greeting to you!!!
-Mr Abdoul Hassan
-abdoul.hassan01@gmail.com
+On Fri 21-02-20 11:24:57, Logan Gunthorpe wrote:
+> This variable is not used anywhere and should therefore be removed
+> from the structure.
+> 
+> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 
-I am Mr Abdoul Hassan. I am working with one of the prime banks in
-Burkina Faso. I have a business proposal which concerns the transfer
-of.of Twenty Two Million and Five Hundred Thousand united state
-dollars ($22.500 000mUSD).into a foreign account. Everything about
-this transaction shall be legally done without any problem. If you are
-interested to help me, I will give you more details as soon as I
-receive your positive response.If you are willing to work with me,
-send me immediately the information listed below.
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-Your   Name=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-Your   Nationality=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-Your  Age=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=
-=80=A6
-Your  Occupation=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-Your Mobile Telephone Line=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-Your Address=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=
-=E2=80=A6=E2=80=A6=E2=80=A6
-Thanks
-Best regards,
-Mr Abdoul Hassan
-abdoul.hassan01@gmail.com
+> ---
+>  include/linux/memory_hotplug.h | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> index f4d59155f3d4..69ff3037528d 100644
+> --- a/include/linux/memory_hotplug.h
+> +++ b/include/linux/memory_hotplug.h
+> @@ -55,11 +55,9 @@ enum {
+>  
+>  /*
+>   * Restrictions for the memory hotplug:
+> - * flags:  MHP_ flags
+>   * altmap: alternative allocator for memmap array
+>   */
+>  struct mhp_restrictions {
+> -	unsigned long flags;
+>  	struct vmem_altmap *altmap;
+>  };
+>  
+> -- 
+> 2.20.1
+
+-- 
+Michal Hocko
+SUSE Labs
