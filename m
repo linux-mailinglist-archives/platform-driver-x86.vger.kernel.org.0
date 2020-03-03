@@ -2,70 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F5A178193
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Mar 2020 20:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0574B17824F
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Mar 2020 20:03:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387791AbgCCSDk (ORCPT
+        id S2387533AbgCCSKV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 3 Mar 2020 13:03:40 -0500
-Received: from mail.klausen.dk ([174.138.9.187]:34792 "EHLO mail.klausen.dk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387656AbgCCSDk (ORCPT
+        Tue, 3 Mar 2020 13:10:21 -0500
+Received: from mail-vk1-f193.google.com ([209.85.221.193]:42279 "EHLO
+        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732520AbgCCSKU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 3 Mar 2020 13:03:40 -0500
-Subject: Re: [PATCH v2] platform/x86: asus-wmi: Support laptops where the
- first battery is named BATT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=klausen.dk; s=dkim;
-        t=1583258618;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8WfyNAp2nRvD8qMrVeP1u5mbnaHpffX7Fwcte0Deqmw=;
-        b=K13YGVaI2OnkhyMHP/5Tdn2LagILJv/fiRmMcTXIHHpI/FsQXFgZ9aiwIk1ma39r3ruMeK
-        1uIh0pQtYhnnRx1GaVSe+qLxxVBLFj1T7e02ioqgQ2CUvs3xB0htPhvi8j0EwNnLwO8X2p
-        bFKZfsSBo/efS3rsmRD+ESotiXCQ2fE=
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Sasha Levin <sashal@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Stable <stable@vger.kernel.org>
-References: <20200223181832.17131-1-kristian@klausen.dk>
- <20200224011017.C5207208C4@mail.kernel.org>
- <e700ebdc-3dce-c151-3ea5-f7ab1e4cb07f@klausen.dk>
- <CAHp75VcAZZ-d1BQON0ciLoCGt5=1qh4s1jLGhDdApicT+7BEGg@mail.gmail.com>
- <af54a82e-0b9f-1e88-8741-bd4a3658d8e7@klausen.dk>
- <CAHp75VfGkn_oGCNyP=RWo9fHvh8YzEy6e7cDCczJefsq2HMRFw@mail.gmail.com>
- <CAHp75VeG0CgORmpsH8q72MAXhgQs29QAXs1w4B4FxReQ01S7dA@mail.gmail.com>
-From:   Kristian Klausen <kristian@klausen.dk>
-Message-ID: <4eeb33dc-0838-2feb-74d4-522fe470256b@klausen.dk>
-Date:   Tue, 3 Mar 2020 19:03:36 +0100
+        Tue, 3 Mar 2020 13:10:20 -0500
+Received: by mail-vk1-f193.google.com with SMTP id c126so1153555vkg.9
+        for <platform-driver-x86@vger.kernel.org>; Tue, 03 Mar 2020 10:10:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=bHeBUSPiHoUbrBV+hl3+/vpnoyGyVGSAGueX0QFcdi3uMApLQ7CuiJU5Bu9vmrpLdq
+         5uO14T88cO9jN5exI5ip7DxCm/83Z8cp64nJK80AXsLt1IdmyRn2hWQ2R6yjaMoXEmtW
+         h9oOreSdUs44J9o2yZfH/UBLYISyBcfx6kflVWUIkgIN1VhIBOpnC0M/KTU/5yWJSAGz
+         fGG5i5rBuqC/+1ZbFdQB02YRytYOH5ooqY4vFwMYyVA4+buWbNObDEiboewJEpe1nonK
+         OFpOqLrPH7zWtF7AOxB6DMwTP4+/voHMipJjn9qbUZ+6EoklRF1iUY5IEpjKgoV1LQCF
+         QvUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=JzoGiuaMMK2ubcHJWvVjEGhvf7ssfBTk6VjQOMBSTDhgCBM8uy3a8v6cjZ2SyAf7of
+         uy+aClUlt4QvpKcwoq8O+UaQaZDdxnLEWOcPEu7fFJAAgS+2hh6r4sBS3XPSpxfLZtVM
+         PcF6ZXAX6u6hNVR8KMtlf4zfEnkjP3CM7IMVLe7isMmBjbxIm1SEoWH/61vOKZ9SwCeT
+         IfZpZtLArpUCFdX8USdQbaMxZhfdjMyycQTfPai4W6GMw+Wtd+7Bgmk2OROZ8SQ4U8UN
+         KUuiDM93d6oVP4SasWLwU76IeggEZ1cqbA4yDnv32S98w+DEQjin9al2eB5u6uFLy1aG
+         FuoQ==
+X-Gm-Message-State: ANhLgQ0XZZBQp3DqIoR88umpar0RNv/+hqp3cSRpdGzTQ63agUl+ouHQ
+        c8L7roPYbCYtLm/ARc4/yyaTrV1HMV+9FES0CsU=
+X-Google-Smtp-Source: ADFU+vu5KpUHXjnd3JvQt09wp+JnXyWVLMBY2VsdsFUzmqBVcWzpHFB7U23a/bK39LvY/cjRBQlqVApXxvE2pbFCtDk=
+X-Received: by 2002:a1f:8d0f:: with SMTP id p15mr3652760vkd.100.1583259019551;
+ Tue, 03 Mar 2020 10:10:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VeG0CgORmpsH8q72MAXhgQs29QAXs1w4B4FxReQ01S7dA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Received: by 2002:ab0:2a59:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:10:18 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <official.dhlexpress@gmail.com>
+Date:   Tue, 3 Mar 2020 19:10:18 +0100
+Message-ID: <CAJ-5BZEDKvaazVaTzGQXA-vgBjBwA7RM2DE4ZKgMm4iDYhx9aw@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-
-On 03.03.2020 15.46, Andy Shevchenko wrote:
-> On Tue, Feb 25, 2020 at 11:55 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
->> On Tue, Feb 25, 2020 at 11:51 AM Kristian Klausen <kristian@klausen.dk> wrote:
-> ...
->
->>> Sorry about that, my response does not make any sense.
->>> The change isn't upstream yet, and should be applied upstream first and
->>> the 5.4 and 5.6 tree tree if possible.
->> The usual pattern is to add Fixes tag and Cc: stable@.
->>
->>> Was I wrong CC'ing stable@vger.kernel.org? (suggested by git send-email
->>> due to "Cc: stable@vger.kernel.org")
-> Kristian, to be clear, I'm waiting for v3 with appropriate tag and Cc
-> list applied.
-
-Oh, I forgot. I just sent a V3 with "Fixes".
-
-
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
