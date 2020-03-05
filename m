@@ -2,333 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47893179F86
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Mar 2020 06:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4960517A395
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Mar 2020 12:03:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725880AbgCEFsI (ORCPT
+        id S1725946AbgCELD1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Mar 2020 00:48:08 -0500
-Received: from mga12.intel.com ([192.55.52.136]:52410 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725875AbgCEFsI (ORCPT
+        Thu, 5 Mar 2020 06:03:27 -0500
+Received: from ulan.pagasa.dost.gov.ph ([202.90.128.205]:44016 "EHLO
+        mailgw.pagasa.dost.gov.ph" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725903AbgCELD1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Mar 2020 00:48:08 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Mar 2020 21:48:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,516,1574150400"; 
-   d="scan'208";a="352283168"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2020 21:48:06 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1j9jMb-000CeN-NE; Thu, 05 Mar 2020 13:48:05 +0800
-Date:   Thu, 05 Mar 2020 13:47:43 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
- 3e8e7eddcee1601d2117b05308486e69cfc0d54b
-Message-ID: <5e60927f.rJ5z/q+T0xf4zx/w%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 5 Mar 2020 06:03:27 -0500
+X-Greylist: delayed 1253 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Mar 2020 06:03:27 EST
+Received: from webmail.pagasa.dost.int ([10.10.11.8])
+        by mailgw.pagasa.dost.gov.ph  with ESMTP id 025AddmJ005748-025AddmL005748
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 5 Mar 2020 18:39:39 +0800
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id CBDD1298138C;
+        Thu,  5 Mar 2020 18:34:20 +0800 (PST)
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id YiZYZ67JlNFy; Thu,  5 Mar 2020 18:34:20 +0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id B094D29813C1;
+        Thu,  5 Mar 2020 18:34:19 +0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 webmail.pagasa.dost.int B094D29813C1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pagasa.dost.gov.ph;
+        s=96B9A03E-48B0-11EA-A7E8-92F42F537CE2; t=1583404459;
+        bh=RC75T5p3JPNk7JUNB+lH0UfaFQO1Ac584gPL3SIL6h8=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=oaFBmoPlWtI5oS2FJnIteNh6mb3tCBxSGiOSlENnkr79jisKkJnf1RaCLvnL0wyub
+         dYb3gdtteJnuUedjX7FZAqYCpj5gUIz+0D9sLO0SCkA9ABEMiZmaEwGJMrWpn5T8qb
+         wtrjt9i9dQ/5mV3rZkNIouSqqtC2cv1fa6CWpC9A=
+X-Virus-Scanned: amavisd-new at pagasa.dost.int
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id sbN_eXw7lB9x; Thu,  5 Mar 2020 18:34:19 +0800 (PST)
+Received: from webmail.pagasa.dost.int (webmail.pagasa.dost.int [10.11.1.8])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id D07C72968B7E;
+        Thu,  5 Mar 2020 18:34:17 +0800 (PST)
+Date:   Thu, 5 Mar 2020 18:34:17 +0800 (PST)
+From:   "Juanito S. Galang" <juanito.galang@pagasa.dost.gov.ph>
+Message-ID: <341580760.3574111.1583404457825.JavaMail.zimbra@pagasa.dost.gov.ph>
+Subject: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.15_GA_3899 (ZimbraWebClient - GC79 (Win)/8.8.15_GA_3895)
+Thread-Index: NCftf7kZC040GDzgMWFJzfmClQ1VYg==
+Thread-Topic: 
+X-FEAS-DKIM: Valid
+Authentication-Results: mailgw.pagasa.dost.gov.ph;
+        dkim=pass header.i=@pagasa.dost.gov.ph
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
-branch HEAD: 3e8e7eddcee1601d2117b05308486e69cfc0d54b  MAINTAINERS: Update entry for Intel Broxton PMC driver
 
-elapsed time: 2253m
 
-configs tested: 275
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-s390                             alldefconfig
-csky                                defconfig
-sh                          rsk7269_defconfig
-sparc64                             defconfig
-mips                              allnoconfig
-m68k                             allmodconfig
-nds32                             allnoconfig
-nios2                         10m50_defconfig
-parisc                generic-64bit_defconfig
-sh                  sh7785lcr_32bit_defconfig
-riscv                             allnoconfig
-ia64                             allmodconfig
-riscv                    nommu_virt_defconfig
-riscv                            allmodconfig
-h8300                    h8300h-sim_defconfig
-i386                              allnoconfig
-i386                             alldefconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-nios2                         3c120_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-alpha                               defconfig
-nds32                               defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-x86_64               randconfig-a001-20200304
-x86_64               randconfig-a002-20200304
-x86_64               randconfig-a003-20200304
-i386                 randconfig-a001-20200304
-i386                 randconfig-a002-20200304
-i386                 randconfig-a003-20200304
-x86_64               randconfig-a001-20200305
-x86_64               randconfig-a002-20200305
-x86_64               randconfig-a003-20200305
-i386                 randconfig-a001-20200305
-i386                 randconfig-a002-20200305
-i386                 randconfig-a003-20200305
-x86_64               randconfig-a001-20200303
-x86_64               randconfig-a002-20200303
-x86_64               randconfig-a003-20200303
-i386                 randconfig-a001-20200303
-i386                 randconfig-a002-20200303
-i386                 randconfig-a003-20200303
-alpha                randconfig-a001-20200303
-m68k                 randconfig-a001-20200303
-mips                 randconfig-a001-20200303
-nds32                randconfig-a001-20200303
-parisc               randconfig-a001-20200303
-riscv                randconfig-a001-20200303
-alpha                randconfig-a001-20200304
-m68k                 randconfig-a001-20200304
-mips                 randconfig-a001-20200304
-nds32                randconfig-a001-20200304
-parisc               randconfig-a001-20200304
-riscv                randconfig-a001-20200304
-alpha                randconfig-a001-20200305
-m68k                 randconfig-a001-20200305
-mips                 randconfig-a001-20200305
-nds32                randconfig-a001-20200305
-parisc               randconfig-a001-20200305
-riscv                randconfig-a001-20200305
-c6x                  randconfig-a001-20200303
-h8300                randconfig-a001-20200303
-microblaze           randconfig-a001-20200303
-nios2                randconfig-a001-20200303
-sparc64              randconfig-a001-20200303
-c6x                  randconfig-a001-20200304
-h8300                randconfig-a001-20200304
-microblaze           randconfig-a001-20200304
-nios2                randconfig-a001-20200304
-sparc64              randconfig-a001-20200304
-c6x                  randconfig-a001-20200305
-h8300                randconfig-a001-20200305
-microblaze           randconfig-a001-20200305
-nios2                randconfig-a001-20200305
-sparc64              randconfig-a001-20200305
-csky                 randconfig-a001-20200304
-openrisc             randconfig-a001-20200304
-s390                 randconfig-a001-20200304
-sh                   randconfig-a001-20200304
-xtensa               randconfig-a001-20200304
-csky                 randconfig-a001-20200303
-openrisc             randconfig-a001-20200303
-s390                 randconfig-a001-20200303
-sh                   randconfig-a001-20200303
-xtensa               randconfig-a001-20200303
-x86_64               randconfig-b001-20200304
-x86_64               randconfig-b002-20200304
-x86_64               randconfig-b003-20200304
-i386                 randconfig-b001-20200304
-i386                 randconfig-b002-20200304
-i386                 randconfig-b003-20200304
-x86_64               randconfig-b001-20200305
-x86_64               randconfig-b002-20200305
-x86_64               randconfig-b003-20200305
-i386                 randconfig-b001-20200305
-i386                 randconfig-b002-20200305
-i386                 randconfig-b003-20200305
-x86_64               randconfig-b001-20200303
-x86_64               randconfig-b002-20200303
-x86_64               randconfig-b003-20200303
-i386                 randconfig-b001-20200303
-i386                 randconfig-b002-20200303
-i386                 randconfig-b003-20200303
-x86_64               randconfig-c001-20200303
-x86_64               randconfig-c002-20200303
-x86_64               randconfig-c003-20200303
-i386                 randconfig-c001-20200303
-i386                 randconfig-c002-20200303
-i386                 randconfig-c003-20200303
-x86_64               randconfig-c001-20200305
-x86_64               randconfig-c002-20200305
-x86_64               randconfig-c003-20200305
-i386                 randconfig-c001-20200305
-i386                 randconfig-c002-20200305
-i386                 randconfig-c003-20200305
-x86_64               randconfig-c001-20200304
-x86_64               randconfig-c002-20200304
-x86_64               randconfig-c003-20200304
-i386                 randconfig-c001-20200304
-i386                 randconfig-c002-20200304
-i386                 randconfig-c003-20200304
-x86_64               randconfig-d001-20200304
-x86_64               randconfig-d002-20200304
-x86_64               randconfig-d003-20200304
-i386                 randconfig-d001-20200304
-i386                 randconfig-d002-20200304
-i386                 randconfig-d003-20200304
-x86_64               randconfig-d001-20200303
-x86_64               randconfig-d002-20200303
-x86_64               randconfig-d003-20200303
-i386                 randconfig-d001-20200303
-i386                 randconfig-d002-20200303
-i386                 randconfig-d003-20200303
-x86_64               randconfig-e001-20200303
-x86_64               randconfig-e002-20200303
-x86_64               randconfig-e003-20200303
-i386                 randconfig-e001-20200303
-i386                 randconfig-e002-20200303
-i386                 randconfig-e003-20200303
-x86_64               randconfig-e001-20200304
-x86_64               randconfig-e002-20200304
-x86_64               randconfig-e003-20200304
-i386                 randconfig-e001-20200304
-i386                 randconfig-e002-20200304
-i386                 randconfig-e003-20200304
-x86_64               randconfig-e001-20200305
-x86_64               randconfig-e002-20200305
-x86_64               randconfig-e003-20200305
-i386                 randconfig-e001-20200305
-i386                 randconfig-e002-20200305
-i386                 randconfig-e003-20200305
-x86_64               randconfig-f001-20200304
-x86_64               randconfig-f002-20200304
-x86_64               randconfig-f003-20200304
-i386                 randconfig-f001-20200304
-i386                 randconfig-f002-20200304
-i386                 randconfig-f003-20200304
-x86_64               randconfig-f001-20200303
-x86_64               randconfig-f002-20200303
-x86_64               randconfig-f003-20200303
-i386                 randconfig-f001-20200303
-i386                 randconfig-f002-20200303
-i386                 randconfig-f003-20200303
-x86_64               randconfig-g001-20200304
-x86_64               randconfig-g002-20200304
-x86_64               randconfig-g003-20200304
-i386                 randconfig-g001-20200304
-i386                 randconfig-g002-20200304
-i386                 randconfig-g003-20200304
-i386                 randconfig-g003-20200303
-x86_64               randconfig-g003-20200303
-i386                 randconfig-g001-20200303
-x86_64               randconfig-g001-20200303
-x86_64               randconfig-g002-20200303
-i386                 randconfig-g002-20200303
-x86_64               randconfig-h001-20200303
-x86_64               randconfig-h002-20200303
-x86_64               randconfig-h003-20200303
-i386                 randconfig-h001-20200303
-i386                 randconfig-h002-20200303
-i386                 randconfig-h003-20200303
-x86_64               randconfig-h001-20200304
-x86_64               randconfig-h002-20200304
-x86_64               randconfig-h003-20200304
-i386                 randconfig-h001-20200304
-i386                 randconfig-h002-20200304
-i386                 randconfig-h003-20200304
-x86_64               randconfig-h001-20200305
-x86_64               randconfig-h002-20200305
-x86_64               randconfig-h003-20200305
-i386                 randconfig-h001-20200305
-i386                 randconfig-h002-20200305
-i386                 randconfig-h003-20200305
-arc                  randconfig-a001-20200303
-sparc                randconfig-a001-20200303
-ia64                 randconfig-a001-20200303
-arm                  randconfig-a001-20200303
-arm64                randconfig-a001-20200303
-powerpc              randconfig-a001-20200303
-arc                  randconfig-a001-20200304
-arm                  randconfig-a001-20200304
-arm64                randconfig-a001-20200304
-ia64                 randconfig-a001-20200304
-powerpc              randconfig-a001-20200304
-sparc                randconfig-a001-20200304
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Herzlichen Gl=C3=BCckwunsch Lieber Beg=C3=BCnstigter,Sie erhalten diese E-M=
+ail von der Robert Bailey Foundation. Ich bin ein pensionierter Regierungsa=
+ngestellter aus Harlem und ein Gewinner des Powerball Lottery Jackpot im We=
+rt von 343,8 Millionen US-Dollar. Ich bin der gr=C3=B6=C3=9Fte Jackpot-Gewi=
+nner in der Geschichte der New Yorker Lotterie im US-Bundesstaat Amerika. I=
+ch habe diese Lotterie am 27. Oktober 2018 gewonnen und m=C3=B6chte Sie dar=
+=C3=BCber informieren, dass Google in Zusammenarbeit mit Microsoft Ihre "E-=
+Mail-Adresse" auf meine Bitte, einen Spendenbetrag von 3.000.000,00 Million=
+en Euro zu erhalten, =C3=BCbermittelt hat. Ich spende diese 3 Millionen Eur=
+o an Sie, um den Wohlt=C3=A4tigkeitsheimen und armen Menschen in Ihrer Geme=
+inde zu helfen, damit wir die Welt f=C3=BCr alle verbessern k=C3=B6nnen.Wei=
+tere Informationen finden Sie auf der folgenden Website, damit Sie nicht sk=
+eptisch sind
+Diese Spende von 3 Mio. EUR.https://nypost.com/2018/11/14/meet-the-winner-o=
+f-the-biggest-lottery-jackpot-in-new-york-history/Sie k=C3=B6nnen auch mein=
+ YouTube f=C3=BCr mehr Best=C3=A4tigung aufpassen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte beachten Sie, dass alle Antworten an (robertdonation7@gmail.com=C2=A0=
+ ) gesendet werden, damit wir das k=C3=B6nnen
+Fahren Sie fort, um das gespendete Geld an Sie zu =C3=BCberweisen.E-Mail: r=
+obertdonation7@gmail.comFreundliche Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
+Powerball Jackpot Gewinner
