@@ -2,105 +2,333 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E62BA179D59
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Mar 2020 02:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47893179F86
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Mar 2020 06:48:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725838AbgCEBc6 (ORCPT
+        id S1725880AbgCEFsI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Mar 2020 20:32:58 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38181 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbgCEBc6 (ORCPT
+        Thu, 5 Mar 2020 00:48:08 -0500
+Received: from mga12.intel.com ([192.55.52.136]:52410 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725875AbgCEFsI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Mar 2020 20:32:58 -0500
-Received: by mail-lj1-f194.google.com with SMTP id w1so4202766ljh.5
-        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Mar 2020 17:32:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4HMQNCh8vMtS8huYgq84r8uqSM6EgoeBWcfhHoxj7sA=;
-        b=IbscVJ4P70dNoJjjSR0QiV/DyYCq0hXkFodHCfvHSxBXyWsHSZDZVJYNFDKigPj3pa
-         /FSMSZQxoZ/t/FqRwj6NlivaAFdFFpyI1SJKTu641gQhaIAC3YWjxmAgttClTiN5dqhf
-         ygGh6rSsQgCs/kJDBUiulDZKftNDr9hn5nR7sQDEVKitG2bDUQmKhjn4P4jzuJClcyLS
-         v3CULB+B/zhm1+0QmZcuseDR/X4PHSQQyIciQum5yjkZn656il4KIfbe9V/9mdZotVqk
-         ikRJxdhyBI6yU2XE9+3fS/4YsEp+Srpz0YpR4hplPmyYJcMqmeqttkV477ENMM0UMb0w
-         uvdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4HMQNCh8vMtS8huYgq84r8uqSM6EgoeBWcfhHoxj7sA=;
-        b=bsuu7eUJ8uX4urE2oE9PJdfInRqGc+6y9W+8WYLkEZylA1jt4X0jsjDShAi5/pReqZ
-         k0fh4W8rcUMGf4p+/0p1F661VK7GFbWDsv5KcJB5dUjqOcKA2P8HOeB9c/hZULSoUwbi
-         Momz0q3VD4M1IMH9wTieikzUo5IzyuulEhx12EaPnRqnIzn3ZWj4ZsorwEnlmqNQ9/br
-         F5JKrofkqdDS4NzBcU3xvQs4pNDAWYpijwvgll8aPz3udORdEp9Hy/Pfc2LoFBxlHHt+
-         qn5ksVdPItf7UoLLWPK82Vy114YG2Pmwxv9VXANW4eTu5BHha3KleLG21NGQknuBFT/R
-         WV1Q==
-X-Gm-Message-State: ANhLgQ1GKNiuNHv4UABAG5V9QIzm9Y1ZMm2NWgMeootiUNCTySUvZw18
-        9ulGW719EFlZHNxB2s9+5jFRGaZqvPa4HxdCIwX1Xg==
-X-Google-Smtp-Source: ADFU+vsibVaPx3bCAeKU5DVQeMFImZ4CyqmQaagmYYNUnD0GWRvQYDrsCxTC7PSAw+0kuQYYjGN6XW79WiaDgbR0B78=
-X-Received: by 2002:a2e:6a09:: with SMTP id f9mr3438236ljc.107.1583371975482;
- Wed, 04 Mar 2020 17:32:55 -0800 (PST)
+        Thu, 5 Mar 2020 00:48:08 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Mar 2020 21:48:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,516,1574150400"; 
+   d="scan'208";a="352283168"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2020 21:48:06 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1j9jMb-000CeN-NE; Thu, 05 Mar 2020 13:48:05 +0800
+Date:   Thu, 05 Mar 2020 13:47:43 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
+ 3e8e7eddcee1601d2117b05308486e69cfc0d54b
+Message-ID: <5e60927f.rJ5z/q+T0xf4zx/w%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200220074637.7578-1-njoshi1@lenovo.com> <CAHp75VcJmEOu1-b7F2UAsv=Gujb=pPLzjz2ye9t4=Q68+ors-w@mail.gmail.com>
- <HK2PR0302MB25937E2946BF38583B3A905DBD130@HK2PR0302MB2593.apcprd03.prod.outlook.com>
- <CACK8Z6GwuOnJUUscriGwKWGBp5PFKyuqUkFYC8tEXa0UEuEZww@mail.gmail.com> <87r1yoxgwg.fsf@intel.com>
-In-Reply-To: <87r1yoxgwg.fsf@intel.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Wed, 4 Mar 2020 17:32:19 -0800
-Message-ID: <CACK8Z6EG7gX0ehMpmnFeu4bS_qF8L1dKnHGwMRY=HOv6K39VHw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] thinkpad_acpi: Add sysfs entry for
- lcdshadow feature
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Mark Pearson <mpearson@lenovo.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Nitin Joshi <nitjoshi@gmail.com>,
-        Mat King <mathewk@google.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Nitin Joshi1 <njoshi1@lenovo.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 4:29 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Thu, 20 Feb 2020, Rajat Jain <rajatja@google.com> wrote:
-> > Jani, I'm waiting on your inputs here
-> > https://lkml.org/lkml/2020/1/24/1932 in order to send the next
-> > iteration of my patch. Can you please let me know if you have any
-> > comments.
->
-> Yikes, sorry, I didn't realize you were still waiting for my input. :(
+tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
+branch HEAD: 3e8e7eddcee1601d2117b05308486e69cfc0d54b  MAINTAINERS: Update entry for Intel Broxton PMC driver
 
+elapsed time: 2253m
 
-Hi Jani,
+configs tested: 275
+configs skipped: 0
 
-I have posted a new iteration of my patchset at:
-https://patchwork.freedesktop.org/series/74299/
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I'd appreciate if you could please take a look and provide any comments.
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+s390                             alldefconfig
+csky                                defconfig
+sh                          rsk7269_defconfig
+sparc64                             defconfig
+mips                              allnoconfig
+m68k                             allmodconfig
+nds32                             allnoconfig
+nios2                         10m50_defconfig
+parisc                generic-64bit_defconfig
+sh                  sh7785lcr_32bit_defconfig
+riscv                             allnoconfig
+ia64                             allmodconfig
+riscv                    nommu_virt_defconfig
+riscv                            allmodconfig
+h8300                    h8300h-sim_defconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+nios2                         3c120_defconfig
+c6x                        evmc6678_defconfig
+xtensa                          iss_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+alpha                               defconfig
+nds32                               defconfig
+h8300                       h8s-sim_defconfig
+h8300                     edosk2674_defconfig
+m68k                       m5475evb_defconfig
+m68k                           sun3_defconfig
+m68k                          multi_defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+x86_64               randconfig-a001-20200304
+x86_64               randconfig-a002-20200304
+x86_64               randconfig-a003-20200304
+i386                 randconfig-a001-20200304
+i386                 randconfig-a002-20200304
+i386                 randconfig-a003-20200304
+x86_64               randconfig-a001-20200305
+x86_64               randconfig-a002-20200305
+x86_64               randconfig-a003-20200305
+i386                 randconfig-a001-20200305
+i386                 randconfig-a002-20200305
+i386                 randconfig-a003-20200305
+x86_64               randconfig-a001-20200303
+x86_64               randconfig-a002-20200303
+x86_64               randconfig-a003-20200303
+i386                 randconfig-a001-20200303
+i386                 randconfig-a002-20200303
+i386                 randconfig-a003-20200303
+alpha                randconfig-a001-20200303
+m68k                 randconfig-a001-20200303
+mips                 randconfig-a001-20200303
+nds32                randconfig-a001-20200303
+parisc               randconfig-a001-20200303
+riscv                randconfig-a001-20200303
+alpha                randconfig-a001-20200304
+m68k                 randconfig-a001-20200304
+mips                 randconfig-a001-20200304
+nds32                randconfig-a001-20200304
+parisc               randconfig-a001-20200304
+riscv                randconfig-a001-20200304
+alpha                randconfig-a001-20200305
+m68k                 randconfig-a001-20200305
+mips                 randconfig-a001-20200305
+nds32                randconfig-a001-20200305
+parisc               randconfig-a001-20200305
+riscv                randconfig-a001-20200305
+c6x                  randconfig-a001-20200303
+h8300                randconfig-a001-20200303
+microblaze           randconfig-a001-20200303
+nios2                randconfig-a001-20200303
+sparc64              randconfig-a001-20200303
+c6x                  randconfig-a001-20200304
+h8300                randconfig-a001-20200304
+microblaze           randconfig-a001-20200304
+nios2                randconfig-a001-20200304
+sparc64              randconfig-a001-20200304
+c6x                  randconfig-a001-20200305
+h8300                randconfig-a001-20200305
+microblaze           randconfig-a001-20200305
+nios2                randconfig-a001-20200305
+sparc64              randconfig-a001-20200305
+csky                 randconfig-a001-20200304
+openrisc             randconfig-a001-20200304
+s390                 randconfig-a001-20200304
+sh                   randconfig-a001-20200304
+xtensa               randconfig-a001-20200304
+csky                 randconfig-a001-20200303
+openrisc             randconfig-a001-20200303
+s390                 randconfig-a001-20200303
+sh                   randconfig-a001-20200303
+xtensa               randconfig-a001-20200303
+x86_64               randconfig-b001-20200304
+x86_64               randconfig-b002-20200304
+x86_64               randconfig-b003-20200304
+i386                 randconfig-b001-20200304
+i386                 randconfig-b002-20200304
+i386                 randconfig-b003-20200304
+x86_64               randconfig-b001-20200305
+x86_64               randconfig-b002-20200305
+x86_64               randconfig-b003-20200305
+i386                 randconfig-b001-20200305
+i386                 randconfig-b002-20200305
+i386                 randconfig-b003-20200305
+x86_64               randconfig-b001-20200303
+x86_64               randconfig-b002-20200303
+x86_64               randconfig-b003-20200303
+i386                 randconfig-b001-20200303
+i386                 randconfig-b002-20200303
+i386                 randconfig-b003-20200303
+x86_64               randconfig-c001-20200303
+x86_64               randconfig-c002-20200303
+x86_64               randconfig-c003-20200303
+i386                 randconfig-c001-20200303
+i386                 randconfig-c002-20200303
+i386                 randconfig-c003-20200303
+x86_64               randconfig-c001-20200305
+x86_64               randconfig-c002-20200305
+x86_64               randconfig-c003-20200305
+i386                 randconfig-c001-20200305
+i386                 randconfig-c002-20200305
+i386                 randconfig-c003-20200305
+x86_64               randconfig-c001-20200304
+x86_64               randconfig-c002-20200304
+x86_64               randconfig-c003-20200304
+i386                 randconfig-c001-20200304
+i386                 randconfig-c002-20200304
+i386                 randconfig-c003-20200304
+x86_64               randconfig-d001-20200304
+x86_64               randconfig-d002-20200304
+x86_64               randconfig-d003-20200304
+i386                 randconfig-d001-20200304
+i386                 randconfig-d002-20200304
+i386                 randconfig-d003-20200304
+x86_64               randconfig-d001-20200303
+x86_64               randconfig-d002-20200303
+x86_64               randconfig-d003-20200303
+i386                 randconfig-d001-20200303
+i386                 randconfig-d002-20200303
+i386                 randconfig-d003-20200303
+x86_64               randconfig-e001-20200303
+x86_64               randconfig-e002-20200303
+x86_64               randconfig-e003-20200303
+i386                 randconfig-e001-20200303
+i386                 randconfig-e002-20200303
+i386                 randconfig-e003-20200303
+x86_64               randconfig-e001-20200304
+x86_64               randconfig-e002-20200304
+x86_64               randconfig-e003-20200304
+i386                 randconfig-e001-20200304
+i386                 randconfig-e002-20200304
+i386                 randconfig-e003-20200304
+x86_64               randconfig-e001-20200305
+x86_64               randconfig-e002-20200305
+x86_64               randconfig-e003-20200305
+i386                 randconfig-e001-20200305
+i386                 randconfig-e002-20200305
+i386                 randconfig-e003-20200305
+x86_64               randconfig-f001-20200304
+x86_64               randconfig-f002-20200304
+x86_64               randconfig-f003-20200304
+i386                 randconfig-f001-20200304
+i386                 randconfig-f002-20200304
+i386                 randconfig-f003-20200304
+x86_64               randconfig-f001-20200303
+x86_64               randconfig-f002-20200303
+x86_64               randconfig-f003-20200303
+i386                 randconfig-f001-20200303
+i386                 randconfig-f002-20200303
+i386                 randconfig-f003-20200303
+x86_64               randconfig-g001-20200304
+x86_64               randconfig-g002-20200304
+x86_64               randconfig-g003-20200304
+i386                 randconfig-g001-20200304
+i386                 randconfig-g002-20200304
+i386                 randconfig-g003-20200304
+i386                 randconfig-g003-20200303
+x86_64               randconfig-g003-20200303
+i386                 randconfig-g001-20200303
+x86_64               randconfig-g001-20200303
+x86_64               randconfig-g002-20200303
+i386                 randconfig-g002-20200303
+x86_64               randconfig-h001-20200303
+x86_64               randconfig-h002-20200303
+x86_64               randconfig-h003-20200303
+i386                 randconfig-h001-20200303
+i386                 randconfig-h002-20200303
+i386                 randconfig-h003-20200303
+x86_64               randconfig-h001-20200304
+x86_64               randconfig-h002-20200304
+x86_64               randconfig-h003-20200304
+i386                 randconfig-h001-20200304
+i386                 randconfig-h002-20200304
+i386                 randconfig-h003-20200304
+x86_64               randconfig-h001-20200305
+x86_64               randconfig-h002-20200305
+x86_64               randconfig-h003-20200305
+i386                 randconfig-h001-20200305
+i386                 randconfig-h002-20200305
+i386                 randconfig-h003-20200305
+arc                  randconfig-a001-20200303
+sparc                randconfig-a001-20200303
+ia64                 randconfig-a001-20200303
+arm                  randconfig-a001-20200303
+arm64                randconfig-a001-20200303
+powerpc              randconfig-a001-20200303
+arc                  randconfig-a001-20200304
+arm                  randconfig-a001-20200304
+arm64                randconfig-a001-20200304
+ia64                 randconfig-a001-20200304
+powerpc              randconfig-a001-20200304
+sparc                randconfig-a001-20200304
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                            titan_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
 
-Thanks & Best Regards,
-
-Rajat
-
-
->
-> BR,
-> Jani.
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
