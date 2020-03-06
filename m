@@ -2,64 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE5D17B1B9
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Mar 2020 23:47:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F83117B914
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Mar 2020 10:17:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgCEWqF (ORCPT
+        id S1725951AbgCFJRe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Mar 2020 17:46:05 -0500
-Received: from mga18.intel.com ([134.134.136.126]:5042 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727173AbgCEWp5 (ORCPT
+        Fri, 6 Mar 2020 04:17:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38423 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725923AbgCFJRe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Mar 2020 17:45:57 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 14:45:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,519,1574150400"; 
-   d="scan'208";a="234674678"
-Received: from minkleyx-mobl1.amr.corp.intel.com (HELO spandruv-mobl.amr.corp.intel.com) ([10.252.207.66])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Mar 2020 14:45:57 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andriy.shevchenko@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, prarit@redhat.com,
-        linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 27/27] tools/power/x86/intel-speed-select: Update version
-Date:   Thu,  5 Mar 2020 14:45:38 -0800
-Message-Id: <20200305224538.490864-28-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200305224538.490864-1-srinivas.pandruvada@linux.intel.com>
-References: <20200305224538.490864-1-srinivas.pandruvada@linux.intel.com>
+        Fri, 6 Mar 2020 04:17:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583486253;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=JCiUybcIy9EYc3DUqneg1/PUNFvInwnkceZaoY4UhKA=;
+        b=HX3AwE4e7cKoc7vV8GZtFwTkZaZQ5Dssbq4OldXsWC1seMeJ1DbN/1qG+wTiQQVqQ9ldwL
+        taIAT+ALxJHf9r1DQNoAJvgXj/P2UroVPfKTiEilE/Ys6r2Hs47JvnnPVKr73MxI9IQ9U4
+        vtmaNQ+sjkEAJcPFofaimQWmloquchI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-IPnFd5sDPOeISb1VflHBFQ-1; Fri, 06 Mar 2020 04:17:29 -0500
+X-MC-Unique: IPnFd5sDPOeISb1VflHBFQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 890DA107ACC9;
+        Fri,  6 Mar 2020 09:17:28 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.36.118.146])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A35935C21B;
+        Fri,  6 Mar 2020 09:17:26 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Pavel Machek <pavel@denx.de>
+Subject: [PATCH] platform/x86: GPD pocket fan: Fix error message when temp-limits are out of range
+Date:   Fri,  6 Mar 2020 10:17:24 +0100
+Message-Id: <20200306091724.55347-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Fair number of changes including bug fixes done to change version.
+Commit 1f27dbd8265d ("platform/x86: GPD pocket fan: Allow somewhat
+lower/higher temperature limits") changed the module-param sanity check
+to accept temperature limits between 20 and 90 degrees celcius.
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+But the error message printed when the module params are outside this
+range was not updated. This commit updates the error message to match
+the new min and max value for the temp-limits.
+
+Reported-by: Pavel Machek <pavel@denx.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- tools/power/x86/intel-speed-select/isst-config.c | 2 +-
+ drivers/platform/x86/gpd-pocket-fan.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 924cb871d6d2..cd803a40ee40 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -15,7 +15,7 @@ struct process_cmd_struct {
- 	int arg;
- };
- 
--static const char *version_str = "v1.2";
-+static const char *version_str = "v1.3";
- static const int supported_api_ver = 1;
- static struct isst_if_platform_info isst_platform_info;
- static char *progname;
--- 
-2.24.1
+diff --git a/drivers/platform/x86/gpd-pocket-fan.c b/drivers/platform/x86=
+/gpd-pocket-fan.c
+index b471b86c28fe..5b516e4c2bfb 100644
+--- a/drivers/platform/x86/gpd-pocket-fan.c
++++ b/drivers/platform/x86/gpd-pocket-fan.c
+@@ -128,7 +128,7 @@ static int gpd_pocket_fan_probe(struct platform_devic=
+e *pdev)
+=20
+ 	for (i =3D 0; i < ARRAY_SIZE(temp_limits); i++) {
+ 		if (temp_limits[i] < 20000 || temp_limits[i] > 90000) {
+-			dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 40000 and=
+ 70000)\n",
++			dev_err(&pdev->dev, "Invalid temp-limit %d (must be between 20000 and=
+ 90000)\n",
+ 				temp_limits[i]);
+ 			temp_limits[0] =3D TEMP_LIMIT0_DEFAULT;
+ 			temp_limits[1] =3D TEMP_LIMIT1_DEFAULT;
+--=20
+2.25.1
 
