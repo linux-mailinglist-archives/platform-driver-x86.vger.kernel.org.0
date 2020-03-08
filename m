@@ -2,76 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D309D17D05D
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Mar 2020 22:56:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 110A717D522
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  8 Mar 2020 18:10:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbgCGV42 (ORCPT
+        id S1726414AbgCHRKK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 7 Mar 2020 16:56:28 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:37852 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgCGV42 (ORCPT
+        Sun, 8 Mar 2020 13:10:10 -0400
+Received: from www752.sakura.ne.jp ([59.106.19.202]:57156 "EHLO
+        www752.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726297AbgCHRKJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 7 Mar 2020 16:56:28 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id D891E1C0315; Sat,  7 Mar 2020 22:56:25 +0100 (CET)
-Date:   Sat, 7 Mar 2020 22:56:25 +0100
-From:   Pavel Machek <pavel@denx.de>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Machek <pavel@denx.de>
-Subject: Re: [PATCH] platform/x86: GPD pocket fan: Fix error message when
- temp-limits are out of range
-Message-ID: <20200307215625.GA487@duo.ucw.cz>
-References: <20200306091724.55347-1-hdegoede@redhat.com>
+        Sun, 8 Mar 2020 13:10:09 -0400
+X-Greylist: delayed 4106 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 13:10:07 EDT
+Received: from fsav101.sakura.ne.jp (fsav101.sakura.ne.jp [27.133.134.228])
+        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028FpPAT061629;
+        Mon, 9 Mar 2020 00:51:25 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Received: from www752.sakura.ne.jp (59.106.19.202)
+ by fsav101.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav101.sakura.ne.jp);
+ Mon, 09 Mar 2020 00:51:25 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav101.sakura.ne.jp)
+Received: from www752.sakura.ne.jp (localhost [127.0.0.1])
+        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028FpOhJ061610;
+        Mon, 9 Mar 2020 00:51:25 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Received: (from hokusetubad@localhost)
+        by www752.sakura.ne.jp (8.15.2/8.15.2/Submit) id 028FpOOQ061609;
+        Mon, 9 Mar 2020 00:51:24 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Message-Id: <202003081551.028FpOOQ061609@www752.sakura.ne.jp>
+X-Authentication-Warning: www752.sakura.ne.jp: hokusetubad set sender to postmaster@hokusetubad.sakura.ne.jp using -f
+Subject: BUSINESS PROPOSAL
+From:   postmaster@hokusetubad.sakura.ne.jp
+Reply-To: abulkareem461@gmail.com
+To:     nJreyes@midway.edu
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-In-Reply-To: <20200306091724.55347-1-hdegoede@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date:   Mon, 09 Mar 2020 00:51:24 +0900
+Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Dearest Friend
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri 2020-03-06 10:17:24, Hans de Goede wrote:
-> Commit 1f27dbd8265d ("platform/x86: GPD pocket fan: Allow somewhat
-> lower/higher temperature limits") changed the module-param sanity check
-> to accept temperature limits between 20 and 90 degrees celcius.
->=20
-> But the error message printed when the module params are outside this
-> range was not updated. This commit updates the error message to match
-> the new min and max value for the temp-limits.
->=20
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-Acked-by: Pavel Machek <pavel@denx.de>
-
-Thanks!
-							Pavel
-						=09
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXmQYiQAKCRAw5/Bqldv6
-8tb+AJ4yBCrpbQGEn2I8MQXX4qFv032j5wCfUVKB/C9JdupHUXxdBbUMQtxtnCI=
-=k0AH
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
+I am Mr Abdul Kareem working with Emirate NBD Bank Dubai,United Arab Emirate as Finance Manager.
+I have a very profitable Business that concerns you and will benefit both of us after completion.
+Kindly get back to me for more details.
+Awaiting your response.
+Regards
+Abdul Kareem
