@@ -2,88 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD4417DBDE
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Mar 2020 09:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88B6417E14A
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  9 Mar 2020 14:35:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726027AbgCIIyz (ORCPT
+        id S1726546AbgCINfQ convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 9 Mar 2020 04:54:55 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:51692 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbgCIIyz (ORCPT
+        Mon, 9 Mar 2020 09:35:16 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:55486 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbgCINfQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 9 Mar 2020 04:54:55 -0400
-Received: by mail-pj1-f68.google.com with SMTP id y7so695148pjn.1;
-        Mon, 09 Mar 2020 01:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QdW15qiMY5illbr/+F1RmCKtuh5WFHYMhO0nRsSBBIo=;
-        b=tZIvw3mNFXL79QSFw7+ZymIas3nsUXtEEIccyIBvM6Pib/XGlCLJiaQOs+2fkMdRyd
-         f3KqoNrEKwY2sCzi4Brd8iyfNHHb6C0SoeCQWXqkPTmPfo2Hc1HrrIeCZD8AREs1CVcb
-         /H5VYOkJRUl5zvTLaqAykGUmY9LfcJBDFxNRhhoDaPRkuGv92YtilCvonGM0I6wDIy6o
-         EFbPxDIiVKhV/plKSESQ5NCkfkH3n+BmzjEq5q4WPwtxXHNSRayTEODR/A0+XnjRESCL
-         H/mBsDQK6jwzwh3HwSQ2N0RDk+wL4IgH2do4+Y688oSCFpyraa57gDsmCqTVZXTuQG2w
-         vLyA==
+        Mon, 9 Mar 2020 09:35:16 -0400
+Received: from mail-pl1-f200.google.com ([209.85.214.200])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1jBIYr-00078z-UU
+        for platform-driver-x86@vger.kernel.org; Mon, 09 Mar 2020 13:35:14 +0000
+Received: by mail-pl1-f200.google.com with SMTP id y4so1127691plk.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 09 Mar 2020 06:35:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QdW15qiMY5illbr/+F1RmCKtuh5WFHYMhO0nRsSBBIo=;
-        b=TEAxVZ37GAQvndnYotM6JMCLD+0uXmWh4p/5n3wKh6+FML/4HhySkDEggJ+rDWdKmh
-         7vDcCWu3SWT3rlEAIofYNKoiYVc75AnbTOa6rmX/2uMkECc/sVt/dP2OIw4KfqhZjH27
-         8oDtzE/8HifpiBc4bFsNaA+9rz/8obo0eZufLFvSONNFiyHl2PBggcJokdqSQmkw5R68
-         2cLkqrFGHOgY3wdEUxYe1mpE8eRvM8slhfkFQuJIyIfvKrkmLpuFzfTMOiJqFwu4RkyS
-         VM6C7d1ny1y5tXsUj5Jy8z2GYnK/ffrsUURJ3+GLP0+PVsNlzlvz1MkoTfatgHtc8Te6
-         i7CA==
-X-Gm-Message-State: ANhLgQ39GlFkSZPIURWiYGnb9giqYUUrwZOJwJd3Gw8DmupxijuoeD1v
-        pNUjb/p96TpeX+0mkWuIwBmgX3ym
-X-Google-Smtp-Source: ADFU+vtrjulPtewCkmIgihEfwpXq679modQaiN0DAHC5TeX2O24LgoMurNh0i2sKHMSw2WsWtqXGoA==
-X-Received: by 2002:a17:902:8bc3:: with SMTP id r3mr15094232plo.220.1583744094617;
-        Mon, 09 Mar 2020 01:54:54 -0700 (PDT)
-Received: from masabert (i118-21-156-233.s30.a048.ap.plala.or.jp. [118.21.156.233])
-        by smtp.gmail.com with ESMTPSA id x2sm42133385pge.2.2020.03.09.01.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 01:54:53 -0700 (PDT)
-Received: by masabert (Postfix, from userid 1000)
-        id 13FC62360125; Mon,  9 Mar 2020 17:54:52 +0900 (JST)
-From:   Masanari Iida <standby24x7@gmail.com>
-To:     linux-kernel@vger.kernel.org, andriy.shevchenko@linux.intel.com,
-        srinivas.pandruvada@linux.intel.com,
-        platform-driver-x86@vger.kernel.org
-Cc:     Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH] tools/power/x86/intel-speed-select: Fix a typo in error message
-Date:   Mon,  9 Mar 2020 17:54:44 +0900
-Message-Id: <20200309085444.53499-1-standby24x7@gmail.com>
-X-Mailer: git-send-email 2.26.0.rc0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:content-transfer-encoding:mime-version
+         :subject:message-id:date:cc:to;
+        bh=oTtroT8mE+qB8LAwGZyahI3DgvWrXAp3NEs3u6g/GXk=;
+        b=On1T2NtNMjqQiBNpNF8OQGL3Ub1w0M8GW681hMHC6KJKRnilUOf1r3TpAadHtOatoe
+         45HM9/MP5r+4EvooF894ZYeniSneVXlYBOr1cZNbd16NCQDlA1zkw/muk5qsXNbmnXjv
+         FL8hIsPM8zSwQw8r/i1ra97KSsMG37GlYVlkekhqW6WMAdzvd2yKL9ja3hfGyzXxnrjY
+         hSIWm/yty6jKHyFJKVYpwyouCWpknN3TxAs2fexsnPCutBy5r9tC+Oswu64pqyJnhiKT
+         0vK0pJS5PVcVZ7yYP48a7o7Lj2zzPrOEJ/anqt0+h2FQcm7EUAHm1YTpMZB82msQU/Kv
+         KtyA==
+X-Gm-Message-State: ANhLgQ2MdaCIkQcDJjpbFgiEcy+EB/XKMQPopA4O9qI4SczXyuxc140l
+        Iux6Yf426wyO1DXmmvkwvEtgIX+BT38XOAcX0RnO4zn7oXPxkjcVvDqKcJYrBwPFxXUAP1ghZXm
+        PXNne3+IfWJgoRTOI57uhiHdcZKolILCczMlTf6Oz6w04mWV0lsU=
+X-Received: by 2002:a65:488d:: with SMTP id n13mr16089768pgs.91.1583760912467;
+        Mon, 09 Mar 2020 06:35:12 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvcffLSE+eOR9FcWy3PtEfUmgrGHQYcaMAJr9O49b9guO+pH6qG7cKEaDl6D3giFFKlYz8xzQ==
+X-Received: by 2002:a65:488d:: with SMTP id n13mr16089745pgs.91.1583760912182;
+        Mon, 09 Mar 2020 06:35:12 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
+        by smtp.gmail.com with ESMTPSA id g11sm16478926pfo.184.2020.03.09.06.35.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 09 Mar 2020 06:35:11 -0700 (PDT)
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+Content-Type: text/plain;
+        charset=us-ascii
+Content-Transfer-Encoding: 8BIT
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
+Subject: Intel telemetry debugfs doesn't work
+Message-Id: <20A25709-8BA2-4036-AB13-4DC6BB1C0E84@canonical.com>
+Date:   Mon, 9 Mar 2020 21:35:08 +0800
+Cc:     platform-driver-x86@vger.kernel.org,
+        Anthony Wong <anthony.wong@canonical.com>
+To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@linux.intel.com>,
+        david.e.box@linux.intel.com, andy@infradead.org
+X-Mailer: Apple Mail (2.3608.60.0.2.5)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This patch fix a spelling typo in error message.
+Hi,
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
----
- tools/power/x86/intel-speed-select/isst-config.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am trying to find a way to make a Gemini Lake system successfully use intel_telemetry_debugfs.
 
-diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-index 2b2b8167c65b..f323dc9b770f 100644
---- a/tools/power/x86/intel-speed-select/isst-config.c
-+++ b/tools/power/x86/intel-speed-select/isst-config.c
-@@ -656,7 +656,7 @@ int isst_send_msr_command(unsigned int cpu, unsigned int msr, int write,
- 		msr_cmds.msr_cmd[0].data = *req_resp;
- 
- 	if (ioctl(fd, ISST_IF_MSR_COMMAND, &msr_cmds) == -1) {
--		perror("ISST_IF_MSR_COMMAD");
-+		perror("ISST_IF_MSR_COMMAND");
- 		fprintf(outf, "Error: msr_cmd cpu:%d msr:%x read_write:%d\n",
- 			cpu, msr, write);
- 	} else {
--- 
-2.26.0.rc0
+However, telemetry_pltconfig_valid() in telemetry_debugfs_init() never succeeds.
+This is due to telemetry_pltdrv_probe() never gets called, so telemetry_set_pltdata() has never set the pltconfig.
+
+I am not sure why the module gets loaded but probe was never called, so I wonder if you guys know how to make this work.
+
+Kai-Heng
 
