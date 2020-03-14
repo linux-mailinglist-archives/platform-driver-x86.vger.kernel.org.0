@@ -2,71 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07FE1185936
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Mar 2020 03:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 024E418599F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Mar 2020 04:17:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbgCOCiR (ORCPT
+        id S1726655AbgCODRQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 14 Mar 2020 22:38:17 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:44883 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbgCOCiR (ORCPT
+        Sat, 14 Mar 2020 23:17:16 -0400
+Received: from correo.santafe.edu.ar ([200.12.192.40]:35156 "EHLO
+        correo.santafe.edu.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbgCODRQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 14 Mar 2020 22:38:17 -0400
-Received: by mail-il1-f196.google.com with SMTP id j69so13096261ila.11
-        for <platform-driver-x86@vger.kernel.org>; Sat, 14 Mar 2020 19:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=dpqbMe6DDFRRU2//p7iQvLKlyqXkoH7a1CrRmvTM2ZPAcKA47TOBbyXHF9cbM8ySom
-         aor7anjC/VQQ7R7GcK0VYj9ZrZOZrNiULEKfl/KVDT71WGXCWgfMJ0B5im86J/xWO+GN
-         QEENcSBBrTd7kB6qsKNXK05ETQHYyI9JGoUwILDSLzkm+eaQEVaA1r+BDA5oA7KtzRnm
-         4QtmacKpZ+tO52tkaQiXpkJva0KkDhoHI5xhp9T61d150MYZvenfX9XkuVn+yzf2PMOR
-         6eVK+K4APv7M2mw27+ZeAwl3AIBYfLRqNJJVqg1cddJsiHV+b/S4ONYPcUJoV7Br76r1
-         9cZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
-        b=UIm43VUIrjDiypCXYMd6HcfOS6GW9J7fU/oSHKUOg7OXFADQ3Ds4cA7Ge+S3L59d9S
-         NwYsf9Heh/F63E+e2GHkeULBFNnHKKgGLYleVNGY3n8lpE282nI1d2a1LWuTOOG3v81l
-         C0t/4nh/IuNb8wDUn/HG7ou3IPzx0wmpKsQpQ8KovDC64HDM9Z6JKeEiALVNAceukcXt
-         LTlRbGMy+Hp47S60u9q3z+5qkXHO/RG922BKxlNDJzKKBzhgz4lz3Dgx2ojE8DwbmhPN
-         hewdXnX41zFBhV6eAmMmdpdjf+DxAirjXgGSlPGJtje7E9zdf6+KdUMGjk1vv1npYBVV
-         +Rcw==
-X-Gm-Message-State: ANhLgQ3KF0Aoa/yUEI3/GfEnL8gbxDjb/nYq3lWmtiUSWOs01ieNKU8H
-        H/Sdnqf+lileO6AWjRXTM4DXAStoB3P5JxxOokEVY2Im
-X-Google-Smtp-Source: ADFU+vux/MWvBYWTwQrESRp7YagtlVzv+++6ATPoL/+FQXEwx6YHcROezVIm3ygkub5+lENLNUhTQlL7WMmDuWbuEI8=
-X-Received: by 2002:a92:5fdb:: with SMTP id i88mr19899518ill.118.1584206488319;
- Sat, 14 Mar 2020 10:21:28 -0700 (PDT)
+        Sat, 14 Mar 2020 23:17:16 -0400
+Received: from correo.santafe.edu.ar (localhost [127.0.0.1])
+        by correo.santafe.edu.ar (Postfix) with ESMTP id 48fx066yt9zB4cC
+        for <platform-driver-x86@vger.kernel.org>; Sat, 14 Mar 2020 18:43:50 -0300 (-03)
+Authentication-Results: correo.santafe.edu.ar (amavisd-new);
+        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
+        header.d=santafe.edu.ar
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=santafe.edu.ar;
+         h=content-transfer-encoding:organization:message-id:user-agent
+        :reply-to:subject:subject:to:from:from:date:date:content-type
+        :content-type:mime-version; s=dkim; t=1584222230; x=1586814231;
+         bh=Ch8MeA3o5Ps+sTgYQ/2xKYhD8wOfsokQchWDCmvcX0s=; b=Z8k1An3Aqimq
+        RSziizZhb0JpVeYgogR13ospkDcPxt84/8iPy3yWmxGrf+k+JrgZdjaDEp9rEHo6
+        KeqEMylfl23OVp5LbVjnKbfK3bo+7HujQKkCaGZJY6Uvv3A5HW2aSKnGYr6plZZK
+        DIVsgI5xmDDu1LaOXd6a9Xz7Xn7gzRY=
+X-Virus-Scanned: Debian amavisd-new at debian9-asiserver.santafe.gob.ar
+Received: from correo.santafe.edu.ar ([127.0.0.1])
+        by correo.santafe.edu.ar (correo.santafe.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id lMmKwewgBGMV for <platform-driver-x86@vger.kernel.org>;
+        Sat, 14 Mar 2020 18:43:50 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by correo.santafe.edu.ar (Postfix) with ESMTPSA id 48fwcR758JzB1Jj;
+        Sat, 14 Mar 2020 18:26:47 -0300 (-03)
 MIME-Version: 1.0
-Received: by 2002:a02:63c1:0:0:0:0:0 with HTTP; Sat, 14 Mar 2020 10:21:27
- -0700 (PDT)
-From:   Omar Ousman <omarousman25@gmail.com>
-Date:   Sat, 14 Mar 2020 18:21:27 +0100
-X-Google-Sender-Auth: NFmdQ2ODKt-YrnZOQwF2cHVZ0Hs
-Message-ID: <CAOdk3HkGe98dDfn_PL4nk7icFV2iU--xSc3Ym8nCnj+mEt9Q+g@mail.gmail.com>
-Subject: You received my last mail,,,,
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date:   Sat, 14 Mar 2020 22:26:47 +0100
+From:   Acaceres <acaceres@santafe.edu.ar>
 To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Subject: AW:
+Reply-To: niklaszennstromcare@gmail.com
+User-Agent: Roundcube Webmail
+Message-ID: <9b883b2d84aed71c8dfef3dcf7b7472f@santafe.edu.ar>
+X-Sender: acaceres@santafe.edu.ar
+Organization: niklaszennstromcare@gmail.com
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am Mr.Omar Ousman, a regional managing director (CORIS BANK
-INTERNATIONAL) Ouagadougou Burkina Faso, in my department we have
-US$9,500.0000 million united state dollars, to transfer into your
-account as a dormant fund.If you are interested to use this fund to
-help the orphans around the world contact and send me your personal
-information for more details to my email omarousman25@gmail.com
 
-Your full names..........
-Your country of origin..........
-Your occupation..........
-Your Age..........
-Your Mobile Number..........
 
-Best Regards,
+--=20
+Sch=C3=B6nen Tag,
+
+Herr Niklas Zennstr=C3=B6m, ein schwedischer Wirtschaftsmagnat, Investor =
+und=20
+Philanthrop, der weltweit rund =C2=A3208.3 Millionen Pfund an=20
+Menschenrechtsorganisationen / Wohlt=C3=A4tigkeitsorganisationen gespende=
+t=20
+hat, hat sich ebenfalls verpflichtet, den Rest von 25% in diesem Jahr=20
+2020 zu verschenken, und Ihre E-Mail erfolgte nach dem Zufallsprinzip=20
+Das Team von Google Inc. wurde als aktiver Web-Nutzer ausgew=C3=A4hlt, um=
+=20
+eine Spende in H=C3=B6he von $1 Million USD im Rahmen des=20
+Wohlt=C3=A4tigkeitsprojekts Zennstr=C3=B6m Philanthropies zu erhalten. Bi=
+tte=20
+best=C3=A4tigen Sie den Besitz Ihrer E-Mail-Adresse, indem Sie sich per=20
+E-Mail an Niklas Zennstr=C3=B6m wenden: niklaszennstromcare@gmail.com =C2=
+=A0F=C3=BCr=20
+den Anspruch
+
+Name des Ansprechpartners: Herr Niklas Zennstr=C3=B6m
