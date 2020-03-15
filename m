@@ -2,52 +2,48 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2183C185AB8
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Mar 2020 06:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7712C185B26
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Mar 2020 09:13:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbgCOF7x (ORCPT
+        id S1727654AbgCOINg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 15 Mar 2020 01:59:53 -0400
-Received: from correo.santafe.edu.ar ([200.12.192.40]:36920 "EHLO
-        correo.santafe.edu.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgCOF7x (ORCPT
+        Sun, 15 Mar 2020 04:13:36 -0400
+Received: from sonic306-1.consmr.mail.bf2.yahoo.com ([74.6.132.40]:36038 "EHLO
+        sonic306-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727134AbgCOINg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 15 Mar 2020 01:59:53 -0400
-Received: from correo.santafe.edu.ar (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTP id 48fn8f41Bhz89VS
-        for <platform-driver-x86@vger.kernel.org>; Sat, 14 Mar 2020 12:50:42 -0300 (-03)
-Authentication-Results: correo.santafe.edu.ar (amavisd-new);
-        dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
-        header.d=santafe.edu.ar
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=santafe.edu.ar;
-         h=content-transfer-encoding:organization:message-id:user-agent
-        :reply-to:subject:subject:to:from:from:date:date:content-type
-        :content-type:mime-version; s=dkim; t=1584201042; x=1586793043;
-         bh=Ch8MeA3o5Ps+sTgYQ/2xKYhD8wOfsokQchWDCmvcX0s=; b=Wl2TMBGLGcb4
-        ugBzCPz3hr8hjJv7AfGDElL/yhqXrcRz86IEzYEsR761F+Dg3CrTGV6WHD3TFKTg
-        vFd9bzcEduFyBBK2p4FQ+YcxBb3vUL171yo4Y7WSSQY5FZ1Aw9c3mtn+HR+jcfFu
-        sN5jXVI4lgTlyywZrHzT1c4uai0RIh8=
-X-Virus-Scanned: Debian amavisd-new at debian9-asiserver.santafe.gob.ar
-Received: from correo.santafe.edu.ar ([127.0.0.1])
-        by correo.santafe.edu.ar (correo.santafe.edu.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id DOyTixinyBke for <platform-driver-x86@vger.kernel.org>;
-        Sat, 14 Mar 2020 12:50:42 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.santafe.edu.ar (Postfix) with ESMTPSA id 48fmyX4R5cz87GH;
-        Sat, 14 Mar 2020 12:41:56 -0300 (-03)
+        Sun, 15 Mar 2020 04:13:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584260015; bh=7bAj2aTmdt2qZuhBQReQcDKGCSJd8LlC9EcZcjUJr8M=; h=Date:From:Reply-To:Subject:References:From:Subject; b=JiezpWDBqnuAAldUaJKEfZuwjpgXSW3H7u2ILkv+Uqu1PIg3nEgHqjnszZKm5EnE7JDqdJFDrbPsX+zmoA4wjhh2SCdK7i3HUMuOO3sjd6LarfVk8Smk/4h1CzkG1WjiHi5PyGgsaEpBAtSVZ/UdGZ7LEulCV6dejulC4axPKETgjmB0i2ChVsgDu8s75upyGKjk8bi9jZqn9oYvni8kWAmvSXPlFX/Jx1r4jo/0aPPMctytLbFu+DGkt9/3YXqDqNcv68YOytHpLyC5eIk3RvzcTrP9mMITBbsGMwfeqFOVmxkMjSsuNxsQ82NVdzz9Uobx9LZig+HUAGGraEagNA==
+X-YMail-OSG: OVp7n6gVM1kJgz3vgK5p1cn3vlKVDPng8HbTT9DLbOg3Rfya6kYNIT5hwRKEzHN
+ Tvg3QWjGqtci3IEpaHmMuB1nAMmSGGmYsVyYppotMxalipzMJwrEsn.YSRPwXKAk0v0kJEymFgfF
+ HBnlijef97QCIKYW0ItMXBTfa5KQeCpkpLyH9PXGqxT4loJ5qP3_HUuhj81rNz5LEkJo8l3d5R2g
+ 4eh_dJs9.sKf75_BlFyQi6drdN2oLy3PPLKCDsgrLmpQOYNWmZJIvPp7ARBy5_lQrUM1W46GBygu
+ JcNXY7DReEs9ciwBT7q0sYP2eGSrdSPGsBMR0sStzsyG4oitk.sRw7xtz0V88opWbu8yL7_Qk2_c
+ EKLNWsoHR1Mv.Q7MY_EXO4yZc714VNl9zwU6Nq2MzBqrxyp.UImodPjYEAFlVfO02jfI4.DC75V6
+ cQhDBLbd8UqwJKPTXyVAmyGprQ0JCpk4K6boPVr9abk4R1edRSoDfmQjUxfW6SGdHZRGqWJ1Bh50
+ 3B7G0NvRSDS07sxPPGil4Xe4ewjt9lPwJsYcTYHyiYB_H1dEPFNAqgLjlNbGQMFDivL7sE4HteEA
+ UVcxmw3Pdh47v5R0IeguCvfVH58ZexrTEYJzWiZlsIa3U2tgCM2kdwqfZulVpZo0C1yjhrBjLNA4
+ e0FjOunGEW8bzqip9zqZTfewFhAfpHxNb9SpNxZ1vLTwbkOtHeEm1QcGRuMXkDvlOTniXmYZgWDh
+ w8cIezCk2j3ZnDrY5L_NmTR0AzGf0XrgfDeGEwQb7z2h1AcfzSNdJ9PKkwZb2b2j2SiQbNXknGCU
+ c5R.y5wEKb1f6a2RksL5O2U3s5q0mPxFTLnpfmkxw9nkTXKuTpjJXccxqnmM9u9iuA.JS37ekAfG
+ o.gRT8jXbforCLvOtuzrMX8u_ammOT2Fbh5J6rPuk3DrBNAS1DtMh34i54FRLUhh.8bxhRUeWUw1
+ EfCxkZEWy0S8GtnpYr1UCEkvGKXIeDnCFP82_d5yMO4JXaYnP2mi.s4qM8vTe_VLjzZyb0kKQYcZ
+ EmGFYtgpazOUXfKTPG0pWwDKXmAZkmcPg16Jl2ieI8HMUAjZNkDnrg6GeYAxexnyuwwAoyP3ydHv
+ 0qCAz5UNXbtsDjIYhVJeJYJtSnt6JMebAUf3Eb_mZxUG_krukckGSb_dbaVrye5CnF_pKgGA4H.f
+ AiHfflbiTuWSvrPA0pbfEwlpT.nCsKXua8iI3vR49I0YOcpSUDgjvoZKnQ8sLh_ur1PnA_UxJ14G
+ Y0iujNLIoHNWXkPUVLjQge76yQb6zBY05Zaf13kVPsAdE3ODe66qmCkDxTO4uHz2icLyqOao-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Sun, 15 Mar 2020 08:13:35 +0000
+Date:   Sun, 15 Mar 2020 08:13:33 +0000 (UTC)
+From:   Suleiman Abubaker <suleimanabubaker84612@gmail.com>
+Reply-To: suleimanabubaker@mail.com
+Message-ID: <415601250.3380602.1584260013965@mail.yahoo.com>
+Subject: Helo
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date:   Sat, 14 Mar 2020 16:41:56 +0100
-From:   Acaceres <acaceres@santafe.edu.ar>
-To:     undisclosed-recipients:;
-Subject: AW:
-Reply-To: niklaszennstromcare@gmail.com
-User-Agent: Roundcube Webmail
-Message-ID: <44114452cd0f9cf112b334a4fb8504be@santafe.edu.ar>
-X-Sender: acaceres@santafe.edu.ar
-Organization: niklaszennstromcare@gmail.com
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <415601250.3380602.1584260013965.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:74.0) Gecko/20100101 Firefox/74.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
@@ -55,24 +51,27 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 
 
---=20
-Sch=C3=B6nen Tag,
 
-Herr Niklas Zennstr=C3=B6m, ein schwedischer Wirtschaftsmagnat, Investor =
-und=20
-Philanthrop, der weltweit rund =C2=A3208.3 Millionen Pfund an=20
-Menschenrechtsorganisationen / Wohlt=C3=A4tigkeitsorganisationen gespende=
-t=20
-hat, hat sich ebenfalls verpflichtet, den Rest von 25% in diesem Jahr=20
-2020 zu verschenken, und Ihre E-Mail erfolgte nach dem Zufallsprinzip=20
-Das Team von Google Inc. wurde als aktiver Web-Nutzer ausgew=C3=A4hlt, um=
-=20
-eine Spende in H=C3=B6he von $1 Million USD im Rahmen des=20
-Wohlt=C3=A4tigkeitsprojekts Zennstr=C3=B6m Philanthropies zu erhalten. Bi=
-tte=20
-best=C3=A4tigen Sie den Besitz Ihrer E-Mail-Adresse, indem Sie sich per=20
-E-Mail an Niklas Zennstr=C3=B6m wenden: niklaszennstromcare@gmail.com =C2=
-=A0F=C3=BCr=20
-den Anspruch
 
-Name des Ansprechpartners: Herr Niklas Zennstr=C3=B6m
+
+
+Dear Friend,
+
+I am. Mr. Suleiman Abubaker, Manager Auditing and Accountancy Department,Bank of Africa in (B.O.A) Burkina Faso
+
+i am writing to seek for your highly esteemed consent/assistance in a lasting business relationship of mutual benefit involving $18. Million Usd for investment in your country, under a joint venture partnership.
+
+Thank you for accommodating my inquiry, as i look forward to hear from you on this business collaboration and meeting with you soon.
+
+
+(1)Your Full name:..........................
+(2)Your Age.................................
+(3)Occupation:.................................
+(4)Mobile phone number:.....................
+(5)Your Country..........................
+
+Waiting to hear from you.
+
+Your's truly,
+
+Mr. Suleiman Abubaker,
