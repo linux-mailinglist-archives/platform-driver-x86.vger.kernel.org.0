@@ -2,84 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0696E187B71
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Mar 2020 09:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2076E18834E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Mar 2020 13:11:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgCQIn1 (ORCPT
+        id S1726982AbgCQML4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Mar 2020 04:43:27 -0400
-Received: from mga01.intel.com ([192.55.52.88]:23764 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbgCQIn1 (ORCPT
+        Tue, 17 Mar 2020 08:11:56 -0400
+Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:42404
+        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726825AbgCQML4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Mar 2020 04:43:27 -0400
-IronPort-SDR: vN7byG2GEXD7msGWL1dU5RXrBSqRRiLNgRucM0EY9DJ4+VwmDonn2pfauZAwnbg3C7oOy4gYIu
- phkFLI1CYlRw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2020 01:43:26 -0700
-IronPort-SDR: +docOiDqVc1l3NEISqhzMl5AJ6YYAkBWQjirftyHCvIHVoRaBFmc0eqdgdnBiYxtpGPqTX5uI4
- ElQjYnYSjE3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,563,1574150400"; 
-   d="scan'208";a="355297772"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001.fm.intel.com with SMTP; 17 Mar 2020 01:43:22 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 17 Mar 2020 10:43:21 +0200
-Date:   Tue, 17 Mar 2020 10:43:21 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 00/19] platform/x86: Rework intel_scu_ipc and
- intel_pmc_ipc drivers
-Message-ID: <20200317084321.GC2601@lahna.fi.intel.com>
-References: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
+        Tue, 17 Mar 2020 08:11:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584447115; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=iUlGnRLQG6F3FaEVNIp3zcBgcxIJSYrz1n2caipTs0506aGX82j4iJh/jdfSgvf/ydicy2n4aU/zcMuD6FT0MPShSa5Y9D0k1iZPPFL8PIFVehJi7MVWrDXqoMlkPLuvXo9aP+WQB/EErjPvAayMOmUP+gTL/NWxITqPGPZK2XtE9pgcVrWyc3xc/+YTyebWNK+rtmAyWlGP/eliRO3yEsGmz8o9JBSgOoQqhEmw5DHDZJheBrRRyvm+a84qVIzOFpXH9siCaC50IUM0wmFhzZuSMna+3k035X/W95iGIQBCFRdjIOLpT0JSULvvxk0W9DSm14SNXbMEEWQazrStyw==
+X-YMail-OSG: 1HTxhrwVM1kZE2_6l5ymOn55wL.OWIsR9auq.uEqq_ZHTQie.PaPJpxl5rp9igB
+ FCikKZTBgfOj8BtWp.7dvKTeASz9ejKdjMoqxE0hg4RSPq.Xd74XcI5VEnMkqJkyztk67cbM7Or9
+ unzm5W7a3GjGw1sOHs_4l.tEhyFRVj01f6pdEhXinjs1ji5NymU2z43mkQDygHNj16YBZa9wTB07
+ moCD3msk0w8_kdkp22fpPwTX4fLTEmNYBk21vXz6HtPk0.6b3kVjtTGK6_ZZh_OYbaLCc5TFSvT.
+ AENtXRny18CK0gOejXVDH8ptfkWZF5lg6LdBoZiGU43ZYWbhjIXMSDsrYPX.SYJZG3m6aL96RlDc
+ 4vm72HzxkuZRIQhMed8kwuXYxZl_jqoyOlhI.nyfIvgsga1AYHOmHv.U_XZRhERMqBF.P5FA.Wnv
+ 6kMqdwrgGgGIaBeQs75cdTwEmgv5ykzgM2LfpevJOpR_MdTOpjHP08RQMgGirEnMzLLu4uGsG6Jp
+ KxzISBhVgXQ4x9lZvKT1RFpVYF.wX6_RTCbllK1_nHOjYKRfnp8EfjyYm_VsnMOFRAnulZztZzAB
+ juSj9TeppZ71SsI8u6thVsJU0PtFY_.RdSdkfF0PQaXmIwubwv0BR2gR0gt5yXxJV0kAW.bpPwB4
+ 8v7fMU_tvJzbYunZIf9a6A3doFdxSkSIuEfQctkuJZxwf955s2qBys5JamCgpQA5LprKLq3.iR.G
+ BIyc.9HtBGd7_XlYAWyIBlRYB4dhsVF8_yma6nxIJdOXkg7QBy0U0Mba7DucPundHOuIxwEb5Rov
+ KpuYyiiYmAOOobaSJaM8GYdWZLDqdKdCwa.RlA0BHZIK3lDCKK9a76.qpc6gs.WiFFwndlk9SpVe
+ CFz52MUKaSLxUp3Y.jhTJdHuxZgtpswiFP2J_BbRrk3nvH_6qaOcGnaxXjwty5qD_ElDn2rmpKl4
+ a06XHTzdmDucbtqSf1I5rTyiFcVFiIzSREWbA7Kc8Kh_utzmUu7QXM6J87zt9PxzcFHlBHvtZV3d
+ Jt2ydetpORiYIDflivuU8c5bAF93F6tbvCTO1bi7racv42jfg48zkh61iQck2C7pew6.5E.HLDNs
+ CDqJWL0wv05joC45oVjMt6mHEACw8YXaKFnoUMjnlrbHwDktN8ty70H7rYDNrKIM_SRj1rjtWOE2
+ wpRrOZm8gM..Xxb1sh2OeXwtcuiT16WAIZ8HTAtstL3u_TVZOyW_eMVZbtrQE7M7dhwEAxNYa.uz
+ Rdql3UbrnbUdAEu4bpqZDBxt5XwCviqOtp.6WkyD5frAPEgwbHYnAZsPjZPglQsouJX2ttD_S.Kj
+ HBXFqHTAuu1pSYJNaUNcIey6u_eM-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:11:55 +0000
+Date:   Tue, 17 Mar 2020 12:09:54 +0000 (UTC)
+From:   Stephen Li <stenn6@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <2059527141.1811494.1584446994240@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <2059527141.1811494.1584446994240.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi all,
 
-On Tue, Mar 03, 2020 at 04:36:30PM +0300, Mika Westerberg wrote:
-> Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
-> IPC communications with minor differences. This duplication does not make
-> much sense so this series reworks the two drivers so that there is only a
-> single implementation of the SCU IPC. In addition to that the API will be
-> updated to take SCU instance pointer as an argument, and most of the
-> callers will be converted to this new API. The old API is left there but
-> the plan is to get rid the callers and then the old API as well (this is
-> something we are working with Andy Shevchenko).
-> 
-> The intel_pmc_ipc.c is then moved under MFD which suits better for this
-> kind of a driver that pretty much sets up the SCU IPC and then creates a
-> bunch of platform devices for the things sitting behind the PMC. The driver
-> is renamed to intel_pmc_bxt.c which should follow the existing conventions
-> under drivers/mfd (and it is only meant for Intel Broxton derivatives).
-> 
-> This series is on top of platform-driver-x86.git/for-next because there are
-> a couple of commits in that branch that re-organize the Kconfig and
-> Makefile of drivers/platform/x86. So these do not apply cleanly without
-> those commits. For this reason I would prefer this to go through pdx86 tree
-> if there are no objections.
 
-If there are no objections it would be nice to get this series merged for v5.7.
-
-Thanks!
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
