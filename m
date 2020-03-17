@@ -2,76 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7712C185B26
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 15 Mar 2020 09:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0696E187B71
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Mar 2020 09:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727654AbgCOINg (ORCPT
+        id S1725928AbgCQIn1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 15 Mar 2020 04:13:36 -0400
-Received: from sonic306-1.consmr.mail.bf2.yahoo.com ([74.6.132.40]:36038 "EHLO
-        sonic306-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727134AbgCOINg (ORCPT
+        Tue, 17 Mar 2020 04:43:27 -0400
+Received: from mga01.intel.com ([192.55.52.88]:23764 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725862AbgCQIn1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 15 Mar 2020 04:13:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584260015; bh=7bAj2aTmdt2qZuhBQReQcDKGCSJd8LlC9EcZcjUJr8M=; h=Date:From:Reply-To:Subject:References:From:Subject; b=JiezpWDBqnuAAldUaJKEfZuwjpgXSW3H7u2ILkv+Uqu1PIg3nEgHqjnszZKm5EnE7JDqdJFDrbPsX+zmoA4wjhh2SCdK7i3HUMuOO3sjd6LarfVk8Smk/4h1CzkG1WjiHi5PyGgsaEpBAtSVZ/UdGZ7LEulCV6dejulC4axPKETgjmB0i2ChVsgDu8s75upyGKjk8bi9jZqn9oYvni8kWAmvSXPlFX/Jx1r4jo/0aPPMctytLbFu+DGkt9/3YXqDqNcv68YOytHpLyC5eIk3RvzcTrP9mMITBbsGMwfeqFOVmxkMjSsuNxsQ82NVdzz9Uobx9LZig+HUAGGraEagNA==
-X-YMail-OSG: OVp7n6gVM1kJgz3vgK5p1cn3vlKVDPng8HbTT9DLbOg3Rfya6kYNIT5hwRKEzHN
- Tvg3QWjGqtci3IEpaHmMuB1nAMmSGGmYsVyYppotMxalipzMJwrEsn.YSRPwXKAk0v0kJEymFgfF
- HBnlijef97QCIKYW0ItMXBTfa5KQeCpkpLyH9PXGqxT4loJ5qP3_HUuhj81rNz5LEkJo8l3d5R2g
- 4eh_dJs9.sKf75_BlFyQi6drdN2oLy3PPLKCDsgrLmpQOYNWmZJIvPp7ARBy5_lQrUM1W46GBygu
- JcNXY7DReEs9ciwBT7q0sYP2eGSrdSPGsBMR0sStzsyG4oitk.sRw7xtz0V88opWbu8yL7_Qk2_c
- EKLNWsoHR1Mv.Q7MY_EXO4yZc714VNl9zwU6Nq2MzBqrxyp.UImodPjYEAFlVfO02jfI4.DC75V6
- cQhDBLbd8UqwJKPTXyVAmyGprQ0JCpk4K6boPVr9abk4R1edRSoDfmQjUxfW6SGdHZRGqWJ1Bh50
- 3B7G0NvRSDS07sxPPGil4Xe4ewjt9lPwJsYcTYHyiYB_H1dEPFNAqgLjlNbGQMFDivL7sE4HteEA
- UVcxmw3Pdh47v5R0IeguCvfVH58ZexrTEYJzWiZlsIa3U2tgCM2kdwqfZulVpZo0C1yjhrBjLNA4
- e0FjOunGEW8bzqip9zqZTfewFhAfpHxNb9SpNxZ1vLTwbkOtHeEm1QcGRuMXkDvlOTniXmYZgWDh
- w8cIezCk2j3ZnDrY5L_NmTR0AzGf0XrgfDeGEwQb7z2h1AcfzSNdJ9PKkwZb2b2j2SiQbNXknGCU
- c5R.y5wEKb1f6a2RksL5O2U3s5q0mPxFTLnpfmkxw9nkTXKuTpjJXccxqnmM9u9iuA.JS37ekAfG
- o.gRT8jXbforCLvOtuzrMX8u_ammOT2Fbh5J6rPuk3DrBNAS1DtMh34i54FRLUhh.8bxhRUeWUw1
- EfCxkZEWy0S8GtnpYr1UCEkvGKXIeDnCFP82_d5yMO4JXaYnP2mi.s4qM8vTe_VLjzZyb0kKQYcZ
- EmGFYtgpazOUXfKTPG0pWwDKXmAZkmcPg16Jl2ieI8HMUAjZNkDnrg6GeYAxexnyuwwAoyP3ydHv
- 0qCAz5UNXbtsDjIYhVJeJYJtSnt6JMebAUf3Eb_mZxUG_krukckGSb_dbaVrye5CnF_pKgGA4H.f
- AiHfflbiTuWSvrPA0pbfEwlpT.nCsKXua8iI3vR49I0YOcpSUDgjvoZKnQ8sLh_ur1PnA_UxJ14G
- Y0iujNLIoHNWXkPUVLjQge76yQb6zBY05Zaf13kVPsAdE3ODe66qmCkDxTO4uHz2icLyqOao-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.bf2.yahoo.com with HTTP; Sun, 15 Mar 2020 08:13:35 +0000
-Date:   Sun, 15 Mar 2020 08:13:33 +0000 (UTC)
-From:   Suleiman Abubaker <suleimanabubaker84612@gmail.com>
-Reply-To: suleimanabubaker@mail.com
-Message-ID: <415601250.3380602.1584260013965@mail.yahoo.com>
-Subject: Helo
+        Tue, 17 Mar 2020 04:43:27 -0400
+IronPort-SDR: vN7byG2GEXD7msGWL1dU5RXrBSqRRiLNgRucM0EY9DJ4+VwmDonn2pfauZAwnbg3C7oOy4gYIu
+ phkFLI1CYlRw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2020 01:43:26 -0700
+IronPort-SDR: +docOiDqVc1l3NEISqhzMl5AJ6YYAkBWQjirftyHCvIHVoRaBFmc0eqdgdnBiYxtpGPqTX5uI4
+ ElQjYnYSjE3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,563,1574150400"; 
+   d="scan'208";a="355297772"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001.fm.intel.com with SMTP; 17 Mar 2020 01:43:22 -0700
+Received: by lahna (sSMTP sendmail emulation); Tue, 17 Mar 2020 10:43:21 +0200
+Date:   Tue, 17 Mar 2020 10:43:21 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 00/19] platform/x86: Rework intel_scu_ipc and
+ intel_pmc_ipc drivers
+Message-ID: <20200317084321.GC2601@lahna.fi.intel.com>
+References: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <415601250.3380602.1584260013965.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:74.0) Gecko/20100101 Firefox/74.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi all,
 
+On Tue, Mar 03, 2020 at 04:36:30PM +0300, Mika Westerberg wrote:
+> Currently both intel_scu_ipc.c and intel_pmc_ipc.c implement the same SCU
+> IPC communications with minor differences. This duplication does not make
+> much sense so this series reworks the two drivers so that there is only a
+> single implementation of the SCU IPC. In addition to that the API will be
+> updated to take SCU instance pointer as an argument, and most of the
+> callers will be converted to this new API. The old API is left there but
+> the plan is to get rid the callers and then the old API as well (this is
+> something we are working with Andy Shevchenko).
+> 
+> The intel_pmc_ipc.c is then moved under MFD which suits better for this
+> kind of a driver that pretty much sets up the SCU IPC and then creates a
+> bunch of platform devices for the things sitting behind the PMC. The driver
+> is renamed to intel_pmc_bxt.c which should follow the existing conventions
+> under drivers/mfd (and it is only meant for Intel Broxton derivatives).
+> 
+> This series is on top of platform-driver-x86.git/for-next because there are
+> a couple of commits in that branch that re-organize the Kconfig and
+> Makefile of drivers/platform/x86. So these do not apply cleanly without
+> those commits. For this reason I would prefer this to go through pdx86 tree
+> if there are no objections.
 
+If there are no objections it would be nice to get this series merged for v5.7.
 
-
-
-
-Dear Friend,
-
-I am. Mr. Suleiman Abubaker, Manager Auditing and Accountancy Department,Bank of Africa in (B.O.A) Burkina Faso
-
-i am writing to seek for your highly esteemed consent/assistance in a lasting business relationship of mutual benefit involving $18. Million Usd for investment in your country, under a joint venture partnership.
-
-Thank you for accommodating my inquiry, as i look forward to hear from you on this business collaboration and meeting with you soon.
-
-
-(1)Your Full name:..........................
-(2)Your Age.................................
-(3)Occupation:.................................
-(4)Mobile phone number:.....................
-(5)Your Country..........................
-
-Waiting to hear from you.
-
-Your's truly,
-
-Mr. Suleiman Abubaker,
+Thanks!
