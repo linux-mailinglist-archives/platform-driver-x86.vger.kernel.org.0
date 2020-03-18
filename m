@@ -2,63 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2076E18834E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Mar 2020 13:11:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 313ED189CF6
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 18 Mar 2020 14:27:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgCQML4 (ORCPT
+        id S1727085AbgCRN1q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Mar 2020 08:11:56 -0400
-Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:42404
-        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726825AbgCQML4 (ORCPT
+        Wed, 18 Mar 2020 09:27:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726738AbgCRN1p (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Mar 2020 08:11:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584447115; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=iUlGnRLQG6F3FaEVNIp3zcBgcxIJSYrz1n2caipTs0506aGX82j4iJh/jdfSgvf/ydicy2n4aU/zcMuD6FT0MPShSa5Y9D0k1iZPPFL8PIFVehJi7MVWrDXqoMlkPLuvXo9aP+WQB/EErjPvAayMOmUP+gTL/NWxITqPGPZK2XtE9pgcVrWyc3xc/+YTyebWNK+rtmAyWlGP/eliRO3yEsGmz8o9JBSgOoQqhEmw5DHDZJheBrRRyvm+a84qVIzOFpXH9siCaC50IUM0wmFhzZuSMna+3k035X/W95iGIQBCFRdjIOLpT0JSULvvxk0W9DSm14SNXbMEEWQazrStyw==
-X-YMail-OSG: 1HTxhrwVM1kZE2_6l5ymOn55wL.OWIsR9auq.uEqq_ZHTQie.PaPJpxl5rp9igB
- FCikKZTBgfOj8BtWp.7dvKTeASz9ejKdjMoqxE0hg4RSPq.Xd74XcI5VEnMkqJkyztk67cbM7Or9
- unzm5W7a3GjGw1sOHs_4l.tEhyFRVj01f6pdEhXinjs1ji5NymU2z43mkQDygHNj16YBZa9wTB07
- moCD3msk0w8_kdkp22fpPwTX4fLTEmNYBk21vXz6HtPk0.6b3kVjtTGK6_ZZh_OYbaLCc5TFSvT.
- AENtXRny18CK0gOejXVDH8ptfkWZF5lg6LdBoZiGU43ZYWbhjIXMSDsrYPX.SYJZG3m6aL96RlDc
- 4vm72HzxkuZRIQhMed8kwuXYxZl_jqoyOlhI.nyfIvgsga1AYHOmHv.U_XZRhERMqBF.P5FA.Wnv
- 6kMqdwrgGgGIaBeQs75cdTwEmgv5ykzgM2LfpevJOpR_MdTOpjHP08RQMgGirEnMzLLu4uGsG6Jp
- KxzISBhVgXQ4x9lZvKT1RFpVYF.wX6_RTCbllK1_nHOjYKRfnp8EfjyYm_VsnMOFRAnulZztZzAB
- juSj9TeppZ71SsI8u6thVsJU0PtFY_.RdSdkfF0PQaXmIwubwv0BR2gR0gt5yXxJV0kAW.bpPwB4
- 8v7fMU_tvJzbYunZIf9a6A3doFdxSkSIuEfQctkuJZxwf955s2qBys5JamCgpQA5LprKLq3.iR.G
- BIyc.9HtBGd7_XlYAWyIBlRYB4dhsVF8_yma6nxIJdOXkg7QBy0U0Mba7DucPundHOuIxwEb5Rov
- KpuYyiiYmAOOobaSJaM8GYdWZLDqdKdCwa.RlA0BHZIK3lDCKK9a76.qpc6gs.WiFFwndlk9SpVe
- CFz52MUKaSLxUp3Y.jhTJdHuxZgtpswiFP2J_BbRrk3nvH_6qaOcGnaxXjwty5qD_ElDn2rmpKl4
- a06XHTzdmDucbtqSf1I5rTyiFcVFiIzSREWbA7Kc8Kh_utzmUu7QXM6J87zt9PxzcFHlBHvtZV3d
- Jt2ydetpORiYIDflivuU8c5bAF93F6tbvCTO1bi7racv42jfg48zkh61iQck2C7pew6.5E.HLDNs
- CDqJWL0wv05joC45oVjMt6mHEACw8YXaKFnoUMjnlrbHwDktN8ty70H7rYDNrKIM_SRj1rjtWOE2
- wpRrOZm8gM..Xxb1sh2OeXwtcuiT16WAIZ8HTAtstL3u_TVZOyW_eMVZbtrQE7M7dhwEAxNYa.uz
- Rdql3UbrnbUdAEu4bpqZDBxt5XwCviqOtp.6WkyD5frAPEgwbHYnAZsPjZPglQsouJX2ttD_S.Kj
- HBXFqHTAuu1pSYJNaUNcIey6u_eM-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:11:55 +0000
-Date:   Tue, 17 Mar 2020 12:09:54 +0000 (UTC)
-From:   Stephen Li <stenn6@gabg.net>
-Reply-To: stephli947701@gmail.com
-Message-ID: <2059527141.1811494.1584446994240@mail.yahoo.com>
-Subject: REF
+        Wed, 18 Mar 2020 09:27:45 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E0A2C20772;
+        Wed, 18 Mar 2020 13:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584538063;
+        bh=oIHo118B/P4ps6bCbCVqy1PT/9fV4w7MXfcifS4hIdI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MvBTxOqdmnHsDg1WiZ0CR7fg6rQLSQUb/sx1NYSgsIpiLfoMcF+ZEqhKUZHMdL/Es
+         16436zOaucxfW4wE1Kmm0fpm8NAgBEFAv0c2jXykiWkXGFjWNOUAZwr2RrRRSsZR2A
+         6OKUexXnmMm5q3bx5th2BjaAg7CLS9TgTfBTRwb8=
+Date:   Wed, 18 Mar 2020 14:27:41 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200318132741.GA2794545@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
+ <20200124085751.GA2957916@kroah.com>
+ <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <2059527141.1811494.1584446994240.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
+> > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> > > This is a preparation patch for adding a new platform fallback mechanism,
+> > > which will have its own enable/disable FW_OPT_xxx option.
+> > > 
+> > > Note this also fixes a typo in one of the re-wordwrapped comments:
+> > > enfoce -> enforce.
+> > > 
+> > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > 
+> > I've taken this in my tree for now in a quest to try to get others to
+> > pay attention to this series...
+> 
+> Thank you.
+> 
+> As mentioned before I believe that this series is ready for merging now.
+> 
+> Andy Lutomirski had one last change request for v12 of the second
+> patch in the series, specifically to replace the loop searching for
+> the prefix with a memem, but the kernel does not have memmem.
+> 
+> Andy, are you ok with v12 as is, given that we don't have memmem ?
+> 
+> Assuming Andy is ok with v12 as is, then to merge this we need
+> to probably wait for 5.6-rc1 and then have the x86/efi folks do
+> an immutable branch with the first 2 patches of the series.
 
+Did this every happen?  Or do I need to dump this all into my tree?
 
-Greetings,
-I was searching through a local business directory when I found your
-profile. I am Soliciting On-Behalf of my private client who is
-interested in having a serious business investment in your country. If
-you have a valid business, investment or project he can invest
-back to me for more details. Your swift response is highly needed.
-Sincerely
-Stephen Li
-Please response back to me with is my private email below for more details
-stephli947701@gmail.com
+thanks,
+
+greg k-h
