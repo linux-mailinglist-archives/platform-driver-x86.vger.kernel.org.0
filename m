@@ -2,80 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBFA918CCBA
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 12:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 281B418CEFB
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 14:35:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbgCTLWE (ORCPT
+        id S1727521AbgCTNfY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Mar 2020 07:22:04 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:42428 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726843AbgCTLV6 (ORCPT
+        Fri, 20 Mar 2020 09:35:24 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51516 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727522AbgCTNfT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:21:58 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 13so6066278oiy.9
-        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Mar 2020 04:21:58 -0700 (PDT)
+        Fri, 20 Mar 2020 09:35:19 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c187so6523632wme.1
+        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Mar 2020 06:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=gXr8iqrFPWrUhIliERP+Rlw7D9XFBjLMvK5JfWrCwC1wCwV70lx2adPhEP+5LqtKBG
-         O7JxXe77iNTDDKteRIXyf/+5d6XSEUrRv+eG+L2zubgUkC+eWkybCOuucPHhc0ShVd1L
-         7mmc4fyfvf0Od1Bi4HewoE3FoNz+THwrf6rX53/BkajGTcaqNUtHUSKj+8dpdvKadb4o
-         I6t5k90iaDwdED7mSjm4SxMxu1mD1nZuxQ9ZeNQ+a6TGw/3h7X0TvsVG77lyIB9Bk3MP
-         RcyvjUdW1zADACdtH+UIpYKPK/PGfBGesTi7w5wMvW1LxvX8cJVM9F6GMvVusKZ+9xMh
-         9qFA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YxuT8VTRArGqn+RIbW+oB8jNX+9BGigb4/P7CTp2s5o=;
+        b=d/xQo1zEVHGFHHdCRvK8nW9vYq6E1xfkwHUI4GlFPAkTk2rJ93zWgsa1nut8ctMhGe
+         VeA2tmm32Zl+raj+zbklYNwpNwZVrGRl/KL7Jug6kWnfjrmOTegCVdlJn53XoeIEZZjL
+         rp/VqZw2cRv64TXa1hlwS4i4Qbh15SIgzxPI34v9T0JPXCLSRLSuqFlDMmpB9n4Nj2Jk
+         rbNnT5SJO8v5GqtQY8co5lBXL5VEnixLdYKADGtcRN17BexHmwe93R6tAupYdz26vDsu
+         v4IfzIX5KkJTeWJ+ZjXiG/4En9l4N0Far7/+Ha4U5k25Ho/TL+Dn0nGHOsEcIjGxTig0
+         O1sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=NimF8E2RCgiKvTyFQtscj1Al39+j7si1mNAPCSdE0kftxeu2RpwnTaMuPioPB0hUpp
-         QIpFXVuevRPXKiONiniKbQgUJYNh5M/dWHAtJCheKTHkVM/FFOMDgtLezPDS2Lr7A9Gt
-         KvmmdSkYQdvQOTa+PpK7SfyHgB4AmUdeCk2SMzL7fA8j5ZRvkQKfRFxzpjZsN/Cd7aBf
-         RpWuJibI43We5h3JgKHbUiZjg6fwVqjUG2W4ZYHxkUWlkWzfDt5mDAAC8lp7d8771wWE
-         ZvPAJ5s5dOzJBL5DYGmlECCDIopa1iRwcCtphEDS0D2SYFtxP6KsbeqYqXZN2mA8Ly7A
-         7zJA==
-X-Gm-Message-State: ANhLgQ3KfwWF6lLP8fsJ2dLhYfYzDZJDeEhTbZn524WWp3aEjBMpELBR
-        3ve+pkDA5aZVr5eXM9GYqB46We+d929OyBgtHy0=
-X-Google-Smtp-Source: ADFU+vsEhnx2OvxntOwweiY4ejI8hgMnvqEI1mkGNtS4be2GVSqcT+fJU/MBEybdWCiYRkYwkzCyurhmJwBn7Zr4Sgs=
-X-Received: by 2002:aca:210c:: with SMTP id 12mr5681362oiz.0.1584703317715;
- Fri, 20 Mar 2020 04:21:57 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YxuT8VTRArGqn+RIbW+oB8jNX+9BGigb4/P7CTp2s5o=;
+        b=Juwc5NINkGBJwBz7uLCmbOc/UluLUEFyyjDX+KhMjeLI50ETLnBeedPUNZlqDzGhXK
+         05aoD2FwpPntgRXVpi3sU3qdU9haLaXP1OA+ew5w4f1J6NkKDYuWfATFv6kcTL9pJHTg
+         1v/sO0TZOVZmIFeNDGmQctj3h40hGN7Nf3OpapThhf9KzEQ/Dlo/wbS6tNvkvr5KDimy
+         hVsHopAsLEBWNwoxRf6RKxEHSDzzR0Y0k8zPDpvbIdF8jabBKdhBs+3f27m/yqf6Fn4+
+         AA3FWa54NHCrtygfvxOFHgs7gjlHjo4s5UjF51Zy3CPMXztq7uBHCDrnKu4lm2PS6uvw
+         4W+w==
+X-Gm-Message-State: ANhLgQ3HJbxPxjC5v0p8Zc6kerdMx76vth8Om16DFyON+N2zJWeTfsns
+        Zm+CxLS22Xv3fM36EQvRHK0tXQ==
+X-Google-Smtp-Source: ADFU+vvbxhZ+jhlGwAXeXKHcTIWOulxfuzDlUOLQY4koNixlyTIbyAUF4Hg2xDKlNLPbZ3JGZf0lWg==
+X-Received: by 2002:a1c:4c16:: with SMTP id z22mr10692628wmf.50.1584711317396;
+        Fri, 20 Mar 2020 06:35:17 -0700 (PDT)
+Received: from dell ([2.27.35.213])
+        by smtp.gmail.com with ESMTPSA id m17sm8457182wrw.3.2020.03.20.06.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2020 06:35:16 -0700 (PDT)
+Date:   Fri, 20 Mar 2020 13:36:02 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 01/19] platform/x86: intel_scu_ipc: Split out SCU IPC
+ functionality from the SCU driver
+Message-ID: <20200320133602.GE5477@dell>
+References: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
+ <20200303133649.39819-2-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6838:40c6:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:21:57
- -0700 (PDT)
-From:   ECOWAS COMMITEE <ecowasmonitoringcommitteeabj@gmail.com>
-Date:   Fri, 20 Mar 2020 11:21:57 +0000
-Message-ID: <CAHHubrYVO=2YdPqKZhJ+2V5OGE9v-76hg5HAnvmVr7enpkq_MA@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200303133649.39819-2-mika.westerberg@linux.intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Sir/Madam
+On Tue, 03 Mar 2020, Mika Westerberg wrote:
 
-HAPPY SURVIVAL OF CORONAVIRUS
+> The SCU IPC functionality is usable outside of Intel MID devices. For
+> example modern Intel CPUs include the same thing but now it is called
+> PMC (Power Management Controller) instead of SCU. To make the IPC
+> available for those split the driver into core part (intel_scu_ipc.c)
+> and the SCU PCI driver part (intel_scu_pcidrv.c) which then calls the
+> former before it goes and creates rest of the SCU devices. The SCU IPC
+> will also register a new class that gets assigned to the device that is
+> created under the parent PCI device.
+> 
+> We also split the Kconfig symbols so that INTEL_SCU_IPC enables the SCU
+> IPC library and INTEL_SCU_PCI the SCU driver and convert the users
+> accordingly. While there remove default y from the INTEL_SCU_PCI symbol
+> as it is already selected by X86_INTEL_MID.
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  arch/x86/Kconfig                        |   2 +-
+>  arch/x86/include/asm/intel_scu_ipc.h    |  18 +++
 
-We the West African Monitoring Committee of the West African Economic
-Community(ECOWAS)are contacting you for a business transaction which
-we feel will be of great interest to you.
+>  drivers/mfd/Kconfig                     |   4 +-
 
-Our duty is to see to the coming in and out of funds into this sub
-region.There is a fund which we confiscated worth of $12.5 million
-dollars.We will like you to receive this fund on your name in your
-account and as well helping us in the investment.
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
-You are advised to contact us as soon as you get this message for
-details of the transaction if you find it interesting.
+>  drivers/platform/x86/Kconfig            |  24 ++--
+>  drivers/platform/x86/Makefile           |   1 +
+>  drivers/platform/x86/intel_scu_ipc.c    | 172 ++++++++++++++++--------
+>  drivers/platform/x86/intel_scu_pcidrv.c |  55 ++++++++
+>  7 files changed, 208 insertions(+), 68 deletions(-)
+>  create mode 100644 drivers/platform/x86/intel_scu_pcidrv.c
 
-Best Regards,
-
-Mr John Aka
-
-Chairman
-ECOWAS
-West African Monitoring Committee
-Tel 00225 6716 6756
-Abidjan Cote D'Ivoire
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
