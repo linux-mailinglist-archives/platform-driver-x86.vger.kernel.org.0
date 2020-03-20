@@ -2,75 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AD6A18D0B3
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 15:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2219718D0C6
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 15:29:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727485AbgCTOZm (ORCPT
+        id S1727386AbgCTO3P (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Mar 2020 10:25:42 -0400
-Received: from mail-pj1-f42.google.com ([209.85.216.42]:37211 "EHLO
-        mail-pj1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726896AbgCTOZm (ORCPT
+        Fri, 20 Mar 2020 10:29:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727123AbgCTO3P (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Mar 2020 10:25:42 -0400
-Received: by mail-pj1-f42.google.com with SMTP id ca13so2529741pjb.2
-        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Mar 2020 07:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=6W4srFJVmCR42ZSMxC0CIO7+VYFI5vVMRCJ5y/hc2Ms=;
-        b=jLkyqjNh1Cww3h0PrN9VM8lxEzSx4uDiFSCREh6yyAlyaV1NHL0SGnEOINPg5jR3Y3
-         yNkTV1SP1vsUk/f1YrfRMl6oWhNTbyw/Y9Y1YICx8re4xIV7zbcFFWjX4jEk9eCDgzUx
-         vxyagOaDbAxY58lG2co4JyRUNdgL1mByaUb+s7scXlpKwMYufN4oQsIdY4XhL71QgroG
-         ZQVJhYKbE9K7NhK7rIityWOB1Pp93PmPDNIwzrEXYdtGEXtqg9YnIEmUVT9sQIlOXo4s
-         BnVtIxU4eRAt2fiM57Yjr724BMnvW2IAbvhW8ZyM2dk+frjo2d/6VY58X9bFohU5J9CU
-         h8EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6W4srFJVmCR42ZSMxC0CIO7+VYFI5vVMRCJ5y/hc2Ms=;
-        b=rfyq4DL1PI+Hmn9Jf5MUy6zC57LpN31/BrRSN14hUWHOsBu/tin/st6+N1vHQVTGm9
-         aSdE1zN8T0GPsFVPHJn3hGdsR1ISbI75MpXz9JDryh+34v0nZz77B28PghiiZjNmYDSs
-         8hKD0i/wcFFD8a1Yiox4KlI1RKWWaJHJWBrIWhgB2X9Fq3S1OrhmTyV73bFZr6QWFzIG
-         YQICm1PoOCOenj3U5e2xAUBsBIdqx5OkPkPpv0gd99NElTsE94BAVhsew0KGnSplcMFM
-         Z+6XhQzWXJfPmkJhtw+hrxeUWkwraNjb3uev0DUmVE3Pi7FehDnNukO43UDDcOfmWolA
-         fhHA==
-X-Gm-Message-State: ANhLgQ0G1KicJ00P6VgVtDxATRUT1gU10hD2nIWQSRkgnUG/y4kpiLWx
-        7nDhPMYetk4lnvdK3vbWjeeFbuhQYILniF0ej2c=
-X-Google-Smtp-Source: ADFU+vuzrmwsIzX2wMNXvaY4ysWbP+NcK9mypKcoSp+b1eO4Q3MeapJqlNe09ClWLOfc4hAYMZ4BhzCn9M/0hbdRQ4M=
-X-Received: by 2002:a17:90a:f007:: with SMTP id bt7mr5562716pjb.1.1584714341204;
- Fri, 20 Mar 2020 07:25:41 -0700 (PDT)
+        Fri, 20 Mar 2020 10:29:15 -0400
+Received: from localhost (mobile-166-175-186-165.mycingular.net [166.175.186.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CF00C2070A;
+        Fri, 20 Mar 2020 14:29:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584714554;
+        bh=zLmNUAA4P1tSFHHWI4Xam3091wLPGZ+vmX5HjmCwmR0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=nwAeGaU8qigoXMYurhIrdwIitZrUDneAFgBTrb5mReZswg0PkpXOth9NT3V9N2YFa
+         3cy442JJiVUidsTyRkniPmwskvAf7Tk+csvS0wyBNiUBUWP2FBIRcGkfikyQ9ZiDiF
+         gTv7OWpZTiM4gB7F67Ku0ksNKQyMRCtGl1eoQa7o=
+Date:   Fri, 20 Mar 2020 09:29:12 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-pm@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-edac@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, linux-pci@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-crypto@vger.kernel.org
+Subject: Re: [patch 02/22] x86/cpu: Add conistent CPU match macros
+Message-ID: <20200320142912.GA186731@google.com>
 MIME-Version: 1.0
-References: <a53f7cc8-a054-4afb-b8d6-a318347614c5@www.fastmail.com>
- <CAHp75VeiYE3sPtNEw+uLAwyhx6RBd-MHK1Y=XTxD99YHKRG2TA@mail.gmail.com> <eb437cb4-9e11-4f94-98f0-f7a1011c0570@www.fastmail.com>
-In-Reply-To: <eb437cb4-9e11-4f94-98f0-f7a1011c0570@www.fastmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 20 Mar 2020 16:25:33 +0200
-Message-ID: <CAHp75VeCm_0+AknrnEyEioCtiZT_VzPZUrsjns3UaObogoMoPA@mail.gmail.com>
-Subject: Re: [PATCH] [v4] platform/x86: surface3_power: MSHW0011 rev-eng implementation
-To:     =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200320131508.826011988@linutronix.de>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 3:28 AM Bla=C5=BE Hrastnik <blaz@mxxn.io> wrote:
->
-> > Unfortunately it does not apply to our for-next branch. Care to rebase?
->
-> Sorry about that! I've gone ahead and rebased it on top of for-next.
+s/conistent/consistent/ in subject
 
-Awesome, thanks!
+On Fri, Mar 20, 2020 at 02:13:47PM +0100, Thomas Gleixner wrote:
+> Finding all places which build x86_cpu_id match tables is tedious and the
+> logic is hidden in lots of differently named macro wrappers.
+> 
+> Most of these initializer macros use plain C89 initializers which rely on
+> the ordering of the struct members. So new members could only be added at
+> the end of the struct, but that's ugly as hell and C99 initializers are
+> really the right thing to use.
+> 
+> Provide a set of macros which:
+> 
+>   - Have a proper naming scheme, starting with X86_MATCH_
+> 
+>   - Use C99 initializers
+> 
+> The set of provided macros are all subsets of the base macro
+> 
+>     X86_MATCH_VENDOR_FAM_MODEL_FEATURE()
+> 
+> which allows to supply all possible selection criteria:
+> 
+>       vendor, family, model, feature
+> 
+> The other macros shorten this to avoid typing all arguments when they are
+> not needed and would require one of the _ANY constants. They have been
+> created due to the requirements of the existing usage sites.
+> 
+> Also a add a few model constants for Centaur CPUs and QUARK.
 
-However, you forgot to bump the version and patchwork misses it, so,
-please send it correctly.
-
---=20
-With Best Regards,
-Andy Shevchenko
+s/Also a/Also/
