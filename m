@@ -2,83 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90D5018CF67
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 14:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F265318CFA4
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 15:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgCTNuL (ORCPT
+        id S1726816AbgCTOCs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Mar 2020 09:50:11 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45869 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726843AbgCTNuL (ORCPT
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726773AbgCTOCs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Mar 2020 09:50:11 -0400
-Received: by mail-pg1-f193.google.com with SMTP id m15so3095966pgv.12;
-        Fri, 20 Mar 2020 06:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Fx6oA7jCuDE18WfPJWcAtH6HJ8W48kIoWQ2M4dnYLQ=;
-        b=SlIGit1n78vpYqCHXLeA58VBwdG1O5hZ+ob/HwUbL1XWsBANhUm4T55Rnn//EWSRhB
-         bCYj2Qngr+qsVkBWDL9J4Hw69j/5rlL2b3fr+YTt/g0s9CjgB3CTvcGARPF6pq7L+3WH
-         ABpgBrgzZiqP0k9Rh/n8+UqG/52JZvHatBjhg5vfWHbA8EbMqULMgweoS+Y1QcklQ2O2
-         fIDfPCrFgM9NHVVcDFmuM48NQ/5L3GfCeiBqq9WMt/E8hdZMYbopwHmyCLcW93RR4bTh
-         0IPtF3Yz2bqmOhC9YXoyM+MOdrdHYQ/7MoJey0CD9rfqXV7vYpqKDgh9fYvfXB/PgmlI
-         pmaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Fx6oA7jCuDE18WfPJWcAtH6HJ8W48kIoWQ2M4dnYLQ=;
-        b=GYqw2q0lsmqr/8V/Y8w4oJsLk2yYSEHssVCpYifVf+BQLG9tNBvBXLx7bCB+JiKzwV
-         zValQThrZfWwrtIrSFU3cFVYwwFBQ8RJ+iiSKr8FUyvbNFSniCXVpnBsbqSP7T3mWCWU
-         UaP6nn3EY8wWN2y47DSUUOkMqbGwgdvy7HgATPlWoPFKYz8IkmnYXE6HhRFgXbq85vua
-         wQCYk0iqcH2Id8wRc3NiqLASO3LpOP1DG8GBSitcanLyDlPWe0vyX3dkGpccuSmO/V+g
-         kzchzaNyP1PswRN2aJzp1zltHPQupWfvY7a4WQMeGGkOF3m4dP+RjMR93MPveyCG0c7F
-         suqQ==
-X-Gm-Message-State: ANhLgQ1bNQuJ1NrlUauxPeAR4tLpQxVF8Vq4t9w9pyG2ioKpDU0sPxp2
-        OKl8Ii5l0lvifPvzz5u6EDnGiwDSJ7b3lpqLRdA=
-X-Google-Smtp-Source: ADFU+vtAuiXSoY2iyX+5K/WkTZaYgCh0XETfaCT5+G4xqs+Nt3AjoJI+569URseqadDHO9HVE53hrN86ctUVAJ08lAw=
-X-Received: by 2002:aa7:8149:: with SMTP id d9mr9566637pfn.170.1584712210268;
- Fri, 20 Mar 2020 06:50:10 -0700 (PDT)
+        Fri, 20 Mar 2020 10:02:48 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F21AA2051A;
+        Fri, 20 Mar 2020 14:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584712965;
+        bh=5Z1pwexTYyYy7sJMHe5keJj5QUuvGZ/XrTgYgp87Uzs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CU1YZ99qYJjikO714HJH+W1kSSWtM3oLBz3Ba5Qr9MKPBBgyb81IhZjckTVEYTERa
+         0qZq+Oz5Wb63F44ixOBDajGaMzEvL6yRLxI/ao0QE5aP/fhFTp68/17ewN2mScGYWN
+         tx1uwXKWpzgaWa6Dycv2plDnaEhOoo9lzTw5v9PE=
+Date:   Fri, 20 Mar 2020 15:02:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Jones <pjones@redhat.com>,
+        Dave Olsthoorn <dave@bewaar.me>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v12 03/10] firmware: Rename FW_OPT_NOFALLBACK to
+ FW_OPT_NOFALLBACK_SYSFS
+Message-ID: <20200320140243.GA636547@kroah.com>
+References: <20200115163554.101315-1-hdegoede@redhat.com>
+ <20200115163554.101315-4-hdegoede@redhat.com>
+ <20200124085751.GA2957916@kroah.com>
+ <d25d5d6e-0348-b19f-539e-048cfa70d6a6@redhat.com>
+ <20200318132741.GA2794545@kroah.com>
+ <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 MIME-Version: 1.0
-References: <cover.1583093898.git.gayatri.kammela@intel.com>
- <20200302125427.GV1224808@smile.fi.intel.com> <BYAPR11MB362421570806431752364CD3F2E70@BYAPR11MB3624.namprd11.prod.outlook.com>
- <BYAPR11MB3624F3CB24817BB8C5AE6C10F2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
- <20200319180618.GN1922688@smile.fi.intel.com> <BYAPR11MB3624FFB1B25DD743F473AFFEF2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB3624FFB1B25DD743F473AFFEF2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 20 Mar 2020 15:50:03 +0200
-Message-ID: <CAHp75VcnE11pTyB2wPPe596+vRf_B1monV8NDHF_TBuGv9h64Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] platform/x86: intel_pmc_core: Add bug fixes or code
-To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
-        "dvhart@infradead.org" <dvhart@infradead.org>,
-        "Westerberg, Mika" <mika.westerberg@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Chen Zhou <chenzhou10@huawei.com>,
-        "Box, David E" <david.e.box@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8fa336bd-339f-40e0-08fe-e6b968736679@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 8:16 PM Kammela, Gayatri
-<gayatri.kammela@intel.com> wrote:
->
-> > Is it in my review and testing queue?
->
-> I think it is archived and superseded https://patchwork.kernel.org/patch/11414379/
+On Wed, Mar 18, 2020 at 02:56:23PM +0100, Hans de Goede wrote:
+> Hi Greg,
+> 
+> On 3/18/20 2:27 PM, Greg Kroah-Hartman wrote:
+> > On Fri, Jan 24, 2020 at 10:16:48AM +0100, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 1/24/20 9:57 AM, Greg Kroah-Hartman wrote:
+> > > > On Wed, Jan 15, 2020 at 05:35:47PM +0100, Hans de Goede wrote:
+> > > > > This is a preparation patch for adding a new platform fallback mechanism,
+> > > > > which will have its own enable/disable FW_OPT_xxx option.
+> > > > > 
+> > > > > Note this also fixes a typo in one of the re-wordwrapped comments:
+> > > > > enfoce -> enforce.
+> > > > > 
+> > > > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > > > 
+> > > > I've taken this in my tree for now in a quest to try to get others to
+> > > > pay attention to this series...
+> > > 
+> > > Thank you.
+> > > 
+> > > As mentioned before I believe that this series is ready for merging now.
+> > > 
+> > > Andy Lutomirski had one last change request for v12 of the second
+> > > patch in the series, specifically to replace the loop searching for
+> > > the prefix with a memem, but the kernel does not have memmem.
+> > > 
+> > > Andy, are you ok with v12 as is, given that we don't have memmem ?
+> > > 
+> > > Assuming Andy is ok with v12 as is, then to merge this we need
+> > > to probably wait for 5.6-rc1 and then have the x86/efi folks do
+> > > an immutable branch with the first 2 patches of the series.
+> > 
+> > Did this every happen?  Or do I need to dump this all into my tree?
+> 
+> Ard has done a immutable branch with just the 2 patches:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/tag/?h=stable-shared-branch-for-driver-tree
+> 
+> I did not see any mails about this being pulled / merged, but I just
+> checked and this has landed in the tip tree 10 days ago:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/include/linux/efi.h?h=efi/core
+> 
+> So if you merge the stable-shared-branch-for-driver-tree tag and then
+> merge patches 3-8 of this series (or rather 4-8 since you already
+> merged 3 IIRC) that would be great.
 
-Now everything in for-next, check if something is missed and resend.
+Ok, I've merged the above branch with just the two patches, and the rest
+of yours now, sorry this took so long.
 
--- 
-With Best Regards,
-Andy Shevchenko
+greg k-h
