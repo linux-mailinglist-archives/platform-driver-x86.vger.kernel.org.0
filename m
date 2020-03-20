@@ -2,117 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 281B418CEFB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 14:35:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90D5018CF67
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 20 Mar 2020 14:50:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbgCTNfY (ORCPT
+        id S1727054AbgCTNuL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 20 Mar 2020 09:35:24 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51516 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727522AbgCTNfT (ORCPT
+        Fri, 20 Mar 2020 09:50:11 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45869 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726843AbgCTNuL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 20 Mar 2020 09:35:19 -0400
-Received: by mail-wm1-f67.google.com with SMTP id c187so6523632wme.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 20 Mar 2020 06:35:18 -0700 (PDT)
+        Fri, 20 Mar 2020 09:50:11 -0400
+Received: by mail-pg1-f193.google.com with SMTP id m15so3095966pgv.12;
+        Fri, 20 Mar 2020 06:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YxuT8VTRArGqn+RIbW+oB8jNX+9BGigb4/P7CTp2s5o=;
-        b=d/xQo1zEVHGFHHdCRvK8nW9vYq6E1xfkwHUI4GlFPAkTk2rJ93zWgsa1nut8ctMhGe
-         VeA2tmm32Zl+raj+zbklYNwpNwZVrGRl/KL7Jug6kWnfjrmOTegCVdlJn53XoeIEZZjL
-         rp/VqZw2cRv64TXa1hlwS4i4Qbh15SIgzxPI34v9T0JPXCLSRLSuqFlDMmpB9n4Nj2Jk
-         rbNnT5SJO8v5GqtQY8co5lBXL5VEnixLdYKADGtcRN17BexHmwe93R6tAupYdz26vDsu
-         v4IfzIX5KkJTeWJ+ZjXiG/4En9l4N0Far7/+Ha4U5k25Ho/TL+Dn0nGHOsEcIjGxTig0
-         O1sQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Fx6oA7jCuDE18WfPJWcAtH6HJ8W48kIoWQ2M4dnYLQ=;
+        b=SlIGit1n78vpYqCHXLeA58VBwdG1O5hZ+ob/HwUbL1XWsBANhUm4T55Rnn//EWSRhB
+         bCYj2Qngr+qsVkBWDL9J4Hw69j/5rlL2b3fr+YTt/g0s9CjgB3CTvcGARPF6pq7L+3WH
+         ABpgBrgzZiqP0k9Rh/n8+UqG/52JZvHatBjhg5vfWHbA8EbMqULMgweoS+Y1QcklQ2O2
+         fIDfPCrFgM9NHVVcDFmuM48NQ/5L3GfCeiBqq9WMt/E8hdZMYbopwHmyCLcW93RR4bTh
+         0IPtF3Yz2bqmOhC9YXoyM+MOdrdHYQ/7MoJey0CD9rfqXV7vYpqKDgh9fYvfXB/PgmlI
+         pmaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YxuT8VTRArGqn+RIbW+oB8jNX+9BGigb4/P7CTp2s5o=;
-        b=Juwc5NINkGBJwBz7uLCmbOc/UluLUEFyyjDX+KhMjeLI50ETLnBeedPUNZlqDzGhXK
-         05aoD2FwpPntgRXVpi3sU3qdU9haLaXP1OA+ew5w4f1J6NkKDYuWfATFv6kcTL9pJHTg
-         1v/sO0TZOVZmIFeNDGmQctj3h40hGN7Nf3OpapThhf9KzEQ/Dlo/wbS6tNvkvr5KDimy
-         hVsHopAsLEBWNwoxRf6RKxEHSDzzR0Y0k8zPDpvbIdF8jabBKdhBs+3f27m/yqf6Fn4+
-         AA3FWa54NHCrtygfvxOFHgs7gjlHjo4s5UjF51Zy3CPMXztq7uBHCDrnKu4lm2PS6uvw
-         4W+w==
-X-Gm-Message-State: ANhLgQ3HJbxPxjC5v0p8Zc6kerdMx76vth8Om16DFyON+N2zJWeTfsns
-        Zm+CxLS22Xv3fM36EQvRHK0tXQ==
-X-Google-Smtp-Source: ADFU+vvbxhZ+jhlGwAXeXKHcTIWOulxfuzDlUOLQY4koNixlyTIbyAUF4Hg2xDKlNLPbZ3JGZf0lWg==
-X-Received: by 2002:a1c:4c16:: with SMTP id z22mr10692628wmf.50.1584711317396;
-        Fri, 20 Mar 2020 06:35:17 -0700 (PDT)
-Received: from dell ([2.27.35.213])
-        by smtp.gmail.com with ESMTPSA id m17sm8457182wrw.3.2020.03.20.06.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 06:35:16 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 13:36:02 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 01/19] platform/x86: intel_scu_ipc: Split out SCU IPC
- functionality from the SCU driver
-Message-ID: <20200320133602.GE5477@dell>
-References: <20200303133649.39819-1-mika.westerberg@linux.intel.com>
- <20200303133649.39819-2-mika.westerberg@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Fx6oA7jCuDE18WfPJWcAtH6HJ8W48kIoWQ2M4dnYLQ=;
+        b=GYqw2q0lsmqr/8V/Y8w4oJsLk2yYSEHssVCpYifVf+BQLG9tNBvBXLx7bCB+JiKzwV
+         zValQThrZfWwrtIrSFU3cFVYwwFBQ8RJ+iiSKr8FUyvbNFSniCXVpnBsbqSP7T3mWCWU
+         UaP6nn3EY8wWN2y47DSUUOkMqbGwgdvy7HgATPlWoPFKYz8IkmnYXE6HhRFgXbq85vua
+         wQCYk0iqcH2Id8wRc3NiqLASO3LpOP1DG8GBSitcanLyDlPWe0vyX3dkGpccuSmO/V+g
+         kzchzaNyP1PswRN2aJzp1zltHPQupWfvY7a4WQMeGGkOF3m4dP+RjMR93MPveyCG0c7F
+         suqQ==
+X-Gm-Message-State: ANhLgQ1bNQuJ1NrlUauxPeAR4tLpQxVF8Vq4t9w9pyG2ioKpDU0sPxp2
+        OKl8Ii5l0lvifPvzz5u6EDnGiwDSJ7b3lpqLRdA=
+X-Google-Smtp-Source: ADFU+vtAuiXSoY2iyX+5K/WkTZaYgCh0XETfaCT5+G4xqs+Nt3AjoJI+569URseqadDHO9HVE53hrN86ctUVAJ08lAw=
+X-Received: by 2002:aa7:8149:: with SMTP id d9mr9566637pfn.170.1584712210268;
+ Fri, 20 Mar 2020 06:50:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200303133649.39819-2-mika.westerberg@linux.intel.com>
+References: <cover.1583093898.git.gayatri.kammela@intel.com>
+ <20200302125427.GV1224808@smile.fi.intel.com> <BYAPR11MB362421570806431752364CD3F2E70@BYAPR11MB3624.namprd11.prod.outlook.com>
+ <BYAPR11MB3624F3CB24817BB8C5AE6C10F2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
+ <20200319180618.GN1922688@smile.fi.intel.com> <BYAPR11MB3624FFB1B25DD743F473AFFEF2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB3624FFB1B25DD743F473AFFEF2F40@BYAPR11MB3624.namprd11.prod.outlook.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 20 Mar 2020 15:50:03 +0200
+Message-ID: <CAHp75VcnE11pTyB2wPPe596+vRf_B1monV8NDHF_TBuGv9h64Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] platform/x86: intel_pmc_core: Add bug fixes or code
+To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Somayaji, Vishwanath" <vishwanath.somayaji@intel.com>,
+        "dvhart@infradead.org" <dvhart@infradead.org>,
+        "Westerberg, Mika" <mika.westerberg@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
+        Chen Zhou <chenzhou10@huawei.com>,
+        "Box, David E" <david.e.box@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 03 Mar 2020, Mika Westerberg wrote:
+On Thu, Mar 19, 2020 at 8:16 PM Kammela, Gayatri
+<gayatri.kammela@intel.com> wrote:
+>
+> > Is it in my review and testing queue?
+>
+> I think it is archived and superseded https://patchwork.kernel.org/patch/11414379/
 
-> The SCU IPC functionality is usable outside of Intel MID devices. For
-> example modern Intel CPUs include the same thing but now it is called
-> PMC (Power Management Controller) instead of SCU. To make the IPC
-> available for those split the driver into core part (intel_scu_ipc.c)
-> and the SCU PCI driver part (intel_scu_pcidrv.c) which then calls the
-> former before it goes and creates rest of the SCU devices. The SCU IPC
-> will also register a new class that gets assigned to the device that is
-> created under the parent PCI device.
-> 
-> We also split the Kconfig symbols so that INTEL_SCU_IPC enables the SCU
-> IPC library and INTEL_SCU_PCI the SCU driver and convert the users
-> accordingly. While there remove default y from the INTEL_SCU_PCI symbol
-> as it is already selected by X86_INTEL_MID.
-> 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  arch/x86/Kconfig                        |   2 +-
->  arch/x86/include/asm/intel_scu_ipc.h    |  18 +++
-
->  drivers/mfd/Kconfig                     |   4 +-
-
-For my own reference:
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-
->  drivers/platform/x86/Kconfig            |  24 ++--
->  drivers/platform/x86/Makefile           |   1 +
->  drivers/platform/x86/intel_scu_ipc.c    | 172 ++++++++++++++++--------
->  drivers/platform/x86/intel_scu_pcidrv.c |  55 ++++++++
->  7 files changed, 208 insertions(+), 68 deletions(-)
->  create mode 100644 drivers/platform/x86/intel_scu_pcidrv.c
+Now everything in for-next, check if something is missed and resend.
 
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+With Best Regards,
+Andy Shevchenko
