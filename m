@@ -2,158 +2,113 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D30A19009E
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 23 Mar 2020 22:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2BD190AD2
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Mar 2020 11:25:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbgCWVq7 (ORCPT
+        id S1727179AbgCXKZE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 23 Mar 2020 17:46:59 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:12464 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727066AbgCWVq7 (ORCPT
+        Tue, 24 Mar 2020 06:25:04 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36962 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726524AbgCXKZD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 23 Mar 2020 17:46:59 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1585000018; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=ZNpFv8n1vyNtNLXdZYwI5uo1FnppFNp10NWp9MPwYDo=; b=hfrLtl4+r6txinrUrrbo4VigSPZYST3qOkevL/cEe9JHtEFTbofJ5Z0rugDSh8ynQjJORpkx
- BTBmuzWnn205cxOaFpGTijek8PBVNJgShxLgYEbv1IxsRCXOc6pbWInTdliG5PhLoFSLTW13
- UylIIYMMTdLRIdlLleqBkaRi+qo=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI1MDg1NCIsICJwbGF0Zm9ybS1kcml2ZXIteDg2QHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e792e33.7f2b61a663b0-smtp-out-n02;
- Mon, 23 Mar 2020 21:46:27 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 31ABCC44798; Mon, 23 Mar 2020 21:46:24 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0630CC433CB;
-        Mon, 23 Mar 2020 21:46:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0630CC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Thomas Gleixner'" <tglx@linutronix.de>,
-        "'LKML'" <linux-kernel@vger.kernel.org>
-Cc:     "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Ingo Molnar'" <mingo@kernel.org>,
-        "'Sebastian Siewior'" <bigeasy@linutronix.de>,
-        "'Linus Torvalds'" <torvalds@linux-foundation.org>,
-        "'Joel Fernandes'" <joel@joelfernandes.org>,
-        "'Oleg Nesterov'" <oleg@redhat.com>,
-        "'Davidlohr Bueso'" <dave@stgolabs.net>,
-        "'kbuild test robot'" <lkp@intel.com>,
-        <linux-hexagon@vger.kernel.org>,
-        "'Logan Gunthorpe'" <logang@deltatee.com>,
-        "'Bjorn Helgaas'" <bhelgaas@google.com>,
-        "'Kurt Schwemmer'" <kurt.schwemmer@microsemi.com>,
-        <linux-pci@vger.kernel.org>,
-        "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>,
-        "'Felipe Balbi'" <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        "'Kalle Valo'" <kvalo@codeaurora.org>,
-        "'David S. Miller'" <davem@davemloft.net>,
-        <linux-wireless@vger.kernel.org>, <netdev@vger.kernel.org>,
-        "'Darren Hart'" <dvhart@infradead.org>,
-        "'Andy Shevchenko'" <andy@infradead.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        "'Zhang Rui'" <rui.zhang@intel.com>,
-        "'Rafael J. Wysocki'" <rafael.j.wysocki@intel.com>,
-        <linux-pm@vger.kernel.org>, "'Len Brown'" <lenb@kernel.org>,
-        <linux-acpi@vger.kernel.org>, "'Nick Hu'" <nickhu@andestech.com>,
-        "'Greentime Hu'" <green.hu@gmail.com>,
-        "'Vincent Chen'" <deanbo422@gmail.com>,
-        "'Guo Ren'" <guoren@kernel.org>, <linux-csky@vger.kernel.org>,
-        "'Tony Luck'" <tony.luck@intel.com>,
-        "'Fenghua Yu'" <fenghua.yu@intel.com>,
-        <linux-ia64@vger.kernel.org>, "'Michal Simek'" <monstr@monstr.eu>,
-        "'Michael Ellerman'" <mpe@ellerman.id.au>,
-        "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Geoff Levand'" <geoff@infradead.org>,
-        <linuxppc-dev@lists.ozlabs.org>,
-        "'Paul E . McKenney'" <paulmck@kernel.org>,
-        "'Jonathan Corbet'" <corbet@lwn.net>,
-        "'Randy Dunlap'" <rdunlap@infradead.org>,
-        "'Davidlohr Bueso'" <dbueso@suse.de>
-References: <20200321112544.878032781@linutronix.de> <20200321113241.531525286@linutronix.de>
-In-Reply-To: <20200321113241.531525286@linutronix.de>
-Subject: RE: [patch V3 08/20] hexagon: Remove mm.h from asm/uaccess.h
-Date:   Mon, 23 Mar 2020 16:46:17 -0500
-Message-ID: <0cc301d6015c$7e756490$7b602db0$@codeaurora.org>
+        Tue, 24 Mar 2020 06:25:03 -0400
+Received: by mail-pg1-f194.google.com with SMTP id a32so8810157pga.4;
+        Tue, 24 Mar 2020 03:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=niMBZQskqIvvbvSQd3Vs9C4OFVhjiYiDfUEWD3hhgQU=;
+        b=WL57huwoohYOXgJDpFwNTccWhDvbdVj53HP9RTAYqeUArAowfq+8wm7C8xnQS+d7Xg
+         T6ZEXRd83CkutsSV26moPh6SFShAu8y5bgcdaa94+vyt5gv9L7FHOWY/xTwiS3ZXTJoo
+         mYyatVs+4JSkglhV/DZno5DkKWgsDuV6Nq3GIgrszTouv3+HdzH3Ue4zNWg9IJabYRM5
+         Yc/KKpuGqrb71fAUqQdj6kfvkI7Fc5ogXvzI4kRXgF1utZe1N1Trsq00q5ItgQsyJMa1
+         K51p515UguhiI4YjD4zkfxOZoju5Vs4RIc7CzfPQSFesYRhhKwf5f8kTncK3eqxsX1rE
+         yirA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=niMBZQskqIvvbvSQd3Vs9C4OFVhjiYiDfUEWD3hhgQU=;
+        b=MzFd2Jhj6NnyoTXDhkIDFXZaVVEeeRk7Ymt0c9yhAa02N+aUf3a2bgMGpJVsI0eyeb
+         dOiCM7PPIjQ7Vy9vzvWavWC/dB5HRgGAX84io8H7x8yQwYGe45tzV8kg3FmX5+KuoT5t
+         4deALsSaFDZjh44GUqT0q4JNNoF+98YMHrDsQhiKmkzRmTvZDXMjkjFRs22HbctASBKf
+         fsytqVC2ZwiG3APXDtOU2kuJmfobubjcFW+5LF70sJzJrqTcnH9PkrIyHA/F0/SmkjI4
+         u3ABbxCxzs7gfxoQZu9QRHtG5xcWiv9ikSPZ1eKCmWL/z1c0mU8DJnGlrg+/XBlexkNE
+         vtBQ==
+X-Gm-Message-State: ANhLgQ1JOAWWi5gPBJvE5LVcy14E2W0ND1MVLJbZRfqVsZSxIOEgewVQ
+        l7nJZI/CkU4AdsGKMvy4n0CbhmtUPRNG4ZxZcbc=
+X-Google-Smtp-Source: ADFU+vtRP5kcse4VydJXhIWcSQg5qG4qh1fLLlH+sYOY0YXmbvxSTKNtq7OW900chK9pK0hyoRdDWpT1dROadSow+qU=
+X-Received: by 2002:a05:6a00:2b4:: with SMTP id q20mr17417161pfs.36.1585045502171;
+ Tue, 24 Mar 2020 03:25:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQHqwg4Cse+u7XkWseF638AEhQYwggGRIliZqCCrVyA=
+References: <20200320131509.564059710@linutronix.de> <20200324060124.GC11705@shao2-debian>
+In-Reply-To: <20200324060124.GC11705@shao2-debian>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 24 Mar 2020 12:24:54 +0200
+Message-ID: <CAHp75VeeKZLeZ8E3Py7LECN54SPFHaRgkxrMzBYQWXM8x+4JhA@mail.gmail.com>
+Subject: Re: [cpufreq] 06c4d00466: will-it-scale.per_process_ops -53.4% regression
+To:     kernel test robot <rong.a.chen@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-edac@vger.kernel.org,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Takashi Iwai <tiwai@suse.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-crypto <linux-crypto@vger.kernel.org>, lkp@lists.01.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: Thomas Gleixner <tglx@linutronix.de>
-...
-> Subject: [patch V3 08/20] hexagon: Remove mm.h from asm/uaccess.h
-> 
-> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> 
-> The defconfig compiles without linux/mm.h. With mm.h included the include
-> chain leands to:
-> |   CC      kernel/locking/percpu-rwsem.o
-> | In file included from include/linux/huge_mm.h:8,
-> |                  from include/linux/mm.h:567,
-> |                  from arch/hexagon/include/asm/uaccess.h:,
-> |                  from include/linux/uaccess.h:11,
-> |                  from include/linux/sched/task.h:11,
-> |                  from include/linux/sched/signal.h:9,
-> |                  from include/linux/rcuwait.h:6,
-> |                  from include/linux/percpu-rwsem.h:8,
-> |                  from kernel/locking/percpu-rwsem.c:6:
-> | include/linux/fs.h:1422:29: error: array type has incomplete element type
-> 'struct percpu_rw_semaphore'
-> |  1422 |  struct percpu_rw_semaphore rw_sem[SB_FREEZE_LEVELS];
-> 
-> once rcuwait.h includes linux/sched/signal.h.
-> 
-> Remove the linux/mm.h include.
-> 
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Brian Cain <bcain@codeaurora.org>
-> Cc: linux-hexagon@vger.kernel.org
-> ---
-> V3: New patch
-> ---
->  arch/hexagon/include/asm/uaccess.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/hexagon/include/asm/uaccess.h
-> b/arch/hexagon/include/asm/uaccess.h
-> index 00cb38faad0c4..c1019a736ff13 100644
-> --- a/arch/hexagon/include/asm/uaccess.h
-> +++ b/arch/hexagon/include/asm/uaccess.h
-> @@ -10,7 +10,6 @@
->  /*
->   * User space memory access functions
->   */
-> -#include <linux/mm.h>
->  #include <asm/sections.h>
-> 
->  /*
-> --
-> 2.26.0.rc2
-> 
+On Tue, Mar 24, 2020 at 8:02 AM kernel test robot <rong.a.chen@intel.com> wrote:
+>
+> Greeting,
+>
+> FYI, we noticed a -53.4% regression of will-it-scale.per_process_ops due to commit:
 
-Acked-by: Brian Cain <bcain@codeaurora.org>
+> commit: 06c4d00466eb374841bc84c39af19b3161ff6917 ("[patch 09/22] cpufreq: Convert to new X86 CPU match macros")
+> url: https://github.com/0day-ci/linux/commits/Thomas-Gleixner/x86-devicetable-Move-x86-specific-macro-out-of-generic-code/20200321-031729
+> base: https://git.kernel.org/cgit/linux/kernel/git/rafael/linux-pm.git linux-next
+>
+> in testcase: will-it-scale
+> on test machine: 4 threads Intel(R) Core(TM) i3-3220 CPU @ 3.30GHz with 8G memory
+> with following parameters:
+
+
+drivers/cpufreq/speedstep-centrino.c change missed the terminator,
+perhaps it's a culprit, because I don't believe removing dups and
+reordering lines may affect this.
+Can you restore terminator there and re-test?
+
+-- 
+With Best Regards,
+Andy Shevchenko
