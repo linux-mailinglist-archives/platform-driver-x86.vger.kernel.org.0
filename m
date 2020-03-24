@@ -2,170 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4057191783
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Mar 2020 18:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C624519198F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Mar 2020 19:58:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbgCXRUv (ORCPT
+        id S1727976AbgCXS6p (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 24 Mar 2020 13:20:51 -0400
-Received: from mga09.intel.com ([134.134.136.24]:5971 "EHLO mga09.intel.com"
+        Tue, 24 Mar 2020 14:58:45 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:38154 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727267AbgCXRUv (ORCPT
+        id S1727630AbgCXS6p (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 24 Mar 2020 13:20:51 -0400
-IronPort-SDR: 4PdgFIVF14SSYOq2jw8ZVHBL2PMalwtc1OEJdKFiVa12mkIdEz8R3eFd5X6GKaYnJ6zeb0qmtK
- RkENSUZ6F3Cw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 10:20:44 -0700
-IronPort-SDR: lTjJf7kd7Sdj3CbIltbwAxnUjZtH9FR8UIVGjLYmRCoQtJeTsFicEUboNADGq60Zmx3pxl3usE
- EzRwB6WgmhEw==
-X-IronPort-AV: E=Sophos;i="5.72,301,1580803200"; 
-   d="scan'208";a="240333667"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.134.90.138])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 10:20:42 -0700
-Message-ID: <3166e472e0ef5c0db8da3ab7d846b47795e69057.camel@linux.intel.com>
-Subject: Re: [PATCH v2] platform: x86: Add ACPI driver for ChromeOS
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, vbendeb@chromium.org,
-        groeck@chromium.org, bleung@chromium.org, dtor@chromium.org,
-        gwendal@chromium.org, andy@infradead.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Tue, 24 Mar 2020 14:58:45 -0400
+Received: from zn.tnic (p200300EC2F0BC80080B0BF5C4664F3C7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:c800:80b0:bf5c:4664:f3c7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9A7121EC0CDC;
+        Tue, 24 Mar 2020 19:58:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1585076322;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=lIsYy50HXEV0jz9brVxw6K/8V+POkTYJ1qZEO3jtQOg=;
+        b=UbGUgZ69w4Pss5KZcP0C5ESSPwJnCZ+xLrK8REFRMm8MOCwnwgNDcPNNugDTJ+7KIwZSFC
+        e/kJWtYxyIsXtyDUQzsUBRadkW8G4F6hrSbBvbtrMmiWK9xxBgpLZNe84h3kMcq6J81FTB
+        cG1Lotv4gFJ5JLaB6VJMHXCySgkcsMI=
+Date:   Tue, 24 Mar 2020 19:58:36 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jeremy Soller <jeremy@system76.com>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rajat Jain <rajatja@google.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>,
-        platform-driver-x86@vger.kernel.org
-Date:   Tue, 24 Mar 2020 10:20:41 -0700
-In-Reply-To: <3444110c-d6c0-16df-9b5d-12578ed442c5@collabora.com>
-References: <20200322094334.1872663-1-enric.balletbo@collabora.com>
-         <20200322111022.GA72939@kroah.com>
-         <c480f318-c326-d51c-e757-c65c2526ab4d@collabora.com>
-         <20200324164956.GE2518746@kroah.com>
-         <3444110c-d6c0-16df-9b5d-12578ed442c5@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-pm@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-edac@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        alsa-devel@alsa-project.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-crypto@vger.kernel.org
+Subject: [PATCH 23/22] x86/smpboot: Remove the last ICPU() macro
+Message-ID: <20200324185836.GI22931@zn.tnic>
+References: <20200320131345.635023594@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200320131345.635023594@linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 2020-03-24 at 18:08 +0100, Enric Balletbo i Serra wrote:
-> Hi Greg,
-> 
-> On 24/3/20 17:49, Greg Kroah-Hartman wrote:
-> > On Tue, Mar 24, 2020 at 05:31:10PM +0100, Enric Balletbo i Serra
-> > wrote:
-> > > Hi Greg,
-> > > 
-> > > Many thanks for your quick answer, some comments below.
-> > > 
-[...]
+---
+From: Borislav Petkov <bp@suse.de>
 
-> > Are you sure they aren't already there under
-> > /sys/firmware/acpi/?  I
-> > thought all tables and methods were exported there with no need to
-> > do
-> > anything special.
-> > 
-> 
-> That's the first I did when I started to forward port this patch from
-> chromeos
-> kernel to mainline.
-> 
-> On my system I get:
-> 
-> /sys/firmware/acpi/tables#
-> APIC  DSDT  FACP  FACS  HPET  MCFG  SSDT  data  dynamic
-> 
-> (data and dynamic are empty directories)
-> 
-> I quickly concluded (maybe wrong) that as there is no a MLST entry it
-> was not
-> exported, but maybe one of those already contains the info? Or,
-> should I expect
-> a MLST entry here?
-> 
-If the data you are reading doesn't depend on any runtime variable in
-ACPI tables then you can read from firmware tables as is.
+Now all is using the shiny new macros.
 
-You can download acpica tools and run your method on acpi dump using
-acpiexec tool. Once you can take dump, you can run on any Linux system.
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+---
+ arch/x86/kernel/smpboot.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-If you can get what you need from running on the dump, then you can do
-by directly reading from /sys/firmware/acpi/tables/ from user space
-without kernel change. Sometimes it is enough as lots of config data
-tend to be static.
-
-Thanks,
-Srinivas
-
-
-
-
+diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+index fe3ab9632f3b..3b9bf8c7e29d 100644
+--- a/arch/x86/kernel/smpboot.c
++++ b/arch/x86/kernel/smpboot.c
+@@ -1849,24 +1849,25 @@ static bool slv_set_max_freq_ratio(u64 *base_freq, u64 *turbo_freq)
+ #include <asm/cpu_device_id.h>
+ #include <asm/intel-family.h>
+ 
+-#define ICPU(model) \
+-	{X86_VENDOR_INTEL, 6, model, X86_FEATURE_APERFMPERF, 0}
++#define X86_MATCH(model)					\
++	X86_MATCH_VENDOR_FAM_MODEL_FEATURE(INTEL, 6,		\
++		INTEL_FAM6_##model, X86_FEATURE_APERFMPERF, NULL)
+ 
+ static const struct x86_cpu_id has_knl_turbo_ratio_limits[] = {
+-	ICPU(INTEL_FAM6_XEON_PHI_KNL),
+-	ICPU(INTEL_FAM6_XEON_PHI_KNM),
++	X86_MATCH(XEON_PHI_KNL),
++	X86_MATCH(XEON_PHI_KNM),
+ 	{}
+ };
+ 
+ static const struct x86_cpu_id has_skx_turbo_ratio_limits[] = {
+-	ICPU(INTEL_FAM6_SKYLAKE_X),
++	X86_MATCH(SKYLAKE_X),
+ 	{}
+ };
+ 
+ static const struct x86_cpu_id has_glm_turbo_ratio_limits[] = {
+-	ICPU(INTEL_FAM6_ATOM_GOLDMONT),
+-	ICPU(INTEL_FAM6_ATOM_GOLDMONT_D),
+-	ICPU(INTEL_FAM6_ATOM_GOLDMONT_PLUS),
++	X86_MATCH(ATOM_GOLDMONT),
++	X86_MATCH(ATOM_GOLDMONT_D),
++	X86_MATCH(ATOM_GOLDMONT_PLUS),
+ 	{}
+ };
+ 
+-- 
+2.21.0
 
 
-> > What makes these attributes "special" from any other ACPI method?
-> > 
-> 
-> I can't answer this question right now. I need to investigate more I
-> guess ;-)
-> 
-> Thanks again for your answer,
-> Enric
-> 
-> > > > > +static int __init chromeos_acpi_init(void)
-> > > > > +{
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	chromeos_acpi.pdev =
-> > > > > platform_device_register_simple("chromeos_acpi",
-> > > > > +						PLATFORM_DEVID_
-> > > > > NONE, NULL, 0);
-> > > > > +	if (IS_ERR(chromeos_acpi.pdev)) {
-> > > > > +		pr_err("unable to register chromeos_acpi
-> > > > > platform device\n");
-> > > > > +		return PTR_ERR(chromeos_acpi.pdev);
-> > > > > +	}
-> > > > 
-> > > > Only use platform devices and drivers for things that are
-> > > > actually
-> > > > platform devices and drivers.  That's not what this is, it is
-> > > > an ACPI
-> > > > device and driver.  Don't abuse the platform interface please.
-> > > > 
-> > > 
-> > > Ok. The purpose was to not break ChromeOS userspace since is
-> > > looking for the
-> > > attributes inside /sys/devices/platform/chromeos_acpi. Not a good
-> > > reason, I
-> > > know, and I assume we will need to change userspace instead, and
-> > > convert this to
-> > > a ACPI device and driver only, right?
-> > 
-> > How can any userspace be looking for anything that hasn't been
-> > submitted
-> > before?  That's nothing to worry about, we don't have to support
-> > things
-> > like that :)
-> > 
-> > > I'll investigate the different places in userspace where this is
-> > > used and see
-> > > how difficult it is to do the changes.
-> > 
-> > Look at /sys/firmware/acpi/ first please.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
