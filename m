@@ -2,111 +2,210 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B99BA1914EB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Mar 2020 16:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98501191676
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 24 Mar 2020 17:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728484AbgCXPiu (ORCPT
+        id S1727846AbgCXQbS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 24 Mar 2020 11:38:50 -0400
-Received: from mga17.intel.com ([192.55.52.151]:39337 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728895AbgCXPit (ORCPT
+        Tue, 24 Mar 2020 12:31:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51726 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727693AbgCXQbR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 24 Mar 2020 11:38:49 -0400
-IronPort-SDR: BEFFkdBFxk7mRHJWpm9/RHq3IgnTmzEXOBWsUrH6m8vuJAnWduQl+Zg4o4BMZ5/r5DzjqYcVmW
- I0MuydOxiWPg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 08:38:48 -0700
-IronPort-SDR: OH9LOnbiL4v4JZEOKEB/asPk1R/gzlJCOgYYDD8Y/4+mtRjZPj4rORMZ9Y6HhOwPh9gE+I4cRC
- Soiz8Ghm/JHg==
-X-IronPort-AV: E=Sophos;i="5.72,300,1580803200"; 
-   d="scan'208";a="238262386"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.134.90.138])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 08:38:47 -0700
-Message-ID: <406e39aa9890d4d518a2259b539858d82f4d6e18.camel@linux.intel.com>
-Subject: Re: [cpufreq] 06c4d00466: will-it-scale.per_process_ops -53.4%
- regression
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        kernel test robot <rong.a.chen@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        Tue, 24 Mar 2020 12:31:17 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 1E5862969FD
+Subject: Re: [PATCH v2] platform: x86: Add ACPI driver for ChromeOS
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, vbendeb@chromium.org,
+        groeck@chromium.org, bleung@chromium.org, dtor@chromium.org,
+        gwendal@chromium.org, andy@infradead.org,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-crypto <linux-crypto@vger.kernel.org>, lkp@lists.01.org
-Date:   Tue, 24 Mar 2020 08:38:46 -0700
-In-Reply-To: <CAHp75VeeKZLeZ8E3Py7LECN54SPFHaRgkxrMzBYQWXM8x+4JhA@mail.gmail.com>
-References: <20200320131509.564059710@linutronix.de>
-         <20200324060124.GC11705@shao2-debian>
-         <CAHp75VeeKZLeZ8E3Py7LECN54SPFHaRgkxrMzBYQWXM8x+4JhA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeremy Soller <jeremy@system76.com>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rajat Jain <rajatja@google.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Yauhen Kharuzhy <jekhor@gmail.com>,
+        platform-driver-x86@vger.kernel.org
+References: <20200322094334.1872663-1-enric.balletbo@collabora.com>
+ <20200322111022.GA72939@kroah.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <c480f318-c326-d51c-e757-c65c2526ab4d@collabora.com>
+Date:   Tue, 24 Mar 2020 17:31:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200322111022.GA72939@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 2020-03-24 at 12:24 +0200, Andy Shevchenko wrote:
-> On Tue, Mar 24, 2020 at 8:02 AM kernel test robot <
-> rong.a.chen@intel.com> wrote:
-> > Greeting,
-> > 
-> > FYI, we noticed a -53.4% regression of will-it-
-> > scale.per_process_ops due to commit:
-> > commit: 06c4d00466eb374841bc84c39af19b3161ff6917 ("[patch 09/22]
-> > cpufreq: Convert to new X86 CPU match macros")
-> > url: 
-> > https://github.com/0day-ci/linux/commits/Thomas-Gleixner/x86-devicetable-Move-x86-specific-macro-out-of-generic-code/20200321-031729
-> > base: 
-> > https://git.kernel.org/cgit/linux/kernel/git/rafael/linux-pm.git
-> > linux-next
-> > 
-> > in testcase: will-it-scale
-> > on test machine: 4 threads Intel(R) Core(TM) i3-3220 CPU @ 3.30GHz
-> > with 8G memory
-> > with following parameters:
+Hi Greg,
+
+Many thanks for your quick answer, some comments below.
+
+On 22/3/20 12:10, Greg Kroah-Hartman wrote:
+> On Sun, Mar 22, 2020 at 10:43:34AM +0100, Enric Balletbo i Serra wrote:
+>> This driver attaches to the ChromeOS ACPI device and then exports the values
+>> reported by the ACPI in a sysfs directory. The ACPI values are presented in
+>> the string form (numbers as decimal values) or binary blobs, and can be
+>> accessed as the contents of the appropriate read only files in the sysfs
+>> directory tree originating in /sys/devices/platform/chromeos_acpi.
+>>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 > 
-> drivers/cpufreq/speedstep-centrino.c change missed the terminator,
-> perhaps it's a culprit, because I don't believe removing dups and
-> reordering lines may affect this.
-> Can you restore terminator there and re-test?
-
-This is a Ivy Bridge. So if it has to do anything cpufreq then it is
-not loading the cpufreq driver (intel_pstate or acpi_cpufreq).
-What is
- cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-
-
+> What is wrong with the "default" ACPI sysfs access?  Why do you need a
+> special driver just for this specific ACPI firmware?
 > 
 
+Please correct me if I am wrong, as I'm not an ACPI expert and I probably have
+some ACPI leaks and misunderstandings.
+
+What is exporting this driver is the attributes for the non-default Chromebook
+specific MLST ACPI method. Hence, I assumed we needed a special driver to expose
+these values that can't be done using "default" ACPI sysfs. Note that these
+attributes are dynamically created and are different between Chromebooks so need
+some parsing.
+
+I didn't find a "standard" way to expose these attributes to userspace, so,
+please kindly point me to one if there is one.
+
+> Also, you forgot to add Documentation/ABI/ entries for your new files :(
+> 
+
+Right, my bad. Not all Chromebooks have the same values. I can document the ones
+that are created on the devices I have but I'll probably miss some of them. I'll
+do some firmware research regarding this.
+
+
+>> +config ACPI_CHROMEOS
+>> +	tristate "ChromeOS specific ACPI extensions"
+>> +	depends on ACPI
+>> +	depends on CHROME_PLATFORMS
+> 
+> No BUILD_TEST?
+> 
+
+Will add in the next version.
+
+> 
+>> +static void
+>> +chromeos_acpi_remove_attribs(struct chromeos_acpi_attribute_group *aag)
+>> +{
+>> +	struct chromeos_acpi_attribute *attr, *tmp_attr;
+>> +
+>> +	list_for_each_entry_safe(attr, tmp_attr, &aag->attribs, list) {
+>> +		sysfs_remove_bin_file(aag->kobj, &attr->bin_attr);
+> 
+> Attribute groups are your friend, do not do this "by hand".
+> 
+
+I thought that the code is more readable doing it attribute by attribute, and
+the reason is that apart from remove the bin file I should also free the name,
+the data and the specific struct to store the attribute itself as all are
+dynamically allocated.
+
+Using attribute groups I should do two steps:
+
+sysfs_remove_group()
+list_for_each_entry_safe(attr, tmp_attr, &aag->attribs, list)  {
+   kfree(attr->name);
+   kfree(attr->data);
+   kfree(attr);
+}
+
+Ok, will do that in next version.
+
+>> +		kfree(attr->name);
+>> +		kfree(attr->data);
+>> +		kfree(attr);
+>> +	}
+>> +}
+>> +
+>> +/**
+>> + * chromeos_acpi_add_group() - Create a sysfs group including attributes
+>> + *			       representing a nested ACPI package.
+>> + *
+>> + * @obj: Package contents as returned by ACPI.
+>> + * @name: Name of the group.
+>> + * @num_attrs: Number of attributes of this package.
+>> + * @index: Index number of this particular group.
+>> + *
+>> + * The created group is called @name in case there is a single instance, or
+>> + * @name.@index otherwise.
+>> + *
+>> + * All group and attribute storage allocations are included in the lists for
+>> + * tracking of allocated memory.
+>> + *
+>> + * Return: 0 on success, negative errno on failure.
+>> + */
+>> +static int chromeos_acpi_add_group(union acpi_object *obj, char *name,
+>> +				   int num_attrs, int index)
+>> +{
+>> +	struct device *dev = &chromeos_acpi.pdev->dev;
+>> +	struct chromeos_acpi_attribute_group *aag;
+>> +	union acpi_object *element;
+>> +	int i, count, ret;
+>> +
+>> +	aag = kzalloc(sizeof(*aag), GFP_KERNEL);
+>> +	if (!aag)
+>> +		return -ENOMEM;
+>> +
+>> +	aag->name = chromeos_acpi_alloc_name(name, num_attrs, index);
+>> +	if (!aag->name) {
+>> +		ret = -ENOMEM;
+>> +		goto free_group;
+>> +	}
+>> +
+>> +	aag->kobj = kobject_create_and_add(aag->name, &dev->kobj);
+> 
+> By using "raw" kobjects, you just now prevented any userspace tool from
+> seeing these attributes (like udev).  Not nice :(
+> 
+> Why, if you really really have to do this, are you not just using
+> "normal" struct device attributes instead?
+> 
+
+Ok.
+
+>> +static int __init chromeos_acpi_init(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	chromeos_acpi.pdev = platform_device_register_simple("chromeos_acpi",
+>> +						PLATFORM_DEVID_NONE, NULL, 0);
+>> +	if (IS_ERR(chromeos_acpi.pdev)) {
+>> +		pr_err("unable to register chromeos_acpi platform device\n");
+>> +		return PTR_ERR(chromeos_acpi.pdev);
+>> +	}
+> 
+> Only use platform devices and drivers for things that are actually
+> platform devices and drivers.  That's not what this is, it is an ACPI
+> device and driver.  Don't abuse the platform interface please.
+> 
+
+Ok. The purpose was to not break ChromeOS userspace since is looking for the
+attributes inside /sys/devices/platform/chromeos_acpi. Not a good reason, I
+know, and I assume we will need to change userspace instead, and convert this to
+a ACPI device and driver only, right?
+
+I'll investigate the different places in userspace where this is used and see
+how difficult it is to do the changes.
+
+Thanks,
+
+~Enric
+
+> thanks,
+> 
+> greg k-h
+> 
