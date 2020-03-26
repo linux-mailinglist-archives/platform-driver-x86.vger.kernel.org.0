@@ -2,29 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F0C194A30
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Mar 2020 22:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E80A3194A12
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 26 Mar 2020 22:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727915AbgCZVMZ (ORCPT
+        id S1727792AbgCZVJz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Mar 2020 17:12:25 -0400
-Received: from sauhun.de ([88.99.104.3]:54348 "EHLO pokefinder.org"
+        Thu, 26 Mar 2020 17:09:55 -0400
+Received: from sauhun.de ([88.99.104.3]:54332 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727724AbgCZVJy (ORCPT
+        id S1727751AbgCZVJz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Mar 2020 17:09:54 -0400
+        Thu, 26 Mar 2020 17:09:55 -0400
 Received: from localhost (p54B3331F.dip0.t-ipconnect.de [84.179.51.31])
-        by pokefinder.org (Postfix) with ESMTPSA id B55872C1F87;
-        Thu, 26 Mar 2020 22:09:52 +0100 (CET)
+        by pokefinder.org (Postfix) with ESMTPSA id C1D842C1F8A;
+        Thu, 26 Mar 2020 22:09:53 +0100 (CET)
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-i2c@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 0/2] platform: convert to use new I2C API
-Date:   Thu, 26 Mar 2020 22:09:50 +0100
-Message-Id: <20200326210952.12857-1-wsa+renesas@sang-engineering.com>
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] platform/mellanox: mlxreg-hotplug: convert to use i2c_new_client_device()
+Date:   Thu, 26 Mar 2020 22:09:52 +0100
+Message-Id: <20200326210952.12857-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200326210952.12857-1-wsa+renesas@sang-engineering.com>
+References: <20200326210952.12857-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -32,19 +36,51 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-We are deprecating calls which return NULL in favor of new variants which
-return an ERR_PTR. Only build tested.
+Move away from the deprecated API and return the shiny new ERRPTR where
+useful.
 
-
-Wolfram Sang (2):
-  platform/chrome: chromeos_laptop: make I2C API conversion complete
-  platform/mellanox: mlxreg-hotplug: convert to use
-    i2c_new_client_device()
-
- drivers/platform/chrome/chromeos_laptop.c  |  2 +-
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
  drivers/platform/mellanox/mlxreg-hotplug.c | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/platform/mellanox/mlxreg-hotplug.c b/drivers/platform/mellanox/mlxreg-hotplug.c
+index 77be37a1fbcf..ed48917af162 100644
+--- a/drivers/platform/mellanox/mlxreg-hotplug.c
++++ b/drivers/platform/mellanox/mlxreg-hotplug.c
+@@ -101,6 +101,7 @@ static int mlxreg_hotplug_device_create(struct mlxreg_hotplug_priv_data *priv,
+ 					struct mlxreg_core_data *data)
+ {
+ 	struct mlxreg_core_hotplug_platform_data *pdata;
++	struct i2c_client *client;
+ 
+ 	/* Notify user by sending hwmon uevent. */
+ 	kobject_uevent(&priv->hwmon->kobj, KOBJ_CHANGE);
+@@ -121,18 +122,20 @@ static int mlxreg_hotplug_device_create(struct mlxreg_hotplug_priv_data *priv,
+ 		return -EFAULT;
+ 	}
+ 
+-	data->hpdev.client = i2c_new_device(data->hpdev.adapter,
+-					    data->hpdev.brdinfo);
+-	if (!data->hpdev.client) {
++	client = i2c_new_client_device(data->hpdev.adapter,
++				       data->hpdev.brdinfo);
++	if (IS_ERR(client)) {
+ 		dev_err(priv->dev, "Failed to create client %s at bus %d at addr 0x%02x\n",
+ 			data->hpdev.brdinfo->type, data->hpdev.nr +
+ 			pdata->shift_nr, data->hpdev.brdinfo->addr);
+ 
+ 		i2c_put_adapter(data->hpdev.adapter);
+ 		data->hpdev.adapter = NULL;
+-		return -EFAULT;
++		return PTR_ERR(client);
+ 	}
+ 
++	data->hpdev.client = client;
++
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
