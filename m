@@ -2,219 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5B0D195EF9
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Mar 2020 20:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3992195FBB
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Mar 2020 21:30:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727685AbgC0Tmn (ORCPT
+        id S1727655AbgC0UaS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Mar 2020 15:42:43 -0400
-Received: from mga18.intel.com ([134.134.136.126]:55832 "EHLO mga18.intel.com"
+        Fri, 27 Mar 2020 16:30:18 -0400
+Received: from mga12.intel.com ([192.55.52.136]:51291 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726738AbgC0Tmn (ORCPT
+        id S1726710AbgC0UaS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Mar 2020 15:42:43 -0400
-IronPort-SDR: NedhdiI1zO87Ci6dK8gn1H9uwl+g+LpZKoo/9Bpj9Bm0hIjtP4G6tKT3QsI1UCN5mj5k3jCHrQ
- RXk1inT6biWw==
+        Fri, 27 Mar 2020 16:30:18 -0400
+IronPort-SDR: B7N8+r//HFL4ozsEV/TF2hSYuQIdh/k1ZwlS470Df4PNTWnXfWnGwwo0tkSR9kTVmRumVoon+M
+ I/Ro42p1o0Xg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 12:42:42 -0700
-IronPort-SDR: ETxYc8QkEsvRnw0BrpE7ggEc8ntgeOgRrkFXUwMkSdOgX/aQO7aOI4s/H2LlSGA55l0v2UlcmF
- HAGQn4H02XoQ==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 13:30:18 -0700
+IronPort-SDR: kqxKbG1sRcnLoME3tzRzMfAB+ZTLLcpVYKqgo8dH4pNw4oBUmWgYz98OpCI5c3TunJC/lq7Kzd
+ LiU20Zvi5bfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.72,313,1580803200"; 
-   d="scan'208";a="271686383"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Mar 2020 12:42:41 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jHusK-0006oz-Fb; Sat, 28 Mar 2020 03:42:40 +0800
-Date:   Sat, 28 Mar 2020 03:42:08 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
- a00791df1d84b1a141d7be22db0d9436a0b57c66
-Message-ID: <5e7e5710.pnkaGyK9Z9hkE5un%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+   d="scan'208";a="358592620"
+Received: from gayuk-dev-mach.sc.intel.com ([10.3.79.171])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Mar 2020 13:30:17 -0700
+From:   Gayatri Kammela <gayatri.kammela@intel.com>
+To:     linux-pm@vger.kernel.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lenb@kernel.org, dvhart@infradead.org, alex.hung@canonical.com,
+        rui.zhang@intel.com, daniel.lezcano@linaro.org,
+        amit.kucheria@verdurent.com, mika.westerberg@intel.com,
+        peterz@infradead.org, charles.d.prestopine@intel.com,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH v1 0/3] Fixes: update Tiger Lake ACPI device IDs
+Date:   Fri, 27 Mar 2020 13:24:51 -0700
+Message-Id: <cover.1585335927.git.gayatri.kammela@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
-branch HEAD: a00791df1d84b1a141d7be22db0d9436a0b57c66  platform/x86: surface3_power: Prefix POLL_INTERVAL with SURFACE_3
+Hi,
 
-elapsed time: 519m
+The hardware IDs for devices supported by Tiger Lake for various drivers
+such as DPTF, fan, Intel thermal and intel-hid are added with missing 'C'
+which makes them invalid. Hence fix these IDs by updating.
 
-configs tested: 157
-configs skipped: 0
+For instance, the updated ID now looks like
+INT1047 --> INTC1047
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Patch 1: Update Tiger Lake ACPI device IDs for DPTF and fan drivers
+Patch 2: Update Tiger Lake ACPI device ID for intel-hid driver
+Patch 3: Update Tiger Lake ACPI device IDs for thermal driver
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-mips                      fuloong2e_defconfig
-s390                       zfcpdump_defconfig
-sh                  sh7785lcr_32bit_defconfig
-arc                              allyesconfig
-um                             i386_defconfig
-sh                            titan_defconfig
-ia64                             alldefconfig
-m68k                           sun3_defconfig
-c6x                        evmc6678_defconfig
-s390                              allnoconfig
-xtensa                          iss_defconfig
-riscv                          rv32_defconfig
-alpha                               defconfig
-sh                          rsk7269_defconfig
-um                           x86_64_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                              allyesconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-m68k                             allmodconfig
-h8300                    h8300h-sim_defconfig
-m68k                          multi_defconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-x86_64               randconfig-a001-20200327
-x86_64               randconfig-a002-20200327
-x86_64               randconfig-a003-20200327
-i386                 randconfig-a001-20200327
-i386                 randconfig-a002-20200327
-i386                 randconfig-a003-20200327
-parisc               randconfig-a001-20200327
-riscv                randconfig-a001-20200327
-alpha                randconfig-a001-20200327
-m68k                 randconfig-a001-20200327
-mips                 randconfig-a001-20200327
-nds32                randconfig-a001-20200327
-h8300                randconfig-a001-20200327
-nios2                randconfig-a001-20200327
-c6x                  randconfig-a001-20200327
-sparc64              randconfig-a001-20200327
-microblaze           randconfig-a001-20200327
-csky                 randconfig-a001-20200327
-openrisc             randconfig-a001-20200327
-s390                 randconfig-a001-20200327
-sh                   randconfig-a001-20200327
-xtensa               randconfig-a001-20200327
-i386                 randconfig-b003-20200327
-i386                 randconfig-b001-20200327
-x86_64               randconfig-b003-20200327
-i386                 randconfig-b002-20200327
-x86_64               randconfig-b002-20200327
-x86_64               randconfig-b001-20200327
-x86_64               randconfig-c003-20200327
-x86_64               randconfig-c001-20200327
-i386                 randconfig-c002-20200327
-x86_64               randconfig-c002-20200327
-i386                 randconfig-c003-20200327
-i386                 randconfig-c001-20200327
-x86_64               randconfig-d001-20200327
-x86_64               randconfig-d002-20200327
-x86_64               randconfig-d003-20200327
-i386                 randconfig-d001-20200327
-i386                 randconfig-d002-20200327
-i386                 randconfig-d003-20200327
-x86_64               randconfig-e001-20200327
-x86_64               randconfig-e002-20200327
-x86_64               randconfig-e003-20200327
-i386                 randconfig-e001-20200327
-i386                 randconfig-e002-20200327
-i386                 randconfig-e003-20200327
-x86_64               randconfig-f001-20200327
-x86_64               randconfig-f002-20200327
-x86_64               randconfig-f003-20200327
-i386                 randconfig-f001-20200327
-i386                 randconfig-f002-20200327
-i386                 randconfig-f003-20200327
-x86_64               randconfig-h003-20200327
-i386                 randconfig-h003-20200327
-i386                 randconfig-h001-20200327
-x86_64               randconfig-h001-20200327
-i386                 randconfig-h002-20200327
-arm                  randconfig-a001-20200327
-arm64                randconfig-a001-20200327
-ia64                 randconfig-a001-20200327
-powerpc              randconfig-a001-20200327
-sparc                randconfig-a001-20200327
-arc                  randconfig-a001-20200327
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sparc64                             defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Gayatri Kammela (3):
+  ACPI: fix: Update Tiger Lake ACPI device IDs
+  platform/x86: intel-hid: fix: Update Tiger Lake ACPI device ID
+  thermal: int340x_thermal: fix: Update Tiger Lake ACPI device IDs
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/acpi/device_pm.c                                | 2 +-
+ drivers/acpi/dptf/dptf_power.c                          | 2 +-
+ drivers/acpi/dptf/int340x_thermal.c                     | 8 ++++----
+ drivers/platform/x86/intel-hid.c                        | 2 +-
+ drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 2 +-
+ drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
+
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+-- 
+2.17.1
+
