@@ -2,100 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 587DB19607F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Mar 2020 22:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7E2F196956
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Mar 2020 21:44:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727775AbgC0Vdv (ORCPT
+        id S1727199AbgC1Un6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Mar 2020 17:33:51 -0400
-Received: from mga06.intel.com ([134.134.136.31]:35671 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727752AbgC0Vds (ORCPT
+        Sat, 28 Mar 2020 16:43:58 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36265 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726976AbgC1Un6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Mar 2020 17:33:48 -0400
-IronPort-SDR: Cj/snYa5YIDwey0gUFAlHmUV8eOkC7dKE70tG5LsVGalEmajOv5K/TlpiCSg54mgV4hx4qS4m/
- K5igVRWfI85g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 14:33:46 -0700
-IronPort-SDR: QV0idHdOO3eUSXMDTdPL7gJ86uFFyQ68HPZPSYWopg9BGWCweS8u+sCcnAAyymJP3dRJYMC520
- HtWcyoifaPWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,313,1580803200"; 
-   d="scan'208";a="358607264"
-Received: from gayuk-dev-mach.sc.intel.com ([10.3.79.171])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Mar 2020 14:33:47 -0700
-From:   Gayatri Kammela <gayatri.kammela@intel.com>
-To:     linux-pm@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lenb@kernel.org, dvhart@infradead.org, alex.hung@canonical.com,
-        rui.zhang@intel.com, daniel.lezcano@linaro.org,
-        amit.kucheria@verdurent.com, mika.westerberg@intel.com,
-        peterz@infradead.org, charles.d.prestopine@intel.com,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        "5 . 6+" <stable@vger.kernel.org>,
+        Sat, 28 Mar 2020 16:43:58 -0400
+Received: by mail-pf1-f196.google.com with SMTP id i13so6456299pfe.3;
+        Sat, 28 Mar 2020 13:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/KFYTP+4isYO+Nu64ocnQ9VsaDC4G9NxfTqcPGikuJs=;
+        b=Vql+JZGSmvAVWvNQMLCmmxOwBp8hkm1vmq2icYAMfmPekocTIe0TWnP0P1f66x72Rd
+         WRzklPFEhlDRhG05xIl3WKb/Ee33fkmUm7TL8DVm/6FJBJGDGqjGUuKZarRyKHrjx7FG
+         pv/qHWehTkswx9foPs0HByFifQef1fzxj708Tcktu74H664Dfsvk5+tjnq3EY2YNh5bm
+         +j0FI/Jqk7SSzZxV+4XR4ikkTRFdhcy9la5VCfAesdIOS0EcywrjCk0xvUkuTe5aP3sV
+         xuQGK8zyTub6rBEN2E6G+2+qhkiC7AH1sHF9iUEJ5SbFRLQFaR8hurdhVbApo/GlL1HY
+         gRnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/KFYTP+4isYO+Nu64ocnQ9VsaDC4G9NxfTqcPGikuJs=;
+        b=LqJ/RwGzYXyAVjfTT7GTjL4tGW8Gzn9zaI9mpijT9knmDA7128uK39uYEzYPZCOb/2
+         0G1qcn1b5V7WpUid4huMh3SrRQJ8tp/HOLBAIp0lMvkNfFiS5keD/ACWAS95hITLsG/c
+         FtuGpObzUeA3clM5WY/LtRFCZth4sP3hw+yrHJHOjJjWQGGRgHOoUeSx7+90a/zvbDSg
+         7Q8FUtCRzO0SgSvQA02zjKjJoxEU0J9dHJmhP8u5qhLf8qGicwWnnmxmwh487fMQ5Qyx
+         31ufDFBPQ0G8DU00JYv1Qy26iWmUjfkMNuP/gOZg0Zo/D3TSUfOSfMEeQ9zIqryAdo5l
+         A+kg==
+X-Gm-Message-State: ANhLgQ19Btc+QxSVy4QwOYL4diV2LxDbPhx7cn6e74/eHovsxPYaXG1V
+        mav0fCAW6Ll8qJoDO2G8rWlgQi7i+tNrCDJcBHY=
+X-Google-Smtp-Source: ADFU+vsKB4iGKQecF/EusqwlApCiHlWvxU386zM5SXxTzdTzlx3AyjA89liyhD5mK+CGJcFxZDYz9oJXwK1ffx2gimI=
+X-Received: by 2002:a63:798a:: with SMTP id u132mr6025684pgc.203.1585428237055;
+ Sat, 28 Mar 2020 13:43:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1585343507.git.gayatri.kammela@intel.com>
+In-Reply-To: <cover.1585343507.git.gayatri.kammela@intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 28 Mar 2020 22:43:44 +0200
+Message-ID: <CAHp75VcEO0udSzpWX14vaZcjLni2RA3NGXNqr50HMK=S7GWjxg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Fixes: update Tiger Lake ACPI device IDs
+To:     Gayatri Kammela <gayatri.kammela@intel.com>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Alex Hung <alex.hung@canonical.com>,
+        "Zhang, Rui" <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Mika Westerberg <mika.westerberg@intel.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
         "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH v2 3/3] thermal: int340x_thermal: fix: Update Tiger Lake ACPI device IDs
-Date:   Fri, 27 Mar 2020 14:28:21 -0700
-Message-Id: <24125c0777458384f5b4449cafb5115b9985e3bd.1585343507.git.gayatri.kammela@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1585343507.git.gayatri.kammela@intel.com>
-References: <cover.1585343507.git.gayatri.kammela@intel.com>
-In-Reply-To: <cover.1585343507.git.gayatri.kammela@intel.com>
-References: <cover.1585343507.git.gayatri.kammela@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Tiger Lake's new unique ACPI device IDs for Intel thermal driver are not
-valid because of missing 'C' in the IDs. Fix the IDs by updating them.
+On Fri, Mar 27, 2020 at 11:34 PM Gayatri Kammela
+<gayatri.kammela@intel.com> wrote:
+>
+> Hi,
+>
+> The hardware IDs for devices supported by Tiger Lake for various drivers
+> such as DPTF, fan, Intel thermal and intel-hid are added with missing 'C'
+> which makes them invalid. Hence fix these IDs by updating.
+>
+> For instance, the updated ID now looks like
+> INT1047 --> INTC1047
+>
+> Patch 1: Update Tiger Lake ACPI device IDs for DPTF and fan drivers
+> Patch 2: Update Tiger Lake ACPI device ID for intel-hid driver
+> Patch 3: Update Tiger Lake ACPI device IDs for thermal driver
+>
 
-After the update, the new IDs should now look like
-INT1040 --> INTC1040
-INT1043 --> INTC1043
+Please, keep the IDs sorted (INTC should go after INT, etc).
+Also I will need an Ack for patch 1 (at least).
 
-Fixes: 9b1b5535dfc9 ("thermal: int340x_thermal: Add Tiger Lake ACPI device IDs")
-Cc: 5.6+ <stable@vger.kernel.org> # 5.6+
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
----
- drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 2 +-
- drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> Changes since v1:
+> 1) Added fixes tag to each patch
+>
+> Gayatri Kammela (3):
+>   ACPI: fix: Update Tiger Lake ACPI device IDs
+>   platform/x86: intel-hid: fix: Update Tiger Lake ACPI device ID
+>   thermal: int340x_thermal: fix: Update Tiger Lake ACPI device IDs
+>
+>  drivers/acpi/device_pm.c                                | 2 +-
+>  drivers/acpi/dptf/dptf_power.c                          | 2 +-
+>  drivers/acpi/dptf/int340x_thermal.c                     | 8 ++++----
+>  drivers/platform/x86/intel-hid.c                        | 2 +-
+>  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 2 +-
+>  drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 2 +-
+>  6 files changed, 9 insertions(+), 9 deletions(-)
+>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> --
+> 2.17.1
+>
 
-diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-index efae0c02d898..71a9877b85a5 100644
---- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-+++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-@@ -369,7 +369,7 @@ static int int3400_thermal_remove(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id int3400_thermal_match[] = {
--	{"INT1040", 0},
-+	{"INTC1040", 0},
- 	{"INT3400", 0},
- 	{}
- };
-diff --git a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-index aeece1e136a5..3849d5869609 100644
---- a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-+++ b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-@@ -282,7 +282,7 @@ static int int3403_remove(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id int3403_device_ids[] = {
--	{"INT1043", 0},
-+	{"INTC1043", 0},
- 	{"INT3403", 0},
- 	{"", 0},
- };
+
 -- 
-2.17.1
-
+With Best Regards,
+Andy Shevchenko
