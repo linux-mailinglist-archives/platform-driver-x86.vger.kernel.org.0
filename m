@@ -2,119 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7E2F196956
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Mar 2020 21:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B8931970C9
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 00:34:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727199AbgC1Un6 (ORCPT
+        id S1728848AbgC2We3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 28 Mar 2020 16:43:58 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:36265 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726976AbgC1Un6 (ORCPT
+        Sun, 29 Mar 2020 18:34:29 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:46117 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728704AbgC2We3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 28 Mar 2020 16:43:58 -0400
-Received: by mail-pf1-f196.google.com with SMTP id i13so6456299pfe.3;
-        Sat, 28 Mar 2020 13:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/KFYTP+4isYO+Nu64ocnQ9VsaDC4G9NxfTqcPGikuJs=;
-        b=Vql+JZGSmvAVWvNQMLCmmxOwBp8hkm1vmq2icYAMfmPekocTIe0TWnP0P1f66x72Rd
-         WRzklPFEhlDRhG05xIl3WKb/Ee33fkmUm7TL8DVm/6FJBJGDGqjGUuKZarRyKHrjx7FG
-         pv/qHWehTkswx9foPs0HByFifQef1fzxj708Tcktu74H664Dfsvk5+tjnq3EY2YNh5bm
-         +j0FI/Jqk7SSzZxV+4XR4ikkTRFdhcy9la5VCfAesdIOS0EcywrjCk0xvUkuTe5aP3sV
-         xuQGK8zyTub6rBEN2E6G+2+qhkiC7AH1sHF9iUEJ5SbFRLQFaR8hurdhVbApo/GlL1HY
-         gRnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/KFYTP+4isYO+Nu64ocnQ9VsaDC4G9NxfTqcPGikuJs=;
-        b=LqJ/RwGzYXyAVjfTT7GTjL4tGW8Gzn9zaI9mpijT9knmDA7128uK39uYEzYPZCOb/2
-         0G1qcn1b5V7WpUid4huMh3SrRQJ8tp/HOLBAIp0lMvkNfFiS5keD/ACWAS95hITLsG/c
-         FtuGpObzUeA3clM5WY/LtRFCZth4sP3hw+yrHJHOjJjWQGGRgHOoUeSx7+90a/zvbDSg
-         7Q8FUtCRzO0SgSvQA02zjKjJoxEU0J9dHJmhP8u5qhLf8qGicwWnnmxmwh487fMQ5Qyx
-         31ufDFBPQ0G8DU00JYv1Qy26iWmUjfkMNuP/gOZg0Zo/D3TSUfOSfMEeQ9zIqryAdo5l
-         A+kg==
-X-Gm-Message-State: ANhLgQ19Btc+QxSVy4QwOYL4diV2LxDbPhx7cn6e74/eHovsxPYaXG1V
-        mav0fCAW6Ll8qJoDO2G8rWlgQi7i+tNrCDJcBHY=
-X-Google-Smtp-Source: ADFU+vsKB4iGKQecF/EusqwlApCiHlWvxU386zM5SXxTzdTzlx3AyjA89liyhD5mK+CGJcFxZDYz9oJXwK1ffx2gimI=
-X-Received: by 2002:a63:798a:: with SMTP id u132mr6025684pgc.203.1585428237055;
- Sat, 28 Mar 2020 13:43:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1585343507.git.gayatri.kammela@intel.com>
-In-Reply-To: <cover.1585343507.git.gayatri.kammela@intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 28 Mar 2020 22:43:44 +0200
-Message-ID: <CAHp75VcEO0udSzpWX14vaZcjLni2RA3NGXNqr50HMK=S7GWjxg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] Fixes: update Tiger Lake ACPI device IDs
-To:     Gayatri Kammela <gayatri.kammela@intel.com>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sun, 29 Mar 2020 18:34:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585521268;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=2OFzBfakby1fIs+QET3KgqnU3GSddaRvYESK/j3cXaw=;
+        b=PqqlXK8mzagoemkWCptRpP1lDu83WDfxyCz6dDRpvrsBU/gLc/L4IqXQ3q+waj/7nfpBBs
+        JcqoD/16CB5XBD+X3nd5o1atPxQ7fFi8ZczNBPxoWKSmjObcXUZ7uabMRhUkpu6hc/uU62
+        tCIc49OgQ1FY/yFJxa4TVJ2QjduDlJM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-aERaAk6-NP24lDzXvhZeXA-1; Sun, 29 Mar 2020 18:34:24 -0400
+X-MC-Unique: aERaAk6-NP24lDzXvhZeXA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E489800D4E;
+        Sun, 29 Mar 2020 22:34:23 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-12.ams2.redhat.com [10.36.112.12])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 89D295DA66;
+        Sun, 29 Mar 2020 22:34:21 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
-        Alex Hung <alex.hung@canonical.com>,
-        "Zhang, Rui" <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Mika Westerberg <mika.westerberg@intel.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 5.6 regression fix 0/2] ACPI: PM: s2idle: Fix some systems no longer waking up from suspend
+Date:   Mon, 30 Mar 2020 00:34:17 +0200
+Message-Id: <20200329223419.122796-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 11:34 PM Gayatri Kammela
-<gayatri.kammela@intel.com> wrote:
->
-> Hi,
->
-> The hardware IDs for devices supported by Tiger Lake for various drivers
-> such as DPTF, fan, Intel thermal and intel-hid are added with missing 'C'
-> which makes them invalid. Hence fix these IDs by updating.
->
-> For instance, the updated ID now looks like
-> INT1047 --> INTC1047
->
-> Patch 1: Update Tiger Lake ACPI device IDs for DPTF and fan drivers
-> Patch 2: Update Tiger Lake ACPI device ID for intel-hid driver
-> Patch 3: Update Tiger Lake ACPI device IDs for thermal driver
->
+Hi Rafael, Andy and Darren,
 
-Please, keep the IDs sorted (INTC should go after INT, etc).
-Also I will need an Ack for patch 1 (at least).
+I've been debugging an issue I noticed on various Cherry Trail devices
+this weekend. The issue is that when trying to wakeup the laptop / 2-in-1
+with the USB keyboard, then it not only not wakes up, after this wakeup
+attempt it will also no longer wakeup through other means such as the
+power-button, IOW the system hangs which is not so nice.
 
-> Changes since v1:
-> 1) Added fixes tag to each patch
->
-> Gayatri Kammela (3):
->   ACPI: fix: Update Tiger Lake ACPI device IDs
->   platform/x86: intel-hid: fix: Update Tiger Lake ACPI device ID
->   thermal: int340x_thermal: fix: Update Tiger Lake ACPI device IDs
->
->  drivers/acpi/device_pm.c                                | 2 +-
->  drivers/acpi/dptf/dptf_power.c                          | 2 +-
->  drivers/acpi/dptf/int340x_thermal.c                     | 8 ++++----
->  drivers/platform/x86/intel-hid.c                        | 2 +-
->  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 2 +-
->  drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 2 +-
->  6 files changed, 9 insertions(+), 9 deletions(-)
->
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> --
-> 2.17.1
->
+This is also happening in 5.5 since 5.5.5 .
 
+Here is the explanation of the problem from the commit message of the
+first patch:
 
--- 
-With Best Regards,
-Andy Shevchenko
+###
+
+Since commit fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from
+waking up the system") the SCI triggering without there being a wakeup
+cause recognized by the ACPI sleep code will no longer wakeup the system.
+
+This works as intended, but this is a problem for devices where the SCI
+is shared with another device which is also a wakeup source.
+
+In the past these from the pov of the ACPI sleep code spurious SCIs would
+still cause a wakeup so the wakeup from the device sharing the interrupt
+would actually wakeup the system. This now no longer works.
+
+This is a problem on e.g. Bay Trail-T and Cherry Trail devices where
+some peripherals (typically the XHCI controller) can signal a
+Power Management Event (PME) to the Power Management Controller (PMC)
+to wakeup the system, this uses the same interrupt as the SCI.
+These wakeups are handled through a special INT0002 ACPI device which
+checks for events in the GPE0a_STS for this and takes care of acking
+the PME so that the shared interrupt stops triggering.
+
+The change to the ACPI sleep code to ignore the spurious SCI, causes
+the system to no longer wakeup on these PME events. To make things
+worse this means that the INT0002 device driver interrupt handler will
+no longer run, causing the PME to not get cleared and resulting in the
+system hanging. Trying to wakeup the system after such a PME through e.g.
+the power button no longer works.
+
+###
+
+The first patch in this series adds an acpi_s2idle_register_wake_callback=
+()
+function the ACPI sleep code which registers a callback to be called from
+acpi_s2idle_wake() and when the callback returns true, return true from
+acpi_s2idle_wake().
+
+The second patch in this series makes the INT0002 driver use this mechani=
+sm
+to check the GPE0a_STS register from acpi_s2idle_wake() and to tell the
+system to wakeup if a PME is signaled in the register.
+
+This is the cleanest solution I could come up with. I hope it is to your
+liking.
+
+Since the INT0002 driver change depends on the changes from the first
+patch I suggest that we merge both patches to Rafael's tree.
+Andy or Darren, may we have your Acked-by for that?
+
+Regards,
+
+Hans
+
