@@ -2,131 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAC5019825A
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 19:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C33A1985CE
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 22:47:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727704AbgC3R3H (ORCPT
+        id S1728754AbgC3UrG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 30 Mar 2020 13:29:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60796 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726497AbgC3R3H (ORCPT
+        Mon, 30 Mar 2020 16:47:06 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:35396 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728065AbgC3UrG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 30 Mar 2020 13:29:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Eec66IHzo9JhGxFqh5B2ca0/H+pkRQeD1xGS5vVl0Tk=; b=XGgn6wemDLnsEEjjBAoPgGPPMq
-        Pp4pgc6O9ULaqgz+kxuIuUcbO04oVA/SsyQx5vq62wSfueFQ1p3T8vJHnVeMkjHMBKYQm1tI8HCOY
-        poW9ae5iX/Q2rB5OIaf3mDUb2mVc6LHTKDUf+aoMZPXdP+izDrpZdBQ96xC1xAkRocauNQzVEBkm0
-        vOMinjfx86Dvbr/2RWCSj1hlNC373QnGMKkfovCCmM97s6cQCboG/bgvmF2i2QM9o+X/RK3CMk0lR
-        Rc+AiuP4CeMZ4IO1soXSN2+elD3lYtV574LY02UzG8RKHlfB4KKnPVK+LrYrP9L1xg3MGuGiZLymG
-        deOIonHw==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jIyDg-0007QP-Qg; Mon, 30 Mar 2020 17:29:04 +0000
-Subject: Re: [PATCH v3] platform: x86: Add ACPI driver for ChromeOS
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel@vger.kernel.org
-Cc:     groeck@chromium.org, bleung@chromium.org, dtor@chromium.org,
-        gwendal@chromium.org, Collabora Kernel ML <kernel@collabora.com>,
-        vbendeb@chromium.org, andy@infradead.org,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jeremy Soller <jeremy@system76.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rajat Jain <rajatja@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>,
+        Mon, 30 Mar 2020 16:47:06 -0400
+Received: by mail-lf1-f68.google.com with SMTP id t16so14581079lfl.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 30 Mar 2020 13:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=VBX5/AwpenmAtRfYc0gA0p0Kuc9U6Tg9/8rBcFXDR5g=;
+        b=oTb8MzuMYQSuLJ14kKORctvZc42AOq5iwR9omifw5PfjXVWBM7utrgk498HIr4CVmt
+         QPzThWR9E2XnbA4MJ/+NHi4PFbrxInWKUL7RXrT1u89KIBec4hvtmX/nbq91ZenvAR6p
+         t9ktfDMKzMHD2PIWIomZq2YrYg2QmLbH49TJ2DTfe2szQnILs79mh1+tnePzcWQ0Plm9
+         po4t4pBq1vbrIrFrjQyoAjj9TbkInRSc6+qZ/i4ipOJ69iXX4hAnZKL+iJklx31tuidJ
+         aOnJanJwAgxW6Zy+mVZW2ZOizDBDUiKPbW3A9KZ44YQzL8r5AH6GFu1bF3+qgOB2Y1Gh
+         JR+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=VBX5/AwpenmAtRfYc0gA0p0Kuc9U6Tg9/8rBcFXDR5g=;
+        b=Cur+IfXrJaGwMLzwhejxXxp5bz56GILanqpem0EQNv59V5v271RjbyeDKWsmDEKcUb
+         serqhcIQ0ohrnQ1ONr+7FGh+8yBv8NmYTZS2nntY7iaCiw5o2bWjRxQmf/W8773YgLgO
+         4IWZnTZjpVNBfe1TiDJfjPdQqO7ZDHcj3pn/yNybd0zk2uFEeHDyjQccqTSZW4exxg49
+         xdU+dQCmgKZ7C3K489KL4sZqZGSe0mlxsxioXfOMzulpOvIlFXbFBBL4aWRGVL1jucpH
+         aPoLJyqlx2GnoZU+/Ye+apaWR0YtpWAlLUWYfBEkHDVj6u2ez6hqgT+h8zl9qO6S6pfE
+         L61w==
+X-Gm-Message-State: AGi0PuYt+dW3gjcuH/DKX6ZSM+/PEafC3CGAvlXuGtBSoveaIMkAyudE
+        8mbPWdh6rOyNZoOQct4yGGbuQydUZl0=
+X-Google-Smtp-Source: APiQypKlONMDlwLSY5Q4J216peN/drpfVr6eoqNFQwTIik1X8wmaAeuGGpBcSkbXxhlsolccwjscLg==
+X-Received: by 2002:a19:4cc3:: with SMTP id z186mr8842254lfa.69.1585601222387;
+        Mon, 30 Mar 2020 13:47:02 -0700 (PDT)
+Received: from zyklotron (host-89-228-178-201.dynamic.mm.pl. [89.228.178.201])
+        by smtp.gmail.com with ESMTPSA id f7sm7304288ljj.4.2020.03.30.13.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2020 13:47:02 -0700 (PDT)
+Date:   Mon, 30 Mar 2020 22:47:01 +0200
+From:   Wiktor Ciurej <wiktor.ciurej@gmail.com>
+To:     hdegoede@redhat.com
+Cc:     dvhart@infradead.org, andy@infradead.org,
         platform-driver-x86@vger.kernel.org
-References: <20200330150617.1132570-1-enric.balletbo@collabora.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <843663ae-10bf-7dfa-4a1f-91493de882c5@infradead.org>
-Date:   Mon, 30 Mar 2020 10:29:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add touchscreen info for
+ techBite Arc 11.6.
+Message-ID: <20200330204701.GA11408@zyklotron>
 MIME-Version: 1.0
-In-Reply-To: <20200330150617.1132570-1-enric.balletbo@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi--
+Add touchscreen info for techBite Arc 11.6.
 
-On 3/30/20 8:06 AM, Enric Balletbo i Serra wrote:
-> This driver attaches to the ChromeOS ACPI device and then exports the values
-> reported by the ACPI in a sysfs directory. These values are not exported
-> via the standard ACPI tables, hence a specific driver is needed to do
-> it. The ACPI values are presented in the string form (numbers as decimal
-> values) or binary blobs, and can be accessed as the contents of the
-> appropriate read only files in the standard ACPI devices sysfs directory tree.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> ---
+Signed-off-by: Wiktor Ciurej <wiktor.ciurej@gmail.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-> 
-> Thanks,
->  Enric
-> 
-> [1] https://lkml.org/lkml/2017/7/31/378
-> 
-> Changes in v3:
-> - Use attribute groups instead of adding files "by hand".
-> - Add BUILD_TEST to increment build coverage.
-
-Where was BUILD_TEST coverage added?
-Is that the same as COMPILE_TEST?
-
-> - Do not use "raw" kobject to create directories.
-> - Do not abuse of the platform_device interface. Remove it.
-> 
-> Changes in v2:
-> - Note that this version is a total rework, with those major changes:
->   - Use lists to track dinamically allocated attributes and groups.
->   - Use sysfs binary attributes to store the ACPI contents.
->   - Remove all the functionalities except the one that creates the sysfs files.
-> 
->  drivers/platform/x86/Kconfig         |  12 +
->  drivers/platform/x86/Makefile        |   1 +
->  drivers/platform/x86/chromeos_acpi.c | 517 +++++++++++++++++++++++++++
->  3 files changed, 530 insertions(+)
->  create mode 100644 drivers/platform/x86/chromeos_acpi.c
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 587403c44598..917a1c1a0758 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -72,6 +72,18 @@ config ACERHDF
->  	  If you have an Acer Aspire One netbook, say Y or M
->  	  here.
->  
-> +config ACPI_CHROMEOS
-> +	tristate "ChromeOS specific ACPI extensions"
-> +	depends on ACPI
-> +	depends on CHROME_PLATFORMS
-> +	help
-> +	  This driver provides the firmware interface for the services
-> +	  exported through the ChromeOS interfaces when using ChromeOS
-> +	  ACPI firmware.
-> +
-> +	  If you have an ACPI-compatible Chromebook, say Y or M
-> +	  here.
-> +
->  config ALIENWARE_WMI
->  	tristate "Alienware Special feature control"
->  	depends on ACPI
-
-thanks.
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 93177e6e5ecd..ba43a29f68a9 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -537,6 +537,17 @@ static const struct ts_dmi_data schneider_sct101ctm_data = {
+ 	.properties	= schneider_sct101ctm_props,
+ };
+ 
++static const struct property_entry techbite_arc_11_6_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 5),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 7),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1981),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1270),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-techbite-arc-11-6.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	{ }
++};
++
+ static const struct property_entry teclast_x3_plus_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
+@@ -969,6 +980,15 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "SCT101CTM"),
+ 		},
+ 	},
++	{
++		/* Techbite Arc 11.6 */
++		.driver_data = (void *)&techbite_arc_11_6_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "mPTech"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "techBite Arc 11.6"),
++			DMI_MATCH(DMI_BOARD_NAME, "G8316_272B"),
++		},
++	},
+ 	{
+ 		/* Teclast X3 Plus */
+ 		.driver_data = (void *)&teclast_x3_plus_data,
 -- 
-~Randy
+2.20.1
 
