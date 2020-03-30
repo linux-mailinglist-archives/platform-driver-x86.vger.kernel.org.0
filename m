@@ -2,129 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9A3F1970CC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 00:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E04E3197A7B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 13:13:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728930AbgC2Wec (ORCPT
+        id S1729650AbgC3LNa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 29 Mar 2020 18:34:32 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:35477 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728839AbgC2Web (ORCPT
+        Mon, 30 Mar 2020 07:13:30 -0400
+Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:52974 "EHLO
+        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729263AbgC3LNa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 29 Mar 2020 18:34:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1585521270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3+ZOHsYN5eO6apwqHDZCTtdl6HvugNVY/bn8g6JeuAk=;
-        b=iia/HeISOLXMTxkoF3XeWvanqqWfqfOrcaPsVOFXpghvQD4V5QyoAk2GqfVXU/Fnuvc9pY
-        RMKWRsrL3bxiW3uggktOUQqQRpy/bd1vGkH14nwF7OszWAANOkoFwWfAYKPJbzlAqWh4A3
-        pnO/WRRhOX8gNOAgnNzNQKUO8+LmrMg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-zHoEi5pCNXyMGY86fbqrog-1; Sun, 29 Mar 2020 18:34:28 -0400
-X-MC-Unique: zHoEi5pCNXyMGY86fbqrog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41D091005516;
-        Sun, 29 Mar 2020 22:34:27 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-12.ams2.redhat.com [10.36.112.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 891CB5DA66;
-        Sun, 29 Mar 2020 22:34:25 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "5 . 4+" <stable@vger.kernel.org>
-Subject: [PATCH 5.6 regression fix 2/2] platform/x86: intel_int0002_vgpio: Use acpi_s2idle_register_wake_callback
-Date:   Mon, 30 Mar 2020 00:34:19 +0200
-Message-Id: <20200329223419.122796-3-hdegoede@redhat.com>
-In-Reply-To: <20200329223419.122796-1-hdegoede@redhat.com>
-References: <20200329223419.122796-1-hdegoede@redhat.com>
+        Mon, 30 Mar 2020 07:13:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 40A1E2F7077E;
+        Mon, 30 Mar 2020 04:27:19 -0500 (-05)
+Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id h0zBNMuqFCko; Mon, 30 Mar 2020 04:27:18 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id B72422F7078A;
+        Mon, 30 Mar 2020 04:27:18 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec B72422F7078A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
+        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1585560438;
+        bh=cLQbOHa1aY+/FyDjaDQOZOnnnlZDxMu+rBX/cg5yps8=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Reply-To:Message-Id;
+        b=FqfK2SLI/JiVqSq+wv0biqlvaJmYSLF8+5uKavwCKTaWUQcRRnlSbKaqpZz2kIJGp
+         +BRCYWymMzsOT34v3NiaXeFaQQb3+fzdAWSd/QlvEayBHkTG3nt76MLjn0u+QQGf6+
+         1MRM2iXx9LWfwIq/DPQSqL4/NN28zxX//52J56ec=
+X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
+Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
+        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id zYfMV4QWz07O; Mon, 30 Mar 2020 04:27:18 -0500 (-05)
+Received: from [10.121.152.251] (unknown [105.12.0.10])
+        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id 085DB2F7074F;
+        Mon, 30 Mar 2020 04:27:07 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: spende von 2.000.000,00 Euro
+To:     Recipients <luis.sanchez@11d01.mspz7.gob.ec>
+From:   "Manuel Franco" <luis.sanchez@11d01.mspz7.gob.ec>
+Date:   Mon, 30 Mar 2020 11:58:21 +0200
+Reply-To: manuelfrancospende11@gmail.com
+Message-Id: <20200330092708.085DB2F7074F@mail.11d01.mspz7.gob.ec>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Power Management Events (PMEs) the INT0002 driver listens for get
-signalled by the Power Management Controller (PMC) using the same IRQ
-as used for the ACPI SCI.
+Ich bin Manuel Franco, ich spende Ihnen 2.000.000,00 Euro. Kontaktieren Sie=
+ mich jetzt, damit wir fortfahren k=F6nnen.
 
-Since commit fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from
-waking up the system") the SCI triggering without there being a wakeup
-cause recognized by the ACPI sleep code will no longer wakeup the system.
-
-This breaks PMEs / wakeups signalled to the INT0002 driver, the system
-never leaves the s2idle_loop() now.
-
-Use acpi_s2idle_register_wake_callback to register a function which
-checks the GPE0a_STS register for a PME and trigger a wakeup when a
-PME has been signalled.
-
-With this new mechanism the pm_wakeup_hard_event() call is no longer
-necessary, so remove it and also remove the matching device_init_wakeup()
-calls.
-
-Fixes: fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from waking=
- up the system")
-Cc: 5.4+ <stable@vger.kernel.org> # 5.4+
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/intel_int0002_vgpio.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platfor=
-m/x86/intel_int0002_vgpio.c
-index f14e2c5f9da5..3c70694188fe 100644
---- a/drivers/platform/x86/intel_int0002_vgpio.c
-+++ b/drivers/platform/x86/intel_int0002_vgpio.c
-@@ -122,11 +122,17 @@ static irqreturn_t int0002_irq(int irq, void *data)
- 	generic_handle_irq(irq_find_mapping(chip->irq.domain,
- 					    GPE0A_PME_B0_VIRT_GPIO_PIN));
-=20
--	pm_wakeup_hard_event(chip->parent);
--
- 	return IRQ_HANDLED;
- }
-=20
-+static bool int0002_check_wake(void *data)
-+{
-+	u32 gpe_sts_reg;
-+
-+	gpe_sts_reg =3D inl(GPE0A_STS_PORT);
-+	return (gpe_sts_reg & GPE0A_PME_B0_STS_BIT);
-+}
-+
- static struct irq_chip int0002_byt_irqchip =3D {
- 	.name			=3D DRV_NAME,
- 	.irq_ack		=3D int0002_irq_ack,
-@@ -220,13 +226,13 @@ static int int0002_probe(struct platform_device *pd=
-ev)
- 		return ret;
- 	}
-=20
--	device_init_wakeup(dev, true);
-+	acpi_s2idle_register_wake_callback(irq, int0002_check_wake, NULL);
- 	return 0;
- }
-=20
- static int int0002_remove(struct platform_device *pdev)
- {
--	device_init_wakeup(&pdev->dev, false);
-+	acpi_s2idle_unregister_wake_callback(int0002_check_wake, NULL);
- 	return 0;
- }
-=20
---=20
-2.26.0
-
+I am Manuel Franco, I donate to you 2,000,000.00 euros. Contact me now so w=
+e can proceed.
