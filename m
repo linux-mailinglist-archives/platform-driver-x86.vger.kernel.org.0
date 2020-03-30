@@ -2,79 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E8B197FCE
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 17:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5575A198184
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 30 Mar 2020 18:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729463AbgC3Pia (ORCPT
+        id S1726085AbgC3Qns (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 30 Mar 2020 11:38:30 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33828 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbgC3Pi3 (ORCPT
+        Mon, 30 Mar 2020 12:43:48 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:40263 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727728AbgC3Qnr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 30 Mar 2020 11:38:29 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 05B37296770
-Subject: Re: [PATCH v3] platform: x86: Add ACPI driver for ChromeOS
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, groeck@chromium.org,
-        bleung@chromium.org, dtor@chromium.org, gwendal@chromium.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        vbendeb@chromium.org, andy@infradead.org,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jeremy Soller <jeremy@system76.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rajat Jain <rajatja@google.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Yauhen Kharuzhy <jekhor@gmail.com>,
-        platform-driver-x86@vger.kernel.org
-References: <20200330150617.1132570-1-enric.balletbo@collabora.com>
- <20200330153430.GA750889@kroah.com>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <2ea54a95-213e-41cb-1bf8-bc72475d1f73@collabora.com>
-Date:   Mon, 30 Mar 2020 17:38:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Mon, 30 Mar 2020 12:43:47 -0400
+Received: by mail-oi1-f193.google.com with SMTP id y71so16231582oia.7;
+        Mon, 30 Mar 2020 09:43:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MS5McrXGm+Pe+d4UtF2bcuDD71uOb63Bd3udfUatanQ=;
+        b=oIN6Y97sfl4A2JxxOcJco0qeoVLKlGHA+1ysQbpAQmsYwavNQ3bMSDDRViGwXR4ozD
+         pZP6NYj3QnFTm3cz/nSaJwyx2Q6UTiRbBD5j/5OyO1JhlVJmShKixxsO4KaIQkB5C3P3
+         7teqCaK0rgdoBFdwBjfeBLIHxmWUOEF4lOKnYP/XRsg4UBhGGK5G6aFnjI5WvFhMUeBP
+         XAY0H1oJtUrWRGx9G8Udyf2rr25/05r764OI98bXqJHhns+QUiszYJzGJEFVC3C4VCPV
+         qX36cJCqjCVVNrFDVipLc+QjDb5FiELdlJEjJwNNzSyTsEdP7ZaTC6tC/uv6Euzq/DoR
+         1Dcw==
+X-Gm-Message-State: ANhLgQ3LD4tEf60nTwOJIIUWwheYQ2Hr2V2YrBWBZiaSOxRM9SNpRiTc
+        9YK3pVilwrsPBcT+AgFuhSkEb/cIZvA0L0nKxpM=
+X-Google-Smtp-Source: ADFU+vv6dTWbFFfplOy7A9gS+VA/HDhHhkXGm09HWyUxIGqiERq6nNeYm6JujuZdGLgs+KRghBp98zlIG61fY901FVI=
+X-Received: by 2002:a05:6808:8f:: with SMTP id s15mr171623oic.110.1585586626471;
+ Mon, 30 Mar 2020 09:43:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200330153430.GA750889@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1585343507.git.gayatri.kammela@intel.com> <9359b8e261d69983b1eed2b8e53ef9eabfdfdd51.1585343507.git.gayatri.kammela@intel.com>
+In-Reply-To: <9359b8e261d69983b1eed2b8e53ef9eabfdfdd51.1585343507.git.gayatri.kammela@intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 30 Mar 2020 18:43:35 +0200
+Message-ID: <CAJZ5v0j8OaqM6k52Ar9sYn0Ea_u9+MBB0rcMWv6vGBt5jXCQBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ACPI: fix: Update Tiger Lake ACPI device IDs
+To:     Gayatri Kammela <gayatri.kammela@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Zhang, Rui" <rui.zhang@intel.com>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Alex Hung <alex.hung@canonical.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Mika Westerberg <mika.westerberg@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
+        "5 . 6+" <stable@vger.kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Greg,
+On Fri, Mar 27, 2020 at 10:34 PM Gayatri Kammela
+<gayatri.kammela@intel.com> wrote:
+>
+> Tiger Lake's new unique ACPI device IDs for DPTF and fan drivers are not
+> valid as the IDs are missing 'C'. Fix the IDs by updating them.
+>
+> After the update, the new IDs should now look like
+> INT1047 --> INTC1047
+> INT1040 --> INTC1040
+> INT1043 --> INTC1043
+> INT1044 --> INTC1044
+>
+> Fixes: 55cfe6a5c582 ("ACPI: DPTF: Add Tiger Lake ACPI device IDs")
+> Fixes: c248dfe7e0ca ("ACPI: fan: Add Tiger Lake ACPI device ID")
+> Cc: 5.6+ <stable@vger.kernel.org> # 5.6+
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+> Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
+> ---
+>  drivers/acpi/device_pm.c            | 2 +-
+>  drivers/acpi/dptf/dptf_power.c      | 2 +-
+>  drivers/acpi/dptf/int340x_thermal.c | 8 ++++----
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
+> index b64c62bfcea5..80dae3b3c36a 100644
+> --- a/drivers/acpi/device_pm.c
+> +++ b/drivers/acpi/device_pm.c
+> @@ -1321,7 +1321,7 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
+>          */
+>         static const struct acpi_device_id special_pm_ids[] = {
+>                 {"PNP0C0B", }, /* Generic ACPI fan */
+> -               {"INT1044", }, /* Fan for Tiger Lake generation */
+> +               {"INTC1044", }, /* Fan for Tiger Lake generation */
+>                 {"INT3404", }, /* Fan */
+>                 {}
+>         };
+> diff --git a/drivers/acpi/dptf/dptf_power.c b/drivers/acpi/dptf/dptf_power.c
+> index 387f27ef3368..e5fb34bfa52c 100644
+> --- a/drivers/acpi/dptf/dptf_power.c
+> +++ b/drivers/acpi/dptf/dptf_power.c
+> @@ -97,7 +97,7 @@ static int dptf_power_remove(struct platform_device *pdev)
+>  }
+>
+>  static const struct acpi_device_id int3407_device_ids[] = {
+> -       {"INT1047", 0},
+> +       {"INTC1047", 0},
+>         {"INT3407", 0},
+>         {"", 0},
+>  };
+> diff --git a/drivers/acpi/dptf/int340x_thermal.c b/drivers/acpi/dptf/int340x_thermal.c
+> index 1ec7b6900662..29b5c77256dd 100644
+> --- a/drivers/acpi/dptf/int340x_thermal.c
+> +++ b/drivers/acpi/dptf/int340x_thermal.c
+> @@ -13,10 +13,10 @@
+>
+>  #define INT3401_DEVICE 0X01
+>  static const struct acpi_device_id int340x_thermal_device_ids[] = {
+> -       {"INT1040"},
+> -       {"INT1043"},
+> -       {"INT1044"},
+> -       {"INT1047"},
+> +       {"INTC1040"},
+> +       {"INTC1043"},
+> +       {"INTC1044"},
+> +       {"INTC1047"},
+>         {"INT3400"},
+>         {"INT3401", INT3401_DEVICE},
+>         {"INT3402"},
+> --
 
-On 30/3/20 17:34, Greg Kroah-Hartman wrote:
-> On Mon, Mar 30, 2020 at 05:06:17PM +0200, Enric Balletbo i Serra wrote:
->> This driver attaches to the ChromeOS ACPI device and then exports the values
->> reported by the ACPI in a sysfs directory. These values are not exported
->> via the standard ACPI tables, hence a specific driver is needed to do
->> it. The ACPI values are presented in the string form (numbers as decimal
->> values) or binary blobs, and can be accessed as the contents of the
->> appropriate read only files in the standard ACPI devices sysfs directory tree.
-> 
-> Any reason why you didn't send this to the ACPI maintainers and
-> developer mailing list?
-> 
+I can take this along with the other two patches in the series if that
+is fine by Andy and Rui.
 
-Right, one should never only trust on what get_maintainers returns you. My bad,
-I'll cc them. Thanks for pointing it.
-
-Thanks,
- Enric
-
-> They would be the best ones to review this...
-> 
-> thanks,
-> 
-> greg k-h
-> 
+Thanks!
