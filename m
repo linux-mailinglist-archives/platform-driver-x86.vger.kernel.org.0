@@ -2,113 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5AC1198A05
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 Mar 2020 04:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057EB198C34
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 Mar 2020 08:19:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727614AbgCaCiL (ORCPT
+        id S1726236AbgCaGTl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 30 Mar 2020 22:38:11 -0400
-Received: from mga03.intel.com ([134.134.136.65]:45459 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727464AbgCaCiL (ORCPT
+        Tue, 31 Mar 2020 02:19:41 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34075 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726060AbgCaGTl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 30 Mar 2020 22:38:11 -0400
-IronPort-SDR: B6qTxOv3qxFBkrpatBPAt/d61dc8ii3q8sTfS5y1gTxvlgRMhv+p90sp/vnBBLy5elhuBzub38
- vIe1hT1ViQIg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2020 19:38:10 -0700
-IronPort-SDR: gQqONHGZrVgABLM0UYtvVtd3YvvksEvwewAYtAH1kil4MKCavjAw7fhxHM8buNuoKamN30QltV
- /PgpMt6HxWAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,326,1580803200"; 
-   d="scan'208";a="359364093"
-Received: from yanbingl-mobl2.ccr.corp.intel.com ([10.249.171.104])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2020 19:38:05 -0700
-Message-ID: <25a7feacbd75821385aa310f3dbd87f70ed3ead2.camel@intel.com>
-Subject: Re: [PATCH v2 3/3] thermal: int340x_thermal: fix: Update Tiger Lake
- ACPI device IDs
-From:   Zhang Rui <rui.zhang@intel.com>
-To:     Gayatri Kammela <gayatri.kammela@intel.com>,
-        linux-pm@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lenb@kernel.org, dvhart@infradead.org, alex.hung@canonical.com,
-        daniel.lezcano@linaro.org, amit.kucheria@verdurent.com,
-        mika.westerberg@intel.com, peterz@infradead.org,
-        charles.d.prestopine@intel.com, "5 . 6+" <stable@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Date:   Tue, 31 Mar 2020 10:38:04 +0800
-In-Reply-To: <24125c0777458384f5b4449cafb5115b9985e3bd.1585343507.git.gayatri.kammela@intel.com>
+        Tue, 31 Mar 2020 02:19:41 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m2so6176307otr.1;
+        Mon, 30 Mar 2020 23:19:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XCdJCbcFAqKbu5o4UMmbzXHaFPJd9Ik8M7QfW5a9gSE=;
+        b=fAdt+P+TSKsLmQG16uvwEgJI6R2W8qSmVKlRVlUuSaL6tK94YZbiGI8cxjtAVgKekF
+         gBo2sOAB/Nmbz1tKSWemDsaDaneA3UEcIfXQTEJu4x9StbilSAnYbevMr02IFJ+u8mcp
+         Vu0NGrTdWmK3DQsuxdz3tDdUOvhvgm+SKS8nZty0ikhxLU/IUU3ZKHCSGqfHgpmRXpYi
+         EcNdnW9kmkFnpB1tKvYNmxVoseeFi/qY731g9G+7d+BtpZKCzNZcslxYjMK1NpnQ5AM+
+         oI0OLSs9osopGxohIgF9OfD3N1XEgCd9nVV7tr+3r5rZiF8VybiKpmsSMfvEc0AgfvEu
+         xOVA==
+X-Gm-Message-State: ANhLgQ3j/2txs4XNjaaDyBFY8lmcGOsC/eDVz9cKYTl7mj9rxLUeN/yD
+        sGDZYN1FMvTp+NI4bckfBrWArAsuRSwSL3BDVlw=
+X-Google-Smtp-Source: ADFU+vsLlPUWVwHlm1MZohs4ZiijuCiA9dRuDMtpcpQVflJWE1hgPv4eVishiq59gAA1qUXFEEGgkbR2+8SmWFBYtRo=
+X-Received: by 2002:a9d:7402:: with SMTP id n2mr12255889otk.262.1585635580865;
+ Mon, 30 Mar 2020 23:19:40 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1585343507.git.gayatri.kammela@intel.com>
-         <24125c0777458384f5b4449cafb5115b9985e3bd.1585343507.git.gayatri.kammela@intel.com>
+ <9359b8e261d69983b1eed2b8e53ef9eabfdfdd51.1585343507.git.gayatri.kammela@intel.com>
+ <CAJZ5v0j8OaqM6k52Ar9sYn0Ea_u9+MBB0rcMWv6vGBt5jXCQBQ@mail.gmail.com>
+ <20200330172439.GB1922688@smile.fi.intel.com> <BYAPR11MB362459660B914BEF1526AD8DF2CB0@BYAPR11MB3624.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB362459660B914BEF1526AD8DF2CB0@BYAPR11MB3624.namprd11.prod.outlook.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 31 Mar 2020 08:19:29 +0200
+Message-ID: <CAJZ5v0inmWu6_ZYLCKart6F873SqK5AyvVXOCS83Yr=KQAQV_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ACPI: fix: Update Tiger Lake ACPI device IDs
+To:     "Kammela, Gayatri" <gayatri.kammela@intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Zhang, Rui" <rui.zhang@intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Alex Hung <alex.hung@canonical.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        "Westerberg, Mika" <mika.westerberg@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Prestopine, Charles D" <charles.d.prestopine@intel.com>,
+        "5 . 6+" <stable@vger.kernel.org>,
+        "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 2020-03-27 at 14:28 -0700, Gayatri Kammela wrote:
-> Tiger Lake's new unique ACPI device IDs for Intel thermal driver are
-> not
-> valid because of missing 'C' in the IDs. Fix the IDs by updating
-> them.
-> 
-> After the update, the new IDs should now look like
-> INT1040 --> INTC1040
-> INT1043 --> INTC1043
-> 
-> Fixes: 9b1b5535dfc9 ("thermal: int340x_thermal: Add Tiger Lake ACPI
-> device IDs")
-> Cc: 5.6+ <stable@vger.kernel.org> # 5.6+
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
+On Tue, Mar 31, 2020 at 1:22 AM Kammela, Gayatri
+<gayatri.kammela@intel.com> wrote:
+>
+> > -----Original Message-----
+> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Sent: Monday, March 30, 2020 10:25 AM
+> > To: Rafael J. Wysocki <rafael@kernel.org>
+> > Cc: Kammela, Gayatri <gayatri.kammela@intel.com>; Zhang, Rui
+> > <rui.zhang@intel.com>; Linux PM <linux-pm@vger.kernel.org>; Platform
+> > Driver <platform-driver-x86@vger.kernel.org>; Linux Kernel Mailing List
+> > <linux-kernel@vger.kernel.org>; Len Brown <lenb@kernel.org>; Darren Hart
+> > <dvhart@infradead.org>; Alex Hung <alex.hung@canonical.com>; Daniel
+> > Lezcano <daniel.lezcano@linaro.org>; Amit Kucheria
+> > <amit.kucheria@verdurent.com>; Westerberg, Mika
+> > <mika.westerberg@intel.com>; Peter Zijlstra <peterz@infradead.org>;
+> > Prestopine, Charles D <charles.d.prestopine@intel.com>; 5 . 6+
+> > <stable@vger.kernel.org>; Pandruvada, Srinivas
+> > <srinivas.pandruvada@intel.com>; Wysocki, Rafael J
+> > <rafael.j.wysocki@intel.com>
+> > Subject: Re: [PATCH v2 1/3] ACPI: fix: Update Tiger Lake ACPI device IDs
+> >
+> > On Mon, Mar 30, 2020 at 06:43:35PM +0200, Rafael J. Wysocki wrote:
+> > > On Fri, Mar 27, 2020 at 10:34 PM Gayatri Kammela
+> > > <gayatri.kammela@intel.com> wrote:
+> >
+> > > > -       {"INT1044"},
+> > > > -       {"INT1047"},
+> > > > +       {"INTC1040"},
+> > > > +       {"INTC1043"},
+> > > > +       {"INTC1044"},
+> > > > +       {"INTC1047"},
+> > > >         {"INT3400"},
+> > > >         {"INT3401", INT3401_DEVICE},
+> > > >         {"INT3402"},
+> > > > --
+> > >
+> > > I can take this along with the other two patches in the series if that
+> > > is fine by Andy and Rui.
+> >
+> > One nit is to fix the ordering to be alphanumeric or close enough (I admit in
+> > some cases it might require unneeded churn) to that.
+> Thanks Andy and Rafael! Should I send v3 for this series with right ordering this time?
 
-Acked-by: Zhang Rui <rui.zhang@intel.com>
+No need, I can fix up the ordering just fine.
 
-thanks,
-rui
-> ---
->  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 2 +-
->  drivers/thermal/intel/int340x_thermal/int3403_thermal.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> index efae0c02d898..71a9877b85a5 100644
-> --- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> +++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> @@ -369,7 +369,7 @@ static int int3400_thermal_remove(struct
-> platform_device *pdev)
->  }
->  
->  static const struct acpi_device_id int3400_thermal_match[] = {
-> -	{"INT1040", 0},
-> +	{"INTC1040", 0},
->  	{"INT3400", 0},
->  	{}
->  };
-> diff --git a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> index aeece1e136a5..3849d5869609 100644
-> --- a/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> +++ b/drivers/thermal/intel/int340x_thermal/int3403_thermal.c
-> @@ -282,7 +282,7 @@ static int int3403_remove(struct platform_device
-> *pdev)
->  }
->  
->  static const struct acpi_device_id int3403_device_ids[] = {
-> -	{"INT1043", 0},
-> +	{"INTC1043", 0},
->  	{"INT3403", 0},
->  	{"", 0},
->  };
+> > Otherwise,
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+Thanks!
