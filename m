@@ -2,211 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8BF719A004
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 31 Mar 2020 22:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEE619A6C8
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Apr 2020 10:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727937AbgCaUiX (ORCPT
+        id S1732064AbgDAID5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 31 Mar 2020 16:38:23 -0400
-Received: from mga05.intel.com ([192.55.52.43]:34230 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727852AbgCaUiX (ORCPT
+        Wed, 1 Apr 2020 04:03:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49566 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1731850AbgDAID5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 31 Mar 2020 16:38:23 -0400
-IronPort-SDR: CkOIhIscgpAvLv6wnee574678EHbj1Hlwj9LllRnBdEk6GS9UZuDR8bXOK9W+3gvZLceYAceUv
- YtWrOP9Sr7Hw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 13:38:23 -0700
-IronPort-SDR: bVXpRLwR/cLlxlrGDhFLh5gXjD+OMHuS1WmN/m9ilA0Nu63kb9k8IOmG3N4E9LMDRzxkPyflvF
- TPOPSDkyAL7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,328,1580803200"; 
-   d="scan'208";a="272888851"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Mar 2020 13:38:21 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jJNeP-000A9j-3k; Wed, 01 Apr 2020 04:38:21 +0800
-Date:   Wed, 01 Apr 2020 04:37:54 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:test-pr-5.7-1] BUILD SUCCESS
- d3651854e6c7f694fea2626041225752c57fa5ee
-Message-ID: <5e83aa22.hWQoovQAjoMpIDJM%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 1 Apr 2020 04:03:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585728236;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=6VsagWNjkgsWtPqpkfjc3hiHgmMB2HfZJo5AqKd3BnE=;
+        b=iHhh1TQtx3zRRDvcA6dssdpzun97RU+C830taQesjRicjlxEgYj62BktPJJnL7rYzyryrX
+        pmdBUzZjJNxJz1tUVD174Lb/sQxmZ7wuKDzZyOGUWhI1gzCzJxXy0kQTS6zxFqMDRsfM93
+        vCmgcr61ul3Onsfn+0gio5Iia1asA2U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-GoaCPsPpPQ2_eObd-Ud4Vg-1; Wed, 01 Apr 2020 04:03:53 -0400
+X-MC-Unique: GoaCPsPpPQ2_eObd-Ud4Vg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C62DB104FB68;
+        Wed,  1 Apr 2020 08:03:51 +0000 (UTC)
+Received: from x1-7.localdomain.com (ovpn-114-242.ams2.redhat.com [10.36.114.242])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9E615102BD7E;
+        Wed,  1 Apr 2020 08:03:50 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the MP-man MPWIN895CL tablet
+Date:   Wed,  1 Apr 2020 10:03:48 +0200
+Message-Id: <20200401080348.5128-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  test-pr-5.7-1
-branch HEAD: d3651854e6c7f694fea2626041225752c57fa5ee  Merge tag 'platform-drivers-x86-v5.7-1' into test-pr-5.7-1
+Add touchscreen info for the MP-man MPWIN895CL tablet.
 
-elapsed time: 481m
-
-configs tested: 149
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-nios2                         3c120_defconfig
-i386                                defconfig
-m68k                             allmodconfig
-mips                      malta_kvm_defconfig
-s390                                defconfig
-ia64                                defconfig
-powerpc                             defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-m68k                       m5475evb_defconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                      fuloong2e_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-x86_64               randconfig-a001-20200331
-x86_64               randconfig-a002-20200331
-x86_64               randconfig-a003-20200331
-i386                 randconfig-a001-20200331
-i386                 randconfig-a002-20200331
-i386                 randconfig-a003-20200331
-alpha                randconfig-a001-20200331
-m68k                 randconfig-a001-20200331
-mips                 randconfig-a001-20200331
-nds32                randconfig-a001-20200331
-parisc               randconfig-a001-20200331
-riscv                randconfig-a001-20200331
-c6x                  randconfig-a001-20200331
-h8300                randconfig-a001-20200331
-microblaze           randconfig-a001-20200331
-nios2                randconfig-a001-20200331
-sparc64              randconfig-a001-20200331
-csky                 randconfig-a001-20200331
-openrisc             randconfig-a001-20200331
-s390                 randconfig-a001-20200331
-sh                   randconfig-a001-20200331
-xtensa               randconfig-a001-20200331
-i386                 randconfig-c003-20200331
-i386                 randconfig-c002-20200331
-i386                 randconfig-c001-20200331
-x86_64               randconfig-e001-20200331
-i386                 randconfig-e002-20200331
-x86_64               randconfig-e003-20200331
-i386                 randconfig-e003-20200331
-x86_64               randconfig-e002-20200331
-i386                 randconfig-e001-20200331
-i386                 randconfig-f001-20200331
-i386                 randconfig-f003-20200331
-i386                 randconfig-f002-20200331
-x86_64               randconfig-f002-20200331
-x86_64               randconfig-f003-20200331
-x86_64               randconfig-f001-20200331
-x86_64               randconfig-g002-20200331
-x86_64               randconfig-g003-20200331
-i386                 randconfig-g001-20200331
-i386                 randconfig-g002-20200331
-x86_64               randconfig-g001-20200331
-i386                 randconfig-g003-20200331
-x86_64               randconfig-h001-20200331
-x86_64               randconfig-h002-20200331
-x86_64               randconfig-h003-20200331
-i386                 randconfig-h001-20200331
-i386                 randconfig-h002-20200331
-i386                 randconfig-h003-20200331
-sparc                randconfig-a001-20200331
-arm64                randconfig-a001-20200331
-ia64                 randconfig-a001-20200331
-arc                  randconfig-a001-20200331
-arm                  randconfig-a001-20200331
-arc                  randconfig-a001-20200401
-arm                  randconfig-a001-20200401
-arm64                randconfig-a001-20200401
-ia64                 randconfig-a001-20200401
-powerpc              randconfig-a001-20200401
-sparc                randconfig-a001-20200401
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-riscv                          rv32_defconfig
-s390                       zfcpdump_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-sparc64                             defconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x8=
+6/touchscreen_dmi.c
+index 6ec8923dec1a..931814e62454 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -373,6 +373,23 @@ static const struct ts_dmi_data jumper_ezpad_mini3_d=
+ata =3D {
+ 	.properties	=3D jumper_ezpad_mini3_props,
+ };
+=20
++static const struct property_entry mpman_mpwin895cl_props[] =3D {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 3),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 9),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1728),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1150),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl3680-mpman-mpwin895cl.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data mpman_mpwin895cl_data =3D {
++	.acpi_name	=3D "MSSL1680:00",
++	.properties	=3D mpman_mpwin895cl_props,
++};
++
+ static const struct property_entry myria_my8307_props[] =3D {
+ 	PROPERTY_ENTRY_U32("touchscreen-size-x", 1720),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
+@@ -908,6 +925,14 @@ const struct dmi_system_id touchscreen_dmi_table[] =3D=
+ {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "FlexBook edge11 - M-FBE11"),
+ 		},
+ 	},
++	{
++		/* MP Man MPWIN895CL */
++		.driver_data =3D (void *)&mpman_mpwin895cl_data,
++		.matches =3D {
++			DMI_MATCH(DMI_SYS_VENDOR, "MPMAN"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "MPWIN8900CL"),
++		},
++	},
+ 	{
+ 		/* Myria MY8307 */
+ 		.driver_data =3D (void *)&myria_my8307_data,
+--=20
+2.26.0
+
