@@ -2,145 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E51119C715
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Apr 2020 18:31:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C62F319C889
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Apr 2020 20:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387699AbgDBQbd (ORCPT
+        id S2389665AbgDBSHr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Apr 2020 12:31:33 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38748 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732289AbgDBQba (ORCPT
+        Thu, 2 Apr 2020 14:07:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21473 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728225AbgDBSHr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Apr 2020 12:31:30 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f6so4378115wmj.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Apr 2020 09:31:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yQkIv0rzJaRo2qF5sMTrGezctUNnqHua0cHIAyo4Wyc=;
-        b=jgWviM9bgRsu/36QIhw4N4eRT94+7dl1LEvPibTeyfBRA99YMDYsNc+A8mqtQEZO1b
-         NsVwLPAPGL2tuCYlkkehiiz6PbxwMlYiHt2stv1hxlX24U063DEfbnB/uD3Us0irPuA5
-         M9friTisGscTxbBhtYAaGnb2B2ofniYL2MXsmEquIyeApz8vRstj8sTm+sVY0nLCKU4E
-         gR0sXsml6n8ZUHbZT/ES+jmqmeXYj8M6riaDngqN4R9CGXLJ8HCn7j9//83HnOOjH6sj
-         yqGlEjclKQeSmyDCjfDSz3y4p3FtoNuD1lATar387l9t7ciow5+iuVujzsixitRq8gRL
-         mcUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yQkIv0rzJaRo2qF5sMTrGezctUNnqHua0cHIAyo4Wyc=;
-        b=EN6xO/P6dAN2cu1K4y7P3N5aL0EcpvozgHoKg3e5bgvOGtgAFgigPUxj9KHb0wdrBz
-         lbQghq/WKpBnNiwk33o2iNCBeouipowEn5kwz/CwiNu/h2I4oc1GO5bTV1GXQiumE24B
-         eRv2XCJy8Wi5jaeBj3RwwfPsO/RdZktht61V9x3LpaAuVb+bVKo6ao4ZzfXikJDT6BWl
-         r1Go+Of36hnUvomNPmw4/QHVpuMr8GycNzmVwy9HjMPonbKV0wck42Ze5UJ6G5jvbyQI
-         YnxXj6OeiGKtR/BUQX1SAsEMQZPa+vcQQByQTHkHtiTpGX9kZSygJueRJnbNbY5EqC6j
-         He7A==
-X-Gm-Message-State: AGi0PubpSW+5AE1lwQ19b/DrWlkmLo7w0B8n8wwu5GreJwt+rcO1He5e
-        wZIkKDnJT9mDbxLbMdgbwNUfZsKI5aPqRuU1I4E=
-X-Google-Smtp-Source: APiQypJi44Ya7Woewl6Ni/1kzlny/EMy0MepxEzLZcW/BupQlRnRL0L6UqbB0ByWoq2CbPIW0iHFhWLspNXCZ0x2saQ=
-X-Received: by 2002:a7b:c004:: with SMTP id c4mr4113033wmb.108.1585845087906;
- Thu, 02 Apr 2020 09:31:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200402161313.GA27168@zyklotron> <32b0a492-c42b-d1f3-a084-71feda39db5f@redhat.com>
-In-Reply-To: <32b0a492-c42b-d1f3-a084-71feda39db5f@redhat.com>
-From:   Wiktor Ciurej <wiktor.ciurej@gmail.com>
-Date:   Thu, 2 Apr 2020 18:31:16 +0200
-Message-ID: <CAHmOfxJ+aiPtEob+YUtj69VT1vov2tiXxNiK8dAHFYvxKQTHHA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: touchscreen_dmi: Add touchscreen info
- for techBite Arc 11.6.
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     dvhart@infradead.org, andy.shevchenko@gmail.com,
+        Thu, 2 Apr 2020 14:07:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585850866;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=v5oGIDGIVPedhHzR4MpWr3PEXpVfUB1v8StSapSY84c=;
+        b=hgKM18r0TSwDiRJoP6mU9CCbktsVL7nAVyQZzRLpn8mAiMSVFgOGYm+Rh9SHCIBbk51HZJ
+        MtWNC9bClvQaTjtGN2JPlXfOsyBTn2m8Q8Zhv9V+oEkNNZOQ5YE4Tgwz155LauOa4eTI36
+        FEPkficKGF2OGN7MGT7dfjV16zLAang=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-JsKDMOkAOMqkdsAHCWt7nQ-1; Thu, 02 Apr 2020 14:07:42 -0400
+X-MC-Unique: JsKDMOkAOMqkdsAHCWt7nQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54119800D5F;
+        Thu,  2 Apr 2020 18:07:41 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CCDB699E12;
+        Thu,  2 Apr 2020 18:07:40 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Prarit Bhargava <prarit@redhat.com>,
+        andriy.shevchenko@linux.intel.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH] tools/power/x86/intel-speed-select: Fix CLX-N package information output
+Date:   Thu,  2 Apr 2020 14:07:32 -0400
+Message-Id: <20200402180732.24684-1-prarit@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+On CLX-N the perf-profile output is missing the package, die, and cpu
+output.  On CLX-N the pkg_dev struct will never be evaluated by the core
+code so pkg_dev.processed is always 0 and the package, die, and cpu
+information is never output.
 
-czw., 2 kwi 2020 o 18:24 Hans de Goede <hdegoede@redhat.com> napisa=C5=82(a=
-):
->
-> Hi,
->
-> On 4/2/20 6:13 PM, Wiktor Ciurej wrote:
-> > Add touchscreen info for techBite Arc 11.6.
-> >
-> > Signed-off-by: Wiktor Ciurej <wiktor.ciurej@gmail.com>
-> > ---
-> > Changes in v2:
-> >    - Add missing ts_dmi_data struct.
->
-> Oops.
->
-> New version looks good to me:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->
-> Regards,
->
-> Hans
+Set the pkg_dev.processed flag to 1 for CLX-N processors.
 
-Yep, sorry about that. I had several versions of this patch and sent wrong =
-one.
+Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+Cc: andriy.shevchenko@linux.intel.com
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org
+---
+ tools/power/x86/intel-speed-select/isst-config.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-Wiktor.
+diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/pow=
+er/x86/intel-speed-select/isst-config.c
+index d1ac57be0cbd..2e64b9b6eb2e 100644
+--- a/tools/power/x86/intel-speed-select/isst-config.c
++++ b/tools/power/x86/intel-speed-select/isst-config.c
+@@ -1169,6 +1169,7 @@ static void dump_clx_n_config_for_cpu(int cpu, void=
+ *arg1, void *arg2,
+=20
+ 		ctdp_level =3D &clx_n_pkg_dev.ctdp_level[0];
+ 		pbf_info =3D &ctdp_level->pbf_info;
++		clx_n_pkg_dev.processed =3D 1;
+ 		isst_ctdp_display_information(cpu, outf, tdp_level, &clx_n_pkg_dev);
+ 		free_cpu_set(ctdp_level->core_cpumask);
+ 		free_cpu_set(pbf_info->core_cpumask);
+--=20
+2.18.2
 
-> >
-> >   drivers/platform/x86/touchscreen_dmi.c | 25 +++++++++++++++++++++++++
-> >   1 file changed, 25 insertions(+)
-> >
-> > diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/=
-x86/touchscreen_dmi.c
-> > index 93177e6e5ecd..7c9e9a3e1d84 100644
-> > --- a/drivers/platform/x86/touchscreen_dmi.c
-> > +++ b/drivers/platform/x86/touchscreen_dmi.c
-> > @@ -537,6 +537,22 @@ static const struct ts_dmi_data schneider_sct101ct=
-m_data =3D {
-> >       .properties     =3D schneider_sct101ctm_props,
-> >   };
-> >
-> > +static const struct property_entry techbite_arc_11_6_props[] =3D {
-> > +     PROPERTY_ENTRY_U32("touchscreen-min-x", 5),
-> > +     PROPERTY_ENTRY_U32("touchscreen-min-y", 7),
-> > +     PROPERTY_ENTRY_U32("touchscreen-size-x", 1981),
-> > +     PROPERTY_ENTRY_U32("touchscreen-size-y", 1270),
-> > +     PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
-> > +     PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-techbite-arc-11-6=
-.fw"),
-> > +     PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> > +     { }
-> > +};
-> > +
-> > +static const struct ts_dmi_data techbite_arc_11_6_data =3D {
-> > +     .acpi_name      =3D "MSSL1680:00",
-> > +     .properties     =3D techbite_arc_11_6_props,
-> > +};
-> > +
-> >   static const struct property_entry teclast_x3_plus_props[] =3D {
-> >       PROPERTY_ENTRY_U32("touchscreen-size-x", 1980),
-> >       PROPERTY_ENTRY_U32("touchscreen-size-y", 1500),
-> > @@ -969,6 +985,15 @@ static const struct dmi_system_id touchscreen_dmi_=
-table[] =3D {
-> >                       DMI_MATCH(DMI_PRODUCT_NAME, "SCT101CTM"),
-> >               },
-> >       },
-> > +     {
-> > +             /* Techbite Arc 11.6 */
-> > +             .driver_data =3D (void *)&techbite_arc_11_6_data,
-> > +             .matches =3D {
-> > +                     DMI_MATCH(DMI_SYS_VENDOR, "mPTech"),
-> > +                     DMI_MATCH(DMI_PRODUCT_NAME, "techBite Arc 11.6"),
-> > +                     DMI_MATCH(DMI_BOARD_NAME, "G8316_272B"),
-> > +             },
-> > +     },
-> >       {
-> >               /* Teclast X3 Plus */
-> >               .driver_data =3D (void *)&teclast_x3_plus_data,
-> >
->
