@@ -2,72 +2,273 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B914419CED4
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Apr 2020 05:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1943119D506
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Apr 2020 12:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389171AbgDCDT3 (ORCPT
+        id S1727944AbgDCK1t (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Apr 2020 23:19:29 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:35836 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388951AbgDCDT3 (ORCPT
+        Fri, 3 Apr 2020 06:27:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24493 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727774AbgDCK1t (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Apr 2020 23:19:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=XOG9i9h9wH5BxflLkb8p29SJ7IjpaH/ZwyrboCrvU4s=; b=OPL+2aKLCcL2Zgkla4acmM2/4s
-        yac1OCIcGgrXlupwIk5VwV2Z6N3GDvTU5N4dd2QkLp5RF5XrK2KjBTP+OiZ4avbuEynHNDxXBPQ1G
-        GqYD09B+/WFVKQHccytBi2cF+6YhMn7e6+WvFC7g8CdFgcb7rHEjTbbiXsgmUv1wS0Fj5XhDRujFH
-        mFYizEZWLR+xjYdyMYxWyTvpG4yG/dbtEOSry77davYwJS+YgK268mYhlBSIBR1Y+d9byTfvcmA7v
-        1NyJbBCo6D5DoKfcr2wwjn1LvtoLV9KS/rl+oUHzcMeWSIlm0O1fCS+aup222Zm0CzzfQmYjZleMY
-        cctpsQ6g==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jKCrf-0002eS-CN; Fri, 03 Apr 2020 03:19:27 +0000
-Subject: Re: error fn f7 (asus)
-To:     "jack_solovey@ngs.ru" <jack_solovey@ngs.ru>,
-        linux-kernel@vger.kernel.org,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        =?UTF-8?Q?Jo=c3=a3o_Paulo_Rechi_Vita?= <jprvita@gmail.com>,
+        Fri, 3 Apr 2020 06:27:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585909667;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dHw9iwKjMkYshJ17dVhJvBCdJkzI/fYth3f2V7Qym+g=;
+        b=AuFFfHDD/WX1P2PSIl3EsCj2SHEnsFfcOrzEXE23LEOFJD4K7cviJKfH88uptox+VeYkxj
+        koqyU3MzVoBj3YAtVHpwVqpEKm2p4tophK1kqtMrpCblT0ZZewY5UtCsZfp4ffXcug4eVJ
+        DhVwFbng/rLMqfgQvoiJFfNNZfoHsD8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-NwGTNVjeNU6_iI3DR6vDBA-1; Fri, 03 Apr 2020 06:27:46 -0400
+X-MC-Unique: NwGTNVjeNU6_iI3DR6vDBA-1
+Received: by mail-wm1-f71.google.com with SMTP id v8so2590342wml.8
+        for <platform-driver-x86@vger.kernel.org>; Fri, 03 Apr 2020 03:27:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=dHw9iwKjMkYshJ17dVhJvBCdJkzI/fYth3f2V7Qym+g=;
+        b=OWrAr/cqlvmrp2dYw6UkJ1SvaGbHR3PvfJ5E6YBasw9pPpZIMWm8sqocQ9jm+PX/nq
+         ZZu6wavdFcBsvGtrUEj/ZxJCN5VS+c2x3GBevNZGCcTzPlGwd8WfNrIUZJrku5Q+MWE1
+         Y+OEQ8w5UjzANqXCZnVDgKbCZ+K1ed3BCn6Fs7UKYADRXiYiChHCuGQcItxe6yQGl+UR
+         8mMeKiFC/x1LKuBOdbVe3NvM4/EcAdSHhb0zyNnF9pYfj3396seLcSRQCfo/F1SmYQGw
+         im6bXjqP8kNhRgbGkZGM8FT6eDqtupMXOUNJhGCND+XpaUsGdTK7xtXGSl7+N3ztBNyk
+         Imsw==
+X-Gm-Message-State: AGi0PuZMHYwyPqRTXz4MJ1DJ8lEPlmKgZ5tXNXL50KFILdVTMaP6RzmH
+        ohBZjj+j58M2lHiw2D37DI1JTSn24GLjx8LhSvOIDo4biBkpUgds6f+XGEpyuQ2I4BuzGmtvx0f
+        Vm5kltn2+yoHwYLV5yiJ6S9ByS7Wb3lFHvQ==
+X-Received: by 2002:adf:c511:: with SMTP id q17mr8407028wrf.275.1585909664800;
+        Fri, 03 Apr 2020 03:27:44 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIZi/VsLHrdeSbE19NAsAkHnY1hIp/O/VL5ub1pnDBau5gM2LSnYAJ/BN5CBwd4fZ8tQ7B7Mw==
+X-Received: by 2002:adf:c511:: with SMTP id q17mr8407001wrf.275.1585909664461;
+        Fri, 03 Apr 2020 03:27:44 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id r3sm11538153wrm.35.2020.04.03.03.27.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Apr 2020 03:27:43 -0700 (PDT)
+Subject: Re: [PATCH 5.6 regression fix 1/2] ACPI: PM: Add
+ acpi_s2idle_register_wake_callback()
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-References: <625e12e1-aee0-8b3c-8a4d-98e74739153c@ngs.ru>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <3440f96b-291f-cd5e-7fc3-c3e9c0959f22@infradead.org>
-Date:   Thu, 2 Apr 2020 20:19:26 -0700
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200329223419.122796-1-hdegoede@redhat.com>
+ <CAJZ5v0iapuqnfsQHhTQTWXdEtzX_MMTBUqdAzCej19AF9rtrNA@mail.gmail.com>
+ <daea7dad-73ac-3f2a-75a1-58017988ec89@redhat.com>
+ <4023796.rWsessMiv5@kreacher>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <70f2747e-43b9-f191-5884-6f0fc4e48fe6@redhat.com>
+Date:   Fri, 3 Apr 2020 12:27:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <625e12e1-aee0-8b3c-8a4d-98e74739153c@ngs.ru>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <4023796.rWsessMiv5@kreacher>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-[adding Cc's]
-
-On 3/8/20 11:43 PM, jack_solovey@ngs.ru wrote:
-> Hello, sorry this machine translation.
-> 
-> Laptop  Asus N56V
-> Prior to kernel 5, the FN+F7 buttons turned off the laptop screen.
-> Starting with kernel 5, these buttons turn on standby mode.
-> I have to use core 4.18
-> 
-> Linux Asus-N56VB 4.18.0-25-generic #26~18.04.1-Ubuntu SMP Thu Jun 27 07:28:31 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-> 
-> Whether it is planned to return the legacy function to the fn+f7 buttons to disable the main monitor.
-
 Hi,
 
-Possibly caused by 78f3ac76d9e5219589718b9e4733bee21627b3f5
-(platform/x86: asus-wmi: Tell the EC the OS will handle the display off hotkey).
+On 4/1/20 9:09 PM, Rafael J. Wysocki wrote:
+> On Wednesday, April 1, 2020 8:26:16 PM CEST Hans de Goede wrote:
+>> Hi,
+>>
+>> On 4/1/20 6:32 PM, Rafael J. Wysocki wrote:
+>>> On Mon, Mar 30, 2020 at 12:34 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>>>
+>>>> Since commit fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from
+>>>> waking up the system") the SCI triggering without there being a wakeup
+>>>> cause recognized by the ACPI sleep code will no longer wakeup the system.
+>>>>
+>>>> This works as intended, but this is a problem for devices where the SCI
+>>>> is shared with another device which is also a wakeup source.
+>>>>
+>>>> In the past these, from the pov of the ACPI sleep code, spurious SCIs
+>>>> would still cause a wakeup so the wakeup from the device sharing the
+>>>> interrupt would actually wakeup the system. This now no longer works.
+>>>>
+>>>> This is a problem on e.g. Bay Trail-T and Cherry Trail devices where
+>>>> some peripherals (typically the XHCI controller) can signal a
+>>>> Power Management Event (PME) to the Power Management Controller (PMC)
+>>>> to wakeup the system, this uses the same interrupt as the SCI.
+>>>> These wakeups are handled through a special INT0002 ACPI device which
+>>>> checks for events in the GPE0a_STS for this and takes care of acking
+>>>> the PME so that the shared interrupt stops triggering.
+>>>>
+>>>> The change to the ACPI sleep code to ignore the spurious SCI, causes
+>>>> the system to no longer wakeup on these PME events. To make things
+>>>> worse this means that the INT0002 device driver interrupt handler will
+>>>> no longer run, causing the PME to not get cleared and resulting in the
+>>>> system hanging. Trying to wakeup the system after such a PME through e.g.
+>>>> the power button no longer works.
+>>>>
+>>>> Add an acpi_s2idle_register_wake_callback() function which registers
+>>>> a callback to be called from acpi_s2idle_wake() and when the callback
+>>>> returns true, return true from acpi_s2idle_wake().
+>>>>
+>>>> The INT0002 driver will use this mechanism to check the GPE0a_STS
+>>>> register from acpi_s2idle_wake() and to tell the system to wakeup
+>>>> if a PME is signaled in the register.
+>>>>
+>>>> Fixes: fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from waking up the system")
+>>>> Cc: 5.4+ <stable@vger.kernel.org> # 5.4+
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>
+>>> I generally agree with the approach, but I would make some, mostly
+>>> cosmetic, changes.
+>>>
+>>> First off, I'd put the new code into drivers/acpi/wakeup.c.
+>>>
+>>> I'd export one function from there to be called from
+>>> acpi_s2idle_wake() and the install/uninstall routines for the users.
+>>
+>> Ok.
+>>
+>>>> ---
+>>>>    drivers/acpi/sleep.c | 70 ++++++++++++++++++++++++++++++++++++++++++++
+>>>>    include/linux/acpi.h |  7 +++++
+>>>>    2 files changed, 77 insertions(+)
+>>>>
+>>>> diff --git a/drivers/acpi/sleep.c b/drivers/acpi/sleep.c
+>>>> index e5f95922bc21..e360e51afa8e 100644
+>>>> --- a/drivers/acpi/sleep.c
+>>>> +++ b/drivers/acpi/sleep.c
+>>>> @@ -943,6 +943,65 @@ static struct acpi_scan_handler lps0_handler = {
+>>>>           .attach = lps0_device_attach,
+>>>>    };
+>>>>
+>>>> +struct s2idle_wake_callback {
+>>>
+>>> I'd call this acpi_wakeup_handler.
+>>>
+>>>> +       struct list_head list;
+>>>
+>>> list_node?
+>>>
+>>>> +       bool (*function)(void *data);
+>>>
+>>> bool (*wakeup)(void *context)?
+>>>
+>>>> +       void *user_data;
+>>>
+>>> context?
+>>
+>> Sure (for all of the above).
+>>
+>>>
+>>>> +};
+>>>> +
+>>>> +static LIST_HEAD(s2idle_wake_callback_head);
+>>>> +static DEFINE_MUTEX(s2idle_wake_callback_mutex);
+>>>> +
+>>>> +/*
+>>>> + * Drivers which may share an IRQ with the SCI can use this to register
+>>>> + * a callback which returns true when the device they are managing wants
+>>>> + * to trigger a wakeup.
+>>>> + */
+>>>> +int acpi_s2idle_register_wake_callback(
+>>>> +       int wake_irq, bool (*function)(void *data), void *user_data)
+>>>> +{
+>>>> +       struct s2idle_wake_callback *callback;
+>>>> +
+>>>> +       /*
+>>>> +        * If the device is not sharing its IRQ with the SCI, there is no
+>>>> +        * need to register the callback.
+>>>> +        */
+>>>> +       if (!acpi_sci_irq_valid() || wake_irq != acpi_sci_irq)
+>>>> +               return 0;
+>>>> +
+>>>> +       callback = kmalloc(sizeof(*callback), GFP_KERNEL);
+>>>> +       if (!callback)
+>>>> +               return -ENOMEM;
+>>>> +
+>>>> +       callback->function = function;
+>>>> +       callback->user_data = user_data;
+>>>> +
+>>>> +       mutex_lock(&s2idle_wake_callback_mutex);
+>>>> +       list_add(&callback->list, &s2idle_wake_callback_head);
+>>>> +       mutex_unlock(&s2idle_wake_callback_mutex);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(acpi_s2idle_register_wake_callback);
+>>>> +
+>>>> +void acpi_s2idle_unregister_wake_callback(
+>>>> +       bool (*function)(void *data), void *user_data)
+>>>> +{
+>>>> +       struct s2idle_wake_callback *cb;
+>>>> +
+>>>> +       mutex_lock(&s2idle_wake_callback_mutex);
+>>>> +       list_for_each_entry(cb, &s2idle_wake_callback_head, list) {
+>>>> +               if (cb->function == function &&
+>>>> +                   cb->user_data == user_data) {
+>>>> +                       list_del(&cb->list);
+>>>> +                       kfree(cb);
+>>>> +                       break;
+>>>> +               }
+>>>> +       }
+>>>> +       mutex_unlock(&s2idle_wake_callback_mutex);
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(acpi_s2idle_unregister_wake_callback);
+>>>> +
+>>>>    static int acpi_s2idle_begin(void)
+>>>>    {
+>>>>           acpi_scan_lock_acquire();
+>>>> @@ -992,6 +1051,8 @@ static void acpi_s2idle_sync(void)
+>>>>
+>>>>    static bool acpi_s2idle_wake(void)
+>>>>    {
+>>>> +       struct s2idle_wake_callback *cb;
+>>>> +
+>>>>           if (!acpi_sci_irq_valid())
+>>>>                   return pm_wakeup_pending();
+>>>>
+>>>> @@ -1025,6 +1086,15 @@ static bool acpi_s2idle_wake(void)
+>>>>                   if (acpi_any_gpe_status_set() && !acpi_ec_dispatch_gpe())
+>>>>                           return true;
+>>>>
+>>>> +               /*
+>>>> +                * Check callbacks registered by drivers sharing the SCI.
+>>>> +                * Note no need to lock, nothing else is running.
+>>>> +                */
+>>>> +               list_for_each_entry(cb, &s2idle_wake_callback_head, list) {
+>>>> +                       if (cb->function(cb->user_data))
+>>>> +                               return true;
+>>>> +               }
+>>>
+>>> AFAICS this needs to be done in acpi_s2idle_restore() too to clear the
+>>> status bits in case one of these wakeup sources triggers along with a
+>>> GPE or a fixed event and the other one wins the race.
+>>
+>> The "wakeup" callback does not actually clear the interrupt source, just like
+>> for normal interrupts it relies on the actual interrupt handling (which at this
+>> point is still suspended) to do this.
+> 
+> Of course, you are right, sorry for the confusion.
+> 
+> What I meant was that the interrupt handler needed to run in acpi_s2idle_restore(),
+> but that should be taken care of the acpi_os_wait_events_complete() in there
+> which synchronizes the SCI among other things.
 
--- 
-~Randy
+Ok, I've prepared a v2 with the other discussed changes. I'll give it a
+quick test and then send it out.
+
+Regards,
+
+Hans
 
