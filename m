@@ -2,254 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EDC19E6EA
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Apr 2020 19:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9685019EDC5
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 Apr 2020 21:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbgDDRwG (ORCPT
+        id S1726887AbgDET6t (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 4 Apr 2020 13:52:06 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41322 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726406AbgDDRwG (ORCPT
+        Sun, 5 Apr 2020 15:58:49 -0400
+Received: from sonic310-14.consmr.mail.bf2.yahoo.com ([74.6.135.124]:33236
+        "EHLO sonic310-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726678AbgDET6t (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 4 Apr 2020 13:52:06 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k9so9243540oia.8;
-        Sat, 04 Apr 2020 10:52:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Mzdz7p9mv9xyq9yL2rAMSDGg8ULijyiVFqVtXC5vAZI=;
-        b=csONXObCOhrFYiHCsXmrmllg6YSE+2A9z0LvpOtso72qRaJ6n95njeC/szS6wfU2AE
-         SARupRBjk/GC0ALWbvTbcOnBCmA4Y46jSxQbzfgJ7i4BbEVIiQd8B+sCuKAu0jhVH5d0
-         y5JxgxT+BO62TzXylqBLopKDHC/IIN3LZn8ZcdQZ4lJNB9GJChwjpK9C6kTR4rEj9D7s
-         QqHNSKi1ZM2SLqiwEJ0QjTkOxMOKw97Y1lM9kUCdDQnT5gsGPnTqrmPb0c+75K1wURSX
-         PBSID7La/f93NRMoOZj7IsXzqszNa+hLKe64AJ2Cf4n8v1J3/LD7vN+b2nhx/7DSl2av
-         iCyQ==
-X-Gm-Message-State: AGi0PubDE67IliEITBMEEoFRZBwdM/beUqCCtiXXotPgSiUCTeAbTsHA
-        Y39TaVOpR/tY2Ux80tkYzZPYA3CLI/gR+RGNDAo=
-X-Google-Smtp-Source: APiQypJU6CmnYcQ5hnHERUf+Pufavi2BvjOoD9SaKXourFIdExsIiII4dqcUakrdbJUwbZG+WDwD4lz6851PyMjlqpg=
-X-Received: by 2002:a05:6808:8f:: with SMTP id s15mr7572122oic.110.1586022724987;
- Sat, 04 Apr 2020 10:52:04 -0700 (PDT)
+        Sun, 5 Apr 2020 15:58:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1586116727; bh=rlCNfbSK3obcC2sPUMDiX98whU0f+1oa/G9JoaL7nqQ=; h=Date:From:To:Cc:Subject:References:From:Subject; b=Y52eNq6t/km7sw5J5aT0hlHmqnfqdbpO4Vx6FdTbsR1JP9rMnUIplU+12gRJU8NXYFa/on+Pj6g/ZEh7pHg1rUbC8wIZnvDAmSM11LQVImqG/saBk4SCzdrdmW+0a4ia2kIRNmUFzf8cjb8k+TIYUVKDk8esMKOGKDB/kU5Ne9vP7Y6q91adfoh1UUaPCC1opawUIXhmyzO+7Bdzj4XYK4uLaPLOPOW1rHYsJMWRTxgwo8+G+yLidA74Ij/LVwRCQDa0iw2mUlSvwI1WMGj6jvBLhIziyRXfkQAOboLXTL7opY7o6LsAq+rahJKSGovI80c7FdZs8WtCxv3w0jFZNQ==
+X-YMail-OSG: lBaBEcMVM1lTUgT.EtdBXfVpK4iwucDPhn_qa8EEhVPa3QIq2dVpjg3F6LdspAz
+ OFG125KCUttXK6xVzfLsWhyjm2hMrun.vuvAsiH19RwYCTdNAVQrv9aL52LoBA90nwWnnKOv_y7e
+ x2IaA7VKEbzTLX_cGy2hQjeFbnJgHrFbT43wwBWjRABZFURK7t7fgI6eAKX_eTBFi6OMhWfA_x0g
+ YhBh01O5XakYXmMRjXMnY47OCaYaRhkEs4R4ixu8npFtTEx4MLBqSo9MlYz3pMaS0h5nsvoOMuiE
+ 3PLkZzzrSI6dfrMCP2kEBAmT91i7sLdEiLF75EjspYWY2Y4GozB83v0oWxxfWLiG2x6hq38f5Ids
+ SH0N4XqLF7YQT6U0zPPHWccqMLTo3XUCqLSRc2jGRk3LCDXH7jKEULuw2fUhQrLQ_6LoLFok2sRx
+ _RvgHOh4CaAoRq8T5nCOcfJ0zfSCq2OaCHImPrila9IPuvGZZBR4_79pi8KzjJjmlln6OIvG9zqO
+ U8kcqeNvQcjil8SlyLaB7.UtqemgxbJXTq5FKVeevSmk6mNr19I2jsi9bRnh.NmMQJjJDnxBfUdq
+ ADIdDpuyT7vFqp7b.GSRAl6exQmedMh5bbGiKlAoTA6cM6mc0QsZgx6MWG6Pjr847URNNma0Ey6w
+ GRmx6YGt6B8_NiGBCa53JWbriaozTRFuQQ69hacgdzu8CajGaCIIm08pdshbpbxdV7j.xhgi1vvG
+ 37TruZyaHvbjJCqo_WOTm1EXL6mXXtlr6E8Prw_e6T9lgvXnfypwrZlFTyNUkkPP6dcQXlLYRbqe
+ PHCQ3R5xAQ_gi3zaLCKvvKN1PrZEtTZovJyr0xGHTjNaluTYaJYKpPt.BHV7BRm1oa7Vw1zunpQE
+ u_MY40hhbWb7SE.3ni6147Lo30pS6XoyKPsIxJdz0d.1D1dbzv7s13_zBw_.w2.sV9.S3Lwxdp2F
+ m3RLPw8a9srWXfz7skeO_1a7XEI46R72aUTOcV0hXGXdOxPRk_JR50qZ9YmGt.yvwmR3c90wKH1n
+ kBxKGYOkYZPjE9zV0GkS4tsENFvwSIwm7iy1cyCpPGB.K80VrUPEkBDtuSkeIy2lZ9EyPQ1yNChn
+ Tqq.750cDDGkBCdQIOx2EGGFsBBZNmEB.Ps1e335baUkeptgbC1A8LBgeylK9JyOscUThVpg2CdS
+ a1bgegHqPJaEULae.rJfwgZb7rRuqSSqZEga7b1KWbaPNof8ei8VfW5B_nBevfjlFz5SUHN9CH50
+ F9JzN880gJFBh.Zhsyl_kdTVTLeHnzaYcb_oSolS73L7.hPH_fVNPru9eBHTqHQnSn_a5N0t1TMH
+ N8dkL383tV12auI2UScNWQzWzEwuzRgK26Iwfub68
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.bf2.yahoo.com with HTTP; Sun, 5 Apr 2020 19:58:47 +0000
+Date:   Sun, 5 Apr 2020 19:58:46 +0000 (UTC)
+From:   "larsh@apache.org" <larsh@apache.org>
+To:     "ibm-acpi@hmh.eng.br" <ibm-acpi@hmh.eng.br>
+Cc:     "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        platform-driver-x86@vger.kernel.org
+Message-ID: <970969929.574750.1586116726988@mail.yahoo.com>
+Subject: [PATCH] thinkpad_acpi: Add support for dual fan control on select
+ models
 MIME-Version: 1.0
-References: <20200403154834.303105-1-hdegoede@redhat.com>
-In-Reply-To: <20200403154834.303105-1-hdegoede@redhat.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Sat, 4 Apr 2020 19:51:53 +0200
-Message-ID: <CAJZ5v0hSU4JUWzEOtwi2Jz-9k9WSi_1pgnGy9SX+0aCZMeRQkw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] ACPI: PM: Add acpi_[un]register_wakeup_handler()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "5 . 4+" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <970969929.574750.1586116726988.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15620 YMailNorrin Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 3, 2020 at 5:48 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Since commit fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from
-> waking up the system") the SCI triggering without there being a wakeup
-> cause recognized by the ACPI sleep code will no longer wakeup the system.
->
-> This works as intended, but this is a problem for devices where the SCI
-> is shared with another device which is also a wakeup source.
->
-> In the past these, from the pov of the ACPI sleep code, spurious SCIs
-> would still cause a wakeup so the wakeup from the device sharing the
-> interrupt would actually wakeup the system. This now no longer works.
->
-> This is a problem on e.g. Bay Trail-T and Cherry Trail devices where
-> some peripherals (typically the XHCI controller) can signal a
-> Power Management Event (PME) to the Power Management Controller (PMC)
-> to wakeup the system, this uses the same interrupt as the SCI.
-> These wakeups are handled through a special INT0002 ACPI device which
-> checks for events in the GPE0a_STS for this and takes care of acking
-> the PME so that the shared interrupt stops triggering.
->
-> The change to the ACPI sleep code to ignore the spurious SCI, causes
-> the system to no longer wakeup on these PME events. To make things
-> worse this means that the INT0002 device driver interrupt handler will
-> no longer run, causing the PME to not get cleared and resulting in the
-> system hanging. Trying to wakeup the system after such a PME through e.g.
-> the power button no longer works.
->
-> Add an acpi_register_wakeup_handler() function which registers
-> a handler to be called from acpi_s2idle_wake() and when the handler
-> returns true, return true from acpi_s2idle_wake().
->
-> The INT0002 driver will use this mechanism to check the GPE0a_STS
-> register from acpi_s2idle_wake() and to tell the system to wakeup
-> if a PME is signaled in the register.
->
-> Fixes: fdde0ff8590b ("ACPI: PM: s2idle: Prevent spurious SCIs from waking up the system")
-> Cc: 5.4+ <stable@vger.kernel.org> # 5.4+
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+This patch allows controlling multiple fans as if they were a single fan.
 
-Rebased on top of the current mainline and applied as 5.7-rc material
-along with the [2/2], thanks!
+This adds P52, P72, X1E, and X1E gen to dual fan quirks. Both fans are cont=
+rolled together.
 
-> ---
-> Changes in v3:
-> - Some small indentation changes
->
-> Changes in v2:
-> - Move the new helpers to drivers/acpi/wakeup.c
-> - Rename the helpers to acpi_[un]register_wakeup_handler(), also give some
->   types/variables better names
-> ---
->  drivers/acpi/sleep.c  |  4 +++
->  drivers/acpi/sleep.h  |  1 +
->  drivers/acpi/wakeup.c | 81 +++++++++++++++++++++++++++++++++++++++++++
->  include/linux/acpi.h  |  5 +++
->  4 files changed, 91 insertions(+)
->
-> diff --git a/drivers/acpi/sleep.c b/drivers/acpi/sleep.c
-> index e5f95922bc21..dc8c71c47285 100644
-> --- a/drivers/acpi/sleep.c
-> +++ b/drivers/acpi/sleep.c
-> @@ -1025,6 +1025,10 @@ static bool acpi_s2idle_wake(void)
->                 if (acpi_any_gpe_status_set() && !acpi_ec_dispatch_gpe())
->                         return true;
->
-> +               /* Check wakeups from drivers sharing the SCI. */
-> +               if (acpi_check_wakeup_handlers())
-> +                       return true;
-> +
->                 /*
->                  * Cancel the wakeup and process all pending events in case
->                  * there are any wakeup ones in there.
-> diff --git a/drivers/acpi/sleep.h b/drivers/acpi/sleep.h
-> index 41675d24a9bc..3d90480ce1b1 100644
-> --- a/drivers/acpi/sleep.h
-> +++ b/drivers/acpi/sleep.h
-> @@ -2,6 +2,7 @@
->
->  extern void acpi_enable_wakeup_devices(u8 sleep_state);
->  extern void acpi_disable_wakeup_devices(u8 sleep_state);
-> +extern bool acpi_check_wakeup_handlers(void);
->
->  extern struct list_head acpi_wakeup_device_list;
->  extern struct mutex acpi_device_lock;
-> diff --git a/drivers/acpi/wakeup.c b/drivers/acpi/wakeup.c
-> index 9614126bf56e..90c40f992e13 100644
-> --- a/drivers/acpi/wakeup.c
-> +++ b/drivers/acpi/wakeup.c
-> @@ -12,6 +12,15 @@
->  #include "internal.h"
->  #include "sleep.h"
->
-> +struct acpi_wakeup_handler {
-> +       struct list_head list_node;
-> +       bool (*wakeup)(void *context);
-> +       void *context;
-> +};
-> +
-> +static LIST_HEAD(acpi_wakeup_handler_head);
-> +static DEFINE_MUTEX(acpi_wakeup_handler_mutex);
-> +
->  /*
->   * We didn't lock acpi_device_lock in the file, because it invokes oops in
->   * suspend/resume and isn't really required as this is called in S-state. At
-> @@ -96,3 +105,75 @@ int __init acpi_wakeup_device_init(void)
->         mutex_unlock(&acpi_device_lock);
->         return 0;
->  }
-> +
-> +/**
-> + * acpi_register_wakeup_handler - Register wakeup handler
-> + * @wake_irq: The IRQ through which the device may receive wakeups
-> + * @wakeup:   Wakeup-handler to call when the SCI has triggered a wakeup
-> + * @context:  Context to pass to the handler when calling it
-> + *
-> + * Drivers which may share an IRQ with the SCI can use this to register
-> + * a handler which returns true when the device they are managing wants
-> + * to trigger a wakeup.
-> + */
-> +int acpi_register_wakeup_handler(int wake_irq, bool (*wakeup)(void *context),
-> +                                void *context)
-> +{
-> +       struct acpi_wakeup_handler *handler;
-> +
-> +       /*
-> +        * If the device is not sharing its IRQ with the SCI, there is no
-> +        * need to register the handler.
-> +        */
-> +       if (!acpi_sci_irq_valid() || wake_irq != acpi_sci_irq)
-> +               return 0;
-> +
-> +       handler = kmalloc(sizeof(*handler), GFP_KERNEL);
-> +       if (!handler)
-> +               return -ENOMEM;
-> +
-> +       handler->wakeup = wakeup;
-> +       handler->context = context;
-> +
-> +       mutex_lock(&acpi_wakeup_handler_mutex);
-> +       list_add(&handler->list_node, &acpi_wakeup_handler_head);
-> +       mutex_unlock(&acpi_wakeup_handler_mutex);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_register_wakeup_handler);
-> +
-> +/**
-> + * acpi_unregister_wakeup_handler - Unregister wakeup handler
-> + * @wakeup:   Wakeup-handler passed to acpi_register_wakeup_handler()
-> + * @context:  Context passed to acpi_register_wakeup_handler()
-> + */
-> +void acpi_unregister_wakeup_handler(bool (*wakeup)(void *context),
-> +                                   void *context)
-> +{
-> +       struct acpi_wakeup_handler *handler;
-> +
-> +       mutex_lock(&acpi_wakeup_handler_mutex);
-> +       list_for_each_entry(handler, &acpi_wakeup_handler_head, list_node) {
-> +               if (handler->wakeup == wakeup && handler->context == context) {
-> +                       list_del(&handler->list_node);
-> +                       kfree(handler);
-> +                       break;
-> +               }
-> +       }
-> +       mutex_unlock(&acpi_wakeup_handler_mutex);
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_unregister_wakeup_handler);
-> +
-> +bool acpi_check_wakeup_handlers(void)
-> +{
-> +       struct acpi_wakeup_handler *handler;
-> +
-> +       /* No need to lock, nothing else is running when we're called. */
-> +       list_for_each_entry(handler, &acpi_wakeup_handler_head, list_node) {
-> +               if (handler->wakeup(handler->context))
-> +                       return true;
-> +       }
-> +
-> +       return false;
-> +}
-> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-> index 0f24d701fbdc..efac0f9c01a2 100644
-> --- a/include/linux/acpi.h
-> +++ b/include/linux/acpi.h
-> @@ -488,6 +488,11 @@ void __init acpi_nvs_nosave_s3(void);
->  void __init acpi_sleep_no_blacklist(void);
->  #endif /* CONFIG_PM_SLEEP */
->
-> +int acpi_register_wakeup_handler(
-> +       int wake_irq, bool (*wakeup)(void *context), void *context);
-> +void acpi_unregister_wakeup_handler(
-> +       bool (*wakeup)(void *context), void *context);
-> +
->  struct acpi_osc_context {
->         char *uuid_str;                 /* UUID string */
->         int rev;
-> --
-> 2.26.0
->
+Tested on an X1 Extreme Gen2.
+
+The patch is defensive, it adds only specific supported machines, and falls=
+ back to the old behavior if both fans cannot be controlled.
+It does attempt single fan control for all previously white-listed Thinkpad=
+s.
+
+Background:
+I tested the BIOS default behavior on my X1E gen2 and both fans are always =
+changed together.
+So rather than adding controls for each fan, this controls both fans togeth=
+er as the BIOS would do.
+
+This was inspired by a discussion on dual fan support for the thinkfan tool=
+ (https://github.com/vmatare/thinkfan/issues/58).
+(Thanks to Github users voidworker, and civic9.)
+
+The BIOS ids for P52/P72 and X1E are taken from there. The X1E gen2 id is v=
+erified on my machine.
+
+Signed-off-by: Lars Hofhansl <larsh@apache.org>
+
+---
+
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/th=
+inkpad_acpi.c
+index da794dcfdd92..8d46b4c2bde8 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -8325,11 +8325,20 @@ static int fan_set_level(int level)
+=C2=A0
+=C2=A0=C2=A0=C2=A0 =C2=A0switch (fan_control_access_mode) {
+=C2=A0=C2=A0=C2=A0 =C2=A0case TPACPI_FAN_WR_ACPI_SFAN:
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (level >=3D 0 && level <=3D 7) {
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (!acpi_evalf(s=
+fan_handle, NULL, NULL, "vd", level))
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0return -EIO;
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0} else
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (((level < 0) || (level > 7)))
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0return -EINV=
+AL;
++
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (tp_features.second_fan) {
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (!fan_select_f=
+an2() ||
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=
+=A0 !acpi_evalf(sfan_handle, NULL, NULL, "vd", level)) {
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0fan_select_fan1();
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0pr_warn("Couldn't set 2nd fan level, disabling support\n");
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0tp_features.second_fan =3D 0;
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0}
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0fan_select_fan1()=
+;
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0}
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (!acpi_evalf(sfan_handle, NULL, N=
+ULL, "vd", level))
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0return -EIO;
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0break;
+=C2=A0
+=C2=A0=C2=A0=C2=A0 =C2=A0case TPACPI_FAN_WR_ACPI_FANS:
+@@ -8346,6 +8355,16 @@ static int fan_set_level(int level)
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0else if (level & TP_EC_FAN_AUTO=
+)
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0level |=3D 4=
+;=C2=A0=C2=A0 =C2=A0/* safety min speed 4 */
+=C2=A0
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (tp_features.second_fan) {
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (!fan_select_f=
+an2() ||
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=
+=A0 !acpi_ec_write(fan_status_offset, level)) {
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0fan_select_fan1();
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0pr_warn("Couldn't set 2nd fan level, disabling support\n");
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0tp_features.second_fan =3D 0;
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0}
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0fan_select_fan1()=
+;
++
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0}
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (!acpi_ec_write(fan_status_o=
+ffset, level))
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0return -EIO;
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0else
+@@ -8772,6 +8791,9 @@ static const struct tpacpi_quirk fan_quirk_table[] __=
+initconst =3D {
+=C2=A0=C2=A0=C2=A0 =C2=A0TPACPI_QEC_IBM('7', '0', TPACPI_FAN_Q1),
+=C2=A0=C2=A0=C2=A0 =C2=A0TPACPI_QEC_LNV('7', 'M', TPACPI_FAN_2FAN),
+=C2=A0=C2=A0=C2=A0 =C2=A0TPACPI_Q_LNV('N', '1', TPACPI_FAN_2FAN),
++=C2=A0=C2=A0 =C2=A0TPACPI_Q_LNV3('N', '2', 'C', TPACPI_FAN_2FAN),=C2=A0=C2=
+=A0 =C2=A0/* P52 / P72 */
++=C2=A0=C2=A0 =C2=A0TPACPI_Q_LNV3('N', '2', 'E', TPACPI_FAN_2FAN),=C2=A0=C2=
+=A0 =C2=A0/* X1 Extreme (1st gen) */
++=C2=A0=C2=A0 =C2=A0TPACPI_Q_LNV3('N', '2', 'O', TPACPI_FAN_2FAN),=C2=A0=C2=
+=A0 =C2=A0/* X1 Extreme (2nd gen) */
+=C2=A0};
+=C2=A0
+=C2=A0static int __init fan_init(struct ibm_init_struct *iibm)
+@@ -8813,8 +8835,7 @@ static int __init fan_init(struct ibm_init_struct *ii=
+bm)
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=
+ =C2=A0fan_quirk1_setup();
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0if (quirks &=
+ TPACPI_FAN_2FAN) {
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=
+ =C2=A0tp_features.second_fan =3D 1;
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0dbg_printk(TPACPI_DBG_INIT | TPACPI_DBG_FAN,
+-=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0=C2=A0=C2=A0 =C2=A0"secondary fan support enabled\n");
++=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=
+=A0pr_info("secondary fan support enabled\n");
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0}
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0} else {
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0pr_err("Thin=
+kPad ACPI EC access misbehaving, fan status and control unavailable\n");
