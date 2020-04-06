@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F55619FFDB
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Apr 2020 23:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A00301A004B
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Apr 2020 23:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbgDFVC1 (ORCPT
+        id S1726679AbgDFVe6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Apr 2020 17:02:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55871 "EHLO
+        Mon, 6 Apr 2020 17:34:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37411 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726393AbgDFVCY (ORCPT
+        with ESMTP id S1726651AbgDFVe4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Apr 2020 17:02:24 -0400
+        Mon, 6 Apr 2020 17:34:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586206943;
+        s=mimecast20190719; t=1586208895;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
         bh=c0TsndpJVTVi+maigb4wqF83+v7IC6vuTnjCeLiosRo=;
-        b=NFSSmi+/cfeX8LSNJYZoRa01FAfMatZ9O5vahKxXEJcFYeSnGt1XsL9B/MLBbGMnBxoU5M
-        FemcW1v28pQbHUwkEBKv9lIz4s8CChiRRwSGtVvj5al1Lb+agXVrAuhoutng32gLoi3DAV
-        pyerZBJPnhcODbS5Uq1Dcjl3WFKalXM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-SLiKaQSbPlm2mw31XQ-q0w-1; Mon, 06 Apr 2020 17:02:21 -0400
-X-MC-Unique: SLiKaQSbPlm2mw31XQ-q0w-1
-Received: by mail-wr1-f71.google.com with SMTP id c8so512931wru.20
-        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Apr 2020 14:02:21 -0700 (PDT)
+        b=PMcAl8OdvS1+pCgyqdHGl3ffCSCd5mpy9ZW5eaPUBiqR+J5ZB1W2T2Werd5oodVEGb3drF
+        A8NRvBJulp/OHHXMNa4BKPyZL0O1qOZydw+OkQQ/1fYWEMvTanlg55t5rxJcYYkxnXZbWk
+        s6CB9OfjNxEOuR03ivGQrDmBdjdRiDQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-EH8Mir0JNHaGnePjQbf2yQ-1; Mon, 06 Apr 2020 17:34:53 -0400
+X-MC-Unique: EH8Mir0JNHaGnePjQbf2yQ-1
+Received: by mail-wr1-f69.google.com with SMTP id k11so565922wrm.19
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Apr 2020 14:34:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
         bh=c0TsndpJVTVi+maigb4wqF83+v7IC6vuTnjCeLiosRo=;
-        b=YupkcIHsdkR3y5N4wBdrHaO67ccYWSSo12cyVupA7FoNusm7lgm8Wj+i+7fiEgQoEA
-         AWSCjH0pYkIkmf8guJ7rC+jt/ZyqaFbKK0tnBE1VIyl0ncbGIOPfypSb2Yo/r30FmPXx
-         KgGnGFuQHkh6R10gVGGhBi/rv/FbjY3wT24yUf/21cgZyTyovzQFrR2NKrxq6nVck1j1
-         fuwHO/seH0o64Do6PxaoIDyc2DjWBfB2VlFCGgalpihOTmH2kXfUgbzScLE20l4pS3+5
-         S3OcutVK/20Y17dw/PjkXilRJQMaHQxV16S3yXkGsuSNFRsNJRsDmnXylifIb9IM1oFy
-         jtPg==
-X-Gm-Message-State: AGi0PuYXAyf4TmXNQ5TB/ScFf+zD13lYiUx3IR7iMdHzksHjmzRvDwcE
-        2KhwxvtJ+ci2DrQRLhffxMPNa3pUx8owq48UzR8Yi7cOFIWVM8UrKfouX0MjbLExvOkjQWNNS01
-        0OxZI5O2Cy2ScsAh/L2QlQAOxOQ3apb70bA==
-X-Received: by 2002:a05:6000:105:: with SMTP id o5mr1140873wrx.395.1586206940298;
-        Mon, 06 Apr 2020 14:02:20 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKIrPYFPbzjPlWje3cehQSPwSKmpRF4J8aJ0cjsFyb5G1zSVTqx+JyfqOMTdrfebQUwk8AetQ==
-X-Received: by 2002:a05:6000:105:: with SMTP id o5mr1140841wrx.395.1586206939931;
-        Mon, 06 Apr 2020 14:02:19 -0700 (PDT)
+        b=hXHJ8H6NpuBEyygt58dGJ4S3sBtY8aZ2s/js94zMJ8vTcIUuQvPpkLpHlK2bupcbLm
+         Ljus9GWBsxrKFD0IvpVpk0VXTEmoWqjlctco/7Lf8sLalJXif+xZ74bYMX1T5owuTSkJ
+         PYGR+cj7oiNJx+S51yUOZAPufKDL53k2ervHrkp9amDvs+V5sTg3ZHxHQw533k7ztxhb
+         GdsF7wkt4ziLw61sewn2dqEQqByJe2WNJubdjf2MyBf/NoqQRSHsEuLvpuWR7iLvn//B
+         rQJEcn+K8mvv9Osz/TAQe3HOF0Y3PSaWVvuQB3Q7LbNJwMI7Hci+s9RkjAg1PwsQBpF3
+         dJ+Q==
+X-Gm-Message-State: AGi0PuZz9lFu5vr39kTKSnyK+wpRtmsktmnNzh4zP3MYcbhNbp9a+cPf
+        Iho2QVkOxJU24diy6jR8iA9BsUkaxwJ5kbPm10YFjdDUW4vLii8AwfGXv4lRTaqQ4GupoZqfMYk
+        v//gXSSv0Z2AEnRk+PTAe2EIUOzPQ+BauSw==
+X-Received: by 2002:a05:600c:24e:: with SMTP id 14mr1035592wmj.62.1586208892453;
+        Mon, 06 Apr 2020 14:34:52 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLHlC2n03+GN3TkoQMJkZiKiJsJtlQihSdECc8VmU6MYBk5RPyGnEo0jVCg7ih0qinNIwtYtg==
+X-Received: by 2002:a05:600c:24e:: with SMTP id 14mr1035577wmj.62.1586208892234;
+        Mon, 06 Apr 2020 14:34:52 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
-        by smtp.gmail.com with ESMTPSA id z3sm922928wma.22.2020.04.06.14.02.17
+        by smtp.gmail.com with ESMTPSA id n6sm1476779wrs.81.2020.04.06.14.34.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 14:02:18 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 17:02:17 -0400
+        Mon, 06 Apr 2020 14:34:51 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 17:34:50 -0400
 From:   "Michael S. Tsirkin" <mst@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Andy Shevchenko <andy@infradead.org>,
