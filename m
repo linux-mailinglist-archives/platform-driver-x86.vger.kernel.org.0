@@ -2,69 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A00301A004B
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Apr 2020 23:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F08DC1A0056
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Apr 2020 23:35:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbgDFVe6 (ORCPT
+        id S1726948AbgDFVfZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Apr 2020 17:34:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37411 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726651AbgDFVe4 (ORCPT
+        Mon, 6 Apr 2020 17:35:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49296 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726934AbgDFVfY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Apr 2020 17:34:56 -0400
+        Mon, 6 Apr 2020 17:35:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586208895;
+        s=mimecast20190719; t=1586208923;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=c0TsndpJVTVi+maigb4wqF83+v7IC6vuTnjCeLiosRo=;
-        b=PMcAl8OdvS1+pCgyqdHGl3ffCSCd5mpy9ZW5eaPUBiqR+J5ZB1W2T2Werd5oodVEGb3drF
-        A8NRvBJulp/OHHXMNa4BKPyZL0O1qOZydw+OkQQ/1fYWEMvTanlg55t5rxJcYYkxnXZbWk
-        s6CB9OfjNxEOuR03ivGQrDmBdjdRiDQ=
+        bh=p1zo9E/0T2RBJhS0NHCftwHqPvc0s/jKRL4zh5KiBdQ=;
+        b=BvSzKhFHJQdJtlrI65qQyc+uWumxBkPxX7C2sbSzV28vXavSY8ov8BXkEnKXq7HlCl5CNr
+        D04yXpKP+ddCpbspkaCUYVcClm2vOa40T2cRo46YSKelOJkn7vAinTscao+SQKx68k3Wah
+        yFHDq0ZKaugI/cT2+/TgmE/2jIw0WEg=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-EH8Mir0JNHaGnePjQbf2yQ-1; Mon, 06 Apr 2020 17:34:53 -0400
-X-MC-Unique: EH8Mir0JNHaGnePjQbf2yQ-1
-Received: by mail-wr1-f69.google.com with SMTP id k11so565922wrm.19
-        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Apr 2020 14:34:53 -0700 (PDT)
+ us-mta-327-qtFpPiVxPOKtvKPTLlbO0Q-1; Mon, 06 Apr 2020 17:35:21 -0400
+X-MC-Unique: qtFpPiVxPOKtvKPTLlbO0Q-1
+Received: by mail-wr1-f69.google.com with SMTP id y1so582085wrp.5
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Apr 2020 14:35:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=c0TsndpJVTVi+maigb4wqF83+v7IC6vuTnjCeLiosRo=;
-        b=hXHJ8H6NpuBEyygt58dGJ4S3sBtY8aZ2s/js94zMJ8vTcIUuQvPpkLpHlK2bupcbLm
-         Ljus9GWBsxrKFD0IvpVpk0VXTEmoWqjlctco/7Lf8sLalJXif+xZ74bYMX1T5owuTSkJ
-         PYGR+cj7oiNJx+S51yUOZAPufKDL53k2ervHrkp9amDvs+V5sTg3ZHxHQw533k7ztxhb
-         GdsF7wkt4ziLw61sewn2dqEQqByJe2WNJubdjf2MyBf/NoqQRSHsEuLvpuWR7iLvn//B
-         rQJEcn+K8mvv9Osz/TAQe3HOF0Y3PSaWVvuQB3Q7LbNJwMI7Hci+s9RkjAg1PwsQBpF3
-         dJ+Q==
-X-Gm-Message-State: AGi0PuZz9lFu5vr39kTKSnyK+wpRtmsktmnNzh4zP3MYcbhNbp9a+cPf
-        Iho2QVkOxJU24diy6jR8iA9BsUkaxwJ5kbPm10YFjdDUW4vLii8AwfGXv4lRTaqQ4GupoZqfMYk
-        v//gXSSv0Z2AEnRk+PTAe2EIUOzPQ+BauSw==
-X-Received: by 2002:a05:600c:24e:: with SMTP id 14mr1035592wmj.62.1586208892453;
-        Mon, 06 Apr 2020 14:34:52 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLHlC2n03+GN3TkoQMJkZiKiJsJtlQihSdECc8VmU6MYBk5RPyGnEo0jVCg7ih0qinNIwtYtg==
-X-Received: by 2002:a05:600c:24e:: with SMTP id 14mr1035577wmj.62.1586208892234;
-        Mon, 06 Apr 2020 14:34:52 -0700 (PDT)
+        bh=p1zo9E/0T2RBJhS0NHCftwHqPvc0s/jKRL4zh5KiBdQ=;
+        b=ZeULMi4ca1zLlcAA7uVj1x7xeF3JiguSqrw+My5+/rMUASJVKKFl3//wkoEyZ58jAA
+         ux/TINWCzKz+bKQflKCFZv8L8Hh9t+iq35BCOzDJcus9dFZbvVhk6nOcGAZJBI+GucK3
+         0C4+IqWqhWRhZuO/Kb32q2STgiN1RxDTkWOQWYbebHQM3kOEeGIZaH5sOJCGZOPrnKvv
+         e1vKJSx+60rQvEnEgqbeGlBVm+LzM35Ol7DsXJttukOnvee32L36bOUrpZ25lZ7wTxH7
+         dUlXgrrq+pW8YANsqQle/7mpjcfgIBB/ztsLvPrw+Qr/XDEiwz4iEjvL3tKkkqVc8Pwj
+         32Cg==
+X-Gm-Message-State: AGi0PuaLPduL+GQsPnKnsnXAu4oPd8Ftbf6dyt0VFSbDpBOVJFp+V45s
+        H9pNb1ApY+ih/S9GZhxkP5j0Mq7en836oI7XdHSt7saXVhBBHOpTMm+wwStB8dCvkatLjZlx023
+        UpVKbYBLLAEh/0FfHt16MTsB18/ADqQv9YQ==
+X-Received: by 2002:adf:e98a:: with SMTP id h10mr1328610wrm.370.1586208919959;
+        Mon, 06 Apr 2020 14:35:19 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKFsjTJU6wZbFct97kHV2BeMmwhQkfVOIaQ+Y5VpGC+kCzeP6ryUgMDqGqdvs1NHdN2FLH2hA==
+X-Received: by 2002:adf:e98a:: with SMTP id h10mr1328592wrm.370.1586208919806;
+        Mon, 06 Apr 2020 14:35:19 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-51-222.red.bezeqint.net. [79.176.51.222])
-        by smtp.gmail.com with ESMTPSA id n6sm1476779wrs.81.2020.04.06.14.34.51
+        by smtp.gmail.com with ESMTPSA id r20sm950812wmh.46.2020.04.06.14.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 14:34:51 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 17:34:50 -0400
+        Mon, 06 Apr 2020 14:35:19 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 17:35:17 -0400
 From:   "Michael S. Tsirkin" <mst@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
         Vadim Pasternak <vadimp@mellanox.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH v4 12/12] mellanox: switch to virtio_legacy_init/size
-Message-ID: <20200406210108.148131-13-mst@redhat.com>
-References: <20200406210108.148131-1-mst@redhat.com>
+Subject: [PATCH v5 12/12] mellanox: switch to virtio_legacy_init/size
+Message-ID: <20200406213314.248038-13-mst@redhat.com>
+References: <20200406213314.248038-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200406210108.148131-1-mst@redhat.com>
+In-Reply-To: <20200406213314.248038-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -77,6 +77,10 @@ explicit.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
+
+maintainers, pls ack merging this through virtio tree due to dependency
+on previous patches in the patchset.
+
  drivers/platform/mellanox/mlxbf-tmfifo.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
