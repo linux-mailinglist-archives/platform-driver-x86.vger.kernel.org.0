@@ -2,101 +2,152 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEA111A0A36
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Apr 2020 11:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92C1E1A12F7
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Apr 2020 19:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728083AbgDGJdc (ORCPT
+        id S1726380AbgDGRth (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Apr 2020 05:33:32 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:56866 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726716AbgDGJdc (ORCPT
+        Tue, 7 Apr 2020 13:49:37 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42814 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbgDGRth (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Apr 2020 05:33:32 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0379S0MG154476;
-        Tue, 7 Apr 2020 09:33:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=n6Axmsa49z/+wlOeoF6VVaXlwWg+uZsMXpjAn9nVBWI=;
- b=FwqPcHe1LlJ6h9yTZ5+BLW8fW7RZelCplyV8cRFZLzr2prwNBFZWJ2zBfu0nHPZsuJU2
- wcmxPegbDPFqX+Riqwi8898UQoQ8RFtegm3dXN50IrlfW1i7YR/YvqgXBJVZFnzZeYwN
- LjH0GzUofpSUqV114wKVcN4hwvUXFIA6gprhRKj3qI//5n6GoVuQPzS4xiBNMH3JGHif
- u4KZHxaGyJX3A7pRaafWdPIFA/u9rHyd5lHaVcDEwbEiE8PqLjoqqDTjFJRZxA0Oz7/O
- s6J2aw9+wQFVod0ka+weLCpG30okwZKAPN4ZyUUZArb/TACImaD4VEKhwPwuTrjE8S4z zg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 308ffd9sar-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Apr 2020 09:33:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0379RGXG041396;
-        Tue, 7 Apr 2020 09:31:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 3073qfge9e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 07 Apr 2020 09:31:02 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0379UxJU005703;
-        Tue, 7 Apr 2020 09:31:00 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 07 Apr 2020 02:30:59 -0700
-Date:   Tue, 7 Apr 2020 12:30:52 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Stephen Just <stephenjust@gmail.com>,
+        Tue, 7 Apr 2020 13:49:37 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 086692972A7
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] platform/x86: surface3_power: Fix a NULL vs IS_ERR() check
- in probe
-Message-ID: <20200407093052.GL68494@mwanda>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004070080
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1011 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004070080
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: [RFC 0/8] Stop monitoring disabled devices
+Date:   Tue,  7 Apr 2020 19:49:18 +0200
+Message-Id: <20200407174926.23971-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The i2c_acpi_new_device() function never returns NULL, it returns error
-pointers.
+The current kernel behavior is to keep polling the thermal zone devices
+regardless of their current mode. This is not desired, as all such "disabled"
+devices are meant to be handled by userspace, so polling them makes no sense.
 
-Fixes: b1f81b496b0d ("platform/x86: surface3_power: MSHW0011 rev-eng implementation")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/platform/x86/surface3_power.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+There was an attempt to solve this issue:
 
-diff --git a/drivers/platform/x86/surface3_power.c b/drivers/platform/x86/surface3_power.c
-index 946ac2dc08ae..cc4f9cba6856 100644
---- a/drivers/platform/x86/surface3_power.c
-+++ b/drivers/platform/x86/surface3_power.c
-@@ -522,8 +522,8 @@ static int mshw0011_probe(struct i2c_client *client)
- 	strlcpy(board_info.type, "MSHW0011-bat0", I2C_NAME_SIZE);
- 
- 	bat0 = i2c_acpi_new_device(dev, 1, &board_info);
--	if (!bat0)
--		return -ENOMEM;
-+	if (IS_ERR(bat0))
-+		return PTR_ERR(bat0);
- 
- 	data->bat0 = bat0;
- 	i2c_set_clientdata(bat0, data);
+https://lkml.org/lkml/2018/2/26/498
+
+and it ultimately has not succeeded:
+
+https://lkml.org/lkml/2018/2/27/910
+
+This is a new attempt addressing all the relevant drivers, and I have
+identified them with:
+
+$ git grep "thermal_zone_device_ops" | grep "= {" | cut -f1 -d: | sort | uniq
+
+The idea is to modify thermal_zone_device_update() and monitor_thermal_zone()
+in such a way that they stop polling a disabled device. To do decide what to
+do they should call ->get_mode() operation of the specialized thermal zone
+device in question (e.g. drivers/acpi/thermal.c's). But here comes problem:
+sometimes a thermal zone device must be initially disabled and becomes enabled
+only after its sensors appear on the system. If such thermal zone's
+->get_mode() /* in the context of thermal_zone_device_update() or
+monitor_thermal_zone() */ is called _before_ the sensors are available, it will
+be reported as "disabled" and consequently polling it will be ceased. This is
+a change in behavior from userspace's perspective.
+
+To solve the above described problem I want to introduce the third mode of a
+thermal_zone_device: initial. The idea is that when the device is in its
+initial mode, then its polling will be handled as it is now. This is a good
+thing: should the temperature be just about hitting the critical treshnold
+early during the boot process, it might be too late if we wait for the
+userspace to run to save the system from overheating. The initial mode should
+be reported in sysfs as "enabled" to keep the userspace interface intact.
+From the initial mode there will be two possible transitions: to enabled or
+disabled mode, but there will be no transition back to initial. If the
+transition is from initial to enabled, then keep polling. If the transition is
+from initial to disabled, then stop polling. If the transition is from enabled
+to disabled, then stop polling. The transition from disabled to enabled must
+be handled in a special way: there must be a mandatory call to
+monitor_thermal_zone(), otherwise the polling will not start. If this
+transition is triggeted from sysfs, then it can be easily handled at the
+thermal framework level. However, if drivers call their own ->set_mode()
+operation then they must also call "monitor_thermal_zone()" afterwards.
+The latter being a sensible thing anyway, so perhaps all/most of the drivers
+in question do. The plan for implementation is this:
+
+- ensure ALL users use symbolic enum names (THERMAL_DEVICE_DISABLED,
+THERMAL_DEVICE_ENABLED) for thermal device mode rather than the numeric
+values of enum thermal_device_mode elements
+- add THERMAL_DEVICE_INITIAL to the said enum making its value 0 (so that
+kzalloc() results in the initial state)
+- modify thermal zone device's mode_show() (thermal framework level) so that
+it reports "enabled" for THERMAL_DEVICE_INITIAL
+- modify thermal zone device's mode_store() (thermal framework level) so that
+it calls monitor_thermal_zone() upon mode change
+- modify ALL thermal drivers so that their code is prepared to return
+THERMAL_DEVICE_INITIAL before they call thermal_zone_device_register(); when
+the invocation of the latter completes then polling is expected to be started
+- verify ALL drivers which call their own ->set_mode() to ensure they do call
+monitor_thermal_zone() afterwards
+- modify thermal_zone_device_update() and monitor_thermal_zone() so that they
+cancel polling for disabled thermal zone devices (but not for those in
+THERMAL_DEVICE_INITIAL mode)
+
+This RFC series does all the above steps in more or less that order.
+
+I kindly ask for comments/suggestions/improvements.
+
+Rebased onto v5.6.
+
+Andrzej Pietrasiewicz (8):
+  thermal: int3400_thermal: Statically initialize
+    .get_mode()/.set_mode() ops
+  thermal: Properly handle mode values in .set_mode()
+  thermal: Store thermal mode in a dedicated enum
+  thermal: core: Introduce THERMAL_DEVICE_INITIAL
+  thermal: core: Monitor thermal zone after mode change
+  thermal: Set initial state to THERMAL_DEVICE_INITIAL
+  thermal: of: Monitor thermal zone after enabling it
+  thermal: Stop polling DISABLED thermal devices
+
+ drivers/acpi/thermal.c                        | 28 +++++-----
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 11 +++-
+ drivers/platform/x86/acerhdf.c                | 17 ++++--
+ drivers/thermal/da9062-thermal.c              |  2 +-
+ drivers/thermal/imx_thermal.c                 |  5 +-
+ .../intel/int340x_thermal/int3400_thermal.c   | 24 ++++-----
+ .../thermal/intel/intel_quark_dts_thermal.c   |  6 ++-
+ drivers/thermal/of-thermal.c                  |  9 +++-
+ drivers/thermal/thermal_core.c                | 52 ++++++++++++++++++-
+ drivers/thermal/thermal_core.h                |  2 +
+ drivers/thermal/thermal_sysfs.c               | 12 +++--
+ include/linux/thermal.h                       |  3 +-
+ 12 files changed, 123 insertions(+), 48 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
