@@ -2,114 +2,140 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 853711A1313
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Apr 2020 19:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE741A1762
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  7 Apr 2020 23:31:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgDGRt5 (ORCPT
+        id S1726513AbgDGVbI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 7 Apr 2020 13:49:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43100 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbgDGRt4 (ORCPT
+        Tue, 7 Apr 2020 17:31:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23057 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726504AbgDGVbI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 7 Apr 2020 13:49:56 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 326AA2972B4
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-pm@vger.kernel.org
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: [RFC 8/8] thermal: Stop polling DISABLED thermal devices
-Date:   Tue,  7 Apr 2020 19:49:26 +0200
-Message-Id: <20200407174926.23971-9-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200407174926.23971-1-andrzej.p@collabora.com>
-References: <20200407174926.23971-1-andrzej.p@collabora.com>
+        Tue, 7 Apr 2020 17:31:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1586295067;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qHR0CsCwZ0V31PL2BJqAGUsMlkV/uU0L7++NwyRQkxk=;
+        b=OAsq7+uXbTRmdURiYMEgrv+EKbYXGebLYPCISsSPyPNQtBqnpGuPMqqIbT6T5dGeKZyre3
+        n5brb2MZXFqTFzmSVwoiefDwp+p7sXeundxKsSXl7QsWi/HlpA8gA8slpFHBSgogVtnwH6
+        rsDTssyugF5yz3v7MqeauWBBU+lXKGw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-zJCwTx1xNny4xDdybgXr8A-1; Tue, 07 Apr 2020 17:31:03 -0400
+X-MC-Unique: zJCwTx1xNny4xDdybgXr8A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEC5E149C3;
+        Tue,  7 Apr 2020 21:31:01 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 51AC75C1B0;
+        Tue,  7 Apr 2020 21:31:00 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        "5 . 3+" <stable@vger.kernel.org>
+Subject: [PATCH] platform/x86: intel_int0002_vgpio: Only bind to the INT0002 dev when using s2idle
+Date:   Tue,  7 Apr 2020 23:30:58 +0200
+Message-Id: <20200407213058.62870-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Polling DISABLED devices is not desired, as all such "disabled" devices
-are meant to be handled by userspace.
+Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
+irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
+the parents IRQ because this was breaking suspend (causing immediate
+wakeups) on an Asus E202SA.
 
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+This workaround for this issue is mostly fine, on most Cherry Trail
+devices where we need the INT0002 device for wakeups by e.g. USB kbds,
+the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
+anyways.
+
+But not on all devices, specifically on a Medion Akoya E1239T there is
+no SCI at all, and because the irq_set_wake request is not passed on to
+the parent IRQ, wake up by the builtin USB kbd does not work here.
+
+So the workaround for the Asus E202SA immediate wake problem is causing
+problems elsewhere; and in hindsight it is not the correct fix,
+the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
+Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
+actually is a Braswell device.
+
+Most (all?) Braswell devices use classic S3 mode suspend rather then
+s2idle suspend and in this case directly dealing with PME events as
+the INT0002 driver does likely is not the best idea, so that this is
+causing issues is not surprising.
+
+Replace the workaround of not passing irq_set_wake requests on to the
+parents IRQ, by not binding to the INT0002 device when s2idle is not used=
+.
+This fixes USB kbd wakeups not working on some Cherry Trail devices,
+while still avoiding mucking with the wakeup flags on the Asus E202SA
+(and other Brasswell devices).
+
+Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
+Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
+Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement i=
+rq_set_wake on Bay Trail")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/thermal/thermal_core.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index aae2b049d45c..f74b7a792be7 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -305,13 +305,32 @@ static void thermal_zone_device_set_polling(struct thermal_zone_device *tz,
- 		cancel_delayed_work(&tz->poll_queue);
- }
- 
-+static bool should_stop_polling(struct thermal_zone_device *tz)
-+{
-+	enum thermal_device_mode mode;
-+	int result;
+diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platfor=
+m/x86/intel_int0002_vgpio.c
+index 55f088f535e2..e8bec72d3823 100644
+--- a/drivers/platform/x86/intel_int0002_vgpio.c
++++ b/drivers/platform/x86/intel_int0002_vgpio.c
+@@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip =3D {
+ 	.irq_set_wake		=3D int0002_irq_set_wake,
+ };
+=20
+-static struct irq_chip int0002_cht_irqchip =3D {
+-	.name			=3D DRV_NAME,
+-	.irq_ack		=3D int0002_irq_ack,
+-	.irq_mask		=3D int0002_irq_mask,
+-	.irq_unmask		=3D int0002_irq_unmask,
+-	/*
+-	 * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
+-	 * and we don't want to mess with the ACPI SCI irq settings.
+-	 */
+-	.flags			=3D IRQCHIP_SKIP_SET_WAKE,
+-};
+-
+ static const struct x86_cpu_id int0002_cpu_ids[] =3D {
+ 	INTEL_CPU_FAM6(ATOM_SILVERMONT, int0002_byt_irqchip),	/* Valleyview, Ba=
+y Trail  */
+-	INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_cht_irqchip),	/* Braswell, Cherry =
+Trail */
++	INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_byt_irqchip),	/* Braswell, Cherry =
+Trail */
+ 	{}
+ };
+=20
+@@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pde=
+v)
+ 	if (!cpu_id)
+ 		return -ENODEV;
+=20
++	/* We only need to directly deal with PMEs when using s2idle */
++	if (!pm_suspend_default_s2idle())
++		return -ENODEV;
 +
-+	if (!tz->ops->get_mode)
-+		return false;
-+
-+	result = tz->ops->get_mode(tz, &mode);
-+	if (result)
-+		return false;
-+
-+	return mode == THERMAL_DEVICE_DISABLED;
-+}
-+
- static void monitor_thermal_zone(struct thermal_zone_device *tz)
- {
-+	bool stop;
-+
-+	stop = should_stop_polling(tz);
-+
- 	mutex_lock(&tz->lock);
- 
--	if (tz->passive)
-+	if (!stop && tz->passive)
- 		thermal_zone_device_set_polling(tz, tz->passive_delay);
--	else if (tz->polling_delay)
-+	else if (!stop && tz->polling_delay)
- 		thermal_zone_device_set_polling(tz, tz->polling_delay);
- 	else
- 		thermal_zone_device_set_polling(tz, 0);
-@@ -500,6 +519,9 @@ void thermal_zone_device_update(struct thermal_zone_device *tz,
- {
- 	int count;
- 
-+	if (should_stop_polling(tz))
-+		return;
-+
- 	if (atomic_read(&in_suspend))
- 		return;
- 
--- 
-2.17.1
+ 	irq =3D platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
+--=20
+2.26.0
 
