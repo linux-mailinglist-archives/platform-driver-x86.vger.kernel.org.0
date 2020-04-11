@@ -2,120 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E96A71A32F5
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Apr 2020 13:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC6D01A5B7A
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:51:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgDILKN (ORCPT
+        id S1727008AbgDKXEG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Apr 2020 07:10:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:36506 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725970AbgDILKM (ORCPT
+        Sat, 11 Apr 2020 19:04:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37032 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726997AbgDKXEE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Apr 2020 07:10:12 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 81A6D2979A5
-Subject: Re: [RFC 0/8] Stop monitoring disabled devices
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <20200407174926.23971-1-andrzej.p@collabora.com>
- <2bc5a902-acde-526a-11a5-2357d899916c@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <aeec2ce8-8fb9-9353-f3dd-36a476ceeb3b@collabora.com>
-Date:   Thu, 9 Apr 2020 13:10:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Sat, 11 Apr 2020 19:04:04 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D8B9B218AC;
+        Sat, 11 Apr 2020 23:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586646244;
+        bh=XlDL9/obX38EZGmMCq4P4RUovdf1i/YmOm2y0WYDwfM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pc+wYlZOptEovpeBPPfXYKil7XfsSlJSlYPUdL2/VXlIchdr5i7mZcKl2x7etGkUT
+         fN3gJowd010s+Mp97a9xaa6bX8juEflBtdp6lx5JA4J7o22XpXLpSr6M/EFJxxj1W1
+         a6edW9B44Gcx+X5z37gK6NcLxOnjr7xaYWYMQEyY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 013/149] tools/power/x86/intel-speed-select: Fix mailbox usage for CLOS_PM_QOS_CONFIG
+Date:   Sat, 11 Apr 2020 19:01:30 -0400
+Message-Id: <20200411230347.22371-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
+References: <20200411230347.22371-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <2bc5a902-acde-526a-11a5-2357d899916c@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Daniel,
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-W dniu 09.04.2020 o 12:29, Daniel Lezcano pisze:
-> On 07/04/2020 19:49, Andrzej Pietrasiewicz wrote:
->> The current kernel behavior is to keep polling the thermal zone devices
->> regardless of their current mode. This is not desired, as all such "disabled"
->> devices are meant to be handled by userspace,> so polling them makes no sense.
-> 
-> Thanks for proposing these changes.
-> 
-> I've been (quickly) through the series and the description below. I have
-> the feeling the series makes more complex while the current code which
-> would deserve a cleanup.
-> 
-> Why not first:
-> 
->   - Add a 'mode' field in the thermal zone device
->   - Kill all set/get_mode callbacks in the drivers which are duplicated code.
->   - Add a function:
-> 
->   enum thermal_device_mode thermal_zone_get_mode( *tz)
->   {
-> 	...
-> 	if (tz->ops->get_mode)
-> 		return tz->ops->get_mode();
-> 
-> 	return tz->mode;
->   }
-> 
-> 
->   int thermal_zone_set_mode(..*tz, enum thermal_device_mode mode)
->   {
-> 	...
-> 	if (tz->ops->set_mode)
-> 		return tz->ops->set_mode(tz, mode);
-> 
-> 	tz->mode = mode;
-> 
-> 	return 0;
->   }
-> 
->   static inline thermal_zone_enable(... *tz)
->   {
-> 	thermal_zone_set_mode(tz, THERMAL_DEVICE_ENABLED);
->   }
-> 
->   static inline thermal_zone_disable(... *tz) {
-> 	thermal_zone_set_mode(tz, THERMAL_DEVICE_DISABLED);
->   }
-> 
-> And then when the code is consolidated, use the mode to enable/disable
-> the polling and continue killing the duplicated code in of-thermal.c and
-> anywhere else.
-> 
-> 
+[ Upstream commit 8ddbda76245f5d10e00020db34455404019efc91 ]
 
-Thanks for feedback.
+Even for the products using MMIO, this message needs to be sent via
+mail box. The previous fix done for this didn't properly address this.
+That fix simply removed sending command via MMIO, but still didn't
+trigger sending via mailbox.
 
-Anyone else?
+Add additional condition to check for CLOS_PM_QOS_CONFIG, when MMIO
+is supported on a platform.
 
-Andrzej
+Fixes: cd0e63706549 (tools/power/x86/intel-speed-select: Use mailbox for CLOS_PM_QOS_CONFIG)
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ tools/power/x86/intel-speed-select/isst-config.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
+index 2b2b8167c65be..6a973e7832228 100644
+--- a/tools/power/x86/intel-speed-select/isst-config.c
++++ b/tools/power/x86/intel-speed-select/isst-config.c
+@@ -571,7 +571,8 @@ int isst_send_mbox_command(unsigned int cpu, unsigned char command,
+ 		"mbox_send: cpu:%d command:%x sub_command:%x parameter:%x req_data:%x\n",
+ 		cpu, command, sub_command, parameter, req_data);
+ 
+-	if (isst_platform_info.mmio_supported && command == CONFIG_CLOS) {
++	if (isst_platform_info.mmio_supported && command == CONFIG_CLOS &&
++	    sub_command != CLOS_PM_QOS_CONFIG) {
+ 		unsigned int value;
+ 		int write = 0;
+ 		int clos_id, core_id, ret = 0;
+-- 
+2.20.1
+
