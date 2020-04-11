@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 256B71A5A14
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A8491A58DC
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbgDKXkd (ORCPT
+        id S1729599AbgDKXct (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Apr 2020 19:40:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43126 "EHLO mail.kernel.org"
+        Sat, 11 Apr 2020 19:32:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47922 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728633AbgDKXHU (ORCPT
+        id S1727273AbgDKXJ5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:07:20 -0400
+        Sat, 11 Apr 2020 19:09:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35DF221841;
-        Sat, 11 Apr 2020 23:07:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BF623215A4;
+        Sat, 11 Apr 2020 23:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646440;
+        s=default; t=1586646597;
         bh=z9rtLhZlzhiOGVZoMMk3LzerzSTwqB0GfVjTvbMw2gI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xYf5oEMdYQd0o+Gh5Fb8l/6kMDvMiA9zWzFPkYsNCCdtUlYfecMoNfuB36xjPvU9W
-         GejdfVFzeyLc250Z6RneFSiW3lq+OETnIRTztVDThTGNIBQHanFXmhcqNIjqIJTOlk
-         5LBYkygdm86lENEsLqz+W25wg/ENKeuZHUplaLgI=
+        b=wOXh0legb/7gX3v3+VUqtVMEvjOLTXzh884Tfou0vXXbWU2X0gwZfgh6ZbsE733/w
+         /3l5Hhtn0r4UiHwRbKoG+kQrNWd5z5Fk+E51ECRcZNTrFXCZW4S9LEpPbUrds2QhUt
+         mZdNsJevaziFu82amsH1ZsDdEKVIQDeoBmlsRp+w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Leonid Maksymchuk <leonmaxx@gmail.com>,
@@ -32,12 +32,12 @@ Cc:     Leonid Maksymchuk <leonmaxx@gmail.com>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 012/121] platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
-Date:   Sat, 11 Apr 2020 19:05:17 -0400
-Message-Id: <20200411230706.23855-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 011/108] platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
+Date:   Sat, 11 Apr 2020 19:08:06 -0400
+Message-Id: <20200411230943.24951-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411230706.23855-1-sashal@kernel.org>
-References: <20200411230706.23855-1-sashal@kernel.org>
+In-Reply-To: <20200411230943.24951-1-sashal@kernel.org>
+References: <20200411230943.24951-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
