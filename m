@@ -2,39 +2,39 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CAFE1A540B
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5591F1A5B34
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgDKXEG (ORCPT
+        id S1727270AbgDKXs0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Apr 2020 19:04:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37162 "EHLO mail.kernel.org"
+        Sat, 11 Apr 2020 19:48:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38268 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727003AbgDKXEF (ORCPT
+        id S1727315AbgDKXEm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:04:05 -0400
+        Sat, 11 Apr 2020 19:04:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EE4BD20CC7;
-        Sat, 11 Apr 2020 23:04:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4FB3720CC7;
+        Sat, 11 Apr 2020 23:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646245;
-        bh=+SBA0XhMzOshW8jg8TBRbsF8qYtpY+TLwOsmsXZQle8=;
+        s=default; t=1586646282;
+        bh=Iobl1Rhpvo1Gt0PVbsdi2If4cMfmPKvvfD3VeJ2o4z4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kWjnO+yCtqI3NPpd7H5mylLTMtSyWr9s49y42JcXGOP+WFrnZWu5462a+QfeoKsgB
-         q43THH2bCge0N0smKsWtSuvVJKNQGXmctZmttWi+Ffoo8NvpkZPdhvvoGJFquIWp9s
-         MeVcOxuwF7zGrlaFQ1PiQkkvapWSKcGsibAc4sVM=
+        b=l8A7IDQX8atmQpziuJBkiIxb9dcSXjDRW09ekavBfYKaTozIHj/37ja/TpUcy95Jw
+         g+sO0HnSk/N1Ned7b2XzFfdU2gtb72RZIcmUm63J9DQ6CfyJAnRVRGIWAQUk8/dOln
+         Q8PX/P4ZriC6FhTXQPWoQWgA2sdox4LFqkmGJOf8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Leonid Maksymchuk <leonmaxx@gmail.com>,
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 014/149] platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
-Date:   Sat, 11 Apr 2020 19:01:31 -0400
-Message-Id: <20200411230347.22371-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 044/149] platform/x86/intel-uncore-freq: Fix static checker issue and potential race condition
+Date:   Sat, 11 Apr 2020 19:02:01 -0400
+Message-Id: <20200411230347.22371-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200411230347.22371-1-sashal@kernel.org>
 References: <20200411230347.22371-1-sashal@kernel.org>
@@ -47,39 +47,94 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Leonid Maksymchuk <leonmaxx@gmail.com>
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-[ Upstream commit edeee341fd6c1099de357c517af215bee2c6f766 ]
+[ Upstream commit 64b73cff66acee7c1ec063676e0771534578c164 ]
 
-Function fan_boost_mode_store returns 0 if store is successful,
-this leads to infinite loop after any write to it's sysfs entry:
+There is a possible race condition when:
+All CPUs in a package is offlined and just before the last CPU offline,
+user tries to read sysfs entry and read happens while offline callback
+is about to delete the sysfs entry.
 
-# echo 0 >/sys/devices/platform/asus-nb-wmi/fan_boost_mode
+Although not reproduced but this is possible scenerio and can be
+reproduced by adding a msleep() in the show_min_max_freq_khz() before
+mutex_lock() and read min_freq attribute from user space. Before
+msleep() finishes, force every CPUs in a package offline.
 
-This command never ends, one CPU core is at 100% utilization.
-This patch fixes this by returning size of written data.
+This will cause deadlock, with offline and sysfs read/write operation
+because of mutex_lock. The uncore_remove_die_entry() will not release
+mutex till read/write callback returns because of kobject_put() and
+read/write callback waiting on mutex.
 
-Fixes: b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
+We don't have to remove the sysfs folder when the package is offline.
+While there is no CPU present, we can fail the read/write calls by
+returning ENXIO error. So remove the kobject_put() call in offline path.
+
+This also address the warning from static checker, as there is no
+access to "data" variable after kobject_put:
+"The patch 49a474c7ba51: "platform/x86: Add support for Uncore
+frequency control" from Jan 13, 2020, leads to the following static
+checker warning:
+
+        drivers/platform/x86/intel-uncore-frequency.c:285 uncore_remove_die_entry()
+        error: dereferencing freed memory 'data'
+"
+
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/asus-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/intel-uncore-frequency.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 612ef55262268..e5d35987c048a 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1719,7 +1719,7 @@ static ssize_t fan_boost_mode_store(struct device *dev,
- 	asus->fan_boost_mode = new_mode;
- 	fan_boost_mode_write(asus);
+diff --git a/drivers/platform/x86/intel-uncore-frequency.c b/drivers/platform/x86/intel-uncore-frequency.c
+index 2b1a0734c3f87..c83ec95e8f3ed 100644
+--- a/drivers/platform/x86/intel-uncore-frequency.c
++++ b/drivers/platform/x86/intel-uncore-frequency.c
+@@ -97,6 +97,9 @@ static int uncore_read_ratio(struct uncore_data *data, unsigned int *min,
+ 	u64 cap;
+ 	int ret;
  
--	return result;
-+	return count;
++	if (data->control_cpu < 0)
++		return -ENXIO;
++
+ 	ret = rdmsrl_on_cpu(data->control_cpu, MSR_UNCORE_RATIO_LIMIT, &cap);
+ 	if (ret)
+ 		return ret;
+@@ -116,6 +119,11 @@ static int uncore_write_ratio(struct uncore_data *data, unsigned int input,
+ 
+ 	mutex_lock(&uncore_lock);
+ 
++	if (data->control_cpu < 0) {
++		ret = -ENXIO;
++		goto finish_write;
++	}
++
+ 	input /= UNCORE_FREQ_KHZ_MULTIPLIER;
+ 	if (!input || input > 0x7F) {
+ 		ret = -EINVAL;
+@@ -273,18 +281,15 @@ static void uncore_add_die_entry(int cpu)
+ 	mutex_unlock(&uncore_lock);
  }
  
- // Fan boost mode: 0 - normal, 1 - overboost, 2 - silent
+-/* Last CPU in this die is offline, so remove sysfs entries */
++/* Last CPU in this die is offline, make control cpu invalid */
+ static void uncore_remove_die_entry(int cpu)
+ {
+ 	struct uncore_data *data;
+ 
+ 	mutex_lock(&uncore_lock);
+ 	data = uncore_get_instance(cpu);
+-	if (data) {
+-		kobject_put(&data->kobj);
++	if (data)
+ 		data->control_cpu = -1;
+-		data->valid = false;
+-	}
+ 	mutex_unlock(&uncore_lock);
+ }
+ 
 -- 
 2.20.1
 
