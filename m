@@ -1,85 +1,65 @@
 Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A8491A58DC
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Apr 2020 01:33:01 +0200 (CEST)
+Received: from vger.kernel.org (unknown [209.132.180.67])
+	by mail.lfdr.de (Postfix) with ESMTP id CA99F1A62C7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Apr 2020 08:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729599AbgDKXct (ORCPT
+        id S1726982AbgDMGAc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Apr 2020 19:32:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727273AbgDKXJ5 (ORCPT
+        Mon, 13 Apr 2020 02:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.18]:45910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbgDMGAb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:09:57 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF623215A4;
-        Sat, 11 Apr 2020 23:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646597;
-        bh=z9rtLhZlzhiOGVZoMMk3LzerzSTwqB0GfVjTvbMw2gI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wOXh0legb/7gX3v3+VUqtVMEvjOLTXzh884Tfou0vXXbWU2X0gwZfgh6ZbsE733/w
-         /3l5Hhtn0r4UiHwRbKoG+kQrNWd5z5Fk+E51ECRcZNTrFXCZW4S9LEpPbUrds2QhUt
-         mZdNsJevaziFu82amsH1ZsDdEKVIQDeoBmlsRp+w=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Leonid Maksymchuk <leonmaxx@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 011/108] platform/x86: asus_wmi: Fix return value of fan_boost_mode_store
-Date:   Sat, 11 Apr 2020 19:08:06 -0400
-Message-Id: <20200411230943.24951-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411230943.24951-1-sashal@kernel.org>
-References: <20200411230943.24951-1-sashal@kernel.org>
+        Mon, 13 Apr 2020 02:00:31 -0400
+X-Greylist: delayed 3001 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Apr 2020 23:00:31 PDT
+Received: from www3072.sakura.ne.jp (www3072.sakura.ne.jp [49.212.207.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C1CC0A3BE0
+        for <platform-driver-x86@vger.kernel.org>; Sun, 12 Apr 2020 23:00:30 -0700 (PDT)
+Received: from www3072.sakura.ne.jp (localhost [127.0.0.1])
+        by www3072.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 03D5AS4I030715
+        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Apr 2020 14:10:28 +0900 (JST)
+        (envelope-from yu-t@www3072.sakura.ne.jp)
+Received: (from yu-t@localhost)
+        by www3072.sakura.ne.jp (8.15.2/8.15.2/Submit) id 03D5ASIW030714;
+        Mon, 13 Apr 2020 14:10:28 +0900 (JST)
+        (envelope-from yu-t)
+To:     platform-driver-x86@vger.kernel.org
+Subject: =?ISO-2022-JP?B?GyRCIVpFciFBJEgkVCQiSnUhWyQqTGQkJDlnJG8kOyVVJSkhPCVgGyhC?= =?ISO-2022-JP?B?GyRCIUokKjVSTU05NSQoIUsbKEI=?=
+X-PHP-Originating-Script: 1062:class.phpmailer.php
+Date:   Mon, 13 Apr 2020 14:10:28 +0900
+From:   =?ISO-2022-JP?B?GyRCRXIhQSRIJFQkIkp1GyhC?= <info2@yu-t.com>
+Message-ID: <7598eee126ed5b6da4034032e79586c0@www.yu-t.com>
+X-Priority: 3
+X-Mailer: PHPMailer (phpmailer.sourceforge.net) [version 2.0.4]
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-2022-jp"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Leonid Maksymchuk <leonmaxx@gmail.com>
+お問い合わせありがとうございます。
+下記の内容で、受付致しました。
 
-[ Upstream commit edeee341fd6c1099de357c517af215bee2c6f766 ]
+-------------------------------------------------------
+【お名前】
+Eаrnings on the Internеt frоm $7552 рer weeк: http://hasxrp.cbdhempthrone.com/b08750
 
-Function fan_boost_mode_store returns 0 if store is successful,
-this leads to infinite loop after any write to it's sysfs entry:
+【メールアドレス】
+platform-driver-x86@vger.kernel.org
 
-# echo 0 >/sys/devices/platform/asus-nb-wmi/fan_boost_mode
+【電話番号】
+84362362562
 
-This command never ends, one CPU core is at 100% utilization.
-This patch fixes this by returning size of written data.
-
-Fixes: b096f626a682 ("platform/x86: asus-wmi: Switch fan boost mode")
-Signed-off-by: Leonid Maksymchuk <leonmaxx@gmail.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/asus-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 982f0cc8270ce..977b813cc0fa9 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -1712,7 +1712,7 @@ static ssize_t fan_boost_mode_store(struct device *dev,
- 	asus->fan_boost_mode = new_mode;
- 	fan_boost_mode_write(asus);
- 
--	return result;
-+	return count;
- }
- 
- // Fan boost mode: 0 - normal, 1 - overboost, 2 - silent
--- 
-2.20.1
+【お問い合わせ内容】
+Fоrex + Вitcoin = $ 7000 per weeк: http://mwve.alocitokhobor.com/544
+-------------------------------------------------------
+湯〜とぴあ宝
+〒457-0058
+愛知県名古屋市南区前浜通1-9
+TEL(052)611-1126
+FAX(052)614-2755
 
