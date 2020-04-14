@@ -2,110 +2,142 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8351A7DDB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 15:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0051F1A7D2F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 15:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731755AbgDNN0P (ORCPT
+        id S1731324AbgDNNUG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Apr 2020 09:26:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27481 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2502868AbgDNNQA (ORCPT
+        Tue, 14 Apr 2020 09:20:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41859 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1731107AbgDNNUB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:16:00 -0400
+        Tue, 14 Apr 2020 09:20:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586870158;
+        s=mimecast20190719; t=1586870400;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fkgBK9xnpU8Tu3dZHUSNLZnfPluOMQrIKm9bQ1t2jqg=;
-        b=HA6Nx853pb8P07galFP65dKs/lF9lq4+WZgvvyv/uuQE2aYZCcqdWFiRua07KqsYszNbLF
-        f8A8Al+LKNB/9wM05iTgZ4hQ4beAhCGh4EnDiI9wVu6Pgr8+4YmhcE4eVyrNNPrnuV3UB6
-        qmKi7CIuSnMlYiFwslAMbrH9Bm3tOgA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-92C1H2jiPcSMzJ9Y3oQAgQ-1; Tue, 14 Apr 2020 09:15:57 -0400
-X-MC-Unique: 92C1H2jiPcSMzJ9Y3oQAgQ-1
-Received: by mail-wr1-f72.google.com with SMTP id r17so8657113wrg.19
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Apr 2020 06:15:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fkgBK9xnpU8Tu3dZHUSNLZnfPluOMQrIKm9bQ1t2jqg=;
-        b=SOw8tw81Wi65nV55Ceb7uvoxCK0GtvGsB3r3gqMQOlh59FRNRGYtsnvw1L14BI1r/d
-         FpHMVNa8XdnEo37iswGJWfMd/MeyQ5sGmZ+8ruUTLFIhvIx04TT48Y/gZLrjvSEqY4he
-         A58XTRyQZa2S7nJucIBYsbzg10gIrrphiCN13GHzAEp5WiA71SGNAV0IYO6xtArpJ5Ii
-         4meQJo5EUT1sh3BCwAirvjTmrzQBu1oTXFGld6jj1omERDnoufh3Rork5IHfk3xSImh+
-         cPlJSPMnfwOig+4m+5aOWioiKyhgu1O5JricXX+dg5DfVf29s0tsdvxGBij/Ww7yURsr
-         3etA==
-X-Gm-Message-State: AGi0PuZIen3N093sJrGqxWWmXGrc+4sbOzflD33lDjfT7O/k3WMtzbrt
-        L2IK5MVD2vu4atWJm8ZtGesq0IXyU+LrF5T3NDQmooEUy0jxytJxCOLalD7eBHJ86fPk0bYySHc
-        XjOgqLbi5rQEVTVk2pLnOpMGaH4KDFijx8w==
-X-Received: by 2002:a5d:6145:: with SMTP id y5mr3671367wrt.126.1586870155637;
-        Tue, 14 Apr 2020 06:15:55 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIYnGXCmimjktgJ31Rsn05nuM82C4sRRSEJSiXVM+BE/3APQErQB0fwpedAZZG7kleviTPIyA==
-X-Received: by 2002:a5d:6145:: with SMTP id y5mr3671335wrt.126.1586870155233;
-        Tue, 14 Apr 2020 06:15:55 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id y15sm19420635wro.68.2020.04.14.06.15.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2020 06:15:54 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: intel_int0002_vgpio: Only bind to the
- INT0002 dev when using s2idle
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=3HuLilv69rC7THF45aYrV+6luk1YKd/SKbIHAdtaS/I=;
+        b=AGOLidOw8oZG07I1ovKXRkxtUjCJAyU7CBEsvBSjnS+ehXHGD0XjGn3VPwJxaLxTZSl7sE
+        CiAD6SnPVmje0Wx3XutxLR3tiGBjMH5RIJxS8nyoTIv9yGMi33BZG+V3BWAPsNWPv2Jl9x
+        uQap0qkxvRTBptKWmQtArSuZ8BhsPUU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-s7QuTE3nMBK2FMGTYY2epg-1; Tue, 14 Apr 2020 09:19:58 -0400
+X-MC-Unique: s7QuTE3nMBK2FMGTYY2epg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E38B51B2C98A;
+        Tue, 14 Apr 2020 13:19:56 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4DA489F9A4;
+        Tue, 14 Apr 2020 13:19:55 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
         Maxim Mikityanskiy <maxtram95@gmail.com>,
         "5 . 3+" <stable@vger.kernel.org>
-References: <20200407213058.62870-1-hdegoede@redhat.com>
- <cfd3171a-94fb-7382-28e1-a236cb6759cc@redhat.com>
- <CAHp75VdqQnHbMSSeoDESMgywH-1VxBTT=Uo_GLV1aycmg=MXtA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <32d57d33-5278-aead-1545-fac1ab936fbd@redhat.com>
-Date:   Tue, 14 Apr 2020 15:15:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Subject: [PATCH v2] platform/x86: intel_int0002_vgpio: Only bind to the INT0002 dev when using s2idle
+Date:   Tue, 14 Apr 2020 15:19:53 +0200
+Message-Id: <20200414131953.131533-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VdqQnHbMSSeoDESMgywH-1VxBTT=Uo_GLV1aycmg=MXtA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
+irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
+the parents IRQ because this was breaking suspend (causing immediate
+wakeups) on an Asus E202SA.
 
-On 4/8/20 12:26 AM, Andy Shevchenko wrote:
-> On Wed, Apr 8, 2020 at 1:24 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi all,
->>
->> I just realized that I should have added a cover letter to this
->> patch to discuss how to merge it.
->>
->> Rafael has already queued up the
->> "[PATCH v3 2/2] platform/x86: intel_int0002_vgpio: Use acpi_register_wakeup_handler()"
->> in his tree. Looking at both patches the parts of the file the
->> touch are different enough that that should not be a problem though.
->>
->> So I guess this can go through platform/x86 as usual, or
->> (assuming everyone is ok with the change itself) alternatively
->> Rafael can take it to make sure there will be no conflicts?
-> 
-> You will need different patches for v5.7 and the rest.
-> In v5.7 new CPU macros are in use.
+This workaround for this issue is mostly fine, on most Cherry Trail
+devices where we need the INT0002 device for wakeups by e.g. USB kbds,
+the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
+anyways.
 
-I see, I will send out a v2 rebased on top of 5.7-rc1.
+But not on all devices, specifically on a Medion Akoya E1239T there is
+no SCI at all, and because the irq_set_wake request is not passed on to
+the parent IRQ, wake up by the builtin USB kbd does not work here.
 
-Regards,
+So the workaround for the Asus E202SA immediate wake problem is causing
+problems elsewhere; and in hindsight it is not the correct fix,
+the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
+Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
+actually is a Braswell device.
 
-Hans
+Most (all?) Braswell devices use classic S3 mode suspend rather then
+s2idle suspend and in this case directly dealing with PME events as
+the INT0002 driver does likely is not the best idea, so that this is
+causing issues is not surprising.
+
+Replace the workaround of not passing irq_set_wake requests on to the
+parents IRQ, by not binding to the INT0002 device when s2idle is not used=
+.
+This fixes USB kbd wakeups not working on some Cherry Trail devices,
+while still avoiding mucking with the wakeup flags on the Asus E202SA
+(and other Brasswell devices).
+
+Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
+Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
+Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement i=
+rq_set_wake on Bay Trail")
+Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+- Rebase on top of 5.7-rc1
+---
+ drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platfor=
+m/x86/intel_int0002_vgpio.c
+index 289c6655d425..30806046b664 100644
+--- a/drivers/platform/x86/intel_int0002_vgpio.c
++++ b/drivers/platform/x86/intel_int0002_vgpio.c
+@@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip =3D {
+ 	.irq_set_wake		=3D int0002_irq_set_wake,
+ };
+=20
+-static struct irq_chip int0002_cht_irqchip =3D {
+-	.name			=3D DRV_NAME,
+-	.irq_ack		=3D int0002_irq_ack,
+-	.irq_mask		=3D int0002_irq_mask,
+-	.irq_unmask		=3D int0002_irq_unmask,
+-	/*
+-	 * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
+-	 * and we don't want to mess with the ACPI SCI irq settings.
+-	 */
+-	.flags			=3D IRQCHIP_SKIP_SET_WAKE,
+-};
+-
+ static const struct x86_cpu_id int0002_cpu_ids[] =3D {
+ 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT,	&int0002_byt_irqchip),
+-	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_cht_irqchip),
++	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_byt_irqchip),
+ 	{}
+ };
+=20
+@@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pde=
+v)
+ 	if (!cpu_id)
+ 		return -ENODEV;
+=20
++	/* We only need to directly deal with PMEs when using s2idle */
++	if (!pm_suspend_default_s2idle())
++		return -ENODEV;
++
+ 	irq =3D platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
+--=20
+2.26.0
 
