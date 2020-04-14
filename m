@@ -2,210 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D723D1A7DD8
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 15:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF7281A8825
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 20:01:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731720AbgDNN0C (ORCPT
+        id S2503161AbgDNSBU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Apr 2020 09:26:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34466 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1731852AbgDNNYz (ORCPT
+        Tue, 14 Apr 2020 14:01:20 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46626 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730908AbgDNSBS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:24:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586870693;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xK5X/B7ag2uXKoGEZNCA7U2ETPUP/XgJDhZI72OQB2Y=;
-        b=DoCaXk7/xkegaxE3dCAyd8sCHh9pIVGt8fM6AZXlh5E6jeIzfi8kjcMfAnfxyNnc0+lRsZ
-        Ru1W6LK8nsxxvOkpjkwK4xVKGxg1/lhGqU5EMdLBYTlnksgMAh0Zbdb2NFe7+8acsDg8LT
-        KyUmcHQFoEjDqR8VT0F2Ck+1baw/BA0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-Ink2zPmNMIWQ9cL03PN7CQ-1; Tue, 14 Apr 2020 09:24:51 -0400
-X-MC-Unique: Ink2zPmNMIWQ9cL03PN7CQ-1
-Received: by mail-wr1-f71.google.com with SMTP id o12so5614109wra.14
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Apr 2020 06:24:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xK5X/B7ag2uXKoGEZNCA7U2ETPUP/XgJDhZI72OQB2Y=;
-        b=gDizleU7746pn8IMf8VNgNDvTvYfDi5K2SalLUpOC68XCLpz5aW7zHmAJclEjkTNqc
-         qd32Xz4U6i/qNdjCsuL1GckSIS9jAQ+iTcha0OWmUg/Q5jW3GMCwZ5WMIJjItZ+d2MKE
-         d0dwPN5rHyJ1mwztFz/uPmFtQLToaVQ2FoD9sYCYYr2YtO4KyGKHlMVZExcrkIFtMqTj
-         LjQODJy2GIa+7MST2yfiKQCiB+9/WUdpY5AHhMAx5brzx6MF+zzSblqmsMpFVq2Wapwo
-         qv4yJXNBfKR2aW/Q6MMqjQVRnSZmHT+xg+45HU7LtISvIQvraS7XgWpRIhD6M8+axK65
-         KVrw==
-X-Gm-Message-State: AGi0PuZRlUi6bxrl4V9NKdGAcdoMg+vwTWVCUzFwpg78EkI45Q/7d78l
-        fErm5OkKZ1q3tvLEybmgjt39PMIVNjJ70HSELiqe/IWQoIxFx5oPGfK6yATClcNMTTR7Or9LCqh
-        IHtnrXNmV2dbkX5ElLuscCd1njkTCUAtLDA==
-X-Received: by 2002:a7b:c2a1:: with SMTP id c1mr22766285wmk.138.1586870690273;
-        Tue, 14 Apr 2020 06:24:50 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ/EVunTSUHM+/VekOfjL62vR964qaRjHEtICG+w1z2Qry21JAfW49aG+MVMwm/rqoz3V4yWg==
-X-Received: by 2002:a7b:c2a1:: with SMTP id c1mr22766234wmk.138.1586870689517;
-        Tue, 14 Apr 2020 06:24:49 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id b82sm20112230wme.25.2020.04.14.06.24.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2020 06:24:48 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: intel_int0002_vgpio: Only bind to the
- INT0002 dev when using s2idle
-To:     Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Tue, 14 Apr 2020 14:01:18 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 5A7222A1BDC
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "5 . 3+" <stable@vger.kernel.org>
-References: <20200407213058.62870-1-hdegoede@redhat.com>
- <CAKErNvqM9ax8RB+Hm0e70a_uk_Ok3KfSQDmy0q9jKFaAQM3Fsg@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <b876973e-71f4-1dbc-1b41-138f81511685@redhat.com>
-Date:   Tue, 14 Apr 2020 15:24:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAKErNvqM9ax8RB+Hm0e70a_uk_Ok3KfSQDmy0q9jKFaAQM3Fsg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: [RFC v2 0/9] Stop monitoring disabled devices
+Date:   Tue, 14 Apr 2020 20:00:56 +0200
+Message-Id: <20200414180105.20042-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <2bc5a902-acde-526a-11a5-2357d899916c@linaro.org>
+References: <2bc5a902-acde-526a-11a5-2357d899916c@linaro.org>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+This is the second iteration of this RFC.
 
-On 4/8/20 2:11 PM, Maxim Mikityanskiy wrote:
-> On Wed, Apr 8, 2020 at 12:31 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
->> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
->> the parents IRQ because this was breaking suspend (causing immediate
->> wakeups) on an Asus E202SA.
->>
->> This workaround for this issue is mostly fine, on most Cherry Trail
->> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
->> the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
->> anyways.
->>
->> But not on all devices, specifically on a Medion Akoya E1239T there is
->> no SCI at all, and because the irq_set_wake request is not passed on to
->> the parent IRQ, wake up by the builtin USB kbd does not work here.
->>
->> So the workaround for the Asus E202SA immediate wake problem is causing
->> problems elsewhere; and in hindsight it is not the correct fix,
->> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
->> Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
->> actually is a Braswell device.
->>
->> Most (all?) Braswell devices use classic S3 mode suspend rather then
->> s2idle suspend and in this case directly dealing with PME events as
->> the INT0002 driver does likely is not the best idea, so that this is
->> causing issues is not surprising.
->>
->> Replace the workaround of not passing irq_set_wake requests on to the
->> parents IRQ, by not binding to the INT0002 device when s2idle is not used.
->> This fixes USB kbd wakeups not working on some Cherry Trail devices,
->> while still avoiding mucking with the wakeup flags on the Asus E202SA
->> (and other Brasswell devices).
-> 
-> I tested this patch over kernel 5.6.2 on Asus E202SA and didn't notice
-> any regressions. Wakeup by opening lid, by pressing a button on
-> keyboard, by USB keyboard — all seem to work fine. So, if appropriate:
-> 
-> Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+The series now focuses on cleaning up the code in the first place.
 
-Thank you for testing this.
+After the cleanups in patches 1-3 struct thermal_zone_device is extended
+so that it contains a "mode" member (patch 4/9).
 
-> I have a question though. After your patch this driver will basically
-> be a no-op on my laptop. Does it mean I don't even need it in the
-> first place? What about the IRQ storm this driver is meant to deal
-> with — does it never happen on Braswell? What are the reproduction
-> steps to verify my hardware is not affected? I have that INT0002
-> device, so I'm worried it may cause issues if not bound to the driver.
+The next patch (5/9) makes all thermal zone devices use the "mode" member.
+This patch makes drivers' ->get_mode() methods redundant, so the next one
+(6/9) removes the method altogether.
 
-I do not expect Braswell platforms to suffer from the IRQ storm
-issue. That was something which I hit on a Cherry Trail based device.
+Patches 7-8/9 ensure that after changing thermal zone device's mode
+an attempt will be made to monitor the device.
 
-To test this, try waking up the device from suspend by an USB attached
-keyboard (this may not work, in that case wake it some other way).
+And finally patch 9/9 prevents DISABLED devices from being monitored.
+It also adds THERMAL_DEVICE_INITIAL to accommodate the devices, which
+should be monitored but cannot be initially ENABLED.
 
-After this do:
+Andrzej Pietrasiewicz (9):
+  thermal: int3400_thermal: Statically initialize
+    .get_mode()/.set_mode() ops
+  thermal: Eliminate an always-false condition
+  thermal: Properly handle mode values in .set_mode()
+  thermal: core: Let thermal zone device's mode be stored in its struct
+  thermal: Store mode in thermal_zone_device
+  thermal: Remove get_mode() method
+  thermal: core: Monitor thermal zone after mode change
+  thermal: of: Monitor thermal zone after enabling it
+  thermal: core: Stop polling DISABLED thermal devices
 
-cat /proc/interrupts | grep " 9-fasteoi"
+ drivers/acpi/thermal.c                        | 44 +++++----------
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 43 ++++-----------
+ drivers/platform/x86/acerhdf.c                | 28 +++++-----
+ drivers/thermal/da9062-thermal.c              | 12 +---
+ drivers/thermal/imx_thermal.c                 | 30 ++++------
+ .../intel/int340x_thermal/int3400_thermal.c   | 39 +++----------
+ .../thermal/intel/intel_quark_dts_thermal.c   | 27 ++++-----
+ drivers/thermal/of-thermal.c                  | 28 ++++------
+ drivers/thermal/thermal_core.c                | 40 ++++++++++++--
+ drivers/thermal/thermal_core.h                |  2 +
+ drivers/thermal/thermal_sysfs.c               | 40 ++++----------
+ include/linux/thermal.h                       | 55 ++++++++++++++++++-
+ 12 files changed, 180 insertions(+), 208 deletions(-)
 
-This should output something like this:
-
-[root@localhost ~]# cat /proc/interrupts | grep " 9-fasteoi"
-    9:          0          0          0          0   IO-APIC    9-fasteoi   acpi
-
-Repeat this a couple of times, of the numbers after the 9:
-increase (very) rapidly you have an interrupt storm. Likely
-they will either be fully unchanged or change very slowly.
-
-Note if nothing is output then IRQ 9 is not used on your
-model, then the INT0002 device cannot cause an interrupt storm.
-
-Regards,
-
-Hans
-
-
-
-> 
->> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
->> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
->> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement irq_set_wake on Bay Trail")
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
->>   1 file changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
->> index 55f088f535e2..e8bec72d3823 100644
->> --- a/drivers/platform/x86/intel_int0002_vgpio.c
->> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
->> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip = {
->>          .irq_set_wake           = int0002_irq_set_wake,
->>   };
->>
->> -static struct irq_chip int0002_cht_irqchip = {
->> -       .name                   = DRV_NAME,
->> -       .irq_ack                = int0002_irq_ack,
->> -       .irq_mask               = int0002_irq_mask,
->> -       .irq_unmask             = int0002_irq_unmask,
->> -       /*
->> -        * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
->> -        * and we don't want to mess with the ACPI SCI irq settings.
->> -        */
->> -       .flags                  = IRQCHIP_SKIP_SET_WAKE,
->> -};
->> -
->>   static const struct x86_cpu_id int0002_cpu_ids[] = {
->>          INTEL_CPU_FAM6(ATOM_SILVERMONT, int0002_byt_irqchip),   /* Valleyview, Bay Trail  */
->> -       INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_cht_irqchip),      /* Braswell, Cherry Trail */
->> +       INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_byt_irqchip),      /* Braswell, Cherry Trail */
->>          {}
->>   };
->>
->> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pdev)
->>          if (!cpu_id)
->>                  return -ENODEV;
->>
->> +       /* We only need to directly deal with PMEs when using s2idle */
->> +       if (!pm_suspend_default_s2idle())
->> +               return -ENODEV;
->> +
->>          irq = platform_get_irq(pdev, 0);
->>          if (irq < 0)
->>                  return irq;
->> --
->> 2.26.0
->>
-> 
+-- 
+2.17.1
 
