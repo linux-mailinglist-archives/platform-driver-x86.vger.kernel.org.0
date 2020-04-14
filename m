@@ -2,99 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B581A7AD0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 14:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8351A7DDB
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Apr 2020 15:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2501933AbgDNMbI (ORCPT
+        id S1731755AbgDNN0P (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Apr 2020 08:31:08 -0400
-Received: from mga11.intel.com ([192.55.52.93]:9934 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730303AbgDNMbI (ORCPT
+        Tue, 14 Apr 2020 09:26:15 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27481 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2502868AbgDNNQA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Apr 2020 08:31:08 -0400
-IronPort-SDR: Iy9QSZDs70Ath6iSEz+L7OKl0uupYv9kCGWpnvlI3jOOF5yHKrF4CLR2TccrtvBvofGCTCE1u9
- ld+EBvEcR/Bw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 05:31:07 -0700
-IronPort-SDR: 2vvEyjfovcmuRN2989ozQVCdT6lttKyb06SarfZO7YOkpea33tAObZPt86LQm8lH1HlP0oGldn
- ni/MNf+4UEvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; 
-   d="scan'208";a="241977020"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga007.jf.intel.com with ESMTP; 14 Apr 2020 05:31:05 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jOKiZ-000Wa9-MJ; Tue, 14 Apr 2020 15:31:07 +0300
-Date:   Tue, 14 Apr 2020 15:31:07 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org,
-        Darren Hart <dvhart@infradead.org>
-Subject: Re: [PATCH v1 0/6] platform/x86: intel_cht_int33fe: clean up series
-Message-ID: <20200414123107.GN34613@smile.fi.intel.com>
-References: <20200408160905.12101-1-andriy.shevchenko@linux.intel.com>
- <9aa81292-70c2-c12a-ded1-1164faac0024@redhat.com>
+        Tue, 14 Apr 2020 09:16:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1586870158;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fkgBK9xnpU8Tu3dZHUSNLZnfPluOMQrIKm9bQ1t2jqg=;
+        b=HA6Nx853pb8P07galFP65dKs/lF9lq4+WZgvvyv/uuQE2aYZCcqdWFiRua07KqsYszNbLF
+        f8A8Al+LKNB/9wM05iTgZ4hQ4beAhCGh4EnDiI9wVu6Pgr8+4YmhcE4eVyrNNPrnuV3UB6
+        qmKi7CIuSnMlYiFwslAMbrH9Bm3tOgA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-92C1H2jiPcSMzJ9Y3oQAgQ-1; Tue, 14 Apr 2020 09:15:57 -0400
+X-MC-Unique: 92C1H2jiPcSMzJ9Y3oQAgQ-1
+Received: by mail-wr1-f72.google.com with SMTP id r17so8657113wrg.19
+        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Apr 2020 06:15:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fkgBK9xnpU8Tu3dZHUSNLZnfPluOMQrIKm9bQ1t2jqg=;
+        b=SOw8tw81Wi65nV55Ceb7uvoxCK0GtvGsB3r3gqMQOlh59FRNRGYtsnvw1L14BI1r/d
+         FpHMVNa8XdnEo37iswGJWfMd/MeyQ5sGmZ+8ruUTLFIhvIx04TT48Y/gZLrjvSEqY4he
+         A58XTRyQZa2S7nJucIBYsbzg10gIrrphiCN13GHzAEp5WiA71SGNAV0IYO6xtArpJ5Ii
+         4meQJo5EUT1sh3BCwAirvjTmrzQBu1oTXFGld6jj1omERDnoufh3Rork5IHfk3xSImh+
+         cPlJSPMnfwOig+4m+5aOWioiKyhgu1O5JricXX+dg5DfVf29s0tsdvxGBij/Ww7yURsr
+         3etA==
+X-Gm-Message-State: AGi0PuZIen3N093sJrGqxWWmXGrc+4sbOzflD33lDjfT7O/k3WMtzbrt
+        L2IK5MVD2vu4atWJm8ZtGesq0IXyU+LrF5T3NDQmooEUy0jxytJxCOLalD7eBHJ86fPk0bYySHc
+        XjOgqLbi5rQEVTVk2pLnOpMGaH4KDFijx8w==
+X-Received: by 2002:a5d:6145:: with SMTP id y5mr3671367wrt.126.1586870155637;
+        Tue, 14 Apr 2020 06:15:55 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIYnGXCmimjktgJ31Rsn05nuM82C4sRRSEJSiXVM+BE/3APQErQB0fwpedAZZG7kleviTPIyA==
+X-Received: by 2002:a5d:6145:: with SMTP id y5mr3671335wrt.126.1586870155233;
+        Tue, 14 Apr 2020 06:15:55 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id y15sm19420635wro.68.2020.04.14.06.15.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 06:15:54 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: intel_int0002_vgpio: Only bind to the
+ INT0002 dev when using s2idle
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        "5 . 3+" <stable@vger.kernel.org>
+References: <20200407213058.62870-1-hdegoede@redhat.com>
+ <cfd3171a-94fb-7382-28e1-a236cb6759cc@redhat.com>
+ <CAHp75VdqQnHbMSSeoDESMgywH-1VxBTT=Uo_GLV1aycmg=MXtA@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <32d57d33-5278-aead-1545-fac1ab936fbd@redhat.com>
+Date:   Tue, 14 Apr 2020 15:15:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9aa81292-70c2-c12a-ded1-1164faac0024@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <CAHp75VdqQnHbMSSeoDESMgywH-1VxBTT=Uo_GLV1aycmg=MXtA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 02:08:42PM +0200, Hans de Goede wrote:
-> Hi,
+Hi,
+
+On 4/8/20 12:26 AM, Andy Shevchenko wrote:
+> On Wed, Apr 8, 2020 at 1:24 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi all,
+>>
+>> I just realized that I should have added a cover letter to this
+>> patch to discuss how to merge it.
+>>
+>> Rafael has already queued up the
+>> "[PATCH v3 2/2] platform/x86: intel_int0002_vgpio: Use acpi_register_wakeup_handler()"
+>> in his tree. Looking at both patches the parts of the file the
+>> touch are different enough that that should not be a problem though.
+>>
+>> So I guess this can go through platform/x86 as usual, or
+>> (assuming everyone is ok with the change itself) alternatively
+>> Rafael can take it to make sure there will be no conflicts?
 > 
-> On 4/8/20 6:09 PM, Andy Shevchenko wrote:
-> > When I started looking into the intel_cht_int33fe driver for an example of use
-> > software node API, I have noticed that it's hard to get and code a bit messy.
-> > Here is a clean up, main part of which is to introduce node groups and API to
-> > register and unregister them. This and some pre-existing APIs can be used in
-> > the driver.
-> > 
-> > So, because of cross-subsystem nature of this series, I may recommend to create
-> > myself the immutable branch which can be pulled to Rafael's and Greg's trees
-> > respectively. I'm also open for other proposals how to proceed.
-> 
-> The series looks good to me and I've also tested it on one of
-> the devices using the intel_cht_int33fe driver and everything seems
-> to work fine, so for the whole series:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Tested-by: Hans de Goede <hdegoede@redhat.com>
+> You will need different patches for v5.7 and the rest.
+> In v5.7 new CPU macros are in use.
 
-Thank you, Hans!
-I'll wait for Greg and Rafael to conclude how to proceed with it and maybe for
-Heikki's response as well.
+I see, I will send out a v2 rebased on top of 5.7-rc1.
 
-> > Andy Shevchenko (6):
-> >    device property: export set_secondary_fwnode() to modules
-> >    software node: Allow register and unregister software node groups
-> >    platform/x86: intel_cht_int33fe: Convert software node array to group
-> >    platform/x86: intel_cht_int33fe: Convert to use set_secondary_fwnode()
-> >    platform/x86: intel_cht_int33fe: Switch to use
-> >      acpi_dev_hid_uid_match()
-> >    platform/x86: intel_cht_int33fe: Fix spelling issues
-> > 
-> >   drivers/base/core.c                           |   1 +
-> >   drivers/base/swnode.c                         |  48 ++++++++
-> >   .../platform/x86/intel_cht_int33fe_typec.c    | 106 +++++++++---------
-> >   include/linux/property.h                      |   3 +
-> >   4 files changed, 108 insertions(+), 50 deletions(-)
+Regards,
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+Hans
 
