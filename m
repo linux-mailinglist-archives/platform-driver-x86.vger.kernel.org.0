@@ -2,59 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 047B01A8E9C
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 00:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D271A9813
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 11:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391996AbgDNWai (ORCPT
+        id S2408354AbgDOJMN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Apr 2020 18:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2391988AbgDNWaf (ORCPT
+        Wed, 15 Apr 2020 05:12:13 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:55238 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408346AbgDOJMK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Apr 2020 18:30:35 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B430C061A0E
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Apr 2020 15:30:35 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id z6so16329447wml.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Apr 2020 15:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=okVUGJ3ikrrEbdgJgp1xfbeReFhs19fwarQOs8B1AZk=;
-        b=FEbTmIVNW0JoSjYjr3F58Dza+Cb1Ac/sA7nNj8BJjD5avga0CHKNryFlZnyWoMT1E2
-         na8aftYRyJNOnjaU94xdsOPIs71//+sqT+bELBHBZIbzI3nbi3kByYX15ybKGjV8hqN8
-         PxohgfpVVFNtgIAZ8+2c5mP0p6CodDxUFWMY4O2jSjXsEBQJo7J8DK9ftSUKzLWke7nn
-         oAeGy3RkG0ySkJTzFv/BokwJwPVpqQYV+DSF2MSBBYwES8cAPcLFhiyABwkrSKDt1/Xd
-         zIbH9mjT61r1ANGVDNH0HBZbSuIrs3gfbCaJ63UJPyZrYL+Xj0hS9iZs1617fg7qMyP9
-         Bgww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=okVUGJ3ikrrEbdgJgp1xfbeReFhs19fwarQOs8B1AZk=;
-        b=KxMCn428rDF5dcgqmYFbx/I20Uh+okK8aLMbTkUyEEry6bGrEOenfTlM6nJVLaNmJa
-         5fa4VM3qH+n6ZO0HOufxiyS5C7IG724Nv26SPPk3486nazqPxQ7y5UFu1PTjXEMM6BpH
-         r0Ke+KwNcHFRxtq7wVOlUTyzhL90CfmKQfvN4sG7D93AiSnrqgEYDIPeFMD37+vFUe/5
-         XH18LgaVFOc8Ri24o/4itggUZMcS4AObcSfXO0e2Iw3bgQiUNVDEeJiAl1S1H0GJrwXu
-         FG6PKKzII7RaGClmwwBciHq1qMH/y8FRQkWvz4f2olDg6AKDezPMEFHTZHizwJdSCaiH
-         5YcQ==
-X-Gm-Message-State: AGi0PuYA+rCwfItiZm4zsCmhEqRjcJi6i80sWErvvrPiwtt0hSrU1B+J
-        9OG6rlfIfHB5hBkrOSeQjOVz0g==
-X-Google-Smtp-Source: APiQypIbVYGNGOComyaA0BUnVsxnNYsocIyXxHF8/fexB9IRx/uxZhOitPNh1Qfq4Q5sjQ8E/NKUGA==
-X-Received: by 2002:a1c:bd08:: with SMTP id n8mr1947813wmf.23.1586903433566;
-        Tue, 14 Apr 2020 15:30:33 -0700 (PDT)
-Received: from [192.168.0.41] (lns-bzn-59-82-252-135-148.adsl.proxad.net. [82.252.135.148])
-        by smtp.googlemail.com with ESMTPSA id g186sm21701352wmg.36.2020.04.14.15.30.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2020 15:30:33 -0700 (PDT)
-Subject: Re: [RFC v2 4/9] thermal: core: Let thermal zone device's mode be
- stored in its struct
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org
-Cc:     Zhang Rui <rui.zhang@intel.com>,
+        Wed, 15 Apr 2020 05:12:10 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200415091205euoutp025ac0c0ff14efdfd62283f9e82acb3cde~F80XvjtKE2508025080euoutp02i
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Apr 2020 09:12:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200415091205euoutp025ac0c0ff14efdfd62283f9e82acb3cde~F80XvjtKE2508025080euoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1586941925;
+        bh=ihC2jkfz1d7lvDLRTfZk+C5FM292xjkHp1pNgRwCkcY=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=esKjF/iFoYWKAgEHe7Agp4FuHbibu7GBVaPX7atm5N1bacwBbegvAqr5OhAXoPWQG
+         ozxqkohTHab4LJX9cntPUxaHeDtExHqEWU2su5KXIFcOQv46C+vEalSGI2/FOBOZLl
+         Gl3gXIr2OxQ8//uhU9wDoBEQj7MqdY/U359JG7Tk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200415091204eucas1p101f6b173912d41a0557c373fb423fc9e~F80XR6yBY0356803568eucas1p1R;
+        Wed, 15 Apr 2020 09:12:04 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id B4.96.61286.4EFC69E5; Wed, 15
+        Apr 2020 10:12:04 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200415091204eucas1p1983548c2db52d8d0c2a5367034ec80dd~F80W6gWnA0526905269eucas1p1y;
+        Wed, 15 Apr 2020 09:12:04 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200415091204eusmtrp266a5b0be9173f136d2c886655562da92~F80W5dOuM1005510055eusmtrp2J;
+        Wed, 15 Apr 2020 09:12:04 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-ac-5e96cfe488aa
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 35.26.07950.4EFC69E5; Wed, 15
+        Apr 2020 10:12:04 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200415091203eusmtip2d83bf0ed2ff415a4aa3b9e24afb549e3~F80VuLINp1653416534eusmtip2o;
+        Wed, 15 Apr 2020 09:12:03 +0000 (GMT)
+Subject: Re: [RFC 1/8] thermal: int3400_thermal: Statically initialize
+ .get_mode()/.set_mode() ops
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
         "Rafael J . Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
         Ido Schimmel <idosch@mellanox.com>,
@@ -63,6 +59,7 @@ Cc:     Zhang Rui <rui.zhang@intel.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Amit Kucheria <amit.kucheria@verdurent.com>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
@@ -76,233 +73,104 @@ Cc:     Zhang Rui <rui.zhang@intel.com>,
         linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <2bc5a902-acde-526a-11a5-2357d899916c@linaro.org>
- <20200414180105.20042-1-andrzej.p@collabora.com>
- <20200414180105.20042-5-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <c053480c-8279-2a51-7a55-252ff723b432@linaro.org>
-Date:   Wed, 15 Apr 2020 00:30:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <7cbddc1c-0049-6b50-7bca-204bd9df2c30@samsung.com>
+Date:   Wed, 15 Apr 2020 11:12:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200414180105.20042-5-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200407174926.23971-2-andrzej.p@collabora.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0wUVxj1zp2dHdCl18XK57PtVms0kUcweqVibNqYadJGf9ikYqXdygRM
+        WdjsCIiPiA9QtlpBi8KGWmypPKQCCwXWgq6oPKLu+kQQfGzc6KIssYsVIQJlHEj5d77znXPP
+        d5LLY62dm8lvTtgimhL08TrOn61pGnAudjuPRYdWOpfQkpZhlvY7Bhh66vEDlh7JHcH0RN8c
+        mu/cx1LzyVDqurOGZvTlstRl/5R27P6bofmeZFrlOKiipTk2ltpcXo4WnTuMqPVxm4qaB0sw
+        7Tt0CdGmgun0+vVv6Ol6D6ZXr9xUUbfrJ44O1VpZ6qkOog3pNzCtsubgVbOFuvuFSKgu6WCE
+        Yl+IYLPcVwtVxYuE3+u7GcFamskJXW31nNDrcIzyhbuEf3rcauHJ8YuMkPXCywmVvXWMcHgo
+        VHh9q0e1NjDKf0WMGL85WTSFrPzOP85dUKcyZmu29j5MR2kob7IZ+fFAloC7+TkyI39eS4oR
+        NFV0cMrwEkHnHw2sMvQhON/Szo5bzH8NqWWsJUUI3lRqFJEXwUhZFjYjng8kMeA6w8uaaSQc
+        Bmq8almDySs1NN7uxvKCIxGQvb8UyVhDVsK1P4dVMmbJfMjOtDMyfpd8Db5HF1WKZiq05rnf
+        HuFHIuFY3oO372ASBPfcvzIKfg9qvflYDgPyox9YujLUytWfQZe3jVNwIDxrrh7jZ8OITTbL
+        hjMIhg54xty1CIqODo85PoYuxyAnV8NkIZSfDVHoT+DlhT2MTAMJgHbvVOWIADhScxwrtAYO
+        ZGgV9UdQcaqCG48120pwFtJZJlSzTKhjmVDH8n9uAWJLUZCYJBliRSksQUwJlvQGKSkhNnhT
+        osGKRv/1leFmXx369+b3jYjwSDdF01KWE61V6ZOlVEMjAh7rpmnKDaOUJkafuk00JX5rSooX
+        pUY0i2d1QZrw37o3akmsfov4gygaRdP4luH9ZqahDw8FzIh4//O4ve3rEyN9X6zVp2HjpA05
+        upbC/Pj6gubw1obdL1KiitAH6xY401s9P3c+DIxKcc/r3zkwh4+OsT+Zsn3hqq+MbHTn4NKn
+        5ZEbJkdow27ZI3zmu8FPpS8hd8Xqdw6eGPkldfGa/svLlvekXDWW1c5I3fHmZOfc9c5rmev2
+        6VgpTh+2CJsk/X+BrTzB0wMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHe885m0drcJqab2IlgwiDpnOaj2aj24fzISr0S+SlpjuotEvt
+        TKk+lGVWjspLaDqsVlnp7ELTbJaKWszCWmokJGatRtnFdRHL5aU2LfDbj+f5/x544E+T4l5B
+        KJ2jNXB6rVItEQZQ3dNdQ6tczyrSo47Yw6Du0TQFvxweAq6+G6KgrPIPCedHl0D1s6MUGC9G
+        gfPFVjg2WkmBs30jvDx8n4Dq4TxocJwUgKW8mYJm54gQrrUVI7C+6xeA8XcdCaOnHiKwmxdB
+        T08q1LcMk/Cku08ALudpIUzdtVIw3BgCrYW9JDRYy8l1YaztVQ1iG+teEmztj0i22fTKj22o
+        XclebvlIsFZLkZAd7G8Rsm6HwzuvOcR+/+LyY9+ffUCwJd9GhOxtt41gi6ei2PHnXwTbAndI
+        E/W6XAMXnq3jDWslKTKIlsriQRodEy+VyePSEqJjJZGKRBWnzsnj9JGKXdJsl9km2FMq2ud+
+        XYjyUdV8I/KnMRODjXem/IwogBYzVxA+9b4LGRHtXYThrlt5s5lAPNlvFM5mPiPsKjhD+TKB
+        jAo7b9K+TBAjx56mkZk7JDPuh8cGaknfQszo8M+v15CPhUwCLj1umWERo8BPb0wLfEwxy3Fp
+        UTvh42BmO35gM/3LLMSPq1yUj/2ZtbiiamjmJsmswJPn+/5xCB5wXSBmeRm+O1JNliCxaY5u
+        mqOY5iimOYoZURYUxOXymiwNHy3llRo+V5slzdRprMhbpya7p9GGjO7kTsTQSLJA9Oh6ebpY
+        oMzj92s6EaZJSZDolsY7EqmU+w9wet1Ofa6a4ztRrPe5UjI0OFPnLafWsFMWK4uDeFmcPE6+
+        GiQhohNMR6qYyVIauN0ct4fT//cI2j80H/WkTzhWz9tQNhm7iqxfs6wg7ZImKaJgX/BY5edD
+        5vlb1h8QJSnf5ttVSwY7anJibkjaeovC88PV6gDnaEnh0Yw/Hd+SVJuTP0UVbmr6cC9zwDMl
+        3t634U1EiqU2CD+8MyCf6F/MlZ2DZo8ieW/3waXFE4rsjNbB5/b1mVp3RdrN0xKKz1bKVpJ6
+        XvkXsOWk2GQDAAA=
+X-CMS-MailID: 20200415091204eucas1p1983548c2db52d8d0c2a5367034ec80dd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200415091204eucas1p1983548c2db52d8d0c2a5367034ec80dd
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200415091204eucas1p1983548c2db52d8d0c2a5367034ec80dd
+References: <20200407174926.23971-1-andrzej.p@collabora.com>
+        <20200407174926.23971-2-andrzej.p@collabora.com>
+        <CGME20200415091204eucas1p1983548c2db52d8d0c2a5367034ec80dd@eucas1p1.samsung.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 14/04/2020 20:01, Andrzej Pietrasiewicz wrote:
-> All the drivers which provide ->get_mode()/->set_mode() methods store their
-> mode in a thermal_device_mode enum, so keep this information in struct
-> thermal_zone_device rather than scattered all over the place.
+
+On 4/7/20 7:49 PM, Andrzej Pietrasiewicz wrote:
+> int3400_thermal_ops is used inside int3400_thermal_probe() only after
+> the assignments, which can just as well be made statically at struct's
+> initizer.
 > 
 > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+
+Reviewed-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+
 > ---
->  drivers/thermal/thermal_core.c  | 28 +++++++++++++++++++
->  drivers/thermal/thermal_sysfs.c |  9 +++----
->  include/linux/thermal.h         | 48 +++++++++++++++++++++++++++++++++
->  3 files changed, 79 insertions(+), 6 deletions(-)
+>  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-> index 9a321dc548c8..cb0ff47f0dbe 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -469,6 +469,34 @@ static void thermal_zone_device_reset(struct thermal_zone_device *tz)
->  	thermal_zone_device_init(tz);
->  }
+> diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+> index efae0c02d898..634b943e9e3d 100644
+> --- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+> +++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+> @@ -271,6 +271,8 @@ static int int3400_thermal_set_mode(struct thermal_zone_device *thermal,
 >  
-> +int thermal_zone_device_get_mode(struct thermal_zone_device *tz,
-> +				 enum thermal_device_mode *mode)
-> +{
-> +	if (tz->ops->get_mode)
-> +		return tz->ops->get_mode(tz, mode);
-
-I think we can get rid of the get_mode here.
-
-locks missing.
-
-and mode = tz->mode must be always set.
-
-> +	*mode = tz->mode;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(thermal_zone_device_get_mode);
-> +
-> +int thermal_zone_device_set_mode(struct thermal_zone_device *tz,
-> +				 enum thermal_device_mode mode)
-> +{
-> +	if (mode != THERMAL_DEVICE_DISABLED &&
-> +	    mode != THERMAL_DEVICE_ENABLED)
-> +		return -EINVAL;
-
-I'm not sure this is useful as 'mode' is an enum and this condition will
-be always correct.
-
-locks missing.
-
-> +	if (tz->ops->set_mode)
-> +		return tz->ops->set_mode(tz, mode);
-
-> +	tz->mode = mode;
-
-It should be like:
-
-	int ret = 0;
-
-	mutex_lock(&tz->lock);
-
-	if (tz->ops->set_mode)
-		ret = tz->ops->set_mode(tz, mode);
-
-	*mode = tz->mode;
-
-	mutex_unlock(&tz->lock);
-
-	return ret;
-
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(thermal_zone_device_set_mode);
-> +
->  void thermal_zone_device_update(struct thermal_zone_device *tz,
->  				enum thermal_notify_event event)
->  {
-> diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-> index aa99edb4dff7..66d9691b8bd6 100644
-> --- a/drivers/thermal/thermal_sysfs.c
-> +++ b/drivers/thermal/thermal_sysfs.c
-> @@ -52,10 +52,7 @@ mode_show(struct device *dev, struct device_attribute *attr, char *buf)
->  	enum thermal_device_mode mode;
->  	int result;
+>  static struct thermal_zone_device_ops int3400_thermal_ops = {
+>  	.get_temp = int3400_thermal_get_temp,
+> +	.get_mode = int3400_thermal_get_mode,
+> +	.set_mode = int3400_thermal_set_mode,
+>  };
 >  
-> -	if (!tz->ops->get_mode)
-> -		return -EPERM;
+>  static struct thermal_zone_params int3400_thermal_params = {
+> @@ -309,9 +311,6 @@ static int int3400_thermal_probe(struct platform_device *pdev)
+>  
+>  	platform_set_drvdata(pdev, priv);
+>  
+> -	int3400_thermal_ops.get_mode = int3400_thermal_get_mode;
+> -	int3400_thermal_ops.set_mode = int3400_thermal_set_mode;
 > -
-> -	result = tz->ops->get_mode(tz, &mode);
-> +	result = thermal_zone_device_get_mode(tz, &mode);
->  	if (result)
->  		return result;
->  
-> @@ -74,9 +71,9 @@ mode_store(struct device *dev, struct device_attribute *attr,
->  		return -EPERM;
->  
->  	if (!strncmp(buf, "enabled", sizeof("enabled") - 1))
-> -		result = tz->ops->set_mode(tz, THERMAL_DEVICE_ENABLED);
-> +		result = thermal_zone_device_enable(tz);
->  	else if (!strncmp(buf, "disabled", sizeof("disabled") - 1))
-> -		result = tz->ops->set_mode(tz, THERMAL_DEVICE_DISABLED);
-> +		result = thermal_zone_device_disable(tz);
->  	else
->  		result = -EINVAL;
->  
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index c91b1e344d56..9ff8542b7e7d 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -143,6 +143,7 @@ struct thermal_attr {
->   * @trip_temp_attrs:	attributes for trip points for sysfs: trip temperature
->   * @trip_type_attrs:	attributes for trip points for sysfs: trip type
->   * @trip_hyst_attrs:	attributes for trip points for sysfs: trip hysteresis
-> + * @mode:		current mode of this thermal zone
->   * @devdata:	private pointer for device private data
->   * @trips:	number of trip points the thermal zone supports
->   * @trips_disabled;	bitmap for disabled trips
-> @@ -185,6 +186,7 @@ struct thermal_zone_device {
->  	struct thermal_attr *trip_temp_attrs;
->  	struct thermal_attr *trip_type_attrs;
->  	struct thermal_attr *trip_hyst_attrs;
-> +	enum thermal_device_mode mode;
->  	void *devdata;
->  	int trips;
->  	unsigned long trips_disabled;	/* bitmap for disabled trips */
-> @@ -437,6 +439,19 @@ int thermal_zone_bind_cooling_device(struct thermal_zone_device *, int,
->  				     unsigned int);
->  int thermal_zone_unbind_cooling_device(struct thermal_zone_device *, int,
->  				       struct thermal_cooling_device *);
-> +
-> +int thermal_zone_device_get_mode(struct thermal_zone_device *tz,
-> +				 enum thermal_device_mode *mode);
-> +int thermal_zone_device_set_mode(struct thermal_zone_device *tz,
-> +				 enum thermal_device_mode mode);
-> +
-> +static inline void
-> +thermal_zone_device_store_mode(struct thermal_zone_device *tz,
-> +			       enum thermal_device_mode mode)
-> +{
-> +	tz->mode = mode;
-> +}
-> +
-
-Please remove this store_mode function, it is not needed.
-
-Just:
-
-thermal_zone_device_get_mode()
-thermal_zone_device_set_mode()
-thermal_zone_device_disable()
-thermal_zone_device_enable()
-
-And all of them in drivers/thermal/thermal_core.h
-
->  void thermal_zone_device_update(struct thermal_zone_device *,
->  				enum thermal_notify_event);
->  void thermal_zone_set_trips(struct thermal_zone_device *);
-> @@ -494,6 +509,17 @@ static inline int thermal_zone_unbind_cooling_device(
->  	struct thermal_zone_device *tz, int trip,
->  	struct thermal_cooling_device *cdev)
->  { return -ENODEV; }
-> +static inline int thermal_zone_device_get_mode(struct thermal_zone_device *tz,
-> +					       enum thermal_device_mode *mode)
-> +{ return -ENODEV; }
-> +static inline int thermal_zone_device_set_mode(struct thermal_zone_device *tz,
-> +					       enum thermal_device_mode mode)
-> +{ return -ENODEV; }
-> +static inline void
-> +thermal_zone_device_store_mode(struct thermal_zone_device *tz,
-> +			       enum thermal_device_mode mode)
-> +{ }
-> +
->  static inline void thermal_zone_device_update(struct thermal_zone_device *tz,
->  					      enum thermal_notify_event event)
->  { }
-> @@ -543,4 +569,26 @@ static inline void thermal_notify_framework(struct thermal_zone_device *tz,
->  { }
->  #endif /* CONFIG_THERMAL */
->  
-> +static inline int thermal_zone_device_enable(struct thermal_zone_device *tz)
-> +{
-> +	return thermal_zone_device_set_mode(tz, THERMAL_DEVICE_ENABLED);
-> +}
-> +
-> +static inline int thermal_zone_device_disable(struct thermal_zone_device *tz)
-> +{
-> +	return thermal_zone_device_set_mode(tz, THERMAL_DEVICE_DISABLED);
-> +}
-> +
-> +static inline void
-> +thermal_zone_device_store_enabled(struct thermal_zone_device *tz)
-> +{
-> +	thermal_zone_device_store_mode(tz, THERMAL_DEVICE_ENABLED);
-> +}
-> +
-> +static inline void
-> +thermal_zone_device_store_disabled(struct thermal_zone_device *tz)
-> +{
-> +	thermal_zone_device_store_mode(tz, THERMAL_DEVICE_DISABLED);
-> +}
-> +
->  #endif /* __THERMAL_H__ */
+>  	priv->thermal = thermal_zone_device_register("INT3400 Thermal", 0, 0,
+>  						priv, &int3400_thermal_ops,
+>  						&int3400_thermal_params, 0, 0);
 > 
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
