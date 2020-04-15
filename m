@@ -2,89 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E7D1AADA0
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 18:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69A451AAEFB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 19:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415483AbgDOQQT (ORCPT
+        id S2404378AbgDORAE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Apr 2020 12:16:19 -0400
-Received: from mga07.intel.com ([134.134.136.100]:61797 "EHLO mga07.intel.com"
+        Wed, 15 Apr 2020 13:00:04 -0400
+Received: from mga02.intel.com ([134.134.136.20]:49709 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1415167AbgDOQMP (ORCPT
+        id S1728755AbgDORAC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:12:15 -0400
-IronPort-SDR: A6B7A6n8zrP/rW8f/Fhs1fhhbQeWKUKnBXCDmA0CTVbDznYIAIOHEhjXJWyT0AuZszyRjpv0bX
- MAqopJjTR4/g==
+        Wed, 15 Apr 2020 13:00:02 -0400
+IronPort-SDR: 1Fw8VJjsP4yX0PKZVR8VJEJ6N+UBQbVhC2Sjg1PNkToRaCFBzAVVK00F3hWw2zEKGGfWfkmgV4
+ qOW8VodAhMYQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:10:42 -0700
-IronPort-SDR: yeFr25nu7wUsN0oZLW8B8a5+hflpUXCHjTPFobsrRNazhu++pVLS18x2KbdAmVasHFl6s3goVC
- pe1+wU4Uk04A==
-X-ExtLoop1: 1
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:59:59 -0700
+IronPort-SDR: WTJJO6LeACN+mktwEZNgLHesc6i3gOBVsV+8y3ibNLMoskZ/2JKT/XtqTDBWMfL3X9hABISSOb
+ UNK5AuNfFKog==
 X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
-   d="scan'208";a="363711578"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Apr 2020 09:10:40 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jOkcd-000p3z-Sn; Wed, 15 Apr 2020 19:10:43 +0300
-Date:   Wed, 15 Apr 2020 19:10:43 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org
+   d="scan'208";a="453993581"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.254.190.90])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:59:56 -0700
+Message-ID: <12612c48b9d00d10350d5e07587d90ae3759101f.camel@linux.intel.com>
 Subject: Re: [PATCH] tools/power/x86/intel-speed-select: Fix CLX-N package
  information output
-Message-ID: <20200415161043.GU185537@smile.fi.intel.com>
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Prarit Bhargava <prarit@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Date:   Wed, 15 Apr 2020 09:59:53 -0700
+In-Reply-To: <20200415161043.GU185537@smile.fi.intel.com>
 References: <20200402180732.24684-1-prarit@redhat.com>
+         <20200415161043.GU185537@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200402180732.24684-1-prarit@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 02:07:32PM -0400, Prarit Bhargava wrote:
-> On CLX-N the perf-profile output is missing the package, die, and cpu
-> output.  On CLX-N the pkg_dev struct will never be evaluated by the core
-> code so pkg_dev.processed is always 0 and the package, die, and cpu
-> information is never output.
+On Wed, 2020-04-15 at 19:10 +0300, Andy Shevchenko wrote:
+> On Thu, Apr 02, 2020 at 02:07:32PM -0400, Prarit Bhargava wrote:
+> > On CLX-N the perf-profile output is missing the package, die, and
+> > cpu
+> > output.  On CLX-N the pkg_dev struct will never be evaluated by the
+> > core
+> > code so pkg_dev.processed is always 0 and the package, die, and cpu
+> > information is never output.
+> > 
+> > Set the pkg_dev.processed flag to 1 for CLX-N processors.
 > 
-> Set the pkg_dev.processed flag to 1 for CLX-N processors.
+Sorry Prarit. It took long to respond. The patch is fine. I am applying
+to my tree.
 
-I will accept this with PR from Srinivas whenever he sends one to public mailing list.
+-Srinivas
 
-> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> Cc: andriy.shevchenko@linux.intel.com
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: platform-driver-x86@vger.kernel.org
-> ---
->  tools/power/x86/intel-speed-select/isst-config.c | 1 +
->  1 file changed, 1 insertion(+)
+> I will accept this with PR from Srinivas whenever he sends one to
+> public mailing list.
 > 
-> diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
-> index d1ac57be0cbd..2e64b9b6eb2e 100644
-> --- a/tools/power/x86/intel-speed-select/isst-config.c
-> +++ b/tools/power/x86/intel-speed-select/isst-config.c
-> @@ -1169,6 +1169,7 @@ static void dump_clx_n_config_for_cpu(int cpu, void *arg1, void *arg2,
->  
->  		ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
->  		pbf_info = &ctdp_level->pbf_info;
-> +		clx_n_pkg_dev.processed = 1;
->  		isst_ctdp_display_information(cpu, outf, tdp_level, &clx_n_pkg_dev);
->  		free_cpu_set(ctdp_level->core_cpumask);
->  		free_cpu_set(pbf_info->core_cpumask);
-> -- 
-> 2.18.2
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> > Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+> > Cc: andriy.shevchenko@linux.intel.com
+> > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > Cc: platform-driver-x86@vger.kernel.org
+> > ---
+> >  tools/power/x86/intel-speed-select/isst-config.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/tools/power/x86/intel-speed-select/isst-config.c
+> > b/tools/power/x86/intel-speed-select/isst-config.c
+> > index d1ac57be0cbd..2e64b9b6eb2e 100644
+> > --- a/tools/power/x86/intel-speed-select/isst-config.c
+> > +++ b/tools/power/x86/intel-speed-select/isst-config.c
+> > @@ -1169,6 +1169,7 @@ static void dump_clx_n_config_for_cpu(int
+> > cpu, void *arg1, void *arg2,
+> >  
+> >  		ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
+> >  		pbf_info = &ctdp_level->pbf_info;
+> > +		clx_n_pkg_dev.processed = 1;
+> >  		isst_ctdp_display_information(cpu, outf, tdp_level,
+> > &clx_n_pkg_dev);
+> >  		free_cpu_set(ctdp_level->core_cpumask);
+> >  		free_cpu_set(pbf_info->core_cpumask);
+> > -- 
+> > 2.18.2
+> > 
 
