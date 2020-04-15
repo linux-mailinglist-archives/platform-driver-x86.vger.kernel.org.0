@@ -2,86 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 334C21AA344
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 15:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42E7D1AADA0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 18:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505953AbgDONGh (ORCPT
+        id S1415483AbgDOQQT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Apr 2020 09:06:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55632 "EHLO mail.kernel.org"
+        Wed, 15 Apr 2020 12:16:19 -0400
+Received: from mga07.intel.com ([134.134.136.100]:61797 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2897102AbgDOLgB (ORCPT
+        id S1415167AbgDOQMP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:36:01 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 288502076D;
-        Wed, 15 Apr 2020 11:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586950561;
-        bh=VQEL4zYdQmOL2lvORooDfGkshP55G+pqZwAq3XpfnQI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tJ95WQwd7d4Ir6vhQHTcwmrkeIResCnzFbmL8O3g92hQpg66vt57hzCExbaGQfdrj
-         /pfAJzzaV/OBB6Dnp3WuoV3zX1lm5q4tHnkRcm5HLQxvt19IScSIuGrP++XskmP7hZ
-         61kVFEu5fA1tyzU44BiuQ484h/NP0VUivZC+LoY8=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Gayatri Kammela <gayatri.kammela@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
+        Wed, 15 Apr 2020 12:12:15 -0400
+IronPort-SDR: A6B7A6n8zrP/rW8f/Fhs1fhhbQeWKUKnBXCDmA0CTVbDznYIAIOHEhjXJWyT0AuZszyRjpv0bX
+ MAqopJjTR4/g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:10:42 -0700
+IronPort-SDR: yeFr25nu7wUsN0oZLW8B8a5+hflpUXCHjTPFobsrRNazhu++pVLS18x2KbdAmVasHFl6s3goVC
+ pe1+wU4Uk04A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
+   d="scan'208";a="363711578"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Apr 2020 09:10:40 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jOkcd-000p3z-Sn; Wed, 15 Apr 2020 19:10:43 +0300
+Date:   Wed, 15 Apr 2020 19:10:43 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 065/129] platform/x86: intel-hid: fix: Update Tiger Lake ACPI device ID
-Date:   Wed, 15 Apr 2020 07:33:40 -0400
-Message-Id: <20200415113445.11881-65-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415113445.11881-1-sashal@kernel.org>
-References: <20200415113445.11881-1-sashal@kernel.org>
+Subject: Re: [PATCH] tools/power/x86/intel-speed-select: Fix CLX-N package
+ information output
+Message-ID: <20200415161043.GU185537@smile.fi.intel.com>
+References: <20200402180732.24684-1-prarit@redhat.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200402180732.24684-1-prarit@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Gayatri Kammela <gayatri.kammela@intel.com>
+On Thu, Apr 02, 2020 at 02:07:32PM -0400, Prarit Bhargava wrote:
+> On CLX-N the perf-profile output is missing the package, die, and cpu
+> output.  On CLX-N the pkg_dev struct will never be evaluated by the core
+> code so pkg_dev.processed is always 0 and the package, die, and cpu
+> information is never output.
+> 
+> Set the pkg_dev.processed flag to 1 for CLX-N processors.
 
-[ Upstream commit d5764dc597467664a1a70ab66a2314a011aeccd4 ]
+I will accept this with PR from Srinivas whenever he sends one to public mailing list.
 
-Tiger Lake's new unique ACPI device IDs for intel-hid driver is not
-valid because of missing 'C' in the ID. Fix the ID by updating it.
+> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+> Cc: andriy.shevchenko@linux.intel.com
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: platform-driver-x86@vger.kernel.org
+> ---
+>  tools/power/x86/intel-speed-select/isst-config.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/power/x86/intel-speed-select/isst-config.c b/tools/power/x86/intel-speed-select/isst-config.c
+> index d1ac57be0cbd..2e64b9b6eb2e 100644
+> --- a/tools/power/x86/intel-speed-select/isst-config.c
+> +++ b/tools/power/x86/intel-speed-select/isst-config.c
+> @@ -1169,6 +1169,7 @@ static void dump_clx_n_config_for_cpu(int cpu, void *arg1, void *arg2,
+>  
+>  		ctdp_level = &clx_n_pkg_dev.ctdp_level[0];
+>  		pbf_info = &ctdp_level->pbf_info;
+> +		clx_n_pkg_dev.processed = 1;
+>  		isst_ctdp_display_information(cpu, outf, tdp_level, &clx_n_pkg_dev);
+>  		free_cpu_set(ctdp_level->core_cpumask);
+>  		free_cpu_set(pbf_info->core_cpumask);
+> -- 
+> 2.18.2
+> 
 
-After the update, the new ID should now look like
-INT1051 --> INTC1051
-
-Fixes: bdd11b654035 ("platform/x86: intel-hid: Add Tiger Lake ACPI device ID")
-Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/intel-hid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
-index 43d590250228c..9c0e6e0fabdff 100644
---- a/drivers/platform/x86/intel-hid.c
-+++ b/drivers/platform/x86/intel-hid.c
-@@ -19,8 +19,8 @@ MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Alex Hung");
- 
- static const struct acpi_device_id intel_hid_ids[] = {
--	{"INT1051", 0},
- 	{"INT33D5", 0},
-+	{"INTC1051", 0},
- 	{"", 0},
- };
- 
 -- 
-2.20.1
+With Best Regards,
+Andy Shevchenko
+
 
