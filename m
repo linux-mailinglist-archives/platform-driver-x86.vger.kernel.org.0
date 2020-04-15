@@ -2,174 +2,253 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A2241A9943
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 11:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 187A21A99E0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Apr 2020 12:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895816AbgDOJsa (ORCPT
+        id S2896128AbgDOKFu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Apr 2020 05:48:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44808 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2895800AbgDOJs1 (ORCPT
+        Wed, 15 Apr 2020 06:05:50 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:35316 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2896124AbgDOKFr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586944105;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ug9COLY/YhK3wDyJaFP4QjMwRSRIqTSu+CJpF4CbDvs=;
-        b=W0mSPiX1HNkIxgOKDKczZcJy2D9DT9NCkLN/MiUqsMJ+nSnl7nXFbdfPEyUPkhzhrhYdvr
-        RJ92i0sGhgYrdhVuMbA5U2bQkxDOdMGGvjUFzEq3JAP54BQAo/GBvizjJlpG9xXuH3biPQ
-        ByY0Y44IhBQkaB7sQ4K/PlMU7GoRU3M=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-wossTineNj6Y41vi5SWw7Q-1; Wed, 15 Apr 2020 05:48:23 -0400
-X-MC-Unique: wossTineNj6Y41vi5SWw7Q-1
-Received: by mail-wm1-f72.google.com with SMTP id d134so7504790wmd.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Apr 2020 02:48:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ug9COLY/YhK3wDyJaFP4QjMwRSRIqTSu+CJpF4CbDvs=;
-        b=Dwp/DG7UqN1H78ldlzRvpwiNK+7RvaLa0QEpCIE0EKPyAfu50BSJBOQCJH8oPPJTtN
-         iPTb07XOnLNRamV5sQURDFez21zJ3WxOOFeGJpnsX53JU2SPG1NMcwSyQiULDuVwHCo7
-         VZtOPwdxpCBpMSSt7kukYhOzCHcraBrj6VQszkdxdE0n5QRH2mHyFEag8rmkqQB3nx6q
-         M5d66LBAn7cTz3aVA2nCLGvFDwm7AQ42YB94Bna15YLaslZML/YF/uqNZHfH4EwaFT5c
-         g6xjZGyA+JRrWQ2t0cWuMYhgO3KAtOiJ9lsO13ScGHC+KuOz1i+uFb6j/+30JeqT9FUu
-         7haQ==
-X-Gm-Message-State: AGi0PubKu71UTtWnc9+5Zq5weOEbsxCzz9EyTwRCxE83gQpoKX4Rw0Vh
-        wf48Bz1dqCGryo0KMHpG8YOIe3mpEGmSllzxVeUApsfVXtSyz8F3B5pUvB1B3qDru0KWd/JrWu4
-        63DnD/Qx+2FoAwBfavhQa610xiOQWiqonwQ==
-X-Received: by 2002:a1c:9e43:: with SMTP id h64mr4291788wme.0.1586944102146;
-        Wed, 15 Apr 2020 02:48:22 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKUG80qfuOm5k54Q2sYK5dSgdmjv0kwB06qovoaM2PgbZClDJCAYTf/jozp54s3aKzh8FISyQ==
-X-Received: by 2002:a1c:9e43:: with SMTP id h64mr4291777wme.0.1586944101909;
-        Wed, 15 Apr 2020 02:48:21 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id v21sm21528522wmj.8.2020.04.15.02.48.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2020 02:48:21 -0700 (PDT)
-Subject: Re: [PATCH v2] platform/x86: intel_int0002_vgpio: Only bind to the
- INT0002 dev when using s2idle
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Wed, 15 Apr 2020 06:05:47 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200415100544euoutp0158c29cd220caef6ef147a4042a0b983c~F9jOCOdDA1854618546euoutp01P
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Apr 2020 10:05:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200415100544euoutp0158c29cd220caef6ef147a4042a0b983c~F9jOCOdDA1854618546euoutp01P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1586945144;
+        bh=jbNCtnfRBAFKgUuzv0KIEfDWAQjQVhjUG+x3ztvh+dM=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=EJtkvJNoRMar0GHhiwWM8RRqjM8DXldjUXc7UZEo5wNC+3syvFv/r27PPqdbDVPZL
+         5aF7yAZw9XgLktiM3Girav+ZD5+t5RwZGsUuItndaVzzykHPz3VDORJUGGulckk8PT
+         X/Cr2WIQAh68qHfbWHdcZvOGJ5benTAXpGsp/3nY=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200415100544eucas1p224d9d4ff6bfadc1542a469752de6612f~F9jNpIQDY2206722067eucas1p2d;
+        Wed, 15 Apr 2020 10:05:44 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id BF.61.60679.87CD69E5; Wed, 15
+        Apr 2020 11:05:44 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200415100543eucas1p24e24293da39844ca8791db86af5365a7~F9jNOqo0e0866108661eucas1p2T;
+        Wed, 15 Apr 2020 10:05:43 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200415100543eusmtrp2144d6a2cc5190571debfac319489d52e~F9jNNjygq1123511235eusmtrp2X;
+        Wed, 15 Apr 2020 10:05:43 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-c6-5e96dc781b9e
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 73.4E.07950.77CD69E5; Wed, 15
+        Apr 2020 11:05:43 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200415100542eusmtip2a2c8c572db469eb5170c653c69afac17~F9jMLnmVy1701817018eusmtip2B;
+        Wed, 15 Apr 2020 10:05:42 +0000 (GMT)
+Subject: Re: [RFC 2/8] thermal: Properly handle mode values in .set_mode()
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxim Mikityanskiy <maxtram95@gmail.com>,
-        "5 . 3+" <stable@vger.kernel.org>
-References: <20200414131953.131533-1-hdegoede@redhat.com>
- <4380034.KJPSqyn9gG@kreacher>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a9c4b315-2784-fe59-1236-3e3bf391fd4c@redhat.com>
-Date:   Wed, 15 Apr 2020 11:48:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <be73e437-8913-25f5-4abe-cad2caedcf74@samsung.com>
+Date:   Wed, 15 Apr 2020 12:05:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <4380034.KJPSqyn9gG@kreacher>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20200407174926.23971-3-andrzej.p@collabora.com>
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH89x7e3tprLm2Yk+chtlFzTSjaI154gtxcctuNJua+EGNL3R4
+        QSItpOVF+DAxatXODdQUXVOxAlLAbcWCQBlTUvCFAJ2yzaBBaqVZqKNGBF9AW9fLhYxvv3PO
+        ///8z0kehlS00fOZDEMObzToMtW0jGq8Pe777FB/6d6kkogS19yNUviNb5zAVYMDFD574QOJ
+        y0YXYvsfxyhsuZyEA39vwebRCxQOtG3ED4/8RmD7UB6u952W4Fqrh8KeQJjGzhvFCLsHH0iw
+        ZaKGxKM/dCB82zEP37u3G19tHSJxd1evBAcDP9I40uSm8FCDCv9+/D6J691WcsMCrvlxJeIa
+        ah4SXPVLDeexPZZy9dXLuIrWEMG5a0/RXP+DVpp77vPF+pWHuZHhoJT753w7wZW8CNPctefN
+        BFccSeLe/jks2arcJVu3n8/MyOONmuQU2YFotDD7xSeHfB1maRFyLrSgOAbYVeDyNyELkjEK
+        thrB064ySizGEJhHXLRYjCJwHq8mpy09A6+l4sCJwO95NlWEEVRVRCZVSnYT3Op4RQs8l9XC
+        eGN4UkSyr6Xg/Ss0KaLZNXDmRC0SWM4mQ+h6r0Rgil0M9VdLJ83x7A54+aRdImrmQOdPQUrg
+        OHY9HP23lxCYZFXwKHhpihOgKWwnhTBgv4+DS/1PCXHvL8Dyvk0ishKe3WmQirwAPngEs2D4
+        FUHk5NCUuyl29bkoLarWQr9vIsZMLOJTcLVoBAT2c7jRniPibOgLzxF3mA1nG8+TYlsOJ80K
+        8Y0lUFdVR0+nWjw1ZAlS22ZcZptxjW3GNbb/Yx2IqkUqPtekT+dNKw18fqJJpzflGtITU7P0
+        bhT7113RO2PNqOX9t17EMkg9S/6xy7pXIdHlmQr0XgQMqZ4rd+ljLfl+XUEhb8zaZ8zN5E1e
+        9BFDqVVybXloj4JN1+XwB3k+mzdOTwkmbn4ROuGG1Hatt1zbdbizryCtYORK5fKvhncrVhZv
+        w4GiztPB9aUpW0c049cStRnlm1P8CRO/rP6u2ZG6lDDEV9xX5jtW3XT07fkm84msUZu1r+yN
+        /6L9YHaPyp5Q8qU1NDbQkvZu0fb4JEt3XX5D2s5kZ/na7WbN4KafqUJr3YrEr4f9asp0QLdi
+        GWk06f4D8yV/ZtMDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG+85tR2t13Cw/zC4swugy3dT2zWoKQh3KSBMiyrRRB63cJjvT
+        tKALldXQtGKmS9TI8haIm1dSy0tZVGsZCeWFxCFaKZWZGmZtWrD/fjzv8zwvL7w0LrKTvvQx
+        rYHTa9VJEsqTeDHb2b/pZG9uXOCnHyGo/NksgSZt0xi6P9hPoBt5f3BUOL4CFby+SCDjnUA0
+        8G4PyhjPI9DA4wj0/vxDDBUMpyKrLZNEFaZGAjUOjFKotCUbIMtgN4mMv8pxNJ7VAdDT4mXI
+        bo9FlU3DOHr5ootEjoFrFPpdbyHQcI0Par70BkdWiwkP92Mb+koAW1P+HmPLvgewjeY+AWst
+        W8/ebRrBWEvFVYrt7W6i2DGbzamXnGW/fXEI2KFb7Rib83WUYqvHGjA2+3cgO/X2CxklPiDd
+        qtelGLjViTresE1yUIbkUpkSSeXBSqksSHEoVB4iCVBtPcolHUvl9AGqw9LE2dlTyV/XpNk6
+        MgTnQOkKI/CgIRMMX/X/FBiBJy1i7gHYXD1NGgHtHPjBzqrUeY8YznQbqXnPZwBzZ1oI10DM
+        7IRPOiYoF3szQXC6bnSuCGemBHDiQxnuKhIxOljTG+3yUEwovH65ArhYyKjgSG0X6WKCWQut
+        lblzPUuZ/bC9wfzP4wWf5zvmdnkw2+CFz12Yi3HGH84UduHz7AM/OIr+6atg/WgBngNEZre4
+        2S1idouY3SLFgKgA3lwKr0nQ8HIpr9bwKdoE6RGdxgKc31T3dLqmARjHYtoAQwPJIuGzB6Y4
+        EalO5dM1bQDSuMRbWKVxSsKj6vRTnF4Xr09J4vg2EOI87jruu/SIzvmbWkO8LESmQEqZIkgR
+        tBlJfIRXmNZYEZOgNnAnOC6Z0//PYbSH7zlQqxxblPm6k41/FNHWU3g27xAXUWQWZpD2LU2b
+        EhbK2l95Nn9sxbxMi8eb96r8NwZsmNp1si9/+75SXXBPWNqWocaSvOJ6Vevk6dCfWWnExoyV
+        S7LPtFbp1034TR6XhpfcNqYbdmTS0fxViz3/baxdGRm1e0G3JidsuTrGK3JGfFNC8Ilq2Xpc
+        z6v/AlCm9/ZjAwAA
+X-CMS-MailID: 20200415100543eucas1p24e24293da39844ca8791db86af5365a7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200415100543eucas1p24e24293da39844ca8791db86af5365a7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200415100543eucas1p24e24293da39844ca8791db86af5365a7
+References: <20200407174926.23971-1-andrzej.p@collabora.com>
+        <20200407174926.23971-3-andrzej.p@collabora.com>
+        <CGME20200415100543eucas1p24e24293da39844ca8791db86af5365a7@eucas1p2.samsung.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
 
-On 4/15/20 11:45 AM, Rafael J. Wysocki wrote:
-> On Tuesday, April 14, 2020 3:19:53 PM CEST Hans de Goede wrote:
->> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
->> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
->> the parents IRQ because this was breaking suspend (causing immediate
->> wakeups) on an Asus E202SA.
->>
->> This workaround for this issue is mostly fine, on most Cherry Trail
->> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
->> the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
->> anyways.
->>
->> But not on all devices, specifically on a Medion Akoya E1239T there is
->> no SCI at all, and because the irq_set_wake request is not passed on to
->> the parent IRQ, wake up by the builtin USB kbd does not work here.
->>
->> So the workaround for the Asus E202SA immediate wake problem is causing
->> problems elsewhere; and in hindsight it is not the correct fix,
->> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
->> Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
->> actually is a Braswell device.
->>
->> Most (all?) Braswell devices use classic S3 mode suspend rather then
->> s2idle suspend and in this case directly dealing with PME events as
->> the INT0002 driver does likely is not the best idea, so that this is
->> causing issues is not surprising.
->>
->> Replace the workaround of not passing irq_set_wake requests on to the
->> parents IRQ, by not binding to the INT0002 device when s2idle is not used.
->> This fixes USB kbd wakeups not working on some Cherry Trail devices,
->> while still avoiding mucking with the wakeup flags on the Asus E202SA
->> (and other Brasswell devices).
->>
->> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
->> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
->> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement irq_set_wake on Bay Trail")
->> Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->> Changes in v2:
->> - Rebase on top of 5.7-rc1
->> ---
->>   drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
->>   1 file changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
->> index 289c6655d425..30806046b664 100644
->> --- a/drivers/platform/x86/intel_int0002_vgpio.c
->> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
->> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip = {
->>   	.irq_set_wake		= int0002_irq_set_wake,
->>   };
->>   
->> -static struct irq_chip int0002_cht_irqchip = {
->> -	.name			= DRV_NAME,
->> -	.irq_ack		= int0002_irq_ack,
->> -	.irq_mask		= int0002_irq_mask,
->> -	.irq_unmask		= int0002_irq_unmask,
->> -	/*
->> -	 * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
->> -	 * and we don't want to mess with the ACPI SCI irq settings.
->> -	 */
->> -	.flags			= IRQCHIP_SKIP_SET_WAKE,
->> -};
->> -
->>   static const struct x86_cpu_id int0002_cpu_ids[] = {
->>   	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT,	&int0002_byt_irqchip),
->> -	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_cht_irqchip),
->> +	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_byt_irqchip),
->>   	{}
->>   };
->>   
->> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pdev)
->>   	if (!cpu_id)
->>   		return -ENODEV;
->>   
->> +	/* We only need to directly deal with PMEs when using s2idle */
->> +	if (!pm_suspend_default_s2idle())
->> +		return -ENODEV;
->> +
+On 4/7/20 7:49 PM, Andrzej Pietrasiewicz wrote:
+> Allow only THERMAL_DEVICE_ENABLED and THERMAL_DEVICE_DISABLED as valid
+> states to transition to.
 > 
-> What if the system supports s2idle which is not the default suspend option
-> and then it is selected by user space (overriding the default)?
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> ---
+>  drivers/net/ethernet/mellanox/mlxsw/core_thermal.c | 8 ++++++--
+>  drivers/platform/x86/acerhdf.c                     | 4 ++++
+>  drivers/thermal/imx_thermal.c                      | 4 +++-
+>  drivers/thermal/intel/intel_quark_dts_thermal.c    | 5 ++++-
+>  drivers/thermal/of-thermal.c                       | 4 +++-
+>  5 files changed, 20 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
+> index ce0a6837daa3..cd435ca7adbe 100644
+> --- a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
+> +++ b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
+> @@ -296,8 +296,10 @@ static int mlxsw_thermal_set_mode(struct thermal_zone_device *tzdev,
+>  
+>  	if (mode == THERMAL_DEVICE_ENABLED)
+>  		tzdev->polling_delay = thermal->polling_delay;
+> -	else
+> +	else if (mode == THERMAL_DEVICE_DISABLED)
+>  		tzdev->polling_delay = 0;
+> +	else
+> +		return -EINVAL;
 
-This driver only binds (the cpuid check still visible above) on Bay Trail
-and Cherry Trail/Brasswell systems. AFAIK those never support both modes,
-the laptop variants of these SoCs always use S3 and the tablet versions
-always use s2idle.
+Making sure that the valid parameters are passed to driver specific
+->set_mode method should be handled in the higher layer (callers).
 
-Regards,
-
-Hans
-
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
+ 
+>  	mutex_unlock(&tzdev->lock);
+>  
+> @@ -486,8 +488,10 @@ static int mlxsw_thermal_module_mode_set(struct thermal_zone_device *tzdev,
+>  
+>  	if (mode == THERMAL_DEVICE_ENABLED)
+>  		tzdev->polling_delay = thermal->polling_delay;
+> -	else
+> +	else if (mode == THERMAL_DEVICE_DISABLED)
+>  		tzdev->polling_delay = 0;
+> +	else
+> +		return -EINVAL;
+>  
+>  	mutex_unlock(&tzdev->lock);
+>  
+> diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+> index 8cc86f4e3ac1..d5188c1d688b 100644
+> --- a/drivers/platform/x86/acerhdf.c
+> +++ b/drivers/platform/x86/acerhdf.c
+> @@ -431,6 +431,10 @@ static int acerhdf_get_mode(struct thermal_zone_device *thermal,
+>  static int acerhdf_set_mode(struct thermal_zone_device *thermal,
+>  			    enum thermal_device_mode mode)
+>  {
+> +	if (mode != THERMAL_DEVICE_DISABLED &&
+> +	    mode != THERMAL_DEVICE_ENABLED)
+> +		return -EINVAL;
+> +
+>  	if (mode == THERMAL_DEVICE_DISABLED && kernelmode)
+>  		acerhdf_revert_to_bios_mode();
+>  	else if (mode == THERMAL_DEVICE_ENABLED && !kernelmode)
+> diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
+> index bb6754a5342c..014512581918 100644
+> --- a/drivers/thermal/imx_thermal.c
+> +++ b/drivers/thermal/imx_thermal.c
+> @@ -368,7 +368,7 @@ static int imx_set_mode(struct thermal_zone_device *tz,
+>  			data->irq_enabled = true;
+>  			enable_irq(data->irq);
+>  		}
+> -	} else {
+> +	} else if (mode == THERMAL_DEVICE_DISABLED) {
+>  		regmap_write(map, soc_data->sensor_ctrl + REG_CLR,
+>  			     soc_data->measure_temp_mask);
+>  		regmap_write(map, soc_data->sensor_ctrl + REG_SET,
+> @@ -381,6 +381,8 @@ static int imx_set_mode(struct thermal_zone_device *tz,
+>  			disable_irq(data->irq);
+>  			data->irq_enabled = false;
+>  		}
+> +	} else {
+> +		return -EINVAL;
+>  	}
+>  
+>  	data->mode = mode;
+> diff --git a/drivers/thermal/intel/intel_quark_dts_thermal.c b/drivers/thermal/intel/intel_quark_dts_thermal.c
+> index 5d33b350da1c..5f4bcc0e4fd3 100644
+> --- a/drivers/thermal/intel/intel_quark_dts_thermal.c
+> +++ b/drivers/thermal/intel/intel_quark_dts_thermal.c
+> @@ -328,8 +328,11 @@ static int sys_set_mode(struct thermal_zone_device *tzd,
+>  	mutex_lock(&dts_update_mutex);
+>  	if (mode == THERMAL_DEVICE_ENABLED)
+>  		ret = soc_dts_enable(tzd);
+> -	else
+> +	else if (mode == THERMAL_DEVICE_DISABLED)
+>  		ret = soc_dts_disable(tzd);
+> +	else
+> +		return -EINVAL;
+> +
+>  	mutex_unlock(&dts_update_mutex);
+>  
+>  	return ret;
+> diff --git a/drivers/thermal/of-thermal.c b/drivers/thermal/of-thermal.c
+> index ef0baa954ff0..b7621dfab17c 100644
+> --- a/drivers/thermal/of-thermal.c
+> +++ b/drivers/thermal/of-thermal.c
+> @@ -289,9 +289,11 @@ static int of_thermal_set_mode(struct thermal_zone_device *tz,
+>  	if (mode == THERMAL_DEVICE_ENABLED) {
+>  		tz->polling_delay = data->polling_delay;
+>  		tz->passive_delay = data->passive_delay;
+> -	} else {
+> +	} else if (mode == THERMAL_DEVICE_DISABLED) {
+>  		tz->polling_delay = 0;
+>  		tz->passive_delay = 0;
+> +	} else {
+> +		return -EINVAL;
+>  	}
+>  
+>  	mutex_unlock(&tz->lock);
+> 
