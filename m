@@ -2,118 +2,216 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D06C91ABB08
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Apr 2020 10:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D79F1ABBFB
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Apr 2020 11:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441191AbgDPIUb (ORCPT
+        id S2503234AbgDPJAz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Apr 2020 04:20:31 -0400
-Received: from mga04.intel.com ([192.55.52.120]:19918 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440397AbgDPIQu (ORCPT
+        Thu, 16 Apr 2020 05:00:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56323 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2503242AbgDPJAX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Apr 2020 04:16:50 -0400
-IronPort-SDR: 4zMl6053SnIX4bpir7Y1RlESyH3vMfiF4F7HchltOJO2FVVxVHEJhAvu/B7csmNjABX6EQrRGF
- Hjdv24snLY4Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 01:16:06 -0700
-IronPort-SDR: kbpRwV7sYmu0zeouw0s8OozPbcJkoOas/ikEV9nqLdFi3cweF+WRlBEdqtR7nf6TlOKG189wjl
- N7/b1810+S7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,390,1580803200"; 
-   d="scan'208";a="277912398"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Apr 2020 01:16:02 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 01E3EF40; Thu, 16 Apr 2020 11:15:54 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 20/20] MAINTAINERS: Update entry for Intel Broxton PMC driver
-Date:   Thu, 16 Apr 2020 11:15:52 +0300
-Message-Id: <20200416081552.68083-21-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
-References: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
+        Thu, 16 Apr 2020 05:00:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587027620;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zA8cKNTVZaBlgfTyi9EXhgruRDp6RsihI6+if43FhDA=;
+        b=c6t9tWHptNUTSUM6iiUNe4Z2qTb0VXQt4qmRfvCEEDIvjY7UQEHmbi/2aSbDHtxnftvmBP
+        mIr9WkKQWOI76KyCR0kSa7LJNti0SetV2TVLy3qhNvT+aKumrqwBzEqsKcdniZBLqVVoAV
+        NCn2x+yQh6FaYsRGFYe7L5e+Tmz/Pgs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-qz43B6wBN42fzk4Z9QrnbQ-1; Thu, 16 Apr 2020 05:00:18 -0400
+X-MC-Unique: qz43B6wBN42fzk4Z9QrnbQ-1
+Received: by mail-wm1-f69.google.com with SMTP id b203so938185wmd.6
+        for <platform-driver-x86@vger.kernel.org>; Thu, 16 Apr 2020 02:00:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zA8cKNTVZaBlgfTyi9EXhgruRDp6RsihI6+if43FhDA=;
+        b=LEVoicAX5ypRy8jc9q3W5BH4D6AyUef7eqpEjXUOekrIYISKRnT1CwXNs3ayAbzFor
+         L86ovuUIj4gTctDl32z5HHJbdfQaPyFCA0ukI4Gk4urUnUMjP2Ijq53QrZPRLoXDTXGg
+         H3ZKwR7Ic4VhRfeHO7qY4mhnBxncT/UtjYyjiCdAPmmgne/wKpKfbg9mPQKnva/Hm0zd
+         /sNKaDrZ1pGzd5IfzbC+mtjzG9nCG5Ag/n8SKAPl0zcGKjFhpskwifCgPyuUokqeFq2F
+         /oOqczv14Gff3BPEfM3M3saeacChaBMmk+OrBuQvCxjJimLp6BmX5t1chXq5Ja76lzQn
+         ufgA==
+X-Gm-Message-State: AGi0Pub4HvDON8iVIgXOZyygFBEpFyzgxrNZJNR28I42M4xigQ6aH71+
+        5V7ReaHKrsMYqPN1Pif9A7Utlh4LzceOa9irFEStUAmIp86LNUWKDbxN5rfJRgMZjFJhqpfw99r
+        28Go5nzBgS9sIrRr+TJPujwcOchSQ/0wZNQ==
+X-Received: by 2002:adf:83c2:: with SMTP id 60mr18127267wre.169.1587027617118;
+        Thu, 16 Apr 2020 02:00:17 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIa6TcKr58SNchaFoBb5fsD0pOLzsdItaIJMm8NL5j8UyzQaEQO3J2IaZvGkvIYw4aixBxKiA==
+X-Received: by 2002:adf:83c2:: with SMTP id 60mr18127238wre.169.1587027616832;
+        Thu, 16 Apr 2020 02:00:16 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id a1sm17624634wrn.80.2020.04.16.02.00.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2020 02:00:16 -0700 (PDT)
+Subject: Re: [PATCH v2] platform/x86: intel_int0002_vgpio: Only bind to the
+ INT0002 dev when using s2idle
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        "5 . 3+" <stable@vger.kernel.org>
+References: <20200414131953.131533-1-hdegoede@redhat.com>
+ <4380034.KJPSqyn9gG@kreacher>
+ <a9c4b315-2784-fe59-1236-3e3bf391fd4c@redhat.com>
+ <15138701.54mejVaKjr@kreacher>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6e85613c-e129-831a-bbe8-9f0c4f9fadad@redhat.com>
+Date:   Thu, 16 Apr 2020 11:00:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <15138701.54mejVaKjr@kreacher>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The driver lives now under MFD so split the current entry into two parts
-and add me as co-maintainer of the Intel Broxton PMC driver. While there
-correct formatting of Zha Qipeng's email address.
+Hi,
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- MAINTAINERS | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+On 4/15/20 11:34 PM, Rafael J. Wysocki wrote:
+> On Wednesday, April 15, 2020 11:48:20 AM CEST Hans de Goede wrote:
+>> Hi,
+>>
+>> On 4/15/20 11:45 AM, Rafael J. Wysocki wrote:
+>>> On Tuesday, April 14, 2020 3:19:53 PM CEST Hans de Goede wrote:
+>>>> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
+>>>> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
+>>>> the parents IRQ because this was breaking suspend (causing immediate
+>>>> wakeups) on an Asus E202SA.
+>>>>
+>>>> This workaround for this issue is mostly fine, on most Cherry Trail
+>>>> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
+>>>> the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
+>>>> anyways.
+>>>>
+>>>> But not on all devices, specifically on a Medion Akoya E1239T there is
+>>>> no SCI at all, and because the irq_set_wake request is not passed on to
+>>>> the parent IRQ, wake up by the builtin USB kbd does not work here.
+>>>>
+>>>> So the workaround for the Asus E202SA immediate wake problem is causing
+>>>> problems elsewhere; and in hindsight it is not the correct fix,
+>>>> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
+>>>> Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
+>>>> actually is a Braswell device.
+>>>>
+>>>> Most (all?) Braswell devices use classic S3 mode suspend rather then
+>>>> s2idle suspend and in this case directly dealing with PME events as
+>>>> the INT0002 driver does likely is not the best idea, so that this is
+>>>> causing issues is not surprising.
+>>>>
+>>>> Replace the workaround of not passing irq_set_wake requests on to the
+>>>> parents IRQ, by not binding to the INT0002 device when s2idle is not used.
+>>>> This fixes USB kbd wakeups not working on some Cherry Trail devices,
+>>>> while still avoiding mucking with the wakeup flags on the Asus E202SA
+>>>> (and other Brasswell devices).
+>>>>
+>>>> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
+>>>> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
+>>>> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement irq_set_wake on Bay Trail")
+>>>> Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Rebase on top of 5.7-rc1
+>>>> ---
+>>>>    drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
+>>>>    1 file changed, 5 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
+>>>> index 289c6655d425..30806046b664 100644
+>>>> --- a/drivers/platform/x86/intel_int0002_vgpio.c
+>>>> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
+>>>> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip = {
+>>>>    	.irq_set_wake		= int0002_irq_set_wake,
+>>>>    };
+>>>>    
+>>>> -static struct irq_chip int0002_cht_irqchip = {
+>>>> -	.name			= DRV_NAME,
+>>>> -	.irq_ack		= int0002_irq_ack,
+>>>> -	.irq_mask		= int0002_irq_mask,
+>>>> -	.irq_unmask		= int0002_irq_unmask,
+>>>> -	/*
+>>>> -	 * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
+>>>> -	 * and we don't want to mess with the ACPI SCI irq settings.
+>>>> -	 */
+>>>> -	.flags			= IRQCHIP_SKIP_SET_WAKE,
+>>>> -};
+>>>> -
+>>>>    static const struct x86_cpu_id int0002_cpu_ids[] = {
+>>>>    	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT,	&int0002_byt_irqchip),
+>>>> -	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_cht_irqchip),
+>>>> +	X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,	&int0002_byt_irqchip),
+>>>>    	{}
+>>>>    };
+>>>>    
+>>>> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pdev)
+>>>>    	if (!cpu_id)
+>>>>    		return -ENODEV;
+>>>>    
+>>>> +	/* We only need to directly deal with PMEs when using s2idle */
+>>>> +	if (!pm_suspend_default_s2idle())
+>>>> +		return -ENODEV;
+>>>> +
+>>>
+>>> What if the system supports s2idle which is not the default suspend option
+>>> and then it is selected by user space (overriding the default)?
+>>
+>> This driver only binds (the cpuid check still visible above) on Bay Trail
+>> and Cherry Trail/Brasswell systems. AFAIK those never support both modes,
+>> the laptop variants of these SoCs always use S3 and the tablet versions
+>> always use s2idle.
+> 
+> But this means that at least the laptop variants can use s2idle if users choose
+> that option.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e64e5db31497..9d5694a59bec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8495,6 +8495,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL BROXTON PMC DRIVER
-+M:	Mika Westerberg <mika.westerberg@linux.intel.com>
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+S:	Maintained
-+F:	drivers/mfd/intel_pmc_bxt.c
-+F:	include/linux/mfd/intel_pmc_bxt.h
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-@@ -8702,6 +8709,13 @@ F:	include/uapi/linux/mic_common.h
- F:	include/uapi/linux/mic_ioctl.h
- F:	include/uapi/linux/scif_ioctl.h
- 
-+INTEL P-Unit IPC DRIVER
-+M:	Zha Qipeng <qipeng.zha@intel.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	arch/x86/include/asm/intel_punit_ipc.h
-+F:	drivers/platform/x86/intel_punit_ipc.c
-+
- INTEL PMC CORE DRIVER
- M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
- M:	Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-@@ -8709,15 +8723,6 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
- 
--INTEL PMC/P-Unit IPC DRIVER
--M:	Zha Qipeng<qipeng.zha@intel.com>
--L:	platform-driver-x86@vger.kernel.org
--S:	Maintained
--F:	arch/x86/include/asm/intel_pmc_ipc.h
--F:	arch/x86/include/asm/intel_punit_ipc.h
--F:	drivers/platform/x86/intel_pmc_ipc.c
--F:	drivers/platform/x86/intel_punit_ipc.c
--
- INTEL PMIC GPIO DRIVERS
- M:	Andy Shevchenko <andy@kernel.org>
- S:	Maintained
--- 
-2.25.1
+I was under the impression that the laptop variants only supported S3,
+butyou are right they support both.
+
+Still I believe that the intent of this patch is right as is. The
+laptop variants are much more like standard X86 devices then the
+tablet devices.
+
+E.g. they use standard HDA for audio instead of ASoC, the always use
+the ACPI ac and battery drivers instead of needing native PMIC drivers,
+etc.  Basically the tablet variants are a lot more like SoCs from other
+(ARM) vendors, so they need some special handling.  I consider the
+(undocumented, lifted from android-x86) INT0002 / special manual poking
+of PMC GPE registers to also be part of the tablet variant special
+sauce.
+
+My intent of the pm_suspend_default_s2idle() check really is to
+check for the tablet variant. As Maxim's regression on the laptop
+(aka normal x86 machine) variant has shown doing the manual
+poking there seems to be a bad idea.
+
+So I guess I need to rewrite this patch to better match my original
+intent. Does anyone have any ideas how to check it we are dealing
+with the tablet variant ?  One option would be to see if s2idle
+is supported, while S3 is not supported. Rafael any idea how to
+neatly check for those conditions ?   Anyone else an idea to
+more directly check if we are running on a tablet v
+
+> Switching over from S3 to s2idle and back needs to be supported.
+
+Ack, but even for the laptop variant s2idle path I believe that
+letting the INT0002 driver bind and poke PMC GPE registers
+directly is a bad idea.
+
+Regards,
+
+Hans
 
