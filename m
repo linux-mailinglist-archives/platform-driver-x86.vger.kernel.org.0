@@ -2,225 +2,136 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1B3C1AD257
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Apr 2020 23:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 659C21ADBA8
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Apr 2020 12:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbgDPVzF (ORCPT
+        id S1729924AbgDQK4K (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Apr 2020 17:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50216 "EHLO
+        Fri, 17 Apr 2020 06:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728646AbgDPVzE (ORCPT
+        by vger.kernel.org with ESMTP id S1729908AbgDQK4H (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Apr 2020 17:55:04 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9387C061A0C;
-        Thu, 16 Apr 2020 14:55:03 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id k1so438573wrx.4;
-        Thu, 16 Apr 2020 14:55:03 -0700 (PDT)
+        Fri, 17 Apr 2020 06:56:07 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB56C061A0C
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Apr 2020 03:56:05 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id a81so2498323wmf.5
+        for <platform-driver-x86@vger.kernel.org>; Fri, 17 Apr 2020 03:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rAFWRmCauzapDqY6zF6wYDHpb+eX5UR9B/4Z3NEvnTc=;
-        b=CNfYTVuKIBIp6tZgQC803INlAGosjrnkwkNgVhBDqENWuNDr9mf4jy8DRNAGzy1rLJ
-         s6pUD8o0PoziHcCdGenejLs5ji4NtbucA0Eace9Ru1Fr9SgytsHeMpwstkZukWu3VNws
-         Wrm4g8cDoc17wSb5J+ItL0tQfL2a/x+0x8gLW3LHYaZ1A4MQTCTzF8jRu5DPCtdVFVfF
-         TmejhNxo9ziq/n0Jh3ZxzqMbhy2kDutTBe2wDY7zwk+cslfkmD02o6j9mdUzadthe5dB
-         lp37SHR8mi1NfGEro4U4JG+EMIL/yuNPE/d9EJDLGOIMlG3TcdZ4/2wxIm2Pxj7FCfa9
-         hA8w==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Zy7B31yVbo24Z3sSwOmI0rE3FMjeyfjDv352hxUkToU=;
+        b=sdM56yL6/sZg7Jddl9k0izO39qBUzuzsdNoFJjuGk7smxTdU4SBNE5mevCf8LoiCfi
+         8avOtHMfgdjO4CdrlsZLVLNWbiW9gjYyH5QxZGAnLBR38EzcK77BU61Q5R8Ip4UiueEC
+         QOa6+6TIJp7q8TsGM0iZKF2JgoHbAq1y+eMiCB4DyfZnoY52PmrRVlPF4Xf7SQqVUjMa
+         jTZtluk1GKkPwLT69x5df69+flCiPzQ1g0lL4I/lKyu/pcPFDJJzt6YGni3NlUHxvrEC
+         JJCbAsg+2Vz8I8GvwIBxRQhaaI0KETDACgk1gspI90r688Vx9NwSI3Hqp0fzw4MCqkra
+         nVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rAFWRmCauzapDqY6zF6wYDHpb+eX5UR9B/4Z3NEvnTc=;
-        b=EL/9HOhHsgb3kJHL57n9LWK6igU0pHdtXuMHDwJyldXH57Fwc+2bHcFpjhDDzKE/U8
-         t7ub32pG/I7LXia9iJJZy2c9y8YAanRp1r8ptqBx5anfTbXlvRO7BMu/bdVjp+cHriXY
-         VrL8w9uUobBm31P0T/Vulmzb2MZdLoLXfxElPSh/IrsxnGXbDTzEkVXUsMJSZz5M5kGB
-         nZnXA27EAvx8B7ebol6ghv/Mg2POTgclj3d6xUAT7/W2Si4b6Gc0S2hFHhib3Svkd8eE
-         Chj1eQG2A6xJKbHFnmKscUhojqBJk9rdew6INUKpheSqwI3XWf+/9GCBxMAj6EA2HwXb
-         3MtA==
-X-Gm-Message-State: AGi0PubwXqgTdTsdueD2y4u5FEkIiB6o8HsTwGs+oCxEuBSs+PbOZu1g
-        AwWlHD7lWmOcB5ARXljL7EfhvuUjDi6+tnxsLcY=
-X-Google-Smtp-Source: APiQypKBG9g3I0G49ErAhZ5RFh0i026vsX5S8R4TJ6e0ibQ5yL9ar7nTPz5H115z+Cbfywn0ifljaq0XdjHCtbp/kxo=
-X-Received: by 2002:adf:f146:: with SMTP id y6mr361227wro.132.1587074102376;
- Thu, 16 Apr 2020 14:55:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Zy7B31yVbo24Z3sSwOmI0rE3FMjeyfjDv352hxUkToU=;
+        b=bxb2h3lOUi7RhhNQdbMJYCBL66+IKzrmiRO/MEMT8zP5w7bLejKBdTTJAxhzmpNdI2
+         b1C0CJP9MB6P/VsaVMHzBEw0aNrdI75EoPXJ0Ym7ROShu/esIYBJy3yPDWRhFJlFSX7m
+         MSTzVIB7Pxz2fM4gADH8Vl5CRznkuqwyHo1w8XmycKzVhJgbD2QpvZUwlKhSHKVUQPlM
+         TZBGujztFqoXorrdrw/bbyqT0M9Lb8+5/HQEZJvd+/nEFUhfTUa8rsD+O5nXrWIs07nG
+         EiNRGZ3pOQPFSm+vaUQ8ZfBAjrWbs9XStk+2biKKAy2CGAcd2AzAOPPDajg2B0gfAI6p
+         FxTw==
+X-Gm-Message-State: AGi0PublX5o6b7rs9jV/qB5axeaBC82RWIcA+so6YaNwhbSExdXXgkmp
+        hHEFGu0oOpopPEHUJ8SjnBp9Y4H2KW8=
+X-Google-Smtp-Source: APiQypKpvJGamn20c9w6PhxX78HILd35jS6h/JDY9Q5LuEqNOc6YBop+EvV1mgFml8+qiNKp0yb9og==
+X-Received: by 2002:a1c:4b16:: with SMTP id y22mr2792717wma.170.1587120963825;
+        Fri, 17 Apr 2020 03:56:03 -0700 (PDT)
+Received: from dell ([95.149.164.124])
+        by smtp.gmail.com with ESMTPSA id b66sm7293958wmh.12.2020.04.17.03.56.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2020 03:56:03 -0700 (PDT)
+Date:   Fri, 17 Apr 2020 11:57:04 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 19/20] platform/x86: intel_pmc_ipc: Convert to MFD
+Message-ID: <20200417105704.GE3737@dell>
+References: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
+ <20200416081552.68083-20-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-References: <20200407213058.62870-1-hdegoede@redhat.com> <CAKErNvqM9ax8RB+Hm0e70a_uk_Ok3KfSQDmy0q9jKFaAQM3Fsg@mail.gmail.com>
- <b876973e-71f4-1dbc-1b41-138f81511685@redhat.com>
-In-Reply-To: <b876973e-71f4-1dbc-1b41-138f81511685@redhat.com>
-From:   Maxim Mikityanskiy <maxtram95@gmail.com>
-Date:   Fri, 17 Apr 2020 00:54:36 +0300
-Message-ID: <CAKErNvqqHAVAkETsSjneSpaPNwoaHh1F=4XKS8F+ZBPp0gR0YQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: intel_int0002_vgpio: Only bind to the
- INT0002 dev when using s2idle
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "5 . 3+" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200416081552.68083-20-mika.westerberg@linux.intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 4:24 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 4/8/20 2:11 PM, Maxim Mikityanskiy wrote:
-> > On Wed, Apr 8, 2020 at 12:31 AM Hans de Goede <hdegoede@redhat.com> wro=
-te:
-> >>
-> >> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implemen=
-t
-> >> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on t=
-o
-> >> the parents IRQ because this was breaking suspend (causing immediate
-> >> wakeups) on an Asus E202SA.
-> >>
-> >> This workaround for this issue is mostly fine, on most Cherry Trail
-> >> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
-> >> the parent IRQ is shared with the ACPI SCI and that is marked as wakeu=
-p
-> >> anyways.
-> >>
-> >> But not on all devices, specifically on a Medion Akoya E1239T there is
-> >> no SCI at all, and because the irq_set_wake request is not passed on t=
-o
-> >> the parent IRQ, wake up by the builtin USB kbd does not work here.
-> >>
-> >> So the workaround for the Asus E202SA immediate wake problem is causin=
-g
-> >> problems elsewhere; and in hindsight it is not the correct fix,
-> >> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
-> >> Cherry Trail based device, Brasswell uses Airmont CPU cores too and th=
-is
-> >> actually is a Braswell device.
-> >>
-> >> Most (all?) Braswell devices use classic S3 mode suspend rather then
-> >> s2idle suspend and in this case directly dealing with PME events as
-> >> the INT0002 driver does likely is not the best idea, so that this is
-> >> causing issues is not surprising.
-> >>
-> >> Replace the workaround of not passing irq_set_wake requests on to the
-> >> parents IRQ, by not binding to the INT0002 device when s2idle is not u=
-sed.
-> >> This fixes USB kbd wakeups not working on some Cherry Trail devices,
-> >> while still avoiding mucking with the wakeup flags on the Asus E202SA
-> >> (and other Brasswell devices).
-> >
-> > I tested this patch over kernel 5.6.2 on Asus E202SA and didn't notice
-> > any regressions. Wakeup by opening lid, by pressing a button on
-> > keyboard, by USB keyboard =E2=80=94 all seem to work fine. So, if appro=
-priate:
-> >
-> > Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
->
-> Thank you for testing this.
->
-> > I have a question though. After your patch this driver will basically
-> > be a no-op on my laptop. Does it mean I don't even need it in the
-> > first place? What about the IRQ storm this driver is meant to deal
-> > with =E2=80=94 does it never happen on Braswell? What are the reproduct=
-ion
-> > steps to verify my hardware is not affected? I have that INT0002
-> > device, so I'm worried it may cause issues if not bound to the driver.
->
-> I do not expect Braswell platforms to suffer from the IRQ storm
-> issue. That was something which I hit on a Cherry Trail based device.
->
-> To test this, try waking up the device from suspend by an USB attached
-> keyboard (this may not work, in that case wake it some other way).
->
-> After this do:
->
-> cat /proc/interrupts | grep " 9-fasteoi"
->
-> This should output something like this:
->
-> [root@localhost ~]# cat /proc/interrupts | grep " 9-fasteoi"
->     9:          0          0          0          0   IO-APIC    9-fasteoi=
-   acpi
->
-> Repeat this a couple of times, of the numbers after the 9:
-> increase (very) rapidly you have an interrupt storm. Likely
-> they will either be fully unchanged or change very slowly.
+On Thu, 16 Apr 2020, Mika Westerberg wrote:
 
-Thanks a lot for the instructions. After a wakeup by USB keyboard, the
-counter increased by a few hundred (compared to the value before
-suspend), but there was no further growth, so it looks I'm safe.
-(Tested with your patch, of course.)
+> This driver only creates a bunch of platform devices sharing resources
+> belonging to the PMC device. This is pretty much what MFD subsystem is
+> for so move the driver there, renaming it to intel_pmc_bxt.c which
+> should be more clear what it is.
+> 
+> MFD subsystem provides nice helper APIs for subdevice creation so
+> convert the driver to use those. Unfortunately the ACPI device includes
+> separate resources for most of the subdevices so we cannot simply call
+> mfd_add_devices() to create all of them but instead we need to call it
+> separately for each device.
+> 
+> The new MFD driver continues to expose two sysfs attributes that allow
+> userspace to send IPC commands to the PMC/SCU to avoid breaking any
+> existing applications that may use these. Generally this is bad idea so
+> document this in the ABI documentation.
+> 
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  .../ABI/obsolete/sysfs-driver-intel_pmc_bxt   |  22 +
+>  arch/x86/include/asm/intel_pmc_ipc.h          |  47 --
+>  arch/x86/include/asm/intel_telemetry.h        |   1 +
+>  drivers/mfd/Kconfig                           |  16 +-
+>  drivers/mfd/Makefile                          |   1 +
+>  drivers/mfd/intel_pmc_bxt.c                   | 468 +++++++++++++
+>  drivers/platform/x86/Kconfig                  |  16 +-
+>  drivers/platform/x86/Makefile                 |   1 -
+>  drivers/platform/x86/intel_pmc_ipc.c          | 645 ------------------
+>  .../platform/x86/intel_telemetry_debugfs.c    |  12 +-
+>  drivers/platform/x86/intel_telemetry_pltdrv.c |   2 +
+>  drivers/usb/typec/tcpm/Kconfig                |   2 +-
+>  drivers/watchdog/iTCO_wdt.c                   |  25 +-
+>  include/linux/mfd/intel_pmc_bxt.h             |  53 ++
+>  include/linux/platform_data/itco_wdt.h        |  11 +-
+>  15 files changed, 602 insertions(+), 720 deletions(-)
+>  create mode 100644 Documentation/ABI/obsolete/sysfs-driver-intel_pmc_bxt
+>  delete mode 100644 arch/x86/include/asm/intel_pmc_ipc.h
+>  create mode 100644 drivers/mfd/intel_pmc_bxt.c
+>  delete mode 100644 drivers/platform/x86/intel_pmc_ipc.c
+>  create mode 100644 include/linux/mfd/intel_pmc_bxt.h
 
-> Note if nothing is output then IRQ 9 is not used on your
-> model, then the INT0002 device cannot cause an interrupt storm.
->
-> Regards,
->
-> Hans
->
->
->
-> >
-> >> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
-> >> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
-> >> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implemen=
-t irq_set_wake on Bay Trail")
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>   drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
-> >>   1 file changed, 5 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/plat=
-form/x86/intel_int0002_vgpio.c
-> >> index 55f088f535e2..e8bec72d3823 100644
-> >> --- a/drivers/platform/x86/intel_int0002_vgpio.c
-> >> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
-> >> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip =3D {
-> >>          .irq_set_wake           =3D int0002_irq_set_wake,
-> >>   };
-> >>
-> >> -static struct irq_chip int0002_cht_irqchip =3D {
-> >> -       .name                   =3D DRV_NAME,
-> >> -       .irq_ack                =3D int0002_irq_ack,
-> >> -       .irq_mask               =3D int0002_irq_mask,
-> >> -       .irq_unmask             =3D int0002_irq_unmask,
-> >> -       /*
-> >> -        * No set_wake, on CHT the IRQ is typically shared with the AC=
-PI SCI
-> >> -        * and we don't want to mess with the ACPI SCI irq settings.
-> >> -        */
-> >> -       .flags                  =3D IRQCHIP_SKIP_SET_WAKE,
-> >> -};
-> >> -
-> >>   static const struct x86_cpu_id int0002_cpu_ids[] =3D {
-> >>          INTEL_CPU_FAM6(ATOM_SILVERMONT, int0002_byt_irqchip),   /* Va=
-lleyview, Bay Trail  */
-> >> -       INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_cht_irqchip),      /* Bra=
-swell, Cherry Trail */
-> >> +       INTEL_CPU_FAM6(ATOM_AIRMONT, int0002_byt_irqchip),      /* Bra=
-swell, Cherry Trail */
-> >>          {}
-> >>   };
-> >>
-> >> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *=
-pdev)
-> >>          if (!cpu_id)
-> >>                  return -ENODEV;
-> >>
-> >> +       /* We only need to directly deal with PMEs when using s2idle *=
-/
-> >> +       if (!pm_suspend_default_s2idle())
-> >> +               return -ENODEV;
-> >> +
-> >>          irq =3D platform_get_irq(pdev, 0);
-> >>          if (irq < 0)
-> >>                  return irq;
-> >> --
-> >> 2.26.0
-> >>
-> >
->
+Looks good to me know.
+
+Thanks for taking the time to realise my review comments.
+
+For my own reference (apply this as-is to your sign-off block):
+
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
