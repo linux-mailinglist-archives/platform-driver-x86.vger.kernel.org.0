@@ -2,103 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B8EA1ADE9F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Apr 2020 15:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4D901AE20D
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 17 Apr 2020 18:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730625AbgDQNmA (ORCPT
+        id S1729934AbgDQQUc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 17 Apr 2020 09:42:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730597AbgDQNl7 (ORCPT
+        Fri, 17 Apr 2020 12:20:32 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54726 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729581AbgDQQUc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 17 Apr 2020 09:41:59 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C25F6C061A0C;
-        Fri, 17 Apr 2020 06:41:59 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id u65so1088958pfb.4;
-        Fri, 17 Apr 2020 06:41:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9M/Oo/XUQFGMWJFPYaEqrZUbE1nLWNcARmCrEzYadGk=;
-        b=YULvyl6MWSCpi6WgwQIA1qIWmr9+3IWDTprh6BYUTQBiUeDT0zKnSkZjanU81u0G86
-         pzf7nntCcSkkumI1VKhcQrIVh0Q3I2kDYwz42Q3y03Yffym8Rjns8wjU9wPKqbja5NSp
-         kDPoAu+V22JMqPTyUSASPsl4qNVeAR+NgUlKv/KHaRosXPa0FWH6/DhYneXJRGvwyino
-         +CfpJxdoTEe9vOw77sgGBVjaqi+ZYrb4ETaJkdWZ868bquXzsG3pL0bXB5yv8ISnZDY9
-         PEh7VE0PrIXMHtslBi2xiKxJNv7omyzdUiAtyeHpmQCm6BmYhZZL3Q9qXn301lOWUDy6
-         tX+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9M/Oo/XUQFGMWJFPYaEqrZUbE1nLWNcARmCrEzYadGk=;
-        b=FRo0a27CIfbJmjveEWDGHlDCCe8YYJrEMhQ9NJP6CCQgkzcPydtEB0cuKO0Ew0Od4f
-         5ijjexJTI/9+reG8WGXjULLkSP5K9S+oaXmocZG8RFSo9lPhx0Kqr1ewB97iYJQb/I7T
-         ksfqUzVXTWu5kGht1wcm1eLsyvIHsDo5AyzKv643zsBG9dGDu/TygeqOcUEXe7+M7Lfo
-         CsXJ9z4P2eS23b9VCVorVUDdbMipO/qWNiWuozP/y/nQKrMZYNhtX7uEGG2Jw3JT9U7g
-         YwHIRuKwJZxMTcxXNoyZFv9795C2Ar31EDOMwDispSIq9IIquq3SoyzPrml25W6xBgLP
-         YcKg==
-X-Gm-Message-State: AGi0PuYEl8rXQGh0yindFyBkacma1r9HXWNj4VJNhFoXMOLeTo+uc79Z
-        7AIVgEdtKr+VSq1iamv2lH/hZMypaj1D/07PS3cxlmVtF0aVVswm
-X-Google-Smtp-Source: APiQypLwYOPdJB7yiiqSUXqnPoCxm/gpgXHq5MuvnuVXdkp9IVbHgRg463lBElUE1ePppkt7NtZFmmYy8nLU5ZhgWLs=
-X-Received: by 2002:a63:1c1:: with SMTP id 184mr3223682pgb.203.1587130919388;
- Fri, 17 Apr 2020 06:41:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200416163514.7334-1-michaelsh@mellanox.com>
-In-Reply-To: <20200416163514.7334-1-michaelsh@mellanox.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 17 Apr 2020 16:41:52 +0300
-Message-ID: <CAHp75VfZLR0an_bkD0vK6sTQSTcf_xHbAB0i7Qbod02gpV4tzg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] support watchdog with longer timeout period
-To:     michaelsh@mellanox.com
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Fri, 17 Apr 2020 12:20:32 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 1A17C2A2AE9
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Peter Kaestle <peter@piie.net>,
         Darren Hart <dvhart@infradead.org>,
-        linux-watchdog@vger.kernel.org,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Vadim Pasternak <vadimp@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andy@infradead.org>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Barlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [RFC v3 0/2] Stop monitoring disabled devices
+Date:   Fri, 17 Apr 2020 18:20:18 +0200
+Message-Id: <20200417162020.19980-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <9ac3b37a-8746-b8ee-70e1-9c876830ac83@linaro.org>
+References: <9ac3b37a-8746-b8ee-70e1-9c876830ac83@linaro.org>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 7:35 PM <michaelsh@mellanox.com> wrote:
->
-> From: Michael Shych <michaelsh@mellanox.com>
->
-> This patchset adds support of extended new watchdog type 3 of Mellanox
-> Ethernet and Infiniband switch systems.
-> This type of watchdog can have a timeout period longer than 255 or 32 sec.
-> as it was before.
->
+This is the third iteration of this RFC. It has been substantially
+rewritten compared to v2.
 
-Pushed to my review and testing queue, thanks!
+The first patch makes all the drivers store their mode in struct
+thermal_zone_device. Such a move has consequences: driver-specific
+variables for storing mode are not necessary. Consequently get_mode()
+methods become obsolete. Then sysfs "mode" attribute stops depending
+on get_mode() being provided, because it is always provided from now on.
 
+The first patch also introduces the initial mode to be optionally passed
+to thermal_zone_device_register().
 
-> Michael Shych (4):
->   platform_data/mlxreg: support new watchdog type with longer timeout
->     period
->   platform/x86: mlx-platform: support new watchdog type with longer
->     timeout
->   watchdog: mlx-wdt: support new watchdog type with longer timeout
->     period
->   Documentation/watchdog: Add description of new watchdog type 3
->
->  Documentation/watchdog/mlx-wdt.rst   |   9 +++
->  drivers/platform/x86/mlx-platform.c  | 106 +++++++++++++++++++++++++++++++
->  drivers/watchdog/mlx_wdt.c           |  75 +++++++++++++++++++++----
->  include/linux/platform_data/mlxreg.h |   5 +-
->  4 files changed, 183 insertions(+), 12 deletions(-)
->
-> --
-> 2.11.0
->
+Given all the groundwork done in patch 1/2 patch 2/2 becomes very simple.
 
+This series addresses comments from Daniel and Bartlomiej - thank you guys!
+
+Andrzej Pietrasiewicz (2):
+  thermal: core: Let thermal zone device's mode be stored in its struct
+  thermal: core: Stop polling DISABLED thermal devices
+
+ drivers/acpi/thermal.c                        | 46 +++++---------
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 57 ++++--------------
+ drivers/platform/x86/acerhdf.c                | 17 +-----
+ drivers/thermal/da9062-thermal.c              | 16 ++---
+ drivers/thermal/imx_thermal.c                 | 29 +++------
+ .../intel/int340x_thermal/int3400_thermal.c   | 30 ++--------
+ .../thermal/intel/intel_quark_dts_thermal.c   | 22 ++-----
+ drivers/thermal/of-thermal.c                  | 30 +++-------
+ drivers/thermal/thermal_core.c                | 60 +++++++++++++++++--
+ drivers/thermal/thermal_core.h                | 16 +++++
+ drivers/thermal/thermal_sysfs.c               | 29 +--------
+ include/linux/thermal.h                       |  7 ++-
+ 12 files changed, 139 insertions(+), 220 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
