@@ -2,85 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 783851B1900
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 00:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C593C1B1994
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 00:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgDTWEa (ORCPT
+        id S1726726AbgDTWdh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Apr 2020 18:04:30 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30774 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725774AbgDTWEa (ORCPT
+        Mon, 20 Apr 2020 18:33:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726405AbgDTWdh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Apr 2020 18:04:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587420269;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=koRDkKLTG8zaPUuuVy6B0Oldh6kvQLudDYsHC51m2RE=;
-        b=ZwK+rrRiFIyJKCPt6I/PaLp4FGEpJDc3OMEWjzF+PlaNBTiC0s8E/KlQVWE5SUZau9aE5y
-        JLIPalvCuy3Ehm1APK/oSiy7e6gY9USmJQ28yRUxc0lWIy9ZRMJm+Bptm8lBR4SHVXDXVY
-        X5e2kqWlTK4FIJ7N/ZeQhG0NRsPmpjI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-szAtL_ClPXyRciQ-e8Cplg-1; Mon, 20 Apr 2020 18:04:24 -0400
-X-MC-Unique: szAtL_ClPXyRciQ-e8Cplg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CABDF1853889;
-        Mon, 20 Apr 2020 22:04:23 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-37.ams2.redhat.com [10.36.112.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AC67C5C1B2;
-        Mon, 20 Apr 2020 22:04:22 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: surface3_power: i2c_acpi_new_device() returns a PTR_ERR
-Date:   Tue, 21 Apr 2020 00:04:21 +0200
-Message-Id: <20200420220421.171298-1-hdegoede@redhat.com>
+        Mon, 20 Apr 2020 18:33:37 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E76CC061A0C;
+        Mon, 20 Apr 2020 15:33:37 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id r4so5807610pgg.4;
+        Mon, 20 Apr 2020 15:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wQEM9DWcyVuGSR7yq/Z954i7krAGNWwBbn5c8AlgXpE=;
+        b=uq1UtX4QuL5/kWF8QYjdfFO8Ui/Bpd1N/OQYaosFtl+eERSaDHbqouW0owYi+peb/E
+         NxHI0u8TlYQeWzQN/J9XOliKLN4jl9X4FYIpWrw9sybbKqU+iKbVlQJXlxYUSU3YkYUr
+         y2+B/HADZ4llIIMviTBzk+7Nv3uNDfGPWIDogukqV+wt1LvXtdiTQH0fX/+AkvQfCJaJ
+         31/n1bW7Nrnq//6K15IwQZ3LW5tQJqu4E4duwtzU8XzBgK32lyPZavyzB6MxBqz824sa
+         vQtKx46bCPrA6WsPzRdq9wTVJX6NGY1jZ6e5am8pN7yPB8p3Qa5fA3m5F/+4VKTsMOZQ
+         VrHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wQEM9DWcyVuGSR7yq/Z954i7krAGNWwBbn5c8AlgXpE=;
+        b=EEviEubb9t++YeW7i6hdbzJzwBFNrDBvt80/EkgSqD96ED51zh+YKtrhL3losMqfjO
+         lJxVh/rqSrP1iGvUaOgiP/nn2uBA48WyZSseumVyBslg/6WxKfXoqbLTiv//adp3H9Pa
+         LTgiMHOVywbMdGWgazpodUZVCS3HMYNESOU7WpbWhhcU16w9wcohDwE4PyLhMuPJMSi2
+         tG6q9cKa12n0WShKuA37LPW6u/9qEfPuIn+aUCMeV3XOPRs0b/ayBaS8e6eE8W9xvLoL
+         o04NQEYMIP572NaqGooTtdCrB4G0SpbWjcCOdpgBWFkFvdNAb/S+eNF1z1j4Y0QnPX8m
+         NR4w==
+X-Gm-Message-State: AGi0PuYBCwhRa5rqDXV6ZfKNYt3h85woEeqp45ZopMDM4REGmShHa5kr
+        HFOHm4+3tBEHSknRW72mhTKAHxuBZxwGjVlk7XWGURAYLcDdTg==
+X-Google-Smtp-Source: APiQypI6CwvEBvAfBXjMuiwiFJLQbo3/oNzWqVmgFdLUkN+AngNn81WtbZw7udc4CqufrnIUYILSwnvOS+1SDzcemtk=
+X-Received: by 2002:aa7:9097:: with SMTP id i23mr18460117pfa.170.1587422016694;
+ Mon, 20 Apr 2020 15:33:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Content-Transfer-Encoding: quoted-printable
+References: <20200420220421.171298-1-hdegoede@redhat.com>
+In-Reply-To: <20200420220421.171298-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 21 Apr 2020 01:33:24 +0300
+Message-ID: <CAHp75VfC7-saRXnGDpee1dxAqDSDcveHMoC872WN9-SL4sDH4Q@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: surface3_power: i2c_acpi_new_device()
+ returns a PTR_ERR
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-i2c_acpi_new_device() never returns NULL, it either returns an i2c_client
-or a PTR_ERR. Adjust the mshw0011_probe() error handling to take this
-into account.
+On Tue, Apr 21, 2020 at 1:04 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> i2c_acpi_new_device() never returns NULL, it either returns an i2c_client
+> or a PTR_ERR. Adjust the mshw0011_probe() error handling to take this
+> into account.
+>
+> Note the goto out_err will cause i2c_unregister_device() to get called
+> even though the i2c_acpi_new_device() fails, this is ok as it accepts
+> a NULL pointer argument (and treats it as a no-op).
+>
 
-Note the goto out_err will cause i2c_unregister_device() to get called
-even though the i2c_acpi_new_device() fails, this is ok as it accepts
-a NULL pointer argument (and treats it as a no-op).
+Thanks, I guess it repeats [1].
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/surface3_power.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+[1]: http://git.infradead.org/linux-platform-drivers-x86.git/commitdiff/4dbccb873f2b35ad1b26419ff88c80509e2d4cbb
 
-diff --git a/drivers/platform/x86/surface3_power.c b/drivers/platform/x86=
-/surface3_power.c
-index 946ac2dc08ae..32e6e86e27dd 100644
---- a/drivers/platform/x86/surface3_power.c
-+++ b/drivers/platform/x86/surface3_power.c
-@@ -522,8 +522,10 @@ static int mshw0011_probe(struct i2c_client *client)
- 	strlcpy(board_info.type, "MSHW0011-bat0", I2C_NAME_SIZE);
-=20
- 	bat0 =3D i2c_acpi_new_device(dev, 1, &board_info);
--	if (!bat0)
--		return -ENOMEM;
-+	if (IS_ERR(bat0)) {
-+		error =3D PTR_ERR(bat0);
-+		goto out_err;
-+	}
-=20
- 	data->bat0 =3D bat0;
- 	i2c_set_clientdata(bat0, data);
---=20
-2.26.0
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/surface3_power.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/platform/x86/surface3_power.c b/drivers/platform/x86/surface3_power.c
+> index 946ac2dc08ae..32e6e86e27dd 100644
+> --- a/drivers/platform/x86/surface3_power.c
+> +++ b/drivers/platform/x86/surface3_power.c
+> @@ -522,8 +522,10 @@ static int mshw0011_probe(struct i2c_client *client)
+>         strlcpy(board_info.type, "MSHW0011-bat0", I2C_NAME_SIZE);
+>
+>         bat0 = i2c_acpi_new_device(dev, 1, &board_info);
+> -       if (!bat0)
+> -               return -ENOMEM;
+> +       if (IS_ERR(bat0)) {
+> +               error = PTR_ERR(bat0);
+> +               goto out_err;
+> +       }
+>
+>         data->bat0 = bat0;
+>         i2c_set_clientdata(bat0, data);
+> --
+> 2.26.0
+>
 
+
+-- 
+With Best Regards,
+Andy Shevchenko
