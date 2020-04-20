@@ -2,100 +2,113 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03BCD1B10CC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 17:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 233D21B1251
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 18:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbgDTPzW (ORCPT
+        id S1726013AbgDTQzg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Apr 2020 11:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726412AbgDTPzW (ORCPT
+        Mon, 20 Apr 2020 12:55:36 -0400
+Received: from mga04.intel.com ([192.55.52.120]:57571 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725774AbgDTQzg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Apr 2020 11:55:22 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3E4C061A0C
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Apr 2020 08:55:22 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id a7so31915pju.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Apr 2020 08:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rxaGMveKIYI1dQFuiqL/B8rf5h1B6KRqrXhDAyVFbtA=;
-        b=N2+gEDTZ+k2gJAzLpl490cT6gw9B/DhyjWBeceCx7+Gc7EHxN5gZtlQQDiTOkh6D0J
-         43Bh6M/58lqm4ThJDOxh7d4gYsUmDOed01mPUEVZMsHfJiWPyPtrMFpimvJ8/iuF+vak
-         n8S2+CBq5+NMmQJ4WTuzbZT8/MLCCxB3sVf5uBtdVSBbjRZN7h4FzMCKm8iQgmX5V3uW
-         w75Ux4tO6cuewbXWw1G+GMotV7OlPxOPB/a4E2/l+uXmTGoCy/AwLG8MK+GK5Q0A9Yuy
-         kiSqXopnIcfjvaIrxia24fnGAjOlOPVWGxnIRg8GT0QofobODnyZPBl0YUbUnKwKSqjG
-         JT9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rxaGMveKIYI1dQFuiqL/B8rf5h1B6KRqrXhDAyVFbtA=;
-        b=NxFsfijEjKvG7SfTUaLf8J7zv41j8TpCo8v2klbqABcfHivAYRqPam/VGEwXwqSl0H
-         Sf7CSul66BlaSGeAE3nV8LSyPLe2df3af/w9PSBPDpW0cltLmqCQOhdbXkCerTK32vTp
-         UuiZiZ6cewtkVir9ezLDWqe7AQoNwLGEJdswksuDQJ2D0FQRI0cQz13w38QTxMsp0yRu
-         1uP5raaGs2W0BEUb1mVZdmndV8uEPn24k4mPsc2/kCf29Udtf+L8QENj/Pg1rxVgSjDq
-         KY6uB9wX5HciVSA+vwMj9GYky0CsOp2ZeGQRNHa5e05VA0Nx+Oj0DapZbou7UPHqTInw
-         VljQ==
-X-Gm-Message-State: AGi0PuYXGWwwKUf9hB9Huf+1TVtfvfr5yscSgEToeliNVvAGJfYTH6RL
-        9qGRaWC6FcfsmRBuBW0I1kta4q2EoMNmzJfo/wqu/Lv6Jxs=
-X-Google-Smtp-Source: APiQypKUiXfT/dcgEW6UjJJhuGoGZ6sJC1lydTphUEe+NHltowitPsY2KLBl1N4hvf77u7QdMuEogUuQ37FvwUYRAjU=
-X-Received: by 2002:a17:902:854a:: with SMTP id d10mr17212420plo.262.1587398121924;
- Mon, 20 Apr 2020 08:55:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200417201426.24033-1-larsh@apache.org>
-In-Reply-To: <20200417201426.24033-1-larsh@apache.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 20 Apr 2020 18:55:15 +0300
-Message-ID: <CAHp75VdtwTGks-i3XKkOsUxz69i-W=QX63BxdRazev1A3fTq8w@mail.gmail.com>
-Subject: Re: [PATCH v2] thinkpad_acpi: Add support for dual fan control on
- select models
-To:     Lars <larsh@apache.org>
-Cc:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Mon, 20 Apr 2020 12:55:36 -0400
+IronPort-SDR: qdFaSFmQ/uYOyur15uhdp5BUnzGQcdfANazoI08rVXQ+1RWVp5G6wiR0zftTMm5rrgY1lwpelV
+ 0RRbUw/4xI2g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 09:55:36 -0700
+IronPort-SDR: 3UC1k8qsd1AKrpAC0uDulmNXiCATFEgpunAMdoaBMGKIjUp8Sj8DtFiKpkISUgR0sCm382U3Pz
+ vPV7qqE+4kSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,407,1580803200"; 
+   d="scan'208";a="254997169"
+Received: from spandruv-mobl3.jf.intel.com ([10.254.108.186])
+  by orsmga003.jf.intel.com with ESMTP; 20 Apr 2020 09:55:35 -0700
+Message-ID: <969038ce47f5f0c054b8971c516b8b961a46b737.camel@linux.intel.com>
+Subject: Re: [PATCH] intel-speed-select: Fix
+ speed-select-base-freq-properties output on CLX-N
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
+Date:   Mon, 20 Apr 2020 09:55:35 -0700
+In-Reply-To: <d0bfcbfe-4834-624f-b590-1aa93970e5a4@redhat.com>
+References: <20200420141054.26173-1-prarit@redhat.com>
+         <CAHp75VfKCuX1CNMaVLeghdoP9-KHh3+1yuFVgU8qhRbKi69JNQ@mail.gmail.com>
+         <d0bfcbfe-4834-624f-b590-1aa93970e5a4@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 11:15 PM Lars <larsh@apache.org> wrote:
->
-> This patch allows controlling multiple fans as if they were a single fan.
->
-> This adds P52, P72, X1E, and X1E gen2 to dual fan quirks. Both fans are controlled together.
->
-> Tested on an X1 Extreme Gen2.
->
-> The patch is defensive, it adds only specific supported machines, and falls back to the old behavior if both fans cannot be controlled.
-> However, it does attempt single fan control for all previously white-listed Thinkpads.
->
-> Background:
-> I tested the BIOS default behavior on my X1E gen2 and both fans are always changed together.
-> So rather than adding controls for each fan, this controls both fans together as the BIOS would do.
->
-> This was inspired by a discussion on dual fan support for the thinkfan tool (https://github.com/vmatare/thinkfan/issues/58).
-> (Thanks to Github users voidworker, and civic9.)
->
-> The BIOS ids for P52/P72 and X1E are taken from there. The X1E gen2 id is verified on my machine.
->
+On Mon, 2020-04-20 at 11:46 -0400, Prarit Bhargava wrote:
+> 
+> On 4/20/20 11:43 AM, Andy Shevchenko wrote:
+> > On Mon, Apr 20, 2020 at 6:11 PM Prarit Bhargava <prarit@redhat.com>
+> > wrote:
+> > > On CLX-N, the perf-profile-level's output is terminated before
+> > > the
+> > > speed-select-base-freq-properties are output which results in a
+> > > corrupt
+> > > json file.
+> > > 
+> > > Adjust the output of speed-select-base-freq-properties by one on
+> > > CLX-N.
+> > > 
+> > 
+> > Thanks for the patch, it will be pulled from Srinivas' tree
+> > whenever
+> > he sends a PR to PDx86 mailing list.
+> 
+> Srinivas, OOC do you want these patches to be sent somewhere
+> else?  FWIW, I'm
+> running get_maintainers.pl to get the mailing list and cc.
+This mailing list is fine.
 
-Thanks for an update. I have pushed it to my review and testing queue, thanks!
+I will take care of it once I test it out an apply to my tree.
 
-JFYI: there are two issues (I have fixed them, no need to resend) with
-this. Commit message lines are too long and...
+Thanks,
+Srinivas
 
-> (In the first version my mail client botched the white-spacing - my apologies, this is my first Kernel patch. Used git send-email and gmail this time.)
+> 
+> P.
+> 
+> > 
+> > > Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+> > > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > > Cc: platform-driver-x86@vger.kernel.org
+> > > ---
+> > >  tools/power/x86/intel-speed-select/isst-display.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/tools/power/x86/intel-speed-select/isst-display.c
+> > > b/tools/power/x86/intel-speed-select/isst-display.c
+> > > index 51dbaa5f02ec..f6e2ce181123 100644
+> > > --- a/tools/power/x86/intel-speed-select/isst-display.c
+> > > +++ b/tools/power/x86/intel-speed-select/isst-display.c
+> > > @@ -470,7 +470,7 @@ void isst_ctdp_display_information(int cpu,
+> > > FILE *outf, int tdp_level,
+> > >                                 _isst_pbf_display_information(cpu
+> > > , outf,
+> > >                                                               tdp
+> > > _level,
+> > >                                                           &ctdp_l
+> > > evel->pbf_info,
+> > > -                                                             lev
+> > > el + 1);
+> > > +                                                             lev
+> > > el + 2);
+> > >                         continue;
+> > >                 }
+> > > 
+> > > --
+> > > 2.18.2
+> > > 
 
-...this kind of comments should go after cut line ('---' below).
-
-> Signed-off-by: Lars <larsh@apache.org>
-> ---
-
--- 
-With Best Regards,
-Andy Shevchenko
