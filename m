@@ -2,108 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A241B10A3
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 17:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7441B10BA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 17:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729459AbgDTPq2 (ORCPT
+        id S1728018AbgDTPxD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Apr 2020 11:46:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59796 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726931AbgDTPq2 (ORCPT
+        Mon, 20 Apr 2020 11:53:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbgDTPxD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Apr 2020 11:46:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587397586;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gLHxi4Hu3j2YEIGoVcQy6We5qDF7KD9rRyHKv+349FQ=;
-        b=OCqw2sMwRdfLVdskuvqLVErs5gf+iMgquTvMewKtgLNSfBw8TV+sRtt3UTA0Vs98oc9hhs
-        Y8eG6JaDy7iIitBbPnK0yCwWMBGinZS7cwxnNPK4YtlGk9Te2txXhySfcmoX7a0pW8F4Jk
-        Zfj24DRUOQTHkEaS7zhmppxGXitB9Cg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-gsSmE16sNaKdWoPpOPtrAQ-1; Mon, 20 Apr 2020 11:46:21 -0400
-X-MC-Unique: gsSmE16sNaKdWoPpOPtrAQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32D4213F9;
-        Mon, 20 Apr 2020 15:46:20 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8BF5C1B2;
-        Mon, 20 Apr 2020 15:46:19 +0000 (UTC)
-Subject: Re: [PATCH] intel-speed-select: Fix speed-select-base-freq-properties
- output on CLX-N
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <20200420141054.26173-1-prarit@redhat.com>
- <CAHp75VfKCuX1CNMaVLeghdoP9-KHh3+1yuFVgU8qhRbKi69JNQ@mail.gmail.com>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <d0bfcbfe-4834-624f-b590-1aa93970e5a4@redhat.com>
-Date:   Mon, 20 Apr 2020 11:46:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 20 Apr 2020 11:53:03 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C74DC061A0C;
+        Mon, 20 Apr 2020 08:53:02 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id a22so20379pjk.5;
+        Mon, 20 Apr 2020 08:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KpOu42kL/pQUGpBchlxGpON9Ofes9T2Kauo44/uMQ/Q=;
+        b=CY2i3G+JUCNbfJUUootRFUoK9Eo6VDW8N775KqtVJxSrhmBDxbj9XiNEYT0X5rUyPJ
+         Vj1dOsJssQLlQiPZvpV1gczoFQrRLCNyOp1Ou1tg2bqdtH0FvSiZxKNyoZaybbh0BI2x
+         fI4P1dV9O7gypHHn9yyiuNhj+wL12kKxEGia3qOARyaID9bvziFMjmZPB+2ha9y8to3p
+         Nsy1aa3GJDsdIj06yYlIfQMqOj6+ioQh8OmhFh10ve3a6oB+HUp/zhmpXnEGOmTgIVbd
+         jVMwkMv6FeoVV8q5BKlUrNieO7qp2GaMORvOaq2B6XZL19bVv4n8Bc4Fl4+C2Dz8R5g8
+         qZqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KpOu42kL/pQUGpBchlxGpON9Ofes9T2Kauo44/uMQ/Q=;
+        b=CkDO1lWb6tw9Zc7w7X6nOdst9x9uIDtEj83Tz7N25Iuq9etIUjOBmYzqJzsgQZiKqx
+         apzR9u8KUAjr3HKxtpDsFs0V3sd7//Ed9CAlZiEU1L+g0rsg620i6wfEiannlY/ZR4f0
+         KcoFYhQy/jn/kiBAFYdvnIPcIjHoLz2kb6v+CaIN2dOdS6xKa4uTaKfGWGIsrCMCYbUN
+         jtgw6DBpnBYoF6jIltxKqZToyA/8ZLkGehJwCn9rG9EspGyWe577WDcCmVIx6P21i2W3
+         W/nbhhFB2Yez+wWPIxwDdRyhINsL4pBxC7IZ2I80eljb45iUXcGkMhTWpuEbOSOamHu1
+         ytJw==
+X-Gm-Message-State: AGi0PuY/vtzRVTkZIKJURZAWO8FaRFaSDisw5qQVuDWLoorw0dAf2XfC
+        BkxBTejyaT2EL+objxvoTy2UbOSnsq/f8iHGxAvnl3LpV78=
+X-Google-Smtp-Source: APiQypLIaJG3DtsZI4suVENYT2gkb+3YUhLFwswQ6fVzuIKkjdLgztB4zGiy/NWus0rd2QVE38hOSk/jBs6O1mZayJs=
+X-Received: by 2002:a17:90a:364c:: with SMTP id s70mr8228pjb.143.1587397981656;
+ Mon, 20 Apr 2020 08:53:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VfKCuX1CNMaVLeghdoP9-KHh3+1yuFVgU8qhRbKi69JNQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20200416163514.7334-1-michaelsh@mellanox.com> <CAHp75VfZLR0an_bkD0vK6sTQSTcf_xHbAB0i7Qbod02gpV4tzg@mail.gmail.com>
+In-Reply-To: <CAHp75VfZLR0an_bkD0vK6sTQSTcf_xHbAB0i7Qbod02gpV4tzg@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 20 Apr 2020 18:52:55 +0300
+Message-ID: <CAHp75VeXC=sMW54yGnSY6S-_kECXY+KURRt2LWGfBm5W14ue-w@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] support watchdog with longer timeout period
+To:     michaelsh@mellanox.com
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-watchdog@vger.kernel.org,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Vadim Pasternak <vadimp@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Fri, Apr 17, 2020 at 4:41 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Thu, Apr 16, 2020 at 7:35 PM <michaelsh@mellanox.com> wrote:
+> >
+> > From: Michael Shych <michaelsh@mellanox.com>
+> >
+> > This patchset adds support of extended new watchdog type 3 of Mellanox
+> > Ethernet and Infiniband switch systems.
+> > This type of watchdog can have a timeout period longer than 255 or 32 sec.
+> > as it was before.
+> >
+>
+> Pushed to my review and testing queue, thanks!
+
+Withdrawn due to changes requested.
+Please, address and resend.
+
+>
+>
+> > Michael Shych (4):
+> >   platform_data/mlxreg: support new watchdog type with longer timeout
+> >     period
+> >   platform/x86: mlx-platform: support new watchdog type with longer
+> >     timeout
+> >   watchdog: mlx-wdt: support new watchdog type with longer timeout
+> >     period
+> >   Documentation/watchdog: Add description of new watchdog type 3
+> >
+> >  Documentation/watchdog/mlx-wdt.rst   |   9 +++
+> >  drivers/platform/x86/mlx-platform.c  | 106 +++++++++++++++++++++++++++++++
+> >  drivers/watchdog/mlx_wdt.c           |  75 +++++++++++++++++++++----
+> >  include/linux/platform_data/mlxreg.h |   5 +-
+> >  4 files changed, 183 insertions(+), 12 deletions(-)
+> >
+> > --
+> > 2.11.0
+> >
+>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
 
 
-On 4/20/20 11:43 AM, Andy Shevchenko wrote:
-> On Mon, Apr 20, 2020 at 6:11 PM Prarit Bhargava <prarit@redhat.com> wrote:
->>
->> On CLX-N, the perf-profile-level's output is terminated before the
->> speed-select-base-freq-properties are output which results in a corrupt
->> json file.
->>
->> Adjust the output of speed-select-base-freq-properties by one on CLX-N.
->>
-> 
-> Thanks for the patch, it will be pulled from Srinivas' tree whenever
-> he sends a PR to PDx86 mailing list.
 
-Srinivas, OOC do you want these patches to be sent somewhere else?  FWIW, I'm
-running get_maintainers.pl to get the mailing list and cc.
-
-P.
-
-> 
-> 
->> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
->> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->> Cc: platform-driver-x86@vger.kernel.org
->> ---
->>  tools/power/x86/intel-speed-select/isst-display.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tools/power/x86/intel-speed-select/isst-display.c b/tools/power/x86/intel-speed-select/isst-display.c
->> index 51dbaa5f02ec..f6e2ce181123 100644
->> --- a/tools/power/x86/intel-speed-select/isst-display.c
->> +++ b/tools/power/x86/intel-speed-select/isst-display.c
->> @@ -470,7 +470,7 @@ void isst_ctdp_display_information(int cpu, FILE *outf, int tdp_level,
->>                                 _isst_pbf_display_information(cpu, outf,
->>                                                               tdp_level,
->>                                                           &ctdp_level->pbf_info,
->> -                                                             level + 1);
->> +                                                             level + 2);
->>                         continue;
->>                 }
->>
->> --
->> 2.18.2
->>
-> 
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
