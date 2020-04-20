@@ -2,125 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF7471B06FD
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 13:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D601B0DFD
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 16:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725896AbgDTLDJ (ORCPT
+        id S1726847AbgDTOLJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Apr 2020 07:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725773AbgDTLDJ (ORCPT
+        Mon, 20 Apr 2020 10:11:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58582 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726719AbgDTOLJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Apr 2020 07:03:09 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A66CC061A0C;
-        Mon, 20 Apr 2020 04:03:09 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 185D62A0C63
-Subject: Re: [RFC v3 1/2] thermal: core: Let thermal zone device's mode be
- stored in its struct
-To:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc:     linux-pm@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <9ac3b37a-8746-b8ee-70e1-9c876830ac83@linaro.org>
- <20200417162020.19980-1-andrzej.p@collabora.com>
- <CGME20200417162037eucas1p11663f116fd9844d38c0b5d4d7ebe9f1c@eucas1p1.samsung.com>
- <20200417162020.19980-2-andrzej.p@collabora.com>
- <4b97e46a-e7ef-ee22-227e-d35ebef458b0@samsung.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <4cda3e11-7bea-8445-cd51-4b25dcafc741@collabora.com>
-Date:   Mon, 20 Apr 2020 13:03:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Mon, 20 Apr 2020 10:11:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587391868;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=juxlCNjhUGoVaucv5IlBSUfH1PKTujMrazy+xkLY5Ag=;
+        b=Dv6jHtpFdhiY5QpWmY6aItPw5LncJXyQa/Grcl7G+vEL/GFD0tjjkNQrvLI7OndIsnKrqk
+        XAsmgxdLY15CuEcF8aIotISp/hTi9pzBOISiTm7GYsyWOVisifldn+Y+cGXIMoJpsqRqii
+        3GMknkxPfmp+0ZdX7ged/z6WzgGF5To=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-KcCg_TM8PDOH2bqnDHoZDg-1; Mon, 20 Apr 2020 10:11:06 -0400
+X-MC-Unique: KcCg_TM8PDOH2bqnDHoZDg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65089801A07;
+        Mon, 20 Apr 2020 14:11:05 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9B4B0129FA2;
+        Mon, 20 Apr 2020 14:11:02 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Prarit Bhargava <prarit@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] intel-speed-select: Fix speed-select-base-freq-properties output on CLX-N
+Date:   Mon, 20 Apr 2020 10:10:54 -0400
+Message-Id: <20200420141054.26173-1-prarit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4b97e46a-e7ef-ee22-227e-d35ebef458b0@samsung.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Barlomiej,
+On CLX-N, the perf-profile-level's output is terminated before the
+speed-select-base-freq-properties are output which results in a corrupt
+json file.
 
-Thanks for looking into the series.
+Adjust the output of speed-select-base-freq-properties by one on CLX-N.
 
-@Daniel can you see below?
+Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org
+---
+ tools/power/x86/intel-speed-select/isst-display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-W dniu 19.04.2020 o 13:38, Bartlomiej Zolnierkiewicz pisze:
-> 
-> Hi Andrzej,
-> 
-> On 4/17/20 6:20 PM, Andrzej Pietrasiewicz wrote:
->> Thermal zone devices' mode is stored in individual drivers. This patch
->> changes it so that mode is stored in struct thermal_zone_device instead.
->>
->> As a result all driver-specific variables storing the mode are not needed
->> and are removed. Consequently, the get_mode() implementations have nothing
->> to operate on and need to be removed, too.
->>
->> Some thermal framework specific functions are introduced:
->>
->> thermal_zone_device_get_mode()
->> thermal_zone_device_set_mode()
->> thermal_zone_device_enable()
->> thermal_zone_device_disable()
->>
->> thermal_zone_device_get_mode() and its "set" counterpart take tzd's lock
->> and the "set" calls driver's set_mode() if provided, so the latter must
->> not take this lock again. At the end of the "set"
->> thermal_zone_device_update() is called so drivers don't need to repeat this
->> invocation in their specific set_mode() implementations.
->>
->> The scope of the above 4 functions is purposedly limited to the thermal
->> framework and drivers are not supposed to call them. This encapsulation
-> 
-> This should be true only for thermal_zone_device_{get,set}_mode().
-> 
-> thermal_zone_device_{en,dis}able() should be available for device drivers:
-> 
-> * of/thermal device drivers need to enable thermal device itself
->    (please refer to my patchset for details)
-> 
-> * device drivers need to call them on ->suspend and ->resume operations
-> 
+diff --git a/tools/power/x86/intel-speed-select/isst-display.c b/tools/po=
+wer/x86/intel-speed-select/isst-display.c
+index 51dbaa5f02ec..f6e2ce181123 100644
+--- a/tools/power/x86/intel-speed-select/isst-display.c
++++ b/tools/power/x86/intel-speed-select/isst-display.c
+@@ -470,7 +470,7 @@ void isst_ctdp_display_information(int cpu, FILE *out=
+f, int tdp_level,
+ 				_isst_pbf_display_information(cpu, outf,
+ 							      tdp_level,
+ 							  &ctdp_level->pbf_info,
+-							      level + 1);
++							      level + 2);
+ 			continue;
+ 		}
+=20
+--=20
+2.18.2
 
-@Daniel:
-
-How does this compare to
-
-"Just:
-
-thermal_zone_device_get_mode()
-thermal_zone_device_set_mode()
-thermal_zone_device_disable()
-thermal_zone_device_enable()
-
-And all of them in drivers/thermal/thermal_core.h". Did I understand
-you correctly?
-
-Andrzej
