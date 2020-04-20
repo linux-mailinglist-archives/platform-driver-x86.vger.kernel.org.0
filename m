@@ -2,113 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 233D21B1251
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 18:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD2011B1433
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 20:17:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726013AbgDTQzg (ORCPT
+        id S1727092AbgDTSRw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Apr 2020 12:55:36 -0400
-Received: from mga04.intel.com ([192.55.52.120]:57571 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725774AbgDTQzg (ORCPT
+        Mon, 20 Apr 2020 14:17:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbgDTSRw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Apr 2020 12:55:36 -0400
-IronPort-SDR: qdFaSFmQ/uYOyur15uhdp5BUnzGQcdfANazoI08rVXQ+1RWVp5G6wiR0zftTMm5rrgY1lwpelV
- 0RRbUw/4xI2g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 09:55:36 -0700
-IronPort-SDR: 3UC1k8qsd1AKrpAC0uDulmNXiCATFEgpunAMdoaBMGKIjUp8Sj8DtFiKpkISUgR0sCm382U3Pz
- vPV7qqE+4kSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,407,1580803200"; 
-   d="scan'208";a="254997169"
-Received: from spandruv-mobl3.jf.intel.com ([10.254.108.186])
-  by orsmga003.jf.intel.com with ESMTP; 20 Apr 2020 09:55:35 -0700
-Message-ID: <969038ce47f5f0c054b8971c516b8b961a46b737.camel@linux.intel.com>
-Subject: Re: [PATCH] intel-speed-select: Fix
- speed-select-base-freq-properties output on CLX-N
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Date:   Mon, 20 Apr 2020 09:55:35 -0700
-In-Reply-To: <d0bfcbfe-4834-624f-b590-1aa93970e5a4@redhat.com>
-References: <20200420141054.26173-1-prarit@redhat.com>
-         <CAHp75VfKCuX1CNMaVLeghdoP9-KHh3+1yuFVgU8qhRbKi69JNQ@mail.gmail.com>
-         <d0bfcbfe-4834-624f-b590-1aa93970e5a4@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Mon, 20 Apr 2020 14:17:52 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A4FCC061A0C;
+        Mon, 20 Apr 2020 11:17:52 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 16DD62A0FEB
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Barlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH 0/2] Stop monitoring disabled devices
+Date:   Mon, 20 Apr 2020 20:17:39 +0200
+Message-Id: <20200420181741.13167-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <d7efa7dd-6a07-beff-e3d1-8797dd203105@samsung.com>
+References: <d7efa7dd-6a07-beff-e3d1-8797dd203105@samsung.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2020-04-20 at 11:46 -0400, Prarit Bhargava wrote:
-> 
-> On 4/20/20 11:43 AM, Andy Shevchenko wrote:
-> > On Mon, Apr 20, 2020 at 6:11 PM Prarit Bhargava <prarit@redhat.com>
-> > wrote:
-> > > On CLX-N, the perf-profile-level's output is terminated before
-> > > the
-> > > speed-select-base-freq-properties are output which results in a
-> > > corrupt
-> > > json file.
-> > > 
-> > > Adjust the output of speed-select-base-freq-properties by one on
-> > > CLX-N.
-> > > 
-> > 
-> > Thanks for the patch, it will be pulled from Srinivas' tree
-> > whenever
-> > he sends a PR to PDx86 mailing list.
-> 
-> Srinivas, OOC do you want these patches to be sent somewhere
-> else?  FWIW, I'm
-> running get_maintainers.pl to get the mailing list and cc.
-This mailing list is fine.
+After 3 revisions of an RFC I'm sending this as a PATCH series.
 
-I will take care of it once I test it out an apply to my tree.
+The first patch makes all the drivers store their mode in struct
+thermal_zone_device. Such a move has consequences: driver-specific
+variables for storing mode are not necessary. Consequently get_mode()
+methods become obsolete. Then sysfs "mode" attribute stops depending
+on get_mode() being provided, because it is always provided from now on.
 
-Thanks,
-Srinivas
+The first patch also introduces the initial mode to be optionally passed
+to thermal_zone_device_register().
 
-> 
-> P.
-> 
-> > 
-> > > Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> > > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > > Cc: platform-driver-x86@vger.kernel.org
-> > > ---
-> > >  tools/power/x86/intel-speed-select/isst-display.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/tools/power/x86/intel-speed-select/isst-display.c
-> > > b/tools/power/x86/intel-speed-select/isst-display.c
-> > > index 51dbaa5f02ec..f6e2ce181123 100644
-> > > --- a/tools/power/x86/intel-speed-select/isst-display.c
-> > > +++ b/tools/power/x86/intel-speed-select/isst-display.c
-> > > @@ -470,7 +470,7 @@ void isst_ctdp_display_information(int cpu,
-> > > FILE *outf, int tdp_level,
-> > >                                 _isst_pbf_display_information(cpu
-> > > , outf,
-> > >                                                               tdp
-> > > _level,
-> > >                                                           &ctdp_l
-> > > evel->pbf_info,
-> > > -                                                             lev
-> > > el + 1);
-> > > +                                                             lev
-> > > el + 2);
-> > >                         continue;
-> > >                 }
-> > > 
-> > > --
-> > > 2.18.2
-> > > 
+Given all the groundwork done in patch 1/2 patch 2/2 becomes very simple.
+
+Compared to RFC v3 this series addresses comments from Bartlomiej,
+thank you Bartlomiej for your review!
+
+RFCv3..this PATCH:
+
+- export thermal_zone_device_{enable|disable}() for drivers
+- don't check provided enum values in acpi's thermal_zet_mode()
+and in int3400_thermal_set_mode()
+- use thermal_zone_device_enable() in of_thermal instead of open coding it
+- use thermal_zone_device_{enable|disable}() in hisi_thermal, rockchip_thermal
+and sprd_thermal
+- assume THERMAL_DEVICE_ENABLED is thermal_zone_params not provided at
+tzd's register time
+- eliminated tzp-s which contain only .initial_mode = THERMAL_DEVICE_ENABLED,
+- don't set tz->need_update and don't call thermal_zone_device_update()
+at the end of thermal_zone_device_register()
+- used .initial_mode in int340x_thermal_zone, x86_pkg_temp_thermal and
+int3400_thermal
+
+Andrzej Pietrasiewicz (2):
+  thermal: core: Let thermal zone device's mode be stored in its struct
+  thermal: core: Stop polling DISABLED thermal devices
+
+ drivers/acpi/thermal.c                        | 35 ++--------
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 42 ------------
+ drivers/platform/x86/acerhdf.c                | 17 +----
+ drivers/thermal/da9062-thermal.c              | 11 ----
+ drivers/thermal/hisi_thermal.c                |  6 +-
+ drivers/thermal/imx_thermal.c                 | 24 ++-----
+ .../intel/int340x_thermal/int3400_thermal.c   | 31 ++-------
+ .../int340x_thermal/int340x_thermal_zone.c    |  1 +
+ .../thermal/intel/intel_quark_dts_thermal.c   | 22 ++-----
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  1 +
+ drivers/thermal/of-thermal.c                  | 24 +------
+ drivers/thermal/rockchip_thermal.c            |  6 +-
+ drivers/thermal/sprd_thermal.c                |  6 +-
+ drivers/thermal/thermal_core.c                | 65 ++++++++++++++++---
+ drivers/thermal/thermal_core.h                |  3 +
+ drivers/thermal/thermal_sysfs.c               | 29 +--------
+ include/linux/thermal.h                       | 22 ++++++-
+ 17 files changed, 121 insertions(+), 224 deletions(-)
+
+
+base-commit: 79799562bf087b30d9dd0fddf5bed2d3b038be08
+-- 
+2.17.1
 
