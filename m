@@ -2,95 +2,152 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1F71AFAF8
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 Apr 2020 15:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 848181B02F7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Apr 2020 09:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgDSNu5 convert rfc822-to-8bit (ORCPT
+        id S1726055AbgDTH3R (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 19 Apr 2020 09:50:57 -0400
-Received: from piie.net ([80.82.223.85]:49180 "EHLO piie.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726105AbgDSNu4 (ORCPT
+        Mon, 20 Apr 2020 03:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725773AbgDTH3R (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 19 Apr 2020 09:50:56 -0400
-Received: from mail.piie.net (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-        (Client did not present a certificate)
-        by piie.net (Postfix) with ESMTPSA id BC23C1613;
-        Sun, 19 Apr 2020 15:50:35 +0200 (CEST)
-Mime-Version: 1.0
-Date:   Sun, 19 Apr 2020 13:50:35 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Mailer: RainLoop/1.11.3
-From:   "=?utf-8?B?UGV0ZXIgS8Okc3RsZQ==?=" <peter@piie.net>
-Message-ID: <a3f6a008696d87acb67db06c21eb600d@piie.net>
-Subject: Re: [RFC v3 1/2] thermal: core: Let thermal zone device's mode be
- stored in its struct
-To:     "Andrzej Pietrasiewicz" <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org
-Cc:     "Zhang Rui" <rui.zhang@intel.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        "Len Brown" <lenb@kernel.org>, "Jiri Pirko" <jiri@mellanox.com>,
-        "Ido Schimmel" <idosch@mellanox.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Darren Hart" <dvhart@infradead.org>,
-        "Andy Shevchenko" <andy@infradead.org>,
-        "Support Opensource" <support.opensource@diasemi.com>,
-        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
-        "Amit Kucheria" <amit.kucheria@verdurent.com>,
-        "Shawn Guo" <shawnguo@kernel.org>,
-        "Sascha Hauer" <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        "Fabio Estevam" <festevam@gmail.com>,
-        "NXP Linux Team" <linux-imx@nxp.com>,
-        "Allison Randal" <allison@lohutok.net>,
-        "Enrico Weigelt" <info@metux.net>,
-        "Gayatri Kammela" <gayatri.kammela@intel.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-        "Barlomiej Zolnierkiewicz" <b.zolnierkie@samsung.com>
-In-Reply-To: <20200417162020.19980-2-andrzej.p@collabora.com>
-References: <20200417162020.19980-2-andrzej.p@collabora.com>
- <9ac3b37a-8746-b8ee-70e1-9c876830ac83@linaro.org>
- <20200417162020.19980-1-andrzej.p@collabora.com>
+        Mon, 20 Apr 2020 03:29:17 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937C1C061A0F
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Apr 2020 00:29:15 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id k13so9579797wrw.7
+        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Apr 2020 00:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=LyN9pox3SaOxRcsjO37PKtf7W/L5quIGDct2ytf3h/U=;
+        b=HAWvLcNWGYCsM0m6jkRYYORYooXPFRb47MJqCKoUxMtw5IFEfr7NWX9l16zqOb+gnn
+         VQAiyAUudMnxH9y7WJnIk0LmPTmVX/wo6FHiE7DcVCWpvvCumcLdi1GlrfypzmOlz4dV
+         vjdsdKkpYFYG/tPSQgEKSG90fdm3dnwiIBVMOD4nuYV7eGees/fIGP6xgwq6ctj/lfcj
+         YNChXw9+7MAuPicmn9L2mL0WHzoCvk76PN+8wJJaGG9jikZD9iVknrbnWOawSXkqXaFz
+         KOK/yVjsnnWDUONjd82PV4cvPOiQgbl8IWKKaNo6Ja1+EGgiyZ3BW/p+cw69GjRt+DYo
+         eMXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=LyN9pox3SaOxRcsjO37PKtf7W/L5quIGDct2ytf3h/U=;
+        b=pHrMdj+tBzno6rqMD0Rp9N/FKgVaJhSu9MoLgcnzB5QWXgBTak/hGbir6FWhuVthfH
+         5jd9rix+IJYbTLKFzVRgwh4vOUfRhQZinthhcI5RECZwu2WjjGTEA3k3hgS3UeBVauQa
+         R+rzOHj0zs74L2Uxj6adG9K3yQ/m86Anrh4rMCcGfKdtO78ycmMLT+2B+fOh87Pa5A0h
+         bgZxigCMBo89ZSl+rjbAVnmC+XUJ7pIMKpa7vjpewos7jvPBDsoOsssodS/9CJ7kb2Fe
+         fdam8VjUiJ8PyTBK2FYIR+5HBiXQW/A8Onl+yjrJfMjDPb+kLKmLxngpDnJAbqTlOady
+         r5Xw==
+X-Gm-Message-State: AGi0PuZEwIQrixZi+CIJ+Suxv/EmW0oUxiUzf0kDFnGxdaVhvHGgIWqT
+        ajmL1UEDnRJfukh6wzJAVbiNxQ==
+X-Google-Smtp-Source: APiQypIbsK22d8VR6jZfY40lBxD1KunZSdXNEJDjh7XcSPlaDQuufe8n4hQjfR1cVVbIvMvD/5YJBQ==
+X-Received: by 2002:a5d:688f:: with SMTP id h15mr17432861wru.352.1587367754242;
+        Mon, 20 Apr 2020 00:29:14 -0700 (PDT)
+Received: from dell ([95.149.164.107])
+        by smtp.gmail.com with ESMTPSA id x13sm214084wmc.5.2020.04.20.00.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2020 00:29:13 -0700 (PDT)
+Date:   Mon, 20 Apr 2020 08:29:11 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        "David E . Box" <david.e.box@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v9 19/20] platform/x86: intel_pmc_ipc: Convert to MFD
+Message-ID: <20200420072911.GJ3737@dell>
+References: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
+ <20200416081552.68083-20-mika.westerberg@linux.intel.com>
+ <20200417105704.GE3737@dell>
+ <CAHp75VcMH47yvqaTNN851+G4ghT-og0M15DaN0b_+J_0yCW84g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcMH47yvqaTNN851+G4ghT-og0M15DaN0b_+J_0yCW84g@mail.gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-17. April 2020 18:20, "Andrzej Pietrasiewicz" <andrzej.p@collabora.com> schrieb:
+On Fri, 17 Apr 2020, Andy Shevchenko wrote:
 
-> Thermal zone devices' mode is stored in individual drivers. This patch
-> changes it so that mode is stored in struct thermal_zone_device instead.
+> On Fri, Apr 17, 2020 at 1:56 PM Lee Jones <lee.jones@linaro.org> wrote:
+> >
+> > On Thu, 16 Apr 2020, Mika Westerberg wrote:
+> >
+> > > This driver only creates a bunch of platform devices sharing resources
+> > > belonging to the PMC device. This is pretty much what MFD subsystem is
+> > > for so move the driver there, renaming it to intel_pmc_bxt.c which
+> > > should be more clear what it is.
+> > >
+> > > MFD subsystem provides nice helper APIs for subdevice creation so
+> > > convert the driver to use those. Unfortunately the ACPI device includes
+> > > separate resources for most of the subdevices so we cannot simply call
+> > > mfd_add_devices() to create all of them but instead we need to call it
+> > > separately for each device.
+> > >
+> > > The new MFD driver continues to expose two sysfs attributes that allow
+> > > userspace to send IPC commands to the PMC/SCU to avoid breaking any
+> > > existing applications that may use these. Generally this is bad idea so
+> > > document this in the ABI documentation.
+> > >
+> > > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > ---
+> > >  .../ABI/obsolete/sysfs-driver-intel_pmc_bxt   |  22 +
+> > >  arch/x86/include/asm/intel_pmc_ipc.h          |  47 --
+> > >  arch/x86/include/asm/intel_telemetry.h        |   1 +
+> > >  drivers/mfd/Kconfig                           |  16 +-
+> > >  drivers/mfd/Makefile                          |   1 +
+> > >  drivers/mfd/intel_pmc_bxt.c                   | 468 +++++++++++++
+> > >  drivers/platform/x86/Kconfig                  |  16 +-
+> > >  drivers/platform/x86/Makefile                 |   1 -
+> > >  drivers/platform/x86/intel_pmc_ipc.c          | 645 ------------------
+> > >  .../platform/x86/intel_telemetry_debugfs.c    |  12 +-
+> > >  drivers/platform/x86/intel_telemetry_pltdrv.c |   2 +
+> > >  drivers/usb/typec/tcpm/Kconfig                |   2 +-
+> > >  drivers/watchdog/iTCO_wdt.c                   |  25 +-
+> > >  include/linux/mfd/intel_pmc_bxt.h             |  53 ++
+> > >  include/linux/platform_data/itco_wdt.h        |  11 +-
+> > >  15 files changed, 602 insertions(+), 720 deletions(-)
+> > >  create mode 100644 Documentation/ABI/obsolete/sysfs-driver-intel_pmc_bxt
+> > >  delete mode 100644 arch/x86/include/asm/intel_pmc_ipc.h
+> > >  create mode 100644 drivers/mfd/intel_pmc_bxt.c
+> > >  delete mode 100644 drivers/platform/x86/intel_pmc_ipc.c
+> > >  create mode 100644 include/linux/mfd/intel_pmc_bxt.h
+> >
+> > Looks good to me know.
+> >
+> > Thanks for taking the time to realise my review comments.
+> >
+> > For my own reference (apply this as-is to your sign-off block):
+> >
+> >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 > 
-> As a result all driver-specific variables storing the mode are not needed
-> and are removed. Consequently, the get_mode() implementations have nothing
-> to operate on and need to be removed, too.
-> 
-> Some thermal framework specific functions are introduced:
-> 
-> thermal_zone_device_get_mode()
-> thermal_zone_device_set_mode()
-> thermal_zone_device_enable()
-> thermal_zone_device_disable()
-> 
-> thermal_zone_device_get_mode() and its "set" counterpart take tzd's lock
-> and the "set" calls driver's set_mode() if provided, so the latter must
-> not take this lock again. At the end of the "set"
-> thermal_zone_device_update() is called so drivers don't need to repeat this
-> invocation in their specific set_mode() implementations.
-> 
-> The scope of the above 4 functions is purposedly limited to the thermal
-> framework and drivers are not supposed to call them. This encapsulation
-> does not fully work at the moment for some drivers, though:
-> 
-> - platform/x86/acerhdf.c
+> Can you prepare ib for ii that I can pull from?
+> Or do you want me to do the same for you?
 
-Acked-by: Peter Kaestle <peter@piie.net>
-
-[...]
+It would probably be easier for me to do it, as I already have the
+infra. to deal with it.  I have some more reviews to conduct, then
+I'll get around to it.
 
 -- 
---peter;
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
