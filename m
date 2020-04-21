@@ -2,101 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE5CF1B1EC4
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 08:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070151B2003
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 09:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbgDUG3O convert rfc822-to-8bit (ORCPT
+        id S1726716AbgDUHkX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Apr 2020 02:29:14 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43599 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725831AbgDUG3N (ORCPT
+        Tue, 21 Apr 2020 03:40:23 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25301 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726403AbgDUHkW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Apr 2020 02:29:13 -0400
-Received: from mail-pg1-f197.google.com ([209.85.215.197])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jQmP9-0004vv-CF
-        for platform-driver-x86@vger.kernel.org; Tue, 21 Apr 2020 06:29:11 +0000
-Received: by mail-pg1-f197.google.com with SMTP id 35so12210147pgw.9
-        for <platform-driver-x86@vger.kernel.org>; Mon, 20 Apr 2020 23:29:11 -0700 (PDT)
+        Tue, 21 Apr 2020 03:40:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587454821;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+us8s3+TLsdGNnZMoTiZF6Ytfj6NBMCN4gguLEIxdtQ=;
+        b=aFGdBAseniVBn7J4fh9urCMjNgN5Bs3Y7HuxqEWLyK7fO2Z3y8Wrl5Q4rSKPYzIbGs8qRA
+        5xtYefpZuBwA6eItS0duJFgTs5dOBIcRqD/Y/upgFUL8EcQ4O8PFixUzRXx+YqgkCmKhxv
+        htfcH/3fUhVs+Tgn2X9K0ENdigZM+hs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-BOSHsMmjOqmjNeb9vY9O_A-1; Tue, 21 Apr 2020 03:40:10 -0400
+X-MC-Unique: BOSHsMmjOqmjNeb9vY9O_A-1
+Received: by mail-wr1-f70.google.com with SMTP id s11so7105425wru.6
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Apr 2020 00:40:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=dwwMBDomxjYomSwY9WDiz7BymnYlfvN1mFls8ltcKNo=;
-        b=sUN7op6FCauMWfyA504yEDWQ2w6qMq4zt2IInNXjt0L3Z9JOdLhoKtq7WzoKRfMppb
-         4Llwkosjv22uPFUfeNg43fxiN2BtlHxeXJGNiQXrfY3Bv7NxLKfCT0Hw9wft/uT4afF1
-         A3VUsGaNZBO+UnLfWlZNXF8Fr717C5HPqZUXIZvlMrSWUICo1xXsOCqn/8mjPZQmxpeg
-         Z7MPPJo0ef/v2Cp9ve3vCRSHi2v8kajRrMztEDG5pFnobhRsntl4tDcRpHGtmBjnRm5o
-         yuPTZCGMmYotAMn5NHBocimxXlzw9qysCiPBJYe5iERN4obYSM255Z6q59bqtJtExuk0
-         48xQ==
-X-Gm-Message-State: AGi0PuZiLz+aqPMz4lqHEkimjEIyxOYAFKfOIMOUy4/qQiCT2ERovwTO
-        EjXvrh7R53CXFDCk3jHqEBM/28GVXfogMURVeqzFJxvA9x/ZdHacJ+nvKJi2MScbtEcYHsk8X0u
-        A18SipGoiAdqaLly7kBYd6YYtJDe/BKRBF3SwfxgxRM4fUpMAukI=
-X-Received: by 2002:a17:902:444:: with SMTP id 62mr20262771ple.109.1587450549860;
-        Mon, 20 Apr 2020 23:29:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJABpjwqskbscsn03rGylli9q30YqvtaculN0idrLVvFP5N9E/p5E1OO1B3CX4DmhoS2WiJaQ==
-X-Received: by 2002:a17:902:444:: with SMTP id 62mr20262748ple.109.1587450549523;
-        Mon, 20 Apr 2020 23:29:09 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id p2sm506325pgh.25.2020.04.20.23.29.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Apr 2020 23:29:09 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: Intel telemetry debugfs doesn't work
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <2f8fefde2a1fb2771c9de6d8a2cfa20e2c611824.camel@linux.intel.com>
-Date:   Tue, 21 Apr 2020 14:29:06 +0800
-Cc:     andy@infradead.org, platform-driver-x86@vger.kernel.org,
-        Anthony Wong <anthony.wong@canonical.com>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <5CBE4757-A982-436E-8050-0B43798F77EF@canonical.com>
-References: <20A25709-8BA2-4036-AB13-4DC6BB1C0E84@canonical.com>
- <2f8fefde2a1fb2771c9de6d8a2cfa20e2c611824.camel@linux.intel.com>
-To:     david.e.box@linux.intel.com
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+us8s3+TLsdGNnZMoTiZF6Ytfj6NBMCN4gguLEIxdtQ=;
+        b=jjjw4Px28PUYZfm5c5Og0qtmkM8ao7yxZgUJsPZIHfmskx563JM0jEIavuHA6STrwO
+         M7nl3mynJirzqrgUQQnq+LnmX2/IfGpeFwyGJjI83MlBD0wlR8fWnJGRaGDLh4iO9Hd8
+         VfHgJ5id5/QXmKQIHjCn4hXBuQ3UqiTvQKYFx2LeLdUYGrSeyjlD/2QaMgiQi2fENNPq
+         WVP/ixQNfpb5ADQ9T0NoZBoF3SXR1AGgHPF5em1Ln1IJvRxnCQSU2qfgYVXC6iFDk+12
+         EwHLOFyRDr0FMhGuLqfscZwFZp17oaCTngS9gyVfF/QjhDy72xBoNRrqcdiUxDNhrHeN
+         FZ7g==
+X-Gm-Message-State: AGi0PuZbJnnH7ut3N1vG3vEYUjLZ333mjhPRt+HyxHGhszg9Kp53zGyG
+        PKDg9zFqkkvKsHkf3x6eWI6ltSwXhMJqYU/kv2nGWo6nTU9jCmQdns96JHmsOnGEDIuO8noIidj
+        AwC61YaGXYRbGQutu03rrGicp/pAHUnnPOg==
+X-Received: by 2002:a5d:4b90:: with SMTP id b16mr24211691wrt.16.1587454809424;
+        Tue, 21 Apr 2020 00:40:09 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIscKJFG2sAbiYiJ0K2c8RaMl7hB9OOkoo2bRUwbF9yAD4GP4X7AKWvXg51YPHtGx3nroITVg==
+X-Received: by 2002:a5d:4b90:: with SMTP id b16mr24211675wrt.16.1587454809210;
+        Tue, 21 Apr 2020 00:40:09 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id t2sm2442383wmt.15.2020.04.21.00.40.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2020 00:40:08 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: surface3_power: i2c_acpi_new_device()
+ returns a PTR_ERR
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200420220421.171298-1-hdegoede@redhat.com>
+ <CAHp75VfC7-saRXnGDpee1dxAqDSDcveHMoC872WN9-SL4sDH4Q@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <b01d598f-f3ae-b092-3be8-07e178370289@redhat.com>
+Date:   Tue, 21 Apr 2020 09:40:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAHp75VfC7-saRXnGDpee1dxAqDSDcveHMoC872WN9-SL4sDH4Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi David,
+Hi,
 
-> On Mar 31, 2020, at 23:05, David E. Box <david.e.box@linux.intel.com> wrote:
+On 4/21/20 12:33 AM, Andy Shevchenko wrote:
+> On Tue, Apr 21, 2020 at 1:04 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> i2c_acpi_new_device() never returns NULL, it either returns an i2c_client
+>> or a PTR_ERR. Adjust the mshw0011_probe() error handling to take this
+>> into account.
+>>
+>> Note the goto out_err will cause i2c_unregister_device() to get called
+>> even though the i2c_acpi_new_device() fails, this is ok as it accepts
+>> a NULL pointer argument (and treats it as a no-op).
+>>
 > 
-> Hi Kai-Heng,
+> Thanks, I guess it repeats [1].
 > 
-> This is likely because the system you are using is missing the ACPI
-> data that exposes the IPC device used to access telemetry. To be sure,
-> file a bugzilla and add the ACPI dump and we can confirm. Thanks.
+> [1]: http://git.infradead.org/linux-platform-drivers-x86.git/commitdiff/4dbccb873f2b35ad1b26419ff88c80509e2d4cbb
 
-Filed on here:
-https://bugzilla.kernel.org/show_bug.cgi?id=207381
+I guess it does and Dan's solution for the error handling is
+claner then mine, a direct return indeed is the proper thing
+to do here.
 
-Kai-Heng
+Regards,
+
+Hans
+
+
 
 > 
-> David
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/platform/x86/surface3_power.c | 6 ++++--
+>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/surface3_power.c b/drivers/platform/x86/surface3_power.c
+>> index 946ac2dc08ae..32e6e86e27dd 100644
+>> --- a/drivers/platform/x86/surface3_power.c
+>> +++ b/drivers/platform/x86/surface3_power.c
+>> @@ -522,8 +522,10 @@ static int mshw0011_probe(struct i2c_client *client)
+>>          strlcpy(board_info.type, "MSHW0011-bat0", I2C_NAME_SIZE);
+>>
+>>          bat0 = i2c_acpi_new_device(dev, 1, &board_info);
+>> -       if (!bat0)
+>> -               return -ENOMEM;
+>> +       if (IS_ERR(bat0)) {
+>> +               error = PTR_ERR(bat0);
+>> +               goto out_err;
+>> +       }
+>>
+>>          data->bat0 = bat0;
+>>          i2c_set_clientdata(bat0, data);
+>> --
+>> 2.26.0
+>>
 > 
-> On Mon, 2020-03-09 at 21:35 +0800, Kai-Heng Feng wrote:
->> Hi,
->> 
->> I am trying to find a way to make a Gemini Lake system successfully
->> use intel_telemetry_debugfs.
->> 
->> However, telemetry_pltconfig_valid() in telemetry_debugfs_init()
->> never succeeds.
->> This is due to telemetry_pltdrv_probe() never gets called, so
->> telemetry_set_pltdata() has never set the pltconfig.
->> 
->> I am not sure why the module gets loaded but probe was never called,
->> so I wonder if you guys know how to make this work.
->> 
->> Kai-Heng
->> 
 > 
 
