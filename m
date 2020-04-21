@@ -2,222 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97C221B276D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 15:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11EB51B27DC
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 15:28:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728621AbgDUNS1 (ORCPT
+        id S1728963AbgDUN2f (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Apr 2020 09:18:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23816 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728337AbgDUNSU (ORCPT
+        Tue, 21 Apr 2020 09:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726018AbgDUN2e (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Apr 2020 09:18:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587475098;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=g7gI8fb6o6LKlf8vISbpJtZJf7jBBUPaOiqBddbrn1E=;
-        b=FZSd0Tfwup2GpS49a2qMUt9WRIQB+Ter7YwrwFMFhyka0Cj+K3XlbGxWZi3RaMLQpmUaRR
-        lCv3CqXF/i6VK0/geW8MvxHprfm+RZQo3gloJn/BTwYoe+0ea5QKmgzd5HMVS31wTMmkp/
-        dutgrvLanAB3785Zb6aVDC3mdOhbbUQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-petfwoXSNaCcjEwcg_Zu8w-1; Tue, 21 Apr 2020 09:18:16 -0400
-X-MC-Unique: petfwoXSNaCcjEwcg_Zu8w-1
-Received: by mail-wm1-f72.google.com with SMTP id l21so1441591wmh.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Apr 2020 06:18:16 -0700 (PDT)
+        Tue, 21 Apr 2020 09:28:34 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBF0C061A10;
+        Tue, 21 Apr 2020 06:28:33 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id 198so11110315lfo.7;
+        Tue, 21 Apr 2020 06:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m5IiTDdrbkE9OR5+DqrufYZRnxfemrBHiYAfzecnoI4=;
+        b=ek4p947VDqjQtX8mFIF7M+1uEsSchF/XhSZKGaPGycVv83n5C6k7cD9woxhjF8EWZo
+         F8EnmjXVysB9JQcjD+yfQy8qvwLtl9nxg2pAHFW6l2BXFJkmtY+wE94OQCuEctDI7Lbb
+         Mht3uqgCqV4alfhhxLU+BYdI9dN8g16WFlTfDKgTyUpcyZvDnt3vfz/LZ6Tw7gZvV6MW
+         74g2jNgMuzS2lnE+v+zx3+Fp5Ys0dWIPfVlFh60rMEoutZIwDZu1JBuYw35NhtjOVwFz
+         4cwjqamBoRLCpyU9oGOxd2rgla4bho3tSZwvW+aoxsmAmu8c+vHymAdqeALXxO1u885S
+         +Udg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=g7gI8fb6o6LKlf8vISbpJtZJf7jBBUPaOiqBddbrn1E=;
-        b=LrVWSz6sKbHaxq1Cbsl8I556P3a/kUn+Rs/WNnWXj8YbLWKE+Be5rrH1tMz5Mi7ftz
-         sqLaGUueK/H5iQRenhURs9vzg3bODNOtm9w9hP8ijT5m7aNlEzowFXzZmGTjS2kS1joT
-         rzq7hNwWxK4q9j6CPpht1K/iDEW3+x6bEFKALT8NB71E2zSU2R08huQD9+27fgV1SEua
-         35Jr5AIPAvN56OpexLEncJDyKxWPKOITYiQ2HPvUwtPJhtKIBsAWEKZmjbYIndE/Czet
-         lgcVlPqgabDXpBRxaJHGph52/S6puOFkZnS1zRDdOWXoMV1bmrOkPlW/GDhTW5/DAUS5
-         6vnQ==
-X-Gm-Message-State: AGi0PuYzXzGEuhZFiP2eBlnVkcjZvutZv5Z6KhAOJJR6uy1NHjYYYZC7
-        zQQM1MV7D727j73ielw8+l61j3agfWkDiotRUPGloK69VP2sasKI3jvPcpT6EgPH9dmkUcJb1f6
-        BB40eNHWGePj0fnXo1f33hsdjhRRwao0yBQ==
-X-Received: by 2002:a1c:32c7:: with SMTP id y190mr5179327wmy.13.1587475095510;
-        Tue, 21 Apr 2020 06:18:15 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJOo/12F9ol8UfBE3egEGUQetFBzPEkWc2rpUqQFmDVtIeQhiFoZGNO+C0Ad/Gn0F+CkJNmwQ==
-X-Received: by 2002:a1c:32c7:: with SMTP id y190mr5179300wmy.13.1587475095124;
-        Tue, 21 Apr 2020 06:18:15 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id s30sm3800805wrb.67.2020.04.21.06.18.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2020 06:18:14 -0700 (PDT)
-Subject: Re: [PATCH v2] platform/x86: intel_int0002_vgpio: Only bind to the
- INT0002 dev when using s2idle
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maxim Mikityanskiy <maxtram95@gmail.com>,
-        "5 . 3+" <stable@vger.kernel.org>
-References: <20200414131953.131533-1-hdegoede@redhat.com>
- <4380034.KJPSqyn9gG@kreacher>
- <a9c4b315-2784-fe59-1236-3e3bf391fd4c@redhat.com>
- <15138701.54mejVaKjr@kreacher>
- <6e85613c-e129-831a-bbe8-9f0c4f9fadad@redhat.com>
-Message-ID: <9683ad9e-5969-5f22-74cb-fed232437b35@redhat.com>
-Date:   Tue, 21 Apr 2020 15:18:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        bh=m5IiTDdrbkE9OR5+DqrufYZRnxfemrBHiYAfzecnoI4=;
+        b=BawimcRV+qLN2HOJRu9704tXRZCVDL+TgtSP2t9vQfQAcvNOvFFn975GqWPbmNnQqO
+         oVZlk8il3FHMXfaIZgOv08gGvQlpBtASeset+D2vOoUueVZx2UfuYk7cwwXLY/gYp4/0
+         /1o9nGokBsTT51aT+2N3VC8+KruGIl9OCJVIv6/3EjLFLRasJ9NXiryUKuWVP6chDd02
+         1FpwOtIQqnSdJTKC0hFGgApH2EZz4GZdSVj2ADCsLdb5ABUfMoLkf/dzoiEbeOvU+vEe
+         55S84aQGlti/AahS6OlY7+px13vmRQhbxdLFK/xGGWM4a7cEAmGvfAgnL1jRWz2ZIXKz
+         MwaQ==
+X-Gm-Message-State: AGi0PubbPVRU+PReT9KjmTvtXS4okzf3OLv8QvlNWSOQVmLSonFrCKl9
+        85C2RrGpbkJ3p5UcAUmv7WQ=
+X-Google-Smtp-Source: APiQypJjeiEmuhW67Qp70lMvNMTgUlCDBIWS6hcZYvFqMWc/jML3f+FEtJR6/uijXU3lp8U9obme9A==
+X-Received: by 2002:a19:e04a:: with SMTP id g10mr13628554lfj.164.1587475712511;
+        Tue, 21 Apr 2020 06:28:32 -0700 (PDT)
+Received: from localhost.localdomain ([77.239.252.167])
+        by smtp.googlemail.com with ESMTPSA id i20sm2297150lfe.15.2020.04.21.06.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2020 06:28:31 -0700 (PDT)
+From:   Maksim Karasev <karasevm98@gmail.com>
+Cc:     hdegoede@redhat.com, dvhart@infradead.org, andy@infradead.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Maksim Karasev <karasevm98@gmail.com>
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the ONDA V891 v5 tablet
+Date:   Tue, 21 Apr 2020 16:25:48 +0300
+Message-Id: <20200421132548.5627-1-karasevm98@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <6e85613c-e129-831a-bbe8-9f0c4f9fadad@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Add touchscreen info for the ONDA V891 v5 tablet.
 
-On 4/16/20 11:00 AM, Hans de Goede wrote:
-> Hi,
-> 
-> On 4/15/20 11:34 PM, Rafael J. Wysocki wrote:
->> On Wednesday, April 15, 2020 11:48:20 AM CEST Hans de Goede wrote:
->>> Hi,
->>>
->>> On 4/15/20 11:45 AM, Rafael J. Wysocki wrote:
->>>> On Tuesday, April 14, 2020 3:19:53 PM CEST Hans de Goede wrote:
->>>>> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
->>>>> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
->>>>> the parents IRQ because this was breaking suspend (causing immediate
->>>>> wakeups) on an Asus E202SA.
->>>>>
->>>>> This workaround for this issue is mostly fine, on most Cherry Trail
->>>>> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
->>>>> the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
->>>>> anyways.
->>>>>
->>>>> But not on all devices, specifically on a Medion Akoya E1239T there is
->>>>> no SCI at all, and because the irq_set_wake request is not passed on to
->>>>> the parent IRQ, wake up by the builtin USB kbd does not work here.
->>>>>
->>>>> So the workaround for the Asus E202SA immediate wake problem is causing
->>>>> problems elsewhere; and in hindsight it is not the correct fix,
->>>>> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
->>>>> Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
->>>>> actually is a Braswell device.
->>>>>
->>>>> Most (all?) Braswell devices use classic S3 mode suspend rather then
->>>>> s2idle suspend and in this case directly dealing with PME events as
->>>>> the INT0002 driver does likely is not the best idea, so that this is
->>>>> causing issues is not surprising.
->>>>>
->>>>> Replace the workaround of not passing irq_set_wake requests on to the
->>>>> parents IRQ, by not binding to the INT0002 device when s2idle is not used.
->>>>> This fixes USB kbd wakeups not working on some Cherry Trail devices,
->>>>> while still avoiding mucking with the wakeup flags on the Asus E202SA
->>>>> (and other Brasswell devices).
->>>>>
->>>>> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
->>>>> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
->>>>> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement irq_set_wake on Bay Trail")
->>>>> Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
->>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>>> ---
->>>>> Changes in v2:
->>>>> - Rebase on top of 5.7-rc1
->>>>> ---
->>>>>    drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
->>>>>    1 file changed, 5 insertions(+), 13 deletions(-)
->>>>>
->>>>> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
->>>>> index 289c6655d425..30806046b664 100644
->>>>> --- a/drivers/platform/x86/intel_int0002_vgpio.c
->>>>> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
->>>>> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip = {
->>>>>        .irq_set_wake        = int0002_irq_set_wake,
->>>>>    };
->>>>> -static struct irq_chip int0002_cht_irqchip = {
->>>>> -    .name            = DRV_NAME,
->>>>> -    .irq_ack        = int0002_irq_ack,
->>>>> -    .irq_mask        = int0002_irq_mask,
->>>>> -    .irq_unmask        = int0002_irq_unmask,
->>>>> -    /*
->>>>> -     * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
->>>>> -     * and we don't want to mess with the ACPI SCI irq settings.
->>>>> -     */
->>>>> -    .flags            = IRQCHIP_SKIP_SET_WAKE,
->>>>> -};
->>>>> -
->>>>>    static const struct x86_cpu_id int0002_cpu_ids[] = {
->>>>>        X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT,    &int0002_byt_irqchip),
->>>>> -    X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,    &int0002_cht_irqchip),
->>>>> +    X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,    &int0002_byt_irqchip),
->>>>>        {}
->>>>>    };
->>>>> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pdev)
->>>>>        if (!cpu_id)
->>>>>            return -ENODEV;
->>>>> +    /* We only need to directly deal with PMEs when using s2idle */
->>>>> +    if (!pm_suspend_default_s2idle())
->>>>> +        return -ENODEV;
->>>>> +
->>>>
->>>> What if the system supports s2idle which is not the default suspend option
->>>> and then it is selected by user space (overriding the default)?
->>>
->>> This driver only binds (the cpuid check still visible above) on Bay Trail
->>> and Cherry Trail/Brasswell systems. AFAIK those never support both modes,
->>> the laptop variants of these SoCs always use S3 and the tablet versions
->>> always use s2idle.
->>
->> But this means that at least the laptop variants can use s2idle if users choose
->> that option.
-> 
-> I was under the impression that the laptop variants only supported S3,
-> butyou are right they support both.
-> 
-> Still I believe that the intent of this patch is right as is. The
-> laptop variants are much more like standard X86 devices then the
-> tablet devices.
-> 
-> E.g. they use standard HDA for audio instead of ASoC, the always use
-> the ACPI ac and battery drivers instead of needing native PMIC drivers,
-> etc.  Basically the tablet variants are a lot more like SoCs from other
-> (ARM) vendors, so they need some special handling.  I consider the
-> (undocumented, lifted from android-x86) INT0002 / special manual poking
-> of PMC GPE registers to also be part of the tablet variant special
-> sauce.
-> 
-> My intent of the pm_suspend_default_s2idle() check really is to
-> check for the tablet variant. As Maxim's regression on the laptop
-> (aka normal x86 machine) variant has shown doing the manual
-> poking there seems to be a bad idea.
-> 
-> So I guess I need to rewrite this patch to better match my original
-> intent. Does anyone have any ideas how to check it we are dealing
-> with the tablet variant ?  One option would be to see if s2idle
-> is supported, while S3 is not supported. Rafael any idea how to
-> neatly check for those conditions ?   Anyone else an idea to
-> more directly check if we are running on a tablet version ?
-> 
->> Switching over from S3 to s2idle and back needs to be supported.
-> 
-> Ack, but even for the laptop variant s2idle path I believe that
-> letting the INT0002 driver bind and poke PMC GPE registers
-> directly is a bad idea.
+Signed-off-by: Maksim Karasev <karasevm98@gmail.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Ping? I'll happily rework this patch to replace the s2idle check
-with an are we running on a tablet version of the SoC check,
-but I could use some input on how exactly to detect that we
-are running on a tablet version of the SoC.
-
-Regards,
-
-Hans
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 6ec8923dec1a..cc2a2e0a0585 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -448,6 +448,24 @@ static const struct ts_dmi_data onda_v820w_32g_data = {
+ 	.properties	= onda_v820w_32g_props,
+ };
+ 
++static const struct property_entry onda_v891_v5_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1715),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1140),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
++	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
++	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++	PROPERTY_ENTRY_STRING("firmware-name",
++			      "gsl3676-onda-v891-v5.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data onda_v891_v5_data = {
++	.acpi_name	= "MSSL1680:00",
++	.properties	= onda_v891_v5_props,
++};
++
+ static const struct property_entry onda_v891w_v1_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 46),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y",  8),
+@@ -940,6 +958,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "V820w DualOS")
+ 		},
+ 	},
++	{
++		/* ONDA V891 v5 */
++		.driver_data = (void *)&onda_v891_v5_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ONDA"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ONDA Tablet"),
++			DMI_MATCH(DMI_BIOS_VERSION, "ONDA.D869CJABNRBA06"),
++		},
++	},
+ 	{
+ 		/* ONDA V891w revision P891WBEBV1B00 aka v1 */
+ 		.driver_data = (void *)&onda_v891w_v1_data,
+-- 
+2.26.1
 
