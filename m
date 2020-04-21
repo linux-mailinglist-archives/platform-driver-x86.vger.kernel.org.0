@@ -2,106 +2,222 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27CE21B2619
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 14:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C221B276D
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Apr 2020 15:18:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728519AbgDUMch (ORCPT
+        id S1728621AbgDUNS1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Apr 2020 08:32:37 -0400
-Received: from mga02.intel.com ([134.134.136.20]:58664 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728316AbgDUMcg (ORCPT
+        Tue, 21 Apr 2020 09:18:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23816 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728337AbgDUNSU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Apr 2020 08:32:36 -0400
-IronPort-SDR: 6kP6w0kHnS33wTHrs88Mn2uHA/GBOgy1SpVU/9jyHbgrP8/wy42uGEIbFn36RkrxWSWaZ95BLu
- paVUeWUxtfvQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 05:32:35 -0700
-IronPort-SDR: jy+wsSEoEYq+z5Muv/KF4ACuE3brH1/K4JyvrvOa23Scyb8QUIAst+A/JNUtQryht3ZRRpH5Is
- WjkPYP1hDs+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,410,1580803200"; 
-   d="scan'208";a="456744301"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Apr 2020 05:32:33 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jQs4q-002Ej9-CL; Tue, 21 Apr 2020 15:32:36 +0300
-Date:   Tue, 21 Apr 2020 15:32:36 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Archana Patni <archana.patni@intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, david.e.box@intel.com,
-        srinivas.pandruvada@intel.com, subramony.sesha@intel.com,
-        divagar.mohandass@intel.com
-Subject: Re: [PATCH] platform/x86: intel_pmc_core: Change Jasper Lake S0ix
- debug reg map back to ICL
-Message-ID: <20200421123236.GI185537@smile.fi.intel.com>
-References: <1587458419-23308-1-git-send-email-archana.patni@intel.com>
+        Tue, 21 Apr 2020 09:18:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587475098;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g7gI8fb6o6LKlf8vISbpJtZJf7jBBUPaOiqBddbrn1E=;
+        b=FZSd0Tfwup2GpS49a2qMUt9WRIQB+Ter7YwrwFMFhyka0Cj+K3XlbGxWZi3RaMLQpmUaRR
+        lCv3CqXF/i6VK0/geW8MvxHprfm+RZQo3gloJn/BTwYoe+0ea5QKmgzd5HMVS31wTMmkp/
+        dutgrvLanAB3785Zb6aVDC3mdOhbbUQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-petfwoXSNaCcjEwcg_Zu8w-1; Tue, 21 Apr 2020 09:18:16 -0400
+X-MC-Unique: petfwoXSNaCcjEwcg_Zu8w-1
+Received: by mail-wm1-f72.google.com with SMTP id l21so1441591wmh.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Apr 2020 06:18:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=g7gI8fb6o6LKlf8vISbpJtZJf7jBBUPaOiqBddbrn1E=;
+        b=LrVWSz6sKbHaxq1Cbsl8I556P3a/kUn+Rs/WNnWXj8YbLWKE+Be5rrH1tMz5Mi7ftz
+         sqLaGUueK/H5iQRenhURs9vzg3bODNOtm9w9hP8ijT5m7aNlEzowFXzZmGTjS2kS1joT
+         rzq7hNwWxK4q9j6CPpht1K/iDEW3+x6bEFKALT8NB71E2zSU2R08huQD9+27fgV1SEua
+         35Jr5AIPAvN56OpexLEncJDyKxWPKOITYiQ2HPvUwtPJhtKIBsAWEKZmjbYIndE/Czet
+         lgcVlPqgabDXpBRxaJHGph52/S6puOFkZnS1zRDdOWXoMV1bmrOkPlW/GDhTW5/DAUS5
+         6vnQ==
+X-Gm-Message-State: AGi0PuYzXzGEuhZFiP2eBlnVkcjZvutZv5Z6KhAOJJR6uy1NHjYYYZC7
+        zQQM1MV7D727j73ielw8+l61j3agfWkDiotRUPGloK69VP2sasKI3jvPcpT6EgPH9dmkUcJb1f6
+        BB40eNHWGePj0fnXo1f33hsdjhRRwao0yBQ==
+X-Received: by 2002:a1c:32c7:: with SMTP id y190mr5179327wmy.13.1587475095510;
+        Tue, 21 Apr 2020 06:18:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJOo/12F9ol8UfBE3egEGUQetFBzPEkWc2rpUqQFmDVtIeQhiFoZGNO+C0Ad/Gn0F+CkJNmwQ==
+X-Received: by 2002:a1c:32c7:: with SMTP id y190mr5179300wmy.13.1587475095124;
+        Tue, 21 Apr 2020 06:18:15 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id s30sm3800805wrb.67.2020.04.21.06.18.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2020 06:18:14 -0700 (PDT)
+Subject: Re: [PATCH v2] platform/x86: intel_int0002_vgpio: Only bind to the
+ INT0002 dev when using s2idle
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        "5 . 3+" <stable@vger.kernel.org>
+References: <20200414131953.131533-1-hdegoede@redhat.com>
+ <4380034.KJPSqyn9gG@kreacher>
+ <a9c4b315-2784-fe59-1236-3e3bf391fd4c@redhat.com>
+ <15138701.54mejVaKjr@kreacher>
+ <6e85613c-e129-831a-bbe8-9f0c4f9fadad@redhat.com>
+Message-ID: <9683ad9e-5969-5f22-74cb-fed232437b35@redhat.com>
+Date:   Tue, 21 Apr 2020 15:18:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1587458419-23308-1-git-send-email-archana.patni@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <6e85613c-e129-831a-bbe8-9f0c4f9fadad@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 02:10:19PM +0530, Archana Patni wrote:
-> Jasper Lake uses Icelake PCH IPs and the S0ix debug interfaces are same as
-> Icelake. It uses SLP_S0_DBG register latch/read interface from Icelake
-> generation. It doesn't use Tiger Lake LPM debug registers. Change the
-> Jasper Lake S0ix debug interface to use the ICL reg map.
+Hi,
 
-LGTM!
-
-> Fixes: 16292bed9c ("platform/x86: intel_pmc_core: Add Atom based Jasper Lake (JSL) platform support")
-> Signed-off-by: Archana Patni <archana.patni@intel.com>
-> Acked-by: David E. Box <david.e.box@intel.com>
-> Tested-by: Divagar Mohandass <divagar.mohandass@intel.com>
-> ---
->  drivers/platform/x86/intel_pmc_core.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On 4/16/20 11:00 AM, Hans de Goede wrote:
+> Hi,
 > 
-> diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-> index d2a5d4c..a130859 100644
-> --- a/drivers/platform/x86/intel_pmc_core.c
-> +++ b/drivers/platform/x86/intel_pmc_core.c
-> @@ -255,7 +255,7 @@
->  };
->  
->  static const struct pmc_bit_map icl_pfear_map[] = {
-> -	/* Ice Lake generation onwards only */
-> +	/* Ice Lake and Jasper Lake generation onwards only */
->  	{"RES_65",		BIT(0)},
->  	{"RES_66",		BIT(1)},
->  	{"RES_67",		BIT(2)},
-> @@ -274,7 +274,7 @@
->  };
->  
->  static const struct pmc_bit_map tgl_pfear_map[] = {
-> -	/* Tiger Lake, Elkhart Lake and Jasper Lake generation onwards only */
-> +	/* Tiger Lake and Elkhart Lake generation onwards only */
->  	{"PSF9",		BIT(0)},
->  	{"RES_66",		BIT(1)},
->  	{"RES_67",		BIT(2)},
-> @@ -1156,7 +1156,7 @@ static inline void pmc_core_dbgfs_unregister(struct pmc_dev *pmcdev)
->  	X86_MATCH_INTEL_FAM6_MODEL(TIGERLAKE_L,		&tgl_reg_map),
->  	X86_MATCH_INTEL_FAM6_MODEL(TIGERLAKE,		&tgl_reg_map),
->  	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT,	&tgl_reg_map),
-> -	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_L,	&tgl_reg_map),
-> +	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_L,	&icl_reg_map),
->  	{}
->  };
->  
-> -- 
-> 1.9.1
+> On 4/15/20 11:34 PM, Rafael J. Wysocki wrote:
+>> On Wednesday, April 15, 2020 11:48:20 AM CEST Hans de Goede wrote:
+>>> Hi,
+>>>
+>>> On 4/15/20 11:45 AM, Rafael J. Wysocki wrote:
+>>>> On Tuesday, April 14, 2020 3:19:53 PM CEST Hans de Goede wrote:
+>>>>> Commit 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement
+>>>>> irq_set_wake on Bay Trail") stopped passing irq_set_wake requests on to
+>>>>> the parents IRQ because this was breaking suspend (causing immediate
+>>>>> wakeups) on an Asus E202SA.
+>>>>>
+>>>>> This workaround for this issue is mostly fine, on most Cherry Trail
+>>>>> devices where we need the INT0002 device for wakeups by e.g. USB kbds,
+>>>>> the parent IRQ is shared with the ACPI SCI and that is marked as wakeup
+>>>>> anyways.
+>>>>>
+>>>>> But not on all devices, specifically on a Medion Akoya E1239T there is
+>>>>> no SCI at all, and because the irq_set_wake request is not passed on to
+>>>>> the parent IRQ, wake up by the builtin USB kbd does not work here.
+>>>>>
+>>>>> So the workaround for the Asus E202SA immediate wake problem is causing
+>>>>> problems elsewhere; and in hindsight it is not the correct fix,
+>>>>> the Asus E202SA uses Airmont CPU cores, but this does not mean it is a
+>>>>> Cherry Trail based device, Brasswell uses Airmont CPU cores too and this
+>>>>> actually is a Braswell device.
+>>>>>
+>>>>> Most (all?) Braswell devices use classic S3 mode suspend rather then
+>>>>> s2idle suspend and in this case directly dealing with PME events as
+>>>>> the INT0002 driver does likely is not the best idea, so that this is
+>>>>> causing issues is not surprising.
+>>>>>
+>>>>> Replace the workaround of not passing irq_set_wake requests on to the
+>>>>> parents IRQ, by not binding to the INT0002 device when s2idle is not used.
+>>>>> This fixes USB kbd wakeups not working on some Cherry Trail devices,
+>>>>> while still avoiding mucking with the wakeup flags on the Asus E202SA
+>>>>> (and other Brasswell devices).
+>>>>>
+>>>>> Cc: Maxim Mikityanskiy <maxtram95@gmail.com>
+>>>>> Cc: 5.3+ <stable@vger.kernel.org> # 5.3+
+>>>>> Fixes: 871f1f2bcb01 ("platform/x86: intel_int0002_vgpio: Only implement irq_set_wake on Bay Trail")
+>>>>> Tested-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>>> ---
+>>>>> Changes in v2:
+>>>>> - Rebase on top of 5.7-rc1
+>>>>> ---
+>>>>>    drivers/platform/x86/intel_int0002_vgpio.c | 18 +++++-------------
+>>>>>    1 file changed, 5 insertions(+), 13 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/platform/x86/intel_int0002_vgpio.c b/drivers/platform/x86/intel_int0002_vgpio.c
+>>>>> index 289c6655d425..30806046b664 100644
+>>>>> --- a/drivers/platform/x86/intel_int0002_vgpio.c
+>>>>> +++ b/drivers/platform/x86/intel_int0002_vgpio.c
+>>>>> @@ -143,21 +143,9 @@ static struct irq_chip int0002_byt_irqchip = {
+>>>>>        .irq_set_wake        = int0002_irq_set_wake,
+>>>>>    };
+>>>>> -static struct irq_chip int0002_cht_irqchip = {
+>>>>> -    .name            = DRV_NAME,
+>>>>> -    .irq_ack        = int0002_irq_ack,
+>>>>> -    .irq_mask        = int0002_irq_mask,
+>>>>> -    .irq_unmask        = int0002_irq_unmask,
+>>>>> -    /*
+>>>>> -     * No set_wake, on CHT the IRQ is typically shared with the ACPI SCI
+>>>>> -     * and we don't want to mess with the ACPI SCI irq settings.
+>>>>> -     */
+>>>>> -    .flags            = IRQCHIP_SKIP_SET_WAKE,
+>>>>> -};
+>>>>> -
+>>>>>    static const struct x86_cpu_id int0002_cpu_ids[] = {
+>>>>>        X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT,    &int0002_byt_irqchip),
+>>>>> -    X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,    &int0002_cht_irqchip),
+>>>>> +    X86_MATCH_INTEL_FAM6_MODEL(ATOM_AIRMONT,    &int0002_byt_irqchip),
+>>>>>        {}
+>>>>>    };
+>>>>> @@ -181,6 +169,10 @@ static int int0002_probe(struct platform_device *pdev)
+>>>>>        if (!cpu_id)
+>>>>>            return -ENODEV;
+>>>>> +    /* We only need to directly deal with PMEs when using s2idle */
+>>>>> +    if (!pm_suspend_default_s2idle())
+>>>>> +        return -ENODEV;
+>>>>> +
+>>>>
+>>>> What if the system supports s2idle which is not the default suspend option
+>>>> and then it is selected by user space (overriding the default)?
+>>>
+>>> This driver only binds (the cpuid check still visible above) on Bay Trail
+>>> and Cherry Trail/Brasswell systems. AFAIK those never support both modes,
+>>> the laptop variants of these SoCs always use S3 and the tablet versions
+>>> always use s2idle.
+>>
+>> But this means that at least the laptop variants can use s2idle if users choose
+>> that option.
 > 
+> I was under the impression that the laptop variants only supported S3,
+> butyou are right they support both.
+> 
+> Still I believe that the intent of this patch is right as is. The
+> laptop variants are much more like standard X86 devices then the
+> tablet devices.
+> 
+> E.g. they use standard HDA for audio instead of ASoC, the always use
+> the ACPI ac and battery drivers instead of needing native PMIC drivers,
+> etc.  Basically the tablet variants are a lot more like SoCs from other
+> (ARM) vendors, so they need some special handling.  I consider the
+> (undocumented, lifted from android-x86) INT0002 / special manual poking
+> of PMC GPE registers to also be part of the tablet variant special
+> sauce.
+> 
+> My intent of the pm_suspend_default_s2idle() check really is to
+> check for the tablet variant. As Maxim's regression on the laptop
+> (aka normal x86 machine) variant has shown doing the manual
+> poking there seems to be a bad idea.
+> 
+> So I guess I need to rewrite this patch to better match my original
+> intent. Does anyone have any ideas how to check it we are dealing
+> with the tablet variant ?  One option would be to see if s2idle
+> is supported, while S3 is not supported. Rafael any idea how to
+> neatly check for those conditions ?   Anyone else an idea to
+> more directly check if we are running on a tablet version ?
+> 
+>> Switching over from S3 to s2idle and back needs to be supported.
+> 
+> Ack, but even for the laptop variant s2idle path I believe that
+> letting the INT0002 driver bind and poke PMC GPE registers
+> directly is a bad idea.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Ping? I'll happily rework this patch to replace the s2idle check
+with an are we running on a tablet version of the SoC check,
+but I could use some input on how exactly to detect that we
+are running on a tablet version of the SoC.
 
+Regards,
+
+Hans
 
