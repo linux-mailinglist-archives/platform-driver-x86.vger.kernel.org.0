@@ -2,86 +2,192 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA37A1B33EF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Apr 2020 02:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB4791B466D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Apr 2020 15:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgDVAWL (ORCPT
+        id S1726240AbgDVNmL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Apr 2020 20:22:11 -0400
-Received: from mga07.intel.com ([134.134.136.100]:1638 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbgDVAWL (ORCPT
+        Wed, 22 Apr 2020 09:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38304 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbgDVNmK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Apr 2020 20:22:11 -0400
-IronPort-SDR: t0dZwvw70O8a96s/2znUoZHIcw0rUUMG15J+lagSXsXxrqvaj33n7mfvJWndcAp7UJmzuvkbw6
- hW/85+G6/4wg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 17:22:10 -0700
-IronPort-SDR: ioLFI8Oies2tQceQHW5FhAPYccVYMPIQHLf3JYSTRcwhME9BmtM4uU0ts/eYrleZot+mcxiBVm
- K2j+PvoAXFuw==
-X-IronPort-AV: E=Sophos;i="5.72,412,1580803200"; 
-   d="scan'208";a="402360242"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.251.142.125])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 17:22:10 -0700
-Message-ID: <ec43c672a4a98729ee011f89168ec68d3d5185f5.camel@linux.intel.com>
-Subject: Re: [PATCH] intel-speed-select: Fix
- speed-select-base-freq-properties output on CLX-N
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org
-Date:   Tue, 21 Apr 2020 17:22:09 -0700
-In-Reply-To: <20200420141054.26173-1-prarit@redhat.com>
-References: <20200420141054.26173-1-prarit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        Wed, 22 Apr 2020 09:42:10 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61536C03C1A9;
+        Wed, 22 Apr 2020 06:42:10 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id ay1so961252plb.0;
+        Wed, 22 Apr 2020 06:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TIDuXbZ2U4Q/XGkKZ9RA/iT/l6pKZMhPvkvqlhOOBvM=;
+        b=uzChMeboRHPUxQ56l516/IBfyUidRU3+UY8lsTkCgKBit2KAlpFYYtZFpOx+nynLqz
+         On9GXR/hKPD8g9RxJvbaQ9Gl54zV/RNUye8IBw9ZSiRrVl8YbFxgZ823vTdJt/Eqbn+h
+         Qt7wtYTmx/ZJ/+/fh9Qvua4Ko2t+xu8ARLd5Cb5TtoGaVI8xmHZrbf557qZwCn5ykKf/
+         KAoPN1u5QN4/AosUwzcphBPNmsY1RFse76OTrasOvBMGKnyFKNBKcRRXdGSiW64qeHRb
+         JNXM4dpFIT3VOMfUm5x3/4i+hmhY9L8CZamll9DSOITEmI5Bbay4jLtccjaJsgoschjy
+         bzMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TIDuXbZ2U4Q/XGkKZ9RA/iT/l6pKZMhPvkvqlhOOBvM=;
+        b=kVizTNbauIUe75pbLYzlhI9nTAWgoNWO6lwTeRxVodfe+YSo4HTkjwnDi+Z9J4qdB8
+         k0u2REocHNdvvYmyXXZbq8vEge0UGtPOLwcfePb21b0oU0jOOSRJXhWuIdGU4A1SS/Mf
+         ErhVdSYrG0AbiwMvbtADx/DVE5ikBs5aFwrSyf2boSnNCQZ1xxxmDzkppaN9WXCvEP2/
+         TX5QJGVULENu4cIRxRzIFcU1JBuoIIijK7OAZ/YWhnhg4i2G/aZQupti5ncpjEcr+9mb
+         03/icI/K9dcpmAmG+CJuob3Q48VB7QZ/qlXUGcKmWBRYRzvkz39hMrlWSkMTugrdWyT+
+         zmYA==
+X-Gm-Message-State: AGi0PuZW94zuZEmDWL0bcJIvo9+N7+BcYeDeNbRYfzqdHUDujZKtrxAU
+        O687RNrGdWmqe+zQMjNaUndSu45GjLzvynmFmHM=
+X-Google-Smtp-Source: APiQypIhpYMQR1pywfJ3cBC+Sx23f83MTTS8W0amEFIO00K6rC8hY9Yi9SnMdufcfwG4NEBk0Xwsm2zb2vVclA641Gw=
+X-Received: by 2002:a17:90a:224b:: with SMTP id c69mr12137070pje.8.1587562929796;
+ Wed, 22 Apr 2020 06:42:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20200420194405.8281-1-jithu.joseph@intel.com> <20200420194405.8281-2-jithu.joseph@intel.com>
+In-Reply-To: <20200420194405.8281-2-jithu.joseph@intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 22 Apr 2020 16:42:03 +0300
+Message-ID: <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] platform/x86: Add Slim Bootloader firmware update
+ signaling driver
+To:     Jithu Joseph <jithu.joseph@intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
+        sean.v.kelley@intel.com, kuo-lang.tseng@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2020-04-20 at 10:10 -0400, Prarit Bhargava wrote:
-> On CLX-N, the perf-profile-level's output is terminated before the
-> speed-select-base-freq-properties are output which results in a
-> corrupt
-> json file.
-> 
-> Adjust the output of speed-select-base-freq-properties by one on CLX-
-> N.
-Applied.
+On Mon, Apr 20, 2020 at 10:50 PM Jithu Joseph <jithu.joseph@intel.com> wrote:
+>
+> Slim Bootloader(SBL) [1] is a small open-source boot firmware,
+> designed for running on certain Intel platforms. SBL can be
+> thought-of as fulfilling the role of a minimal BIOS
+> implementation, i.e initializing the hardware and booting
+> Operating System.
+>
+> Since SBL is not UEFI compliant, firmware update cannot be triggered
+> using standard UEFI runtime services. Further considering performance
+> impact, SBL doesn't look for a firmware update image on every reset
+> and does so only when firmware update signal is asserted.
+>
+> SBL exposes an ACPI-WMI device which comes up in sysfs as
+> /sys/bus/wmi/44FADEB1xxx and this driver adds a
+> "firmware_update_request" device attribute. This attribute normally
+> has a value of 0 and userspace can signal SBL to update firmware,
+> on next reboot, by writing a value of 1:
+>
+> echo 1 > /sys/bus/wmi/devices/44FADEB1-B204-40F2-8581-394BBDC1B651/firmware_update_request
+>
+> This driver only implements a signaling mechanism, the actual firmware
+> update process and various details like firmware update image format,
+> firmware image location etc are defined by SBL [2] and are not in the
+> scope of this driver.
 
-Thanks,
-Srinivas
+I have noticed that it misses ABI documentation. So, please add. Also
+some comments below.
 
-> 
-> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: platform-driver-x86@vger.kernel.org
-> ---
->  tools/power/x86/intel-speed-select/isst-display.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/power/x86/intel-speed-select/isst-display.c
-> b/tools/power/x86/intel-speed-select/isst-display.c
-> index 51dbaa5f02ec..f6e2ce181123 100644
-> --- a/tools/power/x86/intel-speed-select/isst-display.c
-> +++ b/tools/power/x86/intel-speed-select/isst-display.c
-> @@ -470,7 +470,7 @@ void isst_ctdp_display_information(int cpu, FILE
-> *outf, int tdp_level,
->  				_isst_pbf_display_information(cpu,
-> outf,
->  							      tdp_level
-> ,
->  							  &ctdp_level-
-> >pbf_info,
-> -							      level +
-> 1);
-> +							      level +
-> 2);
->  			continue;
->  		}
->  
+...
 
+> [1] https://slimbootloader.github.io
+> [2] https://slimbootloader.github.io/security/firmware-update.html
+
+Can you add a DocLink: tag below for the reference to the official
+documentation?
+
+...
+
+> +SLIM BOOTLOADER (SBL) FIRMWARE UPDATE WMI DRIVER
+> +M:     Jithu Joseph <jithu.joseph@intel.com>
+> +R:     Maurice Ma <maurice.ma@intel.com>
+> +S:     Maintained
+> +W:     https://slimbootloader.github.io/security/firmware-update.html
+> +F:     drivers/platform/x86/sbl_fwu_wmi.c
+
+I hope you run latest and greatest version of checkpatch.pl and it's
+okay with this section.
+
+...
+
+> @@ -114,6 +114,16 @@ config XIAOMI_WMI
+>           To compile this driver as a module, choose M here: the module will
+>           be called xiaomi-wmi.
+>
+> +config SBL_FWU_WMI
+> +       tristate "WMI driver for Slim Bootloader firmware update signaling"
+> +       depends on ACPI_WMI
+> +       help
+> +         Say Y here if you want to be able to use the WMI interface to signal
+> +         Slim Bootloader to trigger update on next reboot.
+> +
+> +         To compile this driver as a module, choose M here: the module will
+> +         be called sbl-fwu-wmi.
+
+> @@ -15,6 +15,7 @@ obj-$(CONFIG_INTEL_WMI_THUNDERBOLT)   += intel-wmi-thunderbolt.o
+>  obj-$(CONFIG_MXM_WMI)                  += mxm-wmi.o
+>  obj-$(CONFIG_PEAQ_WMI)                 += peaq-wmi.o
+>  obj-$(CONFIG_XIAOMI_WMI)               += xiaomi-wmi.o
+> +obj-$(CONFIG_SBL_FWU_WMI)              += sbl_fwu_wmi.o
+
+I didn't get an ordering schema in above files.
+Shouldn't be rather alphasort?
+
+...
+
+> +static ssize_t firmware_update_request_store(struct device *dev,
+> +                                            struct device_attribute *attr,
+> +                                            const char *buf, size_t count)
+> +{
+> +       bool val;
+> +       int ret;
+> +
+> +       ret = kstrtobool(buf, &val);
+> +       if (ret)
+> +               return ret;
+> +
+
+> +       ret = set_fwu_request(dev, val ? 1 : 0);
+
+Hmm... If you are going to extend this, why not to pass integer
+directly? (And thus take one from user)
+
+> +       if (ret)
+> +               return ret;
+> +
+> +       return count;
+> +}
+
+> +
+
+Extra blank line.
+
+> +static DEVICE_ATTR_RW(firmware_update_request);
+> +
+> +static struct attribute *firmware_update_attrs[] = {
+> +       &dev_attr_firmware_update_request.attr,
+> +       NULL
+> +};
+
+> +
+
+Extra blank line.
+
+> +ATTRIBUTE_GROUPS(firmware_update);
+
+...
+
+> +MODULE_DEVICE_TABLE(wmi, sbl_fwu_wmi_id_table);
+
+Move it closer to the table structure.
+
+-- 
+With Best Regards,
+Andy Shevchenko
