@@ -2,171 +2,108 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8AC11B524A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 04:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 071231B590A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 12:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbgDWCIk (ORCPT
+        id S1726420AbgDWKVa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Apr 2020 22:08:40 -0400
-Received: from mga14.intel.com ([192.55.52.115]:61411 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725781AbgDWCIk (ORCPT
+        Thu, 23 Apr 2020 06:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725854AbgDWKVO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Apr 2020 22:08:40 -0400
-IronPort-SDR: sBqXayEWg52F/pFDSKUPQU96zpZzbNqqk93B3C6tWHbhq+/9J/ftyQsgUNSUbyfzoDYeKEVCNW
- nuGw/n8ZgQUg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 19:08:40 -0700
-IronPort-SDR: dW+7VQ4x7y7AnryNYI928QMWa+IOoOhxCpxCXaekQfalHh+BhiXW4m3BH5Fi7otb06liJKPxrc
- P+ythg9ZNHUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,305,1583222400"; 
-   d="scan'208";a="402756503"
-Received: from coffy.sc.intel.com ([10.3.79.166])
-  by orsmga004.jf.intel.com with ESMTP; 22 Apr 2020 19:08:39 -0700
-Message-ID: <ac04f1aa46234496fc88354add386da725d883ab.camel@intel.com>
+        Thu, 23 Apr 2020 06:21:14 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB641C035493;
+        Thu, 23 Apr 2020 03:21:13 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id v2so2171398plp.9;
+        Thu, 23 Apr 2020 03:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=jJtnFW/MJ1nCflksmUkvWZ3WflwQQKwodxCjPDupG9g=;
+        b=SL+MA9BTwa7HX9cUn2j5xDITP997LDN3HbD/qjO86/wv5xpXkNgbmjFZ8WZi9YTx78
+         qgwmKScnBS+z5QiqP+VTwClgd3H2WwlvQUYePUMJZ5mA++HZrfBJzy1PN3lj/8ZLv5Dx
+         IUqdoiAe3EHaIkzmnStrXgVjYV5KfhUQkyMzqiLGbki355Ax1z3SfsoqJT6THn7dg1P/
+         FEUQZS4Pj2589j2HQnosfG6I0ScwYJYUta04/XZoy5MVEk2weROYwGqByZ8a0aSCwwVz
+         m7We8Z4UOStTP0Qd07pXUSee+CfoTI0kk6CSoKBkTPPJVhcNf7u/oOt77R3oj2hW8CGI
+         XCzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jJtnFW/MJ1nCflksmUkvWZ3WflwQQKwodxCjPDupG9g=;
+        b=mxF7wbJYyd6SZrHzSkVvzbyudda36n0j71Eo6dqjqFNj+1QSain8Y7iJW22DUnF+8U
+         HbzPiXVIiwxDYbRRp6v1cqrKkQTwtT9L28wohwnKTd2XBN9YBXCMhIA7K3tlmlmcRJZ6
+         GBM65gEXpvokM5Pc+58HWahTsxYC7qpjD/Bd3FwQE1mU4vmybsctVQnUiWIACxBig6uh
+         TVWSbL9SI9h+g9BlEOw9KbSAaifOfkfhD/6HHI4A7JTUAMjgsuj1wRwPquWWxoV/DPRb
+         q1SNhNPGCKqm7g0UQGTLWsMKwTKzuXyOB9y2hHoEzygiZM/RJiOi+DtwI7STBgxA7LFT
+         OkCg==
+X-Gm-Message-State: AGi0PubwVkdTdXXnylKZ+46XxuBP9mmbGFzYbAev4vCNmFPGdnKuBWjZ
+        OPBr6eNQLMvddLX/RFJ6GTjMUKdC/JnhXmFsFyc=
+X-Google-Smtp-Source: APiQypI72YMXj/eLWFT07xzy8FGvE30CVwUIO/B8ZXXxdfzcDMRlffRZbIssKJ42cgrlohzeba429xetnxfkBq9KMVA=
+X-Received: by 2002:a17:902:9306:: with SMTP id bc6mr3049629plb.255.1587637273301;
+ Thu, 23 Apr 2020 03:21:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200420194405.8281-1-jithu.joseph@intel.com> <20200420194405.8281-2-jithu.joseph@intel.com>
+ <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com> <ac04f1aa46234496fc88354add386da725d883ab.camel@intel.com>
+In-Reply-To: <ac04f1aa46234496fc88354add386da725d883ab.camel@intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 23 Apr 2020 13:21:06 +0300
+Message-ID: <CAHp75VfqWkAEk3deJmjBzeinmJY3MXTWVxO4FdBWyxcY8oXtAQ@mail.gmail.com>
 Subject: Re: [PATCH 1/1] platform/x86: Add Slim Bootloader firmware update
  signaling driver
-From:   Jithu Joseph <jithu.joseph@intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Jithu Joseph <jithu.joseph@intel.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
-        sean.v.kelley@intel.com, kuo-lang.tseng@intel.com,
-        jithu.joseph@intel.com
-Date:   Wed, 22 Apr 2020 19:02:42 -0700
-In-Reply-To: <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com>
-References: <20200420194405.8281-1-jithu.joseph@intel.com>
-         <20200420194405.8281-2-jithu.joseph@intel.com>
-         <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com>
+        sean.v.kelley@intel.com, kuo-lang.tseng@intel.com
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Andy,
+On Thu, Apr 23, 2020 at 5:08 AM Jithu Joseph <jithu.joseph@intel.com> wrote=
+:
 
-Appreciate your valuable feedback. I think I understood most of your
-comments but I need clarification regarding the last comment in this
-reply.
+...
 
-On Wed, 2020-04-22 at 16:42 +0300, Andy Shevchenko wrote:
-> On Mon, Apr 20, 2020 at 10:50 PM Jithu Joseph <jithu.joseph@intel.com
-> > wrote:
-> > 
-> > 
-> > This driver only implements a signaling mechanism, the actual
-> > firmware
-> > update process and various details like firmware update image
-> > format,
-> > firmware image location etc are defined by SBL [2] and are not in
-> > the
-> > scope of this driver.
-> 
-> I have noticed that it misses ABI documentation. So, please add. Also
-> some comments below.
+> > > +static ssize_t firmware_update_request_store(struct device *dev,
+> > > +                                            struct
+> > > device_attribute *attr,
+> > > +                                            const char *buf,
+> > > size_t count)
+> > > +{
+> > > +       bool val;
+> > > +       int ret;
+> > > +
+> > > +       ret =3D kstrtobool(buf, &val);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       ret =3D set_fwu_request(dev, val ? 1 : 0);
+> >
+> > Hmm... If you are going to extend this, why not to pass integer
+> > directly? (And thus take one from user)
+>
+> We have also been thinking about  extensibility =E2=80=A6
+>
+> So I will modify the code to allow any u32 input by the user  to be
+> passed down via wmi_set_block(), though 0 and 1 will be the only
+> inputs  documented  in the ABI today.( Or did you still mean  to error
+> out if the user input is something other than 0 or 1 ?)
 
-I will add one via a new Documentation/ABI/testing/sysfs-platform-sbl-
-fwu-wmi file
+I think the best approach is to allow to parse integer input
+(kstrtouint() is good enough) and return -ERANGE for values > 1. Also
+put a comment before that check why is done like this (some
+justification that interface may be extended in the future or so), and
+pass integer value directly to set_fwu_request().
 
-> 
-> ...
-> 
-> > [1] https://slimbootloader.github.io
-> > [2] https://slimbootloader.github.io/security/firmware-update.html
-> 
-> Can you add a DocLink: tag below for the reference to the official
-> documentation?
-
-I wasnt aware of this tag. Will add this.
-
-> 
-> ...
-> 
-> > +SLIM BOOTLOADER (SBL) FIRMWARE UPDATE WMI DRIVER
-> > +M:     Jithu Joseph <jithu.joseph@intel.com>
-> > +R:     Maurice Ma <maurice.ma@intel.com>
-> > +S:     Maintained
-> > +W:     
-> > https://slimbootloader.github.io/security/firmware-update.html
-> > +F:     drivers/platform/x86/sbl_fwu_wmi.c
-> 
-> I hope you run latest and greatest version of checkpatch.pl and it's
-> okay with this section.
-
-Yes it was fine, chekpatch.pl was merely asking to update the
-MAINTAINERS file. And the ordering of the section matches with that of
-parse-maintainers.pl
-
-> 
-> ...
-> 
-> > @@ -114,6 +114,16 @@ config XIAOMI_WMI
-> >           To compile this driver as a module, choose M here: the
-> > module will
-> >           be called xiaomi-wmi.
-> > 
-> > +config SBL_FWU_WMI
-> > +       tristate "WMI driver for Slim Bootloader firmware update
-> > signaling"
-> > +       depends on ACPI_WMI
-> > +       help
-> > +         Say Y here if you want to be able to use the WMI
-> > interface to signal
-> > +         Slim Bootloader to trigger update on next reboot.
-> > +
-> > +         To compile this driver as a module, choose M here: the
-> > module will
-> > +         be called sbl-fwu-wmi.
-> > @@ -15,6 +15,7 @@ obj-$(CONFIG_INTEL_WMI_THUNDERBOLT)   += intel-
-> > wmi-thunderbolt.o
-> >  obj-$(CONFIG_MXM_WMI)                  += mxm-wmi.o
-> >  obj-$(CONFIG_PEAQ_WMI)                 += peaq-wmi.o
-> >  obj-$(CONFIG_XIAOMI_WMI)               += xiaomi-wmi.o
-> > +obj-$(CONFIG_SBL_FWU_WMI)              += sbl_fwu_wmi.o
-> 
-> I didn't get an ordering schema in above files.
-> Shouldn't be rather alphasort?
-
-Looks like there is an ordering within the wmi related files, so I will
-move mine in between PEAQ_WMI and XIAOMI_WMI .
-
-> 
-> ...
-> 
-> > +static ssize_t firmware_update_request_store(struct device *dev,
-> > +                                            struct
-> > device_attribute *attr,
-> > +                                            const char *buf,
-> > size_t count)
-> > +{
-> > +       bool val;
-> > +       int ret;
-> > +
-> > +       ret = kstrtobool(buf, &val);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       ret = set_fwu_request(dev, val ? 1 : 0);
-> 
-> Hmm... If you are going to extend this, why not to pass integer
-> directly? (And thus take one from user)
-
-We have also been thinking about  extensibility …
-
-So I will modify the code to allow any u32 input by the user  to be
-passed down via wmi_set_block(), though 0 and 1 will be the only
-inputs  documented  in the ABI today.( Or did you still mean  to error
-out if the user input is something other than 0 or 1 ?)
-
-Thanks
-Jithu
-
+--=20
+With Best Regards,
+Andy Shevchenko
