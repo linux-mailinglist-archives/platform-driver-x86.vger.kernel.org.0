@@ -2,53 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B4451B6158
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 18:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F18AC1B6157
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 18:55:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729757AbgDWQzH (ORCPT
+        id S1729687AbgDWQzF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Apr 2020 12:55:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38412 "EHLO
+        Thu, 23 Apr 2020 12:55:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729685AbgDWQzG (ORCPT
+        with ESMTP id S1729685AbgDWQzE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Apr 2020 12:55:06 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A208CC09B042
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 09:55:06 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t40so2752162pjb.3
-        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 09:55:06 -0700 (PDT)
+        Thu, 23 Apr 2020 12:55:04 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2257C09B042
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 09:55:04 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id x26so3163768pgc.10
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 09:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=P9YF2t0kIlCz7NBMKBCJWsyoVOkVah3E6+qynGVS3ag=;
-        b=YRCsweH0fhYnFbIEUMoPpdcHBYsWmKHHCwUbQ+rhSE5sosb4iyG9Rm1Zyt5uZFxicQ
-         /dQUGAwI/VV0m0UebDGkCQSfDN1jAEneCnt4dKBVYMnIXYzeEUdTB5XcZFUsUFG3zHmU
-         4keOMsOHo8fIqRcVZKQw7+68nwpoN3Rm8KHiUxt/wYgdlzhnTwyCtwjGtvi6UM3/2E9/
-         ksIA8lR6idwMq2vvq1iYvFpbKMkttKAx6ul0SbneoRPwhGGzY7nvERqpCjOAAwqUcFvH
-         2B/b6hqMIZgR1alMNs/9lFUb5R7WWfnq+jZ5VCRofykhGkuwmTv5m7OJiMO84GriV31T
-         DDZA==
+        b=D89F+RB17cojEuA6zy+48l7sxuGBR+XrV16rIHlVGpb2yGK4jNgz2+fjZh2/JiKbIO
+         tMMGW6k9Gkg1cH9Ktrd3fW0i0CG0N2A4xBGtM6B5xANA2GjcHdHGXg1a5h6hIKQmhs+3
+         RAsPOhNPNOUgnFk6fS6dF03fTYFbwIWYZBpl0Zu7PippRassqIT3xcKoHRsIFOuHoYHW
+         zmFvUuHElDiiY271PUIV2vGjhax1mCahe8LlOPEKhx7vhJ0x/RR5IUUzLs3YX7BOMR9C
+         5/jwa0f7tzIiTzblxPKb14AfnOtq4Yh31BUhRvOusUBP3cI92NUbA0iSczvCXrSnUBPY
+         QE5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
         bh=P9YF2t0kIlCz7NBMKBCJWsyoVOkVah3E6+qynGVS3ag=;
-        b=A777DWZeIjx6YJX2dIuDQkaPKSIIXXNlv4mNw6kXE+Ompv0sfv94NSl9GSNmtB14ts
-         sQvR4myxyG1l21JtSu/7VRSzHemVFNrzkwEdK9gcc6glrPOr0aCslPTEuxoC+B119cqI
-         v7BNqXWwLDuj5Q/y9gWMKcszj3trIxDlgCB0TQt0zyFxoCEFHmdy4ZQSeYzRulBdrUTr
-         p1sBEDHN061I+Chqaubvxz0g178RTNidkuus/69zPAmYxZnER5SZlwdyuWFNY7uOERCb
-         tbakNVin7U04iHMhn8j/e0lEfgoOjC0uD9cq35v/ptWPrtD9URlMbz3wvBGxO7h60/V7
-         yyjg==
-X-Gm-Message-State: AGi0PuaOOI495cHcVhduxwAS3kAWOAkBBw7CtCBXwmL5KlEdEkDtmrEf
-        CWHxuf5JHkqYbXdzADxH5knsfVztqr52qw==
-X-Google-Smtp-Source: APiQypLT7HvI39XkWltwiHo1tumJ85/DgS/0haPciHKkjx/QNiQKe5wkDrC4Pj9IXEx6a7mfEGoHfA==
-X-Received: by 2002:a17:902:6b07:: with SMTP id o7mr4449179plk.141.1587660906134;
-        Thu, 23 Apr 2020 09:55:06 -0700 (PDT)
+        b=EPlEYoNsdfJVtHmtOIuEWRNZUDHPPS4LpP8FpJiylL0mFQfEjmclqnrd7XqUT8nolT
+         6AdNXEgebGzDf6j0hk76bFGjjXz6lFHZ7R1zgPhMlt3U6xUJuvvHwAPe9I+SABdFAHBZ
+         QXggOILeYw+arY8pklW6QoecKI9ZxRVtiA0uCvBBenC1Z8Dj2vbCXdJTbRXZqAsdlTls
+         mKiI/CNeOB4esAZgIRY4ufm0wdyvCFPAM2MdnTO5pG3WZLcitbJyXLw0/w4zglCvhq2x
+         oYkF/+Q4TDRAMcWIDtxoCXF5mtDC9Drch2KW5h4/Nt3jtIKYve7101EUNi9n/C8FWWf6
+         eTjw==
+X-Gm-Message-State: AGi0PuZKv6/sJwvchox9+hYq8fUMcJXNYEspjUhytXJOHWpgGIhRJXpe
+        cch/9SouN/60jqWz8oJLC3aP8RFXTWINcw==
+X-Google-Smtp-Source: APiQypKHcRCAiPRIQanT0GTU65qKX/vzRs83GmtD5mujomEYDRNXqNOsr9rn2ayCmzqF7ncuqjXl0A==
+X-Received: by 2002:a63:1160:: with SMTP id 32mr4683412pgr.441.1587660904121;
+        Thu, 23 Apr 2020 09:55:04 -0700 (PDT)
 Received: from think ([2601:648:8200:13:3a44:3696:7ccb:e317])
-        by smtp.gmail.com with ESMTPSA id o21sm2524502pgk.16.2020.04.23.09.55.05
+        by smtp.gmail.com with ESMTPSA id z5sm3031929pfn.142.2020.04.23.09.55.02
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 23 Apr 2020 09:55:05 -0700 (PDT)
+        Thu, 23 Apr 2020 09:55:03 -0700 (PDT)
 From:   Lars <larsh@apache.org>
 To:     ibm-acpi@hmh.eng.br
 Cc:     ibm-acpi-devel@lists.sourceforge.net,
@@ -56,8 +56,8 @@ Cc:     ibm-acpi-devel@lists.sourceforge.net,
         bastidoerner@gmail.com, nanodario@gmail.com, sassmann@kpanic.de,
         agk@godking.net, arc@osknowledge.org, Lars <larsh@apache.org>
 Subject: [PATCH v3] thinkpad_acpi: Add support for dual fan control on select models
-Date:   Thu, 23 Apr 2020 09:52:38 -0700
-Message-Id: <20200423165238.54109-1-larsh@apache.org>
+Date:   Thu, 23 Apr 2020 09:54:57 -0700
+Message-Id: <20200423165457.54388-1-larsh@apache.org>
 X-Mailer: git-send-email 2.25.3
 In-Reply-To: <20200417194344.22597-1-larsh@apache.org>
 References: <20200417194344.22597-1-larsh@apache.org>
