@@ -2,110 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D71A1B6165
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 18:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DD461B6454
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 21:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729800AbgDWQ5Z (ORCPT
+        id S1726414AbgDWTPf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 23 Apr 2020 12:57:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38766 "EHLO
+        Thu, 23 Apr 2020 15:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729783AbgDWQ5Y (ORCPT
+        with ESMTP id S1726068AbgDWTPf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 23 Apr 2020 12:57:24 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C27F0C09B042;
-        Thu, 23 Apr 2020 09:57:24 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 75D292A2810
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-pm@vger.kernel.org
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Barlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH v3 2/2] thermal: core: Stop polling DISABLED thermal devices
-Date:   Thu, 23 Apr 2020 18:57:05 +0200
-Message-Id: <20200423165705.13585-3-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200423165705.13585-1-andrzej.p@collabora.com>
-References: <a3998ad2-19bc-0893-a10d-2bb5adf7d99f@samsung.com>
- <20200423165705.13585-1-andrzej.p@collabora.com>
+        Thu, 23 Apr 2020 15:15:35 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CCBC09B042
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 12:15:35 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id s63so7673211qke.4
+        for <platform-driver-x86@vger.kernel.org>; Thu, 23 Apr 2020 12:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=33GnHE2O0lCXN06/54C4b9ZVss6DL7yigSuHB3GMXJE=;
+        b=XG8W3s0fW+MLlCOCJO+L+q/7THt2BNktI7O77C2op/Qbvd5WOIwkbuE/705RZrTi6B
+         28eZHW5MnlNjglOuQ4/q1K1ML9nRWr/kbsBZVBQNl5MY4Lnj8bm9i2trXSSvg4mNoJtm
+         S/itk+WVoobotgCbuYfJCRpFEEeW5sX69HjG/W4fPJSbiWJDJjHKKw4euw7Sku7SyA/K
+         YpcyHGWYicwuS5rYclYERiTZ+l1iZjXZbMsNDtMBYs7RksBcPQ3hLPh/1IFB0nofQEeL
+         uGHuMr//mhvWddC+Ew7I/oifH27xHRcf3wxfD73K6uE40xW1RDVwOI+1KaOGwlXI36dJ
+         T1uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=33GnHE2O0lCXN06/54C4b9ZVss6DL7yigSuHB3GMXJE=;
+        b=fwC076h2mzsqhiErvsIP3yTp6keijxYyxUwDU3CERnrYAdiNGLo2vQOgL/rAfxv+67
+         tdrotqfWMqzlHuVQa2aQ3NDPtyJFydOCIYfI39Nbyj/LVdqBGCJsPWDWHWj6Qa39P563
+         VJt6CPKUURU7FX8qHOamUUUXVTocDIAVWX6ZBj20Fvx+1+1jtPvMQIZhyoaSyzoFLGhE
+         Gy8aVJglU1tILMjSx1KpLnlMKx34/YaxrTWxUKombZbLYTH0o4XofYEgtpTGGMM/6nMn
+         x2oL+AEVgUFY9ugVLgAkdrD3Q7NSMq/EmadqbyD9VPrqqi4//nWQJO5hiXPApM4fp7Yl
+         N4bQ==
+X-Gm-Message-State: AGi0PuaEG4XnugQZe2w2Q2cZS/04aNae31RYWQXvh0JsBU9SdXoeIuYo
+        7X3aEnQIqK8oFyodQukrikkSIUv12KBexkYnHpg=
+X-Google-Smtp-Source: APiQypJsVWOGNw2a6tw9QCDFtzmhN2uUlWOxXfFAqe9eOzabYLD+3iHdpaWBYGS4NUHqBUnYHpCeUArDDMY11tlXLhk=
+X-Received: by 2002:a37:a955:: with SMTP id s82mr5378368qke.45.1587669334631;
+ Thu, 23 Apr 2020 12:15:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac8:3f2f:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 12:15:34
+ -0700 (PDT)
+Reply-To: boa.benin107@yahoo.com
+From:   "Mrs. Angella Michelle" <westernunion.benin982@gmail.com>
+Date:   Thu, 23 Apr 2020 21:15:34 +0200
+Message-ID: <CAP=nHB+cYY6rkXXjerTxD5xFMeQc84udhR_j3x9fxJzhUN=M5w@mail.gmail.com>
+Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
+ amount of $12.800.000,00 Million USD,approved this morning by IMF.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Polling DISABLED devices is not desired, as all such "disabled" devices
-are meant to be handled by userspace. This patch introduces and uses
-should_stop_polling() to decide whether the device should be polled or not.
+Attn Dear.Mr.Jerzy Staszewski
 
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- drivers/thermal/thermal_core.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index a2a5034f76e7..03c4d8d23284 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -305,13 +305,22 @@ static void thermal_zone_device_set_polling(struct thermal_zone_device *tz,
- 		cancel_delayed_work(&tz->poll_queue);
- }
- 
-+static inline bool should_stop_polling(struct thermal_zone_device *tz)
-+{
-+	return thermal_zone_device_get_mode(tz) == THERMAL_DEVICE_DISABLED;
-+}
-+
- static void monitor_thermal_zone(struct thermal_zone_device *tz)
- {
-+	bool stop;
-+
-+	stop = should_stop_polling(tz);
-+
- 	mutex_lock(&tz->lock);
- 
--	if (tz->passive)
-+	if (!stop && tz->passive)
- 		thermal_zone_device_set_polling(tz, tz->passive_delay);
--	else if (tz->polling_delay)
-+	else if (!stop && tz->polling_delay)
- 		thermal_zone_device_set_polling(tz, tz->polling_delay);
- 	else
- 		thermal_zone_device_set_polling(tz, 0);
-@@ -503,6 +512,9 @@ void thermal_zone_device_update(struct thermal_zone_device *tz,
- {
- 	int count;
- 
-+	if (should_stop_polling(tz))
-+		return;
-+
- 	if (atomic_read(&in_suspend))
- 		return;
- 
--- 
-2.17.1
-
+Your luck has shined, Thank Your God, IMF has approved your transfer
+this Morning
+Contact Bank of Africa-Benin to receive your payment funds transfer amount =
+of
+$14.800.000,00 Million USD,approved this morning by IMF.
+Happy to inform you, we have finally deposited your payment funds
+$14.8 million us dollars with the Paying Bank of Africa-Benin
+to transfer the payment amount of $14.800,000,00 Million Us Dollars to you
+Contact the bank immediately you receive this email now.
+Director Bank of Africa-Benin: Dr. Festus Obiara
+Email id:  boa.benin107@yahoo.com
+Tel/mobile, (229) 62819378
+BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
+Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
+Phone:(229) 62819378.
+2020 GROUPE BANK OF AFRICA
+Be advised to re-confirm your bank details to this bank as listed.
+Your account Holder's name----------------
+Bank Name----------------------------------------------------------
+Bank address----------------------------------------------
+Account Numbers---------------------------------------
+Rounting-----------------------------------------------------------------
+Your direct Phone Numbers----------------------------------------------
+Note,I have paid the deposit and insurance fees for you
+But the only money you are to send to this bank is $93.00 us dollars,
+Been for the wire transfer fees of your funds, Contact Him now to
+receive your transfer deposited this morning
+I wait for your reply upon confirmation
+Mrs. Angella Michelle
+Editor, Zenith Bank- Companies Benin
+mrsa9389@gmail.com
