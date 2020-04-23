@@ -2,120 +2,171 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5574F1B4FD3
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 00:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8AC11B524A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Apr 2020 04:08:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgDVWGI (ORCPT
+        id S1726002AbgDWCIk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Apr 2020 18:06:08 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44346 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726060AbgDVWGH (ORCPT
+        Wed, 22 Apr 2020 22:08:40 -0400
+Received: from mga14.intel.com ([192.55.52.115]:61411 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgDWCIk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Apr 2020 18:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587593166;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=R0sldwnn1cfxMDEFTQ7UtOS5tzOYyY4+qEFdH8+Xtdw=;
-        b=UoSSPda+bxFxMzhRGPrpvqIfj9KvPWtpKIaUo60PdAz0En9HnJ4j+0Srel/i2ODeljTpja
-        W+xqJ4nyfEHCMh/8JqqVuPhjGaP05z9pTCTxlWlBQmRVk0HymmZTSlJ4Q3wjmJafD6aZNp
-        s2Q1K7vEZtOO46eYzV1kvDg8dZBgvdU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-TZ-wCd3GMDuexy9L6HbH7g-1; Wed, 22 Apr 2020 18:06:04 -0400
-X-MC-Unique: TZ-wCd3GMDuexy9L6HbH7g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1AC3107ACC4;
-        Wed, 22 Apr 2020 22:06:02 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-113-5.ams2.redhat.com [10.36.113.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 66F2F5D70A;
-        Wed, 22 Apr 2020 22:06:01 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
+        Wed, 22 Apr 2020 22:08:40 -0400
+IronPort-SDR: sBqXayEWg52F/pFDSKUPQU96zpZzbNqqk93B3C6tWHbhq+/9J/ftyQsgUNSUbyfzoDYeKEVCNW
+ nuGw/n8ZgQUg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 19:08:40 -0700
+IronPort-SDR: dW+7VQ4x7y7AnryNYI928QMWa+IOoOhxCpxCXaekQfalHh+BhiXW4m3BH5Fi7otb06liJKPxrc
+ P+ythg9ZNHUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,305,1583222400"; 
+   d="scan'208";a="402756503"
+Received: from coffy.sc.intel.com ([10.3.79.166])
+  by orsmga004.jf.intel.com with ESMTP; 22 Apr 2020 19:08:39 -0700
+Message-ID: <ac04f1aa46234496fc88354add386da725d883ab.camel@intel.com>
+Subject: Re: [PATCH 1/1] platform/x86: Add Slim Bootloader firmware update
+ signaling driver
+From:   Jithu Joseph <jithu.joseph@intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and T200TA
-Date:   Thu, 23 Apr 2020 00:05:59 +0200
-Message-Id: <20200422220559.99726-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
+        sean.v.kelley@intel.com, kuo-lang.tseng@intel.com,
+        jithu.joseph@intel.com
+Date:   Wed, 22 Apr 2020 19:02:42 -0700
+In-Reply-To: <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com>
+References: <20200420194405.8281-1-jithu.joseph@intel.com>
+         <20200420194405.8281-2-jithu.joseph@intel.com>
+         <CAHp75VeV+HOditUphBkFoy6LLh6QKfBoC-eLixquAHLTwaz4RQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-asus-nb-wmi does not add any extra functionality on these Asus
-Transformer books. They have detachable keyboards, so the hotkeys are
-send through a HID device (and handled by the hid-asus driver) and also
-the rfkill functionality is not used on these devices.
+Hi Andy,
 
-Besides not adding any extra functionality, initializing the WMI interfac=
-e
-on these devices actually has a negative side-effect. For some reason
-the \_SB.ATKD.INIT() function which asus_wmi_platform_init() calls drives
-GPO2 (INT33FC:02) pin 8, which is connected to the front facing webcam LE=
-D,
-high and there is no (WMI or other) interface to drive this low again
-causing the LED to be permanently on, even during suspend.
+Appreciate your valuable feedback. I think I understood most of your
+comments but I need clarification regarding the last comment in this
+reply.
 
-This commit adds a blacklist of DMI system_ids on which not to load the
-asus-nb-wmi and adds these Transformer books to this list. This fixes
-the webcam LED being permanently on under Linux.
+On Wed, 2020-04-22 at 16:42 +0300, Andy Shevchenko wrote:
+> On Mon, Apr 20, 2020 at 10:50 PM Jithu Joseph <jithu.joseph@intel.com
+> > wrote:
+> > 
+> > 
+> > This driver only implements a signaling mechanism, the actual
+> > firmware
+> > update process and various details like firmware update image
+> > format,
+> > firmware image location etc are defined by SBL [2] and are not in
+> > the
+> > scope of this driver.
+> 
+> I have noticed that it misses ABI documentation. So, please add. Also
+> some comments below.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/asus-nb-wmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+I will add one via a new Documentation/ABI/testing/sysfs-platform-sbl-
+fwu-wmi file
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/as=
-us-nb-wmi.c
-index 6f12747a359a..c4404d9c1de4 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -515,9 +515,33 @@ static struct asus_wmi_driver asus_nb_wmi_driver =3D=
- {
- 	.detect_quirks =3D asus_nb_wmi_quirks,
- };
-=20
-+static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst =3D=
- {
-+	{
-+		/*
-+		 * asus-nb-wm adds no functionality. The T100TA has a detachable
-+		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
-+		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
-+		 */
-+		.matches =3D {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-+		},
-+	},
-+	{
-+		/* The Asus T200TA has the same issue as the T100TA */
-+		.matches =3D {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
-+		},
-+	},
-+	{} /* Terminating entry */
-+};
-=20
- static int __init asus_nb_wmi_init(void)
- {
-+	if (dmi_check_system(asus_nb_wmi_blacklist))
-+		return -ENODEV;
-+
- 	return asus_wmi_register_driver(&asus_nb_wmi_driver);
- }
-=20
---=20
-2.26.0
+> 
+> ...
+> 
+> > [1] https://slimbootloader.github.io
+> > [2] https://slimbootloader.github.io/security/firmware-update.html
+> 
+> Can you add a DocLink: tag below for the reference to the official
+> documentation?
+
+I wasnt aware of this tag. Will add this.
+
+> 
+> ...
+> 
+> > +SLIM BOOTLOADER (SBL) FIRMWARE UPDATE WMI DRIVER
+> > +M:     Jithu Joseph <jithu.joseph@intel.com>
+> > +R:     Maurice Ma <maurice.ma@intel.com>
+> > +S:     Maintained
+> > +W:     
+> > https://slimbootloader.github.io/security/firmware-update.html
+> > +F:     drivers/platform/x86/sbl_fwu_wmi.c
+> 
+> I hope you run latest and greatest version of checkpatch.pl and it's
+> okay with this section.
+
+Yes it was fine, chekpatch.pl was merely asking to update the
+MAINTAINERS file. And the ordering of the section matches with that of
+parse-maintainers.pl
+
+> 
+> ...
+> 
+> > @@ -114,6 +114,16 @@ config XIAOMI_WMI
+> >           To compile this driver as a module, choose M here: the
+> > module will
+> >           be called xiaomi-wmi.
+> > 
+> > +config SBL_FWU_WMI
+> > +       tristate "WMI driver for Slim Bootloader firmware update
+> > signaling"
+> > +       depends on ACPI_WMI
+> > +       help
+> > +         Say Y here if you want to be able to use the WMI
+> > interface to signal
+> > +         Slim Bootloader to trigger update on next reboot.
+> > +
+> > +         To compile this driver as a module, choose M here: the
+> > module will
+> > +         be called sbl-fwu-wmi.
+> > @@ -15,6 +15,7 @@ obj-$(CONFIG_INTEL_WMI_THUNDERBOLT)   += intel-
+> > wmi-thunderbolt.o
+> >  obj-$(CONFIG_MXM_WMI)                  += mxm-wmi.o
+> >  obj-$(CONFIG_PEAQ_WMI)                 += peaq-wmi.o
+> >  obj-$(CONFIG_XIAOMI_WMI)               += xiaomi-wmi.o
+> > +obj-$(CONFIG_SBL_FWU_WMI)              += sbl_fwu_wmi.o
+> 
+> I didn't get an ordering schema in above files.
+> Shouldn't be rather alphasort?
+
+Looks like there is an ordering within the wmi related files, so I will
+move mine in between PEAQ_WMI and XIAOMI_WMI .
+
+> 
+> ...
+> 
+> > +static ssize_t firmware_update_request_store(struct device *dev,
+> > +                                            struct
+> > device_attribute *attr,
+> > +                                            const char *buf,
+> > size_t count)
+> > +{
+> > +       bool val;
+> > +       int ret;
+> > +
+> > +       ret = kstrtobool(buf, &val);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ret = set_fwu_request(dev, val ? 1 : 0);
+> 
+> Hmm... If you are going to extend this, why not to pass integer
+> directly? (And thus take one from user)
+
+We have also been thinking about  extensibility …
+
+So I will modify the code to allow any u32 input by the user  to be
+passed down via wmi_set_block(), though 0 and 1 will be the only
+inputs  documented  in the ABI today.( Or did you still mean  to error
+out if the user input is something other than 0 or 1 ?)
+
+Thanks
+Jithu
 
