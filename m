@@ -2,123 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C6B81B72AF
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Apr 2020 13:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE5011B72C5
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Apr 2020 13:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbgDXLIv (ORCPT
+        id S1726582AbgDXLMA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Apr 2020 07:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39312 "EHLO
+        Fri, 24 Apr 2020 07:12:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbgDXLIu (ORCPT
+        with ESMTP id S1726289AbgDXLMA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:08:50 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67597C09B045;
-        Fri, 24 Apr 2020 04:08:49 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id w65so4623915pfc.12;
-        Fri, 24 Apr 2020 04:08:49 -0700 (PDT)
+        Fri, 24 Apr 2020 07:12:00 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2BFCC09B045
+        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Apr 2020 04:11:58 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id z6so3608459plk.10
+        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Apr 2020 04:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/GXB1+oqaJEZ3sRrWa2n2m9CuNj5/9wJlyHUPzBW4Zg=;
-        b=YtHDDkn88uz9vIopfu+CDX7vy37BDJ2uCN7QXKeQamXNYDl7ng8hLdufiPlS5+ecOz
-         QlAs/EEWf6LcYkALE6TZEPmdKRULqckgYB9J8jG/81b9tidUDbEd6N6QfALWUgwZbStL
-         PaGKlnOXjPkNF8hKBmA8DVLhipXFxqvO7gwRsgKP+S9rYqy3ru+qLx39J/5k/7WvEt2q
-         2+TIKYqPrIWU1tXuX0w86hcRNMPUtWah8iWq7PwYjXcTuDdOc+gd/b13xO2D7N6nc3tz
-         yuJVabgbDbgWFskfYc1U+b+oJ21sddlBRtuP7ePkL4qETxdgnZ5GCKcSlzbI1elnusi1
-         tY8Q==
+        bh=tgwy/aInUxShEijCyGCLJTya0cIe/jECHsCJDcokQcg=;
+        b=DZOzDVK1fbNC098qDg4nQCc6AAxOj2SV6NCUFhs7tYKtUnqdUQV5oSq/ZJ5uXDODhg
+         FveDQE5RkVx1jwGwFpZXAjMv1+XBaRqiK2QtuEEdwNOyY2XrDzJheiYXFj6GRciSbx5j
+         SAJMxpILWxYZQa+vHZPxK+wK7wUsWcqcIGVhuOG6J1R2b4VlfX5tR0eaY7/lfSkycpSp
+         aND32n69njruFE4X4YiqemDmL6tV38tT/rHDhBnd9vhfG5L4lO5xpbgUwpAgky0Dkcy6
+         t/us2kHCgOgdclm1+yHqzhKOVgGRLEz/q8/ASW8TgXAGQkkdsJtSrugcKvslY64D0RFG
+         /ooA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/GXB1+oqaJEZ3sRrWa2n2m9CuNj5/9wJlyHUPzBW4Zg=;
-        b=PpMboUlVPvzcv87khQYdRRxComvEmnjQ3vuCQBObnTINF83BEz4PgQtqDKYf+gufDz
-         y+xiHgguan0+1x6moeqypWeuYeUGrNI8FAVTfQw0XsJg30c0JDdmAATtbBxcCZPSJz9B
-         v0U+IZFT6foGXmRJ5HtcBLj/ATewEHXbJfPSTxSXhBVzoDsDGbFUitbFi155ZCLCL2n1
-         sNiZ/BkxwA3XQG7F3HgfAUWmmFn4HO9HpM5h9I8GkkSZYjYN+l2Xe2gURl1BbvXMAnXo
-         nB+/QofNUJsTLgAP5xDwt5YAF6s36Pkx8VRaGNl+SUKXGQhYojL79QEEPBx2WZd+tP9w
-         i+Gg==
-X-Gm-Message-State: AGi0Puau+iNkMTMgL4inI15/zRrpwata/GxJ07Mu4Tl/QvNNYT/xTso9
-        RfnHe0LyQlIPYPp3o9qvDOvXrTtSA4QXuP4l8LJXZaYEufU=
-X-Google-Smtp-Source: APiQypJ1oNin59u5IIssxyRMfGWiCbfuziAE8WvPxPUbG9ZlHjcwm3+mT9Tl288iQJjoj0ltRHgngajz0StmCEJ8yEQ=
-X-Received: by 2002:a62:f908:: with SMTP id o8mr8862431pfh.170.1587726528958;
- Fri, 24 Apr 2020 04:08:48 -0700 (PDT)
+        bh=tgwy/aInUxShEijCyGCLJTya0cIe/jECHsCJDcokQcg=;
+        b=A+/SfPLFDyuCb57hXA9A7Ay/Z5eQbtO3aH8AFuxju/c15Cz5WOAkD8flEvPab1oI0I
+         OIED6JnZ2Snpr8t+BQBZL+ZCC1IjF+GjR9J1sdhVHmvDs9neUVzgU/g/oOtn9NA7r3d0
+         uisrTosvEyt9IXiqAik0oJ8EuF96FFN+PXdkBrjJdVvn0lMR5NyEkCES37MXO+pxi+Ml
+         TFH0eEQ81LOfF4qwE3jsPRND+dg/HDG6HMz8ZVkbkYytCClodcHebOMGM1xXkerORYBg
+         K66DwsgIC2BGlQT9qXBm1p/f4mu6GQqBkcAcQbH/MS9H22Hnmv2ux7+TI4xBJVoirW/9
+         6hfQ==
+X-Gm-Message-State: AGi0PuZYeLRZw6O0UdIpc5QPEe/DCTZEn5tmvZOF++8FeHEc2PDzbxfI
+        4S0a9/9i1JrA73g37656or/gTx+WHKf/n6RK23ooIFVw9K5LcQ==
+X-Google-Smtp-Source: APiQypJM1qLh9pmSxbC7pbQSVRXxExvGrjmXvoWrOkXH1zpgwOSU/+3hLToDFIgrRZpaR5uog7CmhMF/FDShjc3bEmU=
+X-Received: by 2002:a17:90a:224b:: with SMTP id c69mr5748551pje.8.1587726718040;
+ Fri, 24 Apr 2020 04:11:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200423224222.29730-1-jithu.joseph@intel.com>
-In-Reply-To: <20200423224222.29730-1-jithu.joseph@intel.com>
+References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org>
+In-Reply-To: <20200423215709.72993-1-larsh@apache.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 24 Apr 2020 14:08:41 +0300
-Message-ID: <CAHp75VcqV3e8ecAUX+dr9h-bE+1XJ_71hJRA1b9XdouJJLD2ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] platform/x86: Add Slim Bootloader firmware update support
-To:     Jithu Joseph <jithu.joseph@intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+Date:   Fri, 24 Apr 2020 14:11:51 +0300
+Message-ID: <CAHp75VeX2SjX5J-w933FKh_yii=cJ9_tWj3RRNx7Q6vijtt6AQ@mail.gmail.com>
+Subject: Re: [PATCH v4] thinkpad_acpi: Add support for dual fan control on
+ select models
+To:     Lars <larsh@apache.org>
+Cc:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
-        Sean V Kelley <sean.v.kelley@intel.com>,
-        kuo-lang.tseng@intel.com
+        Kevin Slagle <kjslag@gmail.com>,
+        =?UTF-8?Q?Sebastian_D=C3=B6rner?= <bastidoerner@gmail.com>,
+        Dario Messina <nanodario@gmail.com>,
+        Stefan Assmann <sassmann@kpanic.de>,
+        Alexander Kappner <agk@godking.net>,
+        Marc Burkhardt <marc@osknowledge.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 1:49 AM Jithu Joseph <jithu.joseph@intel.com> wrote:
+On Fri, Apr 24, 2020 at 12:57 AM Lars <larsh@apache.org> wrote:
 >
-> v1 Upstream submission is available here:
-> https://lore.kernel.org/lkml/20200420194405.8281-1-jithu.joseph@intel.com
+> This adds dual fan control for the following models:
+> P50, P51, P52, P70, P71, P72, P1 gen1, X1E gen1, P2 gen2, and X1E gen2.
 >
+> Both fans are controlled together as if they were a single fan.
+>
+> Tested on an X1 Extreme Gen1, an X1 Extreme Gen2, and a P50.
+>
+> The patch is defensive, it adds only specific supported machines, and falls
+> back to the old behavior if both fans cannot be controlled.
+>
+> Background:
+> I tested the BIOS default behavior on my X1E gen2 and both fans are always
+> changed together. So rather than adding controls for each fan, this controls
+> both fans together as the BIOS would do.
+>
+> This was inspired by a discussion on dual fan support for the thinkfan tool
+> [1].
+> All BIOS ids are taken from there. The X1E gen2 id is verified on my machine.
+>
+> Thanks to GitHub users voidworker and civic9 for the earlier patches and BIOS
+> ids, and to users peter-stoll and sassman for testing the patch on their
+> machines.
+>
+> [1]: https://github.com/vmatare/thinkfan/issues/58
+>
+> Signed-off-by: Lars <larsh@apache.org>
 
-Pushed to my review and testing queue, thanks!
+One question though, is Lars your real name here? [1]
 
-> v2 primarily addresses review comments from Andy Shevchenko to v1.
->
-> Changes in v2
->  - Rebased on top of tag: v5.7-rc2
->  - Added ABI documentation file
->  - Changed the ordering of SBL entry in Makefile and Kconfig
->  - Replaced kstrtobool() with kstrtouint() for user input processing
->  - Added DocLink: tag to annottate weblink in commit message
->  - Minor edits to commit message in p1/1
->  - Style related changes
->
-> From v1 submission:
->
-> Slim Bootloader(SBL) [see link below] is a small open-source boot
-> firmware, designed for running on certain Intel platforms. SBL can be
-> thought-of as fulfilling the role of a minimal BIOS
-> implementation, i.e initializing the hardware and booting
-> Operating System.
->
-> This driver creates sysfs interfaces which allows user space entities
-> to trigger update of SBL firmware.
->
-> Acknowledgment: Initial draft of the driver code was authored by
-> Maurice Ma <maurice.ma@intel.com>
->
-> DocLink: https://slimbootloader.github.io
->
-> Jithu Joseph (1):
->   platform/x86: Add Slim Bootloader firmware update signaling driver
->
->  .../ABI/testing/sysfs-platform-sbl-fwu-wmi    |  12 ++
->  MAINTAINERS                                   |   7 +
->  drivers/platform/x86/Kconfig                  |  10 ++
->  drivers/platform/x86/Makefile                 |   1 +
->  drivers/platform/x86/sbl_fwu_wmi.c            | 144 ++++++++++++++++++
->  5 files changed, 174 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-platform-sbl-fwu-wmi
->  create mode 100644 drivers/platform/x86/sbl_fwu_wmi.c
->
->
-> base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
-> --
-> 2.17.1
->
-
+[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
 -- 
 With Best Regards,
