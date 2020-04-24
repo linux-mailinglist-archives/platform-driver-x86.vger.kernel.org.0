@@ -2,167 +2,124 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 736E01B71ED
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Apr 2020 12:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6B81B72AF
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Apr 2020 13:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgDXKY5 (ORCPT
+        id S1726865AbgDXLIv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Apr 2020 06:24:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60696 "EHLO
+        Fri, 24 Apr 2020 07:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726824AbgDXKY4 (ORCPT
+        with ESMTP id S1726844AbgDXLIu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Apr 2020 06:24:56 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70036C09B045
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Apr 2020 03:24:56 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id u127so10101130wmg.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Apr 2020 03:24:56 -0700 (PDT)
+        Fri, 24 Apr 2020 07:08:50 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67597C09B045;
+        Fri, 24 Apr 2020 04:08:49 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id w65so4623915pfc.12;
+        Fri, 24 Apr 2020 04:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=HF5bWdV7dRmYzWvaTSHJDPKeizw87uk8L9aTpHSkzdU=;
-        b=cAOWm2YDDlUvPd7+hciQsQxaOEjENKMN5qagTRQj+nkqpmxr3W9Z3F5q6H+iFVCRXP
-         nQr+h88MQY8/M46HGbO7zK19mrcVI7ho+kSRKDmZKtPOIZSg5Suvsex/q7NL/XUfhRlk
-         bd1EeFVT0sUEr2+pOaxi2U8eSG2rr80vOX53T3nRnpdFGawh+kLFQRaqouz+JXjK4HYh
-         XJkbUVXaebv3qlvhzLTYQjpkKaSytKxKuV7zicwi7Zx78vFv92IKOKyVp1q3fub/5XCU
-         7BEmkF94ky9YMlupM2cz6e1PkjGkf7rkzeiFNtuhVKLMghaDxNWpS7oVjbzM5Wdbd8wF
-         vjOQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/GXB1+oqaJEZ3sRrWa2n2m9CuNj5/9wJlyHUPzBW4Zg=;
+        b=YtHDDkn88uz9vIopfu+CDX7vy37BDJ2uCN7QXKeQamXNYDl7ng8hLdufiPlS5+ecOz
+         QlAs/EEWf6LcYkALE6TZEPmdKRULqckgYB9J8jG/81b9tidUDbEd6N6QfALWUgwZbStL
+         PaGKlnOXjPkNF8hKBmA8DVLhipXFxqvO7gwRsgKP+S9rYqy3ru+qLx39J/5k/7WvEt2q
+         2+TIKYqPrIWU1tXuX0w86hcRNMPUtWah8iWq7PwYjXcTuDdOc+gd/b13xO2D7N6nc3tz
+         yuJVabgbDbgWFskfYc1U+b+oJ21sddlBRtuP7ePkL4qETxdgnZ5GCKcSlzbI1elnusi1
+         tY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=HF5bWdV7dRmYzWvaTSHJDPKeizw87uk8L9aTpHSkzdU=;
-        b=IZxQn09496rQ3pFvPJPbc3NbyYk3PHc0VoJd0lx7rIfyJJHyQdOLH4OleDpZENO37A
-         OK5QMhfLrhnFJ/q4GzgqT0a6HGXJ3zD8pK3DIe9BEoHfXYLdMl38DZOIzy9hVUkDan/B
-         C1zU7NoybgW9EUl0I7VQOyij3+KOs9VC6/CrW28JvHwfsv5m/J7CuE8O9CwVC0TnQWhp
-         5zkru5Kh0gboB802KXRMex+D0+pmQoOsNAZ6veibuFS+ibAPnChpAsWcNicA7YYD/+Np
-         pHnxDi0hiz6+FEmVMgh6VrYWkqrG96KAMy5zDEpZbi1s90ZPDsfi5S41AzVsrreOV20d
-         qBfg==
-X-Gm-Message-State: AGi0PuafbAS+zHrMOceGgqeDMixdJSjymHNuA5vzSWacV3BTCJAwc88L
-        0VhkNFBWVzFM74s7JkLcPNejkA==
-X-Google-Smtp-Source: APiQypItjRrOqF5wnb5bFyjobG8q9GT/8au3pnUULil08i6PL32UrroBQlQT5ZUiJ/qm+7GegD0TVw==
-X-Received: by 2002:a1c:f416:: with SMTP id z22mr9422112wma.32.1587723895088;
-        Fri, 24 Apr 2020 03:24:55 -0700 (PDT)
-Received: from dell ([2.31.163.63])
-        by smtp.gmail.com with ESMTPSA id l15sm2151819wmi.48.2020.04.24.03.24.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 03:24:54 -0700 (PDT)
-Date:   Fri, 24 Apr 2020 11:24:52 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between MFD, X86, USB and Watchdog due
- for the v5.7 merge window
-Message-ID: <20200424102452.GB8414@dell>
-References: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/GXB1+oqaJEZ3sRrWa2n2m9CuNj5/9wJlyHUPzBW4Zg=;
+        b=PpMboUlVPvzcv87khQYdRRxComvEmnjQ3vuCQBObnTINF83BEz4PgQtqDKYf+gufDz
+         y+xiHgguan0+1x6moeqypWeuYeUGrNI8FAVTfQw0XsJg30c0JDdmAATtbBxcCZPSJz9B
+         v0U+IZFT6foGXmRJ5HtcBLj/ATewEHXbJfPSTxSXhBVzoDsDGbFUitbFi155ZCLCL2n1
+         sNiZ/BkxwA3XQG7F3HgfAUWmmFn4HO9HpM5h9I8GkkSZYjYN+l2Xe2gURl1BbvXMAnXo
+         nB+/QofNUJsTLgAP5xDwt5YAF6s36Pkx8VRaGNl+SUKXGQhYojL79QEEPBx2WZd+tP9w
+         i+Gg==
+X-Gm-Message-State: AGi0Puau+iNkMTMgL4inI15/zRrpwata/GxJ07Mu4Tl/QvNNYT/xTso9
+        RfnHe0LyQlIPYPp3o9qvDOvXrTtSA4QXuP4l8LJXZaYEufU=
+X-Google-Smtp-Source: APiQypJ1oNin59u5IIssxyRMfGWiCbfuziAE8WvPxPUbG9ZlHjcwm3+mT9Tl288iQJjoj0ltRHgngajz0StmCEJ8yEQ=
+X-Received: by 2002:a62:f908:: with SMTP id o8mr8862431pfh.170.1587726528958;
+ Fri, 24 Apr 2020 04:08:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200416081552.68083-1-mika.westerberg@linux.intel.com>
+References: <20200423224222.29730-1-jithu.joseph@intel.com>
+In-Reply-To: <20200423224222.29730-1-jithu.joseph@intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 24 Apr 2020 14:08:41 +0300
+Message-ID: <CAHp75VcqV3e8ecAUX+dr9h-bE+1XJ_71hJRA1b9XdouJJLD2ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] platform/x86: Add Slim Bootloader firmware update support
+To:     Jithu Joseph <jithu.joseph@intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
+        Sean V Kelley <sean.v.kelley@intel.com>,
+        kuo-lang.tseng@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Enjoy!
+On Fri, Apr 24, 2020 at 1:49 AM Jithu Joseph <jithu.joseph@intel.com> wrote:
+>
+> v1 Upstream submission is available here:
+> https://lore.kernel.org/lkml/20200420194405.8281-1-jithu.joseph@intel.com
+>
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+Pushed to my review and testing queue, thanks!
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+> v2 primarily addresses review comments from Andy Shevchenko to v1.
+>
+> Changes in v2
+>  - Rebased on top of tag: v5.7-rc2
+>  - Added ABI documentation file
+>  - Changed the ordering of SBL entry in Makefile and Kconfig
+>  - Replaced kstrtobool() with kstrtouint() for user input processing
+>  - Added DocLink: tag to annottate weblink in commit message
+>  - Minor edits to commit message in p1/1
+>  - Style related changes
+>
+> From v1 submission:
+>
+> Slim Bootloader(SBL) [see link below] is a small open-source boot
+> firmware, designed for running on certain Intel platforms. SBL can be
+> thought-of as fulfilling the role of a minimal BIOS
+> implementation, i.e initializing the hardware and booting
+> Operating System.
+>
+> This driver creates sysfs interfaces which allows user space entities
+> to trigger update of SBL firmware.
+>
+> Acknowledgment: Initial draft of the driver code was authored by
+> Maurice Ma <maurice.ma@intel.com>
+>
+> DocLink: https://slimbootloader.github.io
+>
+> Jithu Joseph (1):
+>   platform/x86: Add Slim Bootloader firmware update signaling driver
+>
+>  .../ABI/testing/sysfs-platform-sbl-fwu-wmi    |  12 ++
+>  MAINTAINERS                                   |   7 +
+>  drivers/platform/x86/Kconfig                  |  10 ++
+>  drivers/platform/x86/Makefile                 |   1 +
+>  drivers/platform/x86/sbl_fwu_wmi.c            | 144 ++++++++++++++++++
+>  5 files changed, 174 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform-sbl-fwu-wmi
+>  create mode 100644 drivers/platform/x86/sbl_fwu_wmi.c
+>
+>
+> base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+> --
+> 2.17.1
+>
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-x86-usb-watchdog-v5.7
-
-for you to fetch changes up to 2f72d35ea75ee8bf8c9e63fb43d43d5bfb4ac8fd:
-
-  MAINTAINERS: Update entry for Intel Broxton PMC driver (2020-04-24 11:18:51 +0100)
-
-----------------------------------------------------------------
-Immutable branch between MFD, X86, USB and Watchdog due for the v5.7 merge window
-
-----------------------------------------------------------------
-Heikki Krogerus (1):
-      usb: typec: mux: Convert the Intel PMC Mux driver to use new SCU IPC API
-
-Mika Westerberg (19):
-      platform/x86: intel_scu_ipc: Split out SCU IPC functionality from the SCU driver
-      platform/x86: intel_scu_ipc: Log more information if SCU IPC command fails
-      platform/x86: intel_scu_ipc: Move legacy SCU IPC API to a separate header
-      platform/x86: intel_scu_ipc: Introduce new SCU IPC API
-      platform/x86: intel_mid_powerbtn: Convert to use new SCU IPC API
-      watchdog: intel-mid_wdt: Convert to use new SCU IPC API
-      platform/x86: intel_scu_ipcutil: Convert to use new SCU IPC API
-      platform/x86: intel_scu_ipc: Add managed function to register SCU IPC
-      platform/x86: intel_pmc_ipc: Start using SCU IPC
-      mfd: intel_soc_pmic: Add SCU IPC member to struct intel_soc_pmic
-      mfd: intel_soc_pmic_bxtwc: Convert to use new SCU IPC API
-      mfd: intel_soc_pmic_mrfld: Convert to use new SCU IPC API
-      platform/x86: intel_telemetry: Convert to use new SCU IPC API
-      platform/x86: intel_pmc_ipc: Drop intel_pmc_ipc_command()
-      x86/platform/intel-mid: Add empty stubs for intel_scu_devices_[create|destroy]()
-      platform/x86: intel_pmc_ipc: Move PCI IDs to intel_scu_pcidrv.c
-      platform/x86: intel_telemetry: Add telemetry_get_pltdata()
-      platform/x86: intel_pmc_ipc: Convert to MFD
-      MAINTAINERS: Update entry for Intel Broxton PMC driver
-
- .../ABI/obsolete/sysfs-driver-intel_pmc_bxt        |  22 +
- MAINTAINERS                                        |  23 +-
- arch/x86/Kconfig                                   |   2 +-
- arch/x86/include/asm/intel-mid.h                   |   9 +-
- arch/x86/include/asm/intel_pmc_ipc.h               |  59 --
- arch/x86/include/asm/intel_scu_ipc.h               | 114 +--
- arch/x86/include/asm/intel_scu_ipc_legacy.h        |  91 ++
- arch/x86/include/asm/intel_telemetry.h             |   6 +-
- drivers/mfd/Kconfig                                |  20 +-
- drivers/mfd/Makefile                               |   1 +
- drivers/mfd/intel_pmc_bxt.c                        | 468 ++++++++++
- drivers/mfd/intel_soc_pmic_bxtwc.c                 |  34 +-
- drivers/mfd/intel_soc_pmic_mrfld.c                 |  10 +-
- drivers/platform/x86/Kconfig                       |  46 +-
- drivers/platform/x86/Makefile                      |   2 +-
- drivers/platform/x86/intel_mid_powerbtn.c          |  15 +-
- drivers/platform/x86/intel_pmc_ipc.c               | 949 ---------------------
- drivers/platform/x86/intel_scu_ipc.c               | 447 +++++++---
- drivers/platform/x86/intel_scu_ipcutil.c           |  43 +-
- drivers/platform/x86/intel_scu_pcidrv.c            |  68 ++
- drivers/platform/x86/intel_telemetry_core.c        |  17 +-
- drivers/platform/x86/intel_telemetry_debugfs.c     |  15 +-
- drivers/platform/x86/intel_telemetry_pltdrv.c      |  97 ++-
- drivers/usb/typec/mux/Kconfig                      |   2 +-
- drivers/usb/typec/mux/intel_pmc_mux.c              |  12 +-
- drivers/usb/typec/tcpm/Kconfig                     |   2 +-
- drivers/watchdog/iTCO_wdt.c                        |  25 +-
- drivers/watchdog/intel-mid_wdt.c                   |  53 +-
- include/linux/mfd/intel_pmc_bxt.h                  |  53 ++
- include/linux/mfd/intel_soc_pmic.h                 |  15 +
- include/linux/platform_data/itco_wdt.h             |  11 +-
- 31 files changed, 1411 insertions(+), 1320 deletions(-)
- create mode 100644 Documentation/ABI/obsolete/sysfs-driver-intel_pmc_bxt
- delete mode 100644 arch/x86/include/asm/intel_pmc_ipc.h
- create mode 100644 arch/x86/include/asm/intel_scu_ipc_legacy.h
- create mode 100644 drivers/mfd/intel_pmc_bxt.c
- delete mode 100644 drivers/platform/x86/intel_pmc_ipc.c
- create mode 100644 drivers/platform/x86/intel_scu_pcidrv.c
- create mode 100644 include/linux/mfd/intel_pmc_bxt.h
 
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+With Best Regards,
+Andy Shevchenko
