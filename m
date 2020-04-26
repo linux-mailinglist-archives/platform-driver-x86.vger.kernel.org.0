@@ -2,90 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F13061B8E15
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Apr 2020 10:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 756BB1B8F09
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Apr 2020 12:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726113AbgDZI5f (ORCPT
+        id S1726116AbgDZKrZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 26 Apr 2020 04:57:35 -0400
-Received: from sauhun.de ([88.99.104.3]:43910 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726108AbgDZI5e (ORCPT
+        Sun, 26 Apr 2020 06:47:25 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54228 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726139AbgDZKrY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 26 Apr 2020 04:57:34 -0400
-Received: from localhost (p54B33954.dip0.t-ipconnect.de [84.179.57.84])
-        by pokefinder.org (Postfix) with ESMTPSA id B40FB2C01E8;
-        Sun, 26 Apr 2020 10:57:32 +0200 (CEST)
-Date:   Sun, 26 Apr 2020 10:57:32 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Sun, 26 Apr 2020 06:47:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587898042;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lqBHK1Qia+8A298KbiTPhxU1CHMMejP2vD7zTZ8rklA=;
+        b=BLG5cbfoBAHKxRAxoZ5AyCcIClDNiD1zukJnNQTrWkgnH1eOz8w03yAq33otCDqJCdGCA9
+        f8ZaBy9Ls61X0PXsiJm05aLq2h4Rk8lcwKOUvxc46+aJHoOlhumcwJd+nbKOOwxgdiiPeb
+        TKuPTNUI6QIpzbIHlpbQZ/w7VpxS1WQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-oZgsmKvcNf2pcecckE1sHg-1; Sun, 26 Apr 2020 06:47:19 -0400
+X-MC-Unique: oZgsmKvcNf2pcecckE1sHg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0FC71005510;
+        Sun, 26 Apr 2020 10:47:17 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-32.ams2.redhat.com [10.36.112.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 401245D715;
+        Sun, 26 Apr 2020 10:47:15 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] platform/mellanox: mlxreg-hotplug: convert to use
- i2c_new_client_device()
-Message-ID: <20200426085732.GM1262@kunai>
-References: <20200326210952.12857-1-wsa+renesas@sang-engineering.com>
- <20200326210952.12857-3-wsa+renesas@sang-engineering.com>
- <CAHp75Vfw4_0ttE2F-WxdULf7hRGsQvqzCLdCNVy7RBaFdEsCGA@mail.gmail.com>
- <20200425205407.GA6774@kunai>
- <CAHp75VeRcT31WbVM6qXHFtT5aF+d6SbAVWVrH8g1_+ruNvv2sQ@mail.gmail.com>
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ACPI / scan: Create platform device for CPLM3218 ACPI nodes
+Date:   Sun, 26 Apr 2020 12:47:11 +0200
+Message-Id: <20200426104713.216896-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="bPrm2PuLP7ysUh6c"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeRcT31WbVM6qXHFtT5aF+d6SbAVWVrH8g1_+ruNvv2sQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi All,
 
---bPrm2PuLP7ysUh6c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here is a patch series to deal with the way jow the CM3281
+ambient-light-sensor is described in the ACPI tables of Asus
+T100TA and T100CHI devices:
 
+ Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+ {
+     Name (SBUF, ResourceTemplate ()
+     {
+         I2cSerialBusV2 (0x000C, ControllerInitiated, 0x00061A80,
+             AddressingMode7Bit, "\\_SB.I2C3",
+             0x00, ResourceConsumer, , Exclusive,
+             )
+         I2cSerialBusV2 (0x0048, ControllerInitiated, 0x00061A80,
+             AddressingMode7Bit, "\\_SB.I2C3",
+             0x00, ResourceConsumer, , Exclusive,
+             )
+         Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
+         {
+             0x00000033,
+         }
+     })
+     Return (SBUF) /* \_SB_.I2C3.ALSD._CRS.SBUF */
+ }
 
-> > Thanks, Andy! Is there a platform-x86-tree where this can go in? Or
-> > shall I take it via the I2C tree?
->=20
-> platform/mellanox usually goes via other trees, so, feel free to carry on.
+Notice that the first entry is the SMBus Alert Response Address, this
+is actually somewhat useful as on this sensor we must read a byte
+from that address once to clear an alert which seems to be set on
+power-on; and without doing this the sensor will not respond on its
+actual address. Taking care of this is left up to the cm32181 driver
+(I will Cc you on the patch series for that).
 
-Then, I will pick it.
+This series uses the i2c-multi-instantiate code to instantiate
+i2c-clients for both addresses.
 
-> > Same question for the similar patch
-> > for x86/platform/intel-mid?
->=20
-> TIP maintainers usually take this. If I didn't tag it, feel free to add m=
-y Rb.
+Note this series touches files under both drivers/apci and
+drivers/platform/x86. IIRC in the past i2c-multi-instantiate changes
+were merged through Rafael's tree because of this.
 
-You tagged it. Thanks for the heads up, I will wait some more here.
+Andy or Darren may we have your Acked-by for merging this through
+Rafael's tree?
 
+Regards,
 
---bPrm2PuLP7ysUh6c
-Content-Type: application/pgp-signature; name="signature.asc"
+Hans
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6lTPgACgkQFA3kzBSg
-Kbb8Dg//RCWJJbV9Q6WfPGy9g9VmcsyK6+V5O/YA10m4mxzXVuPEZhB1sm2Lc40Y
-TrTYA+BZEwCgzpkK0NKNnX0OrF5hvTl8vF9iIu4bhMrrw0aRNHKGC+cb3VjtE98k
-zYOm9Q4hX+/F68101o44/A53+19nEG1Qs69VWWpsG5xHquJWTGFYQAEG3Z9Ht9sU
-vOvMvGsNFRGKOItnGaRwse/Rqhhvsj5PLdn61OhGal786Jqk84KnEPyWjp7kFdFv
-apKmaFgZ+hA32PY3RgqmvMduO4/VGz3VxgvIujbDnxm6UPNptgwBYJwaSozEAmU7
-Up7/1iKM/g4lymnmrn8h4xSRYNW9BA6swLkQCNjimER+ulQ28tNdSo9dFmA2/Il0
-/iGc8dm1lo8ufJ3hWsSZwAJzEqjnFs46jbZtS/XKF2dW81HGhro8u63eskRxCFhP
-dO65rQLEV1iTCPJunz2h+TNWcmqnADqNJTWvF+CtaoAvEvhfnKJ0kkmyHOZWF7kZ
-mc3P0RmaZlKVnltH2idjjipRdyZgxBGIn4xz4ashtbntgETtcp2iBulDWmqOpSws
-Lo+2k/QWg+yWBnrfEKEXSpOU5q+5unhacdvJLFrmk4/N4VFDVIe0OCAjSgRAkgor
-daPg8ZAWh5RES3mbACXsNaLWEh45tclp5qLQrvXNXGNohxARWFw=
-=YQ04
------END PGP SIGNATURE-----
-
---bPrm2PuLP7ysUh6c--
