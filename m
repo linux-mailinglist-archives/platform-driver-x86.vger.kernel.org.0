@@ -2,89 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2900D1BAD00
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 20:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A921BAEA3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 22:02:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726213AbgD0SlP (ORCPT
+        id S1726205AbgD0UCu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Apr 2020 14:41:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgD0SlP (ORCPT
+        Mon, 27 Apr 2020 16:02:50 -0400
+Received: from mga03.intel.com ([134.134.136.65]:39874 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725919AbgD0UCu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Apr 2020 14:41:15 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC873C0610D5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 11:41:14 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id k13so21793738wrw.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 11:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8TB5J7LWLeaW8++7bKbHy2XpLIrZzUa1CUaU5nteOwc=;
-        b=BMu3SP9symPT7yalehZ0HvpYBF+xjY+qXJz/oFlRk80o+q6cprc4pNsjFdkkBrc91G
-         IBZD7DCUjYWHq3ATSYWGYtiItOWeMe2Pz1qH/KWG7AJtQVQ2SKO9W3AcRlDQ++RWd/Sa
-         jdGra6GOgkfNkYEM8jc+JAM8LJ87ivp+5RwWWTILXbIEW/s7fcDQ/3ICnJeuW2vs0WxN
-         k49EbL4dCXW9zQ1OJPHXRbm0mljgxqsRgmUu89D1FjJ84FjxoJkdNeKIWZ77lHifRD8R
-         q99HEdIP26sdrrampw0P7Gvtf/HnAyUVQ1+I6fEhag1XWENHTAP6guw7EUaMuK7jmrWS
-         Ow4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8TB5J7LWLeaW8++7bKbHy2XpLIrZzUa1CUaU5nteOwc=;
-        b=E81eKB/eMj+InApCcAuGJ2Y9niTylm+MS1qWG7U7X8/dEnvvuU3K0UMR6CpCr5x0MP
-         vfUhW5Qyr6YehIzN2KDMDhUGXp1zhLgyH9TIfBN8MzRH+bdw8PQMB9PwAlY97AuchCv9
-         1/l4a9NyPMmJihchlvpaxNb7FMV/zVUUyT2PyoNeP6NUhk2U5JWh9lxdtLD01VKlkywO
-         u7ENsfyRtThlHINd6/Uz/99u84xaTdCsSmKVKelSzh3iJxTJAKQWY/zJ8/EZy454LR74
-         07DEDHscnMkjbZLoRxPJPDqj7UAW3fD8o5F+6P8fCNYNLjfUDxdorUi/JUzy8ZnYqeki
-         f01Q==
-X-Gm-Message-State: AGi0Pub8VyTKfGmwv9HN9qlHWi3aHCpRAXr4M0Tvv3bDnliO//z2tYnN
-        iW4u447pN0U9+Ln6wrIB/NR9VHBk+Wc=
-X-Google-Smtp-Source: APiQypLPxnoElAr6Ys8wtVWKqBGQhJBu3CR+X1TqJ9Yx2PydStTH7pBkBt9DGFUvW8eBeJOgHRR8kQ==
-X-Received: by 2002:adf:f004:: with SMTP id j4mr28280876wro.123.1588012873482;
-        Mon, 27 Apr 2020 11:41:13 -0700 (PDT)
-Received: from lenovodario.localnet (host196-76-dynamic.50-79-r.retail.telecomitalia.it. [79.50.76.196])
-        by smtp.gmail.com with ESMTPSA id a67sm22350wmc.30.2020.04.27.11.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 11:41:12 -0700 (PDT)
-From:   Dario Messina <nanodario@gmail.com>
-To:     Lars <larsh@apache.org>
-Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, kjslag@gmail.com,
-        bastidoerner@gmail.com, sassmann@kpanic.de, agk@godking.net,
-        arc@osknowledge.org
-Subject: Re: [PATCH v4] thinkpad_acpi: Add support for dual fan control on select models
-Date:   Mon, 27 Apr 2020 20:41:11 +0200
-Message-ID: <11041815.WYjWQN8m1R@lenovodario>
-In-Reply-To: <20200423215709.72993-1-larsh@apache.org>
-References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        Mon, 27 Apr 2020 16:02:50 -0400
+IronPort-SDR: xyhOBZkl21/qbGBfznK57qFUK7MTGpmCEXRCe6DtBqlNBSkNub++q9R9llCcrFOYEty5E9I9ue
+ c56ONvCzCJcA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 13:02:49 -0700
+IronPort-SDR: GjYAFcoCqlm+a4DLVaIJAvUAkzUxehDUWIlKKkNGv15CoC9Gjm0QebAmw4Fh+1XvSlidfKCs59
+ jTk3opP0EgeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; 
+   d="scan'208";a="458979574"
+Received: from coffy.sc.intel.com ([10.3.79.166])
+  by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2020 13:02:49 -0700
+Message-ID: <01620c87bb6aa7870854ae1e23ec7bd379a058de.camel@intel.com>
+Subject: Re: [PATCH v2 0/1] platform/x86: Add Slim Bootloader firmware
+ update support
+From:   Jithu Joseph <jithu.joseph@intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
+        Sean V Kelley <sean.v.kelley@intel.com>,
+        kuo-lang.tseng@intel.com, jithu.joseph@intel.com
+Date:   Mon, 27 Apr 2020 12:57:05 -0700
+In-Reply-To: <CAHp75Vezc9-vTSVsTE=ce_2XRPfFVT2gHwZhwqZiRX8M=sdmmg@mail.gmail.com>
+References: <20200423224222.29730-1-jithu.joseph@intel.com>
+         <CAHp75VcqV3e8ecAUX+dr9h-bE+1XJ_71hJRA1b9XdouJJLD2ZA@mail.gmail.com>
+         <CAHp75Vezc9-vTSVsTE=ce_2XRPfFVT2gHwZhwqZiRX8M=sdmmg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 23:57:59 CEST, Lars <larsh@apache.org> wrote:
-> This adds dual fan control for the following models:
-> P50, P51, P52, P70, P71, P72, P1 gen1, X1E gen1, P2 gen2, and X1E gen2.
+On Mon, 2020-04-27 at 13:03 +0300, Andy Shevchenko wrote:
 > 
-> Both fans are controlled together as if they were a single fan.
-> [...]
-> Background:
-> I tested the BIOS default behavior on my X1E gen2 and both fans are always
-> changed together. So rather than adding controls for each fan, this controls
-> both fans together as the BIOS would do.
-Hi Lars, why have you chosen to control multiple fans in this way?
-I know that BIOS controls both fans together, but the EC has the capabilities 
-to control both fans independently, so maybe it can be convenient to expose 
-this feature.
+> 
+> We use a bit different template for module names
+> 
+> vendor-...-wmi
+> 
+> (yes, with exception to TBT)
+> 
+> I would like to rename sbl_fwu_wmi to something like this:
+> 
+> intel-wmi-sbl-fw-update
+> 
+> What do you think?
 
+Yes I think it is better to rename this driver to intel-wmi-sbl-fw-
+update as you suggested, given many drivers follow vendor-wmi-*
+pattern. Thanks for pointing this out.
 
-Distinti saluti/Best regards,
-Dario Messina
+I will send v3 which addresses this.
 
+Thanks
+Jithu
 
