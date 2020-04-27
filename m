@@ -2,236 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C4F1BAF86
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 22:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBBD91BB1BA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Apr 2020 00:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbgD0UcQ (ORCPT
+        id S1726244AbgD0Wzs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Apr 2020 16:32:16 -0400
-Received: from mga17.intel.com ([192.55.52.151]:42467 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726205AbgD0UcP (ORCPT
+        Mon, 27 Apr 2020 18:55:48 -0400
+Received: from sonic307-3.consmr.mail.bf2.yahoo.com ([74.6.134.42]:40007 "EHLO
+        sonic307-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726204AbgD0Wzs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Apr 2020 16:32:15 -0400
-IronPort-SDR: yeHF3qtqeoFFtrpSj+28Cq6Ls7m0ebI77OB+ib7xOK3F72R6bsh2mTwOkSY8ji82cLwGAlTt6a
- gCzARTA/cf9A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 13:32:15 -0700
-IronPort-SDR: LFN7XTNjACMBMUB7yHzfwEjabvwQ9MHeiGXto5bMtJYnBfXN5qQtPO4oFSe1RFgKelOxNK26xo
- c3oUKSXApeRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,325,1583222400"; 
-   d="scan'208";a="281898969"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2020 13:32:13 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jTAQH-0003dW-7u; Tue, 28 Apr 2020 04:32:13 +0800
-Date:   Tue, 28 Apr 2020 04:31:15 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
- 2918f7d5a61f6c41b70486079ff0a6314ce8958b
-Message-ID: <5ea74113.jG57rVsiuw/x4WgP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 27 Apr 2020 18:55:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1588028147; bh=6SGlaVl4TB4LtxpIBKOQN5h0z/LKQ/4ntybi5DPYq44=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=eiTZG22HlNoWs/SOw3z8L7ChJa1wtTPaj5qGngHdtdJFqZ6vMxHvYia3ISPcC71KOSg5vVRw9+rC2GZU8kTtKGlISyzK3gIhqnXPjc0YPZtJ0DReJxZwetq3LBuQGsNbHJ/GaJgX5sRrVbO6uqlvBp1hlXKdK+DeuAwsUwnyMwGiEXZM8DC/BC8CWFJsbGGI+osy+sPmD5JFDvSKyCGB/0E/W67wU6JFU0qIKdzNCgnyBSR2wrYVBxra6OQ4jfODJ9kkVsdNA9zLq5mc93gr1E8Niv8T+HmE5l6obgJ2+xA37neA5PBK3UoRGt64Kwla+JsQscVl1Qvorl39SSL+hw==
+X-YMail-OSG: KEif2BIVM1lVrQ1zzYT_zJfDKauXC3Vpl0yxsKn0dNMEydoFNXcFy_ik.73hHCk
+ tXTOSxU_zEzMj0xGqj1IKO81LzSXdm_ym47fi2oK8izBVlCUDba5f2warspO_8Z4AsQQtF0YigMX
+ R83i2gqiHIHBDY2pOa.v27desTaNpSuLwhF_QCsbllZJpPiVZirdVX0XzQmPkvGi73ix9Q1rvD3J
+ HU0d5un5bXyukXFRAqS9XqoXvb43X.rFdIvy95SkwNl2pj0f.Q0MuNdOTfLd7K2w6NZNXQwBeo1c
+ SF90k8EuOL2oft.BaNlP36GznjVMtCoaJzomqaT6.HXyF5Ow5vzZzWcRQBuuhJBzG02TgYuKFuCG
+ zFLXdnKi90Gh_bW_nocoYZaqmosxkVYnSIlyqhUl_JPcJZpwSvpivFeFLPQfOcL5OB.cXt5K_sJy
+ Jj7_92VVzjLbqwIxVjYo7xrkExU7zuuqRmVWHpsgAm5_LiWpW8dFbYO1qDIy1XEd45CQGBO.8GqV
+ 8tAeXkXZfSPCi6msrG.RLxaiKj7UzZtsLwjIg3Kh8oTQTULZMcVyf0Qt2CPPcC3ZFThTupSo9aKs
+ IHTQmpg6b9cGv20nPfiAFpeEMLIamGViTHHXfEYLiMVDTTlsSQYymaFQjFaGwuyHzLTpuLG749j8
+ z9MuSyPe.991FGecaRw7riAbn2NC1K2HGEL0kNEoqkFuJku9yvW2s0FEtWT4NdhCG2LNKfFxI7l4
+ H1BO0AuSQUQCPCz9Z78iWRzQUAsCMPwGWYGOcEQOv5fsEG5pKAXWpPIXvnG3cBr0gWuJXp5dmNPR
+ akI29JaVQIo_E7KwQ1yasuk0l0j.v_AEND..6NMt13xEGgZPUIn2Zd7kFwzYP19WOVIWuCo7abbG
+ DCac9wPlBqfNUl1rIqhD5QzcQ7tKtWv2w_PXpDtYT7bPoL5jwkQ1ZTe5Crbvdplz97vze2eXxZP4
+ orRUhDooyHf6iaN6Hmc4C8xsZONm7wlT9ORnmv063BhZwBLY0RDf6GmLMrOu5sx5ziG_bgmQcAgK
+ hogmSDGSCJ5OX3N_KH7YomB_MQ9R.Be6wZp706crrZtiJmHM_o8KJfnau8UNrXNRzvEx_mkRoYVS
+ 9f6o_pQ7DJEghl0MLwQQPva7swPGkV0kD_kAhSM414YCv9nVsG71G9Vjkh1yufL.3r0ULKHOQstQ
+ Q54KqITFkzHU9Qyc1qL8G5zqQ7lXyddeSttw30QTW.1tJZBkvEioPTK4gNbhTYk3i3MOhyBCQeg6
+ x13j5YiIXNJrT6lcgNVcy_sSntOfOxvbK5uATQCELLxByGo5.dRfxfNuXIY01GFm33xyo9L7xyOf
+ BKuelvRHPn8_K7u7YPX4Vx9yePfN4tg--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.bf2.yahoo.com with HTTP; Mon, 27 Apr 2020 22:55:47 +0000
+Date:   Mon, 27 Apr 2020 22:55:43 +0000 (UTC)
+From:   "larsh@apache.org" <larsh@apache.org>
+To:     Dario Messina <nanodario@gmail.com>
+Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, kjslag@gmail.com,
+        bastidoerner@gmail.com, sassmann@kpanic.de, agk@godking.net,
+        arc@osknowledge.org
+Message-ID: <280883536.837294.1588028143542@mail.yahoo.com>
+In-Reply-To: <11041815.WYjWQN8m1R@lenovodario>
+References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org> <11041815.WYjWQN8m1R@lenovodario>
+Subject: Re: [PATCH v4] thinkpad_acpi: Add support for dual fan control on
+ select models
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.15756 YMailNorrin Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
-branch HEAD: 2918f7d5a61f6c41b70486079ff0a6314ce8958b  platform/x86: Add Slim Bootloader firmware update signaling driver
+Hi Dario,
 
-elapsed time: 617m
+it just seemed an unnecessary complication for the user. This way existing tools (like thinkfan) would just continue to work.
+I could not think of any use case on these laptops where you actually want to control the fan independently.
 
-configs tested: 174
-configs skipped: 0
+It would also be hard to expose this through the /proc/acpi/ibm/fan interface.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-s390                             allmodconfig
-powerpc                             defconfig
-ia64                                defconfig
-i386                             alldefconfig
-h8300                    h8300h-sim_defconfig
-mips                              allnoconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-i386                                defconfig
-nios2                         3c120_defconfig
-ia64                         bigsur_defconfig
-i386                              allnoconfig
-i386                              debian-10.3
-i386                             allyesconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-ia64                        generic_defconfig
-ia64                          tiger_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-m68k                             allmodconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-arc                                 defconfig
-arc                              allyesconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-mips                            ar7_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-mips                malta_kvm_guest_defconfig
-mips                         tb0287_defconfig
-mips                      loongson3_defconfig
-mips                       capcella_defconfig
-mips                           ip32_defconfig
-mips                  decstation_64_defconfig
-mips                          ath79_defconfig
-mips                        bcm63xx_defconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-parisc               randconfig-a001-20200427
-alpha                randconfig-a001-20200427
-mips                 randconfig-a001-20200427
-m68k                 randconfig-a001-20200427
-riscv                randconfig-a001-20200427
-nds32                randconfig-a001-20200427
-nios2                randconfig-a001-20200427
-c6x                  randconfig-a001-20200427
-h8300                randconfig-a001-20200427
-sparc64              randconfig-a001-20200427
-microblaze           randconfig-a001-20200427
-nios2                randconfig-a001-20200428
-h8300                randconfig-a001-20200428
-c6x                  randconfig-a001-20200428
-sparc64              randconfig-a001-20200428
-microblaze           randconfig-a001-20200428
-sh                   randconfig-a001-20200427
-csky                 randconfig-a001-20200427
-xtensa               randconfig-a001-20200427
-openrisc             randconfig-a001-20200427
-i386                 randconfig-a003-20200427
-i386                 randconfig-a001-20200427
-i386                 randconfig-a002-20200427
-x86_64               randconfig-a002-20200427
-i386                 randconfig-b002-20200427
-i386                 randconfig-b003-20200427
-x86_64               randconfig-b001-20200427
-i386                 randconfig-b001-20200427
-x86_64               randconfig-b002-20200427
-x86_64               randconfig-b003-20200427
-i386                 randconfig-c002-20200427
-i386                 randconfig-c001-20200427
-x86_64               randconfig-c002-20200427
-x86_64               randconfig-c001-20200427
-i386                 randconfig-c003-20200427
-x86_64               randconfig-c003-20200427
-x86_64               randconfig-d001-20200427
-x86_64               randconfig-d002-20200427
-i386                 randconfig-d002-20200427
-i386                 randconfig-d001-20200427
-x86_64               randconfig-d003-20200427
-i386                 randconfig-d003-20200427
-i386                 randconfig-e003-20200427
-x86_64               randconfig-e002-20200427
-x86_64               randconfig-e003-20200427
-i386                 randconfig-e002-20200427
-i386                 randconfig-e001-20200427
-x86_64               randconfig-e001-20200427
-i386                 randconfig-g003-20200427
-i386                 randconfig-g001-20200427
-x86_64               randconfig-g001-20200427
-i386                 randconfig-g002-20200427
-x86_64               randconfig-g003-20200427
-i386                 randconfig-h003-20200427
-x86_64               randconfig-h002-20200427
-i386                 randconfig-h002-20200427
-i386                 randconfig-h001-20200427
-sparc                randconfig-a001-20200427
-ia64                 randconfig-a001-20200427
-arm                  randconfig-a001-20200427
-arm64                randconfig-a001-20200427
-arc                  randconfig-a001-20200427
-ia64                 randconfig-a001-20200428
-powerpc              randconfig-a001-20200428
-arm64                randconfig-a001-20200428
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             alldefconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+-- Lars
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+On Monday, April 27, 2020, 11:41:22 AM PDT, Dario Messina <nanodario@gmail.com> wrote: 
+
+
+
+
+
+On Thu, Apr 23, 2020 at 23:57:59 CEST, Lars <larsh@apache.org> wrote:
+
+> This adds dual fan control for the following models:
+> P50, P51, P52, P70, P71, P72, P1 gen1, X1E gen1, P2 gen2, and X1E gen2.
+> 
+> Both fans are controlled together as if they were a single fan.
+> [...]
+> Background:
+> I tested the BIOS default behavior on my X1E gen2 and both fans are always
+> changed together. So rather than adding controls for each fan, this controls
+> both fans together as the BIOS would do.
+
+Hi Lars, why have you chosen to control multiple fans in this way?
+I know that BIOS controls both fans together, but the EC has the capabilities 
+to control both fans independently, so maybe it can be convenient to expose 
+this feature.
+
+
+Distinti saluti/Best regards,
+Dario Messina
+
+
+
