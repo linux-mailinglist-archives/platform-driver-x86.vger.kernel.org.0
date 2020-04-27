@@ -2,95 +2,64 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED5F41BA0B5
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 12:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 249C61BA2D5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 13:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbgD0KDq (ORCPT
+        id S1727790AbgD0Lmb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Apr 2020 06:03:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726243AbgD0KDq (ORCPT
+        Mon, 27 Apr 2020 07:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727056AbgD0Lma (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Apr 2020 06:03:46 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8384C0610D5;
-        Mon, 27 Apr 2020 03:03:45 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id r14so8788171pfg.2;
-        Mon, 27 Apr 2020 03:03:45 -0700 (PDT)
+        Mon, 27 Apr 2020 07:42:30 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFEBAC061BD3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id 19so18391262ioz.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v7BxKFweYFM5l6F2sMkhzleb96tz5ULQ16O7j1OFWYM=;
-        b=KpgRqh8GRU+uQ2SlSDqPMsdLe/NvAVIOvg7PdgRfCJPIrJXpZRJfGi2H3bcxEZmiu/
-         c024VF55BLz+8LttdI50b/mNkKbJu95vectVoonNfbejM9imZbNik06ogDudErPokFY3
-         aGBnp/HyjWfE95xyJPbQIxGmWM0JB48wlSnvumsjZIqgsFe3d1RCd6GtMXki7PZkHiha
-         WLBaDoxoBtO/hBdBXxdyfVGfYphtmzMMGxtn86LLKBctP055gWfDofy7M96qdhZALML8
-         rWNxtFpnideXlpUwRQRxzS3Uyhsr7PoCC5AiByy6By8BvBEav7x/8XMw6xQwvxheV2ga
-         SCoQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=Z0/w2OpdO1ic7QGZwJJ/GSiwGu9O3rZCxF7ZG39LhJ4lnT6rSYKTl3ifdt4oEAK//P
+         WbHbKLih1ydoew5H6tmulYPuQ2zEa2v/HapGgIVGlqz7JQBMeaNUe8cjcDXYRGuykis6
+         zC+KgEAje3mKl1Uuvq4eRuXVVMH9n93xqYPv7IR/gfaLrvtyoKkDAHvr9n81rscrLBH8
+         HheXehYj2HaadmCKWbR6YXSjh1WY/KHabxK1PvAYHqP985szOBFsSEszNtBhuQw/B0s3
+         GAbafzftPkm8asu211bbOaxtvOwQ/guzUtIkXr1RVPnaKowiqMAi0v4tz7CtLCBVRYgJ
+         +wrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v7BxKFweYFM5l6F2sMkhzleb96tz5ULQ16O7j1OFWYM=;
-        b=Pte94v5YVk5od0HvCXc9F5a3jxWvqvxgGmpA0gNFM2QQpX8VjOhYovLdvYNSPDK2Du
-         AMRYYuv/5h2c1HhE2aex+2omWHT6shk3roGiTzis3fD/flKGivMs5Wc5f1Ye25jMEVId
-         GdzgNgmVPiTNXhxd5WAYHPz/jDhKNwaG4c+UVFu23yrYePucKR9SKnZOM3flaLX+KQOI
-         EA1zOO8KICwqhDjUNhUse7Yoe7MvknetBGsyqo2vhRqO9MBBfrq74oGxzZbLiTdQGRgo
-         hfDTbLrrvypfmTgUCt5V4c2T/RRQquR35qZZtHVWbV1oyHBLoQhL2MVxo3de65RC3jwS
-         4xLA==
-X-Gm-Message-State: AGi0Pubg1UCkx3tnqn+sRkETMZTnikwDPU5d6cVEKixUO5CkokLTZVnc
-        nS4W7TdIqVHbOqtERPDnb8TI5Xkg7+N9tGkUnHF7Y9fx
-X-Google-Smtp-Source: APiQypLles5u47p9bkAKuILNITkiEJk5MPNGUeMvAmApcjBKVcYAZjYchQA/cy883cJouMybjR+0Z8MV9vnwC2CRPrk=
-X-Received: by 2002:a62:5ec7:: with SMTP id s190mr22647891pfb.130.1587981825268;
- Mon, 27 Apr 2020 03:03:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=plOvZSgXx2n9097vCqnxQokFrdIDP07H55BzgZ59kCQqm3TOzC2fCqzUsRWOiU9IA6
+         ev4axcg5dMVwwbMZnt2/gQH1gueOD8w0vHY2k6kOuvQDZSjKWU4Q+o0bbgj046wLVB0O
+         eMLWfW0+g3GyjYsWxzQF+qwtANbm/wgNsoOS8vX5Yhkas4rHBMW1uOqZjdosfQiC969o
+         M4AX7Cmhav82A6cpO6tBT/1YExOKkBbk9kesJWVG5ga55tvxuPL8WQS0caa+Pi1POvn1
+         BLLu+foHX2HhhjCp9h/Tyh4QLx0NXg+a7rzWpbIPJdO9odokArWpRiPseQf44v0AKJEU
+         gNqA==
+X-Gm-Message-State: AGi0PuZe/Ni/jO8bPdUU0COP5DAWbjh246INUyQT2a+zPlkrev/5T0a4
+        dQoyWWvuOzBVJy9qwvlMaJ9U3Q2r9TiowS7qAm8=
+X-Google-Smtp-Source: APiQypJhljcjP/vIrB+jel/G0wq+AZhse3DH1Tak3IJ8XvXaBO/rBzBY+oTngeoErAcPyMrpUNZV7rlF9JyvvTWkIuU=
+X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4075434ioq.70.1587987750228;
+ Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200423224222.29730-1-jithu.joseph@intel.com> <CAHp75VcqV3e8ecAUX+dr9h-bE+1XJ_71hJRA1b9XdouJJLD2ZA@mail.gmail.com>
-In-Reply-To: <CAHp75VcqV3e8ecAUX+dr9h-bE+1XJ_71hJRA1b9XdouJJLD2ZA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Apr 2020 13:03:38 +0300
-Message-ID: <CAHp75Vezc9-vTSVsTE=ce_2XRPfFVT2gHwZhwqZiRX8M=sdmmg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] platform/x86: Add Slim Bootloader firmware update support
-To:     Jithu Joseph <jithu.joseph@intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        maurice.ma@intel.com, ravi.p.rangarajan@intel.com,
-        Sean V Kelley <sean.v.kelley@intel.com>,
-        kuo-lang.tseng@intel.com
+Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:42:29
+ -0700 (PDT)
+Reply-To: convy0090@gmail.com
+From:   Ruben CONVY <andrewboccc@gmail.com>
+Date:   Mon, 27 Apr 2020 12:42:29 +0100
+Message-ID: <CAHVC0+DhiNt=2kEi=ZA=1JYYKe=91Ov7wgqAPpLX0X3-emTJWw@mail.gmail.com>
+Subject: Why continued silence 2
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 2:08 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Fri, Apr 24, 2020 at 1:49 AM Jithu Joseph <jithu.joseph@intel.com> wrote:
-> >
-> > v1 Upstream submission is available here:
-> > https://lore.kernel.org/lkml/20200420194405.8281-1-jithu.joseph@intel.com
-> >
->
-> Pushed to my review and testing queue, thanks!
-
-One question, though.
-
-We use a bit different template for module names
-
-vendor-...-wmi
-
-(yes, with exception to TBT)
-
-I would like to rename sbl_fwu_wmi to something like this:
-
-intel-wmi-sbl-fw-update
-
-What do you think?
-
--- 
-With Best Regards,
-Andy Shevchenko
+Did you receive my previous email regarding your family inheritance?
+Reply strictly through: convy0090@gmail.com
+Best Regards,
+Ruben CONVY
