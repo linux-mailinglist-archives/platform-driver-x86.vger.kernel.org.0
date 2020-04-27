@@ -2,64 +2,179 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 249C61BA2D5
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 13:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 390F61BA3DB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Apr 2020 14:51:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727790AbgD0Lmb (ORCPT
+        id S1726539AbgD0Mve (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Apr 2020 07:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727056AbgD0Lma (ORCPT
+        Mon, 27 Apr 2020 08:51:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20180 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727001AbgD0Mva (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Apr 2020 07:42:30 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFEBAC061BD3
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id 19so18391262ioz.10
-        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=Z0/w2OpdO1ic7QGZwJJ/GSiwGu9O3rZCxF7ZG39LhJ4lnT6rSYKTl3ifdt4oEAK//P
-         WbHbKLih1ydoew5H6tmulYPuQ2zEa2v/HapGgIVGlqz7JQBMeaNUe8cjcDXYRGuykis6
-         zC+KgEAje3mKl1Uuvq4eRuXVVMH9n93xqYPv7IR/gfaLrvtyoKkDAHvr9n81rscrLBH8
-         HheXehYj2HaadmCKWbR6YXSjh1WY/KHabxK1PvAYHqP985szOBFsSEszNtBhuQw/B0s3
-         GAbafzftPkm8asu211bbOaxtvOwQ/guzUtIkXr1RVPnaKowiqMAi0v4tz7CtLCBVRYgJ
-         +wrQ==
+        Mon, 27 Apr 2020 08:51:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1587991888;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vRiQmFzoZrXUGpwWxPLuF6siHGrPTOYeQlcSJvIJ/rE=;
+        b=BviJlWNnuBwu4EOaTImMyBXe929z2tIC81SVqzDd0TOhee6XEZjMi7ux6H3Q+NUi1CMCBZ
+        742XGtSaMzsnc1YkAW085YQcG3URuKHNmPQxbkr+4a+SIOyqKTSQ3jkZ0LInGrUFrKd0vL
+        3tZPGbuswwq2q9XUUYa6FwydY/qETOs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-myWTOYEpOXiE1Fm5ous7Bw-1; Mon, 27 Apr 2020 08:51:27 -0400
+X-MC-Unique: myWTOYEpOXiE1Fm5ous7Bw-1
+Received: by mail-wr1-f71.google.com with SMTP id u4so10470219wrm.13
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Apr 2020 05:51:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=plOvZSgXx2n9097vCqnxQokFrdIDP07H55BzgZ59kCQqm3TOzC2fCqzUsRWOiU9IA6
-         ev4axcg5dMVwwbMZnt2/gQH1gueOD8w0vHY2k6kOuvQDZSjKWU4Q+o0bbgj046wLVB0O
-         eMLWfW0+g3GyjYsWxzQF+qwtANbm/wgNsoOS8vX5Yhkas4rHBMW1uOqZjdosfQiC969o
-         M4AX7Cmhav82A6cpO6tBT/1YExOKkBbk9kesJWVG5ga55tvxuPL8WQS0caa+Pi1POvn1
-         BLLu+foHX2HhhjCp9h/Tyh4QLx0NXg+a7rzWpbIPJdO9odokArWpRiPseQf44v0AKJEU
-         gNqA==
-X-Gm-Message-State: AGi0PuZe/Ni/jO8bPdUU0COP5DAWbjh246INUyQT2a+zPlkrev/5T0a4
-        dQoyWWvuOzBVJy9qwvlMaJ9U3Q2r9TiowS7qAm8=
-X-Google-Smtp-Source: APiQypJhljcjP/vIrB+jel/G0wq+AZhse3DH1Tak3IJ8XvXaBO/rBzBY+oTngeoErAcPyMrpUNZV7rlF9JyvvTWkIuU=
-X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4075434ioq.70.1587987750228;
- Mon, 27 Apr 2020 04:42:30 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vRiQmFzoZrXUGpwWxPLuF6siHGrPTOYeQlcSJvIJ/rE=;
+        b=CqUSzO3BaGGHamepgLUCcZX1JFIh4QWgfJActcQ1fWKxxzuHNe0c6IR45RR3ZzfwRz
+         JgtfYxbKPDjERjYyf6keHhld08DHQ2yU5dDGja4lMetMjF+8tpBJxmiagcTLV7OYyWe9
+         w0GC2nb0CRAYLsPuIVkCqQa3heAK4c3QOyxWtDQCLfzdJRFtA8UrWwWI7Utjckp/kiqI
+         UKglJgPm3TrTcXJ91oZy2odUhnC0+ss2aGwBz3IFor7bSXXZzo5ZUKb3sgKemlqFXKm2
+         VXq6fX9ogADNVNNeMBSZUO0H4M9rryQ784QxvcDwTp58tUnX1sWVutQ/cK6iNShtcrXV
+         qORQ==
+X-Gm-Message-State: AGi0PuY+aWeEAXfpuZZ8XHgnDHFT8JxjpblKatB+//GDvC7/TObk9SB8
+        3YZFcAE2RRjxSzgjXrS7lo0h7GyASBhUPpH/M9UbvjtmxsQk/w2jiPYX/Vq79wUAV2nIcNYrRwX
+        h9f7tW8eJfEBDuiUpCTcJBIMzIbPzINhHVA==
+X-Received: by 2002:a1c:668a:: with SMTP id a132mr27023576wmc.46.1587991885027;
+        Mon, 27 Apr 2020 05:51:25 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJyDf/OX4OYcDKrzqBAjDFKNR+NN09aMBK95aTkzZozir/CCz+7irJYgimIBbyH7YrcfSq2zw==
+X-Received: by 2002:a1c:668a:: with SMTP id a132mr27023550wmc.46.1587991884778;
+        Mon, 27 Apr 2020 05:51:24 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id m15sm15230473wmc.35.2020.04.27.05.51.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2020 05:51:23 -0700 (PDT)
+Subject: Re: [PATCH 1/2] platform/x86: i2c-multi-instantiate: Add flag for
+ passing fwnode
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200426104713.216896-1-hdegoede@redhat.com>
+ <20200426104713.216896-2-hdegoede@redhat.com>
+ <CAHp75VdOd6C36oR7HAnqrKiinVBr4YcqqJ=dv3NpR3=Xp0QQ-Q@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <b5bdffb4-0af2-abb7-21f7-2f5da56d5dc6@redhat.com>
+Date:   Mon, 27 Apr 2020 14:51:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:42:29
- -0700 (PDT)
-Reply-To: convy0090@gmail.com
-From:   Ruben CONVY <andrewboccc@gmail.com>
-Date:   Mon, 27 Apr 2020 12:42:29 +0100
-Message-ID: <CAHVC0+DhiNt=2kEi=ZA=1JYYKe=91Ov7wgqAPpLX0X3-emTJWw@mail.gmail.com>
-Subject: Why continued silence 2
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHp75VdOd6C36oR7HAnqrKiinVBr4YcqqJ=dv3NpR3=Xp0QQ-Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Did you receive my previous email regarding your family inheritance?
-Reply strictly through: convy0090@gmail.com
-Best Regards,
-Ruben CONVY
+Hi,
+
+On 4/26/20 7:59 PM, Andy Shevchenko wrote:
+> On Sun, Apr 26, 2020 at 1:47 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> In some cases the driver for the i2c_client-s which i2c-multi-instantiate
+>> instantiates may need access some fields / methods from to the ACPI fwnode
+>> for which i2c_clients are being instantiated.
+>>
+>> An example of this are CPLM3218 ACPI device-s. These contain CPM0 and
+>> CPM1 packages with various information (e.g. register init values) which
+>> the driver needs.
+>>
+>> Passing the fwnode through the i2c_board_info struct also gives the
+>> i2c-core access to it, and if we do not pass an IRQ then the i2c-core
+>> will use the fwnode to get an IRQ, see i2c_acpi_get_irq().
+> 
+> I'm wondering, can we rather do it in the same way like we do for
+> GPIO/APIC case here.
+> Introduce IRQ_RESOURCE_SHARED (or so) and
+> 
+> case _SHARED:
+>   irq = i2c_acpi_get_irq();
+> ...
+> 
+> ?
+
+I think you are miss-understanding the problem. The problem is not that
+we want to share the IRQ, the problem is that we want to pass the single
+IRQ in the resources to only 1 of the instantiated I2C-clients. But if we
+do not pass an IRQ (we leave it at 0) and we do pass the fwnode then
+i2c-core-base.c will see that there is an ACPI-node attached to the
+device and will call i2c_acpi_get_irq().
+
+So the solution is definitely not calling i2c_acpi_get_irq() inside
+i2c-multi-instantiate.c we want to avoid the i2c_acpi_get_irq(),
+leaving the other 2 clients for the BSG1160 device without an IRQ
+and thus avoiding the IRQ mismatch (it is a mismatch because the
+drivers do not set the shared flag; and that is ok, we do not want
+to share the IRQ, it is just for the accelerometer AFAIK).
+
+Regards,
+
+Hans
+
+
+> 
+>>
+>> This is a problem when there is only an IRQ for 1 of the clients described
+>> in the ACPI device we are instantiating clients for. If we unconditionally
+>> pass the fwnode, then i2c_acpi_get_irq() will assign the same IRQ to all
+>> clients instantiated, leading to kernel-oopses like this (BSG1160 device):
+>>
+>> [   27.340557] genirq: Flags mismatch irq 76. 00002001 (bmc150_magn_event) vs. 00000001 (bmc150_accel_event)
+>> [   27.340567] Call Trace:
+>> ...
+>>
+>> So we cannot simply always pass the fwnode. This commit adds a PASS_FWNODE
+>> flag, which can be used to pass the fwnode in cases where we do not have
+>> the IRQ problem and the driver for the instantiated client(s) needs access
+>> to the fwnode.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/platform/x86/i2c-multi-instantiate.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
+>> index 6acc8457866e..dcafb1a29d17 100644
+>> --- a/drivers/platform/x86/i2c-multi-instantiate.c
+>> +++ b/drivers/platform/x86/i2c-multi-instantiate.c
+>> @@ -20,6 +20,8 @@
+>>   #define IRQ_RESOURCE_GPIO      1
+>>   #define IRQ_RESOURCE_APIC      2
+>>
+>> +#define PASS_FWNODE            BIT(2)
+>> +
+>>   struct i2c_inst_data {
+>>          const char *type;
+>>          unsigned int flags;
+>> @@ -93,6 +95,10 @@ static int i2c_multi_inst_probe(struct platform_device *pdev)
+>>                  snprintf(name, sizeof(name), "%s-%s.%d", dev_name(dev),
+>>                           inst_data[i].type, i);
+>>                  board_info.dev_name = name;
+>> +
+>> +               if (inst_data[i].flags & PASS_FWNODE)
+>> +                       board_info.fwnode = dev->fwnode;
+>> +
+>>                  switch (inst_data[i].flags & IRQ_RESOURCE_TYPE) {
+>>                  case IRQ_RESOURCE_GPIO:
+>>                          ret = acpi_dev_gpio_irq_get(adev, inst_data[i].irq_idx);
+>> --
+>> 2.26.0
+>>
+> 
+> 
+
