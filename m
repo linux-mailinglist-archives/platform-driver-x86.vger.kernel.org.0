@@ -2,165 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A891C1BCEE1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Apr 2020 23:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 165921BD0F7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Apr 2020 02:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726866AbgD1VhK (ORCPT
+        id S1726345AbgD2AVV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Apr 2020 17:37:10 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:37929 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726282AbgD1VhJ (ORCPT
+        Tue, 28 Apr 2020 20:21:21 -0400
+Received: from sonic307-3.consmr.mail.bf2.yahoo.com ([74.6.134.42]:45428 "EHLO
+        sonic307-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726181AbgD2AVV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:37:09 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1Mo7if-1ioQaP0hbP-00phAH; Tue, 28 Apr 2020 23:36:50 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Gayatri Kammela <gayatri.kammela@intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Chen Zhou <chenzhou10@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "David E. Box" <david.e.box@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Rajat Jain <rajatja@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nishad Kamdar <nishadkamdar@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: intel_pmc_core: avoid unused-function warnings
-Date:   Tue, 28 Apr 2020 23:36:38 +0200
-Message-Id: <20200428213648.3629501-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+        Tue, 28 Apr 2020 20:21:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1588119679; bh=czbPP9wK60svJF75lJYdePfWz0nSqkwPwDIqm2Zhd04=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=s509FFfYgd6fXE3wloFTiT85XKSJXmaZFa2ledd5MAiTMVgk1dInKpml5s+ROJ/pW363IrTn8Rpy5NjnM/q6Sp8uKfUyWFqvZIGvIvFEKMKPPKxg6PURJrefGulq1jVkDDpq9qQqlZqtoklTARiflRFlH45LjmI9bONi0F5C4e3I8Dt/VmPeHy9exiSmxaaBY1t4JyaBxIKhsCcph4xdiy8fiJfpwtycC/V++3R9epKWHL8T0V3wIzheygygTO5mkK89bhq0bB6ShFQlnvFjPPb9kpUN5Hng3cw3R7zBAKpf91WlrexYE1nTk/VB9oEsy2fhNaRfaxI/QaIUGDYJNA==
+X-YMail-OSG: 9QTfb1MVM1m0NzWBjrlHJxwU_TecbM4r9i.u1yxXFGJt9VnhdoelFdqCnd7YcBA
+ s2vfL2HDLEQz8wjL8z1HdDmOtPbNE8XsyyCObYASfnwg.a4fEihdEpTXD8JIWQTXus2qNlNYinio
+ 30vOU7ryONv.FcJLf8IOIlgk6g.hT.9OqmjmOUzzdvZiIx8ByTOFkdkvpTbNdA3dXhTNFdMUN.po
+ GzgkVCnTS5oMglHb.Wrjb5dLufXgtdsOsH6NcDd4dDax.Pq7kw13tVEliysHoi1yNkYP.9eneAc3
+ GXBITTmtfs.cLAw6tLB_PdCLuz9Ruh74OJj1dG7YF5.D9JWmVSBFMkVC8huMyrz4i7mp4wBStKVd
+ 8wykh0Gd.N1h67p1AaXSKc.Bu4Ko2BS08ilwoFem13SZ1ye83TX3Oh.Ww9Up4j3YPwRB3esl.GSZ
+ 3_aZFVpUHvgmWNkKqhvNOdtI5k2aPjstp68QoielB9vHzeTItQkrfvjQeU5tQbfaXMPpMxFZWiHQ
+ WQyeeJHfhMg9A3i.O_qlOOvfbANGuTP7zBT.fjbGQEBH70oRjhfrIG1rPohIyb9XRrI4Uut339jt
+ cutPIU2M_fjYPdfwCjBTYWo_HHfNYYymTPl5w4nmgrz4cIIcYvFgsmGYK9g429jO9I5RYp3FanII
+ CSFM2iF36R5fneOonTQlrL9KGBkZ8T0B2hrMTBQQNrATiLwDd4B0YqeAmsEk8HEhDS1DBlqSWqkh
+ toub4V.0lcA.QFowaB5kSeElydu7lLIYfSeC5W9wE9c6wbsrZ2BxuHLNnAzQ6xL0FXMDox2kqWVg
+ aIwrttfXO_nFZnTxgfd9bcBGUdxbsRo.tJJswlOdcaSpSpY3TfR1.Xh.JjVM6MYsWFUK4fqD8tYR
+ t2Y52TPvsffcwnnmqdAwHdEt32TBO5Gu47CAP0QxIFgl.x.hTn14anfAVKemzN6WusHW_rlUcbF6
+ Ft.XWo.Qax5n2bQm01wVqrhSztZ8W.GaKKKiuDCmx88GvM4I_a53LEH043vG3musK4W0zMdZLSLp
+ 440miidIrp1CtFtUf9oD2JytDbDZ5HFNoLnjxQTh_EK6OQGaPnsERJ5b4_F.ADwmMXn5RceT5gBi
+ BjCiOXGiMWi.UlnQuL5ZqGPO9geqydUWSLlmQDikjyIMS1F2o3K_oXDGunDEAEWlsTHyO4mb.4li
+ YfLB4FlaDS8PmI6u0g_N0Jnb8etZdfNKEyVnuczLrHVrYWRd4xYG7FHWjE1LBtgChMj6ztd03Mf_
+ d7ImKGpzmkEyqKYoOzpetuIVn_nrg6fBXW_._LqoyCjSkuNF.3phKVqA_MiTTI6bthYdwOrjvtu_
+ 8YRHrhA_rTbUe.z4YlrtAqsokPYYcre_KLZGxXv8-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.bf2.yahoo.com with HTTP; Wed, 29 Apr 2020 00:21:19 +0000
+Date:   Wed, 29 Apr 2020 00:20:34 +0000 (UTC)
+From:   "larsh@apache.org" <larsh@apache.org>
+To:     Dario Messina <nanodario@gmail.com>, civic9 <civic9@gmail.com>
+Cc:     agk@godking.net, kjslag@gmail.com, bastidoerner@gmail.com,
+        ibm-acpi-devel@lists.sourceforge.net, ibm-acpi@hmh.eng.br,
+        platform-driver-x86@vger.kernel.org, sassmann@kpanic.de,
+        arc@osknowledge.org
+Message-ID: <1605997626.1278142.1588119634625@mail.yahoo.com>
+In-Reply-To: <CAM_y6qhV6r9BVE6Uibn=xpDZRYuhZDBBgfHT8fMECNS1DyaQwQ@mail.gmail.com>
+References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org> <11041815.WYjWQN8m1R@lenovodario> <CAM_y6qhV6r9BVE6Uibn=xpDZRYuhZDBBgfHT8fMECNS1DyaQwQ@mail.gmail.com>
+Subject: Re: [ibm-acpi-devel] [PATCH v4] thinkpad_acpi: Add support for dual
+ fan control on select models
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nvNU/HDnyd33t01OiWL2I6dmE6u7w9oJnm8AAqtxowJeqKhvQqw
- haXaJX3ywsdYR3AiMt+DPphtMU8g2kfqr6aHeEMyOQZZGE5dPzUqOu2osXRe0uLC3C0VOMz
- HzWqotj1SsW3Y/AvXF/P95eaHSZICk/8ENTuDVyEeSjfaf7YOqvLqao5ml281iy5MyH+Ksq
- BcbAGEs2BAPst60ge+MUg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3jBJdqlr6ro=:83ZkR/dO+GI/5JLxYRofra
- PMNHMSM1p4DgHgv6TawQA7/2OIZLJ83xhjBifRvVkYFDYDfOIlwP3V8WQULv8spF7VFEX1YcC
- SQ7hOvblO4759ek641nhlE8yuhyDClhcAsH8Qqys53wd1rOTEAd5XoLn7SBt492N7vgNx9oxR
- gu1mdiYKgviFj9sLkGf+2q1nW3wLTaVOO8z6BFgwS+zIabtvMlDwyk6ReB0GhqiqDO/Uys3EE
- ATNsBLWpPTPcmo1IEWN0gx/lWFJ22WtCWEbn+2oN7VQy4l19rAp9nDdjn8lTcHR30nFKPCPs0
- NyRafXoBqS3FyWYolEC8zDfrusNEbJopW6G+2Xqou2Ja3HF97jaPEULV1IQBtkP8H+OTa8wl7
- h95hNSOy3K8B5YOLPvd3RbP9KU0exb+rMEIDvjycxLQOlnl6JTYo1PLIS6qtqh6Ghn+JQckfB
- btsS6GtDim+atapsQuVLcUVYJMtYz0OKSDpmDkrY4ISYK9Oc6TSbi1yDWAZB1f0FnXcuecZoo
- kxdHtKo1CNWaHTrQKkc0/8axUjW6j5Pgj5C5bqrTzqZDX/xhOd1CEVlZxpFtfPOX/5nUtnRT8
- S4fXSiQHIqYF3QrZ5TiuGxLfK6OEx9LnTWpbW8ulN3zBYxeone9N6hLt20y0py6JeQYHBfLD1
- jS2Z5LbPr/urw7cskvGVDq1wFZ+Kx/HQeD6pg5zof0X4eNgNaXzVKlvltmnhbVAUSkc+Y5OuR
- /jHphW1EPpLm5gw723MqJSMPYtXN7/QHU2zLp5jG/awnoiJJ/6IYTiZJhZqfXjrJtwogCoXRP
- 7q90t4JZky2DWlWef3ZSymSG6x4TPKJEL5x81YV6UXtoWEczBE=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.15756 YMailNorrin Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When both CONFIG_DEBUG_FS and CONFIG_PM_SLEEP are disabled, the
-functions that got moved out of the #ifdef section now cause
-a warning:
+Do you have a use case for that behavior?
 
-drivers/platform/x86/intel_pmc_core.c:654:13: error: 'pmc_core_lpm_display' defined but not used [-Werror=unused-function]
-  654 | static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
-      |             ^~~~~~~~~~~~~~~~~~~~
-drivers/platform/x86/intel_pmc_core.c:617:13: error: 'pmc_core_slps0_display' defined but not used [-Werror=unused-function]
-  617 | static void pmc_core_slps0_display(struct pmc_dev *pmcdev, struct device *dev,
-      |             ^~~~~~~~~~~~~~~~~~~~~~
+The previous patch broke the /proc interface, didn't not work with the curr=
+ent version of thinkfan
+(but a a version with multi-fan support is in the works), and it had hard t=
+o track internal mutable state.
 
-Rather than add even more #ifdefs here, remove them entirely and
-let the compiler work it out, it can actually get rid of all the
-debugfs calls without problems as long as the struct member is
-there.
+The proposed change is clean on all these fronts.
 
-The two PM functions just need a __maybe_unused annotations to avoid
-another warning instead of the #ifdef.
+I'm not a fan of surprising the user with unnecessarily complex behavior (b=
+ut perhaps this can be added as an option in the future.)
 
-Fixes: aae43c2bcdc1 ("platform/x86: intel_pmc_core: Relocate pmc_core_*_display() to outside of CONFIG_DEBUG_FS")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/platform/x86/intel_pmc_core.c | 18 ++----------------
- drivers/platform/x86/intel_pmc_core.h |  2 --
- 2 files changed, 2 insertions(+), 18 deletions(-)
+-- Lars
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index a130859ec49e..7c8bdab078cf 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -692,7 +692,6 @@ static void pmc_core_lpm_display(struct pmc_dev *pmcdev, struct device *dev,
- 	kfree(lpm_regs);
- }
- 
--#if IS_ENABLED(CONFIG_DEBUG_FS)
- static bool slps0_dbg_latch;
- 
- static inline u8 pmc_core_reg_read_byte(struct pmc_dev *pmcdev, int offset)
-@@ -1133,15 +1132,6 @@ static void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
- 				    &pmc_core_substate_l_sts_regs_fops);
- 	}
- }
--#else
--static inline void pmc_core_dbgfs_register(struct pmc_dev *pmcdev)
--{
--}
--
--static inline void pmc_core_dbgfs_unregister(struct pmc_dev *pmcdev)
--{
--}
--#endif /* CONFIG_DEBUG_FS */
- 
- static const struct x86_cpu_id intel_pmc_core_ids[] = {
- 	X86_MATCH_INTEL_FAM6_MODEL(SKYLAKE_L,		&spt_reg_map),
-@@ -1260,13 +1250,11 @@ static int pmc_core_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_PM_SLEEP
--
- static bool warn_on_s0ix_failures;
- module_param(warn_on_s0ix_failures, bool, 0644);
- MODULE_PARM_DESC(warn_on_s0ix_failures, "Check and warn for S0ix failures");
- 
--static int pmc_core_suspend(struct device *dev)
-+static __maybe_unused int pmc_core_suspend(struct device *dev)
- {
- 	struct pmc_dev *pmcdev = dev_get_drvdata(dev);
- 
-@@ -1318,7 +1306,7 @@ static inline bool pmc_core_is_s0ix_failed(struct pmc_dev *pmcdev)
- 	return false;
- }
- 
--static int pmc_core_resume(struct device *dev)
-+static __maybe_unused int pmc_core_resume(struct device *dev)
- {
- 	struct pmc_dev *pmcdev = dev_get_drvdata(dev);
- 	const struct pmc_bit_map **maps = pmcdev->map->lpm_sts;
-@@ -1348,8 +1336,6 @@ static int pmc_core_resume(struct device *dev)
- 	return 0;
- }
- 
--#endif
--
- static const struct dev_pm_ops pmc_core_pm_ops = {
- 	SET_LATE_SYSTEM_SLEEP_PM_OPS(pmc_core_suspend, pmc_core_resume)
- };
-diff --git a/drivers/platform/x86/intel_pmc_core.h b/drivers/platform/x86/intel_pmc_core.h
-index 0d50b2402abe..5eae55d80226 100644
---- a/drivers/platform/x86/intel_pmc_core.h
-+++ b/drivers/platform/x86/intel_pmc_core.h
-@@ -282,9 +282,7 @@ struct pmc_dev {
- 	u32 base_addr;
- 	void __iomem *regbase;
- 	const struct pmc_reg_map *map;
--#if IS_ENABLED(CONFIG_DEBUG_FS)
- 	struct dentry *dbgfs_dir;
--#endif /* CONFIG_DEBUG_FS */
- 	int pmc_xram_read_bit;
- 	struct mutex lock; /* generic mutex lock for PMC Core */
- 
--- 
-2.26.0
+On Tuesday, April 28, 2020, 2:18:42 PM PDT, civic9 <civic9@gmail.com> wrote=
+:=20
 
+
+
+
+
+pon., 27 kwi 2020 o 20:41 Dario Messina <nanodario@gmail.com> napisa=C5=82(=
+a):
+>
+> On Thu, Apr 23, 2020 at 23:57:59 CEST, Lars <larsh@apache.org> wrote:
+> > This adds dual fan control for the following models:
+> > P50, P51, P52, P70, P71, P72, P1 gen1, X1E gen1, P2 gen2, and X1E gen2.
+> >
+> > Both fans are controlled together as if they were a single fan.
+> > [...]
+> > Background:
+> > I tested the BIOS default behavior on my X1E gen2 and both fans are alw=
+ays
+> > changed together. So rather than adding controls for each fan, this con=
+trols
+> > both fans together as the BIOS would do.
+> Hi Lars, why have you chosen to control multiple fans in this way?
+> I know that BIOS controls both fans together, but the EC has the capabili=
+ties
+> to control both fans independently, so maybe it can be convenient to expo=
+se
+> this feature.
+
++1
+Previous version of the patch [1] allows to control both fans independently=
+.
+However some software like thinkfan is not ready to control two fans.
+But I also think this feature should be at least optionally exposed.
+
+
+[1]=20
+https://github.com/civic9/thinkpad_acpi.2ndfan.patch/blob/master/thinkpad_a=
+cpi.2ndfan.patch/thinkpad_acpi.2ndfan.patch
