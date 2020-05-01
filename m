@@ -2,110 +2,117 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3681C098F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Apr 2020 23:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3ED1C0B55
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  1 May 2020 02:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgD3Vkv (ORCPT
+        id S1727832AbgEAAor (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 30 Apr 2020 17:40:51 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:46101 "EHLO
-        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726447AbgD3Vku (ORCPT
+        Thu, 30 Apr 2020 20:44:47 -0400
+Received: from sonic309-15.consmr.mail.bf2.yahoo.com ([74.6.129.125]:32838
+        "EHLO sonic309-15.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726384AbgEAAor (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 30 Apr 2020 17:40:50 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 41E5D568;
-        Thu, 30 Apr 2020 17:40:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Thu, 30 Apr 2020 17:40:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=0yUYdz8c3bH2r9ZO6rfQXpu5XtO
-        QdyW42KYK6xwoPeY=; b=nCxt5anRioZjaIsw2Yn1r1LL+IlNLIuSEGflo7xg9mo
-        L4UaAsi5VgQvxl6DIm76mkibdVEiZUqT41VSexrOTfRdbEKp09Mcp60iNxV/DzNH
-        SWXk9x7k5++JrtbXKxWUODxv5QHpB8APOOuYtR6PdkT+wKuSdNYlJrLlaWsUEThm
-        Aaxga7+rj9GuWbUbh5UZd9ktBBoRyDQmXkx+gNjydruDHB9dLDo0/2c3R9yK4Nis
-        O8sYr1sAkJedbPCDUNa60tFgQm3HsN6isc+s1CUSyvePcXBRZ9ZmKnikrl49gZWF
-        CpcIz5brcb6AKFiOxLfty3gYgLxvMYULGBbPtGZGzDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0yUYdz
-        8c3bH2r9ZO6rfQXpu5XtOQdyW42KYK6xwoPeY=; b=SSV4Lvh/vX+QEtIpt3FqnU
-        gNq6+Rzmte/p12USH8GrM4temHwCKB4AcaRnXPq07Ejr9ibzbIQnJbPUAthDsX3N
-        wuMVTdfRfSotrp8od9uuEsHFRKWEtosZfV2I5VcyfoY/Nvi10aohXdDGXO4yMDSW
-        K2BwxZQErAcMW5SQ7V5mJbwefK37jDXxGh4S93Xibn0VIY5C4qYVBA+TzGdngGb3
-        JpCT5El0YRFZ2ejC8QZdrX9HI663+xCjrtu3vrKDDY+5nGc4e1r6Z+1QljIrNF2f
-        c/lacto29vuuU1RHA2Tgl/S9C8QYE6XyHUA7yzsBbOCy7He3uDu5Exy+vDxxCX3Q
-        ==
-X-ME-Sender: <xms:30WrXjregZPEbmv6rx4hiAT1u0daBCuhf-oQw14E3FxoVX06IlPKMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrieeiucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhrihhquhgv
-    ucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnhhgrdgsrh
-    eqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfhjeefgeek
-    heekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhhrdgvnhhg
-    rdgsrh
-X-ME-Proxy: <xmx:30WrXlGyPVcBKa1tKpu01G2VqLqoHaV8Wv80fEanybKFxQMb73xcPQ>
-    <xmx:30WrXtm6o2gdaKdAjZNpCa1-F1ExRmoeViSC44Md-nBdUy_UtTT5pQ>
-    <xmx:30WrXgkIbP56HuFBRaozPZNpnmOTySOQ3lQGZkxCocSp4KDEakwbow>
-    <xmx:4EWrXvcbAdnO5UjVrip7avki8BE6cwJ-Pcebu1jz3VQ6NFbZ1SS2FA>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AD99A328005D;
-        Thu, 30 Apr 2020 17:40:47 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id C7C8A3400175;
-        Thu, 30 Apr 2020 18:40:44 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id thsmCbieLRRK; Thu, 30 Apr 2020 18:40:43 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id 93FD43400174; Thu, 30 Apr 2020 18:40:41 -0300 (-03)
-Date:   Thu, 30 Apr 2020 18:40:41 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Stefan Assmann <sassmann@kpanic.de>
-Cc:     "larsh@apache.org" <larsh@apache.org>,
-        Dario Messina <nanodario@gmail.com>, civic9 <civic9@gmail.com>,
+        Thu, 30 Apr 2020 20:44:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1588293885; bh=wr6g5tSzUdYSDyxYn0jPKbdYG32ppRVk5x0hmGYPQk4=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=lknNC0IURoe8NHuJpBGpDYjo0XRh7AP1YQbz4EjTlNIptivk/HR2a48643czwseaXNcv3TADq6mA7szuUGj4FOZLsK/kSexBiSYpwtkrDwlLI+3d+u8+xVZmpjgU27MXwQ1FTYrC0Q10BLkaUCIMl/xTt8LKpUpPVF4YcOp8rV4ldvISx14dw2UJUxGbez3mov78BgvlUQRIAfORQLIIgpmE+p1lN8EG5eixY9zCi9R2l7c/QXIOarnb+0eGirBUtWoa+QzzejraCfuAqYjksZcSLt3iSM6ODg87Lc4qPSjNIRwPnZ+Dzhuo77JUxDJofuWR6E1XhtdAD5HODOiBAA==
+X-YMail-OSG: HYrq.mEVM1lRBO9AZhEW126jfNVV6_gtNZnUUahRH.kJ5E24Kwu6Wvw5dUn_r7z
+ BDSqC_5dyPWO4mGQAHZtRSWQj7qSZMJBljSJMN62CBk8mF1nk75QVFJ03UYNjiMcIrACV_s3l2Ay
+ PtIu6Cv5sEUn.hxSS.oA_GVFKiOreKzK7RbiN4uiOIuAa5bmkumTuyLq5rWVB2BxtgHnG4Vmtxq.
+ 02IPxBWelQO1dPn8i_7Z1lsK.T9KC.uG1DxbvwsepQUC7FCyz3w_LbHKR6siDfdQwgUznLDLlrnL
+ 2F8iXBHdORmcETxzIJC8brYXEQXGdGKDtVoq4je_MmnUvZNcNWWOn9Mr0_jS7iRhJwIngXJSmbqq
+ 9g1kfwy5JHH31Gcu.8GMoPZGGamlfly6IwqVW2E_Gu.EYEQilBTPC37jZkQtUV0CVcXfat7EnYpj
+ WMQcO2y37njwS58kPhQFtp1o9MXjye4muZzyBASFrjb8oxwxojK2H4Y84.CIXaFB37TxorOOutH1
+ ljFmVxj95BtjH1E4jpeCo0EtoYbZjL04LzuGjkSrr0KdUNj8ylgl_gotwrKAVxb0A7WhmiQGOs4b
+ AIJ1Exbky9A4zjqHjo2wfQIH2jOxD3wLVtqOkSWpeOosCmQxCoceqoFpWNC39CZbcmrRgh0mU.py
+ bQ4DT5EPrPxriZvuJRqQPHVDvYy0T2JtdUIPyHF1jJtKwYwFHhoAyxssK.9l2xZAR_os.h5HkrV0
+ Ooy2KvcUPrVpjAG8nANTBvrC_Z.w.hX8hv9YS63QBGV4VR5eMlVdPRdx_.RpLHKjJjltn0AcB4TR
+ 7woRgaaCc5grJKtfAQ_mi23nOjjydoScMijo7Wa9KXBO3UR09YrUv_VOExNR6P4XEYPG8Xusrb41
+ pLYkhZUcObuqKdIFVLYSYKLdSTdP6AQwPkOk_Unjixhs.e.T6FbpriZMj02kvUXEwPdmGDGrwkGq
+ ITCFFsmbt7IyJqF5AI46QuHph8KsKMqJp.RzVrfe9ie69rXjQ5XVN.rbDcrfJ.mfdQccDHSo0UjJ
+ c9QJOcGrzjVL954cr24Sn20DYYAQFWycVAKxZ51drCzMZF_3zwePCl2Wx89nmVfFp1XiBjWVK55Q
+ 6A6FXG4Eut7g4nqRA4fPsJNkaLEj5NCXMCdWdKchZ_FiRIEuJp7X4016vmSZxS08tyiX0aQekKz8
+ 3CXa0axEHcQUggiiRX9wBPMKHj.OgzjLOEbdzZ75TBJzIfVxsMXJ6tSNKIDGtvrfM4KIaTgW3QZo
+ ixK2qcZ8CfT2fXHVyCXjcwdPJ7d0kdVmmQFEEHzHMbM2w.5aK9Ty5YTpPWw_cDm34_BngnN5FJgs
+ VLqalGbntFodX2Bl_qh9W.iNINw0STQFkHaky01d.SYY-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.bf2.yahoo.com with HTTP; Fri, 1 May 2020 00:44:45 +0000
+Date:   Fri, 1 May 2020 00:44:44 +0000 (UTC)
+From:   "larsh@apache.org" <larsh@apache.org>
+To:     Stefan Assmann <sassmann@kpanic.de>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc:     Dario Messina <nanodario@gmail.com>, civic9 <civic9@gmail.com>,
         agk@godking.net, kjslag@gmail.com, bastidoerner@gmail.com,
         ibm-acpi-devel@lists.sourceforge.net, ibm-acpi@hmh.eng.br,
         platform-driver-x86@vger.kernel.org, arc@osknowledge.org
+Message-ID: <576380549.116107.1588293884555@mail.yahoo.com>
+In-Reply-To: <20200430214041.GA28186@khazad-dum.debian.net>
+References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org> <11041815.WYjWQN8m1R@lenovodario> <CAM_y6qhV6r9BVE6Uibn=xpDZRYuhZDBBgfHT8fMECNS1DyaQwQ@mail.gmail.com> <1605997626.1278142.1588119634625@mail.yahoo.com> <91feeffa-1f48-347a-fb90-7bf733647476@kpanic.de> <20200430214041.GA28186@khazad-dum.debian.net>
 Subject: Re: [ibm-acpi-devel] [PATCH v4] thinkpad_acpi: Add support for dual
  fan control on select models
-Message-ID: <20200430214041.GA28186@khazad-dum.debian.net>
-References: <20200423165457.54388-1-larsh@apache.org>
- <20200423215709.72993-1-larsh@apache.org>
- <11041815.WYjWQN8m1R@lenovodario>
- <CAM_y6qhV6r9BVE6Uibn=xpDZRYuhZDBBgfHT8fMECNS1DyaQwQ@mail.gmail.com>
- <1605997626.1278142.1588119634625@mail.yahoo.com>
- <91feeffa-1f48-347a-fb90-7bf733647476@kpanic.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91feeffa-1f48-347a-fb90-7bf733647476@kpanic.de>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.15820 YMailNorrin Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+
+Thanks for looking.
+
+Agreed.
+
+This changes leaves /proc/acpi/ibm/fan entirely untouched (and actually beh=
+ave as expected). That's by design.
+
+> 1. Use the "hwmon" sysfs interface to expose each fan separately, and
+> control them separately.
+>
+> 1a. it is quite acceptable to control them in group by default, and have
+> a module parameter to select grouped, or separate behavior.
+
+Agree as well. I would add, though, that that would need a more involved re=
+factor,
+since there would be two different ways to control the fans now.
+
+> Also, "fail-safe" for this is to have the two fans on automatic, and to
+> enable both fans.
+
+I thought I hadn't touched that part. Lemme double check.
+
+> [...] later improve on the patch to
+> expose the second fan separately (provided safe group behavior is
+> maintained, see above).
+
+Yep.
+
+-- Lars
+
+
+On Thursday, April 30, 2020, 2:40:57 PM PDT, Henrique de Moraes Holschuh <h=
+mh@hmh.eng.br> wrote:=20
+
+
+
+
+
 On Wed, 29 Apr 2020, Stefan Assmann wrote:
+
 > On 29.04.20 02:20, larsh@apache.org wrote:
 > > Do you have a use case for that behavior?
-> > 
-> > The previous patch broke the /proc interface, didn't not work with the current version of thinkfan
-> > (but a a version with multi-fan support is in the works), and it had hard to track internal mutable state.
-> > 
+> >=20
+> > The previous patch broke the /proc interface, didn't not work with the =
+current version of thinkfan
+> > (but a a version with multi-fan support is in the works), and it had ha=
+rd to track internal mutable state.
+> >=20
 > > The proposed change is clean on all these fronts.
-> > 
-> > I'm not a fan of surprising the user with unnecessarily complex behavior (but perhaps this can be added as an option in the future.)
-> 
+> >=20
+> > I'm not a fan of surprising the user with unnecessarily complex behavio=
+r (but perhaps this can be added as an option in the future.)
+>=20
 > I concur to keep the patch as is. Any additional functionality could be
 > added later on, if deemed necessary.
+
 
 Yes, but let's avoid changing exposed APIs as much as possible...
 
@@ -118,7 +125,7 @@ control them separately.
 a module parameter to select grouped, or separate behavior.
 
 2. /proc/acpi/ibm/fan shall control both of them at the same time, and
-report data from the first fan.  THIS INTERFACE IS FROZEN, LET'S NOT
+report data from the first fan.=C2=A0 THIS INTERFACE IS FROZEN, LET'S NOT
 MESS WITH IT.
 
 Also, "fail-safe" for this is to have the two fans on automatic, and to
@@ -130,5 +137,6 @@ as if it were just the main fan, and later improve on the patch to
 expose the second fan separately (provided safe group behavior is
 maintained, see above).
 
--- 
-  Henrique Holschuh
+--=20
+=C2=A0 Henrique Holschuh
+
