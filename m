@@ -2,78 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B98601C1D61
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  1 May 2020 20:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9C251C27B5
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 May 2020 20:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729767AbgEASs4 (ORCPT
+        id S1728604AbgEBSaL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 1 May 2020 14:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729721AbgEASs4 (ORCPT
+        Sat, 2 May 2020 14:30:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48250 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728252AbgEBSaA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 1 May 2020 14:48:56 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC04C061A0C
-        for <platform-driver-x86@vger.kernel.org>; Fri,  1 May 2020 11:48:54 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id b20so4282644lff.2
-        for <platform-driver-x86@vger.kernel.org>; Fri, 01 May 2020 11:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8M1Q3wXVNZhCutNZoEQPBZn1UCdn63FvS5PvntPrz7o=;
-        b=t4PKSptgnAcqegiukRZox+fRni+KHbpHHK8KdrDQ9YzBljH2rvUWchCBGfzWJfxpuD
-         5s2gh1IJXR4NR5TC8jsSX8w/IwRorMVgzBJG8j+5BVSn7CgpQ1j9MWQ4nYUblYHpu3C3
-         2A9gnZV558kNtNwcAmYMJYubc/wnN7LpRvXudZ8Ooa25sQCW11fzJC6yUwy3Fo0k6Tz7
-         u0M5UK4XoBzCTMoA7xT/yhMPzyJ3zoqHtDzXfUwAPZCuIGYzKDWAND2W8j5keoSGq1g8
-         urRsWWfhGXjxJS46UfTcv9g7cs9NAIM0BzyMeCddkpSacxukzmP8iWXpN3AiAZWJcHAP
-         qy1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8M1Q3wXVNZhCutNZoEQPBZn1UCdn63FvS5PvntPrz7o=;
-        b=jkuUFwmNvgXvvApmCaYuA/1ZAIltZGRY8gOkF6+MjQ2R7Wh+qXnj5BvbNYJwp/u/2d
-         3ixWlP5jGNQd2TXyksRAKrpUAUMALu0VwYHMsO0yftVq2zjHQu7koBHWnJEKbTmDNDwS
-         PxGWP/DZLrRJBg1CKNavsU2eFCavPaZYjhtfCdw5yTAOxVIdVuQWQH5bfBAjlmZkmRAO
-         vo9VD039m4rq1oaTWbiupvklkeqys+TSERKDwv7QLF5O+48jp5zUCke32d9/rYvuyZeJ
-         WgLimJuXYJwwsqaV8B1FaVzWnNthO0nVrL16iv3veL8oTBclXwi8dsC8wqLkYnW6pfkv
-         kYHA==
-X-Gm-Message-State: AGi0Pua+GMUgU58LTDZRV5BQN9jYMdx4BX9Ob7H4HMMxYvpTt+iWsOr7
-        TT8C/Xj9ZKi6C/pMnY/D4z75Ob8rVggPOSAmEw==
-X-Google-Smtp-Source: APiQypJgpxsWsL1/rqxS8jShx8LvhL/HNRMwdmIziND/imA2egScVz6XVl7uFdi+dGT815fGyFrOS+dYbkEOVYCLwbE=
-X-Received: by 2002:ac2:4554:: with SMTP id j20mr3396435lfm.91.1588358933133;
- Fri, 01 May 2020 11:48:53 -0700 (PDT)
+        Sat, 2 May 2020 14:30:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588444199;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=i+9v/qYoHNQGNliajcJLNu+vjyiEX3mv4ByBciyGe3g=;
+        b=LAXne56bOIgaiO39oz33WVSb1J5uA4qj6u0ny0OILbwmEx2KBFTaFuNFGLwc2gJ0CL+z4R
+        eNzKZ5h+Iwy2CgCUVi1TZuTzaZEgAt5gT6La9SJmVkwPKKb0qyIAwrFnxLhoPGHFkjuZIa
+        crUrwWFNI2lJ0dATMKUde/+rkk7vs1Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-mhLL0URyNiCAicCR8IS9Yg-1; Sat, 02 May 2020 14:29:56 -0400
+X-MC-Unique: mhLL0URyNiCAicCR8IS9Yg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB5545F;
+        Sat,  2 May 2020 18:29:54 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6E6FD600E5;
+        Sat,  2 May 2020 18:29:53 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mario Limonciello <mario.limonciello@dell.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] platform/x86: intel-vbtn: Fixes + rework to make it work on more devices
+Date:   Sat,  2 May 2020 20:29:46 +0200
+Message-Id: <20200502182951.114231-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20200423165457.54388-1-larsh@apache.org> <20200423215709.72993-1-larsh@apache.org>
- <11041815.WYjWQN8m1R@lenovodario> <CAM_y6qhV6r9BVE6Uibn=xpDZRYuhZDBBgfHT8fMECNS1DyaQwQ@mail.gmail.com>
- <1605997626.1278142.1588119634625@mail.yahoo.com>
-In-Reply-To: <1605997626.1278142.1588119634625@mail.yahoo.com>
-From:   civic9 <civic9@gmail.com>
-Date:   Fri, 1 May 2020 20:48:41 +0200
-Message-ID: <CAM_y6qidfABBaxpctfFOrN1KaEcXOYw9tww6LWfp-P+RB2hFbA@mail.gmail.com>
-Subject: Re: [ibm-acpi-devel] [PATCH v4] thinkpad_acpi: Add support for dual
- fan control on select models
-To:     "larsh@apache.org" <larsh@apache.org>
-Cc:     Dario Messina <nanodario@gmail.com>, agk@godking.net,
-        kjslag@gmail.com, bastidoerner@gmail.com,
-        ibm-acpi-devel@lists.sourceforge.net, ibm-acpi@hmh.eng.br,
-        platform-driver-x86@vger.kernel.org, sassmann@kpanic.de,
-        arc@osknowledge.org
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-=C5=9Br., 29 kwi 2020 o 02:21 larsh@apache.org <larsh@apache.org> napisa=C5=
-=82(a):
->
-> Do you have a use case for that behavior?
+Hi All,
 
-I work very often with just one fan enabled at the lowest level. It is
-inaudible for me and it does its job for not too heavy usage. If the
-second one is also enabled I can hear them. We love Linux for such
-small extra features too.
+Here is a series of fixes, mostly aimed at fixing commit: de9647efeaa9
+("platform/x86: intel-vbtn: Only activate tablet mode switch on 2-in-1's"=
+)
+causing the driver to not bind on some devices where it could and
+should report SW_TABLET_MODE.
+
+The last commit makes the driver also work on some devices where it
+previously would not work because they lack a VBDL method.
+
+Mario, can you test this on a Dell XPS 9360 (for which you wrote the
+de9647efeaa9 commit) to ensure that this series does not cause a
+regression there?  Also I have a question for you about using the DMI
+chassis-type for this / a proposal for dealing with this differently
+below the '---' of the commit msg of the 4th patch.
+
+Regards,
+
+Hans
+
+
