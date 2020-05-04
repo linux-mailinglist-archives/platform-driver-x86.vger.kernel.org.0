@@ -2,241 +2,125 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05A931C36CE
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 May 2020 12:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 370AE1C3A55
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 May 2020 14:56:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbgEDKYE (ORCPT
+        id S1727783AbgEDM4D (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 May 2020 06:24:04 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2157 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726351AbgEDKYD (ORCPT
+        Mon, 4 May 2020 08:56:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54837 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726351AbgEDM4D (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 May 2020 06:24:03 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id ED3D942896E395478F86;
-        Mon,  4 May 2020 11:24:01 +0100 (IST)
-Received: from localhost (10.47.88.153) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 4 May 2020
- 11:24:01 +0100
-Date:   Mon, 4 May 2020 11:23:42 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mon, 4 May 2020 08:56:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588596962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=3IyWgTOMXjHOmy2ereqicnSHpo+TKRD9Jy/hue5zjes=;
+        b=dpE6kZytu70EmHCt4ZitCiZ7ikshQtpA9+f/AHUV+1wqaZfBQU6TFO6wDFGB83kjY59Qfp
+        uCLXMmj9FO/wzPw+C6nWzHxjdWgQglIioBG3U6RqoPjftUFZrvgPHqPET3f6RWuFm0Z5IN
+        hXHPcI4K3HRSYOdtFZVwEegKuy/xIjs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-52-llUa-5xNNqK2I1daWIMIhA-1; Mon, 04 May 2020 08:56:00 -0400
+X-MC-Unique: llUa-5xNNqK2I1daWIMIhA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B4A064ACA;
+        Mon,  4 May 2020 12:55:58 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-114-224.ams2.redhat.com [10.36.114.224])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 060A25D97D;
+        Mon,  4 May 2020 12:55:52 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        <linux-acpi@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Hartmut Knaack <knaack.h@gmx.de>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hartmut Knaack <knaack.h@gmx.de>,
         Lars-Peter Clausen <lars@metafoo.de>,
         Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        <linux-iio@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v3 04/11] iio: light: cm32181: Add support for the
- CM3218
-Message-ID: <20200504112342.00001cac@Huawei.com>
-In-Reply-To: <3eae2042-209e-5944-b90e-f747da820ac9@redhat.com>
-References: <20200428172923.567806-1-hdegoede@redhat.com>
-        <20200428172923.567806-4-hdegoede@redhat.com>
-        <20200503115906.6fb86b49@archlinux>
-        <3eae2042-209e-5944-b90e-f747da820ac9@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        linux-iio@vger.kernel.org
+Subject: [PATCH v4 01/11] iio: light: cm32181: Switch to new style i2c-driver probe function
+Date:   Mon,  4 May 2020 14:55:41 +0200
+Message-Id: <20200504125551.434647-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.88.153]
-X-ClientProxiedBy: lhreml739-chm.china.huawei.com (10.201.108.189) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 4 May 2020 11:49:59 +0200
-Hans de Goede <hdegoede@redhat.com> wrote:
+Switch to the new style i2c-driver probe_new probe function and drop the
+unnecessary i2c_device_id table (we do not have any old style board files
+using this).
 
-> Hi,
-> 
-> On 5/3/20 12:59 PM, Jonathan Cameron wrote:
-> > On Tue, 28 Apr 2020 19:29:16 +0200
-> > Hans de Goede <hdegoede@redhat.com> wrote:
-> >   
-> >> Add support for the CM3218 which is an older version of the
-> >> CM32181.
-> >>
-> >> This is based on a newer version of cm32181.c, with a copyright of:
-> >>
-> >>   * Copyright (C) 2014 Capella Microsystems Inc.
-> >>   * Author: Kevin Tsai <ktsai@capellamicro.com>
-> >>   *
-> >>   * This program is free software; you can redistribute it and/or modify it
-> >>   * under the terms of the GNU General Public License version 2, as published
-> >>   * by the Free Software Foundation.
-> >>
-> >> Which is floating around on the net in various places, but the changes
-> >> from this newer version never made it upstream.
-> >>
-> >> This was tested on an Asus T100TA and an Asus T100CHI, which both come
-> >> with the CM3218 variant of the light sensor.
-> >>
-> >> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>  
-> > 
-> > The need to also store the name for the different sensors makes
-> > the case for picking between 'chip_info' structures in here stronger.
-> > So I'd do that instead of setting multiple elements in your
-> > switch statement... (See inline)
-> >   
-> >> ---
-> >>   drivers/iio/light/cm32181.c | 48 +++++++++++++++++++++++++++----------
-> >>   1 file changed, 36 insertions(+), 12 deletions(-)
-> >>
-> >> diff --git a/drivers/iio/light/cm32181.c b/drivers/iio/light/cm32181.c
-> >> index 6fc0a753c499..065bc7a11f84 100644
-> >> --- a/drivers/iio/light/cm32181.c
-> >> +++ b/drivers/iio/light/cm32181.c
-> >> @@ -55,15 +55,24 @@ static const u8 cm32181_reg[CM32181_CONF_REG_NUM] = {
-> >>   	CM32181_REG_ADDR_CMD,
-> >>   };
-> >>   
-> >> -static const int als_it_bits[] = {12, 8, 0, 1, 2, 3};
-> >> -static const int als_it_value[] = {25000, 50000, 100000, 200000, 400000,
-> >> -	800000};
-> >> +/* CM3218 Family */
-> >> +static const int cm3218_als_it_bits[] = { 0, 1, 2, 3 };
-> >> +static const int cm3218_als_it_values[] = { 100000, 200000, 400000, 800000 };
-> >> +
-> >> +/* CM32181 Family */
-> >> +static const int cm32181_als_it_bits[] = { 12, 8, 0, 1, 2, 3 };
-> >> +static const int cm32181_als_it_values[] = {
-> >> +	25000, 50000, 100000, 200000, 400000, 800000
-> >> +};
-> >>   
-> >>   struct cm32181_chip {
-> >>   	struct i2c_client *client;
-> >>   	struct mutex lock;
-> >>   	u16 conf_regs[CM32181_CONF_REG_NUM];
-> >>   	int calibscale;
-> >> +	int num_als_it;
-> >> +	const int *als_it_bits;
-> >> +	const int *als_it_values;  
-> > These are constant for each type of chip and come as a set.
-> > Better to just have a cm32181_chip_info structure with all 3 in it
-> > (and the name as mentioned earlier).  That way your switch below
-> > just becomes a matter of setting a single pointer for each case.  
-> 
-> Ok I will add a chip_info structure for v4 off the patch-set.
-> 
-> 
-> >   
-> >>   };
-> >>   
-> >>   /**
-> >> @@ -85,8 +94,21 @@ static int cm32181_reg_init(struct cm32181_chip *cm32181)
-> >>   		return ret;
-> >>   
-> >>   	/* check device ID */
-> >> -	if ((ret & 0xFF) != 0x81)
-> >> +	switch (ret & 0xFF) {
-> >> +	case 0x18: /* CM3218 */  
-> > 
-> > I'd ideally like to see a sanity check that we have the part expected.
-> > So the compatible matches what we actually get.  
-> 
-> Erm, so far I've only seen the CM3218 on X86 + ACPI devices which
-> use an ACPI id of CPLM3218 for both sensor models, so at least
-> on ACPI there is nothing to check.
+This is a preparation patch for adding ACPI binding support.
 
-Groan.  Never mind then.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v4:
+- Set indio_dev->name to "cm32181" instead of setting it to dev_name(dev)
 
-J 
+Changes in v3:
+- This is a new patch in v3 of this patch-set
+---
+ drivers/iio/light/cm32181.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> > 
-> > If it doesn't but the part is still one we support print a warning.
-> >   
-> >> +		cm32181->num_als_it = ARRAY_SIZE(cm3218_als_it_bits);
-> >> +		cm32181->als_it_bits = cm3218_als_it_bits;
-> >> +		cm32181->als_it_values = cm3218_als_it_values;
-> >> +		break;
-> >> +	case 0x81: /* CM32181 */
-> >> +	case 0x82: /* CM32182, fully compat. with CM32181 */
-> >> +		cm32181->num_als_it = ARRAY_SIZE(cm32181_als_it_bits);
-> >> +		cm32181->als_it_bits = cm32181_als_it_bits;
-> >> +		cm32181->als_it_values = cm32181_als_it_values;
-> >> +		break;
-> >> +	default:
-> >>   		return -ENODEV;
-> >> +	}
-> >>   
-> >>   	/* Default Values */
-> >>   	cm32181->conf_regs[CM32181_REG_ADDR_CMD] =
-> >> @@ -121,9 +143,9 @@ static int cm32181_read_als_it(struct cm32181_chip *cm32181, int *val2)
-> >>   	als_it = cm32181->conf_regs[CM32181_REG_ADDR_CMD];
-> >>   	als_it &= CM32181_CMD_ALS_IT_MASK;
-> >>   	als_it >>= CM32181_CMD_ALS_IT_SHIFT;
-> >> -	for (i = 0; i < ARRAY_SIZE(als_it_bits); i++) {
-> >> -		if (als_it == als_it_bits[i]) {
-> >> -			*val2 = als_it_value[i];
-> >> +	for (i = 0; i < cm32181->num_als_it; i++) {
-> >> +		if (als_it == cm32181->als_it_bits[i]) {
-> >> +			*val2 = cm32181->als_it_values[i];
-> >>   			return IIO_VAL_INT_PLUS_MICRO;
-> >>   		}
-> >>   	}
-> >> @@ -146,14 +168,14 @@ static int cm32181_write_als_it(struct cm32181_chip *cm32181, int val)
-> >>   	u16 als_it;
-> >>   	int ret, i, n;
-> >>   
-> >> -	n = ARRAY_SIZE(als_it_value);
-> >> +	n = cm32181->num_als_it;
-> >>   	for (i = 0; i < n; i++)
-> >> -		if (val <= als_it_value[i])
-> >> +		if (val <= cm32181->als_it_values[i])
-> >>   			break;
-> >>   	if (i >= n)
-> >>   		i = n - 1;
-> >>   
-> >> -	als_it = als_it_bits[i];
-> >> +	als_it = cm32181->als_it_bits[i];
-> >>   	als_it <<= CM32181_CMD_ALS_IT_SHIFT;
-> >>   
-> >>   	mutex_lock(&cm32181->lock);
-> >> @@ -265,11 +287,12 @@ static int cm32181_write_raw(struct iio_dev *indio_dev,
-> >>   static ssize_t cm32181_get_it_available(struct device *dev,
-> >>   			struct device_attribute *attr, char *buf)
-> >>   {
-> >> +	struct cm32181_chip *cm32181 = iio_priv(dev_to_iio_dev(dev));
-> >>   	int i, n, len;
-> >>   
-> >> -	n = ARRAY_SIZE(als_it_value);
-> >> +	n = cm32181->num_als_it;
-> >>   	for (i = 0, len = 0; i < n; i++)
-> >> -		len += sprintf(buf + len, "0.%06u ", als_it_value[i]);
-> >> +		len += sprintf(buf + len, "0.%06u ", cm32181->als_it_values[i]);
-> >>   	return len + sprintf(buf + len, "\n");
-> >>   }
-> >>   
-> >> @@ -345,6 +368,7 @@ static int cm32181_probe(struct i2c_client *client)
-> >>   }
-> >>   
-> >>   static const struct of_device_id cm32181_of_match[] = {
-> >> +	{ .compatible = "capella,cm3218" },
-> >>   	{ .compatible = "capella,cm32181" },
-> >>   	{ }
-> >>   };  
-> >   
-> 
-
+diff --git a/drivers/iio/light/cm32181.c b/drivers/iio/light/cm32181.c
+index 5f4fb5674fa0..2c139d85ef0c 100644
+--- a/drivers/iio/light/cm32181.c
++++ b/drivers/iio/light/cm32181.c
+@@ -294,8 +294,7 @@ static const struct iio_info cm32181_info =3D {
+ 	.attrs			=3D &cm32181_attribute_group,
+ };
+=20
+-static int cm32181_probe(struct i2c_client *client,
+-			const struct i2c_device_id *id)
++static int cm32181_probe(struct i2c_client *client)
+ {
+ 	struct cm32181_chip *cm32181;
+ 	struct iio_dev *indio_dev;
+@@ -316,7 +315,7 @@ static int cm32181_probe(struct i2c_client *client,
+ 	indio_dev->channels =3D cm32181_channels;
+ 	indio_dev->num_channels =3D ARRAY_SIZE(cm32181_channels);
+ 	indio_dev->info =3D &cm32181_info;
+-	indio_dev->name =3D id->name;
++	indio_dev->name =3D "cm32181";
+ 	indio_dev->modes =3D INDIO_DIRECT_MODE;
+=20
+ 	ret =3D cm32181_reg_init(cm32181);
+@@ -338,13 +337,6 @@ static int cm32181_probe(struct i2c_client *client,
+ 	return 0;
+ }
+=20
+-static const struct i2c_device_id cm32181_id[] =3D {
+-	{ "cm32181", 0 },
+-	{ }
+-};
+-
+-MODULE_DEVICE_TABLE(i2c, cm32181_id);
+-
+ static const struct of_device_id cm32181_of_match[] =3D {
+ 	{ .compatible =3D "capella,cm32181" },
+ 	{ }
+@@ -356,8 +348,7 @@ static struct i2c_driver cm32181_driver =3D {
+ 		.name	=3D "cm32181",
+ 		.of_match_table =3D of_match_ptr(cm32181_of_match),
+ 	},
+-	.id_table       =3D cm32181_id,
+-	.probe		=3D cm32181_probe,
++	.probe_new	=3D cm32181_probe,
+ };
+=20
+ module_i2c_driver(cm32181_driver);
+--=20
+2.26.0
 
