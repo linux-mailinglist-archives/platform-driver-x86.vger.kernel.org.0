@@ -2,127 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C331C3EB1
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 May 2020 17:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 026C01C45B1
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 May 2020 20:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729186AbgEDPjJ (ORCPT
+        id S1730675AbgEDSVF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 May 2020 11:39:09 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:16900 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726551AbgEDPjJ (ORCPT
+        Mon, 4 May 2020 14:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729958AbgEDSVE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 May 2020 11:39:09 -0400
-Received: from pps.filterd (m0170398.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 044FcxeZ018780;
-        Mon, 4 May 2020 11:39:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=O2WbsxsZuUPSXf26/rBUiMV6gTfnpKukAyM0OOwerJk=;
- b=SydrB3k6fn7Ql0ZE3/cEDl2uNe/SDD+fnPJQAguN/1oEqngZvr8DaPhWAlRQH+RnUJK+
- 2OaxadohFRW921MykkCJlSsCphIdDnJSLRPKcMB5sHbNIu+uXZ2kqfl8bNTD5zJ/gm2+
- WpOyWVRCXDR5i1EUXrxFV5YVwoQ3y/i3s11uhDnkIRHU/YmWbm+zZSixi4p62O/3EUFK
- 5n7scSPQK86+qDqTr2vFaoow+yAx/stzFNP0qZ6K1U92zXUmqYNf7Cw+VW+s1V33CWsD
- D9chR4i1yLfgPp4pPNpUzKc7GoG4poaEKsB9+fi/sn1KZ12GCi020tLyr9BZm1pUjXe7 ZQ== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0b-00154904.pphosted.com with ESMTP id 30s43a45qu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 04 May 2020 11:39:07 -0400
-Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 044FWh3s053414;
-        Mon, 4 May 2020 11:39:06 -0400
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 30s57eg13j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 04 May 2020 11:39:06 -0400
-X-LoopCount0: from 10.166.132.128
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="545729394"
-From:   <Mario.Limonciello@dell.com>
-To:     <hdegoede@redhat.com>, <dvhart@infradead.org>, <andy@infradead.org>
-CC:     <linux-acpi@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 0/5] platform/x86: intel-vbtn: Fixes + rework to make it
- work on more devices
-Thread-Topic: [PATCH 0/5] platform/x86: intel-vbtn: Fixes + rework to make it
- work on more devices
-Thread-Index: AQHWIK+xAhXVMpX2lEOTT4RsIve+eqiYDgUw
-Date:   Mon, 4 May 2020 15:38:58 +0000
-Message-ID: <e729ee1142a94fd394e0dbfb84e52a4b@AUSX13MPC101.AMER.DELL.COM>
-References: <20200502182951.114231-1-hdegoede@redhat.com>
-In-Reply-To: <20200502182951.114231-1-hdegoede@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-04T15:21:38.2713206Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=c39d1487-c787-4f40-9be5-36055d49081e;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 4 May 2020 14:21:04 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A3EC061A0E;
+        Mon,  4 May 2020 11:21:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=p2ee0uWm9T8Gzchj6ZhxPHc6i5laqcjVX3CZrQoFGpE=; b=sUIdr5uoTzu//3oDhmTqGrmIeE
+        PJPG5ZePoyAH17rhWTX/rGa3s0RufHAnwdIcBPvz8rw88HrhrgqllOqZAYsb21Wi+P+aQpy/7p97p
+        yFUQRdSkFMr2PcNyJoD+5QfZkqEzkE1S1UMIzv/I2zjXBWDEoiaOoh8dlXHQJFpDB6ZpBp2+T4ro2
+        i9kvDkAaHZuWeX5opL7YGJnf/Sddw0oAKYC3939ID6rP8YKdsZIDaToRQ1FfsdrkJJKgIdD3o42Ej
+        nha2BqyUQr3l6DEIKjwyxBw7LWhdZvh34KjwDND1cSxb0dyoGx7y6tYwB5fQWCoCESY3RlytQcNos
+        +Pyo47xw==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jVfi8-0003p4-1N; Mon, 04 May 2020 18:21:00 +0000
+Subject: Re: [PATCH] Add support for Vinga Twizzle J116 Silead touchscreen
+To:     Andrew Dunai <a@dun.ai>, linux-kernel@vger.kernel.org,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <20200504164514.18641-1-a@dun.ai>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <72bd44ab-98a8-0cdc-b7e6-104a69ca3643@infradead.org>
+Date:   Mon, 4 May 2020 11:20:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-05-04_10:2020-05-04,2020-05-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 phishscore=0 clxscore=1015 mlxlogscore=999 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005040126
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 clxscore=1015
- suspectscore=0 mlxlogscore=999 malwarescore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005040125
+In-Reply-To: <20200504164514.18641-1-a@dun.ai>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: Hans de Goede <hdegoede@redhat.com>
-> Sent: Saturday, May 2, 2020 1:30 PM
-> To: Darren Hart; Andy Shevchenko; Limonciello, Mario
-> Cc: Hans de Goede; linux-acpi@vger.kernel.org; platform-driver-
-> x86@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH 0/5] platform/x86: intel-vbtn: Fixes + rework to make it =
-work
-> on more devices
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> Hi All,
->=20
-> Here is a series of fixes, mostly aimed at fixing commit: de9647efeaa9
-> ("platform/x86: intel-vbtn: Only activate tablet mode switch on 2-in-1's"=
-)
-> causing the driver to not bind on some devices where it could and
-> should report SW_TABLET_MODE.
->=20
-> The last commit makes the driver also work on some devices where it
-> previously would not work because they lack a VBDL method.
->=20
-> Mario, can you test this on a Dell XPS 9360 (for which you wrote the
-> de9647efeaa9 commit) to ensure that this series does not cause a
-> regression there?
+Hi,
 
-Unfortunately I can't double check that with WFH, I don't have access to th=
-is hardware.
-
-> Also I have a question for you about using the DMI
-> chassis-type for this / a proposal for dealing with this differently
-> below the '---' of the commit msg of the 4th patch.
+Usually you need to send patches to a maintainer who could then
+merge/apply them.
 
 
-OK will look.
+On 5/4/20 9:45 AM, Andrew Dunai wrote:
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index 93177e6e5..a3ab19ab0 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
+>  	.properties	= trekstor_surftab_wintron70_props,
+>  };
+>  
+> +static const struct property_entry vinga_twizzle_j116_props[] = {
+> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
+> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
+> +	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
+> +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +	PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +	{ }
+> +};
+> +
+> +static const struct ts_dmi_data vinga_twizzle_j116_data = {
+> +	.acpi_name	= "MSSL1680:00",
+> +	.properties	= vinga_twizzle_j116_props,
+> +};
+> +
+>  /* NOTE: Please keep this table sorted alphabetically */
+>  static const struct dmi_system_id touchscreen_dmi_table[] = {
+>  	{
+> @@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>  			DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
+>  		},
+>  	},
+> +	{
+> +		/* Vinga Twizzle J116 */
+> +		.driver_data = (void *)&vinga_twizzle_j116_data,
+> +		.matches = {
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
+> +		},
+> +	},
+>  	{ },
+>  };
+>  
+> 
+
+thanks.
+-- 
+~Randy
+
