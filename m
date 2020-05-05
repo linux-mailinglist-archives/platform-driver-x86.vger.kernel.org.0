@@ -2,137 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B16B1C5595
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFAD1C559B
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728834AbgEEMiJ (ORCPT
+        id S1729054AbgEEMi1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 08:38:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42221 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728512AbgEEMiJ (ORCPT
+        Tue, 5 May 2020 08:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729039AbgEEMiX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 08:38:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588682287;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aED3R13Lt3zr53KvB4yGvOGNhjfliqqy0eoHUFbYMkA=;
-        b=etaJhE/ATFjYTuqOHszOBgIss70j5YIPaJoMMxVhNb1tCx3Ut1Uw+HKoa8k+iPl7lqP3jR
-        A94xKaVyjvUwHMJfihIGuuDZ2UVgijMoZRYsj7mGElg5boYiMjqRAn/iMbo92CJIMWDETX
-        PUhqkx5B4tlRXwLSPTRHWkk5WduoI04=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-t3RdapbKPwGXqRXKnWmpjA-1; Tue, 05 May 2020 08:38:06 -0400
-X-MC-Unique: t3RdapbKPwGXqRXKnWmpjA-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so1115162wrw.20
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 05:38:06 -0700 (PDT)
+        Tue, 5 May 2020 08:38:23 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D64C061A0F
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 05:38:22 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id z6so766187plk.10
+        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 05:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kyawPYXJg5+3Okgb+irRCc6ToTGPZK3LZV3zm8FwPPg=;
+        b=lBSmKtfPmiFD1AEU3uFSiSu+jJOcxVStPKkYQfuKEp45hpDyr7IphK92zIi9uVKxqu
+         FOeB4hNUb1ocnE6rmkZttCq1hVRLGRN1PaIbgmDQQ82u1gpuEbVTz4J1XWspq3z6Th75
+         PZR6koipe6r4cjkdVbAsfmdXe5JxZ9NMtga6rSdwPH1svxkSKCyMl5yV2qAxvgxGw5xy
+         uPQDNcAziNkUNEKsYCOwFdNIbZKHnsvu05078AiJMeoEWaBd+GA98QUiFWCqAEEQNnZi
+         xLsFqAQ0J3YCth5hGhW4Cf2+KMisK3m07BN9AJcZN83I2OGqinb9+T2cJNB7jnd6SPaK
+         oeDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aED3R13Lt3zr53KvB4yGvOGNhjfliqqy0eoHUFbYMkA=;
-        b=TNGe9NrJ9b3vTgl8NZPvbvD4ZBTjvHMHPJ9gAxe/Lpf51Zlp46Gwdevk49H04d5kw0
-         q0GLBq9BIplh3NZ6ecSNX5tvFsmLYGAXxOqw6oZkzgewNKet0z2hSinkRvtC4u6HhwAx
-         n+FqVnUvfU3F4EyvfsU31qOrdDWdmhOawQn5WhaYuK3j1uD5kIijH4GKFNeVATRe4n92
-         iqWYIE4LeJday6imwFzQhd3eglw/mneV+JVQkNP35jzoeULLVa3Kk2OFaa80snRVg4p4
-         my3KapjNVtLX54hThQjOqO1R5zP61HBST1W+xPJHobVSogrNDb0djRK9qnIjjyhadc9L
-         4GDw==
-X-Gm-Message-State: AGi0Pua9fLK1bqRJfP64u0el0ct5OLJT1p3olSjJYXJGWcshAaHt7kVC
-        iDc2WGvijxPajxGw2++aYMn9szxsZmC7F7qpo7eogbsDpn1RU4KiswqiZM6kkS8rWpAvtVJiYw9
-        nK8BX/3iWcPne+EflNM0+YJoe+fE5+8jD9w==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr3305539wrt.233.1588682284564;
-        Tue, 05 May 2020 05:38:04 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKrLSXHxg9r63YDJ7/YBF0Ti8pACVpK7p6sjVRsukW3VodUmTI5i+l+YDmoh+Xe7Q8sh0z19Q==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr3305519wrt.233.1588682284386;
-        Tue, 05 May 2020 05:38:04 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id n6sm3202671wrs.81.2020.05.05.05.38.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 05:38:03 -0700 (PDT)
-Subject: Re: [PATCH v3] platform/x86: touchscreen_dmi: add Vinga J116
- touchscreen
-To:     Andrew Dunai <a@dun.ai>, dvhart@infradead.org
-Cc:     andy@infradead.org, platform-driver-x86@vger.kernel.org
-References: <20200505121518.271854-1-a@dun.ai>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <996f6657-c838-fe36-53fb-70558550844e@redhat.com>
-Date:   Tue, 5 May 2020 14:38:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kyawPYXJg5+3Okgb+irRCc6ToTGPZK3LZV3zm8FwPPg=;
+        b=V2x6SN1E+SXg51nAwyNxYpfmkA6sXYoInnibe/EUFu/MqA51FQ5SI0ttr585DC/WTI
+         kpxdYmGXQ8nS/xSH0XFezYQ3wX603Q99J9tTOx7C7+lA+tBOD0NQ/uJf2G4hpV59XgpD
+         tAX7Yb5HNSZv1dsfHJdlOoYpHjwogmEz5s2dl5kc1NsRKW8zM+jZH8iAT2dx+vX8wOFo
+         4wlFZRxRvte6AoxJ43+rmfTpzRKLy7vFfBCGJKwLCt3EUhBB40lqWGfDfafVTfyvBkXt
+         IyXEfog3vrjgO/3/PsWf1Z+CKSRTPuRDLaLz8sL2OmFJah04mtXtj+QP7eI/FB5QsFQF
+         ouNA==
+X-Gm-Message-State: AGi0Puavi+iVM1TDN10NmMPPJjJj+kt+i0emNMoraMZjz3VP4ThOOrzo
+        FULNfUaVMaNhQCdcDJAqr3Wy+wR1zX2sHT4uyNo=
+X-Google-Smtp-Source: APiQypKWvh8ONGu9c2SKQePDNjtouwYIpmLune3cgLwM8tlWdkeNqHxAN4rD0jginRNyZ/gzU1iWQj9ua9KMuP0tpxM=
+X-Received: by 2002:a17:90a:fa81:: with SMTP id cu1mr2839937pjb.25.1588682302197;
+ Tue, 05 May 2020 05:38:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200505121518.271854-1-a@dun.ai>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200505111810.65586-1-malattia@linux.it> <20200505111810.65586-3-malattia@linux.it>
+In-Reply-To: <20200505111810.65586-3-malattia@linux.it>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 5 May 2020 15:38:15 +0300
+Message-ID: <CAHp75VdCsscavP5sGrMjk5dWFZDYjevW94_RNRw50nAaM3jQpA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] [sony-laptop] Don't use thermal handle if NULL
+To:     Mattia Dongili <malattia@linux.it>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Dominik Mierzejewski <dominik@greysector.net>,
+        William Bader <williambader@hotmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Tue, May 5, 2020 at 1:16 PM <malattia@linux.it> wrote:
+>
+> From: Mattia Dongili <malattia@linux.it>
+>
+> The thermal handle object may fail initialization when the module is
+> loaded the first time.
+>
 
-On 5/5/20 2:15 PM, Andrew Dunai wrote:
-> Add support for Vinga Twizzle J116 Silead touchscreen which uses GSL1680 chip.
-> 
-> Signed-off-by: Andrew Dunai <a@dun.ai>
+But isn't it a papering over the real issue that it fails first time?
+AFAIU user needs to try first time and if it fails to try again. Can
+we rather understand the root cause first?
 
-I missed that you already send a v3, this looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->   drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 93177e6e5..a3ab19ab0 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
->   	.properties	= trekstor_surftab_wintron70_props,
->   };
->   
-> +static const struct property_entry vinga_twizzle_j116_props[] = {
-> +	PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
-> +	PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
-> +	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
-> +	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +	PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +	{ }
-> +};
-> +
-> +static const struct ts_dmi_data vinga_twizzle_j116_data = {
-> +	.acpi_name	= "MSSL1680:00",
-> +	.properties	= vinga_twizzle_j116_props,
-> +};
-> +
->   /* NOTE: Please keep this table sorted alphabetically */
->   static const struct dmi_system_id touchscreen_dmi_table[] = {
->   	{
-> @@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
->   			DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
->   		},
->   	},
-> +	{
-> +		/* Vinga Twizzle J116 */
-> +		.driver_data = (void *)&vinga_twizzle_j116_data,
-> +		.matches = {
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
-> +		},
-> +	},
->   	{ },
->   };
->   
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
