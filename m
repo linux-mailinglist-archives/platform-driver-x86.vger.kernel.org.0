@@ -2,124 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50C171C5558
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68421C555B
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:27:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728481AbgEEMXS (ORCPT
+        id S1728627AbgEEM1W (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 08:23:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59384 "EHLO
+        Tue, 5 May 2020 08:27:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727090AbgEEMXP (ORCPT
+        by vger.kernel.org with ESMTP id S1728233AbgEEM1W (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 08:23:15 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75EBC061A0F
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 05:23:13 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id x2so806859pfx.7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 05:23:13 -0700 (PDT)
+        Tue, 5 May 2020 08:27:22 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FCCC061A0F;
+        Tue,  5 May 2020 05:27:22 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id q24so277208pjd.1;
+        Tue, 05 May 2020 05:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LcO9I2rZzy3UzxqcLiRVPCuAooSF9fXmC1mwez1vHGc=;
-        b=ll+mnFfvxH0wlJR2assLfinTlhOkNvwv6H3nEaHhEQd7IqV1FU5nETm2YAd2cfjchN
-         yBfZAmfbtcCfAWivcJG81i44q1yc4wkxEhEL8tqDhEdTyIdfnwJsCXT8RCCKuJk2PTr+
-         sctKtkDO5dHgwT3f4ltncJVQP7FbNq2wlZINw3iUYsEtN3pxyEnk/bwfGucSPOI22HJf
-         QnL4TEFDFq20Yd2Ve52yqreW70PA3l/nDr3aM1k4mKqXXfSCynxiglNASR+bh80jIRME
-         xsmyiUHW8hj424vkzG6TlYmLdBqliXdQyy1gFbdhaccwrTwAyU8QX0z5J75Wc5JQV2NH
-         FJbA==
+        bh=UhsumHv3M7JlyLmYk4HXYpW3mzApZUYeYN5b+cm9jrs=;
+        b=pwOUsrY8gz0ywfHf6VXimW+wl6/f5kfbIggBi3iaOwy69TaD/6g0D4WqjCdpGtM3JI
+         5wbFxX7oYXaQj3KvhEsOZr3VJRj2/+qaL/ZFnB6O0bVHSgEO31QLQfZZNlXuH97ZLbed
+         097d1KasOHWPyDUAgANEn2neSWJ/oNBJ3y1OCesTC95riQ90QMdK1iXR92nWsqVWI0Z7
+         A8ecvSHBwEAkZQNv7J5QnEz8Namsfvwuww4L/Vb7e5F2ZRIXwxI+3ge94FJhzi1Guy0F
+         oFf/v2CwgrJ5Eiys/yUueGVlAFd/PZdjhmrAaN+1GDqGmljIDQCR0yudyQS8/bfCE5lv
+         87+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LcO9I2rZzy3UzxqcLiRVPCuAooSF9fXmC1mwez1vHGc=;
-        b=Bh4OBUcfCppXu051/3Fcl2npWFiEpf1TiU/oAUVKe68SSZGSJiqz5SWnHwQqPuzHLv
-         ppuSbgqnr4AJj30EUSW4GUMG/R41FE2e2p1OddfdsIy6VPdaFqfaYjWlP00OxUFGaT1/
-         Femg+33VVfmTSRuoS6xoOFoUYsCIrQOAsCDinUlBriUWO/66nP8m99H8KNgoz8nep1+h
-         wvrek9JGPyDZP5BMI2zZpXhW2TV325CpN8z+6WnGDFpoaEHFLdi9INBDTL/bMsgXyrPV
-         WLLqb9+R2ixT4cz+akMBlxNNxT8uwtJHmQFmZ9HFaBtnLYUVQ1bCmvua9kN1ns0bp3Oi
-         VP0g==
-X-Gm-Message-State: AGi0PubItrxLzNjsE0RlFodedO7pIOxkwUc2uZ1KdaXs4h8HVED1Oi8J
-        3r/gujurGLTwcw2zfoTARh9aSEi5+oGb5BZCA1E=
-X-Google-Smtp-Source: APiQypLgUh99drDdzZfrimcGrJrY3F2qUZ8SEADWoSe7x545tC9pe0sz74ggQl5hRA9nSeFM2Tdq/TMzjHZV5nMJJFA=
-X-Received: by 2002:a65:6251:: with SMTP id q17mr2683109pgv.4.1588681393046;
- Tue, 05 May 2020 05:23:13 -0700 (PDT)
+        bh=UhsumHv3M7JlyLmYk4HXYpW3mzApZUYeYN5b+cm9jrs=;
+        b=p4EBm71/Iat1hJHhFJNPAmX79JJsfAFskPvVpG2h71Iw8QGOau8TaXuFYHR/QiAWe2
+         aWbfktyZzRqQlRod+OZ7yV2+DneWuFzlNlz5MAqavBQm8XqYVTjkWLEt15t3q8T3C4Lx
+         9FRLfOb+3FSudCPlKDXHzjZmXkefoJLcvZMlhKczTfu7fWrA8cJ7x699xU7aAlHSSVR6
+         1TKzkvID36dZSVq946WB/y+iitPebUnF/03eGFiiycaYd8hzr13GzHEcj6rAx/FWJePs
+         ML/RonwC9XWtYH5Sfv7rrtGs0VkzgYOPtUnRAesVqyz/ud4i5jjYPgg198AUUzY58wgc
+         tqUg==
+X-Gm-Message-State: AGi0PuZB3q+W99g0r8033+X8GGbJwMoOizs21+dk61km29u8J0IiCDex
+        5vu0xXQ1m/kga7M7ViVmUzqXKapb4LABbjnG/1o=
+X-Google-Smtp-Source: APiQypKgSD6aM5OF9+bSd/EeD+2ArzvXBfNLbBzitRMtEfAqCQnufK6Z5xzei9jbOQmDD1xLFqDqB/+ca6UDmzj6rJo=
+X-Received: by 2002:a17:90a:340c:: with SMTP id o12mr2865043pjb.22.1588681641529;
+ Tue, 05 May 2020 05:27:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200505121518.271854-1-a@dun.ai>
-In-Reply-To: <20200505121518.271854-1-a@dun.ai>
+References: <20200505111810.65586-1-malattia@linux.it> <20200505111810.65586-2-malattia@linux.it>
+In-Reply-To: <20200505111810.65586-2-malattia@linux.it>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 5 May 2020 15:23:06 +0300
-Message-ID: <CAHp75Veb4Yz4Pt7crKpnCV=ZS496xe9uaC+EE5MNq6ARtD14KA@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/x86: touchscreen_dmi: add Vinga J116 touchscreen
-To:     Andrew Dunai <a@dun.ai>
+Date:   Tue, 5 May 2020 15:27:15 +0300
+Message-ID: <CAHp75Ve--kecWYufUiXUxUZM=tL3NgKtDNf6Ny4ds8GJVz_0pA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] [sony-laptop] SNC calls should handle BUFFER types
+To:     Mattia Dongili <malattia@linux.it>,
+        "Schmauss, Erik" <erik.schmauss@intel.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.co>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
+        Dominik Mierzejewski <dominik@greysector.net>,
+        William Bader <williambader@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 5, 2020 at 3:16 PM Andrew Dunai <a@dun.ai> wrote:
->
-> Add support for Vinga Twizzle J116 Silead touchscreen which uses GSL1680 chip.
->
++Cc ACPI(CA) people
 
-Thank you very much!
-Hans, are you okay with this?
+On Tue, May 5, 2020 at 1:16 PM <malattia@linux.it> wrote:
+> After commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
+> objects for ASL create_field() operator") ACPICA creates buffers even
+> when new fields are small enough to fit into an integer.
 
-> Signed-off-by: Andrew Dunai <a@dun.ai>
-> ---
->  drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 93177e6e5..a3ab19ab0 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
->         .properties     = trekstor_surftab_wintron70_props,
->  };
->
-> +static const struct property_entry vinga_twizzle_j116_props[] = {
-> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
-> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
-> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
-> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
-> +       { }
-> +};
-> +
-> +static const struct ts_dmi_data vinga_twizzle_j116_data = {
-> +       .acpi_name      = "MSSL1680:00",
-> +       .properties     = vinga_twizzle_j116_props,
-> +};
-> +
->  /* NOTE: Please keep this table sorted alphabetically */
->  static const struct dmi_system_id touchscreen_dmi_table[] = {
->         {
-> @@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
->                         DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
->                 },
->         },
-> +       {
-> +               /* Vinga Twizzle J116 */
-> +               .driver_data = (void *)&vinga_twizzle_j116_data,
-> +               .matches = {
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
-> +               },
-> +       },
->         { },
->  };
->
-> --
-> 2.26.2
->
->
+> Many SNC calls counted on the old behaviour.
 
+Rafael, Erik, is it correct behaviour from ACPICA p.o.v. nowadays or
+should be fixed rather there?
 
 -- 
 With Best Regards,
