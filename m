@@ -2,139 +2,282 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F5E11C590D
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 16:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 806681C5CFB
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 18:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729525AbgEEOVm (ORCPT
+        id S1729791AbgEEQH1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 10:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729774AbgEEOPQ (ORCPT
+        Tue, 5 May 2020 12:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728804AbgEEQH1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 10:15:16 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC25FC061A10
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 07:15:15 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id l25so1083522pgc.5
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 07:15:15 -0700 (PDT)
+        Tue, 5 May 2020 12:07:27 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A21AC061A0F;
+        Tue,  5 May 2020 09:07:27 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id hi11so1365579pjb.3;
+        Tue, 05 May 2020 09:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4T/1THeMK30Pjwc7YstLkMILBhwbRY6HvN67uy7RCXM=;
-        b=uDYwSDlDaeX3aBxb5h+lUVhEuXE0hBvfKj3hLtI4N80qRG60IVz295bJwqFxeeEvp2
-         t2LY9Nrglp8plAEUuKyef5sA0rl+OvEFlrI+/rHFcIa7RVcsf6qUgEtR7EsOhMoJnUF1
-         hM1/vJTalKAVzC9ui6sc8V25RrDxw2dfyn4BJgS7ffXQR/GbFnDrrBQfrGwcpLc8b+tS
-         k7Lg3QxwzlYvVkUaIKin0k+cbDqEmQA37KgPDclXMHQrROv+2ZEb2qoJTgQA8+b0z6v1
-         +vuz5zGvvN/tSiJmJviR66jg54/KgrRjvJare/tifno4AzW+Vdtuq4Zw3fPoPK7kDTQj
-         ADfQ==
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jmQbNiJc4Rt7W+n9x3IKtdD5p4Uz4lxzRqmcMyvQAOc=;
+        b=EKYHfM0W5nbH/CN2y59v8WgMXSLwr5dY5zl5WgdL4s37QGSLZxsAeG2NkjitAcfKg+
+         jk27p0A+bZA4WoqUxGokpLvssmAGsP4P74y1MNSxVGILCk+9nil7QimPm2QmLmUT6QFb
+         w+bS4J023InaZBOUdcYm8IfqsWQH5ahFH3iVTFfHICm+bh9bL5yjGcMnmFqRSsHi2ilN
+         iuONDcz6dA9YZvjqaArC0uDcDRk+WdC4ZNwQgcj2y9TSDB0svXH8ErDqURy2zxrPOUYc
+         aU/NonfUGRFACsuzbQWY5aljijIQk7E/+bZaAix/RC8/VCYUA5KWORg44vpw+DXC7CxM
+         cm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=4T/1THeMK30Pjwc7YstLkMILBhwbRY6HvN67uy7RCXM=;
-        b=jnrv+BUkQI46iYZ8oz5fecdkhn2ezPnDzzReL3xO95YEu8lRXX+V74jpHhbbYMHUfC
-         LbGaGFKDFfbODvrGzi5XXbdPwjX6MqtvrzC0H+BMOpY9xNYUy6RPgeL+kiMsw+cchA8/
-         s91nWnSUlELsDRE3K9gJhff2hR7aDdw22H5QCggewMmQMqhesKRtbw4LoAUh4qpoqrNb
-         jtbwNsmivUNV3PbmGH4bkvtI3Y7cBaz3Nm47h0uF+Odvgpru21MJjItBy30KCzv8g5mp
-         XYnlX1CoqdrtenYcO4nLpdwSpR3ufvrFbpDUFPj7UF51+FdQzvwaHU6pw/f2L+GQIox3
-         Ffjg==
-X-Gm-Message-State: AGi0PuYy+7cQ7PQG9AEUvV6fj0sOdnyR7h98JnOYW2dFX4b7WJOFLqIg
-        iIGOFm+GS2OZHDjZPqggtTY=
-X-Google-Smtp-Source: APiQypKPnGouryoU03cgpptH4xaa+pC5Bn1rqr6ifyDtL9nwcdi0kVho9+qSBzHiewTfjt5LT9eHtw==
-X-Received: by 2002:a62:3812:: with SMTP id f18mr3267489pfa.173.1588688115259;
-        Tue, 05 May 2020 07:15:15 -0700 (PDT)
-Received: from taihen.jp ([2405:6580:2100:d00:e039:f876:9cfb:e6bd])
-        by smtp.gmail.com with ESMTPSA id g14sm2141269pfh.49.2020.05.05.07.15.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 07:15:14 -0700 (PDT)
-Date:   Wed, 6 May 2020 00:17:31 +0900
-From:   Mattia Dongili <malattia@linux.it>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dominik Mierzejewski <dominik@greysector.net>,
-        William Bader <williambader@hotmail.com>
-Subject: Re: [PATCH 2/2] [sony-laptop] Don't use thermal handle if NULL
-Message-ID: <20200505151731.GB119615@taihen.jp>
-References: <20200505111810.65586-1-malattia@linux.it>
- <20200505111810.65586-3-malattia@linux.it>
- <CAHp75VdCsscavP5sGrMjk5dWFZDYjevW94_RNRw50nAaM3jQpA@mail.gmail.com>
- <20200505141948.GA119615@taihen.jp>
- <CAHp75VdGemLeyujDZZ+fPZn-0hhTVcQjNkjU0MNEGJ+WS+ouSw@mail.gmail.com>
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=jmQbNiJc4Rt7W+n9x3IKtdD5p4Uz4lxzRqmcMyvQAOc=;
+        b=JPvo2z7wBtV0JuLC8ZlP4YQuciOPR8ObaKu27fiFfAEei6oUGC1jtAcg1dHc+Zcga/
+         fzrcn4AiassSZYP4Ii/MR+DOIiS6y/xpupeX4zlTlE5t+oznbjk7Rj+rOXS+ubWXGNVY
+         5ewI8X4c/S2YxMajPAcPKRWe2OEi7lqela0dERoJtjHsLKD4YHWo/yBoqZoAZcgD+pVT
+         9I1u6CEg2sb/BuX6M10yTwcTQN7xBr7Me7iRbMlXFGqwIHA37iK6QNdgjZdTcI8uTF0R
+         YESmqj9j5cWyxKkXHS/jf1/8PMxHgfusRNvWYyjFTbOdKM3VqiqK9CTPf2obM1OgRzbO
+         N08Q==
+X-Gm-Message-State: AGi0PuYtKEv1mVYxVSAtGjiLboVD+ANZZsW5RgCojuRJBQ9aCVvx5Lud
+        YHb2MPczICpRrc+MsVGCK8Q=
+X-Google-Smtp-Source: APiQypLJeVmZrmmGnBtcok3OQ1MW3t4M+5OK0UnluK2XMGwVYRBx0RfEIaRHEOjLQDneiz7Flh8Kvg==
+X-Received: by 2002:a17:902:eb43:: with SMTP id i3mr3273707pli.299.1588694846521;
+        Tue, 05 May 2020 09:07:26 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 138sm2388782pfz.31.2020.05.05.09.07.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 09:07:25 -0700 (PDT)
+Subject: Re: [PATCH v4 3/4] watchdog: mlx-wdt: support new watchdog type with
+ longer timeout period
+To:     michaelsh@mellanox.com, wim@linux-watchdog.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-watchdog@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, vadimp@mellanox.com
+References: <20200504141427.17685-1-michaelsh@mellanox.com>
+ <20200504141427.17685-4-michaelsh@mellanox.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <366b5f85-9468-44ac-ece9-da21ae4b55e5@roeck-us.net>
+Date:   Tue, 5 May 2020 09:07:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdGemLeyujDZZ+fPZn-0hhTVcQjNkjU0MNEGJ+WS+ouSw@mail.gmail.com>
-X-Message-Flag: Cranky? Try Free Software instead!
-X-Operating-System: Linux 5.7.0-rc4+ x86_64
-X-Editor: Vim http://www.vim.org/
-X-Disclaimer: Buh!
+In-Reply-To: <20200504141427.17685-4-michaelsh@mellanox.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 05, 2020 at 04:26:18PM +0300, Andy Shevchenko wrote:
-> On Tue, May 5, 2020 at 4:17 PM Mattia Dongili <malattia@linux.it> wrote:
-> > On Tue, May 05, 2020 at 03:38:15PM +0300, Andy Shevchenko wrote:
-> > > On Tue, May 5, 2020 at 1:16 PM <malattia@linux.it> wrote:
-> > > >
-> > > > From: Mattia Dongili <malattia@linux.it>
-> > > >
-> > > > The thermal handle object may fail initialization when the module is
-> > > > loaded the first time.
-> > > >
-> > >
-> > > But isn't it a papering over the real issue that it fails first time?
-> > > AFAIU user needs to try first time and if it fails to try again. Can
-> > > we rather understand the root cause first?
-> >
-> > I think this is a bug regardless of what ACPICA does.
+On 5/4/20 7:14 AM, michaelsh@mellanox.com wrote:
+> From: Michael Shych <michaelsh@mellanox.com>
 > 
-> I didn't speak about ACPICA.
-
-Oh wait. Are you talking about my wording "when the module is loaded the
-first time"?
-Maybe I should have written "when the module is loaded in the first
-place", I suppose that's clearer in English.
-Initializing the thermal handle should fail consistently (unless
-the system is low on memory and magically recovers just after failing
-acquiring some memory in sony_nc_thermal_setup).
-
-> > If the driver fails completing whatever initialization, should it not
-> > avoid dereferencing a NULL pointer on resume?
+> New programmable logic device can have watchdog type 3 implementation.
+> It's same as Type 2 with extended maximum timeout period.
+> Maximum timeout is up-to 65535 sec.
+> Type 3 HW watchdog implementation can exist on all Mellanox systems.
+> It is differentiated by WD capability bit.
 > 
-> Yes, but *why* it fails?
+> Signed-off-by: Michael Shych <michaelsh@mellanox.com>
+> Reviewed-by: Vadim Pasternak <vadimp@mellanox.com>
 
-In the case that was reported in the linked bugzilla, ACPICA behaviour
-changed and the driver wasn't quite ready to deal with it (which is I
-assumed you were talking about ACPICA).
-Instead of quietly performing the functions it could, sony-laptop caused
-a NULL pointer deref on resume. sony_nc_thermal_setup failed at some
-point and th_handle was then set to NULL on the way out of that
-function.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-The sony-laptop driver is entirely reverse engineered from DSDT and
-corresponding behaviours in Windows. There's probably a few reasons why
-loading thermal profiles could fail, but the most common is probably
-because of newer Vaio models using the same SNC function codes but
-having a different interface (look at sony_nc_backlight_setup for an
-example).
+> ---
+> v1-v2:
+> Make changes pointed out by Guenter:
+> -Simplify bit operations
+> -Consistency in registers access
+> -Don't check irrelevant return code
+> ---
+> v2-v3
+> Remove unnecessary cpu_to_le16 and vice versa conversions
+> ---
+>  drivers/watchdog/mlx_wdt.c | 73 +++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 62 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/watchdog/mlx_wdt.c b/drivers/watchdog/mlx_wdt.c
+> index 03b9ac4b99af..54193369e85c 100644
+> --- a/drivers/watchdog/mlx_wdt.c
+> +++ b/drivers/watchdog/mlx_wdt.c
+> @@ -21,6 +21,7 @@
+>  #define MLXREG_WDT_CLOCK_SCALE		1000
+>  #define MLXREG_WDT_MAX_TIMEOUT_TYPE1	32
+>  #define MLXREG_WDT_MAX_TIMEOUT_TYPE2	255
+> +#define MLXREG_WDT_MAX_TIMEOUT_TYPE3	65535
+>  #define MLXREG_WDT_MIN_TIMEOUT		1
+>  #define MLXREG_WDT_OPTIONS_BASE (WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE | \
+>  				 WDIOF_SETTIMEOUT)
+> @@ -49,6 +50,7 @@ struct mlxreg_wdt {
+>  	int tleft_idx;
+>  	int ping_idx;
+>  	int reset_idx;
+> +	int regmap_val_sz;
+>  	enum mlxreg_wdt_type wdt_type;
+>  };
+>  
+> @@ -111,7 +113,8 @@ static int mlxreg_wdt_set_timeout(struct watchdog_device *wdd,
+>  	u32 regval, set_time, hw_timeout;
+>  	int rc;
+>  
+> -	if (wdt->wdt_type == MLX_WDT_TYPE1) {
+> +	switch (wdt->wdt_type) {
+> +	case MLX_WDT_TYPE1:
+>  		rc = regmap_read(wdt->regmap, reg_data->reg, &regval);
+>  		if (rc)
+>  			return rc;
+> @@ -120,14 +123,32 @@ static int mlxreg_wdt_set_timeout(struct watchdog_device *wdd,
+>  		regval = (regval & reg_data->mask) | hw_timeout;
+>  		/* Rowndown to actual closest number of sec. */
+>  		set_time = BIT(hw_timeout) / MLXREG_WDT_CLOCK_SCALE;
+> -	} else {
+> +		rc = regmap_write(wdt->regmap, reg_data->reg, regval);
+> +		break;
+> +	case MLX_WDT_TYPE2:
+> +		set_time = timeout;
+> +		rc = regmap_write(wdt->regmap, reg_data->reg, timeout);
+> +		break;
+> +	case MLX_WDT_TYPE3:
+> +		/* WD_TYPE3 has 2B set time register */
+>  		set_time = timeout;
+> -		regval = timeout;
+> +		if (wdt->regmap_val_sz == 1) {
+> +			regval = timeout & 0xff;
+> +			rc = regmap_write(wdt->regmap, reg_data->reg, regval);
+> +			if (!rc) {
+> +				regval = (timeout & 0xff00) >> 8;
+> +				rc = regmap_write(wdt->regmap,
+> +						reg_data->reg + 1, regval);
+> +			}
+> +		} else {
+> +			rc = regmap_write(wdt->regmap, reg_data->reg, timeout);
+> +		}
+> +		break;
+> +	default:
+> +		return -EINVAL;
+>  	}
+>  
+>  	wdd->timeout = set_time;
+> -	rc = regmap_write(wdt->regmap, reg_data->reg, regval);
+> -
+>  	if (!rc) {
+>  		/*
+>  		 * Restart watchdog with new timeout period
+> @@ -147,10 +168,25 @@ static unsigned int mlxreg_wdt_get_timeleft(struct watchdog_device *wdd)
+>  {
+>  	struct mlxreg_wdt *wdt = watchdog_get_drvdata(wdd);
+>  	struct mlxreg_core_data *reg_data = &wdt->pdata->data[wdt->tleft_idx];
+> -	u32 regval;
+> +	u32 regval, msb, lsb;
+>  	int rc;
+>  
+> -	rc = regmap_read(wdt->regmap, reg_data->reg, &regval);
+> +	if (wdt->wdt_type == MLX_WDT_TYPE2) {
+> +		rc = regmap_read(wdt->regmap, reg_data->reg, &regval);
+> +	} else {
+> +		/* WD_TYPE3 has 2 byte timeleft register */
+> +		if (wdt->regmap_val_sz == 1) {
+> +			rc = regmap_read(wdt->regmap, reg_data->reg, &lsb);
+> +			if (!rc) {
+> +				rc = regmap_read(wdt->regmap,
+> +						reg_data->reg + 1, &msb);
+> +				regval = (msb & 0xff) << 8 | (lsb & 0xff);
+> +			}
+> +		} else {
+> +			rc = regmap_read(wdt->regmap, reg_data->reg, &regval);
+> +		}
+> +	}
+> +
+>  	/* Return 0 timeleft in case of failure register read. */
+>  	return rc == 0 ? regval : 0;
+>  }
+> @@ -212,13 +248,23 @@ static void mlxreg_wdt_config(struct mlxreg_wdt *wdt,
+>  		wdt->wdd.info = &mlxreg_wdt_aux_info;
+>  
+>  	wdt->wdt_type = pdata->version;
+> -	if (wdt->wdt_type == MLX_WDT_TYPE2) {
+> -		wdt->wdd.ops = &mlxreg_wdt_ops_type2;
+> -		wdt->wdd.max_timeout = MLXREG_WDT_MAX_TIMEOUT_TYPE2;
+> -	} else {
+> +	switch (wdt->wdt_type) {
+> +	case MLX_WDT_TYPE1:
+>  		wdt->wdd.ops = &mlxreg_wdt_ops_type1;
+>  		wdt->wdd.max_timeout = MLXREG_WDT_MAX_TIMEOUT_TYPE1;
+> +		break;
+> +	case MLX_WDT_TYPE2:
+> +		wdt->wdd.ops = &mlxreg_wdt_ops_type2;
+> +		wdt->wdd.max_timeout = MLXREG_WDT_MAX_TIMEOUT_TYPE2;
+> +		break;
+> +	case MLX_WDT_TYPE3:
+> +		wdt->wdd.ops = &mlxreg_wdt_ops_type2;
+> +		wdt->wdd.max_timeout = MLXREG_WDT_MAX_TIMEOUT_TYPE3;
+> +		break;
+> +	default:
+> +		break;
+>  	}
+> +
+>  	wdt->wdd.min_timeout = MLXREG_WDT_MIN_TIMEOUT;
+>  }
+>  
+> @@ -249,6 +295,11 @@ static int mlxreg_wdt_probe(struct platform_device *pdev)
+>  
+>  	wdt->wdd.parent = dev;
+>  	wdt->regmap = pdata->regmap;
+> +	rc = regmap_get_val_bytes(wdt->regmap);
+> +	if (rc < 0)
+> +		return -EINVAL;
+> +
+> +	wdt->regmap_val_sz = rc;
+>  	mlxreg_wdt_config(wdt, pdata);
+>  
+>  	if ((pdata->features & MLXREG_CORE_WD_FEATURE_NOWAYOUT))
+> 
 
-Arguably, a better fix could be to fail loading the module if any of the
-SNC functions fails initialization. The downside then is that those new
-Vaio models that are only partially (in)compatible would remain without
-*any* SNC function until some kind soul comes along and reverses
-engineer the new behaviour.
-
-Another (possibly better) fix is to keep a list of which functions
-successfully initialized and only attempt to resume those instead of
-blindly going through all the known ones.
-I'm not against this last one but it's quite more invasive.
-
--- 
-mattia
-:wq!
