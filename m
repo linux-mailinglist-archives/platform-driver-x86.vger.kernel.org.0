@@ -2,89 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D881C53C2
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 12:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 653D61C53CF
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 12:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728788AbgEEKzs (ORCPT
+        id S1728233AbgEEK6p (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 06:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
+        Tue, 5 May 2020 06:58:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728180AbgEEKzr (ORCPT
+        by vger.kernel.org with ESMTP id S1725766AbgEEK6p (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 06:55:47 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A9BC061A0F;
-        Tue,  5 May 2020 03:55:47 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id x10so684861plr.4;
-        Tue, 05 May 2020 03:55:47 -0700 (PDT)
+        Tue, 5 May 2020 06:58:45 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0673DC061A0F
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 03:58:44 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id v63so714860pfb.10
+        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 03:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=l552h3OpGSpu9bHCOSxuHOrFd7pmj/Ri4f827xY1Ld8=;
-        b=GlIkMwWtO67a2x6+favOYVuU8Y0cXZu+b3zBeoPRzePS+PTGOXm+OYd5wGC/ZJ5GAz
-         MVbf1d5XRhFbYR4iGSgL9Ni/jkPAnrP8u15t+I3x5WBzgkThdxGLScIMH2MxkyA+cKZQ
-         Fv0iC9MPNCGcZf55OwxQBzewWFYQwTy1T3ujXfw5PUHshEq8GuP/+OQgX8m9CQpxFqHe
-         drFvhKZzMWT2ZF7OIVKzPYVayrols4MnMbUMflgfDMWZ33VkwyKxn90F8h4BQulOiSqG
-         H3R5XKthIAgu/T4U92V3XYLBrnjHbacRGlMt7GCLcOrVQrQc7HIN6M9Pf1SLq3uIdMe1
-         3EgA==
+        bh=eeB+d79Hgqd4cafLZBPvkatxr9uScnWbEN9ebTmczXg=;
+        b=FQamejbuwQouoHIcLAoNvrrZZooR2W0k3ikq83UR/AJyFqkkBFdH31/KP/vZJoyKXm
+         OUk2+FYKYR8zPMrwJCdjpT3CSLyV2taOr0/JBAQpN/WPEGyD7BM6ojSEu6Pr+3NB66Y1
+         Cgq8gIai/YZiKlxaFd+eENhxocJX0UkzA/+fcBfVrrVS6o5Cg1xRdeRn9m511ReoMXej
+         e9ixoDhStNC4LHAQWl+ik6W8KEol/l7mrv8JU0u1hkWd57m2DitRu8xibhtgWmoO2MeU
+         pumbO1UyXa9r0EzNO4MEh0qMpLrdNvdWZdI6hCAAUn142tJfbXDw9FpWhoi7moHqaCyP
+         3sAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=l552h3OpGSpu9bHCOSxuHOrFd7pmj/Ri4f827xY1Ld8=;
-        b=cNNrtNn9Aprile1+FNfMACDDUxHNyhD6cUqpJ+dzq9Evv4MtcVI263wqBd0E0qcRah
-         wbbbB4A9heqSKuak60nFUIQAmleJrPanWvZ6PazROPsVgP5/2YZyg28Dr5wN1uyYhtEV
-         OHBdveyUGaHqG0DyMMd+fzRLDh8g6Ch0Ls5jMv+LeahPYmskpF6osnkPxf33uopyKI9z
-         Gg3lFnbrHah9aPSL3FI4D8BWs9WdJpv4tpNSIU8R/zohG557PZDMSiO7ujTy+XvwluVP
-         YpzzG0OFMvfrJ5NTLcElWAJdLYFIiUL32lTKl1xDAvVFEfIXdZHwWPyrX2WbmwfWHPfi
-         2AKw==
-X-Gm-Message-State: AGi0PuZNfBXKuJfXhwlUarvtzs9oKqGvcWbuUTTznmVX+SmJVa71hE/a
-        1sWLEvmRXxQnyZHNTwLSou0SPmeKKsdTvpvHkOk=
-X-Google-Smtp-Source: APiQypIdsG38zs1UHBnUOGTnHKZdpthGi5pt073UEizssUOHztCH1HgnvSbeT0x3ZSRTEaUrPGE/AznIkmNAz9PhwIY=
-X-Received: by 2002:a17:90a:364c:: with SMTP id s70mr2229270pjb.143.1588676147102;
- Tue, 05 May 2020 03:55:47 -0700 (PDT)
+        bh=eeB+d79Hgqd4cafLZBPvkatxr9uScnWbEN9ebTmczXg=;
+        b=ZZKs/xCpfk4M9mrJB1BoBbE4HrYsZtdj4LID0Ztn9T1YGEf3NF2HhkxqM/yqmEsfDf
+         bB7AIrJF7c0CEDyOKa+oLavAYdS7/QFgc3cIqZMZTU/PY1f7fsW5VsBrUrUN+0maaiwi
+         KVc6WUqZti0ljh2AzVwIlTLlXEC1cMK6CSiX99YtmXqlcDfT7YA7D7CLuPgnlc/6Xhxy
+         XfRwLGeoN8f4RWO3/uOCJepl29s0gLo0ZvjvfPAz9NLPZ3SxPzx+469xVXZxDLPSXr1D
+         LM569I6TbuvRG1go/n6W4gaoEvdi+fAJBfw6uIw7PauI5wYzKXboTbTDuhvPQQjuF4tx
+         VkkQ==
+X-Gm-Message-State: AGi0PuYbP63ql+dpC1Iq/8zRo9kXEwRluYb5SSALhA6VsrWbeyfEnIE8
+        Yl7vJhYUU/mV01ecX2k9Hai6cNajs2vIkShNN88=
+X-Google-Smtp-Source: APiQypIaek7R78prvG+IFmTHzkrq3ZcH9+kb/szMMJZ0vcPm9QhZymvYdn1ITBD148JHEJKkqL6LzdswsSuCQ4NPEZM=
+X-Received: by 2002:a63:1c1:: with SMTP id 184mr2506576pgb.203.1588676323556;
+ Tue, 05 May 2020 03:58:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200504164514.18641-1-a@dun.ai> <72bd44ab-98a8-0cdc-b7e6-104a69ca3643@infradead.org>
- <f4aeeb2c-32c4-e2a8-193e-2b4d892da4db@redhat.com>
-In-Reply-To: <f4aeeb2c-32c4-e2a8-193e-2b4d892da4db@redhat.com>
+References: <20200505092825.145092-1-a@dun.ai>
+In-Reply-To: <20200505092825.145092-1-a@dun.ai>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 5 May 2020 13:55:40 +0300
-Message-ID: <CAHp75VfUUwGyM97Fzh+u1hAFmjdyYinrYE=a+eAwuCNjchq4Qw@mail.gmail.com>
+Date:   Tue, 5 May 2020 13:58:37 +0300
+Message-ID: <CAHp75Vf3vTu+jR05WcN-SKFaS5Z+T7dq-WLqARDH_pM8U4rSjQ@mail.gmail.com>
 Subject: Re: [PATCH] Add support for Vinga Twizzle J116 Silead touchscreen
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Andrew Dunai <a@dun.ai>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To:     Andrew Dunai <a@dun.ai>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+        Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 5, 2020 at 12:02 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 5/4/20 8:20 PM, Randy Dunlap wrote:
+On Tue, May 5, 2020 at 12:29 PM Andrew Dunai <a@dun.ai> wrote:
 
-> > Usually you need to send patches to a maintainer who could then
-> > merge/apply them.
->
->  From a code point-of-view this looks good to me.
->
-> Andrew, if you can resend this to the proper folks (including me)
-> with a proper Signed-off-by (*), then this should be ready for merging.
->
-> Regards,
->
-> Hans
->
->
-> *) that might have already been there, but it wasn't present in
-> the part quoted by Randy
+Thank you for an update!
 
-Luckily I see the original message. There is neither Sob nor commit
-message. They must to be present.
+The things are still missing:
+- versioning (run `git format-patch -v<n> ... `, where `<n>` is a
+version number.
+- Cc to PDx86 maintainers (Hans is the driver maintainer, and not the
+subsystem one)
+- commit message
+
+But since it has SoB tag we may wait for Hans to Ack or NAK this one.
+
+>
+> Signed-off-by: Andrew Dunai <a@dun.ai>
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index 93177e6e5..a3ab19ab0 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
+>         .properties     = trekstor_surftab_wintron70_props,
+>  };
+>
+> +static const struct property_entry vinga_twizzle_j116_props[] = {
+> +       PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
+> +       PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
+> +       PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
+> +       PROPERTY_ENTRY_U32("silead,max-fingers", 10),
+> +       PROPERTY_ENTRY_BOOL("silead,home-button"),
+> +       { }
+> +};
+> +
+> +static const struct ts_dmi_data vinga_twizzle_j116_data = {
+> +       .acpi_name      = "MSSL1680:00",
+> +       .properties     = vinga_twizzle_j116_props,
+> +};
+> +
+>  /* NOTE: Please keep this table sorted alphabetically */
+>  static const struct dmi_system_id touchscreen_dmi_table[] = {
+>         {
+> @@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+>                         DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
+>                 },
+>         },
+> +       {
+> +               /* Vinga Twizzle J116 */
+> +               .driver_data = (void *)&vinga_twizzle_j116_data,
+> +               .matches = {
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
+> +               },
+> +       },
+>         { },
+>  };
+>
+> --
+> 2.26.2
+>
+>
+
 
 -- 
 With Best Regards,
