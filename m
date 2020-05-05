@@ -2,91 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EEC41C51EB
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 11:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D881C53C2
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 12:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728180AbgEEJ2p convert rfc822-to-8bit (ORCPT
+        id S1728788AbgEEKzs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 05:28:45 -0400
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383 "EHLO
-        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725766AbgEEJ2p (ORCPT
+        Tue, 5 May 2020 06:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728180AbgEEKzr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 05:28:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588670914; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=KX5q032EnIV40xQN7k3oJszQl29TcKUpU+ISh0i4/CbO/69kBC5cpaOCBzBC6/dXUXIZQIxbsO5epV93YjphqZoog0HFeYaextk9RddAycSExqyUbRR6Lo8WoILnK76DLSdAYvjtRY/eiBRdALPWFxXYPwDSqnSOwwJ7oi0/BJw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1588670914; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-        bh=fs9Z4f3SkFBQ+8dXXBTs20ZshNlpF9tfbnk8ltSJv8k=; 
-        b=mMkQR41LMSz9sUaUKpKeWFLR1Wdpd4Ng5APTjWPvSXYW5Ot2d0qcPfjHa4KuE+kA9rAamB2KyfRdrJHjxd7HApLyQAokJBlUuPoWOG4OKxb+Cpe60b75oQf/gdchJb2fNzRNsw+N7xhYijzm6EtZ6SwpN7DE6AQKhwlPtXFihyI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        spf=pass  smtp.mailfrom=a@dun.ai;
-        dmarc=pass header.from=<a@dun.ai> header.from=<a@dun.ai>
-Received: from vinga.itotolink.net (46.118.154.112 [46.118.154.112]) by mx.zohomail.com
-        with SMTPS id 1588670912873280.3651527117594; Tue, 5 May 2020 02:28:32 -0700 (PDT)
-From:   Andrew Dunai <a@dun.ai>
-To:     hdegoede@redhat.com
-Cc:     platform-driver-x86@vger.kernel.org, rdunlap@infradead.org,
-        Andrew Dunai <a@dun.ai>
-Message-ID: <20200505092825.145092-1-a@dun.ai>
-Subject: [PATCH] Add support for Vinga Twizzle J116 Silead touchscreen
-Date:   Tue,  5 May 2020 12:28:25 +0300
-X-Mailer: git-send-email 2.26.2
+        Tue, 5 May 2020 06:55:47 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A9BC061A0F;
+        Tue,  5 May 2020 03:55:47 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id x10so684861plr.4;
+        Tue, 05 May 2020 03:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l552h3OpGSpu9bHCOSxuHOrFd7pmj/Ri4f827xY1Ld8=;
+        b=GlIkMwWtO67a2x6+favOYVuU8Y0cXZu+b3zBeoPRzePS+PTGOXm+OYd5wGC/ZJ5GAz
+         MVbf1d5XRhFbYR4iGSgL9Ni/jkPAnrP8u15t+I3x5WBzgkThdxGLScIMH2MxkyA+cKZQ
+         Fv0iC9MPNCGcZf55OwxQBzewWFYQwTy1T3ujXfw5PUHshEq8GuP/+OQgX8m9CQpxFqHe
+         drFvhKZzMWT2ZF7OIVKzPYVayrols4MnMbUMflgfDMWZ33VkwyKxn90F8h4BQulOiSqG
+         H3R5XKthIAgu/T4U92V3XYLBrnjHbacRGlMt7GCLcOrVQrQc7HIN6M9Pf1SLq3uIdMe1
+         3EgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l552h3OpGSpu9bHCOSxuHOrFd7pmj/Ri4f827xY1Ld8=;
+        b=cNNrtNn9Aprile1+FNfMACDDUxHNyhD6cUqpJ+dzq9Evv4MtcVI263wqBd0E0qcRah
+         wbbbB4A9heqSKuak60nFUIQAmleJrPanWvZ6PazROPsVgP5/2YZyg28Dr5wN1uyYhtEV
+         OHBdveyUGaHqG0DyMMd+fzRLDh8g6Ch0Ls5jMv+LeahPYmskpF6osnkPxf33uopyKI9z
+         Gg3lFnbrHah9aPSL3FI4D8BWs9WdJpv4tpNSIU8R/zohG557PZDMSiO7ujTy+XvwluVP
+         YpzzG0OFMvfrJ5NTLcElWAJdLYFIiUL32lTKl1xDAvVFEfIXdZHwWPyrX2WbmwfWHPfi
+         2AKw==
+X-Gm-Message-State: AGi0PuZNfBXKuJfXhwlUarvtzs9oKqGvcWbuUTTznmVX+SmJVa71hE/a
+        1sWLEvmRXxQnyZHNTwLSou0SPmeKKsdTvpvHkOk=
+X-Google-Smtp-Source: APiQypIdsG38zs1UHBnUOGTnHKZdpthGi5pt073UEizssUOHztCH1HgnvSbeT0x3ZSRTEaUrPGE/AznIkmNAz9PhwIY=
+X-Received: by 2002:a17:90a:364c:: with SMTP id s70mr2229270pjb.143.1588676147102;
+ Tue, 05 May 2020 03:55:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-X-ZohoMailClient: External
-Content-Type: text/plain; charset=utf8
+References: <20200504164514.18641-1-a@dun.ai> <72bd44ab-98a8-0cdc-b7e6-104a69ca3643@infradead.org>
+ <f4aeeb2c-32c4-e2a8-193e-2b4d892da4db@redhat.com>
+In-Reply-To: <f4aeeb2c-32c4-e2a8-193e-2b4d892da4db@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 5 May 2020 13:55:40 +0300
+Message-ID: <CAHp75VfUUwGyM97Fzh+u1hAFmjdyYinrYE=a+eAwuCNjchq4Qw@mail.gmail.com>
+Subject: Re: [PATCH] Add support for Vinga Twizzle J116 Silead touchscreen
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, Andrew Dunai <a@dun.ai>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Signed-off-by: Andrew Dunai <a@dun.ai>
----
- drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+On Tue, May 5, 2020 at 12:02 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 5/4/20 8:20 PM, Randy Dunlap wrote:
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 93177e6e5..a3ab19ab0 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
- 	.properties	= trekstor_surftab_wintron70_props,
- };
- 
-+static const struct property_entry vinga_twizzle_j116_props[] = {
-+	PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
-+	PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
-+	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
-+	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
-+	PROPERTY_ENTRY_BOOL("silead,home-button"),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data vinga_twizzle_j116_data = {
-+	.acpi_name	= "MSSL1680:00",
-+	.properties	= vinga_twizzle_j116_props,
-+};
-+
- /* NOTE: Please keep this table sorted alphabetically */
- static const struct dmi_system_id touchscreen_dmi_table[] = {
- 	{
-@@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
- 		},
- 	},
-+	{
-+		/* Vinga Twizzle J116 */
-+		.driver_data = (void *)&vinga_twizzle_j116_data,
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
-+		},
-+	},
- 	{ },
- };
- 
+> > Usually you need to send patches to a maintainer who could then
+> > merge/apply them.
+>
+>  From a code point-of-view this looks good to me.
+>
+> Andrew, if you can resend this to the proper folks (including me)
+> with a proper Signed-off-by (*), then this should be ready for merging.
+>
+> Regards,
+>
+> Hans
+>
+>
+> *) that might have already been there, but it wasn't present in
+> the part quoted by Randy
+
+Luckily I see the original message. There is neither Sob nor commit
+message. They must to be present.
+
 -- 
-2.26.2
-
-
+With Best Regards,
+Andy Shevchenko
