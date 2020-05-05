@@ -2,178 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3442A1C5765
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 15:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B43141C5691
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 15:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729087AbgEENuU (ORCPT
+        id S1728933AbgEENRd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 09:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728512AbgEENuU (ORCPT
+        Tue, 5 May 2020 09:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728927AbgEENRc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 09:50:20 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35AAAC061A0F;
-        Tue,  5 May 2020 06:50:19 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id x25so2396389wmc.0;
-        Tue, 05 May 2020 06:50:19 -0700 (PDT)
+        Tue, 5 May 2020 09:17:32 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE3E9C061A0F
+        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 06:17:32 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id a32so1092152pje.5
+        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 06:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aZ0Qk3lr7qtEXdcvAALeI6LX4V+/Z6o4WYTfNR+yDHc=;
-        b=js1IjRE218jK/P3YrCihXZZGDDxGRorwxOaxRkiApPP2ZO+K0c50XZAG3/q81hSy60
-         tIdG7xSc2ujEDXRnoS7wy3yAPbAQdMNDiK1OAjAIX84JRb1qSnHWM/NbgFdkJHt7jtxr
-         xctZBXXuK43htEVsipypnZbKMDdVguUC+Rzzz+CTYNkt8jOH3xnSkth7lmsn3SqlYQ4/
-         +KliZFePE+e31YW5UByMzFJ6UBiK1oUzWJ/I2c4kjDnmdUAkToXIhz4lb57iHGC8dn5Y
-         G7SxYdLiJ6abLftTR/v8wPndwfv8Tdc7YIK0xJ+YEZXr9z3AeSsBXXKXH39kk0z8p63i
-         WTdA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yxJC2ZLScdF3KW3kUgydrQlkIkxdLZTRd1z6AdnQm4o=;
+        b=tq9bYMShYwGbzsCGyAKAGqz6uCn5h8SLd38g1LIZroMsBKanCfAtHFregg/Wf0M8Oo
+         AmB2zmFDlpsTadj14+qk1YIDkMuGWVwoBmSQIjf5CBVTagnLhfc5dxuLg1szF83hg8qF
+         wq/Zuyz5yG5rPo/MSi6Ou7mIg9yR9BerYYGpqwS5jkPfRfM+J92yqx6LJkq0JG6JNWiC
+         UE0ZIK+BmhVLICMlJtp9fnT4gREyUpSXSv2bWNXxeb/EYQ0FuewKVj4O31RLUJ+20Dgc
+         ScskImt3jFfiYus3ZM8R3xkCVGviChDCfHNLv59Dyjap0/noO/OXczGMD4I7AFwGqgMz
+         6G8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aZ0Qk3lr7qtEXdcvAALeI6LX4V+/Z6o4WYTfNR+yDHc=;
-        b=Fz9aJ3DNxnq+YdqSIlsDPDXzAl/QCJ5pDwwyBMcF2pieJnGUn/XQzgAuyNZkYy+QSp
-         cA6AUtTmp9MOBTfI2pClYtMT/Fh1tvT0M3zNxoJ6M4j6nn+TR+NTYBiNqkb7vA/Yqmi4
-         hEc6O4MV2HXoyuK+651nBmzNhAsEj+FQaBr13ogKIjSYHfMmmdVumSU7zwhyorBLExcB
-         f42nmc+Pbmoh0iMVwZKH3z5y8xZyr54BBlK5svBLjwlizMtQft0NviFTbLT184NqYf0J
-         q9PnirXH11L1QyOs5BBmvteLbvH8cura3QhPb/eyWwFC742fCG8NtBzpdq9MhrDvuOR2
-         Hxtg==
-X-Gm-Message-State: AGi0PuYsfOhInaq8nK330BuNHtGrczZV2rvR6QNSyhyLgez/QYDUVFC7
-        jBwKNfu6UzQeivful2ziiJfiB9lY
-X-Google-Smtp-Source: APiQypKAT3yV8prJyFdi1XTuypc5++ACcuzgdJgmdbjZjkart5eR37gxpUCMWy0oQv9ZuJTJEN3vnQ==
-X-Received: by 2002:a1c:3b0a:: with SMTP id i10mr3561075wma.26.1588686617456;
-        Tue, 05 May 2020 06:50:17 -0700 (PDT)
-Received: from [192.168.2.202] (pD9E5A5BE.dip0.t-ipconnect.de. [217.229.165.190])
-        by smtp.gmail.com with ESMTPSA id p7sm3532619wrf.31.2020.05.05.06.50.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 06:50:16 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Subject: Re: 5.6 regression caused by "ACPICA: Dispatcher: always generate
- buffer objects for ASL create_field() operator"
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Bob Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Mattia Dongili <malattia@linux.it>,
-        William Bader <williambader@hotmail.com>,
-        Dominik Mierzejewski <dominik@greysector.net>
-Cc:     linux-acpi <linux-acpi@vger.kernel.org>,
-        Darren Hart <dvhart@infradead.org>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=yxJC2ZLScdF3KW3kUgydrQlkIkxdLZTRd1z6AdnQm4o=;
+        b=Y0FSezoxa1M1ha35z8EBZiytZaseEZOd1coQIpBCemDyA5wwexXvMHbGg6v86eEb2m
+         KdiFKgW2oB5STBbe36kWFB2QHGTDSjb/QhU2S3wbnXFvZk11czgg1zkJ+g5NtDkJuSlJ
+         WYsHLFYexNtAYtwKmbgNSNzs6GPThG3f12c3Ev2PfA/RWQ10fxV6OT/hyH4tP2V7NSDR
+         Q3g1zhDFm2OktkLQhiSMKJiOuMppix70/ehdbaulgrxwIz9eYl4BvZgQa4ppDSphYsMK
+         S4g0JSph6HMA6fEHoBlsUu6/ULdqPw8zi2gBXxOIhTiyjhFkagKmtM3kzYKJ5yKGRDmZ
+         ZGCw==
+X-Gm-Message-State: AGi0PuaQkMzZYLgpEmiV/lTZzMTp6rm9L/xsEi2yOtMHLzbIChM4uTFc
+        IB8pIOUA2btqV+f/brK8OMw=
+X-Google-Smtp-Source: APiQypJRhmmWO2JvxqsQz3SWewE2KikbET4bp+qCrAERrOuV7RRYC22mdVvxQitooAfGt64y3hKs6g==
+X-Received: by 2002:a17:90a:c702:: with SMTP id o2mr2986144pjt.196.1588684651621;
+        Tue, 05 May 2020 06:17:31 -0700 (PDT)
+Received: from taihen.jp ([2405:6580:2100:d00:e039:f876:9cfb:e6bd])
+        by smtp.gmail.com with ESMTPSA id h193sm2087121pfe.30.2020.05.05.06.17.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 06:17:30 -0700 (PDT)
+Date:   Tue, 5 May 2020 23:19:48 +0900
+From:   Mattia Dongili <malattia@linux.it>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-References: <49f20a91-9362-6249-d413-1461258d56a9@redhat.com>
-Message-ID: <11795a75-70de-5fcc-878f-14a0381947ea@gmail.com>
-Date:   Tue, 5 May 2020 15:50:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Dominik Mierzejewski <dominik@greysector.net>,
+        William Bader <williambader@hotmail.com>
+Subject: Re: [PATCH 2/2] [sony-laptop] Don't use thermal handle if NULL
+Message-ID: <20200505141948.GA119615@taihen.jp>
+References: <20200505111810.65586-1-malattia@linux.it>
+ <20200505111810.65586-3-malattia@linux.it>
+ <CAHp75VdCsscavP5sGrMjk5dWFZDYjevW94_RNRw50nAaM3jQpA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <49f20a91-9362-6249-d413-1461258d56a9@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdCsscavP5sGrMjk5dWFZDYjevW94_RNRw50nAaM3jQpA@mail.gmail.com>
+X-Message-Flag: Cranky? Try Free Software instead!
+X-Operating-System: Linux 5.7.0-rc4+ x86_64
+X-Editor: Vim http://www.vim.org/
+X-Disclaimer: Buh!
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 5/5/20 2:55 PM, Hans de Goede wrote:
-> Hi All,
+On Tue, May 05, 2020 at 03:38:15PM +0300, Andy Shevchenko wrote:
+> On Tue, May 5, 2020 at 1:16 PM <malattia@linux.it> wrote:
+> >
+> > From: Mattia Dongili <malattia@linux.it>
+> >
+> > The thermal handle object may fail initialization when the module is
+> > loaded the first time.
+> >
 > 
-> Commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
-> objects for ASL create_field() operator") has dropped the
-> automatic conversion of small buffers into integers.
-> 
-> But some drivers relied on this automatic conversion, these
-> drivers have checks like this:
-> 
->          if (object->type != ACPI_TYPE_INTEGER) {
->                  pr_warn("Invalid acpi_object: expected 0x%x got 0x%x\n",
->                                  ACPI_TYPE_INTEGER, object->type);
->                  kfree(object);
->                  return -EINVAL;
->          }
-> 
-> This specific bit comes from the sony-laptop (platform/x86) code,
-> the ACPICA change has broken this code, causing systems using this
-> driver to hang on resume from suspend.
-> 
-> We have multiple bug-reports open for this already:
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=207491
-> https://bugzilla.redhat.com/show_bug.cgi?id=1829096
-> https://bugzilla.redhat.com/show_bug.cgi?id=1830150
-> 
-> Mattia Dongili, the sony-laptop driver has already submitted
-> a fix for this upstream, adjusting the sony-laptop driver
-> to deal with the returned object type now being a BUFFER.
-> 
-> The goal of this email is to:
-> 
-> 1. Make everyone involved aware of this breakage as we
-> may see similar breakage elsewhere.
-> 
-> 2. Discuss if we should maybe revert the ACPICA change.
-> 
-> If you are reading this then 1. has been accomplished :)
-> 
-> Which leaves us with 2. I'm tending towards keeping the
-> change, since it seems the right thing to do and dealing
-> with the fallout. But since there is fallout we should
-> also at least consider reverting the ACPICA change.
-> 
-> So ACPI maintainers what is you take on this ?
-> 
-> Regards,
-> 
-> Hans
+> But isn't it a papering over the real issue that it fails first time?
+> AFAIU user needs to try first time and if it fails to try again. Can
+> we rather understand the root cause first?
 
-Hi,
+I think this is a bug regardless of what ACPICA does.
+If the driver fails completing whatever initialization, should it not
+avoid dereferencing a NULL pointer on resume?
 
-I'd like to advise against reverting the commit. Quite honestly, I don't
-think reverting the commit is a good idea. This will break things for
-devices that assume Microsoft-like AML interpreter behavior _inside_ the
-DSDT. Such as the MS Surface devices for example, which, as stated in the
-commit message, depend on the type being Buffer via a check on
-ObjectType(...). There is no fix for those devices other than a)
-accepting MS behavior in ACPICA, b) introducing a quirk in ACPICA which
-switches between behaviors on a device basis, or c) patching the DSDT of
-those devices specifically for Linux.
-
-I'd also argue that since this is MS behavior, this is the behavior that
-almost all consumer electronics devices with ACPI will expect. Case in
-point, the DSDT of one of the affected Sony laptops, which contains the
-following code:
-
-         CreateField (SNBF, Zero, 0x20, SNBD)
-         CreateWordField (SNBF, 0x02, CPW0)
-         CreateWordField (SNBF, 0x04, CPW1)
-         CreateWordField (SNBF, Zero, RCW0)
-         CreateWordField (SNBF, 0x02, RCW1)
-
-They explicitly create a Buffer field of 32 bits via CreateField and not
-a 32 bit Integer field via CreateDWordField. I'd argue that if they
-wanted this field to be an Integer, CreateDWordField would be the
-straight-forward approach.
-
-Unfortunately, I also don't see a way to identify all affected calls to
-ACPI functions automatically or easily, as this requires to look at the
-DSDTs and the code behind those calls. If you have DSDTs, here's a way
-to identify if that particular DSDT/driver combo is affected:
-
-If a call to an ACPI function expects an Integer and the ACPI function
-returns a field created with CreateField(...) and the field is smaller
-than 64 bits (on 64bit machines), then this call is affected.
-
-The only semi-reasonable way, as far as I can see, to identify this on a
-broad scale is to get this information out to the respective maintainers
-of drivers with apci_evaluate_{integer,object,dsm,..?} calls and ask them
-to check those calls against DSDTs. Also maybe help them by introducing a
-function which does Buffer-to-Integer conversion.
-
-Regards,
-Maximilian
-
-
+-- 
+mattia
+:wq!
