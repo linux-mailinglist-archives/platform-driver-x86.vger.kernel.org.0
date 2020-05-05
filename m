@@ -2,105 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13BF81C550A
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D101C5542
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 May 2020 14:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbgEEMGd (ORCPT
+        id S1728351AbgEEMQS convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 May 2020 08:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727090AbgEEMGd (ORCPT
+        Tue, 5 May 2020 08:16:18 -0400
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21342 "EHLO
+        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728180AbgEEMQR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 May 2020 08:06:33 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7388AC061A0F
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 May 2020 05:06:33 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id f15so747355plr.3
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 May 2020 05:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mc4uUQyFpxdVqjuaKiYXBtTxTa9XkmJhSD+Te8QtkFE=;
-        b=USNQl77jEdJLcAlQ4RRHo+FS4FDaREJ30gcDAbMxYQDb2aTjYWy/xFZyuLBOp7DwD7
-         8lgVx1JQNZyb30XKCEPCCcOlNjl7SXjsjXSILJ0pXobC1cgsNW0UHAF8JG8SiYlKP3OL
-         iSFGtQsfFDkaj9nZinLwPxEzyNDBfWda1ms67LnBOO2zUGl2bYH9FkmkCl/vSxoWm0C8
-         5BjaiejM2ltjnI0IbeO89+goFiIX/XI9Fzg/ASiU9scP0jZUqRolqkZ3X5JCni39m4sT
-         gj+Y0DMkF86Ypkf/UyE35CD4nF4r9O6F8mJFTa6g58b4NJId2pPG6PqhqPB/zCBwfRFf
-         uJAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mc4uUQyFpxdVqjuaKiYXBtTxTa9XkmJhSD+Te8QtkFE=;
-        b=fGYM3H2OL9ontFtBATkgp0k7IZIeUDHSf7YQU2PO4eS/ONq36aXOjxMqHPyPvXCfKv
-         yDpZDs7n+cvFvHNglDrRQcB6UCVdN8gwbRQsxjIfLmfi7BWAwC+APUNjB3Eh8T/u0FjJ
-         9TAS06Y9hHahYwyd24ddWFp2KM/LxbqZj4ei/KLl7Mqtl6rzKp4Utn6YzQPz9XrBic8K
-         x24kXhMhjpud0nq3r6wBVKfXVz6dMO7NjISJdUvElJLTSYfTPLeecWvBu/L44GVqhazt
-         ufNa7hsbJPFhmo7iDkOTJW8xC5mZMKPdEv4z2/Hh4DtRjCigTXW6ne/WSDOfwP36Suj0
-         a2bQ==
-X-Gm-Message-State: AGi0PuYLZZ4wgyv65gaeDjIeYZsVIinZjtUI9fhmAmJcFnXUzBACk83G
-        YquRIB/dGxrkHEywYS37Qz5V9/iIr3A7kup0cg8=
-X-Google-Smtp-Source: APiQypKLzYhkRCzo6bmlCdglKmaFiERxYvLQSZ5Z1xRqgZ50CQwIeKP94yQ0Mku3XtaAXqQUqiAeuSuAG/CdvmZCsj4=
-X-Received: by 2002:a17:90a:fa81:: with SMTP id cu1mr2667776pjb.25.1588680392980;
- Tue, 05 May 2020 05:06:32 -0700 (PDT)
+        Tue, 5 May 2020 08:16:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1588680967; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=by7EqNwa0jvS8n0RA6cx158bvfuD01cIHTAJrIqKyTPCPsa3IapJMy1rW6MTzE3Ux7Fw3i2WpucNeepdOLiZcx2f4+vJmoPK9TmPFa9Tdau2If47JO3erNpP1FPMr6SSriJu0ypOWEHTW0AD6iOWB+n1cTSpTktdYlt5M93CnCM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1588680967; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+        bh=okn8hxQ00N9vtJ7XNo2REkErUMYkBnOZ2K4HoWLpfhU=; 
+        b=J+Y+s91jAl96l3cz6Tcrh37+1IGTmMxx0xisjMeveM4QBDIGUlWEuDGs62U1zjH/B5YFv+BRqDLcYTlwitJGuJo11+SzKo0vB5MM9l7sCbMm/+DkaJmWe3oUlAcW0VwP6O2YOXiBLz1+5tQ71WUzdxETdryuBjGpuqPsbD6Gy3c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        spf=pass  smtp.mailfrom=a@dun.ai;
+        dmarc=pass header.from=<a@dun.ai> header.from=<a@dun.ai>
+Received: from localhost.localdomain (92.253.251.250 [92.253.251.250]) by mx.zohomail.com
+        with SMTPS id 1588680963708587.0635429791535; Tue, 5 May 2020 05:16:03 -0700 (PDT)
+From:   Andrew Dunai <a@dun.ai>
+To:     dvhart@infradead.org
+Cc:     andy@infradead.org, platform-driver-x86@vger.kernel.org,
+        hdegoede@redhat.com, Andrew Dunai <a@dun.ai>
+Message-ID: <20200505121518.271854-1-a@dun.ai>
+Subject: [PATCH v3] platform/x86: touchscreen_dmi: add Vinga J116 touchscreen
+Date:   Tue,  5 May 2020 15:15:18 +0300
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <CAHp75Vf3vTu+jR05WcN-SKFaS5Z+T7dq-WLqARDH_pM8U4rSjQ@mail.gmail.com>
- <838fe120-435b-4b7a-bd66-277373b4ea82@email.android.com>
-In-Reply-To: <838fe120-435b-4b7a-bd66-277373b4ea82@email.android.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 5 May 2020 15:06:26 +0300
-Message-ID: <CAHp75VcRPbuen6+psGLsCBfPi2AfZYhLvjvhLuG63AS43qkyAA@mail.gmail.com>
-Subject: Re: [PATCH] Add support for Vinga Twizzle J116 Silead touchscreen
-To:     a@dun.ai
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 5, 2020 at 2:42 PM <a@dun.ai> wrote:
+Add support for Vinga Twizzle J116 Silead touchscreen which uses GSL1680 chip.
 
-> > - versioning (run `git format-patch -v<n> ... `, where `<n>` is a
-> version number.
->
-> Do I just make up a version like v1?
+Signed-off-by: Andrew Dunai <a@dun.ai>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-By the fact, this one is v2. So, next one will be v3.
-
-> > - Cc to PDx86 maintainers (Hans is the driver maintainer, and not the
-> subsystem one)
->
-> Is it platform-driver-x86@vger.kernel.org? I believe I had it in Cc.
-
-Maintainers for the PDx86 are listed in the MAINTAINERS as follows
-
-X86 PLATFORM DRIVERS
-M:      Darren Hart <dvhart@infradead.org>
-M:      Andy Shevchenko <andy@infradead.org>
-L:      platform-driver-x86@vger.kernel.org
-
-
-> > - commit message
-> Should it be added right after the subject via multiline Git commit message?
-
-It should go like this
-
-platform/x86: touchscreen_dmi: ...
-(blank line)
-...commit message is here...
-(blank line)
-SoB: Author Name <email@com>
-...other tags if collected...
-
-Also remember:
-- not top post
-- remove unneeded lines in your reply(ies)
-
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 93177e6e5..a3ab19ab0 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -640,6 +640,20 @@ static const struct ts_dmi_data trekstor_surftab_wintron70_data = {
+ 	.properties	= trekstor_surftab_wintron70_props,
+ };
+ 
++static const struct property_entry vinga_twizzle_j116_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1920),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl1680-vinga-twizzle_j116.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
++	{ }
++};
++
++static const struct ts_dmi_data vinga_twizzle_j116_data = {
++	.acpi_name	= "MSSL1680:00",
++	.properties	= vinga_twizzle_j116_props,
++};
++
+ /* NOTE: Please keep this table sorted alphabetically */
+ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 	{
+@@ -1054,6 +1068,13 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Y8W81"),
+ 		},
+ 	},
++	{
++		/* Vinga Twizzle J116 */
++		.driver_data = (void *)&vinga_twizzle_j116_data,
++		.matches = {
++			DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
++		},
++	},
+ 	{ },
+ };
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
+
