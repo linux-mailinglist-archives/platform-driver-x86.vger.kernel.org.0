@@ -2,86 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0634E1C6EC7
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 May 2020 12:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 380E91C701E
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 May 2020 14:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbgEFKz3 (ORCPT
+        id S1728081AbgEFMQi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 May 2020 06:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
+        Wed, 6 May 2020 08:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725882AbgEFKz2 (ORCPT
+        by vger.kernel.org with ESMTP id S1727792AbgEFMQi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 May 2020 06:55:28 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0DCC061A0F
-        for <platform-driver-x86@vger.kernel.org>; Wed,  6 May 2020 03:55:28 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id ms17so687221pjb.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 06 May 2020 03:55:28 -0700 (PDT)
+        Wed, 6 May 2020 08:16:38 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5AA1C061A0F
+        for <platform-driver-x86@vger.kernel.org>; Wed,  6 May 2020 05:16:37 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id x15so926962pfa.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 06 May 2020 05:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E+dYRXPOuvw44CuuCZB06hVJQSr4M+8TQtofUy4dFe4=;
-        b=Od7ZD7LMmacFnsToDyd6hGAxaa+6KwcsCMWoXQ3UGAEf9TCVfMSzRCOMZjd7mXioZe
-         5xHJVLS+rYw6wopxhTdSUFiwbC8JpSoKfg6qo06A+NaE+oRUdO+BdoFx0j7bgYNZ4ZQD
-         15VVfsVormn8bdJBk2t30waISqQkWNlp+w7PxKrELShATFPm7IfH8WG+u/LQn8uKwiiR
-         CODYBA/b3KE7gYPtro89tJLe144dw+TVlxKrVbHkOTQT3jB82nIOG8hAgQ+uEV6Tmye8
-         pxaabBPymw1C8Vtr16s6e1XlQN3L8mChD8vxYNWg9aS2ZVR+6QjKfjn2RTU5j9SauSxo
-         kINw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hElELxY/o3aQbGz493BmMhuxhQGL1SLfG9MWNE6r/1c=;
+        b=VU86s6KQ+ctrJnW4evD9HlXtDCRKRxCiUJ9Kf7BFRv+TJCHyqklpi65Lccw/PqhSiY
+         HUA+hOgQX4hM7tI1YHDrhvUDmxYGeySm5X0hQGkGe9Xc2gQms6woOWjDkzk4xNO+jEj4
+         D20LAAHCmXVG8nsQQmwjwfmiXt7xix/jeHBj+OmGrGXxu7W+WzDlUtWeOTDYoHsBG3i1
+         9fy6mzZ9IHwgulIMj39GxMjSlrfIKmZztlaertyKQtYTLaDzryR6RZjKMwi41N/WiAJc
+         zGoLhspMRTKOIV8hJonCkWquThViPk3Slvbudp6M/tYYTYpuuytK8vk3PavL1nmwWLrs
+         8yHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E+dYRXPOuvw44CuuCZB06hVJQSr4M+8TQtofUy4dFe4=;
-        b=OSRiQKnJhoaGDwtZU9WxsB/NvblZ8dKH/ZNKNXIqfY1ty0Y/PBtgr6B30s9zfHUE3d
-         jzST96HclgNu8QcIp3YWAhIMaQkRBSN92J72LoJN9Q8P/RiH7yQYsspyOQkup6TdYAbF
-         pSk5BTAhMTStrcCNZ2zhMhWm38dYBYYDbdcXe4p6A9r6nBfHUPlE4y2VlIx4U5EpUOw9
-         AcKdY+aQi5QfsiAjYJild7FSCyykGm3e4AjhuqA/46wJm40cEj3cTIZInWxCJTAy0J1L
-         nCUWM6jMXbVYmUg1pYb50bB1zd1mEOFF0xiLzJHMRhYJ59pNu2wT508cyV8F+lWIfyWk
-         lpoQ==
-X-Gm-Message-State: AGi0PuZkmum3gGVk3Alo+NDt9zw2kkLLc2SrsDK2vK9s8G0LBI+HVKhg
-        EwNMFmLfV4R7hNdM3gbp10oS7+pMYq89m6z9vB8=
-X-Google-Smtp-Source: APiQypIUo8R6xZP87neP6EhdxYYRK2hR/hPXviewbJ9DxDbqhymq7W+AUFGVWDKimGjevUxOtq5KNicXwVTw1vq3nro=
-X-Received: by 2002:a17:902:6901:: with SMTP id j1mr7136852plk.255.1588762528273;
- Wed, 06 May 2020 03:55:28 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=hElELxY/o3aQbGz493BmMhuxhQGL1SLfG9MWNE6r/1c=;
+        b=r/P1vFTrxKPxKBp4UeOdXUOhl5XaBdEBhfVjLEZTE1lBj3qHBfRdt0MtQznJaUghIz
+         j/cae0v/P1QDat7JNKKc/r+PAsEQExbd4iMm6EBX2bQuvzHMIzfyqRBFY7Us8rgEdiyw
+         i2JyB4mQs68X9seSzsXCr8c7HZpRS+7WrWDg32S/XVeFI2fhzvU0t7ng7RzOD+Mq3WVI
+         y9dufATAsQgChzAkYTJo10KhV9sFNhnBahKuLlIPDLhk8LIk9SXdTguUgada/fXrwMXE
+         JVhJvDR47iV389rvGru/dIS+JbQWmSIBhbMzzxFnrze6sUozxHHMXOuz5IqKOBRZmHpu
+         ZZOA==
+X-Gm-Message-State: AGi0PubiU7XtZK5gVOSbzg1qjtuU0YabSsDPlYxCM0Qg4TBg9NI0VNOx
+        llTnWtg2QTRhKsjV3Gr16Mu6ZumsZ9A=
+X-Google-Smtp-Source: APiQypKzrVKtAG4520mSAmBpkrYs56BVeTlSDJkY7sGQ9/0mD7Kvm3/aV4wiWTThgq2uGu/9XGNngw==
+X-Received: by 2002:a63:1854:: with SMTP id 20mr7069083pgy.257.1588767397199;
+        Wed, 06 May 2020 05:16:37 -0700 (PDT)
+Received: from hilbert.taihen.jp ([2405:6580:2100:d00:e039:f876:9cfb:e6bd])
+        by smtp.gmail.com with ESMTPSA id b67sm1728285pfg.60.2020.05.06.05.16.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 05:16:35 -0700 (PDT)
+Received: by hilbert.taihen.jp (Postfix, from userid 1000)
+        id 66303248D1E; Wed,  6 May 2020 21:16:33 +0900 (JST)
+From:   malattia@linux.it
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Mattia Dongili <malattia@linux.it>
+Subject: [PATCH v3 0/2] Two fixes for one sony-laptop reported bug on 5.6
+Date:   Wed,  6 May 2020 21:16:28 +0900
+Message-Id: <20200506121630.72382-1-malattia@linux.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200506014843.18467-1-malattia@linux.it> <20200506014843.18467-3-malattia@linux.it>
- <20200506034758.GA18684@taihen.jp>
-In-Reply-To: <20200506034758.GA18684@taihen.jp>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 6 May 2020 13:55:21 +0300
-Message-ID: <CAHp75VeNkfJhi0hXz4nQgRg7227Gdvg20uhCpSTb1KqUvEFExg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] [sony-laptop] Make resuming thermal profile safer
-To:     Mattia Dongili <malattia@linux.it>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dominik Mierzejewski <dominik@greysector.net>,
-        William Bader <williambader@hotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 6, 2020 at 6:48 AM Mattia Dongili <malattia@linux.it> wrote:
->
-> On Wed, May 06, 2020 at 10:48:43AM +0900, malattia@linux.it wrote:
-> ...
-> > Reported-by: William Bader <williambader@hotmail.com>
-> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1830150
->
-> William notes that he didn't report NULL pointer dereference and it's
-> only in Dominik's report.
->
-> Do you want me to send a v3 or can you remove these two lines from the
-> commit when applying the patches?
+From: Mattia Dongili <malattia@linux.it>
 
-Yes, please.
+They are both candidates for stable.
+v2: a slightly better fix for the null pointer deref.
+v3: add Fixes: tag, remove Reported-by William on patch 2/2.
 
-Also, add Fixes tags to both of them.
+Mattia Dongili (2):
+  [sony-laptop] SNC calls should handle BUFFER types
+  [sony-laptop] Make resuming thermal profile safer
+
+ drivers/platform/x86/sony-laptop.c | 50 ++++++++++++------------------
+ 1 file changed, 19 insertions(+), 31 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
