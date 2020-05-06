@@ -2,101 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2E61C7047
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 May 2020 14:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC5061C720D
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 May 2020 15:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727932AbgEFMaY (ORCPT
+        id S1728620AbgEFNst (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 May 2020 08:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
+        Wed, 6 May 2020 09:48:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725985AbgEFMaY (ORCPT
+        by vger.kernel.org with ESMTP id S1725801AbgEFNst (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 May 2020 08:30:24 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124DBC061A0F
-        for <platform-driver-x86@vger.kernel.org>; Wed,  6 May 2020 05:30:24 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id d22so1051172pgk.3
-        for <platform-driver-x86@vger.kernel.org>; Wed, 06 May 2020 05:30:24 -0700 (PDT)
+        Wed, 6 May 2020 09:48:49 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EEEC061A0F
+        for <platform-driver-x86@vger.kernel.org>; Wed,  6 May 2020 06:48:49 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id t11so1394913lfe.4
+        for <platform-driver-x86@vger.kernel.org>; Wed, 06 May 2020 06:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZOD7jAWkKVj9UkObbDRD1SQjzKZfF1iOaCguiAgkBbs=;
-        b=Z+tzzZQqrFWKWj3Y3ha92u37QDRPNRktPaCgyEKm4TaiWXTQBqzLQQff9me73lB9nP
-         +IaSXDvkP+qTpZg9dSX8Ul2RU3suOJmbSo1oPn9R7yz4I0zTSpr8J1d+7rKJmI22ELQG
-         MpIPruT99i0DKglpmsDZ/qA6gcjzGueHiAMujsdFIgMw7ndBV4V/j0aMwavYFqVpCqwx
-         uxD3IoJI0gK1dgEC0l76Exxb3Ei19Fk6bZpEERzNkbpgduTKFbbI+o9PEN5dGr270j8f
-         KCgG5/joDVXmc+9fRTthG38qrtVwNLPIof0PsFqczOp9Ichm6Zv7v4TYqDSt5VaggPVr
-         WmLA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=gl8m333ia74OFZpNmB4o7kIcYlvQPFpoCsxlN0OXKb0=;
+        b=YOkdOd0OzqxLzDAPo3qi0gDnIC0G+gzA2bBNTuf7WNPvg+y+dLbYL9M0WHmpmaVnjg
+         gUuIwJle2zYjjpjVJPFNQl/OBz8h90kVWjpClB4NzqkU4ZeAfy4pdFF2prXBSq9lAgS1
+         eC1S03R9cQAqIbbOJyhEdrxkYxGZD1RDvoyLjNQ5phwEr3xiJWqqL+Z4V623+7+wi2GD
+         +aldIBnmsexLjTBOmF6h7TUL6rW8RmZBJ3+Z2fXRh8sEC2q8FgaSZP/DJ0ywP5zOSDU1
+         5F/dwq8Xq0kNSnEZTAsRej7PEDCEI+nfdaMTn7VpogN6DccC4cqT7YayG+Ue2kmLxRMy
+         7LYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZOD7jAWkKVj9UkObbDRD1SQjzKZfF1iOaCguiAgkBbs=;
-        b=tijYkq3qcbQGvrsN95zoWYecqJiYchVsDsQ/RNLszKiDgTqpu7twmbyHQ8RMWDiy6s
-         DZ8PEOm7KGGt+ZEF/2zfs4GjrvNmWHgZaPIvnr4I5sYfOqiM3Ay/2lo3hNXhDzSe+LrM
-         GSTGuoORHBxxpMsx9NhOotL+qWa1nSrKcxjn7mhID5VXMMLJH7KmH9b01PQp3sjqtf6T
-         fqVYxs7YBBzvPL56/rqjm1LLKWdNxE7byQmoh3lR4MscE1DpQrOpazAi2EaoRAyAA2dD
-         c/D6OZITZWVMGOGIsV0pUce6hJafJFs5bDDpJkQxYZSv5w2ZWtJNotOf5KZduedrUEwn
-         Q1BA==
-X-Gm-Message-State: AGi0PuYHYwf5Jpshix4PITJuORMCpXni3kWEEOI95+CDoBd8llZX/iL5
-        bhXQv/uORtqV/DI5TAGNvjPTlMh68NKequQPgWc=
-X-Google-Smtp-Source: APiQypKfyK4HoTmY/CSRpTGtbyKlU8WAWezEwP4xxuMuwQnrgy2s5mAE7teqtYOBWDmUuWjH86jtQlfSo1HEPjZcxVM=
-X-Received: by 2002:a63:1c1:: with SMTP id 184mr6991535pgb.203.1588768223378;
- Wed, 06 May 2020 05:30:23 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=gl8m333ia74OFZpNmB4o7kIcYlvQPFpoCsxlN0OXKb0=;
+        b=QfwKIgwDtG31TIIFGVgANp9cXcBWUi+KqvbL91YiqJgwtf8qJSN+3zCtNMcEm312fk
+         iGU7YFu1VQCd2S9+M+gGVibAtcsHt47K5ve8GPAwyKg6Omn6PZSb/gKF2y/7C9dz3RxN
+         h68ZGlN0XwWGNrTNAJM7IkeWaT6wHzecUslteJgeV5eqbPMxv9uHbZ4xHGh/8qYvEyYS
+         sU2tU9ljJx7hSetts3CS+VfKT1Rqq2ZiSUdKDdHV3J0gmdFc1zmwHk9HlAzPO6IOLKE0
+         VmVgAW9T080m6snRM0xHU4KRtYnNvlxLg2fl6Wjt4Iho5EOvCHEO25L2PW7+lYpX9FLf
+         jc5w==
+X-Gm-Message-State: AGi0PuYmJ1di0gy/wH2LCVZ9oV6uBlDjTXnvuM7ZKqcOs2zaYU67JWh8
+        0Ftps9Hqq0tFNqStJm+1E4j+fK/8ekeR3Jckl68=
+X-Google-Smtp-Source: APiQypK98WWGAdrSeYnY97ivYu9qSK3V7eDqtit8yB8Z+rwRJcqer5OHrxVhE7dt9ijmzEObcf/Ksv2ZMEYAK+77Je8=
+X-Received: by 2002:a05:6512:308c:: with SMTP id z12mr5108328lfd.195.1588772927524;
+ Wed, 06 May 2020 06:48:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200506014843.18467-1-malattia@linux.it> <20200506014843.18467-3-malattia@linux.it>
- <20200506034758.GA18684@taihen.jp> <CAHp75VeNkfJhi0hXz4nQgRg7227Gdvg20uhCpSTb1KqUvEFExg@mail.gmail.com>
- <20200506122049.GA72497@taihen.jp>
-In-Reply-To: <20200506122049.GA72497@taihen.jp>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 6 May 2020 15:30:16 +0300
-Message-ID: <CAHp75VcN0OAksM7t4Fv8HbEUbMLgKdQs9rr_7jap96rUf5etaA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] [sony-laptop] Make resuming thermal profile safer
-To:     Mattia Dongili <malattia@linux.it>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dominik Mierzejewski <dominik@greysector.net>,
-        William Bader <williambader@hotmail.com>
+Received: by 2002:a2e:98d3:0:0:0:0:0 with HTTP; Wed, 6 May 2020 06:48:47 -0700 (PDT)
+Reply-To: RevWrightWatson@yandex.com
+From:   "Rev.Wright Watson" <aataat890@gmail.com>
+Date:   Wed, 6 May 2020 15:48:47 +0200
+Message-ID: <CAGfrCTzmhnLe1QGizm9SBVnKDmZP=kGjgOjqM1CrQL3FCa6jLg@mail.gmail.com>
+Subject: Dear Beloved,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Yes, go for it.
+Dear Beloved,
 
-On Wed, May 6, 2020 at 3:20 PM Mattia Dongili <malattia@linux.it> wrote:
->
-> On Wed, May 06, 2020 at 01:55:21PM +0300, Andy Shevchenko wrote:
-> > On Wed, May 6, 2020 at 6:48 AM Mattia Dongili <malattia@linux.it> wrote:
-> > >
-> > > On Wed, May 06, 2020 at 10:48:43AM +0900, malattia@linux.it wrote:
-> > > ...
-> > > > Reported-by: William Bader <williambader@hotmail.com>
-> > > > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1830150
-> > >
-> > > William notes that he didn't report NULL pointer dereference and it's
-> > > only in Dominik's report.
-> > >
-> > > Do you want me to send a v3 or can you remove these two lines from the
-> > > commit when applying the patches?
-> >
-> > Yes, please.
-> >
-> > Also, add Fixes tags to both of them.
->
-> Done, just sent v3 out. Once this hits Linus' tree, would you agree I
-> should ask for inclusion in stable?
->
-> --
-> mattia
-> :wq!
+I'm Reverend Wright Watson, I was born in USA, 1945, I was ordained
+into the Catholic Priesthood.
 
+Please take your time to read this message, although we have never met
+before, this is no spam, It's a real message sent to you. I know also
+that you will be amazed at the level of trust that I am willing to
+place in a person that I have never seen nor spoken with. If I can
+receive favor from someone I barely know, its not bad entrusting this
+project to unknown person as long as my spirit directed me to you.
 
+I have been a catholic priest for over 22 years. I spent about 10
+years serving at Africa, Burkina Faso to be precise, I spend most time
+in Ouagadougou Cathedral.
+Presently, I had a heart surgery on the 23-11-2018 and the Doctors
+have informed me that I cannot live longer; I had a serious bleeding
+after the operation.
+Before I left Ouagadougou to my country for the surgery, a priest
+friend of mine visited me from Netherlands with three companion, when
+they went back, one among his companion Transferred 10M$ in my
+personal account with Bank of Africa and advised that I use the money
+to help the poor, handicaps and less privileges because he saw the
+level hardship then.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Because of my present health condition, I cannot live to proceed with
+the projects, therefore, I have decided to appoint you to reclaim the
+money which total sum of $10,970,000.00 (Ten million Nine Hundred and
+seventy Thousand US DOLLARS).
+
+I want you to use this sum to make the world a better place for the
+poor and less privileged, help the needy and also help your family
+members.
+
+I took this decision because I was raised in an Orphanage so I don't
+have relatives and presently, I'm still in the hospital, where I am
+undergoing treatment. That's why I have decided to contact you so that
+you can contact my account manager in Bank of Africa, reclaim the
+money and make good use of it.
+
+then you can contact me through private email
+addres(RevWrightWatson@yandex.com)
+
+Regards,
+Rev.Wright Watson
