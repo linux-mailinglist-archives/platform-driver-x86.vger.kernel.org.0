@@ -2,62 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B37581C9B87
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 22:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 003AA1C9BDB
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 22:11:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgEGUDZ (ORCPT
+        id S1726644AbgEGULz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 16:03:25 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:25864 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726320AbgEGUDY (ORCPT
+        Thu, 7 May 2020 16:11:55 -0400
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:53852 "EHLO
+        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726367AbgEGULy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 16:03:24 -0400
-Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047JvFlY010583;
-        Thu, 7 May 2020 16:03:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
+        Thu, 7 May 2020 16:11:54 -0400
+Received: from pps.filterd (m0170391.ppops.net [127.0.0.1])
+        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047KBZR2011245;
+        Thu, 7 May 2020 16:11:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=smtpout1;
- bh=tEr4DTZK7SvXwly20dtlJ2PaDvIpy2M1pgck7taahaE=;
- b=WickvM+WDknQbbP9lYnFKJQkFMU0GD2aH2VQ1tEFPeuwVMVzDdNvvFrXGSKXY0oiEQuW
- DZmQ3whiobTHqai4KhbBDFoiE49Szo5cUmQ3Sf3YKU4B/Zguhu7dRKcCcltx52ty7kBk
- CRSaLshii2U+PliFBVg82O6N7f1UKrHSoPu9oEbQxJgZvbIHuOGNyb/6+4XTmJMYxPQV
- NyL72b7zUgX+QSPvsuQjAJyaN16cVJUc+GJ9eInHiSnGHbo2MHkW2SP+S4kilyeWsT6g
- Ag/9Ps5cELgGW8VicvQYHkS9aKNJ6j+ecJYAkwM+QjvJi+DiP6++u2wxfhEWi++kmyIY SA== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0b-00154904.pphosted.com with ESMTP id 30t125wta6-1
+ bh=FutY7/PocSDquuLkq9+a9lv+L2OmOyTDQDb74IqLEkw=;
+ b=g7XBA4nlgzOnb+1OrOxdo/xAxeOcyzOolRUkn9sZJie4he8Amp4JIg/Nbh5GIuTR81KD
+ 74m2/uzfuBaIN2ZXbcPAsN0YJz1NVnpTXMc4FQEEr4Fi/EkohyeAOo0ERsD96qirhGgM
+ GWirN3EoUTUX2GZrFkLFPujyuoN3RtG08PVldnhBlUoUboRyLKWKPMUSwl8bn3E6exm4
+ JFcXJ4+ZAjVKPecrJdlF2cMUdW0uU8VMI42jXi9e5TnatgmN1OCXqL/Gs8fb5tHHFfo8
+ J1l/8VI9FIiDx903uONPIXpcOJKDP/qJZGkjySoMq0SBY2U2j5otxw+tUzzooG3Bc4qy 8A== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+        by mx0a-00154904.pphosted.com with ESMTP id 30sxjmdyve-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 May 2020 16:03:23 -0400
-Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
-        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047Jrd44051488;
-        Thu, 7 May 2020 16:03:22 -0400
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0a-00154901.pphosted.com with ESMTP id 30vnrr2t01-1
+        Thu, 07 May 2020 16:11:54 -0400
+Received: from pps.filterd (m0134746.ppops.net [127.0.0.1])
+        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047Jqs87161869;
+        Thu, 7 May 2020 16:11:53 -0400
+Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
+        by mx0a-00154901.pphosted.com with ESMTP id 30vq4ea7hh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 16:03:22 -0400
-X-LoopCount0: from 10.166.132.134
+        Thu, 07 May 2020 16:11:53 -0400
+X-LoopCount0: from 10.166.132.130
 X-PREM-Routing: D-Outbound
 X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="546824532"
+   d="scan'208";a="1553508669"
 From:   <Mario.Limonciello@dell.com>
-To:     <hughsient@gmail.com>
-CC:     <platform-driver-x86@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <mika.westerberg@linux.intel.com>
-Subject: RE: [PATCH] platform/x86: Export LPC attributes for the system SPI
- chip
-Thread-Topic: [PATCH] platform/x86: Export LPC attributes for the system SPI
- chip
-Thread-Index: AQHWI75rctPsm0zoq0Gk7Ve+Eu3BHaic5QmwgABnNoD//7UGAIAAXDCA//+v9jA=
-Date:   Thu, 7 May 2020 20:03:21 +0000
-Message-ID: <70757953c25645baac2dddd7c6924d05@AUSX13MPC101.AMER.DELL.COM>
-References: <18e48255d68a1408b3e3152780f0e789df540059.camel@gmail.com>
- <aa217de398584fa7846cf4ac0c872036@AUSX13MPC101.AMER.DELL.COM>
- <CAD2FfiEk8Fq3=i_3NHvtuwip=-v_cGfnYSowdPi86U_BcgP2gQ@mail.gmail.com>
- <61c7782cd2e64bb9ab2aaf6a016bbb6c@AUSX13MPC101.AMER.DELL.COM>
- <CAD2FfiGweUHNJGdj7OUQFxEhQBYvMCbuWM-+ez=SpN=HbcaS4Q@mail.gmail.com>
-In-Reply-To: <CAD2FfiGweUHNJGdj7OUQFxEhQBYvMCbuWM-+ez=SpN=HbcaS4Q@mail.gmail.com>
+To:     <koba.ko@canonical.com>, <mjg59@srcf.ucam.org>,
+        <pali.rohar@gmail.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Topic: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Index: AQHWJGsTQDXbgVjQZ0WT0dgVnPhl9aidDRIA
+Date:   Thu, 7 May 2020 20:11:08 +0000
+Message-ID: <31e54254d233424f937ea767c5a26f57@AUSX13MPC101.AMER.DELL.COM>
+References: <20200507122703.14617-1-koba.ko@canonical.com>
+In-Reply-To: <20200507122703.14617-1-koba.ko@canonical.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -65,50 +61,129 @@ X-MS-TNEF-Correlator:
 msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-07T20:03:16.5475642Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-07T20:11:05.4258848Z;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
  Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=58512a44-be41-43ac-95e0-dc050676c476;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=111805c0-2495-4ee0-882b-6de0026e11a1;
  MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
  definitions=2020-05-07_13:2020-05-07,2020-05-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 spamscore=0 phishscore=0 bulkscore=0
- impostorscore=0 mlxlogscore=884 suspectscore=0 adultscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0 bulkscore=0
+ spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2005070159
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ phishscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005070159
+ definitions=main-2005070160
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIEh1Z2hlcyA8aHVn
-aHNpZW50QGdtYWlsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIE1heSA3LCAyMDIwIDI6NDkgUE0N
-Cj4gVG86IExpbW9uY2llbGxvLCBNYXJpbw0KPiBDYzogUGxhdGZvcm0gRHJpdmVyOyBsaW51eC1z
-ZWN1cml0eS1tb2R1bGU7IG1pa2Eud2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb20NCj4gU3ViamVj
-dDogUmU6IFtQQVRDSF0gcGxhdGZvcm0veDg2OiBFeHBvcnQgTFBDIGF0dHJpYnV0ZXMgZm9yIHRo
-ZSBzeXN0ZW0gU1BJDQo+IGNoaXANCj4gDQo+IA0KPiBbRVhURVJOQUwgRU1BSUxdDQo+IA0KPiBP
-biBUaHUsIDcgTWF5IDIwMjAgYXQgMjA6MjIsIDxNYXJpby5MaW1vbmNpZWxsb0BkZWxsLmNvbT4g
-d3JvdGU6DQo+ID4gQnkgZGVmYXVsdCB0aGUgZHJpdmVyIGV4cG9zZXMgU1BJIHNlcmlhbCBmbGFz
-aCBjb250ZW50cyBhcyByZWFkLW9ubHkgYnV0IGl0DQo+IGNhbg0KPiA+IGJlIGNoYW5nZWQgZnJv
-bSBrZXJuZWwgY29tbWFuZCBsaW5lLCBwYXNzaW5nIOKAnGludGVsLXNwaS53cml0ZWFibGU9MeKA
-nS4NCj4gDQo+IEFoaCwgdGhhdCB3YXMgdGhlIGJpdCBJIGRpZG4ndCBrbm93OyBoYXZpbmcgdGhl
-IFNQSSBhcyByZWFkb25seSBieQ0KPiBkZWZhdWx0IGlzIGNlcnRhaW5seSBhIGdvb2QgaWRlYSwg
-YW5kIHByb2JhYmx5IHNhbmUgZW5vdWdoIHRvIGVuYWJsZQ0KPiBmb3IgRmVkb3JhL1JIRUwgYXMg
-eW91IHN0aWxsIG5lZWQgdG8gImRvIiBzb21ldGhpbmcgbWFudWFsIHRvIGVuYWJsZQ0KPiBTUEkg
-d3JpdGluZy4gSSBndWVzcyBJIGNhbiBhZGQgbXkgc2VjdXJpdHlmcyBhZGRpdGlvbnMgdG8NCj4g
-aW50ZWwtc3BpLXBjaS5jIHdpdGggTWlrYXMgYXBwcm92YWwuDQo+IA0KPiBSaWNoYXJkDQoNCk1p
-a2EsDQoNClNpbmNlIHlvdSdyZSBiZWluZyBqb2luZWQgaW50byB0aGUgdGhyZWFkIGxhdGUsIGhl
-cmUgaXMgdGhlIGNvbnRleHQ6DQpodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9wbGF0Zm9y
-bS1kcml2ZXIteDg2L21zZzIxNjQ2Lmh0bWwNCg0KVGhhbmtzLA0K
+> -----Original Message-----
+> From: koba.ko@canonical.com <koba.ko@canonical.com>
+> Sent: Thursday, May 7, 2020 7:27 AM
+> To: Matthew Garrett; Pali Roh=E1r; Darren Hart; Andy Shevchenko; platform=
+-driver-
+> x86@vger.kernel.org; linux-kernel@vger.kernel.org; Limonciello, Mario
+> Subject: [PATCH] platform/x86: dell-laptop: don't register platform::micm=
+ute if
+> the related tokens don't exist.
+>=20
+>=20
+> [EXTERNAL EMAIL]
+>=20
+> From: Koba Ko <koba.ko@canonical.com>
+>=20
+> During boot up, Error messge is issued,
+> "platform::micmute: Setting an LED's brightness failed (-19)",
+> but the device isn't presented.
+>=20
+> Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+> If one of two tokens doesn't exist,
+> don't call led_classdev_register() for platform::micmute.
+> After that, you wouldn't see the platform::micmute in /sys/class/leds/,
+> and the error message wouldn't see in dmesg.
+>=20
+
+Unless it's a pre-release platform, I think it's worth mentioning in commit
+message what the hardware is.
+
+If it's pre-release, then perhaps mention "pre-release vostro platform" her=
+e.
+This is useful information in case in the future something in this driver m=
+ust
+change for a full class/line of systems.
+
+> Signed-off-by: Koba Ko <koba.ko@canonical.com>
+> ---
+>  drivers/platform/x86/dell-laptop.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/de=
+ll-
+> laptop.c
+> index 74e988f839e8..e315185dbdd6 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -2164,7 +2164,7 @@ static struct led_classdev micmute_led_cdev =3D {
+>  static int __init dell_init(void)
+>  {
+>  	struct calling_interface_token *token;
+> -	int max_intensity =3D 0;
+> +	int max_intensity =3D 0, is_micmute_exist =3D 0;
+
+As a nit, please declare variables on their own line and I don't like is_mi=
+cmute_exist
+as this is bad grammar.
+
+Perhaps "micmute_exists" instead.
+
+Also this variable can be a boolean type instead with it's usage.
+
+>  	int ret;
+>=20
+>  	if (!dmi_check_system(dell_device_table))
+> @@ -2204,10 +2204,14 @@ static int __init dell_init(void)
+>=20
+>  	dell_laptop_register_notifier(&dell_laptop_notifier);
+>=20
+> -	micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> -	ret =3D led_classdev_register(&platform_device->dev, &micmute_led_cdev)=
+;
+> -	if (ret < 0)
+> -		goto fail_led;
+> +	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
+> +	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
+> +		micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> +		ret =3D led_classdev_register(&platform_device->dev,
+> &micmute_led_cdev);
+> +		if (ret < 0)
+> +			goto fail_led;
+> +		is_micmute_exist =3D 1;
+> +	}
+>=20
+>  	if (acpi_video_get_backlight_type() !=3D acpi_backlight_vendor)
+>  		return 0;
+> @@ -2254,7 +2258,8 @@ static int __init dell_init(void)
+>  fail_get_brightness:
+>  	backlight_device_unregister(dell_backlight_device);
+>  fail_backlight:
+> -	led_classdev_unregister(&micmute_led_cdev);
+> +	if (is_micmute_exist)
+> +		led_classdev_unregister(&micmute_led_cdev);
+>  fail_led:
+>  	dell_cleanup_rfkill();
+>  fail_rfkill:
+> --
+> 2.25.1
+
