@@ -2,98 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C97C61C85FE
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 11:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEE801C870B
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 12:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbgEGJmt (ORCPT
+        id S1726134AbgEGKl5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 05:42:49 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:44438 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgEGJms (ORCPT
+        Thu, 7 May 2020 06:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725834AbgEGKl4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 05:42:48 -0400
-Received: from mail-pl1-f199.google.com ([209.85.214.199])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <koba.ko@canonical.com>)
-        id 1jWd3G-00022w-5F
-        for platform-driver-x86@vger.kernel.org; Thu, 07 May 2020 09:42:46 +0000
-Received: by mail-pl1-f199.google.com with SMTP id c13so4650960plq.22
-        for <platform-driver-x86@vger.kernel.org>; Thu, 07 May 2020 02:42:46 -0700 (PDT)
+        Thu, 7 May 2020 06:41:56 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FE5C061A10;
+        Thu,  7 May 2020 03:41:55 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id t9so2489641pjw.0;
+        Thu, 07 May 2020 03:41:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4Kys6xR/y3HlGpmyn8tfctWY6mMEvfogLBDOY++2Egk=;
+        b=UG9JPxSwDPC4ExTcSv4dkgpCkQtSVpcuVp98P/8swZIJPT5PwjekODVGjR6W5VGHeG
+         FMqJird6yUefjXLIgStPiXTFjL3wk5LNY261y8WuVslOGwYpSG3n0Ddg3BfZm/1Pyuze
+         Wr+0fsXoiUNsp+uhxClV21ewiIpYNBHS9kB547Caplboj1t0AGCQQ/992rC3U78Ygj9t
+         2DBoQ5QmfVR2vjr0v4TnOJvtMgzUXXrMEztdstousaFWPbHqh4Nd3ZplHXjwvru2ro83
+         QhsHCqyd67epPUj+XBUQVLgFWKb2hKo9EVPPWBgWSAC6HGN3ci3wR45yHRUXl9B02LJy
+         LLHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=2c0eBBtIepmDWT5vtHR8eCLoQ0+DU8y3zdqCJbavP80=;
-        b=IMLoYf4JCcFn5UR7lQMmgq+7vNuhsYr+ubVDuinBlgDY9ZxYG07mlTfzA9XOYzGCTR
-         BcuxaoE86mtx2SSts3dYh/IPkxEqKg7oKbN9ZsAcg0jYfD2ur5MUdb6850RkVbr9CcrQ
-         fD3fLks5701NGucFaxDTaonbPffOhuTsj5I6MH1Ojh7G8vmmqLsdIB0VSVtPIcvQ2lGa
-         MQQ02DH/8S5652eSgFgsYErffQbsRsVzlud5OXJe0SwnMkp68KPn8VcuYdiULz3guUPC
-         zogwbMiDxf6pWHA4Hx+Qurs6NCeBrnaxNyfC+ff4rTjFANlBV0zZf0Wne7+nI2m2bRvW
-         +lCg==
-X-Gm-Message-State: AGi0PuatRSZS7GWbNDUknIEHVz5pPbPXraLyj/iYkgJPmfDAVM/++cBp
-        y1lcwbgevjeXQoO5aWHCJTMvuKsHS1booZviNymZBXzR1NOJZgFI2QsLyAK2sMzHjHfPJHKw4rS
-        a5iCacQ94gPCaj1wu6cNkT6a71vEcMZHe/2o1NX+P+S50thO2ygU=
-X-Received: by 2002:a17:90a:3441:: with SMTP id o59mr3759896pjb.185.1588844564678;
-        Thu, 07 May 2020 02:42:44 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJeLg3AcGy7HrqF6YZ9GdowrY4PLIXUeYZxe5vuntsu3tjrUThWNi8FjX7u4WnCciQkOx+rRg==
-X-Received: by 2002:a17:90a:3441:: with SMTP id o59mr3759880pjb.185.1588844564483;
-        Thu, 07 May 2020 02:42:44 -0700 (PDT)
-Received: from canonical.com (111-249-71-140.dynamic-ip.hinet.net. [111.249.71.140])
-        by smtp.gmail.com with ESMTPSA id i190sm4423030pfe.114.2020.05.07.02.42.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 07 May 2020 02:42:43 -0700 (PDT)
-From:   koba.ko@canonical.com
-To:     Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4Kys6xR/y3HlGpmyn8tfctWY6mMEvfogLBDOY++2Egk=;
+        b=Qawyl39t5GBXF0sd0KycFx7kYcJ9jxf1VunDPGpagfqpPh0QUJ8xKudNIRkNYjZ4we
+         VF8UfiGYL+stWSq7f2fup/yugu3Dj+esFZpMlrBWkDOtyuzDSF+O+W+SFqXmsFmqxRmV
+         jaG+WJwrKloyEv81VhZtMm5mmWAujXcu1kzJD83YDUVa/ePcWoDJ/Sm6I1s3g9SVHOwV
+         4+cHzqjf3943k7QVR/M+Q2T3rJLtAyTEdmuX0nudRuNcORkDSQjb77dL36wOB5tVzAS5
+         zDWw8+2Fm4yGZi5sBVe7OiJZzm3mjaHxyGtfqzyuvsD22LMXUsc68Iy8Pr4sz6bya635
+         Eujw==
+X-Gm-Message-State: AGi0PuaAAT3+XRKIH2CM6dWGTYmVGHa3UqaXFQRUE743s1ymyuGsY96R
+        Ds7Ph8pSf+WNPuO7kx/9Joc1lcRZLgYagtJIrFo=
+X-Google-Smtp-Source: APiQypJxRpfEbBrj93EqmyeQMoRPMp2tmt6l8dn90mSWmCePb2zn2N/T1r2XsYWjau4MJ8wPjiDewCHvTAYJtsTJA6Q=
+X-Received: by 2002:a17:90a:340c:: with SMTP id o12mr14144430pjb.22.1588848114587;
+ Thu, 07 May 2020 03:41:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200507094242.7523-1-koba.ko@canonical.com>
+In-Reply-To: <20200507094242.7523-1-koba.ko@canonical.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 7 May 2020 13:41:42 +0300
+Message-ID: <CAHp75VeDFpjwZoNWj6SwvnHE70o4x+U9GnK-tbrFpK6fkBN7MA@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+To:     koba.ko@canonical.com,
+        Mario Limonciello <mario.limonciello@dell.com>
+Cc:     Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali.rohar@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: dell-laptop: don't register platform::micmute if the related tokens don't exist.
-Date:   Thu,  7 May 2020 17:42:42 +0800
-Message-Id: <20200507094242.7523-1-koba.ko@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Koba Ko <koba.ko@canonical.com>
++Cc: Mario
 
-Error messge is issued,
-"platform::micmute: Setting an LED's brightness failed (-19)",
-Even the device isn't presented.
+On Thu, May 7, 2020 at 12:42 PM <koba.ko@canonical.com> wrote:
+>
+> From: Koba Ko <koba.ko@canonical.com>
+>
+> Error messge is issued,
+> "platform::micmute: Setting an LED's brightness failed (-19)",
+> Even the device isn't presented.
+>
+> Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+> If one of two tokens doesn't exist, don't register platform::micmute.
+>
 
-Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
-If one of two tokens doesn't exist, don't register platform::micmute.
+What the exact platform you are experiencing that on?
 
-Signed-off-by: Koba Ko <koba.ko@canonical.com>
----
- drivers/platform/x86/dell-laptop.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> Signed-off-by: Koba Ko <koba.ko@canonical.com>
+> ---
+>  drivers/platform/x86/dell-laptop.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+> index 1e46022fb2c5..afc1ded83e56 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -2208,10 +2208,13 @@ static int __init dell_init(void)
+>
+>         dell_laptop_register_notifier(&dell_laptop_notifier);
+>
+> -       micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> -       ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+> -       if (ret < 0)
+> -               goto fail_led;
+> +       if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
+> +           dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
+> +               micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> +               ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+> +               if (ret < 0)
+> +                       goto fail_led;
+> +       }
+>
+>         if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+>                 return 0;
+> --
+> 2.17.1
+>
 
-diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-index 1e46022fb2c5..afc1ded83e56 100644
---- a/drivers/platform/x86/dell-laptop.c
-+++ b/drivers/platform/x86/dell-laptop.c
-@@ -2208,10 +2208,13 @@ static int __init dell_init(void)
- 
- 	dell_laptop_register_notifier(&dell_laptop_notifier);
- 
--	micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
--	ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
--	if (ret < 0)
--		goto fail_led;
-+	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
-+	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
-+		micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-+		ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
-+		if (ret < 0)
-+			goto fail_led;
-+	}
- 
- 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
- 		return 0;
+
 -- 
-2.17.1
-
+With Best Regards,
+Andy Shevchenko
