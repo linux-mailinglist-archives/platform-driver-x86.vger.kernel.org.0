@@ -2,96 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA39F1C9C6C
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 22:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D1E1C9E33
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 May 2020 00:06:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbgEGUcp (ORCPT
+        id S1726612AbgEGWGe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 16:32:45 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:29950 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726618AbgEGUcp (ORCPT
+        Thu, 7 May 2020 18:06:34 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:44227 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbgEGWGe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 16:32:45 -0400
-Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047KTmvf031978;
-        Thu, 7 May 2020 16:32:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=rPAJ8LZwqCBPWhT585JNmeF+aZt0Nu3YZmtZwvC2+qI=;
- b=oya7M2IyeTtwzY86Xv+auhzSKzfk/PVKTUOlLUhTBaTqNIiBhrtTnwOSE7D7W1z9d7xo
- G9zUmdcevHVcTF4KBocduoFB1Ns1ZBreVaXIO6x2wx/8yd3RwZQht5/vc64/Q0TB8I1r
- cveZcJpI3GUKEyZWRFMh3JgRE6WKPIlGwHdj0j1VX6SoB3lhm8580ctOlJyPxQ3mPX7F
- Gn+fR4s6KD7LGjhtsn1Grj1/VVyddyBm0S7NsJHk2IzB7LrHNU3nIfLRW21UUCspNTdd
- 2vhjE9FsmVPRqfDZPEJFQRYblKBosyDUaKaFI3S0tO8D2xBsmJW3hgUAhXck9pkcfTSc 2g== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0b-00154904.pphosted.com with ESMTP id 30s4py7kah-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 May 2020 16:32:45 -0400
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 047KVekE018316;
-        Thu, 7 May 2020 16:32:44 -0400
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 30vkj3p13a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 07 May 2020 16:32:44 -0400
-X-LoopCount0: from 10.166.132.134
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="546829762"
-From:   <Mario.Limonciello@dell.com>
-To:     <koba.ko@canonical.com>, <andy.shevchenko@gmail.com>
-CC:     <mjg59@srcf.ucam.org>, <pali.rohar@gmail.com>,
-        <dvhart@infradead.org>, <andy@infradead.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] platform/x86: dell-laptop: don't register
- platform::micmute if the related tokens don't exist.
-Thread-Topic: [PATCH] platform/x86: dell-laptop: don't register
- platform::micmute if the related tokens don't exist.
-Thread-Index: AQHWJFPpvfyIH0nLT0eHUvql2g/2/6icw1oAgAADsACAAEt3MA==
-Date:   Thu, 7 May 2020 20:26:36 +0000
-Message-ID: <e0eb1c5f17574bfcb6dd58d12b37ce7b@AUSX13MPC101.AMER.DELL.COM>
-References: <20200507094242.7523-1-koba.ko@canonical.com>
- <CAHp75VeDFpjwZoNWj6SwvnHE70o4x+U9GnK-tbrFpK6fkBN7MA@mail.gmail.com>
- <CAJB-X+U9vOzKNt3Z-BzZrEJhyU0Gd_5rVM=yqfy3TZTWNn2_YA@mail.gmail.com>
-In-Reply-To: <CAJB-X+U9vOzKNt3Z-BzZrEJhyU0Gd_5rVM=yqfy3TZTWNn2_YA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=f76a65f6-cc68-492e-9330-b8ed44b69bad;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-07T20:26:28.4606728Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 7 May 2020 18:06:34 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1jWodU-000300-A9; Thu, 07 May 2020 22:04:56 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Corentin Chary <corentin.chary@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: asus_wmi: remove redundant initialization of variable status
+Date:   Thu,  7 May 2020 23:04:55 +0100
+Message-Id: <20200507220455.66681-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-07_14:2020-05-07,2020-05-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=737
- phishscore=0 impostorscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- bulkscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005070162
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 clxscore=1015
- suspectscore=0 mlxlogscore=830 malwarescore=0 spamscore=0 adultscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005070162
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PiBoaSBBbmR5LA0KPiBpdCdzIGRlbGwgZzMgMzU5MC4NCg0KT0ssIHNvIHRoaXMgaXMgcmVsZWFz
-ZWQgaGFyZHdhcmUgaW4gSW5zcGlyb24uDQoNCkkgdGhpbmsgdGhpcyBwYXRjaCBnZW5lcmFsbHkg
-bWFrZXMgZ29vZCBzZW5zZSBmb3IgdGhhdCBjYXNlLg0KDQo=
+From: Colin Ian King <colin.king@canonical.com>
+
+The variable status is being initialized with a value that is never read
+and it is being updated later with a new value. The initialization is
+redundant and can be removed.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/platform/x86/asus-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index bb7c529d7d16..1909d728a536 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -309,7 +309,7 @@ static int asus_wmi_evaluate_method_agfn(const struct acpi_buffer args)
+ 	struct acpi_buffer input;
+ 	u64 phys_addr;
+ 	u32 retval;
+-	u32 status = -1;
++	u32 status;
+ 
+ 	/*
+ 	 * Copy to dma capable address otherwise memory corruption occurs as
+-- 
+2.25.1
+
