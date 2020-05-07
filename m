@@ -2,61 +2,62 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 188C31C9923
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 20:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692A21C9937
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 20:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgEGSTg (ORCPT
+        id S1726515AbgEGSXa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 14:19:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57012 "EHLO
+        Thu, 7 May 2020 14:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726320AbgEGSTg (ORCPT
+        by vger.kernel.org with ESMTP id S1726320AbgEGSXa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 14:19:36 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0461C05BD43
-        for <platform-driver-x86@vger.kernel.org>; Thu,  7 May 2020 11:19:34 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id b8so2840038pgi.11
-        for <platform-driver-x86@vger.kernel.org>; Thu, 07 May 2020 11:19:34 -0700 (PDT)
+        Thu, 7 May 2020 14:23:30 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02164C05BD43
+        for <platform-driver-x86@vger.kernel.org>; Thu,  7 May 2020 11:23:29 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 18so3392185pfx.6
+        for <platform-driver-x86@vger.kernel.org>; Thu, 07 May 2020 11:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DrGDfIy8Z5Lw4WJhHB8g8PQLRzKhcekiaK9ebdM7xB0=;
-        b=ASJMJg2moiR660+soXhbT6vKqFZqgyOAY2+3Cr1VrPhj/p619LJMN+EPcq4yuiwxhU
-         oBG6Jz4heGiRacut7uim3w8IVdTBxBQ1fufYkZ2GcternH0GA8Am/hfpPIh3BfDyX/HF
-         0HPL5UXjpBMzZWrGIu2z+kTw4DsldGakwWqe6/nqlP9huFCZbq1YK0aGJlPi7WxFqLDH
-         ZAsybzPdlW1HM+G8ErmGIZaOWPNWchcwjv44VpGCmev0ylb9Ln4lu64a5uEQpZsQ1Bx9
-         3u/S1NzKd0UUiEWglVjZ4cYc9fFc4pJ05DoJNvuvJ5go46S2/5+ODuZRL3fZh6evzCeh
-         ZNSw==
+        bh=fv7KTIAln81dcZXUuNmb3EVvrIl3bDWRWeAmqxGjbag=;
+        b=Zey/bfAkymJ/K3Z9eE5guUD3WPE4UnDq8eX+OuezIYhFnCqQS1V1W77k/5VDFBNT81
+         WhhIAZseGXis/ndkSux1fF2rHFY5umHXpgapP6S6fG71k1PkWjE+M9G8gXAU+aE1PKs/
+         R3gN2XKKUMOCyLse6Jfj7BCC5Cp+4K4dajO/4ESncED/mezqZVN+pHbj8Re/oOUilnye
+         O5CBsvmn32Gyvo5z6wY7E495ivXVH4cAKLEcMrrt/66NiqiGTicQKVXITkxuQ+jxQeII
+         ZyEjeFDhzhd2yvE5Ir/pv6wOCdE4eN4sA95zHepbrML0TEE7nUK/BWSbKksvdZdYlv/s
+         bY5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DrGDfIy8Z5Lw4WJhHB8g8PQLRzKhcekiaK9ebdM7xB0=;
-        b=isa6RrlzKcbQOIyt1afTLd67kELL48OZuaZm81+sNTEtTiBvalkzBmHo2tlRfEItVR
-         bPsOm4d+2R28Lf0LxaqwjMKnCRgWih2IB4Ls64Yz8bXsr9ZOgMrVKQ8dhEbcpnF/laKU
-         Ostltreh9Jw/ZIePIqtUunaXHAkfq4Ryb+24/1aHtrTG1rpH8KrajlIQkuO2akvMkBbj
-         Vqqv+KY52BLsHdIPXo9YTZP8JZgafCIrjP8T3T7d6VR8xNZLYtVUVB1BcYYqAR3VVIYD
-         voFGtk5zD54kDO/iJudXDRvyPUCelJjLZZIcdQNH8eYxgx7+6sbxYsgV35nwm4F2iHtU
-         dYaA==
-X-Gm-Message-State: AGi0PuZZgfvEXpo3VphC67BXsAjScmJ4LD+CWJ+SgZAtXF8qEzXqTwT+
-        lemVQme6JbpgimA+8uErdyYx5tLWIDt8t2sAEnaHAcC1
-X-Google-Smtp-Source: APiQypID4xeSv3VN0hebw55FDSd+Rw+jxtt3VAhR/W1OL7W21WE3Itn3myYfpFBazqS0VS8UYNcuqbGLsCdpGdfp47k=
-X-Received: by 2002:a63:1c1:: with SMTP id 184mr12800680pgb.203.1588875574394;
- Thu, 07 May 2020 11:19:34 -0700 (PDT)
+        bh=fv7KTIAln81dcZXUuNmb3EVvrIl3bDWRWeAmqxGjbag=;
+        b=rOQ651zdU2/4jd5dtw+/RE+rERRfF38NkJqp8FOspGMAc2KKIDUycurFNHNOa6ICJG
+         y7RsVn5Hlk9yNFxiocDoIrtJtdooLYjCFcNzXrTVg3Cxz/0v/X0snZ69ytTj4/wC+Fzk
+         SRJFn1k+jnJpitJ7RyMhI4cxVtE98VrTWAqlgx2cdohDr7K+QBfWyxwIY7tQPyE55D0T
+         dovCD05RYe9eJgQMcFXwxuHGsWteN0TU7j+fHwEpm3DBYHcV/fkqtCWNBcoCXx3p+3oc
+         WSfVV19aDrse6SX1lsAbd+oma9DxIN/ouqqnH/hkOF3MCvKjvl2JswATsQSOAn2UI9ur
+         pEvw==
+X-Gm-Message-State: AGi0PuYAHCAjxrVh7pU7bl854in923ZQ8JTvm5lkzCGwCot7iVGR6I39
+        qr0OiC59JPjsNKE/osEI8/76ep5JoF9QJgr2Hfw=
+X-Google-Smtp-Source: APiQypJh9HnKQ95sHeraH2FHYWCfaVQZGxczV6Oz0qqkm6ztH9GJo2XPPriBYeZ+5PoOnTNjpeJN8vqfDnu5IrBXjgw=
+X-Received: by 2002:a63:1c1:: with SMTP id 184mr12814458pgb.203.1588875808487;
+ Thu, 07 May 2020 11:23:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200506121630.72382-1-malattia@linux.it> <20200506121630.72382-3-malattia@linux.it>
-In-Reply-To: <20200506121630.72382-3-malattia@linux.it>
+References: <20200506121630.72382-1-malattia@linux.it> <20200506121630.72382-2-malattia@linux.it>
+In-Reply-To: <20200506121630.72382-2-malattia@linux.it>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 7 May 2020 21:19:27 +0300
-Message-ID: <CAHp75Vf5wSXrvNF5qixmYK3zgnw+0MNNhtCNp8QQUk2Wz9L_Hw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] [sony-laptop] Make resuming thermal profile safer
+Date:   Thu, 7 May 2020 21:23:21 +0300
+Message-ID: <CAHp75VfHCx6Vt3gTejyCDFSw4U+yCZ5kgTVCpWLzrj02Aoj5Wg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] [sony-laptop] SNC calls should handle BUFFER types
 To:     Mattia Dongili <malattia@linux.it>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dominik Mierzejewski <dominik@greysector.net>
+        Dominik Mierzejewski <dominik@greysector.net>,
+        William Bader <williambader@hotmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
@@ -67,49 +68,49 @@ On Wed, May 6, 2020 at 3:16 PM <malattia@linux.it> wrote:
 >
 > From: Mattia Dongili <malattia@linux.it>
 >
-> The thermal handle object may fail initialization when the module is
-> loaded in the first place. Avoid attempting to use it on resume then.
->
+> After commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
+> objects for ASL create_field() operator") ACPICA creates buffers even
+> when new fields are small enough to fit into an integer.
+> Many SNC calls counted on the old behaviour.
+> Since sony-laptop already handles the INTEGER/BUFFER case in
+> sony_nc_buffer_call, switch sony_nc_int_call to use its more generic
+> function instead.
+
+Thank you for an update.
+
+...
 
 The patches require prefix, "platform/x86: sony-laptop: ".
-I fixed for now.
+I fixed it for now.
 
-> Fixes: 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer objects for ASL create_field() operator")
-> Reported-by: Dominik Mierzejewski <dominik@greysector.net>
-> Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=207491
-> Signed-off-by: Mattia Dongili <malattia@linux.it>
-> ---
->  drivers/platform/x86/sony-laptop.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-> index 425707e8d188..2ec115f378b2 100644
-> --- a/drivers/platform/x86/sony-laptop.c
-> +++ b/drivers/platform/x86/sony-laptop.c
-> @@ -2278,7 +2278,12 @@ static void sony_nc_thermal_cleanup(struct platform_device *pd)
->  #ifdef CONFIG_PM_SLEEP
->  static void sony_nc_thermal_resume(void)
->  {
-> -       unsigned int status = sony_nc_thermal_mode_get();
-> +       int status;
-> +
-> +       if (!th_handle)
-> +               return;
-> +
-> +       status = sony_nc_thermal_mode_get();
+...
 
->
+> +               // do nothing
 
-This line is redundant. But I fixed when applied.
-Nevertheless, see comments to patch 1, which needs more work.
+Use C99 comment style, please.
 
->         if (status != th_handle->mode)
->                 sony_nc_thermal_mode_set(th_handle->mode);
-> --
-> 2.25.1
->
+...
 
+> +static int sony_nc_int_call(acpi_handle handle, char *name, int *value, int
+> +               *result)
+> +{
 
--- 
+> +       if (result)
+> +               *result = 0;
+
+I didn't get this part. Does it mean we always have to reset result?
+Sounds like a design issue (usual pattern is to ignore output in case
+of error by caller and to avoid touching output by callee)
+
+> +       return sony_nc_buffer_call(handle, name, (u64 *)value, result,
+> +                       sizeof(*result));
+
+Oh, this way for troubles. You supply pointer to int and force it to
+be u64. Not good. See how above function has been implemented in this
+sense.
+
+> +}
+
+--
 With Best Regards,
 Andy Shevchenko
