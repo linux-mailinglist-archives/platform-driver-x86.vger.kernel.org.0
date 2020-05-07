@@ -2,231 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F8291C8029
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 04:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D091C805E
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 05:12:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbgEGCwB (ORCPT
+        id S1728733AbgEGDMO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 May 2020 22:52:01 -0400
-Received: from mga05.intel.com ([192.55.52.43]:51372 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725827AbgEGCwA (ORCPT
+        Wed, 6 May 2020 23:12:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727967AbgEGDMN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 May 2020 22:52:00 -0400
-IronPort-SDR: ZJgiS21Tygr2n+4yFJiGGYzwpjDGOWSl6K/1c+qVcJ5joLCM0Rou4oRQfZJzdR5OluYvVvu0oi
- BDaBcGiPSSBg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2020 19:52:00 -0700
-IronPort-SDR: D6fbPc4uSSQGMS83ILtyLn7hk8UHQFgscmE0sNKmTnjbI2WhSWgMkdyTcFCiIrKW6/0CUPfXxk
- olc3x1/IiCHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,361,1583222400"; 
-   d="scan'208";a="461690374"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 May 2020 19:51:59 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jWWdi-0004lL-H8; Thu, 07 May 2020 10:51:58 +0800
-Date:   Thu, 07 May 2020 10:51:15 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
- 438d8cafe4828bfaf9ffd8e939e50ea6941501e5
-Message-ID: <5eb377a3.OiimLm7tNxGLrx7w%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 6 May 2020 23:12:13 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6219DC061A10
+        for <platform-driver-x86@vger.kernel.org>; Wed,  6 May 2020 20:12:12 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id p25so2236260pfn.11
+        for <platform-driver-x86@vger.kernel.org>; Wed, 06 May 2020 20:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-org-tw.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ovatWTT2IkfeCN2gxUv+nyGPUFRj4YSKgWlcEr5L7I4=;
+        b=VG5toFufhGCTMPP6ZxTZyCQD6W5mfLNWbOdFbl93egQ7hHDMGsN7YV6fAcl5sjsixG
+         JfD+T7nU7uTXtK6WONMl/8YeR2ZjGaep9ZbWAYTP/DfZ6P58X/7Q03M9Nytn1dNF1gNf
+         uWeQB2GtsvcO6Ali2G2YIl23Z6+X0Xfm9pduhu+DsCB7tnFim6LR/2ZyX04Vx5sISmN0
+         VFxotFqATPRp4y3bPvYsNHj2zJK0Yf5M5M3j5REvP87X8DU9jDnSmZmLlCSmFS7NB9Y0
+         IekeFloyBhDuk8GfPAcvTq2rtBfQsGFZxM4dOgjdRkd5r5tclok4/rOvwMAwiWkibskG
+         wU5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ovatWTT2IkfeCN2gxUv+nyGPUFRj4YSKgWlcEr5L7I4=;
+        b=Gi2fXRYsYzW7LVzdgswZqTrtBXH53tcF19wVGOzOxw2ZGd1you0Igk63Rd3e/9caUf
+         UD7ID0WNkntwU3MyaD7YiwuogIk6hOWKllcqLB6PfSXLW5jXXY55Eo1MR+gf4iB9zOQy
+         uKAV+5apqnLi6TdTFuEN3oEAg7xgAQnh7jhwhX4woAsZ4OZpGlO4NhaP60yLQNYHRvNp
+         t3iJ8/STQmggsImK+diSYiQhG4yGDp3jbZ/ZhPKH333SNYnmBKfDeeQv++XPwxR9NSHc
+         2DoTbiziJnUFw3PZijJXTYgI8dq3ZkpDyh2obN5TP4C9yMR7lkb3pZX3z+FBg6HH0RHe
+         By+A==
+X-Gm-Message-State: AGi0PuYNoGS1O2ZGVSch2x0Khh2ZGZhYymSLHifdX8F3m1fnDN+mWNZv
+        oNotaFRQwEFdiYnphu00JCwNjsqexxEF2XWG
+X-Google-Smtp-Source: APiQypLs4kCydRSxIeN2W2YVGDn5j3r5vbVuUKqEmVMNTDvaExJjsTb6QQ+rRhvWelNvZ/rfLZMjpw==
+X-Received: by 2002:aa7:9ac9:: with SMTP id x9mr11147730pfp.304.1588821131588;
+        Wed, 06 May 2020 20:12:11 -0700 (PDT)
+Received: from ws.cwhuang.info (114-34-107-28.HINET-IP.hinet.net. [114.34.107.28])
+        by smtp.gmail.com with ESMTPSA id c15sm123724pfp.34.2020.05.06.20.12.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 20:12:11 -0700 (PDT)
+From:   Chih-Wei Huang <cwhuang@linux.org.tw>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Borislav Petkov <bp@suse.de>,
+        Chih-Wei Huang <cwhuang@linux.org.tw>,
+        =?UTF-8?q?Peter=20K=C3=A4stle?= <peter@piie.net>
+Subject: [PATCH] platform/x86: acerhdf: replace space by * in modalias
+Date:   Thu,  7 May 2020 11:12:01 +0800
+Message-Id: <20200507031201.20460-1-cwhuang@linux.org.tw>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
-branch HEAD: 438d8cafe4828bfaf9ffd8e939e50ea6941501e5  watchdog: iTCO: fix link error
+Using space in module alias makes it harder to parse modules.alias.
+Replace it by a star(*).
 
-elapsed time: 835m
-
-configs tested: 169
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-sparc                            allyesconfig
-m68k                             allyesconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-csky                             allyesconfig
-ia64                              allnoconfig
-c6x                               allnoconfig
-riscv                               defconfig
-parisc                           allyesconfig
-alpha                            allyesconfig
-powerpc                           allnoconfig
-csky                                defconfig
-ia64                             alldefconfig
-m68k                           sun3_defconfig
-xtensa                              defconfig
-powerpc                             defconfig
-s390                                defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-m68k                          multi_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-arc                                 defconfig
-arc                              allyesconfig
-microblaze                       allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-openrisc                         allyesconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                           allmodconfig
-powerpc                          allyesconfig
-powerpc                          alldefconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-m68k                 randconfig-a001-20200506
-mips                 randconfig-a001-20200506
-nds32                randconfig-a001-20200506
-parisc               randconfig-a001-20200506
-alpha                randconfig-a001-20200506
-riscv                randconfig-a001-20200506
-m68k                 randconfig-a001-20200507
-mips                 randconfig-a001-20200507
-nds32                randconfig-a001-20200507
-parisc               randconfig-a001-20200507
-alpha                randconfig-a001-20200507
-riscv                randconfig-a001-20200507
-h8300                randconfig-a001-20200506
-nios2                randconfig-a001-20200506
-microblaze           randconfig-a001-20200506
-c6x                  randconfig-a001-20200506
-sparc64              randconfig-a001-20200506
-h8300                randconfig-a001-20200507
-nios2                randconfig-a001-20200507
-microblaze           randconfig-a001-20200507
-c6x                  randconfig-a001-20200507
-sparc64              randconfig-a001-20200507
-s390                 randconfig-a001-20200506
-xtensa               randconfig-a001-20200506
-sh                   randconfig-a001-20200506
-openrisc             randconfig-a001-20200506
-csky                 randconfig-a001-20200506
-xtensa               randconfig-a001-20200507
-sh                   randconfig-a001-20200507
-openrisc             randconfig-a001-20200507
-csky                 randconfig-a001-20200507
-i386                 randconfig-b003-20200506
-i386                 randconfig-b001-20200506
-x86_64               randconfig-b001-20200506
-x86_64               randconfig-b003-20200506
-i386                 randconfig-b002-20200506
-x86_64               randconfig-a003-20200506
-x86_64               randconfig-a001-20200506
-x86_64               randconfig-a002-20200506
-i386                 randconfig-a001-20200506
-i386                 randconfig-a002-20200506
-i386                 randconfig-a003-20200506
-x86_64               randconfig-c002-20200507
-x86_64               randconfig-c001-20200507
-i386                 randconfig-c002-20200507
-i386                 randconfig-c003-20200507
-x86_64               randconfig-c003-20200507
-i386                 randconfig-c001-20200507
-i386                 randconfig-d003-20200506
-i386                 randconfig-d001-20200506
-x86_64               randconfig-d002-20200506
-i386                 randconfig-d002-20200506
-i386                 randconfig-e003-20200506
-x86_64               randconfig-e003-20200506
-x86_64               randconfig-e001-20200506
-i386                 randconfig-e002-20200506
-i386                 randconfig-e001-20200506
-i386                 randconfig-f003-20200506
-x86_64               randconfig-f001-20200506
-x86_64               randconfig-f003-20200506
-x86_64               randconfig-f002-20200506
-i386                 randconfig-f001-20200506
-i386                 randconfig-f002-20200506
-i386                 randconfig-f003-20200507
-x86_64               randconfig-f002-20200507
-i386                 randconfig-f001-20200507
-i386                 randconfig-f002-20200507
-x86_64               randconfig-g003-20200506
-i386                 randconfig-g003-20200506
-i386                 randconfig-g002-20200506
-x86_64               randconfig-g001-20200506
-i386                 randconfig-g001-20200506
-x86_64               randconfig-g002-20200506
-i386                 randconfig-h002-20200506
-i386                 randconfig-h001-20200506
-i386                 randconfig-h003-20200506
-x86_64               randconfig-h002-20200506
-x86_64               randconfig-h003-20200506
-x86_64               randconfig-h001-20200506
-ia64                 randconfig-a001-20200506
-arm64                randconfig-a001-20200506
-arc                  randconfig-a001-20200506
-powerpc              randconfig-a001-20200506
-arm                  randconfig-a001-20200506
-sparc                randconfig-a001-20200506
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                             alldefconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-
+Reviewed-by: Peter Kästle <peter@piie.net>
+Signed-off-by: Chih-Wei Huang <cwhuang@linux.org.tw>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/platform/x86/acerhdf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 505224225378..306ea92d5b10 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -837,7 +837,7 @@ MODULE_ALIAS("dmi:*:*Packard*Bell*:pnDOTMU*:");
+ MODULE_ALIAS("dmi:*:*Packard*Bell*:pnENBFT*:");
+ MODULE_ALIAS("dmi:*:*Packard*Bell*:pnDOTMA*:");
+ MODULE_ALIAS("dmi:*:*Packard*Bell*:pnDOTVR46*:");
+-MODULE_ALIAS("dmi:*:*Acer*:pnExtensa 5420*:");
++MODULE_ALIAS("dmi:*:*Acer*:pnExtensa*5420*:");
+ 
+ module_init(acerhdf_init);
+ module_exit(acerhdf_exit);
+-- 
+2.21.1
+
