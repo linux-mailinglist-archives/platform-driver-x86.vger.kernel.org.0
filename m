@@ -2,115 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 692A21C9937
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 20:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7CD1C99A4
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 20:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgEGSXa (ORCPT
+        id S1728126AbgEGSrn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 14:23:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57628 "EHLO
+        Thu, 7 May 2020 14:47:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726320AbgEGSXa (ORCPT
+        by vger.kernel.org with ESMTP id S1726467AbgEGSrn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 14:23:30 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02164C05BD43
-        for <platform-driver-x86@vger.kernel.org>; Thu,  7 May 2020 11:23:29 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 18so3392185pfx.6
-        for <platform-driver-x86@vger.kernel.org>; Thu, 07 May 2020 11:23:28 -0700 (PDT)
+        Thu, 7 May 2020 14:47:43 -0400
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F187DC05BD43;
+        Thu,  7 May 2020 11:47:42 -0700 (PDT)
+Received: by mail-ua1-x944.google.com with SMTP id t8so2249775uap.3;
+        Thu, 07 May 2020 11:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fv7KTIAln81dcZXUuNmb3EVvrIl3bDWRWeAmqxGjbag=;
-        b=Zey/bfAkymJ/K3Z9eE5guUD3WPE4UnDq8eX+OuezIYhFnCqQS1V1W77k/5VDFBNT81
-         WhhIAZseGXis/ndkSux1fF2rHFY5umHXpgapP6S6fG71k1PkWjE+M9G8gXAU+aE1PKs/
-         R3gN2XKKUMOCyLse6Jfj7BCC5Cp+4K4dajO/4ESncED/mezqZVN+pHbj8Re/oOUilnye
-         O5CBsvmn32Gyvo5z6wY7E495ivXVH4cAKLEcMrrt/66NiqiGTicQKVXITkxuQ+jxQeII
-         ZyEjeFDhzhd2yvE5Ir/pv6wOCdE4eN4sA95zHepbrML0TEE7nUK/BWSbKksvdZdYlv/s
-         bY5Q==
+        bh=X2ikyjGhw2rR2iPMulc4f1heClpMqmZd1g3/5pqeR6k=;
+        b=GDjKI/DfxExlbG4L/Ac/ivjSr1U+ABCagqQwj89GxmbDWPYx9xJY34Cu/6eok4LHlS
+         C6mG8QbVsdmOdQcOvAz9LVaN919XehcpzLp76V3ddrrsm70cSRheKwN5oRF9dUyZkk6p
+         gp2o0+cEbP3k+nT1f7yW2X063HFew8TbJUxaIXHDC0iEXEYNm/i/6t7kuWs8ThTvlOl8
+         wkRe7poFEV3pOPqv3yUZ5HT+rer7eah8c01m/dLtdClXk1JsMDeaqBB0IYu2kPXjCs2K
+         nv030TgpXgfbyZ8h/GUbRieCJBWFeseqhTOTMy7GGokQyOdsjvpf9S6FYmSi4HBZkxZ2
+         7XzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fv7KTIAln81dcZXUuNmb3EVvrIl3bDWRWeAmqxGjbag=;
-        b=rOQ651zdU2/4jd5dtw+/RE+rERRfF38NkJqp8FOspGMAc2KKIDUycurFNHNOa6ICJG
-         y7RsVn5Hlk9yNFxiocDoIrtJtdooLYjCFcNzXrTVg3Cxz/0v/X0snZ69ytTj4/wC+Fzk
-         SRJFn1k+jnJpitJ7RyMhI4cxVtE98VrTWAqlgx2cdohDr7K+QBfWyxwIY7tQPyE55D0T
-         dovCD05RYe9eJgQMcFXwxuHGsWteN0TU7j+fHwEpm3DBYHcV/fkqtCWNBcoCXx3p+3oc
-         WSfVV19aDrse6SX1lsAbd+oma9DxIN/ouqqnH/hkOF3MCvKjvl2JswATsQSOAn2UI9ur
-         pEvw==
-X-Gm-Message-State: AGi0PuYAHCAjxrVh7pU7bl854in923ZQ8JTvm5lkzCGwCot7iVGR6I39
-        qr0OiC59JPjsNKE/osEI8/76ep5JoF9QJgr2Hfw=
-X-Google-Smtp-Source: APiQypJh9HnKQ95sHeraH2FHYWCfaVQZGxczV6Oz0qqkm6ztH9GJo2XPPriBYeZ+5PoOnTNjpeJN8vqfDnu5IrBXjgw=
-X-Received: by 2002:a63:1c1:: with SMTP id 184mr12814458pgb.203.1588875808487;
- Thu, 07 May 2020 11:23:28 -0700 (PDT)
+        bh=X2ikyjGhw2rR2iPMulc4f1heClpMqmZd1g3/5pqeR6k=;
+        b=DbEKw3QAeC4KoRj1cfwvMwMwA6dJ8WtA6YLKOJTQsCR/KCMU6KBevI4+In5MjsliQM
+         9990oAqmQbhXR5Yq5d3PBbGtgWlN508cC4vclSQTGLaInRLnCXYE9Teposq5IzNaZFKl
+         83+AoWABTBW+BC9R0acZ62tGbYo4lsYGmHT2YNHwe0fAlPhAmep1gmUVvUeSP/TzmoHM
+         eZmv9uKTWyPA3pK5YQMK6EcOU5PEjbdMKVXMLAoi+EZd9IdfXkAhtag0fnNe7lzDYuxN
+         WWCmczg6Ex2NAuM3JEGlpuI5ck1oT3F9vICgHjtYKlYaD+T+Gbux0IeBBJobTRP0U0ms
+         ygqw==
+X-Gm-Message-State: AGi0PubLkJs5u4ii3mIygOHUm1ZtPVQN0N5iPx5c0ESslp/zmvtgC2Aw
+        uMu+aeCTlQse+svRxJQcdKTv0QTEJ8wd8MiSuCA=
+X-Google-Smtp-Source: APiQypJWoOgZalFDnFzbemb8et2QJQFW0HQjXTPdVW+4zeix6UTdhn2m68W+Vjwx64ZKq2fn+rDyFybZZheH9wSYb6g=
+X-Received: by 2002:ab0:3250:: with SMTP id r16mr12702214uan.61.1588877260976;
+ Thu, 07 May 2020 11:47:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200506121630.72382-1-malattia@linux.it> <20200506121630.72382-2-malattia@linux.it>
-In-Reply-To: <20200506121630.72382-2-malattia@linux.it>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 7 May 2020 21:23:21 +0300
-Message-ID: <CAHp75VfHCx6Vt3gTejyCDFSw4U+yCZ5kgTVCpWLzrj02Aoj5Wg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] [sony-laptop] SNC calls should handle BUFFER types
-To:     Mattia Dongili <malattia@linux.it>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Dominik Mierzejewski <dominik@greysector.net>,
-        William Bader <williambader@hotmail.com>
+References: <18e48255d68a1408b3e3152780f0e789df540059.camel@gmail.com> <aa217de398584fa7846cf4ac0c872036@AUSX13MPC101.AMER.DELL.COM>
+In-Reply-To: <aa217de398584fa7846cf4ac0c872036@AUSX13MPC101.AMER.DELL.COM>
+From:   Richard Hughes <hughsient@gmail.com>
+Date:   Thu, 7 May 2020 19:47:29 +0100
+Message-ID: <CAD2FfiEk8Fq3=i_3NHvtuwip=-v_cGfnYSowdPi86U_BcgP2gQ@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: Export LPC attributes for the system SPI chip
+To:     Mario Limonciello <Mario.Limonciello@dell.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, May 6, 2020 at 3:16 PM <malattia@linux.it> wrote:
->
-> From: Mattia Dongili <malattia@linux.it>
->
-> After commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
-> objects for ASL create_field() operator") ACPICA creates buffers even
-> when new fields are small enough to fit into an integer.
-> Many SNC calls counted on the old behaviour.
-> Since sony-laptop already handles the INTEGER/BUFFER case in
-> sony_nc_buffer_call, switch sony_nc_int_call to use its more generic
-> function instead.
+On Thu, 7 May 2020 at 18:45, <Mario.Limonciello@dell.com> wrote:
+> To echo Andy's question, I would wonder if it makes sense to just export
+> these attributes in securityfs directly from the intel-spi-pci driver rather
+> than to have another driver in platform-x86 to get the information.
 
-Thank you for an update.
+The "DANGEROUS" in the SPI_INTEL_SPI_PCI and SPI_INTEL_SPI_PLATFORM
+worried me somewhat. I'm guessing this is why most distros don't
+compile it as a module by default. If the module isn't actually still
+considered dangerous, and we can remove the warning I can of course
+respin my patch on top of that instead.
 
-...
-
-The patches require prefix, "platform/x86: sony-laptop: ".
-I fixed it for now.
-
-...
-
-> +               // do nothing
-
-Use C99 comment style, please.
-
-...
-
-> +static int sony_nc_int_call(acpi_handle handle, char *name, int *value, int
-> +               *result)
-> +{
-
-> +       if (result)
-> +               *result = 0;
-
-I didn't get this part. Does it mean we always have to reset result?
-Sounds like a design issue (usual pattern is to ignore output in case
-of error by caller and to avoid touching output by callee)
-
-> +       return sony_nc_buffer_call(handle, name, (u64 *)value, result,
-> +                       sizeof(*result));
-
-Oh, this way for troubles. You supply pointer to int and force it to
-be u64. Not good. See how above function has been implemented in this
-sense.
-
-> +}
-
---
-With Best Regards,
-Andy Shevchenko
+Richard.
