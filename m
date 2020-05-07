@@ -2,65 +2,71 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADCE51C8B7A
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 14:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6511C8B84
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  7 May 2020 14:57:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbgEGMzO (ORCPT
+        id S1725939AbgEGM5o (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 7 May 2020 08:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725903AbgEGMzO (ORCPT
+        Thu, 7 May 2020 08:57:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38328 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725914AbgEGM5n (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 7 May 2020 08:55:14 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69F3CC05BD43
-        for <platform-driver-x86@vger.kernel.org>; Thu,  7 May 2020 05:55:14 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id m5so764197ilj.10
-        for <platform-driver-x86@vger.kernel.org>; Thu, 07 May 2020 05:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=2g85G5ybwBY9F8qs92fdTgNM3lOP1yok0XGVaoE6J+k=;
-        b=pvtuRiBhqF0CFu1Ckc3Vs6aI9Dg8ZI17JfUXp3OOMUxElQEvazgGmm+/jLTN1Sz2VA
-         BA8KTbgLKKHqb7jo/jb/U7XmwzAxIjzQ4gUcJooxbWcDklulhPa5SyjZXAH9+/MSRzJS
-         OZpSYfgyN5KvyWxE9bytYKiOTxkS4euIQ25wz9HzeKnew4ugFU8lDCdukzYoDFIAOcVg
-         d2y+g3BMBOJACX2qk3XInwALtdxGG3ngAWArPMkgSj9EnomeljzrRU5sn5qkuz6owxpc
-         c4pbzgD9PIOWU1wY7frN7P0FXyegCUAbo+/uuIOUQL/7BM325X/165K1VFq9XKtGHEv8
-         Q4Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=2g85G5ybwBY9F8qs92fdTgNM3lOP1yok0XGVaoE6J+k=;
-        b=MC5NYhYFNHzDAz20gz5jVY6LTof1pB78l1pOezUQQcK4XngMHxCSCEaKJXU+4AlrMn
-         XMzZh1nbd68JPFn7sFjqPkuBN9g0XN2vcRzBUJnSNMKcLKvXFdow6SsZ/8/ehALgjk3h
-         1OOS/P79IHIt2AgUzaSGIX34A2EF7ObzaciB/VIdrvocZVtqyMuERvAmPcxR0RL1DNGQ
-         n3QYdZvWsYCXjScGOY0uRBvpAHmcGUtV3kEjEdK3dLSZhn4LzDE7nZoNOVTNkFM2GnVh
-         wc3Sf2dsPJikR2ygUTcUmD3IUmhQMGzLzUsRA5itHFUCM/30Iroe0uYkVlMsqHX6JREu
-         k6SQ==
-X-Gm-Message-State: AGi0PuZxWMGsAuYfKhaitOumBcmpLUo9RI7jQlR/ZXQlEynqCWaNnK2C
-        gqO8yckEqR2Y3SOIdK+Qu7J2hbbNbZJMV/qeJOU=
-X-Google-Smtp-Source: APiQypL8Ru1mj40BXulGpkNr2NIgJLUiwTbC1WgHTJfbUAGo4AGqaoHaIos7qWvkhSF4Gme9ASdAYnbLnV07diyeCG8=
-X-Received: by 2002:a92:50f:: with SMTP id q15mr15061728ile.4.1588856113698;
- Thu, 07 May 2020 05:55:13 -0700 (PDT)
+        Thu, 7 May 2020 08:57:43 -0400
+Received: from pali.im (pali.im [31.31.79.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DEC82082E;
+        Thu,  7 May 2020 12:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588856263;
+        bh=5a9ywGLK3FkhOempzXyjRfBlZ1PBXIKXRN7msAWN0Jw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fq1vz9r4dUhc9DyFEI7cB7DE/kaGBIvbTrH3iIiIBwzO3YcjeqimJziFRMfXOmIYb
+         ZdCgwbNSV12pxYhlf21nsUjfQB6FIznv+DbtuteZnkJMkXaqZl+ad6uqsUvEE9IMR6
+         uK3yqSxBOhYmOPRnYsCoSY3t5TzWzwXF7GhjCn48=
+Received: by pali.im (Postfix)
+        id E4157692; Thu,  7 May 2020 14:57:40 +0200 (CEST)
+Date:   Thu, 7 May 2020 14:57:40 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Koba Ko <koba.ko@canonical.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Message-ID: <20200507125740.f3ttcsk4pqgb5xwj@pali>
+References: <20200507094242.7523-1-koba.ko@canonical.com>
+ <20200507111331.dzge7htw5toejh72@pali>
+ <CAJB-X+WKqrWuKK0=BWtj7f8AovsMzbCO-QaLi2ZaP0_Q6321WQ@mail.gmail.com>
+ <20200507114517.tslux7m7aysuwaok@pali>
+ <CAHp75Vcz+HgR1Vxjio+HvLOi_gpZiZLe4P-iPtsLRY8nVWE2+w@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a02:cd18:0:0:0:0:0 with HTTP; Thu, 7 May 2020 05:55:13 -0700 (PDT)
-Reply-To: mf.barbrafred@gmail.com
-From:   Afi BENSON <afibenson00@gmail.com>
-Date:   Thu, 7 May 2020 12:55:13 +0000
-Message-ID: <CANP+zn_ysWFqy64F5ohu4BfntoTu7TmChdLKYu3+8-XMskn4KA@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Vcz+HgR1Vxjio+HvLOi_gpZiZLe4P-iPtsLRY8nVWE2+w@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good day to you,  this is the second times which I am sending this
-same message to you , I have good news for you but I will like us to
-know each other a little  first of all before I will tell you all
-about the good news which I have to share with you,
-With love from.
-Barbra
+On Thursday 07 May 2020 15:54:06 Andy Shevchenko wrote:
+> On Thu, May 7, 2020 at 2:45 PM Pali Rohár <pali@kernel.org> wrote:
+> > On Thursday 07 May 2020 19:27:47 Koba Ko wrote:
+> 
+> > > don't understand "registration and deregistration would be optional',
+> > > could you explain more!?
+> >
+> > After your patch led_classdev_register() function is not always called.
+> > And led_classdev_unregister() should not be called when there is no
+> > device registered.
+> 
+> I think it's not a strong requirement after the commit
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=1dbb9fb4082ce2a2f1cf9596881ddece062d15d0
+
+Thank you for update. I did know about this change.
