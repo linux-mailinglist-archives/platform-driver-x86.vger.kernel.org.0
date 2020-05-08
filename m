@@ -2,163 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CADF31CB8AA
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 May 2020 21:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3314C1CB957
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 May 2020 22:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgEHTyh (ORCPT
+        id S1726904AbgEHU4y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 8 May 2020 15:54:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22528 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726908AbgEHTyg (ORCPT
+        Fri, 8 May 2020 16:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbgEHU4y (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 8 May 2020 15:54:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588967675;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=s5cbh8+ouztnaKRRaYLQNlZBz5qzMye0e7qTGD4rFGs=;
-        b=R/BtsJDfEwamiu6SrXmNs/fGsiRzyCFsYgCcXLELei29Jp3o8Sk5BpUfioGedQ7d4kFPiv
-        BDcWxAvsNkvI4sz6xFM4FlRh2ujMdx9cJAVKji1cPyuEYxHiLjca+lG/fS5yFIKUcRhTVy
-        Up7zNDb2WLpf6fpRzhoHSfe1PLfomDI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-6vzmKxMQM3Gee66AKcMTBw-1; Fri, 08 May 2020 15:54:33 -0400
-X-MC-Unique: 6vzmKxMQM3Gee66AKcMTBw-1
-Received: by mail-wr1-f72.google.com with SMTP id d1so1385776wru.6
-        for <platform-driver-x86@vger.kernel.org>; Fri, 08 May 2020 12:54:33 -0700 (PDT)
+        Fri, 8 May 2020 16:56:54 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C017C061A0C;
+        Fri,  8 May 2020 13:56:54 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id w65so1552079pfc.12;
+        Fri, 08 May 2020 13:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Zlm78NTnUQgNYB/Y967ROyt+Vq6Ourlp2uSc1BOpBws=;
+        b=M0Q9kTtNIZEe1jIjMA66/OIdnRkPBbQmv8ljANvcY0f8o5u0x2faUnJ6RuiDVnOogJ
+         AZMu4rNisN6N20x7HUsPvfqyLbVKklvH0F1W4pzLm1MKs8v8RQKA6pgoeIfwLoqeg718
+         UtUJ48rWMMZqrgWXdWcSZe3nY6vlDd94hg8uTaYXZc7beM9AdCXXmAOJ2GW30ETN65FD
+         TOZ4tAx8+5NoTgNeKEmbR7Wy47gjeN6qxrA6gbJYfGatNkusS/Itn799v4Y2hjZ93CNH
+         hlZ9LBEFqrN0W85cWQAGFgvfg7/W5nAXtacoeWpBEdbBrZBVQLvQmICPy2RbzX4/Sir5
+         lY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=s5cbh8+ouztnaKRRaYLQNlZBz5qzMye0e7qTGD4rFGs=;
-        b=XXHCG/eK/5NUaQn7R1tZah0sP79xwxrvYYYSmJgUAww0j7U8t9shLmk2JKNFyYGyaC
-         YKMWbVq7e5Y6e54eppV4NO4Dj8Z2XlBlJlxR71r/8C/NH2Ge+ygbqQoL/d0N19cSiNjC
-         ukX6PM6q2C3AeNl1zAw/jAJXqAh38J+9L6IQ3DNlRWQO9bP/hHCmgviqLrj+7+YZL/D9
-         3yF5wWybQHIpH4I1r6ecWCdCzEr2raLe1t+TSXnKR0cecD/tCNhWmOal6qetqOzDh0NY
-         sAPxweBPWuYMNXN+J6nvx3lyYQfnm4dXOTj1nEuq767sT+XbpFG6P7bxijl8yZM5TV66
-         GHaQ==
-X-Gm-Message-State: AGi0PuYuWZBgV4C+Gvi65luk6xQt/QATtVJUyOzx5vs3lLuwEuiF7j0C
-        zfkvVuS5IQ2DRAARb10780cCkcLgECgXtSfX0ImrWFUmCnCqsnJtFPlmktGG0aUfaWov2fuplOs
-        ca+5K56vC4DLkT2Emnoe6cZLKx0JAA5IKfA==
-X-Received: by 2002:a05:600c:206:: with SMTP id 6mr3790115wmi.171.1588967671897;
-        Fri, 08 May 2020 12:54:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIBI6rLXYcoq93Y+zxvA74WmuxCHNqHB3zIGRZ3df4OAX7qIF0r2Uz6EwU7+wTXmQom686gqA==
-X-Received: by 2002:a05:600c:206:: with SMTP id 6mr3790097wmi.171.1588967671653;
-        Fri, 08 May 2020 12:54:31 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id s14sm13815172wmh.18.2020.05.08.12.54.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2020 12:54:30 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and
- T200TA
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200422220559.99726-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <bcb4d40a-8971-22d6-959b-14b2d329cfd4@redhat.com>
-Date:   Fri, 8 May 2020 21:54:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Zlm78NTnUQgNYB/Y967ROyt+Vq6Ourlp2uSc1BOpBws=;
+        b=ltFIAZ1II/i2Dx32YZ83Wt/rv6XCQGZq0gQBwt6YQeLcVjoJxk82QLvCc8nefBm1rR
+         o9yBmXwWn4l3Kcevz3bTNM/8Pc28N7Z1Cgrd8ZP6vJuNyOSXfpTJ92OUg8dZvbNL6Y8X
+         TK1CiiYS1kcy6BhTxkOmpDmWIc09D/HY1AR2LVwqiDRBY/IUX0L9AcnAruPjIdisF6TK
+         gGV6D31G5EHifRr+nTtAsMfv9M4VlrMtEoxTxvf/ccHCNIarkxuczOZIQoyNIUWmL/Jn
+         SK/LVAeIEAYIv8Vh2mmlRGVZwCbLURVcfjg1bkuH+m0lQMGgp92hm9jscIlkftlN0Xm1
+         3QaQ==
+X-Gm-Message-State: AGi0PuYL8zgMkD6R5zRhLHdNdOlM+XiguFBDyvAFV8g7OT9kR4LWo4H5
+        NisZtUi3u6CxxO6o2bMZdA542+BzBKoY9wJrqdc=
+X-Google-Smtp-Source: APiQypJh5cAMBBfNusXJPVcVDn9Dbj0bYJKdrDRWrc0mlA/7CUTo/0H3snaYhe30TjSHF9rjzmoNpoLfAM2489rl8dk=
+X-Received: by 2002:a62:7f11:: with SMTP id a17mr3486614pfd.36.1588971413629;
+ Fri, 08 May 2020 13:56:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200422220559.99726-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200422220559.99726-1-hdegoede@redhat.com> <bcb4d40a-8971-22d6-959b-14b2d329cfd4@redhat.com>
+In-Reply-To: <bcb4d40a-8971-22d6-959b-14b2d329cfd4@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 8 May 2020 23:56:42 +0300
+Message-ID: <CAHp75Vceqb4tpM_G7hcg2RWF6Cp+P61NiiYfQsf9tr8vtFJGHg@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and T200TA
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user <acpi4asus-user@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Fri, May 8, 2020 at 10:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 4/23/20 12:05 AM, Hans de Goede wrote:
 
-On 4/23/20 12:05 AM, Hans de Goede wrote:
-> asus-nb-wmi does not add any extra functionality on these Asus
-> Transformer books. They have detachable keyboards, so the hotkeys are
-> send through a HID device (and handled by the hid-asus driver) and also
-> the rfkill functionality is not used on these devices.
-> 
-> Besides not adding any extra functionality, initializing the WMI interface
-> on these devices actually has a negative side-effect. For some reason
-> the \_SB.ATKD.INIT() function which asus_wmi_platform_init() calls drives
-> GPO2 (INT33FC:02) pin 8, which is connected to the front facing webcam LED,
-> high and there is no (WMI or other) interface to drive this low again
-> causing the LED to be permanently on, even during suspend.
-> 
-> This commit adds a blacklist of DMI system_ids on which not to load the
-> asus-nb-wmi and adds these Transformer books to this list. This fixes
-> the webcam LED being permanently on under Linux.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Andy, Darren, I see that you have already added this to the for-next
+> branch of linux-platform-drivers-x86. I'm not sure what your vision
+> on forced pushed there is. If forced pushes are ok, please drop this
+> patch. If not let me know and I will send out a revert.
 
-Because of the BYT/CHT work which I do as a side project I have a bunch
-of BYT/CHT based 2-in-1s as test devices, including the T100TA and T200TA.
+Forced pushes are not okay, but we have exceptions in some cases.
+It would be done here, but there are complications, i.e. we have
+already immutable branch merged from MFD. Of course, I would remerge
+it again, but I think we better not to do this right now, so, revert
+seems a less painful in this case. Or, if you have already done
+something better, than keep it as follow up improvement rather than
+pure revert.
 
-So recently I've been looking into properly reporting SW_TABLET_MODE
-state to userspace to let userspace know if the keyboard of these
-detachables is attached or not; and guess what, the Asus models
-report this through WMI. So blacklisting is not the right thing to do
-here after all :|  I do have a plan for another fix for this
-(which will also involve DMI matching)...
-
-Andy, Darren, I see that you have already added this to the for-next
-branch of linux-platform-drivers-x86. I'm not sure what your vision
-on forced pushed there is. If forced pushes are ok, please drop this
-patch. If not let me know and I will send out a revert.
-
-Regards,
-
-Hans
-
-
-
-> ---
->   drivers/platform/x86/asus-nb-wmi.c | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-> index 6f12747a359a..c4404d9c1de4 100644
-> --- a/drivers/platform/x86/asus-nb-wmi.c
-> +++ b/drivers/platform/x86/asus-nb-wmi.c
-> @@ -515,9 +515,33 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
->   	.detect_quirks = asus_nb_wmi_quirks,
->   };
->   
-> +static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst = {
-> +	{
-> +		/*
-> +		 * asus-nb-wm adds no functionality. The T100TA has a detachable
-> +		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
-> +		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
-> +		 */
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-> +		},
-> +	},
-> +	{
-> +		/* The Asus T200TA has the same issue as the T100TA */
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
-> +		},
-> +	},
-> +	{} /* Terminating entry */
-> +};
->   
->   static int __init asus_nb_wmi_init(void)
->   {
-> +	if (dmi_check_system(asus_nb_wmi_blacklist))
-> +		return -ENODEV;
-> +
->   	return asus_wmi_register_driver(&asus_nb_wmi_driver);
->   }
->   
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
