@@ -2,80 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFBF21CB476
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 May 2020 18:15:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10531CB5D9
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  8 May 2020 19:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbgEHQPV (ORCPT
+        id S1726843AbgEHRZ3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 8 May 2020 12:15:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbgEHQPU (ORCPT
+        Fri, 8 May 2020 13:25:29 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:58564 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726756AbgEHRZ2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 8 May 2020 12:15:20 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FB1C061A0C;
-        Fri,  8 May 2020 09:15:19 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id r2so840287uam.7;
-        Fri, 08 May 2020 09:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H08VnS9yN+xKAafxps5tOXIHVVVEZEkeV+pHeOLCkUs=;
-        b=IiV4iQB351V0o3+/IKLjE0pv+/BiItjXAYjBM/9voZElcUGdNR0JeqV3AnL1NgNhZ9
-         E3arqywo9Kf8Vfba4EF9iZhxeZsKTxNuZLAOCe5jzTokJEWHGzE2nt4yHD6IcBzj7aOV
-         liV0RLORYaLYQP0CsqxgEqV+zyW+KdVEXUGCEfyt8BsuRqGNRjosez9qxsEZW9/W3w+Z
-         RWAaA0aahrDtgR/UWMDVdSWow9SHdq7ilE5Noc+XS9bcgxWrONjCTv2659njp4pGtTXB
-         DtbHT3RKUO4wRivAwBxXC84dYt0s8jLt8Ve1I+xmIuOU8xCAb6lPXArWRGmo9dzBZ/8D
-         2LyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H08VnS9yN+xKAafxps5tOXIHVVVEZEkeV+pHeOLCkUs=;
-        b=CTfDRwx0yGLvjvHloJJIBYHbL5CxZY8KZRF5bL4QedUVUPyrTRNt2dJkihvmc88Bdf
-         rgcS43RE13RlzQMJFh2dGmDdcsHtQrCeGOMn5OR62eX9tOHuXzrmt12XdnqjVvDfkzHP
-         cgeb5tjdMCSJoDkqoWiS2xPNn+81iN+eJ+/j0h9/BoL1Hyg4E2Fr4kARWI6LVOpk9tJ8
-         apj71xkHzNf/5qonWQSJpqsjw/qMiJ4Qe1hZiXdHuONS1BioCxN9HQIbEBnj0emD94ng
-         K+BY2YZ/vmf3CAtDj5Qbs6b64SQRBpwPH/8IJx2Qk07Yx7ojMQlq3k0M3Ptt+9HwWFMn
-         cH4Q==
-X-Gm-Message-State: AGi0PuZ4lRmq+NGu2Sg/cS+iDqbDXlqhNK9l8WYGR9HFWNN00RumP9tc
-        EpUECUNop5l8N9ckdLITU9HN/rS04iPmw7wwS6ALWScfJBg=
-X-Google-Smtp-Source: APiQypLcwuh8PghrglYPTSth/y/LPBsSdzEwa2RZm4Nk+O5Ht4lYsKlluPFmebTLSbgM3Wqv8H4P3tW1UqmMKpxpws0=
-X-Received: by 2002:ab0:7298:: with SMTP id w24mr2880926uao.95.1588954518198;
- Fri, 08 May 2020 09:15:18 -0700 (PDT)
+        Fri, 8 May 2020 13:25:28 -0400
+Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 048HBJX1030513;
+        Fri, 8 May 2020 13:25:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=gxHTONjMJ/6z9rZgSNwvSim25VdhYsckGdfAECNx4JE=;
+ b=IObn8K5Byv6MlXZ4IV/TOxdF1vBNk5BHlGolIHsmTZSuz5VrZZcMHiDSUjEEhrxyHd9j
+ /kxYyv974bnIhey4SddqEGQFLlPPyZ+wr2b8iyxpdwliSzU2LgiYKbssphRcY9ete/Ec
+ wwB2sAQc2hRJa0cCDXXVQZuldRyBu519fMvJrDD8U5/R7oD1AX8Lin27yw5Z6sMcAl9W
+ 2mkFQvVpvKRC1KrGcC6A0IeC5sXjR3TTTGhXu0M/nWeJz7xPTyo7G37eWcQk0MSfOQBc
+ Oy9zF0GPD0exZa0XU0TIPOSDO1d8xR+YSW3Evu5xCJnzD4BeVzHxwcXlqIRVSjvB7rS7 KQ== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0b-00154904.pphosted.com with ESMTP id 30vtetahg7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 08 May 2020 13:25:27 -0400
+Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 048HPPvG095919;
+        Fri, 8 May 2020 13:25:27 -0400
+Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
+        by mx0b-00154901.pphosted.com with ESMTP id 30w4myp86a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 13:25:27 -0400
+X-LoopCount0: from 10.166.132.131
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="1553800230"
+From:   <Mario.Limonciello@dell.com>
+To:     <koba.ko@canonical.com>
+CC:     <andy.shevchenko@gmail.com>, <mjg59@srcf.ucam.org>,
+        <pali.rohar@gmail.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Topic: [PATCH] platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Index: AQHWJFPpvfyIH0nLT0eHUvql2g/2/6icw1oAgAADsACAAEt3MIABJgMAgAA5hLA=
+Date:   Fri, 8 May 2020 17:25:24 +0000
+Message-ID: <99e0ccfba0fe4fba8030a056a2dd7492@AUSX13MPC105.AMER.DELL.COM>
+References: <20200507094242.7523-1-koba.ko@canonical.com>
+ <CAHp75VeDFpjwZoNWj6SwvnHE70o4x+U9GnK-tbrFpK6fkBN7MA@mail.gmail.com>
+ <CAJB-X+U9vOzKNt3Z-BzZrEJhyU0Gd_5rVM=yqfy3TZTWNn2_YA@mail.gmail.com>
+ <e0eb1c5f17574bfcb6dd58d12b37ce7b@AUSX13MPC101.AMER.DELL.COM>
+ <CAJB-X+UTzknY63mL2iY5mXNDYm9ohm2ZeQBdPDUBZ+MSkcUAFQ@mail.gmail.com>
+In-Reply-To: <CAJB-X+UTzknY63mL2iY5mXNDYm9ohm2ZeQBdPDUBZ+MSkcUAFQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-08T17:24:35.4438079Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=e393018c-57f4-47d7-a741-e33987e6c8cd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.28]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <18e48255d68a1408b3e3152780f0e789df540059.camel@gmail.com>
- <aa217de398584fa7846cf4ac0c872036@AUSX13MPC101.AMER.DELL.COM>
- <CAD2FfiEk8Fq3=i_3NHvtuwip=-v_cGfnYSowdPi86U_BcgP2gQ@mail.gmail.com>
- <61c7782cd2e64bb9ab2aaf6a016bbb6c@AUSX13MPC101.AMER.DELL.COM>
- <CAD2FfiGweUHNJGdj7OUQFxEhQBYvMCbuWM-+ez=SpN=HbcaS4Q@mail.gmail.com>
- <70757953c25645baac2dddd7c6924d05@AUSX13MPC101.AMER.DELL.COM> <20200508082028.GP487496@lahna.fi.intel.com>
-In-Reply-To: <20200508082028.GP487496@lahna.fi.intel.com>
-From:   Richard Hughes <hughsient@gmail.com>
-Date:   Fri, 8 May 2020 17:15:07 +0100
-Message-ID: <CAD2FfiG2c4iXmTjUpQAUqRVBVyH0Hm4VfO5PBTXf03VXHR22ng@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: Export LPC attributes for the system SPI chip
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Mario Limonciello <Mario.Limonciello@dell.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-08_15:2020-05-08,2020-05-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 adultscore=0 mlxlogscore=828
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005080146
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 phishscore=0 adultscore=0
+ mlxlogscore=910 impostorscore=0 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005080145
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 8 May 2020 at 09:20, Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
-> Thanks for the information. I actually prefer that this would be in a
-> separate driver because I do not want distros to enable intel-spi just
-> for this. It is really only meant for special setups where firmware
-> upgrade/access flow has been thoroughly tested.
-
-Do you think the driver should be part of mtd (e.g. something like
-drivers/mtd/spi-nor/controllers/intel-spi-pci-lpc.c) or be something
-like I proposed in drivers/platform/x86? Ideas very welcome, thanks.
-
-Richard
+PiBoaSBBbGwswqANCj4gQXMgcGVyIGFkdmVydGlzZW1lbnQsIFVwZGF0ZSB0aGUgcGF0Y2guDQo+
+IFBsZWFzZSBoZWxwIHRvIHJldmlldy4NCg0KS29iYSwNCg0KMSkgUGxlYXNlIHJlc2VuZCBwYXRj
+aCBhcyBpbmxpbmUgdGV4dCB0byBtYWlsaW5nIGxpc3QsIG5vdCBhdHRhY2htZW50Lg0KMikgQWxz
+byB5b3UgaGF2ZSBhIHR5cG9ncmFwaGljYWwgZXJyb3IgaW4geW91ciBjb21taXQgbWVzc2FnZSwg
+eW91IHNob3VsZCBmaXggKG1lc3NnZSBtaXNzcGVsbGVkKQ0KMykgWW91IGhhdmUgYSBncmFtbWF0
+aWNhbCBlcnJvciBpbiB5b3VyIGNvbW1pdCBtZXNzYWdlKCJpc24ndCBwcmVzZW50ZWQiKQ0KNCkg
+QXMgeW91IHJldiB0aGUgcGF0Y2gsIHlvdSBjYW4gdXBkYXRlIGluIHRoZSB0aXRsZSBmcm9tIFtQ
+QVRDSF0gdG8gW1BBVENIIHYyXSBhbmQgc28gb24uDQoNClRoYW5rcywNCg0K
