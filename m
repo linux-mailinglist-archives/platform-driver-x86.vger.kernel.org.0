@@ -2,266 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 859F41CC196
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 May 2020 15:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25C911CC31A
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 May 2020 19:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727938AbgEINHS (ORCPT
+        id S1728219AbgEIRMa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 9 May 2020 09:07:18 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59819 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726370AbgEINHS (ORCPT
+        Sat, 9 May 2020 13:12:30 -0400
+Received: from mga01.intel.com ([192.55.52.88]:20792 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726013AbgEIRMa (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 9 May 2020 09:07:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589029636;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=nku97G8V8bw48sH90MJkSRFhoFe5/OodK/1xbuz3fno=;
-        b=MBAfgBhVErRJ+MUS5Y/KNY5e059fkLXw/fN08Es0MmI3HkwObVbpDVpYJUFgJAJdS/z70X
-        S3Ls16IC01Y3uTgTcm5EPuhUvkOmJTkvTdZr31K93h9HlPqpdGskEt4eZbVs+/PpAlTFs1
-        NINFJRZsLmmu/SsGiTvWyLV7Tv1zdME=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-yY5SRhTlMfqY54yveAsUQw-1; Sat, 09 May 2020 09:07:10 -0400
-X-MC-Unique: yY5SRhTlMfqY54yveAsUQw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A10FA1009600;
-        Sat,  9 May 2020 13:07:09 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-85.ams2.redhat.com [10.36.112.85])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5EDA8704B7;
-        Sat,  9 May 2020 13:07:08 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] platform/x86: Add new intel_atomisp2_led driver
-Date:   Sat,  9 May 2020 15:07:07 +0200
-Message-Id: <20200509130707.219463-1-hdegoede@redhat.com>
+        Sat, 9 May 2020 13:12:30 -0400
+IronPort-SDR: IrScUjL1/szWfQcVDjyangPMGr0Z+VYOuGd55PatZJPzvi4abrEPdNN2f8yVXWjPNWyIXi8pw5
+ hWJCFxHZg2dA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2020 10:12:29 -0700
+IronPort-SDR: PSeT8DIOkPlLQ50fQRG4Nktn5QIH4J2lznlZoFsDEy+rm9pGMEg8tzNsbApTndQRmpSIPwLP5Z
+ zByeOvcuoW2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,372,1583222400"; 
+   d="scan'208";a="252227319"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+  by fmsmga008.fm.intel.com with ESMTP; 09 May 2020 10:12:29 -0700
+Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
+ ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sat, 9 May 2020 10:12:29 -0700
+Received: from orsmsx109.amr.corp.intel.com ([169.254.11.125]) by
+ ORSMSX115.amr.corp.intel.com ([169.254.4.83]) with mapi id 14.03.0439.000;
+ Sat, 9 May 2020 10:12:29 -0700
+From:   "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
+To:     "Shevchenko, Andriy" <andriy.shevchenko@intel.com>
+CC:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Subject: [GIT PULL]: tools/power/x86/intel-speed-select for 5.8-rc1
+Thread-Topic: [GIT PULL]: tools/power/x86/intel-speed-select for 5.8-rc1
+Thread-Index: AQHWJiUE+2bHpNbggkiS0a+R6EZelQ==
+Date:   Sat, 9 May 2020 17:12:29 +0000
+Message-ID: <5adc631c1016d5d35171713a3d7c15ad34041c9b.camel@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+x-originating-ip: [10.54.75.21]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6E8ED81F9A295848A5D5CDE228F516D6@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Many Bay Trail and Cherry Trail devices come with a camera attached to
-Intel's Image Signal Processor. Linux currently does not have a driver for
-these, so they do not work as a camera.
-
-Some of these camera's have a status LED which is controlled through a GPIO
-in some cases, e.g. on the Asus T100TA and Asus T200TA, there is a firmware
-issue where the LED gets turned on at boot.
-
-This commit adds a Linux LED driver for the camera LED on these devices.
-This driver will turn the LED off at boot and also allows controlling the
-LED (so the user can repurpose it) through the sysfs LED interface.
-
-Which GPIO is attached to the LED is usually not described in the ACPI
-tables, so this driver contains per-system info about the GPIO inside the
-driver. This means that this driver only works on systems the driver knows
-about.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- MAINTAINERS                               |   6 ++
- drivers/platform/x86/Kconfig              |  21 ++++
- drivers/platform/x86/Makefile             |   1 +
- drivers/platform/x86/intel_atomisp2_led.c | 118 ++++++++++++++++++++++
- 4 files changed, 146 insertions(+)
- create mode 100644 drivers/platform/x86/intel_atomisp2_led.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2926327e4976..d85e009260ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8499,6 +8499,12 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL ATOMISP2 LED DRIVER
-+M:	Hans de Goede <hdegoede@redhat.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/x86/intel_atomisp2_led.c
-+
- INTEL C600 SERIES SAS CONTROLLER DRIVER
- M:	Intel SCU Linux support <intel-linux-scu@intel.com>
- M:	Artur Paszkiewicz <artur.paszkiewicz@intel.com>
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0ad7ad8cf8e1..1af4c97447a2 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -750,6 +750,27 @@ config INTEL_ATOMISP2_PM
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called intel_atomisp2_pm.
- 
-+config INTEL_ATOMISP2_LED
-+	tristate "Intel AtomISP2 camera LED driver"
-+	depends on GPIOLIB && LEDS_GPIO
-+	help
-+	  Many Bay Trail and Cherry Trail devices come with a camera attached
-+	  to Intel's Image Signal Processor. Linux currently does not have a
-+	  driver for these, so they do not work as a camera. Some of these
-+	  camera's have a LED which is controlled through a GPIO.
-+
-+	  Some of these devices have a firmware issue where the LED gets turned
-+	  on at boot. This driver will turn the LED off at boot and also allows
-+	  controlling the LED (repurposing it) through the sysfs LED interface.
-+
-+	  Which GPIO is attached to the LED is usually not described in the
-+	  ACPI tables, so this driver contains per-system info about the GPIO
-+	  inside the driver, this means that this driver only works on systems
-+	  the driver knows about.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called intel_atomisp2_led.
-+
- config INTEL_CHT_INT33FE
- 	tristate "Intel Cherry Trail ACPI INT33FE Driver"
- 	depends on X86 && ACPI && I2C && REGULATOR
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 53408d965874..969581237abb 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -69,6 +69,7 @@ obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
- 
- # Intel
- obj-$(CONFIG_INTEL_ATOMISP2_PM)		+= intel_atomisp2_pm.o
-+obj-$(CONFIG_INTEL_ATOMISP2_LED)	+= intel_atomisp2_led.o
- obj-$(CONFIG_INTEL_CHT_INT33FE)		+= intel_cht_int33fe.o
- intel_cht_int33fe-objs			:= intel_cht_int33fe_common.o \
- 					   intel_cht_int33fe_typec.o \
-diff --git a/drivers/platform/x86/intel_atomisp2_led.c b/drivers/platform/x86/intel_atomisp2_led.c
-new file mode 100644
-index 000000000000..fb704956cd9d
---- /dev/null
-+++ b/drivers/platform/x86/intel_atomisp2_led.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Driver for controlling LEDs for cameras connected to the Intel atomisp2
-+ * The main purpose of this driver is to turn off LEDs which are on at boot.
-+ *
-+ * Copyright (C) 2020 Hans de Goede <hdegoede@redhat.com>
-+ */
-+
-+#include <linux/dmi.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/workqueue.h>
-+
-+/* This must be leds-gpio as the leds-gpio driver binds to the name */
-+#define DEV_NAME		"leds-gpio"
-+
-+static const struct gpio_led atomisp2_leds[] = {
-+	{
-+		.name = "atomisp2::camera",
-+		.default_state  = LEDS_GPIO_DEFSTATE_OFF,
-+	},
-+};
-+
-+static const struct gpio_led_platform_data atomisp2_leds_pdata = {
-+	.num_leds	= ARRAY_SIZE(atomisp2_leds),
-+	.leds		= atomisp2_leds,
-+};
-+
-+static struct gpiod_lookup_table asus_t100ta_lookup = {
-+	.dev_id = DEV_NAME,
-+	.table = {
-+		GPIO_LOOKUP_IDX("INT33FC:02", 8, NULL, 0, GPIO_ACTIVE_HIGH),
-+		{ }
-+	}
-+};
-+
-+static struct gpiod_lookup_table asus_t100chi_lookup = {
-+	.dev_id = DEV_NAME,
-+	.table = {
-+		GPIO_LOOKUP_IDX("INT33FC:01", 24, NULL, 0, GPIO_ACTIVE_HIGH),
-+		{ }
-+	}
-+};
-+
-+static const struct dmi_system_id atomisp2_led_systems[] __initconst = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-+		},
-+		.driver_data = &asus_t100ta_lookup,
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
-+		},
-+		.driver_data = &asus_t100ta_lookup,
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100CHI"),
-+		},
-+		.driver_data = &asus_t100chi_lookup,
-+	},
-+	{} /* Terminating entry */
-+};
-+MODULE_DEVICE_TABLE(dmi, atomisp2_led_systems);
-+
-+static struct gpiod_lookup_table *gpio_lookup;
-+static struct platform_device *pdev;
-+
-+static int __init atomisp2_led_init(void)
-+{
-+	const struct dmi_system_id *system;
-+
-+	system = dmi_first_match(atomisp2_led_systems);
-+	if (!system)
-+		return -ENODEV;
-+
-+	gpio_lookup = system->driver_data;
-+	gpiod_add_lookup_table(gpio_lookup);
-+
-+	pdev = platform_device_register_resndata(NULL,
-+						 DEV_NAME, PLATFORM_DEVID_NONE,
-+						 NULL, 0, &atomisp2_leds_pdata,
-+						 sizeof(atomisp2_leds_pdata));
-+	if (IS_ERR(pdev)) {
-+		gpiod_remove_lookup_table(gpio_lookup);
-+		return PTR_ERR(pdev);
-+	}
-+
-+	return 0;
-+}
-+
-+static void __exit atomisp2_led_cleanup(void)
-+{
-+	platform_device_unregister(pdev);
-+	gpiod_remove_lookup_table(gpio_lookup);
-+}
-+
-+module_init(atomisp2_led_init);
-+module_exit(atomisp2_led_cleanup);
-+
-+/*
-+ * The ACPI INIT method from Asus WMI's code on the T100TA and T200TA turns the
-+ * LED on (without the WMI interface allowing further control over the LED).
-+ * Ensure we are loaded after asus-nb-wmi so that we turn the LED off again.
-+ */
-+MODULE_SOFTDEP("pre: asus_nb_wmi");
-+MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com");
-+MODULE_DESCRIPTION("Intel atomisp2 camera LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.26.0
-
+T24gdG9wIG9mDQpnaXQ6Ly9naXQuaW5mcmFkZWFkLm9yZy9saW51eC1wbGF0Zm9ybS1kcml2ZXJz
+LXg4Ni5naXQgcmV2aWV3LWFuZHkNCg0KDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29t
+bWl0DQpjNTI4ZjMzNDFjMTQwZjE2ZGM5MWY4NzMxMTQyYmU1ODA3NjRmNjNkOg0KDQogIHBsYXRm
+b3JtL3g4Njogc29ueS1sYXB0b3A6IE1ha2UgcmVzdW1pbmcgdGhlcm1hbCBwcm9maWxlIHNhZmVy
+ICgyMDIwLQ0KMDUtMDcgMjE6MTY6MDIgKzAzMDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdp
+dCByZXBvc2l0b3J5IGF0Og0KDQogIGh0dHBzOi8vZ2l0aHViLmNvbS9zcGFuZHJ1dmFkYS9saW51
+eC1rZXJuZWwuZ2l0IHNzdC1wdWxsLXJlcQ0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAg
+dG8NCjY2MDQ3ZjQ0NDVlMWY5M2NjZWFhOGQyYzZkOWZjODBkN2Q2N2MwNWM6DQoNCiAgdG9vbHMv
+cG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdDogVXBkYXRlIHZlcnNpb24gKDIwMjAtMDUtMDgN
+CjExOjQ3OjA4IC0wNzAwKQ0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpQcmFyaXQgQmhhcmdhdmEgKDIpOg0KICAgICAg
+dG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdDogRml4IENMWC1OIHBhY2thZ2UgaW5m
+b3JtYXRpb24NCm91dHB1dA0KICAgICAgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVj
+dDogRml4IHNwZWVkLXNlbGVjdC1iYXNlLWZyZXEtDQpwcm9wZXJ0aWVzIG91dHB1dCBvbiBDTFgt
+Tg0KDQpTcmluaXZhcyBQYW5kcnV2YWRhICg0KToNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRl
+bC1zcGVlZC1zZWxlY3Q6IENoYW5nZSBkZWJ1ZyB0byBlcnJvcg0KICAgICAgdG9vbHMvcG93ZXIv
+eDg2L2ludGVsLXNwZWVkLXNlbGVjdDogQ2hlY2sgc3VwcG9ydCBzdGF0dXMgYmVmb3JlDQplbmFi
+bGUNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVlZC1zZWxlY3Q6IEVuYWJsZSBjbG9z
+IGZvciB0dXJiby1mcmVxDQplbmFibGUNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVl
+ZC1zZWxlY3Q6IFVwZGF0ZSB2ZXJzaW9uDQoNCiB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQt
+c2VsZWN0L2lzc3QtY29uZmlnLmMgIHwgNDUNCisrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKystLQ0KIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVlZC1zZWxlY3QvaXNz
+dC1jb3JlLmMgICAgfCAgNiArKystLS0NCiB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQtc2Vs
+ZWN0L2lzc3QtZGlzcGxheS5jIHwgIDIgKy0NCiAzIGZpbGVzIGNoYW5nZWQsIDQ3IGluc2VydGlv
+bnMoKyksIDYgZGVsZXRpb25zKC0pDQo=
