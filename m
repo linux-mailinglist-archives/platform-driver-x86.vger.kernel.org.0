@@ -2,105 +2,163 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCA041CCAE0
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 14:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 553861CCAF1
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 14:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728855AbgEJMVA (ORCPT
+        id S1728888AbgEJMYl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 10 May 2020 08:21:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20702 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726863AbgEJMU7 (ORCPT
+        Sun, 10 May 2020 08:24:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34796 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727870AbgEJMYk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 10 May 2020 08:20:59 -0400
+        Sun, 10 May 2020 08:24:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589113258;
+        s=mimecast20190719; t=1589113478;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=My/9Ka+fMo2mmwGpwA6FKhk0hvGr1IXdpelI6We2e1Q=;
-        b=Cji/cu3VnAqeCVDaWJurokUd3ajMxGJAP5Tr0hSiYNu5MM/LheIQtzQmNf5uNLPGS5lLa4
-        y5e5TqHU/wjR+Hh0RMjFnc8AG0t4OItTcKTlC+zCmX8YVU758DG5G0LSZMnhLX3eFggglo
-        M9Sb/Qvw2fY8jkf5ToP0DBnVdLxb9jI=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1jCpyDLqlIGSqPuFPAMnszucwhMTJg1A0PnKx2QioIw=;
+        b=AGfT+9BTjJGZPtK+FBa65A9L0rWmCO1573uo06ArOnbV5o/M0OBhoABCRG1tfA0sW2bTEr
+        H5UzjTn7kHC2Rhhu62O4qkk7I7655RPL6bvHZK042kKZ1NLr554mh0UQ+MLRkHd2YhVWll
+        EkMi8OKHSdNIwPp2GsUliILoin+RWqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-J5xJ-RD_PPuyWvzgGSMYjA-1; Sun, 10 May 2020 08:20:53 -0400
-X-MC-Unique: J5xJ-RD_PPuyWvzgGSMYjA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+ us-mta-470-QR3hjDK4P6Cf3xWbIMC9mA-1; Sun, 10 May 2020 08:24:35 -0400
+X-MC-Unique: QR3hjDK4P6Cf3xWbIMC9mA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD082107ACCD;
-        Sun, 10 May 2020 12:20:51 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AD5107ACCA;
+        Sun, 10 May 2020 12:24:34 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-76.ams2.redhat.com [10.36.112.76])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B2DF36AD10;
-        Sun, 10 May 2020 12:20:50 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B99C05D9C9;
+        Sun, 10 May 2020 12:24:33 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: intel-vbtn: Detect switch position before registering the input-device
-Date:   Sun, 10 May 2020 14:20:47 +0200
-Message-Id: <20200510122047.123613-2-hdegoede@redhat.com>
-In-Reply-To: <20200510122047.123613-1-hdegoede@redhat.com>
-References: <20200510122047.123613-1-hdegoede@redhat.com>
+Subject: [PATCH 1/3] platform/x86: asus-wmi: Move asus_wmi_input_init and _exit lower in the file
+Date:   Sun, 10 May 2020 14:24:30 +0200
+Message-Id: <20200510122432.123751-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Setting the initial state of input-device switches must be done before
-registering the input-device.
+Move the asus_wmi_input_init() and asus_wmi_input_exit() functions to
+below the WMI helpers, so that further patches in this patch-set can use
+the WMI helpers inside asus_wmi_input_init() without needing a forward
+declaration.
 
-Otherwise the initial state will get send out as an event as soon
-as input_sync() gets called.
-
-E.g. when undocking a tablet using intel-vbtn to report SW_TABLET_MODE
-and SW_DOCK before this commit we would get (evemu-record output):
-
-E: 0.000001 0005 0005 0001	# EV_SW / SW_DOCK              1
-E: 0.000001 0000 0000 0000	# ------------ SYN_REPORT (0) ---------- +0ms
-E: 0.000109 0005 0005 0000	# EV_SW / SW_DOCK              0
-E: 0.000109 0000 0000 0000	# ------------ SYN_REPORT (0) ---------- +0ms
-E: 0.000133 0005 0001 0001	# EV_SW / SW_TABLET_MODE       1
-E: 0.000133 0000 0000 0000	# ------------ SYN_REPORT (0) ---------- +0ms
-
-The first SW_DOCK=1 report is spurious, setting the initial switch
-state before registering the input-device fixes this.
+Note this commit makes no functional changes, the moved block of code
+is completely unchanged.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/intel-vbtn.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/platform/x86/asus-wmi.c | 78 ++++++++++++++++-----------------
+ 1 file changed, 39 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index 29984154f8e4..ef92c1c3adbd 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -111,6 +111,9 @@ static int intel_vbtn_input_setup(struct platform_device *device)
- 	priv->input_dev->name = "Intel Virtual Button driver";
- 	priv->input_dev->id.bustype = BUS_HOST;
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index e705ae66c083..25ec821dae21 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -222,45 +222,6 @@ struct asus_wmi {
+ 	struct asus_wmi_driver *driver;
+ };
  
-+	if (priv->has_switches)
-+		detect_tablet_mode(device);
-+
- 	return input_register_device(priv->input_dev);
+-/* Input **********************************************************************/
+-
+-static int asus_wmi_input_init(struct asus_wmi *asus)
+-{
+-	int err;
+-
+-	asus->inputdev = input_allocate_device();
+-	if (!asus->inputdev)
+-		return -ENOMEM;
+-
+-	asus->inputdev->name = asus->driver->input_name;
+-	asus->inputdev->phys = asus->driver->input_phys;
+-	asus->inputdev->id.bustype = BUS_HOST;
+-	asus->inputdev->dev.parent = &asus->platform_device->dev;
+-	set_bit(EV_REP, asus->inputdev->evbit);
+-
+-	err = sparse_keymap_setup(asus->inputdev, asus->driver->keymap, NULL);
+-	if (err)
+-		goto err_free_dev;
+-
+-	err = input_register_device(asus->inputdev);
+-	if (err)
+-		goto err_free_dev;
+-
+-	return 0;
+-
+-err_free_dev:
+-	input_free_device(asus->inputdev);
+-	return err;
+-}
+-
+-static void asus_wmi_input_exit(struct asus_wmi *asus)
+-{
+-	if (asus->inputdev)
+-		input_unregister_device(asus->inputdev);
+-
+-	asus->inputdev = NULL;
+-}
+-
+ /* WMI ************************************************************************/
+ 
+ static int asus_wmi_evaluate_method3(u32 method_id,
+@@ -381,6 +342,45 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
+ 	return status == 0 && (retval & ASUS_WMI_DSTS_PRESENCE_BIT);
  }
  
-@@ -217,9 +220,6 @@ static int intel_vbtn_probe(struct platform_device *device)
- 		return err;
- 	}
++/* Input **********************************************************************/
++
++static int asus_wmi_input_init(struct asus_wmi *asus)
++{
++	int err;
++
++	asus->inputdev = input_allocate_device();
++	if (!asus->inputdev)
++		return -ENOMEM;
++
++	asus->inputdev->name = asus->driver->input_name;
++	asus->inputdev->phys = asus->driver->input_phys;
++	asus->inputdev->id.bustype = BUS_HOST;
++	asus->inputdev->dev.parent = &asus->platform_device->dev;
++	set_bit(EV_REP, asus->inputdev->evbit);
++
++	err = sparse_keymap_setup(asus->inputdev, asus->driver->keymap, NULL);
++	if (err)
++		goto err_free_dev;
++
++	err = input_register_device(asus->inputdev);
++	if (err)
++		goto err_free_dev;
++
++	return 0;
++
++err_free_dev:
++	input_free_device(asus->inputdev);
++	return err;
++}
++
++static void asus_wmi_input_exit(struct asus_wmi *asus)
++{
++	if (asus->inputdev)
++		input_unregister_device(asus->inputdev);
++
++	asus->inputdev = NULL;
++}
++
+ /* Battery ********************************************************************/
  
--	if (priv->has_switches)
--		detect_tablet_mode(device);
--
- 	status = acpi_install_notify_handler(handle,
- 					     ACPI_DEVICE_NOTIFY,
- 					     notify_handler,
+ /* The battery maximum charging percentage */
 -- 
 2.26.0
 
