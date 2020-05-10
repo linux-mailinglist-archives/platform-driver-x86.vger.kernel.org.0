@@ -2,82 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C911CC31A
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  9 May 2020 19:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 121991CC9C0
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 11:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728219AbgEIRMa (ORCPT
+        id S1727789AbgEJJsL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 9 May 2020 13:12:30 -0400
-Received: from mga01.intel.com ([192.55.52.88]:20792 "EHLO mga01.intel.com"
+        Sun, 10 May 2020 05:48:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726013AbgEIRMa (ORCPT
+        id S1726104AbgEJJsL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 9 May 2020 13:12:30 -0400
-IronPort-SDR: IrScUjL1/szWfQcVDjyangPMGr0Z+VYOuGd55PatZJPzvi4abrEPdNN2f8yVXWjPNWyIXi8pw5
- hWJCFxHZg2dA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2020 10:12:29 -0700
-IronPort-SDR: PSeT8DIOkPlLQ50fQRG4Nktn5QIH4J2lznlZoFsDEy+rm9pGMEg8tzNsbApTndQRmpSIPwLP5Z
- zByeOvcuoW2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,372,1583222400"; 
-   d="scan'208";a="252227319"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-  by fmsmga008.fm.intel.com with ESMTP; 09 May 2020 10:12:29 -0700
-Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
- ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sat, 9 May 2020 10:12:29 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.11.125]) by
- ORSMSX115.amr.corp.intel.com ([169.254.4.83]) with mapi id 14.03.0439.000;
- Sat, 9 May 2020 10:12:29 -0700
-From:   "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
-To:     "Shevchenko, Andriy" <andriy.shevchenko@intel.com>
-CC:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>
-Subject: [GIT PULL]: tools/power/x86/intel-speed-select for 5.8-rc1
-Thread-Topic: [GIT PULL]: tools/power/x86/intel-speed-select for 5.8-rc1
-Thread-Index: AQHWJiUE+2bHpNbggkiS0a+R6EZelQ==
-Date:   Sat, 9 May 2020 17:12:29 +0000
-Message-ID: <5adc631c1016d5d35171713a3d7c15ad34041c9b.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.34.2 (3.34.2-1.fc31) 
-x-originating-ip: [10.54.75.21]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6E8ED81F9A295848A5D5CDE228F516D6@intel.com>
-Content-Transfer-Encoding: base64
+        Sun, 10 May 2020 05:48:11 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D42F220820;
+        Sun, 10 May 2020 09:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589104090;
+        bh=It5Bs3mGUycZO8AmlCBz6x4Tq/NHxfaoV+60NhmqddI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ED/ykdB+3XjqF/FI5Jl03ZaQTSBSIvnQzAR9wDxrrSQrPcPiMQVsdTAykgBip/Lpm
+         AOUUUSUt5Ec2rGpZ1Uj6eaTMMrskpTL9ipW2QuLJNwdQGmghfSOkogrtvLQTFbielC
+         zqscIYkmwRzZiKpL4DqKRd863eNVc+uEFjhvbHSI=
+Date:   Sun, 10 May 2020 10:48:06 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/11] iio: light: cm32181: Switch to new style
+ i2c-driver probe function
+Message-ID: <20200510104806.63ffeae5@archlinux>
+In-Reply-To: <20200504125551.434647-1-hdegoede@redhat.com>
+References: <20200504125551.434647-1-hdegoede@redhat.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-T24gdG9wIG9mDQpnaXQ6Ly9naXQuaW5mcmFkZWFkLm9yZy9saW51eC1wbGF0Zm9ybS1kcml2ZXJz
-LXg4Ni5naXQgcmV2aWV3LWFuZHkNCg0KDQpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29t
-bWl0DQpjNTI4ZjMzNDFjMTQwZjE2ZGM5MWY4NzMxMTQyYmU1ODA3NjRmNjNkOg0KDQogIHBsYXRm
-b3JtL3g4Njogc29ueS1sYXB0b3A6IE1ha2UgcmVzdW1pbmcgdGhlcm1hbCBwcm9maWxlIHNhZmVy
-ICgyMDIwLQ0KMDUtMDcgMjE6MTY6MDIgKzAzMDApDQoNCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdp
-dCByZXBvc2l0b3J5IGF0Og0KDQogIGh0dHBzOi8vZ2l0aHViLmNvbS9zcGFuZHJ1dmFkYS9saW51
-eC1rZXJuZWwuZ2l0IHNzdC1wdWxsLXJlcQ0KDQpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAg
-dG8NCjY2MDQ3ZjQ0NDVlMWY5M2NjZWFhOGQyYzZkOWZjODBkN2Q2N2MwNWM6DQoNCiAgdG9vbHMv
-cG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdDogVXBkYXRlIHZlcnNpb24gKDIwMjAtMDUtMDgN
-CjExOjQ3OjA4IC0wNzAwKQ0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpQcmFyaXQgQmhhcmdhdmEgKDIpOg0KICAgICAg
-dG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdDogRml4IENMWC1OIHBhY2thZ2UgaW5m
-b3JtYXRpb24NCm91dHB1dA0KICAgICAgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVj
-dDogRml4IHNwZWVkLXNlbGVjdC1iYXNlLWZyZXEtDQpwcm9wZXJ0aWVzIG91dHB1dCBvbiBDTFgt
-Tg0KDQpTcmluaXZhcyBQYW5kcnV2YWRhICg0KToNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRl
-bC1zcGVlZC1zZWxlY3Q6IENoYW5nZSBkZWJ1ZyB0byBlcnJvcg0KICAgICAgdG9vbHMvcG93ZXIv
-eDg2L2ludGVsLXNwZWVkLXNlbGVjdDogQ2hlY2sgc3VwcG9ydCBzdGF0dXMgYmVmb3JlDQplbmFi
-bGUNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVlZC1zZWxlY3Q6IEVuYWJsZSBjbG9z
-IGZvciB0dXJiby1mcmVxDQplbmFibGUNCiAgICAgIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVl
-ZC1zZWxlY3Q6IFVwZGF0ZSB2ZXJzaW9uDQoNCiB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQt
-c2VsZWN0L2lzc3QtY29uZmlnLmMgIHwgNDUNCisrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKystLQ0KIHRvb2xzL3Bvd2VyL3g4Ni9pbnRlbC1zcGVlZC1zZWxlY3QvaXNz
-dC1jb3JlLmMgICAgfCAgNiArKystLS0NCiB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQtc2Vs
-ZWN0L2lzc3QtZGlzcGxheS5jIHwgIDIgKy0NCiAzIGZpbGVzIGNoYW5nZWQsIDQ3IGluc2VydGlv
-bnMoKyksIDYgZGVsZXRpb25zKC0pDQo=
+On Mon,  4 May 2020 14:55:41 +0200
+Hans de Goede <hdegoede@redhat.com> wrote:
+
+> Switch to the new style i2c-driver probe_new probe function and drop the
+> unnecessary i2c_device_id table (we do not have any old style board files
+> using this).
+> 
+> This is a preparation patch for adding ACPI binding support.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Hi Hans,
+
+Seems these have all been sent with mime type of quoted-printable.
+As git am really doesn't like that I ended up pulling these down from
+patchwork.
+
+Please try and sort that email issue out for future patch sets until
+we get git am that works with it in standard distro packages (assuming
+it ever does)
+
+Otherwise, a bit of fuzz from the patch that dropped the of_match_ptr
+protections.
+
+Series applied to the togreg branch of iio.git and pushed out as testing for
+the autobuilders to play with it.
+
+Thanks,
+
+Jonathan
+
+
+> ---
+> Changes in v4:
+> - Set indio_dev->name to "cm32181" instead of setting it to dev_name(dev)
+> 
+> Changes in v3:
+> - This is a new patch in v3 of this patch-set
+> ---
+>  drivers/iio/light/cm32181.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/iio/light/cm32181.c b/drivers/iio/light/cm32181.c
+> index 5f4fb5674fa0..2c139d85ef0c 100644
+> --- a/drivers/iio/light/cm32181.c
+> +++ b/drivers/iio/light/cm32181.c
+> @@ -294,8 +294,7 @@ static const struct iio_info cm32181_info = {
+>  	.attrs			= &cm32181_attribute_group,
+>  };
+>  
+> -static int cm32181_probe(struct i2c_client *client,
+> -			const struct i2c_device_id *id)
+> +static int cm32181_probe(struct i2c_client *client)
+>  {
+>  	struct cm32181_chip *cm32181;
+>  	struct iio_dev *indio_dev;
+> @@ -316,7 +315,7 @@ static int cm32181_probe(struct i2c_client *client,
+>  	indio_dev->channels = cm32181_channels;
+>  	indio_dev->num_channels = ARRAY_SIZE(cm32181_channels);
+>  	indio_dev->info = &cm32181_info;
+> -	indio_dev->name = id->name;
+> +	indio_dev->name = "cm32181";
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+>  
+>  	ret = cm32181_reg_init(cm32181);
+> @@ -338,13 +337,6 @@ static int cm32181_probe(struct i2c_client *client,
+>  	return 0;
+>  }
+>  
+> -static const struct i2c_device_id cm32181_id[] = {
+> -	{ "cm32181", 0 },
+> -	{ }
+> -};
+> -
+> -MODULE_DEVICE_TABLE(i2c, cm32181_id);
+> -
+>  static const struct of_device_id cm32181_of_match[] = {
+>  	{ .compatible = "capella,cm32181" },
+>  	{ }
+> @@ -356,8 +348,7 @@ static struct i2c_driver cm32181_driver = {
+>  		.name	= "cm32181",
+>  		.of_match_table = of_match_ptr(cm32181_of_match),
+>  	},
+> -	.id_table       = cm32181_id,
+> -	.probe		= cm32181_probe,
+> +	.probe_new	= cm32181_probe,
+>  };
+>  
+>  module_i2c_driver(cm32181_driver);
+
