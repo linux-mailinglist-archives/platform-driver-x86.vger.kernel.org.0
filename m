@@ -2,46 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 553861CCAF1
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 14:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C9F1CCAF4
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 14:24:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728888AbgEJMYl (ORCPT
+        id S1728907AbgEJMYl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Sun, 10 May 2020 08:24:41 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34796 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727870AbgEJMYk (ORCPT
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46760 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728873AbgEJMYk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
         Sun, 10 May 2020 08:24:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589113478;
+        s=mimecast20190719; t=1589113479;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=1jCpyDLqlIGSqPuFPAMnszucwhMTJg1A0PnKx2QioIw=;
-        b=AGfT+9BTjJGZPtK+FBa65A9L0rWmCO1573uo06ArOnbV5o/M0OBhoABCRG1tfA0sW2bTEr
-        H5UzjTn7kHC2Rhhu62O4qkk7I7655RPL6bvHZK042kKZ1NLr554mh0UQ+MLRkHd2YhVWll
-        EkMi8OKHSdNIwPp2GsUliILoin+RWqY=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9jiDyRnN1GpR8mrfv5e1QlJJqEG97qcE0l4S/3QO1NY=;
+        b=Om0YOmPZ5QbLA9ga/PMpB6FClt7RFpkVxDS1tVS3vmkt5mqMnGVqmTSZfq/Q7sBGPhsqZP
+        kwyazOwKkrjZmNAP9BVjvcxPLFtGOaGA6uWULo14lWPYftXnpOIL3iMHGp7S2+yeWcF5Rk
+        u21kW1lTi2md8QLMRgZccXVt74anu7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-QR3hjDK4P6Cf3xWbIMC9mA-1; Sun, 10 May 2020 08:24:35 -0400
-X-MC-Unique: QR3hjDK4P6Cf3xWbIMC9mA-1
+ us-mta-419-roNam2wLMF643auX-Eam0Q-1; Sun, 10 May 2020 08:24:37 -0400
+X-MC-Unique: roNam2wLMF643auX-Eam0Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AD5107ACCA;
-        Sun, 10 May 2020 12:24:34 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D548835B40;
+        Sun, 10 May 2020 12:24:36 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-76.ams2.redhat.com [10.36.112.76])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B99C05D9C9;
-        Sun, 10 May 2020 12:24:33 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 259885D9C9;
+        Sun, 10 May 2020 12:24:35 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] platform/x86: asus-wmi: Move asus_wmi_input_init and _exit lower in the file
-Date:   Sun, 10 May 2020 14:24:30 +0200
-Message-Id: <20200510122432.123751-1-hdegoede@redhat.com>
+Subject: [PATCH 2/3] platform/x86: asus-wmi: Add support for SW_TABLET_MODE
+Date:   Sun, 10 May 2020 14:24:31 +0200
+Message-Id: <20200510122432.123751-2-hdegoede@redhat.com>
+In-Reply-To: <20200510122432.123751-1-hdegoede@redhat.com>
+References: <20200510122432.123751-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -50,115 +53,99 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Move the asus_wmi_input_init() and asus_wmi_input_exit() functions to
-below the WMI helpers, so that further patches in this patch-set can use
-the WMI helpers inside asus_wmi_input_init() without needing a forward
-declaration.
+On Asus 2-in-1s with a detachable keyboard the Asus WMI interface
+reports if the tablet is attached to the keyboard or not.
 
-Note this commit makes no functional changes, the moved block of code
-is completely unchanged.
+Report if the 2-in-1 is in tablet or clamshell mode to userspace
+by reporting SW_TABLET_MODE events to userspace.
+
+This has been tested on a T100TA, T100CHI, T100HA and T200TA.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/asus-wmi.c | 78 ++++++++++++++++-----------------
- 1 file changed, 39 insertions(+), 39 deletions(-)
+ drivers/platform/x86/asus-wmi.c            | 24 ++++++++++++++++++++--
+ include/linux/platform_data/x86/asus-wmi.h |  3 +++
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index e705ae66c083..25ec821dae21 100644
+index 25ec821dae21..1ab07fa9b08a 100644
 --- a/drivers/platform/x86/asus-wmi.c
 +++ b/drivers/platform/x86/asus-wmi.c
-@@ -222,45 +222,6 @@ struct asus_wmi {
- 	struct asus_wmi_driver *driver;
- };
+@@ -57,6 +57,7 @@ MODULE_LICENSE("GPL");
+ #define NOTIFY_BRNDOWN_MIN		0x20
+ #define NOTIFY_BRNDOWN_MAX		0x2e
+ #define NOTIFY_FNLOCK_TOGGLE		0x4e
++#define NOTIFY_KBD_DOCK_CHANGE		0x75
+ #define NOTIFY_KBD_BRTUP		0xc4
+ #define NOTIFY_KBD_BRTDWN		0xc5
+ #define NOTIFY_KBD_BRTTOGGLE		0xc7
+@@ -346,7 +347,7 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
  
--/* Input **********************************************************************/
--
--static int asus_wmi_input_init(struct asus_wmi *asus)
--{
+ static int asus_wmi_input_init(struct asus_wmi *asus)
+ {
 -	int err;
--
--	asus->inputdev = input_allocate_device();
--	if (!asus->inputdev)
--		return -ENOMEM;
--
--	asus->inputdev->name = asus->driver->input_name;
--	asus->inputdev->phys = asus->driver->input_phys;
--	asus->inputdev->id.bustype = BUS_HOST;
--	asus->inputdev->dev.parent = &asus->platform_device->dev;
--	set_bit(EV_REP, asus->inputdev->evbit);
--
--	err = sparse_keymap_setup(asus->inputdev, asus->driver->keymap, NULL);
--	if (err)
--		goto err_free_dev;
--
--	err = input_register_device(asus->inputdev);
--	if (err)
--		goto err_free_dev;
--
--	return 0;
--
--err_free_dev:
--	input_free_device(asus->inputdev);
--	return err;
--}
--
--static void asus_wmi_input_exit(struct asus_wmi *asus)
--{
--	if (asus->inputdev)
--		input_unregister_device(asus->inputdev);
--
--	asus->inputdev = NULL;
--}
--
- /* WMI ************************************************************************/
++	int err, result;
  
- static int asus_wmi_evaluate_method3(u32 method_id,
-@@ -381,6 +342,45 @@ static bool asus_wmi_dev_is_present(struct asus_wmi *asus, u32 dev_id)
- 	return status == 0 && (retval & ASUS_WMI_DSTS_PRESENCE_BIT);
- }
+ 	asus->inputdev = input_allocate_device();
+ 	if (!asus->inputdev)
+@@ -362,6 +363,14 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+ 	if (err)
+ 		goto err_free_dev;
  
-+/* Input **********************************************************************/
++	result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
++	if (result >= 0) {
++		input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
++		input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
++	} else if (result != -ENODEV) {
++		pr_err("Error checking for keyboard-dock: %d\n", result);
++	}
 +
-+static int asus_wmi_input_init(struct asus_wmi *asus)
-+{
-+	int err;
-+
-+	asus->inputdev = input_allocate_device();
-+	if (!asus->inputdev)
-+		return -ENOMEM;
-+
-+	asus->inputdev->name = asus->driver->input_name;
-+	asus->inputdev->phys = asus->driver->input_phys;
-+	asus->inputdev->id.bustype = BUS_HOST;
-+	asus->inputdev->dev.parent = &asus->platform_device->dev;
-+	set_bit(EV_REP, asus->inputdev->evbit);
-+
-+	err = sparse_keymap_setup(asus->inputdev, asus->driver->keymap, NULL);
-+	if (err)
-+		goto err_free_dev;
-+
-+	err = input_register_device(asus->inputdev);
-+	if (err)
-+		goto err_free_dev;
-+
-+	return 0;
-+
-+err_free_dev:
-+	input_free_device(asus->inputdev);
-+	return err;
-+}
-+
-+static void asus_wmi_input_exit(struct asus_wmi *asus)
-+{
-+	if (asus->inputdev)
-+		input_unregister_device(asus->inputdev);
-+
-+	asus->inputdev = NULL;
-+}
-+
- /* Battery ********************************************************************/
+ 	err = input_register_device(asus->inputdev);
+ 	if (err)
+ 		goto err_free_dev;
+@@ -2055,9 +2064,9 @@ static int asus_wmi_get_event_code(u32 value)
  
- /* The battery maximum charging percentage */
+ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+ {
+-	int orig_code;
+ 	unsigned int key_value = 1;
+ 	bool autorelease = 1;
++	int result, orig_code;
+ 
+ 	orig_code = code;
+ 
+@@ -2102,6 +2111,17 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+ 		return;
+ 	}
+ 
++	if (code == NOTIFY_KBD_DOCK_CHANGE) {
++		result = asus_wmi_get_devstate_simple(asus,
++						      ASUS_WMI_DEVID_KBD_DOCK);
++		if (result >= 0) {
++			input_report_switch(asus->inputdev, SW_TABLET_MODE,
++					    !result);
++			input_sync(asus->inputdev);
++		}
++		return;
++	}
++
+ 	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
+ 		fan_boost_mode_switch_next(asus);
+ 		return;
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index d39fc658c320..897b8332a39f 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -85,6 +85,9 @@
+ /* Maximum charging percentage */
+ #define ASUS_WMI_DEVID_RSOC		0x00120057
+ 
++/* Keyboard dock */
++#define ASUS_WMI_DEVID_KBD_DOCK		0x00120063
++
+ /* DSTS masks */
+ #define ASUS_WMI_DSTS_STATUS_BIT	0x00000001
+ #define ASUS_WMI_DSTS_UNKNOWN_BIT	0x00000002
 -- 
 2.26.0
 
