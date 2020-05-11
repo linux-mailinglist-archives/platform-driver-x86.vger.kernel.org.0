@@ -2,93 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B231CCAF5
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 May 2020 14:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E991CCF14
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 May 2020 03:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728986AbgEJMYr (ORCPT
+        id S1729192AbgEKBQL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 10 May 2020 08:24:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44509 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728887AbgEJMYl (ORCPT
+        Sun, 10 May 2020 21:16:11 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49550 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727789AbgEKBQK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 10 May 2020 08:24:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589113480;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vaSfusBfcGuWtpLDZO+nitz176bAfcWOMkB3GTG1aLs=;
-        b=MIb9+ENJM1jUSDmAfGLFpfdODaVsfIv/P/mDCt8ipUjqGjVjpLFZVBXGEoOzWpyTCeztrj
-        J/QQxLrg3j8fxlYMaUVSgGHtUi38D/z5AQzbCidbeUrRITp+RcW+FJMq/19r4zJ46tSn3y
-        noPX0qNT7ZcDGn2Jyt5j2HJYv753WHY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-_rjgrsf6NoS5RNnuspAfRA-1; Sun, 10 May 2020 08:24:38 -0400
-X-MC-Unique: _rjgrsf6NoS5RNnuspAfRA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B5E1835B41;
-        Sun, 10 May 2020 12:24:37 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-76.ams2.redhat.com [10.36.112.76])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 834BD5D9C9;
-        Sun, 10 May 2020 12:24:36 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] platform/x86: asus-wmi: Ignore WMI events with code 0x79
-Date:   Sun, 10 May 2020 14:24:32 +0200
-Message-Id: <20200510122432.123751-3-hdegoede@redhat.com>
-In-Reply-To: <20200510122432.123751-1-hdegoede@redhat.com>
-References: <20200510122432.123751-1-hdegoede@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        Sun, 10 May 2020 21:16:10 -0400
+Received: from mail-pg1-f198.google.com ([209.85.215.198])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <koba.ko@canonical.com>)
+        id 1jXx3A-0004k1-56
+        for platform-driver-x86@vger.kernel.org; Mon, 11 May 2020 01:16:08 +0000
+Received: by mail-pg1-f198.google.com with SMTP id g11so6483224pgd.20
+        for <platform-driver-x86@vger.kernel.org>; Sun, 10 May 2020 18:16:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=npzJ2ssQsHpN36Phgsl48fh9Ati/w9bnMfzts9WzPbU=;
+        b=e07NicbCbkbWMuGDiwqjT4B/S/rNRHuCem0l+MJwy1+rYGQVsdZsdyPLXNbor1a0X7
+         zQ2iqP/64eA4A6vmgiah7we2+ExUkFcNYcucvmyJxenAVvLuDBMbK7FGsvY3V1ZHkeAx
+         tqaoSMH3qZh/yp6taF+y4js9wj9AnMzjhmxIN5CD6IqqfTVkrYnJPfMxGqH9Zf4OggFy
+         HtceEXFSqgJZyvCrTH6SiRnkiDD7zreYH7tnxYvYJq9gbrhEoncnu5gW7RE0+Ik0ppUw
+         v9e0w5IX9USELVf0l4gqyjE4UEzzAsmPRVOi/jcnHjhltd181RpTXo4MJKU2o35UWgf9
+         +uLg==
+X-Gm-Message-State: AGi0PubzPUI3EBUIizyTMLQ/SpWNh6glUu7V2DbXx2SIlCqeAi20THBX
+        qUY4jTjS/kqBnWTk+Cf9FBwXDfgy0HFB6TOY3E5mMRWyTqyecMunyw09YdZKgoSOM8Jd0SJL+d8
+        8ituUVOQhrclxtq1L0EzlXSGl3RKTGA1i2gheUFI9q1xaK5gM0Lg=
+X-Received: by 2002:a17:902:6114:: with SMTP id t20mr13273901plj.324.1589159766647;
+        Sun, 10 May 2020 18:16:06 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJGi34Y7+bcHYm0CJ9vm2SKrXWsH/PUviBBdaQ8jLAip9Hqej9PLKvFL95Z95aS1Ec7YYUrLg==
+X-Received: by 2002:a17:902:6114:: with SMTP id t20mr13273867plj.324.1589159766166;
+        Sun, 10 May 2020 18:16:06 -0700 (PDT)
+Received: from canonical.com (111-249-68-192.dynamic-ip.hinet.net. [111.249.68.192])
+        by smtp.gmail.com with ESMTPSA id y8sm7887771pfg.216.2020.05.10.18.16.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 10 May 2020 18:16:05 -0700 (PDT)
+From:   koba.ko@canonical.com
+To:     Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mario.Limonciello@dell.com
+Subject: [PATCH] platform/x86: dell-laptop: don't register platform::micmute if the related tokens don't exist.
+Date:   Mon, 11 May 2020 09:16:03 +0800
+Message-Id: <20200511011603.4278-1-koba.ko@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On some Asus devices, e.g. the T100TA, when the charger is connected
-we not only get a WMI event with code 0x58, but immediately after that
-event we also get an even with code 0x79.
+From: Koba Ko <koba.ko@canonical.com>
 
-This is likely related to these devices having an Asus WMI device with a
-device-id of 0x00120066, which seems to provide some sort of charger-type
-info. The T100TA charger over a micro-USB connector, the embedded-
-controller register read when calling asus_wmi_get_devstate(0x00120066)
-returns different values when connected to a USB port (max 500mA charging)
-vs when connected to a 2A capable wall-charger. But the AML code reading
-this mangles the return value so that we can no longer tell the difference.
-So for now the meaning of the value return when getting the status of
-device-id 0x00120066 is unclear.
+On dell G3-3590, error message is issued during boot up,
+"platform::micmute: Setting an LED's brightness failed (-19)",
+but there's no micmute led on the machine.
 
-This commit adds a key-mapping of code 0x79 to KE_IGNORE, silencing the
-kernel logging the following message every time the charger is plugged-in:
+Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+If one of two tokens doesn't exist,
+don't call led_classdev_register() for platform::micmute.
+After that, you wouldn't see the platform::micmute in /sys/class/leds/,
+and the error message wouldn't see in dmesg.
 
-[   79.639548] asus_wmi: Unknown key 79 pressed
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Koba Ko <koba.ko@canonical.com>
 ---
- drivers/platform/x86/asus-nb-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/platform/x86/dell-laptop.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 6f12747a359a..b2887556fd4d 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -472,6 +472,7 @@ static const struct key_entry asus_nb_wmi_keymap[] = {
- 	{ KE_KEY, 0x6B, { KEY_TOUCHPAD_TOGGLE } },
- 	{ KE_IGNORE, 0x6E, },  /* Low Battery notification */
- 	{ KE_KEY, 0x71, { KEY_F13 } }, /* General-purpose button */
-+	{ KE_IGNORE, 0x79, },  /* Charger type dectection notification */
- 	{ KE_KEY, 0x7a, { KEY_ALS_TOGGLE } }, /* Ambient Light Sensor Toggle */
- 	{ KE_KEY, 0x7c, { KEY_MICMUTE } },
- 	{ KE_KEY, 0x7D, { KEY_BLUETOOTH } }, /* Bluetooth Enable */
+diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+index 1e46022fb2c5..afc1ded83e56 100644
+--- a/drivers/platform/x86/dell-laptop.c
++++ b/drivers/platform/x86/dell-laptop.c
+@@ -2208,10 +2208,13 @@ static int __init dell_init(void)
+ 
+ 	dell_laptop_register_notifier(&dell_laptop_notifier);
+ 
+-	micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+-	ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+-	if (ret < 0)
+-		goto fail_led;
++	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
++	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
++		micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
++		ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
++		if (ret < 0)
++			goto fail_led;
++	}
+ 
+ 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+ 		return 0;
 -- 
-2.26.0
+2.17.1
 
