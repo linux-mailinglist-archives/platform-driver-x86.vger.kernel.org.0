@@ -2,47 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E991CCF14
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 May 2020 03:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA021CCF3D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 May 2020 03:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729192AbgEKBQL (ORCPT
+        id S1729141AbgEKBpD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 10 May 2020 21:16:11 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:49550 "EHLO
+        Sun, 10 May 2020 21:45:03 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:49854 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727789AbgEKBQK (ORCPT
+        with ESMTP id S1728963AbgEKBpC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 10 May 2020 21:16:10 -0400
-Received: from mail-pg1-f198.google.com ([209.85.215.198])
+        Sun, 10 May 2020 21:45:02 -0400
+Received: from mail-pj1-f70.google.com ([209.85.216.70])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <koba.ko@canonical.com>)
-        id 1jXx3A-0004k1-56
-        for platform-driver-x86@vger.kernel.org; Mon, 11 May 2020 01:16:08 +0000
-Received: by mail-pg1-f198.google.com with SMTP id g11so6483224pgd.20
-        for <platform-driver-x86@vger.kernel.org>; Sun, 10 May 2020 18:16:08 -0700 (PDT)
+        id 1jXxV6-00073W-Cg
+        for platform-driver-x86@vger.kernel.org; Mon, 11 May 2020 01:45:00 +0000
+Received: by mail-pj1-f70.google.com with SMTP id k10so16073222pjj.4
+        for <platform-driver-x86@vger.kernel.org>; Sun, 10 May 2020 18:45:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=npzJ2ssQsHpN36Phgsl48fh9Ati/w9bnMfzts9WzPbU=;
-        b=e07NicbCbkbWMuGDiwqjT4B/S/rNRHuCem0l+MJwy1+rYGQVsdZsdyPLXNbor1a0X7
-         zQ2iqP/64eA4A6vmgiah7we2+ExUkFcNYcucvmyJxenAVvLuDBMbK7FGsvY3V1ZHkeAx
-         tqaoSMH3qZh/yp6taF+y4js9wj9AnMzjhmxIN5CD6IqqfTVkrYnJPfMxGqH9Zf4OggFy
-         HtceEXFSqgJZyvCrTH6SiRnkiDD7zreYH7tnxYvYJq9gbrhEoncnu5gW7RE0+Ik0ppUw
-         v9e0w5IX9USELVf0l4gqyjE4UEzzAsmPRVOi/jcnHjhltd181RpTXo4MJKU2o35UWgf9
-         +uLg==
-X-Gm-Message-State: AGi0PubzPUI3EBUIizyTMLQ/SpWNh6glUu7V2DbXx2SIlCqeAi20THBX
-        qUY4jTjS/kqBnWTk+Cf9FBwXDfgy0HFB6TOY3E5mMRWyTqyecMunyw09YdZKgoSOM8Jd0SJL+d8
-        8ituUVOQhrclxtq1L0EzlXSGl3RKTGA1i2gheUFI9q1xaK5gM0Lg=
-X-Received: by 2002:a17:902:6114:: with SMTP id t20mr13273901plj.324.1589159766647;
-        Sun, 10 May 2020 18:16:06 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJGi34Y7+bcHYm0CJ9vm2SKrXWsH/PUviBBdaQ8jLAip9Hqej9PLKvFL95Z95aS1Ec7YYUrLg==
-X-Received: by 2002:a17:902:6114:: with SMTP id t20mr13273867plj.324.1589159766166;
-        Sun, 10 May 2020 18:16:06 -0700 (PDT)
+        bh=hEHAUhWa+zZj3u4Ik7sq9BKzxxux9cy1aGraeqlf/6Q=;
+        b=DLIBcBmDzWcqYV9bCHVOaTMIGhIr5i3emsdX9sRNfdwYCHw0k0o1WKZrJojeVtnkQO
+         N57XQIWj9YkpMdCFNmKSpGKtZCGQ721HXsR1iIirYDG8GMkRhxWPUa8VOsGx0wF51O4d
+         699VVFoxWko704ZwUULzxWSt+ycfsD2eNbXIZf+7TsqGD24uX9TL2/gbzzH2vCYpnQy/
+         JYMaVaBNbSH69qYr6rfZmdQhJ2RJPSEWmhbQ1sFD+z7CREHtabioy5UYGyRUqDcSSj0k
+         WIq1vnkFOAPNsG9MW53QHBvblGV7uhOeaY4ynChZ5pN4zE0wvgNmXXOS8Nf/R3iYKmzA
+         /BrQ==
+X-Gm-Message-State: AGi0PuYGlKIi5CrScM3kcEbj+YgxP6kIuinuQj51hzaLhQBkZKSysC7Y
+        frua9ieN7IVg8eyBTPT0z5dCyjWSYZsxg2wzI7FnZHd+9+j2thmdP80r1XPpJHO9SGoGSvriozZ
+        nRvHa2qFDOLPLDj0QRne3A7AgPTEuRJeHi5BrS/l2f//D/x6oESo=
+X-Received: by 2002:a62:1452:: with SMTP id 79mr13934745pfu.108.1589161498834;
+        Sun, 10 May 2020 18:44:58 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLnRZWXUIcETS71SVZqgeMWnDICgaW1k3Zf4pzobw8um3R4E7c/N4NS1crSSlU64QzgIRe6vA==
+X-Received: by 2002:a62:1452:: with SMTP id 79mr13934731pfu.108.1589161498586;
+        Sun, 10 May 2020 18:44:58 -0700 (PDT)
 Received: from canonical.com (111-249-68-192.dynamic-ip.hinet.net. [111.249.68.192])
-        by smtp.gmail.com with ESMTPSA id y8sm7887771pfg.216.2020.05.10.18.16.04
+        by smtp.gmail.com with ESMTPSA id 78sm3272197pgd.33.2020.05.10.18.44.57
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 10 May 2020 18:16:05 -0700 (PDT)
+        Sun, 10 May 2020 18:44:58 -0700 (PDT)
 From:   koba.ko@canonical.com
 To:     Matthew Garrett <mjg59@srcf.ucam.org>,
         =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali.rohar@gmail.com>,
@@ -50,9 +50,9 @@ To:     Matthew Garrett <mjg59@srcf.ucam.org>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mario.Limonciello@dell.com
-Subject: [PATCH] platform/x86: dell-laptop: don't register platform::micmute if the related tokens don't exist.
-Date:   Mon, 11 May 2020 09:16:03 +0800
-Message-Id: <20200511011603.4278-1-koba.ko@canonical.com>
+Subject: [PATCH] V2: platform/x86: dell-laptop: don't register platform::micmute if the related tokens don't exist.
+Date:   Mon, 11 May 2020 09:44:56 +0800
+Message-Id: <20200511014456.5149-1-koba.ko@canonical.com>
 X-Mailer: git-send-email 2.17.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
@@ -72,6 +72,9 @@ After that, you wouldn't see the platform::micmute in /sys/class/leds/,
 and the error message wouldn't see in dmesg.
 
 Signed-off-by: Koba Ko <koba.ko@canonical.com>
+---
+Changelog:
+1. Refine the typo of comment.
 ---
  drivers/platform/x86/dell-laptop.c | 11 +++++++----
  1 file changed, 7 insertions(+), 4 deletions(-)
