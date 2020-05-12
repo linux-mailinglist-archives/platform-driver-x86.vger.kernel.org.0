@@ -2,109 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D14F1CFB00
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 May 2020 18:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D351CFF71
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 May 2020 22:37:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726300AbgELQjG (ORCPT
+        id S1725950AbgELUh0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 May 2020 12:39:06 -0400
-Received: from www.zeus03.de ([194.117.254.33]:46480 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725851AbgELQjG (ORCPT
+        Tue, 12 May 2020 16:37:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725938AbgELUh0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 May 2020 12:39:06 -0400
-X-Greylist: delayed 401 seconds by postgrey-1.27 at vger.kernel.org; Tue, 12 May 2020 12:39:05 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=8LVJQP0EnT94m/Mbpmbo2jidt/S/
-        RrHEDO/dAbZ+1cs=; b=AuuR08w9s26ROhN3pP7eNek15XbATKdZKhHzcKKjMD5Y
-        AGGbsHLt/2w/yVKEZwAvVmAnTSiWyOPA8qbTdG/K2BklqGmwH99h7JHcjAkHQuv3
-        7YYW6WAQ4oilsrcyj/AJwLtMSc5mf31InG9awbZRHZeUG71heBcdHkHgdQnYoSo=
-Received: (qmail 3011521 invoked from network); 12 May 2020 18:32:23 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 May 2020 18:32:23 +0200
-X-UD-Smtp-Session: l3s3148p1@LfIUAnalbMggAwDPXw2aAE67cgFBY+HL
-Date:   Tue, 12 May 2020 18:32:22 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] x86/platform/intel-mid: convert to use
- i2c_new_client_device()
-Message-ID: <20200512163222.GL13516@ninjato>
-References: <20200326211015.13654-1-wsa+renesas@sang-engineering.com>
- <20200326211015.13654-2-wsa+renesas@sang-engineering.com>
+        Tue, 12 May 2020 16:37:26 -0400
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5047C061A0C;
+        Tue, 12 May 2020 13:37:25 -0700 (PDT)
+Received: by mail-vs1-xe41.google.com with SMTP id e10so8702741vsp.12;
+        Tue, 12 May 2020 13:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+3Spc78U/N6XjhGZXt18IfDs/uw+nEmxOU/UHCVmAu0=;
+        b=VquWJTl/bAhNE5y+HVyOduy2Bc/6gYWcd+z/NJV1EQbfucayOcA3CNQMc461Y2rmHR
+         ZzobrLJpn4C9QRqTtHijNEw/gipYDLl7lI/oG4zQ/jlDYKmycgf0KTahG5F9epaXmq6s
+         Y7NUmybTgcH0pE5qrGfqjeE2USELQjSrDI5Zc56QfNH9yJtHwSlPDZBjx5s5t3VlmduH
+         06jUnTS/NfcSCZuxPNYUA9V0vjdDG8Ltb+Q1kKmKCex36IbuR/3e7My0JANnt1R6yLFQ
+         RlX9qDPZRm03R07oQjl2upxYF83AYwyFdG/N+z00xoajZ7gIYh9nP+xZ2+Rezawoz7zK
+         TGvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+3Spc78U/N6XjhGZXt18IfDs/uw+nEmxOU/UHCVmAu0=;
+        b=NP5vwmWWERc/wLlYOii1kuSG4tJGI1ykMkD/yLQLlRRRm0qn3DeKdjzgcGCxxUSrvc
+         KmI9FP++7shOp1/5iASTa3jo9OAULWaLyUdnOELaCl/jT+XHBmFXi4oJqNsyIaOuVqdM
+         HxKY6cF8GYhfFcndhQ3Lnzd0daX7ZnAWJ+wKWZ3COPw3YPn7r7Qoa2E61pZ6HEx5nl1B
+         eAszf9YzIONWp3tIpAfLeneBuZt1PKq89H4B0aa8KNCsqOSRxtiR6e3p8B3NiC84Ty7I
+         sqPvnzqggdtcAQrg5B8ZBuobdgp69MrYkn/FGHWCkUDqxEWghEdmY06Z1w3tigic5Rv8
+         dZhA==
+X-Gm-Message-State: AGi0PuY1YlLfV8szqRwvKlilADze7Ze1z9r/pQXnTJDx4D1NTgbkzwzj
+        vNpvKPKO2Zjl0ctnMBvZf39oFdnz5+CvlBn5Qd2/IeBuOpM=
+X-Google-Smtp-Source: APiQypJAcGYX8xew4K3dHgTLC/NKBFWjtQAMXZ7xDDLKp2BWHmOWrAnYgAHrLU1C92FsGghwc0pJtqYd5dn/ssbujeU=
+X-Received: by 2002:a67:fb06:: with SMTP id d6mr16684070vsr.66.1589315844877;
+ Tue, 12 May 2020 13:37:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="c8JyeaiReRNoiMDS"
-Content-Disposition: inline
-In-Reply-To: <20200326211015.13654-2-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAD2FfiEk8Fq3=i_3NHvtuwip=-v_cGfnYSowdPi86U_BcgP2gQ@mail.gmail.com>
+ <61c7782cd2e64bb9ab2aaf6a016bbb6c@AUSX13MPC101.AMER.DELL.COM>
+ <CAD2FfiGweUHNJGdj7OUQFxEhQBYvMCbuWM-+ez=SpN=HbcaS4Q@mail.gmail.com>
+ <70757953c25645baac2dddd7c6924d05@AUSX13MPC101.AMER.DELL.COM>
+ <20200508082028.GP487496@lahna.fi.intel.com> <CAD2FfiG2c4iXmTjUpQAUqRVBVyH0Hm4VfO5PBTXf03VXHR22ng@mail.gmail.com>
+ <20200511104504.GK487496@lahna.fi.intel.com> <CAD2FfiHn0PNaC3aFXE-hn9Mmtt5JW_D8BK0hOScYXR9EJLNbcw@mail.gmail.com>
+ <20200511162811.GA487496@lahna.fi.intel.com> <CAD2FfiHo1EzRupjgKhtLX0Zguq-bVeW5+u_PNQGAzV0x+AtfVw@mail.gmail.com>
+ <20200512064401.GF487496@lahna.fi.intel.com>
+In-Reply-To: <20200512064401.GF487496@lahna.fi.intel.com>
+From:   Richard Hughes <hughsient@gmail.com>
+Date:   Tue, 12 May 2020 21:37:13 +0100
+Message-ID: <CAD2FfiEOqTUO-XOgar1RtR9PtXWf4tKtsdZX6oS-Q-_y=k6tig@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: Export LPC attributes for the system SPI chip
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     Mario Limonciello <Mario.Limonciello@dell.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Tue, 12 May 2020 at 07:44, Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+> I mean for the SPI-NOR controller PCI device registers (not the LPC PCI
+> device, sorry about not being clear), like config space.
 
---c8JyeaiReRNoiMDS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't think I need to care about those, but I'll admit I'm a bit of
+a newbie with all the terminology. I'll respin the patch now and cc
+you on the new version too.
 
-On Thu, Mar 26, 2020 at 10:10:15PM +0100, Wolfram Sang wrote:
-> Move away from the deprecated API and return the shiny new ERRPTR where
-> useful.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+> If that's the case then I guess this should go to intel-spi-pci/platform
+> drivers after all. I think one option is that we add Kconfig option that
+> makes the driver load but only provide the security bits without
+> actually calling intel_spi_probe().
 
-Can we have this now so I can remove the old API in the next merge
-window? Andy already reviewed it. Thanks!
+I think getting distros to enable any of the SPI_INTEL_SPI* options
+might be an uphill battle.
 
->  arch/x86/platform/intel-mid/sfi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/arch/x86/platform/intel-mid/sfi.c b/arch/x86/platform/intel-=
-mid/sfi.c
-> index b8f7f193f383..30bd5714a3d4 100644
-> --- a/arch/x86/platform/intel-mid/sfi.c
-> +++ b/arch/x86/platform/intel-mid/sfi.c
-> @@ -287,8 +287,8 @@ void intel_scu_devices_create(void)
-> =20
->  		adapter =3D i2c_get_adapter(i2c_bus[i]);
->  		if (adapter) {
-> -			client =3D i2c_new_device(adapter, i2c_devs[i]);
-> -			if (!client)
-> +			client =3D i2c_new_client_device(adapter, i2c_devs[i]);
-> +			if (IS_ERR(client))
->  				pr_err("can't create i2c device %s\n",
->  					i2c_devs[i]->type);
->  		} else
-> --=20
-> 2.20.1
->=20
-
---c8JyeaiReRNoiMDS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl66z5YACgkQFA3kzBSg
-Kbbj/g/9FuU+f6nINdnCcLn6Gl6KSTzeEqAp+Bwn2S7ZfUZXJbij8C3FyJg/ATaz
-SUU1LyRzZ8nG2TgT8g4//6PnAH/9UXLuepbrr2PDnSne2WiGVrR7SZRLunN4hiHF
-UzI5mh1kUV9/Zd0uLGtZmoIyx3HOjAq5MULX/mV7HCdFBhXQwcPGW6c8NEdwPW9c
-axT+ndOvFHzUv0wWN8KmFc6wwisz5XJ15QqZQkUK44zt+byG0vLQMgOA4NtXGlyx
-+MufwoKqb9BH+LgFZpYuANX866D7By86Ozpc5geGRKeKyUVjgm2hm7urNzT97Gze
-opbMM6R49WIqg+O6NVzYkvwdk/JlBjjxFPFDxD3VSH34EoCvVs07/S/YTBDIS+0G
-Q5ogbNiGUETYYx+B0lBcJTzEF6iNXz4b872eCtK5NYM28icqfUt5Q61+X3y1eYOF
-MJv5quOOfa21F7tk0l5UDPFke7eqbG5WgIKuHA31PANhqBRszLUgSmjJUxp6QdAJ
-P2oMG0z9h5lHW6dMDdNIPXhB9uamu1H7zUx6benKwRG6Hu7RJNNOPfQOB4Yitk29
-g9I1BYsKXehrrIeM9QDfE5WMJP6fUbDvN3Nkn/08U4Bpipydwoxg1W7hHiCuKGOj
-Kgj7d6JsIuvbb8qpv1ndJ7n4rTEJi2ZupAx0Oypv3qnWRqIceK8=
-=auP+
------END PGP SIGNATURE-----
-
---c8JyeaiReRNoiMDS--
+Richard.
