@@ -2,83 +2,187 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B44991CFFF6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 May 2020 22:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F16A71D0329
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 May 2020 01:37:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731214AbgELU6E (ORCPT
+        id S1727899AbgELXh1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 May 2020 16:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725938AbgELU6E (ORCPT
+        Tue, 12 May 2020 19:37:27 -0400
+Received: from mga03.intel.com ([134.134.136.65]:46780 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726031AbgELXh1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 May 2020 16:58:04 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E8CC061A0C;
-        Tue, 12 May 2020 13:58:04 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id r10so6248917pgv.8;
-        Tue, 12 May 2020 13:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lWVK1FACn+wJeq7qZs57K7YYeZ4F4zJ1GYHSxsOXWGk=;
-        b=XxYv4EgdYhWpw0E+DZAy+TFCn4kPxUHi9BuV1t0S20SZ1zMARKCijzip/6YwlOlHhu
-         2IR21zouEhI4LEc5AUZg7YMBLU+awaZRDEFG6RKNN9bNT0tj/m3+8hMgbgtcxP4quO52
-         hIMiNgcVNxyUYggenFryLZ/nc0ZVCT54XR9H8liUSyThujyd/cPWndotQXim8isiYS+h
-         M8e+OPnQAM6PFzuN6bZewy/NhQb35tjPbk+ztU9pOV67PaJfNWQ9GjcSPVM0VzqOYIFm
-         cgSS/ELDzJ3UtahLHHLftaNEULXtmnVGxNNMiiR7j0LzZF5Zp91z9aVsVbprIZLQtEPJ
-         Xfug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lWVK1FACn+wJeq7qZs57K7YYeZ4F4zJ1GYHSxsOXWGk=;
-        b=CbugjPtqqhSlCDTbv6zV9dlPZ+JMPuXfqMUeialXC50mvJBDr26Yn9UUBkMCfoO87g
-         p/MzlEuEOZbjMFPQDUoEnFcjlDo18G/ngyJ/IE8lCKAKdn5XM1RW0Ykndei96oBZbJES
-         qoZWw9vx9nDEqTEPnz0S1/XZE0KOJ4MbR+BfjK47UVPMaBnJEFzBExgxPrg8nXNgRN2C
-         tcJZLi7PnZxmQ/QFp6WFdYt5ggyWtkCr+6k+njWYyP23iuLObNRNmUsWE4jvQYe9mknr
-         Z8aABKMi6uPPBYElZDdTHAevEzkrSPb6i6Ca5sa0Tjm2aT/ccDGhNhb4FSmhithD+S21
-         WNHw==
-X-Gm-Message-State: AGi0PuY+/R65Vz7gzhOAJgX/aVKXAEyjGOOxlYhQfNK2qYhGI/uI7JJL
-        AGKAcJ4Uff/GSUljJ9d5AMhkS6d9td7UzZeLSsU=
-X-Google-Smtp-Source: APiQypKI8FjdbEyVTcX7DvwSpFyqkiOOhwS501KYvrM6PubS4UC3qvsJBHQOLo00aLXmZVhkXqmL3DHcCX0tCDyNWFs=
-X-Received: by 2002:a62:5ec7:: with SMTP id s190mr22127799pfb.130.1589317083846;
- Tue, 12 May 2020 13:58:03 -0700 (PDT)
+        Tue, 12 May 2020 19:37:27 -0400
+IronPort-SDR: kvWJrqOPjV9jZFGIhu1BzDBSVOEO6j7Awbf9vbSN5FeMMEpewcMQDzE/TNNI98mUyhK3KoMg1x
+ UCppgmanMf/A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 16:37:26 -0700
+IronPort-SDR: UTTyQ50wFXE8YAZ5Y/itY3DGPYjCb+AMptFxIf249mLUvEFFNZp0uGYTIdc6gORIzFuANsxZ6z
+ jS85R7lOVshg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,385,1583222400"; 
+   d="scan'208";a="251604229"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 May 2020 16:37:24 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jYeSi-000Glk-2j; Wed, 13 May 2020 07:37:24 +0800
+Date:   Wed, 13 May 2020 07:37:05 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
+ b10e72bd695b5224adab14dbbb0315f22ba3a529
+Message-ID: <5ebb3321.glK41BorwuJnVC5R%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200512204009.4751-1-bernhardu@mailbox.org> <2656984b-3eec-c6d0-f992-8f1f8973fe3e@redhat.com>
- <CAHp75Vfk+MU+XsPf4+upqzd7HyxBHgQBZ=BukUPxzd+8Bm9bOQ@mail.gmail.com>
-In-Reply-To: <CAHp75Vfk+MU+XsPf4+upqzd7HyxBHgQBZ=BukUPxzd+8Bm9bOQ@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 12 May 2020 23:57:51 +0300
-Message-ID: <CAHp75Vc7A-L5UYZQQXYenZQG-GD1ZM7Pfi4dChHm2xy1BJB0Ow@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the Trekstor
- Yourbook C11B
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Bernhard_=C3=9Cbelacker?= <bernhardu@mailbox.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Otmar Meier <otmarjun.meier@nexgo.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 12, 2020 at 11:51 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Tue, May 12, 2020 at 11:44 PM Hans de Goede <hdegoede@redhat.com> wrot=
-e:
-> > On 5/12/20 10:40 PM, Bernhard =C3=9Cbelacker wrote:
+tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
+branch HEAD: b10e72bd695b5224adab14dbbb0315f22ba3a529  platform/x86: thinkpad_acpi: Convert to use sysfs_match_string()
 
-> I don't see it neither in our patchwork nor in Linux Input...
+Warning in current branch:
 
-Okay, no worries, it came at last.
+drivers/platform/x86/thinkpad_acpi.c:9017:31: sparse: sparse: dubious: !x & y
 
---=20
-With Best Regards,
-Andy Shevchenko
+Warning ids grouped by kconfigs:
+
+recent_errors
+`-- x86_64-allmodconfig
+    `-- drivers-platform-x86-thinkpad_acpi.c:sparse:sparse:dubious:x-y
+
+elapsed time: 482m
+
+configs tested: 115
+configs skipped: 5
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+sparc                            allyesconfig
+m68k                             allyesconfig
+arm                  colibri_pxa300_defconfig
+c6x                        evmc6457_defconfig
+powerpc                     powernv_defconfig
+mips                 decstation_r4k_defconfig
+h8300                            allyesconfig
+arm                       aspeed_g4_defconfig
+sh                      rts7751r2d1_defconfig
+powerpc                     ep8248e_defconfig
+openrisc                    or1ksim_defconfig
+h8300                     edosk2674_defconfig
+sh                           se7751_defconfig
+arm                           tegra_defconfig
+sh                            hp6xx_defconfig
+i386                                defconfig
+arm64                            alldefconfig
+arm                        vexpress_defconfig
+m68k                        m5272c3_defconfig
+sh                             sh03_defconfig
+arm                         lpc32xx_defconfig
+riscv                            allyesconfig
+i386                             allyesconfig
+i386                              debian-10.3
+i386                              allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20200512
+i386                 randconfig-a005-20200512
+i386                 randconfig-a003-20200512
+i386                 randconfig-a001-20200512
+i386                 randconfig-a004-20200512
+i386                 randconfig-a002-20200512
+x86_64               randconfig-a016-20200512
+x86_64               randconfig-a012-20200512
+x86_64               randconfig-a015-20200512
+x86_64               randconfig-a013-20200512
+x86_64               randconfig-a014-20200512
+x86_64               randconfig-a011-20200512
+i386                 randconfig-a012-20200512
+i386                 randconfig-a016-20200512
+i386                 randconfig-a014-20200512
+i386                 randconfig-a011-20200512
+i386                 randconfig-a013-20200512
+i386                 randconfig-a015-20200512
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                              defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+sparc                               defconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
