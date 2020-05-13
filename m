@@ -2,92 +2,162 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC3F1D1C0B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 May 2020 19:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 770BC1D1C43
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 May 2020 19:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732740AbgEMRRy (ORCPT
+        id S2389877AbgEMR3O (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 May 2020 13:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732731AbgEMRRy (ORCPT
+        Wed, 13 May 2020 13:29:14 -0400
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:52900 "EHLO
+        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732731AbgEMR3O (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 May 2020 13:17:54 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01696C061A0C;
-        Wed, 13 May 2020 10:17:53 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id w65so25355pfc.12;
-        Wed, 13 May 2020 10:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2++y918DL6PTyMaBo9uWOYP73v5btFVUqOxYUo6Bzug=;
-        b=lB+abop11oXqetyMDjeQ+mgP1UCQEbaWzlG2CTB7t4rromwp/ZK1Bf+3X2Z9T3UURu
-         nNtRu3PTsVC4F9DJZmQndwAJP+xyjIlYc3hLu/37qTl/wIjP9zAWJaZgK7EPs/MwFhMB
-         82ALQaSyAfUgoEFucO/nEYzdCAaWzPaa/uxramJ8sdm68DGfDIOqXmUfJzU8Lb0Ahx+q
-         s4YbFfJYYu0V19R4ZrU7Kk+dmV5aVIZfJfBWqUtNlXffOI7LuP8/e+ay1n6ROdyc/EuP
-         iw43akFsbKDBMu0rcCUbYCmnJ4vlNmQaa+0emilBElguLzjmihAz4ZyFChPxOOlmPoC/
-         FpSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2++y918DL6PTyMaBo9uWOYP73v5btFVUqOxYUo6Bzug=;
-        b=cThWce+7kUzBbKi0t6q+Csg9TouyoQeVAcy8pw2Tz3lrWtcs9sfjUE2d8jpQ9xq8MI
-         iqp0ebGNTa5KGwjTzg0ef9SP2Ht5NJ7ERzh2qusZQcxgb7iY0iTRw0b6QahoTc0191+W
-         yJIsu2ZlCVbic00cUDXoOrlG6eJjOSK45OkA6Lv0PH7sqQT2iF/0iK9MVEMeFs3PnNU+
-         up/SzN/KK0yPLXY5sroWSS5vcmrQUECl/wrDtVnuLooACy4CSVRjzmsQqxsrWEWitQLy
-         FxQsc/40EHEo5FnWXDUExV9nKu1A7bRsUAhrB+enwRqDsbjtfKG/MN3L2TEfqyVyHTc2
-         IGdA==
-X-Gm-Message-State: AOAM530UwWHUrq4P42PEGQJC5Ffzawct0PDGjzb0e7S7VHpDIb9zU7TK
-        lWmJEkffjH+VLHtxc7JY+B6ToXatVnxq5fGNu/A=
-X-Google-Smtp-Source: ABdhPJx3ye+2uJcTGtYr1d0+pqiV/lh8ldJSlQrDipXGD+anGJWN0wqNeyc34Wt/CdrT8pyL2Xjt02E+0HIpqvdeFQA=
-X-Received: by 2002:a62:5ec7:: with SMTP id s190mr316240pfb.130.1589390273448;
- Wed, 13 May 2020 10:17:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200512204009.4751-1-bernhardu@mailbox.org> <2656984b-3eec-c6d0-f992-8f1f8973fe3e@redhat.com>
-In-Reply-To: <2656984b-3eec-c6d0-f992-8f1f8973fe3e@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 13 May 2020 20:17:46 +0300
-Message-ID: <CAHp75VejzaZL26ztQMFGjAAMC3B8mkSnXSvGhyFeiHUbUUpp=w@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Add info for the Trekstor
- Yourbook C11B
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Bernhard_=C3=9Cbelacker?= <bernhardu@mailbox.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Otmar Meier <otmarjun.meier@nexgo.de>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 13 May 2020 13:29:14 -0400
+Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
+        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04DHRtbd028625;
+        Wed, 13 May 2020 13:29:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=GX5YiRg/XzPDU36/WqAG9JH8yimm4qRaDdHGa1EX1y0=;
+ b=o+5DqX7y+WkUX3gieAA24OwhbiHhy1PqLHE5iMh+b0sTE75tMpLJ0UtdbihBBSt0mHi5
+ kEHQ11QD4M3QEN25etBKcluC+1GFCO2WelL7SLXYAcH0EGTbqFj3VrNdVyfzQy1Mz6DN
+ +2IXrDeMnfLmYPNp9zC6N2mq+2+eplFAHwou/NnNQSzA/Bck2y/KOkW+T44RZ6GvpuFN
+ L1i0zDbi4A9vrVkGsq0chCEpzErGiZrdbLca8mjzV4cLD8rzBTiMbQiQOwEtrQgFM5ps
+ ry+EZqHpAuLaYp6H/NoMMB9OiIQKyhPesv2WCRyq7S7kR+VH0nXqK4TDObLm5rT17p19 DQ== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0a-00154904.pphosted.com with ESMTP id 3100ydbbad-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 May 2020 13:29:13 -0400
+Received: from pps.filterd (m0144102.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04DHINi8141306;
+        Wed, 13 May 2020 13:29:12 -0400
+Received: from ausxippc101.us.dell.com (ausxippc101.us.dell.com [143.166.85.207])
+        by mx0b-00154901.pphosted.com with ESMTP id 310g2ywqrh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 May 2020 13:29:12 -0400
+X-LoopCount0: from 10.166.132.132
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,346,1549951200"; 
+   d="scan'208";a="1387297546"
+From:   <Mario.Limonciello@dell.com>
+To:     <hdegoede@redhat.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <pali@kernel.org>, <mjg59@srcf.ucam.org>
+CC:     <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] platform/x86: dell-wmi: Ignore keyboard attached /
+ detached events
+Thread-Topic: [PATCH] platform/x86: dell-wmi: Ignore keyboard attached /
+ detached events
+Thread-Index: AQHWKSdAVCuB+c4MP0SyuKY4d5/aeaimNMyA
+Date:   Wed, 13 May 2020 17:29:11 +0000
+Message-ID: <5242ea25f5c94a06beda838dba8c06ef@AUSX13MPC105.AMER.DELL.COM>
+References: <20200513130544.90243-1-hdegoede@redhat.com>
+In-Reply-To: <20200513130544.90243-1-hdegoede@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-13T16:29:25.4413278Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=5ae63eab-315c-4547-ba7e-203ae6867181;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.60]
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-13_08:2020-05-13,2020-05-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 clxscore=1015 cotscore=-2147483648 impostorscore=0
+ mlxscore=0 phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 adultscore=0 mlxlogscore=999 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005130150
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 cotscore=-2147483648 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005130151
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, May 12, 2020 at 11:44 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 5/12/20 10:40 PM, Bernhard =C3=9Cbelacker wrote:
-> > Add touchscreen info for the Trekstor Yourbook C11B. It seems to
-> > use the same touchscreen as the Primebook C11, so we only add a new DMI
-> > match.
-> >
-> > Cc: Otmar Meier <otmarjun.meier@nexgo.de>
-> > Reported-and-tested-by: Otmar Meier <otmarjun.meier@nexgo.de>
-> > Signed-off-by: Bernhard =C3=9Cbelacker <bernhardu@mailbox.org>
->
-> Thank you, patch looks good to me:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> -----Original Message-----
+> From: Hans de Goede <hdegoede@redhat.com>
+> Sent: Wednesday, May 13, 2020 8:06 AM
+> To: Darren Hart; Andy Shevchenko; Pali Roh=E1r; Matthew Garrett
+> Cc: Hans de Goede; Limonciello, Mario; platform-driver-x86@vger.kernel.or=
+g;
+> linux-kernel@vger.kernel.org
+> Subject: [PATCH] platform/x86: dell-wmi: Ignore keyboard attached / detac=
+hed
+> events
+>=20
+>=20
+> [EXTERNAL EMAIL]
+>=20
+> Ignore events with a type of 0x0011 and a code of 0xfff2 / 0xfff3,
+> this silences the following messages being logged when the keyboard is
+> detached / attached on a Dell Venue 11 Pro 7130:
+>=20
+> [   63.621953] dell_wmi: Unknown key with type 0x0011 and code 0xfff2 pre=
+ssed
+> [   70.240558] dell_wmi: Unknown key with type 0x0011 and code 0xfff3 pre=
+ssed
+>=20
+> Note SW_TABLET_MODE is already reported through the intel_vbtn driver on
+> this and other Dell devices, so dell_wmi should not report this too,
+> to avoid duplicate events.
 
-This doesn't apply to our for-next.
-Please, rebase, add Hans' tag and resend, thanks!
+If they didn't also come through on intel-vbtn I would have proposed that w=
+e
+should have a separate tablet mode switch coming from dell-wmi too.
 
---=20
-With Best Regards,
-Andy Shevchenko
+As a general note the reason for these is that the WMI architecture on Wind=
+ows
+differs in that applications typically directly receive the events and do t=
+hings
+with them.
+
+>=20
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/dell-wmi.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-=
+wmi.c
+> index 86e8dd6a8b33..c25a4286d766 100644
+> --- a/drivers/platform/x86/dell-wmi.c
+> +++ b/drivers/platform/x86/dell-wmi.c
+> @@ -310,6 +310,16 @@ static const struct key_entry dell_wmi_keymap_type_0=
+011[]
+> =3D {
+>  	/* Battery inserted */
+>  	{ KE_IGNORE, 0xfff1, { KEY_RESERVED } },
+>=20
+> +	/*
+> +	 * Detachable keyboard detached / undocked
+> +	 * Note SW_TABLET_MODE is already reported through the intel_vbtn
+> +	 * driver for this, so we ignore it.
+> +	 */
+> +	{ KE_IGNORE, 0xfff2, { KEY_RESERVED } },
+> +
+> +	/* Detachable keyboard attached / docked */
+> +	{ KE_IGNORE, 0xfff3, { KEY_RESERVED } },
+> +
+>  	/* Keyboard backlight level changed */
+>  	{ KE_IGNORE, KBD_LED_OFF_TOKEN,      { KEY_RESERVED } },
+>  	{ KE_IGNORE, KBD_LED_ON_TOKEN,       { KEY_RESERVED } },
+> --
+> 2.26.0
+
+Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
