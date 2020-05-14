@@ -2,76 +2,152 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D2B1D21FD
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 00:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C458B1D24A5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 03:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731473AbgEMWYj (ORCPT
+        id S1726070AbgENB0Q (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 May 2020 18:24:39 -0400
-Received: from mga09.intel.com ([134.134.136.24]:51461 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730064AbgEMWYi (ORCPT
+        Wed, 13 May 2020 21:26:16 -0400
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:23608 "EHLO
+        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725925AbgENB0Q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 May 2020 18:24:38 -0400
-IronPort-SDR: QeGy5Lp/ZJ5PG78ROAq2YNUUdH6ueLL5QhEz+VgGCGofbfhxwu7FEhmR7OI2nrAlR/QoeVAIr8
- GpGn/oVS6CdA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2020 15:24:37 -0700
-IronPort-SDR: 4fgwQjlIysqXsGZVGJhVkOmI/ugp2yka52jMNzt2Opm/53NlrjVdA+bUIyxVfyaSBx/arjQyck
- lbtjIVtuanfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,389,1583222400"; 
-   d="scan'208";a="306912805"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.209.1.86])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 May 2020 15:24:37 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andy@infradead.org, dvhart@infradead.org, prarit@redhat.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] platform/x86: ISST: Increase timeout
-Date:   Wed, 13 May 2020 15:24:34 -0700
-Message-Id: <20200513222434.152088-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
+        Wed, 13 May 2020 21:26:16 -0400
+Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
+        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04E1M4kd000852;
+        Wed, 13 May 2020 21:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=3WizmGW4J+5cCpHjPx+8L4kEw/KH/xKY6PYq4exd70o=;
+ b=NPXN95myrqzW+O6wVKsGu2H8eIwflBlsdaT5ID4hlzT9NTgBZ3RYnmq/eCsXPVu++Sy1
+ oOekCsXp0jB1LROqaFxUrM1eFGOagXDU7ZTMTshHM5v+ggMXBTBOpQkqiXQzYv2xkEAk
+ w381DTe6qg1Qs3fyw4LvER/xK1Ugv2Jku5V0SNFh/006NSOedfVJolMzu75R/lxIrUbd
+ MnMl0WuBeFGT4kDpG1E5MxIs3O+7FDou+pvDHiwOGHtfT7VFN8u2hKjUjeySZsxS69Si
+ Jhauauwdiu0g3HlShsNGxgoWCcjHWoZYbVlhNrqqqcIbkoRUfdpJPyZkiuW04Ukr7Q7j Ow== 
+Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0a-00154904.pphosted.com with ESMTP id 310r9y0hkh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 May 2020 21:26:15 -0400
+Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04E1Jqgl013732;
+        Wed, 13 May 2020 21:26:14 -0400
+Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
+        by mx0b-00154901.pphosted.com with ESMTP id 310t1phkq1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 May 2020 21:26:14 -0400
+X-LoopCount0: from 10.166.132.128
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="1555477687"
+From:   <Mario.Limonciello@dell.com>
+To:     <koba.ko@canonical.com>, <mjg59@srcf.ucam.org>,
+        <pali.rohar@gmail.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] V2: platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Topic: [PATCH] V2: platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Thread-Index: AQHWJzXMujFpc2Vn3kCSXk0rEt48Sqimzstw
+Date:   Thu, 14 May 2020 01:26:11 +0000
+Message-ID: <135a804acc8247648ff8e811843f68ce@AUSX13MPC105.AMER.DELL.COM>
+References: <20200511014456.5149-1-koba.ko@canonical.com>
+In-Reply-To: <20200511014456.5149-1-koba.ko@canonical.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-14T01:26:07.7014683Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=e25616ff-1345-4e3d-8350-933663a7d7b1;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.40]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-13_09:2020-05-13,2020-05-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ cotscore=-2147483648 bulkscore=0 mlxlogscore=999 impostorscore=0
+ adultscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005140010
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005140010
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Fix timeout issue on some Ice Lake servers, where mail box command is
-timing out before the response,
+> -----Original Message-----
+> From: koba.ko@canonical.com <koba.ko@canonical.com>
+> Sent: Sunday, May 10, 2020 8:45 PM
+> To: Matthew Garrett; Pali Roh=E1r; Darren Hart; Andy Shevchenko; platform=
+-driver-
+> x86@vger.kernel.org; linux-kernel@vger.kernel.org; Limonciello, Mario
+> Subject: [PATCH] V2: platform/x86: dell-laptop: don't register
+> platform::micmute if the related tokens don't exist.
+>=20
+>=20
+> [EXTERNAL EMAIL]
+>=20
+> From: Koba Ko <koba.ko@canonical.com>
+>=20
+> On dell G3-3590, error message is issued during boot up,
+> "platform::micmute: Setting an LED's brightness failed (-19)",
+> but there's no micmute led on the machine.
+>=20
+> Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+> If one of two tokens doesn't exist,
+> don't call led_classdev_register() for platform::micmute.
+> After that, you wouldn't see the platform::micmute in /sys/class/leds/,
+> and the error message wouldn't see in dmesg.
+>=20
+> Signed-off-by: Koba Ko <koba.ko@canonical.com>
+> ---
+> Changelog:
+> 1. Refine the typo of comment.
+> ---
+>  drivers/platform/x86/dell-laptop.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/de=
+ll-
+> laptop.c
+> index 1e46022fb2c5..afc1ded83e56 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -2208,10 +2208,13 @@ static int __init dell_init(void)
+>=20
+>  	dell_laptop_register_notifier(&dell_laptop_notifier);
+>=20
+> -	micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> -	ret =3D led_classdev_register(&platform_device->dev, &micmute_led_cdev)=
+;
+> -	if (ret < 0)
+> -		goto fail_led;
+> +	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
+> +	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
+> +		micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> +		ret =3D led_classdev_register(&platform_device->dev,
+> &micmute_led_cdev);
+> +		if (ret < 0)
+> +			goto fail_led;
+> +	}
+>=20
+>  	if (acpi_video_get_backlight_type() !=3D acpi_backlight_vendor)
+>  		return 0;
+> --
+> 2.17.1
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../x86/intel_speed_select_if/isst_if_mbox_pci.c      | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-index de4169d0796b..d84e2174cbde 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-@@ -21,13 +21,12 @@
- #define PUNIT_MAILBOX_BUSY_BIT		31
- 
- /*
-- * Commands has variable amount of processing time. Most of the commands will
-- * be done in 0-3 tries, but some takes up to 50.
-- * The real processing time was observed as 25us for the most of the commands
-- * at 2GHz. It is possible to optimize this count taking samples on customer
-- * systems.
-+ * The average time to complete some commands is about 40us. The current
-+ * count is enough to satisfy 40us. But when the firmware is very busy, this
-+ * causes timeout occasionally.  So increase to deal with some worst case
-+ * scenarios. Most of the command still complete in few us.
-  */
--#define OS_MAILBOX_RETRY_COUNT		50
-+#define OS_MAILBOX_RETRY_COUNT		100
- 
- struct isst_if_device {
- 	struct mutex mutex;
--- 
-2.25.4
+Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
 
