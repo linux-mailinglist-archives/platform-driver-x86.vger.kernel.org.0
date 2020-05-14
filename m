@@ -2,152 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C458B1D24A5
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 03:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD1831D289B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 09:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726070AbgENB0Q (ORCPT
+        id S1725999AbgENHQf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 May 2020 21:26:16 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:23608 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725925AbgENB0Q (ORCPT
+        Thu, 14 May 2020 03:16:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45362 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725909AbgENHQe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 May 2020 21:26:16 -0400
-Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04E1M4kd000852;
-        Wed, 13 May 2020 21:26:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : subject :
- date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=3WizmGW4J+5cCpHjPx+8L4kEw/KH/xKY6PYq4exd70o=;
- b=NPXN95myrqzW+O6wVKsGu2H8eIwflBlsdaT5ID4hlzT9NTgBZ3RYnmq/eCsXPVu++Sy1
- oOekCsXp0jB1LROqaFxUrM1eFGOagXDU7ZTMTshHM5v+ggMXBTBOpQkqiXQzYv2xkEAk
- w381DTe6qg1Qs3fyw4LvER/xK1Ugv2Jku5V0SNFh/006NSOedfVJolMzu75R/lxIrUbd
- MnMl0WuBeFGT4kDpG1E5MxIs3O+7FDou+pvDHiwOGHtfT7VFN8u2hKjUjeySZsxS69Si
- Jhauauwdiu0g3HlShsNGxgoWCcjHWoZYbVlhNrqqqcIbkoRUfdpJPyZkiuW04Ukr7Q7j Ow== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0a-00154904.pphosted.com with ESMTP id 310r9y0hkh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 13 May 2020 21:26:15 -0400
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04E1Jqgl013732;
-        Wed, 13 May 2020 21:26:14 -0400
-Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com [143.166.85.206])
-        by mx0b-00154901.pphosted.com with ESMTP id 310t1phkq1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 May 2020 21:26:14 -0400
-X-LoopCount0: from 10.166.132.128
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="1555477687"
-From:   <Mario.Limonciello@dell.com>
-To:     <koba.ko@canonical.com>, <mjg59@srcf.ucam.org>,
-        <pali.rohar@gmail.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] V2: platform/x86: dell-laptop: don't register
- platform::micmute if the related tokens don't exist.
-Thread-Topic: [PATCH] V2: platform/x86: dell-laptop: don't register
- platform::micmute if the related tokens don't exist.
-Thread-Index: AQHWJzXMujFpc2Vn3kCSXk0rEt48Sqimzstw
-Date:   Thu, 14 May 2020 01:26:11 +0000
-Message-ID: <135a804acc8247648ff8e811843f68ce@AUSX13MPC105.AMER.DELL.COM>
-References: <20200511014456.5149-1-koba.ko@canonical.com>
-In-Reply-To: <20200511014456.5149-1-koba.ko@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-14T01:26:07.7014683Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=e25616ff-1345-4e3d-8350-933663a7d7b1;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.40]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 14 May 2020 03:16:34 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 80546206B6;
+        Thu, 14 May 2020 07:16:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589440594;
+        bh=x6XY+w06HhJq6OnCryR2C8r+d8634pKZTzl7OEtJ84I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fsVHPsSugeuQaqh74KM3vTh5YlMixAmucxuZV15thPoJJMrucj9GTrX+4SfuldnhB
+         9l1LHA1eD+XBDjopMaSSsjMf2YIDC55sDJofhKonyQwyNCXX2L9+6xLEwnVOYrkmJu
+         HPyLWUmcgMwI4jj/qfiwZg1D0JFjzHw6/eb6nNR8=
+Date:   Thu, 14 May 2020 09:16:31 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>, x86@kernel.org,
+        linux-input@vger.kernel.org,
+        linux-fbdev <linux-fbdev@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        platform-driver-x86@vger.kernel.org,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Richard Gong <richard.gong@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        LAKML <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 00/10] drivers, provide a way to add sysfs groups
+ easily
+Message-ID: <20200514071631.GA1566388@kroah.com>
+References: <20190731124349.4474-1-gregkh@linuxfoundation.org>
+ <20190731131045.GB147138@dtor-ws>
+ <20190802104633.GA14823@kroah.com>
+ <CACvgo52+Uqx4GJFwadJoFzzt5EMc69HcW-+K9uxv9t25TtSDBg@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-13_09:2020-05-13,2020-05-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- cotscore=-2147483648 bulkscore=0 mlxlogscore=999 impostorscore=0
- adultscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
- clxscore=1015 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005140010
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005140010
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACvgo52+Uqx4GJFwadJoFzzt5EMc69HcW-+K9uxv9t25TtSDBg@mail.gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: koba.ko@canonical.com <koba.ko@canonical.com>
-> Sent: Sunday, May 10, 2020 8:45 PM
-> To: Matthew Garrett; Pali Roh=E1r; Darren Hart; Andy Shevchenko; platform=
--driver-
-> x86@vger.kernel.org; linux-kernel@vger.kernel.org; Limonciello, Mario
-> Subject: [PATCH] V2: platform/x86: dell-laptop: don't register
-> platform::micmute if the related tokens don't exist.
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> From: Koba Ko <koba.ko@canonical.com>
->=20
-> On dell G3-3590, error message is issued during boot up,
-> "platform::micmute: Setting an LED's brightness failed (-19)",
-> but there's no micmute led on the machine.
->=20
-> Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
-> If one of two tokens doesn't exist,
-> don't call led_classdev_register() for platform::micmute.
-> After that, you wouldn't see the platform::micmute in /sys/class/leds/,
-> and the error message wouldn't see in dmesg.
->=20
-> Signed-off-by: Koba Ko <koba.ko@canonical.com>
-> ---
-> Changelog:
-> 1. Refine the typo of comment.
-> ---
->  drivers/platform/x86/dell-laptop.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/de=
-ll-
-> laptop.c
-> index 1e46022fb2c5..afc1ded83e56 100644
-> --- a/drivers/platform/x86/dell-laptop.c
-> +++ b/drivers/platform/x86/dell-laptop.c
-> @@ -2208,10 +2208,13 @@ static int __init dell_init(void)
->=20
->  	dell_laptop_register_notifier(&dell_laptop_notifier);
->=20
-> -	micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> -	ret =3D led_classdev_register(&platform_device->dev, &micmute_led_cdev)=
-;
-> -	if (ret < 0)
-> -		goto fail_led;
-> +	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
-> +	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
-> +		micmute_led_cdev.brightness =3D ledtrig_audio_get(LED_AUDIO_MICMUTE);
-> +		ret =3D led_classdev_register(&platform_device->dev,
-> &micmute_led_cdev);
-> +		if (ret < 0)
-> +			goto fail_led;
-> +	}
->=20
->  	if (acpi_video_get_backlight_type() !=3D acpi_backlight_vendor)
->  		return 0;
-> --
-> 2.17.1
+On Wed, May 13, 2020 at 11:18:15PM +0100, Emil Velikov wrote:
+> Hi Greg,
+> 
+> On Fri, 2 Aug 2019 at 11:46, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> 
+> >
+> > I have now done this with patch 1/10.  Here's the pull info if any
+> > subsystem maintainer wants to suck this into their tree to provide the
+> > ability for drivers to add/remove attribute groups easily.
+> >
+> > This is part of my driver-core tree now, and will go to Linus for
+> > 5.4-rc1, along with a few platform drivers that have been acked by their
+> > various subsystem maintainers that convert them to use this new
+> > functionality.
+> >
+> > If anyone has any questions about this, please let me know.
+> >
+> > thanks,
+> >
+> > greg k-h
+> >
+> > -------------------
+> >
+> > The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+> >
+> >   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/dev_groups_all_drivers
+> >
+> > for you to fetch changes up to 23b6904442d08b7dbed7622ed33b236d41a3aa8b:
+> >
+> >   driver core: add dev_groups to all drivers (2019-08-02 12:37:53 +0200)
+> >
+> > ----------------------------------------------------------------
+> > dev_groups added to struct driver
+> >
+> > Persistent tag for others to pull this branch from
+> >
+> > This is the first patch in a longer series that adds the ability for the
+> > driver core to create and remove a list of attribute groups
+> > automatically when the device is bound/unbound from a specific driver.
+> >
+> > See:
+> >         https://lore.kernel.org/r/20190731124349.4474-2-gregkh@linuxfoundation.org
+> > for details on this patch, and examples of how to use it in other
+> > drivers.
+> >
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >
+> > ----------------------------------------------------------------
+> > Dmitry Torokhov (1):
+> >       driver core: add dev_groups to all drivers
+> >
+> >  drivers/base/dd.c      | 14 ++++++++++++++
+> >  include/linux/device.h |  3 +++
+> >  2 files changed, 17 insertions(+)
+> > _______________________________________________
+> 
+> Was planning to re-spin DRM a series which uses .dev_groups, although
+> I cannot see the core patch.
+> Did the it get reverted or simply fell though the cracks?
 
-Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
+Nope, it's in there:
+	23b6904442d0 ("driver core: add dev_groups to all drivers")
+which showed up in the 5.4 kernel release.
 
+Lots of other subsystems have already been converted to use this, do you
+not see it in your tree?
+
+thanks,
+
+greg k-h
