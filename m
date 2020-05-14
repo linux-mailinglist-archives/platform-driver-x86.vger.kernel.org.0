@@ -2,143 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E3291D3F51
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 22:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 677C41D3F54
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 22:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727819AbgENUwp (ORCPT
+        id S1727777AbgENUwt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 May 2020 16:52:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43056 "EHLO
+        Thu, 14 May 2020 16:52:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59026 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726241AbgENUwo (ORCPT
+        by vger.kernel.org with ESMTP id S1726128AbgENUws (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 May 2020 16:52:44 -0400
+        Thu, 14 May 2020 16:52:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589489562;
+        s=mimecast20190719; t=1589489567;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Q55k+NViBEr3XjFkn4cYhpApbbfsFdYvtgAG+Rf+WYU=;
-        b=H1sVqOySobNG3L6yYIdbM7pjR+lwO341gWI0n5xwmPDHY4HFO8DhYVGRgw67CZBDBQ47m0
-        dxAm2TOEk2eglheNrmfa2bH9OgaDeH7C1N0ftmiOhBP5AfzLk8jEover9jdqT+OASmGIDk
-        Qt2pHXcHIKpRvkxOrDol3bCvyJGl4x4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-mMJNV2WaP0yjCGcYJ37snw-1; Thu, 14 May 2020 16:52:40 -0400
-X-MC-Unique: mMJNV2WaP0yjCGcYJ37snw-1
-Received: by mail-wr1-f69.google.com with SMTP id z16so14525wrq.21
-        for <platform-driver-x86@vger.kernel.org>; Thu, 14 May 2020 13:52:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Q55k+NViBEr3XjFkn4cYhpApbbfsFdYvtgAG+Rf+WYU=;
-        b=IBHg9HpPN326b/+lmnPcAkzFX7kXC3ynW+TiFKoP7LC0E3+X7mB7DvrNSbRx9sSbHN
-         c6WLs3aUOgpeX7xfr77SDFh/POmxGttnFaxYbqGiTWvJ8asY8YQ7oLr8bNHBJHwBwSRA
-         Oa0P7w2Pzt/hjpkWu/fz6Pn1DeZ8Qc3zHZTDba9CFd4/3BlMS7FhhY5sruyMb/4xBBum
-         YIBNDa/RFEQAeER3ceX8ZK8RjG3xBDqeo+CaCYa4j42CV8PPjWGjqtBVmaHswaXettH7
-         kcngEX98RCIutTI3PbgC5kSaQ9BwMGbAI2plvJWp3oXUTyG+K83YdKh1qU29ow6yRoTs
-         tJYA==
-X-Gm-Message-State: AOAM532ryLR7S0HPq5MxD36nNi1CLrMGqwb9+q7+Ms6hMiuSDwH+ejYm
-        bRKoCEXNYqHEMqIXBv4oA9AOHt9t0mj0Gz+2sc8Xi2lhImb8ON+1W1hxSJxSdMS3zZcQZwITEiZ
-        9q8xywitRVrFeb9cSQlObb55l2M/W3Ysc9Q==
-X-Received: by 2002:adf:8005:: with SMTP id 5mr287462wrk.423.1589489559820;
-        Thu, 14 May 2020 13:52:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtahtSTzZR5s3kD2mzB5noFu3QgzM7h/ym3uEImZ2BS+EMA9kFp0ogYToAXTjsXwIUT/ydMQ==
-X-Received: by 2002:adf:8005:: with SMTP id 5mr287445wrk.423.1589489559564;
-        Thu, 14 May 2020 13:52:39 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id l13sm196990wrm.55.2020.05.14.13.52.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 13:52:39 -0700 (PDT)
-Subject: Re: [PATCH] Input: soc_button_array - Add support for INT33D3
- tablet-mode switch devices
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>
-References: <20200514205134.136782-1-hdegoede@redhat.com>
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TRlhx9oj6sSPvJNOutkCmEhgsKZc6d2s5G+nOqR8jaM=;
+        b=YanTDhIQYegwEuZ1Av0ZuTsBsOFePJN+SAtFXhSeyJa7XfCndcsAmomth4ttc6u9sZfS+X
+        beTIvebX7LT8PkifxUxYbCWixVWc78oDF0XyOz3zQyXqoEjlfF5KKt6d+bmuVkZX6lwO4g
+        HRXBKpIM+1N0OGV7e/vG6rkyXSqTdjI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-C0qtEgwZO-iRW1qi20fDiQ-1; Thu, 14 May 2020 16:52:46 -0400
+X-MC-Unique: C0qtEgwZO-iRW1qi20fDiQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E82B9835B40;
+        Thu, 14 May 2020 20:52:44 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A938A10013BD;
+        Thu, 14 May 2020 20:52:43 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6e67205a-abfa-141c-ed74-d0359e5be0d8@redhat.com>
-Date:   Thu, 14 May 2020 22:52:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>
+Subject: [PATCH 1/2] Input: soc_button_array - Add active_low setting to soc_button_info
+Date:   Thu, 14 May 2020 22:52:41 +0200
+Message-Id: <20200514205242.138230-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200514205134.136782-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+This is a preparation patch for adding support for Intel INT33D3
+ACPI devices. These INT33D3 devices follow yet another Intel defined
+(but not documented) ACPI GPIO button standard.
 
-This should have been 2/2 of a set of 2, let me resend, sorry.
+Unlike the ACPI GPIO button devices supported so far, the GPIO used in
+the INT33D3 devices is active-high, rather then active-low.
 
-Regards,
+This commit makes setting the gpio_keys_button.active_low flag
+configurable through the soc_button_info struct and enables it for all
+currently supported devices.
 
-Hans
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/input/misc/soc_button_array.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-
-On 5/14/20 10:51 PM, Hans de Goede wrote:
-> According to the Microsoft documentation for Windows 8 convertible
-> devices, these devices should implement a PNP0C60 "laptop/slate mode state
-> indicator" ACPI device.
-> 
-> This device can work in 2 ways, if there is a GPIO which directly
-> indicates the device is in tablet-mode or not then the direct-gpio mode
-> should be used. If there is no such GPIO, but instead the events are
-> coming from e.g. the embedded-controller, then there should still be
-> a PNP0C60 ACPI device and event-injection should be used to send the
-> events. The drivers/platform/x86/intel-vbtn.c code is an example from
-> a standardized manner of doing the latter.
-> 
-> On various 2-in-1s with either a detachable keyboard, or with 360°
-> hinges, the direct GPIO mode is indicated by an ACPI device with a
-> HID of INT33D3, which contains a single GpioInt in its ACPI resource
-> table, which directly indicates if the device is in tablet-mode or not.
-> 
-> This commit adds support for this to the soc_button_array code, as
-> well as for the alternative ID9001 HID which some devices use
-> instead of the INT33D3 HID.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->   drivers/input/misc/soc_button_array.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-> index e3a22a61f5d9..837c787e9c4b 100644
-> --- a/drivers/input/misc/soc_button_array.c
-> +++ b/drivers/input/misc/soc_button_array.c
-> @@ -397,6 +397,15 @@ static const struct soc_device_data soc_device_PNP0C40 = {
->   	.button_info = soc_button_PNP0C40,
->   };
->   
-> +static const struct soc_button_info soc_button_INT33D3[] = {
-> +	{ "tablet_mode", 0, EV_SW, SW_TABLET_MODE, false, false, false },
-> +	{ }
-> +};
-> +
-> +static const struct soc_device_data soc_device_INT33D3 = {
-> +	.button_info = soc_button_INT33D3,
-> +};
-> +
->   /*
->    * Special device check for Surface Book 2 and Surface Pro (2017).
->    * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
-> @@ -459,6 +468,8 @@ static const struct soc_device_data soc_device_MSHW0040 = {
->   
->   static const struct acpi_device_id soc_button_acpi_match[] = {
->   	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
-> +	{ "INT33D3", (unsigned long)&soc_device_INT33D3 },
-> +	{ "ID9001", (unsigned long)&soc_device_INT33D3 },
->   	{ "ACPI0011", 0 },
->   
->   	/* Microsoft Surface Devices (5th and 6th generation) */
-> 
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index 08520b3a18b8..e3a22a61f5d9 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -23,6 +23,7 @@ struct soc_button_info {
+ 	unsigned int event_code;
+ 	bool autorepeat;
+ 	bool wakeup;
++	bool active_low;
+ };
+ 
+ struct soc_device_data {
+@@ -110,7 +111,7 @@ soc_button_device_create(struct platform_device *pdev,
+ 		gpio_keys[n_buttons].type = info->event_type;
+ 		gpio_keys[n_buttons].code = info->event_code;
+ 		gpio_keys[n_buttons].gpio = gpio;
+-		gpio_keys[n_buttons].active_low = 1;
++		gpio_keys[n_buttons].active_low = info->active_low;
+ 		gpio_keys[n_buttons].desc = info->name;
+ 		gpio_keys[n_buttons].wakeup = info->wakeup;
+ 		/* These devices often use cheap buttons, use 50 ms debounce */
+@@ -173,6 +174,7 @@ static int soc_button_parse_btn_desc(struct device *dev,
+ 	}
+ 
+ 	info->event_type = EV_KEY;
++	info->active_low = true;
+ 	info->acpi_index =
+ 		soc_button_get_acpi_object_int(&desc->package.elements[1]);
+ 	upage = soc_button_get_acpi_object_int(&desc->package.elements[3]);
+@@ -383,11 +385,11 @@ static int soc_button_probe(struct platform_device *pdev)
+  * Platforms"
+  */
+ static const struct soc_button_info soc_button_PNP0C40[] = {
+-	{ "power", 0, EV_KEY, KEY_POWER, false, true },
+-	{ "home", 1, EV_KEY, KEY_LEFTMETA, false, true },
+-	{ "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false },
+-	{ "volume_down", 3, EV_KEY, KEY_VOLUMEDOWN, true, false },
+-	{ "rotation_lock", 4, EV_KEY, KEY_ROTATE_LOCK_TOGGLE, false, false },
++	{ "power", 0, EV_KEY, KEY_POWER, false, true, true },
++	{ "home", 1, EV_KEY, KEY_LEFTMETA, false, true, true },
++	{ "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false, true },
++	{ "volume_down", 3, EV_KEY, KEY_VOLUMEDOWN, true, false, true },
++	{ "rotation_lock", 4, EV_KEY, KEY_ROTATE_LOCK_TOGGLE, false, false, true },
+ 	{ }
+ };
+ 
+@@ -444,9 +446,9 @@ static int soc_device_check_MSHW0040(struct device *dev)
+  * Obtained from DSDT/testing.
+  */
+ static const struct soc_button_info soc_button_MSHW0040[] = {
+-	{ "power", 0, EV_KEY, KEY_POWER, false, true },
+-	{ "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false },
+-	{ "volume_down", 4, EV_KEY, KEY_VOLUMEDOWN, true, false },
++	{ "power", 0, EV_KEY, KEY_POWER, false, true, true },
++	{ "volume_up", 2, EV_KEY, KEY_VOLUMEUP, true, false, true },
++	{ "volume_down", 4, EV_KEY, KEY_VOLUMEDOWN, true, false, true },
+ 	{ }
+ };
+ 
+-- 
+2.26.0
 
