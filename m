@@ -2,113 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CEB41D3F56
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 22:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D13C31D4128
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 00:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgENUwv (ORCPT
+        id S1728628AbgENWfe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 May 2020 16:52:51 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28907 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727832AbgENUwu (ORCPT
+        Thu, 14 May 2020 18:35:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728501AbgENWfe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 May 2020 16:52:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589489569;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Z1B3fYOYm8pvnyTjtbhTkkBslablP1daKS/L1NhMlF8=;
-        b=Sl80lIr4X1sI4SKCf/WERF5bRlYqZtmCrf6QHyfKVtW+B3yfLSor6uDVMl7oIEZFMXH6sv
-        WaHSyMVQ1hUVaQLPXjA9z3f3R9Cz0DCM3N9fnp9cXWpq2aU1ZT5qtWuIgc990CKr2cEVyq
-        RJhaXuT//+NrqKWAPFCp2vEWFqlg4sM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-PUP0xLt9Pd-c5w3zpS7DpQ-1; Thu, 14 May 2020 16:52:47 -0400
-X-MC-Unique: PUP0xLt9Pd-c5w3zpS7DpQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 14 May 2020 18:35:34 -0400
+Received: from pali.im (pali.im [31.31.79.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78ECB474;
-        Thu, 14 May 2020 20:52:46 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3976F1000320;
-        Thu, 14 May 2020 20:52:45 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>
-Subject: [PATCH 2/2] Input: soc_button_array - Add support for INT33D3 tablet-mode switch devices
-Date:   Thu, 14 May 2020 22:52:42 +0200
-Message-Id: <20200514205242.138230-2-hdegoede@redhat.com>
-In-Reply-To: <20200514205242.138230-1-hdegoede@redhat.com>
-References: <20200514205242.138230-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 8DA932065C;
+        Thu, 14 May 2020 22:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589495733;
+        bh=PzRII4/RfN31cWmlbYBqI5etPc9zdw9KR1iB+zAlMNc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dhb9MbKX9DzBEN+QS/Qp8tagSDXmw6j+EI1XBKpliU9NuJ4BZMqzSYxtsia+YzvOZ
+         xuhyQ1U6K9I3RG6GMpaTPH69YrsZatjYiBEJx2CuKtYrxuZ4ZmU6QmNYBhO/foyyEN
+         F3SVey4ul1KTyP9TcLb14dADf1zj+Ry83IWULWh8=
+Received: by pali.im (Postfix)
+        id 05D177B2; Fri, 15 May 2020 00:35:30 +0200 (CEST)
+Date:   Fri, 15 May 2020 00:35:30 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     koba.ko@canonical.com
+Cc:     Matthew Garrett <mjg59@srcf.ucam.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mario.Limonciello@dell.com
+Subject: Re: [PATCH] V2: platform/x86: dell-laptop: don't register
+ platform::micmute if the related tokens don't exist.
+Message-ID: <20200514223530.24r7c42bvwxvyyv5@pali>
+References: <20200511014456.5149-1-koba.ko@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200511014456.5149-1-koba.ko@canonical.com>
+User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-According to the Microsoft documentation for Windows 8 convertible
-devices, these devices should implement a PNP0C60 "laptop/slate mode state
-indicator" ACPI device.
+On Monday 11 May 2020 09:44:56 koba.ko@canonical.com wrote:
+> From: Koba Ko <koba.ko@canonical.com>
+> 
+> On dell G3-3590, error message is issued during boot up,
+> "platform::micmute: Setting an LED's brightness failed (-19)",
+> but there's no micmute led on the machine.
+> 
+> Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+> If one of two tokens doesn't exist,
+> don't call led_classdev_register() for platform::micmute.
+> After that, you wouldn't see the platform::micmute in /sys/class/leds/,
+> and the error message wouldn't see in dmesg.
+> 
+> Signed-off-by: Koba Ko <koba.ko@canonical.com>
 
-This device can work in 2 ways, if there is a GPIO which directly
-indicates the device is in tablet-mode or not then the direct-gpio mode
-should be used. If there is no such GPIO, but instead the events are
-coming from e.g. the embedded-controller, then there should still be
-a PNP0C60 ACPI device and event-injection should be used to send the
-events. The drivers/platform/x86/intel-vbtn.c code is an example from
-a standardized manner of doing the latter.
+Fine for me, you can add:
 
-On various 2-in-1s with either a detachable keyboard, or with 360°
-hinges, the direct GPIO mode is indicated by an ACPI device with a
-HID of INT33D3, which contains a single GpioInt in its ACPI resource
-table, which directly indicates if the device is in tablet-mode or not.
+Reviewed-by: Pali Rohár <pali@kernel.org>
 
-This commit adds support for this to the soc_button_array code, as
-well as for the alternative ID9001 HID which some devices use
-instead of the INT33D3 HID.
+Darren / Andy, when applying this patch, please add Fixes line so this
+change would be propagated to stable kernels:
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/misc/soc_button_array.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Fixes: d00fa46e0a2c6 ("platform/x86: dell-laptop: Add micmute LED trigger support")
 
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index e3a22a61f5d9..837c787e9c4b 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -397,6 +397,15 @@ static const struct soc_device_data soc_device_PNP0C40 = {
- 	.button_info = soc_button_PNP0C40,
- };
- 
-+static const struct soc_button_info soc_button_INT33D3[] = {
-+	{ "tablet_mode", 0, EV_SW, SW_TABLET_MODE, false, false, false },
-+	{ }
-+};
-+
-+static const struct soc_device_data soc_device_INT33D3 = {
-+	.button_info = soc_button_INT33D3,
-+};
-+
- /*
-  * Special device check for Surface Book 2 and Surface Pro (2017).
-  * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
-@@ -459,6 +468,8 @@ static const struct soc_device_data soc_device_MSHW0040 = {
- 
- static const struct acpi_device_id soc_button_acpi_match[] = {
- 	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
-+	{ "INT33D3", (unsigned long)&soc_device_INT33D3 },
-+	{ "ID9001", (unsigned long)&soc_device_INT33D3 },
- 	{ "ACPI0011", 0 },
- 
- 	/* Microsoft Surface Devices (5th and 6th generation) */
--- 
-2.26.0
-
+> ---
+> Changelog:
+> 1. Refine the typo of comment.
+> ---
+>  drivers/platform/x86/dell-laptop.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+> index 1e46022fb2c5..afc1ded83e56 100644
+> --- a/drivers/platform/x86/dell-laptop.c
+> +++ b/drivers/platform/x86/dell-laptop.c
+> @@ -2208,10 +2208,13 @@ static int __init dell_init(void)
+>  
+>  	dell_laptop_register_notifier(&dell_laptop_notifier);
+>  
+> -	micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> -	ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+> -	if (ret < 0)
+> -		goto fail_led;
+> +	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
+> +	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
+> +		micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+> +		ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+> +		if (ret < 0)
+> +			goto fail_led;
+> +	}
+>  
+>  	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+>  		return 0;
+> -- 
+> 2.17.1
+> 
