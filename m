@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1859E1D3ABD
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 20:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 975471D3A86
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 20:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727977AbgENS6m (ORCPT
+        id S1727844AbgENS5U (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 May 2020 14:58:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57292 "EHLO mail.kernel.org"
+        Thu, 14 May 2020 14:57:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57738 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728410AbgENS4W (ORCPT
+        id S1729764AbgENS4l (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 May 2020 14:56:22 -0400
+        Thu, 14 May 2020 14:56:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B92120727;
-        Thu, 14 May 2020 18:56:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DEB2520810;
+        Thu, 14 May 2020 18:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482581;
-        bh=D7ZT3DtQwy5V14UoU3ySOFYsTs2UdOQ7++/hr78Jk/s=;
+        s=default; t=1589482600;
+        bh=6Ly//qbmGHF5tOi7alD1KKEOuaslBZFnnLYFfbhmq3s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wwdk9y51f+F/NHXTtchEs4ucn6vWeZketWsgphg4+TH//2TMzF/hbwtlEBtPFj2ld
-         i/wxn9btVKGWOUuqhw1UFKImZR9FBXP5iKcOrl5QYL3BtqQureEFBvWRZv6KuPVINI
-         0l+yo1HXEeW0bBp5AAFo1AclHjghi1I1P/pbtz/E=
+        b=nmAgKedNCsqIaCk3i3UQ+WXjdxTEk6mRsyKjyuFfMnAlWKwtBAnXV9m+gqFIQ+v2O
+         aFbG94so+P9Z7qFhoArfvMLvkgZ7ytreFOr9iBY9kP2U26fL74RAllFisEZ8CZB5ih
+         UngsNbvcgE/HTrwkro6tVODsWWLFVDgQq+BAbSSY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
@@ -32,12 +32,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 25/27] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and T200TA
-Date:   Thu, 14 May 2020 14:55:48 -0400
-Message-Id: <20200514185550.21462-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 12/14] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and T200TA
+Date:   Thu, 14 May 2020 14:56:23 -0400
+Message-Id: <20200514185625.21753-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185550.21462-1-sashal@kernel.org>
-References: <20200514185550.21462-1-sashal@kernel.org>
+In-Reply-To: <20200514185625.21753-1-sashal@kernel.org>
+References: <20200514185625.21753-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+)
 
 diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 0fd7e40b86a0d..8137aa3437068 100644
+index cccf250cd1e33..ee64c9512a3a9 100644
 --- a/drivers/platform/x86/asus-nb-wmi.c
 +++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -561,9 +561,33 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
+@@ -551,9 +551,33 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
  	.detect_quirks = asus_nb_wmi_quirks,
  };
  
