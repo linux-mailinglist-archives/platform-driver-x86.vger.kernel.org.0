@@ -2,116 +2,110 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975471D3A86
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 20:59:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8A81D3F4F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 14 May 2020 22:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727844AbgENS5U (ORCPT
+        id S1728339AbgENUvq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 14 May 2020 14:57:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57738 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729764AbgENS4l (ORCPT
+        Thu, 14 May 2020 16:51:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57127 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727835AbgENUvq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 14 May 2020 14:56:41 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Thu, 14 May 2020 16:51:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589489505;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Z1B3fYOYm8pvnyTjtbhTkkBslablP1daKS/L1NhMlF8=;
+        b=FgHwPVp2xF5Q6ElIrwPosXQoB1uP1kG+MzEL69Z0/5pe+ECweqfQ6FQwpJhC2NBlKxrM+P
+        1YMIc9aDEcsCHND/gfVZuDggy+99P/FeL446RAA6JtqiuBwM6bLiibt9mQBxYeENlFwU4Q
+        vFyfl/8RnojbKH81aIFgjRqta/ap1c0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-ncydFaPxN8Wy1lKpBFILfg-1; Thu, 14 May 2020 16:51:39 -0400
+X-MC-Unique: ncydFaPxN8Wy1lKpBFILfg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DEB2520810;
-        Thu, 14 May 2020 18:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482600;
-        bh=6Ly//qbmGHF5tOi7alD1KKEOuaslBZFnnLYFfbhmq3s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nmAgKedNCsqIaCk3i3UQ+WXjdxTEk6mRsyKjyuFfMnAlWKwtBAnXV9m+gqFIQ+v2O
-         aFbG94so+P9Z7qFhoArfvMLvkgZ7ytreFOr9iBY9kP2U26fL74RAllFisEZ8CZB5ih
-         UngsNbvcgE/HTrwkro6tVODsWWLFVDgQq+BAbSSY=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 12/14] platform/x86: asus-nb-wmi: Do not load on Asus T100TA and T200TA
-Date:   Thu, 14 May 2020 14:56:23 -0400
-Message-Id: <20200514185625.21753-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514185625.21753-1-sashal@kernel.org>
-References: <20200514185625.21753-1-sashal@kernel.org>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E78A3107ACF2;
+        Thu, 14 May 2020 20:51:37 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A91E7D965;
+        Thu, 14 May 2020 20:51:36 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-acpi@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>
+Subject: [PATCH] Input: soc_button_array - Add support for INT33D3 tablet-mode switch devices
+Date:   Thu, 14 May 2020 22:51:34 +0200
+Message-Id: <20200514205134.136782-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+According to the Microsoft documentation for Windows 8 convertible
+devices, these devices should implement a PNP0C60 "laptop/slate mode state
+indicator" ACPI device.
 
-[ Upstream commit 3bd12da7f50b8bc191fcb3bab1f55c582234df59 ]
+This device can work in 2 ways, if there is a GPIO which directly
+indicates the device is in tablet-mode or not then the direct-gpio mode
+should be used. If there is no such GPIO, but instead the events are
+coming from e.g. the embedded-controller, then there should still be
+a PNP0C60 ACPI device and event-injection should be used to send the
+events. The drivers/platform/x86/intel-vbtn.c code is an example from
+a standardized manner of doing the latter.
 
-asus-nb-wmi does not add any extra functionality on these Asus
-Transformer books. They have detachable keyboards, so the hotkeys are
-send through a HID device (and handled by the hid-asus driver) and also
-the rfkill functionality is not used on these devices.
+On various 2-in-1s with either a detachable keyboard, or with 360°
+hinges, the direct GPIO mode is indicated by an ACPI device with a
+HID of INT33D3, which contains a single GpioInt in its ACPI resource
+table, which directly indicates if the device is in tablet-mode or not.
 
-Besides not adding any extra functionality, initializing the WMI interface
-on these devices actually has a negative side-effect. For some reason
-the \_SB.ATKD.INIT() function which asus_wmi_platform_init() calls drives
-GPO2 (INT33FC:02) pin 8, which is connected to the front facing webcam LED,
-high and there is no (WMI or other) interface to drive this low again
-causing the LED to be permanently on, even during suspend.
-
-This commit adds a blacklist of DMI system_ids on which not to load the
-asus-nb-wmi and adds these Transformer books to this list. This fixes
-the webcam LED being permanently on under Linux.
+This commit adds support for this to the soc_button_array code, as
+well as for the alternative ID9001 HID which some devices use
+instead of the INT33D3 HID.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/asus-nb-wmi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/input/misc/soc_button_array.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index cccf250cd1e33..ee64c9512a3a9 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -551,9 +551,33 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
- 	.detect_quirks = asus_nb_wmi_quirks,
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index e3a22a61f5d9..837c787e9c4b 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -397,6 +397,15 @@ static const struct soc_device_data soc_device_PNP0C40 = {
+ 	.button_info = soc_button_PNP0C40,
  };
  
-+static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst = {
-+	{
-+		/*
-+		 * asus-nb-wm adds no functionality. The T100TA has a detachable
-+		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
-+		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
-+		 */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-+		},
-+	},
-+	{
-+		/* The Asus T200TA has the same issue as the T100TA */
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
-+		},
-+	},
-+	{} /* Terminating entry */
++static const struct soc_button_info soc_button_INT33D3[] = {
++	{ "tablet_mode", 0, EV_SW, SW_TABLET_MODE, false, false, false },
++	{ }
 +};
- 
- static int __init asus_nb_wmi_init(void)
- {
-+	if (dmi_check_system(asus_nb_wmi_blacklist))
-+		return -ENODEV;
 +
- 	return asus_wmi_register_driver(&asus_nb_wmi_driver);
- }
++static const struct soc_device_data soc_device_INT33D3 = {
++	.button_info = soc_button_INT33D3,
++};
++
+ /*
+  * Special device check for Surface Book 2 and Surface Pro (2017).
+  * Both, the Surface Pro 4 (surfacepro3_button.c) and the above mentioned
+@@ -459,6 +468,8 @@ static const struct soc_device_data soc_device_MSHW0040 = {
  
+ static const struct acpi_device_id soc_button_acpi_match[] = {
+ 	{ "PNP0C40", (unsigned long)&soc_device_PNP0C40 },
++	{ "INT33D3", (unsigned long)&soc_device_INT33D3 },
++	{ "ID9001", (unsigned long)&soc_device_INT33D3 },
+ 	{ "ACPI0011", 0 },
+ 
+ 	/* Microsoft Surface Devices (5th and 6th generation) */
 -- 
-2.20.1
+2.26.0
 
