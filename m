@@ -2,155 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD4A81D58EB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 20:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 135DC1D592A
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 20:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgEOSTR (ORCPT
+        id S1726227AbgEOSj2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 May 2020 14:19:17 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40417 "EHLO
+        Fri, 15 May 2020 14:39:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29314 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726234AbgEOSTR (ORCPT
+        by vger.kernel.org with ESMTP id S1726248AbgEOSjZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 May 2020 14:19:17 -0400
+        Fri, 15 May 2020 14:39:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589566755;
+        s=mimecast20190719; t=1589567963;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
-        b=FmfAuVh4QGkOpPgfhCFAuYt7jmv7Qagj1fzOAUyM01z8aAILrmmE7Ffn2dB4qTegdq1Shp
-        d/5G7ZCAVreovBNZmSD9zeIoqfER5+DTXru1T58BU9nfaNx7+GQTLlGXQU0xm81jmqojTk
-        ePaeUnUZj/WKqZMpPivCquDW6Q5eJEI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-eJgbxutwP-mB_8NaHrXikA-1; Fri, 15 May 2020 14:19:13 -0400
-X-MC-Unique: eJgbxutwP-mB_8NaHrXikA-1
-Received: by mail-wm1-f71.google.com with SMTP id n124so1327283wma.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 15 May 2020 11:19:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Fedn2inRka4QMAnXx9FxSm7/vZYS9uY++6sVEGlzAa0=;
-        b=hr+O6bDx9EyFtkGU8naG7lGgHD5qLMvB4132pqcwedDpjtYWs3VhXm4HpAXdfZ5fs3
-         Ry/4XJx9ncZvWiSRuIkAJog4G6BMM0bu6KbNzuFNoefkCLowhWfHkkotB9WoIyI0fQFG
-         +aDxzU77EYM5FlvXg2jBiAHsw3EIhwN0I4frB+94qAEfgRpwBvOPEX82uHy9fKPPKZ/m
-         TOaf5oOKX3LnEtpnFui2nzIiluSgNMqs6DMwGX0GRYO5DYCLFZpDHcBQpteaZx3fWGZt
-         8P6FcYUNojMyE7xeF04iqS1gLv/XC40uZSruXL6A+/7fUSrqFiJD7el5tsa4s88cBuCb
-         7s5Q==
-X-Gm-Message-State: AOAM530vrGS30fHyD8y+kCWtI9scJdKq0lRhYn/pfMVBhwS2i0su3ygG
-        Lg4aj1lPBIcJiJ1BvZxisx1proB/jMDQIxFStytH/bCwTH1xcJewKLAx8fTxnLqSH1Hh3gHN5XQ
-        RcFhf320ZhP0go5qLMPXqhzbjXaRjzJWXtQ==
-X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299493wmf.89.1589566752600;
-        Fri, 15 May 2020 11:19:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEhyZogIb52tbS8Sjh71yaPa5wKbVCzzV1bSu62tN2QyZWoHUXHTTKTerADtg5ez9J3v5UBw==
-X-Received: by 2002:a1c:b406:: with SMTP id d6mr5299458wmf.89.1589566752273;
-        Fri, 15 May 2020 11:19:12 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id a15sm4604338wrw.56.2020.05.15.11.19.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 11:19:11 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Ae5IsI5Gq09ucJ06wLT+05gALxLoRNh+3pNF1BKfirQ=;
+        b=EXcn1Wx0/vbFNZ8Qp3mYeI6DoTMWgE/SVx+dOZ62UrtgQ3zFxMcZ5RpkwWSZTvZ1F5iOsI
+        M7VI7kn49eM5BAAKJmrTiZp4uOfE2BIQxFttxbSSiP9g+QRG/3tMGWFAwST7QGWP4TAfcf
+        sUAIflc4fre7zkBTWtb+iaJwxRmbcHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-xrGZdO8tN42K8SGR0VtgQQ-1; Fri, 15 May 2020 14:39:20 -0400
+X-MC-Unique: xrGZdO8tN42K8SGR0VtgQQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37122EC1A1;
+        Fri, 15 May 2020 18:39:19 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-113-194.ams2.redhat.com [10.36.113.194])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EE2C45C1D6;
+        Fri, 15 May 2020 18:39:17 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
-Date:   Fri, 15 May 2020 20:19:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type
+Date:   Fri, 15 May 2020 20:39:16 +0200
+Message-Id: <20200515183916.82919-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Andrezj,
+The HP Stream x360 11-p000nd no longer report SW_TABLET_MODE state / events
+with recent kernels. This model reports a chassis-type of 10 / "Notebook"
+which is not on the recently introduced chassis-type whitelist
 
-On 5/15/20 6:49 PM, Andrzej Pietrasiewicz wrote:
-> Userspace might want to implement a policy to temporarily disregard input
-> from certain devices, including not treating them as wakeup sources.
-> 
-> An example use case is a laptop, whose keyboard can be folded under the
-> screen to create tablet-like experience. The user then must hold the laptop
-> in such a way that it is difficult to avoid pressing the keyboard keys. It
-> is therefore desirable to temporarily disregard input from the keyboard,
-> until it is folded back. This obviously is a policy which should be kept
-> out of the kernel, but the kernel must provide suitable means to implement
-> such a policy.
+Commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode
+switch on 2-in-1's") added a chassis-type whitelist and only listed 31 /
+"Convertible" as being capable of generating valid SW_TABLET_MOD events.
 
-Actually libinput already binds together (inside libinput) SW_TABLET_MODE
-generating evdev nodes and e.g. internal keyboards on devices with 360°
-hinges for this reason. libinput simply closes the /dev/input/event#
-node when folded and re-opens it when the keyboard should become active
-again. Thus not only suppresses events but allows e.g. touchpads to
-enter runtime suspend mode which saves power. Typically closing the
-/dev/input/event# node will also disable the device as wakeup source.
+Commit 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode
+switch on "Detachable" and "Portable" chassis-types") extended the
+whitelist with chassis-types 8 / "Portable" and 32 / "Detachable".
 
-So I wonder what this series actually adds for functionality for
-userspace which can not already be achieved this way?
+And now we need to exten the whitelist again with 10 / "Notebook"...
 
-I also noticed that you keep the device open (do not call the
-input_device's close callback) when inhibited and just throw away
-any events generated. This seems inefficient and may lead to
-the internal state getting out of sync. What if a key is pressed
-while inhibited and then the device is uninhibited while the key
-is still pressed?  Now the press event is lost and userspace
-querying the current state will see the pressed key as being
-released.
+The issue original fixed by the whitelist is really a ACPI DSDT bug on
+the Dell XPS 9360 where it has a VGBS which reports it is in tablet mode
+even though it is not a 2-in-1 at all, but a regular laptop.
 
-On top of this you add special inhibit and uninhibit callbacks
-and implement those for just a few devices. How do these differ
-from just closing the device and later opening it again ?
+So since this is a workaround for a DSDT issue on that specific model,
+instead of extending the whitelist over and over again, lets switch to
+a blacklist and only blacklist the chassis-type of the model for which
+the chassis-type check was added.
 
-Also using a sysfs property for this is very weird given that the
-rest of the evdev interface is using ioctls for everything...
+Note this also fixes the current version of the code no longer checking
+if dmi_get_system_info(DMI_CHASSIS_TYPE) returns NULL.
 
-So all in all I see a lot of question marks here and I think we
-need to have a detailed discussion about what use-cases this
-series tries to enable before moving forward with this.
+Fixes: 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode switch on "Detachable" and "Portable" chassis-types")
+Cc: Mario Limonciello <mario.limonciello@dell.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Note I can even see there being 2-in-1s using intel-vbtn to report
+SW_TABLET_MODE with a chassis-type of 9. So maybe we should make the
+quirk / blacklist stricter by combining it with a
+dmi_name_in_vendors("Dell") check ?
+---
+ drivers/platform/x86/intel-vbtn.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-Regards,
-
-Hans
+diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
+index ef92c1c3adbd..0487b606a274 100644
+--- a/drivers/platform/x86/intel-vbtn.c
++++ b/drivers/platform/x86/intel-vbtn.c
+@@ -170,21 +170,18 @@ static bool intel_vbtn_has_buttons(acpi_handle handle)
+ static bool intel_vbtn_has_switches(acpi_handle handle)
+ {
+ 	const char *chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
+-	unsigned long chassis_type_int;
+ 	unsigned long long vgbs;
+ 	acpi_status status;
+ 
+-	if (kstrtoul(chassis_type, 10, &chassis_type_int))
+-		return false;
+-
+-	switch (chassis_type_int) {
+-	case  8: /* Portable */
+-	case 31: /* Convertible */
+-	case 32: /* Detachable */
+-		break;
+-	default:
++	/*
++	 * Some normal laptops have a VGBS method despite being non-convertible
++	 * and their VGBS method always returns 0, causing detect_tablet_mode()
++	 * to report SW_TABLET_MODE=1 to userspace, which causes issues.
++	 * These laptops have a DMI chassis_type of 9 ("Laptop"), do not report
++	 * switches on any devices with a DMI chassis_type of 9.
++	 */
++	if (chassis_type && strcmp(chassis_type, "9") == 0)
+ 		return false;
+-	}
+ 
+ 	status = acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
+ 	return ACPI_SUCCESS(status);
+-- 
+2.26.0
 
