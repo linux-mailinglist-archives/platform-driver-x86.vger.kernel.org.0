@@ -2,129 +2,155 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB83F1D5A72
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 21:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ADDD1D5BBA
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 23:41:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbgEOT6C (ORCPT
+        id S1726946AbgEOVl2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 May 2020 15:58:02 -0400
-Received: from mga11.intel.com ([192.55.52.93]:43089 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726179AbgEOT6C (ORCPT
+        Fri, 15 May 2020 17:41:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726730AbgEOVl1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 May 2020 15:58:02 -0400
-IronPort-SDR: b93uiDPD0nDgqf4jbObbnUGE19reamiSAVoxZ0geDA3xK5i31cYq0/6nDK6TXS9NNkERcwmU8B
- iz+ml8MA+9tQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 12:58:02 -0700
-IronPort-SDR: bMcy2/ab4q9wsRnUBLnsKTHVlFjku/UqAiSmwHpDjtMcKcCvi7GWo3MOSlIZOSZa7BdUpFx2Kd
- +kY9guWBgWTQ==
-X-IronPort-AV: E=Sophos;i="5.73,396,1583222400"; 
-   d="scan'208";a="464838181"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.212.76.184])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 12:58:01 -0700
-Message-ID: <6eb0773d64cd5a4e25ca6d1c78c9c3ed7d190f46.camel@linux.intel.com>
-Subject: Re: [PATCH] intel-speed-select: Fix json perf-profile output output
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Prarit Bhargava <prarit@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org
-Date:   Fri, 15 May 2020 12:58:01 -0700
-In-Reply-To: <20200511190628.25661-1-prarit@redhat.com>
-References: <20200511190628.25661-1-prarit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Fri, 15 May 2020 17:41:27 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A772BC061A0C;
+        Fri, 15 May 2020 14:41:27 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id q16so1447723plr.2;
+        Fri, 15 May 2020 14:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6wTjQtb75vxwwUpQOuSXET7G/gWKLTlHS4eXtBSEVQs=;
+        b=gOpkghCRHL3EAX5gs7prRJRg7VXtB8bVIHhwOFBx3+pdE62N55QVFUZ5o/a5lNTENi
+         y+7yotxmOri7Y8CRsOp+zLAQB3Rn32rHzgGkhE0aaTVkU/0m5/nANXOFBuKfWzo3torc
+         l5g1p5aVgzTJdANWIEdkMa5auAFlqvPb6M30qkHfjcBx7AwIcs9gJuuhug10W+WJhQ7l
+         pKx6nxQ4FuAwcAMRMlLnzqufxM8gHA4OF0CZQIDpDaJqrgwEv9+lFZRGki7428JDIJaJ
+         ZFLmQQ5Rmj+PHtnngYX8tMjQpVhQM4l7FFDlvN2HE/+ve97T1PMO7PC4lsvpjF4VlnI8
+         sL8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6wTjQtb75vxwwUpQOuSXET7G/gWKLTlHS4eXtBSEVQs=;
+        b=jL2X35F33R+pkql3ThTIg+4pJbYUXvEG/F2P6G0QOv3JTQusDJ/Q4RkchB4WdQqWtK
+         ISM7noxebi0PQhn2Fb0YMop7m5nk8yQbCjhzgiDM2FYpSA6h5vDQOTomw4LQ9dAGqAbh
+         MwVm03imtPdtlYoYlB6sLl4/w3LKl3Qn3mV+BfwsGTZLRk8UbGwRrlSPcysL2WFi5HON
+         F3aky2u2QElzmNfA/yIokBkh0fwJ6dYwb9LGlLcGYZLJwBn7OIg7wr4/YRoEgV142uRr
+         SDPrezG2zfOkDzdhDAmz4ZXTrJSzD9bYRv57XFHWmRT7i6jHM6sFT1ri8eNODqM3Qu8J
+         xqUg==
+X-Gm-Message-State: AOAM5314oHAMK5UerbArhVx1AJutr2y08E7hXhAs8u/RMKB/CW8zld+o
+        95sX9QiVQWGSv4nTLwZDoN/lJzn0RIpMgLTpj3r7QTdl
+X-Google-Smtp-Source: ABdhPJwS0Wkz5kxUpYKWbjdCPIUB4hTjF7ZvgeUjFNqAvQ8AgR8dPU1wUc7lA/tlSrjbHm3FivGbMcrFEHf7ilSH5vw=
+X-Received: by 2002:a17:90b:94a:: with SMTP id dw10mr5781646pjb.228.1589578887038;
+ Fri, 15 May 2020 14:41:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <1505028180.591737.1589564161284.ref@mail.yahoo.com> <1505028180.591737.1589564161284@mail.yahoo.com>
+In-Reply-To: <1505028180.591737.1589564161284@mail.yahoo.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 16 May 2020 00:41:16 +0300
+Message-ID: <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
+Subject: Re: Low Latency Tolerance preventing Intel Package from entering deep
+ sleep states
+To:     "larsh@apache.org" <larsh@apache.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 2020-05-11 at 15:06 -0400, Prarit Bhargava wrote:
++Cc: ACPI ML and Rafael
 
-I prefer prefix as: "tools/power/x86/intel-speed-select" instead of
-just "intel-speed-select". 
+On Fri, May 15, 2020 at 8:36 PM larsh@apache.org <larsh@apache.org> wrote:
+>
+> Hi. I hope this is the right forum to raise this...
+>
+> For a while I have noticed that my CPU (i9-9880H in a Lenovo X1 Extreme Gen2) never enters any sleep mode below pc2.
+> (Confirmed with powertop and /sys/kernel/debug/pmc_core/package_cstate_show)
+>
+> Interestingly the CPU *can* reachers deeper C states *after* a resume from sleep (either S0ix or S3, i.e. freeze or mem).
+>
+> This article finally pointed me in the right direction: https://01.org/blogs/qwang59/2020/linux-s0ix-troubleshooting
+>
+> Somehow SOUTHPORT_A is requesting a max latency of 1 us.
+> There are no external devices attached.
+>
+> This is before a resume:
+>
+> $ cat /sys/kernel/debug/pmc_core/ltr_show
+> SOUTHPORT_A                             LTR: RAW: 0x88018c01            Non-Snoop(ns): 1024             Snoop(ns): 32768           <-------
+> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
+> Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
+> EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SOUTHPORT_C                             LTR: RAW: 0x9f409f4             Non-Snoop(ns): 0                Snoop(ns): 0
+> HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
+> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
+> AGGREGATED_SYSTEM                       LTR: RAW: 0x7fbfdfe             Non-Snoop(ns): 0                Snoop(ns): 0
+>
+> Notice the 1000ns max latency requirement for SOUTHPORT_A.
+>
+> Ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore subsequently allows the CPU to reach deep sleep states.
+>
+> After a resume it looks like suddenly SOUTHPORT_C is active and with a less tight latency requirement:
+>
+> $ cat /sys/kernel/debug/pmc_core/ltr_show
+> SOUTHPORT_A                             LTR: RAW: 0x8010c01             Non-Snoop(ns): 0                Snoop(ns): 0               <--------
+> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
+> Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
+> EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SOUTHPORT_C                             LTR: RAW: 0x88468846            Non-Snoop(ns): 71680            Snoop(ns): 71680           <---------
+> HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
+> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
+> CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
+> AGGREGATED_SYSTEM                       LTR: RAW: 0x904824              Non-Snoop(ns): 0                Snoop(ns): 0
+>
+> Does anybody know what's going on or how to debug this further?
+>
+> As stated above, I was able to work around this problem by ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
+> There has to be a better way, and I'm sure I'm not the only one running into this.
+>
+> Thanks.
+>
+> -- Lars
 
-Fixed and applied.
 
-Thanks,
-Srinivas
 
-> The 'intel-speed-select -f json perf-profile get-lock-status' command
-> outputs the package, die, and cpu data as separate fields.
-> 
-> ex)
-> 
->   "package-0": {
->     "die-0": {
->       "cpu-0": {
-> 
-> Commit 74062363f855 ("tools/power/x86/intel-speed-select: Avoid
-> duplicate Package strings for json") prettied this output so that it
-> is a single line for
-> some json output commands and the same should be done for other
-> commands.
-> 
-> Output package, die, and cpu info in a single line when using json
-> output.
-> 
-> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: platform-driver-x86@vger.kernel.org
-> ---
->  .../x86/intel-speed-select/isst-display.c     | 26 +++++++++++++--
-> ----
->  1 file changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tools/power/x86/intel-speed-select/isst-display.c
-> b/tools/power/x86/intel-speed-select/isst-display.c
-> index f6e2ce181123..e105fece47b6 100644
-> --- a/tools/power/x86/intel-speed-select/isst-display.c
-> +++ b/tools/power/x86/intel-speed-select/isst-display.c
-> @@ -316,21 +316,31 @@ void isst_ctdp_display_core_info(int cpu, FILE
-> *outf, char *prefix,
->  {
->  	char header[256];
->  	char value[256];
-> +	int level = 1;
-> +
-> +	if (out_format_is_json()) {
-> +		snprintf(header, sizeof(header), "package-%d:die-
-> %d:cpu-%d",
-> +			 get_physical_package_id(cpu),
-> get_physical_die_id(cpu),
-> +			 cpu);
-> +		format_and_print(outf, level++, header, NULL);
-> +	} else {
-> +		snprintf(header, sizeof(header), "package-%d",
-> +			 get_physical_package_id(cpu));
-> +		format_and_print(outf, level++, header, NULL);
-> +		snprintf(header, sizeof(header), "die-%d",
-> +			 get_physical_die_id(cpu));
-> +		format_and_print(outf, level++, header, NULL);
-> +		snprintf(header, sizeof(header), "cpu-%d", cpu);
-> +		format_and_print(outf, level++, header, NULL);
-> +	}
->  
-> -	snprintf(header, sizeof(header), "package-%d",
-> -		 get_physical_package_id(cpu));
-> -	format_and_print(outf, 1, header, NULL);
-> -	snprintf(header, sizeof(header), "die-%d",
-> get_physical_die_id(cpu));
-> -	format_and_print(outf, 2, header, NULL);
-> -	snprintf(header, sizeof(header), "cpu-%d", cpu);
-> -	format_and_print(outf, 3, header, NULL);
->  	if (str0 && !val)
->  		snprintf(value, sizeof(value), "%s", str0);
->  	else if (str1 && val)
->  		snprintf(value, sizeof(value), "%s", str1);
->  	else
->  		snprintf(value, sizeof(value), "%u", val);
-> -	format_and_print(outf, 4, prefix, value);
-> +	format_and_print(outf, level, prefix, value);
->  
->  	format_and_print(outf, 1, NULL, NULL);
->  }
-
+-- 
+With Best Regards,
+Andy Shevchenko
