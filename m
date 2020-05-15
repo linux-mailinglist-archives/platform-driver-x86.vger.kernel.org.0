@@ -2,189 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4791D59D9
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 21:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB83F1D5A72
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 21:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgEOTTW (ORCPT
+        id S1726197AbgEOT6C (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 May 2020 15:19:22 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:57940 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726023AbgEOTTW (ORCPT
+        Fri, 15 May 2020 15:58:02 -0400
+Received: from mga11.intel.com ([192.55.52.93]:43089 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726179AbgEOT6C (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 May 2020 15:19:22 -0400
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04FJ2E1G009198;
-        Fri, 15 May 2020 15:19:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=w1JgK4rbqOvIOtRWZu06erfuapJPkbsJ8S0JdANsSWI=;
- b=jK1tOwcAV206wsldnv7r1nAwgB/klqldLFpGqRogk833feBjQltiiArUR29i/3xvQVoa
- orzoYXwPxx3/3zwt3pIIdAKDjybuStlBkU/JJcNewMIbJsmg+Iw3EgGYXqPYKtUQEhhr
- owuTuJypucq6LzoJQ06i2ZdI/dZmj1+xnmVNOlkM8AmuCYxNVJZzO+obRF2/lJONHLda
- v3ulkcskMl26SzNtPTttI/TlS3+IUcRoo4LU1mIanTbpvM+DIb7fn10D4mv5Oq2tnz11
- /pPl0uPMJhSOeDuurZVLixCHQ/82tmEk3ulaOCReBZLvEYDde0Pz+NoY0T542XVO7IC7 AQ== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0a-00154904.pphosted.com with ESMTP id 310v23pa1n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 15 May 2020 15:19:21 -0400
-Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04FJ32k9032193;
-        Fri, 15 May 2020 15:19:21 -0400
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 310v04pwcv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 15 May 2020 15:19:21 -0400
-X-LoopCount0: from 10.166.132.130
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="549483479"
-From:   <Mario.Limonciello@dell.com>
-To:     <hdegoede@redhat.com>, <dvhart@infradead.org>, <andy@infradead.org>
-CC:     <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE
- on the 9 / "Laptop" chasis-type
-Thread-Topic: [PATCH] platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE
- on the 9 / "Laptop" chasis-type
-Thread-Index: AQHWKugoWL5KWuDzakGq29JspYoi/6iphYEg
-Date:   Fri, 15 May 2020 19:19:18 +0000
-Message-ID: <2de269e40ca34597815ba7af05693e6a@AUSX13MPC105.AMER.DELL.COM>
-References: <20200515183916.82919-1-hdegoede@redhat.com>
-In-Reply-To: <20200515183916.82919-1-hdegoede@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-15T19:19:08.2290680Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=59f198eb-568b-4a04-b9e2-50feb09ad3be;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 15 May 2020 15:58:02 -0400
+IronPort-SDR: b93uiDPD0nDgqf4jbObbnUGE19reamiSAVoxZ0geDA3xK5i31cYq0/6nDK6TXS9NNkERcwmU8B
+ iz+ml8MA+9tQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 12:58:02 -0700
+IronPort-SDR: bMcy2/ab4q9wsRnUBLnsKTHVlFjku/UqAiSmwHpDjtMcKcCvi7GWo3MOSlIZOSZa7BdUpFx2Kd
+ +kY9guWBgWTQ==
+X-IronPort-AV: E=Sophos;i="5.73,396,1583222400"; 
+   d="scan'208";a="464838181"
+Received: from spandruv-mobl.amr.corp.intel.com ([10.212.76.184])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 12:58:01 -0700
+Message-ID: <6eb0773d64cd5a4e25ca6d1c78c9c3ed7d190f46.camel@linux.intel.com>
+Subject: Re: [PATCH] intel-speed-select: Fix json perf-profile output output
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Prarit Bhargava <prarit@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     platform-driver-x86@vger.kernel.org
+Date:   Fri, 15 May 2020 12:58:01 -0700
+In-Reply-To: <20200511190628.25661-1-prarit@redhat.com>
+References: <20200511190628.25661-1-prarit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-15_07:2020-05-15,2020-05-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 mlxscore=0 clxscore=1015 spamscore=0
- cotscore=-2147483648 mlxlogscore=999 malwarescore=0 suspectscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005150159
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 adultscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005150159
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: Hans de Goede <hdegoede@redhat.com>
-> Sent: Friday, May 15, 2020 1:39 PM
-> To: Darren Hart; Andy Shevchenko
-> Cc: Hans de Goede; Limonciello, Mario; platform-driver-x86@vger.kernel.or=
-g;
-> linux-kernel@vger.kernel.org
-> Subject: [PATCH] platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE =
-on the
-> 9 / "Laptop" chasis-type
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> The HP Stream x360 11-p000nd no longer report SW_TABLET_MODE state / even=
-ts
-> with recent kernels. This model reports a chassis-type of 10 / "Notebook"
-> which is not on the recently introduced chassis-type whitelist
->=20
-> Commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode
-> switch on 2-in-1's") added a chassis-type whitelist and only listed 31 /
-> "Convertible" as being capable of generating valid SW_TABLET_MOD events.
->=20
-> Commit 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode
-> switch on "Detachable" and "Portable" chassis-types") extended the
-> whitelist with chassis-types 8 / "Portable" and 32 / "Detachable".
->=20
-> And now we need to exten the whitelist again with 10 / "Notebook"...
->=20
-> The issue original fixed by the whitelist is really a ACPI DSDT bug on
-> the Dell XPS 9360 where it has a VGBS which reports it is in tablet mode
-> even though it is not a 2-in-1 at all, but a regular laptop.
->=20
-> So since this is a workaround for a DSDT issue on that specific model,
-> instead of extending the whitelist over and over again, lets switch to
-> a blacklist and only blacklist the chassis-type of the model for which
-> the chassis-type check was added.
->=20
-> Note this also fixes the current version of the code no longer checking
-> if dmi_get_system_info(DMI_CHASSIS_TYPE) returns NULL.
+On Mon, 2020-05-11 at 15:06 -0400, Prarit Bhargava wrote:
 
-Makes sense, thanks.
+I prefer prefix as: "tools/power/x86/intel-speed-select" instead of
+just "intel-speed-select". 
 
-Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
+Fixed and applied.
 
->=20
-> Fixes: 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode s=
-witch
-> on "Detachable" and "Portable" chassis-types")
-> Cc: Mario Limonciello <mario.limonciello@dell.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Thanks,
+Srinivas
+
+> The 'intel-speed-select -f json perf-profile get-lock-status' command
+> outputs the package, die, and cpu data as separate fields.
+> 
+> ex)
+> 
+>   "package-0": {
+>     "die-0": {
+>       "cpu-0": {
+> 
+> Commit 74062363f855 ("tools/power/x86/intel-speed-select: Avoid
+> duplicate Package strings for json") prettied this output so that it
+> is a single line for
+> some json output commands and the same should be done for other
+> commands.
+> 
+> Output package, die, and cpu info in a single line when using json
+> output.
+> 
+> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: platform-driver-x86@vger.kernel.org
 > ---
-> Note I can even see there being 2-in-1s using intel-vbtn to report
-> SW_TABLET_MODE with a chassis-type of 9. So maybe we should make the
-> quirk / blacklist stricter by combining it with a
-> dmi_name_in_vendors("Dell") check ?
-> ---
->  drivers/platform/x86/intel-vbtn.c | 19 ++++++++-----------
->  1 file changed, 8 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/int=
-el-
-> vbtn.c
-> index ef92c1c3adbd..0487b606a274 100644
-> --- a/drivers/platform/x86/intel-vbtn.c
-> +++ b/drivers/platform/x86/intel-vbtn.c
-> @@ -170,21 +170,18 @@ static bool intel_vbtn_has_buttons(acpi_handle hand=
-le)
->  static bool intel_vbtn_has_switches(acpi_handle handle)
+>  .../x86/intel-speed-select/isst-display.c     | 26 +++++++++++++--
+> ----
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tools/power/x86/intel-speed-select/isst-display.c
+> b/tools/power/x86/intel-speed-select/isst-display.c
+> index f6e2ce181123..e105fece47b6 100644
+> --- a/tools/power/x86/intel-speed-select/isst-display.c
+> +++ b/tools/power/x86/intel-speed-select/isst-display.c
+> @@ -316,21 +316,31 @@ void isst_ctdp_display_core_info(int cpu, FILE
+> *outf, char *prefix,
 >  {
->  	const char *chassis_type =3D dmi_get_system_info(DMI_CHASSIS_TYPE);
-> -	unsigned long chassis_type_int;
->  	unsigned long long vgbs;
->  	acpi_status status;
->=20
-> -	if (kstrtoul(chassis_type, 10, &chassis_type_int))
-> -		return false;
-> -
-> -	switch (chassis_type_int) {
-> -	case  8: /* Portable */
-> -	case 31: /* Convertible */
-> -	case 32: /* Detachable */
-> -		break;
-> -	default:
-> +	/*
-> +	 * Some normal laptops have a VGBS method despite being non-convertible
-> +	 * and their VGBS method always returns 0, causing detect_tablet_mode()
-> +	 * to report SW_TABLET_MODE=3D1 to userspace, which causes issues.
-> +	 * These laptops have a DMI chassis_type of 9 ("Laptop"), do not report
-> +	 * switches on any devices with a DMI chassis_type of 9.
-> +	 */
-> +	if (chassis_type && strcmp(chassis_type, "9") =3D=3D 0)
->  		return false;
-> -	}
->=20
->  	status =3D acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
->  	return ACPI_SUCCESS(status);
-> --
-> 2.26.0
+>  	char header[256];
+>  	char value[256];
+> +	int level = 1;
+> +
+> +	if (out_format_is_json()) {
+> +		snprintf(header, sizeof(header), "package-%d:die-
+> %d:cpu-%d",
+> +			 get_physical_package_id(cpu),
+> get_physical_die_id(cpu),
+> +			 cpu);
+> +		format_and_print(outf, level++, header, NULL);
+> +	} else {
+> +		snprintf(header, sizeof(header), "package-%d",
+> +			 get_physical_package_id(cpu));
+> +		format_and_print(outf, level++, header, NULL);
+> +		snprintf(header, sizeof(header), "die-%d",
+> +			 get_physical_die_id(cpu));
+> +		format_and_print(outf, level++, header, NULL);
+> +		snprintf(header, sizeof(header), "cpu-%d", cpu);
+> +		format_and_print(outf, level++, header, NULL);
+> +	}
+>  
+> -	snprintf(header, sizeof(header), "package-%d",
+> -		 get_physical_package_id(cpu));
+> -	format_and_print(outf, 1, header, NULL);
+> -	snprintf(header, sizeof(header), "die-%d",
+> get_physical_die_id(cpu));
+> -	format_and_print(outf, 2, header, NULL);
+> -	snprintf(header, sizeof(header), "cpu-%d", cpu);
+> -	format_and_print(outf, 3, header, NULL);
+>  	if (str0 && !val)
+>  		snprintf(value, sizeof(value), "%s", str0);
+>  	else if (str1 && val)
+>  		snprintf(value, sizeof(value), "%s", str1);
+>  	else
+>  		snprintf(value, sizeof(value), "%u", val);
+> -	format_and_print(outf, 4, prefix, value);
+> +	format_and_print(outf, level, prefix, value);
+>  
+>  	format_and_print(outf, 1, NULL, NULL);
+>  }
 
