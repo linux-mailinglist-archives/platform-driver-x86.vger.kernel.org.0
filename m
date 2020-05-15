@@ -2,353 +2,132 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BB3C1D56B3
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 18:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0011D56FA
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 19:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgEOQwz (ORCPT
+        id S1726179AbgEORCL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 May 2020 12:52:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45946 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgEOQwy (ORCPT
+        Fri, 15 May 2020 13:02:11 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:37019 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726144AbgEORCK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 May 2020 12:52:54 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 2F1C42A32FD
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
+        Fri, 15 May 2020 13:02:10 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id BC0785C009A;
+        Fri, 15 May 2020 13:02:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Fri, 15 May 2020 13:02:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=KHi3vAnNeG4L/A13DMJfIvBD/Gg
+        rl6tK6va8uWy/HFw=; b=i7sZYLxAYfCSq+erbSzt+PtEFjfPHAYGF6w/hAvWVhy
+        /uSrKITBIzEoYtLOTcQc6h1jku94N7UI9sPvVxIpO7m9LnY1MnhDHxPBp3VwODeQ
+        BCBaOmFiRW98NH6kn4CwWLe4rT06zmPKH27AiNLsPdl1gDMK0AP72mHYBso4FhUM
+        DdFi1Yb+noO4As1AstGZnae+sHNBMJt9QYlrJmYnwvo7/DrwJk+7/VOUpqSb0Uxz
+        kKigp3fcZjrtJuUtTkx40UVGY31eINNYHmbGs3owayb5YIbt3s/5ndtRyVBmfzJT
+        gMcYy3Su1cp1KdQ0/cFGLcbcbPFK4aZj9INuZHWffzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KHi3vA
+        nNeG4L/A13DMJfIvBD/Ggrl6tK6va8uWy/HFw=; b=NjJ4hDUSUXL1KDeIQD5D3d
+        wQ8EOCI7+j4QAPnUHjEFF3g334JWLE9gQHaqWLkM/RLIXQOZeF3KunB0MhrYssiW
+        1qABZnlFowVfWtwft5ABxDcanlfXay/25BUH+o/SlH35emwjfWRV877jbX69w8HZ
+        tSdXcjvSSruT7uZ6XSYCGCxfIWmt+Df5+f8PeJj2qd8SpWTICqkrKjDEVdWvOIMT
+        gtVELqmQEozB8QOHS9PrJFMxOmzgxkwyngH7D6jW807j4a6ZqSBzxBm4Gp0WowqT
+        ntNQE6ZahGwdCncKvBHIvMrh9OmCancKTkLgOuZgSsJsseXd97xxeLvq20IT0dAw
+        ==
+X-ME-Sender: <xms:Ecu-XlMxfIUOjPq-6D4cd8XZQwFSh4tAg7-XR25dJuHiLwAhCzYEjA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgddutdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhr
+    ihhquhgvucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnh
+    hgrdgsrheqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfh
+    jeefgeekheekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhh
+    rdgvnhhgrdgsrh
+X-ME-Proxy: <xmx:Ecu-Xn-uqyRV4s2QNPAi79Ru1mgucFSmRhuvCSzwOZSltP05TZQCSQ>
+    <xmx:Ecu-XkS-U9J5Ptaw3DSsuouiuFrI2TdwhDyiFg0UZLrwN6DrZca5Sw>
+    <xmx:Ecu-XhuHLG7BIbKpossdUfa5YO5TOsH7H34Mk91IHsGWfYORFgDMKQ>
+    <xmx:Ecu-XtnfGAQH0kywf5tzyBgp4Phds4z9mQ-V0fIIcH0IO4N0g5WzDw>
+Received: from khazad-dum.debian.net (unknown [177.194.7.32])
+        by mail.messagingengine.com (Postfix) with ESMTPA id DEDCC3280059;
+        Fri, 15 May 2020 13:02:08 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 89F3A340322E;
+        Fri, 15 May 2020 14:02:07 -0300 (-03)
+X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
+Received: from khazad-dum.debian.net ([127.0.0.1])
+        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id jmBy-JaIsHn2; Fri, 15 May 2020 14:02:02 -0300 (-03)
+Received: by khazad-dum.debian.net (Postfix, from userid 1000)
+        id 8A4F0340017E; Fri, 15 May 2020 14:02:02 -0300 (-03)
+Date:   Fri, 15 May 2020 14:02:02 -0300
+From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-input@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
         Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        kernel@collabora.com, Patrik Fimml <patrikf@chromium.org>
-Subject: [PATCHv2 6/7] Input: Add "inhibited" property
-Date:   Fri, 15 May 2020 18:52:37 +0200
-Message-Id: <20200515165237.28906-1-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200515164943.28480-1-andrzej.p@collabora.com>
+        kernel@collabora.com
+Subject: Re: [PATCHv2 5/7] platform/x86: thinkpad_acpi: Use
+ input_device_enabled()
+Message-ID: <20200515170202.GA6364@khazad-dum.debian.net>
 References: <20200515164943.28480-1-andrzej.p@collabora.com>
+ <20200515165227.28859-1-andrzej.p@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200515165227.28859-1-andrzej.p@collabora.com>
+X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
+ 0BD9 E811 39CB 4807
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Patrik Fimml <patrikf@chromium.org>
+On Fri, 15 May 2020, Andrzej Pietrasiewicz wrote:
+> Use the new helper. Inspecting input device's 'users' member needs to be
+> done under device's mutex, so add appropriate invocations.
+> 
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-Userspace might want to implement a policy to temporarily disregard input
-from certain devices, including not treating them as wakeup sources.
+Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
-An example use case is a laptop, whose keyboard can be folded under the
-screen to create tablet-like experience. The user then must hold the laptop
-in such a way that it is difficult to avoid pressing the keyboard keys. It
-is therefore desirable to temporarily disregard input from the keyboard,
-until it is folded back. This obviously is a policy which should be kept
-out of the kernel, but the kernel must provide suitable means to implement
-such a policy.
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index 0f704484ae1d..8ae11b8c3ebb 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -2671,9 +2671,10 @@ static void hotkey_poll_setup(const bool may_warn)
+>  	const u32 poll_driver_mask = hotkey_driver_mask & hotkey_source_mask;
+>  	const u32 poll_user_mask = hotkey_user_mask & hotkey_source_mask;
+>  
+> +	mutex_lock(&tpacpi_inputdev->mutex);
+>  	if (hotkey_poll_freq > 0 &&
+>  	    (poll_driver_mask ||
+> -	     (poll_user_mask && tpacpi_inputdev->users > 0))) {
+> +	     (poll_user_mask && input_device_enabled(tpacpi_inputdev)))) {
+>  		if (!tpacpi_hotkey_task) {
+>  			tpacpi_hotkey_task = kthread_run(hotkey_kthread,
+>  					NULL, TPACPI_NVRAM_KTHREAD_NAME);
+> @@ -2690,6 +2691,7 @@ static void hotkey_poll_setup(const bool may_warn)
+>  				  poll_user_mask, poll_driver_mask);
+>  		}
+>  	}
+> +	mutex_unlock(&tpacpi_inputdev->mutex);
+>  }
+>  
+>  static void hotkey_poll_setup_safe(const bool may_warn)
 
-This patch adds a sysfs interface for exactly this purpose.
-
-To implement the said interface it adds an "inhibited" property to struct
-input_dev and two optional methods - inhibit() and uninhibit(), and
-effectively creates four states a device can be in: closed uninhibited,
-closed inhibited, open uninhibited, open inhibited. It also defers calling
-driver's ->open() and ->close() to until they are actually needed, e.g. it
-makes no sense to prepare the underlying device for generating events
-(->open()) if the device is inhibited.
-
-              uninhibit
-closed      <------------ closed
-uninhibited ------------> inhibited
-      | ^     inhibit        | ^
- 1st  | |               1st  | |
- open | |               open | |
-      | |                    | |
-      | | last               | | last
-      | | close              | | close
-      v |     uninhibit      v |
-open        <------------ open
-uninhibited ------------> inhibited
-
-The top inhibit/uninhibit transition happens when users == 0.
-The bottom inhibit/uninhibit transition happens when users > 0.
-The left open/close transition happens when !inhibited.
-The right open/close transition happens when inhibited.
-Due to all transitions being serialized with dev->mutex, it is impossible
-to have "diagonal" transitions between closed uninhibited and open
-inhibited or between open uninhibited and closed inhibited.
-
-open() and close() - if provided - are called in both inhibit and uninhibit
-paths. Please note that close() does not return a value, so if your driver
-might need failing inhibiting, you need to provide inhibit() so that it
-returns a value to check.
-
-It is drivers' responsibility to implement their inhibiting capability in
-terms of whatever is suitable in their context, be it open/close,
-inhibit/uninhibit or a combination of both. The drivers should also ensure
-that they properly interact with suspend/resume and PM runtime, because
-most likely a side effect of inhibiting a device should be its going into
-low power mode. Properly inhibiting a device means to prevent it from being
-a wakeup source, so drivers should also take care of that.
-
-Signed-off-by: Patrik Fimml <patrikf@chromium.org>
-Co-developed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- drivers/input/input.c | 136 ++++++++++++++++++++++++++++++++++++++----
- include/linux/input.h |   8 +++
- 2 files changed, 134 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index 41377bfa142d..5b859a178c11 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -367,8 +367,13 @@ static int input_get_disposition(struct input_dev *dev,
- static void input_handle_event(struct input_dev *dev,
- 			       unsigned int type, unsigned int code, int value)
- {
--	int disposition = input_get_disposition(dev, type, code, &value);
-+	int disposition;
- 
-+	/* filter-out events from inhibited devices */
-+	if (dev->inhibited)
-+		return;
-+
-+	disposition = input_get_disposition(dev, type, code, &value);
- 	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
- 		add_input_randomness(type, code, value);
- 
-@@ -612,7 +617,7 @@ int input_open_device(struct input_handle *handle)
- 
- 	handle->open++;
- 
--	if (dev->users++) {
-+	if (dev->users++ || dev->inhibited) {
- 		/*
- 		 * Device is already opened, so we can exit immediately and
- 		 * report success.
-@@ -660,6 +665,14 @@ int input_flush_device(struct input_handle *handle, struct file *file)
- }
- EXPORT_SYMBOL(input_flush_device);
- 
-+static inline void input_stop(struct input_dev *dev)
-+{
-+	if (dev->poller)
-+		input_dev_poller_stop(dev->poller);
-+	if (dev->close)
-+		dev->close(dev);
-+}
-+
- /**
-  * input_close_device - close input device
-  * @handle: handle through which device is being accessed
-@@ -675,13 +688,8 @@ void input_close_device(struct input_handle *handle)
- 
- 	__input_release_device(handle);
- 
--	if (!--dev->users) {
--		if (dev->poller)
--			input_dev_poller_stop(dev->poller);
--
--		if (dev->close)
--			dev->close(dev);
--	}
-+	if (!dev->inhibited && !--dev->users)
-+		input_stop(dev);
- 
- 	if (!--handle->open) {
- 		/*
-@@ -1416,12 +1424,49 @@ static ssize_t input_dev_show_properties(struct device *dev,
- }
- static DEVICE_ATTR(properties, S_IRUGO, input_dev_show_properties, NULL);
- 
-+static int input_inhibit(struct input_dev *dev);
-+static int input_uninhibit(struct input_dev *dev);
-+
-+static ssize_t inhibited_show(struct device *dev,
-+			      struct device_attribute *attr,
-+			      char *buf)
-+{
-+	struct input_dev *input_dev = to_input_dev(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", input_dev->inhibited);
-+}
-+
-+static ssize_t inhibited_store(struct device *dev,
-+			       struct device_attribute *attr, const char *buf,
-+			       size_t len)
-+{
-+	struct input_dev *input_dev = to_input_dev(dev);
-+	ssize_t rv;
-+	bool inhibited;
-+
-+	if (strtobool(buf, &inhibited))
-+		return -EINVAL;
-+
-+	if (inhibited)
-+		rv = input_inhibit(input_dev);
-+	else
-+		rv = input_uninhibit(input_dev);
-+
-+	if (rv != 0)
-+		return rv;
-+
-+	return len;
-+}
-+
-+static DEVICE_ATTR_RW(inhibited);
-+
- static struct attribute *input_dev_attrs[] = {
- 	&dev_attr_name.attr,
- 	&dev_attr_phys.attr,
- 	&dev_attr_uniq.attr,
- 	&dev_attr_modalias.attr,
- 	&dev_attr_properties.attr,
-+	&dev_attr_inhibited.attr,
- 	NULL
- };
- 
-@@ -1703,6 +1748,77 @@ void input_reset_device(struct input_dev *dev)
- }
- EXPORT_SYMBOL(input_reset_device);
- 
-+static int input_inhibit(struct input_dev *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->mutex);
-+
-+	if (dev->inhibited)
-+		goto out;
-+
-+	if (dev->users) {
-+		if (dev->inhibit) {
-+			ret = dev->inhibit(dev);
-+			if (ret)
-+				goto out;
-+		}
-+		input_stop(dev);
-+	}
-+
-+	spin_lock_irq(&dev->event_lock);
-+	input_dev_release_keys(dev);
-+	input_dev_toggle(dev, false);
-+	spin_unlock_irq(&dev->event_lock);
-+
-+	dev->inhibited = true;
-+
-+out:
-+	mutex_unlock(&dev->mutex);
-+	return ret;
-+}
-+
-+static int input_uninhibit(struct input_dev *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->mutex);
-+
-+	if (!dev->inhibited)
-+		goto out;
-+
-+	if (dev->users) {
-+		if (dev->open) {
-+			ret = dev->open(dev);
-+			if (ret)
-+				goto toggle;
-+		}
-+		if (dev->uninhibit) {
-+			ret = dev->uninhibit(dev);
-+			if (ret) {
-+				if (dev->close)
-+					dev->close(dev);
-+				goto toggle;
-+			}
-+		}
-+		if (dev->poller)
-+			input_dev_poller_start(dev->poller);
-+	}
-+
-+	dev->inhibited = false;
-+
-+toggle:
-+	if (!dev->inhibited) {
-+		spin_lock_irq(&dev->event_lock);
-+		input_dev_toggle(dev, true);
-+		spin_unlock_irq(&dev->event_lock);
-+	}
-+
-+out:
-+	mutex_unlock(&dev->mutex);
-+	return ret;
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- static int input_dev_suspend(struct device *dev)
- {
-@@ -2131,7 +2247,7 @@ bool input_device_enabled(struct input_dev *dev)
- {
- 	lockdep_assert_held(&dev->mutex);
- 
--	return dev->users > 0;
-+	return !dev->inhibited && dev->users > 0;
- }
- EXPORT_SYMBOL_GPL(input_device_enabled);
- 
-diff --git a/include/linux/input.h b/include/linux/input.h
-index eda4587dba67..8d0dcfaeaf6f 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -127,6 +127,9 @@ enum input_clock_type {
-  *	and needs not be explicitly unregistered or freed.
-  * @timestamp: storage for a timestamp set by input_set_timestamp called
-  *  by a driver
-+ * @inhibit: makes the device ignore all input
-+ * @uninhibit: undoes the effect of inhibit
-+ * @inhibited: indicates that the input device is inhibited
-  */
- struct input_dev {
- 	const char *name;
-@@ -201,6 +204,11 @@ struct input_dev {
- 	bool devres_managed;
- 
- 	ktime_t timestamp[INPUT_CLK_MAX];
-+
-+	int (*inhibit)(struct input_dev *dev);
-+	int (*uninhibit)(struct input_dev *dev);
-+
-+	bool inhibited;
- };
- #define to_input_dev(d) container_of(d, struct input_dev, dev)
- 
 -- 
-2.17.1
+  Henrique Holschuh
 
+  "One disk to rule them all, One disk to find them. One disk to bring
+  them all and in the darkness grind them. In the Land of Redmond
+  where the shadows lie." -- The Silicon Valley Tarot
