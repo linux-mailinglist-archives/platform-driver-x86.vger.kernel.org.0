@@ -2,155 +2,170 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ADDD1D5BBA
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 May 2020 23:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4A751D5DDC
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 16 May 2020 04:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgEOVl2 (ORCPT
+        id S1726550AbgEPCRY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 May 2020 17:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726730AbgEOVl1 (ORCPT
+        Fri, 15 May 2020 22:17:24 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64231 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726290AbgEPCRX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 May 2020 17:41:27 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A772BC061A0C;
-        Fri, 15 May 2020 14:41:27 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id q16so1447723plr.2;
-        Fri, 15 May 2020 14:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6wTjQtb75vxwwUpQOuSXET7G/gWKLTlHS4eXtBSEVQs=;
-        b=gOpkghCRHL3EAX5gs7prRJRg7VXtB8bVIHhwOFBx3+pdE62N55QVFUZ5o/a5lNTENi
-         y+7yotxmOri7Y8CRsOp+zLAQB3Rn32rHzgGkhE0aaTVkU/0m5/nANXOFBuKfWzo3torc
-         l5g1p5aVgzTJdANWIEdkMa5auAFlqvPb6M30qkHfjcBx7AwIcs9gJuuhug10W+WJhQ7l
-         pKx6nxQ4FuAwcAMRMlLnzqufxM8gHA4OF0CZQIDpDaJqrgwEv9+lFZRGki7428JDIJaJ
-         ZFLmQQ5Rmj+PHtnngYX8tMjQpVhQM4l7FFDlvN2HE/+ve97T1PMO7PC4lsvpjF4VlnI8
-         sL8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6wTjQtb75vxwwUpQOuSXET7G/gWKLTlHS4eXtBSEVQs=;
-        b=jL2X35F33R+pkql3ThTIg+4pJbYUXvEG/F2P6G0QOv3JTQusDJ/Q4RkchB4WdQqWtK
-         ISM7noxebi0PQhn2Fb0YMop7m5nk8yQbCjhzgiDM2FYpSA6h5vDQOTomw4LQ9dAGqAbh
-         MwVm03imtPdtlYoYlB6sLl4/w3LKl3Qn3mV+BfwsGTZLRk8UbGwRrlSPcysL2WFi5HON
-         F3aky2u2QElzmNfA/yIokBkh0fwJ6dYwb9LGlLcGYZLJwBn7OIg7wr4/YRoEgV142uRr
-         SDPrezG2zfOkDzdhDAmz4ZXTrJSzD9bYRv57XFHWmRT7i6jHM6sFT1ri8eNODqM3Qu8J
-         xqUg==
-X-Gm-Message-State: AOAM5314oHAMK5UerbArhVx1AJutr2y08E7hXhAs8u/RMKB/CW8zld+o
-        95sX9QiVQWGSv4nTLwZDoN/lJzn0RIpMgLTpj3r7QTdl
-X-Google-Smtp-Source: ABdhPJwS0Wkz5kxUpYKWbjdCPIUB4hTjF7ZvgeUjFNqAvQ8AgR8dPU1wUc7lA/tlSrjbHm3FivGbMcrFEHf7ilSH5vw=
-X-Received: by 2002:a17:90b:94a:: with SMTP id dw10mr5781646pjb.228.1589578887038;
- Fri, 15 May 2020 14:41:27 -0700 (PDT)
+        Fri, 15 May 2020 22:17:23 -0400
+IronPort-SDR: bICQxcyoHWdBU1BKMFPPhEayhNpr3WEF5t9xCc7qCwZbzY+r5cle6ctU7iNwcRQEQbewRuzyyK
+ jnPrLFwjwfPQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 19:17:22 -0700
+IronPort-SDR: VK9WBuMJXfSU85JldXfJc+lNOHfq/nozV83X80YFeRVbsDr4sIZLopHPXI+KvEn7zp4r1qWVZC
+ xV8SWm49x2JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,397,1583222400"; 
+   d="scan'208";a="253952119"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 15 May 2020 19:17:21 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jZmO8-0008GY-Su; Sat, 16 May 2020 10:17:20 +0800
+Date:   Sat, 16 May 2020 10:16:23 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [platform-drivers-x86:review-andy] BUILD SUCCESS
+ af7bd0c0edf33bb1fd2da45eaafffc56c9efb277
+Message-ID: <5ebf4cf7.z6hjLZwGSpaJxtjP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <1505028180.591737.1589564161284.ref@mail.yahoo.com> <1505028180.591737.1589564161284@mail.yahoo.com>
-In-Reply-To: <1505028180.591737.1589564161284@mail.yahoo.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 16 May 2020 00:41:16 +0300
-Message-ID: <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
-Subject: Re: Low Latency Tolerance preventing Intel Package from entering deep
- sleep states
-To:     "larsh@apache.org" <larsh@apache.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     "ibm-acpi-devel@lists.sourceforge.net" 
-        <ibm-acpi-devel@lists.sourceforge.net>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-+Cc: ACPI ML and Rafael
+tree/branch: git://git.infradead.org/users/dvhart/linux-platform-drivers-x86.git  review-andy
+branch HEAD: af7bd0c0edf33bb1fd2da45eaafffc56c9efb277  platform/x86: hp-wmi: Introduce HPWMI_POWER_FW_OR_HW as convenient shortcut
 
-On Fri, May 15, 2020 at 8:36 PM larsh@apache.org <larsh@apache.org> wrote:
->
-> Hi. I hope this is the right forum to raise this...
->
-> For a while I have noticed that my CPU (i9-9880H in a Lenovo X1 Extreme Gen2) never enters any sleep mode below pc2.
-> (Confirmed with powertop and /sys/kernel/debug/pmc_core/package_cstate_show)
->
-> Interestingly the CPU *can* reachers deeper C states *after* a resume from sleep (either S0ix or S3, i.e. freeze or mem).
->
-> This article finally pointed me in the right direction: https://01.org/blogs/qwang59/2020/linux-s0ix-troubleshooting
->
-> Somehow SOUTHPORT_A is requesting a max latency of 1 us.
-> There are no external devices attached.
->
-> This is before a resume:
->
-> $ cat /sys/kernel/debug/pmc_core/ltr_show
-> SOUTHPORT_A                             LTR: RAW: 0x88018c01            Non-Snoop(ns): 1024             Snoop(ns): 32768           <-------
-> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
-> Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
-> EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_C                             LTR: RAW: 0x9f409f4             Non-Snoop(ns): 0                Snoop(ns): 0
-> HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
-> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
-> AGGREGATED_SYSTEM                       LTR: RAW: 0x7fbfdfe             Non-Snoop(ns): 0                Snoop(ns): 0
->
-> Notice the 1000ns max latency requirement for SOUTHPORT_A.
->
-> Ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore subsequently allows the CPU to reach deep sleep states.
->
-> After a resume it looks like suddenly SOUTHPORT_C is active and with a less tight latency requirement:
->
-> $ cat /sys/kernel/debug/pmc_core/ltr_show
-> SOUTHPORT_A                             LTR: RAW: 0x8010c01             Non-Snoop(ns): 0                Snoop(ns): 0               <--------
-> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
-> Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
-> EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_C                             LTR: RAW: 0x88468846            Non-Snoop(ns): 71680            Snoop(ns): 71680           <---------
-> HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
-> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
-> AGGREGATED_SYSTEM                       LTR: RAW: 0x904824              Non-Snoop(ns): 0                Snoop(ns): 0
->
-> Does anybody know what's going on or how to debug this further?
->
-> As stated above, I was able to work around this problem by ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
-> There has to be a better way, and I'm sure I'm not the only one running into this.
->
-> Thanks.
->
-> -- Lars
+elapsed time: 484m
 
+configs tested: 108
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-With Best Regards,
-Andy Shevchenko
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+mips                             allyesconfig
+sparc                            allyesconfig
+m68k                             allyesconfig
+arm                         at91_dt_defconfig
+arm                           sama5_defconfig
+arm                        realview_defconfig
+arm                       spear13xx_defconfig
+powerpc                     pq2fads_defconfig
+c6x                        evmc6678_defconfig
+parisc                              defconfig
+arm                            u300_defconfig
+arc                                 defconfig
+arm                        shmobile_defconfig
+m68k                       m5208evb_defconfig
+sparc64                          allmodconfig
+mips                          lasat_defconfig
+i386                              allnoconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                             allyesconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20200515
+i386                 randconfig-a005-20200515
+i386                 randconfig-a003-20200515
+i386                 randconfig-a001-20200515
+i386                 randconfig-a004-20200515
+i386                 randconfig-a002-20200515
+i386                 randconfig-a012-20200515
+i386                 randconfig-a016-20200515
+i386                 randconfig-a014-20200515
+i386                 randconfig-a011-20200515
+i386                 randconfig-a013-20200515
+i386                 randconfig-a015-20200515
+x86_64               randconfig-a005-20200515
+x86_64               randconfig-a003-20200515
+x86_64               randconfig-a006-20200515
+x86_64               randconfig-a004-20200515
+x86_64               randconfig-a001-20200515
+x86_64               randconfig-a002-20200515
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                              defconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
