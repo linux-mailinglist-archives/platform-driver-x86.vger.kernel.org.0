@@ -2,132 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66AA51D751D
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 May 2020 12:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F27E1D7640
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 May 2020 13:11:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbgERK0j (ORCPT
+        id S1726590AbgERLKy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 May 2020 06:26:39 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:57178 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726180AbgERK0i (ORCPT
+        Mon, 18 May 2020 07:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726448AbgERLKy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 May 2020 06:26:38 -0400
-Received: from 89-64-86-21.dynamic.chello.pl (89.64.86.21) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.415)
- id 3ef8d7e6de62ea20; Mon, 18 May 2020 12:26:35 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "larsh@apache.org" <larsh@apache.org>,
-        "ibm-acpi-devel@lists.sourceforge.net" 
-        <ibm-acpi-devel@lists.sourceforge.net>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        David Box <david.e.box@linux.intel.com>
-Subject: Re: Low Latency Tolerance preventing Intel Package from entering deep sleep states
-Date:   Mon, 18 May 2020 12:26:34 +0200
-Message-ID: <2952287.p5mUHPKNZq@kreacher>
-In-Reply-To: <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
-References: <1505028180.591737.1589564161284.ref@mail.yahoo.com> <1505028180.591737.1589564161284@mail.yahoo.com> <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
+        Mon, 18 May 2020 07:10:54 -0400
+X-Greylist: delayed 1639 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 May 2020 04:10:53 PDT
+Received: from vps.dvp24.com (unknown [IPv6:2a02:348:36:5b8c::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5DCBC061A0C
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 May 2020 04:10:53 -0700 (PDT)
+Received: from localhost ([127.0.0.1] helo=dvp24.com)
+        by vps.dvp24.com with esmtpa (Exim 4.77)
+        (envelope-from <abhay@dvp24.com>)
+        id 1jadES-0006Km-3z; Mon, 18 May 2020 12:42:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 18 May 2020 11:42:52 +0100
+From:   pedro hills <abhay@dvp24.com>
+To:     undisclosed-recipients:;
+Subject: (DONATION) $2 Million Has Been Donated
+Reply-To: <pedrohills@outlook.es>
+Mail-Reply-To: <pedrohills@outlook.es>
+Message-ID: <d0c985e3005a7f53924013b9875c2923@dvp24.com>
+X-Sender: abhay@dvp24.com
+User-Agent: Roundcube Webmail/0.7.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Friday, May 15, 2020 11:41:16 PM CEST Andy Shevchenko wrote:
-> +Cc: ACPI ML and Rafael
-
-+Cc: David Box
-
-> On Fri, May 15, 2020 at 8:36 PM larsh@apache.org <larsh@apache.org> wrote:
-> >
-> > Hi. I hope this is the right forum to raise this...
-> >
-> > For a while I have noticed that my CPU (i9-9880H in a Lenovo X1 Extreme Gen2) never enters any sleep mode below pc2.
-> > (Confirmed with powertop and /sys/kernel/debug/pmc_core/package_cstate_show)
-> >
-> > Interestingly the CPU *can* reachers deeper C states *after* a resume from sleep (either S0ix or S3, i.e. freeze or mem).
-> >
-> > This article finally pointed me in the right direction: https://01.org/blogs/qwang59/2020/linux-s0ix-troubleshooting
-> >
-> > Somehow SOUTHPORT_A is requesting a max latency of 1 us.
-> > There are no external devices attached.
-> >
-> > This is before a resume:
-> >
-> > $ cat /sys/kernel/debug/pmc_core/ltr_show
-> > SOUTHPORT_A                             LTR: RAW: 0x88018c01            Non-Snoop(ns): 1024             Snoop(ns): 32768           <-------
-> > SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
-> > Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
-> > EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SOUTHPORT_C                             LTR: RAW: 0x9f409f4             Non-Snoop(ns): 0                Snoop(ns): 0
-> > HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
-> > SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
-> > AGGREGATED_SYSTEM                       LTR: RAW: 0x7fbfdfe             Non-Snoop(ns): 0                Snoop(ns): 0
-> >
-> > Notice the 1000ns max latency requirement for SOUTHPORT_A.
-> >
-> > Ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore subsequently allows the CPU to reach deep sleep states.
-> >
-> > After a resume it looks like suddenly SOUTHPORT_C is active and with a less tight latency requirement:
-> >
-> > $ cat /sys/kernel/debug/pmc_core/ltr_show
-> > SOUTHPORT_A                             LTR: RAW: 0x8010c01             Non-Snoop(ns): 0                Snoop(ns): 0               <--------
-> > SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SATA                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > GIGABIT_ETHERNET                        LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > XHCI                                    LTR: RAW: 0x13ff                Non-Snoop(ns): 0                Snoop(ns): 0
-> > Reserved                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ME                                      LTR: RAW: 0x8000800             Non-Snoop(ns): 0                Snoop(ns): 0
-> > EVA                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SOUTHPORT_C                             LTR: RAW: 0x88468846            Non-Snoop(ns): 71680            Snoop(ns): 71680           <---------
-> > HD_AUDIO                                LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CNV                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > LPSS                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
-> > SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CAMERA                                  LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ESPI                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > SCC                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > ISH                                     LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > UFSX2                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > EMMC                                    LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > WIGIG                                   LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> > CURRENT_PLATFORM                        LTR: RAW: 0x40201               Non-Snoop(ns): 0                Snoop(ns): 0
-> > AGGREGATED_SYSTEM                       LTR: RAW: 0x904824              Non-Snoop(ns): 0                Snoop(ns): 0
-> >
-> > Does anybody know what's going on or how to debug this further?
-> >
-> > As stated above, I was able to work around this problem by ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
-> > There has to be a better way, and I'm sure I'm not the only one running into this.
-> >
-> > Thanks.
-> >
-> > -- Lars
-> 
-> 
-> 
-> 
 
 
+-- 
+$2 Million Has Been Donated To You,By PEDRO this is Real For More Info
+  Contact PEDRO immediately for your clame This Email:
+  pedrohills@outlook.es
 
+  Contact phone number +34632232897
+  Send Your Response To: pedrohills@outlook.es
 
+  2 Millionen US-Dollar wurden an Sie gespendet. Von PEDRO ist dies für
+weitere Informationen real
+  Wenden Sie sich umgehend an PEDRO. Diese E-Mail:
+  pedrohills@outlook.es
+
+  Kontakttelefonnummer +34632232897
+  Senden Sie Ihre Antwort an: pedrohills@outlook.es
