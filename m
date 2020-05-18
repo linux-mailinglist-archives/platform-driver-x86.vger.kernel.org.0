@@ -2,58 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E65111D78EB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 May 2020 14:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA401D79FA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 May 2020 15:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726997AbgERMrr (ORCPT
+        id S1727989AbgERNff (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 May 2020 08:47:47 -0400
-Received: from wrqvzcbt.outbound-mail.sendgrid.net ([149.72.236.183]:43502
-        "EHLO wrqvzcbt.outbound-mail.sendgrid.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726709AbgERMrq (ORCPT
+        Mon, 18 May 2020 09:35:35 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64625 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726775AbgERNff (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 May 2020 08:47:46 -0400
-X-Greylist: delayed 381 seconds by postgrey-1.27 at vger.kernel.org; Mon, 18 May 2020 08:47:46 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net; 
-        h=reply-to:from:to:subject:mime-version:content-type:content-transfer-encoding; 
-        s=smtpapi; bh=AuTjMJxECmLv/teSYUFZLWKkpiXLNrSFepJXnhKTTZ0=; b=wp
-        JoFOFiO9D2hJoWmWuBU3gNrcf3qmnSt50m4qWRh9uUYJRA0Gyl63A0x3m5G0JNFS
-        Ws8OgTxfViXF1RYecpHlaJubPQgMePec9ebmKrvJeCqGePX34DVz7S5CARFcLFUp
-        m3+VwlHr2U8cDpYI0aVhDMI035p67UK4NKfULbtQQ=
-Received: by filter1287p1las1.sendgrid.net with SMTP id filter1287p1las1-13206-5EC28274-27
-        2020-05-18 12:41:24.865542681 +0000 UTC m=+2803752.589558295
-Received: from mail.com (unknown)
-        by ismtpd0084p1mdw1.sendgrid.net (SG) with ESMTP id lBLjB8G5Qji1I2KNIQ0mbg
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 May 2020 12:41:24.888 +0000 (UTC)
-Reply-To: adelenebreton@gmail.com
-From:   Richard Wahl <wahl-Richy@mail.com>
-To:     platform-driver-x86@vger.kernel.org
-Subject: DONATION!!!
-Date:   Mon, 18 May 2020 12:41:24 +0000 (UTC)
-Message-ID: <20200518124109.E2BC166167C1187D@mail.com>
+        Mon, 18 May 2020 09:35:35 -0400
+IronPort-SDR: BgxX+mo4GwtS0LRt7jon4Dkdii9FcyFcUJVDNGr/Ix5r8beM0gFKJSsQW6ZqDTwZcK8Lqwja6e
+ ng1WJBy3ILKA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 06:35:34 -0700
+IronPort-SDR: b+0BUGM31BW8JI4QsMPM5wO6d+1unXO1fRR8+5S0gjFWPJdYpJNl7gRJ1KWd2kE7x5B29JXV+2
+ vfc6OBwF7p+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; 
+   d="scan'208";a="373390387"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 18 May 2020 06:35:31 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 18 May 2020 16:35:30 +0300
+Date:   Mon, 18 May 2020 16:35:30 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     jakub@bilan.me
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        USB <linux-usb@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Subject: Re: your mail
+Message-ID: <20200518133530.GB1298122@kuha.fi.intel.com>
+References: <526351589195104@mail.yandex.com>
+ <20200511113506.GB2062175@kuha.fi.intel.com>
+ <CAHp75VcwUcbtZFQExEoJg9sFFVa_ueUT71SiMCVWetgaQg6kDQ@mail.gmail.com>
+ <5ee2b9ef-25e3-c049-3f82-d3d51d392824@redhat.com>
+ <CAHp75VdUeBt++mJCvWkHm82XQ+ze1U6OpQ9fv8Hb2d1Nfsz3pw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-SG-EID: ZZ42Z3nZcnjsFK4+fHwwX6KPJfU3JIY/v7AfUvqCtohJiLkuM+doRg1OpPPyizxlNWJPy7cSptviT4
- 3X7/0I1cG/141n3Ja+oe1xieFZDzdBYkfOUvAnqnhWRundAiEPVHEg/drgvDW/74e9D/ps2TMv4ty/
- n3fV+AYV2pqEO29s5KOKTTdAWpofEdgNeVnuQf0oXqq/ZoAttpAstsCiRaBSuJVOVlNo0bypDKx9f+
- 1IN4jEQ5Q2eLpKYY99L+Rb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdUeBt++mJCvWkHm82XQ+ze1U6OpQ9fv8Hb2d1Nfsz3pw@mail.gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello platform-driver-x86,
+Hi Jakub,
 
-you have a donation of $3,000,000.00 ( 3 million dollars).
-My name is Richard Wahl from the united states. I won the America=20
-lottery worth $533 million and I am donating a portion of it to=20
-just 10 lucky people and a few Orphanage homes as a memorandum of=20
-goodwill to humanity. and also as a way of assistance over the=20
-COVID 19 Pandemic.
-If you are a recipient of this mail platform-driver-
-x86@vger.kernel.org  contact me on  adelenebreton@gmail.com for=20
-more details and claim.
+On Mon, May 11, 2020 at 04:40:05PM +0300, Andy Shevchenko wrote:
+> On Mon, May 11, 2020 at 3:29 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> > On 5/11/20 1:44 PM, Andy Shevchenko wrote:
+> 
+> ...
+> 
+> > > I would rather disable them and issue a firmware bug.
+> > > Vendors, including us, should do something sane about this.
+> >
+> > I have to partially disagree here. I agree that for future hardware
+> > versions the firmware team of those devices should offer a saner
+> > interface. But for the current hardware gen I guess we are stuck
+> > with this and having a DMI table for popular models (well any model
+> > a Linux user is willing to submit a quirk for) is better then simply
+> > not having things working under Linux.
+> >
+> > I do wonder what Windows does here though. Perhaps the INT3513 device
+> > has some ACPI methods to query for more info, like how many Type-C
+> > controllers there actually are?
+> 
+> I think they do silly things there in usual obscure MS way, i.e.
+> hardcoding everything in the driver per platform.
+> That's why I'm really disappointed how things are going on.
 
- I may be very busy but I will take out time to respond to you.
+I've been trying to figure out which exact NUC10i3 your NUC is? I
+can't find a NUC10i3 that uses Comet Lake -S?
+
+If your NUC isn't actually "-S" variant, then the ACPI device entry
+with HID INT3515 should return 0 from its _STA method.
+
+But can you please share the full name of your board (like NUC10i3FNH
+or something like that - should read on the bottom of the device).
+Also, dmesg output would be useful.
+
+thanks,
+
+-- 
+heikki
