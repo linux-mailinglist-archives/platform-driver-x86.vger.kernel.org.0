@@ -2,99 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0461D9BEA
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 May 2020 18:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B0F31D9E38
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 May 2020 19:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729055AbgESQDi (ORCPT
+        id S1729164AbgESRvm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 May 2020 12:03:38 -0400
-Received: from mga06.intel.com ([134.134.136.31]:45832 "EHLO mga06.intel.com"
+        Tue, 19 May 2020 13:51:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37664 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729001AbgESQDh (ORCPT
+        id S1726059AbgESRvl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 May 2020 12:03:37 -0400
-IronPort-SDR: IgvqnSkXSR4Awa/tcl8nFcoHlsy5CQlqiGyBywmzZziT9tvw0+vR5KFuZI4phqEWubDYgADmFY
- 5felWYtiiusA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 09:03:36 -0700
-IronPort-SDR: fWovSdDswM66AcZN6edBdprpQo/g/swtmfnojYgrnPQHHmWpH8wQSNcdzQ5OlY0Xubw7IOxOQo
- +lHSZcut863g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
-   d="scan'208";a="411683296"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga004.jf.intel.com with ESMTP; 19 May 2020 09:03:36 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.7.201.137])
-        by linux.intel.com (Postfix) with ESMTP id 87C905803C5;
-        Tue, 19 May 2020 09:03:36 -0700 (PDT)
-Message-ID: <d0022af356cf9bd5b544187d9a396734d85a76b3.camel@linux.intel.com>
-Subject: Re: Low Latency Tolerance preventing Intel Package from entering
- deep sleep states
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "larsh@apache.org" <larsh@apache.org>,
-        "ibm-acpi-devel@lists.sourceforge.net" 
-        <ibm-acpi-devel@lists.sourceforge.net>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Date:   Tue, 19 May 2020 09:03:36 -0700
-In-Reply-To: <2952287.p5mUHPKNZq@kreacher>
-References: <1505028180.591737.1589564161284.ref@mail.yahoo.com>
-         <1505028180.591737.1589564161284@mail.yahoo.com>
-         <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
-         <2952287.p5mUHPKNZq@kreacher>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        Tue, 19 May 2020 13:51:41 -0400
+Received: from pali.im (pali.im [31.31.79.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D8A120674;
+        Tue, 19 May 2020 17:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589910701;
+        bh=qO414KmS7DC9vV6JVgPfD94wbq+HHVcUHYLT24PVLi4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pqiFlhxX8oinm7AVG1bzCGFtft9PrwLRVxBchE7Kyf7wFvpUQMws8j57PI2yZyuMV
+         0AX1gUUJDc9MIkchZYqXtmh4YmnIYkVPzZpN9VngSWu6ib/JmCoJe2hCXcMyOzOt6X
+         N/wpsyauyJERxQRtDD/Umh1UqoJjVkDCjGo6extI=
+Received: by pali.im (Postfix)
+        id CCCE46B8; Tue, 19 May 2020 19:51:38 +0200 (CEST)
+Date:   Tue, 19 May 2020 19:51:38 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: dell-wmi: Ignore keyboard attached /
+ detached events
+Message-ID: <20200519175138.xu7pquxyku6mwjwt@pali>
+References: <20200513130544.90243-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200513130544.90243-1-hdegoede@redhat.com>
+User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> > > Does anybody know what's going on or how to debug this further?
-> > > As stated above, I was able to work around this problem by
-> > > ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
-> > > There has to be a better way, and I'm sure I'm not the only one
-> > > running into this.
+On Wednesday 13 May 2020 15:05:44 Hans de Goede wrote:
+> Ignore events with a type of 0x0011 and a code of 0xfff2 / 0xfff3,
+> this silences the following messages being logged when the keyboard is
+> detached / attached on a Dell Venue 11 Pro 7130:
+> 
+> [   63.621953] dell_wmi: Unknown key with type 0x0011 and code 0xfff2 pressed
+> [   70.240558] dell_wmi: Unknown key with type 0x0011 and code 0xfff3 pressed
+> 
+> Note SW_TABLET_MODE is already reported through the intel_vbtn driver on
+> this and other Dell devices, so dell_wmi should not report this too,
+> to avoid duplicate events.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-ltr_show shows the PMC's (Power Management Controller) view of SoC
-devices and busses. The SOUTHPORTs are the PCIe root ports on your
-system. When you run lspci they are the PCI bridges. Generally, the
-bridges are enumerated in the same order as the SOUTHPORTs, so
-SOUTHPORT_A is your first bridge and the device attached to it (shown
-in lspci -t) is the device that was blocking deeper PC states according
-to your debug.
+Looks good, you can add my:
 
-Determine what this device is on your system. If the ltr was low it's
-because that is what the device requested. You should first check that
-runtime pm is enabled for the device. To do this, check the control
-file in /sys/bus/pci/devices/<SSSS:BB:DD.F>/power, where SSSS:BB:DD.F
-is the enumeration of your device as shown in lspci. If it is 'on' then
-runtime pm is disabled. To enable it echo 'auto' into the file with
-root privileges. Enabling runtime pm should allow the driver to reduce
-functionality of the device when idle. This should lead to a larger
-latency request on the PCI bus which should be reflected in ltr_show.
-You can see if the device is actually runtime suspended and how much
-time it's been suspended (or active) by reading the associated files in
-the power folder.
+Acked-by: Pali Rohár <pali@kernel.org>
 
-If this doesn't work, then it's possible that your device doesn't
-support runtime pm. This may be purposely for reliability reasons or
-the driver may just lack support. Check forums discussing issues with
-the device and look for possible options in the driver to force pm
-support (generally this will be centered around enabling ASPM).
-
-You can also download powertop to see the package c-state residencies
-more clearly as percentages of time. powertop also has a tunables tab
-that will show the status of runtime pm on all devices on the system
-and allow you to enable them individually.
-
-David
-
+> ---
+>  drivers/platform/x86/dell-wmi.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+> index 86e8dd6a8b33..c25a4286d766 100644
+> --- a/drivers/platform/x86/dell-wmi.c
+> +++ b/drivers/platform/x86/dell-wmi.c
+> @@ -310,6 +310,16 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
+>  	/* Battery inserted */
+>  	{ KE_IGNORE, 0xfff1, { KEY_RESERVED } },
+>  
+> +	/*
+> +	 * Detachable keyboard detached / undocked
+> +	 * Note SW_TABLET_MODE is already reported through the intel_vbtn
+> +	 * driver for this, so we ignore it.
+> +	 */
+> +	{ KE_IGNORE, 0xfff2, { KEY_RESERVED } },
+> +
+> +	/* Detachable keyboard attached / docked */
+> +	{ KE_IGNORE, 0xfff3, { KEY_RESERVED } },
+> +
+>  	/* Keyboard backlight level changed */
+>  	{ KE_IGNORE, KBD_LED_OFF_TOKEN,      { KEY_RESERVED } },
+>  	{ KE_IGNORE, KBD_LED_ON_TOKEN,       { KEY_RESERVED } },
+> -- 
+> 2.26.0
+> 
