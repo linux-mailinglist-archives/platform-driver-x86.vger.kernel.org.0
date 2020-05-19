@@ -2,190 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FE071D9B1A
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 May 2020 17:27:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0461D9BEA
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 May 2020 18:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728994AbgESP1s (ORCPT
+        id S1729055AbgESQDi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 May 2020 11:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728778AbgESP1s (ORCPT
+        Tue, 19 May 2020 12:03:38 -0400
+Received: from mga06.intel.com ([134.134.136.31]:45832 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729001AbgESQDh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 May 2020 11:27:48 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027F9C08C5C0;
-        Tue, 19 May 2020 08:27:47 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id o24so86749oic.0;
-        Tue, 19 May 2020 08:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=RYbtw7YF74B1TP3f62w+MMm9AmH3T7TyQIzVADm4joc=;
-        b=rWVW9SWwfu2ivOfML4vV88PpbtolLbU1Bt6z/GmKJYKvEr/IJAxC6A+Jan25TLv+67
-         f6IE5DHTZLO9gGFEuM+g3oHnVyHSJ/1mLnjUrYYjZXAPz9BWUue+vLouwKC8JwFv8lE+
-         xL0/DA4BFZAhctA7RjlV5tZSuNUaLhrxtuRqhK1yUPOYp6ErfW5gQDsQhUO0CmAWPi2Z
-         lRHLTdU/LN8H/XKQdofqT8kMbuaGuRe9RWzMqzwGXf8vsOpikWH1l25S/9gJ0m6Du4nz
-         fhUu0iIpQbgyQDF1hVuLP7njtWygXPhhp3G0cbKdGYkrIyXJBvOft96+Te4iOvLsZYuX
-         hYSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=RYbtw7YF74B1TP3f62w+MMm9AmH3T7TyQIzVADm4joc=;
-        b=sXL0PrAJxCM7+BbxgNi4MefqlLC08qc+twxmLDIf0B661TywSYp4L+7XrBhh6QMgkg
-         LQkR+lI1PrtOGt2Fty0O+n2aeOt4UZlUWWj5InimJdbBEeD2qumJ3I3eVqme4IOSdBFa
-         an4yDKu5a13Tu1+3+DfUZr0UwSnKeVclHWh1imgSQaBMv3VBWkZVbh8a8HFA18Mvt27s
-         EPX9gQ1lVndue+LHdaSzs9GKga+EDy67AeiDPq6PF/SUHUPB51vka9rJ1ExkedLmtPfI
-         CS7RM2cgQviWLfnB5xDrKFWOpu0iLxaXt0mTCCZNNAeWneDyYeNg3W5EYItJh0ex+5LH
-         MC3w==
-X-Gm-Message-State: AOAM532EvI7uyqtq8aNo4gZl2fR8LQB1WU/iLw4mE1BV/WvvShvUhXvl
-        zX0fHUKQiIY8f8w9SKEdY2Y=
-X-Google-Smtp-Source: ABdhPJztuxWSwe1B/C48Pk77y+JPvKe2hhPzs11LdWiec1uOOAS4b8PdoDnud6zWas21oN/OFnRQeg==
-X-Received: by 2002:aca:fc0c:: with SMTP id a12mr3784oii.50.1589902066973;
-        Tue, 19 May 2020 08:27:46 -0700 (PDT)
-Received: from localhost.localdomain ([143.166.81.254])
-        by smtp.gmail.com with ESMTPSA id m63sm3858556otm.21.2020.05.19.08.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 08:27:46 -0700 (PDT)
-From:   Stuart Hayes <stuart.w.hayes@gmail.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Stuart Hayes <stuart.w.hayes@gmail.com>
-Subject: [PATCH] dcdbas: Check SMBIOS for protected buffer address
-Date:   Tue, 19 May 2020 11:27:33 -0400
-Message-Id: <20200519152733.48689-1-stuart.w.hayes@gmail.com>
-X-Mailer: git-send-email 2.18.1
+        Tue, 19 May 2020 12:03:37 -0400
+IronPort-SDR: IgvqnSkXSR4Awa/tcl8nFcoHlsy5CQlqiGyBywmzZziT9tvw0+vR5KFuZI4phqEWubDYgADmFY
+ 5felWYtiiusA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 09:03:36 -0700
+IronPort-SDR: fWovSdDswM66AcZN6edBdprpQo/g/swtmfnojYgrnPQHHmWpH8wQSNcdzQ5OlY0Xubw7IOxOQo
+ +lHSZcut863g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
+   d="scan'208";a="411683296"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga004.jf.intel.com with ESMTP; 19 May 2020 09:03:36 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.7.201.137])
+        by linux.intel.com (Postfix) with ESMTP id 87C905803C5;
+        Tue, 19 May 2020 09:03:36 -0700 (PDT)
+Message-ID: <d0022af356cf9bd5b544187d9a396734d85a76b3.camel@linux.intel.com>
+Subject: Re: Low Latency Tolerance preventing Intel Package from entering
+ deep sleep states
+From:   "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "larsh@apache.org" <larsh@apache.org>,
+        "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Date:   Tue, 19 May 2020 09:03:36 -0700
+In-Reply-To: <2952287.p5mUHPKNZq@kreacher>
+References: <1505028180.591737.1589564161284.ref@mail.yahoo.com>
+         <1505028180.591737.1589564161284@mail.yahoo.com>
+         <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
+         <2952287.p5mUHPKNZq@kreacher>
+Organization: David E. Box
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add support for a new method for BIOS to provide the address and length
-of the protected SMI communication buffer, via SMBIOS OEM strings.
+> > > Does anybody know what's going on or how to debug this further?
+> > > As stated above, I was able to work around this problem by
+> > > ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
+> > > There has to be a better way, and I'm sure I'm not the only one
+> > > running into this.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
----
- drivers/platform/x86/dcdbas.c | 43 ++++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 13 deletions(-)
+ltr_show shows the PMC's (Power Management Controller) view of SoC
+devices and busses. The SOUTHPORTs are the PCIe root ports on your
+system. When you run lspci they are the PCI bridges. Generally, the
+bridges are enumerated in the same order as the SOUTHPORTs, so
+SOUTHPORT_A is your first bridge and the device attached to it (shown
+in lspci -t) is the device that was blocking deeper PC states according
+to your debug.
 
-diff --git a/drivers/platform/x86/dcdbas.c b/drivers/platform/x86/dcdbas.c
-index 84f4cc839cc3..d513a59a5d47 100644
---- a/drivers/platform/x86/dcdbas.c
-+++ b/drivers/platform/x86/dcdbas.c
-@@ -15,6 +15,7 @@
- #include <linux/platform_device.h>
- #include <linux/acpi.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dmi.h>
- #include <linux/errno.h>
- #include <linux/cpu.h>
- #include <linux/gfp.h>
-@@ -34,7 +35,7 @@
- #include "dcdbas.h"
- 
- #define DRIVER_NAME		"dcdbas"
--#define DRIVER_VERSION		"5.6.0-3.3"
-+#define DRIVER_VERSION		"5.6.0-3.4"
- #define DRIVER_DESCRIPTION	"Dell Systems Management Base Driver"
- 
- static struct platform_device *dcdbas_pdev;
-@@ -45,7 +46,7 @@ static unsigned long smi_data_buf_size;
- static unsigned long max_smi_data_buf_size = MAX_SMI_DATA_BUF_SIZE;
- static u32 smi_data_buf_phys_addr;
- static DEFINE_MUTEX(smi_data_lock);
--static u8 *eps_buffer;
-+static u8 *bios_buffer;
- 
- static unsigned int host_control_action;
- static unsigned int host_control_smi_type;
-@@ -518,8 +519,10 @@ static inline struct smm_eps_table *check_eps_table(u8 *addr)
- 
- static int dcdbas_check_wsmt(void)
- {
-+	const struct dmi_device *dev = NULL;
- 	struct acpi_table_wsmt *wsmt = NULL;
- 	struct smm_eps_table *eps = NULL;
-+	u64 bios_buf_paddr;
- 	u64 remap_size;
- 	u8 *addr;
- 
-@@ -532,6 +535,17 @@ static int dcdbas_check_wsmt(void)
- 	    !(wsmt->protection_flags & ACPI_WSMT_COMM_BUFFER_NESTED_PTR_PROTECTION))
- 		return 0;
- 
-+	/*
-+	 * BIOS could provide the address/size of the protected buffer
-+	 * in an SMBIOS string or in an EPS structure in 0xFxxxx.
-+	 */
-+
-+	/* Check SMBIOS for buffer address */
-+	while ((dev = dmi_find_device(DMI_DEV_TYPE_OEM_STRING, NULL, dev)))
-+		if (sscanf(dev->name, "30[%16llx;%8llx]", &bios_buf_paddr,
-+		    &remap_size) == 2)
-+			goto remap;
-+
- 	/* Scan for EPS (entry point structure) */
- 	for (addr = (u8 *)__va(0xf0000);
- 	     addr < (u8 *)__va(0x100000 - sizeof(struct smm_eps_table));
-@@ -542,34 +556,37 @@ static int dcdbas_check_wsmt(void)
- 	}
- 
- 	if (!eps) {
--		dev_dbg(&dcdbas_pdev->dev, "found WSMT, but no EPS found\n");
-+		dev_dbg(&dcdbas_pdev->dev, "found WSMT, but no firmware buffer found\n");
- 		return -ENODEV;
- 	}
-+	bios_buf_paddr = eps->smm_comm_buff_addr;
-+	remap_size = eps->num_of_4k_pages * PAGE_SIZE;
- 
-+remap:
- 	/*
- 	 * Get physical address of buffer and map to virtual address.
- 	 * Table gives size in 4K pages, regardless of actual system page size.
- 	 */
--	if (upper_32_bits(eps->smm_comm_buff_addr + 8)) {
--		dev_warn(&dcdbas_pdev->dev, "found WSMT, but EPS buffer address is above 4GB\n");
-+	if (upper_32_bits(bios_buf_paddr + 8)) {
-+		dev_warn(&dcdbas_pdev->dev, "found WSMT, but buffer address is above 4GB\n");
- 		return -EINVAL;
- 	}
- 	/*
- 	 * Limit remap size to MAX_SMI_DATA_BUF_SIZE + 8 (since the first 8
- 	 * bytes are used for a semaphore, not the data buffer itself).
- 	 */
--	remap_size = eps->num_of_4k_pages * PAGE_SIZE;
- 	if (remap_size > MAX_SMI_DATA_BUF_SIZE + 8)
- 		remap_size = MAX_SMI_DATA_BUF_SIZE + 8;
--	eps_buffer = memremap(eps->smm_comm_buff_addr, remap_size, MEMREMAP_WB);
--	if (!eps_buffer) {
--		dev_warn(&dcdbas_pdev->dev, "found WSMT, but failed to map EPS buffer\n");
-+
-+	bios_buffer = memremap(bios_buf_paddr, remap_size, MEMREMAP_WB);
-+	if (!bios_buffer) {
-+		dev_warn(&dcdbas_pdev->dev, "found WSMT, but failed to map buffer\n");
- 		return -ENOMEM;
- 	}
- 
- 	/* First 8 bytes is for a semaphore, not part of the smi_data_buf */
--	smi_data_buf_phys_addr = eps->smm_comm_buff_addr + 8;
--	smi_data_buf = eps_buffer + 8;
-+	smi_data_buf_phys_addr = bios_buf_paddr + 8;
-+	smi_data_buf = bios_buffer + 8;
- 	smi_data_buf_size = remap_size - 8;
- 	max_smi_data_buf_size = smi_data_buf_size;
- 	wsmt_enabled = true;
-@@ -736,8 +753,8 @@ static void __exit dcdbas_exit(void)
- 	 */
- 	if (dcdbas_pdev)
- 		smi_data_buf_free();
--	if (eps_buffer)
--		memunmap(eps_buffer);
-+	if (bios_buffer)
-+		memunmap(bios_buffer);
- 	platform_device_unregister(dcdbas_pdev_reg);
- 	platform_driver_unregister(&dcdbas_driver);
- }
--- 
-2.18.1
+Determine what this device is on your system. If the ltr was low it's
+because that is what the device requested. You should first check that
+runtime pm is enabled for the device. To do this, check the control
+file in /sys/bus/pci/devices/<SSSS:BB:DD.F>/power, where SSSS:BB:DD.F
+is the enumeration of your device as shown in lspci. If it is 'on' then
+runtime pm is disabled. To enable it echo 'auto' into the file with
+root privileges. Enabling runtime pm should allow the driver to reduce
+functionality of the device when idle. This should lead to a larger
+latency request on the PCI bus which should be reflected in ltr_show.
+You can see if the device is actually runtime suspended and how much
+time it's been suspended (or active) by reading the associated files in
+the power folder.
+
+If this doesn't work, then it's possible that your device doesn't
+support runtime pm. This may be purposely for reliability reasons or
+the driver may just lack support. Check forums discussing issues with
+the device and look for possible options in the driver to force pm
+support (generally this will be centered around enabling ASPM).
+
+You can also download powertop to see the package c-state residencies
+more clearly as percentages of time. powertop also has a tunables tab
+that will show the status of runtime pm on all devices on the system
+and allow you to enable them individually.
+
+David
 
