@@ -2,93 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B53041DAA87
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 May 2020 08:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9DE1DBB05
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 May 2020 19:19:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbgETGTm (ORCPT
+        id S1726803AbgETRTK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 20 May 2020 02:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35988 "EHLO
+        Wed, 20 May 2020 13:19:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726450AbgETGTl (ORCPT
+        with ESMTP id S1726439AbgETRTK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 20 May 2020 02:19:41 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BC96C061A0E
-        for <platform-driver-x86@vger.kernel.org>; Tue, 19 May 2020 23:19:40 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id t7so916182plr.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 19 May 2020 23:19:40 -0700 (PDT)
+        Wed, 20 May 2020 13:19:10 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216DDC05BD43
+        for <platform-driver-x86@vger.kernel.org>; Wed, 20 May 2020 10:19:10 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id f15so1610358plr.3
+        for <platform-driver-x86@vger.kernel.org>; Wed, 20 May 2020 10:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=4s3OgpgD5iw+FQB8YY820tZfgurIkzRgWd6A4SSOU8Y=;
-        b=fFJi/IuGX/+yn1rzTYldMdmVCWubECD7Lk2eeMGHQvN0O9pcDTcXsTNE/8lwuzQ+gO
-         6Bh9hEESrqP/S8ar7my5VqcK7vFBl12t2KR0omUtvlv1hSf6vMc/c/2ZoKaRQq0tzoLG
-         zeWYfNzEvbKufkJgfTPLWzj+3hB39/pe0A1dMD3mNlxE518Cqrwjk4gQVy5UDz0u3qan
-         ICm9hboxrYmUPjd7t3L5eazu1QYmjGJwyh3BlSUK3oW/hRkBE1SBfNxAigs24VKNfNk0
-         ZD9NqIWsLWl9wiuUhCfotjyJwxwZycRIok1p48U1GvKxC7iyfyjTh5l0iXtDCiAkdPjP
-         Egkw==
+        bh=S2xLidJ0hnI935YYnFtWGyJUIRc3KTILqlbh4Uyn5Nk=;
+        b=Ys5fYNwkAiCwQkbSl8A3xSidKXPIBkiPCsRQK1/xAMFnfuu0DH+Kcia9BOzgsHgvB2
+         hY+gBAkOB3dZsJ/IlBVMbWTXJoUOxzkHjcKnnPpO2LIhlL7NT0kyHrVGRi5dcUWusETo
+         ekDBfTEYDJSK6LwPWl39lHOJX+hCyNytLRhjE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=4s3OgpgD5iw+FQB8YY820tZfgurIkzRgWd6A4SSOU8Y=;
-        b=CP/I6G6UEroDkRI9P4LSAO6JC/9VhSl6OWG5ZI+JtPwBlfcoofzv6nUKG10TWWOOew
-         8kjJSjK74Ysf5L/uP/gAU372NZAoQBl5M++dFMzr6XbM/eBKPk7pIA2Pek2M6mbWnWe0
-         euf0CSLSu+5/uvNMWzdO7+LHRo8mdGMzPPkKQ2cdM9fhl3zXNMMwlzO0XffE4IWPG1xH
-         07YU/hZa36hFv6YWhlj/1xAsqNa6xbSgtMuTTIXi6FtKCNRjvFpgOQBXSKqS/mhy0Qoe
-         0BaTEk+dZbkTGAqv6APrXKoVgpVouBRFYtiU5IRaMUe8cnnP1K1d/c5Di8ui5OZlwFt8
-         J8Dw==
-X-Gm-Message-State: AOAM5320wByS+82hr/x0I+GfPlGAKdqJQWiCJJQz+NqqoF04GoSOkzvX
-        dqHgaG/1t1ApI2AASYAgfa1CxI0Or+8=
-X-Google-Smtp-Source: ABdhPJxm4+Yj8F1wt5wdh48N5Kk2Yu99pT59tC9y9ukI+CN5d4XBN7N0OVmkcHCWlz8SRamU4YqFdQ==
-X-Received: by 2002:a17:90a:7f8a:: with SMTP id m10mr3745919pjl.2.1589955579844;
-        Tue, 19 May 2020 23:19:39 -0700 (PDT)
-Received: from taihen.jp ([2405:6580:2100:d00:e039:f876:9cfb:e6bd])
-        by smtp.gmail.com with ESMTPSA id r69sm1165571pfc.209.2020.05.19.23.19.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=S2xLidJ0hnI935YYnFtWGyJUIRc3KTILqlbh4Uyn5Nk=;
+        b=q6yD/HLizi5EQIzqSL0N77UGls6HZ1v9QgFyFeBQEza/pgU5zr34yiT/T4QF9Pje0+
+         SwEhIe7YsCp4EBS1yugVOIVduIoTkprftXDKWTFSB4ptdSieIW2LdKTekQyCAh793ebI
+         am3muxchrABdV+chSH6c7DCPUhCfNIcNyIeYbXpxIqsv1h1bPPhu6bpdzPn3d5gp5eNH
+         2wdG3a+rR+9aLm7HWVUgCtEnQxHjEjgrw1SbBaJeXVcTBv+VDPuxsNGt12N9jkquPWod
+         L0D0Bj/xSfR9gxY10vwohTNw2nqq+UUuyajxxB/ATmNlllwoQne+h579FDNkAj9vQ+lE
+         8mzw==
+X-Gm-Message-State: AOAM531YFKQ9JQsWzKCKLZNc/3O0E5xG2OIRTszNGAN6jOFbylAbdfGQ
+        7VCYVWSd8PeYYm0yqyQ9Aidsrw==
+X-Google-Smtp-Source: ABdhPJxS8oFXRCCwkPUhDwoZ7BSTC8ta5ZZ0pp5FVpscOuK3PGI5YPCworulmUIJ9nn6NPqMSVXVdw==
+X-Received: by 2002:a17:902:aa94:: with SMTP id d20mr5339806plr.15.1589995149589;
+        Wed, 20 May 2020 10:19:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id r1sm2260026pgb.37.2020.05.20.10.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 23:19:39 -0700 (PDT)
-Date:   Wed, 20 May 2020 15:19:40 +0900
-From:   Mattia Dongili <malattia@linux.it>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] Two fixes for one sony-laptop reported bug on 5.6
-Message-ID: <20200520061940.GA107399@taihen.jp>
-References: <20200508001405.71176-1-malattia@linux.it>
+        Wed, 20 May 2020 10:19:08 -0700 (PDT)
+Date:   Wed, 20 May 2020 10:19:07 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org H. Peter Anvin" <hpa@zytor.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH] x86/uv/time: Replace one-element array and save heap
+ space
+Message-ID: <202005201017.72D1B3A@keescook>
+References: <20200518190114.GA7757@embeddedor>
+ <b03d196cdbbbc6e9e8456910c6c6673ab67f76cb.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200508001405.71176-1-malattia@linux.it>
-X-Message-Flag: Cranky? Try Free Software instead!
-X-Operating-System: Linux 5.7.0-rc4+ x86_64
-X-Editor: Vim http://www.vim.org/
-X-Disclaimer: Buh!
+In-Reply-To: <b03d196cdbbbc6e9e8456910c6c6673ab67f76cb.camel@perches.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 08, 2020 at 09:14:03AM +0900, malattia@linux.it wrote:
-> From: Mattia Dongili <malattia@linux.it>
+On Mon, May 18, 2020 at 12:09:16PM -0700, Joe Perches wrote:
+> On Mon, 2020-05-18 at 14:01 -0500, Gustavo A. R. Silva wrote:
+> > The current codebase makes use of one-element arrays in the following
+> > form:
+> > 
+> > struct something {
+> >     int length;
+> >     u8 data[1];
+> > };
+> []
+> > This issue has been out there since 2009.
+> > This issue was found with the help of Coccinelle and fixed _manually_.
+> []
+> > diff --git a/arch/x86/platform/uv/uv_time.c b/arch/x86/platform/uv/uv_time.c
+> > index 7af31b245636..993a8ae6fdfb 100644
+> > --- a/arch/x86/platform/uv/uv_time.c
+> > +++ b/arch/x86/platform/uv/uv_time.c
+> > @@ -52,7 +52,7 @@ struct uv_rtc_timer_head {
+> >  	struct {
+> >  		int	lcpu;		/* systemwide logical cpu number */
+> >  		u64	expires;	/* next timer expiration for this cpu */
+> > -	} cpu[1];
+> > +	} cpu[];
+> >  };
+> >  
+> >  /*
+> > @@ -156,9 +156,8 @@ static __init int uv_rtc_allocate_timers(void)
+> >  		struct uv_rtc_timer_head *head = blade_info[bid];
+> >  
+> >  		if (!head) {
+> > -			head = kmalloc_node(sizeof(struct uv_rtc_timer_head) +
+> > -				(uv_blade_nr_possible_cpus(bid) *
+> > -					2 * sizeof(u64)),
+> > +			head = kmalloc_node(struct_size(head, cpu,
+> > +				uv_blade_nr_possible_cpus(bid)),
 > 
-> They are both candidates for stable.
+> It's probably safer to use kzalloc_node here as well.
+
+Hm, I think it's not actually needed here. All three members are
+immediately initialized and it doesn't look to ever be copied to
+userspace.
+
 > 
-> Mattia Dongili (2):
->   platform/x86: sony-laptop: SNC calls should handle BUFFER types
->   platform/x86: sony-laptop: Make resuming thermal profile safer
+> >  				GFP_KERNEL, nid);
+> >  			if (!head) {
+> >  				uv_rtc_deallocate_timers();
 > 
->  drivers/platform/x86/sony-laptop.c | 60 +++++++++++++++---------------
->  1 file changed, 29 insertions(+), 31 deletions(-)
 
-[resending as the list rejected my earlier attempt]
+FWIW, I think this change is good as-is. Always nice to get back a
+little memory. ;)
 
-Andy, Darren,
-are you going to pick this set up for 5.7-rc? Else, is it 5.8 material and we
-aim for 5.6 and 5.7 stable patches?
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Thanks
 -- 
-mattia
-:wq!
+Kees Cook
