@@ -2,137 +2,179 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2925D1DE3E8
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 12:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60A001DEBFF
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 17:36:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729760AbgEVKOw (ORCPT
+        id S1730549AbgEVPgD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 May 2020 06:14:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37532 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728716AbgEVKOf (ORCPT
+        Fri, 22 May 2020 11:36:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbgEVPgC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 May 2020 06:14:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590142473;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FOU53/GKhFSDCFEqcsdErGmhyqCkF6RPDSEV44rw+e0=;
-        b=QkH1cjmgvIDIaLekQg/us47YuSOnyd1FT/JaLVwF8qKeMqnXXAH1L+gEoaUpZoeg4FLpJV
-        rrQTGZ6njpY6ae+j6LnQEtKntjlRfBjx6xkMPG3adqvVl/46BGhdhhgl9/KIJuxLqNodBq
-        PMFvp+mcNkQzRaD0xWnG3SboFg1VK1c=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-WaGDGuZMNVmYRiOGmH4X3Q-1; Fri, 22 May 2020 06:14:32 -0400
-X-MC-Unique: WaGDGuZMNVmYRiOGmH4X3Q-1
-Received: by mail-ej1-f71.google.com with SMTP id lk22so4398954ejb.15
-        for <platform-driver-x86@vger.kernel.org>; Fri, 22 May 2020 03:14:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FOU53/GKhFSDCFEqcsdErGmhyqCkF6RPDSEV44rw+e0=;
-        b=qLairDhch3AUmHi0B8FIpg3dY45DzBqBDJmSJ25jJX6h9//nha/0n9LRq18AntrIUP
-         L7AXn2rAPdz0mwJPalhXMqA3HvUVZq631SJtOESBa9UVHPtCEt7D8S627rY1JA7vBsmd
-         6aRbqrY4xVznlL0o2JtyazaZw0Lr3V8uJWcUkfi+/YgD1c/y2R5jDa5fljHfiVT+OVT6
-         tQcRJDw5lUSmQQu73IBOVeM0lQpE+VuLqwmqrUZea8CN0Y/F5P0/l2nx6PWwww+AM9Sd
-         djEwsb92gfWArT7YZ8SapJ6KbXmqkspvQwrK9ZlSVquGQ5cIgkQjxrYIL1DJ64DDdD9B
-         veLA==
-X-Gm-Message-State: AOAM530sCRBxXNIpknaYJAQN4N65caNT4skrcK6Aa8e7WPnQMfMAdj/f
-        6nUsdHsR57eFSk4qTneJsy0FHxqeIl1vuBJ1e9/Q4xmBTHS0AvaIDjogEukLV2ucK+humyzslv0
-        IVh9182S/F352sfIRaFgW8oFanaF/MCGZNA==
-X-Received: by 2002:a05:6402:6c1:: with SMTP id n1mr2369041edy.199.1590142471181;
-        Fri, 22 May 2020 03:14:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfC34MCbCH6URcwA7zYGRshQKEBRWb6nEZHBKVgIxEDOg1wtlGa9fvkmr/88CXVhHVgbeeAw==
-X-Received: by 2002:a05:6402:6c1:: with SMTP id n1mr2369020edy.199.1590142470804;
-        Fri, 22 May 2020 03:14:30 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id fi9sm7342293ejb.5.2020.05.22.03.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2020 03:14:29 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: asus_wmi: Reserve more space for struct
- bias_args
-To:     Chris Chiu <chiu@endlessm.com>, dvhart@infradead.org,
-        andy@infradead.org, gregkh@linuxfoundation.org,
-        gayatri.kammela@intel.com, mika.westerberg@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@endlessm.com
-References: <20200522074424.54264-1-chiu@endlessm.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <370d5f70-cb37-3ac8-7a7e-97f215b0ad8a@redhat.com>
-Date:   Fri, 22 May 2020 12:14:29 +0200
+        Fri, 22 May 2020 11:36:02 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B397C061A0E;
+        Fri, 22 May 2020 08:36:02 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 7F0622A38F6
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>
+References: <20200506002746.GB89269@dtor-ws>
+ <20200515164943.28480-1-andrzej.p@collabora.com>
+ <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
+ <20200517225510.GA205823@koala> <20200518024034.GL89269@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <513f25c0-7125-c564-0090-052d626fe508@collabora.com>
+Date:   Fri, 22 May 2020 17:35:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200522074424.54264-1-chiu@endlessm.com>
+In-Reply-To: <20200518024034.GL89269@dtor-ws>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Hi Hans, hi Dmitry,
 
-On 5/22/20 9:44 AM, Chris Chiu wrote:
-> On the ASUS laptop UX325JA/UX425JA, most of the media keys are not
-> working due to the ASUS WMI driver fails to be loaded. The ACPI error
-> as follows leads to the failure of asus_wmi_evaluate_method.
->    ACPI BIOS Error (bug): AE_AML_BUFFER_LIMIT, Field [IIA3] at bit offset/length 96/32 exceeds size of target Buffer (96 bits) (20200326/dsopcode-203)
->    No Local Variables are initialized for Method [WMNB]
->    ACPI Error: Aborting method \_SB.ATKD.WMNB due to previous error (AE_AML_BUFFER_LIMIT) (20200326/psparse-531)
+W dniu 18.05.2020 o 04:40, Dmitry Torokhov pisze:
+> Hi Hans, Peter,
 > 
-> The DSDT for the WMNB part shows that 5 DWORD required for local
-> variables and the 3rd variable IIA3 hit the buffer limit.
-> 
-> Method (WMNB, 3, Serialized)
-> { ..
->      CreateDWordField (Arg2, Zero, IIA0)
->      CreateDWordField (Arg2, 0x04, IIA1)
->      CreateDWordField (Arg2, 0x08, IIA2)
->      CreateDWordField (Arg2, 0x0C, IIA3)
->      CreateDWordField (Arg2, 0x10, IIA4)
->      Local0 = (Arg1 & 0xFFFFFFFF)
->      If ((Local0 == 0x54494E49))
->    ..
-> }
-> 
-> The limitation is determined by the input acpi_buffer size passed
-> to the wmi_evaluate_method. Since the struct bios_args is the data
-> structure used as input buffer by default for all ASUS WMI calls,
-> the size needs to be expanded to fix the problem.
-> 
-> Signed-off-by: Chris Chiu <chiu@endlessm.com>
+> On Mon, May 18, 2020 at 08:55:10AM +1000, Peter Hutterer wrote:
+>> On Fri, May 15, 2020 at 08:19:10PM +0200, Hans de Goede wrote:
+>>> Hi Andrezj,
+>>>
 
-Thank you, patch looks good to me:
+<snip>
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>
+>>> I also noticed that you keep the device open (do not call the
+>>> input_device's close callback) when inhibited and just throw away
+>>> any events generated. This seems inefficient and may lead to
+>>> the internal state getting out of sync. What if a key is pressed
+>>> while inhibited and then the device is uninhibited while the key
+>>> is still pressed?  Now the press event is lost and userspace
+>>> querying the current state will see the pressed key as being
+>>> released.
+> 
+> This is a good point. We should look into signalling that some events
+> have been dropped (via EV_SYN/SYN_DROPPED) so that clients are aware of
+> it.
+> 
+
+It seems to me that the situation Hans envisions is not possible,
+or will not be possible with a simple change. Let me explain.
+
+For a start, let's recall that the input core prevents consecutive
+events of the same kind (type _and_ code _and_ value) from being
+delivered to handlers. The decision is made in input_get_disposition().
+For EV_KEY it is:
+
+		if (is_event_supported(code, dev->keybit, KEY_MAX)) {
+
+			/* auto-repeat bypasses state updates */
+			if (value == 2) {
+				disposition = INPUT_PASS_TO_HANDLERS;
+				break;
+			}
+
+			if (!!test_bit(code, dev->key) != !!value) {
+
+				__change_bit(code, dev->key);
+				disposition = INPUT_PASS_TO_HANDLERS;
+			}
+		}
+
+Let's now focus on value != 2 (events other than auto-repeat).
+The disposition changes from the default INPUT_IGNORE_EVENT to
+INPUT_PASS_TO_HANDLERS only when the event in question changes
+the current state: either by releasing a pressed key, or by
+pressing a released key. Subsequent releases of a released key
+or subsequent presses of a pressed key will be ignored.
+
+What Hans points out is the possibility of uninhibiting a device
+while its key is pressed and then releasing the key. First of all,
+during inhibiting input_dev_release_keys() is called, so input_dev's
+internal state will be cleared of all pressed keys. Then the device
+- after being uninhibited - all of a sudden produces a key release
+event. It will be ignored as per the "subsequent releases of a
+released key" case, so the handlers will not be passed an unmatched
+key release event. Assuming that passing an unmatched key release
+event was Hans's concern, in this case it seems impossible.
+
+Now, the value of 2 (auto-repeat) needs some attention. There are two
+cases to consider: the device uses input core's software repeat or it
+uses its own (hardware) repeat.
+
+Let's consider the first case. The timer which generates auto-repeat
+is only started on a key press event and only stopped on a key release
+event. As such, if any auto-repeat was in progress when inhibiting
+happened, it must have been stopped as per input_dev_release_keys().
+Then the key is pressed and held after the device has been inhibited,
+and the device is being uninhibited. Since it uses software auto-repeat,
+no events will be reported by the device until the key is released,
+and, as explained above, the release event will be ignored.
+
+Let's consider the second case. The key is pressed and held after the
+device has been inhibited and the device is being uninhibited. The worst
+thing that can happen is unmatched key repeat events will start coming
+from the device. We must prevent them from reaching the handlers and
+ignore them instead. So I suggest something on the lines of:
+
+if (is_event_supported(code, dev->keybit, KEY_MAX)) {
+
+			/* auto-repeat bypasses state updates */
+-			if (value == 2) {
++			if (value == 2 && test_bit(code, dev->key)) {
+				disposition = INPUT_PASS_TO_HANDLERS;
+				break;
+			}
+
+The intended meaning is "ignore key repeat events if the key is not
+pressed".
+
+With this small change I believe it is not possible to have neither
+unmatched release nor unmatched repeat being delivered to handlers.
 
 Regards,
 
-Hans
-
-
-> ---
->   drivers/platform/x86/asus-wmi.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index bb7c529d7d16..cd212ee210e2 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -116,6 +116,8 @@ struct bios_args {
->   	u32 arg0;
->   	u32 arg1;
->   	u32 arg2; /* At least TUF Gaming series uses 3 dword input buffer. */
-> +	u32 arg4;
-> +	u32 arg5;
->   } __packed;
->   
->   /*
-> 
-
+Andrzej
