@@ -2,179 +2,235 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A001DEBFF
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 17:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75CE91DED0C
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 18:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730549AbgEVPgD (ORCPT
+        id S1730283AbgEVQR0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 May 2020 11:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727807AbgEVPgC (ORCPT
+        Fri, 22 May 2020 12:17:26 -0400
+Received: from sonic304-9.consmr.mail.bf2.yahoo.com ([74.6.128.32]:41330 "EHLO
+        sonic304-9.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729903AbgEVQRZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 May 2020 11:36:02 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B397C061A0E;
-        Fri, 22 May 2020 08:36:02 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 7F0622A38F6
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>
-References: <20200506002746.GB89269@dtor-ws>
- <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <20200517225510.GA205823@koala> <20200518024034.GL89269@dtor-ws>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <513f25c0-7125-c564-0090-052d626fe508@collabora.com>
-Date:   Fri, 22 May 2020 17:35:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 22 May 2020 12:17:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1590164243; bh=1/BDsh6x7VnGRY/cGKnyW3SXr5+dXdNv0lc5Ea4Rcx8=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=qHeVAp9uy/J/tt/hyEfUlzgefCDz4SSZpAtzXerheV9P6E4WDTkDPVxTcRUI+LNHM3TFHD6EFLcXKGPJoTY4CPYW0oZT8H8oUWhNGBiauB8sQW0odyzbYNlbB489gFXW0Os0xdzCaPxAoH/WC+kAnByEqE9RoYssxYItRSVbZtfoZbreyIn2P4E4w8e7VbPWX6xock4Sap4RdPUleDQETJtccsq7wiPV/XJHYJnuwxzGqkTloHrgfWVLFPGk6VXqBGJxtOwpjKjn+yraPvMN+f+2tBiLC2W6cd9mYrMPleM2Eh/Gk68Wf8VG/Y1SdK8fS80WHB/b3Aw+o0raTph3ZA==
+X-YMail-OSG: 2CxJEw8VM1mhutOL1YI3xSnN4dIo0djoBFfV7cpsvqp_itjpdl03xx1c_FoJA0k
+ KO8gikd_5bxG8JJlJF6NtYpM1QPBnfpeEyWXlSWizX0xPyTq45cv0l9r5YZE6Josjg2i80KEnFys
+ HBX.iirdbAsneOhI05.RG9uGMOPWLwEFje04tdM9MC08KrtBbYIb6EpAoegVzfnyXsgC5fA2iffN
+ 2doS9wWeQP34w5FVEDXwGABn4c4sTdXsy6RML4wk08D0oKI8A5DH.n3j4aOn49thIs4PGhqUbioJ
+ Bq4_fO6BdpEO5FMVvWd8Ax0wjNgFCfE9m9D5CfKjyzQ94xYFSBDV77zE2h.pEW9wvzSdm08c98CK
+ DvN0Kw2tdN8T0aS.L3vgPe10viv_U2WIYWCAnFAFLNMzNaZ8DtorCrPbxIC3wmPANPGNcmTz_VgV
+ IoRDjv2zE7Et.XkMtwCHZm52YlxFhBGJ_lymJZjAQum.E1ERFvdw53thxjS1I9zbCyvBHqVXV9b2
+ Ol3dJ3QbQuevMlUPug5RFg9rPi_fRd1NCX_DewhTkQmKIuGQIyV5S5Kc.W2uuU5vCv20wPyoXiRd
+ 1uu9CoUboPK4lMncRN1uqhtOKxtY9Q.CrYpLHhyQhZ2WBH52fZ_4tiyG_Q_Kc5resuDOGb7tRKL2
+ .qiqOCDKZhcu0KiY8Kv46x1vmnIBm3LJAuku0rtS1vQNTbcbuJI1Dc5JkLq.nEGd_ZpSfA_3Ah73
+ 7AmnVZkparFBaGt2lg73e_hEW7Z3.aeBTH.NDXBQRYFC61ozEKE8_Tnaql332j7_I6LzImXyYuhV
+ o7l.naiBiV28Lh.a0ELkMEXhc8o8TBH4ptS4BmFst1uN31QNfSiLqf1X0wwDFOk3EMrZWQH.uBWh
+ X3N7txztCYQ81CLWKiGX9j2RqWGiVELwJIZWbMzFC5cBKl2hZRVMAllRskr_U_jVe.ZktgU_vJvn
+ a4NSq9M__lV2ODyZgJmQqXxcQqN7jfVHAECAxYDpIMrczwpXn_tWdjUPj3bJaFyhTvxZUe3bXlKD
+ 7Y0OfdwsNskZZukj4GaIjY5XAODBVHS9E_9Wtp07CI0yHdCi_VqENF5oOY_uL408WNSNBuSIsg66
+ j4TlhCJhjko8MNebORWGUDT4J5ihn0m1jws1jHcD7Ybz19lcOQt1mYxY9zJuZU0QQJcrzp9Ueq2X
+ U7P6jDuzzT_2vBTI4kqCl3WUG4h3SQ0_jAn.jTlP6exL00mEPVsmcUud6n.sopAqhhrI23mpr5G5
+ dokOyW9xC3pvWZHPXLPOeuAALJ.hrxzWM8o.PEqthPTzGSDoyDhpDcHd_ReMQnearNcyWWITJIVD
+ CMXHoHD7FxGfT_1.vxUF3T4HKUquCFE2Km7o-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.bf2.yahoo.com with HTTP; Fri, 22 May 2020 16:17:23 +0000
+Date:   Fri, 22 May 2020 16:16:35 +0000 (UTC)
+From:   "larsh@apache.org" <larsh@apache.org>
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "David E. Box" <david.e.box@linux.intel.com>,
+        "ibm-acpi-devel@lists.sourceforge.net" 
+        <ibm-acpi-devel@lists.sourceforge.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Message-ID: <1499931432.2309073.1590164195855@mail.yahoo.com>
+In-Reply-To: <CAHp75VcQSECZeK-5OhJqXaZdW0r8gnvt_PBSKGK4+BKpa9D9KQ@mail.gmail.com>
+References: <1505028180.591737.1589564161284.ref@mail.yahoo.com> <1505028180.591737.1589564161284@mail.yahoo.com> <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com> <2952287.p5mUHPKNZq@kreacher> <d0022af356cf9bd5b544187d9a396734d85a76b3.camel@linux.intel.com> <193598853.2172716.1590128099214@mail.yahoo.com> <CAHp75VcQSECZeK-5OhJqXaZdW0r8gnvt_PBSKGK4+BKpa9D9KQ@mail.gmail.com>
+Subject: Re: Low Latency Tolerance preventing Intel Package from entering
+ deep sleep states
 MIME-Version: 1.0
-In-Reply-To: <20200518024034.GL89269@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.15960 YMailNorrin Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans, hi Dmitry,
+Relevant logs:
 
-W dniu 18.05.2020 o 04:40, Dmitry Torokhov pisze:
-> Hi Hans, Peter,
-> 
-> On Mon, May 18, 2020 at 08:55:10AM +1000, Peter Hutterer wrote:
->> On Fri, May 15, 2020 at 08:19:10PM +0200, Hans de Goede wrote:
->>> Hi Andrezj,
->>>
+May 21 23:05:31 host kernel: sdhci-pci 0000:53:00.0: SDHCI controller found=
+ [17a0:9755] (rev 0)
+May 21 23:05:31 host kernel: sdhci-pci 0000:53:00.0: enabling device (0000 =
+-> 0002)
+May 21 23:05:31 host kernel: mmc0: SDHCI controller on PCI [0000:53:00.0] u=
+sing ADMA 64-bit
 
-<snip>
 
->>
->>> I also noticed that you keep the device open (do not call the
->>> input_device's close callback) when inhibited and just throw away
->>> any events generated. This seems inefficient and may lead to
->>> the internal state getting out of sync. What if a key is pressed
->>> while inhibited and then the device is uninhibited while the key
->>> is still pressed?  Now the press event is lost and userspace
->>> querying the current state will see the pressed key as being
->>> released.
-> 
-> This is a good point. We should look into signalling that some events
-> have been dropped (via EV_SYN/SYN_DROPPED) so that clients are aware of
-> it.
-> 
 
-It seems to me that the situation Hans envisions is not possible,
-or will not be possible with a simple change. Let me explain.
+On Friday, May 22, 2020, 1:59:08 AM PDT, Andy Shevchenko <andy.shevchenko@g=
+mail.com> wrote:=20
 
-For a start, let's recall that the input core prevents consecutive
-events of the same kind (type _and_ code _and_ value) from being
-delivered to handlers. The decision is made in input_get_disposition().
-For EV_KEY it is:
 
-		if (is_event_supported(code, dev->keybit, KEY_MAX)) {
 
-			/* auto-repeat bypasses state updates */
-			if (value == 2) {
-				disposition = INPUT_PASS_TO_HANDLERS;
-				break;
-			}
 
-			if (!!test_bit(code, dev->key) != !!value) {
 
-				__change_bit(code, dev->key);
-				disposition = INPUT_PASS_TO_HANDLERS;
-			}
-		}
++Cc: Adrian
 
-Let's now focus on value != 2 (events other than auto-repeat).
-The disposition changes from the default INPUT_IGNORE_EVENT to
-INPUT_PASS_TO_HANDLERS only when the event in question changes
-the current state: either by releasing a pressed key, or by
-pressing a released key. Subsequent releases of a released key
-or subsequent presses of a pressed key will be ignored.
+On Fri, May 22, 2020 at 9:15 AM larsh@apache.org <larsh@apache.org> wrote:
+>
+> Thanks David!
+>
+> With this I tracked down the SD Card Reader (Genesys Logic, Inc Device 97=
+55) as the culprit.
+> These are standard in many ThinkPads.
+> The curious part is that resume from suspend (S3 or S0iX) also fixes the =
+problem.
+> Looks like the driver is not initializing correctly at boot time.
+>
+> Transcript:
+>
+> $ cat /sys/kernel/debug/pmc_core/ltr_show | grep SOUTHPORT
+> SOUTHPORT_A=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x88018c01=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 1024=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 Snoop(ns): 32768
+> SOUTHPORT_B=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+> SOUTHPORT_C=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x9f409f4=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+> SOUTHPORT_D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x88aa88aa=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 174080=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 Snoop(ns): 174080
+> SOUTHPORT_E=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+>
+> $ lspci -t
+> -[0000:00]-+-00.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-01.0-[01]--+-00.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 \-00.1
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-02.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-04.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-08.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-12.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-14.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-14.2
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-15.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-16.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1c.0-[53]----00.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1d.0-[02]----00.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1d.6-[52]----00.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1e.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1f.0
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1f.3
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1f.4
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +-1f.5
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \-1f.6
+>
+> $ lspci | grep 53
+> 53:00.0 SD Host controller: Genesys Logic, Inc Device 9755
+>
+> $ cat /sys/bus/pci/devices/0000\:53\:00.0/power/control
+> auto
+>
+> $ echo 1 > /sys/bus/pci/devices/0000\:53\:00.0/remove
+> 1
+>
+> $ cat /sys/kernel/debug/pmc_core/ltr_show | grep SOUTHPORT
+> SOUTHPORT_A=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x8010c01=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+> SOUTHPORT_B=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+> SOUTHPORT_C=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x9f409f4=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+> SOUTHPORT_D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x8c548c54=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 2752512=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 Snoop(ns): 2752512
+> SOUTHPORT_E=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LTR: RAW: 0x0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Non-Snoop(ns): 0=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Snoop(ns): 0
+>
+> Cheers.
+>
+> -- Lars
+>
+>
+>
+>
+>
+>
+>
+>
+> On Tuesday, May 19, 2020, 9:03:53 AM PDT, David E. Box <david.e.box@linux=
+.intel.com> wrote:
+>
+>
+>
+>
+>
+> > > > Does anybody know what's going on or how to debug this further?
+> > > > As stated above, I was able to work around this problem by
+> > > > ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
+> > > > There has to be a better way, and I'm sure I'm not the only one
+> > > > running into this.
+>
+> ltr_show shows the PMC's (Power Management Controller) view of SoC
+> devices and busses. The SOUTHPORTs are the PCIe root ports on your
+> system. When you run lspci they are the PCI bridges. Generally, the
+> bridges are enumerated in the same order as the SOUTHPORTs, so
+> SOUTHPORT_A is your first bridge and the device attached to it (shown
+> in lspci -t) is the device that was blocking deeper PC states according
+> to your debug.
+>
+> Determine what this device is on your system. If the ltr was low it's
+> because that is what the device requested. You should first check that
+> runtime pm is enabled for the device. To do this, check the control
+> file in /sys/bus/pci/devices/<SSSS:BB:DD.F>/power, where SSSS:BB:DD.F
+> is the enumeration of your device as shown in lspci. If it is 'on' then
+> runtime pm is disabled. To enable it echo 'auto' into the file with
+> root privileges. Enabling runtime pm should allow the driver to reduce
+> functionality of the device when idle. This should lead to a larger
+> latency request on the PCI bus which should be reflected in ltr_show.
+> You can see if the device is actually runtime suspended and how much
+> time it's been suspended (or active) by reading the associated files in
+> the power folder.
+>
+> If this doesn't work, then it's possible that your device doesn't
+> support runtime pm. This may be purposely for reliability reasons or
+> the driver may just lack support. Check forums discussing issues with
+> the device and look for possible options in the driver to force pm
+> support (generally this will be centered around enabling ASPM).
+>
+> You can also download powertop to see the package c-state residencies
+> more clearly as percentages of time. powertop also has a tunables tab
+> that will show the status of runtime pm on all devices on the system
+> and allow you to enable them individually.
+>
+>
+> David
 
-What Hans points out is the possibility of uninhibiting a device
-while its key is pressed and then releasing the key. First of all,
-during inhibiting input_dev_release_keys() is called, so input_dev's
-internal state will be cleared of all pressed keys. Then the device
-- after being uninhibited - all of a sudden produces a key release
-event. It will be ignored as per the "subsequent releases of a
-released key" case, so the handlers will not be passed an unmatched
-key release event. Assuming that passing an unmatched key release
-event was Hans's concern, in this case it seems impossible.
+>
 
-Now, the value of 2 (auto-repeat) needs some attention. There are two
-cases to consider: the device uses input core's software repeat or it
-uses its own (hardware) repeat.
 
-Let's consider the first case. The timer which generates auto-repeat
-is only started on a key press event and only stopped on a key release
-event. As such, if any auto-repeat was in progress when inhibiting
-happened, it must have been stopped as per input_dev_release_keys().
-Then the key is pressed and held after the device has been inhibited,
-and the device is being uninhibited. Since it uses software auto-repeat,
-no events will be reported by the device until the key is released,
-and, as explained above, the release event will be ignored.
+--=20
+With Best Regards,
+Andy Shevchenko
 
-Let's consider the second case. The key is pressed and held after the
-device has been inhibited and the device is being uninhibited. The worst
-thing that can happen is unmatched key repeat events will start coming
-from the device. We must prevent them from reaching the handlers and
-ignore them instead. So I suggest something on the lines of:
-
-if (is_event_supported(code, dev->keybit, KEY_MAX)) {
-
-			/* auto-repeat bypasses state updates */
--			if (value == 2) {
-+			if (value == 2 && test_bit(code, dev->key)) {
-				disposition = INPUT_PASS_TO_HANDLERS;
-				break;
-			}
-
-The intended meaning is "ignore key repeat events if the key is not
-pressed".
-
-With this small change I believe it is not possible to have neither
-unmatched release nor unmatched repeat being delivered to handlers.
-
-Regards,
-
-Andrzej
