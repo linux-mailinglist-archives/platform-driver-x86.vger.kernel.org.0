@@ -2,193 +2,137 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E4501DE281
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 10:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2925D1DE3E8
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 May 2020 12:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729107AbgEVI7C (ORCPT
+        id S1729760AbgEVKOw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 May 2020 04:59:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbgEVI7B (ORCPT
+        Fri, 22 May 2020 06:14:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37532 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728716AbgEVKOf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 May 2020 04:59:01 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D155FC061A0E;
-        Fri, 22 May 2020 01:59:01 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id ci21so4661962pjb.3;
-        Fri, 22 May 2020 01:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=V0IWUwMc/srUWcJUu+6/hxd1H7cj5uoLmAUBBeUE/nY=;
-        b=b0R2Kgc9ZuREKf/56jiSRr+W4l/4mWqn+/PTbWFmPfMPVja+B48AFFDo6iZQ/o50wv
-         lUd9GO51RSvxzphhTzwGBlKW16hylYbbEplCW8ihoQch90rpeinw9Qy3H7lx/QtaoBzm
-         f3Ms3h4moBV3CVgR/5AXJz6WuKuW9uGz7DUYxKyEgzyZvjNbFP2E4zwelQ7eCfqJ4zIv
-         GKTzZ3SzarXIS09blxsQIaePVTmP63FOyKdh9yVbyW7BKYW+eEcZFnS2Uhiwq8byFFBo
-         zsjEQYOFunlE09hit14SLny1aZU3Kl0lLb9hBpfAzhLmeoKjrPkLOmiC6Z5zcBQRYUlm
-         HIbw==
+        Fri, 22 May 2020 06:14:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590142473;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FOU53/GKhFSDCFEqcsdErGmhyqCkF6RPDSEV44rw+e0=;
+        b=QkH1cjmgvIDIaLekQg/us47YuSOnyd1FT/JaLVwF8qKeMqnXXAH1L+gEoaUpZoeg4FLpJV
+        rrQTGZ6njpY6ae+j6LnQEtKntjlRfBjx6xkMPG3adqvVl/46BGhdhhgl9/KIJuxLqNodBq
+        PMFvp+mcNkQzRaD0xWnG3SboFg1VK1c=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-WaGDGuZMNVmYRiOGmH4X3Q-1; Fri, 22 May 2020 06:14:32 -0400
+X-MC-Unique: WaGDGuZMNVmYRiOGmH4X3Q-1
+Received: by mail-ej1-f71.google.com with SMTP id lk22so4398954ejb.15
+        for <platform-driver-x86@vger.kernel.org>; Fri, 22 May 2020 03:14:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V0IWUwMc/srUWcJUu+6/hxd1H7cj5uoLmAUBBeUE/nY=;
-        b=ZiOQHOgtHaOp+BrNkaGOH1C+dngwLcBJhwlsu+9JheWZW2DRsUZIahkwOmkeNteNxf
-         NrXKQ6cMl4SVAA9qdvsm7NytDsN0lGyXOmeCIEu+PNB4VUVHigxHgFSvuMmNbP79od+p
-         HPyLQRGlO7QzbAGs+EM7tDKwgWISJZHKFfamtYHw4AcoQJOYVqg0AWHng4E+q9m82HwU
-         KknNS2Zd87VBbm9ym4+qhVSY4XAgsRkAcD3TiXhT34PSIyHNHKEpYOu28kUvX2NtLG+M
-         6GyPt2ad4TMtCddlmttl3RijGeWa/JKQuNGQuKFYG6T79R4PWi/q0w1N4wkYGRdsvFRy
-         2vlQ==
-X-Gm-Message-State: AOAM531XG/nz+5/qPTPWSglDxVKT5tHqQL3q9RYeLfM8uOAzTMVIGouw
-        tO0F//eeEQGA30IurE3EfAGjv14DHxVeNewbJZI=
-X-Google-Smtp-Source: ABdhPJzW1PCtrjJS+E3ZJX5U/D6yVKL3hJO8V1b3sbmsgyKBMMjWrXatV4ohJM4jUty8jBBXIxDvZvE0p2k4Egt3f+c=
-X-Received: by 2002:a17:90b:113:: with SMTP id p19mr3374828pjz.129.1590137941381;
- Fri, 22 May 2020 01:59:01 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FOU53/GKhFSDCFEqcsdErGmhyqCkF6RPDSEV44rw+e0=;
+        b=qLairDhch3AUmHi0B8FIpg3dY45DzBqBDJmSJ25jJX6h9//nha/0n9LRq18AntrIUP
+         L7AXn2rAPdz0mwJPalhXMqA3HvUVZq631SJtOESBa9UVHPtCEt7D8S627rY1JA7vBsmd
+         6aRbqrY4xVznlL0o2JtyazaZw0Lr3V8uJWcUkfi+/YgD1c/y2R5jDa5fljHfiVT+OVT6
+         tQcRJDw5lUSmQQu73IBOVeM0lQpE+VuLqwmqrUZea8CN0Y/F5P0/l2nx6PWwww+AM9Sd
+         djEwsb92gfWArT7YZ8SapJ6KbXmqkspvQwrK9ZlSVquGQ5cIgkQjxrYIL1DJ64DDdD9B
+         veLA==
+X-Gm-Message-State: AOAM530sCRBxXNIpknaYJAQN4N65caNT4skrcK6Aa8e7WPnQMfMAdj/f
+        6nUsdHsR57eFSk4qTneJsy0FHxqeIl1vuBJ1e9/Q4xmBTHS0AvaIDjogEukLV2ucK+humyzslv0
+        IVh9182S/F352sfIRaFgW8oFanaF/MCGZNA==
+X-Received: by 2002:a05:6402:6c1:: with SMTP id n1mr2369041edy.199.1590142471181;
+        Fri, 22 May 2020 03:14:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfC34MCbCH6URcwA7zYGRshQKEBRWb6nEZHBKVgIxEDOg1wtlGa9fvkmr/88CXVhHVgbeeAw==
+X-Received: by 2002:a05:6402:6c1:: with SMTP id n1mr2369020edy.199.1590142470804;
+        Fri, 22 May 2020 03:14:30 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id fi9sm7342293ejb.5.2020.05.22.03.14.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 May 2020 03:14:29 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: asus_wmi: Reserve more space for struct
+ bias_args
+To:     Chris Chiu <chiu@endlessm.com>, dvhart@infradead.org,
+        andy@infradead.org, gregkh@linuxfoundation.org,
+        gayatri.kammela@intel.com, mika.westerberg@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@endlessm.com
+References: <20200522074424.54264-1-chiu@endlessm.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <370d5f70-cb37-3ac8-7a7e-97f215b0ad8a@redhat.com>
+Date:   Fri, 22 May 2020 12:14:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <1505028180.591737.1589564161284.ref@mail.yahoo.com>
- <1505028180.591737.1589564161284@mail.yahoo.com> <CAHp75VfC0NdyyR1zXbk47G_9y5ResrpV+w3cOntDqP_naocuvQ@mail.gmail.com>
- <2952287.p5mUHPKNZq@kreacher> <d0022af356cf9bd5b544187d9a396734d85a76b3.camel@linux.intel.com>
- <193598853.2172716.1590128099214@mail.yahoo.com>
-In-Reply-To: <193598853.2172716.1590128099214@mail.yahoo.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 22 May 2020 11:58:44 +0300
-Message-ID: <CAHp75VcQSECZeK-5OhJqXaZdW0r8gnvt_PBSKGK4+BKpa9D9KQ@mail.gmail.com>
-Subject: Re: Low Latency Tolerance preventing Intel Package from entering deep
- sleep states
-To:     "larsh@apache.org" <larsh@apache.org>,
-        Adrian Hunter <adrian.hunter@intel.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "David E. Box" <david.e.box@linux.intel.com>,
-        "ibm-acpi-devel@lists.sourceforge.net" 
-        <ibm-acpi-devel@lists.sourceforge.net>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200522074424.54264-1-chiu@endlessm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-+Cc: Adrian
+Hi,
 
-On Fri, May 22, 2020 at 9:15 AM larsh@apache.org <larsh@apache.org> wrote:
->
-> Thanks David!
->
-> With this I tracked down the SD Card Reader (Genesys Logic, Inc Device 9755) as the culprit.
-> These are standard in many ThinkPads.
-> The curious part is that resume from suspend (S3 or S0iX) also fixes the problem.
-> Looks like the driver is not initializing correctly at boot time.
->
-> Transcript:
->
-> $ cat /sys/kernel/debug/pmc_core/ltr_show | grep SOUTHPORT
-> SOUTHPORT_A                             LTR: RAW: 0x88018c01            Non-Snoop(ns): 1024             Snoop(ns): 32768
-> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_C                             LTR: RAW: 0x9f409f4             Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_D                             LTR: RAW: 0x88aa88aa            Non-Snoop(ns): 174080           Snoop(ns): 174080
-> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
->
-> $ lspci -t
-> -[0000:00]-+-00.0
->            +-01.0-[01]--+-00.0
->            |            \-00.1
->            +-02.0
->            +-04.0
->            +-08.0
->            +-12.0
->            +-14.0
->            +-14.2
->            +-15.0
->            +-16.0
->            +-1c.0-[53]----00.0
->            +-1d.0-[02]----00.0
->            +-1d.6-[52]----00.0
->            +-1e.0
->            +-1f.0
->            +-1f.3
->            +-1f.4
->            +-1f.5
->            \-1f.6
->
-> $ lspci | grep 53
-> 53:00.0 SD Host controller: Genesys Logic, Inc Device 9755
->
-> $ cat /sys/bus/pci/devices/0000\:53\:00.0/power/control
-> auto
->
-> $ echo 1 > /sys/bus/pci/devices/0000\:53\:00.0/remove
-> 1
->
-> $ cat /sys/kernel/debug/pmc_core/ltr_show | grep SOUTHPORT
-> SOUTHPORT_A                             LTR: RAW: 0x8010c01             Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_B                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_C                             LTR: RAW: 0x9f409f4             Non-Snoop(ns): 0                Snoop(ns): 0
-> SOUTHPORT_D                             LTR: RAW: 0x8c548c54            Non-Snoop(ns): 2752512          Snoop(ns): 2752512
-> SOUTHPORT_E                             LTR: RAW: 0x0                   Non-Snoop(ns): 0                Snoop(ns): 0
->
-> Cheers.
->
-> -- Lars
->
->
->
->
->
->
->
->
-> On Tuesday, May 19, 2020, 9:03:53 AM PDT, David E. Box <david.e.box@linux.intel.com> wrote:
->
->
->
->
->
-> > > > Does anybody know what's going on or how to debug this further?
-> > > > As stated above, I was able to work around this problem by
-> > > > ignoring SOUTHPORT_A via /sys/kernel/debug/pmc_core/ltr_ignore.
-> > > > There has to be a better way, and I'm sure I'm not the only one
-> > > > running into this.
->
-> ltr_show shows the PMC's (Power Management Controller) view of SoC
-> devices and busses. The SOUTHPORTs are the PCIe root ports on your
-> system. When you run lspci they are the PCI bridges. Generally, the
-> bridges are enumerated in the same order as the SOUTHPORTs, so
-> SOUTHPORT_A is your first bridge and the device attached to it (shown
-> in lspci -t) is the device that was blocking deeper PC states according
-> to your debug.
->
-> Determine what this device is on your system. If the ltr was low it's
-> because that is what the device requested. You should first check that
-> runtime pm is enabled for the device. To do this, check the control
-> file in /sys/bus/pci/devices/<SSSS:BB:DD.F>/power, where SSSS:BB:DD.F
-> is the enumeration of your device as shown in lspci. If it is 'on' then
-> runtime pm is disabled. To enable it echo 'auto' into the file with
-> root privileges. Enabling runtime pm should allow the driver to reduce
-> functionality of the device when idle. This should lead to a larger
-> latency request on the PCI bus which should be reflected in ltr_show.
-> You can see if the device is actually runtime suspended and how much
-> time it's been suspended (or active) by reading the associated files in
-> the power folder.
->
-> If this doesn't work, then it's possible that your device doesn't
-> support runtime pm. This may be purposely for reliability reasons or
-> the driver may just lack support. Check forums discussing issues with
-> the device and look for possible options in the driver to force pm
-> support (generally this will be centered around enabling ASPM).
->
-> You can also download powertop to see the package c-state residencies
-> more clearly as percentages of time. powertop also has a tunables tab
-> that will show the status of runtime pm on all devices on the system
-> and allow you to enable them individually.
->
->
-> David
->
+On 5/22/20 9:44 AM, Chris Chiu wrote:
+> On the ASUS laptop UX325JA/UX425JA, most of the media keys are not
+> working due to the ASUS WMI driver fails to be loaded. The ACPI error
+> as follows leads to the failure of asus_wmi_evaluate_method.
+>    ACPI BIOS Error (bug): AE_AML_BUFFER_LIMIT, Field [IIA3] at bit offset/length 96/32 exceeds size of target Buffer (96 bits) (20200326/dsopcode-203)
+>    No Local Variables are initialized for Method [WMNB]
+>    ACPI Error: Aborting method \_SB.ATKD.WMNB due to previous error (AE_AML_BUFFER_LIMIT) (20200326/psparse-531)
+> 
+> The DSDT for the WMNB part shows that 5 DWORD required for local
+> variables and the 3rd variable IIA3 hit the buffer limit.
+> 
+> Method (WMNB, 3, Serialized)
+> { ..
+>      CreateDWordField (Arg2, Zero, IIA0)
+>      CreateDWordField (Arg2, 0x04, IIA1)
+>      CreateDWordField (Arg2, 0x08, IIA2)
+>      CreateDWordField (Arg2, 0x0C, IIA3)
+>      CreateDWordField (Arg2, 0x10, IIA4)
+>      Local0 = (Arg1 & 0xFFFFFFFF)
+>      If ((Local0 == 0x54494E49))
+>    ..
+> }
+> 
+> The limitation is determined by the input acpi_buffer size passed
+> to the wmi_evaluate_method. Since the struct bios_args is the data
+> structure used as input buffer by default for all ASUS WMI calls,
+> the size needs to be expanded to fix the problem.
+> 
+> Signed-off-by: Chris Chiu <chiu@endlessm.com>
+
+Thank you, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
 
 
--- 
-With Best Regards,
-Andy Shevchenko
+> ---
+>   drivers/platform/x86/asus-wmi.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index bb7c529d7d16..cd212ee210e2 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -116,6 +116,8 @@ struct bios_args {
+>   	u32 arg0;
+>   	u32 arg1;
+>   	u32 arg2; /* At least TUF Gaming series uses 3 dword input buffer. */
+> +	u32 arg4;
+> +	u32 arg5;
+>   } __packed;
+>   
+>   /*
+> 
+
