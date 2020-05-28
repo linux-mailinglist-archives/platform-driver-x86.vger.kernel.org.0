@@ -2,213 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27C571E45D8
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 May 2020 16:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94181E6A51
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 May 2020 21:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388986AbgE0O24 (ORCPT
+        id S2406327AbgE1TVP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 27 May 2020 10:28:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387977AbgE0O24 (ORCPT
+        Thu, 28 May 2020 15:21:15 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57514 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406317AbgE1TVJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 27 May 2020 10:28:56 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299FBC08C5C3
-        for <platform-driver-x86@vger.kernel.org>; Wed, 27 May 2020 07:28:56 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id q8so8029198qkm.12
-        for <platform-driver-x86@vger.kernel.org>; Wed, 27 May 2020 07:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=FwleX6FavJvI4llVuloDJkYuBtDEYvQjFoEF0h/WDec=;
-        b=tJDIDe3ALUiQZG8Wr4WH1M1FxaO0kQNtZYoCrid4wgTwlp/+8cd3smUC5qcwLqdJBN
-         HMa4AGrcV8gYUC+XWe3eyYNVz0GxOFBLflXJQPjmhjSFGxi7k9Mdfi4hbjcFcafbbiqc
-         soIyoElZYy1XKK30XaE+HM96OGLajcyqBRzTwrwxSc/86WRJ4e2LCulWG7+S15V430XD
-         yj/6pz1Qi+4ZSalZbzCgXbwS3kCHg0ipM0rIcE9nJFm+FUAF0poenz+/pkQjIDOqkxdf
-         iCftSsxV4R7iFEtSOlIqmUbcHOgHg/x2NaVQjLIBz08QKgQp9PCZEqKsmXXE/bIVEGq8
-         19mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=FwleX6FavJvI4llVuloDJkYuBtDEYvQjFoEF0h/WDec=;
-        b=ryNUw/5sPOuTIX4KLlLNYtF1k4pLSlpzHiCeM0M7AkSzzr27W69yS7Z1xddET57YQI
-         dzhPQfubK667P76bUQbhhLlC/X2kNvyYRHtXdFlTKOc+jZotRqe8jTjVZjg1EPO6RfDJ
-         ndREMEjGJ1GWABVOrHua8BsaO2EsRd/gTqPwh9srkhyiSaSER5DEFXNWMvcgwZvDb9Ty
-         HQH0rhmGXro4tfV4Xgf9WUYAYS3vZmUiugUi8w8LxYwGnQbjlzrJUbHpghPGJ70BoMiX
-         X9kc9VjzfmnXltLPdZJBz9r2sqsgfv36mPGpca+HpSsFcccHbfemTQQStECjwfstq8Ct
-         BUnw==
-X-Gm-Message-State: AOAM533U+focGSVYl1l2UJ/ED56v+Pcvc90qEg4neF3/fG3IJiAsQmfP
-        QZQJDN9kbbpQbcxzzPdVfnIwULmSs21jST7fLSE=
-X-Google-Smtp-Source: ABdhPJwgnyfJNZYGiSx8L7oNI5Orw8nz1XoSbllV4okBUE/eMbFlOMZuIDtNUWi+TJM21i0CBCCCt+Mm5QySMXRN55o=
-X-Received: by 2002:a37:bbc3:: with SMTP id l186mr4408033qkf.104.1590589735072;
- Wed, 27 May 2020 07:28:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac8:36ed:0:0:0:0:0 with HTTP; Wed, 27 May 2020 07:28:54
- -0700 (PDT)
-Reply-To: irenezakari88@gmail.com
-From:   Irene Zakari <irenezakari22@gmail.com>
-Date:   Wed, 27 May 2020 07:28:54 -0700
-Message-ID: <CAFaMNtZbCzFX+MBNRba1A3+9Oyu+6fjC1SGQ2G-x706u8JowGA@mail.gmail.com>
-Subject: PLEASE I NEED YOUR HELP.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Thu, 28 May 2020 15:21:09 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id E76512A41B5
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v4 00/11] Stop monitoring disabled devices
+Date:   Thu, 28 May 2020 21:20:40 +0200
+Message-Id: <20200528192051.28034-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
+References: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-5L2g5aW9ICAuLg0KDQrkvaDpgqPovrnmgI7kuYjmoLfmiJHluIzmnJvkvaDkuIDliIfpg73lpb3l
-kJfvvJ8NCuaIkeWPq+iJvueQs+Wls+Wjq+OAgiDvvIgyOOWyge+8ie+8jOaIkeaYr+Wmu+WtkOWG
-iOavlOS6mueahOWvoeWmhw0K55qE5ZCO5pyf5bel56iL44CC5Lyv57qz5b63wrflt7TljaHph4zC
-t+aJjuWNoemHjOS6mu+8iEJlcm5hcmQgQmFrYXJ5IFpha2FyaWHvvInjgIIgQmFqYW0gRW50ZXJw
-cmlzZeS4u+euoQ0K77yI5YaI5q+U5Lqa55qE5bu6562R5YWs5Y+477yJ5Lmf5pivQmVybmFyZOea
-hOmmluW4reaJp+ihjOWumA0K6L+b5Ye65Y+j77yIR0FNQklB77yJ44CCDQoNCuS6i+WunuS4iu+8
-jOaIkeS4iOWkq+S4uuatpOatu+S6juWGoOeKtueXheavkjE5DQrku5bliY3lvoDms5Xlm73mraPl
-vI/ml4XooYzkuYvlkI7nmoTml6XmnJ/kuLoyMDE55bm0MTLmnIg15pelDQrop4HpnaLlkI7vvIzk
-u5bluKbnnYDmiJEy5bKB6Zu2NuS4quaciOeahOWls+WEv+emu+W8gOS6huaIke+8jA0K5Zyo5oiR
-5LiI5aSr5Zug5Yag54q255eF5q+SMTnmrbvkuqHlkI7vvIzku5bnmoTlhYTlvJ/vvIgNCuaIkeW3
-suaVheeahOi0remUgOmUgOWUrue7j+eQhg0K5LiI5aSr5YWs5Y+477yI6Km55aeG5pavwrfmiZjm
-mIbljZrCt+WlpemHjOS6muW+t8K35omO5Y2h6YeM5Lqa5YWI55Sf77yJ5oOz6KaBDQrlsIbmiJHl
-t7LmlYXkuIjlpKvnmoTmiYDmnInotKLkuqflkozotYTmupDovazmjaLmiJDku5bnmoQNCuW4kOaI
-t++8jOeUseS6jui/meS4quWOn+WboO+8jOaIkeehruWunuacieS4gOS4quS4juaIkeWQteaetuea
-hOeUt+WtqQ0K5LuW77yM6L+Z5L2/5LuW5a+55oiR5Y+R54GrDQrpm4fnlKjliLrlrqLmnYDmrbvm
-iJHnmoTnqIvluqbvvIzkvYbmiJHopoHojaPogIDlvZLmiJENCuWJjeW+gOWPpuS4gOS4quWQjeS4
-uuW4g+Wfuue6s+azlee0oueahOWbveWutuaIkOWKnw0K5oiR5Lus5L2P5Zyo5pWZ5aCC6YeM6L+H
-552A5oiR5Lus5Lqy54ix55qE55Sf5rS744CCDQrogIHlrp7or7TvvIzljbPkvb/lnKjluIPln7rn
-urPms5XntKLvvIzmiJHku6znmoTnoa7ov4fnnYDku6TkurrmgZDmg6fnmoTnlJ/mtLvvvIzlm6Dk
-uLoNCumCo+S6m+WIuuWuoui/veWHu+aIkeS7rOOAgg0KDQrlrp7pmYXkuIrvvIzmiJHmg7PkuI7m
-gqjorqjorrrnmoTmmK/lhbPkuo7miJHnmoTkuKrkurrpl67popgNCuWFs+azqOaIkeW3suaVheS4
-iOWkq+WtmOWFpeaIkeS7peWklumTtuihjOeahOi1hOmHkQ0K5Zu95a625Lym5pWm5Lul5oiR55qE
-5ZCN5LmJ5oiQ5Li65Lu35YC8NDUw5LiH576O5YWD55qE6L+R5LqyDQrnvo7lm73nvo7lhYPvvIwN
-CuaIkemcgOimgeaCqOeahOW4ruWKqe+8jOS7peW4ruWKqeaIkeWwhui/meS6m+mSsei9rOWFpeaC
-qOeahA0K5biQ5oi377yM5bm25bCG6L+Z5Lqb6LWE6YeR5oqV6LWE5Yiw5oKo55qE5Zu95a62L+Wc
-sOWMuu+8jOWboOS4uuaIkeaDs+imgei/meS6mw0K5rGH5YWl5Zu95aSW55qE6ZKxDQrmiJHlt7Ln
-u4/pgJrov4fpgq7ku7bpgJrnn6Xpk7booYzmiJHnmoTmrbvkuqENCuS4iOWkq+WSjOaIkeeahOeb
-ruagh+aYr+Wwhui/meS6m+i1hOmHkei9rOWFpeWPpuS4gOS4quW4kOaItw0K5LuW5Lus5Li65LuW
-55qE5q275oSf5Yiw5oOK6K6277yM5LuW5Lus5ZCR5oiR6K+B5a6e5LqG5oiR55qEDQrkuIjlpKvm
-mK/ku5bku6znmoTlpb3pob7lrqLvvIzku5bku6zkuZ/lkJHmiJHor4Hlrp4NCuacieS4gOS4quaI
-keWQjeWtl+eahOS6suaImui0puaIt++8jOS7luS7rOWRiuivieaIkQ0K5LuL57uN5LiA5Liq5Luj
-6KGo5oiR5L2c5Li65oiR55qE5Y+X5omY5Lq65ZKM5oiR55qE5Y+X5omY5Lq655qE5Lq6DQrku5bk
-u6zlsIbov5nkupvotYTph5HovazlhaXmiJHnmoTku7vkvZXluJDmiLfnmoTlkIjkvZzkvJnkvLQN
-CumAieaLqe+8jA0KDQror7forqnmiJHluK7liqnmgqjmiJDkuLrmiJHnmoTlj5fmiZjkurrlkozm
-iJHnmoTlkIjkvJnkuroNCumTtuihjOS8muWwhui/meS6m+i1hOmHkei9rOWFpeaCqOeahOW4kOaI
-t++8jOS7peS+v+aIkeS7rA0K5Y+v5Lul5p2l6LS15Zu96YeN6I636Ieq55Sx77yM6K+35LiN6KaB
-DQrmg7PopoHku7vkvZXkvJrkvKTlrrPliLDmiJHnmoTkuroNCg0K6K+35biu5Yqp5oiR77yM5oiR
-5a+55L2g5b6I55yf6K+a77yM5oiR5oOz5oiQ5Li65L2g55qE5LiA5ZGYDQrlpoLmnpzmgqjkuI3k
-u4vmhI/mjqXlj5fmiJHku6zlubbluKbpoobmiJHku6zotbDlkJHmm7Tlpb3nmoTlrrbluq0NCui0
-teWbveeahOacquadpeOAgg0KDQrlm6DmraTvvIzmiJHlsIbnu5nmgqjpk7booYzogZTns7vmlrnl
-vI/lkozlhbbku5blv4XopoHnmoQNCuWmguaenOaCqOWPquetlOW6lOaIkeWwhuWcqOaIkeeahOS4
-i+S4gOWwgeeUteWtkOmCruS7tuS4reaPkOS+m+S/oeaBr++8jA0K5LiNL+S7juacquiDjOWPm+aI
-keaIluWHuuS6juWuieWFqOebrueahOWQkeS7u+S9leS6uumAj+mcsuatpOS6iw0K5Zug5Li66L+Z
-5Lqb6ZKx5piv5oiR55Sf5a2Y55qE5ZSv5LiA5biM5pybDQroh6rku47miJHlpLHljrvkuIjlpKvk
-u6XmnaXvvIzmiJHlkozlpbPlhL/kuIDotbfmnaXliLDkuoblnLDnkIPjgIINCg0K5q2k5aSW77yM
-5Zyo5oiR5ZCR5oKo5Y+R6YCB6ZO26KGM5ZKM5biQ5oi36K+m57uG5L+h5oGv5LmL5YmN77yM5oiR
-6ZyA6KaBDQrmgqjlj6/ku6XlnKjkuIvpnaLlkJHmiJHlj5HpgIHmgqjnmoTmlbDmja7vvIzku6Xk
-vr/miJHlrozlhajnoa7lrproh6rlt7HmmK8NCuS4jeS/oeS7u+mUmeivr+eahOS6uuOAgg0K6ICM
-5LiU77yM6L+Z5Lmf5L2/5oiR6IO95aSf5Li65oKo5Y+R6YCB6ZO26KGM6IGU57O75pa55byPDQrk
-uI7ku5bku6zmsp/pgJrku6Xov5vooYzmm7TlpJrpqozor4Hlubborqnmgqjnoa7orqQNCuS7jumT
-tuihjOmCo+mHjOiOt+W+l+acieWFs+i/meeslOi1hOmHkeeahOS/oeaBr+OAguWSjA0K5pu05aW9
-5Zyw5LqG6Kej5oKo77yM5oiR5bCG57uZ5oKo5oC75pWw55qEMjXvvIUNCui9rOenu+WQjueahOmS
-seS9nOS4uuihpeWBvw0KDQoNCjEu5YWo5ZCN77yaLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uDQoy
-LuWcsOWdgO+8mi4uLi4uLi4uLi4uLi4uLi4uLg0KMy7lm73nsY3vvJouLi4uLi4uLi4uLuaAp+WI
-qy4uLi4uLi4uLi4uLi4uLi4NCjQu5bm06b6E77yaLi4uLi4uLi4u5Ye655Sf5pel5pyf77yaLi4u
-Li4NCjUu6IGM5Lia77yaLi4uLi4uLi4uLi4uLi4uLi4u44CCDQouLi4uLg0KNi7nlLXor53vvJou
-Li4uLi4uLi7kvKDnnJ/vvJouLi4uLi4uLi4uLi4uLi4uLi4uLi4NCjcu5Y6f5Lqn5Zu977yaLi4u
-Li4uLuWbveWutu+8mi4uLi4uLi4uLi4uLi4uDQo4LuiBjOS4mu+8mi4uLi4uLi4uLi4uLi4uLi4u
-LuOAgg0KLi4uLi4uLi4uLi4uLi4uLg0KOS7lqZrlp7vnirblhrUuLi4uLi4uLi4uLueUteWtkOmC
-ruS7tuWcsOWdgO+8mi4uLi4uLi4uLi4uLg0KMTAu5omr5o+P5oKo55qE6Lqr5Lu96K+B5oiW6am+
-6am25omn54WnL+eFp+eJh+eahOWJr+acrO+8mi4uLi4uLi4uLi4uLg0K5a6j6KiA77yaDQoNCuWQ
-jOaXtu+8jOaCqOWPr+S7pemAmui/h+aIkeeahOeJp+W4iOS4juaIkeiBlOezu++8jOS7lueahOWQ
-jeWtl+WPq+S/nee9l+eJp+W4iOOAgg0K5q+P5b2T5oKo5omT55S16K+d5pe277yM5ZGK6K+J5LuW
-5oKo5oOz5ZKM5oiR6K+06K+d77yM5Zug5Li6DQrnjrDlnKjmiJHkvY/lnKjluIPln7rnurPms5Xn
-tKLnmoTmlZnloILph4zvvIzmiJHkuI0NCuaDs+imgeWGjeWRhuWcqOi/memHjO+8jOS7lueahOeU
-teivneaYr+i/meS4qu+8iCsyMjYgNzUyMTM2NDbvvIkNCg0K5oiR5bCG5Zyo6L+Z6YeM5YGc5q2i
-77yM5oiR5bCG562J5b6F5oKo55qE5Zue5aSN77yM6ZqP5pe25Y+v5LulDQror6Lpl67ku7vkvZXm
-gqjmg7Pnn6XpgZPnmoTlhbPkuo7miJHnmoTkv6Hmga/vvIzlubblsIbmgqjnmoTmlbDmja7kvZzk
-uLrmiJHlj5HpgIHnu5nmiJENCuimgeaxgu+8jOS7peS+v+aIkeWPr+S7peWQkeaCqOWPkemAgeW4
-puacieivpeW4kOaIt+eahOmTtuihjOS/oeaBrw0K6K+m57uG5L+h5oGv77yM5Lul5L6/5oKo5ZCR
-6ZO26KGM56Gu6K6k77yMDQoNCuivt+W4ruWKqeaIke+8jOaIkeWwhuS4jeiDnOaEn+a/gA0K56Wd
-5L2g5pyJ576O5aW955qE5LiA5aSp44CCDQrku47oib7nkLMNCg0KDQpIZWxsbyAgLi4NCg0KSG93
-IGRvIHlvdSBkbyBvdmVyIHRoZXJlPyBJIGhvcGUgeW91IGFyZSBkb2luZyB3ZWxsPw0KTXkgbmFt
-ZSBpcyBNYWRhbSBJcmVuZS4gKDI4IHllYXJzIG9sZCApLCBpIGFtIGEgd2lkb3cgZnJvbSBHYW1i
-aWEsIHRoZSB3aWZlDQpvZiBsYXRlIEVuZy4gQmVybmFyZCBCYWthcnkgWmFrYXJpYS4gdGhlIERp
-cmVjdG9yIG9mIEJhamFtIEVudGVycHJpc2UNCihCdWlsZGluZyBDb25zdHJ1Y3Rpb24gQ29tcGFu
-eSBpbiBHYW1iaWEpIGFsc28gdGhlIENFTyBvZiBCZXJuYXJkDQpJbXBvcnQgYW5kIEV4cG9ydCAo
-R0FNQklBKS4NCg0KQXMgYSBtYXR0ZXIgb2YgZmFjdCBteSBodXNiYW5kIGRpZWQgZHVlIHRvIHRo
-ZSBDb3JvbmFsIHZpcnVzMTkgb24gdGhpcw0KZGF0ZSA1dGggb2YgRGVjZW1iZXIgMjAxOSBhZnRl
-ciBoZSB0cmF2ZWxlZCB0byBGcmFuY2UgZm9yIGFuIG9mZmljaWFsDQptZWV0aW5nIGFuZCBoZSBs
-ZWZ0IG1lIHdpdGggb3VyIDJ5ZWFycyBhbmQgNiBtb250aHMgZGF1Z2h0ZXIsDQpBZnRlciB0aGUg
-ZGVhdGggb2YgbXkgaHVzYmFuZCAgYXMgYSByZXN1bHQgb2YgQ29yb25hbC12aXJ1cyAxOSwgaGlz
-IGJyb3RoZXIgKE15DQpIdXNiYW5kIGJyb3RoZXIgKSB3aG8gaXMgdGhlIHB1cmNoYXNpbmcgYW5k
-IG1hcmtldGluZyBzYWxlIG1hbmFnZXIgb2YgbXkgbGF0ZQ0KSHVzYmFuZHMgY29tcGFueSBuYW1l
-ZCAoTXIuIEphbWVzIFRva3VuYm8gT3JpYWRlIFpha2FyaWEpIHdhbnRlZCB0bw0KY29udmVydCBh
-bGwgdGhlIHByb3BlcnRpZXMgYW5kIHJlc291cmNlcyBvZiBteSBsYXRlIEh1c2JhbmQgaW50byBo
-aXMNCmFjY291bnQgYW5kIGR1ZSB0byB0aGF0IGkgZGlkIGhhdmUgYSBtYWxlIGNoaWxkIHdoaWNo
-IGkgcXVhcnJlbGVkIHdpdGgNCmhpbSBhbmQgaXQgbWFkZSBoaW0gdG8gbGF5IGhpcyBhbmdlciBv
-biBtZSB0bw0KdGhlIGV4dGVudCBvZiBoaXJpbmcgYW4gYXNzYXNzaW5zIHRvIGtpbGwgbWUgYnV0
-IHRvIEdvZCBiZSB0aGUgZ2xvcnkgaQ0Kc3VjY2VlZGVkIGJ5IG1ha2luZyBteSB3YXkgdG8gYW5v
-dGhlciBjb3VudHJ5IGNhbGxlZCAgQnVya2luYSBmYXNvDQp3aGVyZSB3ZSBhcmUgbGl2aW5nIGlu
-IGEgY2h1cmNoICBmb3Igb3VyIGRlYXIgbGlmZS4NCkhvbmVzdGx5IHdlIGRvIGxpdmUgYSBmZWFy
-ZnVsIGxpZmUgZXZlbiBoZXJlIGluIEJ1cmtpbmEgZmFzbyBiZWNhdXNlDQpvZiB0aG9zZSBBc3Nh
-c3NpbnMgY29taW5nIGFmdGVyIHVzIC4NCg0KQWN0dWFsbHkgd2hhdCBJIHdhbnQgdG8gZGlzY3Vz
-cyB3aXRoIHlvdSBpcyBhYm91dCBteSBwZXJzb25hbCBpc3N1ZQ0KY29uY2VybiB0aGUgIGZ1bmQg
-dGhhdCAgbXkgbGF0ZSBIdXNiYW5kIGRlcG9zaXRlZCBpbiBhIGJhbmsgb3V0c2lkZSBteQ0KY291
-bnRyeSBMb25kb24gb24gbXkgbmFtZSBhcyB0aGUgbmV4dCBvZiBraW5zIHdvcnRoICQ0LjUgTWls
-bGlvbg0KdW5pdGVkIHN0YXRlIGRvbGxhcnMgLA0KSSBuZWVkIHlvdXIgYXNzaXN0YW5jZSB0byBo
-ZWxwIG1lIHRvIHRyYW5zZmVyIHRoZXNlIG1vbmV5IGludG8geW91cg0KYWNjb3VudCBhbmQgdG8g
-aW52ZXN0IHRoZXNlIGZ1bmRzIGluIHlvdXIgY291bnRyeSBhcyBpIHdhbnQgdGhlc2UNCm1vbmV5
-IHRvIGJlIHRyYW5zZmVycmVkIGludG8gZm9yZWlnbiBjb3VudHJ5DQpJICBoYXZlIGFscmVhZHkg
-IG5vdGlmaWVkICB0aGUgYmFuayBvbiBtYWlsIGFib3V0IHRoZSBkZWF0aCBvZiBteQ0KSHVzYmFu
-ZCBhbmQgbXkgYWltIHRvIHRyYW5zZmVyIHRoZXNlIGZ1bmQgaW50byBhbm90aGVyIGFjY291bnQg
-d2hpY2gNCnRoZXkgd2VyZSAgc3VycHJpc2UgZm9yIGhpcyBkZWF0aCBhbmQgdGhleSBjb25maXJt
-ZWQgdG8gbWUgdGhhdCBteQ0KSHVzYmFuZCAgd2FzIHRoZWlyIGdvb2QgY3VzdG9tZXIgYW5kIHRo
-ZXkgYWxzbyBjb25maXJtZWQgdG8gbWUgdGhhdA0KdGhlcmUgaXMgYW4gYWNjb3VudCBvbiBteSBu
-YW1lIGFzIHRoZSBuZXh0IG9mIGtpbnMgYW5kIHRoZXkgdG9sZCBtZSB0bw0KcHJlc2VudCBzb21l
-b25lIHdobyB3aWxsIHN0YW5kIG9uIG15IGJlaGFsZiBhcyBteSAgdHJ1c3RlZSBhbmQgbXkNCnBh
-cnRuZXIgZm9yIHRoZW0gdG8gdHJhbnNmZXIgdGhlc2UgbW9uZXkgaW50byBhbnkgYWNjb3VudCBv
-ZiBteQ0KY2hvaWNlLA0KDQpQbGVhc2UgaSB3YW50IHlvdSB0byBoZWxwIG1lIHRvIHN0YW5kIGFz
-IG15IHRydXN0ZWUgYW5kIG15IHBhcnRuZXIgc28NCnRoYXQgdGhlIGJhbmsgd2lsbCB0cmFuc2Zl
-ciB0aGVzZSBtb25leSBpbnRvIHlvdXIgYWNjb3VudCBzbyB0aGF0IHdlDQpjYW4gY29tZSBvdmVy
-IHRvIHlvdXIgY291bnRyeSAgdG8gcmVnYWluIG91ciBmcmVlZG9tIHBsZWFzZSBpIGRvbnQNCndh
-bnQgYW55dGhpbmcgdGhhdCB3aWxsIGhhcm0gdGhpcyBteSBkdWFnaHRlcg0KDQpQbGVhc2UgaGVs
-cCBtZSwgSSBhbSBzaW5jZXJlIHRvIHlvdSBhbmQgSSB3YW50IHRvIGJlIG1lbWJlciBvZiB5b3Vy
-DQpmYW1pbHkgYXMgd2VsbCBpZiB5b3Ugd291bGRuJ3QgbWluZCB0byBhY2NlcHQgdXMgYW5kIGxl
-YWQgdXMgIHRvIGEgIGJldHRlcg0KZnV0dXJlIGluIHlvdXIgY291bnRyeS4NCg0KVGhlcmVmb3Jl
-LCBJIHNoYWxsIGdpdmUgeW91IHRoZSBiYW5rIGNvbnRhY3QgYW5kIG90aGVyIG5lY2Vzc2FyeQ0K
-aW5mb3JtYXRpb24gaW4gbXkgbmV4dCBlbWFpbCBpZiB5b3Ugd2lsbCBvbmx5IHByb21pc2UgbWUg
-dGhhdCB5b3Ugd2lsbA0Kbm90L25ldmVyIGJldHJheSBtZSAgb3IgZGlzY2xvc2VkIHRoaXMgbWF0
-dGVyIHRvIGFueWJvZHkgZm9yIHNlY3VyaXR5DQpyZWFzb24gYmVjdWFzZSAgdGhlc2UgbW9uZXkg
-aXMgdGhlIG9ubHkgaG9wZSBpIGhhdmUgZm9yIHN1cnZpdmFsIG9uDQplYXJ0aCB3aXRoIG15IGRh
-dWdodGVyIHNpbmNlIEkgaGF2ZSBsb3N0IG15IEh1c2JhbmQuDQoNCk1vcmVvdmVyIGJlZm9yZSBp
-IHNlbmQgeW91IHRoZSBiYW5rIGFuZCBhY2NvdW50IGRldGFpbHMgaSB3aWxsIGxpa2UNCnlvdSB0
-byBzZW5kIG1lIHlvdXIgZGF0YSBiZWxvdyBzbyB0aGF0IGkgd2lsbCBiZSBmdWxseSBzdXJlIHRo
-YXQgaSBhbQ0Kbm90IHRydXN0aW5nIHRoZSB3cm9uZyBwZXJzb24uDQphbmQgaXQgd2lsbCBhbHNv
-IGdpdmUgbWUgdGhlIG1pbmQgdG8gc2VuZCB5b3UgdGhlIGJhbmsgY29udGFjdCBmb3IgeW91DQp0
-byBjb21tdW5pY2F0ZSB3aXRoIHRoZW0gZm9yIG1vcmUgdmVyaWZpY2F0aW9uIGFuZCBmb3IgeW91
-IHRvIGNvbmZpcm0NCmZyb20gdGhlIGJhbmsgYWJvdXQgdGhpcyBmdW5kLiBhbmQNCnRvIGtub3cg
-eW91IG1vcmUgYmV0dGVyIGFuZCBpIHNoYWxsIGdpdmUgeW91IDI1IHBlcmNlbnQgb2YgdGhlIHRv
-dGFsDQptb25leSBhZnRlciB0aGUgdGhlIHRyYW5zZmVyIGFzIGFzIGEgY29tcGVuc2F0aW9uDQoN
-Cg0KMS4gRnVsbCBOYW1lOiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4NCjIuIEFkZHJlc3M6IC4u
-Li4uLi4uLi4uLi4uLi4uLg0KMy4gTmF0aW9uYWxpdHk6IC4uLi4uLi4uLi4uIFNleC4uLi4uLi4u
-Li4uLi4uLi4NCjQuIEFnZTouLi4uLi4uLi4uLiBEYXRlIG9mIEJpcnRoOi4uLi4uLi4uLi4uLi4u
-Li4NCjUuIE9jY3VwYXRpb246Li4uLi4uLi4uLi4uLi4uLi4uLg0KLi4uLi4NCjYuIFBob25lOiAu
-Li4uLi4uLi4uLiBGYXg6Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg0KNy4gU3RhdGUgb2YgT3Jp
-Z2luOiAuLi4uLi4uQ291bnRyeTouLi4uLi4uLi4uLi4uLg0KOC4gT2NjdXBhdGlvbjouLi4uLi4u
-Li4uLi4uLi4uLi4uDQouLi4uLi4uLi4uLi4uLi4uDQo5LiBNYXJpdGFsIHN0YXR1cy4uLi4uLi4u
-Li4uIEUtbWFpbCBhZGRyZXNzJ3M6IC4uLi4uLi4uLi4uLg0KMTAuIFNjYW4gY29weSBvZiB5b3Vy
-IElEIGNhcmQgb3IgRHJpdmluZyBMaWNlbnNlL1Bob3RvOi4uLi4uLi4uLi4uLg0KREVDTEFSQVRJ
-T046DQoNCk1lYW53aGlsZSwgeW91IGNhbiByZWFjaCBtZSB0aHJvdWdoIG15IHBhc3RvcixoaXMg
-bmFtZSBpcyBQYXN0b3IgUGF1bA0KYW55IHRpbWUgeW91IGNhbGwsIHRlbGwgaGltIHRoYXQgeW91
-IHdhbnQgdG8gc3BlYWsgd2l0aCBtZSBiZWNhdXNlDQpyaWdodCBub3cgaSBhbSBsaXZpbmcgaW4g
-dGhlIGNodXJjaCBoZXJlIGluIEJ1cmtpbmEgZmFzbyBhbmQgaSBkb24ndA0Kd2FudCB0byBzdGF5
-IGhlcmUgYW55IGxvbmdlciBoaXMgcGhvbmUgbnVtYmVyIGlzIHRoaXMoKzIyNiA3NTIxMzY0NikN
-Cg0KSSB3aWxsIHN0b3AgaGVyZSBhbmQgaSB3aWxsIGJlIHdhaXRpbmcgZm9yIHlvdXIgcmVwbHkg
-YW5kIGZlZWwgZnJlZSB0bw0KYXNrIGFueSB0aGluZyB5b3Ugd2FudCB0byBrbm93IGFib3V0IG1l
-IGFuZCBzZW5kIG1lIHlvdXIgZGF0YSBhcyBpDQpyZXF1ZXN0ZWQgc28gdGhhdCBpIGNhbiBzZW5k
-IHlvdSB0aGUgYmFuayBpbmZvcm1hdGlvbiB3aXRoIHRoZSBhY2NvdW50DQpkZXRhaWxzIHNvIHRo
-YXQgeW91IHdpbGwgY29uZmlybSBmcm9tIHRoZSBiYW5rLA0KDQpQbGVhc2UgaGVscCBtZSwgSSB3
-b3VsZCBiZSBoaWdobHkgYXBwcmVjaWF0ZWQNCkhhdmUgbmljZSBkYXkuDQpGcm9tIElyZW5lDQo=
+There is already a reviewed v3 (not to be confused with RFC v3), which can
+be considered for merging:
+
+https://lore.kernel.org/linux-pm/20200423165705.13585-2-andrzej.p@collabora.com/
+
+Let me cite Bartlomiej Zolnierkiewicz:
+
+"I couldn't find the problems with the patch itself (no new issues
+being introduced, all changes seem to be improvements over the current
+situation).
+
+Also the patch is not small but it also not that big and it mostly
+removes the code:
+
+17 files changed, 105 insertions(+), 244 deletions(-)"
+
+There have been raised some concerns about bisectability and about
+introducing "initial_mode" member in struct thermal_zone_params.
+
+This v4 series addresses those concerns: it takes a more gradual
+approach and uses explicit tzd state initialization, hence there are more
+insertions than in v3, and the net effect is -63 lines versus -139 lines
+in v3.
+
+Patch 2/11 converts the 3 drivers which don't store their mode in
+enum thermal_device_mode to do so. Once that is cleared,
+struct thermal_zone_device gains its "mode" member (patch 3/11) and then
+all interested drivers change the location where they store their
+state: instead of storing it in some variable in a driver, they store it
+in struct thermal_zone_device (patch 4/11). Patch 4/11 does not introduce
+other changes. Then get_mode() driver method becomes redundant, and so
+it is removed (patch 5/11). This is the first part of the groundwork.
+
+The second part of the groundwork is to add (patch 6/11) and use (patch
+7/11) helpers for accessing tzd's state from drivers. From this moment
+on the drivers don't access tzd->mode directly. Please note that after
+patch 4/11 all thermal zone devices have their mode implicitly initialized
+to DISABLED, as a result of kzalloc and THERMAL_DEVICE_DISABLED == 0.
+This is not a problem from the point of view of polling them, because
+their state is not considered when deciding to poll or to cease polling.
+In preparation for considering tzd's state when deciding to poll or to
+cease polling it ensured (patch 8/11 and some in patch 7/11) that all the
+drivers are explicitly initialized with regard to their state.
+
+With all that groundwork in place now it makes sense to modify thermal_core
+so that it stops polling DISABLED devices (patch 9/11), which is the
+ultimate purpose of this work.
+
+While at it, some set_mode() implementations only change the polling
+variables to make the core stop polling their drivers, but that is now
+unnecessary and those set_mode() implementations are removed. In other
+implementations polling variables modifications are removed. Some other
+set_mode() implementations are simplified or removed (patch 10/11).
+
+set_mode() is now only called when tzd's mode is about to change. Actual
+setting is performed in thermal_core, in thermal_zone_device_set_mode().
+The meaning of set_mode() callback is actually to notify the driver about
+the mode being changed and giving the driver a chance to oppose such
+a change. To better reflect the purpose of the method it is renamed to
+change_mode() (patch 11/11).
+
+Andrzej Pietrasiewicz (11):
+  acpi: thermal: Fix error handling in the register function
+  thermal: Store thermal mode in a dedicated enum
+  thermal: Add current mode to thermal zone device
+  thermal: Store device mode in struct thermal_zone_device
+  thermal: remove get_mode() operation of drivers
+  thermal: Add mode helpers
+  thermal: Use mode helpers in drivers
+  thermal: Explicitly enable non-changing thermal zone devices
+  thermal: core: Stop polling DISABLED thermal devices
+  thermal: Simplify or eliminate unnecessary set_mode() methods
+  thermal: Rename set_mode() to change_mode()
+
+ drivers/acpi/thermal.c                        | 75 +++++----------
+ .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  8 ++
+ .../ethernet/mellanox/mlxsw/core_thermal.c    | 91 ++++---------------
+ drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  9 +-
+ drivers/platform/x86/acerhdf.c                | 33 +++----
+ drivers/platform/x86/intel_mid_thermal.c      |  6 ++
+ drivers/power/supply/power_supply_core.c      |  9 +-
+ drivers/thermal/armada_thermal.c              |  6 ++
+ drivers/thermal/da9062-thermal.c              | 16 +---
+ drivers/thermal/dove_thermal.c                |  6 ++
+ drivers/thermal/hisi_thermal.c                |  6 +-
+ drivers/thermal/imx_thermal.c                 | 57 ++++--------
+ .../intel/int340x_thermal/int3400_thermal.c   | 43 +++------
+ .../int340x_thermal/int340x_thermal_zone.c    |  5 +
+ drivers/thermal/intel/intel_pch_thermal.c     |  5 +
+ .../thermal/intel/intel_quark_dts_thermal.c   | 34 ++-----
+ drivers/thermal/intel/intel_soc_dts_iosf.c    |  3 +
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  6 ++
+ drivers/thermal/kirkwood_thermal.c            |  7 ++
+ drivers/thermal/rcar_thermal.c                |  9 +-
+ drivers/thermal/rockchip_thermal.c            |  6 +-
+ drivers/thermal/spear_thermal.c               |  7 ++
+ drivers/thermal/sprd_thermal.c                |  6 +-
+ drivers/thermal/st/st_thermal.c               |  5 +
+ drivers/thermal/thermal_core.c                | 76 ++++++++++++++--
+ drivers/thermal/thermal_of.c                  | 51 ++---------
+ drivers/thermal/thermal_sysfs.c               | 37 +-------
+ include/linux/thermal.h                       | 19 +++-
+ 28 files changed, 289 insertions(+), 352 deletions(-)
+
+
+base-commit: 351f4911a477ae01239c42f771f621d85b06ea10
+-- 
+2.17.1
+
