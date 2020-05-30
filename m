@@ -2,108 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 991A81E9269
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 May 2020 17:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C99BB1E92C4
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 May 2020 19:13:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729038AbgE3P6S (ORCPT
+        id S1729044AbgE3RNb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 30 May 2020 11:58:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
+        Sat, 30 May 2020 13:13:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729029AbgE3P6S (ORCPT
+        with ESMTP id S1728927AbgE3RNb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 30 May 2020 11:58:18 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D922C03E969
-        for <platform-driver-x86@vger.kernel.org>; Sat, 30 May 2020 08:58:18 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id z26so1310551pfk.12
-        for <platform-driver-x86@vger.kernel.org>; Sat, 30 May 2020 08:58:18 -0700 (PDT)
+        Sat, 30 May 2020 13:13:31 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DFCC03E969;
+        Sat, 30 May 2020 10:13:26 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id b6so3114682ljj.1;
+        Sat, 30 May 2020 10:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qVUUda2x02nBqGShK7kUx/1UN5MKJdCY1YMLyJXvpNY=;
-        b=dfI3U4qUwPBdjLzk+E/85EdHdkjX+TFJ4g+HJBIwy5Wc5LVtdc4qZQZdUnHjePQAvB
-         GHEthk5yv0thl0UCRp2Fmi4AR1ZKkb4SFh5VSHBdCI8OnSeMt00s/I0+fpLzV+34CBsO
-         uqYue61a1AgELkdlt6aKiuTTYjzWxbS0zIGGljVaLHYN3aT5uccbINtoVaPp8m+cDn+J
-         nD+PuOyqfS6s8q3N9qxByZKeQXKIsnynRZbi8LbK7q4n14AhakvyX88NFPKUxurBhiCa
-         TKqpBOr9T4CFO4uo3wUdyXRMXtlfOLvzXhSRc/dLl+JLxwTsBvLcWeOmyd9Y1Z6Ivsop
-         RgVA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wTHHUoOK9LtynLNtMfwC1JSkdo0WV2HtB9sbt24MB0w=;
+        b=MKd9T0hsLjcFzFJL3H00K5UpfhG0vuV9FzffgVfcDHnswZiZFPT1P3MndDuWNz8s3H
+         CZ6FGCNJh5ebffTiGIKQBe1JIPfNYycY7wQ5mk4oXMGzvtjHoe4nyDhS231xmfhxvV0Y
+         tLDvzs/escssZRXOB2PIzL7wcEvc+sm3cN+6+NF5xyuu6S1DDvdINsptn73yWTJHZ5Gv
+         YYtdpTr5IUklbfeXEHtJIEut42UWhpDf7rSku0LHVSwTJe7oRapJcm4F03/6qiJ+A/h+
+         aHjW7dU4W95HPYOkwzzZqOq6RFRh2HcmINJBFI46FBsuZHi9S++DKuur/fL+TJtnm4k+
+         H22Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qVUUda2x02nBqGShK7kUx/1UN5MKJdCY1YMLyJXvpNY=;
-        b=ZlnEyaTZIkQAFNM769IJ5W6aVBzeQCfBZdlbNp74xcleumYjVN5DhlZMjThnS2rIuX
-         hTZGR2WXKO9URabaBG37knE5kBhvKr5PMRuX2vw2voG1s69qXAHiOGtvIOfc+m17Y7r5
-         1rIKCo0+KUb0I/13B8BQU4F1PJpGWzZbsV8AVmuEWAr/OTD6V3n2GwqpXhEePP7+82qv
-         coYQ70uTZeWferOqj3QYkCpGhNjugOJmE8pA3mDebk+yBbaaCbRysMpmWdWVISsSmuPd
-         Ro6l9DTXq1vVtkMyARhgvbwCcPhwgj2rPfTXmlsnz5DM4vk2ByOAYVcNwg9cHpv1A6UH
-         1QZg==
-X-Gm-Message-State: AOAM533R32cUG94ZK0q5IebM7/XGRMg6Y3sWIB4H5ch23v9Sy+1WsjOG
-        Jqm+TmWTbQGaA1LINpbTbyrPT4+WopKHusbCBFw=
-X-Google-Smtp-Source: ABdhPJylE+LIBeFCVclIFvCRI9JDc8SKuSJBjbCCd27HopoqCZ+p+FizW9SheW9JLkFflpJ0AA58kaEG9SVyy1Gavzw=
-X-Received: by 2002:a63:c109:: with SMTP id w9mr6599484pgf.203.1590854297624;
- Sat, 30 May 2020 08:58:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wTHHUoOK9LtynLNtMfwC1JSkdo0WV2HtB9sbt24MB0w=;
+        b=Wsv+xOB2n5RcRZatcBk4MvzZkOtER/V6xcW8bWy4P4MDeRVe8jm6BuR6Z0pMGJ9SqN
+         xshcrxScr9V1HyPAndNHOtJQp5Gw3ppf1suRF3iaIlgE4c9Ivf1IZjW6g2WfnqIGVJWX
+         YatHxDc6TAIhipG7WSTwAKwhH1+WFi/TQT0isU5Hs59hBe6hOBnkeOxgbsqSF0OqImGH
+         8eTgWoLFU5pX8vekEqTUyU6Vkn+dIQEBFmnkhf2iEOVMAMEkLrjNhRTG7zJUIf7amWcP
+         Ix6aMxPqPyhRg8GjgvGclNVoTsn7uSDV9bF+3tSCwizkD6OHHahJnlJ4C/MmoVxIXjwn
+         GzsA==
+X-Gm-Message-State: AOAM5301UkEZ02mesY9DgP2hWniZGoa/Qy61UtEdOTUJS150TsoMjsjS
+        4k6ZMzfiwD8hEj7VFslBpiPHYotoiq68OQ==
+X-Google-Smtp-Source: ABdhPJxyamokCEL/p9IltyFvDIH5FCNZsvvKjaHINHauYbTgSdiXMTtiqcL9y34U7NEax2P1gvL12Q==
+X-Received: by 2002:a05:651c:508:: with SMTP id o8mr3968765ljp.112.1590858804997;
+        Sat, 30 May 2020 10:13:24 -0700 (PDT)
+Received: from localhost (95-31-124-98.broadband.corbina.ru. [95.31.124.98])
+        by smtp.gmail.com with ESMTPSA id j5sm2732038ljg.78.2020.05.30.10.13.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 May 2020 10:13:24 -0700 (PDT)
+From:   Nickolai Kozachenko <daemongloom@gmail.com>
+To:     Alex Hung <alex.hung@canonical.com>
+Cc:     Nickolai Kozachenko <daemongloom@gmail.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] intel-hid: Expand DMI quirk to support HP Spectre X2 (2015)
+Date:   Sat, 30 May 2020 22:07:20 +0500
+Message-Id: <20200530170719.16923-1-daemongloom@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAHp75VdV4mAfAz5OZSW3FSzDwkvQiM7djBTH9rrAZYHJUp5jRA@mail.gmail.com>
+References: <20200530170648.16845-1-daemongloom@gmail.com>
 MIME-Version: 1.0
-References: <fce37b1c-40d7-6f80-1eb4-78a4446b35e9@gmail.com>
-In-Reply-To: <fce37b1c-40d7-6f80-1eb4-78a4446b35e9@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 30 May 2020 18:58:06 +0300
-Message-ID: <CAHp75VdV4mAfAz5OZSW3FSzDwkvQiM7djBTH9rrAZYHJUp5jRA@mail.gmail.com>
-Subject: Re: [PATCH] intel-hid: expand DMI quirk to support HP Spectre X2 (2015)
-To:     Nickolai Kozachenko <daemongloom@gmail.com>
-Cc:     Alex Hung <alex.hung@canonical.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, May 29, 2020 at 12:28 PM Nickolai Kozachenko
-<daemongloom@gmail.com> wrote:
->
-> HEBC method reports capabilities of 5 button array but HP Spectre X2
-> (2015) does not have this control method (the same was for Wacom
-> MobileStudio Pro). Previous DMI quirk  by Alex Hung was expanded to also
-> enable 5 button array for this system.
 
-Thanks for your contribution!
+HEBC method reports capabilities of 5 button array but HP Spectre X2 (2015)
+does not have this control method (the same was for Wacom MobileStudio
+Pro). Expand previous DMI quirk by Alex Hung to also enable 5 button array
+for this system.
 
-Looks like your patch is mangled, please use `git format-patch ... &&
-git send-email ...` to send patches.
-Also, with help of get_maintainers.pl script add subsystem maintainers
-and not only driver's.
+Signed-off-by: Nickolai Kozachenko <daemongloom@gmail.com>
+---
+Formatted patch with git
 
-P.S. When send a new version supply its number via `git format-patch
--v<n> ...` where `<n>` is 2 in this case.
-Also, after cutter line ('---') add a small changelog between versions.
+ drivers/platform/x86/intel-hid.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> Signed-off-by: Nickolai Kozachenko <daemongloom@gmail.com>
-> ---
-> Tested on my own device.  Thanks to Alex Hung for creating quirk for
-> Wacom MobileStudio devices that can be reused for HP Spectre X2 (2015).
->
-> --- drivers/platform/x86/intel-hid.c.orig    2020-05-29
-> 13:13:43.768032597 +0500
-> +++ drivers/platform/x86/intel-hid.c    2020-05-29 13:19:30.089899469 +0500
-> @@ -79,6 +79,13 @@ static const struct dmi_system_id button
->               DMI_MATCH(DMI_PRODUCT_NAME, "Wacom MobileStudio Pro 16"),
->           },
->       },
-> +    {
-> +        .ident = "HP Spectre x2 (2015)",
-> +        .matches = {
-> +            DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-> +            DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
-> +        },
-> +    },
->       { }
->   };
->
-
-
+diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
+index cc7dd4d87cce..9ee79b74311c 100644
+--- a/drivers/platform/x86/intel-hid.c
++++ b/drivers/platform/x86/intel-hid.c
+@@ -79,6 +79,13 @@ static const struct dmi_system_id button_array_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Wacom MobileStudio Pro 16"),
+ 		},
+ 	},
++	{
++		.ident = "HP Spectre x2 (2015)",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
++		},
++	},
+ 	{ }
+ };
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
