@@ -2,103 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C99BB1E92C4
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 May 2020 19:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A1301E9851
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 May 2020 17:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729044AbgE3RNb (ORCPT
+        id S1728059AbgEaPFb (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 30 May 2020 13:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728927AbgE3RNb (ORCPT
+        Sun, 31 May 2020 11:05:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25900 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727781AbgEaPFb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 30 May 2020 13:13:31 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DFCC03E969;
-        Sat, 30 May 2020 10:13:26 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id b6so3114682ljj.1;
-        Sat, 30 May 2020 10:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wTHHUoOK9LtynLNtMfwC1JSkdo0WV2HtB9sbt24MB0w=;
-        b=MKd9T0hsLjcFzFJL3H00K5UpfhG0vuV9FzffgVfcDHnswZiZFPT1P3MndDuWNz8s3H
-         CZ6FGCNJh5ebffTiGIKQBe1JIPfNYycY7wQ5mk4oXMGzvtjHoe4nyDhS231xmfhxvV0Y
-         tLDvzs/escssZRXOB2PIzL7wcEvc+sm3cN+6+NF5xyuu6S1DDvdINsptn73yWTJHZ5Gv
-         YYtdpTr5IUklbfeXEHtJIEut42UWhpDf7rSku0LHVSwTJe7oRapJcm4F03/6qiJ+A/h+
-         aHjW7dU4W95HPYOkwzzZqOq6RFRh2HcmINJBFI46FBsuZHi9S++DKuur/fL+TJtnm4k+
-         H22Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wTHHUoOK9LtynLNtMfwC1JSkdo0WV2HtB9sbt24MB0w=;
-        b=Wsv+xOB2n5RcRZatcBk4MvzZkOtER/V6xcW8bWy4P4MDeRVe8jm6BuR6Z0pMGJ9SqN
-         xshcrxScr9V1HyPAndNHOtJQp5Gw3ppf1suRF3iaIlgE4c9Ivf1IZjW6g2WfnqIGVJWX
-         YatHxDc6TAIhipG7WSTwAKwhH1+WFi/TQT0isU5Hs59hBe6hOBnkeOxgbsqSF0OqImGH
-         8eTgWoLFU5pX8vekEqTUyU6Vkn+dIQEBFmnkhf2iEOVMAMEkLrjNhRTG7zJUIf7amWcP
-         Ix6aMxPqPyhRg8GjgvGclNVoTsn7uSDV9bF+3tSCwizkD6OHHahJnlJ4C/MmoVxIXjwn
-         GzsA==
-X-Gm-Message-State: AOAM5301UkEZ02mesY9DgP2hWniZGoa/Qy61UtEdOTUJS150TsoMjsjS
-        4k6ZMzfiwD8hEj7VFslBpiPHYotoiq68OQ==
-X-Google-Smtp-Source: ABdhPJxyamokCEL/p9IltyFvDIH5FCNZsvvKjaHINHauYbTgSdiXMTtiqcL9y34U7NEax2P1gvL12Q==
-X-Received: by 2002:a05:651c:508:: with SMTP id o8mr3968765ljp.112.1590858804997;
-        Sat, 30 May 2020 10:13:24 -0700 (PDT)
-Received: from localhost (95-31-124-98.broadband.corbina.ru. [95.31.124.98])
-        by smtp.gmail.com with ESMTPSA id j5sm2732038ljg.78.2020.05.30.10.13.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 May 2020 10:13:24 -0700 (PDT)
-From:   Nickolai Kozachenko <daemongloom@gmail.com>
-To:     Alex Hung <alex.hung@canonical.com>
-Cc:     Nickolai Kozachenko <daemongloom@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Sun, 31 May 2020 11:05:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590937529;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=RonhcQc7dGXh6zCtQA1Y9Qhkanz1xhePj2mm5aSZxGI=;
+        b=iEll66UlQw3znJnHg2B7Wpbm3AaVS4xyJakFG+qldjP/eo26Rds9BA1Y16EZ5bxlOhJDpt
+        cmDXav+ucrJkp2EOmNYUgCpWKyfiFkoPwHGiZ0Wr4pVI5YIPVuP+ytSbv2/SQID5VqjpHi
+        EYDMeYKsx5iC19ZgjfICcT/OI0AxLGo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-ps_oCGUsMwm8g9csdsd56Q-1; Sun, 31 May 2020 11:05:27 -0400
+X-MC-Unique: ps_oCGUsMwm8g9csdsd56Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FC25835B40;
+        Sun, 31 May 2020 15:05:26 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-32.ams2.redhat.com [10.36.112.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C1B0707B1;
+        Sun, 31 May 2020 15:05:25 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] intel-hid: Expand DMI quirk to support HP Spectre X2 (2015)
-Date:   Sat, 30 May 2020 22:07:20 +0500
-Message-Id: <20200530170719.16923-1-daemongloom@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAHp75VdV4mAfAz5OZSW3FSzDwkvQiM7djBTH9rrAZYHJUp5jRA@mail.gmail.com>
-References: <20200530170648.16845-1-daemongloom@gmail.com>
+Subject: [PATCH] platform/x86: touchscreen_dmi: Update Trekstor Twin 10.1 entry
+Date:   Sun, 31 May 2020 17:05:24 +0200
+Message-Id: <20200531150524.89576-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Add minimum values for the x and y axis, correct the max value for the
+x-axis and add support for the capacitive home-button these tablets have.
 
-HEBC method reports capabilities of 5 button array but HP Spectre X2 (2015)
-does not have this control method (the same was for Wacom MobileStudio
-Pro). Expand previous DMI quirk by Alex Hung to also enable 5 button array
-for this system.
-
-Signed-off-by: Nickolai Kozachenko <daemongloom@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Formatted patch with git
+ drivers/platform/x86/touchscreen_dmi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- drivers/platform/x86/intel-hid.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
-index cc7dd4d87cce..9ee79b74311c 100644
---- a/drivers/platform/x86/intel-hid.c
-+++ b/drivers/platform/x86/intel-hid.c
-@@ -79,6 +79,13 @@ static const struct dmi_system_id button_array_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Wacom MobileStudio Pro 16"),
- 		},
- 	},
-+	{
-+		.ident = "HP Spectre x2 (2015)",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
-+		},
-+	},
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 931814e62454..48ffe90ec3ce 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -679,11 +679,14 @@ static const struct ts_dmi_data trekstor_primetab_t13b_data = {
+ };
+ 
+ static const struct property_entry trekstor_surftab_twin_10_1_props[] = {
+-	PROPERTY_ENTRY_U32("touchscreen-size-x", 1900),
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 20),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 0),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 1890),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 1280),
+ 	PROPERTY_ENTRY_U32("touchscreen-inverted-y", 1),
+ 	PROPERTY_ENTRY_STRING("firmware-name", "gsl3670-surftab-twin-10-1-st10432-8.fw"),
+ 	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,home-button"),
  	{ }
  };
  
 -- 
-2.25.1
+2.26.2
 
