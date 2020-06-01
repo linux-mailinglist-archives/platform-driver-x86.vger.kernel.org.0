@@ -2,147 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 962541EA0D9
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jun 2020 11:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08BEF1EA190
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Jun 2020 12:09:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgFAJTR (ORCPT
+        id S1726017AbgFAKJT convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 1 Jun 2020 05:19:17 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:51611 "EHLO
-        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728031AbgFAJTR (ORCPT
+        Mon, 1 Jun 2020 06:09:19 -0400
+Received: from piie.net ([80.82.223.85]:40710 "EHLO piie.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725788AbgFAKJT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 1 Jun 2020 05:19:17 -0400
-Received: from Internal Mail-Server by MTLPINE2 (envelope-from vadimp@mellanox.com)
-        with ESMTPS (AES256-SHA encrypted); 1 Jun 2020 12:19:10 +0300
-Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 0519IsSw003135;
-        Mon, 1 Jun 2020 12:19:09 +0300
-From:   Vadim Pasternak <vadimp@mellanox.com>
-To:     andy@infradead.org, dvhart@infradead.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vadim Pasternak <vadimp@mellanox.com>
-Subject: [PATCH platform-next v1 8/8] platform/x86: mlx-platform: Extend FAN platform data description
-Date:   Mon,  1 Jun 2020 12:18:51 +0300
-Message-Id: <20200601091851.5491-9-vadimp@mellanox.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200601091851.5491-1-vadimp@mellanox.com>
-References: <20200601091851.5491-1-vadimp@mellanox.com>
+        Mon, 1 Jun 2020 06:09:19 -0400
+X-Greylist: delayed 389 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Jun 2020 06:09:17 EDT
+Received: from mail.piie.net (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+        (Client did not present a certificate)
+        by piie.net (Postfix) with ESMTPSA id 8D0C3163C;
+        Mon,  1 Jun 2020 12:02:43 +0200 (CEST)
+Mime-Version: 1.0
+Date:   Mon, 01 Jun 2020 10:02:43 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: RainLoop/1.11.3
+From:   "=?utf-8?B?UGV0ZXIgS8Okc3RsZQ==?=" <peter@piie.net>
+Message-ID: <23327363eae19d051b7c960d3cbc1523@piie.net>
+Subject: Re: [PATCH v4 00/11] Stop monitoring disabled devices
+To:     "Andrzej Pietrasiewicz" <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        "Len Brown" <lenb@kernel.org>,
+        "Vishal Kulkarni" <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Jiri Pirko" <jiri@mellanox.com>,
+        "Ido Schimmel" <idosch@mellanox.com>,
+        "Johannes Berg" <johannes.berg@intel.com>,
+        "Emmanuel Grumbach" <emmanuel.grumbach@intel.com>,
+        "Luca Coelho" <luciano.coelho@intel.com>,
+        "Intel Linux Wireless" <linuxwifi@intel.com>,
+        "Kalle Valo" <kvalo@codeaurora.org>,
+        "Darren Hart" <dvhart@infradead.org>,
+        "Andy Shevchenko" <andy@infradead.org>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "Amit Kucheria" <amit.kucheria@verdurent.com>,
+        "Support Opensource" <support.opensource@diasemi.com>,
+        "Shawn Guo" <shawnguo@kernel.org>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "=?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?=" 
+        <niklas.soderlund@ragnatech.se>,
+        "Heiko Stuebner" <heiko@sntech.de>,
+        "Orson Zhai" <orsonzhai@gmail.com>,
+        "Baolin Wang" <baolin.wang7@gmail.com>,
+        "Chunyan Zhang" <zhang.lyra@gmail.com>,
+        "Zhang Rui" <rui.zhang@intel.com>,
+        "Allison Randal" <allison@lohutok.net>,
+        "Enrico Weigelt" <info@metux.net>,
+        "Gayatri Kammela" <gayatri.kammela@intel.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Bartlomiej Zolnierkiewicz" <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+In-Reply-To: <20200528192051.28034-1-andrzej.p@collabora.com>
+References: <20200528192051.28034-1-andrzej.p@collabora.com> <Message-ID:
+ <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Extend FAN platform data with register presence field.
-Add register present entry per rotor (tachometer) description tuple.
-The purpose is to allow indication of FAN presence.
+Hi,
 
-Signed-off-by: Vadim Pasternak <vadimp@mellanox.com>
----
- drivers/platform/x86/mlx-platform.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+28. Mai 2020 21:21, "Andrzej Pietrasiewicz" <andrzej.p@collabora.com> schrieb:
 
-diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index 034736cec9a6..90bc7969b199 100644
---- a/drivers/platform/x86/mlx-platform.c
-+++ b/drivers/platform/x86/mlx-platform.c
-@@ -1840,6 +1840,8 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(0),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
-+
- 	},
- 	{
- 		.label = "tacho2",
-@@ -1847,6 +1849,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(1),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho3",
-@@ -1854,6 +1857,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(2),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho4",
-@@ -1861,6 +1865,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(3),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho5",
-@@ -1868,6 +1873,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(4),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho6",
-@@ -1875,6 +1881,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(5),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho7",
-@@ -1882,6 +1889,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(6),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho8",
-@@ -1889,6 +1897,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET,
- 		.bit = BIT(7),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho9",
-@@ -1896,6 +1905,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP2_OFFSET,
- 		.bit = BIT(0),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho10",
-@@ -1903,6 +1913,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP2_OFFSET,
- 		.bit = BIT(1),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho11",
-@@ -1910,6 +1921,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP2_OFFSET,
- 		.bit = BIT(2),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "tacho12",
-@@ -1917,6 +1929,7 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.mask = GENMASK(7, 0),
- 		.capability = MLXPLAT_CPLD_LPC_REG_FAN_CAP2_OFFSET,
- 		.bit = BIT(3),
-+		.reg_prsnt = MLXPLAT_CPLD_LPC_REG_FAN_OFFSET,
- 	},
- 	{
- 		.label = "conf",
+[...]
+
+> This v4 series addresses those concerns: it takes a more gradual
+> approach and uses explicit tzd state initialization, hence there are more
+> insertions than in v3, and the net effect is -63 lines versus -139 lines
+> in v3.
+
+I'd like to test it.  Which git repo / branch do you base this series of patches on?
+
+[...]
+
+> base-commit: 351f4911a477ae01239c42f771f621d85b06ea10
+
+Can't find this hashref anywhere.
+
 -- 
-2.11.0
-
+thanks
+--peter;
