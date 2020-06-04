@@ -2,61 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE05A1ED6F8
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  3 Jun 2020 21:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CF61EDE16
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Jun 2020 09:29:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbgFCThU (ORCPT
+        id S1727948AbgFDH3A (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 3 Jun 2020 15:37:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33430 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726170AbgFCThT (ORCPT
+        Thu, 4 Jun 2020 03:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726246AbgFDH27 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 3 Jun 2020 15:37:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591213035;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sj8DwrnZh85Ck6QTkl6G16Wo9om1OVn0LU/mlRGDKpI=;
-        b=VzWshBGTN/d0ov8VGrodTUpnA2gZavVFuWcEpHaXkT0iPPypE/szx/9i+uwXmlv9uveyQT
-        4+/PzYAzAoGlr1n7axd7MfAsvfvEZ7MogMQ7KHmpyPPtMIK5I/P/7jZPLB9LJ169WxDUJb
-        19BkT541dj68paGFhbB5kRU6D3LaJnc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-2tj6oXIoP1uCCn5ZyS97zw-1; Wed, 03 Jun 2020 15:37:14 -0400
-X-MC-Unique: 2tj6oXIoP1uCCn5ZyS97zw-1
-Received: by mail-wm1-f72.google.com with SMTP id k185so1094762wme.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 03 Jun 2020 12:37:13 -0700 (PDT)
+        Thu, 4 Jun 2020 03:28:59 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 430E1C05BD1E;
+        Thu,  4 Jun 2020 00:28:59 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id jz3so778289pjb.0;
+        Thu, 04 Jun 2020 00:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=cO/oadY0dSYawTqKBBOtZELNdMv+BYwXLtOmaeKt1Sg=;
+        b=mSZGbtpdbn+bP4nMMb1tDxin4WAkP+gyVx0KGCmSbOIb2Zuo48tqPsbaZgZkX7wjUx
+         jV+dC6iU4rAWGaNMNS123cBBjbN3uCcsrVVNLRo+nMZIeV/9ANOLn8Ke6L7XFZ5kaBM/
+         z8qkBvmD7DtoCtFyd6eh/3t6LFAQMwqMnWpTRo/c+x8mTusmYLExEpR0cYqPGVBYDjLe
+         dSjkiPZtf8kQKjMPN8q+Q9BZFBcgrom4XSu9FrzdtDSMlsvZqEwG94OArztfsA7ZQ7Ni
+         mS+TfnhlkryWeFj1wtdJoqqqxt4uvNd9O1RqEh2uaT0skrLWcurMXwr1noiuEYqDlDJH
+         c1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sj8DwrnZh85Ck6QTkl6G16Wo9om1OVn0LU/mlRGDKpI=;
-        b=kAjB1uqyi7+G5me6rIKZbWWhy7LJulAxmP7nzK2s3goEE+U6QKjfDo+BWSwkyEWMQW
-         YbMHqv+omXeGP8fb4oZvfKwZ+pSlbLC5wRoozxLzgAx8KidGuxnFvjhnKzhupg4gUnJJ
-         rYMgGhXxs0uSY836NfxyNMTxpccq8vkdQx0Z9Nsb5DFF0FgKINrCu1577bWichGiq8wa
-         E7poQc2uTR+vSkYVOLUAIAawhU69PTmf9dmnYN0aVWP5RUG/mj22EGnSNKR6pvcpyiys
-         NTtBh6dQXGBiRaX/7PuoFU90BWJ3gtLn90GEDSHCg6JAfBP9VHobzVCeJL75dcmjb7Yt
-         ID2A==
-X-Gm-Message-State: AOAM5302gtsRgxKnwhz14RKdULb4yH97ncp2FgPtR3SljT62aodCCF4J
-        25oPNp2OzQ+2JUCIfW6ND48IbpPSbv8Nnvsr9cC/yGbp7hHxGLkcibRLb0YgkpkSWPMjPaRwpdI
-        22R10eFIT5l2MfZEaJ15lvVCqFEzd0l3k5w==
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr712660wmb.56.1591213032617;
-        Wed, 03 Jun 2020 12:37:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpOEMCf7lIDrWt8bkc/tbgg60nx+v5awVE0oDvn7V8736Lx9QAVjybI/3lYTsZ77kbwV2S3w==
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr712619wmb.56.1591213032243;
-        Wed, 03 Jun 2020 12:37:12 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id m129sm4585267wmf.2.2020.06.03.12.37.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2020 12:37:11 -0700 (PDT)
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=cO/oadY0dSYawTqKBBOtZELNdMv+BYwXLtOmaeKt1Sg=;
+        b=Zxs8EULPc1sQeXrNqIgvj97KoivmvMXPdDtn+jvafkfpR76zcusYguenPcZjP6s/8U
+         6Ji0ej3OxPLuKm0ulWfc0FimWjZOwR7T1F05upmyS5FsWirt2z6RO2Tf9FU0Clltgoza
+         5DltB8S4qyN0VpAwPBL7L3zdFtNyrXITiHjwweVslwfH4I9yjYxpQOiS5kbGdcQfCRPI
+         Kn6DWPFMYF+haEmsxDyAVirc10Bpbm4CCbIZYVompa/a/GtTbgO9Wltt8It7mxZbaA7l
+         xJo/n2oMgEioVtoQhvrDQ4G8Lar7VbKZRmhaP0EjLHuVjGcY29l8pA9oNjX2CS+TAptW
+         znHw==
+X-Gm-Message-State: AOAM533Qkc0HY7Srj1pRqTTBS63+o5ehgX41hcESZ3wC9ap2GDevC0GO
+        mf5YCVzbbZ25zhO2XJMenqA=
+X-Google-Smtp-Source: ABdhPJyqLLuYWne+m1xT0qat0v5Dz3JeDQ3IB/DdPJdnnpMfQKwnq1lCSPXxs5qp986I3SUYNwXRtg==
+X-Received: by 2002:a17:90a:fa95:: with SMTP id cu21mr4307120pjb.56.1591255738475;
+        Thu, 04 Jun 2020 00:28:58 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id n189sm1657259pfn.108.2020.06.04.00.28.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 00:28:57 -0700 (PDT)
+Date:   Thu, 4 Jun 2020 00:28:53 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
         linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
         patches@opensource.cirrus.com,
@@ -88,14 +86,9 @@ Cc:     linux-input@vger.kernel.org, linux-acpi@vger.kernel.org,
         Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
         kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
         Benjamin Tissoires <btissoir@redhat.com>
-References: <20200515164943.28480-1-andrzej.p@collabora.com>
- <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
- <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
- <6d9921fc-5c2f-beda-4dcd-66d6970a22fe@redhat.com>
- <09679de4-75d3-1f29-ec5f-8d42c84273dd@collabora.com>
- <f674ba4f-bd83-0877-c730-5dc6ea09ae4b@redhat.com>
- <2d224833-3a7e-bc7c-af15-1f803f466697@collabora.com>
- <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+Message-ID: <20200604072853.GP89269@dtor-ws>
+References: <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
  <20200527063430.GJ89269@dtor-ws>
  <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
  <20200602175241.GO89269@dtor-ws>
@@ -104,405 +97,166 @@ References: <20200515164943.28480-1-andrzej.p@collabora.com>
  <fb5bee72-6a75-88aa-8157-75f07c491eeb@collabora.com>
  <681abc14-ef0f-ff15-68ed-944b2f96bdaf@redhat.com>
  <025361f4-5b1b-6669-ffa0-a6e8ad43940c@collabora.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <01b902dd-8841-e697-5ba7-96fa6b73c1cd@redhat.com>
-Date:   Wed, 3 Jun 2020 21:37:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ <01b902dd-8841-e697-5ba7-96fa6b73c1cd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <025361f4-5b1b-6669-ffa0-a6e8ad43940c@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <01b902dd-8841-e697-5ba7-96fa6b73c1cd@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Hi Hans, Andrzej,
 
-On 6/3/20 7:54 PM, Andrzej Pietrasiewicz wrote:
-> W dniu 03.06.2020 o 19:38, Hans de Goede pisze:
->> Hi,
->>
->> On 6/3/20 3:07 PM, Andrzej Pietrasiewicz wrote:
->>> Hi Hans, hi Dmitry,
->>
->> <snip>
->>
->>> I'm taking one step back and looking at the ->open() and ->close()
->>> driver callbacks. They are called from input_open_device() and
->>> input_close_device(), respectively:
->>>
->>> input_open_device():
->>> "This function should be called by input handlers when they
->>> want to start receive events from given input device."
->>>
->>> ->open() callback:
->>> "this method is called when the very first user calls
->>> input_open_device(). The driver must prepare the device to start
->>> generating events (start polling thread, request an IRQ, submit
->>> URB, etc.)"
->>>
->>> input_close_device():
->>> "This function should be called by input handlers when they
->>> want to stop receive events from given input device."
->>>
->>> ->close() callback:
->>> "this method is called when the very last user calls
->>> input_close_device()"
->>>
->>> It seems to me that the callback names do not reflect their
->>> purpose: their meaning is not to "open" or to "close" but to
->>> give drivers a chance to control when they start or stop
->>> providing events to the input core.
->>>
->>> What would you say about changing the callbacks' names?
->>> I'd envsion: ->provide_events() instead of ->open() and
->>> ->stop_events() instead of ->close(). Of course drivers can
->>> exploit the fact of knowing that nobody wants any events
->>> from them and do whatever they consider appropriate, for
->>> example go into a low power mode - but the latter is beyond
->>> the scope of the input subsystem and is driver-specific.
->>
->> I don't have much of an opinion on changing the names,
->> to me open/close have always means start/stop receiving
->> events. This follows the everything is a file philosophy,
->> e.g. you can also not really "open" a serial port,
->> yet opening /dev/ttyS0 will activate the receive IRQ
->> of the UART, etc. So maybe we just need to make the
->> docs clearer rather then do the rename?  Doing the
->> rename is certainly going to cause a lot of churn.
+On Wed, Jun 03, 2020 at 09:37:10PM +0200, Hans de Goede wrote:
+> Hi,
 > 
-> Right, I can see now that the suggestion to change names is
-> too far fetched. (I feel that release() would be better
-> than close(), though). But it exposes the message I wanted to
-> pass.
-> 
->>
->> Anyways as said, I don't have much of an opinion,
->> so I'll leave commenting (more) on this to Dmitry.
->>
->>> With such a naming change in mind let's consider inhibiting.
->>> We want to be able to control when to disregard events from
->>> a given device. It makes sense to do it at device level, otherwise
->>> such an operation would have to be invoked in all associated
->>> handlers (those that have an open handle associating them with
->>> the device in question). But of course we can do better than
->>> merely ignoring the events received: we can tell the drivers
->>> that we don't want any events from them, and later, at uninhibit
->>> time, tell them to start providing the events again. Conceptually,
->>> the two operations (provide or don't provide envents) are exactly
->>> the same thing we want to be happening at input_open_device() and
->>> input_close_device() time. To me, changing the names of
->>> ->open() and ->close() exposes this fact very well.
->>>
->>> Consequently, ->inhibit() and ->uninhibit() won't be needed,
->>> and drivers which already implement ->provide_events() (formerly
->>> ->open()) and ->stop_events() (formerly ->close()) will receive
->>> full inhibit/uninhibit support for free (subject to how well they
->>> implement ->provide_events()/->stop_events()). Unless we can come
->>> up with what the drivers might be doing on top of ->stop_events()
->>> and ->provide_events() when inhibiting/uninhibiting, but it seems
->>> to me we can't. Can we?
->>
->> Right. I'm happy that you've come to see that both on open/close
->> and on inhibit/uninhibit we want to "start receiving events" and
->> "stop receiving events", so that we only need one set of callbacks.
->>
-> 
-> Yeah, that's my conclusion - at least on a conceptual level.
-> 
-> That said, what I can imagine is an existing driver (e.g. elan_i2c)
-> which does not implement neither open() nor close(), but does have
-> suspend() and resume(). Then it is maybe a bit easier to add inhibit()
-> and uninhibit() /they would be similar to suspend and resume/ instead
-> of open() and close(): If only open() and close() are possible, then
-> the probe function needs to be extended to "close" the device before it
-> gets registered, because from the moment it is registered it might be
-> opened right away.
+> On 6/3/20 7:54 PM, Andrzej Pietrasiewicz wrote:
+> > W dniu 03.06.2020 o�19:38, Hans de Goede pisze:
+> > > Hi,
+> > > 
+> > > On 6/3/20 3:07 PM, Andrzej Pietrasiewicz wrote:
+> > > > Hi Hans, hi Dmitry,
+> > > 
+> > > <snip>
+> > > 
+> > > > I'm taking one step back and looking at the ->open() and ->close()
+> > > > driver callbacks. They are called from input_open_device() and
+> > > > input_close_device(), respectively:
+> > > > 
+> > > > input_open_device():
+> > > > "This function should be called by input handlers when they
+> > > > want to start receive events from given input device."
+> > > > 
+> > > > ->open() callback:
+> > > > "this method is called when the very first user calls
+> > > > input_open_device(). The driver must prepare the device to start
+> > > > generating events (start polling thread, request an IRQ, submit
+> > > > URB, etc.)"
+> > > > 
+> > > > input_close_device():
+> > > > "This function should be called by input handlers when they
+> > > > want to stop receive events from given input device."
+> > > > 
+> > > > ->close() callback:
+> > > > "this method is called when the very last user calls
+> > > > input_close_device()"
+> > > > 
+> > > > It seems to me that the callback names do not reflect their
+> > > > purpose: their meaning is not to "open" or to "close" but to
+> > > > give drivers a chance to control when they start or stop
+> > > > providing events to the input core.
+> > > > 
+> > > > What would you say about changing the callbacks' names?
+> > > > I'd envsion: ->provide_events() instead of ->open() and
+> > > > ->stop_events() instead of ->close(). Of course drivers can
+> > > > exploit the fact of knowing that nobody wants any events
+> > > > from them and do whatever they consider appropriate, for
+> > > > example go into a low power mode - but the latter is beyond
+> > > > the scope of the input subsystem and is driver-specific.
+> > > 
+> > > I don't have much of an opinion on changing the names,
+> > > to me open/close have always means start/stop receiving
+> > > events. This follows the everything is a file philosophy,
+> > > e.g. you can also not really "open" a serial port,
+> > > yet opening /dev/ttyS0 will activate the receive IRQ
+> > > of the UART, etc. So maybe we just need to make the
+> > > docs clearer rather then do the rename?� Doing the
+> > > rename is certainly going to cause a lot of churn.
+> > 
+> > Right, I can see now that the suggestion to change names is
+> > too far fetched. (I feel that release() would be better
+> > than close(), though). But it exposes the message I wanted to
+> > pass.
 
-The probe only needs to "close" it if for some reason it
-starts directly sending events in most cases the driver
-must actively do something to get it to send events.
+release() usually means that the object is destroyedm, i.e this action,
+unlike close() is irrevocable.
 
-So in most cases this should be pretty straight forward,
-as for having to do some init / power-on during probe
-and then power-off at the end of the probe. Yes sometimes
-something like that might be necessary.
+Let's leave the names as is, and adjust kerneldoc comments as needed.
 
-Looking at your suggested elan_i2c changes I think they
-look fine. I have the feeling that with some refactoring
-they can be made a bit cleaner (I did not look a the
-changes in too much detail) but overall I think they
-look ok.
+> > 
+> > > 
+> > > Anyways as said, I don't have much of an opinion,
+> > > so I'll leave commenting (more) on this to Dmitry.
+> > > 
+> > > > With such a naming change in mind let's consider inhibiting.
+> > > > We want to be able to control when to disregard events from
+> > > > a given device. It makes sense to do it at device level, otherwise
+> > > > such an operation would have to be invoked in all associated
+> > > > handlers (those that have an open handle associating them with
+> > > > the device in question). But of course we can do better than
+> > > > merely ignoring the events received: we can tell the drivers
+> > > > that we don't want any events from them, and later, at uninhibit
+> > > > time, tell them to start providing the events again. Conceptually,
+> > > > the two operations (provide or don't provide envents) are exactly
+> > > > the same thing we want to be happening at input_open_device() and
+> > > > input_close_device() time. To me, changing the names of
+> > > > ->open() and ->close() exposes this fact very well.
+> > > > 
+> > > > Consequently, ->inhibit() and ->uninhibit() won't be needed,
+> > > > and drivers which already implement ->provide_events() (formerly
+> > > > ->open()) and ->stop_events() (formerly ->close()) will receive
+> > > > full inhibit/uninhibit support for free (subject to how well they
+> > > > implement ->provide_events()/->stop_events()). Unless we can come
+> > > > up with what the drivers might be doing on top of ->stop_events()
+> > > > and ->provide_events() when inhibiting/uninhibiting, but it seems
+> > > > to me we can't. Can we?
+> > > 
+> > > Right. I'm happy that you've come to see that both on open/close
+> > > and on inhibit/uninhibit we want to "start receiving events" and
+> > > "stop receiving events", so that we only need one set of callbacks.
+> > > 
+> > 
+> > Yeah, that's my conclusion - at least on a conceptual level.
+> > 
+> > That said, what I can imagine is an existing driver (e.g. elan_i2c)
+> > which does not implement neither open() nor close(), but does have
+> > suspend() and resume(). Then it is maybe a bit easier to add inhibit()
+> > and uninhibit() /they would be similar to suspend and resume/ instead
+> > of open() and close(): If only open() and close() are possible, then
+> > the probe function needs to be extended to "close" the device before it
+> > gets registered, because from the moment it is registered it might be
+> > opened right away.
+> 
+> The probe only needs to "close" it if for some reason it
+> starts directly sending events in most cases the driver
+> must actively do something to get it to send events.
+> 
+> So in most cases this should be pretty straight forward,
+> as for having to do some init / power-on during probe
+> and then power-off at the end of the probe. Yes sometimes
+> something like that might be necessary.
+> 
+> Looking at your suggested elan_i2c changes I think they
+> look fine. I have the feeling that with some refactoring
+> they can be made a bit cleaner (I did not look a the
+> changes in too much detail) but overall I think they
+> look ok.
+> 
+> Note you may also want to look at using the runtime
+> suspend framework for this, doing a pm_runtime_get_sync()
+> in open() and then letting (runtime) suspend do the power
+> off if you set a reasonable timeout for autosuspend after
+> the last user is gone then that will also avoid an
+> unnecessary suspend / resume cycle between probe()
+> exiting and the first open() call and this avoids the
+> need to do a poweroff() at the end of probe(), the
+> runtime-pm framework will autosuspend the device after
+> the timeout expires.
 
-Note you may also want to look at using the runtime
-suspend framework for this, doing a pm_runtime_get_sync()
-in open() and then letting (runtime) suspend do the power
-off if you set a reasonable timeout for autosuspend after
-the last user is gone then that will also avoid an
-unnecessary suspend / resume cycle between probe()
-exiting and the first open() call and this avoids the
-need to do a poweroff() at the end of probe(), the
-runtime-pm framework will autosuspend the device after
-the timeout expires.
+Yes, plugging into runtime PM would be nice, as as it currently stands
+the driver will be broken with regard to trying access sysfs for
+firmware update/calibration/etc if device happens to be inhibited.
 
-Regards,
+The version of the driver in Chrome OS tree is similarly broken, but
+because we control both kernel and the rest of the stack we know that we
+do not poke at sysfs when device is inhibited. It will not be acceptable
+for mainline (and that is one of reasons why elan_i2c does not have
+open/close methods at the moment).
 
-Hans
+Thanks.
 
-
-> And the device must be available earlier during the
-> course of probe to query some parameters through i2c:
-> 
-> +static int elan_reactivate(struct elan_tp_data *data)
-> +{
-> +    struct device *dev = &data->client->dev;
-> +    int ret;
-> +
-> +    ret = elan_enable_power(data);
-> +    if (ret)
-> +        dev_err(dev, "failed to restore power: %d\n", ret);
-> +
-> +    ret = elan_initialize(data);
-> +    if (ret)
-> +        dev_err(dev, "failed to re-initialize touchpad: %d\n", ret);
-> +
-> +    return ret;
-> +}
-> +
-> +static int elan_open(struct input_dev *input)
-> +{
-> +    struct elan_tp_data *data = input_get_drvdata(input);
-> +    struct i2c_client *client = data->client;
-> +    int ret;
-> +
-> +    dev_dbg(&client->dev, "uninhibiting\n");
-> +
-> +    ret = mutex_lock_interruptible(&data->sysfs_mutex);
-> +    if (ret)
-> +        return ret;
-> +
-> +    ret = elan_reactivate(data);
-> +    if (ret == 0)
-> +        enable_irq(client->irq);
-> +
-> +    mutex_unlock(&data->sysfs_mutex);
-> +
-> +    return ret;
-> +}
-> +
-> +static int elan_inhibit(struct input_dev *input)
-> +{
-> +    struct elan_tp_data *data = input_get_drvdata(input);
-> +    struct i2c_client *client = data->client;
-> +    int ret;
-> +
-> +    dev_dbg(&client->dev, "closing\n");
-> +
-> +    /*
-> +     * We are taking the mutex to make sure sysfs operations are
-> +     * complete before we attempt to bring the device into low[er]
-> +     * power mode.
-> +     */
-> +    ret = mutex_lock_interruptible(&data->sysfs_mutex);
-> +    if (ret)
-> +        return ret;
-> +
-> +    disable_irq(client->irq);
-> +
-> +    ret = elan_disable_power(data);
-> +    if (ret)
-> +        enable_irq(client->irq);
-> +
-> +    mutex_unlock(&data->sysfs_mutex);
-> +
-> +    return ret;
-> +}
-> +
-> +static void elan_close(struct input_dev *input)
-> +{
-> +    elan_inhibit(input);
-> +}
-> +
->   static int elan_query_device_info(struct elan_tp_data *data)
->   {
->       int error;
->       u16 ic_type;
-> 
->       error = data->ops->get_version(data->client, false, &data->fw_version);
->       if (error)
->           return error;
-> 
->       error = data->ops->get_checksum(data->client, false,
->                       &data->fw_checksum);
->       if (error)
->           return error;
-> 
->       error = data->ops->get_version(data->client, true, &data->iap_version);
->       if (error)
->           return error;
-> @@ -1071,34 +1141,36 @@ static int elan_setup_trackpoint_input_device(struct elan_tp_data *data)
-> 
->   static int elan_setup_input_device(struct elan_tp_data *data)
->   {
->       struct device *dev = &data->client->dev;
->       struct input_dev *input;
->       unsigned int max_width = max(data->width_x, data->width_y);
->       unsigned int min_width = min(data->width_x, data->width_y);
->       int error;
-> 
->       input = devm_input_allocate_device(dev);
->       if (!input)
->           return -ENOMEM;
-> 
->       input->name = "Elan Touchpad";
->       input->id.bustype = BUS_I2C;
->       input->id.vendor = ELAN_VENDOR_ID;
->       input->id.product = data->product_id;
-> +    input->open = elan_open;
-> +    input->close = elan_close;
->       input_set_drvdata(input, data);
-> 
->       error = input_mt_init_slots(input, ETP_MAX_FINGERS,
->                       INPUT_MT_POINTER | INPUT_MT_DROP_UNUSED);
->       if (error) {
->           dev_err(dev, "failed to initialize MT slots: %d\n", error);
->           return error;
->       }
-> 
->       __set_bit(EV_ABS, input->evbit);
->       __set_bit(INPUT_PROP_POINTER, input->propbit);
->       if (data->clickpad) {
->           __set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
->       } else {
->           __set_bit(BTN_RIGHT, input->keybit);
->           if (data->middle_button)
->               __set_bit(BTN_MIDDLE, input->keybit);
-> @@ -1253,34 +1325,40 @@ static int elan_probe(struct i2c_client *client,
->       if (!irqflags)
->           irqflags = IRQF_TRIGGER_FALLING;
-> 
->       error = devm_request_threaded_irq(dev, client->irq, NULL, elan_isr,
->                         irqflags | IRQF_ONESHOT,
->                         client->name, data);
->       if (error) {
->           dev_err(dev, "cannot register irq=%d\n", client->irq);
->           return error;
->       }
-> 
->       error = devm_device_add_groups(dev, elan_sysfs_groups);
->       if (error) {
->           dev_err(dev, "failed to create sysfs attributes: %d\n", error);
->           return error;
->       }
-> 
-> +    error = elan_inhibit(data->input);
-> +    if (error) {
-> +        dev_err(dev, "failed to inhibit input device before registering: %d\n", error);
-> +        return error;
-> +    }
-> +
->       error = input_register_device(data->input);
->       if (error) {
->           dev_err(dev, "failed to register input device: %d\n", error);
->           return error;
->       }
-> 
->       if (data->tp_input) {
->           error = input_register_device(data->tp_input);
->           if (error) {
->               dev_err(&client->dev,
->                   "failed to register TrackPoint input device: %d\n",
->                   error);
->               return error;
->           }
->       }
-> 
->       /*
-> @@ -1294,72 +1372,71 @@ static int elan_probe(struct i2c_client *client,
->   }
-> 
->   static int __maybe_unused elan_suspend(struct device *dev)
->   {
->       struct i2c_client *client = to_i2c_client(dev);
->       struct elan_tp_data *data = i2c_get_clientdata(client);
->       int ret;
-> 
->       /*
->        * We are taking the mutex to make sure sysfs operations are
->        * complete before we attempt to bring the device into low[er]
->        * power mode.
->        */
->       ret = mutex_lock_interruptible(&data->sysfs_mutex);
->       if (ret)
->           return ret;
-> 
-> -    disable_irq(client->irq);
-> +    mutex_lock(&data->input->mutex);
-> +    if (input_device_enabled(data->input)) {
-> +        disable_irq(client->irq);
-> 
-> -    if (device_may_wakeup(dev)) {
-> -        ret = elan_sleep(data);
-> -        /* Enable wake from IRQ */
-> -        data->irq_wake = (enable_irq_wake(client->irq) == 0);
-> -    } else {
-> -        ret = elan_disable_power(data);
-> +        if (device_may_wakeup(dev)) {
-> +            ret = elan_sleep(data);
-> +            /* Enable wake from IRQ */
-> +            data->irq_wake = (enable_irq_wake(client->irq) == 0);
-> +        } else {
-> +            ret = elan_disable_power(data);
-> +        }
->       }
-> +    mutex_unlock(&data->input->mutex);
-> 
->       mutex_unlock(&data->sysfs_mutex);
->       return ret;
->   }
-> 
->   static int __maybe_unused elan_resume(struct device *dev)
->   {
->       struct i2c_client *client = to_i2c_client(dev);
->       struct elan_tp_data *data = i2c_get_clientdata(client);
-> -    int error;
-> +    int ret = 0;
-> 
-> -    if (device_may_wakeup(dev) && data->irq_wake) {
-> -        disable_irq_wake(client->irq);
-> -        data->irq_wake = false;
-> -    }
-> +    mutex_lock(&data->input->mutex);
-> +    if (input_device_enabled(data->input)) {
-> +        if (data->irq_wake) {
-> +            disable_irq_wake(client->irq);
-> +            data->irq_wake = false;
-> +        }
-> 
-> -    error = elan_enable_power(data);
-> -    if (error) {
-> -        dev_err(dev, "power up when resuming failed: %d\n", error);
-> -        goto err;
-> +        ret = elan_reactivate(data);
-> +        enable_irq(data->client->irq);
->       }
-> +    mutex_unlock(&data->input->mutex);
-> 
-> -    error = elan_initialize(data);
-> -    if (error)
-> -        dev_err(dev, "initialize when resuming failed: %d\n", error);
-> -
-> -err:
-> -    enable_irq(data->client->irq);
-> -    return error;
-> +    return ret;
->   }
-> 
-> Regards,
-> 
-> Andrzej
-> 
-
+-- 
+Dmitry
