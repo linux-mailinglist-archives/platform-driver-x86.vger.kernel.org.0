@@ -2,146 +2,179 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1298D1F2624
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB4D1F28A9
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732534AbgFHXdI (ORCPT
+        id S2387907AbgFHXzM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:33:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37826 "EHLO mail.kernel.org"
+        Mon, 8 Jun 2020 19:55:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38726 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732531AbgFHXdG (ORCPT
+        id S2387857AbgFHXzL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:33:06 -0400
+        Mon, 8 Jun 2020 19:55:11 -0400
 Received: from pali.im (pali.im [31.31.79.79])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D7A4520775;
-        Mon,  8 Jun 2020 23:33:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 614FA20659;
+        Mon,  8 Jun 2020 23:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591659185;
-        bh=Nc5stfIq+5Ul/qSW+NDkOVlTjnYsPCUFGkbd6YbkUNU=;
+        s=default; t=1591660510;
+        bh=jdEldZpfK4zYkAX2jFTC/ShU1g0BC6ZePRI0yc3ko1k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B4BMUo/bVaKtHjl2PToR1B5kt8/Rr+jEEnQpMXggmdOa5BpBPO34i9fSA6J3AUIL6
-         XwIIXK7khGexVLw/l5JPhukVCx6nKBpRFKKg4A0z8GQwWQIuHket9JMmHd8QWrMuqv
-         ZCiVC9F5kSbMbQpcMCyPJcLnPuC5j36LhNHj2aZQ=
+        b=WGjg7Ef05QjYfKu1Y1MiIM4Ms8WXmngXEnv7nrWh62eQMh7h1OuqXscsVr4ywJb9B
+         Lupda/jVNKHz0qRtCeAEnvGCKLNsL+aKTo/fsSIAarVdSDLZcooPrNpjsdgG3sjaVs
+         Fc20bi9/UjjjuMC9b+rFKNmjmsaAlB4zLtTpnOBo=
 Received: by pali.im (Postfix)
-        id 225E1263E; Tue,  9 Jun 2020 01:33:03 +0200 (CEST)
-Date:   Tue, 9 Jun 2020 01:33:03 +0200
+        id 8F10E263E; Tue,  9 Jun 2020 01:55:08 +0200 (CEST)
+Date:   Tue, 9 Jun 2020 01:55:08 +0200
 From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Y Paritcher <y.linux@paritcher.com>
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Y Paritcher <y.linux@paritcher.com>, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
         Matthew Garrett <mjg59@srcf.ucam.org>,
         Mario.Limonciello@dell.com
-Subject: Re: [PATCH v2 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
-Message-ID: <20200608233303.57ubv4rxo4tnaaxa@pali>
+Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
+ bios_to_linux_keycode
+Message-ID: <20200608235508.wthtgilgmifwfgz2@pali>
 References: <cover.1591584631.git.y.linux@paritcher.com>
  <cover.1591656154.git.y.linux@paritcher.com>
- <74fdb288757cf5970a558f920f531b3bd1c51b47.1591656154.git.y.linux@paritcher.com>
+ <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+ <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <74fdb288757cf5970a558f920f531b3bd1c51b47.1591656154.git.y.linux@paritcher.com>
+In-Reply-To: <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
 User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Monday 08 June 2020 19:05:29 Y Paritcher wrote:
-> These are events with extended data. The extended data is
-> currently ignored as userspace does not have a way to deal
-> it.
+Hello!
+
+On Monday 08 June 2020 16:27:10 Randy Dunlap wrote:
+> Hi--
 > 
-> Ignore event with a type of 0x0012 and a code of 0xe035, as
-> the keyboard controller takes care of Fn lock events by itself.
+> On 6/8/20 4:05 PM, Y Paritcher wrote:
+> > Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
+> > keycode) to allow for a new keycode 0xffff, this silences the following
+> > messages being logged at startup on a Dell Inspiron 5593:
+> > 
+> >     dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
+> >     dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
 
-Nice! This is information which is really important and need to have it
-documented.
+Which keys generate these two scancodes? Or how have you been able to
+trigger these scancodes (in case they are not generated by key press)?
 
-> This silences the following messages being logged when
-> pressing the Fn-lock key on a Dell Inspiron 5593:
+It is important to know for which key or event or feature we need to
+include this patch and therefore what feature is currently
+non-functional on that laptop.
+
+> > as per this code comment:
+> > 
+> >    Log if we find an entry in the DMI table that we don't
+> >    understand.  If this happens, we should figure out what
+> >    the entry means and add it to bios_to_linux_keycode.
+> > 
+> > These are keycodes included in the 0xB2 DMI table, for which the
+> > corosponding keys are not known.
 > 
-> dell_wmi: Unknown WMI event type 0x12
-> dell_wmi: Unknown key with type 0x0012 and code 0xe035 pressed
+>   corresponding
 > 
-> This is consistent with the behavior for the Fn-lock key
-> elsewhere in this file.
+> > 
+> > Now when a user will encounter this key, a proper message wil be printed:
+> > 
+> >     dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
+> > 
+> > This will then allow the key to be identified properly.
+> > 
+> > Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+> > ---
+> >  drivers/platform/x86/dell-wmi.c | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+> > index 6b510f8431a3..dae1db96b5a0 100644
+> > --- a/drivers/platform/x86/dell-wmi.c
+> > +++ b/drivers/platform/x86/dell-wmi.c
+> > @@ -196,7 +196,7 @@ struct dell_dmi_results {
+> >  };
+> >  
+> >  /* Uninitialized entries here are KEY_RESERVED == 0. */
+> > -static const u16 bios_to_linux_keycode[256] = {
+> > +static const u16 bios_to_linux_keycode[65536] = {
 > 
-> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+> It surely seems odd to me to expand an array from 512 bytes to 128 Kbytes
+> just to handle one special case.  Can't it be handled in code as a
+> special case?
 
-I'm fine with this patch now.
+I already wrote that more developers would not be happy about this
+change. I would rather to see e.g. that Randy's suggestion with 0xffff
+check as increasing memory usage.
 
-Reviewed-by: Pali Rohár <pali@kernel.org>
+> >  	[0]	= KEY_MEDIA,
+> >  	[1]	= KEY_NEXTSONG,
+> >  	[2]	= KEY_PLAYPAUSE,
+> > @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
+> >  	[37]	= KEY_UNKNOWN,
+> >  	[38]	= KEY_MICMUTE,
+> >  	[255]	= KEY_PROG3,
+> > +	[65535]	= KEY_UNKNOWN,
 
-> ---
->  drivers/platform/x86/dell-wmi.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
+Looking at the last two lines... and for me it looks like that 0x00FF
+and 0xFFFF are just "placeholders" or special values for unknown /
+custom / unsupported / reserved / special / ... codes.
+
+It is really suspicious why first 38 values are defined, then there is
+gap, then one value 255 and then huge gap to 65535.
+
+Mario, this looks like some mapping table between internal Dell BIOS key
+code and standard Linux key code. Are you able to get access to some
+documentation which contains explanation of those Dell key numbers?
+It could really help us to understand these gaps and what is correct
+interpretation of these numbers.
+
+E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
+generates code 255, which could prove my thesis about "special codes"
+(which are probably not found in e.g. Windows or Linux mapping tables).
+
+> >  };
+> >  
+> >  /*
+> > @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
+> >  					&table->keymap[i];
+> >  
+> >  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
+> > -		u16 keycode = (bios_entry->keycode <
+> > -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+> > -			bios_to_linux_keycode[bios_entry->keycode] :
+> > -			KEY_RESERVED;
+> > +		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
+> >  
+> >  		/*
+> >  		 * Log if we find an entry in the DMI table that we don't
+> > 
 > 
-> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
-> index 0b2edfe2767d..6b510f8431a3 100644
-> --- a/drivers/platform/x86/dell-wmi.c
-> +++ b/drivers/platform/x86/dell-wmi.c
-> @@ -334,6 +334,15 @@ static const struct key_entry dell_wmi_keymap_type_0011[] = {
->  	{ KE_IGNORE, KBD_LED_AUTO_100_TOKEN, { KEY_RESERVED } },
->  };
->  
-> +/*
-> + * Keymap for WMI events of type 0x0012
-> + * They are events with extended data
-> + */
-> +static const struct key_entry dell_wmi_keymap_type_0012[] = {
-> +	/* Fn-lock button pressed */
-> +	{ KE_IGNORE, 0xe035, { KEY_RESERVED } },
-> +};
-> +
->  static void dell_wmi_process_key(struct wmi_device *wdev, int type, int code)
->  {
->  	struct dell_wmi_priv *priv = dev_get_drvdata(&wdev->dev);
-> @@ -418,10 +427,11 @@ static void dell_wmi_notify(struct wmi_device *wdev,
->  
->  		switch (buffer_entry[1]) {
->  		case 0x0000: /* One key pressed or event occurred */
-> +		case 0x0012: /* Event with extended data occurred */
+> Something like:
+> 
+> 		u16 keycode;
+> 
+> 		keycode = bios_entry->keycode == 0xffff ? KEY_UNKNOWN :
+> 			(bios_entry->keycode <
+> 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+> 			bios_to_linux_keycode[bios_entry->keycode] :
+> 			KEY_RESERVED;
+> 
+> 
+> 
+> Also please fix this:
+> (no To-header on input) <>
 
-Mario, are you able to get some official documentation for these 0x0012
-event types? I think it could be really useful for community so they can
-understand and add easily new type of code and events. Because currently
-we are just guessing what it could be. (It is sequence? Or single event?
-Or single event with extended data? It is generic event? Or it is real
-keypress? etc...)
+Hint: specifying git send-email with '--to' argument instead of '--cc'
+should help.
 
->  			if (len > 2)
->  				dell_wmi_process_key(wdev, 0x0000,
->  						     buffer_entry[2]);
-> -			/* Other entries could contain additional information */
-> +			/* Extended data is currently ignored */
->  			break;
->  		case 0x0010: /* Sequence of keys pressed */
->  		case 0x0011: /* Sequence of events occurred */
-> @@ -556,6 +566,7 @@ static int dell_wmi_input_setup(struct wmi_device *wdev)
->  			 ARRAY_SIZE(dell_wmi_keymap_type_0000) +
->  			 ARRAY_SIZE(dell_wmi_keymap_type_0010) +
->  			 ARRAY_SIZE(dell_wmi_keymap_type_0011) +
-> +			 ARRAY_SIZE(dell_wmi_keymap_type_0012) +
->  			 1,
->  			 sizeof(struct key_entry), GFP_KERNEL);
->  	if (!keymap) {
-> @@ -600,6 +611,13 @@ static int dell_wmi_input_setup(struct wmi_device *wdev)
->  		pos++;
->  	}
->  
-> +	/* Append table with events of type 0x0012 */
-> +	for (i = 0; i < ARRAY_SIZE(dell_wmi_keymap_type_0012); i++) {
-> +		keymap[pos] = dell_wmi_keymap_type_0012[i];
-> +		keymap[pos].code |= (0x0012 << 16);
-> +		pos++;
-> +	}
-> +
->  	/*
->  	 * Now append also table with "legacy" events of type 0x0000. Some of
->  	 * them are reported also on laptops which have scancodes in DMI.
+> 
 > -- 
-> 2.27.0
+> ~Randy
 > 
