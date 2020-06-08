@@ -2,192 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 001A41F1C5F
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jun 2020 17:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E241F207C
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jun 2020 22:11:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730329AbgFHPqs (ORCPT
+        id S1726723AbgFHULx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 11:46:48 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:39886 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725975AbgFHPqs (ORCPT
+        Mon, 8 Jun 2020 16:11:53 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60853 "EHLO
+        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726415AbgFHULw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 11:46:48 -0400
-Received: from pps.filterd (m0170391.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 058FkdtK010331;
-        Mon, 8 Jun 2020 11:46:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=ZMYj7TjtbVR1Mk+mh5cxaOihOocRMaG8fRyEXRgeSLY=;
- b=iwyEX1Gar0oKAZE5sbG3hTQtGP8D9xH7CDRKvBEKjanpCxQICueMn6XHwqBFSQFarBC0
- CV4BKyN2wThSA2vN1s6IPKy6yP+M4jEiQgyFDYVtF8Iy2eYnE2Pb53tlk8qyKg2urTCK
- ti2O8Hz8IqUUhPh4zJlQFVWRtFlGuYS95SFt6V1zJiuYnegBYP8GQalL7XfpmGPn9zI2
- 4KTliLSXjOIqQAOJMwWY+QAXd1Mv3pC5QF/GVIf5/6G5852Cb6ayaQhWo4lK26r+ZYOG
- V6S0FoG0iky5FFy4X03MzhNalOaLIKr4RUUaeHjrNsD38XhOP8aslqJ/Q5fXZkQQNwlj iw== 
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0a-00154904.pphosted.com with ESMTP id 31g69wd5gf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 08 Jun 2020 11:46:47 -0400
-Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 058FhkWT014345;
-        Mon, 8 Jun 2020 11:46:47 -0400
-Received: from ausxippc106.us.dell.com (AUSXIPPC106.us.dell.com [143.166.85.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 31garqytct-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 08 Jun 2020 11:46:47 -0400
-X-LoopCount0: from 10.166.132.132
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="556913000"
-From:   <Mario.Limonciello@dell.com>
-To:     <pali@kernel.org>, <y.linux@paritcher.com>
-CC:     <linux-kernel@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>
-Subject: RE: [PATCH 3/3] platform/x86: dell-wmi: add keys to
- bios_to_linux_keycode
-Thread-Topic: [PATCH 3/3] platform/x86: dell-wmi: add keys to
- bios_to_linux_keycode
-Thread-Index: AQHWPUx9sFYF+BrpzUSmmNRF6qlL7KjOv66AgAAcqwA=
-Date:   Mon, 8 Jun 2020 15:46:44 +0000
-Message-ID: <8baab72e3d2e407792c3ffa1d9fffba8@AUSX13MPC105.AMER.DELL.COM>
+        Mon, 8 Jun 2020 16:11:52 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id F0CD4313;
+        Mon,  8 Jun 2020 16:11:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 16:11:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=subject:to:cc:references:from:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=o
+        Q3eFUYRYB5GJ6owFc7O9icm98DQlBRwJrj/V8orrW0=; b=NwLPg3nRKGjJmpd9v
+        gpVdTKJZzNjQtk1phCPYmLfvL1mFLG4eAuQVGGyVljvKUuutTvCp40ZjbwWGmml+
+        X1yNdSiRJ8UFcT91CyqnS21aUIQQhYuigX6lKI+eoNB3h3vpodII0588ODdJMeFI
+        z2aUl8eVE5SdjLNA5byh91OXb4fKESELWx3tz95kIFQ/61DslKVNbfowCekbnfpG
+        GXXw32BtSQ7TU6qY4+aPndiMG/c6wd12U3u+yvDmSQLROvXbBSrY2xRI8rmI6UUr
+        NlgxEIiNTCWoLJqbdliJ0WbXIEuyj6S+MFOqCw3l2DxDxMh1rky3Wm/ZU4/9+tXq
+        L1iBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=oQ3eFUYRYB5GJ6owFc7O9icm98DQlBRwJrj/V8orr
+        W0=; b=jrz12uST4MK9FfgrkS3OufHV+oLr2uc6DW+f0YB3v090AQ879N9RP2pdL
+        9jQT/nn6f6bkslO+lZjZ/9UL2whj5fwuvjsc1A8h/zIYGr4DM0NUF0dX+K/yVRbS
+        Zu278fTtq8dj/RhxCxm+ql6IOay71Cwe4pNOO1+GOb5S4/RgAc6mmcqNIdp2l3Kg
+        3ZOt/uf90HgAf9X1WaXszkGjiEnk0yz6HjLkt9CtBOA+cFYWA51iXQ0pD2Wr+2j1
+        8HkkQ4Lbvouc7cajioDlLLzsf06MvO6JEOrGT4/7kRkKFDYfyOSe5v4/Pocx9cJs
+        +lfTEWu9YGeBD26t6DAnK8Dpb1mQQ==
+X-ME-Sender: <xms:hZveXml-svMWq85C_oTou895S6RwqnbCE3wQfQ5EwImsr4E_dDIKFg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehvddgkeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgsehtke
+    ertddtfeejnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinhhugiesphgr
+    rhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepudelteehtdduieekhfekie
+    eileefkeekvdfhvdffjeejkeejhfdukeehjedvgfelnecukfhppeeijedrkeegrdduleeg
+    rddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    ephidrlhhinhhugiesphgrrhhithgthhgvrhdrtghomh
+X-ME-Proxy: <xmx:hZveXt1EVP_H-ZKXKRZYMhD4zmEdK17mc91MlFqpeV0vD4HQAKNXEw>
+    <xmx:hZveXko43IVa5AHRVYALc9j_lkoXYxaNP71FmkG9NHj7KzvGDcNnDA>
+    <xmx:hZveXqnfcS7TZRWn9FPkSZgPYl4IY0raAOAZELGqHoqyFdgDLEY7cQ>
+    <xmx:hpveXh_XWxytbPiwBVnOz6KApn-JY_KJwWsGnRLy5ZxMD_TKN39kew>
+Received: from [192.168.0.106] (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3C368328005E;
+        Mon,  8 Jun 2020 16:11:49 -0400 (EDT)
+Subject: Re: [PATCH 1/3] platform/x86: dell-wmi: add new backlight events
+To:     Mario.Limonciello@dell.com, pali@kernel.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        mjg59@srcf.ucam.org
 References: <cover.1591584631.git.y.linux@paritcher.com>
- <13951508596a3f654c6d47f5380ddb4f38e2f6b5.1591584631.git.y.linux@paritcher.com>
- <20200608090017.4qgtbosz7oullex2@pali>
-In-Reply-To: <20200608090017.4qgtbosz7oullex2@pali>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-08T15:46:39.9699122Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=58d103a6-2106-4aa6-b8cb-860aa202d4af;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <7dbe4e9e5ed64e4704b1c4ae13ac84df644ccc13.1591584631.git.y.linux@paritcher.com>
+ <20200608083503.l5g5iq52ezxkobvv@pali>
+ <3e0d394545954ed79b8f883e1ac93338@AUSX13MPC105.AMER.DELL.COM>
+From:   Y Paritcher <y.linux@paritcher.com>
+Message-ID: <e91bb21e-98fa-f469-cc24-abc9ae200e4d@paritcher.com>
+Date:   Mon, 8 Jun 2020 16:11:49 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-08_14:2020-06-08,2020-06-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- adultscore=0 cotscore=-2147483648 impostorscore=0 spamscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080114
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080115
+In-Reply-To: <3e0d394545954ed79b8f883e1ac93338@AUSX13MPC105.AMER.DELL.COM>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
-> owner@vger.kernel.org> On Behalf Of Pali Roh=E1r
-> Sent: Monday, June 8, 2020 4:00 AM
-> To: Y Paritcher
-> Cc: linux-kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org;
-> Matthew Garrett
-> Subject: Re: [PATCH 3/3] platform/x86: dell-wmi: add keys to
-> bios_to_linux_keycode
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> Hello!
->=20
-> On Monday 08 June 2020 00:22:26 Y Paritcher wrote:
-> > Increase length of bios_to_linux_keycode to 2 bytes to allow for a new
-> > keycode 0xffff, this silences the following messages being logged at
-> > startup on a Dell Inspiron 5593
+On 6/8/20 11:30 AM, Mario.Limonciello@dell.com wrote:
+>> -----Original Message-----
+>> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
+>> owner@vger.kernel.org> On Behalf Of Pali Rohár
+>> Sent: Monday, June 8, 2020 3:35 AM
+>> To: Y Paritcher
+>> Cc: linux-kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org;
+>> Matthew Garrett
+>> Subject: Re: [PATCH 1/3] platform/x86: dell-wmi: add new backlight events
+>>
+>>
+>> [EXTERNAL EMAIL]
+>>
+>> On Monday 08 June 2020 00:22:24 Y Paritcher wrote:
+>>> Ignore events with a type of 0x0010 and a code of 0x57 / 0x58,
+>>> this silences the following messages being logged on a
+>>> Dell Inspiron 5593:
+>>>
+>>> dell_wmi: Unknown key with type 0x0010 and code 0x0057 pressed
+>>> dell_wmi: Unknown key with type 0x0010 and code 0x0058 pressed
+>>>
+>>> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+>>> ---
+>>>  drivers/platform/x86/dell-wmi.c | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-
+>> wmi.c
+>>> index c25a4286d766..0b4f72f923cd 100644
+>>> --- a/drivers/platform/x86/dell-wmi.c
+>>> +++ b/drivers/platform/x86/dell-wmi.c
+>>> @@ -252,6 +252,10 @@ static const struct key_entry
+>> dell_wmi_keymap_type_0010[] = {
+>>>  	/* Fn-lock switched to multimedia keys */
+>>>  	{ KE_IGNORE, 0x1, { KEY_RESERVED } },
+>>>
+>>> +	/* Backlight brightness level */
+>>> +	{ KE_KEY,    0x57, { KEY_BRIGHTNESSDOWN } },
+>>> +	{ KE_KEY,    0x58, { KEY_BRIGHTNESSUP } },
+>>> +
+> 
+> For these particular events are they emitted by another interface as well in this
+> platform?
+> 
+> If so they should be KE_IGNORE so you don't end up with double notifications to
+> userspace.
+Thank you both for the review,
+This is my first patch so if i am doing something wrong please let me know.
 
-Which event type?  Can you show the whole WMI buffer that came through?
+Both before and after this change they are only emitted once (verified via showkeys)
+this is because `dell_wmi_process_key()` calls `acpi_video_handles_brightness_key_presses()`
+for brightness events, and `acpi_video_handles_brightness_key_presses()` makes sure no duplicate acpi-video events are sent.
+> 
+>>>  	/* Keyboard backlight change notification */
+>>>  	{ KE_IGNORE, 0x3f, { KEY_RESERVED } },
+>>
+>> Please, keep codes sorted.
 
-> >
-> > dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
-> > dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
-> >
-> > Signed-off-by: Y Paritcher <y.linux@paritcher.com>
-> > ---
-> >  drivers/platform/x86/dell-wmi.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/del=
-l-
-> wmi.c
-> > index f37e7e9093c2..5ef716e3034f 100644
-> > --- a/drivers/platform/x86/dell-wmi.c
-> > +++ b/drivers/platform/x86/dell-wmi.c
-> > @@ -196,7 +196,7 @@ struct dell_dmi_results {
-> >  };
-> >
-> >  /* Uninitialized entries here are KEY_RESERVED =3D=3D 0. */
-> > -static const u16 bios_to_linux_keycode[256] =3D {
-> > +static const u16 bios_to_linux_keycode[65536] =3D {
->=20
-> This change dramatically increase memory usage. I guess other that
-> maintainers would not like such change.
->=20
-> >  	[0]	=3D KEY_MEDIA,
-> >  	[1]	=3D KEY_NEXTSONG,
-> >  	[2]	=3D KEY_PLAYPAUSE,
-> > @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] =3D {
-> >  	[37]	=3D KEY_UNKNOWN,
-> >  	[38]	=3D KEY_MICMUTE,
-> >  	[255]	=3D KEY_PROG3,
-> > +	[65535]	=3D KEY_UNKNOWN,
->=20
-> Also it seems that this change is not complete. It looks like that you
-> map two different scancodes (0x48 and 0x50) to same keycodes, moreover
-> both are unknown.
->=20
-> Could you please describe which key presses (or events) generate
-> delivering these WMI scancode events?
->=20
-> Note that purpose of printing unknown/unrecognized keys messages is to
-> inform that current pressed key was not processed or that it was
-> ignored.
->=20
-> For me it looks like this just just hide information that key was not
-> processed correctly as this change does not implement correct processing
-> of this key.
->=20
-> Also, could you share documentation about these 0x48/0x50 events? Or it
-> is under NDA?
->=20
-> >  };
-> >
-> >  /*
-> > --
-> > 2.27.0
-> >
-
-I would actually question if there is value to lines in dell-wmi.c like thi=
-s:
-
-pr_info("Unknown WMI event type 0x%x\n", (int)buffer_entry[1]);
-
-and
-
-pr_info("Unknown key with type 0x%04x and code 0x%04x pressed\n", type, cod=
-e);
-
-In both of those cases the information doesn't actually help the user, by d=
-efault it's
-ignored by the driver anyway.  It just notifies the user it's something the=
- driver doesn't
-comprehend.  I would think these are better suited to downgrade to debug.  =
-And if
-a key combination isn't doing something expected the user can use dyndbg to=
- turn it
-back on and can be debugged what should be populated or "explicitly" ignore=
-d.
+Will fix
+>>
+>>>
+>>> --
+>>> 2.27.0
+>>>
