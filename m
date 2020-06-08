@@ -2,40 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DA791F2513
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B7C1F28AE
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731704AbgFHXY4 (ORCPT
+        id S1730703AbgFHXzW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:24:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51248 "EHLO mail.kernel.org"
+        Mon, 8 Jun 2020 19:55:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49970 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731693AbgFHXY4 (ORCPT
+        id S1731566AbgFHXYD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:24:56 -0400
+        Mon, 8 Jun 2020 19:24:03 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68E042089D;
-        Mon,  8 Jun 2020 23:24:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA8B820C56;
+        Mon,  8 Jun 2020 23:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658695;
-        bh=jmAKpld+lTOVjuEKHUlx8HpjpNQaUm30K9TiwyuX2OA=;
+        s=default; t=1591658643;
+        bh=duFMSxH9LLHFznCxFrz5SCLi4Onawnsd+0BCsQHec3E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JgxuCbuenZkG8sZjBDq5WZYiUlPMnTsVjoRW45/RmDbp7qDAw92LbwsaM6Mlw7zZH
-         KsRnCiTj3gh5WnnUb7V1iu2rIh2Tk9k3IPd9y9G40JIChsZhWORM7m+haPJ3pdaxFO
-         u8SWn2Zw/1g6ziXcZRhLdKUG7/3hHL3PRQ+f3BvE=
+        b=gxA20iqZZSzF2aL35GZDyEPqmW+wbFRyrVqqQ4I7vfRYEUlf2i2IigjFvLlBwni2T
+         vgWMyGoX6XzSWRwA+gdwc8GdAbvtGenhk0JAF8Q8jm3iMfL6DZxlytvQugeSiY1arm
+         PIv+oSS9JBt3xLVOMlpVp7B51cGO7n4bXtYoOJbw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Mario Limonciello <Mario.limonciello@dell.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 103/106] platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type
-Date:   Mon,  8 Jun 2020 19:22:35 -0400
-Message-Id: <20200608232238.3368589-103-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 064/106] platform/x86: intel-vbtn: Split keymap into buttons and switches parts
+Date:   Mon,  8 Jun 2020 19:21:56 -0400
+Message-Id: <20200608232238.3368589-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608232238.3368589-1-sashal@kernel.org>
 References: <20200608232238.3368589-1-sashal@kernel.org>
@@ -50,78 +48,80 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit cfae58ed681c5fe0185db843013ecc71cd265ebf ]
+[ Upstream commit f6ba524970c4b73b234bf41ecd6628f5803b1559 ]
 
-The HP Stream x360 11-p000nd no longer report SW_TABLET_MODE state / events
-with recent kernels. This model reports a chassis-type of 10 / "Notebook"
-which is not on the recently introduced chassis-type whitelist
+Split the sparse keymap into 2 separate keymaps, a buttons and a switches
+keymap and combine the 2 to a single map again in intel_vbtn_input_setup().
 
-Commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode
-switch on 2-in-1's") added a chassis-type whitelist and only listed 31 /
-"Convertible" as being capable of generating valid SW_TABLET_MOD events.
+This is a preparation patch for not telling userspace that we have switches
+when we do not have them (and for doing the same for the buttons).
 
-Commit 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode
-switch on "Detachable" and "Portable" chassis-types") extended the
-whitelist with chassis-types 8 / "Portable" and 32 / "Detachable".
-
-And now we need to exten the whitelist again with 10 / "Notebook"...
-
-The issue original fixed by the whitelist is really a ACPI DSDT bug on
-the Dell XPS 9360 where it has a VGBS which reports it is in tablet mode
-even though it is not a 2-in-1 at all, but a regular laptop.
-
-So since this is a workaround for a DSDT issue on that specific model,
-instead of extending the whitelist over and over again, lets switch to
-a blacklist and only blacklist the chassis-type of the model for which
-the chassis-type check was added.
-
-Note this also fixes the current version of the code no longer checking
-if dmi_get_system_info(DMI_CHASSIS_TYPE) returns NULL.
-
-Fixes: 1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode switch on "Detachable" and "Portable" chassis-types")
-Cc: Mario Limonciello <mario.limonciello@dell.com>
+Fixes: de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode switch on 2-in-1's")
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/intel-vbtn.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ drivers/platform/x86/intel-vbtn.c | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index 5f8120d12859..d122f33d43ac 100644
+index 0bcfa20dd614..e42203776727 100644
 --- a/drivers/platform/x86/intel-vbtn.c
 +++ b/drivers/platform/x86/intel-vbtn.c
-@@ -157,21 +157,18 @@ static void detect_tablet_mode(struct platform_device *device)
- static bool intel_vbtn_has_switches(acpi_handle handle)
+@@ -39,14 +39,20 @@ static const struct key_entry intel_vbtn_keymap[] = {
+ 	{ KE_IGNORE, 0xC7, { KEY_VOLUMEDOWN } },	/* volume-down key release */
+ 	{ KE_KEY,    0xC8, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key press */
+ 	{ KE_KEY,    0xC9, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key release */
++};
++
++static const struct key_entry intel_vbtn_switchmap[] = {
+ 	{ KE_SW,     0xCA, { .sw = { SW_DOCK, 1 } } },		/* Docked */
+ 	{ KE_SW,     0xCB, { .sw = { SW_DOCK, 0 } } },		/* Undocked */
+ 	{ KE_SW,     0xCC, { .sw = { SW_TABLET_MODE, 1 } } },	/* Tablet */
+ 	{ KE_SW,     0xCD, { .sw = { SW_TABLET_MODE, 0 } } },	/* Laptop */
+-	{ KE_END },
+ };
+ 
++#define KEYMAP_LEN \
++	(ARRAY_SIZE(intel_vbtn_keymap) + ARRAY_SIZE(intel_vbtn_switchmap) + 1)
++
+ struct intel_vbtn_priv {
++	struct key_entry keymap[KEYMAP_LEN];
+ 	struct input_dev *input_dev;
+ 	bool wakeup_mode;
+ };
+@@ -54,13 +60,29 @@ struct intel_vbtn_priv {
+ static int intel_vbtn_input_setup(struct platform_device *device)
  {
- 	const char *chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
--	unsigned long chassis_type_int;
- 	unsigned long long vgbs;
- 	acpi_status status;
+ 	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
+-	int ret;
++	int ret, keymap_len = 0;
++
++	if (true) {
++		memcpy(&priv->keymap[keymap_len], intel_vbtn_keymap,
++		       ARRAY_SIZE(intel_vbtn_keymap) *
++		       sizeof(struct key_entry));
++		keymap_len += ARRAY_SIZE(intel_vbtn_keymap);
++	}
++
++	if (true) {
++		memcpy(&priv->keymap[keymap_len], intel_vbtn_switchmap,
++		       ARRAY_SIZE(intel_vbtn_switchmap) *
++		       sizeof(struct key_entry));
++		keymap_len += ARRAY_SIZE(intel_vbtn_switchmap);
++	}
++
++	priv->keymap[keymap_len].type = KE_END;
  
--	if (kstrtoul(chassis_type, 10, &chassis_type_int))
--		return false;
--
--	switch (chassis_type_int) {
--	case  8: /* Portable */
--	case 31: /* Convertible */
--	case 32: /* Detachable */
--		break;
--	default:
-+	/*
-+	 * Some normal laptops have a VGBS method despite being non-convertible
-+	 * and their VGBS method always returns 0, causing detect_tablet_mode()
-+	 * to report SW_TABLET_MODE=1 to userspace, which causes issues.
-+	 * These laptops have a DMI chassis_type of 9 ("Laptop"), do not report
-+	 * switches on any devices with a DMI chassis_type of 9.
-+	 */
-+	if (chassis_type && strcmp(chassis_type, "9") == 0)
- 		return false;
--	}
+ 	priv->input_dev = devm_input_allocate_device(&device->dev);
+ 	if (!priv->input_dev)
+ 		return -ENOMEM;
  
- 	status = acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
- 	return ACPI_SUCCESS(status);
+-	ret = sparse_keymap_setup(priv->input_dev, intel_vbtn_keymap, NULL);
++	ret = sparse_keymap_setup(priv->input_dev, priv->keymap, NULL);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.25.1
 
