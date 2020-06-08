@@ -2,179 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB4D1F28A9
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 161C61F2B27
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 02:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387907AbgFHXzM (ORCPT
+        id S1730821AbgFHXTf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:55:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38726 "EHLO mail.kernel.org"
+        Mon, 8 Jun 2020 19:19:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387857AbgFHXzL (ORCPT
+        id S1730807AbgFHXTe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:55:11 -0400
-Received: from pali.im (pali.im [31.31.79.79])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 8 Jun 2020 19:19:34 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 614FA20659;
-        Mon,  8 Jun 2020 23:55:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2ACE821556;
+        Mon,  8 Jun 2020 23:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591660510;
-        bh=jdEldZpfK4zYkAX2jFTC/ShU1g0BC6ZePRI0yc3ko1k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WGjg7Ef05QjYfKu1Y1MiIM4Ms8WXmngXEnv7nrWh62eQMh7h1OuqXscsVr4ywJb9B
-         Lupda/jVNKHz0qRtCeAEnvGCKLNsL+aKTo/fsSIAarVdSDLZcooPrNpjsdgG3sjaVs
-         Fc20bi9/UjjjuMC9b+rFKNmjmsaAlB4zLtTpnOBo=
-Received: by pali.im (Postfix)
-        id 8F10E263E; Tue,  9 Jun 2020 01:55:08 +0200 (CEST)
-Date:   Tue, 9 Jun 2020 01:55:08 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Y Paritcher <y.linux@paritcher.com>, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Mario.Limonciello@dell.com
-Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
- bios_to_linux_keycode
-Message-ID: <20200608235508.wthtgilgmifwfgz2@pali>
-References: <cover.1591584631.git.y.linux@paritcher.com>
- <cover.1591656154.git.y.linux@paritcher.com>
- <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
- <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
+        s=default; t=1591658374;
+        bh=Aay7g+6QoqcAa867zA6NxerJV2IzWmFYYUuikQsOEp4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UitV0NYQIiE2TkALyDzAj3bVuMrEoWi1WOmpMHKcVE8iBlpiYkOq9oVtRYioP5FnE
+         xbYBr35bOUfTIyHK7vMSu2F0JFfm7OG8ryeEJKvY1n4+WkVn6pWPYE5fgay4SipCw4
+         mSB94S3H25yKLbZ6gU3m4OlLJoTB+fgWFaqFpELo=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Koba Ko <koba.ko@canonical.com>,
+        Mario Limonciello <Mario.limonciello@dell.com>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 036/175] platform/x86: dell-laptop: don't register micmute LED if there is no token
+Date:   Mon,  8 Jun 2020 19:16:29 -0400
+Message-Id: <20200608231848.3366970-36-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
+References: <20200608231848.3366970-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello!
+From: Koba Ko <koba.ko@canonical.com>
 
-On Monday 08 June 2020 16:27:10 Randy Dunlap wrote:
-> Hi--
-> 
-> On 6/8/20 4:05 PM, Y Paritcher wrote:
-> > Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
-> > keycode) to allow for a new keycode 0xffff, this silences the following
-> > messages being logged at startup on a Dell Inspiron 5593:
-> > 
-> >     dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
-> >     dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
+[ Upstream commit 257e03a334ccb96e657bf5f6ab3b5693a22c2aa4 ]
 
-Which keys generate these two scancodes? Or how have you been able to
-trigger these scancodes (in case they are not generated by key press)?
+On Dell G3-3590, error message is issued during boot up,
+"platform::micmute: Setting an LED's brightness failed (-19)",
+but there's no micmute led on the machine.
 
-It is important to know for which key or event or feature we need to
-include this patch and therefore what feature is currently
-non-functional on that laptop.
+Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
+If one of two tokens doesn't exist,
+don't call led_classdev_register() for platform::micmute.
+After that, you wouldn't see the platform::micmute in /sys/class/leds/,
+and the error message wouldn't see in dmesg.
 
-> > as per this code comment:
-> > 
-> >    Log if we find an entry in the DMI table that we don't
-> >    understand.  If this happens, we should figure out what
-> >    the entry means and add it to bios_to_linux_keycode.
-> > 
-> > These are keycodes included in the 0xB2 DMI table, for which the
-> > corosponding keys are not known.
-> 
->   corresponding
-> 
-> > 
-> > Now when a user will encounter this key, a proper message wil be printed:
-> > 
-> >     dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
-> > 
-> > This will then allow the key to be identified properly.
-> > 
-> > Signed-off-by: Y Paritcher <y.linux@paritcher.com>
-> > ---
-> >  drivers/platform/x86/dell-wmi.c | 8 +++-----
-> >  1 file changed, 3 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
-> > index 6b510f8431a3..dae1db96b5a0 100644
-> > --- a/drivers/platform/x86/dell-wmi.c
-> > +++ b/drivers/platform/x86/dell-wmi.c
-> > @@ -196,7 +196,7 @@ struct dell_dmi_results {
-> >  };
-> >  
-> >  /* Uninitialized entries here are KEY_RESERVED == 0. */
-> > -static const u16 bios_to_linux_keycode[256] = {
-> > +static const u16 bios_to_linux_keycode[65536] = {
-> 
-> It surely seems odd to me to expand an array from 512 bytes to 128 Kbytes
-> just to handle one special case.  Can't it be handled in code as a
-> special case?
+Fixes: d00fa46e0a2c6 ("platform/x86: dell-laptop: Add micmute LED trigger support")
+Signed-off-by: Koba Ko <koba.ko@canonical.com>
+Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
+Reviewed-by: Pali Rohár <pali@kernel.org>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/dell-laptop.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-I already wrote that more developers would not be happy about this
-change. I would rather to see e.g. that Randy's suggestion with 0xffff
-check as increasing memory usage.
+diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+index 74e988f839e8..4c1dd1d4e60b 100644
+--- a/drivers/platform/x86/dell-laptop.c
++++ b/drivers/platform/x86/dell-laptop.c
+@@ -2204,10 +2204,13 @@ static int __init dell_init(void)
+ 
+ 	dell_laptop_register_notifier(&dell_laptop_notifier);
+ 
+-	micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
+-	ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
+-	if (ret < 0)
+-		goto fail_led;
++	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
++	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
++		micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
++		ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
++		if (ret < 0)
++			goto fail_led;
++	}
+ 
+ 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+ 		return 0;
+-- 
+2.25.1
 
-> >  	[0]	= KEY_MEDIA,
-> >  	[1]	= KEY_NEXTSONG,
-> >  	[2]	= KEY_PLAYPAUSE,
-> > @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
-> >  	[37]	= KEY_UNKNOWN,
-> >  	[38]	= KEY_MICMUTE,
-> >  	[255]	= KEY_PROG3,
-> > +	[65535]	= KEY_UNKNOWN,
-
-Looking at the last two lines... and for me it looks like that 0x00FF
-and 0xFFFF are just "placeholders" or special values for unknown /
-custom / unsupported / reserved / special / ... codes.
-
-It is really suspicious why first 38 values are defined, then there is
-gap, then one value 255 and then huge gap to 65535.
-
-Mario, this looks like some mapping table between internal Dell BIOS key
-code and standard Linux key code. Are you able to get access to some
-documentation which contains explanation of those Dell key numbers?
-It could really help us to understand these gaps and what is correct
-interpretation of these numbers.
-
-E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
-generates code 255, which could prove my thesis about "special codes"
-(which are probably not found in e.g. Windows or Linux mapping tables).
-
-> >  };
-> >  
-> >  /*
-> > @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
-> >  					&table->keymap[i];
-> >  
-> >  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
-> > -		u16 keycode = (bios_entry->keycode <
-> > -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> > -			bios_to_linux_keycode[bios_entry->keycode] :
-> > -			KEY_RESERVED;
-> > +		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
-> >  
-> >  		/*
-> >  		 * Log if we find an entry in the DMI table that we don't
-> > 
-> 
-> Something like:
-> 
-> 		u16 keycode;
-> 
-> 		keycode = bios_entry->keycode == 0xffff ? KEY_UNKNOWN :
-> 			(bios_entry->keycode <
-> 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> 			bios_to_linux_keycode[bios_entry->keycode] :
-> 			KEY_RESERVED;
-> 
-> 
-> 
-> Also please fix this:
-> (no To-header on input) <>
-
-Hint: specifying git send-email with '--to' argument instead of '--cc'
-should help.
-
-> 
-> -- 
-> ~Randy
-> 
