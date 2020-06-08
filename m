@@ -2,85 +2,146 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0357C1F2760
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 328431F2720
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:46:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732004AbgFHXpd (ORCPT
+        id S1732204AbgFHXmi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:45:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54300 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731997AbgFHX0g (ORCPT
+        Mon, 8 Jun 2020 19:42:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732123AbgFHX1W (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:26:36 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C454D2078D;
-        Mon,  8 Jun 2020 23:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658796;
-        bh=qwUWf6gPEAo0RWe2h0rpmiMF6XJTd6r4hEWaMEbOJBU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=J6G3QVILLq7sUxxjl/Etm6vxsO/2FMQRCTH72f6cayd5APDe0oZZrF6QT0a+yamI6
-         KKYEWUxGXNr7tGi81Mj/Odm913ug9yPAEhsI00Rx1/1EiNkfNA0ISdBgOysaq4YWjU
-         dQWm4VS6d2L2Vl7asDezlA5C0wfsozPgzsTFzngQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 70/72] platform/x86: hp-wmi: Convert simple_strtoul() to kstrtou32()
-Date:   Mon,  8 Jun 2020 19:24:58 -0400
-Message-Id: <20200608232500.3369581-70-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
-References: <20200608232500.3369581-1-sashal@kernel.org>
+        Mon, 8 Jun 2020 19:27:22 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14266C08C5C2;
+        Mon,  8 Jun 2020 16:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=xyZktwFw/PfsepqoistGI2Zu+WjsJE4jBtC4bLVR/g8=; b=Fii8ZR3Zn1fZFppUKCqm/mn0Dq
+        UBpNtB5T+cpC0wr3Jrs+s3i2idqfUkLdYq3lL1Hpk4JwBtRwFfaQAfSxvrpA+d48EU7sEc5DRYe6i
+        grcj1T87C4EgzRG2XZOSpnd5ggrc6vqRoM2NSrS4v9EIxFPRPaPdYbry4SBd0XNPbQx0ioKUUDJbK
+        B9l4Ib84cCkXQ5zeUEjxX0bugeeii4iwsxTAuswXTW4DTJL7Vf0Q9ZCAEcLESx9GqbxV001Dguhz1
+        XafVgjFI/Uqab7m9UfW4kOIDyf2tJnQh9ATHNZf4X789rri0PyEipT/zjeWrXvQ8GSMIOPOsF5bLb
+        3rXV9wNw==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jiRAe-000826-92; Mon, 08 Jun 2020 23:27:12 +0000
+Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
+ bios_to_linux_keycode
+To:     Y Paritcher <y.linux@paritcher.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Mario.Limonciello@dell.com
+References: <cover.1591584631.git.y.linux@paritcher.com>
+ <cover.1591656154.git.y.linux@paritcher.com>
+ <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
+Date:   Mon, 8 Jun 2020 16:27:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi--
 
-[ Upstream commit 5cdc45ed3948042f0d73c6fec5ee9b59e637d0d2 ]
+On 6/8/20 4:05 PM, Y Paritcher wrote:
+> Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
+> keycode) to allow for a new keycode 0xffff, this silences the following
+> messages being logged at startup on a Dell Inspiron 5593:
+> 
+>     dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
+>     dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
+> 
+> as per this code comment:
+> 
+>    Log if we find an entry in the DMI table that we don't
+>    understand.  If this happens, we should figure out what
+>    the entry means and add it to bios_to_linux_keycode.
+> 
+> These are keycodes included in the 0xB2 DMI table, for which the
+> corosponding keys are not known.
 
-First of all, unsigned long can overflow u32 value on 64-bit machine.
-Second, simple_strtoul() doesn't check for overflow in the input.
+  corresponding
 
-Convert simple_strtoul() to kstrtou32() to eliminate above issues.
+> 
+> Now when a user will encounter this key, a proper message wil be printed:
+> 
+>     dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
+> 
+> This will then allow the key to be identified properly.
+> 
+> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+> ---
+>  drivers/platform/x86/dell-wmi.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+> index 6b510f8431a3..dae1db96b5a0 100644
+> --- a/drivers/platform/x86/dell-wmi.c
+> +++ b/drivers/platform/x86/dell-wmi.c
+> @@ -196,7 +196,7 @@ struct dell_dmi_results {
+>  };
+>  
+>  /* Uninitialized entries here are KEY_RESERVED == 0. */
+> -static const u16 bios_to_linux_keycode[256] = {
+> +static const u16 bios_to_linux_keycode[65536] = {
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/hp-wmi.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+It surely seems odd to me to expand an array from 512 bytes to 128 Kbytes
+just to handle one special case.  Can't it be handled in code as a
+special case?
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index 06a3c1ef8eee..952544ca0d84 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -474,8 +474,14 @@ static ssize_t postcode_show(struct device *dev, struct device_attribute *attr,
- static ssize_t als_store(struct device *dev, struct device_attribute *attr,
- 			 const char *buf, size_t count)
- {
--	u32 tmp = simple_strtoul(buf, NULL, 10);
--	int ret = hp_wmi_perform_query(HPWMI_ALS_QUERY, HPWMI_WRITE, &tmp,
-+	u32 tmp;
-+	int ret;
-+
-+	ret = kstrtou32(buf, 10, &tmp);
-+	if (ret)
-+		return ret;
-+
-+	ret = hp_wmi_perform_query(HPWMI_ALS_QUERY, HPWMI_WRITE, &tmp,
- 				       sizeof(tmp), sizeof(tmp));
- 	if (ret)
- 		return ret < 0 ? ret : -EINVAL;
+>  	[0]	= KEY_MEDIA,
+>  	[1]	= KEY_NEXTSONG,
+>  	[2]	= KEY_PLAYPAUSE,
+> @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
+>  	[37]	= KEY_UNKNOWN,
+>  	[38]	= KEY_MICMUTE,
+>  	[255]	= KEY_PROG3,
+> +	[65535]	= KEY_UNKNOWN,
+>  };
+>  
+>  /*
+> @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
+>  					&table->keymap[i];
+>  
+>  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
+> -		u16 keycode = (bios_entry->keycode <
+> -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+> -			bios_to_linux_keycode[bios_entry->keycode] :
+> -			KEY_RESERVED;
+> +		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
+>  
+>  		/*
+>  		 * Log if we find an entry in the DMI table that we don't
+> 
+
+Something like:
+
+		u16 keycode;
+
+		keycode = bios_entry->keycode == 0xffff ? KEY_UNKNOWN :
+			(bios_entry->keycode <
+			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+			bios_to_linux_keycode[bios_entry->keycode] :
+			KEY_RESERVED;
+
+
+
+Also please fix this:
+(no To-header on input) <>
+
 -- 
-2.25.1
+~Randy
 
