@@ -2,162 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3131F22B4
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2117F1F221B
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728362AbgFHXKR (ORCPT
+        id S1726943AbgFHXGU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:10:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728593AbgFHXKO (ORCPT
+        Mon, 8 Jun 2020 19:06:20 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38535 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726907AbgFHXGQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:10:14 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8C17214F1;
-        Mon,  8 Jun 2020 23:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657814;
-        bh=aAJYvm9d6p5eO8dZlrOnhcqUZPhDSrpeh5Xn8NraI1g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i4EiJ4Aa9art/OcN1e+Ro7TpC7JKLxd+oHj64pUT1Yb7SlaUw3C9jJo+jWfEPXukh
-         bVuXWnFuuulSl2uyDuf872AhFx77ToIn+SbLPWSD4T/7Z2Qmff1lBpjja2wnxXT3Nm
-         oUW8W2Zjgg7JDyz+jxvkHlXBUAr/mUoO4WhQwOgs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mattia Dongili <malattia@linux.it>,
-        Dominik Mierzejewski <dominik@greysector.net>,
-        William Bader <williambader@hotmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 189/274] platform/x86: sony-laptop: SNC calls should handle BUFFER types
-Date:   Mon,  8 Jun 2020 19:04:42 -0400
-Message-Id: <20200608230607.3361041-189-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+        Mon, 8 Jun 2020 19:06:16 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 28EC2893;
+        Mon,  8 Jun 2020 19:06:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 19:06:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm2; bh=AELJZh/EU6f2U
+        BkhqjDLJhUQN+SlucJC+NrGqLu0VFs=; b=65qAa+8MeEhDmsyRiCwqcDCn3Bf5K
+        TnIgcDpoMvBtgO4yDTzKjPEz63HXTYXVi1E5n1xuMkOID6z4vQZ4Amh5iY8Daa0O
+        hO1BbHs8CmwmeakQQ8h9wZ5bdG5G6PhrsEI7V1QEwc6qrX7vkXFOclsH5XvEE0pr
+        1lTYmRT8NhN2T3SJPiMwfqak9J4puMqikW+t96K9vcfRBu2bjyegitMdXTC6LfV4
+        L40/SS9aQp1jPdYocmMg3L6AgIafaGXZGMjS43Fz/RfynSKXyhjNfNqLm7XFw5Rr
+        RGgjvNl8XYpYXkS6/QZo2BAWPDCPvZCDTGOsgjVpCur3tNizGtJ/eK+OQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=AELJZh/EU6f2UBkhqjDLJhUQN+SlucJC+NrGqLu0VFs=; b=oaC2b8pD
+        DRlTHxDh2MUF0qyEtVV+RcyQbZQSi/SIefyj+c0DQWqvvaIOORGWA33J4OZBKXzW
+        zLedE6RfKtI0SCkt/c1q7SWYWddu2Ww0MS5onv/DOpvGaAv4ElR2GYIUU9zXQH3m
+        YTKnuGM3IW9bX5gNDuQHFZqY1jHwPGUr5ud152+xqsLuP3QqWNrYQ0kZpS0o2q+D
+        YZAbhBQ6tY5AZRAtweC0toWHobDn2VNyNIMzgcy16kvA3xDDGbwdL6WdIhoowAwW
+        +yRcU8yiuD4+m/l8zN67q6+sKInFfdAvinAt9MmiucY15w3Y5DPXkvrOUUV1cd1u
+        ebOuReachZCMUg==
+X-ME-Sender: <xms:ZsTeXu8x8hax-ueDR5QLYaxVfICNQl7tlar1pQ5eknaYqKs46giknw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnecujfgurhephffvufffkffojghf
+    ggfgsedtkeertdertddtnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinh
+    hugiesphgrrhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjeegfeetleeu
+    leevteejteetieffgffgfedvffffvddtvddvveevhffhtdehudeknecukfhppeeijedrke
+    egrdduleegrddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhephidrlhhinhhugiesphgrrhhithgthhgvrhdrtghomh
+X-ME-Proxy: <xmx:ZsTeXusYRvCijjCSKpryjIOlHcGrOOZ9ndqpu7VWUXZ5lYYbvTb5qQ>
+    <xmx:ZsTeXkAWQALsQ0XFyC1lw9qaFh-qllNDqKQkZCcFTVReMnT6HIBMKg>
+    <xmx:ZsTeXmdlKtFODnVp3bEdW1QOJKub3owGpMDeyqhGwRT2jzYqxqdZzQ>
+    <xmx:ZsTeXp0WrAc438IOMW8p1bk-gQ0_EQ2_MZOXh-5v6vKLtG0nxOHCsA>
+Received: from localhost.localdomain (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 69755328006B;
+        Mon,  8 Jun 2020 19:06:14 -0400 (EDT)
+From:   Y Paritcher <y.linux@paritcher.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        Mario.Limonciello@dell.com
+Subject: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to bios_to_linux_keycode
+Date:   Mon,  8 Jun 2020 19:05:30 -0400
+Message-Id: <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1591656154.git.y.linux@paritcher.com>
+References: <cover.1591584631.git.y.linux@paritcher.com> <cover.1591656154.git.y.linux@paritcher.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Mattia Dongili <malattia@linux.it>
+Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
+keycode) to allow for a new keycode 0xffff, this silences the following
+messages being logged at startup on a Dell Inspiron 5593:
 
-[ Upstream commit 47828d22539f76c8c9dcf2a55f18ea3a8039d8ef ]
+    dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
+    dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
 
-After commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
-objects for ASL create_field() operator") ACPICA creates buffers even
-when new fields are small enough to fit into an integer.
-Many SNC calls counted on the old behaviour.
-Since sony-laptop already handles the INTEGER/BUFFER case in
-sony_nc_buffer_call, switch sony_nc_int_call to use its more generic
-function instead.
+as per this code comment:
 
-Fixes: 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer objects for ASL create_field() operator")
-Reported-by: Dominik Mierzejewski <dominik@greysector.net>
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=207491
-Reported-by: William Bader <williambader@hotmail.com>
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1830150
-Signed-off-by: Mattia Dongili <malattia@linux.it>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+   Log if we find an entry in the DMI table that we don't
+   understand.  If this happens, we should figure out what
+   the entry means and add it to bios_to_linux_keycode.
+
+These are keycodes included in the 0xB2 DMI table, for which the
+corosponding keys are not known.
+
+Now when a user will encounter this key, a proper message wil be printed:
+
+    dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
+
+This will then allow the key to be identified properly.
+
+Signed-off-by: Y Paritcher <y.linux@paritcher.com>
 ---
- drivers/platform/x86/sony-laptop.c | 53 +++++++++++++-----------------
- 1 file changed, 23 insertions(+), 30 deletions(-)
+ drivers/platform/x86/dell-wmi.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-index e4ef3dc3bc2f..e5a1b5533408 100644
---- a/drivers/platform/x86/sony-laptop.c
-+++ b/drivers/platform/x86/sony-laptop.c
-@@ -757,33 +757,6 @@ static union acpi_object *__call_snc_method(acpi_handle handle, char *method,
- 	return result;
- }
+diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+index 6b510f8431a3..dae1db96b5a0 100644
+--- a/drivers/platform/x86/dell-wmi.c
++++ b/drivers/platform/x86/dell-wmi.c
+@@ -196,7 +196,7 @@ struct dell_dmi_results {
+ };
  
--static int sony_nc_int_call(acpi_handle handle, char *name, int *value,
--		int *result)
--{
--	union acpi_object *object = NULL;
--	if (value) {
--		u64 v = *value;
--		object = __call_snc_method(handle, name, &v);
--	} else
--		object = __call_snc_method(handle, name, NULL);
--
--	if (!object)
--		return -EINVAL;
--
--	if (object->type != ACPI_TYPE_INTEGER) {
--		pr_warn("Invalid acpi_object: expected 0x%x got 0x%x\n",
--				ACPI_TYPE_INTEGER, object->type);
--		kfree(object);
--		return -EINVAL;
--	}
--
--	if (result)
--		*result = object->integer.value;
--
--	kfree(object);
--	return 0;
--}
--
- #define MIN(a, b)	(a > b ? b : a)
- static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
- 		void *buffer, size_t buflen)
-@@ -795,17 +768,20 @@ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
- 	if (!object)
- 		return -EINVAL;
+ /* Uninitialized entries here are KEY_RESERVED == 0. */
+-static const u16 bios_to_linux_keycode[256] = {
++static const u16 bios_to_linux_keycode[65536] = {
+ 	[0]	= KEY_MEDIA,
+ 	[1]	= KEY_NEXTSONG,
+ 	[2]	= KEY_PLAYPAUSE,
+@@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
+ 	[37]	= KEY_UNKNOWN,
+ 	[38]	= KEY_MICMUTE,
+ 	[255]	= KEY_PROG3,
++	[65535]	= KEY_UNKNOWN,
+ };
  
--	if (object->type == ACPI_TYPE_BUFFER) {
-+	if (!buffer) {
-+		/* do nothing */
-+	} else if (object->type == ACPI_TYPE_BUFFER) {
- 		len = MIN(buflen, object->buffer.length);
-+		memset(buffer, 0, buflen);
- 		memcpy(buffer, object->buffer.pointer, len);
+ /*
+@@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
+ 					&table->keymap[i];
  
- 	} else if (object->type == ACPI_TYPE_INTEGER) {
- 		len = MIN(buflen, sizeof(object->integer.value));
-+		memset(buffer, 0, buflen);
- 		memcpy(buffer, &object->integer.value, len);
+ 		/* Uninitialized entries are 0 aka KEY_RESERVED. */
+-		u16 keycode = (bios_entry->keycode <
+-			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+-			bios_to_linux_keycode[bios_entry->keycode] :
+-			KEY_RESERVED;
++		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
  
- 	} else {
--		pr_warn("Invalid acpi_object: expected 0x%x got 0x%x\n",
--				ACPI_TYPE_BUFFER, object->type);
-+		pr_warn("Unexpected acpi_object: 0x%x\n", object->type);
- 		ret = -EINVAL;
- 	}
- 
-@@ -813,6 +789,23 @@ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
- 	return ret;
- }
- 
-+static int sony_nc_int_call(acpi_handle handle, char *name, int *value, int
-+		*result)
-+{
-+	int ret;
-+
-+	if (value) {
-+		u64 v = *value;
-+
-+		ret = sony_nc_buffer_call(handle, name, &v, result,
-+				sizeof(*result));
-+	} else {
-+		ret =  sony_nc_buffer_call(handle, name, NULL, result,
-+				sizeof(*result));
-+	}
-+	return ret;
-+}
-+
- struct sony_nc_handles {
- 	u16 cap[0x10];
- 	struct device_attribute devattr;
+ 		/*
+ 		 * Log if we find an entry in the DMI table that we don't
 -- 
-2.25.1
+2.27.0
 
