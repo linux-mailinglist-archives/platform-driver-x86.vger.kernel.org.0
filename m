@@ -2,126 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 598141F0F88
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  7 Jun 2020 22:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 022C31F120D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Jun 2020 06:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbgFGUYS (ORCPT
+        id S1728186AbgFHEWs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 7 Jun 2020 16:24:18 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:53638 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726093AbgFGUYS (ORCPT
+        Mon, 8 Jun 2020 00:22:48 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39149 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726869AbgFHEWn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 7 Jun 2020 16:24:18 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 44C241C0BD2; Sun,  7 Jun 2020 22:24:15 +0200 (CEST)
-Date:   Sun, 7 Jun 2020 22:24:14 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-Subject: Re: [PATCH v3 0/7] Support inhibiting input devices
-Message-ID: <20200607202414.GB13138@amd>
-References: <20200604072853.GP89269@dtor-ws>
- <20200605173335.13753-1-andrzej.p@collabora.com>
+        Mon, 8 Jun 2020 00:22:43 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0513F5C00C3;
+        Mon,  8 Jun 2020 00:22:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 00:22:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=IWsOiUbZwkTY4DBGI6yY4sXXU3
+        nmL/23BRuCy+XeQik=; b=H9Z3mysFvsIQx+W9ICd54hNVdHXn6bVs2cPWdZ/PxP
+        rlyMrnqD3wxMldCzzYC2cEjJPUs1RjMsK1RG5GnlqfV153ZIZjm8k/fzt5Uwa/rA
+        cwNvr5ot+A6VzM3adHxWXld7MDiZgWbNBwyb/Ke/u1y59G/XbPbvZyGVaE2AZUWy
+        xqthLz4mklOE7sLJ5WsPCSHqMdwKygSz+BFlJ60Rap6z4DzTdJt8TiKaCN4gOp5H
+        uB0cU9CjgH3sK14yLduBl8hWeR3o7Ibm5f+pemJUHxJMBjlsKHaLsv5/J4QAIuu0
+        7hLZyUkn+ActPvQYrPbymhdX9G2yKkqar45kUcmTCQVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IWsOiUbZwkTY4DBGI
+        6yY4sXXU3nmL/23BRuCy+XeQik=; b=b5OEvGRWLJ/27sqj7wW+hUtlyVukCka+u
+        7Aj0acSJRcnijTSIKBmQ1jMowt+IcLcG8I7cMEVNgwR24RHJWvz3FqoK9fpBiAnn
+        U9BgK/qWRpPywb6CWmhLYSQJZmsnJg4xV6BoBZdsA7xrM6o+Av/Lf3OmBG9qHsyO
+        LZ3/gRPHXQTTRhBuo4/BErW8mTo61qyCDLRbkdR321ou9B3+zdZeaUDGtlJvZFWQ
+        KMoISy594M6RoxiK48IEF18vojaMla1y3vrfforA48YoXQA6mHxOXbcp77PcT4yc
+        nt5ltwUTEM6xkfQyZbGMziAd31Rg6BKliBTz9RMcslOq1ac+0xh9g==
+X-ME-Sender: <xms:Eb3dXs4n8HvSqTRs8OWd2RfY7qzHIElJ2Kscaz11O14HGC7U_uXhUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehtddgkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnecujfgurhephffvufffkffoggfg
+    sedtkeertdertddtnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinhhugi
+    esphgrrhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepfedvgeeggeejkedt
+    lefhfeeklefhhfekvdetudehteegudejgeekjedvueegteeinecukfhppeeijedrkeegrd
+    duleegrddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+    rhhomhephidrlhhinhhugiesphgrrhhithgthhgvrhdrtghomh
+X-ME-Proxy: <xmx:Eb3dXt4i4iYYBwZ38SjX_Ug8aLxnBxTwN0g7NC7lCLrwd6cG8b2fHA>
+    <xmx:Eb3dXrekpFkQhWfbbA5g3qGa7dcmQIISDOpMAUs8XTBcpCW1VDlE8w>
+    <xmx:Eb3dXhL4reb1O-b9i4owcemRfx6yML15OMqpWQ-O2TWaIYyyzxOmsA>
+    <xmx:Er3dXqwBR3DZbAOawW9ec98iBBCEV5Nl9rJ-OaVGn61WlNmZ25ijpA>
+Received: from localhost.localdomain (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3DFF03280059;
+        Mon,  8 Jun 2020 00:22:41 -0400 (EDT)
+From:   Y Paritcher <y.linux@paritcher.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+Subject: [PATCH 0/3] platform/x86: dell-wmi: new keys
+Date:   Mon,  8 Jun 2020 00:22:23 -0400
+Message-Id: <cover.1591584631.git.y.linux@paritcher.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
-Content-Disposition: inline
-In-Reply-To: <20200605173335.13753-1-andrzej.p@collabora.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+add new backlight events with a type of 0x0010 and a code of 0x57 / 0x58,
+add a new keymap type table 0x0012 for keycode of 0xe035 from the Fn-lock
+key
+extend bios_to_linux_keycode to 2 bytes to allow for a new keycode 0xffff
 
---E39vaYmALEf/7YXx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Y Paritcher (3):
+  platform/x86: dell-wmi: add new backlight events
+  platform/x86: dell-wmi: add new keymap type 0x0012
+  platform/x86: dell-wmi: add new dmi keys to bios_to_linux_keycode
 
-On Fri 2020-06-05 19:33:28, Andrzej Pietrasiewicz wrote:
-> Userspace might want to implement a policy to temporarily disregard input
-> from certain devices.
+ drivers/platform/x86/dell-wmi.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-Wow, you certainly cc a lot of lists.
+-- 
+2.27.0
 
-> An example use case is a convertible laptop, whose keyboard can be folded
-> under the screen to create tablet-like experience. The user then must hold
-> the laptop in such a way that it is difficult to avoid pressing the keybo=
-ard
-> keys. It is therefore desirable to temporarily disregard input from the
-> keyboard, until it is folded back. This obviously is a policy which should
-> be kept out of the kernel, but the kernel must provide suitable means to
-> implement such a policy.
->=20
-> Due to interactions with suspend/resume, a helper has been added for driv=
-ers
-> to decide if the device is being used or not (PATCH 1/7) and it has been
-> applied to relevant drivers (PATCH 2,4,5,6/7).
-
-But is that a right way to implement it?
-
-We want this for cellphones, too -- touchscreen should be disabled
-while the device is locked in the pocket -- but we really want the
-touchscreen hardware to be powered down in that case (because it keeps
-SoC busy and eats a _lot_ of electricity).
-
-But simplistic "receive an event and then drop it if device is
-inhibited" does not allow that...
-
-Best regards,
-								Pavel
-							=09
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---E39vaYmALEf/7YXx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl7dTO4ACgkQMOfwapXb+vKNuACgw3cpx7Z15Nm3EAs8yyTuu1RS
-DsYAn1yorcZKMbA2oKpOoVakbRalRIie
-=Dt1J
------END PGP SIGNATURE-----
-
---E39vaYmALEf/7YXx--
