@@ -2,84 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0F51F2864
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB2B61F27DC
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:55:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732044AbgFHXwU (ORCPT
+        id S1731661AbgFHXYp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:52:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51224 "EHLO mail.kernel.org"
+        Mon, 8 Jun 2020 19:24:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50898 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731689AbgFHXYy (ORCPT
+        id S1731655AbgFHXYn (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:24:54 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Mon, 8 Jun 2020 19:24:43 -0400
+Received: from pali.im (pali.im [31.31.79.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4FF8A214F1;
-        Mon,  8 Jun 2020 23:24:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D06F2208A9;
+        Mon,  8 Jun 2020 23:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658694;
-        bh=W3ZhRUwNiWudInO1qOqNzl8fJ3VzFMEDoRHUiQYNBKk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jBc2W5NpD91m/WNtP1m/l/GGyWDP54l/egjaMwgiEeMSkeKFqQzzXZmJpItLsWvsd
-         XErWHQdh/poPTRGee8UYqEGKamHkHCSks03TKUue5jTkW42w9sHXaoY1iysBTtVAI7
-         M/+Ev0E+ecQrTa+dXNeZ154KhnO8am7U6i8KK2ys=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nickolai Kozachenko <daemongloom@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 102/106] platform/x86: intel-hid: Add a quirk to support HP Spectre X2 (2015)
-Date:   Mon,  8 Jun 2020 19:22:34 -0400
-Message-Id: <20200608232238.3368589-102-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608232238.3368589-1-sashal@kernel.org>
-References: <20200608232238.3368589-1-sashal@kernel.org>
+        s=default; t=1591658683;
+        bh=4kZSus6Sp1gMeKhcgP8+VZ03/LLAoT9JPsTdmVO+bag=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Si2oLuBzf22ZCtuQ/7ujy1Gsrnw7uAhdsofc8wTvlN5ux/Qe1UzJV3ejO+gdmuyqh
+         SsXc5n/B4AXNj0ON3HARHcBv0+weApetNfcUcTqh6wB9apGb1MnJxBsv53rEK1PxbN
+         mC2So5KaiR/J2h/WoEedcoZssGEaocdAGCVJEXZQ=
+Received: by pali.im (Postfix)
+        id A9332263E; Tue,  9 Jun 2020 01:24:40 +0200 (CEST)
+Date:   Tue, 9 Jun 2020 01:24:40 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Y Paritcher <y.linux@paritcher.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mario.Limonciello@dell.com
+Subject: Re: [PATCH v2 1/3] platform/x86: dell-wmi: add new backlight events
+Message-ID: <20200608232440.a5tpxvf4mami563m@pali>
+References: <cover.1591584631.git.y.linux@paritcher.com>
+ <cover.1591656154.git.y.linux@paritcher.com>
+ <1ddd0496403199130532923e4ccb30481ff167b6.1591656154.git.y.linux@paritcher.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1ddd0496403199130532923e4ccb30481ff167b6.1591656154.git.y.linux@paritcher.com>
+User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Nickolai Kozachenko <daemongloom@gmail.com>
+On Monday 08 June 2020 19:05:28 Y Paritcher wrote:
+> Add events with a type of 0x0010 and a code of 0x57 / 0x58,
+> this silences the following messages being logged on a
+> Dell Inspiron 5593:
+> 
+> dell_wmi: Unknown key with type 0x0010 and code 0x0057 pressed
+> dell_wmi: Unknown key with type 0x0010 and code 0x0058 pressed
+> 
+> These are brightness events and will be handled by acpi-video
+> 
+> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
 
-[ Upstream commit 8fe63eb757ac6e661a384cc760792080bdc738dc ]
+Reviewed-by: Pali Rohár <pali@kernel.org>
 
-HEBC method reports capabilities of 5 button array but HP Spectre X2 (2015)
-does not have this control method (the same was for Wacom MobileStudio Pro).
-Expand previous DMI quirk by Alex Hung to also enable 5 button array
-for this system.
-
-Signed-off-by: Nickolai Kozachenko <daemongloom@gmail.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/intel-hid.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
-index 3201a83073b5..c514cb73bb50 100644
---- a/drivers/platform/x86/intel-hid.c
-+++ b/drivers/platform/x86/intel-hid.c
-@@ -87,6 +87,13 @@ static const struct dmi_system_id button_array_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Wacom MobileStudio Pro 16"),
- 		},
- 	},
-+	{
-+		.ident = "HP Spectre x2 (2015)",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
-+		},
-+	},
- 	{ }
- };
- 
--- 
-2.25.1
-
+> ---
+>  drivers/platform/x86/dell-wmi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+> index c25a4286d766..0b2edfe2767d 100644
+> --- a/drivers/platform/x86/dell-wmi.c
+> +++ b/drivers/platform/x86/dell-wmi.c
+> @@ -255,6 +255,10 @@ static const struct key_entry dell_wmi_keymap_type_0010[] = {
+>  	/* Keyboard backlight change notification */
+>  	{ KE_IGNORE, 0x3f, { KEY_RESERVED } },
+>  
+> +	/* Backlight brightness level */
+> +	{ KE_KEY,    0x57, { KEY_BRIGHTNESSDOWN } },
+> +	{ KE_KEY,    0x58, { KEY_BRIGHTNESSUP } },
+> +
+>  	/* Mic mute */
+>  	{ KE_KEY, 0x150, { KEY_MICMUTE } },
+>  
+> -- 
+> 2.27.0
+> 
