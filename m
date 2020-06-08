@@ -2,37 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4044B1F2ED2
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 02:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34AB61F2ED4
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 02:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729351AbgFIApT (ORCPT
+        id S1726844AbgFIApT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Mon, 8 Jun 2020 20:45:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58812 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58874 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728980AbgFHXLr (ORCPT
+        id S1728992AbgFHXLt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:11:47 -0400
+        Mon, 8 Jun 2020 19:11:49 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8E39720897;
-        Mon,  8 Jun 2020 23:11:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C1FFC212CC;
+        Mon,  8 Jun 2020 23:11:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657907;
-        bh=0ipDXHuXsr5Qaoa9TOtSQq6ymopP/5G4FnF3eZVMeJM=;
+        s=default; t=1591657909;
+        bh=VW46B+ei0NsG89h3+DTKJ1cC++KE1d0wIR0QtbLgOmE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0oBRcgcs0ohMQ3MpCLGDKKA4oZC0aGcLW3N4mr9Yw6sKykb8Duz52c4JvhSgPdRCb
-         7CQSns8IjO+WsfTd6J8RC3MVuz1vQ4e6fXhFujdDm4LnoYrq5ZPrWr5sTWaNOcCASM
-         nuO8PNCUDXZ0bfou5xQWYL7vvueCG8ob/Y9dkqnI=
+        b=XSo1qGLjue8HRya73WN2HuxugFQ/ZMf8uFPKV5vzXYT5H+478jqWETW86N+c4cjBD
+         bJQnDTEPb0yuoE/JFwuamSdo2XvQl4cVMGGesombS+hNTokteWbYh1H1ZCw9c1kyca
+         0kFxlM2/4wYaWKPNfKeW8CYR2sfQouk0JQlCt8eE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Cc:     Nickolai Kozachenko <daemongloom@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 259/274] platform/x86: hp-wmi: Convert simple_strtoul() to kstrtou32()
-Date:   Mon,  8 Jun 2020 19:05:52 -0400
-Message-Id: <20200608230607.3361041-259-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 261/274] platform/x86: intel-hid: Add a quirk to support HP Spectre X2 (2015)
+Date:   Mon,  8 Jun 2020 19:05:54 -0400
+Message-Id: <20200608230607.3361041-261-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -45,42 +46,40 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Nickolai Kozachenko <daemongloom@gmail.com>
 
-[ Upstream commit 5cdc45ed3948042f0d73c6fec5ee9b59e637d0d2 ]
+[ Upstream commit 8fe63eb757ac6e661a384cc760792080bdc738dc ]
 
-First of all, unsigned long can overflow u32 value on 64-bit machine.
-Second, simple_strtoul() doesn't check for overflow in the input.
+HEBC method reports capabilities of 5 button array but HP Spectre X2 (2015)
+does not have this control method (the same was for Wacom MobileStudio Pro).
+Expand previous DMI quirk by Alex Hung to also enable 5 button array
+for this system.
 
-Convert simple_strtoul() to kstrtou32() to eliminate above issues.
-
+Signed-off-by: Nickolai Kozachenko <daemongloom@gmail.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/hp-wmi.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/platform/x86/intel-hid.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index a881b709af25..a44a2ec33287 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -461,8 +461,14 @@ static ssize_t postcode_show(struct device *dev, struct device_attribute *attr,
- static ssize_t als_store(struct device *dev, struct device_attribute *attr,
- 			 const char *buf, size_t count)
- {
--	u32 tmp = simple_strtoul(buf, NULL, 10);
--	int ret = hp_wmi_perform_query(HPWMI_ALS_QUERY, HPWMI_WRITE, &tmp,
-+	u32 tmp;
-+	int ret;
-+
-+	ret = kstrtou32(buf, 10, &tmp);
-+	if (ret)
-+		return ret;
-+
-+	ret = hp_wmi_perform_query(HPWMI_ALS_QUERY, HPWMI_WRITE, &tmp,
- 				       sizeof(tmp), sizeof(tmp));
- 	if (ret)
- 		return ret < 0 ? ret : -EINVAL;
+diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
+index cc7dd4d87cce..9ee79b74311c 100644
+--- a/drivers/platform/x86/intel-hid.c
++++ b/drivers/platform/x86/intel-hid.c
+@@ -79,6 +79,13 @@ static const struct dmi_system_id button_array_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Wacom MobileStudio Pro 16"),
+ 		},
+ 	},
++	{
++		.ident = "HP Spectre x2 (2015)",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
++		},
++	},
+ 	{ }
+ };
+ 
 -- 
 2.25.1
 
