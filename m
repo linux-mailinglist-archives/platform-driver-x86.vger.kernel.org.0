@@ -2,38 +2,40 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73CDD1F22A9
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3131F22B4
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728542AbgFHXKA (ORCPT
+        id S1728362AbgFHXKR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:10:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55956 "EHLO mail.kernel.org"
+        Mon, 8 Jun 2020 19:10:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56360 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727865AbgFHXJ6 (ORCPT
+        id S1728593AbgFHXKO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:09:58 -0400
+        Mon, 8 Jun 2020 19:10:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 661CB20897;
-        Mon,  8 Jun 2020 23:09:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B8C17214F1;
+        Mon,  8 Jun 2020 23:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657798;
-        bh=3ojo2VBVuawBc4HDxLn8sIbL+mr/RC4gim2D8Fr8+Hs=;
+        s=default; t=1591657814;
+        bh=aAJYvm9d6p5eO8dZlrOnhcqUZPhDSrpeh5Xn8NraI1g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tY22pXf9UTv5KXGUzRcd0zZY72CmCxzSjqKrE7L9qbMLS9A2CE90HUrF4nr74Eypo
-         HGXiRTg+U13s2OifWYRlEaNE8c5+LulAjFjzm21VFNmzU/k/GJ7pqevUsbR3s6TyIr
-         YhQG4EYEQTAiVeHIEcKOExFA9ubHLrS0XhtV9vW8=
+        b=i4EiJ4Aa9art/OcN1e+Ro7TpC7JKLxd+oHj64pUT1Yb7SlaUw3C9jJo+jWfEPXukh
+         bVuXWnFuuulSl2uyDuf872AhFx77ToIn+SbLPWSD4T/7Z2Qmff1lBpjja2wnxXT3Nm
+         oUW8W2Zjgg7JDyz+jxvkHlXBUAr/mUoO4WhQwOgs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     Mattia Dongili <malattia@linux.it>,
+        Dominik Mierzejewski <dominik@greysector.net>,
+        William Bader <williambader@hotmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 176/274] platform/x86: intel-vbtn: Split keymap into buttons and switches parts
-Date:   Mon,  8 Jun 2020 19:04:29 -0400
-Message-Id: <20200608230607.3361041-176-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 189/274] platform/x86: sony-laptop: SNC calls should handle BUFFER types
+Date:   Mon,  8 Jun 2020 19:04:42 -0400
+Message-Id: <20200608230607.3361041-189-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -46,82 +48,116 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Mattia Dongili <malattia@linux.it>
 
-[ Upstream commit f6ba524970c4b73b234bf41ecd6628f5803b1559 ]
+[ Upstream commit 47828d22539f76c8c9dcf2a55f18ea3a8039d8ef ]
 
-Split the sparse keymap into 2 separate keymaps, a buttons and a switches
-keymap and combine the 2 to a single map again in intel_vbtn_input_setup().
+After commit 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer
+objects for ASL create_field() operator") ACPICA creates buffers even
+when new fields are small enough to fit into an integer.
+Many SNC calls counted on the old behaviour.
+Since sony-laptop already handles the INTEGER/BUFFER case in
+sony_nc_buffer_call, switch sony_nc_int_call to use its more generic
+function instead.
 
-This is a preparation patch for not telling userspace that we have switches
-when we do not have them (and for doing the same for the buttons).
-
-Fixes: de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode switch on 2-in-1's")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: 6d232b29cfce ("ACPICA: Dispatcher: always generate buffer objects for ASL create_field() operator")
+Reported-by: Dominik Mierzejewski <dominik@greysector.net>
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=207491
+Reported-by: William Bader <williambader@hotmail.com>
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1830150
+Signed-off-by: Mattia Dongili <malattia@linux.it>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/intel-vbtn.c | 28 +++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ drivers/platform/x86/sony-laptop.c | 53 +++++++++++++-----------------
+ 1 file changed, 23 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index 191894d648bb..634096cef21a 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -40,14 +40,20 @@ static const struct key_entry intel_vbtn_keymap[] = {
- 	{ KE_IGNORE, 0xC7, { KEY_VOLUMEDOWN } },	/* volume-down key release */
- 	{ KE_KEY,    0xC8, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key press */
- 	{ KE_KEY,    0xC9, { KEY_ROTATE_LOCK_TOGGLE } },	/* rotate-lock key release */
-+};
-+
-+static const struct key_entry intel_vbtn_switchmap[] = {
- 	{ KE_SW,     0xCA, { .sw = { SW_DOCK, 1 } } },		/* Docked */
- 	{ KE_SW,     0xCB, { .sw = { SW_DOCK, 0 } } },		/* Undocked */
- 	{ KE_SW,     0xCC, { .sw = { SW_TABLET_MODE, 1 } } },	/* Tablet */
- 	{ KE_SW,     0xCD, { .sw = { SW_TABLET_MODE, 0 } } },	/* Laptop */
--	{ KE_END },
- };
+diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
+index e4ef3dc3bc2f..e5a1b5533408 100644
+--- a/drivers/platform/x86/sony-laptop.c
++++ b/drivers/platform/x86/sony-laptop.c
+@@ -757,33 +757,6 @@ static union acpi_object *__call_snc_method(acpi_handle handle, char *method,
+ 	return result;
+ }
  
-+#define KEYMAP_LEN \
-+	(ARRAY_SIZE(intel_vbtn_keymap) + ARRAY_SIZE(intel_vbtn_switchmap) + 1)
+-static int sony_nc_int_call(acpi_handle handle, char *name, int *value,
+-		int *result)
+-{
+-	union acpi_object *object = NULL;
+-	if (value) {
+-		u64 v = *value;
+-		object = __call_snc_method(handle, name, &v);
+-	} else
+-		object = __call_snc_method(handle, name, NULL);
+-
+-	if (!object)
+-		return -EINVAL;
+-
+-	if (object->type != ACPI_TYPE_INTEGER) {
+-		pr_warn("Invalid acpi_object: expected 0x%x got 0x%x\n",
+-				ACPI_TYPE_INTEGER, object->type);
+-		kfree(object);
+-		return -EINVAL;
+-	}
+-
+-	if (result)
+-		*result = object->integer.value;
+-
+-	kfree(object);
+-	return 0;
+-}
+-
+ #define MIN(a, b)	(a > b ? b : a)
+ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
+ 		void *buffer, size_t buflen)
+@@ -795,17 +768,20 @@ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
+ 	if (!object)
+ 		return -EINVAL;
+ 
+-	if (object->type == ACPI_TYPE_BUFFER) {
++	if (!buffer) {
++		/* do nothing */
++	} else if (object->type == ACPI_TYPE_BUFFER) {
+ 		len = MIN(buflen, object->buffer.length);
++		memset(buffer, 0, buflen);
+ 		memcpy(buffer, object->buffer.pointer, len);
+ 
+ 	} else if (object->type == ACPI_TYPE_INTEGER) {
+ 		len = MIN(buflen, sizeof(object->integer.value));
++		memset(buffer, 0, buflen);
+ 		memcpy(buffer, &object->integer.value, len);
+ 
+ 	} else {
+-		pr_warn("Invalid acpi_object: expected 0x%x got 0x%x\n",
+-				ACPI_TYPE_BUFFER, object->type);
++		pr_warn("Unexpected acpi_object: 0x%x\n", object->type);
+ 		ret = -EINVAL;
+ 	}
+ 
+@@ -813,6 +789,23 @@ static int sony_nc_buffer_call(acpi_handle handle, char *name, u64 *value,
+ 	return ret;
+ }
+ 
++static int sony_nc_int_call(acpi_handle handle, char *name, int *value, int
++		*result)
++{
++	int ret;
 +
- struct intel_vbtn_priv {
-+	struct key_entry keymap[KEYMAP_LEN];
- 	struct input_dev *input_dev;
- 	bool wakeup_mode;
- };
-@@ -55,13 +61,29 @@ struct intel_vbtn_priv {
- static int intel_vbtn_input_setup(struct platform_device *device)
- {
- 	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
--	int ret;
-+	int ret, keymap_len = 0;
++	if (value) {
++		u64 v = *value;
 +
-+	if (true) {
-+		memcpy(&priv->keymap[keymap_len], intel_vbtn_keymap,
-+		       ARRAY_SIZE(intel_vbtn_keymap) *
-+		       sizeof(struct key_entry));
-+		keymap_len += ARRAY_SIZE(intel_vbtn_keymap);
++		ret = sony_nc_buffer_call(handle, name, &v, result,
++				sizeof(*result));
++	} else {
++		ret =  sony_nc_buffer_call(handle, name, NULL, result,
++				sizeof(*result));
 +	}
++	return ret;
++}
 +
-+	if (true) {
-+		memcpy(&priv->keymap[keymap_len], intel_vbtn_switchmap,
-+		       ARRAY_SIZE(intel_vbtn_switchmap) *
-+		       sizeof(struct key_entry));
-+		keymap_len += ARRAY_SIZE(intel_vbtn_switchmap);
-+	}
-+
-+	priv->keymap[keymap_len].type = KE_END;
- 
- 	priv->input_dev = devm_input_allocate_device(&device->dev);
- 	if (!priv->input_dev)
- 		return -ENOMEM;
- 
--	ret = sparse_keymap_setup(priv->input_dev, intel_vbtn_keymap, NULL);
-+	ret = sparse_keymap_setup(priv->input_dev, priv->keymap, NULL);
- 	if (ret)
- 		return ret;
- 
+ struct sony_nc_handles {
+ 	u16 cap[0x10];
+ 	struct device_attribute devattr;
 -- 
 2.25.1
 
