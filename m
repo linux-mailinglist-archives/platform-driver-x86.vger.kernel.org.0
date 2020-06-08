@@ -2,109 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8341F21B0
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 00:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 833081F21F6
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 00:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgFHWAr (ORCPT
+        id S1726746AbgFHWxj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 18:00:47 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:28594 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726723AbgFHWAp (ORCPT
+        Mon, 8 Jun 2020 18:53:39 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:60967 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726741AbgFHWxj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 18:00:45 -0400
-Received: from pps.filterd (m0170398.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 058LdOh9029790;
-        Mon, 8 Jun 2020 18:00:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=IGmRu8xNo3dGrX/Gt/g8i0qkBSm8CF+dxDZ2EFvKQ+Q=;
- b=C5MA4kGy/6zDc602+zxHF+fSuwX/LkytGk0zqFKGVUR8ltVXKUKsaACIzmuG5edzpujm
- s0cPWRXZ9W3vpnMB9PkiaMtFmWw1d/mgSsIp4UBL3uSslqOZN2XPwSAi58uTPbw4t6eM
- CtFA29SDKUY6n+xcUwOJBca/jbrR8Nss0hddIxjxYUfW+JkZ21fbN/wkD4w6ohxwFqzO
- 2cF4NzWBnDclCHwlj7+oltmqHJst8Sa2r0R7Ny+MTUo8NKepL1pnPb1Dpnat78SZM4as
- 4KfFlXWR/sAERxc4Z6oWX9zD8IEmV4Qnq4VHcWB10Lj7IowBe7MOKleDer7TtOPEOhTE dg== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0b-00154904.pphosted.com with ESMTP id 31g6c86csf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 08 Jun 2020 18:00:44 -0400
-Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
-        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 058LhqDQ070993;
-        Mon, 8 Jun 2020 18:00:43 -0400
-Received: from ausxipps310.us.dell.com (AUSXIPPS310.us.dell.com [143.166.148.211])
-        by mx0a-00154901.pphosted.com with ESMTP id 31hsukb4a5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 08 Jun 2020 18:00:42 -0400
-X-LoopCount0: from 10.166.132.130
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="509496153"
-From:   <Mario.Limonciello@dell.com>
-To:     <y.linux@paritcher.com>, <hdegoede@redhat.com>
-CC:     <linux-kernel@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>,
-        <pali@kernel.org>
-Subject: RE: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
-Thread-Topic: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
-Thread-Index: AQHWPUx5kZ6BCWcrZkepA13uOwTuTKjO2RsQgACifgD//7DjgIAAXSCA//+7RnA=
-Date:   Mon, 8 Jun 2020 22:00:37 +0000
-Message-ID: <6cfba0ce42a74b39b5b80e9c621e2601@AUSX13MPC105.AMER.DELL.COM>
+        Mon, 8 Jun 2020 18:53:39 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id DA89239F;
+        Mon,  8 Jun 2020 18:53:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 18:53:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=subject:to:cc:references:from:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=3
+        jh/hXqtwrVde4hwUMJcqaoBBkboOW+sBG60pKPoYUE=; b=rGNS6zOb0vRoTk7eH
+        xE8QhyjOMN2aqxxIkO4mZcml4MX1FGAReo10yTqpd9mImlgBTs7MdSBmZqdmVB4V
+        NUR3qX4rel1Vo4xm64RPzb5ywqeSGjXE8ddwsCY1ZLtq68p8HDQqrg6kKfGNIHtN
+        aTViHunKLH4JkhUA3D78FGEF1DFiVyOYOn5+Qo2vFrmck5stcbEWfGWjj6ZOzqa6
+        jIJ5AIBBFtuDg0d+h12aiwBRpLHxwA+0YbG2se0tK3bM+/XGodRvGZxB3cyRuliq
+        m/PQd+999yfEXmXUuFndnVPj9LN9oH2coiz2Fadbd8hu6YGijZtHGk+Aj9Reu3DR
+        SqgPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=3jh/hXqtwrVde4hwUMJcqaoBBkboOW+sBG60pKPoY
+        UE=; b=WzPLVroiiKX2va7udeV3luWIulkly7vsRm07B0C5t959NPON9issoe7Ch
+        8j+B+kg/7KnycpbeGoa5HwXFonmxn8Cbz58vYWC46rZQIT1VuMuCwVPGFb2hJl5n
+        gzBz3ckZePFHoVvPnHBiVp9iqT+8zRRO0+DWQnFQQ2v7W75gw5SRSCOhAgqGEeXs
+        nXLPPEqIs0UnkrDsjInP8fAhCD38QT9zxWtE8PAEUEytdtYcIgX+F3RvpZqg9p2Y
+        nzeo7FcQ1DCoKvKJIX+FVg5Klg9YSXa7xedPGK+hXCXPxDugGfon4EZRAoUatYy3
+        9nUj2xBE1/3ULkwskOb073+MyFfqg==
+X-ME-Sender: <xms:cMHeXq9i42UWmqlFTFqO1T83GG3rd5SqvD1cbt8sDMqdgvumyFOLoA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgsehtje
+    ertddtfeejnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinhhugiesphgr
+    rhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepieettefgffetfefhfedtve
+    duffeltdeujeehveehteefheeludeijeegudekteeinecuffhomhgrihhnpehgihhthhhu
+    sgdrtghomhenucfkphepieejrdekgedrudelgedrudejheenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeihrdhlihhnuhigsehprghrihhttghh
+    vghrrdgtohhm
+X-ME-Proxy: <xmx:cMHeXqtaxK_cgVAkOF6xOrKDsvikxb5iBcgaeg-J83o2LiyTfUbw6g>
+    <xmx:cMHeXgCVFBff5JLIZFLaYt10_WVwfiPXvb7fxLZ28jd5ItX_UM-Euw>
+    <xmx:cMHeXifdhPJkSY3a3UthGPclt6AgPp4rHeBKXF6vf2vFiuDYwC5Jzg>
+    <xmx:ccHeXobww17DDzAUpOaerii8XIHgRemH9NcbnWnBQ4jzSRoL7oH-ew>
+Received: from [192.168.0.106] (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 52A69328005E;
+        Mon,  8 Jun 2020 18:53:36 -0400 (EDT)
+Subject: Re: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
+To:     Mario.Limonciello@dell.com, hdegoede@redhat.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        mjg59@srcf.ucam.org, pali@kernel.org
 References: <cover.1591584631.git.y.linux@paritcher.com>
  <0dc191a3d16f0e114f6a8976433e248018e10c43.1591584631.git.y.linux@paritcher.com>
  <83fe431cacbc4708962767668ac8f06f@AUSX13MPC105.AMER.DELL.COM>
  <79bd59ee-dd37-bdc5-f6b4-00f2c33fdcff@paritcher.com>
  <7f9f0410696141cfabb0237d33b7b529@AUSX13MPC105.AMER.DELL.COM>
  <01169d6e-1bb1-6fc5-0690-0e8f44941cce@paritcher.com>
-In-Reply-To: <01169d6e-1bb1-6fc5-0690-0e8f44941cce@paritcher.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-08T22:00:34.4451358Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=ad1ac4c1-ae92-4357-9d65-57e26e184c16;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <6cfba0ce42a74b39b5b80e9c621e2601@AUSX13MPC105.AMER.DELL.COM>
+From:   Y Paritcher <y.linux@paritcher.com>
+Message-ID: <53ad1d28-91d1-5dd0-3430-e2ee752df06f@paritcher.com>
+Date:   Mon, 8 Jun 2020 18:53:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-08_18:2020-06-08,2020-06-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- cotscore=-2147483648 mlxlogscore=884 adultscore=0 phishscore=0
- clxscore=1015 bulkscore=0 impostorscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080150
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 bulkscore=0
- mlxlogscore=977 mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080150
+In-Reply-To: <6cfba0ce42a74b39b5b80e9c621e2601@AUSX13MPC105.AMER.DELL.COM>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-PiANCj4gdGhpcyBpcyB0aGUgV01JIGV2ZW50IGZyb20gcHJlc3NpbmcgdGhlIEZuIGxvY2sga2V5
-Lg0KPiB0aGlzIGluZGljYXRlcyB3aGljaCBtb2RlIGl0IGlzIHN3aXRjaGluZyB0by4NCj4gDQo+
-IHRoaXMgY2hhbmdlcyBpZiB0aGUgZGVmYXVsdCBmb3IgcHJlc3NpbmcgdGhlIEZbMS0xMl0gc2hv
-dWxkIGJlIEZ1bmN0aW9uIG9yDQo+IG1lZGlhLg0KPiB0aGUgc2NhbmNvZGVzIG9mIHRoZSBGbiBr
-ZXlzIGFyZSBwcm9wZXJseSB0cmFuc21pdHRlZCwgdGhpcyBqdXN0IGludmVydHMNCj4gd2hpY2gN
-Cj4gb25lcyBhcmUgc2VudCBieSBkZWZhdWx0IGFuZCB3aGljaCBhcmUgc2VudCB3aGVuIHByZXNz
-aW5nIHRoZSBGbitGWzEtMTJdDQo+IA0KPiBJbiBvdGhlciB3b3JkcywgdGhlcmUgYXJlIDI0IHNj
-YW5jb2RlIHRoZSBvbmx5IGRpZmZlcmVuY2UgaXMgd2hpY2ggMTIgYXJlDQo+IGRlZmF1bHQNCj4g
-YW5kIHdoaWNoIDEyIGFyZSB3aGVuIHByZXNzaW5nIHdpdGggdGhlIEZuIGtleQ0KPiA+Pg0KPiA+
-PiBUaGVyZWZvcmUgaSBhZ3JlZSB0aGlzIHNob3VsZCBoYXZlIGl0J3Mgb3duIGNhc2UgaW4NCg0K
-VG8gbWUgdGhpcyBzb3VuZHMgbGlrZSBpdCBtYWtlcyBtb3N0IHNlbnNlIHRvIGVpdGhlciBiZSBh
-biBldmRldiBzd2l0Y2ggd2hpY2ggaW5kaWNhdGVzDQp3aGljaCBtb2RlIHRoZSBmbiBrZXkgaXMg
-c2V0IHRvIHdoZW4gYW4gZXZlbnQgY29tZXMgaW4uICBZb3UgY2FuIHBvcHVsYXRlIHRoZSBzdGFy
-dGluZw0KbW9kZSBieSBsb29raW5nIHVwIGZyb20gYSB0b2tlbi4NCmh0dHBzOi8vZ2l0aHViLmNv
-bS9kZWxsL2xpYnNtYmlvcy9ibG9iL21hc3Rlci9kb2MvdG9rZW5fbGlzdC5jc3YjTDk4Nw0KDQpB
-bnkgb3RoZXIgdGhvdWdodHMgZnJvbSBvdGhlcnM/DQo=
+On 6/8/20 6:00 PM, Mario.Limonciello@dell.com wrote:
+>>
+>> this is the WMI event from pressing the Fn lock key.
+>> this indicates which mode it is switching to.
+>>
+>> this changes if the default for pressing the F[1-12] should be Function or
+>> media.
+>> the scancodes of the Fn keys are properly transmitted, this just inverts
+>> which
+>> ones are sent by default and which are sent when pressing the Fn+F[1-12]
+>>
+>> In other words, there are 24 scancode the only difference is which 12 are
+>> default
+>> and which 12 are when pressing with the Fn key
+>>>>
+>>>> Therefore i agree this should have it's own case in
+> 
+> To me this sounds like it makes most sense to either be an evdev switch which indicates
+> which mode the fn key is set to when an event comes in.  You can populate the starting
+> mode by looking up from a token.
+> https://github.com/dell/libsmbios/blob/master/doc/token_list.csv#L987
+> 
+> Any other thoughts from others?
+> 
+
+beware that sometimes the key will do the unexpected.
+
+If the Fn lock is turned off in the bios pressing the Fn lock key
+will send an event with the current mode again, as switching is disallowed.
