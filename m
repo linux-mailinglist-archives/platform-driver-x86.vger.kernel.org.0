@@ -2,99 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED281F3121
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 03:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75BD11F3186
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 03:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729349AbgFIBGK (ORCPT
+        id S1728072AbgFIBKF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 21:06:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727812AbgFHXHK (ORCPT
+        Mon, 8 Jun 2020 21:10:05 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46893 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726896AbgFHXGQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:07:10 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63B41208FE;
-        Mon,  8 Jun 2020 23:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657630;
-        bh=fsEGIbz/4fPJrX1KDAkRizHiHWLMOJDJ+GaVZBcdVZg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aI6GHyKmWLXMKv0pktwtRNZ83P8eY9hvwHbvrGEPYmfEfu3pGdSk13JL5GmIHzsJX
-         NbAgfiLypM89nWkL6r1N9CzJpSEQ+5xs1pTSDA1YTXUgRytpjExiRk8DMUFrch/lZd
-         ddJfW45LyU1gFD/sqgM1+dHD8Iv9ojmuhld4iPoQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Koba Ko <koba.ko@canonical.com>,
-        Mario Limonciello <Mario.limonciello@dell.com>,
+        Mon, 8 Jun 2020 19:06:16 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 13AAB88D;
+        Mon,  8 Jun 2020 19:06:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 19:06:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm2; bh=NY39phx6m9tvz
+        RpZvc6G/x6My2ajZYgVoDhFetwnDNw=; b=3y961/Qs87Bf+KYKX4YxIgCvnfLuA
+        gWQq4q78O9mnFR0fs3FP636ZKlyPgKBcqpQxnTu3vcHWI2O0RQX42vZayYse+s3M
+        mpdf6YsyPnfutTOgwEyA8yJsh/k+kvFPp+cDMFLQFfUh123Q5YyLB9gKB1zi54g5
+        hRHjHqn2mzyhcX9kUBCJw7aB/IQ4I1dbZnAQ74sAqQvb9+V2JTaeALjA/46P+UCK
+        5SylFXuXZ7tjRYRdmK8PICBnzX1TF4bzoUcSFshkqjU77oFATefXqyAqLQ96zyWG
+        v8fxTCwRa0FvZ3pkr+SlUJO3Ni3zZMV/2g8dcKvYqFRvu3aAWfBCPUFgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=NY39phx6m9tvzRpZvc6G/x6My2ajZYgVoDhFetwnDNw=; b=rgRjV6WM
+        GiY3XgB6uQZ46DxNkZN8MlwksEf+9ajYuek1mFXCOjMttSn4kjogOYhKStestv1c
+        8LShT9kuedPTUazCVOejJtVsuwfqeXTchY6TwaIYgrySnhOM1+Lt4OwVgFYzUBx2
+        KZpCRhQxyGQDCGfFIPulucQxVOWOkakj52okFwZCfKKh3pyzy0upZAPrnDrug/m4
+        oGID/jHMx7hP9rTdqz81ZHUk8tyazj0PjUc8ah5k67nqcBD6XI1RRq1+TL+akE2X
+        /CZpM+77PQi934KroHNvbVwiLX3sPoRl+EYDh78NVZvm2qz0NP8fDrgdK1DMfO9Z
+        nQCIVRufK1lQTw==
+X-ME-Sender: <xms:ZcTeXoSENO1o_R4MAfcUrDXn3vCIhkf-ChQdEuW8mku_cgOzRtPb2g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedgudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnecujfgurhephffvufffkffojghf
+    ggfgsedtkeertdertddtnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinh
+    hugiesphgrrhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjeegfeetleeu
+    leevteejteetieffgffgfedvffffvddtvddvveevhffhtdehudeknecukfhppeeijedrke
+    egrdduleegrddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhephidrlhhinhhugiesphgrrhhithgthhgvrhdrtghomh
+X-ME-Proxy: <xmx:ZsTeXlwgERgB0y0DVejWGDRLlOBpquJAapvLicZ5PKw5pW5y_TwKuA>
+    <xmx:ZsTeXl3HjTb3bzw-yxQToKQ4IkaarUByft0p1dF2NH7-T3BiA3vdOA>
+    <xmx:ZsTeXsDcGlCawsHL-52KwG9yxIMc-X4AT_uh25DK2AqsV1nPVxyN-A>
+    <xmx:ZsTeXhbAqEUhkjlXGa2q7bvSXfAXjdWDsEHM0cZCA6btDBHin60bdQ>
+Received: from localhost.localdomain (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B9F2A3280066;
+        Mon,  8 Jun 2020 19:06:13 -0400 (EDT)
+From:   Y Paritcher <y.linux@paritcher.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
         =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 049/274] platform/x86: dell-laptop: don't register micmute LED if there is no token
-Date:   Mon,  8 Jun 2020 19:02:22 -0400
-Message-Id: <20200608230607.3361041-49-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+        Mario.Limonciello@dell.com
+Subject: [PATCH v2 0/3] platform/x86: dell-wmi: new keys
+Date:   Mon,  8 Jun 2020 19:05:27 -0400
+Message-Id: <cover.1591656154.git.y.linux@paritcher.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1591584631.git.y.linux@paritcher.com>
+References: <cover.1591584631.git.y.linux@paritcher.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Koba Ko <koba.ko@canonical.com>
+As per discussion backlight events are passed on as they are
+filtered by acpi-video.
 
-[ Upstream commit 257e03a334ccb96e657bf5f6ab3b5693a22c2aa4 ]
+Events of type 0x0012 have extended data in the rest of the
+buffer, this data is currently ignored.
 
-On Dell G3-3590, error message is issued during boot up,
-"platform::micmute: Setting an LED's brightness failed (-19)",
-but there's no micmute led on the machine.
+The Fn lock key currently is ignored. If userspace has a way
+to deal with this a function to pass on the extended data
+can be added.
 
-Get the related tokens of SMBIOS, GLOBAL_MIC_MUTE_DISABLE/ENABLE.
-If one of two tokens doesn't exist,
-don't call led_classdev_register() for platform::micmute.
-After that, you wouldn't see the platform::micmute in /sys/class/leds/,
-and the error message wouldn't see in dmesg.
-
-Fixes: d00fa46e0a2c6 ("platform/x86: dell-laptop: Add micmute LED trigger support")
-Signed-off-by: Koba Ko <koba.ko@canonical.com>
-Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
-Reviewed-by: Pali Rohár <pali@kernel.org>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/dell-laptop.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
-index f8d3e3bd1bb5..5e9c2296931c 100644
---- a/drivers/platform/x86/dell-laptop.c
-+++ b/drivers/platform/x86/dell-laptop.c
-@@ -2204,10 +2204,13 @@ static int __init dell_init(void)
+messages of type:
  
- 	dell_laptop_register_notifier(&dell_laptop_notifier);
- 
--	micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
--	ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
--	if (ret < 0)
--		goto fail_led;
-+	if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
-+	    dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) {
-+		micmute_led_cdev.brightness = ledtrig_audio_get(LED_AUDIO_MICMUTE);
-+		ret = led_classdev_register(&platform_device->dev, &micmute_led_cdev);
-+		if (ret < 0)
-+			goto fail_led;
-+	}
- 
- 	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
- 		return 0;
+    firmware scancode 0xXX maps to unrecognized keycode 0xXXXX
+
+are from unknown keycodes in the DMI table and should be added
+to bios_to_linux_keycode to allow them to be processed.
+
+Y Paritcher (3):
+  platform/x86: dell-wmi: add new backlight events
+  platform/x86: dell-wmi: add new keymap type 0x0012
+  platform/x86: dell-wmi: add new dmi keys to bios_to_linux_keycode
+
+ drivers/platform/x86/dell-wmi.c | 32 ++++++++++++++++++++++++++------
+ 1 file changed, 26 insertions(+), 6 deletions(-)
+
 -- 
-2.25.1
+2.27.0
 
