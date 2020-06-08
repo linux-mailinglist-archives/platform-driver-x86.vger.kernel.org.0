@@ -2,138 +2,149 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2117F1F221B
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E09D41F246E
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 01:21:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbgFHXGU (ORCPT
+        id S1729801AbgFHXVO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:06:20 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38535 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726907AbgFHXGQ (ORCPT
+        Mon, 8 Jun 2020 19:21:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45366 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731117AbgFHXVN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:06:16 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 28EC2893;
-        Mon,  8 Jun 2020 19:06:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 08 Jun 2020 19:06:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=AELJZh/EU6f2U
-        BkhqjDLJhUQN+SlucJC+NrGqLu0VFs=; b=65qAa+8MeEhDmsyRiCwqcDCn3Bf5K
-        TnIgcDpoMvBtgO4yDTzKjPEz63HXTYXVi1E5n1xuMkOID6z4vQZ4Amh5iY8Daa0O
-        hO1BbHs8CmwmeakQQ8h9wZ5bdG5G6PhrsEI7V1QEwc6qrX7vkXFOclsH5XvEE0pr
-        1lTYmRT8NhN2T3SJPiMwfqak9J4puMqikW+t96K9vcfRBu2bjyegitMdXTC6LfV4
-        L40/SS9aQp1jPdYocmMg3L6AgIafaGXZGMjS43Fz/RfynSKXyhjNfNqLm7XFw5Rr
-        RGgjvNl8XYpYXkS6/QZo2BAWPDCPvZCDTGOsgjVpCur3tNizGtJ/eK+OQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=AELJZh/EU6f2UBkhqjDLJhUQN+SlucJC+NrGqLu0VFs=; b=oaC2b8pD
-        DRlTHxDh2MUF0qyEtVV+RcyQbZQSi/SIefyj+c0DQWqvvaIOORGWA33J4OZBKXzW
-        zLedE6RfKtI0SCkt/c1q7SWYWddu2Ww0MS5onv/DOpvGaAv4ElR2GYIUU9zXQH3m
-        YTKnuGM3IW9bX5gNDuQHFZqY1jHwPGUr5ud152+xqsLuP3QqWNrYQ0kZpS0o2q+D
-        YZAbhBQ6tY5AZRAtweC0toWHobDn2VNyNIMzgcy16kvA3xDDGbwdL6WdIhoowAwW
-        +yRcU8yiuD4+m/l8zN67q6+sKInFfdAvinAt9MmiucY15w3Y5DPXkvrOUUV1cd1u
-        ebOuReachZCMUg==
-X-ME-Sender: <xms:ZsTeXu8x8hax-ueDR5QLYaxVfICNQl7tlar1pQ5eknaYqKs46giknw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedgudekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnecujfgurhephffvufffkffojghf
-    ggfgsedtkeertdertddtnecuhfhrohhmpegjucfrrghrihhttghhvghruceohidrlhhinh
-    hugiesphgrrhhithgthhgvrhdrtghomheqnecuggftrfgrthhtvghrnhepjeegfeetleeu
-    leevteejteetieffgffgfedvffffvddtvddvveevhffhtdehudeknecukfhppeeijedrke
-    egrdduleegrddujeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
-    lhhfrhhomhephidrlhhinhhugiesphgrrhhithgthhgvrhdrtghomh
-X-ME-Proxy: <xmx:ZsTeXusYRvCijjCSKpryjIOlHcGrOOZ9ndqpu7VWUXZ5lYYbvTb5qQ>
-    <xmx:ZsTeXkAWQALsQ0XFyC1lw9qaFh-qllNDqKQkZCcFTVReMnT6HIBMKg>
-    <xmx:ZsTeXmdlKtFODnVp3bEdW1QOJKub3owGpMDeyqhGwRT2jzYqxqdZzQ>
-    <xmx:ZsTeXp0WrAc438IOMW8p1bk-gQ0_EQ2_MZOXh-5v6vKLtG0nxOHCsA>
-Received: from localhost.localdomain (ool-4354c2af.dyn.optonline.net [67.84.194.175])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 69755328006B;
-        Mon,  8 Jun 2020 19:06:14 -0400 (EDT)
-From:   Y Paritcher <y.linux@paritcher.com>
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        Mario.Limonciello@dell.com
-Subject: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to bios_to_linux_keycode
-Date:   Mon,  8 Jun 2020 19:05:30 -0400
-Message-Id: <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1591656154.git.y.linux@paritcher.com>
-References: <cover.1591584631.git.y.linux@paritcher.com> <cover.1591656154.git.y.linux@paritcher.com>
+        Mon, 8 Jun 2020 19:21:13 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A8D120870;
+        Mon,  8 Jun 2020 23:21:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591658473;
+        bh=GRU7Is+Jtn3XDw/qay4/IT0NjJ1woWRDgZg4hmYqCTg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=D/F8MsRy9A1Ys6gLMW6C/SxFJlJWuRFGQjOXF8L4pThpZ4CxpvZkE/a+LdKDyrD20
+         lllyKs1bwvV0nltKy9puIaVWiqWPc6q4PQQ9Hom4Si/G8E4OeTsMAaaNHZmPeBl1xo
+         Yq1lQK4fQN1atjpDx890JY76ThvEWO67NsxgeaCA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 110/175] platform/x86: intel-vbtn: Do not advertise switches to userspace if they are not there
+Date:   Mon,  8 Jun 2020 19:17:43 -0400
+Message-Id: <20200608231848.3366970-110-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
+References: <20200608231848.3366970-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
-keycode) to allow for a new keycode 0xffff, this silences the following
-messages being logged at startup on a Dell Inspiron 5593:
+From: Hans de Goede <hdegoede@redhat.com>
 
-    dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
-    dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
+[ Upstream commit 990fbb48067bf8cfa34b7d1e6e1674eaaef2f450 ]
 
-as per this code comment:
+Commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode
+switch on 2-in-1's") added a DMI chassis-type check to avoid accidentally
+reporting SW_TABLET_MODE = 1 to userspace on laptops (specifically on the
+Dell XPS 9360), to avoid e.g. userspace ignoring touchpad events because
+userspace thought the device was in tablet-mode.
 
-   Log if we find an entry in the DMI table that we don't
-   understand.  If this happens, we should figure out what
-   the entry means and add it to bios_to_linux_keycode.
+But if we are not getting the initial status of the switch because the
+device does not have a tablet mode, then we really should not advertise
+the presence of a tablet-mode switch to userspace at all, as userspace may
+use the mere presence of this switch for certain heuristics.
 
-These are keycodes included in the 0xB2 DMI table, for which the
-corosponding keys are not known.
-
-Now when a user will encounter this key, a proper message wil be printed:
-
-    dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
-
-This will then allow the key to be identified properly.
-
-Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+Fixes: de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet mode switch on 2-in-1's")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/dell-wmi.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/platform/x86/intel-vbtn.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
-index 6b510f8431a3..dae1db96b5a0 100644
---- a/drivers/platform/x86/dell-wmi.c
-+++ b/drivers/platform/x86/dell-wmi.c
-@@ -196,7 +196,7 @@ struct dell_dmi_results {
+diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
+index 2ab3dbd26b5e..ab33349035b1 100644
+--- a/drivers/platform/x86/intel-vbtn.c
++++ b/drivers/platform/x86/intel-vbtn.c
+@@ -54,6 +54,7 @@ static const struct key_entry intel_vbtn_switchmap[] = {
+ struct intel_vbtn_priv {
+ 	struct key_entry keymap[KEYMAP_LEN];
+ 	struct input_dev *input_dev;
++	bool has_switches;
+ 	bool wakeup_mode;
  };
  
- /* Uninitialized entries here are KEY_RESERVED == 0. */
--static const u16 bios_to_linux_keycode[256] = {
-+static const u16 bios_to_linux_keycode[65536] = {
- 	[0]	= KEY_MEDIA,
- 	[1]	= KEY_NEXTSONG,
- 	[2]	= KEY_PLAYPAUSE,
-@@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
- 	[37]	= KEY_UNKNOWN,
- 	[38]	= KEY_MICMUTE,
- 	[255]	= KEY_PROG3,
-+	[65535]	= KEY_UNKNOWN,
- };
+@@ -69,7 +70,7 @@ static int intel_vbtn_input_setup(struct platform_device *device)
+ 		keymap_len += ARRAY_SIZE(intel_vbtn_keymap);
+ 	}
  
- /*
-@@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
- 					&table->keymap[i];
+-	if (true) {
++	if (priv->has_switches) {
+ 		memcpy(&priv->keymap[keymap_len], intel_vbtn_switchmap,
+ 		       ARRAY_SIZE(intel_vbtn_switchmap) *
+ 		       sizeof(struct key_entry));
+@@ -137,16 +138,12 @@ static void notify_handler(acpi_handle handle, u32 event, void *context)
  
- 		/* Uninitialized entries are 0 aka KEY_RESERVED. */
--		u16 keycode = (bios_entry->keycode <
--			       ARRAY_SIZE(bios_to_linux_keycode)) ?
--			bios_to_linux_keycode[bios_entry->keycode] :
--			KEY_RESERVED;
-+		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
+ static void detect_tablet_mode(struct platform_device *device)
+ {
+-	const char *chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
+ 	struct intel_vbtn_priv *priv = dev_get_drvdata(&device->dev);
+ 	acpi_handle handle = ACPI_HANDLE(&device->dev);
+ 	unsigned long long vgbs;
+ 	acpi_status status;
+ 	int m;
  
- 		/*
- 		 * Log if we find an entry in the DMI table that we don't
+-	if (!(chassis_type && strcmp(chassis_type, "31") == 0))
+-		return;
+-
+ 	status = acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
+ 	if (ACPI_FAILURE(status))
+ 		return;
+@@ -157,6 +154,19 @@ static void detect_tablet_mode(struct platform_device *device)
+ 	input_report_switch(priv->input_dev, SW_DOCK, m);
+ }
+ 
++static bool intel_vbtn_has_switches(acpi_handle handle)
++{
++	const char *chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
++	unsigned long long vgbs;
++	acpi_status status;
++
++	if (!(chassis_type && strcmp(chassis_type, "31") == 0))
++		return false;
++
++	status = acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
++	return ACPI_SUCCESS(status);
++}
++
+ static int intel_vbtn_probe(struct platform_device *device)
+ {
+ 	acpi_handle handle = ACPI_HANDLE(&device->dev);
+@@ -175,13 +185,16 @@ static int intel_vbtn_probe(struct platform_device *device)
+ 		return -ENOMEM;
+ 	dev_set_drvdata(&device->dev, priv);
+ 
++	priv->has_switches = intel_vbtn_has_switches(handle);
++
+ 	err = intel_vbtn_input_setup(device);
+ 	if (err) {
+ 		pr_err("Failed to setup Intel Virtual Button\n");
+ 		return err;
+ 	}
+ 
+-	detect_tablet_mode(device);
++	if (priv->has_switches)
++		detect_tablet_mode(device);
+ 
+ 	status = acpi_install_notify_handler(handle,
+ 					     ACPI_DEVICE_NOTIFY,
 -- 
-2.27.0
+2.25.1
 
