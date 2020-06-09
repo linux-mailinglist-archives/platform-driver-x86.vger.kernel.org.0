@@ -2,148 +2,220 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71D631F3614
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 10:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCC0F1F3627
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 10:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728002AbgFII1e (ORCPT
+        id S1727023AbgFIIfk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Jun 2020 04:27:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57450 "EHLO mail.kernel.org"
+        Tue, 9 Jun 2020 04:35:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33632 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727960AbgFII1d (ORCPT
+        id S1726463AbgFIIfk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Jun 2020 04:27:33 -0400
+        Tue, 9 Jun 2020 04:35:40 -0400
 Received: from pali.im (pali.im [31.31.79.79])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AA752074B;
-        Tue,  9 Jun 2020 08:27:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B59B20737;
+        Tue,  9 Jun 2020 08:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591691252;
-        bh=PMImXP1lwxmzTgkVhCHPvWpsWK8qCUVg8/8Nia95PaM=;
+        s=default; t=1591691738;
+        bh=JAspZs5Ru9i8zsF1Luz8OtOT1JFIDt+vTMcdcHBI0I4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kG/HLr3YA65ZVPcJtjG53D98p1xJGII6M8DipkLEQ1jqg+5h0EzopWVUcIPTLE3VS
-         24zz/DFYgME7eehXtewoqnQ2BZuvgyi++B9vYS106ZWUmdH3FoRPwJyAuKgX0vp+wY
-         jdp2RR1FFF2Oir3ubWDH1FrI65VKgPmxVEfuIKG0=
+        b=KqvCpCz/b13WSCGzKw9vbrGW5Yu6oykakpg1pqzo5OcgLxrhKUsukm5ua19vlzmgF
+         feRVXjGmkU6DjTz/68hoDRau2WHgCTFkPblLzAzk6//ZR5E9strqoMF3vipHVQssaV
+         W+9uaDsvHPFhOfR5c5C4sJqT9KTenPJOC/cAGNNs=
 Received: by pali.im (Postfix)
-        id 8EAE8884; Tue,  9 Jun 2020 10:27:30 +0200 (CEST)
-Date:   Tue, 9 Jun 2020 10:27:30 +0200
+        id D1EA8884; Tue,  9 Jun 2020 10:35:36 +0200 (CEST)
+Date:   Tue, 9 Jun 2020 10:35:36 +0200
 From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Mario.Limonciello@dell.com
-Cc:     y.linux@paritcher.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, mjg59@srcf.ucam.org
-Subject: Re: [PATCH 3/3] platform/x86: dell-wmi: add keys to
+To:     Y Paritcher <y.linux@paritcher.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mario.Limonciello@dell.com
+Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
  bios_to_linux_keycode
-Message-ID: <20200609082730.ncs3lbdtzfxb4fma@pali>
+Message-ID: <20200609083536.y4xhdrkydfwam4mk@pali>
 References: <cover.1591584631.git.y.linux@paritcher.com>
- <13951508596a3f654c6d47f5380ddb4f38e2f6b5.1591584631.git.y.linux@paritcher.com>
- <20200608090017.4qgtbosz7oullex2@pali>
- <8baab72e3d2e407792c3ffa1d9fffba8@AUSX13MPC105.AMER.DELL.COM>
- <20200608204826.kb7x5mh6hzj2hxcz@pali>
- <f7ab352f27954bbb88bafb41d6b17fe1@AUSX13MPC105.AMER.DELL.COM>
+ <cover.1591656154.git.y.linux@paritcher.com>
+ <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+ <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
+ <20200608235508.wthtgilgmifwfgz2@pali>
+ <d48b54ab-09ad-381b-c130-c5f3cdb4da10@paritcher.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7ab352f27954bbb88bafb41d6b17fe1@AUSX13MPC105.AMER.DELL.COM>
+In-Reply-To: <d48b54ab-09ad-381b-c130-c5f3cdb4da10@paritcher.com>
 User-Agent: NeoMutt/20180716
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Monday 08 June 2020 20:58:38 Mario.Limonciello@dell.com wrote:
-> > -----Original Message-----
-> > From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
-> > owner@vger.kernel.org> On Behalf Of Pali Rohár
-> > Sent: Monday, June 8, 2020 3:48 PM
-> > To: Limonciello, Mario
-> > Cc: y.linux@paritcher.com; linux-kernel@vger.kernel.org; platform-driver-
-> > x86@vger.kernel.org; mjg59@srcf.ucam.org
-> > Subject: Re: [PATCH 3/3] platform/x86: dell-wmi: add keys to
-> > bios_to_linux_keycode
+On Monday 08 June 2020 20:43:45 Y Paritcher wrote:
+> On 6/8/20 7:55 PM, Pali Rohár wrote:
+> > Hello!
 > > 
+> > On Monday 08 June 2020 16:27:10 Randy Dunlap wrote:
+> >> Hi--
+> >>
+> >> On 6/8/20 4:05 PM, Y Paritcher wrote:
+> >>> Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
+> >>> keycode) to allow for a new keycode 0xffff, this silences the following
+> >>> messages being logged at startup on a Dell Inspiron 5593:
+> >>>
+> >>>     dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
+> >>>     dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
 > > 
-> > [EXTERNAL EMAIL]
+> > Which keys generate these two scancodes? Or how have you been able to
+> > trigger these scancodes (in case they are not generated by key press)?
 > > 
-> > On Monday 08 June 2020 15:46:44 Mario.Limonciello@dell.com wrote:
-> > > I would actually question if there is value to lines in dell-wmi.c like
-> > this:
-> > >
-> > > pr_info("Unknown WMI event type 0x%x\n", (int)buffer_entry[1]);
-> > >
-> > > and
-> > >
-> > > pr_info("Unknown key with type 0x%04x and code 0x%04x pressed\n", type,
-> > code);
-> > >
-> > > In both of those cases the information doesn't actually help the user, by
-> > default it's
-> > > ignored by the driver anyway.  It just notifies the user it's something
-> > the driver doesn't
-> > > comprehend.  I would think these are better suited to downgrade to debug.
-> > And if
-> > > a key combination isn't doing something expected the user can use dyndbg
-> > to turn it
-> > > back on and can be debugged what should be populated or "explicitly"
-> > ignored.
-> > 
-> > My motivation for these messages was to provide information to user that
-> > kernel received event, but was not able to process it as it do not
-> > understand it.
-> > 
-> > It could help in situation when user press special key and nothing is
-> > delivered to userspace. But he could see that something happened in log.
+> > It is important to know for which key or event or feature we need to
+> > include this patch and therefore what feature is currently
+> > non-functional on that laptop.
 > > 
 > 
-> But does a user know what to do with this information?  From time to time
-> coming to kernel mailing list, but that's it.
-
-That is a good question. I'm really not sure if user can do anything
-with it. But also users do not care about these kind of logs. So
-probably even do not know about them.
-
-What is nice in this solution that if you want to try "debug" such
-problem you just need to ask user for logs. Nothing is needed to enabled
-/ disable.
-
-> I think same person who would know to come to kernel mailing list for a key
-> not working can likely also hand turning on dyndbg to get the info.
-
-You are probably right.
-
-In past I did one thing thanks to these logs. I searched for these log
-messages on interned. More results were on forum discussions. I tried to
-contact users of those posts and I think 3-4 people wrote me back with
-details which allowed me to extend dell-wmi driver to handle additional
-key codes.
-
-So I see two benefits from these logs: 1) no special setup is needed to
-gather these logs (useful for non-power users) and 2) ability to search
-on internet if we have laptops which generates such unknown key codes
-and users are "complaining" or posting their logs for investigation on
-places where are no kernel developers available.
-
-So question is if these two points are reason why to stick with these
-logs or turn them off by default.
-
-I still think it can be useful.
-
-> > Similar message is also printed by PS/2 keyboard driver atkbd.c:
-> > 
-> > 	case ATKBD_KEY_UNKNOWN:
-> > 		dev_warn(&serio->dev,
-> > 			 "Unknown key %s (%s set %d, code %#x on %s).\n",
-> > 			 atkbd->release ? "released" : "pressed",
-> > 			 atkbd->translated ? "translated" : "raw",
-> > 			 atkbd->set, code, serio->phys);
-> > 		dev_warn(&serio->dev,
-> > 			 "Use 'setkeycodes %s%02x <keycode>' to make it known.\n",
-> > 			 code & 0x80 ? "e0" : "", code & 0x7f);
-> > 		input_sync(dev);
-> > 		break;
+> As I said before:
+> The DMI contains a table of firmware scancode to linux keycode mappings.
+> this is parsed at boot and used together with the bios_to_linux_keycode
+> entries & dell_wmi_keymap_type_ tables to create a keymap.
 > 
-> I think the difference here is that user can actually do something from userland
-> to do with `setkeycodes` for PS2.
+> If a DMI entry does not have a corresponding entry in bios_to_linux_keycode
+> we log a message to allow adding the correct linux keycode if known.
+> This is regardless of if the key actually exists on the device.
+> 
+> To date, I have not been able to generate this keycode on my computer.
 
-Of course, I agree.
+Ok, so you have just these bios scan codes in your DMI table, but you do
+not know what they means nor if you can trigger them somehow.
+
+You should include this information into commit message.
+
+It is possible that your particular laptop model does not have
+physically keys which can trigger these codes... (Just guessing)
+
+> >>> as per this code comment:
+> >>>
+> >>>    Log if we find an entry in the DMI table that we don't
+> >>>    understand.  If this happens, we should figure out what
+> >>>    the entry means and add it to bios_to_linux_keycode.
+> >>>
+> >>> These are keycodes included in the 0xB2 DMI table, for which the
+> >>> corosponding keys are not known.
+> >>
+> >>   corresponding
+> >>
+> >>>
+> >>> Now when a user will encounter this key, a proper message wil be printed:
+> >>>
+> >>>     dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
+> >>>
+> >>> This will then allow the key to be identified properly.
+> >>>
+> >>> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+> >>> ---
+> >>>  drivers/platform/x86/dell-wmi.c | 8 +++-----
+> >>>  1 file changed, 3 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+> >>> index 6b510f8431a3..dae1db96b5a0 100644
+> >>> --- a/drivers/platform/x86/dell-wmi.c
+> >>> +++ b/drivers/platform/x86/dell-wmi.c
+> >>> @@ -196,7 +196,7 @@ struct dell_dmi_results {
+> >>>  };
+> >>>  
+> >>>  /* Uninitialized entries here are KEY_RESERVED == 0. */
+> >>> -static const u16 bios_to_linux_keycode[256] = {
+> >>> +static const u16 bios_to_linux_keycode[65536] = {
+> >>
+> >> It surely seems odd to me to expand an array from 512 bytes to 128 Kbytes
+> >> just to handle one special case.  Can't it be handled in code as a
+> >> special case?
+> > 
+> > I already wrote that more developers would not be happy about this
+> > change. I would rather to see e.g. that Randy's suggestion with 0xffff
+> > check as increasing memory usage.
+> > 
+> 
+> Will change
+> 
+> >>>  	[0]	= KEY_MEDIA,
+> >>>  	[1]	= KEY_NEXTSONG,
+> >>>  	[2]	= KEY_PLAYPAUSE,
+> >>> @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
+> >>>  	[37]	= KEY_UNKNOWN,
+> >>>  	[38]	= KEY_MICMUTE,
+> >>>  	[255]	= KEY_PROG3,
+> >>> +	[65535]	= KEY_UNKNOWN,
+> > 
+> > Looking at the last two lines... and for me it looks like that 0x00FF
+> > and 0xFFFF are just "placeholders" or special values for unknown /
+> > custom / unsupported / reserved / special / ... codes.
+> > 
+> 
+> Probably so, but i have no way of knowing.
+
+This was question for Mario as he is probably the only person who can
+bring some light to this area.
+
+> I just don't think there is a point spamming a users log with info that
+> they can't do anything with. If this is turned into a debug print then
+> i don't care to leave this as is, i had thought this might be helpful
+> just to know that this keycode mapping appears in the wild.
+> 
+> > It is really suspicious why first 38 values are defined, then there is
+> > gap, then one value 255 and then huge gap to 65535.
+> > 
+> > Mario, this looks like some mapping table between internal Dell BIOS key
+> > code and standard Linux key code. Are you able to get access to some
+> > documentation which contains explanation of those Dell key numbers?
+> > It could really help us to understand these gaps and what is correct
+> > interpretation of these numbers.
+> > 
+> > E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
+> > generates code 255, which could prove my thesis about "special codes"
+> > (which are probably not found in e.g. Windows or Linux mapping tables).
+> > 
+> >>>  };
+> >>>  
+> >>>  /*
+> >>> @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
+> >>>  					&table->keymap[i];
+> >>>  
+> >>>  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
+> >>> -		u16 keycode = (bios_entry->keycode <
+> >>> -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+> >>> -			bios_to_linux_keycode[bios_entry->keycode] :
+> >>> -			KEY_RESERVED;
+> >>> +		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
+> >>>  
+> >>>  		/*
+> >>>  		 * Log if we find an entry in the DMI table that we don't
+> >>>
+> >>
+> >> Something like:
+> >>
+> >> 		u16 keycode;
+> >>
+> >> 		keycode = bios_entry->keycode == 0xffff ? KEY_UNKNOWN :
+> >> 			(bios_entry->keycode <
+> >> 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+> >> 			bios_to_linux_keycode[bios_entry->keycode] :
+> >> 			KEY_RESERVED;
+> >>
+> >>
+> >>
+> >> Also please fix this:
+> >> (no To-header on input) <>
+> > 
+> > Hint: specifying git send-email with '--to' argument instead of '--cc'
+> > should help.
+> > 
+> 
+> Sorry about that.
+> >>
+> >> -- 
+> >> ~Randy
+> >>
