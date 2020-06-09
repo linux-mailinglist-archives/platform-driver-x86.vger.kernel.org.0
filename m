@@ -2,104 +2,237 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5B0C1F2EC4
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 02:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 900621F2EB1
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 02:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729005AbgFHXLy (ORCPT
+        id S1729036AbgFIAoJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Jun 2020 19:11:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58772 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729001AbgFHXLw (ORCPT
+        Mon, 8 Jun 2020 20:44:09 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33737 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1733202AbgFIAnt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:11:52 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 16726214D8;
-        Mon,  8 Jun 2020 23:11:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657911;
-        bh=KNfO35iPHZp9nM2fIPPOABKvCwIRqbqzPl/v/G3GlKU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W7Lc85CFlDt83ZX8sohUfW87QzT4DAN95yyidRvFTr4ePYYoZOEaZY+yud0haQIZ7
-         BTPdWMYp2l3Q2tNeMqDws1NNdFWT70x0/7eG6H8xtoeJlK0BXeZSHoJtNfTi1xKqXM
-         9DcxdsezO8JiW3V89cNxwxuJaRN1uDIRhGEmCxhw=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Chiu <chiu@endlessm.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 263/274] platform/x86: asus_wmi: Reserve more space for struct bias_args
-Date:   Mon,  8 Jun 2020 19:05:56 -0400
-Message-Id: <20200608230607.3361041-263-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+        Mon, 8 Jun 2020 20:43:49 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 4B3C165B;
+        Mon,  8 Jun 2020 20:43:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 08 Jun 2020 20:43:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=paritcher.com;
+         h=subject:to:cc:references:from:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=f
+        LjvxKnzBlU2/AwYQDorUH1w/KM8Bzu09pNDDnCY9xQ=; b=qy6MLXNWTkwvtrKTV
+        qWmWFBeHUr5AFfev13ZwjUvlHXpm2yTFfSYdpyfcsJK/nM5e77NQWZ5vzsI6GVpP
+        QBlUHduMLQ2kLvl8wZwBVZEximq9cZpwu2eDULRGItfwF8voKVjTv+pEGXFgqxA/
+        KpUJwgyLVUGoy2Q20hxgm2zsjVdRnAjn3WQvth1UTpaSn7zpB6jIkmkawEY0/Z9W
+        JxL3RvbxfnRD945qVwyFfAgIAgjPyu3nZ8hEw54yolJnFatpW9gS2FEM8IfHJLpH
+        44d9r0eDU7uadx+ZIVIzFfKe90GSeZL+8l37k8WEi9Opt+CSAOKO3cjv5pdpY5qa
+        mvcQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=fLjvxKnzBlU2/AwYQDorUH1w/KM8Bzu09pNDDnCY9
+        xQ=; b=pZ9T+kPrNHNqdJriTFuYA5HWAeQ3rSfAsvaDIEXiu6PC+k3k+1qCOWqUG
+        +DLDaC6SJVT5yjRaLEWiw/EwF9iPKqLwFPwVM26YrwSlNZxi5GSKiv0F7eEX7xV3
+        s0ssxxlEnZt86JWD6O8o5zbaZVCWKeIcbWPWETTYoqxib+BDS1fSojEyTSwHgyv5
+        Dts+44smXtgsNuK5bZS+lue1UZYVNHRUp5/I6IDaWGbTI/lr3EUK5+a5Nr7JYjzj
+        hZPVgZDFM3zxRCuKKUpKs3B/B5vyhC7PYPjsvNJXwBpKl/cmvopqbS239NUK2MLB
+        SCN+NJIEYktzQG0Tuc1dPGGGRBmWg==
+X-ME-Sender: <xms:QtveXthGl_svqHM36Txk7DSStUtSGZ7B5jYSm3Cq_BnFqidg9YH5pg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedgfeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepjgcurfgr
+    rhhithgthhgvrhcuoeihrdhlihhnuhigsehprghrihhttghhvghrrdgtohhmqeenucggtf
+    frrghtthgvrhhnpeduleethedtudeikefhkeeiieelfeekkedvhfdvffejjeekjefhudek
+    heejvdfgleenucfkphepieejrdekgedrudelgedrudejheenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeihrdhlihhnuhigsehprghrihhttghh
+    vghrrdgtohhm
+X-ME-Proxy: <xmx:QtveXiBWJfBKfVYLIxKgiaG99O0-0fAeejUrshoaeuqwU-qUTcdHMw>
+    <xmx:QtveXtHDJuhq3eTdbdB5LH7N7yYsbsEx6gmrdU_5GD_1oqZ0L_c3Hw>
+    <xmx:QtveXiSS_rNTcfLV5tuFKPaJv6-sefclZkPaCxMGKsxjVonNyYQwTw>
+    <xmx:QtveXl_sixDGiwq2VZyuRI9xI7GMIG5zQ2T7N-HwkLTVZr4rzit6mQ>
+Received: from [192.168.0.106] (ool-4354c2af.dyn.optonline.net [67.84.194.175])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6722B3061856;
+        Mon,  8 Jun 2020 20:43:46 -0400 (EDT)
+Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
+ bios_to_linux_keycode
+To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Mario.Limonciello@dell.com
+References: <cover.1591584631.git.y.linux@paritcher.com>
+ <cover.1591656154.git.y.linux@paritcher.com>
+ <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
+ <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
+ <20200608235508.wthtgilgmifwfgz2@pali>
+From:   Y Paritcher <y.linux@paritcher.com>
+Message-ID: <d48b54ab-09ad-381b-c130-c5f3cdb4da10@paritcher.com>
+Date:   Mon, 8 Jun 2020 20:43:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20200608235508.wthtgilgmifwfgz2@pali>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Chris Chiu <chiu@endlessm.com>
+On 6/8/20 7:55 PM, Pali Rohár wrote:
+> Hello!
+> 
+> On Monday 08 June 2020 16:27:10 Randy Dunlap wrote:
+>> Hi--
+>>
+>> On 6/8/20 4:05 PM, Y Paritcher wrote:
+>>> Increase length of bios_to_linux_keycode to 2 bytes (the true size of a
+>>> keycode) to allow for a new keycode 0xffff, this silences the following
+>>> messages being logged at startup on a Dell Inspiron 5593:
+>>>
+>>>     dell_wmi: firmware scancode 0x48 maps to unrecognized keycode 0xffff
+>>>     dell_wmi: firmware scancode 0x50 maps to unrecognized keycode 0xffff
+> 
+> Which keys generate these two scancodes? Or how have you been able to
+> trigger these scancodes (in case they are not generated by key press)?
+> 
+> It is important to know for which key or event or feature we need to
+> include this patch and therefore what feature is currently
+> non-functional on that laptop.
+> 
 
-[ Upstream commit 7b91f1565fbfbe5a162d91f8a1f6c5580c2fc1d0 ]
+As I said before:
+The DMI contains a table of firmware scancode to linux keycode mappings.
+this is parsed at boot and used together with the bios_to_linux_keycode
+entries & dell_wmi_keymap_type_ tables to create a keymap.
 
-On the ASUS laptop UX325JA/UX425JA, most of the media keys are not
-working due to the ASUS WMI driver fails to be loaded. The ACPI error
-as follows leads to the failure of asus_wmi_evaluate_method.
-  ACPI BIOS Error (bug): AE_AML_BUFFER_LIMIT, Field [IIA3] at bit offset/length 96/32 exceeds size of target Buffer (96 bits) (20200326/dsopcode-203)
-  No Local Variables are initialized for Method [WMNB]
-  ACPI Error: Aborting method \_SB.ATKD.WMNB due to previous error (AE_AML_BUFFER_LIMIT) (20200326/psparse-531)
+If a DMI entry does not have a corresponding entry in bios_to_linux_keycode
+we log a message to allow adding the correct linux keycode if known.
+This is regardless of if the key actually exists on the device.
 
-The DSDT for the WMNB part shows that 5 DWORD required for local
-variables and the 3rd variable IIA3 hit the buffer limit.
+To date, I have not been able to generate this keycode on my computer.
 
-Method (WMNB, 3, Serialized)
-{ ..
-    CreateDWordField (Arg2, Zero, IIA0)
-    CreateDWordField (Arg2, 0x04, IIA1)
-    CreateDWordField (Arg2, 0x08, IIA2)
-    CreateDWordField (Arg2, 0x0C, IIA3)
-    CreateDWordField (Arg2, 0x10, IIA4)
-    Local0 = (Arg1 & 0xFFFFFFFF)
-    If ((Local0 == 0x54494E49))
-  ..
-}
+>>> as per this code comment:
+>>>
+>>>    Log if we find an entry in the DMI table that we don't
+>>>    understand.  If this happens, we should figure out what
+>>>    the entry means and add it to bios_to_linux_keycode.
+>>>
+>>> These are keycodes included in the 0xB2 DMI table, for which the
+>>> corosponding keys are not known.
+>>
+>>   corresponding
+>>
+>>>
+>>> Now when a user will encounter this key, a proper message wil be printed:
+>>>
+>>>     dell_wmi: Unknown key with type 0xXXXX and code 0xXXXX pressed
+>>>
+>>> This will then allow the key to be identified properly.
+>>>
+>>> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
+>>> ---
+>>>  drivers/platform/x86/dell-wmi.c | 8 +++-----
+>>>  1 file changed, 3 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-wmi.c
+>>> index 6b510f8431a3..dae1db96b5a0 100644
+>>> --- a/drivers/platform/x86/dell-wmi.c
+>>> +++ b/drivers/platform/x86/dell-wmi.c
+>>> @@ -196,7 +196,7 @@ struct dell_dmi_results {
+>>>  };
+>>>  
+>>>  /* Uninitialized entries here are KEY_RESERVED == 0. */
+>>> -static const u16 bios_to_linux_keycode[256] = {
+>>> +static const u16 bios_to_linux_keycode[65536] = {
+>>
+>> It surely seems odd to me to expand an array from 512 bytes to 128 Kbytes
+>> just to handle one special case.  Can't it be handled in code as a
+>> special case?
+> 
+> I already wrote that more developers would not be happy about this
+> change. I would rather to see e.g. that Randy's suggestion with 0xffff
+> check as increasing memory usage.
+> 
 
-The limitation is determined by the input acpi_buffer size passed
-to the wmi_evaluate_method. Since the struct bios_args is the data
-structure used as input buffer by default for all ASUS WMI calls,
-the size needs to be expanded to fix the problem.
+Will change
 
-Signed-off-by: Chris Chiu <chiu@endlessm.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/asus-wmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+>>>  	[0]	= KEY_MEDIA,
+>>>  	[1]	= KEY_NEXTSONG,
+>>>  	[2]	= KEY_PLAYPAUSE,
+>>> @@ -237,6 +237,7 @@ static const u16 bios_to_linux_keycode[256] = {
+>>>  	[37]	= KEY_UNKNOWN,
+>>>  	[38]	= KEY_MICMUTE,
+>>>  	[255]	= KEY_PROG3,
+>>> +	[65535]	= KEY_UNKNOWN,
+> 
+> Looking at the last two lines... and for me it looks like that 0x00FF
+> and 0xFFFF are just "placeholders" or special values for unknown /
+> custom / unsupported / reserved / special / ... codes.
+> 
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index bb7c529d7d16..cd212ee210e2 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -116,6 +116,8 @@ struct bios_args {
- 	u32 arg0;
- 	u32 arg1;
- 	u32 arg2; /* At least TUF Gaming series uses 3 dword input buffer. */
-+	u32 arg4;
-+	u32 arg5;
- } __packed;
- 
- /*
--- 
-2.25.1
+Probably so, but i have no way of knowing.
 
+I just don't think there is a point spamming a users log with info that
+they can't do anything with. If this is turned into a debug print then
+i don't care to leave this as is, i had thought this might be helpful
+just to know that this keycode mapping appears in the wild.
+
+> It is really suspicious why first 38 values are defined, then there is
+> gap, then one value 255 and then huge gap to 65535.
+> 
+> Mario, this looks like some mapping table between internal Dell BIOS key
+> code and standard Linux key code. Are you able to get access to some
+> documentation which contains explanation of those Dell key numbers?
+> It could really help us to understand these gaps and what is correct
+> interpretation of these numbers.
+> 
+> E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
+> generates code 255, which could prove my thesis about "special codes"
+> (which are probably not found in e.g. Windows or Linux mapping tables).
+> 
+>>>  };
+>>>  
+>>>  /*
+>>> @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct dmi_header *dm, void *opaque)
+>>>  					&table->keymap[i];
+>>>  
+>>>  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
+>>> -		u16 keycode = (bios_entry->keycode <
+>>> -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+>>> -			bios_to_linux_keycode[bios_entry->keycode] :
+>>> -			KEY_RESERVED;
+>>> +		u16 keycode = bios_to_linux_keycode[bios_entry->keycode];
+>>>  
+>>>  		/*
+>>>  		 * Log if we find an entry in the DMI table that we don't
+>>>
+>>
+>> Something like:
+>>
+>> 		u16 keycode;
+>>
+>> 		keycode = bios_entry->keycode == 0xffff ? KEY_UNKNOWN :
+>> 			(bios_entry->keycode <
+>> 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
+>> 			bios_to_linux_keycode[bios_entry->keycode] :
+>> 			KEY_RESERVED;
+>>
+>>
+>>
+>> Also please fix this:
+>> (no To-header on input) <>
+> 
+> Hint: specifying git send-email with '--to' argument instead of '--cc'
+> should help.
+> 
+
+Sorry about that.
+>>
+>> -- 
+>> ~Randy
+>>
