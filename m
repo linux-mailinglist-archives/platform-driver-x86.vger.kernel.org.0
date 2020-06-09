@@ -2,73 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A6C1F3FD3
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 17:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20BAD1F4010
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 18:02:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730953AbgFIPtl (ORCPT
+        id S1731021AbgFIQCd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Jun 2020 11:49:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730944AbgFIPtk (ORCPT
+        Tue, 9 Jun 2020 12:02:33 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:63624 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728888AbgFIQCc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Jun 2020 11:49:40 -0400
-Received: from pali.im (pali.im [31.31.79.79])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 54EAA206A4;
-        Tue,  9 Jun 2020 15:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591717780;
-        bh=cftoxf7eTWLgxLNNfMKJScg7CB9uhYQT3PXokWq0xF4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EWjWRScXWtcnYf++U7silmPJbFplH3TnwReqlvYhihZ78m+YCyBoQJJZ5VgqvcFOH
-         xMocALkjR79pqM6W8j7ddzFDiLQDpEVxcJ16cn2+lKzGIy4XSD9Rm83ZElDKjpwHCv
-         6kr9n4O7m6sAOmUeMd6+RhHLg9sN91aerE50WA/g=
-Received: by pali.im (Postfix)
-        id 5893BFB6; Tue,  9 Jun 2020 17:49:38 +0200 (CEST)
-Date:   Tue, 9 Jun 2020 17:49:38 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Mario.Limonciello@dell.com, Sebastian Reichel <sre@kernel.org>
-Cc:     y.linux@paritcher.com, hdegoede@redhat.com,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pm@vger.kernel.org, mjg59@srcf.ucam.org
-Subject: Re: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
-Message-ID: <20200609154938.udo7mn7ka7z7pr6c@pali>
+        Tue, 9 Jun 2020 12:02:32 -0400
+Received: from pps.filterd (m0170394.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059G0xkQ012756;
+        Tue, 9 Jun 2020 12:02:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=U6N+TzAmWKQjj3h7+PuFl112p0HEZr29XppJBd7yFas=;
+ b=iP8V2/WvbBcFA5PpIT9N0UEK5pnCIxPr3ZhMxrKGxpsi89BnZfrk69SpdnLSdiEdhj3A
+ YKs8GGUx9f5/R1gG5Fyeemm4XQurjUNEGKl+XcjQ/fZ4tl6kipkT1VBlb6qiQXUcm7Du
+ iOxcb6p3e2yURq/YpPLqYlcY1FW/u4HQeNz1nKmJ5yPpkt1WILWAvbW8jmxe+Nnd+axz
+ Vdn/M/8EGQX3DJIL6Kc8loz7RXgu+JgEWscUGuA/0RA3Xv2Iv2+A20q+aiX/t8gZv8iS
+ u+W+92Nb2gKyW/S8D8ZI7rr6p4v0viV9xcUDvCIxzPO6oymZIbpKBO0St/ccZdKAXCCG mg== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0b-00154904.pphosted.com with ESMTP id 31g5q5st1g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 09 Jun 2020 12:02:31 -0400
+Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
+        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059FwCro150426;
+        Tue, 9 Jun 2020 12:02:31 -0400
+Received: from ausxippc110.us.dell.com (AUSXIPPC110.us.dell.com [143.166.85.200])
+        by mx0a-00154901.pphosted.com with ESMTP id 31jbqe2p86-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Jun 2020 12:02:31 -0400
+X-LoopCount0: from 10.166.132.131
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="951522519"
+From:   <Mario.Limonciello@dell.com>
+To:     <y.linux@paritcher.com>, <pali@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>
+Subject: RE: [PATCH v3 1/3] platform/x86: dell-wmi: add new backlight events
+Thread-Topic: [PATCH v3 1/3] platform/x86: dell-wmi: add new backlight events
+Thread-Index: AQHWPhGJPOp+TcXPeEephfzyP1MhbqjQcnIw
+Date:   Tue, 9 Jun 2020 16:02:28 +0000
+Message-ID: <29f57822df4e45f192b72c6151f4697c@AUSX13MPC105.AMER.DELL.COM>
 References: <cover.1591584631.git.y.linux@paritcher.com>
- <0dc191a3d16f0e114f6a8976433e248018e10c43.1591584631.git.y.linux@paritcher.com>
- <83fe431cacbc4708962767668ac8f06f@AUSX13MPC105.AMER.DELL.COM>
- <79bd59ee-dd37-bdc5-f6b4-00f2c33fdcff@paritcher.com>
- <7f9f0410696141cfabb0237d33b7b529@AUSX13MPC105.AMER.DELL.COM>
+ <cover.1591673143.git.y.linux@paritcher.com>
+ <50885a0c51c6fb31d20ddeb7434572448f1453be.1591673143.git.y.linux@paritcher.com>
+In-Reply-To: <50885a0c51c6fb31d20ddeb7434572448f1453be.1591673143.git.y.linux@paritcher.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-09T16:02:15.5982214Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=6d82cfdf-b66e-4bb6-b9dd-68e72214b874;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.40]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f9f0410696141cfabb0237d33b7b529@AUSX13MPC105.AMER.DELL.COM>
-User-Agent: NeoMutt/20180716
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-09_10:2020-06-09,2020-06-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 cotscore=-2147483648 mlxscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 phishscore=0 adultscore=0
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006090121
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006090121
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Monday 08 June 2020 20:36:58 Mario.Limonciello@dell.com wrote:
-> Can you please comment here how you would like to see events like this should come
-> through to userspace?
-> 
-> * Wrong power adapter (you have X and should have Y)
-> * You have plugged a dock into the wrong port
-> * Fn-lock mode
 
-In my opinion, Fn-lock mode is related to input subsystem and should be
-probably reported via input device. For a user, fn-lock is similar like
-caps-lock, scroll-lock or num-lock. Also fn-lock is provided by other
-laptops and therefore I would expect that kernel provide fn-lock state
-for all laptops (thinkpad / latitude / ...) via same interface. And not
-via dell-specific interface or general-vendor-message interface.
 
-Wrong power adapter sounds like something related to power subsystem.
-Adding Sebastian to the loop, maybe he can provide some useful ideas
-about it.
+> -----Original Message-----
+> From: Y Paritcher <y.linux@paritcher.com>
+> Sent: Monday, June 8, 2020 10:53 PM
+> To: Pali Roh=E1r
+> Cc: linux-kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org;
+> Matthew Garrett; Limonciello, Mario
+> Subject: [PATCH v3 1/3] platform/x86: dell-wmi: add new backlight events
+>=20
+>=20
+> [EXTERNAL EMAIL]
+>=20
+> Add events with a type of 0x0010 and a code of 0x57 / 0x58,
+> this silences the following messages being logged on a
+> Dell Inspiron 5593:
+>=20
+> dell_wmi: Unknown key with type 0x0010 and code 0x0057 pressed
+> dell_wmi: Unknown key with type 0x0010 and code 0x0058 pressed
+>=20
+> These are brightness events and will be handled by acpi-video
+>=20
+> Signed-off-by: Y Paritcher <y.linux@paritcher.com>
 
-And plugged dock into wrong port. This is probably dell-specific event
-and some interface for "vendor" messages from kernel to userspace would
-be needed to deliver such things.
+Reviewed-by: Mario Limonciello <mario.limonciello@dell.com>
+
+> ---
+>  drivers/platform/x86/dell-wmi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/dell-wmi.c b/drivers/platform/x86/dell-
+> wmi.c
+> index c25a4286d766..0b2edfe2767d 100644
+> --- a/drivers/platform/x86/dell-wmi.c
+> +++ b/drivers/platform/x86/dell-wmi.c
+> @@ -255,6 +255,10 @@ static const struct key_entry
+> dell_wmi_keymap_type_0010[] =3D {
+>  	/* Keyboard backlight change notification */
+>  	{ KE_IGNORE, 0x3f, { KEY_RESERVED } },
+>=20
+> +	/* Backlight brightness level */
+> +	{ KE_KEY,    0x57, { KEY_BRIGHTNESSDOWN } },
+> +	{ KE_KEY,    0x58, { KEY_BRIGHTNESSUP } },
+> +
+>  	/* Mic mute */
+>  	{ KE_KEY, 0x150, { KEY_MICMUTE } },
+>=20
+> --
+> 2.27.0
+
