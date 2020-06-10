@@ -2,163 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A5F01F477C
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Jun 2020 21:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E26AE1F4ADB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jun 2020 03:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731809AbgFITtV (ORCPT
+        id S1726046AbgFJB2O (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Jun 2020 15:49:21 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:56208 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730918AbgFITtV (ORCPT
+        Tue, 9 Jun 2020 21:28:14 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:40293 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725944AbgFJB2M (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Jun 2020 15:49:21 -0400
-Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059JfeNA023206;
-        Tue, 9 Jun 2020 15:49:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=LA8kJqGFsrM+hk/cfVA663MEbYkoPCLV8kVR6EoxfRk=;
- b=dSojpgKTuCyHTASSRH3O2X12wC6VcIYi/IU68c5/DsZnxsV/UywGCURUo2+LGpyQDsXA
- OmxVqwMa14NIQLiC4jso9677ijZBo6UO/KNNbg3CyKM2YCvL6MM4rF/yMrAh06rQJprW
- tMqNvYdgRjkOs/tPSUWf4BcaU2LazfH235irT8ww3wOUEP7XsqS4E4onoiijcZFBtsIz
- Q2tphC58kklSZb+EAPGZPffTdfSuyWgQduGl4bOTn9GSgDm7K/NxuH5ZUTeXVdkE4w0W
- /oDZPigS9g/6RaR2NNaRqhZbQr+vmRHpmNXpZjS9VJ89+ChfZZLUN9T4ofZVwTKjEd6/ Cw== 
-Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0a-00154904.pphosted.com with ESMTP id 31g6742qfx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 09 Jun 2020 15:49:20 -0400
-Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059JkJAq084806;
-        Tue, 9 Jun 2020 15:49:20 -0400
-Received: from ausxipps306.us.dell.com (AUSXIPPS306.us.dell.com [143.166.148.156])
-        by mx0b-00154901.pphosted.com with ESMTP id 31jd8cuhcm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 09 Jun 2020 15:49:20 -0400
-X-LoopCount0: from 10.166.132.132
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.73,493,1583215200"; 
-   d="scan'208";a="476266035"
-From:   <Mario.Limonciello@dell.com>
-To:     <pali@kernel.org>, <rdunlap@infradead.org>
-CC:     <y.linux@paritcher.com>, <linux-kernel@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>
-Subject: RE: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
- bios_to_linux_keycode
-Thread-Topic: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
- bios_to_linux_keycode
-Thread-Index: AQHWPelqfgxdvjwP/0a7+jtlxWF6SqjPsKgAgAAH0ACAAPg6kA==
-Date:   Tue, 9 Jun 2020 19:49:18 +0000
-Message-ID: <ced5832cfe984c68b27a577cac0f02f1@AUSX13MPC105.AMER.DELL.COM>
-References: <cover.1591584631.git.y.linux@paritcher.com>
- <cover.1591656154.git.y.linux@paritcher.com>
- <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
- <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
- <20200608235508.wthtgilgmifwfgz2@pali>
-In-Reply-To: <20200608235508.wthtgilgmifwfgz2@pali>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-09T19:49:07.3676331Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=403f99b9-e736-4d01-8469-1b310f08c85a;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.60]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 9 Jun 2020 21:28:12 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 49hTrh691xz8r;
+        Wed, 10 Jun 2020 03:28:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1591752489; bh=GKakFZj7r0PwB6e2LKfOoZiiZ9swBqGVdyd905VRjjc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JcyUlr+WvHTHmVp9QAURy3vHUtHVVvuUk1Xc6U+oronaswAv4sPlpbwXkVXPI8OAh
+         +ZCIKP6b32XkKvBIkcDKfm7t5TkDfmLGkNf74ukWIjaGqoW7qPfkxtWoih0Eomc4q/
+         w2zgsXY6Ruhf8XUqJzx4KoGN+dBRlxxN21IxsSv4ms6v4OXw8WDPGKcSmtcRlDrzu+
+         SXD6KNjcaDfhF9rBu5rWcpoycCx3SX/hJ8Ihse3BcYOPhIiNqNAicuPBIwHgj3I9AF
+         SpBhhg7k+AJoi+ZsRdKBumYPce06a6uaA4FP/36CK0TBm0UvejlWb02cPOjzHiUszs
+         CUzBf4na9/iZw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+Date:   Wed, 10 Jun 2020 03:28:01 +0200
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com
+Subject: Re: [PATCH v4 5/7] iio: adc: exynos: Use input_device_enabled()
+Message-ID: <20200610012801.GA11530@qmqm.qmqm.pl>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-6-andrzej.p@collabora.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-09_13:2020-06-09,2020-06-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- cotscore=-2147483648 priorityscore=1501 impostorscore=0 malwarescore=0
- adultscore=0 bulkscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- clxscore=1015 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006090150
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006090149
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200608112211.12125-6-andrzej.p@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
->=20
-> Looking at the last two lines... and for me it looks like that 0x00FF
-> and 0xFFFF are just "placeholders" or special values for unknown /
-> custom / unsupported / reserved / special / ... codes.
->=20
-> It is really suspicious why first 38 values are defined, then there is
-> gap, then one value 255 and then huge gap to 65535.
->=20
-> Mario, this looks like some mapping table between internal Dell BIOS key
-> code and standard Linux key code. Are you able to get access to some
-> documentation which contains explanation of those Dell key numbers?
-> It could really help us to understand these gaps and what is correct
-> interpretation of these numbers.
->=20
+On Mon, Jun 08, 2020 at 01:22:09PM +0200, Andrzej Pietrasiewicz wrote:
+> A new helper is available, so use it. Inspecting 'users' member of
+> input_dev requires taking device's mutex.
+[...]
+> --- a/drivers/iio/adc/exynos_adc.c
+> +++ b/drivers/iio/adc/exynos_adc.c
+> @@ -633,7 +633,9 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
+>  	bool pressed;
+>  	int ret;
+>  
+> -	while (info->input->users) {
+> +	mutex_lock(&info->input->mutex);
+> +	while (input_device_enabled(info->input)) {
+> +		mutex_unlock(&info->input->mutex);
+>  		ret = exynos_read_s3c64xx_ts(dev, &x, &y);
+>  		if (ret == -ETIMEDOUT)
+>  			break;
+> @@ -651,6 +653,8 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
+>  		input_sync(info->input);
+>  
+>  		usleep_range(1000, 1100);
+> +
+> +		mutex_lock(&info->input->mutex);
+>  	}
 
-The codes are actually 4 bytes in the table, but in practice nothing above =
-the
-first two bytes is used.
+Missed an mutex_unlock() here.
 
-Those two called out are special though, here are their meanings:
+>  
+>  	writel(0, ADC_V1_CLRINTPNDNUP(info->regs));
 
-0x00FF is user programmable function
-0xFFFF is no function
-
-For the purpose of memory consumption I think it's reasonable to ignore the
-upper 2 bytes and special case these two.
-
-> E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
-> generates code 255, which could prove my thesis about "special codes"
-> (which are probably not found in e.g. Windows or Linux mapping tables).
->=20
-> > >  };
-> > >
-> > >  /*
-> > > @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct
-> dmi_header *dm, void *opaque)
-> > >  					&table->keymap[i];
-> > >
-> > >  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
-> > > -		u16 keycode =3D (bios_entry->keycode <
-> > > -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> > > -			bios_to_linux_keycode[bios_entry->keycode] :
-> > > -			KEY_RESERVED;
-> > > +		u16 keycode =3D bios_to_linux_keycode[bios_entry->keycode];
-> > >
-> > >  		/*
-> > >  		 * Log if we find an entry in the DMI table that we don't
-> > >
-> >
-> > Something like:
-> >
-> > 		u16 keycode;
-> >
-> > 		keycode =3D bios_entry->keycode =3D=3D 0xffff ? KEY_UNKNOWN :
-> > 			(bios_entry->keycode <
-> > 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> > 			bios_to_linux_keycode[bios_entry->keycode] :
-> > 			KEY_RESERVED;
-> >
-> >
-> >
-> > Also please fix this:
-> > (no To-header on input) <>
->=20
-> Hint: specifying git send-email with '--to' argument instead of '--cc'
-> should help.
->=20
-> >
-> > --
-> > ~Randy
-> >
+Best Regards,
+Micha³ Miros³aw
