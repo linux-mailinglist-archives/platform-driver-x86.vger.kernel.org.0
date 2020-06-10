@@ -2,205 +2,239 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD9571F54F5
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jun 2020 14:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CFD91F5572
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Jun 2020 15:12:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728965AbgFJMfO (ORCPT
+        id S1729234AbgFJNMk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 10 Jun 2020 08:35:14 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:5734 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728896AbgFJMfM (ORCPT
+        Wed, 10 Jun 2020 09:12:40 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35014 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729120AbgFJNMj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 10 Jun 2020 08:35:12 -0400
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05ACITFl022909;
-        Wed, 10 Jun 2020 08:35:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=MIYlMsiBONt6vwXwS++F44PeG9RazWr4EGbudVZyqy4=;
- b=sNkmY8+bYOtxKfzBb8HntaJzvHoqrrc5JGV016bD/rS/THPcllqkkYcKOar62lSQQAyU
- DPf/yh3UoLUqR/E9x/WmVVaOS6hHfIi03UJo5OSlckeZOWg22YLUP7UL2GFeREVoBbWs
- oe80wZhOjUfJphpMsNhsyykbHQ6IEiu1CY+ziZBCVoQfiFplV5MKILDLQJl5dczzTcfo
- 8Zl6pWfdj12vAd8HAMKlTzyLC5vbGOg3QrZsEo1AJtw+3fqpOcio8eQhAYm2o1BHRIRm
- bnVRsmrzGHR2o4UtPKpU0wnW/ftgOtL84v/PBGowuggdqOpv87T/VQy/lonXSlHGj+Ob lQ== 
-Received: from mx0a-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0a-00154904.pphosted.com with ESMTP id 31jjr02hk1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 10 Jun 2020 08:35:11 -0400
-Received: from pps.filterd (m0089484.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05ACJsNH011309;
-        Wed, 10 Jun 2020 08:35:11 -0400
-Received: from ausxippc101.us.dell.com (ausxippc101.us.dell.com [143.166.85.207])
-        by mx0b-00154901.pphosted.com with ESMTP id 31jrj2q6qf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 10 Jun 2020 08:35:10 -0400
-X-LoopCount0: from 10.166.132.133
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,346,1549951200"; 
-   d="scan'208";a="1396236591"
-From:   <Mario.Limonciello@dell.com>
-To:     <pali@kernel.org>
-CC:     <rdunlap@infradead.org>, <y.linux@paritcher.com>,
-        <linux-kernel@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>
-Subject: RE: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
- bios_to_linux_keycode
-Thread-Topic: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
- bios_to_linux_keycode
-Thread-Index: AQHWPelqfgxdvjwP/0a7+jtlxWF6SqjPsKgAgAAH0ACAAPg6kIABPt2A///ajtA=
-Date:   Wed, 10 Jun 2020 12:35:09 +0000
-Message-ID: <a7b5dd31dd32461aad51e08d38777edf@AUSX13MPC105.AMER.DELL.COM>
-References: <cover.1591584631.git.y.linux@paritcher.com>
- <cover.1591656154.git.y.linux@paritcher.com>
- <d585d2a0f01a6b9480352530b571dec2d1afd79f.1591656154.git.y.linux@paritcher.com>
- <8053252a-83ad-bcaa-2830-ccfbca1b4152@infradead.org>
- <20200608235508.wthtgilgmifwfgz2@pali>
- <ced5832cfe984c68b27a577cac0f02f1@AUSX13MPC105.AMER.DELL.COM>
- <20200610094449.xltvs2y6kp7driyh@pali>
-In-Reply-To: <20200610094449.xltvs2y6kp7driyh@pali>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-10T12:35:07.3124973Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=94347649-6c3a-4e27-83d3-a4029e761f90;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.40]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 10 Jun 2020 09:12:39 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id DE8CE2A44F8
+Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-iio@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
+        linux-input@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Collabora Kernel ML <kernel@collabora.com>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
+ <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com>
+Date:   Wed, 10 Jun 2020 15:12:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-10_07:2020-06-10,2020-06-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 impostorscore=0 adultscore=0
- cotscore=-2147483648 lowpriorityscore=0 bulkscore=0 phishscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006100095
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 spamscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006100095
+In-Reply-To: <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> -----Original Message-----
-> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
-> owner@vger.kernel.org> On Behalf Of Pali Roh=E1r
-> Sent: Wednesday, June 10, 2020 4:45 AM
-> To: Limonciello, Mario
-> Cc: rdunlap@infradead.org; y.linux@paritcher.com; linux-
-> kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org;
-> mjg59@srcf.ucam.org
-> Subject: Re: [PATCH v2 3/3] platform/x86: dell-wmi: add new dmi keys to
-> bios_to_linux_keycode
->=20
->=20
-> [EXTERNAL EMAIL]
->=20
-> On Tuesday 09 June 2020 19:49:18 Mario.Limonciello@dell.com wrote:
-> > >
-> > > Looking at the last two lines... and for me it looks like that 0x00FF
-> > > and 0xFFFF are just "placeholders" or special values for unknown /
-> > > custom / unsupported / reserved / special / ... codes.
-> > >
-> > > It is really suspicious why first 38 values are defined, then there i=
-s
-> > > gap, then one value 255 and then huge gap to 65535.
-> > >
-> > > Mario, this looks like some mapping table between internal Dell BIOS
-> key
-> > > code and standard Linux key code. Are you able to get access to some
-> > > documentation which contains explanation of those Dell key numbers?
-> > > It could really help us to understand these gaps and what is correct
-> > > interpretation of these numbers.
-> > >
-> >
-> > The codes are actually 4 bytes in the table, but in practice nothing
-> above the
-> > first two bytes is used.
-> >
-> > Those two called out are special though, here are their meanings:
-> >
-> > 0x00FF is user programmable function
-> > 0xFFFF is no function
-> >
-> > For the purpose of memory consumption I think it's reasonable to ignore
-> the
-> > upper 2 bytes and special case these two.
->=20
-> Thank you for information!
->=20
-> So 0x00FF is "user programmable" button. Do I understand it correctly
-> that Dell/BIOS does not explicitly provide meaning for these buttons,
-> they do not have fixed functionality and therefore user should configure
-> them as he want?
+Hi All,
 
-Correct
+W dniu 10.06.2020 o 12:38, Rafael J. Wysocki pisze:
+> On Wed, Jun 10, 2020 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Hi All,
+>>
+>> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
+>>> This is a quick respin of v3, with just two small changes, please see
+>>> the changelog below.
+>>>
+>>> Userspace might want to implement a policy to temporarily disregard input
+>>> from certain devices.
+>>>
+>>> An example use case is a convertible laptop, whose keyboard can be folded
+>>> under the screen to create tablet-like experience. The user then must hold
+>>> the laptop in such a way that it is difficult to avoid pressing the keyboard
+>>> keys. It is therefore desirable to temporarily disregard input from the
+>>> keyboard, until it is folded back. This obviously is a policy which should
+>>> be kept out of the kernel, but the kernel must provide suitable means to
+>>> implement such a policy.
+>>
+>> First of all sorry to start a somewhat new discussion about this
+>> while this patch set is also somewhat far along in the review process,
+>> but I believe what I discuss below needs to be taken into account.
+>>
+>> Yesterday I have been looking into why an Asus T101HA would not stay
+>> suspended when the LID is closed. The cause is that the USB HID multi-touch
+>> touchpad in the base of the device starts sending events when the screen
+>> gets close to the touchpad (so when the LID is fully closed) and these
+>> events are causing a wakeup from suspend. HID multi-touch devices
+>> do have a way to tell them to fully stop sending events, also disabling
+>> the USB remote wakeup the device is doing. The question is when to tell
+>> it to not send events though ...
+>>
+>> So now I've been thinking about how to fix this and I believe that there
+>> is some interaction between this problem and this patch-set.
+>>
+>> The problem I'm seeing on the T101HA is about wakeups, so the question
+>> which I want to discuss is:
+>>
+>> 1. How does inhibiting interact with enabling /
+>> disabling the device as a wakeup source ?
+>>
+>> 2. Since we have now made inhibiting equal open/close how does open/close
+>> interact with a device being a wakeup source ?
+>>
+>> And my own initial (to be discussed) answers to these questions:
+>>
+>> 1. It seems to me that when a device is inhibited it should not be a
+>> wakeup source, so where possible a input-device-driver should disable
+>> a device's wakeup capabilities on suspend if inhibited
+> 
+> If "inhibit" means "do not generate any events going forward", then
+> this must also cover wakeup events, so I agree.
 
->=20
-> And what does mean "no function"? I do not know what should I imagine if
-> I receive key press marked as "no function".
+I agree, too.
 
-It means no action is expected to occur, should behave like a no-op.  I thi=
-nk
-discarding it makes fine sense.
+> 
+>> 2. This one is trickier I don't think we have really clearly specified
+>> any behavior here. The default behavior of most drivers seems to be
+>> using something like this in their suspend callback:
+>>
+>>           if (device_may_wakeup(dev))
+>>                   enable_irq_wake(data->irq);
+>>           else if (input->users)
+>>                   foo_stop_receiving_events(data);
+>>
+>> Since this is what most drivers seem to do I believe we should keep
+>> this as is and that we should just clearly document that if the
+>> input_device has users (has been opened) or not does not matter
+>> for its wakeup behavior.
+>>
+>> Combining these 2 answers leads to this new pseudo code template
+>> for an input-device's suspend method:
+>>
+>>          /*
+>>           * If inhibited we have already disabled events and
+>>           * we do NOT want to setup the device as wake source.
+>>           */
+>>          if (input->inhibited)
+>>                  return 0;
 
->=20
-> > > E.g. I remember that pressing Fn+Q or Fn+W on some Dell Latitude
-> > > generates code 255, which could prove my thesis about "special codes"
-> > > (which are probably not found in e.g. Windows or Linux mapping tables=
-).
-> > >
-> > > > >  };
-> > > > >
-> > > > >  /*
-> > > > > @@ -503,10 +504,7 @@ static void handle_dmi_entry(const struct
-> > > dmi_header *dm, void *opaque)
-> > > > >  					&table->keymap[i];
-> > > > >
-> > > > >  		/* Uninitialized entries are 0 aka KEY_RESERVED. */
-> > > > > -		u16 keycode =3D (bios_entry->keycode <
-> > > > > -			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> > > > > -			bios_to_linux_keycode[bios_entry->keycode] :
-> > > > > -			KEY_RESERVED;
-> > > > > +		u16 keycode =3D bios_to_linux_keycode[bios_entry->keycode];
-> > > > >
-> > > > >  		/*
-> > > > >  		 * Log if we find an entry in the DMI table that we don't
-> > > > >
-> > > >
-> > > > Something like:
-> > > >
-> > > > 		u16 keycode;
-> > > >
-> > > > 		keycode =3D bios_entry->keycode =3D=3D 0xffff ? KEY_UNKNOWN :
-> > > > 			(bios_entry->keycode <
-> > > > 			       ARRAY_SIZE(bios_to_linux_keycode)) ?
-> > > > 			bios_to_linux_keycode[bios_entry->keycode] :
-> > > > 			KEY_RESERVED;
-> > > >
-> > > >
-> > > >
-> > > > Also please fix this:
-> > > > (no To-header on input) <>
-> > >
-> > > Hint: specifying git send-email with '--to' argument instead of '--cc=
-'
-> > > should help.
-> > >
-> > > >
-> > > > --
-> > > > ~Randy
-> > > >
+Right, if a device is inhibited it shouldn't become a wakeup source,
+because that would contradict the purpose of being inhibited.
+
+>>
+>>           if (device_may_wakeup(dev))
+>>                   enable_irq_wake(data->irq);
+
+What would it mean to become a wakeup source if there are no users,
+or nobody has ever opened the device? There are no interested
+input handlers (users) so what's the point of becoming a wakeup
+source? Why would the system need to wake up?
+
+>>           else if (input->users)
+>>                   foo_stop_receiving_events(data);
+>>
+>> ###
+> 
+> Sounds reasonable to me.
+> 
+>> A different, but related issue is how to make devices actually use the
+>> new inhibit support on the builtin keyboard + touchpad when say the lid
+>> is closed.   Arguably this is an userspace problem, but it is a tricky
+>> one. Currently on most modern Linux distributions suspend-on-lid-close
+>> is handled by systemd-logind and most modern desktop-environments are
+>> happy to have logind handle this for them.
+>>
+>> But most knowledge about input devices and e.g. heurisitics to decide
+>> if a touchpad is internal or external are part of libinput. Now we could
+>> have libinput use the new inhibit support (1), but then when the lid
+>> closes we get race between whatever process is using libinput trying
+>> to inhibit the touchpad (which must be done before to suspend to disable
+>> it as wakeup source) and logind trying to suspend the system.
+>>
+>> One solution here would be to move the setting of the inhibit sysfs
+>> attr into logind, but that requires adding a whole bunch of extra
+>> knowledge to logind which does not really belong there IMHO.
+>>
+>> I've been thinking a bit about this and to me it seems that the kernel
+>> is in the ideal position to automatically inhibit some devices when
+>> some EV_SW transitions from 0->1 (and uninhibit again on 1->0). The
+>> issue here is to chose on which devices to enable this. I believe
+>> that the auto inhibit on some switches mechanism is best done inside
+>> the kernel (disabled by default) and then we can have a sysfs
+>> attr called auto_inhibit_ev_sw_mask which can be set to e.g.
+>> (1 << SW_LID) to make the kernel auto-inhibit the input-device whenever
+>> the lid is closed, or to ((1 << SW_LID) | (1 << SW_TABLET_MODE)) to
+>> inhibit both when the lid is closed or when switched to tablet mode.
+> 
+> I agree that the kernel is the right place to handle this, but it
+> requires some extra knowledge about dependencies between devices.
+> 
+> It'd be kind of like power resources in ACPI, so for each state of a
+> "master" device (in principle, there may be more states of it than
+> just two) there would be a list of "dependent" intput devices that
+> need to be inhibited when the "master" device goes into that state.
+> 
+>> This could then be combined with a userspace utility run from an
+>> udev rule which makes the actual decision what auto_inhibit_ev_sw_mask
+>> should be set for a given input device.
+>>
+>> This will put the mechanism for what we want inside the kernel and
+>> leaves the policy on which switches we want this for out of the
+>> kernel.
+>>
+>> Note adding this new auto_inhibit_ev_sw_mask sysfs attr falls
+>> somewhat outside the context of this patchset and could be done
+>> as a follow up to this patch-set.
+
+Yes, please ;)
+
+But I do believe that we need to
+>> figure out how (non ChromeOS) userspace can / will use the new inhibit
+>> interface before merging it.
+
+Of course.
+
+Regards,
+
+Andrzej
