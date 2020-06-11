@@ -2,80 +2,125 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6201F6696
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jun 2020 13:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A57C1F68E5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jun 2020 15:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727911AbgFKL0z (ORCPT
+        id S1726673AbgFKNO7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 11 Jun 2020 07:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727904AbgFKL0y (ORCPT
+        Thu, 11 Jun 2020 09:14:59 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:50164 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726506AbgFKNO6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 11 Jun 2020 07:26:54 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C25BC08C5C1
-        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Jun 2020 04:26:54 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id t132so3192771vst.2
-        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Jun 2020 04:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=B4Y85tBnv5HXeiEnmq864Z1VruUXFnYquZ5149IhUGM=;
-        b=MAuVPNPMxAuhTCjIJ2QIM3KSSo9MeW8w+zMWYGIwlAA3KOPyyQvuCgyfCbNCwonUma
-         W8GgyFkWQIt8OvZRDJD4jxch19wp8AU+zgF3XfaYQu+vnMZqK/BXq5mCyuzBEzqQw1CH
-         vffTieBql95bZEqYma8HND//UKUYA0IjH75VhSncS8rcVuZNgWwoMU/N/yZGT8z5oDga
-         y/ZicaXbKlHRzFoDaI/i4dRvMyNxyf3xIUhO2afp1wV2Yf1NVU7mLXVkWixuTmRRY8zR
-         /+HmAi88z5yy8p/hy/j9zjaDhFbmpPuulaj+lsxSjGoOOkKyqYgegdfjM2vs4CjRsHLn
-         r0fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=B4Y85tBnv5HXeiEnmq864Z1VruUXFnYquZ5149IhUGM=;
-        b=oK0psn+S/opOaoDcLlp9GuGIfWA4aYMUv2seAikVADYezPeREeWHEBhZw516BQXgCQ
-         Rakifw+nKb0VZ4gEoP04iyG/WmQZWDWfCeRWVX+mLxE5FK+tDYtKxXvHNuRHvjb3+zXw
-         T3LiKL5t0ROvrBHQbUrgOGuDQuVE0pjM62frihc1lyDO2SmtXa4v7TL4mqf7qjCgkd8Z
-         ek4wHTPEVT0gImdvmroyU2SPwxoZev9mSKhuGL+UIkQ5ycjbP/wwiwVHv7cMGFpHE0Lh
-         Urq+R+pJTxN889ZzfYMDrLwd/vP73/m9RBJzWuS9VT2UuiQl8pwPOYONu0CwNOZ5Ndf8
-         mH/w==
-X-Gm-Message-State: AOAM532n+Np9KNZ0/03/gFilO3IvSl+vTzH9NJXp8KY6h0/bltSK4kQD
-        YFzuqr4+P49+RcYNyxHcAjBvVFTyxnbfy+KMWFw=
-X-Google-Smtp-Source: ABdhPJxkG5f8dPZaPHaYUmUdnmcajm7+CXQnvO5Wup+fJxFWLg0AU10aqrklUN54f7Ou6en/OxsgULE22yOVw3ozrRw=
-X-Received: by 2002:a67:d201:: with SMTP id y1mr1456201vsi.75.1591874812992;
- Thu, 11 Jun 2020 04:26:52 -0700 (PDT)
+        Thu, 11 Jun 2020 09:14:58 -0400
+Received: from pps.filterd (m0170398.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05BDDgwh018476;
+        Thu, 11 Jun 2020 09:14:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=aTCE/pasSWUWuGDYqRZBQC/dpb9VxP8Sxs048GpAW9I=;
+ b=re314xT7nTSZAJv8K6JsnsYB2NQxgbmCY/4U+IMoUDRalh1zJ+DhCb54MoDHl5VUbrkc
+ QWE8P/a/+8/uQlfkkzjg2j6zL5RANtqAbvBQem0rB2yUienGSpJfks+kGPBrHCjpukrL
+ +1dUeq3NwePPFILZ6y8daaDfYrNCx1QAcXiTC65mpsp4n6/eLJwRiuYRU+jrxkTJqXu0
+ /U4XFH7OqamkcpYaSlrd+fwq23BuY/hl196/LQPgkJhjNnhHyOfmknLpLux3ood/EB1E
+ l+BCg77lhxJTe6WoyskvILTE93P0jTuov6sb6bFcuH6bD5WU7qPfRLQxjI/IVteHo6xq uA== 
+Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+        by mx0b-00154904.pphosted.com with ESMTP id 31kmfqg614-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 11 Jun 2020 09:14:57 -0400
+Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05BDBxi6026642;
+        Thu, 11 Jun 2020 09:14:56 -0400
+Received: from ausxippc101.us.dell.com (ausxippc101.us.dell.com [143.166.85.207])
+        by mx0b-00154901.pphosted.com with ESMTP id 31kmmd0qmh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 11 Jun 2020 09:14:56 -0400
+X-LoopCount0: from 10.166.132.134
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,346,1549951200"; 
+   d="scan'208";a="1396607749"
+From:   <Mario.Limonciello@dell.com>
+To:     <kai.heng.feng@canonical.com>
+CC:     <alex.hung@canonical.com>, <dvhart@infradead.org>,
+        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on HP
+ platforms
+Thread-Topic: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on
+ HP platforms
+Thread-Index: AQHWPz3dlpIDtGIT702KohBct4fb0ajR/puQgAFXIQCAABAKUA==
+Date:   Thu, 11 Jun 2020 13:14:54 +0000
+Message-ID: <3b47d04a379a4c709d38f0ca4c17dff4@AUSX13MPC105.AMER.DELL.COM>
+References: <20200610153747.27040-1-kai.heng.feng@canonical.com>
+ <4d0714fe5e2548b6b638ea447ad19490@AUSX13MPC105.AMER.DELL.COM>
+ <82013BD4-B247-4E4E-94AB-1BEF8403E6E6@canonical.com>
+In-Reply-To: <82013BD4-B247-4E4E-94AB-1BEF8403E6E6@canonical.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-11T13:14:50.9418029Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=b02f13e2-2eee-4ada-9e20-aa46b53ae43e;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Reply-To: r.yacouba@hotmail.com
-Received: by 2002:ab0:4961:0:0:0:0:0 with HTTP; Thu, 11 Jun 2020 04:26:52
- -0700 (PDT)
-From:   Rachid Yacouba <exexexexexexezz@gmail.com>
-Date:   Thu, 11 Jun 2020 12:26:52 +0100
-X-Google-Sender-Auth: _vEX10tk-dkkui7uPMM6vgCjauE
-Message-ID: <CAMECAQcxpcvOZRg87qc1A7WHSdbY7qb_TuDdgZdjKrOnCRMoqA@mail.gmail.com>
-Subject: Please for your immediate consent response
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-11_14:2020-06-11,2020-06-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 mlxlogscore=779 spamscore=0
+ clxscore=1015 bulkscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ phishscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006110103
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=861 spamscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006110103
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Friend,
-My name is Mr. Rachid Yacouba: a banker by profession and I have a
-proposal for you concerning to a transaction worth the sum of
-US$10,350,000.00 for you to handle with me and there is a golden
-opportunity for you to claim and transfer this abandon fund to your
-bank account in your country which belongs to our deceased client.
+> > Just having the ACPI device present doesn't actually mean that the user
+> > has a kernel compiled with hp-wireless or that it has finished
+> initializing.
+>=20
+> We can use IS_REACHEABLE() to see if it's compiled.
 
-I am inviting you in this transaction where the money can be shared
-between us at the ratio of 40% for you and 50% for me while 10% will
-be used to settle for any outstanding expenses during and after the
-course of the transaction and also help the needy around us so you do
-not need to be afraid of any negativity because I am with you and I
-will guide you on how to go about reclaiming the fund from the bank
-here.
+Yes that was going to be my first suggestion.
 
-Please kindly get back to me if you are interested for more details.
+>=20
+> >
+> > I would think this needs a better handshake in case hp-wireless was
+> unloaded
+> > or not present so the event could still come through intel-hid in this
+> > circumstance.
+>=20
+> However, it's hard to determine if the other driver has finished
+> initialization or any form of cross module handshake.
+> Can you please point me to any good example if there's one?
 
-Best regards,
-Mr. Rachid Yacouba
+Take a look at how drivers that use dell-wmi-descriptor work.  They can rel=
+y
+upon looking at -EPROBE_DEFER return code when trying to access the functio=
+nality
+and do a handoff.
+
+>=20
+> >
+> >> +
+> >> 	return AE_OK;
+> >> }
+> >>
+> >> --
+> >> 2.17.1
+
