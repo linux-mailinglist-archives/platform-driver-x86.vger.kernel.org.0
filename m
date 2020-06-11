@@ -2,125 +2,229 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A57C1F68E5
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jun 2020 15:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DB7C1F6BA3
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Jun 2020 17:54:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgFKNO7 (ORCPT
+        id S1728636AbgFKPxV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 11 Jun 2020 09:14:59 -0400
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:50164 "EHLO
-        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726506AbgFKNO6 (ORCPT
+        Thu, 11 Jun 2020 11:53:21 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:55946 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728529AbgFKPxV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 11 Jun 2020 09:14:58 -0400
-Received: from pps.filterd (m0170398.ppops.net [127.0.0.1])
-        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05BDDgwh018476;
-        Thu, 11 Jun 2020 09:14:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=aTCE/pasSWUWuGDYqRZBQC/dpb9VxP8Sxs048GpAW9I=;
- b=re314xT7nTSZAJv8K6JsnsYB2NQxgbmCY/4U+IMoUDRalh1zJ+DhCb54MoDHl5VUbrkc
- QWE8P/a/+8/uQlfkkzjg2j6zL5RANtqAbvBQem0rB2yUienGSpJfks+kGPBrHCjpukrL
- +1dUeq3NwePPFILZ6y8daaDfYrNCx1QAcXiTC65mpsp4n6/eLJwRiuYRU+jrxkTJqXu0
- /U4XFH7OqamkcpYaSlrd+fwq23BuY/hl196/LQPgkJhjNnhHyOfmknLpLux3ood/EB1E
- l+BCg77lhxJTe6WoyskvILTE93P0jTuov6sb6bFcuH6bD5WU7qPfRLQxjI/IVteHo6xq uA== 
-Received: from mx0b-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-        by mx0b-00154904.pphosted.com with ESMTP id 31kmfqg614-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Jun 2020 09:14:57 -0400
-Received: from pps.filterd (m0090350.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05BDBxi6026642;
-        Thu, 11 Jun 2020 09:14:56 -0400
-Received: from ausxippc101.us.dell.com (ausxippc101.us.dell.com [143.166.85.207])
-        by mx0b-00154901.pphosted.com with ESMTP id 31kmmd0qmh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 11 Jun 2020 09:14:56 -0400
-X-LoopCount0: from 10.166.132.134
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,346,1549951200"; 
-   d="scan'208";a="1396607749"
-From:   <Mario.Limonciello@dell.com>
-To:     <kai.heng.feng@canonical.com>
-CC:     <alex.hung@canonical.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on HP
+        Thu, 11 Jun 2020 11:53:21 -0400
+Received: from mail-pj1-f72.google.com ([209.85.216.72])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <alex.hung@canonical.com>)
+        id 1jjPW2-00005d-Q2
+        for platform-driver-x86@vger.kernel.org; Thu, 11 Jun 2020 15:53:19 +0000
+Received: by mail-pj1-f72.google.com with SMTP id l62so4596428pje.9
+        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Jun 2020 08:53:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=py21r8N7J3kdOfOe9CdPL7ULZnWM2zECpY1Cr6mg3K0=;
+        b=ShHJE4sVSeY3uj57RL/63dzGIeKu+FZQUBhit4aP1Oe/pQ2ydqbK514y1XDudu1Pg4
+         ec9KErMdo7PWCaWZROtv8bvCIKB/1wpSCUGwblblc5CDJztg3GPuzOkE1FhvcVf3PRSR
+         PEPuTrGGJyFmukfaE2SoClXfhRA7nHu96RjKEDxWZ93Do2v+o4gcV3oLgttgdjumLqpS
+         X8n8Hja3XoKSFsLqchpHhBkGMCJA0ySPlWa4eXSoRuPkNJRhvOBOmlqctFBClC22+mqp
+         /w7+laJHIbBRZlVHvW20P+BIoK7IFWZqKXhm8lQZ5GdSQF/C3ZRN3k7tUXLLt0oxcCv4
+         HCnA==
+X-Gm-Message-State: AOAM532/gzlq1N6mpWVuGzu8J/iZRuPR2Xcdcqe9eD6W2TWu9bEiOtZg
+        KxfqkTgTRa2hMqpvxfIPFvuvN4+969MzFRqnX7QfUkUWfMoJWQQFor0dMpdR0m2UooRLYQJlkXc
+        bHAFeMNknLZAS91jeY7vx6YGr99CGew8hPGkxJFlyxadhOfIPUrE=
+X-Received: by 2002:a63:7d1:: with SMTP id 200mr2123698pgh.117.1591890797072;
+        Thu, 11 Jun 2020 08:53:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpKJ7/y13HZqbfsiEwBtbgXcSOLDaHNJMgwNSkcL9qzGKBCJbNK+S5uZIpaCNJdi7+KOD4Kw==
+X-Received: by 2002:a63:7d1:: with SMTP id 200mr2123675pgh.117.1591890796595;
+        Thu, 11 Jun 2020 08:53:16 -0700 (PDT)
+Received: from [192.168.0.119] (d66-222-144-129.abhsia.telus.net. [66.222.144.129])
+        by smtp.gmail.com with ESMTPSA id z85sm3635610pfc.66.2020.06.11.08.53.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2020 08:53:16 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on HP
  platforms
-Thread-Topic: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on
- HP platforms
-Thread-Index: AQHWPz3dlpIDtGIT702KohBct4fb0ajR/puQgAFXIQCAABAKUA==
-Date:   Thu, 11 Jun 2020 13:14:54 +0000
-Message-ID: <3b47d04a379a4c709d38f0ca4c17dff4@AUSX13MPC105.AMER.DELL.COM>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Mario.Limonciello@dell.com, dvhart@infradead.org,
+        andy@infradead.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 References: <20200610153747.27040-1-kai.heng.feng@canonical.com>
  <4d0714fe5e2548b6b638ea447ad19490@AUSX13MPC105.AMER.DELL.COM>
- <82013BD4-B247-4E4E-94AB-1BEF8403E6E6@canonical.com>
-In-Reply-To: <82013BD4-B247-4E4E-94AB-1BEF8403E6E6@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-11T13:14:50.9418029Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=b02f13e2-2eee-4ada-9e20-aa46b53ae43e;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [143.166.24.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <0affa00e-8a52-9e29-56d4-39dff952d736@canonical.com>
+ <A98FC3F7-2295-4B49-95DD-1D861BC56B9A@canonical.com>
+From:   Alex Hung <alex.hung@canonical.com>
+Message-ID: <0c381c46-a4ab-b973-8ed6-4bc8aa06022a@canonical.com>
+Date:   Thu, 11 Jun 2020 09:53:15 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-11_14:2020-06-11,2020-06-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=779 spamscore=0
- clxscore=1015 bulkscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006110103
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
- suspectscore=0 mlxlogscore=861 spamscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006110103
+In-Reply-To: <A98FC3F7-2295-4B49-95DD-1D861BC56B9A@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> > Just having the ACPI device present doesn't actually mean that the user
-> > has a kernel compiled with hp-wireless or that it has finished
-> initializing.
->=20
-> We can use IS_REACHEABLE() to see if it's compiled.
+On 2020-06-11 1:24 a.m., Kai-Heng Feng wrote:
+> 
+> 
+>> On Jun 11, 2020, at 01:41, Alex Hung <alex.hung@canonical.com> wrote:
+>>
+>> On 2020-06-10 9:49 a.m., Mario.Limonciello@dell.com wrote:
+>>>> -----Original Message-----
+>>>> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
+>>>> owner@vger.kernel.org> On Behalf Of Kai-Heng Feng
+>>>> Sent: Wednesday, June 10, 2020 10:38 AM
+>>>> To: alex.hung@canonical.com
+>>>> Cc: Kai-Heng Feng; Darren Hart; Andy Shevchenko; open list:INTEL HID EVENT
+>>>> DRIVER; open list
+>>>> Subject: [PATCH] platform/x86: intel-hid: Use hp-wireless for rfkill on HP
+>>>> platforms
+>>>>
+>>>>
+>>>> [EXTERNAL EMAIL]
+>>>>
+>>>> Wireless hotkey on HP platforms can trigger two events, if both
+>>>> hp-wireless and intel-hid are supported. Two events at the same time
+>>>> renders wireless hotkey useless.
+>>>>
+>>>> HP confirmed that hp-wireless (HPQ6001) should always be the canonical
+>>>> source of wireless hotkey event, so skip registering rfkill hotkey if
+>>>> HPQ6001 is present.
+>>>>
+>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>> ---
+>>>> drivers/platform/x86/intel-hid.c | 31 ++++++++++++++++++++++++++++++-
+>>>> 1 file changed, 30 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-
+>>>> hid.c
+>>>> index 9ee79b74311c..31091c8faf70 100644
+>>>> --- a/drivers/platform/x86/intel-hid.c
+>>>> +++ b/drivers/platform/x86/intel-hid.c
+>>>> @@ -25,6 +25,8 @@ static const struct acpi_device_id intel_hid_ids[] = {
+>>>> };
+>>>> MODULE_DEVICE_TABLE(acpi, intel_hid_ids);
+>>>>
+>>>> +static bool hp_wireless_present;
+>>>> +
+>>>> /* In theory, these are HID usages. */
+>>>> static const struct key_entry intel_hid_keymap[] = {
+>>>> 	/* 1: LSuper (Page 0x07, usage 0xE3) -- unclear what to do */
+>>>> @@ -49,6 +51,29 @@ static const struct key_entry intel_hid_keymap[] = {
+>>>> 	{ KE_END },
+>>>> };
+>>>>
+>>>> +static const struct key_entry intel_hid_no_rfkill_keymap[] = {
+>>>> +	/* 1: LSuper (Page 0x07, usage 0xE3) -- unclear what to do */
+>>>> +	/* 2: Toggle SW_ROTATE_LOCK -- easy to implement if seen in wild */
+>>>> +	{ KE_KEY, 3, { KEY_NUMLOCK } },
+>>>> +	{ KE_KEY, 4, { KEY_HOME } },
+>>>> +	{ KE_KEY, 5, { KEY_END } },
+>>>> +	{ KE_KEY, 6, { KEY_PAGEUP } },
+>>>> +	{ KE_KEY, 7, { KEY_PAGEDOWN } },
+>>>> +	/* 8: rfkill -- use hp-wireless instead */
+>>>> +	{ KE_KEY, 9, { KEY_POWER } },
+>>>> +	{ KE_KEY, 11, { KEY_SLEEP } },
+>>>> +	/* 13 has two different meanings in the spec -- ignore it. */
+>>>> +	{ KE_KEY, 14, { KEY_STOPCD } },
+>>>> +	{ KE_KEY, 15, { KEY_PLAYPAUSE } },
+>>>> +	{ KE_KEY, 16, { KEY_MUTE } },
+>>>> +	{ KE_KEY, 17, { KEY_VOLUMEUP } },
+>>>> +	{ KE_KEY, 18, { KEY_VOLUMEDOWN } },
+>>>> +	{ KE_KEY, 19, { KEY_BRIGHTNESSUP } },
+>>>> +	{ KE_KEY, 20, { KEY_BRIGHTNESSDOWN } },
+>>>> +	/* 27: wake -- needs special handling */
+>>>> +	{ KE_END },
+>>>> +};
+>>>> +
+>>>> /* 5 button array notification value. */
+>>>> static const struct key_entry intel_array_keymap[] = {
+>>>> 	{ KE_KEY,    0xC2, { KEY_LEFTMETA } },                /* Press */
+>>>> @@ -317,7 +342,8 @@ static int intel_hid_input_setup(struct platform_device
+>>>> *device)
+>>>> 	if (!priv->input_dev)
+>>>> 		return -ENOMEM;
+>>>>
+>>>> -	ret = sparse_keymap_setup(priv->input_dev, intel_hid_keymap, NULL);
+>>>> +	ret = sparse_keymap_setup(priv->input_dev, hp_wireless_present ?
+>>>> +			intel_hid_no_rfkill_keymap : intel_hid_keymap, NULL);
+>>>> 	if (ret)
+>>>> 		return ret;
+>>>>
+>>>> @@ -575,6 +601,9 @@ check_acpi_dev(acpi_handle handle, u32 lvl, void
+>>>> *context, void **rv)
+>>>> 			dev_info(&dev->dev,
+>>>> 				 "intel-hid: created platform device\n");
+>>>>
+>>>> +	if (!strcmp(acpi_device_hid(dev), "HPQ6001"))
+>>>> +		hp_wireless_present = true;
+>>
+>> (Resend with format removed)
+>>
+>> This can impact all HP systems that do not have this problem.
+> 
+> HP is certain that HPQ6001 should always be used over INT33D5.
 
-Yes that was going to be my first suggestion.
+and OEMs can change all the time.
 
->=20
-> >
-> > I would think this needs a better handshake in case hp-wireless was
-> unloaded
-> > or not present so the event could still come through intel-hid in this
-> > circumstance.
->=20
-> However, it's hard to determine if the other driver has finished
-> initialization or any form of cross module handshake.
-> Can you please point me to any good example if there's one?
+> 
+> If this patch breaks other platform, then we should fix HPQ6001 instead.
 
-Take a look at how drivers that use dell-wmi-descriptor work.  They can rel=
-y
-upon looking at -EPROBE_DEFER return code when trying to access the functio=
-nality
-and do a handoff.
+Looks like a firmware bug, and this is a workaround.
 
->=20
-> >
-> >> +
-> >> 	return AE_OK;
-> >> }
-> >>
-> >> --
-> >> 2.17.1
+In this case, both HP6001 and INT33D5 receive wireless toggle events -
+which is an incorrect firmware behaviour.
 
+In scenario that both HP6001 and INT33D5 are present and wireless toggle
+events are only sent to INT33D5 (a correct firmware behaviour), this
+patch will break and this is concerning.
+
+> 
+>> How about
+>> a DMI quirk that is limited to this particular system?
+> 
+> We should avoid using DMI quirk for this one, as this is to follow the HP's spec.
+
+INT33D5 is defined by Intel, and HP spec says an event from HP6001, and
+nothing about interactions with INT33D5.
+
+Workarounds are unavoidable. It doesn't have to be DMI quirks but it has
+to be done without affecting good systems.
+
+> 
+> Kai-Heng
+> 
+>>
+>>
+>>>
+>>> Just having the ACPI device present doesn't actually mean that the user
+>>> has a kernel compiled with hp-wireless or that it has finished initializing.
+>>>
+>>> I would think this needs a better handshake in case hp-wireless was unloaded
+>>> or not present so the event could still come through intel-hid in this
+>>> circumstance.
+>>>
+>>>> +
+>>>> 	return AE_OK;
+>>>> }
+>>>>
+>>>> --
+>>>> 2.17.1
+>>>
+>>
+>>
+>> -- 
+>> Cheers,
+>> Alex Hung
+> 
+
+
+-- 
+Cheers,
+Alex Hung
