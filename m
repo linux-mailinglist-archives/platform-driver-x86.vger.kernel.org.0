@@ -2,244 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1D101FD420
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Jun 2020 20:10:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA352002A1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 19 Jun 2020 09:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727044AbgFQSKN (ORCPT
+        id S1730312AbgFSHVY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 17 Jun 2020 14:10:13 -0400
-Received: from mail1.bemta24.messagelabs.com ([67.219.250.115]:39424 "EHLO
-        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726511AbgFQSKM (ORCPT
+        Fri, 19 Jun 2020 03:21:24 -0400
+Received: from www.zeus03.de ([194.117.254.33]:34384 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729080AbgFSHVY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 17 Jun 2020 14:10:12 -0400
-Received: from [100.112.135.148] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-4.bemta.az-b.us-west-2.aws.symcld.net id F0/FD-28867-28C5AEE5; Wed, 17 Jun 2020 18:10:10 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPIsWRWlGSWpSXmKPExsWS8eIhj25jzKs
-  4g7cdFhYP5qZbzD5sYzHn2VpGi9V7XjA7sHj8PsDosXvBZyaP9/uusnl83iQXwBLFmpmXlF+R
-  wJqxpr+RpeCrcsXRP+oNjHfluhg5OYQE/jNKPH2i2cXIBWS/YZT4uHkeG0iCTUBbYsuWX2C2i
-  ACzxIKp5xlBipgF3jNKnG+4wdzFyMEhLBAksfx9EUgNi4CqxJSLu1hBbF4Ba4kfk56xg9gSAv
-  IS7cu3g83hBKo50/WYBWKxisT9B0vYIOoFJU7OfAIWZwaqb946mxnClpA4+OIFM8QcBYm2HUv
-  ZIOwEiWUv7zBPYBSYhaR9FpL2WUjaFzAyr2I0TyrKTM8oyU3MzNE1NDDQNTQ00jU0NtU1NdVL
-  rNJN0ist1i1PLS7RNdJLLC/WK67MTc5J0ctLLdnECAz3lIJ28x2ML15/0DvEKMnBpCTKmx76K
-  k6ILyk/pTIjsTgjvqg0J7X4EKMMB4eSBO+LaKCcYFFqempFWmYOMPZg0hIcPEoivK8igdK8xQ
-  WJucWZ6RCpU4yKUuK8a0D6BEASGaV5cG2weL/EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZj
-  XGmQKT2ZeCdz0V0CLmYAWa4WDLS5JREhJNTA1qzrNulzJ0y3J4rVygzbz3Idh92fJsmklbjy8
-  7YCTzdVaT4NHj5MO3UtgY0wNF77Kt/zmBOkTiWH3LbdlrFo83dplqbtTQkHBkxdJml+vVu3xu
-  zApMPksb+TmJxw3ig1nPTUVChG4PP9m+Z5p8dJ/pr2YXHvh5NIAc2PVd4+2dDTWO1QzdcxI3e
-  S1cPV6w32vf3Ks4QpjNRR+UPfba/uONyz6mqv0n/rfOrKsXGKS39p4NVnWQA4nK57tXOIXuk7
-  +XaLhYqGwu/Fv3abedLsuNze9c7IX7NObJhjv3Jj99PzL5bEHT79YINz75/u9Zaye0e+uNOxT
-  8f/uUzv/Ukr5M60Jtd1CAcpvfqotDM1UYinOSDTUYi4qTgQAZ7YHAXIDAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-17.tower-355.messagelabs.com!1592417408!12302!1
-X-Originating-IP: [104.232.225.12]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.50.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 17443 invoked from network); 17 Jun 2020 18:10:09 -0000
-Received: from unknown (HELO lenovo.com) (104.232.225.12)
-  by server-17.tower-355.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Jun 2020 18:10:09 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 20DECBEE2DA589C38A6D;
-        Wed, 17 Jun 2020 14:10:08 -0400 (EDT)
-Received: from localhost.localdomain.com (10.64.81.212) by
- reswpmail04.lenovo.com (10.62.32.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1913.5; Wed, 17 Jun 2020 11:10:05 -0700
-From:   Mark Pearson <markpearson@lenovo.com>
-CC:     <ibm-acpi@hmh.eng.br>, <ibm-acpi-devel@lists.sourceforge.net>,
-        <platform-driver-x86@vger.kernel.org>, <bnocera@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Nitin Joshi <njoshi1@lenovo.com>,
-        Sugumaran <slacshiminar@lenovo.com>
-Subject: [RESEND PATCH v2] platform/x86: thinkpad_acpi: lap or desk mode interface
-Date:   Wed, 17 Jun 2020 14:09:37 -0400
-Message-ID: <20200617180937.14949-1-markpearson@lenovo.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <markpearson@lenovo.com>
-References: <markpearson@lenovo.com>
+        Fri, 19 Jun 2020 03:21:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Tx1HKfhcOXw7ejBWKidFnCtFoaUu
+        r9y0RAg5uUGEalE=; b=OrBsnhQJjJUlLKpVyJLvgJDRgFo6cVeSKwNw5whAk1AS
+        duWZ4NZ9Ch+3QWEsGdZREuHzzRqPWAfkp64Av2jnS/dA2KVd6SzqUUm7NBVOyIVj
+        GkNDuReFg/5jGv2PZfkYPbR8qhANBWxMzw9SkNK6sXj38epcHqUXGxog472xQc8=
+Received: (qmail 2435058 invoked from network); 19 Jun 2020 09:21:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jun 2020 09:21:20 +0200
+X-UD-Smtp-Session: l3s3148p1@FpZVvWqoYMdQT+F6
+Date:   Fri, 19 Jun 2020 09:21:19 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
+Message-ID: <20200619072119.GB1705@kunai>
+References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.64.81.212]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
+Content-Disposition: inline
+In-Reply-To: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-  Newer Lenovo Thinkpad platforms have support to identify whether the
-  system is on-lap or not using an ACPI DYTC event from the firmware.
 
-  This patch provides the ability to retrieve the current mode via sysfs
-  entrypoints and will be used by userspace for thermal mode and WWAN
-  functionality
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Co-developed-by: Nitin Joshi <njoshi1@lenovo.com>
-Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
-Reviewed-by: Sugumaran <slacshiminar@lenovo.com>
-Signed-off-by: Mark Pearson <markpearson@lenovo.com>
----
-Resend:
-- Adding Bastien Nocera to cc list as requested
-Changes in v2:
-- cleaned up initialisation sequence to be cleaner and avoid spamming
-  platforms that don't have DYTC with warning message. Tested on P52
-- Adding platform-driver-x86 mailing list for review as requested
+On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
+> I want to remove the above API this cycle, and just a few patches have
+> not made it into 5.8-rc1. They have been reviewed and most had been
+> promised to get into linux-next, but well, things happen. So, I hope it
+> is okay for everyone to collect them like this and push them via I2C for
+> 5.8-rc2.
+>=20
+> One minor exception is the media documentation patch which I simply have
+> missed so far, but it is trivial.
+>=20
+> And then, finally, there is the removal of the old API as the final
+> patch. Phew, that's been a long ride.
+>=20
+> I am open for comments, of course.
 
- drivers/platform/x86/thinkpad_acpi.c | 113 +++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+Applied to for-current, thanks!
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 0f704484ae1d..8f51bbba21cd 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -4049,6 +4049,7 @@ static bool hotkey_notify_6xxx(const u32 hkey,
- 		pr_debug("EC reports: Thermal Control Command set completed (DYTC)\n");
- 		/* recommended action: do nothing, we don't have
- 		 * Lenovo ATM information */
-+		tpacpi_driver_event(hkey);
- 		return true;
- 	case TP_HKEY_EV_THM_TRANSFM_CHANGED:
- 		pr_debug("EC reports: Thermal Transformation changed (GMTS)\n");
-@@ -9811,6 +9812,110 @@ static struct ibm_struct lcdshadow_driver_data = {
- 	.write = lcdshadow_write,
- };
- 
-+/*************************************************************************
-+ * DYTC subdriver, for the Lenovo performace mode feature
-+ */
-+
-+#define DYTC_CMD_GET      2 /*To get current IC function and mode*/
-+
-+#define DYTC_GET_ENABLE_MASK  0x1 /*0 = disabled, 1 = enabled*/
-+#define DYTC_GET_LAPMODE_SHIFT 17
-+
-+static int  dytc_lapmode;
-+static void dytc_lapmode_notify_change(void)
-+{
-+	sysfs_notify(&tpacpi_pdev->dev.kobj, NULL,
-+			"dytc_lapmode");
-+}
-+
-+static int dytc_command(int command)
-+{
-+	acpi_handle dytc_handle;
-+	int output;
-+
-+	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DYTC", &dytc_handle))) {
-+		/*Platform doesn't support DYTC*/
-+		return -ENODEV;
-+	}
-+	if (!acpi_evalf(dytc_handle, &output, NULL, "dd", command))
-+		return -EIO;
-+	return output;
-+}
-+
-+static int dytc_lapmode_get(void)
-+{
-+	int output;
-+
-+	output = dytc_command(DYTC_CMD_GET);
-+	if ((output == -ENODEV) || (output == -EIO))
-+		return output;
-+
-+	return ((output >> DYTC_GET_LAPMODE_SHIFT) &
-+				DYTC_GET_ENABLE_MASK);
-+}
-+
-+static void dytc_lapmode_refresh(void)
-+{
-+	int new_state;
-+
-+	new_state = dytc_lapmode_get();
-+	if ((new_state == -ENODEV) || (new_state == -EIO))
-+		return;
-+
-+	if (dytc_lapmode != new_state) {
-+		dytc_lapmode = new_state;
-+		dytc_lapmode_notify_change();
-+	}
-+}
-+
-+/* sysfs lapmode entry */
-+static ssize_t dytc_lapmode_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	if (dytc_lapmode < 0)
-+		return dytc_lapmode;
-+
-+	return snprintf(buf, PAGE_SIZE, "%d\n", dytc_lapmode);
-+}
-+
-+static DEVICE_ATTR_RO(dytc_lapmode);
-+
-+static struct attribute *dytc_attributes[] = {
-+	&dev_attr_dytc_lapmode.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group dytc_attr_group = {
-+	.attrs = dytc_attributes,
-+};
-+
-+static int tpacpi_dytc_init(struct ibm_init_struct *iibm)
-+{
-+	int res;
-+
-+	dytc_lapmode = dytc_lapmode_get();
-+
-+	if (dytc_lapmode < 0 && dytc_lapmode != -ENODEV)
-+		return dytc_lapmode;
-+
-+	res = sysfs_create_group(&tpacpi_pdev->dev.kobj,
-+				&dytc_attr_group);
-+
-+	return res;
-+}
-+
-+static void dytc_exit(void)
-+{
-+	sysfs_remove_group(&tpacpi_pdev->dev.kobj,
-+			&dytc_attr_group);
-+}
-+
-+static struct ibm_struct dytc_driver_data = {
-+	.name = "dytc",
-+	.exit = dytc_exit
-+};
-+
- /****************************************************************************
-  ****************************************************************************
-  *
-@@ -9858,6 +9963,10 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
- 
- 		mutex_unlock(&kbdlight_mutex);
- 	}
-+
-+	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED)
-+		dytc_lapmode_refresh();
-+
- }
- 
- static void hotkey_driver_event(const unsigned int scancode)
-@@ -10296,6 +10405,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
- 		.init = tpacpi_lcdshadow_init,
- 		.data = &lcdshadow_driver_data,
- 	},
-+	{
-+		.init = tpacpi_dytc_init,
-+		.data = &dytc_driver_data,
-+	},
- };
- 
- static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
--- 
-2.26.2
 
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7sZ2sACgkQFA3kzBSg
+KbZVtBAAjxj8/yCiqHPP8gPXOpd8hStQqYaqlvw6NW5ddjUNy8nDaA/ztSbvpdDv
+RKtamlqk9b6JKoOgP0Fxe6xQfysX5qdg9DOKGlAS+atbNTQNydlCovfYbUARyJtz
+RoiP0jzxCquuoLcSWAtGWzBhG350v33bysM+zVe4yakWp2ILF8Y1y5l+7/tgXFZB
+HbVGxYihsGm76WPlXRRACWrKB1HsieEPVUXDCzG9BLMicuy1Ly7en7UdhkiJnzpz
++Pk1OVCXpDHoKewKv2uK8sbf+TSy9hdesPCO40TZC1Oe1hB2fJGPOV3XsR0CZ7iS
+mC7vRPd3rNw62m4zMDxIX0Le5QlCQCpwiW8uSNj7IuadxM5p34b2J6cqTeQBEz5K
+y33mJTVybc2yClSvrFDnXNj1Zagz1M4vMVpDLGTBX45rzxmShlzl2inG9hVZblw8
+EMSYAefZUHfgc7HptbdTQsTQkjlS1Q5wg9lHXWXGdtFE/oEhOV/DGQOLQwlBH6jD
+shVnrzLQcr7mUgJCq2+x8dTs73TnupyVCcRIDh2iTXPmd6UGByIAUN5yTC5GkUIf
+wmtRQyJfYHNEvtdFC+jehCarVj0zO0JmzDX434FUDJMFvXa9a2vqJLORds5ASJl7
+3K+Xupy+eSX6trVDd7StjIQYraYbn2rFko60famD5ePLbfpGuDE=
+=kh1x
+-----END PGP SIGNATURE-----
+
+--LpQ9ahxlCli8rRTG--
