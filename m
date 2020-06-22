@@ -2,267 +2,197 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43D112023CF
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 20 Jun 2020 14:37:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82D052034E5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Jun 2020 12:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgFTMhO (ORCPT
+        id S1727772AbgFVKdA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 20 Jun 2020 08:37:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46952 "EHLO
+        Mon, 22 Jun 2020 06:33:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29703 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728097AbgFTMhN (ORCPT
+        with ESMTP id S1726710AbgFVKdA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 20 Jun 2020 08:37:13 -0400
+        Mon, 22 Jun 2020 06:33:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592656631;
+        s=mimecast20190719; t=1592821978;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=0RorBc5ECZc8+1+a5B1yD6cCotC1YvdgMnIN6XU4Cgs=;
-        b=hL2+O+9oQvG2FYAwmpJVEMp3IbfAKU8qsUcXBOT8EVvq8uwcn8acWkFk0e8iiyzaxc8P/9
-        TYcQ9nLmXHQz+6QOwP9TlNGgA2PgLtxAQcrpycjbdMLXVAlV8+HjVvuObahKIzRFFqIURJ
-        WF7BoJyALlZDX5Hm/W2zuFyggoVcUko=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5Hbf6bzasXV7iok78UyW9hFhq6LTz/wEypJw4FzF7j8=;
+        b=ZRTWl9sEEv1IHz45SG4PAwIFVWu8f/Cx53AjnXkSM/ljXencJwIDUFr/vcut06KmDujhjh
+        NasG+Z3gHfc95P+RpzElGwaNXkFFGHhJ5EM4uMoMuyBGF37858lN+JcMfKvyYI2k+CGUNm
+        jMq/1DZ0xNO+ECuyUCFdaaw2Mzqw2Uk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-Mi6Z89G7OGSHtQjHy7reew-1; Sat, 20 Jun 2020 08:37:09 -0400
-X-MC-Unique: Mi6Z89G7OGSHtQjHy7reew-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-508-Fgp_mR5xOsmovVF5hrsUFA-1; Mon, 22 Jun 2020 06:32:56 -0400
+X-MC-Unique: Fgp_mR5xOsmovVF5hrsUFA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFA25107ACF4;
-        Sat, 20 Jun 2020 12:37:07 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-42.ams2.redhat.com [10.36.112.42])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C520D7C1E0;
-        Sat, 20 Jun 2020 12:37:06 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/x86: Add new intel_atomisp2_led driver
-Date:   Sat, 20 Jun 2020 14:37:05 +0200
-Message-Id: <20200620123705.72625-1-hdegoede@redhat.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 228168018AD;
+        Mon, 22 Jun 2020 10:32:55 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 196A55BADC;
+        Mon, 22 Jun 2020 10:32:55 +0000 (UTC)
+Received: from zmail20.collab.prod.int.phx2.redhat.com (zmail20.collab.prod.int.phx2.redhat.com [10.5.83.23])
+        by colo-mx.corp.redhat.com (Postfix) with ESMTP id E4D081809547;
+        Mon, 22 Jun 2020 10:32:54 +0000 (UTC)
+Date:   Mon, 22 Jun 2020 06:32:54 -0400 (EDT)
+From:   Bastien Nocera <bnocera@redhat.com>
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>
+Message-ID: <4493424.24738639.1592821974039.JavaMail.zimbra@redhat.com>
+In-Reply-To: <89c38303-9463-d671-1f86-e0c6a433748c@lenovo.com>
+References: <markpearson@lenovo.com> <20200617180937.14949-1-markpearson@lenovo.com> <1905013469.24563660.1592574774373.JavaMail.zimbra@redhat.com> <89c38303-9463-d671-1f86-e0c6a433748c@lenovo.com>
+Subject: Re: [External] Re: [RESEND PATCH v2] platform/x86: thinkpad_acpi:
+ lap or desk mode interface
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.36.115.129, 10.4.195.16]
+Thread-Topic: platform/x86: thinkpad_acpi: lap or desk mode interface
+Thread-Index: RQe/kjp3lLj8LS7KIWz6C7tRpdLINg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Many Bay Trail and Cherry Trail devices come with a camera attached to
-Intel's Image Signal Processor. Linux currently does not have a driver for
-these, so they do not work as a camera.
 
-Some of these camera's have a status LED which is controlled through a GPIO
-in some cases, e.g. on the Asus T100TA and Asus T200TA, there is a firmware
-issue where the LED gets turned on at boot.
 
-This commit adds a Linux LED driver for the camera LED on these devices.
-This driver will turn the LED off at boot and also allows controlling the
-LED (so the user can repurpose it) through the sysfs LED interface.
+----- Original Message -----
+> Hi Bastien
+> 
+> On 6/19/2020 9:52 AM, Bastien Nocera wrote:
+> > Hey Mark,
+> > 
+> > ----- Original Message -----
+> <snip>
+> >>   
+> >> +/*************************************************************************
+> >> + * DYTC subdriver, for the Lenovo performace mode feature
+> >> + */
+> > 
+> > I don't think this should mention the performance mode, as it's a lap/table
+> > detection mode. Do we need to call that "DYTC"? "lapmode"? "lap_detection"?
+> > Or does the DYTC interface offer more functionality that we'd export in the
+> > future?
+> > 
+> I've just noticed that I can't spell performance either which is
+> embarrassing :)
+> 
+> Originally I developed this code for a thermal modes feature - but
+> this portion of it is also needed for WWAN so we pulled out just this
+> piece as the first bit to get in. Having WWAN available for users is
+> more important than the thermal mode interface (there are a lot of users
+> who want WWAN working properly on our laptops).
+> 
+> So...yes, DYTC does offer more functionality and I'm planning on
+> proposing the thermal patch as soon as this one makes it through, but I
+> agree that in the context of this patch the comment is misleading. I
+> will clean that up for this version.
 
-Which GPIO is attached to the LED is usually not described in the ACPI
-tables, so this driver contains per-system info about the GPIO inside the
-driver. This means that this driver only works on systems the driver knows
-about.
+If you can only propose this patch right now, maybe change the label, and change
+it again when the functionality is expanded? I'm just thinking that we want to avoid
+a case where the comments mention a performance mode, but we're looking at
+a lap detection instead.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- Rebase on top of v5.8-rc1
-- Use PTR_ERR_OR_ZERO
----
- MAINTAINERS                               |   6 ++
- drivers/platform/x86/Kconfig              |  21 ++++
- drivers/platform/x86/Makefile             |   1 +
- drivers/platform/x86/intel_atomisp2_led.c | 116 ++++++++++++++++++++++
- 4 files changed, 144 insertions(+)
- create mode 100644 drivers/platform/x86/intel_atomisp2_led.c
+> >> +
+> >> +#define DYTC_CMD_GET      2 /*To get current IC function and mode*/
+> > 
+> > For this comment and all the ones below, space after "/*" and before "*/"
+> > 
+> Ack
+> 
+> >> +#define DYTC_GET_ENABLE_MASK  0x1 /*0 = disabled, 1 = enabled*/
+> > 
+> > Is that necessary?
+> > 
+> Another hangover in that the other fields used for the thermal mode have
+> more interesting masks and this fitted in with that. I can remove for
+> now if it's really a problem.
+> 
+> >> +#define DYTC_GET_LAPMODE_SHIFT 17
+> > 
+> > You'd probably want to call this "bit" rather than shift. We shift it to
+> > read
+> > the value, but 17 is the bit's position. (See BIT() usage in the driver)
+> > 
+> Ack
+> > Do you want to add a comment here? Is there anything else that could be
+> > documented (the other bits, which versions of firmware would have that, if
+> > there's a publicly available version, or which hardware if publicly
+> > available)
+> > 
+> So what is the preference normally? More pieces will definitely be made
+> public when I release the thermal mode updates but I assumed we kept
+> things related only to the code used. I can add more detail here if that
+> helps. Not trying to hide anything :)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 301330e02bca..5535761f2b54 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8600,6 +8600,12 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_atomisp2_pm.c
- 
-+INTEL ATOMISP2 LED DRIVER
-+M:	Hans de Goede <hdegoede@redhat.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/x86/intel_atomisp2_led.c
-+
- INTEL BROXTON PMC DRIVER
- M:	Mika Westerberg <mika.westerberg@linux.intel.com>
- M:	Zha Qipeng <qipeng.zha@intel.com>
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0581a54cf562..318e083f38b3 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -761,6 +761,27 @@ config INTEL_ATOMISP2_PM
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called intel_atomisp2_pm.
- 
-+config INTEL_ATOMISP2_LED
-+	tristate "Intel AtomISP2 camera LED driver"
-+	depends on GPIOLIB && LEDS_GPIO
-+	help
-+	  Many Bay Trail and Cherry Trail devices come with a camera attached
-+	  to Intel's Image Signal Processor. Linux currently does not have a
-+	  driver for these, so they do not work as a camera. Some of these
-+	  camera's have a LED which is controlled through a GPIO.
-+
-+	  Some of these devices have a firmware issue where the LED gets turned
-+	  on at boot. This driver will turn the LED off at boot and also allows
-+	  controlling the LED (repurposing it) through the sysfs LED interface.
-+
-+	  Which GPIO is attached to the LED is usually not described in the
-+	  ACPI tables, so this driver contains per-system info about the GPIO
-+	  inside the driver, this means that this driver only works on systems
-+	  the driver knows about.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called intel_atomisp2_led.
-+
- config INTEL_CHT_INT33FE
- 	tristate "Intel Cherry Trail ACPI INT33FE Driver"
- 	depends on X86 && ACPI && I2C && REGULATOR
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 2b85852a1a87..7a78cc0bb249 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -70,6 +70,7 @@ obj-$(CONFIG_THINKPAD_ACPI)	+= thinkpad_acpi.o
- 
- # Intel
- obj-$(CONFIG_INTEL_ATOMISP2_PM)		+= intel_atomisp2_pm.o
-+obj-$(CONFIG_INTEL_ATOMISP2_LED)	+= intel_atomisp2_led.o
- obj-$(CONFIG_INTEL_CHT_INT33FE)		+= intel_cht_int33fe.o
- intel_cht_int33fe-objs			:= intel_cht_int33fe_common.o \
- 					   intel_cht_int33fe_typec.o \
-diff --git a/drivers/platform/x86/intel_atomisp2_led.c b/drivers/platform/x86/intel_atomisp2_led.c
-new file mode 100644
-index 000000000000..5935dfca166f
---- /dev/null
-+++ b/drivers/platform/x86/intel_atomisp2_led.c
-@@ -0,0 +1,116 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Driver for controlling LEDs for cameras connected to the Intel atomisp2
-+ * The main purpose of this driver is to turn off LEDs which are on at boot.
-+ *
-+ * Copyright (C) 2020 Hans de Goede <hdegoede@redhat.com>
-+ */
-+
-+#include <linux/dmi.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/leds.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/workqueue.h>
-+
-+/* This must be leds-gpio as the leds-gpio driver binds to the name */
-+#define DEV_NAME		"leds-gpio"
-+
-+static const struct gpio_led atomisp2_leds[] = {
-+	{
-+		.name = "atomisp2::camera",
-+		.default_state  = LEDS_GPIO_DEFSTATE_OFF,
-+	},
-+};
-+
-+static const struct gpio_led_platform_data atomisp2_leds_pdata = {
-+	.num_leds	= ARRAY_SIZE(atomisp2_leds),
-+	.leds		= atomisp2_leds,
-+};
-+
-+static struct gpiod_lookup_table asus_t100ta_lookup = {
-+	.dev_id = DEV_NAME,
-+	.table = {
-+		GPIO_LOOKUP_IDX("INT33FC:02", 8, NULL, 0, GPIO_ACTIVE_HIGH),
-+		{ }
-+	}
-+};
-+
-+static struct gpiod_lookup_table asus_t100chi_lookup = {
-+	.dev_id = DEV_NAME,
-+	.table = {
-+		GPIO_LOOKUP_IDX("INT33FC:01", 24, NULL, 0, GPIO_ACTIVE_HIGH),
-+		{ }
-+	}
-+};
-+
-+static const struct dmi_system_id atomisp2_led_systems[] __initconst = {
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
-+		},
-+		.driver_data = &asus_t100ta_lookup,
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
-+		},
-+		.driver_data = &asus_t100ta_lookup,
-+	},
-+	{
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100CHI"),
-+		},
-+		.driver_data = &asus_t100chi_lookup,
-+	},
-+	{} /* Terminating entry */
-+};
-+MODULE_DEVICE_TABLE(dmi, atomisp2_led_systems);
-+
-+static struct gpiod_lookup_table *gpio_lookup;
-+static struct platform_device *pdev;
-+
-+static int __init atomisp2_led_init(void)
-+{
-+	const struct dmi_system_id *system;
-+
-+	system = dmi_first_match(atomisp2_led_systems);
-+	if (!system)
-+		return -ENODEV;
-+
-+	gpio_lookup = system->driver_data;
-+	gpiod_add_lookup_table(gpio_lookup);
-+
-+	pdev = platform_device_register_resndata(NULL,
-+						 DEV_NAME, PLATFORM_DEVID_NONE,
-+						 NULL, 0, &atomisp2_leds_pdata,
-+						 sizeof(atomisp2_leds_pdata));
-+	if (IS_ERR(pdev))
-+		gpiod_remove_lookup_table(gpio_lookup);
-+
-+	return PTR_ERR_OR_ZERO(pdev);
-+}
-+
-+static void __exit atomisp2_led_cleanup(void)
-+{
-+	platform_device_unregister(pdev);
-+	gpiod_remove_lookup_table(gpio_lookup);
-+}
-+
-+module_init(atomisp2_led_init);
-+module_exit(atomisp2_led_cleanup);
-+
-+/*
-+ * The ACPI INIT method from Asus WMI's code on the T100TA and T200TA turns the
-+ * LED on (without the WMI interface allowing further control over the LED).
-+ * Ensure we are loaded after asus-nb-wmi so that we turn the LED off again.
-+ */
-+MODULE_SOFTDEP("pre: asus_nb_wmi");
-+MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com");
-+MODULE_DESCRIPTION("Intel atomisp2 camera LED driver");
-+MODULE_LICENSE("GPL");
--- 
-2.26.2
+A comment with an explanation of what all the bits correspond to would be
+very useful, it would allow the community to extend the driver, if the
+functionality offered is deemed useful.
+
+> >> +static int  dytc_lapmode;
+> >> +static void dytc_lapmode_notify_change(void)
+> >> +{
+> >> +	sysfs_notify(&tpacpi_pdev->dev.kobj, NULL,
+> >> +			"dytc_lapmode");
+> >> +}
+> >> +
+> >> +static int dytc_command(int command)
+> >> +{
+> >> +	acpi_handle dytc_handle;
+> >> +	int output;
+> >> +
+> >> +	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DYTC", &dytc_handle))) {
+> >> +		/*Platform doesn't support DYTC*/
+> >> +		return -ENODEV;
+> >> +	}
+> >> +	if (!acpi_evalf(dytc_handle, &output, NULL, "dd", command))
+> >> +		return -EIO;
+> >> +	return output;
+> >> +}
+> >> +
+> >> +static int dytc_lapmode_get(void)
+> >> +{
+> >> +	int output;
+> >> +
+> >> +	output = dytc_command(DYTC_CMD_GET);
+> >> +	if ((output == -ENODEV) || (output == -EIO))
+> >> +		return output;
+> >> +
+> >> +	return ((output >> DYTC_GET_LAPMODE_SHIFT) &
+> >> +				DYTC_GET_ENABLE_MASK);
+> > 
+> > Use BIT() instead? eg.
+> > return (output & BIT(DYTC_GET_LAPMODE_SHIFT));
+> > 
+> Ack
+> >> +}
+> >> +
+> >> +static void dytc_lapmode_refresh(void)
+> >> +{
+> >> +	int new_state;
+> >> +
+> >> +	new_state = dytc_lapmode_get();
+> >> +	if ((new_state == -ENODEV) || (new_state == -EIO))
+> >> +		return;
+> > 
+> > You could also return early if "dytc_lapmode == new_state".
+> > 
+> Good point.
+> 
+> > Rest looks good to me.
+> > 
+> Great - thanks for the review. I'll prepare the updates and if there's
+> any feedback on the questions above please let me know
+> 
+> Mark
+> 
+> 
 
