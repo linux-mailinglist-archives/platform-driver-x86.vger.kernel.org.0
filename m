@@ -2,151 +2,113 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EAFE2054ED
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jun 2020 16:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3374E205505
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jun 2020 16:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732866AbgFWOh6 (ORCPT
+        id S1732821AbgFWOlo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Jun 2020 10:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732825AbgFWOh5 (ORCPT
+        Tue, 23 Jun 2020 10:41:44 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:46337 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732738AbgFWOlo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Jun 2020 10:37:57 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF52EC061755
-        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jun 2020 07:37:56 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id l17so3213150wmj.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jun 2020 07:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
-        b=S/38hRP9jJeEO0648j5i0HwQUkmAn8MPLasoGaNt8LdCbQqEVydbz8k0QMIB7TcSxT
-         mB8W7q1gDfv+vrDORU79pdT175xGSNJNn9FeFSOeCambF0o+fNWV7YZc6bTiG/1Z6IfR
-         QyqfeR3sUuTOxKqqFW+5Mj6QQ1oGWLVdX8LKSRdVg1scMMyLuhkobEB7qpI1w1w/qH7z
-         jwaDjR41jrisZougD+3Uuakf/CAy6jS5bQHpWHTAieha1OiW3LJqSFRQr/vLShLUiHPk
-         yPP9bihWulsfYdzcIcoqxokyu81EfkMggDs54t64ujxNzfIYZShzXVRQcjXTRd7mV3TJ
-         lmtg==
+        Tue, 23 Jun 2020 10:41:44 -0400
+Received: by mail-qk1-f196.google.com with SMTP id r22so17482710qke.13
+        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jun 2020 07:41:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
-        b=lM/twEC0lniIONNwpzkWk/CwBcRpPf3p+qFlkSEobzk7xqVkxvb7BK2jeyOx7KoPQk
-         eT4qKtXeGFqfONIj9EJmtc02GrkdhTW1AqipC8TPzV4VnU6P/WMXKbqMhU2b9UOyM31u
-         QZLJN9qpz9GYiHvZEfXx7ZqutT4tQwCJHKYImWimjj/iMqCiOKi3dZxfe93M8qJ1InLW
-         3uDjU6kQV6qlq4PBxE0PDejfBT4XF/7MFoxkQ6ENsRKWJSbDY6qWhiQb0IAAe4PQrm55
-         Z/ynKWy3/YjYSQWrkoMXnAunLM+n+x13PEKhRcqUqYytfhrBdy9rRMomaC7itZySR30y
-         1y3A==
-X-Gm-Message-State: AOAM533VDmF2SBW7ybErQwcSdtw92oIZjjUGACLkXgA8bMKYwnWZtiWF
-        3yM1zmGmOO9xsoGEqzIbstOcgw==
-X-Google-Smtp-Source: ABdhPJzFhA2lwUjrw8Uh+XlYz4CBl1VsesMxrJl8KjSj+B5PacC6wuAYbyLBKbmaRzqOKAPJJSOTSQ==
-X-Received: by 2002:a1c:9943:: with SMTP id b64mr24802648wme.102.1592923075430;
-        Tue, 23 Jun 2020 07:37:55 -0700 (PDT)
-Received: from [192.168.0.41] (lns-bzn-59-82-252-131-168.adsl.proxad.net. [82.252.131.168])
-        by smtp.googlemail.com with ESMTPSA id h14sm6949375wrt.36.2020.06.23.07.37.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 07:37:54 -0700 (PDT)
-Subject: Re: [PATCH v4 00/11] Stop monitoring disabled devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
- <20200528192051.28034-1-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <9cbffad6-69e4-0b33-4640-fde7c4f6a6e7@linaro.org>
-Date:   Tue, 23 Jun 2020 16:37:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oxwMlukpml8/6TD/NHdVG9LiB8RZG6IS34cYsElW7qI=;
+        b=UVjiqvBiFHI7noXZbV1lAbVBSnH6kJDcMaDHxBo+bQNVeUQbdme2eqiWBVIC4wpfTX
+         ltQox5kYo4SYVadUL+QE9yxOhMakngsHdGP+VAkhOWXLP4CQTolssewoWQSZ7K/o5E++
+         VWHmk8TU2Tdfhrhf7Uwvg53nxmD3j7PdPINwLGB2twpEIcGGxn/XTyg6L+loIUlTt/u9
+         arPSKSTv0Jl1gIf7gtuSFFHNDzd0aB6A2INSMTZK3FZGX0M2Wh7dpv/6RRFnBPF1WbcW
+         I1P336mLTisCQn4G2oLudI6f5dZOcojr0KTcC1eidt+GNnAa1shOvX5i7nEAWTif4EKC
+         bFVA==
+X-Gm-Message-State: AOAM530g3ydmbS/Aovswcw87ps/yO/SaNw91IgHDCY/RD19L6wMXIQ1b
+        EO2VVBBl99iADSlDNNJusYvlBRu6psx2k2H6N/nskVjwWDE=
+X-Google-Smtp-Source: ABdhPJzI5A7eIbxTYeRTQNTewCnDOabtabKE8Sugnwa0d9mh8YJmXKwA/617bzaKZzB8CFNSr2diwC5Sf0LKUYbjVj8=
+X-Received: by 2002:a37:9b01:: with SMTP id d1mr20516177qke.65.1592923303299;
+ Tue, 23 Jun 2020 07:41:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200528192051.28034-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Nick Shipp <git@segbrk.com>
+Date:   Tue, 23 Jun 2020 10:42:04 -0400
+Message-ID: <CADjEuPvqjF+Z7ExHj-kKkzU07EbB62686aOgcUh=qYiSZwQvvg@mail.gmail.com>
+Subject: [RESEND PATCH] system76-acpi: Fix brightness_set schedule while atomic
+To:     jeremy@system76.com, productdev@system76.com,
+        platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+And here's a fix for my email client and bad copy-paste, sorry about that noise.
 
-Hi Andrzej,
+`system76_set' was set as an LED `brightness_set' callback, but it calls
+`acpi_evaluate_object' which is not atomic-safe. Switched to the
+`brightness_set_blocking' LED callback instead.
 
+Signed-off-by: Nick Shipp <git@segbrk.com>
+---
+ drivers/platform/x86/system76_acpi.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-On 28/05/2020 21:20, Andrzej Pietrasiewicz wrote:
-> There is already a reviewed v3 (not to be confused with RFC v3), which can
-> be considered for merging:
-> 
-> https://lore.kernel.org/linux-pm/20200423165705.13585-2-andrzej.p@collabora.com/
-> 
-> Let me cite Bartlomiej Zolnierkiewicz:
-> 
-> "I couldn't find the problems with the patch itself (no new issues
-> being introduced, all changes seem to be improvements over the current
-> situation).
-> 
-> Also the patch is not small but it also not that big and it mostly
-> removes the code:
-> 
-> 17 files changed, 105 insertions(+), 244 deletions(-)"
+diff --git a/drivers/platform/x86/system76_acpi.c
+b/drivers/platform/x86/system76_acpi.c
+index 4f6e4c342382..c14fd22ba196 100644
+--- a/drivers/platform/x86/system76_acpi.c
++++ b/drivers/platform/x86/system76_acpi.c
+@@ -103,12 +103,12 @@ static enum led_brightness ap_led_get(struct
+led_classdev *led)
+ }
 
+ // Set the airplane mode LED brightness
+-static void ap_led_set(struct led_classdev *led, enum led_brightness value)
++static int ap_led_set(struct led_classdev *led, enum led_brightness value)
+ {
+        struct system76_data *data;
 
-Thanks for this nice cleanup. Given the series was tested, reviewed and
-acked, I would like to merge it as soon as possible.
+        data = container_of(led, struct system76_data, ap_led);
+- system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
++ return system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
+ }
 
-Can you send the V5 with the EXPORT_SYMBOL_GPL fixed ? So the series can
-enter the integration loop.
+ // Get the last set keyboard LED brightness
+@@ -121,13 +121,13 @@ static enum led_brightness kb_led_get(struct
+led_classdev *led)
+ }
 
-Thanks
+ // Set the keyboard LED brightness
+-static void kb_led_set(struct led_classdev *led, enum led_brightness value)
++static int kb_led_set(struct led_classdev *led, enum led_brightness value)
+ {
+        struct system76_data *data;
 
- -- Daniel
+        data = container_of(led, struct system76_data, kb_led);
+        data->kb_brightness = value;
+- system76_set(data, "SKBL", (int)data->kb_brightness);
++ return system76_set(data, "SKBL", (int)data->kb_brightness);
+ }
 
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+ // Get the last set keyboard LED color
+@@ -313,7 +313,7 @@ static int system76_add(struct acpi_device *acpi_dev)
+        data->ap_led.name = "system76_acpi::airplane";
+        data->ap_led.flags = LED_CORE_SUSPENDRESUME;
+        data->ap_led.brightness_get = ap_led_get;
+- data->ap_led.brightness_set = ap_led_set;
++ data->ap_led.brightness_set_blocking = ap_led_set;
+        data->ap_led.max_brightness = 1;
+        data->ap_led.default_trigger = "rfkill-none";
+        err = devm_led_classdev_register(&acpi_dev->dev, &data->ap_led);
+@@ -323,7 +323,7 @@ static int system76_add(struct acpi_device *acpi_dev)
+        data->kb_led.name = "system76_acpi::kbd_backlight";
+        data->kb_led.flags = LED_BRIGHT_HW_CHANGED | LED_CORE_SUSPENDRESUME;
+        data->kb_led.brightness_get = kb_led_get;
+- data->kb_led.brightness_set = kb_led_set;
++ data->kb_led.brightness_set_blocking = kb_led_set;
+        if (acpi_has_method(acpi_device_handle(data->acpi_dev), "SKBC")) {
+                data->kb_led.max_brightness = 255;
+                data->kb_toggle_brightness = 72;
+--
+2.27.0
