@@ -2,67 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C689420525F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jun 2020 14:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8AC20538C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Jun 2020 15:35:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732578AbgFWMZA (ORCPT
+        id S1732691AbgFWNfW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Jun 2020 08:25:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35296 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732507AbgFWMZA (ORCPT
+        Tue, 23 Jun 2020 09:35:22 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:59518 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732616AbgFWNfW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Jun 2020 08:25:00 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDCFAC061573
-        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jun 2020 05:24:59 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id g21so3019281wmg.0
-        for <platform-driver-x86@vger.kernel.org>; Tue, 23 Jun 2020 05:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=pbeEfNxQs8XaKtVBg6l8ZMg/71mv0teckswC1t17gFn9ZvLXddvkXxTefT4YHRPYjF
-         Jl0uYdG4VmmIBXnBN3Juux/HzbuSZHtcZ7RADyWzZdmSHcGWNInWDBL9/JjoQz0WidGP
-         7zTrHjLFEwIY85dbzWURc8WmsrsUrZSsE4WGygPOyCLuSq7KcXykNfjcGfWJdka5Mc/5
-         b1H2JXAyejXJ1BE4qmSkMPTCmnwXGJbJvRl9USk1mkrfxHuQ1mI6auGJkpsLa+aVXu4I
-         MXDYeEZxUMEetKhKkNCcnwq59XfdAwpoT/9yI9ClZZPYOGXF5ZKebj8zofwFw64X3mET
-         Cb0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=IYAT+61C4Gs3X6i9HvqMdbJtoM8+5W1rvq3BZ9dA3jcntuidQSe9mIA5GXFAleR98V
-         V1YYoEJoi3v+qZD27cmdjUT73LpkD0klty4X8otrj5B1fA2I5KTsoAJU1uHmEChSbM5L
-         5OGATbLoQey8pF7dKsX1/TpjXIqBMaPB52SAFp2qOolE88kl4P3/152zP5n3D4elZCBd
-         zv/TP2SrHG9P3iwb0AiUKo0HmFDR8No+wCwRZ7mJAlpvaCL67JWBGo2Q4mX3vLgAVkV6
-         DD6rsu3WUjRc05bvhjLXj/y0yzNYtTg/lmkV9FHRqceDVCzNzpjZRyHAVCyOxYb5xsoZ
-         iFeg==
-X-Gm-Message-State: AOAM532u7p877g0qBF8bYuZBfQnnK9xaf1LKQ6IlG20d512U4Tdmz5ZL
-        jpzLitn5JGGImx/6E61hPjRHrBK8Q841yb0nim0=
-X-Google-Smtp-Source: ABdhPJycGA6bqMM2wm91B5Pa62iKYtJ29naJK7LrC/Uvxecjb6A0WLx1LHsyMsPFsTB2nm0cq+giCwtP9Lf4MhKMnWg=
-X-Received: by 2002:a7b:c441:: with SMTP id l1mr22684308wmi.7.1592915098789;
- Tue, 23 Jun 2020 05:24:58 -0700 (PDT)
+        Tue, 23 Jun 2020 09:35:22 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 5FFD01C0C0A; Tue, 23 Jun 2020 15:35:19 +0200 (CEST)
+Date:   Tue, 23 Jun 2020 15:35:12 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Micha?? Miros??aw <mirq-linux@rere.qmqm.pl>,
+        kernel@collabora.com
+Subject: Re: [PATCH v2] Input: document inhibiting
+Message-ID: <20200623133512.GA2783@bug>
+References: <f9007f37-c526-5fa4-3188-a554d2434177@redhat.com>
+ <20200617101822.8558-1-andrzej.p@collabora.com>
 MIME-Version: 1.0
-Received: by 2002:a5d:42c4:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 05:24:58
- -0700 (PDT)
-Reply-To: bektery@outlook.com
-From:   YAVUZ BEKTER <bariskamx@gmail.com>
-Date:   Tue, 23 Jun 2020 05:24:58 -0700
-Message-ID: <CABZeqGcjYHJAYN+YG_sL0cnB8FyeLEoX=X3NCXuS36AajhG8TA@mail.gmail.com>
-Subject: Hello.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200617101822.8558-1-andrzej.p@collabora.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am the foreign operations director of Bank of Turkey.
-My name is Mr, Yavuz. I have a sensitive investment project to discuss
-with you, please reply now.
-________________________
-Ik ben de directeur buitenlandse activiteiten van de Bank of Turkey.
-Mijn naam is meneer Yavuz. Ik moet een gevoelig investeringsproject bespreken
-met u, antwoord dan nu.
+Hi!
+
+> +Inhibiting input devices
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Inhibiting a device means ignoring input events from it. As such it is about maintaining
+> +relationships with input handlers - either already existing relationships, or relationships
+> +to be established while the device is in inhibited state.
+> +
+> +If a device is inhibited, no input handler will receive events from it.
+> +
+> +The fact that nobody wants events from the device is exploited further, by calling device's
+> +close() (if there are users) and open() (if there are users) on inhibit and uninhibit
+> +operations, respectively. Indeed, the meaning of close() is to stop providing events
+> +to the input core and that of open() is to start providing events to the input core.
+> +
+> +Calling the device's close() method on inhibit (if there are users) allows the driver
+> +to save power. Either by directly powering down the device or by releasing the
+> +runtime-pm reference it got in open() when the driver is using runtime-pm.
+> +
+> +Inhibiting and uninhibiting are orthogonal to opening and closing the device by input
+> +handlers. Userspace might want to inhibit a device in anticipation before any handler is
+> +positively matched against it.
+
+Ok.
+
+> +Inhibiting and uninhibiting are orthogonal to device's being a wakeup source, too. 
+> Being a +wakeup source plays a role when the system is sleeping, not when the system is 
+> operating. +How drivers should program their interaction between inhibiting, sleeping 
+> and being a wakeup +source is driver-specific. + +Taking the analogy with the network 
+
+I don't believe making interaction driver-specific is good idea. We should decide
+what reasonable behaviour is and then make drivers implement that...
+
+Best regards,
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
