@@ -2,129 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F0E20763A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jun 2020 17:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED8B0207ACA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jun 2020 19:51:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403833AbgFXPAY (ORCPT
+        id S2405630AbgFXRvy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 24 Jun 2020 11:00:24 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41149 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389043AbgFXPAX (ORCPT
+        Wed, 24 Jun 2020 13:51:54 -0400
+Received: from mga14.intel.com ([192.55.52.115]:13102 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405615AbgFXRvy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 24 Jun 2020 11:00:23 -0400
-Received: by mail-ot1-f67.google.com with SMTP id k15so2167936otp.8;
-        Wed, 24 Jun 2020 08:00:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eykhWQcNNxAwrKLr1Dkv70utXgS770FMiPrM6b8KPjc=;
-        b=hkHeIouE0X74Rn2j8Igk/XY/4jOLE8DlfLi2yerUJcVKFK2NOOdBPJbwUwayFt9GQG
-         WS5VZ/1HkAVQNdCD4Qw61wOfGp6p+kXSgTgiww5uGvWDHsnEHfavrw6TnCFiUMRwADaM
-         Gd+nb664kj4N2CTEWKSFKzOnyCSUoM4CJG3iDxh/Lw+ARo+KhKTWSa8WSAFoE6O8KrIX
-         QqKdDMntr1VZNUZn6VVodgXBpCRtWjQhYS0+9AUQSTZC3SGGEvb1PV8vyNRtbJ0zOqwk
-         BQ8u0iVIWuDqnwsJPwDKJqWcWWf2h1JXRTSBmURpbESG15E4O2MZV9ck1Df4AXDW5atK
-         cjyQ==
-X-Gm-Message-State: AOAM5336mnoguDHEPE24ywgzFB52m96XoeX9G0UfGu4pFJP+u37TYJUY
-        FSdV+YfFLbHlIQYcFgyWWiYMoRFz/kyJSlvVZAw=
-X-Google-Smtp-Source: ABdhPJxTfu2nRQ0ID+eDw+0oWm7stVdBgfOBXZxtPamhCD54VzLFyKUSp9gBGIPEG0mIIAqQQkSpe0tvPBek2gXWEWg=
-X-Received: by 2002:a9d:7d15:: with SMTP id v21mr22236731otn.118.1593010820398;
- Wed, 24 Jun 2020 08:00:20 -0700 (PDT)
+        Wed, 24 Jun 2020 13:51:54 -0400
+IronPort-SDR: MmgDRT96SNo8OF812dgKMJUE4HyGNjEItvKlCnar78OlyLzEt+YRac6DrHKtH2RthRYcrrs0Bv
+ Yis6E8KJ86FA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="143681609"
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
+   d="scan'208";a="143681609"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2020 10:51:53 -0700
+IronPort-SDR: vVhEFjpJemP1joTx2o7ekm1G0f0OcUxqJ41KgJIu1L0UZ2lfLrVkMbTMPcQFv/wffoHbMHCWMx
+ iU8LzwaSdw7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
+   d="scan'208";a="292693089"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
+  by orsmga007.jf.intel.com with ESMTP; 24 Jun 2020 10:51:53 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     andy@infradead.org, dvhart@infradead.org
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] platform/x86: ISST: Add new PCI device ids
+Date:   Wed, 24 Jun 2020 10:51:38 -0700
+Message-Id: <20200624175138.3835436-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com> <20200608112211.12125-4-andrzej.p@collabora.com>
-In-Reply-To: <20200608112211.12125-4-andrzej.p@collabora.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 24 Jun 2020 17:00:09 +0200
-Message-ID: <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] ACPI: button: Access input device's users under
- appropriate mutex
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 1:22 PM Andrzej Pietrasiewicz
-<andrzej.p@collabora.com> wrote:
->
-> Inspecting input device's 'users' member should be done under device's
-> mutex, so add appropriate invocations.
->
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Added new PCI device ids for supporting mailbox and MMIO interface for
+Sapphire Rapids.
 
-This looks like a fix that might be applied independently of the other
-patches in the series.
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ drivers/platform/x86/intel_speed_select_if/isst_if_common.h   | 3 +++
+ drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c | 1 +
+ drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c     | 1 +
+ 3 files changed, 5 insertions(+)
 
-Do you want me to pick it up?
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
+index 1409a5bb5582..4f6f7f0761fc 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
+@@ -13,6 +13,9 @@
+ #define INTEL_RAPL_PRIO_DEVID_0	0x3451
+ #define INTEL_CFG_MBOX_DEVID_0	0x3459
+ 
++#define INTEL_RAPL_PRIO_DEVID_1 0x3251
++#define INTEL_CFG_MBOX_DEVID_1  0x3259
++
+ /*
+  * Validate maximum commands in a single request.
+  * This is enough to handle command to every core in one ioctl, or all
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+index d84e2174cbde..95f01e7a87d5 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+@@ -147,6 +147,7 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
+ 
+ static const struct pci_device_id isst_if_mbox_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_1)},
+ 	{ 0 },
+ };
+ MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
+index 3584859fcc42..aa17fd7817f8 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
+@@ -72,6 +72,7 @@ static long isst_if_mmio_rd_wr(u8 *cmd_ptr, int *write_only, int resume)
+ 
+ static const struct pci_device_id isst_if_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_0)},
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_1)},
+ 	{ 0 },
+ };
+ MODULE_DEVICE_TABLE(pci, isst_if_ids);
+-- 
+2.25.4
 
-> ---
->  drivers/acpi/button.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/acpi/button.c b/drivers/acpi/button.c
-> index 78cfc70cb320..ff7ab291f678 100644
-> --- a/drivers/acpi/button.c
-> +++ b/drivers/acpi/button.c
-> @@ -456,13 +456,16 @@ static int acpi_button_resume(struct device *dev)
->  {
->         struct acpi_device *device = to_acpi_device(dev);
->         struct acpi_button *button = acpi_driver_data(device);
-> +       struct input_dev *input = button->input;
->
->         button->suspended = false;
-> -       if (button->type == ACPI_BUTTON_TYPE_LID && button->input->users) {
-> +       mutex_lock(&input->mutex);
-> +       if (button->type == ACPI_BUTTON_TYPE_LID && input->users) {
->                 button->last_state = !!acpi_lid_evaluate_state(device);
->                 button->last_time = ktime_get();
->                 acpi_lid_initialize_state(device);
->         }
-> +       mutex_unlock(&input->mutex);
->         return 0;
->  }
->  #endif
-> --
-> 2.17.1
->
