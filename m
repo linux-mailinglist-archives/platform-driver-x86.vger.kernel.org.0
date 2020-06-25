@@ -2,96 +2,164 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED8B0207ACA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Jun 2020 19:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F204A209963
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 25 Jun 2020 07:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405630AbgFXRvy (ORCPT
+        id S2389817AbgFYFXX (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 24 Jun 2020 13:51:54 -0400
-Received: from mga14.intel.com ([192.55.52.115]:13102 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405615AbgFXRvy (ORCPT
+        Thu, 25 Jun 2020 01:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389559AbgFYFXW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 24 Jun 2020 13:51:54 -0400
-IronPort-SDR: MmgDRT96SNo8OF812dgKMJUE4HyGNjEItvKlCnar78OlyLzEt+YRac6DrHKtH2RthRYcrrs0Bv
- Yis6E8KJ86FA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="143681609"
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
-   d="scan'208";a="143681609"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2020 10:51:53 -0700
-IronPort-SDR: vVhEFjpJemP1joTx2o7ekm1G0f0OcUxqJ41KgJIu1L0UZ2lfLrVkMbTMPcQFv/wffoHbMHCWMx
- iU8LzwaSdw7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
-   d="scan'208";a="292693089"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jun 2020 10:51:53 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     andy@infradead.org, dvhart@infradead.org
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] platform/x86: ISST: Add new PCI device ids
-Date:   Wed, 24 Jun 2020 10:51:38 -0700
-Message-Id: <20200624175138.3835436-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
+        Thu, 25 Jun 2020 01:23:22 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95487C061573;
+        Wed, 24 Jun 2020 22:23:22 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id u128so2763715pgu.13;
+        Wed, 24 Jun 2020 22:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=G7EYtpN+7APVu3hftiJBUcaii12rvBtQLcLyvFMd3fw=;
+        b=jJIIJMoxL6YsQVrG7We7n48E+SeW7jk0D25Di+/5IowuwUSecYdFowrs3zU3Ar+clB
+         D7O/AgEWBWfMEOmUWDep0xWKKl8zbs3ABy/eLh8Y/rqrV47ShC/omyeBMohoN+RrEVGv
+         zMvNYy9Si2WXLoSyXeQBtE7pOxnk/4Z7HeqYSbK1usdxxvj/KfrRfwmgezF21rhBaQxL
+         3dJ6sXHFV3I5r1Oc+FaC8rLXBwY9Jos35avaKEVvJB2z+WsyWE2Q+utTq9C5fOgPuUom
+         YtjrsnSlphGxBQ7IyrYgDi/KklkyWAiY6PraldKhi3/UqKrYGyFCbNJyeSWtvQ/inbve
+         nzFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G7EYtpN+7APVu3hftiJBUcaii12rvBtQLcLyvFMd3fw=;
+        b=K28tgkfoCC8MvqtkB+9VehH8oOJV/d4JTmfExcYPuzjIExcbmCSILzj0p8JXOqhaWV
+         cVwSEOubffJF345A5/ihg4RsJK989UOrfqR7DnBFZ3wVUJvuAFRjJo5qNg/Trr5KqF76
+         da2l1ywh0A8G3jrSgKL1I2KUOAkkY7gLF+4Rrxj8O9KUryB64oAxFD4ty4OGA5lTvhDt
+         L+XITm9mYrvAfxtru8AYfSJ/X39KdrIo+XLIwPpjZnWNjzvcrUHd+1rZjiEAP/ay63uE
+         IpTYmQlXwk+WenhJgxxb8uocXdKZjz0zkiZgFTXJ3kRBe+ETuyRjnEFrZDNRzFep8j5j
+         Wu2w==
+X-Gm-Message-State: AOAM531M4mn/6sThDL6JdPyB1HLr54hoXZxTES0J5rufbajX/NPLjsk1
+        HEu0TvAG64wmkDhpsMhQxn4=
+X-Google-Smtp-Source: ABdhPJw9IVvFgD9u6cKkJI+eEsVm8cCM5YDQSmq1Y1wrIMZkohaI0YZ2wNwSQKKZGzZRenNdJo7hRA==
+X-Received: by 2002:a65:46c9:: with SMTP id n9mr23942588pgr.89.1593062601705;
+        Wed, 24 Jun 2020 22:23:21 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id i12sm21668804pfk.180.2020.06.24.22.23.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 22:23:20 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 22:23:18 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-iio@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
+        linux-input@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Collabora Kernel ML <kernel@collabora.com>
+Subject: Re: [PATCH v4 3/7] ACPI: button: Access input device's users under
+ appropriate mutex
+Message-ID: <20200625052318.GE248110@dtor-ws>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-4-andrzej.p@collabora.com>
+ <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Added new PCI device ids for supporting mailbox and MMIO interface for
-Sapphire Rapids.
+On Wed, Jun 24, 2020 at 05:00:09PM +0200, Rafael J. Wysocki wrote:
+> On Mon, Jun 8, 2020 at 1:22 PM Andrzej Pietrasiewicz
+> <andrzej.p@collabora.com> wrote:
+> >
+> > Inspecting input device's 'users' member should be done under device's
+> > mutex, so add appropriate invocations.
+> >
+> > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> 
+> This looks like a fix that might be applied independently of the other
+> patches in the series.
+> 
+> Do you want me to pick it up?
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- drivers/platform/x86/intel_speed_select_if/isst_if_common.h   | 3 +++
- drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c | 1 +
- drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c     | 1 +
- 3 files changed, 5 insertions(+)
+If you pick it we'll have to have a dance with this series. Can I apply
+instead?
 
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-index 1409a5bb5582..4f6f7f0761fc 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-@@ -13,6 +13,9 @@
- #define INTEL_RAPL_PRIO_DEVID_0	0x3451
- #define INTEL_CFG_MBOX_DEVID_0	0x3459
- 
-+#define INTEL_RAPL_PRIO_DEVID_1 0x3251
-+#define INTEL_CFG_MBOX_DEVID_1  0x3259
-+
- /*
-  * Validate maximum commands in a single request.
-  * This is enough to handle command to every core in one ioctl, or all
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-index d84e2174cbde..95f01e7a87d5 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-@@ -147,6 +147,7 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
- 
- static const struct pci_device_id isst_if_mbox_ids[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-index 3584859fcc42..aa17fd7817f8 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-@@ -72,6 +72,7 @@ static long isst_if_mmio_rd_wr(u8 *cmd_ptr, int *write_only, int resume)
- 
- static const struct pci_device_id isst_if_ids[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_0)},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_ids);
+I do not think this change has any practical effect as nobody
+attaches/detached input handlers or opening/closing input devices when
+system goes through device resume phase.
+
+> 
+> > ---
+> >  drivers/acpi/button.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/acpi/button.c b/drivers/acpi/button.c
+> > index 78cfc70cb320..ff7ab291f678 100644
+> > --- a/drivers/acpi/button.c
+> > +++ b/drivers/acpi/button.c
+> > @@ -456,13 +456,16 @@ static int acpi_button_resume(struct device *dev)
+> >  {
+> >         struct acpi_device *device = to_acpi_device(dev);
+> >         struct acpi_button *button = acpi_driver_data(device);
+> > +       struct input_dev *input = button->input;
+> >
+> >         button->suspended = false;
+> > -       if (button->type == ACPI_BUTTON_TYPE_LID && button->input->users) {
+> > +       mutex_lock(&input->mutex);
+> > +       if (button->type == ACPI_BUTTON_TYPE_LID && input->users) {
+> >                 button->last_state = !!acpi_lid_evaluate_state(device);
+> >                 button->last_time = ktime_get();
+> >                 acpi_lid_initialize_state(device);
+> >         }
+> > +       mutex_unlock(&input->mutex);
+> >         return 0;
+> >  }
+> >  #endif
+> > --
+> > 2.17.1
+> >
+
+Thanks.
+
 -- 
-2.25.4
-
+Dmitry
