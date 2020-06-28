@@ -2,91 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7628B20C49E
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Jun 2020 00:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B1B220C538
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Jun 2020 03:39:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbgF0WGb (ORCPT
+        id S1726530AbgF1Bjd convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 27 Jun 2020 18:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51320 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726601AbgF0WGb (ORCPT
+        Sat, 27 Jun 2020 21:39:33 -0400
+Received: from mx1.uwb.edu.pl ([212.33.71.231]:60344 "EHLO mx1.uwb.edu.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726378AbgF1Bjc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 27 Jun 2020 18:06:31 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED91CC061794
-        for <platform-driver-x86@vger.kernel.org>; Sat, 27 Jun 2020 15:06:30 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id g75so11831686wme.5
-        for <platform-driver-x86@vger.kernel.org>; Sat, 27 Jun 2020 15:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=f9F4OeCeRmjyCn/l5zWRCnvqn8abBSCJ0Y8qujQ0kmxWn834D2fXcj9rvsWpCDPIuS
-         J4EoerIfxQNxbL3GXEU7ldfNRYPjw9+UDx+oUErzer3ipQGx1bMVBJ4GKw5qxwtLFKgm
-         GIGKX0Yf3u59BQOeDfpIf5jZ+3vnA0ZzLii/fzh6lT1DnoxV12hExchyOgRH8ZWUzh6h
-         YfJSqrAXwDwYWOkanSpTn/205IELx8NOzYqaPLRhLaj+p8d8Tqco8ZlQgP7W4AOriRZo
-         /C1JWu9y1DjEpYGijceZGziK7m0b44a1VzD/YaM40U0hZVpq1t42ddRbOo9XgyjTsiIU
-         X8hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=aaez6DHh+9YcVumV02Mm0k9rBUqx/nlFWbncZ0zGtbT6bcQ49g31lP7MNoA5RtmP6M
-         VeB99+Ce5usxgkSNVLobSC3jAR7McHB8lGi/nWyzJGTifpmBJzJ6tTG9bpsfwut8fw1N
-         kB2EE64xR+jFLbTyXfpSpX+1PG6uoYN0l1js7vMqY77Uiw8cJeMmxcfvOH8XJMfPKPYP
-         5YtNZeTz4lyPiZ76GUjU8fC67enLMiMsjko4W5F6Y92HQp50mvmEB6PNKUjJSDhxzYBk
-         o5EkQiv4q7Se13rxNdO8/zfxs1buFUseWiVHKmrygipuD8Bw+bSuY7FEyF351ZH7FpN/
-         36FA==
-X-Gm-Message-State: AOAM5326z7VOGsqv2dtVta+9Z0jZTgPUr81EzDzKx57fSczfuIq3ZYsY
-        Ex7RZYt03B3ZEe5awx2TxBsGXZAhCHI6+L4a2oI=
-X-Google-Smtp-Source: ABdhPJzB2PS1uLzfXnv9RJ9+8ywF0BTYmMReQpmFB2cwHUGJdFU/VqT1TPNRIciUkUVNxK28Z0jWU0doicUzCH8V5Ek=
-X-Received: by 2002:a7b:c043:: with SMTP id u3mr10377547wmc.185.1593295180142;
- Sat, 27 Jun 2020 14:59:40 -0700 (PDT)
+        Sat, 27 Jun 2020 21:39:32 -0400
+X-Greylist: delayed 471 seconds by postgrey-1.27 at vger.kernel.org; Sat, 27 Jun 2020 21:39:32 EDT
+Received: from sun.uwb.edu.pl (sun.uwb.edu.pl [212.33.71.69])
+        by mx1.uwb.edu.pl (Postfix) with ESMTP id CDD6F304E4F;
+        Sun, 28 Jun 2020 03:31:10 +0200 (CEST)
+Received: from sun.uwb.edu.pl (localhost [127.0.0.1])
+        by sun.uwb.edu.pl (Postfix) with ESMTP id 9199B2407BC;
+        Sun, 28 Jun 2020 03:31:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at sun.uwb.edu.pl
+Received: from sun.uwb.edu.pl ([127.0.0.1])
+        by sun.uwb.edu.pl (sun.uwb.edu.pl [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id q8d1yusFco0V; Sun, 28 Jun 2020 03:31:10 +0200 (CEST)
+Received: from [100.120.128.60] (unknown [45.87.184.74])
+        by sun.uwb.edu.pl (Postfix) with ESMTPSA id 02C3C240C62;
+        Sun, 28 Jun 2020 03:24:56 +0200 (CEST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:adf:f187:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:59:39
- -0700 (PDT)
-Reply-To: un.org@i.ua
-From:   helen <upspostexpress@gmail.com>
-Date:   Sat, 27 Jun 2020 22:59:39 +0100
-Message-ID: <CA+HWcLeFxWA2HFg2eTDi9xRk8OKWn7oojHXSEX-EzsM7GcSGnA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Hallo
+To:     Recipients <adaniluk@uwb.edu.pl>
+From:   "William Yun" <adaniluk@uwb.edu.pl>
+Date:   Sun, 28 Jun 2020 04:24:43 +0300
+Reply-To: william.yun312@gmail.com
+X-Antivirus: Avast (VPS 200627-8, 06/27/2020), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20200628013110.9199B2407BC@sun.uwb.edu.pl>
+X-UwB_mx1-MailScanner-Information: Please contact the ISP for more information
+X-UwB_mx1-MailScanner-ID: CDD6F304E4F.A699C
+X-UwB_mx1-MailScanner: Found to be clean
+X-UwB_mx1-MailScanner-From: adaniluk@uwb.edu.pl
+X-Spam-Status: No
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-MONEY-GRAM TRANSFERRED PAYMENT INFO:
+Hallo, ich habe ein Geschäft von 24,5 Mio. USD, das ich mit Ihnen teilen kann. Wenn Sie interessiert sind? Bitte schreibe zurück und ich werde dir mehr Details geben.
 
-Below is the sender=E2=80=99s information
+Grüße,
 
+William.
 
+-- 
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
 
-1. MG. REFERENCE NO#: 36360857
-
-2. SENDER'S NAME: Johnson Williams
-
-3. AMOUNT TO PICKUP: US$10,000
-
-
-
-Go to any Money Gram office near you and pick up the payment Track the
-
-Reference Number by visiting and click the link below
-
-(https://secure.moneygram.com/embed/track) and enter the Reference
-
-Number: 36360857 and the Last Name: Williams, you will find the payment
-
-available for pickup instantly.
-
-Yours Sincerely,
-
-Mrs. Helen Marvis
-United Nations Liaison Office
-Directorate for International Payments
