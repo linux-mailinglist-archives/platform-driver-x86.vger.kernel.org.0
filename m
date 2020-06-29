@@ -2,81 +2,261 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C4EA20D2CB
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Jun 2020 21:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 429C420D655
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Jun 2020 22:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728151AbgF2SwN (ORCPT
+        id S1731885AbgF2TS6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Jun 2020 14:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39932 "EHLO
+        Mon, 29 Jun 2020 15:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727854AbgF2SwL (ORCPT
+        with ESMTP id S1731759AbgF2TOU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:52:11 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F308DC031C40
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Jun 2020 11:52:11 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id e13so16258054qkg.5
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Jun 2020 11:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=a1hPTmRm1xXFQXq8upbYajP+SyqkCA/0OCu2OoZSa7A=;
-        b=s2h1lTkz5J2tDoWR3sT+bSCoHk7OMNJSuvRijalRKxCatnHwTnHgKYX/fV1v6USEgm
-         B801j8HuFg+a3K5PhxMqal7MeYaGC+MNmuicN4SKipXBIbfNXMWSRjZZq2fgk22RmbHQ
-         wm6PzLeGUoXrKBEjpCA0Sd5y69/W1wSzaRuQPkzuVrCe34b9i9UTkSNjJedYsxNgWJAl
-         0/TmIsaJbT6VOAKuSwy48YeJqGyqeksmWtBR1qiaBscC7V/ZvU5xJwqO1qtAbpEuhaJ6
-         1l4ZjjqPwdO3Y+xkkkw0gQG6xu6BZCpsouzTavOgzgLev7WEder0cYxGKzgpkIgLjs1/
-         fujQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=a1hPTmRm1xXFQXq8upbYajP+SyqkCA/0OCu2OoZSa7A=;
-        b=UC+Fg9yQC+8QfqRy1jzTHQt5JWBlAuw3EsuhYWOanxRXBwd4fs4Pw4GSzuzAnQe2b7
-         mG8T4hQsvmvkQhasvLTzF/y2T/VE2rTGJ7y5F8bVWj+Xr7PzTtAq5DnLm8SvKY+kPUHe
-         0vSTGoVQ2P1drJPWWN9QAVmenuKaGLQ8wOUyI+zGfvKOzg6qni0qZaqajHHDFOK5rO8q
-         Xg6GSbFL2gI+AwzFKR/EkUm6w9h1lVWo1tcSSRORBrgs4/Pynqzp2d5S63z8DGJ4pXXR
-         hDAIlFG1jke8oUkFXMswMxbr7I3wyz+VHifonXZ4dYCaVmsO0w8xgquArXVS+qQFD24p
-         qJag==
-X-Gm-Message-State: AOAM532DnybLjMaebibiEJPJHrhPcVimRMCkDYs352HwkV3T+6MV5JDp
-        jBnKYrT/6ZHu5yKZV/kJRCvtxBemwERwe6cEBw==
-X-Google-Smtp-Source: ABdhPJwGUu/ppzl0wdEhQd3I28RTG1ISL0SSelp3/Ulj91nuMCydBHEo5CQ7CXSWl5IpQ9BfMeOirhddY1hN5xjDTUs=
-X-Received: by 2002:a05:620a:91b:: with SMTP id v27mr15583953qkv.499.1593456731146;
- Mon, 29 Jun 2020 11:52:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac8:4e2f:0:0:0:0:0 with HTTP; Mon, 29 Jun 2020 11:52:10
- -0700 (PDT)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Money Gram Office,Of Mrs. Alan Ude" 
-        <info.zennitbankplcnigerian@gmail.com>
-Date:   Mon, 29 Jun 2020 20:52:10 +0200
-Message-ID: <CABHzvrmNdCow-Sx0cSmTJKZXZPdqQB1JPKMW-Qegv1x4kQLtqQ@mail.gmail.com>
-Subject: Attn Dear beneficiary Good News
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 29 Jun 2020 15:14:20 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BE6C0085D5;
+        Mon, 29 Jun 2020 04:16:27 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 9391127D8DE
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com
+Subject: [PATCH v6 02/11] thermal: Store thermal mode in a dedicated enum
+Date:   Mon, 29 Jun 2020 13:16:06 +0200
+Message-Id: <20200629111615.18131-3-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200629111615.18131-1-andrzej.p@collabora.com>
+References: <CAHLCerO2XOOX9akEwaTu_cjSqRycFpNmoVxkSe36L8B4ALWidA@mail.gmail.com>
+ <20200629111615.18131-1-andrzej.p@collabora.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Attn Dear beneficiary
-Good News, I write to inform you that the transfer of your funds was
-approved this morning through the UN Official directors, My Good
-friend Remember I am here to help you out, I don't want you to lose
-this funds TOTAL amount $4.800,000Million USD which is a miracle of
-God to you and your family, so try your best and send $25.00 only by
-Money Gram.
+Prepare for storing mode in struct thermal_zone_device.
 
-RECEIVER'S NAME**** ALAN UDE
-COUNTRY***********BENIN
-CITY ADDRESS*********COTONOU
-AMOUNT********$25.00 ONLY
-QUESTION*******HONEST
-ANSWER*******TRUST
-Pls try and send it asap to enable you pick up your first payment
-$5000.00 Today, I promise you in the name of God, once you send this
-$25.00,  you will definitely pick up your first payment $5,000 today
-okay. Guaranteed
-Mrs. UDE,
-Official Director, Money Gram-Benin.
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+[for acerhdf]
+Acked-by: Peter Kaestle <peter@piie.net>
+Reviewed-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+---
+ drivers/acpi/thermal.c                        | 27 +++++++++----------
+ drivers/platform/x86/acerhdf.c                |  8 ++++--
+ .../intel/int340x_thermal/int3400_thermal.c   | 18 +++++--------
+ 3 files changed, 25 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
+index 6de8066ca1e7..fb46070c66d8 100644
+--- a/drivers/acpi/thermal.c
++++ b/drivers/acpi/thermal.c
+@@ -172,7 +172,7 @@ struct acpi_thermal {
+ 	struct acpi_thermal_trips trips;
+ 	struct acpi_handle_list devices;
+ 	struct thermal_zone_device *thermal_zone;
+-	int tz_enabled;
++	enum thermal_device_mode mode;
+ 	int kelvin_offset;	/* in millidegrees */
+ 	struct work_struct thermal_check_work;
+ };
+@@ -500,7 +500,7 @@ static void acpi_thermal_check(void *data)
+ {
+ 	struct acpi_thermal *tz = data;
+ 
+-	if (!tz->tz_enabled)
++	if (tz->mode != THERMAL_DEVICE_ENABLED)
+ 		return;
+ 
+ 	thermal_zone_device_update(tz->thermal_zone,
+@@ -534,8 +534,7 @@ static int thermal_get_mode(struct thermal_zone_device *thermal,
+ 	if (!tz)
+ 		return -EINVAL;
+ 
+-	*mode = tz->tz_enabled ? THERMAL_DEVICE_ENABLED :
+-		THERMAL_DEVICE_DISABLED;
++	*mode = tz->mode;
+ 
+ 	return 0;
+ }
+@@ -544,27 +543,25 @@ static int thermal_set_mode(struct thermal_zone_device *thermal,
+ 				enum thermal_device_mode mode)
+ {
+ 	struct acpi_thermal *tz = thermal->devdata;
+-	int enable;
+ 
+ 	if (!tz)
+ 		return -EINVAL;
+ 
++	if (mode != THERMAL_DEVICE_DISABLED &&
++	    mode != THERMAL_DEVICE_ENABLED)
++		return -EINVAL;
+ 	/*
+ 	 * enable/disable thermal management from ACPI thermal driver
+ 	 */
+-	if (mode == THERMAL_DEVICE_ENABLED)
+-		enable = 1;
+-	else if (mode == THERMAL_DEVICE_DISABLED) {
+-		enable = 0;
++	if (mode == THERMAL_DEVICE_DISABLED)
+ 		pr_warn("thermal zone will be disabled\n");
+-	} else
+-		return -EINVAL;
+ 
+-	if (enable != tz->tz_enabled) {
+-		tz->tz_enabled = enable;
++	if (mode != tz->mode) {
++		tz->mode = mode;
+ 		ACPI_DEBUG_PRINT((ACPI_DB_INFO,
+ 			"%s kernel ACPI thermal control\n",
+-			tz->tz_enabled ? "Enable" : "Disable"));
++			tz->mode == THERMAL_DEVICE_ENABLED ?
++			"Enable" : "Disable"));
+ 		acpi_thermal_check(tz);
+ 	}
+ 	return 0;
+@@ -915,7 +912,7 @@ static int acpi_thermal_register_thermal_zone(struct acpi_thermal *tz)
+ 		goto remove_dev_link;
+ 	}
+ 
+-	tz->tz_enabled = 1;
++	tz->mode = THERMAL_DEVICE_ENABLED;
+ 
+ 	dev_info(&tz->device->dev, "registered as thermal_zone%d\n",
+ 		 tz->thermal_zone->id);
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 4df7609b4aa9..9d1030b1a4f4 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -68,6 +68,7 @@ static int kernelmode = 1;
+ #else
+ static int kernelmode;
+ #endif
++static enum thermal_device_mode thermal_mode;
+ 
+ static unsigned int interval = 10;
+ static unsigned int fanon = 60000;
+@@ -397,6 +398,7 @@ static inline void acerhdf_revert_to_bios_mode(void)
+ {
+ 	acerhdf_change_fanstate(ACERHDF_FAN_AUTO);
+ 	kernelmode = 0;
++	thermal_mode = THERMAL_DEVICE_DISABLED;
+ 	if (thz_dev)
+ 		thz_dev->polling_delay = 0;
+ 	pr_notice("kernel mode fan control OFF\n");
+@@ -404,6 +406,7 @@ static inline void acerhdf_revert_to_bios_mode(void)
+ static inline void acerhdf_enable_kernelmode(void)
+ {
+ 	kernelmode = 1;
++	thermal_mode = THERMAL_DEVICE_ENABLED;
+ 
+ 	thz_dev->polling_delay = interval*1000;
+ 	thermal_zone_device_update(thz_dev, THERMAL_EVENT_UNSPECIFIED);
+@@ -416,8 +419,7 @@ static int acerhdf_get_mode(struct thermal_zone_device *thermal,
+ 	if (verbose)
+ 		pr_notice("kernel mode fan control %d\n", kernelmode);
+ 
+-	*mode = (kernelmode) ? THERMAL_DEVICE_ENABLED
+-			     : THERMAL_DEVICE_DISABLED;
++	*mode = thermal_mode;
+ 
+ 	return 0;
+ }
+@@ -739,6 +741,8 @@ static int __init acerhdf_register_thermal(void)
+ 	if (IS_ERR(cl_dev))
+ 		return -EINVAL;
+ 
++	thermal_mode = kernelmode ?
++		THERMAL_DEVICE_ENABLED : THERMAL_DEVICE_DISABLED;
+ 	thz_dev = thermal_zone_device_register("acerhdf", 2, 0, NULL,
+ 					      &acerhdf_dev_ops,
+ 					      &acerhdf_zone_params, 0,
+diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+index 0b3a62655843..e84faaadff87 100644
+--- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
++++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
+@@ -48,7 +48,7 @@ struct int3400_thermal_priv {
+ 	struct acpi_device *adev;
+ 	struct platform_device *pdev;
+ 	struct thermal_zone_device *thermal;
+-	int mode;
++	enum thermal_device_mode mode;
+ 	int art_count;
+ 	struct art *arts;
+ 	int trt_count;
+@@ -395,24 +395,20 @@ static int int3400_thermal_set_mode(struct thermal_zone_device *thermal,
+ 				enum thermal_device_mode mode)
+ {
+ 	struct int3400_thermal_priv *priv = thermal->devdata;
+-	bool enable;
+ 	int result = 0;
+ 
+ 	if (!priv)
+ 		return -EINVAL;
+ 
+-	if (mode == THERMAL_DEVICE_ENABLED)
+-		enable = true;
+-	else if (mode == THERMAL_DEVICE_DISABLED)
+-		enable = false;
+-	else
++	if (mode != THERMAL_DEVICE_ENABLED &&
++	    mode != THERMAL_DEVICE_DISABLED)
+ 		return -EINVAL;
+ 
+-	if (enable != priv->mode) {
+-		priv->mode = enable;
++	if (mode != priv->mode) {
++		priv->mode = mode;
+ 		result = int3400_thermal_run_osc(priv->adev->handle,
+-						 priv->current_uuid_index,
+-						 enable);
++						priv->current_uuid_index,
++						mode == THERMAL_DEVICE_ENABLED);
+ 	}
+ 
+ 	evaluate_odvp(priv);
+-- 
+2.17.1
+
