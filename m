@@ -2,77 +2,175 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCEBB20FB52
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jun 2020 20:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E853520FBC7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jun 2020 20:33:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389648AbgF3SFB (ORCPT
+        id S2390834AbgF3Sdu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 30 Jun 2020 14:05:01 -0400
-Received: from forward101o.mail.yandex.net ([37.140.190.181]:36437 "EHLO
-        forward101o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729105AbgF3SFA (ORCPT
+        Tue, 30 Jun 2020 14:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729257AbgF3Sdu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:05:00 -0400
-X-Greylist: delayed 481 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Jun 2020 14:04:59 EDT
-Received: from mxback24g.mail.yandex.net (mxback24g.mail.yandex.net [IPv6:2a02:6b8:0:1472:2741:0:8b7:324])
-        by forward101o.mail.yandex.net (Yandex) with ESMTP id 01E3E3C0040B;
-        Tue, 30 Jun 2020 20:56:57 +0300 (MSK)
-Received: from myt5-ca5ec8faf378.qloud-c.yandex.net (myt5-ca5ec8faf378.qloud-c.yandex.net [2a02:6b8:c12:2514:0:640:ca5e:c8fa])
-        by mxback24g.mail.yandex.net (mxback/Yandex) with ESMTP id v85Grp0WyM-uuhagsZ7;
-        Tue, 30 Jun 2020 20:56:56 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1593539816;
-        bh=IJcV8VMIHicqFXlSQM92CzBLaL8TW0Er/AJNF1POiuA=;
-        h=Subject:To:From:Cc:Date:Message-Id;
-        b=KPjg9wkdi+ipotCp/pZuU0AfxxHxRzZTZmOQRKHT6JYHWCtwNpxY+CEHmZaIhGTqm
-         51c/ugkX/aEJRBvNcGtddimLN8iJuWlxEczTzWWfdRcxJE/U3glvMqyh/lWyi95NAc
-         Pz4U2WSNlZv7IpVaDNFZKeI8HsoB9mzsfhBQZZxE=
-Authentication-Results: mxback24g.mail.yandex.net; dkim=pass header.i=@yandex.ru
-Received: by myt5-ca5ec8faf378.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id 7Bay8XZxwY-uul0thte;
-        Tue, 30 Jun 2020 20:56:56 +0300
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client certificate not present)
-From:   Vasiliy Kupriakov <rublag-ns@yandex.ru>
-To:     Corentin Chary <corentin.chary@gmail.com>,
+        Tue, 30 Jun 2020 14:33:50 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A659DC061755
+        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id f7so18142957wrw.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
+        b=QtRvGqVxjzxpiFVybIea7lqehIQLky2ZFc2aG1M6771qlNANmaszRuCoEuuKojC4wO
+         e3gUMOhd6TiyI5C3zuqPkGO0Q61l1AUfwUIyFir+LMpB+pXEgIoiTyIse+E+W0JIoF1S
+         Ulyhd/nP9MSIRL7CQFpcHG+cwScKqaWXcQ/tUEnD/6C37OGTdUaiJf+DPwkPtWe/8/+H
+         pW6dOiQPIe+l5evZRZ/JGlvO4MKwSS91ACC5sj6UoHMgGtVpVLEnFRxyvyjuZIe8ACvV
+         zt1UeqXVyKh3Xxm3WcxDd6DXGrfYHQSZ3gPsXzrDcM2C9jWuSc6Z39R9xenraJNNEyLy
+         YGMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
+        b=uoMUnVcgxOhOYwpSWQRnPOGEoSlayr70ER34UGXcDEfvTshgBj1L1GIFnmmr1ji9O+
+         LtAa/ekWBm0FaIxmFl0L8MDOOYe6EfdAkRaez/7Qu+gvTN6SZhK9Mo6puT3ssezOZR+E
+         BQI3OgbBL0YkIM8Mmz/64tPZjDofyxb7v+1tPY4SDExpv9igRm+CWJDljlBjJMtoIJ5B
+         ZBwtGnMJyuBO56ox4o8PAjn9hbqGBrStG9bEZGx51yVINFd2FMTirF+KXjofmbmKzkLw
+         U/QX83pAIH2jazVC57HKryzQ6ylYX0YZAYbAtfITNLr0VsL5No+H3J48TSwSI+79U6Un
+         Nb+g==
+X-Gm-Message-State: AOAM530EmUVXcP7dR8KDAXEdibarE2uzhgECjrFWRpR+6Gx/M9HSQZBA
+        DHPNQgS6C8KgkGFA0eHRwzE7Ow==
+X-Google-Smtp-Source: ABdhPJxLhcXrkHLv2/YCvgyaaG9WujOJsdKLAP5iiMsukPW0YrKfbKY169ibr3i+yNbysUtJLv4bdw==
+X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr22357628wrw.123.1593542028223;
+        Tue, 30 Jun 2020 11:33:48 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
+        by smtp.googlemail.com with ESMTPSA id b10sm4104203wmj.30.2020.06.30.11.33.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2020 11:33:47 -0700 (PDT)
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Vasiliy Kupriakov <rublag-ns@yandex.ru>,
-        acpi4asus-user@lists.sourceforge.net (open list:ASUS NOTEBOOKS AND
-        EEEPC ACPI/WMI EXTRAS DRIVERS),
-        platform-driver-x86@vger.kernel.org (open list:ASUS NOTEBOOKS AND EEEPC
-        ACPI/WMI EXTRAS DRIVERS), linux-kernel@vger.kernel.org (open list)
-Subject: 
-Date:   Tue, 30 Jun 2020 20:56:01 +0300
-Message-Id: <20200630175559.23966-1-rublag-ns@yandex.ru>
-X-Mailer: git-send-email 2.27.0
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+ <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+ <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+ <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+ <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+ <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+Date:   Tue, 30 Jun 2020 20:33:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Subject: [PATCH] platform/x86: asus-wmi: allow BAT1 battery name
+On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
+> Hi,
+> 
+> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
+>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
+>>> Hi Daniel,
+>>>
+>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
+>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
+>>>>> Hi Daniel,
+>>>>>
+>>>>> I am reading the logs and can't find anything specific to thermal.
+>>>>>
+>>>>> What I can see is
+>>>>>
+>>>>> "random: crng init done"
+>>>>>
+>>>>> with large times (~200s) and then e.g.
+>>>>>
+>>>>> 'auto-login-action timed out after 283 seconds'
+>>>>>
+>>>>> I'm looking at e.g.
+>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
+>>>>>
+>>>>>
+>>>>>
+>>>
+>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
+>>> PATCH 11/11 renames a method and the code compiles, so it seems
+>>> unlikely that this is causing problems. One should never say never,
+>>> though ;)
+>>
+>> The sha1 is just the HEAD for the kernel reference. The regression
+>> happens with your series, somewhere.
+>>
+>>> The reported failure is not due to some test failing but rather due
+>>> to timeout logging into the test system. Could it be that there is
+>>> some other problem?
+>>
+>> I did reproduce:
+>>
+>> v5.8-rc3 + series => imx6 hang at boot time
+>> v5.8-rc3 => imx6 boots correctly
+>>
+> 
+> I kindly ask for a bisect.
 
-The battery on my laptop ASUS TUF Gaming FX706II is named BAT1.
-This patch allows battery extension to load.
+I will give a try but it is a very long process as the board is running
+on kernelci.
 
-Signed-off-by: Vasiliy Kupriakov <rublag-ns@yandex.ru>
----
- drivers/platform/x86/asus-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
+I was not able to reproduce it on imx7 despite it is the same sensor :/
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 877aade19497..8f4acdc06b13 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -441,6 +441,7 @@ static int asus_wmi_battery_add(struct power_supply *battery)
- 	 * battery is named BATT.
- 	 */
- 	if (strcmp(battery->desc->name, "BAT0") != 0 &&
-+	    strcmp(battery->desc->name, "BAT1") != 0 &&
- 	    strcmp(battery->desc->name, "BATT") != 0)
- 		return -ENODEV;
- 
+
 -- 
-2.27.0
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
