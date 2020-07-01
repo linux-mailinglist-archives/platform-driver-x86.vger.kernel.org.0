@@ -2,25 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B35B21092D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Jul 2020 12:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22791210DB1
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Jul 2020 16:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729898AbgGAKXj (ORCPT
+        id S1731280AbgGAOZ7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 Jul 2020 06:23:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        Wed, 1 Jul 2020 10:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729781AbgGAKXi (ORCPT
+        with ESMTP id S1731492AbgGAOZz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 Jul 2020 06:23:38 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248D4C03E979;
-        Wed,  1 Jul 2020 03:23:38 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 339872A530D
+        Wed, 1 Jul 2020 10:25:55 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DE4C08C5DF
+        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Jul 2020 07:25:54 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id f139so23469067wmf.5
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 Jul 2020 07:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bzxWUOb25TYvscIF9N4MMene00x35xMy0V9YTIPCvEw=;
+        b=Les4jxi+eQeD1WT6Qp6mIFEtHFoL2Xnxk7pXe2myRsbelv7n1VGJ2KaPP5bueTaj+p
+         Ws0ZeIj3EKbuDp54QOSPqNSrx1Vs5Rr5aWn7OVocTi4YjblOE5DyZS1ftrIfz9pYa/jr
+         szUO3UsdDch3lGHQeL88e06vcoFSR2oq3tuxrUF0lLAHIa/retTlgJkr/Y3S+oYlUHoW
+         VrkbrOKxnOT9vxZYzK6UVniGsbbZpTig8cJdpUcTP/yWj7Yn803bPMnqrL80zMkwwjIX
+         Aux9sAXy7wImthnbVxLQU9n0Uj1rXSL1I4qY6sxjbaOn+7DM2PE51ZkTpb39UeHL8/OK
+         ci3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bzxWUOb25TYvscIF9N4MMene00x35xMy0V9YTIPCvEw=;
+        b=m8f2CXBBzTZVVdubTlYLfZQSmBSmwyUanO9SypSc02JuUcKGDN2/dDtAv+ftg78c+H
+         urvnBhmmgsSfzwg90NJWTh4i5l8GsE4b4wHUH5y7ao4dJqsIyAF8rm5lkxlEfbCHPkSt
+         kSHItRM9F41sqCcMG9fDkH4+EYLcWnCHD/KD5S6kbSqZd8w9Ys53V0Ujwhvre2nqdCyF
+         4i1Uig3ZgL2FtEjH0CcL79Txp0mMvUe7t9zJhhxCtWdKrMA1ENufSuBU7ET496oCsskv
+         xT0r+Z7+bAWYVsofvpw0zuJzAmtZh4wtqsf8NGgtmRYLX1GPn2W8wdt7tWMKnracFmgt
+         iHrw==
+X-Gm-Message-State: AOAM532XW1+sPapz3VevYmWQ4cTFnBYmdGCihmxLDFyTE+6IcRW1DRNX
+        b5KDFGS7EG6esDowcbEr4sSb4g==
+X-Google-Smtp-Source: ABdhPJxNJbgGXlTsOmTodMV5Dfnt24WopKgYqjBK+3slHN4EbVmyAyteCotRWf0oQTewKCuWuIkiDg==
+X-Received: by 2002:a1c:e90a:: with SMTP id q10mr28362215wmc.140.1593613553010;
+        Wed, 01 Jul 2020 07:25:53 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
+        by smtp.googlemail.com with ESMTPSA id c2sm7658210wrv.47.2020.07.01.07.25.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2020 07:25:52 -0700 (PDT)
 Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
         netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
@@ -70,14 +101,15 @@ References: <20200629122925.21729-1-andrzej.p@collabora.com>
  <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
  <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
  <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
-Date:   Wed, 1 Jul 2020 12:23:29 +0200
+ <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <5dba166b-ecef-c9ee-a13a-0e9bbf74ce4c@linaro.org>
+Date:   Wed, 1 Jul 2020 16:25:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -85,69 +117,47 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On 01/07/2020 12:23, Andrzej Pietrasiewicz wrote:
+> Hi,
+> 
 
-W dniu 30.06.2020 o 20:33, Daniel Lezcano pisze:
-> On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
->> Hi,
->>
->> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
->>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
->>>> Hi Daniel,
+[ ... ]
+
 >>>>
->>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
->>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
->>>>>> Hi Daniel,
->>>>>>
->>>>>> I am reading the logs and can't find anything specific to thermal.
->>>>>>
->>>>>> What I can see is
->>>>>>
->>>>>> "random: crng init done"
->>>>>>
->>>>>> with large times (~200s) and then e.g.
->>>>>>
->>>>>> 'auto-login-action timed out after 283 seconds'
->>>>>>
->>>>>> I'm looking at e.g.
->>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
->>>>>>
->>>>>>
->>>>>>
+>>>> I did reproduce:
 >>>>
->>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
->>>> PATCH 11/11 renames a method and the code compiles, so it seems
->>>> unlikely that this is causing problems. One should never say never,
->>>> though ;)
->>>
->>> The sha1 is just the HEAD for the kernel reference. The regression
->>> happens with your series, somewhere.
->>>
->>>> The reported failure is not due to some test failing but rather due
->>>> to timeout logging into the test system. Could it be that there is
->>>> some other problem?
->>>
->>> I did reproduce:
->>>
->>> v5.8-rc3 + series => imx6 hang at boot time
->>> v5.8-rc3 => imx6 boots correctly
->>>
+>>>> v5.8-rc3 + series => imx6 hang at boot time
+>>>> v5.8-rc3 => imx6 boots correctly
+>>>>
+> 
+> What did you reproduce? Timeout logging in to the test system or a
+> "real" failure of a test?
 
-What did you reproduce? Timeout logging in to the test system or a "real" 
-failure of a test?
+Timeout logging. Boot hangs.
 
+>>> I kindly ask for a bisect.
 >>
->> I kindly ask for a bisect.
+>> I will give a try but it is a very long process as the board is running
+>> on kernelci.
+>>
+>> I was not able to reproduce it on imx7 despite it is the same sensor :/
+>>
+>>
 > 
-> I will give a try but it is a very long process as the board is running
-> on kernelci.
-> 
-> I was not able to reproduce it on imx7 despite it is the same sensor :/
-> 
-> 
+> Could it be that the thermal sensors somehow contribute to entropy and
+> after
+> the series is applied on some machines it takes more time to gather enough
+> entropy?
 
-Could it be that the thermal sensors somehow contribute to entropy and after
-the series is applied on some machines it takes more time to gather enough
-entropy?
+I assume you are talking about the entropy for random?
 
-Andrzej
+It would be really surprising if it is the case. The message appears
+asynchronously, I believe the boot flow is stuck in a mutex.
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
