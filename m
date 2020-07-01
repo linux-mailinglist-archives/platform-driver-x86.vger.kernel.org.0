@@ -2,175 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E853520FBC7
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Jun 2020 20:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FB61210883
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Jul 2020 11:46:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390834AbgF3Sdu (ORCPT
+        id S1729486AbgGAJqD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 30 Jun 2020 14:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729257AbgF3Sdu (ORCPT
+        Wed, 1 Jul 2020 05:46:03 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38203 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726343AbgGAJqC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:33:50 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A659DC061755
-        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f7so18142957wrw.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
-        b=QtRvGqVxjzxpiFVybIea7lqehIQLky2ZFc2aG1M6771qlNANmaszRuCoEuuKojC4wO
-         e3gUMOhd6TiyI5C3zuqPkGO0Q61l1AUfwUIyFir+LMpB+pXEgIoiTyIse+E+W0JIoF1S
-         Ulyhd/nP9MSIRL7CQFpcHG+cwScKqaWXcQ/tUEnD/6C37OGTdUaiJf+DPwkPtWe/8/+H
-         pW6dOiQPIe+l5evZRZ/JGlvO4MKwSS91ACC5sj6UoHMgGtVpVLEnFRxyvyjuZIe8ACvV
-         zt1UeqXVyKh3Xxm3WcxDd6DXGrfYHQSZ3gPsXzrDcM2C9jWuSc6Z39R9xenraJNNEyLy
-         YGMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
-        b=uoMUnVcgxOhOYwpSWQRnPOGEoSlayr70ER34UGXcDEfvTshgBj1L1GIFnmmr1ji9O+
-         LtAa/ekWBm0FaIxmFl0L8MDOOYe6EfdAkRaez/7Qu+gvTN6SZhK9Mo6puT3ssezOZR+E
-         BQI3OgbBL0YkIM8Mmz/64tPZjDofyxb7v+1tPY4SDExpv9igRm+CWJDljlBjJMtoIJ5B
-         ZBwtGnMJyuBO56ox4o8PAjn9hbqGBrStG9bEZGx51yVINFd2FMTirF+KXjofmbmKzkLw
-         U/QX83pAIH2jazVC57HKryzQ6ylYX0YZAYbAtfITNLr0VsL5No+H3J48TSwSI+79U6Un
-         Nb+g==
-X-Gm-Message-State: AOAM530EmUVXcP7dR8KDAXEdibarE2uzhgECjrFWRpR+6Gx/M9HSQZBA
-        DHPNQgS6C8KgkGFA0eHRwzE7Ow==
-X-Google-Smtp-Source: ABdhPJxLhcXrkHLv2/YCvgyaaG9WujOJsdKLAP5iiMsukPW0YrKfbKY169ibr3i+yNbysUtJLv4bdw==
-X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr22357628wrw.123.1593542028223;
-        Tue, 30 Jun 2020 11:33:48 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
-        by smtp.googlemail.com with ESMTPSA id b10sm4104203wmj.30.2020.06.30.11.33.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 11:33:47 -0700 (PDT)
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        Wed, 1 Jul 2020 05:46:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593596761;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fm2hacvcJh/LVKAI6LvO72ISQWLbBcTh99ZHxmp5Tvc=;
+        b=gdeyzjdplJVHbWS3NyIke1OiauBcuT3lY2qvUbQ2e5ydVtO89vitiBOfTvdSt/B1ljV+Du
+        SXqu5SWEUtxusY+z3N7LED+B51yESJQ/hXKzhKvIBc6YxAFU19J1mdwwossDpQgsN9yCWR
+        5n2eNIqaV+2MXeiLjJtU2LB6HVzdJNE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-55JdHF1DMqi0lGH3NpVi9w-1; Wed, 01 Jul 2020 05:45:59 -0400
+X-MC-Unique: 55JdHF1DMqi0lGH3NpVi9w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00BD319057A0;
+        Wed,  1 Jul 2020 09:45:58 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EB09A1025EB0;
+        Wed,  1 Jul 2020 09:45:57 +0000 (UTC)
+Received: from zmail20.collab.prod.int.phx2.redhat.com (zmail20.collab.prod.int.phx2.redhat.com [10.5.83.23])
+        by colo-mx.corp.redhat.com (Postfix) with ESMTP id C60371809542;
+        Wed,  1 Jul 2020 09:45:57 +0000 (UTC)
+Date:   Wed, 1 Jul 2020 05:45:57 -0400 (EDT)
+From:   Bastien Nocera <bnocera@redhat.com>
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
- <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-Date:   Tue, 30 Jun 2020 20:33:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>
+Message-ID: <732277929.1313334.1593596757447.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20200629191748.3859-1-markpearson@lenovo.com>
+References: <markpearson@lenovo.com> <20200629191748.3859-1-markpearson@lenovo.com>
+Subject: Re: [PATCH v4] platform/x86: thinkpad_acpi: lap or desk mode
+ interface
 MIME-Version: 1.0
-In-Reply-To: <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.36.114.193, 10.4.195.20]
+Thread-Topic: platform/x86: thinkpad_acpi: lap or desk mode interface
+Thread-Index: DNhKh74HzXWd2JukZKZQM+djAoanYA==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
-> Hi,
+
+
+----- Original Message -----
+> Newer Lenovo Thinkpad platforms have support to identify whether the
+>   system is on-lap or not using an ACPI DYTC event from the firmware.
 > 
-> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
->> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
->>> Hi Daniel,
->>>
->>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
->>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
->>>>> Hi Daniel,
->>>>>
->>>>> I am reading the logs and can't find anything specific to thermal.
->>>>>
->>>>> What I can see is
->>>>>
->>>>> "random: crng init done"
->>>>>
->>>>> with large times (~200s) and then e.g.
->>>>>
->>>>> 'auto-login-action timed out after 283 seconds'
->>>>>
->>>>> I'm looking at e.g.
->>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
->>>>>
->>>>>
->>>>>
->>>
->>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
->>> PATCH 11/11 renames a method and the code compiles, so it seems
->>> unlikely that this is causing problems. One should never say never,
->>> though ;)
->>
->> The sha1 is just the HEAD for the kernel reference. The regression
->> happens with your series, somewhere.
->>
->>> The reported failure is not due to some test failing but rather due
->>> to timeout logging into the test system. Could it be that there is
->>> some other problem?
->>
->> I did reproduce:
->>
->> v5.8-rc3 + series => imx6 hang at boot time
->> v5.8-rc3 => imx6 boots correctly
->>
+>   This patch provides the ability to retrieve the current mode via sysfs
+>   entrypoints and will be used by userspace for thermal mode and WWAN
+>   functionality
 > 
-> I kindly ask for a bisect.
-
-I will give a try but it is a very long process as the board is running
-on kernelci.
-
-I was not able to reproduce it on imx7 despite it is the same sensor :/
+> Co-developed-by: Nitin Joshi <njoshi1@lenovo.com>
+> Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
+> Reviewed-by: Sugumaran <slacshiminar@lenovo.com>
+> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+You can add my:
+Reviewed-by: Bastien Nocera <bnocera@redhat.com>
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Cheers
+
