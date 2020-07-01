@@ -2,84 +2,152 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB61210883
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Jul 2020 11:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B35B21092D
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Jul 2020 12:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729486AbgGAJqD (ORCPT
+        id S1729898AbgGAKXj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 1 Jul 2020 05:46:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38203 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726343AbgGAJqC (ORCPT
+        Wed, 1 Jul 2020 06:23:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729781AbgGAKXi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 1 Jul 2020 05:46:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1593596761;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fm2hacvcJh/LVKAI6LvO72ISQWLbBcTh99ZHxmp5Tvc=;
-        b=gdeyzjdplJVHbWS3NyIke1OiauBcuT3lY2qvUbQ2e5ydVtO89vitiBOfTvdSt/B1ljV+Du
-        SXqu5SWEUtxusY+z3N7LED+B51yESJQ/hXKzhKvIBc6YxAFU19J1mdwwossDpQgsN9yCWR
-        5n2eNIqaV+2MXeiLjJtU2LB6HVzdJNE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-55JdHF1DMqi0lGH3NpVi9w-1; Wed, 01 Jul 2020 05:45:59 -0400
-X-MC-Unique: 55JdHF1DMqi0lGH3NpVi9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00BD319057A0;
-        Wed,  1 Jul 2020 09:45:58 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EB09A1025EB0;
-        Wed,  1 Jul 2020 09:45:57 +0000 (UTC)
-Received: from zmail20.collab.prod.int.phx2.redhat.com (zmail20.collab.prod.int.phx2.redhat.com [10.5.83.23])
-        by colo-mx.corp.redhat.com (Postfix) with ESMTP id C60371809542;
-        Wed,  1 Jul 2020 09:45:57 +0000 (UTC)
-Date:   Wed, 1 Jul 2020 05:45:57 -0400 (EDT)
-From:   Bastien Nocera <bnocera@redhat.com>
-To:     Mark Pearson <markpearson@lenovo.com>
-Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
+        Wed, 1 Jul 2020 06:23:38 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248D4C03E979;
+        Wed,  1 Jul 2020 03:23:38 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 339872A530D
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
-        Nitin Joshi <njoshi1@lenovo.com>,
-        Sugumaran <slacshiminar@lenovo.com>
-Message-ID: <732277929.1313334.1593596757447.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20200629191748.3859-1-markpearson@lenovo.com>
-References: <markpearson@lenovo.com> <20200629191748.3859-1-markpearson@lenovo.com>
-Subject: Re: [PATCH v4] platform/x86: thinkpad_acpi: lap or desk mode
- interface
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+ <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+ <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+ <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+ <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+ <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+ <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+Date:   Wed, 1 Jul 2020 12:23:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.36.114.193, 10.4.195.20]
-Thread-Topic: platform/x86: thinkpad_acpi: lap or desk mode interface
-Thread-Index: DNhKh74HzXWd2JukZKZQM+djAoanYA==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi,
 
+W dniu 30.06.2020 o 20:33, Daniel Lezcano pisze:
+> On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
+>> Hi,
+>>
+>> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
+>>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
+>>>> Hi Daniel,
+>>>>
+>>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
+>>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
+>>>>>> Hi Daniel,
+>>>>>>
+>>>>>> I am reading the logs and can't find anything specific to thermal.
+>>>>>>
+>>>>>> What I can see is
+>>>>>>
+>>>>>> "random: crng init done"
+>>>>>>
+>>>>>> with large times (~200s) and then e.g.
+>>>>>>
+>>>>>> 'auto-login-action timed out after 283 seconds'
+>>>>>>
+>>>>>> I'm looking at e.g.
+>>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>
+>>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
+>>>> PATCH 11/11 renames a method and the code compiles, so it seems
+>>>> unlikely that this is causing problems. One should never say never,
+>>>> though ;)
+>>>
+>>> The sha1 is just the HEAD for the kernel reference. The regression
+>>> happens with your series, somewhere.
+>>>
+>>>> The reported failure is not due to some test failing but rather due
+>>>> to timeout logging into the test system. Could it be that there is
+>>>> some other problem?
+>>>
+>>> I did reproduce:
+>>>
+>>> v5.8-rc3 + series => imx6 hang at boot time
+>>> v5.8-rc3 => imx6 boots correctly
+>>>
 
------ Original Message -----
-> Newer Lenovo Thinkpad platforms have support to identify whether the
->   system is on-lap or not using an ACPI DYTC event from the firmware.
+What did you reproduce? Timeout logging in to the test system or a "real" 
+failure of a test?
+
+>>
+>> I kindly ask for a bisect.
 > 
->   This patch provides the ability to retrieve the current mode via sysfs
->   entrypoints and will be used by userspace for thermal mode and WWAN
->   functionality
+> I will give a try but it is a very long process as the board is running
+> on kernelci.
 > 
-> Co-developed-by: Nitin Joshi <njoshi1@lenovo.com>
-> Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
-> Reviewed-by: Sugumaran <slacshiminar@lenovo.com>
-> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> I was not able to reproduce it on imx7 despite it is the same sensor :/
+> 
+> 
 
+Could it be that the thermal sensors somehow contribute to entropy and after
+the series is applied on some machines it takes more time to gather enough
+entropy?
 
-You can add my:
-Reviewed-by: Bastien Nocera <bnocera@redhat.com>
-
-Cheers
-
+Andrzej
