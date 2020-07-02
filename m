@@ -2,22 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AAE8212541
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 15:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F8121272D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 16:58:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729480AbgGBNxr (ORCPT
+        id S1729953AbgGBO6e (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jul 2020 09:53:47 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58892 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729051AbgGBNxq (ORCPT
+        Thu, 2 Jul 2020 10:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729673AbgGBO6d (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jul 2020 09:53:46 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 74A4F2A0785
+        Thu, 2 Jul 2020 10:58:33 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E55DC08C5E1
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Jul 2020 07:58:33 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id g75so27153874wme.5
+        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Jul 2020 07:58:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x8u1Qd58Jra03vuD/Ujnb8vgjM3oVoZL6nudEwpIjQU=;
+        b=MuVybhw3sv5NBKOe6y2sDqWGb6wf25zluQ+REINq2DD7Z+G0/vL+1PjKXCx7BKu36I
+         rkOhMxsrdH5ggNXyGtUArqqK6FFDtfoucPppNg9Ac+hzT2ib7NgaqP0jqhE6wN/Uu+8z
+         v+G0SlqZQN+IlE68CkVhUzr6RbLF8Keh04beeKuAifk1Z731BvyUs42Io9/Px37GRxeX
+         yncDnRQqK5X92hTB50me7klYSTEYamFN0yXSRdJF0BHVUgiLPDfmTBzIkJZE4CJvAKyL
+         RaMTiVIc2TEWIqPmtRek99oHZherYcLqVesA9MCxFhhjk91a5Rg2NrQso0apj3CruhoK
+         A3Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x8u1Qd58Jra03vuD/Ujnb8vgjM3oVoZL6nudEwpIjQU=;
+        b=Re74e+3DRTqRJifL6UC+relyNWn+H19vqaGn8QEaqMICHi1Zd6EUcDvTCa1tCZh3Ho
+         q2NduPYNj7aMNHfWMlMKwfY8b16ojUbRN2T5KUUncpJlDG1V5B0Yhw177f9lsF18V6NI
+         lYsKL/qG3zz4LTdQkcL4Sxu8flap9y+TlskKUyPA1eIhWDGR5/uqgSnqqzhXyDZUwaVy
+         UzK1qdkoQIMeMG/o8z22SI3zUyGS/0+1YI4o2CVH9mg65lIn96ndFIrbN4pCT0e6GMEy
+         u9jdv67bV4mPm6RXu8MQUDZUBf3oTR1xNiqP+TQypDHZaWxLhzQyymhPyHENtmj3iMjc
+         gHuw==
+X-Gm-Message-State: AOAM531PnBwRp0PGfHMGYAqWKJZK6BgGQ1Wf+p/H1wVoEHE5pKAMAGll
+        Njo0JvmYYGEpEaR28qlffg8R6w==
+X-Google-Smtp-Source: ABdhPJwDLcM1T+80bGDziotECthUV0hMUrJkGQgjNgyDlPfrA+vwPUEsl/LS3IvbqZBTaU5G7yjFLg==
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr30660667wmj.115.1593701911400;
+        Thu, 02 Jul 2020 07:58:31 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0? ([2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0])
+        by smtp.googlemail.com with ESMTPSA id v24sm13394737wrd.92.2020.07.02.07.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2020 07:58:30 -0700 (PDT)
 Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
         netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
@@ -69,38 +103,55 @@ References: <20200629122925.21729-1-andrzej.p@collabora.com>
  <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
  <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
  <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
-Date:   Thu, 2 Jul 2020 15:53:39 +0200
+ <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <134e1e38-02d0-32ed-bd59-cf283a161b35@linaro.org>
+Date:   Thu, 2 Jul 2020 16:58:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Daniel,
-
-<snip>
-
->>>>>
->>>>> I did reproduce:
->>>>>
->>>>> v5.8-rc3 + series => imx6 hang at boot time
->>>>> v5.8-rc3 => imx6 boots correctly
+On 02/07/2020 15:53, Andrzej Pietrasiewicz wrote:
+> Hi Daniel,
 > 
-> So finally I succeeded to reproduce it on my imx7 locally. The sensor
-> was failing to initialize for another reason related to the legacy
-> cooling device, this is why it is not appearing on the imx7.
+> <snip>
 > 
-> I can now git-bisect :)
+>>>>>>
+>>>>>> I did reproduce:
+>>>>>>
+>>>>>> v5.8-rc3 + series => imx6 hang at boot time
+>>>>>> v5.8-rc3 => imx6 boots correctly
+>>
+>> So finally I succeeded to reproduce it on my imx7 locally. The sensor
+>> was failing to initialize for another reason related to the legacy
+>> cooling device, this is why it is not appearing on the imx7.
+>>
+>> I can now git-bisect :)
+>>
 > 
+> That would be very kind of you, thank you!
 
-That would be very kind of you, thank you!
+Author: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date:   Mon Jun 29 14:29:21 2020 +0200
 
-Andrzej
+    thermal: Use mode helpers in drivers
+
+    Use thermal_zone_device_{en|dis}able() and
+thermal_zone_device_is_enabled().
+
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
