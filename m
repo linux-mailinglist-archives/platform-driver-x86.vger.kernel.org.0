@@ -2,71 +2,181 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5744F2121BF
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 13:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0234212528
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 15:47:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbgGBLHx (ORCPT
+        id S1729254AbgGBNrr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jul 2020 07:07:53 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:40131 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728009AbgGBLHx (ORCPT
+        Thu, 2 Jul 2020 09:47:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40974 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729314AbgGBNrq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jul 2020 07:07:53 -0400
-Received: from [222.129.43.254] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1jqx4G-0002j6-Mm; Thu, 02 Jul 2020 11:07:49 +0000
-From:   Aaron Ma <aaron.ma@canonical.com>
-To:     aaron.ma@canonical.com, mapengyu@gmail.com, ibm-acpi@hmh.eng.br,
-        dvhart@infradead.org, andy@infradead.org,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [v2][PATCH] platform/x86: thinkpad_acpi: not loading brightness_init when _BCL invalid
-Date:   Thu,  2 Jul 2020 19:07:40 +0800
-Message-Id: <20200702110740.19880-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200702085520.16901-1-aaron.ma@canonical.com>
-References: <20200702085520.16901-1-aaron.ma@canonical.com>
+        Thu, 2 Jul 2020 09:47:46 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7F8C08C5DD
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Jul 2020 06:47:45 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id j4so26046208wrp.10
+        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Jul 2020 06:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZwC2KofFJKO2Kz1ZnDpUC9vH2nMKW6u7oZXxLzQv40I=;
+        b=dmiLcwDhJk1NQcYlu03OuKMtUIE/NeC2LLeLbrwxiWP/CQWVh678undWuJpSMFfWKt
+         pqJQFbXDS3SmeqvEKXm69oZpdNbYtPr6K3bey6rLz4r9xng9TFETrFIQ4hIDCxrfauBv
+         GRYt0qlTOeZ49+GYrf+gmLrcYXd/cnfabq6G/6qUAp59taYwc4gBHa3cG+n+S7WK2WBM
+         bGRllAgbervVwDtmS+KJwhmnJnQLcCPvhcoveFej6391OZEALA4RpW2ZaSp+wxwu9qX6
+         lLqF4S+Po6BfziWbngftEcLQyKYRo1r1AtxgL+iQTjhEXqpcEujdUBJ/nnzFqdttjO26
+         +8Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZwC2KofFJKO2Kz1ZnDpUC9vH2nMKW6u7oZXxLzQv40I=;
+        b=GPl2t1qww56h0jyovuwlVIGiAiVCgU5YFTk3P1rgDkySUMmoodcZAE37CXHIhEN9td
+         s+1pHV5d9GH8Un5w9Pm9rvPIOvrJo01p25omXQS5qwCKFCiEdRs7YkEseSPs5jB8bypr
+         WDLd//F0nCNkFvtcRfOoqO71VNb0yvNhlh+4dCzCTlXyNKGEszgViwy8HDMIPSFfyTE4
+         2YBhqTnjHpiRfTHlzvZbLuQvxqTPZfJvpRQEtWajm//563HDw72jigud2hgjXIskRSAr
+         y0eO2ZYPJvFp1K/a+dbXw5YDABsNMUcVcF1Jxpln8514bpTHl/ChPtWvFU9N7h7lGwa7
+         z9Pg==
+X-Gm-Message-State: AOAM531cfnALrerZtb7X+K2uL91psnnRnQ6HRIjfZ455Jg3V2pu+3+0i
+        0dmA9655S441UM+KLJTUXHAWGA==
+X-Google-Smtp-Source: ABdhPJxkjl0IEjS3JqN7KaPO6L0oyFA19XXhKeCpfVTk+YyOUUQhs0LWqu5F2t0O0dXW3DG2OnPg/w==
+X-Received: by 2002:adf:c44d:: with SMTP id a13mr32528906wrg.205.1593697663121;
+        Thu, 02 Jul 2020 06:47:43 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0? ([2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0])
+        by smtp.googlemail.com with ESMTPSA id g16sm11988699wrh.91.2020.07.02.06.47.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2020 06:47:42 -0700 (PDT)
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+ <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+ <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+ <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+ <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+ <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+ <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+ <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
+Date:   Thu, 2 Jul 2020 15:47:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When _BCL invalid, disable thinkpad_acpi backlight brightness control.
+On 01/07/2020 12:23, Andrzej Pietrasiewicz wrote:
+> Hi,
+> 
+> W dniu 30.06.2020 o 20:33, Daniel Lezcano pisze:
+>> On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
+>>> Hi,
+>>>
+>>> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
+>>>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
+>>>>> Hi Daniel,
+>>>>>
+>>>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
+>>>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
+>>>>>>> Hi Daniel,
+>>>>>>>
+>>>>>>> I am reading the logs and can't find anything specific to thermal.
+>>>>>>>
+>>>>>>> What I can see is
+>>>>>>>
+>>>>>>> "random: crng init done"
+>>>>>>>
+>>>>>>> with large times (~200s) and then e.g.
+>>>>>>>
+>>>>>>> 'auto-login-action timed out after 283 seconds'
+>>>>>>>
+>>>>>>> I'm looking at e.g.
+>>>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>
+>>>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
+>>>>> PATCH 11/11 renames a method and the code compiles, so it seems
+>>>>> unlikely that this is causing problems. One should never say never,
+>>>>> though ;)
+>>>>
+>>>> The sha1 is just the HEAD for the kernel reference. The regression
+>>>> happens with your series, somewhere.
+>>>>
+>>>>> The reported failure is not due to some test failing but rather due
+>>>>> to timeout logging into the test system. Could it be that there is
+>>>>> some other problem?
+>>>>
+>>>> I did reproduce:
+>>>>
+>>>> v5.8-rc3 + series => imx6 hang at boot time
+>>>> v5.8-rc3 => imx6 boots correctly
 
-brightness_enable is already checked at the beginning.
-Most new thinkpads are using GPU driver to control brightness now,
-print notice when enabled brightness control even when brightness_enable = 1.
+So finally I succeeded to reproduce it on my imx7 locally. The sensor
+was failing to initialize for another reason related to the legacy
+cooling device, this is why it is not appearing on the imx7.
 
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+I can now git-bisect :)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ff7f0a4f2475..a52d6d457d6c 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -6955,10 +6955,13 @@ static int __init brightness_init(struct ibm_init_struct *iibm)
- 			pr_warn("Cannot enable backlight brightness support, ACPI is already handling it.  Refer to the acpi_backlight kernel parameter.\n");
- 			return 1;
- 		}
--	} else if (tp_features.bright_acpimode && brightness_enable > 1) {
--		pr_notice("Standard ACPI backlight interface not available, thinkpad_acpi native brightness control enabled\n");
-+	} else if (!tp_features.bright_acpimode) {
-+		pr_notice("thinkpad_acpi backlight interface not available\n");
-+		return 1;
- 	}
- 
-+	pr_notice("thinkpad_acpi native brightness control enabled\n");
-+
- 	/*
- 	 * Check for module parameter bogosity, note that we
- 	 * init brightness_mode to TPACPI_BRGHT_MODE_MAX in order to be
+
+
 -- 
-2.26.2
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
