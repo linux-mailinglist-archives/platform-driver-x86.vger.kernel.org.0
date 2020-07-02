@@ -2,97 +2,124 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8215212192
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 12:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0DE62121A0
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 12:57:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728280AbgGBKv0 (ORCPT
+        id S1727900AbgGBK5G (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jul 2020 06:51:26 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39782 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbgGBKv0 (ORCPT
+        Thu, 2 Jul 2020 06:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726805AbgGBK5G (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jul 2020 06:51:26 -0400
-Received: from [222.129.43.254] (helo=[192.168.1.10])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1jqwoL-00013y-I3; Thu, 02 Jul 2020 10:51:22 +0000
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: not loading brightness_init
- when _BCL invalid
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     mapengyu@gmail.com,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        Thu, 2 Jul 2020 06:57:06 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5ACC08C5C1
+        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Jul 2020 03:57:06 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id o13so10329427pgf.0
+        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Jul 2020 03:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=06wVRBUw5sU6HeeBW+uzGWclrs60UMpE1NyO8Qk7/YY=;
+        b=grfnpMycLdylON5naV2oSZu+n1o9Ni/pE7vv33/lW1UMlPSV++fubzQe4DGyJ6uXzY
+         rbDQWCSCEcivfpsiLPgSJR8qeNNpSnTqqAd+7vmdPuolICBdzV+lIAqod/mpGfst2Kdc
+         NyBebcHCN8kNl3Nb0cUFo6xDIRjmT3M7o7g+HsAuaTZEJiNCivrML1canpU1Ew6DmUOE
+         Ip2G3nVmLS1G0jPNTlYrodTtMzqRJU3HQrDMx1miqa7IwU/idqmY8G3tWT1ut8uvOJ55
+         yoLwMoxcJBu0+Dttp1sCgzGqRSsS/t0oTAVYy35GVT4UP2eAwMB08ipX+YSvpblFBY/0
+         IAuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=06wVRBUw5sU6HeeBW+uzGWclrs60UMpE1NyO8Qk7/YY=;
+        b=fZaplN0p2gupbeztR+yh17qVQeq3KYybagA8+tb2uN35WwULPUKogaj3b569Xr7iz9
+         qIN2qxunjKgJPPtYH9MqGWPBpdjqKtV9tD0rSWZIrTN2Pg9vEib5idzkANLdlMGOMKpb
+         qpWzW1ooYFQTto4vRlJQSyOG1ObumwGUImXkjQnqBG18Uam0rgNfmH52hl8PlbXvXWbI
+         zsC5aHQ5r7HJ/inkIhj9xu9kq591lDgJmVeFtJejjfio8o+kQXOy/6WzwN46gSMgMHZx
+         uqfv5VyWDjpJY5Ah14mv2q8D0Xv8+efiQoIW+X1ObhnNWRz7I1tC1spXL/iGhE/iUth2
+         kxnA==
+X-Gm-Message-State: AOAM532n4Rd3ELp/aSvqXEqxGi2ewvbc22LIibPDsvNALxzowfXH7yA9
+        ff5fzTcV8tPlfvlFL3APWfxupqzNXpXtdS3p7kQ=
+X-Google-Smtp-Source: ABdhPJyaWAJfuvQ5qJmv2QxaphDS1/PE7a4nmUeRCtiwOIllzJlabporD1fs8Ewl+NJ4r3b8f++1Hl3vby77EUlPaVU=
+X-Received: by 2002:a62:7657:: with SMTP id r84mr27243754pfc.130.1593687425894;
+ Thu, 02 Jul 2020 03:57:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <markpearson@lenovo.com> <20200629191748.3859-1-markpearson@lenovo.com>
+ <CAHp75VeO5SzYs=kRh+BV_vydO7PTPLkmu8aiYXvSJFTewSTYwA@mail.gmail.com> <7d0e1dcc-7285-71e1-7125-604cb2630595@lenovo.com>
+In-Reply-To: <7d0e1dcc-7285-71e1-7125-604cb2630595@lenovo.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 2 Jul 2020 13:56:48 +0300
+Message-ID: <CAHp75Vemyxv6KWBwAB+EyzvBRO_3OPaad9qCXdos_x8QhLupiw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v4] platform/x86: thinkpad_acpi: lap or
+ desk mode interface
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
         Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200702085520.16901-1-aaron.ma@canonical.com>
- <CAHp75VeCHW=GMgyHRswsTrZ7b3TEnFh15F-5fyHcUsqXzoFS_g@mail.gmail.com>
-From:   Aaron Ma <aaron.ma@canonical.com>
-Autocrypt: addr=aaron.ma@canonical.com; prefer-encrypt=mutual; keydata=
- mQENBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
- 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
- BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
- MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
- ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
- AAG0IUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPokBNwQTAQgAIQUCV994uQIb
- AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
- LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
- GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
- 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
- V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
- cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrauQENBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
- sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
- +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
- 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
- mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
- Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAGJAR8EGAEIAAkFAlffeLkCGwwACgkQzcQs
- 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
- VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
- NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
- 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
- nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
-Message-ID: <2ecf4032-267c-32c8-361f-2396730aaa65@canonical.com>
-Date:   Thu, 2 Jul 2020 18:51:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAHp75VeCHW=GMgyHRswsTrZ7b3TEnFh15F-5fyHcUsqXzoFS_g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        bnocera@redhat.com, Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/2/20 5:30 PM, Andy Shevchenko wrote:
-> On Thu, Jul 2, 2020 at 11:55 AM Aaron Ma <aaron.ma@canonical.com> wrote:
->>
->> When _BCL invalid, disable thinkpad_acpi backlight brightness control.
->>
->> brightness_enable is already checked at the beginning,
-> 
->> Always print notice when enabled brightness control.
-> 
-> Why?
-> 
+On Thu, Jul 2, 2020 at 1:45 PM Mark Pearson <markpearson@lenovo.com> wrote:
+> On 7/2/2020 5:29 AM, Andy Shevchenko wrote:
+> > On Mon, Jun 29, 2020 at 10:23 PM Mark Pearson <markpearson@lenovo.com> wrote:
 
-Default brightness_enable = 2, so this message will always be printed as before
-Actually no change here.
+...
 
-> ...
-> 
->> +       pr_notice("thinkpad_acpi native brightness control enabled\n");
-> 
-> 'notice' level is quite high, why do we spam users with this?
-> 
+> > You specifically added a new ABI, where is documentation? It's a show stopper.
+> Ah - my apologies I didn't know that was a requirement.
+>
+> Any pointers on where to add it? I looked in Documentation/ABI and I
+> couldn't find anything around thinkpad_acpi to add this to.
+> Should there be a sysfs-devices-platform-thinkpad_acpi file?
+>
+> If that's the case I'm happy to look at creating that but as a first
+> time kernel contributor would you object if I took that on as a separate
+> exercise rather than as part of this patch. I'm guessing it would need
+> more time, care and reviewers from other contributors to the
+> thinkpad_acpi.c driver
 
-Like above.
+Since it's an old driver its ABI is listed here
 
-Another reason is  most thinkpads are using native gpu driver to control
-brightness, notice when thinkpad_acpi brightness is enabled.
+https://elixir.bootlin.com/linux/latest/source/Documentation/admin-guide/laptops/thinkpad-acpi.rst
 
-Aaron
+...
+
+> > Why not simple
+> >
+> >   if (output < 0)
+> >     return output;
+> Agreed. I'll fix
+
+> > I think your prototype should be
+> >
+> > int foo(cmd, *output);
+> Looking at it again - I agree.
+
+And after returning only error codes, you may do above as simple as
+
+int ret;
+
+ret = ...(.., &output);
+if (ret)
+  return ret;
+...
+return 0;
+
+...
+
+> As a minor note I think these all arose because of getting checkpatch to
+> run cleanly. I prefer one line too and if that's your preference it
+> works for me.
+
+Checkpatch shouldn't complain (update it if it does).
+
+-- 
+With Best Regards,
+Andy Shevchenko
