@@ -2,103 +2,71 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D817E2121A5
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 12:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5744F2121BF
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 13:07:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbgGBK7s (ORCPT
+        id S1728071AbgGBLHx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jul 2020 06:59:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgGBK7s (ORCPT
+        Thu, 2 Jul 2020 07:07:53 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:40131 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728009AbgGBLHx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jul 2020 06:59:48 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AAF6C08C5C1;
-        Thu,  2 Jul 2020 03:59:48 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id a9so1884823pjh.5;
-        Thu, 02 Jul 2020 03:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eQfyd1FNaJKu9ASDwUOKz0z9LJlSLAkgJJqmBpYTw9s=;
-        b=U0J2CRFa/lwmL2DchR8OjHsqhBV24N+SjcjO+KDTedvIERiHLgnWgmQ04htga5/Ixn
-         7uVu9thA4GpArt/jbzpdV+hwdrlpco2wAVOtiXNih3aY99WUDtlSh9mHIUIY2A+qG58G
-         /DS/GsCVg+P4aCjExqR+RrXYb9TWuSqGlMf0dZVkV/XX8TajpJ5QZtOkdf3IqM2SOSet
-         4Ga/6euvE62eIxfx/iCX64v8IijnQJPS3687H1bXSBnP9hJ7eKc82CWxYrH9Rk4iJ9M5
-         DmF8Cu7N0iMHJGLl4VPdq78mCCTgcjmM2QYevVSv8fImAWzroyUfExMSHOnwHlgSzMmK
-         M35w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eQfyd1FNaJKu9ASDwUOKz0z9LJlSLAkgJJqmBpYTw9s=;
-        b=Q0gX+8qcyjcxb+Z6EFeMsyoqgojizsglJVPRNlZPVeoIRja3FaCmBXjsxe46OcWve8
-         Vgh+ZPPEcl5Y+62JClSZnnb3NC1O5i03Sn4ipRdzwaRJExYtTu/BUe5iHs7Od/Y3m0A3
-         KCQjzdaWDZIop/Oj9qn3KNtUR4rU8Px4BKb0/n6/8cTgikGXWdH9dMvESVvmX8KPOiVe
-         aCOjXmiredY1fIPKNCbEnoLDT8eenA87npfBEYmvpUedSCXc41xISgpfFqA9iHRM/7Hv
-         PMjyaN+H9qMBY2Ja77hpC95e82PKk2PzQHuBjdQYTohlhsGjbpIo9pm0C4o0ucAN8pUY
-         tM+Q==
-X-Gm-Message-State: AOAM530RFIm/T8XPUOAahWAzAP++wb6RpNIOE8vRvUySSVOnPfuuxZem
-        /FUgeS+1TU9Ztv39JlwRPDgkJVeY6xGMrXdzqcpZGFBk
-X-Google-Smtp-Source: ABdhPJwwKX0Eq6coYFI7oC6A0cH8iVxxXuJr67Zz2dyeBp+pAptYHXltRPM5+dPgpQAHk06RqMiBOPI/ImL/D6la98E=
-X-Received: by 2002:a17:90b:3547:: with SMTP id lt7mr6496916pjb.181.1593687587859;
- Thu, 02 Jul 2020 03:59:47 -0700 (PDT)
-MIME-Version: 1.0
+        Thu, 2 Jul 2020 07:07:53 -0400
+Received: from [222.129.43.254] (helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <aaron.ma@canonical.com>)
+        id 1jqx4G-0002j6-Mm; Thu, 02 Jul 2020 11:07:49 +0000
+From:   Aaron Ma <aaron.ma@canonical.com>
+To:     aaron.ma@canonical.com, mapengyu@gmail.com, ibm-acpi@hmh.eng.br,
+        dvhart@infradead.org, andy@infradead.org,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v2][PATCH] platform/x86: thinkpad_acpi: not loading brightness_init when _BCL invalid
+Date:   Thu,  2 Jul 2020 19:07:40 +0800
+Message-Id: <20200702110740.19880-1-aaron.ma@canonical.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200702085520.16901-1-aaron.ma@canonical.com>
 References: <20200702085520.16901-1-aaron.ma@canonical.com>
- <CAHp75VeCHW=GMgyHRswsTrZ7b3TEnFh15F-5fyHcUsqXzoFS_g@mail.gmail.com> <2ecf4032-267c-32c8-361f-2396730aaa65@canonical.com>
-In-Reply-To: <2ecf4032-267c-32c8-361f-2396730aaa65@canonical.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 2 Jul 2020 13:59:31 +0300
-Message-ID: <CAHp75Veqp_saX+VsijpLrihKMHiVH1W4o-3CYXNooOCu=YKtjA@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: not loading brightness_init
- when _BCL invalid
-To:     Aaron Ma <aaron.ma@canonical.com>
-Cc:     mapengyu@gmail.com,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 1:51 PM Aaron Ma <aaron.ma@canonical.com> wrote:
-> On 7/2/20 5:30 PM, Andy Shevchenko wrote:
-> > On Thu, Jul 2, 2020 at 11:55 AM Aaron Ma <aaron.ma@canonical.com> wrote:
-> >>
-> >> When _BCL invalid, disable thinkpad_acpi backlight brightness control.
-> >>
-> >> brightness_enable is already checked at the beginning,
-> >
-> >> Always print notice when enabled brightness control.
-> >
-> > Why?
-> >
->
-> Default brightness_enable = 2, so this message will always be printed as before
-> Actually no change here.
->
-> > ...
-> >
-> >> +       pr_notice("thinkpad_acpi native brightness control enabled\n");
-> >
-> > 'notice' level is quite high, why do we spam users with this?
-> >
->
-> Like above.
->
-> Another reason is  most thinkpads are using native gpu driver to control
-> brightness, notice when thinkpad_acpi brightness is enabled.
+When _BCL invalid, disable thinkpad_acpi backlight brightness control.
 
-So, based on the above, please elaborate and explain all this in the
-commit message of new version, thanks!
+brightness_enable is already checked at the beginning.
+Most new thinkpads are using GPU driver to control brightness now,
+print notice when enabled brightness control even when brightness_enable = 1.
 
+Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index ff7f0a4f2475..a52d6d457d6c 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -6955,10 +6955,13 @@ static int __init brightness_init(struct ibm_init_struct *iibm)
+ 			pr_warn("Cannot enable backlight brightness support, ACPI is already handling it.  Refer to the acpi_backlight kernel parameter.\n");
+ 			return 1;
+ 		}
+-	} else if (tp_features.bright_acpimode && brightness_enable > 1) {
+-		pr_notice("Standard ACPI backlight interface not available, thinkpad_acpi native brightness control enabled\n");
++	} else if (!tp_features.bright_acpimode) {
++		pr_notice("thinkpad_acpi backlight interface not available\n");
++		return 1;
+ 	}
+ 
++	pr_notice("thinkpad_acpi native brightness control enabled\n");
++
+ 	/*
+ 	 * Check for module parameter bogosity, note that we
+ 	 * init brightness_mode to TPACPI_BRGHT_MODE_MAX in order to be
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
