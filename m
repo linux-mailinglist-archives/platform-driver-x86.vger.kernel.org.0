@@ -2,175 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF862139B5
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jul 2020 14:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECB3621417F
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jul 2020 00:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgGCMFR (ORCPT
+        id S1726631AbgGCWWH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jul 2020 08:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49208 "EHLO
+        Fri, 3 Jul 2020 18:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726142AbgGCMFI (ORCPT
+        with ESMTP id S1726188AbgGCWWH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jul 2020 08:05:08 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66C6BC08C5E0
-        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jul 2020 05:05:07 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id g10so10813766wmc.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 03 Jul 2020 05:05:07 -0700 (PDT)
+        Fri, 3 Jul 2020 18:22:07 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7AA7C061794
+        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jul 2020 15:22:06 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 17so35478662wmo.1
+        for <platform-driver-x86@vger.kernel.org>; Fri, 03 Jul 2020 15:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=b/2h7xwQ3PLCO21KCpNHtwNw5XKKdaueZj6bzj1qaFI=;
-        b=FwFjz9kczp/fmEq/3CY2LzY2MoAX4g3txWk2jZPo1VMcZhFboGhbIg3T8rhW0rPtbh
-         qKWbZioeDBQZ9CKsivZWPupCioAGqQYcUfu4IlduD6az4TVr0iBMZzhBOKPL9J7uMbWA
-         mquofFZR7KwyKNOmBpOWqsQ2cDTqZBtJ4MhCqXeld9v0yHNq686i8GUu6NvzX52yGtCB
-         wdhzw6IXYtGUX0Q+WUJVgugYssLiqaRgCYqUWIi7yrmmC5szxCxNsSn3Qy+dVlKZF2Z/
-         21oufd7NY1SMIhg2z1KYznt2bu66fmWXV174+G1DLqnoRRv5lvwFG0EieYGNbAm9E8hr
-         EE6g==
+        d=gmail.com; s=20161025;
+        h=date:from:subject:to:cc:message-id:mime-version;
+        bh=yHbF2+3ccm8jeZaqHxHqjMpqIW+LqcfwWIrZKdBq768=;
+        b=Ly5xAlr+8zw9HEFEGEmMCckhfPh+h65OyAcuQZrlwZw/b0/uTva5I/R5FrxTRfp0kL
+         hh9UqJ60X4vV/qJdXsPjcztQI8wlEfDyVTa7qZ0zJnSNL6dkcKNL5GSxoWhG8ZYO/z+N
+         EzrHFKyMaktAf12YPlty0LSZuu3lyXPRAlWm21hujnC5+kSDrAmO7l1f3XzFZ17bgG5y
+         4yZnoVVxZp/q7RtkkCX3MVF3FrQ8LYb3BU15AdvzaIkmZ8NMtoiDcRVTrD16xcpfOjl+
+         1DLEBUhn7dtm+/66t5+qQSfsFEZ39nCKva9c0CrtZJwCGsrVnxO/rKrgEm9D5nS8fyBP
+         Uxpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=b/2h7xwQ3PLCO21KCpNHtwNw5XKKdaueZj6bzj1qaFI=;
-        b=JymW4s1x4ltLIWdLq83tta8qLqt2wjKFTzRegjG7wEMWMRx4l+3NYLcMPlzAhcAdpP
-         EPTBtyqX8afXWDVPN+8nLtGgppuBH6E7+dsbq0CxfXHXv0jvdQOGUWWdV9c95kRRGbsK
-         vvamHg33zhKf3JvpwBH9JoW2KSJ1lBA1W3oLVM3tRK+U3W3150j1T39h5Tqf66tmFN85
-         KMKc11OYlYULrPkNsinkuEqYgYLth0WCtjRpj5WoiT2mcHcktaG1g/RnXZ7Uz/D6j6s4
-         dLf6lkmLuGGhSLVDK1WhVNQVoe/NLmPszD6SJGHll4oTyVwBj6wnoloiD0CgYn/gL2YU
-         RBIA==
-X-Gm-Message-State: AOAM533vgtNcoNzEh2JDYKI3sPWq5GOQWk/nrTwqpNHqJjdrEsz7ebjU
-        E66+se6AosYxIkofGu6NkLjY4A==
-X-Google-Smtp-Source: ABdhPJwumsxgGpUFT/dRsPTyUr8OuykwTKjzsUJJ7FiUIydVdbcw33LRfbaUoxiLbcb0XM3MhDfEJQ==
-X-Received: by 2002:a1c:9e84:: with SMTP id h126mr25473497wme.61.1593777905183;
-        Fri, 03 Jul 2020 05:05:05 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:7019:4e9b:2970:f860? ([2a01:e34:ed2f:f020:7019:4e9b:2970:f860])
-        by smtp.googlemail.com with ESMTPSA id k20sm13379403wmi.27.2020.07.03.05.05.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 05:05:04 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Fixes for stop monitoring disabled devices series
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200703104354.19657-1-andrzej.p@collabora.com>
- <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
- <91db4c89-0615-4a69-9695-ed5d3c42e1b7@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <79ae59af-d3b9-852c-d5f3-5b80d9c6ea8c@linaro.org>
-Date:   Fri, 3 Jul 2020 14:05:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:date:from:subject:to:cc:message-id:mime-version;
+        bh=yHbF2+3ccm8jeZaqHxHqjMpqIW+LqcfwWIrZKdBq768=;
+        b=UdOwzdogQDAsAQauv5WcmvO8DRGW1wrcLSQCv42VFPnqBA+EY3UlfnF4vMowHQARok
+         Wl0sELCxRQYN2DhzBA4MRaH9dcaRfJtXWeZ/XC/CIGDpBWAP4e4sLqINB2Dy1xjzJeUm
+         XrSSHS5C6BDgOQj05gjhROlglmS+UMspFyzW8kkUgRkz9PjCuCIfNH4aCPLkVpRaAYSw
+         AD5sIjQTKLgcsNk5fRikTePGR5p01DhsX1YoLoGvZa2NmhNQ5wzPPFbPSGWw+4xkqPso
+         VF2YhYjdZdCCKGpj1rsGZUbgz3JdEKjyPDmjO5CbBlzLT0Aa1siLklJfJWnvnarpKl2b
+         cKdA==
+X-Gm-Message-State: AOAM532aCimZkMQwKpunDEvGI0RZS03/HsW6f9q/pP6zECdhDCS3241m
+        fJsQgl8GFo4lG3V/5M2azXUYsRpZcG4HYg==
+X-Google-Smtp-Source: ABdhPJzBEmQGt+SCH6O5NyYWcMQ7+wRV0aDY5xMnva+ywdLkc8eEyATo2EMK6niVRJ8LDBuzczIbWQ==
+X-Received: by 2002:a1c:4185:: with SMTP id o127mr38058875wma.8.1593814925117;
+        Fri, 03 Jul 2020 15:22:05 -0700 (PDT)
+Received: from pegasus ([2a02:c7f:4e12:9e00:4a5f:99ff:fe31:bb15])
+        by smtp.gmail.com with ESMTPSA id x18sm15083441wrq.13.2020.07.03.15.22.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2020 15:22:04 -0700 (PDT)
+Date:   Fri, 03 Jul 2020 23:15:26 +0100
+From:   rhysperry111@gmail.com
+Subject: [hp_wmi] Recieving same keycode from two keys
+To:     platform-driver-x86@vger.kernel.org
+Cc:     mjg59@srcf.ucam.org
+Message-Id: <Q5ZWCQ.DX8TK304ORAI@gmail.com>
+X-Mailer: geary/3.36.2
 MIME-Version: 1.0
-In-Reply-To: <91db4c89-0615-4a69-9695-ed5d3c42e1b7@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 03/07/2020 13:57, Andrzej Pietrasiewicz wrote:
-> Hi,
-> 
-> W dniu 03.07.2020 o 13:06, Daniel Lezcano pisze:
->> On 03/07/2020 12:43, Andrzej Pietrasiewicz wrote:
->>> This short series contains fixes for "Stop monitoring disabled devices"
->>> series https://www.spinics.net/lists/arm-kernel/msg817861.html
->>>
->>> Invocation of thermal_zone_device_is_enabled() in acpi/thermal is now
->>> redundant, because thermal_zone_device_update() now is capable of
->>> handling disabled devices.
->>>
->>> In imx's ->get_temp() the lock must not be taken, otherwise a deadlock
->>> happens. The decision whether explicitly running a measurement cycle
->>> is needed is taken based on driver's local irq_enabled variable.
->>>
->>> Finally, thermal_zone_device_is_enabled() is made available to the
->>> core only, as there are no driver users of it.
->>>
->>> Andrzej Pietrasiewicz (3):
->>>    acpi: thermal: Don't call thermal_zone_device_is_enabled()
->>>    thermal: imx: Use driver's local data to decide whether to run a
->>>      measurement
->>>    thermal: Make thermal_zone_device_is_enabled() available to core only
->>>
->>>   drivers/acpi/thermal.c         | 3 ---
->>>   drivers/thermal/imx_thermal.c  | 7 ++++---
->>>   drivers/thermal/thermal_core.c | 1 -
->>>   drivers/thermal/thermal_core.h | 2 ++
->>>   include/linux/thermal.h        | 5 -----
->>>   5 files changed, 6 insertions(+), 12 deletions(-)
->>
->> Is this series easily merge-able with the other series?
->>
-> 
-> So-so.
-> 
-> Some simple conflicts needed to be resolved.
-> 
-> I have created a branch for you to look at and decide
-> how far off it is from the original and whether the
-> original Acked-by/Reviewed-by can be retained.
-> 
-> Note that I might have lost some portions of code
-> during conflict resolution. It seems to me I haven't
-> but you know.
-> 
-> The branch:
-> 
-> https://gitlab.collabora.com/andrzej.p/kernel-tests/-/tree/thermal-dont-poll-disabled-for-daniel
+Hi,
 
-Ok, I propose to keep the these three patches on top of V7.
+I would just like to preface this by saying that I am no too familiar 
+with mailing list etiquette so I am sorry if I break any rules.
 
-Rui are you fine with that ?
+I have a laptop with dedicated brighness keys (HP Pavilion 
+15-cx0598na). I believe these keys are handled by hp_wmi.
+
+Whenever I press (and release) one of the brightness keys, this message 
+appears in the journal:
+```
+[50761.461630] atkbd serio0: Unknown key pressed (translated set 2, 
+code 0xab on isa0060/serio0).
+[50761.461637] atkbd serio0: Use 'setkeycodes e02b <keycode>' to make 
+it known.
+[50761.492161] atkbd serio0: Unknown key released (translated set 2, 
+code 0xab on isa0060/serio0).
+[50761.492168] atkbd serio0: Use 'setkeycodes e02b <keycode>' to make 
+it known.
+```
+Now, this is not that interesting at first, I obviously just need to 
+map a keycode. The confusing part is that for both the brightness up 
+AND the brightness down key I get the same code (e02b). I am not to 
+sure how to debug this behavior but I would appreciate if someone 
+helped investigate this issue.
+
+I am not sure if this is relevant, but my RFKILL key does not work 
+either (but does not show anything in journal).
+
+Here is a link to acpidump: 
+https://www.dropbox.com/s/ulyltq0gz35s79l/acpidump?dl=0
+
+::: Rhys Perry :::
 
 
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
