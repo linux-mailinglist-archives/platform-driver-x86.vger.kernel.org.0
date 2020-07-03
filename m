@@ -2,56 +2,22 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B372213918
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jul 2020 13:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FF952139A2
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jul 2020 13:57:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbgGCLG2 (ORCPT
+        id S1726183AbgGCL5U (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jul 2020 07:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725984AbgGCLG1 (ORCPT
+        Fri, 3 Jul 2020 07:57:20 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43562 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725984AbgGCL5T (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jul 2020 07:06:27 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2548C08C5C1
-        for <platform-driver-x86@vger.kernel.org>; Fri,  3 Jul 2020 04:06:26 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id o8so31634854wmh.4
-        for <platform-driver-x86@vger.kernel.org>; Fri, 03 Jul 2020 04:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=y81eMV6HsZOqLL6c1xuYsXbhUNOBcbUsGgBPDyFKgzg=;
-        b=gd8gAO8UDpxTYRl0sZn4kWJeCwGEMBxcVYS4QxJfzZ9Z7a6PS2EkXghtn42SdOPbO9
-         Lv0aIguI9URFJ/NdVQ1LSjkEv7oun7ZZpIEASsCzo8l2k2wXDEUf7hyXbYPXYx8p8c3G
-         iGEQRz/uFuBMMbZYzRrfiGdWDf0d+by8kzqOG1KOREwBu8d0D+nbod0P74qHg14A+48t
-         u4zaZrNkNsOV7fMf/DaBuNPBncf9dRCYdpT6o064KI5hFHbKvFZu3fqCzTIDH1Trt4H0
-         NjHpG4Va/DgI2BFoS3vl6JlgN6rspjHg064IGsxSyMHfasd2FRZXKB68RccVFAC0cJN6
-         pg5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=y81eMV6HsZOqLL6c1xuYsXbhUNOBcbUsGgBPDyFKgzg=;
-        b=jOpjgUVbetLuYw747GW5TjMstaLFZlfQxkvIOeU5V+Yl03o4tEGZ5IM2s81GjcO2rl
-         rke8PJPXH6NFqPUFB/dujHHoO3HROBsRyHnKk9BYr7k0ENtR6Czh3Lw4w/xHTcICP45a
-         w/8sls0L1hQUnhAZppzR+cLk+6GvLrWgS8Hc1ue25d4Lo0OerqU6FaKNvGgFatdVl6NZ
-         YSwiWl61/DxUSS0zpAH/zXolS7sm3jdw59vPMDE02Z3bz2bPn7B4DbYc1XF7LyUkvX6N
-         7Cy0sndoQAByh32ZmJxGcGBoLs95Y7+70RW703LFFmiyKOEu+DTlJvmzYCcLZXq2YSIr
-         cgtg==
-X-Gm-Message-State: AOAM533EtVMikQ6xfvQVn6imef8m0T16tNuyOvtAovhkVAuyjzqyb+Gj
-        HnX2b1WtnXMMpG4bOJBecqdnfw==
-X-Google-Smtp-Source: ABdhPJx5+hhbJDm2XrJujJyKTYGWkG0fawls1pBeitg1Zd5leR55VAdCRLM6oj6h+HEL1s7BJ19+tw==
-X-Received: by 2002:a1c:e18a:: with SMTP id y132mr35371489wmg.27.1593774385057;
-        Fri, 03 Jul 2020 04:06:25 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:7019:4e9b:2970:f860? ([2a01:e34:ed2f:f020:7019:4e9b:2970:f860])
-        by smtp.googlemail.com with ESMTPSA id r12sm13373362wrc.22.2020.07.03.04.06.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 04:06:24 -0700 (PDT)
+        Fri, 3 Jul 2020 07:57:19 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id F1F462A63DE
 Subject: Re: [PATCH 0/3] Fixes for stop monitoring disabled devices series
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
         linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
         netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
         platform-driver-x86@vger.kernel.org,
@@ -94,14 +60,15 @@ Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
         Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
         kernel@collabora.com
 References: <20200703104354.19657-1-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
-Date:   Fri, 3 Jul 2020 13:06:20 +0200
+ <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <91db4c89-0615-4a69-9695-ed5d3c42e1b7@collabora.com>
+Date:   Fri, 3 Jul 2020 13:57:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200703104354.19657-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -109,42 +76,63 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 03/07/2020 12:43, Andrzej Pietrasiewicz wrote:
-> This short series contains fixes for "Stop monitoring disabled devices"
-> series https://www.spinics.net/lists/arm-kernel/msg817861.html
+Hi,
+
+W dniu 03.07.2020 o 13:06, Daniel Lezcano pisze:
+> On 03/07/2020 12:43, Andrzej Pietrasiewicz wrote:
+>> This short series contains fixes for "Stop monitoring disabled devices"
+>> series https://www.spinics.net/lists/arm-kernel/msg817861.html
+>>
+>> Invocation of thermal_zone_device_is_enabled() in acpi/thermal is now
+>> redundant, because thermal_zone_device_update() now is capable of
+>> handling disabled devices.
+>>
+>> In imx's ->get_temp() the lock must not be taken, otherwise a deadlock
+>> happens. The decision whether explicitly running a measurement cycle
+>> is needed is taken based on driver's local irq_enabled variable.
+>>
+>> Finally, thermal_zone_device_is_enabled() is made available to the
+>> core only, as there are no driver users of it.
+>>
+>> Andrzej Pietrasiewicz (3):
+>>    acpi: thermal: Don't call thermal_zone_device_is_enabled()
+>>    thermal: imx: Use driver's local data to decide whether to run a
+>>      measurement
+>>    thermal: Make thermal_zone_device_is_enabled() available to core only
+>>
+>>   drivers/acpi/thermal.c         | 3 ---
+>>   drivers/thermal/imx_thermal.c  | 7 ++++---
+>>   drivers/thermal/thermal_core.c | 1 -
+>>   drivers/thermal/thermal_core.h | 2 ++
+>>   include/linux/thermal.h        | 5 -----
+>>   5 files changed, 6 insertions(+), 12 deletions(-)
 > 
-> Invocation of thermal_zone_device_is_enabled() in acpi/thermal is now
-> redundant, because thermal_zone_device_update() now is capable of
-> handling disabled devices.
+> Is this series easily merge-able with the other series?
 > 
-> In imx's ->get_temp() the lock must not be taken, otherwise a deadlock
-> happens. The decision whether explicitly running a measurement cycle
-> is needed is taken based on driver's local irq_enabled variable.
-> 
-> Finally, thermal_zone_device_is_enabled() is made available to the
-> core only, as there are no driver users of it.
-> 
-> Andrzej Pietrasiewicz (3):
->   acpi: thermal: Don't call thermal_zone_device_is_enabled()
->   thermal: imx: Use driver's local data to decide whether to run a
->     measurement
->   thermal: Make thermal_zone_device_is_enabled() available to core only
-> 
->  drivers/acpi/thermal.c         | 3 ---
->  drivers/thermal/imx_thermal.c  | 7 ++++---
->  drivers/thermal/thermal_core.c | 1 -
->  drivers/thermal/thermal_core.h | 2 ++
->  include/linux/thermal.h        | 5 -----
->  5 files changed, 6 insertions(+), 12 deletions(-)
 
-Is this series easily merge-able with the other series?
+So-so.
 
+Some simple conflicts needed to be resolved.
+
+I have created a branch for you to look at and decide
+how far off it is from the original and whether the
+original Acked-by/Reviewed-by can be retained.
+
+Note that I might have lost some portions of code
+during conflict resolution. It seems to me I haven't
+but you know.
+
+The branch:
+
+https://gitlab.collabora.com/andrzej.p/kernel-tests/-/tree/thermal-dont-poll-disabled-for-daniel
+
+The code compiles at each stage on x86_64 + COMPILE_TEST.
+
+Andrzej
 
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+
+
+
