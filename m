@@ -2,168 +2,290 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3698D212B96
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  2 Jul 2020 19:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B97E52130F7
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  3 Jul 2020 03:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgGBRwZ (ORCPT
+        id S1726048AbgGCBY0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 2 Jul 2020 13:52:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726120AbgGBRwY (ORCPT
+        Thu, 2 Jul 2020 21:24:26 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.4]:23043 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726017AbgGCBY0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 2 Jul 2020 13:52:24 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40CA8C08C5C1
-        for <platform-driver-x86@vger.kernel.org>; Thu,  2 Jul 2020 10:52:24 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id g75so28048010wme.5
-        for <platform-driver-x86@vger.kernel.org>; Thu, 02 Jul 2020 10:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oglYmDMJJsMPIXYV1ITcnNL4FWv5Lg95ZCqCfgcjHUs=;
-        b=eCKvFL3ymp9ODmh1kib4C/AcPrCHfUe4eQkI84tWMNstC588Mcs/UzyYV+30IgEPIB
-         lfn4BGs06fAPfloAK0p40cJ3BQEuYzsfHY7d9o5Wr4ZrXyQrqXhtnG6F3jFX42w8e/2m
-         weKvXoukAneezHhMB60mGihkb8pcI/kk8sZmWoEft2bkOnM2yQyw4RX50kJPE3J+9MnN
-         fQinPrGJq2HYROL7Dl9fLIK+uTW325NDPRzeAtAAM2vhot8J8DATGO6hnDZGucHe9Jjs
-         qXs+mG8rCVEuhGXBHfDtewoYJIa2KlLkJMQg70p6vJf/FdlJAKW6C6ggeDUiANRQMAFK
-         P1Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oglYmDMJJsMPIXYV1ITcnNL4FWv5Lg95ZCqCfgcjHUs=;
-        b=rmxw7YegDWmI1wNqZ2tmDYuFKz0VuN4DYh6UaS2Y+tZZYrmpElX+jCyPkXDKjh1oiU
-         +f3z8WlC3k3DyTRS1ipOAZ0oNtj47WBUWVBXqH1j4HsBRJi9bdVtywQmivxd9eRoHDbq
-         WO3vfmvrBolKEatD9Lu7aKW1arufKBaDnzJYGeMLeIRgpWX33MAZwGnvLq0qYXkxKf0M
-         2l8gjERRyzrLhAXqCOAZncl4NGbxAuNt205cSAaEIB+oXuqiK7GZYmHCAQl+7xDECWbF
-         OAV57nDRINiwij3LjqAbnetkncUAA1ss/FZnOUMpWB4PVI4TrAC/RA/Wqn6XLxGCIY/t
-         6uiQ==
-X-Gm-Message-State: AOAM533Jtqoey9bAmNUlf+X9pgZxBmMBpA1M6tEbpJGtmSxQR7l/0ZII
-        uRjfBpRjfxli/dtdrqk2+1SbJA==
-X-Google-Smtp-Source: ABdhPJwGnT2w1T0cKggQNb65VkNrkBamKBA/sNFXDWMPWvMyn5BHS1CuhDAFIDm0ZukJhYYRAkgr9A==
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr34629911wmc.56.1593712342780;
-        Thu, 02 Jul 2020 10:52:22 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0? ([2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0])
-        by smtp.googlemail.com with ESMTPSA id h2sm11232487wrw.62.2020.07.02.10.52.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2020 10:52:22 -0700 (PDT)
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
- <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
- <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
- <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
- <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
- <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
- <8aeb4f51-1813-63c1-165b-06640af5968f@linaro.org>
- <685ef627-e377-bbf1-da11-7f7556ca2dd7@collabora.com>
- <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
-Message-ID: <b773a49d-c26e-9e20-2a5e-647eb771d617@linaro.org>
-Date:   Thu, 2 Jul 2020 19:52:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Thu, 2 Jul 2020 21:24:26 -0400
+Received: from [100.112.128.228] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-4.bemta.az-a.us-west-2.aws.symcld.net id CD/E4-25315-6C88EFE5; Fri, 03 Jul 2020 01:24:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRWlGSWpSXmKPExsWS8eIhj+6xjn9
+  xBo/fKVq8nHCY0eLB3HSL2YdtLOY8W8tosXrPC2YHVo+ds+6ye/w+wOixe8FnJo/3+66yeXze
+  JBfAGsWamZeUX5HAmnHvGl/BE+OKje9eMDcwtut0MXJyCAn8Z5T4MMOmi5ELyH7FKDF32zoWk
+  ASbgLbEli2/2LoYOThEBGQkPqz1BKlhFvjBKPFx5lE2kBphAW+JvTtnMIPYLAIqEgcmLwWzeQ
+  WsJW7vOMsEYksIyEu0L98OVs8poCpxpusxC8RiFYn7D5awQdQLSpyc+QQszgxU37x1NjOELSF
+  x8MULZpg582d3sUHYCRLLXt5hnsAoMAtJ+ywk7bOQtC9gZF7FaJFUlJmeUZKbmJmja2hgoGto
+  aKRraGyoa2RoppdYpZuoV1qsW55aXKJrpJdYXqxXXJmbnJOil5dasokRGAUpBc03djDOevNB7
+  xCjJAeTkigvR+u/OCG+pPyUyozE4oz4otKc1OJDjDIcHEoSvL9agHKCRanpqRVpmTnAiIRJS3
+  DwKInwRrUDpXmLCxJzizPTIVKnGHU5Tq5asohZiCUvPy9VSpy3tw2oSACkKKM0D24ELDlcYpS
+  VEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMGwayiiczrwRuEzCKge4X4fWSBzuiJBEhJdXAVD5l
+  0cTyXQodz+f/Spo+OU3LceaM/0acqV+nXfmz4G9ih4CsT4ObyK/lZ0/9vjIxYmn9CX2b2/MfN
+  nObbLU3z3VdX2drlbyAU8NWhomtosT576XS5YvjGK9K8HVs028+szWssi718+1by16pbeqYy9
+  ldapvypeff8W/2pnnvI/+d335s6lKnEqFEa/uP+WnT9u22O6UhkJLz6u6/0CdXPyhVnmOvfMI
+  VeuxJh8t+09wEfraSSgXr47vu7ze7vK2+aPmpNK6o4AUG5cHBIZ4xk08xc82t6GH51t2tIjon
+  7pBP9/lnv5y0bu+dO8uue53Ek7Rj3Gp7zlmer/uq69PcxW4h16Qje9lZXNHpdXmnEktxRqKhF
+  nNRcSIAWPdk8IkDAAA=
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-13.tower-335.messagelabs.com!1593739461!26365!1
+X-Originating-IP: [104.232.225.12]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.50.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 1032 invoked from network); 3 Jul 2020 01:24:22 -0000
+Received: from unknown (HELO lenovo.com) (104.232.225.12)
+  by server-13.tower-335.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Jul 2020 01:24:22 -0000
+Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by Forcepoint Email with ESMTPS id 0FA906E112300A1F70D1;
+        Thu,  2 Jul 2020 21:24:21 -0400 (EDT)
+Received: from localhost.localdomain.com (10.64.82.46) by
+ reswpmail04.lenovo.com (10.62.32.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1913.5; Thu, 2 Jul 2020 18:24:18 -0700
+From:   Mark Pearson <markpearson@lenovo.com>
+To:     <markpearson@lenovo.com>
+CC:     <ibm-acpi@hmh.eng.br>, <ibm-acpi-devel@lists.sourceforge.net>,
+        <platform-driver-x86@vger.kernel.org>, <andy.shevchenko@gmail.com>,
+        "Nitin Joshi" <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>,
+        "Bastien Nocera" <bnocera@redhat.com>
+Subject: [PATCH v5] platform/x86: thinkpad_acpi: lap or desk mode interface
+Date:   Thu, 2 Jul 2020 21:23:53 -0400
+Message-ID: <20200703012353.26413-1-markpearson@lenovo.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <markpearson@lenovo.com>
+References: <markpearson@lenovo.com>
 MIME-Version: 1.0
-In-Reply-To: <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.64.82.46]
+X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
+ reswpmail04.lenovo.com (10.62.32.23)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 02/07/2020 19:49, Daniel Lezcano wrote:
+Newer Lenovo Thinkpad platforms have support to identify whether the
+system is on-lap or not using an ACPI DYTC event from the firmware.
 
-[ ... ]
+This patch provides the ability to retrieve the current mode via sysfs
+entrypoints and will be used by userspace for thermal mode and WWAN
+functionality
 
->> Thanks!
->>
->> That confirms your suspicions.
->>
->> So the reason is that ->get_temp() is called while the mutex is held and
->> thermal_zone_device_is_enabled() wants to take the same mutex.
-> 
-> Yes, that's correct.
-> 
->> Is adding a comment to thermal_zone_device_is_enabled() to never call
->> it while the mutex is held and adding another version of it which does
->> not take the mutex ok?
-> 
-> The thermal_zone_device_is_enabled() is only used in two places, acpi
-> and this imx driver, and given:
-> 
-> 1. as soon as the mutex is released, there is no guarantee the thermal
-> zone won't be changed right after, the lock is pointless, thus the
-> information also.
-> 
-> 2. from a design point of view, I don't see why a driver should know if
-> a thermal zone is disabled or not
-> 
-> It would make sense to end with this function and do not give the
-> different drivers an opportunity to access this information.
-> 
-> Why not add change_mode for the acpi in order to enable or disable the
-> events and for imx_thermal use irq_enabled flag instead of the thermal
-> zone mode? Moreover it is very unclear why this function is needed in
-> imx_get_temp(), and I suspect we should be able to get rid of it.
+Co-developed-by: Nitin Joshi <njoshi1@lenovo.com>
+Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
+Reviewed-by: Sugumaran <slacshiminar@lenovo.com>
+Reviewed-by: Bastien Nocera <bnocera@redhat.com>
+Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+---
+Changes in v5:
+ - Updated with review changes from Andy Shevchenko
+ - Added ABI information to thinkpad-acpi.rst
+ - improved error handling and parameter passing as recommended
+ - code cleanup as recommended
+ - added review tag from bnocera
+Changes in v4:
+ - Correct hotkey event comment as we're handling event
+ - Remove unnecessary check in dytc_lapmode_refresh
+Changes in v3:
+- Fixed inaccurate comments
+- Used BIT macro to check lapmode bit setting as recommended and update
+  define name
+- Check for new_state == dytc_lapmode in dytc_lapmode_refresh
+Changes in v2:
+- cleaned up initialisation sequence to be cleaner and avoid spamming
+  platforms that don't have DYTC with warning message. Tested on P52
+- Adding platform-driver-x86 mailing list for review as requested
 
-If you agree with that you can send a patch on top of your series so I
-can test it fixes the imx platform.
+ .../admin-guide/laptops/thinkpad-acpi.rst     |  15 +++
+ drivers/platform/x86/thinkpad_acpi.c          | 111 +++++++++++++++++-
+ 2 files changed, 124 insertions(+), 2 deletions(-)
 
-
+diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+index 822907dcc845..99066aa8d97b 100644
+--- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -50,6 +50,7 @@ detailed description):
+ 	- WAN enable and disable
+ 	- UWB enable and disable
+ 	- LCD Shadow (PrivacyGuard) enable and disable
++	- Lap mode sensor
+ 
+ A compatibility table by model and feature is maintained on the web
+ site, http://ibm-acpi.sf.net/. I appreciate any success or failure
+@@ -1432,6 +1433,20 @@ The first command ensures the best viewing angle and the latter one turns
+ on the feature, restricting the viewing angles.
+ 
+ 
++DYTC Lapmode sensor
++------------------
++
++sysfs: dytc_lapmode
++
++Newer thinkpads and mobile workstations have the ability to determine if
++the device is in deskmode or lapmode. This feature is used by user space
++to decide if WWAN transmission can be increased to maximum power and is
++also useful for understanding the different thermal modes available as
++they differ between desk and lap mode.
++
++The property is read-only. If the platform doesn't have support the sysfs
++class is not created.
++
+ EXPERIMENTAL: UWB
+ -----------------
+ 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index ff7f0a4f2475..037eb77414f9 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -4022,8 +4022,8 @@ static bool hotkey_notify_6xxx(const u32 hkey,
+ 		return true;
+ 	case TP_HKEY_EV_THM_CSM_COMPLETED:
+ 		pr_debug("EC reports: Thermal Control Command set completed (DYTC)\n");
+-		/* recommended action: do nothing, we don't have
+-		 * Lenovo ATM information */
++		/* Thermal event - pass on to event handler */
++		tpacpi_driver_event(hkey);
+ 		return true;
+ 	case TP_HKEY_EV_THM_TRANSFM_CHANGED:
+ 		pr_debug("EC reports: Thermal Transformation changed (GMTS)\n");
+@@ -9795,6 +9795,105 @@ static struct ibm_struct lcdshadow_driver_data = {
+ 	.write = lcdshadow_write,
+ };
+ 
++/*************************************************************************
++ * DYTC subdriver, for the Lenovo lapmode feature
++ */
++
++#define DYTC_CMD_GET          2 /* To get current IC function and mode */
++#define DYTC_GET_LAPMODE_BIT 17 /* Set when in lapmode */
++
++static bool dytc_lapmode;
++
++static void dytc_lapmode_notify_change(void)
++{
++	sysfs_notify(&tpacpi_pdev->dev.kobj, NULL, "dytc_lapmode");
++}
++
++static int dytc_command(int command, int *output)
++{
++	acpi_handle dytc_handle;
++
++	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DYTC", &dytc_handle))) {
++		/* Platform doesn't support DYTC */
++		return -ENODEV;
++	}
++	if (!acpi_evalf(dytc_handle, output, NULL, "dd", command))
++		return -EIO;
++	return 0;
++}
++
++static int dytc_lapmode_get(bool *state)
++{
++	int output, err;
++
++	err = dytc_command(DYTC_CMD_GET, &output);
++	if (err)
++		return err;
++	*state = output & BIT(DYTC_GET_LAPMODE_BIT) ? true : false;
++	return 0;
++}
++
++static void dytc_lapmode_refresh(void)
++{
++	bool new_state;
++	int err;
++
++	err = dytc_lapmode_get(&new_state);
++	if (err || (new_state == dytc_lapmode))
++		return;
++
++	dytc_lapmode = new_state;
++	dytc_lapmode_notify_change();
++}
++
++/* sysfs lapmode entry */
++static ssize_t dytc_lapmode_show(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	return snprintf(buf, PAGE_SIZE, "%d\n", dytc_lapmode);
++}
++
++static DEVICE_ATTR_RO(dytc_lapmode);
++
++static struct attribute *dytc_attributes[] = {
++	&dev_attr_dytc_lapmode.attr,
++	NULL,
++};
++
++static const struct attribute_group dytc_attr_group = {
++	.attrs = dytc_attributes,
++};
++
++static int tpacpi_dytc_init(struct ibm_init_struct *iibm)
++{
++	int err;
++
++	err = dytc_lapmode_get(&dytc_lapmode);
++	/* If support isn't available (ENODEV) then don't return an error
++	 * but just don't create the sysfs group
++	 */
++	if (err == -ENODEV)
++		return 0;
++	/* For all other errors we can flag the failure */
++	if (err)
++		return err;
++
++	/* Platform supports this feature - create the group */
++	err = sysfs_create_group(&tpacpi_pdev->dev.kobj, &dytc_attr_group);
++	return err;
++}
++
++static void dytc_exit(void)
++{
++	sysfs_remove_group(&tpacpi_pdev->dev.kobj, &dytc_attr_group);
++}
++
++static struct ibm_struct dytc_driver_data = {
++	.name = "dytc",
++	.exit = dytc_exit,
++};
++
+ /****************************************************************************
+  ****************************************************************************
+  *
+@@ -9842,6 +9941,10 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
+ 
+ 		mutex_unlock(&kbdlight_mutex);
+ 	}
++
++	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED)
++		dytc_lapmode_refresh();
++
+ }
+ 
+ static void hotkey_driver_event(const unsigned int scancode)
+@@ -10280,6 +10383,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
+ 		.init = tpacpi_lcdshadow_init,
+ 		.data = &lcdshadow_driver_data,
+ 	},
++	{
++		.init = tpacpi_dytc_init,
++		.data = &dytc_driver_data,
++	},
+ };
+ 
+ static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+2.26.2
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
