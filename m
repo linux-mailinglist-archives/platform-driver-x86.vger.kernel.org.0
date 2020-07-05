@@ -2,110 +2,164 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE8AB214340
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Jul 2020 05:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6496214A81
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 Jul 2020 08:04:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbgGDD3U (ORCPT
+        id S1726331AbgGEGEe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 3 Jul 2020 23:29:20 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:54648 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbgGDD3T (ORCPT
+        Sun, 5 Jul 2020 02:04:34 -0400
+Received: from mga03.intel.com ([134.134.136.65]:53525 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725873AbgGEGEe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 3 Jul 2020 23:29:19 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0643IE0v056401;
-        Sat, 4 Jul 2020 03:29:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=xICZg36pt8h/hSPa7Ni+oRU48F4QAE0rnESu93rms6E=;
- b=GaxIQ0mXCFQ9B6DI5XrlVJ4YDKWNcTEAYyAkaXWpBdBabGXejcQoYd4GKqlDXxFEsNo4
- Yo/c3Wfuq8Bw4rgxkS5QNGPANMnOo8YZnuQwi9uojng+/lIdi7QXgXeJdvJda5tvObfZ
- kj7/qfR9M8AcoqogpodLMo9sIgIlGjsaTGNcTUr/PCI8iQYD/cS/taCcIBAoH3eR/UWm
- j/VTxcPlSY7klKeppS+ktOLe3mEWoZ7UOLnwPkx3AlVQv+xpyFHkEQkOfqqwaZjIck5O
- 63KkNipcYjh3ezk1M7oowSTgacTeIE9KYlijS2rkUSj6tVfB376DqN7ZNmHeLAXtfD7A dw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 322hqm00bm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 04 Jul 2020 03:29:01 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0643Cwiw082610;
-        Sat, 4 Jul 2020 03:29:00 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 322ft93j7u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 04 Jul 2020 03:29:00 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0643SocQ028543;
-        Sat, 4 Jul 2020 03:28:50 GMT
-Received: from localhost (/10.159.135.37)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sat, 04 Jul 2020 03:28:50 +0000
-Date:   Fri, 3 Jul 2020 20:28:46 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
-        dm-devel@redhat.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        linux-nfs@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 13/13] Documentation/admin-guide: xfs: drop doubled word
-Message-ID: <20200704032846.GU7625@magnolia>
-References: <20200704032020.21923-1-rdunlap@infradead.org>
- <20200704032020.21923-14-rdunlap@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200704032020.21923-14-rdunlap@infradead.org>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9671 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 mlxscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2007040023
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9671 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 clxscore=1011
- priorityscore=1501 phishscore=0 mlxlogscore=999 cotscore=-2147483648
- bulkscore=0 malwarescore=0 spamscore=0 impostorscore=0 suspectscore=1
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2007040023
+        Sun, 5 Jul 2020 02:04:34 -0400
+IronPort-SDR: pHnVBsnIxSx5WKl1RlaRCjXrBR5HrZUnQ9z4I8Ty1cV8AXChURgWwbzJjdlA4BNDJYgri+i7nc
+ +huKGr37dUTw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9672"; a="147301297"
+X-IronPort-AV: E=Sophos;i="5.75,314,1589266800"; 
+   d="scan'208";a="147301297"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2020 23:04:33 -0700
+IronPort-SDR: RTZKJhnrLEZugPly4VtR2NDpLYKGxq/qbqDz6diM18IhrJLYpFDA0aIulzr5x/OJiPJ0R6pdFP
+ RzzxPLYsn14A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,314,1589266800"; 
+   d="scan'208";a="282715546"
+Received: from yangblan-mobl2.ccr.corp.intel.com ([10.255.29.148])
+  by orsmga006.jf.intel.com with ESMTP; 04 Jul 2020 23:04:22 -0700
+Message-ID: <9627f15fb2145525b40d6c1aed6752e13df876e9.camel@intel.com>
+Subject: Re: [PATCH 0/3] Fixes for stop monitoring disabled devices series
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+Date:   Sun, 05 Jul 2020 14:04:21 +0800
+In-Reply-To: <79ae59af-d3b9-852c-d5f3-5b80d9c6ea8c@linaro.org>
+References: <20200703104354.19657-1-andrzej.p@collabora.com>
+         <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
+         <91db4c89-0615-4a69-9695-ed5d3c42e1b7@collabora.com>
+         <79ae59af-d3b9-852c-d5f3-5b80d9c6ea8c@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Jul 03, 2020 at 08:20:20PM -0700, Randy Dunlap wrote:
-> Drop the doubled word "for".
+On Fri, 2020-07-03 at 14:05 +0200, Daniel Lezcano wrote:
+> On 03/07/2020 13:57, Andrzej Pietrasiewicz wrote:
+> > Hi,
+> > 
+> > W dniu 03.07.2020 o 13:06, Daniel Lezcano pisze:
+> > > On 03/07/2020 12:43, Andrzej Pietrasiewicz wrote:
+> > > > This short series contains fixes for "Stop monitoring disabled
+> > > > devices"
+> > > > series https://www.spinics.net/lists/arm-kernel/msg817861.html
+> > > > 
+> > > > Invocation of thermal_zone_device_is_enabled() in acpi/thermal
+> > > > is now
+> > > > redundant, because thermal_zone_device_update() now is capable
+> > > > of
+> > > > handling disabled devices.
+> > > > 
+> > > > In imx's ->get_temp() the lock must not be taken, otherwise a
+> > > > deadlock
+> > > > happens. The decision whether explicitly running a measurement
+> > > > cycle
+> > > > is needed is taken based on driver's local irq_enabled
+> > > > variable.
+> > > > 
+> > > > Finally, thermal_zone_device_is_enabled() is made available to
+> > > > the
+> > > > core only, as there are no driver users of it.
+> > > > 
+> > > > Andrzej Pietrasiewicz (3):
+> > > >    acpi: thermal: Don't call thermal_zone_device_is_enabled()
+> > > >    thermal: imx: Use driver's local data to decide whether to
+> > > > run a
+> > > >      measurement
+> > > >    thermal: Make thermal_zone_device_is_enabled() available to
+> > > > core only
+> > > > 
+> > > >   drivers/acpi/thermal.c         | 3 ---
+> > > >   drivers/thermal/imx_thermal.c  | 7 ++++---
+> > > >   drivers/thermal/thermal_core.c | 1 -
+> > > >   drivers/thermal/thermal_core.h | 2 ++
+> > > >   include/linux/thermal.h        | 5 -----
+> > > >   5 files changed, 6 insertions(+), 12 deletions(-)
+> > > 
+> > > Is this series easily merge-able with the other series?
+> > > 
+> > 
+> > So-so.
+> > 
+> > Some simple conflicts needed to be resolved.
+> > 
+> > I have created a branch for you to look at and decide
+> > how far off it is from the original and whether the
+> > original Acked-by/Reviewed-by can be retained.
+> > 
+> > Note that I might have lost some portions of code
+> > during conflict resolution. It seems to me I haven't
+> > but you know.
+> > 
+> > The branch:
+> > 
+> > 
+https://gitlab.collabora.com/andrzej.p/kernel-tests/-/tree/thermal-dont-poll-disabled-for-daniel
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Darrick J. Wong <darrick.wong@oracle.com>
-> Cc: linux-xfs@vger.kernel.org
-
-Looks good to me,
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
-
---D
-
-> ---
->  Documentation/admin-guide/xfs.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Ok, I propose to keep the these three patches on top of V7.
 > 
-> --- linux-next-20200701.orig/Documentation/admin-guide/xfs.rst
-> +++ linux-next-20200701/Documentation/admin-guide/xfs.rst
-> @@ -133,7 +133,7 @@ When mounting an XFS filesystem, the fol
->  	logbsize must be an integer multiple of the log
->  	stripe unit configured at **mkfs(8)** time.
->  
-> -	The default value for for version 1 logs is 32768, while the
-> +	The default value for version 1 logs is 32768, while the
->  	default value for version 2 logs is MAX(32768, log_sunit).
->  
->    logdev=device and rtdev=device
+> Rui are you fine with that ?
+
+Yes, that works for me.
+
+thanks,
+rui
+> 
+> 
+> 
+
