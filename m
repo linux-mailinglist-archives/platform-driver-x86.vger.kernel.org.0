@@ -2,92 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F55214F1D
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 Jul 2020 22:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5FBE2154A3
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Jul 2020 11:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728193AbgGEUCT (ORCPT
+        id S1728515AbgGFJVl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 5 Jul 2020 16:02:19 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51468 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727892AbgGEUCS (ORCPT
+        Mon, 6 Jul 2020 05:21:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728303AbgGFJVk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 5 Jul 2020 16:02:18 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C57E82E2;
-        Sun,  5 Jul 2020 20:02:17 +0000 (UTC)
-Date:   Sun, 5 Jul 2020 14:02:16 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        cgroups@vger.kernel.org, dm-devel@redhat.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        linux-nfs@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 00/13] Documentation/admin-guide: eliminate duplicated
- words
-Message-ID: <20200705140216.33a0d8f5@lwn.net>
-In-Reply-To: <20200704032020.21923-1-rdunlap@infradead.org>
-References: <20200704032020.21923-1-rdunlap@infradead.org>
-Organization: LWN.net
+        Mon, 6 Jul 2020 05:21:40 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89BA2C061794
+        for <platform-driver-x86@vger.kernel.org>; Mon,  6 Jul 2020 02:21:40 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id q7so31172075ljm.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Jul 2020 02:21:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=fsCe4U/7wjRdb2DTtn1aQc5ygylfzKBl8XbVVMuY+kg=;
+        b=FoYY41/0O8aV4huEAiDrVEhNEeGLoKiZCwXSghaHX9N4e3IbrTxIVthCbvqBObhTzn
+         KNZxL76f1ZG+woXcqWE2evOy6lOqqrri0wWZ2MYEKmSp7g3oT348Xtz4nSWYCPwPYeV2
+         E10ajtg3lsEBJRxgLk9nX+2o/QqBb8cn7beRVdx2IvPiuurMj8lh/QXPQ18ixXlOeWkg
+         YuYldx7e2Boc8lsry5Jxyf6hErPRoPaPrN0N6M/OTPzXDClaUHU3dnYmasaxNPMBlgg0
+         Q/sNJJScZwpf0v4CG8fz9IKTO/QTr5Bbyz/WnZsQ2mH4tzZUW1w8inY9mKbSBqHrdpxR
+         SWyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=fsCe4U/7wjRdb2DTtn1aQc5ygylfzKBl8XbVVMuY+kg=;
+        b=WLuWGkXoVkCopdIN8eNDjniQYapSnzlbnkj54f3T5zClH7D+QC5AeOO3SdXxoyAg4r
+         3Sst16T/VqR2nSL5wokNeYzX2V/H8gM942sPyr4Bz/DYxPRRdBoIycF+DYo9Zrft7yK5
+         2PdidezowF9v9vgzwSk92ybgoGG1ILOjZje0BzrDg4iGdD1++F52f0yXIkeC8Fd5BsFg
+         2Y+wsNtO3KEwEmJPdhe1QQvYgq2BTlLuLWNP5FUFg1t1msvcjp1BZTyziAltxZRapxeU
+         9Jd2Wj7zIUlCY4wrfkSZVOCTaPFSjXRShaRPExkMDxyy7IsmEkeMwhPORK2uGoGxvL4Z
+         7c9w==
+X-Gm-Message-State: AOAM531+iJ34MOP/jHZCh9AzuA6UHMiOYfFwXlxhHJ4T3br1mracFiDK
+        prn16o9WtLb8/1NxNRQ3MZ4aDo7LGZC2W4IRz2c=
+X-Google-Smtp-Source: ABdhPJw5EYERacM+DLWWxG8B6Q+hCJsXlrzpgGe91yLcvZuWV2Kga0twEKfPh8nJJhtA6VNnxYBPbWkUKXz6gE2L/ac=
+X-Received: by 2002:a2e:9eca:: with SMTP id h10mr27588649ljk.273.1594027298891;
+ Mon, 06 Jul 2020 02:21:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ac2:446e:0:0:0:0:0 with HTTP; Mon, 6 Jul 2020 02:21:38 -0700 (PDT)
+Reply-To: mrs.victoria.alexander2@gmail.com
+From:   " Mrs. Victoria Alexander  " <kallywayne9@gmail.com>
+Date:   Mon, 6 Jul 2020 02:21:38 -0700
+Message-ID: <CAOxCqCyGd7wvrVess+t+cT+t7br9i7do3_QV4+aa57nus-Prtg@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri,  3 Jul 2020 20:20:07 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Dear friend,
 
-> Remove duplicated words from Documentation/admin-guide/ files.
-> 
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: cgroups@vger.kernel.org
-> Cc: dm-devel@redhat.com
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-mm@kvack.org
-> Cc: Trond Myklebust <trond.myklebust@hammerspace.com>
-> Cc: Anna Schumaker <anna.schumaker@netapp.com>
-> Cc: linux-nfs@vger.kernel.org
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: linux-pm@vger.kernel.org
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: Darrick J. Wong <darrick.wong@oracle.com>
-> Cc: linux-xfs@vger.kernel.org
-> 
-> 
->  Documentation/admin-guide/cgroup-v1/rdma.rst             |    2 +-
->  Documentation/admin-guide/cgroup-v2.rst                  |    2 +-
->  Documentation/admin-guide/device-mapper/dm-integrity.rst |    4 ++--
->  Documentation/admin-guide/media/building.rst             |    4 ++--
->  Documentation/admin-guide/mm/ksm.rst                     |    2 +-
->  Documentation/admin-guide/nfs/pnfs-block-server.rst      |    2 +-
->  Documentation/admin-guide/nfs/pnfs-scsi-server.rst       |    2 +-
->  Documentation/admin-guide/perf/arm-ccn.rst               |    2 +-
->  Documentation/admin-guide/pm/intel-speed-select.rst      |    4 ++--
->  Documentation/admin-guide/pm/intel_pstate.rst            |    2 +-
->  Documentation/admin-guide/sysctl/kernel.rst              |    2 +-
->  Documentation/admin-guide/tainted-kernels.rst            |    2 +-
->  Documentation/admin-guide/xfs.rst                        |    2 +-
->  13 files changed, 16 insertions(+), 16 deletions(-)
-> 
-I've applied this set, thanks.
 
-jon
+I have a business container transaction what that some of( $13million dollars)
+
+ I would like to discuss with you. If you are interested, please
+contact my email
+
+address (mrs.victoria.alexander2@gmail.com)
+
+My WhatsApp number but only message +19293737780
+
+Please do not reply if you are not ready
+Thanks
