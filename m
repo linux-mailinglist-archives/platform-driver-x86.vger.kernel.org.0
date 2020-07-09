@@ -2,173 +2,90 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEC4A21A789
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 21:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62F7421A78D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 21:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbgGITIA (ORCPT
+        id S1726269AbgGITJi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jul 2020 15:08:00 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38883 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726163AbgGITH7 (ORCPT
+        Thu, 9 Jul 2020 15:09:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbgGITJi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jul 2020 15:07:59 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 916215C0189;
-        Thu,  9 Jul 2020 15:07:58 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-  by compute4.internal (MEProxy); Thu, 09 Jul 2020 15:07:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IIHhZc
-        KYmTKHUAATKmXhSiyA+/US/s6lxSmoZtXRRJA=; b=T+yqDD+uyxQThbo435N+oh
-        gzfKq9My0fL5Puym6uy6Uo9gxAuNt5XFUTcePU/hFBk54D1gSxbIi1phJD+GQY6G
-        9rL7FOQv8snLls3mVydYbApHVsKNpHMBxSGoo6bRYqDfitU1tLgBliRXykamZsHc
-        Jc6F+zRjglyQ4UQg6rXWS+RgT/rYI3LZIOBxfcZddVhtzcpzalrprAI0ifWfKii8
-        6P5YCszYvOSnI4FEukyCxrmXjY3GqnS05Jkf+lQJJpCp+g7EKej5cJVvn782RNq4
-        gG25yXiPjSpDSS4XAorNrX+CKTJ52KeP6+/zgcuHJusoUqLgKS3xqLzPD66eeohg
-        ==
-X-ME-Sender: <xms:DmsHX0pdxk5FsAtFNr8HRdAXu2D9_ObIb0JZSnwblpfKj9GiHTZZVQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudelgddufeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdflvghr
-    vghmhicuufholhhlvghrfdcuoehjvghrvghmhiesshihshhtvghmjeeirdgtohhmqeenuc
-    ggtffrrghtthgvrhhnpeeiudduffejtefhtdeghefhieduueetveeufedvhfehffehtedu
-    uefhteelheekvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhgvrhgvmhihsehshihsthgv
-    mhejiedrtghomh
-X-ME-Proxy: <xmx:DmsHX6pQdDarMRkkoeY6JxaaI97wNsutmiF9iE5SfPS8xNhRgFak8w>
-    <xmx:DmsHX5NsF3BvR525UAgpGaBxghPLLVPbG2jWJ9ppIVuEJUSDgw_WGA>
-    <xmx:DmsHX7647JvbDsYapqyHC-DIoEzHKgCzH4BvFSpC9y43JLash1ce6g>
-    <xmx:DmsHXwhpACZSQsJO6BNXpWi_xo1vbEYwP1yoc5s-c0IwmWM09-iOQQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 36998E00AA; Thu,  9 Jul 2020 15:07:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-dev0-613-g8a73ad6-fm-20200709.001-g8a73ad6e
-Mime-Version: 1.0
-Message-Id: <1947c101-bac1-45cd-825c-35633bcf0ae4@www.fastmail.com>
-In-Reply-To: <b979419a-f944-448f-b276-e9f609d721bf@www.fastmail.com>
+        Thu, 9 Jul 2020 15:09:38 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B997C08C5CE
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Jul 2020 12:09:38 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id b9so1207969plx.6
+        for <platform-driver-x86@vger.kernel.org>; Thu, 09 Jul 2020 12:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9AVYXB+fL2KSlLkvSlEHQgNHj705A6Th7A9ZnTaKnNY=;
+        b=ZfntF137U7ew3h4djsW4RRs7NqwbevZ0FpJWgQ12wY9E57NpCujr6eF/ymrHyb11t9
+         31mB58sBEgKGJyB4/jcLeSaGdal55XvP0Xub64JxKEI8D5qheJ4t7ypnf06ia2vhn3Fk
+         hEsIz314QrhVcjjKEudqoyqAh+CWWpXOENeJYFE6T9GAWSEI42tzGrx0wn3C6tY+3Rho
+         b7s2J18Hhf9TBN1PIzCfo+EzTUs5kpdHBmz0zficV6AnM+0ugBUxhjlvdug6KJrjaCZ1
+         qxtUwSdbIHInrK9SW+HKHK1Zb2Dm1D9e845R/3vzfJpu5LcQLwFQBO+s4UyR51qV0i3b
+         Zspg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9AVYXB+fL2KSlLkvSlEHQgNHj705A6Th7A9ZnTaKnNY=;
+        b=qpSqptJYWT0x9WGIxrMbW6EXsB1wKkdGNwwJPCsR4yl0Ucyk5nzHlmzKHsv64sMXjB
+         Zn5mShk1Q0DhgcOdkyUqtIVBSEE5tD7glCwzMhiMwuyShqbjyoIJO7KJ4vk9l1gxsqit
+         iNugi20yRKKK6b4y1DBgn845C2ivOGwt3e48qkjGUBUb5GsaPrxbi9fxJ4wjoQjovu1i
+         OfrovAaUA5TJOJv0vuaaAxtSoEAl5SY22qTF49NKoz3pS9ltljLn/W47J92KXCrrnHN5
+         5nOXev9e27poY5SQSFkFkNoIAKJweervXLy4ngHA6OUzzD93j1uChdQzQlEFgn+1dMSd
+         K7OQ==
+X-Gm-Message-State: AOAM530KprCUsAIh2S2ndt41Sb8RQtS/q0iNzZI2N0ACtSFATxZgQF5B
+        TPGjQAyX/bZCWkaaG/mfUo9PHuGauwGvdVrxOKzV6Pv8
+X-Google-Smtp-Source: ABdhPJx/4gTLbzbTuZObXLgRb3p9gEtrkahXAlX5E049e7kBsQ9Ab8+Q9c1tSRb4cRH0QhKrcJ0MfQhU0IjS7P21t1E=
+X-Received: by 2002:a17:902:8491:: with SMTP id c17mr47394433plo.262.1594321777861;
+ Thu, 09 Jul 2020 12:09:37 -0700 (PDT)
+MIME-Version: 1.0
 References: <CADjEuPvqjF+Z7ExHj-kKkzU07EbB62686aOgcUh=qYiSZwQvvg@mail.gmail.com>
- <CAHp75VfgW8ypdXs+Lyqe+F69gnQGoxCpiGQ8OPOTL16AD=7R2w@mail.gmail.com>
- <b979419a-f944-448f-b276-e9f609d721bf@www.fastmail.com>
-Date:   Thu, 09 Jul 2020 13:07:38 -0600
-From:   "Jeremy Soller" <jeremy@system76.com>
-To:     "Aaron Honeycutt" <aaron@system76.com>,
-        "Andy Shevchenko" <andy.shevchenko@gmail.com>,
-        "Nick Shipp" <git@segbrk.com>
-Cc:     =?UTF-8?Q?Bj=C3=B6rn_Lindfors?= <productdev@system76.com>,
-        "Platform Driver" <platform-driver-x86@vger.kernel.org>
-Subject: =?UTF-8?Q?Re:_[RESEND_PATCH]_system76-acpi:_Fix_brightness=5Fset_schedul?=
- =?UTF-8?Q?e_while_atomic?=
-Content-Type: text/plain
+ <CAHp75VfgW8ypdXs+Lyqe+F69gnQGoxCpiGQ8OPOTL16AD=7R2w@mail.gmail.com> <b979419a-f944-448f-b276-e9f609d721bf@www.fastmail.com>
+In-Reply-To: <b979419a-f944-448f-b276-e9f609d721bf@www.fastmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 9 Jul 2020 22:09:21 +0300
+Message-ID: <CAHp75VfTE90aUkHYN0MEYKzBqKG7952nPUE6j+4u8U=20DFU6A@mail.gmail.com>
+Subject: Re: [RESEND PATCH] system76-acpi: Fix brightness_set schedule while atomic
+To:     Aaron Honeycutt <aaron@system76.com>
+Cc:     Nick Shipp <git@segbrk.com>, Jeremy Soller <jeremy@system76.com>,
+        =?UTF-8?Q?Bj=C3=B6rn_Lindfors?= <productdev@system76.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Aaron, this patch is for our DKMS driver. It also needs to be applied upstream.
-
--- 
-  Jeremy Soller
-  System76
-  Principal Engineer
-  jeremy@system76.com
-
-On Thu, Jul 9, 2020, at 12:54 PM, Aaron Honeycutt wrote:
+On Thu, Jul 9, 2020 at 9:55 PM Aaron Honeycutt <aaron@system76.com> wrote:
+>
 > Andy,
-> 
+>
 > These changes have already been applied in this commit:
-> 
+>
 > https://github.com/pop-os/system76-acpi-dkms/commit/54ac52e611b60adc50e5f977e908c5547021e4a4
-> 
+
+I'm not sure I understand. Nick sent them to the upstream kernel,
+which is the right thing to do. You are pointing to some custom kernel
+from somewhere. Since your signature tells about relation to the
+vendor, can you clarify what you want for the maintenance? Should I
+drop the driver from upstream?
+
+>
 > Aaron Honeycutt
 > System76, Inc.
 > Happiness Engineer
 > 720-226-9269 x602
 > aaron@system76.com
-> 
-> On Thu, Jul 9, 2020, at 12:50 PM, Andy Shevchenko wrote:
-> > On Tue, Jun 23, 2020 at 5:44 PM Nick Shipp <git@segbrk.com> wrote:
-> > >
-> > > And here's a fix for my email client and bad copy-paste, sorry about that noise.
-> > >
-> > > `system76_set' was set as an LED `brightness_set' callback, but it calls
-> > > `acpi_evaluate_object' which is not atomic-safe. Switched to the
-> > > `brightness_set_blocking' LED callback instead.
-> > >
-> > > Signed-off-by: Nick Shipp <git@segbrk.com>
-> > 
-> > This patch is mangled and can not be applied.
-> > 
-> > > ---
-> > >  drivers/platform/x86/system76_acpi.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/platform/x86/system76_acpi.c
-> > > b/drivers/platform/x86/system76_acpi.c
-> > > index 4f6e4c342382..c14fd22ba196 100644
-> > > --- a/drivers/platform/x86/system76_acpi.c
-> > > +++ b/drivers/platform/x86/system76_acpi.c
-> > > @@ -103,12 +103,12 @@ static enum led_brightness ap_led_get(struct
-> > > led_classdev *led)
-> > >  }
-> > >
-> > >  // Set the airplane mode LED brightness
-> > > -static void ap_led_set(struct led_classdev *led, enum led_brightness value)
-> > > +static int ap_led_set(struct led_classdev *led, enum led_brightness value)
-> > >  {
-> > >         struct system76_data *data;
-> > >
-> > >         data = container_of(led, struct system76_data, ap_led);
-> > > - system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
-> > > + return system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
-> > >  }
-> > >
-> > >  // Get the last set keyboard LED brightness
-> > > @@ -121,13 +121,13 @@ static enum led_brightness kb_led_get(struct
-> > > led_classdev *led)
-> > >  }
-> > >
-> > >  // Set the keyboard LED brightness
-> > > -static void kb_led_set(struct led_classdev *led, enum led_brightness value)
-> > > +static int kb_led_set(struct led_classdev *led, enum led_brightness value)
-> > >  {
-> > >         struct system76_data *data;
-> > >
-> > >         data = container_of(led, struct system76_data, kb_led);
-> > >         data->kb_brightness = value;
-> > > - system76_set(data, "SKBL", (int)data->kb_brightness);
-> > > + return system76_set(data, "SKBL", (int)data->kb_brightness);
-> > >  }
-> > >
-> > >  // Get the last set keyboard LED color
-> > > @@ -313,7 +313,7 @@ static int system76_add(struct acpi_device *acpi_dev)
-> > >         data->ap_led.name = "system76_acpi::airplane";
-> > >         data->ap_led.flags = LED_CORE_SUSPENDRESUME;
-> > >         data->ap_led.brightness_get = ap_led_get;
-> > > - data->ap_led.brightness_set = ap_led_set;
-> > > + data->ap_led.brightness_set_blocking = ap_led_set;
-> > >         data->ap_led.max_brightness = 1;
-> > >         data->ap_led.default_trigger = "rfkill-none";
-> > >         err = devm_led_classdev_register(&acpi_dev->dev, &data->ap_led);
-> > > @@ -323,7 +323,7 @@ static int system76_add(struct acpi_device *acpi_dev)
-> > >         data->kb_led.name = "system76_acpi::kbd_backlight";
-> > >         data->kb_led.flags = LED_BRIGHT_HW_CHANGED | LED_CORE_SUSPENDRESUME;
-> > >         data->kb_led.brightness_get = kb_led_get;
-> > > - data->kb_led.brightness_set = kb_led_set;
-> > > + data->kb_led.brightness_set_blocking = kb_led_set;
-> > >         if (acpi_has_method(acpi_device_handle(data->acpi_dev), "SKBC")) {
-> > >                 data->kb_led.max_brightness = 255;
-> > >                 data->kb_toggle_brightness = 72;
-> > > --
-> > > 2.27.0
-> > 
-> > 
-> > 
-> > -- 
-> > With Best Regards,
-> > Andy Shevchenko
-> >
->
+
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
