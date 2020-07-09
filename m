@@ -2,88 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0178F21A710
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 20:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD70A21A748
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 20:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgGISbS (ORCPT
+        id S1726347AbgGISu5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jul 2020 14:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56038 "EHLO
+        Thu, 9 Jul 2020 14:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgGISbR (ORCPT
+        with ESMTP id S1726183AbgGISu4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jul 2020 14:31:17 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97151C08C5CE;
-        Thu,  9 Jul 2020 11:31:17 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id e8so1336407pgc.5;
-        Thu, 09 Jul 2020 11:31:17 -0700 (PDT)
+        Thu, 9 Jul 2020 14:50:56 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85273C08C5CE
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Jul 2020 11:50:56 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id p3so1365921pgh.3
+        for <platform-driver-x86@vger.kernel.org>; Thu, 09 Jul 2020 11:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QyT05EdzwrOL/sU0vHjmGPMzspiZL3Ee2X4vPjVPFEw=;
-        b=SQr3hTzyNvD/L2AeideltLLxoMJTWgvJMzMB8Bnk64CeAZcKoxAF2BbChynPvjngBv
-         urRRrkUfyV8r43DUohS5oboZvk47ZFEH9dWpJvcbyjtSIwtGlgva9NFKXddNPcFAQILa
-         DfsxCK2qw5gWEL0ZGIzMTMOBZCKGvi/4elf1VIBy5W9yb1DPYe2lwuXefVKYdg4P83KN
-         ey3a3RUevfS/8IYTIlfulp4Mc2pS7kJSTZVIRftcQocTQDQYY/l3HihQ0+jc5HRJ3FQR
-         wAAZ+E+Ylh6I+y9adl8oyMubc+lYyNjZ20uM/lxKfUbL2qwJVkpf+FmXDwxmQqIXyeyE
-         7Jzg==
+        bh=xzMlsA2h+yPbeLAJolQe5XonvTmgMY9nrap1BIBTlKY=;
+        b=bpItGWHK0dWgwDJ5rhTo77p1SmjZjB9OEtvzeqcHGMdH2payTIkix0BEnfwckNzZWw
+         Xu+v15EQ/juxP3BSL1DHUM8vOLHkfgIyJIs6pks54ishaiCpU3929BP2atFVLORwtNJE
+         GbvfcyUradin/A5zsB1N8+cpKYJPNt60XGGhe5tOjRuZ4CVHMueHLuM1ZcFZw8/54HLy
+         nZQLsonTQgOcGbytGaA5InXcNrGjFy5dTIRm2OdpwBb+NvHWHPZetbpMvnvfoyd072VL
+         JVqP6/6N1OfWUXshJwRuwx0b7ujmhotDF3NDErMpceAPwjCL4jtb563IhY3sjyPR8Ni4
+         hd1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QyT05EdzwrOL/sU0vHjmGPMzspiZL3Ee2X4vPjVPFEw=;
-        b=S5u9QQ7u9GOToi+POvU4RED/ftDu8B4esf5bt6HZSMnQXmDYMSQ4Rsxz9NIjPUHJ9U
-         7GYi44GC60GTVDyZwscDqnZJQsiIUyBAJFJ1AAAPTom2uaIuB1HLv5yFOoIyv1phXjiW
-         Yk1PJO0KMa4UVQeBZGh6KHiFB5WFB45wjxas+kLE0d/GOT5GrpN2cz/QSYUyUkutyOIA
-         2ja6HR79hL43CtzYXjtoPuX7jda5XGmy6wUt5lvjFOsqVnSgrMX8+kJU1AY2kU7xBMAd
-         +wNzhqzBoqBuTQannw29pi5qVdeRoB4DgcNJFWNizBoo49hARXTy9+ecNZJgdxmfn3CJ
-         3B0Q==
-X-Gm-Message-State: AOAM5303N7jQ+2ZUY0ixXpvYdf3KBSEqm+MjpCx41p4voYJyl3c9luaI
-        48lTneZYcCAivfyy0TMTvnkPGuuyYxaxx3Qg30k=
-X-Google-Smtp-Source: ABdhPJwHJxAcuWOM1QnoWaFYlm+elJ5b005nJwj8UobnY1pE535e7oJe3KEIprFf29q+UPSbq9KwbdN5FftXLaZUNng=
-X-Received: by 2002:a63:924b:: with SMTP id s11mr53396482pgn.74.1594319477184;
- Thu, 09 Jul 2020 11:31:17 -0700 (PDT)
+        bh=xzMlsA2h+yPbeLAJolQe5XonvTmgMY9nrap1BIBTlKY=;
+        b=FDny1sjeINzdegnEOggFDV+vPsPFaSXGBIn9AlHrAiGFc8p6bRUfiyv4dAmi4R4oMX
+         rQxWdq7V7VLXUUQO0L6InERVfyW24/RW9SkVpCPooZzf//8+PmrNegVbhBCxk12T4JAt
+         8200ruz3cN0brkZ1VwgPm2eGfUMpC9/8WLm/GifDyTGsLoXXTcIouX263zrFaiL0h5EU
+         zrpYhA6d2w6xwe5I3KEvLLX+ufj9o6t4FwNrR3z7a1SvmZrz40Igokbi32Ess5kZg4iI
+         tCCAuPRPbqpSrvPcwkyHfalZbYzsHrdRXyErkQdL6A+NwnlpRThNYs9PRVMWM2qMGyxo
+         Zgog==
+X-Gm-Message-State: AOAM533IUz7q1bTx39/w1t0R/Z8TD0OzEzqIwSYBAWkIiWfq25S9G1hm
+        8cjQJk8AkucrzRatZhjdmrDkaA05SlCLcQI/S3kGVW5N
+X-Google-Smtp-Source: ABdhPJzjxIZX2akvRmyO6iuhHcUt8MDby8flWN9Dodu1LRSwf/GeCDAwZE6CeuY3Lbfclxk+nz0Yy28LNCt/1caUvSI=
+X-Received: by 2002:a63:ce41:: with SMTP id r1mr32307052pgi.203.1594320656008;
+ Thu, 09 Jul 2020 11:50:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200702085520.16901-1-aaron.ma@canonical.com> <20200702110740.19880-1-aaron.ma@canonical.com>
-In-Reply-To: <20200702110740.19880-1-aaron.ma@canonical.com>
+References: <CADjEuPvqjF+Z7ExHj-kKkzU07EbB62686aOgcUh=qYiSZwQvvg@mail.gmail.com>
+In-Reply-To: <CADjEuPvqjF+Z7ExHj-kKkzU07EbB62686aOgcUh=qYiSZwQvvg@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jul 2020 21:31:00 +0300
-Message-ID: <CAHp75VdZPLzXqO7A8KXq3dT-_TymysCrmZcBc8SAtfCKfBQy5A@mail.gmail.com>
-Subject: Re: [v2][PATCH] platform/x86: thinkpad_acpi: not loading
- brightness_init when _BCL invalid
-To:     Aaron Ma <aaron.ma@canonical.com>
-Cc:     mapengyu@gmail.com,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 9 Jul 2020 21:50:39 +0300
+Message-ID: <CAHp75VfgW8ypdXs+Lyqe+F69gnQGoxCpiGQ8OPOTL16AD=7R2w@mail.gmail.com>
+Subject: Re: [RESEND PATCH] system76-acpi: Fix brightness_set schedule while atomic
+To:     Nick Shipp <git@segbrk.com>
+Cc:     Jeremy Soller <jeremy@system76.com>, productdev@system76.com,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 2:07 PM Aaron Ma <aaron.ma@canonical.com> wrote:
+On Tue, Jun 23, 2020 at 5:44 PM Nick Shipp <git@segbrk.com> wrote:
 >
-> When _BCL invalid, disable thinkpad_acpi backlight brightness control.
+> And here's a fix for my email client and bad copy-paste, sorry about that noise.
 >
-> brightness_enable is already checked at the beginning.
-> Most new thinkpads are using GPU driver to control brightness now,
-> print notice when enabled brightness control even when brightness_enable = 1.
+> `system76_set' was set as an LED `brightness_set' callback, but it calls
+> `acpi_evaluate_object' which is not atomic-safe. Switched to the
+> `brightness_set_blocking' LED callback instead.
+>
+> Signed-off-by: Nick Shipp <git@segbrk.com>
+
+This patch is mangled and can not be applied.
+
+> ---
+>  drivers/platform/x86/system76_acpi.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/platform/x86/system76_acpi.c
+> b/drivers/platform/x86/system76_acpi.c
+> index 4f6e4c342382..c14fd22ba196 100644
+> --- a/drivers/platform/x86/system76_acpi.c
+> +++ b/drivers/platform/x86/system76_acpi.c
+> @@ -103,12 +103,12 @@ static enum led_brightness ap_led_get(struct
+> led_classdev *led)
+>  }
+>
+>  // Set the airplane mode LED brightness
+> -static void ap_led_set(struct led_classdev *led, enum led_brightness value)
+> +static int ap_led_set(struct led_classdev *led, enum led_brightness value)
+>  {
+>         struct system76_data *data;
+>
+>         data = container_of(led, struct system76_data, ap_led);
+> - system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
+> + return system76_set(data, "SAPL", value == LED_OFF ? 0 : 1);
+>  }
+>
+>  // Get the last set keyboard LED brightness
+> @@ -121,13 +121,13 @@ static enum led_brightness kb_led_get(struct
+> led_classdev *led)
+>  }
+>
+>  // Set the keyboard LED brightness
+> -static void kb_led_set(struct led_classdev *led, enum led_brightness value)
+> +static int kb_led_set(struct led_classdev *led, enum led_brightness value)
+>  {
+>         struct system76_data *data;
+>
+>         data = container_of(led, struct system76_data, kb_led);
+>         data->kb_brightness = value;
+> - system76_set(data, "SKBL", (int)data->kb_brightness);
+> + return system76_set(data, "SKBL", (int)data->kb_brightness);
+>  }
+>
+>  // Get the last set keyboard LED color
+> @@ -313,7 +313,7 @@ static int system76_add(struct acpi_device *acpi_dev)
+>         data->ap_led.name = "system76_acpi::airplane";
+>         data->ap_led.flags = LED_CORE_SUSPENDRESUME;
+>         data->ap_led.brightness_get = ap_led_get;
+> - data->ap_led.brightness_set = ap_led_set;
+> + data->ap_led.brightness_set_blocking = ap_led_set;
+>         data->ap_led.max_brightness = 1;
+>         data->ap_led.default_trigger = "rfkill-none";
+>         err = devm_led_classdev_register(&acpi_dev->dev, &data->ap_led);
+> @@ -323,7 +323,7 @@ static int system76_add(struct acpi_device *acpi_dev)
+>         data->kb_led.name = "system76_acpi::kbd_backlight";
+>         data->kb_led.flags = LED_BRIGHT_HW_CHANGED | LED_CORE_SUSPENDRESUME;
+>         data->kb_led.brightness_get = kb_led_get;
+> - data->kb_led.brightness_set = kb_led_set;
+> + data->kb_led.brightness_set_blocking = kb_led_set;
+>         if (acpi_has_method(acpi_device_handle(data->acpi_dev), "SKBC")) {
+>                 data->kb_led.max_brightness = 255;
+>                 data->kb_toggle_brightness = 72;
+> --
+> 2.27.0
 
 
-> +       } else if (!tp_features.bright_acpimode) {
-> +               pr_notice("thinkpad_acpi backlight interface not available\n");
-> +               return 1;
->         }
->
-> +       pr_notice("thinkpad_acpi native brightness control enabled\n");
-
-In both cases don't you see the duplication of module name in the messages?
 
 -- 
 With Best Regards,
