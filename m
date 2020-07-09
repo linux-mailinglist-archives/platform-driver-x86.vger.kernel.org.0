@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CCE521A45A
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 18:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFB9321A4D8
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 18:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbgGIQG3 (ORCPT
+        id S1726497AbgGIQce (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jul 2020 12:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33584 "EHLO
+        Thu, 9 Jul 2020 12:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726357AbgGIQG3 (ORCPT
+        with ESMTP id S1726408AbgGIQce (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jul 2020 12:06:29 -0400
+        Thu, 9 Jul 2020 12:32:34 -0400
 Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82558C08C5CE;
-        Thu,  9 Jul 2020 09:06:29 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id z5so1168505pgb.6;
-        Thu, 09 Jul 2020 09:06:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8B9C08C5CE;
+        Thu,  9 Jul 2020 09:32:34 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id j19so1185500pgm.11;
+        Thu, 09 Jul 2020 09:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=a9l+tYk/85riUuxTuUt4kuJT2J7SexvNZ2Qs7Rkx7Yo=;
-        b=UIMYWZNGO9j/+zxVwaG/pEaMhgQBDOz4sVQUc96onnh3Km64D+wPEh6h63Qz4TWSP2
-         XsRY+ISPSZbxWrsDHzOqVd3DwO+jn13q7r7UYZokOo3s1FiG2nwMwWwZmqd5bFtKwxQ+
-         7min4joP/kLnjFue26kvH4McDc7c5GblSG7uorFlGZ1P99NsSe0V1sqwQJZB4X76mdCu
-         i6xYF2pb+ijEansklByBwX3lMG37FMLYsZDj5qGeE1VcWDp4k58yGsiDHg61qtsqLdZf
-         yX2vc1mZYM0hIQBguHbDQseqkSVx1Y72XZwWvUrLszIzAplDVdOmRTluucejQGA4GE03
-         8YdA==
+        bh=Mds9JnL5+YNLjwOOXncrDDf4ATysP7TR1qNQc1p6UDk=;
+        b=fCreMSX9EhBerl+2TyxRKjDaEWa+JLTGXeNDKhvWlwcUMmvEU4iOBJ1hETBBaoIXY+
+         3wGaamvx0qGsqNTVreuH1ejdGCJDiPEcB2eAm9QUsFNVM4NL4b8jSFsKlSdKhuT6WIbs
+         BqEriVLsFwIIaXEmGJHEAfWi/GvaWm0/I7gLpt83Yk4Hl/RggpY1LX1mZBxA2tJcRyeX
+         vrWdojyiXqa5aIQjG3W40pVoMxpj3KaNhnJJVXMGIOTxx8l/hfsh6sqUlP3CNhSLL51+
+         BOi8gRSuXFlXnnk2d56lugrqmXpvdmnpbgfDCe4uSvgKeYoGdb5uQN4OCHY7lfa64bD2
+         SG6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=a9l+tYk/85riUuxTuUt4kuJT2J7SexvNZ2Qs7Rkx7Yo=;
-        b=GtX/uKXrSAitsAhJEefctt6eFVW8OGo/Dqc4bwKTr6vqnw37IBlSaeso6gF4AeuEV7
-         fB9kwjhBLwgH/Ym/kdzoAZjuwj5rI/HT94aFhHJ3Y0v9fqDU6hlyONVWSt4aWZcHjgLy
-         sXmUSdM1Qt6NQEczZpaJmYdD8ow8BIwjdncRSWRjgiyawBG93FAXdFvplGhYhtnefRwf
-         MJE0dtXAuLkJjBQ4kw2DznBr38BDBCrg17cKcGJ4XBZEaXiKHP2wHquSCgxuZL8Yk3oW
-         QYbre/xONnt4SP7xWbI1ug0wvHgOc7ry+SdRXn9i9nJLLreuuc59awri9NFfuIAV6za0
-         Pf/Q==
-X-Gm-Message-State: AOAM533AkOdLiMd3mF504GE6mRL2L7YnOXzD0Rr6zPDUg0bLhsc1bfm7
-        QVKUTJLplXbdJ4Y5VrclU7loj58sqccTrMNq3YIiWdw/
-X-Google-Smtp-Source: ABdhPJw90IfU29sKTmXTJq8bdQnP0yZs7hx9knd5n/D85O14jgfWNCfjuyKFo/9tQ7e8RF9+ZB+nLooFp1k14LQoezE=
-X-Received: by 2002:a62:7657:: with SMTP id r84mr56878331pfc.130.1594310789004;
- Thu, 09 Jul 2020 09:06:29 -0700 (PDT)
+        bh=Mds9JnL5+YNLjwOOXncrDDf4ATysP7TR1qNQc1p6UDk=;
+        b=TaBBRE/BVk3egnZzd3DqxZs5mByj7WedO2j8tPNaD5WCSP5ZeMNznBCkR7S4u7LayK
+         G/Wo2ce0lRLwp1LflJPy7GNBNoszb8gDhk5acX6Sgf3JS4XdIEoFBO1LkwQHT8y427nS
+         Wk2LPB03REUts9EVXzJ2KyOMFkk4PfTqiCkUtorgptVCuce6FAWPlnpNjfwVjKbc8/3E
+         juUcM8WlSBzqgsgabFe8eamezj/dDqaZLRQGH4kQNGvE51ehjO5rRaiffDEpiwLwaddw
+         AEWkjJU4TjOrbUQoJ+C8gc6jXI91l9GfFDDFL+/Cce6XcxcBgyjFUvJGXt9CX5UJnXfy
+         PZJw==
+X-Gm-Message-State: AOAM530mbT0ReTus3jD288aCOQjw0yXnWd1svpkENiXImxOEuHlxSHlO
+        LEWN+1RexnioE7jLVOSR2Nr5hf4KtA5rNWrdUU0=
+X-Google-Smtp-Source: ABdhPJwEDObaYpjZKatGt4CVCe8DGRH/+UZeqYJ47OTcz/gffgUl65HJoQvqw/MGNTXOyb7Ko2oxd8cS3euVMSG5BLY=
+X-Received: by 2002:a05:6a00:790:: with SMTP id g16mr23259445pfu.36.1594312353918;
+ Thu, 09 Jul 2020 09:32:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200601091851.5491-1-vadimp@mellanox.com> <20200601091851.5491-2-vadimp@mellanox.com>
-In-Reply-To: <20200601091851.5491-2-vadimp@mellanox.com>
+References: <20200601091851.5491-1-vadimp@mellanox.com> <20200601091851.5491-3-vadimp@mellanox.com>
+In-Reply-To: <20200601091851.5491-3-vadimp@mellanox.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jul 2020 19:06:13 +0300
-Message-ID: <CAHp75VfFdf=ZxuURpVR6LRaDm+x4VQsPgR6FLrcZPhLMn8MOpw@mail.gmail.com>
-Subject: Re: [PATCH platform-next v1 1/8] platform/mellanox: mlxreg-hotplug:
- Use capability register for attribute creation
+Date:   Thu, 9 Jul 2020 19:32:17 +0300
+Message-ID: <CAHp75VfXPxoQjeOTMRmO=Yf3YSsGJh2xRRSm9U7wTpRx9N8Bgw@mail.gmail.com>
+Subject: Re: [PATCH platform-next v1 2/8] platform/mellanox: mlxreg-hotplug:
+ Add environmental data to uevent
 To:     Vadim Pasternak <vadimp@mellanox.com>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
@@ -66,39 +66,56 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Mon, Jun 1, 2020 at 12:19 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
 >
-> Create the 'sysfs' attributes according to configuration provided
-> through the capability register, which purpose is to indicate the
-> actual number of the components within the particular group.
-> Such components could be, for example the FAN or power supply units.
-> The motivation is to avoid adding a new code in the future in order to
-> distinct between the systems types supported different number of the
-
-supported -> supporting a
-
-> components like power supplies, FANs, ASICs, line cards.
+> Send "udev" event with environmental data in order to allow handling
+> "ENV{}" variables in "udev" rules.
 
 ...
 
->                 /* Go over all units within the item. */
-> -               for (j = 0; j < item->count; j++, data++, id++) {
-> +               for (j = 0, k = 0; j < item->count; j++, data++) {
-> +                       /* Skip if bit in mask is not set. */
-> +                       if (!(item->mask & BIT(j)))
-> +                               continue;
+> +static int
+> +mlxreg_hotplug_udev_event_send(struct kobject *kobj,
+> +                              struct mlxreg_core_data *data, bool action)
+> +{
+> +       char event_str[MLXREG_CORE_LABEL_MAX_SIZE + 2];
+> +       char label[MLXREG_CORE_LABEL_MAX_SIZE] = { 0 };
+> +       int i;
+> +
+> +       mlxreg_hotplug_udev_envp[0] = event_str;
 
-Instead of splitted comments and this code, perhaps
+> +       for (i = 0; data->label[i]; i++)
+> +               label[i] = toupper(data->label[i]);
 
-/* Go over all unmasked units within item */
-for_each_set_bit(j, &item->mask, item->count) {
+Sounds like a candidate to be in string_helpers.h
+
+#include <ctype.h>
 ...
+static inline void string_upper(char *dst, const char *src)
+{
+  do {
+    *dst++ = toupper(*src);
+  } while (*src++);
 }
 
-It might require a mask defined as unsigned long, though. Or temporary
-variables.
+// similar for tolower
+...
 
->                 }
-> +               num_attrs += k;
->         }
+There are plenty existing users that can benefit and I can imagine how
+many more will come.
+So, If you add the first patch in the series to bring this in, I will take it.
+
+> +       if (action)
+> +               snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=1", label);
+> +       else
+> +               snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=0", label);
+
+Wouldn't be easier to have
+
+..."%s=%d" ... !!action...
+
+?
+
+> +
+> +       return kobject_uevent_env(kobj, KOBJ_CHANGE, mlxreg_hotplug_udev_envp);
+> +}
 
 -- 
 With Best Regards,
