@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFB9321A4D8
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 18:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A421521A4F9
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Jul 2020 18:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbgGIQce (ORCPT
+        id S1726910AbgGIQiC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Jul 2020 12:32:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
+        Thu, 9 Jul 2020 12:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbgGIQce (ORCPT
+        with ESMTP id S1726408AbgGIQiC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Jul 2020 12:32:34 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8B9C08C5CE;
-        Thu,  9 Jul 2020 09:32:34 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id j19so1185500pgm.11;
-        Thu, 09 Jul 2020 09:32:34 -0700 (PDT)
+        Thu, 9 Jul 2020 12:38:02 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E83C08C5CE;
+        Thu,  9 Jul 2020 09:38:02 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id t11so1233325pfq.11;
+        Thu, 09 Jul 2020 09:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Mds9JnL5+YNLjwOOXncrDDf4ATysP7TR1qNQc1p6UDk=;
-        b=fCreMSX9EhBerl+2TyxRKjDaEWa+JLTGXeNDKhvWlwcUMmvEU4iOBJ1hETBBaoIXY+
-         3wGaamvx0qGsqNTVreuH1ejdGCJDiPEcB2eAm9QUsFNVM4NL4b8jSFsKlSdKhuT6WIbs
-         BqEriVLsFwIIaXEmGJHEAfWi/GvaWm0/I7gLpt83Yk4Hl/RggpY1LX1mZBxA2tJcRyeX
-         vrWdojyiXqa5aIQjG3W40pVoMxpj3KaNhnJJVXMGIOTxx8l/hfsh6sqUlP3CNhSLL51+
-         BOi8gRSuXFlXnnk2d56lugrqmXpvdmnpbgfDCe4uSvgKeYoGdb5uQN4OCHY7lfa64bD2
-         SG6A==
+        bh=K47jeJXopW9XQfg5rSoZEoTShjD1JLQGp5Lwb2lH9g0=;
+        b=L9BwnfN69undWTDpWrRItH3G1JWpwEcmWHO9gxGmncWKjaCc5zTCwwri08W7Nqjc6f
+         1LruZznoX4jJ86qtASYKqiHH7kUPGDQaSBSi/K2w2LeWwDtF8OWF2p3/P3k8DyAh5wnH
+         5I4AZ8jhqbqW396r6cOX1MF17o2ULWB2wjQOaac/gWzJxVIV1itBg82dypgAZOku2Nnr
+         kfWpBf1cAmemS4TGtn9MKC2qlnzBwbBBsPvmru8UmDwkMWmJznM26WI/TZ1AYG/XyVJZ
+         fFf+nnnvDNyuAae/uLxoAl+SFa9oJ9ZBpQtzrAa+XGaAsV5kml14Pz05enKxYU0SKrh/
+         xE7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mds9JnL5+YNLjwOOXncrDDf4ATysP7TR1qNQc1p6UDk=;
-        b=TaBBRE/BVk3egnZzd3DqxZs5mByj7WedO2j8tPNaD5WCSP5ZeMNznBCkR7S4u7LayK
-         G/Wo2ce0lRLwp1LflJPy7GNBNoszb8gDhk5acX6Sgf3JS4XdIEoFBO1LkwQHT8y427nS
-         Wk2LPB03REUts9EVXzJ2KyOMFkk4PfTqiCkUtorgptVCuce6FAWPlnpNjfwVjKbc8/3E
-         juUcM8WlSBzqgsgabFe8eamezj/dDqaZLRQGH4kQNGvE51ehjO5rRaiffDEpiwLwaddw
-         AEWkjJU4TjOrbUQoJ+C8gc6jXI91l9GfFDDFL+/Cce6XcxcBgyjFUvJGXt9CX5UJnXfy
-         PZJw==
-X-Gm-Message-State: AOAM530mbT0ReTus3jD288aCOQjw0yXnWd1svpkENiXImxOEuHlxSHlO
-        LEWN+1RexnioE7jLVOSR2Nr5hf4KtA5rNWrdUU0=
-X-Google-Smtp-Source: ABdhPJwEDObaYpjZKatGt4CVCe8DGRH/+UZeqYJ47OTcz/gffgUl65HJoQvqw/MGNTXOyb7Ko2oxd8cS3euVMSG5BLY=
-X-Received: by 2002:a05:6a00:790:: with SMTP id g16mr23259445pfu.36.1594312353918;
- Thu, 09 Jul 2020 09:32:33 -0700 (PDT)
+        bh=K47jeJXopW9XQfg5rSoZEoTShjD1JLQGp5Lwb2lH9g0=;
+        b=O7L0Myt/TEGYVuxEEYkqBrRn3nhs1yKhVldS4qXy6yBnDw10QDW2wggdjcPW4wfaSG
+         fMtd3kWLjfyHMeRbVbOt+fdzE5vYueceudYHYaMZ0vPWRuN9Z+chK3+ggcvcp8YNn/Gv
+         Uel7VsbOCHIsLCrrvLZHKltpUu4SqabrshY1dcp+09DBNm9pdrldzfbnyjRHSeAFPFut
+         h8lfBLPETxaeeauiYmR5hC+bjHFy+j/rJoWc/vSLvkqZ+rZW74WOJVVk1qVDz3exfomn
+         W4Xe6JP7nNlAFNAffvx1XDCdYcvzKkh+3BV7N8j03QRlt1/8v2pA0keeHEOK+zu05iLX
+         c00g==
+X-Gm-Message-State: AOAM530c5D5IHeSYK42LsqlvnIYvPk2Qf0M+d6eIHTjLFYYnphvI+O1/
+        wdLovOQzF2CARS2y14QgU9J5YWr/JDOQVF8XY+E=
+X-Google-Smtp-Source: ABdhPJxb23g42kilDhlzxisAc2Ewa8w/rmC472jyHvaT7HDg3sB6/jzedyGM15HqI8czUO0l5tPFhfruhWAiRdmoO5w=
+X-Received: by 2002:a63:924b:: with SMTP id s11mr53002228pgn.74.1594312681964;
+ Thu, 09 Jul 2020 09:38:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200601091851.5491-1-vadimp@mellanox.com> <20200601091851.5491-3-vadimp@mellanox.com>
-In-Reply-To: <20200601091851.5491-3-vadimp@mellanox.com>
+References: <20200601091851.5491-1-vadimp@mellanox.com> <20200601091851.5491-6-vadimp@mellanox.com>
+In-Reply-To: <20200601091851.5491-6-vadimp@mellanox.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 9 Jul 2020 19:32:17 +0300
-Message-ID: <CAHp75VfXPxoQjeOTMRmO=Yf3YSsGJh2xRRSm9U7wTpRx9N8Bgw@mail.gmail.com>
-Subject: Re: [PATCH platform-next v1 2/8] platform/mellanox: mlxreg-hotplug:
- Add environmental data to uevent
+Date:   Thu, 9 Jul 2020 19:37:44 +0300
+Message-ID: <CAHp75Vc+bK2RagNKr6abT=J9GrLwJ5bcj9Q5MhbGFo3Ho_VBDA@mail.gmail.com>
+Subject: Re: [PATCH platform-next v1 5/8] platform/mellanox: mlxreg-io: Add
+ support for complex attributes
 To:     Vadim Pasternak <vadimp@mellanox.com>
 Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
@@ -66,56 +66,68 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Mon, Jun 1, 2020 at 12:19 PM Vadim Pasternak <vadimp@mellanox.com> wrote:
 >
-> Send "udev" event with environmental data in order to allow handling
-> "ENV{}" variables in "udev" rules.
+> Add support for attributes composed from few registers.
+> Such attributes could occupy from 2 to 4 sequential registers.
+> For word size register space complex attribute can occupy up to two
+
+attributes
+
+> register, for byte size - up to four. These attributes can carry, for
+
+registers
+
+> example, CPLD or FPGA versioning, power consuming info, etcetera.
+> Such registers contain read only data.
+
+read-only.
 
 ...
 
-> +static int
-> +mlxreg_hotplug_udev_event_send(struct kobject *kobj,
-> +                              struct mlxreg_core_data *data, bool action)
-> +{
-> +       char event_str[MLXREG_CORE_LABEL_MAX_SIZE + 2];
-> +       char label[MLXREG_CORE_LABEL_MAX_SIZE] = { 0 };
-> +       int i;
+> +        * There are four kinds of attributes: single bit, full register's
+> +        * bits, bit sequence, bits in few registers For the first kind field
+> +        * mask indicates which bits are not related and field bit is set zero.
+> +        * For the second kind field mask is set to zero and field bit is set
+> +        * with all bits one. No special handling for such kind of attributes -
+> +        * pass value as is. For the third kind, field mask indicates which
+
+the field
+
+> +        * bits are related and field bit is set to the first bit number (from
+
+the field
+
+> +        * 1 to 32) is the bit sequence. For the fourth kind - the number of
+> +        * registers which should be read for getting an attribute are specified
+> +        * through 'data->regnum' field.
+>          */
+
+...
+
+> +               /*
+> +                * Some attributes could occupied few registers in case regmap
+> +                * bit size is 8 or 16. Compose such attribute from 'regnum'
+
+attributes
+
+> +                * registers. Such attributes contain read only data.
+
+read-only
+
+> +                */
+> +               if (data->regnum > 1 && !rw_flag)
+
+This I didn't get. They contain read-only data and here you explicitly
+turn down rw_flag == false.
+Can you clarify this?
+
+> +                       return -EINVAL;
+> +               for (i = 1; i < data->regnum; i++) {
+> +                       ret = regmap_read(regmap, data->reg + i, &val);
+> +                       if (ret)
+> +                               goto access_error;
 > +
-> +       mlxreg_hotplug_udev_envp[0] = event_str;
-
-> +       for (i = 0; data->label[i]; i++)
-> +               label[i] = toupper(data->label[i]);
-
-Sounds like a candidate to be in string_helpers.h
-
-#include <ctype.h>
-...
-static inline void string_upper(char *dst, const char *src)
-{
-  do {
-    *dst++ = toupper(*src);
-  } while (*src++);
-}
-
-// similar for tolower
-...
-
-There are plenty existing users that can benefit and I can imagine how
-many more will come.
-So, If you add the first patch in the series to bring this in, I will take it.
-
-> +       if (action)
-> +               snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=1", label);
-> +       else
-> +               snprintf(event_str, MLXREG_CORE_LABEL_MAX_SIZE, "%s=0", label);
-
-Wouldn't be easier to have
-
-..."%s=%d" ... !!action...
-
-?
-
-> +
-> +       return kobject_uevent_env(kobj, KOBJ_CHANGE, mlxreg_hotplug_udev_envp);
-> +}
+> +                       *regval |= rol32(val, regsize * i);
+> +               }
 
 -- 
 With Best Regards,
