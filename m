@@ -2,68 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 140D821B243
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Jul 2020 11:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 579E521B4E4
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 10 Jul 2020 14:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727918AbgGJJ2l (ORCPT
+        id S1726908AbgGJMU7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 10 Jul 2020 05:28:41 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7833 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726787AbgGJJ2k (ORCPT
+        Fri, 10 Jul 2020 08:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726774AbgGJMU7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 10 Jul 2020 05:28:40 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 2DF51369B60CD5918C10;
-        Fri, 10 Jul 2020 17:28:38 +0800 (CST)
-Received: from huawei.com (10.175.104.57) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Fri, 10 Jul 2020
- 17:28:27 +0800
-From:   Lu Wei <luwei32@huawei.com>
-To:     <alex.hung@canonical.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <acelan.kao@canonical.com>,
-        <andy.shevchenko@gmail.com>, <luwei32@huawei.com>
-Subject: [PATCH v3 2/2] intel-vbtn: Fix return value check in check_acpi_dev()
-Date:   Fri, 10 Jul 2020 17:30:18 +0800
-Message-ID: <1594373418-24833-3-git-send-email-luwei32@huawei.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594373418-24833-1-git-send-email-luwei32@huawei.com>
-References: <1594373418-24833-1-git-send-email-luwei32@huawei.com>
+        Fri, 10 Jul 2020 08:20:59 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00779C08C5CE
+        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Jul 2020 05:20:58 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 1so2465229pfn.9
+        for <platform-driver-x86@vger.kernel.org>; Fri, 10 Jul 2020 05:20:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CTBlbIbJuXZzM/fT0KgwCGp0qaQ8YE6cwnWgRYPo0ks=;
+        b=rSmExF17TiQ8MXbmzxV7x4G/bZG9b+GqexM1KxTZGCcTTOrAvBys1cnboz1sx+c35e
+         3XPCBIky1q3TuLVKZKmsi/PuKAVBHnOBR6pIkjWfMLfr+cghuwgJgwfSf8Of65zCvTMW
+         fdt53J7ZS15ydhgK9nfSEN/0/K5mKlV6Z0SnyodSEdwuZM3iT6rdkspjk+1APW+cSKyh
+         JyE2xv4aANOhgxHQEIGZP5OfXbwSoHR6Zm2M9XJRelTFWUCoLFB3Qqw6bJzHTbo/Qac7
+         nMFYjQ1M78JAnH1bflyhJGOxeWogImKPnaskNz85lJUpE+fz+1woI4VcpAgBD2hEoqW3
+         mhsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CTBlbIbJuXZzM/fT0KgwCGp0qaQ8YE6cwnWgRYPo0ks=;
+        b=akQkcC9AXFHFMX6kDgYIqNLcPRxw2yJvs+yssJn875g8H9YvVWVTomvz4G6PJgNtbW
+         GHX2Dby1IHsOft2ZNCmUgV6U2P8v77+RY9wHEYlY+MAGlKvGlbaHVm+mLV/Au2+gW1ft
+         uGStNgN3yPgEt7AvBgt8ryyM11y7s/efVkO7CbAnKpqehpcnm5q0srYnXQ/mWIaZMVGB
+         IiYd7HU5fd8zh97r5eQsD+lq/7pVQ1fszTnB6EaVLxtVWTx1AEGBBUZ25Q91ae34+rai
+         gnP6RWoaYz3e8ILJkVU6DWtfEwcAtkVrgQdNuLtMxqdYb1Z3NeSmfIMQtqs6tdUijVhJ
+         pjzw==
+X-Gm-Message-State: AOAM5315b+8bdye0chresxgxoizjNKhVwz/lRKGSmkfG5PagSiP3p85p
+        XrcNU5eWTXQVWbdbrp/QK6x+GrYnVhYgSD9iEaE=
+X-Google-Smtp-Source: ABdhPJw2pJczX94PnHWVUkkElfzoUXElds8HC47tOH7/y4KCSnsZSIxqQa6Eea93xaluEcuSdUfBUwLx6KKaDTOgejc=
+X-Received: by 2002:a63:ce41:: with SMTP id r1mr35496732pgi.203.1594383658474;
+ Fri, 10 Jul 2020 05:20:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.57]
-X-CFilter-Loop: Reflected
+References: <markpearson@lenovo.com> <20200703012353.26413-1-markpearson@lenovo.com>
+ <CAHp75Vcs15wGCzwW8Pq7AXyqQnvnopNdFP1nDE0nf+ZTz=9zFw@mail.gmail.com> <7c1698a6-ebd6-553d-a686-d9bd4e5a5e99@redhat.com>
+In-Reply-To: <7c1698a6-ebd6-553d-a686-d9bd4e5a5e99@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 10 Jul 2020 15:20:41 +0300
+Message-ID: <CAHp75Ve-qOs8VosoxEaHH1EnK-r16Sx0ki3uj14yZJWyuwC88w@mail.gmail.com>
+Subject: Re: [PATCH v5] platform/x86: thinkpad_acpi: lap or desk mode interface
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Pearson <markpearson@lenovo.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>,
+        Bastien Nocera <bnocera@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-In the function check_acpi_dev(), if it fails to create
-platform device, the return value is ERR_PTR() or NULL.
-Thus it must use IS_ERR_OR_NULL to check return value.
+On Fri, Jul 10, 2020 at 11:00 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 7/9/20 8:02 PM, Andy Shevchenko wrote:
+> > On Fri, Jul 3, 2020 at 4:24 AM Mark Pearson <markpearson@lenovo.com> wrote:
+> >>
+> >> Newer Lenovo Thinkpad platforms have support to identify whether the
+> >> system is on-lap or not using an ACPI DYTC event from the firmware.
+> >>
+> >> This patch provides the ability to retrieve the current mode via sysfs
+> >> entrypoints and will be used by userspace for thermal mode and WWAN
+> >> functionality
+> >
+> > Hans, do you think it's good to have custom ABI for this? I think you
+> > may be know better what types of ABI we already have for such thing.
+>
+> Actually, Mark asked me the same question before submitting his
+> patch upstream. I'm never a fan of custom ABI for this. But for now
+> the solution Lenovo has chosen to deal with thermal management
+> issues on modern hw is unique to Lenovo and we do not have anything
+> like this anywhere else.
+>
+> So for now I believe that a custom ABI is best.
+>
+> If we see this becoming a common feature on more platforms then we can
+> design a generic API for it once we have a better idea how this would
+> look like when implemented by others and then thinkpad_acpi can easily
+> add support for the new generic interface, while keeping its own
+> custom interface for backward compatibility.
 
-Fixes: 332e081225fc ("intel-vbtn: new driver for Intel Virtual Button")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Lu Wei <luwei32@huawei.com>
----
+Thank you very much for the elaborative comment, appreciated!
 
- drivers/platform/x86/intel-vbtn.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index b588093..e1aa526 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -251,7 +251,7 @@ check_acpi_dev(acpi_handle handle, u32 lvl, void *context, void **rv)
- 		return AE_OK;
-
- 	if (acpi_match_device_ids(dev, ids) == 0)
--		if (acpi_create_platform_device(dev, NULL))
-+		if (!IS_ERR_OR_NULL(acpi_create_platform_device(dev, NULL)))
- 			dev_info(&dev->dev,
- 				 "intel-vbtn: created platform device\n");
-
---
-2.7.4
-
+-- 
+With Best Regards,
+Andy Shevchenko
