@@ -2,30 +2,28 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C094B21E048
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jul 2020 20:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6BFF21E072
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Jul 2020 21:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbgGMS4a (ORCPT
+        id S1726345AbgGMTGj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jul 2020 14:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726339AbgGMS4a (ORCPT
+        Mon, 13 Jul 2020 15:06:39 -0400
+Received: from smtp.al2klimov.de ([78.46.175.9]:53544 "EHLO smtp.al2klimov.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726338AbgGMTGi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jul 2020 14:56:30 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50687C061755;
-        Mon, 13 Jul 2020 11:56:30 -0700 (PDT)
+        Mon, 13 Jul 2020 15:06:38 -0400
 Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id D7174BC07E;
-        Mon, 13 Jul 2020 18:56:26 +0000 (UTC)
+        by smtp.al2klimov.de (Postfix) with ESMTPA id 72635BC0E4;
+        Mon, 13 Jul 2020 19:06:35 +0000 (UTC)
 From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     peter@piie.net, dvhart@infradead.org, andy@infradead.org,
+To:     ibm-acpi@hmh.eng.br, dvhart@infradead.org, andy@infradead.org,
+        ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] platform/x86: acerhdf: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 20:56:16 +0200
-Message-Id: <20200713185616.37104-1-grandmaster@al2klimov.de>
+Subject: [PATCH] platform/x86: thinkpad_acpi: Replace HTTP links with HTTPS ones
+Date:   Mon, 13 Jul 2020 21:06:28 +0200
+Message-Id: <20200713190629.37242-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -75,22 +73,51 @@ Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
  Impossible is nothing! :)
 
 
- drivers/platform/x86/acerhdf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/thinkpad_acpi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
-index 4df7609b4aa9..a7a0b2e0ceb9 100644
---- a/drivers/platform/x86/acerhdf.c
-+++ b/drivers/platform/x86/acerhdf.c
-@@ -5,7 +5,7 @@
-  *           as soon as the upper/lower threshold is reached.
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index ff7f0a4f2475..24fc16eca550 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -7957,7 +7957,7 @@ static struct ibm_struct volume_driver_data = {
+  *	does so, its initial value is meaningless (0x07).
   *
-  * (C) 2009 - Peter Kaestle     peter (a) piie.net
-- *                              http://piie.net
-+ *                              https://piie.net
-  *     2009 Borislav Petkov	bp (a) alien8.de
+  *	For firmware bugs, refer to:
+- *	http://thinkwiki.org/wiki/Embedded_Controller_Firmware#Firmware_Issues
++ *	https://thinkwiki.org/wiki/Embedded_Controller_Firmware#Firmware_Issues
   *
-  * Inspired by and many thanks to:
+  * 	----
+  *
+@@ -7982,7 +7982,7 @@ static struct ibm_struct volume_driver_data = {
+  *	mode.
+  *
+  *	For firmware bugs, refer to:
+- *	http://thinkwiki.org/wiki/Embedded_Controller_Firmware#Firmware_Issues
++ *	https://thinkwiki.org/wiki/Embedded_Controller_Firmware#Firmware_Issues
+  *
+  *	----
+  *
+@@ -10094,7 +10094,7 @@ static int __must_check __init get_thinkpad_model_data(
+ 	 * X32 or newer, all Z series;  Some models must have an
+ 	 * up-to-date BIOS or they will not be detected.
+ 	 *
+-	 * See http://thinkwiki.org/wiki/List_of_DMI_IDs
++	 * See https://thinkwiki.org/wiki/List_of_DMI_IDs
+ 	 */
+ 	while ((dev = dmi_find_device(DMI_DEV_TYPE_OEM_STRING, NULL, dev))) {
+ 		if (sscanf(dev->name,
+@@ -10613,8 +10613,8 @@ MODULE_DEVICE_TABLE(acpi, ibm_htk_device_ids);
+ /*
+  * DMI matching for module autoloading
+  *
+- * See http://thinkwiki.org/wiki/List_of_DMI_IDs
+- * See http://thinkwiki.org/wiki/BIOS_Upgrade_Downloads
++ * See https://thinkwiki.org/wiki/List_of_DMI_IDs
++ * See https://thinkwiki.org/wiki/BIOS_Upgrade_Downloads
+  *
+  * Only models listed in thinkwiki will be supported, so add yours
+  * if it is not there yet.
 -- 
 2.27.0
 
