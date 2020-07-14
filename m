@@ -2,103 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8989221EB1B
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B1E821EB31
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:22:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgGNIPg (ORCPT
+        id S1725884AbgGNIWH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Jul 2020 04:15:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54608 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725793AbgGNIPf (ORCPT
+        Tue, 14 Jul 2020 04:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbgGNIWG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:15:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594714534;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=f8+KnFgAxKm6sgEPySfwahianaqUhM5wZ//swhq+ahg=;
-        b=Rp+JngwKB3WhWxOJ5AqHGIDL7G5kGgvQgV8nOm0Uv4qMBgH2ZAdTMnaAZoqcLWMmWU6tK8
-        qZ4TDk1giRMogvTLNDUwREF8OHuVS12oz+9Wfn3xXtRlZxUb20sbtUE7I0Wb3++4xTp740
-        DSDG6MBOYWVnydBFv3dQFyS80pdivDo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-mhrCMM7eMZ2cOLwZQQt1HQ-1; Tue, 14 Jul 2020 04:15:32 -0400
-X-MC-Unique: mhrCMM7eMZ2cOLwZQQt1HQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 545B91800D42;
-        Tue, 14 Jul 2020 08:15:30 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-114-109.ams2.redhat.com [10.36.114.109])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B7C5760CD0;
-        Tue, 14 Jul 2020 08:15:28 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5.8 regression fix] platform/x86: thinkpad_acpi: Revert: Use strndup_user() in dispatch_proc_write()
-Date:   Tue, 14 Jul 2020 10:15:10 +0200
-Message-Id: <20200714081510.6070-1-hdegoede@redhat.com>
+        Tue, 14 Jul 2020 04:22:06 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3728C061755;
+        Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id f16so1177977pjt.0;
+        Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UxT+xVg1iEE+TdiS6PzOnTuOQmCXGShz9BDeI/0k6RI=;
+        b=X5lhRJB59sgnqNf0zVexBgPh36/YV37c5fAfH/uEasMqURC7Cjb1qQQTGbU8+Vf4ya
+         SLBFKjBg8XYlaOjhYH1IBYHyDq523T8IWXb3MUtHun54j87VOyJHJ0+QBU7wCW2yffCj
+         jFUG20LunyablP3sh3UHL73xW+KI6skpUGIfD7wmU8amILZ2rToGcGRzJSwISDchE57W
+         eHU2t0i+DPDWXAj6+XryYf5KXM5xWezs4D/MMgWqnSEA0IXp55+ZIYykU7mRsooxSz1S
+         A0T/sw/PpP4rBfbLcFpEXcmi0GCG2abk/gW2aDyp+yGqUAiXILda4+7go4Bw8eb/MBFP
+         vxXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UxT+xVg1iEE+TdiS6PzOnTuOQmCXGShz9BDeI/0k6RI=;
+        b=RzUoxMgDG1O9iLq0Sa180MGgq2VAsz91cKbn0psoiOf0HqQWl3Mfc8uTuo6Ij2tSKj
+         WaaUkMFCKUMsA1FdcGEMmI7kq0ECGKVjEkCOBHOXwbdxM681ttycUaeWYvo19pH4HExc
+         +dDYSgxiTTC2wOSG8lSBhiPDkkM/q6YmcOZZ/qwTylyCFl5FEOVxhEU3/8Fwys3SvB5V
+         DRFXIBNvd3QIKkIjVKl8plpcTMPcqsQ8z4c0325/ISD/2xcQmdD+sjxTjTnN5H+GR2Uh
+         HrP314DvlUGryG9HLUqE42twwrEH2BJbraxAlE7CCDh4WLzMNExxz5tM5H9ZfLYb0axD
+         2ovA==
+X-Gm-Message-State: AOAM530ukV97U57Icku2IZJatj4oLIqG6aihymRcUA8+GlhOj992FCkv
+        z6Z1fpugTLly9FbBkreeZxix9ueFkEfeizqmGR0=
+X-Google-Smtp-Source: ABdhPJyJXVM7MeA3GmA+gb8Y/IKCddN/vz262hxa8lU5yf5tdOl+VJnVXqo/AabFiUCqcD9seS0VkBVvrXA45nivY9U=
+X-Received: by 2002:a17:902:7288:: with SMTP id d8mr3099798pll.18.1594714925385;
+ Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20200714081510.6070-1-hdegoede@redhat.com>
+In-Reply-To: <20200714081510.6070-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 14 Jul 2020 11:21:48 +0300
+Message-ID: <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
+Subject: Re: [PATCH 5.8 regression fix] platform/x86: thinkpad_acpi: Revert:
+ Use strndup_user() in dispatch_proc_write()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Commit 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user()
-in dispatch_proc_write()") cleaned up dispatch_proc_write() by replacing
-the code to copy the passed in data from userspae with strndup_user().
+On Tue, Jul 14, 2020 at 11:15 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Commit 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user()
+> in dispatch_proc_write()") cleaned up dispatch_proc_write() by replacing
+> the code to copy the passed in data from userspae with strndup_user().
 
-But strndup_user() expects a 0 terminated input buffer and the buffer
-passed to dispatch_proc_write() is NOT 0 terminated.
+user space
 
-So this change leads to strndup_user() copying some extra random bytes
-from userspace till it hits a 0 byte.
+> But strndup_user() expects a 0 terminated input buffer and the buffer
+> passed to dispatch_proc_write() is NOT 0 terminated.
+>
+> So this change leads to strndup_user() copying some extra random bytes
+> from userspace till it hits a 0 byte.
+>
+> This commit reverts the change to use strndup_user() fixing the
+> buffer being passed to the ibm_struct.write() call back containing extra
+> junk at the end.
 
-This commit reverts the change to use strndup_user() fixing the
-buffer being passed to the ibm_struct.write() call back containing extra
-junk at the end.
+Can we simply use memdup_user()?
+And thanks for catching this up!
 
-Fixes: 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user() in dispatch_proc_write()")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 92aad746d1f8..8ae2be5871f5 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -886,11 +886,19 @@ static ssize_t dispatch_proc_write(struct file *file,
- 
- 	if (!ibm || !ibm->write)
- 		return -EINVAL;
-+	if (count > PAGE_SIZE - 1)
-+		return -EINVAL;
-+
-+	kernbuf = kmalloc(count + 1, GFP_KERNEL);
-+	if (!kernbuf)
-+		return -ENOMEM;
- 
--	kernbuf = strndup_user(userbuf, PAGE_SIZE);
--	if (IS_ERR(kernbuf))
--		return PTR_ERR(kernbuf);
-+	if (copy_from_user(kernbuf, userbuf, count)) {
-+		kfree(kernbuf);
-+		return -EFAULT;
-+	}
- 
-+	kernbuf[count] = 0;
- 	ret = ibm->write(kernbuf);
- 	if (ret == 0)
- 		ret = count;
 -- 
-2.26.2
-
+With Best Regards,
+Andy Shevchenko
