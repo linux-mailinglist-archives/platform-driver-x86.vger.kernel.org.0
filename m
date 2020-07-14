@@ -2,55 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1E821EB31
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88AA121EB4F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:28:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725884AbgGNIWH (ORCPT
+        id S1726050AbgGNI2C (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Jul 2020 04:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
+        Tue, 14 Jul 2020 04:28:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbgGNIWG (ORCPT
+        with ESMTP id S1725955AbgGNI2B (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:22:06 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3728C061755;
-        Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id f16so1177977pjt.0;
-        Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
+        Tue, 14 Jul 2020 04:28:01 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92537C061755;
+        Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id o13so7304016pgf.0;
+        Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UxT+xVg1iEE+TdiS6PzOnTuOQmCXGShz9BDeI/0k6RI=;
-        b=X5lhRJB59sgnqNf0zVexBgPh36/YV37c5fAfH/uEasMqURC7Cjb1qQQTGbU8+Vf4ya
-         SLBFKjBg8XYlaOjhYH1IBYHyDq523T8IWXb3MUtHun54j87VOyJHJ0+QBU7wCW2yffCj
-         jFUG20LunyablP3sh3UHL73xW+KI6skpUGIfD7wmU8amILZ2rToGcGRzJSwISDchE57W
-         eHU2t0i+DPDWXAj6+XryYf5KXM5xWezs4D/MMgWqnSEA0IXp55+ZIYykU7mRsooxSz1S
-         A0T/sw/PpP4rBfbLcFpEXcmi0GCG2abk/gW2aDyp+yGqUAiXILda4+7go4Bw8eb/MBFP
-         vxXA==
+        bh=RFASHkwcTOcp5xJmcZ6cr6YyCkNb4rp9EMZoB3APeEs=;
+        b=ULwKSSLYkH+bjGYv5JxlkMvcFS4rwLeo8EWsF8xUFQDq33RBMR3P4tXOWkrtgiOSwn
+         yXU3tTBk9X6raRX/hmHLwrPivEbgy4Aw2IFqE6C0HhH8ZswZh4FcMatEgN2aPTU5r21B
+         A7xq0B+hteJs5aqnD3We1qYIfLfyg7sgIb+ZOQXH9VXaFuj1nhLpLQmRFHIczqQ2v26v
+         P/LpX/7D8fRyBXbw8ORi0JWRehF6tUh4zp9nJMrKfXuV5WH3mCBtVt83Bk/Dvy8bhWn6
+         rfeezApSCQVKzQW18J+E1/JReIdJzotb61bOHY0biXkpeWPJjQNk/R4mNxppiQnxiSiW
+         /Okg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UxT+xVg1iEE+TdiS6PzOnTuOQmCXGShz9BDeI/0k6RI=;
-        b=RzUoxMgDG1O9iLq0Sa180MGgq2VAsz91cKbn0psoiOf0HqQWl3Mfc8uTuo6Ij2tSKj
-         WaaUkMFCKUMsA1FdcGEMmI7kq0ECGKVjEkCOBHOXwbdxM681ttycUaeWYvo19pH4HExc
-         +dDYSgxiTTC2wOSG8lSBhiPDkkM/q6YmcOZZ/qwTylyCFl5FEOVxhEU3/8Fwys3SvB5V
-         DRFXIBNvd3QIKkIjVKl8plpcTMPcqsQ8z4c0325/ISD/2xcQmdD+sjxTjTnN5H+GR2Uh
-         HrP314DvlUGryG9HLUqE42twwrEH2BJbraxAlE7CCDh4WLzMNExxz5tM5H9ZfLYb0axD
-         2ovA==
-X-Gm-Message-State: AOAM530ukV97U57Icku2IZJatj4oLIqG6aihymRcUA8+GlhOj992FCkv
-        z6Z1fpugTLly9FbBkreeZxix9ueFkEfeizqmGR0=
-X-Google-Smtp-Source: ABdhPJyJXVM7MeA3GmA+gb8Y/IKCddN/vz262hxa8lU5yf5tdOl+VJnVXqo/AabFiUCqcD9seS0VkBVvrXA45nivY9U=
-X-Received: by 2002:a17:902:7288:: with SMTP id d8mr3099798pll.18.1594714925385;
- Tue, 14 Jul 2020 01:22:05 -0700 (PDT)
+        bh=RFASHkwcTOcp5xJmcZ6cr6YyCkNb4rp9EMZoB3APeEs=;
+        b=Bmy1cEPX+uB9goPyYPDD/QNXS6uemt3It0L49ufrbswrW/CtnpRympdq8pdAw+m/ER
+         mX0B5sRNZfK/gjM2xOX7HivydM0Cg9falJf6CZT/RAEfTxuFliKqXpYdfY0l/7W6rL19
+         97XII1cE0wbyrHRPQFTJuwxLDMBWH7c5OSQ4RzfDU+JjosjBXZDo8sChEOxEJxEudWde
+         eM5C9rOBOGkQdDm8WMI8s35Q9vLOzyCsypkiSwZ3YIMaCaQz9pmvia/cg8Y8w3a7snZN
+         6r9RLFa4BFMRUptbbxTyuvKwJXigeom+PnC9LuSlygOylpv0kfEXfjOSO6ltRtqjvRAA
+         bEIA==
+X-Gm-Message-State: AOAM531A136IBLVwLEc2OVNbRGIeROUoLDng2saLe2MdrmQPfJhgLiWg
+        /o9rw5hqygVQfvwXUguKEly3LxOYokDQnzFWVsQ=
+X-Google-Smtp-Source: ABdhPJy1EYtUDBT/tte1IBbm2WCblUvd+mmLWT5JgnWMWmxUN4zvKXGVtrhbtl66aUckEFjZ0g/VeOlVNdEJb1zRQO0=
+X-Received: by 2002:a63:924b:: with SMTP id s11mr2506093pgn.74.1594715281116;
+ Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714081510.6070-1-hdegoede@redhat.com>
-In-Reply-To: <20200714081510.6070-1-hdegoede@redhat.com>
+References: <20200714081510.6070-1-hdegoede@redhat.com> <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
+In-Reply-To: <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Jul 2020 11:21:48 +0300
-Message-ID: <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
+Date:   Tue, 14 Jul 2020 11:27:43 +0300
+Message-ID: <CAHp75Ve9HF4WVkiUA77s9LsN6d8oaFPRgjLi86FnDSHgmVvTNA@mail.gmail.com>
 Subject: Re: [PATCH 5.8 regression fix] platform/x86: thinkpad_acpi: Revert:
  Use strndup_user() in dispatch_proc_write()
 To:     Hans de Goede <hdegoede@redhat.com>
@@ -66,26 +66,33 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 11:15 AM Hans de Goede <hdegoede@redhat.com> wrote:
+On Tue, Jul 14, 2020 at 11:21 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Tue, Jul 14, 2020 at 11:15 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> >
+> > Commit 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user()
+> > in dispatch_proc_write()") cleaned up dispatch_proc_write() by replacing
+> > the code to copy the passed in data from userspae with strndup_user().
 >
-> Commit 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user()
-> in dispatch_proc_write()") cleaned up dispatch_proc_write() by replacing
-> the code to copy the passed in data from userspae with strndup_user().
-
-user space
-
-> But strndup_user() expects a 0 terminated input buffer and the buffer
-> passed to dispatch_proc_write() is NOT 0 terminated.
+> user space
 >
-> So this change leads to strndup_user() copying some extra random bytes
-> from userspace till it hits a 0 byte.
->
-> This commit reverts the change to use strndup_user() fixing the
-> buffer being passed to the ibm_struct.write() call back containing extra
-> junk at the end.
+> > But strndup_user() expects a 0 terminated input buffer and the buffer
+> > passed to dispatch_proc_write() is NOT 0 terminated.
 
-Can we simply use memdup_user()?
-And thanks for catching this up!
+Second though, perhaps it's a simple wrong count parameter?
+strndup_user(..., min(count, PAGE_SIZE)) or so would work?
+
+> > So this change leads to strndup_user() copying some extra random bytes
+> > from userspace till it hits a 0 byte.
+> >
+> > This commit reverts the change to use strndup_user() fixing the
+> > buffer being passed to the ibm_struct.write() call back containing extra
+> > junk at the end.
+>
+> Can we simply use memdup_user()?
+> And thanks for catching this up!
+
+
 
 -- 
 With Best Regards,
