@@ -2,96 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88AA121EB4F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5B0621EB95
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgGNI2C (ORCPT
+        id S1726425AbgGNIkg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Jul 2020 04:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54494 "EHLO
+        Tue, 14 Jul 2020 04:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725955AbgGNI2B (ORCPT
+        with ESMTP id S1726384AbgGNIkf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:28:01 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92537C061755;
-        Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id o13so7304016pgf.0;
-        Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
+        Tue, 14 Jul 2020 04:40:35 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C543C061755;
+        Tue, 14 Jul 2020 01:40:35 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id md7so1196827pjb.1;
+        Tue, 14 Jul 2020 01:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RFASHkwcTOcp5xJmcZ6cr6YyCkNb4rp9EMZoB3APeEs=;
-        b=ULwKSSLYkH+bjGYv5JxlkMvcFS4rwLeo8EWsF8xUFQDq33RBMR3P4tXOWkrtgiOSwn
-         yXU3tTBk9X6raRX/hmHLwrPivEbgy4Aw2IFqE6C0HhH8ZswZh4FcMatEgN2aPTU5r21B
-         A7xq0B+hteJs5aqnD3We1qYIfLfyg7sgIb+ZOQXH9VXaFuj1nhLpLQmRFHIczqQ2v26v
-         P/LpX/7D8fRyBXbw8ORi0JWRehF6tUh4zp9nJMrKfXuV5WH3mCBtVt83Bk/Dvy8bhWn6
-         rfeezApSCQVKzQW18J+E1/JReIdJzotb61bOHY0biXkpeWPJjQNk/R4mNxppiQnxiSiW
-         /Okg==
+        bh=nYA5e7ARxM6LIN4taGv+yFcdrKzm+MTO5NvTdpW41Ro=;
+        b=T2lOnTLdKYH6OO1hKVWnOfUuo1+qOtx6+BTH4Z1JtU+qqoH+iYiR71ofLyjdn1Hq2d
+         +mgYi4dVqEidffxZhXdFLx824uYHihWjHM7oqNoRfisNq3ZQt4zPA6ZUf9T4yN2dzeXN
+         W4HZLj/2n/czW7sVpgBSyMWqlKX2zXbmgYF0GxYvoG2BPPtu5yf4FqbP0asJUSwnvahc
+         0E0x+XLsSKsfvoj5PA8+NGNMIXtPmQvVZ9oBU+nym+MJ/5wz1ETBDXlVe6+2dCeFG9nW
+         y/jnhzfD8//SByShVty8xDksD8PKBqj9WS5guPELcOy6ivddE7+lokHZUXcGvVFcbFyq
+         Ycsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RFASHkwcTOcp5xJmcZ6cr6YyCkNb4rp9EMZoB3APeEs=;
-        b=Bmy1cEPX+uB9goPyYPDD/QNXS6uemt3It0L49ufrbswrW/CtnpRympdq8pdAw+m/ER
-         mX0B5sRNZfK/gjM2xOX7HivydM0Cg9falJf6CZT/RAEfTxuFliKqXpYdfY0l/7W6rL19
-         97XII1cE0wbyrHRPQFTJuwxLDMBWH7c5OSQ4RzfDU+JjosjBXZDo8sChEOxEJxEudWde
-         eM5C9rOBOGkQdDm8WMI8s35Q9vLOzyCsypkiSwZ3YIMaCaQz9pmvia/cg8Y8w3a7snZN
-         6r9RLFa4BFMRUptbbxTyuvKwJXigeom+PnC9LuSlygOylpv0kfEXfjOSO6ltRtqjvRAA
-         bEIA==
-X-Gm-Message-State: AOAM531A136IBLVwLEc2OVNbRGIeROUoLDng2saLe2MdrmQPfJhgLiWg
-        /o9rw5hqygVQfvwXUguKEly3LxOYokDQnzFWVsQ=
-X-Google-Smtp-Source: ABdhPJy1EYtUDBT/tte1IBbm2WCblUvd+mmLWT5JgnWMWmxUN4zvKXGVtrhbtl66aUckEFjZ0g/VeOlVNdEJb1zRQO0=
-X-Received: by 2002:a63:924b:: with SMTP id s11mr2506093pgn.74.1594715281116;
- Tue, 14 Jul 2020 01:28:01 -0700 (PDT)
+        bh=nYA5e7ARxM6LIN4taGv+yFcdrKzm+MTO5NvTdpW41Ro=;
+        b=f3vbucVaeO60cAcCZiHM7T/D/ME64Wzu5GenEyDUwaTMYyzGjfDLsySzXAptOTkdbv
+         QP/5/XscI87T/b8b7LnIksXvBBm1o0/47v1RPSOZp9QR8XALrK5BJF6c2JfqGIt8Vuhc
+         2P14WIX269MoTq/fmHtHleswgs6ejbNIjzQD9RrjtddyPG8Zksj+981xOuyDRw6G43j6
+         EYknnVoiyIGAaFbQdBiJz4DlE3QdDiqB5t8RaTbCrqTLQ5q6ezB1vB6O9SobSqsRLV/K
+         b+RZ1X90YfgUK6Qmtuz0ZRcfOz47Yq24c2x+EEbHkg2anf/l/DesF8653XnGllQrQ7wl
+         f8Yw==
+X-Gm-Message-State: AOAM5308aNHcJ6lLBT9R5BiuI1iU1pFY6G4PP+D8jAeUwJzms8DPw8OV
+        7vJ7iztxCD5Zb+ku2rEEFr0xYrszWZpRI6smIeg=
+X-Google-Smtp-Source: ABdhPJwyHSC2MglEc3MU1qW3Ba6mSuojPSrl7xxdg6zyyzvWhZHwZROYnhBDgZqucI3YJBIFjtYrDUxvZ8yZANTLbkE=
+X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr3597107pjp.228.1594716035169;
+ Tue, 14 Jul 2020 01:40:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200714081510.6070-1-hdegoede@redhat.com> <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
-In-Reply-To: <CAHp75Vd6uGNw5m3-Tc1tkABLT_Wi7CtW2yo8+B5TpYV4U8XE9A@mail.gmail.com>
+References: <20200508021844.6911-1-david.e.box@linux.intel.com> <20200714062323.19990-2-david.e.box@linux.intel.com>
+In-Reply-To: <20200714062323.19990-2-david.e.box@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Jul 2020 11:27:43 +0300
-Message-ID: <CAHp75Ve9HF4WVkiUA77s9LsN6d8oaFPRgjLi86FnDSHgmVvTNA@mail.gmail.com>
-Subject: Re: [PATCH 5.8 regression fix] platform/x86: thinkpad_acpi: Revert:
- Use strndup_user() in dispatch_proc_write()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+Date:   Tue, 14 Jul 2020 11:40:18 +0300
+Message-ID: <CAHp75VezDB5HqNn+rw72z2yt0buGh+szi4ytOMPejtQWMwr0+w@mail.gmail.com>
+Subject: Re: [PATCH V3 1/3] PCI: Add defines for Designated Vendor-Specific Capability
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-pci <linux-pci@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 11:21 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Tue, Jul 14, 2020 at 11:15 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Commit 35d13c7a0512 ("platform/x86: thinkpad_acpi: Use strndup_user()
-> > in dispatch_proc_write()") cleaned up dispatch_proc_write() by replacing
-> > the code to copy the passed in data from userspae with strndup_user().
+On Tue, Jul 14, 2020 at 9:22 AM David E. Box
+<david.e.box@linux.intel.com> wrote:
 >
-> user space
+> Add PCIe DVSEC extended capability ID and defines for the header offsets.
+> Defined in PCIe r5.0, sec 7.9.6.
 >
-> > But strndup_user() expects a 0 terminated input buffer and the buffer
-> > passed to dispatch_proc_write() is NOT 0 terminated.
 
-Second though, perhaps it's a simple wrong count parameter?
-strndup_user(..., min(count, PAGE_SIZE)) or so would work?
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> > So this change leads to strndup_user() copying some extra random bytes
-> > from userspace till it hits a 0 byte.
-> >
-> > This commit reverts the change to use strndup_user() fixing the
-> > buffer being passed to the ibm_struct.write() call back containing extra
-> > junk at the end.
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> ---
+>  include/uapi/linux/pci_regs.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> Can we simply use memdup_user()?
-> And thanks for catching this up!
-
+> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+> index f9701410d3b5..09daa9f07b6b 100644
+> --- a/include/uapi/linux/pci_regs.h
+> +++ b/include/uapi/linux/pci_regs.h
+> @@ -720,6 +720,7 @@
+>  #define PCI_EXT_CAP_ID_DPC     0x1D    /* Downstream Port Containment */
+>  #define PCI_EXT_CAP_ID_L1SS    0x1E    /* L1 PM Substates */
+>  #define PCI_EXT_CAP_ID_PTM     0x1F    /* Precision Time Measurement */
+> +#define PCI_EXT_CAP_ID_DVSEC   0x23    /* Designated Vendor-Specific */
+>  #define PCI_EXT_CAP_ID_DLF     0x25    /* Data Link Feature */
+>  #define PCI_EXT_CAP_ID_PL_16GT 0x26    /* Physical Layer 16.0 GT/s */
+>  #define PCI_EXT_CAP_ID_MAX     PCI_EXT_CAP_ID_PL_16GT
+> @@ -1062,6 +1063,10 @@
+>  #define  PCI_L1SS_CTL1_LTR_L12_TH_SCALE        0xe0000000  /* LTR_L1.2_THRESHOLD_Scale */
+>  #define PCI_L1SS_CTL2          0x0c    /* Control 2 Register */
+>
+> +/* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+> +#define PCI_DVSEC_HEADER1              0x4 /* Vendor-Specific Header1 */
+> +#define PCI_DVSEC_HEADER2              0x8 /* Vendor-Specific Header2 */
+> +
+>  /* Data Link Feature */
+>  #define PCI_DLF_CAP            0x04    /* Capabilities Register */
+>  #define  PCI_DLF_EXCHANGE_ENABLE       0x80000000  /* Data Link Feature Exchange Enable */
+> --
+> 2.20.1
+>
 
 
 -- 
