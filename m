@@ -2,177 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADD1221EBE1
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 10:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23FB121EC74
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 11:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbgGNIvi (ORCPT
+        id S1725952AbgGNJPk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Jul 2020 04:51:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58110 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725820AbgGNIvh (ORCPT
+        Tue, 14 Jul 2020 05:15:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20393 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725816AbgGNJPj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:51:37 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3CD5C061755;
-        Tue, 14 Jul 2020 01:51:37 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id gc15so849267pjb.0;
-        Tue, 14 Jul 2020 01:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xjw4ARtfNtUX/6OkUQ1RIaj9M4+QsmA2dgmi/P58o5o=;
-        b=NkIg4XsR5nVcpy39XZ4T/BXz8U7st1zkK0LFOOgho1IiDJHZyrnBFMFdxH9MiqxnIM
-         esw76UvNr1LP6pQXcxbhTVNbQWP4KWIPbUoOPzMjYb+uJR24Uf42AsrGFy7l+Z1oYpgg
-         qBShjfjhWuf4TCKFgXBxZh7YMoR/UgVCYvdj/z5JF+9PcSX+a+MD3gs/7qoT6Ko5++2L
-         2pbI57+HOSZ4h73IAe3KXq1IDMSK5fRkado4j1/DmE1YDXvD6tHUSfCh6NPJkXb43eG8
-         VtSbMCaMjsg2sBOXGfmQossSbwiUpSCAkXpuX+5trLIsgiHhNxwle5MFn9R6hhqjpc68
-         2C+g==
+        Tue, 14 Jul 2020 05:15:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594718138;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=BB6C118E6FKCuoIP8Fo6w/ofvx92N5UxmamVVKOIZos=;
+        b=VW8YqNJTi9tdtJIEQs4XEqaHtohpYKySk/p9i+/qefpPjhPInPOuDQJooGCJJ0Rxvm44OZ
+        gaCgsDPIwQDcUCwE11Fp+p8/Csazz1TKi+hnKu9bOxBy16Pslv3lT6imqB0oQ/IoAhDiF2
+        wjIGPsbe4kmNCsb9nbhO0JpRL4omaus=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-hRtIwy1uO0GW8pMu9sO_Xw-1; Tue, 14 Jul 2020 05:15:36 -0400
+X-MC-Unique: hRtIwy1uO0GW8pMu9sO_Xw-1
+Received: by mail-wr1-f71.google.com with SMTP id y16so20794659wrr.20
+        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Jul 2020 02:15:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xjw4ARtfNtUX/6OkUQ1RIaj9M4+QsmA2dgmi/P58o5o=;
-        b=DqIBPusRNyBixgiv8XAPvN5FDp1kLuUkCNPxPfATzOGZyn8TaGxZhOud0PYR4+KeNL
-         /WOnqp3ywvU7Gkj/T9zIinBb3NhcvtUXMbYcv7aoMnYrQI944YOd0Tb9VrpFpzj1isZU
-         QP62kyPeXwxQi77ZRrMTxbhcwr/wpd2xo7Kh1Jmj3n8ZRpFr9Z38Sg4UXeF7DVEeVTy4
-         i5RbqqxMXBmTyKXAkZZNlW7ev8uuaWMtM8RXb98dE2tK5zY7MnMCmWKWIzHpOxHieQXW
-         aIOaVj1/x6imLMyERpO19snxL5C5h3nZMOR4RZCXslWFdhT9OuwoOkufKS/5yZLgkry8
-         hCGw==
-X-Gm-Message-State: AOAM530ESkLLWLfGSViVyQrgnPVOziPPV83+nO7NnM1yedvBi6QffOa+
-        A03cxGqmPv3YJFwOFUnVP4LiKoiwdQynlm+ojgM=
-X-Google-Smtp-Source: ABdhPJz+U1xrPVMoU1USOz4l4EBn6EDe0LPwWgU9/7mbn/wsc8HtkjzMF0rTv8a85pPLg8q5H1dHIDQhDgyudGGaMa8=
-X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr3631808pjp.228.1594716697098;
- Tue, 14 Jul 2020 01:51:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200508021844.6911-1-david.e.box@linux.intel.com> <20200714062323.19990-4-david.e.box@linux.intel.com>
-In-Reply-To: <20200714062323.19990-4-david.e.box@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 14 Jul 2020 11:51:20 +0300
-Message-ID: <CAHp75VeueLvou3SEtR=EcTi0x+0qpLz7_cvE2KBXHXa_crS8cA@mail.gmail.com>
-Subject: Re: [PATCH V3 3/3] platform/x86: Intel PMT Telemetry capability driver
-To:     "David E. Box" <david.e.box@linux.intel.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=BB6C118E6FKCuoIP8Fo6w/ofvx92N5UxmamVVKOIZos=;
+        b=ktnWkcaCyuyo2B101+38NAAVhz4K7xFP3r+78bqI5/cQ+xIIynbMNnHLvLLSLhwHrx
+         GhjOPuDE/dFXhu0cQZU5N46gudhKJZnjYytVmGsrtl98BlQJB3qf+IHBqDjUhKl7YG+b
+         oSorLPClfIlnmfJx1+06o39KjlH7KkVmZ8HroUIdyp3rByZxLWGFiOrfutMBc5CymIFd
+         tVES+HckNxiAOa0dLw3XuAO1X5L+ND4uAXlN+ZBYz370L9R3B+vrFZ8pJs7x/vN4BV+t
+         T3Z1AOCXcc0BsnSvoY3qlSXHHECHrwVxbYp/4NE4w9ohU4CctNPbXBf05WfoqcZaDKTu
+         hv9g==
+X-Gm-Message-State: AOAM533VCfr+AsXE2BPv9W5FZQzJDhLfpDbxIhaC9e4zRQzz9K75+soa
+        Vx9Ai9iPw+1g3ikpDpir4X/eH6Xqlo2iwSLm9gTHmnrE0xDqeVJNmvy0bjE1750LDHTSMs4/QBf
+        GlTh6JfwdlYgWugyHnQ2XJHDlphGxW8WU9g==
+X-Received: by 2002:adf:e811:: with SMTP id o17mr4266148wrm.53.1594718135498;
+        Tue, 14 Jul 2020 02:15:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeKZgByjmVhF/PTpTluD+IrVT89wwyMV+zgZu5u4ujDA6DCalTXuAtsUr/hXwsVCu55MF2ug==
+X-Received: by 2002:adf:e811:: with SMTP id o17mr4266134wrm.53.1594718135306;
+        Tue, 14 Jul 2020 02:15:35 -0700 (PDT)
+Received: from redhat.com (bzq-79-180-10-140.red.bezeqint.net. [79.180.10.140])
+        by smtp.gmail.com with ESMTPSA id q7sm29165152wra.56.2020.07.14.02.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2020 02:15:34 -0700 (PDT)
+Date:   Tue, 14 Jul 2020 05:15:32 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Vadim Pasternak <vadimp@mellanox.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2] mlxbf-tmfifo: use wrappers for config access
+Message-ID: <20200714091133.788853-1-mst@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 9:22 AM David E. Box
-<david.e.box@linux.intel.com> wrote:
->
-> PMT Telemetry is a capability of the Intel Platform Monitoring Technology.
-> The Telemetry capability provides access to device telemetry metrics that
-> provide hardware performance data to users from continuous, memory mapped,
-> read-only register spaces.
->
-> Register mappings are not provided by the driver. Instead, a GUID is read
-> from a header for each endpoint. The GUID identifies the device and is to
-> be used with an XML, provided by the vendor, to discover the available set
-> of metrics and their register mapping.  This allows firmware updates to
-> modify the register space without needing to update the driver every time
-> with new mappings. Firmware writes a new GUID in this case to specify the
-> new mapping.  Software tools with access to the associated XML file can
-> then interpret the changes.
->
-> This module manages access to all PMT Telemetry endpoints on a system,
-> independent of the device exporting them. It creates a pmt_telemetry class
-> to manage the devices. For each telemetry endpoint, sysfs files provide
-> GUID and size information as well as a pointer to the parent device the
-> telemetry came from. Software may discover the association between
-> endpoints and devices by iterating through the list in sysfs, or by looking
-> for the existence of the class folder under the device of interest.  A
-> device node of the same name allows software to then map the telemetry
-> space for direct access.
->
-> This patch also creates an pci device id list for early telemetry hardware
-> that requires workarounds for known issues.
+mlxbf-tmfifo.c
 
-Some more style issues, after addressing feel free to add
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+seems to access virtio net config directly.
+E.g.:
 
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+                        if (ntohs(hdr.len) > config->mtu +
+                            MLXBF_TMFIFO_NET_L2_OVERHEAD)
+                                return;
 
-Since you are submitting this the order of the above SoB chain is a
-bit strange. I think something like
+This is not incorrect in that the specific device is at the
+moment always legacy (no virtio 1).
 
-SoB: Alexander
-Co-developed-by: Alexander
-SoB: David
+However this throws up sparse warnings as the structure
+is shared with modern devices which need the tagging for
+correct virtio 1 endian-ness.
 
-is expected (same for patch 2).
+Using correct conversions will also allow virtio 1 support
+in this driver down the road.
 
-...
+I'd like to merge the following patch. It's on top of
+a branch config-endian in my tree which includes
+the endian-ness tagging.
 
-> +Contact:       David Box <david.e.box@linux.intel.com>
-> +Description:
-> +               The telem<x> directory contains files describing an instance of
-> +               a PMT telemetry device that exposes hardware telemetry. Each
-> +               telem<x> directory has an associated /dev/telem<x> node. This
-> +               node may be opened and mapped to access the telemetry space of
-> +               the device. The register layout of the telemetry space is
-> +               determined from an XML file that matches the pci device id and
+Would appreciate acks on merging it through my tree from relevant maintainers.
+I also note that the console config field seems to be unused.
+Would appreciate a confirmation.
+Thanks!
 
-PCI
+---
 
-> +               guid for the device.
+Changes from v1:
+	bugfixes
 
-GUID
+ drivers/platform/mellanox/mlxbf-tmfifo.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-Same for all code where it appears.
-
-...
-
-> +       psize = (PFN_UP(entry->base_addr + entry->header.size) - pfn) *
-> +               PAGE_SIZE;
-
-I wouldn't mind having this on one line.
-
-...
-
-> +static ssize_t guid_show(struct device *dev, struct device_attribute *attr,
-> +                        char *buf)
-
-Ditto.
-
-...
-
-> +static ssize_t offset_show(struct device *dev, struct device_attribute *attr,
-> +                          char *buf)
-
-Ditto.
-
-...
-
-> +static bool pmt_telem_is_early_client_hw(struct device *dev)
-> +{
-
-> +       struct pci_dev *parent;
-> +
-> +       parent = to_pci_dev(dev->parent);
-
-Can be one line.
-
-> +       return !!pci_match_id(pmt_telem_early_client_pci_ids, parent);
-> +}
-
-...
-
-> +               entry->header_res = platform_get_resource(pdev, IORESOURCE_MEM,
-> +                                                         i);
-
-One line, please.
-
+diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
+index 5739a9669b29..3a93081eee97 100644
+--- a/drivers/platform/mellanox/mlxbf-tmfifo.c
++++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
+@@ -608,6 +608,7 @@ static void mlxbf_tmfifo_rxtx_header(struct mlxbf_tmfifo_vring *vring,
+ {
+ 	struct mlxbf_tmfifo *fifo = vring->fifo;
+ 	struct virtio_net_config *config;
++	struct virtio_device *vdev;
+ 	struct mlxbf_tmfifo_msg_hdr hdr;
+ 	int vdev_id, hdr_len;
+ 
+@@ -625,7 +626,8 @@ static void mlxbf_tmfifo_rxtx_header(struct mlxbf_tmfifo_vring *vring,
+ 			vdev_id = VIRTIO_ID_NET;
+ 			hdr_len = sizeof(struct virtio_net_hdr);
+ 			config = &fifo->vdev[vdev_id]->config.net;
+-			if (ntohs(hdr.len) > config->mtu +
++			vdev = &fifo->vdev[vdev_id]->vdev;
++			if (ntohs(hdr.len) > virtio16_to_cpu(vdev, config->mtu) +
+ 			    MLXBF_TMFIFO_NET_L2_OVERHEAD)
+ 				return;
+ 		} else {
+@@ -1231,8 +1233,14 @@ static int mlxbf_tmfifo_probe(struct platform_device *pdev)
+ 
+ 	/* Create the network vdev. */
+ 	memset(&net_config, 0, sizeof(net_config));
+-	net_config.mtu = ETH_DATA_LEN;
+-	net_config.status = VIRTIO_NET_S_LINK_UP;
++
++#define MLXBF_TMFIFO_LITTLE_ENDIAN (virtio_legacy_is_little_endian() || \
++			(MLXBF_TMFIFO_NET_FEATURES & (1ULL << VIRTIO_F_VERSION_1)))
++
++	net_config.mtu = __cpu_to_virtio16(MLXBF_TMFIFO_LITTLE_ENDIAN,
++					   ETH_DATA_LEN);
++	net_config.status = __cpu_to_virtio16(MLXBF_TMFIFO_LITTLE_ENDIAN,
++					      VIRTIO_NET_S_LINK_UP);
+ 	mlxbf_tmfifo_get_cfg_mac(net_config.mac);
+ 	rc = mlxbf_tmfifo_create_vdev(dev, fifo, VIRTIO_ID_NET,
+ 				      MLXBF_TMFIFO_NET_FEATURES, &net_config,
 -- 
-With Best Regards,
-Andy Shevchenko
+MST
+
