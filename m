@@ -2,157 +2,162 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D047121E2E9
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 00:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF3421E7FD
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Jul 2020 08:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgGMWTG (ORCPT
+        id S1726252AbgGNGWd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Jul 2020 18:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726568AbgGMWSI (ORCPT
+        Tue, 14 Jul 2020 02:22:33 -0400
+Received: from mga05.intel.com ([192.55.52.43]:59744 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725306AbgGNGW3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Jul 2020 18:18:08 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BBDAC08C5DB;
-        Mon, 13 Jul 2020 15:18:07 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 58F1EBC0E4;
-        Mon, 13 Jul 2020 22:18:03 +0000 (UTC)
-Subject: Re: [PATCH] platform/x86: Replace HTTP links with HTTPS ones
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200713184606.37033-1-grandmaster@al2klimov.de>
- <CAHp75Ve2pPGN3BtMw6x1xR5Cyv8VP=KMJMMJ9qao29ArrxPo9w@mail.gmail.com>
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Message-ID: <490226b0-754e-f5a4-8daf-96e6e33c0ae8@al2klimov.de>
-Date:   Tue, 14 Jul 2020 00:18:02 +0200
+        Tue, 14 Jul 2020 02:22:29 -0400
+IronPort-SDR: fXzdI0NCz67B+VJ10Ivtq7VUKCwdJWB8AuKttqqSZ3i8tyqQ5Gd2oRy60w39EdrLYZ2z6qd0ra
+ 8wSvOw9X3A4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="233672560"
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="233672560"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 23:22:27 -0700
+IronPort-SDR: ClrHa22q+8x1IH2Rjx9xeLsx/jfVYcNFANixAkgLOBsLrfZkSG7205IEa8flMIZ3PXD/DKTak/
+ hMsBQYKGEX/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
+   d="scan'208";a="299432444"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga002.jf.intel.com with ESMTP; 13 Jul 2020 23:22:27 -0700
+Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
+        by linux.intel.com (Postfix) with ESMTP id 46AEC580810;
+        Mon, 13 Jul 2020 23:22:27 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     lee.jones@linaro.org, david.e.box@linux.intel.com,
+        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
+        alexander.h.duyck@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: [PATCH V3 0/3] Intel Platform Monitoring Technology
+Date:   Mon, 13 Jul 2020 23:23:20 -0700
+Message-Id: <20200714062323.19990-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200508021844.6911-1-david.e.box@linux.intel.com>
+References: <20200508021844.6911-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Ve2pPGN3BtMw6x1xR5Cyv8VP=KMJMMJ9qao29ArrxPo9w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: +
-X-Spam-Level: *
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Intel Platform Monitoring Technology (PMT) is an architecture for
+enumerating and accessing hardware monitoring capabilities on a device.
+With customers increasingly asking for hardware telemetry, engineers not
+only have to figure out how to measure and collect data, but also how to
+deliver it and make it discoverable. The latter may be through some device
+specific method requiring device specific tools to collect the data. This
+in turn requires customers to manage a suite of different tools in order to
+collect the differing assortment of monitoring data on their systems.  Even
+when such information can be provided in kernel drivers, they may require
+constant maintenance to update register mappings as they change with
+firmware updates and new versions of hardware. PMT provides a solution for
+discovering and reading telemetry from a device through a hardware agnostic
+framework that allows for updates to systems without requiring patches to
+the kernel or software tools.
 
+PMT defines several capabilities to support collecting monitoring data from
+hardware. All are discoverable as separate instances of the PCIE Designated
+Vendor extended capability (DVSEC) with the Intel vendor code. The DVSEC ID
+field uniquely identifies the capability. Each DVSEC also provides a BAR
+offset to a header that defines capability-specific attributes, including
+GUID, feature type, offset and length, as well as configuration settings
+where applicable. The GUID uniquely identifies the register space of any
+monitor data exposed by the capability. The GUID is associated with an XML
+file from the vendor that describes the mapping of the register space along
+with properties of the monitor data. This allows vendors to perform
+firmware updates that can change the mapping (e.g. add new metrics) without
+requiring any changes to drivers or software tools. The new mapping is
+confirmed by an updated GUID, read from the hardware, which software uses
+with a new XML.
 
-Am 13.07.20 um 21:17 schrieb Andy Shevchenko:
-> On Mon, Jul 13, 2020 at 9:46 PM Alexander A. Klimov
-> <grandmaster@al2klimov.de> wrote:
->>
->> Rationale:
->> Reduces attack surface on kernel devs opening the links for MITM
->> as HTTPS traffic is much harder to manipulate.
->>
->> Deterministic algorithm:
->> For each file:
->>    If not .svg:
->>      For each line:
->>        If doesn't contain `\bxmlns\b`:
->>          For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->>            If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->>              If both the HTTP and HTTPS versions
->>              return 200 OK and serve the same content:
->>                Replace HTTP with HTTPS.
-> 
-> Please split per driver basis.
-Am I completely blind or is there only one driver affected by my patch?
+The current capabilities defined by PMT are Telemetry, Watcher, and
+Crashlog.  The Telemetry capability provides access to a continuous block
+of read only data. The Watcher capability provides access to hardware
+sampling and tracing features. Crashlog provides access to device crash
+dumps.  While there is some relationship between capabilities (Watcher can
+be configured to sample from the Telemetry data set) each exists as stand
+alone features with no dependency on any other. The design therefore splits
+them into individual, capability specific drivers. MFD is used to create
+platform devices for each capability so that they may be managed by their
+own driver. The PMT architecture is (for the most part) agnostic to the
+type of device it can collect from. Devices nodes are consequently generic
+in naming, e.g. /dev/telem<n> and /dev/smplr<n>. Each capability driver
+creates a class to manage the list of devices supporting it.  Software can
+determine which devices support a PMT feature by searching through each
+device node entry in the sysfs class folder. It can additionally determine
+if a particular device supports a PMT feature by checking for a PMT class
+folder in the device folder.
 
-> 
->> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
->> ---
->>   Continuing my work started at 93431e0607e5.
->>   See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
->>   (Actually letting a shell for loop submit all this stuff for me.)
->>
->>   If there are any URLs to be removed completely or at least not just HTTPSified:
->>   Just clearly say so and I'll *undo my change*.
->>   See also: https://lkml.org/lkml/2020/6/27/64
->>
->>   If there are any valid, but yet not changed URLs:
->>   See: https://lkml.org/lkml/2020/6/26/837
->>
->>   If you apply the patch, please let me know.
->>
->>   Sorry again to all maintainers who complained about subject lines.
->>   Now I realized that you want an actually perfect prefixes,
->>   not just subsystem ones.
->>   I tried my best...
->>   And yes, *I could* (at least half-)automate it.
->>   Impossible is nothing! :)
->>
->>
->>   drivers/platform/x86/Kconfig      |  2 +-
->>   drivers/platform/x86/apple-gmux.c | 16 ++++++++--------
->>   2 files changed, 9 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
->> index 0581a54cf562..1d96e07b2a02 100644
->> --- a/drivers/platform/x86/Kconfig
->> +++ b/drivers/platform/x86/Kconfig
->> @@ -140,7 +140,7 @@ config ACERHDF
->>            in the same node directory will tell you if it is "acerhdf".
->>
->>            For more information about this driver see
->> -         <http://piie.net/files/acerhdf_README.txt>
->> +         <https://piie.net/files/acerhdf_README.txt>
->>
->>            If you have an Acer Aspire One netbook, say Y or M
->>            here.
->> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
->> index 7e3083deb1c5..9aae45a45200 100644
->> --- a/drivers/platform/x86/apple-gmux.c
->> +++ b/drivers/platform/x86/apple-gmux.c
->> @@ -277,8 +277,8 @@ static bool gmux_is_indexed(struct apple_gmux_data *gmux_data)
->>    * MBP5 2008/09 uses a `TI LP8543`_ backlight driver. All newer models
->>    * use a `TI LP8545`_.
->>    *
->> - * .. _TI LP8543: http://www.ti.com/lit/ds/symlink/lp8543.pdf
->> - * .. _TI LP8545: http://www.ti.com/lit/ds/symlink/lp8545.pdf
->> + * .. _TI LP8543: https://www.ti.com/lit/ds/symlink/lp8543.pdf
->> + * .. _TI LP8545: https://www.ti.com/lit/ds/symlink/lp8545.pdf
->>    */
->>
->>   static int gmux_get_brightness(struct backlight_device *bd)
->> @@ -373,14 +373,14 @@ static const struct backlight_ops gmux_bl_ops = {
->>    * switch the panel and the external DP connector and allocates a framebuffer
->>    * for the selected GPU.
->>    *
->> - * .. _US 8,687,007 B2: http://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf
->> - * .. _NXP CBTL06141:   http://www.nxp.com/documents/data_sheet/CBTL06141.pdf
->> - * .. _NXP CBTL06142:   http://www.nxp.com/documents/data_sheet/CBTL06141.pdf
->> - * .. _TI HD3SS212:     http://www.ti.com/lit/ds/symlink/hd3ss212.pdf
->> + * .. _US 8,687,007 B2: https://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf
->> + * .. _NXP CBTL06141:   https://www.nxp.com/documents/data_sheet/CBTL06141.pdf
->> + * .. _NXP CBTL06142:   https://www.nxp.com/documents/data_sheet/CBTL06141.pdf
->> + * .. _TI HD3SS212:     https://www.ti.com/lit/ds/symlink/hd3ss212.pdf
->>    * .. _Pericom PI3VDP12412: https://www.pericom.com/assets/Datasheets/PI3VDP12412.pdf
->> - * .. _TI SN74LV4066A:  http://www.ti.com/lit/ds/symlink/sn74lv4066a.pdf
->> + * .. _TI SN74LV4066A:  https://www.ti.com/lit/ds/symlink/sn74lv4066a.pdf
->>    * .. _NXP CBTL03062:   http://pdf.datasheetarchive.com/indexerfiles/Datasheets-SW16/DSASW00308511.pdf
->> - * .. _TI TS3DS10224:   http://www.ti.com/lit/ds/symlink/ts3ds10224.pdf
->> + * .. _TI TS3DS10224:   https://www.ti.com/lit/ds/symlink/ts3ds10224.pdf
->>    */
->>
->>   static void gmux_read_switch_state(struct apple_gmux_data *gmux_data)
->> --
->> 2.27.0
->>
-> 
-> 
+This patch set provides support for the PMT framework, along with support
+for Telemetry on Tiger Lake.
+
+Changes from V2:
+
+Please excuse this delayed V3 as we dealt with last minute hardware
+changes.
+
+ 	- In order to handle certain HW bugs from the telemetry capability
+	  driver, create a single platform device per capability instead of
+	  a device per entry. Add the entry data as device resources and
+	  let the capability driver manage them as a set allowing for
+	  cleaner HW bug resolution.
+	- Handle discovery table offset bug in intel_pmt.c
+	- Handle overlapping regions in intel_pmt_telemetry.c
+	- Add description of sysfs class to testing ABI.
+	- Don't check size and count until confirming support for the PMT
+	  capability to avoid bailing out when we need to skip it.
+	- Remove unneeded header file. Move code to the intel_pmt.c, the
+	  only place where it's needed.
+	- Remove now unused platform data.
+	- Add missing header files types.h, bits.h.
+	- Rename file name and build options from telem to telemetry.
+	- Code cleanup suggested by Andy S.
+	- x86 mailing list added.
+
+Changes from V1:
+
+	- In the telemetry driver, set the device in device_create() to
+	  the parent pci device (the monitoring device) for clear
+	  association in sysfs. Was set before to the platform device
+	  created by the pci parent.
+	- Move telem struct into driver and delete unneeded header file.
+	- Start telem device numbering from 0 instead of 1. 1 was used
+	  due to anticipated changes, no longer needed.
+	- Use helper macros suggested by Andy S.
+	- Rename class to pmt_telemetry, spelling out full name
+	- Move monitor device name defines to common header
+	- Coding style, spelling, and Makefile/MAINTAINERS ordering fixes
+
+David E. Box (3):
+  PCI: Add defines for Designated Vendor-Specific Capability
+  mfd: Intel Platform Monitoring Technology support
+  platform/x86: Intel PMT Telemetry capability driver
+
+ .../ABI/testing/sysfs-class-pmt_telemetry     |  46 ++
+ MAINTAINERS                                   |   6 +
+ drivers/mfd/Kconfig                           |  10 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/intel_pmt.c                       | 218 +++++++++
+ drivers/platform/x86/Kconfig                  |  10 +
+ drivers/platform/x86/Makefile                 |   1 +
+ drivers/platform/x86/intel_pmt_telemetry.c    | 454 ++++++++++++++++++
+ include/uapi/linux/pci_regs.h                 |   5 +
+ 9 files changed, 751 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-pmt_telemetry
+ create mode 100644 drivers/mfd/intel_pmt.c
+ create mode 100644 drivers/platform/x86/intel_pmt_telemetry.c
+
+-- 
+2.20.1
+
