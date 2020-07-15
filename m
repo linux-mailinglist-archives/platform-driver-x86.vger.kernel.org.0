@@ -2,60 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 253F622096D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 12:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A570220970
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 12:05:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbgGOKCr (ORCPT
+        id S1730943AbgGOKD5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Jul 2020 06:02:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38538 "EHLO
+        Wed, 15 Jul 2020 06:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgGOKCq (ORCPT
+        with ESMTP id S1726023AbgGOKD5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:02:46 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFA8C061755;
-        Wed, 15 Jul 2020 03:02:46 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x72so1880597pfc.6;
-        Wed, 15 Jul 2020 03:02:46 -0700 (PDT)
+        Wed, 15 Jul 2020 06:03:57 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2239C061755;
+        Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id t6so2846342pgq.1;
+        Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=llF0yay839iWALyP0hbCSBfYBxqEqwDN3fSZBINYVls=;
-        b=mI9YsfAMVwDCEzm/EW/uMw+KKHIh+CxJGTIa/XUN1ZoITWWIn749udGFUb+sLOGBah
-         6GzUVdIRiy5uVZl17beazartRvxdoQc8tHO27NP8Gnctjw9Wt73SMlKRqE/0iCg0geXX
-         NuZ9YWPfEDXH9OnxN7ofc8/ibo7WwuVxQqjcgYgHaouokUi1OpS8ijVM7WH30kHf5j3m
-         VfiN0exw2PwtktUuaY4SqnBcqrFXQb+gBADKUJj5AhqO9hgBumcGXI74TIFB8Yrd6gfh
-         rpnRGYgNnNcYqaXmE5Jz/xh8XeL81cD5CJtWKbROGVjNB+SivvCOD2C/v/qxzLO62r0Q
-         bc8w==
+        bh=YEDOjAgTw7zWY0d0LxzHZsYswYj4Ul+PN0OhtVXriQ0=;
+        b=hzWPutTj0Fti6f4zw9K6dbh2iH0O0m4N+pltRPKsukA1jSQzrwpy+yyxi8hlKNmzsV
+         +Itu+yaBZIAzKqIool5HxKLkpq7qRbxnbcM0RmxUlvZFuF6g3nse8lwfjaj22uqi46cg
+         CQMRbeeTZc4vMgCFn1B8G2y1FM51sl/dE4JhsjvV6WoHvdsozw3Toi2ECZmrBZDZuxMy
+         q8s74jqC8TXh3c5FMTYw5fLpnjG+eBaXsiF6kOw2fmrp8HQwlRLkVCEuaByZzlmu2ELX
+         Afx1F4KjU6b6np5efpG4F0Q1O4/d5/akx5+ca0gPKJmkia0duLZkO2j+sIhI9bPriCR+
+         Nbsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=llF0yay839iWALyP0hbCSBfYBxqEqwDN3fSZBINYVls=;
-        b=QTfTpnUVYDvCFgQ4w/A1Aasd3vBSHZz3ckJLMLzgYvCzaS7g3Ov7DwhsNgOdU8CNHR
-         kLOXNLY2fTu2vFlVviUO7lfOnJV53bYs7+qwad/jpRdwRaNcYXl2Wcj2V1GCfRQhdRKa
-         ejtqlSviKwedXQBWCEEh7uUDIHGkqhlvJyRDrnzVf9WN26b0smmO5XvR5IowkSCdjHcD
-         pjv6MW/SUJd58gJH0845O8mcmPWuEBvEHECvigVvQNvG/rXsz3fY+8cbHA6osppNaXga
-         AxlVhIf3LcoiqIWr9VnvAh29J40rxTGGXF1DHEwMms6rKLi/E4aBba3kMrWFGxoi+9Wf
-         KRdw==
-X-Gm-Message-State: AOAM530w00NAY9w03m+z9YNMkx437McOG1jZAJz1ptvWnu3EdPnPcDeP
-        Pt7vBjZHowP38UtdOdE3uiovXy/lxeCtC46EvSU=
-X-Google-Smtp-Source: ABdhPJzt+8bqbkjqShATlvuMIdRl1iXUFpCcIDxNWgSyJr9Tmk3w+wv8JCXqwg1aCgKcs15WfBnYYDGkiSphxZyG3es=
-X-Received: by 2002:a63:a05f:: with SMTP id u31mr7217982pgn.4.1594807365930;
- Wed, 15 Jul 2020 03:02:45 -0700 (PDT)
+        bh=YEDOjAgTw7zWY0d0LxzHZsYswYj4Ul+PN0OhtVXriQ0=;
+        b=a18PG+U5ZvObsJBXva+ZBPPIzA7Y5AfAEMtnJFN+YttlVbsD64r2Zsl1JfQ9glgzUv
+         C9Vrr6beY+UfTPqKpCaQVnVRR6p7Uad2pHRv32wrLKBlYxoBvAh9Td8wt9OtG39U8KIT
+         WRvOuL8QFXaJuUKtYbireRcuFByDzPOIEgbz6/Pef4guaCAuDhHF+SSc+NExuNUEsi6r
+         KK4G6Tf0M1CUesRD0jUeCnNQRgXvhOj1oI+7xhx+njHkHrCGCQY7dR0tpbxmGUnaK0AT
+         9zO+nU/8PyjfFyVCo2TP5ZzuZVE/N53ocw4MEPaZC8dGXDSSNOv/sIyuOQy0bWcI2pc4
+         qiNw==
+X-Gm-Message-State: AOAM530/kw+racTnjhs8oiRe6XZ294dyzarYXOBJRAv8aK9fcNrt/JYU
+        OfGj0/YbICG0P3eXqj3tDjaNLZSPyk1bj8cucB4=
+X-Google-Smtp-Source: ABdhPJwoHaK/Y4fa9fYzVDnlHksNchcL936VYGXOcGuNji60pcafGnsrIQX1Ybx6Y7K7CJxyN4PFOoRXrd716iJ7Ktk=
+X-Received: by 2002:aa7:8bcb:: with SMTP id s11mr7914531pfd.170.1594807436560;
+ Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHp75Ve2pPGN3BtMw6x1xR5Cyv8VP=KMJMMJ9qao29ArrxPo9w@mail.gmail.com>
- <20200714190721.47603-1-grandmaster@al2klimov.de>
-In-Reply-To: <20200714190721.47603-1-grandmaster@al2klimov.de>
+ <20200714190657.47527-1-grandmaster@al2klimov.de>
+In-Reply-To: <20200714190657.47527-1-grandmaster@al2klimov.de>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 15 Jul 2020 13:02:29 +0300
-Message-ID: <CAHp75Vc+JuwwitN6KVVE9FcV_Go-qWYJ3fuo272sBh9-R=D_mQ@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: apple-gmux: Replace HTTP links with HTTPS ones
+Date:   Wed, 15 Jul 2020 13:03:40 +0300
+Message-ID: <CAHp75VcZ5f0xw9RbV0OZ0DuE6JqCfkTExqO=MJ9AE0TFdCV8Xg@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: acerhdf: Replace HTTP links with HTTPS ones
 To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -81,55 +87,12 @@ On Tue, Jul 14, 2020 at 10:07 PM Alexander A. Klimov
 >             If both the HTTP and HTTPS versions
 >             return 200 OK and serve the same content:
 >               Replace HTTP with HTTPS.
->
 
-Pushed to my review and testing queue, thanks!
+So, please unify two Acer patches now into one.
 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> ---
->  drivers/platform/x86/apple-gmux.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
-> index 7e3083deb1c5..9aae45a45200 100644
-> --- a/drivers/platform/x86/apple-gmux.c
-> +++ b/drivers/platform/x86/apple-gmux.c
-> @@ -277,8 +277,8 @@ static bool gmux_is_indexed(struct apple_gmux_data *gmux_data)
->   * MBP5 2008/09 uses a `TI LP8543`_ backlight driver. All newer models
->   * use a `TI LP8545`_.
->   *
-> - * .. _TI LP8543: http://www.ti.com/lit/ds/symlink/lp8543.pdf
-> - * .. _TI LP8545: http://www.ti.com/lit/ds/symlink/lp8545.pdf
-> + * .. _TI LP8543: https://www.ti.com/lit/ds/symlink/lp8543.pdf
-> + * .. _TI LP8545: https://www.ti.com/lit/ds/symlink/lp8545.pdf
->   */
->
->  static int gmux_get_brightness(struct backlight_device *bd)
-> @@ -373,14 +373,14 @@ static const struct backlight_ops gmux_bl_ops = {
->   * switch the panel and the external DP connector and allocates a framebuffer
->   * for the selected GPU.
->   *
-> - * .. _US 8,687,007 B2: http://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf
-> - * .. _NXP CBTL06141:   http://www.nxp.com/documents/data_sheet/CBTL06141.pdf
-> - * .. _NXP CBTL06142:   http://www.nxp.com/documents/data_sheet/CBTL06141.pdf
-> - * .. _TI HD3SS212:     http://www.ti.com/lit/ds/symlink/hd3ss212.pdf
-> + * .. _US 8,687,007 B2: https://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf
-> + * .. _NXP CBTL06141:   https://www.nxp.com/documents/data_sheet/CBTL06141.pdf
-> + * .. _NXP CBTL06142:   https://www.nxp.com/documents/data_sheet/CBTL06141.pdf
-> + * .. _TI HD3SS212:     https://www.ti.com/lit/ds/symlink/hd3ss212.pdf
->   * .. _Pericom PI3VDP12412: https://www.pericom.com/assets/Datasheets/PI3VDP12412.pdf
-> - * .. _TI SN74LV4066A:  http://www.ti.com/lit/ds/symlink/sn74lv4066a.pdf
-> + * .. _TI SN74LV4066A:  https://www.ti.com/lit/ds/symlink/sn74lv4066a.pdf
->   * .. _NXP CBTL03062:   http://pdf.datasheetarchive.com/indexerfiles/Datasheets-SW16/DSASW00308511.pdf
-> - * .. _TI TS3DS10224:   http://www.ti.com/lit/ds/symlink/ts3ds10224.pdf
-> + * .. _TI TS3DS10224:   https://www.ti.com/lit/ds/symlink/ts3ds10224.pdf
->   */
->
->  static void gmux_read_switch_state(struct apple_gmux_data *gmux_data)
-> --
-> 2.27.0
->
+(And don't forget to provide proper version of the patch)
 
+Thanks!
 
 -- 
 With Best Regards,
