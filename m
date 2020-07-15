@@ -2,97 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A570220970
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 12:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7607322097D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 12:06:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730943AbgGOKD5 (ORCPT
+        id S1725900AbgGOKGV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Jul 2020 06:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
+        Wed, 15 Jul 2020 06:06:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbgGOKD5 (ORCPT
+        with ESMTP id S1725838AbgGOKGV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:03:57 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2239C061755;
-        Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t6so2846342pgq.1;
-        Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
+        Wed, 15 Jul 2020 06:06:21 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38290C061755
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jul 2020 03:06:21 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id md7so2744832pjb.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jul 2020 03:06:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YEDOjAgTw7zWY0d0LxzHZsYswYj4Ul+PN0OhtVXriQ0=;
-        b=hzWPutTj0Fti6f4zw9K6dbh2iH0O0m4N+pltRPKsukA1jSQzrwpy+yyxi8hlKNmzsV
-         +Itu+yaBZIAzKqIool5HxKLkpq7qRbxnbcM0RmxUlvZFuF6g3nse8lwfjaj22uqi46cg
-         CQMRbeeTZc4vMgCFn1B8G2y1FM51sl/dE4JhsjvV6WoHvdsozw3Toi2ECZmrBZDZuxMy
-         q8s74jqC8TXh3c5FMTYw5fLpnjG+eBaXsiF6kOw2fmrp8HQwlRLkVCEuaByZzlmu2ELX
-         Afx1F4KjU6b6np5efpG4F0Q1O4/d5/akx5+ca0gPKJmkia0duLZkO2j+sIhI9bPriCR+
-         Nbsg==
+        bh=5HJsK8ZPfAjwsY6t0ULIJ+idLrWXKovaf2VAE6fs4SI=;
+        b=RP5NpvJYjYiJjhJ2zghg+BJuZQ7VY4qaiiZNKiAnQewiuqB/8JRxj87aeckHuuJd/I
+         h1SgpIEJ7yGHz9Wf+j7JdnlVKI1KL5FFR8TncJ55A93nYLzRJRyoZRGjvmU39tVFuWm5
+         U8xCwQCAAYQGS+GxNwql354AVX5RjBIxOLpWL8jOxhFSbLJ8z8nBM+u5OS2NISYWz6K3
+         SBBMfWUzezhPLuRUliyGMyaNbNUCcdi+d8JlN3YF4LZ/Dmio8Dx2J8dWXeAU4QX/L/0+
+         tibyu9X9T6afdNpL3Vp1OfLee5KjvZj/xsgdFH2L0ObZlBnuF4PNHcyMwHLEozBQJJo3
+         cVOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YEDOjAgTw7zWY0d0LxzHZsYswYj4Ul+PN0OhtVXriQ0=;
-        b=a18PG+U5ZvObsJBXva+ZBPPIzA7Y5AfAEMtnJFN+YttlVbsD64r2Zsl1JfQ9glgzUv
-         C9Vrr6beY+UfTPqKpCaQVnVRR6p7Uad2pHRv32wrLKBlYxoBvAh9Td8wt9OtG39U8KIT
-         WRvOuL8QFXaJuUKtYbireRcuFByDzPOIEgbz6/Pef4guaCAuDhHF+SSc+NExuNUEsi6r
-         KK4G6Tf0M1CUesRD0jUeCnNQRgXvhOj1oI+7xhx+njHkHrCGCQY7dR0tpbxmGUnaK0AT
-         9zO+nU/8PyjfFyVCo2TP5ZzuZVE/N53ocw4MEPaZC8dGXDSSNOv/sIyuOQy0bWcI2pc4
-         qiNw==
-X-Gm-Message-State: AOAM530/kw+racTnjhs8oiRe6XZ294dyzarYXOBJRAv8aK9fcNrt/JYU
-        OfGj0/YbICG0P3eXqj3tDjaNLZSPyk1bj8cucB4=
-X-Google-Smtp-Source: ABdhPJwoHaK/Y4fa9fYzVDnlHksNchcL936VYGXOcGuNji60pcafGnsrIQX1Ybx6Y7K7CJxyN4PFOoRXrd716iJ7Ktk=
-X-Received: by 2002:aa7:8bcb:: with SMTP id s11mr7914531pfd.170.1594807436560;
- Wed, 15 Jul 2020 03:03:56 -0700 (PDT)
+        bh=5HJsK8ZPfAjwsY6t0ULIJ+idLrWXKovaf2VAE6fs4SI=;
+        b=nX0qww9VQRxjDtjjnDcaKldawvH4P0QyyXQns18hkdlqpcxi2xT6nGcF0dy/JIs4ma
+         ANxwLDAKXsDFhDDiaqH0VvKcu3lsNURiRh1hylbvwPIIX+ZW/AgebW+DjPUYT5ztD+FB
+         MTfLbPfd5cysvNvf4kQ5hF9nVy673IBsWTV5NVuX//Wx77Ipbz2o3L8hA4x7Nk129174
+         d8X1vA+YxAfovAOrvunpfokRYxaKGGZwu2t2zpGHMecDUTbI21EBW/0c7BhW3mHtduBa
+         MmfDl8biadD25PG+osiEQjOZY5dA4Bb4YymIhY8l0eNxBKYYKRHy2aRn2XM7N/fYsJUd
+         7qNw==
+X-Gm-Message-State: AOAM532/jZlp3F5oAZPjuy8tZ71P5jhhmuHTvwpAXI4Rdo7xbUL76TqP
+        e8xqVJu0SP/tZkyu9SVTJhnlM3hCyCEyS2NCuNo=
+X-Google-Smtp-Source: ABdhPJysLhWQruc3//MNp6n+HC8r6mIhI6MfKnQVI30TD2+7IiQnx1nfKyOJDHfLza86DCm1sa/3RYN9MRPSchqYJoE=
+X-Received: by 2002:a17:902:9a4b:: with SMTP id x11mr998403plv.255.1594807580701;
+ Wed, 15 Jul 2020 03:06:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHp75Ve2pPGN3BtMw6x1xR5Cyv8VP=KMJMMJ9qao29ArrxPo9w@mail.gmail.com>
- <20200714190657.47527-1-grandmaster@al2klimov.de>
-In-Reply-To: <20200714190657.47527-1-grandmaster@al2klimov.de>
+References: <20200714104250.87970-1-andriy.shevchenko@linux.intel.com> <6920cff7-ab7c-a4ef-4f8f-83966b7bf498@redhat.com>
+In-Reply-To: <6920cff7-ab7c-a4ef-4f8f-83966b7bf498@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 15 Jul 2020 13:03:40 +0300
-Message-ID: <CAHp75VcZ5f0xw9RbV0OZ0DuE6JqCfkTExqO=MJ9AE0TFdCV8Xg@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: acerhdf: Replace HTTP links with HTTPS ones
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 15 Jul 2020 13:06:04 +0300
+Message-ID: <CAHp75Ve2LKjjy3o_Bzu4ce-YO_fSQ721L4KknRMtUgt1nhJoBw@mail.gmail.com>
+Subject: Re: [PATCH v1] platform/x86: thinkpad_acpi: Limit size when call strndup_user()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 10:07 PM Alexander A. Klimov
-<grandmaster@al2klimov.de> wrote:
->
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
->
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
->             If both the HTTP and HTTPS versions
->             return 200 OK and serve the same content:
->               Replace HTTP with HTTPS.
+On Tue, Jul 14, 2020 at 4:30 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 7/14/20 12:42 PM, Andy Shevchenko wrote:
 
-So, please unify two Acer patches now into one.
+...
 
-(And don't forget to provide proper version of the patch)
+> > +     kernbuf = strndup_user(userbuf, min_t(long, count, PAGE_SIZE));
 
-Thanks!
+> This is not going to work:
+
+You are right!
+
+> Can we please just go with the revert for now?
+
+Yes, I have reverted it. Sorry for troubles.
 
 -- 
 With Best Regards,
