@@ -2,83 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7607322097D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 12:06:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AD8D2214C4
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Jul 2020 20:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725900AbgGOKGV (ORCPT
+        id S1726356AbgGOS56 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Jul 2020 06:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
+        Wed, 15 Jul 2020 14:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbgGOKGV (ORCPT
+        with ESMTP id S1726086AbgGOS56 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:06:21 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38290C061755
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jul 2020 03:06:21 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id md7so2744832pjb.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Jul 2020 03:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5HJsK8ZPfAjwsY6t0ULIJ+idLrWXKovaf2VAE6fs4SI=;
-        b=RP5NpvJYjYiJjhJ2zghg+BJuZQ7VY4qaiiZNKiAnQewiuqB/8JRxj87aeckHuuJd/I
-         h1SgpIEJ7yGHz9Wf+j7JdnlVKI1KL5FFR8TncJ55A93nYLzRJRyoZRGjvmU39tVFuWm5
-         U8xCwQCAAYQGS+GxNwql354AVX5RjBIxOLpWL8jOxhFSbLJ8z8nBM+u5OS2NISYWz6K3
-         SBBMfWUzezhPLuRUliyGMyaNbNUCcdi+d8JlN3YF4LZ/Dmio8Dx2J8dWXeAU4QX/L/0+
-         tibyu9X9T6afdNpL3Vp1OfLee5KjvZj/xsgdFH2L0ObZlBnuF4PNHcyMwHLEozBQJJo3
-         cVOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5HJsK8ZPfAjwsY6t0ULIJ+idLrWXKovaf2VAE6fs4SI=;
-        b=nX0qww9VQRxjDtjjnDcaKldawvH4P0QyyXQns18hkdlqpcxi2xT6nGcF0dy/JIs4ma
-         ANxwLDAKXsDFhDDiaqH0VvKcu3lsNURiRh1hylbvwPIIX+ZW/AgebW+DjPUYT5ztD+FB
-         MTfLbPfd5cysvNvf4kQ5hF9nVy673IBsWTV5NVuX//Wx77Ipbz2o3L8hA4x7Nk129174
-         d8X1vA+YxAfovAOrvunpfokRYxaKGGZwu2t2zpGHMecDUTbI21EBW/0c7BhW3mHtduBa
-         MmfDl8biadD25PG+osiEQjOZY5dA4Bb4YymIhY8l0eNxBKYYKRHy2aRn2XM7N/fYsJUd
-         7qNw==
-X-Gm-Message-State: AOAM532/jZlp3F5oAZPjuy8tZ71P5jhhmuHTvwpAXI4Rdo7xbUL76TqP
-        e8xqVJu0SP/tZkyu9SVTJhnlM3hCyCEyS2NCuNo=
-X-Google-Smtp-Source: ABdhPJysLhWQruc3//MNp6n+HC8r6mIhI6MfKnQVI30TD2+7IiQnx1nfKyOJDHfLza86DCm1sa/3RYN9MRPSchqYJoE=
-X-Received: by 2002:a17:902:9a4b:: with SMTP id x11mr998403plv.255.1594807580701;
- Wed, 15 Jul 2020 03:06:20 -0700 (PDT)
+        Wed, 15 Jul 2020 14:57:58 -0400
+Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD06FC061755;
+        Wed, 15 Jul 2020 11:57:57 -0700 (PDT)
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by smtp.al2klimov.de (Postfix) with ESMTPA id C4B90BC0CB;
+        Wed, 15 Jul 2020 18:57:52 +0000 (UTC)
+From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To:     dvhart@infradead.org, andy@infradead.org, peter@piie.net,
+        mika.westerberg@linux.intel.com, lee.jones@linaro.org,
+        dmitry.torokhov@gmail.com, ayman.bagabas@gmail.com,
+        masahiroy@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH v2] platform/x86: acerhdf: Replace HTTP links with HTTPS ones
+Date:   Wed, 15 Jul 2020 20:57:44 +0200
+Message-Id: <20200715185744.52335-1-grandmaster@al2klimov.de>
+In-Reply-To: <CAHp75VcZ5f0xw9RbV0OZ0DuE6JqCfkTExqO=MJ9AE0TFdCV8Xg@mail.gmail.com>
+References: <CAHp75VcZ5f0xw9RbV0OZ0DuE6JqCfkTExqO=MJ9AE0TFdCV8Xg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200714104250.87970-1-andriy.shevchenko@linux.intel.com> <6920cff7-ab7c-a4ef-4f8f-83966b7bf498@redhat.com>
-In-Reply-To: <6920cff7-ab7c-a4ef-4f8f-83966b7bf498@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 15 Jul 2020 13:06:04 +0300
-Message-ID: <CAHp75Ve2LKjjy3o_Bzu4ce-YO_fSQ721L4KknRMtUgt1nhJoBw@mail.gmail.com>
-Subject: Re: [PATCH v1] platform/x86: thinkpad_acpi: Limit size when call strndup_user()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+X-Spam-Level: *****
+Authentication-Results: smtp.al2klimov.de;
+        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 4:30 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 7/14/20 12:42 PM, Andy Shevchenko wrote:
+Rationale:
+Reduces attack surface on kernel devs opening the links for MITM
+as HTTPS traffic is much harder to manipulate.
 
-...
+Deterministic algorithm:
+For each file:
+  If not .svg:
+    For each line:
+      If doesn't contain `\bxmlns\b`:
+        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+            If both the HTTP and HTTPS versions
+            return 200 OK and serve the same content:
+              Replace HTTP with HTTPS.
 
-> > +     kernbuf = strndup_user(userbuf, min_t(long, count, PAGE_SIZE));
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ v2: Combined all two patches for acerhdf.
 
-> This is not going to work:
+ drivers/platform/x86/Kconfig   | 2 +-
+ drivers/platform/x86/acerhdf.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-You are right!
-
-> Can we please just go with the revert for now?
-
-Yes, I have reverted it. Sorry for troubles.
-
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 0581a54cf562..1d96e07b2a02 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -140,7 +140,7 @@ config ACERHDF
+ 	  in the same node directory will tell you if it is "acerhdf".
+ 
+ 	  For more information about this driver see
+-	  <http://piie.net/files/acerhdf_README.txt>
++	  <https://piie.net/files/acerhdf_README.txt>
+ 
+ 	  If you have an Acer Aspire One netbook, say Y or M
+ 	  here.
+diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
+index 4df7609b4aa9..a7a0b2e0ceb9 100644
+--- a/drivers/platform/x86/acerhdf.c
++++ b/drivers/platform/x86/acerhdf.c
+@@ -5,7 +5,7 @@
+  *           as soon as the upper/lower threshold is reached.
+  *
+  * (C) 2009 - Peter Kaestle     peter (a) piie.net
+- *                              http://piie.net
++ *                              https://piie.net
+  *     2009 Borislav Petkov	bp (a) alien8.de
+  *
+  * Inspired by and many thanks to:
 -- 
-With Best Regards,
-Andy Shevchenko
+2.27.0
+
