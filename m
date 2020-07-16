@@ -2,95 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B768221C37
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 07:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D17C221CFE
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 09:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726083AbgGPF53 (ORCPT
+        id S1728202AbgGPHFO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Jul 2020 01:57:29 -0400
-Received: from mga14.intel.com ([192.55.52.115]:21083 "EHLO mga14.intel.com"
+        Thu, 16 Jul 2020 03:05:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725913AbgGPF53 (ORCPT
+        id S1725921AbgGPHFO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Jul 2020 01:57:29 -0400
-IronPort-SDR: SN3YeReBx3/xvVTO9vtz3DLFwtLxgdD6TGLhsWMTzy1ji330TepabSKX8fTFvATBp3BEXqUucI
- yv1RCEZlOT5Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9683"; a="148474320"
-X-IronPort-AV: E=Sophos;i="5.75,358,1589266800"; 
-   d="scan'208";a="148474320"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 22:57:28 -0700
-IronPort-SDR: MPGHtP5Mo5iznd3fSSzeBdWK+RCVI7u0o8wdolS9IgjK2FVvrdKLhk/4gEdIoKoGrZUhrty3v5
- QHnj9VIglqvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,358,1589266800"; 
-   d="scan'208";a="269157167"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Jul 2020 22:57:27 -0700
-Received: from [10.249.231.152] (abudanko-mobl.ccr.corp.intel.com [10.249.231.152])
-        by linux.intel.com (Postfix) with ESMTP id 26BED580821;
-        Wed, 15 Jul 2020 22:57:24 -0700 (PDT)
-Subject: Re: [PATCH V3 3/3] platform/x86: Intel PMT Telemetry capability
- driver
-To:     david.e.box@linux.intel.com, lee.jones@linaro.org,
-        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
-        alexander.h.duyck@linux.intel.com
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Alexey Budankov <alexey.budankov@linux.intel.com>
-References: <20200508021844.6911-1-david.e.box@linux.intel.com>
- <20200714062323.19990-4-david.e.box@linux.intel.com>
- <727a75a0-3fb5-769a-cf1f-70a2a0bab0c8@linux.intel.com>
- <245ecc65a839bd69413045ae5ee307ba03ca0869.camel@linux.intel.com>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <8a580318-9bd4-1146-f2e9-6cb851828762@linux.intel.com>
-Date:   Thu, 16 Jul 2020 08:57:24 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 16 Jul 2020 03:05:14 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 404502067D;
+        Thu, 16 Jul 2020 07:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594883113;
+        bh=Z5RhkkqLX0D9XYZKqSxiQ7QYhDFUhsRN5R5vtcfRhec=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n5zAmkh8wu5Nyyl5cprsTdFtEXaolIRhWe8a3K0gQQPvIaeq2KOcgDPksGPkR0fs4
+         +qXez5kL+vKEJG1Hl2QZbeZwkg2v2a2mb6oXUmJNr211Nqkk69y2zllc4nBzPEoNUU
+         pVa3OAe2I5nT4OTAKHZgmA4Ja2B4SqzyLNRmDv7w=
+Date:   Thu, 16 Jul 2020 09:05:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Rajmohan Mani <rajmohan.mani@intel.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jithu Joseph <jithu.joseph@intel.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org, pmalani@chromium.org,
+        bleung@chromium.org
+Subject: Re: [PATCH 2/2] usb: typec: intel_pmc_mux: Check the port status
+ before connect
+Message-ID: <20200716070508.GB962748@kroah.com>
+References: <20200716003310.26125-1-rajmohan.mani@intel.com>
+ <20200716003310.26125-3-rajmohan.mani@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <245ecc65a839bd69413045ae5ee307ba03ca0869.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200716003310.26125-3-rajmohan.mani@intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-
-On 16.07.2020 2:59, David E. Box wrote:
-> On Wed, 2020-07-15 at 10:39 +0300, Alexey Budankov wrote:
->> Hi David,
->>
->> On 14.07.2020 9:23, David E. Box wrote:
+On Wed, Jul 15, 2020 at 05:33:10PM -0700, Rajmohan Mani wrote:
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > 
-> ...
+> The PMC microcontroller that we use for configuration, does
+> not supply any status information back. For port status we
+> need to talk to another controller on the board called IOM
+> (I/O manager).
 > 
->>>
->>> +static int pmt_telem_open(struct inode *inode, struct file *filp)
->>> +{
->>> +	struct pmt_telem_priv *priv;
->>> +	struct pmt_telem_entry *entry;
->>> +	struct pci_driver *pci_drv;
->>> +	struct pci_dev *pci_dev;
->>> +
->>> +	if (!capable(CAP_SYS_ADMIN))
->>
->> Thanks for supplying these patches.
->> Are there any reasons not to expose this feature to CAP_PERFMON
->> privileged
->> processes too that currently have access to performance monitoring
->> features
->> of the kernel without root/CAP_SYS_ADMIN credentials? This could be
->> done by
->> pefmon_capable() function call starting from v5.8+.
+> By checking the port status before configuring the muxes, we
+> can make sure that we do not reconfigure the port after
+> bootup when the system firmware (for example BIOS) has
+> already configured it.
 > 
-> The new capability is well suited for this feature. I'll make the
-> change. Thanks.
+> Using the status information also to check if DisplayPort
+> HPD is still asserted when the cable plug is disconnected,
+> and clearing it if it is.
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-I appreciate your cooperation. Thanks!
+You can't just forward on patches from others without also adding your
+signed-off-by to them, right?
 
-Alexei
+Please fix up this series and try again.
+
+thanks,
+
+greg k-h
