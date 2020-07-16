@@ -2,258 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 127A1221D0A
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 09:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0598222267A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 17:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726141AbgGPHJ4 (ORCPT
+        id S1728652AbgGPPHJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Jul 2020 03:09:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40380 "EHLO mail.kernel.org"
+        Thu, 16 Jul 2020 11:07:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36548 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726069AbgGPHJ4 (ORCPT
+        id S1725867AbgGPPHI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Jul 2020 03:09:56 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        Thu, 16 Jul 2020 11:07:08 -0400
+Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F269C2070E;
-        Thu, 16 Jul 2020 07:09:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 24D3A2063A;
+        Thu, 16 Jul 2020 15:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594883395;
-        bh=uHBoCf2YAm16OE56eyxagQa2AIxrkGsYoB/cStRsLz8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=prSXKQMrHIlcWwzV0gYe6SR9SZtfmtcaMNZQ07pMJ1v8sc7X4DgOoeVOjkFZthWQh
-         auH6ZPlXFxDT4t29LB4kiWMHGpIJAe6O7XlqsTl2e2hjVJu2ZjL+TIyCTLPrFj7Nle
-         PZof4LtxEf2a8ae8K+OfANOrN5FGbYZLn/nd7/vo=
-Date:   Thu, 16 Jul 2020 09:09:50 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Rajmohan Mani <rajmohan.mani@intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jithu Joseph <jithu.joseph@intel.com>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-usb@vger.kernel.org, pmalani@chromium.org,
-        bleung@chromium.org
-Subject: Re: [PATCH 1/2] platform/x86: Add Intel Input Output Manager (IOM)
- driver
-Message-ID: <20200716070950.GC962748@kroah.com>
-References: <20200716003310.26125-1-rajmohan.mani@intel.com>
- <20200716003310.26125-2-rajmohan.mani@intel.com>
+        s=default; t=1594912028;
+        bh=brugnNfIO3xKY0c62BddSSLWek+/YWe6CdH/i3pei8Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=1jyVcIGbtVHPD2AU++kWANs751g9eMwzqJeLGO4dpSXzKevPIF9ZF0oSfS5JnWfG9
+         o1BPAPm7A5r+GwKeZfCOx3nCnD6JNxR5t17cd7xmHkWxN5LhEUUgD917BzMrg7IRjO
+         NSP5gF50a0kGyFTo8jGRF8Qlypk85oVCjtqdnMmc=
+Date:   Thu, 16 Jul 2020 10:07:06 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
+        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
+        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH V3 1/3] PCI: Add defines for Designated Vendor-Specific
+ Capability
+Message-ID: <20200716150706.GA628795@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200716003310.26125-2-rajmohan.mani@intel.com>
+In-Reply-To: <3f490460-62f8-8b49-0735-ad29653bfbc0@infradead.org>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 05:33:09PM -0700, Rajmohan Mani wrote:
-> Input Output Manager (IOM) is part of the Tiger Lake SoC that
-> configures the Type-C Sub System (TCSS). IOM is a micro controller
-> that handles Type-C topology, configuration and PM functions of
-> various Type-C devices connected on the platform.
+On Wed, Jul 15, 2020 at 07:55:11PM -0700, Randy Dunlap wrote:
+> On 7/13/20 11:23 PM, David E. Box wrote:
+> > Add PCIe DVSEC extended capability ID and defines for the header offsets.
+> > Defined in PCIe r5.0, sec 7.9.6.
+> > 
+> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > ---
+> >  include/uapi/linux/pci_regs.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+> > index f9701410d3b5..09daa9f07b6b 100644
+> > --- a/include/uapi/linux/pci_regs.h
+> > +++ b/include/uapi/linux/pci_regs.h
+> > @@ -720,6 +720,7 @@
+> > +#define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
+> > @@ -1062,6 +1063,10 @@
+> > +/* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+> > +#define PCI_DVSEC_HEADER1		0x4 /* Vendor-Specific Header1 */
+> > +#define PCI_DVSEC_HEADER2		0x8 /* Vendor-Specific Header2 */
 > 
-> This driver helps read relevant information such as Type-C port
-> status (whether a device is connected to a Type-C port or not) and
-> the activity type on the Type-C ports (such as USB, Display Port,
-> Thunderbolt), for consumption by other drivers.
-> 
-> Currently intel_iom_port_status() API is exported by this driver,
-> that has information about the Type-C port status and port activity
-> type.
-> 
-> Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
-> ---
->  drivers/platform/x86/Kconfig                |  16 +++
->  drivers/platform/x86/Makefile               |   1 +
->  drivers/platform/x86/intel_iom.c            | 133 ++++++++++++++++++++
->  include/linux/platform_data/x86/intel_iom.h |  62 +++++++++
+> Just a little comment: It would make more sense to me to
+> s/DVSEC/DVSPEC/g.
 
-Why do you need a .h file for a single .c file that no one else shares
-this data?  Just put it all in the .c file please.
-
->  4 files changed, 212 insertions(+)
->  create mode 100644 drivers/platform/x86/intel_iom.c
->  create mode 100644 include/linux/platform_data/x86/intel_iom.h
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 0581a54cf562..271feddb20ef 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -816,6 +816,22 @@ config INTEL_INT0002_VGPIO
->  	  To compile this driver as a module, choose M here: the module will
->  	  be called intel_int0002_vgpio.
->  
-> +config INTEL_IOM
-> +	tristate "Intel Input Output Manager (IOM) driver"
-> +	depends on ACPI && PCI
-> +	help
-> +	  This driver helps read relevant information such as Type-C port
-> +	  status (whether a device is connected to a Type-C port or not)
-> +	  and the activity type on the Type-C ports (such as USB, Display
-> +	  Port, Thunderbolt), for consumption by other drivers.
-> +
-> +	  Currently intel_iom_port_status() API is exported by this driver,
-> +	  that has information about the Type-C port status and port activity
-> +	  type.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called intel_iom.
-> +
->  config INTEL_MENLOW
->  	tristate "Thermal Management driver for Intel menlow platform"
->  	depends on ACPI_THERMAL
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index 2b85852a1a87..d71e4620a7c6 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -76,6 +76,7 @@ intel_cht_int33fe-objs			:= intel_cht_int33fe_common.o \
->  					   intel_cht_int33fe_microb.o
->  obj-$(CONFIG_INTEL_HID_EVENT)		+= intel-hid.o
->  obj-$(CONFIG_INTEL_INT0002_VGPIO)	+= intel_int0002_vgpio.o
-> +obj-$(CONFIG_INTEL_IOM)			+= intel_iom.o
->  obj-$(CONFIG_INTEL_MENLOW)		+= intel_menlow.o
->  obj-$(CONFIG_INTEL_OAKTRAIL)		+= intel_oaktrail.o
->  obj-$(CONFIG_INTEL_VBTN)		+= intel-vbtn.o
-> diff --git a/drivers/platform/x86/intel_iom.c b/drivers/platform/x86/intel_iom.c
-> new file mode 100644
-> index 000000000000..ece0fe720b2d
-> --- /dev/null
-> +++ b/drivers/platform/x86/intel_iom.c
-> @@ -0,0 +1,133 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Intel Core SoC Input Output Manager (IOM) driver.
-> + *
-> + * This driver provides access to the Input Output Manager (IOM) (that
-> + * is part of Tiger Lake SoC) registers that can be used to know about
-> + * Type-C Sub System related information (such as Type-C port status,
-> + * activity type on Type-C ports).
-> + *
-> + * Copyright (C) 2020, Intel Corporation
-> + * Author: Rajmohan Mani <rajmohan.mani@intel.com>
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_data/x86/intel_iom.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +
-> +#define IOM_PORT_STATUS_OFFSET				0x560
-> +
-> +struct intel_iom {
-> +	struct device *dev;
-> +	void __iomem *regbar;
-> +};
-> +
-> +static struct intel_iom iom_dev;
-
-Why just one?  Why is this static?
-
-> +
-> +/**
-> + * intel_iom_get() - Get IOM device instance
-> + *
-> + * This function returns the IOM device instance. This also ensures that
-> + * this driver cannot be unloaded while the caller has the instance.
-> + *
-> + * Call intel_iom_put() to release the instance.
-> + *
-> + * Returns IOM device instance on success or error pointer otherwise.
-> + */
-> +struct intel_iom *intel_iom_get(void)
-> +{
-> +	struct device *dev = get_device(iom_dev.dev);
-
-Wht if dev is NULL?
-
-> +
-> +	/* Prevent this driver from being unloaded while in use */
-> +	if (!try_module_get(dev->driver->owner)) {
-
-Why are you poking around in a random device's driver's owner?
-
-That's not ok.  And probably totally racy.
-
-Handle module reference counts properly, not like this.
-
-And why does it even matter that you incremented the module reference
-count?  What is that "protecting" you from?
-
-> +		put_device(iom_dev.dev);
-> +		return ERR_PTR(-EBUSY);
-> +	}
-> +
-> +	return &iom_dev;
-> +}
-> +EXPORT_SYMBOL_GPL(intel_iom_get);
-
-Who calls this function?
-
-> +
-> +/**
-> + * intel_iom_put() - Put IOM device instance
-> + * @iom: IOM device instance
-> + *
-> + * This function releases the IOM device instance created using
-> + * intel_iom_get() and allows the driver to be unloaded.
-> + *
-> + * Call intel_iom_put() to release the instance.
-> + */
-> +void intel_iom_put(struct intel_iom *iom)
-> +{
-> +	if (!iom)
-> +		return;
-> +
-> +	module_put(iom->dev->driver->owner);
-
-And if the device doesn't have a driver?  boom :(
-
-Don't do this.
-
-> +	put_device(iom->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(intel_iom_put);
-> +
-> +/**
-> + * intel_iom_port_status() - Get status bits for the Type-C port
-> + * @iom: IOM device instance
-> + * @port: Type-C port number
-> + * @status: pointer to receive the status bits
-> + *
-> + * Returns 0 on success, error otherwise.
-> + */
-> +int intel_iom_port_status(struct intel_iom *iom, u8 port, u32 *status)
-> +{
-> +	void __iomem *reg;
-> +
-> +	if (!iom)
-> +		return -ENODEV;
-> +
-> +	if (!status || (port > IOM_MAX_PORTS - 1))
-> +		return -EINVAL;
-> +
-> +	reg = iom->regbar + IOM_PORT_STATUS_OFFSET + IOM_REG_LEN * port;
-> +
-> +	*status = ioread32(reg);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(intel_iom_port_status);
-
-So the whole driver is here just to read, directly from memory, a single
-32 bit value?  Doesn't that seem like a lot of overkill?  Why can't the
-caller just do this themselves?
-
-greg k-h
+Yeah, that is confusing, but "DVSEC" is the term used in the spec.  I
+think it stands for "Designated Vendor-Specific Extended Capability".
