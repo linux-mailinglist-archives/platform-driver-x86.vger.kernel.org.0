@@ -2,49 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE98D22267F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 17:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B9B12229A5
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Jul 2020 19:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728515AbgGPPIE (ORCPT
+        id S1729348AbgGPRSu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 16 Jul 2020 11:08:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728400AbgGPPIE (ORCPT
+        Thu, 16 Jul 2020 13:18:50 -0400
+Received: from mga11.intel.com ([192.55.52.93]:10449 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729313AbgGPRSs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 16 Jul 2020 11:08:04 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 418D2C061755;
-        Thu, 16 Jul 2020 08:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=1bJOTpyq8vHLitPae/7o/ebaPgbG/UCSEh62yEag0So=; b=OR2Oza7PfYUqqvt2pp2A85nLit
-        DnsmYH9hP9ewqgYWIjuhjhNEUpRaqLAol0yMxQt+Kb6DSmk2pIsMeaW0ImKifpGr2DOkEmqO1vNtc
-        XOR5rZbxbCisa6hFLWmQQVlXgR6iteaQ1c0Bea5Hj9dCJoWwO+MkhSV/Kq+O0jZnVdSN1GSemCOwh
-        yVHpDm4aPJPqjW98ghmYn4yj3XRPMM8pfJ38OdYWkvRWbtmDG5fD5dgzNw1Qs8qB+RI661X9qbPpZ
-        RJDiCAqyMBx+FzCFsI1apYR0D6kzZhmW1WYZCIev95XHJzlkAL5g+8OgB9zkvgT0Ib+wXCnfk6jqx
-        ps14ZHPg==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jw5UP-0004op-Gj; Thu, 16 Jul 2020 15:08:01 +0000
+        Thu, 16 Jul 2020 13:18:48 -0400
+IronPort-SDR: LMGdHxlnO9xPDX7Hg9H8zkYvo+Us96z69yAFkPded5gOLuD4Zf3w21HVUwL3+Ir82iFGpNnAF4
+ g8X4eP+NIwsQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="147437683"
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
+   d="scan'208";a="147437683"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 10:18:47 -0700
+IronPort-SDR: 7QSD0mIFZV35GRaqBa9TP6Fa8zQ8z3ynWR9ZmO2bMYDAPb6uT49V05gYbuiY2WiH71Hf1nF44t
+ ekUDmyuR2Lrg==
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
+   d="scan'208";a="286550453"
+Received: from ahduyck-mobl1.amr.corp.intel.com (HELO [10.209.124.206]) ([10.209.124.206])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 10:18:47 -0700
 Subject: Re: [PATCH V3 1/3] PCI: Add defines for Designated Vendor-Specific
  Capability
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
-        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
-        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20200716150706.GA628795@bjorn-Precision-5520>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <960e7d50-7c6c-45fa-c57e-5c52b5c1e192@infradead.org>
-Date:   Thu, 16 Jul 2020 08:07:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
+        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-pci@vger.kernel.org
+References: <20200508021844.6911-1-david.e.box@linux.intel.com>
+ <20200714062323.19990-2-david.e.box@linux.intel.com>
+ <3f490460-62f8-8b49-0735-ad29653bfbc0@infradead.org>
+From:   Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Message-ID: <dc459a96-1434-16bf-80d2-06b0680f9fda@linux.intel.com>
+Date:   Thu, 16 Jul 2020 10:18:33 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200716150706.GA628795@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <3f490460-62f8-8b49-0735-ad29653bfbc0@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -52,38 +53,37 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/16/20 8:07 AM, Bjorn Helgaas wrote:
-> On Wed, Jul 15, 2020 at 07:55:11PM -0700, Randy Dunlap wrote:
->> On 7/13/20 11:23 PM, David E. Box wrote:
->>> Add PCIe DVSEC extended capability ID and defines for the header offsets.
->>> Defined in PCIe r5.0, sec 7.9.6.
->>>
->>> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
->>> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->>> ---
->>>  include/uapi/linux/pci_regs.h | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>
->>> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
->>> index f9701410d3b5..09daa9f07b6b 100644
->>> --- a/include/uapi/linux/pci_regs.h
->>> +++ b/include/uapi/linux/pci_regs.h
->>> @@ -720,6 +720,7 @@
->>> +#define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
->>> @@ -1062,6 +1063,10 @@
->>> +/* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
->>> +#define PCI_DVSEC_HEADER1		0x4 /* Vendor-Specific Header1 */
->>> +#define PCI_DVSEC_HEADER2		0x8 /* Vendor-Specific Header2 */
+
+
+On 7/15/2020 7:55 PM, Randy Dunlap wrote:
+> On 7/13/20 11:23 PM, David E. Box wrote:
+>> Add PCIe DVSEC extended capability ID and defines for the header offsets.
+>> Defined in PCIe r5.0, sec 7.9.6.
 >>
->> Just a little comment: It would make more sense to me to
->> s/DVSEC/DVSPEC/g.
+>> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+>> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+>> ---
+>>   include/uapi/linux/pci_regs.h | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+>> index f9701410d3b5..09daa9f07b6b 100644
+>> --- a/include/uapi/linux/pci_regs.h
+>> +++ b/include/uapi/linux/pci_regs.h
+>> @@ -720,6 +720,7 @@
+>> +#define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
+>> @@ -1062,6 +1063,10 @@
+>> +/* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+>> +#define PCI_DVSEC_HEADER1		0x4 /* Vendor-Specific Header1 */
+>> +#define PCI_DVSEC_HEADER2		0x8 /* Vendor-Specific Header2 */
 > 
-> Yeah, that is confusing, but "DVSEC" is the term used in the spec.  I
-> think it stands for "Designated Vendor-Specific Extended Capability".
+> Just a little comment: It would make more sense to me to
+> s/DVSEC/DVSPEC/g.
+> 
+> But then I don't have the PCIe documentation.
 
-Right. I noticed that after I sent the email.
-
-thanks.
--- 
-~Randy
-
+Arguably some of the confusion might be from the patch title. DVSEC is 
+acronym for Designated Vendor-Specific Extended Capability if I recall 
+correctly. It would probably be best to call that out since the extended 
+implies it lives in the config space accessible via the memory mapped 
+config.
