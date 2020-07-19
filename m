@@ -2,77 +2,55 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2FD227160
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jul 2020 23:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1D372274F4
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jul 2020 03:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbgGTVnF (ORCPT
+        id S1726046AbgGUBpq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Jul 2020 17:43:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728207AbgGTVii (ORCPT
+        Mon, 20 Jul 2020 21:45:46 -0400
+Received: from [211.196.21.11] ([211.196.21.11]:54098 "EHLO
+        iscure03.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726003AbgGUBpp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:38:38 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7FFA220717;
-        Mon, 20 Jul 2020 21:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281118;
-        bh=iBO41IItOf1SqfGhheAjtKbnoUPdrkRC8ORQw9SEKCI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2eXWdKE1m5EtC2Kk37yqzInOgmGk5pUHJKvvZp1dWDwJ2gEDEMFogC/vm+ZQ0DK8b
-         vAncaCXRHDqTtHVxDnG5nRad6xw+78cRFhv5uLilY+ons54ldhHk4vUZEAkRc4Zt9r
-         sOinmREfQDRlnG0drV0+e6K99TQ39stSGQ2Jgdbk=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vasiliy Kupriakov <rublag-ns@yandex.ru>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 25/34] platform/x86: asus-wmi: allow BAT1 battery name
-Date:   Mon, 20 Jul 2020 17:37:58 -0400
-Message-Id: <20200720213807.407380-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720213807.407380-1-sashal@kernel.org>
-References: <20200720213807.407380-1-sashal@kernel.org>
+        Mon, 20 Jul 2020 21:45:45 -0400
+Received: from Shop01 (unknown [127.0.0.1])
+        by iscure03.localdomain (Postfix) with SMTP id D6AE12AE105;
+        Mon, 20 Jul 2020 12:24:25 +0900 (KST)
+Received: from [184.119.94.254] by Shop01 with SMTP for <planner@localnetplus.com>; Sun, 19 Jul 2020 20:18:47 +0400
+Message-ID: <dv$3-y7m$$-j$1cjg-d$-$31q26-gc6@9l3p.n3yry9sc>
+From:   "MOORE GATES LTD" <TEXT@TEXT.COM>
+Reply-To: "MOORE GATES LTD" <TEXT@TEXT.COM>
+To:     planner@localnetplus.com
+Subject: FROM MR. MOORE
+Date:   Sun, 19 Jul 20 20:18:47 GMT
+X-Mailer: Microsoft Outlook, Build 10.0.2627
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+        boundary="D9F2D5A2__"
+X-Priority: 1
+X-MSMail-Priority: High
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Vasiliy Kupriakov <rublag-ns@yandex.ru>
 
-[ Upstream commit 9a33e375d98ece5ea40c576eabd3257acb90c509 ]
+--D9F2D5A2__
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-The battery on my laptop ASUS TUF Gaming FX706II is named BAT1.
-This patch allows battery extension to load.
+Dear Beloved,
+Peace of the Lord be with you and family, I am Fitzpatrick Moore a
+United Kingdom Citizen, I have ($ 25M) Twenty five Million united
+states dollars with a finance House in United State. I will want you
+to help me collect this deposit and dispatch it to charity
+organizations. You will take out 30% of these funds for your
+assistance to help ME disburse this fund to charities. I will like you
+to acknowledge the receipt of this e-mail as soon as possible and
+treats with absolute confidentiality and sincerity. Please reply to my
+Email: (moorefitzpatrick@gmail.com)
+Yours Sincerely,
+Fitzpatrick Moore
 
-Signed-off-by: Vasiliy Kupriakov <rublag-ns@yandex.ru>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/asus-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index b1f4a31ba1ee5..ed83fb135bab3 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -424,6 +424,7 @@ static int asus_wmi_battery_add(struct power_supply *battery)
- 	 * battery is named BATT.
- 	 */
- 	if (strcmp(battery->desc->name, "BAT0") != 0 &&
-+	    strcmp(battery->desc->name, "BAT1") != 0 &&
- 	    strcmp(battery->desc->name, "BATT") != 0)
- 		return -ENODEV;
- 
--- 
-2.25.1
+--D9F2D5A2__--
 
