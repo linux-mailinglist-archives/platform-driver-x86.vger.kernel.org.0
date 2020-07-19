@@ -2,72 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1FC224E5E
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 Jul 2020 02:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BEB225496
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jul 2020 00:56:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbgGSA3L (ORCPT
+        id S1726486AbgGSW45 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 18 Jul 2020 20:29:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726186AbgGSA3L (ORCPT
+        Sun, 19 Jul 2020 18:56:57 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:35049 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726156AbgGSW45 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 18 Jul 2020 20:29:11 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C4F6C0619D2;
-        Sat, 18 Jul 2020 17:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=HYwRIseydueaNGPtPxodW7LfJsXFG0DGMiEeAH1qE1M=; b=fyXNkQUne1lyZYcalT4pUQBlmV
-        dvpkghuGro/7P7F4HndNjeQJv9LVXwImDDDznJZjmkSGxWANonP6ZE+jPgJI2qztnQExxLK1tbGXt
-        cTYfWmHAu/RBWAOAGZmnkBbo/ZihQSHmp1f3McGWAAHRv5JFoAWghtEfqzETlwt9lAGhUgCaIBeJX
-        eF7nXUABS1y0Mw/sqdK/LA7NRj9knWWTiW0zNB2LFSIrypZJ4amd1XuARU3BP/x2zJIQC6YUZzqfI
-        xFFWVTGaf49YRHjFpqnxug0YbdUCopf92ZMLkkehBJieIno09VqOyLzSSbqeNL7Z/sUZ1mbxcv+kW
-        ElX9B+Bw==;
-Received: from [2601:1c0:6280:3f0::19c2] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jwxCW-0002j2-82; Sun, 19 Jul 2020 00:29:08 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org,
+        Sun, 19 Jul 2020 18:56:57 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id C49B062D;
+        Sun, 19 Jul 2020 18:56:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 19 Jul 2020 18:56:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=IwtTVMIULxX/8K188g/bQylmehW
+        oNdWkoM/BtdvK8s4=; b=McO54vqPKpp3i4TymYJyPzHE6suA/Ha+Gtm1pcuPyKd
+        OmzBb4cSbP2aLZvpWhSAit3VyKsiZk+iYAqV71kN26mOZmJLxIXMRcvX4gT/1l0K
+        D78xO72NkOcblsZuCLl3SYNR2Zpncbkp0ZJjxza8yVZCF9uKGgSizqNjKjVqC5lC
+        3QpGKistYD4Ws8D9e+tc9XE3vFWpgE9DeXMApyMClpwfQxIsNzM0/M7FBTBd02QW
+        1Gda/v+80dlESKRds6msxIlRT3TAfdd7cV2RFoWSl1SfF3868TuuYZHvO7ZofTzt
+        u4f/cC/DgEQOM05ucNFNfgnFDarwoAPl96IgakfE3Tw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IwtTVM
+        IULxX/8K188g/bQylmehWoNdWkoM/BtdvK8s4=; b=p9REiXXDrvECxf/4tEloLp
+        +yuLotcZLXqfLuaBQhPWvR4UNITcmu5L70JHSvVPZYuRxSClmE4G2JCRoq7nZXvw
+        dPREyoLrEabJZFZCkJ3o2chv/aSCm3HtJTKrRy9wVN5Z9dJOnXFRdshMGlwa4gmC
+        CIU8PF7BIJckdvBqrbKv4fq6bTSqByPKp0mihB4u7mjntHWb3tolfLaVYg0+xti8
+        31qokuKawvnbkvYLJjmgmjPHmKI3Sst9CRTyf9iDtAGmSjuLTaGb3mC9pXQKGaaQ
+        GD2oqWeB6pMIbfgBYYf9s+ZpYG9OFRFdSJpliHbrq5NtAtzNpbhEm6CJ9fYRtIJg
+        ==
+X-ME-Sender: <xms:ts8UX57DyB59CZO1_9wfWwhpU55JAa_RpVhMKctuwGvDdAg__4fmyQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgedvgddujecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghnrhhi
+    qhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvghngh
+    drsghrqeenucggtffrrghtthgvrhhnpeevudetjeegiedufeeugfeiheeljeekfeduhfej
+    feegkeehkedvvdehheelgeevieenucfkphepudejjedrudelgedrjedrfedvnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhmhheshhhmhhdr
+    vghnghdrsghr
+X-ME-Proxy: <xmx:ts8UX25a2Rxv-l3E6odDrb-GSpKcVCyBDi2uqt2zGT2VW3WWO5fcSg>
+    <xmx:ts8UXwetkkhLpObLgZj48LpI3rARhmNQ_4IZXJFFzMl6jRkvKkrKgQ>
+    <xmx:ts8UXyJiP4eB8UMlKJ9Le1lcloefVKc4KrMA5UpdwCbHqBypAmkTvA>
+    <xmx:t88UXypcJjK3c-SYqoOp-TZJnpATrawdAtCDUHUJ7X3xQmkqxYO57J672lA>
+Received: from khazad-dum.debian.net (unknown [177.194.7.32])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6CBD330600A3;
+        Sun, 19 Jul 2020 18:56:54 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 8C2603400161;
+        Sun, 19 Jul 2020 19:56:52 -0300 (-03)
+X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
+Received: from khazad-dum.debian.net ([127.0.0.1])
+        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id HREs72AK_48Y; Sun, 19 Jul 2020 19:56:49 -0300 (-03)
+Received: by khazad-dum.debian.net (Postfix, from userid 1000)
+        id D1B3D340015F; Sun, 19 Jul 2020 19:56:49 -0300 (-03)
+Date:   Sun, 19 Jul 2020 19:56:49 -0300
+From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Subject: [PATCH] isst: isst_if.h: drop a duplicated word
-Date:   Sat, 18 Jul 2020 17:29:03 -0700
-Message-Id: <20200719002903.20469-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        Andy Shevchenko <andy@infradead.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        linux-input@vger.kernel.org,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+Message-ID: <20200719225649.GA4341@khazad-dum.debian.net>
+References: <20200717114155.56222-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200717114155.56222-1-hdegoede@redhat.com>
+X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
+ 0BD9 E811 39CB 4807
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Drop the repeated word "for" in a comment.
+On Fri, 17 Jul 2020, Hans de Goede wrote:
+> This is a simple patch-series adding support for 3 new hotkeys found
+> on various new Lenovo Thinkpad models.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Andy Shevchenko <andy@infradead.org>
----
-This description could still use some better wording.
+For all three patches, pending an ack for the new keycodes by the input
+maintainers:
 
- include/uapi/linux/isst_if.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
---- linux-next-20200717.orig/include/uapi/linux/isst_if.h
-+++ linux-next-20200717/include/uapi/linux/isst_if.h
-@@ -69,7 +69,7 @@ struct isst_if_cpu_maps {
-  * @logical_cpu:	Logical CPU number to get target PCI device.
-  * @reg:		PUNIT register offset
-  * @value:		For write operation value to write and for
-- *			for read placeholder read value
-+ *			read placeholder read value
-  *
-  * Structure to specify read/write data to PUNIT registers.
-  */
+-- 
+  Henrique Holschuh
