@@ -2,106 +2,104 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BEB225496
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jul 2020 00:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76D22271A4
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Jul 2020 23:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbgGSW45 (ORCPT
+        id S1728533AbgGTVog (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 19 Jul 2020 18:56:57 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:35049 "EHLO
-        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726156AbgGSW45 (ORCPT
+        Mon, 20 Jul 2020 17:44:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55930 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727869AbgGTVhw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 19 Jul 2020 18:56:57 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id C49B062D;
-        Sun, 19 Jul 2020 18:56:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Sun, 19 Jul 2020 18:56:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=IwtTVMIULxX/8K188g/bQylmehW
-        oNdWkoM/BtdvK8s4=; b=McO54vqPKpp3i4TymYJyPzHE6suA/Ha+Gtm1pcuPyKd
-        OmzBb4cSbP2aLZvpWhSAit3VyKsiZk+iYAqV71kN26mOZmJLxIXMRcvX4gT/1l0K
-        D78xO72NkOcblsZuCLl3SYNR2Zpncbkp0ZJjxza8yVZCF9uKGgSizqNjKjVqC5lC
-        3QpGKistYD4Ws8D9e+tc9XE3vFWpgE9DeXMApyMClpwfQxIsNzM0/M7FBTBd02QW
-        1Gda/v+80dlESKRds6msxIlRT3TAfdd7cV2RFoWSl1SfF3868TuuYZHvO7ZofTzt
-        u4f/cC/DgEQOM05ucNFNfgnFDarwoAPl96IgakfE3Tw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IwtTVM
-        IULxX/8K188g/bQylmehWoNdWkoM/BtdvK8s4=; b=p9REiXXDrvECxf/4tEloLp
-        +yuLotcZLXqfLuaBQhPWvR4UNITcmu5L70JHSvVPZYuRxSClmE4G2JCRoq7nZXvw
-        dPREyoLrEabJZFZCkJ3o2chv/aSCm3HtJTKrRy9wVN5Z9dJOnXFRdshMGlwa4gmC
-        CIU8PF7BIJckdvBqrbKv4fq6bTSqByPKp0mihB4u7mjntHWb3tolfLaVYg0+xti8
-        31qokuKawvnbkvYLJjmgmjPHmKI3Sst9CRTyf9iDtAGmSjuLTaGb3mC9pXQKGaaQ
-        GD2oqWeB6pMIbfgBYYf9s+ZpYG9OFRFdSJpliHbrq5NtAtzNpbhEm6CJ9fYRtIJg
-        ==
-X-ME-Sender: <xms:ts8UX57DyB59CZO1_9wfWwhpU55JAa_RpVhMKctuwGvDdAg__4fmyQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrgedvgddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghnrhhi
-    qhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvghngh
-    drsghrqeenucggtffrrghtthgvrhhnpeevudetjeegiedufeeugfeiheeljeekfeduhfej
-    feegkeehkedvvdehheelgeevieenucfkphepudejjedrudelgedrjedrfedvnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhmhheshhhmhhdr
-    vghnghdrsghr
-X-ME-Proxy: <xmx:ts8UX25a2Rxv-l3E6odDrb-GSpKcVCyBDi2uqt2zGT2VW3WWO5fcSg>
-    <xmx:ts8UXwetkkhLpObLgZj48LpI3rARhmNQ_4IZXJFFzMl6jRkvKkrKgQ>
-    <xmx:ts8UXyJiP4eB8UMlKJ9Le1lcloefVKc4KrMA5UpdwCbHqBypAmkTvA>
-    <xmx:t88UXypcJjK3c-SYqoOp-TZJnpATrawdAtCDUHUJ7X3xQmkqxYO57J672lA>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6CBD330600A3;
-        Sun, 19 Jul 2020 18:56:54 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 8C2603400161;
-        Sun, 19 Jul 2020 19:56:52 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id HREs72AK_48Y; Sun, 19 Jul 2020 19:56:49 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id D1B3D340015F; Sun, 19 Jul 2020 19:56:49 -0300 (-03)
-Date:   Sun, 19 Jul 2020 19:56:49 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        linux-input@vger.kernel.org,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-Message-ID: <20200719225649.GA4341@khazad-dum.debian.net>
-References: <20200717114155.56222-1-hdegoede@redhat.com>
+        Mon, 20 Jul 2020 17:37:52 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D45F22BEF;
+        Mon, 20 Jul 2020 21:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595281071;
+        bh=2YIIIe82rhQonM8OSS7nLOwgi3BRrqAqK7yxquHChVw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wzusJQEuKZrW3Bm/OgTBZZt9Stf9RKzMVdvN3Fr3pW5te8z1dwC5mQplh5ClPUIaP
+         BunofKoXPepcDdzRahTRvWOHeW6PLNTthL1dIM5Jq678zVDKO4Z7kUDyBrO07jfPQl
+         mbhr100SotkmqFzVi01a/+8xQaFeScKWDoUR1sXM=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 29/40] platform/x86: ISST: Add new PCI device ids
+Date:   Mon, 20 Jul 2020 17:37:04 -0400
+Message-Id: <20200720213715.406997-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200720213715.406997-1-sashal@kernel.org>
+References: <20200720213715.406997-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200717114155.56222-1-hdegoede@redhat.com>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 17 Jul 2020, Hans de Goede wrote:
-> This is a simple patch-series adding support for 3 new hotkeys found
-> on various new Lenovo Thinkpad models.
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-For all three patches, pending an ack for the new keycodes by the input
-maintainers:
+[ Upstream commit e1eea3f839f41368d7cb4eb2d872d5b288677e94 ]
 
-Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Added new PCI device ids for supporting mailbox and MMIO interface for
+Sapphire Rapids.
 
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/intel_speed_select_if/isst_if_common.h   | 3 +++
+ drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c | 1 +
+ drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c     | 1 +
+ 3 files changed, 5 insertions(+)
+
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
+index 1409a5bb55820..4f6f7f0761fc1 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
+@@ -13,6 +13,9 @@
+ #define INTEL_RAPL_PRIO_DEVID_0	0x3451
+ #define INTEL_CFG_MBOX_DEVID_0	0x3459
+ 
++#define INTEL_RAPL_PRIO_DEVID_1 0x3251
++#define INTEL_CFG_MBOX_DEVID_1  0x3259
++
+ /*
+  * Validate maximum commands in a single request.
+  * This is enough to handle command to every core in one ioctl, or all
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+index de4169d0796bd..9a055fd54053f 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
+@@ -148,6 +148,7 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
+ 
+ static const struct pci_device_id isst_if_mbox_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_1)},
+ 	{ 0 },
+ };
+ MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
+index 3584859fcc421..aa17fd7817f8f 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
+@@ -72,6 +72,7 @@ static long isst_if_mmio_rd_wr(u8 *cmd_ptr, int *write_only, int resume)
+ 
+ static const struct pci_device_id isst_if_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_0)},
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_1)},
+ 	{ 0 },
+ };
+ MODULE_DEVICE_TABLE(pci, isst_if_ids);
 -- 
-  Henrique Holschuh
+2.25.1
+
