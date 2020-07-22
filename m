@@ -2,79 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFC89228339
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Jul 2020 17:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FCD228FD9
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Jul 2020 07:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728342AbgGUPKk (ORCPT
+        id S1727891AbgGVFlt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Jul 2020 11:10:40 -0400
-Received: from mga18.intel.com ([134.134.136.126]:21379 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728306AbgGUPKj (ORCPT
+        Wed, 22 Jul 2020 01:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726696AbgGVFlt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Jul 2020 11:10:39 -0400
-IronPort-SDR: ms318p0UH9Q7a6+aFDaYmOyOmHUtv3ScMXBz9A8w7f9zVq16kgyxb072RwRj3LacyTUD2cFB6w
- LJpvxR7AmZmA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="137638742"
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="137638742"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2020 08:10:38 -0700
-IronPort-SDR: gqs9NAZaX6QyRmoHUJUMjXKZ9RxkBRWR5NLJDHpzkR3buOgZRYTTuV/761O6QGVOT3geQyROlP
- 46CX+ipLXKcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; 
-   d="scan'208";a="326398431"
-Received: from jacoraci-mobl.amr.corp.intel.com ([10.212.210.224])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Jul 2020 08:10:38 -0700
-Message-ID: <c76c51bfa78316caaf8201a63ac200fa373ae3ae.camel@linux.intel.com>
-Subject: Re: [PATCH] isst: isst_if.h: drop a duplicated word
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     platform-driver-x86@vger.kernel.org,
+        Wed, 22 Jul 2020 01:41:49 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A92C061794;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id o22so579663pjw.2;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JOXcjH3Ds2znsGQsPtT2U0WmJsXIq3lc+gYn1wfYnuU=;
+        b=dEUQNOgGUrX8oVxReZCZ/tx5vnWEETp9edbUaud/VSlLiopK4JeDzocnvain0FsLMw
+         7PICdvOjUghPVTCW0qjN7n6SnZ2H5nN1HMvs9uDK+IXA85ET0oBW15K8tQX8j6o617pN
+         q+l75VjFGRhh/avhzCvbSqMXcuvtlbi3DMXeui18+MwYxPLsjtIX2AZUZJiOAE/9flCV
+         ea2Fhc2rKiCCf9XkPrhipvLf0Mgp4dryjrLrNufZYZ0rIbtgYRwukhkD6F9yssQLC+fk
+         WRh6Y5nrhcl9JFV3K3uPb9dVFzvSPLWAr6x/D7HTFWahFrwb9QZUZWXQW/5qLx4TRohI
+         fmGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JOXcjH3Ds2znsGQsPtT2U0WmJsXIq3lc+gYn1wfYnuU=;
+        b=uH0Yaikdy5yTVcvHRWVq4LPlk17Z/mc+iAZo4a9tkefIyHCi6qS3v86+0hSWv4kTqE
+         Wh4OFI8Ly4S4pj9xSRUPBUC7kLXRlgA3NB/PW+pKUHqL4vaNhw4duf8H3PRHky+A+8Io
+         NkgOlWJ85LoL8tZFiOCAPy5Km+G7qiLSSXwasjdcqyl4r/jUD3FP26SSpTgoohClTPXK
+         RWd0nXlw68oE3Flz7AciFyK4aaBdiYN8wIaEVue+L+gu5lu28AZTo+boyuIcbvdQJRbG
+         HTYEs8Xtp9HWZVVzu7swCspr6FO0yxjoM4Xel7Ti88ooEkLmp5lmmp6tg9/8OJBXp9fH
+         7BuQ==
+X-Gm-Message-State: AOAM531PQunOIab32ET/EYs2RtrCn0RZICuofunhWuASlJYauchVCe5P
+        kLJrKAFF17zoz7CfzuROGHY=
+X-Google-Smtp-Source: ABdhPJwyZCXr57OI4rRNX0FltpSSmzGxpQFnQXUcYXlI0UFD0tljQn5BhDndhCziMb1aAG5xOB3eAQ==
+X-Received: by 2002:a17:902:684e:: with SMTP id f14mr26597687pln.166.1595396508374;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id d16sm22280079pfo.156.2020.07.21.22.41.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 22:41:47 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 22:41:44 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Date:   Tue, 21 Jul 2020 08:10:37 -0700
-In-Reply-To: <20200719002903.20469-1-rdunlap@infradead.org>
-References: <20200719002903.20469-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        Andy Shevchenko <andy@infradead.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        linux-input@vger.kernel.org,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+Message-ID: <20200722054144.GQ1665100@dtor-ws>
+References: <20200717114155.56222-1-hdegoede@redhat.com>
+ <20200719225649.GA4341@khazad-dum.debian.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200719225649.GA4341@khazad-dum.debian.net>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, 2020-07-18 at 17:29 -0700, Randy Dunlap wrote:
-> Drop the repeated word "for" in a comment.
+On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+> On Fri, 17 Jul 2020, Hans de Goede wrote:
+> > This is a simple patch-series adding support for 3 new hotkeys found
+> > on various new Lenovo Thinkpad models.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: Darren Hart <dvhart@infradead.org>
-> Cc: Andy Shevchenko <andy@infradead.org>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-> ---
-> This description could still use some better wording.
-
-I will fix the wording in a follow up patch.
-
->  include/uapi/linux/isst_if.h |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> For all three patches, pending an ack for the new keycodes by the input
+> maintainers:
 > 
-> --- linux-next-20200717.orig/include/uapi/linux/isst_if.h
-> +++ linux-next-20200717/include/uapi/linux/isst_if.h
-> @@ -69,7 +69,7 @@ struct isst_if_cpu_maps {
->   * @logical_cpu:	Logical CPU number to get target PCI device.
->   * @reg:		PUNIT register offset
->   * @value:		For write operation value to write and for
-> - *			for read placeholder read value
-> + *			read placeholder read value
->   *
->   * Structure to specify read/write data to PUNIT registers.
->   */
+> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
+Do you want me to merge all 3 through input tree?
+
+Thanks.
+
+-- 
+Dmitry
