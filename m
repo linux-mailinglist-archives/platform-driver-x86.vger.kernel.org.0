@@ -2,57 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 415C122A3B8
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jul 2020 02:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E563722A4A6
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 23 Jul 2020 03:36:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387418AbgGWAfG (ORCPT
+        id S2387414AbgGWBgp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Jul 2020 20:35:06 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.1]:10583 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729198AbgGWAfF (ORCPT
+        Wed, 22 Jul 2020 21:36:45 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:15074 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728914AbgGWBgo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Jul 2020 20:35:05 -0400
-Received: from [100.112.0.190] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-1.bemta.az-b.us-east-1.aws.symcld.net id 3D/CE-59917-63BD81F5; Thu, 23 Jul 2020 00:35:02 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRWlGSWpSXmKPExsWSLveKTdf0tkS
-  8wbVOHYv91yUsHsxNt5h92MZizrO1jBZNnU1sFqv3vGB2YPOYNHMGs8fvA4weuxd8ZvJ4v+8q
-  m8fnTXIBrFGsmXlJ+RUJrBk7lnewFDQ4V/QsesvewLjYrIuRk0NI4D+jxNXtyhD2Q0aJpZP4Q
-  GxhgRiJ+4vms4HYIgKmEr/mTWHvYuTiYBY4wiRx8dgdFhBHSGANk8SMGUvAqtgEtCW2bPkFZv
-  MK2EpMXbufGcRmEVCVmDvnEpgtKhAr8av9IDNEjaDEyZlPWEBsTqD4qwPzwHqZBSwkZs4/zwh
-  hi0vcejKfCcKWl9j+dg5Yr4SAgkT7xV0sEHaCxLKXd5gnMArOQjJ2FpJRs5CMmoVk1AJGllWM
-  ZklFmekZJbmJmTm6hgYGuoaGRrpGuoZGxnqJVbpJeqXFuqmJxSW6hnqJ5cV6xZW5yTkpenmpJ
-  ZsYgdGTUsBUvYPxx6sPeocYJTmYlER5m69IxAvxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4F14ES
-  gnWJSanlqRlpkDjGSYtAQHj5II76SbQGne4oLE3OLMdIjUKUZjju2r5y1i5tg8d+kiZiGWvPy
-  8VClxXttbQKUCIKUZpXlwg2AJ5hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd47IAt5MvNK
-  4Pa9AjqFCegU5buiIKeUJCKkpBqYuD9f1UoyvtEme2B73a3pyhobdl2N6Njt+N4t+fTl5RtDH
-  lyNUs6w3ie5/caj7Mu/zb1kc2JPvQ4uYE/X5AjyPyveedJ7R/GhaJ1S19xJ9yckrtzafXiG+u
-  J/tza/nFkrJziFx7T4VZWO7zv+j7PM5jRFOnAe9PdfZRrmFRpSbfvgovaTqbynxNk3BWRuVdh
-  f4c79rPqlmX5AeoSVYd6FJaFx59st/J/qZ2b9Wrp8W+V5zWDrRc83VQhcaixy14ywV9wbt25F
-  zUW13NCXQRpaL58+O/KdvW4Nw629tRusJrecl+SpLJG6d6L02hEf/RR1pZnmpep3l7tmtoknl
-  DEL7mPRYpv9+6lw7bPJnYuVWIozEg21mIuKEwEX62pPqwMAAA==
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-19.tower-395.messagelabs.com!1595464499!2722653!1
-X-Originating-IP: [103.30.234.6]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.50.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31916 invoked from network); 23 Jul 2020 00:35:01 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.6)
-  by server-19.tower-395.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 23 Jul 2020 00:35:01 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 6EBB6AFD356FD3622207;
-        Thu, 23 Jul 2020 08:34:57 +0800 (CST)
-Received: from [10.38.96.128] (10.38.96.128) by reswpmail04.lenovo.com
- (10.62.32.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Wed, 22 Jul
- 2020 17:34:54 -0700
-Subject: Re: [External] RE: [PATCH] platform/x86: thinkpad_acpi: performance
- mode interface
-To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>
+        Wed, 22 Jul 2020 21:36:44 -0400
+Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06N1Sbws002234;
+        Wed, 22 Jul 2020 21:36:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=A+jRJE+hk7dB79fh8tfsU7d4iI3LFrrKrCQvLs2RHJg=;
+ b=gw5QFdG5Raxkvv0bl7pT+oaTgCaD5ZCH6e6bq9dVu1ONNk8p2uCp1NuiFKVE4lNcO9Su
+ 0VQ8M8a30ypoxJDOOQJBFFfw2i1xaAXgNVbcllBWso29hDIL2Dl0G2J12hldx7dLj3tX
+ MPMjgpV2ALzxVjn+Bqb19RvRasRvmGcQvVHwQ9iytZSnrNFABJghlUx+aTLXJB5UsZVg
+ +IfTx6hw0KhpUeu+JIB8cFKVDM/DtBK+bg3Q/iXKi65cyBakGvpU0qdPoGmcN5wiieuo
+ t1GaTd9AWFCPLKI6rjIR9sr14xO991xsJ8cNL8iaKadrF9UOhxI5uyZRvugthuEWzLkq 1g== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+        by mx0b-00154904.pphosted.com with ESMTP id 32bvwxy5a3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Jul 2020 21:36:22 -0400
+Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06N1ZcT9162971;
+        Wed, 22 Jul 2020 21:36:21 -0400
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+        by mx0b-00154901.pphosted.com with ESMTP id 32ey0mh9hf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 Jul 2020 21:36:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O1EyZZjAJKhhtcjJVYsMpyxgWvT+cMWP7agKnv5Fgy4IFJfdzTW03kBN89k0CCe/IoJjuuv8Eaz2glu81DAHch2S5k9f+6/3zvjjBGS7GAh9XjBIGjNQJOTLRvsiy8mi7Baxy0PlnUbOMEZneWOgUHfPKSMq4NM/p3xlRhcXPg6RXR05EMcUW85Z1hWLlE18t87arH3deo3vEKvnLP1pS/Tobsizjd3K5ZBEcLmX0plaNsdxAl4NYMtRGVdUFlGK4mZVloXZ6Qgq3sMHBvs5y0OzxghbmYd1feKYk4gthXyA2z8jk0LnD5C4VBVwRZ3+AYwgjr8cRqnKX80Pwd0VMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A+jRJE+hk7dB79fh8tfsU7d4iI3LFrrKrCQvLs2RHJg=;
+ b=NcKQbq/ptKVJk2R30FnMo7BmZ1NssuOQE1k1EA5hnMHFrsSr2dUI6Dd5ynuqb4kEVm5oRNct8ZUgiOdCXfVtKB94h5YwbodfbTuSj0I36GLvoMWXsJX9O5kDzhoInegALzbEU6iMemDGp5V4P1iH1h+gZ1cLa1jp6cc37dtVJy2oyny2QBYp8X1NW4Ouh9SV1PSiRVmC+fVm8wymRZSpVsv7hI+u/cBBNf9X47PQY3m1bAWMdV4lDlUQmMUp6Jq9N1GzbcQTS7DvJygSOA7fTSvRnoors0Iz4uYNi/YZki9P50P433RoJSNX6TCuGLrPEh1g13sNl+qBH0mEIVRIgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com;
+ s=selector1-Dell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A+jRJE+hk7dB79fh8tfsU7d4iI3LFrrKrCQvLs2RHJg=;
+ b=SFaMT9yO4VVyA6qIKoDgzDiteZGIyUCFJIijXCHW9lCHYslsQrEuXmDo7et5EjFwayCEFgjWjzmEkTxDWnBZ2uCsn/v58GsDzR8w42IbA/j9T1KSq2F/+PicdNZQouHd3Na/LG4uHvtehsoHg06OSSnOnGQjMhqrwL8iMlKOEmk=
+Received: from DM6PR19MB2636.namprd19.prod.outlook.com (2603:10b6:5:15f::15)
+ by DM5PR19MB1163.namprd19.prod.outlook.com (2603:10b6:3:bc::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3216.20; Thu, 23 Jul 2020 01:36:19 +0000
+Received: from DM6PR19MB2636.namprd19.prod.outlook.com
+ ([fe80::f1c7:5bf4:a3b:ff40]) by DM6PR19MB2636.namprd19.prod.outlook.com
+ ([fe80::f1c7:5bf4:a3b:ff40%6]) with mapi id 15.20.3195.022; Thu, 23 Jul 2020
+ 01:36:19 +0000
+From:   "Limonciello, Mario" <Mario.Limonciello@dell.com>
+To:     Mark Pearson <markpearson@lenovo.com>
 CC:     "ibm-acpi@hmh.eng.br" <ibm-acpi@hmh.eng.br>,
         "ibm-acpi-devel@lists.sourceforge.net" 
         <ibm-acpi-devel@lists.sourceforge.net>,
@@ -61,267 +69,109 @@ CC:     "ibm-acpi@hmh.eng.br" <ibm-acpi@hmh.eng.br>,
         "bnocera@redhat.com" <bnocera@redhat.com>,
         "bberg@redhat.com" <bberg@redhat.com>,
         Nitin Joshi <njoshi1@lenovo.com>
+Subject: RE: [External] RE: [PATCH] platform/x86: thinkpad_acpi: performance
+ mode interface
+Thread-Topic: [External] RE: [PATCH] platform/x86: thinkpad_acpi: performance
+ mode interface
+Thread-Index: AQHWYEtB2AZ16m+5BkiCkmlUDRcurKkT57IggAAUiICAAACUUIAAVMMAgAAO5CA=
+Date:   Thu, 23 Jul 2020 01:36:19 +0000
+Message-ID: <DM6PR19MB2636F2A87EE2DF8BD2B9A879FA760@DM6PR19MB2636.namprd19.prod.outlook.com>
 References: <markpearson@lenovo.com>
  <20200722171108.65185-1-markpearson@lenovo.com>
  <DM6PR19MB263650F7DC4B6680A5EFC5DAFA790@DM6PR19MB2636.namprd19.prod.outlook.com>
  <b79e0359-536d-f496-a01e-fe4c4b7796cc@lenovo.com>
  <DM6PR19MB26360DE8FCA56BC132644F98FA790@DM6PR19MB2636.namprd19.prod.outlook.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <e14aa227-493b-4206-eaef-81874512166f@lenovo.com>
-Date:   Wed, 22 Jul 2020 20:34:52 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <DM6PR19MB26360DE8FCA56BC132644F98FA790@DM6PR19MB2636.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+ <e14aa227-493b-4206-eaef-81874512166f@lenovo.com>
+In-Reply-To: <e14aa227-493b-4206-eaef-81874512166f@lenovo.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.38.96.128]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-07-23T01:36:17.7518891Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=994503a8-7c59-4edc-ad44-5b7c4d79484a;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+authentication-results: lenovo.com; dkim=none (message not signed)
+ header.d=none;lenovo.com; dmarc=none action=none header.from=Dell.com;
+x-originating-ip: [76.251.167.31]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c444679e-f29a-4249-be73-08d82ea8ccdd
+x-ms-traffictypediagnostic: DM5PR19MB1163:
+x-microsoft-antispam-prvs: <DM5PR19MB1163F53D64DC2152ED4B6AABFA760@DM5PR19MB1163.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cTNkV6AaFHrAuYhytRts+ZKqp/07KXLvwIypaa4OYIhruIPO5fSxLpdOd4svLVpS57Ro3d7QcomscoXYyrzXlU//OxSjUZU8wUKrYA152wlZ7BVCWX4YioP09gE0cTdC/xMVJL9Sqa1d4R+Vobdy9wj4xZeZEjD21m2AI8Mal+CGdHWs+Jw7vCmnKv4Bcw3NgeJevuKTaRnyJ9Im2CDgW6+6dVchOA8wYdYs8iFuu3dwGKqHODPrImjI0e+GLaJntjJd7YeDTalZ3OIqb8K3+JxRRgp8yUIoiWrZWR9IX/BNTV57s34q2XloqOb+4kYe3CVwaG+a1LxSkJxEiQFk0g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR19MB2636.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39860400002)(376002)(396003)(346002)(136003)(366004)(6916009)(71200400001)(86362001)(6506007)(9686003)(55016002)(66946007)(7696005)(186003)(52536014)(76116006)(8936002)(4326008)(26005)(83380400001)(8676002)(2906002)(786003)(33656002)(316002)(478600001)(5660300002)(66476007)(66556008)(64756008)(54906003)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: GGkLtfxBdq8H0wVqmUKGrRMhZfe7pAzslmxMrUgz2vQa5wuTVKTVddd0I3LTh2PijdmPTa6WoEfncHZ0jqvc1ld7NlXO3igum+aGf+sGwiV8ZMRLjiGw/BFMSs+lr6+MHPLzjWL28hFTtAyzbdJONLDkz78WEcmXpZnERj1+L7/lCnAJy0NbNhQzIlutOh/hdWgDqH89gxDm6D0QQfDGXiAIeFqYDzhOWQOQNVbOipvPY2TUG8DSinjlUqNwDemDbXgcaa8MCXv5bApzal9mu5XA0WJyuH/aEZRmBR0uDE7+i47Tvsxm+yUJ4A7NNr+Ws334NV8pf1kZI7+WE/3+gN885b83GRdCmm2aRiUVZa88E4pMyTIjsbCCpALxT0Nrwl/qQln/N2WWaYhM7erZovbj0QknHNEP0LfrQjn16626DYD00O0ha1nTkfA/XeRNmy+IDsachZfpoXj9gUFnBI+uosK5KbwbIegyqBZbgERuBcwsaAz9+PuZMQY87edW
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB2636.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c444679e-f29a-4249-be73-08d82ea8ccdd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2020 01:36:19.8503
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vkFal0o3ke7nMa54qrzyCbM3NQ1VnizQq6Jhi9VOZs8j4XEXtL+U7dSSpBB+eVC7BJVaRovSDV90Lr+fA+n5IG2U/iK4gGMMao5rBIhhj68=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR19MB1163
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-22_17:2020-07-22,2020-07-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007230009
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007230009
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 7/22/2020 3:46 PM, Limonciello, Mario wrote:
->>
->> On 7/22/2020 2:46 PM, Limonciello, Mario wrote:
->> <snip>
->>>>
->>>> +DYTC Thermal mode status and control
->>>> +------------------------------------
->>>> +
->>>> +sysfs: dytc_perfmode
->>>> +
->>>> +Lenovo Thinkpad platforms with DYTC version 5 and newer have enhanced
->>>> firmware to
->>>> +provide improved performance control.
->>>> +
->>>> +The firmware can be controlled by hotkeys (FN+H, FN+M, FN+L) to switch the
->>>> +operating mode between three different modes. This sysfs node provide a
->>>> better
->>>> +interface for user space to use
->>>
->>> So is userspace also notified in some way when you use the hotkey to change,
->> or
->>> is the event usurped by the EC?  Is this by the event
->> TP_HKEY_EV_THM_CSM_COMPLETED?
->>>
->> I haven't added that yet - my aim with this patch was to get the sysfs
->> API available. I'll look at adding the notification.
-> 
-> Yeah I just think touch the kernel/user ABI as atomically as possible
-> to avoid userspace to have to know 5.9 behaves this way and you need to poll for a value
-> and 5.10 you get a notification etc.
-> 
-OK - fair point. I'll look into implementing that as well.
-
->>
->>> You might consider to mention what other interfaces will conflict with this
->>> and document them and/or artificially block them when this is loaded to
->> prevent
->>> such a conflict.
->> I'm afraid I don't know what other interface will be conflicted with. Is
->> there anything in particular I should be looking for? What did you have
->> in mind?
-> 
-> Since it's not mentioned I can only guess your firmware implementation associated
-> with this code.  I would think for example that touching some PLx related MSR or
-> possibly RAPL interface might cause unexpected behaviors.
-> 
-> Assuming that's right kernel lockdown might prevent some of the MSR, but if you really
-> want user fully in control of this decision by one knob, you shouldn't let common
-> userspace tools like thermald, tuned, tlp or the like touch the related objects.
-> 
-Hmmm - I think I disagree here.
-
-I don't think this should control what other userspace tools (like 
-thermald) want to do with the CPU registers. Adding hooks into those 
-other pieces of code also seems to me to be complicated and unnecessary 
-in the kernel (and way beyond the scope of this patch). As an aside - my 
-experience from testing is that thermald will override what the firmware 
-is doing anyway.
-
-I can see the value of adding a feature to *disable* the Lenovo firmware 
-implementation as that doesn't currently exist. I will talk to the 
-firmware team and see what can be done and take that on as a separate 
-task. If there's a mechanism to do that already in a safe way then I'll 
-add that to this.
-
->>
->> The firmware is operating by default and this patch is just providing
->> user space with a way of determining the current mode and changing it by
->> an alternate mechanism than hotkeys (I know some people dislike the
->> hotkeys...)
-> 
-> In which case if the firmware preference is that it's user control, I think all
-> the more reason to block out those other things while offering this interface.
-Covered above
-> 
->>
->>>
->> <snip>
->>>> +
->>>> +The sysfs entry provides the ability to return the current status and to
->> set
->>>> the
->>>> +desired mode. For example::
->>>> +
->>>> +        echo H > /sys/devices/platform/thinkpad_acpi/dytc_perfmode
->>>> +        echo M > /sys/devices/platform/thinkpad_acpi/dytc_perfmode
->>>> +        echo L > /sys/devices/platform/thinkpad_acpi/dytc_perfmode
->>>
->>> Doesn't this need ABI documentation submitted as part of the patch?
->> OK - I'll need some help here as I'm not sure what I missed. Isn't that
->> what this part of the patch is covering? If you can give me some
->> pointers for what I should be putting where I'll do that.
-> 
-> I think it's common to document how your sysfs attributes work in a file in
-> Documentation/ABI/testing.  You can look at the format for some others
-> for examples.
-Ah - that was new to me. Thanks. I'm guessing I need to add a new 
-sysfs-devices-platform-thinkpad_acpi file there. Strange there's not one 
-already :)
-
-> 
->>>
->> <snip>
->>
->>>> +
->>>> +	if (perfmode == DYTC_MODE_BALANCE) {
->>>> +		/* To get back to balance mode we just issue a reset command */
->>>> +		err = dytc_command(DYTC_CMD_RESET, &output);
->>>> +		if (err)
->>>> +			return err;
->>>> +	} else {
->>>> +		/* Determine if we are in CQL mode. This alters the commands we do
->>>> */
->>>> +		err = dytc_perfmode_get(&cur_perfmode, &cur_funcmode);
->>>> +		if (err)
->>>> +			return err;
->>>> +
->>>> +		if (cur_funcmode == DYTC_FUNCTION_CQL) {
->>>> +			/* To set the mode we need to disable CQL first*/
->>>> +			err = dytc_command(0x000F1001 /*Disable CQL*/, &output);
->>>
->>> Why not put 0x000F1001 and 0x001F1001 as defines at the top?
->> Fair point - I will fix that.
->>
->>>
->> <snip>
->>
->>>> +
->>>> +	switch (perfmode) {
->>>> +	case DYTC_MODE_PERFORM:
->>>> +		/* High performance is only available in deskmode */
->>>> +		if (funcmode == DYTC_FUNCTION_CQL)
->>>> +			return snprintf(buf, PAGE_SIZE, "Medium (Reduced as lapmode
->>>> active)\n");
->>>> +		else
->>>> +			return snprintf(buf, PAGE_SIZE, "High\n");
->>>> +	case DYTC_MODE_QUIET:
->>>> +		return snprintf(buf, PAGE_SIZE, "Low\n");
->>>> +	case DYTC_MODE_BALANCE:
->>>> +		return snprintf(buf, PAGE_SIZE, "Medium\n");
->>>> +	default:
->>>> +		return snprintf(buf, PAGE_SIZE, "Unknown (%d)\n", perfmode);
->>>> +	}
->>>> +}
->>>
->>> I think it's pretty confusing that you write "H/M/L" into this file, but you
->>> get back a full string.
->> The main reason here for the string is the need to let the user know
->> they are operating in medium mode even though high has been configured -
->> because the device is on their lap.
->> My thinking was you can parse the first letter to get H/M/L but more
->> information is available for the subtleties.
->> I considered another letter but couldn't determine something that was
->> obvious to a user (Lower case 'h' is my best candidate?) and decided a
->> string was nicer.
->>
->> I'd appreciate input from others as to the best thing to provide here.
-> 
-> My own personal opinion (and there may be others that offer different view
-> so don't take it authoritative):
-> 
-> If you're offering High/Medium/Low, you should accept an input of High/Medium/Low.
-> If you offer H/M/L you should accept H/M/L.
-> 
-> A good way to indicate the reduced mode would be to add an asterisk for medium.
-> So it could be:
-> Write: H/M/L
-> Read: H/M*/M/L
-
-I like this. Unless someone jumps in and says otherwise I'm good to 
-switch to this.
-> 
-> The actual decoding of the information can be placed in that Documentation file
-> I mentioned above.  In general a userspace tool will be making this pretty and
-> translated I would guess, so no need to do High versus high or Foo (bar) when
-> it could be Foo*
-Ack
-
->>
->>>
->>>> +
->>>> +static ssize_t dytc_perfmode_store(struct device *dev,
->>>> +				   struct device_attribute *attr,
->>>> +				   const char *buf, size_t count)
->>>> +{
->>>> +	int err;
->>>> +
->>>> +	switch (buf[0]) {
->>>> +	case 'l':
->>>> +	case 'L':
->>>> +		err = dytc_perfmode_set(DYTC_MODE_QUIET);
->>>> +		break;
->>>> +	case 'm':
->>>> +	case 'M':
->>>> +		err = dytc_perfmode_set(DYTC_MODE_BALANCE);
->>>> +		break;
->>>> +	case 'h':
->>>> +	case 'H':
->>>> +		err = dytc_perfmode_set(DYTC_MODE_PERFORM);
->>>> +		break;
->>>> +	default:
->>>> +		err = -EINVAL;
->>>> +		pr_err("Unknown operating mode. Ignoring\n");
->>>
->>> Shouldn't this be dev_err?
->> Ack - I will correct
->>
->> <snip>
->>>>
->>>> +	/* Check DYTC is enabled and supports mode setting */
->>>> +	dytc_mode_available = false;
->>>> +	if (output & BIT(DYTC_QUERY_ENABLE_BIT)) {
->>>> +		/* Only DYTC v5.0 and later has this feature. */
->>>> +		int dytc_version;
->>>> +
->>>> +		dytc_version = (output >> DYTC_QUERY_REV_BIT) & 0xF;
->>>> +		if (dytc_version >= 5) {
->>>> +			pr_info("DYTC thermal mode configuration available\n");
->>>
->>> I would argue this isn't useful to most people.
->>> 1) You should decrease this to debug for use with dynamic debugging
->>> 2) Output in the log what integer value you returned back in case of a need
->>> to identify future firmware bugs.
->> Agreed on both fronts. I will fix.
-> 
-> Similar to the pr_err vs dev_err, make sure you use the dev_dbg here instead of
-> pr_dbg.
-> 
->>
->>>
->>>> +			dytc_mode_available = true;
->>>
->>> I think you shouldn't set this flag until after the group is actually
->> created.
->>>
->> Agreed. I will fix
->>
->> Thanks for the feedback - very much appreciated.
-> 
-> Sure thing.
-> 
+PiA+DQo+ID4gU2luY2UgaXQncyBub3QgbWVudGlvbmVkIEkgY2FuIG9ubHkgZ3Vlc3MgeW91ciBm
+aXJtd2FyZSBpbXBsZW1lbnRhdGlvbg0KPiBhc3NvY2lhdGVkDQo+ID4gd2l0aCB0aGlzIGNvZGUu
+ICBJIHdvdWxkIHRoaW5rIGZvciBleGFtcGxlIHRoYXQgdG91Y2hpbmcgc29tZSBQTHggcmVsYXRl
+ZA0KPiBNU1Igb3INCj4gPiBwb3NzaWJseSBSQVBMIGludGVyZmFjZSBtaWdodCBjYXVzZSB1bmV4
+cGVjdGVkIGJlaGF2aW9ycy4NCj4gPg0KPiA+IEFzc3VtaW5nIHRoYXQncyByaWdodCBrZXJuZWwg
+bG9ja2Rvd24gbWlnaHQgcHJldmVudCBzb21lIG9mIHRoZSBNU1IsIGJ1dA0KPiBpZiB5b3UgcmVh
+bGx5DQo+ID4gd2FudCB1c2VyIGZ1bGx5IGluIGNvbnRyb2wgb2YgdGhpcyBkZWNpc2lvbiBieSBv
+bmUga25vYiwgeW91IHNob3VsZG4ndA0KPiBsZXQgY29tbW9uDQo+ID4gdXNlcnNwYWNlIHRvb2xz
+IGxpa2UgdGhlcm1hbGQsIHR1bmVkLCB0bHAgb3IgdGhlIGxpa2UgdG91Y2ggdGhlIHJlbGF0ZWQN
+Cj4gb2JqZWN0cy4NCj4gPg0KPiBIbW1tIC0gSSB0aGluayBJIGRpc2FncmVlIGhlcmUuDQo+IA0K
+PiBJIGRvbid0IHRoaW5rIHRoaXMgc2hvdWxkIGNvbnRyb2wgd2hhdCBvdGhlciB1c2Vyc3BhY2Ug
+dG9vbHMgKGxpa2UNCj4gdGhlcm1hbGQpIHdhbnQgdG8gZG8gd2l0aCB0aGUgQ1BVIHJlZ2lzdGVy
+cy4gQWRkaW5nIGhvb2tzIGludG8gdGhvc2UNCj4gb3RoZXIgcGllY2VzIG9mIGNvZGUgYWxzbyBz
+ZWVtcyB0byBtZSB0byBiZSBjb21wbGljYXRlZCBhbmQgdW5uZWNlc3NhcnkNCj4gaW4gdGhlIGtl
+cm5lbCAoYW5kIHdheSBiZXlvbmQgdGhlIHNjb3BlIG9mIHRoaXMgcGF0Y2gpLiBBcyBhbiBhc2lk
+ZSAtIG15DQo+IGV4cGVyaWVuY2UgZnJvbSB0ZXN0aW5nIGlzIHRoYXQgdGhlcm1hbGQgd2lsbCBv
+dmVycmlkZSB3aGF0IHRoZSBmaXJtd2FyZQ0KPiBpcyBkb2luZyBhbnl3YXkuDQoNCkknbSBhY3R1
+YWxseSBpbiBhZ3JlZW1lbnQgaXQgaXMgcG90ZW50aWFsbHkgcXVpdGUgY29tcGxpY2F0ZWQgYW5k
+IHNob3VsZG4ndCBiZSBpbg0KdGhpcyBzcGVjaWZpYyBwYXRjaC4gIEkgd2FzIGdvaW5nIHRvIHN1
+Z2dlc3QgaXQgc2hvdWxkIGVpdGhlciBjb21lIGFzIG90aGVyDQpwYXRjaGVzLCBvciBwZXJoYXBz
+IGluIGRvY3VtZW50YXRpb24gYWxvbmcgdGhlIGxpbmVzIG9mICJVc2VycyB1c2luZyB0aGlzIGlu
+dGVyZmFjZQ0Kc2hvdWxkIG5vdCB1c2Ugb3RoZXIgdG9vbHMgdG8gbW9kaWZ5IFgsIFkgYW5kIFoi
+LiAgTm8gbmVlZCB0byBtZW50aW9uIHRoZSBhY3R1YWwNCnRvb2xzLCBidXQgeW91IHNob3VsZCB0
+cnkgdG8gaGVscCBwcmV2ZW50IHVzZXJzIHNob290aW5nIHRoZW1zZWx2ZXMgaW4gdGhlIGZvb3QN
+CnVuaW50ZW50aW9uYWxseS4NCg0KPiANCj4gSSBjYW4gc2VlIHRoZSB2YWx1ZSBvZiBhZGRpbmcg
+YSBmZWF0dXJlIHRvICpkaXNhYmxlKiB0aGUgTGVub3ZvIGZpcm13YXJlDQo+IGltcGxlbWVudGF0
+aW9uIGFzIHRoYXQgZG9lc24ndCBjdXJyZW50bHkgZXhpc3QuIEkgd2lsbCB0YWxrIHRvIHRoZQ0K
+PiBmaXJtd2FyZSB0ZWFtIGFuZCBzZWUgd2hhdCBjYW4gYmUgZG9uZSBhbmQgdGFrZSB0aGF0IG9u
+IGFzIGEgc2VwYXJhdGUNCj4gdGFzay4gSWYgdGhlcmUncyBhIG1lY2hhbmlzbSB0byBkbyB0aGF0
+IGFscmVhZHkgaW4gYSBzYWZlIHdheSB0aGVuIEknbGwNCj4gYWRkIHRoYXQgdG8gdGhpcy4NCg0K
+VGhpcyBpcyBhY3R1YWxseSBldmVuIGJldHRlciB0byBtZS4gIEJhY2sgdG8gdGhlIEgvTS9MIGFw
+cHJvYWNoIGlmIHlvdSBjYW4gaGF2ZQ0KYW4gZXh0cmEgb25lIGZvciAib2ZmIiB0aGVuIHVzZXJz
+cGFjZSB0b29scyB0aGF0IHdhbnQgdG8gY29udHJvbCB0aGUgc2FtZSBsZXZlcnMNCmNhbiB0dXJu
+IHRoaXMgb2ZmIHdoZW4gdGhleSBhcmUgdGFraW5nIGNvbnRyb2wuDQoNCg==
