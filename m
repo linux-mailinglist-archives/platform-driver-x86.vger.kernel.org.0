@@ -2,130 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 884A522DF77
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Jul 2020 15:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8502122E12C
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Jul 2020 18:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbgGZN3a (ORCPT
+        id S1726244AbgGZQUh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 26 Jul 2020 09:29:30 -0400
-Received: from mail-40130.protonmail.ch ([185.70.40.130]:37575 "EHLO
-        mail-40130.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726711AbgGZN3a (ORCPT
+        Sun, 26 Jul 2020 12:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726044AbgGZQUh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 26 Jul 2020 09:29:30 -0400
-Date:   Sun, 26 Jul 2020 13:29:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1595770166;
-        bh=N/35i5OhRNomgov11FLXVlVt0+OFjV1nHYgOBhWGWsc=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=gk+LccQwNyFdsuiVHedmOD6EUnMxpwrgUukCPGS7qeSDIlJ7ri1l8XG3W8JTHdcCl
-         BMFeb/GJ3Bf4zKtF/WPoFOIriYkts0K2PPY9fzTCqGqAYPQLQnAvGl53FuQ9NG1pm3
-         bi14EVwwL2ZPAz5Yhm1tAXeX+5zocOXroh6RMotQ=
-To:     Kristian Klausen <kristian@klausen.dk>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Ognjen Galic <smclt30p@gmail.com>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: platform/x86: asus-wmi, huawei-wmi, thinkpad_acpi: inconsistent battery charge threshold attribute names
-Message-ID: <SoKizdz_2DgRY8OVhNxtv2HSWdowgPJld1s-J7dZw3nXs57yuyRQtBNRJLTfMU3DsQ4x1EVSMBNWXiKPMyxSqJX0KSGcgqvApwo52c4GO6E=@protonmail.com>
-In-Reply-To: <416665e3-8b53-5189-8944-2e143736c5db@klausen.dk>
-References: <vtiHxEss03uciUomJSQ3Cf-m8xxvUUxqsaPRimyVrrMG7e9QItw2SngGu6b6tJ3N8PXOnMBwIys3BliV6rXJqEwaQguEp0pVpl5BmoCAzz4=@protonmail.com> <416665e3-8b53-5189-8944-2e143736c5db@klausen.dk>
+        Sun, 26 Jul 2020 12:20:37 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DE9C0619D2
+        for <platform-driver-x86@vger.kernel.org>; Sun, 26 Jul 2020 09:20:37 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id z5so8063349pgb.6
+        for <platform-driver-x86@vger.kernel.org>; Sun, 26 Jul 2020 09:20:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/JdGATcy2bddW5Gv8ltkI4JjL9sXZIkF4OUBbnjeJN0=;
+        b=V5c7w0VbL6wO1Myq1skQeDNQDk/tWHKSv4iOd+IoFZGQlQwbG/cFVfHJubMqDbPesc
+         GaPNFak87HawZlSSyWdYL6SIU3f9QgO+tYB7wnEtLTgEZnBVK4+ej9j1ILzO7WL3XTcz
+         tz+OHVQDoxIlk8fXTZaizKwvObCLHaQ+3y7W8kzAj//St9YGOtYkY389kyz6JZqxAJRy
+         X8bS2dtK6+mkrDNUXuSfeC0hzBuNjG8HJo52e3qYGPbxIr3RJ2xd/R/9X9eOcB2M9P8u
+         Vr+sZIw6DbV4OPDc/3F6uTygJHKNrrFD4UdDij1B0RUhVuQoY1XU3s5TXgYvFo8VZUaT
+         3YsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/JdGATcy2bddW5Gv8ltkI4JjL9sXZIkF4OUBbnjeJN0=;
+        b=FwD2tKR52rSEl1xeOLr35tFhBBvT7OJ2x26rovUzyF2bk4wruMXCrulqkrMJ5Sq5Ue
+         +EfgmPSA3EL5CHySMySz0iaqrkylqmqfCSFyBclylg4IEvQ6XMvNGB796UDdtvH/nx43
+         Utwh9lIhHlCpGYA76KhPBa9RHCvWilriIegL5iezBENsYo25oVcF+qSC2grdRw/+nlqt
+         r/JwwFUZnBo1uDajJldDSEJAJRNHQyDQAttHUOrES7iVOyFVohq7xCfcJY8j/8RHQhRg
+         /fme3E7mfOv0/Qk6Nn1wpft8EaS2aCnYd7mvDyiltspr5W9fiaZ8nuyCXwmhcXoVbIvr
+         fnlQ==
+X-Gm-Message-State: AOAM532n2vxWYwz6/lCyr0H2NNsG9DseyYSeCAANtxxLm6Z8856bGAkX
+        n/4q793G3HQ7Onl512ujTxAw8k6+iH+SipcIwOyftB+NVAk=
+X-Google-Smtp-Source: ABdhPJya9UScU7BjpeWevcMvzfh6sl4ZLbbNo31BldLIWqcXMR1Hue60wkd0Slr3/P9LG+s8AozmhNkYSqI9Cr2tcjY=
+X-Received: by 2002:a63:ce41:: with SMTP id r1mr16722743pgi.203.1595780436668;
+ Sun, 26 Jul 2020 09:20:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <yd2bCHtPzC6enuHPlu9VQ2IpJwlZ6PLFS9argTrXd_gCiRqahT4_1tKWfXHiKNOBHiwwMkTXo8z27oUGWZMEkPx-2ZwVW95Ctmu3QkM8T5U=@protonmail.com>
+In-Reply-To: <yd2bCHtPzC6enuHPlu9VQ2IpJwlZ6PLFS9argTrXd_gCiRqahT4_1tKWfXHiKNOBHiwwMkTXo8z27oUGWZMEkPx-2ZwVW95Ctmu3QkM8T5U=@protonmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 26 Jul 2020 19:20:20 +0300
+Message-ID: <CAHp75VdfNzYLB0jXUk25Hdaf5g2VHGPPjGo2c5vRc7yQ8o7T0A@mail.gmail.com>
+Subject: Re: platform/x86: status of thinkpad_acpi patch from January
+To:     =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-2020. j=C3=BAlius 26., vas=C3=A1rnap 14:40 keltez=C3=A9ssel, Kristian Klaus=
-en =C3=ADrta:
-
-> On 26.07.2020 13.38, Barnab=C3=A1s P=C5=91cze wrote:
+On Sun, Jul 26, 2020 at 6:45 PM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
+com> wrote:
 >
-> > Hello all,
-> > The asus-wmi, huawei-wmi, and thinkpad_acpi drivers all utilize the bat=
-tery hooking system provided by the acpi/battery driver to provide function=
-ality to specify the battery charge limits.
-> > The first two drivers create the following attributes for the battery t=
-o achieve the functionality:
-> >
-> > -   charge_control_start_threshold (only huawei-wmi)
-> > -   charge_control_end_threshold,
-> >
-> > while thinkpad_acpi uses the following names:
-> >
-> > -   charge_start_threshold
-> > -   charge_stop_threshold.
-> >
-> > The userspace utility TLP looks for the attributes defined by the think=
-pad_acpi driver. In my opinion this inconsistency should be promptly resolv=
-ed and the preferred names documented.
+> Hello Andy,
 >
-> The preferred names is already documented:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D813cab8f3994250e136819ae48fbd1c95d980466
+> please excuse me that I am writing to you personally.
 >
+> A patch series[1] has been submitted to the platform-driver-x86 list befo=
+re I subscribed to that list, so I cannot react to it in the form of a repl=
+y,
 
-Thank you for bringing attention to this, I forgot to actually look for it =
-in the documentation. Thanks to this most of my initial email can be disreg=
-arded, and the only significant part is that thinkpad_acpi does not use the=
-se documented attribute names. I guess it is because the attributes were ad=
-ded back in 2018 to the driver, more than a year before that commit. So tha=
-t should be fixed, no?
+JFYI: patchwork allows you to download messages in mbox format which
+most of MUA allows to use and reply to.
+I'm Cc'ing this to a mailing list.
 
-
-> > A further detail that's worth documenting is the accepted range of valu=
-es. thinkpad_acpi accepts [0, 99] for the start value, and [1, 100] for the=
- stop value. On the other hand asus-wmi, and huawei-wmi accept [0, 100] for=
- the stop value, and huawei-wmi accepts [0, 100] for the start value. (asus=
--wmi does not support specifying a start value).
-> > I am in the process of writing a platform driver which provides this ex=
-act functionality, that is why I would like both of the aforementioned deta=
-ils to be set down. I'd prefer the names used by TLP and thinkpad_acpi, but=
- it's really not important, I just want them to be the same for all drivers=
-, and that these names be documented.
-> > Secondly, one thing I can imagine is having two another attributes: cha=
-rge_start_threshold_range and charge_stop_threshold_range, that contain two=
- integers "a b", which means the valid range of values is [a, b]. Then I gu=
-ess there needs to be another value that is handled, something like "off", =
-which restores the platform defaults. This is, of course, requires more com=
-plex implementation, but is quite flexible. Although I am not sure this fle=
-xibility is worth the complexity.
+> so I resorted to writing to you personally, since you were the last (and =
+only) person to react to that series.
 >
-> I'm not aware of any platforms with defaults implemented in
-> firmware/hardware, besides start at 0% and stop at ~100%?
->
+> Patchwork shows its state as "Changes requested", but I don't see any com=
+ments on v3 of the series. Can you please take a look and explain what need=
+s to be done for it to be merged?
 
-Me neither, but who knows what is/will be out there?
+As pointed out during v2 review [2] the work is needed to be done, i.e.
 
+"Don't forget to update any documentation if needed."
 
-> > Or a simpler option is accepting [0, 100] for both attributes and retur=
-ning -EINVAL if the provided value is out of range or the driver cannot set=
- it on that particular machine due to hardware limitations or something. Al=
-ternatively thinkpad_acpi behavior could be adopted as well ([0, 99] for st=
-art, and [1, 100] for stop).
->
-> I don't think charge_{start,stop}_threshold_range is worth the effort,
-> lets KISS.
->
+So I'm waiting for either v4 with documentation update, or a comment
+explaining why it's not needed (however, I don't believe we shouldn't
+update it, b/c at least we shall mark the old interface obsolete and
+give people reference to a new (standard) one).
+Sorry if it wasn't clear.
 
-I tend to agree, the complexity is probably not worth it.
+In any case it requires v4 for the matter of rebase to the latest code base=
+.
 
+> [1]: https://patchwork.kernel.org/cover/11362557/
 
-> > In both of the previous cases the behavior of the edge cases should be =
-agreed upon: for example, what does 0 for charge_stop_threshold mean? Does =
-it restore the default, or does it really stop charging at 0%, keeping the =
-battery empty? And so on.
->
-> +1 for keeping the battery empty.
->
-> > What do you think?
-> > Thank you for your attention
-> > Barnab=C3=A1s P=C5=91cze
+[2]: https://patchwork.kernel.org/patch/11359999/
+
+--=20
+With Best Regards,
+Andy Shevchenko
