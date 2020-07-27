@@ -2,97 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0055A22EA76
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 12:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE54622EAA7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 13:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbgG0KyH (ORCPT
+        id S1726842AbgG0LEG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jul 2020 06:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726269AbgG0KyG (ORCPT
+        Mon, 27 Jul 2020 07:04:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35547 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726311AbgG0LEG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jul 2020 06:54:06 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42C9C061794;
-        Mon, 27 Jul 2020 03:54:05 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id 72so7813956ple.0;
-        Mon, 27 Jul 2020 03:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oIEKzcok0AHytuejxAqDHox+Hv/4xCQLeQwpksAUjBk=;
-        b=NATaD6DOFsQ65caJoNxzMR1zR5wWv1mukgUlz/BQxbkOyAc5URJ66Y+8cdha222tlD
-         khfhBoARpbTJAfxfgmxzI25DrnSdQBWxkRBW4/FLvsE89WqdYen4yWtLcPPRWXfcPiQW
-         Gik2kR8VvdLGEoWhb8f0jxxfsTaN1VITh/z6fnufWcLt+xSwyDnNjizNAmxx5ggA+Tl+
-         ij30otw8WWxa0Me518bb4RvNp+5dOrGeuixKwriyJ/GTmZ0NBZVS3RelFEGMegirNXO3
-         /3CobaheVraCdrqydqqbQPsNUyqVJl8E46cp9mILLaxCGk4jnpvgGsPmnunjnFgO7aeq
-         LL8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oIEKzcok0AHytuejxAqDHox+Hv/4xCQLeQwpksAUjBk=;
-        b=KFpEi9J7MISEH0iONR3nJaoIUpy0/uMKA/LAMhltjDKbfVXw7z1AQjnxp2o/SriHim
-         uJuKTVon0Bjt9ronjDl0Y6XbOrIZi3T2Tc7ByWlVuf2o6mbtsk8DoZ/3gFp0koUgUiW3
-         NFlj/XBVZIrYM6FGjjId2CqYKok9LdLF/4ssMm9cmh1Ejmdh1ur6bp96131NkZ48ZQAp
-         z/+OGhVsS7//yWhetkUrg7BazCkHRquMbvGFehDG01Pgj9+0A1mvhxQ2wroEQSfTLFdF
-         1Z3GWJ6VK2r2OVw/VBuQ0MD2KzIJvCyNCwSTu8KBkfQYwG2tEm8EARw6ZhdSroP2ZL+z
-         Vbxw==
-X-Gm-Message-State: AOAM531VNSC8Fqc3q/FwaSo1uzXPU6wyjmp5i/xcObqRBTlyez+7LFnm
-        D0JGsdeshRQFLlGZMtlKZzOp/VE/eoTY0pj4u0scEdNa
-X-Google-Smtp-Source: ABdhPJzKpuotHtZQWXCNXpW4Rd40X2ZHyq6xGCf7dma4uujyWwxfrgebmhgIZK8KpV8IbxrNGqpdB0U2NUlVH+QVpNQ=
-X-Received: by 2002:a17:90a:498b:: with SMTP id d11mr19017924pjh.129.1595847245382;
- Mon, 27 Jul 2020 03:54:05 -0700 (PDT)
+        Mon, 27 Jul 2020 07:04:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595847844;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TYZO8UGubVO6b7TbEK9k+KaBQ0ioiWH78ppSx0l6/rM=;
+        b=Ncyy5Tm1A7N41s0D/DINCmhULkBKx3ypi8A4ljUypq+Efd8s4RgHBvaLDAZ99TiJOyPGM3
+        rAyVaj5CStPaHeCkztPkSkjHZHFFRTjtrClcm7Xr4jDYEQ8w/1T8LFM5Xw7yb71QqjkLZn
+        ojYQiRk1uMx42C0kzP61OS9zM2vPaG8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131-NA2wYjmLO_yPOSUdgtAlwQ-1; Mon, 27 Jul 2020 07:03:55 -0400
+X-MC-Unique: NA2wYjmLO_yPOSUdgtAlwQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88C62106B244;
+        Mon, 27 Jul 2020 11:03:54 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D70D5C1B2;
+        Mon, 27 Jul 2020 11:03:54 +0000 (UTC)
+Received: from zmail20.collab.prod.int.phx2.redhat.com (zmail20.collab.prod.int.phx2.redhat.com [10.5.83.23])
+        by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5D4B8180954D;
+        Mon, 27 Jul 2020 11:03:54 +0000 (UTC)
+Date:   Mon, 27 Jul 2020 07:03:54 -0400 (EDT)
+From:   Bastien Nocera <bnocera@redhat.com>
+To:     Nitin Joshi1 <njoshi1@lenovo.com>
+Cc:     Mark RH Pearson <markpearson@lenovo.com>,
+        Sugumaran Lacshiminarayanan <slacshiminar@lenovo.com>,
+        ibm-acpi-devel@lists.sourceforge.net, ibm-acpi@hmh.eng.br,
+        platform-driver-x86@vger.kernel.org
+Message-ID: <321690127.4797880.1595847834329.JavaMail.zimbra@redhat.com>
+In-Reply-To: <SG2PR03MB2718DFC08C4ECF7816D1B4E48C720@SG2PR03MB2718.apcprd03.prod.outlook.com>
+References: <markpearson@lenovo.com> <20200629191748.3859-1-markpearson@lenovo.com> <732277929.1313334.1593596757447.JavaMail.zimbra@redhat.com> <SG2PR03MB2718DFC08C4ECF7816D1B4E48C720@SG2PR03MB2718.apcprd03.prod.outlook.com>
+Subject: Re: [External]  Re: [ibm-acpi-devel] [PATCH v4] platform/x86:
+ thinkpad_acpi: lap or desk mode interface
 MIME-Version: 1.0
-References: <0bad52e6e10ff2e8d8a19f95bab7642ec5e71838.1595838334.git.sramani@mellanox.com>
-In-Reply-To: <0bad52e6e10ff2e8d8a19f95bab7642ec5e71838.1595838334.git.sramani@mellanox.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jul 2020 13:53:50 +0300
-Message-ID: <CAHp75Vdsw61-uNi2TiR7F4j0s=F6XCnQC_j81hXfyJ9tfeq8QA@mail.gmail.com>
-Subject: Re: [PATCH v1] platform/mellanox: mlxbf-pmc: Add Mellanox BlueField
- PMC driver
-To:     Shravan Kumar Ramani <sramani@mellanox.com>
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.36.114.75, 10.4.195.19]
+Thread-Topic: [External]  Re: [ibm-acpi-devel] [PATCH v4] platform/x86:
+ thinkpad_acpi: lap or desk mode interface
+Thread-Index: AQHWY8DIP68AvAZQjE24ENYf+sTd3Jx998kl
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 12:02 PM Shravan Kumar Ramani
-<sramani@mellanox.com> wrote:
->
-> The performance modules in BlueField are present in several hardware
-> blocks and each block provides access to these stats either through
-> counters that can be programmed to monitor supported events or
-> through memory-mapped registers that hold the relevant information.
-> The hardware blocks that include a performance module are:
->  * Tile (block containing 2 cores and a shared L2 cache)
->  * TRIO (PCIe root complex)
->  * MSS (Memory Sub-system containing the Memory Controller and L3 cache)
->  * GIC (Interrupt controller)
->  * SMMU (System Memory Management Unit)
-> The mlx_pmc driver provides access to all of these performance modules
-> through a hwmon sysfs interface.
-
-Just brief comments:
-- consider to revisit header block to see what is really necessary and
-what can be dropped
-- add comma to the arrays where last line is not a termination
-- look at match_string() / sysfs_match_string() API, I think they can
-be utilised here
-- UUID manipulations (esp. with that GUID_INIT() against non-constant)
-seems too much, consider refactoring and cleaning up these pieces
-- use kstroto*() API instead of sscanf. It has a range check
 
 
--- 
-With Best Regards,
-Andy Shevchenko
+----- Original Message -----
+> Hello Bastien
+> 
+> >-----Original Message-----
+> >From: Bastien Nocera <bnocera@redhat.com>
+> 
+> >----- Original Message -----
+> >> Newer Lenovo Thinkpad platforms have support to identify whether the
+> >>   system is on-lap or not using an ACPI DYTC event from the firmware.
+> >>
+> >>   This patch provides the ability to retrieve the current mode via sysfs
+> >>   entrypoints and will be used by userspace for thermal mode and WWAN
+> >>   functionality
+> >>
+> >> Co-developed-by: Nitin Joshi <njoshi1@lenovo.com>
+> >> Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
+> >> Reviewed-by: Sugumaran <slacshiminar@lenovo.com>
+> >> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> >
+> >
+> >You can add my:
+> >Reviewed-by: Bastien Nocera <bnocera@redhat.com>
+> 
+> It's already added in latest patch and currently in "for-next"
+> http://git.infradead.org/linux-platform-drivers-x86.git/commit/acf7f4a59114471c3964f118564fe8e7a6f34bb8
+
+I sent my message nearly a month ago, 2 days before the authoring date
+of the patch that was merged, so I'm not sure what you're trying to
+tell me here :)
+
