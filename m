@@ -2,109 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 172DD22E9F9
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 12:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F67722EA01
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 12:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728004AbgG0KZL (ORCPT
+        id S1726884AbgG0K1t (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jul 2020 06:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
+        Mon, 27 Jul 2020 06:27:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgG0KZL (ORCPT
+        with ESMTP id S1726744AbgG0K1t (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jul 2020 06:25:11 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E78C061794;
-        Mon, 27 Jul 2020 03:25:10 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id d4so9248632pgk.4;
-        Mon, 27 Jul 2020 03:25:10 -0700 (PDT)
+        Mon, 27 Jul 2020 06:27:49 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC59C061794;
+        Mon, 27 Jul 2020 03:27:49 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id t6so7789034plo.3;
+        Mon, 27 Jul 2020 03:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=r6P0NW/NQ7oCqQTy1c6MyZkcBa+F52tox9mNpJ0I9/Y=;
-        b=YGhQg2cgSfeKYXJ0iXoUi0yrHvu6HEOUJPpfU5AJ8M5oQPVfZ/j528gsyZCqt/RIaH
-         HiMwN6G5OpkC9kmXdNN5K4yC5Rd4ZIhEAwcewzcC59Mbe1DQJ2gWRFj94iwxO70Hgypj
-         qiM3LIGRjvDXDu+ToTSCTUXMfiKygZUQy0olshTpYVA/DKLnBcy78pv5fFMQnh+PmbAp
-         j/+nFRGindy55o8bTIQ5xqu9UUrWkQMLKA9tdnuEtdZiYl9CVyBpBtwmd9yCNO4l2fuN
-         6n7wPOVfkzCJi0SRvIMkf+6vJvghdFOEPpZJooT+Tejc+S7U0IpqzJSAAPRKnEsgD7bL
-         2A7Q==
+        bh=MfnAXIeR1KafYrufEJLqv/puSReDeQoJLVmC/MZWqGI=;
+        b=cBMPjRAhkvB1/gbD27+X++2U5e9tuVr2DvEmEMsdVWx+9ZPD7HRqswj0n48/wZE7Bx
+         /MIRkFKMsljFs/1/zplVRkxpBvwpVlgVh7Qok+iAnPdpCKxTXLBSh93y/frRqzaZlBms
+         ZAMrf6lNd04WR2kl9wvoJVZuRojPssXADz4eEPnPuGTOVWqSqBt2e+HwTGrCWTwuaj11
+         ZD0MW6hIf4M7FEk1VY9Z7qq5AK0GBiR19ZtfcPG9YdoKgfJtoz9IxJNxc21xRQYxPm/K
+         nlitfpaIwDsftdfnHXB51XPmXCat39CiviSqjUkXXdOtE/Qwn+wQTX+IsD8lKFerh0LX
+         rb0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=r6P0NW/NQ7oCqQTy1c6MyZkcBa+F52tox9mNpJ0I9/Y=;
-        b=M8tbk6WzZDeFU5I4qTWQ2moCuhEbX1nWIpPISMnetM8eTX//lZ2QJV8g864eH0U/yz
-         SXzeUYMu+eFly8KCKMZ2N3CCqeUcOT6t+rYk0SugWU2LbG48RyYFEllJQNU8dOcRClgM
-         71/VeEg8aS/awtsY0BN1AJEM5JARsR+uVkP59oo+c/0wHLcwR/Bo/IHAIs15basR+Zt8
-         ZWB9xUhGaeFaWQGN9f8YKHHKv57QPA+pK7TQlmOpIUBOzFCDNzfsSdhvuLErJwBqFv02
-         PLA1zg1uKFjZs0VIKsYxfNbOC4f3cEvsBy0XQ92qbqmPPwNOain9AjXbm+TiPk6cC2kG
-         VaQA==
-X-Gm-Message-State: AOAM533JNVeanCpBUt3xnTGPkUkUAmGwcmQLL6any5SbgjIcoSOd0DJ3
-        CZZL+ayHW9c/FisTyBohZFZaqo5FaE3Evt7WxhEhQW55
-X-Google-Smtp-Source: ABdhPJw5Q3FsSC0MI9/UyJUYP8cXE1w0ledJ1kmEd+1mEmUhKoLmjxcDuXj17SkYLlChMWYEfk08tQR479WIqfhaLcI=
-X-Received: by 2002:a63:924b:: with SMTP id s11mr18613983pgn.74.1595845509654;
- Mon, 27 Jul 2020 03:25:09 -0700 (PDT)
+        bh=MfnAXIeR1KafYrufEJLqv/puSReDeQoJLVmC/MZWqGI=;
+        b=CPUdDeoqar7y6UMsEcvDu8l3Nk2ML6zlm9vY4be05lJPzvLTz8DYWzMLu8J4zTjkBD
+         2uYGnxNhPPLt9RRuMDqrmd9HaAkzccKjl3qgi8wyoLP0mh34+246d3yn5evZEnQQQWRC
+         Hk3CaPsRYXahXcGcqnAFKRl+YOIfrfkhfDe/mBgP6ynt+t8qvTV7AYA5Ii7enXlRctU3
+         iy6FHLBmU4udOp0wqGiVbDmVXl4Pm2/jNEC9r93oyJ0OsgetY+glQNSijw/v0GVAAryO
+         ct8nYUlbAn6Rpj9su2Yk4TFZ1zy6grIPDeSUI/VczWP92vi0pRopBFSdeqAc6mHNoiO+
+         2AuQ==
+X-Gm-Message-State: AOAM530s4NvqR9RB6UkILoQCQk7B/vcQhoXDcQbL4X+lL3fbgCZfH3RB
+        fsSVSAfSvme1jIY1g+SCYZ6PEllxNL/Ef3eDlcM=
+X-Google-Smtp-Source: ABdhPJxEHPFoGSoZxU9r1b2GjJ1IWxHQsitK6DAhl4vZAYD76oQq7AHniHMA/DHdJb4mBAanhYP8ZH93gI5OO/jHCCs=
+X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr15807500pjp.228.1595845669025;
+ Mon, 27 Jul 2020 03:27:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200717114155.56222-1-hdegoede@redhat.com> <20200719225649.GA4341@khazad-dum.debian.net>
- <20200722054144.GQ1665100@dtor-ws> <20200727005049.GA10254@khazad-dum.debian.net>
- <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com> <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
-In-Reply-To: <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
+References: <20200719002903.20469-1-rdunlap@infradead.org> <c76c51bfa78316caaf8201a63ac200fa373ae3ae.camel@linux.intel.com>
+In-Reply-To: <c76c51bfa78316caaf8201a63ac200fa373ae3ae.camel@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jul 2020 13:24:54 +0300
-Message-ID: <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+Date:   Mon, 27 Jul 2020 13:27:34 +0300
+Message-ID: <CAHp75VeugozEiOMg1VeWegrP1m0VU5xKfxEj6gJPQbnuYh5zCw@mail.gmail.com>
+Subject: Re: [PATCH] isst: isst_if.h: drop a duplicated word
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 10:49 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Tue, Jul 21, 2020 at 6:10 PM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
 >
-> On Mon, Jul 27, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> On Sat, 2020-07-18 at 17:29 -0700, Randy Dunlap wrote:
+> > Drop the repeated word "for" in a comment.
 > >
-> > Hi,
-> >
-> > On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
-> > > On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
-> > >> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
-> > >>> On Fri, 17 Jul 2020, Hans de Goede wrote:
-> > >>>> This is a simple patch-series adding support for 3 new hotkeys found
-> > >>>> on various new Lenovo Thinkpad models.
-> > >>>
-> > >>> For all three patches, pending an ack for the new keycodes by the input
-> > >>> maintainers:
-> > >>>
-> > >>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> > >>
-> > >> Do you want me to merge all 3 through input tree?
-> > >
-> > > Hans, Daren, Andy, what do you prefer?
-> >
-> > Taking all this upstream through Dmitry's input tree is fine with
-> > me, but this really is up to Andy and/or Daren.
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > Cc: platform-driver-x86@vger.kernel.org
+> > Cc: Darren Hart <dvhart@infradead.org>
+> > Cc: Andy Shevchenko <andy@infradead.org>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 >
-> Fine with me.
 
-To be clear, I assume it will go thru input tree.
-If my formal tag needed, use
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Pushed to my review and testing queue, thanks!
+
+> > ---
+> > This description could still use some better wording.
+>
+> I will fix the wording in a follow up patch.
+>
+> >  include/uapi/linux/isst_if.h |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > --- linux-next-20200717.orig/include/uapi/linux/isst_if.h
+> > +++ linux-next-20200717/include/uapi/linux/isst_if.h
+> > @@ -69,7 +69,7 @@ struct isst_if_cpu_maps {
+> >   * @logical_cpu:     Logical CPU number to get target PCI device.
+> >   * @reg:             PUNIT register offset
+> >   * @value:           For write operation value to write and for
+> > - *                   for read placeholder read value
+> > + *                   read placeholder read value
+> >   *
+> >   * Structure to specify read/write data to PUNIT registers.
+> >   */
+>
+
 
 -- 
 With Best Regards,
