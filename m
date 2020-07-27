@@ -2,17 +2,17 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3930122E85C
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 11:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 678E622E88B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 11:09:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgG0JEi (ORCPT
+        id S1726247AbgG0JJW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jul 2020 05:04:38 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:51423 "EHLO
+        Mon, 27 Jul 2020 05:09:22 -0400
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:52228 "EHLO
         mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727012AbgG0JEi (ORCPT
+        with ESMTP id S1726196AbgG0JJW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jul 2020 05:04:38 -0400
+        Mon, 27 Jul 2020 05:09:22 -0400
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from sramani@mellanox.com)
         with SMTP; 27 Jul 2020 12:02:31 +0300
 Received: from farm-0002.mtbu.labs.mlnx (farm-0002.mtbu.labs.mlnx [10.15.2.32])
