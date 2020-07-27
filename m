@@ -2,103 +2,132 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A1E022E6E7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 09:50:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96DB922E738
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Jul 2020 10:02:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbgG0HuA (ORCPT
+        id S1726451AbgG0ICZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jul 2020 03:50:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60634 "EHLO
+        Mon, 27 Jul 2020 04:02:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgG0HuA (ORCPT
+        with ESMTP id S1726196AbgG0ICZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jul 2020 03:50:00 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00805C0619D2;
-        Mon, 27 Jul 2020 00:49:58 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id k71so8798103pje.0;
-        Mon, 27 Jul 2020 00:49:58 -0700 (PDT)
+        Mon, 27 Jul 2020 04:02:25 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BD3C0619D2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Jul 2020 01:02:25 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id f5so16153690ljj.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 27 Jul 2020 01:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HhIDh5Hx27FTVnTfWMP3UANCkbwxny8/a15rEFriMYg=;
-        b=qSKI9QTIVnlWHPnZx/oZulFmEZuP+u00joILTApKVVfP8s8yOV9YqDxlWAUO5yHFRZ
-         +GS4TjL2cTBKGeoTyNVVBx1rnsHKcPP0+cHUOMhMsjBjoC4Fp0St0V6WOdKcHWE3a7qY
-         uBuoUliduYJmBTAK5v4zBrqqhFQl9sD9/AAWfSRvwNPOxyUS8btYqgX4mjC84N2qLcaA
-         AGn7/vABnbyl3VYcHiBYvEwUWuv8YJXVoaPeEXT7L5npeTKE9SRyUmOSV8t9X66GNovS
-         ThzJhhTB2NqIDsg3ULQ7+1AV9S1UOREuUFckafPO97cbrkHJwl/HhP1AkxRHz5x4hXOI
-         2JaA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zHfhTTJo5bxaUvIZiRxdZz/1qnRRWIobqlmrPAOzCd8=;
+        b=zP2RcdXStRhQTYyNAxYvE3ktAjKNcHpvOHDALQsj2XVuJ8VCRZV0kew++KQw5Gw9M9
+         pzCv5qIE8zKNEDwVZYXsjzt2HcCmNlbfdMIHO4Bzj5/Wt2b5qgWKinqNsgrE5TgSn9fE
+         KgNZeIPPC7wVbqY+dBLHquq+yt2klfWaO5qBYVaT0uhVY/RQB7vtiXn46gJDuyDDqbUl
+         eO1W5JAFgE+LR7MzeEjvZh4zjLi4y12mM1z1za663TY7Kdt9I2wS6rXfeSWhe9bCh41f
+         nToEKviy8E2W/gSfWngmCFOuHjQ/ELmMwqZYfzEIM7Zw2Jakn3SxzebDVZ7htQCrgwp8
+         iGlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HhIDh5Hx27FTVnTfWMP3UANCkbwxny8/a15rEFriMYg=;
-        b=mG04y1v7f55elE7Br1wzKu+uY7M9EurmetBZMsIPaPeXuWfAgUFSrS1jkD/sRh7XKG
-         IchU4agWjIGTDJzV6Nav0cLQY/0D/fBdOqeZcc/liK8relTpJaIN+zV/KnjtNK3Att1r
-         aYCINdELA7i0t04ULn9r34DmQdWYRxwejo5nIyvjYhyDk75abuGWv2IgDfygMznxUeS6
-         dkYC/EGL+0W9VcUbRXbr3NLmbSciGiLQhdHL9wvBA1UHqDer/55S2CN4DwpqYdjmv67T
-         zvF/Hc+/U4FibwI7CI/5wpxuoE5250PStZf7sWhVBcuzL7STQaDAFrz82hYUhE0FLyOQ
-         33Zg==
-X-Gm-Message-State: AOAM530JHKQAHZIokwweT/BGycAU/pz2hMzp75YC9BrAR6KHPvFiEOqc
-        ezKdDDogz2V2lCrp9f1IDq6BECR6RdapYPklubM=
-X-Google-Smtp-Source: ABdhPJyPnB6FMtVB5Q9bd2CIaxCVWPVOup1tHBVKZLnpG1UbzQLvIgKLF9H89TgmFXZDcF6RR6t7SbG6MhniZDPpst8=
-X-Received: by 2002:a17:90a:8985:: with SMTP id v5mr2061101pjn.181.1595836198458;
- Mon, 27 Jul 2020 00:49:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zHfhTTJo5bxaUvIZiRxdZz/1qnRRWIobqlmrPAOzCd8=;
+        b=r7sK9kYiHVkGu70OXHSDXsVeDeMZHDxHDn68UgO3px9y9hE7vakbwEAkDIOdM3s7Fm
+         7DPGtLQRQIzskNkN2srPJ7DifDeIxT8WX5vOiq2zLPdGZDtRgJFGiNZ+daOslRXgPW5q
+         YtY6f/BJpo4kf74kvniYSNRAzB+d3q1HoXrj5jx4PDBivHzRS/pJ9KHB3xtxwX9Y/0Rj
+         9FqvD1Mu0LVrFB4J6mQrpbbA40eishtpJsK92WZW4nj5Y+wy8Twu77JaFMl4NLyazza/
+         ced/LVIXpaFBCgKNHC7pMSOxCjY4fJOSWWaY+t2B+pI50b+PFEpEiHo2KMOueXVKIUgh
+         QN6Q==
+X-Gm-Message-State: AOAM531cgcn1OamZwjurXZIz4n/JkvS6/+mxsCvVuER1RuJ1IeRuTlVq
+        FrZk7uscqBZccMMYn7Gewi+2LQ==
+X-Google-Smtp-Source: ABdhPJxCgNz2rhfFlaeVJOkoOn2724VBraY9zIWobawM3mg5DRpKs0EgikymkdEH1/+2m0NBum16MA==
+X-Received: by 2002:a2e:8758:: with SMTP id q24mr8780661ljj.109.1595836943282;
+        Mon, 27 Jul 2020 01:02:23 -0700 (PDT)
+Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id c21sm2851294lfh.38.2020.07.27.01.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2020 01:02:22 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, Andres Salomon <dilinger@queued.net>,
+        linux-geode@lists.infradead.org
+Subject: [PATCH] x86/platform/geode: Convert LED to GPIO machine descriptor
+Date:   Mon, 27 Jul 2020 10:00:19 +0200
+Message-Id: <20200727080019.286172-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200717114155.56222-1-hdegoede@redhat.com> <20200719225649.GA4341@khazad-dum.debian.net>
- <20200722054144.GQ1665100@dtor-ws> <20200727005049.GA10254@khazad-dum.debian.net>
- <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com>
-In-Reply-To: <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jul 2020 10:49:42 +0300
-Message-ID: <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
-> > On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
-> >> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
-> >>> On Fri, 17 Jul 2020, Hans de Goede wrote:
-> >>>> This is a simple patch-series adding support for 3 new hotkeys found
-> >>>> on various new Lenovo Thinkpad models.
-> >>>
-> >>> For all three patches, pending an ack for the new keycodes by the input
-> >>> maintainers:
-> >>>
-> >>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> >>
-> >> Do you want me to merge all 3 through input tree?
-> >
-> > Hans, Daren, Andy, what do you prefer?
->
-> Taking all this upstream through Dmitry's input tree is fine with
-> me, but this really is up to Andy and/or Daren.
+This makes the machine look up the LED from a GPIO machine
+descriptor table. The Geode LEDs should be on the CS5535
+companion chip.
 
-Fine with me.
+Cc: linux-gpio@vger.kernel.org
+Cc: Andres Salomon <dilinger@queued.net>
+Cc: linux-geode@lists.infradead.org
+Cc: Andy Shevchenko <andy@infradead.org>
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: platform-driver-x86@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ arch/x86/platform/geode/net5501.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
+diff --git a/arch/x86/platform/geode/net5501.c b/arch/x86/platform/geode/net5501.c
+index 163e1b545517..d4e6c57b9c87 100644
+--- a/arch/x86/platform/geode/net5501.c
++++ b/arch/x86/platform/geode/net5501.c
+@@ -20,6 +20,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/input.h>
+ #include <linux/gpio_keys.h>
++#include <linux/gpio/machine.h>
+ 
+ #include <asm/geode.h>
+ 
+@@ -55,9 +56,7 @@ static struct platform_device net5501_buttons_dev = {
+ static struct gpio_led net5501_leds[] = {
+ 	{
+ 		.name = "net5501:1",
+-		.gpio = 6,
+ 		.default_trigger = "default-on",
+-		.active_low = 0,
+ 	},
+ };
+ 
+@@ -66,6 +65,15 @@ static struct gpio_led_platform_data net5501_leds_data = {
+ 	.leds = net5501_leds,
+ };
+ 
++static struct gpiod_lookup_table net5501_leds_gpio_table = {
++	.dev_id = "leds-gpio",
++	.table = {
++		/* The Geode GPIOs should be on the CS5535 companion chip */
++		GPIO_LOOKUP_IDX("cs5535-gpio", 6, NULL, 0, GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
+ static struct platform_device net5501_leds_dev = {
+ 	.name = "leds-gpio",
+ 	.id = -1,
+@@ -80,6 +88,7 @@ static struct platform_device *net5501_devs[] __initdata = {
+ static void __init register_net5501(void)
+ {
+ 	/* Setup LED control through leds-gpio driver */
++	gpiod_add_lookup_table(&net5501_leds_gpio_table);
+ 	platform_add_devices(net5501_devs, ARRAY_SIZE(net5501_devs));
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.26.2
+
