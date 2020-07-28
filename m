@@ -2,465 +2,200 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0156C22FE66
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jul 2020 02:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13D4C23005E
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jul 2020 05:51:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgG1ARb (ORCPT
+        id S1726918AbgG1Dv0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Jul 2020 20:17:31 -0400
-Received: from mail-40135.protonmail.ch ([185.70.40.135]:15843 "EHLO
-        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726265AbgG1ARb (ORCPT
+        Mon, 27 Jul 2020 23:51:26 -0400
+Received: from mail1.bemta23.messagelabs.com ([67.219.246.4]:21753 "EHLO
+        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726797AbgG1DvZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Jul 2020 20:17:31 -0400
-Date:   Tue, 28 Jul 2020 00:11:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1595895095;
-        bh=tUeuQjEjlvuMPUDI93dlycN0SDEkP8nAccUNjdSfqn8=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=E23X7DG2I/tC9eaLNa3tUBLIxoj27Uv267PNoJSphKbYldQlvuKopXss3QPxj5HQk
-         0aYy4wm2Y6TDn824EsRRKCLnkAsN1nghyT8TBMqnoMwY+40ZZ6/92zetP5aK7KmFWN
-         2ZnxDhuPV93EGykssW450Ut0/zgzrYSxBsoLKOzA=
-To:     Daniel Dadap <ddadap@nvidia.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH] platform/x86: Add new vga-switcheroo gmux driver for ACPI-driven muxes
-Message-ID: <OZ6ZQHG1FUrYVeq4WcEmCVJICyUzTAglUv2n5kB0QV1Fd2jodRhmB3jI9F2tPgPDcFbbdPNU9DnJaeousfdWl46UqgKIvb_aIM_hg-fyb8k=@protonmail.com>
-In-Reply-To: <20200727205752.28224-1-ddadap@nvidia.com>
-References: <20200727205752.28224-1-ddadap@nvidia.com>
+        Mon, 27 Jul 2020 23:51:25 -0400
+Received: from [100.112.1.169] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-4.bemta.az-b.us-east-1.aws.symcld.net id CC/88-37342-AB0AF1F5; Tue, 28 Jul 2020 03:51:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCJsWRWlGSWpSXmKPExsWS8eIhl+6uBfL
+  xBi8eiVi8nHCY0WL2YRuLOc/WMlqs3vOC2YHFY+esu+wevw8weuxe8JnJ4/MmuQCWKNbMvKT8
+  igTWjE1XNjIXzFeuONY1maWB8YlSFyMXh5BAA5PEzNNvGSGcV4wSM59NZuti5ITI/PxiApH4z
+  Shxeto/NhCHUWAps0T7uY2sEM4xFonD+yaxQzgbGCW6f30GG8YisJtZ4nnnMnaIAfOZJCb19U
+  M59xklHvR3MYKsYRNQl3h18CrYShGBKIkTn3+AtTMLTGSSWDtxJjtIQlggRGLum/XMEEWhEs9
+  u/4FqsJI41XgDbBCLgKrEnuWfgOIcHLwCMRInzmlCLJvFKHF2+wawGk6BQInGPafB5jAKiEl8
+  P7WGCcRmFhCXuPVkPpgtISAgsWTPeWYIW1Ti5eN/UJ92MUrsf7mbBSKhJLF5ezM7hC0rcWl+N
+  yOE7StxZPECKFtH4v+kPjYI20bi6PMFLCDHSQioSPw7VAlh5kuc/xA9gdF4FpIrZgFlmAU0Jd
+  bv0ocIK0pM6X7IDmLzCghKnJz5hGUBI8sqRtOkosz0jJLcxMwcXUMDA11DQyNdY11TE73EKt0
+  kvdJi3dTE4hJdQ73E8mK94src5JwUvbzUkk2MwKSUUsBstoPx5+sPeocYJTmYlER5d0yXjxfi
+  S8pPqcxILM6ILyrNSS0+xCjDwaEkwbt/LlBOsCg1PbUiLTMHmCBh0hIcPEoivO9A0rzFBYm5x
+  ZnpEKlTjMYcE17OXcTMcWTu0kXMQix5+XmpUuK8bvOASgVASjNK8+AGwRL3JUZZKWFeRgYGBi
+  GegtSi3MwSVPlXjOIcjErCvMXzgabwZOaVwO0DplugL0R4G4/LgpxSkoiQkmpgWnFnR+XCg2u
+  iXSQWHrJSkA7Z9bRI2Y6h9545H7PWlWdTvBs8HOK5zPizFqV/TY/06tqedfWqsdTvFjWp+kip
+  FO4be9aU/f/j+War8s7+w15/TpXkTnaP/7H0Ss9RnefF8tVGPp490jefPynwDr3EnhN3dnnFH
+  EVekTwXqX8332usWCzwPnERi5Zjg8TUO0frFKY+K1h3PMdnSfPd9PWJVYdP6vr87/3dwR75d6
+  rX3r/mkjWSs2U0zmgs0n7KccG+tveGyMWES18n/Wrt03wR+3CT36SHVxj5DnCxv5+2ZpXI1jL
+  DwFePZ5S/PL3nXajVh4Q7d4T+L3r2IUJtTqXumfPbWXZy5ufsS1Dsi3t7VomlOCPRUIu5qDgR
+  AA3A8zNXBAAA
+X-Env-Sender: njoshi1@lenovo.com
+X-Msg-Ref: server-29.tower-386.messagelabs.com!1595908282!160435!1
+X-Originating-IP: [104.232.225.10]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.50.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 5940 invoked from network); 28 Jul 2020 03:51:22 -0000
+Received: from unknown (HELO lenovo.com) (104.232.225.10)
+  by server-29.tower-386.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 28 Jul 2020 03:51:22 -0000
+Received: from HKGWPEMAIL03.lenovo.com (unknown [10.128.3.71])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by Forcepoint Email with ESMTPS id 37165A252BD9C4E7D101;
+        Mon, 27 Jul 2020 23:51:21 -0400 (EDT)
+Received: from HKGWPEMAIL03.lenovo.com (10.128.3.71) by
+ HKGWPEMAIL03.lenovo.com (10.128.3.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1913.5; Tue, 28 Jul 2020 11:52:09 +0800
+Received: from HKEXEDGE02.lenovo.com (10.128.62.72) by HKGWPEMAIL03.lenovo.com
+ (10.128.3.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5 via Frontend
+ Transport; Tue, 28 Jul 2020 11:52:09 +0800
+Received: from APC01-PU1-obe.outbound.protection.outlook.com (104.47.126.55)
+ by mail.lenovo.com (10.128.62.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Tue, 28 Jul
+ 2020 11:52:08 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IswB3Z3EYsuoWrfKj6vMj4pm5jkw7QgvG2lrmW1x9FMMgH3R8jhI5d6DoNWS50aAAwY4VGK6OWQr3gQEx1b3O/ciMdv2C3bMtX+bhvFi2zNomdNl4B6LKYglvtbqsRquKPkH1VDbk/sCl+Xsx9mBGUwB/oIOoAOnjwsQ9k4Yb4mf5JjuxgOoZm6oNVsFtM3mYqd9+s5ywz9ZIEGfhynymhdzfHWIlIVkjZh3trMoUxNIKCM29q8emauKZy89/T0IVPc47jS3y+O74ebexdKUqiLMru3b715P3MIN8fmOXjvzCvcI9vbULNEz9NxwghB6iv15DVIlRZJLqcjLBXpKHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UYx81NEKTGevz22Wruc7x19eCozIvKnMhUhlLgHvlto=;
+ b=ENMkRKpihj65wNQkNsD1C8TW6IjT0uVGYdv5Kf7IWu32nvxBWrcUjMF8pZSGZgubcQFagw96qx5iZeIk/FUnjXdug59ngbvUnGjTXiQL8T15W8Rx469e86Xp75oHS68G0uQpTWQyIeVGqGODi8jYXAR8z7L7jAqYy25ScTSqohro6EmZtNcZc4acBDAHhAkT4ev7QN7zeRiawqDNxyg8Wwc1w7gnfjfrxM4pR5/AN/+yjkvzuhKQXmSUjFVwuUE5JAdm/HxGw0GqdZQQoqZ+yoWc2CYUpBE01qgEGrdYlIPB38SLQc23U4g4z17QvGyi4Gz9i4RbFRFJnZVEijT3EQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lenovo.com; dmarc=pass action=none header.from=lenovo.com;
+ dkim=pass header.d=lenovo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=LenovoBeijing.onmicrosoft.com; s=selector2-LenovoBeijing-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UYx81NEKTGevz22Wruc7x19eCozIvKnMhUhlLgHvlto=;
+ b=NEHw08tsvYKyTx3ZsU+bTIDLjlm1s3HWQ/ovN5SaWyZ9tTynBqn7Nu016ymwgk1yZfG3BWDZbqUiHocv2DQulYBZ9UmR++2FZe1mAoyaTJ4OuBtlEKQSHKCpjEv1vX+Cbkg+sxbOtE2LNlEQWjffk9n0jNjrqbKPYJKoKapQX90=
+Received: from PU1PR03MB2716.apcprd03.prod.outlook.com (2603:1096:803:20::17)
+ by PS1PR0302MB2443.apcprd03.prod.outlook.com (2603:1096:803:d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.9; Tue, 28 Jul
+ 2020 03:51:09 +0000
+Received: from PU1PR03MB2716.apcprd03.prod.outlook.com
+ ([fe80::d93d:a08d:f69a:c697]) by PU1PR03MB2716.apcprd03.prod.outlook.com
+ ([fe80::d93d:a08d:f69a:c697%6]) with mapi id 15.20.3239.015; Tue, 28 Jul 2020
+ 03:51:09 +0000
+From:   Nitin Joshi1 <njoshi1@lenovo.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mark RH Pearson <markpearson@lenovo.com>
+CC:     Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        "Platform Driver" <platform-driver-x86@vger.kernel.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Tomoki Maruichi <maruichit@lenovo.com>,
+        "Sugumaran Lacshiminarayanan" <slacshiminar@lenovo.com>
+Subject: RE: [External]  Re: [PATCH] platform/x86: thinkpad_acpi: psensor
+ interface
+Thread-Topic: [External]  Re: [PATCH] platform/x86: thinkpad_acpi: psensor
+ interface
+Thread-Index: AQHWWwMHz3ST7j+TG06+0crDZ7YttqkbTR6AgAENKoA=
+Date:   Tue, 28 Jul 2020 03:51:08 +0000
+Message-ID: <PU1PR03MB2716FE7EF1BF12E5B9EC25188C730@PU1PR03MB2716.apcprd03.prod.outlook.com>
+References: <markpearson@lenovo.com>
+ <20200715235242.4934-1-markpearson@lenovo.com>
+ <CAHp75Vcwg9aEpybYwEFvhYH4gpy7952i+zMs-2TKGPzkzuhO=g@mail.gmail.com>
+In-Reply-To: <CAHp75Vcwg9aEpybYwEFvhYH4gpy7952i+zMs-2TKGPzkzuhO=g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [114.165.32.192]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 98fe3eb9-21ac-4a21-3c57-08d832a9767f
+x-ms-traffictypediagnostic: PS1PR0302MB2443:
+x-ld-processed: 5c7d0b28-bdf8-410c-aa93-4df372b16203,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PS1PR0302MB2443BA2D0CE0E44DFE1FC3DB8C730@PS1PR0302MB2443.apcprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iyjDwP11n+KtOSPUuXtW89QXCBMCfe38y1z68zhcFbTSFjod1Bg4FWd0NZnRMjSoDMT7YkiZ6MK46l23XdWfCJdOXvhVcYPBkKl3HYqXSOzjWCwgSEOxOwrV7MNXbkiD52KxAjtpOgxSm4mdrR0vtI2fcZ93+QHJfDHxwA/ht7elkdF556bvXAtkxJG99kEVIBIziAbS5Inqt4KoBTari1iM/qeptazPArxZV9kLdYkUqAOMCyCWMVO3ugO71verc6vTifVnmPB6kq8sap4Nt5FgEEsTRJpdzsYnZ3GiRBFVC2MSqbVIKcUUi21I7ha+tzecicNHnV5zPXmxEaNikg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU1PR03MB2716.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(8676002)(66476007)(71200400001)(33656002)(83380400001)(86362001)(8936002)(107886003)(2906002)(110136005)(7696005)(54906003)(5660300002)(186003)(66946007)(66446008)(9686003)(52536014)(64756008)(66556008)(316002)(55016002)(6506007)(76116006)(478600001)(26005)(6636002)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: CbLl9BT02WDM4b+DQNpODdC0ATNdBAE8tnBVv/Hb4tgAeTJJLmup/p+2mjCEPNDa/iEkmQmQ/QIrGCPkiEZOGWnf9N6dYT3mtHWx1QpzCrJkq6rFjCwHMZrXqkguwSy6YUBM+wz4lCg90Zu5SRfc7bHEjeuBxfegonQJ6FA5MtzISrM++WiIUesw3FGBf8C4duup5BIB39GQE2Vv+A1Yi7YdIC69o2U7XZzyO7xkxnTvKu1YaMMylVGPjBNNIwqUVacT/pwPRdAOW+ojsQzmNDoJ5psKHMtyOkjE04VQv6yTcaQbMatbFZmAjetrHyhXcDIX0Mc5cQN02Xhv91Cr1JD7pti3ZEt+yQgSITDMWtK1yobFIOxrcv7AZDm3UEAy3OI5dQ9IzEkjL8KbK2bjhtwSHjqMZ7NP9R/3CKro1CEv0GljyyHD+dLez9+7unRLCkgC5u9ONaDV69d/AuqcEiAZeEl0FsJYPfnrbk+jfL63E4BE6dKnMk1Z2B6EEK3GYzWYalKQ/JRLxvfZXu4NCtwEv2TyLgS/Hje1scffYF+CNtpA22xqGKcWHL7O1+DVM8kMjcwMeY7EwNoaopRgSDhzFmvmZgWm2pCfKCbLN/+suZjpxhx+c5ywSBH3kO0NKvWoSLAWgzTFbVmFaVbnkQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PU1PR03MB2716.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98fe3eb9-21ac-4a21-3c57-08d832a9767f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2020 03:51:09.0597
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KHvMNPXh1SUCbkTPzx5GwWJqV1hVr57xyjEaI2jryriS/CpLK2212zRt6Cyok0tv9P62fnJDB6Q/lYdSPN4wCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR0302MB2443
+X-OriginatorOrg: lenovo.com
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am no authority to say if this patch is good or bad, but I hope to help w=
-ith my comments.
-
-
-> Some upcoming notebook designs utilize display muxes driven by a
-> pair of ACPI methods, MXDM to query and configure the operational
-> mode of the mux (integrated only, discrete only, hybrid non-muxed,
-> hybrid with dynamic mux switching), and MXDS to query and set the
-> mux state when running in dynamic switch mode.
->
-> Add a vga-switcheroo driver to support switching the mux on systems
-> with the ACPI MXDM/MXDS interface. The mux mode cannot be changed
-> dynamically (calling MXDM to change the mode won't have effect until
-> the next boot, and calling MXDM to read the mux mode returns the
-> active mode, not the mode that will be enabled on next boot), and
-> MXDS only works when the mux mode is set to dynamic switch, so this
-> driver will fail to load when MXDM reports any non-dynamic mode.
->
-> Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
-> ---
->  MAINTAINERS                      |   6 +
->  drivers/platform/x86/Kconfig     |   9 ++
->  drivers/platform/x86/Makefile    |   2 +
->  drivers/platform/x86/mxds-gmux.c | 268 +++++++++++++++++++++++++++++++
->  4 files changed, 285 insertions(+)
->  create mode 100644 drivers/platform/x86/mxds-gmux.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index eeff55560759..636c9259b345 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11510,6 +11510,12 @@ L:=09linux-usb@vger.kernel.org
->  S:=09Maintained
->  F:=09drivers/usb/musb/
->
-> +MXDS GMUX DRIVER
-> +M:=09Daniel Dadap <ddadap@nvidia.com>
-> +L:=09platform-driver-x86@vger.kernel.org
-> +S:=09Supported
-> +F:=09drivers/platform/x86/mxds-gmux.c
-> +
->  MXL301RF MEDIA DRIVER
->  M:=09Akihiro Tsukada <tskd08@gmail.com>
->  L:=09linux-media@vger.kernel.org
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 0ad7ad8cf8e1..f2fef1e8e8d9 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -1368,6 +1368,15 @@ config INTEL_TELEMETRY
->  =09  directly via debugfs files. Various tools may use
->  =09  this interface for SoC state monitoring.
->
-> +config MXDS_GMUX
-> +=09tristate "ACPI MXDS Gmux Driver"
-> +=09depends on ACPI_WMI
-> +=09depends on ACPI
-> +=09depends on VGA_SWITCHEROO
-> +=09---help---
-> +=09  This driver provides support for ACPI-driven gmux devices which are
-> +=09  present on some notebook designs with hybrid graphics.
-> +
->  endif # X86_PLATFORM_DEVICES
->
->  config PMC_ATOM
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefil=
-e
-> index 53408d965874..bc75b1f42057 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -146,3 +146,5 @@ obj-$(CONFIG_INTEL_TELEMETRY)=09=09+=3D intel_telemet=
-ry_core.o  =09=09   intel_telemetry_pltdrv.o  =09=09=09=09=09   intel_telem=
-etry_debugfs.o
->  obj-$(CONFIG_PMC_ATOM)=09=09=09+=3D pmc_atom.o
-> +
-> +obj-$(CONFIG_MXDS_GMUX)                 +=3D mxds-gmux.o
-> diff --git a/drivers/platform/x86/mxds-gmux.c b/drivers/platform/x86/mxds=
--gmux.c
-> new file mode 100644
-> index 000000000000..c6c5973bde80
-> --- /dev/null
-> +++ b/drivers/platform/x86/mxds-gmux.c
-> @@ -0,0 +1,268 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * mxds-gmux: vga_switcheroo mux handler for ACPI MXDS muxes
-> + *
-> + * Copyright (C) 2020 NVIDIA Corporation
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope that it will be useful, but W=
-ITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program; if not, see <http://www.gnu.org/licenses>.
-> + *
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/acpi.h>
-> +#include <linux/pci.h>
-> +#include <linux/vga_switcheroo.h>
-> +#include <linux/delay.h>
-> +
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_DESCRIPTION("vga_switcheroo mux handler for ACPI MXDS muxes");
-> +MODULE_AUTHOR("Daniel Dadap <ddadap@nvidia.com>");
-> +
-> +/*
-> + *  The mux doesn't have its own ACPI HID/CID, or WMI wrapper, so key of=
-f of
-      ^
-There is an extra space here in contrast to the next line.
-
-
-> + * the WMI wrapper for the related WMAA method for backlight control.
-> + */
-> +MODULE_ALIAS("wmi:603E9613-EF25-4338-A3D0-C46177516DB7");
-> +
-> +static struct pci_dev *ig_dev, *dg_dev;
-> +static acpi_handle internal_mux_handle;
-> +static acpi_handle external_mux_handle;
-> +static int vga_switcheroo_registered;
-> +
-
-Later in the code "true" is used, so why not use bool for the type of vga_s=
-witcheroo_registered?
-
-
-> +enum acpi_method {
-> +=09MXDM,
-> +=09MXDS,
-> +};
-> +
-
-These constants are later used to index an array, and in such cases, - I do=
-n't know about everybody, but - I prefer if they are explicitly given a val=
-ue, at least the first one.
-
-
-> +static char *acpi_methods[] =3D {
-> +=09[MXDM] =3D "MXDM",
-> +=09[MXDS] =3D "MXDS",
-> +};
-> +
-> +enum mux_mode {
-> +=09MUX_MODE_GET =3D 0,
-> +=09MUX_MODE_DGPU_ONLY =3D 1,
-> +=09MUX_MODE_IGPU_ONLY =3D 2,
-> +=09MUX_MODE_MSHYBRID =3D 3,
-> +=09MUX_MODE_DYNAMIC =3D 4,
-> +};
-> +
-
-I think this could be improved by separating the commands and returned valu=
-es into their respective enums.
-
-
-> +/*
-> + * Call MXDS with argument value 0 to read the current state.
-> + * When reading, a return value of 1 means iGPU and 2 means dGPU.
-> + * Call MXDS with bit 0 set to change the current state.
-> + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
-> + */
-> +
-> +enum mux_state {
-> +=09MUX_STATE_GET =3D 0,
-> +=09MUX_STATE_SET_IGPU =3D 0x01,
-> +=09MUX_STATE_IGPU =3D 1,
-> +=09MUX_STATE_DGPU =3D 2,
-> +=09MUX_STATE_SET_DGPU =3D 0x11,
-> +};
-> +
-
-Same here, I think commands and returned values should be separated.
-
-
-> +static acpi_integer acpi_helper(acpi_handle handle, enum acpi_method met=
-hod,
-> +=09=09=09=09acpi_integer action)
-> +{
-> +=09union acpi_object arg;
-> +=09struct acpi_object_list in =3D {.count =3D 1, .pointer =3D &arg};
-> +=09struct acpi_buffer buf =3D {
-> +=09=09.length =3D ACPI_ALLOCATE_BUFFER,
-> +=09=09.pointer =3D NULL,
-> +=09};
-> +=09acpi_integer ret =3D 0;
-> +
-> +=09arg.integer.type =3D ACPI_TYPE_INTEGER;
-> +=09arg.integer.value =3D action;
-> +
-> +=09if (!ACPI_FAILURE(acpi_evaluate_object(handle, acpi_methods[method],
-> +=09=09=09  &in, &buf))) {
-> +=09=09union acpi_object *obj =3D buf.pointer;
-> +
-> +=09=09if (obj && obj->type =3D=3D ACPI_TYPE_INTEGER)
-> +=09=09=09ret =3D obj->integer.value;
-> +=09}
-> +
-> +=09return ret;
-> +}
-> +
-
-The allocated buffer is not freed. Furthermore, wouldn't acpi_evalute_integ=
-er() be a better fit?
-
-
-> +static acpi_integer get_mux_mode(acpi_handle handle)
-> +{
-> +=09return acpi_helper(handle, MXDM, MUX_MODE_GET);
-> +}
-> +
-> +static acpi_integer get_mux_state(acpi_handle handle)
-> +{
-> +=09return acpi_helper(handle, MXDS, MUX_STATE_GET);
-> +}
-> +
-> +static void set_mux_state(acpi_handle handle, enum mux_state state)
-> +{
-> +=09switch (state) {
-> +=09case MUX_STATE_IGPU:
-> +=09=09state =3D MUX_STATE_SET_IGPU;
-> +=09=09break;
-> +=09case MUX_STATE_DGPU:
-> +=09case MUX_STATE_SET_DGPU:
-> +=09=09state =3D MUX_STATE_SET_DGPU;
-> +=09=09break;
-
-What's the reason for this inconsistency? MUX_STATE_SET_DGPU is handled, bu=
-t MUX_STATE_SET_IGPU is not.
-
-
-> +=09default:
-> +=09=09state =3D MUX_STATE_GET;
-> +=09=09break;
-> +=09}
-> +
-> +=09acpi_helper(handle, MXDS, state);
-> +}
-> +
-> +static int mxds_gmux_switchto(enum vga_switcheroo_client_id id)
-> +{
-> +=09enum mux_state state_set_cmd, target_state;
-> +
-> +=09if (!internal_mux_handle && !external_mux_handle)
-> +=09=09return -ENOTSUPP;
-> +
-
-This condition cannot be true, no? mxds_gmux_init() returns -ENODEV if this=
- condition is true, so the module is not even loaded in that situation; and=
- I don't see anything that could modify these handles after the module is l=
-oaded. Am I missing something?
-
-
-> +=09switch (id) {
-> +=09case VGA_SWITCHEROO_IGD:
-> +=09=09state_set_cmd =3D MUX_STATE_SET_IGPU;
-> +=09=09target_state =3D MUX_STATE_IGPU;
-> +=09=09break;
-> +=09case VGA_SWITCHEROO_DIS:
-> +=09=09state_set_cmd =3D MUX_STATE_SET_DGPU;
-> +=09=09target_state =3D MUX_STATE_DGPU;
-> +=09=09break;
-> +=09default:
-> +=09=09return -EINVAL;
-> +=09}
-> +
-> +=09if (internal_mux_handle) {
-> +=09=09set_mux_state(internal_mux_handle, state_set_cmd);
-> +=09=09if (get_mux_state(internal_mux_handle) !=3D target_state)
-> +=09=09=09return -EAGAIN;
-> +=09}
-> +
-> +=09if (external_mux_handle) {
-> +=09=09set_mux_state(external_mux_handle, state_set_cmd);
-> +=09=09if (get_mux_state(external_mux_handle) !=3D target_state)
-> +=09=09=09return -EAGAIN;
-> +=09}
-> +
-> +=09/* DP AUX can take up to 100ms to settle after mux switch */
-> +=09mdelay(100);
-> +
-> +=09return 0;
-> +}
-> +
-> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
-> +=09struct pci_dev *dev)
-> +{
-> +=09if (dev) {
-> +=09=09if (ig_dev && dev->vendor =3D=3D ig_dev->vendor)
-> +=09=09=09return VGA_SWITCHEROO_IGD;
-> +=09=09if (dg_dev && dev->vendor =3D=3D dg_dev->vendor)
-> +=09=09=09return VGA_SWITCHEROO_DIS;
-> +=09}
-> +
-> +=09return VGA_SWITCHEROO_UNKNOWN_ID;
-> +}
-> +
-> +static acpi_status find_acpi_methods(
-> +=09acpi_handle object, u32 nesting_level, void *context,
-> +=09void **return_value)
-> +{
-> +=09acpi_handle search;
-> +
-> +=09/* If either MXDM or MXDS is missing, we can't use this object */
-> +=09if (acpi_get_handle(object, "MXDM", &search))
-> +=09=09return 0;
-> +=09if (acpi_get_handle(object, "MXDS", &search))
-> +=09=09return 0;
-> +
-> +=09/* MXDS only works when MXDM indicates dynamic mode */
-> +=09if (get_mux_mode(object) !=3D MUX_MODE_DYNAMIC)
-> +=09=09return 0;
-> +
-> +=09/* Internal display has _BCL; external does not */
-> +=09if (acpi_get_handle(object, "_BCL", &search))
-> +=09=09external_mux_handle =3D object;
-> +=09else
-> +=09=09internal_mux_handle =3D object;
-> +
-> +=09return 0;
-> +}
-> +
-> +static int mxds_gmux_init(void)
-> +{
-> +=09int ret =3D 0;
-> +=09struct pci_dev *dev =3D NULL;
-> +=09static struct vga_switcheroo_handler handler =3D {
-> +=09=09.switchto =3D mxds_gmux_switchto,
-> +=09=09.get_client_id =3D mxds_gmux_get_client_id,
-> +=09};
-> +
-
-Any reason why "handler" is inside the function and not const?
-
-
-> +=09while ((dev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, dev))) {
-> +=09=09switch (dev->vendor) {
-> +=09=09case 0x8086:
-> +=09=09=09pci_dev_put(ig_dev);
-> +=09=09=09ig_dev =3D pci_dev_get(dev);
-> +=09=09=09break;
-> +=09=09case 0x10de:
-> +=09=09=09pci_dev_put(dg_dev);
-> +=09=09=09dg_dev =3D pci_dev_get(dev);
-> +=09=09=09break;
-> +=09=09default:
-> +=09=09=09break;
-> +=09=09}
-> +=09}
-> +
-
-I think it should be mentioned somewhere that it only works with nvidia and=
- intel GPUs (as far as I can see). Furthermore, maybe the PCI_VENDOR_ID_INT=
-EL and PCI_VENDOR_ID_NVIDIA defines from include/linux/pci_ids.h could be u=
-sed here.
-
-Regardless of how improbable, I am wondering what happens if an external GP=
-U is connected to a dual-GPU laptop? Cannot that interfere with this device=
- lookup logic?
-
-
-> +=09/* Require both integrated and discrete GPUs */
-> +=09if (!ig_dev || !dg_dev) {
-> +=09=09ret =3D -ENODEV;
-> +=09=09goto done;
-> +=09}
-> +
-> +=09acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT, ACPI_UINT32_M=
-AX,
-> +=09=09find_acpi_methods, NULL, NULL, NULL);
-> +
-> +=09/* Require at least one mux */
-> +=09if (!internal_mux_handle && !external_mux_handle) {
-> +=09=09ret =3D -ENODEV;
-> +=09=09goto done;
-> +=09}
-> +
-> +=09ret =3D vga_switcheroo_register_handler(&handler, 0);
-> +
-> +=09if (ret)
-> +=09=09goto done;
-> +
-> +=09vga_switcheroo_registered =3D true;
-> +
-> +done:
-> +
-> +=09if (ret) {
-> +=09=09pci_dev_put(ig_dev);
-> +=09=09pci_dev_put(dg_dev);
-> +=09}
-> +
-> +=09return ret;
-> +}
-> +module_init(mxds_gmux_init);
-> +
-> +static void mxds_gmux_fini(void)
-> +{
-> +=09if (vga_switcheroo_registered)
-> +=09=09vga_switcheroo_unregister_handler();
-> +=09pci_dev_put(ig_dev);
-> +=09pci_dev_put(dg_dev);
-> +}
-> +module_exit(mxds_gmux_fini);
-> --
-> 2.18.4
-
-
-Subsystem maintainers CCd.
-
-
-Barnab=C3=A1s P=C5=91cze
+SGkgQW5keSAsDQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IEFuZHkgU2hl
+dmNoZW5rbyA8YW5keS5zaGV2Y2hlbmtvQGdtYWlsLmNvbT4NCj5TZW50OiBNb25kYXksIEp1bHkg
+MjcsIDIwMjAgNzozNSBQTQ0KPk9uIFRodSwgSnVsIDE2LCAyMDIwIGF0IDI6NTMgQU0gTWFyayBQ
+ZWFyc29uIDxtYXJrcGVhcnNvbkBsZW5vdm8uY29tPg0KPndyb3RlOg0KPj4NCj4+ICAgICAgICAg
+Y2FzZSBUUF9IS0VZX0VWX1BBTE1fREVURUNURUQ6DQo+PiAgICAgICAgIGNhc2UgVFBfSEtFWV9F
+Vl9QQUxNX1VOREVURUNURUQ6DQo+PiAtICAgICAgICAgICAgICAgLyogcGFsbSBkZXRlY3RlZCBo
+b3ZlcmluZyB0aGUga2V5Ym9hcmQsIGZvcndhcmQgdG8gdXNlci1zcGFjZQ0KPj4gLSAgICAgICAg
+ICAgICAgICAqIHZpYSBuZXRsaW5rIGZvciBjb25zdW1wdGlvbiAqLw0KPj4gKyAgICAgICAgICAg
+ICAgIC8qIHBhbG0gZGV0ZWN0ZWQgLSBwYXNzIG9uIHRvIGV2ZW50IGhhbmRsZXIgKi8NCj4+ICsg
+ICAgICAgICAgICAgICB0cGFjcGlfZHJpdmVyX2V2ZW50KGhrZXkpOw0KPj4gICAgICAgICAgICAg
+ICAgIHJldHVybiB0cnVlOw0KPg0KPkNvbW1lbnQgaGVyZSB0ZWxscyBzb21ldGhpbmcgYWJvdXQg
+dGhlIG5ldGxpbmsgaW50ZXJmYWNlIHRvIHVzZXIgc3BhY2UuDQo+Q2FuIHlvdSBlbGFib3JhdGUg
+d2h5IHdlIG5lZWQgc3lzZnMgbm93IGFuZCBob3cgaXQncyBhbGwgc3VwcG9zZWQgdG8NCj53b3Jr
+Pw0KVXNpbmcgIG5ldGxpbmsgLCB3ZSB3ZXJlIGdldHRpbmcgcHJveGltaXR5IGV2ZW50cyBsaWtl
+ICcweDYwYjAnIGFuZCAnMHg2MGIxJyBidXQgZm9yIG91ciBXV0FOIHJlcXVpcmVtZW50LCB3ZSBu
+ZWVkIGRlZmF1bHQgYW5kIGN1cnJlbnQgDQpwLXNlbnNvciBzdGF0ZSB0b28gLiAgDQpTb21lIHRv
+b2xzIGxpa2UgImFjcGktbGlzdGVuIiB1c2VzIG5ldGxpbmsgdG8gZGlzcGxheSBldmVudHMgYnV0
+IHdlIG5lZWQgZGVmYXVsdCBhbmQgY3VycmVudCBwLXNlbnNvciBzdGF0ZSBhbHNvIGFzIHBlciBv
+dXIgcmVxdWlyZW1lbnQuIA0KaGVuY2UgLCB3ZSBoYXZlIGFkZGVkIG5ldyBzeXNmcyB0byBnZXQg
+Y3VycmVudCBwLXNlbnNvciBzdGF0ZSB1c2luZyAnR1BTUycgbWV0aG9kIGZyb20gQklPUyAuDQpU
+aGlzIHdpbGwgYmUgdXNlZCBmb3IgaW1wbGVtZW50aW5nICJEeW5hbWljIHBvd2VyIHJlZHVjdGlv
+biIgYXBwIHdoaWNoIGlzIHVzZWQgdG8gY29udHJvbCBCb2R5IFNBUiB2YWx1ZSBhcyBwZXIgRkND
+IHJlcXVpcmVtZW50IC4NCldoZW4gQm9keSBvciBhbnkgb2JqZWN0IGlzIG5lYXIgb3IgYXdheSBm
+cm9tIHAtc2Vuc29yIGxvY2F0aW9uIG9uIHRoaW5rcGFkIHN5c3RlbSAsIHRoZW4gc3lzZnMgd2ls
+bCBiZSBzZXQgLg0KDQo+DQo+Li4uDQo+DQo+PiArc3RhdGljIGludCBwc2Vuc29yX2dldChib29s
+ICpzdGF0ZSkNCj4+ICt7DQo+PiArICAgICAgIGFjcGlfaGFuZGxlIHBzZW5zb3JfaGFuZGxlOw0K
+Pj4gKyAgICAgICBpbnQgb3V0cHV0Ow0KPj4gKw0KPj4gKyAgICAgICBpZiAoQUNQSV9GQUlMVVJF
+KGFjcGlfZ2V0X2hhbmRsZShoa2V5X2hhbmRsZSwgIkdQU1MiLA0KPiZwc2Vuc29yX2hhbmRsZSkp
+KQ0KPj4gKyAgICAgICAgICAgICAgIHJldHVybiAtRU5PREVWOw0KPj4gKw0KPj4gKyAgICAgICBp
+ZiAoIWFjcGlfZXZhbGYocHNlbnNvcl9oYW5kbGUsICZvdXRwdXQsIE5VTEwsICJkIikpDQo+PiAr
+ICAgICAgICAgICAgICAgcmV0dXJuIC1FSU87DQo+PiArDQo+PiArICAgICAgIC8qIENoZWNrIGlm
+IHNlbnNvciBoYXMgYSBQc2Vuc29yICovDQo+PiArICAgICAgIGlmICghKG91dHB1dCAmIEJJVChQ
+U0VOU09SX1BSRVNFTlRfQklUKSkpDQo+PiArICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9ERVY7
+DQo+PiArDQo+PiArICAgICAgIC8qIFJldHVybiBpZiBwc2Vuc29yIGlzIHNldCBvciBub3QgKi8N
+Cj4+ICsgICAgICAgKnN0YXRlID0gb3V0cHV0ICYgQklUKFBTRU5TT1JfT05fQklUKSA/IHRydWUg
+OiBmYWxzZTsNCj4+ICsgICAgICAgcmV0dXJuIDA7DQo+PiArfQ0KPg0KPkl0IHJlbWluZHMgbWUg
+b2YgYSBmdW5jdGlvbiB5b3UgY3JlYXRlZCBpbiBvbmUgb2YgdGhlIHByZXZpb3VzIGNoYW5nZXMu
+IENhbg0KPnlvdSByYXRoZXIgY3JlYXRlIGEgcGFyYW1ldGVyaXplZCBoZWxwZXIgd2hpY2ggd2ls
+bCBzZXJ2ZSBmb3IgYm90aD8NCg0KQWNrICwgd2Ugd2lsbCBjaGVjayBpdCAuDQoNCj4NCj4uLi4N
+Cj4NCj4+ICsvKiBzeXNmcyBwc2Vuc29yIGVudHJ5ICovDQo+PiArc3RhdGljIHNzaXplX3QgcHNl
+bnNvcl9zdGF0ZV9zaG93KHN0cnVjdCBkZXZpY2UgKmRldiwNCj4+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZGV2aWNlX2F0dHJpYnV0ZSAqYXR0ciwNCj4+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjaGFyICpidWYpIHsNCj4N
+Cj4+ICsgICAgICAgcmV0dXJuIHNucHJpbnRmKGJ1ZiwgUEFHRV9TSVpFLCAiJWRcbiIsIHBzZW5z
+b3Jfc3RhdGUpOw0KPg0KPldlIGtub3cgdGhhdCAlZCB0YWtlcyBtdWNoIGxlc3MgdGhhbiBQQUdF
+X1NJWkUsIHVzZSBzcHJpbnRmKCkuDQo+DQo+PiArfQ0KPg0KPj4gKw0KPg0KPk5vIGJsYW5rIGxp
+bmUgaGVyZS4NCj4NCkFjaw0KDQo+PiArc3RhdGljIERFVklDRV9BVFRSX1JPKHBzZW5zb3Jfc3Rh
+dGUpOw0KPg0KPi4uLg0KPg0KPj4gK3N0YXRpYyBzdHJ1Y3QgYXR0cmlidXRlICpwc2Vuc29yX2F0
+dHJpYnV0ZXNbXSA9IHsNCj4+ICsgICAgICAgJmRldl9hdHRyX3BzZW5zb3Jfc3RhdGUuYXR0ciwN
+Cj4NCj4+ICsgICAgICAgTlVMTCwNCj4NCj5ObyBjb21tYSBmb3IgdGVybWluYXRvciBsaW5lKHMp
+Lg0KPg0KDQpBY2sgDQoNCj4+ICt9Ow0KPg0KPi4uLg0KPg0KPj4gKyAgICAgICAvKiBJZiBzdXBw
+b3J0IGlzbid0IGF2YWlsYWJsZSAoRU5PREVWKSB0aGVuIGRvbid0IHJldHVybiBhbiBlcnJvcg0K
+Pj4gKyAgICAgICAgKiBidXQganVzdCBkb24ndCBjcmVhdGUgdGhlIHN5c2ZzIGdyb3VwDQo+PiAr
+ICAgICAgICAqLw0KPg0KPi8qDQo+ICogQ29uc2lkZXIgdG8gdXNlIGEgcHJvcGVyIG11bHRpLWxp
+bmUgY29tbWVudCBzdHlsZS4NCj4gKiBMaWtlIGhlcmUuIChJdCdzIGFwcGxpY2FibGUgdG8gdGhl
+IGVudGlyZSBwYXRjaCkgICovDQo+DQo+Li4uDQo+DQo+PiArICAgICAgIGVyciA9IHN5c2ZzX2Ny
+ZWF0ZV9ncm91cCgmdHBhY3BpX3BkZXYtPmRldi5rb2JqLA0KPiZwc2Vuc29yX2F0dHJfZ3JvdXAp
+Ow0KPj4gKyAgICAgICByZXR1cm4gZXJyOw0KPg0KPnJldHVybiBzeXNmcy4uLg0KQWNrIA0KDQpU
+aGFua3MgJiBSZWdhcmRzLA0KTml0aW4gSm9zaGkNCg==
