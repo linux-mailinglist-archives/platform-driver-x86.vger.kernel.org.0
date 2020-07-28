@@ -2,135 +2,436 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5528230111
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jul 2020 07:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 144FD2304CE
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jul 2020 09:59:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbgG1FEd (ORCPT
+        id S1727924AbgG1H7E (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Jul 2020 01:04:33 -0400
-Received: from mail-eopbgr150080.outbound.protection.outlook.com ([40.107.15.80]:11102
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726407AbgG1FEc (ORCPT
+        Tue, 28 Jul 2020 03:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59932 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727908AbgG1H7D (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Jul 2020 01:04:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iQIomICpD1wAQiXDxo+jSyUJ+yQgbzUkUASF0ETsc6zyvyj9dxhFH6L1nSXh/Fe5+PcLN1mrCCcNrJkOdSSR+g29gpjBFDnKjaF4r2is3iwYAr1OAX+Et/HbdaOvEsV3FePOHJ0F6N+zFd4DGGFEyU2WXrvUE/+NhB9KbSFOeSCcnFKtmCckdVzq7RhUnm/Tb1RDf12rW523yl/RQFxL8Z9555gnx+kbFcLfr0Kq+UHQpJugNeTrxaMtPM+qP1UuJldSOtscQjoIZWlf6qDbl6Xv9GOcQiscn3pIEKI1+3RvHcwE2C5Gp1tS1tdGr7H73ZOc6fH59peNme+5JtEiWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9hdthGFMvmSI4g/LWy6wh09HbL9NqjmtgCMw0H52NjU=;
- b=fo/A0GV7qbvoBtze3AE1kU6Ei/airZtbtJVE0AmEnLfKwpGz6ljtw0+ifYhdQuktXNdPvuz63Iz9or641ixObxpj8JGVPRjULBEWq+QugixI7S9kTOzvKXVPWN0DI6YlIiVTTlzsyWE3GsXNtTLqu6gUVIufQQCrQa7VNpSaEO+Y2z/rj+MscQi/H/pNS+urZJgOO/d4IvnVOEHdby3jyqvUnx04XU2mB/5jd55nOADPjQzUiCY3ZgzD24C2M5ff5P7Uitt/v35ncWF5NnqXG8VRlxqZ30FcrU4hkm++N+TNXtcqJyMcCW6KSEHeV5Z6vs8LpSLhMwzAB/liVEyLTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9hdthGFMvmSI4g/LWy6wh09HbL9NqjmtgCMw0H52NjU=;
- b=slWfhiJ+lE0bpaEiYKh0719M3lmOq5CqFxuJGabLJpoJrDvIBAJAzOOneXAygW68mz1zAAkdLvobThZE8kuGrtm79CcV6vVI+tRxhXVpN0hKAKvjrAeYvxMVfPYonzSNkWPfbiFim27iowPYR629PRKbOp3OUwkKugjYyTEdE0A=
-Received: from HE1PR0501MB2812.eurprd05.prod.outlook.com (2603:10a6:3:c8::9)
- by HE1PR0501MB2188.eurprd05.prod.outlook.com (2603:10a6:3:2b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23; Tue, 28 Jul
- 2020 05:04:30 +0000
-Received: from HE1PR0501MB2812.eurprd05.prod.outlook.com
- ([fe80::6127:fa1e:4deb:2e7b]) by HE1PR0501MB2812.eurprd05.prod.outlook.com
- ([fe80::6127:fa1e:4deb:2e7b%8]) with mapi id 15.20.3216.033; Tue, 28 Jul 2020
- 05:04:29 +0000
-From:   Shravan Ramani <sramani@mellanox.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v1] platform/mellanox: mlxbf-pmc: Add Mellanox BlueField
- PMC driver
-Thread-Topic: [PATCH v1] platform/mellanox: mlxbf-pmc: Add Mellanox BlueField
- PMC driver
-Thread-Index: AQHWY/St1rItZf3xw0iUiUMeHj3EmakbQIIAgAEuJBA=
-Date:   Tue, 28 Jul 2020 05:04:29 +0000
-Message-ID: <HE1PR0501MB28125EED224EE4F487862974CE730@HE1PR0501MB2812.eurprd05.prod.outlook.com>
-References: <0bad52e6e10ff2e8d8a19f95bab7642ec5e71838.1595838334.git.sramani@mellanox.com>
- <CAHp75Vdsw61-uNi2TiR7F4j0s=F6XCnQC_j81hXfyJ9tfeq8QA@mail.gmail.com>
-In-Reply-To: <CAHp75Vdsw61-uNi2TiR7F4j0s=F6XCnQC_j81hXfyJ9tfeq8QA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=mellanox.com;
-x-originating-ip: [60.243.63.175]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f0e3d14e-8d3c-43ec-006c-08d832b3b57e
-x-ms-traffictypediagnostic: HE1PR0501MB2188:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HE1PR0501MB218871AA0E11E4C019D1C928CE730@HE1PR0501MB2188.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: quUbiaUAlZYsaNi5iGJPEVaV65NoiNLVBbM3nOT5xM10AW/QKwVxOF/+OndtKIgqC8J5pApyeekDnICeCIM1ImJNc1aS30ys9U7rIKgWDfTrv9kJu5fT5cESDGHwVDDokI1MpF32VliLK7OYDF3LwAvaC4j2T8K7nYUaVKS8ndZCrHjt0X37Ii25vBj/qOYrCg/8846RSoWd3MaQXaXjuRM3245bBv8JH4bZhi/vfkOMNXHyrXUpqBbJ7+HVaiNP2QNe88iGy22nGPwL52zM9YNgk8mwYesNgeWHc1+FPPku/nymA+OpnaVM8BdXYA076Hx/sLPWbft7EE55UcukVg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0501MB2812.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(66556008)(64756008)(66446008)(71200400001)(66476007)(76116006)(7696005)(83380400001)(33656002)(478600001)(5660300002)(52536014)(86362001)(186003)(4326008)(8936002)(26005)(6506007)(2906002)(53546011)(55016002)(8676002)(6916009)(316002)(9686003)(66946007)(54906003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: o8gQab1TLIp3BApxVa5r00wgYzc7SkSuiHnwpTQzHvAkFOXq9L8GQe0fo6j+KOZhZ1gJoDfvY4mGShiHaf8YRqJONPKcvdcpf4ebgCSl/0m3A4yRXAi/zR9yx7qhfdUdZTpBsGy1EB2jRv5D7Y9ePlC85iJcwODQB3sEAjhSK2xKH4bQkCKHPGtWrX+mwqilEKx9hKjpq5dr/RqmzNe6yiI/hh5k9S8O0qdMZw4mS92LJb1u+XrKj4PRzoi2IrZszYOyZh6OQVHyezJfNosWpBCRoY8LEYuP3Nje1owAdFQo99RzoZCt9LDNZJlUjZ3SS3V8j/6xJyTnBxAePNT4bH4uOv2khHga9fMaHeGhxPtizex4n8DIP5/6xsXvu7FAPCOnIZKihx1JpbAcv3t3+pZd7kmUEiW/kX5pCWnaR5oUV7Usc6cxXzPmO7nesJ+YraUaAxhhGIgMnwvbCfi7A+k+uCea4GsVgiyem5qUhI8=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 28 Jul 2020 03:59:03 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5E2C0619D2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 28 Jul 2020 00:59:03 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id 184so17206474wmb.0
+        for <platform-driver-x86@vger.kernel.org>; Tue, 28 Jul 2020 00:59:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=XvzdyrAp+x7F3eELUs10pEpzk9iTwE1+D4iQltTfwX0=;
+        b=mf9FNmQd1q8v4rNzkngKybgB4ZpZ0H2V5vyJztQCBqIDKZeeizYKswHQ+XnKbrRJCE
+         ItzZe5y15XQKyEqvf9U5KjOsZPXUaM3RMglhY8vG8hHkTB0+1wctMwUL09qykdCDdVpw
+         hBLac3Dlrh/QkiCJHZlVWdX8ud6sE+WuhgoBu1nT4cyw0FCinKreKLxl4iqs0tNSNcL6
+         Kf5TAIWAg8+gBQfncGHlb506+IWw+FRLkriguzKNIXNQmOlsh/AEIGRHCKdtkhfqY3U0
+         /k/lh13mLO8bBSLuM3O+Ud2kVSYXXV1GDW5qrHBl1R72aIcOxoGUfJ7WiZWNZE/Um0Dx
+         0v7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=XvzdyrAp+x7F3eELUs10pEpzk9iTwE1+D4iQltTfwX0=;
+        b=JVIiHXcHDx7KBjm7aJXKIZmyW3qgppvw9F2XRJkq4hC4itTelIcPg19qCUyPmclaCe
+         FXEHmKbBT62MmIXp/tIDJxc+4N0s9bqid2O2sKcdtlGoX9+BDRwYnyjzh7ckhftT7P2I
+         c3tulUh/1qkhmkntSMf9E5Tr4UIBRvN+zE4gZCGQwQmmR3cBwCYC/y1tivZnt1KPjQfJ
+         syb+c++y+yXpkFwb5se3VNqrtGvhI14sQuBPdDxMDZlpOazCplKyDo29WIVOGf+ic1PH
+         6M0IPmYsIZ1E2AMMc3lV35ghWollWLaQltFSaayVCuLGGc3Ehqgct8+eoi1B0fLsv4BE
+         G1kw==
+X-Gm-Message-State: AOAM530T9he5Y9HxWUg71B94slkD94ay6A2rFOQho8MtTBo98qO/IVZ0
+        Rs8Ln4zYStg+aCaI+X8gSmzW+Q==
+X-Google-Smtp-Source: ABdhPJxNM9FngXrj+ydayrPeJjZVYwN8NF/LQE/dM5w4mzrIhPbgMrRHl66Negt1WT27AehVRFXCFw==
+X-Received: by 2002:a1c:7f91:: with SMTP id a139mr2675522wmd.153.1595923141639;
+        Tue, 28 Jul 2020 00:59:01 -0700 (PDT)
+Received: from dell ([2.27.167.73])
+        by smtp.gmail.com with ESMTPSA id m14sm7375016wrx.76.2020.07.28.00.59.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2020 00:59:00 -0700 (PDT)
+Date:   Tue, 28 Jul 2020 08:58:59 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
+        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH V4 2/3] mfd: Intel Platform Monitoring Technology support
+Message-ID: <20200728075859.GH1850026@dell>
+References: <20200714062323.19990-1-david.e.box@linux.intel.com>
+ <20200717190620.29821-3-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0501MB2812.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0e3d14e-8d3c-43ec-006c-08d832b3b57e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2020 05:04:29.5365
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vOnRyZFiesYDmUbZV4iR44j/x1XIXnyaaEcgZ5N+WwHwGTQbDHoVuOP4MK0l8nNhIH6m0nsU32a8Wi+PMA6qxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0501MB2188
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200717190620.29821-3-david.e.box@linux.intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5keSBTaGV2Y2hlbmtv
-IDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0KPiBTZW50OiBNb25kYXksIEp1bHkgMjcsIDIw
-MjAgNDoyNCBQTQ0KPiBUbzogU2hyYXZhbiBSYW1hbmkgPHNyYW1hbmlAbWVsbGFub3guY29tPg0K
-PiBDYzogQW5keSBTaGV2Y2hlbmtvIDxhbmR5QGluZnJhZGVhZC5vcmc+OyBEYXJyZW4gSGFydA0K
-PiA8ZHZoYXJ0QGluZnJhZGVhZC5vcmc+OyBWYWRpbSBQYXN0ZXJuYWsgPHZhZGltcEBtZWxsYW5v
-eC5jb20+OyBKaXJpIFBpcmtvDQo+IDxqaXJpQG1lbGxhbm94LmNvbT47IFBsYXRmb3JtIERyaXZl
-ciA8cGxhdGZvcm0tZHJpdmVyLXg4NkB2Z2VyLmtlcm5lbC5vcmc+Ow0KPiBMaW51eCBLZXJuZWwg
-TWFpbGluZyBMaXN0IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBS
-ZTogW1BBVENIIHYxXSBwbGF0Zm9ybS9tZWxsYW5veDogbWx4YmYtcG1jOiBBZGQgTWVsbGFub3gg
-Qmx1ZUZpZWxkDQo+IFBNQyBkcml2ZXINCj4gDQo+IE9uIE1vbiwgSnVsIDI3LCAyMDIwIGF0IDEy
-OjAyIFBNIFNocmF2YW4gS3VtYXIgUmFtYW5pDQo+IDxzcmFtYW5pQG1lbGxhbm94LmNvbT4gd3Jv
-dGU6DQo+ID4NCj4gPiBUaGUgcGVyZm9ybWFuY2UgbW9kdWxlcyBpbiBCbHVlRmllbGQgYXJlIHBy
-ZXNlbnQgaW4gc2V2ZXJhbCBoYXJkd2FyZQ0KPiA+IGJsb2NrcyBhbmQgZWFjaCBibG9jayBwcm92
-aWRlcyBhY2Nlc3MgdG8gdGhlc2Ugc3RhdHMgZWl0aGVyIHRocm91Z2gNCj4gPiBjb3VudGVycyB0
-aGF0IGNhbiBiZSBwcm9ncmFtbWVkIHRvIG1vbml0b3Igc3VwcG9ydGVkIGV2ZW50cyBvciB0aHJv
-dWdoDQo+ID4gbWVtb3J5LW1hcHBlZCByZWdpc3RlcnMgdGhhdCBob2xkIHRoZSByZWxldmFudCBp
-bmZvcm1hdGlvbi4NCj4gPiBUaGUgaGFyZHdhcmUgYmxvY2tzIHRoYXQgaW5jbHVkZSBhIHBlcmZv
-cm1hbmNlIG1vZHVsZSBhcmU6DQo+ID4gICogVGlsZSAoYmxvY2sgY29udGFpbmluZyAyIGNvcmVz
-IGFuZCBhIHNoYXJlZCBMMiBjYWNoZSkNCj4gPiAgKiBUUklPIChQQ0llIHJvb3QgY29tcGxleCkN
-Cj4gPiAgKiBNU1MgKE1lbW9yeSBTdWItc3lzdGVtIGNvbnRhaW5pbmcgdGhlIE1lbW9yeSBDb250
-cm9sbGVyIGFuZCBMMw0KPiA+IGNhY2hlKQ0KPiA+ICAqIEdJQyAoSW50ZXJydXB0IGNvbnRyb2xs
-ZXIpDQo+ID4gICogU01NVSAoU3lzdGVtIE1lbW9yeSBNYW5hZ2VtZW50IFVuaXQpIFRoZSBtbHhf
-cG1jIGRyaXZlciBwcm92aWRlcw0KPiA+IGFjY2VzcyB0byBhbGwgb2YgdGhlc2UgcGVyZm9ybWFu
-Y2UgbW9kdWxlcyB0aHJvdWdoIGEgaHdtb24gc3lzZnMNCj4gPiBpbnRlcmZhY2UuDQo+IA0KPiBK
-dXN0IGJyaWVmIGNvbW1lbnRzOg0KPiAtIGNvbnNpZGVyIHRvIHJldmlzaXQgaGVhZGVyIGJsb2Nr
-IHRvIHNlZSB3aGF0IGlzIHJlYWxseSBuZWNlc3NhcnkgYW5kIHdoYXQgY2FuDQo+IGJlIGRyb3Bw
-ZWQNCj4gLSBhZGQgY29tbWEgdG8gdGhlIGFycmF5cyB3aGVyZSBsYXN0IGxpbmUgaXMgbm90IGEg
-dGVybWluYXRpb24NCj4gLSBsb29rIGF0IG1hdGNoX3N0cmluZygpIC8gc3lzZnNfbWF0Y2hfc3Ry
-aW5nKCkgQVBJLCBJIHRoaW5rIHRoZXkgY2FuIGJlIHV0aWxpc2VkDQo+IGhlcmUNCj4gLSBVVUlE
-IG1hbmlwdWxhdGlvbnMgKGVzcC4gd2l0aCB0aGF0IEdVSURfSU5JVCgpIGFnYWluc3Qgbm9uLWNv
-bnN0YW50KSBzZWVtcw0KPiB0b28gbXVjaCwgY29uc2lkZXIgcmVmYWN0b3JpbmcgYW5kIGNsZWFu
-aW5nIHVwIHRoZXNlIHBpZWNlcw0KDQpDb3VsZCB5b3UgcGxlYXNlIGVsYWJvcmF0ZSBvbiB3aGF0
-IGFwcHJvYWNoIHlvdSdkIGxpa2UgbWUgdG8gdGFrZSB3aXRoIHRoZSBVVUlEIG1hbmlwdWxhdGlv
-bj8NCkkgdXNlZCB0aGUgc2FtZSBhcHByb2FjaCBhcyBpbiBkcml2ZXJzL3BsYXRmb3JtL21lbGxh
-bm94L21seGJmLWJvb3RjdGwuYyB3aGljaCBzZWVtZWQgbGlrZSBhbiBhcHByb3ByaWF0ZSBleGFt
-cGxlLg0KQW55IG90aGVyIHBvaW50ZXJzIHdvdWxkIGJlIGhlbHBmdWwuDQoNClRoYW5rcyBmb3Ig
-dGhlIGZlZWRiYWNrLiBXaWxsIGFkZHJlc3MgYWxsIHRoZSBvdGhlciBjb21tZW50cyBpbiB2Mi4N
-Cg0KUmVnYXJkcywNClNocmF2YW4NCg0KPiAtIHVzZSBrc3Ryb3RvKigpIEFQSSBpbnN0ZWFkIG9m
-IHNzY2FuZi4gSXQgaGFzIGEgcmFuZ2UgY2hlY2sNCj4gDQo+IA0KPiAtLQ0KPiBXaXRoIEJlc3Qg
-UmVnYXJkcywNCj4gQW5keSBTaGV2Y2hlbmtvDQo=
+On Fri, 17 Jul 2020, David E. Box wrote:
+
+> Intel Platform Monitoring Technology (PMT) is an architecture for
+> enumerating and accessing hardware monitoring facilities. PMT supports
+> multiple types of monitoring capabilities. This driver creates platform
+> devices for each type so that they may be managed by capability specific
+> drivers (to be introduced). Capabilities are discovered using PCIe DVSEC
+> ids. Support is included for the 3 current capability types, Telemetry,
+> Watcher, and Crashlog. The features are available on new Intel platforms
+> starting from Tiger Lake for which support is added.
+> 
+> Also add a quirk mechanism for several early hardware differences and bugs.
+> For Tiger Lake, do not support Watcher and Crashlog capabilities since they
+> will not be compatible with future product. Also, fix use a quirk to fix
+> the discovery table offset.
+> 
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Co-developed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+
+This should be in chronological order.
+
+> ---
+>  MAINTAINERS             |   5 +
+>  drivers/mfd/Kconfig     |  10 ++
+>  drivers/mfd/Makefile    |   1 +
+>  drivers/mfd/intel_pmt.c | 215 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 231 insertions(+)
+>  create mode 100644 drivers/mfd/intel_pmt.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b4a43a9e7fbc..2e42bf0c41ab 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8845,6 +8845,11 @@ F:	drivers/mfd/intel_soc_pmic*
+>  F:	include/linux/mfd/intel_msic.h
+>  F:	include/linux/mfd/intel_soc_pmic*
+>  
+> +INTEL PMT DRIVER
+> +M:	"David E. Box" <david.e.box@linux.intel.com>
+> +S:	Maintained
+> +F:	drivers/mfd/intel_pmt.c
+> +
+>  INTEL PRO/WIRELESS 2100, 2200BG, 2915ABG NETWORK CONNECTION SUPPORT
+>  M:	Stanislav Yakovlev <stas.yakovlev@gmail.com>
+>  L:	linux-wireless@vger.kernel.org
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index a37d7d171382..1a62ce2c68d9 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -670,6 +670,16 @@ config MFD_INTEL_PMC_BXT
+>  	  Register and P-unit access. In addition this creates devices
+>  	  for iTCO watchdog and telemetry that are part of the PMC.
+>  
+> +config MFD_INTEL_PMT
+> +	tristate "Intel Platform Monitoring Technology support"
+
+Nit: "Intel Platform Monitoring Technology (PMT) support"
+
+> +	depends on PCI
+> +	select MFD_CORE
+> +	help
+> +	  The Intel Platform Monitoring Technology (PMT) is an interface that
+> +	  provides access to hardware monitor registers. This driver supports
+> +	  Telemetry, Watcher, and Crashlog PMT capabilities/devices for
+> +	  platforms starting from Tiger Lake.
+> +
+>  config MFD_IPAQ_MICRO
+>  	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
+>  	depends on SA1100_H3100 || SA1100_H3600
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index 9367a92f795a..1961b4737985 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -216,6 +216,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+= intel-lpss-pci.o
+>  obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
+>  obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
+>  obj-$(CONFIG_MFD_INTEL_PMC_BXT)	+= intel_pmc_bxt.o
+> +obj-$(CONFIG_MFD_INTEL_PMT)	+= intel_pmt.o
+>  obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
+>  obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
+>  obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
+> diff --git a/drivers/mfd/intel_pmt.c b/drivers/mfd/intel_pmt.c
+> new file mode 100644
+> index 000000000000..6857eaf4ff86
+> --- /dev/null
+> +++ b/drivers/mfd/intel_pmt.c
+> @@ -0,0 +1,215 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Intel Platform Monitoring Technology MFD driver
+
+s/MFD/(PMT)/
+
+> + * Copyright (c) 2020, Intel Corporation.
+> + * All Rights Reserved.
+> + *
+> + * Authors: David E. Box <david.e.box@linux.intel.com>
+
+Looks odd to use a plural for a single author.
+
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/types.h>
+
+Alphabetical please.
+
+> +/* Intel DVSEC capability vendor space offsets */
+> +#define INTEL_DVSEC_ENTRIES		0xA
+> +#define INTEL_DVSEC_SIZE		0xB
+> +#define INTEL_DVSEC_TABLE		0xC
+> +#define INTEL_DVSEC_TABLE_BAR(x)	((x) & GENMASK(2, 0))
+> +#define INTEL_DVSEC_TABLE_OFFSET(x)	((x) & GENMASK(31, 3))
+> +#define INTEL_DVSEC_ENTRY_SIZE		4
+> +
+> +/* PMT capabilities */
+> +#define DVSEC_INTEL_ID_TELEMETRY	2
+> +#define DVSEC_INTEL_ID_WATCHER		3
+> +#define DVSEC_INTEL_ID_CRASHLOG		4
+> +
+> +#define TELEMETRY_DEV_NAME		"pmt_telemetry"
+> +#define WATCHER_DEV_NAME		"pmt_watcher"
+> +#define CRASHLOG_DEV_NAME		"pmt_crashlog"
+
+Please don't define names of things.  It makes grepping a pain, at the
+very least.  Just use the 'raw' string in-place.
+
+> +struct intel_dvsec_header {
+> +	u16	length;
+> +	u16	id;
+> +	u8	num_entries;
+> +	u8	entry_size;
+> +	u8	tbir;
+> +	u32	offset;
+> +};
+> +
+> +enum pmt_quirks {
+> +	/* Watcher capability not supported */
+> +	PMT_QUIRK_NO_WATCHER	= BIT(0),
+> +
+> +	/* Crashlog capability not supported */
+> +	PMT_QUIRK_NO_CRASHLOG	= BIT(1),
+> +
+> +	/* Use shift instead of mask to read discovery table offset */
+> +	PMT_QUIRK_TABLE_SHIFT	= BIT(2),
+> +};
+> +
+> +struct pmt_platform_info {
+> +	unsigned long quirks;
+> +};
+> +
+> +static const struct pmt_platform_info tgl_info = {
+> +	.quirks = PMT_QUIRK_NO_WATCHER | PMT_QUIRK_NO_CRASHLOG |
+> +		  PMT_QUIRK_TABLE_SHIFT,
+> +};
+> +
+> +static int
+> +pmt_add_dev(struct pci_dev *pdev, struct intel_dvsec_header *header,
+> +	    struct pmt_platform_info *info)
+
+My personal preference is to a) only break when you have to and b) to
+align with the '('.  Perhaps point b) is satisfied and it's just the
+patch format that's shifting the tab though?
+
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct resource *res, *tmp;
+> +	struct mfd_cell *cell;
+> +	const char *name;
+> +	int count = header->num_entries;
+> +	int size = header->entry_size;
+> +	int i;
+> +
+> +	switch (header->id) {
+> +	case DVSEC_INTEL_ID_TELEMETRY:
+> +		name = TELEMETRY_DEV_NAME;
+> +		break;
+> +	case DVSEC_INTEL_ID_WATCHER:
+> +		if (info->quirks & PMT_QUIRK_NO_WATCHER) {
+> +			dev_info(dev, "Watcher not supported\n");
+> +			return 0;
+> +		}
+> +		name = WATCHER_DEV_NAME;
+> +		break;
+> +	case DVSEC_INTEL_ID_CRASHLOG:
+> +		if (info->quirks & PMT_QUIRK_NO_CRASHLOG) {
+> +			dev_info(dev, "Crashlog not supported\n");
+> +			return 0;
+> +		}
+> +		name = CRASHLOG_DEV_NAME;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+
+Doesn't deserve an error message?
+
+> +	}
+> +
+> +	if (!header->num_entries || !header->entry_size) {
+> +		dev_warn(dev, "Invalid count or size for %s header\n", name);
+> +		return -EINVAL;
+
+If you're returning an error, this should be dev_err().
+
+Even if you only handle it as a warning at the call site.
+
+> +	}
+> +
+> +	cell = devm_kzalloc(dev, sizeof(*cell), GFP_KERNEL);
+> +	if (!cell)
+> +		return -ENOMEM;
+> +
+> +	res = devm_kcalloc(dev, count, sizeof(*res), GFP_KERNEL);
+> +	if (!res)
+> +		return -ENOMEM;
+> +
+> +	if (info->quirks & PMT_QUIRK_TABLE_SHIFT)
+> +		header->offset >>= 3;
+> +
+> +	for (i = 0, tmp = res; i < count; i++, tmp++) {
+> +		tmp->start = pdev->resource[header->tbir].start +
+> +			     header->offset + i * (size << 2);
+
+Deserves a comment I think.
+
+> +		tmp->end = tmp->start + (size << 2) - 1;
+> +		tmp->flags = IORESOURCE_MEM;
+> +	}
+> +
+> +	cell->resources = res;
+> +	cell->num_resources = count;
+> +	cell->name = name;
+> +
+> +	return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, cell, 1, NULL, 0,
+> +				    NULL);
+> +}
+> +
+> +static int
+> +pmt_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> +{
+> +	struct intel_dvsec_header header;
+> +	struct pmt_platform_info *info;
+> +	bool found_devices = false;
+> +	int ret, pos = 0;
+> +	u32 table;
+> +	u16 vid;
+> +
+> +	ret = pcim_enable_device(pdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	info = devm_kmemdup(&pdev->dev, (void *)id->driver_data, sizeof(*info),
+> +			    GFP_KERNEL);
+> +	if (!info)
+> +		return -ENOMEM;
+> +
+> +	pos = pci_find_next_ext_capability(pdev, pos, PCI_EXT_CAP_ID_DVSEC);
+> +	while (pos) {
+
+If you do:
+
+	do {
+		int pos;
+
+		pos = pci_find_next_ext_capability(pdev, pos, PCI_EXT_CAP_ID_DVSEC);
+		if (!pos)
+			break;
+
+Then you can invoke pci_find_next_ext_capability() once, no?
+
+> +		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER1, &vid);
+> +		if (vid != PCI_VENDOR_ID_INTEL)
+> +			continue;
+> +
+> +		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER2,
+> +				     &header.id);
+> +		pci_read_config_byte(pdev, pos + INTEL_DVSEC_ENTRIES,
+> +				     &header.num_entries);
+> +		pci_read_config_byte(pdev, pos + INTEL_DVSEC_SIZE,
+> +				     &header.entry_size);
+> +		pci_read_config_dword(pdev, pos + INTEL_DVSEC_TABLE,
+> +				      &table);
+> +
+> +		header.tbir = INTEL_DVSEC_TABLE_BAR(table);
+> +		header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
+> +
+> +		ret = pmt_add_dev(pdev, &header, info);
+> +		if (ret)
+> +			dev_warn(&pdev->dev,
+> +				 "Failed to add devices for DVSEC id %d\n",
+
+"device", so not all devices, right?
+
+> +				 header.id);
+
+Don't you want to continue here?
+
+Else you're going to set found_devices for a failed device.
+
+> +		found_devices = true;
+> +
+> +		pos = pci_find_next_ext_capability(pdev, pos,
+> +						   PCI_EXT_CAP_ID_DVSEC);
+> +	}
+> +
+> +	if (!found_devices) {
+> +		dev_err(&pdev->dev, "No supported PMT capabilities found.\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	pm_runtime_put(&pdev->dev);
+> +	pm_runtime_allow(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void pmt_pci_remove(struct pci_dev *pdev)
+> +{
+> +	pm_runtime_forbid(&pdev->dev);
+> +	pm_runtime_get_sync(&pdev->dev);
+> +}
+> +
+> +#define PCI_DEVICE_ID_INTEL_PMT_TGL	0x9a0d
+
+What's this for?
+
+If this is PCI_DEVICE_DATA magic, it would be worth tying it to the
+struct i.e. remove the empty line between it and the table below.
+
+> +static const struct pci_device_id pmt_pci_ids[] = {
+> +	{ PCI_DEVICE_DATA(INTEL, PMT_TGL, &tgl_info) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(pci, pmt_pci_ids);
+> +
+> +static struct pci_driver pmt_pci_driver = {
+> +	.name = "intel-pmt",
+> +	.id_table = pmt_pci_ids,
+> +	.probe = pmt_pci_probe,
+> +	.remove = pmt_pci_remove,
+> +};
+> +module_pci_driver(pmt_pci_driver);
+> +
+> +MODULE_AUTHOR("David E. Box <david.e.box@linux.intel.com>");
+> +MODULE_DESCRIPTION("Intel Platform Monitoring Technology MFD driver");
+
+s/MFD/(PMT)/
+
+> +MODULE_LICENSE("GPL v2");
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
