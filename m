@@ -2,452 +2,319 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B749231406
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Jul 2020 22:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4FA23158E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Jul 2020 00:32:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728928AbgG1Ufj (ORCPT
+        id S1729628AbgG1Wc1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Jul 2020 16:35:39 -0400
-Received: from mga17.intel.com ([192.55.52.151]:21229 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728430AbgG1Ufi (ORCPT
+        Tue, 28 Jul 2020 18:32:27 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19266 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729223AbgG1Wc1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Jul 2020 16:35:38 -0400
-IronPort-SDR: 8OwUKoXmt1Az9GvIENcadEt70NiGi+pMKsR41BkgdarmkaUWozEd3MWF1z/x4SaZKDTAizXXfa
- bn6MMeFKz0Wg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9696"; a="131378240"
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; 
-   d="scan'208";a="131378240"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2020 13:35:34 -0700
-IronPort-SDR: kggrwLZf0Xsjfcb2LXfF6UC6vK9z316h3sgb7ufy35tSlZ7ybFPM+Re0xD0eR17UGGVu7GXdyc
- d+MYmE+3iUuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,407,1589266800"; 
-   d="scan'208";a="328448989"
-Received: from linux.intel.com ([10.54.29.200])
-  by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2020 13:35:34 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.7.201.137])
-        by linux.intel.com (Postfix) with ESMTP id 07D80580295;
-        Tue, 28 Jul 2020 13:35:34 -0700 (PDT)
-Message-ID: <5757b1989f2acff2f3e9b9a9e595e5cc54da1958.camel@linux.intel.com>
-Subject: Re: [PATCH V4 2/3] mfd: Intel Platform Monitoring Technology support
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
-        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 28 Jul 2020 13:35:33 -0700
-In-Reply-To: <20200728075859.GH1850026@dell>
-References: <20200714062323.19990-1-david.e.box@linux.intel.com>
-         <20200717190620.29821-3-david.e.box@linux.intel.com>
-         <20200728075859.GH1850026@dell>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Tue, 28 Jul 2020 18:32:27 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f20a76d0000>; Tue, 28 Jul 2020 15:32:13 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 28 Jul 2020 15:32:27 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 28 Jul 2020 15:32:27 -0700
+Received: from [172.20.40.94] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Jul
+ 2020 22:32:26 +0000
+Subject: Re: [PATCH] platform/x86: Add driver for ACPI WMAA EC-based backlight
+ control
+To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+CC:     Aaron Plattner <aplattner@nvidia.com>
+References: <20200727205703.28140-1-ddadap@nvidia.com>
+ <DM6PR19MB2636AB267CD321DE40EF324AFA730@DM6PR19MB2636.namprd19.prod.outlook.com>
+From:   Daniel Dadap <ddadap@nvidia.com>
+Message-ID: <90b12b28-b273-4c53-7ba4-56524628506b@nvidia.com>
+Date:   Tue, 28 Jul 2020 17:34:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <DM6PR19MB2636AB267CD321DE40EF324AFA730@DM6PR19MB2636.namprd19.prod.outlook.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1595975534; bh=6Vh76U4ORujiy1tWlIKcoZyly8L8LOBBxDIn1ziu1jA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=XBHUD+nzpfDoYOcfwYzLCOgiP2CCzxMEQ6asREbB9zhnfeBqujBGySWeO1bMuycv3
+         PXxlAyxCDWNFLw8BW74YTo2dOSIaLLeCt+g5OSRPKknSKU4w1V2eZ09AcVPvVVJNpB
+         w3fcbIrgIspUsvGExMErKDjTMZmHDhGi7VAuFkAuxqbtQAKKMP4wFBLjjyp1x8p20j
+         hwJPGNryF/QeT9R94f4XQK4U4i663X2MKgiq5VRodEixAhrDInc8Cjfo5BpFvFuWsV
+         wxu/KYpqbsX+3KeomsFbR8DVeGSD5cN7OM5hZWV3OKAUhdaKwBprhGOGeAOQ791ZKZ
+         05QZ1ZIR2oVWw==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Lee,
 
-Thanks for this thorough review. Ack on all the comments with
-particular thanks for spoting the missing continue.
+On 7/28/20 3:02 PM, Limonciello, Mario wrote:
+>> -----Original Message-----
+>> From: platform-driver-x86-owner@vger.kernel.org <platform-driver-x86-
+>> owner@vger.kernel.org> On Behalf Of Daniel Dadap
+>> Sent: Monday, July 27, 2020 3:57 PM
+>> To: platform-driver-x86@vger.kernel.org
+>> Cc: Daniel Dadap; Aaron Plattner
+>> Subject: [PATCH] platform/x86: Add driver for ACPI WMAA EC-based backlight
+>> control
+>>
+>>
+>> [EXTERNAL EMAIL]
+>>
+>> A number of upcoming notebook computer designs drive the internal
+>> display panel's backlight PWM through the Embedded Controller (EC).
+>> This EC-based backlight control can be plumbed through to an ACPI
+>> "WMAA" method interface, which in turn can be wrapped by WMI with
+>> the GUID handle 603E9613-EF25-4338-A3D0-C46177516DB7.
+>>
+>> Add a new driver, aliased to the WMAA WMI GUID, to expose a sysfs
+>> backlight class driver to control backlight levels on systems with
+>> EC-driven backlights.
+>>
+>> Signed-off-by: Aaron Plattner <aplattner@nvidia.com>
+>> Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
+>> ---
+>>   MAINTAINERS                               |   6 +
+>>   drivers/platform/x86/Kconfig              |  11 ++
+>>   drivers/platform/x86/Makefile             |   2 +
+>>   drivers/platform/x86/wmaa-backlight-wmi.c | 153 ++++++++++++++++++++++
+>>   4 files changed, 172 insertions(+)
+>>   create mode 100644 drivers/platform/x86/wmaa-backlight-wmi.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index eeff55560759..e5ce6544a3c8 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -18249,6 +18249,12 @@ L:   linux-wireless@vger.kernel.org
+>>   S:   Odd fixes
+>>   F:   drivers/net/wireless/wl3501*
+>>
+>> +WMAA BACKLIGHT DRIVER
+>> +M:   Daniel Dadap <ddadap@nvidia.com>
+>> +L:   platform-driver-x86@vger.kernel.org
+>> +S:   Supported
+>> +F:   drivers/platform/x86/wmaa-backlight-wmi.c
+>> +
+>>   WOLFSON MICROELECTRONICS DRIVERS
+>>   L:   patches@opensource.cirrus.com
+>>   T:   git https://github.com/CirrusLogic/linux-drivers.git
+>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+>> index 0ad7ad8cf8e1..db342e480aa9 100644
+>> --- a/drivers/platform/x86/Kconfig
+>> +++ b/drivers/platform/x86/Kconfig
+>> @@ -1368,6 +1368,17 @@ config INTEL_TELEMETRY
+>>          directly via debugfs files. Various tools may use
+>>          this interface for SoC state monitoring.
+>>
+>> +config WMAA_BACKLIGHT_WMI
+>> +     tristate "ACPI WMAA Backlight Driver"
+>> +     depends on ACPI_WMI
+>> +     depends on ACPI
+>> +     depends on BACKLIGHT_CLASS_DEVICE
+>> +     help
+>> +       This driver provides a sysfs backlight interface for notebook
+>> +       systems which expose the WMAA ACPI method and an associated WMI
+>> +       wrapper to drive LCD backlight levels through the system's
+>> +       Embedded Controller.
+>> +
+>>   endif # X86_PLATFORM_DEVICES
+>>
+>>   config PMC_ATOM
+>> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+>> index 53408d965874..fb6e16d62031 100644
+>> --- a/drivers/platform/x86/Makefile
+>> +++ b/drivers/platform/x86/Makefile
+>> @@ -146,3 +146,5 @@ obj-$(CONFIG_INTEL_TELEMETRY)             +=
+>> intel_telemetry_core.o \
+>>                                           intel_telemetry_pltdrv.o \
+>>                                           intel_telemetry_debugfs.o
+>>   obj-$(CONFIG_PMC_ATOM)                       += pmc_atom.o
+>> +
+>> +obj-$(CONFIG_WMAA_BACKLIGHT_WMI)     += wmaa-backlight-wmi.o
+>> diff --git a/drivers/platform/x86/wmaa-backlight-wmi.c
+>> b/drivers/platform/x86/wmaa-backlight-wmi.c
+>> new file mode 100644
+>> index 000000000000..890e9371f91a
+>> --- /dev/null
+>> +++ b/drivers/platform/x86/wmaa-backlight-wmi.c
+>> @@ -0,0 +1,153 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * WMAA Backlight WMI driver
+>> + *
+>> + * Copyright (c) 2020, NVIDIA CORPORATION.  All rights reserved.
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify it
+>> + * under the terms and conditions of the GNU General Public License,
+>> + * version 2, as published by the Free Software Foundation.
+>> + *
+>> + * This program is distributed in the hope it will be useful, but WITHOUT
+>> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+>> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+>> + * more details.
+>> + *
+>> + */
+>> +
+>> +#include <linux/module.h>
+>> +#include <linux/acpi.h>
+>> +#include <linux/backlight.h>
+>> +
+>> +MODULE_AUTHOR("Aaron Plattner <aplattner@nvidia.com>");
+>> +MODULE_AUTHOR("Daniel Dadap <ddadap@nvidia.com>");
+>> +MODULE_DESCRIPTION("WMAA Backlight WMI driver");
+>> +MODULE_LICENSE("GPL v2");
+>> +
+>> +#define WMAA_WMI_GUID "603E9613-EF25-4338-A3D0-C46177516DB7"
+>> +
+>> +MODULE_ALIAS("wmi:"WMAA_WMI_GUID);
+>> +
+>> +static struct backlight_device *backlight;
+>> +
+>> +enum wmaa_method {
+>> +     WMAA_BRIGHTNESS_LEVEL = 1,
+>> +     WMAA_BRIGHTNESS_SOURCE = 2,
+>> +};
+>> +
+>> +enum wmaa_get_or_set {
+>> +     WMAA_GET = 0,
+>> +     WMAA_SET = 1,
+>> +     WMAA_GET_MAX = 2, // for WMAA_BRIGHTNESS_LEVEL only
+>> +};
+>> +
+>> +enum wmaa_source {
+>> +     WMAA_SOURCE_CLEAR = 0,
+>> +     WMAA_SOURCE_GPU = 1,
+>> +     WMAA_SOURCE_EC = 2,
+>> +     WMAA_SOURCE_AUX = 3,
+>> +     WMAA_SOURCE_COUNT
+>> +};
+>> +
+>> +struct wmaa_args {
+>> +     u32 set;
+>> +     u32 val;
+>> +     u32 ret;
+>> +     u32 ignored[3];
+>> +};
+>> +
+>> +static int wmi_call_wmaa(enum wmaa_method method, enum wmaa_get_or_set set,
+>> +                      u32 *val)
+>> +{
+>> +     struct wmaa_args args = {
+>> +             .set = set,
+>> +             .val = 0,
+>> +             .ret = 0,
+>> +     };
+>> +     struct acpi_buffer buf = { (acpi_size)sizeof(args), &args };
+>> +     acpi_status status;
+>> +
+>> +     if (set == WMAA_SET)
+>> +             args.val = *val;
+>> +
+>> +     status = wmi_evaluate_method(WMAA_WMI_GUID, 0, method, &buf, &buf);
+>> +     if (ACPI_FAILURE(status))
+>> +             return status;
+>> +     if (set != WMAA_SET)
+>> +             *val = args.ret;
+>> +     return status;
+> Could you talk a little bit about why wmidev_evaluate_method didn't work for you here?
+>
+> I would expect that if you use wmidev in this code that there can be less boilerplate
+> init code since more is handled by wmi.ko.
+>
 
-David
+It's quite likely that it would work; we just didn't try it. I'll rework 
+this code to use wmidev_evaluate_method while waiting for the answer 
+about the scale and power attributes.
 
-On Tue, 2020-07-28 at 08:58 +0100, Lee Jones wrote:
-> On Fri, 17 Jul 2020, David E. Box wrote:
-> 
-> > Intel Platform Monitoring Technology (PMT) is an architecture for
-> > enumerating and accessing hardware monitoring facilities. PMT
-> > supports
-> > multiple types of monitoring capabilities. This driver creates
-> > platform
-> > devices for each type so that they may be managed by capability
-> > specific
-> > drivers (to be introduced). Capabilities are discovered using PCIe
-> > DVSEC
-> > ids. Support is included for the 3 current capability types,
-> > Telemetry,
-> > Watcher, and Crashlog. The features are available on new Intel
-> > platforms
-> > starting from Tiger Lake for which support is added.
-> > 
-> > Also add a quirk mechanism for several early hardware differences
-> > and bugs.
-> > For Tiger Lake, do not support Watcher and Crashlog capabilities
-> > since they
-> > will not be compatible with future product. Also, fix use a quirk
-> > to fix
-> > the discovery table offset.
-> > 
-> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Co-developed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com
-> > >
-> > Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> 
-> This should be in chronological order.
-> 
-> > ---
-> >  MAINTAINERS             |   5 +
-> >  drivers/mfd/Kconfig     |  10 ++
-> >  drivers/mfd/Makefile    |   1 +
-> >  drivers/mfd/intel_pmt.c | 215
-> > ++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 231 insertions(+)
-> >  create mode 100644 drivers/mfd/intel_pmt.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b4a43a9e7fbc..2e42bf0c41ab 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8845,6 +8845,11 @@ F:	drivers/mfd/intel_soc_pmic*
-> >  F:	include/linux/mfd/intel_msic.h
-> >  F:	include/linux/mfd/intel_soc_pmic*
-> >  
-> > +INTEL PMT DRIVER
-> > +M:	"David E. Box" <david.e.box@linux.intel.com>
-> > +S:	Maintained
-> > +F:	drivers/mfd/intel_pmt.c
-> > +
-> >  INTEL PRO/WIRELESS 2100, 2200BG, 2915ABG NETWORK CONNECTION
-> > SUPPORT
-> >  M:	Stanislav Yakovlev <stas.yakovlev@gmail.com>
-> >  L:	linux-wireless@vger.kernel.org
-> > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > index a37d7d171382..1a62ce2c68d9 100644
-> > --- a/drivers/mfd/Kconfig
-> > +++ b/drivers/mfd/Kconfig
-> > @@ -670,6 +670,16 @@ config MFD_INTEL_PMC_BXT
-> >  	  Register and P-unit access. In addition this creates devices
-> >  	  for iTCO watchdog and telemetry that are part of the PMC.
-> >  
-> > +config MFD_INTEL_PMT
-> > +	tristate "Intel Platform Monitoring Technology support"
-> 
-> Nit: "Intel Platform Monitoring Technology (PMT) support"
-> 
-> > +	depends on PCI
-> > +	select MFD_CORE
-> > +	help
-> > +	  The Intel Platform Monitoring Technology (PMT) is an
-> > interface that
-> > +	  provides access to hardware monitor registers. This driver
-> > supports
-> > +	  Telemetry, Watcher, and Crashlog PMT capabilities/devices for
-> > +	  platforms starting from Tiger Lake.
-> > +
-> >  config MFD_IPAQ_MICRO
-> >  	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
-> >  	depends on SA1100_H3100 || SA1100_H3600
-> > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > index 9367a92f795a..1961b4737985 100644
-> > --- a/drivers/mfd/Makefile
-> > +++ b/drivers/mfd/Makefile
-> > @@ -216,6 +216,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+=
-> > intel-lpss-pci.o
-> >  obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
-> >  obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
-> >  obj-$(CONFIG_MFD_INTEL_PMC_BXT)	+= intel_pmc_bxt.o
-> > +obj-$(CONFIG_MFD_INTEL_PMT)	+= intel_pmt.o
-> >  obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
-> >  obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
-> >  obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
-> > diff --git a/drivers/mfd/intel_pmt.c b/drivers/mfd/intel_pmt.c
-> > new file mode 100644
-> > index 000000000000..6857eaf4ff86
-> > --- /dev/null
-> > +++ b/drivers/mfd/intel_pmt.c
-> > @@ -0,0 +1,215 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Intel Platform Monitoring Technology MFD driver
-> 
-> s/MFD/(PMT)/
-> 
-> > + * Copyright (c) 2020, Intel Corporation.
-> > + * All Rights Reserved.
-> > + *
-> > + * Authors: David E. Box <david.e.box@linux.intel.com>
-> 
-> Looks odd to use a plural for a single author.
-> 
-> > + */
-> > +
-> > +#include <linux/bits.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/mfd/core.h>
-> > +#include <linux/types.h>
-> 
-> Alphabetical please.
-> 
-> > +/* Intel DVSEC capability vendor space offsets */
-> > +#define INTEL_DVSEC_ENTRIES		0xA
-> > +#define INTEL_DVSEC_SIZE		0xB
-> > +#define INTEL_DVSEC_TABLE		0xC
-> > +#define INTEL_DVSEC_TABLE_BAR(x)	((x) & GENMASK(2, 0))
-> > +#define INTEL_DVSEC_TABLE_OFFSET(x)	((x) & GENMASK(31, 3))
-> > +#define INTEL_DVSEC_ENTRY_SIZE		4
-> > +
-> > +/* PMT capabilities */
-> > +#define DVSEC_INTEL_ID_TELEMETRY	2
-> > +#define DVSEC_INTEL_ID_WATCHER		3
-> > +#define DVSEC_INTEL_ID_CRASHLOG		4
-> > +
-> > +#define TELEMETRY_DEV_NAME		"pmt_telemetry"
-> > +#define WATCHER_DEV_NAME		"pmt_watcher"
-> > +#define CRASHLOG_DEV_NAME		"pmt_crashlog"
-> 
-> Please don't define names of things.  It makes grepping a pain, at
-> the
-> very least.  Just use the 'raw' string in-place.
-> 
-> > +struct intel_dvsec_header {
-> > +	u16	length;
-> > +	u16	id;
-> > +	u8	num_entries;
-> > +	u8	entry_size;
-> > +	u8	tbir;
-> > +	u32	offset;
-> > +};
-> > +
-> > +enum pmt_quirks {
-> > +	/* Watcher capability not supported */
-> > +	PMT_QUIRK_NO_WATCHER	= BIT(0),
-> > +
-> > +	/* Crashlog capability not supported */
-> > +	PMT_QUIRK_NO_CRASHLOG	= BIT(1),
-> > +
-> > +	/* Use shift instead of mask to read discovery table offset */
-> > +	PMT_QUIRK_TABLE_SHIFT	= BIT(2),
-> > +};
-> > +
-> > +struct pmt_platform_info {
-> > +	unsigned long quirks;
-> > +};
-> > +
-> > +static const struct pmt_platform_info tgl_info = {
-> > +	.quirks = PMT_QUIRK_NO_WATCHER | PMT_QUIRK_NO_CRASHLOG |
-> > +		  PMT_QUIRK_TABLE_SHIFT,
-> > +};
-> > +
-> > +static int
-> > +pmt_add_dev(struct pci_dev *pdev, struct intel_dvsec_header
-> > *header,
-> > +	    struct pmt_platform_info *info)
-> 
-> My personal preference is to a) only break when you have to and b) to
-> align with the '('.  Perhaps point b) is satisfied and it's just the
-> patch format that's shifting the tab though?
-> 
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct resource *res, *tmp;
-> > +	struct mfd_cell *cell;
-> > +	const char *name;
-> > +	int count = header->num_entries;
-> > +	int size = header->entry_size;
-> > +	int i;
-> > +
-> > +	switch (header->id) {
-> > +	case DVSEC_INTEL_ID_TELEMETRY:
-> > +		name = TELEMETRY_DEV_NAME;
-> > +		break;
-> > +	case DVSEC_INTEL_ID_WATCHER:
-> > +		if (info->quirks & PMT_QUIRK_NO_WATCHER) {
-> > +			dev_info(dev, "Watcher not supported\n");
-> > +			return 0;
-> > +		}
-> > +		name = WATCHER_DEV_NAME;
-> > +		break;
-> > +	case DVSEC_INTEL_ID_CRASHLOG:
-> > +		if (info->quirks & PMT_QUIRK_NO_CRASHLOG) {
-> > +			dev_info(dev, "Crashlog not supported\n");
-> > +			return 0;
-> > +		}
-> > +		name = CRASHLOG_DEV_NAME;
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> 
-> Doesn't deserve an error message?
-> 
-> > +	}
-> > +
-> > +	if (!header->num_entries || !header->entry_size) {
-> > +		dev_warn(dev, "Invalid count or size for %s header\n",
-> > name);
-> > +		return -EINVAL;
-> 
-> If you're returning an error, this should be dev_err().
-> 
-> Even if you only handle it as a warning at the call site.
-> 
-> > +	}
-> > +
-> > +	cell = devm_kzalloc(dev, sizeof(*cell), GFP_KERNEL);
-> > +	if (!cell)
-> > +		return -ENOMEM;
-> > +
-> > +	res = devm_kcalloc(dev, count, sizeof(*res), GFP_KERNEL);
-> > +	if (!res)
-> > +		return -ENOMEM;
-> > +
-> > +	if (info->quirks & PMT_QUIRK_TABLE_SHIFT)
-> > +		header->offset >>= 3;
-> > +
-> > +	for (i = 0, tmp = res; i < count; i++, tmp++) {
-> > +		tmp->start = pdev->resource[header->tbir].start +
-> > +			     header->offset + i * (size << 2);
-> 
-> Deserves a comment I think.
-> 
-> > +		tmp->end = tmp->start + (size << 2) - 1;
-> > +		tmp->flags = IORESOURCE_MEM;
-> > +	}
-> > +
-> > +	cell->resources = res;
-> > +	cell->num_resources = count;
-> > +	cell->name = name;
-> > +
-> > +	return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, cell, 1,
-> > NULL, 0,
-> > +				    NULL);
-> > +}
-> > +
-> > +static int
-> > +pmt_pci_probe(struct pci_dev *pdev, const struct pci_device_id
-> > *id)
-> > +{
-> > +	struct intel_dvsec_header header;
-> > +	struct pmt_platform_info *info;
-> > +	bool found_devices = false;
-> > +	int ret, pos = 0;
-> > +	u32 table;
-> > +	u16 vid;
-> > +
-> > +	ret = pcim_enable_device(pdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	info = devm_kmemdup(&pdev->dev, (void *)id->driver_data,
-> > sizeof(*info),
-> > +			    GFP_KERNEL);
-> > +	if (!info)
-> > +		return -ENOMEM;
-> > +
-> > +	pos = pci_find_next_ext_capability(pdev, pos,
-> > PCI_EXT_CAP_ID_DVSEC);
-> > +	while (pos) {
-> 
-> If you do:
-> 
-> 	do {
-> 		int pos;
-> 
-> 		pos = pci_find_next_ext_capability(pdev, pos,
-> PCI_EXT_CAP_ID_DVSEC);
-> 		if (!pos)
-> 			break;
-> 
-> Then you can invoke pci_find_next_ext_capability() once, no?
-> 
-> > +		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER1,
-> > &vid);
-> > +		if (vid != PCI_VENDOR_ID_INTEL)
-> > +			continue;
-> > +
-> > +		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER2,
-> > +				     &header.id);
-> > +		pci_read_config_byte(pdev, pos + INTEL_DVSEC_ENTRIES,
-> > +				     &header.num_entries);
-> > +		pci_read_config_byte(pdev, pos + INTEL_DVSEC_SIZE,
-> > +				     &header.entry_size);
-> > +		pci_read_config_dword(pdev, pos + INTEL_DVSEC_TABLE,
-> > +				      &table);
-> > +
-> > +		header.tbir = INTEL_DVSEC_TABLE_BAR(table);
-> > +		header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
-> > +
-> > +		ret = pmt_add_dev(pdev, &header, info);
-> > +		if (ret)
-> > +			dev_warn(&pdev->dev,
-> > +				 "Failed to add devices for DVSEC id
-> > %d\n",
-> 
-> "device", so not all devices, right?
-> 
-> > +				 header.id);
-> 
-> Don't you want to continue here?
-> 
-> Else you're going to set found_devices for a failed device.
-> 
-> > +		found_devices = true;
-> > +
-> > +		pos = pci_find_next_ext_capability(pdev, pos,
-> > +						   PCI_EXT_CAP_ID_DVSEC
-> > );
-> > +	}
-> > +
-> > +	if (!found_devices) {
-> > +		dev_err(&pdev->dev, "No supported PMT capabilities
-> > found.\n");
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	pm_runtime_put(&pdev->dev);
-> > +	pm_runtime_allow(&pdev->dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void pmt_pci_remove(struct pci_dev *pdev)
-> > +{
-> > +	pm_runtime_forbid(&pdev->dev);
-> > +	pm_runtime_get_sync(&pdev->dev);
-> > +}
-> > +
-> > +#define PCI_DEVICE_ID_INTEL_PMT_TGL	0x9a0d
-> 
-> What's this for?
-> 
-> If this is PCI_DEVICE_DATA magic, it would be worth tying it to the
-> struct i.e. remove the empty line between it and the table below.
-> 
-> > +static const struct pci_device_id pmt_pci_ids[] = {
-> > +	{ PCI_DEVICE_DATA(INTEL, PMT_TGL, &tgl_info) },
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(pci, pmt_pci_ids);
-> > +
-> > +static struct pci_driver pmt_pci_driver = {
-> > +	.name = "intel-pmt",
-> > +	.id_table = pmt_pci_ids,
-> > +	.probe = pmt_pci_probe,
-> > +	.remove = pmt_pci_remove,
-> > +};
-> > +module_pci_driver(pmt_pci_driver);
-> > +
-> > +MODULE_AUTHOR("David E. Box <david.e.box@linux.intel.com>");
-> > +MODULE_DESCRIPTION("Intel Platform Monitoring Technology MFD
-> > driver");
-> 
-> s/MFD/(PMT)/
-> 
-> > +MODULE_LICENSE("GPL v2");
 
+>> +}
+>> +
+>> +static int wmaa_get_brightness(u32 *level)
+>> +{
+>> +     return wmi_call_wmaa(WMAA_BRIGHTNESS_LEVEL, WMAA_GET, level);
+>> +}
+>> +
+>> +static int wmaa_set_brightness(u32 level)
+>> +{
+>> +     return wmi_call_wmaa(WMAA_BRIGHTNESS_LEVEL, WMAA_SET, &level);
+>> +}
+>> +
+>> +static int wmaa_backlight_update_status(struct backlight_device *bd)
+>> +{
+>> +     return wmaa_set_brightness(bd->props.brightness);
+>> +}
+>> +
+>> +static int wmaa_backlight_get_brightness(struct backlight_device *bd)
+>> +{
+>> +     u32 level;
+>> +     int ret = wmaa_get_brightness(&level);
+>> +
+>> +     WARN_ON(ret != 0);
+>> +     return level;
+>> +}
+>> +
+>> +static const struct backlight_ops wmaa_backlight_ops = {
+>> +     .update_status = wmaa_backlight_update_status,
+>> +     .get_brightness = wmaa_backlight_get_brightness,
+>> +};
+>> +
+>> +static int wmaa_get_max_brightness(u32 *level)
+>> +{
+>> +     return wmi_call_wmaa(WMAA_BRIGHTNESS_LEVEL, WMAA_GET_MAX, level);
+>> +}
+>> +
+>> +static int wmaa_get_brightness_source(u32 *source)
+>> +{
+>> +     return wmi_call_wmaa(WMAA_BRIGHTNESS_SOURCE, WMAA_GET, source);
+>> +}
+>> +
+>> +static int __init wmaa_backlight_wmi_init(void)
+>> +{
+>> +     struct backlight_properties props;
+>> +     u32 source;
+>> +
+>> +     if (!wmi_has_guid(WMAA_WMI_GUID))
+>> +             return -ENODEV;
+>> +
+>> +     if (wmaa_get_brightness_source(&source))
+>> +             return -EINVAL;
+>> +     if (source != WMAA_SOURCE_EC)
+>> +             return -ENODEV;
+>> +
+>> +     // Register a backlight handler
+>> +     props.type = BACKLIGHT_PLATFORM;
+>> +     if (wmaa_get_max_brightness(&props.max_brightness) ||
+>> +         wmaa_get_brightness(&props.brightness))
+>> +             return -EINVAL;
+>> +
+>> +     backlight = backlight_device_register("wmaa_backlight", NULL, NULL,
+>> +                                           &wmaa_backlight_ops, &props);
+>> +     if (IS_ERR(backlight))
+>> +             return PTR_ERR(backlight);
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +static void __exit wmaa_backlight_wmi_exit(void)
+>> +{
+>> +     backlight_device_unregister(backlight);
+>> +}
+>> +
+>> +module_init(wmaa_backlight_wmi_init);
+>> +module_exit(wmaa_backlight_wmi_exit);
+>> --
+>> 2.18.4
