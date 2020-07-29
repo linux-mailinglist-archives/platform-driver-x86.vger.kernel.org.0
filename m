@@ -2,98 +2,127 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B98FA2323A5
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Jul 2020 19:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A95232575
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Jul 2020 21:32:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbgG2Rqj (ORCPT
+        id S1726615AbgG2Tck (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 29 Jul 2020 13:46:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbgG2Rqi (ORCPT
+        Wed, 29 Jul 2020 15:32:40 -0400
+Received: from mail-40135.protonmail.ch ([185.70.40.135]:63792 "EHLO
+        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726588AbgG2Tcj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 29 Jul 2020 13:46:38 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A140C061794
-        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:46:38 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id x9so12997310ybd.4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=tEDsvDpliCY7bEGqOyz+wM6dbimKO7R+0nMJK0y7D0yITNOQ6TuyCZru9U7QDjTBwW
-         UhGc7seRRzWU7za5E6DFJuk4olgHIoNtRf89DWY8cxVJcf1j5Q5E2W6Gv7ZuGYknS2JN
-         edNfSm45WtzuSER2zNk23mgt7KeYEtt05ZlAGR6hRoJtaY6L9iCwPFG2MBHmdVPqUL3S
-         9rx2+8EuaygGvf0uNuHYMxB97YtaREJIFacuxeSvGdRrMaKaavaihi9/HRNV4t60FEhA
-         GToL3g+F88D0stobrqVPPL5FzhE4pknwqDYbGd1Bf6pxHQktBQuaR1gd83Ka1lc2LGjm
-         LflA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=psxXaWV6fPUOLnrolf0CeriAYazyBOixSbYYNr0dNNVbu26c8Ngotho2G+7qVGYRSa
-         DGKiCzo9QcyljLiAGsy9kd1qoSXR77kApZK0l0/O9qqZfcg5SOa4gsjuYbQvfbrbdqo+
-         JyEuovdXS2LB4b97WuP1vxP9j2YOsd7gxOyUEtCSeV4GXY0znnWFIZOYMzBKRC/1Ut/0
-         /MdovG/b9/ZWgHUTW4+vQEnXjysKjaC7Ap4C2yEMjEWlDuP5E6N9/0osncC/i3WQEqT7
-         fD401ggjvZYy3chXOZdPyF3KnAfJkQEPdqJcSvAJ8jof8Rc7odcw5uON/pOix4KjspH1
-         SNXQ==
-X-Gm-Message-State: AOAM5331YqQ+G8ELjqMq/+IVpjUJBdwvYeVDc6LS+IqNDYHI8ijH+hnc
-        /uTEIIN9fFEaE/HgkoCIIcH+yqn+Fb23CsqvDwB/P55D
-X-Google-Smtp-Source: ABdhPJwDQ7ELgV347yPvW8gKah5rGaYfLYGszd521/408IiyRIES14BVfOXp2ROtq9aGyWCzOT5Mbmo+7g4HeQUo6DI=
-X-Received: by 2002:a9d:6a04:: with SMTP id g4mr12061493otn.212.1596044349214;
- Wed, 29 Jul 2020 10:39:09 -0700 (PDT)
+        Wed, 29 Jul 2020 15:32:39 -0400
+Date:   Wed, 29 Jul 2020 19:32:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1596051157;
+        bh=fiCUCFVa8gOfQrjCKuPuCRUqf5tjBFjQgSdjyL7Xkqc=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=u6bYnTJfm6DDG0EmfukiIdJvPzT1/BdN3yi3sa7NUtwRoENoYVlDzChErJcn4KYnk
+         gRB/dM6rg725gfgzenrrepWtrTdwvloFQfQ16mn9VTCCLjbLfiD/PTCt2/FiJgcO2H
+         wLPXCvDJDHhH5g8zpC6qU1/Qgf60qUQZ1oUYBI6Y=
+To:     Daniel Dadap <ddadap@nvidia.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "andy@infradead.org" <andy@infradead.org>,
+        "dvhart@infradead.org" <dvhart@infradead.org>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v2] platform/x86: Add new vga-switcheroo gmux driver for ACPI-driven muxes
+Message-ID: <GoKyhrM1luIoUi_fRRWN3J3azOQGamWW7m4iEHqHHdhknqefRiKx3UcPNG2fr4Ff2HT2AYBD1Az8mKscizjLo7dpzsvQZFkTWznSfti5Xy8=@protonmail.com>
+In-Reply-To: <20200729171151.18426-1-ddadap@nvidia.com>
+References: <78a56eca-f0e3-3520-f3d5-1222b54f6fe9@nvidia.com> <20200729171151.18426-1-ddadap@nvidia.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:7dc2:0:0:0:0:0 with HTTP; Wed, 29 Jul 2020 10:39:08
- -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <jesseomar11@gmail.com>
-Date:   Wed, 29 Jul 2020 10:39:08 -0700
-Message-ID: <CAJs48TBKTYXVogQkz7=Kr-OaOW2jokzqUSd=XSUvQ3hF1A7mAQ@mail.gmail.com>
-Subject: Hello, Please
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Dear Friend,
+2020. j=C3=BAlius 29., szerda 19:11 keltez=C3=A9ssel, Daniel Dadap <ddadap@=
+nvidia.com> =C3=ADrta:
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
+> [...]
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+I think
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
+(or similar)
 
-My Regards.
+should be defined before any includes since you use pr_*().
+Otherwise the messages won't be prefixed by the module name.
 
-Mr. Scott Donald
-CEO
+
+> +#include <linux/module.h>
+> +#include <linux/acpi.h>
+> +#include <linux/pci.h>
+> +#include <linux/vga_switcheroo.h>
+> +#include <linux/delay.h>
+> +
+> [...]
+> +static void set_mux_state(acpi_handle handle, enum mux_state_command com=
+mand)
+> +{
+> +=09acpi_helper(handle, MXDS, command);
+> +}
+> +
+
+It's really a nitpick and a moot point, but I'd think set_mux_state() takes=
+ the state as
+one of its arguments, not the command to set that state.
+
+
+> [...]
+> +static int __init mxds_gmux_init(void)
+> +{
+> +=09int ret =3D 0;
+> +=09struct pci_dev *dev =3D NULL;
+> +
+> +=09while ((dev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, dev))) {
+> +=09=09switch (dev->vendor) {
+> +=09=09case 0x8086:
+> +=09=09=09pci_dev_put(ig_dev);
+> +=09=09=09ig_dev =3D pci_dev_get(dev);
+> +=09=09=09break;
+> +=09=09case 0x10de:
+> +=09=09=09pci_dev_put(dg_dev);
+> +=09=09=09dg_dev =3D pci_dev_get(dev);
+> +=09=09=09break;
+> +=09=09default:
+> +=09=09=09break;
+> +=09=09}
+> +=09}
+> +
+
+I think I mentioned it last time, I personally dislike magic numbers,
+so I'd use PCI_VENDOR_ID_{INTEL,NVIDIA} from <linux/pci_ids.h> here, but
+I guess it's personal preference, so I don't want to bother you with that
+anymore. If you use magic numbers, then I think comments would be much
+appreciated.
+
+
+> [...]
+> +static void __exit mxds_gmux_exit(void)
+> +{
+> +=09if (vga_switcheroo_registered)
+> +=09=09vga_switcheroo_unregister_handler();
+
+The exit method of a module will not be run if it fails to load,
+so I think "vga_switcheroo_registered" is not necessary.
+
+
+> +=09pci_dev_put(ig_dev);
+> +=09pci_dev_put(dg_dev);
+> +}
+> +module_exit(mxds_gmux_exit);
+> --
+> 2.18.4
+
+
+Barnab=C3=A1s P=C5=91cze
