@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 668CD232397
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Jul 2020 19:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B98FA2323A5
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Jul 2020 19:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbgG2Rnb (ORCPT
+        id S1726385AbgG2Rqj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 29 Jul 2020 13:43:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
+        Wed, 29 Jul 2020 13:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgG2Rnb (ORCPT
+        with ESMTP id S1726365AbgG2Rqi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 29 Jul 2020 13:43:31 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ABEDC061794
-        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:43:31 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id y22so21404860oie.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:43:31 -0700 (PDT)
+        Wed, 29 Jul 2020 13:46:38 -0400
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A140C061794
+        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:46:38 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id x9so12997310ybd.4
+        for <platform-driver-x86@vger.kernel.org>; Wed, 29 Jul 2020 10:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to
          :content-transfer-encoding;
         bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=aw5BtpZjUTEDS43EX9bLljmlJonNcJl8y0GSeWsg68G9ja+IrTrSBvxsOXYIKZKlwR
-         2RThd3um7zX23MtuNzEyW8jAk6VklWMH6dHZjR0uB6l2qPT/aDJ7gvjoU2kvIvCcPRkP
-         z1TAaqyHYidE+s5tlU+pUXpfEESBOCxeDMWL58RNh17+4hZ5JgmPOthqO851+WUeyKPM
-         dEtNmo/X2WNo4DGfkh8lnhadvL2xy4Bb45nBwIAMK2wlRhtR+8TzXFQG5gVEjRTxlFl+
-         1m2uX+cS65v3154p0KTZfq5yxz8KziNX6mxIHzXnsWroCn+TtK3Xdd2JNtXk/eELhe7R
-         CvyQ==
+        b=tEDsvDpliCY7bEGqOyz+wM6dbimKO7R+0nMJK0y7D0yITNOQ6TuyCZru9U7QDjTBwW
+         UhGc7seRRzWU7za5E6DFJuk4olgHIoNtRf89DWY8cxVJcf1j5Q5E2W6Gv7ZuGYknS2JN
+         edNfSm45WtzuSER2zNk23mgt7KeYEtt05ZlAGR6hRoJtaY6L9iCwPFG2MBHmdVPqUL3S
+         9rx2+8EuaygGvf0uNuHYMxB97YtaREJIFacuxeSvGdRrMaKaavaihi9/HRNV4t60FEhA
+         GToL3g+F88D0stobrqVPPL5FzhE4pknwqDYbGd1Bf6pxHQktBQuaR1gd83Ka1lc2LGjm
+         LflA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to:content-transfer-encoding;
         bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=BtqFRFPTGqFDmOAKpUk4FMcKb4TGNJZW5KSxjTnHmMogVSKgoJJE/Zmd9GOcGgZKDU
-         /X+B5PraSl9fTyECiNYRNQvYnXdfgNQbpU/JE1gZwhcBr7tbIPjm2cxSfkX0XEeCaaZZ
-         S/M+sXD4UgkCmjPEFt0fwQmebial04LpqQ+50lMPfSF5Rg6YHplL52XnNHwPP9d/2rKn
-         NgjI8rhHIEgLq5Bzbwft3fUEpo8lQtBOzJQdsWh4LN8fOw1AAH4lr3ryG6iU/xwLdnJ+
-         G0+zhIkfJdBCIJQiOftpV1uTs9UlsQ/broJRxpXYrtZ4F8kgsT8eivsRHrUdBy00g32h
-         hAbg==
-X-Gm-Message-State: AOAM532EP7bsRwte/XCv2A0qkoVaHR409QhWgvSiPSnGgpkeMDVBwggB
-        t6f4fs5bzOIVSNKvbbU9m9pSDvXm8nM/2pGWrWmY5+Me
-X-Google-Smtp-Source: ABdhPJyEb9D41IJMAG+4/rmJPz284XeQ02iiqNCa31/tXg+e/iq3LN7bjVzQtoX3nkxQlV6h93V0GDb/j3z8xc82I5I=
-X-Received: by 2002:aca:504c:: with SMTP id e73mr1900056oib.63.1596044266433;
- Wed, 29 Jul 2020 10:37:46 -0700 (PDT)
+        b=psxXaWV6fPUOLnrolf0CeriAYazyBOixSbYYNr0dNNVbu26c8Ngotho2G+7qVGYRSa
+         DGKiCzo9QcyljLiAGsy9kd1qoSXR77kApZK0l0/O9qqZfcg5SOa4gsjuYbQvfbrbdqo+
+         JyEuovdXS2LB4b97WuP1vxP9j2YOsd7gxOyUEtCSeV4GXY0znnWFIZOYMzBKRC/1Ut/0
+         /MdovG/b9/ZWgHUTW4+vQEnXjysKjaC7Ap4C2yEMjEWlDuP5E6N9/0osncC/i3WQEqT7
+         fD401ggjvZYy3chXOZdPyF3KnAfJkQEPdqJcSvAJ8jof8Rc7odcw5uON/pOix4KjspH1
+         SNXQ==
+X-Gm-Message-State: AOAM5331YqQ+G8ELjqMq/+IVpjUJBdwvYeVDc6LS+IqNDYHI8ijH+hnc
+        /uTEIIN9fFEaE/HgkoCIIcH+yqn+Fb23CsqvDwB/P55D
+X-Google-Smtp-Source: ABdhPJwDQ7ELgV347yPvW8gKah5rGaYfLYGszd521/408IiyRIES14BVfOXp2ROtq9aGyWCzOT5Mbmo+7g4HeQUo6DI=
+X-Received: by 2002:a9d:6a04:: with SMTP id g4mr12061493otn.212.1596044349214;
+ Wed, 29 Jul 2020 10:39:09 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:7dc2:0:0:0:0:0 with HTTP; Wed, 29 Jul 2020 10:37:45
+Received: by 2002:a9d:7dc2:0:0:0:0:0 with HTTP; Wed, 29 Jul 2020 10:39:08
  -0700 (PDT)
 Reply-To: sctnld11170@tlen.pl
 From:   "Mr. Scott Donald" <jesseomar11@gmail.com>
-Date:   Wed, 29 Jul 2020 10:37:45 -0700
-Message-ID: <CAJs48TDD7LcxPwq55Tdp8nDmntbOHhEFc+nDSZE1Abq79Ybe5w@mail.gmail.com>
+Date:   Wed, 29 Jul 2020 10:39:08 -0700
+Message-ID: <CAJs48TBKTYXVogQkz7=Kr-OaOW2jokzqUSd=XSUvQ3hF1A7mAQ@mail.gmail.com>
 Subject: Hello, Please
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
