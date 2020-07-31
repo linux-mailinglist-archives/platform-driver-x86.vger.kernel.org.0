@@ -2,104 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFE8F233EFF
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 Jul 2020 08:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50540234721
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 Jul 2020 15:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731152AbgGaGT1 (ORCPT
+        id S1730367AbgGaNrB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 31 Jul 2020 02:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731369AbgGaGTY (ORCPT
+        Fri, 31 Jul 2020 09:47:01 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:41901 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727851AbgGaNrB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 31 Jul 2020 02:19:24 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83D3C06174A
-        for <platform-driver-x86@vger.kernel.org>; Thu, 30 Jul 2020 23:19:23 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id c80so7593165wme.0
-        for <platform-driver-x86@vger.kernel.org>; Thu, 30 Jul 2020 23:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qPKXXpJdjKCrkxbnD31J9NcdUb/tXEBn+ARL8Y6Ysd8=;
-        b=tXVqKIx9YeutJTEwLUXbENDyhttvDO3dblr6fxNoUIoyOSofGamNKD+xTV0WpAfiEG
-         3ETCLAtRqNYrUxOT8PIb1nlELDzskGVDilJdLjyn69+hgV+lW/viQf+ympqGXsDJo9xD
-         sY/kqBtch/f0zMWm1AVKLTE9ZGdpSTtfzRjrkNU5oWnX/gbBMQNZJis6dQY9ZVuDr/Ph
-         tUPi0o6j4p5N89JlWf62pCKWk/t36X1Mdf/pz9wMf3LNac7hKSDW604IMOJJTNEiwg9l
-         xwiVZQ9EAUdWLT2hXFEUlY5jGh1Fz6m8IQORxoTZDMtO33eEQkiouNcCDRBj7zo8AGmt
-         K00Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qPKXXpJdjKCrkxbnD31J9NcdUb/tXEBn+ARL8Y6Ysd8=;
-        b=eJxGkuNLBtqFU9Td+ZXU+i8lGzsoro5Mh05dPA61fbIa/M3TjLtX22msVCJZOVXXzQ
-         h3UmcOyIe2ORJ9F5W9K7JfOWL+xXBmzAr7sWDzy/x85ehc7s31o6tMZifZsMTbCYrSz2
-         68LcSxn69zTZU29rLLNevrIXoA40P74idDhXD014XhrAhryn4B9obAKkcKbfeMn9vqEu
-         cBKC+5I4JPYvxr8m0DYYp9OreajcmkCRUK7W78LTSSXuok0Gpu0U0jQ+yGS015r3RLtO
-         XWWA75tuLE84tDVnYr+6J8VCjqtdCohbEEBdAkTWuYwb4tnSuK3V2Z5uiBbZwWZY44bO
-         Wp7g==
-X-Gm-Message-State: AOAM532TQtEamcqTl8B4cZBux5M8xLOrC+6r0BbND9oEefOwn3oIUe5L
-        lre759lvV5+eQAoJdHtvRrhWHw==
-X-Google-Smtp-Source: ABdhPJwcZeUYAOIT7hP4EH+JmFxHst2IgQ5lloYBKPkq4SUaU7RgmepyQcQ91JfPqooLOOrlqaMcEA==
-X-Received: by 2002:a1c:dc02:: with SMTP id t2mr2360258wmg.55.1596176362350;
-        Thu, 30 Jul 2020 23:19:22 -0700 (PDT)
-Received: from dell ([2.27.167.73])
-        by smtp.gmail.com with ESMTPSA id n24sm4604652wmi.36.2020.07.30.23.19.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2020 23:19:21 -0700 (PDT)
-Date:   Fri, 31 Jul 2020 07:19:19 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mark D Rustad <mrustad@gmail.com>
-Cc:     "David E. Box" <david.e.box@linux.intel.com>, dvhart@infradead.org,
-        andy@infradead.org, bhelgaas@google.com,
-        alexander.h.duyck@linux.intel.com,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH V4 2/3] mfd: Intel Platform Monitoring Technology support
-Message-ID: <20200731061919.GJ2419169@dell>
-References: <20200714062323.19990-1-david.e.box@linux.intel.com>
- <20200717190620.29821-3-david.e.box@linux.intel.com>
- <20200728075859.GH1850026@dell>
- <3DCA0A88-0890-49EE-8644-E6311E891C55@gmail.com>
+        Fri, 31 Jul 2020 09:47:01 -0400
+Received: from [192.168.1.155] ([95.114.120.213]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MNLVU-1kQLlT1Ho2-00Oq7X; Fri, 31 Jul 2020 15:46:01 +0200
+Subject: Re: [PATCH 1/1] platform/x86: revert pcengines-apuv2 wire up
+ simswitch gpio as led
+To:     Florian Eckert <fe@dev.tdt.de>, info@metux.net,
+        vhart@infradead.org, andy@infradead.org,
+        Eckert.Florian@googlemail.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200713085010.26394-1-fe@dev.tdt.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <6def788e-f2f8-da80-b189-56ae4630440f@metux.net>
+Date:   Fri, 31 Jul 2020 15:45:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200713085010.26394-1-fe@dev.tdt.de>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: tl
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3DCA0A88-0890-49EE-8644-E6311E891C55@gmail.com>
+X-Provags-ID: V03:K1:gvQASfyCUdBJUlXB+j8gsge/Qsoqfw6HG2tgxqrlkG1x1JVZ9ua
+ AbOYsJWe1+Vi13224V7IXa+3NIfzFfA72TRcGqx5BgudblxRmQDUhuvwI4+AoOqdysnOSog
+ KED5MY2Q5Rn8xSqVq12VSGD9gBkkzCqDMoBlhgRQ2gywiN+AFSRIbK2f9gR2BT1+JjrOsxv
+ qUpfl2+x9vSDoI5uECQQg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AjfJU2kW+VE=:sk/JXlCjo8h1jsPPXyG8or
+ ViEbfNIypIzFFh6PXajXRjNbr+x0h7f0qu/coCWkZq2wF8rVQxpxRNtLN80SYjoUolsEVOxEc
+ o+yMvMMXU0WHs4zE0sZtVnxCOlZmNJSr1BeQvE8878DW4Me5Eazo1HN4GCYkyfZjFqK5Y69CR
+ gC/XXu/LxP9Di67oMDISJIm4PwKa27LDNWvnGRrB9DFDLG/ovw/nT7SbZ3SAJZvLgZlDSDuFv
+ YxR8Dmxlr+ZZdC1DHSQWg9K9asbdyrREfKRkfFGqtgEggnr1vgw/rvYGdUL34/dOggAYnNr56
+ Zpjb5UBR0eWF/JjjvqyPSzLWpMAAy1CsmqAXnTgC0IKgx7+pmFg2g0o2t1/cVvPXH4vJjXJd7
+ 48o4gN38AjGp+n7tkT7kHJUhefMJoX8vBjcnsW/VAms8jQxj/gSt92PReevx3UkOzfeqIBzw0
+ fHvnXhBFIZdXDAgXYttzCtFrITk9U8+n2t/8ora3k95K9vH5jlIlUyhqi221jyK/EeFPEWHzK
+ CA6QMgGYUFerq5v8qmKv79VVXWogDgzdlG3xxQxmSvxI6KJPRcIuNLnpyPl59ZpvUG/6JW4mK
+ YX7US77H6XyQkEY99+9RdPBY9r3uURl+vmiDtUKySiDNmfaAFcczxg/LBkXcGWKXsU1bodvcS
+ RwjE9NykMoDLFcNWwZoClzVS1ZMOAcTlj8awMlu0kRm2kYtPRnkVSL6JSxMw0yhglXquIgA7u
+ 6oM/5C+6BcayajvoSgPtOgYZ+ahnSv0vmXWonUfRSe3S57Q9MmU8WIC4E8yzDobJuEuiZ3C0r
+ GU8ohq6d8tYk4p+ASY57twMBNPtTe7OQ/v3uTkkKdcqCXOFAuoHiHz7t874iYYT9o/I54sG
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 29 Jul 2020, Mark D Rustad wrote:
+On 13.07.20 10:50, Florian Eckert wrote:
 
-> at 12:58 AM, Lee Jones <lee.jones@linaro.org> wrote:
-> 
-> > If you do:
-> > 
-> > 	do {
-> > 		int pos;
-> > 
-> > 		pos = pci_find_next_ext_capability(pdev, pos, PCI_EXT_CAP_ID_DVSEC);
-> > 		if (!pos)
-> > 			break;
-> > 
-> > Then you can invoke pci_find_next_ext_capability() once, no?
-> 
-> Part of your suggestion here won't work, because pos needs to be initialized
-> to 0 the first time. As such it needs to be declared and initialized outside
-> the loop. Other than that it may be ok.
+Hello Florian,
 
-Right.  It was just an example I quickly hacked out.
+> This reverts commit 5037d4ddda31c2dbbb018109655f61054b1756dc.
 
-Feel free to move the variable, or make it static, etc.
+no, please dont.
+
+> This change connects the simswap to the LED subsystem of the kernel.
+> From my point of view, it's nonsense. If we do it this way, then this
+> can be switched relatively easily via the LED subsystem (trigger:
+> none/default-on) and that is dangerous! If this is used, it would be
+> unfavorable, since there is also another trigger (trigger:
+> heartbeat/netdev).
+
+I don't think that potential silly abuse is a good argument. It if
+would, we should also disallow things like "echo FOO > /dev/sda" :p
+
+The reason for it wire'ing up was having an simple and easy to use
+interface. Raw gpios do NOT meet this criteria: complicated to use and
+not stable addressing (from userland PoV) - would require an extra
+userland program just for that single specific task.
+
+Yes, LED is not the optimal approach, same for other gpio-connected
+switches, eg. relais or various multiplexers. But as long as we don't
+have a really fitting subsystem, it's IMHO the best compromise we have
+so far.
+
+Actually, I've already been hacking on a better subsystem, which models
+switchable inter-device connections. It's called portmux. But it's not
+usable yet. Lets talk about this instead of just wildly dropping
+existing functionality, that's used in the field.
+
+
+--mtx
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
