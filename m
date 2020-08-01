@@ -2,84 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A42523512C
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Aug 2020 10:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DA1B2351E5
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Aug 2020 13:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbgHAIht (ORCPT
+        id S1728418AbgHALqP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Aug 2020 04:37:49 -0400
-Received: from mga03.intel.com ([134.134.136.65]:16502 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725931AbgHAIhs (ORCPT
+        Sat, 1 Aug 2020 07:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726808AbgHALqO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Aug 2020 04:37:48 -0400
-IronPort-SDR: R1iFPdgJBQq8TS7Sv5buFBqdc0QdTVogWBnOKvEG++dn0KaR4uK/+hCDv4e4Bhim0Jfc4Vw8fh
- mBD0GixQEymA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9699"; a="151885370"
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; 
-   d="scan'208";a="151885370"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2020 01:37:48 -0700
-IronPort-SDR: 3rIhv1RTDGof2gdk7vtoKxsmN5ZmrWZlx8LzoOfE/xErds9IIESqEgaFh1buDNDeDep81weoAD
- tfidI26tF+bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,420,1589266800"; 
-   d="scan'208";a="273471456"
-Received: from lkp-server01.sh.intel.com (HELO e21119890065) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Aug 2020 01:37:46 -0700
-Received: from kbuild by e21119890065 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1k1n1V-0000Nr-Mn; Sat, 01 Aug 2020 08:37:45 +0000
-Date:   Sat, 1 Aug 2020 16:36:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc:     kbuild-all@lists.01.org,
+        Sat, 1 Aug 2020 07:46:14 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8CAC06174A;
+        Sat,  1 Aug 2020 04:46:14 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id lx9so9003275pjb.2;
+        Sat, 01 Aug 2020 04:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JqwMdEfXUJjeMpYuVIJT0vSfY1n0L5nS06aKjQVfgw8=;
+        b=gkYuhgecj9jw06Z7ftjDxYkoeGW/yyUGv1Z6ZEJRNlImdR2SvO8/Rn7Rn8TmmjD+nG
+         xJnUwjJfEEZTK6AGkyWARchEk6fSIwSggPnxrDTDLO6cJ3gK5gEWc+VeXmXWmg/BtNP9
+         Za8+1SiDav6/QumX5bX5rCXc2FswTBazPsToR+ndGB6MiCyk8txIyLnrMlr0xNhDIYRl
+         8UGJhp/7YdXJteEGRge8k3CSq+n/NWveeiokwYtNqupim092TDkfObb71ehXs1NckJ18
+         8GC+PcjCUq+myur3bv4NEIfBMEXkP1VyqunHiOB3iTDQ7kux4FsDXeTmnJLvYZsic26q
+         uZFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JqwMdEfXUJjeMpYuVIJT0vSfY1n0L5nS06aKjQVfgw8=;
+        b=MQmLkaz+Tt2yFIueQ/v6cGs7sDHFVKidF1WyUe3eDvjCeow+QWtBPEy2dge17JzPA+
+         mC5p4iWVgodfUE8mXFi2gQ9yiZPP7WuLzlx2Mzv2Vw0Vx1lbYfcncG0FMb/I3Fmu8Ke0
+         sIz8j0D9FtR/76rNcwLIIKR/uUGdL8bN39+CjJ4UFG/JO8ftU1I1V8xuNMlq7Wr/sE0w
+         GFCg++gg8a5Lp1eNpYSaC+E/4jUNGLnenwrRHHSrve+QRZ8Vk5rMOI/e26jAr47Nx74R
+         +KA6kj2bPV50RBPDgSCTaFSJE26tcbM4u19vRy7r+SawCoLB8HCn6jzRFbXcTFYR8KuF
+         3nWQ==
+X-Gm-Message-State: AOAM532mB/A9iEAtlntrLDNgF3mzCxO9+o+gHhfcaa1YR0jVbFwtC0xk
+        2HmXSMyKg4nzmyBiJvAvFHrRVJkCmrmkzl+9XAr3QNSM
+X-Google-Smtp-Source: ABdhPJxZPnbnEuhSbOVm0PHNhVFTbdDVwSsxfaBBP5Foa802NDOKsHBcXYeXjdoTLAM8Lgoo6by+i9c7SoEH2XHbUeE=
+X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr8564857pjp.228.1596282373694;
+ Sat, 01 Aug 2020 04:46:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <202008011649.b8CEYWIz%lkp@intel.com> <20200801083654.GA31368@144836a6079b>
+In-Reply-To: <20200801083654.GA31368@144836a6079b>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 1 Aug 2020 14:45:57 +0300
+Message-ID: <CAHp75VcCa4whJ7ry9uU+14suLbGPvKgRFJku3dC+dPVNzc0d5Q@mail.gmail.com>
+Subject: Re: [RFC PATCH linux-next] platform/x86: thinkpad_acpi:
+ dev_attr_charge_start_threshold can be static
+To:     kernel test robot <lkp@intel.com>
+Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        kbuild-all@lists.01.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
         Darren Hart <dvhart@infradead.org>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH linux-next] platform/x86: thinkpad_acpi:
- dev_attr_charge_start_threshold can be static
-Message-ID: <20200801083654.GA31368@144836a6079b>
-References: <202008011649.b8CEYWIz%lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202008011649.b8CEYWIz%lkp@intel.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Sat, Aug 1, 2020 at 11:38 AM kernel test robot <lkp@intel.com> wrote:
 
-Fixes: e33929537b76 ("platform/x86: thinkpad_acpi: use standard charge control attribute names")
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- thinkpad_acpi.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks and sorry folks, Hulk robot was faster, and TBH their patch
+looks much better (proper commit message applied). Perhaps something
+LKP should work on?
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 9eda2f84a3cf98..4864a5c189d464 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -9633,13 +9633,13 @@ static ssize_t charge_control_end_threshold_store(struct device *dev,
- 
- static DEVICE_ATTR_RW(charge_control_start_threshold);
- static DEVICE_ATTR_RW(charge_control_end_threshold);
--struct device_attribute dev_attr_charge_start_threshold = __ATTR(
-+static struct device_attribute dev_attr_charge_start_threshold = __ATTR(
- 	charge_start_threshold,
- 	0644,
- 	charge_control_start_threshold_show,
- 	charge_control_start_threshold_store
- );
--struct device_attribute dev_attr_charge_stop_threshold = __ATTR(
-+static struct device_attribute dev_attr_charge_stop_threshold = __ATTR(
- 	charge_stop_threshold,
- 	0644,
- 	charge_control_end_threshold_show,
+> Fixes: e33929537b76 ("platform/x86: thinkpad_acpi: use standard charge control attribute names")
+> Signed-off-by: kernel test robot <lkp@intel.com>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
