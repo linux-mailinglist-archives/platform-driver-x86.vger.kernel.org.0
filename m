@@ -2,82 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA1B2351E5
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Aug 2020 13:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D5F423542E
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Aug 2020 21:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728418AbgHALqP (ORCPT
+        id S1726477AbgHATnu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Aug 2020 07:46:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726808AbgHALqO (ORCPT
+        Sat, 1 Aug 2020 15:43:50 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:44463 "EHLO
+        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725939AbgHATnt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Aug 2020 07:46:14 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8CAC06174A;
-        Sat,  1 Aug 2020 04:46:14 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id lx9so9003275pjb.2;
-        Sat, 01 Aug 2020 04:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JqwMdEfXUJjeMpYuVIJT0vSfY1n0L5nS06aKjQVfgw8=;
-        b=gkYuhgecj9jw06Z7ftjDxYkoeGW/yyUGv1Z6ZEJRNlImdR2SvO8/Rn7Rn8TmmjD+nG
-         xJnUwjJfEEZTK6AGkyWARchEk6fSIwSggPnxrDTDLO6cJ3gK5gEWc+VeXmXWmg/BtNP9
-         Za8+1SiDav6/QumX5bX5rCXc2FswTBazPsToR+ndGB6MiCyk8txIyLnrMlr0xNhDIYRl
-         8UGJhp/7YdXJteEGRge8k3CSq+n/NWveeiokwYtNqupim092TDkfObb71ehXs1NckJ18
-         8GC+PcjCUq+myur3bv4NEIfBMEXkP1VyqunHiOB3iTDQ7kux4FsDXeTmnJLvYZsic26q
-         uZFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JqwMdEfXUJjeMpYuVIJT0vSfY1n0L5nS06aKjQVfgw8=;
-        b=MQmLkaz+Tt2yFIueQ/v6cGs7sDHFVKidF1WyUe3eDvjCeow+QWtBPEy2dge17JzPA+
-         mC5p4iWVgodfUE8mXFi2gQ9yiZPP7WuLzlx2Mzv2Vw0Vx1lbYfcncG0FMb/I3Fmu8Ke0
-         sIz8j0D9FtR/76rNcwLIIKR/uUGdL8bN39+CjJ4UFG/JO8ftU1I1V8xuNMlq7Wr/sE0w
-         GFCg++gg8a5Lp1eNpYSaC+E/4jUNGLnenwrRHHSrve+QRZ8Vk5rMOI/e26jAr47Nx74R
-         +KA6kj2bPV50RBPDgSCTaFSJE26tcbM4u19vRy7r+SawCoLB8HCn6jzRFbXcTFYR8KuF
-         3nWQ==
-X-Gm-Message-State: AOAM532mB/A9iEAtlntrLDNgF3mzCxO9+o+gHhfcaa1YR0jVbFwtC0xk
-        2HmXSMyKg4nzmyBiJvAvFHrRVJkCmrmkzl+9XAr3QNSM
-X-Google-Smtp-Source: ABdhPJxZPnbnEuhSbOVm0PHNhVFTbdDVwSsxfaBBP5Foa802NDOKsHBcXYeXjdoTLAM8Lgoo6by+i9c7SoEH2XHbUeE=
-X-Received: by 2002:a17:90a:a393:: with SMTP id x19mr8564857pjp.228.1596282373694;
- Sat, 01 Aug 2020 04:46:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <202008011649.b8CEYWIz%lkp@intel.com> <20200801083654.GA31368@144836a6079b>
-In-Reply-To: <20200801083654.GA31368@144836a6079b>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 1 Aug 2020 14:45:57 +0300
-Message-ID: <CAHp75VcCa4whJ7ry9uU+14suLbGPvKgRFJku3dC+dPVNzc0d5Q@mail.gmail.com>
-Subject: Re: [RFC PATCH linux-next] platform/x86: thinkpad_acpi:
- dev_attr_charge_start_threshold can be static
-To:     kernel test robot <lkp@intel.com>
-Cc:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        kbuild-all@lists.01.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Sat, 1 Aug 2020 15:43:49 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id E6134C18;
+        Sat,  1 Aug 2020 15:43:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sat, 01 Aug 2020 15:43:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=tHKDE1Y2PpmdsfuJ9iiPoAeslyc
+        vidfTfqXrtYPUbi4=; b=23iR1+LCg/+h2u7RUcKVZESBr5CcbHFfESfRkc5HKgG
+        5vUZhC8lAaI8oYJFHakuCTYKKua7+b867naBlyb/kQ4WJqyH5hzTJA9B/yy50wfy
+        ctblZN055PEJIhxLB4WOcDeiGzBFGVOqaYcavAUFYcvuYmXiB3ELaqO22FnKqWk2
+        RVU31oUUzKvbeQz+ddf442I89/mlO2XkPZ/ZCL8gV00as3pyJBrUOWW9Nxwy0qF8
+        XFD1DwMPQ/VVnmMQgpZhDNmbT9vJQIl1Nh+tqW/jaHKxvnhyHY5SfNh8iy4Rdcan
+        fKgiU71kDl4hNUfgqPTQLjTfKQ1hS9qNkMfod9R16mg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tHKDE1
+        Y2PpmdsfuJ9iiPoAeslycvidfTfqXrtYPUbi4=; b=S5bQhytbObH6T8occOCzn8
+        ps99E6RyKeeNOzYmINIPb2fhsvg8bTrQunI2a2KQqunPM4hhg/knpWfE2/ERsoyh
+        6U+gtpC1txgxU6gFQCr1r1TH5QJxx0BirCEaO4h8nby3vhujPolhGlJNAuZW2qm7
+        3XkNm3XNvPgQJPNvcTzwiDn4VToC/xk00AE9eFOWyUX84iHRYI85oMFQHm+vouzO
+        OBbZsYGK3A3TWP8CIE0X9Kq93g7W5woJvCN56Rysj3BfB7ifq4ojcrqdNJeFpcqH
+        FD9COw8QzMdcixxl0jnhBeq/L9T2xxfNbqV3/EJfZNckAXzHmZ+YOiqAS/G6PbFA
+        ==
+X-ME-Sender: <xms:8sUlXyqoBxDm-ibvZPN6YxIZcE6IcpM0gmadJqEr2lyerCOTFERqVQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjedtgddugedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhr
+    ihhquhgvucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnh
+    hgrdgsrheqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfh
+    jeefgeekheekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhh
+    rdgvnhhgrdgsrh
+X-ME-Proxy: <xmx:8sUlXwpyBm-l0Cu0r-dwAuFIwAtRjtsp1eF6k4sXK7O5huhcDp3fhg>
+    <xmx:8sUlX3Piy9R6CBycvvkKvm84z53wkPVYVFzdk8tjwgbigV4HHa9dkA>
+    <xmx:8sUlXx4pKolqadNek1hErofL8Tkijff2WdsC2l5SQRi8uIvdyWa0IQ>
+    <xmx:88UlX7tNVJMDg9GRPxflN-dR88utVzw26GxDmbActG3O9EGF9D0cH4nOmhA>
+Received: from khazad-dum.debian.net (unknown [177.194.7.32])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 1821A306005F;
+        Sat,  1 Aug 2020 15:43:46 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 5B674340163A;
+        Sat,  1 Aug 2020 16:43:44 -0300 (-03)
+X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
+Received: from khazad-dum.debian.net ([127.0.0.1])
+        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id 0SZCIBDTFX4O; Sat,  1 Aug 2020 16:43:42 -0300 (-03)
+Received: by khazad-dum.debian.net (Postfix, from userid 1000)
+        id CD5943400161; Sat,  1 Aug 2020 16:43:42 -0300 (-03)
+Date:   Sat, 1 Aug 2020 16:43:42 -0300
+From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Darren Hart <dvhart@infradead.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
         Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+Message-ID: <20200801194342.GB10318@khazad-dum.debian.net>
+References: <20200717114155.56222-1-hdegoede@redhat.com>
+ <20200719225649.GA4341@khazad-dum.debian.net>
+ <20200722054144.GQ1665100@dtor-ws>
+ <20200727005049.GA10254@khazad-dum.debian.net>
+ <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com>
+ <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
+ <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
+X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
+ 0BD9 E811 39CB 4807
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Aug 1, 2020 at 11:38 AM kernel test robot <lkp@intel.com> wrote:
+On Mon, 27 Jul 2020, Andy Shevchenko wrote:
+> On Mon, Jul 27, 2020 at 10:49 AM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Mon, Jul 27, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
+> > > > On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
+> > > >> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+> > > >>> On Fri, 17 Jul 2020, Hans de Goede wrote:
+> > > >>>> This is a simple patch-series adding support for 3 new hotkeys found
+> > > >>>> on various new Lenovo Thinkpad models.
+> > > >>>
+> > > >>> For all three patches, pending an ack for the new keycodes by the input
+> > > >>> maintainers:
+> > > >>>
+> > > >>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> > > >>
+> > > >> Do you want me to merge all 3 through input tree?
+> > > >
+> > > > Hans, Daren, Andy, what do you prefer?
+> > >
+> > > Taking all this upstream through Dmitry's input tree is fine with
+> > > me, but this really is up to Andy and/or Daren.
+> >
+> > Fine with me.
+> 
+> To be clear, I assume it will go thru input tree.
+> If my formal tag needed, use
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Thanks and sorry folks, Hulk robot was faster, and TBH their patch
-looks much better (proper commit message applied). Perhaps something
-LKP should work on?
-
-> Fixes: e33929537b76 ("platform/x86: thinkpad_acpi: use standard charge control attribute names")
-> Signed-off-by: kernel test robot <lkp@intel.com>
-
+Also,
+Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+  Henrique Holschuh
