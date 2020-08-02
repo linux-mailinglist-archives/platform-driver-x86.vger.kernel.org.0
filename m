@@ -2,139 +2,192 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5F423542E
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Aug 2020 21:43:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4B5235504
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Aug 2020 06:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgHATnu (ORCPT
+        id S1725772AbgHBEOj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 1 Aug 2020 15:43:50 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:44463 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725939AbgHATnt (ORCPT
+        Sun, 2 Aug 2020 00:14:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbgHBEOi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 1 Aug 2020 15:43:49 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id E6134C18;
-        Sat,  1 Aug 2020 15:43:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Sat, 01 Aug 2020 15:43:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=tHKDE1Y2PpmdsfuJ9iiPoAeslyc
-        vidfTfqXrtYPUbi4=; b=23iR1+LCg/+h2u7RUcKVZESBr5CcbHFfESfRkc5HKgG
-        5vUZhC8lAaI8oYJFHakuCTYKKua7+b867naBlyb/kQ4WJqyH5hzTJA9B/yy50wfy
-        ctblZN055PEJIhxLB4WOcDeiGzBFGVOqaYcavAUFYcvuYmXiB3ELaqO22FnKqWk2
-        RVU31oUUzKvbeQz+ddf442I89/mlO2XkPZ/ZCL8gV00as3pyJBrUOWW9Nxwy0qF8
-        XFD1DwMPQ/VVnmMQgpZhDNmbT9vJQIl1Nh+tqW/jaHKxvnhyHY5SfNh8iy4Rdcan
-        fKgiU71kDl4hNUfgqPTQLjTfKQ1hS9qNkMfod9R16mg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tHKDE1
-        Y2PpmdsfuJ9iiPoAeslycvidfTfqXrtYPUbi4=; b=S5bQhytbObH6T8occOCzn8
-        ps99E6RyKeeNOzYmINIPb2fhsvg8bTrQunI2a2KQqunPM4hhg/knpWfE2/ERsoyh
-        6U+gtpC1txgxU6gFQCr1r1TH5QJxx0BirCEaO4h8nby3vhujPolhGlJNAuZW2qm7
-        3XkNm3XNvPgQJPNvcTzwiDn4VToC/xk00AE9eFOWyUX84iHRYI85oMFQHm+vouzO
-        OBbZsYGK3A3TWP8CIE0X9Kq93g7W5woJvCN56Rysj3BfB7ifq4ojcrqdNJeFpcqH
-        FD9COw8QzMdcixxl0jnhBeq/L9T2xxfNbqV3/EJfZNckAXzHmZ+YOiqAS/G6PbFA
-        ==
-X-ME-Sender: <xms:8sUlXyqoBxDm-ibvZPN6YxIZcE6IcpM0gmadJqEr2lyerCOTFERqVQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrjedtgddugedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjfgesthdttddttdervdenucfhrhhomhepjfgvnhhr
-    ihhquhgvucguvgcuofhorhgrvghsucfjohhlshgthhhuhhcuoehhmhhhsehhmhhhrdgvnh
-    hgrdgsrheqnecuggftrfgrthhtvghrnhepveduteejgeeiudefuefgieehleejkeefudfh
-    jeefgeekheekvddvheehleegveeinecukfhppedujeejrdduleegrdejrdefvdenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehhmhhhsehhmhhh
-    rdgvnhhgrdgsrh
-X-ME-Proxy: <xmx:8sUlXwpyBm-l0Cu0r-dwAuFIwAtRjtsp1eF6k4sXK7O5huhcDp3fhg>
-    <xmx:8sUlX3Piy9R6CBycvvkKvm84z53wkPVYVFzdk8tjwgbigV4HHa9dkA>
-    <xmx:8sUlXx4pKolqadNek1hErofL8Tkijff2WdsC2l5SQRi8uIvdyWa0IQ>
-    <xmx:88UlX7tNVJMDg9GRPxflN-dR88utVzw26GxDmbActG3O9EGF9D0cH4nOmhA>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1821A306005F;
-        Sat,  1 Aug 2020 15:43:46 -0400 (EDT)
+        Sun, 2 Aug 2020 00:14:38 -0400
+Received: from mail.bin-co.de (mail.bin-co.de [IPv6:2a02:c207:3002:169::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E45C06174A
+        for <platform-driver-x86@vger.kernel.org>; Sat,  1 Aug 2020 21:14:37 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id 5B674340163A;
-        Sat,  1 Aug 2020 16:43:44 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id 0SZCIBDTFX4O; Sat,  1 Aug 2020 16:43:42 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id CD5943400161; Sat,  1 Aug 2020 16:43:42 -0300 (-03)
-Date:   Sat, 1 Aug 2020 16:43:42 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-Message-ID: <20200801194342.GB10318@khazad-dum.debian.net>
-References: <20200717114155.56222-1-hdegoede@redhat.com>
- <20200719225649.GA4341@khazad-dum.debian.net>
- <20200722054144.GQ1665100@dtor-ws>
- <20200727005049.GA10254@khazad-dum.debian.net>
- <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com>
- <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
- <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
+        by mail.bin-co.de (Postfix) with ESMTP id 7DC7C4444647;
+        Sun,  2 Aug 2020 06:14:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
+        s=201801; t=1596341672;
+        bh=hLs3Fbuuh0cpu+gM2k3QF51JPUFrgjFo6ZJ0kFw3qsk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=J5aj6eaRQM+hlZFSUaKvqF0aTnW5xueGWTcAoUDirhHDY79Qpa2RtVnvUl2jbUpyT
+         Sg558xDmRbql6SwZ7GndwdmKhn+C3EqFaD30Bxj/gAku0ieWUYe6p0/K5sZ/2qM/DH
+         XdZXIE0z3ZMMOsUpjeCpppAPbnqT2rUAs8GcBOUrwcQXF2lXU3myP2f3xoP5bXKVln
+         Or/jGh2+WzCLy7r9pFCyvheMQom/u8L/Iov4umtQ39mHXg39Kcps7bDVIJTbIAUvTX
+         97qT0l6bwenGLTF/XY6pGmUlG2O3bJp8lmcN5fc3bLUOdRtNUzEyiQ0tq558lOk8bp
+         tKGpmFsB9LKYA==
+X-Virus-Scanned: amavisd-new at bin-co.de
+Received: from mail.bin-co.de ([127.0.0.1])
+        by localhost (mail.bin-co.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Z6wpsqEdZdKU; Sun,  2 Aug 2020 06:14:31 +0200 (CEST)
+Received: from DeepBlue.zlan.intra (unknown [90.187.13.225])
+        (Authenticated sender: zappel@retarded.farm)
+        by mail.bin-co.de (Postfix) with ESMTPSA id E11A84444641;
+        Sun,  2 Aug 2020 06:14:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
+        s=201801; t=1596341671;
+        bh=hLs3Fbuuh0cpu+gM2k3QF51JPUFrgjFo6ZJ0kFw3qsk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q21bmeqyby9VXsMVEjY0J85RCOBn7RPkoktjFPPH49TTUawORDRwJKjVvfXNh4mak
+         W7qfajtAhtKmQ338x/2SRhiZBT9qvPaGnCEpl1MEpzYSRzJsQ0IbqIYLysq1Xxvr40
+         YpcRinz9cIprjUj/bCe1xQNlDpyWIXHlfp7WTrmGyo1IC0t59OLjwZX5JNpgMesA1q
+         DXi3TZhOQXqRcOuA0iGWYXtymcQz7AZO4FsgYhUBmlraGLDwOlQdbbXa2BVkxWMlBW
+         6o3vId17H2/fJbQOkwi0oNMy3nmZNGIB09hnF9pnzYgQrQMSS1QW0kqkU5WY7hO7LR
+         u/ag+jU+t1VJA==
+From:   Armas Spann <zappel@retarded.farm>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     corentin.chary@gmail.com, dvhart@infradead.org, andy@infradead.org,
+        Armas Spann <zappel@retarded.farm>
+Subject: [PATCH v4] asus-nb-wmi: add support for ASUS ROG Zephyrus G14 (GA401) and G15 (GA502)
+Date:   Sun,  2 Aug 2020 06:14:18 +0200
+Message-Id: <20200802041418.79418-1-zappel@retarded.farm>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 27 Jul 2020, Andy Shevchenko wrote:
-> On Mon, Jul 27, 2020 at 10:49 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Mon, Jul 27, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
-> > > > On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
-> > > >> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
-> > > >>> On Fri, 17 Jul 2020, Hans de Goede wrote:
-> > > >>>> This is a simple patch-series adding support for 3 new hotkeys found
-> > > >>>> on various new Lenovo Thinkpad models.
-> > > >>>
-> > > >>> For all three patches, pending an ack for the new keycodes by the input
-> > > >>> maintainers:
-> > > >>>
-> > > >>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> > > >>
-> > > >> Do you want me to merge all 3 through input tree?
-> > > >
-> > > > Hans, Daren, Andy, what do you prefer?
-> > >
-> > > Taking all this upstream through Dmitry's input tree is fine with
-> > > me, but this really is up to Andy and/or Daren.
-> >
-> > Fine with me.
-> 
-> To be clear, I assume it will go thru input tree.
-> If my formal tag needed, use
-> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Armas Spann <zappel@retarded.farm>
 
-Also,
-Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+This patch adds the ASUS ROG Zephyrus G14/15 notebook series detection to
+asus-nb-wmi. The detection itself is accomplished by adding two new quirk_entry
+structs (one for each series), as well as all current available G401/G502
+DMI_PRODUCT_NAMES to match the corresponding devices.
 
+patch-changelog:
+v1: initial G401 patches
+v2: --
+v3: re-initial GA401 and GA502 and setting description
+v4: corrected typo(s) added GA502DU series
+
+---
+ drivers/platform/x86/asus-nb-wmi.c | 91 ++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 8c4d00482ef0..1b85cd8433aa 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -110,6 +110,16 @@ static struct quirk_entry quirk_asus_forceals = {
+ 	.wmi_force_als_set = true,
+ };
+ 
++static struct quirk_entry quirk_asus_ga401 = {
++	.wmi_backlight_power = true,
++	.wmi_backlight_set_devstate = true,
++};
++
++static struct quirk_entry quirk_asus_ga502 = {
++	.wmi_backlight_power = true,
++	.wmi_backlight_set_devstate = true,
++};
++
+ static int dmi_matched(const struct dmi_system_id *dmi)
+ {
+ 	pr_info("Identified laptop model '%s'\n", dmi->ident);
+@@ -411,6 +421,87 @@ static const struct dmi_system_id asus_quirks[] = {
+ 		},
+ 		.driver_data = &quirk_asus_forceals,
+ 	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA401IH",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IH"),
++		},
++		.driver_data = &quirk_asus_ga401,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA401II",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA401II"),
++		},
++		.driver_data = &quirk_asus_ga401,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA401IU",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IU"),
++		},
++		.driver_data = &quirk_asus_ga401,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA401IV",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IV"),
++		},
++		.driver_data = &quirk_asus_ga401,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA401IVC",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IVC"),
++		},
++		.driver_data = &quirk_asus_ga401,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA502II",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA502II"),
++		},
++		.driver_data = &quirk_asus_ga502,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA502IU",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IU"),
++		},
++		.driver_data = &quirk_asus_ga502,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA502IV",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IV"),
++		},
++		.driver_data = &quirk_asus_ga502,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "ASUSTeK COMPUTER INC. GA502DU",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GA502DU"),
++		},
++		.driver_data = &quirk_asus_ga502,
++	},
+ 	{},
+ };
+ 
 -- 
-  Henrique Holschuh
+2.28.0
+
