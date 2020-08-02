@@ -2,190 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E13323550C
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Aug 2020 06:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF562355A9
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 Aug 2020 08:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbgHBERd (ORCPT
+        id S1726132AbgHBGWl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 2 Aug 2020 00:17:33 -0400
-Received: from mail.bin-co.de ([173.212.200.19]:33208 "EHLO mail.bin-co.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725770AbgHBERd (ORCPT
+        Sun, 2 Aug 2020 02:22:41 -0400
+Received: from sonic305-20.consmr.mail.ne1.yahoo.com ([66.163.185.146]:35150
+        "EHLO sonic305-20.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725838AbgHBGWl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 2 Aug 2020 00:17:33 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.bin-co.de (Postfix) with ESMTP id 26BFB4444648;
-        Sun,  2 Aug 2020 06:17:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
-        s=201801; t=1596341850;
-        bh=pkV2J+bkWiEGxXTX9Hjgk3ZFAKvfhp8wNg6N7/mrOwU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=p2pEg2Zj6RMtS93cNBap5zBROIIWgVQVP/htLtk+I7BTFtuimRzGB8lDmQP2MH0Wq
-         X+9QTZspcednJwTfdnOtG84+AlnDEmgFa/DZxpJsvyfH1R/WW9Vpjz695nWUmY3QF9
-         NRRUuAIe2SaEfVfw8lz1FVn5Cd9WZ049Qzckw8zh1wZ1maZZ63GVj0xhMRfqarrWVL
-         FWYUzoziVcVjClazdh3j8l2liEngOMCUmlpPs+8khiWoP6XDI9iQw2axImh9PgkBT7
-         nie/gkHyeYY20PbY9fVZo1o0D6F/sYedmBxiMZnDuHHb4x0eTCts+lALM4aNeKx116
-         5byErnew1MIUA==
-X-Virus-Scanned: amavisd-new at bin-co.de
-Received: from mail.bin-co.de ([127.0.0.1])
-        by localhost (mail.bin-co.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id nr9Z52oB2_d7; Sun,  2 Aug 2020 06:17:29 +0200 (CEST)
-Received: from DeepBlue.zlan.intra (unknown [90.187.13.225])
-        (Authenticated sender: zappel@retarded.farm)
-        by mail.bin-co.de (Postfix) with ESMTPSA id E6DBC4444647;
-        Sun,  2 Aug 2020 06:17:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
-        s=201801; t=1596341849;
-        bh=pkV2J+bkWiEGxXTX9Hjgk3ZFAKvfhp8wNg6N7/mrOwU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=N8X84rM1S+WNpoMeQZCnB47ILTFRdOyGJMhizH858eg9qJk8UIGTLOwj9zXw85r+0
-         iZTy9qiJJYL5Kf+B53RbKMaPTB6wvnHiaB5YRB5x8zSoEeoOecNmpuvHrSxi0Un8Co
-         gt+iA6N3qW1l1rD8Ho7vB7RLcAIcCQ4lujbEKkaDZQNfeHZXwUyIauVBttHrcTfZYx
-         ViMIL+m4N7bGTBgekrXvhP/q00qCaJZA5FTwnStB9YAsSk6Bniufr7M+gH4GpaxfEH
-         25cILYBCp27L2zI5aefJjm6WXIaTIAIFNOfKDCB1o3meXSh0ytXVcmka2snLJ5wVGK
-         ilFoO8p80nmMw==
-From:   Armas Spann <zappel@retarded.farm>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     corentin.chary@gmail.com, dvhart@infradead.org, andy@infradead.org,
-        Armas Spann <zappel@retarded.farm>
-Subject: [PATCH v5] asus-nb-wmi: add support for ASUS ROG Zephyrus G14 (GA401) and G15 (GA502)
-Date:   Sun,  2 Aug 2020 06:17:05 +0200
-Message-Id: <20200802041705.79870-1-zappel@retarded.farm>
-X-Mailer: git-send-email 2.28.0
+        Sun, 2 Aug 2020 02:22:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1596349360; bh=ZYZvy+Qaw/dXt8bYbJ9dbPZBZLLQyQWYsj5yGRQem/A=; h=Date:From:Reply-To:Subject:References:From:Subject; b=RL7G3HODsjgXLHjDiUUBM/bvSu7/udleod1s/ZCUVfdVO4oSdUOhMlsGzku6rjbxlZ7cIkV24yYpbEjw8ySOMpYfH163xGwVjjcS8xYNErchURfO1v9dVKDUu89e5GgPsvOWDrGQA5HEOOGVluxUfxJm7dM8+ougPYr2xRr3HPsd6ig6zEc9aE4naNuqUyJU7SzszLZw5IbMPtB7PkTgYRQyuk+n5owQIMY97/A+1NUnP9MuAcbaGagApsAlBvFgqDPP+2Sbr5iCblK31Qnzw75Bj2iVjlcAudwp0JGsiZ7+MTxTcw/8gIm/IjJcaFDiDokGMzrzcbgGQbAXiVZljg==
+X-YMail-OSG: 3oZLJEUVM1l2x7lGkq4FNLIeRio26HDBb6PkTgWg.olKK42LpsfyGqCiAvE2FcX
+ EnzszhZkOXMFfN6DVlgSVHNug_NHBV5djYyLw6TDhO8B1Z06FcIqVfvBaSS4AaKf3e7JjNUL.Pck
+ MJcMYL35fjsDG.5CipneBgjWSBjEtCUXUnJBQH8ds6zxkhMmPkM3sf6nfX07ydZ738VA990mtKUx
+ D8b8YBuKQ_tCXS9pn6NKaiDEBM_Bm_10OOVlhzFv5gMCxSEOcCG3WJQ.iGJvbTPjjyYZSjD71ROI
+ A.VkTmXLF8bo123ROAIfClYVqJO3VlFJV_zgvcxt0vAe2TBXKxXOAD.DKdVcFDGu9oPoMeNJUrFQ
+ uCo_gLRkcTysR1iw5PoMhj.tqrWDlIv9S_Zl0VynrAuI40.8O2njEBBKgMtm9GnyHzhrrgpP5_AH
+ Un2FM0dE_XGopckJLCAV7V8JtvjhjHW15utCwCuBikG7xnXiA_im70zGw1ZVCOYFUQjDh7CK3f.u
+ 95YP8JYdX_KwljzGg7BaNyqUKFzDZKZd6itxak95rUfwxaxctkFcv.giENqoc.FFI6wfSuXWk_zX
+ JMS8KMCNUVlzeSg54_G7erTmMugLeuL5oIQrozy3FauDUh.V05Z58byWu2ZZRGMxx0pMbo3650lc
+ gFalcXE969LZH8zmLenzQ1Rn2tJ8E5H86iIMkDoBtWBmm_RUHzjYz82bGAC2h1N8Q03GgTXaYE9h
+ n6MtWcdTKCeABofFuDlaDXuhSqfEI5lNTeYJQ_TaMHA8BHD_527mf3Kq79EAprwZL1g6wvvEP_YG
+ Pgt4EyyE6UGSbVR1X6A8c1My0G8KHUmw6Fc8J1mc.6VsNvewCz1smy7KV2G68PWL8SKp7wR.NbrV
+ tRydakAbjNOGbwwdplfEnfcew98hq7mpjtFCPp_3UE2gchToy_jrqnE8m4R5yEqrNwGnMpN__rA7
+ R.Qgz5LqTqYOMVCujycYBlI9fVskaAdw3Sef6JjnEL7t6EnWF0ZpEnXSlCN7EATSkgZ3QN6qMJU0
+ 9DSTfZu_34GZQfG..bX4zLbyY2tnxaWwHQcGGTzpR7coCIMYyOYkNP.TD9U4iA5XOLuPy85Lnsif
+ AyTY.c_iEFeQLt4I.DFhcu8arJnldWooEhH6Bi_zYQz68sbimn2Bnm35Iyo5NxqgsfwReKla3RUK
+ 1A3UA0r.TCUNJcjFP4sue3S9rGM8uDklZstTzE_kUMkyx2Gi3mqHo4OFI6Z0in8zZRTpCG74z1bz
+ ZZKg9yXyza0nW4T3hua5xB_msWtCxh2aSKBU-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ne1.yahoo.com with HTTP; Sun, 2 Aug 2020 06:22:40 +0000
+Date:   Sun, 2 Aug 2020 06:22:36 +0000 (UTC)
+From:   "Mr. Thompson Govo" <mrthompson.govo1@gmail.com>
+Reply-To: mrthompson.govo2@gmail.com
+Message-ID: <705909420.10706989.1596349356932@mail.yahoo.com>
+Subject: Hello Dear,
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <705909420.10706989.1596349356932.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16271 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hello Dear,
 
-This patch adds the ASUS ROG Zephyrus G14/15 notebook series detection to
-asus-nb-wmi. The detection itself is accomplished by adding two new quirk_entry
-structs (one for each series), as well as all current available G401/G502
-DMI_PRODUCT_NAMES to match the corresponding devices.
+I am Mr. Thompson Govo. and I work with UNITED BANK OF AFRICA. Please
+Can you use ATM Visa card to withdraw money at ATM cash machine in
+your country? I want to transfer money to you from my country; it=E2=80=99s
+part of money taken by some old politician that was forced out of
+power.
 
-patch-changelog:
-v1: initial G401 patches
-v2: --
-v3: re-initial GA401 and GA502 and setting description
-v4: corrected typo(s) added GA502DU series
-v5: corrected signed-off position in patch - sorry
+I will change the account details to yours, and apply for a visa card
+with your details in our bank, they will send the visa card to you and
+you will be withdrawing money with it and always send my own
+percentage of the money, and the money we are talking about is
+$8.4Million us dollars.
 
-Signed-off-by: Armas Spann <zappel@retarded.farm>
----
- drivers/platform/x86/asus-nb-wmi.c | 91 ++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
+Whatever amount you withdraw daily, you will send 50% to me and you
+will take 50%, the visa card and the bank account will be on your
+name, I will be waiting for your information as soon as possible.
+Your name.......................... .................
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 8c4d00482ef0..1b85cd8433aa 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -110,6 +110,16 @@ static struct quirk_entry quirk_asus_forceals = {
- 	.wmi_force_als_set = true,
- };
- 
-+static struct quirk_entry quirk_asus_ga401 = {
-+	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
-+};
-+
-+static struct quirk_entry quirk_asus_ga502 = {
-+	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
-+};
-+
- static int dmi_matched(const struct dmi_system_id *dmi)
- {
- 	pr_info("Identified laptop model '%s'\n", dmi->ident);
-@@ -411,6 +421,87 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_forceals,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IH",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IH"),
-+		},
-+		.driver_data = &quirk_asus_ga401,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401II",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401II"),
-+		},
-+		.driver_data = &quirk_asus_ga401,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IU",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IU"),
-+		},
-+		.driver_data = &quirk_asus_ga401,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IV",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IV"),
-+		},
-+		.driver_data = &quirk_asus_ga401,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IVC",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IVC"),
-+		},
-+		.driver_data = &quirk_asus_ga401,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502II",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502II"),
-+		},
-+		.driver_data = &quirk_asus_ga502,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502IU",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IU"),
-+		},
-+		.driver_data = &quirk_asus_ga502,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502IV",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IV"),
-+		},
-+		.driver_data = &quirk_asus_ga502,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502DU",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502DU"),
-+		},
-+		.driver_data = &quirk_asus_ga502,
-+	},
- 	{},
- };
- 
--- 
-2.28.0
+Age........................... ......................
 
+Sex........................... ......................
+
+Country....................... ......................
+
+Occupation.................... ......................
+
+Phone number........................ ................
+
+         contact me with this my private emails I.D (mrthompson.govo2@gmail=
+.com)
+
+
+Best Regards.
+
+Mr. Thompson Govo
