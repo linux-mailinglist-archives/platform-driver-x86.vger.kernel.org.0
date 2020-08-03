@@ -2,117 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 534CD23A8A9
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Aug 2020 16:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E9423A8C7
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Aug 2020 16:46:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727768AbgHCOlF (ORCPT
+        id S1726805AbgHCOqm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 3 Aug 2020 10:41:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
+        Mon, 3 Aug 2020 10:46:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726358AbgHCOlE (ORCPT
+        with ESMTP id S1726189AbgHCOql (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 3 Aug 2020 10:41:04 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B21C06174A;
-        Mon,  3 Aug 2020 07:41:04 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 6EA3629A06E
-Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>, linux-pm@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <1821a5b7-cbf3-a739-2203-a93b06f0c6f2@redhat.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <8fc3a97d-94b7-e073-3981-2f146f5f209e@collabora.com>
-Date:   Mon, 3 Aug 2020 16:40:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 3 Aug 2020 10:46:41 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E9BC06174A
+        for <platform-driver-x86@vger.kernel.org>; Mon,  3 Aug 2020 07:46:41 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id a15so34453975wrh.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 03 Aug 2020 07:46:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Mpr7X2tUqNRV5SACxTjLHt/jsoHBkY8yGCJRt0X0I64=;
+        b=FvTWfSG6ddRP+BVCBRO7fbvmea5k+nyymxoyVPStaLOL4//jwMvtCqFX4GcAAwHvLS
+         AL3WFs2huN+xgu5lYCPzV37602kHHnO5L6g168YqfjU7+kXUN8XSfxDNONFVLGutkBPz
+         rFGMGosbRzk49dyiviHOQwAOjLOW2rvf+mgYbCiIDMlRb21ruhRrbJBVUDgI1TaMS/mc
+         TMG+pByuIB8IpWdlSs7dQT1/CYa9bDj9wIvbi4NGI/05iSv+9AjMbrgaHzTRQQ/mq/3Y
+         bcZng8z232xvgjOOyHZZvjH9bE9QQv57R/fMMQvEv2co1lgQ3kyoUqKpW0TQHoYNNtXd
+         PrQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Mpr7X2tUqNRV5SACxTjLHt/jsoHBkY8yGCJRt0X0I64=;
+        b=D5xYb6F9PLndMr7GA+ysxRkNPHDSbwq5BMpLM8ZQ3RZAae+7GjxW/E5F6G6fjSdbZZ
+         yTUxOlyE0Yjz6Gi49i8TDU2YPhUxeO7KuGp0fB6Ywm9VL/+/V84BmQ5Y3anH4C2uMVSG
+         o+B4uUp8d4dYaQD3GnqtJpGESyasjVP76vZ0iSqpDuaraOiqI2lPQhHNgtmiLTHSQ5GU
+         ZEuc/4mk2Z/L2cWqC0X0j1RovxN6nL4eeaeqUkfNZNm+xP2YcZvAR4i4AVNYjaTGR0My
+         nvtZqh2Q06z2i1/62eXKyOXmszSgT1e1dyizw11P3vSVDr6tMRV+uN2CgEqeJqCRYKpH
+         BmyA==
+X-Gm-Message-State: AOAM530tnc6zY8Ld5Hct8li0HlyNI7PRCywiklzqBUidoTXHS5K3MZZ2
+        xudzZqkSzBeh8n1J/t8K7Qjp5g2rrYbt6kZZIyk=
+X-Google-Smtp-Source: ABdhPJwIgroiDmOu8HmwNeQplYTLCpO7T0UTLPmad6F1Yv5MY1n8jmnstTG6D+WvI4uagWLhffCir4PtlgfQj4erevQ=
+X-Received: by 2002:adf:9526:: with SMTP id 35mr16404882wrs.326.1596465999869;
+ Mon, 03 Aug 2020 07:46:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1821a5b7-cbf3-a739-2203-a93b06f0c6f2@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <CAHms=eZm3LY-Z4p+TkfZ+vyxGd_7XKPBsSEM_Mvnx2s-GO2c9w@mail.gmail.com>
+ <CAHms=eYpcy__Km_9O4MUtLxpasH1sAgQEmcapOhV79j01twhow@mail.gmail.com> <0e462361-a3bc-a7b8-bacd-85f32b575bac@lenovo.com>
+In-Reply-To: <0e462361-a3bc-a7b8-bacd-85f32b575bac@lenovo.com>
+From:   Elvis Stansvik <elvstone@gmail.com>
+Date:   Mon, 3 Aug 2020 16:46:28 +0200
+Message-ID: <CAHms=eZ4YVAvmUsjcZTsPOf15sxK_vELbK6fvCs=Bbm3gxFGeQ@mail.gmail.com>
+Subject: Re: [External] Re: [ibm-acpi-devel] [PATCH v5] platform/x86:
+ thinkpad_acpi: lap or desk mode interface
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     ibm-acpi@hmh.eng.br, ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, andy.shevchenko@gmail.com,
+        Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>,
+        Bastien Nocera <bnocera@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Dmitry,
+Den m=C3=A5n 3 aug. 2020 kl 16:27 skrev Mark Pearson <markpearson@lenovo.co=
+m>:
+>
+> Hi Elvis,
+>
+> On 8/3/2020 9:20 AM, Elvis Stansvik wrote:
+> >
+> > Den s=C3=B6n 2 aug. 2020 kl 23:10 skrev Elvis Stansvik
+> > <elvstone@gmail.com>:
+> >>
+> >> (Apologies in advance for missing In-Reply-To header in this
+> >> reply. I subscribed to the list just now.)
+> >>
+> >> Den fre 3 juli 2020 kl 01:24 skrev Mark Pearson
+> >> <markpearson@lenovo.com>:
+> >>> Newer Lenovo Thinkpad platforms have support to identify whether
+> >>> the system is on-lap or not using an ACPI DYTC event from the
+> >>> firmware.
+> >>>
+> >>> This patch provides the ability to retrieve the current mode via
+> >>> sysfs entrypoints and will be used by userspace for thermal mode
+> >>> and WWAN functionality
+> >>
+> >> I tried the patch out on my X1C6 (20KH007BMX), running Lenovo
+> >> firmware version 0.1.49.
+> >>
+> >> The sysfs path /sys/devices/platform/thinkpad_acpi/dytc_lapmode is
+> >> showing up, but it's reporting 0 regardless if the laptop is in my
+> >> lap or on a desk.
+> >>
+> >> I tested this by having the laptop in my lap for five minutes, and
+> >> then on a desk for five minutes. The value reported through
+> >> /sys/devices/platform/thinkpad_acpi/dytc_lapmode was always 0.
+> >>
+> Thanks for the update.
+> The X1C6 doesn't have support for the new thermal mode implementation so
+> I'm wondering if the lapmode being available could be related to the
+> version of DYTC is available. I'll check with the firmware team and get
+> back to you on that - they hadn't listed it to me as a limitation
+> previously and unfortunately I don't have an X1C6 so didn't test on that
+> platform.
+>
+> As a note - the lapmode is primarily for the thermal modes (it is also
+> being used for WWAN power control but that is not supported for Linux on
+> the X1C6 either for other reasons). I'm afraid the interface is of
+> limited use to you anyway....
 
-W dniu 12.06.2020 o 10:17, Hans de Goede pisze:
-> Hi,
-> 
-> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
->> This is a quick respin of v3, with just two small changes, please see
->> the changelog below.
->>
->> Userspace might want to implement a policy to temporarily disregard input
->> from certain devices.
->>
+Thanks Mark. I know the X1C6 firmware did not get the new thermal mode
+implementation, but thought that I would still be able to query its
+lap mode.
 
-<snip>
+The reason I wanted query the lap mode is actually because I'm trying
+to help Matthew Garrett out in adding support for the adaptive DPTF
+performance policy on the thermald side, instead of on the firmware
+side like Lenovo decided to do for more recent models. See that effort
+here https://github.com/mjg59/thermal_daemon/issues/7). We were
+surprised to find that all of the OEM conditions in the APCT table
+remained unchanged when the laptop was taken between lap and desk. So
+I started suspecting that perhaps the X1C6 and its firmware simply
+does not have the ability to detect lap vs desk. That's why I wanted
+to use this patch to query the lap mode, as a debugging aid.
 
->> v3..v4:
->> - updated the comment in input_open_device() (Hans)
->> - used more straightforward locking pattern in adc/exynos (Michał)
->>
->> v2..v3:
->> - ignored autorepeat events in input_get_disposition() if a key is not
->> pressed (Hans)
->> - dropped inhibit()/uninhibit() driver callbacks (Hans)
->> - split ACPI button patch into taking the lock and using the helper (Rafael)
->> - dropped the elan_i2c conversion
->> - fixed typos in exynos adc
->>
->> v1..v2:
->> - added input_device_enabled() helper and used it in drivers (Dmitry)
->> - the fact of open() and close() being called in inhibit/uninhibit paths has
->> been emphasized in the commit message of PATCH 6/7 (Dmitry)
+If X1C6 does not have the ability to detect lap mode, then that would
+obviously explain why the firmware does not change any APCT condition
+when put on/off lap, and any effort to get adaptive performance policy
+working on the thermald side is probably doomed :(
 
-<snip>
+Elvis
 
-> 
-> The entire series looks good to me:
-> 
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-
-What are the prospects of this series being merged?
-
-Regards,
-
-Andrzej
+>
+> Mark
