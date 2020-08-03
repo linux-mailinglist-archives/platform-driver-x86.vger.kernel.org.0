@@ -2,144 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0AB23AB53
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Aug 2020 19:03:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AAE323AEBC
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Aug 2020 23:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgHCRDl (ORCPT
+        id S1729183AbgHCVAK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 3 Aug 2020 13:03:41 -0400
-Received: from mail.bin-co.de ([173.212.200.19]:37276 "EHLO mail.bin-co.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726878AbgHCRDk (ORCPT
+        Mon, 3 Aug 2020 17:00:10 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37592 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729171AbgHCVAK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 3 Aug 2020 13:03:40 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.bin-co.de (Postfix) with ESMTP id EB9324444667;
-        Mon,  3 Aug 2020 19:03:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
-        s=201801; t=1596474217;
-        bh=pJYfSP3UzGfDbB0o3fR4/nlx4US3oRF0Q8pUyZ3Ku3w=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=BBOpvnyS1NTOju/VAh03lwUkou0mmFlGi1ljnJFzalkvl/SpOnd7oPxveLaSXlCV1
-         0H4a7zEFOg4CH2yVBGIbIfgy68PhVWR2+TywFMK4xfNyeQHaDX3hHfomR57JipJJrE
-         OZy9ECBwvOqeJ3OVXJJXtbz0ibx6+ygc2DfV/T9M73PMhOCZLrkLEUTaQDgFx9ToRn
-         Mbjz6+/xL/zIwYIJ9Hm3XiiU0spgK14osraSSyiYRPz3aaiUyj19jTvovMQz8Jq33P
-         kilqwwwx8hoyJvqq/kxD3k2rADF/RL/nZ+C7P2rlpqk0FlwyHdqaDEs6oYuDhVDDzP
-         RahnaJk0v8rcw==
-X-Virus-Scanned: amavisd-new at bin-co.de
-Received: from mail.bin-co.de ([127.0.0.1])
-        by localhost (mail.bin-co.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 8W8VMq58P4RX; Mon,  3 Aug 2020 19:03:37 +0200 (CEST)
-Received: from [192.168.0.23] (unknown [90.187.13.225])
-        (Authenticated sender: zappel@retarded.farm)
-        by mail.bin-co.de (Postfix) with ESMTPSA id 2DEF94444665;
-        Mon,  3 Aug 2020 19:03:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=retarded.farm;
-        s=201801; t=1596474217;
-        bh=pJYfSP3UzGfDbB0o3fR4/nlx4US3oRF0Q8pUyZ3Ku3w=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=BBOpvnyS1NTOju/VAh03lwUkou0mmFlGi1ljnJFzalkvl/SpOnd7oPxveLaSXlCV1
-         0H4a7zEFOg4CH2yVBGIbIfgy68PhVWR2+TywFMK4xfNyeQHaDX3hHfomR57JipJJrE
-         OZy9ECBwvOqeJ3OVXJJXtbz0ibx6+ygc2DfV/T9M73PMhOCZLrkLEUTaQDgFx9ToRn
-         Mbjz6+/xL/zIwYIJ9Hm3XiiU0spgK14osraSSyiYRPz3aaiUyj19jTvovMQz8Jq33P
-         kilqwwwx8hoyJvqq/kxD3k2rADF/RL/nZ+C7P2rlpqk0FlwyHdqaDEs6oYuDhVDDzP
-         RahnaJk0v8rcw==
-Message-ID: <2d9a375a0af0ccda2680938dbee1cf3edc6f1c11.camel@retarded.farm>
-Subject: Re: [PATCH v5] asus-nb-wmi: add support for ASUS ROG Zephyrus G14
- (GA401) and G15 (GA502)
-From:   Armas Spann <zappel@retarded.farm>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
+        Mon, 3 Aug 2020 17:00:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1596488408;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8bq9rXUCTGSN68YwCNXz85TMhgq9vmhl8kPAax2zSMY=;
+        b=Pl4VfI16ISJzhEc6tDzwQP33J/CY/u7EwEGFQ4pcLnq3oQL9higv6IontbLeJVyzmLuIju
+        8GQfNLMFZCmhSvpoiBxP1Tv5pGllMYnopeIKvrn3RreNo2aeqltXEUbENFZAkfvFOqTrzC
+        nmUb7iLbxdJ3PeuWZOwRmjdAitDkD5g=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-UUoyqmd9M-6xgOkhucGhtg-1; Mon, 03 Aug 2020 17:00:07 -0400
+X-MC-Unique: UUoyqmd9M-6xgOkhucGhtg-1
+Received: by mail-qt1-f200.google.com with SMTP id d24so20336334qtg.23
+        for <platform-driver-x86@vger.kernel.org>; Mon, 03 Aug 2020 14:00:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8bq9rXUCTGSN68YwCNXz85TMhgq9vmhl8kPAax2zSMY=;
+        b=jdVyatBME6stdrRU0pd9FOcBauxdHlsT+2Y0jLyqKEIMJoI8tls5p2rGXuK6Eh/W7o
+         AjX3d9wRfg4yongTg781qck57tu45hJFMIh6e5l0GJR3LD5zK4SZEL8vfbbvjFAxpK2m
+         dmjECJcpKwLPTFhjHdY4yk/ZivxPQl8M8QLiBfuRoMPYQzTJNfoRowul0DBDpQZCKGfC
+         Di/SaD4mVE/imZ7glR66n/dhurmR3a6RkQ43eNI8jFPnsOrHlWoMI/ebiFuFCzf97Su0
+         e0WkFR+tauNL+NI5W8a3MaU3KE/h+JiD3z+scqKa3vjnQdK3uWgDN0jlZXIM3m/bcVsw
+         9tKA==
+X-Gm-Message-State: AOAM532IiWHxfI8g1FD2pxKcHUEyiTAhx0WExzdQIH2mcdiSHdhxqSKv
+        7D47OmFm6nfEadPxAelAPeW/dagIQ98T6WdlRq99iIB0WhrNpVA0cxOczpsP8ylO6Pfk7w0fFci
+        NMzO+S/dDk7vs96H4Hpqqn6LpF7ie8Na4Qw==
+X-Received: by 2002:a05:620a:1034:: with SMTP id a20mr18018698qkk.88.1596488406606;
+        Mon, 03 Aug 2020 14:00:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZ4xACpDy2QuhLtURPr5OaRyOxNfQsRP3NRt54g2pzfNFf4aofKomQafv01c0VtrayvMamMQ==
+X-Received: by 2002:a05:620a:1034:: with SMTP id a20mr18018682qkk.88.1596488406387;
+        Mon, 03 Aug 2020 14:00:06 -0700 (PDT)
+Received: from redhat.com (bzq-79-177-102-128.red.bezeqint.net. [79.177.102.128])
+        by smtp.gmail.com with ESMTPSA id m15sm22165480qta.6.2020.08.03.14.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Aug 2020 14:00:05 -0700 (PDT)
+Date:   Mon, 3 Aug 2020 17:00:01 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org,
+        Jason Wang <jasowang@redhat.com>,
+        Andy Shevchenko <andy@infradead.org>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Date:   Mon, 03 Aug 2020 19:03:36 +0200
-In-Reply-To: <CAHp75VcmsTnZ+AfBCPmxX6GpfM=PRGAd3Y51zaj2WHmcY8XPYQ@mail.gmail.com>
-References: <20200802041705.79870-1-zappel@retarded.farm>
-         <CAHp75Vf9BwaU2y3smc0pMpohLcAbbQt_RDS1kzzgOsbqN2ZaEA@mail.gmail.com>
-         <ba68ddc0216ee23c772b4e73c84de0a25f9fe53a.camel@retarded.farm>
-         <CAHp75Vdwa2DWKYzHFKbK5UB_htuws5sX2Hi64PN0YEOBdFKbZg@mail.gmail.com>
-         <df518901cb2c5a1a4bd96f403f82451f2637e7cb.camel@retarded.farm>
-         <CAHp75VcmsTnZ+AfBCPmxX6GpfM=PRGAd3Y51zaj2WHmcY8XPYQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4 
+        Vadim Pasternak <vadimp@mellanox.com>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 18/24] mlxbf-tmfifo: sparse tags for config access
+Message-ID: <20200803205814.540410-19-mst@redhat.com>
+References: <20200803205814.540410-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200803205814.540410-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Am Montag, den 03.08.2020, 19:47 +0300 schrieb Andy Shevchenko:
-> +Cc: Jonathan.
-> (newbie's adventures below)
-> 
-> On Mon, Aug 3, 2020 at 7:39 PM Armas Spann <
-> zappel@retarded.farm
-> > wrote:
-> 
-> > I think I missed that checklist.. But what I was looking for was some kind
-> > of a
-> > "quick"-list, like that one you send me some weeks ago. (howto use git to
-> > send
-> > those emails, for example)
-> > 
-> > For a newcomer like me in this process, it's hard to sort out the right
-> > information and where to put description/changelog/etc. in the (git)patch
-> > itself. It might be helpful to have an example for a full git-driven patch
-> > (IMHO) - Yes of course I looked in to other submitted patches to get a clou.
-> > Because after reading all the kernel howtos to submit and participate, I
-> > felt
-> > more lost then before due to the informational overflow.
-> > 
-> > And of course, that I screwed up the branch/repo in my last patches was
-> > totally
-> > my fault because I did not recognized that I need to checkout another repo
-> > and
-> > branch to get ontop of my/your previously applied patch in this case.
-> > 
-> > 
-> > Im very thankful for all the support you gave me, but I think I should have
-> > asked first, before submitting patches. ;)
-> 
-> But your evaluation of [1] will be quite helpful exactly b/c you are a newbie!
-> Maybe you can read it again and propose changes that will help people
-> like you now (I believe you will learn things fast) to be not lost on
-> the first steps?
-> 
-> > Best regards and thanks for your feedback,
-> > Armas
-> 
-> Please, avoid top postings in the future. It's not welcome by the community.
-> 
-> ...
-> 
-> > > Do you think we need to expand / update checklist [1] in kernel
-> > > documentation?
-> > > 
-> > > [1]:
-> > > https://www.kernel.org/doc/html/latest/process/submit-checklist.html
-> > > 
-> 
-> 
+mlxbf-tmfifo accesses config space using native types -
+which works for it since the legacy virtio native types.
 
-Got it. 
-(Today I'm learning howto write an email - really feeling like a noob now) 
-- just changed my mailer settings to answer below.
+This will break if it ever needs to support modern virtio,
+so with new tags previously introduced for virtio net config,
+sparse now warns for this in drivers.
 
-To answer your question about [1]:
-That checklist is pretty streight forward and understandable, my problem was
-more the linked 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#submittingpatches
- documentation. Which especially confuses me reading the "changlog" sections.
-It's not clear (to me at least) where to put which changelog. I know the default
-changelog is what a patch changes and that should go directly under the subject.
-But the internal (patch related) changelog was totally unclear. As well as this
-documentation is missing the git send-email thingy you pointed me to (its only
-mentioned once within '#explicit-in-reply-to-headers').
+Since this is a legacy only device, fix it up using
+virtio_legacy_is_little_endian for now.
 
+No functional changes.
 
-Best regards,
-Armas
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ drivers/platform/mellanox/mlxbf-tmfifo.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
+index 5739a9669b29..bbc4e71a16ff 100644
+--- a/drivers/platform/mellanox/mlxbf-tmfifo.c
++++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
+@@ -625,7 +625,10 @@ static void mlxbf_tmfifo_rxtx_header(struct mlxbf_tmfifo_vring *vring,
+ 			vdev_id = VIRTIO_ID_NET;
+ 			hdr_len = sizeof(struct virtio_net_hdr);
+ 			config = &fifo->vdev[vdev_id]->config.net;
+-			if (ntohs(hdr.len) > config->mtu +
++			/* A legacy-only interface for now. */
++			if (ntohs(hdr.len) >
++			    __virtio16_to_cpu(virtio_legacy_is_little_endian(),
++					      config->mtu) +
+ 			    MLXBF_TMFIFO_NET_L2_OVERHEAD)
+ 				return;
+ 		} else {
+@@ -1231,8 +1234,12 @@ static int mlxbf_tmfifo_probe(struct platform_device *pdev)
+ 
+ 	/* Create the network vdev. */
+ 	memset(&net_config, 0, sizeof(net_config));
+-	net_config.mtu = ETH_DATA_LEN;
+-	net_config.status = VIRTIO_NET_S_LINK_UP;
++
++	/* A legacy-only interface for now. */
++	net_config.mtu = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
++					   ETH_DATA_LEN);
++	net_config.status = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
++					      VIRTIO_NET_S_LINK_UP);
+ 	mlxbf_tmfifo_get_cfg_mac(net_config.mac);
+ 	rc = mlxbf_tmfifo_create_vdev(dev, fifo, VIRTIO_ID_NET,
+ 				      MLXBF_TMFIFO_NET_FEATURES, &net_config,
+-- 
+MST
 
