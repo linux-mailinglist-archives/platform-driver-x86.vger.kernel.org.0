@@ -2,126 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AAE323AEBC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  3 Aug 2020 23:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D14CF23B196
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  4 Aug 2020 02:14:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729183AbgHCVAK (ORCPT
+        id S1728416AbgHDAOm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 3 Aug 2020 17:00:10 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37592 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729171AbgHCVAK (ORCPT
+        Mon, 3 Aug 2020 20:14:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728329AbgHDAOm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 3 Aug 2020 17:00:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596488408;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8bq9rXUCTGSN68YwCNXz85TMhgq9vmhl8kPAax2zSMY=;
-        b=Pl4VfI16ISJzhEc6tDzwQP33J/CY/u7EwEGFQ4pcLnq3oQL9higv6IontbLeJVyzmLuIju
-        8GQfNLMFZCmhSvpoiBxP1Tv5pGllMYnopeIKvrn3RreNo2aeqltXEUbENFZAkfvFOqTrzC
-        nmUb7iLbxdJ3PeuWZOwRmjdAitDkD5g=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-UUoyqmd9M-6xgOkhucGhtg-1; Mon, 03 Aug 2020 17:00:07 -0400
-X-MC-Unique: UUoyqmd9M-6xgOkhucGhtg-1
-Received: by mail-qt1-f200.google.com with SMTP id d24so20336334qtg.23
-        for <platform-driver-x86@vger.kernel.org>; Mon, 03 Aug 2020 14:00:07 -0700 (PDT)
+        Mon, 3 Aug 2020 20:14:42 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53EDDC06174A;
+        Mon,  3 Aug 2020 17:14:42 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id 88so35713528wrh.3;
+        Mon, 03 Aug 2020 17:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pLqa6iIagQjdsqMYxByjjjyKCkbWqHO5m3vOPF/8+wU=;
+        b=cDorCLzbE0Mncpqq+Tg1mP3VivfjCvwGyaEizymXnx/LbHd5cQ8A7SHR015B1w2fNg
+         JHg2+TaD68iHuuCTzsTy54O/ng49d6Fqq/PN9OMlhfAeaioqJQL6ORcedDdUPaO9Np7J
+         nwF7SEacmVdWecgetwUTpDwVIWS9Q006PRgxPMxtnUrvJhYPOrhSBOBXA7AxqkbC/EYw
+         W/QFt17yPz9CnRdWNj8mj17qzLNAMLdCtr8bQjFa0BwnyoAv91ivhuRFozvR2Zy0f+0b
+         5PclOAew8eNUGu30g4D9NpZnRjyrhzwaFS31WzOcBP9GhIbIPEJqS3NyyAux/WP9azSq
+         XSyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8bq9rXUCTGSN68YwCNXz85TMhgq9vmhl8kPAax2zSMY=;
-        b=jdVyatBME6stdrRU0pd9FOcBauxdHlsT+2Y0jLyqKEIMJoI8tls5p2rGXuK6Eh/W7o
-         AjX3d9wRfg4yongTg781qck57tu45hJFMIh6e5l0GJR3LD5zK4SZEL8vfbbvjFAxpK2m
-         dmjECJcpKwLPTFhjHdY4yk/ZivxPQl8M8QLiBfuRoMPYQzTJNfoRowul0DBDpQZCKGfC
-         Di/SaD4mVE/imZ7glR66n/dhurmR3a6RkQ43eNI8jFPnsOrHlWoMI/ebiFuFCzf97Su0
-         e0WkFR+tauNL+NI5W8a3MaU3KE/h+JiD3z+scqKa3vjnQdK3uWgDN0jlZXIM3m/bcVsw
-         9tKA==
-X-Gm-Message-State: AOAM532IiWHxfI8g1FD2pxKcHUEyiTAhx0WExzdQIH2mcdiSHdhxqSKv
-        7D47OmFm6nfEadPxAelAPeW/dagIQ98T6WdlRq99iIB0WhrNpVA0cxOczpsP8ylO6Pfk7w0fFci
-        NMzO+S/dDk7vs96H4Hpqqn6LpF7ie8Na4Qw==
-X-Received: by 2002:a05:620a:1034:: with SMTP id a20mr18018698qkk.88.1596488406606;
-        Mon, 03 Aug 2020 14:00:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZ4xACpDy2QuhLtURPr5OaRyOxNfQsRP3NRt54g2pzfNFf4aofKomQafv01c0VtrayvMamMQ==
-X-Received: by 2002:a05:620a:1034:: with SMTP id a20mr18018682qkk.88.1596488406387;
-        Mon, 03 Aug 2020 14:00:06 -0700 (PDT)
-Received: from redhat.com (bzq-79-177-102-128.red.bezeqint.net. [79.177.102.128])
-        by smtp.gmail.com with ESMTPSA id m15sm22165480qta.6.2020.08.03.14.00.03
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pLqa6iIagQjdsqMYxByjjjyKCkbWqHO5m3vOPF/8+wU=;
+        b=mQNVDT4EH6JHmOpWzrVQLDly9swljhrDECgEYRdcDPnbLlZSmoUqFrnh2By/+vJTBT
+         INIRR8YvXRnNHnHcjn2lSrpshCVBsZAbVZwr09kuzxFhWL0dJOBo5vlg5HhaB4QK457t
+         K06Sg0KPt2hs/4Pg9XiWUNFTmWSp0MP2HsFZALkgfc5giy2YcpY3LHElxbIlL1h2EVpQ
+         PUyKImrpM3oEAeqvNjuqsLnxKinQOnxFQezH+IDaAu/Uh5AoL07rAB8Fg7LfLC0/0SGs
+         VpnGD4dCt6vS9l4IeXE2/Py2j0uldklb2rPtVjEFEd1eH3jp+w0UsnFAsUABQ3RjUeUq
+         uuug==
+X-Gm-Message-State: AOAM531NB5K3t4YOkqbp8Ae9xxg2w5IxAONlyfg4eyJ8uTTD9IrQDg+K
+        436egyKmDNwJaxidI5TADkU=
+X-Google-Smtp-Source: ABdhPJwdsH0pMYRMGanAKEVY9CpKqzquGlGl+O7Q0vlHq/3gfASusHGCqhrWnnyEMu7Sd3KigtzhwA==
+X-Received: by 2002:adf:de91:: with SMTP id w17mr16979218wrl.108.1596500080802;
+        Mon, 03 Aug 2020 17:14:40 -0700 (PDT)
+Received: from localhost (55d43e89.access.ecotel.net. [85.212.62.137])
+        by smtp.gmail.com with ESMTPSA id f63sm2064620wmf.9.2020.08.03.17.14.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 14:00:05 -0700 (PDT)
-Date:   Mon, 3 Aug 2020 17:00:01 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org,
-        Jason Wang <jasowang@redhat.com>,
+        Mon, 03 Aug 2020 17:14:40 -0700 (PDT)
+From:   Timo Witte <timo.witte@gmail.com>
+To:     timo.witte@gmail.com
+Cc:     jlee@suse.com, Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 18/24] mlxbf-tmfifo: sparse tags for config access
-Message-ID: <20200803205814.540410-19-mst@redhat.com>
-References: <20200803205814.540410-1-mst@redhat.com>
+        platform-driver-x86@vger.kernel.org (open list:ACER WMI LAPTOP EXTRAS),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] platform/x86: acer-wmi: add automatic keyboard background light toggle key as KEY_LIGHTS_TOGGLE
+Date:   Tue,  4 Aug 2020 02:14:23 +0200
+Message-Id: <20200804001423.36778-1-timo.witte@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200803205814.540410-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-mlxbf-tmfifo accesses config space using native types -
-which works for it since the legacy virtio native types.
+Got a dmesg message on my AMD Renoir based Acer laptop:
+"acer_wmi: Unknown key number - 0x84" when toggling keyboard
+background light
 
-This will break if it ever needs to support modern virtio,
-so with new tags previously introduced for virtio net config,
-sparse now warns for this in drivers.
-
-Since this is a legacy only device, fix it up using
-virtio_legacy_is_little_endian for now.
-
-No functional changes.
-
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Timo Witte <timo.witte@gmail.com>
 ---
- drivers/platform/mellanox/mlxbf-tmfifo.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/platform/x86/acer-wmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
-index 5739a9669b29..bbc4e71a16ff 100644
---- a/drivers/platform/mellanox/mlxbf-tmfifo.c
-+++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
-@@ -625,7 +625,10 @@ static void mlxbf_tmfifo_rxtx_header(struct mlxbf_tmfifo_vring *vring,
- 			vdev_id = VIRTIO_ID_NET;
- 			hdr_len = sizeof(struct virtio_net_hdr);
- 			config = &fifo->vdev[vdev_id]->config.net;
--			if (ntohs(hdr.len) > config->mtu +
-+			/* A legacy-only interface for now. */
-+			if (ntohs(hdr.len) >
-+			    __virtio16_to_cpu(virtio_legacy_is_little_endian(),
-+					      config->mtu) +
- 			    MLXBF_TMFIFO_NET_L2_OVERHEAD)
- 				return;
- 		} else {
-@@ -1231,8 +1234,12 @@ static int mlxbf_tmfifo_probe(struct platform_device *pdev)
- 
- 	/* Create the network vdev. */
- 	memset(&net_config, 0, sizeof(net_config));
--	net_config.mtu = ETH_DATA_LEN;
--	net_config.status = VIRTIO_NET_S_LINK_UP;
-+
-+	/* A legacy-only interface for now. */
-+	net_config.mtu = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
-+					   ETH_DATA_LEN);
-+	net_config.status = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
-+					      VIRTIO_NET_S_LINK_UP);
- 	mlxbf_tmfifo_get_cfg_mac(net_config.mac);
- 	rc = mlxbf_tmfifo_create_vdev(dev, fifo, VIRTIO_ID_NET,
- 				      MLXBF_TMFIFO_NET_FEATURES, &net_config,
+diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+index 60c18f21588d..87797f785d6a 100644
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -111,6 +111,7 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
+ 	{KE_KEY, 0x64, {KEY_SWITCHVIDEOMODE} },	/* Display Switch */
+ 	{KE_IGNORE, 0x81, {KEY_SLEEP} },
+ 	{KE_KEY, 0x82, {KEY_TOUCHPAD_TOGGLE} },	/* Touch Pad Toggle */
++	{KE_IGNORE, 0x84, {KEY_LIGHTS_TOGGLE} }, /* Automatic Keyboard background light toggle */
+ 	{KE_KEY, KEY_TOUCHPAD_ON, {KEY_TOUCHPAD_ON} },
+ 	{KE_KEY, KEY_TOUCHPAD_OFF, {KEY_TOUCHPAD_OFF} },
+ 	{KE_IGNORE, 0x83, {KEY_TOUCHPAD_TOGGLE} },
 -- 
-MST
+2.27.0
 
