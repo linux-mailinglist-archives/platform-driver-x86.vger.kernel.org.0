@@ -2,106 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6589C23D05A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  5 Aug 2020 21:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E636E23D1C8
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  5 Aug 2020 22:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729174AbgHETrl (ORCPT
+        id S1727092AbgHEUGQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 5 Aug 2020 15:47:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20096 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727987AbgHERBI (ORCPT
+        Wed, 5 Aug 2020 16:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726186AbgHEQfG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 5 Aug 2020 13:01:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596646856;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZlNXGeTfp4AaGj7FagUROXadawxdtFtkc3vB/EgDPDU=;
-        b=fnqUZyJwBTcglKwRnzavTbc2N9y2EQnUhd3PDLCm5pQeqEPV0W1YEMHS4Y7kgadX6vphRE
-        hDzPEnxNOq4DY0db1I8MgajPq2+l14uWlVyzHxG2Mtdi5uDSnkdiugyd15xCv0jDZyX6GF
-        AtMQk7tTf6unWHXsNs3t8VJBSWTu9lQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-YrkjkeHaOg-ud8AnRsB-pw-1; Wed, 05 Aug 2020 09:29:19 -0400
-X-MC-Unique: YrkjkeHaOg-ud8AnRsB-pw-1
-Received: by mail-wm1-f70.google.com with SMTP id h6so2459032wml.8
-        for <platform-driver-x86@vger.kernel.org>; Wed, 05 Aug 2020 06:29:19 -0700 (PDT)
+        Wed, 5 Aug 2020 12:35:06 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21128C008686;
+        Wed,  5 Aug 2020 07:25:09 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id p8so8421945pgn.13;
+        Wed, 05 Aug 2020 07:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AC9ky2C3Ij8fAbqbNhEO64rPYUTHmvfPvc5f+fIvzK8=;
+        b=FTFMp8DnK1Q4yCvVpBK237B45BNVaxqLnYbQeyXwNQKF3T0ZVU+frSVo2esy4lqhLh
+         UePeEM1VFfFpKnHfqUwbxpdTEgtDQShJwz55PkiFECm7qsuRTvY6kYyy9S47l4ATuIST
+         dua2Rmvkia9HCFr72HBFOWjaa0TWmFVmzg7hq2BZynnJVB8GEhIzk7/gG4Vhy4/L0i8L
+         2azsYhrCvRtU5v6COB/6TuounJ6wQoB0k2vQbZr2TB2bwcPsfsOLTOVXglXguUvlCY2W
+         d5r80JAsoCHdPTRcH3pi7HNGXontHgVz8GQsJGEZFOk6QpEXe/9i9TR89eHn4CQABQJE
+         QRAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZlNXGeTfp4AaGj7FagUROXadawxdtFtkc3vB/EgDPDU=;
-        b=ZXzN1hjODq8ngwZCobIyxZ2TbBl2qXS5RcCCeYCvha+cEWdTACzzERNYsH0YkG89+g
-         bjhHqA4hAAw2Lzu7sgDjn/rb/qEFHlzUEQLd5kDCoEnA3dprHHkq7kuSqzjl9tq8GO8o
-         qqYvu7CQDQrwAv2PVBAgUPguF5yS0Cnx3tsWWpzT3pYQMuSoqwbNOzLpPGqNqKtojn4v
-         HQQbVkjbtilJBXp/UTjd9S3i+5pH8XMqTUAuTNVqr8P5kk0upgU8Lun+3Gzib70npbnX
-         500FAJPNLfX+apAqB5WjZRK6OFJQtqsSWyXl6H/Zsf9KMogT8qSdjdY+2a+6Cu3/mQA9
-         FF6Q==
-X-Gm-Message-State: AOAM530Ft1Q8PohaicQj+T7vwTI1guDU/VML2eiLQHq0HFOWAw0dcMZv
-        n3bwq5/PwniKYQMUOlOpYRGZiNebK+0OKFMpqMmCB/8sfjRxCEMKnWUvtFczZ9Uv8yfc9HjVbSy
-        GYnEl53OFAeoLqLdz6/LIgLv/ALhM/JJqtQ==
-X-Received: by 2002:a1c:2dc6:: with SMTP id t189mr3492801wmt.26.1596634158283;
-        Wed, 05 Aug 2020 06:29:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJbh142iguNxC67bdTgdKSa8fH88cZSGiuSiR54HZcWK+ZPtzZyXH9COzQuExoJPoIfhvlDw==
-X-Received: by 2002:a1c:2dc6:: with SMTP id t189mr3492788wmt.26.1596634158107;
-        Wed, 05 Aug 2020 06:29:18 -0700 (PDT)
-Received: from redhat.com ([192.117.173.58])
-        by smtp.gmail.com with ESMTPSA id d14sm2806981wre.44.2020.08.05.06.29.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2020 06:29:17 -0700 (PDT)
-Date:   Wed, 5 Aug 2020 09:29:12 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        platform-driver-x86@vger.kernel.org,
-        Darren Hart <dvhart@infradead.org>,
-        virtualization@lists.linux-foundation.org,
-        Andy Shevchenko <andy@infradead.org>
-Subject: Re: [PATCH v2 18/24] mlxbf-tmfifo: sparse tags for config access
-Message-ID: <20200805092904-mutt-send-email-mst@kernel.org>
-References: <20200803205814.540410-1-mst@redhat.com>
- <20200803205814.540410-19-mst@redhat.com>
- <20200804165634.4df11c6b.cohuck@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AC9ky2C3Ij8fAbqbNhEO64rPYUTHmvfPvc5f+fIvzK8=;
+        b=suwqqfbNEyFVR0HtOzzQ/5qz8hGlUjd3YjO/AbcpdghzZzhxqIjNv+Hdew114er+vc
+         1mkgw7zvGwoxkFUibxFn0LPEZVZRVf0CeeNh64LOzfPiF0HsahAl46yA8YeDppSCaobG
+         td6vXsedUN1p6D7YIi9LFEo7PFBbf5Kyqr7X+FFvHlDEIyG2cNmy9MZbIMwYuiU7hwTH
+         HStBSVkx2U4/aHkyo/zAN6CqOIf3LEuNmhGEyqX02gYFk/bCPsRQV5ZpfGqQ6GoI+qyc
+         54NP3XBAEWkyF5q/vjj0hUKNsie14iNW8ky7BoiD+EHYqFd+tgNR4HCL98WwIAyB0ulE
+         qdqA==
+X-Gm-Message-State: AOAM5329X9MnIcmmnGW1Dbut81pLxMfDSh1sqnzwWSlRZX535ka9RJ5X
+        1bcliss3NdIV/iygIn8dqRgE0/wGGDKRzKLM61ELMzK9o9c=
+X-Google-Smtp-Source: ABdhPJy3Zwn4T8BNUfOUv+eXKmotLpzwuZ7FaC/MF6rO2BR8iLdAlMXguhBtGU6wXRb1rk93OIPQquvJFGErG8XjcBo=
+X-Received: by 2002:a62:7b4e:: with SMTP id w75mr3503195pfc.130.1596637508595;
+ Wed, 05 Aug 2020 07:25:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200804165634.4df11c6b.cohuck@redhat.com>
+References: <20200805134226.1106164-1-mst@redhat.com> <20200805134226.1106164-19-mst@redhat.com>
+In-Reply-To: <20200805134226.1106164-19-mst@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 5 Aug 2020 17:24:53 +0300
+Message-ID: <CAHp75Vfyjxegi8EtNqVZLVUDzR_0WOJQVmJFoJi4DFxDgNRG-g@mail.gmail.com>
+Subject: Re: [PATCH v3 18/38] mlxbf-tmfifo: sparse tags for config access
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 04:56:34PM +0200, Cornelia Huck wrote:
-> On Mon, 3 Aug 2020 17:00:01 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > mlxbf-tmfifo accesses config space using native types -
-> > which works for it since the legacy virtio native types.
-> > 
-> > This will break if it ever needs to support modern virtio,
-> > so with new tags previously introduced for virtio net config,
-> > sparse now warns for this in drivers.
-> > 
-> > Since this is a legacy only device, fix it up using
-> > virtio_legacy_is_little_endian for now.
-> 
-> I'm wondering if the driver should make this more explicit?
+On Wed, Aug 5, 2020 at 4:44 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> mlxbf-tmfifo accesses config space using native types -
+> which works for it since the legacy virtio native types.
+>
+> This will break if it ever needs to support modern virtio,
+> so with new tags previously introduced for virtio net config,
+> sparse now warns for this in drivers.
+>
+> Since this is a legacy only device, fix it up using
+> virtio_legacy_is_little_endian for now.
+>
+> No functional changes.
+>
 
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Not sure how though.
-
-> No issues with the patch, though.
-> 
-> > 
-> > No functional changes.
-> > 
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  drivers/platform/mellanox/mlxbf-tmfifo.c | 13 ++++++++++---
-> >  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > Acked-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  drivers/platform/mellanox/mlxbf-tmfifo.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/platform/mellanox/mlxbf-tmfifo.c b/drivers/platform/mellanox/mlxbf-tmfifo.c
+> index 5739a9669b29..bbc4e71a16ff 100644
+> --- a/drivers/platform/mellanox/mlxbf-tmfifo.c
+> +++ b/drivers/platform/mellanox/mlxbf-tmfifo.c
+> @@ -625,7 +625,10 @@ static void mlxbf_tmfifo_rxtx_header(struct mlxbf_tmfifo_vring *vring,
+>                         vdev_id = VIRTIO_ID_NET;
+>                         hdr_len = sizeof(struct virtio_net_hdr);
+>                         config = &fifo->vdev[vdev_id]->config.net;
+> -                       if (ntohs(hdr.len) > config->mtu +
+> +                       /* A legacy-only interface for now. */
+> +                       if (ntohs(hdr.len) >
+> +                           __virtio16_to_cpu(virtio_legacy_is_little_endian(),
+> +                                             config->mtu) +
+>                             MLXBF_TMFIFO_NET_L2_OVERHEAD)
+>                                 return;
+>                 } else {
+> @@ -1231,8 +1234,12 @@ static int mlxbf_tmfifo_probe(struct platform_device *pdev)
+>
+>         /* Create the network vdev. */
+>         memset(&net_config, 0, sizeof(net_config));
+> -       net_config.mtu = ETH_DATA_LEN;
+> -       net_config.status = VIRTIO_NET_S_LINK_UP;
+> +
+> +       /* A legacy-only interface for now. */
+> +       net_config.mtu = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
+> +                                          ETH_DATA_LEN);
+> +       net_config.status = __cpu_to_virtio16(virtio_legacy_is_little_endian(),
+> +                                             VIRTIO_NET_S_LINK_UP);
+>         mlxbf_tmfifo_get_cfg_mac(net_config.mac);
+>         rc = mlxbf_tmfifo_create_vdev(dev, fifo, VIRTIO_ID_NET,
+>                                       MLXBF_TMFIFO_NET_FEATURES, &net_config,
+> --
+> MST
+>
 
+
+-- 
+With Best Regards,
+Andy Shevchenko
