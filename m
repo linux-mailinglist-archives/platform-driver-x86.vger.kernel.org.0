@@ -2,80 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7164B23FA2C
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  9 Aug 2020 01:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A05623FDE5
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  9 Aug 2020 13:22:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728915AbgHHXkv (ORCPT
+        id S1726335AbgHILWq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 8 Aug 2020 19:40:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728154AbgHHXkv (ORCPT
+        Sun, 9 Aug 2020 07:22:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgHILWm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 8 Aug 2020 19:40:51 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 355EB20829;
-        Sat,  8 Aug 2020 23:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596930051;
-        bh=NA/ndJV7K60CAH946kmTXs4ibWi53JfPfIOQEF4YGjc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BEdBPSSxe2GTEDHhSwKSawPOQ1NX64hLDVzZ+I4X/t+mfRlReVnUQTz7JOLW4rCwb
-         QNpcXvUzCTe6pILfVzSW73rfA1XmQr9OFqjzYoURx12pO4j9KqKT5BJBVgboWheAea
-         dR89mxeSa6hnS45QR6byK9GmUI7L26Q4GcSTNaSo=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Lu Wei <luwei32@huawei.com>, Hulk Robot <hulkci@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 7/9] platform/x86: intel-vbtn: Fix return value check in check_acpi_dev()
-Date:   Sat,  8 Aug 2020 19:40:34 -0400
-Message-Id: <20200808234037.3619732-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200808234037.3619732-1-sashal@kernel.org>
-References: <20200808234037.3619732-1-sashal@kernel.org>
+        Sun, 9 Aug 2020 07:22:42 -0400
+X-Greylist: delayed 1465 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 09 Aug 2020 04:22:42 PDT
+Received: from ganesha.gnumonks.org (ganesha.gnumonks.org [IPv6:2001:780:45:1d:225:90ff:fe52:c662])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD81C061756
+        for <platform-driver-x86@vger.kernel.org>; Sun,  9 Aug 2020 04:22:42 -0700 (PDT)
+Received: from uucp by ganesha.gnumonks.org with local-bsmtp (Exim 4.89)
+        (envelope-from <laforge@osmocom.org>)
+        id 1k4j1n-00086z-Eh; Sun, 09 Aug 2020 12:58:11 +0200
+Received: from laforge by localhost.localdomain with local (Exim 4.94)
+        (envelope-from <laforge@osmocom.org>)
+        id 1k4j1b-009dCs-QT; Sun, 09 Aug 2020 12:57:59 +0200
+From:   laforge@gnumonks.org
+To:     platform-driver-x86@vger.kernel.org
+Cc:     kenneth.t.chan@gmail.com, Harald Welte <laforge@gnumonks.org>
+Subject: [PATCH] MAINTAINERS: Change panasonic-laptop to 'Orphan' state
+Date:   Sun,  9 Aug 2020 12:57:55 +0200
+Message-Id: <20200809105755.2295621-1-laforge@gnumonks.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Lu Wei <luwei32@huawei.com>
+From: Harald Welte <laforge@gnumonks.org>
 
-[ Upstream commit 64dd4a5a7d214a07e3d9f40227ec30ac8ba8796e ]
+I haven't been doing any work on those drivers in ages, neither
+do I even use any related devices.
 
-In the function check_acpi_dev(), if it fails to create
-platform device, the return value is ERR_PTR() or NULL.
-Thus it must use IS_ERR_OR_NULL() to check return value.
-
-Fixes: 332e081225fc ("intel-vbtn: new driver for Intel Virtual Button")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Lu Wei <luwei32@huawei.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Harald Welte <laforge@gnumonks.org>
 ---
- drivers/platform/x86/intel-vbtn.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index a74340dff530e..1cf2a38add5f9 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -168,7 +168,7 @@ check_acpi_dev(acpi_handle handle, u32 lvl, void *context, void **rv)
- 		return AE_OK;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 05f5eb227700..b39760224586 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13023,9 +13023,8 @@ F:	include/net/page_pool.h
+ F:	net/core/page_pool.c
  
- 	if (acpi_match_device_ids(dev, ids) == 0)
--		if (acpi_create_platform_device(dev, NULL))
-+		if (!IS_ERR_OR_NULL(acpi_create_platform_device(dev, NULL)))
- 			dev_info(&dev->dev,
- 				 "intel-vbtn: created platform device\n");
+ PANASONIC LAPTOP ACPI EXTRAS DRIVER
+-M:	Harald Welte <laforge@gnumonks.org>
+ L:	platform-driver-x86@vger.kernel.org
+-S:	Maintained
++S:	Orphan
+ F:	drivers/platform/x86/panasonic-laptop.c
  
+ PARALLAX PING IIO SENSOR DRIVER
 -- 
-2.25.1
+2.28.0
 
