@@ -2,82 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45EB023FF01
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  9 Aug 2020 17:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F88240387
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Aug 2020 10:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbgHIPV5 (ORCPT
+        id S1726052AbgHJIqJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 9 Aug 2020 11:21:57 -0400
-Received: from bmailout2.hostsharing.net ([83.223.78.240]:41683 "EHLO
-        bmailout2.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726175AbgHIPV5 (ORCPT
+        Mon, 10 Aug 2020 04:46:09 -0400
+Received: from bmailout3.hostsharing.net ([176.9.242.62]:33955 "EHLO
+        bmailout3.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbgHJIqJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 9 Aug 2020 11:21:57 -0400
+        Mon, 10 Aug 2020 04:46:09 -0400
+X-Greylist: delayed 486 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Aug 2020 04:46:07 EDT
 Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by bmailout2.hostsharing.net (Postfix) with ESMTPS id E25CB28007E15;
-        Sun,  9 Aug 2020 17:21:34 +0200 (CEST)
+        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 2DF09100E4178;
+        Mon, 10 Aug 2020 10:37:58 +0200 (CEST)
 Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id AE84A9EA; Sun,  9 Aug 2020 17:21:34 +0200 (CEST)
-Date:   Sun, 9 Aug 2020 17:21:34 +0200
+        id D567F34F184; Mon, 10 Aug 2020 10:37:57 +0200 (CEST)
+Date:   Mon, 10 Aug 2020 10:37:57 +0200
 From:   Lukas Wunner <lukas@wunner.de>
 To:     Daniel Dadap <ddadap@nvidia.com>
-Cc:     =?iso-8859-1?Q?Barnab=E1s?= P??cze <pobrn@protonmail.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>
-Subject: Re: [PATCH] platform/x86: Add new vga-switcheroo gmux driver for
+Cc:     platform-driver-x86@vger.kernel.org, pobrn@protonmail.com,
+        andy@infradead.org, dvhart@infradead.org,
+        dri-devel@lists.freedesktop.org, peter@lekensteyn.nl
+Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
  ACPI-driven muxes
-Message-ID: <20200809152134.fovcomvvqlb2pso4@wunner.de>
-References: <20200727205752.28224-1-ddadap@nvidia.com>
- <OZ6ZQHG1FUrYVeq4WcEmCVJICyUzTAglUv2n5kB0QV1Fd2jodRhmB3jI9F2tPgPDcFbbdPNU9DnJaeousfdWl46UqgKIvb_aIM_hg-fyb8k=@protonmail.com>
- <1a760896-171f-e2d3-241f-e7b5fec51929@nvidia.com>
+Message-ID: <20200810083757.2jbwebbvocqe5rle@wunner.de>
+References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
+ <20200729210557.9195-1-ddadap@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1a760896-171f-e2d3-241f-e7b5fec51929@nvidia.com>
+In-Reply-To: <20200729210557.9195-1-ddadap@nvidia.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 10:17:19PM -0500, Daniel Dadap wrote:
-> On 7/27/20 7:11 PM, Barnabás P??cze wrote:
-> > > +     while ((dev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, dev))) {
-> > > +             switch (dev->vendor) {
-> > > +             case 0x8086:
-> > > +                     pci_dev_put(ig_dev);
-> > > +                     ig_dev = pci_dev_get(dev);
-> > > +                     break;
-> > > +             case 0x10de:
-> > > +                     pci_dev_put(dg_dev);
-> > > +                     dg_dev = pci_dev_get(dev);
-> > > +                     break;
-> > > +             default:
-> > > +                     break;
-> > > +             }
-> > > +     }
-> > > +
-> > 
-> > Regardless of how improbable, I am wondering what happens if an
-> > external GPU is connected to a dual-GPU laptop? Cannot that
-> > interfere with this device lookup logic?
-> 
-> I don't think it'll be a problem, since an external GPU won't have an
-> implementation of the MXDM/MXDS methods in its associated ACPI node, so even
-> if the eGPU is plugged in at the time this module loads, it should fail to
-> initialize unless there is also an internal discrete GPU which does support
-> MXDM/MXDS.
+On Wed, Jul 29, 2020 at 04:05:57PM -0500, Daniel Dadap wrote:
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see <http://www.gnu.org/licenses>.
 
-Still, dg_dev may point to the wrong device.  You can avoid it by
-adding the following at the top of the while loop:
+This boilerplate is unnecessary, the SPDX identifier is sufficient.
 
-		if (pci_is_thunderbolt_attached(dev))
-			continue;
+> +static int mxds_gmux_switchto(enum vga_switcheroo_client_id);
+> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(struct pci_dev *);
+> +
+> +static const struct vga_switcheroo_handler handler = {
+> +	.switchto = mxds_gmux_switchto,
+> +	.get_client_id = mxds_gmux_get_client_id,
+> +};
+
+Move the handler struct further down to avoid the forward declarations.
+
+> + * Call MXDS with bit 0 set to change the current state.
+> + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
+[...]
+> +enum mux_state_command {
+> +	MUX_STATE_GET = 0,
+> +	MUX_STATE_SET_IGPU = 0x01,
+> +	MUX_STATE_SET_DGPU = 0x11,
+> +};
+
+It looks like the code comment is wrong and bit 1 (instead of bit 4) is
+used to select the GPU.
+
+> +static acpi_integer acpi_helper(acpi_handle handle, enum acpi_method method,
+> +				acpi_integer action)
+> +{
+> +	union acpi_object arg;
+> +	struct acpi_object_list in = {.count = 1, .pointer = &arg};
+> +	acpi_integer ret;
+> +	acpi_status status;
+> +
+> +	arg.integer.type = ACPI_TYPE_INTEGER;
+> +	arg.integer.value = action;
+
+Hm, why not use an initializer for "arg", as you do for "in"?
+
+> +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
+> +	struct pci_dev *dev)
+> +{
+> +	if (dev) {
+> +		if (ig_dev && dev->vendor == ig_dev->vendor)
+> +			return VGA_SWITCHEROO_IGD;
+> +		if (dg_dev && dev->vendor == dg_dev->vendor)
+> +			return VGA_SWITCHEROO_DIS;
+> +	}
+
+That's a little odd.  Why not use "ig_dev == dev" and "dg_dev == dev"?
+
+> +static acpi_status find_acpi_methods(
+> +	acpi_handle object, u32 nesting_level, void *context,
+> +	void **return_value)
+> +{
+> +	acpi_handle search;
+> +
+> +	/* If either MXDM or MXDS is missing, we can't use this object */
+> +	if (acpi_get_handle(object, "MXDM", &search))
+> +		return 0;
+
+Since this function returns an acpi_status, all the return statements
+should use AE_OK intead of 0.
+
+Otherwise LGTM.
+
+Please cc dri-devel when respinning since this concerns vga_switcheroo.
+
+I'm also cc'ing Peter Wu who has lots of experience with hybrid graphics
+through his involvement with Bumblebee, hence might be interested.
+Searching through his collection of ACPI dumps, it seems MXDS and MXMX
+have been present for years, but not MXDM:
+
+https://github.com/search?q=user%3ALekensteyn+MXDS&type=Code
 
 Thanks,
 
