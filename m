@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE0B241015
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Aug 2020 21:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90627240FB0
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Aug 2020 21:25:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729308AbgHJT1g (ORCPT
+        id S1729127AbgHJTX5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 10 Aug 2020 15:27:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39898 "EHLO mail.kernel.org"
+        Mon, 10 Aug 2020 15:23:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42820 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729283AbgHJTL0 (ORCPT
+        id S1729602AbgHJTMm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:11:26 -0400
+        Mon, 10 Aug 2020 15:12:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03B2E22DBF;
-        Mon, 10 Aug 2020 19:11:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78F9321775;
+        Mon, 10 Aug 2020 19:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086685;
-        bh=oAx51FywZu/BrCEEDqn20RxNMWWE/Z1GpukJ9ydnLJg=;
+        s=default; t=1597086761;
+        bh=k2GYCMWzh/jmM7oR8EjJp5e5VzW0nQwvXmFEn3MWkZ8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QfnUiKdJG6uIb9H915lOXaTeyYR8fwUkY0hNI3zNxCXdTxOIOqtwJHkXHZ2R9rRu/
-         YfCmSe5IUs9vmTQ0RQQ/krinS1fOZE5en3JJA4NZpdqPYJ8j7XbpQBp9O4m3b7jicv
-         jX4xzIOhYSMTKK34hjI90iCAlRJeQ7EQU2i8G4mg=
+        b=QuTk1W1Ye7A9li4Wyre1nb/zB6trzH2Zkgx1xxqbuQGQS161yjabpvOn+ufJCoia1
+         j068BDIoeHOzMALdWlj7iGMvKqDwUqljmZC0GeSwfBdU4bPMnTjS3QqTlNX95U/iVe
+         tAExzt+Il2D3QqjtXfSidxa8f5kLh8gdCN0NXKP4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Armas Spann <zappel@retarded.farm>,
@@ -32,12 +32,12 @@ Cc:     Armas Spann <zappel@retarded.farm>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 41/60] platform/x86: asus-nb-wmi: add support for ASUS ROG Zephyrus G14 and G15
-Date:   Mon, 10 Aug 2020 15:10:09 -0400
-Message-Id: <20200810191028.3793884-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 33/45] platform/x86: asus-nb-wmi: add support for ASUS ROG Zephyrus G14 and G15
+Date:   Mon, 10 Aug 2020 15:11:41 -0400
+Message-Id: <20200810191153.3794446-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810191028.3793884-1-sashal@kernel.org>
-References: <20200810191028.3793884-1-sashal@kernel.org>
+In-Reply-To: <20200810191153.3794446-1-sashal@kernel.org>
+References: <20200810191153.3794446-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,7 +66,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 82 insertions(+)
 
 diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index c4404d9c1de4f..1bb082308c209 100644
+index 0d42477946f32..59b78a181723b 100644
 --- a/drivers/platform/x86/asus-nb-wmi.c
 +++ b/drivers/platform/x86/asus-nb-wmi.c
 @@ -110,6 +110,16 @@ static struct quirk_entry quirk_asus_forceals = {
