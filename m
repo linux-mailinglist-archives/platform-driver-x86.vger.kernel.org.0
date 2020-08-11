@@ -2,169 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFDF72410A6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 10 Aug 2020 21:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EE03241564
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 05:43:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728800AbgHJTbw (ORCPT
+        id S1727820AbgHKDnF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 10 Aug 2020 15:31:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37034 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728779AbgHJTKC (ORCPT
+        Mon, 10 Aug 2020 23:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727819AbgHKDnF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 10 Aug 2020 15:10:02 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D7B7B20885;
-        Mon, 10 Aug 2020 19:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597086601;
-        bh=IHXnv5gZCelNCtUHzOcPZ5aYEKPQvdmbdCnL6d6/pbQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=To5PiDSoqwUPplyUfvXLqsLxSgD2cnbls0noEai4mIWBz7PEAOVGdCk0acv1ox5to
-         JdrRMMVfV1JEe8Knlzx2lb1+NWFQDkW5zTjvw56OBRiACkQ8+Mk7cRlj662wco30a3
-         FcDEcN+kVEsu5OrImbEaQq1BXvVc1VEfgYSmV5FI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Armas Spann <zappel@retarded.farm>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 45/64] platform/x86: asus-nb-wmi: add support for ASUS ROG Zephyrus G14 and G15
-Date:   Mon, 10 Aug 2020 15:08:40 -0400
-Message-Id: <20200810190859.3793319-45-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200810190859.3793319-1-sashal@kernel.org>
-References: <20200810190859.3793319-1-sashal@kernel.org>
+        Mon, 10 Aug 2020 23:43:05 -0400
+X-Greylist: delayed 68705 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Aug 2020 20:43:05 PDT
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BF3C06174A
+        for <platform-driver-x86@vger.kernel.org>; Mon, 10 Aug 2020 20:43:05 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 2ADF810059572;
+        Tue, 11 Aug 2020 05:43:02 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id D90A0FAB51; Tue, 11 Aug 2020 05:43:01 +0200 (CEST)
+Date:   Tue, 11 Aug 2020 05:43:01 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Daniel Dadap <ddadap@nvidia.com>
+Cc:     platform-driver-x86@vger.kernel.org, pobrn@protonmail.com,
+        andy@infradead.org, dvhart@infradead.org,
+        dri-devel@lists.freedesktop.org, peter@lekensteyn.nl
+Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
+ ACPI-driven muxes
+Message-ID: <20200811034301.nlhue4xgfv4p3utr@wunner.de>
+References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
+ <20200729210557.9195-1-ddadap@nvidia.com>
+ <20200810083757.2jbwebbvocqe5rle@wunner.de>
+ <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Armas Spann <zappel@retarded.farm>
+On Mon, Aug 10, 2020 at 01:44:58PM -0500, Daniel Dadap wrote:
+> On 8/10/20 3:37 AM, Lukas Wunner wrote:
+> > On Wed, Jul 29, 2020 at 04:05:57PM -0500, Daniel Dadap wrote:
+> > > + * Call MXDS with bit 0 set to change the current state.
+> > > + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
+> > [...]
+> > > +enum mux_state_command {
+> > > +     MUX_STATE_GET = 0,
+> > > +     MUX_STATE_SET_IGPU = 0x01,
+> > > +     MUX_STATE_SET_DGPU = 0x11,
+> > > +};
+> > It looks like the code comment is wrong and bit 1 (instead of bit 4) is
+> > used to select the GPU.
+> 
+> The code comment is correct. The enum values are hexadecimal, not binary.
 
-[ Upstream commit 13bceda68fb9ef388ad40d355ab8d03ee64d14c2 ]
+Ugh, missed that, sorry for the noise.
 
-Add device support for the new ASUS ROG Zephyrus G14 (GA401I) and
-G15 (GA502I) series.
+> Would it be clearer to write it out as something like 0 << 4 & 1 << 0 for
+> MUX_STATE_SET_IGPU and 1 << 4 & 1 << 0 for MUX_STATE_SET_DGPU?
 
-This is accomplished by two new quirk entries (one per each series),
-as well as all current available G401I/G502I DMI_PRODUCT_NAMEs to match
-the corresponding devices.
+BIT(4) | BIT(0) might be clearer, but that gives you an unsigned long
+and I'm not sure if gcc accepts that as an enum (=int) initializer.
 
-Signed-off-by: Armas Spann <zappel@retarded.farm>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/asus-nb-wmi.c | 82 ++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+> > > +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
+> > > +     struct pci_dev *dev)
+> > > +{
+> > > +     if (dev) {
+> > > +             if (ig_dev && dev->vendor == ig_dev->vendor)
+> > > +                     return VGA_SWITCHEROO_IGD;
+> > > +             if (dg_dev && dev->vendor == dg_dev->vendor)
+> > > +                     return VGA_SWITCHEROO_DIS;
+> > > +     }
+> > That's a little odd.  Why not use "ig_dev == dev" and "dg_dev == dev"?
+> 
+> No reason; that is indeed better. I think originally these comparisons got a
+> vendor ID from some other means.
 
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index 8c4d00482ef06..6c42f73c1dfd3 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -110,6 +110,16 @@ static struct quirk_entry quirk_asus_forceals = {
- 	.wmi_force_als_set = true,
- };
- 
-+static struct quirk_entry quirk_asus_ga401i = {
-+	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
-+};
-+
-+static struct quirk_entry quirk_asus_ga502i = {
-+	.wmi_backlight_power = true,
-+	.wmi_backlight_set_devstate = true,
-+};
-+
- static int dmi_matched(const struct dmi_system_id *dmi)
- {
- 	pr_info("Identified laptop model '%s'\n", dmi->ident);
-@@ -411,6 +421,78 @@ static const struct dmi_system_id asus_quirks[] = {
- 		},
- 		.driver_data = &quirk_asus_forceals,
- 	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IH",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IH"),
-+		},
-+		.driver_data = &quirk_asus_ga401i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401II",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401II"),
-+		},
-+		.driver_data = &quirk_asus_ga401i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IU",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IU"),
-+		},
-+		.driver_data = &quirk_asus_ga401i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IV",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IV"),
-+		},
-+		.driver_data = &quirk_asus_ga401i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA401IVC",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IVC"),
-+		},
-+		.driver_data = &quirk_asus_ga401i,
-+	},
-+		{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502II",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502II"),
-+		},
-+		.driver_data = &quirk_asus_ga502i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502IU",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IU"),
-+		},
-+		.driver_data = &quirk_asus_ga502i,
-+	},
-+	{
-+		.callback = dmi_matched,
-+		.ident = "ASUSTeK COMPUTER INC. GA502IV",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IV"),
-+		},
-+		.driver_data = &quirk_asus_ga502i,
-+	},
- 	{},
- };
- 
--- 
-2.25.1
+Perhaps it was necessary in case an eGPU is attached, but that shouldn't
+be an issue if you filter out Thunderbolt devices with
+pci_is_thunderbolt_attached().
 
+> Yes, MXMX and MXDS go back a ways, it seems. I'm not familiar enough with
+> the MXMX+MXDS designs to know if MXDS uses the same API in those designs as
+> it doesn in the MXDM+MXDS designs. I'm not aware of any already available
+> designs with MXDM. MXMX was used for switching DDC lines independently back
+> when LVDS panels were the norm. The upcoming MXDM+MXDS designs are eDP-based
+> and do not support independent DDC muxing.
+
+Interesting, thank you for the explanation.
+
+Lukas
