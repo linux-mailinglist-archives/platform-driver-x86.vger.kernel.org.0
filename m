@@ -2,94 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9532417EF
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 10:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30D6C241CBC
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 16:50:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgHKIEj (ORCPT
+        id S1728802AbgHKOuQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Aug 2020 04:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728145AbgHKIEi (ORCPT
+        Tue, 11 Aug 2020 10:50:16 -0400
+Received: from mga01.intel.com ([192.55.52.88]:61161 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728800AbgHKOuQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Aug 2020 04:04:38 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86614C061788
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Aug 2020 01:04:37 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id a15so10535408wrh.10
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Aug 2020 01:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=m/9oajnmpulJQFFHe5rO/NKB3oM7j5qRCzsG9Pje1vw=;
-        b=WVMBCCGntz9aZSNzO3YGBL6Y5SM+pfJzI1OHFfHZOeB1kaPEXXlb3htXrSjy8zDuCS
-         z7DyQl9x3jpE0JH006wM6RG+o35ypzZzygWwX2toXYM3XrU2Mi9a4qg7jgyhFavERwf1
-         sYs9pY8XWxvexIgINPc7Vi43PfmdCe3g4IR7jKLbp7EjHU3xGy2347U9DDlA0GoaTLUr
-         jkkUhuk1Jnt64sEUosOhKzOg5X+6bXHYPOwgGymYgjxGKK0ZawwAHgPeySN2sxxvf8nK
-         KOU5U/cvNuO0uh5Ywm3ndx9LBBHAVMqqvC7G9g7x31AnHgWg0LPfNi2f8C3xrs/XQECe
-         F5/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=m/9oajnmpulJQFFHe5rO/NKB3oM7j5qRCzsG9Pje1vw=;
-        b=KRB9NOSlxm7GcbaJ2j2M3av6q66b7KWKBlgY4gUfFjEkct8zJr48YmYYDLLr3oJmrf
-         bOiilGmLTwYgeSC1H1WM7ect54OozyLyWGa3u03awmoOyHFaTSrFB4WRdSXgdlwA5ndg
-         wGKXtXSuzTNN0P8X1/mVJleav5PbMKsKFUBitthCHWFpbedT08ObYv597S0tb5BD0Qpm
-         GNfZZDn54xpqkudhIynsRq52roiU62pl2CmBa+7a/9hbUJosgHduzU5PUcjA69LgfsKS
-         9FsLrcQecxC3RoAvJtwSLXVzNSJJS/fg9PH/vwYqfAC13mISa9cPYhatlywxEwzfwSQu
-         1UVA==
-X-Gm-Message-State: AOAM532Z6pn3GioAABfKXb8jCBM6PV0xpg44Sk9n9ha8ECdOJVgycceM
-        dpQo4jhCaElV5rS5SMyGNxO3kg==
-X-Google-Smtp-Source: ABdhPJzfrOEs4jcEBk/X7yZSCi1Xor8RzKr7I+Yongyi7WT+ad48GTwwGNBes1mYrdoekHxHJbPTxg==
-X-Received: by 2002:adf:f488:: with SMTP id l8mr4851884wro.123.1597133075746;
-        Tue, 11 Aug 2020 01:04:35 -0700 (PDT)
-Received: from dell ([2.27.167.73])
-        by smtp.gmail.com with ESMTPSA id 31sm25413291wrj.94.2020.08.11.01.04.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 01:04:35 -0700 (PDT)
-Date:   Tue, 11 Aug 2020 09:04:33 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     "David E. Box" <david.e.box@linux.intel.com>
+        Tue, 11 Aug 2020 10:50:16 -0400
+IronPort-SDR: PLDrom9O7eW0yYAw8U7AzYOTkNRkwUxVUp0TUYGRBF6Jz4y2N1YVy33rdKBZoL6USsGUNbj1gz
+ RzgSbcFUnj8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="171786762"
+X-IronPort-AV: E=Sophos;i="5.76,300,1592895600"; 
+   d="scan'208";a="171786762"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 07:50:15 -0700
+IronPort-SDR: lim6dOyM7M6ZjxPMl1KN6NPpY/oExwYlaK43P+XCsOgQRcza64TZDr2+3+xuFH2SGxqgGG0sKo
+ YQj3ql6dmddg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,300,1592895600"; 
+   d="scan'208";a="308421631"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga002.jf.intel.com with ESMTP; 11 Aug 2020 07:50:15 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.7.201.137])
+        by linux.intel.com (Postfix) with ESMTP id 6E906580785;
+        Tue, 11 Aug 2020 07:50:15 -0700 (PDT)
+Message-ID: <4989e6bdfcd787e01c8459f4b5b9517a2ae73b24.camel@linux.intel.com>
+Subject: Re: [PATCH V5 0/3] Intel Platform Monitoring Technology
+From:   "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
         alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH V5 0/3] Intel Platform Monitoring Technology
-Message-ID: <20200811080433.GI4411@dell>
+Date:   Tue, 11 Aug 2020 07:50:15 -0700
+In-Reply-To: <20200811080433.GI4411@dell>
 References: <20200717190620.29821-1-david.e.box@linux.intel.com>
- <20200729213719.17795-1-david.e.box@linux.intel.com>
- <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
+         <20200729213719.17795-1-david.e.box@linux.intel.com>
+         <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
+         <20200811080433.GI4411@dell>
+Organization: David E. Box
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, 10 Aug 2020, David E. Box wrote:
+On Tue, 2020-08-11 at 09:04 +0100, Lee Jones wrote:
+> On Mon, 10 Aug 2020, David E. Box wrote:
+> 
+> > Friendly ping.
+> 
+> Don't do that.  Sending contentless pings is seldom helpful.
+> 
+> If you think your set has been dropped please just send a [RESEND].
+> 
+> This is probably worth doing anyway, since you've sent v2, v3, v4 and
+> now v5 has reply-tos of one another.  The thread has become quite
+> messy as a result.
+> 
+> Also please take the time to identify where we are with respect to
+> the
+> current release cycle.  The merge-window is open presently.  Meaning
+> that most maintainers are busy, either sending out pull-requests or
+> ramping up for the next cycle (or just taking a quick breather).
+> 
 
-> Friendly ping.
+No problem. I'll resend v5 in a new thread when rc1 is tagged. Thanks.
 
-Don't do that.  Sending contentless pings is seldom helpful.
-
-If you think your set has been dropped please just send a [RESEND].
-
-This is probably worth doing anyway, since you've sent v2, v3, v4 and
-now v5 has reply-tos of one another.  The thread has become quite
-messy as a result.
-
-Also please take the time to identify where we are with respect to the
-current release cycle.  The merge-window is open presently.  Meaning
-that most maintainers are busy, either sending out pull-requests or
-ramping up for the next cycle (or just taking a quick breather).
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
