@@ -2,79 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30D6C241CBC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 16:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB19B2421DD
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 23:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728802AbgHKOuQ (ORCPT
+        id S1726274AbgHKVV2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Aug 2020 10:50:16 -0400
-Received: from mga01.intel.com ([192.55.52.88]:61161 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728800AbgHKOuQ (ORCPT
+        Tue, 11 Aug 2020 17:21:28 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15617 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726115AbgHKVV1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Aug 2020 10:50:16 -0400
-IronPort-SDR: PLDrom9O7eW0yYAw8U7AzYOTkNRkwUxVUp0TUYGRBF6Jz4y2N1YVy33rdKBZoL6USsGUNbj1gz
- RzgSbcFUnj8w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9710"; a="171786762"
-X-IronPort-AV: E=Sophos;i="5.76,300,1592895600"; 
-   d="scan'208";a="171786762"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2020 07:50:15 -0700
-IronPort-SDR: lim6dOyM7M6ZjxPMl1KN6NPpY/oExwYlaK43P+XCsOgQRcza64TZDr2+3+xuFH2SGxqgGG0sKo
- YQj3ql6dmddg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,300,1592895600"; 
-   d="scan'208";a="308421631"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga002.jf.intel.com with ESMTP; 11 Aug 2020 07:50:15 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.7.201.137])
-        by linux.intel.com (Postfix) with ESMTP id 6E906580785;
-        Tue, 11 Aug 2020 07:50:15 -0700 (PDT)
-Message-ID: <4989e6bdfcd787e01c8459f4b5b9517a2ae73b24.camel@linux.intel.com>
-Subject: Re: [PATCH V5 0/3] Intel Platform Monitoring Technology
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
-        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
-Date:   Tue, 11 Aug 2020 07:50:15 -0700
-In-Reply-To: <20200811080433.GI4411@dell>
-References: <20200717190620.29821-1-david.e.box@linux.intel.com>
-         <20200729213719.17795-1-david.e.box@linux.intel.com>
-         <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
-         <20200811080433.GI4411@dell>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Tue, 11 Aug 2020 17:21:27 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5f330bc90000>; Tue, 11 Aug 2020 14:21:13 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 11 Aug 2020 14:21:26 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 11 Aug 2020 14:21:26 -0700
+Received: from [172.20.40.66] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 11 Aug
+ 2020 21:21:25 +0000
+Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
+ ACPI-driven muxes
+To:     Lukas Wunner <lukas@wunner.de>
+CC:     <platform-driver-x86@vger.kernel.org>, <pobrn@protonmail.com>,
+        <andy@infradead.org>, <dvhart@infradead.org>,
+        <dri-devel@lists.freedesktop.org>, <peter@lekensteyn.nl>
+References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
+ <20200729210557.9195-1-ddadap@nvidia.com>
+ <20200810083757.2jbwebbvocqe5rle@wunner.de>
+ <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
+ <20200811034301.nlhue4xgfv4p3utr@wunner.de>
+From:   Daniel Dadap <ddadap@nvidia.com>
+Message-ID: <c7dcb052-0ccf-dae3-49dd-1518f5ab182e@nvidia.com>
+Date:   Tue, 11 Aug 2020 16:22:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200811034301.nlhue4xgfv4p3utr@wunner.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1597180873; bh=R2i9R+envwB1tq+uKoKa3kcK4HJWK1Npmh4i7DeM6e0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=FayKKNJP9hXS6Z8PTFlWtbm0Fs7Hm30fTZ9PmJNRroiWPH7fdMpF5pScO0iL2+j4y
+         z0Gbe9MCB9/krKw7/A++bd9F8KfvECzA3L0hiCFU2CuuXf58b7zif96wrxh0VhxWF/
+         FyX7+76b2pNcO7lgSdLeUniKcg1fepGlcgWFA8fdCygvLV9qe8aLeS9o5ZL/YnGaCU
+         2nqEYjF8yFQm0fvFilXE8wQSyRwSXRyOvoEAWrWB2XFuy0ULEsu4+Y+JVYm+7j+7zf
+         wpXmJscyulFPYo9SuXq4fmshuPeT0WiQCc6e6umTFNA/d9ub6aC3XJxpjr6iPbMQgC
+         aolV9yVO6l+tg==
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 2020-08-11 at 09:04 +0100, Lee Jones wrote:
-> On Mon, 10 Aug 2020, David E. Box wrote:
-> 
-> > Friendly ping.
-> 
-> Don't do that.  Sending contentless pings is seldom helpful.
-> 
-> If you think your set has been dropped please just send a [RESEND].
-> 
-> This is probably worth doing anyway, since you've sent v2, v3, v4 and
-> now v5 has reply-tos of one another.  The thread has become quite
-> messy as a result.
-> 
-> Also please take the time to identify where we are with respect to
-> the
-> current release cycle.  The merge-window is open presently.  Meaning
-> that most maintainers are busy, either sending out pull-requests or
-> ramping up for the next cycle (or just taking a quick breather).
-> 
 
-No problem. I'll resend v5 in a new thread when rc1 is tagged. Thanks.
+On 8/10/20 10:43 PM, Lukas Wunner wrote:
+> On Mon, Aug 10, 2020 at 01:44:58PM -0500, Daniel Dadap wrote:
+>
+>> Would it be clearer to write it out as something like 0 << 4 & 1 << 0 for
+>> MUX_STATE_SET_IGPU and 1 << 4 & 1 << 0 for MUX_STATE_SET_DGPU?
+> BIT(4) | BIT(0) might be clearer, but that gives you an unsigned long
+> and I'm not sure if gcc accepts that as an enum (=int) initializer.
+
+
+Ah yes, I forgot the BIT() macro. And it does seem to work just fine for 
+initializing enum values, and there does seem to be precedent in other 
+code in the kernel for doing so. And of course I meant | instead of & 
+earlier. :)
 
