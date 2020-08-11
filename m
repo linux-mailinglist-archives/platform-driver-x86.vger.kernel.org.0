@@ -2,100 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE03241564
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 05:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9532417EF
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Aug 2020 10:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbgHKDnF (ORCPT
+        id S1727998AbgHKIEj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 10 Aug 2020 23:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        Tue, 11 Aug 2020 04:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727819AbgHKDnF (ORCPT
+        with ESMTP id S1728145AbgHKIEi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 10 Aug 2020 23:43:05 -0400
-X-Greylist: delayed 68705 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Aug 2020 20:43:05 PDT
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [IPv6:2a01:4f8:150:2161:1:b009:f23e:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33BF3C06174A
-        for <platform-driver-x86@vger.kernel.org>; Mon, 10 Aug 2020 20:43:05 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 2ADF810059572;
-        Tue, 11 Aug 2020 05:43:02 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id D90A0FAB51; Tue, 11 Aug 2020 05:43:01 +0200 (CEST)
-Date:   Tue, 11 Aug 2020 05:43:01 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Daniel Dadap <ddadap@nvidia.com>
-Cc:     platform-driver-x86@vger.kernel.org, pobrn@protonmail.com,
-        andy@infradead.org, dvhart@infradead.org,
-        dri-devel@lists.freedesktop.org, peter@lekensteyn.nl
-Subject: Re: [PATCH v3] platform/x86: Add new vga-switcheroo gmux driver for
- ACPI-driven muxes
-Message-ID: <20200811034301.nlhue4xgfv4p3utr@wunner.de>
-References: <0850ac9a-3d60-053d-1d70-5f20ce621b24@nvidia.com>
- <20200729210557.9195-1-ddadap@nvidia.com>
- <20200810083757.2jbwebbvocqe5rle@wunner.de>
- <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
+        Tue, 11 Aug 2020 04:04:38 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86614C061788
+        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Aug 2020 01:04:37 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id a15so10535408wrh.10
+        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Aug 2020 01:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=m/9oajnmpulJQFFHe5rO/NKB3oM7j5qRCzsG9Pje1vw=;
+        b=WVMBCCGntz9aZSNzO3YGBL6Y5SM+pfJzI1OHFfHZOeB1kaPEXXlb3htXrSjy8zDuCS
+         z7DyQl9x3jpE0JH006wM6RG+o35ypzZzygWwX2toXYM3XrU2Mi9a4qg7jgyhFavERwf1
+         sYs9pY8XWxvexIgINPc7Vi43PfmdCe3g4IR7jKLbp7EjHU3xGy2347U9DDlA0GoaTLUr
+         jkkUhuk1Jnt64sEUosOhKzOg5X+6bXHYPOwgGymYgjxGKK0ZawwAHgPeySN2sxxvf8nK
+         KOU5U/cvNuO0uh5Ywm3ndx9LBBHAVMqqvC7G9g7x31AnHgWg0LPfNi2f8C3xrs/XQECe
+         F5/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=m/9oajnmpulJQFFHe5rO/NKB3oM7j5qRCzsG9Pje1vw=;
+        b=KRB9NOSlxm7GcbaJ2j2M3av6q66b7KWKBlgY4gUfFjEkct8zJr48YmYYDLLr3oJmrf
+         bOiilGmLTwYgeSC1H1WM7ect54OozyLyWGa3u03awmoOyHFaTSrFB4WRdSXgdlwA5ndg
+         wGKXtXSuzTNN0P8X1/mVJleav5PbMKsKFUBitthCHWFpbedT08ObYv597S0tb5BD0Qpm
+         GNfZZDn54xpqkudhIynsRq52roiU62pl2CmBa+7a/9hbUJosgHduzU5PUcjA69LgfsKS
+         9FsLrcQecxC3RoAvJtwSLXVzNSJJS/fg9PH/vwYqfAC13mISa9cPYhatlywxEwzfwSQu
+         1UVA==
+X-Gm-Message-State: AOAM532Z6pn3GioAABfKXb8jCBM6PV0xpg44Sk9n9ha8ECdOJVgycceM
+        dpQo4jhCaElV5rS5SMyGNxO3kg==
+X-Google-Smtp-Source: ABdhPJzfrOEs4jcEBk/X7yZSCi1Xor8RzKr7I+Yongyi7WT+ad48GTwwGNBes1mYrdoekHxHJbPTxg==
+X-Received: by 2002:adf:f488:: with SMTP id l8mr4851884wro.123.1597133075746;
+        Tue, 11 Aug 2020 01:04:35 -0700 (PDT)
+Received: from dell ([2.27.167.73])
+        by smtp.gmail.com with ESMTPSA id 31sm25413291wrj.94.2020.08.11.01.04.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 01:04:35 -0700 (PDT)
+Date:   Tue, 11 Aug 2020 09:04:33 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
+        alexander.h.duyck@linux.intel.com, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH V5 0/3] Intel Platform Monitoring Technology
+Message-ID: <20200811080433.GI4411@dell>
+References: <20200717190620.29821-1-david.e.box@linux.intel.com>
+ <20200729213719.17795-1-david.e.box@linux.intel.com>
+ <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c7b1b098-a0ef-6e78-92c1-32da9b4ea3f3@nvidia.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <74c03fe9fea12f4b056bf694a0d03d5200244231.camel@linux.intel.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Aug 10, 2020 at 01:44:58PM -0500, Daniel Dadap wrote:
-> On 8/10/20 3:37 AM, Lukas Wunner wrote:
-> > On Wed, Jul 29, 2020 at 04:05:57PM -0500, Daniel Dadap wrote:
-> > > + * Call MXDS with bit 0 set to change the current state.
-> > > + * When changing state, clear bit 4 for iGPU and set bit 4 for dGPU.
-> > [...]
-> > > +enum mux_state_command {
-> > > +     MUX_STATE_GET = 0,
-> > > +     MUX_STATE_SET_IGPU = 0x01,
-> > > +     MUX_STATE_SET_DGPU = 0x11,
-> > > +};
-> > It looks like the code comment is wrong and bit 1 (instead of bit 4) is
-> > used to select the GPU.
-> 
-> The code comment is correct. The enum values are hexadecimal, not binary.
+On Mon, 10 Aug 2020, David E. Box wrote:
 
-Ugh, missed that, sorry for the noise.
+> Friendly ping.
 
-> Would it be clearer to write it out as something like 0 << 4 & 1 << 0 for
-> MUX_STATE_SET_IGPU and 1 << 4 & 1 << 0 for MUX_STATE_SET_DGPU?
+Don't do that.  Sending contentless pings is seldom helpful.
 
-BIT(4) | BIT(0) might be clearer, but that gives you an unsigned long
-and I'm not sure if gcc accepts that as an enum (=int) initializer.
+If you think your set has been dropped please just send a [RESEND].
 
-> > > +static enum vga_switcheroo_client_id mxds_gmux_get_client_id(
-> > > +     struct pci_dev *dev)
-> > > +{
-> > > +     if (dev) {
-> > > +             if (ig_dev && dev->vendor == ig_dev->vendor)
-> > > +                     return VGA_SWITCHEROO_IGD;
-> > > +             if (dg_dev && dev->vendor == dg_dev->vendor)
-> > > +                     return VGA_SWITCHEROO_DIS;
-> > > +     }
-> > That's a little odd.  Why not use "ig_dev == dev" and "dg_dev == dev"?
-> 
-> No reason; that is indeed better. I think originally these comparisons got a
-> vendor ID from some other means.
+This is probably worth doing anyway, since you've sent v2, v3, v4 and
+now v5 has reply-tos of one another.  The thread has become quite
+messy as a result.
 
-Perhaps it was necessary in case an eGPU is attached, but that shouldn't
-be an issue if you filter out Thunderbolt devices with
-pci_is_thunderbolt_attached().
+Also please take the time to identify where we are with respect to the
+current release cycle.  The merge-window is open presently.  Meaning
+that most maintainers are busy, either sending out pull-requests or
+ramping up for the next cycle (or just taking a quick breather).
 
-> Yes, MXMX and MXDS go back a ways, it seems. I'm not familiar enough with
-> the MXMX+MXDS designs to know if MXDS uses the same API in those designs as
-> it doesn in the MXDM+MXDS designs. I'm not aware of any already available
-> designs with MXDM. MXMX was used for switching DDC lines independently back
-> when LVDS panels were the norm. The upcoming MXDM+MXDS designs are eDP-based
-> and do not support independent DDC muxing.
-
-Interesting, thank you for the explanation.
-
-Lukas
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
