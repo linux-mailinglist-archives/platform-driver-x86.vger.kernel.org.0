@@ -2,54 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1866124E62D
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Aug 2020 09:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A3824E65D
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Aug 2020 10:20:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727818AbgHVHwp (ORCPT
+        id S1726880AbgHVIUs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 22 Aug 2020 03:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
+        Sat, 22 Aug 2020 04:20:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727103AbgHVHwo (ORCPT
+        with ESMTP id S1725877AbgHVIUs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 22 Aug 2020 03:52:44 -0400
-X-Greylist: delayed 1349 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 22 Aug 2020 00:52:43 PDT
-Received: from ganesha.gnumonks.org (ganesha.gnumonks.org [IPv6:2001:780:45:1d:225:90ff:fe52:c662])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADFAC061573;
-        Sat, 22 Aug 2020 00:52:43 -0700 (PDT)
-Received: from uucp by ganesha.gnumonks.org with local-bsmtp (Exim 4.89)
-        (envelope-from <laforge@gnumonks.org>)
-        id 1k9NyW-0001MY-7W; Sat, 22 Aug 2020 09:30:04 +0200
-Received: from laforge by localhost.localdomain with local (Exim 4.94)
-        (envelope-from <laforge@gnumonks.org>)
-        id 1k9NyH-00Ftt6-AZ; Sat, 22 Aug 2020 09:29:49 +0200
-Date:   Sat, 22 Aug 2020 09:29:49 +0200
-From:   Harald Welte <laforge@gnumonks.org>
-To:     Kenneth Chan <kenneth.t.chan@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+        Sat, 22 Aug 2020 04:20:48 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97228C061573;
+        Sat, 22 Aug 2020 01:20:48 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id q1so1810565pjd.1;
+        Sat, 22 Aug 2020 01:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tcUFMfCVC9uRonruJhKq5CJkq15cD+sb6a8YuyisFTg=;
+        b=poKvZtY+iUmeR6J2SALMSuIGQnbmyETzuLIoti5vhJ7voGBjdZYXc7lXMIBfUt1YK4
+         BA1jT75UesDLBq8n1LoTP1au0nD4veNThjg2fj91Esp7FlRj0HifR8zxCF13xC0tdDLJ
+         RZxJf8hux9XFYVvw2APbivJzRaQMdUhzvX1FEPBA1d9vQBlrCO0sAQmJm9baeedHvns5
+         aEj1ywsoahOB4G0SHTk1kBxPiO+ujZGl9SatmGWXKgJcltXWvJ0Tn2yXJY5iKic0pvzl
+         eBiHy16g4XLHGxpJe8yb5RAr1K6AlHrgaXiUIKreW7MFmaJQ1NZAAaclP9dl0Ndtv2uI
+         0Kjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tcUFMfCVC9uRonruJhKq5CJkq15cD+sb6a8YuyisFTg=;
+        b=lwzOwczJDMisPiz7VcCkQ/keQle63NrWf9uhfIcezNGI3R+bBKZ8HqHua+X2skcb+U
+         04AUhT8uTvAB+7y11cEhuUrTm5+YnKo9O2kfsY69x0Bu/m8WeX2BpzrEPZL7XtaLQUSQ
+         sBp8gexVEpuxOMneca2D3XlahR4QCcT87EtEKIJhknpfNx7dcqHmfjfdhxmjPTZrlnfV
+         wRSngE8NFK0e4O6n+/7+VcTqL1w5/fchRNAbVU9evifCOh8+XEgmF2mKhR4YGwgfn4Dl
+         VOv5Uw1Dv+3esDy7PubuIQTvQpJeHpyDNd9fRIwOUf1Tai3m8BPjiDFhl10CUuunR0df
+         86Qw==
+X-Gm-Message-State: AOAM5337AJrYvz/S8yotd1Sgu3CCM0gDZOtOq+ZnLjPBT1JpbrmhOMs0
+        IkUP68TgRHawQQ4plNqg7xZZX8tDIeb66ybKZTooxupF8kQhlA==
+X-Google-Smtp-Source: ABdhPJwI/pKVJMO6ZczrtwKfg7OQcEo1CCZy7LQforpcGnrAxL0obcnO4w6p2wZ1bBqrDoN3GGnUMZiSugBD1lz1wow=
+X-Received: by 2002:a17:90a:fa06:: with SMTP id cm6mr5648971pjb.129.1598084447750;
+ Sat, 22 Aug 2020 01:20:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200821181433.17653-1-kenneth.t.chan@gmail.com> <20200822072949.GR3544863@nataraja>
+In-Reply-To: <20200822072949.GR3544863@nataraja>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 22 Aug 2020 11:20:31 +0300
+Message-ID: <CAHp75Vd+0EsP7g_Q9Q29YjdQaz23s0ach_rCXPZLCG2uoik=Ew@mail.gmail.com>
 Subject: Re: [PATCH 0/9] platform/x86: panasonic-laptop: add optical drive,
  brightness and battery charging threshold
-Message-ID: <20200822072949.GR3544863@nataraja>
-References: <20200821181433.17653-1-kenneth.t.chan@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200821181433.17653-1-kenneth.t.chan@gmail.com>
+To:     Harald Welte <laforge@gnumonks.org>
+Cc:     Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Keneth and Linux kernel developers,
+On Sat, Aug 22, 2020 at 10:53 AM Harald Welte <laforge@gnumonks.org> wrote:
+>
+> Dear Keneth and Linux kernel developers,
+>
+> as I have discontinued maintenance of the panasonic-laptop driver (and
+> recently sent a related MAINTAINERS update to that fact), I would like
+> to suggest Kenneth as the new maintainer for this driver.
 
-as I have discontinued maintenance of the panasonic-laptop driver (and
-recently sent a related MAINTAINERS update to that fact), I would like
-to suggest Kenneth as the new maintainer for this driver.
+Kenneth may send a corresponding MAINTAINERS update which you may Acknowledge.
 
-Regards,
-	Harald
+
 -- 
-- Harald Welte <laforge@gnumonks.org>           http://laforge.gnumonks.org/
-============================================================================
-"Privacy in residential applications is a desirable marketing option."
-                                                  (ETSI EN 300 175-7 Ch. A6)
+With Best Regards,
+Andy Shevchenko
