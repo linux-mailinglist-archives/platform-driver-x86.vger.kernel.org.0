@@ -2,77 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E26BB24ECF4
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Aug 2020 13:12:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E18F724F05D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 Aug 2020 00:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgHWLMl (ORCPT
+        id S1726737AbgHWWz3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 23 Aug 2020 07:12:41 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:29458 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726371AbgHWLMk (ORCPT
+        Sun, 23 Aug 2020 18:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbgHWWz2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 23 Aug 2020 07:12:40 -0400
-Received: from localhost.localdomain (unknown [210.32.144.184])
-        by mail-app3 (Coremail) with SMTP id cC_KCgA3j_UOT0JfVMcUAw--.64248S4;
-        Sun, 23 Aug 2020 19:12:17 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Platform: OLPC: Fix memleak in olpc_ec_probe
-Date:   Sun, 23 Aug 2020 19:12:11 +0800
-Message-Id: <20200823111214.24030-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgA3j_UOT0JfVMcUAw--.64248S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7XryUCrWrKry5JFykWw43Awb_yoWfWFcEkw
-        40yFW7WrWkurZ0qF1jkFy3CryI93Z8WFn7XF43t3WSy345Z3WYk398ZFWfuw45GrZIkry7
-        C3yUWry3CryfGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48J
-        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
-        Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7VUbeT5PUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoSBlZdtPnBhABDsc
+        Sun, 23 Aug 2020 18:55:28 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 893D3C061573;
+        Sun, 23 Aug 2020 15:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=p4hQ05/Ug37W1HDkIRxESilsvD5PeBDjK4JNqUubzq8=; b=aZDohJ1eEonSrHKxuzVX8l3AVL
+        Q88wykXTy0+T0miG+OB1zizyPfvUItgvyy0EFvzfYJorDckZOPC2lmNDg/K4/Day71l3Eea6goRnn
+        vk8ZZBX509E8DISxh6fsY66IatQzwMjuY6J1ipveKY2LxH5UPQ4AGm1ZSFQYpnkL7G7cF/L0uUrTk
+        w03mOHUWc+L1Bg4lPyVVH57ySqGUXlYP5n7xWTEvkAVe5IpL03QdELlzlH2nKNFkz1RB5alzZ3Gfg
+        ReoffXFMibMCzvaLlbymvE+kR9abV4BQqR7IYP87+onv30oyyBQFb0AOxXhhIOEzB8iZ5fvZwXUdd
+        OO25U2vQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k9ytU-0007jb-Gz; Sun, 23 Aug 2020 22:55:20 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Cc:     Nitin Joshi <njoshi1@lenovo.com>,
+        Sugumaran <slacshiminar@lenovo.com>,
+        Bastien Nocera <bnocera@redhat.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Documentation: laptops: thinkpad-acpi: fix underline length
+ build warning
+Message-ID: <7b2ecef9-dfb7-808a-7c05-4e4f44b363c4@infradead.org>
+Date:   Sun, 23 Aug 2020 15:55:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When devm_regulator_register() fails, ec should be
-freed just like when olpc_ec_cmd() fails.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Fixes: 231c0c216172a ("Platform: OLPC: Add a regulator for the DCON")
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Fix underline length build warning in thinkpad-acpi.rst documentation:
+
+Documentation/admin-guide/laptops/thinkpad-acpi.rst:1437: WARNING: Title underline too short.
+DYTC Lapmode sensor
+------------------
+
+Fixes: acf7f4a59114 ("platform/x86: thinkpad_acpi: lap or desk mode interface")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nitin Joshi <njoshi1@lenovo.com>
+Cc: Sugumaran <slacshiminar@lenovo.com>
+Cc: Bastien Nocera <bnocera@redhat.com>
+Cc: Mark Pearson <markpearson@lenovo.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
+Cc: ibm-acpi-devel@lists.sourceforge.net
+Cc: platform-driver-x86@vger.kernel.org
 ---
- drivers/platform/olpc/olpc-ec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/laptops/thinkpad-acpi.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/olpc/olpc-ec.c b/drivers/platform/olpc/olpc-ec.c
-index 190e4a6186ef..f64b82824db2 100644
---- a/drivers/platform/olpc/olpc-ec.c
-+++ b/drivers/platform/olpc/olpc-ec.c
-@@ -439,7 +439,9 @@ static int olpc_ec_probe(struct platform_device *pdev)
- 								&config);
- 	if (IS_ERR(ec->dcon_rdev)) {
- 		dev_err(&pdev->dev, "failed to register DCON regulator\n");
--		return PTR_ERR(ec->dcon_rdev);
-+		err = PTR_ERR(ec->dcon_rdev);
-+		kfree(ec);
-+		return err;
- 	}
+--- lnx-59-rc2.orig/Documentation/admin-guide/laptops/thinkpad-acpi.rst
++++ lnx-59-rc2/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+@@ -1434,7 +1434,7 @@ on the feature, restricting the viewing
  
- 	ec->dbgfs_dir = olpc_ec_setup_debugfs();
--- 
-2.17.1
+ 
+ DYTC Lapmode sensor
+-------------------
++-------------------
+ 
+ sysfs: dytc_lapmode
+ 
+
 
