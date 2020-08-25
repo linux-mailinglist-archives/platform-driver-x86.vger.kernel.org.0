@@ -2,86 +2,52 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 751EA25165C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Aug 2020 12:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953BB251904
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Aug 2020 14:50:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729785AbgHYKNt (ORCPT
+        id S1728559AbgHYMuU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Aug 2020 06:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
+        Tue, 25 Aug 2020 08:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729778AbgHYKNs (ORCPT
+        with ESMTP id S1729688AbgHYMuO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Aug 2020 06:13:48 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6498BC061574;
-        Tue, 25 Aug 2020 03:13:48 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id o13so6506702pgf.0;
-        Tue, 25 Aug 2020 03:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=4G4DuKErvOyDuzxBJkBN29qvlat6IqEju9q8dYOb154=;
-        b=o5noqC2/wdN1xiBxyxbPmMEjlCjMi2LVdAcXbGV02KjTYzA7QlI5btsfY7Vb0a1s0Y
-         X05BYoDoABwRV7phcc92WGFbjkYZD2bF+KPjwdtQGv5Hv3i3v3b0Yim6b8eJeYcXNNhg
-         nORyo0zORlpYi9GIAGtRaURoh7ezcIQq2GCmCE1avYr3xOvCAKNpIYERrFuCm3X3FKjT
-         Wjl/q0W6fDG8kTW9i5Xy+xl/Ut1doF/nzfrG16Z7mBrOHyye4aoooKZIwxeLvRK06c7X
-         VUWa4fWnVcbHYNdJ3zdXnL/HDP9MGcwHOnpCsAah19IbVkE+OtB7AF5odr2nTiJ3LOdK
-         DFCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4G4DuKErvOyDuzxBJkBN29qvlat6IqEju9q8dYOb154=;
-        b=bbmhaA7Imx9PhfaFeZDTTrPgeB04F+rH8UkQdy5qb2R5kMTykmuUd9gopaobyCSXF9
-         BNKpep66rlzEwyhuA1fu0fUN+0QBWhLe2J4Q0WHKTZKBt+Uo/ZW92+tUzmiI+bOcxXcm
-         0Q5NBWkEclRyA7QjV8LRfZ4+3fFnsKESuZNwlUY5/M6UgNBOlFsopTs3+0wUIUQdL9Vr
-         Oneen3s4Z5J7pnDZ4XDxN1DfiX6kOIQwBmPgc8BeOn/vwTk+DFeQd6aiZ7lSsAcmIG2g
-         xCiMBxeo1Qd/5p78Kjo9YBKmnCNpOtjWq2WCxXqs+gnCdHRauWVq2I/2ACly13whZfNV
-         LZKA==
-X-Gm-Message-State: AOAM533xLsJ78UX0b48W6KY9rQdRKKWnZSNrqfbsCugG+HoCaoDWCZSv
-        uGYm3pjdjX3W9BlPJqaLf5tGuLniYC/okA==
-X-Google-Smtp-Source: ABdhPJykSPKR3ufOXUEpAP3gSyIGOrl5nn7vYRLrcu4IoV+QqvdYqm0nFNVOUdXrptMslOlcieLiCQ==
-X-Received: by 2002:a65:498f:: with SMTP id r15mr6391268pgs.410.1598350427484;
-        Tue, 25 Aug 2020 03:13:47 -0700 (PDT)
-Received: from panther.thds.mooo.com (061239037006.ctinets.com. [61.239.37.6])
-        by smtp.gmail.com with ESMTPSA id y1sm14303925pfl.136.2020.08.25.03.13.45
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Aug 2020 03:13:46 -0700 (PDT)
-From:   Kenneth Chan <kenneth.t.chan@gmail.com>
-To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     laforge@gnumonks.org, Kenneth Chan <kenneth.t.chan@gmail.com>
-Subject: [PATCH] panasonic-laptop: take over maintainership
-Date:   Tue, 25 Aug 2020 18:13:41 +0800
-Message-Id: <20200825101341.5699-1-kenneth.t.chan@gmail.com>
-X-Mailer: git-send-email 2.17.5
+        Tue, 25 Aug 2020 08:50:14 -0400
+Received: from ganesha.gnumonks.org (ganesha.gnumonks.org [IPv6:2001:780:45:1d:225:90ff:fe52:c662])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22556C061574;
+        Tue, 25 Aug 2020 05:50:14 -0700 (PDT)
+Received: from uucp by ganesha.gnumonks.org with local-bsmtp (Exim 4.89)
+        (envelope-from <laforge@gnumonks.org>)
+        id 1kAYOq-0007MY-8y; Tue, 25 Aug 2020 14:50:04 +0200
+Received: from laforge by localhost.localdomain with local (Exim 4.94)
+        (envelope-from <laforge@gnumonks.org>)
+        id 1kAYKw-00GSwf-7o; Tue, 25 Aug 2020 14:46:02 +0200
+Date:   Tue, 25 Aug 2020 14:46:02 +0200
+From:   Harald Welte <laforge@gnumonks.org>
+To:     Kenneth Chan <kenneth.t.chan@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] panasonic-laptop: take over maintainership
+Message-ID: <20200825124602.GZ3822842@nataraja>
+References: <20200825101341.5699-1-kenneth.t.chan@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200825101341.5699-1-kenneth.t.chan@gmail.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Take over maintaniership of panasonic-laptop from Harald Welte.
+On Tue, Aug 25, 2020 at 06:13:41PM +0800, Kenneth Chan wrote:
+> Take over maintaniership of panasonic-laptop from Harald Welte.
+> 
+> 
+> Signed-off-by: Kenneth Chan <kenneth.t.chan@gmail.com>
 
+Acked-by: Harald Welte <laforge@gnumonks.org>
 
-Signed-off-by: Kenneth Chan <kenneth.t.chan@gmail.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3b186ade3597..3815ba053136 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13039,7 +13039,7 @@ F:	include/net/page_pool.h
- F:	net/core/page_pool.c
- 
- PANASONIC LAPTOP ACPI EXTRAS DRIVER
--M:	Harald Welte <laforge@gnumonks.org>
-+M:	Kenneth Chan <kenneth.t.chan@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/panasonic-laptop.c
-
-base-commit: 6a9dc5fd6170d0a41c8a14eb19e63d94bea5705a
 -- 
-2.17.5
-
+- Harald Welte <laforge@gnumonks.org>           http://laforge.gnumonks.org/
+============================================================================
+"Privacy in residential applications is a desirable marketing option."
+                                                  (ETSI EN 300 175-7 Ch. A6)
