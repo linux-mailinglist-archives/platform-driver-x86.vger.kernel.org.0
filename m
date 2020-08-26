@@ -2,52 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 953BB251904
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 Aug 2020 14:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63A5D2525D6
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Aug 2020 05:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728559AbgHYMuU (ORCPT
+        id S1726770AbgHZDpG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 Aug 2020 08:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729688AbgHYMuO (ORCPT
+        Tue, 25 Aug 2020 23:45:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49857 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726682AbgHZDpG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 Aug 2020 08:50:14 -0400
-Received: from ganesha.gnumonks.org (ganesha.gnumonks.org [IPv6:2001:780:45:1d:225:90ff:fe52:c662])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22556C061574;
-        Tue, 25 Aug 2020 05:50:14 -0700 (PDT)
-Received: from uucp by ganesha.gnumonks.org with local-bsmtp (Exim 4.89)
-        (envelope-from <laforge@gnumonks.org>)
-        id 1kAYOq-0007MY-8y; Tue, 25 Aug 2020 14:50:04 +0200
-Received: from laforge by localhost.localdomain with local (Exim 4.94)
-        (envelope-from <laforge@gnumonks.org>)
-        id 1kAYKw-00GSwf-7o; Tue, 25 Aug 2020 14:46:02 +0200
-Date:   Tue, 25 Aug 2020 14:46:02 +0200
-From:   Harald Welte <laforge@gnumonks.org>
-To:     Kenneth Chan <kenneth.t.chan@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] panasonic-laptop: take over maintainership
-Message-ID: <20200825124602.GZ3822842@nataraja>
-References: <20200825101341.5699-1-kenneth.t.chan@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825101341.5699-1-kenneth.t.chan@gmail.com>
+        Tue, 25 Aug 2020 23:45:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598413505;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc; bh=LT6POVV8HSmICCQ9Cr0CByMFS3SYARiZwXUJRkcEo+U=;
+        b=efmbh3bcZVcfnEoG96S2vyrJSM+aqAF1O6DKiEZTgSHo+t0LdE4KL5euB8iO2+wwCMhZ71
+        I62aFeCRPSlnEcDb34NXqm1rR7wP9/spXVAwKvEF6jW2vYR7kA87lIjOdnsjMOgEhZNtU2
+        aKdqJbVnrOjz0a4sAjwlGfRGfLhw2EQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-naIzhBe0MFmexAJKAilz9A-1; Tue, 25 Aug 2020 23:45:01 -0400
+X-MC-Unique: naIzhBe0MFmexAJKAilz9A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE3FA1005E5B;
+        Wed, 26 Aug 2020 03:44:59 +0000 (UTC)
+Received: from lszubowi.redhat.com (unknown [10.10.110.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B1C7A5D9E4;
+        Wed, 26 Aug 2020 03:44:56 +0000 (UTC)
+From:   Lenny Szubowicz <lszubowi@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-security-module@vger.kernel.org, ardb@kernel.org,
+        jmorris@namei.org, serge@hallyn.com, keescook@chromium.org,
+        zohar@linux.ibm.com, bp@alien8.de, pjones@redhat.com,
+        dhowells@redhat.com, prarit@redhat.com
+Subject: [PATCH 0/3] integrity: Load certs from EFI MOK config table
+Date:   Tue, 25 Aug 2020 23:44:52 -0400
+Message-Id: <20200826034455.28707-1-lszubowi@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 06:13:41PM +0800, Kenneth Chan wrote:
-> Take over maintaniership of panasonic-laptop from Harald Welte.
-> 
-> 
-> Signed-off-by: Kenneth Chan <kenneth.t.chan@gmail.com>
+Because of system-specific EFI firmware limitations,
+EFI volatile variables may not be capable of holding the
+required contents of the Machine Owner Key (MOK) certificate
+store. Therefore, an EFI boot loader may pass the MOK certs
+via a EFI configuration table created specifically for this
+purpose to avoid this firmware limitation.
 
-Acked-by: Harald Welte <laforge@gnumonks.org>
+An EFI configuration table is a simpler and more robust mechanism
+compared to EFI variables and is well suited for one-way passage
+of static information from a pre-OS environment to the kernel.
+
+This patch set does not remove the support for loading certs
+from the EFI MOK variables into the platform key ring.
+However, if both the EFI MOK config table and corresponding
+EFI MOK variables are present, the MOK table is used as the
+source of MOK certs.
+
+The contents of the individual named MOK config table entries are
+made available to user space via read-only sysfs binary files under:
+
+	/sys/firmware/efi/mok-variables/
+
+
+Lenny Szubowicz (3):
+  efi: Support for MOK variable config table
+  integrity: Move import of MokListRT certs to a separate routine
+  integrity: Load certs from the EFI MOK config table
+
+ arch/x86/kernel/setup.c                       |   1 +
+ arch/x86/platform/efi/efi.c                   |   3 +
+ drivers/firmware/efi/Makefile                 |   1 +
+ drivers/firmware/efi/arm-init.c               |   1 +
+ drivers/firmware/efi/efi.c                    |   6 +
+ drivers/firmware/efi/mokvar-table.c           | 360 ++++++++++++++++++
+ include/linux/efi.h                           |  34 ++
+ security/integrity/platform_certs/load_uefi.c |  85 ++++-
+ 8 files changed, 472 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/firmware/efi/mokvar-table.c
 
 -- 
-- Harald Welte <laforge@gnumonks.org>           http://laforge.gnumonks.org/
-============================================================================
-"Privacy in residential applications is a desirable marketing option."
-                                                  (ETSI EN 300 175-7 Ch. A6)
+2.27.0
+
