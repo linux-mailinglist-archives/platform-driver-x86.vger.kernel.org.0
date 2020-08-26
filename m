@@ -2,63 +2,111 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 191E22532E0
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Aug 2020 17:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49029253315
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 26 Aug 2020 17:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727042AbgHZPHS (ORCPT
+        id S1727062AbgHZPMV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 26 Aug 2020 11:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726988AbgHZPHR (ORCPT
+        Wed, 26 Aug 2020 11:12:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52557 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726831AbgHZPMT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 26 Aug 2020 11:07:17 -0400
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E19C061574
-        for <platform-driver-x86@vger.kernel.org>; Wed, 26 Aug 2020 08:07:17 -0700 (PDT)
-Received: by mail-ua1-x943.google.com with SMTP id u46so655772uau.6
-        for <platform-driver-x86@vger.kernel.org>; Wed, 26 Aug 2020 08:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=7sHcH5dHB5M/r8aJgv+GiRQ5s8sI9YcH2NRYOFmnXg4=;
-        b=chmuORg4IYruVSVr4u+B1ZsDENMxbWyvvDhp54j1NfCH2a3vM5S+Ls4tlExUb1tQkm
-         4/IliMcd4ZEfowk6iMKEvLB+4jKKTFR2PQY2G6BbV/FjUrTkUSruxyMOQdrZFmPLIMqq
-         yQvBJ1yEnok8qjSY3++QYnl/bU4FYTcqgr3UL7hBjIiE1L4/gzGgVaOzY3tZRVvg0is2
-         bMeUgrmrJzLAkdE/+4RI+1NrwIf3D6LsZHQJDVWfKgBnurBcBWEoBYa3dsiMmjcNYZMc
-         iOJpA80g6ZCx539pswqoqnBDT5llT3D71yRJ1TWYR94/Kaw1n9nIjcR5kv6/EB1aWX4A
-         D9vQ==
+        Wed, 26 Aug 2020 11:12:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598454737;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RXqh9vDKtsqu0uMtgz4E47GKyNBkVyPjz1iexD+khD8=;
+        b=SFJhp6e5XOGqCM177TKOB9J9hTVPFCkFWCQQxfjd2eglk6QnPMRb/PuMiseTHDE4LbGF64
+        P7m6sXY5ZX6+GjMxyWBd1Ut/o6PNZKmyvPpChAJLRO5U76DQa+nS6DlCm99Pop3Le7wcmp
+        1lVasamctHDgia+X8mH9Xfji+aL3ZEo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-eXt3M2cIOf6wr2fC-ZB73w-1; Wed, 26 Aug 2020 11:12:16 -0400
+X-MC-Unique: eXt3M2cIOf6wr2fC-ZB73w-1
+Received: by mail-ed1-f69.google.com with SMTP id y15so799078ede.14
+        for <platform-driver-x86@vger.kernel.org>; Wed, 26 Aug 2020 08:12:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=7sHcH5dHB5M/r8aJgv+GiRQ5s8sI9YcH2NRYOFmnXg4=;
-        b=aNY1kr7fRKYiIscfOd6EVGZz9z+ZNDERtm/kQPlbywKI1fPgaM4q2QtuKJacg3GAhV
-         vvSGre0AFAlzWyXr/aknhEqrF1vM5f/J7gjHSoCrlKnJIjJTM97uwsD51pf4zl1ILNN0
-         mwD7a1MHF7MDkdoCvvMgI6AwDKlI/K4OjT0aPso6QHPWZ9z1hSsN3pNbQKXbAJcVZJMO
-         vNanhV8U7KRBV8WeVB6Fqc3AOVEVscqC1zv7GMfs/txLkrZFP61IBbpJNmh3x/SM53N4
-         DLgRkDvoP8/OwMgsrhqze79Izq640rt/B8KN8sQwrYUQfekyFOuffzPlkqhjM2qmTChC
-         Xm1A==
-X-Gm-Message-State: AOAM5321KB8zop11ld+cQNHXAUGSvVdswZPi39mAxE4C0lnQ5EtV2Bi9
-        7KH67KFmJt36UNUlUv3yfgY8H4M37eLcoIHcy78=
-X-Google-Smtp-Source: ABdhPJyq7G+Rx7gDncUd8gE0/sRV45K1jtSD/w3K+jHKkSHCGydUgokj3IEI3bW2ibkmQEH9ALBR3+o+U9gekQbMMxE=
-X-Received: by 2002:a9f:2190:: with SMTP id 16mr8351219uac.19.1598454431220;
- Wed, 26 Aug 2020 08:07:11 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RXqh9vDKtsqu0uMtgz4E47GKyNBkVyPjz1iexD+khD8=;
+        b=JmCRf3jVEE+9OItmvsplNwsXT+GlCrcbeRRku7/DIw/XcfkGPeytz9oSVSDgRedz+8
+         tNOUaak/atBf2yB8nVMrsZub2ITMmCHZpYkY0nJvueEYnVschMdJMDHLDhkPI4Vnv+8Q
+         L5KrWLy4m2NSa2gONYW6nkL0HhNZ8JFl7D+rqQU5K3GI/Q/Iu/OTwJ32vG3DeWBSCRbV
+         tWU2rfZthoWcJs15wfMpM2rhcdN2+vD7mz7nLFMftFxB4muEpCJFPx2PJTOEFsw1GgaC
+         YtpT5Joln3MZkBv8bW+Wd4dnWwcPIckVrMNMWVA5T3YwMzvAGhS0mxEBVF/wy81zppsD
+         0bww==
+X-Gm-Message-State: AOAM5333iHD8yxhw4mG/Z7Bd8SzA0XamjRobilXWPE58X7dagqQy7Spq
+        X2xjWJjfQ7W5mbmgzTy+GeY+9qLej7XBjF0F0HwqTWhTdEqhhxfcMwiZkbbsnH7wKnsnyeGVE+q
+        wnClerW29sxiR84WPej8XXv1uf4h1o2UBsg==
+X-Received: by 2002:aa7:ce15:: with SMTP id d21mr15171097edv.55.1598454734900;
+        Wed, 26 Aug 2020 08:12:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZxU1frY0JaTpG9m3IBN2zGr2l9QVoi8/sXv8kJCax1c1y8cZtHEgZdzWOSoBUISm94BHThg==
+X-Received: by 2002:aa7:ce15:: with SMTP id d21mr15171076edv.55.1598454734731;
+        Wed, 26 Aug 2020 08:12:14 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id t23sm2241356eds.50.2020.08.26.08.12.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Aug 2020 08:12:13 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        linux-input@vger.kernel.org,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200717114155.56222-1-hdegoede@redhat.com>
+ <20200719225649.GA4341@khazad-dum.debian.net>
+ <20200722054144.GQ1665100@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <7726b68c-4b84-4acc-d08c-59f746a75000@redhat.com>
+Date:   Wed, 26 Aug 2020 17:12:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Received: by 2002:a67:d081:0:0:0:0:0 with HTTP; Wed, 26 Aug 2020 08:07:10
- -0700 (PDT)
-From:   Tricia Smith <triciatricia841@gmail.com>
-Date:   Wed, 26 Aug 2020 19:37:10 +0430
-X-Google-Sender-Auth: jhYFsTlUcv3qLI35UUtd8sHUgjs
-Message-ID: <CAMe2y+qKGakt0Kg_qKj4ykd04ou=pQQRA1cBkpt0Ks0mgXmizQ@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200722054144.GQ1665100@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Dear, I am Miss Tricia Smith the only Daughter/Child of late Mr and
-Mrs William Smith. Please i have something very important and
-confidential to discuss with you.
+Hi Dmitry,
+
+On 7/22/20 7:41 AM, Dmitry Torokhov wrote:
+> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+>> On Fri, 17 Jul 2020, Hans de Goede wrote:
+>>> This is a simple patch-series adding support for 3 new hotkeys found
+>>> on various new Lenovo Thinkpad models.
+>>
+>> For all three patches, pending an ack for the new keycodes by the input
+>> maintainers:
+>>
+>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> 
+> Do you want me to merge all 3 through input tree?
+
+Despite Andy's acked-by:
+
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+For merging these through the input tree I'm not seeing these in 5.9-rc2 ?
+
+Regards,
+
+Hans
+
