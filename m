@@ -2,151 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3945D254061
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 10:11:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C6B825416C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 11:04:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727970AbgH0ILK (ORCPT
+        id S1726882AbgH0JEN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Aug 2020 04:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55130 "EHLO
+        Thu, 27 Aug 2020 05:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727961AbgH0ILK (ORCPT
+        with ESMTP id S1726266AbgH0JEJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Aug 2020 04:11:10 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59A0C06121A
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Aug 2020 01:11:09 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id v12so5379126ljc.10
-        for <platform-driver-x86@vger.kernel.org>; Thu, 27 Aug 2020 01:11:09 -0700 (PDT)
+        Thu, 27 Aug 2020 05:04:09 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D934C061264;
+        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id kx11so2260483pjb.5;
+        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mTDjea0nrnc/oUf1mH0xhxoad77z5EY9HZKwtaJ59yw=;
-        b=uirdamO7+rR5SAWOIOIS1iNHhmUE9SNEGnKOpzsy3KEjjxJYTzUq4iKDX6lnKYaM/c
-         uit2YGPT2391mXTRCqyZ5aVSIyKxAP/3jdviEIJ6Ngh4tTWeAIZvFrNwlC0K04/YFtA+
-         XvF/Ywee2+tTtwMN3lVngnu7ilm1nXloqJ6W+EPTYEUouwKrBDsyxkF5AhK1/LCCHz/R
-         uUoNt8xK1BA1OZdUzfhFdcNKKy7xcE/VeeUroiHLuxIgkA1Nl4h6i7BQjgHHtMyXMX5S
-         dBhKU0ivZWVg6guh22ilnYztwna081mQpDbWh/eM1KTgzeYk0F/JOTHci0Zmx6gI5gV/
-         0+8w==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
+        b=X0CERTCNwahFGetwbkDcwpbax7bi81njvVK3YhQeTYQ1Ox53DBa53nrSRR+ByOe2NM
+         SMfng7Z/7T9BiCJxPniaMBgWWOb4dQ4S4IRpAlqiG1KFHrLDD+pR0lZaPPTYxtyGSWeg
+         6Y1Xe9/UwWF4h+HNraqFnKzlj+oUpgdgvjXGyuyMUk7+TwqaeCwcHj9ESNWxHctbn2xA
+         LQ20v5Z8m06CxmD1UTZ6fywFBA/HMn+6Drre2hNAbVAINqjZzM79jkBoeUuac7mbXW3M
+         GYoxD1LMQ/2Ib2zeTl45sjnHVOvbW5SlxWIxXRJpbpCqfJhN2Dj9CYJVlxFf5lm37T7l
+         g7GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mTDjea0nrnc/oUf1mH0xhxoad77z5EY9HZKwtaJ59yw=;
-        b=tuHY1iUkdzAhbdP75dOU/FiIXTCfK1pgqjJ5GK1h8sdhznQbbTsPbXC+t08O207puC
-         oId/XqLSXx7sIG73cnWShMARhvtZ8qFr0z39tBM3nI+bUThYolw/iNoMhrG2c1Tz+TdK
-         Hz4ohZ2RM1TnWOuO7I/TqzRFMA9qS3de3bqbQoq7FJzwHrxzP+wjkxOTcg8Bsp0jNg+e
-         yt1SW2TeP+sEmDkW59t8bXyIiMoYdKmdtaKz7Q7pw4SsoqYVJgp0XwM83DiBAhLeEuAh
-         +n1s2cFwh07Vd22+HnkGyLiHUXDEyRNDp3CKb6KoaY/9jT42tJptPOuq+k+kidBcUiUW
-         YjgQ==
-X-Gm-Message-State: AOAM530kEjwpHxWbOSwsdkIv3wQI0J3UdDi0f4cMuZB24ni49f/zPt+P
-        yQR9NbqYwWYqqVs3n7NlGdaniA==
-X-Google-Smtp-Source: ABdhPJyRstwt15FW2tCgyXcxsm171w+Ez5d25HjrfBMbO57M/xguEMGD7UE6V7DxRS4LjhWqtznf7w==
-X-Received: by 2002:a2e:9ac5:: with SMTP id p5mr9639088ljj.253.1598515868229;
-        Thu, 27 Aug 2020 01:11:08 -0700 (PDT)
-Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id k9sm331399lfm.29.2020.08.27.01.11.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 01:11:07 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-geode@lists.infradead.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH 3/3 v2] x86/platform/geode: Convert alix LED to GPIO machine descriptor
-Date:   Thu, 27 Aug 2020 10:08:26 +0200
-Message-Id: <20200827080826.186024-3-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200827080826.186024-1-linus.walleij@linaro.org>
-References: <20200827080826.186024-1-linus.walleij@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
+        b=CEaAni0QkIZM5quqXQ4GFYXSaWhKLMF21biv/ZwRmUcoTTPgG87iT2u18qSRUI1/kj
+         Enh0xjIJfRAcqCiwH+YBrEJ6pMMfFqnqKOHbnCq4uOJ7FrCJTleb/zhUk30kGQdvMJSF
+         sAtU8mUza7pN3cClJJU+HmnWmgLI0ZTzBtJE5zTkaB2GSDaB92yy60iNvKx/VCgYdpUm
+         Ww+mLEgvkTqbmA8UGa7HA0A9Ix3pzgrMfedzXLi5IzLtH4x3dUVRNTQF9TyKkMwhhRdo
+         CTsCfqBcB6vx6aKbu6nxxyioOEClpCQ250BMcEHMWk4rdqZsKbQ3inREkOFWcvQ1K8jn
+         47wQ==
+X-Gm-Message-State: AOAM530SMJU2Ckh6uOYvId8XzPswicr6QjHRumUnBD/ISVh1Is0ikF+K
+        oCspt4UFt/i60cVVNcGLBIavxIM9KjBoI0xLDO4=
+X-Google-Smtp-Source: ABdhPJxtLGlvQf+9FVDIBVpN/W71XHXcPr5afe3Yg/33ozosb9y2WQz05PzzZ19bvqEjU98ctWB3AaL+/KljE7z035c=
+X-Received: by 2002:a17:90b:509:: with SMTP id r9mr10132669pjz.228.1598519048706;
+ Thu, 27 Aug 2020 02:04:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-4-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-4-krzk@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 27 Aug 2020 12:03:52 +0300
+Message-ID: <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
+Subject: Re: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This makes the machine look up the LED from a GPIO machine
-descriptor table. The Geode LEDs should be on the CS5535
-companion chip.
+On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> Common pattern of handling deferred probe can be simplified with
+> dev_err_probe().  Less code and also it prints the error value.
 
-Cc: linux-gpio@vger.kernel.org
-Cc: linux-geode@lists.infradead.org
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: platform-driver-x86@vger.kernel.org
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Drop excess comma after terminator { }
-- Collect Andy's Reviewed-by
----
- arch/x86/platform/geode/alix.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+>         vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+>         err = PTR_ERR_OR_ZERO(vibrator->vcc);
+> -       if (err) {
+> -               if (err != -EPROBE_DEFER)
+> -                       dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+> -                               err);
+> -               return err;
+> -       }
+> +       if (err)
+> +               return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
 
-diff --git a/arch/x86/platform/geode/alix.c b/arch/x86/platform/geode/alix.c
-index c33f744b5388..b39bf3b5e108 100644
---- a/arch/x86/platform/geode/alix.c
-+++ b/arch/x86/platform/geode/alix.c
-@@ -22,6 +22,7 @@
- #include <linux/platform_device.h>
- #include <linux/input.h>
- #include <linux/gpio_keys.h>
-+#include <linux/gpio/machine.h>
- #include <linux/dmi.h>
- 
- #include <asm/geode.h>
-@@ -69,21 +70,15 @@ static struct platform_device alix_buttons_dev = {
- static struct gpio_led alix_leds[] = {
- 	{
- 		.name = "alix:1",
--		.gpio = 6,
- 		.default_trigger = "default-on",
--		.active_low = 1,
- 	},
- 	{
- 		.name = "alix:2",
--		.gpio = 25,
- 		.default_trigger = "default-off",
--		.active_low = 1,
- 	},
- 	{
- 		.name = "alix:3",
--		.gpio = 27,
- 		.default_trigger = "default-off",
--		.active_low = 1,
- 	},
- };
- 
-@@ -92,6 +87,17 @@ static struct gpio_led_platform_data alix_leds_data = {
- 	.leds = alix_leds,
- };
- 
-+static struct gpiod_lookup_table alix_leds_gpio_table = {
-+	.dev_id = "leds-gpio",
-+	.table = {
-+		/* The Geode GPIOs should be on the CS5535 companion chip */
-+		GPIO_LOOKUP_IDX("cs5535-gpio", 6, NULL, 0, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("cs5535-gpio", 25, NULL, 1, GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP_IDX("cs5535-gpio", 27, NULL, 2, GPIO_ACTIVE_LOW),
-+		{ }
-+	},
-+};
-+
- static struct platform_device alix_leds_dev = {
- 	.name = "leds-gpio",
- 	.id = -1,
-@@ -106,6 +112,7 @@ static struct platform_device *alix_devs[] __initdata = {
- static void __init register_alix(void)
- {
- 	/* Setup LED control through leds-gpio driver */
-+	gpiod_add_lookup_table(&alix_leds_gpio_table);
- 	platform_add_devices(alix_devs, ARRAY_SIZE(alix_devs));
- }
- 
+Can it be rather
+  if (IS_ERR())
+    return dev_err_probe(dev, PTR_ERR());
+w/o err be involved?
+
+>         vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
+>         err = PTR_ERR_OR_ZERO(vibrator->gpio);
+> -       if (err) {
+> -               if (err != -EPROBE_DEFER)
+> -                       dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
+> -                               err);
+> -               return err;
+> -       }
+> +       if (err)
+> +               return dev_err_probe(&pdev->dev, err, "Failed to request main gpio\n");
+
+Ditto.
+
+
 -- 
-2.26.2
-
+With Best Regards,
+Andy Shevchenko
