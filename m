@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6B825416C
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 11:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D07254172
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 11:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbgH0JEN (ORCPT
+        id S1728060AbgH0JFl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Aug 2020 05:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
+        Thu, 27 Aug 2020 05:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgH0JEJ (ORCPT
+        with ESMTP id S1726266AbgH0JFl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:04:09 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D934C061264;
-        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id kx11so2260483pjb.5;
-        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
+        Thu, 27 Aug 2020 05:05:41 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D2AC061264;
+        Thu, 27 Aug 2020 02:05:41 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id v15so2897766pgh.6;
+        Thu, 27 Aug 2020 02:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
-        b=X0CERTCNwahFGetwbkDcwpbax7bi81njvVK3YhQeTYQ1Ox53DBa53nrSRR+ByOe2NM
-         SMfng7Z/7T9BiCJxPniaMBgWWOb4dQ4S4IRpAlqiG1KFHrLDD+pR0lZaPPTYxtyGSWeg
-         6Y1Xe9/UwWF4h+HNraqFnKzlj+oUpgdgvjXGyuyMUk7+TwqaeCwcHj9ESNWxHctbn2xA
-         LQ20v5Z8m06CxmD1UTZ6fywFBA/HMn+6Drre2hNAbVAINqjZzM79jkBoeUuac7mbXW3M
-         GYoxD1LMQ/2Ib2zeTl45sjnHVOvbW5SlxWIxXRJpbpCqfJhN2Dj9CYJVlxFf5lm37T7l
-         g7GA==
+        bh=0LgS/funI+yMH3Misf/qyEZTDkijoEmJUp2sJjP9Ags=;
+        b=oQ4JwYQl4GlrPXDLPASnT9mLJTD9FwiUcF2T2Pxu1ytAQhJ9e4yziNQif+ofQMrBMF
+         hRgz2tchSkMv7NggEs2do17415JgNslbCP+8upd7Rp8ocFvjMORZLcgzosaZU2CnziCs
+         UyalgPvWNX2Bu/1f7Dnpbtcji3ytVC/8jC9wln3biPvqXm0lzpvqqbhZqxF2KsqManmH
+         Ewz0yIfwfc9fVKVr8tRQela+oySiB+1YPv3EUMIwFIxFgIsS0syykKVL/FprjkBEsinB
+         fVakVTSm6Ev3O5VH3tmBSZFYpFy6E29GbHEySfnMB8ryicrQh1SbVyInXRgGNuQsQfHh
+         NG6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
-        b=CEaAni0QkIZM5quqXQ4GFYXSaWhKLMF21biv/ZwRmUcoTTPgG87iT2u18qSRUI1/kj
-         Enh0xjIJfRAcqCiwH+YBrEJ6pMMfFqnqKOHbnCq4uOJ7FrCJTleb/zhUk30kGQdvMJSF
-         sAtU8mUza7pN3cClJJU+HmnWmgLI0ZTzBtJE5zTkaB2GSDaB92yy60iNvKx/VCgYdpUm
-         Ww+mLEgvkTqbmA8UGa7HA0A9Ix3pzgrMfedzXLi5IzLtH4x3dUVRNTQF9TyKkMwhhRdo
-         CTsCfqBcB6vx6aKbu6nxxyioOEClpCQ250BMcEHMWk4rdqZsKbQ3inREkOFWcvQ1K8jn
-         47wQ==
-X-Gm-Message-State: AOAM530SMJU2Ckh6uOYvId8XzPswicr6QjHRumUnBD/ISVh1Is0ikF+K
-        oCspt4UFt/i60cVVNcGLBIavxIM9KjBoI0xLDO4=
-X-Google-Smtp-Source: ABdhPJxtLGlvQf+9FVDIBVpN/W71XHXcPr5afe3Yg/33ozosb9y2WQz05PzzZ19bvqEjU98ctWB3AaL+/KljE7z035c=
-X-Received: by 2002:a17:90b:509:: with SMTP id r9mr10132669pjz.228.1598519048706;
- Thu, 27 Aug 2020 02:04:08 -0700 (PDT)
+        bh=0LgS/funI+yMH3Misf/qyEZTDkijoEmJUp2sJjP9Ags=;
+        b=EKVpC1zrv274r/xQmLe3DbJlsUouBsFuuacG6N9kLSrPr1h6iiBhIB2axUVRHpprrq
+         nO3dx4f4Xy4PsujIwztizwcQEbeL2sKMQQYO9ACsr4wPgwaeonctrrgsdfeeHhMV7cxz
+         Sz/5uzDptDr1iQSqftA/InwA2Wj676vM9em4E9lwOW6kwu+Y1IttsczlKZko0/WBswQJ
+         XxYE/o/bKVJcWRqkmoUTIkZsRVqjKokz+fHl9fuaOZ2DkPMWaadWbwmMabivivYe2tzK
+         iI+l4LLfeLfUjq9yfnJLe8RtlGY9Qrix2dbBYyySODty4bkw7eoKbJZqsBhj0o2hBPjK
+         WwqA==
+X-Gm-Message-State: AOAM532ndcAI2YbdWxk/CzjHTsVExgScMJGxJi90U5d+q9AIcTmrBrUX
+        0XhcVpgByda5zeTTIjBTr63buJNrE3yqwM/deOM=
+X-Google-Smtp-Source: ABdhPJzxMe5xIFO/xzxVR2b2KBHEfiCygx9iaaGDGOcMk7dug7/eSxMXYmeXEtGbBmXV3CWIPxHnL6zH4003ZTvEiJM=
+X-Received: by 2002:a17:902:b194:: with SMTP id s20mr15688764plr.321.1598519140722;
+ Thu, 27 Aug 2020 02:05:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-4-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-4-krzk@kernel.org>
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-3-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-3-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:03:52 +0300
-Message-ID: <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
-Subject: Re: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:05:24 +0300
+Message-ID: <CAHp75Vc5XqsByQ35gx83NiuHor-doa5MZ_P+6may0q5MnAFgDg@mail.gmail.com>
+Subject: Re: [PATCH 03/24] Input: gpio_keys_polled - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -70,39 +70,42 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 9:18 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
 > Common pattern of handling deferred probe can be simplified with
 > dev_err_probe().  Less code and also it prints the error value.
+>
 
->         vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
->         err = PTR_ERR_OR_ZERO(vibrator->vcc);
-> -       if (err) {
-> -               if (err != -EPROBE_DEFER)
-> -                       dev_err(&pdev->dev, "Failed to request regulator: %d\n",
-> -                               err);
-> -               return err;
-> -       }
-> +       if (err)
-> +               return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Can it be rather
-  if (IS_ERR())
-    return dev_err_probe(dev, PTR_ERR());
-w/o err be involved?
-
->         vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
->         err = PTR_ERR_OR_ZERO(vibrator->gpio);
-> -       if (err) {
-> -               if (err != -EPROBE_DEFER)
-> -                       dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
-> -                               err);
-> -               return err;
-> -       }
-> +       if (err)
-> +               return dev_err_probe(&pdev->dev, err, "Failed to request main gpio\n");
-
-Ditto.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/input/keyboard/gpio_keys_polled.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
+> index c3937d2fc744..ba00ecfbd343 100644
+> --- a/drivers/input/keyboard/gpio_keys_polled.c
+> +++ b/drivers/input/keyboard/gpio_keys_polled.c
+> @@ -299,13 +299,9 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
+>                                                              NULL, GPIOD_IN,
+>                                                              button->desc);
+>                         if (IS_ERR(bdata->gpiod)) {
+> -                               error = PTR_ERR(bdata->gpiod);
+> -                               if (error != -EPROBE_DEFER)
+> -                                       dev_err(dev,
+> -                                               "failed to get gpio: %d\n",
+> -                                               error);
+>                                 fwnode_handle_put(child);
+> -                               return error;
+> +                               return dev_err_probe(dev, PTR_ERR(bdata->gpiod),
+> +                                                    "failed to get gpio\n");
+>                         }
+>                 } else if (gpio_is_valid(button->gpio)) {
+>                         /*
+> --
+> 2.17.1
+>
 
 
 -- 
