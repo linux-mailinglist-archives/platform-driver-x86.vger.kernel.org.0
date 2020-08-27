@@ -2,57 +2,42 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7272C2541DD
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 11:20:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 705EA254D33
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 20:40:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727823AbgH0JUU (ORCPT
+        id S1726120AbgH0Skm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Aug 2020 05:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgH0JUS (ORCPT
+        Thu, 27 Aug 2020 14:40:42 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:44793 "EHLO
+        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgH0Skj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:20:18 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22D9C061264;
-        Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id 17so3025297pfw.9;
-        Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NHovxXj8kNl+bO/iYwws9eniGeyDYn/VL5TU+ffgVe8=;
-        b=gcovqugjmSAGtw1SadGUSYghzOegMGsxuFFYTfl1i1TQhmAUH6wYXgJf7oDOSnUiYo
-         2yK4hr+IonNH5Z4kS3bkZcB88gD+xw0D6GNM6JUhyWRNmy6MI1i9wwYK4XaTB4Akm4r2
-         J6MwACe7X9ZN1B3YkRf/ZoOc+gQ8RcuO5ykz5nxUqZEdYDq4LorwFP8/tJCrOBQI5hj2
-         R5Xspmoa60AUW0Wiv4zZXY758AhK/RnvcF4AYPOgUHrjr82+/2ol7b/YWwMvLwKp5UNo
-         CNkKggy9+VmOWdL7LdYqeEjDNe8GO21LhokpW8WeEIsQAst4GEgETw4DS+N39sBYcsI5
-         dPZw==
+        Thu, 27 Aug 2020 14:40:39 -0400
+Received: by mail-ej1-f67.google.com with SMTP id bo3so8996454ejb.11;
+        Thu, 27 Aug 2020 11:40:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NHovxXj8kNl+bO/iYwws9eniGeyDYn/VL5TU+ffgVe8=;
-        b=PbBtLHgOx4DtoVBrAhx5UMoPzHIsiXSjwbFg72i4OVYggKN5QfbdhLjJjmHByvkA3w
-         gjEVN5UWUXG1g5PKePxKihy+qX4MmQR/2BoyVaZxmOn2ZFFvJLqFI0ou0Yk6cCdyqHwb
-         GRtYMzfB837yy94/8Zz1K+5Bp8QfGo9oM5+oWy5cJnyd6pm1mIxLEZplYqlziYNpoIsW
-         z9CHvMLE5P/zBQ6GRzGl5c515mmfRQzzDACqndmKQAzD40xBy8rydsJ9NSL54WdMhKh3
-         GkWjBwhxF82loJCGw1arbU+DnpsaHC26pGcqYmIJBveXpdngnV3Hk6ctzCMGDvJXByFI
-         wDJQ==
-X-Gm-Message-State: AOAM530UNccRgCioGGCjRa0vYyy9f2L7hhDtjXWqOk9AXdpzNF6RqBwX
-        rZamouAe5+ymw8HqnvyBXdpQ2dQq9jVz64MC52M=
-X-Google-Smtp-Source: ABdhPJwe0B4oPJaBrE/zcyPdEd/iXNQmz7ydwrDHQeDooT4rtlP2BEsxoIKXfXOd3ZfQIEmpnRfN8FY78P1J1rOzibo=
-X-Received: by 2002:a63:ec18:: with SMTP id j24mr13402591pgh.74.1598520016226;
- Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-24-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-24-krzk@kernel.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:20:00 +0300
-Message-ID: <CAHp75VdygxySau_Ma5YqARgR92BNM+AK3yn2rThYxFEmzdYSLg@mail.gmail.com>
-Subject: Re: [PATCH 24/24] Input: sx8643 - Simplify with dev_err_probe()
-To:     Krzysztof Kozlowski <krzk@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oDVzVcv1GncA1A9GcBvmV28MulHRr/qR43lfCwrJOTA=;
+        b=M6z8y26Nrts5BQkTq1yXho7eO88kxt2CmOnsnGfCnXW5zJ7dVDwUQxoa7h8Bq1VgH4
+         QW/vIgWiR5yWlElzh1IJsS+dnnHm4RKn6EnmGHeBSfIk5m4tAAG2k1sb8b+HcjERXdc0
+         CQN1Y7x/spgc5YW39lGWPYKxJ/fx3dp6NXBZcsmmMQlD3Kkm7CptSoqScYbYNDnx7bAP
+         sDBPjAq3zhNFnpYml29u1XGc8cm3GUnXV0sG8aaYePJmB/n+G+1Mx2eKCDpj3GM+JKGg
+         cIEUmfK0hBPE21Sit7lx7VkNHeMUQmJCx2BIzb6TwD/82xjnwle8YWo3PkmdtADRZEoK
+         hLvA==
+X-Gm-Message-State: AOAM531YZJdbcnOvKefqKv8iCxAYDqKcbq1Q4CTEc/Qvp88u2skOeyan
+        Ngan8bIW5N8iilqQ+KZ3ToqSx8i8WZvkwQfD
+X-Google-Smtp-Source: ABdhPJzQQrQizKXpDDhYdOaCPsxpZIWrNGdEeJeRidRKKnvdNVG6McNFLXQexn76rx0LV0wDSyWK6A==
+X-Received: by 2002:a17:906:1351:: with SMTP id x17mr21236951ejb.528.1598553636707;
+        Thu, 27 Aug 2020 11:40:36 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.216])
+        by smtp.googlemail.com with ESMTPSA id m4sm2609458ejn.31.2020.08.27.11.40.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Aug 2020 11:40:36 -0700 (PDT)
+Date:   Thu, 27 Aug 2020 20:40:33 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Linus Walleij <linus.walleij@linaro.org>,
@@ -64,55 +49,44 @@ Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input <linux-input@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+Message-ID: <20200827184033.GA6196@kozik-lap>
+References: <20200826181706.11098-1-krzk@kernel.org>
+ <20200826181706.11098-4-krzk@kernel.org>
+ <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:21 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> Common pattern of handling deferred probe can be simplified with
-> dev_err_probe().  Less code and also it prints the error value.
+On Thu, Aug 27, 2020 at 12:03:52PM +0300, Andy Shevchenko wrote:
+> On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >
+> > Common pattern of handling deferred probe can be simplified with
+> > dev_err_probe().  Less code and also it prints the error value.
+> 
+> >         vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+> >         err = PTR_ERR_OR_ZERO(vibrator->vcc);
+> > -       if (err) {
+> > -               if (err != -EPROBE_DEFER)
+> > -                       dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+> > -                               err);
+> > -               return err;
+> > -       }
+> > +       if (err)
+> > +               return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
+> 
+> Can it be rather
+>   if (IS_ERR())
+>     return dev_err_probe(dev, PTR_ERR());
+> w/o err be involved?
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Good point.
 
-Just in case if you want to save more LOCs, you may in some drivers
-introduce temporary variable for device pointer, like
-
-struct device *dev = &client->dev;
-
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  drivers/input/touchscreen/sx8654.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/sx8654.c b/drivers/input/touchscreen/sx8654.c
-> index de85e57b2486..d2ed9be64c3a 100644
-> --- a/drivers/input/touchscreen/sx8654.c
-> +++ b/drivers/input/touchscreen/sx8654.c
-> @@ -323,13 +323,9 @@ static int sx8654_probe(struct i2c_client *client,
->
->         sx8654->gpio_reset = devm_gpiod_get_optional(&client->dev, "reset",
->                                                      GPIOD_OUT_HIGH);
-> -       if (IS_ERR(sx8654->gpio_reset)) {
-> -               error = PTR_ERR(sx8654->gpio_reset);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev, "unable to get reset-gpio: %d\n",
-> -                               error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(sx8654->gpio_reset))
-> +               return dev_err_probe(&client->dev, PTR_ERR(sx8654->gpio_reset),
-> +                                    "unable to get reset-gpio\n");
->         dev_dbg(&client->dev, "got GPIO reset pin\n");
->
->         sx8654->data = device_get_match_data(&client->dev);
-> --
-> 2.17.1
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Krzysztof
