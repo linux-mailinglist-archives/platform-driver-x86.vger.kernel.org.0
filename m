@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78AB8254D60
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 20:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E53A1254D66
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 27 Aug 2020 20:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727834AbgH0S6v (ORCPT
+        id S1727909AbgH0S66 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 27 Aug 2020 14:58:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48694 "EHLO mail.kernel.org"
+        Thu, 27 Aug 2020 14:58:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48928 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726250AbgH0S6t (ORCPT
+        id S1727894AbgH0S64 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 27 Aug 2020 14:58:49 -0400
+        Thu, 27 Aug 2020 14:58:56 -0400
 Received: from localhost.localdomain (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEA4922BEA;
-        Thu, 27 Aug 2020 18:58:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98CE922BEA;
+        Thu, 27 Aug 2020 18:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598554728;
-        bh=BwfgtYwfZRXQcOsZb1hJsrMr/vfMEucNWSrgiCt3KzY=;
+        s=default; t=1598554735;
+        bh=WbuIUV4K6WbEXrmF/VhS+y87lS2sy9UGDIEz3E4QwWk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vVr5/MCQlD3GDecFebJAnOHVmPlCdu8HYSjZdSYUNlbbvD2mlXpHmalyLwX+/8MeG
-         mocsbKQXRz+eUYyafKgIQs4wlUIohOO+X2wpQEEgX9pDFlmljRiPnLnPoTf6tsUPqK
-         GJBL2iWYUyz/aY9Q68jfRgHe+FVl2CH7g/suW5hY=
+        b=Ut2/W2sV8VFb8FIGfuqy1l/mEmrCPxevdzXFOyakkwsfDl6ikmgKg8Q8t7jooXUHC
+         e+m6q+1iN/GYFpR5EclsvwG4uKKbLCPBatLMofskhmygv8T9FUiVt3iCzlufcqxFjk
+         k5FwSaFD/p8cRlmeEpsqtPkqo1tmslNYp+nLkxuQ=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -38,9 +38,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         clang-built-linux@googlegroups.com
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3 02/27] Input: gpio-vibra - Simplify with dev_err_probe()
-Date:   Thu, 27 Aug 2020 20:58:04 +0200
-Message-Id: <20200827185829.30096-3-krzk@kernel.org>
+Subject: [PATCH v3 04/27] Input: pwm-vibra - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 20:58:06 +0200
+Message-Id: <20200827185829.30096-5-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200827185829.30096-1-krzk@kernel.org>
 References: <20200827185829.30096-1-krzk@kernel.org>
@@ -60,21 +60,21 @@ Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Changes since v1:
 1. Remove unneeded PTR_ERR_OR_ZERO, as pointed by Andy.
 ---
- drivers/input/misc/gpio-vibra.c | 20 ++++++--------------
+ drivers/input/misc/pwm-vibra.c | 20 ++++++--------------
  1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
-index f79f75595dd7..13c69f173620 100644
---- a/drivers/input/misc/gpio-vibra.c
-+++ b/drivers/input/misc/gpio-vibra.c
-@@ -113,22 +113,14 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibra.c
+index 81e777a04b88..45c4f6a02177 100644
+--- a/drivers/input/misc/pwm-vibra.c
++++ b/drivers/input/misc/pwm-vibra.c
+@@ -134,22 +134,14 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
  		return -ENOMEM;
  
  	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
 -	err = PTR_ERR_OR_ZERO(vibrator->vcc);
 -	if (err) {
 -		if (err != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+-			dev_err(&pdev->dev, "Failed to request regulator: %d",
 -				err);
 -		return err;
 -	}
@@ -82,19 +82,19 @@ index f79f75595dd7..13c69f173620 100644
 +		return dev_err_probe(&pdev->dev, PTR_ERR(vibrator->vcc),
 +				     "Failed to request regulator\n");
  
- 	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
--	err = PTR_ERR_OR_ZERO(vibrator->gpio);
+ 	vibrator->pwm = devm_pwm_get(&pdev->dev, "enable");
+-	err = PTR_ERR_OR_ZERO(vibrator->pwm);
 -	if (err) {
 -		if (err != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
+-			dev_err(&pdev->dev, "Failed to request main pwm: %d",
 -				err);
 -		return err;
 -	}
-+	if (IS_ERR(vibrator->gpio))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(vibrator->gpio),
-+				     "Failed to request main gpio\n");
++	if (IS_ERR(vibrator->pwm))
++		return dev_err_probe(&pdev->dev, PTR_ERR(vibrator->pwm),
++				     "Failed to request main pwm\n");
  
- 	INIT_WORK(&vibrator->play_work, gpio_vibrator_play_work);
+ 	INIT_WORK(&vibrator->play_work, pwm_vibrator_play_work);
  
 -- 
 2.17.1
