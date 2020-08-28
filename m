@@ -2,56 +2,56 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDDD2255C76
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Aug 2020 16:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAA73255C7E
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Aug 2020 16:31:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbgH1OaL (ORCPT
+        id S1726814AbgH1ObU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 28 Aug 2020 10:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55906 "EHLO
+        Fri, 28 Aug 2020 10:31:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726947AbgH1O37 (ORCPT
+        with ESMTP id S1726322AbgH1ObS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 28 Aug 2020 10:29:59 -0400
+        Fri, 28 Aug 2020 10:31:18 -0400
 Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 751A8C061233
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Aug 2020 07:29:58 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id g6so1516749ljn.11
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Aug 2020 07:29:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86852C061264
+        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Aug 2020 07:31:18 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id v12so1523859ljc.10
+        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Aug 2020 07:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QhL6kVPpf//E0eP09dB94FXNl/JWUcmK3etmXLgf2zA=;
-        b=a5gkz55Ly8Ww7NOlesFahUpnsLDsAtIzYfNIYdjbFDIwxHQQn93XjqkA6aaDchNV/g
-         chy2qTGRhmm/RRyS5JnIZmtatijKaYve2HNKMM476P7B/SFeZWfY3CP0ykeaxrrH7IeV
-         6vP3dW+4W6P72ZHX0ycMjZGMm8wVVk0k0xUvlaZmPmTNTPRWSAs6wL8jl88pCCCnzRen
-         fYGztnrARiL9jvY1mDDN9E6+IpIOWuqRBB2wEx9CXkwy5Bj/m0sfRbrsFEYTj+ypnbfn
-         UE14SI2cp6Z3Voi+XA6tcej3ScRJpoHZYT4jlOkb9u+ypdrUlLTPy8Wa1ACm6fVFMdGC
-         Z/kw==
+        bh=uulk0f5tN77Sy8VPiV8bfXz3aXrvD+qaFtC9g5b1o5k=;
+        b=mwrWOh5FW8SYexG7nJkfBA7ExLj9HY/yJCs1pbJkRP8mjO0Vm5IuQRxOn3jCFPiDKy
+         TPp+apvkl1PFKQVmrFtao9K39ss3eGRv32OCkcTWEOPpv2wCCHIBlvSdYZeBo7OIy/wy
+         H1/Y3pj9oqdxvILjV0gQEGtanA2tWIxfIoVdkHTS3Jf7wwRA+BTeO1VteJUNf+0SHF+5
+         kRy8mUoXzqx0+JiIzqfnMWbxCFCsNUJuFpV7P7HNQmdck+EjmpePdcrD/sxzJA2FX2aq
+         nFdUSMCJlK9hheCrVt7Dr2ioHkVb4f521szLVOXf77uzgGVqIRDOQGTblZMiHusdXfv5
+         WsIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QhL6kVPpf//E0eP09dB94FXNl/JWUcmK3etmXLgf2zA=;
-        b=KRxc5PxHrs2bfzosXo4UTdwKwMuDg14ir+dHx8LIJK5zxMPk/aCN2bBBfTRYAy0XGx
-         HVb9ZkkaMyqBvKkWMdbWYleJ3ucF2y4E7hxYE40w384L952sh4P910M0skXp8FWr5buC
-         cPNNefw+qwPn0yyJMlLwyF90vfXIDTFvpmo2pAV4DQ33MGO6pxu9FjB44PLvZ0SeBQoC
-         k+KWRRVNCXcc+GsubsgJlHU71K3YVuI8r8LFImKTmSH4BY4iNzlKECNm/RT3OoZiANad
-         CJFjzF0fpfWC4FJsaWg85Yp4u+/ANXBJzc/Oq4HijcEWImIrPcjs2e7UxemEPx1+xyx3
-         /M1w==
-X-Gm-Message-State: AOAM532Or34o9Jpqn/qWjzTOgD0J6VVTFl3zkdH2fdD5eB0GnEYHt6zo
-        gmnWDRKNQFaTOVh0AtmHBOO5Ncou7qCHkbpqXj8tvg==
-X-Google-Smtp-Source: ABdhPJxjSjwJMtLbZ73ue0D0jAiJz5PbaM9GY+WsI5Jf6eFad3tgUj3G3NcoClAPI011Qv/S53/oUnLmGtQnG6qHvMg=
-X-Received: by 2002:a2e:558:: with SMTP id 85mr1048525ljf.293.1598624996774;
- Fri, 28 Aug 2020 07:29:56 -0700 (PDT)
+        bh=uulk0f5tN77Sy8VPiV8bfXz3aXrvD+qaFtC9g5b1o5k=;
+        b=BmqLavTiwYKIgQaSJTWsUF6Zi7uTk8HKuz6E1lI3lt2oWlcHWQhMU66SIYZu7MUpWT
+         cDSTkeebdqoxHyg20gw8m4SrdAUTnNpPEDjiwvQm0keN/0PCQ67/RpOa1aEpP8FIeDgm
+         fTCPyJg23cM5lZ31kbpfxGiLEdZhft8DHoxX5zoyV3zmJHUib34dMbD8JLW4ZQFXXUXK
+         Gw15IKB9Qu8hxfX3iq1ygts6VCIwQ1V+N2jHN6p5a8VuflNiNzhAOwOL0ZKztS7z21P4
+         hU63RI3IKoDSyYz4WuHHsQlBXslfw8OJTEo621s/LB9f2phvR4j464ftSBEGBkuJFikN
+         UQcg==
+X-Gm-Message-State: AOAM532LfgpFQtCJiYeM1jPBMhsw+owmG680nYLyQpZb8K/7AHWCb/zn
+        GWii4FtoVVdYGFLXn8z8aQKZ/0VrkMLvUCXSGuJFJw==
+X-Google-Smtp-Source: ABdhPJzZo9V8yKD7QGeGDGdwGYh46SecHaHj/YVK7pilBfuxI7RKFuaeR5C1/8xhA/6gVBQXQ3zGwVDH9/8XRxPY9Rc=
+X-Received: by 2002:a2e:9dd0:: with SMTP id x16mr989729ljj.144.1598625076956;
+ Fri, 28 Aug 2020 07:31:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-8-krzk@kernel.org>
-In-Reply-To: <20200827185829.30096-8-krzk@kernel.org>
+References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-25-krzk@kernel.org>
+In-Reply-To: <20200827185829.30096-25-krzk@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 28 Aug 2020 16:29:45 +0200
-Message-ID: <CACRpkdb-AfyD-E2yT5PEBw-GsteLw9HK9JLiZajixNBJUquR3g@mail.gmail.com>
-Subject: Re: [PATCH v3 07/27] Input: bu21013_ts - Simplify with dev_err_probe()
+Date:   Fri, 28 Aug 2020 16:31:06 +0200
+Message-ID: <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com>
+Subject: Re: [PATCH v3 24/27] gpio: Add devm_fwnode_gpiod_get_optional() helpers
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -71,15 +71,19 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 8:59 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> Common pattern of handling deferred probe can be simplified with
-> dev_err_probe().  Less code and also it prints the error value.
+> Add devm_fwnode_gpiod_get_optional() and
+> devm_fwnode_gpiod_get_index_optional() helpers, similar to regular
+> devm_gpiod optional versions.  Drivers getting GPIOs from a firmware
+> node might use it to remove some boilerplate code.
 >
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+OK then, I suppose this gets merged with the rest?
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
