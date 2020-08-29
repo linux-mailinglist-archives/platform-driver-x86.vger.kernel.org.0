@@ -2,179 +2,112 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1A62562AB
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 28 Aug 2020 23:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C68256512
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Aug 2020 08:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726524AbgH1V43 (ORCPT
+        id S1726105AbgH2G1X (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 28 Aug 2020 17:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40776 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbgH1V40 (ORCPT
+        Sat, 29 Aug 2020 02:27:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58030 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725886AbgH2G1X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 28 Aug 2020 17:56:26 -0400
-X-Greylist: delayed 403 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Aug 2020 14:56:25 PDT
-Received: from forward100o.mail.yandex.net (forward100o.mail.yandex.net [IPv6:2a02:6b8:0:1a2d::600])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C78A3C061264
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Aug 2020 14:56:25 -0700 (PDT)
-Received: from mxback23g.mail.yandex.net (mxback23g.mail.yandex.net [IPv6:2a02:6b8:0:1472:2741:0:8b7:323])
-        by forward100o.mail.yandex.net (Yandex) with ESMTP id 1CD304AC09A5;
-        Sat, 29 Aug 2020 00:49:37 +0300 (MSK)
-Received: from iva7-f62245f79210.qloud-c.yandex.net (iva7-f62245f79210.qloud-c.yandex.net [2a02:6b8:c0c:2e83:0:640:f622:45f7])
-        by mxback23g.mail.yandex.net (mxback/Yandex) with ESMTP id 6hqoHSgAKx-nae4poRs;
-        Sat, 29 Aug 2020 00:49:37 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1598651377;
-        bh=TARJF1iVCZ5jUthlitaT8D0FZ88g7ASRFuIwOIU6bDc=;
-        h=In-Reply-To:Subject:To:From:Cc:References:Date:Message-Id;
-        b=b34FmIVqU0TksVJeTAkoukcttwWdeB4gqlNjlMDEbmBmzkHV/Ks0tnz+6T9BH2V4z
-         BRgnAv8ohC2Iyqf72x0fpaCf9rmi7lewJdfDatj349QQmUiAecMgs76Xa19+9avoy5
-         oTLScUEEdELVITL4SiN2L53hPvjnAE6RyKezY0l4=
-Authentication-Results: mxback23g.mail.yandex.net; dkim=pass header.i=@yandex.ru
-Received: by iva7-f62245f79210.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id wtE0T54V7Y-naHW7L5B;
-        Sat, 29 Aug 2020 00:49:36 +0300
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client certificate not present)
-From:   Vasiliy Kupriakov <rublag-ns@yandex.ru>
-To:     Corentin Chary <corentin.chary@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Vasiliy Kupriakov <rublag-ns@yandex.ru>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 3/3] platform/x86 asus-wmi: Add GPU fan reading support
-Date:   Sat, 29 Aug 2020 00:49:32 +0300
-Message-Id: <20200828214932.20866-4-rublag-ns@yandex.ru>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200828214932.20866-1-rublag-ns@yandex.ru>
-References: <20200828214932.20866-1-rublag-ns@yandex.ru>
+        Sat, 29 Aug 2020 02:27:23 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A177E20936;
+        Sat, 29 Aug 2020 06:27:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598682442;
+        bh=nmPv6vDLuaeXHEYBEjQxMedQhS6gWik2Zx2Xfd6Z2rs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oyZgoHlz2pgoYTLWrnFmo74kMioGJkgPCP1NRq+fVd7PJUqXibhyxvSyKSumdkiDE
+         9aqwGIuCeubslJ3WGVgY6u/TH/7Tj7Gd+q1D+d+ra0jFquK6gPaPj4p/p0733JprTB
+         EH3rYPFsdo73/1bCtWAn+jU8J24hIHG9zROoeHA8=
+Date:   Sat, 29 Aug 2020 08:27:19 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Mani, Rajmohan" <rajmohan.mani@intel.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ayman Bagabas <ayman.bagabas@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Joseph, Jithu" <jithu.joseph@intel.com>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "pmalani@chromium.org" <pmalani@chromium.org>,
+        "bleung@chromium.org" <bleung@chromium.org>
+Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
+ (IOM) driver
+Message-ID: <20200829062719.GA80106@kroah.com>
+References: <20200822040508.23510-1-rajmohan.mani@intel.com>
+ <20200822040508.23510-2-rajmohan.mani@intel.com>
+ <20200828074359.GC942935@kroah.com>
+ <20200828090832.GB174928@kuha.fi.intel.com>
+ <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The GPU fan interface is same as the CPU fan, so it is straightforward.
+On Fri, Aug 28, 2020 at 03:20:22PM +0000, Mani, Rajmohan wrote:
+> Hi Greg,
+> 
+> > Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
+> > (IOM) driver
+> > 
+> > Hi Greg,
+> > 
+> > On Fri, Aug 28, 2020 at 09:43:59AM +0200, Greg Kroah-Hartman wrote:
+> > > I still find this crazy that a whole separate driver is created just
+> > > to read a single 32bit value.
+> > >
+> > > Why not put this logic in the driver that wants to read that value?
+> > > That would be much simpler, smaller, and more obvious.
+> > 
+> > That would mean that we start maintaining something like DMI quirk table in
+> > those drivers. Unfortunately the IOM device is not available on every platform.
+> > Also, even on platforms that do have it, there is no guarantee that the device is
+> > always going to be mapped to the same address.
+> > 
+> > Nevertheless, I was originally hoping that we could hide the handling of IOM
+> > somehow in ACPI without the need for an actual device object, but it now
+> > turns out that the other features of the IOM chip have created interest. At
+> > least our i915 guys probable have some use for it (I don't know exactly what
+> > they are planning to use it for).
+> > 
+> > So the fact that we may later need the device for something else, on top of the
+> > clumsiness and most importantly risks involved with using ACPI to take care of
+> > extra tasks (ASL tends to have bugs - bugs that may never ever get fixed), I
+> > think the IOM device object, and the driver that binds to it, do have a valid
+> > reason for existing.
+> > 
+> 
+> Intel PMC USB mux device is part of the PCH, while IOM is part of the SoC.
 
-Signed-off-by: Vasiliy Kupriakov <rublag-ns@yandex.ru>
----
- drivers/platform/x86/asus-wmi.c            | 43 ++++++++++++++++++++++
- include/linux/platform_data/x86/asus-wmi.h |  1 +
- 2 files changed, 44 insertions(+)
+I have no idea what a "PCH" is, what "IOM" is, and how any of this
+relates to a "SoC" :)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 82505307ec17..07508c4d1a9a 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -71,6 +71,8 @@ MODULE_LICENSE("GPL");
- #define ASUS_FAN_SFUN_READ		0x06
- #define ASUS_FAN_SFUN_WRITE		0x07
- 
-+#define ASUS_GPU_FAN_DESC		"gpu_fan"
-+
- /* Based on standard hwmon pwmX_enable values */
- #define ASUS_FAN_CTRL_FULLSPEED		0
- #define ASUS_FAN_CTRL_MANUAL		1
-@@ -201,6 +203,7 @@ struct asus_wmi {
- 	enum fan_type fan_type;
- 	int fan_pwm_mode;
- 	int agfn_pwm;
-+	bool gpu_fan_available;
- 
- 	bool fan_boost_mode_available;
- 	u8 fan_boost_mode_mask;
-@@ -1546,6 +1549,29 @@ static ssize_t fan1_label_show(struct device *dev,
- 	return sprintf(buf, "%s\n", ASUS_FAN_DESC);
- }
- 
-+static ssize_t fan2_input_show(struct device *dev,
-+				  struct device_attribute *attr,
-+				  char *buf)
-+{
-+	struct asus_wmi *asus = dev_get_drvdata(dev);
-+	int value;
-+	int ret;
-+
-+	ret = asus_wmi_get_devstate(asus, ASUS_WMI_DEVID_GPU_FAN_CTRL, &value);
-+	if (ret < 0)
-+		return ret;
-+
-+	value &= 0xFFFF;
-+	return sprintf(buf, "%d\n", value < 0 ? -1 : value * 100);
-+}
-+
-+static ssize_t fan2_label_show(struct device *dev,
-+					  struct device_attribute *attr,
-+					  char *buf)
-+{
-+	return sprintf(buf, "%s\n", ASUS_GPU_FAN_DESC);
-+}
-+
- static ssize_t asus_hwmon_temp1(struct device *dev,
- 				struct device_attribute *attr,
- 				char *buf)
-@@ -1568,6 +1594,10 @@ static DEVICE_ATTR_RW(pwm1_enable);
- static DEVICE_ATTR_RO(fan1_input);
- static DEVICE_ATTR_RO(fan1_label);
- 
-+/* GPU fan */
-+static DEVICE_ATTR_RO(fan2_input);
-+static DEVICE_ATTR_RO(fan2_label);
-+
- /* Temperature */
- static DEVICE_ATTR(temp1_input, S_IRUGO, asus_hwmon_temp1, NULL);
- 
-@@ -1577,6 +1607,9 @@ static struct attribute *hwmon_attributes[] = {
- 	&dev_attr_fan1_input.attr,
- 	&dev_attr_fan1_label.attr,
- 
-+	&dev_attr_fan2_input.attr,
-+	&dev_attr_fan2_label.attr,
-+
- 	&dev_attr_temp1_input.attr,
- 	NULL
- };
-@@ -1596,6 +1629,10 @@ static umode_t asus_hwmon_sysfs_is_visible(struct kobject *kobj,
- 	    || attr == &dev_attr_pwm1_enable.attr) {
- 		if (asus->fan_type == FAN_TYPE_NONE)
- 			return 0;
-+	} else if (attr == &dev_attr_fan2_input.attr
-+	    || attr == &dev_attr_fan2_label.attr) {
-+		if (!asus->gpu_fan_available)
-+			return 0;
- 	} else if (attr == &dev_attr_temp1_input.attr) {
- 		int err = asus_wmi_get_devstate(asus,
- 						ASUS_WMI_DEVID_THERMAL_CTRL,
-@@ -1640,6 +1677,7 @@ static int asus_wmi_fan_init(struct asus_wmi *asus)
- {
- 	asus->fan_type = FAN_TYPE_NONE;
- 	asus->agfn_pwm = -1;
-+	asus->gpu_fan_available = false;
- 
- 	if (asus_wmi_dev_is_present(asus, ASUS_WMI_DEVID_CPU_FAN_CTRL))
- 		asus->fan_type = FAN_TYPE_SPEC83;
-@@ -1653,6 +1691,11 @@ static int asus_wmi_fan_init(struct asus_wmi *asus)
- 
- 	asus_fan_set_auto(asus);
- 	asus->fan_pwm_mode = ASUS_FAN_CTRL_AUTO;
-+
-+	if (asus->fan_type == FAN_TYPE_SPEC83 &&
-+	    asus_wmi_has_fan(asus, ASUS_WMI_DEVID_GPU_FAN_CTRL))
-+		asus->gpu_fan_available = true;
-+
- 	return 0;
- }
- 
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 897b8332a39f..c0364ba63813 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -75,6 +75,7 @@
- #define ASUS_WMI_DEVID_THERMAL_CTRL	0x00110011
- #define ASUS_WMI_DEVID_FAN_CTRL		0x00110012 /* deprecated */
- #define ASUS_WMI_DEVID_CPU_FAN_CTRL	0x00110013
-+#define ASUS_WMI_DEVID_GPU_FAN_CTRL	0x00110014
- 
- /* Power */
- #define ASUS_WMI_DEVID_PROCESSOR_STATE	0x00120012
--- 
-2.28.0
+Don't impose arbritrary hardware "splits" to kernel code when the kernel
+has no such "partitioning" please.
 
+> This was another reason we had to have a separate ACPI device.
+
+That sounds like a firmware issue you can solve in UEFI.
+
+I think this is the most TLA-laden email I have ever written, and I used
+to work at IBM :)
+
+greg k-h
