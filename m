@@ -2,112 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C68256512
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Aug 2020 08:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A6A92565AA
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Aug 2020 09:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbgH2G1X (ORCPT
+        id S1726280AbgH2HsD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Aug 2020 02:27:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58030 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725886AbgH2G1X (ORCPT
+        Sat, 29 Aug 2020 03:48:03 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54852 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbgH2HsC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Aug 2020 02:27:23 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A177E20936;
-        Sat, 29 Aug 2020 06:27:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598682442;
-        bh=nmPv6vDLuaeXHEYBEjQxMedQhS6gWik2Zx2Xfd6Z2rs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oyZgoHlz2pgoYTLWrnFmo74kMioGJkgPCP1NRq+fVd7PJUqXibhyxvSyKSumdkiDE
-         9aqwGIuCeubslJ3WGVgY6u/TH/7Tj7Gd+q1D+d+ra0jFquK6gPaPj4p/p0733JprTB
-         EH3rYPFsdo73/1bCtWAn+jU8J24hIHG9zROoeHA8=
-Date:   Sat, 29 Aug 2020 08:27:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Mani, Rajmohan" <rajmohan.mani@intel.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sat, 29 Aug 2020 03:48:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C36621C0B80; Sat, 29 Aug 2020 09:47:59 +0200 (CEST)
+Date:   Sat, 29 Aug 2020 09:47:58 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        Shirish.S@amd.com, Andy Shevchenko <andy@infradead.org>,
+        Dan Murphy <dmurphy@ti.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ayman Bagabas <ayman.bagabas@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "pmalani@chromium.org" <pmalani@chromium.org>,
-        "bleung@chromium.org" <bleung@chromium.org>
-Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
- (IOM) driver
-Message-ID: <20200829062719.GA80106@kroah.com>
-References: <20200822040508.23510-1-rajmohan.mani@intel.com>
- <20200822040508.23510-2-rajmohan.mani@intel.com>
- <20200828074359.GC942935@kroah.com>
- <20200828090832.GB174928@kuha.fi.intel.com>
- <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Rajat Jain <rajatja@google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
+Message-ID: <20200829074758.GA16838@amd>
+References: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
 Content-Disposition: inline
-In-Reply-To: <DM6PR11MB3963228D43B50604AE4D0F3AF6520@DM6PR11MB3963.namprd11.prod.outlook.com>
+In-Reply-To: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 03:20:22PM +0000, Mani, Rajmohan wrote:
-> Hi Greg,
-> 
-> > Subject: Re: [PATCH v2 1/3] platform/x86: Add Intel Input Output Manager
-> > (IOM) driver
-> > 
-> > Hi Greg,
-> > 
-> > On Fri, Aug 28, 2020 at 09:43:59AM +0200, Greg Kroah-Hartman wrote:
-> > > I still find this crazy that a whole separate driver is created just
-> > > to read a single 32bit value.
-> > >
-> > > Why not put this logic in the driver that wants to read that value?
-> > > That would be much simpler, smaller, and more obvious.
-> > 
-> > That would mean that we start maintaining something like DMI quirk table in
-> > those drivers. Unfortunately the IOM device is not available on every platform.
-> > Also, even on platforms that do have it, there is no guarantee that the device is
-> > always going to be mapped to the same address.
-> > 
-> > Nevertheless, I was originally hoping that we could hide the handling of IOM
-> > somehow in ACPI without the need for an actual device object, but it now
-> > turns out that the other features of the IOM chip have created interest. At
-> > least our i915 guys probable have some use for it (I don't know exactly what
-> > they are planning to use it for).
-> > 
-> > So the fact that we may later need the device for something else, on top of the
-> > clumsiness and most importantly risks involved with using ACPI to take care of
-> > extra tasks (ASL tends to have bugs - bugs that may never ever get fixed), I
-> > think the IOM device object, and the driver that binds to it, do have a valid
-> > reason for existing.
-> > 
-> 
-> Intel PMC USB mux device is part of the PCH, while IOM is part of the SoC.
 
-I have no idea what a "PCH" is, what "IOM" is, and how any of this
-relates to a "SoC" :)
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Don't impose arbritrary hardware "splits" to kernel code when the kernel
-has no such "partitioning" please.
+On Thu 2020-08-27 13:52:22, Raul E Rangel wrote:
+> The i8042_mutex must be held by writers of the AUX and KBD ports, as
+> well as users of i8042_command. There were a lot of users of
+> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
+> This resulted in i8042_commands being issues in between PS/2
+> transactions.
+>=20
+> This change moves the mutex lock into i8042_command and removes the
+> burden of locking the mutex from the callers.
+>=20
+> It is expected that the i8042_mutex is locked before calling
+> i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
+> layer via ps2_begin_command and ps2_end_command. Other modules
+> (serio_raw) do not currently lock the mutex, so there is still a
+> possibility for intermixed commands.
 
-> This was another reason we had to have a separate ACPI device.
 
-That sounds like a firmware issue you can solve in UEFI.
+> @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
+>  	unsigned long flags;
+>  	int retval;
+> =20
+> +	mutex_lock(&i8042_mutex);
+> +
+>  	spin_lock_irqsave(&i8042_lock, flags);
+>  	retval =3D __i8042_command(param, command);
+>  	spin_unlock_irqrestore(&i8042_lock, flags);
+> =20
+> +	 mutex_unlock(&i8042_mutex);
+> +
+>  	return retval;
 
-I think this is the most TLA-laden email I have ever written, and I used
-to work at IBM :)
+There's something wrong with whitespace here. Checkpatch?
+									Pavel
+								=09
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-greg k-h
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl9KCC4ACgkQMOfwapXb+vLRLQCZAVRSNB7AWmLMpShfbIqQb9g7
+e2kAn0k5vjeRzWluElrV5q2QcU+nhqJy
+=TVRR
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
