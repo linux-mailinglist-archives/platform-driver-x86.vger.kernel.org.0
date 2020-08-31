@@ -2,86 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 263682579D3
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Aug 2020 14:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC426257A54
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Aug 2020 15:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgHaM6L (ORCPT
+        id S1726946AbgHaN0i (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 Aug 2020 08:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        Mon, 31 Aug 2020 09:26:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726446AbgHaM6G (ORCPT
+        with ESMTP id S1726121AbgHaN0S (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 Aug 2020 08:58:06 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73161C061573
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Aug 2020 05:58:04 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id a26so8402470ejc.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Aug 2020 05:58:04 -0700 (PDT)
+        Mon, 31 Aug 2020 09:26:18 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D274C061573
+        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Aug 2020 06:26:10 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id x77so3496854lfa.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Aug 2020 06:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=O1UfGYPjzwb8+zFqPd1QYm2lRuvEOQjeSQUpD3WyhJI=;
-        b=qvD/yRnQoRk1XCraF/WjIQJljzx23bL10IVZRrnK92h6DpM0LXWYQUnnlHL32SjAcQ
-         K+K+vWaZzZAT2BoDeKKvTzR5gajVDOa4y44WlkRJuz2E+4VZZB5innaJ66Fqvdea7auf
-         3D57URUybQy8x9k4KLGSJl+w11kcXQkzZBgo7Y0njrLNm1RDXsC9FSCUxVzaurhIEfQA
-         J56EqvsDYdj5seJxN6j6YpjCQB+OrhfiQSn0ZgwuKOMmA0RZjJSi9Q33eyDzMfxQGhuZ
-         zGv/6Yt+uPHbJyHqJkmnJUda2tdkUHCFtgN08eiTV60qwRlIbIJ0LNpVT1bBl3ZrF4a4
-         2GIw==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=Xq4uA6WQKrAYhjimxByBlx8GvGcvGHawEv3GOIrqEJ5RUHjzMHqw05v6WqOqFiCKn6
+         qRxuzvHYAhRxeUnWEKawePizICHZ57gAY9xD4g6AxCiTWl8JgMp9ZDJGItDWIfdcCwxB
+         D+RuaLZSaA/DdLAa2NqaIFZNxv8UQHjlJcNk9mz0qBxRohSukUjElohExaKZGjhIAZG6
+         fCjFii6u0MGq3aUVIKkYhmog5xaHq1dvg1Z6cFXklOCUQhUksK7LPKp0pMYeQ5MZQe/a
+         ivcRiTduDTsCcF62P9t/rnTC1RN1lraaofWCJhTFEss59vKlsMumHu2r5XlegQqeYIjp
+         h3tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=O1UfGYPjzwb8+zFqPd1QYm2lRuvEOQjeSQUpD3WyhJI=;
-        b=G5uclgsH4Pw5pljWdKVbb46uPQsq/ECAxOKI6liRURudxiX50VyCqfQcixzFFOHfal
-         pLOawfECGiRAB+PVTXKOHbdNosklUXhUlAnczhWwbU5UENzXmeXxyHItmsA+hsXluOa1
-         AimWGsCvyvTMeq9LL0K6PWC10vGKvdqUAnckbOAzCnUIMPKtanacu/D5eXVq5uKecp/L
-         qwb1LsYfKsDgZ0bXEhBnD1nobftUAlQPAkeZjRDO6oyg2sM0BI1PJ2VBRFd73TejMEUM
-         v47+AQ2hiI02RcIdOz4ZSntVcfYNRwNunSyIuq7Tp6tgeDp/vhsi2q/z+zVzLu3JytW8
-         Xo0g==
-X-Gm-Message-State: AOAM530ZpAMIQqgRTgRH9es5lRV6n+LCTCbqjygRPX9MZmXiXLUVicWt
-        W7E4z5YoaGx1ySVi66JHlB0=
-X-Google-Smtp-Source: ABdhPJwe/5jOzsDod86m6KIe6fnjcBDSK9hf9xxyWkxqelgtCI1GdBIQpO4jYp+EeK4rM/BQs+jQbQ==
-X-Received: by 2002:a17:906:28c4:: with SMTP id p4mr1010003ejd.345.1598878683130;
-        Mon, 31 Aug 2020 05:58:03 -0700 (PDT)
-Received: from archer ([82.77.79.3])
-        by smtp.gmail.com with ESMTPSA id ch29sm1904977edb.74.2020.08.31.05.58.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2020 05:58:02 -0700 (PDT)
-Date:   Mon, 31 Aug 2020 15:58:01 +0300
-From:   Marius Iacob <themariusus@gmail.com>
-To:     corentin.chary@gmail.com, acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] asus-wmi: Added BATC battery name to asus-wmi
-Message-ID: <20200831125801.ieh2bgmyftpos4cy@archer>
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=nsHbLvg1JiBFNwEZSwuyQxhZDa99gFX4pvYdA2xODxWEVsweFPiPvxvunkoHto0Hc+
+         9GhZf8l7kxeZoCyvokx0BJJcGFHcFBXwN3vC0hFDzLN+sNBpXWuUi2Qy4TXGAYTD5+Wr
+         fanm2vlEiXCiLZATCukF0h9zl6voWlGfzT2yIyBxssQ9wMB4JmjPRrxInAIEOC5bVqxW
+         w2zXrJgWlRjojzGHmSVFSQ02NwiJYSNuNsjw9gyINdNYJxir9Dc07VidePtBS1dEY06l
+         5d8lk+SC99ibX0itvGcXx3gmr/t/o6p1hPOmO4Ch1ZnT6oudKeUTopOFfms2747tUSYD
+         bPeg==
+X-Gm-Message-State: AOAM531a5vY0bpKZs5FijmuyqG0Zz3rsnhg3hfo8Vheq6srn9hTWP+Z1
+        C4oVDaNAFuYqzE6HHhL7RnA6Njuj0EbrmB/D0aQ=
+X-Google-Smtp-Source: ABdhPJziISB6g20VZDSn5XIRh4okPdoUnO8vKiEdwIFRlhhZcLPOFrcbTl+dbDcow8D6V0KXdzs4WSV3GBmwWRWGA6U=
+X-Received: by 2002:ac2:44a9:: with SMTP id c9mr657600lfm.99.1598880369031;
+ Mon, 31 Aug 2020 06:26:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reply-To: marie_avis12@yahoo.com
+Received: by 2002:a2e:9817:0:0:0:0:0 with HTTP; Mon, 31 Aug 2020 06:26:08
+ -0700 (PDT)
+From:   Miss Maris Avis <marie.avis11@gmail.com>
+Date:   Mon, 31 Aug 2020 13:26:08 +0000
+X-Google-Sender-Auth: 7H4r-nfPsq5LxU2Tftky7Xudc0o
+Message-ID: <CADTVshMoCp0ChGK+tcBWTRqkH5HD2i5Kvi=LeK87KFDAVuAUYA@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Intel Atom Cherry Trail platform reports a new battery
-name (BATC). Tested on Asus Transformer Mini T103HAF.
+My Dear,
 
-Signed-off-by: Marius Iacob <themariusus@gmail.com>
----
- drivers/platform/x86/asus-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
+My name is Miss Marie Avis the only daughter of Mr. Gabriel Avis, my
+Father was dealing in Cocoa and Timber in this country before his
+death,  It is my pleasure to contact you for a business venture which
+I intend to establish in your country. Though I have not met with you
+before but I believe one has to risk confiding before you can succeed
+sometimes in life.
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 8f4acdc06b13..fa39ff030bd7 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -442,6 +442,7 @@ static int asus_wmi_battery_add(struct power_supply *battery)
- 	 */
- 	if (strcmp(battery->desc->name, "BAT0") != 0 &&
- 	    strcmp(battery->desc->name, "BAT1") != 0 &&
-+	    strcmp(battery->desc->name, "BATC") != 0 &&
- 	    strcmp(battery->desc->name, "BATT") != 0)
- 		return -ENODEV;
- 
--- 
-2.28.0
+I can confide in you for my brighter future since you are a human
+being like me. There is this huge amount of Ten Million five hundred
+thousand United States dollars. ($10.500.000.00) which my late Father
+kept for me in a suspense account with one of the bank here in Abidjan
+Cote d'Ivoire before he was assassinated by unknown persons, Now I
+have decided to invest these money in your country or anywhere safe
+enough for me.
 
+I want you to help me claim this fund from the bank and have it
+transfer into your personal account in your country for investment
+purposes in your country in these areas:
+
+1). Telecommunication
+2). The transport Industry
+3). Five Star Hotel
+4). Tourism
+5). Real Estate
+
+If you can be of assistance to me I will be pleased to offer you 20%
+of the total fund.
+
+I await your soonest response.
+
+Respectfully yours,
+Miss Marie Evis
+Tel: +225597438528
