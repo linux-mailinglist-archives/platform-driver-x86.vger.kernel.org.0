@@ -2,117 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC164258A22
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 10:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF92258B07
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 11:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbgIAIOB (ORCPT
+        id S1726594AbgIAJJF convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Sep 2020 04:14:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56982 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726116AbgIAIN6 (ORCPT
+        Tue, 1 Sep 2020 05:09:05 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:25600 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726521AbgIAJJD (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Sep 2020 04:13:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598948036;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DCdhbMN3+ncVJNqzPrEBi1ZOlqSnON3PYpUoSHAA0Dc=;
-        b=M8UAxDXCSP1afxcNhkhRqgr/mDAgB4XcBJSoB8jkVExvpuKi/hZDafJzXR78lp/FhGYj0C
-        wXZxvJM7j844272n/RJj8n5W9mGT5yua19UkSE8QZwGZEVF6KGJSbGKH73aCHqxyzwtJkJ
-        eOCJFjIXoqYhZllW+lqXjCqVbygDWos=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-lcLNixIgPEWcRMfSml7-tQ-1; Tue, 01 Sep 2020 04:13:53 -0400
-X-MC-Unique: lcLNixIgPEWcRMfSml7-tQ-1
-Received: by mail-ej1-f69.google.com with SMTP id w17so183769eja.10
-        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Sep 2020 01:13:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DCdhbMN3+ncVJNqzPrEBi1ZOlqSnON3PYpUoSHAA0Dc=;
-        b=dRlUsPTKBWWRng14bgYmRYk2Jc3ZqGIYcc9tNUDJBG1Cp0TW04oHq1rAuNdsjWMW+4
-         qwVpHnhTm8j/0r8uIESZL8CR5s9qn+WDEX1y1RfZzB9Jt5wLB4DesgMjLSpUznygejEv
-         aiB2mAlh5EbK7htjTBU+l3igTXOFTsnX8eD+3RYzBHMNYEOqJ2Jobo1fqnF1B2e1+sAY
-         r5ApHThN2l+YrGXhf8dHyneiFKQWfNpqJhgUI0BL3rdT1p9py77eU5jc08c0QAKwHNuv
-         G9F2Ti9Wc6f9jX4rFJCDddmpn4aNfQY5LXF0gyY8EEypYHdL0vVo8Xcw66bPoav2k/wh
-         kXlg==
-X-Gm-Message-State: AOAM532rmJ5K6SlQ5twGpmQ9evsF5GU6M5rMDN1kbqO9xS0R6l+g8C8l
-        hz7CsuXI+TrN9OwLoBjMtlDrxUSRiVHphApoDYhSegs6DBiqRmYb77Si4bgszNtuY34BwfiDFQ/
-        O1886sak9Ld2q+kXs5NKk36fBSw70g7IReQ==
-X-Received: by 2002:a05:6402:138a:: with SMTP id b10mr717130edv.113.1598948032042;
-        Tue, 01 Sep 2020 01:13:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7IPkwP3Zgcsr7n4Dp+A7XVzuu2MIc5649d9aub8G653CiuwNqI7X4xs8nz9A2ZO89eAxZ+A==
-X-Received: by 2002:a05:6402:138a:: with SMTP id b10mr717119edv.113.1598948031875;
-        Tue, 01 Sep 2020 01:13:51 -0700 (PDT)
-Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id p12sm556857ejb.42.2020.09.01.01.13.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2020 01:13:51 -0700 (PDT)
-Subject: Re: [asus-nb-wmi] i8042 optional dependecy?
-To:     Marius Iacob <themariusus@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org,
-        =?UTF-8?Q?Jo=c3=a3o_Paulo_Rechi_Vita?= <jprvita@gmail.com>
-References: <20200823175835.bed5psv7vdm64csb@archer>
- <20200824082501.GB1891694@smile.fi.intel.com>
- <c2c95d92-756a-8c85-a217-5b146d1590eb@redhat.com>
- <20200824190043.tvy3ryzr27su4bg4@archer-mini>
- <267951d7-d981-ae32-a7d1-8944361014ac@redhat.com>
- <20200830211750.bmi2fpylctehqsnm@archer>
- <a7a5b70e-47bb-e4bc-76ac-82e83fd4d746@redhat.com>
- <20200831082126.wsto3d2qqkylscm4@archer>
- <183aa099-47d7-4647-1651-9134d720f71c@redhat.com>
- <20200831120220.kxhtamyakvw54xrw@archer>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <df46c69f-3670-6eea-f024-288637449b56@redhat.com>
-Date:   Tue, 1 Sep 2020 10:13:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 1 Sep 2020 05:09:03 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-283-TOoGT-t2Oa-s63UZlOFx8A-1; Tue, 01 Sep 2020 10:07:44 +0100
+X-MC-Unique: TOoGT-t2Oa-s63UZlOFx8A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 1 Sep 2020 10:07:42 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 1 Sep 2020 10:07:42 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Joe Perches' <joe@perches.com>, Denis Efremov <efremov@linux.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Alex Dewar <alex.dewar90@gmail.com>
+CC:     York Sun <york.sun@nxp.com>, Borislav Petkov <bp@alien8.de>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "James Morse" <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        "Maxim Levitsky" <maximlevitsky@gmail.com>,
+        Alex Dubov <oakad@yahoo.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Douglas Miller" <dougmill@linux.ibm.com>,
+        Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        =?iso-8859-1?Q?Kai_M=E4kisara?= <Kai.Makisara@kolumbus.fi>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Mark Brown <broonie@kernel.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Pete Zaitcev <zaitcev@redhat.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-i3c@lists.infradead.org" <linux-i3c@lists.infradead.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: sysfs output without newlines
+Thread-Topic: sysfs output without newlines
+Thread-Index: AQHWfkO/+C/EB0p8Hk2MEQnp7JjooqlTgZKw
+Date:   Tue, 1 Sep 2020 09:07:42 +0000
+Message-ID: <5f0b48e0291b4b54bc1caeb8b5715c65@AcuMS.aculab.com>
+References: <0f837bfb394ac632241eaac3e349b2ba806bce09.camel@perches.com>
+         <4cd6275c-6e95-3aeb-9924-141f62e00449@linux.com>
+ <b64a4cb0ee68fee01973616e5ef0f299ac191f6d.camel@perches.com>
+In-Reply-To: <b64a4cb0ee68fee01973616e5ef0f299ac191f6d.camel@perches.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <20200831120220.kxhtamyakvw54xrw@archer>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 8/31/20 2:02 PM, Marius Iacob wrote:
-> On 20-08-31 12:18:27, Hans de Goede wrote:
-
-<snip>
-
->>> Unfortunately the PNP check is 2 layers deeper from module_init and it's expected to return 0 for success for the rest of the init procedure to continue (so that it's not that straightforward). The module seems to be built with a full init procedure on load in mind. I've looked at the code for quite a bit and it seems that it's a bit of patch to write, and most of the places the i8042 code is used (in other modules) expects the module to be not just loaded but fully initialized. So this should be a consideration also.
->>
->> Please give the attached patch a try, I believe that this should fix the i8042 issue.
->>
->> Once you have let me know that this works I'll replace the:
->>
->> Reported-by: Marius Iacob <themariusus@gmail.com>
->>
->> By:
->>
->> Reported-and-tested-by: Marius Iacob <themariusus@gmail.com>
->>
->> And submit the patch upstream. Note the input subsys
->> maintainers seems to be a bit slow to respond lately,
->> so I'm not sure how fast we can get this reviewed / merged.
->>
->> Anyways first lets test it and see if it helps :)
+From: Joe Perches
+> Sent: 29 August 2020 21:34
+...
+> > On 8/29/20 9:23 PM, Joe Perches wrote:
+> > > While doing an investigation for a possible treewide conversion of
+> > > sysfs output using sprintf/snprintf/scnprintf, I discovered
+> > > several instances of sysfs output without terminating newlines.
+> > >
+> > > It seems likely all of these should have newline terminations
+> > > or have the \n\r termination changed to a single newline.
+> >
+> > I think that it could break badly written scripts in rare cases.
 > 
-> The patch works as intended. I also tried it on a system that has PS/2 controller and the module works as intended on that system too.
+> Maybe.
+> 
+> Is sysfs output a nominally unchangeable api like seq_?
+> Dunno.  seq_ output is extended all the time.
+> 
+> I think whitespace isn't generally considered part of
+> sscanf type input content awareness.
 
-Great, thank you for testing. I've submitted the patch upstream.
+The shell will remove trailing '\n' (but not '\r') from:
+	foo=$(cat bar)
+So shell scripts are unlikely to be affected.
 
-Regards,
+	David
 
-Hans
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
