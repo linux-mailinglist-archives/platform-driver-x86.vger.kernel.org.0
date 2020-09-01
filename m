@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0B57258C64
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 12:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57EF92591E9
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 16:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbgIAKJn (ORCPT
+        id S1728717AbgIAOyw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Sep 2020 06:09:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26467 "EHLO
+        Tue, 1 Sep 2020 10:54:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58987 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726044AbgIAKJ1 (ORCPT
+        by vger.kernel.org with ESMTP id S1726755AbgIALpt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Sep 2020 06:09:27 -0400
+        Tue, 1 Sep 2020 07:45:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598954958;
+        s=mimecast20190719; t=1598960735;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1hX5OrOOqPVubvjrm05YqeKhkINQVhyVk2Fqzu3nX/Q=;
-        b=VyFnbbsNNyYLaFCcj+nzaDSPHGlcdfJQr/DJoLMrYWVrpsIklm2umzpgBU3EjhHuQ/PnFs
-        EagO8o80CbASEo9gSwvVWLnYyMTYtxy6BTM9B8fj6z3EEYRhBfiJtWjkV3oLZQENBzVBXC
-        BAi3XTJPHSlcW+MqtnmOdq9IaTqVIDk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-IHckdcC2PpSoog6Bs6Mcsw-1; Tue, 01 Sep 2020 06:09:17 -0400
-X-MC-Unique: IHckdcC2PpSoog6Bs6Mcsw-1
-Received: by mail-ej1-f72.google.com with SMTP id w17so298860eja.10
-        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Sep 2020 03:09:16 -0700 (PDT)
+        bh=yGv9aCok1IeGKIVY6KcYSn/oV2Xh7pU2192TIGWPhWY=;
+        b=U+bLg7/plf8bqyYiDgQTxj3lfKX48GfvJApusNKap56c+GmCWaRFHb2ZABDmH7QT5V1wRV
+        J+0ULW8q69lBVnZqCQzbirEUPbrRid5qeKZAX2vqLUGcKiF5Hl3f82XS1Ic6Vx5w/8+BcI
+        I41H/EiU1kul25+oq3uYgKwiCmVHOUU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-UP2Hmg_1M-qZRdWOD-fVaQ-1; Tue, 01 Sep 2020 07:45:33 -0400
+X-MC-Unique: UP2Hmg_1M-qZRdWOD-fVaQ-1
+Received: by mail-ej1-f70.google.com with SMTP id dr9so382868ejc.19
+        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Sep 2020 04:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1hX5OrOOqPVubvjrm05YqeKhkINQVhyVk2Fqzu3nX/Q=;
-        b=G4rVvujjS8qd8bgu8duQaXGFPpPiT+uNqwtGUkJU0fNmB6QKzwKpNgu8XfcuVe2xBT
-         HZqi/+xYQxAtJQReScdWqGJokd7fzpplNzEfd7f23KZO6Gh/++41hXEBTB/5fNgsUxRp
-         +qNT+xX11grRoPx2RvGZv/orikn0cOOBNuQ1HcbCO8JdltkgJfn80sZm7IFRIaNUvrmJ
-         kvbv2BuzDIi7IEAe792RfHdpKmBGQ2QMOqMWWoe5DcyZ7hX/guAkp9vmR+XLWIMO7cKC
-         P6PcapGQhQy5D86ggbuWsHsSJoHkzIQtBtMxbUEk2ocw6zk4ztZjlYEwih4iOvHX3tXQ
-         Kk/w==
-X-Gm-Message-State: AOAM532+KT7N2TWqdAhW0s3ynjlrrAwjLzx3SOeymthdmVGS8RwFk0JV
-        HDc7dEkI2/86UBe+TvfAxaz7pJiNcrc4tdPmNBotIEzBO+Ryz6dkPB4q9Wujvbk9KV6rUbDkIJJ
-        410qoaQFO93F67rawEttRHLhgODQjxq+Fbw==
-X-Received: by 2002:a05:6402:948:: with SMTP id h8mr1088279edz.325.1598954954552;
-        Tue, 01 Sep 2020 03:09:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNJXWfe9agXUCeZ6voq1KVwcQ83zutLDN4KnuyL8ZpVqbBOXeLAZ3JpouQ0+DWdZFvLDTimw==
-X-Received: by 2002:a05:6402:948:: with SMTP id h8mr1088227edz.325.1598954953624;
-        Tue, 01 Sep 2020 03:09:13 -0700 (PDT)
+        bh=yGv9aCok1IeGKIVY6KcYSn/oV2Xh7pU2192TIGWPhWY=;
+        b=hCcer/rtS+563BCPP1yNa+wAwo8ZlEtixa8Wf0Cc/mz5AxDF1h0YdDAdGfvj+3jfi7
+         5HaoaAvoEGSMItG4hy3XzB2bm+CizXH2twH7iEgfD5IUEJsnsY/zwHvo8X8NuttNuNuY
+         Y38B6+nR3eIWvNn7ZJRP4oiJ1yPW34IKlzooYM9I9VThh3zTQsYZEAk4hbjuBeG0fjNf
+         IT9EIhUclnET37UhcVpFvNin0f9jUHxUR+T3zHPh//37XpeCMlfaFqmYhxbdhdm1ZCG+
+         DMtC2KtEqPADSvxJTTgG17FWYReASckh9J7pvFZOBl36+8VXUCUgbSPe8GHU5yex1ON7
+         AnuQ==
+X-Gm-Message-State: AOAM532mVXB+Yl/hPl8zVLNV3MYUA5+EfGsJIO//iHKURbydrjxyjwE1
+        05A3YbBVHBca7aQapQxZkgM/Hl03GUnDa25RMALfxPGhPEXYecNW66QxVricgxqPjume5FFikdD
+        XoiPS+dSEpRV9a0JIfGlvDoIN0aJ+f6I79Q==
+X-Received: by 2002:a17:906:1b55:: with SMTP id p21mr1153821ejg.457.1598960731457;
+        Tue, 01 Sep 2020 04:45:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVTaBJJaBkvZCnjCuAe66WNSlg8wwohejOk7a1vFSwFFa97zVeBP3XtfvLiVX0TwWuW02k0g==
+X-Received: by 2002:a17:906:1b55:: with SMTP id p21mr1153770ejg.457.1598960730617;
+        Tue, 01 Sep 2020 04:45:30 -0700 (PDT)
 Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id yh29sm861039ejb.0.2020.09.01.03.09.12
+        by smtp.gmail.com with ESMTPSA id n26sm838445ejz.89.2020.09.01.04.44.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2020 03:09:12 -0700 (PDT)
+        Tue, 01 Sep 2020 04:45:29 -0700 (PDT)
 Subject: Re: [PATCH] Introduce support for Systems Management Driver over WMI
  for Dell Systems
 To:     Divya Bharathi <divya27392@gmail.com>, dvhart@infradead.org
@@ -63,8 +63,8 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Prasanth KSR <prasanth.ksr@dell.com>
 References: <20200730143122.10237-1-divya_bharathi@dell.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <aa23d8b8-6c6b-b6f2-e916-1defff8a9b26@redhat.com>
-Date:   Tue, 1 Sep 2020 12:09:12 +0200
+Message-ID: <9b0e8473-1582-eb02-70f4-0f25d09c720c@redhat.com>
+Date:   Tue, 1 Sep 2020 13:41:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -79,8 +79,7 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-I promised a second review focussed on the code, but first a bit more
-detailed review of the sysfs-files for the different attribute types...
+So as promised a third mail with a review focused some more on the code.
 
 On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > From: Divya Bharathi <divya.bharathi@dell.com>
@@ -185,18 +184,6 @@ On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > +
 > +			0:	No pending reboot
 > +			1:	Pending reboot
-
-"A read-only attribute enumerating if a reboot is pending on any BIOS attribute change."
-does not really seem to make much sense. I guess what this is trying to say is:
-
-"This read-only attribute reads 1 if a reboot is necessary to apply pending BIOS attribute changes"?
-
-		0:	All BIOS attributes setting are current
-		1:	A reboot is necessary to get pending pending BIOS attribute changes applied
-
-Or some such. I'm not really happy with my own text either, but I think it better explains
-what this attribute is about then the original text, right ?
-
 > +
 > +What:		/sys/devices/platform/dell-wmi-sysman/attributes/enumeration/<attr>/
 > +Date:		October 2020
@@ -225,27 +212,12 @@ what this attribute is about then the original text, right ?
 > +
 > +		display_name_language_code:	A file that can be read to obtain
 > +		the language code corresponding to the "display_name" of the <attr>
-
-This needs to be specified better, e.g. this needs to say that this is an
-ISO 639‑1 language code (or some other language-code specification)
-
-
 > +
 > +		modifier:	A file that can be read to obtain attribute-level
 > +		dependency rule which has to be met to configure <attr>
-
-What is the difference between modifier and value_modifier ? Also this need to
-be specified in more detail.
-
 > +
 > +		possible_value:	A file that can be read to obtain the possible
 > +		value of the <attr>
-
-This is an enum, so possible value_s_ ?  I assume that for a enum this will list
-all possible values, this also needs to specify how the possible values will be
-separated (e.g. using semi-colons or newlines or ...).
-
-
 > +
 > +		value_modifier:	A file that can be read to obtain value-level
 > +		dependency on a possible value which has to be met to configure <attr>
@@ -290,11 +262,6 @@ separated (e.g. using semi-colons or newlines or ...).
 > +
 > +		upper_bound:	A file that can be read to obtain the upper
 > +		bound value of the <attr>
-
-Are these integers or also possibly floats? I guess possibly also floats, right?
-Then at a minimum this should specify which decimal-separator is used (I assume
-we will go with the usual '.' as decimal separator).
-
 > +
 > +What:		/sys/devices/platform/dell-wmi-sysman/attributes/string/<attr>/
 > +Date:		October 2020
@@ -365,14 +332,6 @@ we will go with the usual '.' as decimal separator).
 > +
 > +		new_password: A write only value that when used in tandem with
 > +		current_password will reset a system or admin password.
-
-I'll send a third email for a review of the actual code for this.
-
-Regards,
-
-Hans
-
-
 > diff --git a/MAINTAINERS b/MAINTAINERS
 > index e64cdde81851..176311d712db 100644
 > --- a/MAINTAINERS
@@ -457,6 +416,10 @@ Hans
 > +
 > +static DEFINE_MUTEX(call_mutex);
 > +static DEFINE_MUTEX(list_mutex);
+
+These are defined multiple times in almost all of the files, if the purpose is to
+allow only 1 WMI call at a time then their should be only 1 define of the call_mutex.
+
 > +
 > +struct wmi_interface_priv {
 > +	struct list_head list;
@@ -465,6 +428,45 @@ Hans
 > +	bool pending_changes;
 > +};
 > +static LIST_HEAD(interface_list);
+
+You use a list here; and also in drivers/platform/x86/dell-wmi-passwordattr-interface.c
+but you only every use the first entry of the list.
+
+Looking at the structure of the driver I think that it would be best to do the following:
+
+1) Use a single global struct which contains the data from the
+struct wmi_interface_priv from both dell-wmi-biosattr-interface.c and
+dell-wmi-passwordattr-interface.c including separate wdev pointers for both
+and add a single shared call_mutex to this struct
+
+2) Have the dell_wmi_bios_attr_set_interface_probe() functions each set their
+own wdev pointer in the global struct
+
+3) Have drivers/platform/x86/dell-wmi-sysman-attributes.c 's init_dell_bios_attrib_wmi
+function first register the 2 wmi drivers and then check that both wdev pointers are
+set in the global struct to make sure both GUID's were found and the driver did successfully
+bound and move the platform_device (to be replaced with a class-dev) registration
+to the very end of init_dell_bios_attrib_wmi, so that sysfs files do not become
+available before the wdev pointers are both set (which I think is currently possinble).
+
+This refactoring will allow the removing of all the list_mutex-s and the 2 LIST_HEAD(interface_list)
+declarations; and it will also replace all the separate call_mutex locks with a single shared
+lock in the global shared data struct.
+
+I believe that this + the suggested API changes will result in enough refactoring
+(assuming that you agree) that a further detailed code review does not make a whole
+lot of sense right now.
+
+So first please address my current review remarks (or explain why you believe
+that things should be kept as is); and then we will see from there.
+
+Regards,
+
+Hans
+
+
+
+
 > +
 > +static inline struct wmi_interface_priv *get_first_interface_priv(void)
 > +{
@@ -535,6 +537,11 @@ Hans
 > +	current_password = get_current_password("Admin");
 > +	if (!current_password)
 > +		return -ENODEV;
+
+Can we instead of passing "Admin" and "System" to this function
+just have 2 separate get_current_admin_password and get_current_system_password
+helpers and then drop the error handling ?
+
 > +
 > +	/* password is set */
 > +	if (strlen(current_password) > 0)
@@ -543,6 +550,14 @@ Hans
 > +	/* password not set */
 > +	else
 > +		security_area_size = sizeof(u32) * 2;
+
+Since you are using more then 1 line here please use {} around the state-ments,
+also please put the /* password not set */ after the else:
+
+		...
+	} else { /* password not set */
+		...
+
 > +	string_area_size = (strlen(a_name) + strlen(a_value))*2;
 > +	buffer_size = security_area_size + string_area_size + sizeof(u16) * 2;
 > +
@@ -566,6 +581,14 @@ Hans
 > +		attribute_name[i*2] = a_name[i];
 > +	for (i = 0; i < strlen(a_value); i++)
 > +		attribute_value[i*2] = a_value[i];
+
+This assumes the incoming string is ASCII only and won't
+work when the incoming string is UTF-8. It is probably
+better to use the utf8s_to_utf16s() helper from the nls
+code, this will mean adding a dependency on CONFIG_NLS
+which typically is used for filesystem code, but I think
+that that will be fine.
+
 > +
 > +	mutex_lock(&call_mutex);
 > +	priv = get_first_interface_priv();
