@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A243B258C09
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 11:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0B57258C64
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Sep 2020 12:09:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgIAJuB (ORCPT
+        id S1726285AbgIAKJn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Sep 2020 05:50:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60268 "EHLO
+        Tue, 1 Sep 2020 06:09:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26467 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726105AbgIAJuA (ORCPT
+        by vger.kernel.org with ESMTP id S1726044AbgIAKJ1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Sep 2020 05:50:00 -0400
+        Tue, 1 Sep 2020 06:09:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598953792;
+        s=mimecast20190719; t=1598954958;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=bNC9IzTsE2FmRLDfRABLeMAMBkyW1awCnQCaJlzw0WA=;
-        b=R5dPsrR3mkt4ODDj1Ra6rhM1wJswFHNRrYTzn2xPfYfC7ZUaa1DomYOn73sLIaml9ZWDZx
-        FzkJS1vX0HBoVtJ80dKMzwMeVclHS4zapeuXK/BOn3o9Ml5gYVrppgE54QUQG60K24q7KB
-        SjKezWElptJcPIcdTZXyWdCV9DvjmuU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-i7mu5bcWOCWMI4SdVDMu-g-1; Tue, 01 Sep 2020 05:49:50 -0400
-X-MC-Unique: i7mu5bcWOCWMI4SdVDMu-g-1
-Received: by mail-wr1-f69.google.com with SMTP id b8so364954wrr.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Sep 2020 02:49:50 -0700 (PDT)
+        bh=1hX5OrOOqPVubvjrm05YqeKhkINQVhyVk2Fqzu3nX/Q=;
+        b=VyFnbbsNNyYLaFCcj+nzaDSPHGlcdfJQr/DJoLMrYWVrpsIklm2umzpgBU3EjhHuQ/PnFs
+        EagO8o80CbASEo9gSwvVWLnYyMTYtxy6BTM9B8fj6z3EEYRhBfiJtWjkV3oLZQENBzVBXC
+        BAi3XTJPHSlcW+MqtnmOdq9IaTqVIDk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196-IHckdcC2PpSoog6Bs6Mcsw-1; Tue, 01 Sep 2020 06:09:17 -0400
+X-MC-Unique: IHckdcC2PpSoog6Bs6Mcsw-1
+Received: by mail-ej1-f72.google.com with SMTP id w17so298860eja.10
+        for <platform-driver-x86@vger.kernel.org>; Tue, 01 Sep 2020 03:09:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=bNC9IzTsE2FmRLDfRABLeMAMBkyW1awCnQCaJlzw0WA=;
-        b=PxqkD5YCH41h3vUqJpjsMAE+Gg5A/VILY6MT9dJNkwWKJFDefGw+1cHvwTu2pvKGgI
-         x6iDVQgOKEFM8HIVBC/8wv00OJr4oJ2MKLTro6WwOV6DGFR7HfZE2jB/YshZaBY/tbO7
-         P95De1Q/sUUxrh0yMaxftY1WfbOm98lQns3YOy7unttn1F/a+khUBUQwe/QJ9z5SRrJd
-         HVt//4H1p3fyInMtrSMdx05zNwsqv5ZOJYSYt0NZFFqR95uy78jiUfSzSGvLqYrUAn0s
-         7jIENnx4oUP8tSj6bl1MwcOKOZHSc45WfWSypmM1P34rJidTcDCZgNAH30SwDldoC02t
-         hEfg==
-X-Gm-Message-State: AOAM532Adqmnap3etCwFBL16O9ioaE7Kyd7oniYwFgxJqv78FoFNgPLQ
-        775eHtL9nmEcZYWfNpViSaKN6j9/3+ULdeziy7DtstCL16FOSDkfCVPECfPFwZjyhQMDQytmDYj
-        RXs4dGBgQ42Vme3M7oWzcSVUHVfudz6Z3/w==
-X-Received: by 2002:a1c:28c1:: with SMTP id o184mr994580wmo.91.1598953788650;
-        Tue, 01 Sep 2020 02:49:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy52L0B4UjHJwn96ihdfoDzaLer59IDXp9EZ6J+HQirfqbeRSqXlH915C/oe+8jGkfrE8uKCA==
-X-Received: by 2002:a1c:28c1:: with SMTP id o184mr994517wmo.91.1598953787782;
-        Tue, 01 Sep 2020 02:49:47 -0700 (PDT)
+        bh=1hX5OrOOqPVubvjrm05YqeKhkINQVhyVk2Fqzu3nX/Q=;
+        b=G4rVvujjS8qd8bgu8duQaXGFPpPiT+uNqwtGUkJU0fNmB6QKzwKpNgu8XfcuVe2xBT
+         HZqi/+xYQxAtJQReScdWqGJokd7fzpplNzEfd7f23KZO6Gh/++41hXEBTB/5fNgsUxRp
+         +qNT+xX11grRoPx2RvGZv/orikn0cOOBNuQ1HcbCO8JdltkgJfn80sZm7IFRIaNUvrmJ
+         kvbv2BuzDIi7IEAe792RfHdpKmBGQ2QMOqMWWoe5DcyZ7hX/guAkp9vmR+XLWIMO7cKC
+         P6PcapGQhQy5D86ggbuWsHsSJoHkzIQtBtMxbUEk2ocw6zk4ztZjlYEwih4iOvHX3tXQ
+         Kk/w==
+X-Gm-Message-State: AOAM532+KT7N2TWqdAhW0s3ynjlrrAwjLzx3SOeymthdmVGS8RwFk0JV
+        HDc7dEkI2/86UBe+TvfAxaz7pJiNcrc4tdPmNBotIEzBO+Ryz6dkPB4q9Wujvbk9KV6rUbDkIJJ
+        410qoaQFO93F67rawEttRHLhgODQjxq+Fbw==
+X-Received: by 2002:a05:6402:948:: with SMTP id h8mr1088279edz.325.1598954954552;
+        Tue, 01 Sep 2020 03:09:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNJXWfe9agXUCeZ6voq1KVwcQ83zutLDN4KnuyL8ZpVqbBOXeLAZ3JpouQ0+DWdZFvLDTimw==
+X-Received: by 2002:a05:6402:948:: with SMTP id h8mr1088227edz.325.1598954953624;
+        Tue, 01 Sep 2020 03:09:13 -0700 (PDT)
 Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id z8sm1020202wmf.42.2020.09.01.02.49.46
+        by smtp.gmail.com with ESMTPSA id yh29sm861039ejb.0.2020.09.01.03.09.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2020 02:49:47 -0700 (PDT)
+        Tue, 01 Sep 2020 03:09:12 -0700 (PDT)
 Subject: Re: [PATCH] Introduce support for Systems Management Driver over WMI
  for Dell Systems
 To:     Divya Bharathi <divya27392@gmail.com>, dvhart@infradead.org
@@ -60,13 +60,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         platform-driver-x86@vger.kernel.org,
         Divya Bharathi <divya.bharathi@dell.com>,
         Mario Limonciello <mario.limonciello@dell.com>,
-        Prasanth KSR <prasanth.ksr@dell.com>,
-        Richard Hughes <rhughes@redhat.com>,
-        Jared Dominguez <jaredz@redhat.com>
+        Prasanth KSR <prasanth.ksr@dell.com>
 References: <20200730143122.10237-1-divya_bharathi@dell.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <d3de1d27-25ac-be43-54d8-dcbfffa31e1d@redhat.com>
-Date:   Tue, 1 Sep 2020 11:49:46 +0200
+Message-ID: <aa23d8b8-6c6b-b6f2-e916-1defff8a9b26@redhat.com>
+Date:   Tue, 1 Sep 2020 12:09:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -79,13 +77,10 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi All,
+Hi,
 
-Going forward I will be helping Andy and Darren with maintaining the
-drivers/platform/x86/* drivers.
-
-So one of the first things which I'm doing with that hat on,
-is review this patch.
+I promised a second review focussed on the code, but first a bit more
+detailed review of the sysfs-files for the different attribute types...
 
 On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > From: Divya Bharathi <divya.bharathi@dell.com>
@@ -190,6 +185,18 @@ On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > +
 > +			0:	No pending reboot
 > +			1:	Pending reboot
+
+"A read-only attribute enumerating if a reboot is pending on any BIOS attribute change."
+does not really seem to make much sense. I guess what this is trying to say is:
+
+"This read-only attribute reads 1 if a reboot is necessary to apply pending BIOS attribute changes"?
+
+		0:	All BIOS attributes setting are current
+		1:	A reboot is necessary to get pending pending BIOS attribute changes applied
+
+Or some such. I'm not really happy with my own text either, but I think it better explains
+what this attribute is about then the original text, right ?
+
 > +
 > +What:		/sys/devices/platform/dell-wmi-sysman/attributes/enumeration/<attr>/
 > +Date:		October 2020
@@ -218,12 +225,27 @@ On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > +
 > +		display_name_language_code:	A file that can be read to obtain
 > +		the language code corresponding to the "display_name" of the <attr>
+
+This needs to be specified better, e.g. this needs to say that this is an
+ISO 639‑1 language code (or some other language-code specification)
+
+
 > +
 > +		modifier:	A file that can be read to obtain attribute-level
 > +		dependency rule which has to be met to configure <attr>
+
+What is the difference between modifier and value_modifier ? Also this need to
+be specified in more detail.
+
 > +
 > +		possible_value:	A file that can be read to obtain the possible
 > +		value of the <attr>
+
+This is an enum, so possible value_s_ ?  I assume that for a enum this will list
+all possible values, this also needs to specify how the possible values will be
+separated (e.g. using semi-colons or newlines or ...).
+
+
 > +
 > +		value_modifier:	A file that can be read to obtain value-level
 > +		dependency on a possible value which has to be met to configure <attr>
@@ -268,6 +290,11 @@ On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > +
 > +		upper_bound:	A file that can be read to obtain the upper
 > +		bound value of the <attr>
+
+Are these integers or also possibly floats? I guess possibly also floats, right?
+Then at a minimum this should specify which decimal-separator is used (I assume
+we will go with the usual '.' as decimal separator).
+
 > +
 > +What:		/sys/devices/platform/dell-wmi-sysman/attributes/string/<attr>/
 > +Date:		October 2020
@@ -306,101 +333,6 @@ On 7/30/20 4:31 PM, Divya Bharathi wrote:
 > +
 > +		modifier:	A file that can be read to obtain attribute-level
 > +		dependency rule which has to be met to configure <attr>
-
-So first of all some comments on the userspace (sysfs) API for that. Getting this
-part right is the most important part of this patch, as that will be set in stone
-once merged.
-
-My first reaction to the suggest API is that I find the sorting by type thing really weird,
-so if I were to do:
-
-ls /sys/devices/platform/dell-wmi-sysman/attributes/
-
-I would get the following as output:
-
-enumeration
-integer
-string
-
-And then to see the actual attributes I would need to do:
-
-ls /sys/devices/platform/dell-wmi-sysman/attributes/{enumeration,integer,string}
-
-This feels less then ideal both when interacting from a shell, but also when
-e.g. envisioning C-code enumerating attributes.
-
-IMHO it would be better to have:
-
-/sys/devices/platform/dell-wmi-sysman/attributes/<attr>/type
-
-Which can be one of "enumeration,integer,string"
-
-and then have the other sysfs files (default_Value, current_value, max..., etc.) as:
-
-/sys/devices/platform/dell-wmi-sysman/attributes/<attr>/default_value
-etc.
-
-Where which files exactly are present for a specific <attr> depends on the type.
-
-This will make e.g C-code enumerating all attributes be a single readdir, followed
-by reading the type for each dir entry; and if we add a new type the C-code can
-warn the user that it encountered an atribute with unknown type <new-type>,
-rather then not being aware that there is a fourth dir (for the new type) with
-attributes to check.
-
-Other then that the sysfs interface generally looks good to me, except for
-one other big thing (and one small thing, see below).
-
-This interface seems pretty generic (which is a good thing), but then having
-it live in the hardcoded /sys/devices/platform/dell-wmi-sysman/attributes
-name-space seems less then ideal. I also see in the code that you are creating
-a dummy platform device, just to have a place/parent to register the attributes
-dir with.
-
-Combining these 2 things I think that it would be better to make a new class
-for this, like how we e.g. have a backlight class under /sys/class/backlight
-we could have a /sys/class/firmware_attributes class and then we would get
-a dell_wmi entry under that (and drop the "attributes" dir), so we would get:
-
-/sys/class/firmware_attributes/dell_wmi/<attr>/type
-
-Etc.
-
-So instead of creating a dummy platform device, you would create a firmware_attributes
-class device.
-
-I think it is likely that other vendors may eventually also support modifying
-BIOS settings without going into the BIOS setup menu and I would like us to
-use one unified userspace API for this.  Note this changes little for the Dell code /
-this patch (although eventually some code may be moved into shared helpers), but
-it does allow userspace to discover if the firmware-attr sysfs API is supported in
-a vendor agnostic API by doing a readdir on /sys/class/firmware_attributes
-
-There could even be multiple instances implementing this interface, e.g. if their
-is an add-on card with its own option-ROM, see for iscsi booting then the iscsi boot
-options could be available under:
-
-/sys/class/firmware_attributes/iscsi_boot_nic/<attr>/*
-
-While the main system firmware settings would be available under:
-
-/sys/class/firmware_attributes/dell_wmi/<attr>/*
-
-Since you have already designed a nice generic API for this it seems
-sensible to me to make it possible to use this outside the Dell WMI case.
-
-
-So as mentioned I also have one smaller issue with the API, how is a
-UI supposed to represent all these attributes?  In the BIOS setup screen
-they are typically grouped together under e.g. CPU settings, power-management settings,
-etc.  I wonder if it would be possible to add a "group" sysfs file to each attribute
-which represent the typical grouping. E.g. for pm related settings the group file
-would contain "Power Management" then an userspace Ui can enumerate the groups and
-have e.g. 1 tab per group, or a tree with the groups as parents oof the attributes
-for each group. This is just an idea I don't know if such grouping info is available
-in the WMI interface for this.
-
-
 > +
 > +What:		/sys/devices/platform/dell-wmi-sysman/attributes/password/<attr>/
 > +Date:		October 2020
@@ -434,32 +366,11 @@ in the WMI interface for this.
 > +		new_password: A write only value that when used in tandem with
 > +		current_password will reset a system or admin password.
 
-
-At first I was thinking that things like is_password_set would live directly under
-/sys/devices/platform/dell-wmi-sysman/attributes/password/ so we would have:
-
-/sys/devices/platform/dell-wmi-sysman/attributes/password/is_password_set
-
-But now I see that password really is just another type of attribute and we will
-have:
-
-/sys/devices/platform/dell-wmi-sysman/attributes/password/System/is_password_set
-
-and:
-
-/sys/devices/platform/dell-wmi-sysman/attributes/password/User/is_password_set
-
-That makes more sense, and will also work well with the changes I suggest above.
-
-
-I would like to split the overall discussion of the API, versus doing a
-detailed review of the code, so I will review the code in a separate email.
+I'll send a third email for a review of the actual code for this.
 
 Regards,
 
 Hans
-
-
 
 
 > diff --git a/MAINTAINERS b/MAINTAINERS
