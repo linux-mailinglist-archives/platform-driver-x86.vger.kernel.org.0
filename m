@@ -2,117 +2,149 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F80725A11C
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  2 Sep 2020 00:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC44C25A716
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  2 Sep 2020 09:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727946AbgIAWBt (ORCPT
+        id S1726858AbgIBHzn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 1 Sep 2020 18:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
+        Wed, 2 Sep 2020 03:55:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727778AbgIAWBt (ORCPT
+        with ESMTP id S1726167AbgIBHzi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 1 Sep 2020 18:01:49 -0400
-X-Greylist: delayed 366 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Sep 2020 15:01:47 PDT
-Received: from mail.sammserver.com (sammserver.com [IPv6:2001:470:5a5b:1::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D32C061244;
-        Tue,  1 Sep 2020 15:01:46 -0700 (PDT)
-Received: by mail.sammserver.com (Postfix, from userid 5011)
-        id 3E106FCD560; Tue,  1 Sep 2020 23:55:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1598997337; bh=/RtFyWyJDIkCcWhBfGLKv/03qnf5PIZh/94SZpxGp1A=;
-        h=Date:From:To:Cc:Subject:From;
-        b=RG2ZnBVrBVVv2CWA6WDCwMa0eLBQ4d0jpslftDpLYIdld9Ytz6c6FqQo/V6fq132k
-         Gf1EnDLFzYjiWhHNayqWJ65uit6t/XM/FMg5VOA3y9mYqx2KqAeYMwZJob4S3Xr2cQ
-         BueooTfZ7LTmuewXAJ7msNBki0wFDjxbRTLUtCq8=
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id F3187FCD55D;
-        Tue,  1 Sep 2020 23:55:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1598997337; bh=/RtFyWyJDIkCcWhBfGLKv/03qnf5PIZh/94SZpxGp1A=;
-        h=Date:From:To:Cc:Subject:From;
-        b=RG2ZnBVrBVVv2CWA6WDCwMa0eLBQ4d0jpslftDpLYIdld9Ytz6c6FqQo/V6fq132k
-         Gf1EnDLFzYjiWhHNayqWJ65uit6t/XM/FMg5VOA3y9mYqx2KqAeYMwZJob4S3Xr2cQ
-         BueooTfZ7LTmuewXAJ7msNBki0wFDjxbRTLUtCq8=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id D67EC14210F4; Tue,  1 Sep 2020 23:55:36 +0200 (CEST)
-Date:   Tue, 1 Sep 2020 23:55:36 +0200
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corentin Chary <corentin.chary@gmail.com>
-Cc:     acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: platform/x86: asus-wmi: SW_TABLET_MODE is always 1 on some devices
-Message-ID: <20200901215536.qcouepovmfxje4n5@fastboi.localdomain>
+        Wed, 2 Sep 2020 03:55:38 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 802EAC061244;
+        Wed,  2 Sep 2020 00:55:38 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id q3so1906061pls.11;
+        Wed, 02 Sep 2020 00:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Vv9wafYlcRndezilwjOVw+Uvg14avW3QcJVd3Hrp9X0=;
+        b=dUhRbwVRhGDqCmPDJulA9D1NH7C7y9XHVxD2cCdGOWci+8hb5IympO9z/mRng67H8/
+         EdOTtIbOUtlS0mzLi//6vD4CigO1owTjoWyCjHgRxEoqhFi1zxwgFApN05D3L06ODh+s
+         AVvnjlPrW+HYJTAL/8YojwCSWZA0hmWlOyI4Z0ujWxLb7QaZJHPkmOvkknBkjULMUk8O
+         vZCA+YksoU5lSSMLMuTxe0RWE+SopR/Bz0y9IzEH472wSI8+jrXlqe5BwxCUUpZ/v2qU
+         95IpUaWjKi1whSEN6uAGZZ96PnIq+fl78D9OB6zeF8Yss0rzX0NdmyXMSAg8XGrUO6+9
+         /VDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Vv9wafYlcRndezilwjOVw+Uvg14avW3QcJVd3Hrp9X0=;
+        b=IRLT6+5EpSjhCNN2Y+fuqxvT2I7RU50cwxBbtEOS8deSGrJwEGlRdPApKzPES+ZLyO
+         SFnp5iWtdGg8iIFlyjQXPH++EoPKxfbxZv5RGcYNc0oEYbru4GZwC/1QqaogidogrYgh
+         gABgTyJvETFXBA65OhtSvaPW08EmiHELT5adZqNP267l2b6+KAkFfUNQ7bj3YP0JJoVN
+         pXQh0FaX2pI/zblAIl+lz24ALGt6c38x1X9kL7nNmYpanp8pZDEM2bG9dEvD8i0VQtZ6
+         CpZBvw1AObVOEwFuoUxmH7dGSMQo51ZXaFY2WMeSept7X+IBO3t+sg1IftDnDOoziV0T
+         O/ZQ==
+X-Gm-Message-State: AOAM532Gw5cmG/vr2kwCptWuwxHS4t3hqvTTpVUb3dnMSu6fyjGqjIxc
+        RAVGU/Z2oW5Fzh/AIiF60mnxwt+NnnH5bZuPAWkmNH2bPx8=
+X-Google-Smtp-Source: ABdhPJxNZ9O3Sj7OvHiGloTdmPJ7LxTz4zR2Er8HbAv/pmqjuckAEtpUdzJasMFcDiKbP+NTn6IiUaUkABxel3cBWdE=
+X-Received: by 2002:a17:902:b715:: with SMTP id d21mr1104159pls.92.1599033338028;
+ Wed, 02 Sep 2020 00:55:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+References: <20200826034455.28707-1-lszubowi@redhat.com> <20200826034455.28707-3-lszubowi@redhat.com>
+In-Reply-To: <20200826034455.28707-3-lszubowi@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 2 Sep 2020 10:55:21 +0300
+Message-ID: <CAHp75Vec0a3LC7dGY6wacQu0brc+Zjfowt6kGdcZ9sfMzoDR9g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] integrity: Move import of MokListRT certs to a
+ separate routine
+To:     Lenny Szubowicz <lszubowi@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Jones <pjones@redhat.com>,
+        David Howells <dhowells@redhat.com>,
+        Prarit Bhargava <prarit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello!
+On Wed, Aug 26, 2020 at 6:45 AM Lenny Szubowicz <lszubowi@redhat.com> wrote:
+>
+> Move the loading of certs from the UEFI MokListRT into a separate
+> routine to facilitate additional MokList functionality.
+>
+> There is no visible functional change as a result of this patch.
+> Although the UEFI dbx certs are now loaded before the MokList certs,
+> they are loaded onto different key rings. So the order of the keys
+> on their respective key rings is the same.
 
-A bug was introduced with the following commit[1]:
+...
 
-    b0dbd97de: platform/x86: asus-wmi: Add support for SW_TABLET_MODE
+>  /*
+> + * load_moklist_certs() - Load MokList certs
+> + *
+> + * Returns:    Summary error status
+> + *
+> + * Load the certs contained in the UEFI MokListRT database into the
+> + * platform trusted keyring.
+> + */
 
-The SW_TABLET_MODE switch seems to be always 1 on some devices,
-including my UX360CA and a UX390UAK[2].
+Hmm... Is it intentionally kept out of kernel doc format?
 
-This can be seen in the output of evtest:
+> +static int __init load_moklist_certs(void)
+> +{
+> +       efi_guid_t mok_var = EFI_SHIM_LOCK_GUID;
+> +       void *mok = NULL;
+> +       unsigned long moksize = 0;
+> +       efi_status_t status;
+> +       int rc = 0;
 
-    # evtest /dev/input/by-path/platform-asus-nb-wmi-event
-    Input driver version is 1.0.1
-    Input device ID: bus 0x19 vendor 0x0 product 0x0 version 0x0
-    Input device name: "Asus WMI hotkeys"
-    Supported events:
-      (...)
-      Event type 5 (EV_SW)
-        Event code 1 (SW_TABLET_MODE) state 1
+Redundant assignment (see below).
 
-And directly results in libinput disabling the trackpad and keyboard via
-its tablet-mode mechanism, rendering X.org and Wayland unusable (not even
-switching to VT works without sysrq+r):
+> +       /* Get MokListRT. It might not exist, so it isn't an error
+> +        * if we can't get it.
+> +        */
+> +       mok = get_cert_list(L"MokListRT", &mok_var, &moksize, &status);
 
-    # libinput debug-events
-    (...)
-    -event8   DEVICE_ADDED     Asus WMI hotkeys     seat0 default group10 cap:kS
-     event8   SWITCH_TOGGLE    +0.000s	switch tablet-mode state 1
-    (...)
+> +       if (!mok) {
 
-I have been using the following workaround to get my input working
-again:
+Why not positive conditional? Sometimes ! is hard to notice.
 
-    # cat /usr/share/libinput/50-system-asus.quirks
-    (...)
-    [Asus WMI hotkeys]
-    MatchName=*Asus WMI hotkeys*
-    ModelTabletModeSwitchUnreliable=1
+> +               if (status == EFI_NOT_FOUND)
+> +                       pr_debug("MokListRT variable wasn't found\n");
+> +               else
+> +                       pr_info("Couldn't get UEFI MokListRT\n");
+> +       } else {
+> +               rc = parse_efi_signature_list("UEFI:MokListRT",
+> +                                             mok, moksize, get_handler_for_db);
+> +               if (rc)
+> +                       pr_err("Couldn't parse MokListRT signatures: %d\n", rc);
+> +               kfree(mok);
 
-Another option would be to rmmod asus_nb_wmi and blacklist it for now.
+ kfree(...)
+ if (rc)
+  ...
+ return rc;
 
-I am not sure what the solution would be as I am not acquainted with the
-WMI module. However, I can provide some information about my hardware:
+And with positive conditional there will be no need to have redundant
+'else' followed by additional level of indentation.
 
-The UX360CA fully disables the keyboard in hardware(firmware?) when the
-lid is flipped beyond 180 degrees (tablet mode). The trackpad is not
-disabled. A KEY_PROG2 event is generated by the same "Asus WMI hotkeys"
-input device at this moment, it however does not carry the actual state
--- a 1 is sent and a 0 follows immediately[3]. The same KEY_PROG2
-sequence is generated when the lid is returned back to laptop position.
-The SW_TABLET_MODE switch does not change state at all during this.
-Thank you.
+> +       }
 
-Have a nice day,
-Samuel
+> +       return rc;
 
-[1]: https://patchwork.kernel.org/patch/11539215/
-[2]: https://bugzilla.kernel.org/show_bug.cgi?id=209011
-[3]: https://lore.kernel.org/patchwork/patch/973647/
+return 0;
+
+> +}
+
+P.S. Yes, I see that the above was in the original code, so, consider
+my comments as suggestions to improve the code.
+
+-- 
+With Best Regards,
+Andy Shevchenko
