@@ -2,107 +2,158 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE297261FCE
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 22:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 522012620F0
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 22:19:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730361AbgIHUGh (ORCPT
+        id S1729413AbgIHUTc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Sep 2020 16:06:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56134 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729337AbgIHPVk (ORCPT
+        Tue, 8 Sep 2020 16:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729305AbgIHUTb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Sep 2020 11:21:40 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A767D20738;
-        Tue,  8 Sep 2020 15:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599578402;
-        bh=lm+NnOQVayPnEfJs4iqkujWjjFvLWT5L8ziKCgTrRa8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kFiZ8vv+V5Si6pCmglsYvIxWUSs2kqEP3hyv1GibXBVKbeok5rPxfU4KaqVQBVagW
-         tAho0j2ti8+0izDXZAIyHvZP2AEBCkbLAC/0d1Y/kBoKytrmcWBJR3k8v8MSbqEILh
-         NTCjWqLdGKoNU1xROt4RDGhngLQbBY7m3ab6Sy38=
-Date:   Tue, 8 Sep 2020 17:20:14 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mike Travis <mike.travis@hpe.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@suse.de>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Jian Cai <caij2003@gmail.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 00/12] x86/platform/uv: Updates for UV5
-Message-ID: <20200908152014.GB4114051@kroah.com>
-References: <20200907185430.363197758@hpe.com>
+        Tue, 8 Sep 2020 16:19:31 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37EA1C061573;
+        Tue,  8 Sep 2020 13:19:31 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id u21so264252eja.2;
+        Tue, 08 Sep 2020 13:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=AjIPp6Eyls79nuZJqGgOMonyVj5blXaXyZkArJ7OmMI=;
+        b=k3xGDY6xo2owK5AkMpWvsnO3hcN771NeaL5eGo5K7dFhQMEejE3AR31sOcgdJhXyjx
+         6xPTDW6YsTt554gSRhqoP3vIQwQ6uwdL18IxQzFojUEAM0GDgsnptbxFBMmCHh2gA/SX
+         jVMzW19yly/C5z/Hq5evRAumGSaxo7XWMqjume3rwOi2IPl3o9gureJ3GUV/WAgJt8Gx
+         dD4EoY+ndMIbPVZUi2+BVaD0Nck3t6o71HG7hwVz9o41BMqZNV2Ax2qvgfnnd9Sc/Tpq
+         y71e28R5lgY2yVzMN2Yz1O6MHwwodPOz2ryfVlc7YZr0iGFMD8YVml8qJyLLT4GVg7T4
+         mb/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AjIPp6Eyls79nuZJqGgOMonyVj5blXaXyZkArJ7OmMI=;
+        b=pqVwjO8SahmQel43K7W9s9W9ASqvB1dy1zBVG6a2ku2CEDXjkwucynJwm47wMmoqvI
+         vOrk1Sd+kQt13ayUeSQujEhJ/OJJU3pDAV8TTMpGaHRgl5gEKt+NMEuYxjearxah685b
+         /mItXgYmsu7iqkd7ZWZSBo2igZGNLNpA+cr+LhtMmpWMIaYxjQ1iWh3egXtv8uMXjbxN
+         fO6jvxaA6bRarGMs0FEZiVa6GIAbGCNI6COXNz9nvUodSKZCBCgpOcLmfsR1D73J7BwW
+         iLvoOEYldhIsNF5zMeaM2FKExGs+pWzz9j54aKLXuWo85HZUK8w3JRzlOQ+/A0P+ulth
+         TViA==
+X-Gm-Message-State: AOAM531W1RMRqcm+ezJ4zIFwm6QxAKu1BwS1k+Thq6d+YICoy2aDaq6j
+        G8Iqu8Uoy8tkvCq+rWZekQBXV8xC0nU=
+X-Google-Smtp-Source: ABdhPJz5hML8XQIhRFBwbylroe6NBneVR57ta9d1HSXVfjAYlds1OuSG3jAAuAzY5e4wjchfC3BR5A==
+X-Received: by 2002:a17:906:2818:: with SMTP id r24mr233628ejc.100.1599596369435;
+        Tue, 08 Sep 2020 13:19:29 -0700 (PDT)
+Received: from [192.168.2.202] (p5487bef6.dip0.t-ipconnect.de. [84.135.190.246])
+        by smtp.gmail.com with ESMTPSA id lg22sm199449ejb.48.2020.09.08.13.19.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Sep 2020 13:19:28 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Subject: Re: [PATCH] platform/x86: Add Driver to set up lid GPEs on MS Surface
+ device
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200908171934.1661509-1-luzmaximilian@gmail.com>
+ <CAHp75VevrwKaba_FsZj-nPqJGR9fkmFPzvdCew0wCqF_L6QLbA@mail.gmail.com>
+Message-ID: <d1d3b1bb-1d7b-ae8d-fbe4-23f995df47fb@gmail.com>
+Date:   Tue, 8 Sep 2020 22:19:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200907185430.363197758@hpe.com>
+In-Reply-To: <CAHp75VevrwKaba_FsZj-nPqJGR9fkmFPzvdCew0wCqF_L6QLbA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Sep 07, 2020 at 01:54:30PM -0500, Mike Travis wrote:
-> Subject: [PATCH 00/12] x86/platform/uv: Updates for UV5
-> 
-> Add changes needed for new UV5 UV architecture.  Chief among the changes
-> are 52 bits of physical memory address and 57 bits of virtual address space.  
-> 
-> 0001 Remove UV BAU TLB Shootdown Handler
->     - removes BAU TLB code being replaced by BAU APIC driver
-> 
-> 0002 Remove SCIR built in driver
->     - removes System Controller (monitoring) code
-> 
-> 0003 Update UV kernel modules
->     - update loadable UV kernel modules prior to a clash of symbols
->       (is_uv) produced by auto-generated UV5 uv_mmrs.h file
-> 
-> 0004 Update UV MMRs for UV5
->     - update uv_mmrs.h file and fix resultant compiler errors
-> 
-> 0005 Add UV5 direct references
->     - add references to UV5 specific values
-> 
-> 0006 Decode and Use Arch Type in UVsystab
->     - add UV ArchType field to UVsystab to remove dependency on OEM_ID
-> 
-> 0007 Update MMIOH references
->     - display MMIOH mapping for each MMIOH region
-> 
-> 0008 Adjust GAM MMR references
->     - update GAM mapping for MMR accesses
-> 
-> 0009 Update UV GRU references
->     - update GRU mapping to include UV5
-> 
-> 0010 Update Node Present Counting
->     - UV5 changes method of counting nodes present
-> 
-> 0011 Update UV5 TSC Checking
->     - update TSC sync check of BIOS sync status
-> 
-> 0012 Update for UV5 NMI MMR changes
->     - update NMI handler
-> 
+On 9/8/20 8:40 PM, Andy Shevchenko wrote:
+> On Tue, Sep 8, 2020 at 8:20 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
 
-No diffstat?  Did you use 'git format-patch' cover letter for this?
+...
 
-thanks,
+>> +       .gpe_number = 0x17,
+>> +       .gpe_number = 0x4D,
+>> +       .gpe_number = 0x4F,
+>> +       .gpe_number = 0x57,
+> 
+>  From where these numbers come from? Can we get them from firmware (ACPI)?
 
-greg k-h
+Yes, they are obtained from ACPI/the DSDT. Specifically from the name of
+the GPE handler notifying the lid device. See [1] for a repo full of
+Surface ACPI dumps (source for this). I'll add a comment pointing this out
+in v2.
+
+[1]: https://github.com/linux-surface/acpidumps
+
+...
+
+>> +static int surface_gpe_probe(struct platform_device *pdev)
+>> +{
+>> +       const struct surface_lid_device *lid;
+>> +       int status;
+>> +
+> 
+>> +       lid = dev_get_platdata(&pdev->dev);
+>> +       if (!lid)
+>> +               return -ENODEV;
+> 
+> Can we use software nodes?
+
+As far as I can tell this would work via fwnode_create_software_node /
+fwnode_remove_software_node and device properties? I don't seem to find
+much documentation on this (there doesn't seem to be an entry for
+software nodes in the official docs?), but I think I should be able to
+make this work.
+
+>> +       status = acpi_mark_gpe_for_wake(NULL, lid->gpe_number);
+>> +       if (status) {
+>> +               dev_err(&pdev->dev, "failed to mark GPE for wake: %d\n", status);
+>> +               return -EINVAL;
+>> +       }
+>> +
+> 
+>> +       status = acpi_enable_gpe(NULL, lid->gpe_number);
+> 
+> Did I miss anything or all calls of enable / disable GPE are using
+> NULL as a first parameter? What the point in such case?
+
+As far as I can tell, some of the more generic uses have a non-NULL
+gpe_device parameter (acpi/device_pm.c, acpi/wakeup.c) and NULL just
+means index-0/main device? Not an expert on that though, so probably
+just ignore me here and let the ACPI guys answer this.
+
+...
+
+>> +MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurfacePro:*");
+>> +MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurfacePro4:*");
+> 
+> Can simply
+> 
+> MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurface*:*");
+> 
+> work?
+
+Depends on your preference, really. That would also auto-load the module
+on Surface Pro 3 and earlier devices (just won't do anything on those).
+So it's a trade-off between unnecessary loading of the module and
+maintainability/readability. Let me know what you prefer and I'll switch
+to that.
+
+Style and other issues are noted, I'll fix them for v2.
+
+Regards,
+Max
