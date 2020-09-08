@@ -2,158 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 522012620F0
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 22:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4789F2623A6
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Sep 2020 01:39:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729413AbgIHUTc (ORCPT
+        id S1726694AbgIHXj6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Sep 2020 16:19:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39572 "EHLO
+        Tue, 8 Sep 2020 19:39:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729305AbgIHUTb (ORCPT
+        with ESMTP id S1726340AbgIHXj6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Sep 2020 16:19:31 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37EA1C061573;
-        Tue,  8 Sep 2020 13:19:31 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id u21so264252eja.2;
-        Tue, 08 Sep 2020 13:19:31 -0700 (PDT)
+        Tue, 8 Sep 2020 19:39:58 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE22AC061573;
+        Tue,  8 Sep 2020 16:39:57 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id q3so615plr.13;
+        Tue, 08 Sep 2020 16:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AjIPp6Eyls79nuZJqGgOMonyVj5blXaXyZkArJ7OmMI=;
-        b=k3xGDY6xo2owK5AkMpWvsnO3hcN771NeaL5eGo5K7dFhQMEejE3AR31sOcgdJhXyjx
-         6xPTDW6YsTt554gSRhqoP3vIQwQ6uwdL18IxQzFojUEAM0GDgsnptbxFBMmCHh2gA/SX
-         jVMzW19yly/C5z/Hq5evRAumGSaxo7XWMqjume3rwOi2IPl3o9gureJ3GUV/WAgJt8Gx
-         dD4EoY+ndMIbPVZUi2+BVaD0Nck3t6o71HG7hwVz9o41BMqZNV2Ax2qvgfnnd9Sc/Tpq
-         y71e28R5lgY2yVzMN2Yz1O6MHwwodPOz2ryfVlc7YZr0iGFMD8YVml8qJyLLT4GVg7T4
-         mb/g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6Yk0Oeo7I/lK8V0Cta8eWPW8YqT4HApOA17doZKN9Uo=;
+        b=JrNWJy5raaslWzaBiEMRMEbyo4cJ6sPdyW/BLdxulXYAHm02ww4CMUrgxGZLk2YUec
+         Sa2kxd0qRiUoyOQuoOA6ltCoyVm33h/VckMnyoP+HBY1bD9SvhLqnzv5RIju4k1h/i2L
+         iWJeLlfvHzlgcVkPIGfzhYFnI71rS/hcloIa6yoLZ4DBOpqJhvKJUqW2TKgxQ0B4M56x
+         Z6Rj1SOm0uQRT4QBTWSyB3Pw8DZDChOwTxb6fCWtHHFFHlfKAqOzM3P7DoOWqQylRsN+
+         eUdoYVQ2nT+4uVfp9UfBpmrodtdlE5eiuxjsQfWirmw1/SZUAsL6f/UJ4nCRiHLxrXVC
+         WLug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AjIPp6Eyls79nuZJqGgOMonyVj5blXaXyZkArJ7OmMI=;
-        b=pqVwjO8SahmQel43K7W9s9W9ASqvB1dy1zBVG6a2ku2CEDXjkwucynJwm47wMmoqvI
-         vOrk1Sd+kQt13ayUeSQujEhJ/OJJU3pDAV8TTMpGaHRgl5gEKt+NMEuYxjearxah685b
-         /mItXgYmsu7iqkd7ZWZSBo2igZGNLNpA+cr+LhtMmpWMIaYxjQ1iWh3egXtv8uMXjbxN
-         fO6jvxaA6bRarGMs0FEZiVa6GIAbGCNI6COXNz9nvUodSKZCBCgpOcLmfsR1D73J7BwW
-         iLvoOEYldhIsNF5zMeaM2FKExGs+pWzz9j54aKLXuWo85HZUK8w3JRzlOQ+/A0P+ulth
-         TViA==
-X-Gm-Message-State: AOAM531W1RMRqcm+ezJ4zIFwm6QxAKu1BwS1k+Thq6d+YICoy2aDaq6j
-        G8Iqu8Uoy8tkvCq+rWZekQBXV8xC0nU=
-X-Google-Smtp-Source: ABdhPJz5hML8XQIhRFBwbylroe6NBneVR57ta9d1HSXVfjAYlds1OuSG3jAAuAzY5e4wjchfC3BR5A==
-X-Received: by 2002:a17:906:2818:: with SMTP id r24mr233628ejc.100.1599596369435;
-        Tue, 08 Sep 2020 13:19:29 -0700 (PDT)
-Received: from [192.168.2.202] (p5487bef6.dip0.t-ipconnect.de. [84.135.190.246])
-        by smtp.gmail.com with ESMTPSA id lg22sm199449ejb.48.2020.09.08.13.19.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2020 13:19:28 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Subject: Re: [PATCH] platform/x86: Add Driver to set up lid GPEs on MS Surface
- device
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6Yk0Oeo7I/lK8V0Cta8eWPW8YqT4HApOA17doZKN9Uo=;
+        b=Tyd/HgdGIRrBBI08YL80wKt+0cCbLUWz1TGmd4bA7AwjoA9vsvGkEw9qMu9RaEH07G
+         W5YRK5IazqO84dipi+sOB8y/DvYPRoQbF4TJZIIYx86ZqcvWYx3OPBqvAG8LzQvgyvQm
+         DXaJ4HxrekSQvnWJK/TG2/1FDKL01YV0hM9KskHd0m0gKZknhnfFYoE1zexElviJxh92
+         689xm7dVdLf1i+39I967ilY51/+ArZWc8NYafIGZAmbQfUpSVMBIN/u5AvZvcqvpT0qE
+         /mEbNQTklpb3NcIv1ucNjHKbfmZRsJWT0GFmGtQMramuuzyjJYOwXACLB5XMqd5galFP
+         cSMQ==
+X-Gm-Message-State: AOAM530VSHsqvxAa1eXXwOWrHyVrCSInBKG8oXXcunWVuEcTaeh4ejVs
+        MJyZkAgtVskgAigTzFtYXcI=
+X-Google-Smtp-Source: ABdhPJxvRkujCJovwIcHcF1ZrC+XcMyK8ti/b2fBiGBr9ZrsQTrIz78oKu5RhL+0Ih0pPHXwPCwMzA==
+X-Received: by 2002:a17:90a:e517:: with SMTP id t23mr1034958pjy.25.1599608392918;
+        Tue, 08 Sep 2020 16:39:52 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id q7sm334213pgg.10.2020.09.08.16.39.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 16:39:52 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 16:39:50 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200908171934.1661509-1-luzmaximilian@gmail.com>
- <CAHp75VevrwKaba_FsZj-nPqJGR9fkmFPzvdCew0wCqF_L6QLbA@mail.gmail.com>
-Message-ID: <d1d3b1bb-1d7b-ae8d-fbe4-23f995df47fb@gmail.com>
-Date:   Tue, 8 Sep 2020 22:19:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        linux-input@vger.kernel.org, Mark Pearson <mpearson@lenovo.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v2 0/4] Add 4 new keycodes and use them for 4 new hotkeys
+ on new Lenovo Thinkpads
+Message-ID: <20200908233950.GC1665100@dtor-ws>
+References: <20200908135147.4044-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VevrwKaba_FsZj-nPqJGR9fkmFPzvdCew0wCqF_L6QLbA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200908135147.4044-1-hdegoede@redhat.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 9/8/20 8:40 PM, Andy Shevchenko wrote:
-> On Tue, Sep 8, 2020 at 8:20 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+Hi Hans,
 
-...
-
->> +       .gpe_number = 0x17,
->> +       .gpe_number = 0x4D,
->> +       .gpe_number = 0x4F,
->> +       .gpe_number = 0x57,
+On Tue, Sep 08, 2020 at 03:51:43PM +0200, Hans de Goede wrote:
+> Hi All,
 > 
->  From where these numbers come from? Can we get them from firmware (ACPI)?
-
-Yes, they are obtained from ACPI/the DSDT. Specifically from the name of
-the GPE handler notifying the lid device. See [1] for a repo full of
-Surface ACPI dumps (source for this). I'll add a comment pointing this out
-in v2.
-
-[1]: https://github.com/linux-surface/acpidumps
-
-...
-
->> +static int surface_gpe_probe(struct platform_device *pdev)
->> +{
->> +       const struct surface_lid_device *lid;
->> +       int status;
->> +
+> Here is a v2 of my series to get a couple of new hotkeys, and matching
+> thinkpad_acpi hkey event codes seen on the last 2 generations of
+> Thinkpads supported.
 > 
->> +       lid = dev_get_platdata(&pdev->dev);
->> +       if (!lid)
->> +               return -ENODEV;
+> New in this version that Lenovo got back to me and explained that the 0x1316
+> hkey event belongs to Fn + right Shift, so that is mapped now too.
 > 
-> Can we use software nodes?
-
-As far as I can tell this would work via fwnode_create_software_node /
-fwnode_remove_software_node and device properties? I don't seem to find
-much documentation on this (there doesn't seem to be an entry for
-software nodes in the official docs?), but I think I should be able to
-make this work.
-
->> +       status = acpi_mark_gpe_for_wake(NULL, lid->gpe_number);
->> +       if (status) {
->> +               dev_err(&pdev->dev, "failed to mark GPE for wake: %d\n", status);
->> +               return -EINVAL;
->> +       }
->> +
+> Since these make both include/uapi/linux/input-event-codes.h and
+> drivers/platform/x86 changes one open question with this series is how to
+> merge it.
 > 
->> +       status = acpi_enable_gpe(NULL, lid->gpe_number);
+> Dmitry, for v1 of this series you suggested you could merge them all
+> through the input tree ? Andy, one of the drivers/platform/x86 maintainers
+> gave his Acked-by for this:
 > 
-> Did I miss anything or all calls of enable / disable GPE are using
-> NULL as a first parameter? What the point in such case?
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-As far as I can tell, some of the more generic uses have a non-NULL
-gpe_device parameter (acpi/device_pm.c, acpi/wakeup.c) and NULL just
-means index-0/main device? Not an expert on that though, so probably
-just ignore me here and let the ACPI guys answer this.
+I queued up the series, thank you.
 
-...
-
->> +MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurfacePro:*");
->> +MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurfacePro4:*");
-> 
-> Can simply
-> 
-> MODULE_ALIAS("dmi:*:svnMicrosoftCorporation:pnSurface*:*");
-> 
-> work?
-
-Depends on your preference, really. That would also auto-load the module
-on Surface Pro 3 and earlier devices (just won't do anything on those).
-So it's a trade-off between unnecessary loading of the module and
-maintainability/readability. Let me know what you prefer and I'll switch
-to that.
-
-Style and other issues are noted, I'll fix them for v2.
-
-Regards,
-Max
+-- 
+Dmitry
