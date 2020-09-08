@@ -2,119 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1026260EA3
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 11:26:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD92126146A
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 18:20:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728676AbgIHJ01 (ORCPT
+        id S1731886AbgIHQUw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Sep 2020 05:26:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728755AbgIHJ0Z (ORCPT
+        Tue, 8 Sep 2020 12:20:52 -0400
+Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:16156 "EHLO
+        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731134AbgIHQUd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Sep 2020 05:26:25 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDDCC061756
-        for <platform-driver-x86@vger.kernel.org>; Tue,  8 Sep 2020 02:26:24 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id c19so13911278wmd.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 08 Sep 2020 02:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=7fUecfB9LLaLKdzP7guVOAA/NuO83G9N3hrYCH3AmL8=;
-        b=wJYV9lcctSfmuShvtMnwiMIVuVUnaSV031DntX0fPG7kD7YYi7Qfx0Ilnmvxn+Tw25
-         0yXFXi/KnDTcytB5oXrQwmbhRANSi9ZHYQ4yA73UBM8JqWiO7gdDn8US5QiiH+3oT6Vo
-         kPnjYDMTPDh8b4bAjVNlacArbDfEGQiAkC8c6wOcN91nKyl3efu5sHrsVSsVB7nIZCm5
-         so67u6UcFoc9cR19KUwSNswZGeHf/a1Zs9syrBrIgIMzoWRBYOj8DgeNl8shAfXwgYrw
-         xeXE+agv6IvHaHR8GHjKeFYvPUpy4gyVAN7n2w9jqaUtiYdWjg+ns9/aw7TICaQv6nYy
-         u6cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7fUecfB9LLaLKdzP7guVOAA/NuO83G9N3hrYCH3AmL8=;
-        b=MYOA8EKrbDJwU0+Vc/krIo61gphRITZet1axRP9pYTB7AJjFJYYoTp7deRoGpSpPWi
-         EvunhmXgaUQ0AqfR+9FsroQDlAgqSIs48mApGLX9TB4g1dM+1i6E/GmWLLya3JUoNnmT
-         5cseZu4R3w2Ktu7mNHBuu51Y8ihES8nJW2uvtkTKlbhhV1q+DK81V2s7IJyMKZW7RXE5
-         hYn4PKrEw034Bwkk2EXjM3Cc+sTXmKDyAV0ipNAqAJhwI/JTcDopbMvU+HhY7Ady9UZl
-         ICGD2byN9ZzfqvxQZAWvcVlr4x5fUgYFmrpgEhwxIDj6pmm3GP8P1GVuhhliaPLS0YUN
-         anZg==
-X-Gm-Message-State: AOAM533uBK9rXRACcYCrjZJatBkowt8zH5MjALjI5DhCnLQpShZw57PI
-        08auSpbxL/RmsUdIqJp5v1zoEQ==
-X-Google-Smtp-Source: ABdhPJxI5VTNa1Xbty/QYz3FSrIm20cmWjYp2Nbc80tWhzIUSdGZ4zy0+uyd6xA+5ltRC7Q3J3XUXA==
-X-Received: by 2002:a1c:24c4:: with SMTP id k187mr3456257wmk.148.1599557183364;
-        Tue, 08 Sep 2020 02:26:23 -0700 (PDT)
-Received: from dell ([91.110.221.204])
-        by smtp.gmail.com with ESMTPSA id g8sm31966189wmd.12.2020.09.08.02.26.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 02:26:22 -0700 (PDT)
-Date:   Tue, 8 Sep 2020 10:26:20 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "David E. Box" <david.e.box@linux.intel.com>,
+        Tue, 8 Sep 2020 12:20:33 -0400
+Received: from pps.filterd (m0134425.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 088GG5mh022056;
+        Tue, 8 Sep 2020 16:20:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pps0720;
+ bh=tMzsGA8Qsfilm7iuAmNGJ37dDR1+5ZAtErbHf/+z2bI=;
+ b=kTOMUG7W1W0Af0WlSM5Pmh3zNT5sbdo7XdT/c1L3nW8eJyPY958dn+JwgnGdPE0vonbD
+ 6xpg76ZFZXqZlJ5SgXk63K7toFLoPYzE6+/kNao55uUkBSKb5VGEJcQ6Q8f/McPHCe9Z
+ Lkn0CYgLISahyfSGzjiL3XEOvWdJZW4GZRaTsFAAayH87hVmpn/X49uPCSvNxTXYfUrj
+ o8RArwgiITu5WjorijdGvkfv5wNRdhL2rSU3fgQ49eU7uZQEwW74yBbZ8sDRCCgfOpgp
+ veHXu6RMElKSoPsb9z9cbqPJBI2dwTmmDINvJtyXve/UYEpMxqvd2oAjo4Bu9KTAp6Lx Zw== 
+Received: from g4t3426.houston.hpe.com (g4t3426.houston.hpe.com [15.241.140.75])
+        by mx0b-002e3701.pphosted.com with ESMTP id 33c3yqss2t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 16:20:19 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
+        by g4t3426.houston.hpe.com (Postfix) with ESMTP id D3E0A4F;
+        Tue,  8 Sep 2020 16:20:17 +0000 (UTC)
+Received: from [16.99.146.51] (unknown [16.99.146.51])
+        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 89AAD48;
+        Tue,  8 Sep 2020 16:20:14 +0000 (UTC)
+Subject: Re: [PATCH 04/12] x86/platform/uv: Update UV MMRs for UV5
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
         Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
-Subject: Re: [RESEND PATCH V5 0/3] Intel Platform Monitoring Technology
-Message-ID: <20200908092620.GL4400@dell>
-References: <20200819180255.11770-1-david.e.box@linux.intel.com>
- <20200828105655.GU1826686@dell>
- <CAHp75VcKrkxuAJvXnLGnHJTkVfac6N0RTH-3OEA5ksV2psWBew@mail.gmail.com>
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Jian Cai <caij2003@gmail.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20200907185430.363197758@hpe.com>
+ <20200907185430.782245884@hpe.com> <20200908152314.GD4114051@kroah.com>
+ <3e93b858-f74d-8e93-e444-fd85fc5856e4@hpe.com>
+ <20200908154430.GA4171853@kroah.com>
+From:   Mike Travis <mike.travis@hpe.com>
+Message-ID: <35d4ce27-7a93-c3d5-3c0d-99fff06229c2@hpe.com>
+Date:   Tue, 8 Sep 2020 09:20:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VcKrkxuAJvXnLGnHJTkVfac6N0RTH-3OEA5ksV2psWBew@mail.gmail.com>
+In-Reply-To: <20200908154430.GA4171853@kroah.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-08_08:2020-09-08,2020-09-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
+ mlxlogscore=999 clxscore=1015 mlxscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009080155
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 28 Aug 2020, Andy Shevchenko wrote:
 
-> On Fri, Aug 28, 2020 at 1:57 PM Lee Jones <lee.jones@linaro.org> wrote:
-> > On Wed, 19 Aug 2020, David E. Box wrote:
-> >
-> > [...]
-> >
-> > > David E. Box (3):
-> > >   PCI: Add defines for Designated Vendor-Specific Extended Capability
-> > >   mfd: Intel Platform Monitoring Technology support
-> > >   platform/x86: Intel PMT Telemetry capability driver
-> > >
-> > >  .../ABI/testing/sysfs-class-pmt_telemetry     |  46 ++
-> > >  MAINTAINERS                                   |   6 +
-> > >  drivers/mfd/Kconfig                           |  10 +
-> > >  drivers/mfd/Makefile                          |   1 +
-> > >  drivers/mfd/intel_pmt.c                       | 220 +++++++++
-> > >  drivers/platform/x86/Kconfig                  |  10 +
-> > >  drivers/platform/x86/Makefile                 |   1 +
-> > >  drivers/platform/x86/intel_pmt_telemetry.c    | 448 ++++++++++++++++++
-> > >  include/uapi/linux/pci_regs.h                 |   5 +
-> > >  9 files changed, 747 insertions(+)
-> > >  create mode 100644 Documentation/ABI/testing/sysfs-class-pmt_telemetry
-> > >  create mode 100644 drivers/mfd/intel_pmt.c
-> > >  create mode 100644 drivers/platform/x86/intel_pmt_telemetry.c
-> >
-> > What's the plan for this set?
-> >
-> > I'm happy to pick it up and take it through MFD if required.
+
+On 9/8/2020 8:44 AM, Greg KH wrote:
+> On Tue, Sep 08, 2020 at 08:35:37AM -0700, Mike Travis wrote:
+>>
+>>
+>> On 9/8/2020 8:23 AM, Greg KH wrote:
+>>> On Mon, Sep 07, 2020 at 01:54:34PM -0500, Mike Travis wrote:
+>>>> --- linux.orig/drivers/misc/sgi-gru/grufile.c
+>>>> +++ linux/drivers/misc/sgi-gru/grufile.c
+>>>> @@ -7,7 +7,8 @@
+>>>>     * This file supports the user system call for file open, close, mmap, etc.
+>>>>     * This also incudes the driver initialization code.
+>>>>     *
+>>>> - *  Copyright (c) 2008-2014 Silicon Graphics, Inc.  All Rights Reserved.
+>>>> + * Copyright (c) 2018-2020 Hewlett Packard Enterprise Development LP
+>>>> + * Copyright (c) 2008-2017 Silicon Graphics, Inc.  All Rights Reserved.
+>>>
+>>> Please drop all copyright changes from this series, as these do not look
+>>> correct at all, sorry.
+>>>
+>>> You can send an add-on patch for all of that if it's really necessary,
+>>> and you get legal approval for it :)
+>>
+>> I can move them all to a single patch.  The HPE one is straight from their
+>> guidance on Copyrights.  The older SGI one is also from SGI's guidance
+>> though I'm not sure if I can find it anymore.  I also wasn't sure if it
+>> should be retained since the HPE one didn't take effect until SGI was
+>> legally part of HPE (circa 2018).  2017/18 was also the last time we did
+>> this big a change (for the UV4A).
 > 
-> I guess that was already agreed like this and you were in Cc list of
-> that discussion.
+> If you haven't touched a file in a year, you don't get to claim
+> copyright on that year.  If you wish to disagree on this, great, I'll
+> gladly take a patch that modifies the lines that has a signed-off-by
+> from one of your lawyers for it :)
 
-I have many submissions on the go at the moment.
+I skipped over that part.  But I'm moving all changes to a single patch 
+and I will look more closely at HPE's documents.  Heaven knows they have 
+plenty of lawyers, so many it's hard to ask a simple question... like 
+when does a copyright take effect.  When you change it internally, or 
+when it gets published?  Sounds like you lean towards the second?
 
-Keeping full status for each of them in my head would be impossible.
+Thanks,
+Mike
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> 
+> thanks,
+> 
+> greg k-h
+> 
