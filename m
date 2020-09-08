@@ -2,47 +2,38 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EB7526147F
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 18:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1F3B2614AB
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 18:32:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731933AbgIHQYN (ORCPT
+        id S1731752AbgIHQca (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Sep 2020 12:24:13 -0400
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:9328 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731400AbgIHQX6 (ORCPT
+        Tue, 8 Sep 2020 12:32:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34678 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732031AbgIHQcQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Sep 2020 12:23:58 -0400
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 088GHDht029520;
-        Tue, 8 Sep 2020 16:23:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pps0720;
- bh=zVoU7ZsW2BmeyEMF9O139z2LNkJfxiCWxikqKicR6wA=;
- b=b2C//Off5OJSLlbWx61JTGg4U0gQ+0NyNJr9n8jOinl01JCQZg5XbTo0EkIQSQIyPsCf
- AVNXmay4P5hOX4FeS+8m4tlfdxG/5+nP96iKYTOkLn/ai4uejlMsX94/RyD+eeMkfWlJ
- xd4g3ivcZaLpKZPpNUzhdC1HtBFYsqvEqFNKFDpfWuwiBGCxbHuTP2nd7ppNPJ3nKIhm
- ZMecYpcxS9qrt52UPKavJ44T+aEb3t3dOJ0CxVhj0j7gCtyU97zktGDHb1AK9VgjL1n+
- BLDLuUBGm6nq0ja+au/LPgv387v25VRZaO67ktGz4/pAQTkjgV4LT8hjnnYqmxZHQvp3 pw== 
-Received: from g4t3425.houston.hpe.com (g4t3425.houston.hpe.com [15.241.140.78])
-        by mx0b-002e3701.pphosted.com with ESMTP id 33c1nntahy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Sep 2020 16:23:46 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
-        by g4t3425.houston.hpe.com (Postfix) with ESMTP id BFFC69D;
-        Tue,  8 Sep 2020 16:23:45 +0000 (UTC)
-Received: from [16.99.146.51] (unknown [16.99.146.51])
-        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id 576054F;
-        Tue,  8 Sep 2020 16:23:43 +0000 (UTC)
-Subject: Re: [PATCH 00/12] x86/platform/uv: Updates for UV5
-To:     peterz@infradead.org
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Tue, 8 Sep 2020 12:32:16 -0400
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA597206DB;
+        Tue,  8 Sep 2020 16:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599582733;
+        bh=Kpj2oGs3oTNKIeLuZX3DLWaFOXvp+PS3iXMHVDL5oCI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Fhqz/EASt4/Hy/v6q6/hMpIECz0p9PaKHTrr/60CIbY9ruzS7EnRx/epzmpzJIP63
+         CSu8n/bGCI1sECr4fTbibUE+U3OW8bbFqztVeSgTpBc66xoxhofDU2u77oW7SSkBuz
+         iYWc1bh1nE044je8e10+i+ucnQiHnoCyaUaLMy4E=
+Date:   Tue, 8 Sep 2020 18:32:25 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mike Travis <mike.travis@hpe.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Dimitri Sivanich <dimitri.sivanich@hpe.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -53,51 +44,70 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jian Cai <caij2003@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 04/12] x86/platform/uv: Update UV MMRs for UV5
+Message-ID: <20200908163225.GD10640@kroah.com>
 References: <20200907185430.363197758@hpe.com>
- <20200908152014.GB4114051@kroah.com>
- <03de6a71-5fc1-98f5-3886-536c72b2761d@hpe.com>
- <20200908154700.GW1362448@hirez.programming.kicks-ass.net>
-From:   Mike Travis <mike.travis@hpe.com>
-Message-ID: <a29405b1-abfc-b7ef-23fb-b29b3dc07255@hpe.com>
-Date:   Tue, 8 Sep 2020 09:23:42 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+ <20200907185430.782245884@hpe.com>
+ <20200908152314.GD4114051@kroah.com>
+ <3e93b858-f74d-8e93-e444-fd85fc5856e4@hpe.com>
+ <20200908154430.GA4171853@kroah.com>
+ <35d4ce27-7a93-c3d5-3c0d-99fff06229c2@hpe.com>
 MIME-Version: 1.0
-In-Reply-To: <20200908154700.GW1362448@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-08_08:2020-09-08,2020-09-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- mlxlogscore=596 priorityscore=1501 phishscore=0 spamscore=0 bulkscore=0
- adultscore=0 malwarescore=0 suspectscore=1 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009080155
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35d4ce27-7a93-c3d5-3c0d-99fff06229c2@hpe.com>
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Tue, Sep 08, 2020 at 09:20:14AM -0700, Mike Travis wrote:
+> 
+> 
+> On 9/8/2020 8:44 AM, Greg KH wrote:
+> > On Tue, Sep 08, 2020 at 08:35:37AM -0700, Mike Travis wrote:
+> > > 
+> > > 
+> > > On 9/8/2020 8:23 AM, Greg KH wrote:
+> > > > On Mon, Sep 07, 2020 at 01:54:34PM -0500, Mike Travis wrote:
+> > > > > --- linux.orig/drivers/misc/sgi-gru/grufile.c
+> > > > > +++ linux/drivers/misc/sgi-gru/grufile.c
+> > > > > @@ -7,7 +7,8 @@
+> > > > >     * This file supports the user system call for file open, close, mmap, etc.
+> > > > >     * This also incudes the driver initialization code.
+> > > > >     *
+> > > > > - *  Copyright (c) 2008-2014 Silicon Graphics, Inc.  All Rights Reserved.
+> > > > > + * Copyright (c) 2018-2020 Hewlett Packard Enterprise Development LP
+> > > > > + * Copyright (c) 2008-2017 Silicon Graphics, Inc.  All Rights Reserved.
+> > > > 
+> > > > Please drop all copyright changes from this series, as these do not look
+> > > > correct at all, sorry.
+> > > > 
+> > > > You can send an add-on patch for all of that if it's really necessary,
+> > > > and you get legal approval for it :)
+> > > 
+> > > I can move them all to a single patch.  The HPE one is straight from their
+> > > guidance on Copyrights.  The older SGI one is also from SGI's guidance
+> > > though I'm not sure if I can find it anymore.  I also wasn't sure if it
+> > > should be retained since the HPE one didn't take effect until SGI was
+> > > legally part of HPE (circa 2018).  2017/18 was also the last time we did
+> > > this big a change (for the UV4A).
+> > 
+> > If you haven't touched a file in a year, you don't get to claim
+> > copyright on that year.  If you wish to disagree on this, great, I'll
+> > gladly take a patch that modifies the lines that has a signed-off-by
+> > from one of your lawyers for it :)
+> 
+> I skipped over that part.  But I'm moving all changes to a single patch and
+> I will look more closely at HPE's documents.  Heaven knows they have plenty
+> of lawyers, so many it's hard to ask a simple question... like when does a
+> copyright take effect.  When you change it internally, or when it gets
+> published?  Sounds like you lean towards the second?
 
+There are established rules for this type of thing, I'm not going to
+tell you what HP's rules are, but this patch really looks wrong from
+what I understand about what the rules are...
 
-On 9/8/2020 8:47 AM, peterz@infradead.org wrote:
-> On Tue, Sep 08, 2020 at 08:28:16AM -0700, Mike Travis wrote:
->> I didn't.  If I could figure out how to convert quilt patches into git
->> commits I might be able to do that?  (And I didn't know that diffstats were
->> needed on the into?)
-> 
-> $ git quiltimport
-> 
-> Or, for the more enterprising person:
-> 
-> $ quilt series | while read file; do git am $file; done
-> 
-> Generating a diffstat from a quilt series (when applied):
-> 
-> $ quilt diff --combine - | diffstat
-> 
+thanks,
 
-Cool, thanks.  I am doing this for the V2 version of the patches.  Most 
-will get touched anyways because of the Copyright thing.
+greg k-h
