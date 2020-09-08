@@ -2,39 +2,39 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2062D261C2D
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 21:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AE8F261C1C
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  8 Sep 2020 21:14:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730976AbgIHTPu (ORCPT
+        id S1731190AbgIHTOk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 8 Sep 2020 15:15:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58874 "EHLO
+        Tue, 8 Sep 2020 15:14:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42458 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731180AbgIHQEp (ORCPT
+        by vger.kernel.org with ESMTP id S1730945AbgIHQEv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 8 Sep 2020 12:04:45 -0400
+        Tue, 8 Sep 2020 12:04:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599581084;
+        s=mimecast20190719; t=1599581086;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=gCe3x3xeIPJ+YtSzXJCB5qKhA+maNGJtGJqwK8qcIV0=;
-        b=L2X5f9mJArVRqDwUzDdenpoqq4CG9U0mLUIlfT0HZsbu1apBvr2xsuDGMatJAcA0PTY8MZ
-        uGrX4+ewIWksLs4e4dWjaJjjodaGmk+wQH/EPlB/MJKj1SxNhDduzHX7up2ZisusNnskx3
-        UCq4ePvAtatoKKvwya2xdYukAlSSP4Y=
+        bh=1rC655iJP/0msIRrgIzespKhWDIIyrJTtWvObqbgi+Q=;
+        b=ILFU4OnP3fFiCvHbs3L2/LGcjY6kkGQ73TyHAGxD6B02QldDvLfHaHNL3QGJUT11Pe8A/f
+        JkUo/dcNx+p06/jlcbOpoqk418taLmKLcf6a+/Sr5LAPHe13rixII/9vzITJnOmsDIxhSD
+        LzpyNnC++Z74qMOielS94QCIczWh0Mw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-orjpzNd4MWaz31XM1_0aTQ-1; Tue, 08 Sep 2020 09:51:57 -0400
-X-MC-Unique: orjpzNd4MWaz31XM1_0aTQ-1
+ us-mta-46-xDM-QLQzO7e3X-q4nx8w9g-1; Tue, 08 Sep 2020 09:51:58 -0400
+X-MC-Unique: xDM-QLQzO7e3X-q4nx8w9g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BC9E802B75;
-        Tue,  8 Sep 2020 13:51:54 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CA601007474;
+        Tue,  8 Sep 2020 13:51:57 +0000 (UTC)
 Received: from x1.localdomain (ovpn-114-188.ams2.redhat.com [10.36.114.188])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EF5C827CC2;
-        Tue,  8 Sep 2020 13:51:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C665B27CC5;
+        Tue,  8 Sep 2020 13:51:54 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Darren Hart <dvhart@infradead.org>,
@@ -43,11 +43,10 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
         Mark Pearson <mpearson@lenovo.com>,
         ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: [PATCH v2 1/4] Input: allocate keycodes for notification-center, pickup-phone and hangup-phone
-Date:   Tue,  8 Sep 2020 15:51:44 +0200
-Message-Id: <20200908135147.4044-2-hdegoede@redhat.com>
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 2/4] Input: allocate keycode for Fn + right shift
+Date:   Tue,  8 Sep 2020 15:51:45 +0200
+Message-Id: <20200908135147.4044-3-hdegoede@redhat.com>
 In-Reply-To: <20200908135147.4044-1-hdegoede@redhat.com>
 References: <20200908135147.4044-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -58,44 +57,34 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-New Lenovo Thinkpad models, e.g. the X1 Carbon 8th gen and the new T14 gen1
-models have 3 new symbols / shortcuts on their F9-F11 keys (and the
-thinkpad_acpi driver receives 3 new "scancodes" for these):
+The last 2 generations of Lenovo Thinkpads send an acpi_thinkpad event when
+Fn + right shift is pressed.  This is intended for use with "Lenovo Quick
+Clean" software, which disables the touchpad + kbd for 2 minutes on this
+key-combo so that healthcare workes can disinfect it.
 
-F9:  Has a symbol resembling a rectangular speech balloon, the manual says
-     the hotkey functions shows or hides the notification center
-F10: Has a symbol of a telephone horn which has been picked up from the
-     receiver, the manual says: "Answer incoming calls"
-F11: Has a symbol of a telephone horn which is resting on the receiver,
-     the manual says: "Decline incoming calls"
+But there is no silkscreen print on the right-keyboard to indicate this,
+so add a KEY_FN_RIGHT_SHIFT keycode define to use for this key-combo.
 
-We have no existing keycodes which are a good match for these, so
-add 3 new keycodes for these.
-
-I noticed that we have a hole in our keycodes between 0x1ba and 0x1c0
-which does not seem to be reserved for any specific purpose, so these
-new 3 codes use 0x1bc - 0x1be, instead of starting at 0x27b.
-
-Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- include/uapi/linux/input-event-codes.h | 3 +++
- 1 file changed, 3 insertions(+)
+Changes in v2:
+- New patch in v2 of this patch-set
+---
+ include/uapi/linux/input-event-codes.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 0c2e27d28e0a..b74821d09145 100644
+index b74821d09145..ee93428ced9a 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
-@@ -515,6 +515,9 @@
- #define KEY_10CHANNELSUP	0x1b8	/* 10 channels up (10+) */
- #define KEY_10CHANNELSDOWN	0x1b9	/* 10 channels down (10-) */
- #define KEY_IMAGES		0x1ba	/* AL Image Browser */
-+#define KEY_NOTIFICATION_CENTER	0x1bc	/* Show/hide the notification center */
-+#define KEY_PICKUP_PHONE	0x1bd	/* Answer incoming call */
-+#define KEY_HANGUP_PHONE	0x1be	/* Decline incoming call */
+@@ -545,6 +545,7 @@
+ #define KEY_FN_F		0x1e2
+ #define KEY_FN_S		0x1e3
+ #define KEY_FN_B		0x1e4
++#define KEY_FN_RIGHT_SHIFT	0x1e5
  
- #define KEY_DEL_EOL		0x1c0
- #define KEY_DEL_EOS		0x1c1
+ #define KEY_BRL_DOT1		0x1f1
+ #define KEY_BRL_DOT2		0x1f2
 -- 
 2.28.0
 
