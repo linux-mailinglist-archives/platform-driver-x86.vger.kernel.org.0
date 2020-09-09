@@ -2,64 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0372630AC
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Sep 2020 17:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80DD526345F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Sep 2020 19:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730386AbgIIPhb (ORCPT
+        id S1728347AbgIIRTu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 9 Sep 2020 11:37:31 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:38705 "EHLO
+        Wed, 9 Sep 2020 13:19:50 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:60795 "EHLO
         out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730374AbgIIPgo (ORCPT
+        by vger.kernel.org with ESMTP id S1729741AbgIIP1X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 9 Sep 2020 11:36:44 -0400
+        Wed, 9 Sep 2020 11:27:23 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id AE9DA5C01AE;
-        Wed,  9 Sep 2020 10:59:03 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id 74F075C0145;
+        Wed,  9 Sep 2020 11:01:57 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
-  by compute4.internal (MEProxy); Wed, 09 Sep 2020 10:59:03 -0400
+  by compute4.internal (MEProxy); Wed, 09 Sep 2020 11:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=C7NkQjJDBqpCq2eQ9vtKO6ihDWwbvUNnkQSP25C9S
-        yU=; b=F/N3ySDJgEt9BQU1bxLDxoP2fwdX1xjLynbLIK0jrm8/iHN/WX0ufYFS1
-        Vgae7nkE5N5QdDj1IR0uevVbD5J+/buqUpzs2AGpk4PeRghZUQCpFjuLAj9kUFl4
-        /A9MQMYeKVf/14hUnucSt9Pqq6QNTZhuJK4/Qw8BYHo96L2WMXrEXbmDMa2Im7jV
-        4QGn9KZR7HlTvnnJ9NPDGq9hfSL5+8dPUQb1iQ3nNDQ7otWGrgLFHg645LuhPJGN
-        c1nDUJ8TrBNa1Q5yyxGJm9J/iiU9p3c1B34emLTjNAn5ectcOsEHeSjs8sT3BThK
-        DORXf/OFzKwqgkknJigIjOQfJ23VA==
-X-ME-Sender: <xms:t-1YX6sy_bZsGBJYB1w7s0Vp0HTSc4dtpWzxmRtSntyU4HZIijMcjQ>
-    <xme:t-1YX_dQ7qwlVRopu3OEAkya1xXG_xHcAZ3Asi_nawWzfQyI-h-OA4Rt_wAYWkEZJ
-    gvUwRMli0z0eIHXwQ>
+        :x-sasl-enc; s=fm3; bh=8/Lfdi273m/EOA2MGnU07ACJh1UHUJ88KANNuv+D/
+        p0=; b=SKvkneplwFNy+xfoHTNbj3WLGlTSSAHEeQSPwpbezYymeaoNpt6eeaJrb
+        wO2YhEjwDFj0zZLyBkk7sMAlulyZFyi+MitvCqvRtIh8hyRnbcWVe9vMuVZpzps5
+        +wY+8v5hI+3mgdPrFbQGoFaFkc90kxZPTaVoItiN3txmpqpgvo46yDBW+9kXi1SQ
+        8KcZO+2mWVZ8sC1nXnYphvpVSF9wTydoiotK37/U81QIENZjH9QSixvCjUrUBr8x
+        Z/z3rFhLLSUD7+FdLxlRgm6uY3WjmpMCQQDpE3Yedlb1QNEUqF0qlus2leJMJHLD
+        z6yNrItE1x9FFCx59xJILk68aNLmQ==
+X-ME-Sender: <xms:Y-5YX3LwNQw_g50XmdPLs5IAfmNu9mkq-lSfdMQp40mMrOe_mse3bA>
+    <xme:Y-5YX7LoC3ZM3Grn4rwnt9TQMI8Zkij_X13-pB_F12Nkhl0XxPn804pca0Xbh6NZA
+    TglLcsZJLqHeU_8PQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehhedgjeelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
-    hqredtreerjeenucfhrhhomhepfdflvghrvghmhicuufholhhlvghrfdcuoehjvghrvghm
-    hiesshihshhtvghmjeeirdgtohhmqeenucggtffrrghtthgvrhhnpedthedvfffggedvie
-    euffelffekgeeltdetffelveeuudeljeeufeefhfekvefhgfenucevlhhushhtvghrufhi
-    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjvghrvghmhiesshihshhtvghmje
-    eirdgtohhm
-X-ME-Proxy: <xmx:t-1YX1y7Sov7eQieEDID869DMKHHsbjIZNZ9Nm9iO8lFSmzOZjgBjg>
-    <xmx:t-1YX1Pa2TjsvsQMsy0zjdR9w4LrCBFcHe4X9r1IN_iuyRO6o5IZ-g>
-    <xmx:t-1YX69LsGkj8sDdKwP1ujGssDHTza3apzZGRcMUZbMoU9h3kY-z7A>
-    <xmx:t-1YX_Fnmb9JXPn8YTlMq5sd2manQCMKkv2S5woQqpuP20-MLny40w>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfgv
+    rhgvmhihucfuohhllhgvrhdfuceojhgvrhgvmhihsehshihsthgvmhejiedrtghomheqne
+    cuggftrfgrthhtvghrnheptdehvdffgfegvdeiueffleffkeegledtteffleevueduleej
+    ueeffefhkeevhffgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhgvrhgvmhihsehshihsthgvmhejiedrtghomh
+X-ME-Proxy: <xmx:Y-5YX_tXms1dBOHBd7J5suT_tcGHDarosmZpKrmpzLF3z0kLd13NWA>
+    <xmx:Y-5YXwZkCkA5qFEo-1iBMFtxU3bl72jWOJAb42B5fHBPv1KgPIvQZQ>
+    <xmx:Y-5YX-a-FUDFkMWIdrgk33if7e3qljGdR-vHtK3sxmdLLC1OdZooVw>
+    <xmx:Ze5YXxyqq__pg73TbDexRqvoyC4ChdzLcNhDXPwYFJZFSUuy0RoWAw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3A1AFE00A9; Wed,  9 Sep 2020 10:59:03 -0400 (EDT)
+        id 99344E00A9; Wed,  9 Sep 2020 11:01:54 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.3.0-259-g88fbbfa-fm-20200903.003-g88fbbfa3
 Mime-Version: 1.0
-Message-Id: <e0de2828-c374-4fe4-b802-e755b001f60b@www.fastmail.com>
-In-Reply-To: <ExXpTGiXzjPu4heSLv0yKPDi0nqcealPWHV_kid9zBw--uILyb4WVmxNEcdTRW9rfXAaDi_-2b3yGRx5jLiyw4ssWkDY8wTfghjdABTDB6c=@protonmail.com>
+Message-Id: <d188cbc6-6fb0-494d-beba-a925a2b55ae8@www.fastmail.com>
+In-Reply-To: <348b0ff2-b1e2-4c9a-5ebe-cc467e8df81c@redhat.com>
 References: <aec7591c-80de-4f7b-b8f2-95da5ac1847e@www.fastmail.com>
- <ExXpTGiXzjPu4heSLv0yKPDi0nqcealPWHV_kid9zBw--uILyb4WVmxNEcdTRW9rfXAaDi_-2b3yGRx5jLiyw4ssWkDY8wTfghjdABTDB6c=@protonmail.com>
-Date:   Wed, 09 Sep 2020 08:58:41 -0600
+ <179d3595-dda8-4c50-84e3-5f447ef5e34b@www.fastmail.com>
+ <BAH8gRbpLk_cHH1yK9d7JrKitwVru-ZNmQ2D_wvEOr4SavRgSBRAsnLBlf1mq6r89xYcZhUk3bEAYNCeBq464tUO85CfK6A20rGWtwVHjVg=@protonmail.com>
+ <05e95ba0-3d39-1df6-62d4-901f8d43ed05@redhat.com>
+ <Eb7GE4vQo_kiCbFqDdX4Hxv_i8g5MQmW1zVjb47lgYCZy3g5J7AywqGCtDKtr1xWTaufDHI0uIUAHSbv8n_hTr6dr-vGv1rAbdEVMwzQJ4g=@protonmail.com>
+ <348b0ff2-b1e2-4c9a-5ebe-cc467e8df81c@redhat.com>
+Date:   Wed, 09 Sep 2020 09:01:25 -0600
 From:   "Jeremy Soller" <jeremy@system76.com>
-To:     =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+To:     "Hans de Goede" <hdegoede@redhat.com>,
+        =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Cc:     "platform-driver-x86@vger.kernel.org" 
         <platform-driver-x86@vger.kernel.org>,
         =?UTF-8?Q?Bj=C3=B6rn_Lindfors?= <productdev@system76.com>
-Subject: Re: [PATCH 1/2] platform/x86: system76_acpi: Add hwmon driver
+Subject: Re: [PATCH 2/2] platform/x86: system76_acpi: Add input driver
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Sender: platform-driver-x86-owner@vger.kernel.org
@@ -67,207 +72,131 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Thanks for the comments. I was off for a few days, but will work to addr=
-ess them today.
-
 > Hi,
 >=20
-> I have a couple minor comments.
+> On 9/7/20 5:49 PM, Barnab=C3=A1s P=C5=91cze wrote:
+> > Hi,
+> >=20
+> > thanks for the feedback.
+> >=20
+> >> [...]
+> >>>> +static void input_key(struct system76_data *data, unsigned int c=
+ode)
+> >>>> +{
+> >>>> +	input_report_key(data->input, code, 1);
+> >>>> +	input_sync(data->input);
+> >>>> +
+> >>>> +	input_report_key(data->input, code, 0);
+> >>>> +	input_sync(data->input);
+> >>>> +}
+> >>>> +
+> >>>>    // Handle ACPI notification
+> >>>>    static void system76_notify(struct acpi_device *acpi_dev, u32 =
+event)
+> >>>>    {
+> >>>> @@ -459,6 +470,9 @@ static void system76_notify(struct acpi_devic=
+e *acpi_dev, u32 event)
+> >>>>    	case 0x84:
+> >>>>    		kb_led_hotkey_color(data);
+> >>>>    		break;
+> >>>> +	case 0x85:
+> >>>> +		input_key(data, KEY_SCREENLOCK);
+> >>>> +		break;
+> >>>>    	}
+> >>>>    }
+> >>>>
+> >>>> @@ -524,6 +538,21 @@ static int system76_add(struct acpi_device *=
+acpi_dev)
+> >>>>    	if (IS_ERR(data->therm))
+> >>>>    		return PTR_ERR(data->therm);
+> >>>>
+> >>>> +	data->input =3D devm_input_allocate_device(&acpi_dev->dev);
+> >>>> +	if (!data->input)
+> >>>> +		return -ENOMEM;
+> >>>> +	data->input->name =3D "System76 ACPI Hotkeys";
+> >>>> +	data->input->phys =3D "system76_acpi/input0";
+> >>>> +	data->input->id.bustype =3D BUS_HOST;
+> >>>> +	data->input->dev.parent =3D &acpi_dev->dev;
+> >>>> +	set_bit(EV_KEY, data->input->evbit);
+> >>>> +	set_bit(KEY_SCREENLOCK, data->input->keybit);
+> >>>> +	err =3D input_register_device(data->input);
+> >>>> +	if (err) {
+> >>>> +		input_free_device(data->input);
+> >>>> +		return err;
+> >>>> +	}
+> >>>> +
+> >>>>    	return 0;
+> >>>>    }
+> >>>
+> >>> Hi,
+> >>>
+> >>> wouldn't sparse_keymap be a better choice here?
+> >>
+> >> Since none of the notify events are actually keys;
+> >=20
+> > I'm not sure I understand what you mean, could you please clarify?
 >=20
+> What I meant to say (but didn't) is:
 >=20
-> > [...]
-> > +// Get a System76 ACPI device value by name with index
+> "Since none of the notify events are _currently_ actually keys"
 >=20
-> Shouldn't the comments be the original C-style?
+> Currently, as in before this patch:
 >=20
+> static void system76_notify(struct acpi_device *acpi_dev, u32 event)
+> {
+>          struct system76_data *data;
 >=20
-> > +static int system76_get_index(struct system76_data *data, char *met=
-hod, int index)
-> > +{
-> > +	union acpi_object obj;
-> > +	struct acpi_object_list obj_list;
-> > +	acpi_handle handle;
-> > +	acpi_status status;
-> > +	unsigned long long ret =3D 0;
+>          data =3D acpi_driver_data(acpi_dev);
+>          switch (event) {
+>          case 0x80:
+>                  kb_led_hotkey_hardware(data);
+>                  break;
+>          case 0x81:
+>                  kb_led_hotkey_toggle(data);
+>                  break;
+>          case 0x82:
+>                  kb_led_hotkey_down(data);
+>                  break;
+>          case 0x83:
+>                  kb_led_hotkey_up(data);
+>                  break;
+>          case 0x84:
+>                  kb_led_hotkey_color(data);
+>                  break;
+>          }
+> }
 >=20
-> Minor thing, but isn't this initialization unnecessary?
-True, I will remove it
+> So we cannot just take the event code and feed it to the
+> sparse_keymap code since events 0x80-0x84 are not
+> key events (they are related to the LEDs on the kbd).
 >=20
+> >> and since there is only one keycode involved atm, that
+> >> seems like a bit of overkill to me.
+> >=20
+> > Indeed, it might be an overkill, but I'd still vote for that since
+> >   - it is an =CE=B5 effort investment to convert the current code, a=
+nd
+> >   - the number of keys is expected to grow (at least that's my assum=
+ption), and
+> >   - it avoids code duplication, the resulting code is simple and sho=
+rt.
 >=20
-> > +
-> > +	obj.type =3D ACPI_TYPE_INTEGER;
-> > +	obj.integer.value =3D index;
-> > +	obj_list.count =3D 1;
-> > +	obj_list.pointer =3D &obj;
-> > +	handle =3D acpi_device_handle(data->acpi_dev);
-> > +	status =3D acpi_evaluate_integer(handle, method, &obj_list, &ret);=
+> If Jeremy is ok with adding sparse_keymap support to the next version,=
+ that
+> is fine with me. But IMHO it is not really necessary for adding just t=
+his
+> single key.
+We don't really have a plan for any more keycodes. The intel-hid driver =
+does most of
+what we need, but for some reason omits the screenlock key. So we have a=
+dded it
+here.
 
-> > +	if (ACPI_SUCCESS(status))
-> > +		return (int)ret;
-> > +	else
-> > +		return -1;
+If there is a keycode we want to add, I would not mind looking into any =
+alternative,
+provided it is less code to maintain.
+> Regards,
 >=20
-> I'd personally return -EIO or something similar here. And possibly use=
-
-> acpi_handle_err() + acpi_format_exception().
-Yes, I will return a better error value
+> Hans
 >=20
->=20
-> > +}
-> > +
-> > +// Get a System76 ACPI device object by name
-> > +static int system76_get_object(struct system76_data *data, char *me=
-thod, union acpi_object **obj)
-> > +{
-> > +	acpi_handle handle;
-> > +	acpi_status status;
-> > +	struct acpi_buffer buf =3D { ACPI_ALLOCATE_BUFFER, NULL };
-> > +
-> > +	handle =3D acpi_device_handle(data->acpi_dev);
-> > +	status =3D acpi_evaluate_object(handle, method, NULL, &buf);
-> > +	if (ACPI_SUCCESS(status)) {
-> > +		*obj =3D (union acpi_object *)buf.pointer;
->=20
-> Casting from 'void*' is redundant.
-I will remove the cast
->=20
->=20
-> > +		return 0;
-> > +	} else {
-> > +		return -1;
->=20
-> Same here: I'd return -EIO or something similar.
-I will return a better error here
->=20
->=20
-> > +	}
-> > +}
-> > +
-> > [...]
-> > +
-> > +static int thermal_read(
-> > +	struct device *dev,
-> > +	enum hwmon_sensor_types type,
-> > +	u32 attr,
-> > +	int channel,
-> > +	long *val)
-> > +{
-> > +	struct system76_data *data =3D dev_get_drvdata(dev);
-> > +	int raw;
-> > +
-> > +	if (type =3D=3D hwmon_fan && attr =3D=3D hwmon_fan_input) {
-> > +		raw =3D system76_get_index(data, "GFAN", channel);
-> > +		if (raw >=3D 0) {
-> > +			*val =3D (long)((raw >> 8) & 0xFFFF);
-> > +			return 0;
-> > +		}
-> > +	} else if (type =3D=3D hwmon_pwm && attr =3D=3D hwmon_pwm_input) {=
-
-> > +		raw =3D system76_get_index(data, "GFAN", channel);
-> > +		if (raw >=3D 0) {
-> > +			*val =3D (long)(raw & 0xFF);
-> > +			return 0;
-> > +		}
-> > +	} else if (type =3D=3D hwmon_temp && attr =3D=3D hwmon_temp_input)=
- {
-> > +		raw =3D system76_get_index(data, "GTMP", channel);
-> > +		if (raw >=3D 0) {
-> > +			*val =3D (long)(raw * 1000);
-> > +			return 0;
-> > +		}
-> > +	}
-> > +	return -EINVAL;
->=20
-> It's a minor thing, but this function returns EINVAL even if the ACPI=20=
-
-> call failed.
-I will return the error from the system76_get_index call in those cases
->=20
->=20
-> > +}
-> > +
-> > [...]
-> > +
-> > +// Allocate up to 8 fans and temperatures
-> > +static const struct hwmon_channel_info *thermal_channel_info[] =3D =
-{
-> > +	HWMON_CHANNEL_INFO(fan,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL,
-> > +		HWMON_F_INPUT | HWMON_F_LABEL),
-> > +	HWMON_CHANNEL_INFO(pwm,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT,
-> > +			HWMON_PWM_INPUT),
-> > +	HWMON_CHANNEL_INFO(temp,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL,
-> > +			HWMON_T_INPUT | HWMON_T_LABEL),
->=20
-> Any reason why the last two channels are indented +1 tabs?
-No reason, I will fix the indentation
->=20
->=20
-> > +	NULL
-> > +};
-> > +
-> > +static const struct hwmon_chip_info thermal_chip_info =3D {
-> > +	.ops =3D &thermal_ops,
-> > +	.info =3D thermal_channel_info,
-> > +};
-> > +
-> >  // Handle ACPI notification
-> >  static void system76_notify(struct acpi_device *acpi_dev, u32 event=
-)
-> >  {
-> > @@ -346,6 +513,17 @@ static int system76_add(struct acpi_device *acp=
-i_dev)
-> >  			return err;
-> >  	}
-> >
-> > +	system76_get_object(data, "NFAN", &data->nfan);
-> > +	system76_get_object(data, "NTMP", &data->ntmp);
->=20
-> Shouldn't the return values be checked? (At least using WARN_ON[_ONCE]=
-?)
-On these calls, the firmware may or may not have NFAN or NTMP. Not havin=
-g them
-indicates there is no firmware API for reading fan and temperature value=
-s, which is
-not an error. So, we ignore errors from these calls, and allow nfan and =
-ntmp to be
-set to NULL in the case there is an error.
->=20
->=20
-> > +	data->therm =3D devm_hwmon_device_register_with_info(
-> > +		&acpi_dev->dev,
-> > +		"system76_acpi",
-> > +		data,
-> > +		&thermal_chip_info,
-> > +		NULL);
-> > +	if (IS_ERR(data->therm))
-> > +		return PTR_ERR(data->therm);
-> > +
-> >  	return 0;
-> >  }
-> > [...]
->=20
->=20
->=20
-> Barnab=C3=A1s P=C5=91cze
 >
