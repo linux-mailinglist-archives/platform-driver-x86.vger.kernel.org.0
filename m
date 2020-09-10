@@ -2,87 +2,211 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B3E1265295
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Sep 2020 23:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E593326551B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 00:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgIJVVA (ORCPT
+        id S1725308AbgIJWbg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Sep 2020 17:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
+        Thu, 10 Sep 2020 18:31:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728066AbgIJVUu (ORCPT
+        with ESMTP id S1725300AbgIJWbe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Sep 2020 17:20:50 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29AB3C061573;
-        Thu, 10 Sep 2020 14:20:50 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id a12so7797990eds.13;
-        Thu, 10 Sep 2020 14:20:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zPVHbCJybvi4hZBOOfe3/sEPx6neciP5fKuOCH2ikQ4=;
-        b=Uf14ka4hEk5zwFTsEoRRZliwotxjy/CFMjKdL4NnyayRTwKcWhKgy7ulCZYABm0rHa
-         epcWCvOtu5ZM+yHTxEZAtAid/5aVvEhKbu9EN/dgGIOCeMu/5yjF1txmTjT40Xku2D/8
-         WlDC3sn0FcY9Ql5u37cgX3JmmXAwf1DQsC1+ZTZBKgHzQC+4jjNQ8pYRq06O11m8Or8b
-         pFogetF7TRJQfBcpkTpGjGrtnuxMEn91G7iVPfUpDB6dVz9zmXwVGlftiZpifyVNFGom
-         I7QDCl+hIVOjVBXtKVloKcxDJgNHO2Bhh4akW+lJ9yGHU/7fjlcepQKcmRB/jNjPzfw0
-         VyOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zPVHbCJybvi4hZBOOfe3/sEPx6neciP5fKuOCH2ikQ4=;
-        b=QUHKxgQ6O6TYcFKGkUjofqUtM1yHbs5uq0evnHi2XVIi6BUGDq9WkBwV215i/c3uLK
-         M6UInZt3wSr12qlOhLnlL6So3W5inUujP3xB4Sx8+8bjXdfGtaoTlzrJL2j6pu3eOv71
-         93jx6l8YWFf3yI8cvkHqlGZgXavEULpIkK/XGQRDcS7mkdKT8nUBmFqRuLRQJ8KiEuiR
-         J0wLAp0ICXcB0YF80llq69Qo/rV7YQaOhIiwSd10J+aM4OFqkJ+5se+VRCGgTToviORo
-         kxLUDKQF0RAngL8/tjTkmhHPXNsj63EmR7KXK35eO/u+kpGBbyzPWRAS0UhZFdjGaSg2
-         OfxA==
-X-Gm-Message-State: AOAM533D+QsHrNSe4cmbuBv6baFnzHaTiCYgTq4y1bvNCSGMzxLUUh9o
-        pYNKgXoH7ku3MAuMU+LOugbL5TDh6SA=
-X-Google-Smtp-Source: ABdhPJzLFpP3bAeWPQ4tPlEgmqH6BdhhBz2cc8f7T8+ZynM8xV2O10o3qgfbmw9EgxtgLefS0InROw==
-X-Received: by 2002:a50:a694:: with SMTP id e20mr11397676edc.114.1599772847401;
-        Thu, 10 Sep 2020 14:20:47 -0700 (PDT)
-Received: from [192.168.2.202] (pd9e5a079.dip0.t-ipconnect.de. [217.229.160.121])
-        by smtp.gmail.com with ESMTPSA id y14sm65322eje.10.2020.09.10.14.20.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2020 14:20:46 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: Add Driver to set up lid GPEs on MS Surface
- device
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200908171934.1661509-1-luzmaximilian@gmail.com>
- <CAHp75VevrwKaba_FsZj-nPqJGR9fkmFPzvdCew0wCqF_L6QLbA@mail.gmail.com>
- <d1d3b1bb-1d7b-ae8d-fbe4-23f995df47fb@gmail.com>
-Message-ID: <536e5617-c143-0e8a-d629-90c058a71c5f@gmail.com>
-Date:   Thu, 10 Sep 2020 23:20:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Thu, 10 Sep 2020 18:31:34 -0400
+Received: from mail.sammserver.com (sammserver.com [IPv6:2001:470:5a5b:1::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F38C061573;
+        Thu, 10 Sep 2020 15:31:33 -0700 (PDT)
+Received: by mail.sammserver.com (Postfix, from userid 5011)
+        id 6999C10301A5; Fri, 11 Sep 2020 00:31:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+        t=1599777090; bh=mi+BeHMXG5WEOu1gJhnZU78E72welfdyaQTB7APYDag=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f9Zjpi4+2Wx4rxodNEWGjydP/e1D8T0Li2gEkFdp3MZ91nAOwxX5HblsaqIDxvd+R
+         bXDbd90WiTcALhIgxAPrxtvj7denbs3hAlA8MQrR8j3Sz4xaEWi7vjycewfjXxEU9z
+         luAqBD4pTzPB7jl3UnWLyeUydtBUqVo8XrjrBxnE=
+Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
+        by mail.sammserver.com (Postfix) with ESMTP id DD1BB10301A2;
+        Fri, 11 Sep 2020 00:31:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+        t=1599777090; bh=mi+BeHMXG5WEOu1gJhnZU78E72welfdyaQTB7APYDag=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=f9Zjpi4+2Wx4rxodNEWGjydP/e1D8T0Li2gEkFdp3MZ91nAOwxX5HblsaqIDxvd+R
+         bXDbd90WiTcALhIgxAPrxtvj7denbs3hAlA8MQrR8j3Sz4xaEWi7vjycewfjXxEU9z
+         luAqBD4pTzPB7jl3UnWLyeUydtBUqVo8XrjrBxnE=
+Received: by fastboi.localdomain (Postfix, from userid 1000)
+        id C56D1142049F; Fri, 11 Sep 2020 00:31:29 +0200 (CEST)
+Date:   Fri, 11 Sep 2020 00:31:29 +0200
+From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: platform/x86: asus-wmi: SW_TABLET_MODE is always 1 on some
+ devices
+Message-ID: <20200910223129.epmeyvodj6agnzav@fastboi.localdomain>
+References: <20200901215536.qcouepovmfxje4n5@fastboi.localdomain>
+ <0f7302c9-b508-a078-8c62-5ad5a03d92c2@redhat.com>
+ <20200902125220.25x52dl2vupejg5f@fastboi.localdomain>
+ <20200904094546.jes44d2kn5mtn2zu@fastboi.localdomain>
+ <320c0b71-af94-c673-21c8-c32a0fdb4d4e@redhat.com>
+ <20200904171743.ejew22p3zzada55p@fastboi.localdomain>
+ <a21a6fbf-f38b-3531-07f4-74edd0e42eb6@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d1d3b1bb-1d7b-ae8d-fbe4-23f995df47fb@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a21a6fbf-f38b-3531-07f4-74edd0e42eb6@redhat.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
+        version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hello!
 
-I've just sent v2.
+On 10.09.2020 19:44, Hans de Goede wrote:
+> Hi,
+> 
+> On 9/4/20 7:17 PM, Samuel Čavoj wrote:
+> > Hi,
+> > 
+> > On 04.09.2020 12:06, Hans de Goede wrote:
+> > > Hi,
+> > > 
+> > > On 9/4/20 11:45 AM, Samuel Čavoj wrote:
+> > > > Hello!
+> > > > 
+> > > > On 02.09.2020 14:52, Samuel Čavoj wrote:
+> > > > > Hello,
+> > > > > 
+> > > > > On 02.09.2020 13:52, Hans de Goede wrote:
+> > > > > > But I would rather try to figure out a better way. Can you
+> > > > > > create an acpidump, by as root running:
+> > > > > > 
+> > > > > > acpidump -o acpidump.asus-UX360CA
+> > > > > 
+> > > > > The file is attached gzipped.
+> > > > > 
+> > > > > > 
+> > > > > > And then send me a direct (so without including the list)
+> > > > > > email with the generated acpidump.asus-UX360CA file attached please?
+> > > > > > 
+> > > > > > Also, if necessary are you capable of building your own
+> > > > > > kernel with a (test)patch applied ?
+> > > > > 
+> > > > > Yes, that is no problem at all.
+> > > > > Thank you for your quick response.
+> > > > > 
+> > > > > Regards,
+> > > > > Samuel
+> > > > 
+> > > > I don't mean to waste your time, it's just that my trust in mail systems
+> > > > has been steadily decreasing. I would just like to make sure you have
+> > > > received my previous email with the acpidump.
+> > > > 
+> > > > In case not, here[1] it is available over https, if the message got
+> > > > dropped because of the attachment.
+> > > 
+> > > I got your mail, but I've been burried under a ton of work,
+> > > so it may take a couple of days at least before I can take
+> > > a closer look at this.
+> > 
+> > That's quite alright.
+> > 
+> > I decided I would try and see if I can be of any use, so I looked around
+> > in the WMI implementation in the DSDT and found the following in the
+> > DSTS method:
+> > 
+> > [...]
+> > 37486     If ((IIA0 == 0x00120063))
+> > 37487     {
+> > 37488         Local0 = ^^PCI0.LPCB.EC0.DKPS ()
+> > 37489         If ((Local0 == One))
+> > 37490         {
+> > 37491             Return (0x00010001)
+> > 37492         }
+> > 37493         Else
+> > 37494         {
+> > 37495             Return (0x00010000)
+> > 37496         }
+> > 37497     }
+> > [...]
+> > 
+> > This is the If statement responsible for the ASUS_WMI_DEVID_KBD_DOCK
+> > device, and it always seems to return 0x00010000 on my machine. I
+> > followed it up the call chain but in the end it just read some bit from
+> > some register of the EC.
+> > 
+> > Then I noticed the If statement right above it, which corresponds to
+> > dev_id 0x00060062:
+> > 
+> > [...]
+> > 37472     If ((IIA0 == 0x00060062))
+> > 37473     {
+> > 37474         If (^^PCI0.LPCB.EC0.RPIN (0x15))
+> > 37475         {
+> > 37476             Local0 = 0x00010001
+> > 37477         }
+> > 37478         Else
+> > 37479         {
+> > 37480             Local0 = 0x00010000
+> > 37481         }
+> > 37482
+> > 37483         Return (Local0)
+> > 37484     }
+> > [...]
+> > 
+> > By a stroke of luck, it turns out it's the correct one! I patched the
+> > driver to query the state on every event and print it out, and it is
+> > exactly what we are looking for.
+> > 
+> > The state is 0 if the device is in normal, laptop state and changes to 1
+> > if flipped over 180 degrees. I patched the module so that the
+> > SW_TABLET_MODE switch was set according to it, and everything seems to
+> > be behaving as it should.
+> 
+> Good work on figuring this out!
 
-Thank you for your comments,
-Max
+I'm glad to have learned something new. ACPI was mostly a magic black
+box for me up to now.
+
+> 
+> > This is, of course, not a full solution, as we
+> > still somehow need to decide whether to use the KDB_DOCK device or this
+> > one. I don't know what to do about that. Ideally find some flag in the
+> > ACPI which says which one we should use?
+> > 
+> > The event code which is fired when the lid switch state changes, as we
+> > already know from the sparse keymap[1], is 0xfa. When the laptop is
+> > suspended in laptop mode, flipped to tablet mode in its sleep and
+> > awoken, the event is fired. It is, however, not fired when doing it the
+> > other way around, so we should probably check the state on resume as
+> > well.
+> 
+> Ok, I've written a patch to try and use the 0x00060062 WMI object/devid
+> first and only if that is not there use the 0x00120063 one which the
+> Bay Trail and Cherry Trail devices use.
+
+Yeah, that's the solution I had in mind as well and should hopefully be
+fine. Until ASUS ships a device with yet another weird firmware quirk,
+anyway.
+
+> 
+> I've attached the patch, please give it a try.
+
+I've tested the patch on the laptop applied on top of 5.8.8 and it works
+as it should!
+
+The patch itself looks good to me, but I have one tiny nitpick: A typo
+in my name on line 15. I feel bad for even mentioning that though.
+
+I'm glad we are able to resolve the issue so quickly. I was going to say
+that the report on bugzilla should be addressed also, but I see you have
+already done that. Thank you for kindly your work.
+
+Regards,
+Samuel
