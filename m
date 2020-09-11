@@ -2,233 +2,209 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35FB2265F2F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 14:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CCC2662A0
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 17:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725776AbgIKMFE (ORCPT
+        id S1726567AbgIKPzF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Sep 2020 08:05:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34745 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725848AbgIKMEI (ORCPT
+        Fri, 11 Sep 2020 11:55:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58302 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726529AbgIKPyU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Sep 2020 08:04:08 -0400
+        Fri, 11 Sep 2020 11:54:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599825841;
+        s=mimecast20190719; t=1599839659;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MW/SRVnAn/A0iV6QQoU7r6xdjo3NKUTOwqRhR3nKPe0=;
-        b=XxcGifZccobMko9GCklhHr8jjE6DqW5mDVr2TUnmFvDYl+GfCdBJ+Aky/+Fl4dSF8VuS0w
-        nIpY/XuBIo2YKK6q8Lpt32HV2f2xhUITp6jQzxp9ITgsVgsjvcwppzLbAedDR0S0+kYiA6
-        F2LLHVWt7eom0VHMM4Sjl0OwYi6FI10=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-xl8966lgOxmtJkoHAWgDfg-1; Fri, 11 Sep 2020 08:03:59 -0400
-X-MC-Unique: xl8966lgOxmtJkoHAWgDfg-1
-Received: by mail-ed1-f70.google.com with SMTP id r9so4135479edi.9
-        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Sep 2020 05:03:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=MW/SRVnAn/A0iV6QQoU7r6xdjo3NKUTOwqRhR3nKPe0=;
-        b=rbLWedLBlDI+KYfYbTEyQR7LR8zrUPkRUeiQJxE0pSfVQjrGvYAqkKIc0s+FqsMr75
-         4Qy+uGF9ET/UjW53YyGpJEZWFyujeZ+ixEZEmPACmnoQIgq3nVFWpUs/Uy3Dd1VloHDo
-         hBsm2zlyshrzrAjOnHJdMraBww8mAh/Y49kA5S2HUnTNDVD7pS17kBxOXYTT+oaArYjT
-         uki1RNYLLgQ+KIiqU063Eyol56SkFTSELUGt/Pq0uWlRKWGehzup59KZJfbJLvU6JuOK
-         MPMcuA3s/hWGn0G0efA+QJIzlP0AYl/rHuMcfME4zB+a9/xEramBJmZpNZallHD0NqSi
-         Crzw==
-X-Gm-Message-State: AOAM531mtbHaXCrpQst5vwIiXw7gIvld501ASAofW70gGRD/BlAZ7/7B
-        15HMm2R6UI02m8IM0nnXrgTfORpje1iDx4yml9dqpqvGCO2I6o1eWCgNvwBh72Jqo1XFL1zS3ft
-        Pn2aBoswcXy6Dq+PpEfkHLY4QO+a90mub4A==
-X-Received: by 2002:a17:906:6884:: with SMTP id n4mr1788729ejr.50.1599825837744;
-        Fri, 11 Sep 2020 05:03:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynEkIyHgxb8qo/3XKybj08bHtnjVgZ8yPieq49so0TPGoPUKFeYlG6/e+1RoosL7junP8/bw==
-X-Received: by 2002:a17:906:6884:: with SMTP id n4mr1788706ejr.50.1599825837555;
-        Fri, 11 Sep 2020 05:03:57 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id dc22sm1505609ejb.112.2020.09.11.05.03.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 05:03:56 -0700 (PDT)
-Subject: Re: platform/x86: intel-vbtn: reports SW_TABLET_MODE=1 even if that's
- not the case
-To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <xLfPpWwkWaQU4pHxoBXzNeZI7WiE3fDhUosWg0cGx6I9xjfGDuimPIRxyRAYc_2wMnrUlsoTJejBrzjh6sDWyzVMJPJn-rXlFxr08figVQw=@protonmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e14f5acb-7533-19d9-246e-bc7fedbd1283@redhat.com>
-Date:   Fri, 11 Sep 2020 14:03:56 +0200
+        bh=FrqEMuNv+1C+Q9u81rRR/J9O4s8lK0dAQz/GWPxtPKI=;
+        b=Dep7EhgxBUhgjS5UsvScNmTp0KpgaChW0+IFz3LE7pHmNgfENj+2TaleatbSgaMRH1B254
+        E6EaM2fW0yf/ge4IXs5WUNTcul/P3DurvpNdYU/GCv3oj8xpuQxbWkCraZdcJ5z9ldX5J9
+        oYzNWIzUSV7e0rLbwh1oJQ3rsDkoEtw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-QWYnVU4QPqOTAx6UqlvlNQ-1; Fri, 11 Sep 2020 11:54:17 -0400
+X-MC-Unique: QWYnVU4QPqOTAx6UqlvlNQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44CFC801AC4;
+        Fri, 11 Sep 2020 15:54:14 +0000 (UTC)
+Received: from [10.10.110.42] (unknown [10.10.110.42])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 86AD375125;
+        Fri, 11 Sep 2020 15:54:11 +0000 (UTC)
+Subject: Re: [PATCH V2 2/3] integrity: Move import of MokListRT certs to a
+ separate routine
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        linux-security-module@vger.kernel.org, andy.shevchenko@gmail.com,
+        James Morris <jmorris@namei.org>, serge@hallyn.com,
+        Kees Cook <keescook@chromium.org>, zohar@linux.ibm.com,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Jones <pjones@redhat.com>,
+        David Howells <dhowells@redhat.com>, prarit@redhat.com
+References: <20200905013107.10457-1-lszubowi@redhat.com>
+ <20200905013107.10457-3-lszubowi@redhat.com>
+ <CAMj1kXEdkdeE8VSZqEzhd__Kb7_ZmG2af6iBpbY3=nsj1-phYw@mail.gmail.com>
+From:   Lenny Szubowicz <lszubowi@redhat.com>
+Message-ID: <f0a079b1-5f02-8618-fdfe-aea2278113c9@redhat.com>
+Date:   Fri, 11 Sep 2020 11:54:10 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <xLfPpWwkWaQU4pHxoBXzNeZI7WiE3fDhUosWg0cGx6I9xjfGDuimPIRxyRAYc_2wMnrUlsoTJejBrzjh6sDWyzVMJPJn-rXlFxr08figVQw=@protonmail.com>
-Content-Type: multipart/mixed;
- boundary="------------0314F728800C5D3DA3DD3A67"
+In-Reply-To: <CAMj1kXEdkdeE8VSZqEzhd__Kb7_ZmG2af6iBpbY3=nsj1-phYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------0314F728800C5D3DA3DD3A67
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi,
-
-On 9/10/20 7:06 PM, Barnabás Pőcze wrote:
-> Hello,
+On 9/11/20 11:02 AM, Ard Biesheuvel wrote:
+> On Sat, 5 Sep 2020 at 04:31, Lenny Szubowicz <lszubowi@redhat.com> wrote:
+>>
+>> Move the loading of certs from the UEFI MokListRT into a separate
+>> routine to facilitate additional MokList functionality.
+>>
+>> There is no visible functional change as a result of this patch.
+>> Although the UEFI dbx certs are now loaded before the MokList certs,
+>> they are loaded onto different key rings. So the order of the keys
+>> on their respective key rings is the same.
+>>
+>> Signed-off-by: Lenny Szubowicz <lszubowi@redhat.com>
 > 
+> Why did you drop Mimi's reviewed-by from this patch?
+
+It was not intentional. I was just not aware that I needed to propagate
+Mimi Zohar's reviewed-by from V1 of the patch to V2.
+
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+
+V2 includes changes in that patch to incorporate suggestions from
+Andy Shevchenko. My assumption was that the maintainer would
+gather up the reviewed-by and add any signed-off-by as appropriate,
+but it sounds like my assumption was incorrect. In retrospect, I
+could see that having the maintainer dig through prior versions
+of a patch set for prior reviewed-by tags could be burdensome.
+
+Advice on the expected handling of this would be appreciated.
+
+                     -Lenny.
+
 > 
-> it has been reported[1], the 'intel-vbtn' driver reports SW_TABLET_MODE=1
-> even if that doesn't  accurately represent reality. That renders the
-> built-in keyboard and touchpad unusable when using libinput.
+>> ---
+>>   security/integrity/platform_certs/load_uefi.c | 63 +++++++++++++------
+>>   1 file changed, 44 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/security/integrity/platform_certs/load_uefi.c b/security/integrity/platform_certs/load_uefi.c
+>> index 253fb9a7fc98..c1c622b4dc78 100644
+>> --- a/security/integrity/platform_certs/load_uefi.c
+>> +++ b/security/integrity/platform_certs/load_uefi.c
+>> @@ -66,6 +66,43 @@ static __init void *get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+>>   }
+>>
+>>   /*
+>> + * load_moklist_certs() - Load MokList certs
+>> + *
+>> + * Load the certs contained in the UEFI MokListRT database into the
+>> + * platform trusted keyring.
+>> + *
+>> + * Return:     Status
+>> + */
+>> +static int __init load_moklist_certs(void)
+>> +{
+>> +       efi_guid_t mok_var = EFI_SHIM_LOCK_GUID;
+>> +       void *mok;
+>> +       unsigned long moksize;
+>> +       efi_status_t status;
+>> +       int rc;
+>> +
+>> +       /* Get MokListRT. It might not exist, so it isn't an error
+>> +        * if we can't get it.
+>> +        */
+>> +       mok = get_cert_list(L"MokListRT", &mok_var, &moksize, &status);
+>> +       if (mok) {
+>> +               rc = parse_efi_signature_list("UEFI:MokListRT",
+>> +                                             mok, moksize, get_handler_for_db);
+>> +               kfree(mok);
+>> +               if (rc)
+>> +                       pr_err("Couldn't parse MokListRT signatures: %d\n", rc);
+>> +               return rc;
+>> +       }
+>> +       if (status == EFI_NOT_FOUND)
+>> +               pr_debug("MokListRT variable wasn't found\n");
+>> +       else
+>> +               pr_info("Couldn't get UEFI MokListRT\n");
+>> +       return 0;
+>> +}
+>> +
+>> +/*
+>> + * load_uefi_certs() - Load certs from UEFI sources
+>> + *
+>>    * Load the certs contained in the UEFI databases into the platform trusted
+>>    * keyring and the UEFI blacklisted X.509 cert SHA256 hashes into the blacklist
+>>    * keyring.
+>> @@ -73,17 +110,16 @@ static __init void *get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+>>   static int __init load_uefi_certs(void)
+>>   {
+>>          efi_guid_t secure_var = EFI_IMAGE_SECURITY_DATABASE_GUID;
+>> -       efi_guid_t mok_var = EFI_SHIM_LOCK_GUID;
+>> -       void *db = NULL, *dbx = NULL, *mok = NULL;
+>> -       unsigned long dbsize = 0, dbxsize = 0, moksize = 0;
+>> +       void *db = NULL, *dbx = NULL;
+>> +       unsigned long dbsize = 0, dbxsize = 0;
+>>          efi_status_t status;
+>>          int rc = 0;
+>>
+>>          if (!efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
+>>                  return false;
+>>
+>> -       /* Get db, MokListRT, and dbx.  They might not exist, so it isn't
+>> -        * an error if we can't get them.
+>> +       /* Get db and dbx.  They might not exist, so it isn't an error
+>> +        * if we can't get them.
+>>           */
+>>          if (!uefi_check_ignore_db()) {
+>>                  db = get_cert_list(L"db", &secure_var, &dbsize, &status);
+>> @@ -102,20 +138,6 @@ static int __init load_uefi_certs(void)
+>>                  }
+>>          }
+>>
+>> -       mok = get_cert_list(L"MokListRT", &mok_var, &moksize, &status);
+>> -       if (!mok) {
+>> -               if (status == EFI_NOT_FOUND)
+>> -                       pr_debug("MokListRT variable wasn't found\n");
+>> -               else
+>> -                       pr_info("Couldn't get UEFI MokListRT\n");
+>> -       } else {
+>> -               rc = parse_efi_signature_list("UEFI:MokListRT",
+>> -                                             mok, moksize, get_handler_for_db);
+>> -               if (rc)
+>> -                       pr_err("Couldn't parse MokListRT signatures: %d\n", rc);
+>> -               kfree(mok);
+>> -       }
+>> -
+>>          dbx = get_cert_list(L"dbx", &secure_var, &dbxsize, &status);
+>>          if (!dbx) {
+>>                  if (status == EFI_NOT_FOUND)
+>> @@ -131,6 +153,9 @@ static int __init load_uefi_certs(void)
+>>                  kfree(dbx);
+>>          }
+>>
+>> +       /* Load the MokListRT certs */
+>> +       rc = load_moklist_certs();
+>> +
+>>          return rc;
+>>   }
+>>   late_initcall(load_uefi_certs);
+>> --
+>> 2.27.0
+>>
 > 
-> The device in question is
-> 
->   DMI: Hewlett-Packard HP Pavilion 11 x360 PC/8050, BIOS F.28 08/11/2015
-> 
-> with chassis type=10.
-> 
-> 
-> The ACPI[2] device is as follows:
-> 
->   Device (VGBI)
->   {
->   	Name (_HID, "INT33D6" /* Intel Virtual Buttons Device */)  // _HID: Hardware ID
->   	Name (VBDS, Zero)
->   	Name (ONTM, One)
->   	Method (_STA, 0, Serialized)  // _STA: Status
->   	{
->   		Return (0x0F)
->   	}
-> 
->   	Method (VBDL, 0, Serialized)
->   	{
->   		P80H = 0xD1
->   		^^PCI0.LPCB.EC0.IVBD = One
->   	}
-> 
->   	Method (VGBS, 0, Serialized)
->   	{
->   		If ((^^PCI0.LPCB.EC0.ROLS == Zero))
->   		{
->   			VBDS = 0x10
->   		}
->   		Else
->   		{
->   			VBDS = Zero
->   		}
-> 
->   		Return (VBDS) /* \_SB_.VGBI.VBDS */
->   	}
->   }
-> 
-> 
-> Seemingly, the 4th bit is set instead of the 6th (that is what the driver expects)
-> when not in tablet mode. This causes the driver to always report SW_TABLET_MODE=1.
-> 
-> This issue has been (most probably) introduced by commit cfae58ed681c5fe0185db843013ecc71cd265ebf
-> ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type").
-
-Thank you for the detailed bug-report.
-
-Attached is a patch which should fix this. Can you build a test-kernel for
-the user with the patch added and ask him to test with the patched-kernel?
-
-> As a sidenote, another interesting thing is that seemingly no ACPI events are fired when
-> the device is "folded".
-
-Hmm, that is weird, there is a handler for such an event in the EC event handler
-table in the DSDT. How did you monitor this?
-
-Can you ask the user to run "sudo evemu-record" and then select the
-"Intel Virtual Button driver" device? That should now report 0 as state
-for SW_TABLET_MODE when booted in normal clamshell mode; and hopefully it
-will change to 1 when the user folds the 2-in-1 into tablet mode.
-
-Regards,
-
-Hans
-
---------------0314F728800C5D3DA3DD3A67
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-platform-x86-intel-vbtn-Fix-SW_TABLET_MODE-always-re.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-platform-x86-intel-vbtn-Fix-SW_TABLET_MODE-always-re.pa";
- filename*1="tch"
-
-From 21104b5f14bb485cb36c3283056efb7f6f2b8ebf Mon Sep 17 00:00:00 2001
-From: Hans de Goede <hdegoede@redhat.com>
-Date: Fri, 11 Sep 2020 13:34:42 +0200
-Subject: [PATCH] platform/x86: intel-vbtn: Fix SW_TABLET_MODE always reporting
- 1 on the HP Pavilion 11 x360
-
-Commit cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist
-SW_TABLET_MODE on the 9 / "Laptop" chasis-type") restored SW_TABLET_MODE
-reporting on the HP stream x360 11 series on which it was previously broken
-by commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet
-mode switch on 2-in-1's").
-
-It turns out that enabling SW_TABLET_MODE reporting on devices with a
-chassis-type of 10 ("Notebook") causes SW_TABLET_MODE to always report 1
-at boot on the HP Pavilion 11 x360, which causes libinput to disable the
-kbd and touchpad.
-
-The HP Pavilion 11 x360's ACPI VGBS method sets bit 4 instead of bit 6 when
-NOT in tablet mode at boot. Inspecting all the DSDTs in my DSDT collection
-shows only one other model, the Medion E1239T ever setting bit 4 and it
-always sets this together with bit 6.
-
-So lets treat bit 4 as a second bit which when set indicates the device not
-being in tablet-mode, as we already do for bit 6.
-
-While at it also prefix all VGBS constant defines with "VGBS_".
-
-Fixes: cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type")
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/intel-vbtn.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
-index e85d8e58320c..f443619e1e7e 100644
---- a/drivers/platform/x86/intel-vbtn.c
-+++ b/drivers/platform/x86/intel-vbtn.c
-@@ -15,9 +15,13 @@
- #include <linux/platform_device.h>
- #include <linux/suspend.h>
- 
-+/* Returned when NOT in tablet mode on some HP Stream x360 11 models */
-+#define VGBS_TABLET_MODE_FLAG_ALT	0x10
- /* When NOT in tablet mode, VGBS returns with the flag 0x40 */
--#define TABLET_MODE_FLAG 0x40
--#define DOCK_MODE_FLAG   0x80
-+#define VGBS_TABLET_MODE_FLAG		0x40
-+#define VGBS_DOCK_MODE_FLAG		0x80
-+
-+#define VGBS_TABLET_MODE_FLAGS (VGBS_TABLET_MODE_FLAG | VGBS_TABLET_MODE_FLAG_ALT)
- 
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("AceLan Kao");
-@@ -72,9 +76,9 @@ static void detect_tablet_mode(struct platform_device *device)
- 	if (ACPI_FAILURE(status))
- 		return;
- 
--	m = !(vgbs & TABLET_MODE_FLAG);
-+	m = !(vgbs & VGBS_TABLET_MODE_FLAGS);
- 	input_report_switch(priv->input_dev, SW_TABLET_MODE, m);
--	m = (vgbs & DOCK_MODE_FLAG) ? 1 : 0;
-+	m = (vgbs & VGBS_DOCK_MODE_FLAG) ? 1 : 0;
- 	input_report_switch(priv->input_dev, SW_DOCK, m);
- }
- 
--- 
-2.28.0
-
-
---------------0314F728800C5D3DA3DD3A67--
 
