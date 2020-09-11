@@ -2,211 +2,233 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E593326551B
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 00:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FB2265F2F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 14:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725308AbgIJWbg (ORCPT
+        id S1725776AbgIKMFE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Sep 2020 18:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgIJWbe (ORCPT
+        Fri, 11 Sep 2020 08:05:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34745 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725848AbgIKMEI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Sep 2020 18:31:34 -0400
-Received: from mail.sammserver.com (sammserver.com [IPv6:2001:470:5a5b:1::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F38C061573;
-        Thu, 10 Sep 2020 15:31:33 -0700 (PDT)
-Received: by mail.sammserver.com (Postfix, from userid 5011)
-        id 6999C10301A5; Fri, 11 Sep 2020 00:31:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1599777090; bh=mi+BeHMXG5WEOu1gJhnZU78E72welfdyaQTB7APYDag=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f9Zjpi4+2Wx4rxodNEWGjydP/e1D8T0Li2gEkFdp3MZ91nAOwxX5HblsaqIDxvd+R
-         bXDbd90WiTcALhIgxAPrxtvj7denbs3hAlA8MQrR8j3Sz4xaEWi7vjycewfjXxEU9z
-         luAqBD4pTzPB7jl3UnWLyeUydtBUqVo8XrjrBxnE=
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id DD1BB10301A2;
-        Fri, 11 Sep 2020 00:31:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1599777090; bh=mi+BeHMXG5WEOu1gJhnZU78E72welfdyaQTB7APYDag=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f9Zjpi4+2Wx4rxodNEWGjydP/e1D8T0Li2gEkFdp3MZ91nAOwxX5HblsaqIDxvd+R
-         bXDbd90WiTcALhIgxAPrxtvj7denbs3hAlA8MQrR8j3Sz4xaEWi7vjycewfjXxEU9z
-         luAqBD4pTzPB7jl3UnWLyeUydtBUqVo8XrjrBxnE=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id C56D1142049F; Fri, 11 Sep 2020 00:31:29 +0200 (CEST)
-Date:   Fri, 11 Sep 2020 00:31:29 +0200
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        acpi4asus-user@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: platform/x86: asus-wmi: SW_TABLET_MODE is always 1 on some
- devices
-Message-ID: <20200910223129.epmeyvodj6agnzav@fastboi.localdomain>
-References: <20200901215536.qcouepovmfxje4n5@fastboi.localdomain>
- <0f7302c9-b508-a078-8c62-5ad5a03d92c2@redhat.com>
- <20200902125220.25x52dl2vupejg5f@fastboi.localdomain>
- <20200904094546.jes44d2kn5mtn2zu@fastboi.localdomain>
- <320c0b71-af94-c673-21c8-c32a0fdb4d4e@redhat.com>
- <20200904171743.ejew22p3zzada55p@fastboi.localdomain>
- <a21a6fbf-f38b-3531-07f4-74edd0e42eb6@redhat.com>
+        Fri, 11 Sep 2020 08:04:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599825841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MW/SRVnAn/A0iV6QQoU7r6xdjo3NKUTOwqRhR3nKPe0=;
+        b=XxcGifZccobMko9GCklhHr8jjE6DqW5mDVr2TUnmFvDYl+GfCdBJ+Aky/+Fl4dSF8VuS0w
+        nIpY/XuBIo2YKK6q8Lpt32HV2f2xhUITp6jQzxp9ITgsVgsjvcwppzLbAedDR0S0+kYiA6
+        F2LLHVWt7eom0VHMM4Sjl0OwYi6FI10=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-xl8966lgOxmtJkoHAWgDfg-1; Fri, 11 Sep 2020 08:03:59 -0400
+X-MC-Unique: xl8966lgOxmtJkoHAWgDfg-1
+Received: by mail-ed1-f70.google.com with SMTP id r9so4135479edi.9
+        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Sep 2020 05:03:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=MW/SRVnAn/A0iV6QQoU7r6xdjo3NKUTOwqRhR3nKPe0=;
+        b=rbLWedLBlDI+KYfYbTEyQR7LR8zrUPkRUeiQJxE0pSfVQjrGvYAqkKIc0s+FqsMr75
+         4Qy+uGF9ET/UjW53YyGpJEZWFyujeZ+ixEZEmPACmnoQIgq3nVFWpUs/Uy3Dd1VloHDo
+         hBsm2zlyshrzrAjOnHJdMraBww8mAh/Y49kA5S2HUnTNDVD7pS17kBxOXYTT+oaArYjT
+         uki1RNYLLgQ+KIiqU063Eyol56SkFTSELUGt/Pq0uWlRKWGehzup59KZJfbJLvU6JuOK
+         MPMcuA3s/hWGn0G0efA+QJIzlP0AYl/rHuMcfME4zB+a9/xEramBJmZpNZallHD0NqSi
+         Crzw==
+X-Gm-Message-State: AOAM531mtbHaXCrpQst5vwIiXw7gIvld501ASAofW70gGRD/BlAZ7/7B
+        15HMm2R6UI02m8IM0nnXrgTfORpje1iDx4yml9dqpqvGCO2I6o1eWCgNvwBh72Jqo1XFL1zS3ft
+        Pn2aBoswcXy6Dq+PpEfkHLY4QO+a90mub4A==
+X-Received: by 2002:a17:906:6884:: with SMTP id n4mr1788729ejr.50.1599825837744;
+        Fri, 11 Sep 2020 05:03:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJynEkIyHgxb8qo/3XKybj08bHtnjVgZ8yPieq49so0TPGoPUKFeYlG6/e+1RoosL7junP8/bw==
+X-Received: by 2002:a17:906:6884:: with SMTP id n4mr1788706ejr.50.1599825837555;
+        Fri, 11 Sep 2020 05:03:57 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id dc22sm1505609ejb.112.2020.09.11.05.03.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 05:03:56 -0700 (PDT)
+Subject: Re: platform/x86: intel-vbtn: reports SW_TABLET_MODE=1 even if that's
+ not the case
+To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+References: <xLfPpWwkWaQU4pHxoBXzNeZI7WiE3fDhUosWg0cGx6I9xjfGDuimPIRxyRAYc_2wMnrUlsoTJejBrzjh6sDWyzVMJPJn-rXlFxr08figVQw=@protonmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e14f5acb-7533-19d9-246e-bc7fedbd1283@redhat.com>
+Date:   Fri, 11 Sep 2020 14:03:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a21a6fbf-f38b-3531-07f4-74edd0e42eb6@redhat.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+In-Reply-To: <xLfPpWwkWaQU4pHxoBXzNeZI7WiE3fDhUosWg0cGx6I9xjfGDuimPIRxyRAYc_2wMnrUlsoTJejBrzjh6sDWyzVMJPJn-rXlFxr08figVQw=@protonmail.com>
+Content-Type: multipart/mixed;
+ boundary="------------0314F728800C5D3DA3DD3A67"
+Content-Language: en-US
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello!
+This is a multi-part message in MIME format.
+--------------0314F728800C5D3DA3DD3A67
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 10.09.2020 19:44, Hans de Goede wrote:
-> Hi,
+Hi,
+
+On 9/10/20 7:06 PM, Barnabás Pőcze wrote:
+> Hello,
 > 
-> On 9/4/20 7:17 PM, Samuel Čavoj wrote:
-> > Hi,
-> > 
-> > On 04.09.2020 12:06, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > On 9/4/20 11:45 AM, Samuel Čavoj wrote:
-> > > > Hello!
-> > > > 
-> > > > On 02.09.2020 14:52, Samuel Čavoj wrote:
-> > > > > Hello,
-> > > > > 
-> > > > > On 02.09.2020 13:52, Hans de Goede wrote:
-> > > > > > But I would rather try to figure out a better way. Can you
-> > > > > > create an acpidump, by as root running:
-> > > > > > 
-> > > > > > acpidump -o acpidump.asus-UX360CA
-> > > > > 
-> > > > > The file is attached gzipped.
-> > > > > 
-> > > > > > 
-> > > > > > And then send me a direct (so without including the list)
-> > > > > > email with the generated acpidump.asus-UX360CA file attached please?
-> > > > > > 
-> > > > > > Also, if necessary are you capable of building your own
-> > > > > > kernel with a (test)patch applied ?
-> > > > > 
-> > > > > Yes, that is no problem at all.
-> > > > > Thank you for your quick response.
-> > > > > 
-> > > > > Regards,
-> > > > > Samuel
-> > > > 
-> > > > I don't mean to waste your time, it's just that my trust in mail systems
-> > > > has been steadily decreasing. I would just like to make sure you have
-> > > > received my previous email with the acpidump.
-> > > > 
-> > > > In case not, here[1] it is available over https, if the message got
-> > > > dropped because of the attachment.
-> > > 
-> > > I got your mail, but I've been burried under a ton of work,
-> > > so it may take a couple of days at least before I can take
-> > > a closer look at this.
-> > 
-> > That's quite alright.
-> > 
-> > I decided I would try and see if I can be of any use, so I looked around
-> > in the WMI implementation in the DSDT and found the following in the
-> > DSTS method:
-> > 
-> > [...]
-> > 37486     If ((IIA0 == 0x00120063))
-> > 37487     {
-> > 37488         Local0 = ^^PCI0.LPCB.EC0.DKPS ()
-> > 37489         If ((Local0 == One))
-> > 37490         {
-> > 37491             Return (0x00010001)
-> > 37492         }
-> > 37493         Else
-> > 37494         {
-> > 37495             Return (0x00010000)
-> > 37496         }
-> > 37497     }
-> > [...]
-> > 
-> > This is the If statement responsible for the ASUS_WMI_DEVID_KBD_DOCK
-> > device, and it always seems to return 0x00010000 on my machine. I
-> > followed it up the call chain but in the end it just read some bit from
-> > some register of the EC.
-> > 
-> > Then I noticed the If statement right above it, which corresponds to
-> > dev_id 0x00060062:
-> > 
-> > [...]
-> > 37472     If ((IIA0 == 0x00060062))
-> > 37473     {
-> > 37474         If (^^PCI0.LPCB.EC0.RPIN (0x15))
-> > 37475         {
-> > 37476             Local0 = 0x00010001
-> > 37477         }
-> > 37478         Else
-> > 37479         {
-> > 37480             Local0 = 0x00010000
-> > 37481         }
-> > 37482
-> > 37483         Return (Local0)
-> > 37484     }
-> > [...]
-> > 
-> > By a stroke of luck, it turns out it's the correct one! I patched the
-> > driver to query the state on every event and print it out, and it is
-> > exactly what we are looking for.
-> > 
-> > The state is 0 if the device is in normal, laptop state and changes to 1
-> > if flipped over 180 degrees. I patched the module so that the
-> > SW_TABLET_MODE switch was set according to it, and everything seems to
-> > be behaving as it should.
 > 
-> Good work on figuring this out!
-
-I'm glad to have learned something new. ACPI was mostly a magic black
-box for me up to now.
-
+> it has been reported[1], the 'intel-vbtn' driver reports SW_TABLET_MODE=1
+> even if that doesn't  accurately represent reality. That renders the
+> built-in keyboard and touchpad unusable when using libinput.
 > 
-> > This is, of course, not a full solution, as we
-> > still somehow need to decide whether to use the KDB_DOCK device or this
-> > one. I don't know what to do about that. Ideally find some flag in the
-> > ACPI which says which one we should use?
-> > 
-> > The event code which is fired when the lid switch state changes, as we
-> > already know from the sparse keymap[1], is 0xfa. When the laptop is
-> > suspended in laptop mode, flipped to tablet mode in its sleep and
-> > awoken, the event is fired. It is, however, not fired when doing it the
-> > other way around, so we should probably check the state on resume as
-> > well.
+> The device in question is
 > 
-> Ok, I've written a patch to try and use the 0x00060062 WMI object/devid
-> first and only if that is not there use the 0x00120063 one which the
-> Bay Trail and Cherry Trail devices use.
-
-Yeah, that's the solution I had in mind as well and should hopefully be
-fine. Until ASUS ships a device with yet another weird firmware quirk,
-anyway.
-
+>   DMI: Hewlett-Packard HP Pavilion 11 x360 PC/8050, BIOS F.28 08/11/2015
 > 
-> I've attached the patch, please give it a try.
+> with chassis type=10.
+> 
+> 
+> The ACPI[2] device is as follows:
+> 
+>   Device (VGBI)
+>   {
+>   	Name (_HID, "INT33D6" /* Intel Virtual Buttons Device */)  // _HID: Hardware ID
+>   	Name (VBDS, Zero)
+>   	Name (ONTM, One)
+>   	Method (_STA, 0, Serialized)  // _STA: Status
+>   	{
+>   		Return (0x0F)
+>   	}
+> 
+>   	Method (VBDL, 0, Serialized)
+>   	{
+>   		P80H = 0xD1
+>   		^^PCI0.LPCB.EC0.IVBD = One
+>   	}
+> 
+>   	Method (VGBS, 0, Serialized)
+>   	{
+>   		If ((^^PCI0.LPCB.EC0.ROLS == Zero))
+>   		{
+>   			VBDS = 0x10
+>   		}
+>   		Else
+>   		{
+>   			VBDS = Zero
+>   		}
+> 
+>   		Return (VBDS) /* \_SB_.VGBI.VBDS */
+>   	}
+>   }
+> 
+> 
+> Seemingly, the 4th bit is set instead of the 6th (that is what the driver expects)
+> when not in tablet mode. This causes the driver to always report SW_TABLET_MODE=1.
+> 
+> This issue has been (most probably) introduced by commit cfae58ed681c5fe0185db843013ecc71cd265ebf
+> ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type").
 
-I've tested the patch on the laptop applied on top of 5.8.8 and it works
-as it should!
+Thank you for the detailed bug-report.
 
-The patch itself looks good to me, but I have one tiny nitpick: A typo
-in my name on line 15. I feel bad for even mentioning that though.
+Attached is a patch which should fix this. Can you build a test-kernel for
+the user with the patch added and ask him to test with the patched-kernel?
 
-I'm glad we are able to resolve the issue so quickly. I was going to say
-that the report on bugzilla should be addressed also, but I see you have
-already done that. Thank you for kindly your work.
+> As a sidenote, another interesting thing is that seemingly no ACPI events are fired when
+> the device is "folded".
+
+Hmm, that is weird, there is a handler for such an event in the EC event handler
+table in the DSDT. How did you monitor this?
+
+Can you ask the user to run "sudo evemu-record" and then select the
+"Intel Virtual Button driver" device? That should now report 0 as state
+for SW_TABLET_MODE when booted in normal clamshell mode; and hopefully it
+will change to 1 when the user folds the 2-in-1 into tablet mode.
 
 Regards,
-Samuel
+
+Hans
+
+--------------0314F728800C5D3DA3DD3A67
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-platform-x86-intel-vbtn-Fix-SW_TABLET_MODE-always-re.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="0001-platform-x86-intel-vbtn-Fix-SW_TABLET_MODE-always-re.pa";
+ filename*1="tch"
+
+From 21104b5f14bb485cb36c3283056efb7f6f2b8ebf Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Fri, 11 Sep 2020 13:34:42 +0200
+Subject: [PATCH] platform/x86: intel-vbtn: Fix SW_TABLET_MODE always reporting
+ 1 on the HP Pavilion 11 x360
+
+Commit cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist
+SW_TABLET_MODE on the 9 / "Laptop" chasis-type") restored SW_TABLET_MODE
+reporting on the HP stream x360 11 series on which it was previously broken
+by commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet
+mode switch on 2-in-1's").
+
+It turns out that enabling SW_TABLET_MODE reporting on devices with a
+chassis-type of 10 ("Notebook") causes SW_TABLET_MODE to always report 1
+at boot on the HP Pavilion 11 x360, which causes libinput to disable the
+kbd and touchpad.
+
+The HP Pavilion 11 x360's ACPI VGBS method sets bit 4 instead of bit 6 when
+NOT in tablet mode at boot. Inspecting all the DSDTs in my DSDT collection
+shows only one other model, the Medion E1239T ever setting bit 4 and it
+always sets this together with bit 6.
+
+So lets treat bit 4 as a second bit which when set indicates the device not
+being in tablet-mode, as we already do for bit 6.
+
+While at it also prefix all VGBS constant defines with "VGBS_".
+
+Fixes: cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/intel-vbtn.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
+index e85d8e58320c..f443619e1e7e 100644
+--- a/drivers/platform/x86/intel-vbtn.c
++++ b/drivers/platform/x86/intel-vbtn.c
+@@ -15,9 +15,13 @@
+ #include <linux/platform_device.h>
+ #include <linux/suspend.h>
+ 
++/* Returned when NOT in tablet mode on some HP Stream x360 11 models */
++#define VGBS_TABLET_MODE_FLAG_ALT	0x10
+ /* When NOT in tablet mode, VGBS returns with the flag 0x40 */
+-#define TABLET_MODE_FLAG 0x40
+-#define DOCK_MODE_FLAG   0x80
++#define VGBS_TABLET_MODE_FLAG		0x40
++#define VGBS_DOCK_MODE_FLAG		0x80
++
++#define VGBS_TABLET_MODE_FLAGS (VGBS_TABLET_MODE_FLAG | VGBS_TABLET_MODE_FLAG_ALT)
+ 
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("AceLan Kao");
+@@ -72,9 +76,9 @@ static void detect_tablet_mode(struct platform_device *device)
+ 	if (ACPI_FAILURE(status))
+ 		return;
+ 
+-	m = !(vgbs & TABLET_MODE_FLAG);
++	m = !(vgbs & VGBS_TABLET_MODE_FLAGS);
+ 	input_report_switch(priv->input_dev, SW_TABLET_MODE, m);
+-	m = (vgbs & DOCK_MODE_FLAG) ? 1 : 0;
++	m = (vgbs & VGBS_DOCK_MODE_FLAG) ? 1 : 0;
+ 	input_report_switch(priv->input_dev, SW_DOCK, m);
+ }
+ 
+-- 
+2.28.0
+
+
+--------------0314F728800C5D3DA3DD3A67--
+
