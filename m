@@ -2,133 +2,256 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BFAB2662C3
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 18:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2337C26632C
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 18:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726567AbgIKQAF (ORCPT
+        id S1726620AbgIKQL0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Sep 2020 12:00:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58846 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726486AbgIKP7c (ORCPT
+        Fri, 11 Sep 2020 12:11:26 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26188 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726221AbgIKPjL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:59:32 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08BFg9QW081422;
-        Fri, 11 Sep 2020 11:59:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=uZDTO2GkQg+Od5pn1R1dGCVVyOGSxX9njGLsk+QgEdQ=;
- b=e5pnrFZuvYtzcUS40VWKTHD1wbawkwx6oagAwtmOyehwmUvsneTpPXp5ZnAXvx6D+cPm
- 6cdx1Qe/OSkVof5RiEhwg8rqwCT4Qv0YQa/cwjF4qs8cbCqy2ylh7Vp5RllPjpn9Pi2F
- l5hcs+OnrQ8PIPHBfx08gNUrsQvFpiMBJqx33CbgGXhUHvJDwMnUy2yPFviYKxhqbd3E
- L8324neHoulfAiGj1v5O9aB626UDOVHBQmy0yDXUo7NulJsfut+qz6fuOvLw9Ml1Q6Cr
- rFEk6X9DuUGw2vOfYymjt7NjX+Suzk5nWaMoyri+3fl/uWbJqTG8eUEbg5KE+1Zk58ya +g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 33gc3p0cmq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Sep 2020 11:59:16 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08BFhmgX086123;
-        Fri, 11 Sep 2020 11:59:16 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 33gc3p0cm2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Sep 2020 11:59:15 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08BFuno5016580;
-        Fri, 11 Sep 2020 15:59:14 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma06ams.nl.ibm.com with ESMTP id 33dxdr4jjt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 11 Sep 2020 15:59:14 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08BFxBu17667972
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 11 Sep 2020 15:59:11 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 915C94C05E;
-        Fri, 11 Sep 2020 15:59:11 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E33074C046;
-        Fri, 11 Sep 2020 15:59:08 +0000 (GMT)
-Received: from sig-9-65-251-51.ibm.com (unknown [9.65.251.51])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 11 Sep 2020 15:59:08 +0000 (GMT)
-Message-ID: <cb8b4ebaa35d79eba65b011d042d20a991adf540.camel@linux.ibm.com>
-Subject: Re: [PATCH V2 2/3] integrity: Move import of MokListRT certs to a
- separate routine
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Lenny Szubowicz <lszubowi@redhat.com>,
-        Ard Biesheuvel <ardb@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-security-module@vger.kernel.org, andy.shevchenko@gmail.com,
-        James Morris <jmorris@namei.org>, serge@hallyn.com,
-        Kees Cook <keescook@chromium.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Jones <pjones@redhat.com>,
-        David Howells <dhowells@redhat.com>, prarit@redhat.com
-Date:   Fri, 11 Sep 2020 11:59:07 -0400
-In-Reply-To: <f0a079b1-5f02-8618-fdfe-aea2278113c9@redhat.com>
-References: <20200905013107.10457-1-lszubowi@redhat.com>
-         <20200905013107.10457-3-lszubowi@redhat.com>
-         <CAMj1kXEdkdeE8VSZqEzhd__Kb7_ZmG2af6iBpbY3=nsj1-phYw@mail.gmail.com>
-         <f0a079b1-5f02-8618-fdfe-aea2278113c9@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-11_05:2020-09-10,2020-09-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- suspectscore=3 adultscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 phishscore=0 clxscore=1015 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009110125
+        Fri, 11 Sep 2020 11:39:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599838731;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iDzQccSAnhfzWA2sEqmAd8Tg3tXVDhvhOBj1C+QOr5g=;
+        b=Fr1T8llHY9O/kqe+d4TzoIt6d0UonFdajH+eDwe4Nv6fa/LabvujpBLajnpAznEaArBv+P
+        Ezdg8kHhHcVGiLWytRWWMkz7HP/rlsmSPfGwELWoSjJO+n5esVwaoimAwD1ubeurohHS5U
+        /xoNb6qStIDXYmeGDzYwH2KvBHA23Q8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-XVB_cY6ZPwyRPFOsYQnOlA-1; Fri, 11 Sep 2020 09:24:57 -0400
+X-MC-Unique: XVB_cY6ZPwyRPFOsYQnOlA-1
+Received: by mail-ed1-f69.google.com with SMTP id x23so4333512eds.5
+        for <platform-driver-x86@vger.kernel.org>; Fri, 11 Sep 2020 06:24:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iDzQccSAnhfzWA2sEqmAd8Tg3tXVDhvhOBj1C+QOr5g=;
+        b=ElUqqUvCxEcO1ZVQ+NQ4ptcFnM7t7A0S7OISnrXHYljVWy3S79RLqJyyea8vJs3oFp
+         KP8xGngm2MCcMIDguV9N5WKo5rYi1eTpd28ye4C0PbXqb51gkqJjoO+daQs5OkH8/sO8
+         xs8Ufq/IPVhpJ8sFstl8ewk3AYbobf2yQ2uOshRgcGT6In4JZsvKMIenyaaM8Ylny5hf
+         4jAULDFJ294OoJXMtYn1V2B1e41KjlxOzftHVuxzHoeHXA7g/YSVotVX5yq7Zm0TIauM
+         ubhJocUrf1RCtyQiwLCTogkF2oQlVItxqE3wjFRnz7KAe7FGzjGhy+Dok2gVrlz3dJBI
+         RVEQ==
+X-Gm-Message-State: AOAM531ikRJC9uTbZXbFXKDOdpEDg0GsQpiL2q5lt5XI13s6p8nMPR9h
+        Br6Tf1rib1nJXYo3lrce436dTA4idAFCLl8Dvr5wTl6Qs3nHySHG2S/8P3ne9s2IZbrmbsCrx65
+        RQR1xWl6PBHdxKB7470vUUE/N9dwYz19DTg==
+X-Received: by 2002:a17:906:c8d2:: with SMTP id gc18mr2133259ejb.467.1599830696544;
+        Fri, 11 Sep 2020 06:24:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2+rDE3aEEhvWksQnPlYaWOg4fS7Rgz1Un+cg5UdmuZjL5fnelFXxzvrQkVE2gww7QAweqCw==
+X-Received: by 2002:a17:906:c8d2:: with SMTP id gc18mr2133241ejb.467.1599830696252;
+        Fri, 11 Sep 2020 06:24:56 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id o3sm1613654edt.79.2020.09.11.06.24.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 06:24:55 -0700 (PDT)
+Subject: Re: platform/x86: asus-wmi: SW_TABLET_MODE is always 1 on some
+ devices
+To:     =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200901215536.qcouepovmfxje4n5@fastboi.localdomain>
+ <0f7302c9-b508-a078-8c62-5ad5a03d92c2@redhat.com>
+ <20200902125220.25x52dl2vupejg5f@fastboi.localdomain>
+ <20200904094546.jes44d2kn5mtn2zu@fastboi.localdomain>
+ <320c0b71-af94-c673-21c8-c32a0fdb4d4e@redhat.com>
+ <20200904171743.ejew22p3zzada55p@fastboi.localdomain>
+ <a21a6fbf-f38b-3531-07f4-74edd0e42eb6@redhat.com>
+ <20200910223129.epmeyvodj6agnzav@fastboi.localdomain>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f0a48bbb-ab10-ce2c-c973-617af7fdae8f@redhat.com>
+Date:   Fri, 11 Sep 2020 15:24:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20200910223129.epmeyvodj6agnzav@fastboi.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, 2020-09-11 at 11:54 -0400, Lenny Szubowicz wrote:
-> On 9/11/20 11:02 AM, Ard Biesheuvel wrote:
-> > On Sat, 5 Sep 2020 at 04:31, Lenny Szubowicz <lszubowi@redhat.com> wrote:
-> >>
-> >> Move the loading of certs from the UEFI MokListRT into a separate
-> >> routine to facilitate additional MokList functionality.
-> >>
-> >> There is no visible functional change as a result of this patch.
-> >> Although the UEFI dbx certs are now loaded before the MokList certs,
-> >> they are loaded onto different key rings. So the order of the keys
-> >> on their respective key rings is the same.
-> >>
-> >> Signed-off-by: Lenny Szubowicz <lszubowi@redhat.com>
-> > 
-> > Why did you drop Mimi's reviewed-by from this patch?
-> 
-> It was not intentional. I was just not aware that I needed to propagate
-> Mimi Zohar's reviewed-by from V1 of the patch to V2.
-> 
-> Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-> 
-> V2 includes changes in that patch to incorporate suggestions from
-> Andy Shevchenko. My assumption was that the maintainer would
-> gather up the reviewed-by and add any signed-off-by as appropriate,
-> but it sounds like my assumption was incorrect. In retrospect, I
-> could see that having the maintainer dig through prior versions
-> of a patch set for prior reviewed-by tags could be burdensome.
+Hi,
 
-As much as possible moving code should be done without making changes,
-simpler for code review.   Then as a separate patch you make changes.  
-That way you could also have retained my Reviewed-by.
-
-Mimi
-
+On 9/11/20 12:31 AM, Samuel Čavoj wrote:
+> Hello!
 > 
-> Advice on the expected handling of this would be appreciated.
+> On 10.09.2020 19:44, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 9/4/20 7:17 PM, Samuel Čavoj wrote:
+>>> Hi,
+>>>
+>>> On 04.09.2020 12:06, Hans de Goede wrote:
+>>>> Hi,
+>>>>
+>>>> On 9/4/20 11:45 AM, Samuel Čavoj wrote:
+>>>>> Hello!
+>>>>>
+>>>>> On 02.09.2020 14:52, Samuel Čavoj wrote:
+>>>>>> Hello,
+>>>>>>
+>>>>>> On 02.09.2020 13:52, Hans de Goede wrote:
+>>>>>>> But I would rather try to figure out a better way. Can you
+>>>>>>> create an acpidump, by as root running:
+>>>>>>>
+>>>>>>> acpidump -o acpidump.asus-UX360CA
+>>>>>>
+>>>>>> The file is attached gzipped.
+>>>>>>
+>>>>>>>
+>>>>>>> And then send me a direct (so without including the list)
+>>>>>>> email with the generated acpidump.asus-UX360CA file attached please?
+>>>>>>>
+>>>>>>> Also, if necessary are you capable of building your own
+>>>>>>> kernel with a (test)patch applied ?
+>>>>>>
+>>>>>> Yes, that is no problem at all.
+>>>>>> Thank you for your quick response.
+>>>>>>
+>>>>>> Regards,
+>>>>>> Samuel
+>>>>>
+>>>>> I don't mean to waste your time, it's just that my trust in mail systems
+>>>>> has been steadily decreasing. I would just like to make sure you have
+>>>>> received my previous email with the acpidump.
+>>>>>
+>>>>> In case not, here[1] it is available over https, if the message got
+>>>>> dropped because of the attachment.
+>>>>
+>>>> I got your mail, but I've been burried under a ton of work,
+>>>> so it may take a couple of days at least before I can take
+>>>> a closer look at this.
+>>>
+>>> That's quite alright.
+>>>
+>>> I decided I would try and see if I can be of any use, so I looked around
+>>> in the WMI implementation in the DSDT and found the following in the
+>>> DSTS method:
+>>>
+>>> [...]
+>>> 37486     If ((IIA0 == 0x00120063))
+>>> 37487     {
+>>> 37488         Local0 = ^^PCI0.LPCB.EC0.DKPS ()
+>>> 37489         If ((Local0 == One))
+>>> 37490         {
+>>> 37491             Return (0x00010001)
+>>> 37492         }
+>>> 37493         Else
+>>> 37494         {
+>>> 37495             Return (0x00010000)
+>>> 37496         }
+>>> 37497     }
+>>> [...]
+>>>
+>>> This is the If statement responsible for the ASUS_WMI_DEVID_KBD_DOCK
+>>> device, and it always seems to return 0x00010000 on my machine. I
+>>> followed it up the call chain but in the end it just read some bit from
+>>> some register of the EC.
+>>>
+>>> Then I noticed the If statement right above it, which corresponds to
+>>> dev_id 0x00060062:
+>>>
+>>> [...]
+>>> 37472     If ((IIA0 == 0x00060062))
+>>> 37473     {
+>>> 37474         If (^^PCI0.LPCB.EC0.RPIN (0x15))
+>>> 37475         {
+>>> 37476             Local0 = 0x00010001
+>>> 37477         }
+>>> 37478         Else
+>>> 37479         {
+>>> 37480             Local0 = 0x00010000
+>>> 37481         }
+>>> 37482
+>>> 37483         Return (Local0)
+>>> 37484     }
+>>> [...]
+>>>
+>>> By a stroke of luck, it turns out it's the correct one! I patched the
+>>> driver to query the state on every event and print it out, and it is
+>>> exactly what we are looking for.
+>>>
+>>> The state is 0 if the device is in normal, laptop state and changes to 1
+>>> if flipped over 180 degrees. I patched the module so that the
+>>> SW_TABLET_MODE switch was set according to it, and everything seems to
+>>> be behaving as it should.
+>>
+>> Good work on figuring this out!
+> 
+> I'm glad to have learned something new. ACPI was mostly a magic black
+> box for me up to now.
+> 
+>>
+>>> This is, of course, not a full solution, as we
+>>> still somehow need to decide whether to use the KDB_DOCK device or this
+>>> one. I don't know what to do about that. Ideally find some flag in the
+>>> ACPI which says which one we should use?
+>>>
+>>> The event code which is fired when the lid switch state changes, as we
+>>> already know from the sparse keymap[1], is 0xfa. When the laptop is
+>>> suspended in laptop mode, flipped to tablet mode in its sleep and
+>>> awoken, the event is fired. It is, however, not fired when doing it the
+>>> other way around, so we should probably check the state on resume as
+>>> well.
+>>
+>> Ok, I've written a patch to try and use the 0x00060062 WMI object/devid
+>> first and only if that is not there use the 0x00120063 one which the
+>> Bay Trail and Cherry Trail devices use.
+> 
+> Yeah, that's the solution I had in mind as well and should hopefully be
+> fine. Until ASUS ships a device with yet another weird firmware quirk,
+> anyway.
+> 
+>>
+>> I've attached the patch, please give it a try.
+> 
+> I've tested the patch on the laptop applied on top of 5.8.8 and it works
+> as it should!
 
+Great, thank you for testing.
+
+> The patch itself looks good to me, but I have one tiny nitpick: A typo
+> in my name on line 15. I feel bad for even mentioning that though.
+
+No need to feel bad, I know the feeling, many people mangle
+my last name. So I always try to get this right.
+
+So I will fix the mis-spelling of your name and change the:
+
+Reported-by: Samuel Čavoj <samuel@cavoj.net>
+
+to:
+
+Reported-and-tested-by: Samuel Čavoj <samuel@cavoj.net>
+
+And then submit this upstream.
+
+> I'm glad we are able to resolve the issue so quickly. I was going to say
+> that the report on bugzilla should be addressed also, but I see you have
+> already done that.
+
+Yes, I just hope that the fix works for the model in the
+bugzilla too. I expect it will, but you never know.
+
+> Thank you for kindly your work.
+
+You're welcome, thank you for helping me quickly address this
+regression.
+
+Regards,
+
+Hans
 
