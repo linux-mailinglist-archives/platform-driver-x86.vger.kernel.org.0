@@ -2,164 +2,137 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D42D226631A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 18:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61F182663F5
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 11 Sep 2020 18:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726612AbgIKQKu (ORCPT
+        id S1726447AbgIKQ1y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 11 Sep 2020 12:10:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38482 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbgIKPjc (ORCPT
+        Fri, 11 Sep 2020 12:27:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53910 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726454AbgIKPUY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:39:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599838764;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=L1vWB17r6vdZWYdprKPAib7fc4O9RA1s0HHbQNnq/nc=;
-        b=U8ld14j5FESivJCuWwFz70Y6YA+AiJP9Bsz4Fvs/J9bXh/H8vqit4wNyl02M5T8dLIb+2J
-        gX6zeism9qm5gYGoycyzIRJGgI6cwFLzmD2egUjzk0b1Bu1reBYb6xdBhT13392yBsVwCA
-        lPM7XCJkQTzC2BiE/EZ6RVb5M4scc9g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-qJFxp0DGOG6Wg23Tw_xU0A-1; Fri, 11 Sep 2020 09:26:22 -0400
-X-MC-Unique: qJFxp0DGOG6Wg23Tw_xU0A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Fri, 11 Sep 2020 11:20:24 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEFDC8D030C;
-        Fri, 11 Sep 2020 13:26:20 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-113-31.ams2.redhat.com [10.36.113.31])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7CEC919C66;
-        Fri, 11 Sep 2020 13:26:19 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org,
-        =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>
-Subject: [PATCH] platform/x86: asus-wmi: Fix SW_TABLET_MODE always reporting 1 on the Asus UX360CA
-Date:   Fri, 11 Sep 2020 15:26:18 +0200
-Message-Id: <20200911132618.187297-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id E5DDC21D81;
+        Fri, 11 Sep 2020 15:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599837460;
+        bh=gupGZfyCWjzyTybhAS/ra1qQ28eHy8myobsIyy93VJA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=m0oQPP2XCKYz+rwQfM4O1rdYT4yltshP7twQJqK62UXdUmP7mAN8yidHGu/qxh5wR
+         Yij4F3nIw3qQ22KKyVgxcdpg6bGWact2evoQ35oegTLBfPZJEJ5LnXeQ+DJE8vaGkX
+         teW2jpUmwLifBSRr7/LlebUSQIbQk94yNv2wTGMo=
+Received: by mail-ot1-f49.google.com with SMTP id a2so8597256otr.11;
+        Fri, 11 Sep 2020 08:17:39 -0700 (PDT)
+X-Gm-Message-State: AOAM5329fU0dMKxiltpkEdCwL44njWjCTLPvn4OUDQFPDYfmzv+Hu79G
+        SSBCht3DMXWMVF2GUDd9hzsCJNa9gsNtbPeJj+U=
+X-Google-Smtp-Source: ABdhPJzOyF/HBAXFTBoyNO5I33yKfSijH56wjqNzdZ68h+mmUbhU+Ox68k7PwAF8A8PvXqxLJLUtyECmO01vhMnpYb4=
+X-Received: by 2002:a9d:6193:: with SMTP id g19mr1472882otk.108.1599837459251;
+ Fri, 11 Sep 2020 08:17:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20200905013107.10457-1-lszubowi@redhat.com>
+In-Reply-To: <20200905013107.10457-1-lszubowi@redhat.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Fri, 11 Sep 2020 18:17:28 +0300
+X-Gmail-Original-Message-ID: <CAMj1kXHOcGiwOT_sNTQRA=G7GCQSKLk2HSNoS2vEQYPzQpn0nw@mail.gmail.com>
+Message-ID: <CAMj1kXHOcGiwOT_sNTQRA=G7GCQSKLk2HSNoS2vEQYPzQpn0nw@mail.gmail.com>
+Subject: Re: [PATCH V2 0/3] integrity: Load certs from EFI MOK config table
+To:     Lenny Szubowicz <lszubowi@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        linux-security-module@vger.kernel.org, andy.shevchenko@gmail.com,
+        James Morris <jmorris@namei.org>, serge@hallyn.com,
+        Kees Cook <keescook@chromium.org>, zohar@linux.ibm.com,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Jones <pjones@redhat.com>,
+        David Howells <dhowells@redhat.com>, prarit@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On the Asus UX360CA the ASUS_WMI_DEVID_KBD_DOCK devstate always reports 0,
-which we translate to SW_TABLET_MODE=1. Which causes libinput to disable
-the keyboard and touchpad even if the 360 degree hinges style 2-in-1 is
-in laptop mode.
+On Sat, 5 Sep 2020 at 04:31, Lenny Szubowicz <lszubowi@redhat.com> wrote:
+>
+> Because of system-specific EFI firmware limitations, EFI volatile
+> variables may not be capable of holding the required contents of
+> the Machine Owner Key (MOK) certificate store when the certificate
+> list grows above some size. Therefore, an EFI boot loader may pass
+> the MOK certs via a EFI configuration table created specifically for
+> this purpose to avoid this firmware limitation.
+>
+> An EFI configuration table is a simpler and more robust mechanism
+> compared to EFI variables and is well suited for one-way passage
+> of static information from a pre-OS environment to the kernel.
+>
+> Entries in the MOK variable configuration table are named key/value
+> pairs. Therefore the shim boot loader can create a MokListRT named
+> entry in the MOK configuration table that contains exactly the same
+> data as the MokListRT UEFI variable does or would otherwise contain.
+> As such, the kernel can load certs from the data in the MokListRT
+> configuration table entry data in the same way that it loads certs
+> from the data returned by the EFI GetVariable() runtime call for the
+> MokListRT variable.
+>
+> This patch set does not remove the support for loading certs from the
+> EFI MOK variables into the platform key ring. However, if both the EFI
+> MOK configuration table and corresponding EFI MOK variables are present,
+> the MOK table is used as the source of MOK certs.
+>
+> The contents of the individual named MOK config table entries are
+> made available to user space as individual sysfs binary files,
+> which are read-only to root, under:
+>
+>         /sys/firmware/efi/mok-variables/
+>
+> This enables an updated mokutil to provide support for:
+>
+>         mokutil --list-enrolled
+>
+> such that it can provide accurate information regardless of whether
+> the MOK configuration table or MOK EFI variables were the source
+> for certs. Note that all modifications of MOK related state are still
+> initiated by mokutil via EFI variables.
+>
+> V2: Incorporate feedback from V1
+>   Patch 01: efi: Support for MOK variable config table
+>   - Minor update to change log; no code changes
+>   Patch 02: integrity: Move import of MokListRT certs to a separate routine
+>   - Clean up code flow in code moved to load_moklist_certs()
+>   - Remove some unnecessary initialization of variables
+>   Patch 03: integrity: Load certs from the EFI MOK config table
+>   - Update required due to changes in patch 02.
+>   - Remove unnecessary init of mokvar_entry in load_moklist_certs()
+>
+> V1:
+>   https://lore.kernel.org/lkml/20200826034455.28707-1-lszubowi@redhat.com/
+>
+> Lenny Szubowicz (3):
+>   efi: Support for MOK variable config table
+>   integrity: Move import of MokListRT certs to a separate routine
+>   integrity: Load certs from the EFI MOK config table
+>
+>  arch/x86/kernel/setup.c                       |   1 +
+>  arch/x86/platform/efi/efi.c                   |   3 +
+>  drivers/firmware/efi/Makefile                 |   1 +
+>  drivers/firmware/efi/arm-init.c               |   1 +
+>  drivers/firmware/efi/efi.c                    |   6 +
+>  drivers/firmware/efi/mokvar-table.c           | 360 ++++++++++++++++++
+>  include/linux/efi.h                           |  34 ++
+>  security/integrity/platform_certs/load_uefi.c |  85 ++++-
+>  8 files changed, 472 insertions(+), 19 deletions(-)
+>  create mode 100644 drivers/firmware/efi/mokvar-table.c
+>
 
-Samuel found out that this model has another WMI "object" with an devid of
-0x00060062 which correctly reports laptop vs tablet-mode on the
-Asus UX360CA.
+Thanks. I have tentatively queued these up in efi/next.
 
-All the models on which the SW_TABLET_MODE code was previously tested do
-not have this new devid 0x00060062 object.
+Mimi, please let me know if you have any thoughts on 3/3, and whether
+your R-b on 2/3 [v1] implies that you are ok with the series going
+through the EFI tree.
 
-This commit adds support for the new devid 0x00060062 object and prefers it
-over the older 0x00120063 object when present, fixing SW_TABLET_MODE always
-being reported as 1 on these models.
-
-Reported-and-tested-by: Samuel Čavoj <samuel@cavoj.net>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/asus-wmi.c            | 32 ++++++++++++++++++----
- include/linux/platform_data/x86/asus-wmi.h |  1 +
- 2 files changed, 28 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 8f4acdc06b13..c8689da0323b 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
- #define NOTIFY_KBD_BRTTOGGLE		0xc7
- #define NOTIFY_KBD_FBM			0x99
- #define NOTIFY_KBD_TTP			0xae
-+#define NOTIFY_FLIP_TABLET_MODE_CHANGE	0xfa
- 
- #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
- 
-@@ -173,6 +174,7 @@ struct asus_wmi {
- 	int spec;
- 	int sfun;
- 	bool wmi_event_queue;
-+	bool use_flip_tablet_mode;
- 
- 	struct input_dev *inputdev;
- 	struct backlight_device *backlight_device;
-@@ -365,12 +367,22 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
- 	if (err)
- 		goto err_free_dev;
- 
--	result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-+	result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_FLIP_TABLET_MODE);
- 	if (result >= 0) {
-+		asus->use_flip_tablet_mode = true;
- 		input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
--		input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
--	} else if (result != -ENODEV) {
--		pr_err("Error checking for keyboard-dock: %d\n", result);
-+		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-+	} else {
-+		if (result != -ENODEV)
-+			pr_err("Error checking for flip-tablet-mode: %d\n", result);
-+
-+		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-+		if (result >= 0) {
-+			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-+			input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
-+		} else if (result != -ENODEV) {
-+			pr_err("Error checking for keyboard-dock: %d\n", result);
-+		}
- 	}
- 
- 	err = input_register_device(asus->inputdev);
-@@ -2114,7 +2126,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
- 		return;
- 	}
- 
--	if (code == NOTIFY_KBD_DOCK_CHANGE) {
-+	if (!asus->use_flip_tablet_mode && code == NOTIFY_KBD_DOCK_CHANGE) {
- 		result = asus_wmi_get_devstate_simple(asus,
- 						      ASUS_WMI_DEVID_KBD_DOCK);
- 		if (result >= 0) {
-@@ -2125,6 +2137,16 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
- 		return;
- 	}
- 
-+	if (asus->use_flip_tablet_mode && code == NOTIFY_FLIP_TABLET_MODE_CHANGE) {
-+		result = asus_wmi_get_devstate_simple(asus,
-+						      ASUS_WMI_DEVID_FLIP_TABLET_MODE);
-+		if (result >= 0) {
-+			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-+			input_sync(asus->inputdev);
-+		}
-+		return;
-+	}
-+
- 	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
- 		fan_boost_mode_switch_next(asus);
- 		return;
-diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-index 897b8332a39f..1897b4683562 100644
---- a/include/linux/platform_data/x86/asus-wmi.h
-+++ b/include/linux/platform_data/x86/asus-wmi.h
-@@ -62,6 +62,7 @@
- 
- /* Misc */
- #define ASUS_WMI_DEVID_CAMERA		0x00060013
-+#define ASUS_WMI_DEVID_FLIP_TABLET_MODE	0x00060062
- 
- /* Storage */
- #define ASUS_WMI_DEVID_CARDREADER	0x00080013
 -- 
-2.28.0
-
+Ard.
