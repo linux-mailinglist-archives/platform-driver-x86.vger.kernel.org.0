@@ -2,90 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B0FC267F53
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 13 Sep 2020 13:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F7332680E7
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 13 Sep 2020 21:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgIMLah (ORCPT
+        id S1725941AbgIMTCQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 13 Sep 2020 07:30:37 -0400
-Received: from mail4.protonmail.ch ([185.70.40.27]:25241 "EHLO
-        mail4.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725925AbgIMLac (ORCPT
+        Sun, 13 Sep 2020 15:02:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20832 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725936AbgIMTCM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 13 Sep 2020 07:30:32 -0400
-Date:   Sun, 13 Sep 2020 11:30:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1599996628;
-        bh=/hvV77UW8bk0SQLfivaTogk88b1zriV7+U0Iq1Eyo1A=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=PS2Ge2AHVl81ircX47Hih/Y4ii0/Oi6RyXZoNRuubs5mATixNu2uQu7eVPVH6qG2/
-         H1mW7V7q7Lb9YWAepXTVFKI6/dOsGswZq/d6IFeCrKiAioktywohS/1AHeXYqs1zGa
-         5cLUQ6QazXVwxeCDK/p1Hv9L6BwcwOWozrJJ5z0c=
-To:     Hans de Goede <hdegoede@redhat.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: platform/x86: intel-vbtn: reports SW_TABLET_MODE=1 even if that's not the case
-Message-ID: <k82rbLZBwxhSYxUPWnqP0G_oJ3yof1ZyFqrjfjqOOcU1mciHkULzR4VkExiLjqoF2yalSyx2OOmlwnLwkFYVJC4SLim1Bf1EU6A2elFEjZk=@protonmail.com>
-In-Reply-To: <9f504b07-8c2b-c9d7-a1c0-916bee64239f@redhat.com>
-References: <xLfPpWwkWaQU4pHxoBXzNeZI7WiE3fDhUosWg0cGx6I9xjfGDuimPIRxyRAYc_2wMnrUlsoTJejBrzjh6sDWyzVMJPJn-rXlFxr08figVQw=@protonmail.com> <e14f5acb-7533-19d9-246e-bc7fedbd1283@redhat.com> <GMp06zPfgYjjqpspL-HMXHNK7Ueq2GXKEFrDNbi8Rp8xBBK-JFXFB_70z-ZukFX5N_z2jgWv_lb_KVl3r4cZEpBWLXiHKkVt-ldtSVK8D7g=@protonmail.com> <9f504b07-8c2b-c9d7-a1c0-916bee64239f@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+        Sun, 13 Sep 2020 15:02:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600023731;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=F8whIUgMp1lvGf/GWEweUfRdukW6LYYiX1ca+Djnia4=;
+        b=Chlw4glww2F4QoIPR1LPFfxOi61YBDYtpg4L/Ny1+dUgf5mPJky+bb/ZmjufGF0tweO+NS
+        rO8fdPDitjnQL//zxE37vSF2yydFAoPU3tGk1CuvlYyLaQKlrrQXnZGfjojxubmEN0eiJE
+        Ub3xhlQhRr4KoeHl0QPfXb9+g/0grNc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-5TTVbYVvO96NDFQ0-eLplw-1; Sun, 13 Sep 2020 15:02:09 -0400
+X-MC-Unique: 5TTVbYVvO96NDFQ0-eLplw-1
+Received: by mail-qv1-f69.google.com with SMTP id g9so5135949qvn.19
+        for <platform-driver-x86@vger.kernel.org>; Sun, 13 Sep 2020 12:02:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=F8whIUgMp1lvGf/GWEweUfRdukW6LYYiX1ca+Djnia4=;
+        b=T2JADYc9Zi6u2KD5BaLN8B0Y9g2bUV5X+01iMZyqFeq/P5Ex0b0qsvGzAMfhvp7EhK
+         Q2DQn7I9qZ36Sg+6bDVOlqCdcQFC9/8LcW65DXpymeMQiTdvjURauPW97CImHg39kNiA
+         YE26HBR0geEwU4HLIntGegaBa3RgRLqW4HBub7Y//z5mjmuc7QcHRKqyvfC44EEqBaFH
+         ofDkS3opE9VKEtRUc0FGq/hW7XtoVMuOA7L64Xr93IakiPy7VBMInpzjYsQe/DXAPMxe
+         gv9cZTi4zAjZWW7y4OW+aUTkbhDypu+CHiCgJgRHPmtGUYDUsKFfdy6AgncpcqRPUmx9
+         NnpQ==
+X-Gm-Message-State: AOAM532rFZ5F4a4i68o1vE4G/weX09RwX9O4cc07FDKMSvv/t4Vcy3k3
+        mwSgHY1soJq3bRYC+o7goBDUM+xz3ORkSJOkUtGgsjnwx8p2l7iTclLL6aFmz+Id3yJuMez+xNM
+        f9UzMjSIJRacXwBvEG64uFRSi1efzJX4CDQ==
+X-Received: by 2002:a37:a712:: with SMTP id q18mr9291035qke.428.1600023728998;
+        Sun, 13 Sep 2020 12:02:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzl3SCpA4CYaZI45tebrp4s5fvkg4CmyqPUIZ9fKX8iY36eLoGjn6Cbp912F6ErRHj9/xwbEA==
+X-Received: by 2002:a37:a712:: with SMTP id q18mr9291014qke.428.1600023728751;
+        Sun, 13 Sep 2020 12:02:08 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id g19sm11583013qka.84.2020.09.13.12.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2020 12:02:08 -0700 (PDT)
+From:   trix@redhat.com
+To:     ibm-acpi@hmh.eng.br, dvhart@infradead.org, andy@infradead.org,
+        natechancellor@gmail.com, ndesaulniers@google.com,
+        len.brown@intel.com
+Cc:     ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, Tom Rix <trix@redhat.com>
+Subject: [PATCH] platform/x86: thinkpad_acpi: initialize tp_nvram_state variable
+Date:   Sun, 13 Sep 2020 12:02:03 -0700
+Message-Id: <20200913190203.22238-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> Ok, so at least the regression is fixed.
+From: Tom Rix <trix@redhat.com>
 
-Thank you again for the quick solution.
+clang static analysis flags this represenative problem
+thinkpad_acpi.c:2523:7: warning: Branch condition evaluates
+  to a garbage value
+                if (!oldn->mute ||
+                    ^~~~~~~~~~~
 
+In hotkey_kthread() mute is conditionally set by hotkey_read_nvram()
+but unconditionally checked by hotkey_compare_and_issue_event().
+So the tp_nvram_state variable s[2] needs to be initialized.
 
-> > > Can you ask the user to run "sudo evemu-record" and then select the
-> > > "Intel Virtual Button driver" device? That should now report 0 as sta=
-te
-> > > for SW_TABLET_MODE when booted in normal clamshell mode; and hopefull=
-y it
-> > > will change to 1 when the user folds the 2-in-1 into tablet mode.
-> >
-> > Reportedly, that does not happen. It stays zero.
->
-> Bummer, the DSDT does have this embedded-controller event-handler,
-> but I guess that is not getting triggered then:
->
+Fixes: 01e88f25985d ("ACPI: thinkpad-acpi: add CMOS NVRAM polling for hot keys (v9)")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have seen Q49 as well, so I'm also surprised it doesn't work.
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 47925c319d7b..24da8b6872f2 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -2573,7 +2573,7 @@ static void hotkey_compare_and_issue_event(struct tp_nvram_state *oldn,
+  */
+ static int hotkey_kthread(void *data)
+ {
+-	struct tp_nvram_state s[2];
++	struct tp_nvram_state s[2] = { 0 };
+ 	u32 poll_mask, event_mask;
+ 	unsigned int si, so;
+ 	unsigned long t;
+-- 
+2.18.1
 
-
-> [...]
-> If you feel like digging deeper, you could try to figure out
-> why the _Q49 method does not get called. Chances are it has
-> something to do with the ACPI embedded-controller (EC) code.
->
-> You could ask for a full dmesg and check for:
-> a) kernel cmdline parameters which should normally not be there
-> b) ACPI EC errors
-
-dmesg has been checked, and the only ACPI errors that appear seem unrelated=
-.
-
-
-> And maybe also see "cat /proc/interrupts" output and check that
-> there is an "acpi" interrupt handler (typically IRQ 9).
-
-Since acpid picks up events when the power cord (dis)connected, I'm positiv=
-e
-there is one.
-
-I think I'm gonna let this be for now since the issue is fixed and I don't
-quite have the capacity to spend time on this. Thanks for the help again.
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
