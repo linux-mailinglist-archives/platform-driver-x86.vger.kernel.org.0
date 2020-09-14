@@ -2,59 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2885326876B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Sep 2020 10:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E98FB2687B3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Sep 2020 10:58:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgINIpK (ORCPT
+        id S1726112AbgINI6D (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Sep 2020 04:45:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23154 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726070AbgINIpJ (ORCPT
+        Mon, 14 Sep 2020 04:58:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57290 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726202AbgINI57 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Sep 2020 04:45:09 -0400
+        Mon, 14 Sep 2020 04:57:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600073106;
+        s=mimecast20190719; t=1600073878;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=pW/vk94WsYEDRmXNshGA+k0R8rAa7yyDn4jRtsj9CG8=;
-        b=Gnsy7hs0q+6AOQ5RUetgcdaWsJuYS62nl5EgdHIfkAPC0PZtSW+kAg/IFMYrbUYtO8BiO7
-        YUlu6vf78mwjsZIt8cBbyHPSBKSCLTR2Nc70fuz+popE9hAdMRjf+k/5qJEmgt8jNTiEsO
-        WpkcjhX7zPL6Z7fNp9NyUntTX3d5KRU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-Ns4-XvEVP8qVeXpWsycPcg-1; Mon, 14 Sep 2020 04:45:05 -0400
-X-MC-Unique: Ns4-XvEVP8qVeXpWsycPcg-1
-Received: by mail-ed1-f71.google.com with SMTP id r19so8969489edq.12
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Sep 2020 01:45:04 -0700 (PDT)
+        bh=WEum23t+svlghEHDrkfiWQI1PF+qJnq2D7g9bZsVKfA=;
+        b=I38UDOpQi+lVdmbnzfE3CBh1xWCkxQ92OKrMwAUZW4NB8MPZ/SPhYlOvILjVgPqiM1aToj
+        6rdT2I5MRuqzCpWad+YVx743J8h2ApwE47Q/8PQRhpaFBj2isd3I4hSpUPHTO18qF3EvyI
+        zDbqsi0YWtPF6ViBlFaS2gKp53BhS2o=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-D32eSiqWPO2WA2ofXaYlpw-1; Mon, 14 Sep 2020 04:57:56 -0400
+X-MC-Unique: D32eSiqWPO2WA2ofXaYlpw-1
+Received: by mail-ed1-f70.google.com with SMTP id m88so9039718ede.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Sep 2020 01:57:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pW/vk94WsYEDRmXNshGA+k0R8rAa7yyDn4jRtsj9CG8=;
-        b=gy5dU6jMzxPqBBrXTvpM3leb47v0ACxdYU3fALbKd3wnhAB0dlw7OpO4dlpLQGcIdg
-         vlNXiWSCD/6Z4OsSY7OXLCcv96LoeU4Qq94hemawIhl7PjsReePv/ovgspMmZeltM2XD
-         JhRUYYE0A/4chnS1w9O5QTipOCE1d9S3RpA6BvorVflaWwBhrT8635yDktWxU8xe5aRm
-         w1YM343nEcv6q4qbeFNwIhIm5OkpVez3KdPz/07v2ujhzaEM2zY8RBmk/07HFlZYLLx0
-         33X/KZjb3t3e2j8WeWvE/SjcktWiHDnQsCEurp0AOv+/1Pops6kVTi2GA287zMq+fBCD
-         +W9w==
-X-Gm-Message-State: AOAM531rzB4KmAyBV/JGiCEKzPUZW9j8s7MJAySUGk5SufRqegG0STSO
-        rwPWeu5ySDVO1wqC8A9i7KN5DUeBtQgvRx/j63LKBQcsDtTCmcAre+Xnj8XjCGeWTbK2mJgXnok
-        sVgvWNstWvV7gu2JuAofZfsJA8xCTVuVRSA==
-X-Received: by 2002:a17:907:408d:: with SMTP id nt21mr13288572ejb.355.1600073103718;
-        Mon, 14 Sep 2020 01:45:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqpFgAK/K/xz5l1UvFiBdC94iD63utdCj8DMpAFZ8VvVN87Ixvtwhq6KbisXo7mWn4AYgV+Q==
-X-Received: by 2002:a17:907:408d:: with SMTP id nt21mr13288561ejb.355.1600073103520;
-        Mon, 14 Sep 2020 01:45:03 -0700 (PDT)
+        bh=WEum23t+svlghEHDrkfiWQI1PF+qJnq2D7g9bZsVKfA=;
+        b=jkbOUlfes8MJ2hKrAds1cbLX7LBN99++Yd01MKJ3Xhs87vd13uyFHogA2UkYasO2cx
+         K9UNaU1SVSV2HTwtpsTPHXS9IhhpF+yEda43ZL14DGuDf9Vt2DI5nBMtMyGQJ1rue7QT
+         MeGPSTkrU7kYVG359L4dXmurtjQyFIvZoz4gy8k2rMWU1ke5OAjwr8T8K7FAAtMKz29O
+         CGSNHErJE2yjNJ/rX6VgLjpv3Vm5JsBbudMTPLF4s+Jsdl542q7dRf4meGPqKckl6bFA
+         1331cdHpn9D22pC+DXJGC/EsxrZ+6l7u1CyGuT06Ld4DrybkX0e1dMiXvD2DwTU0WfmW
+         8VoQ==
+X-Gm-Message-State: AOAM532en9T+yuZIEigGspTWpi1Q5rRZ2PIZNtJYaUBC5kB2elrdtdiM
+        zTRQ6H9V41efx6sSdfvBCWrur5RdT/plQtLLoQIOfSQnk+fZd2FhxpcnYj8P3fbYrFqv3WRf29/
+        vLztDiK/+3Unww0pqIYz7Mot8zbccRy9H7Q==
+X-Received: by 2002:a50:fc08:: with SMTP id i8mr16508800edr.257.1600073875031;
+        Mon, 14 Sep 2020 01:57:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzng0e3crIM0MRmKRuvBPIqhmdf3VOfEgrWBfiTtfm3AqYj3npyUr1SsG6ROGW4UluC5pO7Ug==
+X-Received: by 2002:a50:fc08:: with SMTP id i8mr16508791edr.257.1600073874850;
+        Mon, 14 Sep 2020 01:57:54 -0700 (PDT)
 Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id p17sm1537912edw.10.2020.09.14.01.45.02
+        by smtp.gmail.com with ESMTPSA id d6sm8987645edm.31.2020.09.14.01.57.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 01:45:02 -0700 (PDT)
+        Mon, 14 Sep 2020 01:57:54 -0700 (PDT)
 Subject: Re: [PATCH] Introduce support for Systems Management Driver over WMI
  for Dell Systems
+From:   Hans de Goede <hdegoede@redhat.com>
 To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
         Divya Bharathi <divya27392@gmail.com>,
         "dvhart@infradead.org" <dvhart@infradead.org>
@@ -66,13 +67,13 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
 References: <20200730143122.10237-1-divya_bharathi@dell.com>
  <aa23d8b8-6c6b-b6f2-e916-1defff8a9b26@redhat.com>
  <DM6PR19MB26362B2A2CDFE73BE167FD34FA2E0@DM6PR19MB2636.namprd19.prod.outlook.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c5a6e340-66ec-e03b-a9a8-9c61b9f388d5@redhat.com>
-Date:   Mon, 14 Sep 2020 10:45:02 +0200
+ <c5a6e340-66ec-e03b-a9a8-9c61b9f388d5@redhat.com>
+Message-ID: <25c9e901-ed28-eb87-bd89-652c3710b62b@redhat.com>
+Date:   Mon, 14 Sep 2020 10:57:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <DM6PR19MB26362B2A2CDFE73BE167FD34FA2E0@DM6PR19MB2636.namprd19.prod.outlook.com>
+In-Reply-To: <c5a6e340-66ec-e03b-a9a8-9c61b9f388d5@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,120 +84,41 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-Sorry for being slow with getting back to you on this.
+On 9/14/20 10:45 AM, Hans de Goede wrote:
 
-On 9/1/20 4:22 PM, Limonciello, Mario wrote:
->>
->> "A read-only attribute enumerating if a reboot is pending on any BIOS attribute
->> change."
->> does not really seem to make much sense. I guess what this is trying to say is:
->>
->> "This read-only attribute reads 1 if a reboot is necessary to apply pending BIOS
->> attribute changes"?
->>
->>                0:      All BIOS attributes setting are current
->>                1:      A reboot is necessary to get pending pending BIOS attribute
->> changes applied
->>
->> Or some such. I'm not really happy with my own text either, but I think it
->> better explains
->> what this attribute is about then the original text, right ?
-> 
-> I think that text does read better, Divya and team will reword it.
-> 
-> <snip>
-> 
->>> +           display_name_language_code:     A file that can be read to obtain
->>> +           the language code corresponding to the "display_name" of the <attr>
->>
->> This needs to be specified better, e.g. this needs to say that this is an
->> ISO 639‑1 language code (or some other language-code specification)
-> 
-> Ack.
-> 
->>
->>
->>> +
->>> +           modifier:       A file that can be read to obtain attribute-level
->>> +           dependency rule which has to be met to configure <attr>
->>
->> What is the difference between modifier and value_modifier ? Also this need to
->> be specified in more detail.
-> 
-> Ack.
-> 
->>
->>> +
->>> +           possible_value: A file that can be read to obtain the possible
->>> +           value of the <attr>
->>
->> This is an enum, so possible value_s_ ?  I assume that for a enum this will list
->> all possible values, this also needs to specify how the possible values will be
->> separated (e.g. using semi-colons or newlines or ...).
-> 
-> Yes correct.
-> 
->>
->>
->>> +
->>> +           value_modifier: A file that can be read to obtain value-level
->>> +           dependency on a possible value which has to be met to configure
->> <attr>
->>> +
->>> +What:              /sys/devices/platform/dell-wmi-
->> sysman/attributes/integer/<attr>/
->>> +Date:              October 2020
->>> +KernelVersion:     5.9
->>> +Contact:   Divya Bharathi <Divya.Bharathi@Dell.com>,
->>> +           Mario Limonciello <mario.limonciello@dell.com>,
->>> +           Prasanth KSR <prasanth.ksr@dell.com>
->>> +Description:
->>> +           This directory exposes interfaces for interaction with
->>> +           BIOS integer attributes.
->>> +
->>> +           Integer attributes are settings that accept a range of
->>> +           numerical values for inputs. Each BIOS integer has a
->>> +           lower bound and an upper bound on the values that it can take.
->>> +
->>> +           current_value:  A file that can be read to obtain the current
->>> +           value of the <attr>
->>> +
->>> +           This file can also be written to in order to update
->>> +           the value of an <attr>.
->>> +
->>> +           default_value:  A file that can be read to obtain the default
->>> +           value of the <attr>
->>> +
->>> +           display_name:   A file that can be read to obtain a user friendly
->>> +           description of the at <attr>
->>> +
->>> +           display_name_language_code:     A file that can be read to obtain
->>> +           the language code corresponding to the "display_name" of the <attr>
->>> +
->>> +           lower_bound:    A file that can be read to obtain the lower
->>> +           bound value of the <attr>
->>> +
->>> +           modifier:       A file that can be read to obtain attribute-level
->>> +           dependency rule which has to be met to configure <attr>
->>> +
->>> +           scalar_increment:       A file that can be read to obtain the
->>> +           resolution of the incremental value this attribute accepts.
->>> +
->>> +           upper_bound:    A file that can be read to obtain the upper
->>> +           bound value of the <attr>
->>
->> Are these integers or also possibly floats? I guess possibly also floats, right?
->> Then at a minimum this should specify which decimal-separator is used (I assume
->> we will go with the usual '.' as decimal separator).
-> 
-> In practice they're integers, but I don't see why they couldn't be floats.
+<snip>
 
-Hmm, that is a bit hand-wavy, for an userspace ABI we really need to define
-this clearly. Either it is integers (which is fine), or it is floats and we need
-to define a decimal-separator as part of the ABI.
+>>>> +           lower_bound:    A file that can be read to obtain the lower
+>>>> +           bound value of the <attr>
+>>>> +
+>>>> +           modifier:       A file that can be read to obtain attribute-level
+>>>> +           dependency rule which has to be met to configure <attr>
+>>>> +
+>>>> +           scalar_increment:       A file that can be read to obtain the
+>>>> +           resolution of the incremental value this attribute accepts.
+>>>> +
+>>>> +           upper_bound:    A file that can be read to obtain the upper
+>>>> +           bound value of the <attr>
+>>>
+>>> Are these integers or also possibly floats? I guess possibly also floats, right?
+>>> Then at a minimum this should specify which decimal-separator is used (I assume
+>>> we will go with the usual '.' as decimal separator).
+>>
+>> In practice they're integers, but I don't see why they couldn't be floats.
+> 
+> Hmm, that is a bit hand-wavy, for an userspace ABI we really need to define
+> this clearly. Either it is integers (which is fine), or it is floats and we need
+> to define a decimal-separator as part of the ABI.
+> 
+> Note the reason why I started wondering about this in the first place is the
+> scalar_increment attribute. I think that can use some clarification too.
 
-Note the reason why I started wondering about this in the first place is the
-scalar_increment attribute. I think that can use some clarification too.
+p.s.
+
+I just realized that the lower_ / upper_bound attributes would be
+better if they were renamed to min_value and max_value then everyone
+will immediately understand what they are without even needing to
+consult the docs.
 
 Regards,
 
