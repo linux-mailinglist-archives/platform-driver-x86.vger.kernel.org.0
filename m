@@ -2,57 +2,57 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B0F9268809
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Sep 2020 11:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 983B526880D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Sep 2020 11:14:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726272AbgINJNw (ORCPT
+        id S1726280AbgINJOE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Sep 2020 05:13:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58084 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726269AbgINJNu (ORCPT
+        Mon, 14 Sep 2020 05:14:04 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47240 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726285AbgINJOB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Sep 2020 05:13:50 -0400
+        Mon, 14 Sep 2020 05:14:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600074828;
+        s=mimecast20190719; t=1600074837;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
         bh=CfJskBQHpZ9+0kSwLmzC02tWH8sjBa4yGY+QGL9Ecbg=;
-        b=FtP8l8fMwzl0jvHoqjRjd4RDub0Ohrp2sPKbHa6+i5kVWpHgirjnq0i6nVycH4aCDAByZX
-        IIjP14Cp0ZwbmV5MDYl7nZ5VOkgw9if2QO3zyNvpqu61nD+GhQFFYRAqcWpg0gaEALGQ28
-        dB24RG1Mz6w4SlHggRltTe3Etn6aaVo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-tS4tb1S7NzqL3s4vQBn7oQ-1; Mon, 14 Sep 2020 05:13:46 -0400
-X-MC-Unique: tS4tb1S7NzqL3s4vQBn7oQ-1
-Received: by mail-ed1-f72.google.com with SMTP id y1so8979337edw.16
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Sep 2020 02:13:45 -0700 (PDT)
+        b=cy/llAoH/ik1fOffYstaawNlSu/8zhyVx50fSNmtkSrZrWyWkS27jvCwdm07d9ztae2Lre
+        HfrEFv8I/9CSLC4BojNyfamnzNfd4s3AYOS6Xg9ZHiPoWbVslnZEGCtJPnFqVB0qTIrpDL
+        etFiLfuVDTnxQ+GYmpusstqGSwbG3gM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-_TmTjAusMKCM1ZtXMNogRw-1; Mon, 14 Sep 2020 05:13:55 -0400
+X-MC-Unique: _TmTjAusMKCM1ZtXMNogRw-1
+Received: by mail-ed1-f70.google.com with SMTP id m10so1042828edj.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Sep 2020 02:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=CfJskBQHpZ9+0kSwLmzC02tWH8sjBa4yGY+QGL9Ecbg=;
-        b=b19hUgBAv+tWlTUPPTDm+gIr+c9vM0c9W4XjyKN640RkIIg/SFawvIN6qjwvGQVsDB
-         OfWhDE/S4Z6MBy7gBdlR+cBPf75SKjchn5jr3FItPBOaFchgl9X/RjnQWrqW2xQfp7XY
-         TjZisduCeF4GDf1AoJmK9dA6ywnnstlRXnZAjzGl0u0vCITS1vsYRCcD3rKzQcf2WNVq
-         nRvDIwyG+dIdhCz/s4RvqkRnj/zsw1iETpoqejz3DOQnc/3J/CwDURkEw3iO+2ztQcCL
-         DXkV1J+rkqljTZ+eDV/mhQJBEs50JRy8RmTrxBBjASSgh6w/+JM8ZMC528ND5JU5x9Xt
-         tz5Q==
-X-Gm-Message-State: AOAM531UD72eI5lTTG3PcdE6fg1pqh0zuEjjH2i9/4bjsliNsQZgwUmS
-        hnGNIq3QXOdX0kRJXyZzTVHU4001gFslUwKLuSVyFR4S8dQyiUwC20OnmNAMS91YRj+H6duJ8ij
-        umCgFQkkkqrW5ykak7ud1O/EDI8mQfsYFvg==
-X-Received: by 2002:a17:906:68d2:: with SMTP id y18mr14016457ejr.197.1600074824651;
-        Mon, 14 Sep 2020 02:13:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRZmcoCy7+DaBt2o179H5nEOGxtpTraCEQvULjlk/r0/smYMTBVKBQjSpLLEFFxUCDhCilxg==
-X-Received: by 2002:a17:906:68d2:: with SMTP id y18mr14016430ejr.197.1600074824315;
-        Mon, 14 Sep 2020 02:13:44 -0700 (PDT)
+        b=jBIgc1cdsy1YitiZRIFzl81+YaZUZZ8H5vGrWtJzX5oy8KghqJ2ZsOPvjGPjmKb/Rh
+         T7Xt0tRWz7abt2WYa9Aoo6ZLU6PSBIgPI3U7SHKwoIQZVq4ungtlBglo87QeR6w02P65
+         /IhzBbD9haZv6C0LI8g3GO5Bp0oXQQ05QoVzdxKYmWZb168wg9C7m/DTeUKHzT5fw6fD
+         jDITgG59WBkqTzFTqquxOKrZlcLtYZzqgKfwi0TSKeCEUbFccasUu9twjJzOlA1wuKkT
+         ampO4BMvqk0P4Aez/Y5jKFq8512KymJL6gSVp8ejjHGAKeXnCVhg2tgyOwpfOM+Ydwev
+         iB0w==
+X-Gm-Message-State: AOAM530YFmxwJNSvDlwMEtXLshLzGctqF2ma1awunbaSAtW9egXqpN5+
+        S0O1FDPZLdsC29In9lbgCSi/Mpc6Gmra+2KhoUgWmmKZQ1t0aqbZdErPCQBLKYj+tB8/D9fazMT
+        +fykzYQ0vNGZV4ZpjASOGT7G90sxn4PXedg==
+X-Received: by 2002:a17:906:cf82:: with SMTP id um2mr13570483ejb.49.1600074834290;
+        Mon, 14 Sep 2020 02:13:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysL1pyes10CScG4wjxSTQHVK5ShSVXdhDVlsBVuhhKnzo+TmMEVrrtEd6BYfUO/oEh2yB8qg==
+X-Received: by 2002:a17:906:cf82:: with SMTP id um2mr13570450ejb.49.1600074833896;
+        Mon, 14 Sep 2020 02:13:53 -0700 (PDT)
 Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id ce14sm8914912edb.25.2020.09.14.02.13.43
+        by smtp.gmail.com with ESMTPSA id ot19sm7243799ejb.121.2020.09.14.02.13.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 02:13:43 -0700 (PDT)
+        Mon, 14 Sep 2020 02:13:53 -0700 (PDT)
 Subject: Re: [PATCH] Introduce support for Systems Management Driver over WMI
  for Dell Systems
 To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
@@ -69,8 +69,8 @@ References: <20200730143122.10237-1-divya_bharathi@dell.com>
  <d3de1d27-25ac-be43-54d8-dcbfffa31e1d@redhat.com>
  <DM6PR19MB26364970D0981212E811E1B0FA2E0@DM6PR19MB2636.namprd19.prod.outlook.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <97b3e266-1e20-6cf5-8960-c60b1b04f6bc@redhat.com>
-Date:   Mon, 14 Sep 2020 11:13:42 +0200
+Message-ID: <67ca316a-227f-80f6-ad22-7d08112b2584@redhat.com>
+Date:   Mon, 14 Sep 2020 11:13:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
