@@ -2,100 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 411D626A1B8
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Sep 2020 11:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D1F826AF76
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Sep 2020 23:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgIOJKq (ORCPT
+        id S1728042AbgIOVVl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Sep 2020 05:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41310 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbgIOJKp (ORCPT
+        Tue, 15 Sep 2020 17:21:41 -0400
+Received: from mga09.intel.com ([134.134.136.24]:28756 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728021AbgIOVUf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Sep 2020 05:10:45 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E1DC06174A;
-        Tue, 15 Sep 2020 02:10:44 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id t10so2501836wrv.1;
-        Tue, 15 Sep 2020 02:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=txzfbZrnakH2vaBjHQaalxnwyww01JCiom2JkdV9wmw=;
-        b=kUnELQITvGByzN0wd3bKx6OJ8cJu1FkJ9Pr9qtd4PWLcZRGOmv2Ig3K2HXRQLNwwT3
-         Z4Vak+BFA2C6caVthL7H6Nl0hDPfI0nmPbEJn5i+FrRPU09AsFQyAlWpYvZLhvLZzZXU
-         MuePsAIavbIZHbxXqMd1q5YNAMQW0kBM30a2mabmO1DARz/MxyxXDAQ/FT5IgUe+hS7Y
-         t1hlautpQ5hfbOzDumuqW4NCwbgmOLDFBATHnjI02gGFxidmilgni0GutfSB3QUxH8yH
-         jOG1NSmiCsVPUY5iXX6lBwO6qoEI+g2fKq311AdqErkcp2+U5MBm+3nUbbYHeeJ3+DZZ
-         3ZXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=txzfbZrnakH2vaBjHQaalxnwyww01JCiom2JkdV9wmw=;
-        b=sSp+/ksMyv+B+USefKPsIBXeidhlw6my9HNoWOf/79YdBedXw4qK1qFyTY6NxpJihm
-         UdhXs82uML+NPXMRuNS4pK+FT0GpB7QoK9IY00gKRd+qy9UzpCASiep99E/gZaHx3QHg
-         yQsLqSH1pb4gPRvHfTHmsnnREPD6OGQy1/3LG8VOU0Iucoo1AGJxApjY6ZdcL1KXRg2n
-         BH82pUpks4MiiT3ibpOLx3hP5RjefPQAPzbHxEX629sJEJoWgRdOnp1CfVpcPUyOJ6Ic
-         tOV0z9n9vs/U7Cw8hVGaWZl3X+4IpL3ShUye6n1IXgxxT7nUJHkxm0rh69suixiciAWB
-         EuZQ==
-X-Gm-Message-State: AOAM531nj9STB83gLLdBWuUBXhAbuuehAzBKhnhDRqi/gFNjvAG990ID
-        8bko1ZPUHUQ9H0Ps77MzRAU=
-X-Google-Smtp-Source: ABdhPJyrM+kjDYT88l6l/yATdBcYMsvxnYG7dYhRpSdBRWmEE30T7FpRxEL3HiiAJTKwT3PHNC4CwQ==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr21801771wrp.213.1600161043205;
-        Tue, 15 Sep 2020 02:10:43 -0700 (PDT)
-Received: from localhost.localdomain ([85.153.229.188])
-        by smtp.gmail.com with ESMTPSA id k4sm25899060wrx.51.2020.09.15.02.10.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 02:10:42 -0700 (PDT)
-From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
-To:     andy@infradead.org
-Cc:     matan@svgalib.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, paul@pgazz.com, jeho@cs.utexas.edu,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>
-Subject: [PATCH] platform/x86: fix kconfig dependency warning for LG_LAPTOP
-Date:   Tue, 15 Sep 2020 12:09:23 +0300
-Message-Id: <20200915090922.16423-1-fazilyildiran@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 15 Sep 2020 17:20:35 -0400
+IronPort-SDR: f8NHnWMX1O33VTm7sKyJB3aTB4FPR/+QAzPt4vKGb4+gcP9MLffjxtZRIlwwsQWfUMM4wSO60K
+ HDh2IQxULQyw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="160283133"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="160283133"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 14:19:50 -0700
+IronPort-SDR: 5he6km/6lWMs12kwE0KT/d5duW+O2FupTX1dLWYbGaty065qvt2xskpcHAiYRRiIkkA+VXrVWY
+ UVbFx4sho3tQ==
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="343657747"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 14:19:50 -0700
+Received: from localhost (mtg-dev.jf.intel.com [10.54.74.10])
+        by smtp.ostc.intel.com (Postfix) with ESMTP id 2BB536369;
+        Tue, 15 Sep 2020 14:19:50 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 14:19:50 -0700
+From:   mark gross <mgross@linux.intel.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: Add Driver to set up lid GPEs on MS
+ Surface device
+Message-ID: <20200915211950.GL103884@mtg-dev.jf.intel.com>
+Reply-To: mgross@linux.intel.com
+References: <20200908171934.1661509-1-luzmaximilian@gmail.com>
+ <20200911221053.GF103884@mtg-dev.jf.intel.com>
+ <e6125bee-d42e-f485-295a-8b9ad6777d4a@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6125bee-d42e-f485-295a-8b9ad6777d4a@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When LG_LAPTOP is enabled and NEW_LEDS is disabled, it results in the
-following Kbuild warning:
-
-WARNING: unmet direct dependencies detected for LEDS_CLASS
-  Depends on [n]: NEW_LEDS [=n]
-  Selected by [y]:
-  - LG_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && ACPI_WMI [=y] && INPUT [=y]
-
-The reason is that LG_LAPTOP selects LEDS_CLASS without depending on or
-selecting NEW_LEDS while LEDS_CLASS is subordinate to NEW_LEDS.
-
-Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
-
-Fixes: dbf0c5a6b1f8 ("platform/x86: Add LG Gram laptop special features driver")
-Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- drivers/platform/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 40219bba6801..81f6079d08e6 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1112,6 +1112,7 @@ config LG_LAPTOP
- 	depends on ACPI_WMI
- 	depends on INPUT
- 	select INPUT_SPARSEKMAP
-+	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
- 	 This driver adds support for hotkeys as well as control of keyboard
--- 
-2.25.1
+On Sat, Sep 12, 2020 at 12:46:30AM +0200, Maximilian Luz wrote:
+> On 9/12/20 12:10 AM, mark gross wrote:
+> > Surface devices are tablets with detachable keyboards.  they don't really
+> > have a "lid" as the tablet is the "lid".
+> 
+> The Surface Laptop series doesn't have a detachable keyboard, yet still
+> requires this. Arguably, the Surface Books are also more laptop than
+> tablet (at least that's the way I use mine...). Finally, on the actual
+> tablets (Surface Pro series) the lid switch detects when the keyboard
+> cover is opened (or at least that's what I have been told, I don't
+> own/have access to a Pro series device).
+> 
+> Regardless of that, this patch is intended to provide the same behavior
+> as found on Windows, for all devices included in this patch, which is:
+> When you open the lid, or in case of the Pro series fold away the
+> keyboard cover, the device wakes from suspend/s2idle. Without this
+> patch, that doesn't work.
+> 
+> > I'm just questioning if the creator of the device designed it the way they did
+> > maybe we should think twice about doing this.
+> 
+> As far as I can tell, the intended behavior is to wake the device when
+> the lid is opened, which on the Laptops and Books is a more conventional
+> lid and on the Pros constitutes opening the cover.
+> 
+> I'm open for any alternative though.
+> 
+> Also please note that I've already sent a v2 of this patch with Andy's
+> comments addressed: https://lore.kernel.org/patchwork/patch/1303997/
+never mind then.
+--mark
 
