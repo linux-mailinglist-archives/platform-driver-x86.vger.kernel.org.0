@@ -2,38 +2,27 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D1F826AF76
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Sep 2020 23:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91ECC26B62C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 01:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728042AbgIOVVl (ORCPT
+        id S1727293AbgIOX6m (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Sep 2020 17:21:41 -0400
-Received: from mga09.intel.com ([134.134.136.24]:28756 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728021AbgIOVUf (ORCPT
+        Tue, 15 Sep 2020 19:58:42 -0400
+Received: from mail-40135.protonmail.ch ([185.70.40.135]:42057 "EHLO
+        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727441AbgIOX6l (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Sep 2020 17:20:35 -0400
-IronPort-SDR: f8NHnWMX1O33VTm7sKyJB3aTB4FPR/+QAzPt4vKGb4+gcP9MLffjxtZRIlwwsQWfUMM4wSO60K
- HDh2IQxULQyw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="160283133"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="160283133"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 14:19:50 -0700
-IronPort-SDR: 5he6km/6lWMs12kwE0KT/d5duW+O2FupTX1dLWYbGaty065qvt2xskpcHAiYRRiIkkA+VXrVWY
- UVbFx4sho3tQ==
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="343657747"
-Received: from smtp.ostc.intel.com ([10.54.29.231])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 14:19:50 -0700
-Received: from localhost (mtg-dev.jf.intel.com [10.54.74.10])
-        by smtp.ostc.intel.com (Postfix) with ESMTP id 2BB536369;
-        Tue, 15 Sep 2020 14:19:50 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 14:19:50 -0700
-From:   mark gross <mgross@linux.intel.com>
+        Tue, 15 Sep 2020 19:58:41 -0400
+Date:   Tue, 15 Sep 2020 23:58:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1600214310;
+        bh=pmmxd0OZrU7i19ricDTg0JAz6YI/Zw97KeB6gyb8Wyc=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=TNMS9MWj6NfaDxPbSyD5M+6AanhUv3wdizNckBI6UioYRPAyeo5mYA6+csErDeaW5
+         lJkJ1z3uS9eYts5coEFvQSP6iIxUvzviG5YhkqlzPSsKy7OfXb4HQ2M3kg/hVDhHtb
+         FET0PwobMD2HMTldPMjc554BxHi9dUpi+RmEo/5Y=
 To:     Maximilian Luz <luzmaximilian@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -41,54 +30,228 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Gayatri Kammela <gayatri.kammela@intel.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: Add Driver to set up lid GPEs on MS
- Surface device
-Message-ID: <20200915211950.GL103884@mtg-dev.jf.intel.com>
-Reply-To: mgross@linux.intel.com
-References: <20200908171934.1661509-1-luzmaximilian@gmail.com>
- <20200911221053.GF103884@mtg-dev.jf.intel.com>
- <e6125bee-d42e-f485-295a-8b9ad6777d4a@gmail.com>
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v2] platform/x86: Add Driver to set up lid GPEs on MS Surface device
+Message-ID: <EMZQgUl1xLN4o0hV9ZkCD563O85SuOYB5kNFZ5_hlxLQXbJCXpQfrM2afyFIr28h31tXMxD1mxE4DkA5Wy60A0Z2mDnstwF17tEdnX4IRas=@protonmail.com>
+In-Reply-To: <20200910211520.1490626-1-luzmaximilian@gmail.com>
+References: <20200910211520.1490626-1-luzmaximilian@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6125bee-d42e-f485-295a-8b9ad6777d4a@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Sep 12, 2020 at 12:46:30AM +0200, Maximilian Luz wrote:
-> On 9/12/20 12:10 AM, mark gross wrote:
-> > Surface devices are tablets with detachable keyboards.  they don't really
-> > have a "lid" as the tablet is the "lid".
-> 
-> The Surface Laptop series doesn't have a detachable keyboard, yet still
-> requires this. Arguably, the Surface Books are also more laptop than
-> tablet (at least that's the way I use mine...). Finally, on the actual
-> tablets (Surface Pro series) the lid switch detects when the keyboard
-> cover is opened (or at least that's what I have been told, I don't
-> own/have access to a Pro series device).
-> 
-> Regardless of that, this patch is intended to provide the same behavior
-> as found on Windows, for all devices included in this patch, which is:
-> When you open the lid, or in case of the Pro series fold away the
-> keyboard cover, the device wakes from suspend/s2idle. Without this
-> patch, that doesn't work.
-> 
-> > I'm just questioning if the creator of the device designed it the way they did
-> > maybe we should think twice about doing this.
-> 
-> As far as I can tell, the intended behavior is to wake the device when
-> the lid is opened, which on the Laptops and Books is a more conventional
-> lid and on the Pros constitutes opening the cover.
-> 
-> I'm open for any alternative though.
-> 
-> Also please note that I've already sent a v2 of this patch with Andy's
-> comments addressed: https://lore.kernel.org/patchwork/patch/1303997/
-never mind then.
---mark
+Hi
 
+
+> [...]
+> +static int surface_lid_enable_wakeup(struct device *dev, bool enable)
+> +{
+> +=09const struct surface_lid_device *lid =3D dev_get_drvdata(dev);
+> +=09int action =3D enable ? ACPI_GPE_ENABLE : ACPI_GPE_DISABLE;
+> +=09acpi_status status;
+> +
+> +=09status =3D acpi_set_gpe_wake_mask(NULL, lid->gpe_number, action);
+> +=09if (status) {
+
+I think 'if (ACPI_FAILURE(status))' would be better.
+
+
+> +=09=09dev_err(dev, "failed to set GPE wake mask: %d\n", status);
+
+I'm not sure if it's technically safe to print acpi_status with the %d form=
+at
+specifier since 'acpi_status' is defined as 'u32' at the moment.
+ func("%lu", (unsigned long) status)
+would be safer. You could also use 'acpi_format_exception()', which is poss=
+ibly
+the most correct approach since it assumes nothing about what 'acpi_status'
+actually is.
+
+
+> +=09=09return -EINVAL;
+
+I'm not sure if -EINVAL is the best error to return here.
+
+
+> +=09}
+> +
+> +=09return 0;
+> +}
+> [...]
+> +static int surface_gpe_probe(struct platform_device *pdev)
+> +{
+> +=09struct surface_lid_device *lid;
+> +=09u32 gpe_number;
+> +=09int status;
+> +
+> +=09status =3D device_property_read_u32(&pdev->dev, "gpe", &gpe_number);
+> +=09if (status)
+> +=09=09return -ENODEV;
+
+'device_property_read_u32()' returns an error code, you could simply return=
+ that
+instead of hiding it.
+
+
+> +
+> +=09status =3D acpi_mark_gpe_for_wake(NULL, gpe_number);
+> +=09if (status) {
+> +=09=09dev_err(&pdev->dev, "failed to mark GPE for wake: %d\n", status);
+> +=09=09return -EINVAL;
+> +=09}
+> +
+> +=09status =3D acpi_enable_gpe(NULL, gpe_number);
+> +=09if (status) {
+> +=09=09dev_err(&pdev->dev, "failed to enable GPE: %d\n", status);
+> +=09=09return -EINVAL;
+> +=09}
+
+My previous comments about ACPI and the returned value apply here as well.
+Furthermore, 'acpi_mark_gpe_for_wake()' and 'acpi_enable_gpe()' both return
+a value of type 'acpi_status', not 'int'.
+
+
+> +
+> +=09lid =3D devm_kzalloc(&pdev->dev, sizeof(struct surface_lid_device),
+> +=09=09=09   GFP_KERNEL);
+
+ lid =3D devm_kzalloc(..., sizeof(*lid), ...)
+is preferred.
+
+
+> +=09if (!lid)
+> +=09=09return -ENOMEM;
+
+Isn't that problematic that the side effects of the previous two ACPI calls=
+ are
+not undone when returning here with -ENOMEM? Allocating this struct right a=
+fter
+querying 'gpe_number' could prevent it.
+
+
+> +
+> +=09lid->gpe_number =3D gpe_number;
+> +=09platform_set_drvdata(pdev, lid);
+> +
+> +=09status =3D surface_lid_enable_wakeup(&pdev->dev, false);
+> +=09if (status) {
+> +=09=09acpi_disable_gpe(NULL, gpe_number);
+> +=09=09platform_set_drvdata(pdev, NULL);
+
+Why is 'platform_set_drvdata(pdev, NULL)' needed?
+
+
+> +=09=09return status;
+> +=09}
+> +
+> +=09return 0;
+> +}
+> +
+> +static int surface_gpe_remove(struct platform_device *pdev)
+> +{
+> +=09struct surface_lid_device *lid =3D dev_get_drvdata(&pdev->dev);
+> +
+> +=09/* restore default behavior without this module */
+> +=09surface_lid_enable_wakeup(&pdev->dev, false);
+> +=09acpi_disable_gpe(NULL, lid->gpe_number);
+> +
+> +=09platform_set_drvdata(pdev, NULL);
+
+I'm wondering why this is needed?
+
+
+> +=09return 0;
+> +}
+> [...]
+> +static int __init surface_gpe_init(void)
+> +{
+> +=09const struct dmi_system_id *match;
+> +=09const struct property_entry *props;
+> +=09struct platform_device *pdev;
+> +=09struct fwnode_handle *fwnode;
+> +=09int status;
+> +
+> +=09match =3D dmi_first_match(dmi_lid_device_table);
+> +=09if (!match) {
+> +=09=09pr_info(KBUILD_MODNAME": no device detected, exiting\n");
+
+If you put
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+before including any headers, you can simply write 'pr_info("no device...")=
+' and it'll
+be prefixed by the module name. This is the "usual" way of achieving what y=
+ou want.
+
+
+> +=09=09return 0;
+
+Shouldn't it return -ENODEV?
+
+
+> +=09}
+> +
+> +=09props =3D match->driver_data;
+> +
+> +=09status =3D platform_driver_register(&surface_gpe_driver);
+> +=09if (status)
+> +=09=09return status;
+> +
+> +=09pdev =3D platform_device_alloc("surface_gpe", PLATFORM_DEVID_NONE);
+> +=09if (!pdev) {
+> +=09=09platform_driver_unregister(&surface_gpe_driver);
+> +=09=09return -ENOMEM;
+> +=09}
+> +
+> +=09fwnode =3D fwnode_create_software_node(props, NULL);
+> +=09if (IS_ERR(fwnode)) {
+> +=09=09platform_device_put(pdev);
+> +=09=09platform_driver_unregister(&surface_gpe_driver);
+> +=09=09return PTR_ERR(fwnode);
+> +=09}
+> +
+> +=09pdev->dev.fwnode =3D fwnode;
+> +
+> +=09status =3D platform_device_add(pdev);
+> +=09if (status) {
+> +=09=09platform_device_put(pdev);
+> +=09=09platform_driver_unregister(&surface_gpe_driver);
+> +=09=09return status;
+> +=09}
+> +
+
+It may be a matter of preference, but I think the 'if (err) goto X' pattern=
+ would
+be better in this function (at least for the last 3 or so error paths).
+
+
+> +=09surface_gpe_device =3D pdev;
+> +=09return 0;
+> +}
+> +module_init(surface_gpe_init);
+> +
+> +static void __exit surface_gpe_exit(void)
+> +{
+> +=09if (!surface_gpe_device)
+> +=09=09return;
+
+If you returned -ENODEV in init when no DMI match is found,
+then this check would be redundant.
+
+
+> [...]
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
