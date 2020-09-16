@@ -2,234 +2,188 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B51AE26CBFA
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 22:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DCD326CCD8
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 22:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbgIPUhm (ORCPT
+        id S1726711AbgIPUuN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Sep 2020 16:37:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726686AbgIPRKC (ORCPT
+        Wed, 16 Sep 2020 16:50:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33035 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726651AbgIPQ43 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:10:02 -0400
-Received: from mail.sammserver.com (sammserver.com [IPv6:2001:470:5a5b:1::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F000CC0073E7
-        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Sep 2020 07:00:13 -0700 (PDT)
-Received: by mail.sammserver.com (Postfix, from userid 5011)
-        id 078A01057337; Wed, 16 Sep 2020 16:00:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1600264809; bh=P+pC1vOciQGlpBt+MIMtjITCh5JlMcVUVwspuczOQDE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U43mGHJ/ljm7cfkceWoHiSif1qGMIiw+z+grl/QkksboHoTKpwMpy+GbEWUDF24Rv
-         /uM52rpRqeLCDGXcxmun4JZJGUTS4g1mM2NG/HrJW+RC7NPh/djr+Kyu6MzWpCXlAG
-         ORar3T8NxlAnI65UCxC2RXnSDDWVsdDcyw6jPy54=
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id 9DC0F1057334;
-        Wed, 16 Sep 2020 16:00:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1600264808; bh=P+pC1vOciQGlpBt+MIMtjITCh5JlMcVUVwspuczOQDE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L9VnRNGt1F/RZ4CyEnNVpIz1liEAD0K3NPEvqaYnGhaNun5WxAJ2WbBOKMoBHl8D7
-         u4eB7yg1NABJrfGtp7xkwfsJ+cBwZHJtc1yyNg5hKv8UVOG12GSKAkMOg96HFm806A
-         xqkNCNsRhRpfYRGGJPJSI6uccInywR6wvn42E1ME=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id 8D3A01420578; Wed, 16 Sep 2020 16:00:08 +0200 (CEST)
-Date:   Wed, 16 Sep 2020 16:00:08 +0200
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: asus-wmi: Fix SW_TABLET_MODE always
- reporting 1 on the Asus UX360CA
-Message-ID: <20200916140008.5rlepwg5j4v6qx4d@fastboi.localdomain>
-References: <20200911132618.187297-1-hdegoede@redhat.com>
- <8035726f-536e-4e62-2ef3-b27e43e15759@redhat.com>
- <86d3f91e-8ada-2992-7197-dfca738f7974@redhat.com>
+        Wed, 16 Sep 2020 12:56:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600275365;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=yptn7Knfy+pyZ5BVZ+kV0vuhRXCQsrE7SMAA6n+ZrNg=;
+        b=eT0abNVA5Ehgf1FBAQSNr4+MbaEgYxdmiLEHkv4gTVrgoY0SBdhuOE7onmXqGOvOrDCrUT
+        IVO4UriXWBhNsqbtQ0tvvzJtIjHwqKVCmWNcA1msPBu6Mb/BmmUmQHoa2mlnrBzgUpY7tr
+        GUoMepBsoda318yPfkSVkZdNxElB4e0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-VsVUcjoENyuZ2V4NiNWJ4g-1; Wed, 16 Sep 2020 11:47:07 -0400
+X-MC-Unique: VsVUcjoENyuZ2V4NiNWJ4g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C09B1084D6E;
+        Wed, 16 Sep 2020 15:47:06 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-77.ams2.redhat.com [10.36.112.77])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E644619D7C;
+        Wed, 16 Sep 2020 15:47:04 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org,
+        =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>
+Subject: [PATCH] platform/x86: asus-wmi: Fix SW_TABLET_MODE always reporting 1 on many different models
+Date:   Wed, 16 Sep 2020 17:47:03 +0200
+Message-Id: <20200916154703.76643-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <86d3f91e-8ada-2992-7197-dfca738f7974@redhat.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello, 
+Commit b0dbd97de1f1 ("platform/x86: asus-wmi: Add support for
+SW_TABLET_MODE") added support for reporting SW_TABLET_MODE using the
+Asus 0x00120063 WMI-device-id to see if various transformer models were
+docked into their keyboard-dock (SW_TABLET_MODE=0) or if they were
+being used as a tablet.
 
-On 16.09.2020 15:13, Hans de Goede wrote:
-> Hi,
-> 
-> On 9/16/20 3:04 PM, Hans de Goede wrote:
-> > Hi,
-> > 
-> > On 9/11/20 3:26 PM, Hans de Goede wrote:
-> > > On the Asus UX360CA the ASUS_WMI_DEVID_KBD_DOCK devstate always reports 0,
-> > > which we translate to SW_TABLET_MODE=1. Which causes libinput to disable
-> > > the keyboard and touchpad even if the 360 degree hinges style 2-in-1 is
-> > > in laptop mode.
-> > > 
-> > > Samuel found out that this model has another WMI "object" with an devid of
-> > > 0x00060062 which correctly reports laptop vs tablet-mode on the
-> > > Asus UX360CA.
-> > > 
-> > > All the models on which the SW_TABLET_MODE code was previously tested do
-> > > not have this new devid 0x00060062 object.
-> > > 
-> > > This commit adds support for the new devid 0x00060062 object and prefers it
-> > > over the older 0x00120063 object when present, fixing SW_TABLET_MODE always
-> > > being reported as 1 on these models.
-> > > 
-> > > Reported-and-tested-by: Samuel Čavoj <samuel@cavoj.net>
-> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > 
-> > Self NACK, preferring the newer ASUS WMI device-id for the switch when present
-> > does not fix this everywhere.
-> > 
-> > Recently there have been more bug-reports about this and at least the Asus E200HA
-> > laptop does not have the newer ASUS WMI device-id in its DSDT:
-> > 
-> >    https://bugzilla.redhat.com/show_bug.cgi?id=1875339
-> >    https://bugzilla.redhat.com/show_bug.cgi?id=1875828
-> >    https://bugzilla.redhat.com/show_bug.cgi?id=1876997
-> > 
-> > So I'm preparing a new patch which uses a DMI based whitelist for the SW_TABLET_MODE
-> > functionality, Using the existing DMI quirks mechanism in asus-nb-wmi.c .
-> 
-> p.s.
-> 
-> Note the new ASUS-WMI device-id did actually give a working SW_TABLET_MODE
-> on the Asus Zenbook Flip UX360CA.
-> 
-> Samuel Čavoj, perhaps you can do a follow-up patch to my fix (once I've
-> posted it) enabling the new dev-id on devices with "Zenbook Flip*" as
-> DMI product-name ?
+The new SW_TABLET_MODE support (naively?) assumed that non Transformer
+devices would either not support the 0x00120063 WMI-device-id at all,
+or would NOT set ASUS_WMI_DSTS_PRESENCE_BIT in their reply when querying
+the device-id.
 
-I would be happy to.
+Unfortunately this is not true and we have received many bug reports about
+this change causing the asus-wmi driver to always report SW_TABLET_MODE=1
+on non Transformer devices. This causes libinput to think that these are
+360 degree hinges style 2-in-1s folded into tablet-mode. Making libinput
+suppress keyboard and touchpad events from the builtin keyboard and
+touchpad. So effectively this causes the keyboard and touchpad to not work
+on many non Transformer Asus models.
 
-> 
-> At least I hope the DMI product-name starts with a prefix which has Flip in it?  See:
-> at /sys/class/dmi/id/product_name
+This commit fixes this by using the existing DMI based quirk mechanism in
+asus-nb-wmi.c to allow using the 0x00120063 device-id for reporting
+SW_TABLET_MODE on Transformer models and ignoring it on all other models.
 
-Unfortunately, this is not the case. product_name is just "UX360CAK" and
-none of the other values contain anything useful either. (e.g.
-product_family is just "UX")
+Fixes: b0dbd97de1f1 ("platform/x86: asus-wmi: Add support for SW_TABLET_MODE")
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=209011
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1875339
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1875828
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1876997
+Reported-by: Samuel Čavoj <samuel@cavoj.net>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/asus-nb-wmi.c | 32 ++++++++++++++++++++++++++++++
+ drivers/platform/x86/asus-wmi.c    | 16 ++++++++-------
+ drivers/platform/x86/asus-wmi.h    |  1 +
+ 3 files changed, 42 insertions(+), 7 deletions(-)
 
-Two solutions come to my mind:
- 1. Manually build up a whitelist of devices with DEVID_FLIP_TABLET_MODE.
- 2. Keep the logic of first checking the DEVID_FLIP_TABLET_MODE. If
-    present use it, if not present then fall back to your DMI whitelist
-    for the DEVID_KDB_DOCK.
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 680c3640e013..1d9fbabd02fb 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -115,6 +115,10 @@ static struct quirk_entry quirk_asus_vendor_backlight = {
+ 	.wmi_backlight_set_devstate = true,
+ };
+ 
++static struct quirk_entry quirk_asus_use_kbd_dock_devid = {
++	.use_kbd_dock_devid = true,
++};
++
+ static int dmi_matched(const struct dmi_system_id *dmi)
+ {
+ 	pr_info("Identified laptop model '%s'\n", dmi->ident);
+@@ -488,6 +492,34 @@ static const struct dmi_system_id asus_quirks[] = {
+ 		},
+ 		.driver_data = &quirk_asus_vendor_backlight,
+ 	},
++	{
++		.callback = dmi_matched,
++		.ident = "Asus Transformer T100TA / T100HA / T100CHI",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			/* Match *T100* */
++			DMI_MATCH(DMI_PRODUCT_NAME, "T100"),
++		},
++		.driver_data = &quirk_asus_use_kbd_dock_devid,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "Asus Transformer T101HA",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "T101HA"),
++		},
++		.driver_data = &quirk_asus_use_kbd_dock_devid,
++	},
++	{
++		.callback = dmi_matched,
++		.ident = "Asus Transformer T200TA",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "T200TA"),
++		},
++		.driver_data = &quirk_asus_use_kbd_dock_devid,
++	},
+ 	{},
+ };
+ 
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 8f4acdc06b13..ae6289d37faf 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -365,12 +365,14 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+ 	if (err)
+ 		goto err_free_dev;
+ 
+-	result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
+-	if (result >= 0) {
+-		input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
+-		input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
+-	} else if (result != -ENODEV) {
+-		pr_err("Error checking for keyboard-dock: %d\n", result);
++	if (asus->driver->quirks->use_kbd_dock_devid) {
++		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
++		if (result >= 0) {
++			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
++			input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
++		} else if (result != -ENODEV) {
++			pr_err("Error checking for keyboard-dock: %d\n", result);
++		}
+ 	}
+ 
+ 	err = input_register_device(asus->inputdev);
+@@ -2114,7 +2116,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+ 		return;
+ 	}
+ 
+-	if (code == NOTIFY_KBD_DOCK_CHANGE) {
++	if (asus->driver->quirks->use_kbd_dock_devid && code == NOTIFY_KBD_DOCK_CHANGE) {
+ 		result = asus_wmi_get_devstate_simple(asus,
+ 						      ASUS_WMI_DEVID_KBD_DOCK);
+ 		if (result >= 0) {
+diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+index 4f31b68642a0..1a95c172f94b 100644
+--- a/drivers/platform/x86/asus-wmi.h
++++ b/drivers/platform/x86/asus-wmi.h
+@@ -33,6 +33,7 @@ struct quirk_entry {
+ 	bool wmi_backlight_native;
+ 	bool wmi_backlight_set_devstate;
+ 	bool wmi_force_als_set;
++	bool use_kbd_dock_devid;
+ 	int wapf;
+ 	/*
+ 	 * For machines with AMD graphic chips, it will send out WMI event
+-- 
+2.28.0
 
-The first solution sounds like an uphill battle and I don't know how I
-would even start collecting devices. The second one is risky, but as we
-haven't yet seen a device which misreports DEVID_FLIP_TABLET_MODE, I
-think it should be fine. Unless ASUS does it yet again, of course.
-
-What do you think?
-
-Hans, you have a collection of DSTS's, is that right? Could you try
-searching it for DEVID_FLIP_TABLET_MODE and seeing if the devices which
-have it actually also have a 360 degree hinge? This could shed some
-light on the situation. I have indirect access to a UX434FLC as well (it
-does not have the hinge) so I can check it myself.
-
-Regards,
-Samuel
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> > > ---
-> > >   drivers/platform/x86/asus-wmi.c            | 32 ++++++++++++++++++----
-> > >   include/linux/platform_data/x86/asus-wmi.h |  1 +
-> > >   2 files changed, 28 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> > > index 8f4acdc06b13..c8689da0323b 100644
-> > > --- a/drivers/platform/x86/asus-wmi.c
-> > > +++ b/drivers/platform/x86/asus-wmi.c
-> > > @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
-> > >   #define NOTIFY_KBD_BRTTOGGLE        0xc7
-> > >   #define NOTIFY_KBD_FBM            0x99
-> > >   #define NOTIFY_KBD_TTP            0xae
-> > > +#define NOTIFY_FLIP_TABLET_MODE_CHANGE    0xfa
-> > >   #define ASUS_WMI_FNLOCK_BIOS_DISABLED    BIT(0)
-> > > @@ -173,6 +174,7 @@ struct asus_wmi {
-> > >       int spec;
-> > >       int sfun;
-> > >       bool wmi_event_queue;
-> > > +    bool use_flip_tablet_mode;
-> > >       struct input_dev *inputdev;
-> > >       struct backlight_device *backlight_device;
-> > > @@ -365,12 +367,22 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
-> > >       if (err)
-> > >           goto err_free_dev;
-> > > -    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-> > > +    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_FLIP_TABLET_MODE);
-> > >       if (result >= 0) {
-> > > +        asus->use_flip_tablet_mode = true;
-> > >           input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> > > -        input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
-> > > -    } else if (result != -ENODEV) {
-> > > -        pr_err("Error checking for keyboard-dock: %d\n", result);
-> > > +        input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > > +    } else {
-> > > +        if (result != -ENODEV)
-> > > +            pr_err("Error checking for flip-tablet-mode: %d\n", result);
-> > > +
-> > > +        result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-> > > +        if (result >= 0) {
-> > > +            input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> > > +            input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
-> > > +        } else if (result != -ENODEV) {
-> > > +            pr_err("Error checking for keyboard-dock: %d\n", result);
-> > > +        }
-> > >       }
-> > >       err = input_register_device(asus->inputdev);
-> > > @@ -2114,7 +2126,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> > >           return;
-> > >       }
-> > > -    if (code == NOTIFY_KBD_DOCK_CHANGE) {
-> > > +    if (!asus->use_flip_tablet_mode && code == NOTIFY_KBD_DOCK_CHANGE) {
-> > >           result = asus_wmi_get_devstate_simple(asus,
-> > >                                 ASUS_WMI_DEVID_KBD_DOCK);
-> > >           if (result >= 0) {
-> > > @@ -2125,6 +2137,16 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> > >           return;
-> > >       }
-> > > +    if (asus->use_flip_tablet_mode && code == NOTIFY_FLIP_TABLET_MODE_CHANGE) {
-> > > +        result = asus_wmi_get_devstate_simple(asus,
-> > > +                              ASUS_WMI_DEVID_FLIP_TABLET_MODE);
-> > > +        if (result >= 0) {
-> > > +            input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > > +            input_sync(asus->inputdev);
-> > > +        }
-> > > +        return;
-> > > +    }
-> > > +
-> > >       if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
-> > >           fan_boost_mode_switch_next(asus);
-> > >           return;
-> > > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> > > index 897b8332a39f..1897b4683562 100644
-> > > --- a/include/linux/platform_data/x86/asus-wmi.h
-> > > +++ b/include/linux/platform_data/x86/asus-wmi.h
-> > > @@ -62,6 +62,7 @@
-> > >   /* Misc */
-> > >   #define ASUS_WMI_DEVID_CAMERA        0x00060013
-> > > +#define ASUS_WMI_DEVID_FLIP_TABLET_MODE    0x00060062
-> > >   /* Storage */
-> > >   #define ASUS_WMI_DEVID_CARDREADER    0x00080013
-> > > 
-> 
