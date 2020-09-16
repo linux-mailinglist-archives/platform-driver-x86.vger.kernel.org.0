@@ -2,79 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 379DD26C699
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 19:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 298C826C98D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 21:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbgIPRzX (ORCPT
+        id S1727315AbgIPRkc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Sep 2020 13:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727676AbgIPRy3 (ORCPT
+        Wed, 16 Sep 2020 13:40:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57105 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727301AbgIPRkN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:54:29 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49216C0612F2;
-        Wed, 16 Sep 2020 10:54:17 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id i1so7238433edv.2;
-        Wed, 16 Sep 2020 10:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=n6mrIADyrBQbnLtXXBKUK1oHgyD2rX/EbKv+Og9Z66w=;
-        b=MdWmtSxZ+/68Ef3OJpum0X3G5xJJrhYtIiumYYkzc+XTHdRp/DkXrsl3PvSQehD5pb
-         N1eMlGDqFrgXueip3v4h8gw+AnGOw6G27Z47a3AshPiEOWiLphhTX2DqrSRTuBHD7thd
-         1q9ZVSETqbF63QHQiFkjPiVKziaZF6pN9W3Xov4LtKt8xKa2z2mIOJDqobST5N/k6jDC
-         kubpg/9lhrVzCWBhlAP5QenZ6Ob2D/3efN7HFsbIlU+JdjtrsSuzSUyAiSNhhHv92Q+o
-         G3dY/aVazEzUZJh1XUkMhguw3XwrOFB6ikhTQ1KGwHfDMRifWW0qoeZcp967xj6HeOsb
-         WvWA==
+        Wed, 16 Sep 2020 13:40:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600278010;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=E4ewFpKvs2GwUbsjDBIXcM6s6phUquheYcz06coAAXs=;
+        b=YoPeaAjZBoLDGys9PBYuoO2Wwmo9op/CodQDwudmKFAQXlFT1iA76BVOoqCcPwk5KVlj3D
+        kN+dfWnXtZ3NfHJtaLFCtqSB+LO+789KdATWeOn3d+TgCCG+ULYGAVjp9bOcnV9FeU+KNC
+        kpq9Iu5BzfghAko+5PoQW2S3Wk/pARI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-QhlVRA6oPuqaGLD8tfgfBw-1; Wed, 16 Sep 2020 09:13:36 -0400
+X-MC-Unique: QhlVRA6oPuqaGLD8tfgfBw-1
+Received: by mail-ed1-f72.google.com with SMTP id n4so2446823edo.20
+        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Sep 2020 06:13:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=n6mrIADyrBQbnLtXXBKUK1oHgyD2rX/EbKv+Og9Z66w=;
-        b=psE2VmH+yK2oxmgRP4RjzwFYwJ76fD+FrjYfWGmdoPXFvCB/aYRzymzIa4NnSVzro5
-         FaULukMq2P7b8w427wg4jIiupGdKh3mUM4ix+oaOPe9RJmeTR3ha8l78y4Q7oDy5YFNO
-         LFhjBF4G0TETTCeWXAsN/VImY3Hvbm/ZuqPr9RQMBvzMPRfJQxCN7kkbqfgg9Vr/os27
-         cyc1Z+Zn+qSZtxnpAi2/clx6j4gH1xFeuO/iXEJYmQmu0IVM4hSyVJCakqoexveKBSAG
-         /6bEWduna0a7/0GoBk5anGO3xvjdLdEFsmioJrNhtC8KiVuob+EAgM3r4aVnG5zt0Gi3
-         T6gw==
-X-Gm-Message-State: AOAM5319H0zcBxf5jzXfbVzv5eyq8pkbqIzjUQdniqSZsUgEBRTJRKNO
-        RQ+iV1mQY//3G82Ma2OtSF2mYEZ5+yc=
-X-Google-Smtp-Source: ABdhPJz6K38IuTDuacte2yOGDB9aBjUsB2njf/w905tVCZsdCiBTMF524UByyDaDyC5CQtoHej56uA==
-X-Received: by 2002:aa7:cb44:: with SMTP id w4mr29216973edt.139.1600278855258;
-        Wed, 16 Sep 2020 10:54:15 -0700 (PDT)
-Received: from [192.168.2.202] (pd9e5a4ba.dip0.t-ipconnect.de. [217.229.164.186])
-        by smtp.gmail.com with ESMTPSA id si28sm13083691ejb.95.2020.09.16.10.54.13
+        bh=E4ewFpKvs2GwUbsjDBIXcM6s6phUquheYcz06coAAXs=;
+        b=FpQfaeQXtb44fSMA8iMB+xdiux68s0nm/wC6nsv1sFkVzUUwWqqgsOhA4Q+H6WjMbC
+         WrG++LsMLsYkqGWBueJYOXeYzKLTsXh1hoUxmDdDdFgzsRUYHUrika6DGEFr2WAR1YWv
+         7WgM3bADzKSgrh7qw5aDrJcKiwzDXHtZjyBeYTN3g8vrFB+OxwSsVAWRiVosqN4haN0F
+         2WlCwjAyLWMVHUAd3nQIV90MUBA1mYnC7aFNWJh6rKrOwoQdj5BlbiyABmUV2dTPQd4Z
+         20SSbUpk2fM3TN2jgoly2qMMcgckYNEDRLyBXYUMO09gPREWjn6r8V14oY0gMbs1agoU
+         Mrww==
+X-Gm-Message-State: AOAM532eEdiAH2QQWfF06tGcrGBTvSkTUvLth0dwM5mzPzNHX1OHxuBU
+        r4LQhCaBqLDaOdW5R1nmmE1oqRqS3p12RDsRHIubtJsxguGi42QY52dc5NSYipWuIaLCBIXVG/v
+        NDih6yMiZV2MAjIowwQ6mXn2h/78V/V7l6g==
+X-Received: by 2002:a17:906:2618:: with SMTP id h24mr24342062ejc.198.1600262014751;
+        Wed, 16 Sep 2020 06:13:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGrZ/KoLLAQzglr7MFm4KKJZ7ZZ2UWDsdn426npfeQPPS5vnDPQr4tJP5VwcFBhn0qG1ayAg==
+X-Received: by 2002:a17:906:2618:: with SMTP id h24mr24342040ejc.198.1600262014536;
+        Wed, 16 Sep 2020 06:13:34 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id z4sm14403066ede.65.2020.09.16.06.13.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 10:54:14 -0700 (PDT)
-Subject: Re: [PATCH v2] platform/x86: Add Driver to set up lid GPEs on MS
- Surface device
-To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20200910211520.1490626-1-luzmaximilian@gmail.com>
- <EMZQgUl1xLN4o0hV9ZkCD563O85SuOYB5kNFZ5_hlxLQXbJCXpQfrM2afyFIr28h31tXMxD1mxE4DkA5Wy60A0Z2mDnstwF17tEdnX4IRas=@protonmail.com>
- <355dae14-2508-706b-53f8-48b78f84e7cc@gmail.com>
- <ID5eml6LsB6tCDrZwhbfin228LE3cor6ZEYbAHj6C3SZ9y0AcL40SWweP-iAjmEpCeEV5NZHJLKBpUo5qw1VR0Q7xOXAVSH7epRjTRkj64Y=@protonmail.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <5fe41f91-068e-9da8-8308-d71061d378bd@gmail.com>
-Date:   Wed, 16 Sep 2020 19:54:13 +0200
+        Wed, 16 Sep 2020 06:13:33 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: asus-wmi: Fix SW_TABLET_MODE always
+ reporting 1 on the Asus UX360CA
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     platform-driver-x86@vger.kernel.org,
+        =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>
+References: <20200911132618.187297-1-hdegoede@redhat.com>
+ <8035726f-536e-4e62-2ef3-b27e43e15759@redhat.com>
+Message-ID: <86d3f91e-8ada-2992-7197-dfca738f7974@redhat.com>
+Date:   Wed, 16 Sep 2020 15:13:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <ID5eml6LsB6tCDrZwhbfin228LE3cor6ZEYbAHj6C3SZ9y0AcL40SWweP-iAjmEpCeEV5NZHJLKBpUo5qw1VR0Q7xOXAVSH7epRjTRkj64Y=@protonmail.com>
+In-Reply-To: <8035726f-536e-4e62-2ef3-b27e43e15759@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,142 +76,142 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 9/16/20 7:13 PM, Barnabás Pőcze wrote:
-...
->>>> +	}s
->>>> +
->>>> +	return 0;
->>>> +}
->>>> [...]
->>>> +static int surface_gpe_probe(struct platform_device *pdev)
->>>> +{
->>>> +	struct surface_lid_device *lid;
->>>> +	u32 gpe_number;
->>>> +	int status;
->>>> +
->>>> +	status = device_property_read_u32(&pdev->dev, "gpe", &gpe_number);
->>>> +	if (status)
->>>> +		return -ENODEV;
->>>
->>> 'device_property_read_u32()' returns an error code, you could simply return that
->>> instead of hiding it.
->>
->> My thought there was that if the "gpe" property isn't present or of a
->> different type, this is not a device that we want to/can handle. Thus
->> the -ENODEV. Although I think a debug print statement may be useful
->> here.
->>
+Hi,
+
+On 9/16/20 3:04 PM, Hans de Goede wrote:
+> Hi,
 > 
-> I see, I just wanted to bring to your attention that 'device_property_read_u32()'
-> returns various standard error codes and you could simply return those.
-
-I think one could also argue that module-loading should have taken care
-of filtering out devices that we don't load on, so -ENODEV would be
-redundant here. At least if one neglects that a user could try to
-manually bind the driver to a device. Following that thought, I guess it
-makes more sense to return the actual value here.
-
->> [...]
->>>> +
->>>> +	lid->gpe_number = gpe_number;
->>>> +	platform_set_drvdata(pdev, lid);
->>>> +
->>>> +	status = surface_lid_enable_wakeup(&pdev->dev, false);
->>>> +	if (status) {
->>>> +		acpi_disable_gpe(NULL, gpe_number);
->>>> +		platform_set_drvdata(pdev, NULL);
->>>
->>> Why is 'platform_set_drvdata(pdev, NULL)' needed?
+> On 9/11/20 3:26 PM, Hans de Goede wrote:
+>> On the Asus UX360CA the ASUS_WMI_DEVID_KBD_DOCK devstate always reports 0,
+>> which we translate to SW_TABLET_MODE=1. Which causes libinput to disable
+>> the keyboard and touchpad even if the 360 degree hinges style 2-in-1 is
+>> in laptop mode.
 >>
->> Is this not required for clean-up once the driver data has been set? Or
->> does the driver-base take care of that for us when the driver is
->> removed/fails to probe? My reasoning was that I don't want to leave
->> stuff around for any other driver to trip on (and rather have that
->> driver oops on a NULL-pointer). If the driver-core already takes care of
->> NULL-ing that, that line is not needed. Unfortunately that behavior
->> doesn't seem to be explained in the documentation.
+>> Samuel found out that this model has another WMI "object" with an devid of
+>> 0x00060062 which correctly reports laptop vs tablet-mode on the
+>> Asus UX360CA.
 >>
+>> All the models on which the SW_TABLET_MODE code was previously tested do
+>> not have this new devid 0x00060062 object.
+>>
+>> This commit adds support for the new devid 0x00060062 object and prefers it
+>> over the older 0x00120063 object when present, fixing SW_TABLET_MODE always
+>> being reported as 1 on these models.
+>>
+>> Reported-and-tested-by: Samuel Čavoj <samuel@cavoj.net>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > 
-> I'm not aware that it would be required. As a matter of fact, only two x86
-> platform drivers (intel_pmc_core, ideapad-laptop) do any cleanup of driver data.
-> There are much more hits (536) for "set_drvdata(.* NULL" when scanning all drivers.
-> There are 4864 hits for "set_drvdata(.*" that have no 'NULL' in them.
+> Self NACK, preferring the newer ASUS WMI device-id for the switch when present
+> does not fix this everywhere.
 > 
-> There is drivers/base/dd.c:really_probe(), which seems to be the place where driver
-> probes are actually called. And it calls 'dev_set_drvdata(dev, NULL)' if the probe
-> fails. And it also sets the driver data to NULL in '__device_release_driver()',
-> so I'm pretty sure the driver core takes care of it.
-
-I see, thanks! Would make sense that the core takes care of that.
-
->>>> +		return status;
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->> [...]
->>>> +static int __init surface_gpe_init(void)
->>>> +{
->>>> +	const struct dmi_system_id *match;
->>>> +	const struct property_entry *props;
->>>> +	struct platform_device *pdev;
->>>> +	struct fwnode_handle *fwnode;
->>>> +	int status;
->>>> +
->>>> +	match = dmi_first_match(dmi_lid_device_table);
->>>> +	if (!match) {
->>>> +		pr_info(KBUILD_MODNAME": no device detected, exiting\n");
->>>
->>> If you put
->>>    #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>> before including any headers, you can simply write 'pr_info("no device...")' and it'll
->>> be prefixed by the module name. This is the "usual" way of achieving what you want.
->>
->> Right, thanks!
->>
->>>> +		return 0;
->>>
->>> Shouldn't it return -ENODEV?
->>
->> How does module auto-loading behave with a -ENODEV return value in init?
->> I know that in the driver's probe callback it signals that the driver
->> isn't intended for the device. Is this the same for modules or would a
->> user get an error message in the kernel log? As I couldn't find any
->> documentation on this, I assumed it didn't behave the same and would
->> emit an error message.
->>
->> The reason I don't want to emit an error message here is that the module
->> can be loaded for devices that it's not intended (and that's not
->> something we can fix with a better MODULE_ALIAS as Microsoft cleverly
->> named their 5th generation Surface Pro "Surface Pro", without any
->> version number). Mainly, I don't want users to get a random error
->> message that doesn't indicate an actual error.
->>
+> Recently there have been more bug-reports about this and at least the Asus E200HA
+> laptop does not have the newer ASUS WMI device-id in its DSDT:
 > 
-> I wasn't sure, so I tested it. It prints the "no device" message, but that's it,
-> no more indication of the -ENODEV error in the kernel log during automatic
-> module loading at boot.
+>    https://bugzilla.redhat.com/show_bug.cgi?id=1875339
+>    https://bugzilla.redhat.com/show_bug.cgi?id=1875828
+>    https://bugzilla.redhat.com/show_bug.cgi?id=1876997
 > 
-> You could print "no compatible Microsoft Surface device found, exitig" (or something
-> similar). I think this provides enough information for any user to decide if
-> they should be concerned or not.
+> So I'm preparing a new patch which uses a DMI based whitelist for the SW_TABLET_MODE
+> functionality, Using the existing DMI quirks mechanism in asus-nb-wmi.c .
 
-I ran the same test (with same results) earlier today and also did some
-digging: From what I can tell, udev is responsible for auto-loading and
-the code doing that can be found at [1]. This code seems to, by default,
-log any errors as debug output. Only in verbose mode it logs them as
-error, with the exception of -ENODEV, which then is specifically logged
-only as notice.
+p.s.
 
-It also seems to be used by a couple of other modules this way. So I
-guess that's the expected use-case for -ENODEV in module-init and pretty
-much guarantees the behavior I've wanted.
+Note the new ASUS-WMI device-id did actually give a working SW_TABLET_MODE
+on the Asus Zenbook Flip UX360CA.
 
-[1]: https://github.com/systemd/systemd/blob/6d95e7d9b263c94e94704e3125cb790840b76ca2/src/shared/module-util.c#L58-L64
+Samuel Čavoj, perhaps you can do a follow-up patch to my fix (once I've
+posted it) enabling the new dev-id on devices with "Zenbook Flip*" as
+DMI product-name ?
 
-Thanks again. If there are no other comments, I'll likely submit a v3
-addressing the issues tomorrow.
+At least I hope the DMI product-name starts with a prefix which has Flip in it?  See:
+at /sys/class/dmi/id/product_name
 
 Regards,
-Max
+
+Hans
+
+
+
+>> ---
+>>   drivers/platform/x86/asus-wmi.c            | 32 ++++++++++++++++++----
+>>   include/linux/platform_data/x86/asus-wmi.h |  1 +
+>>   2 files changed, 28 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+>> index 8f4acdc06b13..c8689da0323b 100644
+>> --- a/drivers/platform/x86/asus-wmi.c
+>> +++ b/drivers/platform/x86/asus-wmi.c
+>> @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
+>>   #define NOTIFY_KBD_BRTTOGGLE        0xc7
+>>   #define NOTIFY_KBD_FBM            0x99
+>>   #define NOTIFY_KBD_TTP            0xae
+>> +#define NOTIFY_FLIP_TABLET_MODE_CHANGE    0xfa
+>>   #define ASUS_WMI_FNLOCK_BIOS_DISABLED    BIT(0)
+>> @@ -173,6 +174,7 @@ struct asus_wmi {
+>>       int spec;
+>>       int sfun;
+>>       bool wmi_event_queue;
+>> +    bool use_flip_tablet_mode;
+>>       struct input_dev *inputdev;
+>>       struct backlight_device *backlight_device;
+>> @@ -365,12 +367,22 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+>>       if (err)
+>>           goto err_free_dev;
+>> -    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
+>> +    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_FLIP_TABLET_MODE);
+>>       if (result >= 0) {
+>> +        asus->use_flip_tablet_mode = true;
+>>           input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
+>> -        input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
+>> -    } else if (result != -ENODEV) {
+>> -        pr_err("Error checking for keyboard-dock: %d\n", result);
+>> +        input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+>> +    } else {
+>> +        if (result != -ENODEV)
+>> +            pr_err("Error checking for flip-tablet-mode: %d\n", result);
+>> +
+>> +        result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
+>> +        if (result >= 0) {
+>> +            input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
+>> +            input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
+>> +        } else if (result != -ENODEV) {
+>> +            pr_err("Error checking for keyboard-dock: %d\n", result);
+>> +        }
+>>       }
+>>       err = input_register_device(asus->inputdev);
+>> @@ -2114,7 +2126,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+>>           return;
+>>       }
+>> -    if (code == NOTIFY_KBD_DOCK_CHANGE) {
+>> +    if (!asus->use_flip_tablet_mode && code == NOTIFY_KBD_DOCK_CHANGE) {
+>>           result = asus_wmi_get_devstate_simple(asus,
+>>                                 ASUS_WMI_DEVID_KBD_DOCK);
+>>           if (result >= 0) {
+>> @@ -2125,6 +2137,16 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+>>           return;
+>>       }
+>> +    if (asus->use_flip_tablet_mode && code == NOTIFY_FLIP_TABLET_MODE_CHANGE) {
+>> +        result = asus_wmi_get_devstate_simple(asus,
+>> +                              ASUS_WMI_DEVID_FLIP_TABLET_MODE);
+>> +        if (result >= 0) {
+>> +            input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+>> +            input_sync(asus->inputdev);
+>> +        }
+>> +        return;
+>> +    }
+>> +
+>>       if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
+>>           fan_boost_mode_switch_next(asus);
+>>           return;
+>> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+>> index 897b8332a39f..1897b4683562 100644
+>> --- a/include/linux/platform_data/x86/asus-wmi.h
+>> +++ b/include/linux/platform_data/x86/asus-wmi.h
+>> @@ -62,6 +62,7 @@
+>>   /* Misc */
+>>   #define ASUS_WMI_DEVID_CAMERA        0x00060013
+>> +#define ASUS_WMI_DEVID_FLIP_TABLET_MODE    0x00060062
+>>   /* Storage */
+>>   #define ASUS_WMI_DEVID_CARDREADER    0x00080013
+>>
 
