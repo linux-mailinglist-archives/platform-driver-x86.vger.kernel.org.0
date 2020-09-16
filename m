@@ -2,273 +2,284 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13C5E26CDB7
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Sep 2020 23:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6265F26CE3F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 00:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgIPVET (ORCPT
+        id S1726469AbgIPWEM (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Sep 2020 17:04:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726249AbgIPQPB (ORCPT
+        Wed, 16 Sep 2020 18:04:12 -0400
+Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:29952 "EHLO
+        mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725267AbgIPWDz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 16 Sep 2020 12:15:01 -0400
-Received: from mail.sammserver.com (sammserver.com [IPv6:2001:470:5a5b:1::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601DFC035433
-        for <platform-driver-x86@vger.kernel.org>; Wed, 16 Sep 2020 09:06:08 -0700 (PDT)
-Received: by mail.sammserver.com (Postfix, from userid 5011)
-        id E89E810580FD; Wed, 16 Sep 2020 18:06:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1600272366; bh=36Zio7BBp5cw1oKfhjS3qQh9D2XAPuIo4eAIqnmA+d0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WYPMObxWg7Kq3mz5tXM9TBTBOT60NX0UvY6rtY3oD1qvv2VLUldwwHRcRB07bWnNJ
-         c3PvgylKLIf32FTOHa9mu2MA1qJ2hBuqXmb7IwND53TpbfHeNLI6mMKt9Fd7JDch5V
-         1nX8HHHn4yx5HuJWKaG6JILYLDn3CIPRe1sJjr9o=
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id ADEC910580F8;
-        Wed, 16 Sep 2020 18:06:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1600272366; bh=36Zio7BBp5cw1oKfhjS3qQh9D2XAPuIo4eAIqnmA+d0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WYPMObxWg7Kq3mz5tXM9TBTBOT60NX0UvY6rtY3oD1qvv2VLUldwwHRcRB07bWnNJ
-         c3PvgylKLIf32FTOHa9mu2MA1qJ2hBuqXmb7IwND53TpbfHeNLI6mMKt9Fd7JDch5V
-         1nX8HHHn4yx5HuJWKaG6JILYLDn3CIPRe1sJjr9o=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id A04961420578; Wed, 16 Sep 2020 18:06:05 +0200 (CEST)
-Date:   Wed, 16 Sep 2020 18:06:05 +0200
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
+        Wed, 16 Sep 2020 18:03:55 -0400
+Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08GLAGUq028398;
+        Wed, 16 Sep 2020 21:17:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pps0720; bh=oJOI9DzBP3lURNLD9/qKDkL+K9CoxkTKKyQGBNef41E=;
+ b=F3DU3OB3ww7t67id2+UIXoCgxSPsPcsscZvsXz8nMCEwLi2/NsYxidDi6MmB/ZFruH1e
+ XOXjsyot6U1fhta/ETqsYb2zIjAwIEZOjXLn0zX+b/PKp2ssc/1bXvM5t/t9LxLoOrGd
+ hE1IzQGAXvQrloSUYzXHm2etHutbPOACRNHPiV+5XvqABo3PM3PZlwO//IMFEMxgs0ns
+ oej87xUyJgIwKI4NfZXrMO2onNHJH92Nuw2Ns4wlMq8z4mIVe2eVHnjkIx/nLwRa9IZV
+ M7tqpQnD/tvvXXPJxtJSuvB92dO2USwHvutR/6v4NiEEi7RX4Lgzd6J2+sNaTCz2GCfZ 3w== 
+Received: from g9t5008.houston.hpe.com (g9t5008.houston.hpe.com [15.241.48.72])
+        by mx0a-002e3701.pphosted.com with ESMTP id 33k5n73rqc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 16 Sep 2020 21:17:55 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
+        by g9t5008.houston.hpe.com (Postfix) with ESMTP id BCE7153;
+        Wed, 16 Sep 2020 21:17:53 +0000 (UTC)
+Received: from swahl-home.5wahls.com (unknown [16.214.129.22])
+        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 06B5148;
+        Wed, 16 Sep 2020 21:17:51 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 16:17:51 -0500
+From:   Steve Wahl <steve.wahl@hpe.com>
+To:     Mike Travis <mike.travis@hpe.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        Darren Hart <dvhart@infradead.org>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: asus-wmi: Fix SW_TABLET_MODE always
- reporting 1 on the Asus UX360CA
-Message-ID: <20200916160605.2wx735h2jn5773fs@fastboi.localdomain>
-References: <20200911132618.187297-1-hdegoede@redhat.com>
- <8035726f-536e-4e62-2ef3-b27e43e15759@redhat.com>
- <86d3f91e-8ada-2992-7197-dfca738f7974@redhat.com>
- <20200916140008.5rlepwg5j4v6qx4d@fastboi.localdomain>
- <055d8a05-fd09-ba51-7f2b-737b66202994@redhat.com>
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Jian Cai <caij2003@gmail.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v2 02/13] x86/platform/uv: Remove SCIR MMR references for
+ UVY systems.
+Message-ID: <20200916211751.GO362364@swahl-home.5wahls.com>
+References: <20200916192039.162934-1-mike.travis@hpe.com>
+ <20200916192039.162934-3-mike.travis@hpe.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <055d8a05-fd09-ba51-7f2b-737b66202994@redhat.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+In-Reply-To: <20200916192039.162934-3-mike.travis@hpe.com>
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-16_13:2020-09-16,2020-09-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 clxscore=1011 phishscore=0 mlxscore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=1 malwarescore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009160155
 Sender: platform-driver-x86-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 16.09.2020 17:00, Hans de Goede wrote:
-> Hi,
-> 
-> On 9/16/20 4:00 PM, Samuel Čavoj wrote:
-> > Hello,
-> > 
-> > On 16.09.2020 15:13, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > On 9/16/20 3:04 PM, Hans de Goede wrote:
-> > > > Hi,
-> > > > 
-> > > > On 9/11/20 3:26 PM, Hans de Goede wrote:
-> > > > > On the Asus UX360CA the ASUS_WMI_DEVID_KBD_DOCK devstate always reports 0,
-> > > > > which we translate to SW_TABLET_MODE=1. Which causes libinput to disable
-> > > > > the keyboard and touchpad even if the 360 degree hinges style 2-in-1 is
-> > > > > in laptop mode.
-> > > > > 
-> > > > > Samuel found out that this model has another WMI "object" with an devid of
-> > > > > 0x00060062 which correctly reports laptop vs tablet-mode on the
-> > > > > Asus UX360CA.
-> > > > > 
-> > > > > All the models on which the SW_TABLET_MODE code was previously tested do
-> > > > > not have this new devid 0x00060062 object.
-> > > > > 
-> > > > > This commit adds support for the new devid 0x00060062 object and prefers it
-> > > > > over the older 0x00120063 object when present, fixing SW_TABLET_MODE always
-> > > > > being reported as 1 on these models.
-> > > > > 
-> > > > > Reported-and-tested-by: Samuel Čavoj <samuel@cavoj.net>
-> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > > 
-> > > > Self NACK, preferring the newer ASUS WMI device-id for the switch when present
-> > > > does not fix this everywhere.
-> > > > 
-> > > > Recently there have been more bug-reports about this and at least the Asus E200HA
-> > > > laptop does not have the newer ASUS WMI device-id in its DSDT:
-> > > > 
-> > > >     https://bugzilla.redhat.com/show_bug.cgi?id=1875339
-> > > >     https://bugzilla.redhat.com/show_bug.cgi?id=1875828
-> > > >     https://bugzilla.redhat.com/show_bug.cgi?id=1876997
-> > > > 
-> > > > So I'm preparing a new patch which uses a DMI based whitelist for the SW_TABLET_MODE
-> > > > functionality, Using the existing DMI quirks mechanism in asus-nb-wmi.c .
-> > > 
-> > > p.s.
-> > > 
-> > > Note the new ASUS-WMI device-id did actually give a working SW_TABLET_MODE
-> > > on the Asus Zenbook Flip UX360CA.
-> > > 
-> > > Samuel Čavoj, perhaps you can do a follow-up patch to my fix (once I've
-> > > posted it) enabling the new dev-id on devices with "Zenbook Flip*" as
-> > > DMI product-name ?
-> > 
-> > I would be happy to.
-> > 
-> > > 
-> > > At least I hope the DMI product-name starts with a prefix which has Flip in it?  See:
-> > > at /sys/class/dmi/id/product_name
-> > 
-> > Unfortunately, this is not the case. product_name is just "UX360CAK" and
-> > none of the other values contain anything useful either. (e.g.
-> > product_family is just "UX")
-> 
-> It seems all the UX360 models are flip models (I guess the 360 refers
-> to 360 degree hinges), so you could do a non-exact (the default) DMI_MATCH
-> on product-name containing UX360.
+Acked-by: Steve Wahl <steve.wahl@hpe.com>
 
-I didn't realize that. Yeah, it sounds reasonable.
-
+On Wed, Sep 16, 2020 at 02:20:28PM -0500, Mike Travis wrote:
+> UV class systems no longer use System Controller for monitoring of CPU
+> activity provided by this driver.  Other methods have been developed
+> for BIOS and the management controller (BMC).  This patch removes that
+> supporting code.
 > 
-> > Two solutions come to my mind:
-> >   1. Manually build up a whitelist of devices with DEVID_FLIP_TABLET_MODE.
-> >   2. Keep the logic of first checking the DEVID_FLIP_TABLET_MODE. If
-> >      present use it, if not present then fall back to your DMI whitelist
-> >      for the DEVID_KDB_DOCK.
-> > 
-> > The first solution sounds like an uphill battle and I don't know how I
-> > would even start collecting devices. The second one is risky, but as we
-> > haven't yet seen a device which misreports DEVID_FLIP_TABLET_MODE, I
-> > think it should be fine. Unless ASUS does it yet again, of course.
+> Signed-off-by: Mike Travis <mike.travis@hpe.com>
+> Reviewed-by: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+> ---
+>  arch/x86/include/asm/uv/uv_hub.h   | 43 ++--------------
+>  arch/x86/kernel/apic/x2apic_uv_x.c | 82 ------------------------------
+>  2 files changed, 3 insertions(+), 122 deletions(-)
 > 
-> I fully expect Asus to have done this again.
-
-Right on. I guess I'm still new enough to this that I have hope.
-
-> 
-> > What do you think?
-> 
-> One advantage of the DEVID_FLIP_TABLET_MODE is that it directly
-> returns SW_TABLET_MODE, where as ASUS_WMI_DEVID_KBD_DOCK returns 1
-> when a Transformer model is attached to its kbd-dock, so we need
-> to invert the value to get SW_TABLET_MODE and it seems that on
-> all non transformers ASUS_WMI_DEVID_KBD_DOCK simply always returns 0
-> which we invert to 1, causing the issue at hand.
-> 
-> So assuming that on non flips DEVID_FLIP_TABLET_MODE defaults
-> to returning 0, we should avoid the alwasy reporting 1 problem.
-> 
-> But the mere presence of a SW_TABLET_MODE switch hints to userspace
-> that it is dealing with a 2-in-1 which might make userspace change
-> some behavior even if currently not in tablet-mode.
-> 
-> > Hans, you have a collection of DSTS's, is that right? Could you try
-> > searching it for DEVID_FLIP_TABLET_MODE and seeing if the devices which
-> > have it actually also have a 360 degree hinge? This could shed some
-> > light on the situation. I have indirect access to a UX434FLC as well (it
-> > does not have the hinge) so I can check it myself.
-> 
-> Most of my Asus DSDTs are from various Transformer models. Of the
-> non transform DSDTs which I have both the FX503VD and the GL503VD
-> have the DEVID_FLIP_TABLET_MODE even though they are not 2-in-1s
-
-Oh well. That's unfortunate.
-
-> so I believe that it would be best to support DEVID_FLIP_TABLET_MODE
-> through an allow-list too, just like I'm doing for the
-> ASUS_WMI_DEVID_KBD_DOCK in my upcoming fix.
-
-Yeah, that does seem best indeed. I'll give it a shot.
-
-Regards,
-Sam
-
-> > > > > ---
-> > > > >    drivers/platform/x86/asus-wmi.c            | 32 ++++++++++++++++++----
-> > > > >    include/linux/platform_data/x86/asus-wmi.h |  1 +
-> > > > >    2 files changed, 28 insertions(+), 5 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> > > > > index 8f4acdc06b13..c8689da0323b 100644
-> > > > > --- a/drivers/platform/x86/asus-wmi.c
-> > > > > +++ b/drivers/platform/x86/asus-wmi.c
-> > > > > @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
-> > > > >    #define NOTIFY_KBD_BRTTOGGLE        0xc7
-> > > > >    #define NOTIFY_KBD_FBM            0x99
-> > > > >    #define NOTIFY_KBD_TTP            0xae
-> > > > > +#define NOTIFY_FLIP_TABLET_MODE_CHANGE    0xfa
-> > > > >    #define ASUS_WMI_FNLOCK_BIOS_DISABLED    BIT(0)
-> > > > > @@ -173,6 +174,7 @@ struct asus_wmi {
-> > > > >        int spec;
-> > > > >        int sfun;
-> > > > >        bool wmi_event_queue;
-> > > > > +    bool use_flip_tablet_mode;
-> > > > >        struct input_dev *inputdev;
-> > > > >        struct backlight_device *backlight_device;
-> > > > > @@ -365,12 +367,22 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
-> > > > >        if (err)
-> > > > >            goto err_free_dev;
-> > > > > -    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-> > > > > +    result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_FLIP_TABLET_MODE);
-> > > > >        if (result >= 0) {
-> > > > > +        asus->use_flip_tablet_mode = true;
-> > > > >            input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> > > > > -        input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
-> > > > > -    } else if (result != -ENODEV) {
-> > > > > -        pr_err("Error checking for keyboard-dock: %d\n", result);
-> > > > > +        input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > > > > +    } else {
-> > > > > +        if (result != -ENODEV)
-> > > > > +            pr_err("Error checking for flip-tablet-mode: %d\n", result);
-> > > > > +
-> > > > > +        result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_KBD_DOCK);
-> > > > > +        if (result >= 0) {
-> > > > > +            input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> > > > > +            input_report_switch(asus->inputdev, SW_TABLET_MODE, !result);
-> > > > > +        } else if (result != -ENODEV) {
-> > > > > +            pr_err("Error checking for keyboard-dock: %d\n", result);
-> > > > > +        }
-> > > > >        }
-> > > > >        err = input_register_device(asus->inputdev);
-> > > > > @@ -2114,7 +2126,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> > > > >            return;
-> > > > >        }
-> > > > > -    if (code == NOTIFY_KBD_DOCK_CHANGE) {
-> > > > > +    if (!asus->use_flip_tablet_mode && code == NOTIFY_KBD_DOCK_CHANGE) {
-> > > > >            result = asus_wmi_get_devstate_simple(asus,
-> > > > >                                  ASUS_WMI_DEVID_KBD_DOCK);
-> > > > >            if (result >= 0) {
-> > > > > @@ -2125,6 +2137,16 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> > > > >            return;
-> > > > >        }
-> > > > > +    if (asus->use_flip_tablet_mode && code == NOTIFY_FLIP_TABLET_MODE_CHANGE) {
-> > > > > +        result = asus_wmi_get_devstate_simple(asus,
-> > > > > +                              ASUS_WMI_DEVID_FLIP_TABLET_MODE);
-> > > > > +        if (result >= 0) {
-> > > > > +            input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > > > > +            input_sync(asus->inputdev);
-> > > > > +        }
-> > > > > +        return;
-> > > > > +    }
-> > > > > +
-> > > > >        if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
-> > > > >            fan_boost_mode_switch_next(asus);
-> > > > >            return;
-> > > > > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> > > > > index 897b8332a39f..1897b4683562 100644
-> > > > > --- a/include/linux/platform_data/x86/asus-wmi.h
-> > > > > +++ b/include/linux/platform_data/x86/asus-wmi.h
-> > > > > @@ -62,6 +62,7 @@
-> > > > >    /* Misc */
-> > > > >    #define ASUS_WMI_DEVID_CAMERA        0x00060013
-> > > > > +#define ASUS_WMI_DEVID_FLIP_TABLET_MODE    0x00060062
-> > > > >    /* Storage */
-> > > > >    #define ASUS_WMI_DEVID_CARDREADER    0x00080013
-> > > > > 
-> > > 
-> > 
+> diff --git a/arch/x86/include/asm/uv/uv_hub.h b/arch/x86/include/asm/uv/uv_hub.h
+> index 100d66806503..b21228db75bf 100644
+> --- a/arch/x86/include/asm/uv/uv_hub.h
+> +++ b/arch/x86/include/asm/uv/uv_hub.h
+> @@ -129,17 +129,6 @@
+>   */
+>  #define UV_MAX_NASID_VALUE	(UV_MAX_NUMALINK_BLADES * 2)
+>  
+> -/* System Controller Interface Reg info */
+> -struct uv_scir_s {
+> -	struct timer_list timer;
+> -	unsigned long	offset;
+> -	unsigned long	last;
+> -	unsigned long	idle_on;
+> -	unsigned long	idle_off;
+> -	unsigned char	state;
+> -	unsigned char	enabled;
+> -};
+> -
+>  /* GAM (globally addressed memory) range table */
+>  struct uv_gam_range_s {
+>  	u32	limit;		/* PA bits 56:26 (GAM_RANGE_SHFT) */
+> @@ -191,16 +180,13 @@ struct uv_hub_info_s {
+>  struct uv_cpu_info_s {
+>  	void			*p_uv_hub_info;
+>  	unsigned char		blade_cpu_id;
+> -	struct uv_scir_s	scir;
+> +	void			*reserved;
+>  };
+>  DECLARE_PER_CPU(struct uv_cpu_info_s, __uv_cpu_info);
+>  
+>  #define uv_cpu_info		this_cpu_ptr(&__uv_cpu_info)
+>  #define uv_cpu_info_per(cpu)	(&per_cpu(__uv_cpu_info, cpu))
+>  
+> -#define	uv_scir_info		(&uv_cpu_info->scir)
+> -#define	uv_cpu_scir_info(cpu)	(&uv_cpu_info_per(cpu)->scir)
+> -
+>  /* Node specific hub common info struct */
+>  extern void **__uv_hub_info_list;
+>  static inline struct uv_hub_info_s *uv_hub_info_list(int node)
+> @@ -297,9 +283,9 @@ union uvh_apicid {
+>  #define UV3_GLOBAL_MMR32_SIZE		(32UL * 1024 * 1024)
+>  
+>  #define UV4_LOCAL_MMR_BASE		0xfa000000UL
+> -#define UV4_GLOBAL_MMR32_BASE		0xfc000000UL
+> +#define UV4_GLOBAL_MMR32_BASE		0
+>  #define UV4_LOCAL_MMR_SIZE		(32UL * 1024 * 1024)
+> -#define UV4_GLOBAL_MMR32_SIZE		(16UL * 1024 * 1024)
+> +#define UV4_GLOBAL_MMR32_SIZE		0
+>  
+>  #define UV_LOCAL_MMR_BASE		(				\
+>  					is_uv2_hub() ? UV2_LOCAL_MMR_BASE : \
+> @@ -772,29 +758,6 @@ DECLARE_PER_CPU(struct uv_cpu_nmi_s, uv_cpu_nmi);
+>  #define	UV_NMI_STATE_DUMP		2
+>  #define	UV_NMI_STATE_DUMP_DONE		3
+>  
+> -/* Update SCIR state */
+> -static inline void uv_set_scir_bits(unsigned char value)
+> -{
+> -	if (uv_scir_info->state != value) {
+> -		uv_scir_info->state = value;
+> -		uv_write_local_mmr8(uv_scir_info->offset, value);
+> -	}
+> -}
+> -
+> -static inline unsigned long uv_scir_offset(int apicid)
+> -{
+> -	return SCIR_LOCAL_MMR_BASE | (apicid & 0x3f);
+> -}
+> -
+> -static inline void uv_set_cpu_scir_bits(int cpu, unsigned char value)
+> -{
+> -	if (uv_cpu_scir_info(cpu)->state != value) {
+> -		uv_write_global_mmr8(uv_cpu_to_pnode(cpu),
+> -				uv_cpu_scir_info(cpu)->offset, value);
+> -		uv_cpu_scir_info(cpu)->state = value;
+> -	}
+> -}
+> -
+>  /*
+>   * Get the minimum revision number of the hub chips within the partition.
+>   * (See UVx_HUB_REVISION_BASE above for specific values.)
+> diff --git a/arch/x86/kernel/apic/x2apic_uv_x.c b/arch/x86/kernel/apic/x2apic_uv_x.c
+> index 0b6eea3f54e6..f51fabf56010 100644
+> --- a/arch/x86/kernel/apic/x2apic_uv_x.c
+> +++ b/arch/x86/kernel/apic/x2apic_uv_x.c
+> @@ -909,85 +909,6 @@ static __init void uv_rtc_init(void)
+>  	}
+>  }
+>  
+> -/*
+> - * percpu heartbeat timer
+> - */
+> -static void uv_heartbeat(struct timer_list *timer)
+> -{
+> -	unsigned char bits = uv_scir_info->state;
+> -
+> -	/* Flip heartbeat bit: */
+> -	bits ^= SCIR_CPU_HEARTBEAT;
+> -
+> -	/* Is this CPU idle? */
+> -	if (idle_cpu(raw_smp_processor_id()))
+> -		bits &= ~SCIR_CPU_ACTIVITY;
+> -	else
+> -		bits |= SCIR_CPU_ACTIVITY;
+> -
+> -	/* Update system controller interface reg: */
+> -	uv_set_scir_bits(bits);
+> -
+> -	/* Enable next timer period: */
+> -	mod_timer(timer, jiffies + SCIR_CPU_HB_INTERVAL);
+> -}
+> -
+> -static int uv_heartbeat_enable(unsigned int cpu)
+> -{
+> -	while (!uv_cpu_scir_info(cpu)->enabled) {
+> -		struct timer_list *timer = &uv_cpu_scir_info(cpu)->timer;
+> -
+> -		uv_set_cpu_scir_bits(cpu, SCIR_CPU_HEARTBEAT|SCIR_CPU_ACTIVITY);
+> -		timer_setup(timer, uv_heartbeat, TIMER_PINNED);
+> -		timer->expires = jiffies + SCIR_CPU_HB_INTERVAL;
+> -		add_timer_on(timer, cpu);
+> -		uv_cpu_scir_info(cpu)->enabled = 1;
+> -
+> -		/* Also ensure that boot CPU is enabled: */
+> -		cpu = 0;
+> -	}
+> -	return 0;
+> -}
+> -
+> -#ifdef CONFIG_HOTPLUG_CPU
+> -static int uv_heartbeat_disable(unsigned int cpu)
+> -{
+> -	if (uv_cpu_scir_info(cpu)->enabled) {
+> -		uv_cpu_scir_info(cpu)->enabled = 0;
+> -		del_timer(&uv_cpu_scir_info(cpu)->timer);
+> -	}
+> -	uv_set_cpu_scir_bits(cpu, 0xff);
+> -	return 0;
+> -}
+> -
+> -static __init void uv_scir_register_cpu_notifier(void)
+> -{
+> -	cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN, "x86/x2apic-uvx:online",
+> -				  uv_heartbeat_enable, uv_heartbeat_disable);
+> -}
+> -
+> -#else /* !CONFIG_HOTPLUG_CPU */
+> -
+> -static __init void uv_scir_register_cpu_notifier(void)
+> -{
+> -}
+> -
+> -static __init int uv_init_heartbeat(void)
+> -{
+> -	int cpu;
+> -
+> -	if (is_uv_system()) {
+> -		for_each_online_cpu(cpu)
+> -			uv_heartbeat_enable(cpu);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -late_initcall(uv_init_heartbeat);
+> -
+> -#endif /* !CONFIG_HOTPLUG_CPU */
+> -
+>  /* Direct Legacy VGA I/O traffic to designated IOH */
+>  static int uv_set_vga_state(struct pci_dev *pdev, bool decode, unsigned int command_bits, u32 flags)
+>  {
+> @@ -1517,8 +1438,6 @@ static void __init uv_system_init_hub(void)
+>  			uv_hub_info_list(numa_node_id)->pnode = pnode;
+>  		else if (uv_cpu_hub_info(cpu)->pnode == 0xffff)
+>  			uv_cpu_hub_info(cpu)->pnode = pnode;
+> -
+> -		uv_cpu_scir_info(cpu)->offset = uv_scir_offset(apicid);
+>  	}
+>  
+>  	for_each_node(nodeid) {
+> @@ -1547,7 +1466,6 @@ static void __init uv_system_init_hub(void)
+>  
+>  	uv_nmi_setup();
+>  	uv_cpu_init();
+> -	uv_scir_register_cpu_notifier();
+>  	uv_setup_proc_files(0);
+>  
+>  	/* Register Legacy VGA I/O redirection handler: */
+> -- 
+> 2.21.0
 > 
