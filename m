@@ -2,252 +2,142 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8607826DD36
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 15:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C499426DD2E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 15:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727151AbgIQNz0 (ORCPT
+        id S1727108AbgIQNxj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 09:55:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52248 "EHLO
+        Thu, 17 Sep 2020 09:53:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53185 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727137AbgIQNzX (ORCPT
+        by vger.kernel.org with ESMTP id S1726843AbgIQNus (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 09:55:23 -0400
+        Thu, 17 Sep 2020 09:50:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600350904;
+        s=mimecast20190719; t=1600350618;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=87BXXrp5D3CIt13tVuI0V/qQIhJ0GUUKvK/SqWe1lIo=;
-        b=HQaKUutCrD134aqWT1pqPj9i5/aEQBwlUv9Qacrg/EqnVQcCqWCb0RwgPZEwZoxr5gKYLs
-        9w4CIZjFJA3ujxdxNPkrkFh2IzEznAX8M6Shol/ShtsShVgIMfgFOnWwzstNkyyLFjOUXU
-        NtukmXloEiSuI9KpM0sC/qK0GTfYvxU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-XDCIBXxGOcG9Cmox22Fg7Q-1; Thu, 17 Sep 2020 09:46:50 -0400
-X-MC-Unique: XDCIBXxGOcG9Cmox22Fg7Q-1
-Received: by mail-ej1-f69.google.com with SMTP id f17so914075ejq.5
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 06:46:50 -0700 (PDT)
+        bh=Och7vbzH8fgh9G7ABSzr3yG4aKCg/RiGZcndYd97UZM=;
+        b=acV8olg/P6CDGj7zMy/1KR2+iLZos46xfGbDtSlNyOME5WBy7YaQl3B+iSbK8FH8tnL3X0
+        9caEa1J6EQcPqCHZ8sBoi4RasgaNWwljNpuL7p72fvh/s8tDz4eV19Kl3BPCmHn55K3Qt7
+        MmV9KZ3SALndkv41shXltbJKcU/TeOs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-yrHoydwTPA2CQmILNCmWEg-1; Thu, 17 Sep 2020 09:50:15 -0400
+X-MC-Unique: yrHoydwTPA2CQmILNCmWEg-1
+Received: by mail-wm1-f70.google.com with SMTP id x81so770491wmg.8
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 06:50:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=87BXXrp5D3CIt13tVuI0V/qQIhJ0GUUKvK/SqWe1lIo=;
-        b=KeGkklrnxe6CkwyAmjH4HvGblyhfz465KI9+8RmGJn3pU2m+NV7YqCYynw9EaiuB4M
-         bnePdVPSApjY8Pt/3vDpXHIi/B2g6/223wgr9nR8D5kcTQDx7cdyuMhlxqoTaUgGLHX/
-         ZfhKXETLZb3q4FLafVZCFhtStPoUrdwEjdPB+lFuqFqtodaQfPWb67Ck1hpT5fMhfK1J
-         H7d5e/6J7GeTXQ+doqc4in6V8dokwVxvuWdD4XIShpq8LEG8fIGlO4ya6u3Sf+EFzBOl
-         HzIGneHWbZxMKBK6PbuAxJTVy0azIY5Ki4F4aijFGeTz8vn017lu5jyOuHEdfAuN7QKA
-         /Y6A==
-X-Gm-Message-State: AOAM533N6DWiRhkqDs+iOrqBoXWlhAUKv0WvJA3AoUaXnBAMatcR1CEB
-        dNkl2kHbQzycPkA7kNhFQCBuSAbKtFxS1ql2LbtGTZHlIRfyRKz3k4SD92ZizAe+MHEyn2dpxpk
-        BA/GLWqTDGfqbKpWoIAoCBA6KPhtZ/NdJIQ==
-X-Received: by 2002:a17:907:2141:: with SMTP id rk1mr30561357ejb.256.1600350408970;
-        Thu, 17 Sep 2020 06:46:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyX3dmJ1nButBIpGm15x9ksSlrDWusG2GRFXK9tvL3gO6oZOEU4Rzn/BWd1Wm9AVkPXTwkS8w==
-X-Received: by 2002:a17:907:2141:: with SMTP id rk1mr30561330ejb.256.1600350408684;
-        Thu, 17 Sep 2020 06:46:48 -0700 (PDT)
-Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
-        by smtp.gmail.com with ESMTPSA id m10sm16760601edf.11.2020.09.17.06.46.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 06:46:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=Och7vbzH8fgh9G7ABSzr3yG4aKCg/RiGZcndYd97UZM=;
+        b=ma1bb5IhJ1pWoAu2z6hiKR4Bc8EzWw1VphGQphkoWzsE/YzpzrQgqqCPXnFghN4Kk+
+         /GsT9JtZOW3sT1WBOnBKd8pENk7cyIaLOPWiPDgZH1fivz+ygP+GY0kw2+jAOqh8jc3p
+         pwaKfvhyVvlmZvGCaFozuGniTQpbwI4VB8rv60tydygTVjY0QHBHy8w3YomqMxKIh/4B
+         iQXc07Hc7OiO9xU3NT6ScV9GrVGfK+8yWcYBJ1mNMIxoqcgOIZEVrQ0vMuF5PNtgOOaW
+         C8xWNfDchQdj8VeaulW0a6hXWMpLuujaLlQfx9fjiC9AezauPSKVtENdQafL0/z+MaY4
+         zXig==
+X-Gm-Message-State: AOAM532aUSxSVGihMFVCQa2JwfaqPcxW0rYc4rVFGuajmZ+J4mov/Eug
+        KK8meTePiSPmiI6EXJTWb+DbmGp6lPZAOT4nlFejK7jn+X/IWD/F0eUaiyEQIL1pEEnALmcFqj4
+        lklGNd82ncqT3nuogGt6kdQfpsjKoyDvZVg==
+X-Received: by 2002:adf:e9c1:: with SMTP id l1mr32516897wrn.68.1600350614435;
+        Thu, 17 Sep 2020 06:50:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvcVvRxuCSD0OzPqoSFymwai56HtOMPkDIVM9nNGHMmTaAx4vEmX/pYsfIq2AeKjdQbhusfA==
+X-Received: by 2002:adf:e9c1:: with SMTP id l1mr32516872wrn.68.1600350614244;
+        Thu, 17 Sep 2020 06:50:14 -0700 (PDT)
+Received: from dhcp-64-164.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id c14sm31670187wrm.64.2020.09.17.06.50.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 06:50:13 -0700 (PDT)
+Message-ID: <9f01ce60a6b3319855f6a26b94af3e5fc6d2595e.camel@redhat.com>
 Subject: Re: RFC: offering a standardized (/sys/class) userspace API for
  selecting system/laptop performance-profiles
-To:     Bastien Nocera <hadess@hadess.net>,
-        Benjamin Berg <bberg@redhat.com>,
+From:   Benjamin Berg <bberg@redhat.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>,
         Elia Devito <eliadevito@gmail.com>,
         Mark Pearson <mpearson@lenovo.com>
 Cc:     Jared Dominguez <jaredz@redhat.com>,
         platform-driver-x86@vger.kernel.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Thu, 17 Sep 2020 15:50:11 +0200
+In-Reply-To: <b6332a4a-7606-2bd0-632b-f67b68d3dd1b@redhat.com>
 References: <bbe4ebef-0845-2719-ac9a-fbc9c7bcd7be@redhat.com>
- <b62caf7d0d7c78bfb7487cda969f55de30253a5c.camel@redhat.com>
- <35c8dd96-2e68-ac34-d1a5-78262a573287@redhat.com>
- <9d8037b5151886fd39a9eaf0a5c39b9bd56a56b8.camel@hadess.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8d02bb96-709e-fa9c-58cd-87368afa2f50@redhat.com>
-Date:   Thu, 17 Sep 2020 15:46:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+         <21b6dffbbc6dbb14ebef3f078cc2497f9a872f57.camel@hadess.net>
+         <b6332a4a-7606-2bd0-632b-f67b68d3dd1b@redhat.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-Xz6VRGR8RFnamGnLmQHz"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <9d8037b5151886fd39a9eaf0a5c39b9bd56a56b8.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
 
-On 9/17/20 3:07 PM, Bastien Nocera wrote:
-> On Thu, 2020-09-17 at 14:45 +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 9/17/20 2:22 PM, Benjamin Berg wrote:
->>> Hi,
->>>
->>> On Thu, 2020-09-17 at 13:22 +0200, Hans de Goede wrote:
->>>> The big question is what do we do if there are more then 3
->>>> profiles?
->>>
->>> The Intel p-state driver has the 4 modes:
->>>    * performance
->>>    * balance_performance
->>>    * balance_power
->>>    * power
->>>
->>> This seems to also match what windows does with their power slider,
->>> there the modes are mapped to integer values:
->>>    * power: 25
->>>    * balance_power: 50
->>>    * balance_performance: 75
->>>    * performance: 100
->>>
->>> Which appears to be the same as what newer DPTF versions use. For
->>> older
->>> DPTF versions this is done through OEM variables, which also appear
->>> to
->>> have 4 separate states usually. The MS power slider seems to define
->>> the
->>> four possible modes:
->>>    * Battery Saver
->>>    * Better Battery
->>>    * Better Performance
->>>    * Best Performance
->>>
->>> https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/customize-power-slider#set-default-power-slider-mode
->>>
->>>> One option would be something like the following:
->>>>
->>>> cat
->>>> /sys/class/system_performance_profile/thinkpad_acpi/performance_p
->>>> rofile
->>>>
->>>> low-power [balanced] performance
->>>
->>> I guess userspace is responsible for setting all drivers to the
->>> correct
->>> state when the user changes a global system setting?
->>
->> Yes.
->>
->>>> cat
->>>> /sys/class/system_performance_profile/thinkpad_acpi/extra_perform
->>>> ance_profiles
->>>>
->>>> extra-low-power balanced-performance-mix
->>>>
->>>> So we add an optional extra_performance_profiles sysfs attribute
->>>> and we ask all
->>>> drivers implemeting this class to implement at least the 3
->>>> standard profiles
->>>> (by mapping 3 of their options to these) and optional they can
->>>> offer extra
->>>> profiles (with free form names) in the extra_performance_profiles
->>>> sysfs attribute under the class-device.
->>>
->>> I think it would be good if userspace can figure out where such
->>> these
->>> extra profiles would be sorted in on the "power save --
->>> performance"
->>> scale. Assigning an integer in the range of 0-100 might be a
->>> solution
->>> for that.
->>
->> Interesting, maybe the primary interface should even be an integer in
->> that range, so for each system_performance_profile class-device we
->> would then have the following attributes:
->>
->> mappings (ro) - This attribute gives a list of valid performance-
->> profile-values
->>                In the form of "<integer-value> <description-
->> string>\n", e.g.:
->>
->>                25 Low Power
->>                50 Balanced
->>                100 Performance
-> 
-> The "description strings" need to come from a list. We're not going to
-> use those anywhere but in debug messages, so we need a way to figure
-> out what they would correspond to.
+--=-Xz6VRGR8RFnamGnLmQHz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The whole idea behind the 101 possible profiles setup is to make the
-API flexible/extensible. We don't know how much other profiles other
-implementations will offer, nor what the naming used by that vendor
-will be. So offering a fixed list in advance is sort of impossible.
+On Thu, 2020-09-17 at 14:51 +0200, Hans de Goede wrote:
+> > Compared to the WIP lenovo-dytc "perfmode" driver, we're missing
+> > something to advertise the unavailability of a profile, and the reason
+> > for that unavailability.
+>=20
+> UGh, do we really need to export this though. We have the lap_mode thing
+> already; and that is something which we will need for other reasons in
+> the future too. Any UI for selecting performance modes can display a
+> warning when lap_mode is true saying that: "The laptop has detected that =
+it
+> is sitting on someone's lap and that performance may be limited
+> because of this." (feel free to improve the text).
 
-For p-p-d the descriptions are probably not interesting at all,
-but I think it would still be good for the driver to list the
-Windows names of the various profiles in the mappings file.
+Well, for dytc_perfmode there are actually always the three states
+L/M/H. It just happens that the kernel will write "H*" (was "M*" until
+yesterday) when the performance mode is degraded due to lap detection.
 
+Think of dytc_perfmode as a profile that sets a number of things:
+ * Thermal Limits
+ * Fan Behaviour
+ * possibly more
 
-> 
->> value (rw) - Integer in the range 0 (lowest performance setting) -
->> 100
->>                (highest performance setting). Note most drivers will
->> only
->>                support a number of specific discrete values, see the
->> mappings
->>                attribute. Userspace may write an arbitrary value
->> between 0
->>                and 100, this will be rounded to the closest supported
->> discrete
->>                value.
->>
->> value_string (ro) - String representation of the currently active
->> value,
->>                this is a shortcut for looking up the string in the
->> mappings
->>                attribute yourself.
->>
->> lap_mode (ro) - <lap_mode text here>
->>
->> Something like p-p-daemon would then just interact with the value and
->> lap_mode
->> fields, ignoring the mappings. It would then also need to do some
->> rounding of
->> its own when reading value to map things back to its own internal
->> levels.
->> One issue for p-p-d here might be that it writes its internal integer
->> value
->> corresponding to say "Low power", then reads back a value and when
->> rounding
->> that to its own discrete steps ends up at a different level then "Low
->> power".
->> This can be avoid by using the mappings file to get the supported
->> discrete values
->> and then only generate mappings for the discrete values to its own
->> internal
->> discrete steps once and always use those mappings, thus always
->> writing a
->> supported discrete value, avoiding rounding issues.
->>
->> I think that this will give us a nice and flexible interface. Note if
->> anyone disagrees, or has a better idea please speak up. Once we have
->> decided on what the interface is going to be, we are effectively
->> stuck
->> with it.
-> 
-> That sounds slightly more complicated than I'd have expected it to be,
-> but I can work with that API.
+While dytc_lapmode will only enforce a change to the thermal limit.
 
-Well Benjamin made a very valid point that we need to be able to
-sort the various profiles along the low-power <-> performance axis
-and maybe even also show some relative distance if some options
-are closer together then others.  Which lead to (Bejamin's) 0-100
-idea. I think this makes a lot of sense as it should give us
-enough flexibility to cover other x86 vendor's implementations
-and hopefully also similar functionality on other architectures.
+So "performance" (H) is technically a valid mode even when the lap is
+detected.
 
-I agree that this is slightly more complicated then I initially
-expected too, but that is the price of building in some much
-needed flexibility.  If you have options to simplify the interface
-though I'm all ears.
+> I guess we could split the "value" attribute from my reply to Benjamin's
+> email into "configured_value" (rw) and "actual_value" (rw) attributes.
+> If we have the info we might as well export it I guess,.
 
-Regards,
+I consider the "*" purely a curtsey to users that read the attribute
+directly using e.g. cat to help with the interpretation. It probably is
+not interesting to userspace applications/daemons.
 
-Hans
+Benjamin
+
+--=-Xz6VRGR8RFnamGnLmQHz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEED2NO4vMS33W8E4AFq6ZWhpmFY3AFAl9jaZMACgkQq6ZWhpmF
+Y3D97xAAzoHJvcglMkT4XgfWOQxpi9MkPVLxSzIAHjtMrTnIY85Gko5gU4EZLtHA
+3/ydAECnFoKhV0FUlKjgAtTsg64aTqjWJrl7h8S9BLZSUgsaCfLPqit0IUAP4y5l
+kP4cOGhL3oMWW8KU4eBYXEdlb2+KL4A5QA4VG/Bagp2L0q1Kf2OWN5hY7k7lW5Uz
+UzHJhz/HLZxlpBR65nthhWWC+T5J6ZTy5Le264/UpdvJzprudvT5TYyQqD0Wj40S
+syzytyJEqtnACocwxQbOmOmxBB1wp8EbKfvRPgIdF4kRWpTuj3pVO0ASelQnJxT1
+cchqBwP0a+rBX8CqTwJJHEr+627CiEV5hc9tFrDqmaNdgWxLpyPVTa/7nqH17umw
+lPm+BSYgHzphE8aL4XkSXebQxMBO2TVdMEM5oGPbXlWaHM3HjBDMqfOQhwiEm9dP
+cpBrSiEqEFW/x9msoAA1+SEUgPTEfxlDUr4IrxtHGz3SMuRr6zQhVaeuFJRYuIXj
+yhZ15NZrMuGAm1sK5/5QsWl2TgMIrhzV4jARcNZaWPDPRz0oZNm1izvFt+k3SBUm
+bDba+CfNSkHSSyx6e3+nzj12KvB+YGglPzcUKQnd6Hf8oQYvBXIvuo/42i6+o9nu
+Lob0m+pyCix5lJWDWS/GvZAjeRdTR9nnTBSNg5fY1S9pBE6Q55o=
+=/xU6
+-----END PGP SIGNATURE-----
+
+--=-Xz6VRGR8RFnamGnLmQHz--
 
