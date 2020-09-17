@@ -2,78 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7787726DB3E
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 14:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E68526DB58
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 14:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbgIQMNL (ORCPT
+        id S1726446AbgIQMRq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 08:13:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20924 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726643AbgIQMMy (ORCPT
+        Thu, 17 Sep 2020 08:17:46 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54212 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726950AbgIQMQe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:12:54 -0400
-X-Greylist: delayed 1427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:12:52 EDT
+        Thu, 17 Sep 2020 08:16:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600344769;
+        s=mimecast20190719; t=1600344982;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=nYvTPsLZIKdZMubNPB/I8LO22UxKAq285lr5qRnl3cU=;
-        b=JR60c0IIVJlrlPU3YILQmAjKtDXAY3BPFjXYgi9UoM3pASZTiQVvJy387qvPzyBvAZhYKk
-        11Wk242ZJx+zj6UuXH4UYNrr+CYGYQqzIlt372HdMSekULEmmRNIbgKThbQACa6/O0pgrJ
-        N+GtHRiyzEP/MoMTCXUywcegghiFqbg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-cJvVooY0PmavVj9w2QbuAQ-1; Thu, 17 Sep 2020 08:12:47 -0400
-X-MC-Unique: cJvVooY0PmavVj9w2QbuAQ-1
-Received: by mail-ej1-f69.google.com with SMTP id b23so812878ejv.2
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 05:12:47 -0700 (PDT)
+        bh=SoisXRLqWddF3VDGVnR2urzq3JASfg0vD91MUOUDVZc=;
+        b=FYA2A+KhwbbxkWXCfgyXCISU/5Uw+0VjlBx4Nkde2odLP4239WlMroncmR2VzYUAHSV/TC
+        38DqjZzbcbUvloeBxH6xLip4acfnaUbew2GTvp3we1qH3HcOgOaQRxaW1tz+W800CKiSTW
+        dNG9L0w+ECtwC9kRt/iSznWEtkMrDjs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-VAbvTKRJOfa2dO-9F9qAYQ-1; Thu, 17 Sep 2020 08:16:20 -0400
+X-MC-Unique: VAbvTKRJOfa2dO-9F9qAYQ-1
+Received: by mail-ed1-f71.google.com with SMTP id r9so825937edi.9
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 05:16:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=nYvTPsLZIKdZMubNPB/I8LO22UxKAq285lr5qRnl3cU=;
-        b=SCeaxtyE5dYbhosHJkcV7CyVJTDNDIDKpx2XjrYgXUJWbAFpL4ZSWf/l+sf6kfGwCw
-         j8xNWGwhISFU3c2rVzBm6Cab7MLPW50dgGxmT8rsikqEX7TObpIhPVjGfgsPrJkY7TvM
-         LGaMSUx7DdvZ1yuYCo5bJkkR34UToj17ts4ovAzxyt/S+8ndm2Fyr8ymmO1O/HXYsUye
-         zZl5KvBTJR2YMwQwAbid/eXlJa9McXtTGLJh9gOikz7VkD0R/2/C2Dtr7fUtOwD1GREW
-         kp+xFicAbdBMs6bJ8HcWjLEJAZgawI5Y9KXjURzgzGJeDQm1uR5sjE8PxBIrMGMmnDwt
-         PDZQ==
-X-Gm-Message-State: AOAM532vg38AZNth8NyXkItQuDhNpaVYrm475dZlUuG5iZmYAgNIqM14
-        0S81UdTEXBBeKWd0xD8p3tL3ldVNLvBMFa1SeaWV9IXPARtP9RStmKr4lxVBrRKVTlbaRRveE3H
-        dLpHGAgl0lZMwFVU1w0jhATJe1sslX6eCDA==
-X-Received: by 2002:aa7:c693:: with SMTP id n19mr33641092edq.101.1600344765666;
-        Thu, 17 Sep 2020 05:12:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzE4ptNVmI8xraihMa5eYcsFPfZXO3c5C/7JG6wlUkfe8Ipb7JhjNcDCH2O8NKon9JW6Lu0Hw==
-X-Received: by 2002:aa7:c693:: with SMTP id n19mr33641052edq.101.1600344765298;
-        Thu, 17 Sep 2020 05:12:45 -0700 (PDT)
+        bh=SoisXRLqWddF3VDGVnR2urzq3JASfg0vD91MUOUDVZc=;
+        b=pIGOMXo/ggNdkIz38/oinusUUPWKcYxRu0fWKzWnX/Em1ifdpNcvfIf+RsLS2G69af
+         WHCEnuL5NleNgTxViQLiNbYOxjbIqO/yocyVNq4rZn3wK3X4wgHCs4AD0Zh97Yxdqowy
+         wMvSMDTNTYCGkYEp9F5ph12dADYbKOU0xCSDc6IKsBOuJ0HYNLPY6BR45i1mNbLGzH1n
+         jDyz+wi9OwJUQS89mVt/KD288azhqTEDCNNf14SR9yzpdeqeD3P8FwE+JrhzGxLOWmoM
+         tP6SG4hyeGzYlE2dJWpjrE+Nyur/28+QlZ2QjmgpVHqf6Hyl+d7eo/6T1OdfenLDXqXA
+         CsYQ==
+X-Gm-Message-State: AOAM531DjyeiP56EAAYky5u4OvQLcF63oEftDorbGlfu4kupfbZxTd/W
+        3jp3F4k/qFrWkhJcJAcwakeb2r9rDxWyv6nzGJ4R5qBDwakH5zDKLCuKH0C3XLrpEszWeB8xMT1
+        McGCRBylHpAnCDKyB7NLcHKzXN3IwhO4CEQ==
+X-Received: by 2002:a17:906:5495:: with SMTP id r21mr29373382ejo.33.1600344978798;
+        Thu, 17 Sep 2020 05:16:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwlxdseiRtGLbuvARReNI+oSg+5sWhq9w5x49k3FnbysMpp0+VSrVTqyupzwkRn/+IBhxQHQ==
+X-Received: by 2002:a17:906:5495:: with SMTP id r21mr29373368ejo.33.1600344978632;
+        Thu, 17 Sep 2020 05:16:18 -0700 (PDT)
 Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
-        by smtp.gmail.com with ESMTPSA id u18sm8384335ejm.115.2020.09.17.05.12.44
+        by smtp.gmail.com with ESMTPSA id n7sm14912134eji.13.2020.09.17.05.16.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 05:12:44 -0700 (PDT)
-Subject: Re: [PATCH 3/3] platform/x86: Intel PMT Crashlog capability driver
-To:     Alexander Duyck <alexander.duyck@gmail.com>
-Cc:     "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
-        dvhart@infradead.org, andy@infradead.org,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andy@infradead.org>
-References: <20200911194549.12780-1-david.e.box@linux.intel.com>
- <20200911194549.12780-4-david.e.box@linux.intel.com>
- <6e3738db-bfff-7fd2-65e6-bd0d126f9eaa@redhat.com>
- <CAKgT0UcxSwRseMBdMd0_HDUS=JGZDAZnAy-tkLkB-hMXLYtucw@mail.gmail.com>
- <CAKgT0UfM0534GZcKzgTeEa3nq2+FWHk4PfA593smGOLun4d97A@mail.gmail.com>
+        Thu, 17 Sep 2020 05:16:17 -0700 (PDT)
+Subject: Re: [PATCH] platform/x86: fix kconfig dependency warning for
+ LG_LAPTOP
+To:     Necip Fazil Yildiran <fazilyildiran@gmail.com>, andy@infradead.org
+Cc:     matan@svgalib.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, paul@pgazz.com, jeho@cs.utexas.edu
+References: <20200915090922.16423-1-fazilyildiran@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <67f5816a-1307-da81-ff71-cea1f907b58b@redhat.com>
-Date:   Thu, 17 Sep 2020 14:12:43 +0200
+Message-ID: <ddb882a5-99f6-b726-d017-3d4c6a695e76@redhat.com>
+Date:   Thu, 17 Sep 2020 14:16:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAKgT0UfM0534GZcKzgTeEa3nq2+FWHk4PfA593smGOLun4d97A@mail.gmail.com>
+In-Reply-To: <20200915090922.16423-1-fazilyildiran@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -83,233 +75,49 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 9/15/20 12:35 AM, Alexander Duyck wrote:
-> On Mon, Sep 14, 2020 at 11:07 AM Alexander Duyck
-> <alexander.duyck@gmail.com> wrote:
->>
->> On Mon, Sep 14, 2020 at 6:42 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>> Hi,
->>>
->>> On 9/11/20 9:45 PM, David E. Box wrote:
->>>> From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>>
->>>> Add support for the Intel Platform Monitoring Technology crashlog
->>>> interface.  This interface provides a few sysfs values to allow for
->>>> controlling the crashlog telemetry interface as well as a character driver
->>>> to allow for mapping the crashlog memory region so that it can be accessed
->>>> after a crashlog has been recorded.
->>>>
->>>> This driver is meant to only support the server version of the crashlog
->>>> which is identified as crash_type 1 with a version of zero. Currently no
->>>> other types are supported.
->>>>
->>>> Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
->>>> ---
->>>>    .../ABI/testing/sysfs-class-pmt_crashlog      |  66 ++
->>>>    drivers/platform/x86/Kconfig                  |  10 +
->>>>    drivers/platform/x86/Makefile                 |   1 +
->>>>    drivers/platform/x86/intel_pmt_crashlog.c     | 588 ++++++++++++++++++
->>>>    4 files changed, 665 insertions(+)
->>>>    create mode 100644 Documentation/ABI/testing/sysfs-class-pmt_crashlog
->>>>    create mode 100644 drivers/platform/x86/intel_pmt_crashlog.c
->>>>
->>>> diff --git a/Documentation/ABI/testing/sysfs-class-pmt_crashlog b/Documentation/ABI/testing/sysfs-class-pmt_crashlog
->>>> new file mode 100644
->>>> index 000000000000..40fb4ff437a6
->>>> --- /dev/null
->>>> +++ b/Documentation/ABI/testing/sysfs-class-pmt_crashlog
->>>> @@ -0,0 +1,66 @@
->>>> +What:                /sys/class/pmt_crashlog/
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             The pmt_crashlog/ class directory contains information
->>>> +             for devices that expose crashlog capabilities using the Intel
->>>> +             Platform Monitoring Technology (PTM).
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             The crashlogX directory contains files for configuring an
->>>> +             instance of a PMT crashlog device that can perform crash data
->>>> +             recoring. Each crashlogX device has an associated
->>>> +             /dev/crashlogX device node. This node can be opened and mapped
->>>> +             to access the resulting crashlog data. The register layout for
->>>> +             the log can be determined from an XML file of specified guid
->>>> +             for the parent device.
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX/guid
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             (RO) The guid for this crashlog device. The guid identifies the
->>>> +             version of the XML file for the parent device that should be
->>>> +             used to determine the register layout.
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX/size
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             (RO) The length of the result buffer in bytes that corresponds
->>>> +             to the mapping size for the /dev/crashlogX device node.
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX/offset
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             (RO) The offset of the buffer in bytes that corresponds
->>>> +             to the mapping for the /dev/crashlogX device node.
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX/enable
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             (RW) Boolean value controlling if the crashlog functionality
->>>> +             is enabled for the /dev/crashlogX device node.
->>>> +
->>>> +What:                /sys/class/pmt_crashlog/crashlogX/trigger
->>>> +Date:                September 2020
->>>> +KernelVersion:       5.10
->>>> +Contact:     Alexander Duyck <alexander.h.duyck@linux.intel.com>
->>>> +Description:
->>>> +             (RW) Boolean value controlling  the triggering of the
->>>> +             /dev/crashlogX device node. When read it provides data on if
->>>> +             the crashlog has been triggered. When written to it can be
->>>> +             used to either clear the current trigger by writing false, or
->>>> +             to trigger a new event if the trigger is not currently set.
->>>> +
->>>
->>> Both the pmt_crashlog and the attributes suggest that this is highly
->>> Intel PMT specific. /sys/class/foo interfaces are generally speaking
->>> meant to be generic interfaces.
->>>
->>> If this was defining a generic, vendor and implementation agnostic interface for
->>> configuring / accessing crashlogs, then using a class would be fine, but that
->>> is not the case, so I believe that this should not implement / register a class.
->>>
->>> Since the devices are instantiated through MFD there already is a
->>> static sysfs-path which can be used to find the device in sysfs:
->>> /sys/bus/platform/device/pmt_crashlog
->>>
->>> So you can register the sysfs attributes directly under the platform_device
->>> and then userspace can easily find them, so there really is no need to
->>> use a class here.
->>
->> I see. So we change the root directory from "/sys/class/pmt_crashlog/"
->> to "/sys/bus/platform/device/pmt_crashlog" while retaining the same
->> functionality. That should be workable.
+On 9/15/20 11:09 AM, Necip Fazil Yildiran wrote:
+> When LG_LAPTOP is enabled and NEW_LEDS is disabled, it results in the
+> following Kbuild warning:
 > 
-> So one issue as I see it is that if we were to change this then we
-> probably need to to change the telemetry functionality that was
-> recently accepted
-> (https://lore.kernel.org/lkml/20200819180255.11770-1-david.e.box@linux.intel.com/)
-> as well. The general idea with using the /sys/class/pmt_crashlog/
-> approach was to keep things consistent with how the pmt_telemetry was
-> being accessed. So if we change this then we end up with very
-> different interfaces for the two very similar pieces of functionality.
-> So ideally we would want to change both telemetry and crashlog to
-> function the same way.
+> WARNING: unmet direct dependencies detected for LEDS_CLASS
+>    Depends on [n]: NEW_LEDS [=n]
+>    Selected by [y]:
+>    - LG_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && ACPI_WMI [=y] && INPUT [=y]
+> 
+> The reason is that LG_LAPTOP selects LEDS_CLASS without depending on or
+> selecting NEW_LEDS while LEDS_CLASS is subordinate to NEW_LEDS.
+> 
+> Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
+> 
+> Fixes: dbf0c5a6b1f8 ("platform/x86: Add LG Gram laptop special features driver")
+> Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
 
-I agree that the telemetry interface should be changed in a similar way.
+Thnak you, patch looks good to me:
 
-Luckily it seems that this is not in Linus' tree yet and I'm also not
-seeing it in next yet, e.g. :
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/platform/x86/intel_pmt_telemetry.c
-does not exist.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-So we seem to still have time to also get the telemetry driver userspace API
-fixed too.
-
-I see that Andy gave his Reviewed-by for the intel_pmt_telemetry.c code.
-
-Andy, I have some concerns about the userspace API choices made here,
-see my earlier review of this patch. Do you agree with my suggestions,
-or do you think it would be ok to move forward with the telemetry and
-now also the crashlog API each registering their own private class
-under /sys/class ?
-
-AFAIK classes are supposed to be generic and not driver-private, so
-that seems wrong to me.  Also PMC is Intel specific and vendor specific
-stuff really does not belong under /sys/class AFAIK ?
-
-> Do you have any good examples of anything that has done something
-> similar? From what I can tell it looks like we need to clean up the
-> naming to drop the ".%d.auto" for the bus directory names
-
-Assuming there will only be one of each platform-device, then you
-can just replace the PLATFORM_DEVID_AUTO param to devm_mfd_add_devices()
-with PLATFORM_DEVID_NONE and the .%d.auto will go away.
-
-> and then
-> look at adding a folder to handle all of the instances of either
-> telemetry or crashlog, assuming we follow the reg-dummy or serial8250
-> model.
-
-So there can be multiple instances, you mean like the multiple chardevs
-you add now, or can there be multiple platform-devices of the same
-time instantiated through the MFD code ?
-
-If you mean like the multiple chardevs, then yes you could add a folder
-for the binary sysfs attributes replacing those, or register them
-with a dynamic name with a number appended to the name.
-
-> Similarly the crashlog and telemetry both rely on similar mechanisms
-> to display the MMIO region containing the data. I still need to spend
-> some more time looking into what is involved in switching from a char
-> device to a binary sysfs, but I think with the example I found earlier
-> of the resourceN bit from the PCI sysfs I can probably make that work
-> for both cases.
-
-I'm not sure that the PCI sysfs io resources are the best example,
-as mentioned those mmap to actual memory-mapped io, which is somewhat
-special.
-
-For a simpler example see drivers/platform/x86/wmi-bmof.c.
-
-The way normal sysfs binary attributes work is that they
-have a read method much like the read method on a block device
-where an offset into the file gets passed. So you just copy_to_user
-the requested amount of data starting at offset from the in-kernel
-mapped buffer to the user buffer:
-
-static ssize_t
-read_bmof(struct file *filp, struct kobject *kobj,
-          struct bin_attribute *attr,
-          char *buf, loff_t off, size_t count)
-{
-         struct bmof_priv *priv =
-                 container_of(attr, struct bmof_priv, bmof_bin_attr);
-
-         if (off < 0)
-                 return -EINVAL;
-
-         if (off >= priv->bmofdata->buffer.length)
-                 return 0;
-
-         if (count > priv->bmofdata->buffer.length - off)
-                 count = priv->bmofdata->buffer.length - off;
-
-         memcpy(buf, priv->bmofdata->buffer.pointer + off, count);
-         return count;
-}
-
-The wmi_bmof code also shows how you can dynamically create and
-add binary sysfs attr which allows you to add a %d postfix to the
-name. Note you should always dynamically create binary sysfs attr.
-
-There are some old static initializers for these, but AFAIK those
-lead to lockdep issues.
+Note it seems that the FUJITSU_LAPTOP Kconfig symbol has the same
+issue, can you submit a patch for that one too?
 
 Regards,
 
 Hans
+
+> ---
+>   drivers/platform/x86/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 40219bba6801..81f6079d08e6 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -1112,6 +1112,7 @@ config LG_LAPTOP
+>   	depends on ACPI_WMI
+>   	depends on INPUT
+>   	select INPUT_SPARSEKMAP
+> +	select NEW_LEDS
+>   	select LEDS_CLASS
+>   	help
+>   	 This driver adds support for hotkeys as well as control of keyboard
+> 
 
