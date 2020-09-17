@@ -2,152 +2,173 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6715926DD97
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 16:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 321A526DE06
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 16:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727330AbgIQOKY (ORCPT
+        id S1727381AbgIQOLi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 10:10:24 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27460 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727302AbgIQOF6 (ORCPT
+        Thu, 17 Sep 2020 10:11:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51227 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727352AbgIQOLW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 10:05:58 -0400
+        Thu, 17 Sep 2020 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600351496;
+        s=mimecast20190719; t=1600351857;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=aoZVGxvCQPeaLhPYq5mZiybm5+QRTn9pATdkZ2lbvYo=;
-        b=UY/HOrSLJlVFibHwFzHJzIGAg3vjYaNEb7Hqa3/ajr0zeMBErPWOPE7Ix5OysyrTxjGaDN
-        GBHLIubQRU64L/+q+v4JeJ79XJ0EzRcm9k8bYQ7gyAmcOukSX5lRiQVP8JyG+bTWNpXpdt
-        R7d73LQnF4byKdVzC6cYp50YTl7tjjk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-e4XWzLPCPkSBN5U2r-RpxQ-1; Thu, 17 Sep 2020 10:04:53 -0400
-X-MC-Unique: e4XWzLPCPkSBN5U2r-RpxQ-1
-Received: by mail-ej1-f71.google.com with SMTP id dc22so916176ejb.21
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 07:04:53 -0700 (PDT)
+        bh=dF75HMvcCCwBIMjZhM0MqmBdo7iicvPzKUPWjV2yvk8=;
+        b=Axpa7k9vGLU/fo9RNET0RqClsyGYOmTc+12qEBxid+5Rz4aDrhCXmVnbFF/9DxQx6zY+aS
+        BS5fHZKPat5DzjszAr3uJuOUCzEK90dzANYXtzZuOqPW0TUttptKZyMrWmWm/X2KNCLObg
+        t+A2+e3jbCvEaYLYojtlZ3AntA6rNcY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-BW5PZiDTOq2rzhsYXMpRIg-1; Thu, 17 Sep 2020 10:10:55 -0400
+X-MC-Unique: BW5PZiDTOq2rzhsYXMpRIg-1
+Received: by mail-wm1-f71.google.com with SMTP id c200so796832wmd.5
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 07:10:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aoZVGxvCQPeaLhPYq5mZiybm5+QRTn9pATdkZ2lbvYo=;
-        b=CJ8crdRe4DQQVZaTR24C7HAdNogOfxLbScKRE2f5Dl6vu5W1ccc1oSq646F4k4M2fx
-         gQcYvd0P+ELh5Gb6/eNjc9NJGgyP7YmfbOtMKeRv4RNqwJ7psuvyo1uh20DdHucq78QI
-         KLYI0dqt9MHeVR2vL/2N8S6NncYw/eT7q+RnPouKrANrtA5pramSdL0+SN0GEy22YNWs
-         vqKU9tL/jzXSADbg6b9mgk8QrsA7NBa5knFNHRKxuVLFvHQhZXpI7lFNLICeYxnI4UXl
-         3++znH5ADakw61hZ4/y6XIy0uoYv0Mkcb5iThjcXwyv8VFNqA49CrFVtQQy8nG19REoO
-         rHOw==
-X-Gm-Message-State: AOAM5338aZ9FE7dg6K0xhsgqbCcPG8xFJMm9qmZX9WTddQqOLetlJFqe
-        NIn0X15soN6Y8zszSHG1s7Ypsv/NGh+vLiWkHhxpbs/bePHRnrWef777T6B5lWvQRT/NXm7l+2e
-        zxg6GXW4xxECrpxaKmHlBgKMAFRYODdz1vA==
-X-Received: by 2002:aa7:d805:: with SMTP id v5mr33475820edq.29.1600351491837;
-        Thu, 17 Sep 2020 07:04:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdrb/HqW0nsJUJn33qJQNdpXrBijQ/Ya2S05wlYyl8SeCkqCxQaCl8ftA1gGQTVVxriKjMpw==
-X-Received: by 2002:aa7:d805:: with SMTP id v5mr33475790edq.29.1600351491510;
-        Thu, 17 Sep 2020 07:04:51 -0700 (PDT)
-Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
-        by smtp.gmail.com with ESMTPSA id w8sm15458347ejo.117.2020.09.17.07.04.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 07:04:50 -0700 (PDT)
-Subject: Re: [External] Re: RFC: offering a standardized (/sys/class)
- userspace API for selecting system/laptop performance-profiles
-To:     Mark Pearson <markpearson@lenovo.com>,
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=dF75HMvcCCwBIMjZhM0MqmBdo7iicvPzKUPWjV2yvk8=;
+        b=o2AUapf2oNmB0fErBUYpEPKTeXG1Da0z2InCOjs4N+EKIbX5fJON4oM0owJm9M1Eky
+         F7Kim0eqWT+arNYBGIFuhn8pCFQxnOLFTV1IUM6UYx2CyvHitNB82pTBFmb5zVYO3jvL
+         /It0YVQOsNVXz2xM74/16MIieeaCDChw1Q2TSKCWWJBTfD0JOdeMlcp2CI7j40EPbOtf
+         QmFRzbTMEdK35Vh3su+yjAJ/gCWIlK3P/7NjbwxcDz3jycV773zJPEqKrrIRwW8v2Qph
+         nqevNNgWON+ixh0Xo0FY66KGXB2Cat2q6uQREw8CloC9cCZP20jFTrnTuvmvicsOEyOk
+         P2MA==
+X-Gm-Message-State: AOAM532D0v9CqH/Ih+HWsMWFBKUz6dQHIRTZRv+hHRea7N83HWAEyRQG
+        8CgDJ7vSVbC7MtzTE+PLnjbOd/MH8XNjjf3esi804x29KaMfg0tHUjM3bRqLvvsKnAJlpPwVzNQ
+        lmsucnqZ6NvaFtZiUqPjZfjCipLwVKoRl8Q==
+X-Received: by 2002:a7b:c753:: with SMTP id w19mr10083795wmk.157.1600351853829;
+        Thu, 17 Sep 2020 07:10:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvvlMXpIDNZWr8+8/AoOYvWQ29qEs4dUNL9VTdTu+pvK8zGdpnbjGkn+2K09UlOwvrBjcwyQ==
+X-Received: by 2002:a7b:c753:: with SMTP id w19mr10083771wmk.157.1600351853629;
+        Thu, 17 Sep 2020 07:10:53 -0700 (PDT)
+Received: from dhcp-64-164.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id q12sm36964270wrs.48.2020.09.17.07.10.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 07:10:52 -0700 (PDT)
+Message-ID: <83694d5164a32d1ce6cdafb9cb73d731ca4b4a78.camel@redhat.com>
+Subject: Re: RFC: offering a standardized (/sys/class) userspace API for
+ selecting system/laptop performance-profiles
+From:   Benjamin Berg <bberg@redhat.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
         Bastien Nocera <hadess@hadess.net>,
         Elia Devito <eliadevito@gmail.com>,
         Mark Pearson <mpearson@lenovo.com>
-Cc:     Benjamin Berg <bberg@redhat.com>,
-        Jared Dominguez <jaredz@redhat.com>,
+Cc:     Jared Dominguez <jaredz@redhat.com>,
         platform-driver-x86@vger.kernel.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Thu, 17 Sep 2020 16:10:50 +0200
+In-Reply-To: <6e0409e7-5bc2-4ca6-a0aa-725a9a91aa8d@redhat.com>
 References: <bbe4ebef-0845-2719-ac9a-fbc9c7bcd7be@redhat.com>
- <21b6dffbbc6dbb14ebef3f078cc2497f9a872f57.camel@hadess.net>
- <f8e4fc83-9665-2a58-d2e0-e858a16417e8@lenovo.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6e49abf2-6e93-bb41-7df3-0ac66b689df6@redhat.com>
-Date:   Thu, 17 Sep 2020 16:04:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+         <21b6dffbbc6dbb14ebef3f078cc2497f9a872f57.camel@hadess.net>
+         <b6332a4a-7606-2bd0-632b-f67b68d3dd1b@redhat.com>
+         <9f01ce60a6b3319855f6a26b94af3e5fc6d2595e.camel@redhat.com>
+         <6e0409e7-5bc2-4ca6-a0aa-725a9a91aa8d@redhat.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-tKXbWGcYreah4JwpZFcX"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <f8e4fc83-9665-2a58-d2e0-e858a16417e8@lenovo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+
+--=-tKXbWGcYreah4JwpZFcX
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
 Hi,
 
-On 9/17/20 3:36 PM, Mark Pearson wrote:
-> Hi all,
-> 
-> More emails came in since I wrote this....but I'm going to send anyway and catch up with those after. I need to write faster :)
-> 
-> On 9/17/2020 7:50 AM, Bastien Nocera wrote:
->> Hey,
->>
->> On Thu, 2020-09-17 at 13:22 +0200, Hans de Goede wrote:
+On Thu, 2020-09-17 at 15:54 +0200, Hans de Goede wrote:
+> Hi,
+>=20
+> On 9/17/20 3:50 PM, Benjamin Berg wrote:
+> > On Thu, 2020-09-17 at 14:51 +0200, Hans de Goede wrote:
+> > > > Compared to the WIP lenovo-dytc "perfmode" driver, we're missing
+> > > > something to advertise the unavailability of a profile, and the rea=
+son
+> > > > for that unavailability.
+> > >=20
+> > > UGh, do we really need to export this though. We have the lap_mode th=
+ing
+> > > already; and that is something which we will need for other reasons i=
+n
+> > > the future too. Any UI for selecting performance modes can display a
+> > > warning when lap_mode is true saying that: "The laptop has detected t=
+hat it
+> > > is sitting on someone's lap and that performance may be limited
+> > > because of this." (feel free to improve the text).
+> >=20
+> > Well, for dytc_perfmode there are actually always the three states
+> > L/M/H. It just happens that the kernel will write "H*" (was "M*" until
+> > yesterday) when the performance mode is degraded due to lap detection.
+> >=20
+> > Think of dytc_perfmode as a profile that sets a number of things:
+> >   * Thermal Limits
+> >   * Fan Behaviour
+> >   * possibly more
+> >=20
+> > While dytc_lapmode will only enforce a change to the thermal limit.
+> > So "performance" (H) is technically a valid mode even when the lap is
+> > detected.
+> >=20
+> > > I guess we could split the "value" attribute from my reply to Benjami=
+n's
+> > > email into "configured_value" (rw) and "actual_value" (rw) attributes=
+.
+> > > If we have the info we might as well export it I guess,.
+> >=20
+> > I consider the "*" purely a curtsey to users that read the attribute
+> > directly using e.g. cat to help with the interpretation. It probably is
+> > not interesting to userspace applications/daemons.
+>=20
+> So if there is a difference between M and H and H* then I think we should
+> just do the KISS thing and only have a single value attribute and in the
+> new interface handle the H* like H (p-p-d can still check the lap_mode
+> attribute to differentiate the 2 if it wants to).
 
-<snip>
+I guess you are saying to drop "H*" and only have "L"/"M"/"H"? If so,
+fine with me, but we probably need that input in reply to
+  https://patchwork.kernel.org/patch/11730133/#23618881
+then :)
 
->> Compared to the WIP lenovo-dytc "perfmode" driver, we're missing
->> something to advertise the unavailability of a profile, and the reason
->> for that unavailability.
->>
-> In all honesty I was slightly dreading this email :) I know the similar issue killed our ePrivacy patch...but I fully appreciate that is part of open source contribution
+In principle it could be useful for userspace to know that performance
+is or would be dramatically impacted. i.e. when dytc_lapmode is 1, then
+you might want to say something like:
 
-Getting offtopic here, but the e-privacy screen stuff is already available to userspace through /proc/acpi/ibm/lcdshadow.
-What is on hold is adding userspace support for it, because we want to use the new generic API for that once it lands.
+  performance states >=3D 75 are impacted due to "lapmode"
 
-> So yes - I agree that having a common interface would be a good idea and making it common between the vendors makes sense. Let me know how to contribute and make that happen.
-> 
->  From Lenovo's firmware point of view - our three settings should map on to this quite closely with the exception that we have one setting that covers balance_power and power (I never understood why the FW team did that - as they have the four states in Windows - I wasn't able to get a satisfactory answer to that question)
->
->>> I would like to think that the above proposal is a good start,
->>> if we can quickly (*) decide on an userspace API here
-> 
-> Yes and understood. Let me know what is the best place to make this happen - from my point of view the main aim is to get this to our users to make the whole performance mode implemetnation more usable and obvious. Without my proposed patch it's really hard to tell what mode you are in on our platforms (and leads to lots of support questions).
-> 
-> I'm particularly aware of the eprivacy patch where that got rejected for a generic solution that was under development - but the person working on the generic solution stopped part way through to work on other things. We didn't have the knowledge or experience of the graphics driver to be able to really go and contribute effectively so for now that feature is dead even though our initial patch was fairly simple. It is still disappointing that our users don't get useful functionality (and I also have to argue with marketing as to whether we can sell Linux systems with ePrivacy screens which is 
-> no fun - I spend way too much of my life doing Lenovo internal paperwork).
-> 
-> I figure on this item it's less complicated (not tied into the graphics drivers details) so I hope I can contribute more directly - let me know if I'm being naive.
-> 
-> One question - the main reason for a common interface is for user space to not deal with a mess of APIs.
+But, not sure if a kernel interface for that is useful or whether we
+should just put that kind of knowledge into userspace.
 
-Correct.
+Benjamin
 
-> Is it worth me doing a simplified version of my patch (maybe using debugfs?) so I can expose the modes to users whilst we work on the common solution? I'm assuming there is no mileage in getting my patch (with the fix I owe Benjamin) in and then changing it in the future once the generic solution is available as that potentially messes up userspace too much?
+--=-tKXbWGcYreah4JwpZFcX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Using debugfs as an intermediate solution is a good idea. debugfs interfaces have no ABI guarantees, so we can simply drop it when the generic stuff lands.
+-----BEGIN PGP SIGNATURE-----
 
-> Something as a stopgap measure that won't annoy the kernel community but is good for Linux users as I'm guessing the generic solution 
-> is likely to be months away
+iQIzBAABCAAdFiEED2NO4vMS33W8E4AFq6ZWhpmFY3AFAl9jbmoACgkQq6ZWhpmF
+Y3AjERAAsbrXluLuMBkYE3rYcskSyNnlv2UoX24cTLP5rUZG1u5H7ed7e6zDlH/d
+a04EUIWTo9yzkW8NWXjQVY8pH7IMmiwKgOrTNw8k1nD+DZdqRG0LVu0Rb4HIX8ch
+BwcjEwMiRR/N8gWuNQFYvebZG+7qixTDsiQVhgsdeG3FWIjDNYP9pFIjYhXCcfFO
+HnS6J5+NAR8YaTixOKpp091lRPikyLseb4EzNcJQ048/k7HUB7tIct++Y0dLA/1t
+2b+Mwd6g4wFfGDX+EVaVeZuWREKm1iILuVh9p9RyRBGMgm56539DSMoiKpQrHk1f
+PCEOjC2M6UQXxABX+wGIQQ4jZGSFSkyKYFZ7gUBPwJ1ms1J3r6DH/HH7CVRZ77I7
+957A4Ues9bz7Qd2f03iDOP2+4fMpQpgkUve86k6oKVfvSCUhbLjz9BPU9Y3hDuJV
+W1r8mAu4XaBxuuZj+kSFtXu4WkCLHY3VBrsTBXGokDCtavCtkGPNcVGnVPjn5afn
+g62oxJ9fbKPKqBTYlYte6Osd2yLmFVxqQe3awQLcu6YRbvr6ly3NDqO6bLdm39Ol
+4QT+TANUt2fmC6HaD/0wbglmVNnTBGm8Ja9HtJ/NPA0KmPhsLMy3pwnNpZcPZP+6
+mm02SaTrxdZGMffEfv2JC9iEW1qWG93A0+yX3ewwQh/mAWl5ESI=
+=dGll
+-----END PGP SIGNATURE-----
 
-The generic solution will definitely not make the 5.10 kernel, but 5.11 is not entirely out of the question, although to be honest 5.12 seems more realistic.
-
-<snip>
-
->>> I guess we should also add an optional lap_mode sysfs attribute
->>> to the class-device, to have all the info for the Thinkpads in
->>> one place.
->>>
-> I'm good with this too - but the lapmode patch is accepted and there is the palm sensor patch too which I'm hoping is accepted soon. Whilst I'm happy to make them part of this implementation (if they fit) I'd appreciate if they didn't get removed or held up as they're needed for our WWAN implementation which is already overdue.
-> The main consumer there will be our WWAN enablement utility and we can change that to support different API if needs be :)
-
-As the rest of the dicussion has shown the lap_mode thingie indeed is best left in place as a
-thinkpad_acpi only interface for now.
-
-I guess the same applies to the palm_sensor stuff. We may want to advertise that through
-some standardize API later, but for now we can just use a thinkpad_acpi specific API and
-then also export the info through the standardized API later, as we will do for the
-lcdshadow stuff.
-
-Regards,
-
-Hans
+--=-tKXbWGcYreah4JwpZFcX--
 
