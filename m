@@ -2,101 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DFF726E539
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 21:16:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F4426E77E
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 23:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbgIQTQK (ORCPT
+        id S1725900AbgIQVkf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 15:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728388AbgIQQSp (ORCPT
+        Thu, 17 Sep 2020 17:40:35 -0400
+Received: from mga05.intel.com ([192.55.52.43]:48083 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725844AbgIQVkf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 12:18:45 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D292C061226;
-        Thu, 17 Sep 2020 09:18:09 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id z22so4082724ejl.7;
-        Thu, 17 Sep 2020 09:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CwsCZGPPc4UztwJYa8ujzMQrMgcPcRryCeMG+FPPd0o=;
-        b=jwvCOxibAW//ZJ3LBKpKwQb+MWCze3cCT9PoT+1UeRVR8pvOmQEH6Lz0gpWi8teTXI
-         iCIZEz41kSt6ulScHaN2iX7F3eNDYCEwt2IPgduOnEaflG6/FmhxGHgmLypim4xYkrI1
-         1XFCG4E6Wuq1bMdQwFjPUQ5/Ac4z9UOoR5809yK+fJZ5plLVpPbWWjxg4k/iwJkkCubH
-         Jd5IAv1HWVV51zc9WFS8Xni8sHBo2LIYkEkd3raAG8yhqOcL7X4pzeW4pxVolnrp36g5
-         zvCA+3Y/YOUTS5WhTgjrK3YN43bVEBWoXRdsJvvziZBWeo5BsEJCpvJSmuPwmxo9v5GY
-         owzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CwsCZGPPc4UztwJYa8ujzMQrMgcPcRryCeMG+FPPd0o=;
-        b=oaydIV1IbxgbqMU0ArJGhn295ehm/UwDNq0oUiGeupoP+WiG4DoVdfeR59+Q7F8DGq
-         W0SMChRPLugFmD6eRPSjQXXXnwTKbE7Gq2KUsjqJMSR0L6NGmuhBQwu/oRR4kjcvSSph
-         1lsdZCXD6YeQIKYxY052ykyH+iCWzv/3lGnuhlJtKVH6zVKKYxba0Fxc3+Hw4/ww7fek
-         haNOA1GPGu6NZo2j1OfgbOg8nMlGjEUr7wuOld7c6KHQUd+IcyYT3IaJYlLW7k12Ja+T
-         lo83AOCQlHx11LnPoTw9PVOH0oyGGvRA3DkOg5zHBZNVS5DSQu+PonBbaV0FufjcXQvK
-         3bHg==
-X-Gm-Message-State: AOAM533gwEshLgd5q/v529bamH3DJok50cAYiCoRNBZYnFmhSk60q2hb
-        8LOUFfH2lJClVdp4zlOKk+o=
-X-Google-Smtp-Source: ABdhPJxlYSJ4C4Rgl+RcS36v/pR8pI8wwmEvOL3Sv1i1PmWpwbGa2nxfM12nDkk7oVdu28K2HrK3yA==
-X-Received: by 2002:a17:906:3913:: with SMTP id f19mr33272392eje.83.1600359487673;
-        Thu, 17 Sep 2020 09:18:07 -0700 (PDT)
-Received: from localhost.localdomain ([85.153.229.188])
-        by smtp.gmail.com with ESMTPSA id bo8sm109242edb.39.2020.09.17.09.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 09:18:06 -0700 (PDT)
-From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
-To:     andy@infradead.org
-Cc:     hdegoede@redhat.com, matan@svgalib.org,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        paul@pgazz.com, jeho@cs.utexas.edu,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>
-Subject: [PATCH] platform/x86: fix kconfig dependency warning for FUJITSU_LAPTOP
-Date:   Thu, 17 Sep 2020 19:16:53 +0300
-Message-Id: <20200917161652.147616-1-fazilyildiran@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 17 Sep 2020 17:40:35 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 17:40:35 EDT
+IronPort-SDR: KQkD8RzcC7Xf4IpV9XYUMMcgsuQucvILr8UWOxiqkKp2PF0mz0rutOfz8aC3nFskZFQhIsQrPj
+ jjdy2c0uhBvg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="244629379"
+X-IronPort-AV: E=Sophos;i="5.77,272,1596524400"; 
+   d="scan'208";a="244629379"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 14:33:25 -0700
+IronPort-SDR: CQoFn8VfQMiEND8uAu6laA3WpJ29+CyLgq4qStsNdQ8mAmNLPwTrKxP5wW3boUqlNKywdh+3/V
+ IzF22DgbjqMw==
+X-IronPort-AV: E=Sophos;i="5.77,272,1596524400"; 
+   d="scan'208";a="289121070"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 14:33:24 -0700
+Received: from localhost (mtg-dev.jf.intel.com [10.54.74.10])
+        by smtp.ostc.intel.com (Postfix) with ESMTP id CE12B6369;
+        Thu, 17 Sep 2020 14:33:24 -0700 (PDT)
+Date:   Thu, 17 Sep 2020 14:33:24 -0700
+From:   mark gross <mgross@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH] platform/x86: intel-vbtn: Fix SW_TABLET_MODE always
+ reporting 1 on the HP Pavilion 11 x360
+Message-ID: <20200917213324.GB29136@mtg-dev.jf.intel.com>
+Reply-To: mgross@linux.intel.com
+References: <20200912093532.18522-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200912093532.18522-1-hdegoede@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When FUJITSU_LAPTOP is enabled and NEW_LEDS is disabled, it results in the
-following Kbuild warning:
+Acked-by: Mark Gross <mgross@linux.intel.com>
 
-WARNING: unmet direct dependencies detected for LEDS_CLASS
-  Depends on [n]: NEW_LEDS [=n]
-  Selected by [y]:
-  - FUJITSU_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && INPUT [=y] && BACKLIGHT_CLASS_DEVICE [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO [=n]=n)
+--mark
 
-The reason is that FUJITSU_LAPTOP selects LEDS_CLASS without depending on
-or selecting NEW_LEDS while LEDS_CLASS is subordinate to NEW_LEDS.
-
-Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
-
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Fixes: d89bcc83e709 ("platform/x86: fujitsu-laptop: select LEDS_CLASS")
-Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- drivers/platform/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 40219bba6801..3cd2b99628ba 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -469,6 +469,7 @@ config FUJITSU_LAPTOP
- 	depends on BACKLIGHT_CLASS_DEVICE
- 	depends on ACPI_VIDEO || ACPI_VIDEO = n
- 	select INPUT_SPARSEKMAP
-+	select NEW_LEDS
- 	select LEDS_CLASS
- 	help
- 	  This is a driver for laptops built by Fujitsu:
--- 
-2.25.1
-
+On Sat, Sep 12, 2020 at 11:35:32AM +0200, Hans de Goede wrote:
+> Commit cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist
+> SW_TABLET_MODE on the 9 / "Laptop" chasis-type") restored SW_TABLET_MODE
+> reporting on the HP stream x360 11 series on which it was previously broken
+> by commit de9647efeaa9 ("platform/x86: intel-vbtn: Only activate tablet
+> mode switch on 2-in-1's").
+> 
+> It turns out that enabling SW_TABLET_MODE reporting on devices with a
+> chassis-type of 10 ("Notebook") causes SW_TABLET_MODE to always report 1
+> at boot on the HP Pavilion 11 x360, which causes libinput to disable the
+> kbd and touchpad.
+> 
+> The HP Pavilion 11 x360's ACPI VGBS method sets bit 4 instead of bit 6 when
+> NOT in tablet mode at boot. Inspecting all the DSDTs in my DSDT collection
+> shows only one other model, the Medion E1239T ever setting bit 4 and it
+> always sets this together with bit 6.
+> 
+> So lets treat bit 4 as a second bit which when set indicates the device not
+> being in tablet-mode, as we already do for bit 6.
+> 
+> While at it also prefix all VGBS constant defines with "VGBS_".
+> 
+> Fixes: cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/intel-vbtn.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
+> index e85d8e58320c..f443619e1e7e 100644
+> --- a/drivers/platform/x86/intel-vbtn.c
+> +++ b/drivers/platform/x86/intel-vbtn.c
+> @@ -15,9 +15,13 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/suspend.h>
+>  
+> +/* Returned when NOT in tablet mode on some HP Stream x360 11 models */
+> +#define VGBS_TABLET_MODE_FLAG_ALT	0x10
+>  /* When NOT in tablet mode, VGBS returns with the flag 0x40 */
+> -#define TABLET_MODE_FLAG 0x40
+> -#define DOCK_MODE_FLAG   0x80
+> +#define VGBS_TABLET_MODE_FLAG		0x40
+> +#define VGBS_DOCK_MODE_FLAG		0x80
+> +
+> +#define VGBS_TABLET_MODE_FLAGS (VGBS_TABLET_MODE_FLAG | VGBS_TABLET_MODE_FLAG_ALT)
+>  
+>  MODULE_LICENSE("GPL");
+>  MODULE_AUTHOR("AceLan Kao");
+> @@ -72,9 +76,9 @@ static void detect_tablet_mode(struct platform_device *device)
+>  	if (ACPI_FAILURE(status))
+>  		return;
+>  
+> -	m = !(vgbs & TABLET_MODE_FLAG);
+> +	m = !(vgbs & VGBS_TABLET_MODE_FLAGS);
+>  	input_report_switch(priv->input_dev, SW_TABLET_MODE, m);
+> -	m = (vgbs & DOCK_MODE_FLAG) ? 1 : 0;
+> +	m = (vgbs & VGBS_DOCK_MODE_FLAG) ? 1 : 0;
+>  	input_report_switch(priv->input_dev, SW_DOCK, m);
+>  }
+>  
+> -- 
+> 2.28.0
+> 
