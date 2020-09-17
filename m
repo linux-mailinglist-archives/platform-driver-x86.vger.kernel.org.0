@@ -2,260 +2,228 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F8026DD30
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 15:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7171426DD24
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 15:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgIQNyU (ORCPT
+        id S1726875AbgIQNus (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 09:54:20 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.2]:55759 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727041AbgIQNyD (ORCPT
+        Thu, 17 Sep 2020 09:50:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53504 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726755AbgIQNup (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 09:54:03 -0400
-Received: from [100.112.3.165] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-2.bemta.az-b.us-east-1.aws.symcld.net id 8A/C6-32770-F66636F5; Thu, 17 Sep 2020 13:36:47 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleJIrShJLcpLzFFi42JJl3vFrpublhx
-  v0DpP26K3aTqTxf7rEhYL759itfj67Ta7xZvjQKEzC5MsVu95wezA7rFz1l12j1/b1rB4zDsZ
-  6PF+31U2j8+b5AJYo1gz85LyKxJYMxr2X2Ir+GhRMX36ddYGxvN6XYxcHEIC/xklHs3aygzhP
-  GSU+PX/OxOIIyzQyiixsfMuG4gjIjCFUeL94ztgGWaB5YwSp7o2MXYxcgL1VEksXnedDcRmE9
-  CW2LLlF5DNwcErYCvR9tITJMwioCpx9UU3M0hYVCBW4ttMP5Awr4CgxMmZT1hAbE4BD4ljL+a
-  D2cwCFhIz559nhLDFJW49mc8EYctLbH87hxnElhBQkFj5fSEbhJ0gsezlHeYJjIKzkIydhWTU
-  LCSjZiEZtYCRZRWjaVJRZnpGSW5iZo6uoYGBrqGhka6xrqmJXmKVbpJeabFuamJxia6hXmJ5s
-  V5xZW5yTopeXmrJJkZgJKUUMJvtYPz5+oPeIUZJDiYlUd43ycnxQnxJ+SmVGYnFGfFFpTmpxY
-  cYZTg4lCR4Q0BygkWp6akVaZk5wKiGSUtw8CiJ8E5KAUrzFhck5hZnpkOkTjEqSonzCqUCJQR
-  AEhmleXBtsERyiVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5IwryXIeJ7MvBK46a+AFjMBLWbj
-  TARZXJKIkJJqYFp3eVvOuk8COrKTc7d9PyK2STs6ZkHW2/8ZhjpqGhI/k9/Ks8t+Fyni+lLQW
-  ze9j5l5cc0BW8vFvceaGCUn6EwtyV68y2bnRqFZVyN5IlSDXzGyX9+0ufHC8WNFRkcSvMuFDk
-  1k/Ozqt7P9wrtXfwtn/2cX7UrnPGOS8bd1c/S6m10Nl+cZLX04P1FGSEBR7afIz4/RordmJ/3
-  ZLOUakL/lUnW649edRtPW9eYpfDTzPOQ4Qb4spPbi7d3z5i6YaWZwWlb1Vbfuy4kbsqLXrxH9
-  PPvQ4Ql8crt+yJ433yC5ZqtW1AfLuxZuAq9uykp4TjMqF9S5trKRu6e8Zfaehlv5/9u3Fdt2u
-  viV7n/z/LASS3FGoqEWc1FxIgA1WkXxnwMAAA==
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-8.tower-395.messagelabs.com!1600349796!1659!1
-X-Originating-IP: [103.30.234.7]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 30455 invoked from network); 17 Sep 2020 13:36:41 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.7)
-  by server-8.tower-395.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 17 Sep 2020 13:36:41 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 156BDCB907257C85F5D4;
-        Thu, 17 Sep 2020 21:36:33 +0800 (CST)
-Received: from [10.46.52.228] (10.46.52.228) by reswpmail04.lenovo.com
- (10.62.32.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Thu, 17 Sep
- 2020 06:36:30 -0700
-Subject: Re: [External] Re: RFC: offering a standardized (/sys/class)
- userspace API for selecting system/laptop performance-profiles
-To:     Bastien Nocera <hadess@hadess.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Elia Devito <eliadevito@gmail.com>,
-        Mark Pearson <mpearson@lenovo.com>
-CC:     Benjamin Berg <bberg@redhat.com>,
-        Jared Dominguez <jaredz@redhat.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <bbe4ebef-0845-2719-ac9a-fbc9c7bcd7be@redhat.com>
- <21b6dffbbc6dbb14ebef3f078cc2497f9a872f57.camel@hadess.net>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <f8e4fc83-9665-2a58-d2e0-e858a16417e8@lenovo.com>
-Date:   Thu, 17 Sep 2020 09:36:28 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Thu, 17 Sep 2020 09:50:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1600350610;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4Pl6kBxyoMwzDaq0S/ivfq9aCIP2AtYV9CxpcUHjvws=;
+        b=cXfhSaVBxrRV3TbffSxUDZnSR0tY9pTrGYwjTslBjbl22+JZrmlKwS4JTU/tafVoJGuM6m
+        KqAp5MJd98KyoQOjAmUVBa6NRzx3thoEcN/PU/wBZRESiQ0dmEMrJTRi9mhi2QMpy2AtHu
+        Av0QswqJaBC21hS1cZxCbt18sNYH9ug=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-PQlhDzYnMmGMGxcovYZYCA-1; Thu, 17 Sep 2020 09:42:02 -0400
+X-MC-Unique: PQlhDzYnMmGMGxcovYZYCA-1
+Received: by mail-ed1-f69.google.com with SMTP id x23so930494eds.5
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 06:42:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4Pl6kBxyoMwzDaq0S/ivfq9aCIP2AtYV9CxpcUHjvws=;
+        b=fAWGayDrZptPB4L+BWKkteaezG5FVHOtNCGumg8nX7tuuTBq8v7bolvn//pw0c7ecW
+         badf8tL3jSe0wa1p//gMbDlfFXrtl7JBwMoRMs/JGZCTkie7Xn3TzZ7iEK9MSTXLKUFv
+         xPgSNkZa/1LQSL5izFDiqoMX4Bf3VVJISf5U3SAShe5To60Ah72N2z6FM0Yth4Kn/FLD
+         +OuVG046HWGu3nLxVGn5CmAkt8ltH4c8oiaTxQHZW2c85cVQRFnlGUNGzfjNvMPhj09J
+         0joNxhNGKIbffq4YWD1CNNG/M832HqeFi7bAOSgv3vD3aK+5bE9lbu3hdEb4zSE8L2LA
+         6cNg==
+X-Gm-Message-State: AOAM531PKq3qG30zEhedI3xwNv0l2q5Uz2Oz9pL5Df2qMKTEqxiRNwWT
+        ATqW85M7hLxBt+UOUWF72mGSTNoG7A49hk+Tk4ZQEIUJnW55bQjuFA4UZmeMKVOy38c2FnH1xpN
+        75nb2jP6jiqjtbPztEosbwk8BdrZWvI+stw==
+X-Received: by 2002:aa7:d747:: with SMTP id a7mr32008583eds.304.1600350121067;
+        Thu, 17 Sep 2020 06:42:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6jZA9VBVyOJ5XFNPFrh8J7tTcIY2YVfxCUPLoEL+DwDpwId6k7p7gyppotJrZLuviXC1aPw==
+X-Received: by 2002:aa7:d747:: with SMTP id a7mr32008560eds.304.1600350120833;
+        Thu, 17 Sep 2020 06:42:00 -0700 (PDT)
+Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
+        by smtp.gmail.com with ESMTPSA id mb16sm14976727ejb.45.2020.09.17.06.41.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2020 06:42:00 -0700 (PDT)
+Subject: Re: [PATCH v2] platform/x86: asus-wmi: Add support for SW_TABLET_MODE
+ on UX360
+To:     =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Corentin Chary <corentin.chary@gmail.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200917133425.168310-1-samuel@cavoj.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <285534ba-117a-d0a6-d4ae-34d29245d409@redhat.com>
+Date:   Thu, 17 Sep 2020 15:41:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <21b6dffbbc6dbb14ebef3f078cc2497f9a872f57.camel@hadess.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20200917133425.168310-1-samuel@cavoj.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.46.52.228]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi all,
+Hi,
 
-More emails came in since I wrote this....but I'm going to send anyway 
-and catch up with those after. I need to write faster :)
+On 9/17/20 3:34 PM, Samuel Čavoj wrote:
+> The UX360CA has a WMI device id 0x00060062, which reports whether the
+> lid is flipped in tablet mode (1) or in normal laptop mode (0).
+> 
+> This commit adds a quirk (quirk_asus_use_lid_flip_devid) for devices on
+> which this WMI device should be used to figure out the SW_TABLET_MODE
+> state, as opposed to the quirk_asus_use_kbd_dock_devid.
+> 
+> It is assumed other UX360* models have the same WMI device. As such, the
+> quirk is applied to devices with DMI_MATCH(DMI_PRODUCT_NAME, "UX360").
+> More devices with this feature need to be tested and added accordingly.
+> 
+> The reason for using a whitelist via the quirk mechanism is that the new
+> WMI device (0x00060062) is also present on some models which do not have
+> a 360 degree hinge (at least FX503VD and GL503VD from Hans' DSTS
+> collection) and therefore its presence cannot be relied on.
+> 
+> This patch is a followup to "platform/x86: asus-wmi: Fix SW_TABLET_MODE
+> always reporting 1 on many different models" by Hans de Goede.
+> 
+> Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> ---
+> 
+> v1 -> v2:
+>    - inherit wmi_backlight_set_devstate from default quirk
 
-On 9/17/2020 7:50 AM, Bastien Nocera wrote:
-> Hey,
-> 
-> On Thu, 2020-09-17 at 13:22 +0200, Hans de Goede wrote:
->> Hi Elia, Mark, et al.
->>
->> Elia, Mark I'm mailing you both because both of you have pdx86
->> patches pending to add a vendor
->> specific sysfs-attribute for selecting performance-profiles for resp.
->> HP and Lenovo Thinkpad laptops.
->>
->> I think that this shows that we might need to start thinking
->> about a generic kernel API for this, otherwise we will
->> end up with slight different options per vendor ...
-> 
-> Some comments below based on possible use in power-profiles-daemon:
-> https://www.hadess.net/2020/09/power-profiles-daemon-new-project.html
-> 
-> 
->> So it seems we may need something like:
->>
->> /sys/class/system_performance_profile
->>
->> Where we would then get e.g.:
->>
->> /sys/class/system_performance_profile/thinkpad_acpi/performance_profi
->> le
->>
->> And then we need to standardize on the names/values which
->> performance_profile can show / accept when written too.
->>
->> The big question is what do we do if there are more then 3 profiles?
-> 
-> The Intel P-State driver in the kernel supports 4 separate ones (plus
-> default):
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/cpufreq/intel_pstate.c#n591
-> which we crammed into 3 profiles:
-> https://gitlab.freedesktop.org/hadess/power-profiles-daemon/-/blob/master/src/ppd-driver-intel-pstate.c#L209-226
-> 
->> One option would be something like the following:
->>
->> cat
->> /sys/class/system_performance_profile/thinkpad_acpi/performance_profi
->> le
->>
->> low-power [balanced] performance
-> 
-> Are the square brackets to show the currently selected profile? I'd
-> rather it was a separate sysfs attribute. I would expect to only ever
-> read the list of supported profiles once, and then monitor an "active
-> profile" attribute.
-> 
-> (a bit like the intel_pstate kernel driver does, but then all the
-> devices that support Intel P-State support all the profiles, so it's
-> not a good example ;)
-> 
->> cat
->> /sys/class/system_performance_profile/thinkpad_acpi/extra_performance
->> _profiles
->>
->> extra-low-power balanced-performance-mix
->>
->> So we add an optional extra_performance_profiles sysfs attribute and
->> we ask all
->> drivers implemeting this class to implement at least the 3 standard
->> profiles
->> (by mapping 3 of their options to these) and optional they can offer
->> extra
->> profiles (with free form names) in the extra_performance_profiles
->> sysfs attribute under the class-device.
->>
->> The idea behind putting the extra profiles in a separate sysfs-
->> attribute
->> is that reading the main performance_profile attribute will always
->> show
->> one selected, even if one of the extra profiles is actually in use,
->> then the driver should also show the closest standardized profile as
->> being active.
-> 
-> I think it's fine having more than 3 profiles. Something like power-
-> profiles-daemon would likely trying to match them all to one of the 3
-> profiles it uses as an interface, or forcing the use of those 3
-> profiles, depending on what that profile behaves.
-> 
->> This will allow userspace code to always rely on the standard
->> interface
->> both for getting a representation of the currently active profile as
->> well
->> as for setting the active profile.
->>
->> Elia, Mark, I assume that both of you want to get your patches for
->> this
->> upstream sooner, rather then later. But I think we should put them on
->> hold until we have an agreement on a shared userspace API for this.
-> 
-> Compared to the WIP lenovo-dytc "perfmode" driver, we're missing
-> something to advertise the unavailability of a profile, and the reason
-> for that unavailability.
-> 
-In all honesty I was slightly dreading this email :) I know the similar 
-issue killed our ePrivacy patch...but I fully appreciate that is part of 
-open source contribution
+v2 looks good to me:
 
-So yes - I agree that having a common interface would be a good idea and 
-making it common between the vendors makes sense. Let me know how to 
-contribute and make that happen.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
- From Lenovo's firmware point of view - our three settings should map on 
-to this quite closely with the exception that we have one setting that 
-covers balance_power and power (I never understood why the FW team did 
-that - as they have the four states in Windows - I wasn't able to get a 
-satisfactory answer to that question)
+Regards,
 
-> Cheers
+Hans
+
+
 > 
->>
->> I would like to think that the above proposal is a good start,
->> if we can quickly (*) decide on an userspace API here
-
-Yes and understood. Let me know what is the best place to make this 
-happen - from my point of view the main aim is to get this to our users 
-to make the whole performance mode implemetnation more usable and 
-obvious. Without my proposed patch it's really hard to tell what mode 
-you are in on our platforms (and leads to lots of support questions).
-
-I'm particularly aware of the eprivacy patch where that got rejected for 
-a generic solution that was under development - but the person working 
-on the generic solution stopped part way through to work on other 
-things. We didn't have the knowledge or experience of the graphics 
-driver to be able to really go and contribute effectively so for now 
-that feature is dead even though our initial patch was fairly simple. It 
-is still disappointing that our users don't get useful functionality 
-(and I also have to argue with marketing as to whether we can sell Linux 
-systems with ePrivacy screens which is no fun - I spend way too much of 
-my life doing Lenovo internal paperwork).
-
-I figure on this item it's less complicated (not tied into the graphics 
-drivers details) so I hope I can contribute more directly - let me know 
-if I'm being naive.
-
-One question - the main reason for a common interface is for user space 
-to not deal with a mess of APIs. Is it worth me doing a simplified 
-version of my patch (maybe using debugfs?) so I can expose the modes to 
-users whilst we work on the common solution? I'm assuming there is no 
-mileage in getting my patch (with the fix I owe Benjamin) in and then 
-changing it in the future once the generic solution is available as that 
-potentially messes up userspace too much? Something as a stopgap measure 
-that won't annoy the kernel community but is good for Linux users as I'm 
-guessing the generic solution is likely to be months away
-
-Let me know what you recommend as the next steps.
-
->>
->> Regards,
->>
->> Hans
->>
->> p.s.
->>
->> I guess we should also add an optional lap_mode sysfs attribute
->> to the class-device, to have all the info for the Thinkpads in
->> one place.
->>
-I'm good with this too - but the lapmode patch is accepted and there is 
-the palm sensor patch too which I'm hoping is accepted soon. Whilst I'm 
-happy to make them part of this implementation (if they fit) I'd 
-appreciate if they didn't get removed or held up as they're needed for 
-our WWAN implementation which is already overdue.
-The main consumer there will be our WWAN enablement utility and we can 
-change that to support different API if needs be :)
->>
->> *) but not too quickly, it is important we get this right
->>
+> ---
+>   drivers/platform/x86/asus-nb-wmi.c         | 15 +++++++++++++++
+>   drivers/platform/x86/asus-wmi.c            | 22 ++++++++++++++++++++++
+>   drivers/platform/x86/asus-wmi.h            |  1 +
+>   include/linux/platform_data/x86/asus-wmi.h |  1 +
+>   4 files changed, 39 insertions(+)
 > 
+> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+> index 345bd224494b..5019b03b2c95 100644
+> --- a/drivers/platform/x86/asus-nb-wmi.c
+> +++ b/drivers/platform/x86/asus-nb-wmi.c
+> @@ -119,6 +119,11 @@ static struct quirk_entry quirk_asus_use_kbd_dock_devid = {
+>   	.use_kbd_dock_devid = true,
+>   };
+>   
+> +static struct quirk_entry quirk_asus_use_lid_flip_devid = {
+> +	.wmi_backlight_set_devstate = true,
+> +	.use_lid_flip_devid = true,
+> +};
+> +
+>   static int dmi_matched(const struct dmi_system_id *dmi)
+>   {
+>   	pr_info("Identified laptop model '%s'\n", dmi->ident);
+> @@ -520,6 +525,16 @@ static const struct dmi_system_id asus_quirks[] = {
+>   		},
+>   		.driver_data = &quirk_asus_use_kbd_dock_devid,
+>   	},
+> +	{
+> +		.callback = dmi_matched,
+> +		.ident = "ASUS ZenBook Flip UX360",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+> +			/* Match UX360* */
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "UX360"),
+> +		},
+> +		.driver_data = &quirk_asus_use_lid_flip_devid,
+> +	},
+>   	{},
+>   };
+>   
+> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+> index ae6289d37faf..e5066248e83a 100644
+> --- a/drivers/platform/x86/asus-wmi.c
+> +++ b/drivers/platform/x86/asus-wmi.c
+> @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
+>   #define NOTIFY_KBD_BRTTOGGLE		0xc7
+>   #define NOTIFY_KBD_FBM			0x99
+>   #define NOTIFY_KBD_TTP			0xae
+> +#define NOTIFY_LID_FLIP			0xfa
+>   
+>   #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
+>   
+> @@ -375,6 +376,18 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+>   		}
+>   	}
+>   
+> +	if (asus->driver->quirks->use_lid_flip_devid) {
+> +		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
+> +		if (result >= 0) {
+> +			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
+> +			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+> +		} else if (result == -ENODEV) {
+> +			pr_err("This device has lid_flip quirk but got ENODEV checking it. This is a bug.");
+> +		} else {
+> +			pr_err("Error checking for lid-flip: %d\n", result);
+> +		}
+> +	}
+> +
+>   	err = input_register_device(asus->inputdev);
+>   	if (err)
+>   		goto err_free_dev;
+> @@ -2127,6 +2140,15 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
+>   		return;
+>   	}
+>   
+> +	if (asus->driver->quirks->use_lid_flip_devid && code == NOTIFY_LID_FLIP) {
+> +		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
+> +		if (result >= 0) {
+> +			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
+> +			input_sync(asus->inputdev);
+> +		}
+> +		return;
+> +	}
+> +
+>   	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
+>   		fan_boost_mode_switch_next(asus);
+>   		return;
+> diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
+> index 1a95c172f94b..b302415bf1d9 100644
+> --- a/drivers/platform/x86/asus-wmi.h
+> +++ b/drivers/platform/x86/asus-wmi.h
+> @@ -34,6 +34,7 @@ struct quirk_entry {
+>   	bool wmi_backlight_set_devstate;
+>   	bool wmi_force_als_set;
+>   	bool use_kbd_dock_devid;
+> +	bool use_lid_flip_devid;
+>   	int wapf;
+>   	/*
+>   	 * For machines with AMD graphic chips, it will send out WMI event
+> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+> index 897b8332a39f..2f274cf52805 100644
+> --- a/include/linux/platform_data/x86/asus-wmi.h
+> +++ b/include/linux/platform_data/x86/asus-wmi.h
+> @@ -62,6 +62,7 @@
+>   
+>   /* Misc */
+>   #define ASUS_WMI_DEVID_CAMERA		0x00060013
+> +#define ASUS_WMI_DEVID_LID_FLIP		0x00060062
+>   
+>   /* Storage */
+>   #define ASUS_WMI_DEVID_CARDREADER	0x00080013
 > 
+
