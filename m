@@ -2,121 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13EFA26E3DF
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 20:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DFF726E539
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Sep 2020 21:16:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgIQShp (ORCPT
+        id S1726303AbgIQTQK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Sep 2020 14:37:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51711 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728109AbgIQRFb (ORCPT
+        Thu, 17 Sep 2020 15:16:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728388AbgIQQSp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Sep 2020 13:05:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600362329;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ViRKiaHGNL6zjgr6AuF0d906JEay5J9deMU/dB7bn6A=;
-        b=h4fHomDnOxa0czXo2skufg96fTBNf2i/0w/aoo7hUqSJMJHLFk69KGGYr+aI/A72eBz9Bx
-        P5eqViD1lRjskLJGMVpjiYL80InYRhzreoM9Asj2zVniN1iLD/7ttqBmWLdcwIil9RqE0l
-        R8wQbTnGBS/XE6eKjutPfbPKwd9/mfw=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-Ru9B_aW2MGi8dtvgAF8Aag-1; Thu, 17 Sep 2020 13:05:27 -0400
-X-MC-Unique: Ru9B_aW2MGi8dtvgAF8Aag-1
-Received: by mail-ej1-f71.google.com with SMTP id i14so1153348ejc.0
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Sep 2020 10:05:26 -0700 (PDT)
+        Thu, 17 Sep 2020 12:18:45 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D292C061226;
+        Thu, 17 Sep 2020 09:18:09 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id z22so4082724ejl.7;
+        Thu, 17 Sep 2020 09:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CwsCZGPPc4UztwJYa8ujzMQrMgcPcRryCeMG+FPPd0o=;
+        b=jwvCOxibAW//ZJ3LBKpKwQb+MWCze3cCT9PoT+1UeRVR8pvOmQEH6Lz0gpWi8teTXI
+         iCIZEz41kSt6ulScHaN2iX7F3eNDYCEwt2IPgduOnEaflG6/FmhxGHgmLypim4xYkrI1
+         1XFCG4E6Wuq1bMdQwFjPUQ5/Ac4z9UOoR5809yK+fJZ5plLVpPbWWjxg4k/iwJkkCubH
+         Jd5IAv1HWVV51zc9WFS8Xni8sHBo2LIYkEkd3raAG8yhqOcL7X4pzeW4pxVolnrp36g5
+         zvCA+3Y/YOUTS5WhTgjrK3YN43bVEBWoXRdsJvvziZBWeo5BsEJCpvJSmuPwmxo9v5GY
+         owzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ViRKiaHGNL6zjgr6AuF0d906JEay5J9deMU/dB7bn6A=;
-        b=OsYDveJgufkaGQANW8Dz01/VF0C8nzcBzLaw/Wr0CmCkFo98Ugg/BHP6B5xlkS/zKX
-         eUHGl+M2XZ3cM3nzxJ2Mri2IDXQvSpr35sAQsI7Gca15i8/1xBesPQlsaoamMzSrO12x
-         0xb1g3tLLKxWp2p7PhwPZGfSkaoVHx3QYhZN6XsuyEvp59zjTBp7/y48voeVCTklGxOa
-         6J9Y4JXCdzqvam+dTfiqTnIxABya5tHR4tSQ6VLO/lbiNMKf2yUiHExE7/EKQzL+z9ZC
-         6atVTBFyXh6JhmCJbJ4vI/L4xAgbiksugKdY2z1icTmJ0nZiykczpyfa+vwv6EzwYJsI
-         37UQ==
-X-Gm-Message-State: AOAM531tm7ut2EJEv4/cRlOwmC+KBCBgGXTLUtPANlh9shFSi37+o54D
-        tEmvNxEQ9AsqreppSPxfCW4rsJHrXLLQbvyE3IeTzl8SKKtOSRsHiZ5LJ1bl1vtgSyBn/Y6RUCb
-        Hh/AEfrYE51XyV+aYihPqfXQGYaXu1xuBrw==
-X-Received: by 2002:a17:906:fb8c:: with SMTP id lr12mr33279661ejb.9.1600362325856;
-        Thu, 17 Sep 2020 10:05:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUSg9ICNcbEeI+QynKZEArbMo/daqfzgQaqaCc2Y2LV3RyD5NkSKmKIzdOHFWq1X387N2LTg==
-X-Received: by 2002:a17:906:fb8c:: with SMTP id lr12mr33279637ejb.9.1600362325653;
-        Thu, 17 Sep 2020 10:05:25 -0700 (PDT)
-Received: from x1.localdomain ([109.37.143.101])
-        by smtp.gmail.com with ESMTPSA id w1sm206505eds.18.2020.09.17.10.05.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 10:05:25 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: fix kconfig dependency warning for
- FUJITSU_LAPTOP
-To:     Necip Fazil Yildiran <fazilyildiran@gmail.com>, andy@infradead.org
-Cc:     matan@svgalib.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, paul@pgazz.com, jeho@cs.utexas.edu
-References: <20200917161652.147616-1-fazilyildiran@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <772f32e2-342f-bdbf-7753-2ee54efebaaf@redhat.com>
-Date:   Thu, 17 Sep 2020 19:05:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=CwsCZGPPc4UztwJYa8ujzMQrMgcPcRryCeMG+FPPd0o=;
+        b=oaydIV1IbxgbqMU0ArJGhn295ehm/UwDNq0oUiGeupoP+WiG4DoVdfeR59+Q7F8DGq
+         W0SMChRPLugFmD6eRPSjQXXXnwTKbE7Gq2KUsjqJMSR0L6NGmuhBQwu/oRR4kjcvSSph
+         1lsdZCXD6YeQIKYxY052ykyH+iCWzv/3lGnuhlJtKVH6zVKKYxba0Fxc3+Hw4/ww7fek
+         haNOA1GPGu6NZo2j1OfgbOg8nMlGjEUr7wuOld7c6KHQUd+IcyYT3IaJYlLW7k12Ja+T
+         lo83AOCQlHx11LnPoTw9PVOH0oyGGvRA3DkOg5zHBZNVS5DSQu+PonBbaV0FufjcXQvK
+         3bHg==
+X-Gm-Message-State: AOAM533gwEshLgd5q/v529bamH3DJok50cAYiCoRNBZYnFmhSk60q2hb
+        8LOUFfH2lJClVdp4zlOKk+o=
+X-Google-Smtp-Source: ABdhPJxlYSJ4C4Rgl+RcS36v/pR8pI8wwmEvOL3Sv1i1PmWpwbGa2nxfM12nDkk7oVdu28K2HrK3yA==
+X-Received: by 2002:a17:906:3913:: with SMTP id f19mr33272392eje.83.1600359487673;
+        Thu, 17 Sep 2020 09:18:07 -0700 (PDT)
+Received: from localhost.localdomain ([85.153.229.188])
+        by smtp.gmail.com with ESMTPSA id bo8sm109242edb.39.2020.09.17.09.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 09:18:06 -0700 (PDT)
+From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
+To:     andy@infradead.org
+Cc:     hdegoede@redhat.com, matan@svgalib.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        paul@pgazz.com, jeho@cs.utexas.edu,
+        Necip Fazil Yildiran <fazilyildiran@gmail.com>
+Subject: [PATCH] platform/x86: fix kconfig dependency warning for FUJITSU_LAPTOP
+Date:   Thu, 17 Sep 2020 19:16:53 +0300
+Message-Id: <20200917161652.147616-1-fazilyildiran@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200917161652.147616-1-fazilyildiran@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+When FUJITSU_LAPTOP is enabled and NEW_LEDS is disabled, it results in the
+following Kbuild warning:
 
-On 9/17/20 6:16 PM, Necip Fazil Yildiran wrote:
-> When FUJITSU_LAPTOP is enabled and NEW_LEDS is disabled, it results in the
-> following Kbuild warning:
-> 
-> WARNING: unmet direct dependencies detected for LEDS_CLASS
->    Depends on [n]: NEW_LEDS [=n]
->    Selected by [y]:
->    - FUJITSU_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && INPUT [=y] && BACKLIGHT_CLASS_DEVICE [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO [=n]=n)
-> 
-> The reason is that FUJITSU_LAPTOP selects LEDS_CLASS without depending on
-> or selecting NEW_LEDS while LEDS_CLASS is subordinate to NEW_LEDS.
-> 
-> Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
-> 
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Fixes: d89bcc83e709 ("platform/x86: fujitsu-laptop: select LEDS_CLASS")
-> Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
+WARNING: unmet direct dependencies detected for LEDS_CLASS
+  Depends on [n]: NEW_LEDS [=n]
+  Selected by [y]:
+  - FUJITSU_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && INPUT [=y] && BACKLIGHT_CLASS_DEVICE [=y] && (ACPI_VIDEO [=n] || ACPI_VIDEO [=n]=n)
 
-Thank you, patch looks good to me:
+The reason is that FUJITSU_LAPTOP selects LEDS_CLASS without depending on
+or selecting NEW_LEDS while LEDS_CLASS is subordinate to NEW_LEDS.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Honor the kconfig menu hierarchy to remove kconfig dependency warnings.
 
-Regards,
+Reported-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: d89bcc83e709 ("platform/x86: fujitsu-laptop: select LEDS_CLASS")
+Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
+---
+ drivers/platform/x86/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Hans
-
-
-> ---
->   drivers/platform/x86/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 40219bba6801..3cd2b99628ba 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -469,6 +469,7 @@ config FUJITSU_LAPTOP
->   	depends on BACKLIGHT_CLASS_DEVICE
->   	depends on ACPI_VIDEO || ACPI_VIDEO = n
->   	select INPUT_SPARSEKMAP
-> +	select NEW_LEDS
->   	select LEDS_CLASS
->   	help
->   	  This is a driver for laptops built by Fujitsu:
-> 
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 40219bba6801..3cd2b99628ba 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -469,6 +469,7 @@ config FUJITSU_LAPTOP
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on ACPI_VIDEO || ACPI_VIDEO = n
+ 	select INPUT_SPARSEKMAP
++	select NEW_LEDS
+ 	select LEDS_CLASS
+ 	help
+ 	  This is a driver for laptops built by Fujitsu:
+-- 
+2.25.1
 
