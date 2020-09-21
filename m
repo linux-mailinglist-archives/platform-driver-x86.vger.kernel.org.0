@@ -2,79 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82FCB273593
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 22 Sep 2020 00:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 741B02736BE
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 22 Sep 2020 01:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728346AbgIUWR6 (ORCPT
+        id S1728418AbgIUXnB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 21 Sep 2020 18:17:58 -0400
-Received: from mail1.nippynetworks.com ([91.220.24.129]:59122 "EHLO
-        mail1.nippynetworks.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726457AbgIUWR6 (ORCPT
+        Mon, 21 Sep 2020 19:43:01 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:59476 "EHLO mail.rusoil.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728317AbgIUXnB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 21 Sep 2020 18:17:58 -0400
-Received: from macbookpro-ed.wildgooses.lan (unknown [212.69.38.73])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256))
-        (No client certificate requested)
-        (Authenticated sender: ed@wildgooses.com)
-        by mail1.nippynetworks.com (Postfix) with ESMTPSA id 4BwJjH2PV3zTh56;
-        Mon, 21 Sep 2020 23:17:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wildgooses.com;
-        s=dkim; t=1600726676;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FW8VSKIvyxeWBPbuPFvBD+ezdTOAwO9l2dhOnE9RnDg=;
-        b=H3dySJfRCllaU4p4AvcexTteQ3Jambulzn/v1ogL3c/a7etWhop3XGKNKyMXVRab73AQpi
-        mw3SgNKWzVJBvwK5AKJ47Hp7jtBKYDqG+/pgdRptyeBG3N8kiCGdCrt5N1s9e+GQSCEahU
-        yzNWPBFWyOg2IftY6Mu7QwS1431ouzU=
-Subject: Re: [PATCH 1/2] x86: Remove led/gpio setup from pcengines platform
- driver
-To:     linux-kernel@vger.kernel.org
-Cc:     fe@dev.tdt.de, "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-References: <20200921215919.3072-1-lists@wildgooses.com>
-From:   Ed W <lists@wildgooses.com>
-Message-ID: <d4b2045c-769b-4998-64cc-682c01c105fb@wildgooses.com>
-Date:   Mon, 21 Sep 2020 23:17:54 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.2
+        Mon, 21 Sep 2020 19:43:01 -0400
+X-Greylist: delayed 571 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 19:43:00 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id D3750410B3;
+        Tue, 22 Sep 2020 04:36:19 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ZnHPC6UkK-1s; Tue, 22 Sep 2020 04:36:18 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 7BD5D41031;
+        Tue, 22 Sep 2020 04:36:16 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 7BD5D41031
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1600731376;
+        bh=6R3BgBYiA7fkqGiiNDuwPskBnpH9JXyNAW/l3ZEA+wY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=eHCq0MVSVmBdAWir8zhQfu6NDlm7/Cmh08ZISt0r1UF9fBmNgEh+jCuBxA0sJKkBV
+         SMRwBigNq2+oy5Oj0uattxKbkdKlwihM0ulcrgPSy43nW84L+mS4v6EqSrgcqkJOK/
+         m3OqDQK47GPpA64cMkQXHSzC32da4GqRAOL2SVpc=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 6Gd2KdiFYD3O; Tue, 22 Sep 2020 04:36:16 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 47ADC4102A;
+        Tue, 22 Sep 2020 04:36:12 +0500 (YEKT)
+Date:   Tue, 22 Sep 2020 04:36:12 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <em@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <919898620.908243.1600731372225.JavaMail.zimbra@rusoil.net>
+Subject: Wir finanzieren Projekte und Unternehmen
 MIME-Version: 1.0
-In-Reply-To: <20200921215919.3072-1-lists@wildgooses.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: btqItSasH4pcvwBojXHFaD8ISKZeCA==
+Thread-Topic: Wir finanzieren Projekte und Unternehmen
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi, I've been adding support for the PC Engines APU5 board, which is a variant of the APU 2-4 boards
-with some nice features. The current platform driver for pcengines boards has some redundant
-features with regards to recent bios/firmware packages for the board as they now set the ACPI tables
-to indicate GPIOs for keys and leds. So I've submitted a patch to eliminate this. It could be argued
-that it's useful to support older firmware versions, but there is also a 'leds-apu' driver which a)
-probably ought to be marked deprecated with a view to removing it and b) implements the leds even on
-antique firmware versions.
-
-In implementing the APU5 I changed some of the exported gpio names to make them more closely match
-functionality across all the boards. For example APU2 vs APU4 both support 2x LTE options, but in
-different mpcie slots and this affects the numbering of options, but not the sense of them (so I
-renamed them based on the intention of the option). This is particularly true on APU5 which supports
-3x LTE cards
 
 
-Can I get some advice: It would be helpful if the kernel would export the GPIOs to user-space
-automatically since toggling SIM slots is fairly useful task in userspace. At least for me the gpio
-numbers seem to jump around depending on the order of module loading, so doing something involving
-/sys/class/gpio/export isn't obviously an easy process. Reviewing the fine documentation suggests
-that I need to use gpio_export() to achieve this, but I concede I'm really not clear how to
-implement this in the platform module as currently structured... Any tips please?
+Dies ist ein Newsletter von Blue Oak Mortgage and Loans. Bitte melden Sie s=
+ich ab, wenn Sie keine E-Mail mehr von uns erhalten m=C3=B6chten.
 
-Thanks
 
-Ed W
+Eine kurze Einf=C3=BChrung.
 
+Wir sind ein f=C3=BChrendes Finanzierungsunternehmen in Europa. Wir finanzi=
+eren Startups / etablierte Unternehmen, finanzieren Gro=C3=9Fprojekte (Bau,=
+ Landwirtschaft, Immobilien und dergleichen) zu einem niedrigen Zinssatz vo=
+n 2% pro Jahr.
+
+
+Darlehensverfahren
+
+1. Sie m=C3=BCssen das Online-Bewerbungsformular ausf=C3=BCllen und eine or=
+dnungsgem=C3=A4=C3=9F unterschriebene Kopie an uns zur=C3=BCcksenden.
+
+2. M=C3=B6glicherweise m=C3=BCssen Sie Finanzdokumente als unterst=C3=BCtze=
+nden Nachweis f=C3=BCr die F=C3=A4higkeit zur R=C3=BCckzahlung von Krediten=
+ vorlegen.
+
+3. Wenn Ihr Darlehen genehmigt wurde, m=C3=BCssen Sie eine Versicherungsgar=
+antie f=C3=BCr die Darlehenssicherheit vorlegen. Wir empfehlen eine Versich=
+erungsgesellschaft. Sie sind allein verantwortlich f=C3=BCr die Zahlung und=
+ den Erwerb der Anleihe, die als Sicherheit dienen. Die H=C3=B6he der Anlei=
+he h=C3=A4ngt von Ihrem Darlehensbetrag ab. Die Versicherungsgesellschaft w=
+ird Sie durch den Prozess f=C3=BChren. (F=C3=BCr Gro=C3=9Fprojekte)
+
+4. Ihr =C3=9Cberweisungsprozess wird eingeleitet, sobald die Versicherungsa=
+nleihe =C3=BCberpr=C3=BCft wurde. Ihr Darlehensr=C3=BCckzahlungsplan wird i=
+m NC-Darlehensvertragsformular aufgef=C3=BChrt.
+
+Wenn die Bedingungen Sie beruhigen, k=C3=B6nnen Sie uns =C3=BCber die Whats=
+App-Nummer / E-Mail kontaktieren und auch unsere Website besuchen, um weite=
+re Informationen zu erhalten. Wir freuen uns darauf, von Ihnen zu h=C3=B6re=
+n.
+
+WhatsApp: + 90-552-365-3483
+E-Mail: info@bluelmtg.net
