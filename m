@@ -2,57 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DBE275E97
+	by mail.lfdr.de (Postfix) with ESMTP id 6EAE3275E96
 	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Sep 2020 19:27:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726537AbgIWR1k (ORCPT
+        id S1726636AbgIWR1k (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Wed, 23 Sep 2020 13:27:40 -0400
-Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:35532 "EHLO
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:35533 "EHLO
         mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726422AbgIWR1j (ORCPT
+        with ESMTP id S1726537AbgIWR1j (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
         Wed, 23 Sep 2020 13:27:39 -0400
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Sep 2020 13:27:39 EDT
 Received: from Internal Mail-Server by MTLPINE1 (envelope-from vadimp@nvidia.com)
-        with SMTP; 23 Sep 2020 20:20:56 +0300
+        with SMTP; 23 Sep 2020 20:20:57 +0300
 Received: from r-build-lowlevel.mtr.labs.mlnx. (r-build-lowlevel.mtr.labs.mlnx [10.209.0.190])
-        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08NHKtgk020358;
-        Wed, 23 Sep 2020 20:20:56 +0300
+        by labmailer.mlnx (8.13.8/8.13.8) with ESMTP id 08NHKtgl020358;
+        Wed, 23 Sep 2020 20:20:57 +0300
 From:   Vadim Pasternak <vadimp@nvidia.com>
 To:     andy.shevchenko@gmail.com, dvhart@infradead.org
 Cc:     platform-driver-x86@vger.kernel.org,
         Vadim Pasternak <vadimp@nvidia.com>
-Subject: [PATCH platform-next 0/5] platform/x86: mlx-platform: Topology fixes and configuration updates
-Date:   Wed, 23 Sep 2020 20:20:48 +0300
-Message-Id: <20200923172053.26296-1-vadimp@nvidia.com>
+Subject: [PATCH platform-next 1/5] platform/x86: mlx-platform: Remove PSU EEPROM configuration
+Date:   Wed, 23 Sep 2020 20:20:49 +0300
+Message-Id: <20200923172053.26296-2-vadimp@nvidia.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20200923172053.26296-1-vadimp@nvidia.com>
+References: <20200923172053.26296-1-vadimp@nvidia.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The patchset provides topology fixes for power units related structure
-and extension of FAN structure with capability field.
-The patchset includes:
-Patch#1 - Removes PSU EEPROM configuration for systems class equipped
-	  with 200x32Gb switch.
-Patch#2 - Changes topology for the next generation systems.
-Patch#3 - Updates module license to SPDX.
-Patches#4-#5 - Add capability field for core platform data structure.
+Remove PSU EEPROM configuration for systems class equipped with
+Mellanox chip Spectrume-2. Till now all the systems from this class
+used few types of power units, all equipped with EEPROM device with
+address space two bytes. Thus, all these devices have been handled by
+EEPROM driver "24c32".
+There is a new requirement is to support power unit replacement by "off
+the shelf" device, matching electrical required parameters. Such device
+could be equipped with different EEPROM type, which could be one byte
+address space addressing or even could be not equipped with EEPROM.
+In such case "24c32" will not work.
 
-Vadim Pasternak (5):
-  platform/x86: mlx-platform: Remove PSU EEPROM configuration
-  platform/x86: mlx-platform: Fix extended topology configuration for
-    power supply units
-  platform_data/mlxreg: Update module license
-  platform_data/mlxreg:  Extend core platform structure
-  platform/x86: mlx-platform: Add capability field to platform FAN
-    description
+Fixes: 1bd42d94ccab ("platform/x86: mlx-platform: Add support for new 200G IB and Ethernet systems")
+Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
+---
+ drivers/platform/x86/mlx-platform.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
- drivers/platform/x86/mlx-platform.c  | 28 +++++++++++++---------------
- include/linux/platform_data/mlxreg.h | 34 ++++------------------------------
- 2 files changed, 17 insertions(+), 45 deletions(-)
-
+diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
+index 8cf8c1be2666..e57d2471dfcb 100644
+--- a/drivers/platform/x86/mlx-platform.c
++++ b/drivers/platform/x86/mlx-platform.c
+@@ -329,15 +329,6 @@ static struct i2c_board_info mlxplat_mlxcpld_psu[] = {
+ 	},
+ };
+ 
+-static struct i2c_board_info mlxplat_mlxcpld_ng_psu[] = {
+-	{
+-		I2C_BOARD_INFO("24c32", 0x51),
+-	},
+-	{
+-		I2C_BOARD_INFO("24c32", 0x50),
+-	},
+-};
+-
+ static struct i2c_board_info mlxplat_mlxcpld_pwr[] = {
+ 	{
+ 		I2C_BOARD_INFO("dps460", 0x59),
+@@ -762,15 +753,13 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_ng_psu_items_data[] = {
+ 		.label = "psu1",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_PSU_OFFSET,
+ 		.mask = BIT(0),
+-		.hpdev.brdinfo = &mlxplat_mlxcpld_ng_psu[0],
+-		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR,
++		.hpdev.nr = MLXPLAT_CPLD_NR_NONE,
+ 	},
+ 	{
+ 		.label = "psu2",
+ 		.reg = MLXPLAT_CPLD_LPC_REG_PSU_OFFSET,
+ 		.mask = BIT(1),
+-		.hpdev.brdinfo = &mlxplat_mlxcpld_ng_psu[1],
+-		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR,
++		.hpdev.nr = MLXPLAT_CPLD_NR_NONE,
+ 	},
+ };
+ 
 -- 
 2.11.0
 
