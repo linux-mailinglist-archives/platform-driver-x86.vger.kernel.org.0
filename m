@@ -2,320 +2,169 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11DAE276BAC
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Sep 2020 10:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B694276C25
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Sep 2020 10:39:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727274AbgIXIVo (ORCPT
+        id S1727088AbgIXIjE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 24 Sep 2020 04:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52686 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727244AbgIXIVo (ORCPT
+        Thu, 24 Sep 2020 04:39:04 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:52961 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727051AbgIXIjE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 24 Sep 2020 04:21:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600935702;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=1Kc3VZnObiRgsrZVl++SdbYNoEifqebu7XMCmFX298w=;
-        b=hRvZ/2cTc1TJ0AoTNJia1mN+2tpWzqEc4OmBs59tvfFF/BsC7HNbCdllsniTRwgzpnuURi
-        JlNsQccNPLsGHZaCgvWNE0VfGQ608t1//vuowMJVj5Jax6Z/H3B0Y20vPw9WriTKXLgpj1
-        7ebPkOdgVKnqsepYxPv5Gr7EUP/3CBU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-wX29vLj2OFCBoEpZ6bjgIA-1; Thu, 24 Sep 2020 04:21:37 -0400
-X-MC-Unique: wX29vLj2OFCBoEpZ6bjgIA-1
-Received: by mail-ed1-f71.google.com with SMTP id n16so881478edw.19
-        for <platform-driver-x86@vger.kernel.org>; Thu, 24 Sep 2020 01:21:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1Kc3VZnObiRgsrZVl++SdbYNoEifqebu7XMCmFX298w=;
-        b=a3K2EiW+M3Ze6Qxqk0O0wokkVLFluoeeavJNiR07mL2V5HkKXFQ9dR4bIKz4L8IZFw
-         /LszjsGsC0pRuRC3o6eI/U5LtXNpjzYUN1xZI+dsR8+A6x9p6A0YR0Lf4VmM9lPQKBUU
-         43aBfwqgvFsBD0f/Cp5P4hnrLOc/9Yx//5ilmlFVeFP8EI4Kh9CfJTB43NuSf3G31IRL
-         0SnNgSzC89ixELw2OR96uSWqcNWlHYSkjd8w9rAqCIsXW+YGcaUzCphzamQ6KQ6poid9
-         ygx6N3L42jLCKEMRl5RJ+fFgQirBejBnzZYOV+3ZeCPyC6G1WezdWMLcph8MAR1pcpAF
-         SEaQ==
-X-Gm-Message-State: AOAM532cUySnVwRqnK/l2hUvhFYl5pKg15JMX6cfyK0w1CsrIiiq4/uj
-        cIG+gNUKFKjYh905e6ugUuEug2wM7FZA21F4spagGSgU7ZSMQ/BvHwk/rkgtBswi2IVjlpXOLHI
-        elgQeyvUnSNsnp/LuAshU8+j3pRLolbfbyQ==
-X-Received: by 2002:aa7:d815:: with SMTP id v21mr3480072edq.56.1600935695395;
-        Thu, 24 Sep 2020 01:21:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJG/Q+AcZ7iVjC0jJ829BnRo30WSMRJbLDkBUPidhZJ2pLZeJjtZzi0Ap5/kTCZfu2eu8FfA==
-X-Received: by 2002:aa7:d815:: with SMTP id v21mr3480037edq.56.1600935694984;
-        Thu, 24 Sep 2020 01:21:34 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id m2sm1812694ejo.4.2020.09.24.01.21.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2020 01:21:34 -0700 (PDT)
-Subject: Re: [External] Re: RFC: offering a standardized (/sys/class)
- userspace API for selecting system/laptop performance-profiles
-To:     Mark Pearson <markpearson@lenovo.com>,
-        Elia Devito <eliadevito@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Benjamin Berg <bberg@redhat.com>
-Cc:     Jared Dominguez <jaredz@redhat.com>,
-        platform-driver-x86@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <bbe4ebef-0845-2719-ac9a-fbc9c7bcd7be@redhat.com>
- <3ed9ac0a-2e24-7d3a-f264-c3bb03b846d9@lenovo.com>
- <261328975238951d0412727220a1b7d915cebb99.camel@redhat.com>
- <9766663.nUPlyArG6x@pce> <79735e10-6dfc-ffff-5b42-b78e19e24d9b@redhat.com>
- <c3446ec8-9dba-8e20-3a15-a03ed39e4f8e@lenovo.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <660cc83d-a5b8-5fab-a35a-178bb59bc9e3@redhat.com>
-Date:   Thu, 24 Sep 2020 10:21:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 24 Sep 2020 04:39:04 -0400
+Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MnagF-1kl78t23NN-00jX68; Thu, 24 Sep 2020 10:26:22 +0200
+Received: by mail-qk1-f173.google.com with SMTP id v123so2487558qkd.9;
+        Thu, 24 Sep 2020 01:26:22 -0700 (PDT)
+X-Gm-Message-State: AOAM5322pE9d6oTUDb0fysgmklL1BUbMvIuxZ9lnKS8K5QjuEr2L1zxA
+        ZY6wqc9/NIN+1S7po4YSnt5cXvw80BmJT+EDKbE=
+X-Google-Smtp-Source: ABdhPJwdB4OckyypHDvhO1cGrqIWN2A9DDGKREeH56+z++Kes/ubhHRnkNRx8EJcehFdXXe5kRHJ6nndT91q+XgyvnE=
+X-Received: by 2002:a37:5d8:: with SMTP id 207mr3790606qkf.352.1600935980950;
+ Thu, 24 Sep 2020 01:26:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c3446ec8-9dba-8e20-3a15-a03ed39e4f8e@lenovo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200923151511.3842150-1-luzmaximilian@gmail.com>
+ <CAK8P3a3Qie_CP1dA-ERqyDv=EnaQQPnNbFYrGr3ySiY4mO0=Uw@mail.gmail.com>
+ <dad42dce-15d0-245a-4d91-4733e54883a0@gmail.com> <CAK8P3a2ryzmsrHHApT9O=dvsw+=z18Sjd4ygVxvFrrDetKA+rQ@mail.gmail.com>
+ <c4c1d999-9ab7-8988-906a-3cb6a70bc93d@gmail.com>
+In-Reply-To: <c4c1d999-9ab7-8988-906a-3cb6a70bc93d@gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 24 Sep 2020 10:26:04 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2XegsP71yvd8Ku08_k6ecQfkU+V+t+QnjQBrJKF2MwCg@mail.gmail.com>
+Message-ID: <CAK8P3a2XegsP71yvd8Ku08_k6ecQfkU+V+t+QnjQBrJKF2MwCg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-serial@vger.kernel.org,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:7BSu+DCzcAsvcwNW/57TzlBcHkc7QtvslyE7xNAfuxWY1xVxCeo
+ vYxOvSAWLJpqEbhKmF0hg3Zga739OBAzSlxeJjvBo6SAvF3uiO049eJfPxMTg+7HB8vNX3B
+ SKMxP6K3DPKwdLJhWX3WkxgN1SFR8v8X9nWg/AGHbA4tKGlll5EFdWlxArAeraBkXGUYH0B
+ 4qaWBHB0Oo/7g1ZZ+jkNA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/kuDggNYB1c=:hbxlsSxYvykMo0XJ0MmrKg
+ I2fbeBZSoQt2plYZLhNC+fr3kjj/pzPBnfxHN9C5z3yC7g9DmDoqSKcRgur2piE+UK7kT5MIm
+ SPbtzREEvFBZlvtDU3z4Kxlc0RgjIeXjtkXDPQWM83XgHlRfEVsVTPDAzPWVKzGsUaXiphSBL
+ zI6Sc6x241+AEYgBMqq/ZH5609YW4h99t4wq6zxi8O0lmW3gl2Cuj5Kxw3NO3JHbTA5sTo88c
+ J8vA3DSCTAAtWi+QthQcryPUbYfYAeG3f/7c73U+YZ0nFS8Q7ugN0HvdGg5j0wPCUdjMytA82
+ Lm+bZIiS9AUF+zNzFjdLmYIdMft1lZG8jK6YJUssuxkicOnSuu58wBNDOztACeMjfQ2/KP6I+
+ hPS1TVH76+MbhrfwxxF3Oz92wShVDFIJ4/m73hA8JDk0SWrHfiCbdBxJZTnau0EsYlL6FdWdf
+ 5XxwwFp8WLGJKID9/FhE4cdZIWrPxnUBNYL2pVTHa6AWgPR2KTG0iIqhD83EUYSeEqOwNTZWj
+ 7vm0J9eEGCkltmG3yYK/YGd9nJn7PuNxLzJNsHUcLeetM3zEHA+yD0fFGNWagRraFzLocMudN
+ L2sSyV+Al2bvpqAxdEY6JQuhYlJPkZmz9pSvlKMeXm0jLIhYGZwTc4CdbCymhuxgGyC1omaWS
+ QxiWt03Y2r/Txw7F0nI9Mb2nR2fRSGbC8mqybMOSXdZuIgsYsLFWVfPeQEhCaWYz+sx1HJh7p
+ 3yv7uP3WEJg3p7uRg2nw07mHbdPg3dH9OrWd78OILwDvd+b+DdQ8s89eAD8rvE5p2Jm/aeDdI
+ 2iedrEj4EWV5j0amrarp8jvWs9Ov+vf+9sG6880l5BFQuJ5Qc5H7ZLFVYTKbOu/kskDRFHuon
+ U5qUspXKOkSppcce2XR0Wn2y0toumC6ATUAhR23POhwBZmywrAsPiYcXNni8tQ7bPrATDBT53
+ OHgPOBBks6LF585o95sj125BJIy5Lp8XLHsycyxioHssqrv++IjRs
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Mark,
+On Thu, Sep 24, 2020 at 1:28 AM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+> On 9/23/20 9:43 PM, Arnd Bergmann wrote:
+> > On Wed, Sep 23, 2020 at 5:43 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+> >>
+> >> On 9/23/20 5:30 PM, Arnd Bergmann wrote:
+> >>> On Wed, Sep 23, 2020 at 5:15 PM Maximilian Luz <luzmaximilian@gmail.com> wrote:
+> >>>>
+> >>>> Hello,
+> >>>>
+> >>>> The Surface System Aggregator Module (we'll refer to it as Surface
+> >>>> Aggregator or SAM below) is an embedded controller (EC) found on various
+> >>>> Microsoft Surface devices. Specifically, all 4th and later generation
+> >>>> Surface devices, i.e. Surface Pro 4, Surface Book 1 and later, with the
+> >>>> exception of the Surface Go series and the Surface Duo. Notably, it
+> >>>> seems like this EC can also be found on the ARM-based Surface Pro X [1].
+> >>>
+> >>> I think this should go to drivers/platform/x86 or drivers/platform/surface/
+> >>> along with other laptop vendor specific code rather than drivers/misc/.
+> >>
+> >> I initially had this under drivers/platform/x86. There are two main
+> >> reasons I changed that: First, I think it's a bit too big for
+> >> platform/x86 given that it basically introduces a new subsystem. At this
+> >> point it's really less of "a couple of odd devices here and there" and
+> >> more of a bus-type thing. Second, with the possibility of future support
+> >> for ARM devices (Pro X, Pro X 2 which is rumored to come out soon), I
+> >> thought that platform/x86 would not be a good fit.
+> >
+> > I don't see that as a strong reason against it. As you write yourself, the
+> > driver won't work on the arm machines without major changes anyway,
+> > and even if it does, it fits much better with the rest of it.
+>
+> Sorry, I should have written that a bit more clearly. I don't see any
+> reason why these drivers would not work on an ARM device such as the Pro
+> X right now, assuming that it boots via ACPI and the serial device it
+> loads against is fully functional.
 
-Thank you very much for your feedback, much appreciated.
+As I understand, the dialect of ACPI used on the snapdragon laptops
+is not really compatible with the subset expected by the kernel, so
+you'd be more likely to run those laptops with a device tree description
+of the hardware instead (if at all).
 
-On 9/24/20 4:10 AM, Mark Pearson wrote:
-> 
-> 
-> On 2020-09-22 6:43 a.m., Hans de Goede wrote:
->> Hi,
->>
->> On 9/21/20 11:03 AM, Elia Devito wrote:
->>> Hi all, sorry for response delay I'm very busy at work this period
->>
->> No problem.
->>
->>> A common interface is surely the best solution, especially because it allows
->>> to standardize the user-space tools and maybe to integrate its with desktop,
->>> like Bastien is doing with gnome-power-profiles-daemon or like the similar tool
->>> plasma-pstate.
->>>
->>> I think we should keep separate performance and thermal profiles thus leaving
->>> the possibility of setting a thermal profile independently of the performance
->>> profile and vice versa.
->>>
->>> Hp implements up to 4 thermal profiles (apparently the same ones that implement
->>> dell), my patch implements the first 3 profiles which are the ones supported by
->>> my hardware.
->>>
->>> 1. HP Recommended -> fan stay off and start at low~medium speed when necessary
->>> 2. Performance    -> fan stay off and start at medium~hight speed when
->>> necessary
->>> 3. Cool           -> fan stay off and start at medium~hight speed when
->>> necessary
->>> 4. Quiet          -> fan should stay off and start at very low speed if
->>> necessary
->>>
->>> for each profile the firmware set also a OEM variable to select DPTF profile
->>> with the adeguate power limit.
->>>
->>> combining these profiles with the performance profiles it is possible to obtain
->>> the desired performance according to the needs of the moment
->>>
->>> e.g.
->>>
->>> For gaming purpose when the CPU and GPU share the thermal budget, in this case
->>> the best solution is to set thermal profile to performance to maximize the heat
->>> dissipation and the p-state profile to powersave, in this way during loadings
->>> the cpu gain a performance boost that allow to reduce loading time, instead,
->>> during gameplay the cpu performance will be limited in favor of the GPU
->>> allowing the maximum framerate to be reached.
->>> (feral had to handle it for its gamemode tool:
->>> https://github.com/FeralInteractive/gamemode/pull/179)
->>>
->>> Another opposed particular case could be thermal profile set to quiet and
->>> p-state set to performance, usefull for example to maximizze cpu performance
->>> in silent ambient room like a library, obviously for CPU-only intesive tasks
->>> the best solution is to set either thermal and performance profile to
->>> performance.
->>>
->>> Basically there are infinite combinations that can be made to obtain the best
->>> configuration for each situation, to allow this a common interface should offer
->>> a possibility to:
->>>
->>> - Define the list of thermal profiles separately from the performance ones
->>> - Eventually define a list of on/off attributes (useful for lenovo lap_mode?)
->>> - Provide a description of them
->>> - Switching between thermal profiles regardless of the performance profile
->>>
->>> A possible solution could be a "slider like" interface for performance level
->>> and a list of thermal profile.
->>
->> So I have been thinking about this and performance level and thermal profile
->> are really inherently couple to each other. Telling the CPU it can use
->> 25W TPD instead of the default 15W, without also ramping up the cooling is
->> just going to lead to a whole bunch of thermal throttling.
->>
->> In a desktop machine with a discrete GPU it is sorta easy, in essence you have
->> a GPU performance profile, controlling GPU TPD/turbo behavior and the GPU
->> fans too match, and a CPU performance profile which likewise controls
->> the CPU fan profile too match the CPU performance profile.
->>
->> With laptops with a discrete GPU things become harder because there is a
->> single shared cooling mechanism. But there you could simply say that
->> performance-profile = max(gpu-profile, cpu-profile).
->>
->> I mean telling the GPU and CPU that they can burn a gazillion watts and
->> then telling the cooling setup to be as quiet as possible, is clearly
->> not going to end well.
->>
->> This all assumes that we have some nice way to tell the hardware about
->> the 3 separate (gpu / cpu / cooling) profiles we want.
->>
->> But that is not always the case; and often when using a CPU with
->> integrated GPU they are all tied together.
->>
->> So my proposal is to have a :
->>
->> /sys/class/performance-profile
->>
->> Underneath we can have one or more entries (performance-profile providers)
->> each one with a performance_level file on the previously suggested 0-100 scale
->> and a performance_mappings file listing the supported discrete values on that
->> scale and some descriptions of those discrete values purely for informational
->> purposes.
->>
->> Besides the performance_level and performance_mappings files I would also like
->> to add a "type" sysfs attribute, which can have 1 of 3 values:
->> "system", "cpu" and "gpu".
->>
->> So something like the thinkpad_acpi performance levels will be "system", and
->> the intel_pstate driver could maybe also register itself here as a "cpu"
->> type performance-profile provider.
->>
->> This will allow userspace (if / when it wants to) to do things like put the
->> CPU in medium/balanced mode while telling the GPU to go full-throttle for when
->> playing a game which is clearly GPU limited.
->>
->> This game scenario of course assumes that we then actually will have a
->> performance-profile driver for both the CPU and the GPU.
->>
->> Note I'm still just brainstorming here, but I think that having the
->> 0-100 scale + the type thing should cover all the use-cases we want
->> to cover.
->>
->> As always feedback or alternative API proposals are very much welcome.
->>
-> I was mulling this over and I think the 1 to 100 slider seems awkward - too many levels and the fine graduation mapping onto somewhat coarse (3, 4 or 5) options doesn't seem to fit well for me. I'm struggling to see how it fits the tweaking CPU vs GPU vs system - do we end up introducing multiple sliders - which gets complicated with all the choices? I'm just not convinced yet.
+Making the driver talk to the hardware directly instead of going through
+AML likely requires more refactoring.
 
-So one thing to keep in mind here is that this is the kernel <-> userspace
-API. It certainly is not the intention for a UI to show this 0-100 scale
-to end-users. The most raw version of a UI should display the number
-of actually supported levels given by the mappings file, preferably with
-the labels from the mappings file visible.
+> >> I'd be happy to move this to platform/surface though, if that's
+> >> considered a better fit and you're okay with me adding that. Would make
+> >> sense given that there's already a platform/chrome, which, as far as I
+> >> can tell, also seems to be mainly focused on EC support.
+> >
+> > Yes, I think the main question is how much overlap you see functionally
+> > between this driver and the others in drivers/platform/x86.
+>
+> I think that the Pro X likely won't be the last ARM Surface device with
+> a SAM EC. Further, the subsystem is going to grow, and platform/x86
+> seems more like a collection of, if at all, loosely connected drivers,
+> which might give off the wrong impression. In my mind, this is just a
+> bit more comparable to platform/chrome than the rest of platform/x86. I
+> don't think I'm really qualified to make the decision on that though,
+> that's just my opinion.
 
-So the idea behind the 0-100 scale, is that lets sat that
-we have 2 laptops, which each 4 profiles:
+I would ask the drivers/platform/x86 maintainers for an opinion here,
+they are probably best qualified to make that decision.
 
-1. Game laptop:    Low power, Balanced, Performance, Ultra Performance
-2. Ultra-portable: Ultra Low Power, Low Power, Balanced, Performance
+I don't really mind either way, for me this is more about who is
+responsible as a subsystem maintainer than whether these are
+technically x86 or not.
 
-And we have a UI which offers a balanced option, then to configure
-the balanced option on laptop 1. we would need to select profile 1 (of 0-3)
-and on laptop 2. we would need to select profile 2 (of 0-3)
+> Here's an overview of other drivers that I hopefully at some point get
+> in good enough shape, which are part of this subsystem/dependent on the
+> EC API introduced here:
+>
+> - A device registry / device hub for devices that are connected to the
+>    EC but can't be detected via ACPI.
+>
+> - A dedicated battery driver for 7th generation devices (where the
+>    battery isn't hanled via the ACPI shim).
+>
+> - A driver properly handling clipboard detachment on the Surface Books.
+>
+> - A driver for HID input/transport on the Surface Laptops and Surface
+>    Book 3.
+>
+> - A driver for allowing users to set the performance/cooling mode via
+>    sysfs.
+>
+> - Possibly a driver improving hot-plug handling of the discrete GPU in
+>    the Surface Book base.
 
-The idea behind the 0-100 scale is that in that case both would map
-there balanced profile to 50 and userspace can just write 50.
+Note that drivers that connect to the bus typically don't live in the
+same subdirectory as the driver that operates the bus. E.g. the
+battery driver would go into drivers/power/supply and the input
+would go into drivers/input/ or drivers/hid.
 
-Note I'm not 100% sold on this idea myself yet.
-
-> I'm also not sure about being able to tweak everything too - Linux users are smart but is it just getting irritating at that point? Power (hah!) users have plenty of tweaking tools at their disposal if they want to get into change p-states and tweak every little power option; but this exercise is aimed at those who want to make simple general changes - increase the power because they have a build to complete, drop into quiet mode when watching a movie, or a low power setting when they know they're not going to be able to charge for a long time. I suspect some smart person will end up 
-> automating all this but that's by the by.
-
-Well for power-users to be able to tweak, the kernel API
-needs to expose all the support profiles. Before the 0-100
-idea, the idea for the user space API was to use strings
-and just support "low-power", "balanced" and "performance" +
-optional extra profiles where the extra profiles where
-sort of a free-for-all wrt names, etc.
-
-> So as a counter proposal: Have the slider choose between some key modes that we think cover the use cases that people would *want*.
-> 
-> I'd keep the mode list small to avoid it being confusing - more could be added later if really needed but I'm guessing (and happy to be corrected) that the majority of activities would fit into just a few boxes reasonably well.
-> 
-> For instance (I think I get the following from the above):
->   - low power/Cool
->   - Quiet
->   - balance/default
->   - CPU performance
->   - GPU performance
- >
- > The vendors would just choose their optimal firmware setting for that use case depending on what they have available.
-
- From a UI perspective this might very well work, but chances are
-that for GPU performance we would need to:
-
-a) Tell the EC to go for maximum cooling / aggressive ramp up the fans
-b) Tell the CPU (e.g. pstate, TPD) to go for a balanced profile
-c) Tell the GPU, (e.g. the nouveau or radeon drivers) to aggressively
-turbo and maybe if it has a configurable TPD give it some more TPD
-
-And we very likely need to talk to multiple drivers for this,
-at least some firmware driver and the GPU driver.
-
-Which is where my type attribute idea comes from. I know that for this
-discussion started with controlling firmware (DPTF oem vars / EC)
-performance-profile settings, but at some point we probably also need
-to e.g. bring in controlling GPU turbo performance profiles.
-
-> Apart from the GPU performance option that maps pretty well for Lenovo and I think it maps very nicely for HP. I wanted to squish low power ad quiet together but that seemed unfair - they are very similar though :)
-> I'm struggling to think of other use cases that would really matter...thoughts? Is this *too* simple?
-
-Well this looks a lot like what we started with and I think it is also
-closer to what Bastien would prefer as an userspace API for this.
-
-So I guess that would bring us full circle to the initial proposal
-where we have a bunch of strings describing profiles, but too avoid
-a free-for-all we pre-define a bunch of standard profile names and
-we say in the specification that where-ever possible drivers should
-map there avaivable profiles to the pre-defined profile names ?
-
-Bastien, have I understood you right that having a list of
-pre-defined profile-names and then using strings for the sysfs
-API would be your preferred API for this ?
-
-I do still think we should probably add a "type" attribute, which
-for thinkpad_acpi and for hp-wmi would probably just be hardcoded
-to "system".
-
-I think that having the notion of a separate performance profile for at
-least the GPU makes sense, not because of that is the UI which we want
-to show to end users, but because the GPU's turbo behavior will likely
-be controlled by a completely different driver. AFAIK currently different
-GPU drivers have different knobs for this, preparing the
-performance-profile API to allow the drivers to offer a unified
-(and probably dumbed down a bit) API for this is something which we
-should at least keep in mind.
-
-I guess that for GPU drivers we could also have a "custom"
-performance-profile, so when users use advanced vendor/driver specific
-tools to tweak the GPU performance, then reading back the currently
-selected profile would report custom; and writing one of the default
-profiles would override the users/tools tweaks and go back to the
-settings belonging to that profile.
-
-Anyways adding a "type" sysfs attribute will allow us to also use
-the performance-profile API for e.g. GPUs later, we can also even
-define only 1 valid value for it for now ("system"). This way we
-can document that tools interacting with the API should at least
-check the type and skip performance-profiles with a type they do
-not know.
-
-Bastien, any comments on the concept of having a type sysfs attribute?
-
-Regards,
-
-Hans
-
+    Arnd
