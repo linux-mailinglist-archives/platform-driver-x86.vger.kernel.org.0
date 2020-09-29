@@ -2,94 +2,206 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C31027B000
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 28 Sep 2020 16:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE3F127B90F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 29 Sep 2020 02:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgI1ObE (ORCPT
+        id S1727110AbgI2Ax2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 28 Sep 2020 10:31:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726348AbgI1ObE (ORCPT
+        Mon, 28 Sep 2020 20:53:28 -0400
+Received: from mga18.intel.com ([134.134.136.126]:2616 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726419AbgI2Ax1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 28 Sep 2020 10:31:04 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63AF3C061755
-        for <platform-driver-x86@vger.kernel.org>; Mon, 28 Sep 2020 07:31:04 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id b142so1069658ybg.9
-        for <platform-driver-x86@vger.kernel.org>; Mon, 28 Sep 2020 07:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=FYlQKS9vXindqX0g6qaItShVlimcAfN5URVFQb0ZXsQ=;
-        b=P1uuQuNyrKFre00iz8KVeUqstxhUBiLMZuqvYfQNyWzexqslKUN4SQo9WenM+jS80U
-         /fRhp//SPkLpMelKSq3/O5c/7t8iRh2i632hq33oLwY49VJU7p1A8SrTuAz/YIE5jNnF
-         Z3aPk00NUssB44hpd3q/nKMqh6dbKMcK75qgGE8igNqBqylBmc6oz2eNj2f0REaSyhqt
-         um4+ALLGhYrjPOXOgMKs/FzTnn5eIJWAlNn2nr/hcKG4Th9q8/8p/b4IczuFX7afMabV
-         5hVBraMnwIoQ8Fn5RyspDE2WeZ6FvVa8mU+SgQKKi56nZRUNqwki5ta1K3W3OMjeBfC+
-         sh9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=FYlQKS9vXindqX0g6qaItShVlimcAfN5URVFQb0ZXsQ=;
-        b=MfZmlOCEEDldDfWRK383FkUZ//ss8d9Et3BkCpeZomOqnypmbcUyAy7kWkaUrYQwMU
-         bK2iC27yQh2IOu0MemGiuqE2KN8eRny6dmBPhhZgmt4QiAHhzPnBehYuBiZPR8aAibYU
-         qWTtUrW2RLU6Gfgli5GTknh5hTtvkqfgjQRE6U9DZUcz7B6z4uNWskOAKzgF88I9JOKm
-         NiQWAweDLG5oYopgm9g09xcfkir8bj9Gf33UeS2oyJQOa00MK4IEcfHu2p+Cq4ndpMYt
-         2Aly6XYBJS0TlYgwHORMXIkW4Wg6DtYZuQUeUcgvOugtEY5Gl+JsAQuOuXWbnQnWL/dB
-         l5wQ==
-X-Gm-Message-State: AOAM531cp/Re92YEAWxoUTEziGOyJamsIfS5PkaqZF42uaT+MA9eLjlA
-        H7Nvf6oEtU26rRjMUjKfPWP9GLEieOH8/kKwQ80=
-X-Google-Smtp-Source: ABdhPJwLMqpQ0iHKfNLvKF+xhV5DV0Tq6uFBQ9ArqcilP/SHNojdntG0x/2yRZ5sq7j2TpD9L8cVwJeYNOHRoOa4CyQ=
-X-Received: by 2002:a25:9c01:: with SMTP id c1mr2609333ybo.106.1601303463652;
- Mon, 28 Sep 2020 07:31:03 -0700 (PDT)
+        Mon, 28 Sep 2020 20:53:27 -0400
+IronPort-SDR: wcOYCPw48oebLgpg2xGY27ZpOAYoblx+ozOWd2g7yaUjsV+amYs6XzAIl9CHE/A9R4rHfEHiff
+ JVkxaCBe9Qcg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="149864967"
+X-IronPort-AV: E=Sophos;i="5.77,316,1596524400"; 
+   d="scan'208";a="149864967"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2020 17:53:27 -0700
+IronPort-SDR: IgqG0fvGegMLjRUS9HJPua5OQ94QJS3fu7bpmNDAEaafaS0KrhGt4tWtfjOc7awSVhjUMObx4U
+ D31Sgltrmpwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,316,1596524400"; 
+   d="scan'208";a="350930834"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga007.jf.intel.com with ESMTP; 28 Sep 2020 17:53:27 -0700
+Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
+        by linux.intel.com (Postfix) with ESMTP id 0B9DD5801CA;
+        Mon, 28 Sep 2020 17:53:27 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     lee.jones@linaro.org, david.e.box@linux.intel.com,
+        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
+        alexander.h.duyck@linux.intel.com, hdegoede@redhat.com,
+        alexey.budankov@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: [PATCH V6 0/5] Intel Platform Monitoring Technology
+Date:   Mon, 28 Sep 2020 17:53:15 -0700
+Message-Id: <20200929005320.14739-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a05:7000:66d3:0:0:0:0 with HTTP; Mon, 28 Sep 2020 07:31:03
- -0700 (PDT)
-Reply-To: mrs.esthernicolas@yahoo.com
-From:   "Mrs. Esther Nicolas" <mrsjesswalk200@gmail.com>
-Date:   Mon, 28 Sep 2020 07:31:03 -0700
-Message-ID: <CAEq=RHa91P=mdz8yNemHZGLBs__Q0bvz+nOfS9KKY92J7cLW4Q@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Liebste in Christus,
-Mit geb=C3=BChrendem Respekt und Menschlichkeit war ich gezwungen, Ihnen
-aus humanit=C3=A4ren Gr=C3=BCnden zu schreiben. Ich hei=C3=9Fe Frau Esther =
-Nicolas.
-Ich wurde in Arizona, Phoenix, geboren und bin mit Jacob Nicolas
-Direktor Jacon Industry Togo verheiratet. Wir waren sechsunddrei=C3=9Fig
-Jahre ohne Kind verheiratet. Er starb nach einer
-Herzarterienoperation. Und k=C3=BCrzlich sagte mir mein Arzt, dass ich
-aufgrund meines Krebsproblems (Leberkrebs und Schlaganfall) die
-n=C3=A4chsten sechs Monate nicht durchhalten w=C3=BCrde. Bevor mein Mann le=
-tztes
-Jahr starb, hat er diese Summe von zwei Millionen achthunderttausend
-Dollar bei einer Bank hier in Togo hinterlegt. Derzeit ist dieses Geld
-noch auf der Bank. Nachdem ich meinen Zustand gekannt hatte, beschloss
-ich, diesen Fonds an jeden guten gottesf=C3=BCrchtigen Bruder oder jede
-gute gottesf=C3=BCrchtige Schwester zu spenden, die diesen Fonds so
-verwenden, wie ich es hier anweisen werde. Ich m=C3=B6chte jemanden, der
-diesen Fonds gem=C3=A4=C3=9F dem Wunsch meines verstorbenen Mannes nutzt, u=
-m
-weniger privilegierten Menschen, Waisenh=C3=A4usern, Witwen und der
-Verbreitung des Wortes Gottes zu helfen. Ich habe diese Entscheidung
-getroffen, weil ich kein Kind habe, das diesen Fonds erben wird, und
-ich m=C3=B6chte keinen Weg, wie dieses Geld auf gottlose Weise verwendet
-wird. Aus diesem Grund entscheide ich mich, Ihnen diesen Fonds zu
-=C3=BCbergeben. Ich habe keine Angst vor dem Tod, daher wei=C3=9F ich, wohi=
-n ich
-gehe. Ich m=C3=B6chte, dass Sie sich in meinen t=C3=A4glichen Gebeten wegen
-meiner bevorstehenden Krebsoperation immer an mich erinnern. Wenn Sie
-Ihre Antwort so schnell wie m=C3=B6glich zur=C3=BCckschreiben, kann ich ein=
-e
-andere Person f=C3=BCr denselben Zweck finden, in der Hoffnung, so schnell
-wie m=C3=B6glich von Ihnen zu lesen. Gott segne Sie, wenn Sie auf die
-Stimme der Argumentation h=C3=B6ren, Frau Esther Nicolas.
+Intel Platform Monitoring Technology (PMT) is an architecture for
+enumerating and accessing hardware monitoring capabilities on a device.
+With customers increasingly asking for hardware telemetry, engineers not
+only have to figure out how to measure and collect data, but also how to
+deliver it and make it discoverable. The latter may be through some device
+specific method requiring device specific tools to collect the data. This
+in turn requires customers to manage a suite of different tools in order to
+collect the differing assortment of monitoring data on their systems.  Even
+when such information can be provided in kernel drivers, they may require
+constant maintenance to update register mappings as they change with
+firmware updates and new versions of hardware. PMT provides a solution for
+discovering and reading telemetry from a device through a hardware agnostic
+framework that allows for updates to systems without requiring patches to
+the kernel or software tools.
+
+PMT defines several capabilities to support collecting monitoring data from
+hardware. All are discoverable as separate instances of the PCIE Designated
+Vendor extended capability (DVSEC) with the Intel vendor code. The DVSEC ID
+field uniquely identifies the capability. Each DVSEC also provides a BAR
+offset to a header that defines capability-specific attributes, including
+GUID, feature type, offset and length, as well as configuration settings
+where applicable. The GUID uniquely identifies the register space of any
+monitor data exposed by the capability. The GUID is associated with an XML
+file from the vendor that describes the mapping of the register space along
+with properties of the monitor data. This allows vendors to perform
+firmware updates that can change the mapping (e.g. add new metrics) without
+requiring any changes to drivers or software tools. The new mapping is
+confirmed by an updated GUID, read from the hardware, which software uses
+with a new XML.
+
+The current capabilities defined by PMT are Telemetry, Watcher, and
+Crashlog.  The Telemetry capability provides access to a continuous block
+of read only data. The Watcher capability provides access to hardware
+sampling and tracing features. Crashlog provides access to device crash
+dumps.  While there is some relationship between capabilities (Watcher can
+be configured to sample from the Telemetry data set) each exists as stand
+alone features with no dependency on any other. The design therefore splits
+them into individual, capability specific drivers. MFD is used to create
+platform devices for each capability so that they may be managed by their
+own driver. The PMT architecture is (for the most part) agnostic to the
+type of device it can collect from. Devices nodes are consequently generic
+in naming, e.g. /dev/telem<n> and /dev/smplr<n>. Each capability driver
+creates a class to manage the list of devices supporting it.  Software can
+determine which devices support a PMT feature by searching through each
+device node entry in the sysfs class folder. It can additionally determine
+if a particular device supports a PMT feature by checking for a PMT class
+folder in the device folder.
+
+This patch set provides support for the PMT framework, along with support
+for Telemetry on Tiger Lake.
+
+Changes from V5:
+ 	- Add Alder Lake and the "Out of Band Managemenet Services
+	  Module (OOBMSM)" ids to the MFD driver. Transfered to this
+	  patch set.
+	- Use a single class for all PMT capabilities as suggested by
+	  Hans.
+	- Add binary attribute for telemetry driver to allow read
+	  syscall as suggested by Hans.
+	- Use the class file to hold attributes and other common code
+	  used by all PMT drivers.
+	- Add the crashlog driver to the patchset and add a mutex to
+	  protect access to the enable control and trigger files as
+	  suggested by Hans.
+
+https://lore.kernel.org/lkml/6e3738db-bfff-7fd2-65e6-bd0d126f9eaa@redhat.com/
+
+Changes from V4:
+	- Replace MFD with PMT in driver title
+	- Fix commit tags in chronological order
+	- Fix includes in alphabetical order
+	- Use 'raw' string instead of defines for device names
+	- Add an error message when returning an error code for
+	  unrecognized capability id
+	- Use dev_err instead of dev_warn for messages when returning
+	  an error
+	- Change while loop to call pci_find_next_ext_capability once
+	- Add missing continue in while loop
+	- Keep PCI platform defines using PCI_DEVICE_DATA magic tied to
+	  the pci_device_id table
+	- Comment and kernel message cleanup
+
+Changes from V3:
+	- Write out full acronym for DVSEC in PCI patch commit message and
+	  add 'Designated' to comments
+	- remove unused variable caught by kernel test robot <lkp@intel.com>
+	- Add required Co-developed-by signoffs, noted by Andy
+	- Allow access using new CAP_PERFMON capability as suggested by
+	  Alexey Bundankov
+	- Fix spacing in Kconfig, noted by Randy
+	- Other style changes and fixups suggested by Andy
+
+Changes from V2:
+	- In order to handle certain HW bugs from the telemetry capability
+	  driver, create a single platform device per capability instead of
+	  a device per entry. Add the entry data as device resources and
+	  let the capability driver manage them as a set allowing for
+	  cleaner HW bug resolution.
+	- Handle discovery table offset bug in intel_pmt.c
+	- Handle overlapping regions in intel_pmt_telemetry.c
+	- Add description of sysfs class to testing ABI.
+	- Don't check size and count until confirming support for the PMT
+	  capability to avoid bailing out when we need to skip it.
+	- Remove unneeded header file. Move code to the intel_pmt.c, the
+	  only place where it's needed.
+	- Remove now unused platform data.
+	- Add missing header files types.h, bits.h.
+	- Rename file name and build options from telem to telemetry.
+	- Code cleanup suggested by Andy S.
+	- x86 mailing list added.
+
+Changes from V1:
+	- In the telemetry driver, set the device in device_create() to
+	  the parent PCI device (the monitoring device) for clear
+	  association in sysfs. Was set before to the platform device
+	  created by the PCI parent.
+	- Move telem struct into driver and delete unneeded header file.
+	- Start telem device numbering from 0 instead of 1. 1 was used
+	  due to anticipated changes, no longer needed.
+	- Use helper macros suggested by Andy S.
+	- Rename class to pmt_telemetry, spelling out full name
+	- Move monitor device name defines to common header
+	- Coding style, spelling, and Makefile/MAINTAINERS ordering fixes
+
+Alexander Duyck (3):
+  platform/x86: Intel PMT class driver
+  platform/x86: Intel PMT Telemetry capability driver
+  platform/x86: Intel PMT Crashlog capability driver
+
+David E. Box (2):
+  PCI: Add defines for Designated Vendor-Specific Extended Capability
+  mfd: Intel Platform Monitoring Technology support
+
+ .../ABI/testing/sysfs-class-intel_pmt         | 119 ++++++
+ MAINTAINERS                                   |   6 +
+ drivers/mfd/Kconfig                           |  10 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/intel_pmt.c                       | 226 ++++++++++++
+ drivers/platform/x86/Kconfig                  |  25 ++
+ drivers/platform/x86/Makefile                 |   3 +
+ drivers/platform/x86/intel_pmt_class.c        | 295 +++++++++++++++
+ drivers/platform/x86/intel_pmt_class.h        |  58 +++
+ drivers/platform/x86/intel_pmt_crashlog.c     | 339 ++++++++++++++++++
+ drivers/platform/x86/intel_pmt_telemetry.c    | 158 ++++++++
+ include/uapi/linux/pci_regs.h                 |   5 +
+ 12 files changed, 1245 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-intel_pmt
+ create mode 100644 drivers/mfd/intel_pmt.c
+ create mode 100644 drivers/platform/x86/intel_pmt_class.c
+ create mode 100644 drivers/platform/x86/intel_pmt_class.h
+ create mode 100644 drivers/platform/x86/intel_pmt_crashlog.c
+ create mode 100644 drivers/platform/x86/intel_pmt_telemetry.c
+
+-- 
+2.20.1
+
