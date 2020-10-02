@@ -2,66 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCC1E2818DB
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Oct 2020 19:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E21B5281B78
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Oct 2020 21:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbgJBRJi (ORCPT
+        id S2387768AbgJBTVm convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 2 Oct 2020 13:09:38 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:56630 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726096AbgJBRJh (ORCPT
+        Fri, 2 Oct 2020 15:21:42 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:64682 "EHLO mx.metalurgs.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387602AbgJBTVm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 2 Oct 2020 13:09:37 -0400
-Received: from [222.129.36.226] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <aaron.ma@canonical.com>)
-        id 1kOOYi-00038m-V4; Fri, 02 Oct 2020 17:09:29 +0000
-From:   Aaron Ma <aaron.ma@canonical.com>
-To:     aaron.ma@canonical.com, mapengyu@gmail.com, ibm-acpi@hmh.eng.br,
-        dvhart@infradead.org, andy@infradead.org,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] platform/x86: thinkpad_acpi: re-initialize ACPI buffer size when reuse
-Date:   Sat,  3 Oct 2020 01:09:16 +0800
-Message-Id: <20201002170916.64328-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929082025.51446-1-aaron.ma@canonical.com>
-References: <20200929082025.51446-1-aaron.ma@canonical.com>
+        Fri, 2 Oct 2020 15:21:42 -0400
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 3FE0A62A57
+        for <platform-driver-x86@vger.kernel.org>; Fri,  2 Oct 2020 22:14:17 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 1E1A762A4E
+        for <platform-driver-x86@vger.kernel.org>; Fri,  2 Oct 2020 22:14:17 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id E6A9162A98; Fri,  2 Oct 2020 22:14:14 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.50])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id AFB5461E8C;
+        Fri,  2 Oct 2020 22:14:08 +0300 (EEST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Fri, 02 Oct 2020 16:14:02 -0300
+Reply-To: binmurrah@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201002191414.E6A9162A98@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan.
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201002 notchecked
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Evaluating ACPI _BCL could fail, then ACPI buffer size will be set to 0.
-When reuse this ACPI buffer, AE_BUFFER_OVERFLOW will be triggered.
+Hello Dear,
 
-Re-initialize buffer size will make ACPI evaluate successfully.
+We are Investment Company offering Corporate and Personal
+Loan at 3% Interest Rate for a duration of 10Years.
 
-Fixes: 46445b6b896fd ("thinkpad-acpi: fix handle locate for video and query of _BCL")
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+We also pay 1% commission to brokers, who introduce project
+owners for finance or other opportunities.
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 9c4df41687a3..477d63c49c04 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -6829,8 +6829,10 @@ static int __init tpacpi_query_bcl_levels(acpi_handle handle)
- 	list_for_each_entry(child, &device->children, node) {
- 		acpi_status status = acpi_evaluate_object(child->handle, "_BCL",
- 							  NULL, &buffer);
--		if (ACPI_FAILURE(status))
-+		if (ACPI_FAILURE(status)) {
-+			buffer.length = ACPI_ALLOCATE_BUFFER;
- 			continue;
-+		}
- 
- 		obj = (union acpi_object *)buffer.pointer;
- 		if (!obj || (obj->type != ACPI_TYPE_PACKAGE)) {
--- 
-2.28.0
+Please get back to me if you are interested for more
+details.
 
+Yours faithfully,
+Hashim Bin 
