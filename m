@@ -2,65 +2,178 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E21B5281B78
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Oct 2020 21:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6123281BD0
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Oct 2020 21:23:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387768AbgJBTVm convert rfc822-to-8bit (ORCPT
+        id S2388587AbgJBTXV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 2 Oct 2020 15:21:42 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:64682 "EHLO mx.metalurgs.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387602AbgJBTVm (ORCPT
+        Fri, 2 Oct 2020 15:23:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37503 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388510AbgJBTXV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 2 Oct 2020 15:21:42 -0400
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 3FE0A62A57
-        for <platform-driver-x86@vger.kernel.org>; Fri,  2 Oct 2020 22:14:17 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 1E1A762A4E
-        for <platform-driver-x86@vger.kernel.org>; Fri,  2 Oct 2020 22:14:17 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id E6A9162A98; Fri,  2 Oct 2020 22:14:14 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.50])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id AFB5461E8C;
-        Fri,  2 Oct 2020 22:14:08 +0300 (EEST)
+        Fri, 2 Oct 2020 15:23:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1601666600;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=0rHoLbuwsblrSGHr6TVP0VYy//BfvD4m0YnYfS72lBc=;
+        b=Qqe5aRTDmpP/CbOKiCxFgTEAd6QLo4pvicZa/b1i4tCPG6Eo9ahhWVdfDVzXZyK8Ttqh+S
+        hi6n8AtF6J11g2YfXw1t4Pk1KDSofVbHyIcmtRk0xwdD8Zia1fwwNanTP8AHRdoVvXM/Q4
+        T7HDlLJFA/n6HzLZvvh1PqEOd3BEdjM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-R8TqdMuMPGSyR-87poPlBA-1; Fri, 02 Oct 2020 15:23:12 -0400
+X-MC-Unique: R8TqdMuMPGSyR-87poPlBA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CD9A108E1A1;
+        Fri,  2 Oct 2020 19:23:10 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-115-46.ams2.redhat.com [10.36.115.46])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C478619C66;
+        Fri,  2 Oct 2020 19:23:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Mark Gross <mgross@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        platform-driver-x86@vger.kernel.org,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+        Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v2] platform/x86: intel-vbtn: Switch to an allow-list for SW_TABLET_MODE reporting
+Date:   Fri,  2 Oct 2020 21:23:07 +0200
+Message-Id: <20201002192307.30681-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Fri, 02 Oct 2020 16:14:02 -0300
-Reply-To: binmurrah@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201002191414.E6A9162A98@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan.
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201002 notchecked
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Dear,
+2 recent commits:
+cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE
+on the 9 / "Laptop" chasis-type")
+1fac39fd0316 ("platform/x86: intel-vbtn: Also handle tablet-mode switch on
+"Detachable" and "Portable" chassis-types")
 
-We are Investment Company offering Corporate and Personal
-Loan at 3% Interest Rate for a duration of 10Years.
+Enabled reporting of SW_TABLET_MODE on more devices since the vbtn ACPI
+interface is used by the firmware on some of those devices to report this.
 
-We also pay 1% commission to brokers, who introduce project
-owners for finance or other opportunities.
+Testing has shown that unconditionally enabling SW_TABLET_MODE reporting
+on all devices with a chassis type of 8 ("Portable") or 10 ("Notebook")
+which support the VGBS method is a very bad idea.
 
-Please get back to me if you are interested for more
-details.
+Many of these devices are normal laptops (non 2-in-1) models with a VGBS
+which always returns 0, which we translate to SW_TABLET_MODE=1. This in
+turn causes userspace (libinput) to suppress events from the builtin
+keyboard and touchpad, making the laptop essentially unusable.
 
-Yours faithfully,
-Hashim Bin 
+Since the problem of wrongly reporting SW_TABLET_MODE=1 in combination
+with libinput, leads to a non-usable system. Where as OTOH many people will
+not even notice when SW_TABLET_MODE is not being reported, this commit
+changes intel_vbtn_has_switches() to use a DMI based allow-list.
+
+The new DMI based allow-list matches on the 31 ("Convertible") and
+32 ("Detachable") chassis-types, as these clearly are 2-in-1s and
+so far if they support the intel-vbtn ACPI interface they all have
+properly working SW_TABLET_MODE reporting.
+
+Besides these 2 generic matches, it also contains model specific matches
+for 2-in-1 models which use a different chassis-type and which are known
+to have properly working SW_TABLET_MODE reporting.
+
+This has been tested on the following 2-in-1 devices:
+
+Dell Venue 11 Pro 7130 vPro
+HP Pavilion X2 10-p002nd
+HP Stream x360 Convertible PC 11
+Medion E1239T
+
+Fixes: cfae58ed681c ("platform/x86: intel-vbtn: Only blacklist SW_TABLET_MODE on the 9 / "Laptop" chasis-type")
+BugLink: https://forum.manjaro.org/t/keyboard-and-touchpad-only-work-on-kernel-5-6/22668
+BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1175599
+Cc: Barnabás Pőcze <pobrn@protonmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+-Fix Barnabás' name in the Cc: line of the commit msg
+---
+ drivers/platform/x86/intel-vbtn.c | 52 +++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/platform/x86/intel-vbtn.c b/drivers/platform/x86/intel-vbtn.c
+index e85d8e58320c..f5901b0b07cd 100644
+--- a/drivers/platform/x86/intel-vbtn.c
++++ b/drivers/platform/x86/intel-vbtn.c
+@@ -167,20 +167,54 @@ static bool intel_vbtn_has_buttons(acpi_handle handle)
+ 	return ACPI_SUCCESS(status);
+ }
+ 
++/*
++ * There are several laptops (non 2-in-1) models out there which support VGBS,
++ * but simply always return 0, which we translate to SW_TABLET_MODE=1. This in
++ * turn causes userspace (libinput) to suppress events from the builtin
++ * keyboard and touchpad, making the laptop essentially unusable.
++ *
++ * Since the problem of wrongly reporting SW_TABLET_MODE=1 in combination
++ * with libinput, leads to a non-usable system. Where as OTOH many people will
++ * not even notice when SW_TABLET_MODE is not being reported, a DMI based allow
++ * list is used here. This list mainly matches on the chassis-type of 2-in-1s.
++ *
++ * There are also some 2-in-1s which use the intel-vbtn ACPI interface to report
++ * SW_TABLET_MODE with a chassis-type of 8 ("Portable") or 10 ("Notebook"),
++ * these are matched on a per model basis, since many normal laptops with a
++ * possible broken VGBS ACPI-method also use these chassis-types.
++ */
++static const struct dmi_system_id dmi_switches_allow_list[] = {
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "31" /* Convertible */),
++		},
++	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "32" /* Detachable */),
++		},
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Venue 11 Pro 7130"),
++		},
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Hewlett-Packard"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP Stream x360 Convertible PC 11"),
++		},
++	},
++	{} /* Array terminator */
++};
++
+ static bool intel_vbtn_has_switches(acpi_handle handle)
+ {
+-	const char *chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
+ 	unsigned long long vgbs;
+ 	acpi_status status;
+ 
+-	/*
+-	 * Some normal laptops have a VGBS method despite being non-convertible
+-	 * and their VGBS method always returns 0, causing detect_tablet_mode()
+-	 * to report SW_TABLET_MODE=1 to userspace, which causes issues.
+-	 * These laptops have a DMI chassis_type of 9 ("Laptop"), do not report
+-	 * switches on any devices with a DMI chassis_type of 9.
+-	 */
+-	if (chassis_type && strcmp(chassis_type, "9") == 0)
++	if (!dmi_check_system(dmi_switches_allow_list))
+ 		return false;
+ 
+ 	status = acpi_evaluate_integer(handle, "VGBS", NULL, &vgbs);
+-- 
+2.28.0
+
