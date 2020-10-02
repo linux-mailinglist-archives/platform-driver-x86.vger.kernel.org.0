@@ -2,147 +2,162 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5194280929
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Oct 2020 23:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B6D1280BA2
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Oct 2020 02:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733012AbgJAVHf (ORCPT
+        id S1732836AbgJBA3z (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Oct 2020 17:07:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727017AbgJAVHT (ORCPT
+        Thu, 1 Oct 2020 20:29:55 -0400
+Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:33736 "EHLO
+        mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727053AbgJBA3z (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Oct 2020 17:07:19 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1B4C0613D0;
-        Thu,  1 Oct 2020 14:07:19 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 5so5024307pgf.5;
-        Thu, 01 Oct 2020 14:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ItqIz6gXnh77/Vt2ZHDHcdf0vLA3J3R86d0HFs2hxss=;
-        b=ebxxJDPj/tvbS24ml8ZXMKFMOcecgfeBF7qk10srMX+oBQ38MoQGwEfoDCkk1XFDTf
-         sMHwM1gF3VedZTaQE1scSLDcdNnRASo/Qt/OsAe4qHLX2g69R+pxwgO9+V3Kv801Bqry
-         7bUqgK80b8dIuamzcqtslLPYxPEc3ilBAcVtjXgJYuP81z2HLFRwmb+haB7o/FZxj/Jv
-         HSX8ZZuuYhaz8V90/qARmSrZVVqzhqej01C+AzsjRm9uypUkbK25JTjySehoXo8OFJNS
-         zgkoUG0+xc9TaUar/mt8YRhTN/LTGiEmSBB3yHTDB5hukDtq1vapCLXKgbTBLoWD2Yeg
-         p8/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ItqIz6gXnh77/Vt2ZHDHcdf0vLA3J3R86d0HFs2hxss=;
-        b=UGYxKwuhnxkgP5K9s6Mcj7R9Xr5vHOBY+Nl6u7AqeZ/3mPbXjjeWcZprc1LtpEeCHn
-         GbTrizuJ8RRbTDff9UfLzQ9j++iEPVqXsWAjvYAKU7Pths6SDYmZGMClOGYKnRg+k+vc
-         pn4hBfvJpNuEcbjTPq0L2sYOeRIAMymq/PNJkDKhgDLp1kZcmU4OUTUirORKyZOUCnhR
-         yfGSaoI5qNZoMoCLNWFRozBPQeH10jaf0B9H7iwK5QUcERZyXyvB9onDG0SDe4+TRuT4
-         sABwHWxS82nH/RMF9MZqPwICUG/phQze8ZQiwzxgVC+KAvbOZG4tDqM6QgX9lDlgmAXR
-         QFqA==
-X-Gm-Message-State: AOAM532BAftBXgggC6M8we8vIccB6RCxpF7+7dDl1MWS3iZxeZ3LLOOD
-        XWZfSp/bmseiIrVT26k8q/KWJyyvGmwM5Q==
-X-Google-Smtp-Source: ABdhPJwtlJGYi3KdBqkN8QjF/BYyhY0405HXOyyT6gd5JOL9IIz8WwMUAMTSQlA+2TSKM7IlF2+0Kg==
-X-Received: by 2002:a63:161e:: with SMTP id w30mr7496776pgl.255.1601586438657;
-        Thu, 01 Oct 2020 14:07:18 -0700 (PDT)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45e1:2200::1])
-        by smtp.gmail.com with ESMTPSA id 14sm724389pjn.48.2020.10.01.14.07.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 14:07:17 -0700 (PDT)
-Date:   Thu, 1 Oct 2020 14:07:16 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Lenny Szubowicz <lszubowi@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        linux-security-module@vger.kernel.org, andy.shevchenko@gmail.com,
-        James Morris <jmorris@namei.org>, serge@hallyn.com,
-        Kees Cook <keescook@chromium.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Jones <pjones@redhat.com>,
-        David Howells <dhowells@redhat.com>, prarit@redhat.com
-Subject: Re: [PATCH V2 1/3] efi: Support for MOK variable config table
-Message-ID: <20201001210716.GA3767489@ubuntu-m3-large-x86>
-References: <20200905013107.10457-1-lszubowi@redhat.com>
- <20200905013107.10457-2-lszubowi@redhat.com>
- <20201001174436.GA2622286@ubuntu-m3-large-x86>
- <CAMj1kXFoCsO3YqvTZx4nU4mQOhoux1iS1vsa73AZhtc5Y8j59Q@mail.gmail.com>
+        Thu, 1 Oct 2020 20:29:55 -0400
+Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09205joU003404;
+        Fri, 2 Oct 2020 00:05:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pps0720;
+ bh=bi5qeYHNN05AhivFE/qJMX6chnprVNesAQqgAB3tPLY=;
+ b=huuutosvtpvrpJSD5lYcAuMhdEX3hzhHdBbvSBBcA226XIKDgSghcN3eL6siB2rKgppZ
+ cZ3Fqo+IDfBDMGzRbWtMqvY7NURgIEijkdfJf52jiJCXQNyf3c1yI/rXIol0qRm0gC5o
+ jQ1jLOj/XCEMJpKuJV3cW4yC0q5GTrD1vvTOzbv3LFdNvuvmzzBO4rW6DYaH+PIu+LZJ
+ RWw7Atmv4IHb2LXgn/EL/FCd0LizamJw+2a32gKz3sEHeVV13ylYu52px79CrKdqtRff
+ ORPDdPnAwbyLPEvaRbKCY8o30yBkbwkQbS+/V9cSzP/BsJh+9QJgvg5YoDBx7fA1TNFa 7A== 
+Received: from g2t2353.austin.hpe.com (g2t2353.austin.hpe.com [15.233.44.26])
+        by mx0b-002e3701.pphosted.com with ESMTP id 33wg0vcghj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 02 Oct 2020 00:05:56 +0000
+Received: from g2t2360.austin.hpecorp.net (g2t2360.austin.hpecorp.net [16.196.225.135])
+        by g2t2353.austin.hpe.com (Postfix) with ESMTP id E91248B;
+        Fri,  2 Oct 2020 00:05:55 +0000 (UTC)
+Received: from dog.eag.rdlabs.hpecorp.net (dog.eag.rdlabs.hpecorp.net [128.162.243.181])
+        by g2t2360.austin.hpecorp.net (Postfix) with ESMTP id 2BB1F37;
+        Fri,  2 Oct 2020 00:05:53 +0000 (UTC)
+From:   Mike Travis <mike.travis@hpe.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mike Travis <mike.travis@hpe.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Jian Cai <caij2003@gmail.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v3 00/13] x86/platform/uv: Updates for UV5 Architecture
+Date:   Thu,  1 Oct 2020 19:05:25 -0500
+Message-Id: <20201002000538.94424-1-mike.travis@hpe.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXFoCsO3YqvTZx4nU4mQOhoux1iS1vsa73AZhtc5Y8j59Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-01_10:2020-10-01,2020-10-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ mlxlogscore=290 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010010195
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, Oct 01, 2020 at 10:57:07PM +0200, Ard Biesheuvel wrote:
-> On Thu, 1 Oct 2020 at 19:44, Nathan Chancellor <natechancellor@gmail.com> wrote:
-> >
-> > On Fri, Sep 04, 2020 at 09:31:05PM -0400, Lenny Szubowicz wrote:
-> > > Because of system-specific EFI firmware limitations, EFI volatile
-> > > variables may not be capable of holding the required contents of
-> > > the Machine Owner Key (MOK) certificate store when the certificate
-> > > list grows above some size. Therefore, an EFI boot loader may pass
-> > > the MOK certs via a EFI configuration table created specifically for
-> > > this purpose to avoid this firmware limitation.
-> > >
-> > > An EFI configuration table is a much more primitive mechanism
-> > > compared to EFI variables and is well suited for one-way passage
-> > > of static information from a pre-OS environment to the kernel.
-> > >
-> > > This patch adds initial kernel support to recognize, parse,
-> > > and validate the EFI MOK configuration table, where named
-> > > entries contain the same data that would otherwise be provided
-> > > in similarly named EFI variables.
-> > >
-> > > Additionally, this patch creates a sysfs binary file for each
-> > > EFI MOK configuration table entry found. These files are read-only
-> > > to root and are provided for use by user space utilities such as
-> > > mokutil.
-> > >
-> > > A subsequent patch will load MOK certs into the trusted platform
-> > > key ring using this infrastructure.
-> > >
-> > > Signed-off-by: Lenny Szubowicz <lszubowi@redhat.com>
-> >
-> > I have not seen this reported yet but this breaks arm allyesconfig and
-> > allmodconfig when CPU_LITTLE_ENDIAN is force selected (because CONFIG_EFI
-> > will actually be enabled):
-> >
-> > $ cat le.config
-> > CONFIG_CPU_BIG_ENDIAN=n
-> >
-> > $ make -skj"$(nproc)" ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- KCONFIG_ALLCONFIG=le.config allyesconfig drivers/firmware/efi/mokvar-table.o
-> > drivers/firmware/efi/mokvar-table.c: In function 'efi_mokvar_table_init':
-> > drivers/firmware/efi/mokvar-table.c:139:5: error: implicit declaration of function 'early_memunmap' [-Werror=implicit-function-declaration]
-> >   139 |     early_memunmap(va, map_size);
-> >       |     ^~~~~~~~~~~~~~
-> > drivers/firmware/efi/mokvar-table.c:148:9: error: implicit declaration of function 'early_memremap' [-Werror=implicit-function-declaration]
-> >   148 |    va = early_memremap(efi.mokvar_table, map_size);
-> >       |         ^~~~~~~~~~~~~~
-> > drivers/firmware/efi/mokvar-table.c:148:7: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> >   148 |    va = early_memremap(efi.mokvar_table, map_size);
-> >       |       ^
-> > cc1: some warnings being treated as errors
-> > make[4]: *** [scripts/Makefile.build:283: drivers/firmware/efi/mokvar-table.o] Error 1
-> >
-> > Cheers,
-> > Nathan
-> 
-> Hi Nathan,
-> 
-> Does adding
-> 
-> #include <asm/early_ioremap.h>
-> 
-> to drivers/firmware/efi/mokvar-table.c fix the issue?
 
-Indeed, that was much simpler than I thought it would be... If you send
-or apply a patch, feel free to add:
+Changes included in this patch set:
 
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+ * Add changes needed for new UV5 UV architecture.  Chief among the
+   changes are 52 bits of physical memory address and 57 bits of
+   virtual address space.
 
-Cheers,
-Nathan
+ * Remove the BAU TLB code cuurently being replaced by BAU APIC driver.
+
+ * Remove System Controller (monitoring) code
+
+ * Updated UV mmrs.h file removing UV1, adding UVY class, optimizing
+   the arch selection of the MMR address/field, and trimming down MMR
+   selection list reducing number of MMRs being defined.
+
+ * Process UV ArchType in UV BIOS generated UVsystab allowing OEMs to
+   use OEM_ID for their own purposes.
+
+ * Update various mapping functions (MMIOH, MMR, GRU) to accommodate
+   UV5 differences.
+
+ * Update node present counting for change in MMRs.
+
+ * Update TSC sync check of BIOS sync status.
+
+ * Update NMI handler for UV5 MMR changes.
+
+ * Update copyrights to conform to HPE standards.
+
+
+This is version 2 with these changes since version 1: 
+
+ * Added diffstats to p-intro.
+
+ * Updated Copyrights to be in one file and only include the year
+   the code was modified.
+
+ * Updated to use git format-patch to construct patch email and 
+   git send-email to send the patches.
+
+
+This is version 3 with these changes since version 2: 
+
+ * Changes made to .gitconfig so no internal (unreachable) systems
+   are referenced.
+
+
+Mike Travis (13):
+  x86/platform/uv: Remove UV BAU TLB Shootdown Handler
+  x86/platform/uv: Remove SCIR MMR references for UVY systems.
+  x86/platform/uv: Adjust references in UV kernel modules
+  x86/platform/uv: Update UV MMRs for UV5
+  x86/platform/uv: Add UV5 direct references
+  x86/platform/uv: Add and Decode Arch Type in UVsystab
+  x86/platform/uv: Update MMIOH references based on new UV5 MMRs.
+  x86/platform/uv: Adjust GAM MMR references affected by UV5 updates
+  x86/platform/uv: Update UV5 MMR references in UV GRU
+  x86/platform/uv: Update Node Present Counting
+  x86/platform/uv: Update UV5 TSC Checking
+  x86/platform/uv: Update for UV5 NMI MMR changes
+  x86/platform/uv: Update Copyrights to conform to HPE standards
+
+ arch/x86/include/asm/idtentry.h     |    4 -
+ arch/x86/include/asm/uv/bios.h      |   17 +-
+ arch/x86/include/asm/uv/uv.h        |    4 +-
+ arch/x86/include/asm/uv/uv_bau.h    |  755 ---
+ arch/x86/include/asm/uv/uv_hub.h    |  165 +-
+ arch/x86/include/asm/uv/uv_mmrs.h   | 7646 ++++++++++++++-------------
+ arch/x86/kernel/apic/x2apic_uv_x.c  |  817 ++-
+ arch/x86/kernel/idt.c               |    3 -
+ arch/x86/mm/tlb.c                   |   24 -
+ arch/x86/platform/uv/Makefile       |    2 +-
+ arch/x86/platform/uv/bios_uv.c      |   28 +-
+ arch/x86/platform/uv/tlb_uv.c       | 2097 --------
+ arch/x86/platform/uv/uv_nmi.c       |   65 +-
+ arch/x86/platform/uv/uv_time.c      |   11 +-
+ drivers/misc/sgi-gru/grufile.c      |    3 +-
+ drivers/misc/sgi-xp/xp.h            |    9 +-
+ drivers/misc/sgi-xp/xp_main.c       |    5 +-
+ drivers/misc/sgi-xp/xp_uv.c         |    7 +-
+ drivers/misc/sgi-xp/xpc_main.c      |    7 +-
+ drivers/misc/sgi-xp/xpc_partition.c |    3 +-
+ drivers/misc/sgi-xp/xpnet.c         |    3 +-
+ 21 files changed, 4797 insertions(+), 6878 deletions(-)
+ delete mode 100644 arch/x86/include/asm/uv/uv_bau.h
+ delete mode 100644 arch/x86/platform/uv/tlb_uv.c
+
+-- 
+2.21.0
+
