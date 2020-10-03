@@ -2,517 +2,150 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D85E028201B
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  3 Oct 2020 03:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79DAA2823F9
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  3 Oct 2020 13:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725601AbgJCBb3 (ORCPT
+        id S1725772AbgJCLwJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 2 Oct 2020 21:31:29 -0400
-Received: from mga14.intel.com ([192.55.52.115]:6379 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725446AbgJCBb3 (ORCPT
+        Sat, 3 Oct 2020 07:52:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbgJCLwJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 2 Oct 2020 21:31:29 -0400
-IronPort-SDR: dMFkbHTlsaSeYGDhHn8TjgLkxHG8ekDlNNPAMI1xkFjqbKg7w4HY3/zZ0Yj2mYm5ScCUxSuqYu
- 9v1VDL672rHA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="162364716"
-X-IronPort-AV: E=Sophos;i="5.77,329,1596524400"; 
-   d="scan'208";a="162364716"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 18:31:27 -0700
-IronPort-SDR: 9AQL0FQPJhZ82CZGKuTc5+2yuWczlIe3oEbg+JV12dCoCGdVTwjk5KDntTsf6Rh1QgamEj1qdk
- YZnVZtgQ6z/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,329,1596524400"; 
-   d="scan'208";a="511558204"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga005.jf.intel.com with ESMTP; 02 Oct 2020 18:31:27 -0700
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id 6622958082E;
-        Fri,  2 Oct 2020 18:31:27 -0700 (PDT)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     lee.jones@linaro.org, david.e.box@linux.intel.com,
-        dvhart@infradead.org, andy@infradead.org, bhelgaas@google.com,
-        hdegoede@redhat.com, alexey.budankov@linux.intel.com
-Cc:     Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH V8 5/5] platform/x86: Intel PMT Crashlog capability driver
-Date:   Fri,  2 Oct 2020 18:31:23 -0700
-Message-Id: <20201003013123.20269-6-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201003013123.20269-1-david.e.box@linux.intel.com>
-References: <20201003013123.20269-1-david.e.box@linux.intel.com>
+        Sat, 3 Oct 2020 07:52:09 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEC3C0613D0
+        for <platform-driver-x86@vger.kernel.org>; Sat,  3 Oct 2020 04:52:09 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id c2so6266876qkf.10
+        for <platform-driver-x86@vger.kernel.org>; Sat, 03 Oct 2020 04:52:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=malazdrewicz-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=18Pwy6LERPKcJTlCFwviSLKlI1Wx/tWXunFr2Hk3i/4=;
+        b=CHjtcHx+k5OfszfrLGr4bUu4aO8Mr6LvBEibUWCVo9RExtQSM3oEFi1Fxt9xwyPZdY
+         7ZY2/6GpoS1KQ6RJaktIvj9+145ke8CH8ikF6fCNywqadTdwRv/aiNBfdEDHNG7uoxie
+         SL7l6BDyP/i0Cce8T06NuH6hEwmHrpGYn+8uI7S/gBvfIx4oCbNC2yHtrYQDVn8RzFkt
+         7ryXrYJzgYI2yLr7U7rOwqMzBdesshQphtIxq4dlCmnEGABZsnOWWjSEwi1HWoohndnu
+         mWJL30eB1b30EWWTFON1xSQubKcxDUGXvZHVRS5g3J8VNykskG0nZAcA0IoYJR0L7dE3
+         g+gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=18Pwy6LERPKcJTlCFwviSLKlI1Wx/tWXunFr2Hk3i/4=;
+        b=BPjohFXhaZJMc+dj6WIJhranYQt/dH8tbJAzxAKv+Cv2VHL5cSEt9cCCvu2t7Y8HFt
+         6PKI4IhIfCI4qvl7/cd12MoS4kXTmucq/2pOmUHMFRiOVyMUjkdAeP32YReYnJUQnAPZ
+         ojXLLgadM7RgYRdWTft5Dc/ZfaqEvfU0qGzO5qMcM8CTpuKsO96tWwYyp/RuER2OJ9xc
+         8A6pwek5MSeitGRZn0bnVNC8GmR1vH0hItAmWMb0raylerVZFfXwzzkwQ2Bdj55el19a
+         hlNMnsb05e+mdNZRp6+Lg9HIZHlX6rCqqbkuOgyfIoDyE3TyjvP/KShbQUvR5GrPRKyF
+         8T0Q==
+X-Gm-Message-State: AOAM533i89JAU3pUjqjNFmqcU9/QaLuwAyozalG7K1osjTL5oXR6pe8d
+        YYy9tnNyAezIXS7hW1IzJhETGw==
+X-Google-Smtp-Source: ABdhPJzmBC8b6oILqXb6VJYX7mMunM5SmcnfrvhO+toiYsFL/H6s/ccru/w/H63Mpg97JIotc5sLwg==
+X-Received: by 2002:a37:4a57:: with SMTP id x84mr5991061qka.17.1601725928171;
+        Sat, 03 Oct 2020 04:52:08 -0700 (PDT)
+Received: from area-51m-r2 ([24.224.201.0])
+        by smtp.gmail.com with ESMTPSA id t10sm3141010qkt.55.2020.10.03.04.52.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2020 04:52:07 -0700 (PDT)
+Message-ID: <d17b7266b3bcc433477cf4f3b89e0b5cbf0126cb.camel@malazdrewicz.com.ar>
+Subject: [ PATCH: 1/1]  dell smbios driver : Consider Alienware a valid OEM
+ String
+From:   Gerardo Esteban Malazdrewicz <gerardo@malazdrewicz.com.ar>
+To:     Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Mario Limonciello <mario.limonciello@dell.com>
+Cc:     platform-driver-x86@vger.kernel.org
+Date:   Sat, 03 Oct 2020 08:52:06 -0300
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+From bda6b6db0d76186ff37ffce8ac836379447ef2bc Mon Sep 17 00:00:00 2001
+From: Gerardo Malazdrewicz <36243997+GerMalaz@users.noreply.github.com>
+Date: Sat, 3 Oct 2020 07:43:02 -0300
+Subject: [PATCH] dell-smbios-base: Consider Alienware a Dell system
 
-Add support for the Intel Platform Monitoring Technology crashlog
-interface. This interface provides a few sysfs values to allow for
-controlling the crashlog telemetry interface as well as a character
-driver to allow for mapping the crashlog memory region so that it can be
-accessed after a crashlog has been recorded.
+Alienware has been a subsidiary of Dell since 2006.
 
-This driver is meant to only support the server version of the crashlog
-which is identified as crash_type 1 with a version of zero. Currently no
-other types are supported.
+2020 Alienware laptop:
+$ sudo dmidecode | head -3
+# dmidecode 3.2
+Getting SMBIOS data from sysfs.
+SMBIOS 3.2.0 present.
+$ sudo dmidecode | grep -A 29 "OEM Strings"
+OEM Strings
+	String 1: Alienware
+	String 2: 1[099B]
+	String 3: 3[1.0]
+	String 4: 4[0001]
+	String 5: 5[0000]
+	String 6: 6[D0, D4, D8, DA, DE]
+	String 7: 7[]
+	String 8: 8[]
+	String 9: 9[]
+	String 10: 10[1.3.0]
+	String 11: 11[]
+	String 12: 12[]
+	String 13: 13[P38E002]
+	String 14: 14[0]
+	String 15: 15[0]
+	String 16: 16[0]
+	String 17: 17[0000000000000000]
+	String 18: 18[0]
+	String 19: 19[1]
+	String 20: 20[]
+	String 21: 21[]
+	String 22: <BAD INDEX>
+	String 23: <BAD INDEX>
+	String 24: <BAD INDEX>
+	String 25: <BAD INDEX>
+	String 26: <BAD INDEX>
+	String 27: <BAD INDEX>
+	String 28: <BAD INDEX>
 
-Signed-off-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+2013 Alienware laptop:
+OEM Strings
+        String 1: Dell System
+        String 2: 1[05AA]
+        String 3: 14[2]
+        String 4: 15[0]
+        String 5: String5 for Original Equipment Manufacturer
+
+Don't know when the OEM String changed.
+Change tested in the 2020 laptop, loads dell_smbios without further
+issues.
+
+Thanks,
+        Gerardo
+
+Signed-off-by: Gerardo E. Malazdrewicz <gerardo@malazdrewicz.com.ar>
 ---
- .../ABI/testing/sysfs-class-intel_pmt         |  65 ++++
- drivers/platform/x86/Kconfig                  |  11 +
- drivers/platform/x86/Makefile                 |   1 +
- drivers/platform/x86/intel_pmt_crashlog.c     | 328 ++++++++++++++++++
- 4 files changed, 405 insertions(+)
- create mode 100644 drivers/platform/x86/intel_pmt_crashlog.c
+ drivers/platform/x86/dell-smbios-base.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-intel_pmt b/Documentation/ABI/testing/sysfs-class-intel_pmt
-index 926b5cf95fd1..ed4c886a21b1 100644
---- a/Documentation/ABI/testing/sysfs-class-intel_pmt
-+++ b/Documentation/ABI/testing/sysfs-class-intel_pmt
-@@ -52,3 +52,68 @@ Contact:	David Box <david.e.box@linux.intel.com>
- Description:
- 		(RO) The offset of telemetry region in bytes that corresponds to
- 		the mapping for the telem file.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		The crashlog<x> directory contains files for configuring an
-+		instance of a PMT crashlog device that can perform crash data
-+		recording. Each crashlog<x> device has an associated crashlog
-+		file. This file can be opened and mapped or read to access the
-+		resulting crashlog buffer. The register layout for the buffer
-+		can be determined from an XML file of specified GUID for the
-+		parent device.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/crashlog
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	David Box <david.e.box@linux.intel.com>
-+Description:
-+		(RO) The crashlog buffer for this crashlog device. This file
-+		may be mapped or read to obtain the data.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/guid
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		(RO) The GUID for this crashlog device. The GUID identifies the
-+		version of the XML file for the parent device that should be
-+		used to determine the register layout.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/size
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		(RO) The length of the result buffer in bytes that corresponds
-+		to the size for the crashlog buffer.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/offset
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		(RO) The offset of the buffer in bytes that corresponds
-+		to the mapping for the crashlog device.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/enable
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		(RW) Boolean value controlling if the crashlog functionality
-+		is enabled for the crashlog device.
-+
-+What:		/sys/class/intel_pmt/crashlog<x>/trigger
-+Date:		October 2020
-+KernelVersion:	5.10
-+Contact:	Alexander Duyck <alexander.h.duyck@linux.intel.com>
-+Description:
-+		(RW) Boolean value controlling the triggering of the crashlog
-+		device node. When read it provides data on if the crashlog has
-+		been triggered. When written to it can be used to either clear
-+		the current trigger by writing false, or to trigger a new
-+		event if the trigger is not currently set.
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 90b4c1bd9532..4ac555a9916b 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1383,6 +1383,17 @@ config INTEL_PMT_TELEMETRY
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called intel_pmt_telemetry.
+diff --git a/drivers/platform/x86/dell-smbios-base.c
+b/drivers/platform/x86/dell-smbios-base.c
+index 2e2cd565926aa..5ad6f7c105cf3 100644
+--- a/drivers/platform/x86/dell-smbios-base.c
++++ b/drivers/platform/x86/dell-smbios-base.c
+@@ -564,7 +564,8 @@ static int __init dell_smbios_init(void)
+ 	int ret, wmi, smm;
  
-+config INTEL_PMT_CRASHLOG
-+	tristate "Intel Platform Monitoring Technology (PMT) Crashlog driver"
-+	select INTEL_PMT_CLASS
-+	help
-+	  The Intel Platform Monitoring Technology (PMT) crashlog driver provides
-+	  access to hardware crashlog capabilities on devices that support the
-+	  feature.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called intel_pmt_crashlog.
-+
- config INTEL_PUNIT_IPC
- 	tristate "Intel P-Unit IPC Driver"
- 	help
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 6a7b61f59ea8..ca82c1344977 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -142,6 +142,7 @@ obj-$(CONFIG_INTEL_MRFLD_PWRBTN)	+= intel_mrfld_pwrbtn.o
- obj-$(CONFIG_INTEL_PMC_CORE)		+= intel_pmc_core.o intel_pmc_core_pltdrv.o
- obj-$(CONFIG_INTEL_PMT_CLASS)		+= intel_pmt_class.o
- obj-$(CONFIG_INTEL_PMT_TELEMETRY)	+= intel_pmt_telemetry.o
-+obj-$(CONFIG_INTEL_PMT_CRASHLOG)	+= intel_pmt_crashlog.o
- obj-$(CONFIG_INTEL_PUNIT_IPC)		+= intel_punit_ipc.o
- obj-$(CONFIG_INTEL_SCU_IPC)		+= intel_scu_ipc.o
- obj-$(CONFIG_INTEL_SCU_PCI)		+= intel_scu_pcidrv.o
-diff --git a/drivers/platform/x86/intel_pmt_crashlog.c b/drivers/platform/x86/intel_pmt_crashlog.c
-new file mode 100644
-index 000000000000..97dd749c8290
---- /dev/null
-+++ b/drivers/platform/x86/intel_pmt_crashlog.c
-@@ -0,0 +1,328 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Intel Platform Monitoring Technology Crashlog driver
-+ *
-+ * Copyright (c) 2020, Intel Corporation.
-+ * All Rights Reserved.
-+ *
-+ * Author: "Alexander Duyck" <alexander.h.duyck@linux.intel.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+#include <linux/slab.h>
-+#include <linux/uaccess.h>
-+#include <linux/overflow.h>
-+
-+#include "intel_pmt_class.h"
-+
-+#define DRV_NAME		"pmt_crashlog"
-+
-+/* Crashlog discovery header types */
-+#define CRASH_TYPE_OOBMSM	1
-+
-+/* Control Flags */
-+#define CRASHLOG_FLAG_DISABLE		BIT(27)
-+
-+/*
-+ * Bits 28 and 29 control the state of bit 31.
-+ *
-+ * Bit 28 will clear bit 31, if set, allowing a new crashlog to be captured.
-+ * Bit 29 will immediately trigger a crashlog to be generated, setting bit 31.
-+ * Bit 30 is read-only and reserved as 0.
-+ * Bit 31 is the read-only status with a 1 indicating log is complete.
-+ */
-+#define CRASHLOG_FLAG_TRIGGER_CLEAR	BIT(28)
-+#define CRASHLOG_FLAG_TRIGGER_EXECUTE	BIT(29)
-+#define CRASHLOG_FLAG_TRIGGER_COMPLETE	BIT(31)
-+#define CRASHLOG_FLAG_TRIGGER_MASK	GENMASK(31, 28)
-+
-+/* Crashlog Discovery Header */
-+#define CONTROL_OFFSET		0x0
-+#define GUID_OFFSET		0x4
-+#define BASE_OFFSET		0x8
-+#define SIZE_OFFSET		0xC
-+#define GET_ACCESS(v)		((v) & GENMASK(3, 0))
-+#define GET_TYPE(v)		(((v) & GENMASK(7, 4)) >> 4)
-+#define GET_VERSION(v)		(((v) & GENMASK(19, 16)) >> 16)
-+/* size is in bytes */
-+#define GET_SIZE(v)		((v) * sizeof(u32))
-+
-+struct crashlog_entry {
-+	/* entry must be first member of struct */
-+	struct intel_pmt_entry		entry;
-+	struct mutex			control_mutex;
-+};
-+
-+struct pmt_crashlog_priv {
-+	int			num_entries;
-+	struct crashlog_entry	entry[];
-+};
-+
-+/*
-+ * I/O
-+ */
-+static bool pmt_crashlog_complete(struct intel_pmt_entry *entry)
-+{
-+	u32 control = readl(entry->disc_table + CONTROL_OFFSET);
-+
-+	/* return current value of the crashlog complete flag */
-+	return !!(control & CRASHLOG_FLAG_TRIGGER_COMPLETE);
-+}
-+
-+static bool pmt_crashlog_disabled(struct intel_pmt_entry *entry)
-+{
-+	u32 control = readl(entry->disc_table + CONTROL_OFFSET);
-+
-+	/* return current value of the crashlog disabled flag */
-+	return !!(control & CRASHLOG_FLAG_DISABLE);
-+}
-+
-+static bool pmt_crashlog_supported(struct intel_pmt_entry *entry)
-+{
-+	u32 discovery_header = readl(entry->disc_table + CONTROL_OFFSET);
-+	u32 crash_type, version;
-+
-+	crash_type = GET_TYPE(discovery_header);
-+	version = GET_VERSION(discovery_header);
-+
-+	/*
-+	 * Currently we only recognize OOBMSM version 0 devices.
-+	 * We can ignore all other crashlog devices in the system.
-+	 */
-+	return crash_type == CRASH_TYPE_OOBMSM && version == 0;
-+}
-+
-+static void pmt_crashlog_set_disable(struct intel_pmt_entry *entry,
-+				     bool disable)
-+{
-+	u32 control = readl(entry->disc_table + CONTROL_OFFSET);
-+
-+	/* clear trigger bits so we are only modifying disable flag */
-+	control &= ~CRASHLOG_FLAG_TRIGGER_MASK;
-+
-+	if (disable)
-+		control |= CRASHLOG_FLAG_DISABLE;
-+	else
-+		control &= ~CRASHLOG_FLAG_DISABLE;
-+
-+	writel(control, entry->disc_table + CONTROL_OFFSET);
-+}
-+
-+static void pmt_crashlog_set_clear(struct intel_pmt_entry *entry)
-+{
-+	u32 control = readl(entry->disc_table + CONTROL_OFFSET);
-+
-+	control &= ~CRASHLOG_FLAG_TRIGGER_MASK;
-+	control |= CRASHLOG_FLAG_TRIGGER_CLEAR;
-+
-+	writel(control, entry->disc_table + CONTROL_OFFSET);
-+}
-+
-+static void pmt_crashlog_set_execute(struct intel_pmt_entry *entry)
-+{
-+	u32 control = readl(entry->disc_table + CONTROL_OFFSET);
-+
-+	control &= ~CRASHLOG_FLAG_TRIGGER_MASK;
-+	control |= CRASHLOG_FLAG_TRIGGER_EXECUTE;
-+
-+	writel(control, entry->disc_table + CONTROL_OFFSET);
-+}
-+
-+/*
-+ * sysfs
-+ */
-+static ssize_t
-+enable_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct intel_pmt_entry *entry = dev_get_drvdata(dev);
-+	int enabled = !pmt_crashlog_disabled(entry);
-+
-+	return sprintf(buf, "%d\n", enabled);
-+}
-+
-+static ssize_t
-+enable_store(struct device *dev, struct device_attribute *attr,
-+	    const char *buf, size_t count)
-+{
-+	struct crashlog_entry *entry;
-+	bool enabled;
-+	int result;
-+
-+	entry = dev_get_drvdata(dev);
-+
-+	result = kstrtobool(buf, &enabled);
-+	if (result)
-+		return result;
-+
-+	mutex_lock(&entry->control_mutex);
-+	pmt_crashlog_set_disable(&entry->entry, !enabled);
-+	mutex_unlock(&entry->control_mutex);
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RW(enable);
-+
-+static ssize_t
-+trigger_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct intel_pmt_entry *entry;
-+	int trigger;
-+
-+	entry = dev_get_drvdata(dev);
-+	trigger = pmt_crashlog_complete(entry);
-+
-+	return sprintf(buf, "%d\n", trigger);
-+}
-+
-+static ssize_t
-+trigger_store(struct device *dev, struct device_attribute *attr,
-+	    const char *buf, size_t count)
-+{
-+	struct crashlog_entry *entry;
-+	bool trigger;
-+	int result;
-+
-+	entry = dev_get_drvdata(dev);
-+
-+	result = kstrtobool(buf, &trigger);
-+	if (result)
-+		return result;
-+
-+	mutex_lock(&entry->control_mutex);
-+
-+	if (!trigger) {
-+		pmt_crashlog_set_clear(&entry->entry);
-+	} else if (pmt_crashlog_complete(&entry->entry)) {
-+		/* we cannot trigger a new crash if one is still pending */
-+		result = -EEXIST;
-+		goto err;
-+	} else if (pmt_crashlog_disabled(&entry->entry)) {
-+		/* if device is currently disabled, return busy */
-+		result = -EBUSY;
-+		goto err;
-+	} else {
-+		pmt_crashlog_set_execute(&entry->entry);
-+	}
-+
-+	result = count;
-+err:
-+	mutex_unlock(&entry->control_mutex);
-+	return result;
-+}
-+static DEVICE_ATTR_RW(trigger);
-+
-+static struct attribute *pmt_crashlog_attrs[] = {
-+	&dev_attr_enable.attr,
-+	&dev_attr_trigger.attr,
-+	NULL
-+};
-+
-+static struct attribute_group pmt_crashlog_group = {
-+	.attrs	= pmt_crashlog_attrs,
-+};
-+
-+static int pmt_crashlog_header_decode(struct intel_pmt_entry *entry,
-+				      struct intel_pmt_header *header,
-+				      struct device *dev)
-+{
-+	void __iomem *disc_table = entry->disc_table;
-+	struct crashlog_entry *crashlog;
-+
-+	if (!pmt_crashlog_supported(entry))
-+		return 1;
-+
-+	/* initialize control mutex */
-+	crashlog = container_of(entry, struct crashlog_entry, entry);
-+	mutex_init(&crashlog->control_mutex);
-+
-+	header->access_type = GET_ACCESS(readl(disc_table));
-+	header->guid = readl(disc_table + GUID_OFFSET);
-+	header->base_offset = readl(disc_table + BASE_OFFSET);
-+
-+	/* Size is measured in DWORDS, but accessor returns bytes */
-+	header->size = GET_SIZE(readl(disc_table + SIZE_OFFSET));
-+
-+	return 0;
-+}
-+
-+static DEFINE_XARRAY_ALLOC(crashlog_array);
-+static struct intel_pmt_namespace pmt_crashlog_ns = {
-+	.name = "crashlog",
-+	.xa = &crashlog_array,
-+	.attr_grp = &pmt_crashlog_group,
-+	.pmt_header_decode = pmt_crashlog_header_decode,
-+};
-+
-+/*
-+ * initialization
-+ */
-+static int pmt_crashlog_remove(struct platform_device *pdev)
-+{
-+	struct pmt_crashlog_priv *priv = platform_get_drvdata(pdev);
-+	int i;
-+
-+	for (i = 0; i < priv->num_entries; i++)
-+		intel_pmt_dev_destroy(&priv->entry[i].entry, &pmt_crashlog_ns);
-+
-+	return 0;
-+}
-+
-+static int pmt_crashlog_probe(struct platform_device *pdev)
-+{
-+	struct pmt_crashlog_priv *priv;
-+	size_t size;
-+	int i, ret;
-+
-+	size = struct_size(priv, entry, pdev->num_resources);
-+	priv = devm_kzalloc(&pdev->dev, size, GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	for (i = 0; i < pdev->num_resources; i++) {
-+		struct intel_pmt_entry *entry = &priv->entry[i].entry;
-+
-+		ret = intel_pmt_dev_create(entry, &pmt_crashlog_ns, pdev, i);
-+		if (ret < 0)
-+			goto abort_probe;
-+		if (ret)
-+			continue;
-+
-+		priv->num_entries++;
-+	}
-+
-+	return 0;
-+abort_probe:
-+	pmt_crashlog_remove(pdev);
-+	return ret;
-+}
-+
-+static struct platform_driver pmt_crashlog_driver = {
-+	.driver = {
-+		.name   = DRV_NAME,
-+	},
-+	.remove = pmt_crashlog_remove,
-+	.probe  = pmt_crashlog_probe,
-+};
-+
-+static int __init pmt_crashlog_init(void)
-+{
-+	return platform_driver_register(&pmt_crashlog_driver);
-+}
-+
-+static void __exit pmt_crashlog_exit(void)
-+{
-+	platform_driver_unregister(&pmt_crashlog_driver);
-+	xa_destroy(&crashlog_array);
-+}
-+
-+module_init(pmt_crashlog_init);
-+module_exit(pmt_crashlog_exit);
-+
-+MODULE_AUTHOR("Alexander Duyck <alexander.h.duyck@linux.intel.com>");
-+MODULE_DESCRIPTION("Intel PMT Crashlog driver");
-+MODULE_ALIAS("platform:" DRV_NAME);
-+MODULE_LICENSE("GPL v2");
--- 
-2.20.1
+ 	if (!dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Dell System",
+NULL) &&
+-	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "www.dell.com",
+NULL)) {
++	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "www.dell.com",
+NULL) &&
++	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Alienware",
+NULL)) {
+ 		pr_err("Unable to run on non-Dell system\n");
+ 		return -ENODEV;
+ 	}
+
 
