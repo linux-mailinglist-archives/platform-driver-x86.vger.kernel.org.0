@@ -2,97 +2,155 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA730284229
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Oct 2020 23:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E372B28443D
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  6 Oct 2020 05:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbgJEVgs (ORCPT
+        id S1726745AbgJFDXn (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 5 Oct 2020 17:36:48 -0400
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:23796 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725616AbgJEVgs (ORCPT
+        Mon, 5 Oct 2020 23:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725917AbgJFDXm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 5 Oct 2020 17:36:48 -0400
-Received: from pps.filterd (m0148664.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 095La5Wk026355;
-        Mon, 5 Oct 2020 21:36:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pps0720;
- bh=wefYufi/SyhpH8c7CRLVlRheotu72P1NKL0A3Cqfe7U=;
- b=hTExfM30NxzMA59OdPc98Sh1hHw7IRlpoqp1KndtUp1bzChAmlZRpKYPuII+uoVnIFii
- 2yJBXk4w3DxRkvTuM/F5Sd+YfJdEkHpWzEa4U2pUcw0oC1RsgjHhrlfTvl10Z5dIHXmd
- EqKbOwAM6gYtL7Yxgmah9IKE6/lnhH2KD2QzkM+i54R+9EBCfVQ0acdXI7aCDZ3PiIQ1
- 5wGP1YA4/hKVCc0+UwjTJ2ZU5L0g25NQIZ7MWShEtG29SpwnSC/orZKkLrhwdoMg7R1r
- YLR3RQEg1zex4eDsq36/HZGCQ7mjqK4rgws3ACdjXStWTpYpM3Fkag28COJ6rkXer0hM xQ== 
-Received: from g2t2352.austin.hpe.com (g2t2352.austin.hpe.com [15.233.44.25])
-        by mx0b-002e3701.pphosted.com with ESMTP id 33xgdvknh3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 05 Oct 2020 21:36:05 +0000
-Received: from g2t2360.austin.hpecorp.net (g2t2360.austin.hpecorp.net [16.196.225.135])
-        by g2t2352.austin.hpe.com (Postfix) with ESMTP id DC40785;
-        Mon,  5 Oct 2020 21:36:01 +0000 (UTC)
-Received: from [16.99.129.98] (unknown [16.99.129.98])
-        by g2t2360.austin.hpecorp.net (Postfix) with ESMTP id 3DCFE54;
-        Mon,  5 Oct 2020 21:35:59 +0000 (UTC)
-Subject: Re: [PATCH v4 06/13] x86/platform/uv: Add and Decode Arch Type in
- UVsystab
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel test robot <lkp@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Jian Cai <caij2003@gmail.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20201005203929.148656-1-mike.travis@hpe.com>
- <20201005203929.148656-7-mike.travis@hpe.com>
- <20201005212135.GL21151@zn.tnic>
-From:   Mike Travis <mike.travis@hpe.com>
-Message-ID: <d2c7d3d8-3863-f15f-7ec6-ae41cf8b2657@hpe.com>
-Date:   Mon, 5 Oct 2020 14:35:58 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        Mon, 5 Oct 2020 23:23:42 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DC83C0613CE
+        for <platform-driver-x86@vger.kernel.org>; Mon,  5 Oct 2020 20:23:42 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id q5so15238834qkc.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 05 Oct 2020 20:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=malazdrewicz-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=8QCmXwOvjemDGHCfQZaqz3cB0sH/J/ZTlqW6A0CfrL8=;
+        b=qij56yQJzZ8aYKE3xEKd+vqb2RCSibf+BOCHR4ur9Wy8XmH7xTEHMRB/mIKcmIw8bz
+         u5uwULbrjgR6/8ZyVrx4fB2KcqEYMjCiRSfw9dd+OJBfBecph7N5I8olaZuLzmraejnj
+         ZBm5NUe6Hk/pRvbVToObpeAmQlONPaR2aXXQKQqKsAyUs/zLW3leazww9IWpjRwTOxgB
+         0e5G5K1N/ZJoe0TBgGFJscOZpW2hue/SBRW5Shs7enXNvFHfG+LFfazG6o8IyPgKo6l2
+         0Q5XLyNKdrvyEbZLdkv27ElFZhIFNE9cnXHjRVlxzlvsDWNDkA7XhZC70MSr4I/yqTjE
+         lNoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=8QCmXwOvjemDGHCfQZaqz3cB0sH/J/ZTlqW6A0CfrL8=;
+        b=T2XFpZEETVA0dMgkjAv8Gg5oRUwi/S7rDwa6NcXvxGHJ3WQ1snM/5eHeQAh8fV3x/7
+         JRopJcil6eDR0p/m18pSS0Yu3Xz4xJ5jcV9f9m9vVB4pGCT973K2L7qJB8ekDNvzJqcJ
+         B+43zMLAjGtGOvhXS4/5oRHHRuOXBAq5C+Yt4NVGVl+90YqF4oG+/Ps37Y2ySpNq8Jxh
+         Homvls/mrF2DCz4bJd3QraBc4aif0up5XYA/WJu5lP6FXXefkqmw/jaXNJxC4BkGrpLP
+         TRBtQtfEag5DjgqzZi3M18P1BYoD63NOon8IXzim5p/KxKypJH09gh21Fm19zEkRaQKo
+         d0cg==
+X-Gm-Message-State: AOAM5335C2a6QaaHEWj9Qe+J2bHhEYzMwl4g9HI9DdN9183ZJJ2X1xNY
+        zVzMWBj82H2mhfizDBkgpsYGxKv6LyGrfF+PF2rmQQ==
+X-Google-Smtp-Source: ABdhPJy48gT49IfgxErJU9FaFGEiYsEZ4VoDuLtlQcn3/yA0XsckzZzlWuo0BCZHDgzy0He6M6ywpg==
+X-Received: by 2002:a37:bf04:: with SMTP id p4mr3116664qkf.345.1601954620983;
+        Mon, 05 Oct 2020 20:23:40 -0700 (PDT)
+Received: from area-51m-r2 ([24.224.201.0])
+        by smtp.gmail.com with ESMTPSA id r21sm1346108qtj.80.2020.10.05.20.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2020 20:23:40 -0700 (PDT)
+Message-ID: <b415a7bf2e98e734cc78579159e5c88fd5cd30df.camel@malazdrewicz.com.ar>
+Subject: [ PATCH v2 1/1] dell smbios driver : Consider Alienware a valid OEM
+ String
+From:   Gerardo Esteban Malazdrewicz <gerardo@malazdrewicz.com.ar>
+To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pali =?ISO-8859-1?Q?Roh=E1r?= <pali@kernel.org>
+Cc:     "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Date:   Tue, 06 Oct 2020 00:23:39 -0300
+In-Reply-To: <DM6PR19MB26362F0581FA78C7E777BF56FA0C0@DM6PR19MB2636.namprd19.prod.outlook.com>
+References: <d17b7266b3bcc433477cf4f3b89e0b5cbf0126cb.camel@malazdrewicz.com.ar>
+         <de108a8c-672f-4136-dc80-9ad7f14cea32@redhat.com>
+         <DM6PR19MB26362F0581FA78C7E777BF56FA0C0@DM6PR19MB2636.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-2 
 MIME-Version: 1.0
-In-Reply-To: <20201005212135.GL21151@zn.tnic>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-05_16:2020-10-05,2020-10-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 mlxlogscore=582 impostorscore=0 spamscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2010050153
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+From bda6b6db0d76186ff37ffce8ac836379447ef2bc Mon Sep 17 00:00:00 2001
+From: Gerardo Malazdrewicz <36243997+GerMalaz@users.noreply.github.com>
+Date: Sat, 3 Oct 2020 07:43:02 -0300
+Subject: [PATCH] dell-smbios-base: Consider Alienware a Dell system
+
+Alienware has been a subsidiary of Dell since 2006.
+
+2020 Alienware laptop:
+$ sudo dmidecode | head -3
+# dmidecode 3.2
+Getting SMBIOS data from sysfs.
+SMBIOS 3.2.0 present.
+$ sudo dmidecode | grep -A 29 "OEM Strings"
+OEM Strings
+	String 1: Alienware
+	String 2: 1[099B]
+	String 3: 3[1.0]
+	String 4: 4[0001]
+	String 5: 5[0000]
+	String 6: 6[D0, D4, D8, DA, DE]
+	String 7: 7[]
+	String 8: 8[]
+	String 9: 9[]
+	String 10: 10[1.3.0]
+	String 11: 11[]
+	String 12: 12[]
+	String 13: 13[P38E002]
+	String 14: 14[0]
+	String 15: 15[0]
+	String 16: 16[0]
+	String 17: 17[0000000000000000]
+	String 18: 18[0]
+	String 19: 19[1]
+	String 20: 20[]
+	String 21: 21[]
+	String 22: <BAD INDEX>
+	String 23: <BAD INDEX>
+	String 24: <BAD INDEX>
+	String 25: <BAD INDEX>
+	String 26: <BAD INDEX>
+	String 27: <BAD INDEX>
+	String 28: <BAD INDEX>
+
+2013 Alienware laptop:
+OEM Strings
+        String 1: Dell System
+        String 2: 1[05AA]
+        String 3: 14[2]
+        String 4: 15[0]
+        String 5: String5 for Original Equipment Manufacturer
+
+Don't know when the OEM String changed.
+Change tested in the 2020 laptop, loads dell_smbios without further
+issues.
+
+Signed-off-by: Gerardo E. Malazdrewicz <gerardo@malazdrewicz.com.ar> 
+Reviewed-by: Mario Limonciello <mario.limonciello@dell.com>
+---
+ drivers/platform/x86/dell-smbios-base.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/dell-smbios-base.c
+b/drivers/platform/x86/dell-smbios-base.c
+index 2e2cd565926aa..5ad6f7c105cf3 100644
+--- a/drivers/platform/x86/dell-smbios-base.c
++++ b/drivers/platform/x86/dell-smbios-base.c
+@@ -564,7 +564,8 @@ static int __init dell_smbios_init(void)
+ 	int ret, wmi, smm;
+ 
+ 	if (!dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Dell System",
+NULL) &&
+-	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "www.dell.com",
+NULL)) {
++	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "www.dell.com",
+NULL) &&
++	    !dmi_find_device(DMI_DEV_TYPE_OEM_STRING, "Alienware",
+NULL)) {
+ 		pr_err("Unable to run on non-Dell system\n");
+ 		return -ENODEV;
+ 	}
 
 
-On 10/5/2020 2:21 PM, Borislav Petkov wrote:
-> On Mon, Oct 05, 2020 at 03:39:22PM -0500, Mike Travis wrote:
->> A patch to add and process the UV Arch Type field in the UVsystab passed
->> from UV BIOS to the kernel.
-> 
-> What does that mean?
-> 
 
-There have been recent cases where OEM's want to use the OEM_ID in the 
-ACPI tables to brand their own product.  The UV BIOS used that field to 
-tell the Linux kernel which UV arch the running system is.  The Arch 
-Type in the UVsystab (also created by UV BIOS) now carries that field in 
-systems that support it.
