@@ -2,88 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7413828575A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Oct 2020 05:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB882858C5
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Oct 2020 08:46:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbgJGDvI (ORCPT
+        id S1726009AbgJGGq5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 6 Oct 2020 23:51:08 -0400
-Received: from mga12.intel.com ([192.55.52.136]:16759 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727414AbgJGDvI (ORCPT
+        Wed, 7 Oct 2020 02:46:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbgJGGq5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 6 Oct 2020 23:51:08 -0400
-IronPort-SDR: hLDdevcupMGy/C/0O8Qj0bDegLJje1+4joFL2IGNZCGCWzQhtbk1gf+3c2FMArBLFsYl/cjsoU
- Iz0vXhukutkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9766"; a="144198376"
-X-IronPort-AV: E=Sophos;i="5.77,345,1596524400"; 
-   d="scan'208";a="144198376"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2020 20:51:07 -0700
-IronPort-SDR: l2uAfcutjDDbGY28m4TqpCMlfmGozbKXviKZaz5HJoKZA0zDbINbQlkdvuwztDc677Wd7BsDea
- AmKHTH0ijbUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,345,1596524400"; 
-   d="scan'208";a="354717408"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga007.jf.intel.com with ESMTP; 06 Oct 2020 20:51:07 -0700
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id E9C7358087A;
-        Tue,  6 Oct 2020 20:51:06 -0700 (PDT)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     irenic.rajneesh@gmail.com, david.e.box@intel.com,
-        dvhart@infradead.org, andy@infradead.org, gayatri.kammela@intel.com
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Vishwanath Somayaji <vishwanath.somayaji@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
-        "David E . Box" <david.e.box@linux.intel.com>
-Subject: [PATCH 4/4] MAINTAINERS: Update maintainers for pmc_core driver
-Date:   Tue,  6 Oct 2020 20:51:08 -0700
-Message-Id: <20201007035108.31078-5-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201007035108.31078-1-david.e.box@linux.intel.com>
-References: <20201007035108.31078-1-david.e.box@linux.intel.com>
+        Wed, 7 Oct 2020 02:46:57 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47EE9C061755;
+        Tue,  6 Oct 2020 23:46:57 -0700 (PDT)
+Received: from zn.tnic (p4fed3407.dip0.t-ipconnect.de [79.237.52.7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 826AE1EC0212;
+        Wed,  7 Oct 2020 08:46:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1602053215;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Q3MT753Y/9T6S8HO3C+jWdr+lYhKeiRn2qSy7VpKpIQ=;
+        b=MfbUqRG4dUAs3yTl7QD/QyEiilxS+72zjLDGrms7Xzx6r1LkaI7b2eJvyqpw+BQhf46bzT
+        1Zc7+RCqWcB5O3MeUkHHavGCya3FMwIyBae/OlVjFtmMlldxt+ti84AKyEoPhZ3SHzo31K
+        OxmHVaHujCL3IusiA9pZlpS7ozCc3C4=
+Date:   Wed, 7 Oct 2020 08:44:37 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Mike Travis <mike.travis@hpe.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        Steve Wahl <steve.wahl@hpe.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Jian Cai <caij2003@gmail.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v4 02/13] x86/platform/uv: Remove SCIR MMR references for
+ UVY systems.
+Message-ID: <20201007064437.GA5607@zn.tnic>
+References: <20201005203929.148656-1-mike.travis@hpe.com>
+ <20201005203929.148656-3-mike.travis@hpe.com>
+ <20201006131602.GE27700@zn.tnic>
+ <eedfeab5-1bba-ad0c-4590-60fccf08aef2@hpe.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <eedfeab5-1bba-ad0c-4590-60fccf08aef2@hpe.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Gayatri Kammela <gayatri.kammela@intel.com>
+On Tue, Oct 06, 2020 at 06:11:04PM -0700, Mike Travis wrote:
+> I thought there was more references to the UVY class which currently has
+> only UV5 as a member.  There might be UV5 references where they should be
+> UVY.  The struct references use "uvy" as the selector so the grep should
+> look for upper and lower case.
 
-Update MAINTAINERS file for pmc_core driver to reflect the current
-maintainers.
+Try it for yourself on a tree *before* your patchset:
 
-Cc: Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-Cc: David E. Box <david.e.box@linux.intel.com>
-Acked-by: David E. Box <david.e.box@linux.intel.com>
-Acked-by: Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+$ git grep --ignore-case uvy
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 33b27e62ce19..cd9fcea0d507 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8925,8 +8925,8 @@ F:	arch/x86/include/asm/intel_punit_ipc.h
- F:	drivers/platform/x86/intel_punit_ipc.c
- 
- INTEL PMC CORE DRIVER
--M:	Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
--M:	Vishwanath Somayaji <vishwanath.somayaji@intel.com>
-+M:	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
-+M:	David E Box <david.e.box@intel.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/intel_pmc_core*
+> The UV5 system is still in the design stage so we are doing development
+> using simulators.  More UV5 support is expected to arrive as needed. (The
+> earlier class was UVX if interested.)
+
+So to answer the question myself as yours is not really answering it:
+this subject means "UV" not "UVY". UVY support is beginning to be added
+with this series here.
+
 -- 
-2.20.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
