@@ -2,158 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D8872854BE
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Oct 2020 00:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA30428559E
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  7 Oct 2020 02:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727712AbgJFWrT (ORCPT
+        id S1726851AbgJGAvV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 6 Oct 2020 18:47:19 -0400
-Received: from mga06.intel.com ([134.134.136.31]:58474 "EHLO mga06.intel.com"
+        Tue, 6 Oct 2020 20:51:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726566AbgJFWrS (ORCPT
+        id S1726779AbgJGAvV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 6 Oct 2020 18:47:18 -0400
-IronPort-SDR: wNCz154szjNVDKiQUQ9CIT7mDF7e7evG8TbdzgaaPK51Mh91wcEMj4IiKdUZYkMYAbfp+P3Kl8
- 5+tbb4M5m2Hg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9766"; a="226322927"
-X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; 
-   d="scan'208";a="226322927"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2020 15:47:17 -0700
-IronPort-SDR: 3sidEY//M1dtiOu8MwKCSJwQvIYBKzUQuw5FUioIVu1prv3BENgdxh4DCixZ3tMSOPtkMxlrpZ
- pIL2Ke30rKgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; 
-   d="scan'208";a="388105342"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga001.jf.intel.com with ESMTP; 06 Oct 2020 15:47:17 -0700
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id 39EF358087A;
-        Tue,  6 Oct 2020 15:47:17 -0700 (PDT)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     dvhart@infradead.org, andy@infradead.org, gayatri.kammela@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "David E . Box" <david.e.box@linux.intel.com>
-Subject: [PATCH 3/3] platform/x86: intel_pmc_core: Fix the slp_s0 counter displayed value
-Date:   Tue,  6 Oct 2020 15:47:02 -0700
-Message-Id: <20201006224702.12697-4-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201006224702.12697-1-david.e.box@linux.intel.com>
-References: <20201006224702.12697-1-david.e.box@linux.intel.com>
+        Tue, 6 Oct 2020 20:51:21 -0400
+Received: from localhost (170.sub-72-107-125.myvzw.com [72.107.125.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4E63C2078E;
+        Wed,  7 Oct 2020 00:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602031880;
+        bh=i8I4wCGU4c5vQJVMhh90gjLnO/BjDbzPHoYO2I3rz+Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=OUgBiL8D4O68b1nQY4R/mN4/qMpwpG01E9VVwcBt+QZYPpTtu87bP7WC0XadViHzh
+         AbHBI9A6ss6lwF/OI/gvMdVdLMp4xYTZKGFJD011IKhRR9GkGn2WeGiXwm7FNPq43U
+         aMfDjensh0hWhIBx9VrRi1R9RnxFuj0Cy+GApKPA=
+Date:   Tue, 6 Oct 2020 19:51:18 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     lee.jones@linaro.org, dvhart@infradead.org, andy@infradead.org,
+        bhelgaas@google.com, hdegoede@redhat.com,
+        alexey.budankov@linux.intel.com,
+        Andy Shevchenko <andy.shevchenko@gmail.com>, rjw@rjwysocki.net,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH V8 1/5] PCI: Add defines for Designated Vendor-Specific
+ Extended Capability
+Message-ID: <20201007005118.GA3230211@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b75c3ff53dbe26ee0c6825e8d1f5f10489a5722c.camel@linux.intel.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Gayatri Kammela <gayatri.kammela@intel.com>
+On Tue, Oct 06, 2020 at 03:45:54PM -0700, David E. Box wrote:
+> Hi Bjorn,
+> 
+> This patch has been acked and unchanged for weeks. Is it possible to
+> get this pulled into next? We have SIOV and CXL related work that is
+> using these definitions. Thanks.
 
-slp_s0 counter value displayed via debugfs interface is calculated by
-multiplying the granularity for crystal oscillator tick as 100us with
-the value read from using slp_s0 offset. But the granularity of the tick
-varies from platform to platform and it needs to be fixed.
+I acked it because I expected you to merge it along with the rest of
+the series.
 
-Hence, specify granularity of the tick for each platform, so that the
-value of the slp_s0 counter is accurate.
+I guess I could merge this patch via the PCI tree if you really want,
+but that ends up being a hassle because we have to worry about which
+order things get merged to Linus' tree.  Better if the whole series is
+merged via the same tree.
 
-Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- drivers/platform/x86/intel_pmc_core.c | 10 +++++++---
- drivers/platform/x86/intel_pmc_core.h |  5 ++++-
- 2 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index cf4006e08c69..122eb53eb595 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -154,6 +154,7 @@ static const struct pmc_reg_map spt_reg_map = {
- 	.ltr_show_sts = spt_ltr_show_map,
- 	.msr_sts = msr_map,
- 	.slp_s0_offset = SPT_PMC_SLP_S0_RES_COUNTER_OFFSET,
-+	.slp_s0_res_counter_step = SPT_PMC_SLP_S0_RES_COUNTER_STEP,
- 	.ltr_ignore_offset = SPT_PMC_LTR_IGNORE_OFFSET,
- 	.regmap_length = SPT_PMC_MMIO_REG_LEN,
- 	.ppfear0_offset = SPT_PMC_XRAM_PPFEAR0A,
-@@ -380,6 +381,7 @@ static const struct pmc_bit_map cnp_ltr_show_map[] = {
- static const struct pmc_reg_map cnp_reg_map = {
- 	.pfear_sts = ext_cnp_pfear_map,
- 	.slp_s0_offset = CNP_PMC_SLP_S0_RES_COUNTER_OFFSET,
-+	.slp_s0_res_counter_step = SPT_PMC_SLP_S0_RES_COUNTER_STEP,
- 	.slps0_dbg_maps = cnp_slps0_dbg_maps,
- 	.ltr_show_sts = cnp_ltr_show_map,
- 	.msr_sts = msr_map,
-@@ -396,6 +398,7 @@ static const struct pmc_reg_map cnp_reg_map = {
- static const struct pmc_reg_map icl_reg_map = {
- 	.pfear_sts = ext_icl_pfear_map,
- 	.slp_s0_offset = CNP_PMC_SLP_S0_RES_COUNTER_OFFSET,
-+	.slp_s0_res_counter_step = ICL_PMC_SLP_S0_RES_COUNTER_STEP,
- 	.slps0_dbg_maps = cnp_slps0_dbg_maps,
- 	.ltr_show_sts = cnp_ltr_show_map,
- 	.msr_sts = msr_map,
-@@ -558,6 +561,7 @@ static const struct pmc_bit_map *tgl_lpm_maps[] = {
- static const struct pmc_reg_map tgl_reg_map = {
- 	.pfear_sts = ext_tgl_pfear_map,
- 	.slp_s0_offset = CNP_PMC_SLP_S0_RES_COUNTER_OFFSET,
-+	.slp_s0_res_counter_step = TGL_PMC_SLP_S0_RES_COUNTER_STEP,
- 	.ltr_show_sts = cnp_ltr_show_map,
- 	.msr_sts = msr_map,
- 	.ltr_ignore_offset = CNP_PMC_LTR_IGNORE_OFFSET,
-@@ -586,9 +590,9 @@ static inline void pmc_core_reg_write(struct pmc_dev *pmcdev, int reg_offset,
- 	writel(val, pmcdev->regbase + reg_offset);
- }
- 
--static inline u64 pmc_core_adjust_slp_s0_step(u32 value)
-+static inline u64 pmc_core_adjust_slp_s0_step(struct pmc_dev *pmcdev, u32 value)
- {
--	return (u64)value * SPT_PMC_SLP_S0_RES_COUNTER_STEP;
-+	return (u64)value * pmcdev->map->slp_s0_res_counter_step;
- }
- 
- static int pmc_core_dev_state_get(void *data, u64 *val)
-@@ -598,7 +602,7 @@ static int pmc_core_dev_state_get(void *data, u64 *val)
- 	u32 value;
- 
- 	value = pmc_core_reg_read(pmcdev, map->slp_s0_offset);
--	*val = pmc_core_adjust_slp_s0_step(value);
-+	*val = pmc_core_adjust_slp_s0_step(pmcdev, value);
- 
- 	return 0;
- }
-diff --git a/drivers/platform/x86/intel_pmc_core.h b/drivers/platform/x86/intel_pmc_core.h
-index 5eae55d80226..f33cd2c34835 100644
---- a/drivers/platform/x86/intel_pmc_core.h
-+++ b/drivers/platform/x86/intel_pmc_core.h
-@@ -30,7 +30,7 @@
- #define SPT_PMC_MPHY_CORE_STS_1			0x1142
- #define SPT_PMC_MPHY_COM_STS_0			0x1155
- #define SPT_PMC_MMIO_REG_LEN			0x1000
--#define SPT_PMC_SLP_S0_RES_COUNTER_STEP		0x64
-+#define SPT_PMC_SLP_S0_RES_COUNTER_STEP		0x68
- #define PMC_BASE_ADDR_MASK			~(SPT_PMC_MMIO_REG_LEN - 1)
- #define MTPMC_MASK				0xffff0000
- #define PPFEAR_MAX_NUM_ENTRIES			12
-@@ -185,8 +185,10 @@ enum ppfear_regs {
- #define ICL_PPFEAR_NUM_ENTRIES			9
- #define ICL_NUM_IP_IGN_ALLOWED			20
- #define ICL_PMC_LTR_WIGIG			0x1BFC
-+#define ICL_PMC_SLP_S0_RES_COUNTER_STEP		0x64
- 
- #define TGL_NUM_IP_IGN_ALLOWED			22
-+#define TGL_PMC_SLP_S0_RES_COUNTER_STEP		0x7A
- 
- /*
-  * Tigerlake Power Management Controller register offsets
-@@ -245,6 +247,7 @@ struct pmc_reg_map {
- 	const struct pmc_bit_map *msr_sts;
- 	const struct pmc_bit_map **lpm_sts;
- 	const u32 slp_s0_offset;
-+	const int slp_s0_res_counter_step;
- 	const u32 ltr_ignore_offset;
- 	const int regmap_length;
- 	const u32 ppfear0_offset;
--- 
-2.20.1
-
+> On Fri, 2020-10-02 at 18:31 -0700, David E. Box wrote:
+> > Add PCIe Designated Vendor-Specific Extended Capability (DVSEC) and
+> > defines
+> > for the header offsets. Defined in PCIe r5.0, sec 7.9.6.
+> > 
+> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > ---
+> >  include/uapi/linux/pci_regs.h | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/include/uapi/linux/pci_regs.h
+> > b/include/uapi/linux/pci_regs.h
+> > index f9701410d3b5..beafeee39e44 100644
+> > --- a/include/uapi/linux/pci_regs.h
+> > +++ b/include/uapi/linux/pci_regs.h
+> > @@ -720,6 +720,7 @@
+> >  #define PCI_EXT_CAP_ID_DPC	0x1D	/* Downstream Port
+> > Containment */
+> >  #define PCI_EXT_CAP_ID_L1SS	0x1E	/* L1 PM Substates */
+> >  #define PCI_EXT_CAP_ID_PTM	0x1F	/* Precision Time Measurement
+> > */
+> > +#define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific 
+> > */
+> >  #define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
+> >  #define PCI_EXT_CAP_ID_PL_16GT	0x26	/* Physical Layer
+> > 16.0 GT/s */
+> >  #define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PL_16GT
+> > @@ -1062,6 +1063,10 @@
+> >  #define  PCI_L1SS_CTL1_LTR_L12_TH_SCALE	0xe0000000  /*
+> > LTR_L1.2_THRESHOLD_Scale */
+> >  #define PCI_L1SS_CTL2		0x0c	/* Control 2 Register
+> > */
+> >  
+> > +/* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+> > +#define PCI_DVSEC_HEADER1		0x4 /* Designated Vendor-
+> > Specific Header1 */
+> > +#define PCI_DVSEC_HEADER2		0x8 /* Designated Vendor-
+> > Specific Header2 */
+> > +
+> >  /* Data Link Feature */
+> >  #define PCI_DLF_CAP		0x04	/* Capabilities Register */
+> >  #define  PCI_DLF_EXCHANGE_ENABLE	0x80000000  /* Data Link
+> > Feature Exchange Enable */
+> 
