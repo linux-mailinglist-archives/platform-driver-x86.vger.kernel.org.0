@@ -2,114 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA7B28C09D
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:05:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 083FF28C181
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391529AbgJLTFV (ORCPT
+        id S1728233AbgJLTcK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Oct 2020 15:05:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54370 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391358AbgJLTEZ (ORCPT
+        Mon, 12 Oct 2020 15:32:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:54563 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728031AbgJLTcK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:04:25 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C6A32222A;
-        Mon, 12 Oct 2020 19:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529460;
-        bh=al8to7U6I0P4qOAXSQzkEDMUQu67lNVAh5a1h+QqPKU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tAf8cwaStb1ooB+5EnR7g2NkH8QO7ZqtJ3/knYgiPIGMjSJEueGBuND0ITbEL7Xoz
-         4Jw3XE+BScm0dvJXbXprNWyeaoTsbzY8ngcplZ7DBANVu5Ht7G29pxF2q0QiZMLviB
-         Wko50CZlbXjLapilfayavi/u2qTQnfI9UTyyBnoI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        acpi4asus-user@lists.sourceforge.net,
+        Mon, 12 Oct 2020 15:32:10 -0400
+Received: from [192.168.1.155] ([77.2.5.48]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mk0a0-1k3g4z2OUK-00kKqy; Mon, 12 Oct 2020 21:31:57 +0200
+Subject: Re: [PATCH 1/2] x86: Remove led/gpio setup from pcengines platform
+ driver
+To:     Ed Wildgoose <lists@wildgooses.com>, linux-kernel@vger.kernel.org
+Cc:     fe@dev.tdt.de, "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 1/6] platform/x86: asus-nb-wmi: Revert "Do not load on Asus T100TA and T200TA"
-Date:   Mon, 12 Oct 2020 15:04:13 -0400
-Message-Id: <20201012190418.3279866-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
+References: <20200921215919.3072-1-lists@wildgooses.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <5f0efbd5-31ef-bf22-0f72-01db4118f144@metux.net>
+Date:   Mon, 12 Oct 2020 21:31:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20200921215919.3072-1-lists@wildgooses.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XD5sOD7k8Tr1Otb3wzR8NKWk+F+Elwzb/E9j9FE8dzyXtcYw+Ry
+ xWxROgoE9ToyK4yeM1ZeTOhDCS09g7141Hd/hoJUvrMcocT6kEWVQA9FDfaHB2EW2Ev7yg0
+ Ae1YvxyWRCtdv8vaPa4lIgtlnY6g9s2Z1n3GgZlAupvtpaO35631Ro21W+W8Dm3a7dBsBLa
+ ZTF/MolmbQ0Whq0E5cYGw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0raJtei4uco=:4OAclrQvY1+hgEyFiRgx65
+ 07rNEx1fuI2KobICcVk9hTSW2NVAkTeCP0+hjWf+JBS5sN3XeX0omZbvpm9/PjMhPhDKdeaiU
+ buCJUtfnQfPLEon+9lZBz+TfkVuVZR3claiQ4LYCm/Zi66X93US7hSTazBgdXuiZojSBFCgUi
+ 0xVzD05J1LLkm19uy+BsCc0MxXJs25nyiPQKkTSxRiijX+l6TmPc7NJGkXjsE5UwftbH31TEe
+ GkR0DjzfaYHBOB51Rx1duzK9FxmcbHW61EPr/BMEBIF3pW/uu9i8Gn9Ts5rIYMMOXiex6eO2U
+ jPDivwyPiAHiI45+sTxYLfC+KRMFFPqx7Od0u5bTLQAXBdGdB0U9ojE1Mup47BYLfCsQTdJ07
+ E8+SZ6jXL5z0FTKFSSUupxgd7wy5wK8u3gBLxPgzVAiQO7Nby4Xti7l0/eNGmVTP845QnLNha
+ fobN1NIn5Bd5VLRPqAD/2Ton9DS8IIwwDe9OeUdlO75vqHRYA7bm7L4xqhmNgAvCf9uk4OlT/
+ FQT9/ty9Jq8xsctE2656b5GO45WSLY0Z5MCMlfUjjc9hB+77aQ6vdlrK5+8SfEO+3VbN25GcB
+ LNai2PDFhvGbvdh/Y5Wor2uEh7rAnRb8RkIWoRU81FddeJvvxpisyo/TA2xXozgCtlhm4Vt9K
+ FqmPgyow8NkW5mn48/c3Hr7g8hvcC1RkVlRnh6jDdkh7SisDPcbD76sgCw8tQstDo8iQMbXsr
+ hBZwBSpL57qoqLaNCU+zXWsH2Sn+IDPbI9RQPVFgmMekb6ZlozCYuuTgQiw7yy+T1KW5u1Nhm
+ xUCCNFZXC1ypd+smwD6V5V/kqEhPt+b/XBa0IOL0e7yJjgIXFca484DaOlgi+mJUXnQDvjj
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+On 21.09.20 23:59, Ed Wildgoose wrote:
+> The pcengines bios/firmware includes ACPI tables (since 4.10.0.1) which
+> will cause the kernel to automatically create led + gpio_key devices for
+> the platform. This means that the platform setup now creates duplicates
+> of all these led/key devices.
 
-[ Upstream commit aab9e7896ec98b2a6b4eeeed71cc666776bb8def ]
+Absolutely not. This breaks a high number of machines in the field,
+where FW upgrade is not an option.
 
-The WMI INIT method on for some reason turns on the camera LED on these
-2-in-1s, without the WMI interface allowing further control over the LED.
+> Anyone with a much older bios can use the 'leds-apu' driver to get the
+> same set of led devices as created by the kernel with a modern bios.
 
-To fix this commit b5f7311d3a2e ("platform/x86: asus-nb-wmi: Do not load
-on Asus T100TA and T200TA") added a blacklist with these 2 models on it
-since the WMI driver did not add any extra functionality to these models.
+No, this ancient and obsolete driver does not support more recent boards
+and lacks lots of other important functionality, eg. keys, where
+userland relies on. Never break userland.
 
-Recently I've been working on making more 2-in-1 models report their
-tablet-mode (SW_TABLET_MODE) to userspace; and I've found that these 2
-Asus models report this through WMI. This commit reverts the adding
-of the blacklist, so that the Asus WMI driver can be used on these
-models to report their tablet-mode.
+--mtx
 
-Note, not calling INIT is also not an option, because then we will not
-receive events when the tablet-mode changes. So the LED issue will need
-to be fixed somewhere else entirely.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/asus-nb-wmi.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
-
-diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-index ee64c9512a3a9..cccf250cd1e33 100644
---- a/drivers/platform/x86/asus-nb-wmi.c
-+++ b/drivers/platform/x86/asus-nb-wmi.c
-@@ -551,33 +551,9 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
- 	.detect_quirks = asus_nb_wmi_quirks,
- };
- 
--static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst = {
--	{
--		/*
--		 * asus-nb-wm adds no functionality. The T100TA has a detachable
--		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
--		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
--		 */
--		.matches = {
--			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
--			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
--		},
--	},
--	{
--		/* The Asus T200TA has the same issue as the T100TA */
--		.matches = {
--			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
--			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
--		},
--	},
--	{} /* Terminating entry */
--};
- 
- static int __init asus_nb_wmi_init(void)
- {
--	if (dmi_check_system(asus_nb_wmi_blacklist))
--		return -ENODEV;
--
- 	return asus_wmi_register_driver(&asus_nb_wmi_driver);
- }
- 
 -- 
-2.25.1
-
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
