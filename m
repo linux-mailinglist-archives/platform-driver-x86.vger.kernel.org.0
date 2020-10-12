@@ -2,42 +2,40 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E0B28C0F8
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 497D128C0DE
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:08:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391168AbgJLTIG (ORCPT
+        id S2390979AbgJLTHP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Oct 2020 15:08:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52918 "EHLO mail.kernel.org"
+        Mon, 12 Oct 2020 15:07:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390520AbgJLTD0 (ORCPT
+        id S2390984AbgJLTDi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:03:26 -0400
+        Mon, 12 Oct 2020 15:03:38 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2500C21D7F;
-        Mon, 12 Oct 2020 19:03:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E31A32073A;
+        Mon, 12 Oct 2020 19:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529398;
-        bh=iTvTgCIoHdV77uoZ2jtGBMZh/lLvks6Ml0bJunUJMfQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Iys38gNykFSGyDzakMlCvs/BtrZ/2tsDBg/YFWde+5mf2cLXdphfn8q7+pj2Npq+Z
-         XqS+C+bCbmbl/gbN1waeZS5FexRhlBJzCFJvgbpvRkwF9R10KO3tTqeEo94xFlaPDO
-         PgacQMMxOl6u/EhivX8ioMur3wSpIILdO2NxpQ5I=
+        s=default; t=1602529417;
+        bh=CggKdpQ7Mm9QiySjyESA5OeVtmAbn5X+EMP0sCwgTC0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=u3sXk2Nrtcr7S/eFnZThcH4lkP39Wr11qg/3Zdz3QbWVWZ+Mfr1PG9k0VaObCGqFA
+         QiybwZ7ImDb27YL1uxYmz7DnNwk7Q3brpLXL4jZD1KI0ijEdYtbXdpx/l2pKa8o/Zp
+         48QIfwo769aNAYcLXAa/W304H/T0/vJ1LGE0TsuI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marius Iacob <themariusus@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 03/15] platform/x86: asus-wmi: Add BATC battery name to the list of supported
-Date:   Mon, 12 Oct 2020 15:03:00 -0400
-Message-Id: <20201012190313.3279397-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 01/12] platform/x86: asus-nb-wmi: Revert "Do not load on Asus T100TA and T200TA"
+Date:   Mon, 12 Oct 2020 15:03:24 -0400
+Message-Id: <20201012190335.3279538-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201012190313.3279397-1-sashal@kernel.org>
-References: <20201012190313.3279397-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,31 +44,71 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Marius Iacob <themariusus@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 1d2dd379bd99ee4356ae4552fd1b8e43c7ca02cd ]
+[ Upstream commit aab9e7896ec98b2a6b4eeeed71cc666776bb8def ]
 
-The Intel Atom Cherry Trail platform reports a new battery
-name (BATC). Tested on ASUS Transformer Mini T103HAF.
+The WMI INIT method on for some reason turns on the camera LED on these
+2-in-1s, without the WMI interface allowing further control over the LED.
 
-Signed-off-by: Marius Iacob <themariusus@gmail.com>
+To fix this commit b5f7311d3a2e ("platform/x86: asus-nb-wmi: Do not load
+on Asus T100TA and T200TA") added a blacklist with these 2 models on it
+since the WMI driver did not add any extra functionality to these models.
+
+Recently I've been working on making more 2-in-1 models report their
+tablet-mode (SW_TABLET_MODE) to userspace; and I've found that these 2
+Asus models report this through WMI. This commit reverts the adding
+of the blacklist, so that the Asus WMI driver can be used on these
+models to report their tablet-mode.
+
+Note, not calling INIT is also not an option, because then we will not
+receive events when the tablet-mode changes. So the LED issue will need
+to be fixed somewhere else entirely.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/asus-wmi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/platform/x86/asus-nb-wmi.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index ed83fb135bab3..457fb5de70ee5 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -425,6 +425,7 @@ static int asus_wmi_battery_add(struct power_supply *battery)
- 	 */
- 	if (strcmp(battery->desc->name, "BAT0") != 0 &&
- 	    strcmp(battery->desc->name, "BAT1") != 0 &&
-+	    strcmp(battery->desc->name, "BATC") != 0 &&
- 	    strcmp(battery->desc->name, "BATT") != 0)
- 		return -ENODEV;
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 8db2dc05b8cf2..59f3a37a44d7a 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -517,33 +517,9 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
+ 	.detect_quirks = asus_nb_wmi_quirks,
+ };
+ 
+-static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst = {
+-	{
+-		/*
+-		 * asus-nb-wm adds no functionality. The T100TA has a detachable
+-		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
+-		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
+-		 */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
+-		},
+-	},
+-	{
+-		/* The Asus T200TA has the same issue as the T100TA */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
+-		},
+-	},
+-	{} /* Terminating entry */
+-};
+ 
+ static int __init asus_nb_wmi_init(void)
+ {
+-	if (dmi_check_system(asus_nb_wmi_blacklist))
+-		return -ENODEV;
+-
+ 	return asus_wmi_register_driver(&asus_nb_wmi_driver);
+ }
  
 -- 
 2.25.1
