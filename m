@@ -2,42 +2,42 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3618C28C039
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40FCF28C0B5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:07:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730928AbgJLTCt (ORCPT
+        id S2390304AbgJLTDl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Oct 2020 15:02:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52100 "EHLO mail.kernel.org"
+        Mon, 12 Oct 2020 15:03:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52738 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730855AbgJLTCr (ORCPT
+        id S2390346AbgJLTDR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:02:47 -0400
+        Mon, 12 Oct 2020 15:03:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 195EC208B8;
-        Mon, 12 Oct 2020 19:02:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C14AC215A4;
+        Mon, 12 Oct 2020 19:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529367;
-        bh=QkXWm29UpJ9d+OpzSznNbEi0x37isxAZEbbDPaxmB58=;
+        s=default; t=1602529396;
+        bh=LQiIUeJDNar8joC8HfhosT9RYOQFWtpnoIpewKKilew=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N1xP70aK+0Fvsq9AlB7faCcsM9e0jxM/y+LTCIiU+SPydBPFSFhm7zDTlX+hTs69/
-         KacxXIsrSf6VB6WiqHus2hqg57YMm+Ga7kr32aQH7N3IQSbeBbyJaiPeLijhNPaAU0
-         yxAjvGxH+9PqmFxUat/LfdVXrIvn6fhw0bqK7XHo=
+        b=jiQJybJoWlMQMM3XDBM2R2xX1M5HYHIpuThRiBiQ9QMrWgXRrnTy2HXp5iFhwuh2/
+         cA2Pzs5Pi8OKzbznwWLSr6DsFnPeJ9BJ3Ebe+g8NKbfswWNHOq5lKqpU+Bwit8xZhd
+         IwUyE4GazHCbBwfx/Wek4srS/b+kggwcIomGfe0Y=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vadim Pasternak <vadimp@nvidia.com>,
-        Hans de Goede <hdegoede@redhat.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>,
+        acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 05/24] platform/x86: mlx-platform: Fix extended topology configuration for power supply units
-Date:   Mon, 12 Oct 2020 15:02:20 -0400
-Message-Id: <20201012190239.3279198-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 02/15] platform/x86: asus-nb-wmi: Revert "Do not load on Asus T100TA and T200TA"
+Date:   Mon, 12 Oct 2020 15:02:59 -0400
+Message-Id: <20201012190313.3279397-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201012190239.3279198-1-sashal@kernel.org>
-References: <20201012190239.3279198-1-sashal@kernel.org>
+In-Reply-To: <20201012190313.3279397-1-sashal@kernel.org>
+References: <20201012190313.3279397-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,71 +46,71 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Vadim Pasternak <vadimp@nvidia.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 2b06a1c889ca33d550675db4b0ca91e1b4dd9873 ]
+[ Upstream commit aab9e7896ec98b2a6b4eeeed71cc666776bb8def ]
 
-Fix topology configuration for power supply units in structure
-'mlxplat_mlxcpld_ext_pwr_items_data', due to hardware change.
+The WMI INIT method on for some reason turns on the camera LED on these
+2-in-1s, without the WMI interface allowing further control over the LED.
 
-Note: no need to backport the fix, since there is no such hardware yet
-(equipped with four power) at the filed.
+To fix this commit b5f7311d3a2e ("platform/x86: asus-nb-wmi: Do not load
+on Asus T100TA and T200TA") added a blacklist with these 2 models on it
+since the WMI driver did not add any extra functionality to these models.
 
-Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Recently I've been working on making more 2-in-1 models report their
+tablet-mode (SW_TABLET_MODE) to userspace; and I've found that these 2
+Asus models report this through WMI. This commit reverts the adding
+of the blacklist, so that the Asus WMI driver can be used on these
+models to report their tablet-mode.
+
+Note, not calling INIT is also not an option, because then we will not
+receive events when the tablet-mode changes. So the LED issue will need
+to be fixed somewhere else entirely.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/mlx-platform.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/platform/x86/asus-nb-wmi.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index c27548fd386ac..0443632faed9f 100644
---- a/drivers/platform/x86/mlx-platform.c
-+++ b/drivers/platform/x86/mlx-platform.c
-@@ -163,7 +163,6 @@
- #define MLXPLAT_CPLD_NR_NONE			-1
- #define MLXPLAT_CPLD_PSU_DEFAULT_NR		10
- #define MLXPLAT_CPLD_PSU_MSNXXXX_NR		4
--#define MLXPLAT_CPLD_PSU_MSNXXXX_NR2		3
- #define MLXPLAT_CPLD_FAN1_DEFAULT_NR		11
- #define MLXPLAT_CPLD_FAN2_DEFAULT_NR		12
- #define MLXPLAT_CPLD_FAN3_DEFAULT_NR		13
-@@ -337,6 +336,15 @@ static struct i2c_board_info mlxplat_mlxcpld_pwr[] = {
- 	},
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index 59b78a181723b..fef739effa283 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -596,33 +596,9 @@ static struct asus_wmi_driver asus_nb_wmi_driver = {
+ 	.detect_quirks = asus_nb_wmi_quirks,
  };
  
-+static struct i2c_board_info mlxplat_mlxcpld_ext_pwr[] = {
-+	{
-+		I2C_BOARD_INFO("dps460", 0x5b),
-+	},
-+	{
-+		I2C_BOARD_INFO("dps460", 0x5a),
-+	},
-+};
-+
- static struct i2c_board_info mlxplat_mlxcpld_fan[] = {
- 	{
- 		I2C_BOARD_INFO("24c32", 0x50),
-@@ -911,15 +919,15 @@ static struct mlxreg_core_data mlxplat_mlxcpld_ext_pwr_items_data[] = {
- 		.label = "pwr3",
- 		.reg = MLXPLAT_CPLD_LPC_REG_PWR_OFFSET,
- 		.mask = BIT(2),
--		.hpdev.brdinfo = &mlxplat_mlxcpld_pwr[0],
--		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR2,
-+		.hpdev.brdinfo = &mlxplat_mlxcpld_ext_pwr[0],
-+		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR,
- 	},
- 	{
- 		.label = "pwr4",
- 		.reg = MLXPLAT_CPLD_LPC_REG_PWR_OFFSET,
- 		.mask = BIT(3),
--		.hpdev.brdinfo = &mlxplat_mlxcpld_pwr[1],
--		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR2,
-+		.hpdev.brdinfo = &mlxplat_mlxcpld_ext_pwr[1],
-+		.hpdev.nr = MLXPLAT_CPLD_PSU_MSNXXXX_NR,
- 	},
- };
+-static const struct dmi_system_id asus_nb_wmi_blacklist[] __initconst = {
+-	{
+-		/*
+-		 * asus-nb-wm adds no functionality. The T100TA has a detachable
+-		 * USB kbd, so no hotkeys and it has no WMI rfkill; and loading
+-		 * asus-nb-wm causes the camera LED to turn and _stay_ on.
+-		 */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T100TA"),
+-		},
+-	},
+-	{
+-		/* The Asus T200TA has the same issue as the T100TA */
+-		.matches = {
+-			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T200TA"),
+-		},
+-	},
+-	{} /* Terminating entry */
+-};
+ 
+ static int __init asus_nb_wmi_init(void)
+ {
+-	if (dmi_check_system(asus_nb_wmi_blacklist))
+-		return -ENODEV;
+-
+ 	return asus_wmi_register_driver(&asus_nb_wmi_driver);
+ }
  
 -- 
 2.25.1
