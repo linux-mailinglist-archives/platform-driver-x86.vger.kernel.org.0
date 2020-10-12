@@ -2,68 +2,83 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACB8D28A7AB
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 11 Oct 2020 16:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D797D28BAED
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 16:34:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387946AbgJKOAx (ORCPT
+        id S1728269AbgJLOe7 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 11 Oct 2020 10:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38840 "EHLO
+        Mon, 12 Oct 2020 10:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387885AbgJKOAw (ORCPT
+        with ESMTP id S1726963AbgJLOe6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 11 Oct 2020 10:00:52 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9A7C0613CE
-        for <platform-driver-x86@vger.kernel.org>; Sun, 11 Oct 2020 07:00:52 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id p88so4709245qtd.12
-        for <platform-driver-x86@vger.kernel.org>; Sun, 11 Oct 2020 07:00:52 -0700 (PDT)
+        Mon, 12 Oct 2020 10:34:58 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09C7C0613D0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Oct 2020 07:34:58 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id q21so3226116pgi.13
+        for <platform-driver-x86@vger.kernel.org>; Mon, 12 Oct 2020 07:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
-        b=pFzZYtVzM2kHW1sPil+EkdvIgvIOfjDg0KT3m8506CbBJrwD5xYp+3AmscxCY0hy7y
-         ATt+zNxAMmZAPP03yonocFcnbrmEVAhbqBcm0lVuDexnHgHphvNIm8Xrp//CtU2pHmBT
-         eZ6mSmiMbCCpN+ChRPSDqRi4DhAvxw4nvkt/MzNIU9DTe6wVB1VPRc2PSdcwH5X8VEM/
-         /TIXmETiKMcVa3NnFD6jKe+uwufB0KjECQHbdgZ19kpCyI4ftE+j0cbd8SAVWU6pMwic
-         QEzeoIDkwdBdW93PygkclPOsMl/dLXjP26erldRpg4eLbTn3phVgcQYravd4YiKzkZ/J
-         if8g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pU8op+aZFHU0HmvcRZrAn/iPq4oRm10+1moFcSn13OQ=;
+        b=HVxIyWCnSG6OFN6uHHuZMv4pcQHb9tDCT0evHqkUPXUgNktRj8iKzNXXk7Kc23O1HS
+         68haNLdOXXiMYqM2HmISaZZmsZmpb5x77hlcydmlT2shwHsJY/7PsIzCj+irRtUJsj1i
+         xVI9vP3zZn1pbo43Kony8YM254ggAfRhXDvLK43CvyDKbhgLmDrHWlBwQtNNQzhQwuxM
+         CeZtSYw+O9tlHBUrUwAMiJod90k81t77ETa3R9zLM9QrzBwjnc30buDq8k38xv066ScI
+         /Mdqon8VBGlkxvm4fDzuxFahXDpKCAq0N42HPVSnkqjYYDSiMO+ORqedyJbUonulfRKJ
+         cALg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
-        b=hXF344awKpd7Qf8AGnEc9I1Fy4M6sQxqsH6ixQSH56URpctVdCDnN5NVAY1iam66Qz
-         7EBRAdrCOoYcdSKoE7OOMcHCX6rupaCqcrGe0L7Lr7cRPsOGaIrpNJGZoI7Elm/S8pCK
-         k1KmcvZ+2TWgt8jnf8b0YLZRzwDdj31UhW2TFsgvI9V5nNMLazk/2NhEKxONDh2hJV79
-         LudVtdqGYde9oHJy95Ncaq00NDes4YHC9HG9xUuc4VHttcqNqKRD5cZDAXKU7B6+0noU
-         ZcY6m9eHN6ZPNjUa/u/WLRPUmVAsd/poOu4tTADMCTFC55t7FS+OXInWD5/Hxm7aq5N2
-         zlRA==
-X-Gm-Message-State: AOAM533tOP6QwoM7AOIUtJHnK2c1fIeSh46hI7dcFZF5okONRDTOWXYw
-        gDOzj25B2dWcG1ELza+Rcp4BwI5l9hDGDznh9fc=
-X-Google-Smtp-Source: ABdhPJy54mnUDw0OBZwEmaT0Tnzkm5NHIIv28AYDexSNQk+4ZUgOZeLa9QV+yDzmwu1BVBLRRO/jmey7zVcjJI45TKc=
-X-Received: by 2002:ac8:5d14:: with SMTP id f20mr6152662qtx.104.1602424851169;
- Sun, 11 Oct 2020 07:00:51 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pU8op+aZFHU0HmvcRZrAn/iPq4oRm10+1moFcSn13OQ=;
+        b=nMJkZuksTMWA9GMKgi6CQh1VKzyejFya1UjxI/Xeh7+kvMBDKPywFyAbaiuYnKMbUU
+         OEg1fzxOWar/5pM0UwOcK/MmQ81eTGNZZzePh94IjkDHh8o+XjGBR/7gYdPfvrMZrmtk
+         3Uc6aUtCHUaz63psmM6RZiu9FY4Z1GbhKecUyaEWMbsxeGx/Lp/f1nVw0sh99uh/yHaJ
+         YexJ5+EhT/9Ugodx7QF9WsOau1YOh122rGDvzqJeB5EDyb7wFXHb4EHun7WCoOjtyOOF
+         5l4o8ZO1c4kyZzDClWHpFMUT1IyG0q5XTpQltslg6MhzThFXDq0hDDhTNKVMkJ3Jubjo
+         BqXQ==
+X-Gm-Message-State: AOAM531TpLv7DsRREIQGFggaNY1Uijy8K104AWfYAuj54iOlb5o09Vlc
+        Ny5nP0vxeaC7C4RVpOITF4bvCiyvNRtebidzdQU=
+X-Google-Smtp-Source: ABdhPJxfsbIZOEXgc/WDmpp3ZdNWGc8rkDdgFcEG2XT/r3smtuVcsrLENcH3xmEe7SuR5bQeFxeZebyXQdSLMQaxgJo=
+X-Received: by 2002:a17:90b:305:: with SMTP id ay5mr20379310pjb.129.1602513298392;
+ Mon, 12 Oct 2020 07:34:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:9e4e:0:0:0:0:0 with HTTP; Sun, 11 Oct 2020 07:00:50
- -0700 (PDT)
-Reply-To: mfdp@tlen.pl
-From:   Mr Bill T Winters <davidaminu1@gmail.com>
-Date:   Sun, 11 Oct 2020 07:00:50 -0700
-Message-ID: <CALe=1L0_oEZr3kcyL2N4HTpfShp2YhUMGXB=0RunfL2pv2-+6A@mail.gmail.com>
-Subject: Good Morning!
-To:     undisclosed-recipients:;
+References: <bug-196819-6418@https.bugzilla.kernel.org/> <bug-196819-6418-Ze8OWcGS0v@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-196819-6418-Ze8OWcGS0v@https.bugzilla.kernel.org/>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 12 Oct 2020 17:35:47 +0300
+Message-ID: <CAHp75VcEkCGm=Vi==t1T6b0MYHyyk8yvVyJe3NZhFXX7h8NVvQ@mail.gmail.com>
+Subject: Re: [Bug 196819] ASUS X SERIES X553MA-BING-SX451B does not boot anymore
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>
+Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Mon, Oct 12, 2020 at 5:32 PM <bugzilla-daemon@bugzilla.kernel.org> wrote:
+>
+> https://bugzilla.kernel.org/show_bug.cgi?id=196819
+>
+> Andy Shevchenko (andy.shevchenko@gmail.com) changed:
+>
+>            What    |Removed                     |Added
+> ----------------------------------------------------------------------------
+>              Status|NEEDINFO                    |RESOLVED
+>          Resolution|---                         |CODE_FIX
+>
+> --- Comment #5 from Andy Shevchenko (andy.shevchenko@gmail.com) ---
+> Closing now, thanks!
+
+This bug is simply an example of one registered to Platform_x86 component.
+Should PDx86 ask bugzilla admin to default the assignee to this
+mailing list, for example?
+
+
 -- 
-Greetings,
-I Mr Bill T, did you Receive the (FUND), that was paid to you?
-Let me know with your full name:...  immediately,
-
-Sincerely Yours, Respectfully,
-
-Mr Bill T Winters,
-Group Chief Executive Officer & Executive Director,
+With Best Regards,
+Andy Shevchenko
