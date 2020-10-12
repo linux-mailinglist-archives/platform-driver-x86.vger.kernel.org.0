@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 497D128C0DE
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F266E28C0BD
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Oct 2020 21:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390979AbgJLTHP (ORCPT
+        id S2388255AbgJLTGP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Oct 2020 15:07:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53198 "EHLO mail.kernel.org"
+        Mon, 12 Oct 2020 15:06:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53908 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390984AbgJLTDi (ORCPT
+        id S2391220AbgJLTEH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Oct 2020 15:03:38 -0400
+        Mon, 12 Oct 2020 15:04:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E31A32073A;
-        Mon, 12 Oct 2020 19:03:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 467E4214DB;
+        Mon, 12 Oct 2020 19:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602529417;
+        s=default; t=1602529435;
         bh=CggKdpQ7Mm9QiySjyESA5OeVtmAbn5X+EMP0sCwgTC0=;
         h=From:To:Cc:Subject:Date:From;
-        b=u3sXk2Nrtcr7S/eFnZThcH4lkP39Wr11qg/3Zdz3QbWVWZ+Mfr1PG9k0VaObCGqFA
-         QiybwZ7ImDb27YL1uxYmz7DnNwk7Q3brpLXL4jZD1KI0ijEdYtbXdpx/l2pKa8o/Zp
-         48QIfwo769aNAYcLXAa/W304H/T0/vJ1LGE0TsuI=
+        b=R7dHFmjWZAm2deDcN84G5fKTcDh8v/IklCFpBjT7+etIuqJXaqEnxomkIjWbvo5od
+         flvnVXF6u3ccSpPlDyyIiF2MC7hQLomOYmCFNaKtOzLIQuG+JpCTD/7nfXO8ERtJVV
+         BWKY0z6fn3O1r63VjlQCeHkjegd7AjALvKkoOQO4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans de Goede <hdegoede@redhat.com>,
@@ -32,9 +32,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>,
         acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/12] platform/x86: asus-nb-wmi: Revert "Do not load on Asus T100TA and T200TA"
-Date:   Mon, 12 Oct 2020 15:03:24 -0400
-Message-Id: <20201012190335.3279538-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/11] platform/x86: asus-nb-wmi: Revert "Do not load on Asus T100TA and T200TA"
+Date:   Mon, 12 Oct 2020 15:03:43 -0400
+Message-Id: <20201012190353.3279662-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-stable: review
