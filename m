@@ -2,51 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CE862931AD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Oct 2020 01:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAD0B2931B1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Oct 2020 01:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727768AbgJSXF1 (ORCPT
+        id S2388881AbgJSXFu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 19 Oct 2020 19:05:27 -0400
-Received: from mail2.directv.syn-alias.com ([69.168.106.50]:50616 "EHLO
-        mail.directv.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727227AbgJSXF1 (ORCPT
+        Mon, 19 Oct 2020 19:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727779AbgJSXFt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 19 Oct 2020 19:05:27 -0400
-DKIM-Signature: v=1; a=rsa-sha1; d=wildblue.net; s=20170921; c=relaxed/simple;
-        q=dns/txt; i=@wildblue.net; t=1603148726;
-        h=From:Subject:Date:To:MIME-Version:Content-Type;
-        bh=5/a5SIUjFnCD4xF0krtndkpdots=;
-        b=sxJjkc9IMc679Rll5/kT4Wjj4SIaMz9tx01DO9eVTbboAtOjld1F5CHGPJPjHSVK
-        inbUXTpLB/uXlkSM29EkgOlYUmO+TQu0QLn7qz7FIPmbZs2ytIpk8NwHoNUAE1I4
-        g3dFz7HklleTORJP4p3/le+ouxe9JXNznl77qogNNB2s8q0mh6niSyvDs4QbhtNO
-        tO+VmNZLfrDszHbZsCZq5JpVNsq7964K+poNayV1I9HxBB+WDvpkl5s9wF0mklpl
-        4fryGB28dc+TYlXkrPtcRWym2FICuantK8WLQeN6WeBY4DxMQFu9eHZWvxdKZLY1
-        ZhfcQJAJvdhSFUOnyv3mpw==;
-X_CMAE_Category: , ,
-X-CNFS-Analysis: v=2.3 cv=CNNUoijD c=1 sm=1 tr=0 cx=a_idp_x a=uzScQWnHooYk8thlE1zPqQ==:117 a=9cW_t1CCXrUA:10 a=KGjhK52YXX0A:10 a=FKkrIqjQGGEA:10 a=Kcfauafa1a0A:10 a=bcMK0N68KKcA:10 a=IkcTkHD0fZMA:10 a=x7bEGLp0ZPQA:10 a=afefHYAZSVUA:10 a=-EC6j6z80A8A:10 a=xp8wKWT6O3QA:10 a=3yzQafdIafhLKNqTyM4A:9 a=QEXdDO2ut3YA:10 a=xo5jKAKm-U-Zyk2_beg_:22 a=l_GcZgtXKDyNJJqLGAY8:22 a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
-X-CM-Score: 0
-X-Scanned-by: Cloudmark Authority Engine
-X-Authed-Username: amsuam9yZGFuQHdpbGRibHVlLm5ldA==
-Received: from [10.80.118.24] ([10.80.118.24:48840] helo=md05.jasper.bos.sync.lan)
-        by mail2.directv.syn-alias.com (envelope-from <jk.jordan@wildblue.net>)
-        (ecelerity 3.6.25.56547 r(Core:3.6.25.0)) with ESMTP
-        id FE/CC-03224-5BB1E8F5; Mon, 19 Oct 2020 19:05:25 -0400
-Date:   Mon, 19 Oct 2020 19:05:25 -0400 (EDT)
-From:   George Worden <jk.jordan@wildblue.net>
-Reply-To: gworden321@gmail.com
-Message-ID: <1358745177.86370503.1603148725314.JavaMail.zimbra@wildblue.net>
-Subject: 
+        Mon, 19 Oct 2020 19:05:49 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB8FC0613D5
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Oct 2020 16:05:49 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id z5so84267iob.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Oct 2020 16:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KZcwJitFojA7RhzeD/UU8gbzehCBdvf6g5ia0ZYCrq4=;
+        b=R0THCPfeT+NjRv5n7wRuWr3+iQQVH5mYQugrcFEorv7jMlZOJpq4gWO8x2sltRZ1S3
+         8+uXkfK+0xraFRPc7RLEyC+L1Eqn+lwfgcQ60rCu3Ir6T0iqCUlHxkXPI8IxQxljNihW
+         MxA7dERE+Fo0B6yhfEPLGm6gbjuMrGvt0ee7i4ozPAa6C0OwTV1SJBaz+sj8rzyyiIix
+         DQ1LhxNguLsVQ2r9xWcmCur9QDHoeimXQtC/UVpN+4Yl8O9ZbpYKUwlrKFZtzYHwjpgZ
+         iC+kREvCZvwgmOBCIm7DmgxG6/6ncKrp6QDCnbxkp/qIzrhuMyauJsg53LWTp//HSslk
+         z+3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KZcwJitFojA7RhzeD/UU8gbzehCBdvf6g5ia0ZYCrq4=;
+        b=UrMHmSc42ztSWn9ug9uaKT2lBIYeJdWLxNFseAbVwY3YRr4cemNEo/LHIqarfZ7kEw
+         x9g+dg4uAy/BuuvIGpwTOy341oCimisGLsRwRXPcUmlnhvkyAuSR4n5ncugDTQI7genC
+         Rt45MLcEuViZvV5hzSoqVJP0o/Zstdlj0w/iDXvDo79K0WwUycVJr30sNfa0zYOAr55n
+         xIPImbYzSvaZxclHWK5v06lUPxMI3Sd8qubnURT9TuwUv1LSnpnNx00FhPv6ItK2IIJi
+         Z3f+63/JBf9XiTjaEgFXXwPah/7VKJc0cuW51n+3pdWKxnnhjohBH8Rdg8iP04PgzTRk
+         T7NA==
+X-Gm-Message-State: AOAM530BAmoYQ+rQYr8nop44450xSvKqK2sqB6mKHgrk6+gaXq4L22tH
+        tYGrkAYkaRBcZoZ5t+j+9j49cQ==
+X-Google-Smtp-Source: ABdhPJwE/qhLAedndnNRaUrUDMs331Onaq8Iz+VDEVRJN+4h4B5ckC67pNXDnvS9MRF/DxLJjNlnIQ==
+X-Received: by 2002:a6b:5019:: with SMTP id e25mr44377iob.123.1603148748578;
+        Mon, 19 Oct 2020 16:05:48 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id u8sm7938ilm.36.2020.10.19.16.05.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2020 16:05:47 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kUeDq-002hRf-LL; Mon, 19 Oct 2020 20:05:46 -0300
+Date:   Mon, 19 Oct 2020 20:05:46 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Tom Rix <trix@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
+        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-block@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-can@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-pci@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
+        storagedev@microchip.com, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net,
+        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+        bpf <bpf@vger.kernel.org>, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        George Burgess <gbiv@google.com>
+Subject: Re: [RFC] treewide: cleanup unreachable breaks
+Message-ID: <20201019230546.GH36674@ziepe.ca>
+References: <20201017160928.12698-1-trix@redhat.com>
+ <20201018054332.GB593954@kroah.com>
+ <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [124.168.60.247]
-X-Mailer: Zimbra 8.7.6_GA_1776 (zclient/8.7.6_GA_1776)
-Thread-Index: NPxTtjiwtwRHV7/OuzFXPCdDLGgTYQ==
-Thread-Topic: 
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Did you get my last message
+On Mon, Oct 19, 2020 at 12:42:15PM -0700, Nick Desaulniers wrote:
+> On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
+> > > From: Tom Rix <trix@redhat.com>
+> > >
+> > > This is a upcoming change to clean up a new warning treewide.
+> > > I am wondering if the change could be one mega patch (see below) or
+> > > normal patch per file about 100 patches or somewhere half way by collecting
+> > > early acks.
+> >
+> > Please break it up into one-patch-per-subsystem, like normal, and get it
+> > merged that way.
+> >
+> > Sending us a patch, without even a diffstat to review, isn't going to
+> > get you very far...
+> 
+> Tom,
+> If you're able to automate this cleanup, I suggest checking in a
+> script that can be run on a directory.  Then for each subsystem you
+> can say in your commit "I ran scripts/fix_whatever.py on this subdir."
+>  Then others can help you drive the tree wide cleanup.  Then we can
+> enable -Wunreachable-code-break either by default, or W=2 right now
+> might be a good idea.
+
+I remember using clang-modernize in the past to fix issues very
+similar to this, if clang machinery can generate the warning, can't
+something like clang-tidy directly generate the patch?
+
+You can send me a patch for drivers/infiniband/* as well
+
+Thanks,
+Jason
