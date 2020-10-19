@@ -2,46 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8610292DD6
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 20:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8EA292DDC
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 20:57:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730955AbgJSS4g (ORCPT
+        id S1727681AbgJSS5S (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 19 Oct 2020 14:56:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22601 "EHLO
+        Mon, 19 Oct 2020 14:57:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37466 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727681AbgJSS4g (ORCPT
+        by vger.kernel.org with ESMTP id S1730830AbgJSS5S (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 19 Oct 2020 14:56:36 -0400
+        Mon, 19 Oct 2020 14:57:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603133795;
+        s=mimecast20190719; t=1603133837;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=mNEI/SsVg1ZSRb+yHosHyixrz1+xy27J+IyNlaCs2Nw=;
-        b=aZ1h9+7Y1eKqwiYRyOajxKA37ZMcdbJ5vQBJhw1kSxQNYy51POcaD9f4WXTmgg/zDniRDT
-        ds5Q7LXdc5e3a/ddsD0/xmg3K3Q8SRTdruDe4UiEu59Vstq5dbDPzcIXw8cJ++w/1+FJzX
-        +70sxvjKvxOpxv3WbjthIvSym9HJFMg=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=D2aJa92rorA3S8kA0kbjkBURuLRVxUH7wiMyKvwfmLU=;
+        b=J0i5Id6sos8yQH9KjagvunI1H7DaZGzhU9n6f/okmE3KKBhRoaDnIdJ0P31YMRcOlWXpLd
+        zEOlHWJa6oJdMH+ZK4a5t/bS+h+wdZRicUMM3cR1asd2qDhn+oE8UfeftAhhF1Bf2sgb8u
+        EJqGtu7j+E6YgFgtZJ4V7qjxox08z6k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Z15lmP-vMUiyTGrRBYoObg-1; Mon, 19 Oct 2020 14:56:33 -0400
-X-MC-Unique: Z15lmP-vMUiyTGrRBYoObg-1
+ us-mta-570-AHtUB8ViP6K2vipEwOC67Q-1; Mon, 19 Oct 2020 14:57:12 -0400
+X-MC-Unique: AHtUB8ViP6K2vipEwOC67Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A848CADC31;
-        Mon, 19 Oct 2020 18:56:32 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F891005E75;
+        Mon, 19 Oct 2020 18:56:34 +0000 (UTC)
 Received: from x1.localdomain (ovpn-114-62.ams2.redhat.com [10.36.114.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8400360DA0;
-        Mon, 19 Oct 2020 18:56:29 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F383060DA0;
+        Mon, 19 Oct 2020 18:56:32 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>, Lee Chun-Yi <jlee@suse.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 1/6] platform/x86: acer-wmi: Drop no-op set_quirks call from find_quirks
-Date:   Mon, 19 Oct 2020 20:56:23 +0200
-Message-Id: <20201019185628.264473-1-hdegoede@redhat.com>
+Subject: [PATCH 2/6] platform/x86: acer-wmi: Cleanup ACER_CAP_FOO defines
+Date:   Mon, 19 Oct 2020 20:56:24 +0200
+Message-Id: <20201019185628.264473-2-hdegoede@redhat.com>
+In-Reply-To: <20201019185628.264473-1-hdegoede@redhat.com>
+References: <20201019185628.264473-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -49,41 +52,53 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-set_quirks has a "if (!interface) return;" check at its beginning and
-interface always is NULL when set_quirks is called from find_quirks,
-so it is a no-op and we can drop it.
-
-This also allows dropping the "if (!interface) return;" from set_quirks
-since set_quirks now always is called with interface != NULL.
+Cleanup the ACER_CAP_FOO defines:
+-Switch to using BIT() macro.
+-The ACER_CAP_RFBTN flag is set, but it is never checked anywhere, drop it.
+-Drop the unused ACER_CAP_ANY define.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/acer-wmi.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/platform/x86/acer-wmi.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 49f4b73be513..db6167a10981 100644
+index db6167a10981..2f69d418ed3b 100644
 --- a/drivers/platform/x86/acer-wmi.c
 +++ b/drivers/platform/x86/acer-wmi.c
-@@ -302,9 +302,6 @@ static struct quirk_entry *quirks;
- 
- static void __init set_quirks(void)
- {
--	if (!interface)
--		return;
--
- 	if (quirks->mailled)
- 		interface->capability |= ACER_CAP_MAILLED;
- 
-@@ -648,8 +645,6 @@ static void __init find_quirks(void)
- 
- 	if (quirks == NULL)
- 		quirks = &quirk_unknown;
--
--	set_quirks();
- }
+@@ -205,14 +205,12 @@ struct hotkey_function_type_aa {
+ /*
+  * Interface capability flags
+  */
+-#define ACER_CAP_MAILLED		(1<<0)
+-#define ACER_CAP_WIRELESS		(1<<1)
+-#define ACER_CAP_BLUETOOTH		(1<<2)
+-#define ACER_CAP_BRIGHTNESS		(1<<3)
+-#define ACER_CAP_THREEG			(1<<4)
+-#define ACER_CAP_ACCEL			(1<<5)
+-#define ACER_CAP_RFBTN			(1<<6)
+-#define ACER_CAP_ANY			(0xFFFFFFFF)
++#define ACER_CAP_MAILLED		BIT(0)
++#define ACER_CAP_WIRELESS		BIT(1)
++#define ACER_CAP_BLUETOOTH		BIT(2)
++#define ACER_CAP_BRIGHTNESS		BIT(3)
++#define ACER_CAP_THREEG			BIT(4)
++#define ACER_CAP_ACCEL			BIT(5)
  
  /*
+  * Interface type flags
+@@ -1247,10 +1245,8 @@ static void __init type_aa_dmi_decode(const struct dmi_header *header, void *d)
+ 		interface->capability |= ACER_CAP_THREEG;
+ 	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_BLUETOOTH)
+ 		interface->capability |= ACER_CAP_BLUETOOTH;
+-	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_RFBTN) {
+-		interface->capability |= ACER_CAP_RFBTN;
++	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_RFBTN)
+ 		commun_func_bitmap &= ~ACER_WMID3_GDS_RFBTN;
+-	}
+ 
+ 	commun_fn_key_number = type_aa->commun_fn_key_number;
+ }
 -- 
 2.28.0
 
