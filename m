@@ -2,248 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA55B292DDA
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 20:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E40D7292EB0
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 21:45:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730809AbgJSS5Q (ORCPT
+        id S1731340AbgJSTp3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 19 Oct 2020 14:57:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48180 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727681AbgJSS5Q (ORCPT
+        Mon, 19 Oct 2020 15:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731248AbgJSTm3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 19 Oct 2020 14:57:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603133834;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QhETTMz0tvhpYJP2zM4MHh1itzU437jGPTn75xVqPjY=;
-        b=iPiyONVrdjkGoVqLCEiBnesveexTLzs8hGnrbRsQwJfygs4bq4gtv2wHlG3NoSDewQ01OE
-        QTRM+eWcw8RemQkTrhT1/phbC0NJKEC5BPs+OMYujvVPZ0mWqFf0Pr4MpVwJ+N/4gjGne1
-        E8a6KyGfzaX8CAn0xjqgUTcxAnjjmlQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-NPZ7-QKXPUmrn65wxiA-5Q-1; Mon, 19 Oct 2020 14:57:11 -0400
-X-MC-Unique: NPZ7-QKXPUmrn65wxiA-5Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD749ADC44;
-        Mon, 19 Oct 2020 18:56:39 +0000 (UTC)
-Received: from x1.localdomain (ovpn-114-62.ams2.redhat.com [10.36.114.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 93D8260DA0;
-        Mon, 19 Oct 2020 18:56:38 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>, Lee Chun-Yi <jlee@suse.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 6/6] platform/x86: acer-wmi: Add support for SW_TABLET_MODE on Switch devices
-Date:   Mon, 19 Oct 2020 20:56:28 +0200
-Message-Id: <20201019185628.264473-6-hdegoede@redhat.com>
-In-Reply-To: <20201019185628.264473-1-hdegoede@redhat.com>
-References: <20201019185628.264473-1-hdegoede@redhat.com>
+        Mon, 19 Oct 2020 15:42:29 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B479C0613E1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Oct 2020 12:42:28 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id gv6so367034pjb.4
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Oct 2020 12:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=no6WOfZDuAXhTDfVia9Vunkz4L7BthY0F8m0jo4//vs=;
+        b=vqIoQqfPtCUD7ceHGEmbvFqqUZd/9dE0IpLQQ4p4nyONBXQMSFxBG5OzgCaJfT8eu8
+         Ez0DMwUntzcU9c2WJzs/WqMvxG3bzlj0mstlcz+E4fW0gt02sZNjrL1HdU6SHVwmCE5R
+         WFeHYzJRJuPZspqj8YJ2wlUmUN4Mc8MNrI6kLekCJ8yejCepkvkgEUeb7TbpDze1NnEh
+         TP2SjhqdakZDUedR00qYjd62k5W2m7FgfHIpcuS/rhjqMGxVL3Apppn+UDRO/ftdIfoh
+         duvoKavmXDacw9mysFV+xdp1Tg4QxCPiDxNSeCeZyO+34Y2S1kYSdX61NJzSKhmGsX5T
+         HLpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=no6WOfZDuAXhTDfVia9Vunkz4L7BthY0F8m0jo4//vs=;
+        b=jLmdDM6/ZU17Y4GTdKwE59CZ/6BtcllKOA9MkktMaEH1L3ZTJ5wZUInN/cyOlNBA1h
+         G0AjjSfKxuiO34u+KeCp+DG268pFhCont/1oNlX4ofo+V0oc8VsLVSbxya7W+tfyukYg
+         0DIHil8s+hYwb59V7DxfbjaeowMy3EDkFWCbz7AD72spBB8fxCMVbo9T0CbIu00BEf9P
+         0aYFApP8rmZcTyc+rRLsUI4+ub0C7KwtagyEhfmkF8PkiuyjIlFCXIMuTU5D89ARh2Af
+         mpq1FxsQgMZguUw+3x7PfiRDcHXf+OPLJ9GHUiU2orKxOge4ec/7FyhoHnVYjGQ6cNoq
+         ROAQ==
+X-Gm-Message-State: AOAM533RnHjBRipSjRwkDC/55nBhvJnWqG+EcJ9SUhbwkXihrpzsOoob
+        8gZJWHG91H2pLauURFZzTYXxHRhsTmJVfvpFZmiF7g==
+X-Google-Smtp-Source: ABdhPJxy4K+2uRaBuhFTeTSlHPetqrP1uAAP7dKvm6UBZz10SCa23PJUxb54E5JJmlle9J/y892Qp+TTrKvO4GeNXIk=
+X-Received: by 2002:a17:90a:ee87:: with SMTP id i7mr921476pjz.25.1603136546933;
+ Mon, 19 Oct 2020 12:42:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20201017160928.12698-1-trix@redhat.com> <20201018054332.GB593954@kroah.com>
+In-Reply-To: <20201018054332.GB593954@kroah.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 19 Oct 2020 12:42:15 -0700
+Message-ID: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
+Subject: Re: [RFC] treewide: cleanup unreachable breaks
+To:     Tom Rix <trix@redhat.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-can@vger.kernel.org,
+        Network Development <netdev@vger.kernel.org>,
+        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-pci@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
+        storagedev@microchip.com, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net,
+        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+        bpf <bpf@vger.kernel.org>, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        George Burgess <gbiv@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add support for SW_TABLET_MODE on the Acer Switch 10 (SW5-012) and the
-acer Switch 10 (S1003) models.
+On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
+> > From: Tom Rix <trix@redhat.com>
+> >
+> > This is a upcoming change to clean up a new warning treewide.
+> > I am wondering if the change could be one mega patch (see below) or
+> > normal patch per file about 100 patches or somewhere half way by collecting
+> > early acks.
+>
+> Please break it up into one-patch-per-subsystem, like normal, and get it
+> merged that way.
+>
+> Sending us a patch, without even a diffstat to review, isn't going to
+> get you very far...
 
-There is no way to detect if this is supported, so this uses DMI based
-quirks setting force_caps to ACER_CAP_KBD_DOCK (these devices have no
-other acer-wmi based functionality).
+Tom,
+If you're able to automate this cleanup, I suggest checking in a
+script that can be run on a directory.  Then for each subsystem you
+can say in your commit "I ran scripts/fix_whatever.py on this subdir."
+ Then others can help you drive the tree wide cleanup.  Then we can
+enable -Wunreachable-code-break either by default, or W=2 right now
+might be a good idea.
 
-The new SW_TABLET_MODE functionality can be tested on devices which
-are not in the DMI table by passing acer_wmi.force_caps=0x40 on the
-kernel commandline.
+Ah, George (gbiv@, cc'ed), did an analysis recently of
+`-Wunreachable-code-loop-increment`, `-Wunreachable-code-break`, and
+`-Wunreachable-code-return` for Android userspace.  From the review:
+```
+Spoilers: of these, it seems useful to turn on
+-Wunreachable-code-loop-increment and -Wunreachable-code-return by
+default for Android
+...
+While these conventions about always having break arguably became
+obsolete when we enabled -Wfallthrough, my sample turned up zero
+potential bugs caught by this warning, and we'd need to put a lot of
+effort into getting a clean tree. So this warning doesn't seem to be
+worth it.
+```
+Looks like there's an order of magnitude of `-Wunreachable-code-break`
+than the other two.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/acer-wmi.c | 108 +++++++++++++++++++++++++++++++-
- 1 file changed, 105 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 8bf9e6ed38a4..68d1a0c8c205 100644
---- a/drivers/platform/x86/acer-wmi.c
-+++ b/drivers/platform/x86/acer-wmi.c
-@@ -30,6 +30,7 @@
- #include <linux/input/sparse-keymap.h>
- #include <acpi/video.h>
- 
-+ACPI_MODULE_NAME(KBUILD_MODNAME);
- MODULE_AUTHOR("Carlos Corbacho");
- MODULE_DESCRIPTION("Acer Laptop WMI Extras Driver");
- MODULE_LICENSE("GPL");
-@@ -80,7 +81,7 @@ MODULE_ALIAS("wmi:676AA15E-6A47-4D9F-A2CC-1E6D18D14026");
- 
- enum acer_wmi_event_ids {
- 	WMID_HOTKEY_EVENT = 0x1,
--	WMID_ACCEL_EVENT = 0x5,
-+	WMID_ACCEL_OR_KBD_DOCK_EVENT = 0x5,
- };
- 
- static const struct key_entry acer_wmi_keymap[] __initconst = {
-@@ -127,7 +128,9 @@ struct event_return_value {
- 	u8 function;
- 	u8 key_num;
- 	u16 device_state;
--	u32 reserved;
-+	u16 reserved1;
-+	u8 kbd_dock_state;
-+	u8 reserved2;
- } __attribute__((packed));
- 
- /*
-@@ -211,6 +214,7 @@ struct hotkey_function_type_aa {
- #define ACER_CAP_BRIGHTNESS		BIT(3)
- #define ACER_CAP_THREEG			BIT(4)
- #define ACER_CAP_SET_FUNCTION_MODE	BIT(5)
-+#define ACER_CAP_KBD_DOCK		BIT(6)
- 
- /*
-  * Interface type flags
-@@ -316,6 +320,15 @@ static int __init dmi_matched(const struct dmi_system_id *dmi)
- 	return 1;
- }
- 
-+static int __init set_force_caps(const struct dmi_system_id *dmi)
-+{
-+	if (force_caps == -1) {
-+		force_caps = (uintptr_t)dmi->driver_data;
-+		pr_info("Found %s, set force_caps to 0x%x\n", dmi->ident, force_caps);
-+	}
-+	return 1;
-+}
-+
- static struct quirk_entry quirk_unknown = {
- };
- 
-@@ -494,6 +507,24 @@ static const struct dmi_system_id acer_quirks[] __initconst = {
- 		},
- 		.driver_data = &quirk_acer_travelmate_2490,
- 	},
-+	{
-+		.callback = set_force_caps,
-+		.ident = "Acer Aspire Switch 10 SW5-012",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire SW5-012"),
-+		},
-+		.driver_data = (void *)ACER_CAP_KBD_DOCK,
-+	},
-+	{
-+		.callback = set_force_caps,
-+		.ident = "Acer One 10 (S1003)",
-+		.matches = {
-+			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
-+		},
-+		.driver_data = (void *)ACER_CAP_KBD_DOCK,
-+	},
- 	{}
- };
- 
-@@ -1536,6 +1567,71 @@ static int acer_gsensor_event(void)
- 	return 0;
- }
- 
-+/*
-+ * Switch series keyboard dock status
-+ */
-+static int acer_kbd_dock_state_to_sw_tablet_mode(u8 kbd_dock_state)
-+{
-+	switch (kbd_dock_state) {
-+	case 0x01: /* Docked, traditional clamshell laptop mode */
-+		return 0;
-+	case 0x04: /* Stand-alone tablet */
-+	case 0x40: /* Docked, tent mode, keyboard not usable */
-+		return 1;
-+	default:
-+		pr_warn("Unknown kbd_dock_state 0x%02x\n", kbd_dock_state);
-+	}
-+
-+	return 0;
-+}
-+
-+static void acer_kbd_dock_get_initial_state(void)
-+{
-+	u8 *output, input[8] = { 0x05, 0x00, };
-+	struct acpi_buffer input_buf = { sizeof(input), input };
-+	struct acpi_buffer output_buf = { ACPI_ALLOCATE_BUFFER, NULL };
-+	union acpi_object *obj;
-+	acpi_status status;
-+	int sw_tablet_mode;
-+
-+	status = wmi_evaluate_method(WMID_GUID3, 0, 0x2, &input_buf, &output_buf);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Error getting keyboard-dock initial status"));
-+		return;
-+	}
-+
-+	obj = output_buf.pointer;
-+	if (!obj || obj->type != ACPI_TYPE_BUFFER || obj->buffer.length != 8) {
-+		pr_err("Unexpected output format getting keyboard-dock initial status\n");
-+		goto out_free_obj;
-+	}
-+
-+	output = obj->buffer.pointer;
-+	if (output[0] != 0x00 || (output[3] != 0x05 && output[3] != 0x45)) {
-+		pr_err("Unexpected output [0]=0x%02x [3]=0x%02x getting keyboard-dock initial status\n",
-+		       output[0], output[3]);
-+		goto out_free_obj;
-+	}
-+
-+	sw_tablet_mode = acer_kbd_dock_state_to_sw_tablet_mode(output[4]);
-+	input_report_switch(acer_wmi_input_dev, SW_TABLET_MODE, sw_tablet_mode);
-+
-+out_free_obj:
-+	kfree(obj);
-+}
-+
-+static void acer_kbd_dock_event(const struct event_return_value *event)
-+{
-+	int sw_tablet_mode;
-+
-+	if (!has_cap(ACER_CAP_KBD_DOCK))
-+		return;
-+
-+	sw_tablet_mode = acer_kbd_dock_state_to_sw_tablet_mode(event->kbd_dock_state);
-+	input_report_switch(acer_wmi_input_dev, SW_TABLET_MODE, sw_tablet_mode);
-+	input_sync(acer_wmi_input_dev);
-+}
-+
- /*
-  * Rfkill devices
-  */
-@@ -1763,8 +1859,9 @@ static void acer_wmi_notify(u32 value, void *context)
- 			sparse_keymap_report_event(acer_wmi_input_dev, scancode, 1, true);
- 		}
- 		break;
--	case WMID_ACCEL_EVENT:
-+	case WMID_ACCEL_OR_KBD_DOCK_EVENT:
- 		acer_gsensor_event();
-+		acer_kbd_dock_event(&return_value);
- 		break;
- 	default:
- 		pr_warn("Unknown function number - %d - %d\n",
-@@ -1929,6 +2026,11 @@ static int __init acer_wmi_input_setup(void)
- 	if (err)
- 		goto err_free_dev;
- 
-+	if (has_cap(ACER_CAP_KBD_DOCK)) {
-+		input_set_capability(acer_wmi_input_dev, EV_SW, SW_TABLET_MODE);
-+		acer_kbd_dock_get_initial_state();
-+	}
-+
- 	status = wmi_install_notify_handler(ACERWMID_EVENT_GUID,
- 						acer_wmi_notify, NULL);
- 	if (ACPI_FAILURE(status)) {
+We probably should add all 3 to W=2 builds (wrapped in cc-option).
+I've filed https://github.com/ClangBuiltLinux/linux/issues/1180 to
+follow up on.
 -- 
-2.28.0
-
+Thanks,
+~Nick Desaulniers
