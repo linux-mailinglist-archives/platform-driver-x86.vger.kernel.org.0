@@ -2,47 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A8EA292DDC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 20:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BCAB292DD8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 19 Oct 2020 20:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727681AbgJSS5S (ORCPT
+        id S1730464AbgJSS5J (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 19 Oct 2020 14:57:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37466 "EHLO
+        Mon, 19 Oct 2020 14:57:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47853 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730830AbgJSS5S (ORCPT
+        by vger.kernel.org with ESMTP id S1727681AbgJSS5J (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 19 Oct 2020 14:57:18 -0400
+        Mon, 19 Oct 2020 14:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603133837;
+        s=mimecast20190719; t=1603133828;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=D2aJa92rorA3S8kA0kbjkBURuLRVxUH7wiMyKvwfmLU=;
-        b=J0i5Id6sos8yQH9KjagvunI1H7DaZGzhU9n6f/okmE3KKBhRoaDnIdJ0P31YMRcOlWXpLd
-        zEOlHWJa6oJdMH+ZK4a5t/bS+h+wdZRicUMM3cR1asd2qDhn+oE8UfeftAhhF1Bf2sgb8u
-        EJqGtu7j+E6YgFgtZJ4V7qjxox08z6k=
+        bh=gZBl3Pn6FtCWNQBiXprUb629hE0g38uzM7/kCaPH3uk=;
+        b=VN6USaVJq5Cwy1elja6EdjQfT1cVuYm3SPJii3Je+g2uZd31J2YMM6UJo1N5d90HHqzSTn
+        W3yaen5klakCkjHxDpGNxPjx9ZLd0s3u0gCQEcfJdLZTKyOxXCQCgtaTeSohOgarBNp87g
+        Q/hJL4eEPh0GnU6Av4Z3MrjnXDxOeSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-AHtUB8ViP6K2vipEwOC67Q-1; Mon, 19 Oct 2020 14:57:12 -0400
-X-MC-Unique: AHtUB8ViP6K2vipEwOC67Q-1
+ us-mta-343-EbP9IOpyNxCbjmT7Gg46kQ-1; Mon, 19 Oct 2020 14:57:06 -0400
+X-MC-Unique: EbP9IOpyNxCbjmT7Gg46kQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F891005E75;
-        Mon, 19 Oct 2020 18:56:34 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78BE2802B7A;
+        Mon, 19 Oct 2020 18:56:35 +0000 (UTC)
 Received: from x1.localdomain (ovpn-114-62.ams2.redhat.com [10.36.114.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F383060DA0;
-        Mon, 19 Oct 2020 18:56:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5D73A60DA0;
+        Mon, 19 Oct 2020 18:56:34 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>, Lee Chun-Yi <jlee@suse.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/6] platform/x86: acer-wmi: Cleanup ACER_CAP_FOO defines
-Date:   Mon, 19 Oct 2020 20:56:24 +0200
-Message-Id: <20201019185628.264473-2-hdegoede@redhat.com>
+Subject: [PATCH 3/6] platform/x86: acer-wmi: Cleanup accelerometer device handling
+Date:   Mon, 19 Oct 2020 20:56:25 +0200
+Message-Id: <20201019185628.264473-3-hdegoede@redhat.com>
 In-Reply-To: <20201019185628.264473-1-hdegoede@redhat.com>
 References: <20201019185628.264473-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -52,53 +52,91 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Cleanup the ACER_CAP_FOO defines:
--Switch to using BIT() macro.
--The ACER_CAP_RFBTN flag is set, but it is never checked anywhere, drop it.
--Drop the unused ACER_CAP_ANY define.
+Cleanup accelerometer device handling:
+-Drop acer_wmi_accel_destroy instead directly call input_unregister_device.
+-The information tracked by the CAP_ACCEL flag mirrors acer_wmi_accel_dev
+ being NULL. Drop the CAP flag, this is a preparation change for allowing
+ users to override the capability flags. Dropping the flag stops users
+ from causing a NULL pointer dereference by forcing the capability.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/acer-wmi.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/platform/x86/acer-wmi.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index db6167a10981..2f69d418ed3b 100644
+index 2f69d418ed3b..f728cb5e5115 100644
 --- a/drivers/platform/x86/acer-wmi.c
 +++ b/drivers/platform/x86/acer-wmi.c
-@@ -205,14 +205,12 @@ struct hotkey_function_type_aa {
- /*
-  * Interface capability flags
-  */
--#define ACER_CAP_MAILLED		(1<<0)
--#define ACER_CAP_WIRELESS		(1<<1)
--#define ACER_CAP_BLUETOOTH		(1<<2)
--#define ACER_CAP_BRIGHTNESS		(1<<3)
--#define ACER_CAP_THREEG			(1<<4)
--#define ACER_CAP_ACCEL			(1<<5)
--#define ACER_CAP_RFBTN			(1<<6)
--#define ACER_CAP_ANY			(0xFFFFFFFF)
-+#define ACER_CAP_MAILLED		BIT(0)
-+#define ACER_CAP_WIRELESS		BIT(1)
-+#define ACER_CAP_BLUETOOTH		BIT(2)
-+#define ACER_CAP_BRIGHTNESS		BIT(3)
-+#define ACER_CAP_THREEG			BIT(4)
-+#define ACER_CAP_ACCEL			BIT(5)
+@@ -210,7 +210,6 @@ struct hotkey_function_type_aa {
+ #define ACER_CAP_BLUETOOTH		BIT(2)
+ #define ACER_CAP_BRIGHTNESS		BIT(3)
+ #define ACER_CAP_THREEG			BIT(4)
+-#define ACER_CAP_ACCEL			BIT(5)
  
  /*
   * Interface type flags
-@@ -1247,10 +1245,8 @@ static void __init type_aa_dmi_decode(const struct dmi_header *header, void *d)
- 		interface->capability |= ACER_CAP_THREEG;
- 	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_BLUETOOTH)
- 		interface->capability |= ACER_CAP_BLUETOOTH;
--	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_RFBTN) {
--		interface->capability |= ACER_CAP_RFBTN;
-+	if (type_aa->commun_func_bitmap & ACER_WMID3_GDS_RFBTN)
- 		commun_func_bitmap &= ~ACER_WMID3_GDS_RFBTN;
--	}
+@@ -1510,7 +1509,7 @@ static int acer_gsensor_event(void)
+ 	struct acpi_buffer output;
+ 	union acpi_object out_obj[5];
  
- 	commun_fn_key_number = type_aa->commun_fn_key_number;
+-	if (!has_cap(ACER_CAP_ACCEL))
++	if (!acer_wmi_accel_dev)
+ 		return -1;
+ 
+ 	output.length = sizeof(out_obj);
+@@ -1884,8 +1883,6 @@ static int __init acer_wmi_accel_setup(void)
+ 	gsensor_handle = acpi_device_handle(adev);
+ 	acpi_dev_put(adev);
+ 
+-	interface->capability |= ACER_CAP_ACCEL;
+-
+ 	acer_wmi_accel_dev = input_allocate_device();
+ 	if (!acer_wmi_accel_dev)
+ 		return -ENOMEM;
+@@ -1911,11 +1908,6 @@ static int __init acer_wmi_accel_setup(void)
+ 	return err;
  }
+ 
+-static void acer_wmi_accel_destroy(void)
+-{
+-	input_unregister_device(acer_wmi_accel_dev);
+-}
+-
+ static int __init acer_wmi_input_setup(void)
+ {
+ 	acpi_status status;
+@@ -2070,7 +2062,7 @@ static int acer_resume(struct device *dev)
+ 	if (has_cap(ACER_CAP_BRIGHTNESS))
+ 		set_u32(data->brightness, ACER_CAP_BRIGHTNESS);
+ 
+-	if (has_cap(ACER_CAP_ACCEL))
++	if (acer_wmi_accel_dev)
+ 		acer_gsensor_init();
+ 
+ 	return 0;
+@@ -2260,8 +2252,8 @@ static int __init acer_wmi_init(void)
+ error_platform_register:
+ 	if (wmi_has_guid(ACERWMID_EVENT_GUID))
+ 		acer_wmi_input_destroy();
+-	if (has_cap(ACER_CAP_ACCEL))
+-		acer_wmi_accel_destroy();
++	if (acer_wmi_accel_dev)
++		input_unregister_device(acer_wmi_accel_dev);
+ 
+ 	return err;
+ }
+@@ -2271,8 +2263,8 @@ static void __exit acer_wmi_exit(void)
+ 	if (wmi_has_guid(ACERWMID_EVENT_GUID))
+ 		acer_wmi_input_destroy();
+ 
+-	if (has_cap(ACER_CAP_ACCEL))
+-		acer_wmi_accel_destroy();
++	if (acer_wmi_accel_dev)
++		input_unregister_device(acer_wmi_accel_dev);
+ 
+ 	remove_debugfs();
+ 	platform_device_unregister(acer_platform_device);
 -- 
 2.28.0
 
