@@ -2,90 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D224294C72
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Oct 2020 14:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A382F295303
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Oct 2020 21:34:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411522AbgJUMTF (ORCPT
+        id S2505011AbgJUTep (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Oct 2020 08:19:05 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:59191 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411474AbgJUMTF (ORCPT
+        Wed, 21 Oct 2020 15:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2505010AbgJUTep (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Oct 2020 08:19:05 -0400
-Received: from [192.168.1.155] ([77.7.80.77]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MVdUQ-1kwjqG1u6O-00RYUm; Wed, 21 Oct 2020 14:18:48 +0200
-Subject: Re: [PATCH 1/2] x86: Remove led/gpio setup from pcengines platform
- driver
-To:     Hans de Goede <hdegoede@redhat.com>, Ed W <lists@wildgooses.com>,
-        linux-kernel@vger.kernel.org
-Cc:     fe@dev.tdt.de, "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-References: <20200921215919.3072-1-lists@wildgooses.com>
- <d4b2045c-769b-4998-64cc-682c01c105fb@wildgooses.com>
- <8058a804-a793-a5f8-d086-0bb0f600aef9@metux.net>
- <65efe44a-bbef-f982-462a-385fffe493a0@wildgooses.com>
- <0de126c4-f2aa-a817-0a38-32bf3ede84d1@redhat.com>
- <e727d039-8dea-1a40-48b9-792b6053807c@metux.net>
- <2ba7fc12-a3a7-2783-54e6-27e9eb60ec9c@redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <000fc16c-13ef-573c-8946-dd5436d69be9@metux.net>
-Date:   Wed, 21 Oct 2020 14:18:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Wed, 21 Oct 2020 15:34:45 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E320FC0613CE
+        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Oct 2020 12:34:44 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id k6so4454734ior.2
+        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Oct 2020 12:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
+        b=p/7mzuw/H9ZU+mNki+yU29PRc8/+Oyite3wZDRbnRZCHsm4froxfs/O3/wcJKSTu5Z
+         /mXjUQYHIPxG0WGoQNImh/rEBaeME7TScK062LM9kgB0z2M3pz//zXIVrVfvAEKvcRXa
+         J3AOYTG2krK1QmkqftoZeJUiV32c7nnr5BoFkyT2Sdj5ai/l7EYlk9JfgH8EHyUyiwJu
+         dlOxcDdO18xKbICFBaYyOKBCVJOS4zCJ3G7D1Wm6mQ6YC3A4HnjcH03uIjIFL66YsVos
+         vfxOwbpQbhjD5hvHedYKEIYlFGiLUo1L4uMQNiV7KEbGCUWPstnfgDmtcSRs3IgVJygZ
+         OATw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
+        b=F/2lmehuhtTesjido/Hb5ivCTf4VTlPE3qKPT7W3D22ZMG18OiOQuXLnzgdixnWuj5
+         yLpqmCgLQGEiGCrMj+ZEEdlkLIBJX21dMEwYI+4AGtioSUeRxvGnLFsjjAkqhS3QF9nz
+         01hZdSUBlIDPvPDsGI1JAZrRjf5E001Mnl42Cp/Vie2ZSCyT7tQp8cWzO5X9UrDjADQu
+         99pn414ZimJWl3QeZuAOpYq1D6fLxliCgjCrIOmxFvmUej5BopFkhdCupO2bn1WKFHk3
+         YXyup3XMD9ULU0toPH/kFX+EJHd1RdFhekh4z6XdpToxjLb2OH71L4w13AnWAruvzs/I
+         KsAw==
+X-Gm-Message-State: AOAM531hwgwCK2dej/TQ0DD6I+fVJY30ct1x0J38TwU7fmxxowZ4SQmb
+        W5svW8VZoPOso8hvMUv9lVIBsNnhgDMOQmI3DLw=
+X-Google-Smtp-Source: ABdhPJzFWl3wBHc9XudxG6HKoaSboro3NjkDBFQ4T5a8rkajdEx5Kdaf+Jf1jr42KwDp1K01tlw2+xP1J9DSdr9qq60=
+X-Received: by 2002:a05:6602:160d:: with SMTP id x13mr134699iow.98.1603308884253;
+ Wed, 21 Oct 2020 12:34:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2ba7fc12-a3a7-2783-54e6-27e9eb60ec9c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bPuFEHR0NG0cKO8fE8CZTeNVNyTB9Ex4U5gYl1AWdDqDPV12EoN
- WlyjbNGp4dW3VxYDfFqd8AySHBzOADVuKNtzNxpeJuDZ7RuA9u0Z5eB48QVdJ2GkCVYBUQo
- xQduYlS5sEujVs2c5W+XLH1Vo7tSrvp3/BomiQmGF1EtQ9HdW2tOa+FHamWe3gMztbqYhhv
- kcAhUftaJsyqyy5TF6gfA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4DI39lgQuEs=:QBGgWx4Q2quaFerWV6W4/B
- nPQMgFFMlW07BrJopkLabHa0BG+uVop3xGdMOdtQV5tTGwOUe4bW0iaFxiaauvyYxxYjECObe
- gXLxa4O835FdhPdOzBONikqRL3qjGYYn9EwmHMVgA9gwAbKSP/Awj8KL0wX8aDuLuAnvfKxR7
- 8RcTI7ATVn4WwltLUZhZ3vxatH8CYKDm4zAerXH0oAyLb446AbmmiPIM2UdJbSUa2wtRGuLRi
- awUq4bZjUGBJ+fovGeIuGtmQHf1IayOn95hqZA28j3BmXWmh6nMClGuxW+jMCW+o2owzeXoQl
- a55Smyq+ThgYYvNUhx7PUliIg71gnEebB0X+lXGeYEhJPKpwPqLVwssBKLOEr2ad7kydeHTfB
- 4aJ8KOcHkMcd7pSsOj6l2nJ6EeXS7D0WQYq4jOezOasqcMNVcdh4uft+fF9vF
+Received: by 2002:a02:cadb:0:0:0:0:0 with HTTP; Wed, 21 Oct 2020 12:34:43
+ -0700 (PDT)
+Reply-To: mfdp@tlen.pl
+From:   Mr Bill T Winters <elmsa98@gmail.com>
+Date:   Wed, 21 Oct 2020 12:34:43 -0700
+Message-ID: <CAGgqQnsU3EPJ5gxH1RqEs_337HJZqEC+iupvK7Pcob2Zin04Lg@mail.gmail.com>
+Subject: Good Morning!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 19.10.20 20:37, Hans de Goede wrote:
-
-Hi folks,
-
-> I hear you, but if newer BIOS versions all of a sudden start
-> declaring their own stuff, then we need to come up with some
-> solution here...
-> 
-> Not sure what that solution should be though.
-
-You're right. IMHO we should first get a clear picture, which problems
-actually arise. (unfortunately, I can't easily flash firmware on my
-DUTs for several reasons, eg. I dont actually own them :o).
-
-If it's just about duplicate LEDs, we could either just ignore that
-or add yet another  board specific quirks in the acpi probing for
-ignoring the duplicate devices - depending on the existing kconfig
-symbol.
-
-
-
---mtx
-
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Greetings,
+I Mr Bill T, did you Receive the (FUND), that was paid to you?
+Let me know with your full name:...  immediately,
+
+Sincerely Yours, Respectfully,
+
+Mr Bill T Winters,
+Group Chief Executive Officer & Executive Director,
