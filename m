@@ -2,281 +2,225 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 133CB29E170
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 03:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A080E29E10A
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 02:53:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbgJ1Vur (ORCPT
+        id S1728702AbgJ2BxG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 17:50:47 -0400
-Received: from lithium.sammserver.com ([168.119.122.30]:34214 "EHLO
-        lithium.sammserver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbgJ1Vuq (ORCPT
+        Wed, 28 Oct 2020 21:53:06 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:46990 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728701AbgJ1V5n (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:50:46 -0400
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by lithium.sammserver.com (Postfix) with ESMTPS id 930B6310E602;
-        Wed, 28 Oct 2020 13:22:10 +0100 (CET)
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id DCB00118AA9F;
-        Wed, 28 Oct 2020 13:22:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1603887730; bh=ZPFEcn5WQpEPNmnGm2NyuNZCC6WAmHfvtFc8YW1rwkU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tJob+A+ulyCfJgSXTpKgSD9c3zoEyo0kajmJrZZK6Zog/M9oGYv0Jo0hYhV0hN2dm
-         Qt8llZXZ+iR79YZCfjKkKG71iSQcRMBPazxAWvH+sZltu7/2IeA1aNGl4+ppiUb6H6
-         GBW8gVR4nZHWeSYU0U2NMeGDgnSKZqldeg2oIkNo=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id C714414209CF; Wed, 28 Oct 2020 13:22:09 +0100 (CET)
-Date:   Wed, 28 Oct 2020 13:22:09 +0100
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86: asus-wmi: Add support for
- SW_TABLET_MODE on UX360
-Message-ID: <20201028122209.v72obrmducrma4qf@fastboi.localdomain>
-References: <20201020220944.1075530-1-samuel@cavoj.net>
- <635f6034-9ad8-ca97-9a63-6557ecbd565e@redhat.com>
+        Wed, 28 Oct 2020 17:57:43 -0400
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id E55933A5707;
+        Wed, 28 Oct 2020 13:45:40 +0000 (UTC)
+X-Originating-IP: 82.255.60.242
+Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id EA179E0004;
+        Wed, 28 Oct 2020 13:45:15 +0000 (UTC)
+Message-ID: <5ca1ae238b23a611b8a490c244fd93cdcc36ef79.camel@hadess.net>
+Subject: Re: [PATCH] Documentation: Add documentation for new
+ platform_profile sysfs attribute
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     dvhart@infradead.org, mgross@linux.intel.com,
+        mario.limonciello@dell.com, eliadevito@gmail.com, bberg@redhat.com,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Date:   Wed, 28 Oct 2020 14:45:15 +0100
+In-Reply-To: <20201027164219.868839-1-markpearson@lenovo.com>
+References: <markpearson@lenovo.com>
+         <20201027164219.868839-1-markpearson@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <635f6034-9ad8-ca97-9a63-6557ecbd565e@redhat.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi, 
+Hey Hans, Mark,
 
-On 28.10.2020 12:50, Hans de Goede wrote:
-> Hi,
+On Tue, 2020-10-27 at 12:42 -0400, Mark Pearson wrote:
+> From: Hans de Goede <hdegoede@redhat.com>
 > 
-> On 10/21/20 12:09 AM, Samuel Čavoj wrote:
-> > The UX360CA has a WMI device id 0x00060062, which reports whether the
-> > lid is flipped in tablet mode (1) or in normal laptop mode (0).
-> > 
-> > Add a quirk (quirk_asus_use_lid_flip_devid) for devices on which this
-> > WMI device should be used to figure out the SW_TABLET_MODE state, as
-> > opposed to the quirk_asus_use_kbd_dock_devid.
-> > 
-> > Additionally, the device needs to be queried on resume and restore
-> > because the firmware does not generate an event if the laptop is put to
-> > sleep while in tablet mode, flipped to normal mode, and later awoken.
-> > 
-> > It is assumed other UX360* models have the same WMI device. As such, the
-> > quirk is applied to devices with DMI_MATCH(DMI_PRODUCT_NAME, "UX360").
-> > More devices with this feature need to be tested and added accordingly.
-> > 
-> > The reason for using an allowlist via the quirk mechanism is that the new
-> > WMI device (0x00060062) is also present on some models which do not have
-> > a 360 degree hinge (at least FX503VD and GL503VD from Hans' DSTS
-> > collection) and therefore its presence cannot be relied on.
-> > 
-> > Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
+> On modern systems the platform performance, temperature, fan and
+> other
+> hardware related characteristics are often dynamically configurable.
+> The
+> profile is often automatically adjusted to the load by somei
+> automatic-mechanism (which may very well live outside the kernel).
 > 
-> Thank you for your patch, I've applied this patch to my review-hans 
-> branch:
-> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+> These auto platform-adjustment mechanisms often can be configured
+> with
+> one of several 'platform-profiles', with either a bias towards low-
+> power
 
-Great, thanks.
+Can you please make sure to quote 'platform-profile' and 'profile-name'
+this way all through the document? They're not existing words, and
+quoting them shows that they're attribute names, rather than English.
 
-> As discussed I've fixed the whitespace issue; and I've also fixed
-> the following 2 checkpatch warnings:
-> 
-> ERROR: open brace '{' following function definitions go on the next line
-> #114: FILE: drivers/platform/x86/asus-wmi.c:414:
-> +static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus) {
-> 
-> WARNING: Missing a blank line after declarations
-> #116: FILE: drivers/platform/x86/asus-wmi.c:416:
-> +	int result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-> +	if (result >= 0) {
-> 
-> Next time please consider doing:
-> 
-> git format-patch HEAD~
-> scripts/checkpatch.pl 0001-*.patch
+> consumption or towards performance (and higher power consumption and
+> thermals).
 
-Yes, will do. Sorry about the trouble.
+s/thermal/temperature/
 
-> Before sending out your patch.
-> 
-> Note it will show up in my review-hans branch once I've pushed my local
-> branch there, which might take a while.
-> 
-> Once I've run some tests on this branch the patches there will be
-> added to the platform-drivers-x86/for-next branch and eventually
-> will be included in the pdx86 pull-request to Linus for the next
-> merge-window.
-> 
-> Regards,
-> 
-> Hans
-> 
+"A thermal" is something else (it's seasonal underwear for me ;)
 
-Regards,
-Sam
+> Introduce a new platform_profile sysfs API which offers a generic API
+> for
+> selecting the performance-profile of these automatic-mechanisms.
+> 
+> Co-developed-by: Mark Pearson <markpearson@lenovo.com>
+> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in V1:
+>  - Moved from RFC to proposed patch
+>  - Added cool profile as requested
+>  - removed extra-profiles as no longer relevant
+> 
+>  .../ABI/testing/sysfs-platform_profile        | 66
+> +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-platform_profile
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-platform_profile
+> b/Documentation/ABI/testing/sysfs-platform_profile
+> new file mode 100644
+> index 000000000000..240bd3d7532b
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-platform_profile
+> @@ -0,0 +1,66 @@
+> +Platform-profile selection (e.g.
+> /sys/firmware/acpi/platform_profile)
+> +
+> +On modern systems the platform performance, temperature, fan and
+> other
+> +hardware related characteristics are often dynamically configurable.
+> The
+> +profile is often automatically adjusted to the load by some
+> +automatic-mechanism (which may very well live outside the kernel).
+> +
+> +These auto platform-adjustment mechanisms often can be configured
+> with
+> +one of several 'platform-profiles', with either a bias towards low-
+> power
+> +consumption or towards performance (and higher power consumption and
+> +thermals).
+> +
+> +The purpose of the platform_profile attribute is to offer a generic
+> sysfs
+> +API for selecting the platform-profile of these automatic-
+> mechanisms.
+> +
+> +Note that this API is only for selecting the platform-profile, it is
+> +NOT a goal of this API to allow monitoring the resulting performance
+> +characteristics. Monitoring performance is best done with
+> device/vendor
+> +specific tools such as e.g. turbostat.
+> +
+> +Specifically when selecting a high-performance profile the actual
+> achieved
+> +performance may be limited by various factors such as: the heat
+> generated
+> +by other components, room temperature, free air flow at the bottom
+> of a
+> +laptop, etc. It is explicitly NOT a goal of this API to let
+> userspace know
+> +about any sub-optimal conditions which are impeding reaching the
+> requested
+> +performance level.
+> +
+> +Since numbers are a rather meaningless way to describe platform-
+> profiles
 
-> 
-> > ---
-> > changed v2 -> v3:
-> >     - added check on resume from sleep and restore
-> > ---
-> >  drivers/platform/x86/asus-nb-wmi.c         | 15 +++++++++
-> >  drivers/platform/x86/asus-wmi.c            | 38 ++++++++++++++++++++++
-> >  drivers/platform/x86/asus-wmi.h            |  1 +
-> >  include/linux/platform_data/x86/asus-wmi.h |  1 +
-> >  4 files changed, 55 insertions(+)
-> > 
-> > diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-> > index 1d9fbabd02fb..d41d7ad14be0 100644
-> > --- a/drivers/platform/x86/asus-nb-wmi.c
-> > +++ b/drivers/platform/x86/asus-nb-wmi.c
-> > @@ -119,6 +119,11 @@ static struct quirk_entry quirk_asus_use_kbd_dock_devid = {
-> >  	.use_kbd_dock_devid = true,
-> >  };
-> >  
-> > +static struct quirk_entry quirk_asus_use_lid_flip_devid = {
-> > +	.wmi_backlight_set_devstate = true,
-> > +	.use_lid_flip_devid = true,
-> > +};
-> > +
-> >  static int dmi_matched(const struct dmi_system_id *dmi)
-> >  {
-> >  	pr_info("Identified laptop model '%s'\n", dmi->ident);
-> > @@ -520,6 +525,16 @@ static const struct dmi_system_id asus_quirks[] = {
-> >  		},
-> >  		.driver_data = &quirk_asus_use_kbd_dock_devid,
-> >  	},
-> > +	{
-> > +		.callback = dmi_matched,
-> > +		.ident = "ASUS ZenBook Flip UX360",
-> > +		.matches = {
-> > +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-> > +			/* Match UX360* */
-> > +			DMI_MATCH(DMI_PRODUCT_NAME, "UX360"),
-> > +		},
-> > +		.driver_data = &quirk_asus_use_lid_flip_devid,
-> > +	},
-> >  	{},
-> >  };
-> >  
-> > diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> > index 39e1a6396e08..864c608ad569 100644
-> > --- a/drivers/platform/x86/asus-wmi.c
-> > +++ b/drivers/platform/x86/asus-wmi.c
-> > @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
-> >  #define NOTIFY_KBD_BRTTOGGLE		0xc7
-> >  #define NOTIFY_KBD_FBM			0x99
-> >  #define NOTIFY_KBD_TTP			0xae
-> > +#define NOTIFY_LID_FLIP			0xfa
-> >  
-> >  #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
-> >  
-> > @@ -375,6 +376,20 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
-> >  		}
-> >  	}
-> >  
-> > +	if (asus->driver->quirks->use_lid_flip_devid) {
-> > +		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-> > +        if (result < 0)
-> > +			asus->driver->quirks->use_lid_flip_devid = 0;
-> > +		if (result >= 0) {
-> > +			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> > +			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > +		} else if (result == -ENODEV) {
-> > +			pr_err("This device has lid_flip quirk but got ENODEV checking it. This is a bug.");
-> > +		} else {
-> > +			pr_err("Error checking for lid-flip: %d\n", result);
-> > +		}
-> > +	}
-> > +
-> >  	err = input_register_device(asus->inputdev);
-> >  	if (err)
-> >  		goto err_free_dev;
-> > @@ -394,6 +409,16 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
-> >  	asus->inputdev = NULL;
-> >  }
-> >  
-> > +/* Tablet mode ****************************************************************/
-> > +
-> > +static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus) {
-> > +	int result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-> > +	if (result >= 0) {
-> > +		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> > +		input_sync(asus->inputdev);
-> > +	}
-> > +}
-> > +
-> >  /* Battery ********************************************************************/
-> >  
-> >  /* The battery maximum charging percentage */
-> > @@ -2128,6 +2153,11 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
-> >  		return;
-> >  	}
-> >  
-> > +	if (asus->driver->quirks->use_lid_flip_devid && code == NOTIFY_LID_FLIP) {
-> > +		lid_flip_tablet_mode_get_state(asus);
-> > +		return;
-> > +	}
-> > +
-> >  	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
-> >  		fan_boost_mode_switch_next(asus);
-> >  		return;
-> > @@ -2719,6 +2749,10 @@ static int asus_hotk_resume(struct device *device)
-> >  
-> >  	if (asus_wmi_has_fnlock_key(asus))
-> >  		asus_wmi_fnlock_update(asus);
-> > +
-> > +	if (asus->driver->quirks->use_lid_flip_devid)
-> > +		lid_flip_tablet_mode_get_state(asus);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -2757,6 +2791,10 @@ static int asus_hotk_restore(struct device *device)
-> >  
-> >  	if (asus_wmi_has_fnlock_key(asus))
-> >  		asus_wmi_fnlock_update(asus);
-> > +
-> > +	if (asus->driver->quirks->use_lid_flip_devid)
-> > +		lid_flip_tablet_mode_get_state(asus);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-> > index 1a95c172f94b..b302415bf1d9 100644
-> > --- a/drivers/platform/x86/asus-wmi.h
-> > +++ b/drivers/platform/x86/asus-wmi.h
-> > @@ -34,6 +34,7 @@ struct quirk_entry {
-> >  	bool wmi_backlight_set_devstate;
-> >  	bool wmi_force_als_set;
-> >  	bool use_kbd_dock_devid;
-> > +	bool use_lid_flip_devid;
-> >  	int wapf;
-> >  	/*
-> >  	 * For machines with AMD graphic chips, it will send out WMI event
-> > diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> > index 897b8332a39f..2f274cf52805 100644
-> > --- a/include/linux/platform_data/x86/asus-wmi.h
-> > +++ b/include/linux/platform_data/x86/asus-wmi.h
-> > @@ -62,6 +62,7 @@
-> >  
-> >  /* Misc */
-> >  #define ASUS_WMI_DEVID_CAMERA		0x00060013
-> > +#define ASUS_WMI_DEVID_LID_FLIP		0x00060062
-> >  
-> >  /* Storage */
-> >  #define ASUS_WMI_DEVID_CARDREADER	0x00080013
-> > 
-> 
+It's not meaningless, but rather ambiguous. For a range of 1 to 5, is 1
+high performance, and 5 low power, or vice-versa?
+
+> +this API uses strings to describe the various profiles. To make sure
+> that
+> +userspace gets a consistent experience when using this API this API
+
+you can remove "when using this API".
+
+> +document defines a fixed set of profile-names. Drivers *must* map
+> their
+> +internal profile representation/names onto this fixed set.
+> +
+> +If for some reason there is no good match when mapping then a new
+> profile-name
+> +may be added.
+
+"for some reason" can be removed.
+
+>  Drivers which wish to introduce new profile-names must:
+> +1. Have very good reasons to do so.
+
+"1. Explain why the existing 'profile-names' cannot be used"
+
+> +2. Add the new profile-name to this document, so that future drivers
+> which also
+> +   have a similar problem can use the same name.
+
+"2. Add the new 'profile-name' to the documentation so that other
+drivers can use it, as well as user-space knowing clearly what
+behaviour the 'profile-name' corresponds to"
+
+> +
+> +What:          /sys/firmware/acpi/platform_profile_choices
+> +Date:          October 2020
+> +Contact:       Hans de Goede <hdegoede@redhat.com>
+> +Description:
+> +               Reading this file gives a space separated list of
+> profiles
+> +               supported for this device.
+
+"This file contains a space-separated list of profiles..."
+
+> +
+> +               Drivers must use the following standard profile-
+> names:
+> +
+> +               low-power:              Emphasises low power
+> consumption
+> +               cool:                   Emphasises cooler operation
+> +               quiet:                  Emphasises quieter operation
+> +               balanced:               Balance between low power
+> consumption
+> +                                       and performance
+> +               performance:            Emphasises performance (and
+> may lead to
+> +                                       higher temperatures and fan
+> speeds)
+
+I'd replace "Emphasises" with either "Focus on" or the US English
+spelling of "Emphasizes".
+
+> +               Userspace may expect drivers to offer at least
+> several of these
+> +               standard profile-names.
+
+Replce "at least several" with "more than one".
+
+> +
+> +What:          /sys/firmware/acpi/platform_profile
+> +Date:          October 2020
+> +Contact:       Hans de Goede <hdegoede@redhat.com>
+> +Description:
+> +               Reading this file gives the current selected profile
+> for this
+> +               device. Writing this file with one of the strings
+> from
+> +               available_profiles changes the profile to the new
+> value.
+
+Is there another file which explains whether those sysfs value will
+contain a trailing linefeed?
+
+Cheers
+
