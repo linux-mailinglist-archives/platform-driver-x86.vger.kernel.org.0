@@ -2,69 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D6229E279
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 03:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E48F29E212
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 03:05:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbgJ2COq (ORCPT
+        id S1727079AbgJ2CFo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 22:14:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43459 "EHLO
+        Wed, 28 Oct 2020 22:05:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45674 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726771AbgJ1Vfh (ORCPT
+        by vger.kernel.org with ESMTP id S1727075AbgJ1ViJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:35:37 -0400
+        Wed, 28 Oct 2020 17:38:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603920935;
+        s=mimecast20190719; t=1603921087;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QJHhfZ2V2kb0ESkGQZCAib+1qqkooRbQR95yCbytl7s=;
-        b=EFZBLLoFENA5ieRplqxCSfzhUzYAHdUhuFnztpG3/I+HOaIOZvKdFBrar1dsvK/Fy8S6oW
-        GmAASkgGdqgguknAhyLsQuDUeI0Qt3TIrEes2vaYCQ6Pp2hyXvcW2BWHC7pa5KNAtLC0yB
-        0KHtRt9QumE53cCL/aY8Htike29JoC4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-HhcSagUWODOM78PWYNc9Lw-1; Wed, 28 Oct 2020 07:33:42 -0400
-X-MC-Unique: HhcSagUWODOM78PWYNc9Lw-1
-Received: by mail-ed1-f70.google.com with SMTP id w24so2004522edl.3
-        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 04:33:41 -0700 (PDT)
+        bh=owogxmBr7QuhqX/b8Py2A65XM1g5vYCHcWlpezJSNeE=;
+        b=SRpjgC0pyfxqJ4X5aYdY8qMSuLfIT0ZpKrVS6iSWorVYpNZ++dQSodoxz0bgm1SE4dkGFs
+        OGQzS0zIR76B8B90OPSN86cwG4sPcAd0xIlcpmZWx2fywWjdpJkI8QM7Eu9AUfPjPgNIx3
+        R6RkMmBh846Tf893fqZvgjm7MDum2w0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-4GuvL3mCM6eDr1IfKSON8A-1; Wed, 28 Oct 2020 07:36:20 -0400
+X-MC-Unique: 4GuvL3mCM6eDr1IfKSON8A-1
+Received: by mail-ej1-f71.google.com with SMTP id b17so2020945ejb.20
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 04:36:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=QJHhfZ2V2kb0ESkGQZCAib+1qqkooRbQR95yCbytl7s=;
-        b=YnzdeKWvTZ3Sx2RjwMh7dcxrZGEhKuB5uHeIBb1mPc7Mr72nPFEGJZYhcecuT3mOnW
-         1XOzXr5yWW3cZF+XTZwlPGRoJYTgtoZUCVyAYUxJ8c4GY2vzBQGwT922Qytq6QZkj8L4
-         W+fIHJAvbdxrZ8YWTnJeFWo+f+nCgaZdSEsdExXoOPj7l3uZWCXNVcI4Cz/Jile+eboN
-         hbkHR87jxgV0/Lfvgn4RhZuqS6zSxfw7OTjwz+a4/TMI/a76515DCE7Ph/bUlyOCBI7a
-         JR6xtL629aghEY6k7v/4H1T6i9JKUc4IY4y6qvHx7hb0zj5MqwbOC3uQnAyZXH8I1tlW
-         yRXg==
-X-Gm-Message-State: AOAM531qfAIns1VydNbImv6jGPywOCeTtTZlBBkUiim8I4MqHMpoyyZ7
-        6gQw2WFO7X5BlPIubtG7PScaGXxXO7mQ31yLo4rYBLtu2o1sICxoyp0CczPyNUeX1obonQIZA4x
-        jYZn8op5VtClTq8DtNZhomBDq3htJhL1yBg==
-X-Received: by 2002:a17:906:402:: with SMTP id d2mr3293510eja.165.1603884820789;
-        Wed, 28 Oct 2020 04:33:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIKV5nnNTcNuopRKBG+aVCqjxcweo+pTjYRN//cyr5S9Wkk3HlbZG1Mt+zdaQ2EMO5feyEGA==
-X-Received: by 2002:a17:906:402:: with SMTP id d2mr3293495eja.165.1603884820534;
-        Wed, 28 Oct 2020 04:33:40 -0700 (PDT)
+        bh=owogxmBr7QuhqX/b8Py2A65XM1g5vYCHcWlpezJSNeE=;
+        b=tW40aYQOt9BAT9LSgqI3mVDfIMbGR9Dfdkotq5/p04pFrNfMs+j1ARxhv0TUr7QnB9
+         HYbhsJrPM3t6Oxq22uxy7a/bjkZf2Uyl3lI6F5TdpXhg7XT46LfOeWiX85zch1hsj8cd
+         be3ZWpJ5q57z6m6/TIneBRXH+LqIP/GaiW0iJPZS71e9dkahpetOZ8LbSUGQcH2XqbRz
+         BxWcxy5wqoEucvscGQL9gVcIHDq3YgkMLy1OywWhvziiR0QB3BcYvfox2zYbHkTaPJuM
+         F78oNRGkIfA5XJDuPi4RwSlSnNPqCCoxSn3+5Neq9DfUJCKxYngcYnpNkX74Yow6/21+
+         DSAQ==
+X-Gm-Message-State: AOAM530ftRTDQbfnmGOgtIkAX2wLuVJRMYqDhgnHj8LfvKeKo8S4RUaN
+        qVY7d+yT5WHlP4wK5RbYoysdPVbCVBnYbbIBh+7/2BgfTueC0ajRk5aBEnSpNTW/SDqqKXc0c5r
+        Jcxxfu76ggjNgu6U2gaTZ2YG/5Vmy6Bawvg==
+X-Received: by 2002:a17:906:51d0:: with SMTP id v16mr7076091ejk.493.1603884978260;
+        Wed, 28 Oct 2020 04:36:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwn8sRv92ZDdL/G9o60WRA/8oC3PDynaDEiRvZtrwNFux+cIJi6c/LIIstqvPFWWVeIjffxnw==
+X-Received: by 2002:a17:906:51d0:: with SMTP id v16mr7076046ejk.493.1603884977738;
+        Wed, 28 Oct 2020 04:36:17 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id k18sm2651040edx.54.2020.10.28.04.33.39
+        by smtp.gmail.com with ESMTPSA id o11sm2821520ejd.60.2020.10.28.04.36.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 04:33:39 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: remove unneeded break
-To:     trix@redhat.com, jlee@suse.com, mgross@linux.intel.com,
-        malattia@linux.it
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201019133212.12671-1-trix@redhat.com>
+        Wed, 28 Oct 2020 04:36:17 -0700 (PDT)
+Subject: Re: [PATCH -next] platform/x86: wmi: discard unnecessary breaks
+To:     Zhang Qilong <zhangqilong3@huawei.com>, mgross@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org
+References: <20201027135302.72354-1-zhangqilong3@huawei.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <dd06e057-7ca8-972b-3d71-8e06aa68961f@redhat.com>
-Date:   Wed, 28 Oct 2020 12:33:39 +0100
+Message-ID: <d70fb286-889e-aec7-6ab5-371af8a5ddf2@redhat.com>
+Date:   Wed, 28 Oct 2020 12:36:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201019133212.12671-1-trix@redhat.com>
+In-Reply-To: <20201027135302.72354-1-zhangqilong3@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,88 +73,47 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 10/19/20 3:32 PM, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+On 10/27/20 2:53 PM, Zhang Qilong wrote:
+> The 'break' is unnecessary because of previous 'return',
+> and we could discard it.
 > 
-> A break is not needed if it is preceded by a return
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+Thank you for your patch. A patch making the same changes
+was already submitted a bit earlier and has been accepted:
 
-Note it will show up there once I've pushed my local branch there,
-which might take a while.
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=review-hans&id=619821936203f0577aa88cf30d31b0202650a745
 
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+So I'm dropping this patch, as this has already been
+fixed / cleaned up.
 
 Regards,
 
 Hans
 
+
 > ---
->  drivers/platform/x86/acer-wmi.c    | 1 -
->  drivers/platform/x86/sony-laptop.c | 3 ---
->  drivers/platform/x86/wmi.c         | 3 ---
->  3 files changed, 7 deletions(-)
+>  drivers/platform/x86/wmi.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-> index 49f4b73be513..1c2084c74a57 100644
-> --- a/drivers/platform/x86/acer-wmi.c
-> +++ b/drivers/platform/x86/acer-wmi.c
-> @@ -792,7 +792,6 @@ static acpi_status AMW0_set_u32(u32 value, u32 cap)
->  		switch (quirks->brightness) {
->  		default:
->  			return ec_write(0x83, value);
-> -			break;
->  		}
->  	default:
->  		return AE_ERROR;
-> diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
-> index e5a1b5533408..704813374922 100644
-> --- a/drivers/platform/x86/sony-laptop.c
-> +++ b/drivers/platform/x86/sony-laptop.c
-> @@ -2467,13 +2467,11 @@ static int __sony_nc_gfx_switch_status_get(void)
->  		 * 0: integrated GFX (stamina)
->  		 */
->  		return result & 0x1 ? SPEED : STAMINA;
-> -		break;
->  	case 0x015B:
->  		/* 0: discrete GFX (speed)
->  		 * 1: integrated GFX (stamina)
->  		 */
->  		return result & 0x1 ? STAMINA : SPEED;
-> -		break;
->  	case 0x0128:
->  		/* it's a more elaborated bitmask, for now:
->  		 * 2: integrated GFX (stamina)
-> @@ -2482,7 +2480,6 @@ static int __sony_nc_gfx_switch_status_get(void)
->  		dprintk("GFX Status: 0x%x\n", result);
->  		return result & 0x80 ? AUTO :
->  			result & 0x02 ? STAMINA : SPEED;
-> -		break;
->  	}
->  	return -EINVAL;
->  }
 > diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-> index d88f388a3450..44e802f9f1b4 100644
+> index d88f388a3450..cbf38abd40be 100644
 > --- a/drivers/platform/x86/wmi.c
 > +++ b/drivers/platform/x86/wmi.c
-> @@ -1260,13 +1260,10 @@ acpi_wmi_ec_space_handler(u32 function, acpi_physical_address address,
+> @@ -1260,13 +1260,13 @@ acpi_wmi_ec_space_handler(u32 function, acpi_physical_address address,
 >  	switch (result) {
 >  	case -EINVAL:
 >  		return AE_BAD_PARAMETER;
 > -		break;
+> +
 >  	case -ENODEV:
 >  		return AE_NOT_FOUND;
 > -		break;
+> +
 >  	case -ETIME:
 >  		return AE_TIME;
 > -		break;
+> +
 >  	default:
 >  		return AE_OK;
 >  	}
