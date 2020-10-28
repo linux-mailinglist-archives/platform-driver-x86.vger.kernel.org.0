@@ -2,116 +2,277 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9539329D710
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6818929D788
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732154AbgJ1WUT (ORCPT
+        id S1730802AbgJ1WZT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 18:20:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31986 "EHLO
+        Wed, 28 Oct 2020 18:25:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54435 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732140AbgJ1WUS (ORCPT
+        by vger.kernel.org with ESMTP id S1732805AbgJ1WZG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:20:18 -0400
+        Wed, 28 Oct 2020 18:25:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603923616;
+        s=mimecast20190719; t=1603923903;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4vTgWgNrSBbzQVpHc5QfEZsKPUZjexFRfHa0iKoJ/18=;
-        b=PljalvwsPPC7RVSGVszNSylC68mUsut4WVFXsTZr9Qxr4LzIJPKeT8wGWm+dLmHFJ86O3A
-        tpi900H204vlw8N0iGAsYPn00GxgPELDwzz3fAt2BDgZwd6mZm4sVXTIRKDQHwC1E86vGj
-        h5wJMiSC1M34M8h0ayHXvS7MhWSiD/Q=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-e9NTQs8fO76Ml78KUaz3-A-1; Wed, 28 Oct 2020 13:18:08 -0400
-X-MC-Unique: e9NTQs8fO76Ml78KUaz3-A-1
-Received: by mail-ej1-f69.google.com with SMTP id z18so116370eji.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 10:18:08 -0700 (PDT)
+        bh=sq1B8u8NLUEB8OJpFZ9ZPM/0L4/ZYp1FVYQZCWkCea0=;
+        b=QJMfoN4oYHNnQCMpewagHKJbpwrphefKQ/4+CPvqMsnYceFMPgxNivIkuhjt1p1AYxLyfz
+        y5Az/LxE7nNQIBdyvip6zZlyeKvxatq+Hf5B3uS2Hn35/ha8L+C2SSy3mMhH1SrrOC+6Tn
+        F1BmyrQAoY2w332xVa7ix5BnRZDVSfU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-Dk7ary6NOOCVRgI3F54Gdg-1; Wed, 28 Oct 2020 13:23:16 -0400
+X-MC-Unique: Dk7ary6NOOCVRgI3F54Gdg-1
+Received: by mail-ej1-f71.google.com with SMTP id t1so95858ejb.21
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 10:23:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4vTgWgNrSBbzQVpHc5QfEZsKPUZjexFRfHa0iKoJ/18=;
-        b=rocvu77FeqTJpsIEycFs79iORBGdw77zCOkCvbIhZUUqjbsPLhEldHM2yRkTvGcevv
-         YE8j0BaKyyWgt6vFNuQaUg5Y9TMa84HMZjz9oTAnKkB5qEADtZBWJ1VFSkxe+EO8Ux2M
-         XX0zwzaK2ONR53bJS5VSMonTFzkiAvqq1V8vUQM3qRms/6jPMQ6xccLozXD3oJ4vZtr1
-         iC72Mj9I9Ywriqnv8Iyz/pN8vk0abjOje4YWTkD+Gx799AaJtqCqng2xAiDDashOYrGy
-         KZnESospK9uaUKIY1ImQOfWOOxPnEzlE/A+qgc91TAdy8O3icfWee0jnCwLzAeVIikw9
-         sZQw==
-X-Gm-Message-State: AOAM530AxnnyBHQ/DjHffC3e1ZR6JZFVK6eCRrXwKKMaJjXh0kA0fbMb
-        PjB1T0KryIK/hh8Sqy+Y19AKctsJXQgocv67X9qgAsWiGol8ppJijTH6Kc+Lj3lrw+fzM45HDZf
-        wd26WTUqXEBpGr7zHS8sQg+yrBWW+jogZzg==
-X-Received: by 2002:aa7:c351:: with SMTP id j17mr8706000edr.70.1603905487050;
-        Wed, 28 Oct 2020 10:18:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1dIBlrJ+FSDMGHJhmbAO0c+88EblN2HjpY49it0MJRhpPsOBM4Mm3k2M8/IzcbvJnVFxpJw==
-X-Received: by 2002:aa7:c351:: with SMTP id j17mr8705974edr.70.1603905486823;
-        Wed, 28 Oct 2020 10:18:06 -0700 (PDT)
+        bh=sq1B8u8NLUEB8OJpFZ9ZPM/0L4/ZYp1FVYQZCWkCea0=;
+        b=YyW90nadgxPWeKqrl2TqOGqHSrVSlBlCztkGbs/8q5ut6GssN+VuAV7IvoPFXaddP5
+         DDLrmOyC6EMD4FAykpizlOo/MUC85VeCB5MmJtPOIntRbKrKsy7xoJxVco26Yc4Byl7q
+         6PyHeZVOyPNqSf8N/tt8GMoh92h/NYb17sVNlOO6NVPsruDf0qXVCnIrdfQ0HkUEp/EV
+         wGoJHV9pcDOj2mrpApO9SProhfbkgA4SYCsAoXDl1YO5e9T4MunhfQprX1GE6CrZ2HKB
+         FBTSM3G+/kc/a1qNlm+XnQsn7fovtJPPXdP1lDWWHYok3rxayezv9aTbc8/B0cuwYy1p
+         eWSQ==
+X-Gm-Message-State: AOAM531y6M6fhZug/qa++Svm1kJ/QwCshpWKh/4NVO37i9hf9bLPMGet
+        0X76QcYsHAgD3NE/wuP1jprwD20wFHg2qgi67dX88O5f2pVXqOZ0OAwYsUTbe2krNsQl6NRMxCt
+        470A8ZAmH21NkFd4GEWh2jgmETatqFCY/ZQ==
+X-Received: by 2002:a17:906:6453:: with SMTP id l19mr125873ejn.366.1603905794985;
+        Wed, 28 Oct 2020 10:23:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzREE5X9JMuMW0uT+945/sNIo/Jw2GIPaYjye6jFS3w2G6zpJDNsvl2GTmVFhYI71fL0HiW4A==
+X-Received: by 2002:a17:906:6453:: with SMTP id l19mr125853ejn.366.1603905794640;
+        Wed, 28 Oct 2020 10:23:14 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id k25sm87634ejz.93.2020.10.28.10.18.05
+        by smtp.gmail.com with ESMTPSA id l17sm112230eji.14.2020.10.28.10.23.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 10:18:06 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: amd-pmc: Add AMD platform support for
- S2Idle
-To:     Shyam Sundar S K <ssundark@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        mgross@linux.intel.com, platform-driver-x86@vger.kernel.org
-Cc:     Alexander.Deucher@amd.com
-References: <20201023080410.458629-1-Shyam-sundar.S-k@amd.com>
- <9c38b017-edec-9c1b-3dfc-18a6a2000998@redhat.com>
- <afe22192-b9c3-5562-fc30-fbc6c90e655d@amd.com>
+        Wed, 28 Oct 2020 10:23:13 -0700 (PDT)
+Subject: Re: [PATCH] Documentation: Add documentation for new platform_profile
+ sysfs attribute
+To:     Bastien Nocera <hadess@hadess.net>,
+        Mark Pearson <markpearson@lenovo.com>
+Cc:     dvhart@infradead.org, mgross@linux.intel.com,
+        mario.limonciello@dell.com, eliadevito@gmail.com, bberg@redhat.com,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <markpearson@lenovo.com>
+ <20201027164219.868839-1-markpearson@lenovo.com>
+ <5ca1ae238b23a611b8a490c244fd93cdcc36ef79.camel@hadess.net>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <5d997a4e-faa3-1321-7360-9807bec56ada@redhat.com>
-Date:   Wed, 28 Oct 2020 18:18:05 +0100
+Message-ID: <d5f0bcba-5366-87da-d199-a85d59ba6c1c@redhat.com>
+Date:   Wed, 28 Oct 2020 18:23:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <afe22192-b9c3-5562-fc30-fbc6c90e655d@amd.com>
+In-Reply-To: <5ca1ae238b23a611b8a490c244fd93cdcc36ef79.camel@hadess.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Hi,
 
-
-On 10/28/20 4:54 PM, Shyam Sundar S K wrote:
-> Hi Hans,
+On 10/28/20 2:45 PM, Bastien Nocera wrote:
+> Hey Hans, Mark,
 > 
-> On 10/28/2020 5:48 PM, Hans de Goede wrote:
->> [CAUTION: External Email]
+> On Tue, 2020-10-27 at 12:42 -0400, Mark Pearson wrote:
+>> From: Hans de Goede <hdegoede@redhat.com>
 >>
->> Hi,
+>> On modern systems the platform performance, temperature, fan and
+>> other
+>> hardware related characteristics are often dynamically configurable.
+>> The
+>> profile is often automatically adjusted to the load by somei
+>> automatic-mechanism (which may very well live outside the kernel).
 >>
->> On 10/23/20 10:04 AM, Shyam Sundar S K wrote:
->>> AMD Power Management Controller driver aka. amd-pmc driver is the
->>> controller which is meant for final S2Idle transaction that goes to the
->>> PMFW running on the AMD SMU (System Management Unit) responsible for
->>> tuning of the VDD.
->>>
->>> Once all the monitored list or the idle constraints are met, this driver
->>> would go and set the OS_HINT (meaning all the devices have reached to
->>> their lowest state possible) via the SMU mailboxes.
->>>
->>> This driver would also provide some debug capabilities via debugfs.
->>>
->>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Thank you for your patch, I have various review remarks, see my
->> comments inline.
+>> These auto platform-adjustment mechanisms often can be configured
+>> with
+>> one of several 'platform-profiles', with either a bias towards low-
+>> power
 > 
-> Adding Alex..
+> Can you please make sure to quote 'platform-profile' and 'profile-name'
+> this way all through the document? They're not existing words, and
+> quoting them shows that they're attribute names, rather than English.
 > 
-> Thank you Hans for the feedback. I have sent a v2, can you please review it.
+>> consumption or towards performance (and higher power consumption and
+>> thermals).
+> 
+> s/thermal/temperature/
+> 
+> "A thermal" is something else (it's seasonal underwear for me ;)
+> 
+>> Introduce a new platform_profile sysfs API which offers a generic API
+>> for
+>> selecting the performance-profile of these automatic-mechanisms.
+>>
+>> Co-developed-by: Mark Pearson <markpearson@lenovo.com>
+>> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>> Changes in V1:
+>>  - Moved from RFC to proposed patch
+>>  - Added cool profile as requested
+>>  - removed extra-profiles as no longer relevant
+>>
+>>  .../ABI/testing/sysfs-platform_profile        | 66
+>> +++++++++++++++++++
+>>  1 file changed, 66 insertions(+)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-platform_profile
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-platform_profile
+>> b/Documentation/ABI/testing/sysfs-platform_profile
+>> new file mode 100644
+>> index 000000000000..240bd3d7532b
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-platform_profile
+>> @@ -0,0 +1,66 @@
+>> +Platform-profile selection (e.g.
+>> /sys/firmware/acpi/platform_profile)
+>> +
+>> +On modern systems the platform performance, temperature, fan and
+>> other
+>> +hardware related characteristics are often dynamically configurable.
+>> The
+>> +profile is often automatically adjusted to the load by some
+>> +automatic-mechanism (which may very well live outside the kernel).
+>> +
+>> +These auto platform-adjustment mechanisms often can be configured
+>> with
+>> +one of several 'platform-profiles', with either a bias towards low-
+>> power
+>> +consumption or towards performance (and higher power consumption and
+>> +thermals).
+>> +
+>> +The purpose of the platform_profile attribute is to offer a generic
+>> sysfs
+>> +API for selecting the platform-profile of these automatic-
+>> mechanisms.
+>> +
+>> +Note that this API is only for selecting the platform-profile, it is
+>> +NOT a goal of this API to allow monitoring the resulting performance
+>> +characteristics. Monitoring performance is best done with
+>> device/vendor
+>> +specific tools such as e.g. turbostat.
+>> +
+>> +Specifically when selecting a high-performance profile the actual
+>> achieved
+>> +performance may be limited by various factors such as: the heat
+>> generated
+>> +by other components, room temperature, free air flow at the bottom
+>> of a
+>> +laptop, etc. It is explicitly NOT a goal of this API to let
+>> userspace know
+>> +about any sub-optimal conditions which are impeding reaching the
+>> requested
+>> +performance level.
+>> +
+>> +Since numbers are a rather meaningless way to describe platform-
+>> profiles
+> 
+> It's not meaningless, but rather ambiguous. For a range of 1 to 5, is 1
+> high performance, and 5 low power, or vice-versa?
 
-It looks like something went wrong with the sending of the v2, I do not
-see it in my inbox, nor is it in patchwork:
+It is meaningless because the space we are trying to describe with the
+profile-names is not 1 dimensional. E.g. as discussed before cool and
+low-power are not necessarily the same thing. If you have a better way
+to word this I'm definitely in favor of improving the text here.
 
-https://patchwork.kernel.org/project/platform-driver-x86/list/
+> 
+>> +this API uses strings to describe the various profiles. To make sure
+>> that
+>> +userspace gets a consistent experience when using this API this API
+> 
+> you can remove "when using this API".
+> 
+>> +document defines a fixed set of profile-names. Drivers *must* map
+>> their
+>> +internal profile representation/names onto this fixed set.
+>> +
+>> +If for some reason there is no good match when mapping then a new
+>> profile-name
+>> +may be added.
+> 
+> "for some reason" can be removed.
+> 
+>>  Drivers which wish to introduce new profile-names must:
+>> +1. Have very good reasons to do so.
+> 
+> "1. Explain why the existing 'profile-names' cannot be used"
+> 
+>> +2. Add the new profile-name to this document, so that future drivers
+>> which also
+>> +   have a similar problem can use the same name.
+> 
+> "2. Add the new 'profile-name' to the documentation so that other
+> drivers can use it, as well as user-space knowing clearly what
+> behaviour the 'profile-name' corresponds to"
+> 
+>> +
+>> +What:          /sys/firmware/acpi/platform_profile_choices
+>> +Date:          October 2020
+>> +Contact:       Hans de Goede <hdegoede@redhat.com>
+>> +Description:
+>> +               Reading this file gives a space separated list of
+>> profiles
+>> +               supported for this device.
+> 
+> "This file contains a space-separated list of profiles..."
+> 
+>> +
+>> +               Drivers must use the following standard profile-
+>> names:
+>> +
+>> +               low-power:              Emphasises low power
+>> consumption
+>> +               cool:                   Emphasises cooler operation
+>> +               quiet:                  Emphasises quieter operation
+>> +               balanced:               Balance between low power
+>> consumption
+>> +                                       and performance
+>> +               performance:            Emphasises performance (and
+>> may lead to
+>> +                                       higher temperatures and fan
+>> speeds)
+> 
+> I'd replace "Emphasises" with either "Focus on" or the US English
+> spelling of "Emphasizes".
+> 
+>> +               Userspace may expect drivers to offer at least
+>> several of these
+>> +               standard profile-names.
+> 
+> Replce "at least several" with "more than one".
+> 
+>> +
+>> +What:          /sys/firmware/acpi/platform_profile
+>> +Date:          October 2020
+>> +Contact:       Hans de Goede <hdegoede@redhat.com>
+>> +Description:
+>> +               Reading this file gives the current selected profile
+>> for this
+>> +               device. Writing this file with one of the strings
+>> from
+>> +               available_profiles changes the profile to the new
+>> value.
+> 
+> Is there another file which explains whether those sysfs value will
+> contain a trailing linefeed?
+
+sysfs APIs are typically created so that they can be used from the shell,
+so on read a newline will be added. On write a newline at the end
+typically is allowed, but ignored. There are even special helper functions
+to deal with properly ignoring the newline on write.
 
 Regards,
 
 Hans
+
 
