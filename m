@@ -2,123 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B160F29D81A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9539329D710
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:21:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387559AbgJ1W3l (ORCPT
+        id S1732154AbgJ1WUT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 18:29:41 -0400
-Received: from mail-co1nam11on2065.outbound.protection.outlook.com ([40.107.220.65]:44865
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387545AbgJ1W3j (ORCPT
+        Wed, 28 Oct 2020 18:20:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31986 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732140AbgJ1WUS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:29:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tpt2iHstfBj2oWcVNPy/fIIgrq6H2/dfPT2/wa5LbfExi07Ru5VHCLTDdG3kTEuC+4Zs1pTV0ZtAa6s1frW3UQteNZChn6iDhSet5WPHvU1cINGvKsqUGd7LFz33ULJ7TCxiVH2WO51TJ4eEuD6u8/LuTDOyIJVR7aWyt2p29l/4ni5pMG6h1jTeqKIdb79a87B76/Hl6jG3+v/lM2mx1wzSPBzBJdgDdJaWJt4Hp9QtbvOljivXdHWq7iU87mviHg7wn91BqOZdXRgx2mta2FZXfu4otWj4hmqJgwY2a5mqAFfllgt+apUy5UsJv8XrH/TgFhw7vclcfOiugtjwXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oRk27dkPrFe19FO7RWgDAJEO+MFznPhf43pneIgMKgY=;
- b=f8D4H1LvuYoiHpffeHtr+Pqr+iD531LfyrcWlEaSpFFPn1wHOOUAFEIJilBRZHC5ylrV5I1iEUbr6pWKu0O9wpP2GZLPpiik86M3AgDt6C4RWZm895A4CPX/Vp3oeiGffQ45CwPdY04VUFuwklPjYyfaNCSt+DZcDfEYW4T2rsBM2U96s+MfwGcI0pt6g1BRThnLTtAP7XvjX52SfLFTOzP96EEdA1/+iE0o1MSpb0nsPHEsfBXZtJfwr+tAlccSuf9RIEIbdnAeKJOwJpMqkPkBDgXIASRSCqutFG/qqT8zQX7Dgb8GbQJ5Furr6MfBWLmu7128wq/ekWNuQngbNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oRk27dkPrFe19FO7RWgDAJEO+MFznPhf43pneIgMKgY=;
- b=T3s4+qClw8s3XMyE8UFbM9rzKPcls5NXsKbiCdoo28xGqNlmO/7QStdzjkkbV66LoJsubYG/QbGSZvtWchP1iPFzCQKnfsmisDbFOAcmOe0ckoJ1NxX5OJ/pdxkLEjsKF3KOBQaatH5s8p4UzXLbrlt7qwIXvgiVKUDgEvSeFGo=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
- (2603:10b6:404:ac::23) by BN8PR12MB3348.namprd12.prod.outlook.com
- (2603:10b6:408:47::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Wed, 28 Oct
- 2020 15:55:34 +0000
-Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
- ([fe80::e8ab:4ae2:8e36:dfc9]) by BN6PR1201MB0004.namprd12.prod.outlook.com
- ([fe80::e8ab:4ae2:8e36:dfc9%5]) with mapi id 15.20.3477.029; Wed, 28 Oct 2020
- 15:55:34 +0000
+        Wed, 28 Oct 2020 18:20:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603923616;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4vTgWgNrSBbzQVpHc5QfEZsKPUZjexFRfHa0iKoJ/18=;
+        b=PljalvwsPPC7RVSGVszNSylC68mUsut4WVFXsTZr9Qxr4LzIJPKeT8wGWm+dLmHFJ86O3A
+        tpi900H204vlw8N0iGAsYPn00GxgPELDwzz3fAt2BDgZwd6mZm4sVXTIRKDQHwC1E86vGj
+        h5wJMiSC1M34M8h0ayHXvS7MhWSiD/Q=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-e9NTQs8fO76Ml78KUaz3-A-1; Wed, 28 Oct 2020 13:18:08 -0400
+X-MC-Unique: e9NTQs8fO76Ml78KUaz3-A-1
+Received: by mail-ej1-f69.google.com with SMTP id z18so116370eji.1
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 10:18:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4vTgWgNrSBbzQVpHc5QfEZsKPUZjexFRfHa0iKoJ/18=;
+        b=rocvu77FeqTJpsIEycFs79iORBGdw77zCOkCvbIhZUUqjbsPLhEldHM2yRkTvGcevv
+         YE8j0BaKyyWgt6vFNuQaUg5Y9TMa84HMZjz9oTAnKkB5qEADtZBWJ1VFSkxe+EO8Ux2M
+         XX0zwzaK2ONR53bJS5VSMonTFzkiAvqq1V8vUQM3qRms/6jPMQ6xccLozXD3oJ4vZtr1
+         iC72Mj9I9Ywriqnv8Iyz/pN8vk0abjOje4YWTkD+Gx799AaJtqCqng2xAiDDashOYrGy
+         KZnESospK9uaUKIY1ImQOfWOOxPnEzlE/A+qgc91TAdy8O3icfWee0jnCwLzAeVIikw9
+         sZQw==
+X-Gm-Message-State: AOAM530AxnnyBHQ/DjHffC3e1ZR6JZFVK6eCRrXwKKMaJjXh0kA0fbMb
+        PjB1T0KryIK/hh8Sqy+Y19AKctsJXQgocv67X9qgAsWiGol8ppJijTH6Kc+Lj3lrw+fzM45HDZf
+        wd26WTUqXEBpGr7zHS8sQg+yrBWW+jogZzg==
+X-Received: by 2002:aa7:c351:: with SMTP id j17mr8706000edr.70.1603905487050;
+        Wed, 28 Oct 2020 10:18:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1dIBlrJ+FSDMGHJhmbAO0c+88EblN2HjpY49it0MJRhpPsOBM4Mm3k2M8/IzcbvJnVFxpJw==
+X-Received: by 2002:aa7:c351:: with SMTP id j17mr8705974edr.70.1603905486823;
+        Wed, 28 Oct 2020 10:18:06 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id k25sm87634ejz.93.2020.10.28.10.18.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2020 10:18:06 -0700 (PDT)
 Subject: Re: [PATCH] platform/x86: amd-pmc: Add AMD platform support for
  S2Idle
-To:     Hans de Goede <hdegoede@redhat.com>,
+To:     Shyam Sundar S K <ssundark@amd.com>,
         Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
         mgross@linux.intel.com, platform-driver-x86@vger.kernel.org
+Cc:     Alexander.Deucher@amd.com
 References: <20201023080410.458629-1-Shyam-sundar.S-k@amd.com>
  <9c38b017-edec-9c1b-3dfc-18a6a2000998@redhat.com>
-Cc:     Alexander.Deucher@amd.com
-From:   Shyam Sundar S K <ssundark@amd.com>
-Message-ID: <afe22192-b9c3-5562-fc30-fbc6c90e655d@amd.com>
-Date:   Wed, 28 Oct 2020 21:24:55 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-In-Reply-To: <9c38b017-edec-9c1b-3dfc-18a6a2000998@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-Originating-IP: [165.204.159.242]
-X-ClientProxiedBy: BM1PR01CA0150.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:68::20) To BN6PR1201MB0004.namprd12.prod.outlook.com
- (2603:10b6:404:ac::23)
+ <afe22192-b9c3-5562-fc30-fbc6c90e655d@amd.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <5d997a4e-faa3-1321-7360-9807bec56ada@redhat.com>
+Date:   Wed, 28 Oct 2020 18:18:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.252.89.180] (165.204.159.242) by BM1PR01CA0150.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:68::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 28 Oct 2020 15:55:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 01a5126f-d31c-4d88-e5af-08d87b59e7c1
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3348:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR12MB33488F6D5667A6CA93E0FFAD9A170@BN8PR12MB3348.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 15olNmgTlzZi62gPmeHdoFsBKNIzrO/F4DYuZKTz54Z072X7KLZa9halbhNtqukl0dgZs4UL0jLX22Aq5utWINt/o+hu2dBSkSSq8h+oVIkoExwSZh3G4RhEzybUHFrM5BUk9l0MVJI0Of2w2e6kQoekyoT/XBNmItsFiDkIgN2ELrdnohjQG6NjEDTeEGiQT/w1AhZTe9oeKAJrIl+IyZ3ihfQDf7OhzPLl7vGWRiQF+Q9aPBsy/TuIYrmDJsna5X7M2PvPBpGIFxuS3Mdmrp5f8z7+RsyxkDGE6Vd5eL7xJFCQqArPGKCuEz3Ec+Gh8m/FIRzbi52HUzutxCA/uCJtFBRSL01DSeC7eeK3djohLi2Hv6NyaDx3VoBSe7PQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1201MB0004.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(396003)(346002)(366004)(39860400002)(66476007)(36756003)(16526019)(16576012)(316002)(2906002)(66556008)(6666004)(8936002)(110136005)(6486002)(31686004)(52116002)(26005)(31696002)(53546011)(2616005)(956004)(66946007)(8676002)(5660300002)(4744005)(83380400001)(186003)(478600001)(4326008)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: XYLGOhMqRqICkKLSGoEmXCl7EFkcrEYtR4wCRgbvN69Uj2UKuYkjBhVJePcDMoMf2bShiosZfyKiyMPoB941KUx97AL25mm9vJGatN0p97kHaNClcKChZ4wceFhZJcSB7S32MN6E5XxWjEr6yo7J591+Q+nWoAZpDcW4jVVGYpbPzDW6ThNsNsR7uZ6RownYB+hJb8fZnTqkWg0QDxTYIIvHb0YPGg7ZNBtuNhY07XoKuPRANkIbOArqlam1ZvwmVEPZ8Ls3py6enDlGtFRYLOJgKvBogZeEWMkBIbrjqiRbRiBFuWsXHGVIdYm4alDsbqdn2AL39IHTiPb59HI/I/ohbx/f1m7b5wMXsQlGtZvW/b8VpByTU4LYdke5u1FMla/P3fVK1HeEOTaZH8Y9dHGI5zDvmqxUm90XW705gLtfFywTwT+iUFmmR7gjCu3zng3ZAs0xtHeqANDOQt/+qnStmBp3HQKKmsUUBVvYsgLeVkp3MPzjRlYXjesq9OBoFuM7dayZ0U7r+82xpO0cd6W0HjkLe1O13p/WSLryMB42h1zW/Mg4lA307l5EHNGAERiAaEgRc31Q/wQ1SBCtykwEc8BbW1mTIfh6GNVVx5E9zgzGIiu/fdMN+q4+Ys9RJBn7B2FnoqiWYpN3U4aa9A==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01a5126f-d31c-4d88-e5af-08d87b59e7c1
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR1201MB0004.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 15:55:34.7463
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T313LFy3PoC2w4nI5bTXlunvJBN2F5q2tX70kFBWWmSawLHNRyfkXVdyC7hdzDwSxJl6iUfKrEHzjkfXjTO/7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3348
+In-Reply-To: <afe22192-b9c3-5562-fc30-fbc6c90e655d@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans,
 
-On 10/28/2020 5:48 PM, Hans de Goede wrote:
-> [CAUTION: External Email]
->
-> Hi,
->
-> On 10/23/20 10:04 AM, Shyam Sundar S K wrote:
->> AMD Power Management Controller driver aka. amd-pmc driver is the
->> controller which is meant for final S2Idle transaction that goes to the
->> PMFW running on the AMD SMU (System Management Unit) responsible for
->> tuning of the VDD.
+
+On 10/28/20 4:54 PM, Shyam Sundar S K wrote:
+> Hi Hans,
+> 
+> On 10/28/2020 5:48 PM, Hans de Goede wrote:
+>> [CAUTION: External Email]
 >>
->> Once all the monitored list or the idle constraints are met, this driver
->> would go and set the OS_HINT (meaning all the devices have reached to
->> their lowest state possible) via the SMU mailboxes.
+>> Hi,
 >>
->> This driver would also provide some debug capabilities via debugfs.
->>
->> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Thank you for your patch, I have various review remarks, see my
-> comments inline.
+>> On 10/23/20 10:04 AM, Shyam Sundar S K wrote:
+>>> AMD Power Management Controller driver aka. amd-pmc driver is the
+>>> controller which is meant for final S2Idle transaction that goes to the
+>>> PMFW running on the AMD SMU (System Management Unit) responsible for
+>>> tuning of the VDD.
+>>>
+>>> Once all the monitored list or the idle constraints are met, this driver
+>>> would go and set the OS_HINT (meaning all the devices have reached to
+>>> their lowest state possible) via the SMU mailboxes.
+>>>
+>>> This driver would also provide some debug capabilities via debugfs.
+>>>
+>>> Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>> Thank you for your patch, I have various review remarks, see my
+>> comments inline.
+> 
+> Adding Alex..
+> 
+> Thank you Hans for the feedback. I have sent a v2, can you please review it.
 
-Adding Alex..
+It looks like something went wrong with the sending of the v2, I do not
+see it in my inbox, nor is it in patchwork:
 
-Thank you Hans for the feedback. I have sent a v2, can you please review it.
+https://patchwork.kernel.org/project/platform-driver-x86/list/
 
-Thanks,
+Regards,
 
-Shyam
+Hans
 
