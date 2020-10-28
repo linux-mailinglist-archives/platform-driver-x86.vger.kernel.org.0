@@ -2,1010 +2,513 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA49029D6C4
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BD729D776
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 23:24:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731738AbgJ1WRn (ORCPT
+        id S1732954AbgJ1WYk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 18:17:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60512 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731659AbgJ1WRm (ORCPT
+        Wed, 28 Oct 2020 18:24:40 -0400
+Received: from mail-co1nam11on2078.outbound.protection.outlook.com ([40.107.220.78]:18904
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732991AbgJ1WYj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:42 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 53F9D247A6;
-        Wed, 28 Oct 2020 14:23:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603895016;
-        bh=2h1em4MKg/z2IEKdQjvRnCIKR9rh1a2kR/O2PwYBlqc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X6zGr5shoBQH7QRrAxUmIwVMrC1hzHTK8IePZqHJDWWvHcet8KUQ1wMbt/H6RSTp4
-         +Y+HcyyQPbDPvfkkdnIL1wjddkT4XSGTO7+6ge3lDwOfMWDUlRYrspgQbv+YqrbtIT
-         /BgohNLiASJQmz5OxM5jn123tKKuagXo1s7/55pU=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kXmMP-003hlx-HF; Wed, 28 Oct 2020 15:23:33 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Akira Shimahara <akira215corp@gmail.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Christian Gromm <christian.gromm@microchip.com>,
-        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Evgeniy Polyakov <zbr@ioremap.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        Ivan Zaentsev <ivan.zaentsev@wirenboard.ru>,
-        Jack Wang <jinpu.wang@cloud.ionos.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jithu Joseph <jithu.joseph@intel.com>,
-        Jolly Shah <jolly.shah@xilinx.com>,
-        Kamil Konieczny <k.konieczny@samsung.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        Luwei Kang <luwei.kang@intel.com>,
-        Marek Behun <marek.behun@nic.cz>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Philippe Bergheaud <felix@linux.ibm.com>,
-        Rajan Vaja <rajan.vaja@xilinx.com>,
-        Richard Gong <richard.gong@linux.intel.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Tejas Patel <tejas.patel@xilinx.com>,
-        Vadim Pasternak <vadimp@nvidia.com>, Wu Hao <hao.wu@intel.com>,
-        Xu Yilun <yilun.xu@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 27/33] docs: ABI: fix syntax to be parsed using ReST notation
-Date:   Wed, 28 Oct 2020 15:23:25 +0100
-Message-Id: <96879fd4fb55f395cb82fdccf5032f92d649451c.1603893146.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1603893146.git.mchehab+huawei@kernel.org>
-References: <cover.1603893146.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+        Wed, 28 Oct 2020 18:24:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=drutVkO2PEiskkE26lrPC8B0JgPb+mTzzL7IjcZzHX8+J5YaltSKSWj3yllb5CExLL23iSBjxzfn8KMtOmoCXpKIQsIOrD65eYptTULaNVxuCoUYlKAZdmEQYwth82OejnQiIcbAmNQMSbyCAMC2O2CZesbnFHqB5xD2fGS4vUKOq2Ni+OLCDhO0PX7i7bzyFvrgGi9ixUDxNzyDIwyv12+yr/XEEnxxADnn52c4Deho4m0jyodic2D+z3jYJQV+2Fv7SLfqHi+QLrFoWw6aSsExM/PmbeuPf23bL2CG95taQIJMF3o2luxVlnNdmHfvQyxMKDjOv8kzLE6U4I4Eow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FWW+HWZ8jWROeG1zTFKMUi/QgE6hp2MC83rMXyE7l94=;
+ b=JaWb/D6VoFnkFF/sml7RwdynnBPRRuUMuofWXkCvmZfwKHLQgTE11NNtbTdTUdm27Z3vl6V3ohEt9PakdqMy8exhef1RmxncrQ8Hx8SlSjwFeixQ8h3WC3Agn4t3rkvZ265i9zEDnXkeDbUgoRIOqaG9OsNdEYs5Oa1hwPj/+pS+HueUomPe9NVaHkok38T9qK1vSZP0gYTTxAVhMArAwPiDUaH+RGsZ1uIshbl3vuWKXxyS3+O23Ixu25Hf37xoRQhkleutmDV8OtJal7d7Q/Glzg9m+Y4I6gS6pSmSrmlQnH6lR8EfUJEdqa7GZPwnmYY2bODzmUINnId3tsfESQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FWW+HWZ8jWROeG1zTFKMUi/QgE6hp2MC83rMXyE7l94=;
+ b=mbfkNhNpgmcPN4lyVSCH8Rh09ZZ9S+TRoSYjFQ+mDBRCcJKz8mu8Pt5x4S74V3xPda9gKtlHAbBsN9imdifWsTJPiwY8uvWtSiA7ZN8Yy+rSlTtcvvk/6XRNwHS/k/QaIoRHvJfdVa3zw0zzquWqUu+D4bgsxuKSTaVgkKsMxM0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
+ (2603:10b6:404:ac::23) by BN8PR12MB3250.namprd12.prod.outlook.com
+ (2603:10b6:408:99::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Wed, 28 Oct
+ 2020 15:52:27 +0000
+Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
+ ([fe80::e8ab:4ae2:8e36:dfc9]) by BN6PR1201MB0004.namprd12.prod.outlook.com
+ ([fe80::e8ab:4ae2:8e36:dfc9%5]) with mapi id 15.20.3477.029; Wed, 28 Oct 2020
+ 15:52:27 +0000
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     hdegoede@redhat.com, mgross@linux.intel.com,
+        platform-driver-x86@vger.kernel.org
+Cc:     Alexander.Deucher@amd.com,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v2] platform/x86: amd-pmc: Add AMD platform support for S2Idle
+Date:   Wed, 28 Oct 2020 21:21:20 +0530
+Message-Id: <20201028155120.2691323-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [165.204.156.251]
+X-ClientProxiedBy: MAXPR0101CA0069.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:e::31) To BN6PR1201MB0004.namprd12.prod.outlook.com
+ (2603:10b6:404:ac::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jatayu.amd.com (165.204.156.251) by MAXPR0101CA0069.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:e::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27 via Frontend Transport; Wed, 28 Oct 2020 15:52:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 70a7e0c1-0b00-42b9-e1f4-08d87b597867
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3250:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN8PR12MB325095CC129E5A78EB8F9E979A170@BN8PR12MB3250.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:541;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Tulbw5Ya/ntJhBfuwbYJJeRkS1Al70Ruw/5uf82kHhot6sjdByOlVDV3Hej9o/FwXpP6cvgkucnlwbCDllRXtgtsnbfJBdc1QNWUhkztVKOtVpQfRmr8R5H/GZ2bGMrs7ir9omh3cG4rQrzqTlFRAwlk2rcsIMf1Mor6qD14aUCZjJFIlp5dmeSdLnFPGyCywt11TgGvmFRjKgAAExlWtaZJN0OTK7epuzD/70vFa36xBzg/5tPOKdjHzauWcvlnyKKHopzCxxgKKoP9gxSg0T7d/AabxoUI0n6yu/J+kVtLQf3Uyj7wqk3rXZ+Jbe+i
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1201MB0004.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(2906002)(66556008)(86362001)(4326008)(8936002)(8676002)(66946007)(5660300002)(30864003)(2616005)(956004)(1076003)(6486002)(6666004)(186003)(26005)(66476007)(16526019)(83380400001)(7696005)(52116002)(316002)(478600001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: ZZVhjz2eZkyoxs0zs0JGnJ819T5EiR6HHXzo/1E7doBpaXvOxg1IHO3nHKpKgCJ4urBkAFY78HU6jEirLd/lNN1SXCe2nWC5hUi7t+HIlVfnE1P1rpRxfMhL04EWWg9NntgP/shfO6bRWr/1Dj3QVBzuqC9ldiuS94v9Ofi7bpKomMnlbLtmflNHWLCmG2RyTM5gRcGvlFQtKgtnimpCPXqt4i9AV1nSmyDa1SCIjc9W7mrspMcU4GxNbiL1Kn73ICi2yd7Ljb9PjpZIbLhUcYu3o/AByqBdY40DaymbtIcj8W/dnk0Py/a8pD3tEKCGycYhUBpQ+rQ9FYSyu4N0Wz3lRIV1+HqaHPHUr6tDI7OMUA6II/VssbpnHrLyRLjG+whjAiytlwudPZw7lHxB5ML5AImFZzR9fwbqrozGi/LOTEk/spThAQNXofkG+kmNGOkiQT84r7GreeOo1dKj0h1mc/GCgsG8NUCr+3a3XL1kSKDLFDjcwUZgoHVe42zWyQTZHiXAUmN8fPmFIIUy2iIyRBuDA8JwYtv7ZeTsYWKsmQsquKiLMai2i9Y6DvR3IYwU8QuavQLBFawQaNb++HtVQvP+7o5H1IqiYzNXSM9jqgyM0iKm1yMbWtZRJFpIhXnO5U3F9H+aWfl1VZTJdw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70a7e0c1-0b00-42b9-e1f4-08d87b597867
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR1201MB0004.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 15:52:27.7743
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6A4ajcZzPcMixnvpACz1uU73imu9Wi1Jr9vU4H41WBGoajySVyedGvK9izAR4FF39R/vGpj1mLXEyP6LSInHTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3250
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-There are a number of new changes at the ABI files that cause
-them to produce warnings when generating ABI output.
+AMD Power Management Controller driver aka. amd-pmc driver is the
+controller which is meant for final S2Idle transaction that goes to the
+PMFW running on the AMD SMU (System Management Unit) responsible for
+tuning of the VDD.
 
-Fix them.
+Once all the monitored list or the idle constraints are met, this driver
+would go and set the OS_HINT (meaning all the devices have reached to
+their lowest state possible) via the SMU mailboxes.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+This driver would also provide some debug capabilities via debugfs.
+
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 ---
- .../ABI/stable/sysfs-driver-firmware-zynqmp   | 62 ++++++++-----
- Documentation/ABI/testing/debugfs-moxtet      | 28 ++++--
- .../ABI/testing/debugfs-turris-mox-rwtm       |  6 +-
- .../sysfs-bus-event_source-devices-dfl_fme    | 14 +--
- Documentation/ABI/testing/sysfs-bus-most      |  6 +-
- Documentation/ABI/testing/sysfs-class-devfreq |  6 +-
- Documentation/ABI/testing/sysfs-class-ocxl    | 14 +--
- .../ABI/testing/sysfs-class-power-wilco       | 18 ++--
- .../ABI/testing/sysfs-class-rnbd-client       | 93 ++++++++++---------
- .../ABI/testing/sysfs-class-rtrs-client       | 23 +++--
- .../sysfs-devices-platform-stratix10-rsu      | 10 ++
- .../ABI/testing/sysfs-driver-w1_therm         | 75 ++++++++++-----
- .../ABI/testing/sysfs-platform-dfl-fme        | 14 ++-
- Documentation/ABI/testing/sysfs-platform-dptf | 11 ++-
- .../sysfs-platform-intel-wmi-sbl-fw-update    |  1 +
- .../testing/sysfs-platform-mellanox-bootctl   | 50 ++++++----
- .../ABI/testing/sysfs-platform-wilco-ec       |  1 +
- 17 files changed, 271 insertions(+), 161 deletions(-)
+ MAINTAINERS                    |   7 +
+ drivers/platform/x86/Kconfig   |   9 ++
+ drivers/platform/x86/Makefile  |   3 +
+ drivers/platform/x86/amd-pmc.c | 274 +++++++++++++++++++++++++++++++++
+ drivers/platform/x86/amd-pmc.h |  64 ++++++++
+ 5 files changed, 357 insertions(+)
+ create mode 100644 drivers/platform/x86/amd-pmc.c
+ create mode 100644 drivers/platform/x86/amd-pmc.h
 
-diff --git a/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp b/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-index 00fa04c76ff3..f5724bb5b462 100644
---- a/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-+++ b/Documentation/ABI/stable/sysfs-driver-firmware-zynqmp
-@@ -12,13 +12,15 @@ Description:
- 		resets. Three registers are used by the FSBL and
- 		other Xilinx software products: GLOBAL_GEN_STORAGE{4:6}.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e2a8ad69c262..95374000044d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -929,6 +929,13 @@ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+ F:	drivers/i2c/busses/i2c-amd-mp2*
  
--		Usage:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
--		# echo <value> > /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
-+		Usage::
- 
--		Example:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
--		# echo 0x1234ABCD > /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
-+		    # echo <value> > /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
++AMD PMC DRIVER
++M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/amd-pmc.c
++F:	drivers/platform/x86/amd-pmc.h
 +
-+		Example::
+ AMD POWERPLAY
+ M:	Evan Quan <evan.quan@amd.com>
+ L:	amd-gfx@lists.freedesktop.org
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 0d91d136bc3b..665ba3264374 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -180,6 +180,15 @@ config ACER_WMI
+ 	  If you have an ACPI-WMI compatible Acer/ Wistron laptop, say Y or M
+ 	  here.
+ 
++config AMD_PMC
++	tristate "AMD SoC PMC driver"
++	depends on ACPI && PCI
++	help
++	  The driver provides support for AMD Power Management Controller
++	  primarily responsible for S2Idle transactions that are driven from
++	  a platform firmware running on SMU. This driver also provides debug
++	  mechanism to investigate the S2Idle transactions and failures.
 +
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
-+		    # echo 0x1234ABCD > /sys/devices/platform/firmware\:zynqmp-firmware/ggs0
+ config APPLE_GMUX
+ 	tristate "Apple Gmux Driver"
+ 	depends on ACPI && PCI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 5f823f7eff45..48203e87240c 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -22,6 +22,9 @@ obj-$(CONFIG_ACERHDF)		+= acerhdf.o
+ obj-$(CONFIG_ACER_WIRELESS)	+= acer-wireless.o
+ obj-$(CONFIG_ACER_WMI)		+= acer-wmi.o
  
- Users:		Xilinx
- 
-@@ -39,13 +41,15 @@ Description:
- 		software products: PERS_GLOB_GEN_STORAGE{4:7}.
- 		Register is reset only by a POR reset.
- 
--		Usage:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
--		# echo <value> > /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
-+		Usage::
- 
--		Example:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
--		# echo 0x1234ABCD > /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
-+		    # echo <value> > /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
++# AMD
++obj-$(CONFIG_AMD_PMC)		+= amd-pmc.o
 +
-+		Example::
+ # Apple
+ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ 
+diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pmc.c
+new file mode 100644
+index 000000000000..8da4efeefb19
+--- /dev/null
++++ b/drivers/platform/x86/amd-pmc.c
+@@ -0,0 +1,274 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * AMD SoC Power Management Controller Driver
++ *
++ * Copyright (c) 2020, Advanced Micro Devices, Inc.
++ * All Rights Reserved.
++ *
++ * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++ */
 +
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
-+		    # echo 0x1234ABCD > /sys/devices/platform/firmware\:zynqmp-firmware/pggs0
- 
- Users:		Xilinx
- 
-@@ -61,23 +65,28 @@ Description:
- 
- 		Following are available shutdown scopes(subtypes):
- 
--		subsystem:	Only the APU along with all of its peripherals
-+		subsystem:
-+				Only the APU along with all of its peripherals
- 				not used by other processing units will be
- 				shut down. This may result in the FPD power
- 				domain being shut down provided that no other
- 				processing unit uses FPD peripherals or DRAM.
--		ps_only:	The complete PS will be shut down, including the
-+		ps_only:
-+				The complete PS will be shut down, including the
- 				RPU, PMU, etc.  Only the PL domain (FPGA)
- 				remains untouched.
--		system:		The complete system/device is shut down.
-+		system:
-+				The complete system/device is shut down.
- 
--		Usage:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
--		# echo <scope> > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
-+		Usage::
- 
--		Example:
--		# cat /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
--		# echo "subsystem" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
-+		    # echo <scope> > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
-+		Example::
++#include <linux/acpi.h>
++#include <linux/bitfield.h>
++#include <linux/debugfs.h>
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/platform_device.h>
++#include <linux/suspend.h>
++#include <linux/seq_file.h>
++#include <linux/uaccess.h>
 +
-+		    # cat /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
-+		    # echo "subsystem" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
- 
- Users:		Xilinx
- 
-@@ -94,10 +103,13 @@ Description:
- 		system restart.
- 
- 		Usage:
--		Set healthy bit
--		# echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/health_status
- 
--		Unset healthy bit
--		# echo 0 > /sys/devices/platform/firmware\:zynqmp-firmware/health_status
-+		Set healthy bit::
++#include "amd-pmc.h"
 +
-+		    # echo 1 > /sys/devices/platform/firmware\:zynqmp-firmware/health_status
++static struct amd_pmc_dev pmc;
 +
-+		Unset healthy bit::
++static inline u32 amd_pmc_reg_read(struct amd_pmc_dev *dev, int reg_offset)
++{
++	return ioread32(dev->regbase + reg_offset);
++}
 +
-+		    # echo 0 > /sys/devices/platform/firmware\:zynqmp-firmware/health_status
- 
- Users:		Xilinx
-diff --git a/Documentation/ABI/testing/debugfs-moxtet b/Documentation/ABI/testing/debugfs-moxtet
-index 67b1717794d8..15dfaecb2892 100644
---- a/Documentation/ABI/testing/debugfs-moxtet
-+++ b/Documentation/ABI/testing/debugfs-moxtet
-@@ -5,10 +5,16 @@ Contact:	Marek Behún <marek.behun@nic.cz>
- Description:	(R) Read input from the shift registers, in hexadecimal.
- 		Returns N+1 bytes, where N is the number of Moxtet connected
- 		modules. The first byte is from the CPU board itself.
--		Example: 101214
--			 10: CPU board with SD card
--			 12: 2 = PCIe module, 1 = IRQ not active
--			 14: 4 = Peridot module, 1 = IRQ not active
++static inline void amd_pmc_reg_write(struct amd_pmc_dev *dev, int reg_offset, u32 val)
++{
++	iowrite32(val, dev->regbase + reg_offset);
++}
 +
-+		Example::
++#if CONFIG_DEBUG_FS
++static int smu_fw_info_show(struct seq_file *s, void *unused)
++{
++	struct amd_pmc_dev *dev = s->private;
++	unsigned int value;
 +
-+			101214
++	value = ioread32(dev->smu_base + AMD_SMU_FW_VERSION);
++	seq_printf(s, "SMU FW Info: %x\n", value);
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(smu_fw_info);
 +
-+		==  =======================================
-+		10  CPU board with SD card
-+		12  2 = PCIe module, 1 = IRQ not active
-+		14  4 = Peridot module, 1 = IRQ not active
-+		==  =======================================
- 
- What:		/sys/kernel/debug/moxtet/output
- Date:		March 2019
-@@ -17,7 +23,13 @@ Contact:	Marek Behún <marek.behun@nic.cz>
- Description:	(RW) Read last written value to the shift registers, in
- 		hexadecimal, or write values to the shift registers, also
- 		in hexadecimal.
--		Example: 0102
--			 01: 01 was last written, or is to be written, to the
--			     first module's shift register
--			 02: the same for second module
++static void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
++{
++	debugfs_remove_recursive(dev->dbgfs_dir);
++}
 +
-+		Example::
++static void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
++{
++	struct dentry *dir;
 +
-+		    0102
++	dir = debugfs_create_dir("amd_pmc", NULL);
++	dev->dbgfs_dir = dir;
++	debugfs_create_file("smu_fw_info", 0644, dir, dev, &smu_fw_info_fops);
++}
 +
-+		==  ================================================
-+		01  01 was last written, or is to be written, to the
-+		    first module's shift register
-+		02  the same for second module
-+		==  ================================================
-diff --git a/Documentation/ABI/testing/debugfs-turris-mox-rwtm b/Documentation/ABI/testing/debugfs-turris-mox-rwtm
-index 2b3255ee68fd..c8f7dadd591c 100644
---- a/Documentation/ABI/testing/debugfs-turris-mox-rwtm
-+++ b/Documentation/ABI/testing/debugfs-turris-mox-rwtm
-@@ -2,8 +2,10 @@ What:		/sys/kernel/debug/turris-mox-rwtm/do_sign
- Date:		Jun 2020
- KernelVersion:	5.8
- Contact:	Marek Behún <marek.behun@nic.cz>
--Description:	(W) Message to sign with the ECDSA private key stored in
-+Description:	(W)
-+		    Message to sign with the ECDSA private key stored in
- 		    device's OTP. The message must be exactly 64 bytes (since
- 		    this is intended for SHA-512 hashes).
--		(R) The resulting signature, 136 bytes. This contains the R and
-+		(R)
-+		    The resulting signature, 136 bytes. This contains the R and
- 		    S values of the ECDSA signature, both in big-endian format.
-diff --git a/Documentation/ABI/testing/sysfs-bus-event_source-devices-dfl_fme b/Documentation/ABI/testing/sysfs-bus-event_source-devices-dfl_fme
-index c9278a3b3df1..63a32ddcb95e 100644
---- a/Documentation/ABI/testing/sysfs-bus-event_source-devices-dfl_fme
-+++ b/Documentation/ABI/testing/sysfs-bus-event_source-devices-dfl_fme
-@@ -8,13 +8,13 @@ Description:	Read-only. Attribute group to describe the magic bits
- 
- 		Each attribute under this group defines a bit range of the
- 		perf_event_attr.config. All supported attributes are listed
--		below.
-+		below::
- 
- 		    event  = "config:0-11"  - event ID
- 		    evtype = "config:12-15" - event type
- 		    portid = "config:16-23" - event source
- 
--		For example,
-+		For example::
- 
- 		    fab_mmio_read = "event=0x06,evtype=0x02,portid=0xff"
- 
-@@ -40,11 +40,11 @@ Description:	Read-only. Attribute group to describe performance monitoring
- 
- 		All supported performance monitoring events are listed below.
- 
--		Basic events (evtype=0x00)
-+		Basic events (evtype=0x00)::
- 
- 		    clock = "event=0x00,evtype=0x00,portid=0xff"
- 
--		Cache events (evtype=0x01)
-+		Cache events (evtype=0x01)::
- 
- 		    cache_read_hit      = "event=0x00,evtype=0x01,portid=0xff"
- 		    cache_read_miss     = "event=0x01,evtype=0x01,portid=0xff"
-@@ -59,7 +59,7 @@ Description:	Read-only. Attribute group to describe performance monitoring
- 		    cache_rx_req_stall  = "event=0x09,evtype=0x01,portid=0xff"
- 		    cache_eviction      = "event=0x0a,evtype=0x01,portid=0xff"
- 
--		Fabric events (evtype=0x02)
-+		Fabric events (evtype=0x02)::
- 
- 		    fab_pcie0_read       = "event=0x00,evtype=0x02,portid=0xff"
- 		    fab_pcie0_write      = "event=0x01,evtype=0x02,portid=0xff"
-@@ -78,7 +78,7 @@ Description:	Read-only. Attribute group to describe performance monitoring
- 		    fab_port_mmio_read   = "event=0x06,evtype=0x02,portid=?"
- 		    fab_port_mmio_write  = "event=0x07,evtype=0x02,portid=?"
- 
--		VTD events (evtype=0x03)
-+		VTD events (evtype=0x03)::
- 
- 		    vtd_port_read_transaction  = "event=0x00,evtype=0x03,portid=?"
- 		    vtd_port_write_transaction = "event=0x01,evtype=0x03,portid=?"
-@@ -88,7 +88,7 @@ Description:	Read-only. Attribute group to describe performance monitoring
- 		    vtd_port_devtlb_2m_fill    = "event=0x05,evtype=0x03,portid=?"
- 		    vtd_port_devtlb_1g_fill    = "event=0x06,evtype=0x03,portid=?"
- 
--		VTD SIP events (evtype=0x04)
-+		VTD SIP events (evtype=0x04)::
- 
- 		    vtd_sip_iotlb_4k_hit  = "event=0x00,evtype=0x04,portid=0xff"
- 		    vtd_sip_iotlb_2m_hit  = "event=0x01,evtype=0x04,portid=0xff"
-diff --git a/Documentation/ABI/testing/sysfs-bus-most b/Documentation/ABI/testing/sysfs-bus-most
-index ec0a603d804b..38cc03e408e7 100644
---- a/Documentation/ABI/testing/sysfs-bus-most
-+++ b/Documentation/ABI/testing/sysfs-bus-most
-@@ -235,7 +235,8 @@ KernelVersion:	4.15
- Contact:	Christian Gromm <christian.gromm@microchip.com>
- Description:
- 		This is to read back the configured direction of the channel.
--		The following strings will be accepted:
-+		The following strings will be accepted::
++#else
++static inline void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
++{
++}
 +
- 			'tx',
- 			'rx'
- Users:
-@@ -246,7 +247,8 @@ KernelVersion:	4.15
- Contact:	Christian Gromm <christian.gromm@microchip.com>
- Description:
- 		This is to read back the configured data type of the channel.
--		The following strings will be accepted:
-+		The following strings will be accepted::
++static inline void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
++{
++}
++#endif /* CONFIG_DEBUG_FS */
 +
- 			'control',
- 			'async',
- 			'sync',
-diff --git a/Documentation/ABI/testing/sysfs-class-devfreq b/Documentation/ABI/testing/sysfs-class-devfreq
-index deefffb3bbe4..b8ebff4b1c4c 100644
---- a/Documentation/ABI/testing/sysfs-class-devfreq
-+++ b/Documentation/ABI/testing/sysfs-class-devfreq
-@@ -62,7 +62,8 @@ Description:
- 		driver should provide the list of available frequencies
- 		with its profile. If need to reset the statistics of devfreq
- 		behavior on a specific device, enter 0(zero) to 'trans_stat'
--		as following:
-+		as following::
++static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
++{
++	u32 value;
 +
- 			echo 0 > /sys/class/devfreq/.../trans_stat
- 
- What:		/sys/class/devfreq/.../userspace/set_freq
-@@ -117,6 +118,7 @@ Description:
- 		This work timer is used by devfreq workqueue in order to
- 		monitor the device status such as utilization. The user
- 		can change the work timer on runtime according to their demand
--		as following:
-+		as following::
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_RESPONSE);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_RESPONSE:%x\n", value);
 +
- 			echo deferrable > /sys/class/devfreq/.../timer
- 			echo delayed > /sys/class/devfreq/.../timer
-diff --git a/Documentation/ABI/testing/sysfs-class-ocxl b/Documentation/ABI/testing/sysfs-class-ocxl
-index bf33f4fda58f..847a7edc3113 100644
---- a/Documentation/ABI/testing/sysfs-class-ocxl
-+++ b/Documentation/ABI/testing/sysfs-class-ocxl
-@@ -13,8 +13,8 @@ Description:	read only
- 		where:
- 
- 			====	===============================================
--			n:	number of currently active contexts, for debug
--			max:	maximum number of contexts supported by the AFU
-+			n	number of currently active contexts, for debug
-+			max	maximum number of contexts supported by the AFU
- 			====	===============================================
- 
- What:		/sys/class/ocxl/<afu name>/pp_mmio_size
-@@ -43,7 +43,9 @@ Contact:	linuxppc-dev@lists.ozlabs.org
- Description:	read/write
- 		Control whether the FPGA is reloaded on a link reset. Enabled
- 		through a vendor-specific logic block on the FPGA.
--			0	Do not reload FPGA image from flash
--			1	Reload FPGA image from flash
--			unavailable
--				The device does not support this capability
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_ARGUMENT);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_ARGUMENT:%x\n", value);
 +
-+			===========  ===========================================
-+			0	     Do not reload FPGA image from flash
-+			1	     Reload FPGA image from flash
-+			unavailable  The device does not support this capability
-+			===========  ===========================================
-diff --git a/Documentation/ABI/testing/sysfs-class-power-wilco b/Documentation/ABI/testing/sysfs-class-power-wilco
-index 84fde1d0ada0..82af180fcaab 100644
---- a/Documentation/ABI/testing/sysfs-class-power-wilco
-+++ b/Documentation/ABI/testing/sysfs-class-power-wilco
-@@ -4,17 +4,23 @@ KernelVersion:	5.2
- Description:
- 		What charging algorithm to use:
- 
--		Standard: Fully charges battery at a standard rate.
--		Adaptive: Battery settings adaptively optimized based on
-+		Standard:
-+			Fully charges battery at a standard rate.
-+		Adaptive:
-+			Battery settings adaptively optimized based on
- 			typical battery usage pattern.
--		Fast: Battery charges over a shorter period.
--		Trickle: Extends battery lifespan, intended for users who
-+		Fast:
-+			Battery charges over a shorter period.
-+		Trickle:
-+			Extends battery lifespan, intended for users who
- 			primarily use their Chromebook while connected to AC.
--		Custom: A low and high threshold percentage is specified.
-+		Custom:
-+			A low and high threshold percentage is specified.
- 			Charging begins when level drops below
- 			charge_control_start_threshold, and ceases when
- 			level is above charge_control_end_threshold.
--		Long Life: Customized charge rate for last longer battery life.
-+		Long Life:
-+			Customized charge rate for last longer battery life.
- 			On Wilco device this mode is pre-configured in the factory
- 			through EC's private PID. Swiching to a different mode will
- 			be denied by Wilco EC when Long Life mode is enabled.
-diff --git a/Documentation/ABI/testing/sysfs-class-rnbd-client b/Documentation/ABI/testing/sysfs-class-rnbd-client
-index c084f203b41e..00c0286733d4 100644
---- a/Documentation/ABI/testing/sysfs-class-rnbd-client
-+++ b/Documentation/ABI/testing/sysfs-class-rnbd-client
-@@ -5,62 +5,70 @@ Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud
- Description:	Provide information about RNBD-client.
- 		All sysfs files that are not read-only provide the usage information on read:
- 
--		Example:
--		# cat /sys/class/rnbd-client/ctl/map_device
-+		Example::
- 
--		> Usage: echo "sessname=<name of the rtrs session> path=<[srcaddr,]dstaddr>
--		> [path=<[srcaddr,]dstaddr>] device_path=<full path on remote side>
--		> [access_mode=<ro|rw|migration>] > map_device
--		>
--		> addr ::= [ ip:<ipv4> | ip:<ipv6> | gid:<gid> ]
-+		    # cat /sys/class/rnbd-client/ctl/map_device
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_MESSAGE);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_MESSAGE:%x\n", value);
++}
 +
-+		    > Usage: echo "sessname=<name of the rtrs session> path=<[srcaddr,]dstaddr>
-+		    > [path=<[srcaddr,]dstaddr>] device_path=<full path on remote side>
-+		    > [access_mode=<ro|rw|migration>] > map_device
-+		    >
-+		    > addr ::= [ ip:<ipv4> | ip:<ipv6> | gid:<gid> ]
- 
- What:		/sys/class/rnbd-client/ctl/map_device
- Date:		Feb 2020
- KernelVersion:	5.7
- Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
--Description:	Expected format is the following:
-+Description:	Expected format is the following::
- 
--		sessname=<name of the rtrs session>
--		path=<[srcaddr,]dstaddr> [path=<[srcaddr,]dstaddr> ...]
--		device_path=<full path on remote side>
--		[access_mode=<ro|rw|migration>]
-+		    sessname=<name of the rtrs session>
-+		    path=<[srcaddr,]dstaddr> [path=<[srcaddr,]dstaddr> ...]
-+		    device_path=<full path on remote side>
-+		    [access_mode=<ro|rw|migration>]
- 
- 		Where:
- 
--		sessname: accepts a string not bigger than 256 chars, which identifies
--		a given session on the client and on the server.
--		I.e. "clt_hostname-srv_hostname" could be a natural choice.
-+		sessname:
-+		    accepts a string not bigger than 256 chars, which identifies
-+		    a given session on the client and on the server.
-+		    I.e. "clt_hostname-srv_hostname" could be a natural choice.
- 
--		path:     describes a connection between the client and the server by
--		specifying destination and, when required, the source address.
--		The addresses are to be provided in the following format:
-+		path:
-+		    describes a connection between the client and the server by
-+		    specifying destination and, when required, the source address.
-+		    The addresses are to be provided in the following format::
- 
--		ip:<IPv6>
--		ip:<IPv4>
--		gid:<GID>
-+			ip:<IPv6>
-+			ip:<IPv4>
-+			gid:<GID>
- 
--		for example:
-+		for example::
++static int amd_pmc_poll_smu_response(struct amd_pmc_dev *dev)
++{
++	int rc = 0, index;
 +
-+		    path=ip:10.0.0.66
- 
--		path=ip:10.0.0.66
- 		The single addr is treated as the destination.
- 		The connection will be established to this server from any client IP address.
- 
--		path=ip:10.0.0.66,ip:10.0.1.66
-+		::
++	for (index = 0; index < RESPONSE_REGISTER_LOOP_MAX; index++) {
++		rc = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_RESPONSE);
++		if (rc != 0)
++			break;
 +
-+		    path=ip:10.0.0.66,ip:10.0.1.66
++		usleep_range(PMC_MSG_DELAY_MIN, PMC_MSG_DELAY_MAX);
++	}
 +
- 		First addr is the source address and the second is the destination.
- 
- 		If multiple "path=" options are specified multiple connection
- 		will be established and data will be sent according to
- 		the selected multipath policy (see RTRS mp_policy sysfs entry description).
- 
--		device_path: Path to the block device on the server side. Path is specified
--		relative to the directory on server side configured in the
--		'dev_search_path' module parameter of the rnbd_server.
--		The rnbd_server prepends the <device_path> received from client
--		with <dev_search_path> and tries to open the
--		<dev_search_path>/<device_path> block device.  On success,
--		a /dev/rnbd<N> device file, a /sys/block/rnbd_client/rnbd<N>/
--		directory and an entry in /sys/class/rnbd-client/ctl/devices
--		will be created.
-+		device_path:
-+		    Path to the block device on the server side. Path is specified
-+		    relative to the directory on server side configured in the
-+		    'dev_search_path' module parameter of the rnbd_server.
-+		    The rnbd_server prepends the <device_path> received from client
-+		    with <dev_search_path> and tries to open the
-+		    <dev_search_path>/<device_path> block device.  On success,
-+		    a /dev/rnbd<N> device file, a /sys/block/rnbd_client/rnbd<N>/
-+		    directory and an entry in /sys/class/rnbd-client/ctl/devices
-+		    will be created.
- 
- 		If 'dev_search_path' contains '%SESSNAME%', then each session can
- 		have different devices namespace, e.g. server was configured with
-@@ -68,11 +76,12 @@ Description:	Expected format is the following:
- 		client has this string "sessname=blya device_path=sda", then server
- 		will try to open: /run/rnbd-devs/blya/sda.
- 
--		access_mode: the access_mode parameter specifies if the device is to be
--		mapped as "ro" read-only or "rw" read-write. The server allows
--		a device to be exported in rw mode only once. The "migration"
--		access mode has to be specified if a second mapping in read-write
--		mode is desired.
-+		access_mode:
-+		    the access_mode parameter specifies if the device is to be
-+		    mapped as "ro" read-only or "rw" read-write. The server allows
-+		    a device to be exported in rw mode only once. The "migration"
-+		    access mode has to be specified if a second mapping in read-write
-+		    mode is desired.
- 
- 		By default "rw" is used.
- 
-@@ -91,7 +100,7 @@ Description:	Expected format is the following:
- 		is the same as the device name.  By extracting the last part of the
- 		path the path to the device /dev/<dev-name> can be build.
- 
--		o /dev/block/$(cat /sys/class/rnbd-client/ctl/devices/<device_id>/dev)
-+		* /dev/block/$(cat /sys/class/rnbd-client/ctl/devices/<device_id>/dev)
- 
- 		How to find the <device_id> of the device is described on the next
- 		section.
-@@ -106,6 +115,6 @@ Description:	For each device mapped on the client a new symbolic link is created
- 		The <device_id> of each device is created as follows:
- 
- 		- If the 'device_path' provided during mapping contains slashes ("/"),
--		they are replaced by exclamation mark ("!") and used as as the
--		<device_id>. Otherwise, the <device_id> will be the same as the
--		"device_path" provided.
-+		  they are replaced by exclamation mark ("!") and used as as the
-+		  <device_id>. Otherwise, the <device_id> will be the same as the
-+		  "device_path" provided.
-diff --git a/Documentation/ABI/testing/sysfs-class-rtrs-client b/Documentation/ABI/testing/sysfs-class-rtrs-client
-index e7e718db8941..0f7165aab251 100644
---- a/Documentation/ABI/testing/sysfs-class-rtrs-client
-+++ b/Documentation/ABI/testing/sysfs-class-rtrs-client
-@@ -10,10 +10,10 @@ Date:		Feb 2020
- KernelVersion:	5.7
- Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
- Description:	RW, adds a new path (connection) to an existing session. Expected format is the
--		following:
-+		following::
- 
--		<[source addr,]destination addr>
--		*addr ::= [ ip:<ipv4|ipv6> | gid:<gid> ]
-+		    <[source addr,]destination addr>
-+		    *addr ::= [ ip:<ipv4|ipv6> | gid:<gid> ]
- 
- What:		/sys/class/rtrs-client/<session-name>/max_reconnect_attempts
- Date:		Feb 2020
-@@ -29,10 +29,10 @@ Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud
- Description:	Multipath policy specifies which path should be selected on each IO:
- 
- 		round-robin (0):
--		select path in per CPU round-robin manner.
-+		    select path in per CPU round-robin manner.
- 
- 		min-inflight (1):
--		select path with minimum inflights.
-+		    select path with minimum inflights.
- 
- What:		/sys/class/rtrs-client/<session-name>/paths/
- Date:		Feb 2020
-@@ -109,8 +109,11 @@ Description:	RTRS expects that each HCA IRQ is pinned to a separate CPU. If it's
- 		not the case, the processing of an I/O response could be processed on a
- 		different CPU than where it was originally submitted.  This file shows
- 		how many interrupts where generated on a non expected CPU.
--		"from:" is the CPU on which the IRQ was expected, but not generated.
--		"to:" is the CPU on which the IRQ was generated, but not expected.
++	return rc;
++}
 +
-+		"from:"
-+		    is the CPU on which the IRQ was expected, but not generated.
-+		"to:"
-+		    is the CPU on which the IRQ was generated, but not expected.
- 
- What:		/sys/class/rtrs-client/<session-name>/paths/<src@dst>/stats/reconnects
- Date:		Feb 2020
-@@ -125,7 +128,7 @@ Date:		Feb 2020
- KernelVersion:	5.7
- Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
- Description:	Contains statistics regarding rdma operations and inflight operations.
--		The output consists of 6 values:
-+		The output consists of 6 values::
- 
--		<read-count> <read-total-size> <write-count> <write-total-size> \
--		<inflights> <failovered>
-+		    <read-count> <read-total-size> <write-count> \
-+		    <write-total-size> <inflights> <failovered>
-diff --git a/Documentation/ABI/testing/sysfs-devices-platform-stratix10-rsu b/Documentation/ABI/testing/sysfs-devices-platform-stratix10-rsu
-index a8daceb4a956..ee253b033280 100644
---- a/Documentation/ABI/testing/sysfs-devices-platform-stratix10-rsu
-+++ b/Documentation/ABI/testing/sysfs-devices-platform-stratix10-rsu
-@@ -102,6 +102,8 @@ Description:
- 		b[15:0]
- 			inform firmware the current software execution
- 			stage.
++static int amd_pmc_send_cmd(struct amd_pmc_dev *dev, bool set, int arg)
++{
++	int rc = 0;
++	u8 msg;
 +
-+			==	===========================================
- 			0	the first stage bootloader didn't run or
- 				didn't reach the point of launching second
- 				stage bootloader.
-@@ -111,21 +113,29 @@ Description:
- 			2	both first and second stage bootloader ran
- 				and the operating system launch was
- 				attempted.
-+			==	===========================================
- 
- 		b[16]
-+			==	===========================================
- 			1	firmware to reset current image retry
- 				counter.
- 			0	no action.
-+			==	===========================================
- 
- 		b[17]
-+			==	===========================================
- 			1	firmware to clear RSU log
- 			0	no action.
-+			==	===========================================
- 
- 		b[18]
- 			this is negative logic
++	/* Wait until the response register is non-zero */
++	rc = amd_pmc_poll_smu_response(dev);
++	if (!rc) {
++		dev_err(dev->dev, "failed to talk to SMU\n");
++		return -EIO;
++	}
 +
-+			==	===========================================
- 			1	no action
- 			0	firmware record the notify code defined
- 				in b[15:0].
-+			==	===========================================
- 
- What:		/sys/devices/platform/stratix10-rsu.0/dcmf0
- Date:		June 2020
-diff --git a/Documentation/ABI/testing/sysfs-driver-w1_therm b/Documentation/ABI/testing/sysfs-driver-w1_therm
-index 8873bbb075cb..6a37dc33ffdb 100644
---- a/Documentation/ABI/testing/sysfs-driver-w1_therm
-+++ b/Documentation/ABI/testing/sysfs-driver-w1_therm
-@@ -22,8 +22,10 @@ Description:
- 		device data to its embedded EEPROM, either restore data
- 		embedded in device EEPROM. Be aware that devices support
- 		limited EEPROM writing cycles (typical 50k)
++	/* Write zero to response register */
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_RESPONSE, 0);
 +
- 			* 'save': save device RAM to EEPROM
- 			* 'restore': restore EEPROM data in device RAM
++	/* Write argument into response register */
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_ARGUMENT, set);
 +
- Users:		any user space application which wants to communicate with
- 		w1_term device
- 
-@@ -33,9 +35,11 @@ Date:		May 2020
- Contact:	Akira Shimahara <akira215corp@gmail.com>
- Description:
- 		(RO) return the power status by asking the device
++	/* Write message ID to message ID register */
++	msg = (dev->cpu_id == AMD_CPU_ID_RN) ? msg_os_hint_rn : msg_os_hint_pco;
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_MESSAGE, msg);
 +
- 			* '0': device parasite powered
- 			* '1': device externally powered
- 			* '-xx': xx is kernel error when reading power status
++	if (arg) {
++		/* Wait until the response register is non-zero */
++		rc = amd_pmc_poll_smu_response(dev);
++		if (!rc) {
++			dev_err(dev->dev, "failed to talk to SMU\n");
++			return -EIO;
++		}
++		/* If message register is OK, then SMU has finished processing
++		 * the message, and then read back from AMD_PMC_REGISTER_ARGUMENT
++		 */
++		rc = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_ARGUMENT);
++	}
 +
- Users:		any user space application which wants to communicate with
- 		w1_term device
- 
-@@ -49,10 +53,12 @@ Description:
- 		will be changed only in device RAM, so it will be cleared when
- 		power is lost. Trigger a 'save' to EEPROM command to keep
- 		values after power-on. Read or write are :
++	return 0;
++}
 +
- 			* '9..14': device resolution in bit
--			or resolution to set in bit
-+			  or resolution to set in bit
- 			* '-xx': xx is kernel error when reading the resolution
- 			* Anything else: do nothing
++#ifdef CONFIG_PM_SLEEP
++static int amd_pmc_suspend(struct device *dev)
++{
++	struct amd_pmc_dev *pdev = dev_get_drvdata(dev);
++	int rc = 0;
 +
- 		Some DS18B20 clones are fixed in 12-bit resolution, so the
- 		actual resolution is read back from the chip and verified. Error
- 		is reported if the results differ.
-@@ -65,16 +71,18 @@ Date:		May 2020
- Contact:	Akira Shimahara <akira215corp@gmail.com>
- Description:
- 		(RO) return the temperature in 1/1000 degC.
++	rc = amd_pmc_send_cmd(pdev, 1, 0);
++	if (rc)
++		dev_err(pdev->dev, "suspend failed\n");
 +
- 			* If a bulk read has been triggered, it will directly
--			return the temperature computed when the bulk read
--			occurred, if available. If not yet available, nothing
--			is returned (a debug kernel message is sent), you
--			should retry later on.
-+			  return the temperature computed when the bulk read
-+			  occurred, if available. If not yet available, nothing
-+			  is returned (a debug kernel message is sent), you
-+			  should retry later on.
- 			* If no bulk read has been triggered, it will trigger
--			a conversion and send the result. Note that the
--			conversion duration depend on the resolution (if
--			device support this feature). It takes 94ms in 9bits
--			resolution, 750ms for 12bits.
-+			  a conversion and send the result. Note that the
-+			  conversion duration depend on the resolution (if
-+			  device support this feature). It takes 94ms in 9bits
-+			  resolution, 750ms for 12bits.
++	amd_pmc_dump_registers(pdev);
 +
- Users:		any user space application which wants to communicate with
- 		w1_term device
- 
-@@ -86,12 +94,14 @@ Description:
- 		(RW) return the temperature in 1/1000 degC.
- 		*read*: return 2 lines with the hexa output data sent on the
- 		bus, return the CRC check and temperature in 1/1000 degC
--		*write* :
-+		*write*:
++	return 0;
++}
 +
- 			* '0' : save the 2 or 3 bytes to the device EEPROM
--			(i.e. TH, TL and config register)
-+			  (i.e. TH, TL and config register)
- 			* '9..14' : set the device resolution in RAM
--			(if supported)
-+			  (if supported)
- 			* Anything else: do nothing
++static int amd_pmc_resume(struct device *dev)
++{
++	struct amd_pmc_dev *pdev = dev_get_drvdata(dev);
++	int rc = 0;
 +
- 		refer to Documentation/w1/slaves/w1_therm.rst for detailed
- 		information.
- Users:		any user space application which wants to communicate with
-@@ -103,14 +113,21 @@ Date:		May 2020
- Contact:	Akira Shimahara <akira215corp@gmail.com>
- Description:
- 		(RW) trigger a bulk read conversion. read the status
++	rc = amd_pmc_send_cmd(pdev, 0, 0);
++	if (rc)
++		dev_err(pdev->dev, "resume failed\n");
 +
- 		*read*:
--			* '-1': conversion in progress on at least 1 sensor
--			* '1' :	conversion complete but at least one sensor
-+			* '-1':
-+				conversion in progress on at least 1 sensor
-+			* '1' :
-+				conversion complete but at least one sensor
- 				value has not been read yet
--			* '0' :	no bulk operation. Reading temperature will
-+			* '0' :
-+				no bulk operation. Reading temperature will
- 				trigger a conversion on each device
--		*write*: 'trigger': trigger a bulk read on all supporting
++	amd_pmc_dump_registers(pdev);
 +
-+		*write*:
-+			'trigger': trigger a bulk read on all supporting
- 			devices on the bus
++	return 0;
++}
++#endif
 +
- 		Note that if a bulk read is sent but one sensor is not read
- 		immediately, the next access to temperature on this device
- 		will return the temperature measured at the time of issue
-@@ -128,14 +145,19 @@ Description:
- 		reset to default (datasheet) conversion time for a new
- 		resolution.
- 
--		*read*: Actual conversion time in milliseconds. *write*:
--			'0': Set the default conversion time from the datasheet.
--			'1': Measure and set the conversion time. Make a single
-+		*read*:
-+			Actual conversion time in milliseconds.
++static const struct dev_pm_ops amd_pmc_pm_ops = {
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(amd_pmc_suspend, amd_pmc_resume)
++};
 +
-+		*write*:
-+			* '0':
-+			     Set the default conversion time from the datasheet.
-+			* '1':
-+			     Measure and set the conversion time. Make a single
- 			     temperature conversion, measure an actual value.
- 			     Increase it by 20% for temperature range. A new
- 			     conversion time can be obtained by reading this
- 			     same attribute.
--			other positive value:
-+			* other positive value:
- 			     Set the conversion time in milliseconds.
- 
- Users:		An application using the w1_term device
-@@ -148,16 +170,21 @@ Description:
- 		(RW) Control optional driver settings.
- 		Bit masks to read/write (bitwise OR):
- 
--                1: Enable check for conversion success. If byte 6 of
-+		== ============================================================
-+                 1 Enable check for conversion success. If byte 6 of
-                    scratchpad memory is 0xC after conversion, and
-                    temperature reads 85.00 (powerup value) or 127.94
-                    (insufficient power) - return a conversion error.
- 
--                2: Enable poll for conversion completion. Generate read cycles
-+                2  Enable poll for conversion completion. Generate read cycles
-                    after the conversion start and wait for 1's. In parasite
-                    power mode this feature is not available.
-+		== ============================================================
- 
--		*read*:  Currently selected features.
--		*write*: Select features.
-+		*read*:
-+		    Currently selected features.
++static int amd_pmc_probe(struct platform_device *pdev)
++{
++	struct amd_pmc_dev *dev = &pmc;
++	struct pci_dev *rdev;
++	u32 base_addr_lo;
++	u32 base_addr_hi;
++	u64 base_addr;
++	int err = 0;
++	u32 val;
 +
-+		*write*:
-+		    Select features.
- 
- Users:		An application using the w1_term device
-diff --git a/Documentation/ABI/testing/sysfs-platform-dfl-fme b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-index 3683cb1cdc3d..d6ab34e81b9b 100644
---- a/Documentation/ABI/testing/sysfs-platform-dfl-fme
-+++ b/Documentation/ABI/testing/sysfs-platform-dfl-fme
-@@ -113,8 +113,11 @@ KernelVersion:	5.5
- Contact:	Wu Hao <hao.wu@intel.com>
- Description:	Read-Only. Read this file to get the name of hwmon device, it
- 		supports values:
--		    'dfl_fme_thermal' - thermal hwmon device name
--		    'dfl_fme_power'   - power hwmon device name
++	dev->dev = &pdev->dev;
 +
-+		=================  =========================
-+		'dfl_fme_thermal'  thermal hwmon device name
-+		'dfl_fme_power'    power hwmon device name
-+		=================  =========================
- 
- What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/temp1_input
- Date:		October 2019
-@@ -169,8 +172,11 @@ KernelVersion:	5.5
- Contact:	Wu Hao <hao.wu@intel.com>
- Description:	Read-Only. Read this file to get the policy of hardware threshold1
- 		(see 'temp1_max'). It only supports two values (policies):
--		    0 - AP2 state (90% throttling)
--		    1 - AP1 state (50% throttling)
++	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
++	if (!rdev || (!(rdev->vendor == PCI_VENDOR_ID_AMD) &&
++		      (rdev->device == AMD_CPU_ID_PCO ||
++			rdev->device == AMD_CPU_ID_RN))) {
++		return -ENODEV;
++	}
 +
-+		==  ==========================
-+		 0  AP2 state (90% throttling)
-+	         1  AP1 state (50% throttling)
-+		==  ==========================
- 
- What:		/sys/bus/platform/devices/dfl-fme.0/hwmon/hwmonX/power1_input
- Date:		October 2019
-diff --git a/Documentation/ABI/testing/sysfs-platform-dptf b/Documentation/ABI/testing/sysfs-platform-dptf
-index 2cbc660d163b..141834342a4d 100644
---- a/Documentation/ABI/testing/sysfs-platform-dptf
-+++ b/Documentation/ABI/testing/sysfs-platform-dptf
-@@ -27,12 +27,15 @@ KernelVersion:	v4.10
- Contact:	linux-acpi@vger.kernel.org
- Description:
- 		(RO) Display the platform power source
++	dev->cpu_id = rdev->device;
++	err = pci_write_config_dword(rdev, AMD_PMC_SMU_INDEX_ADDRESS, AMD_PMC_BASE_ADDR_LO);
++	if (err) {
++		dev_err(dev->dev, "error writing to 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
 +
-+		========= ============================
- 		bits[3:0] Current power source
--			0x00 = DC
--			0x01 = AC
--			0x02 = USB
--			0x03 = Wireless Charger
-+			  - 0x00 = DC
-+			  - 0x01 = AC
-+			  - 0x02 = USB
-+			  - 0x03 = Wireless Charger
- 		bits[7:4] Power source sequence number
-+		========= ============================
- 
- What:		/sys/bus/platform/devices/INT3407:00/dptf_power/battery_steady_power
- Date:		Jul, 2016
-diff --git a/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update b/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
-index 5aa618987cad..02ae1e9bbfc8 100644
---- a/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
-+++ b/Documentation/ABI/testing/sysfs-platform-intel-wmi-sbl-fw-update
-@@ -8,5 +8,6 @@ Description:
- 		of 0 and userspace can signal SBL to update firmware,
- 		on next reboot, by writing a value of 1.
- 		There are two available states:
++	err = pci_read_config_dword(rdev, AMD_PMC_SMU_INDEX_DATA, &val);
++	if (err) {
++		dev_err(dev->dev, "error reading from 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
 +
- 		    * 0 -> Skip firmware update while rebooting
- 		    * 1 -> Attempt firmware update on next reboot
-diff --git a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-index 401d202f478b..e79ca22e2f45 100644
---- a/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-+++ b/Documentation/ABI/testing/sysfs-platform-mellanox-bootctl
-@@ -5,10 +5,13 @@ Contact:	"Liming Sun <lsun@mellanox.com>"
- Description:
- 		The Life-cycle state of the SoC, which could be one of the
- 		following values.
--		  Production - Production state and can be updated to secure
--		  GA Secured - Secure chip and not able to change state
--		  GA Non-Secured - Non-Secure chip and not able to change state
--		  RMA - Return Merchandise Authorization
++	base_addr_lo = val & AMD_PMC_BASE_ADDR_HI_MASK;
 +
-+		==============  =============================================
-+		Production      Production state and can be updated to secure
-+		GA Secured      Secure chip and not able to change state
-+		GA Non-Secured  Non-Secure chip and not able to change state
-+		RMA             Return Merchandise Authorization
-+		==============  =============================================
- 
- What:		/sys/bus/platform/devices/MLNXBF04:00/post_reset_wdog
- Date:		Oct 2019
-@@ -25,10 +28,13 @@ KernelVersion:	5.5
- Contact:	"Liming Sun <lsun@mellanox.com>"
- Description:
- 		The source of the boot stream for the next reset. It could be
--		one of the following values.
--		  external - boot from external source (USB or PCIe)
--		  emmc - boot from the onchip eMMC
--		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
-+		one of the following values:
++	err = pci_write_config_dword(rdev, AMD_PMC_SMU_INDEX_ADDRESS, AMD_PMC_BASE_ADDR_HI);
++	if (err) {
++		dev_err(dev->dev, "error writing to 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
 +
-+		===========  ===============================================
-+		external     boot from external source (USB or PCIe)
-+		emmc         boot from the onchip eMMC
-+		emmc_legacy  boot from the onchip eMMC in legacy (slow) mode
-+		===========  ===============================================
- 
- What:		/sys/bus/platform/devices/MLNXBF04:00/second_reset_action
- Date:		Oct 2019
-@@ -38,11 +44,14 @@ Description:
- 		Update the source of the boot stream after next reset. It could
- 		be one of the following values and will be applied after next
- 		reset.
--		  external - boot from external source (USB or PCIe)
--		  emmc - boot from the onchip eMMC
--		  emmc_legacy - boot from the onchip eMMC in legacy (slow) mode
--		  swap_emmc - swap the primary / secondary boot partition
--		  none - cancel the action
++	err = pci_read_config_dword(rdev, AMD_PMC_SMU_INDEX_DATA, &val);
++	if (err) {
++		dev_err(dev->dev, "error reading from 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
 +
-+		===========  ===============================================
-+		external     boot from external source (USB or PCIe)
-+		emmc         boot from the onchip eMMC
-+		emmc_legacy  boot from the onchip eMMC in legacy (slow) mode
-+		swap_emmc    swap the primary / secondary boot partition
-+		none         cancel the action
-+		===========  ===============================================
- 
- What:		/sys/bus/platform/devices/MLNXBF04:00/secure_boot_fuse_state
- Date:		Oct 2019
-@@ -50,9 +59,12 @@ KernelVersion:	5.5
- Contact:	"Liming Sun <lsun@mellanox.com>"
- Description:
- 		The state of eFuse versions with the following values.
--		  InUse - burnt, valid and currently in use
--		  Used - burnt and valid
--		  Free - not burnt and free to use
--		  Skipped - not burnt but not free (skipped)
--		  Wasted - burnt and invalid
--		  Invalid - not burnt but marked as valid (error state).
++	base_addr_hi = val & AMD_PMC_BASE_ADDR_LO_MASK;
++	pci_dev_put(rdev);
++	base_addr = ((u64)base_addr_hi << 32 | base_addr_lo);
 +
-+		=======  ===============================================
-+		InUse    burnt, valid and currently in use
-+		Used     burnt and valid
-+		Free     not burnt and free to use
-+		Skipped  not burnt but not free (skipped)
-+		Wasted   burnt and invalid
-+		Invalid  not burnt but marked as valid (error state).
-+		=======  ===============================================
-diff --git a/Documentation/ABI/testing/sysfs-platform-wilco-ec b/Documentation/ABI/testing/sysfs-platform-wilco-ec
-index 5f60b184a5a5..4439d0644091 100644
---- a/Documentation/ABI/testing/sysfs-platform-wilco-ec
-+++ b/Documentation/ABI/testing/sysfs-platform-wilco-ec
-@@ -39,6 +39,7 @@ Description:
-                which affects charging via the special USB PowerShare port
-                (marked with a small lightning bolt or battery icon) when in
-                low power states:
++	dev->smu_base = ioremap(base_addr, AMD_PMC_MAPPING_SIZE);
++	if (!dev->smu_base)
++		return -ENOMEM;
 +
-                - In S0, the port will always provide power.
-                - In S0ix, if usb_charge is enabled, then power will be
-                  supplied to the port when on AC or if battery is > 50%.
++	dev->regbase = ioremap(base_addr + AMD_PMC_BASE_ADDR_OFFSET, AMD_PMC_MAPPING_SIZE);
++	if (!dev->regbase) {
++		iounmap(dev->smu_base);
++		return -ENOMEM;
++	}
++
++	amd_pmc_dump_registers(dev);
++
++	platform_set_drvdata(pdev, dev);
++	amd_pmc_dbgfs_register(dev);
++
++	return 0;
++}
++
++static int amd_pmc_remove(struct platform_device *pdev)
++{
++	struct amd_pmc_dev *dev = platform_get_drvdata(pdev);
++
++	amd_pmc_dbgfs_unregister(dev);
++	iounmap(dev->regbase);
++	iounmap(dev->smu_base);
++	return 0;
++}
++
++static const struct acpi_device_id amd_pmc_acpi_ids[] = {
++	{"AMDI0005", 0},
++	{"AMD0004", 0},
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, amd_pmc_acpi_ids);
++
++static struct platform_driver amd_pmc_driver = {
++	.driver = {
++		.name = "amd_pmc",
++		.acpi_match_table = ACPI_PTR(amd_pmc_acpi_ids),
++		.pm = &amd_pmc_pm_ops,
++	},
++	.probe = amd_pmc_probe,
++	.remove = amd_pmc_remove,
++};
++
++module_platform_driver(amd_pmc_driver);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("AMD PMC Driver");
+diff --git a/drivers/platform/x86/amd-pmc.h b/drivers/platform/x86/amd-pmc.h
+new file mode 100644
+index 000000000000..8cd7821af505
+--- /dev/null
++++ b/drivers/platform/x86/amd-pmc.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * AMD SoC Power Management Controller Driver
++ *
++ * Copyright (c) 2020, Advanced Micro Devices, Inc.
++ * All Rights Reserved.
++ *
++ * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++ */
++
++#ifndef AMD_PMC_H
++#define AMD_PMC_H
++
++#include <linux/bits.h>
++
++/* SMU Communcation Registers */
++#define AMD_PMC_REGISTER_RESPONSE	0x980
++#define AMD_PMC_REGISTER_ARGUMENT	0x9BC
++#define AMD_PMC_REGISTER_MESSAGE	0x538
++
++/* Base address of SMU for mapping physical address to virtual address */
++#define AMD_PMC_BASE_ADDR_LO		0x13B102E8
++#define AMD_PMC_BASE_ADDR_HI		0x13B102EC
++#define AMD_PMC_BASE_ADDR_HI_MASK	0xFFF00000L
++#define AMD_PMC_BASE_ADDR_LO_MASK	0x0000FFFFL
++#define AMD_PMC_BASE_ADDR_OFFSET	0x10000
++#define AMD_PMC_MAPPING_SIZE		0x01000
++#define AMD_PMC_SMU_INDEX_ADDRESS	0xB8
++#define AMD_PMC_SMU_INDEX_DATA		0xBC
++
++/* SMU Response Codes */
++#define AMD_PMC_RESULT_OK                    0x1
++#define AMD_PMC_RESULT_FAILED                0xFF
++#define AMD_PMC_RESULT_CMD_UNKNOWN           0xFE
++#define AMD_PMC_RESULT_CMD_REJECT_PREREQ     0xFD
++#define AMD_PMC_RESULT_CMD_REJECT_BUSY       0xFC
++
++#define PMC_MSG_DELAY_MIN		100
++#define PMC_MSG_DELAY_MAX		200
++#define AMD_CPU_ID_RV			0x15d0
++#define AMD_CPU_ID_PCO			AMD_CPU_ID_RV
++#define AMD_CPU_ID_RN			0x1630
++#define AMD_SMU_FW_VERSION		0x0
++
++#define RESPONSE_REGISTER_LOOP_MAX	20
++
++enum amd_pmc_def {
++	msg_test = 0x01,
++	msg_os_hint_pco,
++	msg_os_hint_rn,
++};
++
++struct amd_pmc_dev {
++	u32 base_addr;
++	u32 cpu_id;
++	void __iomem *regbase;
++	void __iomem *smu_base;
++	struct device *dev;
++#if IS_ENABLED(CONFIG_DEBUG_FS)
++	struct dentry *dbgfs_dir;
++#endif /* CONFIG_DEBUG_FS */
++};
++
++#endif /* AMD_PMC_H */
 -- 
-2.26.2
+2.25.1
 
