@@ -2,1133 +2,518 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F9F429E19F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 03:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D34F029E31C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 03:46:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbgJ1Vsp (ORCPT
+        id S1726215AbgJ2CpY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 17:48:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38174 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726108AbgJ1Vm0 (ORCPT
+        Wed, 28 Oct 2020 22:45:24 -0400
+Received: from mail-dm6nam10on2053.outbound.protection.outlook.com ([40.107.93.53]:38880
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726238AbgJ1Vdo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:42:26 -0400
-Received: from localhost.localdomain (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06BEB2483B;
-        Wed, 28 Oct 2020 21:24:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603920268;
-        bh=74adyFANoxpq7wwxgmpMM8aBwaDT4mxr2cAgEihSj9Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MvP2qo5b3UYqtfUKUeJsXhDvEKbg6KvcUe2ioGBxUOnMUqK+rjO34oR0n+DZTzvAr
-         eYPMX/c7ffNKn1EtNa89mNNH4FodNS1wdrSZ5tR7vIRpA7I9hqvX5vYihUon6OcUcw
-         DDjF1DjtQS1EZT43SQgk2OJfMP/zjCnOK4DfzDM8=
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org
-Subject: [PATCH] [v2] x86: apic: avoid -Wshadow warning in header
-Date:   Wed, 28 Oct 2020 22:20:54 +0100
-Message-Id: <20201028212417.3715575-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
+        Wed, 28 Oct 2020 17:33:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F76uBOr06zLcVG17Sm8o8JUOn8WS51FZ8RpuauH97tFfsMrXSnibXlavc82OHJ8CHnLn1CsBzRkdOAaTHCbYRGqiXkKVidfuJnqfkyXukoj+DzeVQ9+O0dXDDXLyvft/1i55aoC4JdnnTYHKXfN48APYWmtzndU2FPXIC132DWbGVFtXCR5oQb+1yZ5lAlJUOjP461XiLKvBaaW2AzW4Utv/x5+zIl7Jr3PwEwU9eTyZnVRV/iiJU1rVrh4+a2SST8pj7Zyibf8ZlMcid+TXdHhin7sD2wW01N4cmn/J10yJpN42vgzSlaXrjxLZLi+8UsqREH/05T9o3dPMQ3gR7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NaQMam+5BrEFaUKV3Nd1WavNMKnKcs3OIDkbmAAiZ60=;
+ b=XI85mrecvO8pAYMh2VdnBLBF8dAjvdVXaSxtSOspy2j5FU49Ikt7fxz2qOxdRMdVmMWr0rwWNyG+7p3jQxp1+NdoRov5GaJoykHq3q1usK7jwt8c6f+w6RrY4fxrMukSOJ7rmgWXfySGqM0mI61Exksq7gfR/3E2/fsfQQe4G2P2ENdnPpmNp4z9I2Fd7k+Mm1w8uYvniRf8TIH3qgDQ4pzy8nD8nwBhDZAjeZvtepfU3IfJ7GhUYgbzRMr1/10TaqX6Tjb9LxA/ZCBYtieAIPa+sSJIi15nLN6WtqCx4KQCOoUAACZO6GBNyUlStR2Fza8udi4x1CeMGtW9XTg4uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NaQMam+5BrEFaUKV3Nd1WavNMKnKcs3OIDkbmAAiZ60=;
+ b=wRBaTt9rtGLr0q+9hzG3RcIU8gnQJp8ztQQjWj8/AZpdF8sSwHjY91GC6uGx1X0Q6gMFOWIZqKzHKtL5lNYtrq93ekLBRh6axVBengYbvTJKzGWtVgqAnX8WcN1l3BqWS7Jnrg2p5vidlJB1FpxwumiFb04M4VnPzBBbzSY2AoM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
+ (2603:10b6:404:ac::23) by BN6PR12MB1585.namprd12.prod.outlook.com
+ (2603:10b6:405:9::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 28 Oct
+ 2020 18:57:58 +0000
+Received: from BN6PR1201MB0004.namprd12.prod.outlook.com
+ ([fe80::e8ab:4ae2:8e36:dfc9]) by BN6PR1201MB0004.namprd12.prod.outlook.com
+ ([fe80::e8ab:4ae2:8e36:dfc9%5]) with mapi id 15.20.3477.029; Wed, 28 Oct 2020
+ 18:57:58 +0000
+From:   Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To:     hdegoede@redhat.com, mgross@linux.intel.com,
+        platform-driver-x86@vger.kernel.org
+Cc:     Alexander.Deucher@amd.com,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: [PATCH v2] platform/x86: amd-pmc: Add AMD platform support for S2Idle
+Date:   Thu, 29 Oct 2020 00:26:54 +0530
+Message-Id: <20201028185654.2692118-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [165.204.156.251]
+X-ClientProxiedBy: MA1PR01CA0118.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:1::34) To BN6PR1201MB0004.namprd12.prod.outlook.com
+ (2603:10b6:404:ac::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jatayu.amd.com (165.204.156.251) by MA1PR01CA0118.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:1::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 28 Oct 2020 18:57:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 103591e6-385d-4020-3f2a-08d87b736297
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1585:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1585E92EB387E7110BB08A0F9A170@BN6PR12MB1585.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:541;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UzwGFO9dM0ZqLFCsgmt81OHwnHk/Fu6fzke9Sdslwyjfb4ZfZJ/xNYmBwL4tooNtMOUbiXVG0/omVq24a11RjXKUfA24bnUOU1WEXjNlHjQiU5YZGAFQ9jUSkOe+lxBThyDWngp3D3YyQ2vi39Hdd0vSKY+yk0IxFgTV1HG4JEKRLY7xOM4Mx9RyAAq859odq7x+YHnSjFCDFmNBuneE0trZYxA8SmY15qtFbU8Xi+v5CMvOHr8Wc6DndCvuqr4b9iqRoiwDFCTR+FvaUN2yZjnOD8tzI7SikxKZxjzxzMI0wE01MwU9NQnXMbRXc93wXplJS1HslQ4mZNcfnsic7Wx7DOhbKEA0Hk3Q4hVZmme441TCFxCEKPV40l9uvY9VmKQuSLYj9uIhmDvFjhsN2A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1201MB0004.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(30864003)(7696005)(66556008)(316002)(186003)(6486002)(86362001)(2616005)(2906002)(16526019)(26005)(956004)(36756003)(478600001)(4326008)(83380400001)(66476007)(66946007)(8936002)(5660300002)(52116002)(8676002)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: ciG5fp5X44FRGUSotOgw8bmYJKmwrygdNnEUbwvedZFJlUXPAZji+KB0tL74e7aPpqfP6rllw6VMCJXQbWfpEEh6RUPq4V4FGfnHEV9WRnWZVBJIeyi8B7XVw6POEaBMTletekLlH4z/5OFO3Oz8P8Mdm+zWau36SNhMdcT6z+do18/mKwPeEVmGNLBy63smBBzxfEWbk40nERj90KcW6Y1pBNxDyEdOMMRK3937mDOltL4EEQLa3wBmTcXtFHmDwMusILnE88AjPM1m7ugOUJOeTmekhXV43+kVMlualZeslmzsmaiPDDaBaZzK8jLFslCag8nxJcRklSvp9Z2/VUpBf/2lxiloyobE93CFzL8vZzXrHZ5iO7Qi1tJ9nxYIKYDy9O0RIoRj9y0zkq3Q08MIryMWyRwfyx/reqOMYoHktytdfbprD2opvTkiFAxHQRTVpN+YPjLx4zu2HxRDv6iPT6fdn/hXZ5swZSIW6p/XhNunmGOmn9pcMyLpfuxiRlTDzFlVviqRgdWiZyCWwrT66t6a3xPptotIAdDPEHPyk/dmrRGOKorF0O1jRVYH0S8POx67Q7jrfsEX/jeef8nyUI148UucNRvrwgNA7UOTCO8h8FDjLI46DgFpAYJ/RCE+oJ9BhlIk0B2xVjFxuQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 103591e6-385d-4020-3f2a-08d87b736297
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR1201MB0004.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 18:57:58.0449
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 22rWrpTB7r8P1o43y3b+d75G+vUdjqyK5rqWV054XXCEQcN4tXDFZACWGtvc8ouvGQ72vXGn3p6f7rGh8U5mpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1585
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+AMD Power Management Controller driver aka. amd-pmc driver is the
+controller which is meant for final S2Idle transaction that goes to the
+PMFW running on the AMD SMU (System Management Unit) responsible for
+tuning of the VDD.
 
-There are hundreds of warnings in a W=2 build about a local
-variable shadowing the global 'apic' definition:
+Once all the monitored list or the idle constraints are met, this driver
+would go and set the OS_HINT (meaning all the devices have reached to
+their lowest state possible) via the SMU mailboxes.
 
-arch/x86/kvm/lapic.h:149:65: warning: declaration of 'apic' shadows a global declaration [-Wshadow]
+This driver would also provide some debug capabilities via debugfs.
 
-Avoid this by renaming the global 'apic' variable to the more descriptive
-'x86_system_apic'. It was originally called 'genapic', but both that
-and the current 'apic' seem to be a little overly generic for a global
-variable.
-
-Fixes: c48f14966cc4 ("KVM: inline kvm_apic_present() and kvm_lapic_enabled()")
-Fixes: c8d46cf06dc2 ("x86: rename 'genapic' to 'apic'")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 ---
-v2: rename the global instead of the local variable in the header
+Changes since v1:(https://www.spinics.net/lists/platform-driver-x86/msg23269.html)
+- Remove duplicate code and make a common routine for polling SMU
+- Reorg Maintainers info
+- add missing iounmap() during erroneous case.
 
-This is only tested in an allmodconfig build, after fixing up a
-few mistakes in the original search&replace. It's likely that I
-missed a few others, but this version should be sufficient to
-decide whether this is a good idea in the first place, as well
-as if there are better ideas for the new name.
----
- arch/x86/hyperv/hv_apic.c             | 24 ++++++++++++------------
- arch/x86/hyperv/hv_spinlock.c         |  4 ++--
- arch/x86/include/asm/apic.h           | 18 +++++++++---------
- arch/x86/kernel/acpi/boot.c           |  2 +-
- arch/x86/kernel/apic/apic.c           | 18 +++++++++---------
- arch/x86/kernel/apic/apic_flat_64.c   |  8 ++++----
- arch/x86/kernel/apic/apic_numachip.c  |  4 ++--
- arch/x86/kernel/apic/bigsmp_32.c      |  2 +-
- arch/x86/kernel/apic/hw_nmi.c         |  2 +-
- arch/x86/kernel/apic/io_apic.c        | 19 ++++++++++---------
- arch/x86/kernel/apic/ipi.c            | 22 +++++++++++-----------
- arch/x86/kernel/apic/msi.c            |  2 +-
- arch/x86/kernel/apic/probe_32.c       | 20 ++++++++++----------
- arch/x86/kernel/apic/probe_64.c       | 12 ++++++------
- arch/x86/kernel/apic/vector.c         |  8 ++++----
- arch/x86/kernel/apic/x2apic_cluster.c |  3 ++-
- arch/x86/kernel/apic/x2apic_phys.c    |  2 +-
- arch/x86/kernel/apic/x2apic_uv_x.c    |  2 +-
- arch/x86/kernel/cpu/common.c          | 14 ++++++++------
- arch/x86/kernel/cpu/mce/inject.c      |  4 ++--
- arch/x86/kernel/cpu/topology.c        |  8 ++++----
- arch/x86/kernel/irq_work.c            |  2 +-
- arch/x86/kernel/kvm.c                 |  6 +++---
- arch/x86/kernel/nmi_selftest.c        |  2 +-
- arch/x86/kernel/smpboot.c             | 20 +++++++++++---------
- arch/x86/kernel/vsmp_64.c             |  2 +-
- arch/x86/kvm/vmx/vmx.c                |  2 +-
- arch/x86/mm/srat.c                    |  2 +-
- arch/x86/platform/uv/uv_irq.c         |  4 ++--
- arch/x86/platform/uv/uv_nmi.c         |  2 +-
- arch/x86/xen/apic.c                   |  8 ++++----
- drivers/iommu/amd/iommu.c             | 10 ++++++----
- drivers/iommu/intel/irq_remapping.c   |  4 ++--
- 33 files changed, 135 insertions(+), 127 deletions(-)
+ MAINTAINERS                    |   7 +
+ drivers/platform/x86/Kconfig   |   9 ++
+ drivers/platform/x86/Makefile  |   3 +
+ drivers/platform/x86/amd-pmc.c | 274 +++++++++++++++++++++++++++++++++
+ drivers/platform/x86/amd-pmc.h |  64 ++++++++
+ 5 files changed, 357 insertions(+)
+ create mode 100644 drivers/platform/x86/amd-pmc.c
+ create mode 100644 drivers/platform/x86/amd-pmc.h
 
-diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-index 284e73661a18..33e2dc78ca11 100644
---- a/arch/x86/hyperv/hv_apic.c
-+++ b/arch/x86/hyperv/hv_apic.c
-@@ -259,14 +259,14 @@ void __init hv_apic_init(void)
- 		/*
- 		 * Set the IPI entry points.
- 		 */
--		orig_apic = *apic;
--
--		apic->send_IPI = hv_send_ipi;
--		apic->send_IPI_mask = hv_send_ipi_mask;
--		apic->send_IPI_mask_allbutself = hv_send_ipi_mask_allbutself;
--		apic->send_IPI_allbutself = hv_send_ipi_allbutself;
--		apic->send_IPI_all = hv_send_ipi_all;
--		apic->send_IPI_self = hv_send_ipi_self;
-+		orig_apic = *x86_system_apic;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e2a8ad69c262..95374000044d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -929,6 +929,13 @@ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+ F:	drivers/i2c/busses/i2c-amd-mp2*
+ 
++AMD PMC DRIVER
++M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/amd-pmc.c
++F:	drivers/platform/x86/amd-pmc.h
 +
-+		x86_system_apic->send_IPI = hv_send_ipi;
-+		x86_system_apic->send_IPI_mask = hv_send_ipi_mask;
-+		x86_system_apic->send_IPI_mask_allbutself = hv_send_ipi_mask_allbutself;
-+		x86_system_apic->send_IPI_allbutself = hv_send_ipi_allbutself;
-+		x86_system_apic->send_IPI_all = hv_send_ipi_all;
-+		x86_system_apic->send_IPI_self = hv_send_ipi_self;
- 	}
- 
- 	if (ms_hyperv.hints & HV_X64_APIC_ACCESS_RECOMMENDED) {
-@@ -285,10 +285,10 @@ void __init hv_apic_init(void)
- 		 */
- 		apic_set_eoi_write(hv_apic_eoi_write);
- 		if (!x2apic_enabled()) {
--			apic->read      = hv_apic_read;
--			apic->write     = hv_apic_write;
--			apic->icr_write = hv_apic_icr_write;
--			apic->icr_read  = hv_apic_icr_read;
-+			x86_system_apic->read      = hv_apic_read;
-+			x86_system_apic->write     = hv_apic_write;
-+			x86_system_apic->icr_write = hv_apic_icr_write;
-+			x86_system_apic->icr_read  = hv_apic_icr_read;
- 		}
- 	}
- }
-diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
-index f3270c1fc48c..03c8ac56b430 100644
---- a/arch/x86/hyperv/hv_spinlock.c
-+++ b/arch/x86/hyperv/hv_spinlock.c
-@@ -20,7 +20,7 @@ static bool __initdata hv_pvspin = true;
- 
- static void hv_qlock_kick(int cpu)
- {
--	apic->send_IPI(cpu, X86_PLATFORM_IPI_VECTOR);
-+	x86_system_apic->send_IPI(cpu, X86_PLATFORM_IPI_VECTOR);
- }
- 
- static void hv_qlock_wait(u8 *byte, u8 val)
-@@ -64,7 +64,7 @@ PV_CALLEE_SAVE_REGS_THUNK(hv_vcpu_is_preempted);
- 
- void __init hv_init_spinlocks(void)
- {
--	if (!hv_pvspin || !apic ||
-+	if (!hv_pvspin || !x86_system_apic ||
- 	    !(ms_hyperv.hints & HV_X64_CLUSTER_IPI_RECOMMENDED) ||
- 	    !(ms_hyperv.features & HV_MSR_GUEST_IDLE_AVAILABLE)) {
- 		pr_info("PV spinlocks disabled\n");
-diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-index 4e3099d9ae62..43a30083af45 100644
---- a/arch/x86/include/asm/apic.h
-+++ b/arch/x86/include/asm/apic.h
-@@ -361,7 +361,7 @@ struct apic {
-  * always just one such driver in use - the kernel decides via an
-  * early probing process which one it picks - and then sticks to it):
-  */
--extern struct apic *apic;
-+extern struct apic *x86_system_apic;
- 
- /*
-  * APIC drivers are probed based on how they are listed in the .apicdrivers
-@@ -395,37 +395,37 @@ extern int lapic_can_unplug_cpu(void);
- 
- static inline u32 apic_read(u32 reg)
- {
--	return apic->read(reg);
-+	return x86_system_apic->read(reg);
- }
- 
- static inline void apic_write(u32 reg, u32 val)
- {
--	apic->write(reg, val);
-+	x86_system_apic->write(reg, val);
- }
- 
- static inline void apic_eoi(void)
- {
--	apic->eoi_write(APIC_EOI, APIC_EOI_ACK);
-+	x86_system_apic->eoi_write(APIC_EOI, APIC_EOI_ACK);
- }
- 
- static inline u64 apic_icr_read(void)
- {
--	return apic->icr_read();
-+	return x86_system_apic->icr_read();
- }
- 
- static inline void apic_icr_write(u32 low, u32 high)
- {
--	apic->icr_write(low, high);
-+	x86_system_apic->icr_write(low, high);
- }
- 
- static inline void apic_wait_icr_idle(void)
- {
--	apic->wait_icr_idle();
-+	x86_system_apic->wait_icr_idle();
- }
- 
- static inline u32 safe_apic_wait_icr_idle(void)
- {
--	return apic->safe_wait_icr_idle();
-+	return x86_system_apic->safe_wait_icr_idle();
- }
- 
- extern void __init apic_set_eoi_write(void (*eoi_write)(u32 reg, u32 v));
-@@ -494,7 +494,7 @@ static inline unsigned int read_apic_id(void)
- {
- 	unsigned int reg = apic_read(APIC_ID);
- 
--	return apic->get_apic_id(reg);
-+	return x86_system_apic->get_apic_id(reg);
- }
- 
- extern int default_apic_id_valid(u32 apicid);
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 7bdc0239a943..5e522cbc88dc 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -211,7 +211,7 @@ acpi_parse_x2apic(union acpi_subtable_headers *header, const unsigned long end)
- 	 * to not preallocating memory for all NR_CPUS
- 	 * when we use CPU hotplug.
- 	 */
--	if (!apic->apic_id_valid(apic_id)) {
-+	if (!x86_system_apic->apic_id_valid(apic_id)) {
- 		if (enabled)
- 			pr_warn(PREFIX "x2apic entry ignored\n");
- 		return 0;
-diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
-index b3eef1d5c903..df9310b3cf0d 100644
---- a/arch/x86/kernel/apic/apic.c
-+++ b/arch/x86/kernel/apic/apic.c
-@@ -241,7 +241,7 @@ static int modern_apic(void)
- static void __init apic_disable(void)
- {
- 	pr_info("APIC: switched to apic NOOP\n");
--	apic = &apic_noop;
-+	x86_system_apic = &apic_noop;
- }
- 
- void native_apic_wait_icr_idle(void)
-@@ -519,7 +519,7 @@ static int lapic_timer_set_oneshot(struct clock_event_device *evt)
- static void lapic_timer_broadcast(const struct cpumask *mask)
- {
- #ifdef CONFIG_SMP
--	apic->send_IPI_mask(mask, LOCAL_TIMER_VECTOR);
-+	x86_system_apic->send_IPI_mask(mask, LOCAL_TIMER_VECTOR);
- #endif
- }
- 
-@@ -1444,7 +1444,7 @@ static void lapic_setup_esr(void)
- 		return;
- 	}
- 
--	if (apic->disable_esr) {
-+	if (x86_system_apic->disable_esr) {
- 		/*
- 		 * Something untraceable is creating bad interrupts on
- 		 * secondary quads ... for the moment, just leave the
-@@ -1570,7 +1570,7 @@ static void setup_local_APIC(void)
- 
- #ifdef CONFIG_X86_32
- 	/* Pound the ESR really hard over the head with a big hammer - mbligh */
--	if (lapic_is_integrated() && apic->disable_esr) {
-+	if (lapic_is_integrated() && x86_system_apic->disable_esr) {
- 		apic_write(APIC_ESR, 0);
- 		apic_write(APIC_ESR, 0);
- 		apic_write(APIC_ESR, 0);
-@@ -1581,17 +1581,17 @@ static void setup_local_APIC(void)
- 	 * Double-check whether this APIC is really registered.
- 	 * This is meaningless in clustered apic mode, so we skip it.
- 	 */
--	BUG_ON(!apic->apic_id_registered());
-+	BUG_ON(!x86_system_apic->apic_id_registered());
- 
- 	/*
- 	 * Intel recommends to set DFR, LDR and TPR before enabling
- 	 * an APIC.  See e.g. "AP-388 82489DX User's Manual" (Intel
- 	 * document number 292116).  So here it goes...
- 	 */
--	apic->init_apic_ldr();
-+	x86_system_apic->init_apic_ldr();
- 
- #ifdef CONFIG_X86_32
--	if (apic->dest_logical) {
-+	if (x86_system_apic->dest_logical) {
- 		int logical_apicid, ldr_apicid;
- 
- 		/*
-@@ -2463,7 +2463,7 @@ int generic_processor_info(int apicid, int version)
- #endif
- #ifdef CONFIG_X86_32
- 	early_per_cpu(x86_cpu_to_logical_apicid, cpu) =
--		apic->x86_32_early_logical_apicid(cpu);
-+		x86_system_apic->x86_32_early_logical_apicid(cpu);
- #endif
- 	set_cpu_possible(cpu, true);
- 	physid_set(apicid, phys_cpu_present_map);
-@@ -2499,7 +2499,7 @@ void __init apic_set_eoi_write(void (*eoi_write)(u32 reg, u32 v))
- static void __init apic_bsp_up_setup(void)
- {
- #ifdef CONFIG_X86_64
--	apic_write(APIC_ID, apic->set_apic_id(boot_cpu_physical_apicid));
-+	apic_write(APIC_ID, x86_system_apic->set_apic_id(boot_cpu_physical_apicid));
- #else
- 	/*
- 	 * Hack: In case of kdump, after a crash, kernel might be booting
-diff --git a/arch/x86/kernel/apic/apic_flat_64.c b/arch/x86/kernel/apic/apic_flat_64.c
-index 7862b152a052..f8b38e712f7d 100644
---- a/arch/x86/kernel/apic/apic_flat_64.c
-+++ b/arch/x86/kernel/apic/apic_flat_64.c
-@@ -20,8 +20,8 @@
- static struct apic apic_physflat;
- static struct apic apic_flat;
- 
--struct apic *apic __ro_after_init = &apic_flat;
--EXPORT_SYMBOL_GPL(apic);
-+struct apic *x86_system_apic __ro_after_init = &apic_flat;
-+EXPORT_SYMBOL_GPL(x86_system_apic);
- 
- static int flat_acpi_madt_oem_check(char *oem_id, char *oem_table_id)
- {
-@@ -53,7 +53,7 @@ static void _flat_send_IPI_mask(unsigned long mask, int vector)
- 	unsigned long flags;
- 
- 	local_irq_save(flags);
--	__default_send_IPI_dest_field(mask, vector, apic->dest_logical);
-+	__default_send_IPI_dest_field(mask, vector, x86_system_apic->dest_logical);
- 	local_irq_restore(flags);
- }
- 
-@@ -191,7 +191,7 @@ static void physflat_init_apic_ldr(void)
- 
- static int physflat_probe(void)
- {
--	if (apic == &apic_physflat || num_possible_cpus() > 8 ||
-+	if (x86_system_apic == &apic_physflat || num_possible_cpus() > 8 ||
- 	    jailhouse_paravirt())
- 		return 1;
- 
-diff --git a/arch/x86/kernel/apic/apic_numachip.c b/arch/x86/kernel/apic/apic_numachip.c
-index 35edd57f064a..496af13cfe49 100644
---- a/arch/x86/kernel/apic/apic_numachip.c
-+++ b/arch/x86/kernel/apic/apic_numachip.c
-@@ -159,12 +159,12 @@ static void numachip_send_IPI_self(int vector)
- 
- static int __init numachip1_probe(void)
- {
--	return apic == &apic_numachip1;
-+	return x86_system_apic == &apic_numachip1;
- }
- 
- static int __init numachip2_probe(void)
- {
--	return apic == &apic_numachip2;
-+	return x86_system_apic == &apic_numachip2;
- }
- 
- static void fixup_cpu_id(struct cpuinfo_x86 *c, int node)
-diff --git a/arch/x86/kernel/apic/bigsmp_32.c b/arch/x86/kernel/apic/bigsmp_32.c
-index 98d015a4405a..87e2a1a80964 100644
---- a/arch/x86/kernel/apic/bigsmp_32.c
-+++ b/arch/x86/kernel/apic/bigsmp_32.c
-@@ -176,7 +176,7 @@ void __init generic_bigsmp_probe(void)
- 	if (!probe_bigsmp())
- 		return;
- 
--	apic = &apic_bigsmp;
-+	x86_system_apic = &apic_bigsmp;
- 
- 	for_each_possible_cpu(cpu) {
- 		if (early_per_cpu(x86_cpu_to_logical_apicid,
-diff --git a/arch/x86/kernel/apic/hw_nmi.c b/arch/x86/kernel/apic/hw_nmi.c
-index 34a992e275ef..ca2f74d52653 100644
---- a/arch/x86/kernel/apic/hw_nmi.c
-+++ b/arch/x86/kernel/apic/hw_nmi.c
-@@ -31,7 +31,7 @@ u64 hw_nmi_get_sample_period(int watchdog_thresh)
- #ifdef arch_trigger_cpumask_backtrace
- static void nmi_raise_cpu_backtrace(cpumask_t *mask)
- {
--	apic->send_IPI_mask(mask, NMI_VECTOR);
-+	x86_system_apic->send_IPI_mask(mask, NMI_VECTOR);
- }
- 
- void arch_trigger_cpumask_backtrace(const cpumask_t *mask, bool exclude_self)
-diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
-index 7b3c7e0d4a09..0ec96c77ae63 100644
---- a/arch/x86/kernel/apic/io_apic.c
-+++ b/arch/x86/kernel/apic/io_apic.c
-@@ -1457,7 +1457,7 @@ void __init setup_ioapic_ids_from_mpc_nocheck(void)
- 	 * This is broken; anything with a real cpu count has to
- 	 * circumvent this idiocy regardless.
- 	 */
--	apic->ioapic_phys_id_map(&phys_cpu_present_map, &phys_id_present_map);
-+	x86_system_apic->ioapic_phys_id_map(&phys_cpu_present_map, &phys_id_present_map);
- 
- 	/*
- 	 * Set the IOAPIC ID to the value stored in the MPC table.
-@@ -1483,7 +1483,7 @@ void __init setup_ioapic_ids_from_mpc_nocheck(void)
- 		 * system must have a unique ID or we get lots of nice
- 		 * 'stuck on smp_invalidate_needed IPI wait' messages.
- 		 */
--		if (apic->check_apicid_used(&phys_id_present_map,
-+		if (x86_system_apic->check_apicid_used(&phys_id_present_map,
- 					    mpc_ioapic_id(ioapic_idx))) {
- 			printk(KERN_ERR "BIOS bug, IO-APIC#%d ID %d is already used!...\n",
- 				ioapic_idx, mpc_ioapic_id(ioapic_idx));
-@@ -1498,7 +1498,7 @@ void __init setup_ioapic_ids_from_mpc_nocheck(void)
- 			ioapics[ioapic_idx].mp_config.apicid = i;
- 		} else {
- 			physid_mask_t tmp;
--			apic->apicid_to_cpu_present(mpc_ioapic_id(ioapic_idx),
-+			x86_system_apic->apicid_to_cpu_present(mpc_ioapic_id(ioapic_idx),
- 						    &tmp);
- 			apic_printk(APIC_VERBOSE, "Setting %d in the "
- 					"phys_id_present_map\n",
-@@ -2462,7 +2462,8 @@ static int io_apic_get_unique_id(int ioapic, int apic_id)
- 	 */
- 
- 	if (physids_empty(apic_id_map))
--		apic->ioapic_phys_id_map(&phys_cpu_present_map, &apic_id_map);
-+		x86_system_apic->ioapic_phys_id_map(&phys_cpu_present_map,
-+						    &apic_id_map);
- 
- 	raw_spin_lock_irqsave(&ioapic_lock, flags);
- 	reg_00.raw = io_apic_read(ioapic, 0);
-@@ -2478,10 +2479,10 @@ static int io_apic_get_unique_id(int ioapic, int apic_id)
- 	 * Every APIC in a system must have a unique ID or we get lots of nice
- 	 * 'stuck on smp_invalidate_needed IPI wait' messages.
- 	 */
--	if (apic->check_apicid_used(&apic_id_map, apic_id)) {
-+	if (x86_system_apic->check_apicid_used(&apic_id_map, apic_id)) {
- 
- 		for (i = 0; i < get_physical_broadcast(); i++) {
--			if (!apic->check_apicid_used(&apic_id_map, i))
-+			if (!x86_system_apic->check_apicid_used(&apic_id_map, i))
- 				break;
- 		}
- 
-@@ -2494,7 +2495,7 @@ static int io_apic_get_unique_id(int ioapic, int apic_id)
- 		apic_id = i;
- 	}
- 
--	apic->apicid_to_cpu_present(apic_id, &tmp);
-+	x86_system_apic->apicid_to_cpu_present(apic_id, &tmp);
- 	physids_or(apic_id_map, apic_id_map, tmp);
- 
- 	if (reg_00.bits.ID != apic_id) {
-@@ -2948,8 +2949,8 @@ static void mp_setup_entry(struct irq_cfg *cfg, struct mp_chip_data *data,
- 			   struct IO_APIC_route_entry *entry)
- {
- 	memset(entry, 0, sizeof(*entry));
--	entry->delivery_mode = apic->irq_delivery_mode;
--	entry->dest_mode     = apic->irq_dest_mode;
-+	entry->delivery_mode = x86_system_apic->irq_delivery_mode;
-+	entry->dest_mode     = x86_system_apic->irq_dest_mode;
- 	entry->dest	     = cfg->dest_apicid;
- 	entry->vector	     = cfg->vector;
- 	entry->trigger	     = data->trigger;
-diff --git a/arch/x86/kernel/apic/ipi.c b/arch/x86/kernel/apic/ipi.c
-index 387154e39e08..96e942c3a4a6 100644
---- a/arch/x86/kernel/apic/ipi.c
-+++ b/arch/x86/kernel/apic/ipi.c
-@@ -52,9 +52,9 @@ void apic_send_IPI_allbutself(unsigned int vector)
- 		return;
- 
- 	if (static_branch_likely(&apic_use_ipi_shorthand))
--		apic->send_IPI_allbutself(vector);
-+		x86_system_apic->send_IPI_allbutself(vector);
- 	else
--		apic->send_IPI_mask_allbutself(cpu_online_mask, vector);
-+		x86_system_apic->send_IPI_mask_allbutself(cpu_online_mask, vector);
- }
- 
- /*
-@@ -68,12 +68,12 @@ void native_smp_send_reschedule(int cpu)
- 		WARN(1, "sched: Unexpected reschedule of offline CPU#%d!\n", cpu);
- 		return;
- 	}
--	apic->send_IPI(cpu, RESCHEDULE_VECTOR);
-+	x86_system_apic->send_IPI(cpu, RESCHEDULE_VECTOR);
- }
- 
- void native_send_call_func_single_ipi(int cpu)
- {
--	apic->send_IPI(cpu, CALL_FUNCTION_SINGLE_VECTOR);
-+	x86_system_apic->send_IPI(cpu, CALL_FUNCTION_SINGLE_VECTOR);
- }
- 
- void native_send_call_func_ipi(const struct cpumask *mask)
-@@ -85,14 +85,14 @@ void native_send_call_func_ipi(const struct cpumask *mask)
- 			goto sendmask;
- 
- 		if (cpumask_test_cpu(cpu, mask))
--			apic->send_IPI_all(CALL_FUNCTION_VECTOR);
-+			x86_system_apic->send_IPI_all(CALL_FUNCTION_VECTOR);
- 		else if (num_online_cpus() > 1)
--			apic->send_IPI_allbutself(CALL_FUNCTION_VECTOR);
-+			x86_system_apic->send_IPI_allbutself(CALL_FUNCTION_VECTOR);
- 		return;
- 	}
- 
- sendmask:
--	apic->send_IPI_mask(mask, CALL_FUNCTION_VECTOR);
-+	x86_system_apic->send_IPI_mask(mask, CALL_FUNCTION_VECTOR);
- }
- 
- #endif /* CONFIG_SMP */
-@@ -224,7 +224,7 @@ void default_send_IPI_mask_allbutself_phys(const struct cpumask *mask,
-  */
- void default_send_IPI_single(int cpu, int vector)
- {
--	apic->send_IPI_mask(cpumask_of(cpu), vector);
-+	x86_system_apic->send_IPI_mask(cpumask_of(cpu), vector);
- }
- 
- void default_send_IPI_allbutself(int vector)
-@@ -260,7 +260,7 @@ void default_send_IPI_mask_sequence_logical(const struct cpumask *mask,
- 	for_each_cpu(query_cpu, mask)
- 		__default_send_IPI_dest_field(
- 			early_per_cpu(x86_cpu_to_logical_apicid, query_cpu),
--			vector, apic->dest_logical);
-+			vector, x86_system_apic->dest_logical);
- 	local_irq_restore(flags);
- }
- 
-@@ -279,7 +279,7 @@ void default_send_IPI_mask_allbutself_logical(const struct cpumask *mask,
- 			continue;
- 		__default_send_IPI_dest_field(
- 			early_per_cpu(x86_cpu_to_logical_apicid, query_cpu),
--			vector, apic->dest_logical);
-+			vector, x86_system_apic->dest_logical);
- 		}
- 	local_irq_restore(flags);
- }
-@@ -297,7 +297,7 @@ void default_send_IPI_mask_logical(const struct cpumask *cpumask, int vector)
- 
- 	local_irq_save(flags);
- 	WARN_ON(mask & ~cpumask_bits(cpu_online_mask)[0]);
--	__default_send_IPI_dest_field(mask, vector, apic->dest_logical);
-+	__default_send_IPI_dest_field(mask, vector, x86_system_apic->dest_logical);
- 	local_irq_restore(flags);
- }
- 
-diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index 6313f0a05db7..5ccbd288841a 100644
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -32,7 +32,7 @@ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
- 
- 	msg->address_lo =
- 		MSI_ADDR_BASE_LO |
--		((apic->irq_dest_mode == 0) ?
-+		((x86_system_apic->irq_dest_mode == 0) ?
- 			MSI_ADDR_DEST_MODE_PHYSICAL :
- 			MSI_ADDR_DEST_MODE_LOGICAL) |
- 		MSI_ADDR_REDIRECTION_CPU |
-diff --git a/arch/x86/kernel/apic/probe_32.c b/arch/x86/kernel/apic/probe_32.c
-index 67b6f7c049ec..c007d4c130ab 100644
---- a/arch/x86/kernel/apic/probe_32.c
-+++ b/arch/x86/kernel/apic/probe_32.c
-@@ -113,8 +113,8 @@ static struct apic apic_default __ro_after_init = {
- 
- apic_driver(apic_default);
- 
--struct apic *apic __ro_after_init = &apic_default;
--EXPORT_SYMBOL_GPL(apic);
-+struct apic *x86_system_apic __ro_after_init = &apic_default;
-+EXPORT_SYMBOL_GPL(x86_system_apic);
- 
- static int cmdline_apic __initdata;
- static int __init parse_apic(char *arg)
-@@ -126,7 +126,7 @@ static int __init parse_apic(char *arg)
- 
- 	for (drv = __apicdrivers; drv < __apicdrivers_end; drv++) {
- 		if (!strcmp((*drv)->name, arg)) {
--			apic = *drv;
-+			x86_system_apic = *drv;
- 			cmdline_apic = 1;
- 			return 0;
- 		}
-@@ -164,12 +164,12 @@ void __init default_setup_apic_routing(void)
- 	 * - we find more than 8 CPUs in acpi LAPIC listing with xAPIC support
- 	 */
- 
--	if (!cmdline_apic && apic == &apic_default)
-+	if (!cmdline_apic && x86_system_apic == &apic_default)
- 		generic_bigsmp_probe();
- #endif
- 
--	if (apic->setup_apic_routing)
--		apic->setup_apic_routing();
-+	if (x86_system_apic->setup_apic_routing)
-+		x86_system_apic->setup_apic_routing();
- }
- 
- void __init generic_apic_probe(void)
-@@ -179,7 +179,7 @@ void __init generic_apic_probe(void)
- 
- 		for (drv = __apicdrivers; drv < __apicdrivers_end; drv++) {
- 			if ((*drv)->probe()) {
--				apic = *drv;
-+				x86_system_apic = *drv;
- 				break;
- 			}
- 		}
-@@ -187,7 +187,7 @@ void __init generic_apic_probe(void)
- 		if (drv == __apicdrivers_end)
- 			panic("Didn't find an APIC driver");
- 	}
--	printk(KERN_INFO "Using APIC driver %s\n", apic->name);
-+	printk(KERN_INFO "Using APIC driver %s\n", x86_system_apic->name);
- }
- 
- /* This function can switch the APIC even after the initial ->probe() */
-@@ -202,9 +202,9 @@ int __init default_acpi_madt_oem_check(char *oem_id, char *oem_table_id)
- 			continue;
- 
- 		if (!cmdline_apic) {
--			apic = *drv;
-+			x86_system_apic = *drv;
- 			printk(KERN_INFO "Switched to APIC driver `%s'.\n",
--			       apic->name);
-+			       x86_system_apic->name);
- 		}
- 		return 1;
- 	}
-diff --git a/arch/x86/kernel/apic/probe_64.c b/arch/x86/kernel/apic/probe_64.c
-index c46720f185c0..280c1e755cef 100644
---- a/arch/x86/kernel/apic/probe_64.c
-+++ b/arch/x86/kernel/apic/probe_64.c
-@@ -24,10 +24,10 @@ void __init default_setup_apic_routing(void)
- 
- 	for (drv = __apicdrivers; drv < __apicdrivers_end; drv++) {
- 		if ((*drv)->probe && (*drv)->probe()) {
--			if (apic != *drv) {
--				apic = *drv;
-+			if (x86_system_apic != *drv) {
-+				x86_system_apic = *drv;
- 				pr_info("Switched APIC routing to %s.\n",
--					apic->name);
-+					x86_system_apic->name);
- 			}
- 			break;
- 		}
-@@ -40,10 +40,10 @@ int __init default_acpi_madt_oem_check(char *oem_id, char *oem_table_id)
- 
- 	for (drv = __apicdrivers; drv < __apicdrivers_end; drv++) {
- 		if ((*drv)->acpi_madt_oem_check(oem_id, oem_table_id)) {
--			if (apic != *drv) {
--				apic = *drv;
-+			if (x86_system_apic != *drv) {
-+				x86_system_apic = *drv;
- 				pr_info("Setting APIC routing to %s.\n",
--					apic->name);
-+					x86_system_apic->name);
- 			}
- 			return 1;
- 		}
-diff --git a/arch/x86/kernel/apic/vector.c b/arch/x86/kernel/apic/vector.c
-index 1eac53632786..f6c6cbb592e9 100644
---- a/arch/x86/kernel/apic/vector.c
-+++ b/arch/x86/kernel/apic/vector.c
-@@ -122,7 +122,7 @@ static void apic_update_irq_cfg(struct irq_data *irqd, unsigned int vector,
- 	lockdep_assert_held(&vector_lock);
- 
- 	apicd->hw_irq_cfg.vector = vector;
--	apicd->hw_irq_cfg.dest_apicid = apic->calc_dest_apicid(cpu);
-+	apicd->hw_irq_cfg.dest_apicid = x86_system_apic->calc_dest_apicid(cpu);
- 	irq_data_update_effective_affinity(irqd, cpumask_of(cpu));
- 	trace_vector_config(irqd->irq, vector, cpu,
- 			    apicd->hw_irq_cfg.dest_apicid);
-@@ -800,7 +800,7 @@ static int apic_retrigger_irq(struct irq_data *irqd)
- 	unsigned long flags;
- 
- 	raw_spin_lock_irqsave(&vector_lock, flags);
--	apic->send_IPI(apicd->cpu, apicd->vector);
-+	x86_system_apic->send_IPI(apicd->cpu, apicd->vector);
- 	raw_spin_unlock_irqrestore(&vector_lock, flags);
- 
- 	return 1;
-@@ -876,7 +876,7 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_irq_move_cleanup)
- 		 */
- 		irr = apic_read(APIC_IRR + (vector / 32 * 0x10));
- 		if (irr & (1U << (vector % 32))) {
--			apic->send_IPI_self(IRQ_MOVE_CLEANUP_VECTOR);
-+			x86_system_apic->send_IPI_self(IRQ_MOVE_CLEANUP_VECTOR);
- 			continue;
- 		}
- 		free_moved_vector(apicd);
-@@ -894,7 +894,7 @@ static void __send_cleanup_vector(struct apic_chip_data *apicd)
- 	cpu = apicd->prev_cpu;
- 	if (cpu_online(cpu)) {
- 		hlist_add_head(&apicd->clist, per_cpu_ptr(&cleanup_list, cpu));
--		apic->send_IPI(cpu, IRQ_MOVE_CLEANUP_VECTOR);
-+		x86_system_apic->send_IPI(cpu, IRQ_MOVE_CLEANUP_VECTOR);
- 	} else {
- 		apicd->prev_vector = 0;
- 	}
-diff --git a/arch/x86/kernel/apic/x2apic_cluster.c b/arch/x86/kernel/apic/x2apic_cluster.c
-index b0889c48a2ac..459e5b78edd5 100644
---- a/arch/x86/kernel/apic/x2apic_cluster.c
-+++ b/arch/x86/kernel/apic/x2apic_cluster.c
-@@ -61,7 +61,8 @@ __x2apic_send_IPI_mask(const struct cpumask *mask, int vector, int apic_dest)
- 		if (!dest)
- 			continue;
- 
--		__x2apic_send_IPI_dest(dest, vector, apic->dest_logical);
-+		__x2apic_send_IPI_dest(dest, vector,
-+				       x86_system_apic->dest_logical);
- 		/* Remove cluster CPUs from tmpmask */
- 		cpumask_andnot(tmpmsk, tmpmsk, &cmsk->mask);
- 	}
-diff --git a/arch/x86/kernel/apic/x2apic_phys.c b/arch/x86/kernel/apic/x2apic_phys.c
-index bc9693841353..d4f8fa6cc67c 100644
---- a/arch/x86/kernel/apic/x2apic_phys.c
-+++ b/arch/x86/kernel/apic/x2apic_phys.c
-@@ -92,7 +92,7 @@ static int x2apic_phys_probe(void)
- 	if (x2apic_mode && (x2apic_phys || x2apic_fadt_phys()))
- 		return 1;
- 
--	return apic == &apic_x2apic_phys;
-+	return x86_system_apic == &apic_x2apic_phys;
- }
- 
- /* Common x2apic functions, also used by x2apic_cluster */
-diff --git a/arch/x86/kernel/apic/x2apic_uv_x.c b/arch/x86/kernel/apic/x2apic_uv_x.c
-index 714233cee0b5..9038db84d567 100644
---- a/arch/x86/kernel/apic/x2apic_uv_x.c
-+++ b/arch/x86/kernel/apic/x2apic_uv_x.c
-@@ -796,7 +796,7 @@ static void uv_send_IPI_self(int vector)
- 
- static int uv_probe(void)
- {
--	return apic == &apic_x2apic_uv_x;
-+	return x86_system_apic == &apic_x2apic_uv_x;
- }
- 
- static struct apic apic_x2apic_uv_x __ro_after_init = {
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 35ad8480c464..178817fda45e 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -780,7 +780,8 @@ void detect_ht(struct cpuinfo_x86 *c)
- 		return;
- 
- 	index_msb = get_count_order(smp_num_siblings);
--	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid, index_msb);
-+	c->phys_proc_id = x86_system_apic->phys_pkg_id(c->initial_apicid,
-+						       index_msb);
- 
- 	smp_num_siblings = smp_num_siblings / c->x86_max_cores;
- 
-@@ -788,8 +789,9 @@ void detect_ht(struct cpuinfo_x86 *c)
- 
- 	core_bits = get_count_order(c->x86_max_cores);
- 
--	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid, index_msb) &
--				       ((1 << core_bits) - 1);
-+	c->cpu_core_id = x86_system_apic->phys_pkg_id(c->initial_apicid,
-+						      index_msb) &
-+					       ((1 << core_bits) - 1);
- #endif
- }
- 
-@@ -1442,7 +1444,7 @@ static void generic_identify(struct cpuinfo_x86 *c)
- 		c->initial_apicid = (cpuid_ebx(1) >> 24) & 0xFF;
- #ifdef CONFIG_X86_32
- # ifdef CONFIG_SMP
--		c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
-+		c->apicid = x86_system_apic->phys_pkg_id(c->initial_apicid, 0);
- # else
- 		c->apicid = c->initial_apicid;
- # endif
-@@ -1481,7 +1483,7 @@ static void validate_apic_and_package_id(struct cpuinfo_x86 *c)
- #ifdef CONFIG_SMP
- 	unsigned int apicid, cpu = smp_processor_id();
- 
--	apicid = apic->cpu_present_to_apicid(cpu);
-+	apicid = x86_system_apic->cpu_present_to_apicid(cpu);
- 
- 	if (apicid != c->apicid) {
- 		pr_err(FW_BUG "CPU%u: APIC id mismatch. Firmware: %x APIC: %x\n",
-@@ -1535,7 +1537,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	apply_forced_caps(c);
- 
- #ifdef CONFIG_X86_64
--	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
-+	c->apicid = x86_system_apic->phys_pkg_id(c->initial_apicid, 0);
- #endif
- 
- 	/*
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index 3a44346f2276..c39ed41fa74a 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -252,8 +252,8 @@ static void __maybe_unused raise_mce(struct mce *m)
- 					mce_irq_ipi, NULL, 0);
- 				preempt_enable();
- 			} else if (m->inject_flags & MCJ_NMI_BROADCAST)
--				apic->send_IPI_mask(mce_inject_cpumask,
--						NMI_VECTOR);
-+				x86_system_apic->send_IPI_mask(mce_inject_cpumask,
-+							       NMI_VECTOR);
- 		}
- 		start = jiffies;
- 		while (!cpumask_empty(mce_inject_cpumask)) {
-diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
-index d3a0791bc052..b4b0e1e77a61 100644
---- a/arch/x86/kernel/cpu/topology.c
-+++ b/arch/x86/kernel/cpu/topology.c
-@@ -137,16 +137,16 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
- 	die_select_mask = (~(-1 << die_plus_mask_width)) >>
- 				core_plus_mask_width;
- 
--	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
-+	c->cpu_core_id = x86_system_apic->phys_pkg_id(c->initial_apicid,
- 				ht_mask_width) & core_select_mask;
--	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
-+	c->cpu_die_id = x86_system_apic->phys_pkg_id(c->initial_apicid,
- 				core_plus_mask_width) & die_select_mask;
--	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
-+	c->phys_proc_id = x86_system_apic->phys_pkg_id(c->initial_apicid,
- 				die_plus_mask_width);
- 	/*
- 	 * Reinit the apicid, now that we have extended initial_apicid.
- 	 */
--	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
-+	c->apicid = x86_system_apic->phys_pkg_id(c->initial_apicid, 0);
- 
- 	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
- 	__max_die_per_package = (die_level_siblings / core_level_siblings);
-diff --git a/arch/x86/kernel/irq_work.c b/arch/x86/kernel/irq_work.c
-index 890d4778cd35..7ae01529aa1d 100644
---- a/arch/x86/kernel/irq_work.c
-+++ b/arch/x86/kernel/irq_work.c
-@@ -28,7 +28,7 @@ void arch_irq_work_raise(void)
- 	if (!arch_irq_work_has_interrupt())
- 		return;
- 
--	apic->send_IPI_self(IRQ_WORK_VECTOR);
-+	x86_system_apic->send_IPI_self(IRQ_WORK_VECTOR);
- 	apic_wait_icr_idle();
- }
- #endif
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 7f57ede3cb8e..a587ba6e844d 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -325,7 +325,7 @@ static notrace void kvm_guest_apic_eoi_write(u32 reg, u32 val)
- 	 */
- 	if (__test_and_clear_bit(KVM_PV_EOI_BIT, this_cpu_ptr(&kvm_apic_eoi)))
- 		return;
--	apic->native_eoi_write(APIC_EOI, APIC_EOI_ACK);
-+	x86_system_apic->native_eoi_write(APIC_EOI, APIC_EOI_ACK);
- }
- 
- static void kvm_guest_cpu_init(void)
-@@ -554,8 +554,8 @@ static void kvm_send_ipi_mask_allbutself(const struct cpumask *mask, int vector)
-  */
- static void kvm_setup_pv_ipi(void)
- {
--	apic->send_IPI_mask = kvm_send_ipi_mask;
--	apic->send_IPI_mask_allbutself = kvm_send_ipi_mask_allbutself;
-+	x86_system_apic->send_IPI_mask = kvm_send_ipi_mask;
-+	x86_system_apic->send_IPI_mask_allbutself = kvm_send_ipi_mask_allbutself;
- 	pr_info("setup PV IPIs\n");
- }
- 
-diff --git a/arch/x86/kernel/nmi_selftest.c b/arch/x86/kernel/nmi_selftest.c
-index a1a96df3dff1..ee0f6dc7a2c9 100644
---- a/arch/x86/kernel/nmi_selftest.c
-+++ b/arch/x86/kernel/nmi_selftest.c
-@@ -75,7 +75,7 @@ static void __init test_nmi_ipi(struct cpumask *mask)
- 	/* sync above data before sending NMI */
- 	wmb();
- 
--	apic->send_IPI_mask(mask, NMI_VECTOR);
-+	x86_system_apic->send_IPI_mask(mask, NMI_VECTOR);
- 
- 	/* Don't wait longer than a second */
- 	timeout = USEC_PER_SEC;
-diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-index 9a94934fae5f..51f2800949a9 100644
---- a/arch/x86/kernel/smpboot.c
-+++ b/arch/x86/kernel/smpboot.c
-@@ -756,7 +756,7 @@ wakeup_secondary_cpu_via_nmi(int apicid, unsigned long start_eip)
- 	/* Target chip */
- 	/* Boot on the stack */
- 	/* Kick the second */
--	apic_icr_write(APIC_DM_NMI | apic->dest_logical, apicid);
-+	apic_icr_write(APIC_DM_NMI | x86_system_apic->dest_logical, apicid);
- 
- 	pr_debug("Waiting for send to finish...\n");
- 	send_status = safe_apic_wait_icr_idle();
-@@ -983,7 +983,7 @@ wakeup_cpu_via_init_nmi(int cpu, unsigned long start_ip, int apicid,
- 	if (!boot_error) {
- 		enable_start_cpu0 = 1;
- 		*cpu0_nmi_registered = 1;
--		if (apic->dest_logical == APIC_DEST_LOGICAL)
-+		if (x86_system_apic->dest_logical == APIC_DEST_LOGICAL)
- 			id = cpu0_logical_apicid;
- 		else
- 			id = apicid;
-@@ -1080,8 +1080,9 @@ static int do_boot_cpu(int apicid, int cpu, struct task_struct *idle,
- 	 * Otherwise,
- 	 * - Use an INIT boot APIC message for APs or NMI for BSP.
- 	 */
--	if (apic->wakeup_secondary_cpu)
--		boot_error = apic->wakeup_secondary_cpu(apicid, start_ip);
-+	if (x86_system_apic->wakeup_secondary_cpu)
-+		boot_error = x86_system_apic->wakeup_secondary_cpu(apicid,
-+								   start_ip);
- 	else
- 		boot_error = wakeup_cpu_via_init_nmi(cpu, start_ip, apicid,
- 						     cpu0_nmi_registered);
-@@ -1132,7 +1133,7 @@ static int do_boot_cpu(int apicid, int cpu, struct task_struct *idle,
- 
- int native_cpu_up(unsigned int cpu, struct task_struct *tidle)
- {
--	int apicid = apic->cpu_present_to_apicid(cpu);
-+	int apicid = x86_system_apic->cpu_present_to_apicid(cpu);
- 	int cpu0_nmi_registered = 0;
- 	unsigned long flags;
- 	int err, ret = 0;
-@@ -1143,7 +1144,7 @@ int native_cpu_up(unsigned int cpu, struct task_struct *tidle)
- 
- 	if (apicid == BAD_APICID ||
- 	    !physid_isset(apicid, phys_cpu_present_map) ||
--	    !apic->apic_id_valid(apicid)) {
-+	    !x86_system_apic->apic_id_valid(apicid)) {
- 		pr_err("%s: bad cpu %d\n", __func__, cpu);
- 		return -EINVAL;
- 	}
-@@ -1280,7 +1281,7 @@ static void __init smp_sanity_check(void)
- 	 * Should not be necessary because the MP table should list the boot
- 	 * CPU too, but we do it for the sake of robustness anyway.
- 	 */
--	if (!apic->check_phys_apicid_present(boot_cpu_physical_apicid)) {
-+	if (!x86_system_apic->check_phys_apicid_present(boot_cpu_physical_apicid)) {
- 		pr_notice("weird, boot CPU (#%d) not listed by the BIOS\n",
- 			  boot_cpu_physical_apicid);
- 		physid_set(hard_smp_processor_id(), phys_cpu_present_map);
-@@ -1467,8 +1468,9 @@ __init void prefill_possible_map(void)
- 			pr_warn("Boot CPU (id %d) not listed by BIOS\n", cpu);
- 
- 			/* Make sure boot cpu is enumerated */
--			if (apic->cpu_present_to_apicid(0) == BAD_APICID &&
--			    apic->apic_id_valid(apicid))
-+			if (x86_system_apic->cpu_present_to_apicid(0) ==
-+					BAD_APICID &&
-+			    x86_system_apic->apic_id_valid(apicid))
- 				generic_processor_info(apicid, boot_cpu_apic_version);
- 		}
- 
-diff --git a/arch/x86/kernel/vsmp_64.c b/arch/x86/kernel/vsmp_64.c
-index 796cfaa46bfa..8928932fdf8f 100644
---- a/arch/x86/kernel/vsmp_64.c
-+++ b/arch/x86/kernel/vsmp_64.c
-@@ -135,7 +135,7 @@ static int apicid_phys_pkg_id(int initial_apic_id, int index_msb)
- static void vsmp_apic_post_init(void)
- {
- 	/* need to update phys_pkg_id */
--	apic->phys_pkg_id = apicid_phys_pkg_id;
-+	x86_system_apic->phys_pkg_id = apicid_phys_pkg_id;
- }
- 
- void __init vsmp_init(void)
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index d14c94d0aff1..be76843a6946 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -3943,7 +3943,7 @@ static inline bool kvm_vcpu_trigger_posted_interrupt(struct kvm_vcpu *vcpu,
- 		 * which has no effect is safe here.
- 		 */
- 
--		apic->send_IPI_mask(get_cpu_mask(vcpu->cpu), pi_vec);
-+		x86_system_apic->send_IPI_mask(get_cpu_mask(vcpu->cpu), pi_vec);
- 		return true;
- 	}
- #endif
-diff --git a/arch/x86/mm/srat.c b/arch/x86/mm/srat.c
-index dac07e4f5834..be3958dbb2af 100644
---- a/arch/x86/mm/srat.c
-+++ b/arch/x86/mm/srat.c
-@@ -40,7 +40,7 @@ acpi_numa_x2apic_affinity_init(struct acpi_srat_x2apic_cpu_affinity *pa)
- 		return;
- 	pxm = pa->proximity_domain;
- 	apic_id = pa->apic_id;
--	if (!apic->apic_id_valid(apic_id)) {
-+	if (!x86_system_apic->apic_id_valid(apic_id)) {
- 		printk(KERN_INFO "SRAT: PXM %u -> X2APIC 0x%04x ignored\n",
- 			 pxm, apic_id);
- 		return;
-diff --git a/arch/x86/platform/uv/uv_irq.c b/arch/x86/platform/uv/uv_irq.c
-index 18ca2261cc9a..2543148067b2 100644
---- a/arch/x86/platform/uv/uv_irq.c
-+++ b/arch/x86/platform/uv/uv_irq.c
-@@ -35,8 +35,8 @@ static void uv_program_mmr(struct irq_cfg *cfg, struct uv_irq_2_mmr_pnode *info)
- 	mmr_value = 0;
- 	entry = (struct uv_IO_APIC_route_entry *)&mmr_value;
- 	entry->vector		= cfg->vector;
--	entry->delivery_mode	= apic->irq_delivery_mode;
--	entry->dest_mode	= apic->irq_dest_mode;
-+	entry->delivery_mode	= x86_system_apic->irq_delivery_mode;
-+	entry->dest_mode	= x86_system_apic->irq_dest_mode;
- 	entry->polarity		= 0;
- 	entry->trigger		= 0;
- 	entry->mask		= 0;
-diff --git a/arch/x86/platform/uv/uv_nmi.c b/arch/x86/platform/uv/uv_nmi.c
-index eafc530c8767..afecd7e8de41 100644
---- a/arch/x86/platform/uv/uv_nmi.c
-+++ b/arch/x86/platform/uv/uv_nmi.c
-@@ -597,7 +597,7 @@ static void uv_nmi_nr_cpus_ping(void)
- 	for_each_cpu(cpu, uv_nmi_cpu_mask)
- 		uv_cpu_nmi_per(cpu).pinging = 1;
- 
--	apic->send_IPI_mask(uv_nmi_cpu_mask, APIC_DM_NMI);
-+	x86_system_apic->send_IPI_mask(uv_nmi_cpu_mask, APIC_DM_NMI);
- }
- 
- /* Clean up flags for CPU's that ignored both NMI and ping */
-diff --git a/arch/x86/xen/apic.c b/arch/x86/xen/apic.c
-index e82fd1910dae..cb34b47e82c8 100644
---- a/arch/x86/xen/apic.c
-+++ b/arch/x86/xen/apic.c
-@@ -191,12 +191,12 @@ static struct apic xen_pv_apic = {
- 
- static void __init xen_apic_check(void)
- {
--	if (apic == &xen_pv_apic)
-+	if (x86_system_apic == &xen_pv_apic)
- 		return;
- 
--	pr_info("Switched APIC routing from %s to %s.\n", apic->name,
-+	pr_info("Switched APIC routing from %s to %s.\n", x86_system_apic->name,
- 		xen_pv_apic.name);
--	apic = &xen_pv_apic;
-+	x86_system_apic = &xen_pv_apic;
- }
- void __init xen_init_apic(void)
- {
-@@ -204,7 +204,7 @@ void __init xen_init_apic(void)
- 	/* On PV guests the APIC CPUID bit is disabled so none of the
- 	 * routines end up executing. */
- 	if (!xen_initial_domain())
--		apic = &xen_pv_apic;
-+		x86_system_apic = &xen_pv_apic;
- 
- 	x86_platform.apic_post_init = xen_apic_check;
- }
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index b9cf59443843..01a62ebb435d 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3671,8 +3671,10 @@ static void irq_remapping_prepare_irte(struct amd_ir_data *data,
- 
- 	data->irq_2_irte.devid = devid;
- 	data->irq_2_irte.index = index + sub_handle;
--	iommu->irte_ops->prepare(data->entry, apic->irq_delivery_mode,
--				 apic->irq_dest_mode, irq_cfg->vector,
-+	iommu->irte_ops->prepare(data->entry,
-+				 x86_system_apic->irq_delivery_mode,
-+				 x86_system_apic->irq_dest_mode,
-+				 irq_cfg->vector,
- 				 irq_cfg->dest_apicid, devid);
- 
- 	switch (info->type) {
-@@ -3943,8 +3945,8 @@ int amd_iommu_deactivate_guest_mode(void *data)
- 	entry->hi.val = 0;
- 
- 	entry->lo.fields_remap.valid       = valid;
--	entry->lo.fields_remap.dm          = apic->irq_dest_mode;
--	entry->lo.fields_remap.int_type    = apic->irq_delivery_mode;
-+	entry->lo.fields_remap.dm          = x86_system_apic->irq_dest_mode;
-+	entry->lo.fields_remap.int_type    = x86_system_apic->irq_delivery_mode;
- 	entry->hi.fields.vector            = cfg->vector;
- 	entry->lo.fields_remap.destination =
- 				APICID_TO_IRTE_DEST_LO(cfg->dest_apicid);
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index 0cfce1d3b7bb..21b70534b011 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1113,7 +1113,7 @@ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
- 	memset(irte, 0, sizeof(*irte));
- 
- 	irte->present = 1;
--	irte->dst_mode = apic->irq_dest_mode;
-+	irte->dst_mode = x86_system_apic->irq_dest_mode;
- 	/*
- 	 * Trigger mode in the IRTE will always be edge, and for IO-APIC, the
- 	 * actual level or edge trigger will be setup in the IO-APIC
-@@ -1122,7 +1122,7 @@ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
- 	 * irq migration in the presence of interrupt-remapping.
- 	*/
- 	irte->trigger_mode = 0;
--	irte->dlvry_mode = apic->irq_delivery_mode;
-+	irte->dlvry_mode = x86_system_apic->irq_delivery_mode;
- 	irte->vector = vector;
- 	irte->dest_id = IRTE_DEST(dest);
- 	irte->redir_hint = 1;
+ AMD POWERPLAY
+ M:	Evan Quan <evan.quan@amd.com>
+ L:	amd-gfx@lists.freedesktop.org
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 0d91d136bc3b..665ba3264374 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -180,6 +180,15 @@ config ACER_WMI
+ 	  If you have an ACPI-WMI compatible Acer/ Wistron laptop, say Y or M
+ 	  here.
+ 
++config AMD_PMC
++	tristate "AMD SoC PMC driver"
++	depends on ACPI && PCI
++	help
++	  The driver provides support for AMD Power Management Controller
++	  primarily responsible for S2Idle transactions that are driven from
++	  a platform firmware running on SMU. This driver also provides debug
++	  mechanism to investigate the S2Idle transactions and failures.
++
+ config APPLE_GMUX
+ 	tristate "Apple Gmux Driver"
+ 	depends on ACPI && PCI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 5f823f7eff45..48203e87240c 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -22,6 +22,9 @@ obj-$(CONFIG_ACERHDF)		+= acerhdf.o
+ obj-$(CONFIG_ACER_WIRELESS)	+= acer-wireless.o
+ obj-$(CONFIG_ACER_WMI)		+= acer-wmi.o
+ 
++# AMD
++obj-$(CONFIG_AMD_PMC)		+= amd-pmc.o
++
+ # Apple
+ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ 
+diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pmc.c
+new file mode 100644
+index 000000000000..8da4efeefb19
+--- /dev/null
++++ b/drivers/platform/x86/amd-pmc.c
+@@ -0,0 +1,274 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * AMD SoC Power Management Controller Driver
++ *
++ * Copyright (c) 2020, Advanced Micro Devices, Inc.
++ * All Rights Reserved.
++ *
++ * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/acpi.h>
++#include <linux/bitfield.h>
++#include <linux/debugfs.h>
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/platform_device.h>
++#include <linux/suspend.h>
++#include <linux/seq_file.h>
++#include <linux/uaccess.h>
++
++#include "amd-pmc.h"
++
++static struct amd_pmc_dev pmc;
++
++static inline u32 amd_pmc_reg_read(struct amd_pmc_dev *dev, int reg_offset)
++{
++	return ioread32(dev->regbase + reg_offset);
++}
++
++static inline void amd_pmc_reg_write(struct amd_pmc_dev *dev, int reg_offset, u32 val)
++{
++	iowrite32(val, dev->regbase + reg_offset);
++}
++
++#if CONFIG_DEBUG_FS
++static int smu_fw_info_show(struct seq_file *s, void *unused)
++{
++	struct amd_pmc_dev *dev = s->private;
++	unsigned int value;
++
++	value = ioread32(dev->smu_base + AMD_SMU_FW_VERSION);
++	seq_printf(s, "SMU FW Info: %x\n", value);
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(smu_fw_info);
++
++static void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
++{
++	debugfs_remove_recursive(dev->dbgfs_dir);
++}
++
++static void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
++{
++	struct dentry *dir;
++
++	dir = debugfs_create_dir("amd_pmc", NULL);
++	dev->dbgfs_dir = dir;
++	debugfs_create_file("smu_fw_info", 0644, dir, dev, &smu_fw_info_fops);
++}
++
++#else
++static inline void amd_pmc_dbgfs_register(struct amd_pmc_dev *dev)
++{
++}
++
++static inline void amd_pmc_dbgfs_unregister(struct amd_pmc_dev *dev)
++{
++}
++#endif /* CONFIG_DEBUG_FS */
++
++static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
++{
++	u32 value;
++
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_RESPONSE);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_RESPONSE:%x\n", value);
++
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_ARGUMENT);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_ARGUMENT:%x\n", value);
++
++	value = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_MESSAGE);
++	dev_dbg(dev->dev, "AMD_PMC_REGISTER_MESSAGE:%x\n", value);
++}
++
++static int amd_pmc_poll_smu_response(struct amd_pmc_dev *dev)
++{
++	int rc = 0, index;
++
++	for (index = 0; index < RESPONSE_REGISTER_LOOP_MAX; index++) {
++		rc = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_RESPONSE);
++		if (rc != 0)
++			break;
++
++		usleep_range(PMC_MSG_DELAY_MIN, PMC_MSG_DELAY_MAX);
++	}
++
++	return rc;
++}
++
++static int amd_pmc_send_cmd(struct amd_pmc_dev *dev, bool set, int arg)
++{
++	int rc = 0;
++	u8 msg;
++
++	/* Wait until the response register is non-zero */
++	rc = amd_pmc_poll_smu_response(dev);
++	if (!rc) {
++		dev_err(dev->dev, "failed to talk to SMU\n");
++		return -EIO;
++	}
++
++	/* Write zero to response register */
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_RESPONSE, 0);
++
++	/* Write argument into response register */
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_ARGUMENT, set);
++
++	/* Write message ID to message ID register */
++	msg = (dev->cpu_id == AMD_CPU_ID_RN) ? msg_os_hint_rn : msg_os_hint_pco;
++	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_MESSAGE, msg);
++
++	if (arg) {
++		/* Wait until the response register is non-zero */
++		rc = amd_pmc_poll_smu_response(dev);
++		if (!rc) {
++			dev_err(dev->dev, "failed to talk to SMU\n");
++			return -EIO;
++		}
++		/* If message register is OK, then SMU has finished processing
++		 * the message, and then read back from AMD_PMC_REGISTER_ARGUMENT
++		 */
++		rc = amd_pmc_reg_read(dev, AMD_PMC_REGISTER_ARGUMENT);
++	}
++
++	return 0;
++}
++
++#ifdef CONFIG_PM_SLEEP
++static int amd_pmc_suspend(struct device *dev)
++{
++	struct amd_pmc_dev *pdev = dev_get_drvdata(dev);
++	int rc = 0;
++
++	rc = amd_pmc_send_cmd(pdev, 1, 0);
++	if (rc)
++		dev_err(pdev->dev, "suspend failed\n");
++
++	amd_pmc_dump_registers(pdev);
++
++	return 0;
++}
++
++static int amd_pmc_resume(struct device *dev)
++{
++	struct amd_pmc_dev *pdev = dev_get_drvdata(dev);
++	int rc = 0;
++
++	rc = amd_pmc_send_cmd(pdev, 0, 0);
++	if (rc)
++		dev_err(pdev->dev, "resume failed\n");
++
++	amd_pmc_dump_registers(pdev);
++
++	return 0;
++}
++#endif
++
++static const struct dev_pm_ops amd_pmc_pm_ops = {
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(amd_pmc_suspend, amd_pmc_resume)
++};
++
++static int amd_pmc_probe(struct platform_device *pdev)
++{
++	struct amd_pmc_dev *dev = &pmc;
++	struct pci_dev *rdev;
++	u32 base_addr_lo;
++	u32 base_addr_hi;
++	u64 base_addr;
++	int err = 0;
++	u32 val;
++
++	dev->dev = &pdev->dev;
++
++	rdev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(0, 0));
++	if (!rdev || (!(rdev->vendor == PCI_VENDOR_ID_AMD) &&
++		      (rdev->device == AMD_CPU_ID_PCO ||
++			rdev->device == AMD_CPU_ID_RN))) {
++		return -ENODEV;
++	}
++
++	dev->cpu_id = rdev->device;
++	err = pci_write_config_dword(rdev, AMD_PMC_SMU_INDEX_ADDRESS, AMD_PMC_BASE_ADDR_LO);
++	if (err) {
++		dev_err(dev->dev, "error writing to 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
++
++	err = pci_read_config_dword(rdev, AMD_PMC_SMU_INDEX_DATA, &val);
++	if (err) {
++		dev_err(dev->dev, "error reading from 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
++
++	base_addr_lo = val & AMD_PMC_BASE_ADDR_HI_MASK;
++
++	err = pci_write_config_dword(rdev, AMD_PMC_SMU_INDEX_ADDRESS, AMD_PMC_BASE_ADDR_HI);
++	if (err) {
++		dev_err(dev->dev, "error writing to 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
++
++	err = pci_read_config_dword(rdev, AMD_PMC_SMU_INDEX_DATA, &val);
++	if (err) {
++		dev_err(dev->dev, "error reading from 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
++		return err;
++	}
++
++	base_addr_hi = val & AMD_PMC_BASE_ADDR_LO_MASK;
++	pci_dev_put(rdev);
++	base_addr = ((u64)base_addr_hi << 32 | base_addr_lo);
++
++	dev->smu_base = ioremap(base_addr, AMD_PMC_MAPPING_SIZE);
++	if (!dev->smu_base)
++		return -ENOMEM;
++
++	dev->regbase = ioremap(base_addr + AMD_PMC_BASE_ADDR_OFFSET, AMD_PMC_MAPPING_SIZE);
++	if (!dev->regbase) {
++		iounmap(dev->smu_base);
++		return -ENOMEM;
++	}
++
++	amd_pmc_dump_registers(dev);
++
++	platform_set_drvdata(pdev, dev);
++	amd_pmc_dbgfs_register(dev);
++
++	return 0;
++}
++
++static int amd_pmc_remove(struct platform_device *pdev)
++{
++	struct amd_pmc_dev *dev = platform_get_drvdata(pdev);
++
++	amd_pmc_dbgfs_unregister(dev);
++	iounmap(dev->regbase);
++	iounmap(dev->smu_base);
++	return 0;
++}
++
++static const struct acpi_device_id amd_pmc_acpi_ids[] = {
++	{"AMDI0005", 0},
++	{"AMD0004", 0},
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, amd_pmc_acpi_ids);
++
++static struct platform_driver amd_pmc_driver = {
++	.driver = {
++		.name = "amd_pmc",
++		.acpi_match_table = ACPI_PTR(amd_pmc_acpi_ids),
++		.pm = &amd_pmc_pm_ops,
++	},
++	.probe = amd_pmc_probe,
++	.remove = amd_pmc_remove,
++};
++
++module_platform_driver(amd_pmc_driver);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("AMD PMC Driver");
+diff --git a/drivers/platform/x86/amd-pmc.h b/drivers/platform/x86/amd-pmc.h
+new file mode 100644
+index 000000000000..8cd7821af505
+--- /dev/null
++++ b/drivers/platform/x86/amd-pmc.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * AMD SoC Power Management Controller Driver
++ *
++ * Copyright (c) 2020, Advanced Micro Devices, Inc.
++ * All Rights Reserved.
++ *
++ * Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
++ */
++
++#ifndef AMD_PMC_H
++#define AMD_PMC_H
++
++#include <linux/bits.h>
++
++/* SMU Communcation Registers */
++#define AMD_PMC_REGISTER_RESPONSE	0x980
++#define AMD_PMC_REGISTER_ARGUMENT	0x9BC
++#define AMD_PMC_REGISTER_MESSAGE	0x538
++
++/* Base address of SMU for mapping physical address to virtual address */
++#define AMD_PMC_BASE_ADDR_LO		0x13B102E8
++#define AMD_PMC_BASE_ADDR_HI		0x13B102EC
++#define AMD_PMC_BASE_ADDR_HI_MASK	0xFFF00000L
++#define AMD_PMC_BASE_ADDR_LO_MASK	0x0000FFFFL
++#define AMD_PMC_BASE_ADDR_OFFSET	0x10000
++#define AMD_PMC_MAPPING_SIZE		0x01000
++#define AMD_PMC_SMU_INDEX_ADDRESS	0xB8
++#define AMD_PMC_SMU_INDEX_DATA		0xBC
++
++/* SMU Response Codes */
++#define AMD_PMC_RESULT_OK                    0x1
++#define AMD_PMC_RESULT_FAILED                0xFF
++#define AMD_PMC_RESULT_CMD_UNKNOWN           0xFE
++#define AMD_PMC_RESULT_CMD_REJECT_PREREQ     0xFD
++#define AMD_PMC_RESULT_CMD_REJECT_BUSY       0xFC
++
++#define PMC_MSG_DELAY_MIN		100
++#define PMC_MSG_DELAY_MAX		200
++#define AMD_CPU_ID_RV			0x15d0
++#define AMD_CPU_ID_PCO			AMD_CPU_ID_RV
++#define AMD_CPU_ID_RN			0x1630
++#define AMD_SMU_FW_VERSION		0x0
++
++#define RESPONSE_REGISTER_LOOP_MAX	20
++
++enum amd_pmc_def {
++	msg_test = 0x01,
++	msg_os_hint_pco,
++	msg_os_hint_rn,
++};
++
++struct amd_pmc_dev {
++	u32 base_addr;
++	u32 cpu_id;
++	void __iomem *regbase;
++	void __iomem *smu_base;
++	struct device *dev;
++#if IS_ENABLED(CONFIG_DEBUG_FS)
++	struct dentry *dbgfs_dir;
++#endif /* CONFIG_DEBUG_FS */
++};
++
++#endif /* AMD_PMC_H */
 -- 
-2.27.0
+2.25.1
 
