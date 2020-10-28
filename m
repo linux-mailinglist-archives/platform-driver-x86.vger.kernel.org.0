@@ -2,290 +2,313 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F48929D486
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 22:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C0829D2D7
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Oct 2020 22:37:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728134AbgJ1Vw6 (ORCPT
+        id S1726849AbgJ1VhF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Oct 2020 17:52:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44347 "EHLO
+        Wed, 28 Oct 2020 17:37:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60413 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728303AbgJ1VwW (ORCPT
+        by vger.kernel.org with ESMTP id S1726851AbgJ1VhE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:52:22 -0400
+        Wed, 28 Oct 2020 17:37:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603921939;
+        s=mimecast20190719; t=1603921021;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BFd1xBVZBrcTEe86W6I6gztLEyeIsJNJYqp24bAEW6k=;
-        b=F/t6YXzULA2eD6IEm1ktR9+GFzZWp4q38mjq1BoUEyzLpoA1DFVO+s+V2KAlRfpLVMroqt
-        +I/CMIwzHOrYFq7q31Ezz0B1y95E2qUA3dVdYeeOTHeMazxIYz3h6K7wRI3idoRWrtyQo8
-        TFNaXwFMZ5bb3YyP48LjNI1yn9xC6Y4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-z3S6JUd-Nz-_P48avLvW5Q-1; Wed, 28 Oct 2020 07:50:25 -0400
-X-MC-Unique: z3S6JUd-Nz-_P48avLvW5Q-1
-Received: by mail-ed1-f72.google.com with SMTP id bs10so692492edb.22
-        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 04:50:25 -0700 (PDT)
+        bh=3PN8li90MQEODpG7uKAlxNFFjh3wZGx6qB1VA0YAdTY=;
+        b=STLAEU3XcaJALN5ShQPxpH6YHzJS44qfrjxl+4nEqf4KfTjKak7XAzSwRYuwM1v3B3PS8W
+        C+ULVCK2eJkh1CA1G92v5v1urHJZ0KNs0WmaLHwpEm96JmyNXFGtg/dKfAdgOv4cT45RDR
+        XHsDdq76tMtocVM2z9m4SISQZRaYeFA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-Wz9oQs7QPAWw0df3LAOnIQ-1; Wed, 28 Oct 2020 16:35:13 -0400
+X-MC-Unique: Wz9oQs7QPAWw0df3LAOnIQ-1
+Received: by mail-ed1-f71.google.com with SMTP id dc23so275850edb.13
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Oct 2020 13:35:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=BFd1xBVZBrcTEe86W6I6gztLEyeIsJNJYqp24bAEW6k=;
-        b=K8zRAYQUQft34shPvhPqcetV+66yCUxLvzNGlIYJuRdOpyhoff3qX/Z64gCY6Sp7s9
-         EIHbkOBEGdvWfBpuVYu+bilUdl0UC3xMOJ5go5UOR9n6ZZ5xso3wJUJ/ue7z9e+cS8Ze
-         +p2lV1fX/T7Z4sj6jmqxYvMx+1T8hDLs5B+juKbBO3amb/BUrqJyY6jw0UvM+YSy6vj8
-         K6HLZEnkb4mjYN5NW605iuyEO6jqilt0y/PhwvD6oOHnYT7+H48EdrHN7+i7jYbsl2oB
-         H3M2TLcdd/S2a+OnAAqvZl/RFrUBn3tkjtkDhQ53I/44/O64JFaWHDF1sutEM8O9nYNy
-         2SOg==
-X-Gm-Message-State: AOAM531aARXqZFLyYhLLVxvyvyHvGErgKSTIPBGiD1g/N5uxUwKM0/qC
-        E/ZBZ0ImVwYElstU7lgvWJyLErtN5zkaetIGb+ZAiihG64XjTnQsb688mLL+XAqXUMmR5bA3yox
-        Ma8GsLjHo9MX+ffz7ULPfD1QIBjHxD6krVw==
-X-Received: by 2002:aa7:c7d9:: with SMTP id o25mr7561863eds.318.1603885824159;
-        Wed, 28 Oct 2020 04:50:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE7whzMkRyv+Vnp+A1vD5fJ7fZXNV8z25eWb/pOx9qm4Faa+WW7Qa7N7Z8UOUoTjjIbD/ieg==
-X-Received: by 2002:aa7:c7d9:: with SMTP id o25mr7561832eds.318.1603885823831;
-        Wed, 28 Oct 2020 04:50:23 -0700 (PDT)
+        bh=3PN8li90MQEODpG7uKAlxNFFjh3wZGx6qB1VA0YAdTY=;
+        b=U+aiwWyZz62NR0KVREHPbHMMZR2XFNJVufjQatIAJWe+BikgQRiMO4k8wyS7OIAq7t
+         iZswEWyZvb42JNLOQ2tqaKddjpVthIRh42EE7oMUwAddkYdI3DX6n0Ov2TzBhcJMGvG4
+         B0Cx6sKw0VEqfAeb9gH4cOajQyjagFbjbi3/ATFjhW4/VlMDxFWHLm1w00ZnEFCdHs68
+         cbU8S6OPpTgAZiL4Fnt2svoHcIGarXkt1SuexdBRbk3qGEuK0/Fpw6sG0uJEa8DiJ1gH
+         puKTlx7va09YxtTV4dy1niXbdtA+VYNnd4PX2eBnU/CMgDfccpmi891blhNyfMB17dyl
+         w5Aw==
+X-Gm-Message-State: AOAM532YNKhRWoqrUm9lsYpD7UbLllUpsCCg5zGTrJ0pY0C7pLfW+DJc
+        ehIU7idrg6uW0YdVir8ZVkvZP1NREgtbZ/UeaoXsH0hgsn7P5FWKSmfRlle1jyAvtxMK5q3Nikd
+        CVH1fFAf9W4pIRgxwMCq0u5c0Rk/vaM14EA==
+X-Received: by 2002:a50:fd17:: with SMTP id i23mr727352eds.50.1603917312283;
+        Wed, 28 Oct 2020 13:35:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQpVmMC85/uYP4ywhmAg3+8R38d2cO03kqeV9fRLbZDvJODVlNFcG/q/XwN/ngYqbeqRwSnQ==
+X-Received: by 2002:a50:fd17:: with SMTP id i23mr727328eds.50.1603917311967;
+        Wed, 28 Oct 2020 13:35:11 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id m20sm1521102edq.16.2020.10.28.04.50.22
+        by smtp.gmail.com with ESMTPSA id a1sm421062edk.52.2020.10.28.13.35.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2020 04:50:23 -0700 (PDT)
-Subject: Re: [PATCH v3] platform/x86: asus-wmi: Add support for SW_TABLET_MODE
- on UX360
-To:     =?UTF-8?Q?Samuel_=c4=8cavoj?= <samuel@cavoj.net>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201020220944.1075530-1-samuel@cavoj.net>
+        Wed, 28 Oct 2020 13:35:11 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] Input: i8042 - Prevent intermixing i8042 commands
+To:     Raul E Rangel <rrangel@chromium.org>, linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, Shirish.S@amd.com,
+        Andy Shevchenko <andy@infradead.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Rajat Jain <rajatja@google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <635f6034-9ad8-ca97-9a63-6557ecbd565e@redhat.com>
-Date:   Wed, 28 Oct 2020 12:50:22 +0100
+Message-ID: <00524d2b-b734-ffd4-0d99-e8cbda8510b3@redhat.com>
+Date:   Wed, 28 Oct 2020 21:35:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201020220944.1075530-1-samuel@cavoj.net>
+In-Reply-To: <20200827144112.v2.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 10/21/20 12:09 AM, Samuel Čavoj wrote:
-> The UX360CA has a WMI device id 0x00060062, which reports whether the
-> lid is flipped in tablet mode (1) or in normal laptop mode (0).
+Quick self intro: I have take over drivers/platform/x86
+maintainership from Andy; and I'm working my way through
+the backlog of old patches in patchwork:
+https://patchwork.kernel.org/project/platform-driver-x86/list/
+
+On 8/27/20 10:41 PM, Raul E Rangel wrote:
+> The i8042_mutex must be held by writers of the AUX and KBD ports, as
+> well as users of i8042_command. There were a lot of users of
+> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
+> This resulted in i8042_commands being issues in between PS/2
+> transactions.
 > 
-> Add a quirk (quirk_asus_use_lid_flip_devid) for devices on which this
-> WMI device should be used to figure out the SW_TABLET_MODE state, as
-> opposed to the quirk_asus_use_kbd_dock_devid.
+> This change moves the mutex lock into i8042_command and removes the
+> burden of locking the mutex from the callers.
 > 
-> Additionally, the device needs to be queried on resume and restore
-> because the firmware does not generate an event if the laptop is put to
-> sleep while in tablet mode, flipped to normal mode, and later awoken.
+> It is expected that the i8042_mutex is locked before calling
+> i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
+> layer via ps2_begin_command and ps2_end_command. Other modules
+> (serio_raw) do not currently lock the mutex, so there is still a
+> possibility for intermixed commands.
 > 
-> It is assumed other UX360* models have the same WMI device. As such, the
-> quirk is applied to devices with DMI_MATCH(DMI_PRODUCT_NAME, "UX360").
-> More devices with this feature need to be tested and added accordingly.
-> 
-> The reason for using an allowlist via the quirk mechanism is that the new
-> WMI device (0x00060062) is also present on some models which do not have
-> a 360 degree hinge (at least FX503VD and GL503VD from Hans' DSTS
-> collection) and therefore its presence cannot be relied on.
-> 
-> Signed-off-by: Samuel Čavoj <samuel@cavoj.net>
-> Cc: Hans de Goede <hdegoede@redhat.com>
+> Link: https://lore.kernel.org/linux-input/CAHQZ30ANTeM-pgdYZ4AbgxsnevBJnJgKZ1Kg+Uy8oSXZUvz=og@mail.gmail.com
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+Patch looks good to me, you can add my:
 
-As discussed I've fixed the whitespace issue; and I've also fixed
-the following 2 checkpatch warnings:
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-ERROR: open brace '{' following function definitions go on the next line
-#114: FILE: drivers/platform/x86/asus-wmi.c:414:
-+static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus) {
+(for both the drivers/platform/x86 bits and in general).
 
-WARNING: Missing a blank line after declarations
-#116: FILE: drivers/platform/x86/asus-wmi.c:416:
-+	int result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-+	if (result >= 0) {
-
-Next time please consider doing:
-
-git format-patch HEAD~
-scripts/checkpatch.pl 0001-*.patch
-
-Before sending out your patch.
-
-Note it will show up in my review-hans branch once I've pushed my local
-branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
+Dmitry, feel free to merge this through the input tree, I don't
+expect the touched pdx86 parts to see any changes this cycle.
 
 Regards,
 
 Hans
 
 
+
+
+
 > ---
-> changed v2 -> v3:
->     - added check on resume from sleep and restore
-> ---
->  drivers/platform/x86/asus-nb-wmi.c         | 15 +++++++++
->  drivers/platform/x86/asus-wmi.c            | 38 ++++++++++++++++++++++
->  drivers/platform/x86/asus-wmi.h            |  1 +
->  include/linux/platform_data/x86/asus-wmi.h |  1 +
->  4 files changed, 55 insertions(+)
+> Tested this on a device with only a PS/2 keyboard. I was able to do
+> 1200+ suspend/resume cycles.
 > 
-> diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
-> index 1d9fbabd02fb..d41d7ad14be0 100644
-> --- a/drivers/platform/x86/asus-nb-wmi.c
-> +++ b/drivers/platform/x86/asus-nb-wmi.c
-> @@ -119,6 +119,11 @@ static struct quirk_entry quirk_asus_use_kbd_dock_devid = {
->  	.use_kbd_dock_devid = true,
->  };
+> Also tested this on a device with a PS/2 keyboard and a PS/2 mouse.
+> I was able to do 250+ iterations with out problems.
+> 
+> Changes in v2:
+> - Fixed bad indent
+> - Added Link: tag
+> - Removed left over rc variable
+> 
+>  drivers/input/serio/i8042.c         | 29 ++++++++++++++---------------
+>  drivers/leds/leds-clevo-mail.c      |  9 ---------
+>  drivers/platform/x86/acer-wmi.c     |  2 --
+>  drivers/platform/x86/amilo-rfkill.c |  6 +-----
+>  include/linux/i8042.h               | 10 ----------
+>  5 files changed, 15 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+> index 0dddf273afd94..65ca6b47f41e8 100644
+> --- a/drivers/input/serio/i8042.c
+> +++ b/drivers/input/serio/i8042.c
+> @@ -137,8 +137,7 @@ static DEFINE_SPINLOCK(i8042_lock);
 >  
-> +static struct quirk_entry quirk_asus_use_lid_flip_devid = {
-> +	.wmi_backlight_set_devstate = true,
-> +	.use_lid_flip_devid = true,
-> +};
-> +
->  static int dmi_matched(const struct dmi_system_id *dmi)
+>  /*
+>   * Writers to AUX and KBD ports as well as users issuing i8042_command
+> - * directly should acquire i8042_mutex (by means of calling
+> - * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
+> + * directly should acquire i8042_mutex to ensure that
+>   * they do not disturb each other (unfortunately in many i8042
+>   * implementations write to one of the ports will immediately abort
+>   * command that is being processed by another port).
+> @@ -173,18 +172,6 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id);
+>  static bool (*i8042_platform_filter)(unsigned char data, unsigned char str,
+>  				     struct serio *serio);
+>  
+> -void i8042_lock_chip(void)
+> -{
+> -	mutex_lock(&i8042_mutex);
+> -}
+> -EXPORT_SYMBOL(i8042_lock_chip);
+> -
+> -void i8042_unlock_chip(void)
+> -{
+> -	mutex_unlock(&i8042_mutex);
+> -}
+> -EXPORT_SYMBOL(i8042_unlock_chip);
+> -
+>  int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+>  					struct serio *serio))
 >  {
->  	pr_info("Identified laptop model '%s'\n", dmi->ident);
-> @@ -520,6 +525,16 @@ static const struct dmi_system_id asus_quirks[] = {
->  		},
->  		.driver_data = &quirk_asus_use_kbd_dock_devid,
->  	},
-> +	{
-> +		.callback = dmi_matched,
-> +		.ident = "ASUS ZenBook Flip UX360",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-> +			/* Match UX360* */
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "UX360"),
-> +		},
-> +		.driver_data = &quirk_asus_use_lid_flip_devid,
-> +	},
->  	{},
->  };
+> @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
+>  	unsigned long flags;
+>  	int retval;
 >  
-> diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-> index 39e1a6396e08..864c608ad569 100644
-> --- a/drivers/platform/x86/asus-wmi.c
-> +++ b/drivers/platform/x86/asus-wmi.c
-> @@ -63,6 +63,7 @@ MODULE_LICENSE("GPL");
->  #define NOTIFY_KBD_BRTTOGGLE		0xc7
->  #define NOTIFY_KBD_FBM			0x99
->  #define NOTIFY_KBD_TTP			0xae
-> +#define NOTIFY_LID_FLIP			0xfa
+> +	mutex_lock(&i8042_mutex);
+> +
+>  	spin_lock_irqsave(&i8042_lock, flags);
+>  	retval = __i8042_command(param, command);
+>  	spin_unlock_irqrestore(&i8042_lock, flags);
 >  
->  #define ASUS_WMI_FNLOCK_BIOS_DISABLED	BIT(0)
+> +	mutex_unlock(&i8042_mutex);
+> +
+>  	return retval;
+>  }
+>  EXPORT_SYMBOL(i8042_command);
+> @@ -379,10 +370,18 @@ static int i8042_kbd_write(struct serio *port, unsigned char c)
+>  static int i8042_aux_write(struct serio *serio, unsigned char c)
+>  {
+>  	struct i8042_port *port = serio->port_data;
+> +	unsigned long flags;
+> +	int retval = 0;
+> +
+> +	spin_lock_irqsave(&i8042_lock, flags);
 >  
-> @@ -375,6 +376,20 @@ static int asus_wmi_input_init(struct asus_wmi *asus)
+> -	return i8042_command(&c, port->mux == -1 ?
+> +	retval = __i8042_command(&c, port->mux == -1 ?
+>  					I8042_CMD_AUX_SEND :
+>  					I8042_CMD_MUX_SEND + port->mux);
+> +
+> +	spin_unlock_irqrestore(&i8042_lock, flags);
+> +
+> +	return retval;
+>  }
+>  
+>  
+> diff --git a/drivers/leds/leds-clevo-mail.c b/drivers/leds/leds-clevo-mail.c
+> index f512e99b976b1..6c3d7e54f95cf 100644
+> --- a/drivers/leds/leds-clevo-mail.c
+> +++ b/drivers/leds/leds-clevo-mail.c
+> @@ -95,17 +95,12 @@ MODULE_DEVICE_TABLE(dmi, clevo_mail_led_dmi_table);
+>  static void clevo_mail_led_set(struct led_classdev *led_cdev,
+>  				enum led_brightness value)
+>  {
+> -	i8042_lock_chip();
+> -
+>  	if (value == LED_OFF)
+>  		i8042_command(NULL, CLEVO_MAIL_LED_OFF);
+>  	else if (value <= LED_HALF)
+>  		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_0_5HZ);
+>  	else
+>  		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_1HZ);
+> -
+> -	i8042_unlock_chip();
+> -
+>  }
+>  
+>  static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+> @@ -114,8 +109,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+>  {
+>  	int status = -EINVAL;
+>  
+> -	i8042_lock_chip();
+> -
+>  	if (*delay_on == 0 /* ms */ && *delay_off == 0 /* ms */) {
+>  		/* Special case: the leds subsystem requested us to
+>  		 * chose one user friendly blinking of the LED, and
+> @@ -142,8 +135,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+>  		       *delay_on, *delay_off);
+>  	}
+>  
+> -	i8042_unlock_chip();
+> -
+>  	return status;
+>  }
+>  
+> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+> index 60c18f21588dd..6cb6f800503b2 100644
+> --- a/drivers/platform/x86/acer-wmi.c
+> +++ b/drivers/platform/x86/acer-wmi.c
+> @@ -1044,9 +1044,7 @@ static acpi_status WMID_set_u32(u32 value, u32 cap)
+>  			return AE_BAD_PARAMETER;
+>  		if (quirks->mailled == 1) {
+>  			param = value ? 0x92 : 0x93;
+> -			i8042_lock_chip();
+>  			i8042_command(&param, 0x1059);
+> -			i8042_unlock_chip();
+>  			return 0;
 >  		}
->  	}
+>  		break;
+> diff --git a/drivers/platform/x86/amilo-rfkill.c b/drivers/platform/x86/amilo-rfkill.c
+> index 493e169c8f615..c981c6e07ff94 100644
+> --- a/drivers/platform/x86/amilo-rfkill.c
+> +++ b/drivers/platform/x86/amilo-rfkill.c
+> @@ -28,12 +28,8 @@
+>  static int amilo_a1655_rfkill_set_block(void *data, bool blocked)
+>  {
+>  	u8 param = blocked ? A1655_WIFI_OFF : A1655_WIFI_ON;
+> -	int rc;
 >  
-> +	if (asus->driver->quirks->use_lid_flip_devid) {
-> +		result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-> +        if (result < 0)
-> +			asus->driver->quirks->use_lid_flip_devid = 0;
-> +		if (result >= 0) {
-> +			input_set_capability(asus->inputdev, EV_SW, SW_TABLET_MODE);
-> +			input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> +		} else if (result == -ENODEV) {
-> +			pr_err("This device has lid_flip quirk but got ENODEV checking it. This is a bug.");
-> +		} else {
-> +			pr_err("Error checking for lid-flip: %d\n", result);
-> +		}
-> +	}
-> +
->  	err = input_register_device(asus->inputdev);
->  	if (err)
->  		goto err_free_dev;
-> @@ -394,6 +409,16 @@ static void asus_wmi_input_exit(struct asus_wmi *asus)
->  	asus->inputdev = NULL;
+> -	i8042_lock_chip();
+> -	rc = i8042_command(&param, A1655_WIFI_COMMAND);
+> -	i8042_unlock_chip();
+> -	return rc;
+> +	return i8042_command(&param, A1655_WIFI_COMMAND);
 >  }
 >  
-> +/* Tablet mode ****************************************************************/
-> +
-> +static void lid_flip_tablet_mode_get_state(struct asus_wmi *asus) {
-> +	int result = asus_wmi_get_devstate_simple(asus, ASUS_WMI_DEVID_LID_FLIP);
-> +	if (result >= 0) {
-> +		input_report_switch(asus->inputdev, SW_TABLET_MODE, result);
-> +		input_sync(asus->inputdev);
-> +	}
-> +}
-> +
->  /* Battery ********************************************************************/
+>  static const struct rfkill_ops amilo_a1655_rfkill_ops = {
+> diff --git a/include/linux/i8042.h b/include/linux/i8042.h
+> index 0261e2fb36364..1c081081c161d 100644
+> --- a/include/linux/i8042.h
+> +++ b/include/linux/i8042.h
+> @@ -55,8 +55,6 @@ struct serio;
 >  
->  /* The battery maximum charging percentage */
-> @@ -2128,6 +2153,11 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
->  		return;
->  	}
+>  #if defined(CONFIG_SERIO_I8042) || defined(CONFIG_SERIO_I8042_MODULE)
 >  
-> +	if (asus->driver->quirks->use_lid_flip_devid && code == NOTIFY_LID_FLIP) {
-> +		lid_flip_tablet_mode_get_state(asus);
-> +		return;
-> +	}
-> +
->  	if (asus->fan_boost_mode_available && code == NOTIFY_KBD_FBM) {
->  		fan_boost_mode_switch_next(asus);
->  		return;
-> @@ -2719,6 +2749,10 @@ static int asus_hotk_resume(struct device *device)
+> -void i8042_lock_chip(void);
+> -void i8042_unlock_chip(void);
+>  int i8042_command(unsigned char *param, int command);
+>  int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+>  					struct serio *serio));
+> @@ -65,14 +63,6 @@ int i8042_remove_filter(bool (*filter)(unsigned char data, unsigned char str,
 >  
->  	if (asus_wmi_has_fnlock_key(asus))
->  		asus_wmi_fnlock_update(asus);
-> +
-> +	if (asus->driver->quirks->use_lid_flip_devid)
-> +		lid_flip_tablet_mode_get_state(asus);
-> +
->  	return 0;
->  }
+>  #else
 >  
-> @@ -2757,6 +2791,10 @@ static int asus_hotk_restore(struct device *device)
->  
->  	if (asus_wmi_has_fnlock_key(asus))
->  		asus_wmi_fnlock_update(asus);
-> +
-> +	if (asus->driver->quirks->use_lid_flip_devid)
-> +		lid_flip_tablet_mode_get_state(asus);
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/platform/x86/asus-wmi.h b/drivers/platform/x86/asus-wmi.h
-> index 1a95c172f94b..b302415bf1d9 100644
-> --- a/drivers/platform/x86/asus-wmi.h
-> +++ b/drivers/platform/x86/asus-wmi.h
-> @@ -34,6 +34,7 @@ struct quirk_entry {
->  	bool wmi_backlight_set_devstate;
->  	bool wmi_force_als_set;
->  	bool use_kbd_dock_devid;
-> +	bool use_lid_flip_devid;
->  	int wapf;
->  	/*
->  	 * For machines with AMD graphic chips, it will send out WMI event
-> diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
-> index 897b8332a39f..2f274cf52805 100644
-> --- a/include/linux/platform_data/x86/asus-wmi.h
-> +++ b/include/linux/platform_data/x86/asus-wmi.h
-> @@ -62,6 +62,7 @@
->  
->  /* Misc */
->  #define ASUS_WMI_DEVID_CAMERA		0x00060013
-> +#define ASUS_WMI_DEVID_LID_FLIP		0x00060062
->  
->  /* Storage */
->  #define ASUS_WMI_DEVID_CARDREADER	0x00080013
+> -static inline void i8042_lock_chip(void)
+> -{
+> -}
+> -
+> -static inline void i8042_unlock_chip(void)
+> -{
+> -}
+> -
+>  static inline int i8042_command(unsigned char *param, int command)
+>  {
+>  	return -ENODEV;
 > 
 
