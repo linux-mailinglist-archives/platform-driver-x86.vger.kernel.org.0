@@ -2,71 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 510C029EABA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 12:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7389429EAFF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 29 Oct 2020 12:52:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbgJ2Lfl (ORCPT
+        id S1725554AbgJ2LwF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 29 Oct 2020 07:35:41 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7099 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbgJ2Lfl (ORCPT
+        Thu, 29 Oct 2020 07:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725385AbgJ2LwE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 29 Oct 2020 07:35:41 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMNfh24BfzLr7F;
-        Thu, 29 Oct 2020 19:35:40 +0800 (CST)
-Received: from linux-lmwb.huawei.com (10.175.103.112) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 29 Oct 2020 19:35:29 +0800
-From:   Zou Wei <zou_wei@huawei.com>
-To:     <hdegoede@redhat.com>, <mgross@linux.intel.com>,
-        <luzmaximilian@gmail.com>
-CC:     <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, "Zou Wei" <zou_wei@huawei.com>
-Subject: [PATCH -next] platform/surface: remove status assignment without reading
-Date:   Thu, 29 Oct 2020 19:47:28 +0800
-Message-ID: <1603972048-64271-1-git-send-email-zou_wei@huawei.com>
-X-Mailer: git-send-email 2.6.2
+        Thu, 29 Oct 2020 07:52:04 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61728C0613CF;
+        Thu, 29 Oct 2020 04:52:04 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id e15so2134805pfh.6;
+        Thu, 29 Oct 2020 04:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U3m1CrvhBF5ZSjmNj0DT84Tf4MllZuPLAp7rAxUIIvk=;
+        b=QbTdGARbBTH/u8+FxoM+algkxX8+k9z37QEV7DSMGJfl/VPaZif1EZtmt1UPut11q3
+         EVWLS4R53NN8MF8GXNC9B53c/zMgekULAhUJDxQcaP9OhOl6hs07H/rolO1r1S8LTb6L
+         U9F+u8KsQORfQ8vk5gBSX+VyhXQR+aPOP8Xfe7sqlaL/YGd74cGwFuMp5mLQI9iNPUDK
+         fl8rz6zWLVtrUO2NvrehBMxmypFHFhpbeTUuExptjP2+7zm69V3jh6vgxL3cp6x3rzMq
+         OhlaBmJaLka7PZD6znS+RFKyKdCHMJvxhywJci0czrWINe3bKzaJi11Gfi/QnluAy5Jj
+         Qalg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U3m1CrvhBF5ZSjmNj0DT84Tf4MllZuPLAp7rAxUIIvk=;
+        b=nRNcpD2v/4L06ATsBDxBpBx8dbS/0nR85LXyqy49s6cw5BRipnuatxIJxmSaRwHyB5
+         +C/6QmuXkx3hqtg1fxCgAoxucyzPx0U8bYgm9IKbmJFDwTgCy4xaVSaJTRPYyXXaO2sh
+         fBJAjYJmF2ZKNlmQY3ft9eIgBYZXNbKAMksDiUmO0gPuWmanfjAr1uqXshnwltPuU8Gd
+         Hhrxvk18ShkE78TWHBOQ6Nqg8Q/tCfE/ikGManS+Xhzi7Crh182o5U4nJEFNKqNiLNpF
+         b/NYo68vhIW6vH3kq5CttdSmbaf9kijJqTIncXVeBSBxAA0p7XgXDkBnNA8gHpn3NZYR
+         ck6w==
+X-Gm-Message-State: AOAM532btieDmoDCzyCzFpKH7f9jPzCjxY8yS17VYx2VpRihxgAyrLi3
+        8EJ8+BgNaEOCf1s6aQWKPXBV01422sD1NTx2PNg=
+X-Google-Smtp-Source: ABdhPJyaBf39lMSO0TPYNh2S8KAa85eKhsXcVTmuCiVl5I8J3IMkHJ2lCrVhNke2Ju0R+sUHXoOSMyJmKC8jFQRHUBM=
+X-Received: by 2002:a17:90a:be11:: with SMTP id a17mr3907925pjs.181.1603972323962;
+ Thu, 29 Oct 2020 04:52:03 -0700 (PDT)
 MIME-Version: 1.0
+References: <1603972048-64271-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1603972048-64271-1-git-send-email-zou_wei@huawei.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 29 Oct 2020 13:52:53 +0200
+Message-ID: <CAHp75Ve64EvD7_H8h2MW39dpimWbPcANZC3-zgF__yA6C7BGQA@mail.gmail.com>
+Subject: Re: [PATCH -next] platform/surface: remove status assignment without reading
+To:     Zou Wei <zou_wei@huawei.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.103.112]
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The status local variable is assigned but never read:
+On Thu, Oct 29, 2020 at 1:36 PM Zou Wei <zou_wei@huawei.com> wrote:
+>
+> The status local variable is assigned but never read:
 
-drivers/platform/surface/surface3-wmi.c:60:14: warning:
-variable ‘status’ set but not used [-Wunused-but-set-variable]
-  acpi_status status;
-              ^~~~~~
+...
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zou Wei <zou_wei@huawei.com>
----
- drivers/platform/surface/surface3-wmi.c | 2 --
- 1 file changed, 2 deletions(-)
+>         mutex_lock(&s3_wmi_lock);
+> -       status = wmi_query_block(guid, instance, &output);
 
-diff --git a/drivers/platform/surface/surface3-wmi.c b/drivers/platform/surface/surface3-wmi.c
-index 130b6f5..ae1416c 100644
---- a/drivers/platform/surface/surface3-wmi.c
-+++ b/drivers/platform/surface/surface3-wmi.c
-@@ -57,12 +57,10 @@ static DEFINE_MUTEX(s3_wmi_lock);
- static int s3_wmi_query_block(const char *guid, int instance, int *ret)
- {
- 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
--	acpi_status status;
- 	union acpi_object *obj;
- 	int error = 0;
- 
- 	mutex_lock(&s3_wmi_lock);
--	status = wmi_query_block(guid, instance, &output);
- 
- 	obj = output.pointer;
- 
+What are you doing?!
+
+
 -- 
-2.6.2
-
+With Best Regards,
+Andy Shevchenko
