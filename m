@@ -2,84 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C9F2A0965
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 30 Oct 2020 16:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC3FE2A0D37
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 30 Oct 2020 19:17:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgJ3PRY (ORCPT
+        id S1727044AbgJ3SQ6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 30 Oct 2020 11:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbgJ3PRY (ORCPT
+        Fri, 30 Oct 2020 14:16:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29940 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725844AbgJ3SQ6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:17:24 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD49C0613CF
-        for <platform-driver-x86@vger.kernel.org>; Fri, 30 Oct 2020 08:17:22 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id k9so5117866qki.6
-        for <platform-driver-x86@vger.kernel.org>; Fri, 30 Oct 2020 08:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=GvUvel9p+2rcQ8oHWK6JSNxrJxUByvOe+LBGZVMc7JfVVHOnAr2pfrsZoXNSzVRtN/
-         MmaM+oZlbjifEQnKLZP6/rCJ4Y1mdBrYD78Gm34HTUyiaZvnJ8zalQawlq5WCSh4hxd5
-         DoehU73yoM5MR/Y/C7s206NZf/m+EptoVFzrfa/SnH6nHnjrNxWx66yURcNmUUFCHSKJ
-         jDjjdhVTVGW2KPLcAJL4BkpSr7B9/+EggfGbytO/YljF6zEVoWCCnw90lwrKtMHjgCZS
-         msSJeY4V6kMqPbmblTPV4VQ+KmB3J9z58fZH4jXHZ8sL1XVVm4Rb9Digs5NgDcNsmAC+
-         tAsw==
+        Fri, 30 Oct 2020 14:16:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1604081816;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hQ9JbkxvNa0VjLQd06HFpKY/mjumkrtDAKSURNuwMaY=;
+        b=RqKX+DP0RS54Yr1lQ/F8Bed33mIAGibN1Yno7dIuYutZz0mrrpoUGmG9qdNfJauA/cPyYt
+        uULqyRlrpEPkFas8N65+mTu4LqFsVq8Z7Vp5LWZmJdMiEilYpMF9zUI/UyQubuPeHe2SIy
+        49Syu43b6rmf5+egDoxmfA1AERFWD6U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-fObwbbl5O36UkkPAxPGaGA-1; Fri, 30 Oct 2020 14:16:54 -0400
+X-MC-Unique: fObwbbl5O36UkkPAxPGaGA-1
+Received: by mail-ej1-f70.google.com with SMTP id t1so2737239ejb.21
+        for <platform-driver-x86@vger.kernel.org>; Fri, 30 Oct 2020 11:16:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=Ue6Eijva5YkCiZWAIqC31q+sxPMPde/aioKeQHbh7sdwGiX+mTTl/n7fHgGn6gm3SJ
-         Cn6tTs+dioikg0meWXWHfbPNmFc85JV4ZP4BhqvelcHJYtiod/dmjLsu8A02TTYVX/Ah
-         Te+7OtfOZQXWtAhpnhMIB0hG0HbEcvcSc15oZi2Ijk25+jpQyl32Bc+v4Wcz+zeMrGye
-         WHL+oncB02XX3tpaeDH5/8BfJoG3tTcCBEsx1RcbBQvVPDAUfbju79PGZvTJ0hTB5hFw
-         7IVL8KOkwoM1CMx7nMMktjhTBD//EIZiusX4AKnv979pUIGdJEIYsM6L9fxtvOKNwbTU
-         1bLA==
-X-Gm-Message-State: AOAM532z/lBoQKxe4OC2q4WFBq5SglcudrkP3XS/RaNJSKoTDBDf/uEy
-        NHhk/v4nhpS2Oa/IgTvq3OJPowQGA4Jt40WU2+Y=
-X-Google-Smtp-Source: ABdhPJyCu84jlkTdjSfLLyEx+99V8E6mhSLUrZeOO5+t6B7rmI3Ge9CxptuhTlnUODSflAhzB8iNLYupAJE+JiTR9Lw=
-X-Received: by 2002:a05:620a:21c4:: with SMTP id h4mr2335246qka.242.1604071041895;
- Fri, 30 Oct 2020 08:17:21 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hQ9JbkxvNa0VjLQd06HFpKY/mjumkrtDAKSURNuwMaY=;
+        b=DLCZO6mItNcm8lxZxKtMaKvTu/yf0OL89wLFPwI0OQWFCZLamj5zgL3j/5swwF7C15
+         VE1/GT0HUEtxDRR+e29zVYBLV1LtAltOtJ2nS2t8ILd99YdZuv4CprcQuLd8wQMQvbB6
+         KwlQT/aNISTiydjeif0ZZxHoBIk4Fpkbxzr5jhxnGPXbz/1cqyClcEWUfAyyaTkN298b
+         qObd7d+aaeshmrjddRmRgF9JlTcNcjv1XXKJpYXIsvuOHVzZhWRt2tpq1R91VUWBRWrv
+         T0XMuHjM/5ISz+QQEBYSmv9sqcP+/ujBXbRZNLWfs4nRZ23t23ZQI3hO4IePHwujEuoA
+         u3GA==
+X-Gm-Message-State: AOAM532UJ+vXvyJq3prjMPTzjT31Giyz6jeYgT3JKbwOQJMwQYDMdCHl
+        QJJiK9kihyIXXV+qMSvMOjBzSj3xw3rPVl1Ry+/GEHbGfkdNjYeUhU1doOSPd4J7wmU5zclhyGR
+        QcqsPDYQM7gNgmdQxhPOMhpSC9sPBQQfvwg==
+X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr3678293ejz.341.1604081812909;
+        Fri, 30 Oct 2020 11:16:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxORp9yhzCHXkXQ+SV0R3eIJai4qo4teWFQf7D18bUb6YmyTx02WLXvoVEuul2E5KtdAUsMg==
+X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr3678275ejz.341.1604081812714;
+        Fri, 30 Oct 2020 11:16:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id r24sm3338060eds.67.2020.10.30.11.16.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2020 11:16:51 -0700 (PDT)
+Subject: Re: [PATCH] [v2] x86: apic: avoid -Wshadow warning in header
+To:     David Laight <David.Laight@ACULAB.COM>,
+        'Arvind Sankar' <nivedita@alum.mit.edu>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     'Arnd Bergmann' <arnd@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+References: <20201028212417.3715575-1-arnd@kernel.org>
+ <38b11ed3fec64ebd82d6a92834a4bebe@AcuMS.aculab.com>
+ <20201029165611.GA2557691@rani.riverdale.lan>
+ <93180c2d-268c-3c33-7c54-4221dfe0d7ad@redhat.com>
+ <87v9esojdi.fsf@nanos.tec.linutronix.de>
+ <20201029213512.GA34524@rani.riverdale.lan>
+ <ad73f56e79d249b1b3614bccc85e2ca5@AcuMS.aculab.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <070f590f-b702-35f0-0b6c-c6455f08e9d5@redhat.com>
+Date:   Fri, 30 Oct 2020 19:16:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Received: by 2002:ac8:6747:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 08:17:21
- -0700 (PDT)
-Reply-To: li.anable85@gmail.com
-From:   Liliane Abel <k.griest08@gmail.com>
-Date:   Fri, 30 Oct 2020 16:17:21 +0100
-Message-ID: <CAKYp92H4-zaS4UnA31UyyUgbuiZFDvK75yCQy9vuYDtCMUx9VA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <ad73f56e79d249b1b3614bccc85e2ca5@AcuMS.aculab.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dearest
+On 29/10/20 23:12, David Laight wrote:
+>> https://godbolt.org/z/4dzPbM
+>>
+>> With -fno-strict-aliasing, the compiler reloads the pointer if you write
+>> to the start of what it points to, but not if you write to later
+>> elements.
+> I guess it assumes that global data doesn't overlap.
 
-Greeting my dear, I am Liliane Abel by name, The only daughter of late
-Mr.Benson Abel. My father is one of the top Politician in our country
-and my mother is a farmers and cocoa merchant when they were both
-alive. After the death of my mother, long ago, my father was
-controlling their business until he was poisoned by his business
-associates which he suffered and died.
+Yeah, setting
 
-Before the death of my father, He told me about (two million five
-hundred thousand united states dollars) which he deposited in the bank
-in Lome-Togo, It was the money he intended to transfer overseas for
-investment before he was poisoned. He also instructed me that I should
-seek for foreign partners in any country of my choice who will assist
-me transfer this money in overseas account where the money will be
-wisely invested.
-I am seeking for your kind assistance in the following ways:  (1) to
-provide a safe bank account into where the money will be transferred
-for investment. (2) To serve as a guardian of this fund since I am a
-girl of 19 years old. (3) To make arrangement for me to come over to
-your country to further my education. This is my reason for writing to
-you. Please if you are willing to assist me I will offer you 25% of
-the total money. Reply if  you are interested
-Best regards.
-Liliane Abel.
+	p = (struct s *) ((char *)&p) - 8;
+
+invokes undefined behavior _for a different reason than strict aliasing_
+(it's a pointer that is based on "p" but points before its start or
+after one byte past its end).  So the compiler assumes that only the
+first few bytes of a global can overlap it.
+
+If you change the size of the fields from long to char in the compiler
+explorer link above, every field forces a reload of the global.
+
+Paolo
+
