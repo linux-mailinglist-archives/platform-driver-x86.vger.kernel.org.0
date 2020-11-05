@@ -2,39 +2,50 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 564A22A9ED9
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Nov 2020 22:09:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2738E2AA30E
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  7 Nov 2020 08:42:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728468AbgKFVJ3 convert rfc822-to-8bit (ORCPT
+        id S1727896AbgKGHmE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 6 Nov 2020 16:09:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45966 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728464AbgKFVJ3 (ORCPT
+        Sat, 7 Nov 2020 02:42:04 -0500
+Received: from 317489.cloudwaysapps.com ([165.22.142.211]:34060 "EHLO
+        317489.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725985AbgKGHmE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 6 Nov 2020 16:09:29 -0500
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Kernel.org Bugzilla] Your account
- platform-driver-x86@vger.kernel.org is being impersonated
-X-Bugzilla-Type: admin
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sat, 7 Nov 2020 02:42:04 -0500
+X-Greylist: delayed 159111 seconds by postgrey-1.27 at vger.kernel.org; Sat, 07 Nov 2020 02:42:04 EST
+Received: from Shop01 (317489.cloudwaysapps.com [127.0.0.1])
+        by 317489.cloudwaysapps.com (Postfix) with SMTP id CDA5F24D3C;
+        Thu,  5 Nov 2020 05:02:19 +0000 (UTC)
+Received: from [112.52.218.37] by Shop01 with ESMTP id <959004-34338>; Thu, 05 Nov 2020 09:01:24 +0400
+Message-ID: <50m0hn$3ml0q6s2s-p-a$52y97@0w5mas7k.xf7q>
+From:   "BIZIMANA J.MARIE" <fkinneyofd@tampabay.rr.com>
+Reply-To: "BIZIMANA J.MARIE" <fkinneyofd@tampabay.rr.com>
+To:     plasgomsrl@virgilio.it
+Subject: Business Transaction
+Date:   Thu, 05 Nov 20 09:01:24 GMT
+X-Mailer: Internet Mail Service (5.5.2650.21)
 MIME-Version: 1.0
-Message-Id: <20201106210928.D12A381F02@pdx-korg-bugzilla-1.web.codeaurora.org>
-Date:   Fri,  6 Nov 2020 21:09:28 +0000 (UTC)
+Content-Type: multipart/alternative;
+        boundary="5FFECF2_D_E_2_.CA_"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-    Konstantin Ryabitsev (mricon@kernel.org) has used the 'sudo' feature to access 
-Kernel.org Bugzilla using your account.
 
-    Konstantin Ryabitsev (mricon@kernel.org) provided the following reason for doing this:
-Impersonating the special bugmail user to set up mailing list integration.
+--5FFECF2_D_E_2_.CA_
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-    If you feel that this action was inappropriate, please contact 
-helpdesk@kernel.org.  For more information on this feature, 
-visit <https://bugzilla.kernel.org/page.cgi?id=sudo.html>.
+Business Proposal.
+
+I have a confidential financial transaction to discuss with you privately =
+valued $147 million dollars.
+Get back to me for more details.
+
+BIZIMANA J.MARIE
+
+--5FFECF2_D_E_2_.CA_--
+
