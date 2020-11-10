@@ -2,132 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5B12AD30C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Nov 2020 11:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 059C32AD30A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Nov 2020 11:03:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbgKJKDj (ORCPT
+        id S1726944AbgKJKDI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 Nov 2020 05:03:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43746 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726462AbgKJKDj (ORCPT
+        Tue, 10 Nov 2020 05:03:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgKJKDH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 Nov 2020 05:03:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605002617;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=x5v2eIsxN4Hq0YzpQxHhzvDLBoDO1wsqtaSQHydAams=;
-        b=dJiAoMMs1KX2eiTVsdY7N7/hSRphmTdHiZwLzI9beBKMqA68JydsKXeN8s1OPC5tA9B5j2
-        839RdKvPMVP0mC8+cojy+WDQmyWzcHTxrn/AcdMbLDRmQwVQ286DlzcM+BInUjfuflx4fJ
-        uT2FHE08u3etLpjGvdvk+CBy9zWqGKY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-g6iMDOduNquTiok_MWgNnw-1; Tue, 10 Nov 2020 05:03:35 -0500
-X-MC-Unique: g6iMDOduNquTiok_MWgNnw-1
-Received: by mail-ed1-f70.google.com with SMTP id y8so4016724edj.5
-        for <platform-driver-x86@vger.kernel.org>; Tue, 10 Nov 2020 02:03:35 -0800 (PST)
+        Tue, 10 Nov 2020 05:03:07 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F46C0613CF;
+        Tue, 10 Nov 2020 02:03:07 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id y7so10948042pfq.11;
+        Tue, 10 Nov 2020 02:03:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zXNZTLerM3WOezIWBdHkzPI9UZi2f8IsIDfLKv1idEg=;
+        b=nEw39IvY8rC+sw/wBUd7N3ilIgVKWGcXNtMgng4yeG1u7bxAO/+p7uz1a0Mv9aFo+y
+         0lwNn6rF7lsrZPRlLpDS2pqjGDuCBWNnfpFIG9MN6xadZMBmArznQJvK9GKUA3Tfiel3
+         lqS/mVSHiMHKvVXZBsQVq9SxC9l2hGEhbEhvPCglZ3hgyqG81dxuuMgd0XNEoYY3ZU8K
+         Og5DiHJjZj/sc0Ufi9EA0gBfvdtkQRVedWWOeLnylhLk5LSKypt7bPETRlVMLc+Hqa9U
+         u44A4ICdjA/tUMFQTLzmjHPmAC8FHVwYAK9hUfQAAX9mgc+yyZTVTdsH/fpWOy3SJyN+
+         fe1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x5v2eIsxN4Hq0YzpQxHhzvDLBoDO1wsqtaSQHydAams=;
-        b=jp6yHaV5DySrbKI/Qw8iaz8pFX6w4bXStwSKyCn3xF+QpKmPZVKKUCuhWFX2l11Udb
-         9vE7Ka6jFFHxkJIzJfyL9lItm1zuMjFutB8GTggjHOMyeCM8jThjHaeweavbvzeMLGEh
-         r5IiBE6PmaELthlZ7K7jviemZ7u1RxBD3rQ484lqgRfKOQHzZnd12KADWe9EfiSWhRmW
-         Ha/o2f++a6EeiyVtn1EnKs+tfy9UBw03qM/tCO3iQu6CulFJcOnDluqUX/uGuMNr5u+t
-         IqYQVD+uM3pXtaG+b4+ngyDGruKNH+X4XZLIDb+jJnv6fGmnZ3NbJ5FkbZSPnN1vLi0l
-         vsbw==
-X-Gm-Message-State: AOAM532GEoclcbDct/zdXpIPXKR6DzszSY9hYmq8h9+RSzNQVD+QJY5I
-        VvGdI4n22tAhO70hrASClX4OKjgns0MBNE/xv9Eu79iMT6a3CDi3Lze7XG24aO2+RZLsNbgo+M2
-        hsLJ0tAwctaWOK5Spt4BuQuZ5qMaa8nDtxg==
-X-Received: by 2002:a17:906:5fd0:: with SMTP id k16mr19926552ejv.133.1605002614352;
-        Tue, 10 Nov 2020 02:03:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHZvItd1F1W85TYQU6gDoci3i+YMPyw05C5APpazQNYseSKGDmKGoDxgRNxTor+d9rP0t7BA==
-X-Received: by 2002:a17:906:5fd0:: with SMTP id k16mr19926539ejv.133.1605002614097;
-        Tue, 10 Nov 2020 02:03:34 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id h22sm5770975ejt.21.2020.11.10.02.03.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 02:03:33 -0800 (PST)
-Subject: Re: [PATCH] platform/x86: acer-wmi: add automatic keyboard background
- light toggle key as KEY_LIGHTS_TOGGLE
-To:     Timo Witte <timo.witte@gmail.com>
-Cc:     jlee@suse.com, Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "open list:ACER WMI LAPTOP EXTRAS" 
-        <platform-driver-x86@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20200804001423.36778-1-timo.witte@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <097353a1-c4d6-7cba-92fc-dd8652fbaf9f@redhat.com>
-Date:   Tue, 10 Nov 2020 11:03:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zXNZTLerM3WOezIWBdHkzPI9UZi2f8IsIDfLKv1idEg=;
+        b=s0U+h0V9afsNfepDslf+beAbacQYkyOsFZtjaoR1vbUwLt/BLmhkfD3SNPU730Oist
+         FE1ddfaTIH1an175hDETsSjznXSbswFHy0aPZdVOGnb496pdonifHDp5K9gMQLRWd/AE
+         OMW43cmEEcCYlQNsFmZz6AUSQWq5u5lMa2V8QYo0pcaMNtMrGqe3oQTgO1sV1+wxEm/R
+         UaTlzzEUhcEOSj6VunbupmpoOPHlSKNc435SNF4lWV8UVXStbdliUXb8pD9Xdw+w9HBf
+         S43LKy3GS4EvWVZWm6DnY/TCFBElgYySRrrkcq39lwlsVYsEd837dfWRjHpWTtG1eQN7
+         pdnw==
+X-Gm-Message-State: AOAM532cOouHUn+HHfKzNzTA+k3wbO9Y+qc2osBwXseoFjUJnBc5nryO
+        kBffN0TENSbk+vJw0HQhnT9Z4sVPSWOaQfVTJ30=
+X-Google-Smtp-Source: ABdhPJw2kh7O70s6W4ALCwCviIae/wzpgIEjGopcj/UgUbX9Fr/W96ICR3fHNqcAx6/ZIUmBYeeQQBhrlXFzelev4Vc=
+X-Received: by 2002:aa7:8c4f:0:b029:18b:f361:4aa3 with SMTP id
+ e15-20020aa78c4f0000b029018bf3614aa3mr280698pfd.73.1605002587346; Tue, 10 Nov
+ 2020 02:03:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200804001423.36778-1-timo.witte@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <markpearson@lenovo.com> <20201110033124.3211-1-markpearson@lenovo.com>
+ <20201110033124.3211-2-markpearson@lenovo.com>
+In-Reply-To: <20201110033124.3211-2-markpearson@lenovo.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 10 Nov 2020 12:03:56 +0200
+Message-ID: <CAHp75VfeE06S5M_GTFo3nKPdMeUJY-aLYfFmsFy7E2zv1fRvZw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Documentation: Add documentation for new
+ platform_profile sysfs attribute
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Elia Devito <eliadevito@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Benjamin Berg <bberg@redhat.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Darren Hart <dvhart@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Tue, Nov 10, 2020 at 5:35 AM Mark Pearson <markpearson@lenovo.com> wrote:
+>
+> On modern systems the platform performance, temperature, fan and other
+> hardware related characteristics are often dynamically configurable. The
+> profile is often automatically adjusted to the load by somei
+> automatic-mechanism (which may very well live outside the kernel).
+>
+> These auto platform-adjustment mechanisms often can be configured with
+> one of several 'platform-profiles', with either a bias towards low-power
+> consumption or towards performance (and higher power consumption and
+> thermals).
+>
+> Introduce a new platform_profile sysfs API which offers a generic API for
+> selecting the performance-profile of these automatic-mechanisms.
 
-Quick self intro: I have take over drivers/platform/x86
-maintainership from Andy; and I'm working my way through
-the backlog of old patches in patchwork:
-https://patchwork.kernel.org/project/platform-driver-x86/list/
+>  .../ABI/testing/sysfs-platform_profile        | 66 +++++++++++++++++++
 
-On 8/4/20 2:14 AM, Timo Witte wrote:
-> Got a dmesg message on my AMD Renoir based Acer laptop:
-> "acer_wmi: Unknown key number - 0x84" when toggling keyboard
-> background light
-> 
-> Signed-off-by: Timo Witte <timo.witte@gmail.com>
-> Reviewed-by: "Lee, Chun-Yi" <jlee@suse.com>
+Is this in reST format?
+Mauro have been converting ABI to be reST compatible (at least).
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-I've made one small change I've replaced the (ignored)
-KEY_LIGHTS_TOGGLE key-code with KEY_KBDILLUMTOGGLE as that is
-the correct code to use for toggling the kbd backlight on/off.
-As the comment in input-event-codes.h says KEY_LIGHTS_TOGGLE
-is for "/* Reading light on or off */".
-
-Note this will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-> ---
->  drivers/platform/x86/acer-wmi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-> index 60c18f21588d..87797f785d6a 100644
-> --- a/drivers/platform/x86/acer-wmi.c
-> +++ b/drivers/platform/x86/acer-wmi.c
-> @@ -111,6 +111,7 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
->  	{KE_KEY, 0x64, {KEY_SWITCHVIDEOMODE} },	/* Display Switch */
->  	{KE_IGNORE, 0x81, {KEY_SLEEP} },
->  	{KE_KEY, 0x82, {KEY_TOUCHPAD_TOGGLE} },	/* Touch Pad Toggle */
-> +	{KE_IGNORE, 0x84, {KEY_LIGHTS_TOGGLE} }, /* Automatic Keyboard background light toggle */
->  	{KE_KEY, KEY_TOUCHPAD_ON, {KEY_TOUCHPAD_ON} },
->  	{KE_KEY, KEY_TOUCHPAD_OFF, {KEY_TOUCHPAD_OFF} },
->  	{KE_IGNORE, 0x83, {KEY_TOUCHPAD_TOGGLE} },
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
