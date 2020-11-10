@@ -2,73 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 252B82AD28D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Nov 2020 10:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5B12AD30C
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Nov 2020 11:03:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgKJJeX (ORCPT
+        id S1726721AbgKJKDj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 Nov 2020 04:34:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36541 "EHLO
+        Tue, 10 Nov 2020 05:03:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43746 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726721AbgKJJeW (ORCPT
+        by vger.kernel.org with ESMTP id S1726462AbgKJKDj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:34:22 -0500
+        Tue, 10 Nov 2020 05:03:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605000860;
+        s=mimecast20190719; t=1605002617;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=JzzCxlKJHdPFcZr+tDeKtUKZaE4UFvEWpixfCQd55lg=;
-        b=Z16d3ZM0AWCLDTs6e9CiiDoM6gDlRt9nA5tgpcpv7t94xfGfPTXDsYO3HePbJ43UdvH4xK
-        LnIyeb9ZaDZ5KSUDLMyeNVcRaPP6n6rT+nZ5z7RfPtfqaAkHhRk6SGyvwVm2lDGj8jVCeP
-        3VnFK6pXCI0U76aRokO3OU52xMSwbNs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-VLVzc133Pae_Y_AZFzhkpQ-1; Tue, 10 Nov 2020 04:34:19 -0500
-X-MC-Unique: VLVzc133Pae_Y_AZFzhkpQ-1
-Received: by mail-ej1-f72.google.com with SMTP id z18so4533080eji.1
-        for <platform-driver-x86@vger.kernel.org>; Tue, 10 Nov 2020 01:34:19 -0800 (PST)
+        bh=x5v2eIsxN4Hq0YzpQxHhzvDLBoDO1wsqtaSQHydAams=;
+        b=dJiAoMMs1KX2eiTVsdY7N7/hSRphmTdHiZwLzI9beBKMqA68JydsKXeN8s1OPC5tA9B5j2
+        839RdKvPMVP0mC8+cojy+WDQmyWzcHTxrn/AcdMbLDRmQwVQ286DlzcM+BInUjfuflx4fJ
+        uT2FHE08u3etLpjGvdvk+CBy9zWqGKY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-g6iMDOduNquTiok_MWgNnw-1; Tue, 10 Nov 2020 05:03:35 -0500
+X-MC-Unique: g6iMDOduNquTiok_MWgNnw-1
+Received: by mail-ed1-f70.google.com with SMTP id y8so4016724edj.5
+        for <platform-driver-x86@vger.kernel.org>; Tue, 10 Nov 2020 02:03:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=JzzCxlKJHdPFcZr+tDeKtUKZaE4UFvEWpixfCQd55lg=;
-        b=bmuRaz+IffoHfno7TyjsKcmE8CwbIRFgDI1+cXyqGRcjT98Rovsqff5olILK53egbY
-         1ucubc5VNv7HzhKh6M0xu6E1lDXW8HCOXilD5+6HlQHHmqK8MknUDo9jA/njpZeJ9gs2
-         WZayi3eurbxUtbNyicxtLu7QwrbCPXj0PgKrXifdEkV0mr+k2W9RcRmRD7IJwxaeTY6H
-         +huzKncM+IG2GYh5ZCl6PPlLcHhd3iKWUjp5bCL9QZc6S4meGgrMsLSm+5aLlzc0EDwj
-         CXRbySS2AzEXiv8KyslsnzyO6HTyes3vlSALdM9FcCkuJJSwQiCKSHzJVmjPAbdT3rbM
-         ni8Q==
-X-Gm-Message-State: AOAM532ksUMHyXgeBL74LXCz/ga96xzs4V3KCQSH1rzmkrWQhtJ3JhsZ
-        4Ke6wOcSY/5gtPbbEvv1edHrzCnX5pVnoc6nhFhMn0MMIj8RcdHis5WL2AM0M+ARvwJydOfEoYc
-        ASfm2kYlfXPlwB8l1iZSv0my340Wh0Q9RDQ==
-X-Received: by 2002:a50:9fe6:: with SMTP id c93mr19768532edf.30.1605000857754;
-        Tue, 10 Nov 2020 01:34:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyp8JGIc02tnkZuRjGa+y4xY7BKIRPDyIZkJO70wC5Gmq8lIgN8NbgadlL++aqKqHE6qXmnMw==
-X-Received: by 2002:a50:9fe6:: with SMTP id c93mr19768510edf.30.1605000857445;
-        Tue, 10 Nov 2020 01:34:17 -0800 (PST)
+        bh=x5v2eIsxN4Hq0YzpQxHhzvDLBoDO1wsqtaSQHydAams=;
+        b=jp6yHaV5DySrbKI/Qw8iaz8pFX6w4bXStwSKyCn3xF+QpKmPZVKKUCuhWFX2l11Udb
+         9vE7Ka6jFFHxkJIzJfyL9lItm1zuMjFutB8GTggjHOMyeCM8jThjHaeweavbvzeMLGEh
+         r5IiBE6PmaELthlZ7K7jviemZ7u1RxBD3rQ484lqgRfKOQHzZnd12KADWe9EfiSWhRmW
+         Ha/o2f++a6EeiyVtn1EnKs+tfy9UBw03qM/tCO3iQu6CulFJcOnDluqUX/uGuMNr5u+t
+         IqYQVD+uM3pXtaG+b4+ngyDGruKNH+X4XZLIDb+jJnv6fGmnZ3NbJ5FkbZSPnN1vLi0l
+         vsbw==
+X-Gm-Message-State: AOAM532GEoclcbDct/zdXpIPXKR6DzszSY9hYmq8h9+RSzNQVD+QJY5I
+        VvGdI4n22tAhO70hrASClX4OKjgns0MBNE/xv9Eu79iMT6a3CDi3Lze7XG24aO2+RZLsNbgo+M2
+        hsLJ0tAwctaWOK5Spt4BuQuZ5qMaa8nDtxg==
+X-Received: by 2002:a17:906:5fd0:: with SMTP id k16mr19926552ejv.133.1605002614352;
+        Tue, 10 Nov 2020 02:03:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwHZvItd1F1W85TYQU6gDoci3i+YMPyw05C5APpazQNYseSKGDmKGoDxgRNxTor+d9rP0t7BA==
+X-Received: by 2002:a17:906:5fd0:: with SMTP id k16mr19926539ejv.133.1605002614097;
+        Tue, 10 Nov 2020 02:03:34 -0800 (PST)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id u25sm9919437eje.99.2020.11.10.01.34.16
+        by smtp.gmail.com with ESMTPSA id h22sm5770975ejt.21.2020.11.10.02.03.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 01:34:16 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] platform/x86: wmi: fail wmi_driver_register when
- no GUID is found
-To:     Daniel Dadap <ddadap@nvidia.com>,
-        platform-driver-x86@vger.kernel.org, mario.limonciello@dell.com,
-        pobrn@protonmail.com
-Cc:     andy@infradead.org, dvhart@infradead.org, aplattner@nvidia.com
-References: <DM6PR19MB2636AB267CD321DE40EF324AFA730@DM6PR19MB2636.namprd19.prod.outlook.com>
- <20200731202154.11382-1-ddadap@nvidia.com>
- <20200731202154.11382-2-ddadap@nvidia.com>
+        Tue, 10 Nov 2020 02:03:33 -0800 (PST)
+Subject: Re: [PATCH] platform/x86: acer-wmi: add automatic keyboard background
+ light toggle key as KEY_LIGHTS_TOGGLE
+To:     Timo Witte <timo.witte@gmail.com>
+Cc:     jlee@suse.com, Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "open list:ACER WMI LAPTOP EXTRAS" 
+        <platform-driver-x86@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20200804001423.36778-1-timo.witte@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <877ae34b-dcbb-a0a4-7d76-d9d78d12fd00@redhat.com>
-Date:   Tue, 10 Nov 2020 10:34:16 +0100
+Message-ID: <097353a1-c4d6-7cba-92fc-dd8652fbaf9f@redhat.com>
+Date:   Tue, 10 Nov 2020 11:03:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200731202154.11382-2-ddadap@nvidia.com>
+In-Reply-To: <20200804001423.36778-1-timo.witte@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,79 +78,56 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 7/31/20 10:21 PM, Daniel Dadap wrote:
-> If a driver registers with WMI, and none of the GUIDs in its ID table
-> is present on the system, then that driver will not be probed and
-> automatically loaded. However, it is still possible to load such a
-> driver explicitly on a system which doesn't include the relevant
-> hardware.
+Quick self intro: I have take over drivers/platform/x86
+maintainership from Andy; and I'm working my way through
+the backlog of old patches in patchwork:
+https://patchwork.kernel.org/project/platform-driver-x86/list/
+
+On 8/4/20 2:14 AM, Timo Witte wrote:
+> Got a dmesg message on my AMD Renoir based Acer laptop:
+> "acer_wmi: Unknown key number - 0x84" when toggling keyboard
+> background light
 > 
-> Update wmi_driver_register to test for the presence of at least one
-> GUID from the driver's ID table at driver registration time, and
-> fail registration if none are found.
+> Signed-off-by: Timo Witte <timo.witte@gmail.com>
+> Reviewed-by: "Lee, Chun-Yi" <jlee@suse.com>
 
-This would make the WMI bus different from all the other kernel
-bus subsystems where one can happily load drivers even if there
-is no hardware using them.
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-And this would also break being able to manually bind a different
-(hopefully compatible but different) guid device through
-/sys/bus/wmi/drivers/foo/bind
+I've made one small change I've replaced the (ignored)
+KEY_LIGHTS_TOGGLE key-code with KEY_KBDILLUMTOGGLE as that is
+the correct code to use for toggling the kbd backlight on/off.
+As the comment in input-event-codes.h says KEY_LIGHTS_TOGGLE
+is for "/* Reading light on or off */".
 
-So NACK to this one from me.
+Note this will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
 
-Note please do send a new version of patch 1/2 of this sets addressing
-Andy's remarks to the other similar patch you did.
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
 Regards,
 
 Hans
 
-
-
-
-
-> 
-> Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
 > ---
->  drivers/platform/x86/wmi.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  drivers/platform/x86/acer-wmi.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-> index 941739db7199..19aa23d1cf8e 100644
-> --- a/drivers/platform/x86/wmi.c
-> +++ b/drivers/platform/x86/wmi.c
-> @@ -130,6 +130,21 @@ static bool find_guid(const char *guid_string, struct wmi_block **out)
->  	return false;
->  }
->  
-> +static bool find_driver_guid(const struct wmi_driver *wdriver)
-> +{
-> +	const struct wmi_device_id *id;
-> +
-> +	if (wdriver == NULL)
-> +		return false;
-> +
-> +	for (id = wdriver->id_table; *id->guid_string; id++) {
-> +		if (find_guid(id->guid_string, NULL))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static const void *find_guid_context(struct wmi_block *wblock,
->  				      struct wmi_driver *wdriver)
->  {
-> @@ -1419,6 +1434,9 @@ static int acpi_wmi_probe(struct platform_device *device)
->  int __must_check __wmi_driver_register(struct wmi_driver *driver,
->  				       struct module *owner)
->  {
-> +	if (!find_driver_guid(driver))
-> +		return -ENODEV;
-> +
->  	driver->driver.owner = owner;
->  	driver->driver.bus = &wmi_bus_type;
->  
+> diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+> index 60c18f21588d..87797f785d6a 100644
+> --- a/drivers/platform/x86/acer-wmi.c
+> +++ b/drivers/platform/x86/acer-wmi.c
+> @@ -111,6 +111,7 @@ static const struct key_entry acer_wmi_keymap[] __initconst = {
+>  	{KE_KEY, 0x64, {KEY_SWITCHVIDEOMODE} },	/* Display Switch */
+>  	{KE_IGNORE, 0x81, {KEY_SLEEP} },
+>  	{KE_KEY, 0x82, {KEY_TOUCHPAD_TOGGLE} },	/* Touch Pad Toggle */
+> +	{KE_IGNORE, 0x84, {KEY_LIGHTS_TOGGLE} }, /* Automatic Keyboard background light toggle */
+>  	{KE_KEY, KEY_TOUCHPAD_ON, {KEY_TOUCHPAD_ON} },
+>  	{KE_KEY, KEY_TOUCHPAD_OFF, {KEY_TOUCHPAD_OFF} },
+>  	{KE_IGNORE, 0x83, {KEY_TOUCHPAD_TOGGLE} },
 > 
 
