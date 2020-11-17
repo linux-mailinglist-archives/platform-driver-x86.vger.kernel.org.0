@@ -2,106 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A43682B705C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Nov 2020 21:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 023952B70A1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 17 Nov 2020 22:07:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728952AbgKQUnZ (ORCPT
+        id S1727012AbgKQVGq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 17 Nov 2020 15:43:25 -0500
-Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:39362 "EHLO
-        mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726278AbgKQUnZ (ORCPT
+        Tue, 17 Nov 2020 16:06:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726788AbgKQVGq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 17 Nov 2020 15:43:25 -0500
-Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AHKbc6Z018583;
-        Tue, 17 Nov 2020 20:42:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pps0720;
- bh=EcHFVilktMF2E05oaED2Dz/I7Xyg++eV/cmoU4aUmog=;
- b=lA+I9G3T8cNIdYrFsd83iqaS5kegyhkbmWL8n9GJtDQxlAVcMbm1Pc+ofeFeBfQfmgK4
- rnGROgjmsAxOKEAXIsecb+eanftF4dU+B9i8fUwMutf1qdcYqVispmwRD0QP74jM/n5o
- pZLKRf+QPRtif+TEqcPQqjaoZXnsqAU4wrfsWqBjRP5Jp9MmvJBy17UBRSTLsSsjnPts
- vvgvpgXVNgTg+xYweZeWCDCUGNazQpjLPnRJBrube1X3dgCapVLWF4oZe//ugwkVVg+T
- EMwyUIMt0AQbNDSLSRAPyndJJ0n4FdpeHTHUGcK6DoFNro7ekkiaRQEysv3rUOrobKuf 8A== 
-Received: from g4t3425.houston.hpe.com (g4t3425.houston.hpe.com [15.241.140.78])
-        by mx0a-002e3701.pphosted.com with ESMTP id 34vm4g8sgn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 17 Nov 2020 20:42:48 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
-        by g4t3425.houston.hpe.com (Postfix) with ESMTP id 331DE92;
-        Tue, 17 Nov 2020 20:42:47 +0000 (UTC)
-Received: from dog.eag.rdlabs.hpecorp.net (dog.eag.rdlabs.hpecorp.net [128.162.243.181])
-        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id ED4FC4B;
-        Tue, 17 Nov 2020 20:42:46 +0000 (UTC)
-Received: by dog.eag.rdlabs.hpecorp.net (Postfix, from userid 605001)
-        id 7E10E3003D751; Tue, 17 Nov 2020 14:42:45 -0600 (CST)
-From:   Justin Ernst <justin.ernst@hpe.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        Tue, 17 Nov 2020 16:06:46 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A85C0613CF;
+        Tue, 17 Nov 2020 13:06:45 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id dk16so31374807ejb.12;
+        Tue, 17 Nov 2020 13:06:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=j9Vx247wONNjdeaxAVzGIosAkpuFEwJFnTNV+q2NFC0=;
+        b=ddU4qHWKt+h7sMZVkb8UAuGL7veuojz3WAcVz0zhN2z822vrk3fh/ymBaokFGFQ5cW
+         0Q5oNRgaffkG80BnanSM8G/CLSby82/WwKsLfXl5yqpOY4k1t7ZLJr+fvJKjNpshJVaZ
+         jI70vyjCZqlxjoRGPaTiwFazWZsThLd3wBW8wcI351R1nYFiJquCYjQsOC3zRClQ1Z3s
+         STsrPCMq4ii0GsMsydrhjq214y3WxepnXjnO0ADXPFrpZVZxNTkBJSyu/NKx4gGM9jOa
+         eBrqeNUNJTLbao6UMPl7qsnTIulKBisKNHQAzeLuRAPZEMIjR/vladAlRJoGixcAcgVs
+         4D1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=j9Vx247wONNjdeaxAVzGIosAkpuFEwJFnTNV+q2NFC0=;
+        b=qcOAiAaXFRm8fgVyLj9/R5mPDUfNgg3kw+gFt4Lg0apezogVnoMPxljZec4nR/29Tc
+         1mIhuNQUCANbFDKChlneQ4DiC0wyLZ94+62TPn6iybJpyXUKKHJf383sQvKz4qZyrpdG
+         cZMOIWvb0eM8Au8peovRCXtdq9YNi5B8PUhlQ7atQaRPRzSMze1wSR0bighNqLStNTy/
+         8B1aPSznTAg+vEp27pULgdmakONkaM86ZkVWO7zOpAoKYBPDtL1NqMIXFk2xAw+VvoPz
+         sCcfKbz9ZOgAa3On0fb89e/9M90JfSJJ8vGEApUwb1N75nxvW/hYwPxF4adp3T5uOoTY
+         TQHA==
+X-Gm-Message-State: AOAM5307MgLNS16zYnJsGuMsVgbrSbNFevTbjYlS85W9AEjElAGsS5zC
+        91g5vFOx/OVkngAPX0rh6jgeKF5aS9A=
+X-Google-Smtp-Source: ABdhPJw2D0d502S4kc1Zu6ZSnfka5YqeniL3Co8sWRGQJ7JiW5omfktg0PVFUQvzTlzM5o3yjLuYTg==
+X-Received: by 2002:a17:906:2454:: with SMTP id a20mr3121836ejb.208.1605647203956;
+        Tue, 17 Nov 2020 13:06:43 -0800 (PST)
+Received: from [192.168.2.202] (pd9e5afac.dip0.t-ipconnect.de. [217.229.175.172])
+        by smtp.gmail.com with ESMTPSA id o1sm12174158ejc.81.2020.11.17.13.06.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2020 13:06:42 -0800 (PST)
+Subject: Re: [PATCH 8/9] platform/surface: Add Surface Aggregator user-space
+ interface
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Steve Wahl <steve.wahl@hpe.com>, x86@kernel.org
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Justin Ernst <justin.ernst@hpe.com>
-Subject: [PATCH 5/5] x86/platform/uv: Update MAINTAINERS for uv_sysfs driver
-Date:   Tue, 17 Nov 2020 14:42:24 -0600
-Message-Id: <20201117204224.51230-6-justin.ernst@hpe.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201117204224.51230-1-justin.ernst@hpe.com>
-References: <20201117204224.51230-1-justin.ernst@hpe.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20201115192143.21571-1-luzmaximilian@gmail.com>
+ <20201115192143.21571-9-luzmaximilian@gmail.com>
+ <5341e4aa-4af3-104e-af54-577f5b6a3594@infradead.org>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <93f75cd3-4520-5ba6-3c95-e012569a968b@gmail.com>
+Date:   Tue, 17 Nov 2020 22:06:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-17_09:2020-11-17,2020-11-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 mlxlogscore=826 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011170151
+In-Reply-To: <5341e4aa-4af3-104e-af54-577f5b6a3594@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add an entry and email address for the new uv_sysfs driver and
-its maintainer.
+On 11/17/20 9:36 PM, Randy Dunlap wrote:
+> On 11/15/20 11:21 AM, Maximilian Luz wrote:
+>> +#define SSAM_CDEV_REQUEST	_IOWR(0xA5, 1, struct ssam_cdev_request)
+> 
+> All ioctl major numbers (0xA5) should be documented in
+> Documentation/userspace-api/ioctl/ioctl-number.rst
+> 
+> Apologies if I missed it somewhere else.
 
-Signed-off-by: Justin Ernst <justin.ernst@hpe.com>
-Acked-by: Steve Wahl <steve.wahl@hpe.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+No, I forgot to do that. Will add it for the next revision.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b43b59542d15..f693d2d97203 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18361,6 +18361,12 @@ F:	include/uapi/linux/uuid.h
- F:	lib/test_uuid.c
- F:	lib/uuid.c
- 
-+UV SYSFS DRIVER
-+M:	Justin Ernst <justin.ernst@hpe.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/x86/uv_sysfs.c
-+
- UVESAFB DRIVER
- M:	Michal Januszewski <spock@gentoo.org>
- L:	linux-fbdev@vger.kernel.org
--- 
-2.26.2
-
+Thanks,
+Max
