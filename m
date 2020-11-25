@@ -2,107 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8967C2C4717
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Nov 2020 18:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5833B2C4783
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Nov 2020 19:26:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731836AbgKYRzR (ORCPT
+        id S1729679AbgKYSZq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 25 Nov 2020 12:55:17 -0500
-Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:59988 "EHLO
-        mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730749AbgKYRzQ (ORCPT
+        Wed, 25 Nov 2020 13:25:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbgKYSZq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 25 Nov 2020 12:55:16 -0500
-Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0APHss8s003665;
-        Wed, 25 Nov 2020 17:55:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pps0720;
- bh=EcHFVilktMF2E05oaED2Dz/I7Xyg++eV/cmoU4aUmog=;
- b=cYuBddiUxJiv++WcIsl/VhxbLf2r7xUxZBskiAUVYo2dGKNtVYwxWrfc6bH1zPtJsDEl
- PmrngL+pU8usbZbtMgBNTMuMz/Euoz/OXIMcjl6/i3NCxXj0B76h8CDC4bp+pFfYPtYu
- Re4B9kDII8u34UMVpkB7mPtGU+UA4QZi1kakUweWwhgRJsK7hQJoA5plYidkV3vJsqPd
- r102Or5wX/wOJ4mzP73F1wAe20eTqN865bAzFvXZIwTvCGLONyejTzEhv7b4teMOrg8o
- K0sTQJ2GDO4Z7zRROrsT9C9HSWKDHUVlY7vQONOG4kmhorLMND014GenWthFN8RMq9xx fA== 
-Received: from g4t3425.houston.hpe.com (g4t3425.houston.hpe.com [15.241.140.78])
-        by mx0a-002e3701.pphosted.com with ESMTP id 350bbqe8ac-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 25 Nov 2020 17:55:02 +0000
-Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
-        by g4t3425.houston.hpe.com (Postfix) with ESMTP id EE95F8D;
-        Wed, 25 Nov 2020 17:55:00 +0000 (UTC)
-Received: from dog.eag.rdlabs.hpecorp.net (dog.eag.rdlabs.hpecorp.net [128.162.243.181])
-        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id B9F2947;
-        Wed, 25 Nov 2020 17:55:00 +0000 (UTC)
-Received: by dog.eag.rdlabs.hpecorp.net (Postfix, from userid 605001)
-        id 72CE8302F4806; Wed, 25 Nov 2020 11:55:00 -0600 (CST)
-From:   Justin Ernst <justin.ernst@hpe.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Steve Wahl <steve.wahl@hpe.com>, x86@kernel.org
-Cc:     Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Mike Travis <mike.travis@hpe.com>,
-        Justin Ernst <justin.ernst@hpe.com>
-Subject: [PATCH v3 5/5] x86/platform/uv: Update MAINTAINERS for uv_sysfs driver
-Date:   Wed, 25 Nov 2020 11:54:44 -0600
-Message-Id: <20201125175444.279074-6-justin.ernst@hpe.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201125175444.279074-1-justin.ernst@hpe.com>
-References: <20201125175444.279074-1-justin.ernst@hpe.com>
+        Wed, 25 Nov 2020 13:25:46 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA07C0613D4;
+        Wed, 25 Nov 2020 10:25:45 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id l1so2843986wrb.9;
+        Wed, 25 Nov 2020 10:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
+        b=fsU+H22Qbk4piwmxvHtCQshzp9ftLjPVlsm96s6NDxpkZm3ezQMQxpdAr8/i6hCq9x
+         0RhcQs2qpE/pTJALiAEy48jlGmpYi11B3YKbX3xwBMi/NGi/5WN3GgKgqQvL3PfC53Af
+         EdrULzIyZoyKwXnQsRNIk1A7Yh1/dS8yVEoXGYxwq4OLegFH2TFypkarS+X5zANvYEeZ
+         Cma+xE0O0iH+FnOspV5kysmZH4ZoELI8UnAO0fy78d0ekiX+kXBiYxbmrWMLBlsfbdqa
+         LjYiFNIMIQvwnOFOrpGcmrY7gcbsJidTpdU5oGMDduHdkVa6TZmYFl8aH238QAksKxQ3
+         j5LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
+        b=bv97sxivLDDBOnBqrCtyMDwIJ1pU2CCg8fJZ7vxvma6arfwHFAx5UxrTzXqkWb0ScW
+         unNqXzYGNyOodQQEnL9abgjVIGXAHL6t52waghxZDcW5NT7+RqJvbXfBvmPLUudi8yZx
+         W72XnlluzND+5Nm78SUOvoewt4jtxp0egjcX+U4r96W6icrSUyggVp9Lfemk2H9pRkoq
+         H1wdtolcE449pQuK592uKa35Ztxjg47KWNRIFFZaxA51RnivQQNFfv/tgUn7aGtM8Vvh
+         s4Vt8ocg06kWin7+QhQzqnksydJ9vup9ulUlaPMWvnMzyuqFPHJ2kWNvbWnsrSSiskGj
+         sSsg==
+X-Gm-Message-State: AOAM533xPGJZZ2Uj/akd5o0SeglJbCh2IXohm7EcxMhsrEKNGBDHmpt4
+        FFn49Dp5tnHNzetOcMMWAfCL/UiTXSqGUg==
+X-Google-Smtp-Source: ABdhPJy2Q8JrbHKhLTJPzqKz/k747lKpulrWL7bSXgVxkpdiYqAyVwR3s1bxlqesa1dKH1x47kA5/g==
+X-Received: by 2002:adf:a3c1:: with SMTP id m1mr5665918wrb.28.1606328744620;
+        Wed, 25 Nov 2020 10:25:44 -0800 (PST)
+Received: from [192.168.1.152] ([102.64.149.89])
+        by smtp.gmail.com with ESMTPSA id x13sm5329634wmj.48.2020.11.25.10.25.39
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Wed, 25 Nov 2020 10:25:44 -0800 (PST)
+Message-ID: <5fbea1a8.1c69fb81.8c60.ba17@mx.google.com>
+From:   "Dailborh R." <risonnah.001@gmail.com>
+X-Google-Original-From: Dailborh R.
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-25_11:2020-11-25,2020-11-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 mlxlogscore=833
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011250111
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Please reply to me
+To:     Recipients <Dailborh@vger.kernel.org>
+Date:   Wed, 25 Nov 2020 18:25:29 +0000
+Reply-To: dailrrob.83@gmail.com
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add an entry and email address for the new uv_sysfs driver and
-its maintainer.
-
-Signed-off-by: Justin Ernst <justin.ernst@hpe.com>
-Acked-by: Steve Wahl <steve.wahl@hpe.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b43b59542d15..f693d2d97203 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18361,6 +18361,12 @@ F:	include/uapi/linux/uuid.h
- F:	lib/test_uuid.c
- F:	lib/uuid.c
- 
-+UV SYSFS DRIVER
-+M:	Justin Ernst <justin.ernst@hpe.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/x86/uv_sysfs.c
-+
- UVESAFB DRIVER
- M:	Michal Januszewski <spock@gentoo.org>
- L:	linux-fbdev@vger.kernel.org
--- 
-2.26.2
+I'm Dailborh R. from US. I picked interest in you and I would like to know
+more about you and establish relationship with you. i will wait for
+your response. thank you.
 
