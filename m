@@ -2,123 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80BCE2C6E9B
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Nov 2020 04:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 235A42C6EBC
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Nov 2020 05:00:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730194AbgK1DS0 (ORCPT
+        id S1729459AbgK1D5x (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 27 Nov 2020 22:18:26 -0500
-Received: from mail-41104.protonmail.ch ([185.70.41.104]:52956 "EHLO
-        mail-41104.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730776AbgK0Tzy (ORCPT
+        Fri, 27 Nov 2020 22:57:53 -0500
+Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:49052 "EHLO
+        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731499AbgK1Dnu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 27 Nov 2020 14:55:54 -0500
-Received: from mail-03.mail-europe.com (mail-03.mail-europe.com [91.134.188.129])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        by mail-41104.protonmail.ch (Postfix) with ESMTPS id 396722001BE3
-        for <platform-driver-x86@vger.kernel.org>; Fri, 27 Nov 2020 19:25:04 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
-        dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="p6rEVoVz"
-Date:   Fri, 27 Nov 2020 19:22:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1606504981;
-        bh=JA3R5kNZdeDaHj0Hz7a5oZ95EFWkeaJZqlDY0+PxPXU=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=p6rEVoVzdm57x+PHGSfKeTEp6AMvESTLYZxoP78SjXsn0PLJ+LRqurWKSy0CuoseF
-         XvvVdm6B8+EH7zYyvIrmeOuoO3z8jqvw+FtDjz7MXHfbflzh1XEaqWsvUx93GdAbEC
-         VVc1sAkT7VP9zjxPgXaxoA3+cq5zzWSh4S97JT3w=
-To:     Mark Pearson <markpearson@lenovo.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "mgross@linux.intel.com" <mgross@linux.intel.com>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "hadess@hadess.net" <hadess@hadess.net>,
-        "mario.limnociello@dell.com" <mario.limnociello@dell.com>,
-        "eliadevito@gmail.com" <eliadevito@gmail.com>,
-        "bberg@redhat.com" <bberg@redhat.com>,
-        "dvhart@infradead.org" <dvhart@infradead.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v4 3/3] platform/x86: thinkpad_acpi: Add platform profile support
-Message-ID: <ioprVbNER4h0HTVvyj2ElXiuNaSPjl8ycgp4XtOtj-Iwe4_6qnNRLYuvxIJKE2ULGPTRURY-1Dr9plCocTnx2S_ugBn7INWZScnn4-pTq4c=@protonmail.com>
-In-Reply-To: <20201126165143.32776-3-markpearson@lenovo.com>
-References: <markpearson@lenovo.com> <20201126165143.32776-1-markpearson@lenovo.com> <20201126165143.32776-3-markpearson@lenovo.com>
+        Fri, 27 Nov 2020 22:43:50 -0500
+Received: from pps.filterd (m0150244.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AS3c44Z023890;
+        Sat, 28 Nov 2020 03:42:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pps0720;
+ bh=+oQ5tDT0s75+3qBxLOfxh0HLP+klCcDrGLxiwEJJ1bs=;
+ b=dEWCaPrRcnqVF5WzUf7nRab0JcD+4gRBfOAof95uUhcBkJ0FXEVa2yIdn0CG8GG5hdMJ
+ 9Pm1MZcG5jqvq+B+wGrRCOat9TuyqoZkCwEP304ROSd4Ei1H/48QXLX8rgEAvTzVvd1d
+ HdQH0ReFpraOTuUq4uDvoU9I7xPBvUa8NMUzliTUqyvari5WGiklKDEYyKO/I2N5E/Aw
+ JTqU2HvA+hf9J4kRxuq9IHQYgILjlm5xUM9zgBGc2RKSwy8qwTtTGwdJzoSe4SmGE9gs
+ 6sXQzqnQFAYJ/fWR7u0syvbN6mnWDRub/VgGLXircFpZqt+EMuE/3fyx7LjymGRL+PkV nw== 
+Received: from g9t5009.houston.hpe.com (g9t5009.houston.hpe.com [15.241.48.73])
+        by mx0b-002e3701.pphosted.com with ESMTP id 352h7ctnvn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 28 Nov 2020 03:42:55 +0000
+Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
+        by g9t5009.houston.hpe.com (Postfix) with ESMTP id 1B50855;
+        Sat, 28 Nov 2020 03:42:53 +0000 (UTC)
+Received: from dog.eag.rdlabs.hpecorp.net (dog.eag.rdlabs.hpecorp.net [128.162.243.181])
+        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id EC9AA48;
+        Sat, 28 Nov 2020 03:42:52 +0000 (UTC)
+From:   Mike Travis <mike.travis@hpe.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Justin Ernst <justin.ernst@hpe.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>
+Cc:     Mike Travis <mike.travis@hpe.com>,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        Russ Anderson <russ.anderson@hpe.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 1/5] x86/platform/uv: Add kernel interfaces for obtaining system info.
+Date:   Fri, 27 Nov 2020 21:42:23 -0600
+Message-Id: <20201128034227.120869-2-mike.travis@hpe.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20201128034227.120869-1-mike.travis@hpe.com>
+References: <20201128034227.120869-1-mike.travis@hpe.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-28_02:2020-11-26,2020-11-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011280025
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi
+Add kernel interfaces used to obtain info for the uv_sysfs driver
+to display.
 
+Signed-off-by: Mike Travis <mike.travis@hpe.com>
+Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
+---
+ arch/x86/include/asm/uv/bios.h     |  2 ++
+ arch/x86/kernel/apic/x2apic_uv_x.c | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
 
-2020. november 26., cs=C3=BCt=C3=B6rt=C3=B6k 17:51 keltez=C3=A9ssel, Mark P=
-earson =C3=ADrta:
+diff --git a/arch/x86/include/asm/uv/bios.h b/arch/x86/include/asm/uv/bios.h
+index 01ba080887b3..1b6455f881f9 100644
+--- a/arch/x86/include/asm/uv/bios.h
++++ b/arch/x86/include/asm/uv/bios.h
+@@ -200,6 +200,8 @@ extern long sn_partition_id;
+ extern long sn_coherency_id;
+ extern long sn_region_size;
+ extern long system_serial_number;
++extern ssize_t uv_get_archtype(char *buf, int len);
++extern int uv_get_hubless_system(void);
+ 
+ extern struct kobject *sgi_uv_kobj;	/* /sys/firmware/sgi_uv */
+ 
+diff --git a/arch/x86/kernel/apic/x2apic_uv_x.c b/arch/x86/kernel/apic/x2apic_uv_x.c
+index 1b98f8c12b96..48746031b39a 100644
+--- a/arch/x86/kernel/apic/x2apic_uv_x.c
++++ b/arch/x86/kernel/apic/x2apic_uv_x.c
+@@ -502,6 +502,18 @@ enum uv_system_type get_uv_system_type(void)
+ 	return uv_system_type;
+ }
+ 
++int uv_get_hubless_system(void)
++{
++	return uv_hubless_system;
++}
++EXPORT_SYMBOL_GPL(uv_get_hubless_system);
++
++ssize_t uv_get_archtype(char *buf, int len)
++{
++	return scnprintf(buf, len, "%s/%s", uv_archtype, oem_table_id);
++}
++EXPORT_SYMBOL_GPL(uv_get_archtype);
++
+ int is_uv_system(void)
+ {
+ 	return uv_system_type != UV_NONE;
+-- 
+2.21.0
 
-> [...]
-> +static bool dytc_ignore_next_event;
-
-As a sidenote: can the profile switching be triggered by means that's not t=
-he
-`/sys/firmware/acpi/platform_profile` attribute (e.g. a physical button)?
-Because if so, then I'm not sure if `dytc_ignore_next_event` achieves its p=
-urpose
-robustly, although I believe it won't cause issues in practice. I think it =
-could
-be made more robust using a mutex to serialize and synchronize access to th=
-e DYTC
-interface, but I'm not sure if the effort is worth it.
-
-
-> +static bool dytc_profile_available;
-> +static enum platform_profile_option dytc_current_profile;
-> [...]
-> +static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
-> +{
-> +=09int err, output;
-> +
-> +=09dytc_profile_available =3D false;
-> +=09dytc_ignore_next_event =3D false;
-> +
-> +=09err =3D dytc_command(DYTC_CMD_QUERY, &output);
-> +=09/*
-> +=09 * If support isn't available (ENODEV) then don't return an error
-> +=09 * and don't create the sysfs group
-> +=09 */
-> +=09if (err =3D=3D -ENODEV)
-> +=09=09return 0;
-> +=09/* For all other errors we can flag the failure */
-> +=09if (err)
-> +=09=09return err;
-> +
-> +=09/* Check DYTC is enabled and supports mode setting */
-> +=09if (output & BIT(DYTC_QUERY_ENABLE_BIT)) {
-> +=09=09/* Only DYTC v5.0 and later has this feature. */
-> +=09=09int dytc_version;
-> +
-> +=09=09dytc_version =3D (output >> DYTC_QUERY_REV_BIT) & 0xF;
-> +=09=09if (dytc_version >=3D 5) {
-> +=09=09=09dbg_printk(TPACPI_DBG_INIT,
-> +=09=09=09=09   "DYTC version %d: thermal mode available\n", dytc_version=
-);
-> +=09=09=09/* Create platform_profile structure and register */
-> +=09=09=09do {
-> +=09=09=09=09err =3D platform_profile_register(&dytc_profile);
-> +=09=09=09} while (err =3D=3D -EINTR);
-> [...]
-
-I'm wondering if this loop is really necessary?
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
