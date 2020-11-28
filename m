@@ -2,132 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFAAB2C7412
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Nov 2020 23:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22D112C741D
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 28 Nov 2020 23:18:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388856AbgK1Vtq (ORCPT
+        id S1731582AbgK1Vtr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37475 "EHLO
+        Sat, 28 Nov 2020 16:49:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52508 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733242AbgK1SAs (ORCPT
+        by vger.kernel.org with ESMTP id S1732979AbgK1SQh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:00:48 -0500
+        Sat, 28 Nov 2020 13:16:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606586361;
+        s=mimecast20190719; t=1606587310;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4oHr7RZ6Qkbar7LjprzctLhseTfmkP0PXD4abO+7grA=;
-        b=faTVOUeGozeTI1Ilnhhn5qFG8Jlm57V95vuDmpiyLWNec4IxDi05stbvBwy1VI3tE/Zbsd
-        OTbX2x2r9NmLP17S2maLqiJKRfQvD1YY4IFI+A3LQ3kRkmyxKPFR3KBZaV8iejYXxi6B5v
-        cl1wbRhkFGfHIKFUh85Z2OyOaq7huZg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-X5Vaz7zUOxObHg_KRJeo4w-1; Sat, 28 Nov 2020 05:57:40 -0500
-X-MC-Unique: X5Vaz7zUOxObHg_KRJeo4w-1
-Received: by mail-ed1-f70.google.com with SMTP id z20so1207311edl.21
-        for <platform-driver-x86@vger.kernel.org>; Sat, 28 Nov 2020 02:57:40 -0800 (PST)
+        bh=/j7MFMaGF4mtrf6I+pz9+nToAACglxD5pvkrmBvD6to=;
+        b=faQeoCbkwef73kPQvSnZMLYN/coXsVxA7nVCXcYRxpriHwWkP7VbEL5lCYFqCO7QnI2sWz
+        Zu5mObM0WQMjzl6IzDV9+23ITyveY6C0RajhHV+khvV5tG21HnTCjkePsOnVObRGf0gfcK
+        6vObJlm6TkS7a1yhRL8NPJPM9+n1nsc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-gQCPi9saNF-Ub6W0E_CTOA-1; Sat, 28 Nov 2020 06:13:45 -0500
+X-MC-Unique: gQCPi9saNF-Ub6W0E_CTOA-1
+Received: by mail-ej1-f72.google.com with SMTP id dc13so3134917ejb.9
+        for <platform-driver-x86@vger.kernel.org>; Sat, 28 Nov 2020 03:13:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4oHr7RZ6Qkbar7LjprzctLhseTfmkP0PXD4abO+7grA=;
-        b=NN3zd5Nea3pzuk7GgaJoKhcfCqn7bwg90WBd06Qxx/FJ9oxeInoZzKwnt/qjMA46/j
-         PZ4WD7dIU+EseoeDfZVPFYRRPQ+U4x3RmTMyJyjhk3j0DFlBOwO3AhW4eF0SR01W2o8Q
-         xRntpwHF7V6gOxgUf+mVQ6ZoLHL3Cra9ORE3PMHWgNcZpah83OdTeiSTP1T/uzfi50up
-         RyZ/9PbtJsEHvt35LrhVx5Y8+oTVMaT8JesfMzClYZ9lOiELHG+LGGbsvL9KQwedocji
-         plcwKnZqPGWWwtwIZejdXNQ70eCYRez9MfV1dcz7gAp6nJQB3PDAhfXzSzQxiOLVcvcx
-         /+2w==
-X-Gm-Message-State: AOAM53074hBcpoX1n6DxbQJpGkb6eZL5rRUu7ZBE9/gvvY/5Vs26q/1q
-        6YQwSPnvTJHtBKzASFeHbo3H63CAk6qLSVluRFGicDx74Ki/rM4QzAroI/RthyHje2UzC4TJspq
-        J2SIksbvE2pKKA4Sy7MXOTFFwMXfTJFYe330Qxn8jqF0st2hnolo3aKZHuuofnmHXJ0dqEO5RsY
-        BIfXyAa+eJ4w==
-X-Received: by 2002:a17:906:b307:: with SMTP id n7mr3971830ejz.102.1606561059135;
-        Sat, 28 Nov 2020 02:57:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzuaaElZg+ATz7E5Mi3VYv9reMaB21XlwiQVOH4OwqCWatvZlbmY3Z/gU10f3MwTBNehUnKtA==
-X-Received: by 2002:a17:906:b307:: with SMTP id n7mr3971808ejz.102.1606561058891;
-        Sat, 28 Nov 2020 02:57:38 -0800 (PST)
+        bh=/j7MFMaGF4mtrf6I+pz9+nToAACglxD5pvkrmBvD6to=;
+        b=If9ijZ1IrshDOdY1BwkLQCC5O3zLAX1T3wvuW6r9VG9cJit3373wrokvnmxY6VgFeO
+         et1epWP67VB1mWWa7zz/rS3Hej51hHNXb2wxYmWWtLXb4q7ZG2V3GPnPPv25+QdDqmpz
+         dF1/0DW7+Oy0LlCUTCagXTHziZtwVU6OiS/AgxN8rOvz8iQTrvqhDE9rwJ0iG1cAb+NB
+         mXA85Hj99iaETEdXTEl4lWSGCcLT3H+t/Xfa3OT6KtIrPu3xUOCfRFOHW9kTaeDWobj5
+         QO6Bq0vk+36K6pjst7NSnR/CUXc4lv75Szc4yPnhYM8bjYhAzXzQ1VK0bPYNL5PZTa6g
+         UdqA==
+X-Gm-Message-State: AOAM531pa9Y29OEvrYv7vNqsHrzdvb3DBRexr8+nxy/oyf4dYwsQZnGz
+        aQAvcRlsGtipCPR8yuAiH8yKPUKeGnprflC9+kIlSO0/JcN4Nb3P+9CcGT12ZOfMHJXDD28iSQw
+        zcPpXdyU8xyytR3ulvcYaTWhK5qYGdOrTwzwSo45/yjFU4yxkycywOu7xwwjdJZc+4BxeSJwE15
+        ZBMOGGGzU4Mw==
+X-Received: by 2002:a17:906:d8a8:: with SMTP id qc8mr4446327ejb.149.1606562023574;
+        Sat, 28 Nov 2020 03:13:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWr/GB6QJ2ylnNxqBwPGiqFmnrciZglUqUhb+ELRNqz7RsOv7VCXysK8gmalO0EWwFSbFYHQ==
+X-Received: by 2002:a17:906:d8a8:: with SMTP id qc8mr4446318ejb.149.1606562023389;
+        Sat, 28 Nov 2020 03:13:43 -0800 (PST)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id u23sm6034802ejc.46.2020.11.28.02.57.37
+        by smtp.gmail.com with ESMTPSA id n22sm6315427edr.11.2020.11.28.03.13.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 02:57:38 -0800 (PST)
-Subject: Re: [PATCH v2 0/5] x86/platform/uv: Move UV procfs leaves to sysfs
-To:     Mike Travis <mike.travis@hpe.com>,
-        Justin Ernst <justin.ernst@hpe.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>
-Cc:     Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20201128034227.120869-1-mike.travis@hpe.com>
+        Sat, 28 Nov 2020 03:13:42 -0800 (PST)
+Subject: Re: [PATCH] platform/x86: hp-wmi: Add support for home in HP OMEN
+ laptops
+To:     Dana Goyette <danagoyette@gmail.com>,
+        platform-driver-x86 <platform-driver-x86@vger.kernel.org>
+References: <174c79fb794.120dada4b39603.5369737602791060462@sidsun.com>
+ <cad5f2ab-e319-b6fd-360d-5beb62d6899f@redhat.com>
+ <b8c32747-2704-8a2d-dc32-b6154128d295@gmail.com>
+ <9ca5bc3c-807c-3dbc-41a9-741a3407c66c@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <0d13eea0-c74d-4686-6eca-b5f4d012dc74@redhat.com>
-Date:   Sat, 28 Nov 2020 11:57:37 +0100
+Message-ID: <2853bc2b-be49-9ff7-3f9e-6caca8162b26@redhat.com>
+Date:   Sat, 28 Nov 2020 12:13:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201128034227.120869-1-mike.travis@hpe.com>
+In-Reply-To: <9ca5bc3c-807c-3dbc-41a9-741a3407c66c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 11/28/20 4:42 AM, Mike Travis wrote:
+On 11/28/20 3:55 AM, Dana Goyette wrote:
 > 
-> Duplicate the current UV procfs leaves to the uv_sysfs driver so they show
-> up under /sys/firmware/sgi_uv.  Show a 'deprecated' warning message if
-> any of the old /proc/sgi_uv leaves are used.
 > 
-> These patches depend on the prior v3 patchset sent by Justin Ernst <justin.ernst@hpe.com>
-> 	x86/platform/uv: Remove existing /sys/firmware/sgi_uv/ interface
-> 	x86/platform/uv: Add and export uv_bios_* functions
-> 	x86/platform/uv: Add new uv_sysfs platform driver
-> 	x86/platform/uv: Update ABI documentation of /sys/firmware/sgi_uv/
-> 	x86/platform/uv: Update MAINTAINERS for uv_sysfs driver
+>> On 11/27/20 6:19 PM, Dana Goyette wrote:
+>>
+>> FYI, the HP Omen 15 2020 has a different keyboard, where Home is a proper separate key.  The India model has yet another layout, with a full numeric keypad that also includes Home.  So unless we want to get into DMI matching, it's safest to map the key to something distinct.
+>>
+>> Layout on the US model:
+>>
+>> [Omen]   [Calc] [PrtScr]
+>> [Insert] [Home] [PgUp]
+>> [Pause]  [End]  [PgDn]
+>>
+>> Layout on the India model:
+>> [Omen]    [Calc] [Insert] [PrtScr]
+>> [NumLock] [/]    [*]      [-]
+>> [7/Home]  [8]    [9/PgUp] [+]
+>>
+>> (Where's Delete?  Above Backspace.)
+> 
+> Upon looking at the driver's source, the 2020 model won't be encountering that path, so "home" may be okay after all.  When I press that key, the event is different (it's not HPWMI_BEZEL_BUTTON).
+> 
+> hp_wmi: Unknown event_id - 29 - 0x21a5
 
-AS with the previous series this series touches files under both
-x86/platform and drivers/platform/x86. Like last time this is best merged
-in its entirety through the x86/tip tree (which also has the previous set).
-Here is my ack for the drivers/platform/x86 bits being merged through the
-x86/tip tree:
+Hmm, but the event_data is the same as before, so maybe event-id 29 is simply
+the new HPWMI_BEZEL_BUTTON... I wonder if other keys generate this event-id too,
+and if they also use the same event_data values is before.
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
+Or IOW I wonder if we can / want to re-use the hp_wmi_keymap (and the existing
+input_dev) for the new event-id 29, or if we want a new input_dev and sparse-keymap
+for the new event-id.
+
+My initial feeling is to re-use the existing input_dev and keymap at which point
+the event-id being different does not help us. We should probably just assign
+KEY_CONFIG to it.  Users who want it to send home can then remap that,
+either through hwdb, so that it gets re-mapped to KEY_HOME at the kernel level,
+or at some higher level.
+
+Note in my original reply I said to use KEY_CONTROL_PANEL, but that has the
+disadvantage that its keycode is above 247 which is not supported under X11.
+Looking at this again I wonder why we have KEY_CONTROL_PANEL at all, since
+the comments on KEY_CONFIG pretty much over opening the control-panel:
+
+#define KEY_CONFIG              171     /* AL Consumer Control Configuration */
+
+Alternatives which are also under 247 are:
+
+KEY_COMPUTER
+KEY_HOMEPAGE
+KEY_DASHBOARD
+KEY_MEDIA
+
+I see that despite me reviewing this, the patch never landed, so we are free to
+do what we want here with having to worry about breaking existing setups.
 
 Regards,
 
 Hans
-
-
-
-
-
-> 
-> v2: Updated to apply to v3 of dependency patch set listed above.
-> 
-> Mike Travis (5):
->   x86/platform/uv: Add kernel interfaces for obtaining system info.
->   x86/platform/uv: Add sysfs leaves to replace those in procfs
->   x86/platform/uv: Add sysfs hubless leaves
->   x86/platform/uv: Add deprecated messages to /proc info leaves
->   x86/platform/uv: Update sysfs document file
-> 
->  .../ABI/testing/sysfs-firmware-sgi_uv         | 16 +++++
->  arch/x86/include/asm/uv/bios.h                |  2 +
->  arch/x86/kernel/apic/x2apic_uv_x.c            | 26 ++++++-
->  drivers/platform/x86/uv_sysfs.c               | 70 ++++++++++++++++++-
->  4 files changed, 111 insertions(+), 3 deletions(-)
-> 
 
