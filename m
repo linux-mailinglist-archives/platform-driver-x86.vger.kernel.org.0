@@ -2,111 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F652CE579
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Dec 2020 03:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ECF12CED5C
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Dec 2020 12:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgLDCAx (ORCPT
+        id S1730044AbgLDLny (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 3 Dec 2020 21:00:53 -0500
-Received: from mga04.intel.com ([192.55.52.120]:63510 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725960AbgLDCAx (ORCPT
+        Fri, 4 Dec 2020 06:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728721AbgLDLnx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 3 Dec 2020 21:00:53 -0500
-IronPort-SDR: wqWFzC+ua0sg7QexOOFVnWbKWAR+kbnTelc1VzEt6QCU+qaNRNFe9tV4L7i7YM1qOsb8BrYt76
- VlU20Lh15W1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="170745350"
-X-IronPort-AV: E=Sophos;i="5.78,390,1599548400"; 
-   d="scan'208";a="170745350"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 17:57:58 -0800
-IronPort-SDR: zW4iQQqtMalF1xbouHLefHqqTSEVDJHOv7nrXaPT2Y6qfu0aaFKbfDqAZRtKIbWz30eeoCzWAY
- L1A60KguthZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,390,1599548400"; 
-   d="scan'208";a="331053757"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
-  by orsmga003.jf.intel.com with ESMTP; 03 Dec 2020 17:57:57 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     hdegoede@redhat.com, mgross@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH 3/3] platform/x86: ISST: Change PCI device macros
-Date:   Thu,  3 Dec 2020 17:57:46 -0800
-Message-Id: <20201204015746.1168941-3-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201204015746.1168941-1-srinivas.pandruvada@linux.intel.com>
-References: <20201204015746.1168941-1-srinivas.pandruvada@linux.intel.com>
+        Fri, 4 Dec 2020 06:43:53 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8AAC0613D1
+        for <platform-driver-x86@vger.kernel.org>; Fri,  4 Dec 2020 03:43:07 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id z7so5026593wrn.3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 04 Dec 2020 03:43:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Kq31o14w7QYcuCdmVxhoB3aLD5lZzKhl9gKNui8tRRY=;
+        b=hopdKT8kCNjH0lw0/glZo3friFBGBeXkFg0suOCiHeB6U8A875Ua5ytrC1TV/dlhP6
+         GI6yhBZnG9YU5c48lbVo7+mxIrcWcV+c9DABI0HY37awkWI1vRVPazM9kI2BqdxpIjy2
+         m1LjQeDjclDMjSE0g7j6iSyLzTBW6g2M7G1U7+ez4lL4QSLcIU9zWKJ2jzhsTRa/VI7v
+         403x/ZLQc3ub5tzaQRqRKe+38eoBRQ6dgP660I99+6QKAWVFCRC1318LRIdyscAcA8P9
+         9JUtb1Gi5rSBHuZvHHBOpUVMGd5WRGVN1pHw67bZWDiwBJMn41himkb/5Io/2VJd+L4y
+         rkDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Kq31o14w7QYcuCdmVxhoB3aLD5lZzKhl9gKNui8tRRY=;
+        b=ct7uKN+XVrPzZN7u9HziNz5T8UlvxV0q2EMliyanuC/vpg3zCK2pMzSQU+Hx+qgiwp
+         Ox/Wiw1oihuiNkpxnJI7TBZR0RKO7ajrCA+JVlyJRuoWSlQNHI5SZf7P7zeE/AyAM/wi
+         HBDhZnBHaC6cktlS+jHcfYwWqe1uRIeartvrdpbszuHmpZSFn3REAO6Hgg1q4UiRfvX6
+         u3kG1ikFusYD8tT6MsVdocJwCXz7t6dAKVVM/ecyxURB6qzuxo7xRKabTZqxqxPo9zhM
+         6C4cXZ3Pf4/e5cB0h75GPZqW2/lixoS2TNf7qghsMXSfztORU66rGov0iFWcEmt/G4CR
+         LNOg==
+X-Gm-Message-State: AOAM532niMaSHYQdEycqd20DVqb77vuVacBIEfXiu4b3mDjetFRfjLPs
+        AUnTSBpoF4N/cZ/o2Yvqh6kk/dIvrrrxOg==
+X-Google-Smtp-Source: ABdhPJzAhvpOaCzKrKd1L2S0vElgk+ms6BHNQ+jJvmh0/Naljzpo/NuGlqq/WJEhM+Wk4D/oXLwozA==
+X-Received: by 2002:adf:fc49:: with SMTP id e9mr4463647wrs.31.1607082186276;
+        Fri, 04 Dec 2020 03:43:06 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:9cff:9584:adb2:6288? ([2a01:e34:ed2f:f020:9cff:9584:adb2:6288])
+        by smtp.googlemail.com with ESMTPSA id b14sm3296895wrx.35.2020.12.04.03.43.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Dec 2020 03:43:05 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] platform/x86/drivers/acerhdf: Check the interval
+ value when it is set
+To:     =?UTF-8?Q?Peter_K=c3=a4stle?= <peter@piie.net>,
+        hdegoede@redhat.com, mgross@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201203071738.2363701-2-daniel.lezcano@linaro.org>
+ <20201203071738.2363701-1-daniel.lezcano@linaro.org>
+ <92e330ff28a10b1fb92d91c083fa3cac@piie.net>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <bf62927f-972b-b4c3-ff97-179af6d53882@linaro.org>
+Date:   Fri, 4 Dec 2020 12:43:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <92e330ff28a10b1fb92d91c083fa3cac@piie.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use PCI_VDEVICE and PCI_DEVICE_DATA macros. No functional changes are
-expected.
+On 03/12/2020 22:22, Peter Kästle wrote:
+> 3. Dezember 2020 08:17, "Daniel Lezcano" <daniel.lezcano@linaro.org> schrieb:
+> 
+>> Currently the code checks the interval value when the temperature is
+>> read which is bad for two reasons:
+>>
+>> - checking and setting the interval in the get_temp callback is
+>> inaccurate and awful, that can be done when changing the value.
+>>
+>> - Changing the thermal zone structure internals is an abuse of the
+>> exported structure, moreover no lock is taken here.
+>>
+>> The goal of this patch is to solve the first item by using the 'set'
+>> function called when changing the interval. The check is done there
+>> and removed from the get_temp function. If the thermal zone was not
+>> initialized yet, the interval is not updated in this case as that will
+>> happen in the init function when registering the thermal zone device.
+> 
+> Thanks for your effort.  This improves the code, good finding.
+> 
+>  
+>> I don't have any hardware to test the changes.
+> 
+> Tests successfully executed on my good old AOA110.
+> 
+> 
+>> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> 
+> Acked-by: Peter Kaestle <peter@piie.net>
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../platform/x86/intel_speed_select_if/isst_if_common.h   | 8 ++++----
- .../platform/x86/intel_speed_select_if/isst_if_mbox_pci.c | 4 ++--
- drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c | 6 ++----
- 3 files changed, 8 insertions(+), 10 deletions(-)
+Thanks for testing the changes.
 
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-index 4f6f7f0761fc..fdecdae248d7 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-@@ -10,11 +10,11 @@
- #ifndef __ISST_IF_COMMON_H
- #define __ISST_IF_COMMON_H
- 
--#define INTEL_RAPL_PRIO_DEVID_0	0x3451
--#define INTEL_CFG_MBOX_DEVID_0	0x3459
-+#define PCI_DEVICE_ID_INTEL_RAPL_PRIO_DEVID_0	0x3451
-+#define PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_0	0x3459
- 
--#define INTEL_RAPL_PRIO_DEVID_1 0x3251
--#define INTEL_CFG_MBOX_DEVID_1  0x3259
-+#define PCI_DEVICE_ID_INTEL_RAPL_PRIO_DEVID_1	0x3251
-+#define PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_1	0x3259
- 
- /*
-  * Validate maximum commands in a single request.
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-index 95f01e7a87d5..a2a2d923e60c 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-@@ -146,8 +146,8 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
- }
- 
- static const struct pci_device_id isst_if_mbox_ids[] = {
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_1)},
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_0)},
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-index c4bf8dea32ca..2906cfee5d9c 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-@@ -82,10 +82,8 @@ static long isst_if_mmio_rd_wr(u8 *cmd_ptr, int *write_only, int resume)
- }
- 
- static const struct pci_device_id isst_if_ids[] = {
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_0),
--		.driver_data = (kernel_ulong_t)&mmio_range_devid_0},
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_1),
--		.driver_data = (kernel_ulong_t)&mmio_range_devid_1},
-+	{ PCI_DEVICE_DATA(INTEL, RAPL_PRIO_DEVID_0, &mmio_range_devid_0)},
-+	{ PCI_DEVICE_DATA(INTEL, RAPL_PRIO_DEVID_1, &mmio_range_devid_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_ids);
+Shall pick the patches through the thermal tree ?
+
+
 -- 
-2.25.4
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
