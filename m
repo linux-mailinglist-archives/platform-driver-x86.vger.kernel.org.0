@@ -2,95 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BBE82D1861
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Dec 2020 19:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA212D197D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Dec 2020 20:32:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbgLGSTH (ORCPT
+        id S1725814AbgLGTaA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Dec 2020 13:19:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60347 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725816AbgLGSTH (ORCPT
+        Mon, 7 Dec 2020 14:30:00 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41797 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725774AbgLGTaA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Dec 2020 13:19:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607365060;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UOBmTGb65u1zbDQhSNHIQ5RWUBC279gK5SaIcPJyzDo=;
-        b=MWq9kTB8nlSl74kX8UIJkIULwhI/ykx4IomgpzcWb3Ywfl+IZ1r5tb8ojhTiLk8Gv8wYAG
-        7q18wgwbSVyYaQ7ZUeI9sFcvm2NtoZ8IUuI38U3Av4RYO1ejwTWhvNw3EZO5+JsVTwH1HV
-        aWtAJWmtMsfcNm6ehlLvUgbVcIJeWc4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-k_L8wrHBP9Ox-SH5NKVg_Q-1; Mon, 07 Dec 2020 13:17:39 -0500
-X-MC-Unique: k_L8wrHBP9Ox-SH5NKVg_Q-1
-Received: by mail-ed1-f69.google.com with SMTP id dc6so6114237edb.14
-        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Dec 2020 10:17:38 -0800 (PST)
+        Mon, 7 Dec 2020 14:30:00 -0500
+Received: by mail-oi1-f196.google.com with SMTP id 15so5488066oix.8;
+        Mon, 07 Dec 2020 11:29:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UOBmTGb65u1zbDQhSNHIQ5RWUBC279gK5SaIcPJyzDo=;
-        b=uUwXYtp/dFzODMrUqog0w+eKXMxInM94q01yiR07ItxluzhgqqUQfPK6AfZ1v0C6ma
-         rIwlNi1Ru/6Us73S8LS4UzO/9xuf8IytR0LECJNUqLza0/p1CUxVdVvOI777wtKxmsf2
-         KNSpeTcbFWHJqdgfvFcI1j1fD/fDHoRCcmxp3vfXT+aH5P7z9zDfuSFvIyQ1EJoQkdsK
-         x23umdqRjc0wkJEElZ9XkYtl281HjNJvAYSUgQBIoJwYoYXzawUL7ySTK5hRD6JfAaeO
-         JPU8Z1iDkZKQ86KmT16aMQ/2fIbHcG/zMMX2ScmYEAdXQxBQgQFdAnj+nSekUhuX7fkv
-         43IQ==
-X-Gm-Message-State: AOAM5329R8IfuR0Mk06i1n4sH20tUonxR6RS6mAG85ApNdsxBOG4pb9d
-        346jxJwPTTvqVVPQ5gkjJauCW2zFLbKu6H5eTglSIzJznwHbBXd0JNAY4CdTNfS/9l8piMAwPfv
-        qDLyreOriUoMWeaQBZP6mcRw81NDPDlchHQ==
-X-Received: by 2002:a17:906:60d4:: with SMTP id f20mr20589572ejk.156.1607365057897;
-        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZ2UVolp/mUMVoCZonZ/BlCiEw3d8F4JXSVAzGqtdkFNKFHLH4lljaPQwj3ehl2bSuTH0s/A==
-X-Received: by 2002:a17:906:60d4:: with SMTP id f20mr20589563ejk.156.1607365057749;
-        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id o13sm3915461edr.94.2020.12.07.10.17.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
-Subject: Re: [PATCH v2 0/3] Intel Speed Select interface changes for 5.11
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        mgross@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201207181531.1718148-1-srinivas.pandruvada@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <2f663d89-184b-f52e-6156-f485205f27f5@redhat.com>
-Date:   Mon, 7 Dec 2020 19:17:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7zKVYyE2btS5Zmt/3JSRrYr9q8pHZIlvwA2xtZ/GJ7o=;
+        b=ZCmkWmWurt16WBFVjdOG73fhlZC4rAm5kquMUXYodIYJ66GIjpBBEjK9eA/Crs0SX/
+         AfPpjt9OxqKkoFCuAgzo1BOnn1nbL2j8mt1pkr4jpXWbCFmh3xOnDdfPcwHdgWy/ec1i
+         2tDWN0YSF4uCB9k6fC/iXz/i1ZzuCUIGJ5IBu6Lhw6uPWUyUuMXk8ewwiCr0t5i3BhJ1
+         nW5nryiF4pasbvmXuinTf6gIY4lpMP8fHJf7LDQY5zqZpbEn4EtIyNIJyDEru1vALy73
+         t3GXAcCDKzIbLWljOAmWEWU53bAvsTJgLKp7wdHM8WVwLDEww1qtLdjqf5vAQfl/G/f9
+         gFjg==
+X-Gm-Message-State: AOAM530xwREFFt00+1Thyo8ipL5GiYICbZYqC/afpX5Yqd+Q6Pkdmmjf
+        wauh34fPiaPLKwQHANG9EsvCphPfdEKUwKnAMqA=
+X-Google-Smtp-Source: ABdhPJxZzsT8tSxR91QcuQmS+PlJfB/5CunQOGdydGFfrIuLTUKa0BO4zDIgOzmexb1XqHRtW0IO+KfN6dOed/+D1dY=
+X-Received: by 2002:aca:5a42:: with SMTP id o63mr261202oib.69.1607369359070;
+ Mon, 07 Dec 2020 11:29:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201207181531.1718148-1-srinivas.pandruvada@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <markpearson@lenovo.com> <20201202171120.65269-1-markpearson@lenovo.com>
+ <74b6ef2c-ac13-bffe-edda-478512950d22@redhat.com>
+In-Reply-To: <74b6ef2c-ac13-bffe-edda-478512950d22@redhat.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 7 Dec 2020 20:29:08 +0100
+Message-ID: <CAJZ5v0iWD5Ej-1oCfMAskvQoovMRVc5TkpST1t9brsJirx+5zQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] Documentation: Add documentation for new
+ platform_profile sysfs attribute
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Pearson <markpearson@lenovo.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <mgross@linux.intel.com>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Elia Devito <eliadevito@gmail.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        Darren Hart <dvhart@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+On Thu, Dec 3, 2020 at 10:46 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 12/2/20 6:11 PM, Mark Pearson wrote:
+> > On modern systems the platform performance, temperature, fan and other
+> > hardware related characteristics are often dynamically configurable. The
+> > profile is often automatically adjusted to the load by some
+> > automatic-mechanism (which may very well live outside the kernel).
+> >
+> > These auto platform-adjustment mechanisms often can be configured with
+> > one of several 'platform-profiles', with either a bias towards low-power
+> > consumption or towards performance (and higher power consumption and
+> > thermals).
+> >
+> > Introduce a new platform_profile sysfs API which offers a generic API for
+> > selecting the performance-profile of these automatic-mechanisms.
+> >
+> > Co-developed-by: Mark Pearson <markpearson@lenovo.com>
+> > Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>
+> Thank you, patches 1 and 2 look good to me now, you may add my:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
+> To patch 2 (since I'm co-author of patch 1 it would be a bit weird
+> to add it there too).
+>
+> Rafael, it would be great if you pick up patches 1 and 2 for merging
+> into 5.11 (assuming that you agree that they are ready) then I will merge
+> patch 3 once 5.11-rc1 is out.
 
-On 12/7/20 7:15 PM, Srinivas Pandruvada wrote:
-> v2
-> Fix sparse warnings reported by LKP.
-> 
-> Srinivas Pandruvada (3):
->   platform/x86: ISST: Check for unaligned mmio address
->   platform/x86: ISST: Allow configurable offset range
->   platform/x86: ISST: Change PCI device macros
+I've applied patch [1/2] (as 5.11-rc material) for now, but I still
+needed to fix it up somewhat.  Please check the result in my
+bleeding-edge branch.
 
-I've already added these to the for-next branch of:
+I'll get to the other patch tomorrow.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/
-
-Please send the changes in this v2 as (a) follow-up
-patch(es).
-
-Regards,
-
-Hans
-
+Thanks!
