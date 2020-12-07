@@ -2,109 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6E12D1868
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Dec 2020 19:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BBE82D1861
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Dec 2020 19:20:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbgLGSUH (ORCPT
+        id S1726231AbgLGSTH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Dec 2020 13:20:07 -0500
-Received: from mga09.intel.com ([134.134.136.24]:55724 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726063AbgLGSUH (ORCPT
+        Mon, 7 Dec 2020 13:19:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60347 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725816AbgLGSTH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Dec 2020 13:20:07 -0500
-IronPort-SDR: lo6XuVK1zllT1PnO3OONmNo0Sw5/tcwieWa0tVwyKzHbJ4S1uIfKIOxATrfkY025MiHKfWYIZk
- R58hPt/crxvg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="173896498"
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
-   d="scan'208";a="173896498"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2020 10:15:39 -0800
-IronPort-SDR: x5x4cUParmVdquYlNS0w4VNIzH4LHbVH9uGn8v9nPmS1slwFKZt/xx7cShIYp4ZjOyknSTBlNj
- 3v2a8mIyU3Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
-   d="scan'208";a="539892869"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2020 10:15:39 -0800
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     hdegoede@redhat.com, mgross@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v2 3/3] platform/x86: ISST: Change PCI device macros
-Date:   Mon,  7 Dec 2020 10:15:31 -0800
-Message-Id: <20201207181531.1718148-4-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201207181531.1718148-1-srinivas.pandruvada@linux.intel.com>
+        Mon, 7 Dec 2020 13:19:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607365060;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UOBmTGb65u1zbDQhSNHIQ5RWUBC279gK5SaIcPJyzDo=;
+        b=MWq9kTB8nlSl74kX8UIJkIULwhI/ykx4IomgpzcWb3Ywfl+IZ1r5tb8ojhTiLk8Gv8wYAG
+        7q18wgwbSVyYaQ7ZUeI9sFcvm2NtoZ8IUuI38U3Av4RYO1ejwTWhvNw3EZO5+JsVTwH1HV
+        aWtAJWmtMsfcNm6ehlLvUgbVcIJeWc4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-k_L8wrHBP9Ox-SH5NKVg_Q-1; Mon, 07 Dec 2020 13:17:39 -0500
+X-MC-Unique: k_L8wrHBP9Ox-SH5NKVg_Q-1
+Received: by mail-ed1-f69.google.com with SMTP id dc6so6114237edb.14
+        for <platform-driver-x86@vger.kernel.org>; Mon, 07 Dec 2020 10:17:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UOBmTGb65u1zbDQhSNHIQ5RWUBC279gK5SaIcPJyzDo=;
+        b=uUwXYtp/dFzODMrUqog0w+eKXMxInM94q01yiR07ItxluzhgqqUQfPK6AfZ1v0C6ma
+         rIwlNi1Ru/6Us73S8LS4UzO/9xuf8IytR0LECJNUqLza0/p1CUxVdVvOI777wtKxmsf2
+         KNSpeTcbFWHJqdgfvFcI1j1fD/fDHoRCcmxp3vfXT+aH5P7z9zDfuSFvIyQ1EJoQkdsK
+         x23umdqRjc0wkJEElZ9XkYtl281HjNJvAYSUgQBIoJwYoYXzawUL7ySTK5hRD6JfAaeO
+         JPU8Z1iDkZKQ86KmT16aMQ/2fIbHcG/zMMX2ScmYEAdXQxBQgQFdAnj+nSekUhuX7fkv
+         43IQ==
+X-Gm-Message-State: AOAM5329R8IfuR0Mk06i1n4sH20tUonxR6RS6mAG85ApNdsxBOG4pb9d
+        346jxJwPTTvqVVPQ5gkjJauCW2zFLbKu6H5eTglSIzJznwHbBXd0JNAY4CdTNfS/9l8piMAwPfv
+        qDLyreOriUoMWeaQBZP6mcRw81NDPDlchHQ==
+X-Received: by 2002:a17:906:60d4:: with SMTP id f20mr20589572ejk.156.1607365057897;
+        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzZ2UVolp/mUMVoCZonZ/BlCiEw3d8F4JXSVAzGqtdkFNKFHLH4lljaPQwj3ehl2bSuTH0s/A==
+X-Received: by 2002:a17:906:60d4:: with SMTP id f20mr20589563ejk.156.1607365057749;
+        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id o13sm3915461edr.94.2020.12.07.10.17.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Dec 2020 10:17:37 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] Intel Speed Select interface changes for 5.11
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        mgross@linux.intel.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20201207181531.1718148-1-srinivas.pandruvada@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <2f663d89-184b-f52e-6156-f485205f27f5@redhat.com>
+Date:   Mon, 7 Dec 2020 19:17:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201207181531.1718148-1-srinivas.pandruvada@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Use PCI_VDEVICE and PCI_DEVICE_DATA macros. No functional changes are
-expected.
+Hi,
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../platform/x86/intel_speed_select_if/isst_if_common.h   | 8 ++++----
- .../platform/x86/intel_speed_select_if/isst_if_mbox_pci.c | 4 ++--
- drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c | 6 ++----
- 3 files changed, 8 insertions(+), 10 deletions(-)
+On 12/7/20 7:15 PM, Srinivas Pandruvada wrote:
+> v2
+> Fix sparse warnings reported by LKP.
+> 
+> Srinivas Pandruvada (3):
+>   platform/x86: ISST: Check for unaligned mmio address
+>   platform/x86: ISST: Allow configurable offset range
+>   platform/x86: ISST: Change PCI device macros
 
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-index 4f6f7f0761fc..fdecdae248d7 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.h
-@@ -10,11 +10,11 @@
- #ifndef __ISST_IF_COMMON_H
- #define __ISST_IF_COMMON_H
- 
--#define INTEL_RAPL_PRIO_DEVID_0	0x3451
--#define INTEL_CFG_MBOX_DEVID_0	0x3459
-+#define PCI_DEVICE_ID_INTEL_RAPL_PRIO_DEVID_0	0x3451
-+#define PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_0	0x3459
- 
--#define INTEL_RAPL_PRIO_DEVID_1 0x3251
--#define INTEL_CFG_MBOX_DEVID_1  0x3259
-+#define PCI_DEVICE_ID_INTEL_RAPL_PRIO_DEVID_1	0x3251
-+#define PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_1	0x3259
- 
- /*
-  * Validate maximum commands in a single request.
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-index 95f01e7a87d5..a2a2d923e60c 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mbox_pci.c
-@@ -146,8 +146,8 @@ static long isst_if_mbox_proc_cmd(u8 *cmd_ptr, int *write_only, int resume)
- }
- 
- static const struct pci_device_id isst_if_mbox_ids[] = {
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_0)},
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_CFG_MBOX_DEVID_1)},
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_0)},
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CFG_MBOX_DEVID_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_mbox_ids);
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-index 4c9020249989..ff49025ec085 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_mmio.c
-@@ -82,10 +82,8 @@ static long isst_if_mmio_rd_wr(u8 *cmd_ptr, int *write_only, int resume)
- }
- 
- static const struct pci_device_id isst_if_ids[] = {
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_0),
--		.driver_data = (kernel_ulong_t)&mmio_range_devid_0},
--	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, INTEL_RAPL_PRIO_DEVID_1),
--		.driver_data = (kernel_ulong_t)&mmio_range_devid_1},
-+	{ PCI_DEVICE_DATA(INTEL, RAPL_PRIO_DEVID_0, &mmio_range_devid_0)},
-+	{ PCI_DEVICE_DATA(INTEL, RAPL_PRIO_DEVID_1, &mmio_range_devid_1)},
- 	{ 0 },
- };
- MODULE_DEVICE_TABLE(pci, isst_if_ids);
--- 
-2.25.4
+I've already added these to the for-next branch of:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/
+
+Please send the changes in this v2 as (a) follow-up
+patch(es).
+
+Regards,
+
+Hans
 
