@@ -2,26 +2,26 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DEBA2DC6B2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Dec 2020 19:43:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 86FAD2DC6B0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 16 Dec 2020 19:43:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731692AbgLPSmz (ORCPT
+        id S1731688AbgLPSmy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 16 Dec 2020 13:42:55 -0500
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:30452 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728063AbgLPSmy (ORCPT
-        <rfc822;platform-driver-x86@vger.kernel.org>);
         Wed, 16 Dec 2020 13:42:54 -0500
-X-Greylist: delayed 61286 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Dec 2020 13:42:53 EST
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:24438 "EHLO
+        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731682AbgLPSmx (ORCPT
+        <rfc822;platform-driver-x86@vger.kernel.org>);
+        Wed, 16 Dec 2020 13:42:53 -0500
+X-Greylist: delayed 61365 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Dec 2020 13:42:52 EST
 Date:   Wed, 16 Dec 2020 18:42:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1608144131;
+        s=protonmail; t=1608144130;
         bh=bjEMbxsRKDZFGIURv7LQRdyvGAt7PpANZNbe0eQmDQA=;
         h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=t1E0yFZwA9d9oDFfC0hI9qvG3M/uXHyJNHOg/WFu3mhpjyjpDayxW3bvQOQWTY2jm
-         uGdGggeLDjfI0kXAGV9X2V/RaXS8kMv5/HW/92WReM4Y1jtHayx2W2puxU8DGf89Yg
-         hH8vuyXo57HCyWDa0Da83eiDEhL7SxY0j5jOznEs=
+        b=u0haiwnJEw8aw3xeUOLMGbJ1/HyW0qZedRP4jBTK0J/cXVcWlZtq3iYCMlma7FwX+
+         lsM2WLgRv9aKB6a39ALMKRq89YODbK19zzSFEWlfJhP8k5athU9KFVcKHTFlVlFe6f
+         eYehkf4MGe9yLtYgFquoJYMTG9Y87XaBLR3zpCHw=
 To:     "Rafael J. Wysocki" <rafael@kernel.org>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Cc:     Mark Pearson <markpearson@lenovo.com>,
