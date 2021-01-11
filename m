@@ -2,129 +2,564 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F32702F1A0B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Jan 2021 16:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D202F1A78
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Jan 2021 17:09:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730209AbhAKPtr (ORCPT
+        id S1727917AbhAKQIT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Jan 2021 10:49:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387555AbhAKPtq (ORCPT
+        Mon, 11 Jan 2021 11:08:19 -0500
+Received: from mail2.protonmail.ch ([185.70.40.22]:29033 "EHLO
+        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730400AbhAKQIS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Jan 2021 10:49:46 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0FEC06179F;
-        Mon, 11 Jan 2021 07:49:05 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id 6so270664ejz.5;
-        Mon, 11 Jan 2021 07:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9fhDyXIzLb3tp3sYrxiiTJVfbmMx3udMPekHrzkNr6g=;
-        b=a162Hx+PQVhapVcwLdSPh3bhweg0hZJDd61KrKsuW3AK/SsxCdymuLkIZWHR/4cNCk
-         GSQUixWKFVr6YAHCmKukEilBmAW73/CPzYddux6/KHtluoS3LtjYmkPnJqYBJrlvYXv7
-         /iBsJQ98rcAveDgqtGf26SgmV8WPKhirG/+fT2rKU+BSrxk14ixDcrRCQi3zH+LwBokC
-         Ad5mwNooq9OOoovstqlnuqm29ZN8G2UItIfy5U/VQva4QoJ47uZj26SSLY5jRgdhEYEh
-         dVwSkfDI0LPc8u2D2Iu/uzJbMCITQWxgCSLblw1xHqgd4SMXb5J/OdvYvwC6YgxL4CqN
-         PijA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9fhDyXIzLb3tp3sYrxiiTJVfbmMx3udMPekHrzkNr6g=;
-        b=ET5o0nHIPyrxL5ZcN8WVFwN8p12a1ZvHbsKt6kXL36qq5q0cTqPHhUz7B2yRgcStCE
-         4MN/WWWIRx9cuQ2m6iKba1nIufAXEOMv/Yd8RAS/TZLqHIXJbN2cFoCNjLfa3NTUPOSv
-         62Z4g5KZnMI+bXAewjhmdG9u2piFvJMMXqYrvYTIcZI7X0KZQ/QLXsi+d7KWoWJu+eKI
-         vdrifWDj7+FcWSFkmPkdQKn3V5IpBhkfvrwGVj3TmN6fkoEw1MZVX5y4XsEgdy/YJEoi
-         UvLnciMxfQV1LFmN3bwoxnNKBOSd8lPwL+AT6NmP2wT+0Ut/oCgJ57h80joknUjfNhuw
-         xGoQ==
-X-Gm-Message-State: AOAM532E2E2j31aQl4v8mOF8YFjHN6b95hf8wTaAuwt7OLN74aCNb2AP
-        gkMNvPeDeZG4VKENPkrwtWsij59CqB4=
-X-Google-Smtp-Source: ABdhPJw4DvSlOPkT2eJXUb7cebD4P9IWkasY9s9kw/lepsP5u0g+61CH3wm/CTikdyEOi2M4FgUEdA==
-X-Received: by 2002:a17:906:e15:: with SMTP id l21mr41054eji.509.1610380143928;
-        Mon, 11 Jan 2021 07:49:03 -0800 (PST)
-Received: from xws.localdomain (pd9ea3126.dip0.t-ipconnect.de. [217.234.49.38])
-        by smtp.gmail.com with ESMTPSA id d22sm7182671eja.72.2021.01.11.07.49.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 07:49:03 -0800 (PST)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH -next 2/2] platform/surface: aggregator_cdev: Add comments regarding unchecked allocation size
-Date:   Mon, 11 Jan 2021 16:48:51 +0100
-Message-Id: <20210111154851.325404-3-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210111154851.325404-1-luzmaximilian@gmail.com>
-References: <20210111154851.325404-1-luzmaximilian@gmail.com>
+        Mon, 11 Jan 2021 11:08:18 -0500
+Date:   Mon, 11 Jan 2021 16:07:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1610381254;
+        bh=ohagdRq1Sd2Cy0v1l5l2Jw2QpLsPD4HQNSkH2PKy5fQ=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=S7WBQJNY+9r0xZjDUby5bCC4x9NDEI1d0EaDPlk+Z9mxUTdvqhjIjIhdJ0PKggmhm
+         kLq4DGIvwjQTeH9x9u/NdrWlZYvpCgfqOLmSQmA739uq7R3On4GlmoeBGjPgkpm8ED
+         vr2CSnBTGUslp1wocFiAdyE2f5M6zlf31ay5O+ag=
+To:     Perry Yuan <perry979106@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Perry Yuan <Perry.Yuan@dell.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Limonciello Mario <Mario.Limonciello@dell.com>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v2 1/2] platform/x86: dell-privacy: Add support for Dell hardware privacy
+Message-ID: <EL8a5P1IHqrP-OKgLuz_WhokTdCV5J5wjSDLxpDFgFcvbeK-CuBwZeTTtVXQe-uermqgam418I468i9gNnNykmSuPrCC2M1biKyK44wVfkA=@protonmail.com>
+In-Reply-To: <7def1cdc-e275-9ae6-4941-55517359bb1e@gmail.com>
+References: <20201228132855.17544-1-Perry_Yuan@Dell.com> <mXtNUreCVsPKizG-fnNKPId9_lQGit0S6pYEpk-aNT1hGQjVwblZDiO4E-YX3hxnrbbNN1-6hSntiv13wz66RxbhXjPJhpAVOIlZmmwUI7w=@protonmail.com> <7def1cdc-e275-9ae6-4941-55517359bb1e@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-CI static analysis complains about the allocation size in payload and
-response buffers being unchecked. In general, these allocations should
-be safe as the user-input is u16 and thus limited to U16_MAX, which is
-only slightly larger than the theoretical maximum imposed by the
-underlying SSH protocol.
+Hi
 
-All bounds on these values required by the underlying protocol are
-enforced in ssam_request_sync() (or rather the functions called by it),
-thus bounds here are only relevant for allocation.
 
-Add comments explaining that this should be safe.
+2021. janu=C3=A1r 11., h=C3=A9tf=C5=91 14:42 keltez=C3=A9ssel, Perry Yuan =
+=C3=ADrta:
 
-Reported-by: Colin Ian King <colin.king@canonical.com>
-Fixes: 178f6ab77e61 ("platform/surface: Add Surface Aggregator user-space interface")
-Addresses-Coverity: ("Untrusted allocation size")
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- .../surface/surface_aggregator_cdev.c         | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+> [...]
+> > > +#define PRIVACY_PLATFORM_NAME=09"dell-privacy-acpi"
+> > > +#define DELL_PRIVACY_GUID=09"6932965F-1671-4CEB-B988-D3AB0A901919"
+> > > +
+> > > +struct privacy_acpi_priv {
+> > > +=09struct device *dev;
+> > > +=09struct platform_device *platform_device;
+> > > +=09struct led_classdev cdev;
+> > > +};
+> > > +static struct privacy_acpi_priv *privacy_acpi;
+> >
+> > Any reason it needs to be dynamically allocated?
+>
+> I need to set one static struct to let some function to get the priv poin=
+ter.
+>
+> It is more simple if i add some function and get the priv easily.
+>
+> If you have better suggestion, i would be glad to optimize it.
+>
+> for example.
+>
+> static int dell_privacy_micmute_led_set(struct led_classdev *led_cdev,
+>                 enum led_brightness brightness)
+> {
+>         struct privacy_acpi_priv *priv =3D privacy_acpi;
+>
+>         ..........................
+>
+> }
+>
 
-diff --git a/drivers/platform/surface/surface_aggregator_cdev.c b/drivers/platform/surface/surface_aggregator_cdev.c
-index 979340cdd9de..ccfffe5eadfc 100644
---- a/drivers/platform/surface/surface_aggregator_cdev.c
-+++ b/drivers/platform/surface/surface_aggregator_cdev.c
-@@ -106,6 +106,15 @@ static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
- 			goto out;
- 		}
- 
-+		/*
-+		 * Note: spec.length is limited to U16_MAX bytes via struct
-+		 * ssam_cdev_request. This is slightly larger than the
-+		 * theoretical maximum (SSH_COMMAND_MAX_PAYLOAD_SIZE) of the
-+		 * underlying protocol (note that nothing remotely this size
-+		 * should ever be allocated in any normal case). This size is
-+		 * validated later in ssam_request_sync(), for allocation the
-+		 * bound imposed by u16 should be enough.
-+		 */
- 		spec.payload = kzalloc(spec.length, GFP_KERNEL);
- 		if (!spec.payload) {
- 			ret = -ENOMEM;
-@@ -125,6 +134,16 @@ static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
- 			goto out;
- 		}
- 
-+		/*
-+		 * Note: rsp.capacity is limited to U16_MAX bytes via struct
-+		 * ssam_cdev_request. This is slightly larger than the
-+		 * theoretical maximum (SSH_COMMAND_MAX_PAYLOAD_SIZE) of the
-+		 * underlying protocol (note that nothing remotely this size
-+		 * should ever be allocated in any normal case). In later use,
-+		 * this capacity does not have to be strictly bounded, as it
-+		 * is only used as an output buffer to be written to. For
-+		 * allocation the bound imposed by u16 should be enough.
-+		 */
- 		rsp.pointer = kzalloc(rsp.capacity, GFP_KERNEL);
- 		if (!rsp.pointer) {
- 			ret = -ENOMEM;
--- 
-2.30.0
+My comment was referring to the fact that you could've used
+```
+static struct privacy_acpi_priv privacy_acpi;
+```
+to achieve the same result without the dynamic memory allocation.
 
+
+>
+> >
+> >
+> > > +
+> > > +static int dell_privacy_micmute_led_set(struct led_classdev *led_cde=
+v,
+> > > +=09=09enum led_brightness brightness)
+> > > +{
+> > > +=09struct privacy_acpi_priv *priv =3D privacy_acpi;
+> > > +=09acpi_status status;
+> > > +=09acpi_handle handle;
+> > > +=09char *acpi_method;
+> > > +
+> > > +=09handle =3D ec_get_handle();
+> > > +=09if (!handle)
+> > > +=09=09return -EIO;
+> > > +=09if (acpi_has_method(handle, "ECAK"))
+> > > +=09=09acpi_method =3D "ECAK";
+> > > +=09else
+> > > +=09=09return -ENODEV;
+> >
+> > I find this if-else a bit cumbersome. Any reason why
+> >
+> > if (!acpi_has_method(handle, "ECAK"))
+> >   return ...;
+> >
+> > would not work? I believe you could also easily do away with the `acpi_=
+method`
+> > variable.
+>
+> Just want to make sure the BIOS has the correct  method to call.
+>
+> normally it will not be failed, just keep it safe to call BIOS, not to ca=
+use any panic.
+>
+> I changed it as below .
+>
+>         handle =3D ec_get_handle();
+>         if (!handle)
+>                 return -EIO;
+>         acpi_method =3D "ECAK";
+>
+
+You could keep the method name in a static variable:
+```
+static char *acpi_method =3D (char *)"ECAK"; // this is inside the function
+
+handle =3D ...;
+if (!handle)
+  return ...
+
+if (!acpi_has_method(handle, acpi_method))
+  return ...
+
+... acpi_evaluate_object(handle, acpi_method, ...
+```
+
+Another thing is that I believe you could do these checks only once,
+before registering the LED device.
+
+
+>
+> >
+> >
+> > > +
+> > > +=09status =3D acpi_evaluate_object(handle, acpi_method, NULL, NULL);
+> > > +=09if (ACPI_FAILURE(status)) {
+> > > +=09=09dev_err(priv->dev, "Error setting privacy EC ack value: %s\n",
+> > > +=09=09=09=09acpi_format_exception(status));
+> > > +=09=09return -EIO;
+> > > +=09}
+> > > +=09return 0;
+> > > +}
+> > > +
+> [...]
+> > > +static const struct acpi_device_id privacy_acpi_device_ids[] =3D {
+> > > +=09{"PNP0C09", 0},
+> > > +=09{ },
+> > > +};
+> > > +MODULE_DEVICE_TABLE(acpi, privacy_acpi_device_ids);
+> > > +
+> > > +static struct platform_driver dell_privacy_platform_drv =3D {
+> > > +=09.driver =3D {
+> > > +=09=09.name =3D PRIVACY_PLATFORM_NAME,
+> > > +=09=09.acpi_match_table =3D ACPI_PTR(privacy_acpi_device_ids),
+> > > +=09},
+> > > +=09.remove =3D dell_privacy_acpi_remove,
+> > > +};
+> >
+> > I think using a platform driver here just complicates things for no rea=
+son.
+> > Furthermore, I'm not sure if there's actually any need for the ACPI mat=
+ch table.
+>
+> there will be some more privacy devices need to add some acpi interface f=
+unction here.
+>
+> including  elctronic privacy screen and privacy camera.
+>
+> the platform driver can provide more flexible framework to extend.
+>
+
+I see. I'm wondering if the ACPI match table is needed at the moment. If I'=
+m not
+mistaken the platform driver already binds the platform device the module c=
+reates.
+And there is no real need to bind to the ACPI EC devices.
+
+
+> [...]
+> > > diff --git a/drivers/platform/x86/dell-privacy-wmi.c b/drivers/platfo=
+rm/x86/dell-privacy-wmi.c
+> > > new file mode 100644
+> > > index 000000000000..80637c7f617c
+> > > --- /dev/null
+> > > +++ b/drivers/platform/x86/dell-privacy-wmi.c
+> [...]
+> > > +int dell_privacy_valid(void)
+> > > +{
+> > > +=09int ret;
+> > > +
+> > > +=09ret =3D wmi_has_guid(DELL_PRIVACY_GUID);
+> > > +=09if (!ret)
+> > > +=09=09return -ENODEV;
+> > > +=09ret =3D privacy_valid;
+> > > +=09return ret;
+> >
+> > I find this function really confusing, and too verbose for what it does=
+.
+> >
+>
+> 1. when the DELL_PRIVACY_GUID not found, it will return  ENODEV showing n=
+o privacy devices.
+>
+> 2. when DELL_PRIVACY_GUID found,and wmi privacy driver is registered, it =
+will return "0"
+>
+> 3.when DELL_PRIVACY_GUID found,and wmi privacy driver is NOT registered y=
+et, it will return "EPROBE_DEFE"
+>
+>   the  EPROBE_DEFER is defined in "include/linux/errno.h"
+>
+> #define EPROBE_DEFER    517     /* Driver requests probe retry */
+>
+> when caller get this returned , it will defer the caller  1s ~ 7s to prob=
+e again.
+>
+> This will make sure dell-laptop can get the correct privacy status to reg=
+ister its micmute led trigger driver or not.
+>
+> ----dell-laptoo.c-------------------
+>
+> #if IS_ENABLED(CONFIG_DELL_PRIVACY)
+>                 ret =3D dell_privacy_valid();
+>                 if (!ret)
+>                         privacy_valid =3D true;
+> #endif
+>                 if (!privacy_valid) {
+>                         micmute_led_cdev.brightness =3D ledtrig_audio_get=
+(LED_AUDIO_MICMUTE);
+>                         ret =3D led_classdev_register(&platform_device->d=
+ev, &micmute_led_cdev);
+>                         if (ret < 0)
+>                                 goto fail_led;
+>                 }
+>         }
+>
+
+My problem is that those three states are never used.
+The only thing that's ever checked is if the return value of dell_privacy_v=
+alid()
+is zero or not. No part of the code distinguishes between -ENODEV and -EPRO=
+BE_DEFER.
+(As far as I see, I may be missing something.)
+
+My initial point was that - if I'm not missing anything significant - the w=
+hole
+function could just be:
+```
+int dell_privacy_valid(void)
+{
+  return privacy_valid;
+}
+```
+given that you manipulate the value of `privacy_valid` appropriately. And a=
+ssuming
+the current form is needed, this would be enough:
+```
+int dell_privacy_valid(void)
+{
+  if (!wmi_has_guid(...))
+    return -ENODEV;
+
+  return privacy_valid;
+}
+```
+
+But I'd personally prefer the first one.
+
+
+>
+> >
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(dell_privacy_valid);
+> > > +
+> > > +void dell_privacy_process_event(int type, int code, int status)
+> > > +{
+> > > +=09struct privacy_wmi_data *priv;
+> > > +=09const struct key_entry *key;
+> > > +
+> > > +=09mutex_lock(&list_mutex);
+> > > +=09priv =3D list_first_entry_or_null(&wmi_list,
+> > > +=09=09=09struct privacy_wmi_data,
+> > > +=09=09=09list);
+> >
+> > Can you please explain why this list is needed if only the first entry =
+will
+> > ever be used?
+>
+>         mutex_lock(&list_mutex);
+>         list_add_tail(&priv->list, &wmi_list);
+>         mutex_unlock(&list_mutex);
+>
+> only one priv struct is added to the list with list mutex protecting.
+>
+> So it will not have two more entry data added to the list .
+>
+
+I'm not sure I fully get it.
+
+
+>
+> >
+> >
+> > > +=09if (!priv) {
+> > > +=09=09pr_err("dell privacy priv is NULL\n");
+> > > +=09=09goto error;
+> > > +=09}
+> > > +=09key =3D sparse_keymap_entry_from_scancode(priv->input_dev, (type =
+<< 16)|code);
+> > > +=09if (!key) {
+> > > +=09=09dev_dbg(&priv->wdev->dev, "Unknown key with type 0x%04x and co=
+de 0x%04x pressed\n",
+> > > +=09=09=09=09type, code);
+> > > +=09=09goto error;
+> > > +=09}
+> > > +=09switch (code) {
+> > > +=09case DELL_PRIVACY_TYPE_AUDIO: /* Mic mute */
+> > > +=09=09priv->last_status =3D status;
+> > > +=09=09sparse_keymap_report_entry(priv->input_dev, key, 1, true);
+> > > +=09=09break;
+> > > +=09case DELL_PRIVACY_TYPE_CAMERA: /* Camera mute */
+> > > +=09=09priv->last_status =3D status;
+> > > +=09=09sparse_keymap_report_entry(priv->input_dev, key, 1, true);
+> > > +=09=09break;
+> > > +=09default:
+> > > +=09=09=09dev_dbg(&priv->wdev->dev, "unknown event type 0x%04x 0x%04x=
+",
+> > > +=09=09=09=09=09type, code);
+> > > +=09}
+> >
+> > Is this switch needed at all?
+>
+> It is needed here, camra mute and privacy screen will add more codes here=
+.
+>
+> It want to keep the switch for further extention.
+>
+
+My point here is that the two cases of the switch do the exact same thing. =
+The
+whole switch could be replaced with:
+```
+sparse_keymap_report_entry(priv->input_dev, key, 1, true);
+```
+
+I would go as far as use this:
+```
+if (!sparse_keymap_report_event(priv->input_dev, (type << 16) | code, 1, tr=
+ue))
+  dev_dbg(&priv->wdev->dev, "unknown event type=3D0x%04x code=3D0x%04x\n", =
+type, code)
+```
+
+This would elliminate the need for the `key` variable, the call to
+`sparse_keymap_entry_from_scancode()`, and the whole switch.
+
+
+> [...]
+> > There is actually no need for the `pos` variable.
+>
+> It is used in this keymap codes.
+>
+>        for (i =3D 0; i < ARRAY_SIZE(dell_wmi_keymap_type_0012); i++) {
+>                 keymap[pos] =3D dell_wmi_keymap_type_0012[i];
+>                 keymap[pos].code |=3D (0x0012 << 16);
+>                 pos++;
+>         }
+>
+
+You can use `i` as the index, so no need for `pos`.
+
+
+>
+> >
+> >
+> > > +
+> > > +=09priv =3D devm_kzalloc(&wdev->dev, sizeof(struct privacy_wmi_data)=
+,
+> >
+> > Please use `sizeof(*priv)`.
+>
+> fixed.
+>
+>
+> >
+> >
+> > > +=09=09=09GFP_KERNEL);
+> > > +=09if (!priv)
+> > > +=09=09return -ENOMEM;
+> > > +
+> > > +=09dev_set_drvdata(&wdev->dev, priv);
+> > > +=09priv->wdev =3D wdev;
+> > > +=09/* create evdev passing interface */
+> > > +=09priv->input_dev =3D devm_input_allocate_device(&wdev->dev);
+> > > +=09if (!priv->input_dev)
+> > > +=09=09return -ENOMEM;
+> > > +=09/* remap the wmi keymap event to new keymap */
+> > > +=09keymap =3D kcalloc(ARRAY_SIZE(dell_wmi_keymap_type_0012) +
+> > > +=09=09=091,
+> >
+> > I don't think that `+ 1` is not needed since the KE_END entry is alread=
+y in the array.
+> >
+> >
+> > > +=09=09=09sizeof(struct key_entry), GFP_KERNEL);
+> > > +=09if (!keymap) {
+> > > +=09=09ret =3D -ENOMEM;
+> > > +=09=09goto err_free_dev;
+> > > +=09}
+> > > +=09/* remap the keymap code with Dell privacy key type 0x12 as prefi=
+x
+> > > +=09 * KEY_MICMUTE scancode will be reported as 0x120001
+> > > +=09 */
+> > > +=09for (i =3D 0; i < ARRAY_SIZE(dell_wmi_keymap_type_0012); i++) {
+> > > +=09=09keymap[pos] =3D dell_wmi_keymap_type_0012[i];
+> > > +=09=09keymap[pos].code |=3D (0x0012 << 16);
+> > > +=09=09pos++;
+> > > +=09}
+> > > +=09ret =3D sparse_keymap_setup(priv->input_dev, keymap, NULL);
+> > > +=09if (ret)
+> > > +=09=09return ret;
+> >
+> > A copy of the keymap is created by `sparse_keymap_setup()`, so returnin=
+g
+> > here will leak `keymap`. You could just call `kfree(keymap)` directly a=
+fter
+> > the `sparse_keymap_setup()` call. But I find it completely unnecessary
+> > to do this allocate-copy-modify thing. Is there any reason why the stat=
+ic array
+> > (`dell_wmi_keymap_type_0012`) cannot already contain the correct values=
+?
+>
+> I don`t quite undestand what you meant
+>
+> what "correct values" should be contained by the dell_wmi_keymap_type_001=
+2?
+>
+
+My point is that if you had:
+```
+static const struct key_entry dell_wmi_keymap_type_0012[] =3D {
+=09{ KE_KEY, 0x00120001, { KEY_MICMUTE } },
+=09{ KE_SW,  0x00120002, { SW_CAMERA_LENS_COVER } },
+=09{ KE_END, 0},
+};
+```
+then there would be no need to create a copy and the code would be simpler.
+
+
+> [...]
+> > > +static int __init init_dell_privacy(void)
+> > > +{
+> > > +=09int ret;
+> > > +
+> > > +=09ret =3D wmi_has_guid(DELL_PRIVACY_GUID);
+> > > +=09if (!ret)
+> > > +=09=09return -ENODEV;
+> >
+> > The init function of a module that exports symbols must not fail, other=
+wise
+> > it'll prevent the loading of dependent modules.
+>
+> Yes, the wmi driver is the entry for whole privacy driver.
+>
+> if wmi guid query failed, the privacy driver will not be registered.
+>
+> dell-laptop driver will get "-ENOVDE" from dell_privacy_valid().
+>
+> it will register its micmute led trigger driver from dell laptop driver.
+>
+
+My point is that if dell-privacy is a dependency of dell-laptop, and dell-p=
+rivacy
+fails to load, then dell-laptop cannot be loaded. Effectively, the lack of
+the DELL_PRIVACY_GUID WMI interface will cause the dell-laptop module not b=
+e
+able to be loaded.
+
+
+> [...]
+> > > +#if IS_ENABLED(CONFIG_DELL_PRIVACY)
+> > > +=09=09=09err =3D dell_privacy_valid();
+> > > +=09=09=09if (err =3D=3D 0) {
+> > > +=09=09=09=09dell_privacy_process_event(buffer_entry[1],
+> > > +=09=09=09=09=09=09buffer_entry[3], buffer_entry[4]);
+> >
+> > What if `len < 5`?
+>
+> when CONFIG_DELL_PRIVACY is enabled, and dell_privacy_valid return zero w=
+hich means privacy driver loaded as expected.
+>
+> for example ,the micmute report wmi event data len is "5", it will not be=
+ less than 5 words.
+
+I'm wondering if there are such guarantees, why is the length checked just =
+a
+couple lines below?
+
+
+>
+> Process buffer (04 00 12 00 0e 00 01 00 03 00)
+>
+>
+> #if IS_ENABLED(CONFIG_DELL_PRIVACY)
+
+One thing I might have forgotten to point out initially, is that there is n=
+o need
+for this #if as dell-privacy-wmi.h provides stub definitions for
+`dell_privacy_valid()` and `dell_privacy_process_event()`.
+
+
+>                         err =3D dell_privacy_valid();
+>                         if (err =3D=3D 0) {
+>                                 dell_privacy_process_event(buffer_entry[1=
+],
+>                                                 buffer_entry[3], buffer_e=
+ntry[4]);
+>                         } else {
+>                                 if (len > 2)
+>                                         dell_wmi_process_key(wdev, buffer=
+_entry[1],
+>                                                         buffer_entry[2]);
+>                                 /* Extended data is currently ignored */
+>                         }
+> [...]
+
+Another thing I may have forgotten to say: the name `dell_privacy_valid()` =
+is
+misleading in my opinion, as it gives the impression of being a predicate, =
+even
+though it is not. `dell_privacy_state()` or something like that would be be=
+tter,
+I think.
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
+
+
+p.s. please send text emails.
