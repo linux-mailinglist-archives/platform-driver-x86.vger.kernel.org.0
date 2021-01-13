@@ -2,35 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBA192F51D9
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:22:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EB182F51DB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:23:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbhAMSWd (ORCPT
+        id S1727785AbhAMSW6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Jan 2021 13:22:33 -0500
-Received: from mail2.protonmail.ch ([185.70.40.22]:26280 "EHLO
+        Wed, 13 Jan 2021 13:22:58 -0500
+Received: from mail2.protonmail.ch ([185.70.40.22]:52658 "EHLO
         mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbhAMSWc (ORCPT
+        with ESMTP id S1726385AbhAMSW6 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Jan 2021 13:22:32 -0500
-Date:   Wed, 13 Jan 2021 18:21:44 +0000
+        Wed, 13 Jan 2021 13:22:58 -0500
+Date:   Wed, 13 Jan 2021 18:21:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610562108;
-        bh=WypS/mQ7Bcw5YU+gDNdIXzxr4CA5eWGEajvvrVc38z0=;
-        h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
-        b=h9i6LkOTYACQC1sus5AWnEd8/8el+srV1VIVg+7AHL/mENam7teOraUOn1PzKNSRK
-         F3COafQazhrxuI/ZgLAlAdTedjxkc9un+fEFufk0txSEfjG72UBoxORJPUn/5oOiPw
-         2hBNeawr0SeeuLl5Bd2Lw+Q7iPesMxKuIjrOOZp8=
+        s=protonmail; t=1610562111;
+        bh=vp9uEKkUhqrTJs6wmjxS71ZUosdJefwI9tYJ9zSNYuQ=;
+        h=Date:To:From:Reply-To:Subject:From;
+        b=r2iekdHIOod1x5AzV51lXsxpaCSzfMAPZlWuFdduAiCxDwl4rtBK2gnuTefgLu5oq
+         5UGVvySWbt6O0jM6IRKESEQx0AJJX7TRuywbFaUuR1B8eFX+/LMA78D4Niufib08Nz
+         2aSP+opVnMO+KXc70XGnLvxO3Fu+0d7Yo4Pk9s3g=
 To:     platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
         Ike Panhc <ike.pan@canonical.com>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [PATCH v2 12/24] platform/x86: ideapad-laptop: rework and create new ACPI helpers
-Message-ID: <20210113182016.166049-13-pobrn@protonmail.com>
-In-Reply-To: <20210113182016.166049-1-pobrn@protonmail.com>
-References: <20210113182016.166049-1-pobrn@protonmail.com>
+Subject: [PATCH v2 13/24] platform/x86: ideapad-laptop: rework is_visible() logic
+Message-ID: <20210113182016.166049-14-pobrn@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -43,284 +41,147 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Create dedicated helper functions for accessing the main ACPI methods:
-GBMD, SMBC, HALS, SALS; and utilize them. Use `unsigned long` consistently
-in every ACPI helper wherever possible. Change names to better express
-purpose. Do not assign values to output parameters in case of failure.
+Store the supported features in the driver private data, and modify the
+is_visible() callback to use it, and create ideapad_check_features() to
+populate it.
 
 Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/i=
 deapad-laptop.c
-index 5f36e77d9058..c3234e0931a9 100644
+index c3234e0931a9..15d070b503dc 100644
 --- a/drivers/platform/x86/ideapad-laptop.c
 +++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -119,41 +119,47 @@ MODULE_PARM_DESC(no_bt_rfkill, "No rfkill for bluetoo=
-th.");
-  */
- #define IDEAPAD_EC_TIMEOUT (200) /* in ms */
+@@ -105,9 +105,14 @@ struct ideapad_private {
+ =09struct backlight_device *blightdev;
+ =09struct dentry *debug;
+ =09unsigned long cfg;
+-=09bool has_hw_rfkill_switch;
+-=09bool has_touchpad_switch;
+ =09const char *fnesc_guid;
++=09struct {
++=09=09bool hw_rfkill_switch     : 1,
++=09=09     fan_mode             : 1,
++=09=09     touchpad_ctrl_via_ec : 1,
++=09=09     conservation_mode    : 1,
++=09=09     fn_lock              : 1;
++=09} features;
+ };
 =20
--static int read_method_int(acpi_handle handle, const char *method, int *va=
-l)
-+static int eval_int(acpi_handle handle, const char *method, unsigned long =
-*val)
+ static bool no_bt_rfkill;
+@@ -545,24 +550,18 @@ static umode_t ideapad_is_visible(struct kobject *kob=
+j,
  {
--=09acpi_status status;
-+=09acpi_status acpi_err;
- =09unsigned long long result;
-=20
--=09status =3D acpi_evaluate_integer(handle, (char *)method, NULL, &result)=
-;
--=09if (ACPI_FAILURE(status)) {
--=09=09*val =3D -1;
-+=09acpi_err =3D acpi_evaluate_integer(handle, (char *)method, NULL, &resul=
-t);
-+=09if (ACPI_FAILURE(acpi_err))
- =09=09return -EIO;
--=09}
- =09*val =3D result;
- =09return 0;
-+}
-=20
-+static int eval_simple_method(acpi_handle handle, char *method, u64 arg)
-+{
-+=09acpi_status acpi_err =3D acpi_execute_simple_method(handle, method, arg=
-);
-+=09return ACPI_FAILURE(acpi_err) ? -EIO : 0;
- }
-=20
--static int method_gbmd(acpi_handle handle, unsigned long *ret)
-+static int eval_gbmd(acpi_handle handle, unsigned long *val)
- {
--=09int result, val;
-+=09return eval_int(handle, "GBMD", val);
-+}
-=20
--=09result =3D read_method_int(handle, "GBMD", &val);
--=09*ret =3D val;
--=09return result;
-+static int eval_smbc(acpi_handle handle, unsigned long arg)
-+{
-+=09return eval_simple_method(handle, "SMBC", arg);
- }
-=20
--static int method_int1(acpi_handle handle, char *method, int cmd)
-+static int eval_hals(acpi_handle handle, unsigned long *val)
- {
--=09acpi_status status;
-+=09return eval_int(handle, "HALS", val);
-+}
-=20
--=09status =3D acpi_execute_simple_method(handle, method, cmd);
--=09return ACPI_FAILURE(status) ? -EIO : 0;
-+static int eval_sals(acpi_handle handle, unsigned long arg)
-+{
-+=09return eval_simple_method(handle, "SALS", arg);
- }
-=20
--static int method_vpcr(acpi_handle handle, int cmd, int *ret)
-+static int eval_vpcr(acpi_handle handle, unsigned long cmd, unsigned long =
-*val)
- {
--=09acpi_status status;
-+=09acpi_status acpi_err;
- =09unsigned long long result;
- =09struct acpi_object_list params;
- =09union acpi_object in_obj;
-@@ -163,22 +169,20 @@ static int method_vpcr(acpi_handle handle, int cmd, i=
-nt *ret)
- =09in_obj.type =3D ACPI_TYPE_INTEGER;
- =09in_obj.integer.value =3D cmd;
-=20
--=09status =3D acpi_evaluate_integer(handle, "VPCR", &params, &result);
-+=09acpi_err =3D acpi_evaluate_integer(handle, "VPCR", &params, &result);
-=20
--=09if (ACPI_FAILURE(status)) {
--=09=09*ret =3D -1;
-+=09if (ACPI_FAILURE(acpi_err))
- =09=09return -EIO;
--=09}
--=09*ret =3D result;
-+=09*val =3D result;
- =09return 0;
-=20
- }
-=20
--static int method_vpcw(acpi_handle handle, int cmd, int data)
-+static int eval_vpcw(acpi_handle handle, unsigned long cmd, unsigned long =
-data)
- {
- =09struct acpi_object_list params;
- =09union acpi_object in_obj[2];
--=09acpi_status status;
-+=09acpi_status acpi_err;
-=20
- =09params.count =3D 2;
- =09params.pointer =3D in_obj;
-@@ -187,55 +191,50 @@ static int method_vpcw(acpi_handle handle, int cmd, i=
-nt data)
- =09in_obj[1].type =3D ACPI_TYPE_INTEGER;
- =09in_obj[1].integer.value =3D data;
-=20
--=09status =3D acpi_evaluate_object(handle, "VPCW", &params, NULL);
--=09if (status !=3D AE_OK)
-+=09acpi_err =3D acpi_evaluate_object(handle, "VPCW", &params, NULL);
-+=09if (ACPI_FAILURE(acpi_err))
- =09=09return -EIO;
- =09return 0;
- }
-=20
--static int read_ec_data(acpi_handle handle, int cmd, unsigned long *data)
-+static int read_ec_data(acpi_handle handle, unsigned long cmd, unsigned lo=
-ng *data)
- {
--=09int val, err;
--=09unsigned long int end_jiffies;
-+=09int err;
-+=09unsigned long int end_jiffies, val;
-=20
--=09err =3D method_vpcw(handle, 1, cmd);
-+=09err =3D eval_vpcw(handle, 1, cmd);
- =09if (err)
- =09=09return err;
-=20
- =09for (end_jiffies =3D jiffies + msecs_to_jiffies(IDEAPAD_EC_TIMEOUT) + 1=
-;
- =09     time_before(jiffies, end_jiffies);) {
- =09=09schedule();
--=09=09err =3D method_vpcr(handle, 1, &val);
-+=09=09err =3D eval_vpcr(handle, 1, &val);
- =09=09if (err)
- =09=09=09return err;
--=09=09if (val =3D=3D 0) {
--=09=09=09err =3D method_vpcr(handle, 0, &val);
--=09=09=09if (err)
--=09=09=09=09return err;
--=09=09=09*data =3D val;
--=09=09=09return 0;
--=09=09}
-+=09=09if (val =3D=3D 0)
-+=09=09=09return eval_vpcr(handle, 0, data);
- =09}
- =09acpi_handle_err(handle, "timeout in %s\n", __func__);
- =09return -ETIMEDOUT;
- }
-=20
--static int write_ec_cmd(acpi_handle handle, int cmd, unsigned long data)
-+static int write_ec_cmd(acpi_handle handle, unsigned long cmd, unsigned lo=
-ng data)
- {
--=09int val, err;
--=09unsigned long int end_jiffies;
-+=09int err;
-+=09unsigned long end_jiffies, val;
-=20
--=09err =3D method_vpcw(handle, 0, data);
-+=09err =3D eval_vpcw(handle, 0, data);
- =09if (err)
- =09=09return err;
--=09err =3D method_vpcw(handle, 1, cmd);
-+=09err =3D eval_vpcw(handle, 1, cmd);
- =09if (err)
- =09=09return err;
-=20
- =09for (end_jiffies =3D jiffies + msecs_to_jiffies(IDEAPAD_EC_TIMEOUT) + 1=
-;
- =09     time_before(jiffies, end_jiffies);) {
- =09=09schedule();
--=09=09err =3D method_vpcr(handle, 1, &val);
-+=09=09err =3D eval_vpcr(handle, 1, &val);
- =09=09if (err)
- =09=09=09return err;
- =09=09if (val =3D=3D 0)
-@@ -286,7 +285,7 @@ static int debugfs_status_show(struct seq_file *s, void=
- *data)
- =09=09=09   value ? "On" : "Off", value);
- =09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D\n");
-=20
--=09if (!method_gbmd(priv->adev->handle, &value)) {
-+=09if (!eval_gbmd(priv->adev->handle, &value)) {
- =09=09seq_printf(s, "Conservation mode:\t%s(%lu)\n",
- =09=09=09   test_bit(GBMD_CONSERVATION_STATE_BIT, &value) ? "On" : "Off",
- =09=09=09   value);
-@@ -468,7 +467,7 @@ static ssize_t conservation_mode_show(struct device *de=
-v,
- =09unsigned long result;
- =09int err;
-=20
--=09err =3D method_gbmd(priv->adev->handle, &result);
-+=09err =3D eval_gbmd(priv->adev->handle, &result);
- =09if (err)
- =09=09return err;
- =09return sysfs_emit(buf, "%u\n", test_bit(GBMD_CONSERVATION_STATE_BIT, &r=
-esult));
-@@ -486,9 +485,8 @@ static ssize_t conservation_mode_store(struct device *d=
-ev,
- =09if (ret)
- =09=09return ret;
-=20
--=09ret =3D method_int1(priv->adev->handle, "SBMC", state ?
--=09=09=09=09=09      SMBC_CONSERVATION_ON :
--=09=09=09=09=09      SMBC_CONSERVATION_OFF);
-+=09ret =3D eval_smbc(priv->adev->handle,
-+=09=09=09state ? SMBC_CONSERVATION_ON : SMBC_CONSERVATION_OFF);
- =09if (ret)
- =09=09return ret;
- =09return count;
-@@ -501,15 +499,13 @@ static ssize_t fn_lock_show(struct device *dev,
- =09=09=09    char *buf)
- {
+ =09struct device *dev =3D container_of(kobj, struct device, kobj);
  =09struct ideapad_private *priv =3D dev_get_drvdata(dev);
--=09unsigned long result;
--=09int hals;
--=09int fail =3D read_method_int(priv->adev->handle, "HALS", &hals);
-+=09unsigned long hals;
-+=09int fail =3D eval_hals(priv->adev->handle, &hals);
+-=09bool supported;
++=09bool supported =3D true;
 =20
- =09if (fail)
- =09=09return fail;
+ =09if (attr =3D=3D &dev_attr_camera_power.attr)
+ =09=09supported =3D test_bit(CFG_CAP_CAM_BIT, &priv->cfg);
+-=09else if (attr =3D=3D &dev_attr_fan_mode.attr) {
+-=09=09unsigned long value;
+-=09=09supported =3D !read_ec_data(priv->adev->handle, VPCCMD_R_FAN,
+-=09=09=09=09=09  &value);
+-=09} else if (attr =3D=3D &dev_attr_conservation_mode.attr) {
+-=09=09supported =3D acpi_has_method(priv->adev->handle, "GBMD") &&
+-=09=09=09    acpi_has_method(priv->adev->handle, "SBMC");
+-=09} else if (attr =3D=3D &dev_attr_fn_lock.attr) {
+-=09=09supported =3D acpi_has_method(priv->adev->handle, "HALS") &&
+-=09=09=09acpi_has_method(priv->adev->handle, "SALS");
+-=09} else if (attr =3D=3D &dev_attr_touchpad.attr)
+-=09=09supported =3D priv->has_touchpad_switch;
+-=09else
+-=09=09supported =3D true;
++=09else if (attr =3D=3D &dev_attr_fan_mode.attr)
++=09=09supported =3D priv->features.fan_mode;
++=09else if (attr =3D=3D &dev_attr_touchpad.attr)
++=09=09supported =3D priv->features.touchpad_ctrl_via_ec;
++=09else if (attr =3D=3D &dev_attr_conservation_mode.attr)
++=09=09supported =3D priv->features.conservation_mode;
++=09else if (attr =3D=3D &dev_attr_fn_lock.attr)
++=09=09supported =3D priv->features.fn_lock;
 =20
--=09result =3D hals;
--=09return sysfs_emit(buf, "%u\n", test_bit(HALS_FNLOCK_STATE_BIT, &result)=
-);
-+=09return sysfs_emit(buf, "%u\n", test_bit(HALS_FNLOCK_STATE_BIT, &hals));
+ =09return supported ? attr->mode : 0;
  }
+@@ -605,7 +604,7 @@ static void ideapad_sync_rfk_state(struct ideapad_priva=
+te *priv)
+ =09unsigned long hw_blocked =3D 0;
+ =09int i;
 =20
- static ssize_t fn_lock_store(struct device *dev,
-@@ -524,9 +520,8 @@ static ssize_t fn_lock_store(struct device *dev,
- =09if (ret)
- =09=09return ret;
+-=09if (priv->has_hw_rfkill_switch) {
++=09if (priv->features.hw_rfkill_switch) {
+ =09=09if (read_ec_data(priv->adev->handle, VPCCMD_R_RF, &hw_blocked))
+ =09=09=09return;
+ =09=09hw_blocked =3D !hw_blocked;
+@@ -905,7 +904,7 @@ static void ideapad_sync_touchpad_state(struct ideapad_=
+private *priv)
+ {
+ =09unsigned long value;
 =20
--=09ret =3D method_int1(priv->adev->handle, "SALS", state ?
--=09=09=09  SALS_FNLOCK_ON :
--=09=09=09  SALS_FNLOCK_OFF);
-+=09ret =3D eval_sals(priv->adev->handle,
-+=09=09=09state ? SALS_FNLOCK_ON : SALS_FNLOCK_OFF);
- =09if (ret)
- =09=09return ret;
- =09return count;
-@@ -1016,7 +1011,7 @@ static const struct dmi_system_id hw_rfkill_list[] =
+-=09if (!priv->has_touchpad_switch)
++=09if (!priv->features.touchpad_ctrl_via_ec)
+ =09=09return;
+=20
+ =09/* Without reading from EC touchpad LED doesn't switch state */
+@@ -1008,6 +1007,26 @@ static const struct dmi_system_id hw_rfkill_list[] =
 =3D {
+ =09{}
+ };
+=20
++static void ideapad_check_features(struct ideapad_private *priv)
++{
++=09acpi_handle handle =3D priv->adev->handle;
++=09unsigned long val;
++
++=09priv->features.hw_rfkill_switch =3D dmi_check_system(hw_rfkill_list);
++
++=09if (!read_ec_data(handle, VPCCMD_R_FAN, &val))
++=09=09priv->features.fan_mode =3D true;
++
++=09/* Most ideapads with ELAN0634 touchpad don't use EC touchpad switch */
++=09priv->features.touchpad_ctrl_via_ec =3D !acpi_dev_present("ELAN0634", N=
+ULL, -1);
++
++=09if (acpi_has_method(handle, "GBMD") && acpi_has_method(handle, "SBMC"))
++=09=09priv->features.conservation_mode =3D true;
++
++=09if (acpi_has_method(handle, "HALS") && acpi_has_method(handle, "SALS"))
++=09=09priv->features.fn_lock =3D true;
++}
++
  static int ideapad_acpi_add(struct platform_device *pdev)
  {
  =09int ret, i;
--=09int cfg;
-+=09unsigned long cfg;
- =09struct ideapad_private *priv;
- =09struct acpi_device *adev;
- =09acpi_status acpi_err;
-@@ -1025,7 +1020,7 @@ static int ideapad_acpi_add(struct platform_device *p=
-dev)
+@@ -1031,10 +1050,8 @@ static int ideapad_acpi_add(struct platform_device *=
+pdev)
+ =09priv->cfg =3D cfg;
+ =09priv->adev =3D adev;
+ =09priv->platform_device =3D pdev;
+-=09priv->has_hw_rfkill_switch =3D dmi_check_system(hw_rfkill_list);
+=20
+-=09/* Most ideapads with ELAN0634 touchpad don't use EC touchpad switch */
+-=09priv->has_touchpad_switch =3D !acpi_dev_present("ELAN0634", NULL, -1);
++=09ideapad_check_features(priv);
+=20
+ =09ret =3D ideapad_sysfs_init(priv);
  =09if (ret)
- =09=09return -ENODEV;
+@@ -1050,11 +1067,11 @@ static int ideapad_acpi_add(struct platform_device =
+*pdev)
+ =09 * On some models without a hw-switch (the yoga 2 13 at least)
+ =09 * VPCCMD_W_RF must be explicitly set to 1 for the wifi to work.
+ =09 */
+-=09if (!priv->has_hw_rfkill_switch)
++=09if (!priv->features.hw_rfkill_switch)
+ =09=09write_ec_cmd(priv->adev->handle, VPCCMD_W_RF, 1);
 =20
--=09if (read_method_int(adev->handle, "_CFG", &cfg))
-+=09if (eval_int(adev->handle, "_CFG", &cfg))
- =09=09return -ENODEV;
+ =09/* The same for Touchpad */
+-=09if (!priv->has_touchpad_switch)
++=09if (!priv->features.touchpad_ctrl_via_ec)
+ =09=09write_ec_cmd(priv->adev->handle, VPCCMD_W_TOUCHPAD, 1);
 =20
- =09priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+ =09for (i =3D 0; i < IDEAPAD_RFKILL_DEV_NUM; i++)
 --=20
 2.30.0
+
 
