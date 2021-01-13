@@ -2,33 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 952872F51DF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 315F22F51DD
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:23:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726385AbhAMSXA (ORCPT
+        id S1728073AbhAMSXH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Jan 2021 13:23:00 -0500
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:51336 "EHLO
+        Wed, 13 Jan 2021 13:23:07 -0500
+Received: from mail-40136.protonmail.ch ([185.70.40.136]:22149 "EHLO
         mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727560AbhAMSXA (ORCPT
+        with ESMTP id S1727896AbhAMSXH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Jan 2021 13:23:00 -0500
-Date:   Wed, 13 Jan 2021 18:22:13 +0000
+        Wed, 13 Jan 2021 13:23:07 -0500
+Date:   Wed, 13 Jan 2021 18:22:18 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610562137;
-        bh=eXIYyDfjxzvjzxc0grGny/O4Ti+83xM/pWez4F/9rfw=;
+        s=protonmail; t=1610562145;
+        bh=K2o8TvzMdYiUQqqneSHCCAo3Araw2IxZIDIwcE1UEbE=;
         h=Date:To:From:Reply-To:Subject:From;
-        b=gjbZ75zMqZ9ai/Fb4sd7hgeLqEAC1enuL4StRTWPSa32d+Pj34dI0hZT/ovniKuAf
-         d5XzOSACW+q+DVp382uojC0LZz+PS0sujhC4d/luP7ra7fbZA3Wh/RLXyBK6tTJSSR
-         bpM99/ZDDDdOcFbiOGhuW8xClE/PFPQD5jyUOD0g=
+        b=vwiDx2n+9YZ6zXdu5k/VvowV7UkbdcAg3et5TrxtubCGbvIiNBvCEAjgZVxP4uqzf
+         W8e3qODhca34le2t+Z/jO2ImskHAWsKIgiYbJC79TvDo+Dcxt73k10/prjWRHohhr4
+         oBJkWCDxEwjQV0fCRDHS6PdcVVWFy+Pvtqwl/26M=
 To:     platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
         Ike Panhc <ike.pan@canonical.com>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [PATCH v2 16/24] platform/x86: ideapad-laptop: change 'status' debugfs file format
-Message-ID: <20210113182016.166049-17-pobrn@protonmail.com>
+Subject: [PATCH v2 17/24] platform/x86: ideapad-laptop: change 'cfg' debugfs file format
+Message-ID: <20210113182016.166049-18-pobrn@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -41,91 +41,97 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Remove conservation mode reporting since it is already reported via the
-appropriate device attribute, and its state can be deduced from the value
-of GBMD. Add the return value of the GBMD and HALS ACPI methods to the
-output. Change the return value to -ENODATA when the driver-specific data
-is not available. Use seq_puts() where possible.
+Return -ENODATA when the driver-specific data is not available.
+Minor formatting changes. Use seq_puts() where possible.
 
 Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/i=
 deapad-laptop.c
-index 057426729536..c72e967e9ac2 100644
+index c72e967e9ac2..cd4dc4048d71 100644
 --- a/drivers/platform/x86/ideapad-laptop.c
 +++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -261,43 +261,36 @@ static int debugfs_status_show(struct seq_file *s, vo=
-id *data)
- =09unsigned long value;
+@@ -300,41 +300,44 @@ static int debugfs_cfg_show(struct seq_file *s, void =
+*data)
+ {
+ =09struct ideapad_private *priv =3D s->private;
 =20
- =09if (!priv)
--=09=09return -EINVAL;
+-=09if (!priv) {
+-=09=09seq_printf(s, "cfg: N/A\n");
+-=09} else {
+-=09=09seq_printf(s, "cfg: 0x%.8lX\n\nCapability: ",
+-=09=09=09   priv->cfg);
+-=09=09if (test_bit(CFG_CAP_BT_BIT, &priv->cfg))
+-=09=09=09seq_printf(s, "Bluetooth ");
+-=09=09if (test_bit(CFG_CAP_3G_BIT, &priv->cfg))
+-=09=09=09seq_printf(s, "3G ");
+-=09=09if (test_bit(CFG_CAP_WIFI_BIT, &priv->cfg))
+-=09=09=09seq_printf(s, "Wireless ");
+-=09=09if (test_bit(CFG_CAP_CAM_BIT, &priv->cfg))
+-=09=09=09seq_printf(s, "Camera ");
+-=09=09if (test_bit(CFG_CAP_TOUCHPAD_BIT, &priv->cfg))
+-=09=09=09seq_printf(s, "Touchpad ");
+-=09=09seq_printf(s, "\nGraphic: ");
+-=09=09switch ((priv->cfg)&0x700) {
+-=09=09case 0x100:
+-=09=09=09seq_printf(s, "Intel");
+-=09=09=09break;
+-=09=09case 0x200:
+-=09=09=09seq_printf(s, "ATI");
+-=09=09=09break;
+-=09=09case 0x300:
+-=09=09=09seq_printf(s, "Nvidia");
+-=09=09=09break;
+-=09=09case 0x400:
+-=09=09=09seq_printf(s, "Intel and ATI");
+-=09=09=09break;
+-=09=09case 0x500:
+-=09=09=09seq_printf(s, "Intel and Nvidia");
+-=09=09=09break;
+-=09=09}
+-=09=09seq_printf(s, "\n");
++=09if (!priv)
 +=09=09return -ENODATA;
-=20
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_MAX, &value))
- =09=09seq_printf(s, "Backlight max:\t%lu\n", value);
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL, &value))
- =09=09seq_printf(s, "Backlight now:\t%lu\n", value);
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_POWER, &value))
--=09=09seq_printf(s, "BL power value:\t%s\n", value ? "On" : "Off");
--=09seq_printf(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D\n");
-+=09=09seq_printf(s, "BL power value:\t%s (%lu)\n", value ? "on" : "off", v=
-alue);
-+=09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D\n");
-=20
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_RF, &value))
--=09=09seq_printf(s, "Radio status:\t%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
-+=09=09seq_printf(s, "Radio status:\t%s (%lu)\n", value ? "on" : "off", val=
-ue);
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_WIFI, &value))
--=09=09seq_printf(s, "Wifi status:\t%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
-+=09=09seq_printf(s, "Wifi status:\t%s (%lu)\n", value ? "on" : "off", valu=
-e);
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BT, &value))
--=09=09seq_printf(s, "BT status:\t%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
-+=09=09seq_printf(s, "BT status:\t%s (%lu)\n", value ? "on" : "off", value)=
-;
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_3G, &value))
--=09=09seq_printf(s, "3G status:\t%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
--=09seq_printf(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D\n");
-+=09=09seq_printf(s, "3G status:\t%s (%lu)\n", value ? "on" : "off", value)=
-;
-+=09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D\n");
-=20
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value))
--=09=09seq_printf(s, "Touchpad status:%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
-+=09=09seq_printf(s, "Touchpad status:\t%s (%lu)\n", value ? "on" : "off", =
-value);
- =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &value))
--=09=09seq_printf(s, "Camera status:\t%s(%lu)\n",
--=09=09=09   value ? "On" : "Off", value);
-+=09=09seq_printf(s, "Camera status:\t%s (%lu)\n", value ? "on" : "off", va=
-lue);
- =09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D\n");
-=20
--=09if (!eval_gbmd(priv->adev->handle, &value)) {
--=09=09seq_printf(s, "Conservation mode:\t%s(%lu)\n",
--=09=09=09   test_bit(GBMD_CONSERVATION_STATE_BIT, &value) ? "On" : "Off",
--=09=09=09   value);
--=09}
-+=09if (!eval_gbmd(priv->adev->handle, &value))
-+=09=09seq_printf(s, "GBMD: %#010lx\n", value);
-+=09if (!eval_hals(priv->adev->handle, &value))
-+=09=09seq_printf(s, "HALS: %#010lx\n", value);
-=20
++
++=09seq_printf(s, "_CFG: %#010lx\n\n", priv->cfg);
++
++=09seq_puts(s, "Capabilities:");
++=09if (test_bit(CFG_CAP_BT_BIT, &priv->cfg))
++=09=09seq_puts(s, " bluetooth");
++=09if (test_bit(CFG_CAP_3G_BIT, &priv->cfg))
++=09=09seq_puts(s, " 3G");
++=09if (test_bit(CFG_CAP_WIFI_BIT, &priv->cfg))
++=09=09seq_puts(s, " wifi");
++=09if (test_bit(CFG_CAP_CAM_BIT, &priv->cfg))
++=09=09seq_puts(s, " camera");
++=09if (test_bit(CFG_CAP_TOUCHPAD_BIT, &priv->cfg))
++=09=09seq_puts(s, " touchpad");
++=09seq_puts(s, "\n");
++
++=09seq_puts(s, "Graphics:");
++=09switch (priv->cfg & 0x700) {
++=09case 0x100:
++=09=09seq_puts(s, "Intel");
++=09=09break;
++=09case 0x200:
++=09=09seq_puts(s, "ATI");
++=09=09break;
++=09case 0x300:
++=09=09seq_puts(s, "Nvidia");
++=09=09break;
++=09case 0x400:
++=09=09seq_puts(s, "Intel and ATI");
++=09=09break;
++=09case 0x500:
++=09=09seq_puts(s, "Intel and Nvidia");
++=09=09break;
+ =09}
++=09seq_puts(s, "\n");
++
  =09return 0;
  }
+ DEFINE_SHOW_ATTRIBUTE(debugfs_cfg);
 --=20
 2.30.0
 
