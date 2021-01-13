@@ -2,33 +2,33 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF0FF2F51CF
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6CC22F51D2
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 13 Jan 2021 19:22:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727827AbhAMSV2 (ORCPT
+        id S1726429AbhAMSVh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 13 Jan 2021 13:21:28 -0500
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:19520 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbhAMSV2 (ORCPT
+        Wed, 13 Jan 2021 13:21:37 -0500
+Received: from mail2.protonmail.ch ([185.70.40.22]:37832 "EHLO
+        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727851AbhAMSVh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 13 Jan 2021 13:21:28 -0500
-Date:   Wed, 13 Jan 2021 18:20:36 +0000
+        Wed, 13 Jan 2021 13:21:37 -0500
+Date:   Wed, 13 Jan 2021 18:20:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610562044;
-        bh=QxZoSSn4vJAFzWA8ldV4HrL5vzLpbF2pOA2Z50GPnIQ=;
+        s=protonmail; t=1610562054;
+        bh=yPu3zaxASDXPmW4yGer/30+Sel6k1sYSKQa4g1z9RUw=;
         h=Date:To:From:Reply-To:Subject:In-Reply-To:References:From;
-        b=karPq8lzJM/ApXmlDDSp6eeKZbLZgtCSvQQVhXfL6whuLi3NFxxhj+kBebncHwMsa
-         V48Wid1d5lMCqGDnuc+qv+EdsY41N9jI7AQ1RsqIfhaXZ5bLjXphkD9g1THcdn5bP3
-         ZU0dd46ZqdlYMw4l+3MKTO1BLB72e8M469HoEEI8=
+        b=Kwqe7sPvN3wk+WQxJV0dH/SRxE6it3Te4RB67ScWD8KEB1YMDK8Zvd5EWo85GxqJ7
+         UcQ06xifdewiViY6YV+GxxRhXS/PKx3Z4rQnVDpR9z+6IO4jyJsZe9ch+9FZtVs+VA
+         4PTZYtDocYPKAZzlOj3QD4WIdGYOCRAtUD2mQA5o=
 To:     platform-driver-x86@vger.kernel.org,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
         Ike Panhc <ike.pan@canonical.com>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [PATCH v2 03/24] platform/x86: ideapad-laptop: sort includes lexicographically
-Message-ID: <20210113182016.166049-4-pobrn@protonmail.com>
+Subject: [PATCH v2 04/24] platform/x86: ideapad-laptop: use sysfs_emit()
+Message-ID: <20210113182016.166049-5-pobrn@protonmail.com>
 In-Reply-To: <20210113182016.166049-1-pobrn@protonmail.com>
 References: <20210113182016.166049-1-pobrn@protonmail.com>
 MIME-Version: 1.0
@@ -43,53 +43,85 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Managing includes is easier when they are sorted, so
-sort them lexicographically.
+sysfs_emit() has been introduced to make it less ambiguous which function
+is preferred when writing to the output buffer in a device attribute's
+show() callback. Convert the ideapad-laptop module to utilize this
+new helper function.
 
 Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/i=
 deapad-laptop.c
-index fbaf8d3f4792..d92d96fe4aa1 100644
+index d92d96fe4aa1..61ea70602256 100644
 --- a/drivers/platform/x86/ideapad-laptop.c
 +++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -8,22 +8,23 @@
+@@ -23,6 +23,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/rfkill.h>
+ #include <linux/seq_file.h>
++#include <linux/sysfs.h>
+ #include <linux/types.h>
 =20
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-=20
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/init.h>
--#include <linux/types.h>
- #include <linux/acpi.h>
--#include <linux/rfkill.h>
--#include <linux/platform_device.h>
--#include <linux/input.h>
--#include <linux/input/sparse-keymap.h>
- #include <linux/backlight.h>
--#include <linux/fb.h>
- #include <linux/debugfs.h>
--#include <linux/seq_file.h>
--#include <linux/i8042.h>
--#include <linux/dmi.h>
- #include <linux/device.h>
-+#include <linux/dmi.h>
-+#include <linux/fb.h>
-+#include <linux/i8042.h>
-+#include <linux/init.h>
-+#include <linux/input.h>
-+#include <linux/input/sparse-keymap.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/rfkill.h>
-+#include <linux/seq_file.h>
-+#include <linux/types.h>
-+
  #include <acpi/video.h>
+@@ -346,8 +347,8 @@ static ssize_t show_ideapad_cam(struct device *dev,
+ =09struct ideapad_private *priv =3D dev_get_drvdata(dev);
 =20
- #define IDEAPAD_RFKILL_DEV_NUM=09(3)
+ =09if (read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &result))
+-=09=09return sprintf(buf, "-1\n");
+-=09return sprintf(buf, "%lu\n", result);
++=09=09return sysfs_emit(buf, "-1\n");
++=09return sysfs_emit(buf, "%lu\n", result);
+ }
+=20
+ static ssize_t store_ideapad_cam(struct device *dev,
+@@ -377,8 +378,8 @@ static ssize_t show_ideapad_fan(struct device *dev,
+ =09struct ideapad_private *priv =3D dev_get_drvdata(dev);
+=20
+ =09if (read_ec_data(priv->adev->handle, VPCCMD_R_FAN, &result))
+-=09=09return sprintf(buf, "-1\n");
+-=09return sprintf(buf, "%lu\n", result);
++=09=09return sysfs_emit(buf, "-1\n");
++=09return sysfs_emit(buf, "%lu\n", result);
+ }
+=20
+ static ssize_t store_ideapad_fan(struct device *dev,
+@@ -410,8 +411,8 @@ static ssize_t touchpad_show(struct device *dev,
+ =09unsigned long result;
+=20
+ =09if (read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &result))
+-=09=09return sprintf(buf, "-1\n");
+-=09return sprintf(buf, "%lu\n", result);
++=09=09return sysfs_emit(buf, "-1\n");
++=09return sysfs_emit(buf, "%lu\n", result);
+ }
+=20
+ /* Switch to RO for now: It might be revisited in the future */
+@@ -443,8 +444,8 @@ static ssize_t conservation_mode_show(struct device *de=
+v,
+ =09unsigned long result;
+=20
+ =09if (method_gbmd(priv->adev->handle, &result))
+-=09=09return sprintf(buf, "-1\n");
+-=09return sprintf(buf, "%u\n", test_bit(BM_CONSERVATION_BIT, &result));
++=09=09return sysfs_emit(buf, "-1\n");
++=09return sysfs_emit(buf, "%u\n", test_bit(BM_CONSERVATION_BIT, &result));
+ }
+=20
+ static ssize_t conservation_mode_store(struct device *dev,
+@@ -479,10 +480,10 @@ static ssize_t fn_lock_show(struct device *dev,
+ =09int fail =3D read_method_int(priv->adev->handle, "HALS", &hals);
+=20
+ =09if (fail)
+-=09=09return sprintf(buf, "-1\n");
++=09=09return sysfs_emit(buf, "-1\n");
+=20
+ =09result =3D hals;
+-=09return sprintf(buf, "%u\n", test_bit(HA_FNLOCK_BIT, &result));
++=09return sysfs_emit(buf, "%u\n", test_bit(HA_FNLOCK_BIT, &result));
+ }
+=20
+ static ssize_t fn_lock_store(struct device *dev,
 --=20
 2.30.0
-
 
