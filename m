@@ -2,69 +2,119 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43E3A2F72E5
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Jan 2021 07:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D60362F73CC
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Jan 2021 08:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727800AbhAOGaM (ORCPT
+        id S1731831AbhAOHpR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 Jan 2021 01:30:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45732 "EHLO
+        Fri, 15 Jan 2021 02:45:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726769AbhAOGaK (ORCPT
+        with ESMTP id S1731827AbhAOHpP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 Jan 2021 01:30:10 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874B5C061757
-        for <platform-driver-x86@vger.kernel.org>; Thu, 14 Jan 2021 22:29:29 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id g10so6648242wmh.2
-        for <platform-driver-x86@vger.kernel.org>; Thu, 14 Jan 2021 22:29:29 -0800 (PST)
+        Fri, 15 Jan 2021 02:45:15 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBB3C061575;
+        Thu, 14 Jan 2021 23:44:34 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id 11so4965399pfu.4;
+        Thu, 14 Jan 2021 23:44:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:sender:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=WwwZ5INxbChgA54D8alL+8opcbTX2Y/SEfcezGICCQg=;
-        b=Dz49OeoHs9JJrF4FAy2M2r3eZKk6cBijdku5y/oeNzD68+JeP0jqum46O6mKOzgppM
-         ulX2zfGeQs8bayDz9wdHyZNjPaaZS3fD9SElx9zLDJbpS2dqcseojvbG4c7in5S5hCTK
-         hFxDAeafjd2fOdcaj52kZtqVMpD2qAcEkjvEi+/DS/cLJdFOZ5KBc39X37cj13uBuAVi
-         BP3wcPB5m1DbhvmmDDXLbNiEXDbB6xxKaAAotGNqpHssNYPguVLuARetAy/GBM7omnL0
-         El7AoXereOEQAiIPyOVpc0bQoThuLx4QrpgrhETPAy4iRQbY0WWNICOCATymM1CbNwND
-         2pbA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding;
+        bh=RSUcZOUYDHjygfK1QSy+jp5s+BrbUL+dlNwmT8GQw1w=;
+        b=ZwuSSIKHJiI1sHVTdL7H8XYDfqijJG0hhQrmHfTd4uksDZccNDCrDh5bStIhowCZqb
+         NKGXyPEtkYS9yM/EKrfMkARoRkxtU/aIeQ2SK70kyPJBfEp5MnVucOSEpnihvKCk/Xl3
+         zp2jZzcm0/JK3oje2nd0euaEXB8Kv3Etzs9p8yYFUA0QEDx4sz1xaWzSMPIFfRjY9wZA
+         M3zfEwojmDwTg/brWyXVKpbPFclkm+/hDu1hsGpz3YKTWUI6Hge1tv74UeuB7wKTn+yD
+         qCFO2KXfGAXZyT5bu+TdtWh8GYSgIqL+ox0VnpIDAGv/wyh/3/uPdYo8Jzv/BHZ/dyDN
+         jXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:sender:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=WwwZ5INxbChgA54D8alL+8opcbTX2Y/SEfcezGICCQg=;
-        b=hnGeG4J6M5yU4zJ9ihffA0AqtQDQdf+hRx8pJF7bF84UHtwtnrLwteJHvIwCYhEbnL
-         JMDHa6b1pLPmTvXECcAkr9eWv+FCr5RqMffpBzL5ixl9Hwjtw4zKV2GOWN7jJ2XIKidt
-         7qEw1bxBfltYq9v5uTwJidsyN8OQc9PWy91DoHm43XW0kF446ABr/loZSsFyHIr4u5jv
-         ZaD8di98sSyKSVjU2y/dUtdY9x0sTR2ihKDzryC0syiIFDVgaSyrZT61jtH5WyHXTHtw
-         1UgxOZPmAoraQENjXOKveGlfUpJi67o/DWproeXQUx+1mCJoI9sjgl2+K+LKxfQh3nzE
-         +meQ==
-X-Gm-Message-State: AOAM531zxIUhoIavwf6/JWcQpT2iNH1INQ3wCy7W7M8kr+UwEuFRgsPR
-        tsWtbuAahvHiWFiCIO0vwMXjw46+r6Y=
-X-Google-Smtp-Source: ABdhPJwiK19+pAzVzQ1WBEZKsYRlQIYg6f55QTDhbJDuYKg5Y/eUco4hI9ANx6fiLwgVahlmxEEUtw==
-X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr7267592wmk.31.1610692168120;
-        Thu, 14 Jan 2021 22:29:28 -0800 (PST)
-Received: from [192.168.1.8] ([154.124.154.14])
-        by smtp.gmail.com with ESMTPSA id k18sm14895219wrd.45.2021.01.14.22.29.25
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Thu, 14 Jan 2021 22:29:27 -0800 (PST)
-Message-ID: <60013647.1c69fb81.cc687.8021@mx.google.com>
-Sender: Skylar Anderson <talldemba196@gmail.com>
-From:   Skylar Anderson <sgt.andersonskylar0@gmail.com>
-X-Google-Original-From: Skylar Anderson
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
+        bh=RSUcZOUYDHjygfK1QSy+jp5s+BrbUL+dlNwmT8GQw1w=;
+        b=SToAUfNx0917WWp9bLw7wsi2ZgaEWPfwwvY6ydDoggPZQrsG+s+EaBCU/IA3K8m9ro
+         lHgaIfHSFDZ466NngybRZkRkBQ5kYotfuKJtIs457/TVbN+slu/QCkaLWc53z23Mc8m+
+         QS4M7nIG0zcknzRHzG8PtfMvRdQAeupLOulB24R9PhMr2eyDDXxJboIDdMVfQH9Sn+x+
+         y2iW9UNIkv8E2Hx+C4xZVNUlJpdHRrb3u6bONJJv/gQizQa1EBgeA2sKKsQiCxkf8F0B
+         mcMUM6aNnMjvf3XVnZcUzJFnhKdbGojW6gopDsXK1yCYuPUD2pYl3esv+IsdYHny5mRk
+         hpog==
+X-Gm-Message-State: AOAM53057w20hDsJbp/uowae3uXMXQPsX2drlaiucIlOeNV052A77X/T
+        TIUOi9MF8TWEdfJff3YBS+U=
+X-Google-Smtp-Source: ABdhPJwd863AHDzeAXfeQW0QLgSK+zvfW8TK+L0XEjuEWl6LDlSGvpiMNpfHbAi8oXBEA/JUxRCHEQ==
+X-Received: by 2002:a63:a556:: with SMTP id r22mr11487744pgu.296.1610696674401;
+        Thu, 14 Jan 2021 23:44:34 -0800 (PST)
+Received: from [0.0.0.0] (n218250008152.netvigator.com. [218.250.8.152])
+        by smtp.gmail.com with ESMTPSA id b18sm7381358pfi.173.2021.01.14.23.44.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jan 2021 23:44:33 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] platform/x86: dell-privacy: Add support for Dell
+ hardware privacy
+To:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        Perry Yuan <Perry.Yuan@dell.com>
+Cc:     "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Limonciello Mario <Mario.Limonciello@dell.com>
+References: <20201228132855.17544-1-Perry_Yuan@Dell.com>
+ <mXtNUreCVsPKizG-fnNKPId9_lQGit0S6pYEpk-aNT1hGQjVwblZDiO4E-YX3hxnrbbNN1-6hSntiv13wz66RxbhXjPJhpAVOIlZmmwUI7w=@protonmail.com>
+ <7def1cdc-e275-9ae6-4941-55517359bb1e@gmail.com>
+ <ce598a92-73ef-e9a6-d772-59f5da3d251e@redhat.com>
+From:   Perry Yuan <perry979106@gmail.com>
+Message-ID: <1f72244c-4510-f945-6997-baa3fcdf9d7b@gmail.com>
+Date:   Fri, 15 Jan 2021 15:44:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: hy
-To:     Recipients <Skylar@vger.kernel.org>
-Date:   Fri, 15 Jan 2021 06:29:22 +0000
-Reply-To: sgt.skylar.andersin@gmail.com
-X-Mailer: cdcaafe51be8cdb99a1c85906066cad3d0e60e273541515a58395093a7c4e1f0eefb01d7fc4e6278706e9fb8c4dad093c3263345202970888b6b4d817f9e998c032e7d59
+In-Reply-To: <ce598a92-73ef-e9a6-d772-59f5da3d251e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I'M Skylar I Need To Tell U This
+On 2021/1/13 2:37, Hans de Goede wrote:
+
+> Hi,
+>
+> I know there already is a v3 out and I will try to get around to reviewing
+> that soon, still 1 remark about the discussion surrounding v2:
+>
+> On 1/11/21 2:42 PM, Perry Yuan wrote:
+>
+> <snip>
+>
+>>>> *The flow is like this:
+>>>> 1) User presses key. HW does stuff with this key (timeout is started)
+>>>> 2) Event is emitted from FW
+>>>> 3) Event received by dell-privacy
+>>>> 4) KEY_MICMUTE emitted from dell-privacy
+>>>> 5) Userland picks up key and modifies kcontrol for SW mute
+>>>> 6) Codec kernel driver catches and calls ledtrig_audio_set, like this:
+>>>> 	ledtrig_audio_set(LED_AUDIO_MICMUTE,
+>>>> 		rt715->micmute_led ? LED_ON :LED_OFF);
+>>>> 7) If "LED" is set to on dell-privacy notifies ec,
+>>>>    and timeout is cancelled,HW mic mute activated.
+>>>>
+>>> Please proofread the commit message again, and pay attention to capitalization
+>>> and spacing.
+>> I want to reformat it and move the commit info to cover letter.
+> Please also put a copy of this as a comment in either the wmi or the
+> acpi driver (with a comment pointing to the comment in the other) this is
+> important info to have for someone reading the code and trying to understand
+> how this all fits together.
+>
+> Regards,
+>
+> Hans
+
+Hi Hans:
+
+Agreed.
+
+I will add this to the driver comments and explain how the acpi/wmi 
+driver associated.
+
