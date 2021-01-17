@@ -2,70 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41ECF2F8FC8
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 16 Jan 2021 23:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11E7C2F9183
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 17 Jan 2021 10:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbhAPW7V (ORCPT
+        id S1728181AbhAQJIW convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 16 Jan 2021 17:59:21 -0500
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:59250 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbhAPW7U (ORCPT
+        Sun, 17 Jan 2021 04:08:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34670 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728354AbhAQJEN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 16 Jan 2021 17:59:20 -0500
-Date:   Sat, 16 Jan 2021 22:58:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610837917;
-        bh=3YQiSk/UtF2JeQKibaRgI72C6qQoItCZjbbau3RbIqQ=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=NRoe3pt9As3LaMb+rv6M9IeNS4DcPeLfzeBkkuctWIGEPJjGbxgrIZe/nm00uhNa3
-         eKmaBes1qAbykhdN0mMcCp5MekTBwnYxUPLaPa3NXnNHMMms+zDC9syGJCEsy8eCUg
-         ksw24nqphxhmLdfdTdOgM8M1RrbZA6Q3ElR+xNRc=
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Ike Panhc <ike.pan@canonical.com>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2 23/24] Documentation/ABI: sysfs-platform-ideapad-laptop: update device attribute paths
-Message-ID: <uaRWzbXLCtfIvyAplzL4R6WPbWDp2vxeODkljsKlaRVLoduXUrRFlW6oFqbZltiZ6YJv6fm2goGUEpCJuglx8ytLGETou1ZPehILoepF2_I=@protonmail.com>
-In-Reply-To: <CAHp75Ve8DO+DufJ=ApDonLjqdrOaRa4L-Tpeg8YWGNKvCBY_Eg@mail.gmail.com>
-References: <20210113182016.166049-24-pobrn@protonmail.com> <CAHp75Ve8DO+DufJ=ApDonLjqdrOaRa4L-Tpeg8YWGNKvCBY_Eg@mail.gmail.com>
+        Sun, 17 Jan 2021 04:04:13 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8C0BE2168B
+        for <platform-driver-x86@vger.kernel.org>; Sun, 17 Jan 2021 09:02:45 +0000 (UTC)
+Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 8762B816BD; Sun, 17 Jan 2021 09:02:45 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
+ Envy x360)
+Date:   Sun, 17 Jan 2021 09:02:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mail@richard-neumann.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-199715-215701-Q7NlBVA5KZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
+References: <bug-199715-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi
+https://bugzilla.kernel.org/show_bug.cgi?id=199715
 
+--- Comment #25 from Richard Neumann (mail@richard-neumann.de) ---
+@Luya This is due to the fact that you, like me, use a laptop (HP Enxy x360
+13-ag00xxx) which ships with an AMD SFH that has no sensor mask written to its
+P2C registers. I discussed this on the mailing lists and proposed and provided
+a solution by introducing a kernel module parameter [1]. However this was not
+adopted in the upstream version for kernel 5.11. So I submitted my refactored
+version, which I am using for nearly a year now, which incorporates such a
+parameter [2]. I have not yet received any feedback on this one or the first
+submission, which I sent two weeks ago and which seemingly directly went into
+/dev/null. Anybody interested to review and possibly use my refactored version,
+can obtain it from my github repo [3].
 
-Thanks for the review.
+[1]
+https://patchwork.kernel.org/project/linux-iio/patch/1582779537-25662-3-git-send-email-Sandeep.Singh@amd.com/#23253155
+[2]https://patchwork.kernel.org/project/linux-iio/patch/efa4524cd07abe0a7773b24d33b64f09e0bf1f82.camel@richard-neumann.de/
+[3] https://github.com/conqp/linux/tree/amd-sfh-hid/drivers/hid/amd-sfh-hid
 
-2021. janu=C3=A1r 16., szombat 21:10 keltez=C3=A9ssel, Andy Shevchenko =
-=C3=ADrta:
+-- 
+You may reply to this email to add a comment.
 
-> On Wed, Jan 13, 2021 at 8:25 PM Barnab=C3=A1s P=C5=91cze wrote:
-> >
-> > The documentation referred to non-existent device attributes under a no=
-n-existent
-> > platform device. Update it with the current location of the attributes.
->
-> Fixes tag, please?
->
-
-I'm not sure which commit (if any) should be referenced. Do you think
-the patch that removed the platform device - hence making the documented pa=
-ths
-incorrect - would be OK to reference here?
-
-
-Thanks,
-Barnab=C3=A1s P=C5=91cze
+You are receiving this mail because:
+You are watching the assignee of the bug.
