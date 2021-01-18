@@ -2,72 +2,71 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 417062FA8A7
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Jan 2021 19:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82FF82FA8E3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Jan 2021 19:33:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405481AbhARSYC (ORCPT
+        id S2436833AbhARSbV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Jan 2021 13:24:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56823 "EHLO
+        Mon, 18 Jan 2021 13:31:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54185 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393183AbhARSXy (ORCPT
+        by vger.kernel.org with ESMTP id S2393684AbhARSbP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Jan 2021 13:23:54 -0500
+        Mon, 18 Jan 2021 13:31:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610994147;
+        s=mimecast20190719; t=1610994589;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Gaz99qAcLn2KYEyunJhawzMi0IY0X3LlBR6yMj2tZ8c=;
-        b=DQei3QTiqhGhEGsbunih8zr75HQAA/zb4xahSFwEtQbsJ2FJ8OwyrDZ1hzKamGPZLwUhfl
-        H8XHnhToyeW9qwxHHgH74FjkusY3zKeMquEARP7lbV1gEiL6RV3d+LbRCIZELSmzS6XNUm
-        gEIfwjpEQrDVhkKWYyvOMLR4ps35KYw=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-Xnts7KqIOz-MxcZWDjfEhA-1; Mon, 18 Jan 2021 13:22:25 -0500
-X-MC-Unique: Xnts7KqIOz-MxcZWDjfEhA-1
-Received: by mail-ej1-f71.google.com with SMTP id d15so1147209ejc.21
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Jan 2021 10:22:25 -0800 (PST)
+        bh=5NjRX5B5MOb4wxtZQReem/ly9YfdPWUYmQv2ycL3Vvg=;
+        b=UUqbJlZUL4ioahlFaPJezzSSDWdJ8tJYhqWbrDvg6HqxuxQ0i/QWdZQBTYlZeaRTOH95dc
+        ZXN8Iw7A1vdHi2xezo1+Mx3Bps72azZhYEhtvhooeDYfxTXHQKRuUEAea1thYtSROcp9vM
+        RBO9R15YIEyfI7Xgea0ek0SINspquUU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-anMg4KWbPHCynA5vLhieIA-1; Mon, 18 Jan 2021 13:29:47 -0500
+X-MC-Unique: anMg4KWbPHCynA5vLhieIA-1
+Received: by mail-ed1-f72.google.com with SMTP id n8so6228567edo.19
+        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Jan 2021 10:29:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Gaz99qAcLn2KYEyunJhawzMi0IY0X3LlBR6yMj2tZ8c=;
-        b=cch4FiUB+0Rbortrs1S3Jghap7gIk65o9AHQTqHeYdQsvx6s+eV6H1ThNkbZUcvp/g
-         cT8gH42TPW4SpKwXvMima78IEy17ccemoznMZXooxTCHNIksNZIwUbAZxjGV5/q9zKXV
-         /elLj4wbpzplXZKwnaS9MVEJ+0cHSkx8mGEs9jbUZ9cBozD46DhNr5FXcf6YLJxIW3Wi
-         gBDraqwcQK4I25Ohp/AutoQqAemTE5BgN5Vx2e8rJPk3yTXEVSAjby+NiPCGQx3re8XA
-         6i8MgyVOpe9h+CsZlPzdzFGNiyDuax2Dgog5TCuDPEb1vib8ScUxReza8kmMjSTaykZw
-         Nciw==
-X-Gm-Message-State: AOAM532FKI4uE6r7EZ/cnFQNBpK2QYYxI5st0seUWtbIdk8Rns0vmNun
-        2k2xG2duRVYwCIHDyjCyEq6/KT06ec1Rl6cJAxdm/wjmf6rW2qq0df31Su6Iun+gImVyVIZan1N
-        1BNi321wEv3hFMzbhzuHG12O9DVygrHDZANcZ/G75YRQYIvpstkt5CHC2y5KwqARGGPYO0H7vbE
-        DqhwIQ+crv2A==
-X-Received: by 2002:a17:906:cf81:: with SMTP id um1mr662174ejb.122.1610994144110;
-        Mon, 18 Jan 2021 10:22:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkSwKI9vqQ2BsCUhEi4bsNFtz33R1vt8OdDlu1u6QO4deJfvKs6HVTB6MqH0HtXPS5PIMQpg==
-X-Received: by 2002:a17:906:cf81:: with SMTP id um1mr662155ejb.122.1610994143835;
-        Mon, 18 Jan 2021 10:22:23 -0800 (PST)
+        bh=5NjRX5B5MOb4wxtZQReem/ly9YfdPWUYmQv2ycL3Vvg=;
+        b=Y/bDbrs622S7JGxsAQfy8jtohQDpkbDtTyBC5rAqqo+/+zo9HHQmIssv0R030hO1/s
+         334TZUDPgHrcMthBnDDvSBMVgPuklrAEtGrK7gatnwjfyPmtiCSmilcHMxGFWF7USaBX
+         YUeLN66K/W+EwJgzIrXZP/KHG8z40tnMuWZQuSqS60fDYhcKNZ7CciqhiVq45ZRmb5ak
+         IkGBUwtW+AhNxBHenoFavF8Yyqsrl85px+xNuIQ6uV2NC+/iJM+n3dIutBhH0TQ0rfjw
+         c6/9xPqNwuBY6r8lgx5qOZd34DSA+JFLwsZzfGARX94Zkc8aSaQqaQ5UVcIzqQ7Uatoe
+         qb0A==
+X-Gm-Message-State: AOAM533EoHQVnCF5DVjy9ySU7EpQXmwhrbc8Pl8MazGUqJuaXk17pMQ0
+        vnxhH+9Uk+ZSPrY4DDIYYCQFixefKcmDDZFRz8JjFYXzwEBR5q/uSJFtMt9cQUOqf/7fX1Z0hj5
+        TVyFqe2BslAb7aBEtpXnoqhS98KP9B3RPKoZLGwlCKvVtSSwLrjD9drj3pI75IUuxUR0a+BDmkf
+        LcSrp9YzEwiw==
+X-Received: by 2002:a17:906:1302:: with SMTP id w2mr646739ejb.413.1610994585118;
+        Mon, 18 Jan 2021 10:29:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwIE+zQ4YirqnJgaFzT3TC2D9JdDAoCLGVNvIAUPgRkLnWmTKycpnh2uxR6RmL61mUjDWBJ2Q==
+X-Received: by 2002:a17:906:1302:: with SMTP id w2mr646731ejb.413.1610994584947;
+        Mon, 18 Jan 2021 10:29:44 -0800 (PST)
 Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id g25sm10664146edw.92.2021.01.18.10.22.23
+        by smtp.gmail.com with ESMTPSA id j25sm10622110edy.13.2021.01.18.10.29.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jan 2021 10:22:23 -0800 (PST)
-Subject: Re: [PATCH] platform/surface: aggregator: Fix kernel-doc references
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20210114150826.19109-1-luzmaximilian@gmail.com>
+        Mon, 18 Jan 2021 10:29:44 -0800 (PST)
+Subject: Re: [PATCH] MAINTAINERS: update email address for Henrique de Moraes
+ Holschuh
+To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Mark Gross <mgross@linux.intel.com>
+Cc:     platform-driver-x86@vger.kernel.org
+References: <20210115184721.32546-1-hmh@hmh.eng.br>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9ea124b5-9324-e892-859f-6b2b19b4d9d3@redhat.com>
-Date:   Mon, 18 Jan 2021 19:22:22 +0100
+Message-ID: <55b3b76c-94b5-79d5-2d91-648e59c6770d@redhat.com>
+Date:   Mon, 18 Jan 2021 19:29:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210114150826.19109-1-luzmaximilian@gmail.com>
+In-Reply-To: <20210115184721.32546-1-hmh@hmh.eng.br>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,13 +76,17 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 1/14/21 4:08 PM, Maximilian Luz wrote:
-> Both, ssh_rtl_rx_start() and ssh_rtl_tx_start() functions, do not exist
-> and have been consolidated into ssh_rtl_start(). Nevertheless,
-> kernel-doc references the former functions. Replace those references
-> with references to ssh_rtl_start().
+On 1/15/21 7:47 PM, Henrique de Moraes Holschuh wrote:
+> Update my email address in MAINTAINERS to the one I have been using for
+> commits, Signed-off-by and Acked-by tags.  Only two ancient commits had
+> the old ibm-acpi@hmh.eng.br, so it is unlikely to justify a .mailmap
+> entry.
 > 
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+> Note that ibm-acpi@hmh.eng.br does work as a way to contact me, but
+> apparently it is best when MAINTAINERS entries match commit email
+> addresses ;-)
+> 
+> Signed-off-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
 Thank you for your patch, I've applied this patch to my review-hans 
 branch:
@@ -102,32 +105,21 @@ Regards,
 Hans
 
 > ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Note: This patch does not change the kernel doc at the ssh_rtl_start()
-> itself, as there is already another patch for it:
-> 
->   "platform/surface: aggregator: fix a kernel-doc markup"
->   https://lore.kernel.org/patchwork/patch/1364953/
-> 
-> ---
->  drivers/platform/surface/aggregator/ssh_request_layer.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/platform/surface/aggregator/ssh_request_layer.c b/drivers/platform/surface/aggregator/ssh_request_layer.c
-> index bb1c862411a2..4fbe58265e31 100644
-> --- a/drivers/platform/surface/aggregator/ssh_request_layer.c
-> +++ b/drivers/platform/surface/aggregator/ssh_request_layer.c
-> @@ -1004,9 +1004,8 @@ int ssh_request_init(struct ssh_request *rqst, enum ssam_request_flags flags,
->   *
->   * Initializes the given request transport layer and associated packet
->   * transport layer. Transmitter and receiver threads must be started
-> - * separately via ssh_rtl_tx_start() and ssh_rtl_rx_start(), after the
-> - * request-layer has been initialized and the lower-level serial device layer
-> - * has been set up.
-> + * separately via ssh_rtl_start(), after the request-layer has been
-> + * initialized and the lower-level serial device layer has been set up.
->   *
->   * Return: Returns zero on success and a nonzero error code on failure.
->   */
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 79b400c97059..b7980a752c28 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17637,7 +17637,7 @@ F:	drivers/thermal/gov_power_allocator.c
+>  F:	include/trace/events/thermal_power_allocator.h
+>  
+>  THINKPAD ACPI EXTRAS DRIVER
+> -M:	Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
+> +M:	Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+>  L:	ibm-acpi-devel@lists.sourceforge.net
+>  L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
 > 
 
