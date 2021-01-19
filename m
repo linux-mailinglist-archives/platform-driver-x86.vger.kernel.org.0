@@ -2,108 +2,82 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32A952FC364
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Jan 2021 23:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD7B02FC3BE
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Jan 2021 23:40:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730351AbhASW0x convert rfc822-to-8bit (ORCPT
+        id S1727156AbhASOe4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 Jan 2021 17:26:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51344 "EHLO mail.kernel.org"
+        Tue, 19 Jan 2021 09:34:56 -0500
+Received: from mga09.intel.com ([134.134.136.24]:38678 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729236AbhASW0l (ORCPT
+        id S2387635AbhASJg7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 Jan 2021 17:26:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4F27F23121
-        for <platform-driver-x86@vger.kernel.org>; Tue, 19 Jan 2021 22:26:00 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 3C59081649; Tue, 19 Jan 2021 22:26:00 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
- Envy x360)
-Date:   Tue, 19 Jan 2021 22:25:59 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mail@richard-neumann.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-199715-215701-waGMFEIV6n@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
-References: <bug-199715-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Tue, 19 Jan 2021 04:36:59 -0500
+IronPort-SDR: +mcbgIGpvgow1F5e6VE5S1GtIOm3FVCYsAKR0tqE12pnJHBfUuRpeL7m0PWgawHfAWO0CPLqPL
+ ZJxi9X79vffA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179051386"
+X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
+   d="scan'208";a="179051386"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 01:34:54 -0800
+IronPort-SDR: ZyqcKiU5pqIaa4jK/y2/kFZdKURQvGqk5xzdXr4GsBSdbnY941/vMnTNW1eh005BqSKScnjNF6
+ GS5fHddU9VVw==
+X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
+   d="scan'208";a="426408521"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 01:34:44 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1l1nQM-003Lep-8a; Tue, 19 Jan 2021 11:35:42 +0200
+Date:   Tue, 19 Jan 2021 11:35:42 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
+        andy@kernel.org, mika.westerberg@linux.intel.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        wsa@kernel.org, lee.jones@linaro.org, hdegoede@redhat.com,
+        mgross@linux.intel.com, robert.moore@intel.com,
+        erik.kaneda@intel.com, sakari.ailus@linux.intel.com,
+        kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 6/7] platform: x86: Add intel_skl_int3472 driver
+Message-ID: <20210119093542.GP4077@smile.fi.intel.com>
+References: <20210118003428.568892-1-djrscally@gmail.com>
+ <20210118003428.568892-7-djrscally@gmail.com>
+ <YAVRqWeUsLjvU62P@pendragon.ideasonboard.com>
+ <20210118144606.GO4077@smile.fi.intel.com>
+ <75e99a06-4579-44ee-5f20-8f2ee3309a68@gmail.com>
+ <1053125f-7cb2-8aa0-3204-24df62986184@gmail.com>
+ <YAZ6Y1QDyWwPGE69@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YAZ6Y1QDyWwPGE69@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=199715
+On Tue, Jan 19, 2021 at 08:21:23AM +0200, Laurent Pinchart wrote:
+> On Tue, Jan 19, 2021 at 12:11:40AM +0000, Daniel Scally wrote:
+> > On 18/01/2021 21:19, Daniel Scally wrote:
 
---- Comment #48 from Richard Neumann (mail@richard-neumann.de) ---
-$ cat /sys/class/dmi/id/product_name
-HP ENVY x360 Convertible 13-ag0xxx
+...
 
-$ for file in /sys/bus/iio/devices/iio\:device0/in_anglvel_*; do echo
-"$(basename "${file}"): $(cat "${file}")"; done
-in_anglvel_hysteresis: 1.270000
-in_anglvel_offset: 0
-in_anglvel_sampling_frequency: 12.500000
-in_anglvel_scale: 0.000174532
-in_anglvel_x_raw: 0
-in_anglvel_y_raw: 0
-in_anglvel_z_raw: 0
+> > (also, Laurent, if we did it this way we wouldn't be able to also handle
+> > the led-indicator GPIO here without some fairly major rework)
+> 
+> Given the additional complexity I don't think it's worth it, your
+> implementation is fine and code duplication with clk-gpio is minimal.
 
-$ for file in /sys/bus/iio/devices/iio\:device1/in_magn_*; do echo "$(basename
-"${file}"): $(cat "${file}")"; done
-in_magn_hysteresis: 1.270000
-in_magn_offset: 0
-in_magn_sampling_frequency: 12.500000
-in_magn_scale: 0.000001000
-in_magn_x_raw: 40
-in_magn_y_raw: -14
-in_magn_z_raw: -16
-
-$ for file in /sys/bus/iio/devices/iio\:device2/in_accel_*; do echo "$(basename
-"${file}"): $(cat "${file}")"; done
-in_accel_hysteresis: 1.270000
-in_accel_offset: 0
-in_accel_sampling_frequency: 12.500000
-in_accel_scale: 0.098066500
-in_accel_x_raw: 0
-in_accel_y_raw: -9
-in_accel_z_raw: -5
-
-$ for file in /sys/bus/iio/devices/iio\:device3/in_i*; do echo "$(basename
-"${file}"): $(cat "${file}")"; done
-cat: '/sys/bus/iio/devices/iio:device3/in_illuminance_hysteresis': Invalid
-argument
-in_illuminance_hysteresis: 
-in_illuminance_offset: 0
-in_illuminance_raw: 0
-in_illuminance_sampling_frequency: 12.500000
-in_illuminance_scale: 0.100000000
-in_intensity_both_raw: 0
-cat: '/sys/bus/iio/devices/iio:device3/in_intensity_hysteresis': Invalid
-argument
-in_intensity_hysteresis: 
-in_intensity_offset: 0
-in_intensity_sampling_frequency: 12.500000
-in_intensity_scale: 0.100000000
+Making clk-gpio.c available as a library is a win in long term and reduces a
+possible duplication by others in the future. I bet we even might find already
+clk-gpio parts in some drivers.
 
 -- 
-You may reply to this email to add a comment.
+With Best Regards,
+Andy Shevchenko
 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+
