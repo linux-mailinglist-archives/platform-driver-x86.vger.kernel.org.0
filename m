@@ -2,82 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E53C22FB9A2
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Jan 2021 15:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DFBF2FB9A3
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Jan 2021 15:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387895AbhASOgh (ORCPT
+        id S2389336AbhASOgk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 Jan 2021 09:36:37 -0500
-Received: from mga11.intel.com ([192.55.52.93]:49505 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405240AbhASLMX (ORCPT
+        Tue, 19 Jan 2021 09:36:40 -0500
+Received: from mail-ot1-f44.google.com ([209.85.210.44]:38261 "EHLO
+        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390548AbhASNQU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 Jan 2021 06:12:23 -0500
-IronPort-SDR: 3uYPwzDIQ74XV46GpVMoSozFwrE3m5nPN72LzvC/gSgi+kodCpc0uq3Muln088cmEQ42CZybe3
- 4FNP4YdF9O7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="175407051"
-X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="175407051"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 03:10:27 -0800
-IronPort-SDR: qyBoVzudwLBj/l7BjOhWTnh9a9OJS7YiHbyJra8Jlwne0DRqr15v4uwaFEzRmL8KEvFfXgwl9j
- AzKWny92iNBw==
-X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="569671485"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 03:10:21 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1l1ouw-003RSK-QR; Tue, 19 Jan 2021 13:11:22 +0200
-Date:   Tue, 19 Jan 2021 13:11:22 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Daniel Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
-        andy@kernel.org, mika.westerberg@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, lee.jones@linaro.org, hdegoede@redhat.com,
-        mgross@linux.intel.com, robert.moore@intel.com,
-        erik.kaneda@intel.com, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 6/7] platform: x86: Add intel_skl_int3472 driver
-Message-ID: <20210119111122.GU4077@smile.fi.intel.com>
-References: <20210118003428.568892-1-djrscally@gmail.com>
- <20210118003428.568892-7-djrscally@gmail.com>
- <2d8d7072-3b6f-4ffa-29dc-51f31fe4af72@ideasonboard.com>
+        Tue, 19 Jan 2021 08:16:20 -0500
+Received: by mail-ot1-f44.google.com with SMTP id 34so8870534otd.5;
+        Tue, 19 Jan 2021 05:15:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wxvsvsxyrpOZ/oY0spXlDXsPyT4qu420p3DmEnH6sfU=;
+        b=C7wqhDP881vKuRJx4NtLfuZjZGmBJsIQrLDCx47XV0OF/4dM5uoX6p/JUIDHW0vV77
+         VwsHE2cg70S6Nncx0BxDd4cD94/YhBJFE5B7rh+OVogNaSxiZM8U5CVQ+yAZb4EOicK/
+         i1hnEvBoNigSBeb12JDfGHd9iQu+Ej77JxDUF4xj6LOAEHseSgYYEMJQm+JjCio0+O5G
+         9GNCW0mqaAVvx19o9z+vX2NX9K1W6wWyqXuKIaQNtXmdKtc9e9SMg4zCk9vVZrADlYwo
+         P2Z7YfKKEzzaD9V8oN/X39MaJ7L1X3ILBmGM+ZdLljJAt9he7jzr4iNADjbKe8DVhZZZ
+         88Bw==
+X-Gm-Message-State: AOAM532jeKNkUBYdvL1O4Sglw2i3wVayK5VcspLs2DGDZzt2T0rfeE3J
+        IRE4mauSJ5Jr/104mmPWg+rug9mLlnKH5VuCKbdJHncX
+X-Google-Smtp-Source: ABdhPJwCehh3k/IMteXxnwOxWa37biw3gKZKIYGKKmoFB1cZ9WYyVmZ60RkecMm29B8DPoHIR9VSqGcKux2VkA0z8VU=
+X-Received: by 2002:a9d:1710:: with SMTP id i16mr3359773ota.260.1611062133927;
+ Tue, 19 Jan 2021 05:15:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d8d7072-3b6f-4ffa-29dc-51f31fe4af72@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210118003428.568892-1-djrscally@gmail.com> <20210118003428.568892-3-djrscally@gmail.com>
+ <CAJZ5v0gVQsZ4rxXW8uMidW9zfY_S50zpfrL-Gq0J3Z4-qqBiww@mail.gmail.com> <b381b48e-1bf2-f3e7-10a6-e51cd261f43c@gmail.com>
+In-Reply-To: <b381b48e-1bf2-f3e7-10a6-e51cd261f43c@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 19 Jan 2021 14:15:21 +0100
+Message-ID: <CAJZ5v0iU2m4Hs6APuauQ645DwbjYaB8nJFjYH0+7yQnR-FPZBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] acpi: utils: Add function to fetch dependent acpi_devices
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-gpio@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, andy@kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 10:56:17AM +0000, Kieran Bingham wrote:
-> On 18/01/2021 00:34, Daniel Scally wrote:
+On Mon, Jan 18, 2021 at 9:51 PM Daniel Scally <djrscally@gmail.com> wrote:
+>
+> On 18/01/2021 16:14, Rafael J. Wysocki wrote:
+> > On Mon, Jan 18, 2021 at 1:37 AM Daniel Scally <djrscally@gmail.com> wrote:
+> >> In some ACPI tables we encounter, devices use the _DEP method to assert
+> >> a dependence on other ACPI devices as opposed to the OpRegions that the
+> >> specification intends. We need to be able to find those devices "from"
+> >> the dependee, so add a function to parse all ACPI Devices and check if
+> >> the include the handle of the dependee device in their _DEP buffer.
+> > What exactly do you need this for?
+>
+> So, in our DSDT we have devices with _HID INT3472, plus sensors which
+> refer to those INT3472's in their _DEP method. The driver binds to the
+> INT3472 device, we need to find the sensors dependent on them.
+>
 
-...
+Well, this is an interesting concept. :-)
 
-> > +config INTEL_SKL_INT3472
-> > +	tristate "Intel SkyLake ACPI INT3472 Driver"
-> > +	depends on X86 && ACPI
-> > +	select REGMAP_I2C
-> 
-> I've tried compiling this as a built in and a module and on my minimal
-> config I had failures on both for regulator_register and
-> regulator_unregister.
-> 
-> I suspect this needs to have either a selects or a depends upon
-> CONFIG_REGULATOR
+Why does _DEP need to be used for that?  Isn't there any other way to
+look up the dependent sensors?
 
-Valid point, although it seems no consensus on which is better to use. It seems
-to me that in this case we need to select it.
+>
+> > Would it be practical to look up the suppliers in acpi_dep_list instead?
+> >
+> > Note that supplier drivers may remove entries from there, but does
+> > that matter for your use case?
+>
+> Ah - that may work, yes. Thank you, let me test that.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Even if that doesn't work right away, but it can be made work, I would
+very much prefer that to the driver parsing _DEP for every device in
+the namespace by itself.
