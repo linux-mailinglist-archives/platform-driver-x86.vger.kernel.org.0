@@ -2,63 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A75402FD05F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Jan 2021 13:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20F162FD060
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Jan 2021 13:58:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388857AbhATMi0 convert rfc822-to-8bit (ORCPT
+        id S2389214AbhATMih (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 20 Jan 2021 07:38:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731327AbhATLKQ (ORCPT
+        Wed, 20 Jan 2021 07:38:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731094AbhATL1B (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 20 Jan 2021 06:10:16 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 937A823343
-        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Jan 2021 11:09:35 +0000 (UTC)
-Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 8EC6A81649; Wed, 20 Jan 2021 11:09:35 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
- Envy x360)
-Date:   Wed, 20 Jan 2021 11:09:34 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dmaroulidis@dimitrismaroulidis.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-199715-215701-7mXxNbKCtU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
-References: <bug-199715-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Wed, 20 Jan 2021 06:27:01 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A7AC061793
+        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Jan 2021 03:26:42 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id u21so25690974lja.0
+        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Jan 2021 03:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rA6bdLKAlmIoLWUk8dCMAvfvN7Iy5mLs9O7w+8do8z8=;
+        b=hUIiRPlnMeeaTktx9TiA8UFdRaSKm6zh4+y0j9kDeNHP8TdZPrstvxTNIJydx3b3rk
+         laCm9uscm9uZlNF+jgD9LxV234ABWDAqEJwDD3sYViomVYIACHg5ywtJBI2OOLJvja5V
+         5ZQj1utqaWnS+NOXIbmT0DGsJ7HgKMLkiZlTG9xVwLg6a8dUgChg6WGgTR/sGcPf3cwf
+         Clv4SaBcGsAmSQ9zVOKQY0v5ZMbPeMnTvpzmVAXJAwuEJwGmL+kmqqK7n0ySEuuvvmK6
+         k7W1CfEpdhfGc8BNtERIX75nlK0Yu/vY54bSxpx7JrQntZIiDyMbNBbsve/ZKNsRxDeh
+         Sx0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rA6bdLKAlmIoLWUk8dCMAvfvN7Iy5mLs9O7w+8do8z8=;
+        b=GFpD6kqtiyj4J3iTadGK5qyLqhv/5cAKzyt/Q41QbH3dKTYfFhBkpvd6pzwuL8ViJU
+         dnrz/HL8/sr5Qg3mpeveTmdWbupPMb4mf9fd7xza0yXjnuy7GHGmlN2oqXYNAubt8Rt7
+         GpD/7GMmTX+KJkvR97V2PBfUDdSZ5ijji/mfRccC60o6/d/2xju7ez/tu5WqVkATtK6x
+         /S6596QUCFWMTVDHjwHOfgKOX/MhKbnKCzwjUnK51g43VPV/40WyalCJ/u8YH6DWDbgi
+         5avDl3QtUI4xmRDZE4E6+sbngtJoTZ3BZGIJtQGvqTojKyhB3eEslqkwQQCjSUtsYyEE
+         dcyA==
+X-Gm-Message-State: AOAM531ua0/ROrdua5Whl3RpeRU8ZyKM2lxecs2kzyjyPszkamk22H06
+        EtLgPYwxmVTGQuZfWA7gvU1e9Q==
+X-Google-Smtp-Source: ABdhPJxhSDtqieNXSqt+r98ESGwXZDp29cFZUijUj0JQjcXu+YxvmLdbP1QZ+D1O4a2eK82VnJ/DbA==
+X-Received: by 2002:a2e:b1d2:: with SMTP id e18mr4163694lja.101.1611142001496;
+        Wed, 20 Jan 2021 03:26:41 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id 189sm172195lfj.192.2021.01.20.03.26.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jan 2021 03:26:40 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 4462C101448; Wed, 20 Jan 2021 14:26:43 +0300 (+03)
+Date:   Wed, 20 Jan 2021 14:26:43 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+Cc:     Borislav Petkov <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, X86 ML <x86@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH] x86: efi: avoid BUILD_BUG_ON() for non-constant p4d_index
+Message-ID: <20210120112643.ozlsru67yuur323i@box>
+References: <20210107223424.4135538-1-arnd@kernel.org>
+ <YAHoB4ODvxSqNhsq@rani.riverdale.lan>
+ <YAH6r3lak/F2wndp@rani.riverdale.lan>
+ <CAMj1kXGZFZciN1_KruCr=g6GANNpRrCLR48b3q13+QfK481C7Q@mail.gmail.com>
+ <20210118202409.GG30090@zn.tnic>
+ <YAYAvBARSRSg8z8G@rani.riverdale.lan>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YAYAvBARSRSg8z8G@rani.riverdale.lan>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=199715
+On Mon, Jan 18, 2021 at 04:42:20PM -0500, Arvind Sankar wrote:
+> AFAICT, MODULES_END is only relevant as being something that happens to
+> be in the top 512GiB, and -1ul would be clearer.
 
---- Comment #50 from Dimitris (dmaroulidis@dimitrismaroulidis.com) ---
-@Hans yes it's the same product_name.
-
-$ cat /sys/class/dmi/id/product_name 
-HP ENVY x360 Convertible 13-ag0xxx
+I think you are right. But -1UL is not very self-descriptive. :/
 
 -- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+ Kirill A. Shutemov
