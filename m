@@ -2,94 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F162FD060
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Jan 2021 13:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A40002FD063
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Jan 2021 13:58:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389214AbhATMih (ORCPT
+        id S1730211AbhATMin (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 20 Jan 2021 07:38:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731094AbhATL1B (ORCPT
+        Wed, 20 Jan 2021 07:38:43 -0500
+Received: from mga14.intel.com ([192.55.52.115]:58467 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388623AbhATLpO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 20 Jan 2021 06:27:01 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A7AC061793
-        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Jan 2021 03:26:42 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id u21so25690974lja.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 20 Jan 2021 03:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rA6bdLKAlmIoLWUk8dCMAvfvN7Iy5mLs9O7w+8do8z8=;
-        b=hUIiRPlnMeeaTktx9TiA8UFdRaSKm6zh4+y0j9kDeNHP8TdZPrstvxTNIJydx3b3rk
-         laCm9uscm9uZlNF+jgD9LxV234ABWDAqEJwDD3sYViomVYIACHg5ywtJBI2OOLJvja5V
-         5ZQj1utqaWnS+NOXIbmT0DGsJ7HgKMLkiZlTG9xVwLg6a8dUgChg6WGgTR/sGcPf3cwf
-         Clv4SaBcGsAmSQ9zVOKQY0v5ZMbPeMnTvpzmVAXJAwuEJwGmL+kmqqK7n0ySEuuvvmK6
-         k7W1CfEpdhfGc8BNtERIX75nlK0Yu/vY54bSxpx7JrQntZIiDyMbNBbsve/ZKNsRxDeh
-         Sx0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rA6bdLKAlmIoLWUk8dCMAvfvN7Iy5mLs9O7w+8do8z8=;
-        b=GFpD6kqtiyj4J3iTadGK5qyLqhv/5cAKzyt/Q41QbH3dKTYfFhBkpvd6pzwuL8ViJU
-         dnrz/HL8/sr5Qg3mpeveTmdWbupPMb4mf9fd7xza0yXjnuy7GHGmlN2oqXYNAubt8Rt7
-         GpD/7GMmTX+KJkvR97V2PBfUDdSZ5ijji/mfRccC60o6/d/2xju7ez/tu5WqVkATtK6x
-         /S6596QUCFWMTVDHjwHOfgKOX/MhKbnKCzwjUnK51g43VPV/40WyalCJ/u8YH6DWDbgi
-         5avDl3QtUI4xmRDZE4E6+sbngtJoTZ3BZGIJtQGvqTojKyhB3eEslqkwQQCjSUtsYyEE
-         dcyA==
-X-Gm-Message-State: AOAM531ua0/ROrdua5Whl3RpeRU8ZyKM2lxecs2kzyjyPszkamk22H06
-        EtLgPYwxmVTGQuZfWA7gvU1e9Q==
-X-Google-Smtp-Source: ABdhPJxhSDtqieNXSqt+r98ESGwXZDp29cFZUijUj0JQjcXu+YxvmLdbP1QZ+D1O4a2eK82VnJ/DbA==
-X-Received: by 2002:a2e:b1d2:: with SMTP id e18mr4163694lja.101.1611142001496;
-        Wed, 20 Jan 2021 03:26:41 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id 189sm172195lfj.192.2021.01.20.03.26.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 03:26:40 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 4462C101448; Wed, 20 Jan 2021 14:26:43 +0300 (+03)
-Date:   Wed, 20 Jan 2021 14:26:43 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-Cc:     Borislav Petkov <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, X86 ML <x86@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH] x86: efi: avoid BUILD_BUG_ON() for non-constant p4d_index
-Message-ID: <20210120112643.ozlsru67yuur323i@box>
-References: <20210107223424.4135538-1-arnd@kernel.org>
- <YAHoB4ODvxSqNhsq@rani.riverdale.lan>
- <YAH6r3lak/F2wndp@rani.riverdale.lan>
- <CAMj1kXGZFZciN1_KruCr=g6GANNpRrCLR48b3q13+QfK481C7Q@mail.gmail.com>
- <20210118202409.GG30090@zn.tnic>
- <YAYAvBARSRSg8z8G@rani.riverdale.lan>
+        Wed, 20 Jan 2021 06:45:14 -0500
+IronPort-SDR: aL2ktEegC5LV5U1VNOp58U5GcU3KJ4pX04CfZ/3vwwDlJtCBfXrm6VeVBg8MY1TS+hRkn/4uxN
+ ei6VpNhRfV1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="178312335"
+X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; 
+   d="scan'208";a="178312335"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 03:43:25 -0800
+IronPort-SDR: 6d9Rl0rqHJqHoSH83fmczd67tFi0FPoX0meYdc4bz4p8ozkNLjsRJu/Sag1Y1gN4GNf12X7g9N
+ RIBIzwexvgpg==
+X-IronPort-AV: E=Sophos;i="5.79,361,1602572400"; 
+   d="scan'208";a="501578998"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2021 03:43:20 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1l2BuQ-0065s8-4t; Wed, 20 Jan 2021 13:44:22 +0200
+Date:   Wed, 20 Jan 2021 13:44:22 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
+        andy@kernel.org, mika.westerberg@linux.intel.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        wsa@kernel.org, lee.jones@linaro.org, hdegoede@redhat.com,
+        mgross@linux.intel.com, robert.moore@intel.com,
+        erik.kaneda@intel.com, sakari.ailus@linux.intel.com,
+        kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v2 6/7] platform: x86: Add intel_skl_int3472 driver
+Message-ID: <YAgXlgLauIGEe05w@smile.fi.intel.com>
+References: <20210118003428.568892-1-djrscally@gmail.com>
+ <20210118003428.568892-7-djrscally@gmail.com>
+ <YAVRqWeUsLjvU62P@pendragon.ideasonboard.com>
+ <20210118144606.GO4077@smile.fi.intel.com>
+ <75e99a06-4579-44ee-5f20-8f2ee3309a68@gmail.com>
+ <1053125f-7cb2-8aa0-3204-24df62986184@gmail.com>
+ <20210119093358.GO4077@smile.fi.intel.com>
+ <YAcKj9fyNZY8QETd@pendragon.ideasonboard.com>
+ <YAcaM9Tcif1rS3V/@smile.fi.intel.com>
+ <YAevLTVlUSXMylWL@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YAYAvBARSRSg8z8G@rani.riverdale.lan>
+In-Reply-To: <YAevLTVlUSXMylWL@pendragon.ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 04:42:20PM -0500, Arvind Sankar wrote:
-> AFAICT, MODULES_END is only relevant as being something that happens to
-> be in the top 512GiB, and -1ul would be clearer.
+On Wed, Jan 20, 2021 at 06:18:53AM +0200, Laurent Pinchart wrote:
+> On Tue, Jan 19, 2021 at 07:43:15PM +0200, Andy Shevchenko wrote:
+> > On Tue, Jan 19, 2021 at 06:36:31PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Jan 19, 2021 at 11:33:58AM +0200, Andy Shevchenko wrote:
+> > > > On Tue, Jan 19, 2021 at 12:11:40AM +0000, Daniel Scally wrote:
+> > > > > On 18/01/2021 21:19, Daniel Scally wrote:
 
-I think you are right. But -1UL is not very self-descriptive. :/
+...
+
+> > > > See my previous reply. TL;DR: you have to modify clk-gpio.c to export couple of
+> > > > methods to be able to use it as a library.
+> > > 
+> > > That seems really overkill given the very simple implementation of the
+> > > clock provided here.
+> > 
+> > Less code in the end is called an overkill? Hmm...
+> > I think since we in Linux it's better to utilize what it provides. Do you want
+> > me to prepare a patch to show that there is no overkill at all?
+> 
+> The amount of code we would save it very small. It's not necessarily a
+> bad idea, but I think such an improvement could be made on top, it
+> shouldn't block this series.
+
+Okay, let's wait what Dan will say on this.
+I can probably help to achieve this improvement sooner than later.
+
+...
+
+> > > > > (also, Laurent, if we did it this way we wouldn't be able to also handle
+> > > > > the led-indicator GPIO here without some fairly major rework)
+> > > > 
+> > > > LED indicators are done as LED class devices (see plenty of examples in PDx86
+> > > > drivers: drivers/platform/x86/)
+> > > 
+> > > How do you expose the link between the sensor and its indicator LED to
+> > > userspace ? Isn't it better to handle it in the kernel to avoid rogue
+> > > userspace turning the camera on without notifying the user ?
+> > 
+> > I didn't get this. It's completely a LED handling driver business. We may
+> > expose it to user space or not, but it's orthogonal to the usage of LED class
+> > IIUC. Am I mistaken here?
+> 
+> If it stays internal to the kernel and is solely controlled from the
+> int3472 driver, there's no need to involve the LED class. If we want to
+> expose the privacy LED to userspace then the LED framework is the way to
+> go, but we will also need to find a way to expose the link between the
+> camera sensor and the LED to userspace. If there are two privacy LEDs,
+> one for the front sensor and one for the back sensor, userspace will
+> need to know which is which.
+
+I see. For now we probably can keep GPIO LED implementation internally.
 
 -- 
- Kirill A. Shutemov
+With Best Regards,
+Andy Shevchenko
+
+
