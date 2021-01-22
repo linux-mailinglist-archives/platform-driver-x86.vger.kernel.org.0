@@ -2,59 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37E91300F87
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 23:03:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13ACE300F8B
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 23:03:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730458AbhAVV7h (ORCPT
+        id S1730836AbhAVWBl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Jan 2021 16:59:37 -0500
-Received: from mail.padangpariamankab.go.id ([103.94.3.123]:60640 "EHLO
-        mail.padangpariamankab.go.id" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729962AbhAVV7a (ORCPT
+        Fri, 22 Jan 2021 17:01:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34130 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729322AbhAVWBT (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Jan 2021 16:59:30 -0500
-X-Greylist: delayed 2765 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 16:59:28 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id A38BF6E6DD0;
-        Sat, 23 Jan 2021 03:53:15 +0700 (WIB)
-Received: from mail.padangpariamankab.go.id ([127.0.0.1])
-        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id cfKmxqReabMv; Sat, 23 Jan 2021 03:53:15 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 7D67C6E6DD4;
-        Sat, 23 Jan 2021 03:53:14 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.padangpariamankab.go.id 7D67C6E6DD4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=padangpariamankab.go.id; s=D2C6CDEC-3607-11EA-BC8A-EEDE4AB8B776;
-        t=1611348794; bh=4AhSoXRU63EAbbOwseUY/pxjidGey07DskAQ7pZ9AvE=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=JLwwaKWp7tJ1YLjbZAd+z15vaCf05ZZmb/Y0NkvZ5SWc8HU/Su2lJQ2bPRI7JUmJZ
-         Fvj7z5TgegMcpjffRiLeNn5Tp1zaf0QtrfhOJnlNA3YoMlGZ9iaP++lgTYiiM+cXRI
-         MtjCQzdEljlYgaQ/pML3op/E1sPPpwwiWkQeUF5c=
-X-Virus-Scanned: amavisd-new at padangpariamankab.go.id
-Received: from mail.padangpariamankab.go.id ([127.0.0.1])
-        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id MHjGVXp5mHuj; Sat, 23 Jan 2021 03:53:14 +0700 (WIB)
-Received: from mail.padangpariamankab.go.id (mail.padangpariamankab.go.id [103.94.3.123])
-        by mail.padangpariamankab.go.id (Postfix) with ESMTP id F17B96E6DCD;
-        Sat, 23 Jan 2021 03:53:11 +0700 (WIB)
-Date:   Sat, 23 Jan 2021 03:53:11 +0700 (WIB)
-From:   GREENLIGHT <rsud@padangpariamankab.go.id>
-Reply-To: "Greenlight Financial Services " <greenlightservices@usa.com>
-Message-ID: <453457530.20101.1611348791914.JavaMail.zimbra@padangpariamankab.go.id>
-Subject: Update
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [103.94.3.123]
-X-Mailer: Zimbra 8.8.15_GA_3895 (zclient/8.8.15_GA_3895)
-Thread-Index: ZGng3+kVI9Wq4uc4gdZEwP3MLUkRIQ==
-Thread-Topic: Update
-To:     unlisted-recipients:; (no To-header on input)
+        Fri, 22 Jan 2021 17:01:19 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 58EEC23B08;
+        Fri, 22 Jan 2021 22:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611352839;
+        bh=56HnNKcrxaTHWZXlBFLfmhzbzB737NtG+EO1ntQr9E8=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=m+Se4sd8GyxSr2cn4IOGxQ1SAuVCplJUvlUFCR90VVMGGt/vHGz0hWOCXtvB069Pz
+         wkJ+JCLszKRKzo3ikMunBI7gxTNwz/uc3v39JFQGzjEsKwkvv0WLc0XIwKN1hkJwtr
+         hBzXfjOq2RGzttOqnw5D4Tr0SKqjDN7Sy3vY8kxkxu0szFtCHoJUjn4UFBvYkoUxLQ
+         JaiZuiczuaVi/w+VjEr1ZEwWgRtnvMPmFUFTv7f1tyurml/Cxd2WVscytB+qrFENfj
+         mw5XVlwG6cH0A0g3HnwVP/p4eUA/vE7GJtUOY0VEYnAg/rj1mk7haFHhnLBcuekc8E
+         07Rm6jC077Wmw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 54D3C652D1;
+        Fri, 22 Jan 2021 22:00:39 +0000 (UTC)
+Subject: Re: [GIT PULL] platform-drivers-x86 for 5.11-2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <ac7b0183-fda1-754f-f65c-e390ef147c89@redhat.com>
+References: <ac7b0183-fda1-754f-f65c-e390ef147c89@redhat.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ac7b0183-fda1-754f-f65c-e390ef147c89@redhat.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v5.11-2
+X-PR-Tracked-Commit-Id: 173aac2fef96972e42d33c0e1189e6f756a0d719
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9887e9af2d58e4021f1015bf804f5f226b3b2b1c
+Message-Id: <161135283933.4174.8291269431667336021.pr-tracker-bot@kernel.org>
+Date:   Fri, 22 Jan 2021 22:00:39 +0000
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+The pull request you sent on Fri, 22 Jan 2021 10:02:59 +0100:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v5.11-2
 
-We offer Reliable/Low Interest Rate Financial Services to Companies & Individuals including; Start-Up Business, Loans & Mortgage ETC. Apply Now
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9887e9af2d58e4021f1015bf804f5f226b3b2b1c
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
