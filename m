@@ -2,177 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47D333000D6
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 11:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54104300067
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 11:37:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727250AbhAVJ2G (ORCPT
+        id S1727334AbhAVK1L (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Jan 2021 04:28:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55668 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727301AbhAVJKI (ORCPT
+        Fri, 22 Jan 2021 05:27:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbhAVJbq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Jan 2021 04:10:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611306482;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Ddpi9v07wV/AhLbJYSpwqzGNlmkQGjXAyksWXeHHSp0=;
-        b=Xap7te6VQFZfPkAYeNJjsm3wUa4411JX8D9hcJ9+LgsaTmzpsMjbFaqbNGICT8QoG1LMh/
-        FkBnAJyeSm8q5KVo/LGQFLxswxkGxosB4htSr2TyeV+rG6zxHSKIDuuAlAdhqU1hpyXpb0
-        JGhaa6FoJoUdNQOW8qEkhWjGfrqvsSU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-V5TQh_cLP-OVGtDgT0M9Lg-1; Fri, 22 Jan 2021 04:03:02 -0500
-X-MC-Unique: V5TQh_cLP-OVGtDgT0M9Lg-1
-Received: by mail-ej1-f70.google.com with SMTP id p1so1955530ejo.4
-        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Jan 2021 01:03:02 -0800 (PST)
+        Fri, 22 Jan 2021 04:31:46 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B382C06174A
+        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Jan 2021 01:29:48 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id o10so6570315lfl.13
+        for <platform-driver-x86@vger.kernel.org>; Fri, 22 Jan 2021 01:29:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/U1yOzPWgbktFbCxjSub5Pj1SEOEIWwPkTY3UPw0hT8=;
+        b=E7aXGx/GynrVog6j8fwcL7NbomAe+9lIdN/+Zm3ZsqbrttDyRGeBvY7DCjUTdFcHCx
+         peC1LvXgn3niLjOxZUzuecSZWqDTWeeUJyEa4lDeSmqa3izBhfAjmWqXvI9DQ5A7m8Ey
+         e1XiJn6E6TJ1pQfC6p8Ns/6rlXgO4n8VnSOmzYLpaJsWLeChbaxluJqtwIoMy0ViUZjY
+         jPMiXQTmsegMlNZcNiVn6MuUQBt3LCpZCMSCz6+xgEIeHYzwtVynqtsOxv+CLA0p5ccr
+         6pXFrPmhBgyqwJKlaHGPVjo7cpiOx4qJOJECdfoysdgWnbS/AZloWreX77dgREBJNkUe
+         0DvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=Ddpi9v07wV/AhLbJYSpwqzGNlmkQGjXAyksWXeHHSp0=;
-        b=M7HTl5NAdgkHSbvOEghOJZi37hxKDnw7fyBNsnxlOpEBuiBctxHxYRec6i4vJUN8jd
-         0w6xuW8uu6kdUZlhrO/XJLZAZ7YdDNFW0kcwUnteXr3DlVE72Tw0NrAjAnIgUC8zKGLA
-         w1uikiRxpCs79T6mvrikfgPsU70AVPLdD66TcBuzPNNwIERfINjCGhA5xBGW3zDCiGM9
-         T1OGFYaLDKcct5j77qUDCyPX9HaoW/J6W1maHKBFUuiwhPv/mNHkLSzq/muKsdxBkPG/
-         F3Oo8tCut7cLrlTzBTVt5tDmEqcS4c7EBOXVBgjYcImyEoXXxLDOcQH/pMvJg1QtQ9DK
-         tqiQ==
-X-Gm-Message-State: AOAM531wixu2+SE0FN8O7nyPHZw25Okj2JzM2C8hilUL/t7i7194z1LN
-        MqaH4cYeFE8llkC2n/INjDid09LYXBt9qButJVi2QsLndBEHa5mU1lEZgOCfL8/Xu7EyUOXU5ou
-        xs0a+wjY7r9Z3z5S0D2kj8QZ3OFqSeH5Vpqx50leMMZtFFcn+QKKa1fVU0AnOoMufpDf/jnS+Z6
-        W2nAcdPHeDBQ==
-X-Received: by 2002:a17:906:80c9:: with SMTP id a9mr2204129ejx.78.1611306181245;
-        Fri, 22 Jan 2021 01:03:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx507lcD0kpAGAsWq88KhO4fn9FR4WmU2PkF+TMpblJPUWd/iMpnd9vZQafbOfG7+2covQkeg==
-X-Received: by 2002:a17:906:80c9:: with SMTP id a9mr2204116ejx.78.1611306181016;
-        Fri, 22 Jan 2021 01:03:01 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id w18sm3903189ejq.59.2021.01.22.01.03.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 01:03:00 -0800 (PST)
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] platform-drivers-x86 for 5.11-2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org
-Message-ID: <ac7b0183-fda1-754f-f65c-e390ef147c89@redhat.com>
-Date:   Fri, 22 Jan 2021 10:02:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/U1yOzPWgbktFbCxjSub5Pj1SEOEIWwPkTY3UPw0hT8=;
+        b=FfEcoytJTXIij933WPbbURf5DG+1DVXeDUJ1WTEYKv+pijUlDY9gxUk+4cBh105crh
+         gl0g4bQnD5tD5TOrGvn0wzyNNAcf4j/7q7TC9gNX6cASFHzU7HaPLFmhhBhFJ6pzZ8bW
+         z2v9JIVztWq2yfp12BUYJdhwwJ8Ro+0Pl4kSSOzMWlIYvpOQs7Zg6qQbhyo0s4cbaD7g
+         mTCqGycDvuypxupwMp4LgxyOssXmZ+6VvgIZUC66XnmmRYUDkdl68EUalDn/2qpkbYMq
+         ecotfBENJCc416qL0Dk/Kv6iOWgOBlWJaT/PoiVQWeQlWl+QzTJMfHyyTuGcm1x5je4H
+         0/3A==
+X-Gm-Message-State: AOAM531PYshTUBhx+j1c4whCdlpiHqJl5U6d2YUd/17ZQdX6XHFI6R1s
+        o11DFr2zQ+zWbytUXYcI/FZj9CAq/4d0R9S4AFc=
+X-Google-Smtp-Source: ABdhPJyVf6OqWPNzbgZ9gtXS82mYfz+5HaPQA7eh13F50UUjycfdcfsX4SaMKv9Hr/CE80kXE3PilxC+dgRoDm4Q08U=
+X-Received: by 2002:a19:810c:: with SMTP id c12mr1813708lfd.244.1611307786737;
+ Fri, 22 Jan 2021 01:29:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a19:40c8:0:0:0:0:0 with HTTP; Fri, 22 Jan 2021 01:29:45
+ -0800 (PST)
+Reply-To: sroomf70@gmail.com
+From:   "Dr. Roy Halton" <royhalton11@gmail.com>
+Date:   Fri, 22 Jan 2021 10:29:45 +0100
+Message-ID: <CAAxHoUmg-UTVrA=OvA5sUNYwAuAp=s9FeJdQQruMDU2HYXuojQ@mail.gmail.com>
+Subject: Greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Linus,
+-- 
+Greetings,
+I'm Dr. Roy Halton, did you Receive the (FUND), that was paid to you?
+please, do not hesitate to reply for immediate verification notice.
 
-Here is a set of small, straight-forward fixes and some model specific
-quirks for platform-drivers-x86 for 5.11.
+Thanks,
 
-Regards,
+Dr. Roy Halton,
+Foreign Remittance Director
 
-Hans
+Sincerely Yours, Respectfully,
 
-
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
-
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v5.11-2
-
-for you to fetch changes up to 173aac2fef96972e42d33c0e1189e6f756a0d719:
-
-  platform/x86: thinkpad_acpi: Add P53/73 firmware to fan_quirk_table for dual fan control (2021-01-18 21:42:01 +0100)
-
-----------------------------------------------------------------
-platform-drivers-x86 for v5.11-2
-
-A small collection of bug-fixes and model-specific quirks for 5.11.
-
-The following is an automated git shortlog grouped by driver:
-
-amd-pmc:
- -  Fix CONFIG_DEBUG_FS check
-
-hp-wmi:
- -  Don't log a warning on HPWMI_RET_UNKNOWN_COMMAND errors
-
-i2c-multi-instantiate:
- -  Don't create platform device for INT3515 ACPI nodes
-
-ideapad-laptop:
- -  Disable touchpad_switch for ELAN0634
-
-intel-vbtn:
- -  Drop HP Stream x360 Convertible PC 11 from allow-list
- -  Support for tablet mode on Dell Inspiron 7352
-
-platform/surface:
- -  SURFACE_PLATFORMS should depend on ACPI
- -  surface_gpe: Fix non-PM_SLEEP build warnings
-
-thinkpad_acpi:
- -  Add P53/73 firmware to fan_quirk_table for dual fan control
- -  correct palmsensor error checking
-
-tools/power/x86/intel-speed-select:
- -  Set higher of cpuinfo_max_freq or base_frequency
- -  Set scaling_max_freq to base_frequency
-
-touchscreen_dmi:
- -  Add swap-x-y quirk for Goodix touchscreen on Estar Beauty HD tablet
-
-----------------------------------------------------------------
-Arnold Gozum (1):
-      platform/x86: intel-vbtn: Support for tablet mode on Dell Inspiron 7352
-
-Geert Uytterhoeven (1):
-      platform/surface: SURFACE_PLATFORMS should depend on ACPI
-
-Hans de Goede (3):
-      platform/x86: touchscreen_dmi: Add swap-x-y quirk for Goodix touchscreen on Estar Beauty HD tablet
-      platform/x86: intel-vbtn: Drop HP Stream x360 Convertible PC 11 from allow-list
-      platform/x86: hp-wmi: Don't log a warning on HPWMI_RET_UNKNOWN_COMMAND errors
-
-Heikki Krogerus (1):
-      platform/x86: i2c-multi-instantiate: Don't create platform device for INT3515 ACPI nodes
-
-Jeannie Stevenson (1):
-      platform/x86: thinkpad_acpi: Add P53/73 firmware to fan_quirk_table for dual fan control
-
-Jiaxun Yang (1):
-      platform/x86: ideapad-laptop: Disable touchpad_switch for ELAN0634
-
-Mark Pearson (1):
-      platform/x86: thinkpad_acpi: correct palmsensor error checking
-
-Randy Dunlap (1):
-      platform/surface: surface_gpe: Fix non-PM_SLEEP build warnings
-
-Shyam Sundar S K (1):
-      platform/x86: amd-pmc: Fix CONFIG_DEBUG_FS check
-
-Srinivas Pandruvada (2):
-      tools/power/x86/intel-speed-select: Set scaling_max_freq to base_frequency
-      tools/power/x86/intel-speed-select: Set higher of cpuinfo_max_freq or base_frequency
-
- drivers/platform/surface/Kconfig                 |  8 +++---
- drivers/platform/surface/surface_gpe.c           |  4 +--
- drivers/platform/x86/amd-pmc.c                   |  2 +-
- drivers/platform/x86/hp-wmi.c                    |  3 ++-
- drivers/platform/x86/i2c-multi-instantiate.c     | 31 +++++++++++++++++------
- drivers/platform/x86/ideapad-laptop.c            | 15 ++++++++++-
- drivers/platform/x86/intel-vbtn.c                | 10 ++++----
- drivers/platform/x86/thinkpad_acpi.c             |  5 ++--
- drivers/platform/x86/touchscreen_dmi.c           | 18 +++++++++++++
- tools/power/x86/intel-speed-select/isst-config.c | 32 ++++++++++++++++++++++++
- 10 files changed, 104 insertions(+), 24 deletions(-)
-
+Mr Bill T Winters,
+Group Chief Executive Officer & Executive Director,
