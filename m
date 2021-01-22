@@ -2,42 +2,47 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45ACF3001D6
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 12:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF237300344
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 22 Jan 2021 13:36:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727629AbhAVLpY (ORCPT
+        id S1728165AbhAVMf1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 22 Jan 2021 06:45:24 -0500
-Received: from mga09.intel.com ([134.134.136.24]:18086 "EHLO mga09.intel.com"
+        Fri, 22 Jan 2021 07:35:27 -0500
+Received: from mga03.intel.com ([134.134.136.65]:46761 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728025AbhAVLoj (ORCPT
+        id S1728155AbhAVMek (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 22 Jan 2021 06:44:39 -0500
-IronPort-SDR: Tu1OaC1iCAb1h75PqQsrvezvr3wcalueTb4Lub7YWNeX2DiSGhgJGRGdqd0XF9zsa16MUh+yhC
- UUM5d2LpvKVA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179577590"
+        Fri, 22 Jan 2021 07:34:40 -0500
+IronPort-SDR: jsSXpFNxbuZAoZ7TLFCJozuny2DmLRY28EcOYabAwvrWmPEJlnhAaT+oBAOV30WkYVMGaOc2Jk
+ aF4bPZ/ndoEg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179520242"
 X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; 
-   d="scan'208";a="179577590"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 03:42:30 -0800
-IronPort-SDR: 6tf78VYrN/WkrM+/v8ZWzt/wzeBHCFt2w5Vu3bXGNxCNTTnss2bO8pKaw56CVmWG5pC6FjPpr7
- gGiVNvhKj+vA==
+   d="scan'208";a="179520242"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 04:32:07 -0800
+IronPort-SDR: k8e58dHKmjYi4OEbtVVeCJjVcf7cgHiirRI2LG61c8QIKUAWwn8RlNDQAk8rfI6oERvP7Upi4S
+ lrN+j0sd+3MQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,366,1602572400"; 
-   d="scan'208";a="574599767"
+   d="scan'208";a="367405632"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Jan 2021 03:42:28 -0800
+  by orsmga002.jf.intel.com with ESMTP; 22 Jan 2021 04:32:03 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id D05B814F; Fri, 22 Jan 2021 13:42:27 +0200 (EET)
+        id C405014F; Fri, 22 Jan 2021 14:32:02 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mark Gross <mgross@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        platform-driver-x86@vger.kernel.org,
+        Mark Gross <mgross@linux.intel.com>,
+        linux-watchdog@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v1] platform/x86: intel_mid_thermal: Remove driver for deprecated platform
-Date:   Fri, 22 Jan 2021 13:42:27 +0200
-Message-Id: <20210122114227.39102-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/5] watchdog: intel_scu_watchdog: Remove driver for deprecated platform
+Date:   Fri, 22 Jan 2021 14:31:57 +0200
+Message-Id: <20210122123201.40935-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,611 +64,643 @@ Due to above and to reduce a burden of supporting outdated drivers
 we remove the support of outdated platforms completely.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/platform/x86/Kconfig             |   7 -
- drivers/platform/x86/Makefile            |   1 -
- drivers/platform/x86/intel_mid_thermal.c | 560 -----------------------
- 3 files changed, 568 deletions(-)
- delete mode 100644 drivers/platform/x86/intel_mid_thermal.c
+ drivers/watchdog/Kconfig              |   9 -
+ drivers/watchdog/Makefile             |   1 -
+ drivers/watchdog/intel_scu_watchdog.c | 533 --------------------------
+ drivers/watchdog/intel_scu_watchdog.h |  50 ---
+ 4 files changed, 593 deletions(-)
+ delete mode 100644 drivers/watchdog/intel_scu_watchdog.c
+ delete mode 100644 drivers/watchdog/intel_scu_watchdog.h
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 91e6176cdfbd..3ba680af3ef5 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1327,13 +1327,6 @@ config INTEL_CHTDC_TI_PWRBTN
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called intel_chtdc_ti_pwrbtn.
+diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+index 7ff941e71b79..6b9e93d8532b 100644
+--- a/drivers/watchdog/Kconfig
++++ b/drivers/watchdog/Kconfig
+@@ -1219,15 +1219,6 @@ config IE6XX_WDT
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ie6xx_wdt.
  
--config INTEL_MFLD_THERMAL
--       tristate "Thermal driver for Intel Medfield platform"
--       depends on MFD_INTEL_MSIC && THERMAL
--       help
--         Say Y here to enable thermal driver support for the  Intel Medfield
--         platform.
+-config INTEL_SCU_WATCHDOG
+-	bool "Intel SCU Watchdog for Mobile Platforms"
+-	depends on X86_INTEL_MID
+-	help
+-	  Hardware driver for the watchdog time built into the Intel SCU
+-	  for Intel Mobile Platforms.
 -
- config INTEL_MID_POWER_BUTTON
- 	tristate "power button driver for Intel MID platforms"
- 	depends on INTEL_SCU && INPUT
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index 581475f59819..6fb57502b59a 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -137,7 +137,6 @@ obj-$(CONFIG_INTEL_UNCORE_FREQ_CONTROL)		+= intel-uncore-frequency.o
- # Intel PMIC / PMC / P-Unit devices
- obj-$(CONFIG_INTEL_BXTWC_PMIC_TMU)	+= intel_bxtwc_tmu.o
- obj-$(CONFIG_INTEL_CHTDC_TI_PWRBTN)	+= intel_chtdc_ti_pwrbtn.o
--obj-$(CONFIG_INTEL_MFLD_THERMAL)	+= intel_mid_thermal.o
- obj-$(CONFIG_INTEL_MID_POWER_BUTTON)	+= intel_mid_powerbtn.o
- obj-$(CONFIG_INTEL_MRFLD_PWRBTN)	+= intel_mrfld_pwrbtn.o
- obj-$(CONFIG_INTEL_PMC_CORE)		+= intel_pmc_core.o intel_pmc_core_pltdrv.o
-diff --git a/drivers/platform/x86/intel_mid_thermal.c b/drivers/platform/x86/intel_mid_thermal.c
+-	  To compile this driver as a module, choose M here.
+-
+ config INTEL_MID_WATCHDOG
+ 	tristate "Intel MID Watchdog Timer"
+ 	depends on X86_INTEL_MID
+diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+index 5c74ee19d441..74f61e4105d8 100644
+--- a/drivers/watchdog/Makefile
++++ b/drivers/watchdog/Makefile
+@@ -140,7 +140,6 @@ obj-$(CONFIG_W83877F_WDT) += w83877f_wdt.o
+ obj-$(CONFIG_W83977F_WDT) += w83977f_wdt.o
+ obj-$(CONFIG_MACHZ_WDT) += machzwd.o
+ obj-$(CONFIG_SBC_EPX_C3_WATCHDOG) += sbc_epx_c3.o
+-obj-$(CONFIG_INTEL_SCU_WATCHDOG) += intel_scu_watchdog.o
+ obj-$(CONFIG_INTEL_MID_WATCHDOG) += intel-mid_wdt.o
+ obj-$(CONFIG_INTEL_MEI_WDT) += mei_wdt.o
+ obj-$(CONFIG_NI903X_WDT) += ni903x_wdt.o
+diff --git a/drivers/watchdog/intel_scu_watchdog.c b/drivers/watchdog/intel_scu_watchdog.c
 deleted file mode 100644
-index f12f4e7bd971..000000000000
---- a/drivers/platform/x86/intel_mid_thermal.c
+index 804e35940983..000000000000
+--- a/drivers/watchdog/intel_scu_watchdog.c
 +++ /dev/null
-@@ -1,560 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
+@@ -1,533 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- * Intel MID platform thermal driver
+- *      Intel_SCU 0.2:  An Intel SCU IOH Based Watchdog Device
+- *			for Intel part #(s):
+- *				- AF82MP20 PCH
 - *
-- * Copyright (C) 2011 Intel Corporation
-- *
-- * Author: Durgadoss R <durgadoss.r@intel.com>
+- *      Copyright (C) 2009-2010 Intel Corporation. All rights reserved.
 - */
 -
--#define pr_fmt(fmt) "intel_mid_thermal: " fmt
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 -
--#include <linux/device.h>
--#include <linux/err.h>
--#include <linux/mfd/intel_msic.h>
--#include <linux/module.h>
--#include <linux/param.h>
--#include <linux/platform_device.h>
--#include <linux/pm.h>
+-#include <linux/compiler.h>
+-#include <linux/kernel.h>
+-#include <linux/moduleparam.h>
+-#include <linux/types.h>
+-#include <linux/miscdevice.h>
+-#include <linux/watchdog.h>
+-#include <linux/fs.h>
+-#include <linux/notifier.h>
+-#include <linux/reboot.h>
+-#include <linux/init.h>
+-#include <linux/jiffies.h>
+-#include <linux/uaccess.h>
 -#include <linux/slab.h>
--#include <linux/thermal.h>
+-#include <linux/io.h>
+-#include <linux/interrupt.h>
+-#include <linux/delay.h>
+-#include <linux/sched.h>
+-#include <linux/signal.h>
+-#include <linux/sfi.h>
+-#include <asm/irq.h>
+-#include <linux/atomic.h>
+-#include <asm/intel_scu_ipc.h>
+-#include <asm/apb_timer.h>
+-#include <asm/intel-mid.h>
 -
--/* Number of thermal sensors */
--#define MSIC_THERMAL_SENSORS	4
+-#include "intel_scu_watchdog.h"
 -
--/* ADC1 - thermal registers */
--#define MSIC_ADC_ENBL		0x10
--#define MSIC_ADC_START		0x08
+-/* Bounds number of times we will retry loading time count */
+-/* This retry is a work around for a silicon bug.	   */
+-#define MAX_RETRY 16
 -
--#define MSIC_ADCTHERM_ENBL	0x04
--#define MSIC_ADCRRDATA_ENBL	0x05
--#define MSIC_CHANL_MASK_VAL	0x0F
+-#define IPC_SET_WATCHDOG_TIMER	0xF8
 -
--#define MSIC_STOPBIT_MASK	16
--#define MSIC_ADCTHERM_MASK	4
--/* Number of ADC channels */
--#define ADC_CHANLS_MAX		15
--#define ADC_LOOP_MAX		(ADC_CHANLS_MAX - MSIC_THERMAL_SENSORS)
+-static int timer_margin = DEFAULT_SOFT_TO_HARD_MARGIN;
+-module_param(timer_margin, int, 0);
+-MODULE_PARM_DESC(timer_margin,
+-		"Watchdog timer margin"
+-		"Time between interrupt and resetting the system"
+-		"The range is from 1 to 160"
+-		"This is the time for all keep alives to arrive");
 -
--/* ADC channel code values */
--#define SKIN_SENSOR0_CODE	0x08
--#define SKIN_SENSOR1_CODE	0x09
--#define SYS_SENSOR_CODE		0x0A
--#define MSIC_DIE_SENSOR_CODE	0x03
+-static int timer_set = DEFAULT_TIME;
+-module_param(timer_set, int, 0);
+-MODULE_PARM_DESC(timer_set,
+-		"Default Watchdog timer setting"
+-		"Complete cycle time"
+-		"The range is from 1 to 170"
+-		"This is the time for all keep alives to arrive");
 -
--#define SKIN_THERM_SENSOR0	0
--#define SKIN_THERM_SENSOR1	1
--#define SYS_THERM_SENSOR2	2
--#define MSIC_DIE_THERM_SENSOR3	3
--
--/* ADC code range */
--#define ADC_MAX			977
--#define ADC_MIN			162
--#define ADC_VAL0C		887
--#define ADC_VAL20C		720
--#define ADC_VAL40C		508
--#define ADC_VAL60C		315
--
--/* ADC base addresses */
--#define ADC_CHNL_START_ADDR	INTEL_MSIC_ADC1ADDR0	/* increments by 1 */
--#define ADC_DATA_START_ADDR	INTEL_MSIC_ADC1SNS0H	/* increments by 2 */
--
--/* MSIC die attributes */
--#define MSIC_DIE_ADC_MIN	488
--#define MSIC_DIE_ADC_MAX	1004
--
--/* This holds the address of the first free ADC channel,
-- * among the 15 channels
+-/* After watchdog device is closed, check force_boot. If:
+- * force_boot == 0, then force boot on next watchdog interrupt after close,
+- * force_boot == 1, then force boot immediately when device is closed.
 - */
--static int channel_index;
+-static int force_boot;
+-module_param(force_boot, int, 0);
+-MODULE_PARM_DESC(force_boot,
+-		"A value of 1 means that the driver will reboot"
+-		"the system immediately if the /dev/watchdog device is closed"
+-		"A value of 0 means that when /dev/watchdog device is closed"
+-		"the watchdog timer will be refreshed for one more interval"
+-		"of length: timer_set. At the end of this interval, the"
+-		"watchdog timer will reset the system."
+-		);
 -
--struct platform_info {
--	struct platform_device *pdev;
--	struct thermal_zone_device *tzd[MSIC_THERMAL_SENSORS];
--};
+-/* there is only one device in the system now; this can be made into
+- * an array in the future if we have more than one device */
 -
--struct thermal_device_info {
--	unsigned int chnl_addr;
--	int direct;
--	/* This holds the current temperature in millidegree celsius */
--	long curr_temp;
--};
+-static struct intel_scu_watchdog_dev watchdog_device;
 -
--/**
-- * to_msic_die_temp - converts adc_val to msic_die temperature
-- * @adc_val: ADC value to be converted
-- *
-- * Can sleep
-- */
--static int to_msic_die_temp(uint16_t adc_val)
+-/* Forces restart, if force_reboot is set */
+-static void watchdog_fire(void)
 -{
--	return (368 * (adc_val) / 1000) - 220;
--}
--
--/**
-- * is_valid_adc - checks whether the adc code is within the defined range
-- * @min: minimum value for the sensor
-- * @max: maximum value for the sensor
-- *
-- * Can sleep
-- */
--static int is_valid_adc(uint16_t adc_val, uint16_t min, uint16_t max)
--{
--	return (adc_val >= min) && (adc_val <= max);
--}
--
--/**
-- * adc_to_temp - converts the ADC code to temperature in C
-- * @direct: true if ths channel is direct index
-- * @adc_val: the adc_val that needs to be converted
-- * @tp: temperature return value
-- *
-- * Linear approximation is used to covert the skin adc value into temperature.
-- * This technique is used to avoid very long look-up table to get
-- * the appropriate temp value from ADC value.
-- * The adc code vs sensor temp curve is split into five parts
-- * to achieve very close approximate temp value with less than
-- * 0.5C error
-- */
--static int adc_to_temp(int direct, uint16_t adc_val, int *tp)
--{
--	int temp;
--
--	/* Direct conversion for die temperature */
--	if (direct) {
--		if (is_valid_adc(adc_val, MSIC_DIE_ADC_MIN, MSIC_DIE_ADC_MAX)) {
--			*tp = to_msic_die_temp(adc_val) * 1000;
--			return 0;
--		}
--		return -ERANGE;
+-	if (force_boot) {
+-		pr_crit("Initiating system reboot\n");
+-		emergency_restart();
+-		pr_crit("Reboot didn't ?????\n");
 -	}
 -
--	if (!is_valid_adc(adc_val, ADC_MIN, ADC_MAX))
--		return -ERANGE;
+-	else {
+-		pr_crit("Immediate Reboot Disabled\n");
+-		pr_crit("System will reset when watchdog timer times out!\n");
+-	}
+-}
 -
--	/* Linear approximation for skin temperature */
--	if (adc_val > ADC_VAL0C)
--		temp = 177 - (adc_val/5);
--	else if ((adc_val <= ADC_VAL0C) && (adc_val > ADC_VAL20C))
--		temp = 111 - (adc_val/8);
--	else if ((adc_val <= ADC_VAL20C) && (adc_val > ADC_VAL40C))
--		temp = 92 - (adc_val/10);
--	else if ((adc_val <= ADC_VAL40C) && (adc_val > ADC_VAL60C))
--		temp = 91 - (adc_val/10);
--	else
--		temp = 112 - (adc_val/6);
--
--	/* Convert temperature in celsius to milli degree celsius */
--	*tp = temp * 1000;
+-static int check_timer_margin(int new_margin)
+-{
+-	if ((new_margin < MIN_TIME_CYCLE) ||
+-	    (new_margin > MAX_TIME - timer_set)) {
+-		pr_debug("value of new_margin %d is out of the range %d to %d\n",
+-			 new_margin, MIN_TIME_CYCLE, MAX_TIME - timer_set);
+-		return -EINVAL;
+-	}
 -	return 0;
 -}
 -
--/**
-- * mid_read_temp - read sensors for temperature
-- * @temp: holds the current temperature for the sensor after reading
-- *
-- * reads the adc_code from the channel and converts it to real
-- * temperature. The converted value is stored in temp.
-- *
-- * Can sleep
+-/*
+- * IPC operations
 - */
--static int mid_read_temp(struct thermal_zone_device *tzd, int *temp)
+-static int watchdog_set_ipc(int soft_threshold, int threshold)
 -{
--	struct thermal_device_info *td_info = tzd->devdata;
--	uint16_t adc_val, addr;
--	uint8_t data = 0;
--	int ret;
--	int curr_temp;
+-	u32	*ipc_wbuf;
+-	u8	 cbuf[16] = { '\0' };
+-	int	 ipc_ret = 0;
 -
--	addr = td_info->chnl_addr;
+-	ipc_wbuf = (u32 *)&cbuf;
+-	ipc_wbuf[0] = soft_threshold;
+-	ipc_wbuf[1] = threshold;
 -
--	/* Enable the msic for conversion before reading */
--	ret = intel_msic_reg_write(INTEL_MSIC_ADC1CNTL3, MSIC_ADCRRDATA_ENBL);
--	if (ret)
--		return ret;
+-	ipc_ret = intel_scu_ipc_command(
+-			IPC_SET_WATCHDOG_TIMER,
+-			0,
+-			ipc_wbuf,
+-			2,
+-			NULL,
+-			0);
 -
--	/* Re-toggle the RRDATARD bit (temporary workaround) */
--	ret = intel_msic_reg_write(INTEL_MSIC_ADC1CNTL3, MSIC_ADCTHERM_ENBL);
--	if (ret)
--		return ret;
+-	if (ipc_ret != 0)
+-		pr_err("Error setting SCU watchdog timer: %x\n", ipc_ret);
 -
--	/* Read the higher bits of data */
--	ret = intel_msic_reg_read(addr, &data);
--	if (ret)
--		return ret;
--
--	/* Shift bits to accommodate the lower two data bits */
--	adc_val = (data << 2);
--	addr++;
--
--	ret = intel_msic_reg_read(addr, &data);/* Read lower bits */
--	if (ret)
--		return ret;
--
--	/* Adding lower two bits to the higher bits */
--	data &= 03;
--	adc_val += data;
--
--	/* Convert ADC value to temperature */
--	ret = adc_to_temp(td_info->direct, adc_val, &curr_temp);
--	if (ret == 0)
--		*temp = td_info->curr_temp = curr_temp;
--	return ret;
--}
--
--/**
-- * configure_adc - enables/disables the ADC for conversion
-- * @val: zero: disables the ADC non-zero:enables the ADC
-- *
-- * Enable/Disable the ADC depending on the argument
-- *
-- * Can sleep
-- */
--static int configure_adc(int val)
--{
--	int ret;
--	uint8_t data;
--
--	ret = intel_msic_reg_read(INTEL_MSIC_ADC1CNTL1, &data);
--	if (ret)
--		return ret;
--
--	if (val) {
--		/* Enable and start the ADC */
--		data |= (MSIC_ADC_ENBL | MSIC_ADC_START);
--	} else {
--		/* Just stop the ADC */
--		data &= (~MSIC_ADC_START);
--	}
--	return intel_msic_reg_write(INTEL_MSIC_ADC1CNTL1, data);
--}
--
--/**
-- * set_up_therm_channel - enable thermal channel for conversion
-- * @base_addr: index of free msic ADC channel
-- *
-- * Enable all the three channels for conversion
-- *
-- * Can sleep
-- */
--static int set_up_therm_channel(u16 base_addr)
--{
--	int ret;
--
--	/* Enable all the sensor channels */
--	ret = intel_msic_reg_write(base_addr, SKIN_SENSOR0_CODE);
--	if (ret)
--		return ret;
--
--	ret = intel_msic_reg_write(base_addr + 1, SKIN_SENSOR1_CODE);
--	if (ret)
--		return ret;
--
--	ret = intel_msic_reg_write(base_addr + 2, SYS_SENSOR_CODE);
--	if (ret)
--		return ret;
--
--	/* Since this is the last channel, set the stop bit
--	 * to 1 by ORing the DIE_SENSOR_CODE with 0x10 */
--	ret = intel_msic_reg_write(base_addr + 3,
--			(MSIC_DIE_SENSOR_CODE | 0x10));
--	if (ret)
--		return ret;
--
--	/* Enable ADC and start it */
--	return configure_adc(1);
--}
--
--/**
-- * reset_stopbit - sets the stop bit to 0 on the given channel
-- * @addr: address of the channel
-- *
-- * Can sleep
-- */
--static int reset_stopbit(uint16_t addr)
--{
--	int ret;
--	uint8_t data;
--	ret = intel_msic_reg_read(addr, &data);
--	if (ret)
--		return ret;
--	/* Set the stop bit to zero */
--	return intel_msic_reg_write(addr, (data & 0xEF));
--}
--
--/**
-- * find_free_channel - finds an empty channel for conversion
-- *
-- * If the ADC is not enabled then start using 0th channel
-- * itself. Otherwise find an empty channel by looking for a
-- * channel in which the stopbit is set to 1. returns the index
-- * of the first free channel if succeeds or an error code.
-- *
-- * Context: can sleep
-- *
-- * FIXME: Ultimately the channel allocator will move into the intel_scu_ipc
-- * code.
-- */
--static int find_free_channel(void)
--{
--	int ret;
--	int i;
--	uint8_t data;
--
--	/* check whether ADC is enabled */
--	ret = intel_msic_reg_read(INTEL_MSIC_ADC1CNTL1, &data);
--	if (ret)
--		return ret;
--
--	if ((data & MSIC_ADC_ENBL) == 0)
--		return 0;
--
--	/* ADC is already enabled; Looking for an empty channel */
--	for (i = 0; i < ADC_CHANLS_MAX; i++) {
--		ret = intel_msic_reg_read(ADC_CHNL_START_ADDR + i, &data);
--		if (ret)
--			return ret;
--
--		if (data & MSIC_STOPBIT_MASK) {
--			ret = i;
--			break;
--		}
--	}
--	return (ret > ADC_LOOP_MAX) ? (-EINVAL) : ret;
--}
--
--/**
-- * mid_initialize_adc - initializing the ADC
-- * @dev: our device structure
-- *
-- * Initialize the ADC for reading thermistor values. Can sleep.
-- */
--static int mid_initialize_adc(struct device *dev)
--{
--	u8  data;
--	u16 base_addr;
--	int ret;
--
--	/*
--	 * Ensure that adctherm is disabled before we
--	 * initialize the ADC
--	 */
--	ret = intel_msic_reg_read(INTEL_MSIC_ADC1CNTL3, &data);
--	if (ret)
--		return ret;
--
--	data &= ~MSIC_ADCTHERM_MASK;
--	ret = intel_msic_reg_write(INTEL_MSIC_ADC1CNTL3, data);
--	if (ret)
--		return ret;
--
--	/* Index of the first channel in which the stop bit is set */
--	channel_index = find_free_channel();
--	if (channel_index < 0) {
--		dev_err(dev, "No free ADC channels");
--		return channel_index;
--	}
--
--	base_addr = ADC_CHNL_START_ADDR + channel_index;
--
--	if (!(channel_index == 0 || channel_index == ADC_LOOP_MAX)) {
--		/* Reset stop bit for channels other than 0 and 12 */
--		ret = reset_stopbit(base_addr);
--		if (ret)
--			return ret;
--
--		/* Index of the first free channel */
--		base_addr++;
--		channel_index++;
--	}
--
--	ret = set_up_therm_channel(base_addr);
--	if (ret) {
--		dev_err(dev, "unable to enable ADC");
--		return ret;
--	}
--	dev_dbg(dev, "ADC initialization successful");
--	return ret;
--}
--
--/**
-- * initialize_sensor - sets default temp and timer ranges
-- * @index: index of the sensor
-- *
-- * Context: can sleep
-- */
--static struct thermal_device_info *initialize_sensor(int index)
--{
--	struct thermal_device_info *td_info =
--		kzalloc(sizeof(struct thermal_device_info), GFP_KERNEL);
--
--	if (!td_info)
--		return NULL;
--
--	/* Set the base addr of the channel for this sensor */
--	td_info->chnl_addr = ADC_DATA_START_ADDR + 2 * (channel_index + index);
--	/* Sensor 3 is direct conversion */
--	if (index == 3)
--		td_info->direct = 1;
--	return td_info;
--}
--
--#ifdef CONFIG_PM_SLEEP
--/**
-- * mid_thermal_resume - resume routine
-- * @dev: device structure
-- *
-- * mid thermal resume: re-initializes the adc. Can sleep.
-- */
--static int mid_thermal_resume(struct device *dev)
--{
--	return mid_initialize_adc(dev);
--}
--
--/**
-- * mid_thermal_suspend - suspend routine
-- * @dev: device structure
-- *
-- * mid thermal suspend implements the suspend functionality
-- * by stopping the ADC. Can sleep.
-- */
--static int mid_thermal_suspend(struct device *dev)
--{
--	/*
--	 * This just stops the ADC and does not disable it.
--	 * temporary workaround until we have a generic ADC driver.
--	 * If 0 is passed, it disables the ADC.
--	 */
--	return configure_adc(0);
--}
--#endif
--
--static SIMPLE_DEV_PM_OPS(mid_thermal_pm,
--			 mid_thermal_suspend, mid_thermal_resume);
--
--/**
-- * read_curr_temp - reads the current temperature and stores in temp
-- * @temp: holds the current temperature value after reading
-- *
-- * Can sleep
-- */
--static int read_curr_temp(struct thermal_zone_device *tzd, int *temp)
--{
--	WARN_ON(tzd == NULL);
--	return mid_read_temp(tzd, temp);
--}
--
--/* Can't be const */
--static struct thermal_zone_device_ops tzd_ops = {
--	.get_temp = read_curr_temp,
+-	return ipc_ret;
 -};
 -
--/**
-- * mid_thermal_probe - mfld thermal initialize
-- * @pdev: platform device structure
-- *
-- * mid thermal probe initializes the hardware and registers
-- * all the sensors with the generic thermal framework. Can sleep.
+-/*
+- *      Intel_SCU operations
 - */
--static int mid_thermal_probe(struct platform_device *pdev)
+-
+-/* timer interrupt handler */
+-static irqreturn_t watchdog_timer_interrupt(int irq, void *dev_id)
 -{
--	static char *name[MSIC_THERMAL_SENSORS] = {
--		"skin0", "skin1", "sys", "msicdie"
+-	int int_status;
+-	int_status = ioread32(watchdog_device.timer_interrupt_status_addr);
+-
+-	pr_debug("irq, int_status: %x\n", int_status);
+-
+-	if (int_status != 0)
+-		return IRQ_NONE;
+-
+-	/* has the timer been started? If not, then this is spurious */
+-	if (watchdog_device.timer_started == 0) {
+-		pr_debug("spurious interrupt received\n");
+-		return IRQ_HANDLED;
+-	}
+-
+-	/* temporarily disable the timer */
+-	iowrite32(0x00000002, watchdog_device.timer_control_addr);
+-
+-	/* set the timer to the threshold */
+-	iowrite32(watchdog_device.threshold,
+-		  watchdog_device.timer_load_count_addr);
+-
+-	/* allow the timer to run */
+-	iowrite32(0x00000003, watchdog_device.timer_control_addr);
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static int intel_scu_keepalive(void)
+-{
+-
+-	/* read eoi register - clears interrupt */
+-	ioread32(watchdog_device.timer_clear_interrupt_addr);
+-
+-	/* temporarily disable the timer */
+-	iowrite32(0x00000002, watchdog_device.timer_control_addr);
+-
+-	/* set the timer to the soft_threshold */
+-	iowrite32(watchdog_device.soft_threshold,
+-		  watchdog_device.timer_load_count_addr);
+-
+-	/* allow the timer to run */
+-	iowrite32(0x00000003, watchdog_device.timer_control_addr);
+-
+-	return 0;
+-}
+-
+-static int intel_scu_stop(void)
+-{
+-	iowrite32(0, watchdog_device.timer_control_addr);
+-	return 0;
+-}
+-
+-static int intel_scu_set_heartbeat(u32 t)
+-{
+-	int			 ipc_ret;
+-	int			 retry_count;
+-	u32			 soft_value;
+-	u32			 hw_value;
+-
+-	watchdog_device.timer_set = t;
+-	watchdog_device.threshold =
+-		timer_margin * watchdog_device.timer_tbl_ptr->freq_hz;
+-	watchdog_device.soft_threshold =
+-		(watchdog_device.timer_set - timer_margin)
+-		* watchdog_device.timer_tbl_ptr->freq_hz;
+-
+-	pr_debug("set_heartbeat: timer freq is %d\n",
+-		 watchdog_device.timer_tbl_ptr->freq_hz);
+-	pr_debug("set_heartbeat: timer_set is %x (hex)\n",
+-		 watchdog_device.timer_set);
+-	pr_debug("set_heartbeat: timer_margin is %x (hex)\n", timer_margin);
+-	pr_debug("set_heartbeat: threshold is %x (hex)\n",
+-		 watchdog_device.threshold);
+-	pr_debug("set_heartbeat: soft_threshold is %x (hex)\n",
+-		 watchdog_device.soft_threshold);
+-
+-	/* Adjust thresholds by FREQ_ADJUSTMENT factor, to make the */
+-	/* watchdog timing come out right. */
+-	watchdog_device.threshold =
+-		watchdog_device.threshold / FREQ_ADJUSTMENT;
+-	watchdog_device.soft_threshold =
+-		watchdog_device.soft_threshold / FREQ_ADJUSTMENT;
+-
+-	/* temporarily disable the timer */
+-	iowrite32(0x00000002, watchdog_device.timer_control_addr);
+-
+-	/* send the threshold and soft_threshold via IPC to the processor */
+-	ipc_ret = watchdog_set_ipc(watchdog_device.soft_threshold,
+-				   watchdog_device.threshold);
+-
+-	if (ipc_ret != 0) {
+-		/* Make sure the watchdog timer is stopped */
+-		intel_scu_stop();
+-		return ipc_ret;
+-	}
+-
+-	/* Soft Threshold set loop. Early versions of silicon did */
+-	/* not always set this count correctly.  This loop checks */
+-	/* the value and retries if it was not set correctly.     */
+-
+-	retry_count = 0;
+-	soft_value = watchdog_device.soft_threshold & 0xFFFF0000;
+-	do {
+-
+-		/* Make sure timer is stopped */
+-		intel_scu_stop();
+-
+-		if (MAX_RETRY < retry_count++) {
+-			/* Unable to set timer value */
+-			pr_err("Unable to set timer\n");
+-			return -ENODEV;
+-		}
+-
+-		/* set the timer to the soft threshold */
+-		iowrite32(watchdog_device.soft_threshold,
+-			watchdog_device.timer_load_count_addr);
+-
+-		/* read count value before starting timer */
+-		ioread32(watchdog_device.timer_load_count_addr);
+-
+-		/* Start the timer */
+-		iowrite32(0x00000003, watchdog_device.timer_control_addr);
+-
+-		/* read the value the time loaded into its count reg */
+-		hw_value = ioread32(watchdog_device.timer_load_count_addr);
+-		hw_value = hw_value & 0xFFFF0000;
+-
+-
+-	} while (soft_value != hw_value);
+-
+-	watchdog_device.timer_started = 1;
+-
+-	return 0;
+-}
+-
+-/*
+- * /dev/watchdog handling
+- */
+-
+-static int intel_scu_open(struct inode *inode, struct file *file)
+-{
+-
+-	/* Set flag to indicate that watchdog device is open */
+-	if (test_and_set_bit(0, &watchdog_device.driver_open))
+-		return -EBUSY;
+-
+-	/* Check for reopen of driver. Reopens are not allowed */
+-	if (watchdog_device.driver_closed)
+-		return -EPERM;
+-
+-	return stream_open(inode, file);
+-}
+-
+-static int intel_scu_release(struct inode *inode, struct file *file)
+-{
+-	/*
+-	 * This watchdog should not be closed, after the timer
+-	 * is started with the WDIPC_SETTIMEOUT ioctl
+-	 * If force_boot is set watchdog_fire() will cause an
+-	 * immediate reset. If force_boot is not set, the watchdog
+-	 * timer is refreshed for one more interval. At the end
+-	 * of that interval, the watchdog timer will reset the system.
+-	 */
+-
+-	if (!test_and_clear_bit(0, &watchdog_device.driver_open)) {
+-		pr_debug("intel_scu_release, without open\n");
+-		return -ENOTTY;
+-	}
+-
+-	if (!watchdog_device.timer_started) {
+-		/* Just close, since timer has not been started */
+-		pr_debug("closed, without starting timer\n");
+-		return 0;
+-	}
+-
+-	pr_crit("Unexpected close of /dev/watchdog!\n");
+-
+-	/* Since the timer was started, prevent future reopens */
+-	watchdog_device.driver_closed = 1;
+-
+-	/* Refresh the timer for one more interval */
+-	intel_scu_keepalive();
+-
+-	/* Reboot system (if force_boot is set) */
+-	watchdog_fire();
+-
+-	/* We should only reach this point if force_boot is not set */
+-	return 0;
+-}
+-
+-static ssize_t intel_scu_write(struct file *file,
+-			      char const *data,
+-			      size_t len,
+-			      loff_t *ppos)
+-{
+-
+-	if (watchdog_device.timer_started)
+-		/* Watchdog already started, keep it alive */
+-		intel_scu_keepalive();
+-	else
+-		/* Start watchdog with timer value set by init */
+-		intel_scu_set_heartbeat(watchdog_device.timer_set);
+-
+-	return len;
+-}
+-
+-static long intel_scu_ioctl(struct file *file,
+-			   unsigned int cmd,
+-			   unsigned long arg)
+-{
+-	void __user *argp = (void __user *)arg;
+-	u32 __user *p = argp;
+-	u32 new_margin;
+-
+-
+-	static const struct watchdog_info ident = {
+-		.options =          WDIOF_SETTIMEOUT
+-				    | WDIOF_KEEPALIVEPING,
+-		.firmware_version = 0,  /* @todo Get from SCU via
+-						 ipc_get_scu_fw_version()? */
+-		.identity =         "Intel_SCU IOH Watchdog"  /* len < 32 */
 -	};
 -
+-	switch (cmd) {
+-	case WDIOC_GETSUPPORT:
+-		return copy_to_user(argp,
+-				    &ident,
+-				    sizeof(ident)) ? -EFAULT : 0;
+-	case WDIOC_GETSTATUS:
+-	case WDIOC_GETBOOTSTATUS:
+-		return put_user(0, p);
+-	case WDIOC_KEEPALIVE:
+-		intel_scu_keepalive();
+-
+-		return 0;
+-	case WDIOC_SETTIMEOUT:
+-		if (get_user(new_margin, p))
+-			return -EFAULT;
+-
+-		if (check_timer_margin(new_margin))
+-			return -EINVAL;
+-
+-		if (intel_scu_set_heartbeat(new_margin))
+-			return -EINVAL;
+-		return 0;
+-	case WDIOC_GETTIMEOUT:
+-		return put_user(watchdog_device.soft_threshold, p);
+-
+-	default:
+-		return -ENOTTY;
+-	}
+-}
+-
+-/*
+- *      Notifier for system down
+- */
+-static int intel_scu_notify_sys(struct notifier_block *this,
+-			       unsigned long code,
+-			       void *another_unused)
+-{
+-	if (code == SYS_DOWN || code == SYS_HALT)
+-		/* Turn off the watchdog timer. */
+-		intel_scu_stop();
+-	return NOTIFY_DONE;
+-}
+-
+-/*
+- *      Kernel Interfaces
+- */
+-static const struct file_operations intel_scu_fops = {
+-	.owner          = THIS_MODULE,
+-	.llseek         = no_llseek,
+-	.write          = intel_scu_write,
+-	.unlocked_ioctl = intel_scu_ioctl,
+-	.compat_ioctl	= compat_ptr_ioctl,
+-	.open           = intel_scu_open,
+-	.release        = intel_scu_release,
+-};
+-
+-static int __init intel_scu_watchdog_init(void)
+-{
 -	int ret;
--	int i;
--	struct platform_info *pinfo;
+-	u32 __iomem *tmp_addr;
 -
--	pinfo = devm_kzalloc(&pdev->dev, sizeof(struct platform_info),
--			     GFP_KERNEL);
--	if (!pinfo)
+-	/*
+-	 * We don't really need to check this as the SFI timer get will fail
+-	 * but if we do so we can exit with a clearer reason and no noise.
+-	 *
+-	 * If it isn't an intel MID device then it doesn't have this watchdog
+-	 */
+-	if (!intel_mid_identify_cpu())
+-		return -ENODEV;
+-
+-	/* Check boot parameters to verify that their initial values */
+-	/* are in range. */
+-	/* Check value of timer_set boot parameter */
+-	if ((timer_set < MIN_TIME_CYCLE) ||
+-	    (timer_set > MAX_TIME - MIN_TIME_CYCLE)) {
+-		pr_err("value of timer_set %x (hex) is out of range from %x to %x (hex)\n",
+-		       timer_set, MIN_TIME_CYCLE, MAX_TIME - MIN_TIME_CYCLE);
+-		return -EINVAL;
+-	}
+-
+-	/* Check value of timer_margin boot parameter */
+-	if (check_timer_margin(timer_margin))
+-		return -EINVAL;
+-
+-	watchdog_device.timer_tbl_ptr = sfi_get_mtmr(sfi_mtimer_num-1);
+-
+-	if (watchdog_device.timer_tbl_ptr == NULL) {
+-		pr_debug("timer is not available\n");
+-		return -ENODEV;
+-	}
+-	/* make sure the timer exists */
+-	if (watchdog_device.timer_tbl_ptr->phys_addr == 0) {
+-		pr_debug("timer %d does not have valid physical memory\n",
+-			 sfi_mtimer_num);
+-		return -ENODEV;
+-	}
+-
+-	if (watchdog_device.timer_tbl_ptr->irq == 0) {
+-		pr_debug("timer %d invalid irq\n", sfi_mtimer_num);
+-		return -ENODEV;
+-	}
+-
+-	tmp_addr = ioremap(watchdog_device.timer_tbl_ptr->phys_addr,
+-			20);
+-
+-	if (tmp_addr == NULL) {
+-		pr_debug("timer unable to ioremap\n");
 -		return -ENOMEM;
+-	}
 -
--	/* Initializing the hardware */
--	ret = mid_initialize_adc(&pdev->dev);
+-	watchdog_device.timer_load_count_addr = tmp_addr++;
+-	watchdog_device.timer_current_value_addr = tmp_addr++;
+-	watchdog_device.timer_control_addr = tmp_addr++;
+-	watchdog_device.timer_clear_interrupt_addr = tmp_addr++;
+-	watchdog_device.timer_interrupt_status_addr = tmp_addr++;
+-
+-	/* Set the default time values in device structure */
+-
+-	watchdog_device.timer_set = timer_set;
+-	watchdog_device.threshold =
+-		timer_margin * watchdog_device.timer_tbl_ptr->freq_hz;
+-	watchdog_device.soft_threshold =
+-		(watchdog_device.timer_set - timer_margin)
+-		* watchdog_device.timer_tbl_ptr->freq_hz;
+-
+-
+-	watchdog_device.intel_scu_notifier.notifier_call =
+-		intel_scu_notify_sys;
+-
+-	ret = register_reboot_notifier(&watchdog_device.intel_scu_notifier);
 -	if (ret) {
--		dev_err(&pdev->dev, "ADC init failed");
--		return ret;
+-		pr_err("cannot register notifier %d)\n", ret);
+-		goto register_reboot_error;
 -	}
 -
--	/* Register each sensor with the generic thermal framework*/
--	for (i = 0; i < MSIC_THERMAL_SENSORS; i++) {
--		struct thermal_device_info *td_info = initialize_sensor(i);
+-	watchdog_device.miscdev.minor = WATCHDOG_MINOR;
+-	watchdog_device.miscdev.name = "watchdog";
+-	watchdog_device.miscdev.fops = &intel_scu_fops;
 -
--		if (!td_info) {
--			ret = -ENOMEM;
--			goto err;
--		}
--		pinfo->tzd[i] = thermal_zone_device_register(name[i],
--				0, 0, td_info, &tzd_ops, NULL, 0, 0);
--		if (IS_ERR(pinfo->tzd[i])) {
--			kfree(td_info);
--			ret = PTR_ERR(pinfo->tzd[i]);
--			goto err;
--		}
--		ret = thermal_zone_device_enable(pinfo->tzd[i]);
--		if (ret) {
--			kfree(td_info);
--			thermal_zone_device_unregister(pinfo->tzd[i]);
--			goto err;
--		}
+-	ret = misc_register(&watchdog_device.miscdev);
+-	if (ret) {
+-		pr_err("cannot register miscdev %d err =%d\n",
+-		       WATCHDOG_MINOR, ret);
+-		goto misc_register_error;
 -	}
 -
--	pinfo->pdev = pdev;
--	platform_set_drvdata(pdev, pinfo);
+-	ret = request_irq((unsigned int)watchdog_device.timer_tbl_ptr->irq,
+-		watchdog_timer_interrupt,
+-		IRQF_SHARED, "watchdog",
+-		&watchdog_device.timer_load_count_addr);
+-	if (ret) {
+-		pr_err("error requesting irq %d\n", ret);
+-		goto request_irq_error;
+-	}
+-	/* Make sure timer is disabled before returning */
+-	intel_scu_stop();
 -	return 0;
 -
--err:
--	while (--i >= 0) {
--		kfree(pinfo->tzd[i]->devdata);
--		thermal_zone_device_unregister(pinfo->tzd[i]);
--	}
--	configure_adc(0);
+-/* error cleanup */
+-
+-request_irq_error:
+-	misc_deregister(&watchdog_device.miscdev);
+-misc_register_error:
+-	unregister_reboot_notifier(&watchdog_device.intel_scu_notifier);
+-register_reboot_error:
+-	intel_scu_stop();
+-	iounmap(watchdog_device.timer_load_count_addr);
 -	return ret;
 -}
--
--/**
-- * mid_thermal_remove - mfld thermal finalize
-- * @dev: platform device structure
+-late_initcall(intel_scu_watchdog_init);
+diff --git a/drivers/watchdog/intel_scu_watchdog.h b/drivers/watchdog/intel_scu_watchdog.h
+deleted file mode 100644
+index fb12a25ee417..000000000000
+--- a/drivers/watchdog/intel_scu_watchdog.h
++++ /dev/null
+@@ -1,50 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- *      Intel_SCU 0.2:  An Intel SCU IOH Based Watchdog Device
+- *			for Intel part #(s):
+- *				- AF82MP20 PCH
 - *
-- * MLFD thermal remove unregisters all the sensors from the generic
-- * thermal framework. Can sleep.
+- *      Copyright (C) 2009-2010 Intel Corporation. All rights reserved.
 - */
--static int mid_thermal_remove(struct platform_device *pdev)
--{
--	int i;
--	struct platform_info *pinfo = platform_get_drvdata(pdev);
 -
--	for (i = 0; i < MSIC_THERMAL_SENSORS; i++) {
--		kfree(pinfo->tzd[i]->devdata);
--		thermal_zone_device_unregister(pinfo->tzd[i]);
--	}
+-#ifndef __INTEL_SCU_WATCHDOG_H
+-#define __INTEL_SCU_WATCHDOG_H
 -
--	/* Stop the ADC */
--	return configure_adc(0);
--}
+-#define WDT_VER "0.3"
 -
--#define DRIVER_NAME "msic_thermal"
+-/* minimum time between interrupts */
+-#define MIN_TIME_CYCLE 1
 -
--static const struct platform_device_id therm_id_table[] = {
--	{ DRIVER_NAME, 1 },
--	{ }
+-/* Time from warning to reboot is 2 seconds */
+-#define DEFAULT_SOFT_TO_HARD_MARGIN 2
+-
+-#define MAX_TIME 170
+-
+-#define DEFAULT_TIME 5
+-
+-#define MAX_SOFT_TO_HARD_MARGIN (MAX_TIME-MIN_TIME_CYCLE)
+-
+-/* Ajustment to clock tick frequency to make timing come out right */
+-#define FREQ_ADJUSTMENT 8
+-
+-struct intel_scu_watchdog_dev {
+-	ulong driver_open;
+-	ulong driver_closed;
+-	u32 timer_started;
+-	u32 timer_set;
+-	u32 threshold;
+-	u32 soft_threshold;
+-	u32 __iomem *timer_load_count_addr;
+-	u32 __iomem *timer_current_value_addr;
+-	u32 __iomem *timer_control_addr;
+-	u32 __iomem *timer_clear_interrupt_addr;
+-	u32 __iomem *timer_interrupt_status_addr;
+-	struct sfi_timer_table_entry *timer_tbl_ptr;
+-	struct notifier_block intel_scu_notifier;
+-	struct miscdevice miscdev;
 -};
--MODULE_DEVICE_TABLE(platform, therm_id_table);
 -
--static struct platform_driver mid_thermal_driver = {
--	.driver = {
--		.name = DRIVER_NAME,
--		.pm = &mid_thermal_pm,
--	},
--	.probe = mid_thermal_probe,
--	.remove = mid_thermal_remove,
--	.id_table = therm_id_table,
--};
+-extern int sfi_mtimer_num;
 -
--module_platform_driver(mid_thermal_driver);
--
--MODULE_AUTHOR("Durgadoss R <durgadoss.r@intel.com>");
--MODULE_DESCRIPTION("Intel Medfield Platform Thermal Driver");
--MODULE_LICENSE("GPL v2");
+-/* extern struct sfi_timer_table_entry *sfi_get_mtmr(int hint); */
+-#endif /* __INTEL_SCU_WATCHDOG_H */
 -- 
 2.29.2
 
