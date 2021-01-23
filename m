@@ -2,26 +2,26 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 071E6301871
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Jan 2021 21:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C05A83018A0
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 23 Jan 2021 23:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbhAWU7c convert rfc822-to-8bit (ORCPT
+        id S1725932AbhAWWJV convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 23 Jan 2021 15:59:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52136 "EHLO mail.kernel.org"
+        Sat, 23 Jan 2021 17:09:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60624 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725922AbhAWU7b (ORCPT
+        id S1725922AbhAWWJV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 23 Jan 2021 15:59:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 568AB22D2C
-        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Jan 2021 20:58:42 +0000 (UTC)
+        Sat, 23 Jan 2021 17:09:21 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id AF62B22D2C
+        for <platform-driver-x86@vger.kernel.org>; Sat, 23 Jan 2021 22:08:40 +0000 (UTC)
 Received: by pdx-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 4E1228671E; Sat, 23 Jan 2021 20:58:42 +0000 (UTC)
+        id AC28181649; Sat, 23 Jan 2021 22:08:40 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
  Envy x360)
-Date:   Sat, 23 Jan 2021 20:58:41 +0000
+Date:   Sat, 23 Jan 2021 22:08:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -30,14 +30,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dmaroulidis@dimitrismaroulidis.com
+X-Bugzilla-Who: mail@richard-neumann.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-199715-215701-8kuXM9OgjP@https.bugzilla.kernel.org/>
+Message-ID: <bug-199715-215701-WPgQec0eoG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
 References: <bug-199715-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -51,20 +51,31 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=199715
 
---- Comment #54 from Dimitris (dmaroulidis@dimitrismaroulidis.com) ---
-(In reply to Richard Neumann from comment #53)
+--- Comment #55 from Richard Neumann (mail@richard-neumann.de) ---
+@Dimitris. The submitted v8 Version of AMD is already merged into the mainline
+kernel for v5.11, afaik. So we will definitely get a driver with kernel 5.11.
+The only problem is, that it does not include an option to override the sensor
+mask if the manufacturer of the system did not write it into the P2C register
+as is the case on our HP Envy 13-ag0xxx models.
+So the upstream driver is pretty useless to us.
 
-So if I understand correctly, and excuse me but I'm not very familiar with the
-submission/acceptance of patches from upstream, if your patches get accepted
-and integrated into the kernel tree, we will be able to get the amd_sfh_hid
-module on downstream distributions of the kernel? What I mean is, as an
-end-user, will we be able to just modprobe that module to our running kernel
-as-is (without rebuilding the kernel) p.ex. in Archlinux, or will we need to
-recompile the kernel with the relevant driver selected in menuconfig to be
-built into the kernel?
+My refactored patch series is a side-project I developed after the initial
+driver version of AMD was submitted upstream. I repeatedly asked for adding a
+kernel parameter to be able to override the sensor mask, which was confirmed as
+a good idea, but was never implemented. So I took a look at the code myself and
+added it. While I was at it, I encountered some more problems regarding the
+code structure and DMA handling, that I also reported upstream [1]. I also saw
+some unused code. So, to challenge myself to improve the driver, I read into
+the Linux kernel API documentation for the HID subsystem, PCI drivers and
+platform drivers and re-wrote the patch to what eventually became the patch
+series that I now submitted upstream.
 
-I think the handling of the issue in the last question lies with the
-distributions.
+I understand Hans' concern about the rewrite, but I think that it would benefit
+the Kernel to share my work on the driver. If the maintainers are reluctant to
+replace the driver with my changes, that's okay. They can still cherry pick
+what they regard as improvements on the code.
+
+[1] https://lkml.org/lkml/2020/3/30/157
 
 -- 
 You may reply to this email to add a comment.
