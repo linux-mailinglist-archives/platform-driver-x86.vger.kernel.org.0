@@ -2,105 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A90F53035C0
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Jan 2021 06:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2CBC3035BE
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Jan 2021 06:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727899AbhAZFxP (ORCPT
+        id S1727980AbhAZFxC (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 26 Jan 2021 00:53:15 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:47646 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728070AbhAYM2k (ORCPT
+        Tue, 26 Jan 2021 00:53:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58554 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727852AbhAYMNw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 25 Jan 2021 07:28:40 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10PBZ4pO152725;
-        Mon, 25 Jan 2021 11:42:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=6fU1umzS/vvSEvzM2dxZvsr0h6JNdfql0G/IzjU/qSE=;
- b=Jq1gYJ7Ve3OqWMENr0UHipfouvUItqZ4jGQ4wU3I6xKJEVk7OOYjjkn9Gc2X0JAdmyHW
- +p44pQt7mB9+Cz0X4E/t1o0NMnnzXc0qRfXjfUVBpihuMl0nkgW5ZiYNS90O6Oc9g0dd
- vWy+JvDfPZKYrnTFXouUNqBK0rzyewmAuqaga5KciQ9iMxWMYTUY7Z52IQu8Vtg+Y6mH
- TLUXcCZIpnTA/T233TcyiNAFx+4vVmrU6yRqgyyWSU1VjzLdzePTe9/tmvEmGuA4iQDd
- JJhoxIj/jlIzGL2wkhNA8eGoCewxzJIRXeSne/M8ITIRMeXUcxf0sBl2yYBjiyRWaBnz gQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 3689aad2jm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 25 Jan 2021 11:42:40 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10PBfTbA155957;
-        Mon, 25 Jan 2021 11:42:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 368wjpkm41-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 25 Jan 2021 11:42:38 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10PBgbwn013288;
-        Mon, 25 Jan 2021 11:42:37 GMT
-Received: from mwanda (/10.175.173.24)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 25 Jan 2021 03:42:36 -0800
-Date:   Mon, 25 Jan 2021 14:42:31 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     luzmaximilian@gmail.com
-Cc:     platform-driver-x86@vger.kernel.org
-Subject: [bug report] platform/surface: Add Surface Aggregator subsystem
-Message-ID: <YA6up/PbuEZ82kNd@mwanda>
+        Mon, 25 Jan 2021 07:13:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611576721;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=qFYGXPSLNwIoMSm+97j34GHslVZxB/S/yGvgs080vfg=;
+        b=SUONJrzFpCTedPd48O1wM1OTd0xw2dzAFcRwj6PH9qsF173jKSlPS48dbBfh7vcqmU0p5P
+        dKmqe57J9XESngvxmV+8QrsOcFLQEX6UlNNgGpHrDzGT3uFhOtanNmxDr37HHWy+eX+CKj
+        NduMDNgNRLQN2R4RwVRhVBn3ThbNtXA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-3CETjn75OdGqFRqkPGCJGA-1; Mon, 25 Jan 2021 07:00:32 -0500
+X-MC-Unique: 3CETjn75OdGqFRqkPGCJGA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C752192203E;
+        Mon, 25 Jan 2021 12:00:26 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-170.ams2.redhat.com [10.36.112.170])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6DA3960C90;
+        Mon, 25 Jan 2021 12:00:02 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Bastien Nocera <hadess@hadess.net>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v2 2/2] ACPI: platform-profile: Introduce object pointers to callbacks
+Date:   Mon, 25 Jan 2021 12:59:57 +0100
+Message-Id: <20210125115957.3292-3-hdegoede@redhat.com>
+In-Reply-To: <20210125115957.3292-1-hdegoede@redhat.com>
+References: <20210125115957.3292-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9874 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0
- adultscore=0 mlxscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101250069
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9874 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101250068
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Maximilian Luz,
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-The patch c167b9c7e3d6: "platform/surface: Add Surface Aggregator
-subsystem" from Dec 21, 2020, leads to the following static checker
-warning:
+Add an object pointer to handler callbacks to avoid the need for
+drivers to have a global variable to get to their driver-data
+struct.
 
-	drivers/platform/surface/aggregator/ssh_packet_layer.c:1697 ssh_ptl_rx_eval()
-	warn: check likely/unlikely parens
+Link: https://lore.kernel.org/linux-acpi/6a29f338-d9e4-150c-81dd-2ffb54f5bc35@redhat.com/
+Link: https://lore.kernel.org/r/20210114073429.176462-3-jiaxun.yang@flygoat.com
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Suggested-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2 (Hans de Goede):
+- Tweak the commit message wording a bit
+---
+ drivers/acpi/platform_profile.c  | 4 ++--
+ include/linux/platform_profile.h | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-drivers/platform/surface/aggregator/ssh_packet_layer.c
-  1683  static size_t ssh_ptl_rx_eval(struct ssh_ptl *ptl, struct ssam_span *source)
-  1684  {
-  1685          struct ssh_frame *frame;
-  1686          struct ssam_span payload;
-  1687          struct ssam_span aligned;
-  1688          bool syn_found;
-  1689          int status;
-  1690  
-  1691          /* Error injection: Modify data to simulate corrupt SYN bytes. */
-  1692          ssh_ptl_rx_inject_invalid_syn(ptl, source);
-  1693  
-  1694          /* Find SYN. */
-  1695          syn_found = sshp_find_syn(source, &aligned);
-  1696  
-  1697          if (unlikely(aligned.ptr - source->ptr) > 0) {
+diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
+index f65c61db7921..80e9df427eb8 100644
+--- a/drivers/acpi/platform_profile.c
++++ b/drivers/acpi/platform_profile.c
+@@ -64,7 +64,7 @@ static ssize_t platform_profile_show(struct device *dev,
+ 		return -ENODEV;
+ 	}
+ 
+-	err = cur_profile->profile_get(&profile);
++	err = cur_profile->profile_get(cur_profile, &profile);
+ 	mutex_unlock(&profile_lock);
+ 	if (err)
+ 		return err;
+@@ -104,7 +104,7 @@ static ssize_t platform_profile_store(struct device *dev,
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	err = cur_profile->profile_set(i);
++	err = cur_profile->profile_set(cur_profile, i);
+ 	mutex_unlock(&profile_lock);
+ 	if (err)
+ 		return err;
+diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
+index c797fdb3d91a..a26542d53058 100644
+--- a/include/linux/platform_profile.h
++++ b/include/linux/platform_profile.h
+@@ -28,8 +28,10 @@ enum platform_profile_option {
+ 
+ struct platform_profile_handler {
+ 	unsigned long choices[BITS_TO_LONGS(PLATFORM_PROFILE_LAST)];
+-	int (*profile_get)(enum platform_profile_option *profile);
+-	int (*profile_set)(enum platform_profile_option profile);
++	int (*profile_get)(struct platform_profile_handler *pprof,
++				enum platform_profile_option *profile);
++	int (*profile_set)(struct platform_profile_handler *pprof,
++				enum platform_profile_option profile);
+ };
+ 
+ int platform_profile_register(struct platform_profile_handler *pprof);
+-- 
+2.29.2
 
-The unlikely() macro returns 0/1.  Smatch is suggesting that this should
-just be "if (unlikely((aligned.ptr - source->ptr) > 0)) {" but I'm not
-at all sure that that's correct.  Isn't aligned being higher than source
-the normal case?
-
-  1698                  ptl_warn(ptl, "rx: parser: invalid start of frame, skipping\n");
-  1699  
-  1700                  /*
-  1701                   * Notes:
-  1702                   * - This might send multiple NAKs in case the communication
-
-regards,
-dan carpenter
