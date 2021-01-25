@@ -2,134 +2,101 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5DC63047FC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Jan 2021 20:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 281D33047FD
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Jan 2021 20:16:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbhAZFx1 (ORCPT
+        id S1728028AbhAZFxa (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 26 Jan 2021 00:53:27 -0500
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:47400 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729409AbhAYO0N (ORCPT
+        Tue, 26 Jan 2021 00:53:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59447 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731622AbhAYTKq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 25 Jan 2021 09:26:13 -0500
-Date:   Mon, 25 Jan 2021 14:25:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1611584717;
-        bh=hhml5AdjbIo/g+2Kesx1pwLji3prB2AMMCsH1sVdEmk=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=MqzKimTVnQE27IbxDQhWwceQ7xh+sXjJ+/byvuRB28kI8dXJfu+esveTs0a0EdX0l
-         LAxUHx3cRlb3BQgfbHWxcieFpyjqneFH/MEJxysucIUShLG851x4nSFBpvu1U71wye
-         q/oPXbk3bcsTBIbZ51LcSXiVCq9XcPUp4a5pAJFM=
-To:     Ike Panhc <ike.pan@canonical.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2 19/24] platform/x86: ideapad-laptop: fix checkpatch warnings, more consistent style
-Message-ID: <TXigp22dYRHpj9NGdW-AiIOXJ3Dw0nQekdM2-qPzg1-sWptIoclYx_7uLW1EXlmosD36C7Ozg7gtFs5qhcgpCbN1fpUPeJgCmUyRh5-173g=@protonmail.com>
-In-Reply-To: <0ef8c308-a995-52c2-0762-f6aae1efb86c@canonical.com>
-References: <20210113182016.166049-20-pobrn@protonmail.com> <0ef8c308-a995-52c2-0762-f6aae1efb86c@canonical.com>
+        Mon, 25 Jan 2021 14:10:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611601759;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+lWKLwxMgB8k9HPpVmv4K8bwd8xRT+dLD+7+TjXu/wY=;
+        b=Fcb4FO1Wiz72iW954s9RYprxt85HbjUWa3B3Fdqs2WHJWCpt/2H/9EnfZq5aKImqYhkTK8
+        FtvE3IMhKg2mwY6xRDBILAUTCCcqc6X8zolCZHzZN2xLWlR2DGJVOs2qNG0CsZDap1EY25
+        iyz6eCYMAKmsotJki5277SiP6mofrzM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-Q4L7LbstMnitI2Si0bFjTQ-1; Mon, 25 Jan 2021 14:09:14 -0500
+X-MC-Unique: Q4L7LbstMnitI2Si0bFjTQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8851F8066EA;
+        Mon, 25 Jan 2021 19:09:13 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-56.ams2.redhat.com [10.36.112.56])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 48D3E61D2E;
+        Mon, 25 Jan 2021 19:09:12 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Bastien Nocera <hadess@hadess.net>, linux-acpi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 1/1] ACPI: platform-profile: Fix possible deadlock in platform_profile_remove()
+Date:   Mon, 25 Jan 2021 20:09:09 +0100
+Message-Id: <20210125190909.4384-2-hdegoede@redhat.com>
+In-Reply-To: <20210125190909.4384-1-hdegoede@redhat.com>
+References: <20210125190909.4384-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi
+After a rmmod thinkpad_acpi, lockdep pointed out this possible deadlock:
 
+Our _show and _store sysfs attr functions get called with the kn->active
+lock held for the sysfs attr and then take the profile_lock.
+sysfs_remove_group() also takes the kn->active lock for the sysfs attr,
+so if we call it with the profile_lock held, then we get an ABBA deadlock.
 
-2021. janu=C3=A1r 25., h=C3=A9tf=C5=91 9:55 keltez=C3=A9ssel, Ike Panhc =
-=C3=ADrta:
+platform_profile_remove() must only be called by drivers which have
+first *successfully* called platform_profile_register(). Anything else
+is a driver bug. So the check for cur_profile being set before calling
+sysfs_remove_group() is not necessary and it can be dropped.
 
-> On 1/14/21 2:22 AM, Barnab=C3=A1s P=C5=91cze wrote:
-> > Fix (almost all) checkpatch warnings. Reorder variable definitions from
-> > longest to shortest. Add more whitespaces for better readability. Renam=
-e
-> > variables named `ret` to `err` where appropriate.
-> >
-> > Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
-> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> >
-> > @@ -265,30 +280,40 @@ static int debugfs_status_show(struct seq_file *s=
-, void *data)
-> >
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_MAX, &value))
-> >  =09=09seq_printf(s, "Backlight max:\t%lu\n", value);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL, &value))
-> >  =09=09seq_printf(s, "Backlight now:\t%lu\n", value);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BL_POWER, &value))
-> >  =09=09seq_printf(s, "BL power value:\t%s (%lu)\n", value ? "on" : "off=
-", value);
-> > +
-> >  =09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D\n");
-> >
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_RF, &value))
-> >  =09=09seq_printf(s, "Radio status:\t%s (%lu)\n", value ? "on" : "off",=
- value);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_WIFI, &value))
-> >  =09=09seq_printf(s, "Wifi status:\t%s (%lu)\n", value ? "on" : "off", =
-value);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_BT, &value))
-> >  =09=09seq_printf(s, "BT status:\t%s (%lu)\n", value ? "on" : "off", va=
-lue);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_3G, &value))
-> >  =09=09seq_printf(s, "3G status:\t%s (%lu)\n", value ? "on" : "off", va=
-lue);
-> > +
-> >  =09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D\n");
-> >
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_TOUCHPAD, &value))
-> >  =09=09seq_printf(s, "Touchpad status:\t%s (%lu)\n", value ? "on" : "of=
-f", value);
-> > +
-> >  =09if (!read_ec_data(priv->adev->handle, VPCCMD_R_CAMERA, &value))
-> >  =09=09seq_printf(s, "Camera status:\t%s (%lu)\n", value ? "on" : "off"=
-, value);
-> > +
-> >  =09seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D\n");
-> >
-> >  =09if (!eval_gbmd(priv->adev->handle, &value))
-> >  =09=09seq_printf(s, "GBMD: %#010lx\n", value);
-> > +
-> >  =09if (!eval_hals(priv->adev->handle, &value))
-> >  =09=09seq_printf(s, "HALS: %#010lx\n", value);
-> >
->
-> checkpatch.pl suggests empty lines? I think they are doing the same thing=
-. It's better
-> to put them tightly.
->
-> --
-> Ike
+It is safe to call sysfs_remove_group() without holding the profile_lock
+since the attr-group group cannot be re-added until after we clear
+cur_profile.
 
-I added them at my own discretion, and I don't recall checkpatch suggesting
-it, so if you want to, I can remove them, but I'd like to keep one empty
-line before and after
+Change platform_profile_remove() to only hold the profile_lock while
+clearing the cur_profile, fixing the deadlock.
 
-  seq_puts(s, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D\n");
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/acpi/platform_profile.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-.
+diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
+index 80e9df427eb8..4a59c5993bde 100644
+--- a/drivers/acpi/platform_profile.c
++++ b/drivers/acpi/platform_profile.c
+@@ -164,13 +164,9 @@ EXPORT_SYMBOL_GPL(platform_profile_register);
+ 
+ int platform_profile_remove(void)
+ {
+-	mutex_lock(&profile_lock);
+-	if (!cur_profile) {
+-		mutex_unlock(&profile_lock);
+-		return -ENODEV;
+-	}
+-
+ 	sysfs_remove_group(acpi_kobj, &platform_profile_group);
++
++	mutex_lock(&profile_lock);
+ 	cur_profile = NULL;
+ 	mutex_unlock(&profile_lock);
+ 	return 0;
+-- 
+2.29.2
 
-What do you think?
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
