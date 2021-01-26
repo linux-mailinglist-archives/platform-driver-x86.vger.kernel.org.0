@@ -2,82 +2,120 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E2C305303
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jan 2021 07:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18EA73053E0
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jan 2021 08:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232909AbhA0GPH (ORCPT
+        id S316498AbhA0BAB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 27 Jan 2021 01:15:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50326 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235253AbhA0DQT (ORCPT
+        Tue, 26 Jan 2021 20:00:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52512 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389310AbhAZRO3 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 26 Jan 2021 22:16:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 52E9464D92
-        for <platform-driver-x86@vger.kernel.org>; Wed, 27 Jan 2021 01:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611712661;
-        bh=qWZYDdCJrHjsLd45tX8q4meM6g6IMcwaKZKnJZiCZQQ=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=PIq+lkU0uCDl6BU8rVnEVre7EruY2ZLuZnykKQ/aQVYMRGFo1+LJrC3EzaQMibNHR
-         jDlgtsheVFp48Fjks06Aow3sSzhYVvSKG+SCMID+xLRRpQtk8Wf8CcxmiEM/j3wFDu
-         s4AFoLX9Tl3g0AMywXGBNvi4wO/Evtxuu/VC8m1aWzuyTHKHPghMs+RIkZgpqqPvPc
-         SrewDZaWPAfeGH/63pq6ZkApi3VCS5NufGCY0dav5BTfQu7JUvyjibC7BITJjgjy0F
-         tm08Q1HAhEkyKiHyf86bmH0Ob8/jpkLQ9TWJq8eiuXLhTl/Tj7rEK37qowqf+zJY+L
-         pAVfQ1/fHa2XQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 48579652D3; Wed, 27 Jan 2021 01:57:41 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
- Envy x360)
-Date:   Wed, 27 Jan 2021 01:57:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: luya@fedoraproject.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-199715-215701-og1HffH4wr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
-References: <bug-199715-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Tue, 26 Jan 2021 12:14:29 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9385BC061756;
+        Tue, 26 Jan 2021 09:13:46 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id b17so3586383plz.6;
+        Tue, 26 Jan 2021 09:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t5TtFJJmGGXnlkPzRkZI964XfU9tnGtrVx8sJ+nhhgg=;
+        b=C3EzaIXBST8Cm9Ao23YPKGZNoi53AvO8DVjjAwPROAIXUYs1VE82+8vfqjXNnqjdzD
+         liqtV8Y1DERtPWo1nyvHfJ0dIM/8zl2g2OV+IH1gVcjgZEzRSEwCDurFQdLYTY8HnEN1
+         0fEepFjeJDCr3qWqSlfUjxky/XAISoB3hBYR8DzKKdH2NMCPGUGAbfnSuwrsbFq96NSW
+         FlpZ22yilEbZ4sX0iNjxessv0r3jc76/3YCmf9c62Vft0I82Rgw+V8YLURrimjjWJIAj
+         1uTnO8ujuLiPhWVT8RByXB8RRIBu5vPkxq1srzRNiDQBiGg7xvbsiV//h51SSHrX+7L6
+         Zmsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t5TtFJJmGGXnlkPzRkZI964XfU9tnGtrVx8sJ+nhhgg=;
+        b=EQrAyz7uNWIbMzrEI9XTa5+pomvQxKZvOQa7VRXe44hgs5/UndIzIfk5kvkqviTlWK
+         qmLKsw2P/2ssZ/MGfHEYt9wI30OD2IStIk5GOLKhhkaDSqz7XmlVUUkpOi/lTxzgtu8Z
+         /JvqU27ePZTbIvkf8YPG6rmd+Tl/PNlN4jqd0+EKNRu9q2L+eTqE8abG4JWLhR1Mf6O3
+         ZjW9GYZKq5cmWDctzwSoIUsWPdUG3l5mhUGetQi+0D0ewpWhAyEwHQG5M63A3IfV2SNe
+         GuURoDjupeexct32qOffijaHoY2XKygZ3TwEFMMGUoiLuiZTQckLB3v8ylyk5izLL5tl
+         DJag==
+X-Gm-Message-State: AOAM530yVKCo8yzmsb9sYwXHfNI+bec0ZLEc1dwXFh6sgomRRfYT7YKg
+        13ZRYhSh2wgHH13KGNnskb7G94yAFlSGunmaJFM=
+X-Google-Smtp-Source: ABdhPJx92R0qs5/XdlRo/afRbr8RCC/r8mWGIZcmtX5Tb/02Z6ZBjPok93oodD57c37HChymbSyI5sp/7oQ9C8Xpisw=
+X-Received: by 2002:a17:90a:644a:: with SMTP id y10mr797421pjm.129.1611681226049;
+ Tue, 26 Jan 2021 09:13:46 -0800 (PST)
 MIME-Version: 1.0
+References: <YBANNJ8XtoRf7SuW@smile.fi.intel.com> <CAMeQTsbGBrTvfkz6BStwL240Kz-dbrQVKtXbYkRtbD3OoUKCcg@mail.gmail.com>
+ <CAHp75Vc9RAHvTDAw1ryHq_CPRMtjqkzg9081nw0+RPY_yWPJgA@mail.gmail.com> <CAMeQTsY6k64LUg3DYbi67W6-Gx6znOeJbDfKUhzGt-BxF2BgKA@mail.gmail.com>
+In-Reply-To: <CAMeQTsY6k64LUg3DYbi67W6-Gx6znOeJbDfKUhzGt-BxF2BgKA@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 26 Jan 2021 19:14:35 +0200
+Message-ID: <CAHp75VdKxARQAyyTd=ZcaoER1iF6Mk4AS1Dn6U9VCjt_D_+q8A@mail.gmail.com>
+Subject: Re: [GIT PULL] ib-drm-gpio-pdx86-rtc-wdt-v5.12-1
+To:     Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>, linux-watchdog@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D199715
+On Tue, Jan 26, 2021 at 6:55 PM Patrik Jakobsson
+<patrik.r.jakobsson@gmail.com> wrote:
+> On Tue, Jan 26, 2021 at 4:51 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> >
+> > On Tue, Jan 26, 2021 at 5:25 PM Patrik Jakobsson
+> > <patrik.r.jakobsson@gmail.com> wrote:
+> > > On Tue, Jan 26, 2021 at 1:37 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > >
+> > > > Hi guys,
+> > > >
+> > > > This is first part of Intel MID outdated platforms removal. It's collected into
+> > > > immutable branch with a given tag, please pull to yours subsystems.
+> > >
+> > > Hi Andy,
+> > > Do you plan on eventually removing X86_INTEL_MID completely? If so,
+> > > then I should probably start looking at removing the corresponding
+> > > parts in GMA500.
+> >
+> > Nope. It is related to only Medfield / Clovertrail platforms.
+> >
+> > There are other (MID) platforms that may / might utilize this driver
+> > in the future.
+>
+> Right, there's still Oaktrail / Moorestown with hardware in the wild.
 
---- Comment #58 from Luya Tshimbalanga (luya@fedoraproject.org) ---
-(In reply to Richard Neumann from comment #56)
-> @Dimitris, @Luya
-> I have added DMI-based model detection to my driver [1] (v. 2.9.8 in the
-> AUR).
-> I successfully tested it on my system.
-> Please make sure that you disable i.e. comment out any sensor override if
-> you want to test whether it works on your systems. The quirk should enable
-> only the accelerometer and magnetometer for the devices that Luya and I
-> posted above.
->=20
-> [1] https://github.com/conqp/amd-sfh-hid-dkms/blob/master/amd-sfh-quirks.c
+Actually Moorestown had to be removed a few years ago (kernel won't
+boot on them anyway from that date when Alan removed support under
+arch/x86 for it).
 
-Thanks, I will try it on my Fedora system.
+I'm talking about Merrifield and Moorefield that can utilize it and
+also some other platforms that are not SFI based (Cedar something...
+IIRC).
 
---=20
-You may reply to this email to add a comment.
+> > I.o.w. we probably can remove the oldest stuff in the driver WRT above
+> > mentioned platforms, but leave the driver for the rest.
+> > I wouldn't be in a hurry with this though, display drivers are easy to
+> > remove, but really hard to get back on velocity after that.
+>
+> Ok, I'll have a look at removing Medfield. That code should have been
+> removed a long time ago.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With Best Regards,
+Andy Shevchenko
