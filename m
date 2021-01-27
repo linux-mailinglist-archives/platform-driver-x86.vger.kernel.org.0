@@ -2,73 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E56963053D2
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jan 2021 08:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0C2306290
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 27 Jan 2021 18:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S316450AbhA0BDc (ORCPT
+        id S1344015AbhA0Rs4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 26 Jan 2021 20:03:32 -0500
-Received: from mga06.intel.com ([134.134.136.31]:22403 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732138AbhAZU5A (ORCPT
+        Wed, 27 Jan 2021 12:48:56 -0500
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:38127 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343847AbhA0RsZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 26 Jan 2021 15:57:00 -0500
-IronPort-SDR: EXCIfKYWc7SHDoBrYAPOeqXZHTHsRHNpem80Gop2kxodePOjWqvfK7idC3glqI1jJX1vMdM0pl
- gFq6s8ofLIwQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="241500151"
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; 
-   d="scan'208";a="241500151"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 12:55:10 -0800
-IronPort-SDR: sKEk9XZ9yGG7sQiEwrN0nAXAf/bO7EQ3NfIU3eVoQdjlJ/ye0W+ocQ77Ht97K4yYPYuR6XJB/G
- UyjnbzZSTf8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,377,1602572400"; 
-   d="scan'208";a="472877740"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2021 12:55:09 -0800
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id B58C65807C8;
-        Tue, 26 Jan 2021 12:55:09 -0800 (PST)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     mark.gross@intel.com, hdegoede@redhat.com, lee.jones@linaro.org,
-        torvalds@linux-foundation.org
-Cc:     "David E. Box" <david.e.box@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/3] platform/x86: intel_pmt_telemetry: Add dependency on MFD_INTEL_PMT
-Date:   Tue, 26 Jan 2021 12:55:07 -0800
-Message-Id: <20210126205508.30907-2-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210126205508.30907-1-david.e.box@linux.intel.com>
-References: <20210126205508.30907-1-david.e.box@linux.intel.com>
+        Wed, 27 Jan 2021 12:48:25 -0500
+Received: by mail-ot1-f54.google.com with SMTP id s2so2520130otp.5;
+        Wed, 27 Jan 2021 09:48:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vdHwbl73abB6VMNWToTNpqvH4TxI0Xt6czMeP1SSONU=;
+        b=er5OIGZ1kW43ICfaAkQzJpytcPP1dgk+bpk7ontLmrmYEf8JTmJFyUIxah0NA02Q/h
+         ZcxHroDwtGkyO7bpSvr+GHjGMU3DuC+ILUAeacI9nNQFxeNgnizJ28nUvNQRvCqySmPG
+         xa0p53orHk2l6tTrHwCC/CLHnlz9xs5sFGzQpbOYM/8Ou+lTtIqLLPTPTSavse2HcHtR
+         190Po2XTmd2vXjC1Jdz6jbz0w/iTpg/f/jgfv9TBmPFPU9dUSx5p4ucL4E0yGeXRvmQ1
+         2qzHs9Xc+39dU0rkjY17b2iSSQNuYj1YgNeBUjhGiXj3Hj5ttwppvySH4VAYobRTljih
+         u1wA==
+X-Gm-Message-State: AOAM530+CDd5MzOINjK7Uf0IBrdiF21fOqvzTlHH6RJExBBxeO5WeRRH
+        ovQeEmcROL7gAYEiIy4jZHDnkTYBbe8iLA7HASI=
+X-Google-Smtp-Source: ABdhPJw6u6KdfHzrO2hRhAY3DwystwML/VIEMZE1ZlXSpGH7GLROPx503G79S+aeNM16cQlyOHZImsR58roCK+rTu+U=
+X-Received: by 2002:a9d:1710:: with SMTP id i16mr8426465ota.260.1611769664581;
+ Wed, 27 Jan 2021 09:47:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210125115957.3292-1-hdegoede@redhat.com> <20210125115957.3292-3-hdegoede@redhat.com>
+In-Reply-To: <20210125115957.3292-3-hdegoede@redhat.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 27 Jan 2021 18:47:33 +0100
+Message-ID: <CAJZ5v0iVGpUxUVMAO4R9bz8dogFRoYun-9-4G_Mgzq0_WP305Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ACPI: platform-profile: Introduce object pointers
+ to callbacks
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-All devices that expose Intel Platform Monitoring Technology (PMT)
-telemetry are currently owned by the intel_pmt MFD driver. Therefore make
-the telemetry driver depend on the MFD driver for build.
+On Tue, Jan 26, 2021 at 6:58 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>
+> Add an object pointer to handler callbacks to avoid the need for
+> drivers to have a global variable to get to their driver-data
+> struct.
+>
+> Link: https://lore.kernel.org/linux-acpi/6a29f338-d9e4-150c-81dd-2ffb54f5bc35@redhat.com/
+> Link: https://lore.kernel.org/r/20210114073429.176462-3-jiaxun.yang@flygoat.com
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Fixes: 68fe8e6e2c4b ("platform/x86: Intel PMT Telemetry capability driver")
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- drivers/platform/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Applied on top of the previous platform-profile patches, thanks!
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index af75c3342c06..9948c5f4928d 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1382,6 +1382,7 @@ config INTEL_PMT_CLASS
- 
- config INTEL_PMT_TELEMETRY
- 	tristate "Intel Platform Monitoring Technology (PMT) Telemetry driver"
-+	depends on MFD_INTEL_PMT
- 	select INTEL_PMT_CLASS
- 	help
- 	  The Intel Platform Monitory Technology (PMT) Telemetry driver provides
--- 
-2.20.1
-
+> ---
+> Changes in v2 (Hans de Goede):
+> - Tweak the commit message wording a bit
+> ---
+>  drivers/acpi/platform_profile.c  | 4 ++--
+>  include/linux/platform_profile.h | 6 ++++--
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
+> index f65c61db7921..80e9df427eb8 100644
+> --- a/drivers/acpi/platform_profile.c
+> +++ b/drivers/acpi/platform_profile.c
+> @@ -64,7 +64,7 @@ static ssize_t platform_profile_show(struct device *dev,
+>                 return -ENODEV;
+>         }
+>
+> -       err = cur_profile->profile_get(&profile);
+> +       err = cur_profile->profile_get(cur_profile, &profile);
+>         mutex_unlock(&profile_lock);
+>         if (err)
+>                 return err;
+> @@ -104,7 +104,7 @@ static ssize_t platform_profile_store(struct device *dev,
+>                 return -EOPNOTSUPP;
+>         }
+>
+> -       err = cur_profile->profile_set(i);
+> +       err = cur_profile->profile_set(cur_profile, i);
+>         mutex_unlock(&profile_lock);
+>         if (err)
+>                 return err;
+> diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
+> index c797fdb3d91a..a26542d53058 100644
+> --- a/include/linux/platform_profile.h
+> +++ b/include/linux/platform_profile.h
+> @@ -28,8 +28,10 @@ enum platform_profile_option {
+>
+>  struct platform_profile_handler {
+>         unsigned long choices[BITS_TO_LONGS(PLATFORM_PROFILE_LAST)];
+> -       int (*profile_get)(enum platform_profile_option *profile);
+> -       int (*profile_set)(enum platform_profile_option profile);
+> +       int (*profile_get)(struct platform_profile_handler *pprof,
+> +                               enum platform_profile_option *profile);
+> +       int (*profile_set)(struct platform_profile_handler *pprof,
+> +                               enum platform_profile_option profile);
+>  };
+>
+>  int platform_profile_register(struct platform_profile_handler *pprof);
+> --
+> 2.29.2
+>
