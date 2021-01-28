@@ -2,101 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A8E0307296
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Jan 2021 10:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCE1F3074EF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 28 Jan 2021 12:38:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232431AbhA1JY5 (ORCPT
+        id S229640AbhA1Li2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 28 Jan 2021 04:24:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232528AbhA1JWp (ORCPT
+        Thu, 28 Jan 2021 06:38:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54576 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229551AbhA1Li0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 28 Jan 2021 04:22:45 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C031C0613ED;
-        Thu, 28 Jan 2021 01:22:04 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id c12so4630174wrc.7;
-        Thu, 28 Jan 2021 01:22:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=z7EPhmIjo+KbSUa0ut+cvBYxFBb4G2Nq2zdf32V7DIw=;
-        b=RS9c9N/woOhHsYLuIyAo3ZCyrceqxPD9puelQl+Ux2gcIYHT+h0nF6LnWBQhKlNIFe
-         SYGowDMkQ8i6vcvKjEjeHTQqRxSpSnkagwvunMX4A/MiCAq6uMMnQVKAlosqiDLcqPdb
-         LamejcXkRIX7a6ZTBrJ4FwWOe/J4EjirrCvU2daAnprG3z2h2sQJjTxiv2FZ71qQYibE
-         NRuCVbX0lcJWIGjuiCcxz1nbWNYuEhqAR0NvlMkZ1S7uPbmfasMicoRpMurR6+T5J/vH
-         lxdlLpBr/SLMlNhBpNGGql5DMl93KJQha0gRqgQTZdPNfQfetFILrBqiUFVr0gFKB/Gq
-         6YLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=z7EPhmIjo+KbSUa0ut+cvBYxFBb4G2Nq2zdf32V7DIw=;
-        b=jCNQlwMrMIfI+OBddITFwYY5VMf5hVorbctm0nitDLaOZjRjIE5cyVHFgjJ+OznyBZ
-         Nx2wBIXkuedWrwizMT2DnUTMx4/Kv1oug8EbI6CSkOIB/r6k1gOzYKs+FCko7LkGfzwK
-         KTR6MZ9DXu7bfdewG1mg7bzaeQWD/D1Fv//TCcqCgHdW7H5dgkuT6r1Cva0Y/LbCn7rC
-         1JF/wxOB4q042OvqS1JsjSyf26h/MyXEl5F3Ir1Y/eycNLVWIv6YOl+WwlOGRU4lqRRe
-         adbVZ7vkoi09idkaAxS1yzVseJb/SeYmjia2ragogy6tMbvT7tTKEXuTgysR7GF7lxXG
-         JR9w==
-X-Gm-Message-State: AOAM532m3Afs7vuLfk+r7+vRob+KJtEGIPisCH94+1xRS0+cm8yPJAbI
-        M8k0EeUu9kdG3wabWeUSJYk=
-X-Google-Smtp-Source: ABdhPJwce8ZO5zFUH5o60/Ig3Ntkd6tK0EKoFiA7rMWRnTY5ZjwwXNIznsCFiVN27FZjcUzyfeIT1w==
-X-Received: by 2002:a5d:4b47:: with SMTP id w7mr15379796wrs.194.1611825723322;
-        Thu, 28 Jan 2021 01:22:03 -0800 (PST)
-Received: from [192.168.1.211] ([2.29.208.120])
-        by smtp.gmail.com with ESMTPSA id o12sm6137583wrx.82.2021.01.28.01.22.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jan 2021 01:22:02 -0800 (PST)
-Subject: Re: [PATCH v2 4/7] i2c: i2c-core-acpi: Add i2c_acpi_dev_name()
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-gpio@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, andy@kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20210118003428.568892-1-djrscally@gmail.com>
- <20210118003428.568892-5-djrscally@gmail.com>
- <YAVSf7+iTPNYf5XS@pendragon.ideasonboard.com>
- <CAJZ5v0hUELtKc9CK=z47XQvSAAx=wTWvoVwP-PaMqugaXaCgZQ@mail.gmail.com>
- <20210128090053.GE963@ninjato>
- <7e7a8614-3cdb-e160-b10f-8aa0e11b15e5@gmail.com>
- <20210128091741.GJ963@ninjato>
-From:   Daniel Scally <djrscally@gmail.com>
-Message-ID: <5423f70e-2bab-7f6a-a9b2-97a058c0eb20@gmail.com>
-Date:   Thu, 28 Jan 2021 09:22:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 28 Jan 2021 06:38:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611833818;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=m+AKwvzs7nJ3kXoQu6OIG1Oc6mIPSmzwYlHWvIofE00=;
+        b=XEvQqwRKzKRfcvdGCyjQsnCJQkQ8K7j29nOKXwgykrQa9c1SOlMTN+HkJOYGhiwfYRtpJA
+        /heMrkkwIFhRVqlKcF1mGPy3kQ+5ve9+qZHV6XXIStgRomHFmv4nPmZ9h6QHVqCLAlJuwA
+        J4qziTzqGx8CCKNWHrfNZ8OkzEOgDYE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-DhYatYl4NQeD5x05kcMNPQ-1; Thu, 28 Jan 2021 06:36:57 -0500
+X-MC-Unique: DhYatYl4NQeD5x05kcMNPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CE6C1005513;
+        Thu, 28 Jan 2021 11:36:55 +0000 (UTC)
+Received: from x1.localdomain (ovpn-114-250.ams2.redhat.com [10.36.114.250])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 281DC5D720;
+        Thu, 28 Jan 2021 11:36:53 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <mgross@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add info for the Jumper EZpad 7 tablet
+Date:   Thu, 28 Jan 2021 12:36:53 +0100
+Message-Id: <20210128113653.5442-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210128091741.GJ963@ninjato>
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Add touchscreen info for the Jumper EZpad 7 tablet.
 
-On 28/01/2021 09:17, Wolfram Sang wrote:
->> Just to clarify; "open-code" meaning inline it in the caller like
->> Laurent said, right?
-> Yes.
->
-Thanks - will do that and drop this one then
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index c4de932302d6..c44a6e8dceb8 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -382,6 +382,23 @@ static const struct ts_dmi_data jumper_ezpad_6_m4_data = {
+ 	.properties	= jumper_ezpad_6_m4_props,
+ };
+ 
++static const struct property_entry jumper_ezpad_7_props[] = {
++	PROPERTY_ENTRY_U32("touchscreen-min-x", 4),
++	PROPERTY_ENTRY_U32("touchscreen-min-y", 10),
++	PROPERTY_ENTRY_U32("touchscreen-size-x", 2044),
++	PROPERTY_ENTRY_U32("touchscreen-size-y", 1526),
++	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++	PROPERTY_ENTRY_STRING("firmware-name", "gsl3680-jumper-ezpad-7.fw"),
++	PROPERTY_ENTRY_U32("silead,max-fingers", 10),
++	PROPERTY_ENTRY_BOOL("silead,stuck-controller-bug"),
++	{ }
++};
++
++static const struct ts_dmi_data jumper_ezpad_7_data = {
++	.acpi_name	= "MSSL1680:00",
++	.properties	= jumper_ezpad_7_props,
++};
++
+ static const struct property_entry jumper_ezpad_mini3_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 23),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y", 16),
+@@ -1034,6 +1051,16 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_BIOS_VERSION, "Jumper8.S106x"),
+ 		},
+ 	},
++	{
++		/* Jumper EZpad 7 */
++		.driver_data = (void *)&jumper_ezpad_7_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Jumper"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "EZpad"),
++			/* Jumper12x.WJ2012.bsBKRCP05 with the version dropped */
++			DMI_MATCH(DMI_BIOS_VERSION, "Jumper12x.WJ2012.bsBKRCP"),
++		},
++	},
+ 	{
+ 		/* Jumper EZpad mini3 */
+ 		.driver_data = (void *)&jumper_ezpad_mini3_data,
+-- 
+2.29.2
+
