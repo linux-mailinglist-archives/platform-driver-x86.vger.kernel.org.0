@@ -2,202 +2,289 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58071309CEB
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Jan 2021 15:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6DB3309F07
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Jan 2021 22:06:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbhAaO3Q (ORCPT
+        id S231607AbhAaVFq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 31 Jan 2021 09:29:16 -0500
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:5494 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229584AbhAaOE6 (ORCPT
+        Sun, 31 Jan 2021 16:05:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32953 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231448AbhAaVAb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 31 Jan 2021 09:04:58 -0500
-Received: from pps.filterd (m0170393.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10VE3gaV028677;
-        Sun, 31 Jan 2021 09:04:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=iPTsQUI2RUewqhhN3q1wyM8tgNlRT6zS1tgiK/aqOr4=;
- b=Adc3djnFPb0EEIXyapgDNOHvxEKMVLjttVT8/1m9Tajn84w+Qg7dQ7bvAZ+tVH5MfrDm
- 5wvgpdrSbyy8jDyyVuVJGREFrDWUpBUX/yveodGoqXHFV8a4auDh0TCdIahPFeFgijhz
- MlsNuBu2fdB/z1uRfDMSIGJB3Xf284uCNoqwiWDk/oIt7KYpQ7csbs7RDowmrsPmtW8o
- iS+Q3hxx7yHMsh0qtbG/2rRF1V8Vhu1NMA1RwOzWU5Xyj8hRC1F4hRDOX4mNUvWasRW0
- zsuHp7cVUbtJy6sW8MnyVI5fDjnCU9TKcZPIL3fv+vg8C/Rw3c1FXTcvGj20xyQdrInJ NA== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0a-00154904.pphosted.com with ESMTP id 36d3npswrf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 31 Jan 2021 09:04:10 -0500
-Received: from pps.filterd (m0089483.ppops.net [127.0.0.1])
-        by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10VDtCmA113172;
-        Sun, 31 Jan 2021 09:04:09 -0500
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
-        by mx0b-00154901.pphosted.com with ESMTP id 36dnu0k4fw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 31 Jan 2021 09:04:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rw4bcf+p+Al09tOnAronzO6ddP0vE0mx168LMoJPJpWMbmiLSIIeKvI+DQqhpGIZkz/GMRn4Sn9d+1dv5oAIHybU6MizAYKoAB0w140KqtPLPuYoLqeL9OSuJAYPdcvhvqcKfeAaee2e3IlQh9l6cN2OzGrCUoT2OycNztMUFWpQf1hIdT8BJC0ugAnQfpdogXdScuc8wGvc08lWo6+bczlPDoQYfE7P0Btua5vTjEO7k4w8TDmvFGvTXl4JSMajjDKD4wnGzJW+U9ApNOvM/wpxlL3NGO3BgzRLhrd5gW2Ax6ZHTqtkDCZF+AmkWOrucTOgwaRdv11Pt5uIvsU2kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPTsQUI2RUewqhhN3q1wyM8tgNlRT6zS1tgiK/aqOr4=;
- b=enlXHSw0m1zpn4Dwz/AHW84SAl6z41LLzge8P2UwIY1dv4SoSLFy4FmpI74Tx9VdalGBTDS3GGEZz68pViDf84PDA4s2KomQ2fgepQlWCSLPy18M/4SUB3FASCi5vVkpPec1s0l8ReU7Fh2gz2GdbOmCC5gyj2Ng/7ydZHusb4OMMlbx3tOIGhOVFEGYfLekxxxHi870wdYzM/LYquGYB/g12icYNLH7fe+yfieUzoTMobsVoBIotzk31Brex1gOuMyjswvpaxeqDy8zK5v66wGF7BWdJe3VyHX4m5RPvacQp3LtnixTIRWLRfddnCavZYwyzmoNyFHz2bw8id5FIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from SA1PR19MB4926.namprd19.prod.outlook.com (13.101.59.210) by
- SN6PR1901MB2159.namprd19.prod.outlook.com (52.132.117.142) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.20; Sun, 31 Jan 2021 14:04:07 +0000
-Received: from SA1PR19MB4926.namprd19.prod.outlook.com
- ([fe80::1c92:24d3:b11f:bc50]) by SA1PR19MB4926.namprd19.prod.outlook.com
- ([fe80::1c92:24d3:b11f:bc50%6]) with mapi id 15.20.3805.024; Sun, 31 Jan 2021
- 14:04:07 +0000
-From:   "Limonciello, Mario" <Mario.Limonciello@dell.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
+        Sun, 31 Jan 2021 16:00:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612126744;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BTdfeZUlmDAGnUPUg1Sx+tWBlHdEKi++bIDvsDvVpgY=;
+        b=e5YO6tu+ZMXcxGRX9YIJFzm4fTXyA83hzjQDp2BhAXWidYoO0Hck1jDQ+xAtU9jbaxpSdr
+        YUtdt+lzLoZ8a/CgXYHV4x+eOgO3j6hlgDQJO+R468xMS/dzfVxkLCN2M8s1tBQxirRL23
+        FsH9BWoDU21GygCzH3dOZVGy2kor1Vw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-HOTzNY-IM-mMxel2sRpc9Q-1; Sun, 31 Jan 2021 15:59:03 -0500
+X-MC-Unique: HOTzNY-IM-mMxel2sRpc9Q-1
+Received: by mail-ed1-f69.google.com with SMTP id x13so6946319edi.7
+        for <platform-driver-x86@vger.kernel.org>; Sun, 31 Jan 2021 12:59:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BTdfeZUlmDAGnUPUg1Sx+tWBlHdEKi++bIDvsDvVpgY=;
+        b=F0fslzeRK5AgMkLX5ZAeOpn2fBgWrLrorDfE0d+gNy/h+GdLiZOZTO6vMqnk27kCtb
+         CZESoga/YyIdnT6VJ3IN3SlQxWi9aL/7svW4JsynrbM+1AkyRSk5OiCOOysrXNrXoEmH
+         b6KX5sYaKZi5Y4HWoHEij5cmwa0XJNoLN8uIwcTZTZPq6JndQJejU5+dH0Ar3dBRW3ew
+         Gj9aqAHNsA43xpHi+Ffo6V73Dqq8qWZjp+7l3ijPtNUPUAdlwwB8xH4mmAoRInpKo8re
+         KItq6ZeGv3qewdY19+aObkgfEMKWSG987kTtMAUemjug47mIMz6Hg+Z9IiGdHxQ0vnPv
+         NnNg==
+X-Gm-Message-State: AOAM530oEeJ4Slc+YP6XCzkuUSo8SoOWcZgqbIaoOMoNR/VG9jJOsL7A
+        7w0UikCR+Cop/B0+r3D4qIAAZbHjtUw/zUY9sP6JpBEKrUQAqiVDVdWxqYLBKhEW1O710l6wbMq
+        s3T4w4MdlgELoxh7q2J6xrvQmTTK9KVlX1VV2VrrUOq3TUp7J1YYxPuA9FUxvCJOoj3xEBKlMvI
+        WVdFEgrUw1Xg==
+X-Received: by 2002:a17:906:69c2:: with SMTP id g2mr14105195ejs.249.1612126741692;
+        Sun, 31 Jan 2021 12:59:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjz533QMFNl6H/Ne8MsDH5LPiFLL/aCHyz1ZQYHciPk1o13+N380W5/ysDpK+OT6xjT3K8Gw==
+X-Received: by 2002:a17:906:69c2:: with SMTP id g2mr14105189ejs.249.1612126741520;
+        Sun, 31 Jan 2021 12:59:01 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id cw21sm7601846edb.85.2021.01.31.12.59.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Jan 2021 12:59:00 -0800 (PST)
+Subject: Re: [PATCH] platform/x86: dell-wmi-sysman: fix a NULL pointer
+ dereference
+To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
         Mark Gross <mgross@linux.intel.com>
-CC:     LKML <linux-kernel@vger.kernel.org>,
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         "platform-driver-x86@vger.kernel.org" 
         <platform-driver-x86@vger.kernel.org>
-Subject: RE: [PATCH] platform/x86: dell-wmi-sysman: fix a NULL pointer
- dereference
-Thread-Topic: [PATCH] platform/x86: dell-wmi-sysman: fix a NULL pointer
- dereference
-Thread-Index: AQHW9mP0cWNChGE38Eu6VwA6sJM74apAtSwAgAERnVA=
-Date:   Sun, 31 Jan 2021 14:04:07 +0000
-Message-ID: <SA1PR19MB49263EE7ECF0D06962BE00ECFAB79@SA1PR19MB4926.namprd19.prod.outlook.com>
 References: <20210129172654.2326751-1-mario.limonciello@dell.com>
  <0da9ca30-53b1-8d34-4fc7-62edb6423b26@redhat.com>
-In-Reply-To: <0da9ca30-53b1-8d34-4fc7-62edb6423b26@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2021-01-31T14:03:57.7424227Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=210d4a10-71e2-4c9b-9d0d-27c631b90c65;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=Dell.com;
-x-originating-ip: [76.251.167.31]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1d95cbe2-f9b0-4347-464f-08d8c5f11341
-x-ms-traffictypediagnostic: SN6PR1901MB2159:
-x-microsoft-antispam-prvs: <SN6PR1901MB2159D4EC47D22FD742EBB193FAB79@SN6PR1901MB2159.namprd19.prod.outlook.com>
-x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: u7qL+dxDGDGqO6p4GyvCidaJPPQcLjKnGaihn5oCtcZU1bBNrKG/5Yqx5+v1g/FtlpbBAIB5elk4Er2WmS4TjCe81+DobZTAzJfwISMo7ewKEiuwWEj+Pfvkb+jESHT29PdolbDNw4wXIpHrrkffTKug5DyDo8FXY0GXCf5Fv1wmJYt7r51a0HYMrjSzGYlU6eRn+KNXUJ2bhoCT9wdzTVe/bfB27XXoCxxfuQJnfLELqK1ypQo0njlt358tPAXlnLNzsOwA4VN/LqCNRDmPNQOjeti+z9kv9lYLZ2wd/S9kwjxEZS7Ub+6BILcmR/IfzbJt5htI+svaydtW4komXwolqOnMS3aZKOQXjpuahkvCqLM26ko29+fuKO3Bw5zFf/mFTfyYPafLecz66ICKt8WPSYr6W/O2v/dRXjCfjBOnB6S8K6y2la0M/vW6fhCVbtJ2odUT/1/WOgwHPTQlBBQ9UOFlqbdrkm9M/XLtGtOyGGOxl9UqCy4dOqpC0lXrIiMo6FwaNF2QdKBbycZSzA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR19MB4926.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(396003)(376002)(136003)(346002)(86362001)(71200400001)(53546011)(2906002)(26005)(186003)(4326008)(64756008)(66446008)(66476007)(66556008)(76116006)(8936002)(66946007)(83380400001)(478600001)(316002)(7696005)(54906003)(786003)(52536014)(33656002)(110136005)(5660300002)(8676002)(55016002)(9686003)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?clYyU3NDbFovMXM4THg2dWd1MjdMUXlibGtjMUY3THp2Tm9OUWRHKzZMUlEv?=
- =?utf-8?B?QW5aNW54d3FoTGdiNjZiWFRtbThwK3ZoL3B0ODlJMklwQnN5bFdvcytZZzFz?=
- =?utf-8?B?VUlJMFNaMC9LVnpjT0NKbmxzQXp3M0RmVjRLOXZLRkZYS3Z1QUxqWFIxVFZm?=
- =?utf-8?B?alZkSXpKRTJRWTZPcEFsOXdBSXdMTXVGcFBmL3RvdGR5T1lqVzBLWk1aNzM1?=
- =?utf-8?B?MjcyVXF1d3d4Y2ZkNHQ2RzBnZlI2b3FHYnFLazdDRm1YeE41M2xNNG0zakUw?=
- =?utf-8?B?SllwT29wVyt6SHBudXhHQVdhOGJpbVVyRkpOMDBPTXdOTGhMbjRPQTdZc3ls?=
- =?utf-8?B?dCtCTm5TVllzUzI0V3VhWDBkOHR3T1ZHVlF0Q0k4cTBMZXZidExmV2hkSTg5?=
- =?utf-8?B?OC9Wa2ZkcXhBb05jMTN6a25FUHlsN2ErRG0zemlNVnBaR2F2cEhhcS9CRVFm?=
- =?utf-8?B?VXJvdDJxTE4zZzBPcFpKeTVnRTBKNUVJUXlycFg4MlN6TTE1TlZTd2QvMkhQ?=
- =?utf-8?B?My9QSTRGOHg1YzE5SThtTS9xck9OK3VOMzRXTTdlTFB6Q011N1FROEtqN3R6?=
- =?utf-8?B?VjFEOHM2TDVzOGFCTXBSNnludGp4Qk8yUXhLamg3dEFnTCtmTWQ2ZnoybnBn?=
- =?utf-8?B?d1FCOU1NelgwWFRZZEQ4QXlNa0NHemdEa25IZ1U0Y1ZwYm5hZ21SV3RtSm1K?=
- =?utf-8?B?Y3ZVYkIySXhpMC9GYWVBVXlZWGFjbEQ4UXJCU2dCdDN6ZXJrM2JNUEFDZWhz?=
- =?utf-8?B?ZnhxSy9reVNzQmtUcjlqdGpqVmphdkVDSmcxbGZWdHRGK0k3cEtJbjV6MmVU?=
- =?utf-8?B?eEswSFNhdjQrN2dYR1BucGVtNlBqVU1jdGxVQ25JR3NMa2RBSXExSnhNQ0hD?=
- =?utf-8?B?YnBVRXp0Qm9WYkwwSnd0MWJLN1NUNnFWVy9zandzeGE5LzVZREJFSkdaZjRP?=
- =?utf-8?B?akxYMHNXcHNTTllST3FKcCtZUGN5NDZxUHRScHFGQXlxd21BajZVMitNdFRw?=
- =?utf-8?B?ZEJXUWNTcDkzaVRmS0dERkFtSzhud3FQYWJLR0FqaXFudElpV1JYaWM2QUU4?=
- =?utf-8?B?QVBIeHdQbUJXbjJPN0oxL0RHSTBPSW9rbFQvSmxsRmhWU0NOR0VlM3NPZkFV?=
- =?utf-8?B?UTQyODduNTBFVGNwNTEyRlNxMkFxSGxSQmF5YXBkNWpjZGJaZ1RRMkpnelUy?=
- =?utf-8?B?R1BwNFlkYU1ocW9CUmhXVEtiV01tQjN4R1FiSmd1WC8rMGpqSUNrMWRYWUVX?=
- =?utf-8?B?MWtGWG5DUm8rSkt4R1NjVzdtZURvQkV1VnB3TS9JdTZOTnQvOFpoWUNxQVVZ?=
- =?utf-8?B?bnUvMVJRaXJkR2pIWGoydXo3Zm90K1VhWnF5TlRTZFdpTHlhblQ4aCtmRkln?=
- =?utf-8?B?T0lkM1RJMFc1QmdvZE1IZ2grd3hsUUlwVmJDUHo4Y1RCeWxwS1BFS3BwQjZr?=
- =?utf-8?Q?qEPkLpKe?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <SA1PR19MB49263EE7ECF0D06962BE00ECFAB79@SA1PR19MB4926.namprd19.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a371c1c9-d803-f2e6-dfca-607a0650345f@redhat.com>
+Date:   Sun, 31 Jan 2021 21:59:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR19MB4926.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d95cbe2-f9b0-4347-464f-08d8c5f11341
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2021 14:04:07.0484
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fSYhq+bExfSMzzGcTohy7+rnaCBYLmy5FxJF/jAlgmpdW13CLa2Nm/LDR6BzoH7yG89xLmphpU3fH5dUsS4vVV5kOxRzuFtzwceGrDkFTNg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR1901MB2159
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.737
- definitions=2021-01-31_04:2021-01-29,2021-01-31 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101310079
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 bulkscore=0
- adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101310080
+In-Reply-To: <SA1PR19MB49263EE7ECF0D06962BE00ECFAB79@SA1PR19MB4926.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSGFucyBkZSBHb2VkZSA8
-aGRlZ29lZGVAcmVkaGF0LmNvbT4NCj4gU2VudDogU2F0dXJkYXksIEphbnVhcnkgMzAsIDIwMjEg
-MTU6NDQNCj4gVG86IExpbW9uY2llbGxvLCBNYXJpbzsgTWFyayBHcm9zcw0KPiBDYzogTEtNTDsg
-cGxhdGZvcm0tZHJpdmVyLXg4NkB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRD
-SF0gcGxhdGZvcm0veDg2OiBkZWxsLXdtaS1zeXNtYW46IGZpeCBhIE5VTEwgcG9pbnRlcg0KPiBk
-ZXJlZmVyZW5jZQ0KPiANCj4gDQo+IFtFWFRFUk5BTCBFTUFJTF0NCj4gDQo+IEhpLA0KPiANCj4g
-T24gMS8yOS8yMSA2OjI2IFBNLCBNYXJpbyBMaW1vbmNpZWxsbyB3cm90ZToNCj4gPiBBbiB1cGNv
-bWluZyBEZWxsIHBsYXRmb3JtIGlzIGNhdXNpbmcgYSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UN
-Cj4gPiBpbiBkZWxsLXdtaS1zeXNtYW4gaW5pdGlhbGl6YXRpb24uICBWYWxpZGF0ZSB0aGF0IHRo
-ZSBpbnB1dCBmcm9tDQo+ID4gQklPUyBtYXRjaGVzIGNvcnJlY3QgQUNQSSB0eXBlcyBhbmQgYWJv
-cnQgbW9kdWxlIGluaXRpYWxpemF0aW9uDQo+ID4gaWYgaXQgZmFpbHMuDQo+ID4NCj4gPiBUaGlz
-IGxlYWRzIHRvIGEgbWVtb3J5IGxlYWsgdGhhdCBuZWVkcyB0byBiZSBjbGVhbmVkIHVwIHByb3Bl
-cmx5Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFyaW8gTGltb25jaWVsbG8gPG1hcmlvLmxp
-bW9uY2llbGxvQGRlbGwuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL3BsYXRmb3JtL3g4Ni9k
-ZWxsLXdtaS1zeXNtYW4vc3lzbWFuLmMgfCA4ICsrKysrKystDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL3BsYXRmb3JtL3g4Ni9kZWxsLXdtaS1zeXNtYW4vc3lzbWFuLmMNCj4gYi9kcml2ZXJz
-L3BsYXRmb3JtL3g4Ni9kZWxsLXdtaS1zeXNtYW4vc3lzbWFuLmMNCj4gPiBpbmRleCBkYzZkZDUz
-MWM5OTYuLjM4YjQ5Nzk5MTA3MSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL3BsYXRmb3JtL3g4
-Ni9kZWxsLXdtaS1zeXNtYW4vc3lzbWFuLmMNCj4gPiArKysgYi9kcml2ZXJzL3BsYXRmb3JtL3g4
-Ni9kZWxsLXdtaS1zeXNtYW4vc3lzbWFuLmMNCj4gPiBAQCAtNDE5LDEzICs0MTksMTkgQEAgc3Rh
-dGljIGludCBpbml0X2Jpb3NfYXR0cmlidXRlcyhpbnQgYXR0cl90eXBlLCBjb25zdA0KPiBjaGFy
-ICpndWlkKQ0KPiA+ICAJCXJldHVybiByZXR2YWw7DQo+ID4gIAkvKiBuZWVkIHRvIHVzZSBzcGVj
-aWZpYyBpbnN0YW5jZV9pZCBhbmQgZ3VpZCBjb21iaW5hdGlvbiB0byBnZXQgcmlnaHQNCj4gZGF0
-YSAqLw0KPiA+ICAJb2JqID0gZ2V0X3dtaW9ial9wb2ludGVyKGluc3RhbmNlX2lkLCBndWlkKTsN
-Cj4gPiAtCWlmICghb2JqKQ0KPiA+ICsJaWYgKCFvYmogfHwgb2JqLT50eXBlICE9IEFDUElfVFlQ
-RV9QQUNLQUdFKSB7DQo+ID4gKwkJcmVsZWFzZV9hdHRyaWJ1dGVzX2RhdGEoKTsNCj4gDQo+IEFs
-bCBjYWxscyBvZiAgaW5pdF9iaW9zX2F0dHJpYnV0ZXMoKSBoYXZlIHRoZSBmb2xsb3dpbmcgZXJy
-b3IgaGFuZGxpbmc6DQo+IA0KPiAgICAgICAgIHJldCA9IGluaXRfYmlvc19hdHRyaWJ1dGVzKElO
-VCwgREVMTF9XTUlfQklPU19JTlRFR0VSX0FUVFJJQlVURV9HVUlEKTsNCj4gICAgICAgICBpZiAo
-cmV0KSB7DQo+ICAgICAgICAgICAgICAgICBwcl9kZWJ1ZygiZmFpbGVkIHRvIHBvcHVsYXRlIGlu
-dGVnZXIgdHlwZSBhdHRyaWJ1dGVzXG4iKTsNCj4gICAgICAgICAgICAgICAgIGdvdG8gZmFpbF9j
-cmVhdGVfZ3JvdXA7DQo+ICAgICAgICAgfQ0KPiANCj4gCS4uLg0KPiANCj4gZmFpbF9jcmVhdGVf
-Z3JvdXA6DQo+ICAgICAgICAgcmVsZWFzZV9hdHRyaWJ1dGVzX2RhdGEoKTsNCj4gDQo+IFNvIHRo
-YXQgYWRkZWQgcmVsZWFzZV9hdHRyaWJ1dGVzX2RhdGEoKSBjYWxsIGlzIG5vdCBuZWNlc3Nhcnku
-IElmIHlvdSBjYW4NCj4gcmVzcGluDQo+IHRoaXMgcGF0Y2ggTW9uZGF5IHdpdGggdGhlIHJlbGVh
-c2VfYXR0cmlidXRlc19kYXRhKCk7IGFkZGl0aW9uIGRyb3BwZWQsIHRoZW4NCj4gSSB3aWxsIHRy
-eSB0byBnZXQgdGhpcyB0byBMaW51cyBpbiB0aW1lIGZvciA1LjExIC4NCj4gDQo+IE9yIEkgY2Fu
-IGZpeCB0aGlzIHVwIGxvY2FsbHkgaWYgeW91IGFncmVlIHdpdGggZHJvcHBpbmcgdGhlIHVubmVj
-ZXNzYXJ5DQo+IHJlbGVhc2VfYXR0cmlidXRlc19kYXRhKCkgY2FsbC4NCj4gDQoNClllcywgcGxl
-YXNlIGdvIGFoZWFkIGFuZCBkcm9wIHRoZSB1bm5lY2Vzc2FyeSBjYWxsIGxvY2FsbHkuDQoNClRo
-YW5rIHlvdQ0KDQo+IFJlZ2FyZHMsDQo+IA0KPiBIYW5zDQo+IA0KPiANCj4gDQo+IA0KPiA+ICAJ
-CXJldHVybiAtRU5PREVWOw0KPiA+ICsJfQ0KPiA+ICAJZWxlbWVudHMgPSBvYmotPnBhY2thZ2Uu
-ZWxlbWVudHM7DQo+ID4NCj4gPiAgCW11dGV4X2xvY2soJndtaV9wcml2Lm11dGV4KTsNCj4gPiAg
-CXdoaWxlIChlbGVtZW50cykgew0KPiA+ICAJCS8qIHNhbml0eSBjaGVja2luZyAqLw0KPiA+ICsJ
-CWlmIChlbGVtZW50c1tBVFRSX05BTUVdLnR5cGUgIT0gQUNQSV9UWVBFX1NUUklORykgew0KPiA+
-ICsJCQlwcl9kZWJ1ZygiaW5jb3JyZWN0IGVsZW1lbnQgdHlwZVxuIik7DQo+ID4gKwkJCWdvdG8g
-bmV4dG9iajsNCj4gPiArCQl9DQo+ID4gIAkJaWYgKHN0cmxlbihlbGVtZW50c1tBVFRSX05BTUVd
-LnN0cmluZy5wb2ludGVyKSA9PSAwKSB7DQo+ID4gIAkJCXByX2RlYnVnKCJlbXB0eSBhdHRyaWJ1
-dGUgZm91bmRcbiIpOw0KPiA+ICAJCQlnb3RvIG5leHRvYmo7DQo+ID4NCg0K
+Hi,
+
+On 1/31/21 3:04 PM, Limonciello, Mario wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Hans de Goede <hdegoede@redhat.com>
+>> Sent: Saturday, January 30, 2021 15:44
+>> To: Limonciello, Mario; Mark Gross
+>> Cc: LKML; platform-driver-x86@vger.kernel.org
+>> Subject: Re: [PATCH] platform/x86: dell-wmi-sysman: fix a NULL pointer
+>> dereference
+>>
+>>
+>> [EXTERNAL EMAIL]
+>>
+>> Hi,
+>>
+>> On 1/29/21 6:26 PM, Mario Limonciello wrote:
+>>> An upcoming Dell platform is causing a NULL pointer dereference
+>>> in dell-wmi-sysman initialization.  Validate that the input from
+>>> BIOS matches correct ACPI types and abort module initialization
+>>> if it fails.
+>>>
+>>> This leads to a memory leak that needs to be cleaned up properly.
+>>>
+>>> Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
+>>> ---
+>>>  drivers/platform/x86/dell-wmi-sysman/sysman.c | 8 +++++++-
+>>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/platform/x86/dell-wmi-sysman/sysman.c
+>> b/drivers/platform/x86/dell-wmi-sysman/sysman.c
+>>> index dc6dd531c996..38b497991071 100644
+>>> --- a/drivers/platform/x86/dell-wmi-sysman/sysman.c
+>>> +++ b/drivers/platform/x86/dell-wmi-sysman/sysman.c
+>>> @@ -419,13 +419,19 @@ static int init_bios_attributes(int attr_type, const
+>> char *guid)
+>>>  		return retval;
+>>>  	/* need to use specific instance_id and guid combination to get right
+>> data */
+>>>  	obj = get_wmiobj_pointer(instance_id, guid);
+>>> -	if (!obj)
+>>> +	if (!obj || obj->type != ACPI_TYPE_PACKAGE) {
+>>> +		release_attributes_data();
+>>
+>> All calls of  init_bios_attributes() have the following error handling:
+>>
+>>         ret = init_bios_attributes(INT, DELL_WMI_BIOS_INTEGER_ATTRIBUTE_GUID);
+>>         if (ret) {
+>>                 pr_debug("failed to populate integer type attributes\n");
+>>                 goto fail_create_group;
+>>         }
+>>
+>> 	...
+>>
+>> fail_create_group:
+>>         release_attributes_data();
+>>
+>> So that added release_attributes_data() call is not necessary. If you can
+>> respin
+>> this patch Monday with the release_attributes_data(); addition dropped, then
+>> I will try to get this to Linus in time for 5.11 .
+>>
+>> Or I can fix this up locally if you agree with dropping the unnecessary
+>> release_attributes_data() call.
+>>
+> 
+> Yes, please go ahead and drop the unnecessary call locally.
+
+Ok, I've merged this into my review-hans branch and I will push this out
+to for-next as soon as a local build has finished. I'll also include
+this in my last fixes pull-req for Linus later this week.
+
+While working on this I did notice that the function in question still
+has a bunch of further issues. But since this patch fixes a crash and has
+been tested I've decided to move forward with it as is (with the duplicate
+release_attributes_data() call dropped). The further issues can be fixed
+with follow-up patches.
+
+So the other issues which I noticed are:
+
+1. Calling release_attributes_data() in the error-path here:
+
+	obj = get_wmiobj_pointer(instance_id, guid);
+	if (!obj || obj->type != ACPI_TYPE_PACKAGE) {
+		return -ENODEV;
+	}
+
+Is not necessary as discussed, but the added obj->type != ACPI_TYPE_PACKAGE
+which I assume triggers to fix the reported crash, means that obj is not
+NULL in which case we should free it. So this should become:
+
+	obj = get_wmiobj_pointer(instance_id, guid);
+	if (!obj || obj->type != ACPI_TYPE_PACKAGE) {
+		kfree(obj);
+		return -ENODEV;
+	}
+
+Note that the kfree() will be a no-op when obj == NULL. This means that
+with just the current fix merged there is a small memleak on machines
+where we hit the error-path. I've decided that we can live with that,
+since the alternative is the crash or me pushing something untested.
+
+
+2. There is a while below this if, which gets a new obj pointer:
+
+	obj = get_wmiobj_pointer(instance_id, guid);
+	if (!obj || obj->type != ACPI_TYPE_PACKAGE) {
+		kfree(obj);
+		return -ENODEV;
+	}
+	elements = obj->package.elements;
+
+	mutex_lock(&wmi_priv.mutex);
+	while (elements) {
+		...
+
+nextobj:
+		kfree(obj);
+		instance_id++;
+		obj = get_wmiobj_pointer(instance_id, guid);
+		elements = obj ? obj->package.elements : NULL;
+	}
+
+This is missing a check for the obj->type for the new obj when
+going into a second (or higher) iteration of the loop.
+
+This check can be added by moving the original check to inside
+the loop like this:
+
+	obj = get_wmiobj_pointer(instance_id, guid);
+
+	mutex_lock(&wmi_priv.mutex);	
+	while (obj) {
+		if (obj->type != ACPI_TYPE_PACKAGE) {
+			err = ENODEV;
+			goto err_attr_init;
+		}
+		elements = obj->package.elements;
+
+		...
+
+nextobj:
+		kfree(obj);
+		instance_id++;
+		obj = get_wmiobj_pointer(instance_id, guid);
+	}
+
+
+3. Functions like populate_enum_data() (and the others) index the
+elements array with an index > 0 without checking the package length
+and also make assumptions about the types embedded in the package
+without checking them.
+
+
+4. The err_attr_init exit path of init_bios_attributes() calls
+release_attributes_data() but that call does not just cleanup
+the results of that single init_bios_attributes() call but also
+of all previous init_bios_attributes() calls as such it makes more
+sense to leave the calling of release_attributes_data() to the caller.
+
+Either way calling it twice once from the err_attr_init exit path
+and then again in sysman_init() feels wrong, even though I think it
+does no harm.
+
+Regards,
+
+Hans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> 
+> Thank you
+> 
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>
+>>
+>>>  		return -ENODEV;
+>>> +	}
+>>>  	elements = obj->package.elements;
+>>>
+>>>  	mutex_lock(&wmi_priv.mutex);
+>>>  	while (elements) {
+>>>  		/* sanity checking */
+>>> +		if (elements[ATTR_NAME].type != ACPI_TYPE_STRING) {
+>>> +			pr_debug("incorrect element type\n");
+>>> +			goto nextobj;
+>>> +		}
+>>>  		if (strlen(elements[ATTR_NAME].string.pointer) == 0) {
+>>>  			pr_debug("empty attribute found\n");
+>>>  			goto nextobj;
+>>>
+> 
+
