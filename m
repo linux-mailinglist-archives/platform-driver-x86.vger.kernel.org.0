@@ -2,125 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F7930BBDB
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 11:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C3E30C07D
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 15:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbhBBKNj (ORCPT
+        id S233546AbhBBN7h (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Feb 2021 05:13:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46568 "EHLO mail.kernel.org"
+        Tue, 2 Feb 2021 08:59:37 -0500
+Received: from pmg2.unah.edu.cu ([200.14.49.209]:34204 "EHLO pmg2.unah.edu.cu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229590AbhBBKNh (ORCPT
+        id S233467AbhBBN5b (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Feb 2021 05:13:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D1AC64EE2;
-        Tue,  2 Feb 2021 10:12:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612260775;
-        bh=a9JpeLTPXuDOqgu+ithu1Vjt2uPFzg7y0tFXGXpxM34=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2G7Sa2W2ilSNpuWlzi5xy2tjO1cPC84KVISQKCBmXkdFncJ0agNWmtpKRNGXthS7M
-         rd2RAlsEu/8qmLpx/S4Q9Tb4/zkCloMzc6hNLmvZhgw4B4eBq90pJ8K/CHAPqsTO5q
-         /uTrJLoBQx5z3FubOBQqvQ5cnYa4wvWYyC/ml7P8=
-Date:   Tue, 2 Feb 2021 11:12:53 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andy@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Darren Hart <dvhart@infradead.org>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Mike Travis <mike.travis@hpe.com>,
-        Peter Jones <pjones@redhat.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-efi@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH 1/3] printk: use CONFIG_CONSOLE_LOGLEVEL_* directly
-Message-ID: <YBklpQ1PrVc5iEQl@kroah.com>
-References: <20210202070218.856847-1-masahiroy@kernel.org>
+        Tue, 2 Feb 2021 08:57:31 -0500
+X-Greylist: delayed 11362 seconds by postgrey-1.27 at vger.kernel.org; Tue, 02 Feb 2021 08:57:31 EST
+Received: from pmg2.unah.edu.cu (localhost [127.0.0.1])
+        by pmg2.unah.edu.cu (Proxmox) with ESMTP id 4E2D84A191;
+        Tue,  2 Feb 2021 10:32:17 +0000 (UTC)
+Received: from mail.unah.edu.cu (webmail.unah.edu.cu [10.4.1.32])
+        by pmg2.unah.edu.cu (Proxmox) with ESMTP id 3F0F049D35;
+        Tue,  2 Feb 2021 10:32:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.unah.edu.cu (Postfix) with ESMTP id 2016B100827;
+        Tue,  2 Feb 2021 05:32:17 -0500 (CST)
+Received: from mail.unah.edu.cu ([127.0.0.1])
+        by localhost (mail.unah.edu.cu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id FxkjHuLRUEGP; Tue,  2 Feb 2021 05:32:09 -0500 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.unah.edu.cu (Postfix) with ESMTP id 11CA5100A76;
+        Tue,  2 Feb 2021 05:27:36 -0500 (CST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.unah.edu.cu 11CA5100A76
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unah.edu.cu;
+        s=9D17C5EA-F997-11E9-B7EC-9B0862835F78; t=1612261656;
+        bh=TmsiS7pnKPI85z6DEujemKg8Zo4gXpI/g7zkmmTCoyM=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=gia1ZbdoVRICqeFOz5wwBuW/2NENKLd43iWma3XI24Yi5UWwzk6CKaJykWn+Wl/Xj
+         i/Ub6GO/SQtCJVXRW46hKEeVRYV03uACQlGer8auddyV66Xo69h8MKEyK/3l58RGVT
+         bpVGozFhSu44v40gTZTQ78wMAsYTkW5uBv549EE8sSW1CYzwIx9CIzzBhVlQMutPwJ
+         HLzux6xgpDe55V1SXJHhkwwrrgK+MbMmeW/1A6Jnf6+ikU+Pms+7Keiq8x+7b3kHsC
+         h2u1eLRByJyz79pCpmrlOFY9NiFYlclQKgD3igDkDek8Z6LdzgQRV7rcp2/V2rNM8N
+         KmNwakHMbuGxQ==
+X-Amavis-Modified: Mail body modified (using disclaimer) - mail.unah.edu.cu
+X-Virus-Scanned: amavisd-new at unah.edu.cu
+Received: from mail.unah.edu.cu ([127.0.0.1])
+        by localhost (mail.unah.edu.cu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id a_OM1MVLfLpv; Tue,  2 Feb 2021 05:27:35 -0500 (CST)
+Received: from mail.unah.edu.cu (mail.unah.edu.cu [10.4.1.32])
+        by mail.unah.edu.cu (Postfix) with ESMTP id 723D810085E;
+        Tue,  2 Feb 2021 05:26:35 -0500 (CST)
+Date:   Tue, 2 Feb 2021 05:26:35 -0500 (CST)
+From:   Lorelys Santiago dela Noval <lorelis@unah.edu.cu>
+Reply-To: Manuel Franco <manfranco32@gmail.com>
+Message-ID: <1904228811.1593922.1612261595438.JavaMail.zimbra@unah.edu.cu>
+Subject: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210202070218.856847-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.4.1.32]
+X-Mailer: Zimbra 8.8.15_GA_3991 (zclient/8.8.15_GA_3991)
+Thread-Index: bS0jBiagoV5P8k8Zcg0Q7TIkqQ7rhg==
+Thread-Topic: 
+X-SPAM-LEVEL: 
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 04:02:16PM +0900, Masahiro Yamada wrote:
-> CONSOLE_LOGLEVEL_DEFAULT is nothing more than a shorthand of
-> CONFIG_CONSOLE_LOGLEVEL_DEFAULT.
-> 
-> When you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from Kconfig, almost
-> all objects are rebuilt because CONFIG_CONSOLE_LOGLEVEL_DEFAULT is
-> used in <linux/printk.h>, which is included from most of source files.
-> 
-> In fact, there are only 4 users of CONSOLE_LOGLEVEL_DEFAULT:
-> 
->   arch/x86/platform/uv/uv_nmi.c
->   drivers/firmware/efi/libstub/efi-stub-helper.c
->   drivers/tty/sysrq.c
->   kernel/printk/printk.c
-> 
-> So, when you change CONFIG_CONSOLE_LOGLEVEL_DEFAULT and rebuild the
-> kernel, it is enough to recompile those 4 files.
-> 
-> Remove the CONSOLE_LOGLEVEL_DEFAULT definition from <linux/printk.h>,
-> and use CONFIG_CONSOLE_LOGLEVEL_DEFAULT directly.
-> 
-> With this, the build system will rebuild the minimal number of objects.
-> 
-> Steps to confirm it:
-> 
->   [1] Do the full build
->   [2] Change CONFIG_CONSOLE_LOGLEVEL_DEFAULT from 'make menuconfig' etc.
->   [3] Rebuild
-> 
->   $ make
->     SYNC    include/config/auto.conf
->     CALL    scripts/checksyscalls.sh
->     CALL    scripts/atomic/check-atomics.sh
->     DESCEND  objtool
->     CHK     include/generated/compile.h
->     CC      kernel/printk/printk.o
->     AR      kernel/printk/built-in.a
->     AR      kernel/built-in.a
->     CC      drivers/tty/sysrq.o
->     AR      drivers/tty/built-in.a
->     CC      drivers/firmware/efi/libstub/efi-stub-helper.o
->     STUBCPY drivers/firmware/efi/libstub/efi-stub-helper.stub.o
->     AR      drivers/firmware/efi/libstub/lib.a
->     AR      drivers/built-in.a
->     GEN     .version
->     CHK     include/generated/compile.h
->     UPD     include/generated/compile.h
->     CC      init/version.o
->     AR      init/built-in.a
->     LD      vmlinux.o
->     ...
-> 
-> For the same reason, do likewise for CONSOLE_LOGLEVEL_QUIET and
-> MESSAGE_LOGLEVEL_DEFAULT.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/x86/platform/uv/uv_nmi.c                  |  2 +-
->  drivers/firmware/efi/libstub/efi-stub-helper.c |  6 +++---
->  drivers/tty/sysrq.c                            |  4 ++--
->  drivers/video/fbdev/core/fbcon.c               |  2 +-
->  drivers/video/fbdev/efifb.c                    |  2 +-
->  include/linux/printk.h                         | 10 ----------
->  init/main.c                                    |  2 +-
->  kernel/printk/printk.c                         |  6 +++---
->  8 files changed, 12 insertions(+), 22 deletions(-)
+Kaksi miljoonaa dollaria on lahjoittanut sinulle Manuel Franco, joka voitti=
+ 768 miljoonan dollarin Powerball-j=C3=A4ttipotin 23. huhtikuuta 2019. Saat=
+ lis=C3=A4tietoja s=C3=A4hk=C3=B6postitse.
+UNIVERSIDAD AGRARIA DE LA HABANA
+"Fructuoso Rodriguez Perez"
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Carretera Tapaste y Autopista Nacional Km 23 1/2, 
+San Jose� de Las Lajas,Mayabeque, Cuba. 
+Apartado 18-19, CP 32700.
+Telefono:(+53) 4786339  https://www.unah.edu.cu
+
+https://www.facebook.com/UNAH.Cuba
+https://www.twitter.com/UNAH_Cuba
+#SomosUnahCuba
+#Mayabeque
+#CreciendoJuntos
+
+
