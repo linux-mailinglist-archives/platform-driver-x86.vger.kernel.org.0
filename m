@@ -2,85 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C3E30C07D
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 15:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FF0E30BD25
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 12:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233546AbhBBN7h (ORCPT
+        id S231201AbhBBLbe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Feb 2021 08:59:37 -0500
-Received: from pmg2.unah.edu.cu ([200.14.49.209]:34204 "EHLO pmg2.unah.edu.cu"
+        Tue, 2 Feb 2021 06:31:34 -0500
+Received: from mga17.intel.com ([192.55.52.151]:6959 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233467AbhBBN5b (ORCPT
+        id S230319AbhBBL3e (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Feb 2021 08:57:31 -0500
-X-Greylist: delayed 11362 seconds by postgrey-1.27 at vger.kernel.org; Tue, 02 Feb 2021 08:57:31 EST
-Received: from pmg2.unah.edu.cu (localhost [127.0.0.1])
-        by pmg2.unah.edu.cu (Proxmox) with ESMTP id 4E2D84A191;
-        Tue,  2 Feb 2021 10:32:17 +0000 (UTC)
-Received: from mail.unah.edu.cu (webmail.unah.edu.cu [10.4.1.32])
-        by pmg2.unah.edu.cu (Proxmox) with ESMTP id 3F0F049D35;
-        Tue,  2 Feb 2021 10:32:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.unah.edu.cu (Postfix) with ESMTP id 2016B100827;
-        Tue,  2 Feb 2021 05:32:17 -0500 (CST)
-Received: from mail.unah.edu.cu ([127.0.0.1])
-        by localhost (mail.unah.edu.cu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id FxkjHuLRUEGP; Tue,  2 Feb 2021 05:32:09 -0500 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.unah.edu.cu (Postfix) with ESMTP id 11CA5100A76;
-        Tue,  2 Feb 2021 05:27:36 -0500 (CST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.unah.edu.cu 11CA5100A76
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unah.edu.cu;
-        s=9D17C5EA-F997-11E9-B7EC-9B0862835F78; t=1612261656;
-        bh=TmsiS7pnKPI85z6DEujemKg8Zo4gXpI/g7zkmmTCoyM=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=gia1ZbdoVRICqeFOz5wwBuW/2NENKLd43iWma3XI24Yi5UWwzk6CKaJykWn+Wl/Xj
-         i/Ub6GO/SQtCJVXRW46hKEeVRYV03uACQlGer8auddyV66Xo69h8MKEyK/3l58RGVT
-         bpVGozFhSu44v40gTZTQ78wMAsYTkW5uBv549EE8sSW1CYzwIx9CIzzBhVlQMutPwJ
-         HLzux6xgpDe55V1SXJHhkwwrrgK+MbMmeW/1A6Jnf6+ikU+Pms+7Keiq8x+7b3kHsC
-         h2u1eLRByJyz79pCpmrlOFY9NiFYlclQKgD3igDkDek8Z6LdzgQRV7rcp2/V2rNM8N
-         KmNwakHMbuGxQ==
-X-Amavis-Modified: Mail body modified (using disclaimer) - mail.unah.edu.cu
-X-Virus-Scanned: amavisd-new at unah.edu.cu
-Received: from mail.unah.edu.cu ([127.0.0.1])
-        by localhost (mail.unah.edu.cu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id a_OM1MVLfLpv; Tue,  2 Feb 2021 05:27:35 -0500 (CST)
-Received: from mail.unah.edu.cu (mail.unah.edu.cu [10.4.1.32])
-        by mail.unah.edu.cu (Postfix) with ESMTP id 723D810085E;
-        Tue,  2 Feb 2021 05:26:35 -0500 (CST)
-Date:   Tue, 2 Feb 2021 05:26:35 -0500 (CST)
-From:   Lorelys Santiago dela Noval <lorelis@unah.edu.cu>
-Reply-To: Manuel Franco <manfranco32@gmail.com>
-Message-ID: <1904228811.1593922.1612261595438.JavaMail.zimbra@unah.edu.cu>
-Subject: 
+        Tue, 2 Feb 2021 06:29:34 -0500
+IronPort-SDR: Mfg/488EZG1NsiXVMVGwbHvLj29W8WOYlWqewBIsz83yGGVMvRAYZC7J62+9bJmDdvYcO3YXe/
+ 928gBCh2FJJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="160603654"
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
+   d="scan'208";a="160603654"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 03:27:43 -0800
+IronPort-SDR: 2Rc0Ikw4v3gdbwgcJwco0+nR1oatilf8/ryPGdXG7K+2H+4ey6rP6I8ScbsETZ+vR3T1kOCBEy
+ GN/VDhaWLS0Q==
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
+   d="scan'208";a="370573944"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 03:27:39 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1l6tqK-001NPV-2X; Tue, 02 Feb 2021 13:27:36 +0200
+Date:   Tue, 2 Feb 2021 13:27:36 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-gpio@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>, andy@kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 2/7] acpi: utils: Add function to fetch dependent
+ acpi_devices
+Message-ID: <YBk3KDs5FCffkQp1@smile.fi.intel.com>
+References: <b381b48e-1bf2-f3e7-10a6-e51cd261f43c@gmail.com>
+ <CAJZ5v0iU2m4Hs6APuauQ645DwbjYaB8nJFjYH0+7yQnR-FPZBQ@mail.gmail.com>
+ <e2d7e5e9-920f-7227-76a6-b166e30e11e5@gmail.com>
+ <CAJZ5v0gg5oXG3yOO9iDvPKSsadYrFojW6JcKfZcQbFFpO78zAQ@mail.gmail.com>
+ <85ccf00d-7c04-b1da-a4bc-82c805df69c9@gmail.com>
+ <CAJZ5v0jO9O1zhBMNRNB5kRt1o86BTjr1kRuFUe=nNVTDwBQhEg@mail.gmail.com>
+ <0fac24d2-e8fc-7dc8-0f2f-44c7aadb1daf@gmail.com>
+ <CAJZ5v0jVxMMGh6k-vXeBRsCtD0L14poNUrg4kZOpCfOz2sZGZQ@mail.gmail.com>
+ <ee8f6b58-55c8-e0a0-c161-bdef361f9e0a@gmail.com>
+ <d9ec0439-4323-51a2-70e7-c258fe63cd86@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.4.1.32]
-X-Mailer: Zimbra 8.8.15_GA_3991 (zclient/8.8.15_GA_3991)
-Thread-Index: bS0jBiagoV5P8k8Zcg0Q7TIkqQ7rhg==
-Thread-Topic: 
-X-SPAM-LEVEL: 
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d9ec0439-4323-51a2-70e7-c258fe63cd86@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Kaksi miljoonaa dollaria on lahjoittanut sinulle Manuel Franco, joka voitti=
- 768 miljoonan dollarin Powerball-j=C3=A4ttipotin 23. huhtikuuta 2019. Saat=
- lis=C3=A4tietoja s=C3=A4hk=C3=B6postitse.
-UNIVERSIDAD AGRARIA DE LA HABANA
-"Fructuoso Rodriguez Perez"
+On Tue, Feb 02, 2021 at 09:58:17AM +0000, Daniel Scally wrote:
+> On 21/01/2021 21:06, Daniel Scally wrote:
+> > On 21/01/2021 18:08, Rafael J. Wysocki wrote:
 
-Carretera Tapaste y Autopista Nacional Km 23 1/2, 
-San Joseï¿½ de Las Lajas,Mayabeque, Cuba. 
-Apartado 18-19, CP 32700.
-Telefono:(+53) 4786339  https://www.unah.edu.cu
+...
 
-https://www.facebook.com/UNAH.Cuba
-https://www.twitter.com/UNAH_Cuba
-#SomosUnahCuba
-#Mayabeque
-#CreciendoJuntos
+> > No problem;  I'll tweak that then
+> 
+> Slightly walking back my "No problem" here; as I understand this there's
+> kinda two options:
+> 
+> 1. Walk over the (locked) list, when a match is found unlock, run the
+> callback and re-lock.
+> 
+> The problem with that idea is unless I'm mistaken there's no guarantee
+> that the .next pointer is still valid then (even using the *_safe()
+> methods) because either the next or the next + 1 entry could have been
+> removed whilst the list was unlocked and the callback was being ran, so
+> this seems a little unsafe.
+
+It's easy to solve.
+See an example in deferred_probe_work_func().
+
+https://elixir.bootlin.com/linux/latest/source/drivers/base/dd.c#L75
+
+> 2. Walk over the (locked) list twice, the first time counting matching
+> entries and using that to allocate a temporary buffer, then walk again
+> to store the matching entries into the buffer. Finally, run the callback
+> for everything in the buffer, free it and return.
+> 
+> Obviously that's a lot less efficient than the current function, which
+> isn't particularly palatable.
+> 
+> Apologies if I've missed a better option that would work fine; but
+> failing that do you still want me to go ahead and change
+> acpi_walk_dep_device_list() to do this (I'd choose #2 of the above), or
+> fallback to using acpi_dev_get_next_dependent_dev() described above? If
+> the latter, does acpi_walk_dep_device_list() maybe need re-naming to
+> make clear it's not a generalised function?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
