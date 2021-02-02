@@ -2,219 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E327030CA2D
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 19:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1E2730C98E
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Feb 2021 19:22:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238785AbhBBSkq (ORCPT
+        id S233659AbhBBSWj (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Feb 2021 13:40:46 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:41151 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233747AbhBBODd (ORCPT
+        Tue, 2 Feb 2021 13:22:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58917 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233658AbhBBOGW (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Feb 2021 09:03:33 -0500
-Received: by mail-oi1-f176.google.com with SMTP id m13so22769499oig.8;
-        Tue, 02 Feb 2021 06:03:16 -0800 (PST)
+        Tue, 2 Feb 2021 09:06:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612274695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=MKvpyexj8hdyx3zG/jAy0UzjVGsWowtAK0n9Ey04MJk=;
+        b=dfLatvomAZFEfW4DLdKvYtVwtPqUJV0eOV69/QpT4e38hkD4XGN9rEBTQRh1YPDGlKCXpc
+        41iw36jLbXwAVqQ26QSjyrN28IOLGAqjknZg0z5k5PkTVv40lLLV8fCHCWxu1iR2583xpH
+        hdzZKZN5mXM11hTQVZ5PzfDdjItGz2w=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-auGsKaojNAymyN3oCOjvbQ-1; Tue, 02 Feb 2021 09:04:53 -0500
+X-MC-Unique: auGsKaojNAymyN3oCOjvbQ-1
+Received: by mail-ed1-f69.google.com with SMTP id a26so9667737edx.8
+        for <platform-driver-x86@vger.kernel.org>; Tue, 02 Feb 2021 06:04:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XDOyyPXnhfDnLT42xUgfRv/pv03j1De9PVl4XkKNTZA=;
-        b=OpQ6Mhcxvv+v3UUayQFxm/KdKjtiERcapfcohwYPXvegjVaVWaWon4/oZSJEq4pNoU
-         5CC3B9xeqUkTHylxHE+/h5DIaDB85GfLegUH3NFBbZZEnBvzeiIGsdLRWxvw/tPTSz8E
-         PIwnu6OtXaCe0HZpid6TYUCxghiMUaNSR+iqSCYs81YSISZsZkfnnd247gXvj1MrtkGE
-         CC09EQhyK+3pwje+j62op8ogIfuIr7osnefbuPDK3yfQ8kRbjtk4EAy0Fy7qkT4g7Meq
-         td8P0GiyPX8BWMXPbZTE8zcl/vAOhn/1UAApNKiHXEa5jGZdfunJLczZKt+NRhnv1hC/
-         xBjQ==
-X-Gm-Message-State: AOAM532rqGgzrboTv8adwP4pcRkRkXuwt5GFBiMifKPpN1Zxe8lwZ/v4
-        34m0czMB48fIKZ6no++/MJeZtIviK/qUl8n+X1k=
-X-Google-Smtp-Source: ABdhPJy0oGC9SrhvIPc6y3juU8i2CP65UYGiYv7W/WBqh/2pB9aSRhWKzEhtJZ6OKnjn/r/lWBX1jT4binoRV/rlprg=
-X-Received: by 2002:aca:308a:: with SMTP id w132mr2611030oiw.69.1612274571030;
- Tue, 02 Feb 2021 06:02:51 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=MKvpyexj8hdyx3zG/jAy0UzjVGsWowtAK0n9Ey04MJk=;
+        b=EMzzrmOZlYrxxsjx8+A9lxoJK5esF7s6o8E01myUGTmfAB8IQRa6bRIQfNAeW9e0aT
+         1CMd1neSQBE9JP/I+1337ROJQF1xcv9Q98+fgbsoo12C0Edkyeiaf/Aa5F0Fz+DFJdRI
+         NG7y50vlGiyaHVS0ZU5zAzAfbe5B4h/FQVLDQtg0tN/lcxa61w8hIoSOqSzu0X2KqZdb
+         SVvfAhYLS0sa+u1lBw5/k/K3+SdQJnhoUwnnmHM6/zCdiHKTko2INgslH5fg6qCAbBq1
+         Vc04JbvYZSC/m4cVGxVew3omskKfya7CLZhaNTmWgyv70P0sMeh3L2Qk/F5VgWLBYL8Z
+         9x/w==
+X-Gm-Message-State: AOAM532DXpNwySsie12p/1pH/lpthssjdFj4KgMHFEfZte/Li9uTiH2/
+        S++k2Um55H4enVVMnbFxxrBn6ymm3WmlAbtlejF0+v7+7BVqNTobn/orcCdAtwO+rUekas2ewyF
+        JSQBGPkfWRcr1C+mZc8jccRxIAwIZGg75lQ==
+X-Received: by 2002:a17:906:2a06:: with SMTP id j6mr21718921eje.164.1612274692060;
+        Tue, 02 Feb 2021 06:04:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyd4zMs8S4fP6OHAYsfcRxCYPfQbucQjG/nyFEtkYPFGxIqd0RO5avdSDb6ad1WtOVLE+vFmQ==
+X-Received: by 2002:a17:906:2a06:: with SMTP id j6mr21718910eje.164.1612274691944;
+        Tue, 02 Feb 2021 06:04:51 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id m14sm1421119edl.10.2021.02.02.06.04.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Feb 2021 06:04:50 -0800 (PST)
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Don't register keyboard_lang
+ unnecessarily
+To:     Mark Gross <mgross@linux.intel.com>
+Cc:     Andy Shevchenko <andy@infradead.org>,
+        Mark Pearson <mpearson@lenovo.com>,
+        platform-driver-x86@vger.kernel.org,
+        Nitin Joshi <njoshi1@lenovo.com>
+References: <20210125205258.135664-1-hdegoede@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <bd23eabc-5168-8491-866a-0dfb108433bc@redhat.com>
+Date:   Tue, 2 Feb 2021 15:04:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210118003428.568892-1-djrscally@gmail.com> <20210118003428.568892-3-djrscally@gmail.com>
- <CAJZ5v0gVQsZ4rxXW8uMidW9zfY_S50zpfrL-Gq0J3Z4-qqBiww@mail.gmail.com>
- <b381b48e-1bf2-f3e7-10a6-e51cd261f43c@gmail.com> <CAJZ5v0iU2m4Hs6APuauQ645DwbjYaB8nJFjYH0+7yQnR-FPZBQ@mail.gmail.com>
- <e2d7e5e9-920f-7227-76a6-b166e30e11e5@gmail.com> <CAJZ5v0gg5oXG3yOO9iDvPKSsadYrFojW6JcKfZcQbFFpO78zAQ@mail.gmail.com>
- <85ccf00d-7c04-b1da-a4bc-82c805df69c9@gmail.com> <CAJZ5v0jO9O1zhBMNRNB5kRt1o86BTjr1kRuFUe=nNVTDwBQhEg@mail.gmail.com>
- <0fac24d2-e8fc-7dc8-0f2f-44c7aadb1daf@gmail.com> <CAJZ5v0jVxMMGh6k-vXeBRsCtD0L14poNUrg4kZOpCfOz2sZGZQ@mail.gmail.com>
- <ee8f6b58-55c8-e0a0-c161-bdef361f9e0a@gmail.com> <d9ec0439-4323-51a2-70e7-c258fe63cd86@gmail.com>
-In-Reply-To: <d9ec0439-4323-51a2-70e7-c258fe63cd86@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 2 Feb 2021 15:02:39 +0100
-Message-ID: <CAJZ5v0j7U=e+GHLqpivqfvOKCyCZWm4VK3___4tTfcxD==vcHA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] acpi: utils: Add function to fetch dependent acpi_devices
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, andy@kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Robert Moore <robert.moore@intel.com>,
-        Erik Kaneda <erik.kaneda@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210125205258.135664-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Feb 2, 2021 at 10:58 AM Daniel Scally <djrscally@gmail.com> wrote:
->
-> Hi Rafael
->
-> On 21/01/2021 21:06, Daniel Scally wrote:
-> >
-> > On 21/01/2021 18:08, Rafael J. Wysocki wrote:
-> >> On Thu, Jan 21, 2021 at 5:34 PM Daniel Scally <djrscally@gmail.com> wrote:
-> >>>
-> >>> On 21/01/2021 14:39, Rafael J. Wysocki wrote:
-> >>>> On Thu, Jan 21, 2021 at 1:04 PM Daniel Scally <djrscally@gmail.com> wrote:
-> >>>>> On 21/01/2021 11:58, Rafael J. Wysocki wrote:
-> >>>>>> On Thu, Jan 21, 2021 at 10:47 AM Daniel Scally <djrscally@gmail.com> wrote:
-> >>>>>>> Hi Rafael
-> >>>>>>>
-> >>>>>>> On 19/01/2021 13:15, Rafael J. Wysocki wrote:
-> >>>>>>>> On Mon, Jan 18, 2021 at 9:51 PM Daniel Scally <djrscally@gmail.com> wrote:
-> >>>>>>>>> On 18/01/2021 16:14, Rafael J. Wysocki wrote:
-> >>>>>>>>>> On Mon, Jan 18, 2021 at 1:37 AM Daniel Scally <djrscally@gmail.com> wrote:
-> >>>>>>>>>>> In some ACPI tables we encounter, devices use the _DEP method to assert
-> >>>>>>>>>>> a dependence on other ACPI devices as opposed to the OpRegions that the
-> >>>>>>>>>>> specification intends. We need to be able to find those devices "from"
-> >>>>>>>>>>> the dependee, so add a function to parse all ACPI Devices and check if
-> >>>>>>>>>>> the include the handle of the dependee device in their _DEP buffer.
-> >>>>>>>>>> What exactly do you need this for?
-> >>>>>>>>> So, in our DSDT we have devices with _HID INT3472, plus sensors which
-> >>>>>>>>> refer to those INT3472's in their _DEP method. The driver binds to the
-> >>>>>>>>> INT3472 device, we need to find the sensors dependent on them.
-> >>>>>>>>>
-> >>>>>>>> Well, this is an interesting concept. :-)
-> >>>>>>>>
-> >>>>>>>> Why does _DEP need to be used for that?  Isn't there any other way to
-> >>>>>>>> look up the dependent sensors?
-> >>>>>>>>
-> >>>>>>>>>> Would it be practical to look up the suppliers in acpi_dep_list instead?
-> >>>>>>>>>>
-> >>>>>>>>>> Note that supplier drivers may remove entries from there, but does
-> >>>>>>>>>> that matter for your use case?
-> >>>>>>>>> Ah - that may work, yes. Thank you, let me test that.
-> >>>>>>>> Even if that doesn't work right away, but it can be made work, I would
-> >>>>>>>> very much prefer that to the driver parsing _DEP for every device in
-> >>>>>>>> the namespace by itself.
-> >>>>>>> This does work; do you prefer it in scan.c, or in utils.c (in which case
-> >>>>>>> with acpi_dep_list declared as external var in internal.h)?
-> >>>>>> Let's put it in scan.c for now, because there is the lock protecting
-> >>>>>> the list in there too.
-> >>>>>>
-> >>>>>> How do you want to implement this?  Something like "walk the list and
-> >>>>>> run a callback for the matching entries" or do you have something else
-> >>>>>> in mind?
-> >>>>> Something like this (though with a mutex_lock()). It could be simplified
-> >>>>> by dropping the prev stuff, but we have seen INT3472 devices with
-> >>>>> multiple sensors declaring themselves dependent on the same device
-> >>>>>
-> >>>>>
-> >>>>> struct acpi_device *
-> >>>>> acpi_dev_get_next_dependent_dev(struct acpi_device *supplier,
-> >>>>>                 struct acpi_device *prev)
-> >>>>> {
-> >>>>>     struct acpi_dep_data *dep;
-> >>>>>     struct acpi_device *adev;
-> >>>>>     int ret;
-> >>>>>
-> >>>>>     if (!supplier)
-> >>>>>         return ERR_PTR(-EINVAL);
-> >>>>>
-> >>>>>     if (prev) {
-> >>>>>         /*
-> >>>>>          * We need to find the previous device in the list, so we know
-> >>>>>          * where to start iterating from.
-> >>>>>          */
-> >>>>>         list_for_each_entry(dep, &acpi_dep_list, node)
-> >>>>>             if (dep->consumer == prev->handle &&
-> >>>>>                 dep->supplier == supplier->handle)
-> >>>>>                 break;
-> >>>>>
-> >>>>>         dep = list_next_entry(dep, node);
-> >>>>>     } else {
-> >>>>>         dep = list_first_entry(&acpi_dep_list, struct acpi_dep_data,
-> >>>>>                        node);
-> >>>>>     }
-> >>>>>
-> >>>>>
-> >>>>>     list_for_each_entry_from(dep, &acpi_dep_list, node) {
-> >>>>>         if (dep->supplier == supplier->handle) {
-> >>>>>             ret = acpi_bus_get_device(dep->consumer, &adev);
-> >>>>>             if (ret)
-> >>>>>                 return ERR_PTR(ret);
-> >>>>>
-> >>>>>             return adev;
-> >>>>>         }
-> >>>>>     }
-> >>>>>
-> >>>>>     return NULL;
-> >>>>> }
-> >>>> That would work I think, but would it be practical to modify
-> >>>> acpi_walk_dep_device_list() so that it runs a callback for every
-> >>>> consumer found instead of or in addition to the "delete from the list
-> >>>> and free the entry" operation?
-> >>>
-> >>> I think that this would work fine, if that's the way you want to go.
-> >>> We'd just need to move everything inside the if (dep->supplier ==
-> >>> handle) block to a new callback, and for my purposes I think also add a
-> >>> way to stop parsing the list from the callback (so like have the
-> >>> callbacks return int and stop parsing on a non-zero return). Do you want
-> >>> to expose that ability to pass a callback outside of ACPI?
-> >> Yes.
-> >>
-> >>> Or just export helpers to call each of the callbacks (one to fetch the next
-> >>> dependent device, one to decrement the unmet dependencies counter)
-> >> If you can run a callback for every matching entry, you don't really
-> >> need to have a callback to return the next matching entry.  You can do
-> >> stuff for all of them in one go
-> >
-> > Well it my case it's more to return a pointer to the dep->consumer's
-> > acpi_device for a matching entry, so my idea was where there's multiple
-> > dependents you could use this as an iterator...but it could just be
-> > extended to that if needed later; I don't actually need to do it right now.
-> >
-> >
-> >> note that it probably is not a good
-> >> idea to run the callback under the lock, so the for loop currently in
-> >> there is not really suitable for that
-> >
-> > No problem;  I'll tweak that then
->
-> Slightly walking back my "No problem" here; as I understand this there's
-> kinda two options:
->
-> 1. Walk over the (locked) list, when a match is found unlock, run the
-> callback and re-lock.
+Hi,
 
-That's what I was thinking about.
+On 1/25/21 9:52 PM, Hans de Goede wrote:
+> All recent ThinkPad BIOS-es support the GSKL method used to query the
+> keyboard-layout used by the ECFW for the SHIFT + other-key key-press
+> emulation for special keys such as e.g. the '=', '(' and ')' keys
+> above the numpad on 15" models.
+> 
+> So just checking for the method is not a good indicator of the
+> model supporting getting/setting the keyboard_lang.
+> 
+> On models where this is not supported GSKL succeeds, but it returns
+> METHOD_ERR in the returned integer to indicate that this is not
+> supported on this model.
+> 
+> Add a check for METHOD_ERR and return -ENODEV if it is set to
+> avoid registering a non-working keyboard_lang sysfs-attr on models
+> where this is not supported.
+> 
+> Cc: Nitin Joshi <njoshi1@lenovo.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-> The problem with that idea is unless I'm mistaken there's no guarantee
-> that the .next pointer is still valid then (even using the *_safe()
-> methods) because either the next or the next + 1 entry could have been
-> removed whilst the list was unlocked and the callback was being ran, so
-> this seems a little unsafe.
+I've applied this patch to my review-hans branch now,
+so this should show up in platform-drivers-x86/for-next soon.
 
-This can be addressed by rotating the list while walking it, but that
-becomes problematic if there are concurrent walkers.
+Regards,
 
-OK, I guess running the callback under the lock is not really a big
-deal (and for the deletion case this is actually necessary), so let's
-do that.
+Hans
+
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index df2506974106..0b268e17cb7b 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10356,6 +10356,13 @@ static int get_keyboard_lang(int *output)
+>  	if (!acpi_evalf(gskl_handle, &kbd_lang, NULL, "dd", 0x02000000))
+>  		return -EIO;
+>  
+> +	/*
+> +	 * METHOD_ERR gets returned on devices where there are no special (e.g. '=',
+> +	 * '(' and ')') keys which use layout dependent key-press emulation.
+> +	 */
+> +	if (kbd_lang & METHOD_ERR)
+> +		return -ENODEV;
+> +
+>  	*output = kbd_lang;
+>  
+>  	return 0;
+> 
+
