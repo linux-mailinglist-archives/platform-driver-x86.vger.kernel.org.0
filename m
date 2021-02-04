@@ -2,222 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A6330EBBF
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Feb 2021 06:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA85030EE1D
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Feb 2021 09:16:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbhBDFIu (ORCPT
+        id S233392AbhBDINp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 4 Feb 2021 00:08:50 -0500
-Received: from mga18.intel.com ([134.134.136.126]:61498 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229754AbhBDFIu (ORCPT
+        Thu, 4 Feb 2021 03:13:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20189 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231767AbhBDINo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 4 Feb 2021 00:08:50 -0500
-IronPort-SDR: a5WhTg3xKoQtqIWul1dIuhMRUDwoBMEEkR5gouW5ueJpLd51jTG0NT6biUffJ4hz4YBAzdX5cK
- 0z50UuqIfQyg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="168854626"
-X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; 
-   d="scan'208";a="168854626"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 21:08:06 -0800
-IronPort-SDR: x/yfqbpHOrQyPcwNCfclM1iXozcoy5mGIdRLCoMoQZrbU+kHi8HWnrjPM0EA/VoChJqU1qlTL3
- LirENfkz7R+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; 
-   d="scan'208";a="356260391"
-Received: from lkp-server02.sh.intel.com (HELO 8b832f01bb9c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Feb 2021 21:08:05 -0800
-Received: from kbuild by 8b832f01bb9c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l7Ws8-0000lM-H5; Thu, 04 Feb 2021 05:08:04 +0000
-Date:   Thu, 04 Feb 2021 13:07:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:fixes] BUILD SUCCESS
- 215164bfb7144c5890dd8021ff06e486939862d4
-Message-ID: <601b80ff.QEgAwOnqv23hqNUR%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 4 Feb 2021 03:13:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612426337;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/Wh0DIdrkA4YW2O4sxJRy2qqQ4e9oXm1QIzs7RUWeVo=;
+        b=NO5GNhNSje5wKR7obqXc/FSGOxIVA6G8uGYJbMgROawj4at9t0O+TeAinpXYmk15vB8nLw
+        UGfY1BzDZ4jMm1YvDkqz4RMzgmTRaxItVv1S2N1XVQ4eAZVVhY7ThLDWbTrthSdpYTHE0C
+        5Fzc+PzDJJIpiymNHTGrUFcIP/NAV9g=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-TIPO6d8EMuGR17M_mB_69w-1; Thu, 04 Feb 2021 03:12:16 -0500
+X-MC-Unique: TIPO6d8EMuGR17M_mB_69w-1
+Received: by mail-ej1-f70.google.com with SMTP id dc21so2005786ejb.19
+        for <platform-driver-x86@vger.kernel.org>; Thu, 04 Feb 2021 00:12:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/Wh0DIdrkA4YW2O4sxJRy2qqQ4e9oXm1QIzs7RUWeVo=;
+        b=p10EM+j2eI0y8/hceVq7WWll5mL86/ohsJajuAHlX6fipNjx1CbeDNFa4geK0Xcz2Z
+         G6c8lVV0qKLoE2rBya9pwrEV9t3msfw8BZxi2Yq6urRfgBgVekG6gENXH3qfbkQepX16
+         TcpGE2GQeRZilknn57lFezK4k/TCq268wXXSSbGisK1OVSvpeiQgywe3pb5GJsEg7XD+
+         Rfmpg8irhXiyh51NJU1QSPB3RwoBj3dVACtcXH/y9K6wEI8rAYIkUKXjrg0L3CgZ88CZ
+         +PTncbV0mejSdBr7C2Ycn26vO1y8VtUzmO/ZL5llRRbTf0ddeg6Sd9FxgKo3tJJ1b3Mf
+         T9qw==
+X-Gm-Message-State: AOAM530XREFmduS4+GIlV58Ta5HQgdUniimmqjSapmAHOnaT75XEuKZh
+        68DgUsnTPg1UhYNFtVxU0qWPCnJs1QGvo1RB0dqUqpB8JTWpdivkkf6TBj3yyJIRWDYcgTxgLjz
+        N+Pt5u9wBv/BmbEjB6XTNZJgYP8BRhGUkYA==
+X-Received: by 2002:a17:906:e15:: with SMTP id l21mr6832381eji.376.1612426334947;
+        Thu, 04 Feb 2021 00:12:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0PqgHF3bUbZJ97CsxfNGMJ+DnJvlxxbl0ArJ8i0X75kxCEWjUlxc3cIP64FHV4H7gowMglQ==
+X-Received: by 2002:a17:906:e15:: with SMTP id l21mr6832367eji.376.1612426334821;
+        Thu, 04 Feb 2021 00:12:14 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id kv24sm1931809ejc.117.2021.02.04.00.12.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Feb 2021 00:12:14 -0800 (PST)
+Subject: Re: [PATCH v3 12/29] platform/x86: ideapad-laptop: check return value
+ of debugfs_create_dir() for errors
+To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        platform-driver-x86@vger.kernel.org,
+        Mark Gross <mgross@linux.intel.com>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+References: <20210203215403.290792-13-pobrn@protonmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <acc8d35b-eea6-8fad-0d7a-ad9c189a51ad@redhat.com>
+Date:   Thu, 4 Feb 2021 09:12:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210203215403.290792-13-pobrn@protonmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/linux-platform-drivers-x86.git fixes
-branch HEAD: 215164bfb7144c5890dd8021ff06e486939862d4  platform/x86: dell-wmi-sysman: fix a NULL pointer dereference
+Hi Barnabás,
 
-elapsed time: 728m
+On 2/3/21 10:55 PM, Barnabás Pőcze wrote:
+> debugfs_create_dir() may return an ERR_PTR(),
+> add a check to ideapad_debugfs_init() that
+> handles the case when that occurs.
 
-configs tested: 156
-configs skipped: 2
+debugfs functions should not be error-checked:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+1. They are for debugging so if they don't work it is not an issue
+   (note your own error handling also just returns without propagating 
+    the error).
+2. Subsequent debugfs calls taking the ERR-PTR will detect this and
+   turn into no-op-s
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-s390                       zfcpdump_defconfig
-mips                           ip28_defconfig
-sh                           se7724_defconfig
-c6x                                 defconfig
-xtensa                              defconfig
-arm                      jornada720_defconfig
-mips                           ip27_defconfig
-powerpc                     powernv_defconfig
-arm                        mvebu_v7_defconfig
-ia64                         bigsur_defconfig
-mips                            gpr_defconfig
-arm                         cm_x300_defconfig
-sh                          urquell_defconfig
-arm                        spear6xx_defconfig
-sh                ecovec24-romimage_defconfig
-c6x                        evmc6472_defconfig
-powerpc                       ebony_defconfig
-m68k                             allmodconfig
-arm                       multi_v4t_defconfig
-sh                              ul2_defconfig
-riscv                             allnoconfig
-nios2                         3c120_defconfig
-m68k                       m5475evb_defconfig
-openrisc                            defconfig
-mips                           ip32_defconfig
-powerpc                        cell_defconfig
-powerpc                      makalu_defconfig
-powerpc                  mpc866_ads_defconfig
-sh                           se7751_defconfig
-sh                            migor_defconfig
-sh                          polaris_defconfig
-ia64                          tiger_defconfig
-mips                       lemote2f_defconfig
-arm                        oxnas_v6_defconfig
-mips                        nlm_xlp_defconfig
-powerpc                      ppc44x_defconfig
-arc                      axs103_smp_defconfig
-arc                            hsdk_defconfig
-arc                        nsim_700_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                     tqm8548_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                 mpc836x_rdk_defconfig
-nios2                               defconfig
-h8300                     edosk2674_defconfig
-sh                          rsk7201_defconfig
-xtensa                  nommu_kc705_defconfig
-powerpc                          g5_defconfig
-arm                        cerfcube_defconfig
-powerpc                     akebono_defconfig
-arm                       imx_v4_v5_defconfig
-riscv                            alldefconfig
-parisc                generic-64bit_defconfig
-mips                      maltasmvp_defconfig
-sh                        edosk7705_defconfig
-arm                            zeus_defconfig
-arm                         at91_dt_defconfig
-powerpc                      pmac32_defconfig
-s390                          debug_defconfig
-mips                         bigsur_defconfig
-arm                          lpd270_defconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-arm                       netwinder_defconfig
-xtensa                          iss_defconfig
-arm                         orion5x_defconfig
-arm                          collie_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210202
-i386                 randconfig-a005-20210202
-i386                 randconfig-a003-20210202
-i386                 randconfig-a006-20210202
-i386                 randconfig-a002-20210202
-i386                 randconfig-a004-20210202
-i386                 randconfig-a001-20210203
-i386                 randconfig-a005-20210203
-i386                 randconfig-a003-20210203
-i386                 randconfig-a006-20210203
-i386                 randconfig-a002-20210203
-i386                 randconfig-a004-20210203
-i386                 randconfig-a001-20210204
-i386                 randconfig-a005-20210204
-i386                 randconfig-a003-20210204
-i386                 randconfig-a006-20210204
-i386                 randconfig-a002-20210204
-i386                 randconfig-a004-20210204
-x86_64               randconfig-a013-20210202
-x86_64               randconfig-a014-20210202
-x86_64               randconfig-a015-20210202
-x86_64               randconfig-a016-20210202
-x86_64               randconfig-a011-20210202
-x86_64               randconfig-a012-20210202
-i386                 randconfig-a013-20210202
-i386                 randconfig-a016-20210202
-i386                 randconfig-a014-20210202
-i386                 randconfig-a012-20210202
-i386                 randconfig-a015-20210202
-i386                 randconfig-a011-20210202
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+So I'm going to skip this patch while applying this series.
 
-clang tested configs:
-x86_64               randconfig-a006-20210202
-x86_64               randconfig-a001-20210202
-x86_64               randconfig-a005-20210202
-x86_64               randconfig-a002-20210202
-x86_64               randconfig-a004-20210202
-x86_64               randconfig-a003-20210202
-x86_64               randconfig-a006-20210204
-x86_64               randconfig-a001-20210204
-x86_64               randconfig-a005-20210204
-x86_64               randconfig-a002-20210204
-x86_64               randconfig-a004-20210204
-x86_64               randconfig-a003-20210204
+Regards,
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Hans
+
+
+
+
+> 
+> Signed-off-by: Barnabás Pőcze <pobrn@protonmail.com>
+> 
+> diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+> index 1aa3a05c3360..ba0bd344f5ed 100644
+> --- a/drivers/platform/x86/ideapad-laptop.c
+> +++ b/drivers/platform/x86/ideapad-laptop.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/dmi.h>
+> +#include <linux/err.h>
+>  #include <linux/fb.h>
+>  #include <linux/i8042.h>
+>  #include <linux/init.h>
+> @@ -350,9 +351,11 @@ DEFINE_SHOW_ATTRIBUTE(debugfs_cfg);
+>  
+>  static void ideapad_debugfs_init(struct ideapad_private *priv)
+>  {
+> -	struct dentry *dir;
+> +	struct dentry *dir = debugfs_create_dir("ideapad", NULL);
+> +
+> +	if (IS_ERR(dir))
+> +		return;
+>  
+> -	dir = debugfs_create_dir("ideapad", NULL);
+>  	priv->debug = dir;
+>  
+>  	debugfs_create_file("cfg", S_IRUGO, dir, priv, &debugfs_cfg_fops);
+> 
+
