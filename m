@@ -2,136 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC56730F484
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Feb 2021 15:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F336030F481
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  4 Feb 2021 15:06:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236477AbhBDOEc (ORCPT
+        id S236602AbhBDOEW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 4 Feb 2021 09:04:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56331 "EHLO
+        Thu, 4 Feb 2021 09:04:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24599 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236474AbhBDODf (ORCPT
+        by vger.kernel.org with ESMTP id S236477AbhBDODg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 4 Feb 2021 09:03:35 -0500
+        Thu, 4 Feb 2021 09:03:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612447328;
+        s=mimecast20190719; t=1612447330;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UR+AJHhEF52v3IqMX2WI/qgX1ebauGN7dyW3GG09TQs=;
-        b=TsDqvjh74Z9U4o1dzxlebZFf0zpJP1y1y9A46HOP8etvw1sf9zpDBXhDgM4dij6qaEPbmJ
-        UNdGFu0zkUeU/4kK347k8LrksFfo0JrYjjeLItdQ6y8sk/7oX6eXN0dlsCAtggyCjDUzsD
-        RQRCi5mk9Ay7l5fnKK0Ai0KfXmr43vE=
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1T6E6hRus1e5llbVYMcvcCrA20et2NSSAcNG0kJJ9z4=;
+        b=E6ecI6GAzNW/GL+mlhO2XeccPXdDPvk2jNndyf/MWkZYdDFxco8oJkBU2bWIlBT2/buIxN
+        t+XxDqQ4dbM4uEOpE/3VPhLCl5OcbHExhLApxddQvP533xSWGWWGkjQiZx/HDakmCXfdkc
+        g0U5SzcwudLpbKqJjOsruOLInmL0wbw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-igWK42KIPGmNXORWQhHQIg-1; Thu, 04 Feb 2021 09:02:03 -0500
-X-MC-Unique: igWK42KIPGmNXORWQhHQIg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-313-xfuYXn4NPZGo3eo4YAaxrg-1; Thu, 04 Feb 2021 09:02:08 -0500
+X-MC-Unique: xfuYXn4NPZGo3eo4YAaxrg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27DBB107ACE6;
-        Thu,  4 Feb 2021 14:02:02 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 395D1C73A9;
+        Thu,  4 Feb 2021 14:02:07 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-112.ams2.redhat.com [10.36.112.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0DEE65C54B;
-        Thu,  4 Feb 2021 14:02:00 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4211010023B9;
+        Thu,  4 Feb 2021 14:02:05 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@infradead.org>,
-        platform-driver-x86@vger.kernel.org,
-        Mark Pearson <markpearson@lenovo.com>
-Subject: [PATCH 2/2] platform/x86: thinkpad_acpi: Replace ifdef CONFIG_ACPI_PLATFORM_PROFILE with depends on
-Date:   Thu,  4 Feb 2021 15:01:58 +0100
-Message-Id: <20210204140158.268289-2-hdegoede@redhat.com>
-In-Reply-To: <20210204140158.268289-1-hdegoede@redhat.com>
-References: <20210204140158.268289-1-hdegoede@redhat.com>
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform/x86: acer-wmi: Don't use ACPI_EXCEPTION()
+Date:   Thu,  4 Feb 2021 15:02:05 +0100
+Message-Id: <20210204140205.268344-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-With the #if IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE), we get the following
-errors when thinkpad_acpi is builtin while CONFIG_ACPI_PLATFORM_PROFILE=m :
+ACPI_EXCEPTION is only intended for internal use by the ACPICA code.
 
-drivers/platform/x86/thinkpad_acpi.c:10186: undefined reference to `platform_profile_notify'
-drivers/platform/x86/thinkpad_acpi.c:10226: undefined reference to `platform_profile_register'
-drivers/platform/x86/thinkpad_acpi.c:10246: undefined reference to `platform_profile_remove'
+ACPI_EXCEPTION was being used here to change the apci_status code into
+something human-readable, use acpi_format_exception() for this instead,
+which is the proper way to do this outside of ACPICA.
 
-This could be fixed by changing the IS_ENABLED to IS_REACHABLE, but
-I believe that it is better to just switch to using depends on.
-
-Using depends on ensures that platform-profile support is always
-available when thinkpad_acpi is build, hopefully leading to less
-confusing bug-reports about it sometimes not working.
-
-Cc: Mark Pearson <markpearson@lenovo.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/Kconfig         | 1 +
- drivers/platform/x86/thinkpad_acpi.c | 7 -------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ drivers/platform/x86/acer-wmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0e1723b3d312..39b588bf791a 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -655,6 +655,7 @@ config THINKPAD_ACPI
- 	depends on RFKILL || RFKILL = n
- 	depends on ACPI_VIDEO || ACPI_VIDEO = n
- 	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on ACPI_PLATFORM_PROFILE
- 	select DRM_PRIVACY_SCREEN
- 	select HWMON
- 	select NVRAM
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 8e9acbd9a1a8..59113059649e 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -10034,8 +10034,6 @@ static struct ibm_struct proxsensor_driver_data = {
- 	.exit = proxsensor_exit,
- };
+diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+index c1a5357da885..85db9403cc14 100644
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -30,7 +30,6 @@
+ #include <linux/input/sparse-keymap.h>
+ #include <acpi/video.h>
  
--#if IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE)
--
- /*************************************************************************
-  * DYTC Platform Profile interface
-  */
-@@ -10290,7 +10288,6 @@ static struct ibm_struct  dytc_profile_driver_data = {
- 	.name = "dytc-profile",
- 	.exit = dytc_profile_exit,
- };
--#endif /* CONFIG_ACPI_PLATFORM_PROFILE */
+-ACPI_MODULE_NAME(KBUILD_MODNAME);
+ MODULE_AUTHOR("Carlos Corbacho");
+ MODULE_DESCRIPTION("Acer Laptop WMI Extras Driver");
+ MODULE_LICENSE("GPL");
+@@ -1605,7 +1604,8 @@ static void acer_kbd_dock_get_initial_state(void)
  
- /*************************************************************************
-  * Keyboard language interface
-@@ -10515,11 +10512,9 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
- 
- 	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED) {
- 		lapsensor_refresh();
--#if IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE)
- 		/* If we are already accessing DYTC then skip dytc update */
- 		if (!atomic_add_unless(&dytc_ignore_event, -1, 0))
- 			dytc_profile_refresh();
--#endif
+ 	status = wmi_evaluate_method(WMID_GUID3, 0, 0x2, &input_buf, &output_buf);
+ 	if (ACPI_FAILURE(status)) {
+-		ACPI_EXCEPTION((AE_INFO, status, "Error getting keyboard-dock initial status"));
++		pr_err("Error getting keyboard-dock initial status: %s\n",
++		       acpi_format_exception(status));
+ 		return;
  	}
  
- 	if (lcdshadow_dev && hkey_event == TP_HKEY_EV_PRIVACYGUARD_TOGGLE) {
-@@ -10971,12 +10966,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
- 		.init = tpacpi_proxsensor_init,
- 		.data = &proxsensor_driver_data,
- 	},
--#if IS_ENABLED(CONFIG_ACPI_PLATFORM_PROFILE)
- 	{
- 		.init = tpacpi_dytc_profile_init,
- 		.data = &dytc_profile_driver_data,
- 	},
--#endif
- 	{
- 		.init = tpacpi_kbdlang_init,
- 		.data = &kbdlang_driver_data,
 -- 
 2.29.2
 
