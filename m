@@ -2,158 +2,71 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27C8E311988
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  6 Feb 2021 04:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F31ED311E26
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  6 Feb 2021 15:57:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbhBFDJY (ORCPT
+        id S230146AbhBFO4y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 5 Feb 2021 22:09:24 -0500
-Received: from mga05.intel.com ([192.55.52.43]:32905 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232022AbhBFDGD (ORCPT
+        Sat, 6 Feb 2021 09:56:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230104AbhBFO4v (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 5 Feb 2021 22:06:03 -0500
-IronPort-SDR: tw7PXXxI2KVwKORt6/OaB4lJImVKDjF75HzKwA4mI2mQOdG/Fbmhiyb7JRReJckX7QRQmYqVeU
- 8yUQ8LbHM5TA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="266332459"
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; 
-   d="scan'208";a="266332459"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 15:55:46 -0800
-IronPort-SDR: mzEFQ8P3+uwG+yT+BXEx1bjQs03CTbcGuetsFWaArIHeSckfPZW8/4qEhGn/XwwZUZKJdSUa9D
- w5oEgBcD+H0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,156,1610438400"; 
-   d="scan'208";a="434649192"
-Received: from lkp-server02.sh.intel.com (HELO 8b832f01bb9c) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Feb 2021 15:55:44 -0800
-Received: from kbuild by 8b832f01bb9c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l8Awx-00022f-12; Fri, 05 Feb 2021 23:55:43 +0000
-Date:   Sat, 06 Feb 2021 07:55:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        platform-driver-x86@vger.kernel.org
-Subject: [platform-drivers-x86:intel-mid-removal] BUILD SUCCESS
- ca338fed2a5fce66660904d7ab50bec061d2c8a2
-Message-ID: <601ddae9.93KBVH83iX5dSZMn%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 6 Feb 2021 09:56:51 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA2BC06174A
+        for <platform-driver-x86@vger.kernel.org>; Sat,  6 Feb 2021 06:55:53 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id p20so17646957ejb.6
+        for <platform-driver-x86@vger.kernel.org>; Sat, 06 Feb 2021 06:55:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=AR/QhrPQruWll6eXF7MZaSUhJJFfa6rBSyVIOpyZ2HPX2RoOBvbUAMof8f/CHjKckV
+         pAaFVZoxGf/yyTyPFLfc1oYaqEKcbvnO4EuldJzhh8ESiAObihdB5wASPw8MGjs9rJ15
+         5qJUSkFco5MeKyt3/fxM/lPljsbSjxVYoyitW13LVc+/OV9QDz1ttXK5hx49orPFFzqm
+         +uqjBhxsMfO7dT/VvJLyTUNCzOjPyK0oTSpu99C9Y+OZ5Z3QwR4iTbhwB3S5ja13uiqx
+         eo6dDFPExyJax7R7MKEm5bHfHEcKWsgwhk8QvFsLAtoYLcz8ViVjoy/yRvG+BkyRrYV1
+         Pkxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=sY4fgq/DSyThalwU7QX+pWYKs/8sGH7ZznMUn5qQ1EY=;
+        b=KHs7tOas4tS46CPpYxZjLppmT7pZSgtgmTTxiIwtNS00W2USQ5cNRGeZWPnDF+Jx03
+         UQeKJSCqDdLleNkLEvsu8S3H5MA0eHxeJVv1PfVtT5ssa+1bLh031BlE3JiQEUYgfCBS
+         +VaO1Hhxk8vbPHH1xWixGbfN4tADE1lS9IBxMm9qMzLAM9eKrCUkjnivCvRpUCICfB9b
+         COT3N98FyG8TiF36UwzulAiLjjnVJAx+++0YMgAXwi8fVxwLUXEBhxkLhAmcacy78E9F
+         GkSAnaKTuVykmHX6672vHSnPLEGWm3pb6uZr/ZtlG2OghBs9FmZC+spdcVTM365OvaPi
+         C0Tg==
+X-Gm-Message-State: AOAM530yV9trlN/7tdDfSXrwfk4wITDAabTZ5e88JxwI40uGBXqb85eP
+        XqaPMiC0D2oNa/mcG8Iv+NeIsT5o16hZkaJAp4M=
+X-Google-Smtp-Source: ABdhPJx37n8ny890wOvPLPmXJP8eHNacvPPOQ8GSuwAST0dU5XsxdHmzDpoMVVQgeGPzyxAMfHzhNKGJlKNXQkY/4T4=
+X-Received: by 2002:a17:906:408b:: with SMTP id u11mr8882036ejj.299.1612623352562;
+ Sat, 06 Feb 2021 06:55:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:906:25d0:0:0:0:0 with HTTP; Sat, 6 Feb 2021 06:55:51
+ -0800 (PST)
+Reply-To: lawyer.nba@gmail.com
+From:   Barrister Daven Bango <stephennbada9@gmail.com>
+Date:   Sat, 6 Feb 2021 15:55:51 +0100
+Message-ID: <CAGSHw-BYzm1g5x=+4aJ7LJUVhK-8ZVgtmMKo7Wr-2YYP0tUObg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-tree/branch: git://git.infradead.org/linux-platform-drivers-x86.git intel-mid-removal
-branch HEAD: ca338fed2a5fce66660904d7ab50bec061d2c8a2  platform/x86: intel_scu_wdt: Drop mistakenly added const
+--=20
+Korisnik fonda =C4=8Destitanja, Va=C5=A1a sredstva za naknadu od 850.000,00
+ameri=C4=8Dkih dolara odobrila je Me=C4=91unarodna monetarna organizacija (=
+MMF)
+u suradnji s (FBI) nakon mnogo istraga. =C4=8Cekamo da se obratimo za
+dodatne informacije
 
-elapsed time: 726m
-
-configs tested: 93
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                          gemini_defconfig
-powerpc                      obs600_defconfig
-arm                            xcep_defconfig
-mips                             allmodconfig
-nios2                            alldefconfig
-c6x                                 defconfig
-openrisc                            defconfig
-m68k                         amcore_defconfig
-powerpc                   motionpro_defconfig
-arm                        mvebu_v7_defconfig
-arm                        vexpress_defconfig
-mips                       bmips_be_defconfig
-powerpc                      pmac32_defconfig
-arm                           tegra_defconfig
-sh                           sh2007_defconfig
-m68k                           sun3_defconfig
-mips                 decstation_r4k_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20210205
-i386                 randconfig-a005-20210205
-i386                 randconfig-a003-20210205
-i386                 randconfig-a006-20210205
-i386                 randconfig-a002-20210205
-i386                 randconfig-a004-20210205
-x86_64               randconfig-a013-20210204
-x86_64               randconfig-a014-20210204
-x86_64               randconfig-a015-20210204
-x86_64               randconfig-a011-20210204
-x86_64               randconfig-a016-20210204
-x86_64               randconfig-a012-20210204
-i386                 randconfig-a013-20210205
-i386                 randconfig-a016-20210205
-i386                 randconfig-a014-20210205
-i386                 randconfig-a012-20210205
-i386                 randconfig-a015-20210205
-i386                 randconfig-a011-20210205
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20210204
-x86_64               randconfig-a001-20210204
-x86_64               randconfig-a005-20210204
-x86_64               randconfig-a002-20210204
-x86_64               randconfig-a004-20210204
-x86_64               randconfig-a003-20210204
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Advokat: Daven Bango
+Telefon: +22891667276
+(URED MMF-a LOME TOGO)
