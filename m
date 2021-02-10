@@ -2,375 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79751315AB7
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Feb 2021 01:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9EBC315B7D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Feb 2021 01:44:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235077AbhBJAJu (ORCPT
+        id S233095AbhBJAnY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 9 Feb 2021 19:09:50 -0500
-Received: from mail1.bemta24.messagelabs.com ([67.219.250.114]:52440 "EHLO
-        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234396AbhBIX5f (ORCPT
+        Tue, 9 Feb 2021 19:43:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33198 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234516AbhBJAkl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 9 Feb 2021 18:57:35 -0500
-Received: from [100.112.133.249] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-3.bemta.az-b.us-west-2.aws.symcld.net id FD/F5-22828-E1023206; Tue, 09 Feb 2021 23:51:58 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRWlGSWpSXmKPExsWSLveKXVdOQTn
-  BYOJ6YYs3x6czWaz/vZLF4sipk2wWUw/UWHzumMxisXrPC2aLtV/msTmwe8xq6GXzeHdqC5vH
-  7wOMHvNOBnr0tG1i8ni/7yqbx+dNcgHsUayZeUn5FQmsGX+nfWEr2BxccefrTqYGxnfOXYxcH
-  EIC/xklnr2Zzt7FyAnkPGeUmPNYrYuRg0NYoEZi6/ZkkBoRgTVMEus/rGGEqMmS2LF6GzOIzS
-  agLbFlyy82EJtXwFZi+qbDTCA2i4CKxNs/f8HqRQXCJV5v+swIUSMocXLmExYQm1PAWuJ503J
-  mkF3MApoS63fpg4SZBcQlbj2ZzwRhy0s0b50NtkpCQEFi9YodTBB2gkTPv0dsExgFZiGZOgth
-  0iwkk2YhmbSAkWUVo1lSUWZ6RkluYmaOrqGBga6hoZGuobGRroVeYpVukl5psW55anGJrpFeY
-  nmxXnFlbnJOil5easkmRmD8pBS0cOxgPPz6g94hRkkOJiVR3j+CyglCfEn5KZUZicUZ8UWlOa
-  nFhxhlODiUJHh/ygDlBItS01Mr0jJzgLEMk5bg4FES4f0sB5TmLS5IzC3OTIdInWLU5Ti5ask
-  iZiGWvPy8VClx3iaQIgGQoozSPLgRsLRyiVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iwr488
-  0BSezLwSuE2vgI5gAjqic4oSyBEliQgpqQYmv41/t18PmrmJ9bvzj8DutZsVeR2VXCx6DJ+l+
-  V9bxbUw9kKMUsaNfRLxgaomHBvFP/YJXZPbkWAmHNJjcfLGyfh2WZO25Q+mXO4pSPs5M+sVSy
-  irlhJznKL5vmDPI1c2slzvObG5w7jYdqHAAh7Win8dzFvOsS16fs646fjST4V8axPmL2TIXlZ
-  8X7jxc9q853N/HRR6e/S++K7OPLELmhtm96hKc7+tOqV+W3Rq3YodU2sX+znHGN19fMU58KrW
-  afZzPM1yf22jFPeqznZYLP9msdD7ZUZMxd082/etlgn+MWX126VHnRITMgPvsJS2TvSyOX7U4
-  33xMw+/FNYHlyqKjlzzTDObu/ZwY6O9EktxRqKhFnNRcSIANQyKwKYDAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-14.tower-356.messagelabs.com!1612914716!23716!1
-X-Originating-IP: [103.30.234.7]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 2762 invoked from network); 9 Feb 2021 23:51:57 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.7)
-  by server-14.tower-356.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 9 Feb 2021 23:51:57 -0000
-Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 23B073E3C66AD8D8ECEB;
-        Wed, 10 Feb 2021 07:51:53 +0800 (CST)
-Received: from localhost.localdomain (10.46.54.100) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2106.2; Tue, 9 Feb 2021
- 18:51:18 -0500
-Subject: Re: [External] [RFC PATCH 2/2] platform/x86:
- thinkpad_acpi/ideapad-laptop: extract common DYTC constants/functions
-To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210204203933.559752-1-pobrn@protonmail.com>
- <20210204203933.559752-3-pobrn@protonmail.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <7a5fc29a-5944-d004-9904-35b86bf21918@lenovo.com>
-Date:   Tue, 9 Feb 2021 18:51:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Tue, 9 Feb 2021 19:40:41 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F5BC061756
+        for <platform-driver-x86@vger.kernel.org>; Tue,  9 Feb 2021 16:40:01 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id p20so848315ejb.6
+        for <platform-driver-x86@vger.kernel.org>; Tue, 09 Feb 2021 16:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=C0AgyR2td8Wni5MnEa1+1u2wCmrll85Ef/D08+QnXD8=;
+        b=UJhBOnEShAog2P4VDCakhzk00E0M7EhYjEIQQ6O2bVzBkjmk9UNs09s67qp/K6u1Yd
+         J4YPnv4i35KjSZ+AvWMqGc1eFjzkL3G1wSnx1FaIS+3fJmz7+INJJ3kyzwUdq6aigoPJ
+         LgT7c2Zf/7Nru+4ly7mQC6NQfqi0Kpd3jyX1xRz7SWUzw4htx2OAy3K2DFkMfpm+rWOx
+         XInMyUTi5FC94/+hl7DrZUWqHSXGwWWLY1HuHDdOncs/lf1oOBPZwDmGdjHNJWoE4j7O
+         Bq6PNaLkL9phcejf+ciklqYaEA1RhISLQyfaR2wT+YX/qFNQ1lkC9ROdKsQ8Rf5A0p13
+         z0Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=C0AgyR2td8Wni5MnEa1+1u2wCmrll85Ef/D08+QnXD8=;
+        b=QMhBsG12+hNdxjGlaQjLMDOb+HvwumZVPO/ehq8uOdE3Je97vAJQL7O2cJd5VllKQV
+         OLCpXdVFYRhc90s7zasyOR33MYJOcgkFIeuxu2ZRKotay3LItaJnNGV9hcrbcoU3b/UR
+         TsMCOg8hrcOWi4pP6znN2Btn5JIub12F5gXazD+R8C4Mv7vFPstYLlf5l7P1kXun3xyH
+         ++H/CM4eTmCGnxU7YrUEj14eLtcPM1VXIrc68bUogyVryiV3negloBDb4XaqvUd2MfNq
+         Lqcwi2oQyUDNclWn6SmN6Zx1XCPqxPzl80XYffv9LPXZPEGeN7UMTLctaq9IOQZN9Op4
+         ucEQ==
+X-Gm-Message-State: AOAM530jfQf6/HZTBJXo2mvPmR50jWyesa3BodqyJovonj6tTznJYvxf
+        FmpxnEotJBJ9ooiDWer0eN4CQTre1i3wVmucZ7k=
+X-Google-Smtp-Source: ABdhPJzZYDe67EDVG0Wszi2yRdvqlJmvLOc6dgB+hWzZ3PvAbPkBm/72khvB0SVTG2cud2ClcW/eIe0E61eeL3+NykM=
+X-Received: by 2002:a17:906:2acf:: with SMTP id m15mr369221eje.118.1612917599763;
+ Tue, 09 Feb 2021 16:39:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210204203933.559752-3-pobrn@protonmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.46.54.100]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail01.lenovo.com (10.62.32.20)
+Reply-To: mrssophia.robi@bk.ru
+Sender: mrsamiraabdullah011@gmail.com
+Received: by 2002:ab4:aac9:0:0:0:0:0 with HTTP; Tue, 9 Feb 2021 16:39:59 -0800 (PST)
+From:   Mrs sophia <ai4012904@gmail.com>
+Date:   Tue, 9 Feb 2021 16:39:59 -0800
+X-Google-Sender-Auth: wKL9h1HnRYr8Ugof40rP4g2YqjU
+Message-ID: <CAAkYxU=yFqn42BS_LungZD43-BXi=m40sen-K80ueKzctY19gg@mail.gmail.com>
+Subject: Dearest
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Thanks for doing this Barnabas - feel like I should have contributed to
-this exercise :)
+Hello My Dearest
 
-Looks excellent
+Please I appeal to you to exercise a little patience and read through
+my mail carefully, I am contacting you personally for investment
+assistance and a long term business relationship in your Country.
 
-Mark
+I am Mrs. Sophia Robin  a citizen of the united state of America ,  I
+work at HSBC Bank in Milan Italy  as a Telex Manager charge of wire
+transfer department.
 
-On 04/02/2021 15:40, Barnabás Pőcze wrote:
-> Extract common DYTC constants/functions into a dedicated header file
-> to avoid code duplication. Rename DYTC_MODE_BALANCE to DYTC_MODE_BALANCED
-> and DYTC_MODE_PERFORM to DYTC_MODE_PERFORMANCE to be consistent
-> with the platform_profile_option enum.
-> 
-> Signed-off-by: Barnabás Pőcze <pobrn@protonmail.com>
-> 
->  create mode 100644 drivers/platform/x86/lenovo/dytc.h
-> 
-> diff --git a/drivers/platform/x86/lenovo/dytc.h b/drivers/platform/x86/lenovo/dytc.h
-> new file mode 100644
-> index 000000000000..9ec341bdef70
-> --- /dev/null
-> +++ b/drivers/platform/x86/lenovo/dytc.h
-> @@ -0,0 +1,79 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +#ifndef _LENOVO_DYTC_H_
-> +#define _LENOVO_DYTC_H_
-> +
-> +#include <linux/platform_profile.h>
-> +
-> +#define DYTC_CMD_QUERY         0 /* To get DYTC status - enable/revision */
-> +#define DYTC_CMD_SET           1 /* To enable/disable IC function mode */
-> +#define DYTC_CMD_GET           2 /* To get current IC function and mode */
-> +#define DYTC_CMD_RESET       511 /* To reset back to default */
-> +
-> +#define DYTC_QUERY_ENABLE_BIT  8 /* Bit        8 - 0 = disabled, 1 = enabled */
-> +#define DYTC_QUERY_SUBREV_BIT 16 /* Bits 16 - 27 - sub revision */
-> +#define DYTC_QUERY_REV_BIT    28 /* Bits 28 - 31 - revision */
-> +
-> +#define DYTC_GET_FUNCTION_BIT  8 /* Bits  8 - 11 - function setting */
-> +#define DYTC_GET_MODE_BIT     12 /* Bits 12 - 15 - mode setting */
-> +#define DYTC_GET_LAPMODE_BIT  17 /* Bit       17 - set when in lapmode */
-> +
-> +#define DYTC_SET_FUNCTION_BIT 12 /* Bits 12 - 15 - function setting */
-> +#define DYTC_SET_MODE_BIT     16 /* Bits 16 - 19 - mode setting */
-> +#define DYTC_SET_VALID_BIT    20 /* Bit       20 - 1 = on, 0 = off */
-> +
-> +#define DYTC_FUNCTION_STD      0 /* Function =  0, standard mode */
-> +#define DYTC_FUNCTION_CQL      1 /* Function =  1, lap mode */
-> +#define DYTC_FUNCTION_MMC     11 /* Function = 11, desk mode */
-> +
-> +#define DYTC_MODE_PERFORMANCE  2 /* High power mode aka performance */
-> +#define DYTC_MODE_LOW_POWER    3 /* Low power mode aka quiet */
-> +#define DYTC_MODE_BALANCED    15 /* Default mode aka balanced */
-> +
-> +#define DYTC_SET_COMMAND(function, mode, on) \
-> +	(DYTC_CMD_SET | (function) << DYTC_SET_FUNCTION_BIT | \
-> +	 (mode) << DYTC_SET_MODE_BIT | \
-> +	 (on) << DYTC_SET_VALID_BIT)
-> +
-> +#define DYTC_DISABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCED, 0)
-> +
-> +#define DYTC_ENABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCED, 1)
-> +
-> +static int inline convert_dytc_to_profile(int dytcmode, enum platform_profile_option *profile)
-> +{
-> +	switch (dytcmode) {
-> +	case DYTC_MODE_LOW_POWER:
-> +		*profile = PLATFORM_PROFILE_LOW_POWER;
-> +		break;
-> +	case DYTC_MODE_BALANCED:
-> +		*profile =  PLATFORM_PROFILE_BALANCED;
-> +		break;
-> +	case DYTC_MODE_PERFORMANCE:
-> +		*profile =  PLATFORM_PROFILE_PERFORMANCE;
-> +		break;
-> +	default: /* Unknown mode */
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static inline int convert_profile_to_dytc(enum platform_profile_option profile, int *dytcmode)
-> +{
-> +	switch (profile) {
-> +	case PLATFORM_PROFILE_LOW_POWER:
-> +		*dytcmode = DYTC_MODE_LOW_POWER;
-> +		break;
-> +	case PLATFORM_PROFILE_BALANCED:
-> +		*dytcmode = DYTC_MODE_BALANCED;
-> +		break;
-> +	case PLATFORM_PROFILE_PERFORMANCE:
-> +		*dytcmode = DYTC_MODE_PERFORMANCE;
-> +		break;
-> +	default: /* Unknown profile */
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +#endif /* _LENOVO_DYTC_H_ */
-> diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> index 6cb5ad4be231..387c8c86b8bb 100644
-> --- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-> +++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-> @@ -35,6 +35,8 @@
->  
->  #include <dt-bindings/leds/common.h>
->  
-> +#include "dytc.h"
-> +
->  #define IDEAPAD_RFKILL_DEV_NUM	3
->  
->  #if IS_ENABLED(CONFIG_ACPI_WMI)
-> @@ -676,76 +678,6 @@ static const struct attribute_group ideapad_attribute_group = {
->  /*
->   * DYTC Platform profile
->   */
-> -#define DYTC_CMD_QUERY        0 /* To get DYTC status - enable/revision */
-> -#define DYTC_CMD_SET          1 /* To enable/disable IC function mode */
-> -#define DYTC_CMD_GET          2 /* To get current IC function and mode */
-> -#define DYTC_CMD_RESET    0x1ff /* To reset back to default */
-> -
-> -#define DYTC_QUERY_ENABLE_BIT 8  /* Bit        8 - 0 = disabled, 1 = enabled */
-> -#define DYTC_QUERY_SUBREV_BIT 16 /* Bits 16 - 27 - sub revision */
-> -#define DYTC_QUERY_REV_BIT    28 /* Bits 28 - 31 - revision */
-> -
-> -#define DYTC_GET_FUNCTION_BIT 8  /* Bits  8-11 - function setting */
-> -#define DYTC_GET_MODE_BIT     12 /* Bits 12-15 - mode setting */
-> -
-> -#define DYTC_SET_FUNCTION_BIT 12 /* Bits 12-15 - function setting */
-> -#define DYTC_SET_MODE_BIT     16 /* Bits 16-19 - mode setting */
-> -#define DYTC_SET_VALID_BIT    20 /* Bit     20 - 1 = on, 0 = off */
-> -
-> -#define DYTC_FUNCTION_STD     0  /* Function = 0, standard mode */
-> -#define DYTC_FUNCTION_CQL     1  /* Function = 1, lap mode */
-> -#define DYTC_FUNCTION_MMC     11 /* Function = 11, desk mode */
-> -
-> -#define DYTC_MODE_PERFORM     2  /* High power mode aka performance */
-> -#define DYTC_MODE_LOW_POWER       3  /* Low power mode aka quiet */
-> -#define DYTC_MODE_BALANCE   0xF  /* Default mode aka balanced */
-> -
-> -#define DYTC_SET_COMMAND(function, mode, on) \
-> -	(DYTC_CMD_SET | (function) << DYTC_SET_FUNCTION_BIT | \
-> -	 (mode) << DYTC_SET_MODE_BIT | \
-> -	 (on) << DYTC_SET_VALID_BIT)
-> -
-> -#define DYTC_DISABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCE, 0)
-> -
-> -#define DYTC_ENABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCE, 1)
-> -
-> -static int convert_dytc_to_profile(int dytcmode, enum platform_profile_option *profile)
-> -{
-> -	switch (dytcmode) {
-> -	case DYTC_MODE_LOW_POWER:
-> -		*profile = PLATFORM_PROFILE_LOW_POWER;
-> -		break;
-> -	case DYTC_MODE_BALANCE:
-> -		*profile =  PLATFORM_PROFILE_BALANCED;
-> -		break;
-> -	case DYTC_MODE_PERFORM:
-> -		*profile =  PLATFORM_PROFILE_PERFORMANCE;
-> -		break;
-> -	default: /* Unknown mode */
-> -		return -EINVAL;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static int convert_profile_to_dytc(enum platform_profile_option profile, int *perfmode)
-> -{
-> -	switch (profile) {
-> -	case PLATFORM_PROFILE_LOW_POWER:
-> -		*perfmode = DYTC_MODE_LOW_POWER;
-> -		break;
-> -	case PLATFORM_PROFILE_BALANCED:
-> -		*perfmode = DYTC_MODE_BALANCE;
-> -		break;
-> -	case PLATFORM_PROFILE_PERFORMANCE:
-> -		*perfmode = DYTC_MODE_PERFORM;
-> -		break;
-> -	default: /* Unknown profile */
-> -		return -EOPNOTSUPP;
-> -	}
-> -
-> -	return 0;
-> -}
->  
->  /*
->   * dytc_profile_get: Function to register with platform_profile
-> diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> index b881044b31b0..61990fc9870c 100644
-> --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> @@ -74,6 +74,8 @@
->  #include <acpi/battery.h>
->  #include <acpi/video.h>
->  
-> +#include "dytc.h"
-> +
->  /* ThinkPad CMOS commands */
->  #define TP_CMOS_VOLUME_DOWN	0
->  #define TP_CMOS_VOLUME_UP	1
-> @@ -9845,9 +9847,6 @@ static struct ibm_struct lcdshadow_driver_data = {
->   * Thinkpad sensor interfaces
->   */
->  
-> -#define DYTC_CMD_GET          2 /* To get current IC function and mode */
-> -#define DYTC_GET_LAPMODE_BIT 17 /* Set when in lapmode */
-> -
->  #define PALMSENSOR_PRESENT_BIT 0 /* Determine if psensor present */
->  #define PALMSENSOR_ON_BIT      1 /* psensor status */
->  
-> @@ -9999,79 +9998,11 @@ static struct ibm_struct proxsensor_driver_data = {
->   * DYTC Platform Profile interface
->   */
->  
-> -#define DYTC_CMD_QUERY        0 /* To get DYTC status - enable/revision */
-> -#define DYTC_CMD_SET          1 /* To enable/disable IC function mode */
-> -#define DYTC_CMD_RESET    0x1ff /* To reset back to default */
-> -
-> -#define DYTC_QUERY_ENABLE_BIT 8  /* Bit        8 - 0 = disabled, 1 = enabled */
-> -#define DYTC_QUERY_SUBREV_BIT 16 /* Bits 16 - 27 - sub revision */
-> -#define DYTC_QUERY_REV_BIT    28 /* Bits 28 - 31 - revision */
-> -
-> -#define DYTC_GET_FUNCTION_BIT 8  /* Bits  8-11 - function setting */
-> -#define DYTC_GET_MODE_BIT     12 /* Bits 12-15 - mode setting */
-> -
-> -#define DYTC_SET_FUNCTION_BIT 12 /* Bits 12-15 - function setting */
-> -#define DYTC_SET_MODE_BIT     16 /* Bits 16-19 - mode setting */
-> -#define DYTC_SET_VALID_BIT    20 /* Bit     20 - 1 = on, 0 = off */
-> -
-> -#define DYTC_FUNCTION_STD     0  /* Function = 0, standard mode */
-> -#define DYTC_FUNCTION_CQL     1  /* Function = 1, lap mode */
-> -#define DYTC_FUNCTION_MMC     11 /* Function = 11, desk mode */
-> -
-> -#define DYTC_MODE_PERFORM     2  /* High power mode aka performance */
-> -#define DYTC_MODE_LOWPOWER    3  /* Low power mode */
-> -#define DYTC_MODE_BALANCE   0xF  /* Default mode aka balanced */
-> -
-> -#define DYTC_SET_COMMAND(function, mode, on) \
-> -	(DYTC_CMD_SET | (function) << DYTC_SET_FUNCTION_BIT | \
-> -	 (mode) << DYTC_SET_MODE_BIT | \
-> -	 (on) << DYTC_SET_VALID_BIT)
-> -
-> -#define DYTC_DISABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCE, 0)
-> -
-> -#define DYTC_ENABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCE, 1)
-> -
->  static bool dytc_profile_available;
->  static enum platform_profile_option dytc_current_profile;
->  static atomic_t dytc_ignore_event = ATOMIC_INIT(0);
->  static DEFINE_MUTEX(dytc_mutex);
->  
-> -static int convert_dytc_to_profile(int dytcmode, enum platform_profile_option *profile)
-> -{
-> -	switch (dytcmode) {
-> -	case DYTC_MODE_LOWPOWER:
-> -		*profile = PLATFORM_PROFILE_LOW_POWER;
-> -		break;
-> -	case DYTC_MODE_BALANCE:
-> -		*profile =  PLATFORM_PROFILE_BALANCED;
-> -		break;
-> -	case DYTC_MODE_PERFORM:
-> -		*profile =  PLATFORM_PROFILE_PERFORMANCE;
-> -		break;
-> -	default: /* Unknown mode */
-> -		return -EINVAL;
-> -	}
-> -	return 0;
-> -}
-> -
-> -static int convert_profile_to_dytc(enum platform_profile_option profile, int *perfmode)
-> -{
-> -	switch (profile) {
-> -	case PLATFORM_PROFILE_LOW_POWER:
-> -		*perfmode = DYTC_MODE_LOWPOWER;
-> -		break;
-> -	case PLATFORM_PROFILE_BALANCED:
-> -		*perfmode = DYTC_MODE_BALANCE;
-> -		break;
-> -	case PLATFORM_PROFILE_PERFORMANCE:
-> -		*perfmode = DYTC_MODE_PERFORM;
-> -		break;
-> -	default: /* Unknown profile */
-> -		return -EOPNOTSUPP;
-> -	}
-> -	return 0;
-> -}
-> -
->  /*
->   * dytc_profile_get: Function to register with platform_profile
->   * handler. Returns current platform profile.
-> 
+I am contacting you for an important and  urgent business transaction,
+I  want the bank to transfer the money left by Dr. Cheng Chao,  A
+Chinese  Politician who  died, March 17th 2020 without any trace of
+his family members,  he used our bank to launder money overseas
+through the help of their Political advisers. And most of the funds
+which they transferred out of the shores of China  were gold and oil
+money that was supposed to have been used to develop the continent.
+Can you invest this money and also help the poor ? The amount value at
+$15.5million Dollars  ($US15,500,000), left in his account still
+unclaimed, if you know that you are capable to invest this fund into
+any  profitable business in your country kindly send me your details
+information as listed below to enable me draft you an application form
+of claim along with the deposit certificate which you are going to
+fill with your bank account detail necessary and contact the HSBC Bank
+in Italy  for immediate transfer of the Amounted sum into your bank
+account direct.
+
+Percentage share will be 60,for me/ 40, for you.
+
+(1) Your full name..................................................
+(2) Your address....................................................
+(3) Your Nationality.................................................
+(4) Your Age / Sex.....................................................
+(5) Your  Occupation............................................
+(6) Your marital status......................................
+(7) Your direct telephone number..................
+(8) Your photo.......................................
+
+Thanks with my best regards.
+Mrs. Sophia Robin
+Telex Manager
+Milan Italy  (H.S.B.C)
