@@ -2,320 +2,170 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09282324508
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Feb 2021 21:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF8FD32451F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Feb 2021 21:24:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235120AbhBXUOh (ORCPT
+        id S233889AbhBXUYL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 24 Feb 2021 15:14:37 -0500
-Received: from mga12.intel.com ([192.55.52.136]:48419 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235607AbhBXUMo (ORCPT
+        Wed, 24 Feb 2021 15:24:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32309 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234632AbhBXUYK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 24 Feb 2021 15:12:44 -0500
-IronPort-SDR: SmweXTpiWU+f7x/wX4z4nKPJqe1Iu1XGMGOiE8cL3RBAtNfvRn35ZvR2KZ9jv04y0v3+GfSWon
- bmuHP1UFL2Bw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="164520280"
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="164520280"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 12:10:56 -0800
-IronPort-SDR: sN+sD1TkriLus3ieFuY73Ub1iLkyq1oE8f3kFCzQLFkx1oN83R3xOdI5CqAOMquK6bEPq8kXvI
- GsogKED4pCtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="583839964"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga005.jf.intel.com with ESMTP; 24 Feb 2021 12:10:56 -0800
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id 108B15804A9;
-        Wed, 24 Feb 2021 12:10:56 -0800 (PST)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com
-Cc:     "David E. Box" <david.e.box@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/2 V2] MFD: intel_pmt: Add support for DG1
-Date:   Wed, 24 Feb 2021 12:10:05 -0800
-Message-Id: <20210224201005.1034005-2-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210128172846.99352-1-david.e.box@linux.intel.com>
+        Wed, 24 Feb 2021 15:24:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614198161;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CxZTCOjkYbOnGULO11ZbBQgSUM7OFTzm0oARySokNpI=;
+        b=QxdF++IF+Y0J6/5TjDAhlTxacTb0Jzrykl7UXGSmUhUXCmGfGsylsxJYq46rzjBV/aVajx
+        WHPiV4y7y3GDxUSLlSuVOoJb3To+jrOinP1rpI/FgOX6g0YQACtl+BQpzrInNgBMGXhhRL
+        Ewvko6osJp2v+mvlbAtY1+/VcCG7/6U=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-jJs1bXbIPIulGEp2mOAQ5g-1; Wed, 24 Feb 2021 15:22:38 -0500
+X-MC-Unique: jJs1bXbIPIulGEp2mOAQ5g-1
+Received: by mail-ed1-f71.google.com with SMTP id y90so1536105ede.8
+        for <platform-driver-x86@vger.kernel.org>; Wed, 24 Feb 2021 12:22:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CxZTCOjkYbOnGULO11ZbBQgSUM7OFTzm0oARySokNpI=;
+        b=fukpZ8hrsGIy7TyKWEw3Kkza20qrMgooJiiVjHY3uFOvaQXPDu94E0NV4gYUbnBSVj
+         CCvZ+KriqIulCF02DINQxZdL7VmhcZGR5mfiaAAG6zUsMdMXAYdafuAcRuTNsnrJJL0N
+         kI6WoSEeY6GQdy7pST/2G9SBfFGffk7UE8ZI1ARcy+uXSRqHqplfN/klI8YFyh3gmyTi
+         kLdSBJ/28eTSSCoV1Y+a75xszhr2iihNFSidnPDMJvGEvyL4ecS6EgtQ2n5FoVKArCZs
+         VF4Xlg+WCZNGMumT3Tshv9rfzhvSoYhm55cBEotMRpZ7rBO7yX/JzEeBZ97AKyDPZIEj
+         bp/A==
+X-Gm-Message-State: AOAM530Z6+pWEYkOisMUm4HnPwTkumzVdvsrdERFB4s0Wbn1gF+aBu2h
+        eCqEYV5uT6QuVZyqiJSnnnEyjLtgQES9xso/eey7FdejT0zOqUyHn0FlwS8J8mFbhr4Vm+E0Fgw
+        TF2C5muNMNkdidhry4evNZ5Dnwux3646uZqHHI5viInSXUMRR0gmQu8DBhCu1BHdV/MAwwdM5VH
+        1goTrp1FB6SQ==
+X-Received: by 2002:aa7:cdcb:: with SMTP id h11mr33507043edw.252.1614198157139;
+        Wed, 24 Feb 2021 12:22:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzq6ZhvWIl3uDmQDoot5ifJ+RyZfrotWKkmeV2nmLjUQb2TXAnkAqSnBlUK2IZEU6J/zi7nZg==
+X-Received: by 2002:aa7:cdcb:: with SMTP id h11mr33507028edw.252.1614198156975;
+        Wed, 24 Feb 2021 12:22:36 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id m7sm1926661ejk.52.2021.02.24.12.22.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Feb 2021 12:22:36 -0800 (PST)
+Subject: Re: [PATCH V2 1/2] MFD: intel_pmt: Fix nuisance messages and handling
+ of disabled capabilities
+To:     "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
+        mgross@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
 References: <20210128172846.99352-1-david.e.box@linux.intel.com>
+ <20210224201005.1034005-1-david.e.box@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6d45db24-7741-1956-9cf1-35a7dec517c5@redhat.com>
+Date:   Wed, 24 Feb 2021 21:22:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210224201005.1034005-1-david.e.box@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Adds PMT Telemetry aggregator support for the DG1 graphics PCIe card. The
-device does not have the DVSEC region in its PCI config space so hard
-code the discovery table data in the driver. Also requires a fix for DG1
-in the Telemetry driver for how the ACCESS_TYPE field is used.
+Hi,
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-Based on 5.11-rc1 review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+On 2/24/21 9:10 PM, David E. Box wrote:
+> Some products will be available that have PMT capabilities that are not
+> supported. Remove the warnings in this instance to avoid nuisance messages
+> and confusion.
+> 
+> Also return an error code for capabilities that are disabled by quirk to
+> prevent them from keeping the driver loaded if only disabled capabilities
+> are found.
+> 
+> Fixes: 4f8217d5b0ca ("mfd: Intel Platform Monitoring Technology support")
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> For merge in platform-drivers-x86
+> 
+> Based on 5.11-rc1 review-hans branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-Changes from V1:
+Which, assuming you did a git remote update recently is AKA platform-drivers-x86-v5.12-1 .
 
-	- New patch
+> Changes from V1:
+> 
+> 	- None. Patch 2 added.
 
- drivers/mfd/intel_pmt.c                    | 101 +++++++++++++++------
- drivers/platform/x86/intel_pmt_class.c     |  46 ++++++++++
- drivers/platform/x86/intel_pmt_class.h     |   1 +
- drivers/platform/x86/intel_pmt_telemetry.c |  20 ----
- 4 files changed, 119 insertions(+), 49 deletions(-)
+The series looks good to me, so for the series:
 
-diff --git a/drivers/mfd/intel_pmt.c b/drivers/mfd/intel_pmt.c
-index 65da2b17a204..dd7eb614c28e 100644
---- a/drivers/mfd/intel_pmt.c
-+++ b/drivers/mfd/intel_pmt.c
-@@ -49,10 +49,14 @@ enum pmt_quirks {
- 
- 	/* Use shift instead of mask to read discovery table offset */
- 	PMT_QUIRK_TABLE_SHIFT	= BIT(2),
-+
-+	/* DVSEC not present (provided in driver data) */
-+	PMT_QUIRK_NO_DVSEC	= BIT(3),
- };
- 
- struct pmt_platform_info {
- 	unsigned long quirks;
-+	struct intel_dvsec_header **capabilities;
- };
- 
- static const struct pmt_platform_info tgl_info = {
-@@ -60,6 +64,26 @@ static const struct pmt_platform_info tgl_info = {
- 		  PMT_QUIRK_TABLE_SHIFT,
- };
- 
-+/* DG1 Platform with DVSEC quirk*/
-+static struct intel_dvsec_header dg1_telemetry = {
-+	.length = 0x10,
-+	.id = 2,
-+	.num_entries = 1,
-+	.entry_size = 3,
-+	.tbir = 0,
-+	.offset = 0x466000,
-+};
-+
-+static struct intel_dvsec_header *dg1_capabilities[] = {
-+	&dg1_telemetry,
-+	NULL
-+};
-+
-+static const struct pmt_platform_info dg1_info = {
-+	.quirks = PMT_QUIRK_NO_DVSEC,
-+	.capabilities = dg1_capabilities,
-+};
-+
- static int pmt_add_dev(struct pci_dev *pdev, struct intel_dvsec_header *header,
- 		       unsigned long quirks)
- {
-@@ -147,37 +171,54 @@ static int pmt_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (info)
- 		quirks = info->quirks;
- 
--	do {
--		struct intel_dvsec_header header;
--		u32 table;
--		u16 vid;
-+	if (info && (info->quirks & PMT_QUIRK_NO_DVSEC)) {
-+		struct intel_dvsec_header **header;
- 
--		pos = pci_find_next_ext_capability(pdev, pos, PCI_EXT_CAP_ID_DVSEC);
--		if (!pos)
--			break;
-+		header = info->capabilities;
-+		while (*header) {
-+			ret = pmt_add_dev(pdev, *header, quirks);
-+			if (ret)
-+				dev_warn(&pdev->dev,
-+					 "Failed to add device for DVSEC id %d\n",
-+					 (*header)->id);
-+			else
-+				found_devices = true;
- 
--		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER1, &vid);
--		if (vid != PCI_VENDOR_ID_INTEL)
--			continue;
--
--		pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER2,
--				     &header.id);
--		pci_read_config_byte(pdev, pos + INTEL_DVSEC_ENTRIES,
--				     &header.num_entries);
--		pci_read_config_byte(pdev, pos + INTEL_DVSEC_SIZE,
--				     &header.entry_size);
--		pci_read_config_dword(pdev, pos + INTEL_DVSEC_TABLE,
--				      &table);
--
--		header.tbir = INTEL_DVSEC_TABLE_BAR(table);
--		header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
--
--		ret = pmt_add_dev(pdev, &header, quirks);
--		if (ret)
--			continue;
--
--		found_devices = true;
--	} while (true);
-+			++header;
-+		}
-+	} else {
-+		do {
-+			struct intel_dvsec_header header;
-+			u32 table;
-+			u16 vid;
-+
-+			pos = pci_find_next_ext_capability(pdev, pos, PCI_EXT_CAP_ID_DVSEC);
-+			if (!pos)
-+				break;
-+
-+			pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER1, &vid);
-+			if (vid != PCI_VENDOR_ID_INTEL)
-+				continue;
-+
-+			pci_read_config_word(pdev, pos + PCI_DVSEC_HEADER2,
-+					     &header.id);
-+			pci_read_config_byte(pdev, pos + INTEL_DVSEC_ENTRIES,
-+					     &header.num_entries);
-+			pci_read_config_byte(pdev, pos + INTEL_DVSEC_SIZE,
-+					     &header.entry_size);
-+			pci_read_config_dword(pdev, pos + INTEL_DVSEC_TABLE,
-+					      &table);
-+
-+			header.tbir = INTEL_DVSEC_TABLE_BAR(table);
-+			header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
-+
-+			ret = pmt_add_dev(pdev, &header, quirks);
-+			if (ret)
-+				continue;
-+
-+			found_devices = true;
-+		} while (true);
-+	}
- 
- 	if (!found_devices)
- 		return -ENODEV;
-@@ -195,10 +236,12 @@ static void pmt_pci_remove(struct pci_dev *pdev)
- }
- 
- #define PCI_DEVICE_ID_INTEL_PMT_ADL	0x467d
-+#define PCI_DEVICE_ID_INTEL_PMT_DG1	0x490e
- #define PCI_DEVICE_ID_INTEL_PMT_OOBMSM	0x09a7
- #define PCI_DEVICE_ID_INTEL_PMT_TGL	0x9a0d
- static const struct pci_device_id pmt_pci_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, PMT_ADL, &tgl_info) },
-+	{ PCI_DEVICE_DATA(INTEL, PMT_DG1, &dg1_info) },
- 	{ PCI_DEVICE_DATA(INTEL, PMT_OOBMSM, NULL) },
- 	{ PCI_DEVICE_DATA(INTEL, PMT_TGL, &tgl_info) },
- 	{ }
-diff --git a/drivers/platform/x86/intel_pmt_class.c b/drivers/platform/x86/intel_pmt_class.c
-index c8939fba4509..bd940b90c306 100644
---- a/drivers/platform/x86/intel_pmt_class.c
-+++ b/drivers/platform/x86/intel_pmt_class.c
-@@ -19,6 +19,28 @@
- #define PMT_XA_MAX		INT_MAX
- #define PMT_XA_LIMIT		XA_LIMIT(PMT_XA_START, PMT_XA_MAX)
- 
-+/*
-+ * Early implementations of PMT on client platforms have some
-+ * differences from the server platforms (which use the Out Of Band
-+ * Management Services Module OOBMSM). This list tracks those
-+ * platforms as needed to handle those differences. Newer client
-+ * platforms are expected to be fully compatible with server.
-+ */
-+static const struct pci_device_id pmt_telem_early_client_pci_ids[] = {
-+	{ PCI_VDEVICE(INTEL, 0x467d) }, /* ADL */
-+	{ PCI_VDEVICE(INTEL, 0x490e) }, /* DG1 */
-+	{ PCI_VDEVICE(INTEL, 0x9a0d) }, /* TGL */
-+	{ }
-+};
-+
-+bool intel_pmt_is_early_client_hw(struct device *dev)
-+{
-+	struct pci_dev *parent = to_pci_dev(dev->parent);
-+
-+	return !!pci_match_id(pmt_telem_early_client_pci_ids, parent);
-+}
-+EXPORT_SYMBOL_GPL(intel_pmt_is_early_client_hw);
-+
- /*
-  * sysfs
-  */
-@@ -147,6 +169,30 @@ static int intel_pmt_populate_entry(struct intel_pmt_entry *entry,
- 		 * base address = end of discovery region + base offset
- 		 */
- 		entry->base_addr = disc_res->end + 1 + header->base_offset;
-+
-+		/*
-+		 * Some hardware use a different calculation for the base address
-+		 * when access_type == ACCESS_LOCAL. On the these systems
-+		 * ACCCESS_LOCAL refers to an address in the same BAR as the
-+		 * header but at a fixed offset. But as the header address was
-+		 * supplied to the driver, we don't know which BAR it was in.
-+		 * So search for the bar whose range includes the header address.
-+		 */
-+		if (intel_pmt_is_early_client_hw(dev)) {
-+			int i;
-+
-+			entry->base_addr = 0;
-+			for (i = 0; i < 6; i++)
-+				if (disc_res->start >= pci_resource_start(pci_dev, i) &&
-+				   (disc_res->start <= pci_resource_end(pci_dev, i))) {
-+					entry->base_addr = pci_resource_start(pci_dev, i) +
-+							   header->base_offset;
-+					break;
-+				}
-+			if (!entry->base_addr)
-+				return -EINVAL;
-+		}
-+
- 		break;
- 	case ACCESS_BARID:
- 		/*
-diff --git a/drivers/platform/x86/intel_pmt_class.h b/drivers/platform/x86/intel_pmt_class.h
-index de8f8139ba31..1337019c2873 100644
---- a/drivers/platform/x86/intel_pmt_class.h
-+++ b/drivers/platform/x86/intel_pmt_class.h
-@@ -44,6 +44,7 @@ struct intel_pmt_namespace {
- 				 struct device *dev);
- };
- 
-+bool intel_pmt_is_early_client_hw(struct device *dev);
- int intel_pmt_dev_create(struct intel_pmt_entry *entry,
- 			 struct intel_pmt_namespace *ns,
- 			 struct platform_device *pdev, int idx);
-diff --git a/drivers/platform/x86/intel_pmt_telemetry.c b/drivers/platform/x86/intel_pmt_telemetry.c
-index f8a87614efa4..9b95ef050457 100644
---- a/drivers/platform/x86/intel_pmt_telemetry.c
-+++ b/drivers/platform/x86/intel_pmt_telemetry.c
-@@ -34,26 +34,6 @@ struct pmt_telem_priv {
- 	struct intel_pmt_entry		entry[];
- };
- 
--/*
-- * Early implementations of PMT on client platforms have some
-- * differences from the server platforms (which use the Out Of Band
-- * Management Services Module OOBMSM). This list tracks those
-- * platforms as needed to handle those differences. Newer client
-- * platforms are expected to be fully compatible with server.
-- */
--static const struct pci_device_id pmt_telem_early_client_pci_ids[] = {
--	{ PCI_VDEVICE(INTEL, 0x9a0d) }, /* TGL */
--	{ PCI_VDEVICE(INTEL, 0x467d) }, /* ADL */
--	{ }
--};
--
--static bool intel_pmt_is_early_client_hw(struct device *dev)
--{
--	struct pci_dev *parent = to_pci_dev(dev->parent);
--
--	return !!pci_match_id(pmt_telem_early_client_pci_ids, parent);
--}
--
- static bool pmt_telem_region_overlaps(struct intel_pmt_entry *entry,
- 				      struct device *dev)
- {
--- 
-2.25.1
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Lee, since both patches touch mfd files (and patch 2 also touches files under drivers/platform/x86)
+I think it would be best if you just merge the entire series.
+
+As always I would appreciate a pull-req from you to also pull the changes
+into my tree, in case further drivers/platform/x86/intel_pmt* changes
+show up during this cycle.
+
+Regards,
+
+Hans
+
+
+
+
+
+
+> 
+>  drivers/mfd/intel_pmt.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/mfd/intel_pmt.c b/drivers/mfd/intel_pmt.c
+> index 744b230cdcca..65da2b17a204 100644
+> --- a/drivers/mfd/intel_pmt.c
+> +++ b/drivers/mfd/intel_pmt.c
+> @@ -79,19 +79,18 @@ static int pmt_add_dev(struct pci_dev *pdev, struct intel_dvsec_header *header,
+>  	case DVSEC_INTEL_ID_WATCHER:
+>  		if (quirks & PMT_QUIRK_NO_WATCHER) {
+>  			dev_info(dev, "Watcher not supported\n");
+> -			return 0;
+> +			return -EINVAL;
+>  		}
+>  		name = "pmt_watcher";
+>  		break;
+>  	case DVSEC_INTEL_ID_CRASHLOG:
+>  		if (quirks & PMT_QUIRK_NO_CRASHLOG) {
+>  			dev_info(dev, "Crashlog not supported\n");
+> -			return 0;
+> +			return -EINVAL;
+>  		}
+>  		name = "pmt_crashlog";
+>  		break;
+>  	default:
+> -		dev_err(dev, "Unrecognized PMT capability: %d\n", id);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -174,12 +173,8 @@ static int pmt_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  		header.offset = INTEL_DVSEC_TABLE_OFFSET(table);
+>  
+>  		ret = pmt_add_dev(pdev, &header, quirks);
+> -		if (ret) {
+> -			dev_warn(&pdev->dev,
+> -				 "Failed to add device for DVSEC id %d\n",
+> -				 header.id);
+> +		if (ret)
+>  			continue;
+> -		}
+>  
+>  		found_devices = true;
+>  	} while (true);
+> 
+> base-commit: a7d53dbbc70a81d5781da7fc905b656f41ad2381
+> 
 
