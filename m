@@ -2,73 +2,62 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D5C326D19
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 27 Feb 2021 14:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D4F327153
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Feb 2021 07:50:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhB0NLq (ORCPT
+        id S229941AbhB1Gun (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 27 Feb 2021 08:11:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53474 "EHLO mail.kernel.org"
+        Sun, 28 Feb 2021 01:50:43 -0500
+Received: from mail.jvpinto.com ([65.49.11.60]:48628 "EHLO mail.JVPinto.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229990AbhB0NLp (ORCPT
+        id S230382AbhB1Gum (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 27 Feb 2021 08:11:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 652EF64EC0
-        for <platform-driver-x86@vger.kernel.org>; Sat, 27 Feb 2021 13:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614431465;
-        bh=h7fzdMA77YiP1zKVRbkJ7cUYsokQf9J6rDOTmJuY8qs=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=rO/hpm3n5LW0os/7vmwi9KBKZ15QNQy7wDBTDuL/Yg5u1zRsGWED7eU1uKBpg+kVO
-         bcqnL7utxHQcEQy1whiznSday8Wkr4x4Xu7KFnky2GfZbDiWnUFzeKd7wBNM+FTX3z
-         1UYAvGI2mM6ao3nBG2C/K8gIyLdmdm5ZprkqLAcWPZv8/vSKNZjSGNirxM/xR9+wsW
-         JAc2QPyGUfFL1z8AFjBm+9epfP42PAeJTPUknYtl4wtcMCPLQdt6s0jYRFW0YsBdII
-         6AlzNA1OOakmufkg3l1BxANXYMarZZDBnzX2QkUNbtuhohMytY3ZsL8O2VGRrQ4z5e
-         JCbIB/1Bpsc0Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 5BE32652FC; Sat, 27 Feb 2021 13:11:05 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 211977] System fails to resume the second time with 5.10.17,
- resumes fine with 5.10.13
-Date:   Sat, 27 Feb 2021 13:11:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-211977-215701-R6o5HW6tIH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211977-215701@https.bugzilla.kernel.org/>
-References: <bug-211977-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sun, 28 Feb 2021 01:50:42 -0500
+Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
+ RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 22:49:46 -0800
+Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
+ Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
+ 22:49:31 -0800
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <johnpinto@jvpinto.com>
+Subject: Hello okay
+Date:   Sun, 28 Feb 2021 06:49:46 +0000
 MIME-Version: 1.0
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <bbbf5754f64f42fca4672bbb1c24f8bd@RW-EXC1.JVPinto.com>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211977
+Hello,
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Regression|No                          |Yes
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
---=20
-You may reply to this email to add a comment.
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards,
+Ms. Reem.
