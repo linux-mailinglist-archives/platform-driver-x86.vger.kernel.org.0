@@ -2,62 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2D4F327153
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Feb 2021 07:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1165E327AF1
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Mar 2021 10:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbhB1Gun (ORCPT
+        id S233993AbhCAJiQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 28 Feb 2021 01:50:43 -0500
-Received: from mail.jvpinto.com ([65.49.11.60]:48628 "EHLO mail.JVPinto.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230382AbhB1Gum (ORCPT
+        Mon, 1 Mar 2021 04:38:16 -0500
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:1996 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234023AbhCAJhv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 28 Feb 2021 01:50:42 -0500
-Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
- RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 22:49:46 -0800
-Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
- Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
- 22:49:31 -0800
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <johnpinto@jvpinto.com>
-Subject: Hello okay
-Date:   Sun, 28 Feb 2021 06:49:46 +0000
+        Mon, 1 Mar 2021 04:37:51 -0500
+Received: from pps.filterd (m0170394.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1219M6jj020302;
+        Mon, 1 Mar 2021 04:37:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=smtpout1;
+ bh=EM5BrDIMVQChc57nS9FKhnvWtBPZQxuDesoN5FM42HY=;
+ b=PZC1SrmUH0uEHUWnDpIHNQABzojXvXcyAsd8LnoEVbBx6k9soD6KaOkPc7ZyrdI145ht
+ niSMA1b3iUVEAc5yw6YmwAmHFtqIY9K1NXgpSkBIjScooBEcV0cfgSjUnGGBBpqn5bg9
+ lwjFxTWTvtmZR8Aew+/RMntJ9BlbYIM8/nTU6/uiwoT8rdhEEbcSMc/e2Qr2u6wmBEB6
+ MG0xGdxlazbACaElrRizs/lbMi5Qnv9tRxv//GWSTqRCzVj1TLaGivs6d9Rd73oFRY1J
+ aJsPmjgMkBiPErn6sR7LC+fswx5mhH5whLtGY5EfghhIZNn9HadiscyTxJ56h00dfehY Kg== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+        by mx0b-00154904.pphosted.com with ESMTP id 36yhhb42gq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 01 Mar 2021 04:37:06 -0500
+Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1219K7cC108365;
+        Mon, 1 Mar 2021 04:37:05 -0500
+Received: from ausc60ps301.us.dell.com (ausc60ps301.us.dell.com [143.166.148.206])
+        by mx0b-00154901.pphosted.com with ESMTP id 37046jn8c2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 01 Mar 2021 04:37:04 -0500
+X-LoopCount0: from 10.69.132.19
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.81,215,1610431200"; 
+   d="scan'208";a="1537356588"
+From:   Perry Yuan <Perry.Yuan@dell.com>
+To:     pobrn@protonmail.com, pierre-louis.bossart@linux.intel.com,
+        oder_chiou@realtek.com, perex@perex.cz, tiwai@suse.com,
+        hdegoede@redhat.com, mgross@linux.intel.com,
+        Mario.Limonciello@dell.com
+Cc:     lgirdwood@gmail.com, broonie@kernel.org,
+        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, Perry.Yuan@dell.com
+Subject: [PATCH v4 0/2] Dell-hardware-privacy-implementation-for-dell-laptop
+Date:   Mon,  1 Mar 2021 17:36:13 +0800
+Message-Id: <20210301093614.15888-1-Perry_Yuan@Dell.com>
+X-Mailer: git-send-email 2.19.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <bbbf5754f64f42fca4672bbb1c24f8bd@RW-EXC1.JVPinto.com>
-To:     Undisclosed recipients:;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-01_05:2021-02-26,2021-03-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=944
+ malwarescore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103010078
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103010078
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello,
+From: Perry Yuan <perry_yuan@dell.com>
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+Hi All,
+This patch set is a new driver for dell mobile platform ,which has the
+hardware privacy feature.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+For micmute led control, the hotkey is Fn + F4, it is a hardware based
+mute state, and new privacy will prevent micphone void input from
+hardware layer, any application cannot get voice data when micmute
+activated. 
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Camera mute use a new hardware design to control the camrea shutter.
+When video is muted, no OS application should be functionally able to
+capture images of the person/environment in front of the system
 
-Regards,
-Ms. Reem.
+Older history:
+[1]https://patchwork.kernel.org/project/platform-driver-x86/patch/20201228132855.17544-1-Perry_Yuan@Dell.com/
+[2]https://patchwork.kernel.org/project/alsa-devel/patch/20201103125859.8759-1-Perry_Yuan@Dell.com/#23733605
+[3]https://www.spinics.net/lists/alsa-devel/msg120537.html
+[4]https://github.com/thesofproject/linux/pull/2660
+
+
+Perry Yuan (2):
+  platform/x86: dell-privacy: Add support for Dell hardware privacy
+  ASoC: rt715:add micmute led state control supports
+
+ .../testing/sysfs-platform-dell-privacy-wmi   |  32 ++
+ drivers/platform/x86/Kconfig                  |  17 +
+ drivers/platform/x86/Makefile                 |   4 +-
+ drivers/platform/x86/dell-laptop.c            |  26 +-
+ drivers/platform/x86/dell-privacy-acpi.c      | 164 +++++++++
+ drivers/platform/x86/dell-privacy-wmi.c       | 340 ++++++++++++++++++
+ drivers/platform/x86/dell-privacy-wmi.h       |  35 ++
+ drivers/platform/x86/dell-wmi.c               |  29 +-
+ sound/soc/codecs/rt715-sdca.c                 |  12 +
+ sound/soc/codecs/rt715.c                      |  12 +
+ 10 files changed, 655 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
+ create mode 100644 drivers/platform/x86/dell-privacy-acpi.c
+ create mode 100644 drivers/platform/x86/dell-privacy-wmi.c
+ create mode 100644 drivers/platform/x86/dell-privacy-wmi.h
+
+-- 
+2.25.1
+
