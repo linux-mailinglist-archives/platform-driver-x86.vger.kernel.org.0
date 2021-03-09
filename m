@@ -2,460 +2,121 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDDEA331B64
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Mar 2021 01:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3964F3322BB
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Mar 2021 11:14:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbhCIAGK (ORCPT
+        id S229714AbhCIKNt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Mar 2021 19:06:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41014 "EHLO
+        Tue, 9 Mar 2021 05:13:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231934AbhCIAFm (ORCPT
+        with ESMTP id S229815AbhCIKNq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Mar 2021 19:05:42 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9D7BC06174A;
-        Mon,  8 Mar 2021 16:05:41 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id l22so525739wme.1;
-        Mon, 08 Mar 2021 16:05:41 -0800 (PST)
+        Tue, 9 Mar 2021 05:13:46 -0500
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C9F7C06174A
+        for <platform-driver-x86@vger.kernel.org>; Tue,  9 Mar 2021 02:13:46 -0800 (PST)
+Received: by mail-oo1-xc32.google.com with SMTP id p6so2925452oot.2
+        for <platform-driver-x86@vger.kernel.org>; Tue, 09 Mar 2021 02:13:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hszomIttq+lgO1NdDWgXz/ydcZ0/je2SdJj7Ee9LH58=;
-        b=YBkwuJSRLoh8BFOqtZGbOXRNbMH/fFPVGZ62uOdVNf7o0/VmaOLge0e19hmAW5sqAa
-         FGARHPNcJRtW3Wbfh2UgyFbCzXUV5WvNjY2kGwCN0HiD7uP1XHjNiIbTmfTNGJs7vRC9
-         yBJdWSAHCr3IaKI9K/qGbYE6DneqxMhTkTpK8KpOaKABUaiCYR9bCiuOWZOsMqxT4t+k
-         mkMVBGB2rE+dqL+QpW3H05i4qTAGLdS3KubpleP6El3POoysCubt4tDPuBhj+ZFlyWm2
-         0Mi+qD/Ztsd1lfkJ1AoJGrJP6a5Mx8vxqxkule8CPTaLgw7NtDVW+daMcwJp58k82aaP
-         Kj3A==
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=6AB1N2CEv1uO/OWrbLkb4xKVAC6/jBjIAgWr7ep8KF8=;
+        b=U6Yyp2jsTN6A/BT4Oh0gNInSdniz18ETrG92cZNdkDhrnttYAeS3WRkcQ6Ss3xOiQB
+         dahChfWF09MivNu15vFOtMTab/61JmyIrR9c1mtnuBhs5M3M29Vkaz2GRNLWmQq/8Qwv
+         OsYYvCmoYmE04s17bRedVLuR/mfAQuxQqU274XO+SG5AnTjo3Iv2oUCQBzMZVM1pItyb
+         r8h3Zj6Ur2Hg2JPrFK7R7SY0FIPFdlclmBYgBPW/IDwggN4v5eGUY0mx5ODimD6Vw13q
+         hNeVrBlFDL92h4L7xFJtQG3Euak5rcSjWOPW950yS38c7ajjyIDYjGq+hZabpWU7hRFo
+         G5ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hszomIttq+lgO1NdDWgXz/ydcZ0/je2SdJj7Ee9LH58=;
-        b=gljxPJqtwXblfoThdET87gAyyjHciI+YVFcw0DG6jf1YIfBeeLFGqmAVwm8kvCUj/e
-         Pf5su7Rhj96KTtZ/UFDbcyWRMtVfs46wwsnQThrxxgAid9fkRDUH6ZgU0lbVo28e4N2d
-         1kJ2PZrHW15KjtVBJg7VA80/Pzo4sQjs/pR7MMhfCM0gRh96yEyf9PXWs7EG0w+yTcSN
-         XseHFrp5Tz/BvVWoFc1/nhakFrZGd0yngIU0sYEdf3u92pCG9ehel4DmwVHiUNc+fgw8
-         PWHjuChATPNm58KM/7wN6AZ8h3zvaCCjquclXNorC+eA6kHduDUAvgSxxkPlqzS5OWQO
-         dnyA==
-X-Gm-Message-State: AOAM5329yUHnsM8GgSYn2iNS0nppMc+SCbYqSXXw45SOPvxABrkaHW/N
-        zZn8XkKclgkreE6JIpEG4JU=
-X-Google-Smtp-Source: ABdhPJwgiBaQwXqEQmmgMdimoIkQuQYO40VuhxkKe/SlwAil3ck6mLpwMCnadB5KRlQVf6ODY8gTYA==
-X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr1082406wmk.123.1615248340468;
-        Mon, 08 Mar 2021 16:05:40 -0800 (PST)
-Received: from xws.localdomain (pd9ea322b.dip0.t-ipconnect.de. [217.234.50.43])
-        by smtp.gmail.com with ESMTPSA id 75sm1333623wma.23.2021.03.08.16.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 16:05:40 -0800 (PST)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] power: supply: Add AC driver for Surface Aggregator Module
-Date:   Tue,  9 Mar 2021 01:05:30 +0100
-Message-Id: <20210309000530.2165752-3-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210309000530.2165752-1-luzmaximilian@gmail.com>
-References: <20210309000530.2165752-1-luzmaximilian@gmail.com>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=6AB1N2CEv1uO/OWrbLkb4xKVAC6/jBjIAgWr7ep8KF8=;
+        b=bSFA7OXK10Ii0/a6P/BOX0KDbXICp5TtbJjwF9O0wZSHyCL1zz6wOlN5WvJZVD/QcH
+         GhdydcBaYV6jNsfL4U1oxC5zmF16HMFBYAr+m7IT7IB/HsBZj1599mLHmglRr6mfDEOI
+         9AcbJHZnD6aKfKCwF3WSnPoOfnKG2HnmYlkQKzpBm7I2uxfwpbDmhjYAsj7sOjBA7LI9
+         gBFgqtAW9UTWyw9O31m7C/W8lte4ZByN62FCxnJ4/TJknF4QLGGTlnYqwox+j90nUeAy
+         L6TpD57OFelbi8HBFnVMXtT/vDJ57CvOJsGh61meWaXJH93hpikjBO4MMdsQhL6SJ9Xr
+         CsJA==
+X-Gm-Message-State: AOAM531rSrXHRNw988ci6BQ9zCofcIsoyLKu184+rCFudjcSWQOFO8dg
+        Wgiln5qzHQpCgw0HSnc5CnqcPk1aFIaJdKhvamg=
+X-Google-Smtp-Source: ABdhPJyCY2CmWN/dQHUSJbH8QAdf4gjG0VxAf/KC+FH2vFBFwfGd/PMMOtjFC4t126K+JvjzRPe9SprnsFCTFYd6Gto=
+X-Received: by 2002:a4a:d781:: with SMTP id c1mr21941406oou.44.1615284825887;
+ Tue, 09 Mar 2021 02:13:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Sender: alexanderluis646@gmail.com
+Received: by 2002:a4a:accb:0:0:0:0:0 with HTTP; Tue, 9 Mar 2021 02:13:45 -0800 (PST)
+From:   "Ms. Nadia Emaan" <mrsnadiaemaan50@gmail.com>
+Date:   Tue, 9 Mar 2021 10:13:45 +0000
+X-Google-Sender-Auth: mB9v_oCFGIMb29z5mhYCN-jh2m8
+Message-ID: <CALiTr0giCEKijt2vY0i=rhKqFUqNmi0HJ=ASbYB+caxdhks=MQ@mail.gmail.com>
+Subject: May the peace of Almighty God be with You!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On newer Microsoft Surface models (specifically 7th-generation, i.e.
-Surface Pro 7, Surface Book 3, Surface Laptop 3, and Surface Laptop Go),
-battery and AC status/information is no longer handled via standard ACPI
-devices, but instead directly via the Surface System Aggregator Module
-(SSAM), i.e. the embedded controller on those devices.
+May God Bless you,
 
-While on previous generation models, AC status is also handled via SSAM,
-an ACPI shim was present to translate the standard ACPI AC interface to
-SSAM requests. The SSAM interface itself, which is modeled closely after
-the ACPI interface, has not changed.
+I am contacting you through this means because I need your urgent
+assistance and also help me to carry a charity project in your
+country. I found your email address as a true child of God for past
+few days now that I have been praying to know if you are really the
+chosen one for this great charity project, according to God's
+direction, after all prayers I am convinced, and I have decided to
+contact you. Please, i want you use the funds for the Lord's work,
+with confidence, read and respond now.
 
-This commit introduces a new SSAM client device driver to support AC
-status/information via the aforementioned interface on said Surface
-models.
 
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
+My name is Ms. Nadia Emaan Faroul , a widow, but currently based in West
+Africa since my life with my late husband, who was a businessman in
+this country before dying some years ago. We were married to many
+years without a child. He died after a brief illness that lasted only
+six days and I myself have been suffering from an ovarian cancer
+disease. At this moment I am about to finish the race in this way
+because the disease has reached a very bad stage, without any family
+member and without children. I hope you do not expose or betray this
+trust and I am sure that I am about to trust you for the mutual
+benefit of orphans and the less privileged. I have some funds that I
+inherited from my late husband, the total sum of ($ 12,500,000.00)
+deposited at a bank here in Burkina Faso. After knowing my current
+state of health, I decided to trust you with this fund, believing that
+you will use it in the way I will instruct here.
 
-Note: This patch depends on the
 
-    platform/surface: Add Surface Aggregator device registry
+you will use this $12.5 Million for public benefit as follows;
 
-series. More specifically patch
+1. Establish An Orphanage Home To Help The Orphanages Children.
+2. Build A Hospital To Help The Poor.
+3. Build A Nursing Home For Elderly People Need Care & Meal.
 
-    platform/surface: Set up Surface Aggregator device registry
+You will named them after my late husband.Therefore, I need you to
+help me and claim this money and use it for charities, for orphanages
+and provide justice and help to the poor, needy and to promote the
+words of God and the effort to maintain the house of God, according to
+the bible in the book of. Jeremiah 22: 15-16, without minding our
+different religions.
 
-The full series has been merged into the for-next branch of the
-platform-drivers-x86 tree [1]. The commit in question can be found at
-[2].
+It will be a pleasure to compensate with 40% percent of the total
+money for your effort in handling the transaction, while 60% of the
+money will go to charity project.
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=for-next&id=fc622b3d36e6d91330fb21506b9ad1e3206a4dde
+All I need from you is sincerity and ability to complete the task of
+God without any failure. It will be my pleasure to see that the bank
+has finally released and transferred the fund to your bank account in
+the country, even before I die here in the hospital, due to my current
+state of health, everything must be processed as soon as possible.
 
----
- MAINTAINERS                            |   1 +
- drivers/power/supply/Kconfig           |  16 ++
- drivers/power/supply/Makefile          |   1 +
- drivers/power/supply/surface_charger.c | 296 +++++++++++++++++++++++++
- 4 files changed, 314 insertions(+)
- create mode 100644 drivers/power/supply/surface_charger.c
+I am waiting for your immediate response, if you are only interested
+in obtaining more details about the transaction and execution of this
+humanitarian project for the glory and honor of God.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f44521abe8bf..d6651ba93997 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11867,6 +11867,7 @@ L:	linux-pm@vger.kernel.org
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/power/supply/surface_battery.c
-+F:	drivers/power/supply/surface_charger.c
- 
- MICROSOFT SURFACE GPE LID SUPPORT DRIVER
- M:	Maximilian Luz <luzmaximilian@gmail.com>
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index cebeff10d543..91f7cf425ac9 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -817,4 +817,20 @@ config BATTERY_SURFACE
- 	  Microsoft Surface devices, i.e. Surface Pro 7, Surface Laptop 3,
- 	  Surface Book 3, and Surface Laptop Go.
- 
-+config CHARGER_SURFACE
-+	tristate "AC driver for 7th-generation Microsoft Surface devices"
-+	depends on SURFACE_AGGREGATOR_REGISTRY
-+	help
-+	  Driver for AC devices connected via/managed by the Surface System
-+	  Aggregator Module (SSAM).
-+
-+	  This driver provides AC-information and -status support for Surface
-+	  devices where said data is not exposed via the standard ACPI devices.
-+	  On those models (7th-generation), AC-information is instead handled
-+	  directly via a SSAM client device and this driver.
-+
-+	  Say M or Y here to include AC status support for 7th-generation
-+	  Microsoft Surface devices, i.e. Surface Pro 7, Surface Laptop 3,
-+	  Surface Book 3, and Surface Laptop Go.
-+
- endif # POWER_SUPPLY
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index 134041538d2c..a7309a3d1a47 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -102,3 +102,4 @@ obj-$(CONFIG_CHARGER_WILCO)	+= wilco-charger.o
- obj-$(CONFIG_RN5T618_POWER)	+= rn5t618_power.o
- obj-$(CONFIG_BATTERY_ACER_A500)	+= acer_a500_battery.o
- obj-$(CONFIG_BATTERY_SURFACE)	+= surface_battery.o
-+obj-$(CONFIG_CHARGER_SURFACE)	+= surface_charger.o
-diff --git a/drivers/power/supply/surface_charger.c b/drivers/power/supply/surface_charger.c
-new file mode 100644
-index 000000000000..fe484523a2c2
---- /dev/null
-+++ b/drivers/power/supply/surface_charger.c
-@@ -0,0 +1,296 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * AC driver for 7th-generation Microsoft Surface devices via Surface System
-+ * Aggregator Module (SSAM).
-+ *
-+ * Copyright (C) 2019-2021 Maximilian Luz <luzmaximilian@gmail.com>
-+ */
-+
-+#include <asm/unaligned.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/power_supply.h>
-+#include <linux/types.h>
-+
-+#include <linux/surface_aggregator/device.h>
-+
-+
-+/* -- SAM interface. -------------------------------------------------------- */
-+
-+enum sam_event_cid_bat {
-+	SAM_EVENT_CID_BAT_ADP   = 0x17,
-+};
-+
-+enum sam_battery_sta {
-+	SAM_BATTERY_STA_OK      = 0x0f,
-+	SAM_BATTERY_STA_PRESENT	= 0x10,
-+};
-+
-+/* Get battery status (_STA). */
-+SSAM_DEFINE_SYNC_REQUEST_CL_R(ssam_bat_get_sta, __le32, {
-+	.target_category = SSAM_SSH_TC_BAT,
-+	.command_id      = 0x01,
-+});
-+
-+/* Get platform power source for battery (_PSR / DPTF PSRC). */
-+SSAM_DEFINE_SYNC_REQUEST_CL_R(ssam_bat_get_psrc, __le32, {
-+	.target_category = SSAM_SSH_TC_BAT,
-+	.command_id      = 0x0d,
-+});
-+
-+
-+/* -- Device structures. ---------------------------------------------------- */
-+
-+struct spwr_psy_properties {
-+	const char *name;
-+	struct ssam_event_registry registry;
-+};
-+
-+struct spwr_ac_device {
-+	struct ssam_device *sdev;
-+
-+	char name[32];
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+
-+	struct ssam_event_notifier notif;
-+
-+	struct mutex lock;  /* Guards access to state below. */
-+
-+	__le32 state;
-+};
-+
-+
-+/* -- State management. ----------------------------------------------------- */
-+
-+static int spwr_ac_update_unlocked(struct spwr_ac_device *ac)
-+{
-+	u32 old = ac->state;
-+	int status;
-+
-+	lockdep_assert_held(&ac->lock);
-+
-+	status = ssam_retry(ssam_bat_get_psrc, ac->sdev, &ac->state);
-+	if (status < 0)
-+		return status;
-+
-+	return old != ac->state;
-+}
-+
-+static int spwr_ac_update(struct spwr_ac_device *ac)
-+{
-+	int status;
-+
-+	mutex_lock(&ac->lock);
-+	status = spwr_ac_update_unlocked(ac);
-+	mutex_unlock(&ac->lock);
-+
-+	return status;
-+}
-+
-+static int spwr_ac_recheck(struct spwr_ac_device *ac)
-+{
-+	int status;
-+
-+	status = spwr_ac_update(ac);
-+	if (status > 0)
-+		power_supply_changed(ac->psy);
-+
-+	return status >= 0 ? 0 : status;
-+}
-+
-+static u32 spwr_notify_ac(struct ssam_event_notifier *nf, const struct ssam_event *event)
-+{
-+	struct spwr_ac_device *ac;
-+	int status;
-+
-+	ac = container_of(nf, struct spwr_ac_device, notif);
-+
-+	dev_dbg(&ac->sdev->dev, "power event (cid = %#04x, iid = %#04x, tid = %#04x)\n",
-+		event->command_id, event->instance_id, event->target_id);
-+
-+	/*
-+	 * Allow events of all targets/instances here. Global adapter status
-+	 * seems to be handled via target=1 and instance=1, but events are
-+	 * reported on all targets/instances in use.
-+	 *
-+	 * While it should be enough to just listen on 1/1, listen everywhere to
-+	 * make sure we don't miss anything.
-+	 */
-+
-+	switch (event->command_id) {
-+	case SAM_EVENT_CID_BAT_ADP:
-+		status = spwr_ac_recheck(ac);
-+		return ssam_notifier_from_errno(status) | SSAM_NOTIF_HANDLED;
-+
-+	default:
-+		return 0;
-+	}
-+}
-+
-+
-+/* -- Properties. ----------------------------------------------------------- */
-+
-+static enum power_supply_property spwr_ac_props[] = {
-+	POWER_SUPPLY_PROP_ONLINE,
-+};
-+
-+static int spwr_ac_get_property(struct power_supply *psy, enum power_supply_property psp,
-+				union power_supply_propval *val)
-+{
-+	struct spwr_ac_device *ac = power_supply_get_drvdata(psy);
-+	int status;
-+
-+	mutex_lock(&ac->lock);
-+
-+	status = spwr_ac_update_unlocked(ac);
-+	if (status)
-+		goto out;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		val->intval = !!le32_to_cpu(ac->state);
-+		break;
-+
-+	default:
-+		status = -EINVAL;
-+		goto out;
-+	}
-+
-+out:
-+	mutex_unlock(&ac->lock);
-+	return status;
-+}
-+
-+
-+/* -- Device setup. --------------------------------------------------------- */
-+
-+static void spwr_ac_init(struct spwr_ac_device *ac, struct ssam_device *sdev,
-+			 struct ssam_event_registry registry, const char *name)
-+{
-+	mutex_init(&ac->lock);
-+	strncpy(ac->name, name, ARRAY_SIZE(ac->name) - 1);
-+
-+	ac->sdev = sdev;
-+
-+	ac->notif.base.priority = 1;
-+	ac->notif.base.fn = spwr_notify_ac;
-+	ac->notif.event.reg = registry;
-+	ac->notif.event.id.target_category = sdev->uid.category;
-+	ac->notif.event.id.instance = 0;
-+	ac->notif.event.mask = SSAM_EVENT_MASK_NONE;
-+	ac->notif.event.flags = SSAM_EVENT_SEQUENCED;
-+
-+	ac->psy_desc.name = ac->name;
-+	ac->psy_desc.type = POWER_SUPPLY_TYPE_MAINS;
-+	ac->psy_desc.properties = spwr_ac_props;
-+	ac->psy_desc.num_properties = ARRAY_SIZE(spwr_ac_props);
-+	ac->psy_desc.get_property = spwr_ac_get_property;
-+}
-+
-+static void spwr_ac_destroy(struct spwr_ac_device *ac)
-+{
-+	mutex_destroy(&ac->lock);
-+}
-+
-+static int spwr_ac_register(struct spwr_ac_device *ac)
-+{
-+	struct power_supply_config psy_cfg = {};
-+	__le32 sta;
-+	int status;
-+
-+	/* Make sure the device is there and functioning properly. */
-+	status = ssam_retry(ssam_bat_get_sta, ac->sdev, &sta);
-+	if (status)
-+		return status;
-+
-+	if ((le32_to_cpu(sta) & SAM_BATTERY_STA_OK) != SAM_BATTERY_STA_OK)
-+		return -ENODEV;
-+
-+	psy_cfg.drv_data = ac;
-+	ac->psy = power_supply_register(&ac->sdev->dev, &ac->psy_desc, &psy_cfg);
-+	if (IS_ERR(ac->psy))
-+		return PTR_ERR(ac->psy);
-+
-+	status = ssam_notifier_register(ac->sdev->ctrl, &ac->notif);
-+	if (status)
-+		power_supply_unregister(ac->psy);
-+
-+	return status;
-+}
-+
-+static int spwr_ac_unregister(struct spwr_ac_device *ac)
-+{
-+	ssam_notifier_unregister(ac->sdev->ctrl, &ac->notif);
-+	power_supply_unregister(ac->psy);
-+	return 0;
-+}
-+
-+
-+/* -- Driver setup. --------------------------------------------------------- */
-+
-+static int __maybe_unused surface_ac_resume(struct device *dev)
-+{
-+	return spwr_ac_recheck(dev_get_drvdata(dev));
-+}
-+SIMPLE_DEV_PM_OPS(surface_ac_pm_ops, NULL, surface_ac_resume);
-+
-+static int surface_ac_probe(struct ssam_device *sdev)
-+{
-+	const struct spwr_psy_properties *p;
-+	struct spwr_ac_device *ac;
-+	int status;
-+
-+	p = ssam_device_get_match_data(sdev);
-+	if (!p)
-+		return -ENODEV;
-+
-+	ac = devm_kzalloc(&sdev->dev, sizeof(*ac), GFP_KERNEL);
-+	if (!ac)
-+		return -ENOMEM;
-+
-+	spwr_ac_init(ac, sdev, p->registry, p->name);
-+	ssam_device_set_drvdata(sdev, ac);
-+
-+	status = spwr_ac_register(ac);
-+	if (status)
-+		spwr_ac_destroy(ac);
-+
-+	return status;
-+}
-+
-+static void surface_ac_remove(struct ssam_device *sdev)
-+{
-+	struct spwr_ac_device *ac = ssam_device_get_drvdata(sdev);
-+
-+	spwr_ac_unregister(ac);
-+	spwr_ac_destroy(ac);
-+}
-+
-+static const struct spwr_psy_properties spwr_psy_props_adp1 = {
-+	.name = "ADP1",
-+	.registry = SSAM_EVENT_REGISTRY_SAM,
-+};
-+
-+static const struct ssam_device_id surface_ac_match[] = {
-+	{ SSAM_SDEV(BAT, 0x01, 0x01, 0x01), (unsigned long)&spwr_psy_props_adp1 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(ssam, surface_ac_match);
-+
-+static struct ssam_device_driver surface_ac_driver = {
-+	.probe = surface_ac_probe,
-+	.remove = surface_ac_remove,
-+	.match_table = surface_ac_match,
-+	.driver = {
-+		.name = "surface_ac",
-+		.pm = &surface_ac_pm_ops,
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-+	},
-+};
-+module_ssam_device_driver(surface_ac_driver);
-+
-+MODULE_AUTHOR("Maximilian Luz <luzmaximilian@gmail.com>");
-+MODULE_DESCRIPTION("AC driver for Surface System Aggregator Module");
-+MODULE_LICENSE("GPL");
--- 
-2.30.1
+Sorry if you received this letter in your spam, is due to recent
+connection/network error here in the country.
 
+Please I am waiting for your urgent reply now.
+
+May God Bless you,
+Mrs. Nadia Emaan Faroul .
