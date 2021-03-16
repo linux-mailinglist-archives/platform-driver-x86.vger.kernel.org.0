@@ -2,48 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 823F633D544
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Mar 2021 14:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E236E33E142
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Mar 2021 23:18:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233300AbhCPNzv (ORCPT
+        id S230201AbhCPWSO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 16 Mar 2021 09:55:51 -0400
-Received: from esa2.ssilver.iphmx.com ([68.232.149.189]:1660 "EHLO
-        esa2.ssilver.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232856AbhCPNzi (ORCPT
+        Tue, 16 Mar 2021 18:18:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229602AbhCPWRw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 16 Mar 2021 09:55:38 -0400
-X-Greylist: delayed 425 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Mar 2021 09:55:38 EDT
-Message-Id: <beccef$52emm@ob1.ssilver.iphmx.com>
-IronPort-SDR: ItVGX4szyiH0lTRtfckbJIWs5QwvAUWKT1JJ7dsq356VEohsoS8+xm81PnFWEHfJMOPonuQPOM
- djddKmqoUtcvjfF1cf6ZV4WHDPabqS3Jho613qJre6AnUctfoQHpS0F6BsNH4+3LHvmC8eyYvn
- oRBLVYMayxhF8+UCmNSIdTJreefORGX8s1pUl7JrzVLgGb3N6VRRm8JGqJQY4Ue82rHQVYiwls
- ++tGOgcrk4xOvBUL2zw7E/SF3jANi1zM8YMdTOoP3F48ZXXb30as2YWlKE9hsiD8F58f6KyAjz
- EbA=
-Received: from unknown (HELO User) ([202.38.180.78])
-  by ob1.ssilver.iphmx.com with SMTP; 16 Mar 2021 08:48:25 -0500
-Reply-To: <benobi236@yahoo.com.co>
-From:   "Fred Grenville" <chiatatwah@camv.vn>
-Subject: Reply Asap!! 
-Date:   Tue, 16 Mar 2021 06:48:30 -0700
+        Tue, 16 Mar 2021 18:17:52 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E75C06174A;
+        Tue, 16 Mar 2021 15:17:51 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id e9so8233670wrw.10;
+        Tue, 16 Mar 2021 15:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kRA0HCbEjT4GZQCeNIs3PSJKICgvU616s1ESCC3pTK0=;
+        b=NJaUaSprJa36hY/KVAoa+aRlI3mTw2pTEgLdQrvubH4tFieFibPRmLK8HlMfV7EyoB
+         F4L8wblPUyyPpDJuioJUVCzgDAfNXqO0Guhdr1n6U3wowU8ifVbyM1/uKLySO3KyZPvk
+         6qYqMv/ykaogHeItXU/N8Hp6Cb7JmWp8p3jyfxYSR2gUg49UFIYpQfo3ibEbRrG2+V0W
+         cPowHEOno7Coa6TPyrlnCSoEGBXc1HLMb1fox7u8AyR3amKtrvfXKJ38Q0EEI4QXxnzw
+         XBdU5+Hnnw5lk3OJsecQ0ptD4+HNNDufwn/Xk6HVa195cVepsQqVUEUIVclo53cCqsL4
+         AM1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kRA0HCbEjT4GZQCeNIs3PSJKICgvU616s1ESCC3pTK0=;
+        b=tWJTyHQAywJQNl6e7t4PkWN9rrPtHe/4qC0sLFMOIxd+rLRNLjNSSpH9heTRYveHBW
+         18U/4GKqf5zgO/dX1Tpz5o4XQma4VBNpqZPXE0wugPqfeMNipgZp8cC4oLZAnr5u0W9K
+         T32PPr450L4ZJpIQVkZjZirmc4FPwuQBacEdJIWTmlGfJNM4VsZq+E7kP8KrtoVXSta8
+         OVJSnbZEG4HYK4Aw/54GyL55G6enUafaSh589cto8dqDayleiVjtVfK2/MGUqNtIxNkA
+         bLgGFVhd7KyE4QzexENkTI4C8o1/Oo54yN/sOVshWMIy38YnZ6K7hr0ualIbfswd/KKg
+         K14Q==
+X-Gm-Message-State: AOAM532oIugp0V0bMxMwWrCG40Qkc63eJSyfxN6VfQcSgmqH2NL7KHeu
+        gT0nLACmoWkEUWCRKbQnjlI=
+X-Google-Smtp-Source: ABdhPJzOp+ns2T7fZHW0zHZoOIrO5Dx7kB274pAizU3zKUV8TfAPTr9nvT+Xanapt/lbpE21QS/vVg==
+X-Received: by 2002:a5d:4686:: with SMTP id u6mr1168656wrq.60.1615933070114;
+        Tue, 16 Mar 2021 15:17:50 -0700 (PDT)
+Received: from luca020400-laptop-arch.lan ([2001:b07:5d33:19f:ea1f:2342:ea78:219a])
+        by smtp.googlemail.com with ESMTPSA id 1sm1151960wmj.0.2021.03.16.15.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 15:17:49 -0700 (PDT)
+From:   Luca Stefani <luca.stefani.ge1@gmail.com>
+Cc:     chiu@endlessm.com, Luca Stefani <luca.stefani.ge1@gmail.com>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        acpi4asus-user@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: asus-wmi: Disable fn-lock mode by default
+Date:   Tue, 16 Mar 2021 23:17:47 +0100
+Message-Id: <20210316221747.90829-1-luca.stefani.ge1@gmail.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good day
+* On recent ZenBooks the fn-lock is disabled
+  by default on boot while running Windows.
 
-How are you today, did you receive the email I sent you three days ago? For important discussion on ( Investment ) If not please reply me back so that I will resend it again.
+* Follow the same paradigm also here.
 
-Please confirm if you did ( u.abdulghani@yahoo.com.co ).
+Signed-off-by: Luca Stefani <luca.stefani.ge1@gmail.com>
+---
+ drivers/platform/x86/asus-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best Regards,
-Mr. Fred Grenville
+diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
+index 9ca15f724343..32319f7d6e17 100644
+--- a/drivers/platform/x86/asus-wmi.c
++++ b/drivers/platform/x86/asus-wmi.c
+@@ -2673,7 +2673,7 @@ static int asus_wmi_add(struct platform_device *pdev)
+ 		err = asus_wmi_set_devstate(ASUS_WMI_DEVID_BACKLIGHT, 2, NULL);
+ 
+ 	if (asus_wmi_has_fnlock_key(asus)) {
+-		asus->fnlock_locked = true;
++		asus->fnlock_locked = false;
+ 		asus_wmi_fnlock_update(asus);
+ 	}
+ 
+-- 
+2.31.0
+
