@@ -2,72 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7F7F33F76A
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Mar 2021 18:47:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB0533F770
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 17 Mar 2021 18:48:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231398AbhCQRrI (ORCPT
+        id S232227AbhCQRrl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 17 Mar 2021 13:47:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27018 "EHLO
+        Wed, 17 Mar 2021 13:47:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40796 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232709AbhCQRrB (ORCPT
+        by vger.kernel.org with ESMTP id S232678AbhCQRrO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 17 Mar 2021 13:47:01 -0400
+        Wed, 17 Mar 2021 13:47:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616003220;
+        s=mimecast20190719; t=1616003234;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qaX90kJ0jKMhI8jGOsNhOtE/1We2a/DpzYlW58HcaFM=;
-        b=G2AigI+AWcsJXa4v/e7vXlytwVvL+FyOCWy2u1zNJl2uh3uAGlrzsiCfziuVAcZsHeOaTT
-        FouDVeqjKcCj+rVjE+HOR8wIK28rBmpm6XDelbG6GabyblbshMEtX46aHhtSIZgX+jGE7m
-        C8P837u5OYBu4sQ6AddSS/ls/x0cCVY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-MT1KD9TeOp-4nJq-p7-N8Q-1; Wed, 17 Mar 2021 13:46:56 -0400
-X-MC-Unique: MT1KD9TeOp-4nJq-p7-N8Q-1
-Received: by mail-ed1-f69.google.com with SMTP id q25so5053312eds.16
-        for <platform-driver-x86@vger.kernel.org>; Wed, 17 Mar 2021 10:46:55 -0700 (PDT)
+        bh=C9dOkUTln4r0Gj3+3gqTTjBhzkRmDBouD59jvisuBCU=;
+        b=dr7P2cNQI+82RPNswJTM9AtiMuT9s1SC+8tppnlAP0aworOumrKndTJ4GBOftaWJ9esFQ/
+        tGENMhld9c4A3FwqUCRlRNLu78QA1Qsqj+OfJHaVLtfrwiXtP29fg6/Td4BE1z/F+KmLFu
+        E5EvwFzeXwC5JXvzl54yTECymvkhvPo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-yMHhoxzePcOdNcLM_k0sow-1; Wed, 17 Mar 2021 13:47:12 -0400
+X-MC-Unique: yMHhoxzePcOdNcLM_k0sow-1
+Received: by mail-ej1-f69.google.com with SMTP id e13so15471904ejd.21
+        for <platform-driver-x86@vger.kernel.org>; Wed, 17 Mar 2021 10:47:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qaX90kJ0jKMhI8jGOsNhOtE/1We2a/DpzYlW58HcaFM=;
-        b=oQ9gRE3JzsQk37k/TkX03KBPGaiikinpACpO5dXUKRTVpXG/wGxEsjTOWK3EnxM0vx
-         KSUPEAVCBsNunS934FEhfuOZ8/dTGnqcHdXueHhgGBgk2/g+wITzwkS0aX7uuF8MRPDe
-         PNGpH7Jz4AbhZwXmgPl/9jz+xL/YLpIKtfOwK5UwSCKSn13wz7Fxbx0nXDJQWkwXXTTf
-         NpfrV3YYzRz+x0k00WGelQZAOHOo8Ai/zi0lrt12Hhox1ix9o3vj9I9jezdU46FuvnFu
-         JDF03NPfIm6S0uSiH2Lsa0xxMeYky7RKANcx4x+ZCsVbXPv5KqrNK7iXXg1dw7Xzd/7j
-         TXbQ==
-X-Gm-Message-State: AOAM53304NfDsGcVt7yrzfpOqFe80QnyN9fdVNx6apLTXP3eKuaipdhe
-        QXpA424SaieiHvHrS23HqtASVaJqS7JO/wARpGqBu5pAmdV7NGlooe0tq4vfDsO+MUFANlBOiXx
-        Aq6qoI0Tmjt42B/QkOmWveUbR3KttqY8sZQ==
-X-Received: by 2002:aa7:d7da:: with SMTP id e26mr44093965eds.269.1616003214886;
-        Wed, 17 Mar 2021 10:46:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5fR7gox4NLViF6kYrZbBcrTsaJtgoP+kGkrzH7XkQsNjoaMKtFr9yuY/Tt4gUhbwt903FLQ==
-X-Received: by 2002:aa7:d7da:: with SMTP id e26mr44093952eds.269.1616003214777;
-        Wed, 17 Mar 2021 10:46:54 -0700 (PDT)
+        bh=C9dOkUTln4r0Gj3+3gqTTjBhzkRmDBouD59jvisuBCU=;
+        b=le3CXvteH6qYC2IxV/OrVxIOc/6dLBGi7ifQHNDZs3XBVAhr8W1RPFgJmL9K8EaOc+
+         wPpUz1PPXAbIferKEHfLDSLPvi/0TKX2vh7XWqwNpZUUX9RPGUyiemEZDwr6bFarbz+c
+         mH/hXChd8xxD5qgND72g2fBv1Y6KoLqN4wSlJSX6IIyCIeRRHV6BRwUSfyUEdLSQdaLh
+         97ratxTatLXKvaYATFRtHPtFZHB/mhillZTrnEQCJWsi81/rtsVxY+SFRmnV3zyh2q0G
+         EoomqNR0R33slL8m2S5kTAXJqphboaTZ0uez5C7C2yv11yy57PIW68CoraiNHRQeavK5
+         mGGQ==
+X-Gm-Message-State: AOAM531HeE6ISmkv5rRqRAXuweaVBsWPpAWGVNxmvUBRqLOwK0PFzjfV
+        6mTxvYfoMZU1/F0G/4TCI9blhU1CXo0nJSONFwAVxjCFmbaW05LfL+tOL/ueiIFDBryb4nBAmN3
+        ZNwG9NgDs2vf6ZW+HeW2tQNRFixMhuRAQ5A==
+X-Received: by 2002:aa7:c7da:: with SMTP id o26mr26587688eds.244.1616003231128;
+        Wed, 17 Mar 2021 10:47:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxpCj5Mfn1CSF/zpDxQRKMf2ghZMltaucO+43fOdTzLm5Os82pWnRnmI5Av9l8qR0xNvisUcA==
+X-Received: by 2002:aa7:c7da:: with SMTP id o26mr26587676eds.244.1616003231006;
+        Wed, 17 Mar 2021 10:47:11 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id a26sm14392972edm.15.2021.03.17.10.46.54
+        by smtp.gmail.com with ESMTPSA id c15sm6290011ejm.52.2021.03.17.10.47.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Mar 2021 10:46:54 -0700 (PDT)
-Subject: Re: [PATCH -next] platform/surface: aggregator_registry: Make symbol
- 'ssam_base_hub_group' static
-To:     'Wei Yongjun <weiyongjun1@huawei.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mark Gross <mgross@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
-References: <20210309131500.1885772-1-weiyongjun1@huawei.com>
+        Wed, 17 Mar 2021 10:47:10 -0700 (PDT)
+Subject: Re: [PATCH] platform/surface: aggregator_registry: Add support for
+ Surface Pro 7+
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210309162550.302161-1-luzmaximilian@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <efe7b835-b03e-e945-f164-219d0b5e1147@redhat.com>
-Date:   Wed, 17 Mar 2021 18:46:53 +0100
+Message-ID: <dff36756-9de4-750e-b7af-f65c97acc42c@redhat.com>
+Date:   Wed, 17 Mar 2021 18:47:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210309131500.1885772-1-weiyongjun1@huawei.com>
+In-Reply-To: <20210309162550.302161-1-luzmaximilian@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,20 +75,11 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 Hi,
 
-On 3/9/21 2:15 PM, 'Wei Yongjun wrote:
-> From: Wei Yongjun <weiyongjun1@huawei.com>
+On 3/9/21 5:25 PM, Maximilian Luz wrote:
+> The Surface Pro 7+ is essentially a refresh of the Surface Pro 7 with
+> updated hardware and a new WSID identifier.
 > 
-> The sparse tool complains as follows:
-> 
-> drivers/platform/surface/surface_aggregator_registry.c:355:30: warning:
->  symbol 'ssam_base_hub_group' was not declared. Should it be static?
-> 
-> This symbol is not used outside of surface_aggregator_registry.c, so this
-> commit marks it static.
-> 
-> Fixes: 797e78564634 ("platform/surface: aggregator_registry: Add base device hub")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 
 Thank you for your patch, I've applied this patch to my review-hans 
 branch:
@@ -108,22 +97,34 @@ Regards,
 
 Hans
 
+
+
 > ---
->  .../platform/surface/surface_aggregator_registry.c  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/platform/surface/surface_aggregator_registry.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/platform/surface/surface_aggregator_registry.c b/drivers/platform/surface/surface_aggregator_registry.c
-> index cdb4a95af3e8..86cff5fce3cd 100644
+> index cdb4a95af3e8..c42b97f61a57 100644
 > --- a/drivers/platform/surface/surface_aggregator_registry.c
 > +++ b/drivers/platform/surface/surface_aggregator_registry.c
-> @@ -352,7 +352,7 @@ static struct attribute *ssam_base_hub_attrs[] = {
+> @@ -191,7 +191,7 @@ static const struct software_node *ssam_node_group_sp6[] = {
 >  	NULL,
 >  };
 >  
-> -const struct attribute_group ssam_base_hub_group = {
-> +static const struct attribute_group ssam_base_hub_group = {
->  	.attrs = ssam_base_hub_attrs,
->  };
+> -/* Devices for Surface Pro 7. */
+> +/* Devices for Surface Pro 7 and Surface Pro 7+. */
+>  static const struct software_node *ssam_node_group_sp7[] = {
+>  	&ssam_node_root,
+>  	&ssam_node_bat_ac,
+> @@ -521,6 +521,9 @@ static const struct acpi_device_id ssam_platform_hub_match[] = {
+>  	/* Surface Pro 7 */
+>  	{ "MSHW0116", (unsigned long)ssam_node_group_sp7 },
+>  
+> +	/* Surface Pro 7+ */
+> +	{ "MSHW0119", (unsigned long)ssam_node_group_sp7 },
+> +
+>  	/* Surface Book 2 */
+>  	{ "MSHW0107", (unsigned long)ssam_node_group_sb2 },
 >  
 > 
 
