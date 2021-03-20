@@ -2,107 +2,107 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FEE8342D5E
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 20 Mar 2021 15:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F4C342D69
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 20 Mar 2021 15:41:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbhCTOfL (ORCPT
+        id S229887AbhCTOlE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 20 Mar 2021 10:35:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50056 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229870AbhCTOex (ORCPT
+        Sat, 20 Mar 2021 10:41:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229884AbhCTOkh (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 20 Mar 2021 10:34:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616250893;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RWyw53w9hC91BP51KCwXBoTCn5XukvLP+bSgOG6Jpy0=;
-        b=DPzeZ80ghuF76jwL1VZI2Fw8N0de3n9Tt26ZCJ3VuX7IBrIstH2MI+vyy4NQgk/epoN32z
-        pG6jgSkTBIlgLRhQK0XIRpqJreqDuGSPkLHjc2tEBO6ixkw1odSBVgR+2ADA/EsTyhLJ7Y
-        Q0bs2TiZTqg0DGOLe9+REXsEw+zLcGo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-JFgoBuNKM1ORHwWeVzXhxA-1; Sat, 20 Mar 2021 10:34:51 -0400
-X-MC-Unique: JFgoBuNKM1ORHwWeVzXhxA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393D35B362;
-        Sat, 20 Mar 2021 14:34:50 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-22.ams2.redhat.com [10.36.112.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AA0AD60C04;
-        Sat, 20 Mar 2021 14:34:48 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Divya Bharathi <Divya_Bharathi@dell.com>,
-        Alexander Naumann <alexandernaumann@gmx.de>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 7/7] platform/x86: dell-wmi-sysman: Cleanup create_attributes_level_sysfs_files()
-Date:   Sat, 20 Mar 2021 15:34:29 +0100
-Message-Id: <20210320143429.76047-8-hdegoede@redhat.com>
-In-Reply-To: <20210320143429.76047-1-hdegoede@redhat.com>
-References: <20210320143429.76047-1-hdegoede@redhat.com>
+        Sat, 20 Mar 2021 10:40:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 009F66196C
+        for <platform-driver-x86@vger.kernel.org>; Sat, 20 Mar 2021 14:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616251237;
+        bh=OOatZyIWKPAr3p5aqp2ojiJeJvbTqDfYURlfsvHUVRQ=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=RwAbYLONLwDCFB3C+2/Cua+/WJABiDo/2vgk6fm2uOC98CxONl0BUOraPyTicXOrC
+         9s582AzAbSzn8plg/xTMccs6Xv7ts6KAuE4+v3feho2FEnhohgwzs8eYr1V0MfvAG1
+         V/h9LoEZBg8ZJr8kbhG+MG+CkX6h8gOSEuMiBXwXwoKO9iRVa7RcwwtG1I4RxQwE+7
+         vDNseSVkbmjt4/zx/GevR34d/w/4CNPYCWePLi1bPMD7L6RrYnfQQvbiEbPcFaHSSF
+         2WkjMc9dwD1MO39WIiHLSRCFM4JGWaThx8FpkXWlSqRiF1MV8NtomEs+fkxKHrnybH
+         YqS+T9uDRyxHg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id E7D1562A61; Sat, 20 Mar 2021 14:40:36 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 211895] dell_wmi_sysman causes unbootable system
+Date:   Sat, 20 Mar 2021 14:40:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: jwrdegoede@fedoraproject.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211895-215701-pI2ACe0LG1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211895-215701@https.bugzilla.kernel.org/>
+References: <bug-211895-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Cleanup create_attributes_level_sysfs_files():
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211895
 
-1. There is no need to call sysfs_remove_file() on error, sysman_init()
-will already call release_attributes_data() on failure which already does
-this.
+Hans de Goede (jwrdegoede@fedoraproject.org) changed:
 
-2. There is no need for the pr_debug calls() sysfs_create_file() should
-never fail and if it does it will already complain about the problem
-itself.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jwrdegoede@fedoraproject.or
+                   |                            |g
 
-Cc: Divya Bharathi <Divya_Bharathi@dell.com>
-Cc: Mario Limonciello <mario.limonciello@dell.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- .../platform/x86/dell/dell-wmi-sysman/sysman.c   | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+--- Comment #7 from Hans de Goede (jwrdegoede@fedoraproject.org) ---
+I've prepared and posted a set of patches which deal with various problems =
+with
+error-exit path cleanups and general robustness of the dell-wmi-sysman driv=
+er:
 
-diff --git a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
-index c2ccf86f4037..d061ddd0c72e 100644
---- a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
-+++ b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
-@@ -210,19 +210,17 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
-  */
- static int create_attributes_level_sysfs_files(void)
- {
--	int ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
-+	int ret;
- 
--	if (ret) {
--		pr_debug("could not create reset_bios file\n");
-+	ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
-+	if (ret)
- 		return ret;
--	}
- 
- 	ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &pending_reboot.attr);
--	if (ret) {
--		pr_debug("could not create changing_pending_reboot file\n");
--		sysfs_remove_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
--	}
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	return 0;
- }
- 
- static ssize_t wmi_sysman_attr_show(struct kobject *kobj, struct attribute *attr,
--- 
-2.30.2
+https://lore.kernel.org/platform-driver-x86/20210320143429.76047-1-hdegoede=
+@redhat.com/T/#t
 
+Note it is not entirely clear to me what is going on here, so I'm not sure =
+if
+these patches fix things but hopefully they will help.
+
+What would be helpful, independent of testing the patches, is if someone co=
+uld
+boot a 5.11 kernel with dell-wmi-sysman blacklisted to avoid the problem.
+
+And then:
+
+1. Switch to a text-console
+2. ssh into the machine and run dmesg -w
+3. ssh into the machine a second time and run: "sudo modprobe dell_wmi_sysm=
+an
+dyndbg"
+
+And then collect log info from the "dmesg -w" and in case there are log
+messages on the text-console which did not make it into the ssh dmesg -w
+output, make a picture of those.
+
+And if you are capable of building your own kernels then testing the patches
+would be great too of course (save the emails in "raw" format and then "git=
+ am"
+them).
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
