@@ -2,39 +2,39 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 906ED342D5F
+	by mail.lfdr.de (Postfix) with ESMTP id 1FEE8342D5E
 	for <lists+platform-driver-x86@lfdr.de>; Sat, 20 Mar 2021 15:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbhCTOfL (ORCPT
+        id S229846AbhCTOfL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
         Sat, 20 Mar 2021 10:35:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55211 "EHLO
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50056 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229846AbhCTOew (ORCPT
+        by vger.kernel.org with ESMTP id S229870AbhCTOex (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 20 Mar 2021 10:34:52 -0400
+        Sat, 20 Mar 2021 10:34:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616250891;
+        s=mimecast20190719; t=1616250893;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=cTir6aiQwLsSIBXS0+hw5CKMF1BTV8Mae4n8w574PKI=;
-        b=I7c0oUwPhkh2bN7ulpLGqIj+DmA9UWBr1sCAOlej8mOycHRZBHag+N71t7EDbRHJ9IWxJ9
-        Idus/gAyoLNuooxPE2cGpb4ZNM8jDYQ7K4BSCKUwiuIrVvoQsNcYYYCB59KUKuFo9Hc1N4
-        Sg6ZuUrITAtECdjDlmvz9V87mi8O9vQ=
+        bh=RWyw53w9hC91BP51KCwXBoTCn5XukvLP+bSgOG6Jpy0=;
+        b=DPzeZ80ghuF76jwL1VZI2Fw8N0de3n9Tt26ZCJ3VuX7IBrIstH2MI+vyy4NQgk/epoN32z
+        pG6jgSkTBIlgLRhQK0XIRpqJreqDuGSPkLHjc2tEBO6ixkw1odSBVgR+2ADA/EsTyhLJ7Y
+        Q0bs2TiZTqg0DGOLe9+REXsEw+zLcGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-J8wO2XQHO4G0fDbhNkMTNg-1; Sat, 20 Mar 2021 10:34:49 -0400
-X-MC-Unique: J8wO2XQHO4G0fDbhNkMTNg-1
+ us-mta-372-JFgoBuNKM1ORHwWeVzXhxA-1; Sat, 20 Mar 2021 10:34:51 -0400
+X-MC-Unique: JFgoBuNKM1ORHwWeVzXhxA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 636495B361;
-        Sat, 20 Mar 2021 14:34:48 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393D35B362;
+        Sat, 20 Mar 2021 14:34:50 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-22.ams2.redhat.com [10.36.112.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 063E960C04;
-        Sat, 20 Mar 2021 14:34:46 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AA0AD60C04;
+        Sat, 20 Mar 2021 14:34:48 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>,
         Andy Shevchenko <andy@infradead.org>
@@ -43,9 +43,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Divya Bharathi <Divya_Bharathi@dell.com>,
         Alexander Naumann <alexandernaumann@gmx.de>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 6/7] platform/x86: dell-wmi-sysman: Make init_bios_attributes() ACPI object parsing more robust
-Date:   Sat, 20 Mar 2021 15:34:28 +0100
-Message-Id: <20210320143429.76047-7-hdegoede@redhat.com>
+Subject: [PATCH 7/7] platform/x86: dell-wmi-sysman: Cleanup create_attributes_level_sysfs_files()
+Date:   Sat, 20 Mar 2021 15:34:29 +0100
+Message-Id: <20210320143429.76047-8-hdegoede@redhat.com>
 In-Reply-To: <20210320143429.76047-1-hdegoede@redhat.com>
 References: <20210320143429.76047-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -55,90 +55,54 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Make init_bios_attributes() ACPI object parsing more robust:
-1. Always check that the type of the return ACPI object is package, rather
-   then only checking this for instance_id == 0
-2. Check that the package has the minimum amount of elements which will
-   be consumed by the populate_foo_data() for the attr_type
-3. Don't return -ENODEV when the get_wmiobj_pointer() call for
-   instance_id == 0 returns NULL. It is possible for a BIOS to e.g.
-   only have ENUM + INT attributes and no STR attributes
+Cleanup create_attributes_level_sysfs_files():
 
-Note/TODO: The populate_foo_data() functions should also be made more
-robust. The should check the type of each of the elements matches the
-type which they expect and in case of populate_enum_data()
-obj->package.count should be passed to it as an argument and it should
-re-check this itself since it consume a variable number of elements.
+1. There is no need to call sysfs_remove_file() on error, sysman_init()
+will already call release_attributes_data() on failure which already does
+this.
+
+2. There is no need for the pr_debug calls() sysfs_create_file() should
+never fail and if it does it will already complain about the problem
+itself.
 
 Cc: Divya Bharathi <Divya_Bharathi@dell.com>
 Cc: Mario Limonciello <mario.limonciello@dell.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../x86/dell/dell-wmi-sysman/sysman.c         | 34 +++++++++++++++----
- 1 file changed, 28 insertions(+), 6 deletions(-)
+ .../platform/x86/dell/dell-wmi-sysman/sysman.c   | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
-index 6ed3cee2208b..c2ccf86f4037 100644
+index c2ccf86f4037..d061ddd0c72e 100644
 --- a/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
 +++ b/drivers/platform/x86/dell/dell-wmi-sysman/sysman.c
-@@ -400,6 +400,7 @@ static int init_bios_attributes(int attr_type, const char *guid)
- 	union acpi_object *obj = NULL;
- 	union acpi_object *elements;
- 	struct kset *tmp_set;
-+	int min_elements;
+@@ -210,19 +210,17 @@ static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
+  */
+ static int create_attributes_level_sysfs_files(void)
+ {
+-	int ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
++	int ret;
  
- 	/* instance_id needs to be reset for each type GUID
- 	 * also, instance IDs are unique within GUID but not across
-@@ -410,14 +411,36 @@ static int init_bios_attributes(int attr_type, const char *guid)
- 	retval = alloc_attributes_data(attr_type);
- 	if (retval)
- 		return retval;
-+
-+	switch (attr_type) {
-+	case ENUM:	min_elements = 8;	break;
-+	case INT:	min_elements = 9;	break;
-+	case STR:	min_elements = 8;	break;
-+	case PO:	min_elements = 4;	break;
-+	default:
-+		pr_err("Error: Unknown attr_type: %d\n", attr_type);
-+		return -EINVAL;
-+	}
-+
-+	mutex_lock(&wmi_priv.mutex);
-+
- 	/* need to use specific instance_id and guid combination to get right data */
- 	obj = get_wmiobj_pointer(instance_id, guid);
--	if (!obj || obj->type != ACPI_TYPE_PACKAGE)
--		return -ENODEV;
--	elements = obj->package.elements;
-+	while (obj) {
-+		if (obj->type != ACPI_TYPE_PACKAGE) {
-+			pr_err("Error: Expected ACPI-package type, got: %d\n", obj->type);
-+			retval = -EIO;
-+			goto err_attr_init;
-+		}
-+
-+		if (obj->package.count < min_elements) {
-+			pr_err("Error: ACPI-package does not have enough elements: %d < %d\n",
-+			       obj->package.count, min_elements);
-+			goto nextobj;
-+		}
-+
-+		elements = obj->package.elements;
+-	if (ret) {
+-		pr_debug("could not create reset_bios file\n");
++	ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
++	if (ret)
+ 		return ret;
+-	}
  
--	mutex_lock(&wmi_priv.mutex);
--	while (elements) {
- 		/* sanity checking */
- 		if (elements[ATTR_NAME].type != ACPI_TYPE_STRING) {
- 			pr_debug("incorrect element type\n");
-@@ -482,7 +505,6 @@ static int init_bios_attributes(int attr_type, const char *guid)
- 		kfree(obj);
- 		instance_id++;
- 		obj = get_wmiobj_pointer(instance_id, guid);
--		elements = obj ? obj->package.elements : NULL;
- 	}
+ 	ret = sysfs_create_file(&wmi_priv.main_dir_kset->kobj, &pending_reboot.attr);
+-	if (ret) {
+-		pr_debug("could not create changing_pending_reboot file\n");
+-		sysfs_remove_file(&wmi_priv.main_dir_kset->kobj, &reset_bios.attr);
+-	}
+-	return ret;
++	if (ret)
++		return ret;
++
++	return 0;
+ }
  
- 	mutex_unlock(&wmi_priv.mutex);
+ static ssize_t wmi_sysman_attr_show(struct kobject *kobj, struct attribute *attr,
 -- 
 2.30.2
 
