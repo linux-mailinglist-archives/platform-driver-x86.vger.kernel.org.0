@@ -2,36 +2,36 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9678C343418
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 19:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEAA4343451
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 20:15:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhCUSkJ (ORCPT
+        id S230214AbhCUTPD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 21 Mar 2021 14:40:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47102 "EHLO mail.kernel.org"
+        Sun, 21 Mar 2021 15:15:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50734 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230028AbhCUSjz (ORCPT
+        id S230064AbhCUTOr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 21 Mar 2021 14:39:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5134361952
-        for <platform-driver-x86@vger.kernel.org>; Sun, 21 Mar 2021 18:39:55 +0000 (UTC)
+        Sun, 21 Mar 2021 15:14:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5A46661959
+        for <platform-driver-x86@vger.kernel.org>; Sun, 21 Mar 2021 19:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616351995;
-        bh=Pfx6RqRZQTFWlL9S+RZp9fYCaXwz+SZ2/Y2lERbMD68=;
+        s=k20201202; t=1616354087;
+        bh=8DUfJ98FIHjmO/R5FOHMmWUG/QfM6ifz7WWUM548uzM=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=YI8XaMq/sA9u9abuwPG9beOaP8KVI09+kQ9O+4dOvNOlWtcCI8q2RflxXFnlYNA0y
-         W0pa8tPk4hDzjRTXhZukHaUCEidWzx+qC/20IfuKxC44tPdtmcP6ovH+F24drZhUfj
-         k5ANkY+GYUjCI6nLezcLZpvSj2WPyshuofZ3p6LSKk1veJdKjRnI7ihHHLTDCa3LJZ
-         eMrusjI31F4oArGXMvCSRfrtOI/r1SlkEOsQXqea25uDn2nTyzthVDvrM76wXmFID9
-         9RNUAxOjxBfue7x+GTIopNcCO87LBngWWn6ZoeG79c3eBIYnwb69XCr/Z+yg+kx4oS
-         XLEiDRm9fO5Yg==
+        b=hf/o+TwQAQOelOk78+97kgzChJBlSzk9F5o3Lj0e8jhTk0pc1QP7VFduyNvY3BGAg
+         BsGG0z0WCafhBFP11p9Ez9rdQALhgu0kQhPodbfDl3VWYDfcZ5+Ob1mFpA+zl6T2NM
+         3i9AGIbvmAIouNV0wcjzaVSbgKPM2mQbOiXf9k1EZ2xU8X/UcdM86WFWQy5yxy5hAR
+         VJ4w59QNpZKirfH3YLPtgWzpdQFjqELfshrQvqyxyoIaZlRw+K0rf9vhuY6vr/xuCa
+         akxF07tQ/TB3fmXKeA7pUVNOwcmZj0czDoSEYSDTeVx9iy1HIKtYXSOmmDee6i9czS
+         7WnjyA91jJ3QA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 4C96B6146B; Sun, 21 Mar 2021 18:39:55 +0000 (UTC)
+        id 572CC62AAE; Sun, 21 Mar 2021 19:14:47 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
  acpi_enforce_resources=lax is enabled
-Date:   Sun, 21 Mar 2021 18:39:54 +0000
+Date:   Sun, 21 Mar 2021 19:14:46 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -40,14 +40,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: rui.zhang@intel.com
+X-Bugzilla-Who: jwrdegoede@fedoraproject.org
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204807-215701-6l6DAbUSFE@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204807-215701-qZM8yLwbua@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
 References: <bug-204807-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -61,94 +61,46 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
---- Comment #46 from Zhang Rui (rui.zhang@intel.com) ---
-(In reply to Artem S. Tashkinov from comment #43)
-> A small correction of my previous comment:
->=20
-> linux/drivers/platform/x86/asus-nb-wmi.c
->=20
-> /*
->  * Asus Notebooks WMI hotkey driver
->  *
->  * Copyright(C) 2010 Corentin Chary <corentin.chary@gmail.com>
->  */
->=20
-> This is not related to lm-sensors in any shape or form.
+Hans de Goede (jwrdegoede@fedoraproject.org) changed:
 
-asus_nb_wmi_init -> asus_wmi_register_driver -> asus_wmi_probe -> asus_wmi_=
-add
--> asus_wmi_hwmon_init
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jwrdegoede@fedoraproject.or
+                   |                            |g
 
-Although the warning messages are printed by ACPI code, but this is a confl=
-ict
-between the native nct6775 driver and the Asus wmi driver, because Asus wmi
-driver accesses the same piece of resources and provide similar
-functionalities. And I'm familiar with neither of them.
+--- Comment #47 from Hans de Goede (jwrdegoede@fedoraproject.org) ---
+So if someone is willing to spend time on making this work, then here is ho=
+w I
+believe this could be made to work (for the case which Matthew Garrett
+analysed):
 
-> I'm really sad how
-> this situation is getting handled: the bug has been known for over 1.5
-> years, affects literally hundreds of thousands devices and you're saying
-> that this kernel option might have unintended consequences yet _everyone_=
- in
-> this thread has enabled it with _zero_ side affects and Windows seemingly
-> has it enabled by default, as no such messages are getting logged in Wind=
-ows
-> Event Log either when using HWiNFO64 or vendor specific monitoring softwa=
-re.
+1. Modify the nct6775 driver, adding a set of nct6775_register_ops to the
+nct6775_sio_data struct and have any function which sits "below" the probe()
+function only use these ops to do register accesses. Combined with having
+sensors_nct6775_init() set these register-ops to the currently used superio
+register access functions (so that nothing changes for existing users of the
+driver).
 
-In Linux, at least for now, I don't see a way to enable native nct6775 driv=
-er
-by default, and, this is true for all the native drivers that have resource
-conflict with the firmware.
+2. Move the nct6775_sio_data struct declaration to a shared header somewhere
+under include/linux
 
-IMO, the rootcause is that Linux does not support override driver A (native
-driver in this case) when driver B (driver that talks to firmware) is loade=
-d,
-so we have to disable driver A even if there is only 0.01% possibility that
-driver B will be loaded when we know there might be a conflict.
+3. Have a new WMI driver which defines register-ops compatible with the ones
+expected by the nct6775_sio_data struct, using the RHWM and WHWM methods wh=
+ich
+Matthew found (note these should be called through their WMI wrappers) and =
+have
+this driver instantiate a platform device, with its platdata set to this new
+nct6775_sio_data struct, allowing the nct6775 driver to access the registers
+this way, using the mutual-exclusion mechanism build into the RHWM and WHWM
+methods.
 
-what we can do is to write driver B to make this statement true
-"ACPI: If an ACPI driver is available for this device, you should use it
-instead of the native driver" and ignore this message.
+As the drivers/platform/x86 maintainer I would be more then happy to merge a
+clean driver for step 3. To me this seems quite doable (to someone with some
+kernel-dev experience + enough time).
 
-(In reply to Artem S. Tashkinov from comment #44)
-> (In reply to Artem S. Tashkinov from comment #42)
-> > "Your motherboard might not be exposing ACPI resources correctly, so you
-> > might
-> > not get access to your HW sensors. You could add
-> > "acpi_enforce_resources=3Dlax" to kernel boot parameters to enable moni=
-toring
-> > at your own risk. Please refer to
-> > https://bugzilla.kernel.org/show_bug.cgi?id=3D204807 for more informati=
-on".
->=20
-> This message will at least allow various Linux distros to enable the opti=
-on
-> by default because many are not aware of the bug.
-
-Hmmm, what about following conditions
-1. "acpi_enforce_resources=3D" is a global switch, there might be platforms=
- with
-more than one conflict, or with another conflict rather than nct6775. we can
-not validate all of them.
-2. we may have new drivers that talk with firmware later, and we can not use
-"acpi_enforce_resources=3Dlax" then.
-
-But thanks for raising this up, I think this also rings a bell that the cur=
-rent
-message is kind of misleading.
-It is true that ACPI covers a series of devices as described in the ACPI sp=
-ec.
-But at the same time, ACPI is an interface. Many drivers, including vendor
-specific drivers, talks with firmware through the ACPI Interface. They depe=
-nds
-on ACPI, but they're actually not covered by the ACPI specification, nor by
-kernel drivers/acpi code.
-
-"ACPI: If an ACPI driver is available for this device, you should use it
-instead of the native driver" makes people feel like it is an ACPI problem,=
- but
-in many cases, it is not, I can only triage them.
+Note I believe that this will not be a whole lot of work (but its not trivi=
+al
+either).
 
 --=20
 You may reply to this email to add a comment.
