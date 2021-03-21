@@ -2,274 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73FA63433B4
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 18:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FDF6343419
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 19:41:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbhCURY1 (ORCPT
+        id S230028AbhCUSkk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 21 Mar 2021 13:24:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41549 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230056AbhCURX6 (ORCPT
+        Sun, 21 Mar 2021 14:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230064AbhCUSkI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 21 Mar 2021 13:23:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616347438;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=21bGkF7H3nKo2eBHg1WCDvaC/H/LPJq6JiF4gaV2ZZE=;
-        b=FTugJ4THn8UiJG4OV3pKUJxDxHrgu60HT1SgmjKpyA9Q77hynhx6fRVoAYuQd5CHNELOkW
-        k06LeP0IBhhK5FpSoCZT2C4AgDDldJcU4FII5L7Kd39dvvCqDdxhxuYU+HGTOFN2EY35bl
-        guxNJIQTSOULN/bbgK4p2YXR3YTWgqM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-MOkq6iPKM3e9Ym4ozBtZFg-1; Sun, 21 Mar 2021 13:23:56 -0400
-X-MC-Unique: MOkq6iPKM3e9Ym4ozBtZFg-1
-Received: by mail-ed1-f70.google.com with SMTP id n20so26229685edr.8
-        for <platform-driver-x86@vger.kernel.org>; Sun, 21 Mar 2021 10:23:56 -0700 (PDT)
+        Sun, 21 Mar 2021 14:40:08 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63ADEC061574
+        for <platform-driver-x86@vger.kernel.org>; Sun, 21 Mar 2021 11:40:08 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id y6so16748162eds.1
+        for <platform-driver-x86@vger.kernel.org>; Sun, 21 Mar 2021 11:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qtd2H/T/8MAihANrMovrzFI3X5CYwXvfjRDhb4VwocQ=;
+        b=f5wK6KLDODSFzM6fZX52FDtgJmPg101vZnG5qpa14SHTayunotAATwkOIEPZyRrvO+
+         HA9+00UC5KZ0kMdCmmop3YikeLLZF+WtEiRuDnCBgRmn6y/1enR/9xmEGIredS/9blMV
+         hB19t3fJt02qRB8jVEU+KWWKQsaAosDzN3vOR7lOYViMtHovupfgM3LdCrhhiuhmHfO6
+         xGSRJDPBHTCVjjKswCmhiBydFkgS3SDazpBCzvJe9Btm31RnQTUU1PDiha/+Zf9jMT58
+         v08l2g3pJPgpdKwXeXwdv5uRVi5Tu+DyI3bJ1JOWEWZgHH6EEwtDr9Bznf5diklCcp/L
+         YVyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=21bGkF7H3nKo2eBHg1WCDvaC/H/LPJq6JiF4gaV2ZZE=;
-        b=rfYiQ/YEL7O++recDQtfQNMm2OdScfST8UIX3WA6aSmIxZcsaQsjr6ZnmKkdGngAt+
-         IyAXts6N2Oya9/KXaD7WG+YN/1rWAOGRopr78TrrZQryDA6fVweldrxPdR5E3JZ38dk3
-         UPCUthiRuMn+4BWI52bZVbqYB4Y6M607AIwLvwNzQubUrWaWR0ByJORFD8N1G53oMXHI
-         pVYmVxDkyqk6g71/jc6p36q4NBRYxNz/9XyhEZNH1OffrdrE2QCwcJOQAo8ALgTiz3WU
-         3Y1hYVPgh486fAoX0Vj9fAVFV9hDDnyIfmLy9ePQK1iXGmjJViBcCFWBy2gk8JjlXhFw
-         v0bw==
-X-Gm-Message-State: AOAM5329xkzJMRQgQbQb1DHPrwjXQ0Rvo0//Pd34FKYbFyNPoFRmdJ38
-        OskzjZju5lONeSEC8IhmVrR5gGLp6pOXW2TJ6X2xMdGvxZLvnL5dtcqiro1wMdjCl+kxsZ7WWhb
-        Tzuopode7Q+b/oUN8w/1hoLuz3ikVNq6iHw==
-X-Received: by 2002:a05:6402:138f:: with SMTP id b15mr21641355edv.121.1616347435390;
-        Sun, 21 Mar 2021 10:23:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLBR/jF2JUZKMTYSnfqcy9OgTSzHRykamA7e1kfmVH0jSKb8Xv7AH1UiFtuPFL4JmFvPTHAg==
-X-Received: by 2002:a05:6402:138f:: with SMTP id b15mr21641341edv.121.1616347435222;
-        Sun, 21 Mar 2021 10:23:55 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id n26sm8626511eds.22.2021.03.21.10.23.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Mar 2021 10:23:54 -0700 (PDT)
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: sysfs interface to get wwan
- antenna type
-To:     Nitin Joshi <nitjoshi@gmail.com>
-Cc:     platform-driver-x86@vger.kernel.org,
-        Nitin Joshi <njoshi1@lenovo.com>,
-        Mark Pearson <markpearson@lenovo.com>
-References: <20210317024636.356175-1-njoshi1@lenovo.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <fb123352-67a6-2aaa-6b5d-69326793e3a7@redhat.com>
-Date:   Sun, 21 Mar 2021 18:23:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qtd2H/T/8MAihANrMovrzFI3X5CYwXvfjRDhb4VwocQ=;
+        b=e4LvBAnKvm1uR6CRa99YoBjUkFsS5GZMp3IM2G06Q2n4R3Qmhhd2GCwbipc9IxyN7q
+         EKLfvFEPVa7QFf9ILc2GxXkErulqkeCX46lxQEBKj8X7CRYsG8DifpxXF0SEoE3I988W
+         lg/9RuZVl6+hax7ftQs7jylM/ZCO5taHckdfPnx320LH7FAacmNiocmNWwSoyzCkEQdz
+         1Js6NDb65zwNtC9iQR4Jokb3OmyBGlwtIUjDxluq1O+EmIYJNPG7RNEuRQcabA7F0jf8
+         71TDK5Kilt52V8MHL6xroN0ODp/YveFqyRkWohfWZPRMYrcfW0PNNvC8urh7Rs1WSeNN
+         c9FQ==
+X-Gm-Message-State: AOAM531IliQM/+BPnIN332TozByQJdwpX/v4XpQlSiM+2P89Z1jhaOfb
+        xTLQESs38G9dmzJpJXYde28=
+X-Google-Smtp-Source: ABdhPJy55iqrQStdLVB6mvVWpkMJBaNFcbPWZY6Zq+KkEaFJXlXGsf7/OlS3olyxAkRtRyWSCV66yQ==
+X-Received: by 2002:a05:6402:3593:: with SMTP id y19mr21764576edc.317.1616352006978;
+        Sun, 21 Mar 2021 11:40:06 -0700 (PDT)
+Received: from PocketRocket.sam (178-85-91-151.dynamic.upc.nl. [178.85.91.151])
+        by smtp.gmail.com with ESMTPSA id r13sm8650609edy.3.2021.03.21.11.40.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 11:40:06 -0700 (PDT)
+From:   Esteve Varela Colominas <esteve.varela@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Esteve Varela Colominas <esteve.varela@gmail.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform/x86: thinkpad_acpi: Correct minor typo
+Date:   Sun, 21 Mar 2021 19:35:13 +0100
+Message-Id: <20210321183512.14551-1-esteve.varela@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <80f7329e-c85d-b45b-fd69-bef85a6ab026@redhat.com>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20210317024636.356175-1-njoshi1@lenovo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Signed-off-by: Esteve Varela Colominas <esteve.varela@gmail.com>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 3/17/21 3:46 AM, Nitin Joshi wrote:
-> On some newer Thinkpads we need to set SAR value based on antenna type.
-> This patch provides a sysfs interface that userspace can use to get
-> antenna type and set corresponding SAR value, as is required for FCC
-> certification.
-> 
-> Reviewed-by: Mark Pearson <markpearson@lenovo.com>
-> Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
-
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-> ---
->  .../admin-guide/laptops/thinkpad-acpi.rst     |  20 ++++
->  drivers/platform/x86/thinkpad_acpi.c          | 109 ++++++++++++++++++
->  2 files changed, 129 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> index 91fd6846ce17..6721a80a2d4f 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -52,6 +52,7 @@ detailed description):
->  	- LCD Shadow (PrivacyGuard) enable and disable
->  	- Lap mode sensor
->  	- Setting keyboard language
-> +	- WWAN Antenna type
->  
->  A compatibility table by model and feature is maintained on the web
->  site, http://ibm-acpi.sf.net/. I appreciate any success or failure
-> @@ -1490,6 +1491,25 @@ fr(French), fr-ch(French(Switzerland)), hu(Hungarian), it(Italy), jp (Japan),
->  nl(Dutch), nn(Norway), pl(Polish), pt(portugese), sl(Slovenian), sv(Sweden),
->  tr(Turkey)
->  
-> +WWAN Antenna type
-> +-----------------
-> +
-> +sysfs: wwan_antenna_type
-> +
-> +On some newer Thinkpads we need to set SAR value based on the antenna
-> +type. This interface will be used by userspace to get the antenna type
-> +and set the corresponding SAR value, as is required for FCC certification.
-> +
-> +The available commands are::
-> +
-> +        cat /sys/devices/platform/thinkpad_acpi/wwan_antenna_type
-> +
-> +Currently 2 antenna types are supported as mentioned below:
-> +- type a
-> +- type b
-> +
-> +The property is read-only. If the platform doesn't have support the sysfs
-> +class is not created.
->  
->  Adaptive keyboard
->  -----------------
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index b881044b31b0..7bc9868be578 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -10423,6 +10423,111 @@ static struct ibm_struct kbdlang_driver_data = {
->  	.exit = kbdlang_exit,
->  };
->  
-> +/*************************************************************************
-> + * DPRC(Dynamic Power Reduction Control) subdriver, for the Lenovo WWAN
-> + * and WLAN feature.
-> + */
-> +#define DPRC_GET_WWAN_ANTENNA_TYPE      0x40000
-> +#define DPRC_WWAN_ANTENNA_TYPE_A_BIT    BIT(4)
-> +#define DPRC_WWAN_ANTENNA_TYPE_B_BIT    BIT(8)
-> +static bool has_antennatype;
-> +static int wwan_antennatype;
-> +
-> +static int dprc_command(int command, int *output)
-> +{
-> +	acpi_handle dprc_handle;
-> +
-> +	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DPRC", &dprc_handle))) {
-> +		/* Platform doesn't support DPRC */
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!acpi_evalf(dprc_handle, output, NULL, "dd", command))
-> +		return -EIO;
-> +
-> +	/*
-> +	 * METHOD_ERR gets returned on devices where few commands are not supported
-> +	 * for example command to get WWAN Antenna type command is not supported on
-> +	 * some devices.
-> +	 */
-> +	if (*output & METHOD_ERR)
-> +		return -ENODEV;
-> +
-> +	return 0;
-> +}
-> +
-> +static int get_wwan_antenna(int *wwan_antennatype)
-> +{
-> +	int output, err;
-> +
-> +	/* Get current Antenna type */
-> +	err = dprc_command(DPRC_GET_WWAN_ANTENNA_TYPE, &output);
-> +	if (err)
-> +		return err;
-> +
-> +	if (output & DPRC_WWAN_ANTENNA_TYPE_A_BIT)
-> +		*wwan_antennatype = 1;
-> +	else if (output & DPRC_WWAN_ANTENNA_TYPE_B_BIT)
-> +		*wwan_antennatype = 2;
-> +	else
-> +		return -ENODEV;
-> +
-> +	return 0;
-> +}
-> +
-> +/* sysfs wwan antenna type entry */
-> +static ssize_t wwan_antenna_type_show(struct device *dev,
-> +					struct device_attribute *attr,
-> +					char *buf)
-> +{
-> +	switch (wwan_antennatype) {
-> +	case 1:
-> +		return sysfs_emit(buf, "type a\n");
-> +	case 2:
-> +		return sysfs_emit(buf, "type b\n");
-> +	default:
-> +		return -ENODATA;
-> +	}
-> +}
-> +static DEVICE_ATTR_RO(wwan_antenna_type);
-> +
-> +static int tpacpi_dprc_init(struct ibm_init_struct *iibm)
-> +{
-> +	int wwanantenna_err, err;
-> +
-> +	wwanantenna_err = get_wwan_antenna(&wwan_antennatype);
-> +	/*
-> +	 * If support isn't available (ENODEV) then quit, but don't
-> +	 * return an error.
-> +	 */
-> +	if (wwanantenna_err == -ENODEV)
-> +		return 0;
-> +
-> +	/* if there was an error return it */
-> +	if (wwanantenna_err && (wwanantenna_err != -ENODEV))
-> +		return wwanantenna_err;
-> +	else if (!wwanantenna_err)
-> +		has_antennatype = true;
-> +
-> +	if (has_antennatype) {
-> +		err = sysfs_create_file(&tpacpi_pdev->dev.kobj, &dev_attr_wwan_antenna_type.attr);
-> +		if (err)
-> +			return err;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void dprc_exit(void)
-> +{
-> +	if (has_antennatype)
-> +		sysfs_remove_file(&tpacpi_pdev->dev.kobj, &dev_attr_wwan_antenna_type.attr);
-> +}
-> +
-> +static struct ibm_struct dprc_driver_data = {
-> +	.name = "dprc",
-> +	.exit = dprc_exit,
-> +};
-> +
->  /****************************************************************************
->   ****************************************************************************
->   *
-> @@ -10927,6 +11032,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
->  		.init = tpacpi_kbdlang_init,
->  		.data = &kbdlang_driver_data,
->  	},
-> +	{
-> +		.init = tpacpi_dprc_init,
-> +		.data = &dprc_driver_data,
-> +	},
->  };
->  
->  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
-> 
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 09362dd74..f3f7ae6f6 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -4086,7 +4086,7 @@ static bool hotkey_notify_6xxx(const u32 hkey,
+ 		return true;
+ 
+ 	case TP_HKEY_EV_KEY_FN_ESC:
+-		/* Get the media key status to foce the status LED to update */
++		/* Get the media key status to force the status LED to update */
+ 		acpi_evalf(hkey_handle, NULL, "GMKS", "v");
+ 		*send_acpi_ev = false;
+ 		*ignore_acpi_ev = true;
+-- 
+2.26.2
 
