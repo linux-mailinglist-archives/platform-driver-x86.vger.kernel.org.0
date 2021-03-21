@@ -2,91 +2,106 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11A7534321E
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 12:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54191343229
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Mar 2021 13:00:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbhCULbW (ORCPT
+        id S229840AbhCUL7f (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 21 Mar 2021 07:31:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47488 "EHLO
+        Sun, 21 Mar 2021 07:59:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27600 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229835AbhCULbN (ORCPT
+        by vger.kernel.org with ESMTP id S229815AbhCUL7I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 21 Mar 2021 07:31:13 -0400
+        Sun, 21 Mar 2021 07:59:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616326273;
+        s=mimecast20190719; t=1616327948;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=ZKNJgfyzXzo4U0V+vbRzE1UwtMRkWindhl/j4rmwMzs=;
-        b=hASAZ4F3aX/xSSC9MCN/FMdca6j/A+XUR1/bQ4ulBz2Hytyo650VqolWgJgixgFtB/CdFZ
-        CnDwH3xjdliR0jdE0Ru/BIv2vMjfLesCyfI+aHWX5pOsSlJh/bpxMwvvrVz2VTfLeUghjK
-        +CmN7YbhlkOIlM5m3TS4Y0v/WEBJlLE=
+        bh=1jzegD9Rr6YntWpWNwSTgiEhFbIXwevMmdnMU0t1tcM=;
+        b=i+vnvJDLzdLtNcqD/eTlqutFmmhKWqhKfect/qd4BsHSNOkqE+qfcP53PF3GPE3y5H+ne/
+        qtKsZijexcm51dlrB6S+ogdlSbCScvanhtX6cLX1V/9eMQu/vWZOO+r/CFb4w2xqHP7Ycu
+        vmoocWglvB0ByWUZzY6p+Xi+53Hv/pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-AYHDfZK0ML-ytjbSqXmAtg-1; Sun, 21 Mar 2021 07:31:11 -0400
-X-MC-Unique: AYHDfZK0ML-ytjbSqXmAtg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-509-2-lhSMevN8GNrtRPCF7mWw-1; Sun, 21 Mar 2021 07:59:05 -0400
+X-MC-Unique: 2-lhSMevN8GNrtRPCF7mWw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ED9357085;
-        Sun, 21 Mar 2021 11:31:10 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FB32107ACCD;
+        Sun, 21 Mar 2021 11:59:03 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-68.ams2.redhat.com [10.36.112.68])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 413E459468;
-        Sun, 21 Mar 2021 11:31:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2D8A95DAA5;
+        Sun, 21 Mar 2021 11:59:02 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <mgross@linux.intel.com>,
         Andy Shevchenko <andy@infradead.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Divya Bharathi <Divya_Bharathi@dell.com>,
+        Alexander Naumann <alexandernaumann@gmx.de>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: thinkpad_acpi: Disable DYTC CQL mode around switching to balanced mode
-Date:   Sun, 21 Mar 2021 12:31:08 +0100
-Message-Id: <20210321113108.7069-1-hdegoede@redhat.com>
+Subject: [PATCH v2 0/7] platform/x86: dell-wmi-sysman: Various error-handling and robustness fixes
+Date:   Sun, 21 Mar 2021 12:58:54 +0100
+Message-Id: <20210321115901.35072-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Testing has shown that setting /sys/firmware/acpi/platform_profile to
-"balanced" when /sys/bus/platform/devices/thinkpad_acpi/dytc_lapmode
-reports 1, causes dytc_lapmode to get reset to 0 and then it becomes
-stuck at 0 for aprox. 30 minutes even if the laptop is used on a lap.
+Hi All,
 
-Disabling CQL (when enabled) before issuing the DYTC_CMD_RESET to get
-back to balanced mode and re-enabling it afterwards again, like the
-code already does when switching to low-power / performance mode fixes
-this.
+There have been several bug-reports about crashes related to the
+dell-wmi-sysman module:
 
-Fixes: c3bfcd4c6762 ("platform/x86: thinkpad_acpi: Add platform profile support")
-Tested-by: Mark Pearson <markpearson@lenovo.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+https://bugzilla.redhat.com/show_bug.cgi?id=1936171
+https://bugzilla.kernel.org/show_bug.cgi?id=211895
+https://bugs.archlinux.org/task/69702
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ab5155bec22e..a5df44bbb498 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -10249,8 +10249,13 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
- 		return err;
- 
- 	if (profile == PLATFORM_PROFILE_BALANCED) {
--		/* To get back to balanced mode we just issue a reset command */
--		err = dytc_command(DYTC_CMD_RESET, &output);
-+		/*
-+		 * To get back to balanced mode we need to issue a reset command.
-+		 * Note we still need to disable CQL mode before hand and re-enable
-+		 * it afterwards, otherwise dytc_lapmode gets reset to 0 and stays
-+		 * stuck at 0 for aprox. 30 minutes.
-+		 */
-+		err = dytc_cql_command(DYTC_CMD_RESET, &output);
- 		if (err)
- 			goto unlock;
- 	} else {
+Here is v2 of my series with a bunch of fixes for NULL pointer derefs,
+double-frees, etc. which fixes this.
+
+New in v2:
+-New patch: "platform/x86: dell-wmi-sysman: Fix crash caused by calling 
+kset_unregister twice" which addresses the direct-cause of
+the crash.  Note that the crash was already fixed in v1 because
+that removed the code-path where kset_unregister ended up being
+called twice.
+
+-Dropped: "platform/x86: dell-wmi-sysman: Make init_bios_attributes() 
+ACPI object parsing more robust". This needs more testing / discussion
+and is not necessary to fix the boot-failure which people are seeing.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (7):
+  platform/x86: dell-wmi-sysman: Fix crash caused by calling
+    kset_unregister twice
+  platform/x86: dell-wmi-sysman: Fix possible NULL pointer deref on exit
+  platform/x86: dell-wmi-sysman: Make it safe to call
+    exit_foo_attributes() multiple times
+  platform/x86: dell-wmi-sysman: Fix release_attributes_data() getting
+    called twice on init_bios_attributes() failure
+  platform/x86: dell-wmi-sysman: Cleanup sysman_init() error-exit
+    handling
+  platform/x86: dell-wmi-sysman: Make sysman_init() return -ENODEV of
+    the interfaces are not found
+  platform/x86: dell-wmi-sysman: Cleanup
+    create_attributes_level_sysfs_files()
+
+ .../dell/dell-wmi-sysman/enum-attributes.c    |  3 +
+ .../x86/dell/dell-wmi-sysman/int-attributes.c |  3 +
+ .../dell/dell-wmi-sysman/passobj-attributes.c |  3 +
+ .../dell/dell-wmi-sysman/string-attributes.c  |  3 +
+ .../x86/dell/dell-wmi-sysman/sysman.c         | 84 +++++++------------
+ 5 files changed, 44 insertions(+), 52 deletions(-)
+
 -- 
 2.30.2
 
