@@ -2,118 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3FC33447AC
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Mar 2021 15:46:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FFA73449CA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Mar 2021 16:53:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229866AbhCVOpe (ORCPT
+        id S229870AbhCVPxS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 22 Mar 2021 10:45:34 -0400
-Received: from mail1.perex.cz ([77.48.224.245]:58434 "EHLO mail1.perex.cz"
+        Mon, 22 Mar 2021 11:53:18 -0400
+Received: from mga09.intel.com ([134.134.136.24]:47408 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229746AbhCVOpF (ORCPT
+        id S230319AbhCVPxJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 22 Mar 2021 10:45:05 -0400
-X-Greylist: delayed 413 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Mar 2021 10:45:04 EDT
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 32F73A003E;
-        Mon, 22 Mar 2021 15:38:05 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 32F73A003E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-        t=1616423885; bh=DxfygpitPra5Cpiwi463YlHdOGWgOHeQqjm+lS0lShU=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GJZvfhmKnms04+ZSNgkCOh42q886BBqayRTu2vqyYfX3jGYeIryR8NK5UbXX3AOnf
-         +ENS0BARR4vSMmMRapVPUdn1uuSd8fZ1OUFu0DcM9X3c/ekfvKDuaRcOD+SFc7NqZ6
-         JEb59xKL0lUmcdfxY5RxVJpIuZJKqWLFz9bvM76k=
-Received: from p1gen2.localdomain (unknown [192.168.100.98])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: perex)
-        by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-        Mon, 22 Mar 2021 15:37:52 +0100 (CET)
-Subject: Re: [PATCH v4 2/2] ASoC: rt715:add micmute led state control supports
-To:     "Yuan, Perry" <Perry.Yuan@dell.com>,
-        Mark Brown <broonie@kernel.org>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>,
-        "Limonciello, Mario" <Mario.Limonciello@dell.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>
-Cc:     "pobrn@protonmail.com" <pobrn@protonmail.com>,
+        Mon, 22 Mar 2021 11:53:09 -0400
+IronPort-SDR: hJDC15ROJmIjjRcjEzfCEoGHFnOpi3T7LV1BMJDzYFMDbWgyxkaP/bcqrza35gxFXJjZDgsAMA
+ brs93IcbcEFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190391719"
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="190391719"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 08:53:07 -0700
+IronPort-SDR: Z47juyE8m6ITb/B8rH3nG+QDylFyKXbk4DrllZ4mIzp4j9yqTR7dwTRtgnQcCikwZ2MaEmvjyq
+ O4Adoixoz2qA==
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="451782523"
+Received: from kaschuma-mobl1.amr.corp.intel.com (HELO [10.212.220.31]) ([10.212.220.31])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 08:53:05 -0700
+Subject: Re: [PATCH v4 1/2] platform/x86: dell-privacy: Add support for Dell
+ hardware privacy
+To:     Perry Yuan <perry979106@gmail.com>,
+        "Yuan, Perry" <Perry.Yuan@dell.com>,
+        "pobrn@protonmail.com" <pobrn@protonmail.com>,
         "oder_chiou@realtek.com" <oder_chiou@realtek.com>,
+        "perex@perex.cz" <perex@perex.cz>,
         "tiwai@suse.com" <tiwai@suse.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
         "mgross@linux.intel.com" <mgross@linux.intel.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "Limonciello, Mario" <Mario.Limonciello@dell.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
         "platform-driver-x86@vger.kernel.org" 
         <platform-driver-x86@vger.kernel.org>
-References: <20210301093834.19524-1-Perry_Yuan@Dell.com>
- <20210308172409.GF4656@sirena.org.uk>
- <SJ0PR19MB4528847687FEEE4A4DED8E3F84659@SJ0PR19MB4528.namprd19.prod.outlook.com>
-From:   Jaroslav Kysela <perex@perex.cz>
-Message-ID: <604693cc-08c7-2b5f-632a-58ed537c54a0@perex.cz>
-Date:   Mon, 22 Mar 2021 15:37:51 +0100
+References: <20210301093753.16300-1-Perry_Yuan@Dell.com>
+ <551e30d2-0211-f3cb-fbb8-ee5b2f22a851@linux.intel.com>
+ <SJ0PR19MB4528E7C88C955D2EE96CE3B484939@SJ0PR19MB4528.namprd19.prod.outlook.com>
+ <ab14a0b2-3f3a-3796-8baf-76e635d82340@linux.intel.com>
+ <58d2e2f2-e552-6ecf-b1c3-bf38ad5d2e35@gmail.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <7e0fc125-5a26-47d6-aa2a-7cd1b2580adf@linux.intel.com>
+Date:   Mon, 22 Mar 2021 09:49:48 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <SJ0PR19MB4528847687FEEE4A4DED8E3F84659@SJ0PR19MB4528.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <58d2e2f2-e552-6ecf-b1c3-bf38ad5d2e35@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dne 22. 03. 21 v 10:25 Yuan, Perry napsal(a):
-> Hi Mark:
-> 
->> -----Original Message-----
->> From: Mark Brown <broonie@kernel.org>
->> Sent: Tuesday, March 9, 2021 1:24 AM
->> To: Yuan, Perry
->> Cc: pobrn@protonmail.com; pierre-louis.bossart@linux.intel.com;
->> oder_chiou@realtek.com; perex@perex.cz; tiwai@suse.com;
->> hdegoede@redhat.com; mgross@linux.intel.com; Limonciello, Mario;
->> lgirdwood@gmail.com; alsa-devel@alsa-project.org; linux-
->> kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org
->> Subject: Re: [PATCH v4 2/2] ASoC: rt715:add micmute led state control
->> supports
->>
->> On Mon, Mar 01, 2021 at 05:38:34PM +0800, Perry Yuan wrote:
->>
->>> +	/* Micmute LED state changed by muted/unmute switch */
->>> +	if (mc->invert) {
->>> +		if (ucontrol->value.integer.value[0] || ucontrol-
->>> value.integer.value[1]) {
->>> +			micmute_led = LED_OFF;
->>> +		} else {
->>> +			micmute_led = LED_ON;
->>> +		}
->>> +		ledtrig_audio_set(LED_AUDIO_MICMUTE, micmute_led);
->>> +	}
->>
->> These conditionals on inversion seem weird and counterintuitive.  If we're
->> going with this approach it would probably be clearer to define a custom
->> operation for the affected controls that wraps the standard one and adds the
->> LED setting rather than keying off invert like this.
-> 
-> Currently the sof soundwire driver has no generic led control yet.
-> This patch can handle the led control needs for MIC mute LED, definitely the patch is a short term solution.
-> There is a feature request discussion when we started to implement this solution.
-> https://github.com/thesofproject/linux/issues/2496#issuecomment-713892620
-> 
-> The workable way for now is that we put the LED mute control to the codec driver.
-> When there is new and full sound LED solution implemented, this part will be also optimized.
-> The Hardware privacy feature needs this patch to handle the Mic mute led state change.
-> Before that full solution ready in kernel, could we take this as short term solution?
 
-Perry, it's about the machine detection. Your code is too much generic even
-for the top-level LED trigger implementation. We need an extra check, if the
-proper LED's are really controlled on the specific hardware. Other hardware
-may use RT715 for a different purpose. Use DMI / ACPI checks to detect this
-hardware and don't misuse the inversion flag to enable this code.
+> As you suggested,I should add the alignment change in another patch.
+> But if i keep the old alignment, the code will be very odd.
+> Seems like that I have to change the below code to new alignment in this 
+> patch.
+> 
+> if (dell_smbios_find_token(GLOBAL_MIC_MUTE_DISABLE) &&
+>      dell_smbios_find_token(GLOBAL_MIC_MUTE_ENABLE)) { <<--- changed back
+>      if (!privacy_valid)
+>              has_privacy = true;
+>      else
+>              has_privacy = false;
+>      if (!has_privacy) {
+>          micmute_led_cdev.brightness <<----------- new alignment
+>          ...
+>      }
+> ...
+> }
 
-						Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+I don't get the point, sorry. The code above doesn't seem properly 
+indented or there were spurious tab/spaces conversions?
