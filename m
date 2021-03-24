@@ -2,62 +2,62 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E8F2347901
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Mar 2021 13:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BDD1347906
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 24 Mar 2021 13:57:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234552AbhCXM4i (ORCPT
+        id S234762AbhCXM4j (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 24 Mar 2021 08:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57832 "EHLO
+        Wed, 24 Mar 2021 08:56:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234575AbhCXM4H (ORCPT
+        with ESMTP id S234591AbhCXM4I (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 24 Mar 2021 08:56:07 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90C4C061763
-        for <platform-driver-x86@vger.kernel.org>; Wed, 24 Mar 2021 05:56:06 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id dm8so27536706edb.2
-        for <platform-driver-x86@vger.kernel.org>; Wed, 24 Mar 2021 05:56:06 -0700 (PDT)
+        Wed, 24 Mar 2021 08:56:08 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC82C061763
+        for <platform-driver-x86@vger.kernel.org>; Wed, 24 Mar 2021 05:56:07 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id u9so32677769ejj.7
+        for <platform-driver-x86@vger.kernel.org>; Wed, 24 Mar 2021 05:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=deviqon.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gTwIvnFJ6UsqMLEIUtmaMXWTcL1Cr8qDnDvFwxUlyRo=;
-        b=bmsC/KwYkIzuvFP7Idgwv5+p6kgC9Ye8LKkbjNEhX+tq2iw90b48JioM/uXs8qGp/j
-         7yfjdIrCmrv2sB6OFf7M/FkpXYW7wjcT250s9W0gpygqFAd/vs/vdAD5FiiMWDwwNaTp
-         OJgN+VCaAK4AniCbsqmqMkoi02XTfkzi4z/5KDgEaiJotbunvsNjL6+KH7x2+mBaXm3k
-         Vt5Rq5QBnW9eCfp/6ToIbwu4YojnHMXcjCHciJl5BWnrEhHfyXAJD+pfJu6vho1VyuF+
-         z07Xlox0xuiuC7pl3CAuzlGy+jeFgHtaYJACRudvls1IjhT5jCVEOqQRpigkXONRBI3Q
-         rSIA==
+        bh=Xslj2HthXDrqOB8fzPzGxoP+4g8oF5kFhH9tLbOpuwk=;
+        b=EA/iiRLzhPyouBzEGqEEvNayjzGltHlqtlmPvlamFkf9kwv39A8FvLmv37bHb4Ce4P
+         BmDt+qmivDvxZEKbSlPitksLF3DqE4iX4QXgkJtMo14lpGJBiVzlWMDiZlfS62p6922P
+         4J7CbykQTUMs2xQnVspOJTy5D2sX6PymEpgCVL/RGIf9ONuHHmPBaglU5kmmINmKgfMi
+         FrVfMouBnq1rDRaUCBRbzgG4lCW+k2KEqXWmOqmo0Sepc+xKR/V+sdEe+OtFGkKu0xgT
+         UBeySBlvXwSoa7meSHqZrtZ6f1mTAyGtTK4krut44NH4dUWZMG3lWhqiAlD+lrHH0BXs
+         3vNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gTwIvnFJ6UsqMLEIUtmaMXWTcL1Cr8qDnDvFwxUlyRo=;
-        b=suPHiyOU6ZwQtUGyiDlUGZXeIC0E7tdwmgpa/6Topk6tkenLVxbTSTwKyi3o27Kkpb
-         AMGOifr8b+HIOPfklPUqmHmzEhn7baUha/UzTqS/oeFcUaZbsb3KNnQRxIZVie/o4M/R
-         qXATzKw9LKeConXr459C15+Luge3ZIoaZBiYYw11m7jHzLjDN1w31MxX80NcSbXKNt12
-         QUij8wBEy71kqy0dhlKBSwtRKpWDZ4SKsrJQtfPYX5tiHGYri63numuyNNI4glYkVoNJ
-         GNLiD2N5qbzZ+Rpm223X+Dpzn0nhxj0YI1bLqV8qjoUXQYsjnhCS+KjWQCs9PnDdnGVp
-         Casw==
-X-Gm-Message-State: AOAM530c12sp6eKI1d+VWQ0tLYfSoQCyre5uoFcmPcd5DPwzC/ts/68W
-        PiAHi7YGYqSPh4mC5yAnxCtmKmJYPcBngneE
-X-Google-Smtp-Source: ABdhPJyN5wrrs/ArU3voReZNJqPglYS2Zo/b32kuE6YTrDfhRKFB4Ch90AD8q0CTaav6C8DazMTz/w==
-X-Received: by 2002:a05:6402:51cd:: with SMTP id r13mr3347222edd.116.1616590565316;
-        Wed, 24 Mar 2021 05:56:05 -0700 (PDT)
+        bh=Xslj2HthXDrqOB8fzPzGxoP+4g8oF5kFhH9tLbOpuwk=;
+        b=ZGgHaKEf+ctNvyuloRcPfNH0poogCaWS9VO9XOgfoixR9ojt19pMjbgAtwbunPdhpY
+         I56Jhy89m8e3MgJ5IGe5LWaGxNJHVnWcOQw7mkaRpmSib8MO5DgljG3gqmtXNR6KtGzH
+         DHU6bHTRTuHWMzYhTfogNMMLPlh7gMmd1sJOTLGch3sk9P9h4xM8snNdbzLY4LP33DGC
+         ooYQVWkJNndQOgBkVvvW+6phYPyKNlHgeyl8D/jdQrl4LPEuHVoU5vU7Er9wKCZ5Eig7
+         vF0vnfYuaHzrqcQDSe8v8JDQl777Af/8LfBM305uo6YsetbSG0SVDw8PtTjWr9Vno3QT
+         aQfA==
+X-Gm-Message-State: AOAM5319E1Vz/dePh9D04Wzh54lais5pREv3kMGVOWRXRzEIsnEjTfkQ
+        8Nj+ujdVjTaTZ/EZR7Sk43lbUCtYRI+4bYCe
+X-Google-Smtp-Source: ABdhPJx2EOP9+eIwQbX5mIZcz9HFnp6uZundPHwJXDNQuVzbLvxvvM5eF6ZIv3J5LAFVfjhQ9AR/ZA==
+X-Received: by 2002:a17:906:3952:: with SMTP id g18mr3556682eje.104.1616590566405;
+        Wed, 24 Mar 2021 05:56:06 -0700 (PDT)
 Received: from localhost.localdomain ([5.2.193.191])
-        by smtp.gmail.com with ESMTPSA id fi11sm880282ejb.73.2021.03.24.05.56.04
+        by smtp.gmail.com with ESMTPSA id fi11sm880282ejb.73.2021.03.24.05.56.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 05:56:05 -0700 (PDT)
+        Wed, 24 Mar 2021 05:56:06 -0700 (PDT)
 From:   Alexandru Ardelean <aardelean@deviqon.com>
 To:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-iio@vger.kernel.org
 Cc:     coproscefalo@gmail.com, hdegoede@redhat.com,
         mgross@linux.intel.com, jic23@kernel.org, linux@deviqon.com,
         Alexandru Ardelean <aardelean@deviqon.com>
-Subject: [PATCH 05/10] platform/x86: toshiba_acpi: register backlight with device-managed variant
-Date:   Wed, 24 Mar 2021 14:55:43 +0200
-Message-Id: <20210324125548.45983-6-aardelean@deviqon.com>
+Subject: [PATCH 06/10] platform/x86: toshiba_acpi: use devm_led_classdev_register() for LEDs
+Date:   Wed, 24 Mar 2021 14:55:44 +0200
+Message-Id: <20210324125548.45983-7-aardelean@deviqon.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324125548.45983-1-aardelean@deviqon.com>
 References: <20210324125548.45983-1-aardelean@deviqon.com>
@@ -67,70 +67,68 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This change converts the registration of the backlight data with the
-devm_backlight_device_register() function.
-This way, the backlight_device_unregister() call is no longer required, and
-the order of deregistration is made to be more symmetrical with the
-registration order.
+With this change the deregistration of the LED objects is made symmetrical
+(and in reverse) with the registration. We also can get rid of the calls
+to led_classdev_unregister(), because the LED objects will be cleaned up
+when the reference to the parent device object goes to zero.
+
+This change also unifies the reference to the parent object from
+'&acpi_dev->dev' and '&dev->acpi_dev->dev' to 'parent', since it's the same
+reference, and makes the code-lines a bit shorter.
 
 Signed-off-by: Alexandru Ardelean <aardelean@deviqon.com>
 ---
- drivers/platform/x86/toshiba_acpi.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/platform/x86/toshiba_acpi.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
-index 556f2cc99bad..ada2a2d8c913 100644
+index ada2a2d8c913..e787c140eec2 100644
 --- a/drivers/platform/x86/toshiba_acpi.c
 +++ b/drivers/platform/x86/toshiba_acpi.c
-@@ -2876,7 +2876,8 @@ static int toshiba_acpi_setup_keyboard(struct device *parent,
- 	return error;
- }
- 
--static int toshiba_acpi_setup_backlight(struct toshiba_acpi_dev *dev)
-+static int toshiba_acpi_setup_backlight(struct device *parent,
-+					struct toshiba_acpi_dev *dev)
- {
- 	struct backlight_properties props;
- 	int brightness;
-@@ -2924,11 +2925,12 @@ static int toshiba_acpi_setup_backlight(struct toshiba_acpi_dev *dev)
- 	if (dev->tr_backlight_supported)
- 		props.max_brightness++;
- 
--	dev->backlight_dev = backlight_device_register("toshiba",
--						       &dev->acpi_dev->dev,
--						       dev,
--						       &toshiba_backlight_data,
--						       &props);
-+	dev->backlight_dev = devm_backlight_device_register(parent,
-+							    "toshiba",
-+							    &dev->acpi_dev->dev,
-+							    dev,
-+							    &toshiba_backlight_data,
-+							    &props);
- 	if (IS_ERR(dev->backlight_dev)) {
- 		ret = PTR_ERR(dev->backlight_dev);
- 		pr_err("Could not register toshiba backlight device\n");
-@@ -2999,8 +3001,6 @@ static int toshiba_acpi_remove(struct acpi_device *acpi_dev)
+@@ -3001,10 +3001,6 @@ static int toshiba_acpi_remove(struct acpi_device *acpi_dev)
  		sysfs_remove_group(&dev->acpi_dev->dev.kobj,
  				   &toshiba_attr_group);
  
--	backlight_device_unregister(dev->backlight_dev);
+-	led_classdev_unregister(&dev->led_dev);
+-	led_classdev_unregister(&dev->kbd_led);
+-	led_classdev_unregister(&dev->eco_led);
 -
- 	led_classdev_unregister(&dev->led_dev);
- 	led_classdev_unregister(&dev->kbd_led);
- 	led_classdev_unregister(&dev->eco_led);
-@@ -3104,9 +3104,9 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
- 	ret = get_tr_backlight_status(dev, &dummy);
- 	dev->tr_backlight_supported = !ret;
+ 	if (dev->wwan_rfk) {
+ 		rfkill_unregister(dev->wwan_rfk);
+ 		rfkill_destroy(dev->wwan_rfk);
+@@ -3114,7 +3110,9 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+ 		dev->led_dev.max_brightness = 1;
+ 		dev->led_dev.brightness_set = toshiba_illumination_set;
+ 		dev->led_dev.brightness_get = toshiba_illumination_get;
+-		led_classdev_register(&acpi_dev->dev, &dev->led_dev);
++		ret = devm_led_classdev_register(parent, &dev->led_dev);
++		if (ret)
++			return ret;
+ 	}
  
--	ret = toshiba_acpi_setup_backlight(dev);
-+	ret = toshiba_acpi_setup_backlight(parent, dev);
- 	if (ret)
--		goto error;
-+		return ret;
+ 	toshiba_eco_mode_available(dev);
+@@ -3123,7 +3121,9 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+ 		dev->eco_led.max_brightness = 1;
+ 		dev->eco_led.brightness_set = toshiba_eco_mode_set_status;
+ 		dev->eco_led.brightness_get = toshiba_eco_mode_get_status;
+-		led_classdev_register(&dev->acpi_dev->dev, &dev->eco_led);
++		ret = devm_led_classdev_register(parent, &dev->eco_led);
++		if (ret)
++			return ret;
+ 	}
  
- 	toshiba_illumination_available(dev);
- 	if (dev->illumination_supported) {
+ 	toshiba_kbd_illum_available(dev);
+@@ -3139,7 +3139,9 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+ 		dev->kbd_led.max_brightness = 1;
+ 		dev->kbd_led.brightness_set = toshiba_kbd_backlight_set;
+ 		dev->kbd_led.brightness_get = toshiba_kbd_backlight_get;
+-		led_classdev_register(&dev->acpi_dev->dev, &dev->kbd_led);
++		ret = devm_led_classdev_register(parent, &dev->kbd_led);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	ret = toshiba_touchpad_get(dev, &dummy);
 -- 
 2.30.2
 
