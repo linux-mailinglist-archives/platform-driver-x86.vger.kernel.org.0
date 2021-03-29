@@ -2,68 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4309D34D60F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Mar 2021 19:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92C1234D65B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Mar 2021 19:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbhC2RaI (ORCPT
+        id S230220AbhC2RzT (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Mar 2021 13:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbhC2R3i (ORCPT
+        Mon, 29 Mar 2021 13:55:19 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:50676 "EHLO lizzard.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229468AbhC2Ry7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Mar 2021 13:29:38 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09850C061756
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Mar 2021 10:29:38 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id 8so14505662ybc.13
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Mar 2021 10:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Z6IAck4KlAvg3StzH9Z1mFfGgpB6C62ToldiXwhnItE=;
-        b=s5BoJngAr/0uUNACOsVXiv0w4b/aBqRdy/ipbqy8JwQ1hl8UIEIvJ9XuN++hWNq/87
-         EoOLfCySp00u36Si9C0GSBATS/F/94Ge3gma1M/4u2Kd1H/CJPqZ72cAi02zlK18XbDp
-         GpDW6uCTNuCGyeX588RWEOOQFwI+7gL6QcfLtTUAwNk0tx0iK7HS2Nho/19jQCRrJhnE
-         gFZtOpwknwcGYr0cUXXYLDfUFgssXLL+mLj9HXvTd7b9e0nwcYW0ahmkjFQF2DXpNjbn
-         rV/u0zaCuHxEeD1XUCBiRTaaNdAiKgil/sfD+6bP5KIKSKtHz+ncevJ5+fA9wPrvv0Z9
-         0fhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Z6IAck4KlAvg3StzH9Z1mFfGgpB6C62ToldiXwhnItE=;
-        b=B+oS6zYDhNF2QRxghOQ/tvqpWtBnlVjPkSqs8De+reovzq19t7iy7V+yemTWCvAhAE
-         6CX64LFgtX4zeCrF7MTTKjyEHvt6kGpVQTDj5uBduS133Pw0TYqG/2wqmgQIGtqyxIL6
-         DIV2MaDby+BHmWd5HcFobZ18IMNX6zRdAmpiWHQYM8685SEO1cgw/DL9/TaJ4k2R1jjf
-         hoL6culxz7SUUDMfHDZAOU5oape5f+QgfDG+f0Jjz9zyLBBxMxUP8qCWuYJ0U9H3CJYB
-         3I2AGCkXaoGzfpyjjLRwyrg0GZ/JcEyoOUR8ROpGixvHOOYHrzcTAw0rjamL2a6QnO6D
-         LAkw==
-X-Gm-Message-State: AOAM533AHlenKH/2ucY26vWtbU/8cmr2BEm1DaavcLI6Sv6jx/oR5NKy
-        5Fg9kkx0V39/PUB7k4HSyK3bmE4ml8fYbEyJEiw=
-X-Google-Smtp-Source: ABdhPJwr9cR1IFrSwlMmsrUUfkpaeap/ouyf4bRwFOKznbSn+Kz5ceozOpXNpqP9QkmzeXTeZ80MEZ96KmWZar/o5e4=
-X-Received: by 2002:a25:6642:: with SMTP id z2mr38386839ybm.199.1617038977373;
- Mon, 29 Mar 2021 10:29:37 -0700 (PDT)
+        Mon, 29 Mar 2021 13:54:59 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 12THsZ66023435
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 29 Mar 2021 19:54:35 +0200
+Received: from localhost.localdomain ([167.87.41.127])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 12THnYmt025235;
+        Mon, 29 Mar 2021 19:49:34 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-watchdog@vger.kernel.org
+Cc:     Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Enrico Weigelt <lkml@metux.net>
+Subject: [PATCH v3 0/4] add device drivers for Siemens Industrial PCs
+Date:   Mon, 29 Mar 2021 19:49:24 +0200
+Message-Id: <20210329174928.18816-1-henning.schild@siemens.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Received: by 2002:a05:7110:a034:b029:51:93cd:c543 with HTTP; Mon, 29 Mar 2021
- 10:29:36 -0700 (PDT)
-Reply-To: mrs.chantala2055@gmail.com
-From:   mrs chantal <mrschantalone@gmail.com>
-Date:   Mon, 29 Mar 2021 19:29:36 +0200
-Message-ID: <CAHVk-+EhZqcGAD2dw5DVjoGkyQ9XdO=sLL9PJxSSMOywnGqUSA@mail.gmail.com>
-Subject: Greetings
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings
-You have been compensated with the sum of 8 million US dollar in the
-united nation, the payment will be issue into ATM visa card and send
-to you from the santander bank of Spain.Your sincere co-operation is
-anticipated and I will furnish you with the details and procedures,
-upon receipt of your response to this email address  (
-mrschantal6@gmail.com)
-Thanks sincerely
-Mrs Chanta
+changes since v2:
+
+- remove "simatic-ipc" prefix from LED names
+- fix style issues found in v2, mainly LED driver
+- fix OEM specific dmi code, and remove magic numbers
+- more "simatic_ipc" name prefixing
+- improved pmc quirk code using callbacks
+
+changes since v1:
+
+- fixed lots of style issues found in v1
+  - (debug) printing
+  - header ordering
+- fixed license issues GPLv2 and SPDX in all files
+- module_platform_driver instead of __init __exit
+- wdt simplifications cleanup
+- lots of fixes in wdt driver, all that was found in v1
+- fixed dmi length in dmi helper
+- changed LED names to allowed ones
+- move led driver to simple/
+- switched pmc_atom to dmi callback with global variable
+
+--
+
+This series adds support for watchdogs and leds of several x86 devices
+from Siemens.
+
+It is structured with a platform driver that mainly does identification
+of the machines. It might trigger loading of the actual device drivers
+by attaching devices to the platform bus.
+
+The identification is vendor specific, parsing a special binary DMI
+entry. The implementation of that platform identification is applied on
+pmc_atom clock quirks in the final patch.
+
+It is all structured in a way that we can easily add more devices and
+more platform drivers later. Internally we have some more code for
+hardware monitoring, more leds, watchdogs etc. This will follow some
+day.
+
+Henning Schild (4):
+  platform/x86: simatic-ipc: add main driver for Siemens devices
+  leds: simatic-ipc-leds: add new driver for Siemens Industial PCs
+  watchdog: simatic-ipc-wdt: add new driver for Siemens Industrial PCs
+  platform/x86: pmc_atom: improve critclk_systems matching for Siemens
+    PCs
+
+ drivers/leds/Kconfig                          |   3 +
+ drivers/leds/Makefile                         |   3 +
+ drivers/leds/simple/Kconfig                   |  11 +
+ drivers/leds/simple/Makefile                  |   2 +
+ drivers/leds/simple/simatic-ipc-leds.c        | 202 ++++++++++++++++
+ drivers/platform/x86/Kconfig                  |  12 +
+ drivers/platform/x86/Makefile                 |   3 +
+ drivers/platform/x86/pmc_atom.c               |  57 +++--
+ drivers/platform/x86/simatic-ipc.c            | 169 ++++++++++++++
+ drivers/watchdog/Kconfig                      |  11 +
+ drivers/watchdog/Makefile                     |   1 +
+ drivers/watchdog/simatic-ipc-wdt.c            | 215 ++++++++++++++++++
+ .../platform_data/x86/simatic-ipc-base.h      |  29 +++
+ include/linux/platform_data/x86/simatic-ipc.h |  72 ++++++
+ 14 files changed, 769 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/leds/simple/Kconfig
+ create mode 100644 drivers/leds/simple/Makefile
+ create mode 100644 drivers/leds/simple/simatic-ipc-leds.c
+ create mode 100644 drivers/platform/x86/simatic-ipc.c
+ create mode 100644 drivers/watchdog/simatic-ipc-wdt.c
+ create mode 100644 include/linux/platform_data/x86/simatic-ipc-base.h
+ create mode 100644 include/linux/platform_data/x86/simatic-ipc.h
+
+-- 
+2.26.3
+
