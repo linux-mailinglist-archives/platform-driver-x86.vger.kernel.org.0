@@ -2,64 +2,98 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5405A34BE64
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 28 Mar 2021 20:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C431C34D03A
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Mar 2021 14:39:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbhC1Szq (ORCPT
+        id S231381AbhC2Mil (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 28 Mar 2021 14:55:46 -0400
-Received: from mail.hanoi.gov.vn ([113.160.32.33]:18543 "EHLO
-        mx01.hanoi.gov.vn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbhC1Szi (ORCPT
+        Mon, 29 Mar 2021 08:38:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44934 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231450AbhC2MiV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 28 Mar 2021 14:55:38 -0400
-X-Greylist: delayed 1792 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Mar 2021 14:55:37 EDT
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 61D861209FE;
-        Mon, 29 Mar 2021 01:20:32 +0700 (+07)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hanoi.gov.vn;
-        s=default; t=1616955633;
-        bh=FuW10Z6fSdeNlf/0u/BQ1jcwkjYBw0uHUPQgn0LGo7I=; h=Date:From:To;
-        b=UTdfL5G6jtTd7YE3eXOlE50v132r1ZBf9M0OTb044mw99N2RyYUj+1qWxc3+W1o5g
-         LMkcdRCg1XKLplzduBQNNh/ArqTWBF8VtXMtCUE2fA95WfjgYJf5F/tuymLnXFHTG6
-         Ozq9uRql9JyujFLbirCoPhhTQiGl+OnnXgsaf0II=
-X-IMSS-DKIM-Authentication-Result: mx01.hanoi.gov.vn; sigcount=0
-Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3DCC21209A7;
-        Mon, 29 Mar 2021 01:20:30 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mx01.hanoi.gov.vn (Postfix) with ESMTPS;
-        Mon, 29 Mar 2021 01:20:30 +0700 (+07)
-Received: from mail.hanoi.gov.vn (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTPS id 06D437F41B8C;
-        Mon, 29 Mar 2021 01:20:25 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 2FA8F7F41B59;
-        Mon, 29 Mar 2021 01:20:22 +0700 (+07)
-Received: from mail.hanoi.gov.vn ([127.0.0.1])
-        by localhost (mail.hanoi.gov.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mGE4dYAHB-oi; Mon, 29 Mar 2021 01:20:17 +0700 (+07)
-Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
-        by mail.hanoi.gov.vn (Postfix) with ESMTP id 8F4867F41B42;
-        Mon, 29 Mar 2021 01:20:14 +0700 (+07)
-Date:   Mon, 29 Mar 2021 01:20:14 +0700 (ICT)
-From:   Mackenzie Scott <ttptqd_thanhoai@hanoi.gov.vn>
-Reply-To: Mackenzie Scott <propack@propck.net>
-Message-ID: <674703691.25926469.1616955614507.JavaMail.zimbra@hanoi.gov.vn>
-Subject: Congratulations ($ 100,800,000.00)
+        Mon, 29 Mar 2021 08:38:21 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E99E06195C;
+        Mon, 29 Mar 2021 12:38:17 +0000 (UTC)
+Date:   Mon, 29 Mar 2021 13:38:24 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Alexandru Ardelean <aardelean@deviqon.com>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org, coproscefalo@gmail.com,
+        hdegoede@redhat.com, mgross@linux.intel.com, linux@deviqon.com
+Subject: Re: [PATCH 00/10] platform/x86: toshiba_acpi: move acpi add/remove
+ to device-managed routines
+Message-ID: <20210329133824.1a1fad6f@jic23-huawei>
+In-Reply-To: <20210324125548.45983-1-aardelean@deviqon.com>
+References: <20210324125548.45983-1-aardelean@deviqon.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.107.80.217]
-X-Mailer: Zimbra 8.8.15_GA_3894 (zclient/8.8.15_GA_3894)
-Thread-Index: EHI8IxO+wpA97nM2tqsLS5L++4Hs7w==
-Thread-Topic: Congratulations ($ 100,800,000.00)
-To:     undisclosed-recipients:;
-X-TM-AS-GCONF: 00
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Wed, 24 Mar 2021 14:55:38 +0200
+Alexandru Ardelean <aardelean@deviqon.com> wrote:
 
+> This changeset tries to do a conversion of the toshiba_acpi driver to use
+> only device-managed routines. The driver registers as a singleton, so no
+> more than one device can be registered at a time.
+> 
+> My main intent here is to try to convert the iio_device_alloc() and
+> iio_device_register() to their devm_ variants.
+> 
+> Usually, when converting a registration call to device-managed variant, the
+> init order must be preserved. And the deregistration order must be a mirror
+> of the registration (in reverse order).
+> 
+> This change tries to do that, by using devm_ variants where available and
+> devm_add_action_or_reset() where this isn't possible.
+> Some deregistration ordering is changed, because it wasn't exactly
+> mirroring (in reverse) the init order.
+> 
+> For the IIO subsystem, the toshiba_acpi driver is the only user of
+> iio_device_alloc(). If this changeset is accepted (after discussion), I
+> will propose to remove the iio_device_alloc() function.
+> 
+> While I admit this may look like an overzealous effort to use devm_
+> everywhere (in IIO at least), for me it's a fun/interesting excercise.
+hmm. I am dubious about 'removing' the support for non devm_ in the long
+run because it can lead to requiring fiddly changes in existing drivers
+(like this one :) and I don't want to put that barrier in front of anyone
+using IIO.
 
-Hello,i&#39;m Mackenzie Scott,Ex-wife of Amazon founder i&#39;m donating $4 billion to charities,individuals,universities across the Globe from my divorce funds,i&#39;m donating part of it to provide immediate support to people suffering economically during the COVID-19 pandemic,i have a donation worth $100,800,000.00 Dollars for you,you can contact me for more information if you&#39;re interested.
+However, I'm more than happy to see them used in very few drivers and
+nice warning text added to suggest people might want to look at whether
+then can move to a device managed probe flow
+
+Jonathan
+
+> 
+> Alexandru Ardelean (10):
+>   platform/x86: toshiba_acpi: bind life-time of toshiba_acpi_dev to
+>     parent
+>   platform/x86: toshiba_acpi: use devm_add_action_or_reset() for
+>     singleton clear
+>   platform/x86: toshiba_acpi: bind registration of miscdev object to
+>     parent
+>   platform/x86: toshiba_acpi: use device-managed functions for input
+>     device
+>   platform/x86: toshiba_acpi: register backlight with device-managed
+>     variant
+>   platform/x86: toshiba_acpi: use devm_led_classdev_register() for LEDs
+>   platform/x86: toshiba_acpi: use device-managed functions for
+>     accelerometer
+>   platform/x86: toshiba_acpi: use device-managed for wwan_rfkill
+>     management
+>   platform/x86: toshiba_acpi: use device-managed for sysfs removal
+>   platform/x86: toshiba_acpi: bind proc entries creation to parent
+> 
+>  drivers/platform/x86/toshiba_acpi.c | 249 +++++++++++++++++-----------
+>  1 file changed, 150 insertions(+), 99 deletions(-)
+> 
+
