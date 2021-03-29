@@ -2,44 +2,41 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B60B934DA6A
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Mar 2021 00:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57CDB34DAC7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 30 Mar 2021 00:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232124AbhC2WWc (ORCPT
+        id S232568AbhC2WXf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Mar 2021 18:22:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46148 "EHLO mail.kernel.org"
+        Mon, 29 Mar 2021 18:23:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231963AbhC2WWJ (ORCPT
+        id S232080AbhC2WW0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Mar 2021 18:22:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B22A619A5;
-        Mon, 29 Mar 2021 22:22:08 +0000 (UTC)
+        Mon, 29 Mar 2021 18:22:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 73C5161985;
+        Mon, 29 Mar 2021 22:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617056529;
-        bh=QzhDEcr/SynbmpLxoWJJ057KgJJQyQ2XAMjeA0CHitk=;
+        s=k20201202; t=1617056546;
+        bh=gzdGyJool8P4iZcxkYD/vk73TsUaBhRG5z/eor8Gfp4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QrKmD0myI5V7qHb4znpqRJjUsmzYVSeQu7M3rGI3M5fg4JqMEG2pMVFsBo+1mGszd
-         nMUXSGigUcIE7lJiY0XXGzmXzOLFWfGoVLrlpYYaiESGqPqfZRIPJ6+OVCp1UrE04h
-         U7ASr2rLYYtE8JQDe1/SP4xHUmWhZxbW3xMEj8DC7ZNNWi67KLAoBjnq2PG8h262SR
-         Mk9rhm43xfIjoUSkn3xmcWsmmTde4+V2bFRHAFHVGcHNORAmIgstJYKA6ZjoM3Nv9l
-         HnzbAGcox4gllSNIRUy4vdtQEiGkIfYL+9/Pat82r9QYfskx6phL8JbURmrPqAOq/h
-         O1X6x4bbCpjzg==
+        b=QlRkXHbvroIg9QCNSBrDpklmAUKcxcrrkGqoqzMG2Jrma90Kw9ie6AgaIWj+7usvH
+         FcuTzjScEVUPoUNuQ5HHy7qidrW03UCFMHQYDRrvcLmD4Zv6HL3ru8GjACKqsBpPoV
+         E6io+B6xS6VoFQiLZ+KBN1yhp2OgQlyVsxEmPaeipCc4kasedhhLRgZ/gjaqWKKAWX
+         mrxYl1qIa1FHZnGYcb4Ns8uO5BUOWRb4fl3hLg8JTsebS1qktnDFHpFyb23RU2LnJh
+         2Pj3rntW7QgqAJtLkVHwpDK1jRO0FJXzE/gE5kpRJXBH0vtcGW2q/irxw8eaMDXVxd
+         px9WF6xHdIlWw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "David E. Box" <david.e.box@linux.intel.com>,
-        Sasha Neftin <sasha.neftin@intel.com>,
-        intel-wired-lan@lists.osuosl.org,
-        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+Cc:     Alban Bedel <albeu@free.fr>, Alexander Kobel <a-kobel@a-kobel.de>,
         Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 28/38] platform/x86: intel_pmc_core: Ignore GBE LTR on Tiger Lake platforms
-Date:   Mon, 29 Mar 2021 18:21:23 -0400
-Message-Id: <20210329222133.2382393-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 03/33] platform/x86: intel-hid: Support Lenovo ThinkPad X1 Tablet Gen 2
+Date:   Mon, 29 Mar 2021 18:21:51 -0400
+Message-Id: <20210329222222.2382987-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210329222133.2382393-1-sashal@kernel.org>
-References: <20210329222133.2382393-1-sashal@kernel.org>
+In-Reply-To: <20210329222222.2382987-1-sashal@kernel.org>
+References: <20210329222222.2382987-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,110 +45,42 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: "David E. Box" <david.e.box@linux.intel.com>
+From: Alban Bedel <albeu@free.fr>
 
-[ Upstream commit d1635448f1105e549b4041aab930dbc6945fc635 ]
+[ Upstream commit 56678a5f44ef5f0ad9a67194bbee2280c6286534 ]
 
-Due to a HW limitation, the Latency Tolerance Reporting (LTR) value
-programmed in the Tiger Lake GBE controller is not large enough to allow
-the platform to enter Package C10, which in turn prevents the platform from
-achieving its low power target during suspend-to-idle.  Ignore the GBE LTR
-value on Tiger Lake. LTR ignore functionality is currently performed solely
-by a debugfs write call. Split out the LTR code into its own function that
-can be called by both the debugfs writer and by this work around.
+Like a few other system the Lenovo ThinkPad X1 Tablet Gen 2 miss the
+HEBC method, which prevent the power button from working. Add a quirk
+to enable the button array on this system family and fix the power
+button.
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-Reviewed-by: Sasha Neftin <sasha.neftin@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org
-Reviewed-by: Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
-Link: https://lore.kernel.org/r/20210319201844.3305399-2-david.e.box@linux.intel.com
+Signed-off-by: Alban Bedel <albeu@free.fr>
+Tested-by: Alexander Kobel <a-kobel@a-kobel.de>
+Link: https://lore.kernel.org/r/20210222141559.3775-1-albeu@free.fr
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/intel_pmc_core.c | 50 +++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 15 deletions(-)
+ drivers/platform/x86/intel-hid.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index ee2f757515b0..b5888aeb4bcf 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -863,34 +863,45 @@ static int pmc_core_pll_show(struct seq_file *s, void *unused)
- }
- DEFINE_SHOW_ATTRIBUTE(pmc_core_pll);
+diff --git a/drivers/platform/x86/intel-hid.c b/drivers/platform/x86/intel-hid.c
+index 86261970bd8f..8a0cd5bf0065 100644
+--- a/drivers/platform/x86/intel-hid.c
++++ b/drivers/platform/x86/intel-hid.c
+@@ -86,6 +86,13 @@ static const struct dmi_system_id button_array_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "HP Spectre x2 Detachable"),
+ 		},
+ 	},
++	{
++		.ident = "Lenovo ThinkPad X1 Tablet Gen 2",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_FAMILY, "ThinkPad X1 Tablet Gen 2"),
++		},
++	},
+ 	{ }
+ };
  
--static ssize_t pmc_core_ltr_ignore_write(struct file *file,
--					 const char __user *userbuf,
--					 size_t count, loff_t *ppos)
-+static int pmc_core_send_ltr_ignore(u32 value)
- {
- 	struct pmc_dev *pmcdev = &pmc;
- 	const struct pmc_reg_map *map = pmcdev->map;
--	u32 val, buf_size, fd;
--	int err;
--
--	buf_size = count < 64 ? count : 64;
--
--	err = kstrtou32_from_user(userbuf, buf_size, 10, &val);
--	if (err)
--		return err;
-+	u32 reg;
-+	int err = 0;
- 
- 	mutex_lock(&pmcdev->lock);
- 
--	if (val > map->ltr_ignore_max) {
-+	if (value > map->ltr_ignore_max) {
- 		err = -EINVAL;
- 		goto out_unlock;
- 	}
- 
--	fd = pmc_core_reg_read(pmcdev, map->ltr_ignore_offset);
--	fd |= (1U << val);
--	pmc_core_reg_write(pmcdev, map->ltr_ignore_offset, fd);
-+	reg = pmc_core_reg_read(pmcdev, map->ltr_ignore_offset);
-+	reg |= BIT(value);
-+	pmc_core_reg_write(pmcdev, map->ltr_ignore_offset, reg);
- 
- out_unlock:
- 	mutex_unlock(&pmcdev->lock);
-+
-+	return err;
-+}
-+
-+static ssize_t pmc_core_ltr_ignore_write(struct file *file,
-+					 const char __user *userbuf,
-+					 size_t count, loff_t *ppos)
-+{
-+	u32 buf_size, value;
-+	int err;
-+
-+	buf_size = min_t(u32, count, 64);
-+
-+	err = kstrtou32_from_user(userbuf, buf_size, 10, &value);
-+	if (err)
-+		return err;
-+
-+	err = pmc_core_send_ltr_ignore(value);
-+
- 	return err == 0 ? count : err;
- }
- 
-@@ -1244,6 +1255,15 @@ static int pmc_core_probe(struct platform_device *pdev)
- 	pmcdev->pmc_xram_read_bit = pmc_core_check_read_lock_bit();
- 	dmi_check_system(pmc_core_dmi_table);
- 
-+	/*
-+	 * On TGL, due to a hardware limitation, the GBE LTR blocks PC10 when
-+	 * a cable is attached. Tell the PMC to ignore it.
-+	 */
-+	if (pmcdev->map == &tgl_reg_map) {
-+		dev_dbg(&pdev->dev, "ignoring GBE LTR\n");
-+		pmc_core_send_ltr_ignore(3);
-+	}
-+
- 	pmc_core_dbgfs_register(pmcdev);
- 
- 	device_initialized = true;
 -- 
 2.30.1
 
