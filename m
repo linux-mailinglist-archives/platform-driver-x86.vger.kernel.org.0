@@ -2,70 +2,169 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0A5350CF0
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Apr 2021 05:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C34443513DC
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Apr 2021 12:45:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233404AbhDADGq (ORCPT
+        id S233926AbhDAKpD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 31 Mar 2021 23:06:46 -0400
-Received: from mga04.intel.com ([192.55.52.120]:30473 "EHLO mga04.intel.com"
+        Thu, 1 Apr 2021 06:45:03 -0400
+Received: from lizzard.sbs.de ([194.138.37.39]:34838 "EHLO lizzard.sbs.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233102AbhDADGV (ORCPT
+        id S232565AbhDAKo4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 31 Mar 2021 23:06:21 -0400
-IronPort-SDR: bdKSmIFvMUBtMnSY9IqMZKazsVI4HBmZbrfH0reVZqjXxNKkYJS3TF+F0MRd1l5d6XeyafzlFk
- 5GxQKeQHzjrg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="189908483"
-X-IronPort-AV: E=Sophos;i="5.81,295,1610438400"; 
-   d="scan'208";a="189908483"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2021 20:06:19 -0700
-IronPort-SDR: DQM4+9u5CMEIsbKnvEmTq0gQgsszjI/ptHXcKJkwKcGa+QgPkp+LHrRGC8C9TyoWR9anATMzqD
- wthiO2etvG2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,295,1610438400"; 
-   d="scan'208";a="445905802"
-Received: from linux.intel.com ([10.54.29.200])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Mar 2021 20:06:18 -0700
-Received: from debox1-desk2.jf.intel.com (debox1-desk2.jf.intel.com [10.54.75.16])
-        by linux.intel.com (Postfix) with ESMTP id EFF2D580A61;
-        Wed, 31 Mar 2021 20:06:16 -0700 (PDT)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     irenic.rajneesh@gmail.com, hdegoede@redhat.com,
-        david.e.box@linux.intel.com, mgross@linux.intel.com,
-        gayatri.kammela@intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] platform/x86: intel_pmc_core: Add support for Alder Lake PCH-P
-Date:   Wed, 31 Mar 2021 20:05:58 -0700
-Message-Id: <20210401030558.2301621-10-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210401030558.2301621-1-david.e.box@linux.intel.com>
-References: <20210401030558.2301621-1-david.e.box@linux.intel.com>
+        Thu, 1 Apr 2021 06:44:56 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 131AiIRf013128
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 1 Apr 2021 12:44:18 +0200
+Received: from md1za8fc.ad001.siemens.net ([139.22.45.60])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 131AiG12019279;
+        Thu, 1 Apr 2021 12:44:16 +0200
+Date:   Thu, 1 Apr 2021 12:44:15 +0200
+From:   Henning Schild <henning.schild@siemens.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org,
+        Srikanth Krishnakar <skrishnakar@gmail.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
+Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for
+ Siemens Industial PCs
+Message-ID: <20210401124415.3c9321c0@md1za8fc.ad001.siemens.net>
+In-Reply-To: <CAHp75VcSwW42_oQDpxn34gN7+aJNmB=HdJUbaWsYkBokYAHkSA@mail.gmail.com>
+References: <20210329174928.18816-1-henning.schild@siemens.com>
+        <20210329174928.18816-3-henning.schild@siemens.com>
+        <CAHp75Vdh_YAJLE4DWPhxhYY1g5Fc_7EFgr4FED3crpfpzwXeRg@mail.gmail.com>
+        <20210330135808.373c3308@md1za8fc.ad001.siemens.net>
+        <CAHp75Vc0f0HfAJx0KPyQMWjekkhB_T-1+vuR566qAcYGA2JLJA@mail.gmail.com>
+        <20210330143011.0e8ae4a0@md1za8fc.ad001.siemens.net>
+        <CAHp75VceCsuANZpib6HXJvxgMdJhmr8KPTZgThxKvXq6Yotymg@mail.gmail.com>
+        <20210330172305.67b6e050@md1za8fc.ad001.siemens.net>
+        <CAHp75VcSwW42_oQDpxn34gN7+aJNmB=HdJUbaWsYkBokYAHkSA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Alder PCH-P is based on Tiger Lake PCH.
+Am Wed, 31 Mar 2021 18:40:23 +0300
+schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- drivers/platform/x86/intel_pmc_core.c | 1 +
- 1 file changed, 1 insertion(+)
+> On Tue, Mar 30, 2021 at 6:33 PM Henning Schild
+> <henning.schild@siemens.com> wrote:
+> > Am Tue, 30 Mar 2021 15:41:53 +0300
+> > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
+> > > On Tue, Mar 30, 2021 at 3:35 PM Henning Schild
+> > > <henning.schild@siemens.com> wrote:  
+> > > > Am Tue, 30 Mar 2021 15:15:16 +0300
+> > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
+> > > > > On Tue, Mar 30, 2021 at 2:58 PM Henning Schild
+> > > > > <henning.schild@siemens.com> wrote:  
+> > > > > > Am Tue, 30 Mar 2021 14:04:35 +0300
+> > > > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
+> > > > > > > On Mon, Mar 29, 2021 at 8:59 PM Henning Schild
+> > > > > > > <henning.schild@siemens.com> wrote:  
+> > >  
+> > > > > > > > +static struct simatic_ipc_led simatic_ipc_leds_mem[] =
+> > > > > > > > {
+> > > > > > > > +       {0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS
+> > > > > > > > "-1"},
+> > > > > > > > +       {0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS
+> > > > > > > > "-1"},
+> > > > > > > > +       {0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS
+> > > > > > > > "-2"},
+> > > > > > > > +       {0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS
+> > > > > > > > "-2"},
+> > > > > > > > +       {0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS
+> > > > > > > > "-3"},
+> > > > > > > > +       {0x500 + 0x198, "green:" LED_FUNCTION_STATUS
+> > > > > > > > "-3"},
+> > > > > > > > +       { }
+> > > > > > > > +};  
+> > > > > > >
+> > > > > > > It seems to me like poking GPIO controller registers
+> > > > > > > directly. This is not good. The question still remains:
+> > > > > > > Can we simply register a GPIO (pin control) driver and
+> > > > > > > use an LED GPIO driver with an additional board file that
+> > > > > > > instantiates it?  
+> > > > > >
+> > > > > > I wrote about that in reply to the cover letter. My view is
+> > > > > > still that it would be an abstraction with only one user,
+> > > > > > just causing work and likely not ending up as generic as it
+> > > > > > might eventually have to be.
+> > > > > >
+> > > > > > The region is reserved, not sure what the problem with the
+> > > > > > "poking" is.  
+> > > > >
+> > > > >  
+> > > > > > Maybe i do not understand all the benefits of such a split
+> > > > > > at this point in time. At the moment i only see work with
+> > > > > > hardly any benefit, not just work for me but also for
+> > > > > > maintainers. I sure do not mean to be ignorant. Maybe you
+> > > > > > go into details and convince me or we wait for other
+> > > > > > peoples opinions on how to proceed, maybe there is a second
+> > > > > > user that i am not aware of? Until i am convinced otherwise
+> > > > > > i will try to argue that a single-user-abstraction is
+> > > > > > needless work/code, and should be done only when actually
+> > > > > > needed.  
+> > > > >
+> > > > > I have just read your messages (there is a cover letter and
+> > > > > additional email which was sent lately).
+> > > > >
+> > > > > I would like to know what the CPU model number on that board
+> > > > > is. Than we can continue to see what possibilities we have
+> > > > > here.  
+> > > >
+> > > > I guess we are talking about the one that uses memory mapped,
+> > > > that is called an "IPC127E" and seems to have either Intel Atom
+> > > > E3940 or E3930 which seems to be Apollo Lake.  
+> > >
+> > > Yep. And now the question, in my patch series you should have got
+> > > the apollolake-pinctrl driver loaded (if not, we have to
+> > > investigate why it's not being instantiated). This will give you
+> > > a read GPIO driver.  
+> >
+> > Ok, so there is the existing driver i asked about several times.
+> > Thanks for pointing it out.  
+> 
+> If you remember, I asked you about the chip twice :-)
+> I assumed that we were talking about Apollo Lake and that's why I
+> insisted that the driver is in the kernel source tree.
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 9168062c927e..88d582df829f 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -1440,6 +1440,7 @@ static const struct x86_cpu_id intel_pmc_core_ids[] = {
- 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT,	&tgl_reg_map),
- 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_L,	&icl_reg_map),
- 	X86_MATCH_INTEL_FAM6_MODEL(ROCKETLAKE,		&tgl_reg_map),
-+	X86_MATCH_INTEL_FAM6_MODEL(ALDERLAKE_L,		&tgl_reg_map),
- 	{}
- };
- 
--- 
-2.25.1
+Sorry, maybe i did not get the context of your question and which of
+the machines you asked about. Now it is clear i guess.
 
+> 
+> > > So, you may use regular LED GPIO on top of it
+> > > (https://elixir.bootlin.com/linux/latest/source/drivers/leds/leds-gpio.c).
+> > > I would like to understand why it can't be achieved.  
+> >
+> > Will have a look. Unfortunately this one box is missing in my
+> > personal collection, but let us assume that one can be converted to
+> > that existing driver.  
+> 
+> OK!
+> 
+> > I guess that will still mean the PIO-based part of the LED driver
+> > will have to stay as is.  
+> 
+> Probably yes. I haven't looked into that part and I have no idea
+> what's going on on that platform(s).
+> 
+
+Which i guess means the series can be reviewed as if the mmio bits for
+that apollo lake would not be in it, maybe i will even send a version
+without that one box. We have others in the "backlog" might as well
+delay that one if it helps sorting out a base-line.
+
+regards,
+Henning
