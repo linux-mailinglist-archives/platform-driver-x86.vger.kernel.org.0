@@ -2,202 +2,343 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B9E35C5CA
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Apr 2021 13:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9319635C67B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Apr 2021 14:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240730AbhDLL50 (ORCPT
+        id S238374AbhDLMmy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Apr 2021 07:57:26 -0400
-Received: from gecko.sbs.de ([194.138.37.40]:35090 "EHLO gecko.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239202AbhDLL50 (ORCPT
+        Mon, 12 Apr 2021 08:42:54 -0400
+Received: from todd.t-8ch.de ([159.69.126.157]:50389 "EHLO ned.t-8ch.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237626AbhDLMmy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Apr 2021 07:57:26 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 13CBuhgY004539
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 12 Apr 2021 13:56:44 +0200
-Received: from md1za8fc.ad001.siemens.net ([139.22.41.180])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 13CBugBC024375;
-        Mon, 12 Apr 2021 13:56:42 +0200
-Date:   Mon, 12 Apr 2021 13:56:41 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Enrico Weigelt <lkml@metux.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Mon, 12 Apr 2021 08:42:54 -0400
+X-Greylist: delayed 402 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Apr 2021 08:42:53 EDT
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1618230943;
+        bh=rw+YsJkoAwg27DzxQFYkTP7+A9CYPDkmBLhEtuxfF0I=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=dLipbk08zKkVY94ihzGN7iiNEhvCzszP2sNCUJNME8kbHK4+BxxVmIrjxkj3CIlt2
+         muCC3lC/cFkGD9TSYELcYFeXs4KAb/T1lUwg4SYss9C9KS/KiFr4JkFXXqyU6wAWkt
+         IR2Im8h69k1P3h56dVWS76hWqcYiWYoVHvp1GVOM=
+To:     platform-driver-x86@vger.kernel.org,
         Mark Gross <mgross@linux.intel.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH v3 2/4] leds: simatic-ipc-leds: add new driver for
- Siemens Industial PCs
-Message-ID: <20210412135641.1173941b@md1za8fc.ad001.siemens.net>
-In-Reply-To: <CAHp75VcU-7-BVum4xuuQcG7NZZc9xXOoXYpfSBUwwPr6iZLWGg@mail.gmail.com>
-References: <20210329174928.18816-1-henning.schild@siemens.com>
-        <20210329174928.18816-3-henning.schild@siemens.com>
-        <CAHp75Vdh_YAJLE4DWPhxhYY1g5Fc_7EFgr4FED3crpfpzwXeRg@mail.gmail.com>
-        <20210330135808.373c3308@md1za8fc.ad001.siemens.net>
-        <CAHp75Vc0f0HfAJx0KPyQMWjekkhB_T-1+vuR566qAcYGA2JLJA@mail.gmail.com>
-        <20210330143011.0e8ae4a0@md1za8fc.ad001.siemens.net>
-        <CAHp75VceCsuANZpib6HXJvxgMdJhmr8KPTZgThxKvXq6Yotymg@mail.gmail.com>
-        <20210330172305.67b6e050@md1za8fc.ad001.siemens.net>
-        <CAHp75VcSwW42_oQDpxn34gN7+aJNmB=HdJUbaWsYkBokYAHkSA@mail.gmail.com>
-        <20210401124415.3c9321c0@md1za8fc.ad001.siemens.net>
-        <CAHp75VcU-7-BVum4xuuQcG7NZZc9xXOoXYpfSBUwwPr6iZLWGg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Matthew Garrett <mjg59@srcf.ucam.org>
+Subject: [PATCH v5] platform/x86: add Gigabyte WMI temperature driver
+Date:   Mon, 12 Apr 2021 14:35:13 +0200
+Message-Id: <20210412123513.628901-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210410181856.144988-1-linux@weissschuh.net>
+References: <20210410181856.144988-1-linux@weissschuh.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Am Thu, 1 Apr 2021 14:04:51 +0300
-schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
+Tested with
+* X570 I Aorus Pro Wifi (rev 1.0)
+* B550M DS3H
+* B550 Gaming X V2 (rev.1.x)
+* Z390 I AORUS PRO WIFI (rev. 1.0)
 
-> On Thu, Apr 1, 2021 at 1:44 PM Henning Schild
-> <henning.schild@siemens.com> wrote:
-> >
-> > Am Wed, 31 Mar 2021 18:40:23 +0300
-> > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:
-> >  
-> > > On Tue, Mar 30, 2021 at 6:33 PM Henning Schild
-> > > <henning.schild@siemens.com> wrote:  
-> > > > Am Tue, 30 Mar 2021 15:41:53 +0300
-> > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > > > On Tue, Mar 30, 2021 at 3:35 PM Henning Schild
-> > > > > <henning.schild@siemens.com> wrote:  
-> > > > > > Am Tue, 30 Mar 2021 15:15:16 +0300
-> > > > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > > > > > On Tue, Mar 30, 2021 at 2:58 PM Henning Schild
-> > > > > > > <henning.schild@siemens.com> wrote:  
-> > > > > > > > Am Tue, 30 Mar 2021 14:04:35 +0300
-> > > > > > > > schrieb Andy Shevchenko <andy.shevchenko@gmail.com>:  
-> > > > > > > > > On Mon, Mar 29, 2021 at 8:59 PM Henning Schild
-> > > > > > > > > <henning.schild@siemens.com> wrote:  
-> > > > >  
-> > > > > > > > > > +static struct simatic_ipc_led
-> > > > > > > > > > simatic_ipc_leds_mem[] = {
-> > > > > > > > > > +       {0x500 + 0x1A0, "red:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-1"},
-> > > > > > > > > > +       {0x500 + 0x1A8, "green:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-1"},
-> > > > > > > > > > +       {0x500 + 0x1C8, "red:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-2"},
-> > > > > > > > > > +       {0x500 + 0x1D0, "green:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-2"},
-> > > > > > > > > > +       {0x500 + 0x1E0, "red:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-3"},
-> > > > > > > > > > +       {0x500 + 0x198, "green:" LED_FUNCTION_STATUS
-> > > > > > > > > > "-3"},
-> > > > > > > > > > +       { }
-> > > > > > > > > > +};  
-> > > > > > > > >
-> > > > > > > > > It seems to me like poking GPIO controller registers
-> > > > > > > > > directly. This is not good. The question still
-> > > > > > > > > remains: Can we simply register a GPIO (pin control)
-> > > > > > > > > driver and use an LED GPIO driver with an additional
-> > > > > > > > > board file that instantiates it?  
-> > > > > > > >
-> > > > > > > > I wrote about that in reply to the cover letter. My
-> > > > > > > > view is still that it would be an abstraction with only
-> > > > > > > > one user, just causing work and likely not ending up as
-> > > > > > > > generic as it might eventually have to be.
-> > > > > > > >
-> > > > > > > > The region is reserved, not sure what the problem with
-> > > > > > > > the "poking" is.  
-> > > > > > >
-> > > > > > >  
-> > > > > > > > Maybe i do not understand all the benefits of such a
-> > > > > > > > split at this point in time. At the moment i only see
-> > > > > > > > work with hardly any benefit, not just work for me but
-> > > > > > > > also for maintainers. I sure do not mean to be
-> > > > > > > > ignorant. Maybe you go into details and convince me or
-> > > > > > > > we wait for other peoples opinions on how to proceed,
-> > > > > > > > maybe there is a second user that i am not aware of?
-> > > > > > > > Until i am convinced otherwise i will try to argue that
-> > > > > > > > a single-user-abstraction is needless work/code, and
-> > > > > > > > should be done only when actually needed.  
-> > > > > > >
-> > > > > > > I have just read your messages (there is a cover letter
-> > > > > > > and additional email which was sent lately).
-> > > > > > >
-> > > > > > > I would like to know what the CPU model number on that
-> > > > > > > board is. Than we can continue to see what possibilities
-> > > > > > > we have here.  
-> > > > > >
-> > > > > > I guess we are talking about the one that uses memory
-> > > > > > mapped, that is called an "IPC127E" and seems to have
-> > > > > > either Intel Atom E3940 or E3930 which seems to be Apollo
-> > > > > > Lake.  
-> > > > >
-> > > > > Yep. And now the question, in my patch series you should have
-> > > > > got the apollolake-pinctrl driver loaded (if not, we have to
-> > > > > investigate why it's not being instantiated). This will give
-> > > > > you a read GPIO driver.  
-> > > >
-> > > > Ok, so there is the existing driver i asked about several times.
-> > > > Thanks for pointing it out.  
-> > >
-> > > If you remember, I asked you about the chip twice :-)
-> > > I assumed that we were talking about Apollo Lake and that's why I
-> > > insisted that the driver is in the kernel source tree.  
-> >
-> > Sorry, maybe i did not get the context of your question and which of
-> > the machines you asked about. Now it is clear i guess.
-> >  
-> > >  
-> > > > > So, you may use regular LED GPIO on top of it
-> > > > > (https://elixir.bootlin.com/linux/latest/source/drivers/leds/leds-gpio.c).
-> > > > > I would like to understand why it can't be achieved.  
-> > > >
-> > > > Will have a look. Unfortunately this one box is missing in my
-> > > > personal collection, but let us assume that one can be
-> > > > converted to that existing driver.  
-> > >
-> > > OK!
-> > >  
-> > > > I guess that will still mean the PIO-based part of the LED
-> > > > driver will have to stay as is.  
-> > >
-> > > Probably yes. I haven't looked into that part and I have no idea
-> > > what's going on on that platform(s).
-> > >  
-> >
-> > Which i guess means the series can be reviewed as if the mmio bits
-> > for that apollo lake would not be in it, maybe i will even send a
-> > version without that one box. We have others in the "backlog" might
-> > as well delay that one if it helps sorting out a base-line.  
-> 
-> It depends on the role of P2SB in this case.
-> Shouldn't you drop that completely out from this series?
+Those mainboards contain an ITE chips for management and
+monitoring.
 
-We still have one such GPIO bit in one wdt, might be "sunrisepoint".
-Still have to clarify if that can maybe be dropped for a first step.
+They could also be handled by drivers/hwmon/i87.c.
+But the SuperIO range used by i87 is already claimed and used by the
+firmware.
 
-> Otherwise we have to understand what to do with it.
-> It seems the best approach can be to expose the P2SB device to Linux,
-> but we have to answer to Bjorn's request about region reservations.
+The following warning is printed at boot:
 
-I now have such an apollolake to play with. Having your series applied
-my LEDs driver fails to alloc that mmio memory, so far so correct.
-Still have to figure out how to use those GPIOs.
+kernel: ACPI Warning: SystemIO range 0x0000000000000A45-0x0000000000000A46 conflicts with OpRegion 0x0000000000000A45-0x0000000000000A46 (\GSA1.SIO1) (20200528/utaddress-204)
+kernel: ACPI: This conflict may cause random problems and system instability
+kernel: ACPI: If an ACPI driver is available for this device, you should use it instead of the native driver
 
-I was hoping to find a gpiochip in sysfs and be able to export gpios to
-userland.
+This driver implements such an ACPI driver.
 
-Enrico, does "gpio_amd_fch" show up under /sys/class/gpio as a
-gpiochip? Or how to interact with that driver before basing another one
-on top?
+Unfortunately not all sensor registers are handled by the firmware and even
+less are exposed via WMI.
 
-I am afraid that pinctrl-broxton might be loaded but not working as
-expected.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Henning
+---
+
+Changes since v4:
+* Style
+* Wording
+* Alignment of email addresses
+---
+ MAINTAINERS                         |   6 +
+ drivers/platform/x86/Kconfig        |  11 ++
+ drivers/platform/x86/Makefile       |   1 +
+ drivers/platform/x86/gigabyte-wmi.c | 195 ++++++++++++++++++++++++++++
+ 4 files changed, 213 insertions(+)
+ create mode 100644 drivers/platform/x86/gigabyte-wmi.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d92f85ca831d..7fb5e2ba489b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7543,6 +7543,12 @@ F:	Documentation/filesystems/gfs2*
+ F:	fs/gfs2/
+ F:	include/uapi/linux/gfs2_ondisk.h
+ 
++GIGABYTE WMI DRIVER
++M:	Thomas Weißschuh <thomas@weissschuh.net>
++L:	platform-driver-x86@vger.kernel.org
++S:	Maintained
++F:	drivers/platform/x86/gigabyte-wmi.c
++
+ GNSS SUBSYSTEM
+ M:	Johan Hovold <johan@kernel.org>
+ S:	Maintained
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index ad4e630e73e2..96622a2106f7 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -123,6 +123,17 @@ config XIAOMI_WMI
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called xiaomi-wmi.
+ 
++config GIGABYTE_WMI
++	tristate "Gigabyte WMI temperature driver"
++	depends on ACPI_WMI
++	depends on HWMON
++	help
++	  Say Y here if you want to support WMI-based temperature reporting on
++	  Gigabyte mainboards.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called gigabyte-wmi.
++
+ config ACERHDF
+ 	tristate "Acer Aspire One temperature and fan driver"
+ 	depends on ACPI && THERMAL
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 60d554073749..1621ebfd04fd 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -15,6 +15,7 @@ obj-$(CONFIG_INTEL_WMI_THUNDERBOLT)	+= intel-wmi-thunderbolt.o
+ obj-$(CONFIG_MXM_WMI)			+= mxm-wmi.o
+ obj-$(CONFIG_PEAQ_WMI)			+= peaq-wmi.o
+ obj-$(CONFIG_XIAOMI_WMI)		+= xiaomi-wmi.o
++obj-$(CONFIG_GIGABYTE_WMI)		+= gigabyte-wmi.o
+ 
+ # Acer
+ obj-$(CONFIG_ACERHDF)		+= acerhdf.o
+diff --git a/drivers/platform/x86/gigabyte-wmi.c b/drivers/platform/x86/gigabyte-wmi.c
+new file mode 100644
+index 000000000000..bb1b0b205fa7
+--- /dev/null
++++ b/drivers/platform/x86/gigabyte-wmi.c
+@@ -0,0 +1,195 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ *  Copyright (C) 2021 Thomas Weißschuh <thomas@weissschuh.net>
++ */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/acpi.h>
++#include <linux/dmi.h>
++#include <linux/hwmon.h>
++#include <linux/module.h>
++#include <linux/wmi.h>
++
++#define GIGABYTE_WMI_GUID	"DEADBEEF-2001-0000-00A0-C90629100000"
++#define NUM_TEMPERATURE_SENSORS	6
++
++static bool force_load;
++module_param(force_load, bool, 0444);
++MODULE_PARM_DESC(force_load, "Force loading on unknown platform");
++
++static u8 usable_sensors_mask;
++
++enum gigabyte_wmi_commandtype {
++	GIGABYTE_WMI_BUILD_DATE_QUERY       =   0x1,
++	GIGABYTE_WMI_MAINBOARD_TYPE_QUERY   =   0x2,
++	GIGABYTE_WMI_FIRMWARE_VERSION_QUERY =   0x4,
++	GIGABYTE_WMI_MAINBOARD_NAME_QUERY   =   0x5,
++	GIGABYTE_WMI_TEMPERATURE_QUERY      = 0x125,
++};
++
++struct gigabyte_wmi_args {
++	u32 arg1;
++};
++
++static int gigabyte_wmi_perform_query(struct wmi_device *wdev,
++				      enum gigabyte_wmi_commandtype command,
++				      struct gigabyte_wmi_args *args, struct acpi_buffer *out)
++{
++	const struct acpi_buffer in = {
++		.length = sizeof(*args),
++		.pointer = args,
++	};
++
++	acpi_status ret = wmidev_evaluate_method(wdev, 0x0, command, &in, out);
++
++	if (ACPI_FAILURE(ret))
++		return -EIO;
++
++	return 0;
++}
++
++static int gigabyte_wmi_query_integer(struct wmi_device *wdev,
++				      enum gigabyte_wmi_commandtype command,
++				      struct gigabyte_wmi_args *args, u64 *res)
++{
++	union acpi_object *obj;
++	struct acpi_buffer result = { ACPI_ALLOCATE_BUFFER, NULL };
++	int ret;
++
++	ret = gigabyte_wmi_perform_query(wdev, command, args, &result);
++	if (ret)
++		return ret;
++	obj = result.pointer;
++	if (obj && obj->type == ACPI_TYPE_INTEGER)
++		*res = obj->integer.value;
++	else
++		ret = -EIO;
++	kfree(result.pointer);
++	return ret;
++}
++
++static int gigabyte_wmi_temperature(struct wmi_device *wdev, u8 sensor, long *res)
++{
++	struct gigabyte_wmi_args args = {
++		.arg1 = sensor,
++	};
++	u64 temp;
++	acpi_status ret;
++
++	ret = gigabyte_wmi_query_integer(wdev, GIGABYTE_WMI_TEMPERATURE_QUERY, &args, &temp);
++	if (ret == 0) {
++		if (temp == 0)
++			return -ENODEV;
++		*res = (s8)temp * 1000; // value is a signed 8-bit integer
++	}
++	return ret;
++}
++
++static int gigabyte_wmi_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
++				   u32 attr, int channel, long *val)
++{
++	struct wmi_device *wdev = dev_get_drvdata(dev);
++
++	return gigabyte_wmi_temperature(wdev, channel, val);
++}
++
++static umode_t gigabyte_wmi_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
++					     u32 attr, int channel)
++{
++	return usable_sensors_mask & BIT(channel) ? 0444  : 0;
++}
++
++static const struct hwmon_channel_info *gigabyte_wmi_hwmon_info[] = {
++	HWMON_CHANNEL_INFO(temp,
++			   HWMON_T_INPUT,
++			   HWMON_T_INPUT,
++			   HWMON_T_INPUT,
++			   HWMON_T_INPUT,
++			   HWMON_T_INPUT,
++			   HWMON_T_INPUT),
++	NULL
++};
++
++static const struct hwmon_ops gigabyte_wmi_hwmon_ops = {
++	.read = gigabyte_wmi_hwmon_read,
++	.is_visible = gigabyte_wmi_hwmon_is_visible,
++};
++
++static const struct hwmon_chip_info gigabyte_wmi_hwmon_chip_info = {
++	.ops = &gigabyte_wmi_hwmon_ops,
++	.info = gigabyte_wmi_hwmon_info,
++};
++
++static u8 gigabyte_wmi_detect_sensor_usability(struct wmi_device *wdev)
++{
++	int i;
++	long temp;
++	u8 r = 0;
++
++	for (i = 0; i < NUM_TEMPERATURE_SENSORS; i++) {
++		if (!gigabyte_wmi_temperature(wdev, i, &temp))
++			r |= BIT(i);
++	}
++	return r;
++}
++
++static const struct dmi_system_id gigabyte_wmi_known_working_platforms[] = {
++	{ .matches = {
++		DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Gigabyte Technology Co., Ltd."),
++		DMI_EXACT_MATCH(DMI_BOARD_NAME, "B550 GAMING X V2"),
++	}},
++	{ .matches = {
++		DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Gigabyte Technology Co., Ltd."),
++		DMI_EXACT_MATCH(DMI_BOARD_NAME, "B550M DS3H"),
++	}},
++	{ .matches = {
++		DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Gigabyte Technology Co., Ltd."),
++		DMI_EXACT_MATCH(DMI_BOARD_NAME, "Z390 I AORUS PRO WIFI-CF"),
++	}},
++	{ .matches = {
++		DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Gigabyte Technology Co., Ltd."),
++		DMI_EXACT_MATCH(DMI_BOARD_NAME, "X570 I AORUS PRO WIFI"),
++	}},
++	{ }
++};
++
++static int gigabyte_wmi_probe(struct wmi_device *wdev, const void *context)
++{
++	struct device *hwmon_dev;
++
++	if (!dmi_check_system(gigabyte_wmi_known_working_platforms)) {
++		if (!force_load)
++			return -ENODEV;
++		dev_warn(&wdev->dev, "Forcing load on unknown platform");
++	}
++
++	usable_sensors_mask = gigabyte_wmi_detect_sensor_usability(wdev);
++	if (!usable_sensors_mask) {
++		dev_info(&wdev->dev, "No temperature sensors usable");
++		return -ENODEV;
++	}
++
++	hwmon_dev = devm_hwmon_device_register_with_info(&wdev->dev, "gigabyte_wmi", wdev,
++							 &gigabyte_wmi_hwmon_chip_info, NULL);
++
++	return PTR_ERR_OR_ZERO(hwmon_dev);
++}
++
++static const struct wmi_device_id gigabyte_wmi_id_table[] = {
++	{ GIGABYTE_WMI_GUID, NULL },
++	{ }
++};
++
++static struct wmi_driver gigabyte_wmi_driver = {
++	.driver = {
++		.name = "gigabyte-wmi",
++	},
++	.id_table = gigabyte_wmi_id_table,
++	.probe = gigabyte_wmi_probe,
++};
++module_wmi_driver(gigabyte_wmi_driver);
++
++MODULE_DEVICE_TABLE(wmi, gigabyte_wmi_id_table);
++MODULE_AUTHOR("Thomas Weißschuh <thomas@weissschuh.net>");
++MODULE_DESCRIPTION("Gigabyte WMI temperature driver");
++MODULE_LICENSE("GPL");
+
+base-commit: 144c79ef33536b4ecb4951e07dbc1f2b7fa99d32
+-- 
+2.31.1
+
