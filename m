@@ -2,95 +2,167 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 699F6366AA0
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Apr 2021 14:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406C3366AB5
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 21 Apr 2021 14:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238807AbhDUMTj (ORCPT
+        id S235145AbhDUM1E (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 21 Apr 2021 08:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234573AbhDUMTh (ORCPT
+        Wed, 21 Apr 2021 08:27:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50534 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238516AbhDUM1D (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 21 Apr 2021 08:19:37 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44564C06174A
-        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Apr 2021 05:19:03 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id l9so6295084ilh.10
-        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Apr 2021 05:19:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=n3eH8fc7c63400pMFay9v4NYcLZ+o0vJKsl88V8S4Zg=;
-        b=JqP0tDkVIk2TTiIN6xugv49xrqwq0NojdTdc+uG7YOL/Xdy7iOabw9QJhWsuOWmmVc
-         1uFl9egg6K1NLegF80n4idTHT7bWzZhe+OCbiGMka9MXgj4m7asdBxTRoS4UebsJkRdT
-         +QIRQBkvbzRTEz/ENNyekL0sQtTcw4AuWKOSuFvG/64fpNoz8VmkDT/0qZtGDJouzGx9
-         m4eGX7FQFbb2kYlW3HqRffJYVHl0DPwPmswhRV82QGIRkMcCeceJtwM4LuLf3rBvxF5K
-         vXwAtLxFz6dPkNoRdKWipQQ3G7Sv4TKUD++5iYE9xfGCDJDfQv/427EV5nvsomlGZwtn
-         xr0Q==
+        Wed, 21 Apr 2021 08:27:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619007990;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JiwbXjmwv7WSPaNysAbVhn2SptL19dKY+XRIVBMw2AM=;
+        b=CRbJnXzNEuxsl9oJ/8fSufw7SkKE4Jd72SMGl5kUvy5PdhVz/1IqKLpMKovkkbn6NqNEXT
+        BdYo+jyj3HizX/x270tA9SIaGH8zWR55t3hyH8TCy6zm97pjPqCMjOnVd5GNNpXS0p4fwK
+        1G4lJucOS0/Nmtjv+VLN26fYkmR7D98=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-GTLRvhNsMtGav6sHzd1pSA-1; Wed, 21 Apr 2021 08:26:28 -0400
+X-MC-Unique: GTLRvhNsMtGav6sHzd1pSA-1
+Received: by mail-ej1-f69.google.com with SMTP id n10-20020a1709061d0ab029037caa96b8c5so5846411ejh.23
+        for <platform-driver-x86@vger.kernel.org>; Wed, 21 Apr 2021 05:26:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=n3eH8fc7c63400pMFay9v4NYcLZ+o0vJKsl88V8S4Zg=;
-        b=BmI3lhstGLVmo8OTRfs5j9QrhDjdJ9ldQEuRmc4i0BwUPr0eRpN/2f7KqX038ovQX0
-         gaYCB7n+j3GBjj3+aA1rNhgBPb0u0ciiZlynSqmagkhkcMAIuFoAvNEd0I4SStjoQUxh
-         izxZF99GNTchEgLZrN6OOwUCfll+jChT+IStPFnl3pZPS/E/1NjaHlLjZTQAEUkAKR2z
-         KHQlKB/f1HwgSrq8JL2GSLzdm29Dd7wsqGY+fb6fnwfh6Fayns8whradKdX6mApU5Gs+
-         hObFr5Ph6/p2Y3tl+7yImFM0awlcn+aGnaD2Q+qTorbcXdcplXCeP5rbo5jF+QSNSvCU
-         zrkA==
-X-Gm-Message-State: AOAM532S2a93zPV8gapk3awV/xJ75dgBj/jo+EzVfHJS6ZF14d37CUj4
-        eDTYWjIZp32WZfarje5EFfEAakQ0HujBMeIO4Gg=
-X-Google-Smtp-Source: ABdhPJxoI/BdsW5HPALADK5v3pc3eu58w0+Fv/BXT0gUPR4WbkK8pqecVSaGu22urm3wJRK0WlhxmmveYRUr5lszQks=
-X-Received: by 2002:a05:6e02:1c07:: with SMTP id l7mr25514419ilh.110.1619007542476;
- Wed, 21 Apr 2021 05:19:02 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JiwbXjmwv7WSPaNysAbVhn2SptL19dKY+XRIVBMw2AM=;
+        b=mQEykxzFaqrLSHRuom5TXG/HnUTr6gsY2A91wuCH4V10ew5KtW+sO9u7ism5xdTytv
+         4K80td35b4U1Fum8jzem4Pl9SdbNXN6sjDQ9U3TFI9rl7wfPYs2WAQUwjnFQRlrUmmWf
+         DKHIWYeY/u9JV4xnGeg2jpIiO04VYGv4nOA/J9rXHZarU2gB77v16ZEiUWYq3mg0+4im
+         Vq41dIt9t407/T+QXL5QEPelAAwJTxijr8qpd+vg0zk7LaXSR4D2+hfzgnlw6bAMyo4z
+         4DBGeOvaQllNfkALYGpv8KVbBJpmVfzmaSThjXPSCYRQH4DWCyMHgKq5ue6PJE3j/Q7Q
+         Fc9g==
+X-Gm-Message-State: AOAM530xWRWDFAjnWp/IpU6IU1ZprjUt2MjMlaYlAQuadZu0t6m3djjT
+        5mojDCuoC6zCm81ZW4zaEXHCXkCYkMUW4c6vcn7PwfcskOdRIEe0Z1PbkUVl/Jd3I8tl2HRLC7z
+        MPf3+owafeSJ/S9nliZb+r3AksNdnZmbOjg==
+X-Received: by 2002:a05:6402:2794:: with SMTP id b20mr20506127ede.48.1619007987358;
+        Wed, 21 Apr 2021 05:26:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7yRkfzjtIoczfISFbr/N7MhY4x+m8ezWTbWctqf/bSo8LTZjrsr4mbWZVCx6Lxhbh1fXM5g==
+X-Received: by 2002:a05:6402:2794:: with SMTP id b20mr20506111ede.48.1619007987227;
+        Wed, 21 Apr 2021 05:26:27 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id u23sm3146200eds.8.2021.04.21.05.26.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Apr 2021 05:26:26 -0700 (PDT)
+Subject: Re: [PATCH v3 2/8] MAINTAINERS: Add entry for devm helpers
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
+        "sre@kernel.org" <sre@kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "wens@csie.org" <wens@csie.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "myungjoo.ham@samsung.com" <myungjoo.ham@samsung.com>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        "agross@kernel.org" <agross@kernel.org>,
+        "cw00.choi@samsung.com" <cw00.choi@samsung.com>,
+        "broonie@kernel.org" <broonie@kernel.org>
+References: <cover.1616506559.git.matti.vaittinen@fi.rohmeurope.com>
+ <eec1797734e3d080662aa732c565ed4a3c261799.1616506559.git.matti.vaittinen@fi.rohmeurope.com>
+ <e064fdd7-b276-6732-16fe-2eb2564b2179@redhat.com>
+ <YFn5CSB1O3i+SzgR@kroah.com>
+ <da0233f3223d7c0816581afe0969caf0abe20378.camel@fi.rohmeurope.com>
+ <96935c55-c799-595e-024c-56fd352f279e@redhat.com>
+ <2f6d096c30a6d1d22422cf9c3553d74132f75708.camel@fi.rohmeurope.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <171af93e-e5be-b35f-23d4-0ccf37062902@redhat.com>
+Date:   Wed, 21 Apr 2021 14:26:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received: by 2002:a02:9719:0:0:0:0:0 with HTTP; Wed, 21 Apr 2021 05:19:01
- -0700 (PDT)
-From:   Mark Jackson <kellymarshall98765@gmail.com>
-Date:   Wed, 21 Apr 2021 05:19:01 -0700
-Message-ID: <CANBPxmuqFRyRofRQhSR-FzDy14X1Y+kwE0D_sb8sJc8+nQxRGg@mail.gmail.com>
-Subject: Your ATM CARD For Compensation
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <2f6d096c30a6d1d22422cf9c3553d74132f75708.camel@fi.rohmeurope.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-My Dear Friend
+Hi,
 
-This letter is to acknowledge the substantial contributions of time and
-energy you have made in trying to assist to claim the fund through
-your account, despite that it failed us because of your inability to
-continue financing the transaction.
+On 4/21/21 2:17 PM, Vaittinen, Matti wrote:
+> 
+> On Wed, 2021-04-21 at 13:58 +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 4/21/21 9:51 AM, Matti Vaittinen wrote:
+>>> On Tue, 2021-03-23 at 15:19 +0100, Greg KH wrote:
+>>>> On Tue, Mar 23, 2021 at 02:58:28PM +0100, Hans de Goede wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On 3/23/21 2:56 PM, Matti Vaittinen wrote:
+>>>>>> Devm helper header containing small inline helpers was added.
+>>>>>> Hans promised to maintain it.
+>>>>>>
+>>>>>> Add Hans as maintainer and myself as designated reviewer.
+>>>>>>
+>>>>> Ultimately this is up to Greg though, so lets wait and see what
+>>>>> Greg has to say about this.
+>>>>
+>>>> Can we move some of the devm_* calls in include/device.h into
+>>>> here as
+>>>> well so that you all can be in charge of them instead of me?
+>>>
+>>> Seems like this was left w/o answer. I guess the question was
+>>> pointed
+>>> to Hans
+>>
+>> I believe that Greg was (mostly) joking here. At least that is how
+>> I interpreted Greg's reply,which is why I did not answer.
+> 
+> Ah. I missed the sarcastic tone of typing. I should've noted that by
+> the font :]
+> 
+>> Also note that Greg merged this series, but not this patch,
+>> so the new devm-helpers.h file will presumably be maintained by Greg.
+> 
+> Hmm. Are you sure?
+> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=driver-core-next&id=2077ca682169afb212d8a887c70057a660290df9
 
-Besides I'm happy to inform you that I have succeeded in transferring
-the fund out of my home Country with the help of a new partner from
-Tuvalu.
+Ah, you're right.
 
-I am now in Tuvalu for investment and Tuvalu is composed of 9 coral
-atolls along a 360 mile chain in Polynesia. They gained independence
-in 1978 the former Ellice Islands.
+I was looking at the wrong branch, sorry about the confusion.
 
-Therefore in appreciation of your earlier assistance, I have decided to
-compensate you with the sum of $850.000.00 USD which I raised in ATM
-CARD on your favour.
+Ok, so I guess I do maintain the new devm-helpers.h file, that is fine.
 
-This fund I have given to you has been deposited with a bank which has
-already opened an account and issued to you ATM CARD worth
-US$850.000.00 (Eight Hundred and Fifty Thousand United States Dollars)
-The ATM CARD is withdrawable from any ATM Machine in the world.
+Which makes your email from earlier today more relevant:
 
-So feel free and contact my Personal assistance (PA) in Benin
-Republic, his name is Mr.Stephen Pena
+> but what comes to my (not always so humble) opinion - most of
+> the devm functions in device.h are tightly related to the device
+> interface or devres. Thus the device.h feels like appropriate place for
+> most of those.
 
-Address: Carre 1299, Ste Rita City
-Cotonou,Benin Republic
+I agree with you that most devm_ functions in device.h are probably
+left there. Moving them will also mean modifying all the drivers
+which use them to include the new devm-helpers.h include file
+which seems like needless churn.
 
-Email: ( spenaneoris@gmail.com )
+> OTOH, the kmalloc/kfree related functions, strdub and
+> kmemdub might be candidates for move - those are not really "device
+> things".
 
-and instruct him to send the ATM CARD to you.
-
-Please do let me know immediately you receive it.
+I'm certainly open to moving some functions to devm-helpers.h, but
+also see above about needless churn.
 
 Regards,
-Mr.Mark Jackson
+
+Hans
+
