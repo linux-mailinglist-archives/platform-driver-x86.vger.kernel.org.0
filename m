@@ -2,42 +2,45 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B4936BF93
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Apr 2021 09:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C4236BFF7
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Apr 2021 09:17:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbhD0HCV (ORCPT
+        id S231327AbhD0HRu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 27 Apr 2021 03:02:21 -0400
-Received: from [58.211.163.100] ([58.211.163.100]:61312 "EHLO
+        Tue, 27 Apr 2021 03:17:50 -0400
+Received: from [58.211.163.100] ([58.211.163.100]:61626 "EHLO
         mail.advantech.com.cn" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229578AbhD0HCU (ORCPT
+        by vger.kernel.org with ESMTP id S229988AbhD0HRu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 27 Apr 2021 03:02:20 -0400
-X-Greylist: delayed 603 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Apr 2021 03:02:20 EDT
+        Tue, 27 Apr 2021 03:17:50 -0400
 Received: from ACNMB1.ACN.ADVANTECH.CORP (unverified [172.21.128.147]) by ACNSWEEPER.acn.advantech.com.cn
- (Clearswift SMTPRS 5.6.0) with ESMTP id <Te6203905b0ac1580102738@ACNSWEEPER.acn.advantech.com.cn>;
- Tue, 27 Apr 2021 14:51:26 +0800
+ (Clearswift SMTPRS 5.6.0) with ESMTP id <Te620507189ac1580102738@ACNSWEEPER.acn.advantech.com.cn>;
+ Tue, 27 Apr 2021 15:17:00 +0800
 Received: from ACNMB2.ACN.ADVANTECH.CORP (172.21.128.148) by
  ACNMB1.ACN.ADVANTECH.CORP (172.21.128.147) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 27 Apr 2021 14:50:50 +0800
+ id 15.0.1497.2; Tue, 27 Apr 2021 15:17:00 +0800
 Received: from ACNMB2.ACN.ADVANTECH.CORP ([172.21.128.148]) by
  ACNMB2.ACN.ADVANTECH.CORP ([172.21.128.148]) with mapi id 15.00.1497.015;
- Tue, 27 Apr 2021 14:50:50 +0800
+ Tue, 27 Apr 2021 15:17:00 +0800
 From:   =?gb2312?B?eXVlY2hhby56aGFvKNXU1L2zrCk=?= 
         <yuechao.zhao@advantech.com.cn>
-To:     "345351830@qq.com" <345351830@qq.com>,
+To:     "345351830@qq.com" <345351830@qq.com>
+CC:     =?gb2312?B?UmFpbmJvdy5aaGFuZyiPiNPxKQ==?= 
+        <Rainbow.Zhang@advantech.com.cn>,
+        =?gb2312?B?eXVueGlhLmxpKMDu1MbPvCk=?= <yunxia.li@advantech.com.cn>,
+        =?gb2312?B?SmlhLlN1aSi81u6hKQ==?= <Jia.Sui@advantech.com.cn>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "platform-driver-x86@vger.kernel.org" 
         <platform-driver-x86@vger.kernel.org>
-CC:     =?gb2312?B?SmlhLlN1aSi81u6hKQ==?= <Jia.Sui@advantech.com.cn>
-Subject: =?gb2312?B?tPC4tDogW3YxLDEvMV0gYWR2X21peDk1NXggaXMgYSBzY2hlbWUgdGhhdCBt?=
- =?gb2312?Q?ultiplexes_PCA9554/PCA9555_into_LED_and_GPIO?=
-Thread-Topic: [v1,1/1] adv_mix955x is a scheme that multiplexes
+Subject: [resend v1,1/1] adv_mix955x is a scheme that multiplexes
  PCA9554/PCA9555 into LED and GPIO
-Thread-Index: AQHXOzGEPkh5RGdmkUeQztnm+lWZgarH7N+g
-Date:   Tue, 27 Apr 2021 06:50:50 +0000
-Message-ID: <e6ef68af9030441aab275a64bdd75d99@ACNMB2.ACN.ADVANTECH.CORP>
-References: <tencent_E0743E52BCE5D0378CBBCB5150F3159A0F06@qq.com>
-In-Reply-To: <tencent_E0743E52BCE5D0378CBBCB5150F3159A0F06@qq.com>
+Thread-Topic: [resend v1,1/1] adv_mix955x is a scheme that multiplexes
+ PCA9554/PCA9555 into LED and GPIO
+Thread-Index: Adc7NU2agFZ57jm/S0erWE+HE1UC/A==
+Date:   Tue, 27 Apr 2021 07:17:00 +0000
+Message-ID: <d368a617c11446f2baff6c9cb06b24e4@ACNMB2.ACN.ADVANTECH.CORP>
 Accept-Language: zh-CN, en-US
 Content-Language: zh-CN
 X-MS-Has-Attach: 
