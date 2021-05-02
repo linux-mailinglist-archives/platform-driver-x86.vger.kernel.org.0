@@ -2,92 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9888370B0A
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 May 2021 12:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 483F8370B23
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  2 May 2021 12:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbhEBKKz (ORCPT
+        id S229988AbhEBKtm (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 2 May 2021 06:10:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35478 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230373AbhEBKKy (ORCPT
+        Sun, 2 May 2021 06:49:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229676AbhEBKtl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 2 May 2021 06:10:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619950203;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xDF4o2RyVMfPC13rUjeJC46e1wRU25fQ52hPfhOoKmU=;
-        b=be98GKizwOnpWaP9Alh5KTVHlS3Yqp4gKGtfLRQMlr22sH5uD8RAjMqE9w28fVmDmlGTe3
-        MaSCvkouIvhVxyx2oQp8PVp5jIflZM5RE9C7DIuvh+Sdo49e9TorqorKO8+O5NyRro296o
-        ZmZCp42U8Jl5cq57DT5vz+BvJLCZsVk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-4Lz-bmzGMDSKduODVnekKQ-1; Sun, 02 May 2021 06:10:01 -0400
-X-MC-Unique: 4Lz-bmzGMDSKduODVnekKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A752801106;
-        Sun,  2 May 2021 10:10:00 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-34.ams2.redhat.com [10.36.112.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8133B19D7C;
-        Sun,  2 May 2021 10:09:58 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Arkadiy <arkan49@yandex.ru>,
-        "Sergei A . Trusov" <sergei.a.trusov@ya.ru>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [RFC 4/4] platform/x86: touchscreen_dmi: Add an extra entry for the upside down Goodix touchscreen on Teclast X89 tablets
-Date:   Sun,  2 May 2021 12:09:49 +0200
-Message-Id: <20210502100949.5371-5-hdegoede@redhat.com>
-In-Reply-To: <20210502100949.5371-1-hdegoede@redhat.com>
-References: <20210502100949.5371-1-hdegoede@redhat.com>
+        Sun, 2 May 2021 06:49:41 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B507C06174A;
+        Sun,  2 May 2021 03:48:50 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id a11so1314904plh.3;
+        Sun, 02 May 2021 03:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=44Pbc9rBUHoVe5YAupOa4qwfHvmyc/iguPZLYW6hLQQ=;
+        b=GvdJ0PzuNdzwIjhvRu5r82xntxXhjrTrpnIkEjV3mHU//BIdgF/GO9SPMQmnWJ2gHt
+         aZzOlJVkdrD35+qv4XhxvxYyhTVipXq3vKD7XtYx2QkfNJtofgaLYGxOPpz3ElV5pnHP
+         C27IrBwTj7vWM5qeLCnAq4R06O4zVLKIBifC4x7z2p0OM53DQxIBHLxFYF5+vNQDXRXV
+         NILnM25brxDoTOMYV0OgUYIrA+6suKef/2WZO+aB8qkqMDSOKVoa/3NDhOEobmabG9kF
+         VwSdxIgBMK6Rh8tgM5qxL1LHF4ohcYEopB6xlHDfhYnsZ5GvZjW1MW1lxHqzQhDHaHx3
+         ZvCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=44Pbc9rBUHoVe5YAupOa4qwfHvmyc/iguPZLYW6hLQQ=;
+        b=ckeDz1KdszeU7kll7SdtJrM8uvbNjD4MZWOeUuyVYPzUk6n/OTDRWJrBGpwrAZx5yJ
+         fvzdCRAKfeEGnTPPgIdLqXO6yBlMZcA3dQoQ6dOQ/HHOISbtN95+tPYjv9hgAT6HuHro
+         Cvwij4wlhr9tInV9P5TWaYsOBo2q2TgrXf0KG8ecs4Y8Ds+Ql5ipCdgDAbZgYiN7Qn3c
+         CShB0LcQQdJ3d4R0rJzf1uTZ6s37yXasjq9W8DcPFOxytSGh4000PcKZZU6N2m3V+5kl
+         Wq+4xThm3wwSqhVA8Xa2FEUkmkYsL6AnRNhNjCJ9ceFO+UeGoLflt5E8Z2wb6YtT+gYo
+         jLpw==
+X-Gm-Message-State: AOAM530sMwZmo4ysJ9vjo7ktdDRl1S70spNVze4rqnebgwIA+PpnjkuM
+        3iqcvgzvz46icTmr9p6OxzKJ7MtOPBIGi5+WM+U=
+X-Google-Smtp-Source: ABdhPJzqOh2dljV5BEmRaB+D95O9Y1KMnYkfzfUT8/Gutsn3Hp/qury/FqduxgFzrOuSWRr7lGggC0LjVYS+ZH9xfUQ=
+X-Received: by 2002:a17:902:264:b029:eb:3d3a:a09c with SMTP id
+ 91-20020a1709020264b02900eb3d3aa09cmr14867233plc.0.1619952529427; Sun, 02 May
+ 2021 03:48:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <tencent_17A7BBC4D15D331C1A25B4075294E5D67706@qq.com> <cb03b75a018e4bec83eac6898eb1d2af@ACNMB2.ACN.ADVANTECH.CORP>
+In-Reply-To: <cb03b75a018e4bec83eac6898eb1d2af@ACNMB2.ACN.ADVANTECH.CORP>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 2 May 2021 13:48:33 +0300
+Message-ID: <CAHp75Vc_dA_VKMNsUo9jkpuGYX6Mzddy+=P3H+25ZuKiOE5icQ@mail.gmail.com>
+Subject: Re: [v2,1/1] adv_mix955x is a scheme that multiplexes PCA9554/PCA9555
+ into LED and GPIO
+To:     =?UTF-8?B?eXVlY2hhby56aGFvKOi1tei2iui2hSk=?= 
+        <yuechao.zhao@advantech.com.cn>
+Cc:     "345351830@qq.com" <345351830@qq.com>,
+        =?UTF-8?B?UmFpbmJvdy5aaGFuZyjlvLXnjokp?= 
+        <Rainbow.Zhang@advantech.com.cn>,
+        =?UTF-8?B?eXVueGlhLmxpKOadjuS6kemcnik=?= 
+        <yunxia.li@advantech.com.cn>,
+        =?UTF-8?B?SmlhLlN1aSjotL7nnaIp?= <Jia.Sui@advantech.com.cn>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Teclast X89 tablets come in 2 versions, with Windows pre-installed and with
-Android pre-installed. These 2 versions have different DMI strings.
+On Tue, Apr 27, 2021 at 11:33 AM yuechao.zhao(=E8=B5=B5=E8=B6=8A=E8=B6=85)
+<yuechao.zhao@advantech.com.cn> wrote:
+>
+> From: Yuechao Zhao <yuechao.zhao@advantech.com.cn>
+>
+> With this driver, we can multiplex PCA9554/PCA9555 into LED and GPIO base=
+d on the ACPI data of BIOS.
 
-Add a match for the DMI strings used by the Android version BIOS.
+I really did no get the purpose of this rather enormous pile of code.
+Why you can't simply use PCA9555 with correctly described leds-gpio.
+What the problem this driver solves that can't be solved by existing
+code?
 
-Note the Android version BIOS has a bug in the DSDT where no IRQ is
-provided, so for the touchscreen to work a DSDT override fixing this
-is necessary as well.
+NAK till it will gain a very good justification.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/touchscreen_dmi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 60876d8962b6..a1e4af5a8ce8 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -1339,6 +1339,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "X3 Plus"),
- 		},
- 	},
-+	{
-+		/* Teclast X89 (Android version / BIOS) */
-+		.driver_data = (void *)&gdix1001_upside_down_data,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "WISKY"),
-+			DMI_MATCH(DMI_BOARD_NAME, "3G062i"),
-+		},
-+	},
- 	{
- 		/* Teclast X89 (Windows version / BIOS) */
- 		.driver_data = (void *)&gdix1001_upside_down_data,
--- 
-2.31.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
