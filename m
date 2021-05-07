@@ -2,83 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57EC7376B70
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  7 May 2021 23:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB278376D0E
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  8 May 2021 00:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbhEGVIg (ORCPT
+        id S229542AbhEGW5r (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 7 May 2021 17:08:36 -0400
-Received: from bosmailout07.eigbox.net ([66.96.187.7]:51615 "EHLO
-        bosmailout07.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbhEGVIg (ORCPT
+        Fri, 7 May 2021 18:57:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229470AbhEGW5q (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 7 May 2021 17:08:36 -0400
-X-Greylist: delayed 1993 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 17:08:34 EDT
-Received: from bosmailscan09.eigbox.net ([10.20.15.9])
-        by bosmailout07.eigbox.net with esmtp (Exim)
-        id 1lf7Av-0006tO-7P; Fri, 07 May 2021 16:34:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
-        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=L/dzd5zNAEgsj4wIrKa+NtSPJw
-        eQ6m0GeIJ6FqTTz2wiDrKQSrTcort882vfn/+WrQRiS6dPQyUMnRoYzBdTC3E+FPhQC0J5kKK/D0H
-        LM0KWgEROPL9XGkkPtDbKcgO4+OMnZdyobiKxOhkfe91ky2DNAXxyoYHdAO9zpzXG+7mrT96w/C0D
-        cSd8H7hg5/xg61MAGwsjzNLbBqB/Um6CNHq79BiaCrU/VOU9jFfq+aQrz3oTlTvSP7fReohDtc0So
-        ompsD7yaXBZ9hvgSYsYha8MroiFNOSv4R+xYZEYz8YP739+DdmhMwQWEH6X2KZGYjJyQTGC+0Ty8F
-        p4i+Ml+Q==;
-Received: from [10.115.3.33] (helo=bosimpout13)
-        by bosmailscan09.eigbox.net with esmtp (Exim)
-        id 1lf7Ap-0008KG-EB; Fri, 07 May 2021 16:34:11 -0400
-Received: from boswebmail06.eigbox.net ([10.20.16.6])
-        by bosimpout13 with 
-        id 1wa22500Q07qujN01wa7Wz; Fri, 07 May 2021 16:34:11 -0400
-X-EN-SP-DIR: OUT
-X-EN-SP-SQ: 1
-Received: from [127.0.0.1] (helo=homestead)
-        by boswebmail06.eigbox.net with esmtp (Exim)
-        id 1lf79s-0005SY-TS; Fri, 07 May 2021 16:33:12 -0400
-Received: from [197.239.81.229]
- by emailmg.homestead.com
- with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 16:33:12 -0400
+        Fri, 7 May 2021 18:57:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3C8DF60698
+        for <platform-driver-x86@vger.kernel.org>; Fri,  7 May 2021 22:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620428206;
+        bh=+brV/Bhod+Qx5AUaMzaDiMAnhTvdcOyVwmD1NKSqlZI=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=kKQ0GplSJlWIpnCdVf2VWdaYkfpkyIGTsVleE2hwfC/fIgzj4gpjCB7UoLcvBmUT5
+         YUsNJ1mxxLXXPnxbLw4085GItguLwSW5w70JBvv68IMSJBZ3uBMxkxJHFbM848dyOg
+         QXv3uVQbD0GWo7LZ1RcURS1KcT/iGq8cZFNmDpvRIv/1UcVQu5uuZ2xVdKdVSgbsXA
+         MKSSydhaY60ou10lBC3DFZAQfsj8ffdpwBT6OVrcZQ1T533qFpJahfgmsWhz9kmjpG
+         C2SEuAjTDXvUWadvfvoO1uR9O5a3Uf4x6wQP5KmgIa2LfKiKgH26utM8G+bdmZ7Xqx
+         jRDL9vi15eYLg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 1FA3560F23; Fri,  7 May 2021 22:56:46 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 212985] ideapad_acpi: VPC2004:00: DYTC interface is not
+ available. platform_profile interface is unavailable
+Date:   Fri, 07 May 2021 22:56:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Platform Specific/Hardware
+X-Bugzilla-Component: x86-64
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tsweet64@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: platform-driver-x86@vger.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212985-215701-NAk3TRrag0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212985-215701@https.bugzilla.kernel.org/>
+References: <bug-212985-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Date:   Fri, 07 May 2021 20:33:12 +0000
-From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
-To:     undisclosed-recipients:;
-Subject: URGENT REPLY NEEDED
-Reply-To: suzara2017malingwan@gmail.com
-Mail-Reply-To: suzara2017malingwan@gmail.com
-Message-ID: <631345976938ca35031d7e185b0c5f57@godsofu4.com>
-X-Sender: fast65@godsofu4.com
-User-Agent: Roundcube Webmail/1.3.14
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-EN-AuthUser: fast65@godsofu4.com
-Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212985
 
+--- Comment #2 from Tim S (tsweet64@protonmail.com) ---
+Thanks a lot.
 
-My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
-of the Philippine presently base in West Africa B/F, dealing with
-exportation of Gold, I was diagnose of blood Causal decease, and my
-doctor have announce to me that I have few days to leave due to the
-condition of my sickness.
+> Can you check if the VPC2004 ACPI device has a method named "DYTC"?
 
-I have a desire to build an orphanage home in your country of which i
-cannot execute the project myself due to my present health condition,
-I am willing to hand over the project under your care for you to help
-me fulfill my dreams and desire of building an orphanage home in your
-country.
+If I'm understanding correctly, you're saying to check the disassembled ACPI
+tables, right? The disassembled dsdt.dsl does appear to contain a DYTC meth=
+od:
 
-Reply in you are will to help so that I can direct you to my bank for
-the urgent transfer of the fund/money require for the project to your
-account as I have already made the fund/money available.
+        Device (VPC0)
+        {
+            Name (_HID, "VPC2004")  // _HID: Hardware ID
+            Name (_UID, Zero)  // _UID: Unique ID
+            Name (_VPC, Zero)
+            Name (VPCD, Zero)
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                Return (0x0F)
+            }
 
-With kind regards
-Mrs Suzara Maling Wan
+            Method (DYTC, 1, Serialized)
+            {
+                ITSV =3D Zero
+                ITSM =3D Zero
+                Local0 =3D Zero
+                Local1 =3D (Arg0 & 0x01FF)
+                Local2 =3D (Arg0 & 0xFFFFFE00)
+                Switch (Local1)
+                {
+                    Case (Zero)
+
+         ....
+
+I'll attach the full file, in case it is needed.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are the assignee for the bug.=
