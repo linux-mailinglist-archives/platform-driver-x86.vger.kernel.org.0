@@ -2,80 +2,63 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B63FA38296C
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 May 2021 12:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 488B6382A26
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 May 2021 12:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236209AbhEQKJH (ORCPT
+        id S236471AbhEQKuA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 May 2021 06:09:07 -0400
-Received: from www.zeus03.de ([194.117.254.33]:39464 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236080AbhEQKJG (ORCPT
+        Mon, 17 May 2021 06:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236525AbhEQKuA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 May 2021 06:09:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=Z0f6aV6NsliMjT
-        tzNpWaoTKaZ24I1TbtLb9a3MIBU8E=; b=IMma1yLQIWMkbtuv0zbkIFwbyX5W5r
-        ZLnD4j2IwGmswWWiB/Jw+VrtAVRvqcKByzwJ0uPrOWfQaOEANDBnPqf01obQlfTb
-        6vDsK9Ag137TOvQF1WymA3DAUHemcFJPnmfTtQAKkOyI3mWm+iW76El4ZtM1Kkhg
-        /FnaoxL3M1GdI=
-Received: (qmail 2471414 invoked from network); 17 May 2021 12:07:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 May 2021 12:07:48 +0200
-X-UD-Smtp-Session: l3s3148p1@luD9w4PC/rggARa4RYY7ATBvQ5FTVwg4
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 2/2] platform/x86: samsung-laptop: set debugfs blobs to read only
-Date:   Mon, 17 May 2021 12:07:45 +0200
-Message-Id: <20210517100746.29663-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210517100746.29663-1-wsa+renesas@sang-engineering.com>
-References: <20210517100746.29663-1-wsa+renesas@sang-engineering.com>
+        Mon, 17 May 2021 06:50:00 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C4FC061573
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 May 2021 03:48:44 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id g24so3433612pji.4
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 May 2021 03:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=2wtiy97OLZBy4G/e+awvYcVozoiSCNuRxuUR3X2zbdY=;
+        b=MtBPp+BCoDvzYT99pOLxZqZK8iqbO1+tKbdJdYYtBcXPhZIN6eKVve/mncoPRgjdPN
+         f8jUONibuu7XM+5ZJEsz9Bt07FUZmo0B/7jICHcwc4zp/9eyuhk2PoecZFwJA29wpGML
+         7plJWafSuOSWVmK2WXNz+BCHd/5z6mYjuMZ3WTplc8Vio5Um6XPocbVTYXrv9D5TCDrY
+         PIFJ58xSDzA8F+42NXRU0atM3SBFTSbOa+EYCRK0bEoxQunp2VL8w4QRy09VlS735ys3
+         DdFLLtVLy+OfZij0YYjD9f26URz104QxHlFxDkH3kOLdxtNcfUmyIi0T4dT8WGyT/KTJ
+         s61w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=2wtiy97OLZBy4G/e+awvYcVozoiSCNuRxuUR3X2zbdY=;
+        b=sor8O3jUy+8DxSdgInFUoMrvH8p3omniktbB6/RauZnyKdb/bJSIcTOz+fohDrJPO/
+         HMkkSMji0EoG37+pWQ+DSnFJ40j6RCG4bVphiAHhcJj6Z58xo17fs4uf0dsswmVEAUkR
+         gayK2Hq5asFkD4+KdfHw5sJyeramBuECadwoFej1/tMGDacigIXZQCaBIsLIGSjP8ZSu
+         DDciL9WbKFnLzK2SgUbaeYeJinrAv9Eif+7kCEbVsRdmRyg9doR/4FLaalLe0F3E49kf
+         FhdpDJ3TAankoZyTrebJdKlmv7v4JhslU1sVYEueA6MOoNKyTUSvtf7PrrsXHOqBFC1Y
+         SUBg==
+X-Gm-Message-State: AOAM533AzFZdMbGLdnOBvMHHh7wfg7ePTqf1qI2X5OHV8I0cXGwz0PRT
+        IekG4gv8lTDc+K2sF1AhqQUty29/ytuF+BETeDM=
+X-Google-Smtp-Source: ABdhPJzOGtjOF/gngjScpqna1ArUrhw81kakWZUxHODc1BYTGuX2lFdk4vqsKG2sPlkneLErAN/ILI0g7iWpnrRHj+s=
+X-Received: by 2002:a17:902:7486:b029:f0:d157:f293 with SMTP id
+ h6-20020a1709027486b02900f0d157f293mr8737558pll.46.1621248523738; Mon, 17 May
+ 2021 03:48:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6a10:4117:0:0:0:0 with HTTP; Mon, 17 May 2021 03:48:43
+ -0700 (PDT)
+Reply-To: fionahill578@gmail.com
+From:   Fiona Hill <grace.desmond2021@gmail.com>
+Date:   Mon, 17 May 2021 11:48:43 +0100
+Message-ID: <CAOW9D1u+MGWSa_KEw9jekh=nY0vLvAoxkv3-ZMReFDr9FSSBpg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Those blobs can only be read. So, don't confuse users with 'writable'
-flags. Also, remove S_IFREG because debugfs takes care of that.
-
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-
-change since v2: added Andy's tag and removed S_IFREG
-
- drivers/platform/x86/samsung-laptop.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/samsung-laptop.c b/drivers/platform/x86/samsung-laptop.c
-index 763d97cbbe53..7ee010aa740a 100644
---- a/drivers/platform/x86/samsung-laptop.c
-+++ b/drivers/platform/x86/samsung-laptop.c
-@@ -1296,12 +1296,12 @@ static void samsung_debugfs_init(struct samsung_laptop *samsung)
- 	debugfs_create_u32("d1", 0644, root, &samsung->debug.data.d1);
- 	debugfs_create_u16("d2", 0644, root, &samsung->debug.data.d2);
- 	debugfs_create_u8("d3", 0644, root, &samsung->debug.data.d3);
--	debugfs_create_blob("data", 0644, root, &samsung->debug.data_wrapper);
--	debugfs_create_blob("f0000_segment", 0600, root,
-+	debugfs_create_blob("data", 0444, root, &samsung->debug.data_wrapper);
-+	debugfs_create_blob("f0000_segment", 0400, root,
- 			    &samsung->debug.f0000_wrapper);
--	debugfs_create_file("call", S_IFREG | 0444, root, samsung,
-+	debugfs_create_file("call", 0444, root, samsung,
- 			    &samsung_laptop_call_fops);
--	debugfs_create_blob("sdiag", 0644, root, &samsung->debug.sdiag_wrapper);
-+	debugfs_create_blob("sdiag", 0444, root, &samsung->debug.sdiag_wrapper);
- }
- 
- static void samsung_sabi_exit(struct samsung_laptop *samsung)
 -- 
-2.30.2
 
+Attention Sir did you see my message?
