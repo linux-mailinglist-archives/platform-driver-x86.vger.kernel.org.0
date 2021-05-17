@@ -2,94 +2,139 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1C038294F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 May 2021 12:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461CB38296D
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 May 2021 12:07:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236123AbhEQKHF (ORCPT
+        id S236080AbhEQKJH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 May 2021 06:07:05 -0400
-Received: from www.zeus03.de ([194.117.254.33]:38114 "EHLO mail.zeus03.de"
+        Mon, 17 May 2021 06:09:07 -0400
+Received: from www.zeus03.de ([194.117.254.33]:39460 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232452AbhEQKDb (ORCPT
+        id S236032AbhEQKJG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 May 2021 06:03:31 -0400
+        Mon, 17 May 2021 06:09:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=/FxvbSuKC1tmr9/+95uisDIUwuZu
-        1r+6F20Yx4PySKw=; b=AgHOb03L0EvWeU3YMajBBb1smLBdbUYpODjjrJ36Z7x6
-        nqAQRYctI4C/CUUTj8IT+1gDRmnYnS8hGJtgBHSG2JqwSEU2PHZjUb+VgLu+RfQq
-        xPQLJMBME0JAaC/M8qxBlUGBSS+AfKQMTeoIPFXQJ9MYs0sZJdlfODnH0EBJU2Y=
-Received: (qmail 2469005 invoked from network); 17 May 2021 12:02:12 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 May 2021 12:02:12 +0200
-X-UD-Smtp-Session: l3s3148p1@r7iAr4PC7rggARa4RYY7ATBvQ5FTVwg4
-Date:   Mon, 17 May 2021 12:02:04 +0200
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=nawEMLzWlS0z6SB6yinf2i6bYvZ
+        JtCd1L00esRlOOSQ=; b=iQH4JncmIEYqYR5Y5C0bayD9dUUJvz0Yj9Ux86WVo1e
+        V61mXl4miun7POG6lfpDrdtxcFid5cwlLiMXcSkzSA6+LtNMebIrbX1rKYd2JCGq
+        kPLj9BE8h8EKaEIMPL2V/fcno0Po4xAiX3yC0EdjWVV5+2hWqk3qpMNuw+wBTiiY
+        =
+Received: (qmail 2471376 invoked from network); 17 May 2021 12:07:47 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 May 2021 12:07:47 +0200
+X-UD-Smtp-Session: l3s3148p1@8sD1w4PC/LggARa4RYY7ATBvQ5FTVwg4
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] platform/x86: samsung-laptop: use octal numbers
- for rwx file permissions
-Message-ID: <YKI/HD7qZB6Seh/+@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+To:     linux-kernel@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Corentin Chary <corentin.chary@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-References: <20210504170030.58447-1-wsa+renesas@sang-engineering.com>
- <CAHp75VepeO6-A9-xJqjpEDZa0XDyNbat0PBrtrgFEgJ4yxh4kA@mail.gmail.com>
- <CAHp75VdSv4Ja7+bjPDvOawuv1ukhKZ==bjQ_MQbNPUds_7mVZw@mail.gmail.com>
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v3 1/2] platform/x86: samsung-laptop: use octal numbers for rwx file permissions
+Date:   Mon, 17 May 2021 12:07:44 +0200
+Message-Id: <20210517100746.29663-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="AuwULfkSGg+bPGLa"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdSv4Ja7+bjPDvOawuv1ukhKZ==bjQ_MQbNPUds_7mVZw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Andy asked me to do it before working further on the code.
 
---AuwULfkSGg+bPGLa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
+change since v2: added Andy's tag
 
-> > > -       debugfs_create_file("call", S_IFREG | S_IRUGO, root, samsung,
-> > > +       debugfs_create_file("call", S_IFREG | 0444, root, samsung,
->=20
-> Actually you may drop IFREG as well as debugfs will add it if there is
-> no conflicting file type defined.
+ drivers/platform/x86/samsung-laptop.c | 35 +++++++++++----------------
+ 1 file changed, 14 insertions(+), 21 deletions(-)
 
-Oh, I missed this back then. Quoting only relevant parts of a message
-helps me to avoid that ;)
+diff --git a/drivers/platform/x86/samsung-laptop.c b/drivers/platform/x86/samsung-laptop.c
+index d5cec6e35bb8..763d97cbbe53 100644
+--- a/drivers/platform/x86/samsung-laptop.c
++++ b/drivers/platform/x86/samsung-laptop.c
+@@ -388,7 +388,7 @@ MODULE_PARM_DESC(force,
+ 		"Disable the DMI check and forces the driver to be loaded");
+ 
+ static bool debug;
+-module_param(debug, bool, S_IRUGO | S_IWUSR);
++module_param(debug, bool, 0644);
+ MODULE_PARM_DESC(debug, "Debug enabled or not");
+ 
+ static int sabi_command(struct samsung_laptop *samsung, u16 command,
+@@ -705,7 +705,7 @@ static ssize_t set_performance_level(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(performance_level, S_IWUSR | S_IRUGO,
++static DEVICE_ATTR(performance_level, 0644,
+ 		   get_performance_level, set_performance_level);
+ 
+ static int read_battery_life_extender(struct samsung_laptop *samsung)
+@@ -774,7 +774,7 @@ static ssize_t set_battery_life_extender(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(battery_life_extender, S_IWUSR | S_IRUGO,
++static DEVICE_ATTR(battery_life_extender, 0644,
+ 		   get_battery_life_extender, set_battery_life_extender);
+ 
+ static int read_usb_charge(struct samsung_laptop *samsung)
+@@ -843,7 +843,7 @@ static ssize_t set_usb_charge(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(usb_charge, S_IWUSR | S_IRUGO,
++static DEVICE_ATTR(usb_charge, 0644,
+ 		   get_usb_charge, set_usb_charge);
+ 
+ static int read_lid_handling(struct samsung_laptop *samsung)
+@@ -908,7 +908,7 @@ static ssize_t set_lid_handling(struct device *dev,
+ 	return count;
+ }
+ 
+-static DEVICE_ATTR(lid_handling, S_IWUSR | S_IRUGO,
++static DEVICE_ATTR(lid_handling, 0644,
+ 		   get_lid_handling, set_lid_handling);
+ 
+ static struct attribute *platform_attributes[] = {
+@@ -1291,24 +1291,17 @@ static void samsung_debugfs_init(struct samsung_laptop *samsung)
+ 	samsung->debug.sdiag_wrapper.data = samsung->sdiag;
+ 	samsung->debug.sdiag_wrapper.size = strlen(samsung->sdiag);
+ 
+-	debugfs_create_u16("command", S_IRUGO | S_IWUSR, root,
+-			   &samsung->debug.command);
+-	debugfs_create_u32("d0", S_IRUGO | S_IWUSR, root,
+-			   &samsung->debug.data.d0);
+-	debugfs_create_u32("d1", S_IRUGO | S_IWUSR, root,
+-			   &samsung->debug.data.d1);
+-	debugfs_create_u16("d2", S_IRUGO | S_IWUSR, root,
+-			   &samsung->debug.data.d2);
+-	debugfs_create_u8("d3", S_IRUGO | S_IWUSR, root,
+-			  &samsung->debug.data.d3);
+-	debugfs_create_blob("data", S_IRUGO | S_IWUSR, root,
+-			    &samsung->debug.data_wrapper);
+-	debugfs_create_blob("f0000_segment", S_IRUSR | S_IWUSR, root,
++	debugfs_create_u16("command", 0644, root, &samsung->debug.command);
++	debugfs_create_u32("d0", 0644, root, &samsung->debug.data.d0);
++	debugfs_create_u32("d1", 0644, root, &samsung->debug.data.d1);
++	debugfs_create_u16("d2", 0644, root, &samsung->debug.data.d2);
++	debugfs_create_u8("d3", 0644, root, &samsung->debug.data.d3);
++	debugfs_create_blob("data", 0644, root, &samsung->debug.data_wrapper);
++	debugfs_create_blob("f0000_segment", 0600, root,
+ 			    &samsung->debug.f0000_wrapper);
+-	debugfs_create_file("call", S_IFREG | S_IRUGO, root, samsung,
++	debugfs_create_file("call", S_IFREG | 0444, root, samsung,
+ 			    &samsung_laptop_call_fops);
+-	debugfs_create_blob("sdiag", S_IRUGO | S_IWUSR, root,
+-			    &samsung->debug.sdiag_wrapper);
++	debugfs_create_blob("sdiag", 0644, root, &samsung->debug.sdiag_wrapper);
+ }
+ 
+ static void samsung_sabi_exit(struct samsung_laptop *samsung)
+-- 
+2.30.2
 
-I will add this, to patch 2, though. This is only a plain conversion. v3
-coming in a minute.
-
-
---AuwULfkSGg+bPGLa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCiPxgACgkQFA3kzBSg
-KbZfAxAAn+fNp1VOJnan7vF9NWywThmWildOGGMg40sGFK7hS1TCQS9sEgzXpXAo
-wMm0HKPlLRCSS0K+7KJNnMIOP88tJz6gedVJE6lCeookcUVtyR84tsg6w7JsPONN
-z+U0CyXszO7PXj17huNUb0J1+sstu0q/ZcmiCIFEjcHAfmKTFffCYxU6GjCkdNek
-QLRq9v9qfgb6B+YfVSkF4Md0knusaOjxQSqxxT7Pzv0RM/9ptymd2MFSDYBrKi8/
-xcuLM0wk/d88AE7ijOYGCD2Zt0Eaa8ZopgEB93QtAQOS5qf4GpLOew7HHfVZ5twp
-vacvF2s920DK3ZSkHluqY1yQ1Lwwcciv3FcnlULi3ZnqFP83HY06j5PTUnjgMzQh
-Sn7ueRnnNKExi60dP/PpcOtC4yJKdbFVk+lcS7OGPMf4VQMFbow91Wv+IsgtGc9W
-V5CErITA2WBRuAO98o0uHC2JAjVKu990CopWAE4N48D80WLK5Dbd8go8RzE7CSss
-EE59l4tkhCA7cwPPffWldor9aoLlJV9eKD08+RpIBQtSvBfPbHG1ED/m77xtTZKK
-YKGso2jKiw1MFzMX0BlEDwC+wfj6Zd0ln73mu++dOydcvkM7asre1j6vJi5A/584
-GUV36prkavJpi1qfcxQHBNevHUfLeKSOeFNUhpJ/YtqLQfPXkyw=
-=AH4s
------END PGP SIGNATURE-----
-
---AuwULfkSGg+bPGLa--
