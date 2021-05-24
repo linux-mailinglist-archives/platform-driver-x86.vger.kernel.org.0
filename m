@@ -2,98 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A8A38DC29
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 May 2021 19:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D228438E0A5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 24 May 2021 07:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231917AbhEWRZG (ORCPT
+        id S229824AbhEXF22 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 23 May 2021 13:25:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51713 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231893AbhEWRZF (ORCPT
+        Mon, 24 May 2021 01:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229633AbhEXF21 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 23 May 2021 13:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621790618;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=rPjSseOXT6wXtxewkQAgBMGC0GfkrBbGtzBL6bUaoqw=;
-        b=f+1vMGELBY9WOfJho4WB7dfYt5ORgoKkKeEUhaRkHGHuyw3+ny2SEeiIw4oVUFRekWmY0+
-        b1qsI/gBd8MqoXJt81Kk63lNZDNVqNfWIyLFsGYRHP/ycWOznmsSRH/K7O5S4foKVrBD8P
-        nHHmPsE+A33A6qy38iNbsHUxGkMz/5k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-B1I5jSk_MNWqE4k6a_TBog-1; Sun, 23 May 2021 13:23:35 -0400
-X-MC-Unique: B1I5jSk_MNWqE4k6a_TBog-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5685801B14;
-        Sun, 23 May 2021 17:23:34 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-61.ams2.redhat.com [10.36.112.61])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9B7685D767;
-        Sun, 23 May 2021 17:23:32 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: ideapad-laptop: Ignore VPC event bit 10
-Date:   Sun, 23 May 2021 19:23:31 +0200
-Message-Id: <20210523172331.177834-1-hdegoede@redhat.com>
+        Mon, 24 May 2021 01:28:27 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A518C061756
+        for <platform-driver-x86@vger.kernel.org>; Sun, 23 May 2021 22:26:59 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id z12so38347401ejw.0
+        for <platform-driver-x86@vger.kernel.org>; Sun, 23 May 2021 22:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=gbkK7+vvOayEjrmlYa2aU3fZC7h8UfqPvY1BFeDOq8Y=;
+        b=qOkkHQLjSsr9oSFATRcGzS2el1XfIT3+HyLysLoRWuxn441YWilhSbTLEaBR4BPjdP
+         9EnkUHnCUJwk9R/HPUn11Ux7/hRU8GOxmsGGDdGOf91D3Ly5kHC6EOlHyTf95Z7ZQ1ni
+         j6DFa2DNI1CqGnSGBKHEB2tL5Vxq07zhMuyhkEyCCoWaDDak3sWu1quMa2PWw+0elQg7
+         4uChemq4E4MBcbYjQj7W1eusy4EmM/hCrN22eWhUcTxwLE7kNf9wYkDSUjsx32JjXsX0
+         8M77eG4ShdObU7mX34WPoUP0Bye7/yWLWByqQunjRMBOavQ6ynti34+hx5KvvU7tYmOr
+         9Zhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=gbkK7+vvOayEjrmlYa2aU3fZC7h8UfqPvY1BFeDOq8Y=;
+        b=JtE/oN3CVRODAzxErfcHewL3ZU9bX6X2TKecaivWPzY09WlDMnKHrKC5p6NSw/nT0B
+         UHRR9Rq2osoGCG6yHvyJS6kOt5kqhQdxgrTrLDufx0mtRvJbqMtPaGs/wMGc/vMkarua
+         ggTfFIOuTbrHq4nBTQNHRQ7YhDi/VDuqXXVs5PC7xhEMjUNjWt9NwO6qvK/B/Yd7+dwy
+         LkPr/Ry94VFSBbGCi556tJKk3hTmj2grwL7O2oXiKq8YCxEZWQhmMOlY7UyQrWcxaekd
+         OH2USDvK6Dpkp7PywqeSk/uHulrfZ/ObUJwmnZDh406DdBFbM5RIcR+YKvtCAybLIKIG
+         uYTg==
+X-Gm-Message-State: AOAM5327FxsfgUyOyxPQ3NFi4nfOBj0KeWr49HOs/q1rflLmfwsE+bZi
+        jZKlvPukDgetI2B0DfTVfQBXDgCaGzJHEDjNBWw=
+X-Google-Smtp-Source: ABdhPJzl1gN3xGZ1pAKFRrFeidqTAl5YVgqxoJygE7x9x9AQmppGk7fQE4mV2lUxXONCAtQFlBEw6dtlYXl7MPEfdYA=
+X-Received: by 2002:a17:907:1c0f:: with SMTP id nc15mr22153112ejc.27.1621834017453;
+ Sun, 23 May 2021 22:26:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received: by 2002:a17:906:58d5:0:0:0:0 with HTTP; Sun, 23 May 2021 22:26:57
+ -0700 (PDT)
+Reply-To: jackgabriel5457@gmail.com
+From:   Jack Gabriel <herve66666@gmail.com>
+Date:   Sun, 23 May 2021 22:26:57 -0700
+Message-ID: <CAEAMV_VKwX=9xqkpVCj8jnPeyDAseDPvUq7NOa2pA8c3n7=W_w@mail.gmail.com>
+Subject: Dear friend,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-VPC event bit 10 gets set on a Yoga 300-11IBR when the EC believes that the
-device has changed between laptop/tent/stand/tablet mode.
-
-The EC relies on getting angle info from 2 accelerometers through a special
-windows service calling a DSM on the DUAL250E ACPI-device. Linux does not
-do this, making the laptop/tent/stand/tablet mode info unreliable.
-
-Ignore VPC event bit 10 to avoid the warnings triggered by the default case
-in ideapad_acpi_notify().
-
-Note that the plan for Linux is to have iio-sensor-proxy read the 2
-accelerometers and have it provide info about which mode 360° hinges
-2-in-1s to the rest of userspace:
-https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/issues/216
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/ideapad-laptop.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
-index 387817290921..784326bd72f0 100644
---- a/drivers/platform/x86/ideapad-laptop.c
-+++ b/drivers/platform/x86/ideapad-laptop.c
-@@ -1408,6 +1408,18 @@ static void ideapad_acpi_notify(acpi_handle handle, u32 event, void *data)
- 		case 6:
- 			ideapad_input_report(priv, bit);
- 			break;
-+		case 10:
-+			/*
-+			 * This event gets send on a Yoga 300-11IBR when the EC
-+			 * believes that the device has changed between laptop/
-+			 * tent/stand/tablet mode. The EC relies on getting
-+			 * angle info from 2 accelerometers through a special
-+			 * windows service calling a DSM on the DUAL250E ACPI-
-+			 * device. Linux does not do this, making the laptop/
-+			 * tent/stand/tablet mode info unreliable, so we simply
-+			 * ignore these events.
-+			 */
-+			break;
- 		case 9:
- 			ideapad_sync_rfk_state(priv);
- 			break;
 -- 
-2.31.1
+Dear friend,
 
+I am Mr jack Gabriel,from West Africa am sorry to intrude into your
+privacy I got your email address through internet via computerized search
+after my prayers so I bring to you this transaction which I notify
+from our bank an abandon fund which belongs to our late foreign customer who
+deposited the sum 10.2 million USD but he died at of cancer and
+ever since then no one has applied to claim the fund
+so I write to you with confidence that you can be a help so we can get
+the fund out of the bank I want you to apply to the bank as his
+foreign business partner note that once the fund is been release to
+your wish bank account in your country it will be shared among us in
+the ratio of 60%40 if you are interested please kindly forward your
+details so we can move towards it.
+
+Your full name...........
+
+Your Bank Name:............
+
+Your Telephone Number:............
+
+Your Age And Sex:.......................
+
+Your marital status........
+
+Your Occupation..........
+
+Your Country city............
+
+Thanks
+Mr jack Gabriel.
