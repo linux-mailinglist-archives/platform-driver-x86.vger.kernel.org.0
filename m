@@ -2,157 +2,96 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C83EB390348
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 May 2021 16:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C17763905BB
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 25 May 2021 17:41:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233273AbhEYODv (ORCPT
+        id S229704AbhEYPnD (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 25 May 2021 10:03:51 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.4]:32589 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232728AbhEYODu (ORCPT
+        Tue, 25 May 2021 11:43:03 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:43329 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234294AbhEYPnC (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 25 May 2021 10:03:50 -0400
-Received: from [100.112.3.43] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-4.bemta.az-b.us-east-1.aws.symcld.net id D4/14-44175-C630DA06; Tue, 25 May 2021 14:02:20 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgleJIrShJLcpLzFFi42LJePGQVzebeW2
-  CwdtPlhaHNhxgsujunstk8eb4dCaLzx2TWSxW73nBbLHo4xM2BzaPSTNnMHvMOxno8X7fVTaP
-  z5vkAliiWDPzkvIrElgzFk3sZimYJ1zxe91D1gbGM/xdjJwcQgL/GSXur6/vYuQCsh8zSjyds
-  4sFJCEsUCTx8cZZVhBbRCBQou36fkaQImaBJ4wSvaevMEJ09LBITF95igmkik1AW2LLll9sXY
-  wcHLwCthKX/7KDhFkEVCUutf9jA7FFBcIldne8BCvnFRCUODnzCdgyTgE7iVkHFrKCtDILaEq
-  s36UPEmYWEJe49WQ+E4QtL7H97RxmkBIJAUWJid90QcISAgkSPf8esU1gFJyFZOgshEGzkAya
-  hWTQAkaWVYymSUWZ6RkluYmZObqGBga6hoZGuka6xpZ6iVW6SXqlxbqpicUluoZ6ieXFesWVu
-  ck5KXp5qSWbGIERk1LApL6D8fLrD3qHGCU5mJREeaX8VycI8SXlp1RmJBZnxBeV5qQWH2KU4e
-  BQkuA9w7Q2QUiwKDU9tSItMwcYvTBpCQ4eJRFeJpA0b3FBYm5xZjpE6hSjopQ4729GoIQASCK
-  jNA+uDZYwLjHKSgnzMjIwMAjxFKQW5WaWoMq/YhTnYFQS5j0LMoUnM68EbvoroMVMQIuTclaB
-  LC5JREhJNTC1nZ/I+WTn6kvLV5p6h+rN1t2VMb30xM/oa7bcUakm+a6/TjFoMQUW8PheqZi3M
-  0WnZyZXjsSXSV/07Jx3ixq1/o/9GxFbdd16cs+i2IKCbytc7vblLZO8s7Du6cR1uirPLzMWRi
-  n5mLC4yx7c8naJjcmUtAPZRT/uFlseePRogvHJvV/Ybs4Q25bQ360RHbzhX55tpgJP+ey7V1c
-  GbI1dqBkZudcr4mRF7mePyR938kwIum0oNev3e7fPwsZ3jm607Xh72HpX7f7XK4ULPTfUOama
-  /4ji4L9jfmGX84/LNy8ebtb4IWBdu9tX8TJXv0DHhdfzz5ortvNPLX5+Z9b0Hcw7/p496jejX
-  tcqtNdbiaU4I9FQi7moOBEAsitpy5MDAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-17.tower-395.messagelabs.com!1621951339!105434!1
-X-Originating-IP: [104.232.225.13]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.75.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 30802 invoked from network); 25 May 2021 14:02:19 -0000
-Received: from unknown (HELO lenovo.com) (104.232.225.13)
-  by server-17.tower-395.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 25 May 2021 14:02:19 -0000
-Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id B15A867013C2D5E36E23;
-        Tue, 25 May 2021 10:02:19 -0400 (EDT)
-Received: from [10.46.192.114] (10.46.192.114) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2176.2; Tue, 25 May
- 2021 10:02:19 -0400
-Subject: Re: [External] Re: [PATCH v2 3/3] platform/x86: think-lmi: Add WMI
- interface support on Lenovo platforms
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Ksr, Prasanth" <Prasanth.Ksr@dell.com>
-CC:     "mgross@linux.intel.com" <mgross@linux.intel.com>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "Bharathi, Divya" <Divya.Bharathi@Dell.com>,
-        Dell Client Kernel <Dell.Client.Kernel@dell.com>
-References: <markpearson@lenovo.com>
- <20210509015708.112766-1-markpearson@lenovo.com>
- <20210509015708.112766-3-markpearson@lenovo.com>
- <bbd0f3c9-63c3-2fbb-7712-ecb3131a4c0a@redhat.com>
- <ac30f95e-8398-fb11-8c94-b50050a3f88f@lenovo.com>
- <1c21c3d3-7ff1-a7b2-86d0-245050426760@redhat.com>
- <c8b706bb-5397-758e-8ab8-1d75b2920054@lenovo.com>
- <971080ef-a9c2-6de9-c6e1-895e7c5903f2@redhat.com>
- <CO1PR19MB5078C56213656707579025AD82269@CO1PR19MB5078.namprd19.prod.outlook.com>
- <b454148c-640e-f642-cd3d-17c71e573b95@redhat.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <7f6a6396-21db-6785-383d-f947b47e1a26@lenovo.com>
-Date:   Tue, 25 May 2021 10:02:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Tue, 25 May 2021 11:43:02 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 61D7F1311;
+        Tue, 25 May 2021 11:41:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 25 May 2021 11:41:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tju.me; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=3dOqmWnre8Qli2mInIo3ZkkdNa
+        BOEO5L4G3nLgoVQDM=; b=nPpQn95Jvv5OpxSFlX52gjl8gbM7z4GDxvxUQkRu7u
+        BApLthnY+6468+HYVbcJfIIrrKgWWjrrHPQuWg6Nm8pP1wb7Wx9zsTcGhymsaCj4
+        Dxg9UxSvpsNKL7LrygrTMZKRF38GtYCZOfwHI5/3oJNgGpPcIRCwjv0zs7x4dli7
+        CwTZjBi8GOfqiieR45Lxz783PqVSJIQyOSLOq4kK9xDvSpyfHH29iiIhCMHUl4R2
+        YalUK3hz1VcZ7f0XTAUUH/iZyzddxZ6YuSEaDx24NSNcrCZDkmT4AreZWRcauvpu
+        buU7YWZ9tlHsqGg2FJVBb2BOpFhXBfa1wyNpEoiDZQaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3dOqmWnre8Qli2mIn
+        Io3ZkkdNaBOEO5L4G3nLgoVQDM=; b=TS7AF0FFCubRJ8JFc7t9ge5fmzE6RRbWJ
+        mv3+MFPaez7u3IeYTfLEAqgE/9I3yUZ8HEk+myW1AngqgMFAX930CK7vArrSW+R9
+        nCeXSy61Y4bIP6R7YF1Pn/RGWfkTeRC7hDUBtTlT/e0mzzKMTyTEh916Qg2F2EXV
+        n2wsis64I3BfDAduj+nO2N2JYJdW8+1/RqiyJRVhUWCEqBh6+qgfPUHdriZ6ShuO
+        wgREp+5ai5TQ7jc7+iSuFUQhlhOduQ2P9A0uDQT+cXYHosvtYgKdbwGGVewBl1ww
+        s4hBReEv4uzW3CHHMKuxDwYVgSxY41Ug6/EMMMhuNcHjNgFbWzE2Q==
+X-ME-Sender: <xms:qRqtYCWt2xrqEw8ayfIIN7HOKpxYx2wruTOTk9ilK8PkAZnhfXOTNg>
+    <xme:qRqtYOkSKsmCT_5oH9d7sFAA1nUF8dSo90BXndfHg2aw5oocv1GO9h6FmSv3aNa8C
+    en4tQs7WQnZGg0eBw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefvihhlucflrghs
+    phgvrhcufghllhhrihgthhcuoehtjhhusehtjhhurdhmvgeqnecuggftrfgrthhtvghrnh
+    epjedugefhkeeuueekueejueefgeevjeeuvdefudfggeeuieehueelteejvdehtdfhnecu
+    kfhppeelgedrudefgedrledtrddvtdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepthhjuhesthhjuhdrmhgv
+X-ME-Proxy: <xmx:qRqtYGa7E-jZ01Tn8OnLccHCCTB9s-524Vrxi9b4vJO_LOSr6vJdDg>
+    <xmx:qRqtYJXarwVlrRMZV0IcT8Iw44w8j-HKH9i9x7QWu_TwuEcSCP6CfQ>
+    <xmx:qRqtYMmz4V3mk_iNdHQgZ_LaLgQcLuIAWfo7dCvryZRwC-ciyeJ3tA>
+    <xmx:qhqtYNAtXJq9Up5MzyBnE6QJ9hsLQywEyyhOLZ8SQ64x_8BapsL_ug>
+Received: from alpha.fritz.box (unknown [94.134.90.204])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Tue, 25 May 2021 11:41:27 -0400 (EDT)
+From:   Til Jasper Ullrich <tju@tju.me>
+To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] platform/x86: thinkpad_acpi: add X1 Carbon Gen 9 second fan support
+Date:   Tue, 25 May 2021 17:09:52 +0200
+Message-Id: <20210525150950.14805-1-tju@tju.me>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <b454148c-640e-f642-cd3d-17c71e573b95@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.46.192.114]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail01.lenovo.com (10.62.32.20)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi
+The X1 Carbon Gen 9 uses two fans instead of one like the previous
+generation. This adds support for the second fan. It has been tested
+on my X1 Carbon Gen 9 (20XXS00100) and works fine.
 
-On 2021-05-24 11:27 a.m., Hans de Goede wrote:
-> Hi,
-> 
-> On 5/24/21 12:19 PM, Ksr, Prasanth wrote:
->> Hi,
->> 
->>> -----Original Message----- From: Hans de Goede
->>> <hdegoede@redhat.com> Sent: Friday, May 21, 2021 10:25 PM To:
->>> Mark Pearson Cc: mgross@linux.intel.com;
->>> platform-driver-x86@vger.kernel.org; Bharathi, Divya; Ksr,
->>> Prasanth; Dell Client Kernel Subject: Re: [External] Re: [PATCH
->>> v2 3/3] platform/x86: think-lmi: Add WMI interface support on
->>> Lenovo platforms
->>> 
->>> 
->>> [EXTERNAL EMAIL]
->>> 
->>> Hi,
->>> 
->>> On 5/21/21 5:55 PM, Mark Pearson wrote:
->>> 
->>> <snip>
->>> 
->>>>>> I know it would make Dell and Lenovo operate differently (I
->>>>>> can add that detail to the documentation) but it just feels
->>>>>> like a nicer design.
->>>>> 
->>>>> That works for me. Perhaps you can also do a (compile tested
->>>>> only) RFC patch for the Dell code to do the same thing
->>>>> (replace the memset 0 with the strscpy) to see if the Dell
->>>>> folks are ok with also doing things this way ?
->>>>> 
->>>> I'm not hugely comfortable with that. If for some reason it
->>>> broke things for Dell customers I wouldn't want to be
->>>> responsible :)
->>> 
->>> Right, that is why I suggested making it a RFC patch and I would
->>> certainly not apply that patch without it being tested by Dell
->>> first.
->>> 
->>> The idea behind the patch is for it to be a way to get a
->>> discussion about this started. In my experience patches tend to
->>> get more of a reaction then hypothetical discussions about
->>> changes :)
->>> 
->>>> I'd rather they made the changes and were able to test it - I
->>>> know that's what I'd prefer if it was the other way around.
->>>> Apologies if I'm being over cautious!
->>> 
->>> If you don't feel comfortable doing this, that is fine, lets wait
->>> what the Dell folks have to say; and if they don't respond I
->>> might do a RFC myself.
->>> 
->> 
->> Ack. We will implement the same from Dell side as well to have
->> uniformity and seems nicer from a user point of view rather than
->> populating the current_password field again in case of password
->> change scenario.
-> 
-Just as a note, testing this over the weekend, I found that the password
-change doesn't become active until after a reboot on our systems.
+Signed-off-by: Til Jasper Ullrich <tju@tju.me>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-So, at least on our systems, copying over strings is pointless.
-I'll just document the behaviour in the document for our systems, and
-see if we can improve it in our firmware going forward.
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index dd60c9397d35..edd71e744d27 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -8853,6 +8853,7 @@ static const struct tpacpi_quirk fan_quirk_table[] __initconst = {
+ 	TPACPI_Q_LNV3('N', '2', 'O', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (2nd gen) */
+ 	TPACPI_Q_LNV3('N', '2', 'V', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (3nd gen) */
+ 	TPACPI_Q_LNV3('N', '3', '0', TPACPI_FAN_2CTL),	/* P15 (1st gen) / P15v (1st gen) */
++	TPACPI_Q_LNV3('N', '3', '2', TPACPI_FAN_2CTL),	/* X1 Carbon (9th gen) */
+ };
 
-Thanks
-Mark
+ static int __init fan_init(struct ibm_init_struct *iibm)
+--
+2.31.1
+
