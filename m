@@ -2,74 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B70394CEC
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 May 2021 17:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A12D39501E
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 May 2021 10:35:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbhE2P2e (ORCPT
+        id S229579AbhE3IhQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 May 2021 11:28:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59198 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229693AbhE2P2d (ORCPT
+        Sun, 30 May 2021 04:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229500AbhE3IhQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 May 2021 11:28:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622302016;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=HGWJAjJBCtARDEJg2wj3S/Nn7TkHnQaBURTNlC4KGR0=;
-        b=ba+T2nDY9j2Cw7+ztcjpk2zPUbdZ70XMMebidL9tQPdd8h/W0t9EYHfkFL9orSsu9oQm39
-        8rGDw5ZWAbYec/M/WwrmW5a9e7T+bo+kqIzXOQUCF2vsUXntUi0FQOm8R1dWtht8R3EK0M
-        /8JypFp6rR7Vl5WtDd7nOc4n54ox9kg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-fjjKN2FfN5uE1SM6aZjFPA-1; Sat, 29 May 2021 11:26:54 -0400
-X-MC-Unique: fjjKN2FfN5uE1SM6aZjFPA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC101180FD65;
-        Sat, 29 May 2021 15:26:52 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-39.ams2.redhat.com [10.36.112.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D46241002F12;
-        Sat, 29 May 2021 15:26:51 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: touchscreen_dmi: Fix Chuwi Hi10 Prus typo in comment
-Date:   Sat, 29 May 2021 17:26:50 +0200
-Message-Id: <20210529152650.12604-1-hdegoede@redhat.com>
+        Sun, 30 May 2021 04:37:16 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C83FC061574
+        for <platform-driver-x86@vger.kernel.org>; Sun, 30 May 2021 01:35:37 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id z4so3678585plg.8
+        for <platform-driver-x86@vger.kernel.org>; Sun, 30 May 2021 01:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=W+gtKEF7m9EZXILJ0WgmmziPlyrm0xuJ9yfaf7Q7/ZQ=;
+        b=u+HyoSLpMSsqejnw0nRbHB0vsrVG59C/ylQ/Hjlu4kZ17ojdaYSfamX3RiXDJ3v/9U
+         AI73QfEpbmcZqSyb3cAJVDDvzFFFOHNMFLwwUKMXcbQr/dB3diSFzM+9EUFnDZ/gGn3c
+         kdf1w7SezP3DolkLkJEqBnehQ9/dprYJwj9usefSf4FDQ/CC1BsB/97VP9XxD/AEkPgT
+         PbTfkGWXfhSssUEk5iGNDW0Clrc/sTJSc12+kdhIwfc//L5+fUnQheuyW7+Hi/tMJDDd
+         ZNja4BEFbV16c430SkYtytXyIU6rxKFwlrtJlcDFKohP+9UnB9yjUvSuIo2e5BCRFf6G
+         oQqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=W+gtKEF7m9EZXILJ0WgmmziPlyrm0xuJ9yfaf7Q7/ZQ=;
+        b=AXduMD/QBhAbfaircRL5u/CnUeFvXbk4kH8nDG8DJVceLK3sX9WLJXyLyBl3GmX8Gl
+         MpslK9/2Bl0RDqAT1nKzQ8/rKEko7IG3lJpkpXBVtch80N8nGx3cpCVfYGofH/XoI5eJ
+         GxP9BGKkU+tTC4SrMtrE6OSLSlM7xrQclGrxYFN1x0KlnIi46++x0X14Szdr/LnTuBwv
+         cbIm+zor/GMmKSRP2SEVaykHDajMT3iPRMJOfubX7z42QnRcTeV6W5a/2ez6C3a+p+59
+         vwnOK7cOW5UNHckIxnaLmW7TxoNg1TpqFrBYVC1LPDavUoRCLs3TIermNaB+mPCWFolw
+         cpQA==
+X-Gm-Message-State: AOAM531LQFRky1d9G3Kjcert7SfcFwHKAfsOSJirozV5g+2IGS1OU7ll
+        3jTqzaDdELD/eYKPc9FFQjY3SHFk7QMFNethNWQ=
+X-Google-Smtp-Source: ABdhPJzSCGiS6sgMgxXvyi7W2h0LcP65/W5UB441MRnU8VqwbBfsJoB/dososjmlNKK7sw/CEP4oPDhO7N1u4hx78YQ=
+X-Received: by 2002:a17:90a:2aca:: with SMTP id i10mr13478708pjg.110.1622363736795;
+ Sun, 30 May 2021 01:35:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Reply-To: mrs.janeval19772@gmail.com
+Sender: pastorjohn1958@gmail.com
+Received: by 2002:a05:6a10:e2d4:0:0:0:0 with HTTP; Sun, 30 May 2021 01:35:36
+ -0700 (PDT)
+From:   "Mrs. Jane Valerian" <mrs.janeval19772@gmail.com>
+Date:   Sun, 30 May 2021 01:35:36 -0700
+X-Google-Sender-Auth: nSxwmEE6WcHWUSVKG363M4NJuLI
+Message-ID: <CAG8-ETJD5OpCFQG4t7bO9ik0ix3ZS25oPjA4-nZXQd3TKKviSA@mail.gmail.com>
+Subject: Good Day,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Fix the entry for the Chuwi Hi10 Pro tablet having a comment describing
-it as the "Chuwi Hi10 Prus.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/touchscreen_dmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 424cf2a84744..988a2e5a98a8 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -971,7 +971,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 		},
- 	},
- 	{
--		/* Chuwi Hi10 Prus (CWI597) */
-+		/* Chuwi Hi10 Pro (CWI597) */
- 		.driver_data = (void *)&chuwi_hi10_pro_data,
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
--- 
-2.31.1
-
+HELLO, Dear Beloved,  I am Mrs. Jane Valerian from, United States. It
+is understandable that you may be a bit apprehensive because you do
+not know me, I found your email address from a Human resources
+database and decided to contact you. I would love to employ you into
+my charity work, I am ready to donate some money to you to carry on
+the Charity work in your country. Please reply so that i will give you
+further details and tell you about myself.  Yours Sincerely Mrs. Jane
+Valerian
