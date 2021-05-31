@@ -2,113 +2,114 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F4B395A6F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 14:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76874395EC0
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 16:01:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231474AbhEaMW3 (ORCPT
+        id S231918AbhEaODB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 May 2021 08:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53580 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231327AbhEaMW2 (ORCPT
+        Mon, 31 May 2021 10:03:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36536 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231834AbhEaOA7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 May 2021 08:22:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622463648;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PWeKi76mxQmgT8Dm9JLOprgQPomCstB5nWgwpRs0Frc=;
-        b=HOU1QO5KbDS7YzGCRwJfSsa7LMV+ptaSsula45MEC5Y/duHS8J/1bgBTSVQMuSXU1Z+8/m
-        KwLlnQLBspFNWb5VYSOTooLjtVCdDBcrpG2r3jGk7zAlVxIPhlhpfgY1kULcnrlvnUA1iO
-        qixAAkwJswUiPBAh75Jh3vL6L1mpPB4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-yK68EGTmNJKmQ8JcQMy-Pg-1; Mon, 31 May 2021 08:20:47 -0400
-X-MC-Unique: yK68EGTmNJKmQ8JcQMy-Pg-1
-Received: by mail-ej1-f72.google.com with SMTP id h18-20020a1709063992b02903d59b32b039so2409651eje.12
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 May 2021 05:20:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PWeKi76mxQmgT8Dm9JLOprgQPomCstB5nWgwpRs0Frc=;
-        b=sRTzUuirxKV4GMaJi9sm+3yYZPrvMZovTYllhx8Zj2qZket5u2QUF2V4VhiwGKCjUv
-         1L38Rtx5pljhEbSdKqQabjOG3p3NNWCh/UXt98Gv/p80J9dXz61kNTFDjkiXGeMB91DG
-         2W8LBZuG7O7Oe1Ym9tR5DGxYMlI/WcuZAYNSsxPse0b9q1BbgK2dTOImmT9jTCr2K5nu
-         g1k48xF9RlfraGa4vxY3JbsuZiuyPW0UxIM2VYjRgoo/8rk96ss9dsc1x29qzgIDlAyM
-         usSXQ1IOq/7oMP5HJ1/zYiCvXoEpucHYTiP2FZGDRJMwhuzMOyHrQcr+xXAGTkeJla1i
-         uZVA==
-X-Gm-Message-State: AOAM532z3872XHMJnsXzljii9UR2GIJS0aHvxG1xXJsZTl6QL9kA8NNT
-        a3O270I/PrXsF9/WXwoDw93wVfJu+A9GjwpthTELadOvrXlWpukzSFTjMfW7ZnDZCj6RZYoTTqe
-        T6OJagJPJ4WPeLWhUpOivrGEMZI6zxVOwvnuMPXSIDtq22bqOpQ/4pdAs3sUT39JkA3GDl2nFnV
-        QlYIoiiKKktw==
-X-Received: by 2002:a17:906:3395:: with SMTP id v21mr3192419eja.102.1622463645942;
-        Mon, 31 May 2021 05:20:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3RE8C8IA0MZmtqFQrF6X0iRCuBGxsvnJNWdE6LKNZKXlj5tHfVZxvUWYUmdutE33LPQDbqw==
-X-Received: by 2002:a17:906:3395:: with SMTP id v21mr3192405eja.102.1622463645740;
-        Mon, 31 May 2021 05:20:45 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id t9sm5815532eji.39.2021.05.31.05.20.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 May 2021 05:20:45 -0700 (PDT)
-Subject: Re: [PATCH v2] platform/x86: touchscreen_dmi: Fix Chuwi Hi10 Pro
- comment
-To:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     platform-driver-x86@vger.kernel.org
-References: <20210530104744.6720-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3b3bdc26-75b3-b782-541e-e3e881e0db06@redhat.com>
-Date:   Mon, 31 May 2021 14:20:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 31 May 2021 10:00:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4565961413
+        for <platform-driver-x86@vger.kernel.org>; Mon, 31 May 2021 13:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622468199;
+        bh=jixIZ0JgLI+KnQOZ/2eZdUB8fhT4CUvToNltZo3itzw=;
+        h=From:To:Subject:Date:From;
+        b=Yg4uheW+ozs/zP7mnabQDdX4XtdD7lg/pt211jlIzEBsUJm7LBZVAHPFY+aDvcfn4
+         7HzQq7eHNATxaaVtQWZlPHkxIQ5P7IGKXftagGoegNgji+NGc7XENQZglHqOJxlsco
+         ZL4A88pQm/LfbMz9MMde2kKuiolayB8HlDhip2PiP+apNFgwZjcOk+XkGsqyw+Wj8c
+         cYW9+ZgdAgVz445dZ2JWBWHJxz/Rm92+VvULL2AUwY15Cnil+lS/dCSwIEd/y7FGhP
+         kBZXyQd3Mjiv2nTJmnbOXkL54ecKETotiVAQ3hewG0GB1iQ3WE7tDUrlrdjEUoj8sD
+         KUMYj9QRyk1rg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 3D03D61157; Mon, 31 May 2021 13:36:39 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 213297] New: ideapad-laptop: DYTC interface not found, several
+ functionalities missing
+Date:   Mon, 31 May 2021 13:36:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.penssel@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-213297-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210530104744.6720-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi all,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213297
 
-On 5/30/21 12:47 PM, Hans de Goede wrote:
-> Fix the comment on the entry for the Chuwi Hi10 Pro tablet:
-> 1. Replace "Prus" type with "Pro".
-> 2. Fix the model number, the Chuwi Hi10 Pro is the CWI529, not the CWI597.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+            Bug ID: 213297
+           Summary: ideapad-laptop: DYTC interface not found, several
+                    functionalities missing
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.12.8
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Platform_x86
+          Assignee: drivers_platform_x86@kernel-bugs.osdl.org
+          Reporter: johannes.penssel@gmail.com
+        Regression: No
 
-I've added this to me review-hans branch now.
+Created attachment 297073
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297073&action=3Dedit
+hwinfo | grep -i driver output
 
-Regards,
+Device: Lenovo 5 15ITL05(i5-1135G7/GeForceMX450)
+Latest UEFI/ME firmware (FHCN41WW/FHME26WW)
+Distro: Gentoo (5.10.27 stable and 5.12.8 testing), Arch Linux (5.12.8)
 
-Hans
+When inserting the ideapad-laptop module: these dmesg log messages occur:
 
+[    2.583728] input: Ideapad extra buttons as
+/devices/pci0000:00/0000:00:1f.0/PNP0C09:00/VPC2004:00/input/input3
+[    2.583756] ideapad_acpi VPC2004:00: Keyboard backlight control not
+available
+[    2.590680] ideapad_acpi VPC2004:00: DYTC interface is not available
 
-> ---
-> Changes in v2
-> - Also fix the wrong model number
-> ---
->  drivers/platform/x86/touchscreen_dmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 424cf2a84744..0e1451b1d9c6 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -971,7 +971,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
->  		},
->  	},
->  	{
-> -		/* Chuwi Hi10 Prus (CWI597) */
-> +		/* Chuwi Hi10 Pro (CWI529) */
->  		.driver_data = (void *)&chuwi_hi10_pro_data,
->  		.matches = {
->  			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
-> 
+Result:
+-despite the appropriate module being loaded,
+/sys/firmware/acpi/platform_profile is missing completely
+-backlight brightness control via fn function keys doesn't work
+-missing drivers for LUK2019 and IDEA2004 (hwinfo | grep -i driver output is
+attached)
+-neither xev nor acpid register any inputs from the brightness keys
 
+None of the problems described above occur under Windows 10.
+
+So far, I've tried updating the UEFI/ME FW, switching to LTS kernels and
+different distros, as well as the standard workarounds for non-functional fn
+keys.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
