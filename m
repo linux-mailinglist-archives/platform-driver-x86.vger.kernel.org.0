@@ -2,113 +2,128 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7596F395EBF
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 16:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76B053960A9
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 16:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233153AbhEaODA (ORCPT
+        id S232544AbhEaOao (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 May 2021 10:03:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59716 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232724AbhEaOA4 (ORCPT
+        Mon, 31 May 2021 10:30:44 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.2]:23662 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233893AbhEaO15 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 May 2021 10:00:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622469556;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=gJrFJb/f6X+cpFk9/OZzL42YLEzapND4drL2cjHnG0c=;
-        b=XxeCy5+NguuWmvRS197H5MVRymqVO3Ub3tw38aQBY+BPvXJJw/PFn44Tl19Z1KLIN8oG3A
-        UErWRw21SK6yLicdGmM1TGwZoOBzaY9YKCIoA9f9bJhFauySUh0Wn3tKfkuVcZsmFimCsd
-        r56sZ3wnN127hILctfZmg85Wgva+Qco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-wu9_jw8mNASqQgD2yK3E4g-1; Mon, 31 May 2021 09:59:14 -0400
-X-MC-Unique: wu9_jw8mNASqQgD2yK3E4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Mon, 31 May 2021 10:27:57 -0400
+Received: from [100.112.131.194] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-2.bemta.az-a.us-west-2.aws.symcld.net id D3/C6-12171-802F4B06; Mon, 31 May 2021 14:26:16 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleJIrShJLcpLzFFi42JJl3vFrsvxaUu
+  Cwb1+SYuXEw4zWhzacIDJ4s3x6UwWr5ofsVms3vOC2YHVY9LMGcweO2fdZfdYvOclk8f7fVfZ
+  PD5vkgtgjWLNzEvKr0hgzbjQuJa9YC5vxdz+X6wNjKe4uhg5OYQE/jNKfOiU62LkArIfM0osm
+  nSLBcQRFpjPKLHr8mF2kCoRAXWJqR09bCA2s0Ano8SP/dEQHR2MEtMm3GQCSbAJaEts2fILrI
+  hXwFbiz9JPzF2MHBwsAqoSj9clgoRFBcIldne8ZIIoEZQ4OfMJC4jNKWAn8WpBG1g5s4CmxPp
+  d+hCrxCVuPZnPBGHLS2x/O4cZxJYQUJRY/O0uK4SdINHz7xHbBEbBWUimzkKYNAvJpFlIJi1g
+  ZFnFaJFUlJmeUZKbmJmja2hgoGtoaKRraGyoa2RsqpdYpZuoV1qsW55aXKJrpJdYXqxXXJmbn
+  JOil5dasokRGDspBc2vdzBuePNB7xCjJAeTkiivuOLmBCG+pPyUyozE4oz4otKc1OJDjDIcHE
+  oSvF4ftiQICRalpqdWpGXmAOMYJi3BwaMkwuv8HijNW1yQmFucmQ6ROsWoKCXO2wvSJwCSyCj
+  Ng2uDpY5LjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5rT8CTeHJzCuBm/4KaDET0OLPoZtA
+  FpckIqSkGpi2SbxLDeNKLzkY86hH5b3XHjumXW1OjmeE6jZzX+fvXD6NI9njy0a99XbXUiz3t
+  h53e37Q8pjDsWfskjuaauZcSNg8K2v+8R0B/JPXWO8Jv5qbIxAjq5pyyFx4Y+Zl/Ut3U1cHsj
+  lJrQn1/xsbtv3C5m0cX1N+dlypPifE5pIwcfmX0il70wobDfKS52xdK/fx5oPlSgtWrnaQqLq
+  3Y8K62FwRxZcf14XsWuh8rUnItHTjT43K1vWWlyJX7hdLZf2d83a5bWGl3OMNUbqrJDZ9cXG7
+  Fawl9uL3fuc3TVliBvxCoQ+iNEKv3LWRs73ceFHiyNcGmTcpIhtkH26qfnp6+oO7K594aR91j
+  zI9Vu+sxFKckWioxVxUnAgAFS2peJgDAAA=
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-2.tower-336.messagelabs.com!1622471174!3693!1
+X-Originating-IP: [103.30.234.7]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.75.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 8438 invoked from network); 31 May 2021 14:26:16 -0000
+Received: from unknown (HELO lenovo.com) (103.30.234.7)
+  by server-2.tower-336.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 31 May 2021 14:26:16 -0000
+Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4B9F801107;
-        Mon, 31 May 2021 13:59:13 +0000 (UTC)
-Received: from x1.localdomain (ovpn-113-151.ams2.redhat.com [10.36.113.151])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 53E5460C0F;
-        Mon, 31 May 2021 13:59:12 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Mark Pearson <markpearson@lenovo.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH] platform/x86: thinkpad-lmi: Remove unused display_name member from struct tlmi_pwd_setting
-Date:   Mon, 31 May 2021 15:59:11 +0200
-Message-Id: <20210531135911.82582-1-hdegoede@redhat.com>
+        by Forcepoint Email with ESMTPS id 4ACEF99B178A03E3E54F;
+        Mon, 31 May 2021 22:26:13 +0800 (CST)
+Received: from [10.46.192.131] (10.46.192.131) by reswpmail01.lenovo.com
+ (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2176.2; Mon, 31 May
+ 2021 10:26:10 -0400
+Subject: Re: [External] Re: [PATCH v5] platform/x86:
+ firmware_attributes_class: Create helper file for handling
+ firmware-attributes class registration events
+To:     Hans de Goede <hdegoede@redhat.com>
+CC:     <andy.shevchenko@gmail.com>, <Dell.Client.Kernel@dell.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>
+References: <markpearson@lenovo.com>
+ <20210530223111.25929-1-markpearson@lenovo.com>
+ <98d213aa-9500-64f7-9fce-b880a6322d01@redhat.com>
+From:   Mark Pearson <markpearson@lenovo.com>
+Message-ID: <c461244c-b31e-c8a2-1173-fdac5f7c41d2@lenovo.com>
+Date:   Mon, 31 May 2021 10:26:09 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <98d213aa-9500-64f7-9fce-b880a6322d01@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.46.192.131]
+X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
+ reswpmail01.lenovo.com (10.62.32.20)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The struct tlmi_pwd_setting display_name member is initialized,
-but never read. Remove it and the TLMI_PWDTYPE_MAXLEN define.
 
-While at it also remove some other unused [MAX]LEN defines.
+On 2021-05-31 9:56 a.m., Hans de Goede wrote:
+> Hi,
+> 
+> On 5/31/21 12:31 AM, Mark Pearson wrote:
+>> This will be used by the Dell and Lenovo WMI management drivers to
+>> prevent both drivers being active.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+>> ---
+>> Changes in v2:
+>>  - This is a new file requested as part of the review of the proposed
+>> think_lmi.c driver. Labeling as V2 to keep series consistent
+>>
+>> Changes in v3:
+>>  - Set default in Kconfig, and removed help text
+>>  - Allow multiple modules to register with module. Change API names to
+>>     better reflect this.
+>>
+>> Changes in v4:
+>>  - version bump for consistency in series
+>>
+>> Changes in v5:
+>>  - Fix issue reported by kernel test robot. Add header file to includes
+> 
+> Thanks Mark,
+> 
+> Unfortunately you squashed the Kconfig and Makefile changes which I made
+> to v4 when fixing it up during merging into 3/3 instead of having them in
+> v5 of this patch.
+Oh - apologies; I tried to be careful and make sure I picked up the
+fixes you'd made as well. I must have missed them here somehow :(
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/platform/x86/think-lmi.c | 2 --
- drivers/platform/x86/think-lmi.h | 9 ---------
- 2 files changed, 11 deletions(-)
+> 
+> No worries, since this was the only problem which I could see I've fixed
+> this up in my review-hans branch while merging v5 of this series there
+> (replacing v4).
+> 
+> I did notice a bit of dead code while reviewing the changes which you
+> made to 3/3 in response to Andy's review. I'll send a follow-up patch
+> fixing that.
+Sounds good. I'm intrigued what I've missed.
 
-diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
-index 854427fed1a9..782d8e3fe7a1 100644
---- a/drivers/platform/x86/think-lmi.c
-+++ b/drivers/platform/x86/think-lmi.c
-@@ -819,7 +819,6 @@ static int tlmi_analyze(void)
- 		ret = -ENOMEM;
- 		goto fail_clear_attr;
- 	}
--	strscpy(tlmi_priv.pwd_admin->display_name, "admin", TLMI_PWDTYPE_MAXLEN);
- 	strscpy(tlmi_priv.pwd_admin->kbdlang, "us", TLMI_LANG_MAXLEN);
- 	tlmi_priv.pwd_admin->encoding = TLMI_ENCODING_ASCII;
- 	tlmi_priv.pwd_admin->pwd_type = "pap";
-@@ -836,7 +835,6 @@ static int tlmi_analyze(void)
- 		ret = -ENOMEM;
- 		goto fail_clear_attr;
- 	}
--	strscpy(tlmi_priv.pwd_power->display_name, "power-on", TLMI_PWDTYPE_MAXLEN);
- 	strscpy(tlmi_priv.pwd_power->kbdlang, "us", TLMI_LANG_MAXLEN);
- 	tlmi_priv.pwd_power->encoding = TLMI_ENCODING_ASCII;
- 	tlmi_priv.pwd_power->pwd_type = "pop";
-diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think-lmi.h
-index 6cd5325cc50e..6fa8da7af6c7 100644
---- a/drivers/platform/x86/think-lmi.h
-+++ b/drivers/platform/x86/think-lmi.h
-@@ -8,15 +8,7 @@
- #define TLMI_SETTINGS_COUNT  256
- #define TLMI_SETTINGS_MAXLEN 512
- #define TLMI_PWD_BUFSIZE     129
--#define TLMI_PWDTYPE_MAXLEN   64
--#define TLMI_ENC_MAXLEN       64
- #define TLMI_LANG_MAXLEN       4
--#define TLMI_PWDTYPE_LEN       4
--/*
-- * Longest string should be in the set command: allow size of BIOS
-- * option and choice
-- */
--#define TLMI_GETSET_MAXLEN (TLMI_SETTINGS_MAXLEN + TLMI_SETTINGS_MAXLEN)
- 
- /* Possible error values */
- struct tlmi_err_codes {
-@@ -43,7 +35,6 @@ struct tlmi_pwdcfg {
- struct tlmi_pwd_setting {
- 	struct kobject kobj;
- 	bool valid;
--	char display_name[TLMI_PWDTYPE_MAXLEN];
- 	char password[TLMI_PWD_BUFSIZE];
- 	const char *pwd_type;
- 	const char *role;
--- 
-2.31.1
+> 
+> I'll leave this sit in my review-hans branch for a bit to give Andy
+> a chance to give his Reviewed-by and then I'll push this to for-next.
+Sounds good. Thank you!
 
+Mark
