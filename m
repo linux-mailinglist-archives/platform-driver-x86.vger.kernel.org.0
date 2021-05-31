@@ -2,116 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45459396306
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 17:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456723960AB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 May 2021 16:29:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbhEaPDY (ORCPT
+        id S232738AbhEaOap (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 May 2021 11:03:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51252 "EHLO mail.kernel.org"
+        Mon, 31 May 2021 10:30:45 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:41678 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233906AbhEaPAg (ORCPT
+        id S232591AbhEaO2c (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 May 2021 11:00:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id B04216135A
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 May 2021 14:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622471202;
-        bh=U3yDopgIw2tO64kLTesXIO1gwXn9lxY7MY5Eraru/sE=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=CsCNsbtHVbgTW2GupUQWSb5U9ydgH8rOlN9pZp/51QQ27UqMzE+5RBkxHkAOuFcMV
-         ZlfgcmYIH69HXCJc+XeZg11nf70T4q+E19Tsse8E3+T6lZT3yCfUWyCjpv7oVnlU0G
-         xNT2rJrcoIKcXwEFB/tMbgdLPt5eNE4W8w19D96ZzcwGq2jJ3jn9FU/A946V1V5WhE
-         frQXOLTyduNr31TJNkSEkN7hAtyrB2zRRkKzIME20RpoGVf1yQNbMBlO+tZPn4EeiZ
-         xMP7j+Y10Q/gIDJxhARjQb2A9t9962GB9YksoZ8t4MUxppZExYKOCXRNPUHaS8sRI+
-         LIWnQZtLg+cLw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 9773A61157; Mon, 31 May 2021 14:26:42 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 213297] ideapad-laptop: DYTC interface not found, several
- functionalities missing
-Date:   Mon, 31 May 2021 14:26:42 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pobrn@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-213297-215701-Bpj0YQGdXD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213297-215701@https.bugzilla.kernel.org/>
-References: <bug-213297-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Mon, 31 May 2021 10:28:32 -0400
+Received: from zn.tnic (p200300ec2f080f0041f75464688c3931.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:f00:41f7:5464:688c:3931])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B500D1EC04DE;
+        Mon, 31 May 2021 16:26:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1622471209;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=pWoyNc/5ib9ExSAsSvvyTuh8dISKublQeSIUTS6gyFo=;
+        b=rUBHLWxlsportLZb96JapQrhx5KY6L5errtTbQH2jp+5S2P1RucW73TDiJCobc8l0fs/S6
+        sLXnY5sGpE7mMcThzoRfy52OxtLU42abXyuaLvw6rqqeo4fsaZdpFA56eW0sdmQ49dSeSn
+        drQRgCA/RPeDd4XXZVYd0wRhG9bv2lY=
+Date:   Mon, 31 May 2021 16:26:42 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Lianbo Jiang <lijiang@redhat.com>, linux-kernel@vger.kernel.org,
+        x86@kernel.org, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, kexec@lists.infradead.org,
+        ardb@kernel.org, dvhart@infradead.org, andy@infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com,
+        luto@amacapital.net, bhe@redhat.com, dyoung@redhat.com
+Subject: Re: [PATCH v2] x86/efi: unconditionally hold the whole low-1MB
+ memory regions
+Message-ID: <YLTyIn2S9wCB88Es@zn.tnic>
+References: <20210531090023.16471-1-lijiang@redhat.com>
+ <YLSnkKeoQnokXVsK@zn.tnic>
+ <YLSzUBQ/7CyINu87@kernel.org>
+ <YLS/1sqz6Bncg5VU@zn.tnic>
+ <YLTTR5bpOv3XNu32@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YLTTR5bpOv3XNu32@kernel.org>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213297
+On Mon, May 31, 2021 at 03:15:03PM +0300, Mike Rapoport wrote:
+> Hmm, why?
+> The regression is from v5.13-rc1, isn't it?
 
-Barnab=C3=A1s P=C5=91cze (pobrn@protonmail.com) changed:
+Ah ok
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |pobrn@protonmail.com
+a799c2bd29d1 ("x86/setup: Consolidate early memory reservations")
 
---- Comment #3 from Barnab=C3=A1s P=C5=91cze (pobrn@protonmail.com) ---
-As for /sys/firmware/acpi/platform_profile, the issue is very possible the =
-same
-as https://bugzilla.kernel.org/show_bug.cgi?id=3D212985 , that is, the driv=
-er
-only supports DYTC 5 and above, but it seems from the DSDT that version 4 is
-available on that machine.
+went into -rc1.
 
-As for the keyboard backlight, it's not available because the driver only
-supports and older version of the keyboard backlight control interface which
-does not seem to be available.
+Thx.
 
-As for "LUK2019" and "IDEA2004", those devices don't seem to be that
-interesting (I might be wrong though) at first glance since they seem to
-contain more or less nothing as far as I can see:
+-- 
+Regards/Gruss,
+    Boris.
 
-            Device (HKDV)
-            {
-                Name (_HID, "LHK2019")  // _HID: Hardware ID
-                Name (_UID, Zero)  // _UID: Unique ID
-                Method (_STA, 0, NotSerialized)  // _STA: Status
-                {
-                    Return (0x0F)
-                }
-            }
-
-            ...
-
-            Scope (^^EC0)
-            {
-                Device (ITSD)
-                {
-                    Name (_HID, "IDEA2004")  // _HID: Hardware ID
-                    Method (_STA, 0, NotSerialized)  // _STA: Status
-                    {
-                        Return (0x0F)
-                    }
-                }
-            }
-
-As for the, I assume, screen backlight and Fn keys, unfortunately I cannot
-help.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+https://people.kernel.org/tglx/notes-about-netiquette
