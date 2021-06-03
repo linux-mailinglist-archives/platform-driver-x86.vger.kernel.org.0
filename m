@@ -2,92 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72DCB39AB27
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  3 Jun 2021 21:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3179139AE3C
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 00:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbhFCT7I (ORCPT
+        id S229907AbhFCWnS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 3 Jun 2021 15:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbhFCT7H (ORCPT
+        Thu, 3 Jun 2021 18:43:18 -0400
+Received: from mail-wm1-f46.google.com ([209.85.128.46]:55988 "EHLO
+        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229697AbhFCWnS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 3 Jun 2021 15:59:07 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49D4C06174A;
-        Thu,  3 Jun 2021 12:57:22 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f13850043af4c4d530a3258.dip0.t-ipconnect.de [IPv6:2003:ec:2f13:8500:43af:4c4d:530a:3258])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D0071EC0246;
-        Thu,  3 Jun 2021 21:57:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1622750241;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=CsONDc5/hMgH+lPatsnuVGGoG9v+Dt4ffCqJHaqP7Dw=;
-        b=PCsxWln+GSXdcrrOO6u7gyG5ZIMYDxTanA5BrUafnti30zPJ3l/VZM3cStmo9pm63XlOPN
-        i0OuoEdNS63MBHcVvVLEGlwag2FJT9/goaw3F9mNNRb4rMA4lembyJSSyynfRpsVTfa5pe
-        SyLuqtyEz5I8P/g3jyRufj8hoAiG288=
-Date:   Thu, 3 Jun 2021 21:57:16 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        linux-crypto@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>, tony.luck@intel.com,
-        npmccallum@redhat.com
-Subject: Re: [PATCH Part1 RFC v3 03/22] x86/sev: Save the negotiated GHCB
- version
-Message-ID: <YLk0HO3SqspIilCD@zn.tnic>
-References: <20210602140416.23573-1-brijesh.singh@amd.com>
- <20210602140416.23573-4-brijesh.singh@amd.com>
+        Thu, 3 Jun 2021 18:43:18 -0400
+Received: by mail-wm1-f46.google.com with SMTP id g204so4270872wmf.5;
+        Thu, 03 Jun 2021 15:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AGHMFQROySDuAI1WX8+v+a7AxJ/f1867TETlzbkJ1nQ=;
+        b=r8a9gJC5FypqHxKB+UOi77NVllKbePD3mMj9P4XqyUwlU8wayWLqr+0Dico3Q4l7ta
+         yGgbybsjhf0T0dJuofwy7w8ltOo3CW6920PcGOeif6QF821ltJ6S3Cr+CscucllsudIt
+         cREXhX/6AltO6rsuQQ5ffy4hmQ1bWTFzZLcJTQDeVqEOrdM6UIB+rR7Rff7xtMigNdYs
+         YQBJPgaCsqanE7Lb5DToFWJ3m2VCcbVLFJJS/aX6WLIbw4sEfgu7/1IN5qv51mx4rl1T
+         FW1DHE7bBQNRw7qGF6hgSBlii2HOGycI4g3yr+Pf+bA1aNEnwstZnnPTD1ckRh34Uilb
+         Fshg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AGHMFQROySDuAI1WX8+v+a7AxJ/f1867TETlzbkJ1nQ=;
+        b=ogUhIWJl+AUj1Da/SxE/XmVd8lcvWDoNLe8QRZ9qJKRQoceaZt2nMlR05K6SLPj1iN
+         Y3VbHST4CroSyeuKbeEki80LRW6RzJ5pR20CcEkojjVXbILZ0nN+845hQLNb0oj32Qzq
+         tjw8linDa/NKcFW6r/dMs/kx0MX4Twwm5CIXMiU28HcUaGJLFhKfjkEWs/LNmmkpWRc1
+         PwACXe3P0fymfgzdsj4R2h6aCYB6kRcP12h1T8fjiPRW6VgmottPuufx0f3RR8KKyYYF
+         hV8mkTYZGmuf34toBgdwUVSko+Au01qJ7oPuSF7mOkzk9CE1Me2O0fQfR+7JZ6t34PAj
+         jhXg==
+X-Gm-Message-State: AOAM5312/z1n10Ft1VT5aEoZsRDz8RVLSeMiETUcNqb14LLm7m7Gx7sU
+        OVSyBVO2BLnnintwrcFDr28=
+X-Google-Smtp-Source: ABdhPJy+3T3gQHQj3wZJFUax3BGw5seXgjSn2gkSQDt8uOtA+WSf1j5i6XYDGFIzhJt+KkxEjgGZ9g==
+X-Received: by 2002:a7b:c052:: with SMTP id u18mr594606wmc.105.1622760020478;
+        Thu, 03 Jun 2021 15:40:20 -0700 (PDT)
+Received: from valhalla.home ([91.110.88.218])
+        by smtp.gmail.com with ESMTPSA id f14sm4612103wry.40.2021.06.03.15.40.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 15:40:19 -0700 (PDT)
+From:   Daniel Scally <djrscally@gmail.com>
+To:     "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, devel@acpica.org
+Cc:     Len Brown <lenb@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
+Subject: [PATCH v5 0/6] Introduce intel_skl_int3472 module
+Date:   Thu,  3 Jun 2021 23:40:01 +0100
+Message-Id: <20210603224007.120560-1-djrscally@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210602140416.23573-4-brijesh.singh@amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 09:03:57AM -0500, Brijesh Singh wrote:
-> +/*
-> + * Since feature negotiation related variables are set early in the boot
-> + * process they must reside in the .data section so as not to be zeroed
-> + * out when the .bss section is later cleared.
-> + */
+Hello all
 
-From previous review:
+Bit longer than hoped but here's v5.
 
- ...
+v4:
+https://lore.kernel.org/lkml/20210520140928.3252671-1-djrscally@gmail.com/
 
-   *
-   * GHCB protocol version negotiated with the hypervisor.
-   */
+v3
+https://lore.kernel.org/lkml/20210222130735.1313443-1-djrscally@gmail.com/
 
-You need to document what this variable is used for so add a comment
-over it please.
+v2
+https://lore.kernel.org/platform-driver-x86/20210118003428.568892-1-djrscally@gmail.com/
 
-> +static u16 ghcb_version __section(".data");
-> +
+v1
+https://lore.kernel.org/linux-media/20201130133129.1024662-1-djrscally@gmail.com/T/#m91934e12e3d033da2e768e952ea3b4a125ee3e67
+
+The only changes are the dropped patches, renamed functions in 2/6 and most of
+Andy's suggestions on 5/6 - I didn't hit them all yet but didn't want to delay
+this any more.
+
+Series level changelog:
+
+	- Dropped all but the essential patches to simplify merge plan - thanks
+	Hans.
+
+Daniel Scally (6):
+  ACPI: scan: Extend acpi_walk_dep_device_list()
+  ACPI: scan: Add function to fetch dependent of acpi device
+  gpiolib: acpi: Export acpi_get_gpiod()
+  gpiolib: acpi: Add acpi_gpio_get_io_resource()
+  platform/x86: Add intel_skl_int3472 driver
+  mfd: tps68470: Remove tps68470 MFD driver
+
+ MAINTAINERS                                   |   5 +
+ drivers/acpi/ec.c                             |   2 +-
+ drivers/acpi/pmic/Kconfig                     |   2 +-
+ drivers/acpi/pmic/intel_pmic_chtdc_ti.c       |   2 +-
+ drivers/acpi/scan.c                           | 104 ++++-
+ drivers/gpio/Kconfig                          |   2 +-
+ drivers/gpio/gpiolib-acpi.c                   |  61 ++-
+ drivers/i2c/i2c-core-acpi.c                   |   8 +-
+ drivers/mfd/Kconfig                           |  18 -
+ drivers/mfd/Makefile                          |   1 -
+ drivers/mfd/tps68470.c                        |  97 ----
+ drivers/platform/surface/aggregator/core.c    |   6 +-
+ drivers/platform/surface/surface3_power.c     |  22 +-
+ .../platform/surface/surface_acpi_notify.c    |   7 +-
+ drivers/platform/x86/Kconfig                  |   2 +
+ drivers/platform/x86/Makefile                 |   1 +
+ drivers/platform/x86/intel-int3472/Kconfig    |  30 ++
+ drivers/platform/x86/intel-int3472/Makefile   |   5 +
+ .../intel_skl_int3472_clk_and_regulator.c     | 196 ++++++++
+ .../intel-int3472/intel_skl_int3472_common.c  | 106 +++++
+ .../intel-int3472/intel_skl_int3472_common.h  | 118 +++++
+ .../intel_skl_int3472_discrete.c              | 417 ++++++++++++++++++
+ .../intel_skl_int3472_tps68470.c              | 137 ++++++
+ include/acpi/acpi_bus.h                       |   8 +
+ include/linux/acpi.h                          |  11 +-
+ include/linux/gpio/consumer.h                 |   2 +
+ 26 files changed, 1205 insertions(+), 165 deletions(-)
+ delete mode 100644 drivers/mfd/tps68470.c
+ create mode 100644 drivers/platform/x86/intel-int3472/Kconfig
+ create mode 100644 drivers/platform/x86/intel-int3472/Makefile
+ create mode 100644 drivers/platform/x86/intel-int3472/intel_skl_int3472_clk_and_regulator.c
+ create mode 100644 drivers/platform/x86/intel-int3472/intel_skl_int3472_common.c
+ create mode 100644 drivers/platform/x86/intel-int3472/intel_skl_int3472_common.h
+ create mode 100644 drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c
+ create mode 100644 drivers/platform/x86/intel-int3472/intel_skl_int3472_tps68470.c
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
