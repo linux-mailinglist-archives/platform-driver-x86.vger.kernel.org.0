@@ -2,68 +2,70 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4281539B92F
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 14:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA89839B946
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 14:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbhFDMuF (ORCPT
+        id S230034AbhFDNAH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Jun 2021 08:50:05 -0400
-Received: from mail-wr1-f45.google.com ([209.85.221.45]:43611 "EHLO
-        mail-wr1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbhFDMuE (ORCPT
+        Fri, 4 Jun 2021 09:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229980AbhFDNAH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Jun 2021 08:50:04 -0400
-Received: by mail-wr1-f45.google.com with SMTP id u7so3752008wrs.10;
-        Fri, 04 Jun 2021 05:48:18 -0700 (PDT)
+        Fri, 4 Jun 2021 09:00:07 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2FC4C06174A;
+        Fri,  4 Jun 2021 05:58:10 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id q5so9251518wrm.1;
+        Fri, 04 Jun 2021 05:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IgT2hjzT67a/grp8lXWefvUFoh31D6xYPYfahelUbqo=;
-        b=LIvxKU+CoNp+JZ7yeBIZHP5kVzdviY4nbimd1MIkyfowovIXFhCQUs8q+Y8mtb2OTS
-         bYTHMKdDOZ65hx2Oab6Hy/CU8on4h2DfzfvaWzIgX5aFhKPr42e1ZzbovncXg3byG/ld
-         YwUINMPQP25dDcovmXH6WLlxZWhQy3Ww0Pqv0chosoi0RRuJJpmRTmbK4m+N2MFM83Jm
-         M7+Lxp7x9qevQNzREqHhwXQiDZ9NhYCOS+PVQtvdfyL1BhpaaQCK8vFGxML+GSfPjocj
-         UMoFhQapnY2dUoeh5yr/xkJzLKTb+bL3IEQV6KYJYK00Ic13OUv1BuIJBdPYLTjcegGM
-         sL1Q==
+        bh=SgHpQ4QoLBEs1F+YWq7Dw3mAD1i1XABsToAa1xmK68I=;
+        b=QW+WYPextBD7RVr9x+p52qil2JPfyUNsCMwaa9FMarAgtcd62l77QtUDEVdXcAzy4c
+         IvQ2IGtWUYdDOw4zaTiyF1PT1v15MLl+th2/bezk7YVC/B4WbbQMcpaGTh+IUrX2jlcE
+         xYDQfE19+U6WnPjIsuVsWHGNPAaPFo8Sz6YppWD0JDavmzgjol83zuDUWBpHVvZakdrZ
+         vqOswF1KqzPxhuGEoWG9QCoUEHABbWxsiMHersU3YCDVIXlFYmTByIz4pK62mpaVT4nz
+         iK1nOO5Z5BZi3YQUN1uNNUtz7VvXV58+HJvvHlzCY+DM0CUgz9TiJRjvtaMjJAELf/s4
+         c2gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IgT2hjzT67a/grp8lXWefvUFoh31D6xYPYfahelUbqo=;
-        b=J8BGGsLll2tbkvTPQnkbP66fF9q9wPRv+e9+09mwmUKatwH943LVJx1TS8QvcLZg7J
-         gAwRt/Wj7fKLRsjRRlceSjggXGheI50w8tIWGnzd2OtkBkHsH4+TTOYWFdN6gA2JsDNG
-         ZmdWJ4ahtBX427wYQ7cPir2ZWAr3J0wFIAP8iMHo0v8rwKyqcSc8/jqSx16TE5DQj+01
-         5SnBN+VRXtgk55gZ45ym5VgRB9Lfia+v6eoBsL7FdEv+/OAD8fbzgttaaAxfhzvEa26E
-         K1SBUTmwEgw+zBligY1sQtYnQ/04w85XZQ4wSWQdQryZMvZxPoemolyABr2k1M16UrjD
-         aTgA==
-X-Gm-Message-State: AOAM533yVPpuFxLOBzRYlr8hVD16/VAKMTWV3BOoKZ1XHw58/rHS9gJC
-        9VkQ1gRccqjMaboRQCwKRjLX/mcRfN0=
-X-Google-Smtp-Source: ABdhPJxInLCezAYo1Cc/DhkGMecshl7EOMWiKOoUom722C7Bp06UyUNkqlDkGsorjTeJ2X9qE4zn8w==
-X-Received: by 2002:a05:6000:110b:: with SMTP id z11mr3686921wrw.278.1622810837109;
-        Fri, 04 Jun 2021 05:47:17 -0700 (PDT)
+        bh=SgHpQ4QoLBEs1F+YWq7Dw3mAD1i1XABsToAa1xmK68I=;
+        b=giviM/S1OJjkpQWHjjbFh0RZrjrz2Kh3Q5rhIDmYN2Q54dNU0k+tiQM6WpFcLP/XaT
+         qlGgt6LWTZsEnaRoHNmXbQarSisdWTUt+cu29W+YVD1mYZXSeVUTglpl2LEYdDhIESh5
+         z34uR7IGRhAO/K82osNu1FpnLZIGm20CdzSCnENQkRtFL5Sif6nVUQHDgoUMNoizT+43
+         R7IG/om2vWItWdGR6xDTBD/RSuouapm7+hIcA4dz384CQeS0OSIvgQDGUYNoPAhocPqL
+         cdYVHqqQpWE/XFVHe3XdFhBnxNce13UMAc+ltL2L59pf/cIAU+q6zTvs6qCJAT2XXtDk
+         apZQ==
+X-Gm-Message-State: AOAM5306ZUdOw7wq6LirBup1bU8u3CeKuqJZwb6nDRLZn5ywq5VTsy13
+        BaSCv4Uhkmc03B62DEeQFmpY7YEucEQ=
+X-Google-Smtp-Source: ABdhPJwo5Bjwxsjrlbwh0vAAF8goewnbqwQ2QzlG8lx0QwJ7wKtS1W5ixdXkkM5djidOdjgkH4P08g==
+X-Received: by 2002:a5d:47a3:: with SMTP id 3mr3857385wrb.42.1622811489058;
+        Fri, 04 Jun 2021 05:58:09 -0700 (PDT)
 Received: from [192.168.2.202] (pd9e5aba0.dip0.t-ipconnect.de. [217.229.171.160])
-        by smtp.gmail.com with ESMTPSA id p12sm6516578wrt.20.2021.06.04.05.47.16
+        by smtp.gmail.com with ESMTPSA id g17sm1905073wrp.61.2021.06.04.05.58.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jun 2021 05:47:16 -0700 (PDT)
-Subject: Re: [PATCH 4/7] platform/surface: aggregator_cdev: Add support for
- forwarding events to user-space
+        Fri, 04 Jun 2021 05:58:08 -0700 (PDT)
+Subject: Re: [PATCH 0/7] platform/surface: aggregator: Extend user-space
+ interface for events
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mark Gross <mgross@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20210603234526.2503590-1-luzmaximilian@gmail.com>
- <20210603234526.2503590-5-luzmaximilian@gmail.com>
- <a1a43f55-378f-d5e7-c439-d5397abdf838@redhat.com>
+ <c86a976e-64cb-ea10-486e-fa5d4482ad5b@redhat.com>
 From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <778047e2-2b1d-ef8b-4fe3-aafba8fa2dba@gmail.com>
-Date:   Fri, 4 Jun 2021 14:47:15 +0200
+Message-ID: <a29f3acb-6a49-02a5-d9af-07baff8d9307@gmail.com>
+Date:   Fri, 4 Jun 2021 14:58:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <a1a43f55-378f-d5e7-c439-d5397abdf838@redhat.com>
+In-Reply-To: <c86a976e-64cb-ea10-486e-fa5d4482ad5b@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -71,59 +73,33 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 6/4/21 1:32 PM, Hans de Goede wrote:
-> Hi,
-> 
-> I've one review remark inline below.
+On 6/4/21 1:40 PM, Hans de Goede wrote:
+> Hi Maxime,
 > 
 > On 6/4/21 1:45 AM, Maximilian Luz wrote:
+>> Extend the user-space debug interface so that it can be used to receive
+>> SSAM events in user-space.
+>>
 
 [...]
 
->> +static int ssam_cdev_device_open(struct inode *inode, struct file *filp)
->> +{
->> +	struct miscdevice *mdev = filp->private_data;
->> +	struct ssam_cdev_client *client;
->> +	struct ssam_cdev *cdev = container_of(mdev, struct ssam_cdev, mdev);
->> +
->> +	/* Initialize client */
->> +	client = vzalloc(sizeof(*client));
->> +	if (!client)
->> +		return -ENOMEM;
->> +
->> +	client->cdev = ssam_cdev_get(cdev);
->> +
->> +	INIT_LIST_HEAD(&client->node);
->> +
->> +	mutex_init(&client->notifier_lock);
->> +
->> +	mutex_init(&client->read_lock);
->> +	mutex_init(&client->write_lock);
->> +	INIT_KFIFO(client->buffer);
->> +	init_waitqueue_head(&client->waitq);
->> +
->> +	filp->private_data = client;
->> +
->> +	/* Attach client. */
->> +	down_write(&cdev->client_lock);
->> +
->> +	if (test_bit(SSAM_CDEV_DEVICE_SHUTDOWN_BIT, &cdev->flags)) {
->> +		up_write(&cdev->client_lock);
->> +		ssam_cdev_put(client->cdev);
 > 
-> You are missing the mutex_destroy() calls here which you are
-> doing in ssam_cdev_device_release().
+> Overall this series looks good to me. I've found one small issue with
+> PATCH 4/7 (see my reply to that patch) and as the kernel test robot
+> pointed out there is an used "struct ssam_nf_head *nf_head;" in
+> PATCH 2/7.
+> 
+> With these 2 small issues fixed you can add my:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> to v2 of the series.
 
-Thank you for noticing this! This code is based on Surface DTX code
-which has the same problem, I'll send in a fix for that shortly.
+Thank you for your review.
 
-> Or maybe move the mutex_init calls below this check
-> (before the up_write()) since I don't think the client can
-> be accessed by any code until the up_write is done?
-
-Yes, that would also be possible, but I'd prefer adding the
-mutex_destroy() calls in the failure path. To me that seems a bit easier
-to reason about.
+Based on the issue reported by the kernel test robot I've been
+restructuring PATCH 2/7 to remove some code-duplication. I'll add your
+R-b to all except that one.
 
 Thanks,
 Max
