@@ -2,61 +2,60 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 528EC39B9D2
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 15:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3290439BA37
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 15:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbhFDN1s (ORCPT
+        id S230205AbhFDNvG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Jun 2021 09:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbhFDN1s (ORCPT
+        Fri, 4 Jun 2021 09:51:06 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:44690 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230142AbhFDNvF (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Jun 2021 09:27:48 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078ECC06174A;
-        Fri,  4 Jun 2021 06:26:02 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id f2so9286473wri.11;
-        Fri, 04 Jun 2021 06:26:01 -0700 (PDT)
+        Fri, 4 Jun 2021 09:51:05 -0400
+Received: by mail-wr1-f51.google.com with SMTP id f2so9356996wri.11;
+        Fri, 04 Jun 2021 06:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=owsITsW7WWW5bJWpPZtkVZ9CzzbUl5LHy/XoqtgBc8A=;
-        b=WSMR1+zbalCIGTJjAs+iXa49HTsKGjOdTcRKzi8oeapJNuMzfTpJJAUS2Tb3A59Xt2
-         30VWq5RMWzZiVAUdwg9jMpN6vF60/4PNy7fNrBL45T7jJstCCAKEmOHkLJhjmZa/DG41
-         WJCtoWyC6EYXOShpyscBH3Wqj5O382nL8akhEB1SyfUM7hu6Uvle0Bdf2HRlJkik726M
-         Yt/lwCSys94IzW9MnxxQwe/rQolqLTsbKJLpDfgxgwJtuhT112/sUzpFg+ZNanSl6VJ9
-         QEb4yP6R0mKaCXIgC/ME9gpe91E3YTdnkWo80Eh7TYhkFS4NQ9AZupw+6So/6yfeXz2Q
-         hnsw==
+        bh=YqUvpMmz705GhCWmLxYJQO2eV15tdQbmMi+pH+r0IAA=;
+        b=P2XHJzSEv5j2qYW8no7gmd9OkzP8Sp3FJsV7ID8/aglZddcAyYPTlsQbMPM5t2fcwv
+         V96LYgGfI35QKQ1L6ER1tvPqpCUEl1jKSqKehwXHDigkfVhkT3a3NBIJJBRwMqYHoL44
+         PgJHURUe3F412mpi6Uglp9cMP/+R+gaS1k//kFxEacZ2vamcSIxFHOhgtRGOkR85Q/w2
+         WsfVc0Oqhq/ghwIyvRZhlER6C1nSz2JIXxEN0ytDeWGUUpcPYAi+HQg3zU9diHFFLYwa
+         36Xn0nWMM5u5CL+E69du/2USvgAMccYhqs8C3owQpHmsFazxlLPm/N8EznDrFqLtNPFp
+         ibxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=owsITsW7WWW5bJWpPZtkVZ9CzzbUl5LHy/XoqtgBc8A=;
-        b=Vd+h86vhf8fKPn/B1CoyP2QpzGZQ2q/4H5mUzDpU8xKfHNpSFV1w3p72TWmc0y4UUX
-         Z2iLx86h1+4dwi2JNJhz/cRpDs53GScY21ZLBAjLkitgIecT/nmjZRsVrXj4ICogEGFG
-         Aq00IRQ5b4bGvDOrT7vUP02gCM2hY9wKHnoCyW5oo+z0kl0arrfRFgsEGgiQX8XWBAFk
-         JWWSjxhBzqRntDg8I6sb86RI8JnTBprYeicro1OYWesy9Tc8wjz4dGvAYA2Hqb1k1XiP
-         ygEmFcNABQblE6P4PmLGc4v5WRLWQaMhD6gWb1c9eHDn1yvPwVEq2KnTcimcioQ8soG8
-         I6bQ==
-X-Gm-Message-State: AOAM530OU6IwLi7qO63ZmQ1GuJ5qorJOD7s6umE3YoH8N6DTQOAW5KM3
-        co5meyz9T6FSJK+NzKw2qYe60SkJ37s=
-X-Google-Smtp-Source: ABdhPJx+YpJKGWgpUNVl87I/p783cOw2ND2z3H7FMkJJr9ErwMVUkjeXZMA9f4dslr+6usrngvOLPw==
-X-Received: by 2002:adf:fd82:: with SMTP id d2mr4030696wrr.218.1622813159837;
-        Fri, 04 Jun 2021 06:25:59 -0700 (PDT)
+        bh=YqUvpMmz705GhCWmLxYJQO2eV15tdQbmMi+pH+r0IAA=;
+        b=jklVEwDoz5zL5fgcJUGCmcpnP7ogWUsRpBo4NUqFuq8aGiPFKnu/GnCg6O/j/QPuE2
+         is0rvuAmo971hOEL6DVMDPuCPu1oLTk3qFC18ME1V/Q2prd2r7Nf4bkoZTPV+sojnInT
+         ZwP7+GKc+M0Hs2n3TCrMLvg0dwpmu6yphg86+dm9VoYmO0DctxQYuwrcrjFmJpIuSGHs
+         0NguMYNfWF4pXqk9ZCvG+aDqIBi0wbb6YMb5JOObsqIM22cV07COgN3xxONSaMSlA88U
+         AaOIVxKxW2tkDcypAMuRcEAOgyjRY3p2eVsXMlpoBzTmuONT1yT1gH+sF82xBNfRoloA
+         7a4g==
+X-Gm-Message-State: AOAM531VHIbRZLd5c531um75EnQYwjcA/K+jYPnni0FcWa0Y002PBM2d
+        vQvPVqk656ECOQSie7yM+9Ohhx9FjQY=
+X-Google-Smtp-Source: ABdhPJyBIwOfDIbswHqIHJ8pDe3I1nsav/kZOw6+MUuKbpGdn0U4ONh1CKpKibDDgbki3GZiAQQd7A==
+X-Received: by 2002:a5d:6952:: with SMTP id r18mr3997593wrw.392.1622814498333;
+        Fri, 04 Jun 2021 06:48:18 -0700 (PDT)
 Received: from xws.localdomain (pd9e5aba0.dip0.t-ipconnect.de. [217.229.171.160])
-        by smtp.gmail.com with ESMTPSA id l16sm9009034wmj.47.2021.06.04.06.25.58
+        by smtp.gmail.com with ESMTPSA id u16sm7403167wru.56.2021.06.04.06.48.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 06:25:59 -0700 (PDT)
+        Fri, 04 Jun 2021 06:48:17 -0700 (PDT)
 From:   Maximilian Luz <luzmaximilian@gmail.com>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH] platform/surface: dtx: Add missing mutex_destroy() call in failure path
-Date:   Fri,  4 Jun 2021 15:25:40 +0200
-Message-Id: <20210604132540.533036-1-luzmaximilian@gmail.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] platform/surface: aggregator: Extend user-space interface for events
+Date:   Fri,  4 Jun 2021 15:47:48 +0200
+Message-Id: <20210604134755.535590-1-luzmaximilian@gmail.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,28 +63,54 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When we fail to open the device file due to DTX being shut down, the
-mutex is initialized but never destroyed. We are destroying it when
-releasing the file, so add the missing call in the failure path as well.
+Extend the user-space debug interface so that it can be used to receive
+SSAM events in user-space.
 
-Fixes: 1d609992832e ("platform/surface: Add DTX driver")
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- drivers/platform/surface/surface_dtx.c | 1 +
- 1 file changed, 1 insertion(+)
+Version 1 and rationale:
+  https://lore.kernel.org/platform-driver-x86/20210603234526.2503590-1-luzmaximilian@gmail.com/
 
-diff --git a/drivers/platform/surface/surface_dtx.c b/drivers/platform/surface/surface_dtx.c
-index 5d9b758a99bb..1203b9a82993 100644
---- a/drivers/platform/surface/surface_dtx.c
-+++ b/drivers/platform/surface/surface_dtx.c
-@@ -427,6 +427,7 @@ static int surface_dtx_open(struct inode *inode, struct file *file)
- 	 */
- 	if (test_bit(SDTX_DEVICE_SHUTDOWN_BIT, &ddev->flags)) {
- 		up_write(&ddev->client_lock);
-+		mutex_destroy(&client->read_lock);
- 		sdtx_device_put(client->ddev);
- 		kfree(client);
- 		return -ENODEV;
+Changes in version 2:
+ - PATCH 2/7: Avoid code duplication, remove unused variable
+ - PATCH 4/7: Add missing mutex_destroy() calls
+
+Maximilian Luz (7):
+  platform/surface: aggregator: Allow registering notifiers without
+    enabling events
+  platform/surface: aggregator: Allow enabling of events without
+    notifiers
+  platform/surface: aggregator: Update copyright
+  platform/surface: aggregator_cdev: Add support for forwarding events
+    to user-space
+  platform/surface: aggregator_cdev: Allow enabling of events from
+    user-space
+  platform/surface: aggregator_cdev: Add lockdep support
+  docs: driver-api: Update Surface Aggregator user-space interface
+    documentation
+
+ .../surface_aggregator/clients/cdev.rst       | 127 ++++-
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +-
+ drivers/platform/surface/aggregator/Kconfig   |   2 +-
+ drivers/platform/surface/aggregator/Makefile  |   2 +-
+ drivers/platform/surface/aggregator/bus.c     |   2 +-
+ drivers/platform/surface/aggregator/bus.h     |   2 +-
+ .../platform/surface/aggregator/controller.c  | 332 +++++++++--
+ .../platform/surface/aggregator/controller.h  |   2 +-
+ drivers/platform/surface/aggregator/core.c    |   2 +-
+ .../platform/surface/aggregator/ssh_msgb.h    |   2 +-
+ .../surface/aggregator/ssh_packet_layer.c     |   2 +-
+ .../surface/aggregator/ssh_packet_layer.h     |   2 +-
+ .../platform/surface/aggregator/ssh_parser.c  |   2 +-
+ .../platform/surface/aggregator/ssh_parser.h  |   2 +-
+ .../surface/aggregator/ssh_request_layer.c    |   2 +-
+ .../surface/aggregator/ssh_request_layer.h    |   2 +-
+ drivers/platform/surface/aggregator/trace.h   |   2 +-
+ .../surface/surface_aggregator_cdev.c         | 534 +++++++++++++++++-
+ include/linux/surface_aggregator/controller.h |  27 +-
+ include/linux/surface_aggregator/device.h     |   2 +-
+ include/linux/surface_aggregator/serial_hub.h |   2 +-
+ include/uapi/linux/surface_aggregator/cdev.h  |  73 ++-
+ 22 files changed, 1018 insertions(+), 109 deletions(-)
+
 -- 
 2.31.1
 
