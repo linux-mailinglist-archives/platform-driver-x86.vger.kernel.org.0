@@ -2,33 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68CE039C363
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Jun 2021 00:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04AC939C338
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Jun 2021 00:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbhFDWU4 (ORCPT
+        id S229746AbhFDWIV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Jun 2021 18:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbhFDWUz (ORCPT
+        Fri, 4 Jun 2021 18:08:21 -0400
+Received: from mail-lj1-f174.google.com ([209.85.208.174]:41719 "EHLO
+        mail-lj1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231199AbhFDWIU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Jun 2021 18:20:55 -0400
-X-Greylist: delayed 2397 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 04 Jun 2021 15:19:09 PDT
-Received: from speedtest.test.com (unknown [IPv6:2a02:2498:6d7b:7002:216:3eff:fe2f:86b0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24C2FC061766
-        for <platform-driver-x86@vger.kernel.org>; Fri,  4 Jun 2021 15:19:08 -0700 (PDT)
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by speedtest.test.com (Postfix) with SMTP id 33CEA4021E;
-        Sat,  5 Jun 2021 00:25:24 +0300 (EEST)
-From:   twcuh@mailforspam.com
-Reply-To: twcuh@mailforspam.com
-Subject: Zdravstvujte Vas interesujut klientskie bazy dannyh? Otvet DA prishlite na Email: twcuh@mailforspam.com
-Message-Id: <20210604212524.33CEA4021E@speedtest.test.com>
-Date:   Sat,  5 Jun 2021 00:25:24 +0300 (EEST)
-To:     undisclosed-recipients:;
+        Fri, 4 Jun 2021 18:08:20 -0400
+Received: by mail-lj1-f174.google.com with SMTP id p20so13395256ljj.8
+        for <platform-driver-x86@vger.kernel.org>; Fri, 04 Jun 2021 15:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Lm6qjNOSd7S3ElmBGLAdz/ltzncXw/D1BuDORLixUOY=;
+        b=RpZRBAvNmlvbMhdcUNBT1IRUNettfyipNir/0qTLXWWLR9kdY0t6lKvAuh/oaTO45F
+         5VYqft+IFQlJmmdwTQoAEFOwopCsUIMwZQlgODEkvQU8f/iH2vIB9Vv95mrSlCqO65kl
+         w3P8QlnkZgOEDDR8ulaMR/x/vWmMO0QXEzB2uFKqpthjGimkeTBdq6IOsgSHFlBfFdNV
+         afIVLhvu1AVawb5Ojf3Wd+4G2lTKMotrRitIkml6wxZ4ma3jZdfN6BNOWHtSBcSLtjL1
+         7ZyK2RFaieTful8M/iFLhhAu+Vmhy6kX2GC1MGVLHjNe8RzhdcF32ZuwkectC9wXalaG
+         0Trw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Lm6qjNOSd7S3ElmBGLAdz/ltzncXw/D1BuDORLixUOY=;
+        b=dZ01/h2jg8kX+Ne9EfspgiJbC6eEpg/gWnfFsvynrM5w43fg6uaC0ttQuy+psNL5xx
+         6bU0GUlj3v9cIPwZywM5Qu8P3iPPP6cokeOUN1AgeTpnQLusCRCyDAXB3IAYM1E3JXSi
+         dEITvjJFA3/+8w6wE9nwVXj3p+HhSweAMwjrsLnTAjOxTVEYZdYN+fwPuE3tvyh10WzI
+         zJQ0gcqK5wUJWdkSKkIoxwLxFh4BKunZYOZNWR2mGS6PRzwQJGTOqHQwrG2ENIJExW8h
+         bD1VJkv9NFgQxMJ5WGifD+rHsFm0oH9CmbYwiFrxPvcu8yTWTTgnBKuUTGLmAOyYx1Hy
+         cqbA==
+X-Gm-Message-State: AOAM532XD0e3gI4Am00mYTq4ikm3nmpAeVFt6XM2FXLE1dvWdyZRFTq1
+        sSbyu62p7QRsFasMQvrPvuRkwC82XmnjaCvWq3SpgQ==
+X-Google-Smtp-Source: ABdhPJxIEjo220o67L1taBJY3zqlit/QriVesKs4aC6pDmACw4lPvVzV8qVmU/R+jsc82jo3VZQGH3X9ojeu+ohPLmw=
+X-Received: by 2002:a2e:22c3:: with SMTP id i186mr5091495lji.273.1622844333120;
+ Fri, 04 Jun 2021 15:05:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1622560799.git.geert+renesas@glider.be> <7caa954add90255fc177e5dbabe17d62e0242861.1622560799.git.geert+renesas@glider.be>
+In-Reply-To: <7caa954add90255fc177e5dbabe17d62e0242861.1622560799.git.geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 5 Jun 2021 00:05:22 +0200
+Message-ID: <CACRpkdbSP2FEkfY74HxSUDse57iRf3MY+-i5ZDk1AeUxd=FSug@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] dt-bindings: gpio: pcf857x: Convert to json-schema
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        platform-driver-x86 <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Zdravstvujte Vas interesujut klientskie bazy dannyh? Otvet DA prishlite na Email: twcuh@mailforspam.com
- 
+On Tue, Jun 1, 2021 at 5:25 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> Convert the PCF857x-compatible I/O expanders Device Tree binding
+> documentation to json-schema.
+>
+> Document missing compatible values, properties, and gpio hogs.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
