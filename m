@@ -2,246 +2,173 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0986139BA2B
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 15:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B05239BAB7
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Jun 2021 16:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230366AbhFDNuO (ORCPT
+        id S231192AbhFDOMH (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Jun 2021 09:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230142AbhFDNuN (ORCPT
+        Fri, 4 Jun 2021 10:12:07 -0400
+Received: from mail-wm1-f44.google.com ([209.85.128.44]:42979 "EHLO
+        mail-wm1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231164AbhFDOMH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Jun 2021 09:50:13 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA248C061789;
-        Fri,  4 Jun 2021 06:48:26 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id l2so9405289wrw.6;
-        Fri, 04 Jun 2021 06:48:26 -0700 (PDT)
+        Fri, 4 Jun 2021 10:12:07 -0400
+Received: by mail-wm1-f44.google.com with SMTP id o2-20020a05600c4fc2b029019a0a8f959dso5710536wmq.1;
+        Fri, 04 Jun 2021 07:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6krBnFnbTexLeYVxG8AbFbd9NK8E8A28cizYGAD8aHQ=;
-        b=GUZTByC2w73LEV/rF5oe9BKwqj+f0JyGdXjqeHM7uE85mLXvaiEoEHmTi63HrincMB
-         QhbBYcEi6OfIeVExEd1ojfxqhQr0VAeAAOxVUGDM9wEMTi2DMli2Sk4VcGun4oObiOCn
-         p3n9p0Lq4baPRnRXmLZzycUZ92IKc9auEgAzXRlioqaij+u5IUONlCF+6NfFnvgY3TMx
-         whvInVSPvP3YmnpRdfchDjGjkLTTE2n8j4xgAbcietPjZKzcfriNQzZMkAukZ5WNMG5x
-         WH5604xXWR7MRECJ+o9xYYm0m0jjHACeTTRLGXGuOdn/s+EagG630lH7eoFeKJwfmDVi
-         l3tg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=MYbOHTjKAIubB26NWy6blCn6jMexjYelF/SCF4KLYBM=;
+        b=NnchJqNSeEqijUeniIVorUZChIr8whszcRfqCmiLBNGPVl0S1YfS3y1q6HCu43oLRe
+         /7fPueHOA6y833aDNjkfwwN+6CggiT5ViFI9AKufKs2gjLrj/wwBvNX3KOQfVoa67NkH
+         QJ5/Mr/lriaJlx4bOk2J0AElKoaVF7cZ5ZJZycCPR0DhA0VbEUICCeR3Zz83/OqGaHvs
+         lRE3H+98+vAO7gfNb30V6LAZ2p/IlLg4Z3xzUSsv4BT1fvlBqmSk34lwU6yX2XSeC9jF
+         WmrLGVkoqPfnjnYYA70Z3NZw/7EPclgZmY8AGho1QzophphwX18CywCl6TT3vaaZNLOf
+         FJkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6krBnFnbTexLeYVxG8AbFbd9NK8E8A28cizYGAD8aHQ=;
-        b=hIF9R1AfgLxgg6iO/PO8YM+zrxcu/yEIvXy18x8c84w9uAoWxlLs7lSjEDt2PtoDBk
-         YLjlGRmRhOKLbGC3R6Y+rtHHakSU6w9LiQkWQBgbcoQsMHKWjK3lwgm1ulGebKFXQj9t
-         pGeqRetuU2h6C14y62PJz2XHTvbj8AozDj+jF0OL26BpBiTTiScYGo2Njg5lYkkuGvna
-         2uD1jS7R9aVOitj6c9Z8aBV8oTlr1YiA1Pn+81cOns/WVijDNd6+1N21zhN6P1EhvMjx
-         8JwuBDwTQ7bzVfbS/SWKD1UK7ix4Mc5J38XOqVK+qobbcdn8EwS65P7FPbTuj8BbK8rP
-         9c6Q==
-X-Gm-Message-State: AOAM532kM26acrx+XFSasBIVAE4SGD+/vJY/JuLXmeaEiagCsmoCdzlk
-        /Ai1wGNgu1wBOo1l4vELFB4=
-X-Google-Smtp-Source: ABdhPJxg2cq/v9q3DMgdXZaHzRqz5QNMu0IoE6u1drW4SL3CFRp6Q3qz5mlvc4w2P8z54UF4O6Gatw==
-X-Received: by 2002:adf:efca:: with SMTP id i10mr4058874wrp.139.1622814505362;
-        Fri, 04 Jun 2021 06:48:25 -0700 (PDT)
-Received: from xws.localdomain (pd9e5aba0.dip0.t-ipconnect.de. [217.229.171.160])
-        by smtp.gmail.com with ESMTPSA id u16sm7403167wru.56.2021.06.04.06.48.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 06:48:25 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=MYbOHTjKAIubB26NWy6blCn6jMexjYelF/SCF4KLYBM=;
+        b=U79D27SNrnC6CYuoSD+SY9Fcl0gsAsnqTv7WTQPkKihyLRgdJM+j9xxi0kP3wjdQEa
+         mtFvDIsRv4pIcqFCIlqV3WiKfaTvI4JkgG6jWn21egsgtCdRznGj3wAIz1nwE8cGfioH
+         qz2cdAQYFU44+tJ4xNxa3vfVjn6yxyGvEk8Yt2kh8h0Ott4HnwJnYnUV56EnFWI15nrq
+         YkV5tTSnXIdelZnIcfky6sstfaXqPuO2dud4CFdiM+8ke2BDqawAE99/wLXTZTPySIOM
+         B5sMmDjgyUSeiA7wKgJ8m1b6AHRzlt+HFSyByBYl9NGmys9jR1D1Opyk7ZgeSGlYAw2c
+         3nUA==
+X-Gm-Message-State: AOAM530AzrJTEdIEmj0GX458zxVU89kG8frzBwiy4Cp8luRg1K+ut2aV
+        R/5cNKXZ7cMQp1tciVv+8mg=
+X-Google-Smtp-Source: ABdhPJwp4iUyQA0gJMy7m2YEEOSu8/w15silx0ciWQYwyyo+fqOsulsICwzmNa/aG6DRCiptYCvQzw==
+X-Received: by 2002:a1c:a484:: with SMTP id n126mr3950601wme.34.1622815759578;
+        Fri, 04 Jun 2021 07:09:19 -0700 (PDT)
+Received: from [192.168.1.211] ([2.29.20.84])
+        by smtp.gmail.com with ESMTPSA id i16sm5912553wmm.9.2021.06.04.07.09.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jun 2021 07:09:19 -0700 (PDT)
+Subject: Re: [PATCH v5 3/6] gpiolib: acpi: Export acpi_get_gpiod()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, devel@acpica.org,
+        Len Brown <lenb@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>,
         Mark Gross <mgross@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] docs: driver-api: Update Surface Aggregator user-space interface documentation
-Date:   Fri,  4 Jun 2021 15:47:55 +0200
-Message-Id: <20210604134755.535590-8-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210604134755.535590-1-luzmaximilian@gmail.com>
-References: <20210604134755.535590-1-luzmaximilian@gmail.com>
+        Robert Moore <robert.moore@intel.com>,
+        Erik Kaneda <erik.kaneda@intel.com>,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
+References: <20210603224007.120560-1-djrscally@gmail.com>
+ <20210603224007.120560-4-djrscally@gmail.com>
+ <YLojymirRB5HpFQY@smile.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <d8eb43b6-c842-6b1f-5840-f558d54f1498@gmail.com>
+Date:   Fri, 4 Jun 2021 15:09:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YLojymirRB5HpFQY@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Update the controller-device user-space interface (cdev) documentation
-for the newly introduced IOCTLs and event interface.
+Hi Andy
 
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
----
+On 04/06/2021 13:59, Andy Shevchenko wrote:
+> On Thu, Jun 03, 2021 at 11:40:04PM +0100, Daniel Scally wrote:
+>> We need to be able to translate GPIO resources in an ACPI device's _CRS
+>> into GPIO descriptor array. Those are represented in _CRS as a pathname
+>> to a GPIO device plus the pin's index number: the acpi_get_gpiod()
+>> function is perfect for that purpose.
+>>
+>> As it's currently only used internally within the GPIO layer, provide and
+>> export a wrapper function that additionally holds a reference to the GPIO
+>> device.
+> The subject is wrong, it should be "Introduce acpi_get_and_request_gpiod()
+> helper" or so. I can fix when applying.
 
-Changes in v2:
- - None
 
----
- .../surface_aggregator/clients/cdev.rst       | 127 +++++++++++++++++-
- 1 file changed, 122 insertions(+), 5 deletions(-)
+Ah! That was sloppy, sorry.
 
-diff --git a/Documentation/driver-api/surface_aggregator/clients/cdev.rst b/Documentation/driver-api/surface_aggregator/clients/cdev.rst
-index 248c1372d879..0134a841a079 100644
---- a/Documentation/driver-api/surface_aggregator/clients/cdev.rst
-+++ b/Documentation/driver-api/surface_aggregator/clients/cdev.rst
-@@ -1,9 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
--.. |u8| replace:: :c:type:`u8 <u8>`
--.. |u16| replace:: :c:type:`u16 <u16>`
- .. |ssam_cdev_request| replace:: :c:type:`struct ssam_cdev_request <ssam_cdev_request>`
- .. |ssam_cdev_request_flags| replace:: :c:type:`enum ssam_cdev_request_flags <ssam_cdev_request_flags>`
-+.. |ssam_cdev_event| replace:: :c:type:`struct ssam_cdev_event <ssam_cdev_event>`
- 
- ==============================
- User-Space EC Interface (cdev)
-@@ -23,6 +22,40 @@ These IOCTLs and their respective input/output parameter structs are defined in
- A small python library and scripts for accessing this interface can be found
- at https://github.com/linux-surface/surface-aggregator-module/tree/master/scripts/ssam.
- 
-+.. contents::
-+
-+
-+Receiving Events
-+================
-+
-+Events can be received by reading from the device-file. The are represented by
-+the |ssam_cdev_event| datatype.
-+
-+Before events are available to be read, however, the desired notifiers must be
-+registered via the ``SSAM_CDEV_NOTIF_REGISTER`` IOCTL. Notifiers are, in
-+essence, callbacks, called when the EC sends an event. They are, in this
-+interface, associated with a specific target category and device-file-instance.
-+They forward any event of this category to the buffer of the corresponding
-+instance, from which it can then be read.
-+
-+Notifiers themselves do not enable events on the EC. Thus, it may additionally
-+be necessary to enable events via the ``SSAM_CDEV_EVENT_ENABLE`` IOCTL. While
-+notifiers work per-client (i.e. per-device-file-instance), events are enabled
-+globally, for the EC and all of its clients (regardless of userspace or
-+non-userspace). The ``SSAM_CDEV_EVENT_ENABLE`` and ``SSAM_CDEV_EVENT_DISABLE``
-+IOCTLs take care of reference counting the events, such that an event is
-+enabled as long as there is a client that has requested it.
-+
-+Note that enabled events are not automatically disabled once the client
-+instance is closed. Therefore any client process (or group of processes) should
-+balance their event enable calls with the corresponding event disable calls. It
-+is, however, perfectly valid to enable and disable events on different client
-+instances. For example, it is valid to set up notifiers and read events on
-+client instance ``A``, enable those events on instance ``B`` (note that these
-+will also be received by A since events are enabled/disabled globally), and
-+after no more events are desired, disable the previously enabled events via
-+instance ``C``.
-+
- 
- Controller IOCTLs
- =================
-@@ -45,9 +78,33 @@ The following IOCTLs are provided:
-      - ``REQUEST``
-      - Perform synchronous SAM request.
- 
-+   * - ``0xA5``
-+     - ``2``
-+     - ``W``
-+     - ``NOTIF_REGISTER``
-+     - Register event notifier.
- 
--``REQUEST``
-------------
-+   * - ``0xA5``
-+     - ``3``
-+     - ``W``
-+     - ``NOTIF_UNREGISTER``
-+     - Unregister event notifier.
-+
-+   * - ``0xA5``
-+     - ``4``
-+     - ``W``
-+     - ``EVENT_ENABLE``
-+     - Enable event source.
-+
-+   * - ``0xA5``
-+     - ``5``
-+     - ``W``
-+     - ``EVENT_DISABLE``
-+     - Disable event source.
-+
-+
-+``SSAM_CDEV_REQUEST``
-+---------------------
- 
- Defined as ``_IOWR(0xA5, 1, struct ssam_cdev_request)``.
- 
-@@ -82,6 +139,66 @@ submitted, and completed (i.e. handed back to user-space) successfully from
- inside the IOCTL, but the request ``status`` member may still be negative in
- case the actual execution of the request failed after it has been submitted.
- 
--A full definition of the argument struct is provided below:
-+A full definition of the argument struct is provided below.
-+
-+``SSAM_CDEV_NOTIF_REGISTER``
-+----------------------------
-+
-+Defined as ``_IOW(0xA5, 2, struct ssam_cdev_notifier_desc)``.
-+
-+Register a notifier for the event target category specified in the given
-+notifier description with the specified priority. Notifiers registration is
-+required to receive events, but does not enable events themselves. After a
-+notifier for a specific target category has been registered, all events of that
-+category will be forwarded to the userspace client and can then be read from
-+the device file instance. Note that events may have to be enabled, e.g. via the
-+``SSAM_CDEV_EVENT_ENABLE`` IOCTL, before the EC will send them.
-+
-+Only one notifier can be registered per target category and client instance. If
-+a notifier has already been registered, this IOCTL will fail with ``-EEXIST``.
-+
-+Notifiers will automatically be removed when the device file instance is
-+closed.
-+
-+``SSAM_CDEV_NOTIF_UNREGISTER``
-+------------------------------
-+
-+Defined as ``_IOW(0xA5, 3, struct ssam_cdev_notifier_desc)``.
-+
-+Unregisters the notifier associated with the specified target category. The
-+priority field will be ignored by this IOCTL. If no notifier has been
-+registered for this client instance and the given category, this IOCTL will
-+fail with ``-ENOENT``.
-+
-+``SSAM_CDEV_EVENT_ENABLE``
-+--------------------------
-+
-+Defined as ``_IOW(0xA5, 4, struct ssam_cdev_event_desc)``.
-+
-+Enable the event associated with the given event descriptor.
-+
-+Note that this call will not register a notifier itself, it will only enable
-+events on the controller. If you want to receive events by reading from the
-+device file, you will need to register the corresponding notifier(s) on that
-+instance.
-+
-+Events are not automatically disabled when the device file is closed. This must
-+be done manually, via a call to the ``SSAM_CDEV_EVENT_DISABLE`` IOCTL.
-+
-+``SSAM_CDEV_EVENT_DISABLE``
-+---------------------------
-+
-+Defined as ``_IOW(0xA5, 5, struct ssam_cdev_event_desc)``.
-+
-+Disable the event associated with the given event descriptor.
-+
-+Note that this will not unregister any notifiers. Events may still be received
-+and forwarded to user-space after this call. The only safe way of stopping
-+events from being received is unregistering all previously registered
-+notifiers.
-+
-+
-+Structures and Enums
-+====================
- 
- .. kernel-doc:: include/uapi/linux/surface_aggregator/cdev.h
--- 
-2.31.1
+> Btw, do I understand correctly that I may push GPIO ACPI patches independently
+> (of the ACPI changes)?
 
+
+They're independent yes.
+
+>
+>> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+>> ---
+>> Changes since v4:
+>> 	- None
+>>
+>>  drivers/gpio/gpiolib-acpi.c   | 28 ++++++++++++++++++++++++++++
+>>  include/linux/gpio/consumer.h |  2 ++
+>>  2 files changed, 30 insertions(+)
+>>
+>> diff --git a/drivers/gpio/gpiolib-acpi.c b/drivers/gpio/gpiolib-acpi.c
+>> index 5b4111e4be3f..684ddb35d83b 100644
+>> --- a/drivers/gpio/gpiolib-acpi.c
+>> +++ b/drivers/gpio/gpiolib-acpi.c
+>> @@ -128,6 +128,34 @@ static struct gpio_desc *acpi_get_gpiod(char *path, int pin)
+>>  	return gpiochip_get_desc(chip, pin);
+>>  }
+>>  
+>> +/**
+>> + * acpi_get_and_request_gpiod() - Translate ACPI GPIO pin to GPIO descriptor
+>> + *                               and hold a refcount to the GPIO device.
+>> + * @path:      ACPI GPIO controller full path name, (e.g. "\\_SB.GPO1")
+>> + * @pin:       ACPI GPIO pin number (0-based, controller-relative)
+>> + * @label:     Label to pass to gpiod_request()
+>> + *
+>> + * This function is a simple pass-through to acpi_get_gpiod(), except that
+>> + * as it is intended for use outside of the GPIO layer (in a similar fashion to
+>> + * gpiod_get_index() for example) it also holds a reference to the GPIO device.
+>> + */
+>> +struct gpio_desc *acpi_get_and_request_gpiod(char *path, int pin, char *label)
+>> +{
+>> +	struct gpio_desc *gpio;
+>> +	int ret;
+>> +
+>> +	gpio = acpi_get_gpiod(path, pin);
+>> +	if (IS_ERR(gpio))
+>> +		return gpio;
+>> +
+>> +	ret = gpiod_request(gpio, label);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +
+>> +	return gpio;
+>> +}
+>> +EXPORT_SYMBOL_GPL(acpi_get_and_request_gpiod);
+>> +
+>>  static irqreturn_t acpi_gpio_irq_handler(int irq, void *data)
+>>  {
+>>  	struct acpi_gpio_event *event = data;
+>> diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+>> index c73b25bc9213..566feb56601f 100644
+>> --- a/include/linux/gpio/consumer.h
+>> +++ b/include/linux/gpio/consumer.h
+>> @@ -692,6 +692,8 @@ int devm_acpi_dev_add_driver_gpios(struct device *dev,
+>>  				   const struct acpi_gpio_mapping *gpios);
+>>  void devm_acpi_dev_remove_driver_gpios(struct device *dev);
+>>  
+>> +struct gpio_desc *acpi_get_and_request_gpiod(char *path, int pin, char *label);
+>> +
+>>  #else  /* CONFIG_GPIOLIB && CONFIG_ACPI */
+>>  
+>>  struct acpi_device;
+>> -- 
+>> 2.25.1
+>>
