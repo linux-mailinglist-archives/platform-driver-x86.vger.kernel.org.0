@@ -2,126 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6103A2AE0
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Jun 2021 13:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F380A3A2C6C
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Jun 2021 15:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230331AbhFJL6C convert rfc822-to-8bit (ORCPT
+        id S230431AbhFJNGl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Jun 2021 07:58:02 -0400
-Received: from mga01.intel.com ([192.55.52.88]:17349 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230332AbhFJL55 (ORCPT
+        Thu, 10 Jun 2021 09:06:41 -0400
+Received: from mail.chalver.com.ec ([186.3.12.10]:46265 "EHLO
+        mail.chalver.com.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230317AbhFJNGl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Jun 2021 07:57:57 -0400
-IronPort-SDR: idLIkENXxoI1tYvt4i3NCTDbm3wG2Og/F6WcbZoQhbWRFigvZK+Id0eemiJw5a8Upfi0KPlIH2
- HiryWn7Dkukw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="226674750"
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; 
-   d="scan'208";a="226674750"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 04:56:00 -0700
-IronPort-SDR: 4HvAtng04rI4EJIc41e55QWKIaW7jQqGvhjYUtLTF0hdMxIBFL6IQ5+7pimANgYAGLEbf4SHuB
- XVJpwNFOA9Qw==
-X-IronPort-AV: E=Sophos;i="5.83,263,1616482800"; 
-   d="scan'208";a="402663181"
-Received: from jwalsh5-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.28.33])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2021 04:55:57 -0700
+        Thu, 10 Jun 2021 09:06:41 -0400
+Received: from mail.chalver.com.ec (localhost.localdomain [127.0.0.1])
+        by mail.chalver.com.ec (Postfix) with ESMTPS id A2BF31F260F3;
+        Thu, 10 Jun 2021 03:32:50 -0500 (ECT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.chalver.com.ec (Postfix) with ESMTP id EFB191F24938;
+        Thu, 10 Jun 2021 02:42:14 -0500 (ECT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.chalver.com.ec EFB191F24938
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chalver.com.ec;
+        s=E2A417BC-DDA7-11E6-85F6-38495636B764; t=1623310935;
+        bh=PxMh0SAMbBGlctefOH2OhvTlJNlHw25bONEEE7Ldp0I=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=rmwhOpqI12LNs0z75jvFbrzCeg9RgCRTGFykgjUanWq2qdn7mlc2d/1rXOIOopr1M
+         9jx4dyat7qUHaDD7ULU1WZqwFZ+KvW2kkGjs9m7lGxSSSkL9rJ5Cht4lHdwu+OPb+7
+         gD4Ms89KcVHiJmQHLMGWE2vCNYpmBHCz3YQa1zAAYWIhH/9zKQ2bVsEtU4nM1c2tCn
+         qClklzQW/kc2wsWUcXzjsawThSnJwHkhFYKx5CFChUvA8QVpBgLS+ulgF3t4U+HJru
+         FkNcJOflS7X8K5YcXEasREBYmwNYBqo+QL96lFdyXD0mrd+H+uJH0nRKB8xFj9qfYn
+         oXuSGg9af7zUA==
+X-Virus-Scanned: amavisd-new at chalver.com.ec
+Received: from mail.chalver.com.ec ([127.0.0.1])
+        by localhost (mail.chalver.com.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id wFIpG4swdsZK; Thu, 10 Jun 2021 02:42:14 -0500 (ECT)
+Received: from cris-PC.wifi (unknown [105.9.120.116])
+        by mail.chalver.com.ec (Postfix) with ESMTPSA id A9D721F2553F;
+        Thu, 10 Jun 2021 02:42:02 -0500 (ECT)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <548dd463-3942-00a1-85c3-232897dea1a3@canonical.com>
-References: <548dd463-3942-00a1-85c3-232897dea1a3@canonical.com>
-From:   Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: Computation of return value being discarded in get_cpu_power() in drivers/platform/x86/intel_ips.c
-Cc:     platform-driver-x86@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-To:     "Hans de Goede" <hdegoede@redhat.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Jesse Barnes <jsbarnes@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Message-ID: <162332615476.15946.17135355064135638083@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.8.1
-Date:   Thu, 10 Jun 2021 14:55:54 +0300
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <mpaucar@chalver.com.ec>
+From:   ''Tayeb souami'' <mpaucar@chalver.com.ec>
+Date:   Thu, 10 Jun 2021 09:49:15 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20210610074202.A9D721F2553F@mail.chalver.com.ec>
+X-Laboratorios-Chalver-MailScanner-Information: Please contact the ISP for more information
+X-Laboratorios-Chalver-MailScanner-ID: A9D721F2553F.A3DAA
+X-Laboratorios-Chalver-MailScanner: Not scanned: please contact your Internet E-Mail Service Provider for details
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-(Address for Hans was corrupt in previous message, which confused my mail
-client. Sorry for duplicate message, the other is without From: field).
 
-+ Jesse
+Lieber Freund,
 
-Quoting Colin Ian King (2021-06-09 14:50:07)
-> Hi,
-> 
-> I was reviewing some old unassigned variable warnings from static
-> analysis by Coverity and found an issue introduced with the following
-> commit:
-> 
-> commit aa7ffc01d254c91a36bf854d57a14049c6134c72
-> Author: Jesse Barnes <jbarnes@virtuousgeek.org>
-> Date:   Fri May 14 15:41:14 2010 -0700
-> 
->     x86 platform driver: intelligent power sharing driver
-> 
-> The analysis is as follows:
-> 
-> drivers/platform/x86/intel_ips.c
-> 
->  871 static u32 get_cpu_power(struct ips_driver *ips, u32 *last, int period)
->  872 {
->  873        u32 val;
->  874        u32 ret;
->  875
->  876        /*
->  877         * CEC is in joules/65535.  Take difference over time to
->  878         * get watts.
->  879         */
->  880        val = thm_readl(THM_CEC);
->  881
->  882        /* period is in ms and we want mW */
->  883        ret = (((val - *last) * 1000) / period);
-> 
-> Unused value (UNUSED_VALUE)
-> assigned_value:  Assigning value from ret * 1000U / 65535U to ret here,
-> but that stored value is not used.
-> 
->  884        ret = (ret * 1000) / 65535;
->  885        *last = val;
->  886
->  887        return 0;
->  888 }
-> 
-> I'm really not sure why ret is being calculated on lines 883,884 and not
-> being used. Should that be *last = ret on line 885? Looks suspect anyhow.
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
+ou Tube Seite unten.
 
-According to git blame code seems to have been disabled intentionally by the
-following commit:
-  
-commit 96f3823f537088c13735cfdfbf284436c802352a
-Author: Jesse Barnes <jbarnes@virtuousgeek.org>
-Date:   Tue Oct 5 14:50:59 2010 -0400
-  
-    [PATCH 2/2] IPS driver: disable CPU turbo
-  
-    The undocumented interface we're using for reading CPU power seems to be
-    overreporting power.  Until we figure out how to correct it, disable CPU
-    turbo and power reporting to be safe.  This will keep the CPU within default
-    limits and still allow us to increase GPU frequency as needed.
-  
-Maybe wrap the code after thm_readl() in #if 0 in case somebody ends up
-wanting to fix it? Or eliminate completely.
-  
-In theory the thm_readl() may affect the system behavior so would not
-remove that for extra paranoia.
-  
-Regards, Joonas
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
 
-> Colin
-> 
-> 
+
+
+Das ist dein Spendencode: [TS530342018]
+
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Tayeb Souami
