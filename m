@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F59E3A8460
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Jun 2021 17:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3383A84A9
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 15 Jun 2021 17:49:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbhFOPue (ORCPT
+        id S232149AbhFOPvf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 15 Jun 2021 11:50:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44576 "EHLO mail.kernel.org"
+        Tue, 15 Jun 2021 11:51:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231830AbhFOPue (ORCPT
+        id S232041AbhFOPvS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 15 Jun 2021 11:50:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07D3661603;
-        Tue, 15 Jun 2021 15:48:28 +0000 (UTC)
+        Tue, 15 Jun 2021 11:51:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C87B8615A0;
+        Tue, 15 Jun 2021 15:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623772109;
-        bh=s3Sx6HFfbj/xDoJQAsWIo6+vWziz620qNYjm/K82GfM=;
+        s=k20201202; t=1623772153;
+        bh=57/uMMEeMR9p9mCBxGKJPQGCdTcaBRY23AecR/wg6mU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=USFwiu3qkZ7J54OZgavVUfBkdCCeplp1HbRsempqIbaw3tTboil1QYXWBpHWLowIr
-         PBigb16/mPtFSiRN3GDgXdRVdvZh6JWiE9eMgDCZkDOrOLTya/FbfLVo1U+TZcdb9P
-         yP38h+2/FhJ6ni5PQyB2W7NvZgLW85luYZuAp9w28OYqzP8AlkTmLFYNy7QV1pvAVi
-         pU+FbxHScvotGerMjQloaUmtSck4IdfG90fQhkefTsXl7pAau/SmKuHvs3u+AreRz/
-         X6IITKUhr2LuCLf4zmopV9KOKlwMFlSmzrgLaPUEBh9fo9NJCRSiGMbuBFmU4ouhDj
-         /r52oqjTu6J6g==
+        b=GX9snzPX20uA7/D0ziaPlKCAVdJ/iCDVZQje7cqo97UH+ebx9oTj/oUqk51mAN/LC
+         vFto6dcDm7EvN23Hhc209ZlxZLGmXzYoQwGTIiJEtmwa6czP9B+bx47hrM1Hbu/+xQ
+         ggow9qo1ZABOupRzZupug1bwpU7z6OFt4gI7BSdaK/ApueXNJFSHFs0mWSZiMcIzN7
+         rJs4ORo7heAt2bQc50dVKN+gSFK6GhgiPBCteQhnIWZtrUcdRY58lyyMEQHulvSZEO
+         Qy0IfBrryLH1Etgng72Dii71SZc0k8ORW50zm7D9L5lTwpJZl+NlJnrqSmIp1l/gm0
+         NkTOCjYbgGtzQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Til Jasper Ullrich <tju@tju.me>,
@@ -32,12 +32,12 @@ Cc:     Til Jasper Ullrich <tju@tju.me>,
         Sasha Levin <sashal@kernel.org>,
         ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 04/33] platform/x86: thinkpad_acpi: Add X1 Carbon Gen 9 second fan support
-Date:   Tue, 15 Jun 2021 11:47:55 -0400
-Message-Id: <20210615154824.62044-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 04/30] platform/x86: thinkpad_acpi: Add X1 Carbon Gen 9 second fan support
+Date:   Tue, 15 Jun 2021 11:48:41 -0400
+Message-Id: <20210615154908.62388-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615154824.62044-1-sashal@kernel.org>
-References: <20210615154824.62044-1-sashal@kernel.org>
+In-Reply-To: <20210615154908.62388-1-sashal@kernel.org>
+References: <20210615154908.62388-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 61f1c91c62de..3390168ac079 100644
+index 1c25af28a723..5c2f2e337b57 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -8808,6 +8808,7 @@ static const struct tpacpi_quirk fan_quirk_table[] __initconst = {
+@@ -8806,6 +8806,7 @@ static const struct tpacpi_quirk fan_quirk_table[] __initconst = {
  	TPACPI_Q_LNV3('N', '2', 'O', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (2nd gen) */
  	TPACPI_Q_LNV3('N', '2', 'V', TPACPI_FAN_2CTL),	/* P1 / X1 Extreme (3nd gen) */
  	TPACPI_Q_LNV3('N', '3', '0', TPACPI_FAN_2CTL),	/* P15 (1st gen) / P15v (1st gen) */
