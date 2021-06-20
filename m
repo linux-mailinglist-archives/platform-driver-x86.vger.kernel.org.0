@@ -2,71 +2,105 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 046553ADE2A
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Jun 2021 13:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9872A3ADED8
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 20 Jun 2021 15:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbhFTLd6 (ORCPT
+        id S229658AbhFTNjO (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 20 Jun 2021 07:33:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229568AbhFTLd5 (ORCPT
+        Sun, 20 Jun 2021 09:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40600 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229701AbhFTNiz (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 20 Jun 2021 07:33:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7A530610CA
-        for <platform-driver-x86@vger.kernel.org>; Sun, 20 Jun 2021 11:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624188705;
-        bh=NqE4Mxeau54y2tVsMr5wKUk8EnBZQtl79zmsJHql69U=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=J1W0xEwbr7QOMa5DaM3xZiOUBc+GunTAc5SotZjBiJ5aF6V44v2KgPDkxOy+zaLTK
-         tWZrUr0Ver7U4fRPDgYkLTPahLiagliSlaaM5gO9sLNlATl0INQWGwCInwHphsP0sb
-         1R/E7aqWnDWwDgKbKga6vhcdy+tlzySIpguChYN7UH5KiWnPb6NRU4yaTPQKikKKfK
-         Og6PeDPjzXE4b/nZIRm0gSCub7Fbf6I7Mgtu8A/P44YupVEUUf04DFuodjWNwzDFCm
-         GmI18769+bsPVrq12ROCn4/CdiongWABU6DUhmpb1xVX4cr29e5h9KhqudY0Ca4FGg
-         7y+iADC+yxhxg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 75E34611B0; Sun, 20 Jun 2021 11:31:45 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 213511] kernel panic during boot
-Date:   Sun, 20 Jun 2021 11:31:45 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: linux@brodo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213511-215701-R2oAkqjc2N@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213511-215701@https.bugzilla.kernel.org/>
-References: <bug-213511-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sun, 20 Jun 2021 09:38:55 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2363C06124A
+        for <platform-driver-x86@vger.kernel.org>; Sun, 20 Jun 2021 06:36:16 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id w4so11216072ior.1
+        for <platform-driver-x86@vger.kernel.org>; Sun, 20 Jun 2021 06:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=uDIEtWfgl91FDet7ZYX1u1ozW0abpKvg4acx3thqXBCDoYcWKg7eyNZSXNk+51VeuJ
+         sYbwx77CCJt/Xl1UBy7P++4/uHOQjQcptGzc4BiJd5A/7x+FLCtsFr6R08yAScCPxE/G
+         ycRitdP5UZQCPHBcljPWiYz9qooX9+o9VlIcE1iBIKjgWFsG58IfpnIZmKh5Mer/et0Q
+         Wvv2McVtUA6rn+iTugaAQulni5t+7gIBWkpgi42U+JEUmcEEUifIxcViVFyKhDEEgfNV
+         A33afccbptAYxVMQ3XRd6cg8QS8Vl2AEYQyihFbFLRpIaiCXlHMQE4BSfPfytvzUMqcd
+         FXMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=hOCmWs9QgJf+E7HlKZ6J295za1w20rlDkOPq30GuqlDsHni6UTB3i0rynyQSZXjw0L
+         IioNOWu3UhCi5FfFZkvghspPghEBfHP16jpdCFprjiI0ICYF32V3+PbSl+ZmYZgm/T6C
+         B0LvDwcyUBQDLDEbqMOAWcOjjHhaUxegnfDuGkOSyAaAuOBx8sWEKRAh5RhKw8J1E4Rj
+         kAyk1WjwxyYj2mNNRiFqTiPrkLSEPK5ZDPReMkb1zemmfTV/nvwNaj6vOk6qbfLk72lE
+         fsX8kcRSkGj67MaxbEwgh+UA5IewrQqwD3zN6EONJcHHEdBIezCLecOaq84uVCtWj1Ss
+         fueQ==
+X-Gm-Message-State: AOAM531LtP95buO++hPm1rfLMshZ8OMfGnHUxiFkcuQ1bs96qd4dPwov
+        uPt0gx87x6btIOCCvZW5B8OySSG05bw3mhlFCiU=
+X-Google-Smtp-Source: ABdhPJwOQ5lA8oaPxit1UXNypL8Kah2QWj0jtAWNuj5/Z8/Rl7T8YsfxHtOIriCZuXo1tXOWzxp5d5YlbnVjDFRsY5Q=
+X-Received: by 2002:a02:a810:: with SMTP id f16mr12630337jaj.64.1624196175568;
+ Sun, 20 Jun 2021 06:36:15 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a05:6e02:1baf:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:36:14
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <sarah.koffi101@gmail.com>
+Date:   Sun, 20 Jun 2021 15:36:14 +0200
+Message-ID: <CA+ifgLE1g7jgi567M2HhZfvRSUF63Hu6stsW+ysX=3U-=qnn6Q@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213511
+Greetings From Mrs. Sarah Koffi
 
---- Comment #2 from Dominik Brodowski (linux@brodo.de) ---
-Created attachment 297499
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297499&action=3Dedit
-/proc/ioports
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
 
---=20
-You may reply to this email to add a comment.
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
+
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
+
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
+
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
+
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
