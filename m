@@ -2,153 +2,89 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE4533B6AF3
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 29 Jun 2021 00:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A6CC3B6CF2
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 29 Jun 2021 05:24:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235371AbhF1Wbf (ORCPT
+        id S231719AbhF2D0Y (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 28 Jun 2021 18:31:35 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.116]:9423 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235319AbhF1Wbe (ORCPT
+        Mon, 28 Jun 2021 23:26:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231770AbhF2D0X (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 28 Jun 2021 18:31:34 -0400
-Received: from [100.112.4.164] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-5.bemta.az-c.us-east-1.aws.symcld.net id 92/22-54191-43D4AD06; Mon, 28 Jun 2021 22:29:08 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRWlGSWpSXmKPExsWSLveKTdfY91a
-  CwZUnBhZvjk9nsli8fhmjxeeOySwWq/e8YHZg8Wi99JfNY97JQI/3+66yeXzeJBfAEsWamZeU
-  X5HAmvHo+Er2gv2iFY0rfrA1MN4S6mLk4hAS+M8o0XttMyuE84RRYvLBs0xdjJwcbALaElu2/
-  GLrYuTgEBGQkfiw1hMkzCxQITHlSRcjiC0s4C5xc95iZhCbRUBV4ujEF2CtvAJWEnsnP2EHsS
-  UE5CVOn7gGVs8JVHOm6zELiC0koCJx/8ESNoh6QYmTM5+wQMyXl2jeOpsZwpaQOPjiBTPEHAW
-  JN+/3Qc1MkOj594htAqPALCTts5C0z0LSvoCReRWjWVJRZnpGSW5iZo6uoYGBrqGhka6JrpGx
-  hV5ilW6yXmmxbmpicYmuoV5iebFecWVuck6KXl5qySZGYMinFLC828F49vUHvUOMkhxMSqK8N
-  21uJQjxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4G30BsoJFqWmp1akZeYA4w8mLcHBoyTCm+wJlO
-  YtLkjMLc5Mh0idYlSUEueVBekTAElklObBtcFi/hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkY
-  lYd42kPE8mXklcNNfAS1mAlq86MlNkMUliQgpqQYm9amiizYtu+y2vn67oFmw5WaPtSVPpt9+
-  Ovms0ClD0e8eBd/tyx3soo7kznFeY1lzX/0FyzTe4/GVj7x3v2pfO3FrdBSXuGZwacah2r1KC
-  84Gs+62+9p5pXjpjrt17c7ldS5rxXPncJfvjuZKMdI7/OrRpzt90nM86yfZWM1wuG167316d8
-  RB+2szHXs572hrHrl9QpK5wtbgegRfru3s1Q88H3d+X2Ivm8yfEaTU++5UbcgzZt/ke2vOMr0
-  +rSidyrFWc4pe2bNDjxeZSr3ZEqvdsq2ET3zDFhbGE8IT5Z26y9Ovznbn37iiTeHw3K2BJ1Yb
-  TFm8y/DRtdKNj4U/bsqLNpCRee6ev+GbxKGpSizFGYmGWsxFxYkA+gKPTXQDAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-14.tower-415.messagelabs.com!1624919346!40344!1
-X-Originating-IP: [103.30.234.6]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11709 invoked from network); 28 Jun 2021 22:29:07 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.6)
-  by server-14.tower-415.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 28 Jun 2021 22:29:07 -0000
-Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id ACC4776C00445E394572;
-        Tue, 29 Jun 2021 06:29:04 +0800 (CST)
-Received: from fedora.Lenovo.com (10.38.106.36) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2176.2; Mon, 28 Jun
- 2021 18:28:59 -0400
-From:   Mark Pearson <markpearson@lenovo.com>
-To:     <markpearson@lenovo.com>
-CC:     <hdegoede@redhat.com>, <mgross@linux.intel.com>,
-        <platform-driver-x86@vger.kernel.org>, <mario.limonciello@amd.com>
-Subject: [PATCH v2] platform/x86: think-lmi: Add pending_reboot support
-Date:   Mon, 28 Jun 2021 18:28:46 -0400
-Message-ID: <20210628222846.8830-1-markpearson@lenovo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <markpearson@lenovo.com>
-References: <markpearson@lenovo.com>
+        Mon, 28 Jun 2021 23:26:23 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243F8C061574
+        for <platform-driver-x86@vger.kernel.org>; Mon, 28 Jun 2021 20:23:56 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id z1so19600210ils.0
+        for <platform-driver-x86@vger.kernel.org>; Mon, 28 Jun 2021 20:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=YGGxTHA9hIrLzRUwTdzbeNTJGaAcmYGcWMApI4OV6tc=;
+        b=O7k+TMqbh/sZE7+3TbcYuQX5rySRJZldfoD2GT5qvoVyhALYxL/8N7N4VStC8c/UJM
+         n50bIYgNlRzy3ghhOvvfey1NfA15cW0oFIIJ59F1yVub4wfGZfdH78TfqiA4pUfQ5OaE
+         tDXA5jU6PKsY3RhhhzSwh9kT8Y63ofpzntUzmMVtCE7LSdIYSHnGgpT888wWXVYN+izw
+         qYrMtjk3Fq07XVWfvJ6834Cc6zj8AcfsRZb9oo07VsibM18q0OriHFGIqDfXaLuFdBur
+         Kke1TEWZbuxso5WzA060n9QGUO9vXR1vhdqAlEWOrycF0+QdQoCbWloRmhG6TPel+AA6
+         U59Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=YGGxTHA9hIrLzRUwTdzbeNTJGaAcmYGcWMApI4OV6tc=;
+        b=h5eURBfd/ctLA4pcAwrGYkZjOMWG3+25fIhzbjLQaHoxtPhIfT10zDesODKruffyQd
+         WXI6txXpqfwMeR8BjCQWVWgfjf1/sGdZqyavbH2Vnd0pIDdt4M7apf2WygDCEOBbOQZe
+         I0H1ebocLuk+hhK2/TBBm9k7l5oQJqz34Uv1wq0KaRmFXwJD8KT0TDK6I0dYOUmZuvSX
+         pYA27ceHfwMeulAoZ6gj+TG6xNTM3aD3XhrKsJsnFb0dhCWBUoWwSZHSAvx60jmWWt1q
+         N5dV1Ky4IE/Y5jkabsW73RjyE0nP2qCrE0gcO3DeW5L9mBlB0V7c+z6k0c/cAWK39CLS
+         EuCg==
+X-Gm-Message-State: AOAM5326ZtMQkvr5w+Ij3v9Gyr+CaffbRbeZgpriykl1UzY/GAAtoq0R
+        9HrEYWfvH0ZpWZTBpGJOoZA1PimmYuvFLRCyQxA=
+X-Google-Smtp-Source: ABdhPJwycF8oLk/2oGvCjA87VSPLLBweibL75RzMuIExgBxqZxr6MA0wOz3u4OOZPaR05iyzKypJYNH9guptNTmQjeM=
+X-Received: by 2002:a92:c085:: with SMTP id h5mr7741201ile.61.1624937035616;
+ Mon, 28 Jun 2021 20:23:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.38.106.36]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail01.lenovo.com (10.62.32.20)
+Received: by 2002:a02:6404:0:0:0:0:0 with HTTP; Mon, 28 Jun 2021 20:23:55
+ -0700 (PDT)
+Reply-To: jahaalice216@gmail.com
+From:   AliceJahab <manleymarcuskobenanm222@gmail.com>
+Date:   Tue, 29 Jun 2021 03:23:55 +0000
+Message-ID: <CAPJ3G3gSVJ3EXZZHoZ=6evP10JHO=ffaQdoqLtSPrfqG4nAh8Q@mail.gmail.com>
+Subject: Mrs. Alice Jahab
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The Think-lmi driver was missing pending_reboot support as it wasn't
-available from the BIOS. Turns out this is really useful to have from
-user space so implementing from a purely SW point of view.
+Dear,
 
-Thanks to Mario Limonciello for guidance on how fwupd would use this.
+I am Mrs. Alice Jahab and I am married to Mr. Razaki Jahab for 19
+years without a child and my husband died in four days from his
+illness. I am contacting you to let you know my desire to give the
+amount of US $ 3.5 million to charities in your country that I
+inherited from my late husband. Due to my disease (cancer) that have
+been confirmed for only eight months by doctors, so it is my wish that
+this money is invested and distributed to charities of your choice
+such as home orphanages, schools, the homeless people, nursing home,
+hospitals and many other things that will be for the benefit of the
+least privileged. I want to send the following information so I start
+to process the judgment going to show that the new beneficiary to the
+fund.
 
-Suggested-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mark Pearson <markpearson@lenovo.com>
----
-Changes in v2: 
-  - added in Mario's Suggested-by tag (and will use correct email when
-    submitting patch)
+(1) Your full name ...
+(2) Address ...
+(3) The city and the country ...
+(4 Age / Sex ......
+(5) Occupation .......
 
- drivers/platform/x86/think-lmi.c | 19 +++++++++++++++++++
- drivers/platform/x86/think-lmi.h |  1 +
- 2 files changed, 20 insertions(+)
+(jahaalice216@gmail.com) is my private email
 
-diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
-index b57061079..bcc3d6fcd 100644
---- a/drivers/platform/x86/think-lmi.c
-+++ b/drivers/platform/x86/think-lmi.c
-@@ -566,6 +566,11 @@ static ssize_t current_value_store(struct kobject *kobj,
- 	else
- 		ret = tlmi_save_bios_settings("");
- 
-+	if (!ret && !tlmi_priv.pending_changes) {
-+		tlmi_priv.pending_changes = true;
-+		/* let userland know it may need to check reboot pending again */
-+		kobject_uevent(&tlmi_priv.class_dev->kobj, KOBJ_CHANGE);
-+	}
- out:
- 	kfree(auth_str);
- 	kfree(set_str);
-@@ -641,6 +646,14 @@ static struct kobj_type tlmi_pwd_setting_ktype = {
- 	.sysfs_ops	= &tlmi_kobj_sysfs_ops,
- };
- 
-+static ssize_t pending_reboot_show(struct kobject *kobj, struct kobj_attribute *attr,
-+				   char *buf)
-+{
-+	return sprintf(buf, "%d\n", tlmi_priv.pending_changes);
-+}
-+
-+static struct kobj_attribute pending_reboot = __ATTR_RO(pending_reboot);
-+
- /* ---- Initialisation --------------------------------------------------------- */
- static void tlmi_release_attr(void)
- {
-@@ -662,6 +675,7 @@ static void tlmi_release_attr(void)
- 	sysfs_remove_group(&tlmi_priv.pwd_power->kobj, &auth_attr_group);
- 	kobject_put(&tlmi_priv.pwd_power->kobj);
- 	kset_unregister(tlmi_priv.authentication_kset);
-+	sysfs_remove_file(&tlmi_priv.class_dev->kobj, &pending_reboot.attr);
- }
- 
- static int tlmi_sysfs_init(void)
-@@ -730,6 +744,11 @@ static int tlmi_sysfs_init(void)
- 	if (ret)
- 		goto fail_create_attr;
- 
-+	/* Create global sysfs files */
-+	ret = sysfs_create_file(&tlmi_priv.class_dev->kobj, &pending_reboot.attr);
-+	if (ret)
-+		goto fail_create_attr;
-+
- 	return ret;
- 
- fail_create_attr:
-diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think-lmi.h
-index 6fa8da7af..eb5988466 100644
---- a/drivers/platform/x86/think-lmi.h
-+++ b/drivers/platform/x86/think-lmi.h
-@@ -60,6 +60,7 @@ struct think_lmi {
- 	bool can_get_bios_selections;
- 	bool can_set_bios_password;
- 	bool can_get_password_settings;
-+	bool pending_changes;
- 
- 	struct tlmi_attr_setting *setting[TLMI_SETTINGS_COUNT];
- 	struct device *class_dev;
--- 
-2.31.1
+As soon as we receive your response confirming acceptance of the work,
+I will give all pertinent information and sworn testimony authorizing
+the bank to disclose and transfer the money to you as my duly
+appointed representative.
 
+Thanks,
+Mrs. Alice Jahab
