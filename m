@@ -2,113 +2,86 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D67AD3B8A0E
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Jun 2021 23:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C033B8D70
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  1 Jul 2021 07:37:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235681AbhF3VOW (ORCPT
+        id S231993AbhGAFjg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 30 Jun 2021 17:14:22 -0400
-Received: from mga18.intel.com ([134.134.136.126]:4366 "EHLO mga18.intel.com"
+        Thu, 1 Jul 2021 01:39:36 -0400
+Received: from zmail.arums.ac.ir ([78.38.27.151]:34358 "EHLO zmail.arums.ac.ir"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235470AbhF3VOI (ORCPT
+        id S231704AbhGAFjg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 30 Jun 2021 17:14:08 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10031"; a="195720895"
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; 
-   d="scan'208";a="195720895"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2021 14:11:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; 
-   d="scan'208";a="447630144"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga007.jf.intel.com with ESMTP; 30 Jun 2021 14:11:39 -0700
-Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.174])
-        by linux.intel.com (Postfix) with ESMTP id EE3C4580279;
-        Wed, 30 Jun 2021 14:11:38 -0700 (PDT)
-Message-ID: <f590ee871d0527a12b307f1494cb4c8a91c5e3c2.camel@linux.intel.com>
-Subject: Re: [PATCH 2/4] MFD: intel_pmt: Remove OOBMSM device
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     hdegoede@redhat.com, mgross@linux.intel.com, bhelgaas@google.com,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Jun 2021 14:11:38 -0700
-In-Reply-To: <YNxENGGctLXmifzj@dell>
-References: <20210617215408.1412409-1-david.e.box@linux.intel.com>
-         <20210617215408.1412409-3-david.e.box@linux.intel.com>
-         <YNxENGGctLXmifzj@dell>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Thu, 1 Jul 2021 01:39:36 -0400
+X-Greylist: delayed 25610 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Jul 2021 01:34:03 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zmail.arums.ac.ir (Postfix) with ESMTP id 564BD30AD03;
+        Wed, 30 Jun 2021 23:45:32 +0430 (+0430)
+Received: from zmail.arums.ac.ir ([127.0.0.1])
+        by localhost (zmail.arums.ac.ir [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id EDRyvvXLIP8i; Wed, 30 Jun 2021 23:45:32 +0430 (+0430)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zmail.arums.ac.ir (Postfix) with ESMTP id B315C2E4B20;
+        Wed, 30 Jun 2021 23:14:07 +0430 (+0430)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmail.arums.ac.ir B315C2E4B20
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arums.ac.ir;
+        s=EC41E128-650D-11EA-AFC6-EF036CB1FBBD; t=1625078647;
+        bh=DSRKCBa8ua2fkb5ERNCFE8FzLeRPwOGuhAjxS6yw6j8=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=wpO0KzL0VsthzXVdK2HJwcQkGw5o9xgQQEOgPnjAWWCpL+pCK4ywKZi8XwMbEV/Xh
+         VjrnuLQrKJQGBeZo/vXxF45dcvdjg8SNu4GA8JB2fmxVLNFJJGM8xKN14+XOqQw2GA
+         5IRQb8t4iUHQLKh8Fa7yb4nHEeaR4kjTHE4BL9RpJ/hu1UTM2XLdMUfLZ1CWy9A86h
+         1ViW9of0wnnwhSccYp6dM5JSEVsb6abUEiCwrbYqT0LJCL/OTm3qgK64Xds5Z5MWHb
+         WsSKXDe+Tq/lR+u6o1J2aImTLRV70S1u1Vv5y252wwO7gYfKEHHJIPvWipFyPZ5zBO
+         rLv7u7kI3OaGw==
+X-Virus-Scanned: amavisd-new at zmail.arums.ac.ir
+Received: from zmail.arums.ac.ir ([127.0.0.1])
+        by localhost (zmail.arums.ac.ir [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id lGz8tmF1_TEb; Wed, 30 Jun 2021 23:14:07 +0430 (+0430)
+Received: from cris-PC.wifi (unknown [105.9.28.74])
+        by zmail.arums.ac.ir (Postfix) with ESMTPSA id 28E8E2E4B31;
+        Wed, 30 Jun 2021 23:02:51 +0430 (+0430)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: spende von 2,000,000 euro
+To:     Recipients <s.banaei@arums.ac.ir>
+From:   ''Tayeb souami'' <s.banaei@arums.ac.ir>
+Date:   Wed, 30 Jun 2021 20:32:45 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20210630183252.28E8E2E4B31@zmail.arums.ac.ir>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, 2021-06-30 at 11:15 +0100, Lee Jones wrote:
-> On Thu, 17 Jun 2021, David E. Box wrote:
-> 
-> > Unlike the other devices in intel_pmt, the Out of Band Management
-> > Services
-> > Module (OOBMSM) is actually not a PMT dedicated device. It can also
-> > be used
-> > to describe non-PMT capabilities. Like PMT, these capabilities are
-> > also
-> > enumerated using PCIe Vendor Specific registers in config space. In
-> > order
-> > to better support these devices without the confusion of a
-> > dependency on
-> > MFD_INTEL_PMT, remove the OOBMSM device from intel_pmt so that it
-> > can be
-> > later placed in its own driver. Since much of the same code will be
-> > used by
-> > intel_pmt and the new driver, create a new file with symbols to be
-> > used by
-> > both.
-> > 
-> > While performing this split we need to also handle the creation of
-> > platform
-> > devices for the non-PMT capabilities. Currently PMT devices are
-> > named by
-> > their capability (e.g. pmt_telemetry). Instead, generically name
-> > them by
-> > their capability ID (e.g. intel_extnd_cap_2). This allows the IDs
-> > to be
-> > created automatically.  However, to ensure that unsupported devices
-> > aren't
-> > created, use an allow list to specify supported capabilities.
-> > 
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> >  MAINTAINERS                                |   1 +
-> >  drivers/mfd/Kconfig                        |   4 +
-> >  drivers/mfd/Makefile                       |   1 +
-> >  drivers/mfd/intel_extended_caps.c          | 208
-> > +++++++++++++++++++++
-> 
-> Please consider moving this <whatever this is> out to either
-> drivers/pci or drivers/platform/x86.
-
-None of the cell drivers are in MFD, only the PCI drivers from which
-the cells are created. I understood that these should be in MFD. But
-moving it to drivers/platform/x86 would be fine with me. That keeps the
-code together in the same subsystem. Comment from Hans or Andy? 
-
-> 
-> I suggest Andy should also be on Cc.
-> 
-> >  drivers/mfd/intel_extended_caps.h          |  40 ++++
-> >  drivers/mfd/intel_pmt.c                    | 198 ++---------------
-> > ---
-> >  drivers/platform/x86/intel_pmt_crashlog.c  |   2 +-
-> >  drivers/platform/x86/intel_pmt_telemetry.c |   2 +-
-> >  8 files changed, 270 insertions(+), 186 deletions(-)
-> >  create mode 100644 drivers/mfd/intel_extended_caps.c
-> >  create mode 100644 drivers/mfd/intel_extended_caps.h
-> 
+Lieber Freund,
 
 
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika,
+der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich
+an 5 zuf=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ih=
+re
+E-Mail nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften T=
+eil meines
+Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen und
+Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden,
+um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine You Tube Se=
+ite
+unten.
+
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+
+Das ist dein Spendencode: [TS530342018]
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+
+Herr Tayeb Souami
