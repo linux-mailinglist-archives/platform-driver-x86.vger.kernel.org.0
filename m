@@ -2,73 +2,67 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53EF13B9AAE
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Jul 2021 04:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6316E3B9EC4
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  2 Jul 2021 12:01:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234699AbhGBCZq (ORCPT
+        id S231313AbhGBKEK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 1 Jul 2021 22:25:46 -0400
-Received: from mga02.intel.com ([134.134.136.20]:30676 "EHLO mga02.intel.com"
+        Fri, 2 Jul 2021 06:04:10 -0400
+Received: from mga04.intel.com ([192.55.52.120]:52125 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230329AbhGBCZp (ORCPT
+        id S231302AbhGBKEJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 1 Jul 2021 22:25:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="195824217"
+        Fri, 2 Jul 2021 06:04:09 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="206885169"
 X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; 
-   d="scan'208";a="195824217"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2021 19:23:14 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="206885169"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2021 03:01:38 -0700
 X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; 
-   d="scan'208";a="426361063"
-Received: from otcpl-manager.jf.intel.com (HELO localhost.localdomain) ([10.54.39.234])
-  by orsmga002.jf.intel.com with ESMTP; 01 Jul 2021 19:23:14 -0700
-From:   Gayatri Kammela <gayatri.kammela@intel.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     mgross@linux.intel.com, hdegoede@redhat.com,
-        irenic.rajneesh@gmail.com,
-        "David E. Box" <david.e.box@linux.intel.com>
-Subject: [PATCH v1 4/4] platform/x86: intel_pmc_core: Add GBE Package C10 fix for Alder Lake PCH
-Date:   Thu,  1 Jul 2021 19:20:03 -0700
-Message-Id: <bb897d898c060da4bc20d3d866193c53c6fd4ee1.1625191274.git.gayatri.kammela@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1625191274.git.gayatri.kammela@intel.com>
+   d="scan'208";a="477149988"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2021 03:01:36 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lzFzH-007eep-NY; Fri, 02 Jul 2021 13:01:31 +0300
+Date:   Fri, 2 Jul 2021 13:01:31 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Gayatri Kammela <gayatri.kammela@intel.com>
+Cc:     platform-driver-x86@vger.kernel.org, mgross@linux.intel.com,
+        hdegoede@redhat.com, irenic.rajneesh@gmail.com,
+        Srinivas Pandruvada <srinivas.pandruvada@intel.com>,
+        David Box <david.e.box@intel.com>
+Subject: Re: [PATCH v1 0/4] Add Alder Lake PCH-S support to PMC core driver
+Message-ID: <YN7j+2zBmQlmBUzG@smile.fi.intel.com>
 References: <cover.1625191274.git.gayatri.kammela@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1625191274.git.gayatri.kammela@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: "David E. Box" <david.e.box@linux.intel.com>
+On Thu, Jul 01, 2021 at 07:19:59PM -0700, Gayatri Kammela wrote:
+> Hi,
+> The patch series add Alder Lake PCH-S support to PMC core driver.
+> 
+> Patch 1: Add Alderlake support to pmc_core driver
+> Patch 2: Add Latency Tolerance Reporting (LTR) support to Alder Lake
+> Patch 3: Add Alder Lake low power mode support for pmc_core
+> Patch 4: Add GBE Package C10 fix for Alder Lake
 
-Alder PCH uses the same Gigabit Ethernet (GBE) device as Tiger Lake PCH
-which cannot achieve PC10 without ignoring the PMC GBE LTR. Add this
-work around for Alder Lake PCH as well.
+I have seen only three out of four patches. I think to avoid such you better
+use --cc parameter to the `git send-email ...` (Or you may utilize the script
+I'm using myself:
+https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh).
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
- drivers/platform/x86/intel_pmc_core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Nevertheless, before doing anything on this, can you move the stuff under
+drivers/platform/x86/intel/pmc/ first, please?
 
-diff --git a/drivers/platform/x86/intel_pmc_core.c b/drivers/platform/x86/intel_pmc_core.c
-index 27346ff5a924..84b58b557a49 100644
---- a/drivers/platform/x86/intel_pmc_core.c
-+++ b/drivers/platform/x86/intel_pmc_core.c
-@@ -1983,10 +1983,10 @@ static int pmc_core_probe(struct platform_device *pdev)
- 		pmc_core_get_tgl_lpm_reqs(pdev);
- 
- 	/*
--	 * On TGL, due to a hardware limitation, the GBE LTR blocks PC10 when
--	 * a cable is attached. Tell the PMC to ignore it.
-+	 * On TGL and ADL, due to a hardware limitation, the GBE LTR blocks PC10
-+	 * when a cable is attached. Tell the PMC to ignore it.
- 	 */
--	if (pmcdev->map == &tgl_reg_map) {
-+	if (pmcdev->map == &tgl_reg_map || pmcdev->map == &adl_reg_map) {
- 		dev_dbg(&pdev->dev, "ignoring GBE LTR\n");
- 		pmc_core_send_ltr_ignore(pmcdev, 3);
- 	}
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
