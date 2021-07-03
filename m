@@ -2,72 +2,66 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D3F3BAD9A
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  4 Jul 2021 17:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E5543BAF48
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  4 Jul 2021 23:59:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229543AbhGDPIE (ORCPT
+        id S229720AbhGDWCP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 4 Jul 2021 11:08:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47264 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229492AbhGDPID (ORCPT
+        Sun, 4 Jul 2021 18:02:15 -0400
+Received: from static-190-25-223-138.static.etb.net.co ([190.25.223.138]:48700
+        "EHLO correo.hdv.gov.co" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229652AbhGDWCP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 4 Jul 2021 11:08:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5C2FF613E1
-        for <platform-driver-x86@vger.kernel.org>; Sun,  4 Jul 2021 15:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625411128;
-        bh=/nRW5rkV54wzkprDkRE5lq5PtHxjaye2KyOc4dzuVXE=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=U4sd3o5kZuzX+k9ScCbt6AF2r7hNC7uczIIwbYcUrIBEO4vmfxF+N4e1BzVehsrX0
-         8SF1Pcf7Jxzt11LMpgHk3sqiUkUfvtP6/un+StPsVRn4LnPYYlS//f2lIQCgpjZWpl
-         h4opDKdZ1PHIVB69/oKN6GgkS00kn8v5L3l39lZTNjXHjBMeGXsK5NEVeUDqccB5uu
-         5NFJ6Xwz1U43u6nyTcndPBcYZC2lz+BTw9eZmtOCImtJBnBsjdCsgpFpZIItAu3g8v
-         KcAfvlUCsJkzVeapGnU60K5JHVGSH0iW6ExMVe32xgKsO2QY/KLxBa1Ryucge5yoHj
-         /sx1MhY+GQUkA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 42AB7611F1; Sun,  4 Jul 2021 15:05:28 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 213579] Clevo NH55HJ (intel tigerlake) touchpad support (GPIO
- can't be used as IRQ)
-Date:   Sun, 04 Jul 2021 15:05:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: patacca@autistici.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213579-215701-xtANShYMt1@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213579-215701@https.bugzilla.kernel.org/>
-References: <bug-213579-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sun, 4 Jul 2021 18:02:15 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by correo.hdv.gov.co (Postfix) with ESMTP id 9514A1E467CB;
+        Sat,  3 Jul 2021 10:36:30 -0500 (-05)
+Received: from correo.hdv.gov.co ([127.0.0.1])
+        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id pKrRTh2-EgVw; Sat,  3 Jul 2021 10:36:30 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by correo.hdv.gov.co (Postfix) with ESMTP id 73698187A21B;
+        Sat,  3 Jul 2021 07:35:01 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 correo.hdv.gov.co 73698187A21B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hdv.gov.co;
+        s=11DF984A-9D1F-11E6-B193-F2669FC4C452; t=1625315701;
+        bh=YlrueNvYvQTA/rsidM4wE66HE6f1WhuqcZM/LO2K65o=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=YtSDw08I5PGP1opr0lqMOnZChto6IxFbTjEVSuOw5nkpYHKazZmyF8UflZIvrX2e0
+         3ieTQmt/ema8tF3Bai1w1mo6mbhlyCp0cmTL6XEV2g2/x+mGnZDrCl42Qt0YYrnCXe
+         lwBKl4KrDrZ2gENy51eVd0NkzN/Wrxmit5F17zzI=
+X-Virus-Scanned: amavisd-new at correo.hdv.gov.co
+Received: from correo.hdv.gov.co ([127.0.0.1])
+        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id SEYeNUlOL9QP; Sat,  3 Jul 2021 07:35:01 -0500 (-05)
+Received: from [172.20.10.6] (unknown [41.147.1.129])
+        by correo.hdv.gov.co (Postfix) with ESMTPSA id 7A7EA187D5C1;
+        Sat,  3 Jul 2021 07:07:50 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: my subject
+To:     Recipients <planeacion.arquitecto@hdv.gov.co>
+From:   planeacion.arquitecto@hdv.gov.co
+Date:   Sat, 03 Jul 2021 05:07:39 -0700
+Reply-To: callumfoundation001@gmail.com
+Message-Id: <20210703120751.7A7EA187D5C1@correo.hdv.gov.co>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213579
+Hallo,
 
---- Comment #9 from Riccardo Mori (patacca@autistici.org) ---
-Created attachment 297751
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297751&action=3Dedit
-acpidump
+ Sie haben eine Spende von 2.800.000,00 USD. Ich gewann die amerikanische L=
+otterie im Wert von 343 Millionen US-Dollar in Amerika und spendete einen T=
+eil davon an f=FCnf gl=FCckliche Menschen und Wohlt=E4tigkeitsorganisatione=
+n, die sich an meinen verstorbenen Enkel erinnern, der Anfang April vorzeit=
+ig geboren wurde und nur einen Tag lebte. F=FCr weitere Informationen wende=
+n Sie sich bitte an: callumfoundation001@gmail.com
 
---=20
-You may reply to this email to add a comment.
+ =
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+Mit freundlichen Gr=FC=DFen
+Frau Lerynne West
