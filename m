@@ -2,66 +2,99 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E5543BAF48
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  4 Jul 2021 23:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D2513BAF52
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Jul 2021 00:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbhGDWCP (ORCPT
+        id S229614AbhGDWYk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 4 Jul 2021 18:02:15 -0400
-Received: from static-190-25-223-138.static.etb.net.co ([190.25.223.138]:48700
-        "EHLO correo.hdv.gov.co" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229652AbhGDWCP (ORCPT
+        Sun, 4 Jul 2021 18:24:40 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:47867 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229549AbhGDWYk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 4 Jul 2021 18:02:15 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by correo.hdv.gov.co (Postfix) with ESMTP id 9514A1E467CB;
-        Sat,  3 Jul 2021 10:36:30 -0500 (-05)
-Received: from correo.hdv.gov.co ([127.0.0.1])
-        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id pKrRTh2-EgVw; Sat,  3 Jul 2021 10:36:30 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.hdv.gov.co (Postfix) with ESMTP id 73698187A21B;
-        Sat,  3 Jul 2021 07:35:01 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.10.3 correo.hdv.gov.co 73698187A21B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hdv.gov.co;
-        s=11DF984A-9D1F-11E6-B193-F2669FC4C452; t=1625315701;
-        bh=YlrueNvYvQTA/rsidM4wE66HE6f1WhuqcZM/LO2K65o=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=YtSDw08I5PGP1opr0lqMOnZChto6IxFbTjEVSuOw5nkpYHKazZmyF8UflZIvrX2e0
-         3ieTQmt/ema8tF3Bai1w1mo6mbhlyCp0cmTL6XEV2g2/x+mGnZDrCl42Qt0YYrnCXe
-         lwBKl4KrDrZ2gENy51eVd0NkzN/Wrxmit5F17zzI=
-X-Virus-Scanned: amavisd-new at correo.hdv.gov.co
-Received: from correo.hdv.gov.co ([127.0.0.1])
-        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id SEYeNUlOL9QP; Sat,  3 Jul 2021 07:35:01 -0500 (-05)
-Received: from [172.20.10.6] (unknown [41.147.1.129])
-        by correo.hdv.gov.co (Postfix) with ESMTPSA id 7A7EA187D5C1;
-        Sat,  3 Jul 2021 07:07:50 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sun, 4 Jul 2021 18:24:40 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id 1D2083200916;
+        Sun,  4 Jul 2021 18:22:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sun, 04 Jul 2021 18:22:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1hNB6T+0Ialzugd8z
+        0lQ/Tva8umLGtrGXvvMQ6eqavM=; b=Y4VpfZNhxSDWm2iUsDX+y81X4TpVAaFCU
+        aoCiJeIBM40g5YB+qZeXBmM47pSFHZqBOr8bTL98/uB+N46XezvHIJr1yPRyGT4z
+        WFd74+A0NznMcn/47/Xs643JdeET9B8i1d7fqbdW3KSxBRTdAiCU9R5Re0ADv1rJ
+        7+vX9x5+taP3E5C30aZdIE4PWJqSkhTaaWU0ZvrejdkVso2Mmf3ceQUIrnJ9v2vC
+        HJzIe3yEELf2z1oj4yUVGZ7R7x1W3v/KHL8Da45KtRfp3k4kFs1q3GKlrjFIJM19
+        ulaS3VxTzy7U7C1ZonGnEx4vHyeTZTCQmAUYXGrq7bLzyIUoGMeNA==
+X-ME-Sender: <xms:ijTiYBty3ZAVpQrAW-7FpHWvGZN3MpijLbRrXwvXZTnSNK_Jypx4Uw>
+    <xme:ijTiYKfzp4XzgAnVaq26AnGxFntVbhei6-7LpiMkFfZ4K-I0ikVk5IZOh9vbU6Pga
+    O5VCx94DRkc-P7Apbo>
+X-ME-Received: <xmr:ijTiYEwgvzQbl34fQdK5_F6Kziat8Iv_USZ2U2qT8fArR6uN2TE5LPA4TyNM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejfedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomhepfdfnuhhkvgcuffdrucflohhnvghsfdcuoehluhhkvgeslhhjohhn
+    vghsrdguvghvqeenucggtffrrghtthgvrhhnpeelffelhfeltdfhtdevuefgveeuueekge
+    etiefgiefhgfejvdetvdeuvedthfdvkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:ijTiYIN0WB8OqzEIkA8u160dkfXd2PkM69cFgQNh5330c0MD8eGJ2A>
+    <xmx:ijTiYB8SXxCBXynUvvg6IyTP3kxK4PGuL_GPT9zKmYcTYjkFbFoOMg>
+    <xmx:ijTiYIUtPXrUSS-qIjlRMd2wgN3m_gAkbFMJGEo5qBdwmHPfcHNk2w>
+    <xmx:izTiYEku2Pw2jX17VtmiuR6sEpOH9sK1eh_ZNd3r4aMpm52KmyjSnQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 4 Jul 2021 18:21:59 -0400 (EDT)
+From:   "Luke D. Jones" <luke@ljones.dev>
+To:     hdegoede@redhat.com
+Cc:     corentin.chary@gmail.com, mgross@linux.intel.com,
+        jdelvare@suse.com, linux@roeck-us.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Luke D. Jones" <luke@ljones.dev>
+Subject: [PATCH 0/3] Support for ASUS egpu, dpgu disable, panel overdrive
+Date:   Mon,  5 Jul 2021 10:21:45 +1200
+Message-Id: <20210704222148.880848-1-luke@ljones.dev>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: my subject
-To:     Recipients <planeacion.arquitecto@hdv.gov.co>
-From:   planeacion.arquitecto@hdv.gov.co
-Date:   Sat, 03 Jul 2021 05:07:39 -0700
-Reply-To: callumfoundation001@gmail.com
-Message-Id: <20210703120751.7A7EA187D5C1@correo.hdv.gov.co>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hallo,
+This patch series adds support for some functions that are found on newer
+ASUS gaming laptops:
 
- Sie haben eine Spende von 2.800.000,00 USD. Ich gewann die amerikanische L=
-otterie im Wert von 343 Millionen US-Dollar in Amerika und spendete einen T=
-eil davon an f=FCnf gl=FCckliche Menschen und Wohlt=E4tigkeitsorganisatione=
-n, die sich an meinen verstorbenen Enkel erinnern, der Anfang April vorzeit=
-ig geboren wurde und nur einen Tag lebte. F=FCr weitere Informationen wende=
-n Sie sich bitte an: callumfoundation001@gmail.com
+- Panel overdrive: Some laptops can drive the LCD matrix slightly faster
+  to eliminate or reduce ghosting artifacts
 
- =
+- dGPU disable: ASUS added a function in ACPI to disable or enable the dGPU
+  which removes it from the PCI bus. Presumably this was to help prevent
+  Windows apps from using the dGPU when the user didn't want them to but
+  because of how it works it also means that when rebooted to Linux the dGPU
+  no-longer exits. This patch enables a user to echo 0/1 to a WMI path to
+  re-enable it (or disable, but the drivers *must* be unloaded first).
 
+- eGPU enable: The ASUS x-flow lpatop has an iGPU, a dGPU, and an optional
+  eGPU. This patch enables the user to echo 0/1 to a WMI path to enable or
+  disable the eGPU. In ACPI this also appears to remove the dGPU from the
+  PCI bus.
 
-Mit freundlichen Gr=FC=DFen
-Frau Lerynne West
+All of the above patches have been tested over the course of a few months.
+There is a small possibility of user error perhaps, where the user tries to
+enable or disable the dGPU/eGPU while drivers are loaded which would cause
+a system hang, but it is expected that almost all users would be using the
+`asusctl` daemon and dbus methods to manage the above which then eliminates
+these issues.
+
+Luke D. Jones (3):
+  asus-wmi: Add panel overdrive functionality
+  asus-wmi: Add dgpu disable method
+  asus-wmi: Add egpu enable method
+
+ drivers/platform/x86/asus-wmi.c            | 282 +++++++++++++++++++++
+ include/linux/platform_data/x86/asus-wmi.h |   7 +
+ 2 files changed, 289 insertions(+)
+
+--
+2.31.1
+
