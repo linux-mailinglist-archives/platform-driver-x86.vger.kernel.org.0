@@ -2,38 +2,39 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38BDB3BBF77
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Jul 2021 17:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 597F63BBF9D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  5 Jul 2021 17:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232386AbhGEPcR (ORCPT
+        id S232424AbhGEPci (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 5 Jul 2021 11:32:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57184 "EHLO mail.kernel.org"
+        Mon, 5 Jul 2021 11:32:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57042 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232302AbhGEPcC (ORCPT
+        id S232429AbhGEPcY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 5 Jul 2021 11:32:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3460C601FD;
-        Mon,  5 Jul 2021 15:29:24 +0000 (UTC)
+        Mon, 5 Jul 2021 11:32:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57A12601FD;
+        Mon,  5 Jul 2021 15:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625498964;
-        bh=/zIf+I4JdXj6gXGuXn+Bgugw72VRZUQcxd3EkZMw6XQ=;
+        s=k20201202; t=1625498987;
+        bh=DtKzevK9mx9JWos5XHHq3fhiw8NE8RpYSofLHes60QM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N3BT/hIgStnmE5wttmGJzdMldtlbVjyLpCF9kw5v7IN5cmqkkwIId+VADJHLvf/12
-         Ibhjo5SIXZUnjhnDhJVmq96/RAQCAhmr6wZOEZH93wFX4elPk+SaoxjFU8QhTHwyLd
-         JtIkPH6X+Oh2Rrc13kiKcaCoGag7dqe4bo3QK9jmrPepwZXbfHcR8aM1WlFRpLwZt7
-         1KmHl8jGqxhWuIpPzQ2xCizLCsqIm6T/pd3fYKvxbIwKFyeKBWNsWkDJYbXJEmPlTo
-         /ahvmOV0nYuFtZW488W9RB233OQSKN5Vr4zElp/1zgHQkfs1ysRfM68uWfdmy9mcyw
-         jbtLTGc2lPSwQ==
+        b=HknFX4061gzVS4zmKWIAXAhdm0Qx6bNVQnGWeBksLXpJFuzWH/hCnY39o3QFgC3C8
+         RgOPOhuaGkP8oYMBS71+kyUfRiABjNeog6+3cJ8CnPtBdl8v+Za1iKtceayHwZEgdN
+         Kh6NNZaZcmreHOd6TT84JJnEEFRKU8s3h2R4S9uq0Xs7OmdzeZhfT+ggpMhH4lyhJe
+         jH9tGswW9ZIaUSeYDj/7rFvNeuI4y7eeM1hBv/PT32Xg0tnDrjNXGxv9Y5uwg4XRIp
+         Q2mE3yxyfBsGlTff1LK4POoQQhQwbt68m4pLEk210k8HsxHZlErSBac3qqGAH+lAud
+         3XXBcn5nQ4u+Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
+Cc:     "Luke D. Jones" <luke@ljones.dev>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sasha Levin <sashal@kernel.org>,
+        acpi4asus-user@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 09/52] platform/x86: touchscreen_dmi: Add info for the Goodix GT912 panel of TM800A550L tablets
-Date:   Mon,  5 Jul 2021 11:28:30 -0400
-Message-Id: <20210705152913.1521036-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 27/52] platform/x86: asus-nb-wmi: Revert "Drop duplicate DMI quirk structures"
+Date:   Mon,  5 Jul 2021 11:28:48 -0400
+Message-Id: <20210705152913.1521036-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210705152913.1521036-1-sashal@kernel.org>
 References: <20210705152913.1521036-1-sashal@kernel.org>
@@ -45,73 +46,113 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: "Luke D. Jones" <luke@ljones.dev>
 
-[ Upstream commit fcd8cf0e3e48f4c66af82c8e799c37cb0cccffe0 ]
+[ Upstream commit 98c0c85b1040db24f0d04d3e1d315c6c7b05cc07 ]
 
-The Bay Trail Glavey TM800A550L tablet, which ships with Android installed
-from the factory, uses a GT912 touchscreen controller which needs to have
-its firmware uploaded by the OS to work (this is a first for a x86 based
-device with a Goodix touchscreen controller).
+This is a preparation revert for reverting the "add support for ASUS ROG
+Zephyrus G14 and G15" change. This reverts
+commit 67186653c903 ("platform/x86: asus-nb-wmi: Drop duplicate DMI quirk
+structures")
 
-Add a touchscreen_dmi entry for this which specifies the filenames
-to use for the firmware and config files needed for this.
-
-Note this matches on a GDIX1001 ACPI HID, while the original DSDT uses
-a HID of GODX0911. For the touchscreen to work on these devices a DSDT
-override is necessary to fix a missing IRQ and broken GPIO settings in
-the ACPI-resources for the touchscreen. This override also changes the
-HID to the standard GDIX1001 id typically used for Goodix touchscreens.
-The DSDT override is available here:
-https://fedorapeople.org/~jwrdegoede/glavey-tm800a550l-dsdt-override/
-
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Luke D. Jones <luke@ljones.dev>
+Link: https://lore.kernel.org/r/20210419074915.393433-2-luke@ljones.dev
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20210504185746.175461-5-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/platform/x86/asus-nb-wmi.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index bbd8d80230cd..b47f6821615e 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -316,6 +316,18 @@ static const struct ts_dmi_data gdix1001_01_upside_down_data = {
- 	.properties	= gdix1001_upside_down_props,
+diff --git a/drivers/platform/x86/asus-nb-wmi.c b/drivers/platform/x86/asus-nb-wmi.c
+index d41d7ad14be0..b07b1288346e 100644
+--- a/drivers/platform/x86/asus-nb-wmi.c
++++ b/drivers/platform/x86/asus-nb-wmi.c
+@@ -110,7 +110,12 @@ static struct quirk_entry quirk_asus_forceals = {
+ 	.wmi_force_als_set = true,
  };
  
-+static const struct property_entry glavey_tm800a550l_props[] = {
-+	PROPERTY_ENTRY_STRING("firmware-name", "gt912-glavey-tm800a550l.fw"),
-+	PROPERTY_ENTRY_STRING("goodix,config-name", "gt912-glavey-tm800a550l.cfg"),
-+	PROPERTY_ENTRY_U32("goodix,main-clk", 54),
-+	{ }
+-static struct quirk_entry quirk_asus_vendor_backlight = {
++static struct quirk_entry quirk_asus_ga401i = {
++	.wmi_backlight_power = true,
++	.wmi_backlight_set_devstate = true,
 +};
 +
-+static const struct ts_dmi_data glavey_tm800a550l_data = {
-+	.acpi_name	= "GDIX1001:00",
-+	.properties	= glavey_tm800a550l_props,
-+};
-+
- static const struct property_entry gp_electronic_t701_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 960),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 640),
-@@ -1029,6 +1041,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "eSTAR BEAUTY HD Intel Quad core"),
++static struct quirk_entry quirk_asus_ga502i = {
+ 	.wmi_backlight_power = true,
+ 	.wmi_backlight_set_devstate = true,
+ };
+@@ -432,7 +437,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IH"),
  		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga401i,
  	},
-+	{	/* Glavey TM800A550L */
-+		.driver_data = (void *)&glavey_tm800a550l_data,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+			/* Above strings are too generic, also match on BIOS version */
-+			DMI_MATCH(DMI_BIOS_VERSION, "ZY-8-BI-PX4S70VTR400-X423B-005-D"),
-+		},
-+	},
  	{
- 		/* GP-electronic T701 */
- 		.driver_data = (void *)&gp_electronic_t701_data,
+ 		.callback = dmi_matched,
+@@ -441,7 +446,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA401II"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga401i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
+@@ -450,7 +455,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IU"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga401i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
+@@ -459,7 +464,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IV"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga401i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
+@@ -468,7 +473,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA401IVC"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga401i,
+ 	},
+ 		{
+ 		.callback = dmi_matched,
+@@ -477,7 +482,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA502II"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga502i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
+@@ -486,7 +491,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IU"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga502i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
+@@ -495,7 +500,7 @@ static const struct dmi_system_id asus_quirks[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "GA502IV"),
+ 		},
+-		.driver_data = &quirk_asus_vendor_backlight,
++		.driver_data = &quirk_asus_ga502i,
+ 	},
+ 	{
+ 		.callback = dmi_matched,
 -- 
 2.30.2
 
