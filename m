@@ -2,112 +2,93 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 149CE3C5BE0
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jul 2021 14:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C36A83C5C85
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jul 2021 14:43:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233578AbhGLMMd (ORCPT
+        id S233903AbhGLMpr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Jul 2021 08:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230074AbhGLMMc (ORCPT
+        Mon, 12 Jul 2021 08:45:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41238 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233685AbhGLMpq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Jul 2021 08:12:32 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEF39C0613DD;
-        Mon, 12 Jul 2021 05:09:43 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id a2so17991510pgi.6;
-        Mon, 12 Jul 2021 05:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QDqsbSw5ub3US40KaqnvHwW7Q3ZUM55LG73YWMhDPxQ=;
-        b=mfWDH2Fms6O77tl7wv+7hMAX1RU4P0QEfO1Kmzpexc6rH6UNwVpt0vGgWJbqIg5qkk
-         5YQUiIUeTIJzTiViGp9DuxeFVP1B022YomDIm9CglhGDsn+NsaiX1m1vbBj+V6oAYEmc
-         e+sTi4ArEEcfPBD2W9H3oJPfiaS7yjUW0fPTou/DnYksVFm+qbJ12a4huv7hioJ7K0pa
-         KFqiBNeMPtlUClcOXMhBrOai8YuIWPfBwGY31SItmKOYLTUPpU9R/DbsXpwfwT68bm9G
-         ID1Azzz3TXFDAMXNdcb36mrb/+7KGIe2gHUGObL5Lfc2OPLUm5BCBW/aRIah2wYc2yST
-         Cc5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QDqsbSw5ub3US40KaqnvHwW7Q3ZUM55LG73YWMhDPxQ=;
-        b=JogmtmvwkRyJkfQkAI4yGV0LAKxJa5QiVgYAV2w2mJ09SH4NT3O+bMvIksfl473wmd
-         T9tK9RFoYGlW5Hm/VrzRUm1NRQMkYi9i/+PMOKbdRNvEPGcn5w+TlHwhNYMQGm0PHJfH
-         ETW6z+2Ha/R+uF3748jHs7SdoSzlkCLvhfpvyUYFCr5rYbA0aYrdx+5JtPV5QsEPBFuw
-         MRDYizhrvMt8QwZMz4HU/37lQevV4dtYCoMJysxc1s5hli+kEeouB+84nJy3DZIVFvqT
-         3/U4rb1OF3GcgDYzCBQhfZiHRP5v90oB5qexOEjGoJN8fX00xmQml8mH72AaJwy1B/6O
-         lBtA==
-X-Gm-Message-State: AOAM533an0uLYtKzAni/nzcSMfnrtIqK9+1OcX2B5M7PtGAjaVUTCx2E
-        zs6EsC7eFnrK60F4VJcIJWm69vIvz/OCt8FDpQc=
-X-Google-Smtp-Source: ABdhPJyDjntb09x1C4LNuWLUIWPpFwCw5HCcLsIodv8EQmaB5UiwWsDJXRzveYM2Mk/WiI6F1Jl4rE+HqPHUtzWTXQ0=
-X-Received: by 2002:a63:d014:: with SMTP id z20mr53104677pgf.203.1626091783250;
- Mon, 12 Jul 2021 05:09:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210329174928.18816-1-henning.schild@siemens.com>
- <857d6cd4-839d-c42a-0aa7-8d45243981ee@redhat.com> <20210712133543.074aad80@md1za8fc.ad001.siemens.net>
-In-Reply-To: <20210712133543.074aad80@md1za8fc.ad001.siemens.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 12 Jul 2021 15:09:04 +0300
-Message-ID: <CAHp75VfvVD20pZng_BG-ptZiYo9VBfHFe2OABo8VmtYcarfcSw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] add device drivers for Siemens Industrial PCs
-To:     Henning Schild <henning.schild@siemens.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mon, 12 Jul 2021 08:45:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 027E36101E;
+        Mon, 12 Jul 2021 12:42:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626093778;
+        bh=ZLUQlbYl3sNIYsakvpyyvP24BJXkLmZ1qwg3VR1I4aM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gKnsxXNS2n/2DGBJvyCY4Qy55w+leeUb5zJNlDaVXvdx14qKf24rKzdnUiQJC63M+
+         a0PdLdRZF72/09jk9CXPZ7AmnG9KRjN1jzUBSXeNZe38ivRtH43Nrc1excWqFbk1l1
+         p1DbbuCBO3jezX2tpSSshsswWgQILpQcOnorshcyv0erxpGYzjti7klOndYrXeEiD6
+         39cLodf/Y8kFELEygEG5/6kI8abRRji3B+w5pgzx3b74/HrBRQcHThNYv1iC5qhZJw
+         yqu4irEG79TEC3KyZofPTEUbWINZmkF7Nc4f/unExZqQeEpVBQ8SYeStx/4WO7FuCn
+         BlrOwpx3G01Xw==
+Date:   Mon, 12 Jul 2021 13:42:23 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Daniel Scally <djrscally@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
-Content-Type: text/plain; charset="UTF-8"
+        platform-driver-x86@vger.kernel.org, hdegoede@redhat.com,
+        mgross@linux.intel.com, luzmaximilian@gmail.com,
+        lgirdwood@gmail.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com
+Subject: Re: [RFC PATCH 0/2] Add software node support to regulator framework
+Message-ID: <20210712124223.GB4435@sirena.org.uk>
+References: <20210708224226.457224-1-djrscally@gmail.com>
+ <20210709170426.GC4112@sirena.org.uk>
+ <CAHp75VeugcuwWAq5p_rx+8J2FsX7igV+UJ3QKw3XG6BiDqTtNQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="IiVenqGWf+H9Y6IX"
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeugcuwWAq5p_rx+8J2FsX7igV+UJ3QKw3XG6BiDqTtNQ@mail.gmail.com>
+X-Cookie: Hailing frequencies open, Captain.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jul 12, 2021 at 2:35 PM Henning Schild
-<henning.schild@siemens.com> wrote:
->
-> This series is basically stuck because people rightfully want me to use
-> the GPIO subsystem for the LEDs and the watchdog bits that are
-> connected to GPIO.
->
-> Problem is that the GPIO subsystem does not initialize on the machines
-> in question. It is a combination of hidden P2SB and missing ACPI table
-> entries. The GPIO subsystem (intel pinctrl) needs either P2SB or ACPI do
-> come up ...
->
-> Andy proposed some patches for initializing the intel pinctrl stuff for
-> one of the machines by falling back to SoC detection in case there is
-> no ACPI or visible P2SB. While that works it would need to be done for
-> any Intel SoC to be consistent and discussions seem to go nowhere.
->
-> I would be willing to port over to "intel pintctl" and help with
-> testing, but not so much with actual coding. Andy is that moving at all?
->
-> Since my drivers do reserve the mmio regions properly and the intel
-> pinctrl will never come up anyways, i do not see a conflict merging my
-> proposed drivers in the current codebase. The wish to use the pinctrl
-> infrastructure can not be fulfilled if that infra is not in place. Once
-> intel pinctrl works, we can change those drivers to work with that.
->
-> I do not want to take shortcuts ... but also do not want to get stuck
-> here. So maybe one way to serialize the merge is to allow my changes
-> like proposed and rebase on intel pinctrl once that subsystem actually
-> initializes on these machines. We could even have two code paths ... if
-> region can not be reserved, try gpio ... or the other way around.
 
-Bjorn suggested exercising the IORESOURCE_PCI_FIXED on top of the
-early PCI quirk that unhides P2SB for the entire run time. But I have
-had no time to actually patch the kernel this way. Have tried the
-proposed approach on your side?
+--IiVenqGWf+H9Y6IX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-With Best Regards,
-Andy Shevchenko
+On Sun, Jul 11, 2021 at 12:37:03PM +0300, Andy Shevchenko wrote:
+> On Fri, Jul 9, 2021 at 8:05 PM Mark Brown <broonie@kernel.org> wrote:
+> > On Thu, Jul 08, 2021 at 11:42:24PM +0100, Daniel Scally wrote:
+
+> > What is a software node and why would we want to use one here?
+
+> Software node is a representation of (missed and / or quirked)
+> firmware nodes in the code.
+
+> > Why are we not just using board files, what does this new abstraction
+> > solve?
+
+> Software node _is_ a board file part. The idea behind that is that the
+> driver, which requires any additional / necessary property that has
+> been missed in the firmware nodes, wouldn't need special treatment if
+> that property comes from a board file rather than firmware.
+
+This doesn't seem to correspond with what these patches are doing,
+they're creating something which bears no relation to any firmware
+interface and the code is specifically looking for swnodes.
+
+--IiVenqGWf+H9Y6IX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDsOK4ACgkQJNaLcl1U
+h9CgZgf/awL7UyQNHdgqbZR+gMkAr4D2ldjhbOFFPWziSR5jV6YsiUJFxNEfHg1E
+BwEyHB1b/AjuSY0b8wDY8qpizohjZZCZh8pyWtXGgwbOp2PAucCyrHfviehRMO1D
+cdvVJCi3Z9CaWdSBscKYhji4uAhzn8RPzd82Brfph1wsIeQZSwcr0RqraJje8JQo
+0dL5L5RJUNaU5ws/vbR61QNOMLKeqvaTPkuqGEWWOYzmHm8eFk+uUXVHn0C1a7Mt
+j+p15phNwxCL6lAHJrlkXFvvAt+awwFteMSJscyWACU2IctwqBCrgNSoCm2BcfKR
+Rx7qz92J2prvzLYIWFdh4Grfdvyfug==
+=KgX4
+-----END PGP SIGNATURE-----
+
+--IiVenqGWf+H9Y6IX--
