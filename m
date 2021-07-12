@@ -2,171 +2,169 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A32013C5C0E
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jul 2021 14:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B38413C5BC6
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 12 Jul 2021 14:21:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbhGLMZG (ORCPT
+        id S232548AbhGLLyR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 12 Jul 2021 08:25:06 -0400
-Received: from david.siemens.de ([192.35.17.14]:36492 "EHLO david.siemens.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229746AbhGLMZF (ORCPT
+        Mon, 12 Jul 2021 07:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231224AbhGLLyQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 12 Jul 2021 08:25:05 -0400
-X-Greylist: delayed 2766 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Jul 2021 08:25:04 EDT
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 16CBZkZ8021112
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 12 Jul 2021 13:35:46 +0200
-Received: from md1za8fc.ad001.siemens.net ([139.25.0.120])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 16CBZjto003872;
-        Mon, 12 Jul 2021 13:35:45 +0200
-Date:   Mon, 12 Jul 2021 13:35:43 +0200
-From:   Henning Schild <henning.schild@siemens.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Srikanth Krishnakar <skrishnakar@gmail.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Gerd Haeussler <gerd.haeussler.ext@siemens.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>, Enrico Weigelt <lkml@metux.net>
-Subject: Re: [PATCH v3 0/4] add device drivers for Siemens Industrial PCs
-Message-ID: <20210712133543.074aad80@md1za8fc.ad001.siemens.net>
-In-Reply-To: <857d6cd4-839d-c42a-0aa7-8d45243981ee@redhat.com>
-References: <20210329174928.18816-1-henning.schild@siemens.com>
-        <857d6cd4-839d-c42a-0aa7-8d45243981ee@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Mon, 12 Jul 2021 07:54:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F90C0613DD;
+        Mon, 12 Jul 2021 04:51:28 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E848CC;
+        Mon, 12 Jul 2021 13:51:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1626090686;
+        bh=7TcVQ4yh3dSbP0vuHCvcjaY/7cRXY8pWIiND8ayoUF0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=doekmjL5WH0N/tRcYMRHt0rJKXOCYcDSHIpiCHUXKsUpGJojV3RZCjzgu6+io6WcP
+         Wac8tVeCvZ2K/urUJ1sTHNq4EiqdLXnAvQ0gigdmvFq7crmBvHyq2fHMhtvJXnOVTO
+         5GETnhJLoxqNOmMaTUYOikURtpt8R9hxNpFD+/7I=
+Date:   Mon, 12 Jul 2021 14:50:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hdegoede@redhat.com, mgross@linux.intel.com,
+        luzmaximilian@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        andy.shevchenko@gmail.com, kieran.bingham@ideasonboard.com
+Subject: Re: [RFC PATCH 0/2] Add software node support to regulator framework
+Message-ID: <YOwskGqqOZnwZWy5@pendragon.ideasonboard.com>
+References: <20210708224226.457224-1-djrscally@gmail.com>
+ <YOofAUshZQBPsBR0@pendragon.ideasonboard.com>
+ <4381a32a-e6ca-a456-887d-6b343182aed4@gmail.com>
+ <YOsimBVS/mElfiA7@pendragon.ideasonboard.com>
+ <1944291d-1486-fe7f-376b-fe3250ee6b7d@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1944291d-1486-fe7f-376b-fe3250ee6b7d@gmail.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This series is basically stuck because people rightfully want me to use
-the GPIO subsystem for the LEDs and the watchdog bits that are
-connected to GPIO.
+Hi Dan,
 
-Problem is that the GPIO subsystem does not initialize on the machines
-in question. It is a combination of hidden P2SB and missing ACPI table
-entries. The GPIO subsystem (intel pinctrl) needs either P2SB or ACPI do
-come up ...
-
-Andy proposed some patches for initializing the intel pinctrl stuff for
-one of the machines by falling back to SoC detection in case there is
-no ACPI or visible P2SB. While that works it would need to be done for
-any Intel SoC to be consistent and discussions seem to go nowhere.
-
-I would be willing to port over to "intel pintctl" and help with
-testing, but not so much with actual coding. Andy is that moving at all?
-
-Since my drivers do reserve the mmio regions properly and the intel
-pinctrl will never come up anyways, i do not see a conflict merging my
-proposed drivers in the current codebase. The wish to use the pinctrl
-infrastructure can not be fulfilled if that infra is not in place. Once
-intel pinctrl works, we can change those drivers to work with that.
-
-I do not want to take shortcuts ... but also do not want to get stuck
-here. So maybe one way to serialize the merge is to allow my changes
-like proposed and rebase on intel pinctrl once that subsystem actually
-initializes on these machines. We could even have two code paths ... if
-region can not be reserved, try gpio ... or the other way around.
-
-regards,
-Henning
-
-Am Wed, 7 Apr 2021 13:36:40 +0200
-schrieb Hans de Goede <hdegoede@redhat.com>:
-
-> Hi,
+On Mon, Jul 12, 2021 at 09:13:00AM +0100, Daniel Scally wrote:
+> On 11/07/2021 17:55, Laurent Pinchart wrote:
+> > On Sat, Jul 10, 2021 at 11:54:26PM +0100, Daniel Scally wrote:
+> >> On 10/07/2021 23:28, Laurent Pinchart wrote:
+> >>> On Thu, Jul 08, 2021 at 11:42:24PM +0100, Daniel Scally wrote:
+> >>>> Hello all
+> >>>>
+> >>>> See previous series for some background context [1]
+> >>>>
+> >>>> Some x86 laptops with ACPI tables designed for Windows have a TPS68470
+> >>>> PMIC providing regulators and clocks to camera modules. The DSDT tables for
+> >>>> those cameras lack any power control methods, declaring only a
+> >>>> dependency on the ACPI device representing the TPS68470. This leaves the
+> >>>> regulator framework with no means of determining appropriate voltages for the
+> >>>> regulators provided by the PMIC, or of determining which regulators relate to
+> >>>> which of the sensor's requested supplies. 
+> >>>>
+> >>>> This series is a prototype of an emulation of the device tree regulator
+> >>>> initialisation and lookup functions, using software nodes. Software nodes
+> >>>> relating to each regulator are registered as children of the TPS68470's ACPI
+> >>>> firmware node. Those regulators have properties describing their constraints
+> >>>> (for example "regulator-min-microvolt"). Similarly, software nodes are
+> >>>> registered and assigned as secondary to the Camera's firmware node - these
+> >>>> software nodes have reference properties named after the supply in the same
+> >>>> way as device tree's phandles, for example "avdd-supply", and linking to the
+> >>>> software node assigned to the appropriate regulator. We can then use those
+> >>>> constraints to specify the appropriate voltages and the references to allow the
+> >>>> camera drivers to look up the correct regulator device. 
+> >>>>
+> >>>> Although not included in this series, I would plan to use a similar method for
+> >>>> linking the clocks provided by the TPS68470 to the sensor so that it can be
+> >>>> discovered too.
+> >>>>
+> >>>> I'm posting this to see if people agree it's a good approach for tackling the 
+> >>>> problem; I may be overthinking this and there's a much easier way that I should
+> >>>> be looking at instead. It will have knock-ons in the cio2-bridge code [2], as
+> >>>> that is adding software nodes to the same sensors to connect them to the media
+> >>>> graph. Similarly, is the board file an acceptable solution, or should we just
+> >>>> define the configuration for these devices (there's three orf our laptop models
+> >>>> in scope) in int3472-tps68470 instead?
+> >>>
+> >>> I may have missed something, but if you load the SGo2 board file, won't
+> >>> it create the regulator software nodes if it finds an INT3472,
+> >>> regardless of whether the device is an SGo2 ? If you happen to do so on
+> >>> a machine that requires different voltages, that sounds dangerous.
+> >>
+> >> Ah, yes - hadn't thought of that. If a driver registered regulators with
+> >> those names, it would try to apply those voltages during registration.
+> >> Good point.
+> >>
+> >>> Given that INT3472 models the virtual "Intel Skylake and Kabylake camera
+> >>> PMIC", I think moving device-specific information to the int3472 driver
+> >>> may make sense. I'm unsure what option is best though, having all the
+> >>> data (regulators, clocks, but also data currently stored in the
+> >>> cio2-bridge driver) in a single file (or a single file per machine) is
+> >>> tempting.
+> >>
+> >> It is tempting, particularly because (assuming we do end up using this
+> >> approach) setting the references to the supplies in a board file like
+> >> this complicated the cio2-bridge code quite a bit, since it then needs
+> >> to extend the properties array against an already-existing software node
+> >> rather than registering a new one. But then, I don't particularly want
+> >> to handle that aspect of the problem in two separate places.
+> >
+> > If technically feasible, gathering all the data in a single place would
+> > be my preference. Whether that should take the form of software nodes in
+> > all cases, or be modelled as custom data that the int3472 driver would
+> > interpret to create the regulators and clocks is a different (but
+> > related) question.
 > 
-> On 3/29/21 7:49 PM, Henning Schild wrote:
-> > changes since v2:
-> > 
-> > - remove "simatic-ipc" prefix from LED names
-> > - fix style issues found in v2, mainly LED driver
-> > - fix OEM specific dmi code, and remove magic numbers
-> > - more "simatic_ipc" name prefixing
-> > - improved pmc quirk code using callbacks
-> > 
-> > changes since v1:
-> > 
-> > - fixed lots of style issues found in v1
-> >   - (debug) printing
-> >   - header ordering
-> > - fixed license issues GPLv2 and SPDX in all files
-> > - module_platform_driver instead of __init __exit
-> > - wdt simplifications cleanup
-> > - lots of fixes in wdt driver, all that was found in v1
-> > - fixed dmi length in dmi helper
-> > - changed LED names to allowed ones
-> > - move led driver to simple/
-> > - switched pmc_atom to dmi callback with global variable
-> > 
-> > --
-> > 
-> > This series adds support for watchdogs and leds of several x86
-> > devices from Siemens.
-> > 
-> > It is structured with a platform driver that mainly does
-> > identification of the machines. It might trigger loading of the
-> > actual device drivers by attaching devices to the platform bus.
-> > 
-> > The identification is vendor specific, parsing a special binary DMI
-> > entry. The implementation of that platform identification is
-> > applied on pmc_atom clock quirks in the final patch.
-> > 
-> > It is all structured in a way that we can easily add more devices
-> > and more platform drivers later. Internally we have some more code
-> > for hardware monitoring, more leds, watchdogs etc. This will follow
-> > some day.  
+> I'll have to think on that one then; the problem there is that the
+> cio2-bridge is just given ACPI HIDs for the sensors as "ok to parse
+> this", and of course the INT347A that is being dealt with here should
+> already be supported on most Surface platforms via the intel-skl-int3472
+> stuff, so once the ov8865 edits are (posted and) accepted and that
+> driver is supported my plan would be to add it into the bridge. So we'd
+> need a way to exclude Go2 from that if we wanted to define all the
+> software nodes parts in a single board file instead.
 > 
-> IT seems there still is significant discussion surrounding the LED
-> and watchdog drivers which use patch 1/4 as parent-driver.
+> > The very important part is to ensure that the correct board data will be
+> > used, as otherwise we could damage the hardware.
 > 
-> I'm going to hold of on merging 1/4 and 4/4 until there is more
-> consensus surrounding this series.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> > 
-> > Henning Schild (4):
-> >   platform/x86: simatic-ipc: add main driver for Siemens devices
-> >   leds: simatic-ipc-leds: add new driver for Siemens Industial PCs
-> >   watchdog: simatic-ipc-wdt: add new driver for Siemens Industrial
-> > PCs platform/x86: pmc_atom: improve critclk_systems matching for
-> > Siemens PCs
-> > 
-> >  drivers/leds/Kconfig                          |   3 +
-> >  drivers/leds/Makefile                         |   3 +
-> >  drivers/leds/simple/Kconfig                   |  11 +
-> >  drivers/leds/simple/Makefile                  |   2 +
-> >  drivers/leds/simple/simatic-ipc-leds.c        | 202
-> > ++++++++++++++++ drivers/platform/x86/Kconfig                  |
-> > 12 + drivers/platform/x86/Makefile                 |   3 +
-> >  drivers/platform/x86/pmc_atom.c               |  57 +++--
-> >  drivers/platform/x86/simatic-ipc.c            | 169 ++++++++++++++
-> >  drivers/watchdog/Kconfig                      |  11 +
-> >  drivers/watchdog/Makefile                     |   1 +
-> >  drivers/watchdog/simatic-ipc-wdt.c            | 215
-> > ++++++++++++++++++ .../platform_data/x86/simatic-ipc-base.h      |
-> > 29 +++ include/linux/platform_data/x86/simatic-ipc.h |  72 ++++++
-> >  14 files changed, 769 insertions(+), 21 deletions(-)
-> >  create mode 100644 drivers/leds/simple/Kconfig
-> >  create mode 100644 drivers/leds/simple/Makefile
-> >  create mode 100644 drivers/leds/simple/simatic-ipc-leds.c
-> >  create mode 100644 drivers/platform/x86/simatic-ipc.c
-> >  create mode 100644 drivers/watchdog/simatic-ipc-wdt.c
-> >  create mode 100644
-> > include/linux/platform_data/x86/simatic-ipc-base.h create mode
-> > 100644 include/linux/platform_data/x86/simatic-ipc.h 
-> 
+> Not sure how this is usually guarded against; we could do a DMI match at
+> the start of the init function to confirm it's running on a Go2 and exit
+> if not?
 
+Unless the information is available in ACPI properties that the CIO2
+bridge driver can access (and I wouldn't be surprised if it was the case
+in some way, there's are different IDs that we're not sure how to use,
+the Windows driver may very well map them to a set of reference
+designs), then a DMI match is likely the best option.
+
+> >>>> [1] https://lore.kernel.org/lkml/20210603224007.120560-1-djrscally@gmail.com/
+> >>>> [2] https://elixir.bootlin.com/linux/latest/source/drivers/media/pci/intel/ipu3/cio2-bridge.c#L166
+> >>>>
+> >>>>
+> >>>> Daniel Scally (2):
+> >>>>   regulator: Add support for software node connections
+> >>>>   platform/surface: Add Surface Go 2 board file
+> >>>>
+> >>>>  MAINTAINERS                                |   6 +
+> >>>>  drivers/platform/surface/Kconfig           |  10 ++
+> >>>>  drivers/platform/surface/Makefile          |   1 +
+> >>>>  drivers/platform/surface/surface_go_2.c    | 135 +++++++++++++++++++++
+> >>>>  drivers/regulator/Kconfig                  |   6 +
+> >>>>  drivers/regulator/Makefile                 |   1 +
+> >>>>  drivers/regulator/core.c                   |  23 ++++
+> >>>>  drivers/regulator/swnode_regulator.c       | 111 +++++++++++++++++
+> >>>>  include/linux/regulator/swnode_regulator.h |  33 +++++
+> >>>>  9 files changed, 326 insertions(+)
+> >>>>  create mode 100644 drivers/platform/surface/surface_go_2.c
+> >>>>  create mode 100644 drivers/regulator/swnode_regulator.c
+> >>>>  create mode 100644 include/linux/regulator/swnode_regulator.h
+
+-- 
+Regards,
+
+Laurent Pinchart
