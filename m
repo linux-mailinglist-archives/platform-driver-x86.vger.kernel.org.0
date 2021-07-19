@@ -2,55 +2,54 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF67D3CEE9E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jul 2021 00:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CE793CEE9F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 20 Jul 2021 00:00:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241059AbhGSVGZ (ORCPT
+        id S1358357AbhGSVGq (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 19 Jul 2021 17:06:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53370 "EHLO
+        Mon, 19 Jul 2021 17:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387041AbhGSTp0 (ORCPT
+        with ESMTP id S1387496AbhGSULi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 19 Jul 2021 15:45:26 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD834C0613F0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Jul 2021 13:20:50 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id j199so17587855pfd.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Jul 2021 13:24:50 -0700 (PDT)
+        Mon, 19 Jul 2021 16:11:38 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80B10C061767
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Jul 2021 13:50:20 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id 62so20433021pgf.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 19 Jul 2021 13:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/ueH7e1R+Y/9Tjm+iXp9T6qooVmg3C+ED64P3I591HI=;
-        b=rpRYvrfz6uIHeUpHKmujhCdwk9rbm/oL9LmMIjkgkvoLoy4OntrYE11Df5glviaYn+
-         6C0Q64khcfMxVcXVTZZJn0FhXZsMIWu7qge2Ikf+ANhdDMCuolK0QajXqXOPTNNHQZdC
-         y/xBvL7a5FL6SqIsOmmCdR8XBrRAJI17s57sbB5vZLH7VyKT5Kd02Df0zVHtq3PHedc2
-         AYGbSnbqVtsE8UGU6HqfkIJfnpR8FHr2WEGoUKQqEJb0tyMcLPVkbr0kfMMru3LYCdSj
-         TFMutp7A6eXjOdVSWKArL+d8R0xMsMIgFPkOWgSOt7A4IDqP9TdzUq3FT9hlrYbGTz3z
-         kCxw==
+         :content-disposition:in-reply-to;
+        bh=AFTM2GRWufz5H7ZF2I53fhdcy31mPSD1WmaoCuSp/kE=;
+        b=EaCLfVRUeWm1VySqrv8i2wNaa1wkPklvEK+xtMHdsSwgX2wFqb1Td6Qxx/Gb5l+cVb
+         iFDBBPj7D4Vc1AccEll1JyWJ1bUw6f6E5fWHeRlt33bQVWVeosWbQYPcJTxJJzXLzM9O
+         kIducZm41jdtN6sUFDlUG707INiMICk4cgWapIwGO3HfFDCHIJXCNZP4gXRP+tRtGBAe
+         upzRB6mNR4POD1tE5HNErufrnwLonZnXJR1npy0SArVe6sk5bxak769zdSKot2JBoe2R
+         8I+m0tueFJM91D9WIUbZQDxA3BDZrk+shYWYLpiKWRmq9uaqtm4emtrPiHXDahsjmVPG
+         OV2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/ueH7e1R+Y/9Tjm+iXp9T6qooVmg3C+ED64P3I591HI=;
-        b=HOhlJivLtR4qX0QjdIuF7vY6g37RR5viUiHJLepAF7DxYeH6FIVunOI8wTwQzbjM2a
-         gJUrVxmWG7cF+Ap/iT15n2ZqWUE9v2xqpe5wHwOv8995Xpy3FiizNmW0knYBXoo0kZEa
-         qP6HW/EQZqhaXR9um8LrCqvdDbFJTSOmyUPfgrEO6x1NpRqZMHTTAoVxEmAlpld2+kR8
-         xt/ugC6QF9bYfc4MNQUy/+5P038pbiJCIUdu5PKmKFMh97mIQzZwrDyRN5FSi1VAVs2F
-         yCF/EulBV52s+M9HbFKXj0gRpNZRR7DgjRf9xilYrS/8bjAqe9DQ5MQRD6dghkbnLycj
-         3i3Q==
-X-Gm-Message-State: AOAM53197VnLqKFdyZFK65HHhzBGMptSh/Ff09i6hGC4SOentJsAUziU
-        rA2hluagFRLuZe++DV78ZUYtAQ==
-X-Google-Smtp-Source: ABdhPJx5z2KfcuWt/DfKkC4lsDSx4E1hp1htq+WW2Tom9he1jw05rOfD+bqBAYmCI98dUfs6qLi1hw==
-X-Received: by 2002:a62:1a47:0:b029:328:cbf8:6d42 with SMTP id a68-20020a621a470000b0290328cbf86d42mr27228516pfa.37.1626726290119;
-        Mon, 19 Jul 2021 13:24:50 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=AFTM2GRWufz5H7ZF2I53fhdcy31mPSD1WmaoCuSp/kE=;
+        b=JDzCmbpFFsDlqT6gtk8qRQ2PUtPHtBgvZs8Q+zxiVxZIILNcdQaRb9DZToOn1fXASe
+         r3AgyJN4kiPaHddNzeSxcgDkShXuvMBqXrnT9bv3RoBI50jKUIyu/AhQO17m1fBpREs5
+         xLrdmX0xBX/N7+aFxp7WVo3yrg/VUcBjw3OQ3I7gezyjZ3shHiIyz9krGT2Fo5iWjrqf
+         eLzEo4cS1t8w7NhrZnWNEZIMaIv14uoIyXX7misU4kHN0xHn5NGC+UR3/tfkYe66N+0X
+         GLoRKB2J4CzqplAX7Qpy+YqYxL9xygE7y0ZjZ4554kuFZCgjUwPxUwsJu5jAoFIZ3CoI
+         g/sw==
+X-Gm-Message-State: AOAM532gM5j4xsyna6cV/OymBo3fQ3wfRtyQhhSralQALn7gARDSAWOq
+        un5cfe2RTYjcS++GJaLBYVYdfw==
+X-Google-Smtp-Source: ABdhPJyjItrVjb+a0pFhuKYnpkTfNH72AHGpeo/P7u6yE1PaSgsExPO2J1JwGyGZTKpxOFB6QaRDuw==
+X-Received: by 2002:a62:3045:0:b029:32b:880f:c03a with SMTP id w66-20020a6230450000b029032b880fc03amr27819158pfw.22.1626727923390;
+        Mon, 19 Jul 2021 13:52:03 -0700 (PDT)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id n6sm23363563pgb.60.2021.07.19.13.24.49
+        by smtp.gmail.com with ESMTPSA id v10sm381814pjd.29.2021.07.19.13.52.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 13:24:49 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 20:24:45 +0000
+        Mon, 19 Jul 2021 13:52:02 -0700 (PDT)
+Date:   Mon, 19 Jul 2021 20:51:58 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Brijesh Singh <brijesh.singh@amd.com>
 Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
@@ -76,48 +75,122 @@ Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         Michael Roth <michael.roth@amd.com>,
         Vlastimil Babka <vbabka@suse.cz>, tony.luck@intel.com,
         npmccallum@redhat.com, brijesh.ksingh@gmail.com
-Subject: Re: [PATCH Part2 RFC v4 22/40] KVM: SVM: Add KVM_SNP_INIT command
-Message-ID: <YPXfjYsEepISApuf@google.com>
+Subject: Re: [PATCH Part2 RFC v4 24/40] KVM: SVM: Add
+ KVM_SEV_SNP_LAUNCH_UPDATE command
+Message-ID: <YPXl7sVBx7lDLx/U@google.com>
 References: <20210707183616.5620-1-brijesh.singh@amd.com>
- <20210707183616.5620-23-brijesh.singh@amd.com>
- <YPHfC1mI8dQkkzyV@google.com>
- <3f12243a-dee3-2a97-9a1b-51f4f6095349@amd.com>
+ <20210707183616.5620-25-brijesh.singh@amd.com>
+ <YPHlt4VCm6b2MZMs@google.com>
+ <a574de6d-f810-004f-dad2-33e3f389482b@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f12243a-dee3-2a97-9a1b-51f4f6095349@amd.com>
+In-Reply-To: <a574de6d-f810-004f-dad2-33e3f389482b@amd.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 On Fri, Jul 16, 2021, Brijesh Singh wrote:
 > 
-> On 7/16/21 2:33 PM, Sean Christopherson wrote:
-> > On Wed, Jul 07, 2021, Brijesh Singh wrote:
-> >> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> >> index 3fd9a7e9d90c..989a64aa1ae5 100644
-> >> --- a/include/uapi/linux/kvm.h
-> >> +++ b/include/uapi/linux/kvm.h
-> >> @@ -1678,6 +1678,9 @@ enum sev_cmd_id {
-> >>  	/* Guest Migration Extension */
-> >>  	KVM_SEV_SEND_CANCEL,
-> >>  
-> >> +	/* SNP specific commands */
-> >> +	KVM_SEV_SNP_INIT = 256,
-> > Is there any meaning behind '256'?  If not, why skip a big chunk?  I wouldn't be
-> > concerned if it weren't for KVM_SEV_NR_MAX, whose existence arguably implies that
-> > 0-KVM_SEV_NR_MAX-1 are all valid SEV commands.
+> On 7/16/21 3:01 PM, Sean Christopherson wrote:
+> > I'm having a bit of deja vu...  This flow needs to hold kvm->srcu to do a memslot
+> > lookup.
+> >
+> > That said, IMO having KVM do the hva->gpa is not a great ABI.  The memslots are
+> > completely arbitrary (from a certain point of view) and have no impact on the
+> > validity of the memory pinning or PSP command.  E.g. a memslot update while this
+> > code is in-flight would be all kinds of weird.
+> >
+> > In other words, make userspace provide both the hva (because it's sadly needed
+> > to pin memory) as well as the target gpa.  That prevents KVM from having to deal
+> > with memslot lookups and also means that userspace can issue the command before
+> > configuring the memslots (though I've no idea if that's actually feasible for
+> > any userspace VMM).
 > 
-> In previous patches, Peter highlighted that we should keep some gap
-> between the SEV/ES and SNP to leave room for legacy SEV/ES expansion. I
-> was not sure how many we need to reserve without knowing what will come
-> in the future; especially recently some of the command additional  are
-> not linked to the firmware. I am okay to reduce the gap or remove the
-> gap all together.
+> The operation happen during the guest creation time so I was not sure if
+> memslot will be updated while we are executing this command. But I guess
+> its possible that a VMM may run different thread which may update
+> memslot while another thread calls the encryption. I'll let userspace
+> provide both the HVA and GPA as you recommended.
 
-Unless the numbers themselves have meaning, which I don't think they do, I vote
-to keep the arbitrary numbers contiguous.  KVM_SEV_NR_MAX makes me nervous, and
-there are already cases of related commands being discontiguous, e.g. KVM_SEND_CANCEL.
+I'm not worried about a well-behaved userspace VMM, I'm worried about the code
+KVM has to carry to guard against a misbehaving VMM.
+ 
+> >> +			ret = -EINVAL;
+> >> +			goto e_unpin;
+> >> +		}
+> >> +
+> >> +		psize = page_level_size(level);
+> >> +		pmask = page_level_mask(level);
+> > Is there any hope of this path supporting 2mb/1gb pages in the not-too-distant
+> > future?  If not, then I vote to do away with the indirection and just hardcode
+> > 4kg sizes in the flow.  I.e. if this works on 4kb chunks, make that obvious.
+> 
+> No plans to do 1g/2mb in this path. I will make that obvious by
+> hardcoding it.
+> 
+> 
+> >> +		gpa = gpa & pmask;
+> >> +
+> >> +		/* Transition the page state to pre-guest */
+> >> +		memset(&e, 0, sizeof(e));
+> >> +		e.assigned = 1;
+> >> +		e.gpa = gpa;
+> >> +		e.asid = sev_get_asid(kvm);
+> >> +		e.immutable = true;
+> >> +		e.pagesize = X86_TO_RMP_PG_LEVEL(level);
+> >> +		ret = rmpupdate(inpages[i], &e);
+> > What happens if userspace pulls a stupid and assigns the same page to multiple
+> > SNP guests?  Does RMPUPDATE fail?  Can one RMPUPDATE overwrite another?
+> 
+> The RMPUPDATE is available to the hv and it can call anytime with
+> whatever it want. The important thing is the RMPUPDATE + PVALIDATE
+> combination is what locks the page. In this case, PSP firmware updates
+> the RMP table and also validates the page.
+> 
+> If someone else attempts to issue another RMPUPDATE then Validated bit
+> will be cleared and page is no longer used as a private. Access to
+> unvalidated page will cause #VC.
 
-Peter or Paolo, any thoughts?
+Hmm, and there's no indication on success that the previous entry was assigned?
+Adding a tracepoint in rmpupdate() to allow tracking transitions is probably a
+good idea, otherwise debugging RMP violations and/or unexpected #VC is going to
+be painful.
+
+And/or if the kernel/KVM behavior is to never reassign directly and reading an RMP
+entry isn't prohibitively expensive, then we could add a sanity check that the RMP
+is unassigned and reject rmpupdate() if the page is already assigned.  Probably
+not worth it if the overhead is noticeable, but it could be nice to have if things
+go sideways.
+
+> >> +e_unpin:
+> >> +  /* Content of memory is updated, mark pages dirty */
+> >> +  memset(&e, 0, sizeof(e));
+> >> +  for (i = 0; i < npages; i++) {
+> >> +          set_page_dirty_lock(inpages[i]);
+> >> +          mark_page_accessed(inpages[i]);
+> >> +
+> >> +          /*
+> >> +           * If its an error, then update RMP entry to change page ownership
+> >> +           * to the hypervisor.
+> >> +           */
+> >> +          if (ret)
+> >> +                  rmpupdate(inpages[i], &e);
+> > This feels wrong since it's purging _all_ RMP entries, not just those that were
+> > successfully modified.  And maybe add a RMP "reset" helper, e.g. why is zeroing
+> > the RMP entry the correct behavior?
+> 
+> By default all the pages are hypervior owned (i.e zero). If the
+> LAUNCH_UPDATE was successful then page should have transition from the
+> hypervisor owned to guest valid. By zero'ing it are reverting it back to
+> hypevisor owned.
+>
+> I agree that I optimize it to clear the modified entries only and leave
+> everything else as a default.
+
+To be clear, it's not just an optimization.  Pages that haven't yet been touched
+may be already owned by a different VM (or even this VM).  I.e. "reverting" those
+pages would actually result in a form of corruption.  It's somewhat of a moot point
+because assigning a single page to multiple guests is going to be fatal anyways,
+but potentially making a bug worse by introducing even more noise/confusion is not
+good.
