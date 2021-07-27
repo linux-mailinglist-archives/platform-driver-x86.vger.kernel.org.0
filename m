@@ -2,78 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E62593D7B4D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Jul 2021 18:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E133D7C0F
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 27 Jul 2021 19:19:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhG0QpI (ORCPT
+        id S229687AbhG0RT2 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 27 Jul 2021 12:45:08 -0400
-Received: from mga18.intel.com ([134.134.136.126]:55043 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229815AbhG0QpI (ORCPT
+        Tue, 27 Jul 2021 13:19:28 -0400
+Received: from www3084.sakura.ne.jp ([49.212.207.94]:41380 "EHLO
+        www3084.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229537AbhG0RT2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 27 Jul 2021 12:45:08 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="199708198"
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
-   d="scan'208";a="199708198"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2021 09:45:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,274,1620716400"; 
-   d="scan'208";a="662895381"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Jul 2021 09:45:04 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     hdegoede@redhat.com, mgross@linux.intel.com
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] platform/x86: ISST: Fix optimization with use of numa
-Date:   Tue, 27 Jul 2021 09:44:54 -0700
-Message-Id: <20210727164454.426905-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+        Tue, 27 Jul 2021 13:19:28 -0400
+X-Greylist: delayed 1978 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Jul 2021 13:19:27 EDT
+Received: from www3084.sakura.ne.jp (localhost [127.0.0.1])
+        by www3084.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 16RGkT9M061880
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Jul 2021 01:46:29 +0900 (JST)
+        (envelope-from jisedai2025@www3084.sakura.ne.jp)
+Received: (from jisedai2025@localhost)
+        by www3084.sakura.ne.jp (8.15.2/8.15.2/Submit) id 16RGkTdW061879;
+        Wed, 28 Jul 2021 01:46:29 +0900 (JST)
+        (envelope-from jisedai2025)
+To:     platform-driver-x86@vger.kernel.org
+Subject: =?UTF-8?B?44CQ5qyh5LiW5Luj6Jas5bGA56CU56m25LyaMjAyNeOAkSDjgYrllY8=?=  =?UTF-8?B?44GE5ZCI44KP44Gb44KS5om/44KK44G+44GX44Gf44CCJzsg44GT44Gu44Oh?=  =?UTF-8?B?44O844Or44Gv6Ieq5YuV6YCB5L+h44Gr44Gm44GK6YCB44KK44GV44Gb44Gm?=  =?UTF-8?B?44GE44Gf44Gg44GE44Gm44GK44KK44G+44GZ44CC?=
+X-PHP-Originating-Script: 1074:PHPMailer.php
+Date:   Tue, 27 Jul 2021 16:46:29 +0000
+From:   =?UTF-8?B?5qyh5LiW5Luj6Jas5bGA56CU56m25LyaMjAyNQ==?= 
+        <noreply@jisedai2025.jp>
+Reply-To: kawagishi.m@gemnavi.jp
+Message-ID: <YOXwMJ5B9D4fOv5PED34nUDgbNfaV5npkqSFDVMnHU@jisedai2025.jp>
+X-Mailer: PHPMailer 6.5.0 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-When numa is used to map CPU to PCI device, the optimized path to read
-from cached data is not working and still calls _isst_if_get_pci_dev().
+JuliusGuh 様
 
-The reason is that when caching the mapping, numa information is not
-available as it is read later. So move the assignment of
-isst_cpu_info[cpu].numa_node before calling _isst_if_get_pci_dev().
+この度は、『次世代薬局研究会2025』にお問い合わせいただき、
+誠にありがとうございます。
 
-Fixes: 96891f347865 ("ISST: Fix optimization with use of numa")
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-This patch can wait for next merge window as these systems are not
-shipped.
+お問い合わせ内容を確認させていただき、改めて担当者より
+ご連絡させていただきます。
 
- drivers/platform/x86/intel_speed_select_if/isst_if_common.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+【お問い合わせ内容】
+下記の内容でお問い合わせを承りました。
+改めてお問い合わせ内容をご確認ください。
+------------------------------------------------------------
 
-diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-index 6f0cc679c8e5..8a4d52a9028d 100644
---- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-+++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-@@ -379,6 +379,8 @@ static int isst_if_cpu_online(unsigned int cpu)
- 	u64 data;
- 	int ret;
- 
-+	isst_cpu_info[cpu].numa_node = cpu_to_node(cpu);
-+
- 	ret = rdmsrl_safe(MSR_CPU_BUS_NUMBER, &data);
- 	if (ret) {
- 		/* This is not a fatal error on MSR mailbox only I/F */
-@@ -397,7 +399,6 @@ static int isst_if_cpu_online(unsigned int cpu)
- 		return ret;
- 	}
- 	isst_cpu_info[cpu].punit_cpu_id = data;
--	isst_cpu_info[cpu].numa_node = cpu_to_node(cpu);
- 
- 	isst_restore_msr_local(cpu);
- 
--- 
-2.31.1
+[お名前]
+JuliusGuh
+
+[メールアドレス]
+platform-driver-x86@vger.kernel.org
+
+[題名]
+Get everything you wanted for a long time! Invest $ 678 and get passive income of $ 9400 per day
+
+[お問い合わせ内容]
+Earn over $ 9,000,000 on altcoins >>>>>>>>>>>>>>  https://www.google.com/url?q=https%3A%2F%2Fvk.cc%2Fc4m72D&sa=D&Lg=He&usg=AFQjCNH9uZrRA3zjSLuD8rKYtzNPTIRAUA   <<<<<<<<<<<
+
+------------------------------------------------------------
+
+担当者より追ってご連絡させていただきますので、
+今しばらくお待ちください。
+
+
+お問い合わせいただき、誠にありがとうございました。
+
+※数日経ってもお問い合わせに関しての返信がない場合は、
+　大変お手数ですが、下記の連絡先までご連絡ください。
+
+============================================================
+◆ご注意
+このEメールは配信専用となっております。
+このメールアドレスにご返信いただいてもご返事ができません。
+
+ご質問・お問い合わせはこちら
+
+次世代薬局研究会2025
+〒177-0031 東京都練馬区三原台3-5-33
+Email：info@jisedai2025.com
+============================================================
+もし、このようなお問い合わせをした覚えがない場合は、
+大変お手数ですが、お問い合わせをした覚えがない旨を
+必ず一文添えていただき[ info@jisedai2025.com ]宛に送付下さい。
+============================================================
 
