@@ -2,36 +2,36 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C1873D8E16
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Jul 2021 14:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A81363D8E72
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 28 Jul 2021 15:02:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236130AbhG1MoC (ORCPT
+        id S235263AbhG1NCd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 28 Jul 2021 08:44:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44768 "EHLO mail.kernel.org"
+        Wed, 28 Jul 2021 09:02:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236108AbhG1MoB (ORCPT
+        id S235954AbhG1NCd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 28 Jul 2021 08:44:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 938BC60F9E
-        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Jul 2021 12:43:59 +0000 (UTC)
+        Wed, 28 Jul 2021 09:02:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id CA6AE60E09
+        for <platform-driver-x86@vger.kernel.org>; Wed, 28 Jul 2021 13:02:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627476239;
-        bh=rX5YXzv7OSVXbEuaNtXV52+WtKo0OPJuU/0R3PnHg5Y=;
+        s=k20201202; t=1627477351;
+        bh=spFve4aAQsbuZfnwZDLro6vKyB/5h4uPU388t7NKkfw=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=o6iEQm5QvBEBrGzhc6yXorj+j/aJRxl5p8Xr3kvhXyDk1KtcHjVSHgapg6rwcGOUK
-         c64fahgH+abWjqTlDh86OSgmyKZ9kNKd8NHwKacH8v0YUECPVEaS1rk6mXNjj23Jts
-         EYZu8/TiR8UNhJdhhMfuMT4XqmoRB5bM9+WsBqhGTciRUcHVXM99IRl3pHxvbZD3VO
-         y0zUihjkdn3PTrf1VVl8ys0HRIa9DsSHyuWEElxG2Vp4vp/w7cXeoh9BjIydFodO1a
-         +F2wPh5RT0Yxxxrxljw3iOHtLxTBhKmxmsSkyaNvYZk/fnCAluz+Odsm3hzuY0XUiR
-         LZi91YnGyoz1Q==
+        b=cfiQ2I+1Qn/JtpnYzmLnNvYKWAMbAYbmRASZ9MNRODLteyBcuFP2ZhuGaZgLzgDqK
+         pXAbTjqd7N+EXQQD8J8OHRqDzTHevWjImdeTOg1LezEzO5a4ghTuK7j8oT5Ej20TZa
+         Lguz0/1dulY0+Bg+G07iG4HGAH1fGDnoNO6gbZ+ke83UVJrVIDLXi0NLa6O+05u7xB
+         7XeA40OCwHj+GuwvMWcVZsLWsnH/hY0myhO4hA7dm4JOTB+r8ddp1SQO9mv9VRoITk
+         dKaEy4KLmYmVBoXOBIT16wFCx1AdokZe+944+Cn6IM4D44xbh3XUZ+SuIcaObHn2w4
+         RbQOO2p+lo0Yw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 8569160ED4; Wed, 28 Jul 2021 12:43:59 +0000 (UTC)
+        id B4A8960ED4; Wed, 28 Jul 2021 13:02:31 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 209011] asus-wmi always reports tablet mode on a ZenBook
  UX390UAK
-Date:   Wed, 28 Jul 2021 12:43:59 +0000
+Date:   Wed, 28 Jul 2021 13:02:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -40,14 +40,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jwrdegoede@fedoraproject.org
+X-Bugzilla-Who: julius@devpi.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209011-215701-NbIUAGwlWA@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209011-215701-OUzEzjzNaT@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209011-215701@https.bugzilla.kernel.org/>
 References: <bug-209011-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -61,18 +61,41 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D209011
 
---- Comment #11 from Hans de Goede (jwrdegoede@fedoraproject.org) ---
-Thank you for the logs. I think I know what is going on here.
+--- Comment #12 from Julius Lehmann (julius@devpi.de) ---
+Created attachment 298077
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298077&action=3Dedit
+dmesg output 2 - TP412UA
 
-2 more questions:
+1) Yes, I did that. To be sure, I redid the 360 turn and posted another dme=
+sg.
 
-1) Did you do "fold the device into tablet-mode and back to laptop-mode onc=
-e"
-before collecting the dmesg.txt ?
+2) output of "grep . /sys/class/dmi/id/* 2> /dev/null"
 
-2) Can you run "grep . /sys/class/dmi/id/* 2> /dev/null" and copy and paste=
- the
-output here ?
+/sys/class/dmi/id/bios_date:07/25/2019
+/sys/class/dmi/id/bios_release:5.12
+/sys/class/dmi/id/bios_vendor:American Megatrends Inc.
+/sys/class/dmi/id/bios_version:TP412UA.308
+/sys/class/dmi/id/board_asset_tag:ATN12345678901234567
+/sys/class/dmi/id/board_name:TP412UA
+/sys/class/dmi/id/board_vendor:ASUSTeK COMPUTER INC.
+/sys/class/dmi/id/board_version:1.0
+/sys/class/dmi/id/chassis_asset_tag: No  Asset  Tag=20
+/sys/class/dmi/id/chassis_type:31
+/sys/class/dmi/id/chassis_vendor:ASUSTeK COMPUTER INC.
+/sys/class/dmi/id/chassis_version:1.0
+/sys/class/dmi/id/ec_firmware_release:1.7
+/sys/class/dmi/id/modalias:dmi:bvnAmericanMegatrendsInc.:bvrTP412UA.308:bd0=
+7/25/2019:br5.12:efr1.7:svnASUSTeKCOMPUTERINC.:pnVivoBookFlip14_ASUSFlipTP4=
+12UA:pvr1.0:sku:rvnASUSTeKCOMPUTERINC.:rnTP412UA:rvr1.0:cvnASUSTeKCOMPUTERI=
+NC.:ct31:cvr1.0:
+/sys/class/dmi/id/product_family:VivoBook Flip
+/sys/class/dmi/id/product_name:VivoBook Flip 14_ASUS Flip TP412UA
+/sys/class/dmi/id/product_version:1.0
+/sys/class/dmi/id/sys_vendor:ASUSTeK COMPUTER INC.
+/sys/class/dmi/id/uevent:MODALIAS=3Ddmi:bvnAmericanMegatrendsInc.:bvrTP412U=
+A.308:bd07/25/2019:br5.12:efr1.7:svnASUSTeKCOMPUTERINC.:pnVivoBookFlip14_AS=
+USFlipTP412UA:pvr1.0:sku:rvnASUSTeKCOMPUTERINC.:rnTP412UA:rvr1.0:cvnASUSTeK=
+COMPUTERINC.:ct31:cvr1.0:
 
 --=20
 You may reply to this email to add a comment.
