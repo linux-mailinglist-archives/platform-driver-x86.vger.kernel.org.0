@@ -2,36 +2,36 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1194E3DDE4D
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  2 Aug 2021 19:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E3983DEBC3
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  3 Aug 2021 13:32:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbhHBRQy (ORCPT
+        id S235527AbhHCLca (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 2 Aug 2021 13:16:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33130 "EHLO mail.kernel.org"
+        Tue, 3 Aug 2021 07:32:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55840 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229809AbhHBRQy (ORCPT
+        id S235524AbhHCLca (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 2 Aug 2021 13:16:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 851C9610FE
-        for <platform-driver-x86@vger.kernel.org>; Mon,  2 Aug 2021 17:16:44 +0000 (UTC)
+        Tue, 3 Aug 2021 07:32:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8305F60EBC
+        for <platform-driver-x86@vger.kernel.org>; Tue,  3 Aug 2021 11:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627924604;
-        bh=VGrCklk7AG+VgucG3rEom/lfer56pjD9WIbX6fjRdjs=;
+        s=k20201202; t=1627990339;
+        bh=l8yb9vkPBQzFS7n+npOOEb+2JjUcu4AgHF2QTE16v6E=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=aHjuyPp0qp0zLNbn7BB9ZqQFSC3Q/dXfAh2MEqtAUzd5bHV4AtJwNRKWjWjbGSKts
-         OogtjlezaXbFP6vv7vy7Dx7aNupvW5tIDSjSsR7dhaWxmfdR+T65QNFDvA1tARHyFI
-         Q5Ux/uc/emEZ64ZvxLzNV+Kn2oqw00hOOmIbdprd37iy9t1t50Wt3UMBWYNdDH0LKE
-         mmmqvjognYugnAm4UuZ2BDGg4aFh6rDO1xjACy7/WepBH08w6dojiLuJvpgMWPVZm7
-         axWhts8B6AkYJxIzoID71YNPyORNSCIoSr02vbDeIcmmB7wr8Y2uDz/96kGWSYW2EE
-         ciSTevAhwiC4g==
+        b=Jc121Mj8Oj0yAo617zpSnkljyvobFA/Dfj3Trcx/Yp755UGseWSvWkLvLwzfsVh+K
+         OTbvgcI+rO+8IBlhAZN6aJULjvilCQNw56VcP24RqHlAlodtVg7G2ESFTcT5Z/8CCw
+         j2rhKtqP1tqTX5e5T4PiIOS8jNcowqa6YR35AppcqfYozhvZaH18mmtiuZbvfiHkkF
+         YduZbedfJrBPolvMa49+TEJSRhb65oVW8xL+IrF72008k18YouvbI4NaGzxuFoIweC
+         Ej2mvaPlYrRUZGiTJHWvthKVzP5hMFn/7ZCctTcBOnCq1oXU57RhmxOq/gdWyAUP5W
+         we3jnmUlYA89g==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 6F34060E4E; Mon,  2 Aug 2021 17:16:44 +0000 (UTC)
+        id 6AF0D60EBC; Tue,  3 Aug 2021 11:32:19 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 213579] Clevo NH55HJ (intel tigerlake) touchpad support (GPIO
  can't be used as IRQ)
-Date:   Mon, 02 Aug 2021 17:16:44 +0000
+Date:   Tue, 03 Aug 2021 11:32:19 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -40,14 +40,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andy.shevchenko@gmail.com
+X-Bugzilla-Who: wse@tuxedocomputers.com
 X-Bugzilla-Status: NEEDINFO
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213579-215701-7xcsyrwGjB@https.bugzilla.kernel.org/>
+Message-ID: <bug-213579-215701-t5U5VI2tGt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213579-215701@https.bugzilla.kernel.org/>
 References: <bug-213579-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -61,43 +61,12 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213579
 
---- Comment #46 from Andy Shevchenko (andy.shevchenko@gmail.com) ---
-(In reply to wse from comment #45)
-> (In reply to wse from comment #44)
-> > Found the offending code bit in the dsdt:
-> >=20
-> >     Scope (_SB.PC00.I2C0)
-> >     {
-> >         Device (TPAD)
-> >         {
-> >             [...]
-> >             Method (_INI, 0, NotSerialized)  // _INI: Initialize
-> >             {
-> >                 BADR =3D SADR /* \_SB_.PC00.I2C0.TPAD.SADR */
-> >                 INTA =3D GNUM (0x0801000C)
-> >             }
-> >             [...]
-> >         }
-> >     }
-> >=20
-> > INTA should evaluate to 0x8C (140), but does evaluate to 0x2c (44).
-> > GNUM is some kind of offset calculation, ignoring the 0x08, taking valu=
-es
-> > from an array based on the 0x01 and adding it to the 0x000C. You can ch=
-eck
-> > it in the disassembled dsdt. I don't know ofcourse if GNUM is buggy, the
-> > array is wrong, or the 0x0801000C input value is wrong (you can choose =
-an
-> > input value that makes GNUM evaluate to 0x8C).
->=20
-> However: Building and using a dsdt with INTA hardcoded to 0x8C makes the
-> touchpad work on arbitrary kernels. Maybe a better workaround then a self
-> compiled kernel.
+--- Comment #47 from wse@tuxedocomputers.com ---
+More testing: Using the fixed acpi table on windows breaks the touchpad.
 
-Thanks for this debugging and root causing the effort!
-I totally agree that DSDT recompilation is much better approach, but it's s=
-till
-far from ideal (firmware fix by a vendor).
+So windows expects the 0x2C here?
+
+Is there some offset not implemented in the Linux kernel?
 
 --=20
 You may reply to this email to add a comment.
