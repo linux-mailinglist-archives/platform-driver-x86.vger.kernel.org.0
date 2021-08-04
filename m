@@ -2,76 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C70A3DFA33
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Aug 2021 06:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9742E3DFC6F
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  4 Aug 2021 10:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbhHDEPa (ORCPT
+        id S236047AbhHDIFL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 4 Aug 2021 00:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbhHDEPa (ORCPT
+        Wed, 4 Aug 2021 04:05:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47645 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236048AbhHDIEq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 4 Aug 2021 00:15:30 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFE5C0613D5
-        for <platform-driver-x86@vger.kernel.org>; Tue,  3 Aug 2021 21:15:14 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id h9so1760196ejs.4
-        for <platform-driver-x86@vger.kernel.org>; Tue, 03 Aug 2021 21:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=LwlKLy6bSUhse7x+vg3ZQutBwt3UcMo3rtTNT7Trwitttn08dI7cIY8Ntb9KAB2XMx
-         MP9aIVLAmlS39Q/KEmZ9PsAQZpKkA0iU+y3WiBi4PfWExuoyTKK9itEKyb5cUXNPQ7oX
-         v1B4qI5AMtfRJwZM2bErwfpip7nsv1rK2DbFClBv7nF+qIy8iYEGAnn69Lab21o0APxA
-         dvUsl5Ur8GpIEmIw3g3Lrg6PPnvkipqM/Offdr6F1lUYyhq9XH3afTPUWAZBAKTCXx0i
-         tRibYaD/rESDRCF4qWWYXUoyLrrmZIXGryJOShAAia4E4sfNttae8QJMUY556BEKgcwz
-         9PBQ==
+        Wed, 4 Aug 2021 04:04:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628064265;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=C8JhLLtWeVm1W46th06VECpu4490VjDvsxVKWpqBsFE=;
+        b=JT7zVea4y1u3XlXJVE+KVKfZU+4HTvJBHo40mK5yFHp49+aP9Yda1MoXr/y+Td+UfbOZ9S
+        1xaDH1INH4MxsU2EXrgPCsVjPQiHKrQLsZrw4QdOVLhvz3IUwFZgSphMmMRzPBZmqQwlk4
+        UIcZ6Il63k99kXZQsREuddxgqZvXyvA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-OJFLPE6hMoaY5-OhKj1zbQ-1; Wed, 04 Aug 2021 04:04:22 -0400
+X-MC-Unique: OJFLPE6hMoaY5-OhKj1zbQ-1
+Received: by mail-ej1-f72.google.com with SMTP id ci25-20020a1709072679b029058e79f6c38aso546720ejc.13
+        for <platform-driver-x86@vger.kernel.org>; Wed, 04 Aug 2021 01:04:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=dBd4lnknEuuK0IHxHoF3tWfLyaf9hvzYhlIp54kAeEzSz3J7B5jfn2OOcQC/CiQs62
-         l8Njvr8GJNViXuMNekCrcpB6EJ9/ndvKSqkwY1sDQuJZE/KPROKB5YshBI5QsaSYs5Rw
-         E4Rh4DY97/wPdiqPJwrlIkmwhB0uUgOezmeEFOf+L7z+IfQ86UXlO6WYS6WXy2czcQz2
-         wCMZekj4NZIjYYxiNSsdqFKc70H5idHj+sEMqGuZg1jmlYH1FYR+j8AK2dg1u5wd1eh/
-         x1kkctwcVFOVvW3BQFZX7SbnIAwlXXoHEvlWVof1afOkk8h8z0fRSvk7tqQmlzMFkKD5
-         6r/g==
-X-Gm-Message-State: AOAM533YxzaiCz3YxFUOYdcWq6oCQsyqMs4/rBdLzmrByDDgYOm3fntd
-        NB2ns9LspgLAOoj3/xRU1Yb7tN7V0maF2KKF1m0=
-X-Google-Smtp-Source: ABdhPJyCjbKKs1F/hJnjVP8Dk1RNq9nr1tZ/8SmvJ2ZeWJ/NvgnWGPLO7AiENMZNl8SLwKjY0GT36oDU2JFJt9zbR0Y=
-X-Received: by 2002:a17:906:9bf1:: with SMTP id de49mr23871221ejc.480.1628050512776;
- Tue, 03 Aug 2021 21:15:12 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=C8JhLLtWeVm1W46th06VECpu4490VjDvsxVKWpqBsFE=;
+        b=QG3cV2uh3I6RXffMNcYcgthcWu+9ZV5I9xaD5EcX9LwyGgz1AQSFCmKJ1yZ7c5AFOa
+         uTMpog6onTEl00hgerFvyOtAoa4YiJc7Z/oHvvFJTFwHU3Ci4eB+dYavhAoQGDx8xuOh
+         L4EQvJyRGM/1J7IhKf5+3hdxEAXP57Gi3PA0Yjw0S33AiPM+OYEg7nFNqgCCxQ/SuzSU
+         w5kNCYSjjtktVYamvoKHHKPCjQVKOvgL92xV+wm+qgZgQPGWHNXAbHjlD94WvHr1YwKI
+         t6n81OMAHVyRKVfxJUq3UMGOlr0xu5JTAbqbCYJ9okB3vZwjztI+AJV6sJgR/vXoTccd
+         q7oQ==
+X-Gm-Message-State: AOAM532R1ZlA4Rt+gaVJ97WVed6L77X/Yq9CVXTevYEf5UBwbH6d+Xvv
+        uIrsZH5nZmipd73HqpGucNlpBp/KEpIxiH99kxjS4DGG1eH556OoU9nTpsn8cWxmTx8Jacdw54P
+        daYJtOlzErBP7W34kz6uiNXXERIO8DDwrog==
+X-Received: by 2002:a17:906:12c6:: with SMTP id l6mr25518038ejb.373.1628064260871;
+        Wed, 04 Aug 2021 01:04:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcX3pgtodGX9bn2A2Q9UPigJDSYOZREOJcOSv0/eYTJfsJ0M5wXc9FoFdW+LwQB1tUQ8gJOg==
+X-Received: by 2002:a17:906:12c6:: with SMTP id l6mr25518017ejb.373.1628064260652;
+        Wed, 04 Aug 2021 01:04:20 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id m21sm617090edc.5.2021.08.04.01.04.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Aug 2021 01:04:20 -0700 (PDT)
+Subject: Re: [PATCH v1 4/5] Bluetooth: hci_bcm: Use acpi_gpio_get_*_resource()
+ helpers
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org
+Cc:     Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>
+References: <20210803192905.72246-1-andriy.shevchenko@linux.intel.com>
+ <20210803192905.72246-4-andriy.shevchenko@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <9fceba7d-627b-bec2-6315-46e66b646534@redhat.com>
+Date:   Wed, 4 Aug 2021 10:04:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: by 2002:a17:907:d0b:0:0:0:0 with HTTP; Tue, 3 Aug 2021 21:15:12
- -0700 (PDT)
-Reply-To: ablahikazabl67@gmail.com
-From:   Abdoulahi Kazim <drwilliamcuthbert@gmail.com>
-Date:   Wed, 4 Aug 2021 05:15:12 +0100
-Message-ID: <CAKwBCXurhBg3vOWyaWmQ-j0q+nXYbgTDY+Sy_5HXPhH4HMG4BA@mail.gmail.com>
-Subject: More Authentic Information
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210803192905.72246-4-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-Dear Partner,
+Hi,
 
-I am soliciting your partnership to relocate $12.5 Million to your
-country for investment on my behalf and you will be entitled to 30% of
-the sum once the transaction is successful made.
+On 8/3/21 9:29 PM, Andy Shevchenko wrote:
+> ACPI provides generic helpers to get GPIO interrupt and IO resources.
+> Use it instead of open coded variant.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Please indicate your genuine interest if you are capable so that i
-will send you the authentic details and documents of the transaction
-in awareness with some of my fellow Directors in the bank.
+As explained in my reply to 3/5 this makes the code a lot harder
+to read with little to no gain, so NACK from me for this one.
 
-If you are interested, here is my private Email address:
-(ablahikazabl67@gmail.com)
-For more authentic and legit information.
+Regards,
 
+Hans
 
-Regards :  Abdoulahi Kazim
+> ---
+>  drivers/bluetooth/hci_bcm.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/bluetooth/hci_bcm.c b/drivers/bluetooth/hci_bcm.c
+> index 16f854ac19b6..ed99fcde2523 100644
+> --- a/drivers/bluetooth/hci_bcm.c
+> +++ b/drivers/bluetooth/hci_bcm.c
+> @@ -911,15 +911,6 @@ static int bcm_resource(struct acpi_resource *ares, void *data)
+>  		dev->irq_active_low = true;
+>  		break;
+>  
+> -	case ACPI_RESOURCE_TYPE_GPIO:
+> -		gpio = &ares->data.gpio;
+> -		if (gpio->connection_type == ACPI_RESOURCE_GPIO_TYPE_INT) {
+> -			dev->gpio_int_idx = dev->gpio_count;
+> -			dev->irq_active_low = gpio->polarity == ACPI_ACTIVE_LOW;
+> -		}
+> -		dev->gpio_count++;
+> -		break;
+> -
+>  	default:
+>  		break;
+>  	}
+> @@ -927,6 +918,12 @@ static int bcm_resource(struct acpi_resource *ares, void *data)
+>  	if (serdev_acpi_get_uart_resource(ares, &uart)) {
+>  		dev->init_speed = uart->default_baud_rate;
+>  		dev->oper_speed = 4000000;
+> +	} else if (acpi_gpio_get_irq_resource(ares, &gpio)) {
+> +		dev->gpio_int_idx = dev->gpio_count;
+> +		dev->irq_active_low = gpio->polarity == ACPI_ACTIVE_LOW;
+> +		dev->gpio_count++;
+> +	} else if (acpi_gpio_get_io_resource(ares, &gpio)) {
+> +		dev->gpio_count++;
+>  	}
+>  
+>  	return 0;
+> 
+
