@@ -2,63 +2,129 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6953E1247
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Aug 2021 12:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 705AC3E1960
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  5 Aug 2021 18:22:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240422AbhHEKKi (ORCPT
+        id S229591AbhHEQWQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Aug 2021 06:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240456AbhHEKKc (ORCPT
+        Thu, 5 Aug 2021 12:22:16 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:45126 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229437AbhHEQWQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Aug 2021 06:10:32 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5E0C0617A3
-        for <platform-driver-x86@vger.kernel.org>; Thu,  5 Aug 2021 03:10:17 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id x90so7546155ede.8
-        for <platform-driver-x86@vger.kernel.org>; Thu, 05 Aug 2021 03:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
-        b=iS9YA7D4AkLyKrMVsoVYMawu0L36NuU4+ZSSyySlEHd80Db/SKmaXNHUYbn10iE1ak
-         iC2IvrlH8v1AbmVGIfByuGkfSJI0XOychxHlUayNB69sXT4UE/GxiJdUnwpUeLi55ukG
-         xxmbK315oyKozAfiGnXEqKK3PxzEgZV5MZYS8JrbDSFfNkjPPnwGCrlh5tDeKwhJwNKw
-         T5dIuH8sR8enUCr5iznpK0TZ2LjgjrjjYSvOKCwjpML2kXz9bFVQEOg044XfixvXje/K
-         h6N675zJB4VwjShIVvQTmJWjRDKft4Rcevz64ZRcI/rUzQ/43BUMnv9UMxVY4mSVx0dv
-         +ZPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=J67+rxbQxfS8kPDQ/50P30WNOuT2eFzd+bURjICaS/k=;
-        b=LETR3BS2cAwf2L9l1nsajWaFS5MW6uvZOxVb91nFOlGHSSi+2by6qcNAvJgbv/Tk8D
-         AcziXm4/mCoJUmtw4k6gW1ElkltibOqJSrce4L02U7XfJXUSce0wK1o0ZZdE9ScRej7t
-         2siKvvC0LCarsohyUrpKbDd8XUyr5cWuWKmOt4j9muXPCeWDFt+OR8PcjxiMEdK9FWHs
-         rD+sTMBX2W+ieMEViSMqGR/wYrBEuBMLkxkKNBv1vt7oahmZtKjJyJ67NFcyiBvFvdzj
-         R3T1WXN5MIlxMxpaMaGwAfOtXImihmnoScKkBDdFB6Fu8j54mxeNvQdZqT9/I4FDULVv
-         lMPg==
-X-Gm-Message-State: AOAM531p3jsDofejMQqFftP1F/bg13q324NDMODVyKVoX5QHo/OoIup+
-        0vTkkTHkxvoMVkZj4qoq8M5hgAOhoSsvLfOaaoU=
-X-Google-Smtp-Source: ABdhPJz/RKmv260xIbuerDTPdwMwXLpAeKReSpRsKd2xVxrYh4CfQJfzAebDIdig2CS2Izsib4l5qV0PM0JZd046dok=
-X-Received: by 2002:a05:6402:40c7:: with SMTP id z7mr5373679edb.193.1628158216069;
- Thu, 05 Aug 2021 03:10:16 -0700 (PDT)
+        Thu, 5 Aug 2021 12:22:16 -0400
+Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 6B6B040D4004;
+        Thu,  5 Aug 2021 16:21:57 +0000 (UTC)
+Subject: Re: [PATCH] platform/x86: intel_pmc_core: Prevent possibile overflow
+To:     david.e.box@linux.intel.com, irenic.rajneesh@gmail.com,
+        gayatri.kammela@intel.com, hdegoede@redhat.com,
+        mgross@linux.intel.com, andy.shevchenko@gmail.com
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <facd47b64a5efa4e0e70cd29586173e44a8929c2.camel@linux.intel.com>
+ <20210804003039.359138-1-david.e.box@linux.intel.com>
+ <159dec07-9f05-3a92-8b7d-3d2f27448f70@ispras.ru>
+ <7308291f26a3f225fca069461d9ac26170f0ba66.camel@linux.intel.com>
+From:   Evgeny Novikov <novikov@ispras.ru>
+Message-ID: <457033ea-93ce-709d-39e7-8664b3731e71@ispras.ru>
+Date:   Thu, 5 Aug 2021 19:21:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Received: by 2002:a05:6408:258c:b029:e3:fe5c:5c2d with HTTP; Thu, 5 Aug 2021
- 03:10:15 -0700 (PDT)
-Reply-To: theresabangurah3333@yahoo.com
-From:   Theresa Bangurah <mariamabah77879@gmail.com>
-Date:   Thu, 5 Aug 2021 11:10:15 +0100
-Message-ID: <CAAi==jrP1LU0nh-DrLEYOsm5GW=VtCGzFW8zeRyVbCcv17qusA@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7308291f26a3f225fca069461d9ac26170f0ba66.camel@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-My name is Mrs.Theresa Bangurah,i am American citizen i have something
-important to tell you.Reply me immediately you get this message.God
-bless you.
+Hi David,
+
+On 05.08.2021 00:51, David E. Box wrote:
+> Hi Evgeny,
+>
+> On Wed, 2021-08-04 at 13:48 +0300, Evgeny Novikov wrote:
+>> Hi David,
+>>
+>> Your patch fixes the out of bound issue, but I have another concern
+>> regarding possible incomplete initialization of first 8 elements of
+>> the
+>> lpm_priority array that is declared on the stack and is not
+>> initialized,
+>> say, with zeroes. Yet again due to some invalid values coming from
+>> the
+>> register, it is not guaranteed that something meaningful will be
+>> assigned for all first 8 elements of lpm_priority in the first cycle
+>> in
+>> pmc_core_get_low_power_modes(). In the second cycle this function
+>> accesses all these elements from lpm_priority. Though there is test
+>> "!(BIT(mode) & lpm_en)", it can pass accidentally, thus some
+>> unexpected
+>> values can be stored to "pmcdev->lpm_en_modes[i++]" and exposed
+>> later.
+> I sent out a v2 that validates the priority levels are within bounds
+> and meaningful before reordering them to set the lpm_en_modes. Thanks.
+
+Now it looks that you fixed both issues. Our verification framework does 
+not report warnings after application of the patch. I can not reason 
+about functional correctness of this code since I am not familiar with 
+the corresponding documentation and, thus, expected behavior.
+
+Likely there is a small misprint in the comment "contains gives".
+
+Best regards,
+Evgeny Novikov
+
+> David
+>
+>>
+>> Best regards,
+>> Evgeny Novikov
+>>
+>>
+>> On 04.08.2021 03:30, David E. Box wrote:
+>>> Low Power Mode (LPM) priority is encoded in 4 bits. Yet, this value
+>>> is used
+>>> as an index to an array whose element size was less than 16,
+>>> leading to the
+>>> possibility of overflow should we read a larger than expected
+>>> priority. Set
+>>> the array size to 16 to prevent this.
+>>>
+>>> Reported-by: Evgeny Novikov <novikov@ispras.ru>
+>>> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+>>> ---
+>>>    drivers/platform/x86/intel_pmc_core.c | 2 +-
+>>>    drivers/platform/x86/intel_pmc_core.h | 1 +
+>>>    2 files changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/platform/x86/intel_pmc_core.c
+>>> b/drivers/platform/x86/intel_pmc_core.c
+>>> index b0e486a6bdfb..2a761fe98277 100644
+>>> --- a/drivers/platform/x86/intel_pmc_core.c
+>>> +++ b/drivers/platform/x86/intel_pmc_core.c
+>>> @@ -1451,7 +1451,7 @@ DEFINE_SHOW_ATTRIBUTE(pmc_core_pkgc);
+>>>    
+>>>    static void pmc_core_get_low_power_modes(struct pmc_dev *pmcdev)
+>>>    {
+>>> -       u8 lpm_priority[LPM_MAX_NUM_MODES];
+>>> +       u8 lpm_priority[LPM_MAX_PRI];
+>>>          u32 lpm_en;
+>>>          int mode, i, p;
+>>>    
+>>> diff --git a/drivers/platform/x86/intel_pmc_core.h
+>>> b/drivers/platform/x86/intel_pmc_core.h
+>>> index e8dae9c6c45f..b98c2b44c938 100644
+>>> --- a/drivers/platform/x86/intel_pmc_core.h
+>>> +++ b/drivers/platform/x86/intel_pmc_core.h
+>>> @@ -190,6 +190,7 @@ enum ppfear_regs {
+>>>    #define LPM_MAX_NUM_MODES                     8
+>>>    #define GET_X2_COUNTER(v)                     ((v) >> 1)
+>>>    #define LPM_STS_LATCH_MODE                    BIT(31)
+>>> +#define LPM_MAX_PRI                            16      /* size of
+>>> 4 bits */
+>>>    
+>>>    #define TGL_PMC_SLP_S0_RES_COUNTER_STEP               0x7A
+>>>    #define TGL_PMC_LTR_THC0                      0x1C04
+>
