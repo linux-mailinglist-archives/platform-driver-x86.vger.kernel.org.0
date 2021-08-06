@@ -2,449 +2,343 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E603E1FC0
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Aug 2021 02:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 582853E2051
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Aug 2021 02:58:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242927AbhHFAKi (ORCPT
+        id S242852AbhHFA6T (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 5 Aug 2021 20:10:38 -0400
-Received: from mga04.intel.com ([192.55.52.120]:45295 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240392AbhHFAK0 (ORCPT
+        Thu, 5 Aug 2021 20:58:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232902AbhHFA6S (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 5 Aug 2021 20:10:26 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10067"; a="212422385"
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
-   d="scan'208";a="212422385"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 17:10:11 -0700
-X-IronPort-AV: E=Sophos;i="5.84,299,1620716400"; 
-   d="scan'208";a="420562748"
-Received: from rmgular-mobl2.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.251.138.25])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2021 17:10:10 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>
-Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v4 7/7] tools/tdx: Add a sample attestation user app
-Date:   Thu,  5 Aug 2021 17:09:45 -0700
-Message-Id: <20210806000946.2951441-8-sathyanarayanan.kuppuswamy@linux.intel.com>
+        Thu, 5 Aug 2021 20:58:18 -0400
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B38C0613D5;
+        Thu,  5 Aug 2021 17:58:02 -0700 (PDT)
+Received: by mail-il1-x134.google.com with SMTP id k3so7068308ilu.2;
+        Thu, 05 Aug 2021 17:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZaFqxs2ibbd66JSfHZiGtBRKx+hbncn5lf2tbbdXTmw=;
+        b=VFjiJ4eSRSRQbK7EXNw9PSj+Agjd7gN5JXgwx+bkZNRUHTQB16PWvBKCxSTo0YlwSc
+         /5LPv+3EyeHo5/4nkpYmUXX6aFFc5Texa5vauSVgEtyrD0yUwJqOinKf4r9QE9Eeym1j
+         2bUtp9fGsrpTW9NSGVcbpb8XF9tC8wKZXF8ghsrkPX86o1yHrXVp+xBoOR/uOGN2LaTy
+         ogS1MlgKrmLgZG+20YTsNqyxJXMC8IeZnwnDx5Fzpav4kquqmU810N4yeaFn80w+Crqx
+         sq6ELF1ZszPx/nt+uMdwo4z/hbXpiShR5USr43nhDhuY72NZBB2LP9BE7UQrFSF6qErg
+         LbiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZaFqxs2ibbd66JSfHZiGtBRKx+hbncn5lf2tbbdXTmw=;
+        b=kM/PWELZWTcMD2BKlXe5sMCZlSeMKvZ3KgUJu+VYjz+t0R9Qy2RCjK0nPiWLbfAjY1
+         +C7A4iiAInKUr62iqiD8bX50pcF4ZfZaNAiN5N8TvMOOyJjUZhCBV+PFZtYNpRIHosNX
+         gkwYWVyWf8K8Fqvxc2GG+ZwAFW+fkaZTNWu6UQwBinzzQJtebJPM4Pjg97gN1sePkF95
+         v6b53X3TMXX20REqLea5LpqvBpJ2lCHX2ZfApdTp9i+fknmfWT6Hwj4U2e5t3uLqmRaL
+         nxjnQp+aK2BuXuatw/nBA4wWMlzZ1hMeboBjqbrjB/iDaeYRERrK0AuVQieczQGm0Uy7
+         zHJA==
+X-Gm-Message-State: AOAM533fQlCP/wUMbD729vXmIAYTlJ+bYeKJu0x4qYLfH1sQF/g+5knj
+        wvZ8QMPVR0GhGsue3bjPGH8pdAEYNsfhmfcd
+X-Google-Smtp-Source: ABdhPJzmGbgsIAiqwQhPT9J+aINMQXd/dXr93285q2Qowm2uZupWv9fvSBGIi5Jxx8RWGJGKu7hQ8Q==
+X-Received: by 2002:a92:c746:: with SMTP id y6mr664489ilp.211.1628211481953;
+        Thu, 05 Aug 2021 17:58:01 -0700 (PDT)
+Received: from Crosshair-VIII-Hero.lan ([2600:6c46:7d7f:ec00::a11])
+        by smtp.gmail.com with ESMTPSA id p131sm1359588iod.31.2021.08.05.17.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 17:58:01 -0700 (PDT)
+From:   Chris Blake <chrisrblake93@gmail.com>
+To:     platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org,
+        chunkeey@gmail.com, hdegoede@redhat.com
+Cc:     Chris Blake <chrisrblake93@gmail.com>
+Subject: [PATCH v2] platform/x86: add meraki-mx100 platform driver
+Date:   Thu,  5 Aug 2021 19:57:55 -0500
+Message-Id: <20210806005755.2295193-1-chrisrblake93@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210806000946.2951441-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20210806000946.2951441-1-sathyanarayanan.kuppuswamy@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-This application uses the misc device /dev/tdx-attest to get TDREPORT
-from the TDX Module or request quote from the VMM.
+This adds platform support for the Cisco Meraki MX100 (Tinkerbell)
+network appliance. This sets up the network LEDs and Reset
+button. Note that this patch requires
+mfd: lpc_ich: Enable GPIO driver for DH89xxCC which has been accepted
+and is currently targeted for 5.15.
 
-It tests following attestation features:
-
-  - Get report using TDX_CMD_GET_TDREPORT IOCTL.
-  - Using report data request quote from VMM using TDX_CMD_GEN_QUOTE IOCTL.
-  - Get the quote size using TDX_CMD_GET_QUOTE_SIZE IOCTL.
-
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Signed-off-by: Chris Blake <chrisrblake93@gmail.com>
+Co-developed-by: Christian Lamparter <chunkeey@gmail.com>
 ---
- tools/Makefile                     |  13 +-
- tools/tdx/Makefile                 |  19 +++
- tools/tdx/attest/.gitignore        |   2 +
- tools/tdx/attest/Makefile          |  24 +++
- tools/tdx/attest/tdx-attest-test.c | 232 +++++++++++++++++++++++++++++
- 5 files changed, 284 insertions(+), 6 deletions(-)
- create mode 100644 tools/tdx/Makefile
- create mode 100644 tools/tdx/attest/.gitignore
- create mode 100644 tools/tdx/attest/Makefile
- create mode 100644 tools/tdx/attest/tdx-attest-test.c
 
-diff --git a/tools/Makefile b/tools/Makefile
-index 7e9d34ddd74c..5d68084511cb 100644
---- a/tools/Makefile
-+++ b/tools/Makefile
-@@ -30,6 +30,7 @@ help:
- 	@echo '  selftests              - various kernel selftests'
- 	@echo '  bootconfig             - boot config tool'
- 	@echo '  spi                    - spi tools'
-+	@echo '  tdx                    - TDX related test tools'
- 	@echo '  tmon                   - thermal monitoring and tuning tool'
- 	@echo '  tracing                - misc tracing tools'
- 	@echo '  turbostat              - Intel CPU idle stats and freq reporting tool'
-@@ -65,7 +66,7 @@ acpi: FORCE
- cpupower: FORCE
- 	$(call descend,power/$@)
+Changelog:
+V2: Move to using gpiod lookup tables, misc cleanups
+V1: Initial Patch
+
+ drivers/platform/x86/Kconfig        |  13 ++
+ drivers/platform/x86/Makefile       |   3 +
+ drivers/platform/x86/meraki-mx100.c | 212 ++++++++++++++++++++++++++++
+ 3 files changed, 228 insertions(+)
+ create mode 100644 drivers/platform/x86/meraki-mx100.c
+
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 7d385c3b2239..8d70176e335f 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -302,6 +302,19 @@ config ASUS_NB_WMI
+ 	  If you have an ACPI-WMI compatible Asus Notebook, say Y or M
+ 	  here.
  
--cgroup firewire hv guest bootconfig spi usb virtio vm bpf iio gpio objtool leds wmi pci firmware debugging tracing: FORCE
-+cgroup firewire hv guest bootconfig spi usb virtio vm bpf iio gpio objtool leds wmi pci firmware debugging tracing tdx: FORCE
- 	$(call descend,$@)
++config MERAKI_MX100
++	tristate "Cisco Meraki MX100 Platform Driver"
++	depends on GPIOLIB
++	depends on GPIO_ICH
++	depends on LEDS_CLASS
++	select LEDS_GPIO
++	help
++	  This driver provides support for the front button and LEDs on
++	  the Cisco Meraki MX100 (Tinkerbell) 1U appliance.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called meraki-mx100.
++
+ config EEEPC_LAPTOP
+ 	tristate "Eee PC Hotkey Driver"
+ 	depends on ACPI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 7ee369aab10d..25c5aee1cde7 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -39,6 +39,9 @@ obj-$(CONFIG_ASUS_NB_WMI)	+= asus-nb-wmi.o
+ obj-$(CONFIG_EEEPC_LAPTOP)	+= eeepc-laptop.o
+ obj-$(CONFIG_EEEPC_WMI)		+= eeepc-wmi.o
  
- bpf/%: FORCE
-@@ -104,7 +105,7 @@ all: acpi cgroup cpupower gpio hv firewire liblockdep \
- 		perf selftests bootconfig spi turbostat usb \
- 		virtio vm bpf x86_energy_perf_policy \
- 		tmon freefall iio objtool kvm_stat wmi \
--		pci debugging tracing
-+		pci debugging tracing tdx
++# Cisco/Meraki
++obj-$(CONFIG_MERAKI_MX100)	+= meraki-mx100.o
++
+ # Dell
+ obj-$(CONFIG_X86_PLATFORM_DRIVERS_DELL)		+= dell/
  
- acpi_install:
- 	$(call descend,power/$(@:_install=),install)
-@@ -112,7 +113,7 @@ acpi_install:
- cpupower_install:
- 	$(call descend,power/$(@:_install=),install)
- 
--cgroup_install firewire_install gpio_install hv_install iio_install perf_install bootconfig_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install debugging_install tracing_install:
-+cgroup_install firewire_install gpio_install hv_install iio_install perf_install bootconfig_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install debugging_install tracing_install tdx_install:
- 	$(call descend,$(@:_install=),install)
- 
- liblockdep_install:
-@@ -139,7 +140,7 @@ install: acpi_install cgroup_install cpupower_install gpio_install \
- 		virtio_install vm_install bpf_install x86_energy_perf_policy_install \
- 		tmon_install freefall_install objtool_install kvm_stat_install \
- 		wmi_install pci_install debugging_install intel-speed-select_install \
--		tracing_install
-+		tracing_install tdx_install
- 
- acpi_clean:
- 	$(call descend,power/acpi,clean)
-@@ -147,7 +148,7 @@ acpi_clean:
- cpupower_clean:
- 	$(call descend,power/cpupower,clean)
- 
--cgroup_clean hv_clean firewire_clean bootconfig_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean firmware_clean debugging_clean tracing_clean:
-+cgroup_clean hv_clean firewire_clean bootconfig_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean firmware_clean debugging_clean tracing_clean tdx_clean:
- 	$(call descend,$(@:_clean=),clean)
- 
- liblockdep_clean:
-@@ -186,6 +187,6 @@ clean: acpi_clean cgroup_clean cpupower_clean hv_clean firewire_clean \
- 		vm_clean bpf_clean iio_clean x86_energy_perf_policy_clean tmon_clean \
- 		freefall_clean build_clean libbpf_clean libsubcmd_clean liblockdep_clean \
- 		gpio_clean objtool_clean leds_clean wmi_clean pci_clean firmware_clean debugging_clean \
--		intel-speed-select_clean tracing_clean
-+		intel-speed-select_clean tracing_clean tdx_clean
- 
- .PHONY: FORCE
-diff --git a/tools/tdx/Makefile b/tools/tdx/Makefile
+diff --git a/drivers/platform/x86/meraki-mx100.c b/drivers/platform/x86/meraki-mx100.c
 new file mode 100644
-index 000000000000..e2564557d463
+index 000000000000..d64508aeb92c
 --- /dev/null
-+++ b/tools/tdx/Makefile
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0
-+include ../scripts/Makefile.include
++++ b/drivers/platform/x86/meraki-mx100.c
+@@ -0,0 +1,212 @@
++// SPDX-License-Identifier: GPL-2.0+
 +
-+all: attest
-+
-+clean: attest_clean
-+
-+install: attest_install
-+
-+attest:
-+	$(call descend,attest)
-+
-+attest_install:
-+	$(call descend,attest,install)
-+
-+attest_clean:
-+	$(call descend,attest,clean)
-+
-+.PHONY: all install clean attest latency_install latency_clean
-diff --git a/tools/tdx/attest/.gitignore b/tools/tdx/attest/.gitignore
-new file mode 100644
-index 000000000000..5f819a8a6c49
---- /dev/null
-+++ b/tools/tdx/attest/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+tdx-attest-test
-diff --git a/tools/tdx/attest/Makefile b/tools/tdx/attest/Makefile
-new file mode 100644
-index 000000000000..bf47ba718386
---- /dev/null
-+++ b/tools/tdx/attest/Makefile
-@@ -0,0 +1,24 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Makefile for vm tools
-+#
-+VAR_CFLAGS := $(shell pkg-config --cflags libtracefs 2>/dev/null)
-+VAR_LDLIBS := $(shell pkg-config --libs libtracefs 2>/dev/null)
-+
-+TARGETS = tdx-attest-test
-+CFLAGS = -static -Wall -Wextra -g -O2 $(VAR_CFLAGS)
-+LDFLAGS = -lpthread $(VAR_LDLIBS)
-+
-+all: $(TARGETS)
-+
-+%: %.c
-+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
-+
-+clean:
-+	$(RM) tdx-attest-test
-+
-+prefix ?= /usr/local
-+sbindir ?= ${prefix}/sbin
-+
-+install: all
-+	install -d $(DESTDIR)$(sbindir)
-+	install -m 755 -p $(TARGETS) $(DESTDIR)$(sbindir)
-diff --git a/tools/tdx/attest/tdx-attest-test.c b/tools/tdx/attest/tdx-attest-test.c
-new file mode 100644
-index 000000000000..cff33c3a0c32
---- /dev/null
-+++ b/tools/tdx/attest/tdx-attest-test.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * tdx-attest-test.c - utility to test TDX attestation feature.
++ * Cisco Meraki MX100 (Tinkerbell) board platform driver
 + *
-+ * Copyright (C) 2020 - 2021 Intel Corporation. All rights reserved.
++ * Based off of arch/x86/platform/meraki/tink.c from the
++ * Meraki GPL release meraki-firmware-sources-r23-20150601
 + *
-+ * Author: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
++ * Format inspired by platform/x86/pcengines-apuv2.c
 + *
++ * Copyright (C) 2021 Chris Blake <chrisrblake93@gmail.com>
 + */
 +
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+#include <sys/ioctl.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <stdio.h>
-+#include <ctype.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <limits.h>
-+#include <stdbool.h>
-+#include <getopt.h>
-+#include <stdint.h> /* uintmax_t */
-+#include <sys/mman.h>
-+#include <unistd.h> /* sysconf */
-+#include <time.h>
++#define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
 +
-+#include "../../../include/uapi/misc/tdx.h"
++#include <linux/dmi.h>
++#include <linux/err.h>
++#include <linux/gpio.h>
++#include <linux/gpio_keys.h>
++#include <linux/gpio/machine.h>
++#include <linux/input.h>
++#include <linux/kernel.h>
++#include <linux/leds.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
 +
-+#define devname		"/dev/tdx-attest"
++#define TINK_GPIO_DRIVER_NAME "gpio_ich"
 +
-+#define HEX_DUMP_SIZE	16
-+#define MAX_ROW_SIZE	70
-+
-+#define ATTESTATION_TEST_BIN_VERSION "0.1"
-+
-+struct tdx_attest_args {
-+	bool is_dump_data;
-+	bool is_get_tdreport;
-+	bool is_get_quote_size;
-+	bool is_gen_quote;
-+	bool debug_mode;
-+	char *out_file;
++/* LEDs */
++static const struct gpio_led tink_leds[] = {
++	{
++		.name = "mx100:green:internet",
++		.default_trigger = "default-on",
++	},
++	{
++		.name = "mx100:green:lan2",
++	},
++	{
++		.name = "mx100:green:lan3",
++	},
++	{
++		.name = "mx100:green:lan4",
++	},
++	{
++		.name = "mx100:green:lan5",
++	},
++	{
++		.name = "mx100:green:lan6",
++	},
++	{
++		.name = "mx100:green:lan7",
++	},
++	{
++		.name = "mx100:green:lan8",
++	},
++	{
++		.name = "mx100:green:lan9",
++	},
++	{
++		.name = "mx100:green:lan10",
++	},
++	{
++		.name = "mx100:green:lan11",
++	},
 +};
 +
-+static void print_hex_dump(const char *title, const char *prefix_str,
-+			   const void *buf, int len)
-+{
-+	const __u8 *ptr = buf;
-+	int i, rowsize = HEX_DUMP_SIZE;
++static const struct gpio_led_platform_data tink_leds_pdata = {
++	.num_leds	= ARRAY_SIZE(tink_leds),
++	.leds		= tink_leds,
++};
 +
-+	if (!len || !buf)
-+		return;
-+
-+	printf("\t\t%s", title);
-+
-+	for (i = 0; i < len; i++) {
-+		if (!(i % rowsize))
-+			printf("\n%s%.8x:", prefix_str, i);
-+		printf(" %.2x", ptr[i]);
++static struct gpiod_lookup_table tink_leds_table = {
++	.dev_id = "leds-gpio",
++	.table = {
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 11,
++				NULL, 0, GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 18,
++				NULL, 1, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 20,
++				NULL, 2, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 22,
++				NULL, 3, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 23,
++				NULL, 4, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 32,
++				NULL, 5, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 34,
++				NULL, 6, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 35,
++				NULL, 7, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 36,
++				NULL, 8, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 37,
++				NULL, 9, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 48,
++				NULL, 10, GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 16,
++				NULL, 11, GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 7,
++				NULL, 12, GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 21,
++				NULL, 13, GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 19,
++				NULL, 14, GPIO_ACTIVE_LOW),
 +	}
++};
 +
-+	printf("\n");
++/* Reset Button */
++static struct gpio_keys_button tink_buttons[] = {
++	{
++		.desc			= "Reset",
++		.type			= EV_KEY,
++		.code			= KEY_RESTART,
++		.active_low             = 1,
++		.debounce_interval      = 100,
++	},
++};
++
++static const struct gpio_keys_platform_data tink_buttons_pdata = {
++	.buttons	= tink_buttons,
++	.nbuttons	= ARRAY_SIZE(tink_buttons),
++	.poll_interval  = 20,
++	.rep		= 0,
++	.name		= "mx100-keys",
++};
++
++static struct gpiod_lookup_table tink_keys_table = {
++	.dev_id = "gpio-keys-polled",
++	.table = {
++		GPIO_LOOKUP_IDX(TINK_GPIO_DRIVER_NAME, 60,
++				NULL, 0, GPIO_ACTIVE_LOW),
++	}
++};
++
++/* Board setup */
++
++static const struct dmi_system_id tink_systems[] __initconst = {
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Cisco"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "MX100-HW"),
++		},
++	},
++	{} /* Terminating entry */
++};
++
++static struct platform_device *tink_leds_pdev;
++static struct platform_device *tink_keys_pdev;
++
++static struct platform_device * __init tink_create_dev(
++	const char *name,
++	const void *pdata,
++	size_t sz)
++{
++	struct platform_device *pdev;
++
++	pdev = platform_device_register_data(NULL,
++		name,
++		PLATFORM_DEVID_NONE,
++		pdata,
++		sz);
++
++	if (IS_ERR(pdev))
++		pr_err("failed registering %s: %ld\n", name, PTR_ERR(pdev));
++
++	return pdev;
 +}
 +
-+static void gen_report_data(__u8 *report_data, bool dump_data)
++static int __init tink_board_init(void)
 +{
-+	int i;
++	if (!dmi_first_match(tink_systems))
++                return -ENODEV;
 +
-+	srand(time(NULL));
++	/* We need to make sure that GPIO60 isn't set to native mode as is default since it's our 
++	 * Reset Button. To do this, write to GPIO_USE_SEL2 to have GPIO60 set to GPIO mode.
++	 * This is documented on page 1609 of the PCH datasheet, order number 327879-005US
++	 */
++	outl(inl(0x530) | BIT(28), 0x530);
 +
-+	for (i = 0; i < TDX_REPORT_DATA_LEN; i++)
-+		report_data[i] = rand();
++	gpiod_add_lookup_table(&tink_leds_table);
++	gpiod_add_lookup_table(&tink_keys_table);
 +
-+	if (dump_data)
-+		print_hex_dump("\n\t\tTDX report data\n", " ",
-+			       report_data, TDX_REPORT_DATA_LEN);
-+}
++	tink_leds_pdev = tink_create_dev(
++		"leds-gpio",
++		&tink_leds_pdata,
++		sizeof(tink_leds_pdata));
 +
-+static int get_tdreport(int devfd, bool dump_data, __u8 *report_data)
-+{
-+	__u8 tdrdata[TDX_TDREPORT_LEN] = {0};
-+	int ret;
-+
-+	if (!report_data)
-+		report_data = tdrdata;
-+
-+	gen_report_data(report_data, dump_data);
-+
-+	ret = ioctl(devfd, TDX_CMD_GET_TDREPORT, report_data);
-+	if (ret) {
-+		printf("TDX_CMD_GET_TDREPORT ioctl() %d failed\n", ret);
-+		return -EIO;
-+	}
-+
-+	if (dump_data)
-+		print_hex_dump("\n\t\tTDX tdreport data\n", " ", report_data,
-+			       TDX_TDREPORT_LEN);
++	tink_keys_pdev = tink_create_dev(
++		"gpio-keys-polled",
++		&tink_buttons_pdata,
++		sizeof(tink_buttons_pdata));
 +
 +	return 0;
 +}
 +
-+static __u64 get_quote_size(int devfd)
++static void __exit tink_board_exit(void)
 +{
-+	int ret;
-+	__u64 quote_size;
-+
-+	ret = ioctl(devfd, TDX_CMD_GET_QUOTE_SIZE, &quote_size);
-+	if (ret) {
-+		printf("TDX_CMD_GET_QUOTE_SIZE ioctl() %d failed\n", ret);
-+		return -EIO;
-+	}
-+
-+	printf("Quote size: %lld\n", quote_size);
-+
-+	return quote_size;
++	platform_device_unregister(tink_keys_pdev);
++	platform_device_unregister(tink_leds_pdev);
++	gpiod_remove_lookup_table(&tink_keys_table);
++	gpiod_remove_lookup_table(&tink_leds_table);
 +}
 +
-+static int gen_quote(int devfd, bool dump_data)
-+{
-+	__u8 *quote_data;
-+	__u64 quote_size;
-+	int ret;
++module_init(tink_board_init);
++module_exit(tink_board_exit);
 +
-+	quote_size = get_quote_size(devfd);
-+
-+	quote_data = malloc(sizeof(char) * quote_size);
-+	if (!quote_data) {
-+		printf("%s queue data alloc failed\n", devname);
-+		return -ENOMEM;
-+	}
-+
-+	ret = get_tdreport(devfd, dump_data, quote_data);
-+	if (ret) {
-+		printf("TDX_CMD_GET_TDREPORT ioctl() %d failed\n", ret);
-+		goto done;
-+	}
-+
-+	ret = ioctl(devfd, TDX_CMD_GEN_QUOTE, quote_data);
-+	if (ret) {
-+		printf("TDX_CMD_GEN_QUOTE ioctl() %d failed\n", ret);
-+		goto done;
-+	}
-+
-+	print_hex_dump("\n\t\tTDX Quote data\n", " ", quote_data,
-+		       quote_size);
-+
-+done:
-+	free(quote_data);
-+
-+	return ret;
-+}
-+
-+static void usage(void)
-+{
-+	puts("\nUsage:\n");
-+	puts("tdx_attest [options] \n");
-+
-+	puts("Attestation device test utility.");
-+
-+	puts("\nOptions:\n");
-+	puts(" -d, --dump                Dump tdreport/tdquote data");
-+	puts(" -r, --get-tdreport        Get TDREPORT data");
-+	puts(" -g, --gen-quote           Generate TDQUOTE");
-+	puts(" -s, --get-quote-size      Get TDQUOTE size");
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int ret, devfd;
-+	struct tdx_attest_args args = {0};
-+
-+	static const struct option longopts[] = {
-+		{ "dump",           no_argument,       NULL, 'd' },
-+		{ "get-tdreport",   required_argument, NULL, 'r' },
-+		{ "gen-quote",      required_argument, NULL, 'g' },
-+		{ "gen-quote-size", required_argument, NULL, 's' },
-+		{ "version",        no_argument,       NULL, 'V' },
-+		{ NULL,             0, NULL, 0 }
-+	};
-+
-+	while ((ret = getopt_long(argc, argv, "hdrgsV", longopts,
-+				  NULL)) != -1) {
-+		switch (ret) {
-+		case 'd':
-+			args.is_dump_data = true;
-+			break;
-+		case 'r':
-+			args.is_get_tdreport = true;
-+			break;
-+		case 'g':
-+			args.is_gen_quote = true;
-+			break;
-+		case 's':
-+			args.is_get_quote_size = true;
-+			break;
-+		case 'h':
-+			usage();
-+			return 0;
-+		case 'V':
-+			printf("Version: %s\n", ATTESTATION_TEST_BIN_VERSION);
-+			return 0;
-+		default:
-+			printf("Invalid options\n");
-+			usage();
-+			return -EINVAL;
-+		}
-+	}
-+
-+	devfd = open(devname, O_RDWR | O_SYNC);
-+	if (devfd < 0) {
-+		printf("%s open() failed\n", devname);
-+		return -ENODEV;
-+	}
-+
-+	if (args.is_get_quote_size)
-+		get_quote_size(devfd);
-+
-+	if (args.is_get_tdreport)
-+		get_tdreport(devfd, args.is_dump_data, NULL);
-+
-+	if (args.is_gen_quote)
-+		gen_quote(devfd, args.is_dump_data);
-+
-+	close(devfd);
-+
-+	return 0;
-+}
++MODULE_AUTHOR("Chris Blake <chrisrblake93@gmail.com>");
++MODULE_DESCRIPTION("Cisco Meraki MX100 Platform Driver");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:meraki-mx100");
++MODULE_DEVICE_TABLE(dmi, tink_systems);
++MODULE_SOFTDEP("pre: platform:" TINK_GPIO_DRIVER_NAME);
 -- 
 2.25.1
 
