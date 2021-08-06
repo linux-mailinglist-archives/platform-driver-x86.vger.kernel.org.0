@@ -2,84 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 614703E2C06
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Aug 2021 15:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F12543E2C19
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  6 Aug 2021 16:10:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234469AbhHFN7t (ORCPT
+        id S236594AbhHFOKu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 6 Aug 2021 09:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52360 "EHLO
+        Fri, 6 Aug 2021 10:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233195AbhHFN7s (ORCPT
+        with ESMTP id S235207AbhHFOKs (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 6 Aug 2021 09:59:48 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9581CC0613CF;
-        Fri,  6 Aug 2021 06:59:31 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id u2so7160906plg.10;
-        Fri, 06 Aug 2021 06:59:31 -0700 (PDT)
+        Fri, 6 Aug 2021 10:10:48 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A60C06179A
+        for <platform-driver-x86@vger.kernel.org>; Fri,  6 Aug 2021 07:10:32 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id g21so13240868edb.4
+        for <platform-driver-x86@vger.kernel.org>; Fri, 06 Aug 2021 07:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KRjDRWgaNwkdAtRmE+wENibg7DwdZ2FHjDrltJLcerM=;
-        b=lkv4+Zm1+rKewfeLyXqO6tc6do22YxiIq73VskDjwQNWY+u3eNrhNacPC9tM5Xpcdt
-         CyEFBibxXzhXYNAqH6oljkuRgMqn9GEbi4ems927fsbo1upfN3RDzBqlLerwX7Rk0n+q
-         NKydbA6wptRSMBKpdPmTEz51Fkg8zaVUsvjNBj3J5VyZRObmKNT4QC1Yruebg3PZC4uT
-         xzAaMrIGwfchmlqkKa2wv21SBZO/UnTlVKlhCDhZwObJqi2nE/Lv4VgnfYInq/X6N8xF
-         Lhfrm2rE030eHHPbZI7XZWLg87Kxdubm7BVckfFxpy2UY6+pnGEuBUzRRwEVAl20QN79
-         b6Kg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=q3xyYt1HrVQnyL1KZndhIFKim0Z6RZXWCajZa6+jKaUt/xPBmWrU2b2TpwIqgxHoY3
+         6sUeXJPoUC3zz+xqx5Y/7bh16ON7BcCcP2liy5jl/yv+hyxVGmxIcBCDJXoapuOO0RIl
+         REN9Zv+ClhtVVEMybVDTEUTnyt+YraWqvgNO4CiPEvSNbjJp0ymaQzc4FwPALfOqM4La
+         f+KzIMXFoGuca5XlZdCXXnnqi+xUiOGsem/cV9JUjNFonSZWOzEGazowyEr2eG3dp5DR
+         pLBa7cN2FmOkeXw/dSFAaB7k29Eu0Yivashc8iQbXHlro4ZoI7aiyRP21+G8wGDlMmu6
+         HPDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KRjDRWgaNwkdAtRmE+wENibg7DwdZ2FHjDrltJLcerM=;
-        b=WWZgUbHCjY+Ly+BTKrKVKWoGodCqLGXwZEhsymfGXwaxJR+WPopSdaCvM0tvrRuWsm
-         Lsw4jvwcf+A6X4a+v+eUpTf0exBXPyIHWOIzFYRYNrFdU4TEo8L7QFFD8uNqJXwbjEDP
-         D09HSPcDRpzVDx23pf5rf53mIhTZOknnxRbXvxrRV4LejVMsf8I8husPXITPOJ8rUA/J
-         E3bcxQQ1opUr7xSd8RvUhUhs/0TaexfgA1tuldjebTavCX0iCt0FMC916FwQ5KnHuNAG
-         ZwY21NayKejM2yV2LuizvZOTgcnQKRZYZ1s/2Xo9PZs9aN1reRpRMtVLOhdfKobvFV32
-         ntrg==
-X-Gm-Message-State: AOAM533ItH1gpyRtYmY/nPR6q/+tnoLYHrLrajrNsQ3JmoAlFY/viOdr
-        o6MOS7J1qeTiJzL9yoj1vj2dSE6RXrxQ+22PDVQ=
-X-Google-Smtp-Source: ABdhPJxWUsy/GtwYEOqq/xcPJsJT6Qn4hf4gJpXGviRrI0Fg0P22SphYXeoEFZZmtuN23wPiRb5tU1hdG/xyjK3SNH4=
-X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr21318327pjq.181.1628258370971;
- Fri, 06 Aug 2021 06:59:30 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=NwbTRjMh0+BtR42SKHcLiHW0bc9G6dyCMPMdEaVT2DKtqgxyEFYFQ3bs/L3oxrJD0L
+         yjjeJGdfL1ylixfVjotOYysHkK9jBeTAvgZQiYOIdjnBOEPqL4eSJ+0la4ZIcUOU/MpL
+         BwffoDd7XvhOUYRnqS66PKkH/USg9A4Yjc8GjyiWFnl4ZK6GC9vmBDK5FnrNLVT0N/sn
+         vdTfz7cP2PPE1FPpZ2UK1b/n0lTBwGTpVzcbcX8N24IegyRl7LgxPmXyNkoDoII4yieG
+         tOie1SuxXvnykDiI1Gk4HixLrdi8FDeV4Z+JDKMr5OCmSnsfbPfHzchvAW3OCvvExaMP
+         c4UQ==
+X-Gm-Message-State: AOAM5300LO5E+lwqJWGmN5IN51RKGmWZuLQOhli+RvXTGeFDe12re7PE
+        syDJ3IVLgK0jEPUN7k74Xvc6YMSBNuXlyNoOzg==
+X-Google-Smtp-Source: ABdhPJx229jhz+o+nQwdgIkoqR5HwLh3S4+JGHt0eG+5fB4X3WTmNmInTj1ZpuXDIVm9CYEhhFZzLyuZYbLrplGdX6A=
+X-Received: by 2002:a05:6402:3094:: with SMTP id de20mr13526197edb.272.1628259031175;
+ Fri, 06 Aug 2021 07:10:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210806005755.2295193-1-chrisrblake93@gmail.com>
- <CAHp75VenSw9BanwH58VSCNpw4cNFf7h3uSWTXLb5n0+OPtnDTQ@mail.gmail.com> <b5430038-c18c-6037-44d1-a3c0089645a1@redhat.com>
-In-Reply-To: <b5430038-c18c-6037-44d1-a3c0089645a1@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 6 Aug 2021 16:58:51 +0300
-Message-ID: <CAHp75VeUcrHuBOW9LJ=sPR0atxoEEe19mpD32UfjY1NncD5dLA@mail.gmail.com>
-Subject: Re: [PATCH v2] platform/x86: add meraki-mx100 platform driver
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Chris Blake <chrisrblake93@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Christian Lamparter <chunkeey@gmail.com>
+Received: by 2002:a54:26cf:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:10:30 -0700 (PDT)
+Reply-To: mrmaxwellwatford@gmail.com
+From:   Maxwell Watford <orchowskiruthi@gmail.com>
+Date:   Fri, 6 Aug 2021 14:10:30 +0000
+Message-ID: <CA+q9Q6OJB6Z0+y=5_3MBDNGkAUG9rVxg7bZVma38uDOvJ+sOGw@mail.gmail.com>
+Subject: i need your reply
+To:     orchowskiruthi@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Aug 6, 2021 at 4:55 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 8/6/21 9:52 AM, Andy Shevchenko wrote:
-> > On Fri, Aug 6, 2021 at 5:47 AM Chris Blake <chrisrblake93@gmail.com> wrote:
+Greetings,
 
-...
+We are writing to you from Ecowas Finance Controller Office Lome Togo,
+because we have received a file from the Ministry of Finance Lome-
+Togo, concerning an Inherited Fund bearing your name on it, And after
+our verifications, we found out that the funds belong to you.
 
-> >> +#include <linux/gpio/machine.h>
-> >
-> > Does this provide a GPIO controller driver? I don't think so.
->
-> Actually GPIO controller drivers use <linux/gpio/driver.h>
-> <linux/gpio/machine.h> for board files / glue code which
-> e.g. needs to add lookup-tables, which this code does,
-> so including this header is correct.
+It has been awarded and I will like to guide you to claim the funds.
+Please contact me at my private email address
+(mrmaxwellwatford@gmail.com) for more information and directive
 
-Ah, indeed. I stand corrected.
-
--- 
-With Best Regards,
-Andy Shevchenko
+I am looking forward to your urgent reply,
+Best regards
+Mr Maxwell Watford
