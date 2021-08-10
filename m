@@ -2,79 +2,92 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82CA23E54B4
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Aug 2021 09:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E7313E5690
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Aug 2021 11:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237978AbhHJH7E (ORCPT
+        id S238804AbhHJJRF (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 Aug 2021 03:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237777AbhHJH7E (ORCPT
+        Tue, 10 Aug 2021 05:17:05 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:51294 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238777AbhHJJQ7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 Aug 2021 03:59:04 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3E9C06179A
-        for <platform-driver-x86@vger.kernel.org>; Tue, 10 Aug 2021 00:58:42 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id a13so30970108iol.5
-        for <platform-driver-x86@vger.kernel.org>; Tue, 10 Aug 2021 00:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=JUA0YLPs7bMHTTlI6x2nDRqotDGxVDpcu3uzrO8nPUA=;
-        b=F2B6BA/4tCCMq50gZgHfYqRnHvpboz/plpIBdWozYEc3Rt5fpso6L8jIdGqSMdjyyK
-         U+CgMMV42Ve/DQ019tv7MdMG0L9O1fkonxgKcMrACD5kG1QJqsYIks57Dbu9i8kgoTM/
-         dIQ0C4kKRlpCIBh7Ho5LIDw8CR70phGRjKWZ6/nfTSN3Rab0JuAIpeo0lYUsXbIJLTAW
-         0xNT9IJuxKMAhSHZR75e+I41tTOGoRfDXOEce9laGnY/3NPz+8L4CgLD0TEnyctxl+jD
-         XGMCwjZ/Eheq545X26yAjdzQ3Rw717NFzI6dJQ2RuGIjDNJi04UaC4BPEHh0x5Pc1G60
-         yf+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=JUA0YLPs7bMHTTlI6x2nDRqotDGxVDpcu3uzrO8nPUA=;
-        b=UphGRgO/gwpSH6Qad/bOhT5x2AS/S6WG/Xa1hMbpBwKCKoeRqNxFC90CczoDOZEYIw
-         KjIyGlVNzlxBuc2X9KYIfsZ5+Cu2V07WGBeuEM5KMWz9YJ5balUc+rLTD94Bog+BCUAa
-         Gj8cT/1/fuHTa2s0bQsZwCmBK20E0OG8ExnmAL82FAkDnCqC2ccmNSiLlFgvK2cRUY0J
-         5i/bfRI8QOoiv/U71gl/d39qVjBii+80sh5jhrMMvLVUPJM/k/dXWz7ygyHY8FTmc3dO
-         mlm5/YUVSh2BcbNEg1tw0SAXwcCA712NqbSelEsK3p3dhVx2pwRY0APkFASr+k1fC0wd
-         NBfw==
-X-Gm-Message-State: AOAM530ZDW93ENhQGcIyJ6DZ6+JGdQqvNVshHxql94BVMZ2sSKwUpI79
-        URDiz+gKqeO5f4Ba/1uzHJfxOhjtLw4FpcHSobc=
-X-Google-Smtp-Source: ABdhPJyClfQasoECCcq5/fAqv36lHz7Wl8M+pWUD9e+fQzGzwQwAUgWtWZER9h3FOOPB1i0IzMO2GelYR49HSwItEG0=
-X-Received: by 2002:a05:6638:208:: with SMTP id e8mr26003121jaq.66.1628582321148;
- Tue, 10 Aug 2021 00:58:41 -0700 (PDT)
+        Tue, 10 Aug 2021 05:16:59 -0400
+Received: from zn.tnic (p200300ec2f0d65002f77173b43e63b63.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6500:2f77:173b:43e6:3b63])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 32D221EC01B7;
+        Tue, 10 Aug 2021 11:16:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1628586988;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=7e+HGcOHJ96LFGWVJDME/h9ZcJWYWo7cdlDC8qUJl3Y=;
+        b=Hyiz6S9AveiAXpd7wTU8ZQM3+2JzRq/DaHuPlGM6Ou7O3jgv8sL12UwwrJ4VIDwUeR4O4e
+        8rTFGfeQxlxvrrg48r/pEYoZKC6y5SNfI3wKzdZhG+F/3Q644VAtkWyXNFnTR31GmiYIKZ
+        EGsiOkk1vDviIZy1rZDkLdz0L+2ypxY=
+Date:   Tue, 10 Aug 2021 11:17:07 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Brijesh Singh <brijesh.singh@amd.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-coco@lists.linux.dev, linux-mm@kvack.org,
+        linux-crypto@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>, tony.luck@intel.com,
+        npmccallum@redhat.com, brijesh.ksingh@gmail.com
+Subject: Re: [PATCH Part1 RFC v4 02/36] x86/sev: Save the negotiated GHCB
+ version
+Message-ID: <YRJEE6C/NC3Epa8G@zn.tnic>
+References: <20210707181506.30489-1-brijesh.singh@amd.com>
+ <20210707181506.30489-3-brijesh.singh@amd.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6602:2197:0:0:0:0 with HTTP; Tue, 10 Aug 2021 00:58:40
- -0700 (PDT)
-Reply-To: activobankofspain11@seznam.cz
-From:   ACTIVO BANK <krishinakrish417@gmail.com>
-Date:   Tue, 10 Aug 2021 00:58:40 -0700
-Message-ID: <CAGfATnD9=h3wtEQhoJ9KXFAm5spQuaMYaiMn33X4DuEAsVVRtw@mail.gmail.com>
-Subject: URGENT ATTENTION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210707181506.30489-3-brijesh.singh@amd.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+On Wed, Jul 07, 2021 at 01:14:32PM -0500, Brijesh Singh wrote:
+> diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+> index 114f62fe2529..19c2306ac02d 100644
+> --- a/arch/x86/kernel/sev-shared.c
+> +++ b/arch/x86/kernel/sev-shared.c
+> @@ -14,6 +14,15 @@
+>  #define has_cpuflag(f)	boot_cpu_has(f)
+>  #endif
+>  
+> +/*
+> + * Since feature negotiation related variables are set early in the boot
+> + * process they must reside in the .data section so as not to be zeroed
+> + * out when the .bss section is later cleared.
+> + *
+> + * GHCB protocol version negotiated with the hypervisor.
+> + */
+> +static u16 ghcb_version __section(".data..ro_after_init");
+
+There's a define for that section specifier: __ro_after_init
+
 -- 
- Dear Friend
+Regards/Gruss,
+    Boris.
 
-You have been compensated with the sum of  6 million dollars  with
-united nation through the help of the newly elected president due to
-covid 19 that has cause global economic hazard to so many lives. The
-swiss world bank has endorse the payment in collaboration with activo
-bank of spain.
-The payment will be issue into atm visa card and send to you from the
-activo bank through dhl courier service and other courier services
-company close to you in your country.  We need your home address, your
-phone number and your passport.
-
-Contact our email id: ( activobankofspain11@seznam.cz ) for your payment
-
-Kind
-
-Regards
-
-ACTIVO BANK
+https://people.kernel.org/tglx/notes-about-netiquette
