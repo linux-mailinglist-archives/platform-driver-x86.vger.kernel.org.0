@@ -2,201 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F963E57DB
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Aug 2021 12:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35E223E57F5
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 10 Aug 2021 12:06:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239622AbhHJKBq (ORCPT
+        id S239674AbhHJKGQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 10 Aug 2021 06:01:46 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:58868 "EHLO mail.skyhub.de"
+        Tue, 10 Aug 2021 06:06:16 -0400
+Received: from mga07.intel.com ([134.134.136.100]:59569 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238651AbhHJKBn (ORCPT
+        id S239669AbhHJKGP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 10 Aug 2021 06:01:43 -0400
-Received: from zn.tnic (p200300ec2f0d6500ceb5d19a4916b1c0.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6500:ceb5:d19a:4916:b1c0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A5ADF1EC0345;
-        Tue, 10 Aug 2021 12:01:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1628589673;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=oTu32iVimlCJBEs9G1dT+aamyt1Soz6HOUNPS9Il/NU=;
-        b=TKlN1ORdP1WE5hFE8kj3cV4QVXztsG+Uhq/HNqW/PUNvAPMXh9iebvzxOqUgmOn9CEUyg9
-        H2Ah1rvZ/TxW5aJyn+hR2a3k/BzYHVrYksOd7opuEhBdNF4GReu+6sXDIgaqXEsu5dtTE2
-        n0I7l+sppyJahrjxyF5KpRagkqDQxJU=
-Date:   Tue, 10 Aug 2021 12:01:53 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        linux-crypto@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Tue, 10 Aug 2021 06:06:15 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10070"; a="278619487"
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
+   d="scan'208";a="278619487"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 03:05:53 -0700
+X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
+   d="scan'208";a="638755375"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 03:05:48 -0700
+Received: by lahna (sSMTP sendmail emulation); Tue, 10 Aug 2021 13:05:45 +0300
+Date:   Tue, 10 Aug 2021 13:05:45 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Kate Hsuan <hpa@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Alex Hung <alex.hung@canonical.com>,
+        Sujith Thomas <sujith.thomas@intel.com>,
+        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+        David E Box <david.e.box@intel.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>, tony.luck@intel.com,
-        npmccallum@redhat.com, brijesh.ksingh@gmail.com
-Subject: Re: [PATCH Part1 RFC v4 02/36] x86/sev: Save the negotiated GHCB
- version
-Message-ID: <YRJOkQe0W9/HyjjQ@zn.tnic>
-References: <20210707181506.30489-1-brijesh.singh@amd.com>
- <20210707181506.30489-3-brijesh.singh@amd.com>
+        AceLan Kao <acelan.kao@canonical.com>,
+        Jithu Joseph <jithu.joseph@intel.com>,
+        Maurice Ma <maurice.ma@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-kernel@vger.kernel.org, Dell.Client.Kernel@dell.com,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 09/20] Move Intel SCU IPC of pdx86 to intel directory to
+ increase readability.
+Message-ID: <YRJPebbK3uQBU9K8@lahna>
+References: <20210810095832.4234-1-hpa@redhat.com>
+ <20210810095832.4234-10-hpa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210707181506.30489-3-brijesh.singh@amd.com>
+In-Reply-To: <20210810095832.4234-10-hpa@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Jul 07, 2021 at 01:14:32PM -0500, Brijesh Singh wrote:
-> The SEV-ES guest calls the sev_es_negotiate_protocol() to negotiate the
-> GHCB protocol version before establishing the GHCB. Cache the negotiated
-> GHCB version so that it can be used later.
-> 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+Hi,
+
+No objections, I think this is good idea but..
+
+On Tue, Aug 10, 2021 at 05:58:21PM +0800, Kate Hsuan wrote:
+
+.. I suggest to add proper commit message here. Many maintainers ignore
+patches that don't have one.
+
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 > ---
->  arch/x86/include/asm/sev.h   |  2 +-
->  arch/x86/kernel/sev-shared.c | 17 ++++++++++++++---
->  2 files changed, 15 insertions(+), 4 deletions(-)
-
-Also, while looking at this, all those defines in sev-common.h were
-bothering me for a while now because they're an unreadable mess because
-I have to go look at the GHCB spec, decode the corresponding MSR
-protocol request and then go and piece together each request value by
-verifying the masks...
-
-So I did the below which is, IMO, a lot more readable as you can follow
-it directly with the spec opened in parallel.
-
-Thus, if you don't have a better idea, I'd ask you to please add this to
-your set and continue defining the new MSR protocol requests this way so
-that it can be readable.
-
-Thx.
-
----
-From: Borislav Petkov <bp@suse.de>
-Date: Tue, 10 Aug 2021 11:39:57 +0200
-Subject: [PATCH] x86/sev: Get rid of excessive use of defines
-
-Remove all the defines of masks and bit positions for the GHCB MSR
-protocol and use comments instead which correspond directly to the spec
-so that following those can be a lot easier and straightforward with the
-spec opened in parallel to the code.
-
-Aligh vertically while at it.
-
-No functional changes.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
----
- arch/x86/include/asm/sev-common.h | 51 +++++++++++++++++--------------
- 1 file changed, 28 insertions(+), 23 deletions(-)
-
-diff --git a/arch/x86/include/asm/sev-common.h b/arch/x86/include/asm/sev-common.h
-index 855b0ec9c4e8..28244f8ebde2 100644
---- a/arch/x86/include/asm/sev-common.h
-+++ b/arch/x86/include/asm/sev-common.h
-@@ -18,20 +18,19 @@
- /* SEV Information Request/Response */
- #define GHCB_MSR_SEV_INFO_RESP		0x001
- #define GHCB_MSR_SEV_INFO_REQ		0x002
--#define GHCB_MSR_VER_MAX_POS		48
--#define GHCB_MSR_VER_MAX_MASK		0xffff
--#define GHCB_MSR_VER_MIN_POS		32
--#define GHCB_MSR_VER_MIN_MASK		0xffff
--#define GHCB_MSR_CBIT_POS		24
--#define GHCB_MSR_CBIT_MASK		0xff
--#define GHCB_MSR_SEV_INFO(_max, _min, _cbit)				\
--	((((_max) & GHCB_MSR_VER_MAX_MASK) << GHCB_MSR_VER_MAX_POS) |	\
--	 (((_min) & GHCB_MSR_VER_MIN_MASK) << GHCB_MSR_VER_MIN_POS) |	\
--	 (((_cbit) & GHCB_MSR_CBIT_MASK) << GHCB_MSR_CBIT_POS) |	\
-+
-+#define GHCB_MSR_SEV_INFO(_max, _min, _cbit)	\
-+	/* GHCBData[63:48] */			\
-+	((((_max) & 0xffff) << 48) |		\
-+	 /* GHCBData[47:32] */			\
-+	 (((_min) & 0xffff) << 32) |		\
-+	 /* GHCBData[31:24] */			\
-+	 (((_cbit) & 0xff)  << 24) |		\
- 	 GHCB_MSR_SEV_INFO_RESP)
-+
- #define GHCB_MSR_INFO(v)		((v) & 0xfffUL)
--#define GHCB_MSR_PROTO_MAX(v)		(((v) >> GHCB_MSR_VER_MAX_POS) & GHCB_MSR_VER_MAX_MASK)
--#define GHCB_MSR_PROTO_MIN(v)		(((v) >> GHCB_MSR_VER_MIN_POS) & GHCB_MSR_VER_MIN_MASK)
-+#define GHCB_MSR_PROTO_MAX(v)		(((v) >> 48) & 0xffff)
-+#define GHCB_MSR_PROTO_MIN(v)		(((v) >> 32) & 0xffff)
- 
- /* CPUID Request/Response */
- #define GHCB_MSR_CPUID_REQ		0x004
-@@ -46,27 +45,33 @@
- #define GHCB_CPUID_REQ_EBX		1
- #define GHCB_CPUID_REQ_ECX		2
- #define GHCB_CPUID_REQ_EDX		3
--#define GHCB_CPUID_REQ(fn, reg)		\
--		(GHCB_MSR_CPUID_REQ | \
--		(((unsigned long)reg & GHCB_MSR_CPUID_REG_MASK) << GHCB_MSR_CPUID_REG_POS) | \
--		(((unsigned long)fn) << GHCB_MSR_CPUID_FUNC_POS))
-+#define GHCB_CPUID_REQ(fn, reg)				\
-+	/* GHCBData[11:0] */				\
-+	(GHCB_MSR_CPUID_REQ |				\
-+	/* GHCBData[31:12] */				\
-+	(((unsigned long)reg & 0x3) << 30) |		\
-+	/* GHCBData[63:32] */				\
-+	(((unsigned long)fn) << 32))
- 
- /* AP Reset Hold */
--#define GHCB_MSR_AP_RESET_HOLD_REQ		0x006
--#define GHCB_MSR_AP_RESET_HOLD_RESP		0x007
-+#define GHCB_MSR_AP_RESET_HOLD_REQ	0x006
-+#define GHCB_MSR_AP_RESET_HOLD_RESP	0x007
- 
- /* GHCB Hypervisor Feature Request/Response */
--#define GHCB_MSR_HV_FT_REQ			0x080
--#define GHCB_MSR_HV_FT_RESP			0x081
-+#define GHCB_MSR_HV_FT_REQ		0x080
-+#define GHCB_MSR_HV_FT_RESP		0x081
- 
- #define GHCB_MSR_TERM_REQ		0x100
- #define GHCB_MSR_TERM_REASON_SET_POS	12
- #define GHCB_MSR_TERM_REASON_SET_MASK	0xf
- #define GHCB_MSR_TERM_REASON_POS	16
- #define GHCB_MSR_TERM_REASON_MASK	0xff
--#define GHCB_SEV_TERM_REASON(reason_set, reason_val)						  \
--	(((((u64)reason_set) &  GHCB_MSR_TERM_REASON_SET_MASK) << GHCB_MSR_TERM_REASON_SET_POS) | \
--	((((u64)reason_val) & GHCB_MSR_TERM_REASON_MASK) << GHCB_MSR_TERM_REASON_POS))
-+
-+#define GHCB_SEV_TERM_REASON(reason_set, reason_val)	\
-+	/* GHCBData[15:12] */				\
-+	(((((u64)reason_set) &  0xf) << 12) |		\
-+	 /* GHCBData[23:16] */				\
-+	((((u64)reason_val) & 0xff) << 16))
- 
- #define GHCB_SEV_ES_GEN_REQ		0
- #define GHCB_SEV_ES_PROT_UNSUPPORTED	1
--- 
-2.29.2
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>  drivers/platform/x86/Kconfig                  | 47 -----------------
+>  drivers/platform/x86/Makefile                 |  6 +--
+>  drivers/platform/x86/intel/Kconfig            |  1 +
+>  drivers/platform/x86/intel/Makefile           |  5 ++
+>  drivers/platform/x86/intel/scu/Kconfig        | 52 +++++++++++++++++++
+>  drivers/platform/x86/intel/scu/Makefile       | 11 ++++
+>  .../x86/{ => intel/scu}/intel_scu_ipc.c       |  0
+>  .../x86/{ => intel/scu}/intel_scu_ipcutil.c   |  0
+>  .../x86/{ => intel/scu}/intel_scu_pcidrv.c    |  0
+>  .../x86/{ => intel/scu}/intel_scu_pltdrv.c    |  0
+>  .../x86/{ => intel/scu}/intel_scu_wdt.c       |  0
+>  11 files changed, 70 insertions(+), 52 deletions(-)
+>  create mode 100644 drivers/platform/x86/intel/scu/Kconfig
+>  create mode 100644 drivers/platform/x86/intel/scu/Makefile
+>  rename drivers/platform/x86/{ => intel/scu}/intel_scu_ipc.c (100%)
+>  rename drivers/platform/x86/{ => intel/scu}/intel_scu_ipcutil.c (100%)
+>  rename drivers/platform/x86/{ => intel/scu}/intel_scu_pcidrv.c (100%)
+>  rename drivers/platform/x86/{ => intel/scu}/intel_scu_pltdrv.c (100%)
+>  rename drivers/platform/x86/{ => intel/scu}/intel_scu_wdt.c (100%)
