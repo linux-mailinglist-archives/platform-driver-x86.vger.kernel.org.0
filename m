@@ -2,106 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C954B3EDB00
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 16 Aug 2021 18:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF7293EDBE8
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 16 Aug 2021 19:02:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbhHPQeO (ORCPT
+        id S230294AbhHPRCs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 16 Aug 2021 12:34:14 -0400
-Received: from mail-oo1-f51.google.com ([209.85.161.51]:37438 "EHLO
-        mail-oo1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbhHPQeN (ORCPT
+        Mon, 16 Aug 2021 13:02:48 -0400
+Received: from mga12.intel.com ([192.55.52.136]:11939 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229587AbhHPRCq (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 16 Aug 2021 12:34:13 -0400
-Received: by mail-oo1-f51.google.com with SMTP id l12-20020a4a94cc0000b02902618ad2ea55so5124583ooi.4;
-        Mon, 16 Aug 2021 09:33:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Npl3687re0zAy93wFJYspXoC8QqmEW4jdOxZPs+XoC4=;
-        b=krqCNjoBH61L5AoY8q3J9VzTE1xxkqmcHuMVvhi1OCBDO6X55LQTmHur8iG7pHIao8
-         078C7Hc4/G392NG+UxRo8KnGwzo/QA+ZDIuX8OuVHQo83MbcOJPHwgw45YqjZP0vDwrr
-         9GNjq7zMchiDXkfjmIBbvUL7Gb+sI06IKG1pCkGg2vW1IIuWWKLIcagIq4s5hyG53Rqz
-         lah1/44dvYVJYMeD9dvtMxTcjAgiGsCQOd2/4uV6bdqLRYs9cQPtxDCWa0mG1+nzsxoT
-         sRjbbupq0BNRqOMidjqDNDrIw6ksqDbfzvfep4h8ORiwhk3K/2Cm/L7nnooL6cjVd4Th
-         yoZg==
-X-Gm-Message-State: AOAM530jhTyWOUbYfovJfuvKzAxmPMuDxHWJDTDEOoQF135r0gGXIdjV
-        LVmuxdjh4sK3yWceqcyajsD+Mrii2xvmt17T1s0=
-X-Google-Smtp-Source: ABdhPJyNmdpZhvbLiwbhP5y0AF/iSTrNp8KtOFnnYyZispzdJaIqX2v7UYdzjAB7ghRee7nqyynwncMJCR6vrLbbzAo=
-X-Received: by 2002:a4a:9c05:: with SMTP id y5mr12051396ooj.2.1629131621666;
- Mon, 16 Aug 2021 09:33:41 -0700 (PDT)
+        Mon, 16 Aug 2021 13:02:46 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10078"; a="195483009"
+X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; 
+   d="scan'208";a="195483009"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2021 10:02:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,326,1620716400"; 
+   d="scan'208";a="509814872"
+Received: from otcpl-manager.jf.intel.com (HELO localhost.localdomain) ([10.54.39.234])
+  by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2021 10:02:13 -0700
+From:   Gayatri Kammela <gayatri.kammela@intel.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     mgross@linux.intel.com, hdegoede@redhat.com,
+        irenic.rajneesh@gmail.com, andriy.shevchenko@linux.intel.com,
+        vicamo.yang@canonical.com, srinivas.pandruvada@intel.com,
+        david.e.box@intel.com, chao.qin@intel.com,
+        linux-kernel@vger.kernel.org, tamar.mashiah@intel.com,
+        gregkh@linuxfoundation.org, rajatja@google.com,
+        Shyam-sundar.S-k@amd.com, Alexander.Deucher@amd.com,
+        mlimonci@amd.com, Gayatri Kammela <gayatri.kammela@intel.com>
+Subject: [PATCH v7 0/5] Add Alder Lake PCH-S support to PMC core driver
+Date:   Mon, 16 Aug 2021 09:58:29 -0700
+Message-Id: <cover.1629091915.git.gayatri.kammela@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210816113007.88902-1-hdegoede@redhat.com>
-In-Reply-To: <20210816113007.88902-1-hdegoede@redhat.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 16 Aug 2021 18:33:30 +0200
-Message-ID: <CAJZ5v0jArWOehWeO16fhnOrJGLqoVyX0tSNtBKcFuqv6=rMB2Q@mail.gmail.com>
-Subject: Re: [PATCH] ACPI: platform-profile: call sysfs_notify() from platform_profile_store()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Len Brown <lenb@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-        "Luke D . Jones" <luke@ljones.dev>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 1:30 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Drivers like thinkpad_acpi and ideapad_laptop call the
-> platform_profile_notify() helper when the profile is changed by hardware
-> (the embedded-controller/EC) in response to an EC handled hotkey.
->
-> This allows userspace to monitor for such changes by polling for POLLPRI
-> on the platform_profile sysfs file. But the profile can also be changed
-> underneath a userspace program monitoring it by anonther userspace program
-> storing a new value.
->
-> Add a sysfs_notify() call to platform_profile_store(), so that userspace
-> programs monitoring for changes also get notified in this case.
->
-> Also update the documentation to document that POLLPRI polling can be
-> used to watch for changes.
->
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  Documentation/ABI/testing/sysfs-platform_profile | 7 +++++++
->  drivers/acpi/platform_profile.c                  | 3 +++
->  2 files changed, 10 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-platform_profile b/Documentation/ABI/testing/sysfs-platform_profile
-> index dae9c8941905..baf1d125f9f8 100644
-> --- a/Documentation/ABI/testing/sysfs-platform_profile
-> +++ b/Documentation/ABI/testing/sysfs-platform_profile
-> @@ -26,3 +26,10 @@ Contact:     Hans de Goede <hdegoede@redhat.com>
->  Description:   Reading this file gives the current selected profile for this
->                 device. Writing this file with one of the strings from
->                 platform_profile_choices changes the profile to the new value.
-> +
-> +               This file can be monitored for changes by polling for POLLPRI,
-> +               POLLPRI will be signalled on any changes, independent of those
-> +               changes coming from a userspace write; or coming from another
-> +               source such as e.g. a hotkey triggered profile change handled
-> +               either directly by the embedded-controller or fully handled
-> +               inside the kernel.
-> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
-> index dd2fbf38e414..d418462ab791 100644
-> --- a/drivers/acpi/platform_profile.c
-> +++ b/drivers/acpi/platform_profile.c
-> @@ -106,6 +106,9 @@ static ssize_t platform_profile_store(struct device *dev,
->         }
->
->         err = cur_profile->profile_set(cur_profile, i);
-> +       if (!err)
-> +               sysfs_notify(acpi_kobj, NULL, "platform_profile");
-> +
->         mutex_unlock(&profile_lock);
->         if (err)
->                 return err;
-> --
+Hi,
+The patch series move intel_pmc_core* files to pmc subfolder as well as
+add Alder Lake PCH-S support to PMC core driver.
 
-Applied as 5.15 material, thanks!
+Patch 1: Move intel_pmc_core* files to pmc subfolder
+Patch 2: Add Alderlake support to pmc core driver
+Patch 3: Add Latency Tolerance Reporting (LTR) support to Alder Lake
+Patch 4: Add Alder Lake low power mode support for pmc core
+Patch 5: Add GBE Package C10 fix for Alder Lake
+
+Changes since v1:
+1) Add patch 1 to v2 i.e., Move intel_pmc_core* files to pmc subfolder.
+2) Modify commit message for patch 2.
+
+Changes since v2:
+1) Dropped intel_pmc_ prefix from the file names.
+
+Changes since v3:
+1) Fixed an error reported by lkp.
+
+Changes since v4:
+1) Updated MAINTAINERS.
+
+Changes since v5:
+1) Fixed an module name error reported by Chao Qin.
+
+Changes since v6:
+1) Addressed the comments received from Andy.
+
+David E. Box (1):
+  platform/x86/intel: pmc/core: Add GBE Package C10 fix for Alder Lake
+    PCH
+
+Gayatri Kammela (4):
+  platform/x86/intel: intel_pmc_core: Move intel_pmc_core* files to pmc
+    subfolder
+  platform/x86/intel: pmc/core: Add Alderlake support to pmc core driver
+  platform/x86/intel: pmc/core: Add Latency Tolerance Reporting (LTR)
+    support to Alder Lake
+  platform/x86/intel: pmc/core: Add Alder Lake low power mode support
+    for pmc core
+
+ MAINTAINERS                                   |   2 +-
+ drivers/platform/x86/Kconfig                  |  21 --
+ drivers/platform/x86/Makefile                 |   1 -
+ drivers/platform/x86/intel/Kconfig            |   1 +
+ drivers/platform/x86/intel/Makefile           |   1 +
+ drivers/platform/x86/intel/pmc/Kconfig        |  22 ++
+ drivers/platform/x86/intel/pmc/Makefile       |   6 +
+ .../{intel_pmc_core.c => intel/pmc/core.c}    | 309 +++++++++++++++++-
+ .../{intel_pmc_core.h => intel/pmc/core.h}    |  17 +
+ .../pmc/core_platform.c}                      |   0
+ 10 files changed, 353 insertions(+), 27 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/pmc/Kconfig
+ create mode 100644 drivers/platform/x86/intel/pmc/Makefile
+ rename drivers/platform/x86/{intel_pmc_core.c => intel/pmc/core.c} (85%)
+ rename drivers/platform/x86/{intel_pmc_core.h => intel/pmc/core.h} (95%)
+ rename drivers/platform/x86/{intel_pmc_core_pltdrv.c => intel/pmc/core_platform.c} (100%)
+
+Cc: Srinivas Pandruvada <srinivas.pandruvada@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: David Box <david.e.box@intel.com>
+Cc: You-Sheng Yang <vicamo.yang@canonical.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>
+Cc: Chao Qin <chao.qin@intel.com>
+
+base-commit: 7c60610d476766e128cc4284bb6349732cbd6606
+-- 
+2.25.1
+
