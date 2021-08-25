@@ -2,249 +2,175 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F34C3F6C0D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Aug 2021 01:06:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC453F704D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 25 Aug 2021 09:24:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233422AbhHXXHa (ORCPT
+        id S238869AbhHYHZJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 24 Aug 2021 19:07:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232919AbhHXXH3 (ORCPT
+        Wed, 25 Aug 2021 03:25:09 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21632 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236402AbhHYHZI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 24 Aug 2021 19:07:29 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AA5C061757;
-        Tue, 24 Aug 2021 16:06:44 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id h4so3376089wro.7;
-        Tue, 24 Aug 2021 16:06:44 -0700 (PDT)
+        Wed, 25 Aug 2021 03:25:08 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17P1pUFR001041;
+        Wed, 25 Aug 2021 07:24:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=bNloc4HqEb/pnDkkKYkFHRElMpgZHOLm9whGNCrvhYE=;
+ b=f5qNrbVyDwGwjwL0NwpDGwKIpvHeY6IkaOxJ3ChVai5egRfp0vSWCYxnqzFSfRLDOkeu
+ Oq9fxGNhrmRQhEWnvVe7rNOanZM4QunbeE3uqE99ouhRxxMRcgv6TVv51KPReI6pGxww
+ g5ocJQmcOma5AN8IXhV8M/QgaTHF6ZXoHzztRb0+g5LlEzYXnFZwerJwjwfABZCO1Wbo
+ fSRSYDBtXpLorptvte4SFgJGj9by/DaysWV6hrXTM9JQzWtBjirJ8muncRzdG0xzKJTw
+ opJbslZD6r7mLO9XOHGfA3Nggs6tO2Ij/1+zMPezQbiFe9Iu6ckhNbkzjEfp5AIOikMt Hw== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
+ bh=bNloc4HqEb/pnDkkKYkFHRElMpgZHOLm9whGNCrvhYE=;
+ b=qGjHejpbBjKtDFPQGPHYYfjOJKIvVKE2BQwhASmi7IQc770TmG57eIs0lbmHqn2WeZEV
+ OCeVvfVFjiANXdd+8UE8oaLeQUmicX0FnUCp0QgqkxtcCqrQJakUac54VJrsGjGBv5nT
+ kHpcpRpGveOye1mtflkQAYw6B+WXaNTu49C1kX8DlkcnVbayPPYCaJbLwUOwBIaLyzXD
+ KXSKdsUYPqaz9vrgF7Vz/rmD6U62/OR7rr0NjKIEeDZPUd7JNXBrPzGefItEj6Ci12K5
+ N+RrEjJmOyMYBXVvk1ESM+ROYPVwAaAB82fRVEkDeC4zZpwxmod7dLsAeC34HkP6Gf0D kA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3amvtvttyw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Aug 2021 07:24:15 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17P7FQjo136030;
+        Wed, 25 Aug 2021 07:24:14 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
+        by aserp3030.oracle.com with ESMTP id 3ajqhg3hfd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 25 Aug 2021 07:24:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uh8aeX2ZatVpJUmL36TQbc3Z9vRL5+cPzalxLtSnzNw6Bi4PqDPAdIP3k1P95Wj2IK9Z1JYGKFh5HCWT6vzQHbOFaAGQ72Y/EjJ1ChJ8AUm5hVkolxpuTGiDoX8IS3joEJZQCPjJGiwI+BcuYCy4hlInQsMh+zqRc94r0m/FC3luVCIb1nbrhW2HDuJDZDCHd5FODaKFPGo6uDhUtolTsjI0I7x40qrgou4dupI8/kTULYFEvBQS7aCEWWUEMda3J+n0j3sP0xpIs5jGoQqEyYXB3Lnj54iXHpL0oQiO3oPrn09lMLuOVLLXrUFALRB4VaCwT2sHFG87ckW0gZmtlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bNloc4HqEb/pnDkkKYkFHRElMpgZHOLm9whGNCrvhYE=;
+ b=EB0vuRsrV10Y32b2NeeMGkh5373ILitT21yzEAgKG3LcIu2R8QsZOuq6gX96ZGnzvqqXR18NKqmkd1IFLaz4nvLiXc1noYAMiGp2PIkeUHG1q1t8l87BweM4L4xq3331YSGWLO4SYMGoX7P/N6ltHAZw+VqUeMBgcsGECuTt+YJv29u78IdmCfXdNmtGQS4pWWzq/uYL4caowYBIQkEz+f6w+e/OaiTFJEgtV5gYBNwLgSe6AXvjjPgFZTxyvVBMY+qQTETg9Vf4FcnGVronTeDIeVcy3lorGrc4hpXYgJewus9g3WEQoT8MI2kZz1moSQuINOBNIE8ebjANSiOm8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mu/ag5GKGBWwht6VOzxJtXe0HGbioRW+arz4tUnbIYc=;
-        b=LkW75YZSVVPiT/65SEiDzspNP9FZxl2SU4G/PXTkJdntISBsCc2FPrja2aWbKvsNfF
-         3/v6z/0IBmBWO4lHItKIj4YEQCG2IcT9O0O6DU+tHTGWOM/FsbBy4uvZiwEMH+qto8RW
-         sZMB4zzUI8SuHpgloJiBV8SQVB7/Xws+53MJcLXj0kPjEdN64WZevyWQfB6T3MLTjp9H
-         YLDOl9MK+3c6qk1Xw/vrJobLrzHlLBGSqC1EHIpY+Hmrm4V5FUL2DhoItnpSerhkaz2N
-         aceikHlNweQYywRt2CL2hZbGe0MI8mk5l/UusCO4haMJV4G212daRacfgfXpVMATPvS1
-         3xNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mu/ag5GKGBWwht6VOzxJtXe0HGbioRW+arz4tUnbIYc=;
-        b=UgCkAz++TEdD6UHsKumB3EvXNktBvdiqiUnDlxnggjmfiiixIMwqOXAXHREx2+Tjj8
-         v1iIlmwGTpyKcLrBnVP92zBT7yqs1hD3O1uGbbw5JNns4JylWkjJjgWUBWl4/2+BqLLG
-         UwvjGnjjcm+cQpkfvZS4wrhezuvQVYnzQsqsttQQlinhoKwVYDw+9ysaqaxwPUMSehBg
-         kQXW7Z8WrZEM1jUriqtx7Qvrb3dGbLIujXnCQBcErzqlAUJAmBjBneSRxSZXAfI4dRPO
-         hgW8EOt29trDRQQDGKwr5nhUrCkJQOrVk1caRg+CB/B7XphhUXmTi3SHU9xSrAry6DQ3
-         vK5A==
-X-Gm-Message-State: AOAM532wRV2CynyH4f/cJErDDOTSpscMd3hEj0R5saU9z/dWtC+jvVIA
-        a/94oDeaos0JYqI5zZtxo1yJxzx0MnM=
-X-Google-Smtp-Source: ABdhPJz9aSFUhjHO9rdvkv/AwEQ8ILRGQfgxClpFlpzsJOn7iGzHHxFubEpRwL8DpodssWAVyZtx+w==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr21470327wrz.380.1629846402807;
-        Tue, 24 Aug 2021 16:06:42 -0700 (PDT)
-Received: from localhost.localdomain (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id q10sm3477868wmq.12.2021.08.24.16.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 16:06:42 -0700 (PDT)
-From:   Daniel Scally <djrscally@gmail.com>
-To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bNloc4HqEb/pnDkkKYkFHRElMpgZHOLm9whGNCrvhYE=;
+ b=z0IquUofLJt8De0YsrQy4S4o8iBOfyT+h6Ym9fzBT7EuSTEmoSFwA9hLJ4RcX59OrZ8QRaVGnHwMTaiLffVzt3dKlLdTMXVxPsz8xuHV4S1VCLkoMrL679pWMlmkJ1zHjtLJmPia1y1GTygH6Yy3jyYCw0gcqaqUcmYjNPre9mQ=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2096.namprd10.prod.outlook.com
+ (2603:10b6:301:2c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 25 Aug
+ 2021 07:24:12 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4457.018; Wed, 25 Aug 2021
+ 07:24:12 +0000
+Date:   Wed, 25 Aug 2021 10:23:57 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [RFC PATCH v2 3/3] platform/surface: Add Surface Go 2 board file
-Date:   Wed, 25 Aug 2021 00:06:20 +0100
-Message-Id: <20210824230620.1003828-4-djrscally@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210824230620.1003828-1-djrscally@gmail.com>
-References: <20210824230620.1003828-1-djrscally@gmail.com>
+        platform-driver-x86@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] platform/x86: ISST: use semi-colons instead of commas
+Message-ID: <20210825072357.GA12957@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: LO4P123CA0068.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:153::19) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kili (2a02:6900:8208:1848::11d1) by LO4P123CA0068.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:153::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Wed, 25 Aug 2021 07:24:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c2782a11-8c1d-43a3-2b58-08d96799560c
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2096:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB2096FA7F0213E853C18CBF608EC69@MWHPR1001MB2096.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wwIXjoYO4yfaSxKgL7oIlspAgTbHYCPV81IxXygX1RS+8cmEwVPxOMi5oiNOUQqHLlVV64N7YpTjsP9n+IcUGqHIXRTp+TpBn6FcSEldhS8xM+Yk1xupIR+45og9dLzTK4KbliwuvNCONQWFNSZ59XYXHVUi2o4glfFyCRFc4qioC4wcuHJ3sDznmyNq9pqXYnHwZvasuDPjhkwyx7u64EO6ZDW4jkszQbLS4RYzSReltequqT1FaVNxCLGRgUTozTAQJC60d7/k40Ikoljb5SWzDrn++wXOV7s3aezwV223gsumscCWfWP4Px89FWFENM8FmMHEte+SKMh0/RX8289nbgiV0GVQuxLshZZ213hBkHiY8svHFmQL0Bx9k5Hjlbv15BgwFgeKTtA+BmLyocLhUNdmZeR6e/CQz7WaOXBSqwjEPYmsRgJ9IDWntd80FWE+2CSB7XnkaWchcyfnUA7hotIHg1mTFy/7E4gjE/9DlISkrDRlS+RkMug50oYfMAlYcJR2KPpRPIxguBG41FHYTAdLlTD0/GUMcRT84v1sFV+cddxYLDuUNwXD0wUwjwF+UWO35BLcnJBwDI0kKn7YCHS/wHaDgm6T3wQVYkhW/CFsTr1/RoK/OM3Rc6hOz9Jjiqqj6KwvNY+Lix8BjQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(396003)(366004)(346002)(39860400002)(478600001)(66476007)(66556008)(6666004)(186003)(33656002)(54906003)(86362001)(8676002)(38100700002)(9686003)(83380400001)(5660300002)(8936002)(33716001)(66946007)(9576002)(6916009)(55016002)(1076003)(4326008)(6496006)(44832011)(316002)(2906002)(52116002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OvZf/n7L0xnraQtQHwB+DdG67Iu4jhhSbbUboRu4OHB4CPFGlulVi9CwgrdE?=
+ =?us-ascii?Q?VPJGJ1QvwxDsAZkife9rE+QOHfOExi4/0V8ZAAgerQTbFiOIxBy/IT7VJ0Y6?=
+ =?us-ascii?Q?v24ZC70NV1M71wFu59PR6Nq42BhEXHIggbm5mZFNgTFIINnHZzSx35/GxC1R?=
+ =?us-ascii?Q?DcMcdbS+2CYOzUBb2f57Ipmj3PWBlFMoyh0NZX1TZIX9cXIPfga+kYP/Xhqr?=
+ =?us-ascii?Q?9c/OaALNWDcZ0Z3kDl2xGNKA3DDfmgZ8tfXvYmsCEEbN3DqVOq7vEnjoSA6x?=
+ =?us-ascii?Q?pQYJ9ZnWgvd3gG9BxYDauJVJN8ggHWo42foDrsxjbvwOUZxEvPY8wDIAx6wv?=
+ =?us-ascii?Q?f8Tmzz8ByPxqiT6S35iYIvd374jHsCB1gEe+5En6uf/WNAl4xuRvyZRuLgKW?=
+ =?us-ascii?Q?INunB6PwJX5fXIns8mu2R4QFxfwGd81ebX6UVKWujKSMUDHN9cZyFNx+VhmP?=
+ =?us-ascii?Q?k5v9tTHirN0L+4In3jvT9nna70bFTuT+tP7C7v+lxP8OmceN1VQWL5n2C5Rw?=
+ =?us-ascii?Q?FCgA1NB4jyLeTPrwWWESsEm7CLIh1PL3wBKDhujFNlqoBFN6ddXQwNTvNEMK?=
+ =?us-ascii?Q?Y8QnTVDKDjWy+Jd+5c3p3Kx2460AaJHjnH4U/26Yy8t/TJuYmAhc6PUXVX9y?=
+ =?us-ascii?Q?Jeq9qHSLD7Gk4eqXiisHp+m9Op4mXiXxn1+316L1st4tV2eA0HvXFWx+fODG?=
+ =?us-ascii?Q?92LWK/4h7x6zDjM/jrSn9QVwyyzBiNq3xTAeL8CNadmIPlRCcXF2K9ZGhPGP?=
+ =?us-ascii?Q?ZJN9ka2xBYxTM0Oy0eCcu2v3lbJYvVOxMtZbzgDPope8snhbLC5X4i7fPnL/?=
+ =?us-ascii?Q?Kg2qyDUFsWetb4txM8C172ebC4zZufTwggwIkEn0PrIDMvd1kEXPU2FQUrh2?=
+ =?us-ascii?Q?tLcKjfBETAIXSUDEZ0rUGRHBdl9oQkdBm79CZBN+TN0J2UNeMQ09gEP4zf6F?=
+ =?us-ascii?Q?7DURxpLvcdzqA0DHCHB+qpHSMedlLb7+r7YS8WtJWocH2YADUrW59WKS4+12?=
+ =?us-ascii?Q?dKEGI/hMiftGzqxZ6hYqdDy/LIneBJim0lcTSVI2/Gdaa+UfNmTYIYyE2vlH?=
+ =?us-ascii?Q?G8jE1hesYV4ybnZVZs5wjyrQEAr4t34CI2FKJoilPgV+eM/pgp4nTDHgWwjg?=
+ =?us-ascii?Q?uVGafshswoUY5pou1Utrw7FUuJHU9Rx6DMo5XCUCOIWv+aJAXDdFHe1GdboA?=
+ =?us-ascii?Q?4Vf4VhLG34AhttNDev4vtWiRI80KZAinT043q2fhh+7yF0FoEqXiBPlRa1g8?=
+ =?us-ascii?Q?HBk/81kfnxhQbVdVAtmzBrkTP1SXsfYL0j1UdqCI2hT0FT2H19f3v+jyQwvN?=
+ =?us-ascii?Q?MVnz1A0JS9nxqznc4Dc+7m5sUnfzr1vFtnr5okDsZ/l+5ISXKkek8dihP60d?=
+ =?us-ascii?Q?1cQCZzE=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2782a11-8c1d-43a3-2b58-08d96799560c
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 07:24:12.1824
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YuN5kh/B+iAsBmUoz38UBmNYwvUbfS3TCg0hEr4a6s3c8CircgRXdb6yDBOArIqZt1RlSyyzNi9Gal2eJsxS78fB8oyX8HlsnteGw5/Kt5k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2096
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10086 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108250043
+X-Proofpoint-ORIG-GUID: BJu6Mq2WQqiItHVz-S4L-35sPPcDIq95
+X-Proofpoint-GUID: BJu6Mq2WQqiItHVz-S4L-35sPPcDIq95
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The DSDT tables on the Surface Go 2 contain no power control methods for
-the world facing camera, so the regulator, gpio and clk frameworks have no
-way to discover the appropriate connections and settings.
+The code works the same either way, but it's better to use semi-colons
+to separate statements.
 
-To compensate for the shortcomings, define the connections and other
-parameters in a board file for this device.
-
-Signed-off-by: Daniel Scally <djrscally@gmail.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
-Changes in v2:
-	- Re-written to use regulator_add_lookup() instead of the software
-	node api from v1.
-	- Added a dmi check to prevent the lookups from being added where the
-	platform running the code is not a Microsoft Surface Go 2 (Laurent)
+ drivers/platform/x86/intel_speed_select_if/isst_if_common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- MAINTAINERS                             |  6 ++
- drivers/platform/surface/Kconfig        | 10 +++
- drivers/platform/surface/Makefile       |  1 +
- drivers/platform/surface/surface_go_2.c | 97 +++++++++++++++++++++++++
- 4 files changed, 114 insertions(+)
- create mode 100644 drivers/platform/surface/surface_go_2.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dc24e97d5386..891189cecd51 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12329,6 +12329,12 @@ F:	Documentation/driver-api/surface_aggregator/clients/dtx.rst
- F:	drivers/platform/surface/surface_dtx.c
- F:	include/uapi/linux/surface_aggregator/dtx.h
+diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
+index 8a4d52a9028d..c9a85eb2e860 100644
+--- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
++++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
+@@ -265,9 +265,9 @@ static int isst_if_get_platform_info(void __user *argp)
+ {
+ 	struct isst_if_platform_info info;
  
-+MICROSOFT SURFACE GO 2 SUPPORT
-+M:	Daniel Scally <djrscally@gmail.com>
-+L:	platform-driver-x86@vger.kernel.org
-+S:	Maintained
-+F:	drivers/platform/surface/surface_go_2.c
-+
- MICROSOFT SURFACE GPE LID SUPPORT DRIVER
- M:	Maximilian Luz <luzmaximilian@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/drivers/platform/surface/Kconfig b/drivers/platform/surface/Kconfig
-index 3105f651614f..0c55bd531592 100644
---- a/drivers/platform/surface/Kconfig
-+++ b/drivers/platform/surface/Kconfig
-@@ -124,6 +124,16 @@ config SURFACE_DTX
- 	  Aggregator Bus (i.e. CONFIG_SURFACE_AGGREGATOR_BUS=n). In that case,
- 	  some devices, specifically the Surface Book 3, will not be supported.
+-	info.api_version = ISST_IF_API_VERSION,
+-	info.driver_version = ISST_IF_DRIVER_VERSION,
+-	info.max_cmds_per_ioctl = ISST_IF_CMD_LIMIT,
++	info.api_version = ISST_IF_API_VERSION;
++	info.driver_version = ISST_IF_DRIVER_VERSION;
++	info.max_cmds_per_ioctl = ISST_IF_CMD_LIMIT;
+ 	info.mbox_supported = punit_callbacks[ISST_IF_DEV_MBOX].registered;
+ 	info.mmio_supported = punit_callbacks[ISST_IF_DEV_MMIO].registered;
  
-+config SURFACE_GO_2
-+	bool "Surface Go 2 Specific Driver"
-+	help
-+	  This board file performs some platform specific configuration to help
-+	  the regulator, gpio and clk frameworks link those resources to the
-+	  consuming devices - specifically the world facing camera.
-+
-+	  Select Y here if your device is a Microsoft Surface Go 2, otherwise
-+	  select N.
-+
- config SURFACE_GPE
- 	tristate "Surface GPE/Lid Support Driver"
- 	depends on DMI
-diff --git a/drivers/platform/surface/Makefile b/drivers/platform/surface/Makefile
-index 32889482de55..9f858d2a3d77 100644
---- a/drivers/platform/surface/Makefile
-+++ b/drivers/platform/surface/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_SURFACE_AGGREGATOR)	+= aggregator/
- obj-$(CONFIG_SURFACE_AGGREGATOR_CDEV)	+= surface_aggregator_cdev.o
- obj-$(CONFIG_SURFACE_AGGREGATOR_REGISTRY) += surface_aggregator_registry.o
- obj-$(CONFIG_SURFACE_DTX)		+= surface_dtx.o
-+obj-$(CONFIG_SURFACE_GO_2)		+= surface_go_2.o
- obj-$(CONFIG_SURFACE_GPE)		+= surface_gpe.o
- obj-$(CONFIG_SURFACE_HOTPLUG)		+= surface_hotplug.o
- obj-$(CONFIG_SURFACE_PLATFORM_PROFILE)	+= surface_platform_profile.o
-diff --git a/drivers/platform/surface/surface_go_2.c b/drivers/platform/surface/surface_go_2.c
-new file mode 100644
-index 000000000000..31fd6a3ca4aa
---- /dev/null
-+++ b/drivers/platform/surface/surface_go_2.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Author: Dan Scally <djrscally@gmail.com> */
-+
-+#include <linux/dmi.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/regulator/machine.h>
-+
-+static const struct dmi_system_id surface_go_2_dmi_table[] = {
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Surface Go 2"),
-+		},
-+	},
-+	{ }
-+};
-+
-+static struct regulator_consumer_supply ana_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("avdd", "i2c-INT347A:00"),
-+};
-+
-+static struct regulator_lookup ana_lookup = {
-+	.device_name = "i2c-INT3472:05",
-+	.regulator_name = "ANA",
-+	.init_data = {
-+		.constraints = {
-+			.min_uV = 2815200,
-+			.max_uV = 2815200,
-+			.apply_uV = 1,
-+			.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+		},
-+		.num_consumer_supplies = ARRAY_SIZE(ana_consumer_supplies),
-+		.consumer_supplies = ana_consumer_supplies,
-+	},
-+};
-+
-+static struct regulator_consumer_supply vsio_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("dovdd", "i2c-INT347A:00"),
-+};
-+
-+static struct regulator_lookup vsio_lookup = {
-+	.device_name = "i2c-INT3472:05",
-+	.regulator_name = "VSIO",
-+	.init_data = {
-+		.constraints = {
-+			.min_uV = 1800600,
-+			.max_uV = 1800600,
-+			.apply_uV = 1,
-+			.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+		},
-+		.num_consumer_supplies = ARRAY_SIZE(vsio_consumer_supplies),
-+		.consumer_supplies = vsio_consumer_supplies,
-+	},
-+};
-+
-+static struct regulator_consumer_supply core_consumer_supplies[] = {
-+	REGULATOR_SUPPLY("dvdd", "i2c-INT347A:00"),
-+};
-+
-+static struct regulator_lookup core_lookup = {
-+	.device_name = "i2c-INT3472:05",
-+	.regulator_name = "CORE",
-+	.init_data = {
-+		.constraints = {
-+			.min_uV = 1200000,
-+			.max_uV = 1200000,
-+			.apply_uV = 1,
-+			.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-+		},
-+		.num_consumer_supplies = ARRAY_SIZE(core_consumer_supplies),
-+		.consumer_supplies = core_consumer_supplies,
-+	},
-+};
-+
-+static struct gpiod_lookup_table surface_go_2_gpios = {
-+	.dev_id = "i2c-INT347A:00",
-+	.table = {
-+		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP("tps68470-gpio", 7, "powerdown", GPIO_ACTIVE_LOW)
-+	}
-+};
-+
-+static int __init surface_go_2_init(void)
-+{
-+	if (!dmi_check_system(surface_go_2_dmi_table))
-+		return -EINVAL;
-+
-+	regulator_add_lookup(&ana_lookup);
-+	regulator_add_lookup(&vsio_lookup);
-+	regulator_add_lookup(&core_lookup);
-+	gpiod_add_lookup_table(&surface_go_2_gpios);
-+
-+	return 0;
-+}
-+device_initcall(surface_go_2_init);
 -- 
-2.25.1
+2.20.1
 
