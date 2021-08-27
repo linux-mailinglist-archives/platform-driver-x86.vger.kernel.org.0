@@ -2,122 +2,74 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D770E3F9116
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Aug 2021 01:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFBA03F9267
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 27 Aug 2021 04:42:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243872AbhHZXrL (ORCPT
+        id S244066AbhH0CmL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 26 Aug 2021 19:47:11 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:52645 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243886AbhHZXrE (ORCPT
+        Thu, 26 Aug 2021 22:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233556AbhH0CmK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 26 Aug 2021 19:47:04 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 3966D320046E;
-        Thu, 26 Aug 2021 19:46:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 26 Aug 2021 19:46:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0bAX2q
-        B9NKBGTe2XmYqyZU75YUOSdQQ4htXN/uBNGJc=; b=rAj70LGKCEkcs3JhImZz5Y
-        52/OMQ7Ps1RobBlvwJUINC2ZOUuClJ5xHUcle9rzTL4D0bu2bvOiOOsPEvfuYRAr
-        rmHmIRikFB6I7uMp6CNWKqkQiN1uKW9QOLcOSU6m1u1WJ4do3mJKQIvxnM2GbJRN
-        JbV16gy/zjiYe1aaGKHqSEhCahKluYoSixaSU5uy3xXrsXZGoAuq6Nn3UcyqB2Dr
-        yxv8qolrI8a+CFcDHDsZPFopYRD9dJZLhBDhKLq7pAfhx8Q4U1Vw13+J7LmfazYa
-        yxONWgC7dPG/NSN8cXKHvroo9M8C+Ypq3tX3SKs5iezQUItF90LVYx+/eAGAuA5w
-        ==
-X-ME-Sender: <xms:xycoYUNK1Oz7YJhNP-RLPnzuaJ7bRKfBdGpeYtlT1-kUbsVSe906JQ>
-    <xme:xycoYa_s1Wh3lCQRkiTXGNMBiig2DQqHDerzfh5_k-9lEZrIBqZcMJHyA48igTuao
-    3IaNumVN_3-GUuVQ7Y>
-X-ME-Received: <xmr:xycoYbRYb8DQlG2ZNZTwZCgljrsh7M_OwgAdmQGEs3CGLWKXJYtAx1GUTMbH5dB4M8RPGA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffuvffkjghfofggtgesthdtre
-    dtredtvdenucfhrhhomhepnfhukhgvucflohhnvghsuceolhhukhgvsehljhhonhgvshdr
-    uggvvheqnecuggftrfgrthhtvghrnhepgfeffedufffhgfeuheegffffgeegveeifeeute
-    fhieejffetudfgueevteehtdetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:xycoYcvo7Rvd8A6pR_27qC6t0lN55RVbWD8C0_Pz1rq907Ghr02yGg>
-    <xmx:xycoYcdE2oQL-5bXLYq8rOWrce8cI2Zt67K7zQodl0t_qQags3Bn4w>
-    <xmx:xycoYQ2vFCUFEkhMvCNrult9FKdwvFd5iQdP5m-17kDyWmsEuVF0TA>
-    <xmx:xycoYYEi7zIVNXtrvVByqAvwk28oz6UuxQARkYY5oWC1yvCPXiN4gw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Aug 2021 19:46:11 -0400 (EDT)
-Date:   Fri, 27 Aug 2021 11:45:56 +1200
-From:   Luke Jones <luke@ljones.dev>
-Subject: Re: [PATCH v5 0/1] asus-wmi: Add support for custom fan curves
-To:     linux-kernel@vger.kernel.org
-Cc:     hdegoede@redhat.com, hadess@hadess.net,
-        platform-driver-x86@vger.kernel.org
-Message-Id: <KO0HYQ.H02HYMA788G12@ljones.dev>
-In-Reply-To: <20210826234259.5980-1-luke@ljones.dev>
-References: <20210826234259.5980-1-luke@ljones.dev>
-X-Mailer: geary/40.0
+        Thu, 26 Aug 2021 22:42:10 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79438C061796
+        for <platform-driver-x86@vger.kernel.org>; Thu, 26 Aug 2021 19:41:22 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id y18so6673272ioc.1
+        for <platform-driver-x86@vger.kernel.org>; Thu, 26 Aug 2021 19:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
+        b=hePZR6l3xkStPPzaZuEEI5aAsDiq5dQtzNWNyjWzrepGL3zDg5RRM5jmzv3hA8Qe8s
+         U5eUSbP2BQ7A45zN3gKzMQbxc2I7TBQ+WGjJw07Ca+N4SD7OgsCT4ZKEmx6x2fsD6OqX
+         sDvMxBGlSNKZbvz0OZuVA0WFxvTs+J+u862pdllDKBdFdGgib9ZiPj9FP+K5yMejz9W4
+         OuAlWF0fiIbSrR3GjuzqKB/+JO2AcrVVCdco4KgUAztF/I1ojRBAGLgKYgf3zRYK3mCq
+         atYBVOANeHK8VXipDb5RywYKh0b5pA6B9IAIIuUon7ytDHQT/+sb7hMNDgkjIhtqobzS
+         9yGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=JcCnNkxtHweN6ApEPCItRB3oqJyAr4ORMY/4f0Zly6Y=;
+        b=W+VnkCpp1vqxhW5URcOg3eLwR2xZOnzg1AHqtV9W1HE3Xr8ozXuOvwbKH+r/4vsYZ/
+         nxNcMB1W3x6z8w1otrGrkNZSz4sKlJBEcLtYGPHJXbyT9aSgm5Cf52DOoaLBHc2n6xzw
+         KyOO8xGy/69zZOG9Oz3HCoM2MHSeKVQ7P7+K78k4cd1ejJSjBTkwCGhCjto+iJ7bu9gk
+         z/SE6SgshOQQYOP1mYppCHv1XYXtqoKWWqLAT5ZNAqAzDBpVVJgUClOz1muABt/0t2yo
+         JzAuU+JVkED+TDxBJzGXy1LoN/bKcljc+9S74r7Urulu3ZYmDNWedb0lYDzPbrO0Oj0k
+         +kTw==
+X-Gm-Message-State: AOAM5323d5hoWMOm0m99k+h0jyFqTA0RpVhLjBW8WVJaEpdWLoj1gg5t
+        BLhu71mZPs6RZHqHQZTk5ZHzpGyyG1wyz+CJQGw=
+X-Google-Smtp-Source: ABdhPJy2KvQ1y9lDWFCt4tUkVLyCqygzMboFgevi6gaXvHUugKzDyPWXP8Dr7Y84OXabbw7jN7/E9JfzCpuZS4GffJY=
+X-Received: by 2002:a05:6602:26cb:: with SMTP id g11mr5610199ioo.110.1630032081852;
+ Thu, 26 Aug 2021 19:41:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Received: by 2002:a02:c6bc:0:0:0:0:0 with HTTP; Thu, 26 Aug 2021 19:41:21
+ -0700 (PDT)
+From:   john williams <jw626521@gmail.com>
+Date:   Thu, 26 Aug 2021 14:41:21 -1200
+Message-ID: <CAA3cKDMLeZp=ywZ5d2MXfHebbUuYzsTJ67QeWGpBio58+vGPUA@mail.gmail.com>
+Subject: CONFIRM YOUR DETAILS TO ENABLE US START,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+Dear Beneficiary,
 
+Following your pending fund for years and the delay you imposed in
+receiving it,We have called back your fund to this office as directed
+by the Finance Office and we will be paying you directly through the
+BANK OF AMERICA.(BOA) NEW YORK BRANCH AND ALL YOU NEED NOW IS TO
+RE-CONFIRM YOUR BANKING DETAILS FOR THE TRANSFER IMMEDIATELY WITHOUT
+ANY FURTHER DELAY.
 
-On Fri, Aug 27 2021 at 11:42:58 +1200, Luke D. Jones <luke@ljones.dev> 
-wrote:
-> Add support for custom fan curves found on some ASUS ROG laptops.
-> 
-> The patch has gone through a few revisions as others tested it and
-> requested bahaviour changes or reported issues. V4 should be 
-> considered
-> finalised for now and I won't submit a new version until V4 has been
-> reviewed.
+NOTE THAT WE WILL PAY ALL THE EXPENSES INVOLVED FOR YOU TO RECEIVE
+THIS FUND AND ALL WE NEED FROM YOU IS YOUR CO-OPERATION.
 
-Sorry, I copy/pasted my last log. This V5 is pretty much finalised now. 
-Testing and self-review seems to have caught everything it possibly can.
+Send your full details with Banking details to enable us commence the
+transfer process immediately through the BOA BANK IN NEW YORK,USA OR
+DO YOU WANT TO RECEIVE THIS FUND VIA ATM CARD ????????.
 
-Cheers,
-Luke.
-
-> - V1
->   + Initial patch work
-> - V2
->   + Don't fail and remove wmi driver if error from
->     asus_wmi_evaluate_method_buf() if error is -ENODEV
-> - V3
->   + Store the "default" fan curves
->   + Call throttle_thermal_policy_write() if a curve is erased to 
-> ensure
->     that the factory default for a profile is applied again
-> - V4
->   + Do not apply default curves by default. Testers have found that 
-> the
->     default curves don't quite match actual no-curve behaviours
->   + Add method to enable/disable curves for each profile
-> - V5
->   + Remove an unrequired function left over from previous iterations
->   + Ensure default curves are applied if user writes " " to a curve 
-> path
->   + Rename "active_fan_curve_profiles" to 
-> "enabled_fan_curve_profiles" to
->     better reflect the behavious of this setting
->   + Move throttle_thermal_policy_write_*pu_curves() and rename to
->     fan_curve_*pu_write()
->   + Merge fan_curve_check_valid() and fan_curve_write()
->   + Remove some leftover debug statements
->   + Remove '\n' causing double-up of '\n\n'
-> 
-> Luke D. Jones (1):
->   asus-wmi: Add support for custom fan curves
-> 
->  drivers/platform/x86/asus-wmi.c            | 618 
-> ++++++++++++++++++++-
->  include/linux/platform_data/x86/asus-wmi.h |   2 +
->  2 files changed, 619 insertions(+), 1 deletion(-)
-> 
-> --
-> 2.31.1
-> 
-
-
+John O.Williams.
