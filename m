@@ -2,32 +2,32 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E554400C5A
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Sep 2021 19:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A14C400C59
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Sep 2021 19:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237317AbhIDR4h (ORCPT
+        id S237297AbhIDR4f (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 4 Sep 2021 13:56:37 -0400
-Received: from mail-0201.mail-europe.com ([51.77.79.158]:38104 "EHLO
+        Sat, 4 Sep 2021 13:56:35 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:58304 "EHLO
         mail-0201.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237282AbhIDR4h (ORCPT
+        with ESMTP id S237282AbhIDR4f (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 4 Sep 2021 13:56:37 -0400
-Date:   Sat, 04 Sep 2021 17:55:23 +0000
+        Sat, 4 Sep 2021 13:56:35 -0400
+Date:   Sat, 04 Sep 2021 17:55:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1630778133;
-        bh=Ujb753o2jpL8FGy8OVxlFHKih2w3WtkbFVfryXun3z4=;
+        s=protonmail; t=1630778131;
+        bh=5h8z55lNsaA+ijdoGzRpnCzu0eDR/FDf6B9HgN5ftAY=;
         h=Date:To:From:Reply-To:Subject:From;
-        b=iphX+onY/T1opYf71moq+GyUSdp3WVQPVjffPXyFSutI37I7cMXvtdZHa2CTO7r5c
-         UB9zjaMo/XfyFE1VdHHtvuoAd9OFFfMplqDwzDuUyMXjt5ARzls0oFm1C3vuPcGkGW
-         Xtf0f7C80oUrtm7Dlneg38RkLBQd7hxCpbCRwfYI=
+        b=L6q7qmmHlTsezpAemyYbxMCPRs7Jr5QVR9szw+qTiP/7CLn9YTNWwbx1Vo0Ln08UD
+         e8HxhvOmTcmJe3iM8ADV4wMOjYj/5sKJ/dPnmTVmuOIyqRr5ru/xMwAtqxc1OcSp9u
+         BB75De4lwLIC7Te+p2xop2u9EMRDe/qzxzK3vjPI=
 To:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
         platform-driver-x86@vger.kernel.org
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [RFC PATCH v1 09/30] platform/x86: wmi: remove stray empty line
-Message-ID: <20210904175450.156801-10-pobrn@protonmail.com>
+Subject: [RFC PATCH v1 10/30] platform/x86: wmi: remove unnecessary checks
+Message-ID: <20210904175450.156801-11-pobrn@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -40,28 +40,29 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Remove an empty line after the last statement
-in `acpi_wmi_notify_handler()` which serves
-no purpose.
+The `find_guid_context()` is only called from one place,
+and `wblock` and `wdriver` cannot be NULL there.
+So remove the currently redundant checks.
 
 Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
 ---
- drivers/platform/x86/wmi.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/platform/x86/wmi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index c3ee64843731..42cc83cf117f 100644
+index 42cc83cf117f..46ebc4e421b4 100644
 --- a/drivers/platform/x86/wmi.c
 +++ b/drivers/platform/x86/wmi.c
-@@ -1321,7 +1321,6 @@ static void acpi_wmi_notify_handler(acpi_handle handl=
-e, u32 event,
- =09=09wblock->acpi_device->pnp.device_class,
- =09=09dev_name(&wblock->dev.dev),
- =09=09event, 0);
--
- }
+@@ -135,8 +135,6 @@ static const void *find_guid_context(struct wmi_block *=
+wblock,
+ =09const struct wmi_device_id *id;
+ =09guid_t guid_input;
 
- static int acpi_wmi_remove(struct platform_device *device)
+-=09if (wblock =3D=3D NULL || wdriver =3D=3D NULL)
+-=09=09return NULL;
+ =09if (wdriver->id_table =3D=3D NULL)
+ =09=09return NULL;
+
 --
 2.33.0
 
