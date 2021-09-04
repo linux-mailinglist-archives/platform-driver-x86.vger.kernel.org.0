@@ -2,32 +2,32 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C29400C69
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Sep 2021 19:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0120400C6C
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  4 Sep 2021 19:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237326AbhIDR5m (ORCPT
+        id S237334AbhIDR5r (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 4 Sep 2021 13:57:42 -0400
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:61780 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237178AbhIDR5k (ORCPT
+        Sat, 4 Sep 2021 13:57:47 -0400
+Received: from mail-0301.mail-europe.com ([188.165.51.139]:55162 "EHLO
+        mail-0301.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237178AbhIDR5r (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 4 Sep 2021 13:57:40 -0400
-Date:   Sat, 04 Sep 2021 17:56:32 +0000
+        Sat, 4 Sep 2021 13:57:47 -0400
+Date:   Sat, 04 Sep 2021 17:56:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1630778197;
-        bh=QfzVJOVBkRRwwshU93w33mZkxU1oSQz+eJPHse1AB04=;
+        s=protonmail; t=1630778202;
+        bh=1JuGZtWbEyLbOtMIRxVOBDmGks9yhQamvsxhZwQ5oJs=;
         h=Date:To:From:Reply-To:Subject:From;
-        b=GSDDOJJEmhSS1w7y5L3Pne8Iaf1/Md/bcmugCKOo8fLN05CFzIN4kmMRRUQquE3yS
-         EZF7AAPh62V7WAlpK8AoYW2fyOQ9bzjMlggxiCj5g2LLVEVHCL/VUHwDSVVK4YI/bV
-         9nGkNyR0xwHRZDKAAgsL5i5x7U1gVBJK/IgHBELM=
+        b=oiJT9uGEzaKTssh5Bx1zfw56+3nlvRNB9HZBTjMJranpYEOdi/PDLmzuoWWLtz/jR
+         jZsdj45e2NzbfgWVP7LlpG9oQR4ElH8ww4Ln4Oiad7P7KZbhJB/MffnBW1G8F/Gf11
+         BPc+rVl1aenehPJDRnnCVcKEpzh9XO02aqu4DiDU=
 To:     Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <mgross@linux.intel.com>,
         platform-driver-x86@vger.kernel.org
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: [RFC PATCH v1 26/30] platform/x86: wmi: introduce helper to convert driver to WMI driver
-Message-ID: <20210904175450.156801-27-pobrn@protonmail.com>
+Subject: [RFC PATCH v1 27/30] platform/x86: wmi: introduce helper to generate method names
+Message-ID: <20210904175450.156801-28-pobrn@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -40,91 +40,151 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Introduce a helper function which wraps the appropriate `container_of()`
-macro invocation to convert a `struct device_driver` to `struct wmi_driver`=
-.
+Instead of "manually" constructing the ACPI method name and
+hard-coding sizes in WMI functions, introduce a helper method
+which generates the method name for an arbitrary WMI block.
+
+Furthermore, save the appropriate buffer size into a macro.
 
 Signed-off-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
 ---
- drivers/platform/x86/wmi.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ drivers/platform/x86/wmi.c | 42 ++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index ea7154160946..ff33ad2053f0 100644
+index ff33ad2053f0..4f484677759b 100644
 --- a/drivers/platform/x86/wmi.c
 +++ b/drivers/platform/x86/wmi.c
-@@ -673,6 +673,11 @@ static struct wmi_device *dev_to_wdev(struct device *d=
-ev)
- =09return container_of(dev, struct wmi_device, dev);
+@@ -195,6 +195,22 @@ static acpi_status wmi_method_enable(struct wmi_block =
+*wblock, bool enable)
+ =09return status;
  }
 
-+static inline struct wmi_driver *drv_to_wdrv(struct device_driver *drv)
++#define WMI_ACPI_METHOD_NAME_SIZE 5
++
++static inline void get_acpi_method_name(const struct wmi_block *wblock,
++=09=09=09=09=09const char method,
++=09=09=09=09=09char buffer[static WMI_ACPI_METHOD_NAME_SIZE])
 +{
-+=09return container_of(drv, struct wmi_driver, driver);
++=09static_assert(ARRAY_SIZE(wblock->gblock.object_id) =3D=3D 2);
++=09static_assert(WMI_ACPI_METHOD_NAME_SIZE >=3D 5);
++
++=09buffer[0] =3D 'W';
++=09buffer[1] =3D method;
++=09buffer[2] =3D wblock->gblock.object_id[0];
++=09buffer[3] =3D wblock->gblock.object_id[1];
++=09buffer[4] =3D '\0';
 +}
 +
  /*
-  * sysfs interface
+  * Exported WMI functions
   */
-@@ -791,8 +796,7 @@ static void wmi_dev_release(struct device *dev)
+@@ -257,7 +273,7 @@ acpi_status wmidev_evaluate_method(struct wmi_device *w=
+dev, u8 instance, u32 met
+ =09acpi_handle handle;
+ =09struct acpi_object_list input;
+ =09union acpi_object params[3];
+-=09char method[5] =3D "WM";
++=09char method[WMI_ACPI_METHOD_NAME_SIZE];
 
- static int wmi_dev_match(struct device *dev, struct device_driver *driver)
- {
--=09struct wmi_driver *wmi_driver =3D
--=09=09container_of(driver, struct wmi_driver, driver);
-+=09struct wmi_driver *wmi_driver =3D drv_to_wdrv(driver);
- =09struct wmi_block *wblock =3D dev_to_wblock(dev);
- =09const struct wmi_device_id *id =3D wmi_driver->id_table;
-
-@@ -889,8 +893,7 @@ static long wmi_ioctl(struct file *filp, unsigned int c=
-md, unsigned long arg)
+ =09wblock =3D container_of(wdev, struct wmi_block, dev);
+ =09block =3D &wblock->gblock;
+@@ -288,7 +304,7 @@ acpi_status wmidev_evaluate_method(struct wmi_device *w=
+dev, u8 instance, u32 met
+ =09=09params[2].buffer.pointer =3D in->pointer;
  =09}
 
- =09/* let the driver do any filtering and do the call */
--=09wdriver =3D container_of(wblock->dev.dev.driver,
--=09=09=09       struct wmi_driver, driver);
-+=09wdriver =3D drv_to_wdrv(wblock->dev.dev.driver);
- =09if (!try_module_get(wdriver->driver.owner)) {
- =09=09ret =3D -EBUSY;
- =09=09goto out_ioctl;
-@@ -923,8 +926,7 @@ static const struct file_operations wmi_fops =3D {
- static int wmi_dev_probe(struct device *dev)
- {
- =09struct wmi_block *wblock =3D dev_to_wblock(dev);
--=09struct wmi_driver *wdriver =3D
--=09=09container_of(dev->driver, struct wmi_driver, driver);
-+=09struct wmi_driver *wdriver =3D drv_to_wdrv(dev->driver);
- =09int ret =3D 0;
- =09char *buf;
+-=09strncat(method, block->object_id, 2);
++=09get_acpi_method_name(wblock, 'M', method);
 
-@@ -987,8 +989,7 @@ static int wmi_dev_probe(struct device *dev)
- static void wmi_dev_remove(struct device *dev)
- {
- =09struct wmi_block *wblock =3D dev_to_wblock(dev);
--=09struct wmi_driver *wdriver =3D
--=09=09container_of(dev->driver, struct wmi_driver, driver);
-+=09struct wmi_driver *wdriver =3D drv_to_wdrv(dev->driver);
+ =09return acpi_evaluate_object(handle, method, &input, out);
+ }
+@@ -302,8 +318,8 @@ static acpi_status __query_block(struct wmi_block *wblo=
+ck, u8 instance,
+ =09acpi_status status, wc_status =3D AE_ERROR;
+ =09struct acpi_object_list input;
+ =09union acpi_object wq_params[1];
+-=09char method[5];
+-=09char wc_method[5] =3D "WC";
++=09char wc_method[WMI_ACPI_METHOD_NAME_SIZE];
++=09char method[WMI_ACPI_METHOD_NAME_SIZE];
 
- =09if (wdriver->filter_callback) {
- =09=09misc_deregister(&wblock->char_dev);
-@@ -1290,15 +1291,12 @@ static void acpi_wmi_notify_handler(acpi_handle han=
-dle, u32 event,
+ =09if (!out)
+ =09=09return AE_BAD_PARAMETER;
+@@ -331,7 +347,7 @@ static acpi_status __query_block(struct wmi_block *wblo=
+ck, u8 instance,
+ =09 * enable collection.
+ =09 */
+ =09if (block->flags & ACPI_WMI_EXPENSIVE) {
+-=09=09strncat(wc_method, block->object_id, 2);
++=09=09get_acpi_method_name(wblock, 'C', wc_method);
 
- =09/* If a driver is bound, then notify the driver. */
- =09if (wblock->dev.dev.driver) {
--=09=09struct wmi_driver *driver;
-+=09=09struct wmi_driver *driver =3D drv_to_wdrv(wblock->dev.dev.driver);
- =09=09struct acpi_object_list input;
- =09=09union acpi_object params[1];
- =09=09struct acpi_buffer evdata =3D { ACPI_ALLOCATE_BUFFER, NULL };
- =09=09acpi_status status;
+ =09=09/*
+ =09=09 * Some GUIDs break the specification by declaring themselves
+@@ -341,9 +357,7 @@ static acpi_status __query_block(struct wmi_block *wblo=
+ck, u8 instance,
+ =09=09wc_status =3D acpi_execute_simple_method(handle, wc_method, 1);
+ =09}
 
--=09=09driver =3D container_of(wblock->dev.dev.driver,
--=09=09=09=09      struct wmi_driver, driver);
+-=09strcpy(method, "WQ");
+-=09strncat(method, block->object_id, 2);
 -
- =09=09input.count =3D 1;
- =09=09input.pointer =3D params;
- =09=09params[0].type =3D ACPI_TYPE_INTEGER;
++=09get_acpi_method_name(wblock, 'Q', method);
+ =09status =3D acpi_evaluate_object(handle, method, &input, out);
+
+ =09/*
+@@ -415,7 +429,7 @@ acpi_status wmi_set_block(const char *guid_string, u8 i=
+nstance,
+ =09acpi_handle handle;
+ =09struct acpi_object_list input;
+ =09union acpi_object params[2];
+-=09char method[5] =3D "WS";
++=09char method[WMI_ACPI_METHOD_NAME_SIZE];
+
+ =09if (!guid_string || !in)
+ =09=09return AE_BAD_DATA;
+@@ -446,7 +460,7 @@ acpi_status wmi_set_block(const char *guid_string, u8 i=
+nstance,
+ =09params[1].buffer.length =3D in->length;
+ =09params[1].buffer.pointer =3D in->pointer;
+
+-=09strncat(method, block->object_id, 2);
++=09get_acpi_method_name(wblock, 'S', method);
+
+ =09return acpi_evaluate_object(handle, method, &input, NULL);
+ }
+@@ -1040,7 +1054,7 @@ static int wmi_create_device(struct device *wmi_bus_d=
+ev,
+ =09=09=09     struct acpi_device *device)
+ {
+ =09struct acpi_device_info *info;
+-=09char method[5];
++=09char method[WMI_ACPI_METHOD_NAME_SIZE];
+ =09int result;
+
+ =09if (wblock->gblock.flags & ACPI_WMI_EVENT) {
+@@ -1059,8 +1073,7 @@ static int wmi_create_device(struct device *wmi_bus_d=
+ev,
+ =09 * required per the WMI documentation. If it is not present,
+ =09 * we ignore this data block.
+ =09 */
+-=09strcpy(method, "WQ");
+-=09strncat(method, wblock->gblock.object_id, 2);
++=09get_acpi_method_name(wblock, 'Q', method);
+ =09result =3D get_subobj_info(device->handle, method, &info);
+
+ =09if (result) {
+@@ -1087,8 +1100,7 @@ static int wmi_create_device(struct device *wmi_bus_d=
+ev,
+
+ =09kfree(info);
+
+-=09strcpy(method, "WS");
+-=09strncat(method, wblock->gblock.object_id, 2);
++=09get_acpi_method_name(wblock, 'S', method);
+ =09result =3D get_subobj_info(device->handle, method, NULL);
+
+ =09if (result =3D=3D 0)
 --
 2.33.0
 
