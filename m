@@ -2,206 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6833401729
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Sep 2021 09:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9D6401849
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Sep 2021 10:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239974AbhIFHhW (ORCPT
+        id S229924AbhIFIzN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Sep 2021 03:37:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21349 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240197AbhIFHhW (ORCPT
+        Mon, 6 Sep 2021 04:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229494AbhIFIzJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Sep 2021 03:37:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630913777;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=L2xDCwjGqujDFwbVMCgJGuluXsFQyyzGlc2vy9kgugU=;
-        b=SofXsTNnVju64lKuznyTDDwePQbptF1nHU0z0ss/fr2q8m2L9f0GZomH/31qIa9D8x900N
-        SqL97D0ei+21PEIn2jFf2Xify+40ftuNtEjGzzwtw4lqX4M8Hz//qmzG3j9kwowxPIyTvo
-        2McQIljNb1p9LU/d2wfo4Hwy74i73Hg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-okzN28HzNrq1U5ju8zK8Hw-1; Mon, 06 Sep 2021 03:36:16 -0400
-X-MC-Unique: okzN28HzNrq1U5ju8zK8Hw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E956B107ACE3;
-        Mon,  6 Sep 2021 07:36:13 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4EF8017A98;
-        Mon,  6 Sep 2021 07:36:09 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rajat Jain <rajatja@google.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lyude <lyude@redhat.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy@infradead.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Pekka Paalanen <pekka.paalanen@collabora.com>,
-        Mario Limonciello <mario.limonciello@outlook.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Sebastien Bacher <seb128@ubuntu.com>,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH 9/9] drm/i915: Add privacy-screen support
-Date:   Mon,  6 Sep 2021 09:35:19 +0200
-Message-Id: <20210906073519.4615-10-hdegoede@redhat.com>
-In-Reply-To: <20210906073519.4615-1-hdegoede@redhat.com>
-References: <20210906073519.4615-1-hdegoede@redhat.com>
+        Mon, 6 Sep 2021 04:55:09 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7E7C061575
+        for <platform-driver-x86@vger.kernel.org>; Mon,  6 Sep 2021 01:54:04 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id i6so8586245edu.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Sep 2021 01:54:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=pq8QdcgdNxjJmg61r8dPGvWyeowRsap/Qds2NQHbQZA=;
+        b=Y6Vzn6+a8WiThKTNg4iLo56q9kMu/6HU3aPgX9+PPTvaaOx/MuaylqLAkgty9j9mYu
+         J+apFU7ByeZv7U5EW9MSYSzgiilA1xH3wDWBSUgV/ZaZLnyejtquzexc0DyjFlQL1Qvx
+         pfFImQnoX8U1C5qWn60vgVXh8t90/qZv/UZBocJCQq1lXoo0i1dFoxOG1GyM8TSzUJyf
+         v61FIcl6a7x8PTj7nl9uX1uasCGN6gTzh/6yqUHZECekZxng0ROrn+2XOw9WE0sBgtbA
+         gCxLh+aaBRdIrsjYCqTScm6FcLaUqf9/Ry2c6XNyCE/mvlGDgUaYoC+gajU0sMhYShMM
+         TvUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=pq8QdcgdNxjJmg61r8dPGvWyeowRsap/Qds2NQHbQZA=;
+        b=T0Gn8WARElBFLZZvWDP18hthBjzGPgsyEqF9XXgvLOTkg6VdOidtX8dM1pe9zHgkTI
+         uW7m6psfohUCRjyoQj8xcCA6T2CPGdXbAPSFekJwYQHXdqEmuuoYVeIQm+Zz3TRTmgCR
+         7TBKt1q+L+9giFcUvE7QfDTKPaG6iLlcizuHJk7fUjeJo9DGVDrWPq5rwu+t4kt0Vg5f
+         zD+DC+0z8m+EC8G9Q3Z+TEunfK8o/mr14M/PE6SsRl9BjkFZDBIcjkA6mD4OLWZpn3v3
+         4dbZPLsVlVEpF1JTtBC3YBWpyG2pGEzcJAkFigC1UoRHbDG8GzFZqzT0EpNTdxMpilUl
+         rIuw==
+X-Gm-Message-State: AOAM531kJhqJjM8z1bSLFKol6gk1t8otLvml/qeoUXlYz1E/JRXLES9i
+        83jXJhHsPJm1C7kXjeVai6wYZtkS/bZkRzB3eEo=
+X-Google-Smtp-Source: ABdhPJx6JWw5RkYbfa/IRNR8THt4AjX8bzkxWq04ggqdi4mjaDD63pqGfMMOhw+hoYd4UCtvibrw/xVwoNwVg2s8ppA=
+X-Received: by 2002:a05:6402:1057:: with SMTP id e23mr12564135edu.352.1630918443363;
+ Mon, 06 Sep 2021 01:54:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Reply-To: bouchetb@yandex.com
+Sender: cc536878@gmail.com
+Received: by 2002:a17:906:c04b:0:0:0:0 with HTTP; Mon, 6 Sep 2021 01:54:02
+ -0700 (PDT)
+From:   Bryan Bouchet <bryanbouchet0@gmail.com>
+Date:   Mon, 6 Sep 2021 09:54:02 +0100
+X-Google-Sender-Auth: PZYTtCj4yC7oQNugF9FbZpGde7M
+Message-ID: <CAH1yJ8ToX=QsCYL35wCDHZUmdnTAHh+eimuHogU9U-Zwb9VeKg@mail.gmail.com>
+Subject: PLEASE RESPOND VERY URGENTLY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add support for eDP panels with a built-in privacy screen using the
-new drm_privacy_screen class.
+Dear Friend,
 
-One thing which stands out here is the addition of these 2 lines to
-intel_atomic_commit_tail:
+With due respect, i have decided to contact you on a business
+transaction that will be beneficial to both of us. At the bank last
+account and auditing evaluation, my staffs came across an old account
+which was being maintained by a foreign client who we learn was among
+the deceased passengers of motor accident on November.2003, the
+deceased was unable to run this account since his death. The account
+has remained dormant without the knowledge of his family since it was
+put in a safe deposit account in the bank for future investment by the clie=
+nt.
 
-	for_each_new_connector_in_state(&state->base, connector, ...
-		drm_connector_update_privacy_screen(connector, state);
+Since his demise, even the members of his family haven't applied for
+claims over this fund and it has been in the safe deposit account
+until i discovered that it cannot be claimed since our client is a
+foreign national and we are sure that he has no next of kin here to
+file claims over the money. As the director of the department, this
+discovery was brought to my office so as to decide what is to be done;
+I decided to seek ways through which to transfer this money out of the
+bank and out of the country too.
 
-It may seem more logical to instead take care of updating the
-privacy-screen state by marking the crtc as needing a modeset and then
-do this in both the encoder update_pipe (for fast-sets) and enable
-(for full modesets) callbacks. But ATM these callbacks only get passed
-the new connector_state and these callbacks are all called after
-drm_atomic_helper_swap_state() at which point there is no way to get
-the old state from the new state.
+The total amount in the account is (18.6 million) with my positions as
+a staff of this bank, i am handicapped because i cannot operate
+foreign accounts and cannot lay benefice claim over this money. The
+client was a foreign national and you will only be asked to act as his
+next of kin and i will supply you with all the necessary information
+and bank data to assist you in being able to transfer this money to
+any bank of your choice where this money could be transferred into.
 
-Without access to the old state, we do not know if the sw_state of
-the privacy-screen has changes so we would need to call
-drm_privacy_screen_set_sw_state() unconditionally. This is undesirable
-since all current known privacy-screen providers use ACPI calls which
-are somewhat expensive to make.
+The total sum will be shared as follows: 50% for me, 50% for you, and
+expenses incidental occur during the transfer will be incur by both of
+us. The transfer is risk free on both sides hence you are going to
+follow my instruction till the fund transfer to your account. Since I
+work in this bank that is why you should be confident in the success
+of this transaction because you will be updated with information=E2=80=99s =
+as
+at when desired.
 
-Also, as all providers use ACPI calls, rather then poking GPU registers,
-there is no need to order this together with other encoder operations.
-Since no GPU poking is involved having this as a separate step of the
-commit process actually is the logical thing to do.
+I will wish you to keep this transaction secret and confidential as I
+am hoping to retire with my share of this money at the end of
+transaction which will be when this money is safety in your account. I
+will then come over to your country for sharing according to the
+previously agreed percentages. You might even have to advise me on
+possibilities of investment in your country or elsewhere of our
+choice. May god help you to help me to a restive retirement?
 
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_display.c |  5 +++++
- drivers/gpu/drm/i915/display/intel_dp.c      | 10 ++++++++++
- drivers/gpu/drm/i915/i915_pci.c              | 12 ++++++++++++
- 3 files changed, 27 insertions(+)
+(1) Your full name..............
+(2) Your age:................
+(3) Sex:.....................
+(4) Your telephone number:.................
+(5) Your occupation:.....................
+(6) Your country:.....................
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 5560d2f4c352..7285873d329a 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -10140,6 +10140,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 	struct drm_device *dev = state->base.dev;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_crtc_state *new_crtc_state, *old_crtc_state;
-+	struct drm_connector_state *new_connector_state;
-+	struct drm_connector *connector;
- 	struct intel_crtc *crtc;
- 	u64 put_domains[I915_MAX_PIPES] = {};
- 	intel_wakeref_t wakeref = 0;
-@@ -10237,6 +10239,9 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 			intel_color_load_luts(new_crtc_state);
- 	}
- 
-+	for_each_new_connector_in_state(&state->base, connector, new_connector_state, i)
-+		drm_connector_update_privacy_screen(connector, &state->base);
-+
- 	/*
- 	 * Now that the vblank has passed, we can go ahead and program the
- 	 * optimal watermarks on platforms that need two-step watermark
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7f8e8865048f..3aa2072cccf6 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -37,6 +37,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_privacy_screen_consumer.h>
- #include <drm/drm_probe_helper.h>
- 
- #include "g4x_dp.h"
-@@ -5217,6 +5218,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	struct drm_connector *connector = &intel_connector->base;
- 	struct drm_display_mode *fixed_mode = NULL;
- 	struct drm_display_mode *downclock_mode = NULL;
-+	struct drm_privacy_screen *privacy_screen;
- 	bool has_dpcd;
- 	enum pipe pipe = INVALID_PIPE;
- 	struct edid *edid;
-@@ -5308,6 +5310,14 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 				fixed_mode->hdisplay, fixed_mode->vdisplay);
- 	}
- 
-+	privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-+	if (!IS_ERR(privacy_screen)) {
-+		drm_connector_attach_privacy_screen_provider(connector,
-+							     privacy_screen);
-+	} else if (PTR_ERR(privacy_screen) != -ENODEV) {
-+		drm_warn(&dev_priv->drm, "Error getting privacy-screen\n");
-+	}
-+
- 	return true;
- 
- out_vdd_off:
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 146f7e39182a..d6913f567a1c 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -25,6 +25,7 @@
- #include <linux/vga_switcheroo.h>
- 
- #include <drm/drm_drv.h>
-+#include <drm/drm_privacy_screen_consumer.h>
- #include <drm/i915_pciids.h>
- 
- #include "i915_drv.h"
-@@ -1167,6 +1168,7 @@ static int i915_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
- 	struct intel_device_info *intel_info =
- 		(struct intel_device_info *) ent->driver_data;
-+	struct drm_privacy_screen *privacy_screen;
- 	int err;
- 
- 	if (intel_info->require_force_probe &&
-@@ -1195,7 +1197,17 @@ static int i915_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (vga_switcheroo_client_probe_defer(pdev))
- 		return -EPROBE_DEFER;
- 
-+	/*
-+	 * We do not handle -EPROBE_DEFER further into the probe process, so
-+	 * check if we have a laptop-panel privacy-screen for which the driver
-+	 * has not loaded yet here.
-+	 */
-+	privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-+	if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-+		return -EPROBE_DEFER;
-+
- 	err = i915_driver_probe(pdev, ent);
-+	drm_privacy_screen_put(privacy_screen);
- 	if (err)
- 		return err;
- 
--- 
-2.31.1
-
+Yours sincerely,
+Dr Bryan Bouchet
