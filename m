@@ -2,36 +2,36 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F6040B961
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Sep 2021 22:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06B6240BC7F
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 15 Sep 2021 02:14:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233618AbhINUkl (ORCPT
+        id S235838AbhIOAPU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Sep 2021 16:40:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46850 "EHLO mail.kernel.org"
+        Tue, 14 Sep 2021 20:15:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57744 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233555AbhINUkl (ORCPT
+        id S229520AbhIOAPU (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Sep 2021 16:40:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id A6C9B61178
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Sep 2021 20:39:23 +0000 (UTC)
+        Tue, 14 Sep 2021 20:15:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 628E96121E
+        for <platform-driver-x86@vger.kernel.org>; Wed, 15 Sep 2021 00:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631651963;
-        bh=mykGjAi//z5KnSc+HXpViy9g9RFO4YHHwyJLMOToRuE=;
+        s=k20201202; t=1631664842;
+        bh=Mo7KhGPjoDFJx4hX+hKSRUo2w18fjU5jdbDjjUZlj9c=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=sv+zShbgiGqvvEalxiotntPQb4JUTKq3t+erRqv+cWdtfXzTLWmPIuiVcdjUdrObW
-         awTsNyGbBUFa6oi/D7/P1aI2VlR36WMZsfhVJ1W2N1D1Rbo/U5GdcHiiOxIA7GF3f1
-         aZPXKg2VNX0+RMTCtcgRiWNYP2WSDdnIQVVMiSexNAyeWUTnt9eNf5oIUIq+uvyLNp
-         sij4MBsd4e4nc5+F7UOstgxAE4mTJ88zd/JBevqZzWx3q7k8AF0zMvhhtp2pjGNpDI
-         EwCochT7SxGzzacp+VKf6syK9D0OQg2Cfd2f84H4AetI55Tr5bqH03kOZNd2hQNsoz
-         DudmiNiFY412Q==
+        b=JtezgAcChpbD9tLj/wvv6bXR0CMjwYKUuujCKbH7k/HzNoINZhNOO/Pc/E9BDBzBa
+         UDv1X0Pq9XwUizo7mAQi0UPqqAx4mjtWkFpO3MpeJmeRlYs8zf2Nuv3g8kqR8hSlt8
+         IN3dTKyCZykebcshJaMbCATuD7k7T60T2k6uawtDyYbnIyKJIKKwPrWpfUfsCpDEyw
+         r4IqQzo1lUWPkgHGoHEhtg3tcvuWVgF1py0wvLCE6Lf9tw61o6Ta1Ut3388DqCXe1X
+         d5DTiAZLBgERwn55R3w+CpXFKpyQJqbAVIE5QDhAhFJszKdx8jvemX4ZExbJshdk7O
+         X2fQkpNsx9dVw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id A3DC960F6B; Tue, 14 Sep 2021 20:39:23 +0000 (UTC)
+        id 5F7B060FD7; Wed, 15 Sep 2021 00:14:02 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
  acpi_enforce_resources=lax is enabled
-Date:   Tue, 14 Sep 2021 20:39:22 +0000
+Date:   Wed, 15 Sep 2021 00:14:01 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -40,14 +40,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: pauk.denis@gmail.com
+X-Bugzilla-Who: eugene.shalygin@gmail.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-204807-215701-G7tcGANFNQ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204807-215701-MS9qOHptQ5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
 References: <bug-204807-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -61,26 +61,37 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-Denis Pauk (pauk.denis@gmail.com) changed:
+--- Comment #111 from Eugene Shalygin (eugene.shalygin@gmail.com) ---
+Most of these boards, as you probably know already, seem to not provide
+readings for all the available sensors via the Nuvoton chip. For example, w=
+ater
+temperature sensors are unavailable. Readings from those sensors are availa=
+ble
+via the embedded controller registers. Thus I created a little HWMON driver=
+ [1]
+to read them using WMI method 'BREC' (probably stands for Block Read Embedd=
+ed
+Controller). The driver currently supports only three boards (ROG Crosshair
+VIII Hero, ROG Crosshair VIII Dark Hero, ROG STRIX X570-E GAMING). ROG
+Crosshair VIII Formula should not differ, but need someone with the hardwar=
+e to
+test.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #298703|0                           |1
-        is obsolete|                            |
+While working on these sensors for the Libre Hardware Monitor project, we f=
+ound
+that the Nuvoton 6798D chip provides sensors readings for configured in the
+BIOS QFan sources in its registers [2]. Maybe those are worth displaying wi=
+th
+the nct6775 driver? They can include sensors that are otherwise are availab=
+le
+from the embedded controller only.
 
---- Comment #110 from Denis Pauk (pauk.denis@gmail.com) ---
-Created attachment 298805
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298805&action=3Dedit
-POC: Add support for access via Asus WMI to nct6775 with debug
+If you want to add support for your boards, feel free to submit patches to
+either project (and notify me to update the driver for HWMON from LHM if
+needed, please).
 
-Add more debug information about what is wrong with match vendor/board name=
-s.
-
-(In reply to Jonathan from comment #109)
-> Created attachment 298799 [details]
-> dmesg for boot with Denis's patch applied
-
-Could you add your board to list and recheck?
+[1] https://github.com/zeule/asus-wmi-ec-sensors
+[2] https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/issues/533
 
 --=20
 You may reply to this email to add a comment.
