@@ -2,72 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 633A5410A1A
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 Sep 2021 06:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9F54410A26
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 Sep 2021 07:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231430AbhISEuw (ORCPT
+        id S231752AbhISFv5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 19 Sep 2021 00:50:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbhISEuv (ORCPT
+        Sun, 19 Sep 2021 01:51:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45514 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231738AbhISFv5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 19 Sep 2021 00:50:51 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238ECC061574
-        for <platform-driver-x86@vger.kernel.org>; Sat, 18 Sep 2021 21:49:27 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id p12-20020a17090adf8c00b0019c959bc795so4708604pjv.1
-        for <platform-driver-x86@vger.kernel.org>; Sat, 18 Sep 2021 21:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=B3mNVASTgHaqt1c292FGdHauZR++Ifua1Qt5NnQe5eE=;
-        b=ggY2HUBTwogJDr5zXCQ8ta1CEyferc4Duh/eepm3R6AiQaxJFEpAo0Ue9vnWQjyOcS
-         oyuRyU/ZOecod8CxpBJo9XJdB5U+XtrHzGLWt5EsC+5jc7IIdfImIwulyrNiDEhBI1b8
-         9I6O254ZYB0RTxIHGL3Yu5km291mS9Pr5xarNaA+RqYyQdMOEdSI5AlS3KBipGF3jdsR
-         +zBOonOH2m+VrWa1Ysh1srGGMfEXMSHntfyAIXa4F0K2TxGKesuCn38CDaZ+IpmBnI2N
-         7qeSEEwy5tsWrroHZSwyI9q2FCrD3Yybu0FKbzR86HEPI36ImHFDCTzpYotXPXOV7bDI
-         oKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=B3mNVASTgHaqt1c292FGdHauZR++Ifua1Qt5NnQe5eE=;
-        b=UPOkLjak9IsvPyR87zSts8ii5BVDwx1DM+EZv4pMKtCLw8ccUX+SRcSA/6YEjhMcP3
-         R1djEPYZj6UkTVrShUIwwG0vGCciWgKjvLG1nmucm6fiDlSttU76MbpTS6T+4bo1UPOr
-         U9MOk0oOw5Q2pA5kqbaBh+on/VXYS0uY+u0HlXg2++iuU6mDhqphg2G644tJPnJ31wVg
-         yA4xfpHOUWdDkxthU5eDRuGgrm+FIf/SrEU00qScDrXtrOCGKXKDHzh9zV4tQdq+2xPZ
-         xUHgsnmhJFxT3wpWkswxWie4VB0Hp6h6+l0Is+Du7fRaRvXodCPsH2H1BFmdr+dxMVG5
-         2VFw==
-X-Gm-Message-State: AOAM533jV+uyy+d/lIRzW/Qux80S4C5T5PCkG5ivsREP7IuSvlGM5QcH
-        Ymb48DGKCv1jwgndLqHZihf/QRBvR+95PD6YEwU=
-X-Google-Smtp-Source: ABdhPJyDkOu3YQFZxS3Frh8Fl8o2RCPnHXXvXXjsirkkorqX/ehZ83XV0/xNPrxUNu4wjwyPV/+JbI7J5bsLQz4xGZk=
-X-Received: by 2002:a17:902:bb16:b0:13c:a5e1:f0b5 with SMTP id
- im22-20020a170902bb1600b0013ca5e1f0b5mr13836491plb.35.1632026966595; Sat, 18
- Sep 2021 21:49:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6a10:c7c5:0:0:0:0 with HTTP; Sat, 18 Sep 2021 21:49:26
- -0700 (PDT)
-Reply-To: mr.luisfernando5050@gmail.com
-From:   =?UTF-8?B?TXIuIEx1aXMgRmVybmFuZG/igJlz?= 
-        <mrsnicolemarois999@gmail.com>
-Date:   Sat, 18 Sep 2021 21:49:26 -0700
-Message-ID: <CAPic1COkrrU5rqQ3BRTK1njVrJnub9VrAwrQNLDhBag=R52_fQ@mail.gmail.com>
-Subject: GOOD DAY
-To:     undisclosed-recipients:;
+        Sun, 19 Sep 2021 01:51:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 0D51B61283
+        for <platform-driver-x86@vger.kernel.org>; Sun, 19 Sep 2021 05:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632030632;
+        bh=v7KKC6+smhBlLp2CioCRnpbO4UCXyIrToT8h4bx0juU=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=YJbXGwW6Tkv7uA4tU1jipPScHavKzbkWdyV5ZtdrsBGTlUGV+KvDWTcilrulaS2Op
+         IjCGPb+WYUGqEWTsknCuwCTY8dzVfqY0GBx2pEKuIGdfW6TCSalUqm9Gs/+uGGvDdw
+         FvbKUM6ZJrVnBAmDfECqAsdW3Q+Y68y7UQatmWYiTck7Ktgkn/s8Dsr4q2kMKyWhIj
+         iqlpKjU6ItwdAZz2aOmZjIvVAIDoaKfKH68wh0VA0qeiULykHONYPhZlVw6bR/krFt
+         nQVlv1W35oG/jy90FXZxRyhYcJ/iZNrR4sOYH7HXrK+ysbl3u7EX2pAbCb7ZStj5Yj
+         uSCPr3Kuzl1kw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 09DE460E9A; Sun, 19 Sep 2021 05:50:32 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date:   Sun, 19 Sep 2021 05:50:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: sefoci9222@rerunway.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204807-215701-czzlhqvZh1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Je suis de M. Luis Fernando
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-Salut ami, je suis directeur de banque de l'UBA Bank Plc bf. Je
-souhaite vous transf=C3=A9rer une somme abandonn=C3=A9e de 27,5 millions US=
-D via
-ATM VISA CARD. 50% sera pour vous. Aucun risque encouru. Contactez moi
-pour plus de d=C3=A9tails. Veuillez me r=C3=A9pondre =C3=A0 mon adresse e-m=
-ail
-alternative (mr.luisfernando5050@gmail.com) M. Luis Fernando's
+matt-testalltheway (sefoci9222@rerunway.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |sefoci9222@rerunway.com
+
+--- Comment #117 from matt-testalltheway (sefoci9222@rerunway.com) ---
+(In reply to Denis Pauk from comment #114)
+> Patch series are applied by Guenter Roeck.
+> https://lkml.org/lkml/2021/9/17/1079
+>=20
+> Thank you everyone!
+
+guess i was a bit late to the party and "ROG STRIX X570-F GAMING" did not g=
+et
+added (as per comment 112).. but hey thanks for this patch :)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
