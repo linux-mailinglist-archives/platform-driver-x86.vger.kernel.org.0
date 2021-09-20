@@ -2,133 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85D8941264D
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Sep 2021 20:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0119541259F
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 20 Sep 2021 20:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387246AbhITS4s (ORCPT
+        id S1384126AbhITSqi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 20 Sep 2021 14:56:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1385810AbhITSw2 (ORCPT
+        Mon, 20 Sep 2021 14:46:38 -0400
+Received: from mail-4322.protonmail.ch ([185.70.43.22]:27045 "EHLO
+        mail-4322.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1383455AbhITSof (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 20 Sep 2021 14:52:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2927561107;
-        Mon, 20 Sep 2021 17:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632160529;
-        bh=hzulpvtgTfOxx4bSICmkUAfYsLkJUj04SA7nuzM4Dbs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YV1Ip6XGUd+DR79KmSPGOxjDSqWfIcn5ifcZyqkx8FRm5OQvd5rnYwh5F2i8g4vbT
-         AG5SJN4gbQC5+i9lUv8LKHCEG3o/xhrC3oRp6GVj6x7+8Nu8j6isUME9EhKOHoGrUL
-         N7FwNBAEtnzildcvao3Ej7Ga73CeyFKSrdM8MSRfcYYZ7vJsC+D5IlN1x7YTPO2e93
-         69yqYuZvGSXfG5jpJO+OAitrMRX5d3okL1dslKmZ4c9/ww/o7yTnAD6++xqqsVD75+
-         ITPmskeQd3zRCOUGxVN3u+ifdRCMdk9WtJr7GHVp+9IwgIi125/M+pBpdnXof1e6tc
-         HukV/6/k7yyRw==
-Received: by pali.im (Postfix)
-        id B81DC855; Mon, 20 Sep 2021 19:55:26 +0200 (CEST)
-Date:   Mon, 20 Sep 2021 19:55:26 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Daniel Dadap <ddadap@nvidia.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        platform-driver-x86@vger.kernel.org, mario.limonciello@outlook.com,
-        pobrn@protonmail.com, andy.shevchenko@gmail.com,
-        aplattner@nvidia.com,
-        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v6] platform/x86: Add driver for ACPI WMAA EC-based
- backlight control
-Message-ID: <20210920175526.5itrqbif65iievxb@pali>
-References: <e63904b7-105b-4401-bd40-82854b7d42d1@t-8ch.de>
- <20210903003838.15797-1-ddadap@nvidia.com>
- <11ffe8bc-b4ee-c451-9860-46997de8fe55@redhat.com>
- <20210920132911.cus27elz36dme63g@pali>
- <8b07125d-83b9-9de4-fd52-1cb01466364a@redhat.com>
- <20210920135106.y6mi57bcmurczmka@pali>
- <1aa8fdc7-9e7a-5e86-0045-f07ad5bf118e@nvidia.com>
+        Mon, 20 Sep 2021 14:44:35 -0400
+Date:   Mon, 20 Sep 2021 18:43:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1632163386;
+        bh=/dCPObPUPU/gLuQE7BcDq2GKMnutPsgeme1TLL+i1X8=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=LXJlDbv/5HUdDFxFWVaJ5m4aeqMgCjK/JDv5MifAyIggBs09G1vantspUmWIZ7gAs
+         H3vG8NnKotCXCGQhd7o4I0pg1yyS0NBlnKQxNbXCkPql09l/rRGrThwTljm5ekslF5
+         YU2ZwkVoWQYGpf1igJ47A1Tw6ZNoijuUbqDrxE6s=
+To:     =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     hdegoede@redhat.com, alex.hung@canonical.com,
+        mgross@linux.intel.com, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Tobias Gurtzick <magic@wizardtales.com>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH] platform/x86/intel: hid: Add DMI switches allow list
+Message-ID: <NgI8poho2fFBrbj2ivUSWphaZbwgMIxHVovWWqI2UWdJA8FNhlDtkFk-Y7cp4mYxiiOtkFQHoCQj-kkGh71lQfsvzJ1sg0IgixkJqdEdcnM=@protonmail.com>
+In-Reply-To: <20210920160312.9787-1-jose.exposito89@gmail.com>
+References: <20210920160312.9787-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1aa8fdc7-9e7a-5e86-0045-f07ad5bf118e@nvidia.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Monday 20 September 2021 12:34:09 Daniel Dadap wrote:
-> My apologies. I wasn't aware that WMAA was an autogenerated method name; I
-> thought it was the name of the ACPI method and that the 603E9613... WMI GUID
-> happened to wrap it. Given your explanation, I agree that the current name
-> is inappropriate.
-> 
-> 
-> > > So what would be a better name wmi-nvidia-backlight.ko I guess ?
-> > > (and update the rest to match ?)
-> > It looks like that no vendor driver starts with "wmi-" prefix. "-wmi"
-> > string is used as a suffix. So for consistency it would be better to
-> > choose "nvidia-backlight-wmi.ko".
-> > 
-> > But it would be a nice to know if this wmi "API" is nvidia specific or
-> > not. Because it is possible that there is vendor C who this "API"
-> > invented, is licensing it and nvidia was just first who started using
-> > this "API" + send patch to kernel. Embedded Controller, including its
-> > programming is done by laptop vendor, it is fully in laptop vendor
-> > control and I do not think that nvidia sells laptops. So there is a high
-> > chance that we will see laptops without any nvidia component (with e.g.
-> > amd or intel graphics card) and with this "API" :)
-> 
-> 
-> I will have to check about the origin of the "API" to be certain. My
-> understanding is that this WMI backlight control scheme is part of NVIDIA
-> design recommendations to notebook OEMs, with multiple OEMs potentially
-> implementing it (I'm aware of at least two off the top of my head which
-> already have systems in the wild). Specifically, this is meant to address an
-> issue in hybrid systems with switchable graphics, by placing control of the
-> backlight level with the EC rather than having to coordinate it between the
-> different GPUs which might happen to be connected to the panel at any given
-> time. It seems appropriate to me to include "nvidia" in the driver name for
-> now; it could be renamed if it turns out non-NVIDIA designs use it as well.
-> I don't have any specific information on whether or not that would be the
-> case.
+Hi
 
-Ok! So lets stick with nvidia name for now.
 
-> > Some information may be available in bmf / acpidump code. Also there can
-> > be information if this GUID is just for backlight or if it can provide
-> > also some other functionality.
-> > 
-> > So for now lets stick with nvidia and I guess later driver can be
-> > renamed (if we find out that this "API" is used also on non-nvidia based
-> > laptops).
-> 
-> 
-> Okay, I'll send a follow-up patch to do the renaming once I get a little
-> more clarification from someone who knows more about where the interface
-> came from.
-> 
-> 
-> > 
-> > > > Anyway, could you provide BMF code for this wmi acpi functionality? In
-> > > > BMF could be encoded more informations, including real, meaning human
-> > > > readable name of this function. Not only internal (autogenerated) AA
-> > > > identifier. BMF can be extracted from dumps created by 'acpidump' tool
-> > > > or with new kernels directly from files 'find /sys/ -name bmof'.
-> 
-> 
-> I've attached the output of your bmf2mof tool. Seems it's named
-> "WmiBrightnessNotify", which isn't especially helpful.
+2021. szeptember 20., h=C3=A9tf=C5=91 18:03 keltez=C3=A9ssel, Jos=C3=A9 Exp=
+=C3=B3sito =C3=ADrta:
+> Some devices, even non convertible ones, can send incorrect
+> SW_TABLET_MODE reports.
+>
+> Add an allow list and accept such reports only from devices in it.
+>
+> Bug reported for Dell XPS 17 9710 on:
+> https://gitlab.freedesktop.org/libinput/libinput/-/issues/662
+>
+> Reported-by: Tobias Gurtzick <magic@wizardtales.com>
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> Tested-by: Tobias Gurtzick <magic@wizardtales.com>
+> Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
+> ---
+>  drivers/platform/x86/intel/hid.c | 33 +++++++++++++++++++++++++++-----
+>  1 file changed, 28 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/inte=
+l/hid.c
+> index a33a5826e81a..24d26336e39a 100644
+> --- a/drivers/platform/x86/intel/hid.c
+> +++ b/drivers/platform/x86/intel/hid.c
+> @@ -118,6 +118,24 @@ static const struct dmi_system_id dmi_vgbs_allow_lis=
+t[] =3D {
+>  =09{ }
+>  };
+>
+> +/*
+> + * Some devices, even non convertible ones, can send incorrect SW_TABLET=
+_MODE
+> + * reports. Accept such reports only from devices in this list.
+> + */
+> +static const struct dmi_system_id dmi_switches_auto_add_allow_list[] =3D=
+ {
+> +=09{
+> +=09=09.matches =3D {
+> +=09=09=09DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "31" /* Convertible */),
+> +=09=09},
+> +=09},
+> +=09{
+> +=09=09.matches =3D {
+> +=09=09=09DMI_EXACT_MATCH(DMI_CHASSIS_TYPE, "32" /* Detachable */),
+> +=09=09},
+> +=09},
+> +=09{} /* Array terminator */
+> +};
+> +
+>  struct intel_hid_priv {
+>  =09struct input_dev *input_dev;
+>  =09struct input_dev *array;
+> @@ -455,11 +473,16 @@ static void notify_handler(acpi_handle handle, u32 =
+event, void *context)
+>  =09 *
+>  =09 * See dual_accel_detect.h for more info on the dual_accel check.
+>  =09 */
+> -=09if (!priv->switches && !priv->dual_accel && (event =3D=3D 0xcc || eve=
+nt =3D=3D 0xcd)) {
+> -=09=09dev_info(&device->dev, "switch event received, enable switches sup=
+ports\n");
+> -=09=09err =3D intel_hid_switches_setup(device);
+> -=09=09if (err)
+> -=09=09=09pr_err("Failed to setup Intel HID switches\n");
+> +=09if (event =3D=3D 0xcc || event =3D=3D 0xcd) {
+> +=09=09if (!dmi_check_system(dmi_switches_auto_add_allow_list))
+> +=09=09=09return;
 
-I see... no (interesting) additional details.
+I think you should not check it every time. Maybe add a `bool` member
+to `struct intel_hid_priv`. Or maybe better: rename `dual_accel` to somethi=
+ng like
+`autodetect_switch` and initialize it with `!dual_accel_detect() && dmi_che=
+ck_system(...)`.
 
-Just one check, has bmf2mof showed some warning on stderr? I see
-"instance" in class definition and bmf2mof does not support decompiling
-MOF instances yet, it shows warning.
 
-> [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("WMI Function"), guid("{603e9613-ef25-4338-a3d0-c46177516db7}")]
-> class WmiBrightnessNotify {
->   [key, read] String InstanceName;
->   [read] Boolean Active;
-> 
->   [WmiMethodId(1), Implemented, read, write, Description("Get/Set EC brightness level status")] void NotifyBrightnessLevel([in] uint32 inArg, [in] uint32 Level, [out] uint32 Result);
->   [WmiMethodId(2), Implemented, read, write, Description("Get/Set Display Brightness Source")] void NotifyBrightnessSource([in] uint32 inArg0, [in] uint32 inArg1, [out] uint32 Result);
-> };
+> +
+> +=09=09if (!priv->switches && !priv->dual_accel) {
+> +=09=09=09dev_info(&device->dev, "switch event received, enable switches =
+supports\n");
+> +=09=09=09err =3D intel_hid_switches_setup(device);
+> +=09=09=09if (err)
+> +=09=09=09=09pr_err("Failed to setup Intel HID switches\n");
+> +=09=09}
+>  =09}
+>
+>  =09if (priv->wakeup_mode) {
+> --
+> 2.25.1
+>
+>
 
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
