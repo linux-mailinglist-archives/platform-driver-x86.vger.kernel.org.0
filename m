@@ -2,122 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC65413D27
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Sep 2021 23:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8712E414736
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Sep 2021 13:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235610AbhIUWAF (ORCPT
+        id S235047AbhIVLG3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Sep 2021 18:00:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56328 "EHLO
+        Wed, 22 Sep 2021 07:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235675AbhIUWAA (ORCPT
+        with ESMTP id S234760AbhIVLG1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Sep 2021 18:00:00 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B88AC061756
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Sep 2021 14:58:31 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id u18so3147154lfd.12
-        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Sep 2021 14:58:31 -0700 (PDT)
+        Wed, 22 Sep 2021 07:06:27 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFA1C061574
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 04:04:57 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id g8so8350702edt.7
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 04:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3LA4/O2mCyOef4VI1WFdoR8n1dGVVw7qzM7cBS6DVhU=;
-        b=uz74/2S9fGGuaG1ODTSPcqBPXWYPIeYWZ5doyMS2bRw5AX5Q0Ua+uMdim4ZuJxyrxA
-         jJZQO4P96OqxH5cKvegadiVeIhPzNJbdYGDNOj6HudiXM/SjkCNrO1WvHS6o1vufFzsX
-         2aSN3AaXAf4xQbbvR+FPssTEArjutFFJ66GH7RUNHyFCNozOqySWjjTExvVocPFb39xr
-         6cGXTnJkbxFWnWohqMtGSjOnjJQnu/xNRG5R8l2FsElk/Lpvl66TfQOcwUYfJ1TTZ5xS
-         XHIL9Tea6doFMlP16r8MNgBnWMAMa0JaH2OsWma5jit+qxznz4qqyPPj9R612HR9czFp
-         8TyQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=XkOQESSvJ5s/QdQedIIGR1DTTOMEKSZd3oexYONkgB4=;
+        b=GV98Y3v5cGOAHN6hCWzErCVT2AZwZugcr3fvj5qpPdxMVNEMMmS1kWPaUcWlwjf9Ib
+         5x3BKylbFwTYiMRQU/ud9stjaSt/d8xH9eBVHtrZYixDXqQoi8ue8rgvLoXTKd55MYOT
+         Nzt+o1U0IMK5HUTF/hoa3JtxM19kRhZcDNxc5aMxu9pAtr/VdJcJq3nEiCf+a0shjX3Q
+         JsQXY0mZ9jR+ueRKgAJFcHm1krNIsH4S/kBqdaR/H0/RXaa9EpmqXQgShOSE+DaqeZXO
+         ozxLUHVt8XryCcQvvztA50qfj4+92ytLjObncFY+nNJ+hbKYEqoPzHcF5Tf4BypUUmyY
+         fd3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3LA4/O2mCyOef4VI1WFdoR8n1dGVVw7qzM7cBS6DVhU=;
-        b=GMT5ecqVbAQrvJ14Rkvx+pUPWLXnUqMfMTdjka7KJZ31F2+Ko1LdYryjnFKf2P3p6v
-         VlNiRThEW7u6hz3nPnZNhKxFcMaEuSL1LWk9hcLEONdW23k2+T8vUnEraJDjUnjKKPCW
-         ABxbaV/9z2eyJ77sJanSuiBOWYoIJKkUOkpudv33Z2aPupKogLQ6KSWITFwTRXfcioEf
-         NqOmzqzuLvHwsfqIdeIHhSFZlAJpuSqp1ju70z7cHI2NgBVtCpmLFHeDIVmFAdDQMrQm
-         t4/P8bBqdHJhkV7eBfafI0bvs+gqUDcH7umDlM828zxKwlAjAwrtJqqd3LOzaYsXBnY7
-         l0IA==
-X-Gm-Message-State: AOAM532jQVow3Q+8zYO0tEFvoNTyNn7ZhBL4UhFX3J/T+oygF+EfGQW+
-        MGor2IZGqnETSfdUmBHigcNxPw==
-X-Google-Smtp-Source: ABdhPJwDR/A8UmkVQG/A20LQ6G5BoWJFTrnWNencwdMb7p0WPRY497q9Nuc+l8sjchxpIRdzv87pHg==
-X-Received: by 2002:a2e:86ce:: with SMTP id n14mr11214294ljj.211.1632261509754;
-        Tue, 21 Sep 2021 14:58:29 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id q7sm16555ljg.137.2021.09.21.14.58.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 14:58:29 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 5DF1710305C; Wed, 22 Sep 2021 00:58:30 +0300 (+03)
-Date:   Wed, 22 Sep 2021 00:58:30 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Tom Lendacky <thomas.lendacky@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, iommu@lists.linux-foundation.org,
-        kvm@vger.kernel.org, linux-efi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-graphics-maintainer@vmware.com,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
- cc_platform_has()
-Message-ID: <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
- <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
- <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
- <YUoao0LlqQ6+uBrq@zn.tnic>
- <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
- <YUpONYwM4dQXAOJr@zn.tnic>
- <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
- <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=XkOQESSvJ5s/QdQedIIGR1DTTOMEKSZd3oexYONkgB4=;
+        b=dnP91GtQVf0bkSCMUb3KXNsFZINv7mzrld/WaaOGxN1Bghqmf2M9u4q2YRj36tHLjQ
+         mu6L+89mIvNKz04M/lQbi1Kh1C9fNqs0BGdkiPdJa+xOVE3zh69Stt+bGz99WoVjZKM6
+         aY47p2LW+xGZ8DoyiUX2j+YGoZWz/aDNlLcUMc1Hjqj/cuP9S+E8z+z/6Ce8ia37e/Dy
+         0mEIUiew4V0r4Xzspe+zTbOaCRCNjtoHDOE3zhRv3fZgHWpPFPMLwJhHNSbXCXvex3/A
+         J8zOQsqyfGDrPhyPGuIfLOfikUppraht56Xdw5YlFN+PdBweF7/NJDJBh70yDuzJTNJ6
+         V1ZQ==
+X-Gm-Message-State: AOAM531I+z3XE81FcTqBuAfLfmZ1NtOlwROeK9cAY1A02lVmOGXI7Dtr
+        HA09eJoLUaaqQkA6SrG+iaibA4KYiY6QWplEEyQ=
+X-Google-Smtp-Source: ABdhPJwuTD5gYm498Aa7UVDAhfsGY8TX2NiceFhn4HDjQJ6DnC26DPA3+qcbn98CGIbVOn7uLKVcdndaVtQRKD4OIcw=
+X-Received: by 2002:a50:cd8e:: with SMTP id p14mr41132321edi.39.1632308695832;
+ Wed, 22 Sep 2021 04:04:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+Reply-To: pastorjoeonu1977222@hotmail.com
+Sender: mrsaminamohammed38547@gmail.com
+Received: by 2002:a17:906:b1d7:0:0:0:0 with HTTP; Wed, 22 Sep 2021 04:04:54
+ -0700 (PDT)
+From:   "Ms.Amina Mohammed" <mrsaminamohammed4781@gmail.com>
+Date:   Wed, 22 Sep 2021 12:04:54 +0100
+X-Google-Sender-Auth: bIifar9l-ndnBoWQ0tFcziK0BfA
+Message-ID: <CANGKk_eCpx0b75X0VASu-P9wpReeOUWy9FsRLVKucvadJGXGfQ@mail.gmail.com>
+Subject: ATM VisaCard
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Sep 21, 2021 at 04:43:59PM -0500, Tom Lendacky wrote:
-> On 9/21/21 4:34 PM, Kirill A. Shutemov wrote:
-> > On Tue, Sep 21, 2021 at 11:27:17PM +0200, Borislav Petkov wrote:
-> > > On Wed, Sep 22, 2021 at 12:20:59AM +0300, Kirill A. Shutemov wrote:
-> > > > I still believe calling cc_platform_has() from __startup_64() is totally
-> > > > broken as it lacks proper wrapping while accessing global variables.
-> > > 
-> > > Well, one of the issues on the AMD side was using boot_cpu_data too
-> > > early and the Intel side uses it too. Can you replace those checks with
-> > > is_tdx_guest() or whatever was the helper's name which would check
-> > > whether the the kernel is running as a TDX guest, and see if that helps?
-> > 
-> > There's no need in Intel check this early. Only AMD need it. Maybe just
-> > opencode them?
-> 
-> Any way you can put a gzipped/bzipped copy of your vmlinux file somewhere I
-> can grab it from and take a look at it?
+Attention Beneficiary
 
-You can find broken vmlinux and bzImage here:
+ATM VisaCard
 
-https://drive.google.com/drive/folders/1n74vUQHOGebnF70Im32qLFY8iS3wvjIs?usp=sharing
+This is to official inform you that we have been having meetings for
+the past months now which ended some weeks ago with Mr. Jim Yong Kim
+the World Bank president and other seven continent presidents on the
+Congress we treated on solution to Scam victim problems.
 
-Let me know when I can remove it.
+Note: we have decided to contact you following the reports we received
+from Anti-Fraud International Monitoring Group your name/email has
+been submitted to us therefore the United Nations have agreed to
+compensate you with the  sum of(USD$1.500,000.00) this compensation is
+also including international business that failed due to Government
+problems etc.
 
--- 
- Kirill A. Shutemov
+We have arranged your payment through our ATM Visa Card which is the
+latest instruction from the World Bank president Mr. Jim Yong Kim
+therefore be advice to contact our Representative Agent. Pastor Joe
+Onu who is in position to release your ATM Visa card contact him with
+the below email & phone number and make sure you forwards your full
+details to him. Your full name, your country/city, your delivery
+address, your telephone number, your age, your occupation and your
+identity card or passport.
+
+Contact him:
+CONTACT NAME: Pastor Joe Onu
+E-MAIL: pastorjoeonu1977222@gmail.com
+
+
+Once again for the collection of your Visa card contact our
+representative Pastor Joe Onu to enable you confirm your payment
+without further delay and note that any other contact you made out
+side his office is at your own risk.
+
+Thanks.
+
+Best Regards
+Mrs. Amina J. Mohammed
+Deputy Secretary-General (U.N)
+CC: Jim Yong Kim World Bank president
+CC: Mr.Antonio Guterres UN Secretary General
