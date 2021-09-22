@@ -2,117 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C5041525B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Sep 2021 23:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E90934152AB
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Sep 2021 23:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237868AbhIVVHa (ORCPT
+        id S238063AbhIVVXB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Sep 2021 17:07:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
+        Wed, 22 Sep 2021 17:23:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237829AbhIVVH3 (ORCPT
+        with ESMTP id S238108AbhIVVXB (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Sep 2021 17:07:29 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33638C061760
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 14:05:59 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id g41so17216790lfv.1
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 14:05:59 -0700 (PDT)
+        Wed, 22 Sep 2021 17:23:01 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5C4C061756
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 14:21:30 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id z11-20020a4ad1ab000000b0029f085f5f64so1410476oor.5
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 14:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/PcqjgcRCkyIpO5H00bhPWTTbPCMNXWR4nKgirdi3Io=;
-        b=xEkq7SUZRewChVZqWhm4cS96l8pPzSSEz+ScgQL56dgjn10FcSw+jLPv0OY9bYezIP
-         CYphaUGJXn/snvtDU3KSfg579Nb5Qlk3NtUo6CuASAlclCh3ui7cA33wRO6foyyQk9sK
-         Mw3x0Ft59CKVBwMroO3W4lugA/tv5mEWbElbrHB+wIwMc5ZNjOZSS8KT6h+Zon+cf4qv
-         JmEltnmffmbEBqUsebTV11v0B5U1mVwBUj3sW1gLZspQ54hm7TrP9j1QPJEblcLAhwI2
-         nEggNK9m8gYxewjcBCYSYCHLIhl9iSTZmO6vl1lqR1Tl54TSO4jEGxDT96zBALyLtnLS
-         Hi0w==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=WCxA/SXwikK3hpq9S5v8T6hF41VI1U2C7ldMzOPK1EgAps3pOJMJCClDnDzmCNn2LR
+         sN4lQDeXhb4fdGRWRJLJMY6nJ0vuEvGLfLeekpPsTGeAd/r68MduTOXs89LmkC07e60/
+         qoa+qjxgzV6GG13/ZW/WDcUo7EEZznPUEil1vqvGq7sjSobYgPTtJy3A6ey+e18fF790
+         +4Y8xjBQ/1TdRts26qhAhLdT3gP0ukEpwglWVuCu2ketdC+IFUGmxXXENrP8iqSD7Nh7
+         yxroz0cQF0L35dvcD5V3q2kloyFs263ghHV4oU2+jsEIZnvOZzihk4R1e/2TiP0DNZzH
+         GETg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/PcqjgcRCkyIpO5H00bhPWTTbPCMNXWR4nKgirdi3Io=;
-        b=VefjWsxajU6NJtkZn/XN/dfKjsoo/19RBdP/2vHS5ekDVmDsz5/0M0OGaEvyvLsBmj
-         IzV6wwQUsAf+iREMf1Ke7Puq2qgR+313Kd2OOII5zpNZOxhregGYEAM49gNWBYHxqaX4
-         mIA+LNvNhqWfxDrU5NlllCtOo28n93DR+5FVaIoMWtb5/9BSJ+Xmlk5ixwej0Sir7rnS
-         8CZOw1qV6XYIeJO3WHAUG7jZgILUBmIMKqaeW4ZLgFOfOpxfB9BSJXWKTvf9WVtGrHIl
-         UjyXCdvp51r29E5HQ1NO92XbsPjc0vqgN0Ig2RFyK8TPxZXjybrR7nwhWwk6cQBFgrhD
-         XdRw==
-X-Gm-Message-State: AOAM5312ZeNvg+j5z0M3NGhRrOgHm/0iALGpRhabGvSyaXtBYeExfxqu
-        tVMGtHLPHOodekQlRdCi9SahKw==
-X-Google-Smtp-Source: ABdhPJxFaBhI/uy8npc3Dtax2q52q/CAXrrCmDjvazERLjrealUJSj+rQLNB+0RcTEMnHlaiKFjmmA==
-X-Received: by 2002:a05:6512:5c2:: with SMTP id o2mr917110lfo.207.1632344757440;
-        Wed, 22 Sep 2021 14:05:57 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id bi33sm370467ljb.89.2021.09.22.14.05.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 14:05:56 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 60F2A10304D; Thu, 23 Sep 2021 00:05:58 +0300 (+03)
-Date:   Thu, 23 Sep 2021 00:05:58 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Tom Lendacky <thomas.lendacky@amd.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-graphics-maintainer@vmware.com,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
- cc_platform_has()
-Message-ID: <20210922210558.itofvu3725dap5xx@box.shutemov.name>
-References: <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
- <YUoao0LlqQ6+uBrq@zn.tnic>
- <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
- <YUpONYwM4dQXAOJr@zn.tnic>
- <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
- <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
- <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
- <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
- <20210922143015.vvxvh6ec73lffvkf@box.shutemov.name>
- <YUuJZ2qOgbdpfk6N@zn.tnic>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
+        b=VpH+UzJm6nmq+u6KWJz4odYmKkLTtLyEqRG9Ljp0fC8Le5NBdFMwyrl2NCNiOmdPG4
+         hR2d7zPCcB9XVWPzH8iOLiTl0YKQlfuu1zDb++0B+geR8t6t08RQQMJ8kj80wHHqq8A2
+         uFbl+vwY1tuTG14FcGpL6m5BQ5fp8hnsOZ6il4wlXR5ZL16SOY6TQ049tedU0pg3CVij
+         3VQuItWvY1aPlqozASBlYZiicJi+H+4s7pJQPsR1OWV3wKSKrf1x6eJEP0an1hq5bA/Q
+         PmrtHIpUDfBkGmf18G/Po2v1Dk3ynEL9OH+dliG0IDVhyyOBSeQBsv2AUal4VSGEBEQP
+         vaQA==
+X-Gm-Message-State: AOAM530jQZyb5d9dO7+9BQsuJRvhaaUf5PnUr37UlqfkUZ6u3v3NRokx
+        3MRt8E/1NUsm+ZvJI199cJQL7tlANSO+Lk0lrUA=
+X-Google-Smtp-Source: ABdhPJwlLIpQU0l+Kynxk1zOz1pn/LMAxsQCATtzYvqpkAo2E/Xi2jMakkjRPcw/x5hpa5y7e//YZR81e8XH9ylN350=
+X-Received: by 2002:a4a:9784:: with SMTP id w4mr873752ooi.90.1632345690236;
+ Wed, 22 Sep 2021 14:21:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUuJZ2qOgbdpfk6N@zn.tnic>
+Sender: mrs.aishagaddafi850@gmail.com
+Received: by 2002:a4a:4cc9:0:0:0:0:0 with HTTP; Wed, 22 Sep 2021 14:21:29
+ -0700 (PDT)
+From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
+Date:   Wed, 22 Sep 2021 22:21:29 +0100
+X-Google-Sender-Auth: EssU7QAyWQ9k7Rkxob9__XsXatg
+Message-ID: <CAKDbNhiWPD=C7LpE27rupmF95JViUBeQYNhqRZGwFBZ2yHLHag@mail.gmail.com>
+Subject: My Dear Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 09:52:07PM +0200, Borislav Petkov wrote:
-> On Wed, Sep 22, 2021 at 05:30:15PM +0300, Kirill A. Shutemov wrote:
-> > Not fine, but waiting to blowup with random build environment change.
-> 
-> Why is it not fine?
-> 
-> Are you suspecting that the compiler might generate something else and
-> not a rip-relative access?
-
-Yes. We had it before for __supported_pte_mask and other users of
-fixup_pointer().
-
-See for instance 4a09f0210c8b ("x86/boot/64/clang: Use fixup_pointer() to
-access '__supported_pte_mask'")
-
-Unless we find other way to guarantee RIP-relative access, we must use
-fixup_pointer() to access any global variables.
-
--- 
- Kirill A. Shutemov
+Assalamu alaikum,
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological,
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children. I have investment funds
+worth Twenty Seven Million Five Hundred Thousand United State Dollar
+($27.500.000.00 ) and i need a trusted  investment Manager/Partner
+because of my current refugee status, however, I am interested in you
+for investment project assistance in your country. If you are willing
+to handle this project on my behalf kindly reply urgently to enable me
+to provide you more information about the investment
+funds.
+Best Regards
