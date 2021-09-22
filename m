@@ -2,140 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 788F4414C0D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Sep 2021 16:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A739B414C9C
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Sep 2021 17:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236237AbhIVOdi (ORCPT
+        id S236164AbhIVPCL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Sep 2021 10:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        Wed, 22 Sep 2021 11:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235600AbhIVOdh (ORCPT
+        with ESMTP id S235809AbhIVPCL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Sep 2021 10:33:37 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68BEC061574
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 07:32:07 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id i4so12808069lfv.4
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 07:32:07 -0700 (PDT)
+        Wed, 22 Sep 2021 11:02:11 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C187C061574
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 08:00:41 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id h9so3049377ile.6
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Sep 2021 08:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ayCGrHt4GWDBHksaWpDlFPsTDgmCQyv1ZQQyBUlWV+I=;
-        b=vKVQE5RUe8kMs0wun4XuDGO3eTujOGs2RwESdLhyIqK2JwxlqZrlSJy3MrsXJkRafX
-         gBAYy/nccugQKoUll1gn8VoFbzjQhjrLzptB1R76SapyouDJT5ZGJIWbG+FX4hwJyS6V
-         RHRd5aepSbIC42CmHtd5u+dR4xuEL++muo/z0NTk8BMGL92wAA2PmP9KOi2aYe71/Bfr
-         QklC4Nhk0K/0QbQiJZijepS1OZ+jtAxihfchh+jQ4jf5+4U17tQ1xXPBbmD5a5nhc0Gd
-         SVGSB9p7xAW0QvKqL518rFLXTD4w7KZA2wBif/Kp2RKz31Lh+5HyNQaqaSmkfOyisrNC
-         k+Nw==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=4uRsd3CxS23OCgQWa0Dm9tCu8Vz0Hyw3S4ZRw4iH9GU=;
+        b=VmYwXd9C4d/5iCxIoKtDgBEorRsuOI5zNGGySKQqZ04B+XRIp3oVXGUVQGi9riQwyW
+         V4pTcTrguFmOoLsEOlZIiI40vXCINvErO6SxOnhlbmFEN0bmRkvedgWvSO5rh+pfc+gq
+         f9rjJQjtVrl5Vyg2caEeB0w8q7sOaKj1faBerB7ewL9XU4CjLYrOs+FEaabI+PJqfUzZ
+         38mM+INbbwA0ktyjFtfbPifOk9Daq+TSX/5gX52TzfBnkG9W6J77FT77MLnIKTkVS8MY
+         8zHIDaj5zQFMIlVMoPY9B+zCpZXL/mQCw8kSd96sfs2iFxSV130rHhKtzgNBaFl/4q19
+         zjJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ayCGrHt4GWDBHksaWpDlFPsTDgmCQyv1ZQQyBUlWV+I=;
-        b=ToprmeuVJOVC6WTXYRm/Ypdzqf3dzYaUM1qioSaiqyHNYpiRlSz0XJKRtt6n0zcKLt
-         ehwZno4v5Ba9WW0xOBC+apGsdFOU4z1dyHKBd1qs6DkdRf1UUJRI8irswvpf/ww9oPlV
-         9uzyCuygUNpgfrgQVIBsSvfrUWuNIm71oW6s1SNpIgGTdU2ry9Gz6CrtrAjhlX/JGq8S
-         vJ46QEDzxoLPAMn5iB74m8cwxhBcTrIdZkLNs1jz3f7QdZB9UrfLr4cyV5+OpIzLWDG0
-         B9ukYc6XxzCJdiW7MUyq4/f6LrtC5B93JyK0j8iZOPVbZ8QGLLDYfaTtyilNZSp2TR/s
-         gl3w==
-X-Gm-Message-State: AOAM533Cq2HdExtIWRGakHr6xY7yx9xbTvGksOTGmnHTSTW0mW4IfkGh
-        o9m5x1qKw4zWzvpUyY1Y7zngyg==
-X-Google-Smtp-Source: ABdhPJz3SPlP/oK9QpFHL+xKtQ0nQUgNyOd556PIkN1KxMSQUqIwOiDbPwtupEbWOJByEgde/ChetQ==
-X-Received: by 2002:a05:651c:512:: with SMTP id o18mr35155713ljp.199.1632321016184;
-        Wed, 22 Sep 2021 07:30:16 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id y9sm205960lfl.240.2021.09.22.07.30.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 07:30:15 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id E147C10304D; Wed, 22 Sep 2021 17:30:15 +0300 (+03)
-Date:   Wed, 22 Sep 2021 17:30:15 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Tom Lendacky <thomas.lendacky@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, iommu@lists.linux-foundation.org,
-        kvm@vger.kernel.org, linux-efi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-graphics-maintainer@vmware.com,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
- cc_platform_has()
-Message-ID: <20210922143015.vvxvh6ec73lffvkf@box.shutemov.name>
-References: <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
- <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
- <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
- <YUoao0LlqQ6+uBrq@zn.tnic>
- <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
- <YUpONYwM4dQXAOJr@zn.tnic>
- <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
- <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
- <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
- <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=4uRsd3CxS23OCgQWa0Dm9tCu8Vz0Hyw3S4ZRw4iH9GU=;
+        b=fST5+bPTAwL2nkyl0otwE4t3BJ18t8gwbzGeDCxw2XXoKJZW+pHcy4OOnw3HOU4yYd
+         DgqDqCTyOUjdMruw2SDBy5ObLxF2lrnxROyodf5cVjH4WWCVPOBm8YEUxo5iovYxlDfg
+         lZ4TS7qBnPuPNbq51hfuoJ2kg122B3kU0XBiDIQ2PO5MGtryLlAUXi/gemyLlWE2Iiul
+         mvWSlKxLQdocsq07fhvBGTE1eqUtocH6iD0G3lM8zpkS7We1eZAL4rEritPG3sGbHjj0
+         zqoZQd1hr5Yf+F7d3JqJNXROMduYSgGLmlMtbcDveae8e4uXPc1G/ktKg3WgdcraLJjP
+         mKMQ==
+X-Gm-Message-State: AOAM533+Ax6ASOQBfatlh65FkgLjNG8Sqfgy9t9NoA4mnChbpiC/937y
+        HoWRsJTK7tqUHwCjIxa2A1VdAAW1IuW7QA3Hu7E=
+X-Google-Smtp-Source: ABdhPJzBU6TXpJdmXDgxdTK5+pKXOFr8yjLrhh8UapnKb0zFAw4g0LxQpmojALFvgqVPPPjil11E/WJ8bxv7D2flxfk=
+X-Received: by 2002:a05:6e02:1c08:: with SMTP id l8mr91157ilh.184.1632322840263;
+ Wed, 22 Sep 2021 08:00:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
+Received: by 2002:a05:6638:c57:0:0:0:0 with HTTP; Wed, 22 Sep 2021 08:00:39
+ -0700 (PDT)
+Reply-To: sroomf70@gmail.com
+From:   "Prof. Dr Diane" <dflint909@gmail.com>
+Date:   Wed, 22 Sep 2021 08:00:39 -0700
+Message-ID: <CAFe5QT3WhKqbFhUn=E9gUgGj+XCPNPY5UHGNfXWX0fFEm0K0zA@mail.gmail.com>
+Subject: Greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Sep 22, 2021 at 08:40:43AM -0500, Tom Lendacky wrote:
-> On 9/21/21 4:58 PM, Kirill A. Shutemov wrote:
-> > On Tue, Sep 21, 2021 at 04:43:59PM -0500, Tom Lendacky wrote:
-> > > On 9/21/21 4:34 PM, Kirill A. Shutemov wrote:
-> > > > On Tue, Sep 21, 2021 at 11:27:17PM +0200, Borislav Petkov wrote:
-> > > > > On Wed, Sep 22, 2021 at 12:20:59AM +0300, Kirill A. Shutemov wrote:
-> > > > > > I still believe calling cc_platform_has() from __startup_64() is totally
-> > > > > > broken as it lacks proper wrapping while accessing global variables.
-> > > > > 
-> > > > > Well, one of the issues on the AMD side was using boot_cpu_data too
-> > > > > early and the Intel side uses it too. Can you replace those checks with
-> > > > > is_tdx_guest() or whatever was the helper's name which would check
-> > > > > whether the the kernel is running as a TDX guest, and see if that helps?
-> > > > 
-> > > > There's no need in Intel check this early. Only AMD need it. Maybe just
-> > > > opencode them?
-> > > 
-> > > Any way you can put a gzipped/bzipped copy of your vmlinux file somewhere I
-> > > can grab it from and take a look at it?
-> > 
-> > You can find broken vmlinux and bzImage here:
-> > 
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1n74vUQHOGebnF70Im32qLFY8iS3wvjIs%3Fusp%3Dsharing&amp;data=04%7C01%7Cthomas.lendacky%40amd.com%7C1c7adf380cbe4c1a6bb708d97d4af6ff%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637678583935705530%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=gA30x%2Bfu97tUx0p2UqI8HgjiL8bxDbK1GqgJBbUrUE4%3D&amp;reserved=0
-> > 
-> > Let me know when I can remove it.
-> 
-> Looking at everything, it is all RIP relative addressing, so those
-> accesses should be fine.
-
-Not fine, but waiting to blowup with random build environment change.
-
-> Your image has the intel_cc_platform_has()
-> function, does it work if you remove that call? Because I think it may be
-> the early call into that function which looks like it has instrumentation
-> that uses %gs in __sanitizer_cov_trace_pc and %gs is not setup properly
-> yet. And since boot_cpu_data.x86_vendor will likely be zero this early it
-> will match X86_VENDOR_INTEL and call into that function.
-
-Right removing call to intel_cc_platform_has() or moving it to
-cc_platform.c fixes the issue.
-
 -- 
- Kirill A. Shutemov
+I'm Prof. Dr Diane,  please a huge amount of payment was made into
+your account. as soon as your respond is noted the payment
+confirmation slip will immediately send to you.  please do not
+hesitate to reply as soon as you receive this message. awaiting your
+urgent reply please.
+
+Best regards
+Prof. Dr Diane
