@@ -2,84 +2,158 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D31418965
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 26 Sep 2021 16:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34182418D67
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Sep 2021 03:15:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231827AbhIZOWV (ORCPT
+        id S232278AbhI0BQ4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 26 Sep 2021 10:22:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231743AbhIZOWV (ORCPT
+        Sun, 26 Sep 2021 21:16:56 -0400
+Received: from mga07.intel.com ([134.134.136.100]:58567 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230174AbhI0BQx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 26 Sep 2021 10:22:21 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425B0C061570
-        for <platform-driver-x86@vger.kernel.org>; Sun, 26 Sep 2021 07:20:45 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id j13so14294424qtq.6
-        for <platform-driver-x86@vger.kernel.org>; Sun, 26 Sep 2021 07:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
-        b=bJfLu7KhPZVjnnfMgjNQMPmd6LJeJObZOS/Kbo7ju7hEdWzt7+QyVkjkZ/FpHwCDkM
-         XHpLLmfEesPK8SRMIAWnS7tUk1TYn171XxRVe7WG4F5gGCLGZA1QJLoNhQsdWAPYayPT
-         03tPGAbd9gjTMLo9tg6E/gifjTke7K+PtaVeXPv0peQoDUyHZIdOaPTV01nmCeeLHD13
-         MtmOg6fhGQSqEct5wMmJZlhR5PzyqUR1GffwUvz0MCUfSDfTsYwWBMfONwJfmZje02Op
-         MXCjDFAjh0VfNtW4ySTK9iKIGu7D3uVgsw9dm740LbwZFlqk4gAEhcKvTLIwaeFsaVl5
-         GN9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xQrYULKok+hL+AIRGJuG9CojAZcnV9Xr+it7yxQJVlY=;
-        b=UPpSsK/69ToqazI5Sc0FoaoAV2/J51Ql6WXwugWIBbPA1Fbt5oVbp1j3mQ5i/sAyUo
-         gcL3raCQRboWRXPoQiP7m0xCKliNC9mDgNlXPWLPpIesl0b8rvYR3pRxU6oPE6yRDsK2
-         kPesAebCKB8BAzegT8YvH0xHYAp9PfpojJOmxTLWVXsGw4nHopuSaaFrBPJMPzmCq7g4
-         ifDP0J2N9DMuzv3e+3vGS6JB5yaFeM3WJJwOV4H0D1PDnDE43FgyKeqXz3PjVCd39ks4
-         v3lUUPRolqHRoF/n5E//BTe/CRtYGHkL2sADMFfN8Bljy2HRTeCwQddul5btNabMHVWb
-         7gYA==
-X-Gm-Message-State: AOAM530qvsKFfYuOPVbJflbVa2/QMgDe61JKS11tpFRdzrO5lg9c1xB1
-        fO31gum71JDOL+kejpitb9qwfDw+fTz9rxVgw4M=
-X-Google-Smtp-Source: ABdhPJyfKz2evStJZ0EaBmNUzJCYKSB3cOr4VtPe/7N9ge0vfCkjDyJ1b9fjgKH3AK0ZXM5aEnHmUAvEUu+P69ZXzIA=
-X-Received: by 2002:a05:622a:14cb:: with SMTP id u11mr14416552qtx.218.1632666043849;
- Sun, 26 Sep 2021 07:20:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac8:6b55:0:0:0:0:0 with HTTP; Sun, 26 Sep 2021 07:20:43
- -0700 (PDT)
-Reply-To: mrsaishag45@gmail.com
-From:   Mrs Aisha Al-Qaddafi <mrsaishagaddafi960@gmail.com>
-Date:   Sun, 26 Sep 2021 07:20:43 -0700
-Message-ID: <CABELTfD0Ua3LnPctSWxS=O+V0nju+ZHvJyMJKq0Jg2EskO6ohg@mail.gmail.com>
-Subject: Dear Friend,
-To:     undisclosed-recipients:;
+        Sun, 26 Sep 2021 21:16:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10119"; a="288047046"
+X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; 
+   d="scan'208";a="288047046"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2021 18:15:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; 
+   d="scan'208";a="519881777"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 26 Sep 2021 18:15:16 -0700
+Received: from debox1-desk1.jf.intel.com (debox1-desk1.jf.intel.com [10.54.75.53])
+        by linux.intel.com (Postfix) with ESMTP id 5179258073D;
+        Sun, 26 Sep 2021 18:15:16 -0700 (PDT)
+Message-ID: <3392aea6b112926b063bbe46b1decaad4c9f9e6e.camel@linux.intel.com>
+Subject: Re: [PATCH 2/2] platform/x86: Add Intel Software Defined Silicon
+ driver
+From:   "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To:     Greg KH <gregkh@linuxfoundation.org>, lee.jones@linaro.org
+Cc:     hdegoede@redhat.com, mgross@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Date:   Sun, 26 Sep 2021 18:15:16 -0700
+In-Reply-To: <YU7BPIH123HUZKhw@kroah.com>
+References: <20210924213157.3584061-1-david.e.box@linux.intel.com>
+         <20210924213157.3584061-2-david.e.box@linux.intel.com>
+         <YU7BPIH123HUZKhw@kroah.com>
+Organization: David E. Box
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear Friend,
+On Sat, 2021-09-25 at 08:27 +0200, Greg KH wrote:
+> On Fri, Sep 24, 2021 at 02:31:57PM -0700, David E. Box wrote:
+> 
+> Quick review:
+> 
+> > +static int sdsi_probe(struct platform_device *pdev)
+> > +{
+> > +       void __iomem *disc_addr;
+> > +       struct sdsi_priv *priv;
+> > +       int ret;
+> > +
+> > +       disc_addr = devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(disc_addr))
+> > +               return PTR_ERR(disc_addr);
+> > +
+> > +       priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> > +       if (!priv)
+> > +               return -ENOMEM;
+> > +
+> > +       kref_init(&priv->kref);
+> > +
+> > +       platform_set_drvdata(pdev, priv);
+> > +       priv->pdev = pdev;
+> > +       mutex_init(&priv->mb_lock);
+> > +       mutex_init(&priv->akc_lock);
+> > +
+> > +       memcpy_fromio(&priv->disc_table, disc_addr, DISC_TABLE_SIZE);
+> > +
+> > +       ret = sdsi_map_sdsi_registers(pdev);
+> > +       if (ret)
+> > +               goto put_kref;
+> > +
+> > +       ret = sdsi_create_misc_device(pdev);
+> > +       if (ret)
+> > +               goto put_kref;
+> > +
+> > +       ret = sdsi_add_bin_attrs(pdev);
+> 
+> You just raced with userspace and lost.  Please attach your attributes
+> to the misc device before registering it.
+> 
+> Also, you need a Documentation/ABI/ entry for your new sysfs file(s).
 
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological
-Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
-single Mother and a Widow with three Children.
+Ack
 
-I have investment funds worth Twenty Seven Million Five Hundred
-Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
-investment Manager/Partner because of my current refugee status,
-however, I am interested in you for investment project assistance in
-your country, may be from there, we can build business relationship in
-the nearest future.
+> 
+> > +       if (ret)
+> > +               goto deregister_misc;
+> > +
+> > +       priv->dev_present = true;
+> > +
+> > +       return 0;
+> > +
+> > +deregister_misc:
+> > +       misc_deregister(&priv->miscdev);
+> > +put_kref:
+> > +       kref_put(&priv->kref, sdsi_priv_release);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +static int sdsi_remove(struct platform_device *pdev)
+> > +{
+> > +       struct sdsi_priv *priv = platform_get_drvdata(pdev);
+> > +
+> > +       priv->dev_present = false;
+> > +       sysfs_remove_bin_file(&priv->pdev->dev.kobj, &priv->registers_bin_attr);
+> > +       misc_deregister(&priv->miscdev);
+> > +       kref_put(&priv->kref, sdsi_priv_release);
+> 
+> Why do you need a kref for a structure that already can be controlled by
+> a different lifetime rule?
 
-I am willing to negotiate an investment/business profit sharing ratio
-with you based on the future investment earning profits.
+Which rule am I missing? This kref allows the structure to remain in case the device is removed
+while the file is open.
 
-If you are willing to handle this project on my behalf kindly reply
-urgently to enable me to provide you more information about the
-investment funds.
+> 
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static struct platform_driver sdsi_driver = {
+> > +       .driver = {
+> > +               .name           = SDSI_DEV_NAME,
+> > +               .dev_groups     = sdsi_groups,
+> > +       },
+> > +       .probe  = sdsi_probe,
+> > +       .remove = sdsi_remove,
+> > +};
+> > +module_platform_driver(sdsi_driver);
+> 
+> What causes the platform to know to register, and enable, this platform
+> driver?  Shouldn't there be some hardware involved that is discoverable
+> to enable it to load dynamically?
 
-Your Urgent Reply Will Be Appreciated
+Ah. The patch that adds the SDSi platform device string was added to a series for the intel_pmt MFD
+driver and it's still waiting review. I see that complicates things. I can combine the two series
+together.
 
-Best Regards
-Mrs Aisha Al-Qaddafi
+David
+
+> 
+> thanks,
+> 
+> greg k-h
+
+
