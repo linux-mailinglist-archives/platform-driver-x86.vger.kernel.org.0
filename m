@@ -2,95 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40D0E41B97E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 28 Sep 2021 23:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4035A41BA0A
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Sep 2021 00:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242971AbhI1VmQ (ORCPT
+        id S243127AbhI1WRU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Sep 2021 17:42:16 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:35412 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232358AbhI1VmP (ORCPT
+        Tue, 28 Sep 2021 18:17:20 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:57587 "EHLO
+        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243128AbhI1WRP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Sep 2021 17:42:15 -0400
-Received: from zn.tnic (p200300ec2f13b200371079131a9f19c8.dip0.t-ipconnect.de [IPv6:2003:ec:2f13:b200:3710:7913:1a9f:19c8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 185C51EC06C1;
-        Tue, 28 Sep 2021 23:40:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1632865234;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=3zAlBZi1O1Z7iGiOtlzR59oObKF3oTwf3vRM6tWoLcY=;
-        b=K5Ca7t9hqqMM2deF0li2lbysEHXsHTs91GSL2ZqKLhzfX9w19AiIGCNaZ3Y63sCu3hsepG
-        fIbQEa5D8HQEE2RRoDDCLkqS/Fxfaghkv3CiOoHYu4QVTSTfUfcSzUHkFkeeRHlHYg9afU
-        kuT2sPlWmWHkAbKxJ37GJ775LHgIgQc=
-Date:   Tue, 28 Sep 2021 23:40:28 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Young <dyoung@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Will Deacon <will@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>, x86@kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        kexec@lists.infradead.org
-Subject: Re: [PATCH v4 0/8] Implement generic cc_platform_has() helper
- function
-Message-ID: <YVOLzMwyXP3ZSR0F@zn.tnic>
-References: <20210928191009.32551-1-bp@alien8.de>
- <80593893-c63b-d481-45f1-42a3a6fd762a@linux.intel.com>
- <YVN7vPE/7jecXcJ/@zn.tnic>
- <7319b756-55dc-c4d1-baf6-4686f0156ac4@linux.intel.com>
- <YVOB3mFV1Kj3MXAs@zn.tnic>
- <695a3bf6-5382-68df-3ab5-8841b777fca2@linux.intel.com>
+        Tue, 28 Sep 2021 18:17:15 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 345063201D0B;
+        Tue, 28 Sep 2021 18:15:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 28 Sep 2021 18:15:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; bh=jb9ApOK/9zR+dCu5B7yb6APOEJJ+re7x1oUMVWVQK
+        l8=; b=ROj21CzL+TZvP1ZEVTVuQNCBLuecbAZEoV1fcoWavMED1ErU8W+7xO9Kx
+        NXzhcgyJOEzt1KZpeK1iuU9+kKTRERWn3Mcf8TjyCUMlCyBMVVduTfnp8mOtKylD
+        ZNa3DlU5YnQ7wCEq8Nx+EuFvF9aUPX/+z+v1F88c+sSZft35xD5v1EI9U63hwtBy
+        zy5JgBnRPd25vlqTLreVAqXc+YeDlpGzAQQSwAbOtKvsHwZX6vaxhvQynUbkqhRh
+        A7N0OM17kagGCTLGU1mNnZjOwXu+Y9cz1Zc8Yf2yvgA37MT3PZI/1KjmlolAGIKM
+        71lIeOVUI+gv4eKfy8lTJ3KldY8Dg==
+X-ME-Sender: <xms:ApRTYXpFyTg5HmolJyHSQB1Z_oQrTI3Klc1Dz214-hVCm8GwQD6mEA>
+    <xme:ApRTYRpNjCIjJeWVpHXP2LtFmVka1xDgA7JDUEYywduYnAjugfLXrTQ-4XhzotkT_
+    jxFsQ719Mkx4QrCpw>
+X-ME-Received: <xmr:ApRTYUOIWlpAlPTeY6COIEBAhwVyDt1o6EKaIsNtfcyV4X5Oiid5NtxqU5_8dmy6SFFQa70NyjiQRd39_xS_AsGZht698IRWTldN8eg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekuddgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhggtgfgsehtke
+    ertdertdejnecuhfhrohhmpefvihhmucevrhgrfihfohhrugcuoehttghrrgiffhhorhgu
+    sehshihsthgvmhejiedrtghomheqnecuggftrfgrthhtvghrnhepueeljedvueegieeugf
+    ehffffhfdtheejleekgedvieduveduhfefvdejveetlefgnecuffhomhgrihhnpehgihht
+    hhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehttghrrgiffhhorhgusehshihsthgvmhejiedrtghomh
+X-ME-Proxy: <xmx:ApRTYa6in8urwuRZmo-VZ8R3W9DIh-9ewbnmKsDAPDopKTyrwqn2sQ>
+    <xmx:ApRTYW5czDfoddwh6CEyB4NmyTDLwIdnkoSZOx5zURk8Z85xiIDMog>
+    <xmx:ApRTYSjLXHck9AgmQYenypmlLM5b7PuQuQMfLuGHvtfgUrOzqWzxmw>
+    <xmx:ApRTYbhKSVcvLEzk13o4owybilSO2j_cR_WMXoNZ8E9zinjtkBHvKw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Sep 2021 18:15:30 -0400 (EDT)
+From:   Tim Crawford <tcrawford@system76.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     productdev@system76.com
+Subject: [PATCH v2 0/3] platform/x86: system76_acpi: Sync DKMS module changes
+Date:   Tue, 28 Sep 2021 16:15:26 -0600
+Message-Id: <20210928221529.70176-1-tcrawford@system76.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210927210629.37966-1-tcrawford@system76.com>
+References: <20210927210629.37966-1-tcrawford@system76.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <695a3bf6-5382-68df-3ab5-8841b777fca2@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 02:01:57PM -0700, Kuppuswamy, Sathyanarayanan wrote:
-> Yes. But, since the check is related to TDX, I just want to confirm whether
-> you are fine with naming the function as intel_*().
+Sync the in-tree system76_acpi module with changes made to the DKMS
+module [1]. This introduces/exposes new functionality implemented in the
+open source BIOS and EC firmware for System76 laptops.
 
-Why is this such a big of a deal?!
+v2:
+- Used input_set_capability() instead of setting bits directly in patch 2/3
+- Used sysfs_emit() instead of sprintf() in patch 3/3
+- Made use of device_{add,remove}_groups() in patch 3/3
 
-There's amd_cc_platform_has() and intel_cc_platform_has() will be the
-corresponding Intel version.
+[1]: https://github.com/pop-os/system76-acpi-dkms
 
-> Since this patch is going to have dependency on TDX code, I will include
-> this patch in TDX patch set.
+Jeremy Soller (2):
+  platform/x86: system76_acpi: Report temperature and fan speed
+  platform/x86: system76_acpi: Replace Fn+F2 function for OLED models
 
-Ok.
+Tim Crawford (1):
+  platform/x86: system76_acpi: Add battery charging thresholds
+
+ drivers/platform/x86/system76_acpi.c | 364 ++++++++++++++++++++++++++-
+ 1 file changed, 363 insertions(+), 1 deletion(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.31.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
