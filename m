@@ -2,272 +2,159 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8901741BA0B
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Sep 2021 00:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E51141BED3
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 29 Sep 2021 07:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243107AbhI1WRV (ORCPT
+        id S244285AbhI2FtE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 28 Sep 2021 18:17:21 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:48045 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243095AbhI1WRQ (ORCPT
+        Wed, 29 Sep 2021 01:49:04 -0400
+Received: from mout.gmx.net ([212.227.15.15]:39113 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243585AbhI2FtE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 28 Sep 2021 18:17:16 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 3405F3201E3E;
-        Tue, 28 Sep 2021 18:15:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 28 Sep 2021 18:15:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=ZZAV87qsnFQrFPuRkM1zBzSPPYgUf3RPBFnvfLT0bAM=; b=a6Vzq4TH
-        9/+utav4aV3Gc/7w+MWa2AvHXNQGPnbav9hwYqg4/8aQvgLNr7BTp6kJqBPZCIaL
-        8qCp09rVLx2/eq0C5nsZk1B1Km48dO/xxNK/mlX5rsv1sBS+6Mm+TH+KNZ1Q7ewn
-        PQ7ijga7weovgCKOy0mVz939Oz2hMDiKjGNWLzyW78SbVB7R5Ie7s0Up62mmAhUW
-        qO8fR5/pa9LdfyVhVyZ3zMdP2nX1A1n53I0V/WeAHWY2rNTIMeGXWA9nf/RJrM4a
-        4Xner45mW4GzsOWGclq+udxhHifOqfFYjf3eeSMP9fLKUu0N/AWJFokaAU9/PzFo
-        Knp/w0jd7qlRuA==
-X-ME-Sender: <xms:BpRTYQe8dVcW-K5oqXa0-XXoA6o1vZRwrVapvZHrICCmtWQ9f-GlzQ>
-    <xme:BpRTYSN1ebTESlE9zg44UGuGQfpJclMULIQLoQFY_Iltr1dOqWySBTtM6_cR6iRjv
-    3kLZBUEMvyXtsdaqA>
-X-ME-Received: <xmr:BpRTYRiqmERK56q1EgHBpCWHUvI2luoJsZTCMWaPn79BygeuEKK-R9Fyh0SEQBZbaA23vTw41TZ0aeprvF2qS3TPKiHIyWqtZcjnCuY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekuddgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
-    dtredttdenucfhrhhomhepvfhimhcuvehrrgiffhhorhguuceothgtrhgrfihfohhruges
-    shihshhtvghmjeeirdgtohhmqeenucggtffrrghtthgvrhhnpeeifeelvdfgueeiteefhe
-    eghfeiudelleffgeetkeejudeugfekueehkefhhefftdenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehttghrrgiffhhorhgusehshihsthgvmh
-    ejiedrtghomh
-X-ME-Proxy: <xmx:BpRTYV9o1UBZMRw6EUdgYW6cnsqYbuOZOz0teRePuhv98kZf-mx2tQ>
-    <xmx:BpRTYcuOeiy-ym5TGAbsyGCTjWjJi0B9QAy-vhRdWOTp6m94uWck2g>
-    <xmx:BpRTYcHKgzpwi5u6s5jTzozlBfB2BI-xNsQedZgYJqY4yuHZN-HMUQ>
-    <xmx:BpRTYS3yF0-Qrn9PD65t8DJZaU8LPM6iWPRu6dSuHdtrZ3S9rnxUnw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 18:15:34 -0400 (EDT)
-From:   Tim Crawford <tcrawford@system76.com>
-To:     platform-driver-x86@vger.kernel.org
-Cc:     productdev@system76.com
-Subject: [PATCH v2 3/3] platform/x86: system76_acpi: Add battery charging thresholds
-Date:   Tue, 28 Sep 2021 16:15:29 -0600
-Message-Id: <20210928221529.70176-4-tcrawford@system76.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210928221529.70176-1-tcrawford@system76.com>
-References: <20210927210629.37966-1-tcrawford@system76.com>
- <20210928221529.70176-1-tcrawford@system76.com>
+        Wed, 29 Sep 2021 01:49:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1632894430;
+        bh=ajONYP06m0vWqfCRNgyIDZRp1gSqX9yT+XQhCzz/Q64=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=TrFRpdpYMerU1fFhZ2Z5dKuXWOdBLMAdF+Rzts97OGLxENw2EGFZMd703BHz++0+9
+         VTHg6kq1nf+1Q0e2KQJcPVVlpdB3r+RNqjkTh2c91GUpvL3jAF/4SLHHsNLcqi6shZ
+         DlQKHok2+8t7EQNuDzch643l3DRg57FsL6t+Z4GI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.135.7.100] ([87.123.183.88]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MsYqv-1moDVF1Yol-00tyso; Wed, 29
+ Sep 2021 07:47:10 +0200
+Subject: Re: [PATCH 1/3] thinkpad_acpi: add support for force_discharge
+To:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Nicol=c3=b2_Piazzalunga?= <nicolopiazzalunga@gmail.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        platform-driver-x86@vger.kernel.org,
+        Nitin Joshi1 <njoshi1@lenovo.com>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     jwrdegoede@fedoraproject.org, smclt30p@gmail.com
+References: <c2504700-06e9-e7d8-80f7-de90b0b6dfb5@gmail.com>
+ <06f65bb5-eca4-c1ba-a8c2-b44f8a94c699@redhat.com>
+ <2ea2d9b7-4a15-6aea-1aff-4e1cb80a026f@lenovo.com>
+ <ac508b49-7958-3afa-25cf-416d701034e3@gmail.com>
+ <ba6698de-1700-fce9-6bca-12ee577ac09b@redhat.com>
+From:   Thomas Koch <linrunner@gmx.net>
+Message-ID: <943fa4fb-273a-0a36-4919-26c05ae4a534@gmx.net>
+Date:   Wed, 29 Sep 2021 07:47:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ba6698de-1700-fce9-6bca-12ee577ac09b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2J2zXW8a0V5nFqsFObuO7cK7xSoXP2ojq9Jmz/BmunYUjrph5Mp
+ XNbCO0gG1VeKBcd5wjra1xfzdQVwA0mpnQLdZqeE/zrArngrLoWdl/LNCuol4bf1aa7ISmQ
+ IbLaOf7SjQHGJY8EzJHKsnTw3+E2OmwnrtuPN93QPylG+UtjFDficn3gJ3UM8JjAEN/4HS8
+ PBY01akJznU5xDLlJb9EA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/ZscDuHHkoI=:PsVDHBAWmSWuCFdCKIePsx
+ hVqaK0JbjSdT3so+kxX4cQvNahtYlBHJ71NUod9Lv7vMPx+L8waBdbHJGH9ooQK57xJmSsgUG
+ jjUuc9qGUG4kF8lXMX5pM8Eks6/eZKas6fQUxlGOVaqXWUFYMfJ2LLLeXvCe4kxHidkCQi+mg
+ wpM17obotcwBCfKEClk27TGqok741/66ch921hKXaCfBvSw8CcXDdeQPMG++bByz00KlxUAnF
+ V86MArmCp2+G3huzcBC5BQSkxZwC6f/CGCWhlxzRHM4LLMcYkFqJgKnHcsWwmt7cQ/BPrL+0S
+ t6FmZf0NwGv+hCzdtpmoXiF2rJe8e0xBBn7rzlkEH+jBaydjUSr73eHEv/6W35o2eQHOZoUdq
+ pZO5tZFF2gShj2Cg7KH+nTmpBHJTpb8JWYCrne+cr/9kYqKMtZCxKZ4n2zzXq9E12oT88XqHb
+ vkG5j0oQdLr4kbFe7kqvonQ3xp47RAp9EAzbkNHYNTHgitPbhYNELsUeW7ORIzNk2cQY2TUnk
+ l5uVHXG9hnOQF0J8+QCB3oPZQpslYadwj2YFQO6UedKVjP2uau/AdMlJrbrzIjYIlEDYjVQhp
+ mvKbzG7YJMc4FVttirotFXRe8xZaXhYJCY7hvOj+BTQJBfrSgtim5/Z+Gw1ElFM+pnT3t7P/9
+ ypVZoPAo1u0OKHlfWbd7xddLv49uSPpt/S6lLMZ2IDdujPuggo2XSPaxcMA3kdxEPZ4uil/UT
+ JBKnoZzE0oT4jQRWxxm/7QbZJOVH/hmaPOIOs7JqG7Wkf9wwgB1+KwdaHw7tWclSWRvcasqDz
+ 1EUPcxUTYDcBO6ub0xesuyizzF3Arj/SY5aD/rU2LxTzi8DGQDLbnc6839j6hzJOaQarwM2yE
+ d3OEAbM+PK++Oy4xz4TExRZNZ0swReskQaYslTEhlfsvbn3l9Z+lvWliBvAWOT7o/FPo0jE78
+ lumxxQ00pTeaWJ68no/Thqz4zpyyjCTNhnB83tVE1Yxn/2yvNNY9sC+Ebh1GyI5dP123PjLkd
+ BLAdkbVUd02GAXkVSzFoIT0m2AoPAG63uqKZ62+6tzuAy3kjukfj3NPWYhN4VhOWiILGdE9x7
+ o3VCtqk4BmtgAk=
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-System76 laptops running open source EC firmware support configuring
-charging thresholds through ACPI methods. Expose this functionality
-through the standard sysfs entries charge_control_{start,end}_threshold.
+Hi Hans,
 
-Signed-off-by: Tim Crawford <tcrawford@system76.com>
----
- drivers/platform/x86/system76_acpi.c | 162 +++++++++++++++++++++++++++
- 1 file changed, 162 insertions(+)
+On 27.09.21 17:12, Hans de Goede wrote:
+> Hi Nicol=C3=B2,
+>
+> On 9/27/21 5:00 PM, Nicol=C3=B2 Piazzalunga wrote:
+>> Hi,
+>>
+>> On 9/27/21 3:59 PM, Mark Pearson wrote:
+>>> Do let me know if there are some important use cases for these so I ca=
+n go back to the FW team and discuss supporting them properly.
+>>
+>> The important use cases are force discharge and inhibit charge.
+>> These at present are dealt with using tpacpi-bat, which relies on (out =
+of tree) acpi_call.
+>> See also your previous reply.
+>
+> I can see how those can be useful in certain circumstances.
+>
+> I can also understand how Lenovo does not want these to be
+> available by default everywhere.
+>
+> I think a good compromise would be to add a bool module option
+> which defaults to false to enable these.
 
-diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/system76_acpi.c
-index e7c86b543930..5c525c242211 100644
---- a/drivers/platform/x86/system76_acpi.c
-+++ b/drivers/platform/x86/system76_acpi.c
-@@ -18,8 +18,12 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/pci_ids.h>
-+#include <linux/power_supply.h>
-+#include <linux/sysfs.h>
- #include <linux/types.h>
- 
-+#include <acpi/battery.h>
-+
- struct system76_data {
- 	struct acpi_device *acpi_dev;
- 	struct led_classdev ap_led;
-@@ -144,6 +148,159 @@ static int system76_set(struct system76_data *data, char *method, int value)
- 		return -1;
- }
- 
-+#define BATTERY_THRESHOLD_INVALID	0xFF
-+
-+enum {
-+	THRESHOLD_START,
-+	THRESHOLD_END,
-+};
-+
-+static ssize_t battery_get_threshold(int which, char *buf)
-+{
-+	struct acpi_object_list input;
-+	union acpi_object param;
-+	acpi_handle handle;
-+	acpi_status status;
-+	unsigned long long ret = BATTERY_THRESHOLD_INVALID;
-+
-+	handle = ec_get_handle();
-+	if (!handle)
-+		return -ENODEV;
-+
-+	input.count = 1;
-+	input.pointer = &param;
-+	// Start/stop selection
-+	param.type = ACPI_TYPE_INTEGER;
-+	param.integer.value = which;
-+
-+	status = acpi_evaluate_integer(handle, "GBCT", &input, &ret);
-+	if (ACPI_FAILURE(status))
-+		return -EIO;
-+	if (ret == BATTERY_THRESHOLD_INVALID)
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%d\n", (int)ret);
-+}
-+
-+static ssize_t battery_set_threshold(int which, const char *buf, size_t count)
-+{
-+	struct acpi_object_list input;
-+	union acpi_object params[2];
-+	acpi_handle handle;
-+	acpi_status status;
-+	unsigned int value;
-+	int ret;
-+
-+	handle = ec_get_handle();
-+	if (!handle)
-+		return -ENODEV;
-+
-+	ret = kstrtouint(buf, 10, &value);
-+	if (ret)
-+		return ret;
-+
-+	if (value > 100)
-+		return -EINVAL;
-+
-+	input.count = 2;
-+	input.pointer = params;
-+	// Start/stop selection
-+	params[0].type = ACPI_TYPE_INTEGER;
-+	params[0].integer.value = which;
-+	// Threshold value
-+	params[1].type = ACPI_TYPE_INTEGER;
-+	params[1].integer.value = value;
-+
-+	status = acpi_evaluate_object(handle, "SBCT", &input, NULL);
-+	if (ACPI_FAILURE(status))
-+		return -EIO;
-+
-+	return count;
-+}
-+
-+static ssize_t charge_control_start_threshold_show(
-+	struct device *dev,
-+	struct device_attribute *attr,
-+	char *buf)
-+{
-+	return battery_get_threshold(THRESHOLD_START, buf);
-+}
-+
-+static ssize_t charge_control_start_threshold_store(
-+	struct device *dev,
-+	struct device_attribute *attr,
-+	const char *buf,
-+	size_t count)
-+{
-+	return battery_set_threshold(THRESHOLD_START, buf, count);
-+}
-+
-+static DEVICE_ATTR_RW(charge_control_start_threshold);
-+
-+static ssize_t charge_control_end_threshold_show(struct device *dev,
-+	struct device_attribute *attr, char *buf)
-+{
-+	return battery_get_threshold(THRESHOLD_END, buf);
-+}
-+
-+static ssize_t charge_control_end_threshold_store(struct device *dev,
-+	struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	return battery_set_threshold(THRESHOLD_END, buf, count);
-+}
-+
-+static DEVICE_ATTR_RW(charge_control_end_threshold);
-+
-+static struct attribute *system76_battery_attrs[] = {
-+	&dev_attr_charge_control_start_threshold.attr,
-+	&dev_attr_charge_control_end_threshold.attr,
-+	NULL,
-+};
-+
-+ATTRIBUTE_GROUPS(system76_battery);
-+
-+static int system76_battery_add(struct power_supply *battery)
-+{
-+	// System76 EC only supports 1 battery
-+	if (strcmp(battery->desc->name, "BAT0") != 0)
-+		return -ENODEV;
-+
-+	if (device_add_groups(&battery->dev, system76_battery_groups))
-+		return -ENODEV;
-+
-+	return 0;
-+}
-+
-+static int system76_battery_remove(struct power_supply *battery)
-+{
-+	device_remove_groups(&battery->dev, system76_battery_groups);
-+	return 0;
-+}
-+
-+static struct acpi_battery_hook system76_battery_hook = {
-+	.add_battery = system76_battery_add,
-+	.remove_battery = system76_battery_remove,
-+	.name = "System76 Battery Extension",
-+};
-+
-+static void system76_battery_init(void)
-+{
-+	acpi_handle handle;
-+
-+	handle = ec_get_handle();
-+	if (handle && acpi_has_method(handle, "GBCT"))
-+		battery_hook_register(&system76_battery_hook);
-+}
-+
-+static void system76_battery_exit(void)
-+{
-+	acpi_handle handle;
-+
-+	handle = ec_get_handle();
-+	if (handle && acpi_has_method(handle, "GBCT"))
-+		battery_hook_unregister(&system76_battery_hook);
-+}
-+
- // Get the airplane mode LED brightness
- static enum led_brightness ap_led_get(struct led_classdev *led)
- {
-@@ -544,6 +701,8 @@ static int system76_add(struct acpi_device *acpi_dev)
- 		return err;
- 	}
- 
-+	system76_battery_init();
-+
- 	return 0;
- }
- 
-@@ -553,6 +712,9 @@ static int system76_remove(struct acpi_device *acpi_dev)
- 	struct system76_data *data;
- 
- 	data = acpi_driver_data(acpi_dev);
-+
-+	system76_battery_exit();
-+
- 	if (data->kb_color >= 0)
- 		device_remove_file(data->kb_led.dev, &kb_led_color_dev_attr);
- 
--- 
-2.31.1
+ From the user perspective, I don't agree that this is a good
+compromise. Users simply want to recalibrate their battery. Having to
+set the module option beforehand is an unnecessary hurdle imho.
 
+Of course a module option again leads to support overhead in "user
+space". Then tlp-stat -b would have to inform the user that
+force_discharge is unfortunately not available, but he should try to set
+the module option. What would that be good for?
+
+While I respect Mark's official opinion, I would like to counter with my
+experience from 10 years of TLP development and support:
+
+The calls for force_discharge work unmodified since the 2012 ThinkPads
+(T420/X220) on all models that also support charge thresholds.
+
+They also work reliably, otherwise the issue tracker at tpacpi-bat and
+TLP would be full of user issues.
+
+inhibit_charge is probably used rather rarely, at least no TLP user has
+asked for it.
+
+@Mark: what is Lenovo's position on the calls for charge thresholds
+already included in thinkpad_acpi? Are they also internal?
+
+>
+> Assuming Mark is ok with that, this is still blocked on agreeing
+> on standard power_supply class property names for these 2 features.
+>
+> Can you perhaps write a (RFC) patch adding proposed standardized
+> attributes for this to:
+>
+> Documentation/ABI/testing/sysfs-class-power
+>
+> As well as to the enum power_supply_property {}
+> enum in: include/linux/power_supply.h
+>
+> And to the power_supply_attrs[] array in
+> drivers/power/supply/power_supply_sysfs.c
+>
+> ?
+>
+> And then send that the Sebastian Reichel with the linux-pm
+> and platform-driver-x86 lists in the Cc?
+>
+> Regards,
+>
+> Hans
+>
+
+=2D-
+
+Freundliche Gr=C3=BC=C3=9Fe / Kind regards,
+
+Thomas Koch
+
+
+
+Mail : linrunner@gmx.net
+
+Web  : https://linrunner.de/tlp
