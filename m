@@ -2,152 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12F7041DF37
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Sep 2021 18:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A9A141E5B7
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  1 Oct 2021 03:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352179AbhI3QlV (ORCPT
+        id S1351249AbhJAB37 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 30 Sep 2021 12:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352181AbhI3QlV (ORCPT
+        Thu, 30 Sep 2021 21:29:59 -0400
+Received: from mga06.intel.com ([134.134.136.31]:56854 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230214AbhJAB37 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 30 Sep 2021 12:41:21 -0400
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D49FC061775
-        for <platform-driver-x86@vger.kernel.org>; Thu, 30 Sep 2021 09:39:38 -0700 (PDT)
-Received: by mail-ua1-x944.google.com with SMTP id c33so4681219uae.9
-        for <platform-driver-x86@vger.kernel.org>; Thu, 30 Sep 2021 09:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=o3SZ3/8xgB3svMq+UXE3vgW9sKtG91px1UYnaI00T4dLP05ECFH5EVSAWUR78xdR5n
-         ebHrIeHXVPRJa791OB2s/aZJdtzWdPaX5sbadOL24EflkgZ6O2rEvsBWvojGxJeeST6T
-         eb+k8lxZZa/bWNfHNPwQHvNUM1YEFh4fUMO861Pe8Wc6pfqqL72s+8eCO53Msweav+mv
-         XfoVjVScWXWc0hGgmBVMNFkqROc3jDhXxKvwZxz1ZkBwNJLCRx7xYOcAqQ0tzz+Q5cSM
-         PuhaOVDUO2vb8ybQ6jSikOKS/AFhEN/8Lz75PuCS5qgomh+uSMNWQBtsXYMKNbf3IvW6
-         pZbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=ofydJzyyep99wfdvrHMZyMes4TqHyMNd+OECQLUruQboopSh4bAosHcgkepLbUE0rA
-         WLjgPi/3uxpQMvfwPbRklqGjMYdJOS52uneAET3rqPoaONr2haCV5PILwGtb8KZumW6e
-         jtxDcVgM2GyPSjjG3DC7Sk+O0k5jXwueLiBkOHR63HrNDE6joywxxutXOl+Ta0nMYCOA
-         gjJkWd75SF8aXc1M0Y03KOLnvxeYV1286EZVZdcH/5WLr5aIIifnmLw6+qlnWYwbsCrB
-         L5UFdeylanc2BxgPQSeyNyz/X+5Sq7ZQOP8kX+LqQ9nTAf5vlsXj9fHsZ0Vy3ibHAVuX
-         jNaw==
-X-Gm-Message-State: AOAM531oOXWow/S49s15bh41YO3xq/FTQEK4YhFwet/A3AN/7dDz9/B3
-        0T2g2e1JrzIjI7qaXD5OCIHbxWOsEhYXGdLJMzY=
-X-Google-Smtp-Source: ABdhPJx0AmgkV9cE7YZrAYTucsDxPOj7iGMkrooBstJ2APLp74YQnUFP0J0PcWONym4DRiNtFFvbKXZFoRlaXsy60JM=
-X-Received: by 2002:ab0:5602:: with SMTP id y2mr6724983uaa.120.1633019977032;
- Thu, 30 Sep 2021 09:39:37 -0700 (PDT)
+        Thu, 30 Sep 2021 21:29:59 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="286348495"
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
+   d="scan'208";a="286348495"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2021 18:28:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
+   d="scan'208";a="521417044"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 30 Sep 2021 18:28:15 -0700
+Received: from debox1-server.jf.intel.com (debox1-server.jf.intel.com [10.54.39.121])
+        by linux.intel.com (Postfix) with ESMTP id CB5965808E0;
+        Thu, 30 Sep 2021 18:28:15 -0700 (PDT)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     lee.jones@linaro.org, hdegoede@redhat.com, mgross@linux.intel.com,
+        bhelgaas@google.com, gregkh@linuxfoundation.org,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com
+Cc:     "David E. Box" <david.e.box@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [PATCH 0/5] Move intel_pm from MFD to Auxiliary bus
+Date:   Thu, 30 Sep 2021 18:28:10 -0700
+Message-Id: <20211001012815.1999501-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
- 09:39:36 -0700 (PDT)
-Reply-To: irenezakari24@gmail.com
-From:   Irene zakari <irenezakari88@gmail.com>
-Date:   Thu, 30 Sep 2021 09:39:36 -0700
-Message-ID: <CAFT8PFG_8981ivC4O1EnUpb=bxUAD3b8Ry0XqxnGDqbSoBpVzQ@mail.gmail.com>
-Subject: PLEASE I NEED YOUR HELP
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello   ..
+This patch series converts the intel_pmt driver from an MFD driver to an
+auxiliary bus driver. The series also combines and supersedes two previous
+patch sets [1] and [2]. Though starting from V1, revision history from each
+series is summarized for each patch.
 
-How do you do over there? I hope you are doing well?
+David E. Box (5):
+  PCI: Add #defines for accessing PCIe DVSEC fields
+  platform/x86/intel: Move intel_pmt from MFD to Auxiliary Bus
+  platform/x86/intel: extended_caps: Add support for PCIe VSEC
+    structures
+  Documentation: Update ioctl-number.rst for Intel Software Defined
+    Silicon interface
+  platform/x86: Add Intel Software Defined Silicon driver
 
-My name is Irene. (24 years), i am single, from Gambia, the only child
-of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
-(Building Construction Company in The Gambia) also the CEO of Bernard
-Import and Export (GAMBIA).
+ .../ABI/testing/sysfs-driver-intel_sdsi       |  28 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+ MAINTAINERS                                   |  16 +-
+ drivers/mfd/Kconfig                           |  10 -
+ drivers/mfd/Makefile                          |   1 -
+ drivers/mfd/intel_pmt.c                       | 261 -------
+ drivers/platform/x86/intel/Kconfig            |  23 +
+ drivers/platform/x86/intel/Makefile           |   4 +
+ drivers/platform/x86/intel/extended_caps.c    | 401 ++++++++++
+ drivers/platform/x86/intel/extended_caps.h    |  42 ++
+ drivers/platform/x86/intel/pmt/Kconfig        |   4 +-
+ drivers/platform/x86/intel/pmt/class.c        |  18 +-
+ drivers/platform/x86/intel/pmt/class.h        |   5 +-
+ drivers/platform/x86/intel/pmt/crashlog.c     |  43 +-
+ drivers/platform/x86/intel/pmt/telemetry.c    |  47 +-
+ drivers/platform/x86/intel/sdsi.c             | 692 ++++++++++++++++++
+ include/uapi/linux/pci_regs.h                 |   4 +
+ include/uapi/linux/sdsi_if.h                  |  47 ++
+ 18 files changed, 1318 insertions(+), 329 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel_sdsi
+ delete mode 100644 drivers/mfd/intel_pmt.c
+ create mode 100644 drivers/platform/x86/intel/extended_caps.c
+ create mode 100644 drivers/platform/x86/intel/extended_caps.h
+ create mode 100644 drivers/platform/x86/intel/sdsi.c
+ create mode 100644 include/uapi/linux/sdsi_if.h
 
-As a matter of fact my mother died when i was barely 4 years old
-according to my late father and because of the type of love he had for
-my mother made him to remain UN-married till he left the ghost..
+-- 
+2.25.1
 
-So after the death of my father as a result of assassinate, his brother (My
-Uncle) who is the purchasing and marketing sale manager of my late
-fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
-convert all the properties and resources of my late father into his
-which i quarreled with him and it made him to lay his anger on me to
-the extent of hiring an assassins to kill me but to God be the glory i
-succeeded by making a way to Burkina faso for my dear life.
-Honestly i do live a fearful life even here in Burkina faso because of
-those Assassins coming after me .
-
-I would want to live and study in your country for my better future.
-because my father same blood brother wanted to force me into undecided
-marriage, just for me to leave my father home and went and live with
-another man I never know as he want to occupied all my father home
-and maybe to sold it as my father no longer alive, I'm the only child
-daughter my father born, '' but he don't know that i am not
-interesting in any of my father properties or early marriage for now,
-because i still have future to think about and to focus on my studies
-first as i was doing my first year in the University before the death
-of my father.
-
-Actually what I want to discuss with you is about my personal issue
-concern funds my late father deposited in a bank outside my country,
-worth $4.5 million united state dollars. i need your assistance to
-receive and invest this funds in your country.
-
-Please help me, I am sincere to you and I want to be member of your
-family as well if you wouldn't mind to accept me and lead me to better
-future in your country.
-
-All the documents the bank issue to my father during time of deposit
-is with me now.
-I already notify the bank on phone about the death of my father and
-they are surprise for the news and accept that my father is their good
-customer.
-I will be happy if this money can be invested in any business of your
-choice and it will be under your control till i finished my education,
-also I'm assuring you good relationship and I am ready to discuss the
-amount of money to give you from this money for your help.
-
-Therefore, I shall give you the bank contact and other necessary
-information in my next email if you will only promise me that you will
-not/never betray and disclosed this matter to anybody, because, this
-money is the only hope i have for survival on earth since I have lost
-my parents.
-
-Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
-CERTIFICATE here with me, but before I give you further information, i
-will like to know your full data
-
-1. Full Name: ........................
-2. Address: ..................
-3. Nationality: ........... Sex................
-4. Age:........... Date of Birth:................
-5. Occupation:...................
-.....
-6. Phone: ........... Fax:.........................
-7. State of Origin: .......Country:..............
-8. Occupation:...................
-................
-9. Marital status........... E-mail address's: ............
-10. Scan copy of your ID card or Driving License/Photo:............
-DECLARATION:
-
-so that i will be fully sure that i am not trusting the wrong person.
-and it will also give me the mind to send you the bank contact for you
-to communicate with them for more verification about this money. and
-to know you more better.
-
-Meanwhile, you can reach me through my pastor,his name is Pastor Paul
-any time you call, tell him that you want to speak with me because
-right now i am living in the church here in Burkina faso and i don't
-want to stay here any longer,
-send for me to speak with you his phone number is this(+226 75213646)
-
-I will stop here and i will be waiting for your reply and feel free
-ask any thing you want to know about me.
-Please help me, I would be highly appreciated
-Have nice day.
-From Irene
