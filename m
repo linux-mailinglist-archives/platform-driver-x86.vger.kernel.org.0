@@ -2,185 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0768741FAAF
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 Oct 2021 11:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE9841FB75
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 Oct 2021 14:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232611AbhJBJiP (ORCPT
+        id S232982AbhJBMF3 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 2 Oct 2021 05:38:15 -0400
-Received: from mail-bn7nam10on2083.outbound.protection.outlook.com ([40.107.92.83]:57056
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232618AbhJBJiN (ORCPT
+        Sat, 2 Oct 2021 08:05:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232935AbhJBMF1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 2 Oct 2021 05:38:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nz0Gby8aiKfo43JxuuL4SV91/5n27cwh2d6yZaJY2ZF/FYAcxQ7QdQKbY/80LyVetRHpCFs5mhVnodg+UjBeE1Qa9+F/ztVPkXl7o4QODZLJKFa6q4OBFSJmsbWIPzlSq+W7diu1df51lKiN4Z2xl5HqNLTbptMHrzX0fXHjI1J5LzP4qPyVSXqwcIa0qSueP+TonFz31aDHe1lDJbCZuCX6ttVBDJ+jc2uDC6br+hWmbG9Lp3X19YjSqQPVmc+Aa382IEKEFUmubDRF8N4gNiHS5bfskjsDkWvhmCSWTDEwlYJPq/B9OusQXy+iKTEAO9pCkl5D8k3KEIxX1JUM6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BuvGkLFB+igH4qXqWuI5ACTjebn8IBu4eR22ENzxgvk=;
- b=bIVImanJXoYJkrAvblVCzvVEz2IgcSVuz8w16/4IZmtsqk2mpjz97wDwamLm/O4ypRBSmXLgr2manS8eX17iS+Oh1cPCid3C1Dk/+qMVjzxKOxijBqiPA4U23iiT2qmaOzNA+A1pe/l3ySJw2hvWuH4NAAzcjU3iRxDHs4oeAnpj6cBFE0P7UDjX1dNH8uZIiDZGnpUyBBH2WlIJ3zie67zZwthQOagNkot+LYgG0vCDOWUHqQCsKe6RQk/037+ecYxBqVR/PBZr9HnJoPU5NpUOgGw42WUAIsBTWM3hrPYghOHZMFBWk61wWyFist1x+d7s/448w+clzeH/JbrRdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BuvGkLFB+igH4qXqWuI5ACTjebn8IBu4eR22ENzxgvk=;
- b=ab8gMzy/U4fqHBJG37jQcKHKkr2R5IC4FWmouHZJHJJHc7TGR4RgNKnSaBmxU7W5r92I1zZtoG9nuiYKNyM88oqBtqypLvEA3RZqDB6t1L/hqnIbevy6VC/OTHFOgW9XzOgqqpOawyrAOMXU/4fFrfEcgSpQOvYAoJL3JiLdpjPdpWu3ZCdr3FRS2wwLVDK6sRaYgForHWDXXf6IQw6LjX4A890mI962cF/hxRHwBtGVsKrzCQI87bY65vECWuSMWWH2KtWCKigXTm7hTQEOOVkABzjVlxr82uXdViZ8sgygaxJsyoWN7moAF3LA9ogTM6L90qq74scqDcerjD3mbw==
-Received: from CO1PR15CA0079.namprd15.prod.outlook.com (2603:10b6:101:20::23)
- by BL0PR12MB2354.namprd12.prod.outlook.com (2603:10b6:207:44::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.17; Sat, 2 Oct
- 2021 09:36:27 +0000
-Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:101:20:cafe::1f) by CO1PR15CA0079.outlook.office365.com
- (2603:10b6:101:20::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Sat, 2 Oct 2021 09:36:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4566.14 via Frontend Transport; Sat, 2 Oct 2021 09:36:26 +0000
-Received: from dev-r-vrt-156.mtr.labs.mlnx (172.20.187.6) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.18; Sat, 2 Oct 2021 09:36:24 +0000
-From:   Vadim Pasternak <vadimp@nvidia.com>
-To:     <hdegoede@redhat.com>
-CC:     <platform-driver-x86@vger.kernel.org>, <michaelsh@nvidia.com>,
-        "Vadim Pasternak" <vadimp@nvidia.com>
-Subject: [PATCH platform-next 10/10] platform/x86: mlx-platform: Add support for multiply cooling devices
-Date:   Sat, 2 Oct 2021 12:36:09 +0300
-Message-ID: <20211002093609.3771576-1-vadimp@nvidia.com>
-X-Mailer: git-send-email 2.31.1
+        Sat, 2 Oct 2021 08:05:27 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41C3C061570;
+        Sat,  2 Oct 2021 05:03:41 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id z184so1532206iof.5;
+        Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
+        b=YxWIlaBSYFvjD6wxI3Im7HD0DUa8SKawF0d7t45AEzKjL6m83eOsT6rgZdQRGCng74
+         6RLcJMZhzHbNym1o2udNgSV2epSTH0qAv/gDWDsxACfpBL7vOUGDwWmGmUaO2SE5P8uY
+         T63X4axLx9vlrJbw970R//6K5CXkIsOYNNanoWJo6B81ZE00DEyRoVjZrAUA3RQ+9ju3
+         SZYoVWN+Ed+cukZyyntSGlKOmbEpXAJVn5nVjU9PttbC0fy1k1kkmOWz1VvVx3VvX7FT
+         7VoKZi/ug9VIcJXMy54+WPXzQ6H5V7BFKbJ6aHn+8SZElmbcl8wcN4j53q3jHLdvow5u
+         jyoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
+        b=LmOqDwxqDDyQv8S5r8mgiOrkAdVuYjTHRPeL3SEcVCmf7iltEE+9E/WZ/p4a/Rn6OK
+         r3NIfiwPWf7KMH2N8E7aj9oaEc65LBtP0zvNSXYapgvfoiGp/gn4pQr6YnnJ321thhXg
+         UPVYssUs2StzWAD4Fo7masaaFkiOnbLL5nVv/dCZJIbtpy0aOis4w8Sq2+zDrQJpYgJ2
+         BgAockzdWQXrw276F+kR1NCbmuusK8c+G5aTErF1zxB/C4qJBdeiCmLoNqfxrhcADHs1
+         C+A9TlKq/pvb05UIgyvRzQeVCHUz2Vc2jXMdDry12eLQagUSqyM6oyQG9mzJutcKherx
+         5Ckw==
+X-Gm-Message-State: AOAM531n/GcSWL+Qoyf2OX/kqSmiAkrV6zyLjg67Vu5E6w2n/478Pi66
+        /U4B72F0Qpia4whCxpJUMQqm5jkVFMT4Yf+6K6E=
+X-Google-Smtp-Source: ABdhPJz2q09A+517W2EVe9dbDivdnk3AEH6BZaUlyYLwJiT4IN/1ySl0KWhD1PmrDJ75/9gz6SNXe4y+mLeDTP26TSo=
+X-Received: by 2002:a05:6638:104:: with SMTP id x4mr2547380jao.145.1633176221400;
+ Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73af992b-ea83-4877-7ddd-08d985881ad2
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2354:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB235498DAEA21BF9398826C78AFAC9@BL0PR12MB2354.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:989;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cfbp459ZHywftKPr9VFFIMrA2G6+RJdJ31R2oLjwWNjZD2CQkO+hWtDxZFdTIFjJHMIo+UsOcKaUOdqz47SU2O/4BSFVBbkbsdbkPvhKDpKtHcOcjEOzRaTJsapWAgaK/A/+4IB2FedAOFdbHAaETWlMfqdAbHex8H+WzYs4n2OX8SUXXjNc4aFeJHVC0hXEtITmup6gXnkMXT+cyPnxc5JKaZuUVtykMmbMAeNA+cPwqHV9T6hwMMA/BzM2F1CPfC3cyKlXoEmw7JyG/TI4DlyIek02RrFAcl3PK+AEXZry+IhmHkMlHXw+b8c94+Tw2GLAAtFof5B4pFUErSSpU5U8u+XAYrBl/LFhtqhIu7plp7jmBqyzZ6X/ZnKTXRQbetcx2BvqUaPljM1EwDXqdq0PPEU7ab3QP7TTEyToRFiF3KWq976Y4H0Hl8MF2QzULFAM50OdkJaajum+b7+Rnsc8P0jHNCFcD/jbPuZhNU9A7l4OgPa1yIUc/sBCBnpHJPRV1CiXvrItBB3QKMSBgNSYsbo/O89d2vszP6nqMP8VYtCMaXH7KaNqeTHM7gVQ89DdESmmpy1V602+ogssEs0b94vvV/9QfYPfjKQD+nOCR+8/miC/qSFKoMu+je/Ym5f+yAureyFd3MFMhqug4rtgpoOwfFVjXmHAGuN5Pld249DJGeS8GNJuqhJlgYoJPlZIOiguz696y0I9M7juRg==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(54906003)(26005)(82310400003)(107886003)(2906002)(356005)(83380400001)(36756003)(16526019)(186003)(8676002)(1076003)(7636003)(8936002)(70586007)(5660300002)(70206006)(47076005)(6666004)(426003)(86362001)(36860700001)(316002)(336012)(4326008)(2616005)(6916009)(508600001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2021 09:36:26.0505
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73af992b-ea83-4877-7ddd-08d985881ad2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2354
+Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:03:41 -0700 (PDT)
+Reply-To: unitednnation0@gmail.com
+From:   "U.n" <wadebaye33@gmail.com>
+Date:   Sat, 2 Oct 2021 00:03:41 -1200
+Message-ID: <CACE0T5XLJ2ZM5W28B0Dyv4Rc8vqA8pN78J4Aso6XvTW_kxoNmQ@mail.gmail.com>
+Subject: Attention
+To:     unitednnation0@gmail.com
+Cc:     pberger@brimson.com, alborchers@steinerpoint.com,
+        xavyer@ix.netcom.com, support@connecttech.com,
+        steve.glendinning@shawell.net, luca.risolia@studio.unibo.it,
+        stern@rowland.harvard.edu, oneukum@suse.de,
+        linux-uvc-devel@lists.sourceforge.net,
+        laurent.pinchart@ideasonboard.com, jussi.kivilinna@mbnet.fi,
+        sarah.a.sharp@linux.intel.com, royale@zerezo.com,
+        jdike@addtoit.com, richard@nod.at,
+        user-mode-linux-devel@lists.sourceforge.net,
+        user-mode-linux-user@lists.sourceforge.net, hjk@hansjkoch.de,
+        kzak@redhat.com, util-linux@vger.kernel.org, spock@gentoo.org,
+        hirofumi@mail.parknet.co.jp, alex.williamson@redhat.com,
+        pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, amit.shah@redhat.com,
+        rusty@rustcorp.com.au, mst@redhat.com, kvm@vger.kernel.org,
+        rl@hellgate.ch, brucechang@via.com.tw, HaraldWelte@viatech.com,
+        FlorianSchandinat@gmx.de, linux-fbdev@vger.kernel.org,
+        romieu@fr.zoreil.com, kaber@trash.net, florian@openwrt.org,
+        openwrt-devel@lists.openwrt.org, martyn.welch@ge.com,
+        manohar.vanga@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, sbhatewara@vmware.com,
+        arvindkumar@vmware.com, pv-drivers@vmware.com, lrg@ti.com,
+        juergh@gmail.com, vt8231@hiddenengine.co.uk,
+        tony.olech@elandigitalsystems.com, linux-mmc@vger.kernel.org,
+        linux-usb@vger.kernel.org, zbr@ioremap.net, m.hulsman@tudelft.nl,
+        r.marek@assembler.cz, khali@linux-fr.org,
+        lm-sensors@lm-sensors.org, pierre@ossman.eu, wim@iguana.be,
+        linux-watchdog@vger.kernel.org, zaga@fly.cc.fer.hr,
+        linux-scsi@vger.kernel.org, dh.herrmann@googlemail.com,
+        david@hardeman.nu, inaky.perez-gonzalez@intel.com,
+        linux-wimax@intel.com, wimax@linuxwimax.org, mitr@volny.cz,
+        acme@ghostprotocols.net, lrg@slimlogic.co.uk,
+        linux-input@vger.kernel.org, broonie@opensource.wolfsonmicro.com,
+        patches@opensource.wolfsonmicro.com, tj@kernel.org,
+        andrew.hendry@gmail.com, linux-x25@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com,
+        x86@kernel.org, mjg@redhat.com,
+        platform-driver-x86@vger.kernel.org, tony.luck@intel.com,
+        bp@alien8.de, linux-edac@vger.kernel.org, mchehab@redhat.com,
+        jeremy@goop.org, virtualization@lists.linux-foundation.org,
+        stefano.stabellini@eu.citrix.com, ian.campbell@citrix.com,
+        netdev@vger.kernel.org, konrad.wilk@oracle.com,
+        xen-devel@lists.xensource.com, bpm@sgi.com, elder@kernel.org,
+        xfs@oss.sgi.com, anirudh@xilinx.com, John.Linn@xilinx.com,
+        grant.likely@secretlab.ca, jacmet@sunsite.dk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Add new registers to support systems with multiply cooling devices.
-Modular systems support up-to four cooling devices. This capability
-is detected according to the registers initial setting.
+--=20
 
-Signed-off-by: Vadim Pasternak <vadimp@nvidia.com>
-Reviewed-by: Michael <michaelsh@nvidia.com>
----
- drivers/platform/x86/mlx-platform.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/platform/x86/mlx-platform.c b/drivers/platform/x86/mlx-platform.c
-index 2ab499686564..7606165980c3 100644
---- a/drivers/platform/x86/mlx-platform.c
-+++ b/drivers/platform/x86/mlx-platform.c
-@@ -120,12 +120,15 @@
- #define MLXPLAT_CPLD_LPC_REG_TACHO4_OFFSET	0xe7
- #define MLXPLAT_CPLD_LPC_REG_TACHO5_OFFSET	0xe8
- #define MLXPLAT_CPLD_LPC_REG_TACHO6_OFFSET	0xe9
-+#define MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET	0xea
- #define MLXPLAT_CPLD_LPC_REG_TACHO7_OFFSET	0xeb
- #define MLXPLAT_CPLD_LPC_REG_TACHO8_OFFSET	0xec
- #define MLXPLAT_CPLD_LPC_REG_TACHO9_OFFSET	0xed
- #define MLXPLAT_CPLD_LPC_REG_TACHO10_OFFSET	0xee
- #define MLXPLAT_CPLD_LPC_REG_TACHO11_OFFSET	0xef
- #define MLXPLAT_CPLD_LPC_REG_TACHO12_OFFSET	0xf0
-+#define MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET	0xf3
-+#define MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET	0xf4
- #define MLXPLAT_CPLD_LPC_REG_FAN_CAP1_OFFSET	0xf5
- #define MLXPLAT_CPLD_LPC_REG_FAN_CAP2_OFFSET	0xf6
- #define MLXPLAT_CPLD_LPC_REG_FAN_DRW_CAP_OFFSET	0xf7
-@@ -3414,6 +3417,18 @@ static struct mlxreg_core_data mlxplat_mlxcpld_default_fan_data[] = {
- 		.label = "pwm1",
- 		.reg = MLXPLAT_CPLD_LPC_REG_PWM1_OFFSET,
- 	},
-+	{
-+		.label = "pwm2",
-+		.reg = MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET,
-+	},
-+	{
-+		.label = "pwm3",
-+		.reg = MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET,
-+	},
-+	{
-+		.label = "pwm4",
-+		.reg = MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET,
-+	},
- 	{
- 		.label = "tacho1",
- 		.reg = MLXPLAT_CPLD_LPC_REG_TACHO1_OFFSET,
-@@ -3803,6 +3818,9 @@ static bool mlxplat_mlxcpld_writeable_reg(struct device *dev, unsigned int reg)
- 	case MLXPLAT_CPLD_LPC_REG_WD3_TLEFT_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_WD3_ACT_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_PWM1_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_PWM_CONTROL_OFFSET:
- 		return true;
- 	}
-@@ -3902,6 +3920,9 @@ static bool mlxplat_mlxcpld_readable_reg(struct device *dev, unsigned int reg)
- 	case MLXPLAT_CPLD_LPC_REG_CPLD3_MVER_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_CPLD4_MVER_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_PWM1_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO1_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO2_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO3_OFFSET:
-@@ -4014,6 +4035,9 @@ static bool mlxplat_mlxcpld_volatile_reg(struct device *dev, unsigned int reg)
- 	case MLXPLAT_CPLD_LPC_REG_CPLD3_MVER_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_CPLD4_MVER_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_PWM1_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET:
-+	case MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO1_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO2_OFFSET:
- 	case MLXPLAT_CPLD_LPC_REG_TACHO3_OFFSET:
-@@ -4069,6 +4093,9 @@ static const struct reg_default mlxplat_mlxcpld_regmap_ng400[] = {
- static const struct reg_default mlxplat_mlxcpld_regmap_eth_modular[] = {
- 	{ MLXPLAT_CPLD_LPC_REG_GP2_OFFSET, 0x61 },
- 	{ MLXPLAT_CPLD_LPC_REG_PWM_CONTROL_OFFSET, 0x00 },
-+	{ MLXPLAT_CPLD_LPC_REG_PWM2_OFFSET, 0x00 },
-+	{ MLXPLAT_CPLD_LPC_REG_PWM3_OFFSET, 0x00 },
-+	{ MLXPLAT_CPLD_LPC_REG_PWM4_OFFSET, 0x00 },
- 	{ MLXPLAT_CPLD_LPC_REG_WD1_ACT_OFFSET, 0x00 },
- 	{ MLXPLAT_CPLD_LPC_REG_WD2_ACT_OFFSET, 0x00 },
- 	{ MLXPLAT_CPLD_LPC_REG_WD3_ACT_OFFSET, 0x00 },
--- 
-2.20.1
+Attention Sir/Madam
+This is the United Nation (UN). We the United Nations (UN) Globally
+has approved (US$2.500,000)( two Million Five hundred thousand
+dollars) compensation as part of our responsibilities for humanitarian
+Aid for fighting against CoronaVirus and you are among the lucky ones.
 
+
+This compensation is for the most affected countries, communities and
+families across the global. Your funds were deposited with Bank in USA
+to transfer your funds to you via Internet Banking. You have to send
+your full details as state below:with this email Address
+  ( unitednnation0@gmail.com )
+Your full names:
+Address:
+Telephone:
+Occupation:
+
+
+
+Yours Sincerely
+Mr. Ant=C3=B3nio Guterres
+United Nations (UN).
