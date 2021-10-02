@@ -2,130 +2,220 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE9841FB75
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 Oct 2021 14:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FC9A41FD1C
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  2 Oct 2021 18:36:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232982AbhJBMF3 (ORCPT
+        id S233516AbhJBQiR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 2 Oct 2021 08:05:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232935AbhJBMF1 (ORCPT
+        Sat, 2 Oct 2021 12:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50758 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233444AbhJBQiR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 2 Oct 2021 08:05:27 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41C3C061570;
-        Sat,  2 Oct 2021 05:03:41 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id z184so1532206iof.5;
-        Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=YxWIlaBSYFvjD6wxI3Im7HD0DUa8SKawF0d7t45AEzKjL6m83eOsT6rgZdQRGCng74
-         6RLcJMZhzHbNym1o2udNgSV2epSTH0qAv/gDWDsxACfpBL7vOUGDwWmGmUaO2SE5P8uY
-         T63X4axLx9vlrJbw970R//6K5CXkIsOYNNanoWJo6B81ZE00DEyRoVjZrAUA3RQ+9ju3
-         SZYoVWN+Ed+cukZyyntSGlKOmbEpXAJVn5nVjU9PttbC0fy1k1kkmOWz1VvVx3VvX7FT
-         7VoKZi/ug9VIcJXMy54+WPXzQ6H5V7BFKbJ6aHn+8SZElmbcl8wcN4j53q3jHLdvow5u
-         jyoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=nsZbpm1YBoHMpWTnzHLuE/zYZ0yg4jBiKD5Q7oCTPBE=;
-        b=LmOqDwxqDDyQv8S5r8mgiOrkAdVuYjTHRPeL3SEcVCmf7iltEE+9E/WZ/p4a/Rn6OK
-         r3NIfiwPWf7KMH2N8E7aj9oaEc65LBtP0zvNSXYapgvfoiGp/gn4pQr6YnnJ321thhXg
-         UPVYssUs2StzWAD4Fo7masaaFkiOnbLL5nVv/dCZJIbtpy0aOis4w8Sq2+zDrQJpYgJ2
-         BgAockzdWQXrw276F+kR1NCbmuusK8c+G5aTErF1zxB/C4qJBdeiCmLoNqfxrhcADHs1
-         C+A9TlKq/pvb05UIgyvRzQeVCHUz2Vc2jXMdDry12eLQagUSqyM6oyQG9mzJutcKherx
-         5Ckw==
-X-Gm-Message-State: AOAM531n/GcSWL+Qoyf2OX/kqSmiAkrV6zyLjg67Vu5E6w2n/478Pi66
-        /U4B72F0Qpia4whCxpJUMQqm5jkVFMT4Yf+6K6E=
-X-Google-Smtp-Source: ABdhPJz2q09A+517W2EVe9dbDivdnk3AEH6BZaUlyYLwJiT4IN/1ySl0KWhD1PmrDJ75/9gz6SNXe4y+mLeDTP26TSo=
-X-Received: by 2002:a05:6638:104:: with SMTP id x4mr2547380jao.145.1633176221400;
- Sat, 02 Oct 2021 05:03:41 -0700 (PDT)
+        Sat, 2 Oct 2021 12:38:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633192590;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=wnfjVTAC93sVKPLcMqYChvKeTkND7Collr8Dg2GcqjU=;
+        b=JV7UTSSjk4kdDIRRGoA1D0Kshv5wh/aIsJ6XLEV8UxtPnNWvYkDU38yKWxe35CK9kcw8h2
+        TOvfMPpQcDYqMuuuzXZygMbznAHeXIglsOyLQ2SJ/DF3lr27S4DZhEJfkaDAlEuWSDnpEt
+        qnBTD3WvHfdV4+BMQqeZb2ZLbI4pRao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-D8URHPpnOLWVelwY-Lp2Sg-1; Sat, 02 Oct 2021 12:36:27 -0400
+X-MC-Unique: D8URHPpnOLWVelwY-Lp2Sg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A5E9802928;
+        Sat,  2 Oct 2021 16:36:24 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.31])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2B198100763D;
+        Sat,  2 Oct 2021 16:36:18 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rajat Jain <rajatja@google.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lyude <lyude@redhat.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>, Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Pekka Paalanen <pekka.paalanen@collabora.com>,
+        Mario Limonciello <mario.limonciello@outlook.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Sebastien Bacher <seb128@ubuntu.com>,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 00/10] drm: Add privacy-screen class and connector properties
+Date:   Sat,  2 Oct 2021 18:36:08 +0200
+Message-Id: <20211002163618.99175-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a4f:f90d:0:0:0:0:0 with HTTP; Sat, 2 Oct 2021 05:03:41 -0700 (PDT)
-Reply-To: unitednnation0@gmail.com
-From:   "U.n" <wadebaye33@gmail.com>
-Date:   Sat, 2 Oct 2021 00:03:41 -1200
-Message-ID: <CACE0T5XLJ2ZM5W28B0Dyv4Rc8vqA8pN78J4Aso6XvTW_kxoNmQ@mail.gmail.com>
-Subject: Attention
-To:     unitednnation0@gmail.com
-Cc:     pberger@brimson.com, alborchers@steinerpoint.com,
-        xavyer@ix.netcom.com, support@connecttech.com,
-        steve.glendinning@shawell.net, luca.risolia@studio.unibo.it,
-        stern@rowland.harvard.edu, oneukum@suse.de,
-        linux-uvc-devel@lists.sourceforge.net,
-        laurent.pinchart@ideasonboard.com, jussi.kivilinna@mbnet.fi,
-        sarah.a.sharp@linux.intel.com, royale@zerezo.com,
-        jdike@addtoit.com, richard@nod.at,
-        user-mode-linux-devel@lists.sourceforge.net,
-        user-mode-linux-user@lists.sourceforge.net, hjk@hansjkoch.de,
-        kzak@redhat.com, util-linux@vger.kernel.org, spock@gentoo.org,
-        hirofumi@mail.parknet.co.jp, alex.williamson@redhat.com,
-        pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, amit.shah@redhat.com,
-        rusty@rustcorp.com.au, mst@redhat.com, kvm@vger.kernel.org,
-        rl@hellgate.ch, brucechang@via.com.tw, HaraldWelte@viatech.com,
-        FlorianSchandinat@gmx.de, linux-fbdev@vger.kernel.org,
-        romieu@fr.zoreil.com, kaber@trash.net, florian@openwrt.org,
-        openwrt-devel@lists.openwrt.org, martyn.welch@ge.com,
-        manohar.vanga@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, sbhatewara@vmware.com,
-        arvindkumar@vmware.com, pv-drivers@vmware.com, lrg@ti.com,
-        juergh@gmail.com, vt8231@hiddenengine.co.uk,
-        tony.olech@elandigitalsystems.com, linux-mmc@vger.kernel.org,
-        linux-usb@vger.kernel.org, zbr@ioremap.net, m.hulsman@tudelft.nl,
-        r.marek@assembler.cz, khali@linux-fr.org,
-        lm-sensors@lm-sensors.org, pierre@ossman.eu, wim@iguana.be,
-        linux-watchdog@vger.kernel.org, zaga@fly.cc.fer.hr,
-        linux-scsi@vger.kernel.org, dh.herrmann@googlemail.com,
-        david@hardeman.nu, inaky.perez-gonzalez@intel.com,
-        linux-wimax@intel.com, wimax@linuxwimax.org, mitr@volny.cz,
-        acme@ghostprotocols.net, lrg@slimlogic.co.uk,
-        linux-input@vger.kernel.org, broonie@opensource.wolfsonmicro.com,
-        patches@opensource.wolfsonmicro.com, tj@kernel.org,
-        andrew.hendry@gmail.com, linux-x25@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com,
-        x86@kernel.org, mjg@redhat.com,
-        platform-driver-x86@vger.kernel.org, tony.luck@intel.com,
-        bp@alien8.de, linux-edac@vger.kernel.org, mchehab@redhat.com,
-        jeremy@goop.org, virtualization@lists.linux-foundation.org,
-        stefano.stabellini@eu.citrix.com, ian.campbell@citrix.com,
-        netdev@vger.kernel.org, konrad.wilk@oracle.com,
-        xen-devel@lists.xensource.com, bpm@sgi.com, elder@kernel.org,
-        xfs@oss.sgi.com, anirudh@xilinx.com, John.Linn@xilinx.com,
-        grant.likely@secretlab.ca, jacmet@sunsite.dk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
+Hi all,
+
+Here is a new version of my privacy-screen series, addressing the
+(few) review-remarks from the version posted on September 6th.
+This new version contains the following changes:
+
+- drm: Add privacy-screen class (v4)
+ - Make drm_privacy_screen_set_sw_state() skip calling out to the hw if
+   hw_state == new_sw_state
+
+- drm/privacy-screen: Add notifier support (v2)
+ - Drop WARN_ON(mutex_is_locked(&priv->lock)) check in
+   drm_privacy_screen_call_notifier_chain() it may be locked by
+   another thread, which would lead to a false-positive triggering
+   of the check (change requested by Lyude)
+
+- drm/connector: Add a drm_connector privacy-screen helper functions (v2)
+ - Do not update connector->state->privacy_screen_sw_state on
+   atomic-commits (change requested by Ville)
+ - Change drm_connector_update_privacy_screen() to take drm_connector_state
+   as argument instead of a full drm_atomic_state. This allows the helper
+   to be called by drivers when they are enabling crtcs/encoders/connectors.
+
+- platform/x86: thinkpad_acpi: Register a privacy-screen device (v3)
+ - On receiving a TP_HKEY_EV_PRIVACYGUARD_TOGGLE event only call
+   drm_privacy_screen_call_notifier_chain() if the privacy-screen state
+   has actually changed
+
+- drm/i915: Add intel_modeset_probe_defer() helper
+ - New patch in this version of the series (change requested by Jani)
+
+- drm/i915: Add privacy-screen support (v2)
+ - Call drm_connector_update_privacy_screen() from
+   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding a
+   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
+   (change requested by Ville)
+ - Move the probe-deferral check to the intel_modeset_probe_defer() helper
+   (change requested by Jani)
+
+With these changes I believe that this series now is fully ready for
+merging, but the last 2 patches need to be (re)reviewed.
+
+Here is some more info from the previous cover-letters:
+
+The first userspace consumer of the new properties is now fully ready
+for merging (it is just waiting for the kernel bits to land first):
+
+ - https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/49
+ - https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1952
+ - https://gitlab.gnome.org/GNOME/gnome-control-center/-/merge_requests/1032
+
+The new API works as designed and add the following features to GNOME:
+
+1. Showing an OSD notification when the privacy-screen is toggled on/off
+   through hotkeys handled by the embedded-controller
+2. Allowing control of the privacy-screen from the GNOME control-panel,
+   including the on/off slider shown there updating to match the hw-setting
+   when the setting is changed with the control-panel open.
+3. Restoring the last user-setting at login
+
+This series consists of a number of different parts:
+
+1. A new version of Rajat's privacy-screen connector properties patch,
+this adds new userspace API in the form of new properties
+
+2. Since on most devices the privacy screen is actually controlled by
+some vendor specific ACPI/WMI interface which has a driver under
+drivers/platform/x86, we need some "glue" code to make this functionality
+available to KMS drivers. Patches 2-4 add a new privacy-screen class for
+this, which allows non KMS drivers (and possibly KMS drivers too) to
+register a privacy-screen device and also adds an interface for KMS drivers
+to get access to the privacy-screen associated with a specific connector.
+This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
+kernel, including separate includes for consumers and providers(drivers).
+
+3. Some drm_connector helper functions to keep the actual changes needed
+for this in individual KMS drivers as small as possible (patch 5).
+
+4. Make the thinkpad_acpi code register a privacy-screen device on
+ThinkPads with a privacy-screen (patches 6-8)
+
+5. Make the i915 driver export the privacy-screen functionality through
+the connector properties on the eDP connector.
+
+I believe that it would be best to merge the entire series, including
+the thinkpad_acpi changes through drm-misc in one go. As the pdx86
+subsys maintainer I hereby give my ack for merging the thinkpad_acpi
+changes through drm-misc.
+
+There is one small caveat with this series, which it is good to be
+aware of. The i915 driver will now return -EPROBE_DEFER on Thinkpads
+with an eprivacy screen, until the thinkpad_acpi driver is loaded.
+This means that initrd generation tools will need to be updated to
+include thinkpad_acpi when the i915 driver is added to the initrd.
+Without this the loading of the i915 driver will be delayed to after
+the switch to real rootfs.
+
+Regards,
+
+Hans
 
 
-Attention Sir/Madam
-This is the United Nation (UN). We the United Nations (UN) Globally
-has approved (US$2.500,000)( two Million Five hundred thousand
-dollars) compensation as part of our responsibilities for humanitarian
-Aid for fighting against CoronaVirus and you are among the lucky ones.
+Hans de Goede (9):
+  drm: Add privacy-screen class (v4)
+  drm/privacy-screen: Add X86 specific arch init code
+  drm/privacy-screen: Add notifier support (v2)
+  drm/connector: Add a drm_connector privacy-screen helper functions
+    (v2)
+  platform/x86: thinkpad_acpi: Add hotkey_notify_extended_hotkey()
+    helper
+  platform/x86: thinkpad_acpi: Get privacy-screen / lcdshadow ACPI
+    handles only once
+  platform/x86: thinkpad_acpi: Register a privacy-screen device
+  drm/i915: Add intel_modeset_probe_defer() helper
+  drm/i915: Add privacy-screen support (v2)
 
+Rajat Jain (1):
+  drm/connector: Add support for privacy-screen properties (v4)
 
-This compensation is for the most affected countries, communities and
-families across the global. Your funds were deposited with Bank in USA
-to transfer your funds to you via Internet Banking. You have to send
-your full details as state below:with this email Address
-  ( unitednnation0@gmail.com )
-Your full names:
-Address:
-Telephone:
-Occupation:
+ Documentation/gpu/drm-kms-helpers.rst        |  15 +
+ Documentation/gpu/drm-kms.rst                |   2 +
+ MAINTAINERS                                  |   8 +
+ drivers/gpu/drm/Kconfig                      |   4 +
+ drivers/gpu/drm/Makefile                     |   1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |   4 +
+ drivers/gpu/drm/drm_connector.c              | 203 ++++++++
+ drivers/gpu/drm/drm_drv.c                    |   4 +
+ drivers/gpu/drm/drm_privacy_screen.c         | 467 +++++++++++++++++++
+ drivers/gpu/drm/drm_privacy_screen_x86.c     |  86 ++++
+ drivers/gpu/drm/i915/display/intel_atomic.c  |   1 +
+ drivers/gpu/drm/i915/display/intel_ddi.c     |   3 +
+ drivers/gpu/drm/i915/display/intel_display.c |  23 +
+ drivers/gpu/drm/i915/display/intel_display.h |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c      |  10 +
+ drivers/gpu/drm/i915/i915_pci.c              |   9 +-
+ drivers/platform/x86/Kconfig                 |   2 +
+ drivers/platform/x86/thinkpad_acpi.c         | 137 ++++--
+ include/drm/drm_connector.h                  |  55 +++
+ include/drm/drm_privacy_screen_consumer.h    |  65 +++
+ include/drm/drm_privacy_screen_driver.h      |  84 ++++
+ include/drm/drm_privacy_screen_machine.h     |  46 ++
+ 22 files changed, 1181 insertions(+), 49 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_privacy_screen.c
+ create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
+ create mode 100644 include/drm/drm_privacy_screen_consumer.h
+ create mode 100644 include/drm/drm_privacy_screen_driver.h
+ create mode 100644 include/drm/drm_privacy_screen_machine.h
 
+-- 
+2.31.1
 
-
-Yours Sincerely
-Mr. Ant=C3=B3nio Guterres
-United Nations (UN).
