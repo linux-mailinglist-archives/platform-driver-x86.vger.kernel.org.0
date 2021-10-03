@@ -2,63 +2,78 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F33B9420112
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Oct 2021 11:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04CDE42028C
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Oct 2021 18:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbhJCJ3F (ORCPT
+        id S231169AbhJCQFc (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 3 Oct 2021 05:29:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60782 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229512AbhJCJ3F (ORCPT
+        Sun, 3 Oct 2021 12:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230507AbhJCQFb (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 3 Oct 2021 05:29:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BECAC6136A;
-        Sun,  3 Oct 2021 09:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1633253238;
-        bh=Z+JKvj4sN+KWKBgRz5Yx0sp0MJ32bjEtWch2TgPTOuE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NR1vzFmoGwwm80elhuJ9ZJ/BQ6NRrvnRbz88Yez0x5TeUJQSvZSX/1P4oKt3gGdbI
-         eUmosuobMB0Tiw1lOoc1/L9zuJqKv68PWG/62G7p7BG6RDk3AdrE3x7sS+DMw88xkJ
-         FqY4iKV+9UUnWElfR3PcPkD4cT6TqWVcqm4yeUkk=
-Date:   Sun, 3 Oct 2021 11:27:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Len Baker <len.baker@gmx.com>
-Cc:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Convert platform driver to
- use dev_groups
-Message-ID: <YVl3c7iprlLbMoFJ@kroah.com>
-References: <20211003091949.7339-1-len.baker@gmx.com>
+        Sun, 3 Oct 2021 12:05:31 -0400
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F80C0613EC
+        for <platform-driver-x86@vger.kernel.org>; Sun,  3 Oct 2021 09:03:44 -0700 (PDT)
+Received: by mail-oo1-xc33.google.com with SMTP id i26-20020a4ad09a000000b002a9d58c24f5so4611444oor.0
+        for <platform-driver-x86@vger.kernel.org>; Sun, 03 Oct 2021 09:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=oOqUrSuUCCTti4b89vsLrMyMjdmQmo0cHUZ19+DYd/0=;
+        b=hzRrLbvKBSr/JEOsL3oB5Fq7OfZVo64hQTj75jlTQDPfpx+TCFgI+2WaNIiwO/FcSE
+         s5mIRmBY9CSmwYKOGwUKU385JzRIuvIi01j92gCuz+VPkSMlgAjKQ8v4vWF3K/nGldUM
+         yfysQswEo2ODQWzppXitd3bhmOwDrbJ3fAoqp10rbPFQUh3SqQQTt2eBKOmk1vJMYYgQ
+         YPNwZYz6OV0JX4uJltjl5JzYhHqzLuEr54jBEcivxAP+hkXWKGNv1y8Kj33ZJyNBhgiV
+         zKbzl2VYt00a/Y7z13C1pD3RuKUYaf7zXsF0aIJ2FyrZTy3Jz9iB7nntF2o+GZMulu0z
+         6Ftg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=oOqUrSuUCCTti4b89vsLrMyMjdmQmo0cHUZ19+DYd/0=;
+        b=GD+Nc//MaaiYqzo2Wl+sULHsoZrs6UNSg91+CW9wBvDLesmF2Pmdp6oDPAScY3LWue
+         PcLApjz0TztprpqXVsKANCopKEI6IJqrLs+Kth1I5dt3XvaH58yjNIEc8L3gAonDpafd
+         Q+3E+7pwuuQ4IUd5555Hj+Qf3IFsP7uAg9XZucYGRkS9s4BvwdSvKaXlPDRCJ5dabNHK
+         xhKXk1KX+jENYQmztOGr+/vV+LnCCtOUADanQ2bLYjTK6qzeOAWdS2KDTgjqNY3jbJt3
+         bi5qC9xI+OjpkMoKXpgFu+4+ldkC2AOSXjbPzUPRsz+Lwdl5BzOj6GZCntsM4YCaq1cs
+         A/pA==
+X-Gm-Message-State: AOAM533e9Np/0roDrZB6sWZH5wzqBEQYfj+1tTv5GYlVZamChjVSzm23
+        5nnRBFAEXz4Sf318faUDD7WZU50jYEOsWb+8IMs=
+X-Google-Smtp-Source: ABdhPJz+OCfRtNUb7clkv/6cUThhjGjW5XmMMb5rPaDEFH5Nb/uXsBTHQMRcFGo8eQziG//MX9wGVOMVrFAPwJuB88I=
+X-Received: by 2002:a4a:88e2:: with SMTP id q31mr5979905ooh.91.1633277022487;
+ Sun, 03 Oct 2021 09:03:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211003091949.7339-1-len.baker@gmx.com>
+Received: by 2002:a8a:7da:0:0:0:0:0 with HTTP; Sun, 3 Oct 2021 09:03:41 -0700 (PDT)
+Reply-To: mrschantelhermans@gmail.com
+From:   Mrs Chantel Hermans <mrsmaricovid19@gmail.com>
+Date:   Sun, 3 Oct 2021 09:03:41 -0700
+Message-ID: <CALw_ptHOiHBp6ddndFn7Hcaj+Mupc-ub0nPj9M6v493veQURRA@mail.gmail.com>
+Subject: ATTENTION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sun, Oct 03, 2021 at 11:19:49AM +0200, Len Baker wrote:
-> Platform drivers have the option of having the platform core create and
-> remove any needed sysfs attribute files. So take advantage of that and
-> refactor the attributes management to avoid to register them "by hand".
-> 
-> Also, due to some attributes are optionals, refactor the code and move
-> the logic inside the "is_visible" callbacks of the attribute_group
-> structures.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Len Baker <len.baker@gmx.com>
-> ---
->  drivers/platform/x86/thinkpad_acpi.c | 536 ++++++++++++---------------
->  1 file changed, 236 insertions(+), 300 deletions(-)
+-- 
 
-Nice!
 
-At first glance this looks great to me, thanks for doing this.
+ATTENTION
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+
+You have been compensated with the sum of 6.9 million dollars in this
+United Nation the payment will be issue into ATM Visa Card,
+
+
+
+and send to you from the Santander Bank of Spain we need your
+Address,Passport and your whatsapp number.
+
+
+
+THANKS
+
+*Mrs Chantel Hermans*
