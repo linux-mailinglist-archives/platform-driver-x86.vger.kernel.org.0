@@ -2,78 +2,80 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04CDE42028C
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  3 Oct 2021 18:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33991420A55
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Oct 2021 13:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbhJCQFc (ORCPT
+        id S229778AbhJDLsR (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 3 Oct 2021 12:05:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59950 "EHLO
+        Mon, 4 Oct 2021 07:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbhJCQFb (ORCPT
+        with ESMTP id S231765AbhJDLsR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 3 Oct 2021 12:05:31 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F80C0613EC
-        for <platform-driver-x86@vger.kernel.org>; Sun,  3 Oct 2021 09:03:44 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id i26-20020a4ad09a000000b002a9d58c24f5so4611444oor.0
-        for <platform-driver-x86@vger.kernel.org>; Sun, 03 Oct 2021 09:03:44 -0700 (PDT)
+        Mon, 4 Oct 2021 07:48:17 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE276C061745
+        for <platform-driver-x86@vger.kernel.org>; Mon,  4 Oct 2021 04:46:27 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g41so70063652lfv.1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 04 Oct 2021 04:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=oOqUrSuUCCTti4b89vsLrMyMjdmQmo0cHUZ19+DYd/0=;
-        b=hzRrLbvKBSr/JEOsL3oB5Fq7OfZVo64hQTj75jlTQDPfpx+TCFgI+2WaNIiwO/FcSE
-         s5mIRmBY9CSmwYKOGwUKU385JzRIuvIi01j92gCuz+VPkSMlgAjKQ8v4vWF3K/nGldUM
-         yfysQswEo2ODQWzppXitd3bhmOwDrbJ3fAoqp10rbPFQUh3SqQQTt2eBKOmk1vJMYYgQ
-         YPNwZYz6OV0JX4uJltjl5JzYhHqzLuEr54jBEcivxAP+hkXWKGNv1y8Kj33ZJyNBhgiV
-         zKbzl2VYt00a/Y7z13C1pD3RuKUYaf7zXsF0aIJ2FyrZTy3Jz9iB7nntF2o+GZMulu0z
-         6Ftg==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=zO20pXIc4aHnqYviESIViCK1/daYvjDKa+lAXFV6ImY=;
+        b=QAnH6xIlSkaOmPpV23EJAUTQ3jVGoPrSjBMThsk7KKRM8INqc9mr8xv+Si7TAgNoCZ
+         0IlqZX36yLDTxKBv4Z6E2dvYvkvDcL6CI0lF387qDctJDwsnFhsOD/Fz0xi2bVTYw3V4
+         OGyUU/MN7RHTn3iUf5uvkZwWm7RUntl4R+Nzs5DiSSFud9W50wAeee59aUfZxxM0pY9N
+         0x6hGGYD93klS1LMxVeztLcG8A7swg67RsvlNhJoKMGQddxvP6p3JICLbqz0/WXu/MLO
+         9iBJ3TDI0UGU6IbVeGuhOJECbciltcMgcWJ4Vs/7SC1RxxBtRMzNQrJtOCaq1B2whsij
+         awUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=oOqUrSuUCCTti4b89vsLrMyMjdmQmo0cHUZ19+DYd/0=;
-        b=GD+Nc//MaaiYqzo2Wl+sULHsoZrs6UNSg91+CW9wBvDLesmF2Pmdp6oDPAScY3LWue
-         PcLApjz0TztprpqXVsKANCopKEI6IJqrLs+Kth1I5dt3XvaH58yjNIEc8L3gAonDpafd
-         Q+3E+7pwuuQ4IUd5555Hj+Qf3IFsP7uAg9XZucYGRkS9s4BvwdSvKaXlPDRCJ5dabNHK
-         xhKXk1KX+jENYQmztOGr+/vV+LnCCtOUADanQ2bLYjTK6qzeOAWdS2KDTgjqNY3jbJt3
-         bi5qC9xI+OjpkMoKXpgFu+4+ldkC2AOSXjbPzUPRsz+Lwdl5BzOj6GZCntsM4YCaq1cs
-         A/pA==
-X-Gm-Message-State: AOAM533e9Np/0roDrZB6sWZH5wzqBEQYfj+1tTv5GYlVZamChjVSzm23
-        5nnRBFAEXz4Sf318faUDD7WZU50jYEOsWb+8IMs=
-X-Google-Smtp-Source: ABdhPJz+OCfRtNUb7clkv/6cUThhjGjW5XmMMb5rPaDEFH5Nb/uXsBTHQMRcFGo8eQziG//MX9wGVOMVrFAPwJuB88I=
-X-Received: by 2002:a4a:88e2:: with SMTP id q31mr5979905ooh.91.1633277022487;
- Sun, 03 Oct 2021 09:03:42 -0700 (PDT)
+         :subject:to:content-transfer-encoding;
+        bh=zO20pXIc4aHnqYviESIViCK1/daYvjDKa+lAXFV6ImY=;
+        b=LpDgHEj+OSBEhgT3HSM0f9wr8Ekfz94q+hO21gN3ztxbNw96QgN4i7sw0N5vmjhoLT
+         sxCZMPE9X3G3fy6NlesYFLZW5HIRmQSd8imnQW1GhweLOtkbLwUmmBxc5DVvSCJOm0yz
+         bcTgbdJyaaYwt1QkdqrsJpl3yoO1Jc58yniX1yW0stH3cKpF7jNpk3ClU0+VFrRRSuxB
+         5gqDM9VF/WE/ayUta6M4Dop/PQyAkdyUV5ZLKVRbS/2oG8ipXlDQNr9h/U3d2+hrcsht
+         CxnGcnTfJs1kvURg1iChLDcahft5vi2pGdRvjqf+EiMrnUIcR3Z25laJ8cLYE3rM7xvw
+         AvTQ==
+X-Gm-Message-State: AOAM532IEfiewdyvu/FpYiTwvTMmuIlGiSdivT8rRdGHdi7TwggrvGr0
+        PAQX80h1i5HbpompgHte9B8vwawBOkbGkbQHhw8=
+X-Google-Smtp-Source: ABdhPJwRnYT2qsjek32bWAQf3Y82DCWC7gitfTzXz8e0HWj5+Z/EUnaYfehgMCYd17qtg1xwb/a/4hRiwaJCV1LjkHQ=
+X-Received: by 2002:ac2:555b:: with SMTP id l27mr4172079lfk.2.1633347986215;
+ Mon, 04 Oct 2021 04:46:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a8a:7da:0:0:0:0:0 with HTTP; Sun, 3 Oct 2021 09:03:41 -0700 (PDT)
-Reply-To: mrschantelhermans@gmail.com
-From:   Mrs Chantel Hermans <mrsmaricovid19@gmail.com>
-Date:   Sun, 3 Oct 2021 09:03:41 -0700
-Message-ID: <CALw_ptHOiHBp6ddndFn7Hcaj+Mupc-ub0nPj9M6v493veQURRA@mail.gmail.com>
-Subject: ATTENTION
+Received: by 2002:a05:6512:390c:0:0:0:0 with HTTP; Mon, 4 Oct 2021 04:46:25
+ -0700 (PDT)
+Reply-To: robertskelvin22@gmail.com
+From:   Roberts kelvin <delepeters2018@gmail.com>
+Date:   Mon, 4 Oct 2021 11:46:25 +0000
+Message-ID: <CAOU-QWGRvJPHpJqOObCJf0TznSubQQxPV+tYoDux=FXDA7vBKw@mail.gmail.com>
+Subject: Greetings
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
+Dear Sir/Madam,
 
+My principals have now obtained foreign exchange quotas and approvals
+including capital and under accounts, trade platform, corporate
+accounts and even private accounts.
 
-ATTENTION
+Do you have any viable business plan that needs funding? Depending on
+your business plan/project our principals are in the position to
+provide the capital to the ideal partner ready to work for a mutual
+benefit and the capital will be delivered to you under a non-recourse
+Finance platform.
 
+It will be my duty to guide you to secure a successful corporate small
+or large capital investment or private capital enhancement.
 
+For more d=C3=A9tails contact me { robertskelvin22@gmail.com }
+Whatsapp +1 {901} 6545402
 
-You have been compensated with the sum of 6.9 million dollars in this
-United Nation the payment will be issue into ATM Visa Card,
-
-
-
-and send to you from the Santander Bank of Spain we need your
-Address,Passport and your whatsapp number.
-
-
-
-THANKS
-
-*Mrs Chantel Hermans*
+Regards, Roberts Kelvin
