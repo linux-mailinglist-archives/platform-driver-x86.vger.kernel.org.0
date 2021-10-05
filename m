@@ -2,96 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E66E421F43
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Oct 2021 09:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D574421F6F
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  5 Oct 2021 09:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232511AbhJEHLe (ORCPT
+        id S232108AbhJEHd1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Oct 2021 03:11:34 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:50277 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231913AbhJEHLe (ORCPT
+        Tue, 5 Oct 2021 03:33:27 -0400
+Received: from mailgate.kemenperin.go.id ([202.47.80.81]:45644 "EHLO
+        mailgate.kemenperin.go.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230526AbhJEHd0 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Oct 2021 03:11:34 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 8EB955C0100;
-        Tue,  5 Oct 2021 03:09:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 05 Oct 2021 03:09:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nakato.io; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding:content-type; s=fm2; bh=
-        Hj37CP3Dw78hSfXRxxNojbV6w54/CCt3HwB3xajnRmc=; b=ZL4PM+i6e5oYR+90
-        cS4JXmlhIwbsdFNiXA1ZpVxKPHusnFvjg6r1yyKsSvpaduJzjHgUM/kX+RW9Nyg8
-        z0Z/CimhFQ0wTX8UglaW61faH71V0NxRgPlWWkXZmElrOSUiOK0B5KXCiILuVjbu
-        Gf0KD1Kt/ptAoQxgmWw8gotnUtaPixqvjiKZJLzefCx4ANlBUb4xe/7Jr90A4Eli
-        7kXjQ6CPGMhZacUW5kkTDIZ8OLUebehhVA5kZE04PPR9dEAEjdhhTexTNXXwzqR0
-        /dvmjBodoQb1yyDFq2fghdT6rhlbtVzMHxpcSXB+7qTfec9Ea+NyCsspcXI0dpHN
-        6EQgKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=Hj37CP3Dw78hSfXRxxNojbV6w54/CCt3HwB3xajnR
-        mc=; b=BPx9FwZbm/WOJyK2TJ0H6Y4RbSr3XIFUZ7ulvKV2pKZrIARFrzPWIv4vY
-        xLqkyhu2TYWhD27iTovkPtsq0/ElVsjd9eMM7k1WroTs4dnebc5zbUzNwY74TZ5T
-        N0kFr/rGT8hYW59KQg9ykEFD4NpOZ4lsauInmuBHUXPoRIlhTxIHVBoT5M9Xb0kU
-        o3KC8ek1jM8ReVgdXx3Hyy9Txsx95ywQdM2evUIB7XJv7OrGYnKrZ2VIwDDzbL23
-        YqHg/DU+tiqaUuc4AR+a86zb5obsvjGmLHdH0zXHj40Aqjrst2+Z4xVpSmI/M2xm
-        04TOFHBT5Ao0se4hHEYyam15VRa5A==
-X-ME-Sender: <xms:N_pbYUAec1p-I9nzp1O2Z9uOzXUSMhjqHAxMPlPT6tlmuu3FsBr0Jg>
-    <xme:N_pbYWh9J5svjY4BwZKtO2dHgynmKj9KaNM-ONL3Q6NqIAYaMHs4rKKcjKOoArnjL
-    XwW4bBXv5728cqUGA>
-X-ME-Received: <xmr:N_pbYXktvE1aGYYD67wjsdC0feS6q3rIz61L0HnawQMl8v2SZs53uO3w6F-hGDUGyq_faEj6_CG_oDvuv3azIziW-9pvBrTZbxVzpgJ6mthDdGc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelfedguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkfgjfhgggfgtsehtuf
-    ertddttddvnecuhfhrohhmpefurggthhhiucfmihhnghcuoehnrghkrghtohesnhgrkhgr
-    thhordhioheqnecuggftrfgrthhtvghrnhepgeefkefgheevtddthfeihfevfffhhfejud
-    elheelgfdvteekuefgkeffudeiudffnecuffhomhgrihhnpehgihhthhhusgdrtghomhen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnrghkrg
-    htohesnhgrkhgrthhordhioh
-X-ME-Proxy: <xmx:N_pbYax-aUjNqT7qLzNeU6mLoM1PhbhXKQ4o_2M3iEKEEhjRa6o4Dg>
-    <xmx:N_pbYZQ7jcelKaXov3EII-wiSylC8DN-IvMHpHS8zB6FsGvH4qcs5g>
-    <xmx:N_pbYVby_584YVqdG-W4a70E7TNocCBaa6rul0gdUU6TULfjGO-CTQ>
-    <xmx:N_pbYUFmpWfSsdc2pR2RLs5YWtK2qAhcApQ00ckky6eJL7GgQBltsA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Oct 2021 03:09:39 -0400 (EDT)
-From:   Sachi King <nakato@nakato.io>
-To:     hdegoede@redhat.com, mgross@linux.intel.com,
-        mario.limonciello@amd.com, rafael@kernel.org, lenb@kernel.org,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] platform/x86: amd-pmc: Add alternative acpi id for PMC controller
-Date:   Tue, 05 Oct 2021 18:09:36 +1100
-Message-ID: <2915349.f8ii16yrt4@youmu>
-In-Reply-To: <3ecd9046-ad0c-9c9a-9b09-bbab2f94b9f2@amd.com>
-References: <20211002041840.2058647-1-nakato@nakato.io> <3ecd9046-ad0c-9c9a-9b09-bbab2f94b9f2@amd.com>
+        Tue, 5 Oct 2021 03:33:26 -0400
+X-Greylist: delayed 535 seconds by postgrey-1.27 at vger.kernel.org; Tue, 05 Oct 2021 03:33:25 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 4B669802BD;
+        Tue,  5 Oct 2021 14:22:02 +0700 (WIB)
+Received: from mailgate.kemenperin.go.id ([127.0.0.1])
+        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id EsLueb5tJ-YX; Tue,  5 Oct 2021 14:22:01 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 47D49802BE;
+        Tue,  5 Oct 2021 14:21:56 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mailgate.kemenperin.go.id 47D49802BE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kemenperin.go.id;
+        s=3298A942-BBC6-11E3-B333-483736368EC2; t=1633418516;
+        bh=5NZyaZFxLY0J4Z4fcLz/MyR038soeeu49DLd/+1vGqw=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=Og5LeRO43dULBYKw/Zjyleo1IB/Gn00wKOupVwfJs9ehkcfGRzVf6USB6y5jX4d5I
+         zY4pvmTgfVSErc9S0T2hwrtG7hRvDAmbXu5DnzTNKvDoGqtQ0/St4LdadY14hQGSBf
+         nBrlCGtIWI7Rsp3Aw8QgGpf0ztVYyTUye3I/s1Gw=
+X-Virus-Scanned: amavisd-new at kemenperin.go.id
+Received: from mailgate.kemenperin.go.id ([127.0.0.1])
+        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id PlWkAeDXWhYo; Tue,  5 Oct 2021 14:21:56 +0700 (WIB)
+Received: from mailgate.kemenperin.go.id (mailgate.kemenperin.go.id [10.1.0.89])
+        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 3D8D5802AD;
+        Tue,  5 Oct 2021 14:21:47 +0700 (WIB)
+Date:   Tue, 5 Oct 2021 14:21:47 +0700 (WIB)
+From:   KLINELTD <budi_jati@kemenperin.go.id>
+Reply-To: "kreditline_ltd@hotmail.com" <kreditline_ltd@hotmail.com>
+Message-ID: <1393930804.28925.1633418507223.JavaMail.zimbra@kemenperin.go.id>
+Subject: Hi
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.1.0.89]
+Thread-Index: 3BlgANhKBsbvb1lcF/eiEDkslYHMQw==
+Thread-Topic: Hi
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tuesday, 5 October 2021 16:16:18 AEDT Shyam Sundar S K wrote:
-> 
-> On 10/2/2021 9:48 AM, Sachi King wrote:
-> > The Surface Laptop 4 AMD has used the AMD0005 to identify this
-> > controller instead of using the appropriate ACPI ID AMDI0005.  Include
-> > AMD0005 in the acpi id list.
-> 
-> Can you provide an ACPI dump
+Hi
 
-The ACPI dump for this device is available here:
-https://github.com/linux-surface/acpidumps/tree/master/surface_laptop_4_amd
+Wir vergeben Kredite an Privatpersonen und Unternehmen mit einem Zinssatz v=
+on 3% pro Jahr.
+Wir sind daran interessiert, Gro=C3=9Fprojekte zu finanzieren und Kredite z=
+u vergeben. Die R=C3=BCckzahlungsfrist betr=C3=A4gt 1-30 Jahre und mit kost=
+enlosen 6 Monaten Kulanz.
 
-> output of 'cat /sys/power/mem_sleep'
+Wir bieten: -
+* Projektfinanzierung
+* Business-Darlehen
+* Privat Darlehen
 
-[s2idle]
+Bitte kontaktieren Sie uns unter den untenstehenden Kontaktdaten, damit wir=
+ Sie =C3=BCber die Konditionen des Darlehens informieren k=C3=B6nnen.
 
-Thanks,
-Sachi
+          Erforderlicher Kreditbetrag:
+          R=C3=BCckzahlungsfrist:
+          Handy Nummer:
 
+Die Bearbeitung und Finanzierung eines Kredits dauert ca. 3 Werktage ab dem=
+ Datum des Versands des Kreditantrags. Antworten Sie f=C3=BCr weitere Infor=
+mationen.
 
+Gr=C3=BC=C3=9Fe
+Online-Werbeagentur.
