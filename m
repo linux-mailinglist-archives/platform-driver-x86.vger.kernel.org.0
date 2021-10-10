@@ -2,186 +2,177 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2744282C3
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Oct 2021 19:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2598428338
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 10 Oct 2021 20:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232181AbhJJRyL (ORCPT
+        id S233041AbhJJTBI (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 10 Oct 2021 13:54:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19354 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231396AbhJJRyK (ORCPT
+        Sun, 10 Oct 2021 15:01:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53180 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232896AbhJJS7b (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 10 Oct 2021 13:54:10 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19AGfxpt018676;
-        Sun, 10 Oct 2021 13:51:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8fajRAyLezHmCj5tnyq6jjoYckaHOnt9JulikSV16CQ=;
- b=p4+ivKM1gAEjETiBx+Ee0HBzE8i3PqQg2hBYA97Vxj+ZAW9H7UQu5fs184XNnaPUZzlX
- J8BNWXxknJB0kmcB9gP5+kAqccFZcDMgLyaMW/Gv3Nc+tpBcNSxoQkYUQjKOd9A+AMNu
- XlF2Fok+DLqer9S64tnQKRVnetmxvE98H1HWpMFAGnuv/n/c+I9f+le2gaerQmXxAZ0O
- acP9+8MTwYDZA7XYfUn1vKwOKFAuE1AxzRaLEmbw26toZuVN3MCZ/VrPOwxHYy1dQk7Z
- qDIlto7o91RwLpI3X1Dupoe5pVnQAlXh+4nLD/UjBxIPEPn6/DfSYlYH/KvzL4YcqC+d Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3bm3wvrqay-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 10 Oct 2021 13:51:30 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19AHpTbY009651;
-        Sun, 10 Oct 2021 13:51:30 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3bm3wvrqaq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 10 Oct 2021 13:51:29 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19AHmBCX013224;
-        Sun, 10 Oct 2021 17:51:28 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
-        by ppma04dal.us.ibm.com with ESMTP id 3bkeq5ca5d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 10 Oct 2021 17:51:28 +0000
-Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19AHpQ2V36241806
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 10 Oct 2021 17:51:26 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A5DFB136051;
-        Sun, 10 Oct 2021 17:51:26 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CEE1B13604F;
-        Sun, 10 Oct 2021 17:51:18 +0000 (GMT)
-Received: from [9.65.95.104] (unknown [9.65.95.104])
-        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Sun, 10 Oct 2021 17:51:18 +0000 (GMT)
-Subject: Re: [PATCH v6 40/42] virt: Add SEV-SNP guest driver
-To:     Brijesh Singh <brijesh.singh@amd.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com,
-        Dov Murik <dovmurik@linux.ibm.com>
-References: <20211008180453.462291-1-brijesh.singh@amd.com>
- <20211008180453.462291-41-brijesh.singh@amd.com>
-From:   Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <b79cfdfa-6482-70ab-3520-f76387fe4c27@linux.ibm.com>
-Date:   Sun, 10 Oct 2021 20:51:17 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Sun, 10 Oct 2021 14:59:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633892252;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=9fP16BY7AsTDNFJGLr1NMnUHLpxbega7qb7JKUQTqx8=;
+        b=Iu2Lj6G2eOitFmGL7uMANdCzAk16VWNfbt7Rn2k//PVNowFHnZNqIe3QpaG0o7qMseYUbd
+        QMqqDOh0W6QEMpLrW1U6AIU2IIoQtyqTAzaIEMbgK7rFD1P8ihAt8ZIa7NO/hIpxX9dITa
+        JjMXLMhsFS7ATanNFLvJcVSZNfh6Shc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-1YFKpSw2PDKGspw1HsPLAA-1; Sun, 10 Oct 2021 14:57:16 -0400
+X-MC-Unique: 1YFKpSw2PDKGspw1HsPLAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E5231808304;
+        Sun, 10 Oct 2021 18:57:13 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.6])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7438E5F4E1;
+        Sun, 10 Oct 2021 18:57:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v3 00/11] Add support for X86/ACPI camera sensor/PMIC setup with clk and regulator platform data
+Date:   Sun, 10 Oct 2021 20:56:56 +0200
+Message-Id: <20211010185707.195883-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211008180453.462291-41-brijesh.singh@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: YBeyMoQMMm3SJoHLC39vmKofxUAJszj-
-X-Proofpoint-GUID: g_DMRlUvvUHE91j4L2Jc4IcxKCn7QVsi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-10_05,2021-10-07_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
- malwarescore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- adultscore=0 spamscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110100120
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Brijesh,
+Hi All,
 
-On 08/10/2021 21:04, Brijesh Singh wrote:
-> SEV-SNP specification provides the guest a mechanisum to communicate with
-> the PSP without risk from a malicious hypervisor who wishes to read, alter,
-> drop or replay the messages sent. The driver uses snp_issue_guest_request()
-> to issue GHCB SNP_GUEST_REQUEST or SNP_EXT_GUEST_REQUEST NAE events to
-> submit the request to PSP.
-> 
-> The PSP requires that all communication should be encrypted using key
-> specified through the platform_data.
-> 
-> The userspace can use SNP_GET_REPORT ioctl() to query the guest
-> attestation report.
-> 
-> See SEV-SNP spec section Guest Messages for more details.
-> 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  Documentation/virt/coco/sevguest.rst  |  77 ++++
->  drivers/virt/Kconfig                  |   3 +
->  drivers/virt/Makefile                 |   1 +
->  drivers/virt/coco/sevguest/Kconfig    |   9 +
->  drivers/virt/coco/sevguest/Makefile   |   2 +
->  drivers/virt/coco/sevguest/sevguest.c | 561 ++++++++++++++++++++++++++
->  drivers/virt/coco/sevguest/sevguest.h |  98 +++++
->  include/uapi/linux/sev-guest.h        |  44 ++
->  8 files changed, 795 insertions(+)
->  create mode 100644 Documentation/virt/coco/sevguest.rst
->  create mode 100644 drivers/virt/coco/sevguest/Kconfig
->  create mode 100644 drivers/virt/coco/sevguest/Makefile
->  create mode 100644 drivers/virt/coco/sevguest/sevguest.c
->  create mode 100644 drivers/virt/coco/sevguest/sevguest.h
->  create mode 100644 include/uapi/linux/sev-guest.h
-> 
+Here is v2 of my patch-set adding support for camera sensor connected to a
+TPS68470 PMIC on x86/ACPI devices.
 
-[...]
+v3 of this patch-set further reworks how to defer the binding of the
+camera-sensor drivers till all clk/regulator/gpio consumer/lookup info has
+been registered. See the new patch 1 + 2 (replacing v1 patch 1-3 /
+v2 patch 1-2).
+
+I'm quite happy with how this works now, so from my pov this is the final
+version of the device-instantiation deferral code / approach.
+
+###
+
+The clk and regulator frameworks expect clk/regulator consumer-devices
+to have info about the consumed clks/regulators described in the device's
+fw_node, but on ACPI this info is missing.
+
+This series worksaround this by providing platform_data with the info to
+the TPS68470 clk/regulator MFD cells.
+
+Patches 1 - 2 deal with a probe-ordering problem this introduces,
+since the lookups are only registered when the provider-driver binds,
+trying to get these clks/regulators before then results in a -ENOENT
+error for clks and a dummy regulator for regulators. See the patches
+for more details.
+
+Patch 3 adds a header file which adds tps68470_clk_platform_data and
+tps68470_regulator_platform_data structs. The futher patches depend on
+this new header file.
+
+Patch 4 + 5 add the TPS68470 clk and regulator drivers
+
+Patches 6 - 11 Modify the INT3472 driver which instantiates the MFD cells to
+provide the necessary platform-data.
+
+Assuming this series is acceptable to everyone, we need to talk about how
+to merge this.
+
+Assuming the i2c-core-acpi.c are ok with it patches 1 + 2 can both be
+merged into linux-pm by Rafael, independent of the rest of the series
+(there are some runtime deps on other changes for everything to work,
+but the camera-sensors impacted by this are not fully supported yet in
+the mainline kernel anyways).
+
+For "[PATCH 03/13] platform_data: Add linux/platform_data/tps68470.h file",
+which all further patches depend on I plan to provide an immutable branch
+myself (once it has been reviewed), which the clk / regulator maintainers
+can then merge before merging the clk / regulator driver which depends on
+this.
+
+And I will merge that IM-branch + patches 6-11 into the pdx86 tree myself.
+
+Regards,
+
+Hans
 
 
-> +
-> +static u8 *get_vmpck(int id, struct snp_secrets_page_layout *layout, u32 **seqno)
-> +{
-> +	u8 *key = NULL;
-> +
-> +	switch (id) {
-> +	case 0:
-> +		*seqno = &layout->os_area.msg_seqno_0;
-> +		key = layout->vmpck0;
-> +		break;
-> +	case 1:
-> +		*seqno = &layout->os_area.msg_seqno_1;
-> +		key = layout->vmpck1;
-> +		break;
-> +	case 2:
-> +		*seqno = &layout->os_area.msg_seqno_2;
-> +		key = layout->vmpck2;
-> +		break;
-> +	case 3:
-> +		*seqno = &layout->os_area.msg_seqno_3;
-> +		key = layout->vmpck3;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return NULL;
+Daniel Scally (1):
+  platform/x86: int3472: Enable I2c daisy chain
 
-This should be 'return key', right?
+Hans de Goede (10):
+  ACPI: delay enumeration of devices with a _DEP pointing to an INT3472
+    device
+  i2c: acpi: Use acpi_dev_ready_for_enumeration() helper
+  platform_data: Add linux/platform_data/tps68470.h file
+  regulator: Introduce tps68470-regulator driver
+  clk: Introduce clk-tps68470 driver
+  platform/x86: int3472: Split into 2 drivers
+  platform/x86: int3472: Add get_sensor_adev_and_name() helper
+  platform/x86: int3472: Pass tps68470_clk_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Pass tps68470_regulator_platform_data to the
+    tps68470-regulator MFD-cell
+  platform/x86: int3472: Deal with probe ordering issues
 
--Dov
+ drivers/acpi/scan.c                           |  36 ++-
+ drivers/clk/Kconfig                           |   6 +
+ drivers/clk/Makefile                          |   1 +
+ drivers/clk/clk-tps68470.c                    | 256 ++++++++++++++++++
+ drivers/i2c/i2c-core-acpi.c                   |   5 +-
+ drivers/platform/x86/intel/int3472/Makefile   |   9 +-
+ ...lk_and_regulator.c => clk_and_regulator.c} |   2 +-
+ drivers/platform/x86/intel/int3472/common.c   |  82 ++++++
+ .../{intel_skl_int3472_common.h => common.h}  |   6 +-
+ ...ntel_skl_int3472_discrete.c => discrete.c} |  51 ++--
+ .../intel/int3472/intel_skl_int3472_common.c  | 106 --------
+ ...ntel_skl_int3472_tps68470.c => tps68470.c} |  97 ++++++-
+ drivers/platform/x86/intel/int3472/tps68470.h |  25 ++
+ .../x86/intel/int3472/tps68470_board_data.c   | 118 ++++++++
+ drivers/regulator/Kconfig                     |   9 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/tps68470-regulator.c        | 193 +++++++++++++
+ include/acpi/acpi_bus.h                       |   5 +-
+ include/linux/mfd/tps68470.h                  |  11 +
+ include/linux/platform_data/tps68470.h        |  35 +++
+ 20 files changed, 904 insertions(+), 150 deletions(-)
+ create mode 100644 drivers/clk/clk-tps68470.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_clk_and_regulator.c => clk_and_regulator.c} (99%)
+ create mode 100644 drivers/platform/x86/intel/int3472/common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_common.h => common.h} (94%)
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_discrete.c => discrete.c} (91%)
+ delete mode 100644 drivers/platform/x86/intel/int3472/intel_skl_int3472_common.c
+ rename drivers/platform/x86/intel/int3472/{intel_skl_int3472_tps68470.c => tps68470.c} (55%)
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470.h
+ create mode 100644 drivers/platform/x86/intel/int3472/tps68470_board_data.c
+ create mode 100644 drivers/regulator/tps68470-regulator.c
+ create mode 100644 include/linux/platform_data/tps68470.h
 
-> +}
-> +
+-- 
+2.31.1
+
