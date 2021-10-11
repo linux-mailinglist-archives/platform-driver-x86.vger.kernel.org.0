@@ -2,82 +2,94 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35E35428B92
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Oct 2021 12:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 988FD428BB6
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Oct 2021 13:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236217AbhJKK6k (ORCPT
+        id S236102AbhJKLEU (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Oct 2021 06:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236159AbhJKK6g (ORCPT
+        Mon, 11 Oct 2021 07:04:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53108 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235971AbhJKLET (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Oct 2021 06:58:36 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE530C061764
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Oct 2021 03:56:36 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id k7so54675366wrd.13
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Oct 2021 03:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=GaHnq5hhoM6dhqhlP5KfKe03jWXSojSQC3tlB8JYQ7ylNa2i2F8Sfcg+Dn9sVyes5h
-         PoE1OxfdSlDOL+qpXzCGDGWgA+hOU7bxEVVZ74YHvTAhhbh32nrZqCBGW4o31st98zlr
-         Wr2jX4d8jcJyIA3g/GhzvNfaGLflWPCohi8rWmX/H1L+GgJY5hUKjDjNWilxnqFoElHJ
-         ApSkgrQyamiyK+tJs8Ki05GQ6XzfjS9niKjb6g3ASxs6y+xTu514XqO5i0PJGTVBsOGc
-         p3aD4yXSSpbJwRnww0OgofcoT12JUov2dVjSXpXlDVe2XaNS6pL/9QUW7DkmKyra9NVu
-         iD/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=jiReOBEwY5rIIfkulefqI1BFkigy5YlCYnzQ0CXaSfCQHhEBNWsrUlN4zBVQ1FKyLk
-         63AyieSvn2h3P+BCBiTwIhWuI9hk7LyBhHqnfNA1OMtJx4LuvXKJK7e3f2gXmzvDGmAV
-         NIs7DnP6YnAmCOuRapk6TJky8v5QklhznQF9+qir0+S2SeQCcqEP2eoL4f2DVpyRsPI4
-         ltY1F8FmJAv3JDaIpilMYwN9gHI7lqDYT9c8vn7vaUASDMnHSQkB9i/RlNZJ4csz1Q4Q
-         B/AcqJyD/xQWV1HkXLuZ2AxDtXUIXqWk0noauZxY/7iwp548Pvj+scDfcKYmGCFfqW65
-         1vWA==
-X-Gm-Message-State: AOAM532bg/cbgUFsShsPvek5uMQG4L64CUF/G5SJdyonGG3eMqzk80Vw
-        1RNRHVIpaJrjrI9xtx16aiQpFkGUp7JT/BAygfk=
-X-Google-Smtp-Source: ABdhPJxDEzUhubwdX5V8dGHTosv6FEXBjzIdNZ0g9GgJNyNMAp0NeybsCd416QF8q7TCQTW13trT3QB7lLzDjasuHH4=
-X-Received: by 2002:a1c:2b04:: with SMTP id r4mr19492498wmr.168.1633949795257;
- Mon, 11 Oct 2021 03:56:35 -0700 (PDT)
+        Mon, 11 Oct 2021 07:04:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4591460EB4;
+        Mon, 11 Oct 2021 11:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633950139;
+        bh=rLvTUINnh7X5dxHDbrT7lTQpGD5oMjl+jxUxLtJ+E5o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q0ge84XtrlSzpb/dV/z0PauJWEg/iKeEJ27FwrRpvtbFcs7QdNGXcCxzv4797wC3F
+         gAwFr1EwDS8Ewh9vbsOjNuWzjg1+vwMXTSpPVc4/TtgxxLJ2GlTBNvuCuQLQX75res
+         Wg26Q1Mx4JY0HJBzGjT4/rJFiGOqP4dZ4+c5BdG8mC65JrDhlESL3BB/ZO6kBT7Evs
+         OR8meoJZco/NMWMkklSGG3tgi+crhr8XIDWa3eaUfLIcq3zchTM6w9heeUrrrNX4Dj
+         QHTN9PY2Ko3ieiFausxkfjNrDy9HYoBWJzlftoG+xktoIbVow/f9A7/Or1pFSWDo69
+         p9pQbANGVbLvw==
+Date:   Mon, 11 Oct 2021 12:02:14 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 04/13] regulator: Introduce tps68470-regulator driver
+Message-ID: <YWQZtj7N+2QoZKur@sirena.org.uk>
+References: <20211009160548.306550-1-hdegoede@redhat.com>
+ <20211009160548.306550-5-hdegoede@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:56:34
- -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:56:34 -0700
-Message-ID: <CADDRs97JZnYwCUa89+Ng9nQ-DKxUq-LuETpCgBALYQHZhADNww@mail.gmail.com>
-Subject: Thank You
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6lVS4joxd6WyDi8G"
+Content-Disposition: inline
+In-Reply-To: <20211009160548.306550-5-hdegoede@redhat.com>
+X-Cookie: Your ignorance cramps my conversation.
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
+--6lVS4joxd6WyDi8G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
+On Sat, Oct 09, 2021 at 06:05:39PM +0200, Hans de Goede wrote:
 
-Yours faithfully,
-Cr.David Ramcharan
+> +/*
+> + * The ACPI tps68470 probe-ordering depends on the clk/gpio/regulator drivers
+> + * registering before the drivers for the camera-sensors which use them bind.
+> + * subsys_initcall() ensures this when the drivers are builtin.
+> + */
+> +static int __init tps68470_regulator_init(void)
+> +{
+> +	return platform_driver_register(&tps68470_regulator_driver);
+> +}
+> +subsys_initcall(tps68470_regulator_init);
+
+If this actually matters it is still going to get broken when the driver
+is built as a module.  We've not been doing this given probe deferral.
+
+--6lVS4joxd6WyDi8G
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFkGbUACgkQJNaLcl1U
+h9BLowf/QN6baaUZLF3njsuXlGPn3X9MGZR5O4H4zAegyfy2uqSvwLtZgJj6RnLQ
+5vdRcy0lxfycPGUujHC44jqhb2x2CeyhS3u0zZ1/cD+ZgciSWxJL1cWRLf+CbQ5E
+19rJlzJ1jocQe9jN24xvSxcsmvQU0OXhIUDmkyLQY0j9eqFTqiousuTOrblRtK3A
+mdvRH2OMFXzEKOb9IVa5tc3nLPtRfmsVr6PmCnlgFVfD5mTF+XXYZiTNd+bHn1YG
+wmKXQwT8e+sloWTbwj2xbFasaF4VQ101iycUQGeandv1sfxhHkel9GaIEgtQla+C
+eg9CjLwcWKn0CU9KRru/yZITyPGW2g==
+=WgC1
+-----END PGP SIGNATURE-----
+
+--6lVS4joxd6WyDi8G--
