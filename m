@@ -2,185 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA226429238
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Oct 2021 16:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 606AF429310
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 11 Oct 2021 17:22:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244047AbhJKOl6 (ORCPT
+        id S234909AbhJKPYu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 11 Oct 2021 10:41:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35538 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244103AbhJKOk3 (ORCPT
+        Mon, 11 Oct 2021 11:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231951AbhJKPYe (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 11 Oct 2021 10:40:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633963109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SSbv7CI+yiEmIR+Zycm2xpN91XWvUy9ziU1fWRPReRo=;
-        b=RqSmQ8adj465Twk9K/IJo60HG0QUbTiEqU3WuBbotDNBW4/PExa98+BfwIN4YqQs7ylGnY
-        p1gYi+mP3jP3fhoph0CwspmwsIY5IW6WlvuPNgtPmv1trHaYrFxjHEbqoY5AjKNUHW0QvC
-        u3L5GRzLhDknzshvnlMF9ZF0qKXk4kM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-Y2Rt2L0gMuuA-eqFxjfD4A-1; Mon, 11 Oct 2021 10:38:28 -0400
-X-MC-Unique: Y2Rt2L0gMuuA-eqFxjfD4A-1
-Received: by mail-ed1-f70.google.com with SMTP id p20-20020a50cd94000000b003db23619472so16108218edi.19
-        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Oct 2021 07:38:27 -0700 (PDT)
+        Mon, 11 Oct 2021 11:24:34 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78CF0C061570
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Oct 2021 08:22:34 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id g9so1128851plo.12
+        for <platform-driver-x86@vger.kernel.org>; Mon, 11 Oct 2021 08:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=CFfLWX6AJG8qG4KTh1qAKguzlfSz5S0XavInYaNQNMM=;
+        b=SHFQaRBDbJL3hnVQiepIMzqLNi439l1TKPqX/+b6K7Srn7jeoS/QVtKy2k5s052U+7
+         PEmGYgzRRC2MBkmnpF2i5ajP8LSwWWrJmRuvdGSii3lD3kkm3YzpmCn8ymnCC12DO21n
+         mFqGwbFs66+5OG4MT8T5Z4NtuwLagLxuscEHiXd0MX/NESfA/t8lAFReTTxU5ERtiNpG
+         3SZRv/8flfdUh3E76r9Q7Yf66cQMliIO1hFU5zANtxKXVOPyheX1U5F0OZiqb4PbWPes
+         uir+tNwXoHhZWNqHn//vArjvFa4qpVohclPQnWjkHIeEKYwoLGzs7s/BYHxjmS210Ljv
+         /LTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SSbv7CI+yiEmIR+Zycm2xpN91XWvUy9ziU1fWRPReRo=;
-        b=IHLq3ZafdYSeIudN3rLOWkHf80i4cSuhXJhiiObDvCFPFOnooWyjICQQJ1/duQOTRK
-         tE9/sFHGegoLLhGY8IU89eGZ1bry/HIHQZaabFfjdpX0rLAIX+WHsAcDteD2Uj0Dzw//
-         +42HH9UqIrvPkFjGMR6r9vyfh6ewRdKF6qJ+ZB9rEpXlwfydji3v1lexN2QllCbKfkTn
-         Kk/1uONxmPTJWYfRT0LqOWcyAljtOwUMem/AS8vjxTrsc8pRPnWp40KQsD8G0GOJcMcR
-         kdqcxsDHr6Zk4WUl2XC3NNrO/sLPAz0z9b8UWqRK9DI9aVASPz797CR2HP8R6qFaIP+X
-         GPWA==
-X-Gm-Message-State: AOAM531whxmhE2VptwlHZOSsQiY3BNJy6bxp34Vv8xsPNSVa1Dsn2iCL
-        8PNHOHY/GhN+ikfVYvHHweQSciGGqOpiSJu26m1CQZoZb7GEDARqAHSi6RSIn+w9xJQI1CFFAKa
-        Su2Xv9JIZlN6FmIlvZJ42BnxkipX5IY2P8g==
-X-Received: by 2002:a05:6402:5252:: with SMTP id t18mr40952828edd.129.1633963106744;
-        Mon, 11 Oct 2021 07:38:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSPsu9+sfwHhFOYDhNuadPnTRtTtEF7cY+60PAW2yfwWyKwhF3Qrk0NKIpdFC73RQk736CLw==
-X-Received: by 2002:a05:6402:5252:: with SMTP id t18mr40952807edd.129.1633963106542;
-        Mon, 11 Oct 2021 07:38:26 -0700 (PDT)
-Received: from x1.localdomain ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id ay7sm3329055ejb.116.2021.10.11.07.38.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 07:38:26 -0700 (PDT)
-Subject: Re: [PATCH V2] platform/x86: Non Sequential Device mode handling
-To:     Shravan S <s.shravan@intel.com>, mgross@linux.intel.com,
-        platform-driver-x86@vger.kernel.org
-Cc:     sudhakar.an@intel.com
-References: <20211006073525.1332925-1-s.shravan@intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8199c57f-fd4b-10fa-f3f2-1da44ab250e1@redhat.com>
-Date:   Mon, 11 Oct 2021 16:38:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=CFfLWX6AJG8qG4KTh1qAKguzlfSz5S0XavInYaNQNMM=;
+        b=hqzuOaVvMRYy7WrhFQtOyHub6/WtQRrerSK2oV4d4zfTg7Ss5pUGKE6L7uqxYnKNfu
+         Y6bD0lE+nTifEtBM9rerWMO3fl8kbvYxNwjfxOif4nty5RGFaNp1TwsZe+oWr2d6mYV9
+         ywhfA3WB09FCZClRlT8OscBYu+HbJTK53TkGfBEbF1tW2mPLAhYwnrMTVRc+FhdU3POu
+         3ZyVa9TWOwlgqzmkeGON4M+FqBKDedwUZD6G34NikQwwzNNe12XdpUFC8FsXuAgIeMj8
+         1Qz5vGRCU+hRUzQo00UDmTt6/Yg4llXcQDgTaAxQTpr0WTepuHot6PKshllX9+dkP0nP
+         MltA==
+X-Gm-Message-State: AOAM533PKJjsZ2CpND/YD9gxG4VjBKWsEpeobHNHEbTH9dA7Du4PIqUc
+        B21IPn0r0WEMXc/qL43HsIc1xp8jSrzC2FmbglQ=
+X-Google-Smtp-Source: ABdhPJw2c67Sf6sNmroKsuQX0i1+bTOlWxAHJWynKWb3m2aqEE2Nh5SoEuxEA5VmA6jubFUjcqx8dOu6YomJHe/EF9c=
+X-Received: by 2002:a17:90b:18f:: with SMTP id t15mr13584717pjs.19.1633965754023;
+ Mon, 11 Oct 2021 08:22:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211006073525.1332925-1-s.shravan@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:90b:1e4b:0:0:0:0 with HTTP; Mon, 11 Oct 2021 08:22:33
+ -0700 (PDT)
+Reply-To: mrsaishag45@gmail.com
+From:   Mrs Aisha Gaddafi <mrshannahwhite055@gmail.com>
+Date:   Mon, 11 Oct 2021 08:22:33 -0700
+Message-ID: <CAMy6vF-YJ_rW5c8O1_wHTVJ_sJuvVbOTZFfqJGhddnph2VazJw@mail.gmail.com>
+Subject: Dear Friend,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+Dear Friend,
 
-On 10/6/21 9:35 AM, Shravan S wrote:
-> SAR information from BIOS may come in non sequential pattern
-> 
-> To overcome the issue, a check is made to extract the right SAR
-> information using the device mode which is currently being used.
-> 
-> Remove .owner field if calls are used which set it automatically 
-> Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci
-> 
-> Signed-off-by: Shravan S <s.shravan@intel.com>
-> ---
-> V2 :
-> * Remove .owner field as it is set automatically by scripts
-> * Check Device modes as packages may not come sequentially from BIOS
+I came across your e-mail contact prior to a private search while in
+need of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
 
-Next time please split a patch like this into 3 patches:
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future.
 
-1. s/Shravan S/Shravan Sudhakar/
-2. Remove .owner field
-3. Fix Non Sequential Device mode handling
-
-I've merged this as now, so that the fix can be included in
-my next pdx86 fixes pull-req for 5.15 :
-
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-> 
-> ---
->  MAINTAINERS                                   |  2 +-
->  .../platform/x86/intel/int1092/intel_sar.c    | 23 ++++++++++++-------
->  2 files changed, 16 insertions(+), 9 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index eeb4c70b3d5b..6cfad2bf9d81 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9302,7 +9302,7 @@ S:	Maintained
->  F:	drivers/platform/x86/intel/atomisp2/led.c
->  
->  INTEL BIOS SAR INT1092 DRIVER
-> -M:	Shravan S <s.shravan@intel.com>
-> +M:	Shravan Sudhakar <s.shravan@intel.com>
->  M:	Intel Corporation <linuxwwan@intel.com>
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
-> diff --git a/drivers/platform/x86/intel/int1092/intel_sar.c b/drivers/platform/x86/intel/int1092/intel_sar.c
-> index 379560fe5df9..e03943e6380a 100644
-> --- a/drivers/platform/x86/intel/int1092/intel_sar.c
-> +++ b/drivers/platform/x86/intel/int1092/intel_sar.c
-> @@ -42,12 +42,20 @@ static void update_sar_data(struct wwan_sar_context *context)
->  
->  	if (config->device_mode_info &&
->  	    context->sar_data.device_mode < config->total_dev_mode) {
-> -		struct wwan_device_mode_info *dev_mode =
-> -			&config->device_mode_info[context->sar_data.device_mode];
-> -
-> -		context->sar_data.antennatable_index = dev_mode->antennatable_index;
-> -		context->sar_data.bandtable_index = dev_mode->bandtable_index;
-> -		context->sar_data.sartable_index = dev_mode->sartable_index;
-> +		int itr = 0;
-> +
-> +		for (itr = 0; itr < config->total_dev_mode; itr++) {
-> +			if (context->sar_data.device_mode ==
-> +				config->device_mode_info[itr].device_mode) {
-> +				struct wwan_device_mode_info *dev_mode =
-> +				&config->device_mode_info[itr];
-> +
-> +				context->sar_data.antennatable_index = dev_mode->antennatable_index;
-> +				context->sar_data.bandtable_index = dev_mode->bandtable_index;
-> +				context->sar_data.sartable_index = dev_mode->sartable_index;
-> +				break;
-> +			}
-> +		}
->  	}
->  }
->  
-> @@ -305,7 +313,6 @@ static struct platform_driver sar_driver = {
->  	.remove = sar_remove,
->  	.driver = {
->  		.name = DRVNAME,
-> -		.owner = THIS_MODULE,
->  		.acpi_match_table = ACPI_PTR(sar_device_ids)
->  	}
->  };
-> @@ -313,4 +320,4 @@ module_platform_driver(sar_driver);
->  
->  MODULE_LICENSE("GPL v2");
->  MODULE_DESCRIPTION("Platform device driver for INTEL MODEM BIOS SAR");
-> -MODULE_AUTHOR("Shravan S <s.shravan@intel.com>");
-> +MODULE_AUTHOR("Shravan Sudhakar <s.shravan@intel.com>");
-> 
-> base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
-> 
-
+I am willing to negotiate an investment/business profit sharing ratio
+with you based on the future investment earning profits.
+.
+Your Urgent Reply Will Be Appreciated
+Best Regards
+Mrs Aisha Al-Qaddafi
