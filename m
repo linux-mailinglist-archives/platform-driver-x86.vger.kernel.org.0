@@ -2,158 +2,295 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A3342A80D
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Oct 2021 17:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2143B42A8A4
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 12 Oct 2021 17:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbhJLPTq (ORCPT
+        id S237610AbhJLPnA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 12 Oct 2021 11:19:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54066 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237167AbhJLPTp (ORCPT
+        Tue, 12 Oct 2021 11:43:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237494AbhJLPmu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 12 Oct 2021 11:19:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634051863;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=10aXNDKfZw3j/Q6GRxYEoqvrWGBnZSBNXLMAxqiv6VA=;
-        b=h6DeM/V5lwCH4wXPhkWXVBfClslCrPTVHkWP+h0vDYXvBtS6LjdAkEjxdUgvrVsITuG2hU
-        FvMcw6pcvMB9vEVD5UvpjVchJrXPaGiZj44BD6D/aQLiTSXt7VrWbjThSQIVd/h9gLNAhi
-        qILkqhtbEyrUKZHZTuKNr7NBmeA5hR8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-xmGdLXnoPVyNh8xoq3z4AA-1; Tue, 12 Oct 2021 11:17:42 -0400
-X-MC-Unique: xmGdLXnoPVyNh8xoq3z4AA-1
-Received: by mail-ed1-f72.google.com with SMTP id g28-20020a50d0dc000000b003dae69dfe3aso227346edf.7
-        for <platform-driver-x86@vger.kernel.org>; Tue, 12 Oct 2021 08:17:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=10aXNDKfZw3j/Q6GRxYEoqvrWGBnZSBNXLMAxqiv6VA=;
-        b=AzNmbLXU65ms/THs+fE5gvorKRLrg83Y4arU7lAtZ9ABLKkFst6I8jIWvc9+paiZF5
-         dUjnmLoNHcNtyeTIgX+2VJOpLnwuXtn2bOsBgyXvCPfG2WAlcVGpeXMAuqYL7Fc7tpEt
-         puXuPaBRelVf97l0HDZslVXfquPC7GzmH4tvjyw4FQiRgbFR0ScdDlzAvraReE6LyLpo
-         pcERmojro/FpPc/HLt6XCzeTxK9CHax+D38WkIipKnwYWIKXoFwrc+qcdOSGDwQYeiev
-         /ArFbHGsrClalrYexIDXa0q/X0Xjj18AjRJFl96atjCMkYELStFG+jrzi3fKdk5tKd/T
-         +PPg==
-X-Gm-Message-State: AOAM533dPOdnDSGJ0o5gqtqndKWSWq70LwWL8EdxWUVu4WLs+tuOMnUQ
-        j73A/q0UvB97Ggt63PhMuozYXWSfcKxuIRngYpwpsPYhyebwb5Hvm9sR9TYUY6pgQ8jzIT+v6gv
-        GthbqRZIeycgJv0UpnEn2EE+xLUNtC6iF0beakyBXOLpVdwbAsvxSPA9RGRbNAGtkpYD+SHSTAZ
-        cznh8l0UdqRw==
-X-Received: by 2002:a17:906:5801:: with SMTP id m1mr33766627ejq.296.1634051859672;
-        Tue, 12 Oct 2021 08:17:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6afB2X2z24HUckFfKv3ojzCDeN/NsXdu29QaJ5kJP/96m8xo6jXCL/fQrPEHtm+4j7U6XmQ==
-X-Received: by 2002:a17:906:5801:: with SMTP id m1mr33766596ejq.296.1634051859328;
-        Tue, 12 Oct 2021 08:17:39 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id rv25sm5128158ejb.21.2021.10.12.08.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Oct 2021 08:17:38 -0700 (PDT)
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: [GIT PULL] platform-drivers-x86 for 5.15-3
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tue, 12 Oct 2021 11:42:50 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5DDC061768
+        for <platform-driver-x86@vger.kernel.org>; Tue, 12 Oct 2021 08:40:47 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsk-0008NN-05; Tue, 12 Oct 2021 17:39:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsa-0004iS-RQ; Tue, 12 Oct 2021 17:39:48 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1maJsa-0004WY-O6; Tue, 12 Oct 2021 17:39:48 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Eric Piel <eric.piel@tremplin-utc.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Richard Weinberger <richard@nod.at>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Heiko Schocher <hs@denx.de>, Len Baker <len.baker@gmx.com>,
+        Mark Brown <broonie@kernel.org>,
+        Phil Reid <preid@electromag.com.au>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+        linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com,
         platform-driver-x86@vger.kernel.org
-Message-ID: <30dcf211-9359-dd17-dcee-cb688a7bfc71@redhat.com>
-Date:   Tue, 12 Oct 2021 17:17:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Subject: [PATCH v2 00/20] Make some spi device drivers return zero in .remove()
+Date:   Tue, 12 Oct 2021 17:39:25 +0200
+Message-Id: <20211012153945.2651412-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: platform-driver-x86@vger.kernel.org
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Linus,
+Hello,
 
-Here is a set of bug-fixes and new hardware-ids for platform-drivers-x86 for 5.15.
+this is v2 of my quest to make spi remove callbacks return void. Today
+they return an int, but the only result of returning a non-zero value is
+a warning message. So it's a bad idea to return an error code in the
+expectation that not freeing some resources is ok then. The same holds
+true for i2c and platform devices which benefit en passant for a few
+drivers.
 
-Regards,
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
 
-Hans
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respective
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
 
+Compared to (implicit) v1
 
-The following changes since commit 6f6aab1caf6c7fef46852aaab03f4e8250779e52:
+ - I fixed a few compiler issues (this series it build tested with an
+   allmoddefconfig on arm64, m68k, powerpc, riscv, s390, sparc64 and
+   x86_64).
+ - A few new patches (2x gpio, 2x misc, 4x mtd)
+ - One patch already landed in next, this one I dropped. The drm/panel
+   patch as claimed to applied, too, but not yet in next. It's included
+   here, but I assume I was just too impatient and this one should be
+   ignored.
 
-  platform/x86: gigabyte-wmi: add support for B550I Aorus Pro AX (2021-09-21 15:49:23 +0200)
+Full range-diff below.
 
-are available in the Git repository at:
+Best regards
+Uwe
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v5.15-3
+Uwe Kleine-König (20):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  gpio: max730x: Make __max730x_remove() return void
+  gpio: mc33880: Drop if with an always false condition
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  misc: ad525x_dpot: Make ad_dpot_remove() return void
+  misc: lis3lv02d: Make lis3lv02d_remove_fs() return void
+  mtd: dataflash: Warn about failure to unregister mtd device
+  mtd: mchp23k256: Warn about failure to unregister mtd device
+  mtd: mchp48l640: Warn about failure to unregister mtd device
+  mtd: sst25l: Warn about failure to unregister mtd device
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
 
-for you to fetch changes up to 7df227847ab562c42d318bceccebb0c911c87b04:
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpio/gpio-max7300.c                       |  4 +++-
+ drivers/gpio/gpio-max7301.c                       |  4 +++-
+ drivers/gpio/gpio-max730x.c                       |  6 +-----
+ drivers/gpio/gpio-mc33880.c                       |  2 --
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/misc/ad525x_dpot-i2c.c                    |  3 ++-
+ drivers/misc/ad525x_dpot-spi.c                    |  3 ++-
+ drivers/misc/ad525x_dpot.c                        |  4 +---
+ drivers/misc/ad525x_dpot.h                        |  2 +-
+ drivers/misc/lis3lv02d/lis3lv02d.c                |  3 +--
+ drivers/misc/lis3lv02d/lis3lv02d.h                |  2 +-
+ drivers/misc/lis3lv02d/lis3lv02d_spi.c            |  4 +++-
+ drivers/mtd/devices/mchp23k256.c                  |  9 ++++++++-
+ drivers/mtd/devices/mchp48l640.c                  |  8 +++++++-
+ drivers/mtd/devices/mtd_dataflash.c               |  5 ++++-
+ drivers/mtd/devices/sst25l.c                      |  8 +++++++-
+ drivers/platform/x86/hp_accel.c                   |  3 ++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  8 +++++---
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 12 +++++++-----
+ include/linux/mfd/tps65912.h                      |  2 +-
+ include/linux/spi/max7301.h                       |  2 +-
+ 51 files changed, 119 insertions(+), 104 deletions(-)
 
-  platform/x86: int1092: Fix non sequential device mode handling (2021-10-11 16:39:25 +0200)
+Range-diff against v1:
+ 1:  73a1a54d9ea0 =  1:  87fd7940fbfd drm/panel: s6e63m0: Make s6e63m0_remove() return void
+ 2:  3bcc8e8bd1a3 <  -:  ------------ hwmon: adt7x10: Make adt7x10_remove() return void
+ -:  ------------ >  2:  305311d63bbb gpio: max730x: Make __max730x_remove() return void
+ -:  ------------ >  3:  0cafc31ea5c5 gpio: mc33880: Drop if with an always false condition
+ 3:  07f067732aa9 !  4:  f39467b50f06 hwmon: max31722: Warn about failure to put device in stand-by in .remove()
+    @@ Commit message
+         nothing happens apart from emitting a generic error message. Make this
+         error message more device specific and return zero instead.
+     
+    -    Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+         Acked-by: Michael Hennerich <michael.hennerich@analog.com>
+    +    Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+     
+      ## drivers/hwmon/max31722.c ##
+     @@ drivers/hwmon/max31722.c: static int max31722_probe(struct spi_device *spi)
+ 4:  0b0a5497d105 =  5:  de3a78214008 input: adxl34xx: Make adxl34x_remove() return void
+ 5:  0d4f14bc2dd6 !  6:  9629ac3f9e13 input: touchscreen: tsc200x: Make tsc200x_remove() return void
+    @@ drivers/input/touchscreen/tsc2005.c: static int tsc2005_probe(struct spi_device
+     -	return tsc200x_remove(&spi->dev);
+     +	tsc200x_remove(&spi->dev);
+     +
+    -+	return 0
+    ++	return 0;
+      }
+      
+      #ifdef CONFIG_OF
+ 6:  a68bbd23223b =  7:  1aab41df9262 media: cxd2880: Eliminate dead code
+ 7:  3801b37ac18f !  8:  745d1a5f840e mfd: mc13xxx: Make mc13xxx_common_exit() return void
+    @@ drivers/mfd/mc13xxx-spi.c: static int mc13xxx_spi_probe(struct spi_device *spi)
+      {
+     -	return mc13xxx_common_exit(&spi->dev);
+     +	mc13xxx_common_exit(&spi->dev);
+    -+	return 0
+    ++	return 0;
+      }
+      
+      static struct spi_driver mc13xxx_spi_driver = {
+ 8:  22159093ce71 =  9:  7ee04277db66 mfd: stmpe: Make stmpe_remove() return void
+ 9:  f91da216c752 = 10:  4a21c90a57f8 mfd: tps65912: Make tps65912_device_exit() return void
+ -:  ------------ > 11:  f92aa824fd1c misc: ad525x_dpot: Make ad_dpot_remove() return void
+ -:  ------------ > 12:  5b2fccd09a24 misc: lis3lv02d: Make lis3lv02d_remove_fs() return void
+ -:  ------------ > 13:  609ab18323fc mtd: dataflash: Warn about failure to unregister mtd device
+ -:  ------------ > 14:  3b220d5fa547 mtd: mchp23k256: Warn about failure to unregister mtd device
+ -:  ------------ > 15:  baf6f4b3a8c7 mtd: mchp48l640: Warn about failure to unregister mtd device
+ -:  ------------ > 16:  edf3788a30b0 mtd: sst25l: Warn about failure to unregister mtd device
+10:  f2def77b74d1 ! 17:  614f7c001377 serial: max310x: Make max310x_remove() return void
+    @@ drivers/tty/serial/max310x.c: static int max310x_spi_probe(struct spi_device *sp
+      {
+     -	return max310x_remove(&spi->dev);
+     +	max310x_remove(&spi->dev);
+    -+	return 0
+    ++	return 0;
+      }
+      
+      static const struct spi_device_id max310x_id_table[] = {
+11:  283e4bbeff38 ! 18:  35d1f5b36de5 serial: sc16is7xx: Make sc16is7xx_remove() return void
+    @@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_probe(struct device *dev,
+      {
+      	struct sc16is7xx_port *s = dev_get_drvdata(dev);
+      	int i;
+    +@@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_remove(struct device *dev)
+    + 	kthread_stop(s->kworker_task);
+    + 
+    + 	clk_disable_unprepare(s->clk);
+    +-
+    +-	return 0;
+    + }
+    + 
+    + static const struct of_device_id __maybe_unused sc16is7xx_dt_ids[] = {
+     @@ drivers/tty/serial/sc16is7xx.c: static int sc16is7xx_spi_probe(struct spi_device *spi)
+      
+      static int sc16is7xx_spi_remove(struct spi_device *spi)
+12:  5093fbdceee5 ! 19:  d9ec9a96fbb8 staging: fbtft: Make fbtft_remove_common() return void
+    @@ drivers/staging/fbtft/fbtft-core.c: EXPORT_SYMBOL(fbtft_probe_common);
+      
+     
+      ## drivers/staging/fbtft/fbtft.h ##
+    +@@ drivers/staging/fbtft/fbtft.h: void fbtft_unregister_backlight(struct fbtft_par *par);
+    + int fbtft_init_display(struct fbtft_par *par);
+    + int fbtft_probe_common(struct fbtft_display *display, struct spi_device *sdev,
+    + 		       struct platform_device *pdev);
+    +-int fbtft_remove_common(struct device *dev, struct fb_info *info);
+    ++void fbtft_remove_common(struct device *dev, struct fb_info *info);
+    + 
+    + /* fbtft-io.c */
+    + int fbtft_write_spi(struct fbtft_par *par, void *buf, size_t len);
+     @@ drivers/staging/fbtft/fbtft.h: static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
+      {                                                                          \
+      	struct fb_info *info = spi_get_drvdata(spi);                       \
+13:  9156e6380a5e = 20:  89d0b85968a9 tpm: st33zp24: Make st33zp24_remove() return void
 
-----------------------------------------------------------------
-platform-drivers-x86 for v5.15-3
-
-Second (small) set of pdx86 fixes for 5.15.
-
-The following is an automated git shortlog grouped by driver:
-
-amd-pmc:
- -  Add alternative acpi id for PMC controller
-
-dell:
- -  Make DELL_WMI_PRIVACY depend on DELL_WMI
-
-gigabyte-wmi:
- -  add support for B550 AORUS ELITE AX V2
-
-int1092:
- -  Fix non sequential device mode handling
-
-intel_scu_ipc:
- -  Update timeout value in comment
- -  Increase virtual timeout to 10s
- -  Fix busy loop expiry time
-
-intel_skl_int3472:
- -  Correct null check
-
-platform/mellanox:
- -  mlxreg-io: Fix read access of n-bytes size attributes
- -  mlxreg-io: Fix argument base in kstrtou32() call
-
-----------------------------------------------------------------
-Daniel Scally (1):
-      platform/x86: intel_skl_int3472: Correct null check
-
-Hans de Goede (1):
-      platform/x86: dell: Make DELL_WMI_PRIVACY depend on DELL_WMI
-
-Prashant Malani (3):
-      platform/x86: intel_scu_ipc: Fix busy loop expiry time
-      platform/x86: intel_scu_ipc: Increase virtual timeout to 10s
-      platform/x86: intel_scu_ipc: Update timeout value in comment
-
-Sachi King (1):
-      platform/x86: amd-pmc: Add alternative acpi id for PMC controller
-
-Shravan S (1):
-      platform/x86: int1092: Fix non sequential device mode handling
-
-Vadim Pasternak (2):
-      platform/mellanox: mlxreg-io: Fix argument base in kstrtou32() call
-      platform/mellanox: mlxreg-io: Fix read access of n-bytes size attributes
-
-Zephaniah E. Loss-Cutler-Hull (1):
-      platform/x86: gigabyte-wmi: add support for B550 AORUS ELITE AX V2
-
- MAINTAINERS                                        |  2 +-
- drivers/platform/mellanox/mlxreg-io.c              |  4 ++--
- drivers/platform/x86/amd-pmc.c                     |  1 +
- drivers/platform/x86/dell/Kconfig                  |  1 +
- drivers/platform/x86/gigabyte-wmi.c                |  1 +
- drivers/platform/x86/intel/int1092/intel_sar.c     | 23 ++++++++++++++--------
- .../x86/intel/int3472/intel_skl_int3472_discrete.c |  2 +-
- drivers/platform/x86/intel_scu_ipc.c               |  6 +++---
- 8 files changed, 25 insertions(+), 15 deletions(-)
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+-- 
+2.30.2
 
