@@ -2,59 +2,58 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F1DB42F637
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Oct 2021 16:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E39342F5A1
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 15 Oct 2021 16:38:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231873AbhJOOwB (ORCPT
+        id S234833AbhJOOkJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 15 Oct 2021 10:52:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
+        Fri, 15 Oct 2021 10:40:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230471AbhJOOwB (ORCPT
+        with ESMTP id S233109AbhJOOkJ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 15 Oct 2021 10:52:01 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B12C061570;
-        Fri, 15 Oct 2021 07:49:55 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id h196so8052968iof.2;
-        Fri, 15 Oct 2021 07:49:54 -0700 (PDT)
+        Fri, 15 Oct 2021 10:40:09 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EE1C061570;
+        Fri, 15 Oct 2021 07:38:02 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id w14so38821919edv.11;
+        Fri, 15 Oct 2021 07:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fL8+mgMcadnALrTayBWbaujkXyGx/ICo6dyKKnlu570=;
-        b=Vl8/fHUgsoGAEvaEAPPyassn27Us3O1tIYbImm/prxO5yCZC7Icl8aG7VOwmxcDXxk
-         pIiXPKAb6VdRPBu8ICOZ054AbNpP8vQVyYWkiWS63mnQ+1zTSFx65j92wBC7EusXKHQR
-         KzXMoLIEbh2r7s/5g2MIC4CxPF6/FtVDYu+QvKKTj/jesPsphm7VHalstx/JA18qp97B
-         YfLi5P9z5u6+9o++qcj+a3dkZlFeHOmfDimSz01cmn/OzMbdCKaiq/lyj/rZMX9XTgAz
-         IOg7hzJzbdCseQ71hCYXn0yZFmzeA9A535kXisUy9WjgMNPHf+7Z9BcQ3b9YU1ORrhol
-         6wIg==
+        bh=1HEP6At+Hhj0+UfjA/lr3AwiRgliiJ9IAA2X6QY9jNg=;
+        b=gpzcTWsjIEATku5vg2TX7wcqqI6aycAZqoq6BuILpmrWxtRQgMxpjoYCnK2GUBN0P1
+         nxqbCjNi5RmP/FTgc8wce5r1UH+BHjLmG30Sb98nSA8O2P2YtYFC+Ee+sQwwPlaEwVvu
+         QYUa/hbH9kOfVTF2i13OtvAIVifsi+fV1s3/+Idcjl/BVc9YKUiWk2F9/VqeAerb1pGk
+         BHqG8wCdQLmJ1HrIzjqV97W42Dhp+Mv+p1ECvIP/qbGFoAWWyv6eDSAOo48fbN7P0iHU
+         sdVRpvvbYRY0G8TkemZ6JuUSaG4b8BNEEbzwCYEMJ5hStyg70LlAudlUUwOZpektY3WU
+         NfIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fL8+mgMcadnALrTayBWbaujkXyGx/ICo6dyKKnlu570=;
-        b=dR+psE8Rcihya6tAU6X+CZHPLoLvUDzF4iO6sejSmPm258yUWKStcKE1f3PgwrFsyw
-         APIZFog8YXG/HlvoZEgb2l/VSXWoCx5M+c1AXEHFO/3gBX+EbByEbr7Y1A8cygZqL2+E
-         +mLloNsEX/MB6mhNOz81JTZA42ySJccWbJMlD1WDdsSFgyDUfjrEcUwy/qpM+IXVrBqJ
-         VA8MIEZhrsFqDInOGVdBBkf8nYSg7tQ+Ktwf8H2xJT8JajpEQNq3kkXllbx0kWWoc/oI
-         o3CLbc5HJq1oILk+vq41uWd7upWTA5KkiE4ZFy/GoEw3ypQ8Kr9S1WwTXkAAq1XGiOFh
-         24Eg==
-X-Gm-Message-State: AOAM532FyuFmjkNEinZlIJbpmQn2TtmqoXUBUa7aAAosA6oNgRj4DZIl
-        ePSGsSeQiKFzKdArVg5ZPIUAp6pgOeZtMgctNLs=
-X-Google-Smtp-Source: ABdhPJzzB8N6SPYWHddFZ13/1bfKjIU1iQmR5XsMBgpen4Gi9hWheknEqQ3rEy04MABdE0cHk/A9MCQIbva0TNP2/ho=
-X-Received: by 2002:a05:6602:1504:: with SMTP id g4mr4004341iow.133.1634309394425;
- Fri, 15 Oct 2021 07:49:54 -0700 (PDT)
+        bh=1HEP6At+Hhj0+UfjA/lr3AwiRgliiJ9IAA2X6QY9jNg=;
+        b=WBck8zg8iovXW9mKC5t91bEYVLX2gX1kL9ZVFSTpwQLFVHR0hCRkJBQeGdnJZp0+eO
+         QjwcW67cNzTvfwOECH4jawmsI8dq2meHVhmCfLWTRAuy64xQjpQBqlnIHr1zvk48ZaqA
+         KaZIhIUQZuaKTZqPLY7VCJjnGSjrVGw6fMxbFba0grVS2F2dLKUwUE2ilKp6S4RA0SX4
+         sXjO0u0WxE8ZL2GQp50u7JzP9yEs6FHdoQmYjMnLVo94DwtxVQFSajCcek0EduWeRGsf
+         11Qyu2QvjDNct6wVFxTR5ZZ6tyKw6FD4UO3wWZ6/QKRsFrzGJ8ascF5xqwMzEJTSLUs5
+         KeKQ==
+X-Gm-Message-State: AOAM5321D2hcb2xFk+29TaxVJ/4XuUDzJ4RLDvUKup8OohlPFFYybxgK
+        F7ZzAv9ewCqaO/gDMGCLugMyZZWI9NobpgzQoTwraCIM/yW8ejsDvQA=
+X-Google-Smtp-Source: ABdhPJzwVHwjaCBPY1T90IHyGw1GB0Emtn6fo6leBPXStxB2xCcSAJSI4dkJnJvow6Js6zD0nE1BRWqhqqZHOpVPPD4=
+X-Received: by 2002:a17:906:a158:: with SMTP id bu24mr6870109ejb.356.1634308639061;
+ Fri, 15 Oct 2021 07:37:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211015055808.327453-1-pauk.denis@gmail.com> <20211015055808.327453-2-pauk.denis@gmail.com>
- <CAHp75VfUYgYT_RSNXCc+_3rkBbywL8ZDcAFPwr=WbPzcD8MF0w@mail.gmail.com>
- <CAB95QAQMP58-H427+nASKBvHOHZtLQqgRBSPa+MqGU7_D42M2Q@mail.gmail.com> <CAHp75VfJzaSKzw4E3P=GdtMU1vpi3DvW-VLGNbuaGaykEydhFQ@mail.gmail.com>
-In-Reply-To: <CAHp75VfJzaSKzw4E3P=GdtMU1vpi3DvW-VLGNbuaGaykEydhFQ@mail.gmail.com>
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-Date:   Fri, 15 Oct 2021 16:49:43 +0200
-Message-ID: <CAB95QATQNaPiqJf7DuhWcJiU1Yq3_RXX7r+f3FAdw9aO0hvr0g@mail.gmail.com>
+ <CAHp75VfUYgYT_RSNXCc+_3rkBbywL8ZDcAFPwr=WbPzcD8MF0w@mail.gmail.com> <CAB95QAQMP58-H427+nASKBvHOHZtLQqgRBSPa+MqGU7_D42M2Q@mail.gmail.com>
+In-Reply-To: <CAB95QAQMP58-H427+nASKBvHOHZtLQqgRBSPa+MqGU7_D42M2Q@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 15 Oct 2021 20:36:31 +0300
+Message-ID: <CAHp75VfJzaSKzw4E3P=GdtMU1vpi3DvW-VLGNbuaGaykEydhFQ@mail.gmail.com>
 Subject: Re: [PATCH v7 1/2] hwmon: (asus_wmi_ec_sensors) Support B550 Asus WMI.
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Eugene Shalygin <eugene.shalygin@gmail.com>
 Cc:     Denis Pauk <pauk.denis@gmail.com>,
         Platform Driver <platform-driver-x86@vger.kernel.org>,
         thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
@@ -70,31 +69,77 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi, Andy,
+On Fri, Oct 15, 2021 at 5:26 PM Eugene Shalygin
+<eugene.shalygin@gmail.com> wrote:
 
-On Fri, 15 Oct 2021 at 16:37, Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> I didn't get it. If there is a strong endianess expected the parameter
-> should be __le16 or __be16, moreover it seems it missed the const
-> qualifier. Any preparatory stuff should be done in the
-> asus_wmi_ec_make_block_read_query() which prepares the input buffer,
-> doesn't it?
+...
 
-We need to produce and parse a, roughly speaking, hex-BSTR to pass it
-to the WMI function (save for its size parameter of 16 bits instead of
-32 for the BSTR). bin/hex conversion functions accept/output UTF-8
-strings and thus require an intermediate buffer and additional utf-8
-<-> utf-16 conversion. Do you insist that a loop with a stride of 4 is
-a homegrown library already?
-
-> > > What's the point of calling acpi_os_free(obj) when you already know it's NULL?
+> > > +#define        ASUSWMI_METHODID_BREC   0x42524543
 > >
-> > The case when obj->type != ACPI_TYPE_BUFFER
+> > ...above has definitely an ASCII combination in hex format, care to
+> > decode it in the comment?
 >
-> Read my comment again, please.
+> This is a constant from the WMI dispatch function, the number is a
+> four-letter ASCII-encoded method name, here BREC, which is already
+> noted in the define identifier. Is it needed to repeat that?
 
-I did it twice already and still can't understand. The WMI method can
-return a string, for example, which is an error for our code, but the
-buffer needs to be freed.
+Method name and signature might be different, I tend to ask to add a
+comment, simple /* BREC */ at the end of line would suffice.
 
-Regards,
-Eugene
+...
+
+> > > +       utf16s_to_utf8s((wchar_t *)data, len * 2,  UTF16_LITTLE_ENDIAN, buffer, len * 2);
+> >
+> > > +       for (i = 0; i < len; i++, pos += 2)
+> > > +               out[i] = (hex_to_bin(pos[0]) << 4) + hex_to_bin(pos[1]);
+> >
+> > NIH hex2bin().
+>
+> Does it make sense to call hex2bin() with size = 1?
+
+Definitely. We don't want homegrown copies of library APIs.
+
+...
+
+> > > +       for (i = 0; i < len; i++) {
+> > > +               byte = registers[i] >> 8;
+> > > +               *pos = hex_asc_hi(byte);
+> > > +               pos++;
+> > > +               *pos = hex_asc_lo(byte);
+> > > +               pos++;
+> > > +               byte = registers[i];
+> > > +               *pos = hex_asc_hi(byte);
+> > > +               pos++;
+> > > +               *pos = hex_asc_lo(byte);
+> > > +               pos++;
+> > > +       }
+> >
+> > NIH bin2hex()
+>
+> bin2hex() can't output UTF-16LE characters, can it? It would need an
+> intermediate buffer and a call to convert ASCII (UTF-8) to UTF-16.
+
+I didn't get it. If there is a strong endianess expected the parameter
+should be __le16 or __be16, moreover it seems it missed the const
+qualifier. Any preparatory stuff should be done in the
+asus_wmi_ec_make_block_read_query() which prepares the input buffer,
+doesn't it?
+
+So, replace homegwon library APIs.
+
+...
+
+> > > +       obj = output.pointer;
+> > > +       if (!obj || obj->type != ACPI_TYPE_BUFFER) {
+> >
+> > > +               acpi_os_free(obj);
+> >
+> > What's the point of calling acpi_os_free(obj) when you already know it's NULL?
+>
+> The case when obj->type != ACPI_TYPE_BUFFER
+
+Read my comment again, please.
+
+-- 
+With Best Regards,
+Andy Shevchenko
