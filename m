@@ -2,74 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5E74315C5
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Oct 2021 12:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98BF8431FA7
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 18 Oct 2021 16:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231664AbhJRKTs (ORCPT
+        id S232395AbhJRObz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 18 Oct 2021 06:19:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45950 "EHLO
+        Mon, 18 Oct 2021 10:31:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbhJRKTo (ORCPT
+        with ESMTP id S232260AbhJRObj (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 18 Oct 2021 06:19:44 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE92C061769
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Oct 2021 03:17:33 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id t11so10870985plq.11
-        for <platform-driver-x86@vger.kernel.org>; Mon, 18 Oct 2021 03:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=q0hRaHpw+HZu1egpib2l5BAGSi6XUGnnLq98/RXTBEI=;
-        b=YH1c7k8GbH8gWO+Y4rVnygwljOFeMRPe8q/iq/qOwWF69BmsoGdhtLRFSSS/KgydHR
-         CCDoRPKhAq7Pmq6xmF0IrrL1v61Q3UUlMkKOD4HIzKbBN+1qooFc08zMbtxaU1QB8Ek8
-         7u4mZUp/2+7m2Q0q7yKxEQOLcoYjYn552Vehv2TO/uOnFmZ4qapfbTMMOAWFExYZ5nTo
-         VdjuM7ybQ8n5AW5BUsfA4PUR8vnnSkInhdUJaxNTpzbQ5B6kB4BiPZzfq1Ms7yzITAgp
-         uNIJcz/GeteghPT+6Qy3PFH/4iQrvf2NhUu58p36rLuHfjeW7WaMAc9+XJ230Dlrs9tk
-         swIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=q0hRaHpw+HZu1egpib2l5BAGSi6XUGnnLq98/RXTBEI=;
-        b=qH4Rdi+Q6YNhh9ZQBEknzamsQLJglHuKSSZarYnx05OJNaJw8maM/y/VYZpOPZjblE
-         8wjiUq4WsjadlDpdVTFeAcIDr8c+WCM7B1Uyf1dTEziox8atrx36+ePTvNEern/Y6sM1
-         GI43tzxsVq4kwRxuB2mmuwLU1mKXsTpfnkOx2eaSeUSugyJXx0IQRNr05/1SoqnUgmTo
-         VHZa2bf8juUMU76epztAzo6kt4oYy7heptY+BrUf2fjMaaoYdFi6DLIQPwVdUccdrEEL
-         FTYDEm59i149pIQIQjvoFeRrPRnLyFuCo6bo+3VX6erLCX5i5npQ9PoPxcNXBzcTbawW
-         p+jA==
-X-Gm-Message-State: AOAM532qhKi4xA5P34qVV0/BvmQH/CIxpUD3KPoyooxRnFuT9Q9Svw2J
-        tw58GQhPl7t2ruJ/WRyuKjp0j4MTt8jWDmCVT6o=
-X-Google-Smtp-Source: ABdhPJw4vz5GZ1m1KPFLBSAX/lPJtA77zsylqcOjvswwcLxUzegmyk28yjrbxW02JmqlpBL4Eqwg0GpbOWGI5w+LB/8=
-X-Received: by 2002:a17:902:7c8d:b0:13a:768b:d6c0 with SMTP id
- y13-20020a1709027c8d00b0013a768bd6c0mr26566843pll.83.1634552252844; Mon, 18
- Oct 2021 03:17:32 -0700 (PDT)
+        Mon, 18 Oct 2021 10:31:39 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CFADC06176D;
+        Mon, 18 Oct 2021 07:29:09 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f085700a5f06031787ecc0a.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:5700:a5f0:6031:787e:cc0a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D2FC91EC04C2;
+        Mon, 18 Oct 2021 16:29:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1634567347;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=c9xEu9dyx4wrnGD++qak7Rf0JfD9ujFQ9E5yOZB19Q0=;
+        b=aKWwYTlr9cCQu7ia5dZP/kuxrxzN93CyPBgOxttie/QBj3Td/GyHk64AiEAbXaIbAsIGqx
+        BgGTrkPaemD3IjwBuWI2GydbibFzG2kuXi6yqjHnJLtsSpqF8n17AX6r45/y+wPNjuoNcV
+        Bkj7MRJet38z0l3P6cMLUbOfmJ1xF50=
+Date:   Mon, 18 Oct 2021 16:29:07 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Brijesh Singh <brijesh.singh@amd.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-coco@lists.linux.dev, linux-mm@kvack.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        tony.luck@intel.com, marcorr@google.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com
+Subject: Re: [PATCH v6 08/42] x86/sev-es: initialize sev_status/features
+ within #VC handler
+Message-ID: <YW2EsxcqBucuyoal@zn.tnic>
+References: <20211008180453.462291-1-brijesh.singh@amd.com>
+ <20211008180453.462291-9-brijesh.singh@amd.com>
 MIME-Version: 1.0
-Sender: tomcrist290@gmail.com
-Received: by 2002:a05:6a10:d10a:0:0:0:0 with HTTP; Mon, 18 Oct 2021 03:17:32
- -0700 (PDT)
-From:   The Douglas Foundation <michael.douglasfoundations1964@gmail.com>
-Date:   Mon, 18 Oct 2021 13:17:32 +0300
-X-Google-Sender-Auth: OBUquTG45fnTL5kXWoI1ut9zq3U
-Message-ID: <CAMZD9CF8aH_Ce0jON3frKHGGAKjTc8crxG2w03WJXx6mtbcEyg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211008180453.462291-9-brijesh.singh@amd.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hallo,
+On Fri, Oct 08, 2021 at 01:04:19PM -0500, Brijesh Singh wrote:
+> From: Michael Roth <michael.roth@amd.com>
+> 
+> Generally access to MSR_AMD64_SEV is only safe if the 0x8000001F CPUID
+> leaf indicates SEV support. With SEV-SNP, CPUID responses from the
+> hypervisor are not considered trustworthy, particularly for 0x8000001F.
+> SEV-SNP provides a firmware-validated CPUID table to use as an
+> alternative, but prior to checking MSR_AMD64_SEV there are no
+> guarantees that this is even an SEV-SNP guest.
+> 
+> Rather than relying on these CPUID values early on, allow SEV-ES and
+> SEV-SNP guests to instead use a cpuid instruction to trigger a #VC and
+> have it cache MSR_AMD64_SEV in sev_status, since it is known to be safe
+> to access MSR_AMD64_SEV if a #VC has triggered.
+> 
+> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  arch/x86/kernel/sev-shared.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+> index 8ee27d07c1cd..2796c524d174 100644
+> --- a/arch/x86/kernel/sev-shared.c
+> +++ b/arch/x86/kernel/sev-shared.c
+> @@ -191,6 +191,20 @@ void __init do_vc_no_ghcb(struct pt_regs *regs, unsigned long exit_code)
+>  	if (exit_code != SVM_EXIT_CPUID)
+>  		goto fail;
+>  
+> +	/*
+> +	 * A #VC implies that either SEV-ES or SEV-SNP are enabled, so the SEV
+> +	 * MSR is also available. Go ahead and initialize sev_status here to
+> +	 * allow SEV features to be checked without relying solely on the SEV
+> +	 * cpuid bit to indicate whether it is safe to do so.
+> +	 */
+> +	if (!sev_status) {
+> +		unsigned long lo, hi;
+> +
+> +		asm volatile("rdmsr" : "=a" (lo), "=d" (hi)
+> +				     : "c" (MSR_AMD64_SEV));
+> +		sev_status = (hi << 32) | lo;
+> +	}
+> +
+>  	sev_es_wr_ghcb_msr(GHCB_CPUID_REQ(fn, GHCB_CPUID_REQ_EAX));
+>  	VMGEXIT();
+>  	val = sev_es_rd_ghcb_msr();
+> -- 
 
-   Ich freue mich, Ihnen mitteilen zu k=C3=B6nnen, dass Ihnen von der
-Douglas-Stiftung eine Spende zugegangen ist, um den Armen in Ihrer
-Umgebung zu helfen. Kontaktieren Sie Michael Douglas f=C3=BCr weitere
-Informationen =C3=BCber: michaeldouglas@douglasfoundations.com
+Ok, you guys are killing me. ;-\
 
-Mit freundlichen Gr=C3=BC=C3=9Fen,
+How is bolting some pretty much unrelated code into the early #VC
+handler not a hack? Do you not see it?
 
-Joel Douglas.
-(Familienmitglied)
+So sme_enable() is reading MSR_AMD64_SEV and setting up everything
+there, including sev_status. If a SNP guest does not trust CPUID, why
+can't you attempt to read that MSR there, even if CPUID has lied to the
+guest?
+
+And not just slap it somewhere just because it works?
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
