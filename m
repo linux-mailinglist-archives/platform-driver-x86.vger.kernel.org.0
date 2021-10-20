@@ -2,116 +2,69 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7A44433E0F
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 19 Oct 2021 20:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E5B64344BA
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 20 Oct 2021 07:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233413AbhJSSIz (ORCPT
+        id S229985AbhJTFjP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 19 Oct 2021 14:08:55 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:45693 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbhJSSIz (ORCPT
+        Wed, 20 Oct 2021 01:39:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42764 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229920AbhJTFjP (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 19 Oct 2021 14:08:55 -0400
-Received: (Authenticated sender: peter@korsgaard.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id C9A5D1C0002;
-        Tue, 19 Oct 2021 18:06:39 +0000 (UTC)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.92)
-        (envelope-from <peter@korsgaard.com>)
-        id 1mctVX-0005yF-6z; Tue, 19 Oct 2021 20:06:39 +0200
-X-From-Line: nobody Tue Oct 19 17:14:02 2021
-From:   Peter Korsgaard <peter@korsgaard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Santosh Kumar Yadav <santoshkumar.yadav@barco.com>,
-        santoshyadav30@gmail.com, Mark Gross <mgross@linux.intel.com>,
-        Peter Korsgaard <peter.korsgaard@barco.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH] platform/x86: Support for EC-connected GPIOs for identify LED/button on Barco P50 board
-References: <20211013140356.6235-1-santoshkumar.yadav@barco.com>
-        <6183f051-969e-19e9-dd53-0d56a2fdf218@redhat.com>
-Date:   Tue, 19 Oct 2021 17:14:02 +0200
-In-Reply-To: <6183f051-969e-19e9-dd53-0d56a2fdf218@redhat.com> (Hans de
-        Goede's message of "Tue, 19 Oct 2021 16:50:22 +0200")
-Message-ID: <87a6j5cait.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Wed, 20 Oct 2021 01:39:15 -0400
+Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91840C06161C
+        for <platform-driver-x86@vger.kernel.org>; Tue, 19 Oct 2021 22:37:01 -0700 (PDT)
+Received: by mail-ua1-x934.google.com with SMTP id a17so4362888uax.12
+        for <platform-driver-x86@vger.kernel.org>; Tue, 19 Oct 2021 22:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=1Br/N6WhyVMlujnGsxiPG2oa5QW+rtf7KlXAbdHBbwA=;
+        b=P6cVs3fq2c9qIeIbYLt9zq2WF9HeStgFuUONcsH5p0SYRdza6pbAHfjhHTQZssmHiq
+         RXXKC7efFO8QRL2U50DaOn4gNbsHdfi01THEv5oeNlQy0nIhLpUNA6JZ/uSv4gHgdcbf
+         e+LDcitPoEgWEGPG1GrKg/g9na9/eeYBLIIUQJnqale0j4bjt6+/brQL0empSoZGhm8Y
+         sCASfpTuTqqwg5PDNA03o+wWA7QFtsjLk9RvVEwh6UUq3/d/2eveKDWWH3JaNk13sZBw
+         tIG94QpG58QR3pYJw3RxZ4QQiJkK09nrcQOYKbhbms62x7HxQoBf6OripwXprrL6HHad
+         z0rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=1Br/N6WhyVMlujnGsxiPG2oa5QW+rtf7KlXAbdHBbwA=;
+        b=kMhwxV8tyIpolPlvQ+0spE1VFHDsOv4MO99kLvjqH78OK8pXsOg5c3tpNrrx8jsh/a
+         C07x/tFV5RGG5qnjEQyJh7IP6xoPA8GNStkabSG0AC4rumFT0XqqPVw2STwaPeCAT6Ne
+         7f9rygflBB4U5/D+UEJanqfTwNeybAP/C3KvHpofltzfgUc37uMNWr/k+RPm9FHDD7XZ
+         sYxPWt6YaM15EhkMYawtgbx9bt32GZzzvXDh5bOeGvxsfIpyVZutS1w3BIZCzQG7dj/A
+         cnuqpjtbCkSSYSPsuIjL2/i5947Nu7jkVrwodHs/3AYZwhP5wU+ey4VcXUfPf34CWs+T
+         tRiA==
+X-Gm-Message-State: AOAM5311dYpPMn9SNvCktP6YtwJ9nElsVHHJpVcORBeHDZvWKv0T8HKd
+        jKGkKPqzwKCsh8qU+cXaMMHK1IftFGvn/I4fmIA=
+X-Google-Smtp-Source: ABdhPJzWoupumSEB+RLs7Ihmoc1hbwnR9gBRPxp7VXi3xgf+JhWcpE0iW3GSnDb6kvQlKeo3hhdSmE+D20m3IzSM+MA=
+X-Received: by 2002:a67:c193:: with SMTP id h19mr34346046vsj.5.1634708220764;
+ Tue, 19 Oct 2021 22:37:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Lines:  74
+Received: by 2002:ac5:cbf6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 22:37:00
+ -0700 (PDT)
+Reply-To: mrsbillchantallawrence58@gmail.com
+From:   mrsbillchantal <mrmusaibrahimibrahim4446@gmail.com>
+Date:   Wed, 20 Oct 2021 06:37:00 +0100
+Message-ID: <CANgEpsKJ6Bh5TmZBLdnYvgzeGSLUag6nHHg=S7fhxM96xyrGVw@mail.gmail.com>
+Subject: Dear Friend, My present internet connection is very slow in case you
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
->>>>> "Hans" == Hans de Goede <hdegoede@redhat.com> writes:
+hello....
 
- > Hi,
- > On 10/13/21 16:03, Santosh Kumar Yadav wrote:
- >> Add a driver providing access to the GPIOs for the identify button and led
- >> present on Barco P50 board, based on the pcengines-apuv2.c driver.
- >> 
- >> There is unfortunately no suitable ACPI entry for the EC communication
- >> interface, so instead bind to boards with "P50" as their DMI product family
- >> and hard code the I/O port number (0x299).
- >> 
- >> The driver also hooks up the leds-gpio and gpio-keys-polled drivers to the
- >> GPIOs, so they are finally exposed as:
- >> 
- >> LED:
- >> /sys/class/leds/identify
- >> 
- >> Button: (/proc/bus/input/devices)
- >> I: Bus=0019 Vendor=0001 Product=0001 Version=0100
- >> N: Name="identify"
- >> P: Phys=gpio-keys-polled/input0
- >> S: Sysfs=/devices/platform/barco-p50-gpio/gpio-keys-polled/input/input10
- >> U: Uniq=
- >> H: Handlers=event10
- >> B: PROP=0
- >> B: EV=3
- >> B: KEY=1000000 0 0 0 0 0 0
- >> 
- >> Signed-off-by: Santosh Kumar Yadav <santoshkumar.yadav@barco.com>
- >> Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
+You have been compensated with the sum of 5.5 million dollars in this
+united nation the payment will be issue into atm visa card and send to
+you from the santander bank we need your address and your  Whatsapp
+this my email.ID (  mrsbillchantallawrence58@gmail.com)  contact  me
 
- > Thanks, overall this looks pretty good. I've a couple of comments inline,
- > please send a v2 addresing this.
+Thanks my
 
-..
-
- >> +/* Board setup */
- >> +static const struct dmi_system_id dmi_ids[] __initconst = {
- >> +       {
- >> +               .matches = {
- >> +                       DMI_EXACT_MATCH(DMI_PRODUCT_FAMILY, "P50")
- >> +               },
- >> +       },
-
- > But I'm a bit worried about the DMI match, it seems a bit too generic.
-
- > E.g. Lenovo also has a P50 laptop series.
-
- > For v2 please make the DMI match also on e.g. sys_vendor.
-
-Agreed, will add a match on vendor = Barco.
-
-
- > You should put a:
-
- > MODULE_DEVICE_TABLE(dmi, dmi_ids);
-
- > here, this will add a dmi based modalias to the module, so that it will
- > be automatically loaded at boot on systems which match the dmi_ids table.
-
-Ok.
-
-
- >> +MODULE_SOFTDEP("pre: platform:leds-gpio platform:gpio-keys-polled");
-
- > Is this softdep really necessary ? I would expect things to work fine too if
- > the leds-gpio and gpio-keys-polled drivers are loaded automatically after
- > the platform_devices for them have been created .
-
-True. This was copied over from pcengines-apuv2.c, but we'll drop it for
-v2.
-
--- 
-Bye, Peter Korsgaard
+mrs chantal
