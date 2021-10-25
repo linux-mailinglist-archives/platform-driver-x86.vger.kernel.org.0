@@ -2,61 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D36439830
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Oct 2021 16:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0DF84398A3
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 25 Oct 2021 16:32:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbhJYONh (ORCPT
+        id S233580AbhJYOem (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 25 Oct 2021 10:13:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35904 "EHLO
+        Mon, 25 Oct 2021 10:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbhJYONh (ORCPT
+        with ESMTP id S233588AbhJYOel (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 25 Oct 2021 10:13:37 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CCBFC061745
-        for <platform-driver-x86@vger.kernel.org>; Mon, 25 Oct 2021 07:11:15 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id u11so4095153lfs.1
-        for <platform-driver-x86@vger.kernel.org>; Mon, 25 Oct 2021 07:11:15 -0700 (PDT)
+        Mon, 25 Oct 2021 10:34:41 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A38CC061746;
+        Mon, 25 Oct 2021 07:32:19 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id u69so15810407oie.3;
+        Mon, 25 Oct 2021 07:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=tPGj5qPSXOfoDLnlsv635kLBbtYjJnLtVo3ywT3dhuE=;
-        b=cFIk9pIcgtlzR6Wv/EWFoWQ2/teafdhe4JWkDVDW0MYPgdrmCbD6+0yNrFeIAAO1dd
-         EcL7XlXJAIU4+n4gC49R3MbCoECDQlMfIqW2EC5J+6XS0c66ckx92OkDjFj8nElpuM5u
-         6DptDy2LPu8BsmIkOZlWVASShWnOPNSab1MCb3s5kFChDYAjJDSFxx2b3gfl/fnGo8pn
-         XV3aNeXSu+LE2Cx7lQAYnqWybI8dToOKQfaNs8CQO+nJydS/touwLrLrRZhxxuBKnEES
-         M/6M6Uuk9KCKxvXmH7E5cJ/9c6D6DpFvF6TBG0WOfScq5mCLFW06BjLrOmDyoIC4tVkJ
-         i8OA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=pmebVXES+76mcKv5JBTJdxBg8OzPf8jfiUIeu+qp7AQ=;
+        b=KN/5JlHLu6ClZJBbYzBYLzN30uU6RqIWbSRiOnnjfQJEij9D/LgVKKDeLScGYA6FHi
+         T1VaKw9qj0ZxqR2cQBrCFbmnyu7zyGbS1D0zjFhwk4NWj1DjgWJd9z5pmvSqAH0ydM8y
+         ggrWMs7iqeT/kte2jNs+E1tbTViujJse+QFdVca0TgZenyS/7L3mfkscl/k4itN3g+0c
+         h/hH0n/ESvSFqoAHNStD1nmsaX+Bsj2xWRTJTQpTvWqv2eDpzsJJTebMsNw5EEY15yP6
+         OIZrwep7oGrBIao0uCKUWRifuLbGd9SkBp9+IIXfV8oukZFHz4oYtcGZTxwXPi/6D2DT
+         kmkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=tPGj5qPSXOfoDLnlsv635kLBbtYjJnLtVo3ywT3dhuE=;
-        b=K2vZm212wIo4/dC253Xg9WVMV43B/w3heXooxiIRg5sM6YTXsY1vFbJ+kL31hv3Inf
-         NOClUoXJVlpST/hcrspquS3UOdjfzfr8R6plhqy8sp9c/2SReriH87vC3TLMLPFhXqf+
-         1V8BKyW+Dee4gA97Pw3T4x4cGLzjML/VwMXDczFA7B+WWXI2hiRjw6WCq45fvq2B389p
-         Sc9VKlk3fsNwZTWYu6KxrO3ZX3KnlJNRYGXuGvRFFviFJQuECDs7hokSSu5RrT9h+8Sr
-         PAZ81Vc0IDaZ9rDKzWinMuv2Z3RBzmfI5loISxiYY+VttbVoDb/K9uSdQf1F3VQC7U3e
-         bFaw==
-X-Gm-Message-State: AOAM532gHb26BPZGr1W8LcwljvHZUqj3pi0FwGAUxNaz8c/ryRxgWsGW
-        4f3YJ0HTIiyiq7Pp1vgTgoZjTCHHVDiuaPmEtuo=
-X-Google-Smtp-Source: ABdhPJwEnxgGRtINshjqTT2NuwDKpovIu+YESVvFsSDy1AmZEx9qTj6LvS8Ky9cdH8ZuosngWK1Ua0Z9KqWVCujxtx4=
-X-Received: by 2002:a05:6512:1151:: with SMTP id m17mr16843962lfg.99.1635171073549;
- Mon, 25 Oct 2021 07:11:13 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=pmebVXES+76mcKv5JBTJdxBg8OzPf8jfiUIeu+qp7AQ=;
+        b=WyZdaKgawuiuPGLtwKMXcksHi4LuyE6QPAW3u914GJKnyqtiLqjxIY0GbgmcHO+zLG
+         D08RFttIm9JuiJucSTyMJ/AM+SuGARTZLxcFKIm7wX9iguJ7Cxe7NqcrSNN4giAlIF0m
+         RIxYMgpOQ/RpKJbqAd7rP36NNNM3pHtq5QELpWX66ErJ+E91eLdm0ajLr4mAw5pAwkBs
+         NZKLKiGP4G58JT5YC+awc7ijkzqQJ2HhFAVmcQgV4T+gwCGQi2AZkdKvQ5QXZGb3Mn/e
+         6L03V2VtvsLqe90O8yC/tsKQrCB1z5quqvQ0g8ikO70/HMogrQnQI/NQbo/g/gYNcCNN
+         jiIA==
+X-Gm-Message-State: AOAM530HeHlHVA0nP1BEV0ZMJkJdP3XehNUkv1xVV85ADxBrQ4ZDuaMC
+        /I83SMG3/ljELrHQt7I05m0=
+X-Google-Smtp-Source: ABdhPJyfvhXAD5bAJ8pfK0Z27LAI0zpl8BNKmE4gMYAcmsvoKqH+NrVYIWrZSFD549xjoHGic166/A==
+X-Received: by 2002:aca:4b84:: with SMTP id y126mr22465314oia.127.1635172338576;
+        Mon, 25 Oct 2021 07:32:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v13sm3560494oto.65.2021.10.25.07.32.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 07:32:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 25 Oct 2021 07:32:16 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        platform-driver-x86@vger.kernel.org, thomas@weissschuh.net,
+        Joel =?utf-8?Q?Wir=C4=81mu?= Pauling <jwp@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 3/3] hwmon: (nct6775) Add ProArt X570-CREATOR WIFI
+ support.
+Message-ID: <20211025143216.GA3203621@roeck-us.net>
+References: <20211022200032.23267-1-pauk.denis@gmail.com>
+ <20211022200032.23267-4-pauk.denis@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ab3:5a01:0:0:0:0:0 with HTTP; Mon, 25 Oct 2021 07:11:13
- -0700 (PDT)
-Reply-To: cherrykona25@hotmail.com
-From:   Cherry Kona <rogerpakayi@gmail.com>
-Date:   Mon, 25 Oct 2021 07:11:13 -0700
-Message-ID: <CAL0uRZAr7gwWoJh_hv+LgMCnHweniP2EPQinzr6CeCkTWz6Pjg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211022200032.23267-4-pauk.denis@gmail.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-I expect a letter from you i don't know if you receive  my message?
+On Fri, Oct 22, 2021 at 11:00:31PM +0300, Denis Pauk wrote:
+> Tested on:
+> ```
+> BIOS Information
+>     Vendor: American Megatrends Inc.
+>     Version: 0402
+>     Release Date: 08/04/2021
+> ```
+> 
+
+This is not an appropriate patch description. Also. it should be an independent
+patch and not be tied to the other patches of the series.
+
+Guenter
+
+> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+> Tested-by: Joel Wirāmu Pauling <jwp@redhat.com>
+> 
+> ---
+> Changes in v8:
+> - Add ProArt X570 support.
+> ---
+>  drivers/hwmon/nct6775.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hwmon/nct6775.c b/drivers/hwmon/nct6775.c
+> index f345e1902ad9..93dca471972e 100644
+> --- a/drivers/hwmon/nct6775.c
+> +++ b/drivers/hwmon/nct6775.c
+> @@ -4986,6 +4986,7 @@ static int __init nct6775_find(int sioaddr, struct nct6775_sio_data *sio_data)
+>  static struct platform_device *pdev[2];
+>  
+>  static const char * const asus_wmi_boards[] = {
+> +	"ProArt X570-CREATOR WIFI",
+>  	"Pro WS X570-ACE",
+>  	"PRIME B360-PLUS",
+>  	"PRIME B460-PLUS",
+> -- 
+> 2.33.0
+> 
