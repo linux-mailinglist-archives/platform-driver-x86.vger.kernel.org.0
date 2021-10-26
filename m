@@ -2,215 +2,141 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D113E43B805
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Oct 2021 19:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6C6C43B8F8
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 26 Oct 2021 20:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236482AbhJZRSg (ORCPT
+        id S238044AbhJZSIQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 26 Oct 2021 13:18:36 -0400
-Received: from mail-bn8nam12on2081.outbound.protection.outlook.com ([40.107.237.81]:37408
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        Tue, 26 Oct 2021 14:08:16 -0400
+Received: from mail-mw2nam12on2061.outbound.protection.outlook.com ([40.107.244.61]:54785
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230160AbhJZRSf (ORCPT
+        id S236706AbhJZSIQ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 26 Oct 2021 13:18:35 -0400
+        Tue, 26 Oct 2021 14:08:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U7nGfKuCUoR8gITvKnzRgKL9eiCeO0z7zJCivTMxIrbAUNFEL9+6v5FCXdB1w8/LgeuYLKW+bbbbn5itc2e17pX94ToFpU5T7ufkf4i4N9CEJfiwyi+reTU1u59pUCR3ylSejRKFEVqvil4Uu51UGGkxiY1HsAeZUPTeco06K+HzDUsTHML8xrsas1jw5mbxhdk68Fy/ajLFQKqeGoWGV1WlyfXAEANxb8odH4IhYZdK+68xJs2HWuw5gdt7FtZU4lmZNGqIYrwg0WAO6IVxb8prt/1bXUvR9/0MEj8CzVkPrZ/u1zXoVqevA1ASGkCvl64KVz3BAgfCUT24immEOA==
+ b=U8wZLUhTNPmhdMaNGhU1Z8AfUMfOHR1OmJQIJj4YfBEY9zrsdDt+obiOimeUtb+DJMj4F2kjFEYQhn0UwgP6fKEjsYKf3BADQ7cGz7/2b5jDkE0ZKKhtSBuhnn684vw94Na5bi5zKcpGA0KvxIOQKVCXOwsD7tRGWJ/s3KUQGi20Q/Y6ZlWthkCASX8AGuf+c6TX3403vUYu7RBc2k/+pxlRj/k3t/nggW3HyEJz5R8qSKeRseDDEoSJkWUSRlYKUzKaMhxeQAuRnlt9NS01EE79wF/mo6432Hm6xGPqM/DNNshe4qwwm8jzr+DQAtlBG+X7B3ZbfYQGtmHrnak/2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bd23oF1Jzyu3gs8pp+2f268Zj8C63DdO8v5nwn2HFjI=;
- b=O//cmXkvivQ8nEpcHrTHPuwRauRuprt5nn45uJ/bwXfUV1MosYuWb/JO2AmG+7xxc8QSD+YtgOMo7JpMXyOxAta4zxl8S6l6YHbiEOBCDyAG9ELrybWxR89eOCk14nCPVPZ5QlIlwvBwxIgaPWTyUQqQpG7kXA+YSap/OLBkEI1GanrbdQe/NEn9783Rsi+c+S8UYKK3Ukip9NyvuOxV7UB8Vmq0yHLHmaayRudqZrc4xPQ8nH0dbtINlplEBpGXNTXx5SyyRs84FlUFub6EFWiURcNfiEIU7gIZhxfvwqsmufGoIIlb/hJKBZ3zVzyEASOiLJ1a0TCB3cGy9KK44A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=mP4XNzl48jOty25+JRbaDtNcrDTQeQw3+hKFa7O3WyE=;
+ b=C1p2W+XfoxFRmG6H3ndoTKLrvz6Xj0w0+r2tGYVp+gFVFNw2NRujRY8KAW0PhTZUMMVFrULNJJaVTMLELCDuICrV653uKeBsCe9l2DnmeWjtFs7aIprqb4CWtoQ8SrEBwtosoWhuRv3XxM4v/2NkjUTwfL6CnKc6eI7K4NlMbNr5n3uVTdpUmBVimXETgaj9oYgxz9/GeowrsSKNSSshS0rEdo57AK3lE2wErfN240HGWsfAkjPV0uerrU03Zky2gXHikcWF6GxjoqOj21bL05vKaql8CPVPLzdWjcHALco43EwejJTMlN1mwwpURF0LCAWDReBF9ceuubqV7hAdZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bd23oF1Jzyu3gs8pp+2f268Zj8C63DdO8v5nwn2HFjI=;
- b=3RngpSCqiBFVJh+YZksne6ecOAeoMJqiG2dWMi5rR4A0gYs5CI1MbwvxYGmIZvZ3uu1qOqxsHMBO42QUpP+pZD7NFUEU4leiEWn6s/sewP4sMJ4zkD3amgbUw/c1A/TOeVaLu4ghIJ/eVfGiYkFjX1PabegipMbrQ+AdTk6KkyM=
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com (2603:10b6:806:94::8)
- by SA0PR12MB4509.namprd12.prod.outlook.com (2603:10b6:806:9e::16) with
+ bh=mP4XNzl48jOty25+JRbaDtNcrDTQeQw3+hKFa7O3WyE=;
+ b=KVteMDHhCLK+jDbFuX9mSXSUI3DEvp+0SkUjx/1b97I3vPJesTMoSeM4yD0UhuVEyFWcr4iR24eBFljKQ+/gSuZPoKCJKr1jJEdZ5TPvHMyTGwzc+54Jz7JdbAWQH5PwRwr6CJ0N/DudsNUwwdSC5MugASAVCjPOAYonPtfheL4=
+Received: from BN0PR02CA0014.namprd02.prod.outlook.com (2603:10b6:408:e4::19)
+ by BL1PR12MB5254.namprd12.prod.outlook.com (2603:10b6:208:31e::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Tue, 26 Oct
- 2021 17:16:10 +0000
-Received: from SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::f909:b733:33ff:e3b1]) by SA0PR12MB4510.namprd12.prod.outlook.com
- ([fe80::f909:b733:33ff:e3b1%4]) with mapi id 15.20.4628.018; Tue, 26 Oct 2021
- 17:16:10 +0000
-From:   "Limonciello, Mario" <Mario.Limonciello@amd.com>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>
-CC:     Arnd Bergmann <arnd@arndb.de>,
-        "Goswami, Sanket" <Sanket.Goswami@amd.com>,
-        Sachi King <nakato@nakato.io>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] rtc: x86: amd-pmc: fix build failure with
- CONFIG_RTC_SYSTOHC=n
-Thread-Topic: [PATCH] rtc: x86: amd-pmc: fix build failure with
- CONFIG_RTC_SYSTOHC=n
-Thread-Index: AQHXynOlL4xbtq3zT0u7Kq5n+1rZF6vlhUTQ
-Date:   Tue, 26 Oct 2021 17:16:09 +0000
-Message-ID: <SA0PR12MB45104F8E817E561DF93CAC23E2849@SA0PR12MB4510.namprd12.prod.outlook.com>
-References: <20211026141317.2999103-1-arnd@kernel.org>
-In-Reply-To: <20211026141317.2999103-1-arnd@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2021-10-26T17:16:07Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=359186d7-26ae-400c-961e-f721eb8674b2;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4f98324e-c193-4115-b0db-08d998a44e06
-x-ms-traffictypediagnostic: SA0PR12MB4509:
-x-microsoft-antispam-prvs: <SA0PR12MB450953232ABD68996A5CF458E2849@SA0PR12MB4509.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: co/RsFi21Flc19EJKdpaiFJd+TnGqPAahpWcN6Zh0vYJMwp25sj3AEmdPJEupFoS+/7hVg9D8p1938cTqnXqCEsdnD++NmbYyRJpLO4CU3d7NSarVNPYaKKfZD89P5D1lo9S7BbhlDWrUz51l9G3omucsSY/yb9UbTb4BhhZsxsdo7THvPR9w3CVLNXJ4Kb8zeunarXDYl0HPD3pk3zwlG31Zfus1vxfCgVtkMsh5NE+uTVC/A9jZ4k95egxZhTF8wqCU39PZBcUpwGAHZFHaT/sQuFFppBZqeSw+/FmQXAmBSIt/QHJYd4GGuOqKgQWFU2R2tzbkC3K5wWjZnf/AdrUjxVRvQMw9ankv5L0dfGQzRSbVIN/zhYOyxVuUsV1gK7OO35zzjONkiBTk9Ftw8Kmv24FsCs818RIL7UWuA6HL+iMMxfVORIXMGSq41DGhDw/xhTV5tvskWnMNLqU/GXmAhsDprbfEwmXQcVT4yfY9i0dM3rFXRgYG0xI1PSyss3ffRqkMKO4RLbH/rZtU8HqysCSt7NMrybPsHjwLvghrqLvstaolBmzb6bi9CaetMKGVTZ6VvmUzsTMWmIejvfEYXShlLrvb81W7QB349KBj0FjQ9LUg7KHHC+mkxgPgH7t5uCiBVvFHSKZBWq5xWM6tCORHfKPLhZXxslTRrri6I1k9t/NpNVu1j69CFrpNTbjboLFHcjHzQ77lgndcw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4510.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(33656002)(55016002)(8936002)(2906002)(52536014)(66556008)(86362001)(110136005)(83380400001)(66946007)(64756008)(4326008)(122000001)(38070700005)(508600001)(316002)(76116006)(54906003)(66476007)(66446008)(53546011)(5660300002)(26005)(6506007)(186003)(7696005)(38100700002)(9686003)(8676002)(71200400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QTZIyISSuOTQPF/eCD0lLbcyW/DO/mFkFxb042FPi9vPBLbUIUGIDnYijix7?=
- =?us-ascii?Q?UNh+12w6oO4SAyvK6DRpRJ0qM0faT18/s70Q/MfRYyQLSUJmZgzRIvKVFGTA?=
- =?us-ascii?Q?Ou9hTOxSHPUy8ZlknGqPKoRa8BMlPoeCpUUvc4N5MtKQPhmetDJ5IeKcwiwm?=
- =?us-ascii?Q?u7PHzWAoNkHMS3i8nectPt1lNoZg4JC+U69SB0cvJqySGgYD2IBcr5fv8cx/?=
- =?us-ascii?Q?Seln5UQRGvhIxkA03kw69WE9f0Q0g965uBOyNbbVeq0q3K5c6r1hpl0nT4E2?=
- =?us-ascii?Q?7BPig1nNoJUyjHlI4jcu9DxUpu8RxDMj37hpoVUenUqkc9P747Jpe8ataGty?=
- =?us-ascii?Q?TEfppzcnKGqWOmbbzz95KWudso7nwIF6bojS3wpShXWD/W7n2iq0gGzyvAYR?=
- =?us-ascii?Q?HA1GUSXB7a78cFd+/9aVFei9fWSrU0I1Om7S30apmIsoYbuDrm/MaxRMJGpF?=
- =?us-ascii?Q?8dfGoBsXx6Gqs5Z/6u8Pg3Nau8YNcHnO68f+AJg43v9p8BR95Q5UwT1CZr8W?=
- =?us-ascii?Q?2jav/cGrf7rHXHuuuJ/3XDUCyNO9AMymMwyv0RAktxKuJL62UQc24cxteyQ2?=
- =?us-ascii?Q?djgMADcN0SsP20bCViKkOZg1SoGVGMXEQ8lpYTI3ROf2JjWb3jwwcs82L3yY?=
- =?us-ascii?Q?JPVz3TB7+YtO+6F+Ww2rjfTANWSq0fqqRCkaWTvzxo4rIBox9JSHcwBCTJ6U?=
- =?us-ascii?Q?JRh04VtZbURF5vnhJaWYzh0WWw7R6dV91xRuUg95+XQasKqW+GJGrKDNR/TN?=
- =?us-ascii?Q?iQD5VRduoH1quEurEEOLehmoYeh8EuUUyNntkQrHRBGc0frqOSumJgVIMaDd?=
- =?us-ascii?Q?cxj7aEIpE9dnro95kxmcv5QKcqWKCa7jcDkfb+BhyZ+vtdZY8e15xIYufIc4?=
- =?us-ascii?Q?zzT/54fDQ4s8cXwNW0Ylnow0Gou2DlS15Gw5l0NYWAWxV70Uk9lnhruvZNi2?=
- =?us-ascii?Q?RrytP7fsBm6SlQfvwv0klybu9dFb9Y4YCL/L+IYbgK2R7AR8wSZwj+30eXiU?=
- =?us-ascii?Q?3rC8V4j1jHl/LEpvhcl4VU87PCunTZX8CqZjbiM7alk3oEetOSk8efHTAgOC?=
- =?us-ascii?Q?w3f5HmXe6qdPqyZJWMJ4z3B/2lKCR63k0GR1cXBVzqoTJ4XKjwmI48i4r6/t?=
- =?us-ascii?Q?lQywPvYPFOVu6H0bXem/tVVPgFYhpU7z1OIjquHki87RYiRz7u0nTq2avhbH?=
- =?us-ascii?Q?x96fsgBTkwB0Z25r5iwbdR6GeRr57ofoJlM9E5N37evbrFhPnWNuMCbC0ew/?=
- =?us-ascii?Q?xYwH8FzyWm27uC3U3ZlLt3MJONikPewbgoY1u3Ywy9CqPVBUYHKixhW33dOh?=
- =?us-ascii?Q?EtITsKBJTa2AygjthKCWWGspFHAjLP8D3/YCYE5tjjWnbki2fXWjmswolps+?=
- =?us-ascii?Q?bBWQlaRqiv7DMgbwnUA//1LHmkFyXqcZEJXEMFJAO8DB+wpJGwmm6VFtoBoK?=
- =?us-ascii?Q?KpU/b+6GuUhb8PcN2166Dbp0wuuJgLK7dCW8w/x9aSiCEqvIxzCVAPNlaXOE?=
- =?us-ascii?Q?YdVAKYJzikeRSce/MEmlolMpQO5a2+EIYkvU/2Fq+LmGkTTbp293AGCBfasp?=
- =?us-ascii?Q?lkPWpPlqfV7NbZ/kIyeGJjJlowgVVQyTdPBQk8wPIIhNThm2uFXzuFTe8YfJ?=
- =?us-ascii?Q?UBGtcV/OnRA5aIM4ysJlj2o=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2021 18:05:50 +0000
+Received: from BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e4:cafe::92) by BN0PR02CA0014.outlook.office365.com
+ (2603:10b6:408:e4::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
+ Transport; Tue, 26 Oct 2021 18:05:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT031.mail.protection.outlook.com (10.13.177.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4628.16 via Frontend Transport; Tue, 26 Oct 2021 18:05:50 +0000
+Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 26 Oct
+ 2021 13:05:46 -0500
+From:   Mario Limonciello <mario.limonciello@amd.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>
+CC:     "open list:X86 PLATFORM DRIVERS" 
+        <platform-driver-x86@vger.kernel.org>, <markpearson@lenovo.com>,
+        <linux-acpi@vger.kernel.org>,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v3 0/3] Let other drivers react to platform profile changes
+Date:   Tue, 26 Oct 2021 13:05:32 -0500
+Message-ID: <20211026180535.9096-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7c8ad5db-5718-49bb-2ca2-08d998ab3e59
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5254:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB525456169758ED7B72C4EDDEE2849@BL1PR12MB5254.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VR1MTYrkOf9tNkbDTUm4SODw4w26NkmmrgERTXwUE4NboCcyGIcQdM1Id3/DNxP0Iy5OEdv/FDpL9K8P7pdncBtTOzJZ72Ehds3Dy/fgX7nPx3yheCsTwBPAcptA+AA05Dd7Uc+H8NK9NeBvzrR42Tyfy7hMblSP1Nsd26WRvCeo6NplLbrBUgbYEJjj/zYGM4RFLON0j7Uiw8luShuyfSeJFKy9mdjcFziPBgH8Gufiz2+gK7nenoqXG9DOiDfWcM8YLTbk56yY+TrSJUqmt2ifjBQXde63m+Jsqjq5TsBhRw5XCUl8pUJj13MzsI1jVf3LMaHzF8pXQ4zXTfMRsM++nLqMuN+CMpr2eJhkkbpcAV7cmt8OF4DsKBdtCjjgVZaJFbHEWpKUTu9AbOiNGkZVz593Sz88NCjznIzu7uYfIpiHXpJanH5PCH5xWejGBfO6cuCNctxkVtfd8yHcnAe71fN3DkIP0C+N5XgmGUfeadGQPvPG33RORziRQYQQiNTFmGhraBdYsgHLYfw29weS6J809AJPnoV7YdLRQI3tpwyG2ts+leXgCc92IUTaH6X04Vn8Kdzu78FPiwCKJUiD6wAOYB2HgJ5ruQRyF/qomEcJrehmdXTh0U6WnIFInR6Sa0YfchcSAMi4tTfoi4z937VLy6op6F7ZoIl3Dqqs71uOUASdyqhHbGqF/sO/6dfSiP03yBUdnP3gZRVvScDBt7ZggLTxYI+oy/nSW6Y=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(508600001)(36756003)(316002)(8676002)(26005)(336012)(426003)(82310400003)(110136005)(86362001)(7696005)(5660300002)(2616005)(36860700001)(6666004)(4326008)(54906003)(81166007)(70586007)(1076003)(356005)(44832011)(2906002)(16526019)(186003)(83380400001)(70206006)(8936002)(47076005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4510.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f98324e-c193-4115-b0db-08d998a44e06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2021 17:16:09.8834
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2021 18:05:50.2027
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eS1Z2d/SXU+612w2Y0PJK6ziRgfFyZz0aG1ZQL9Fuvw7XOyBg2C61INfaAEDUSU0RI11F7JZ0R2SO8CzPmnv6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4509
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c8ad5db-5718-49bb-2ca2-08d998ab3e59
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5254
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-[Public]
+Currently only one driver can register as a handler for a platform profile.
 
+This limitation means that if multiple drivers want to react to platform
+profile changes that they will need to directly interact with individual
+drivers.
 
+Instead introduce a notification flow that drivers can register for event
+changes.  The idea is that any driver that wants to can:
+1. read the current profile
+2. set up initial values
+3. register for changes
+4. react to changes
 
-> -----Original Message-----
-> From: Arnd Bergmann <arnd@kernel.org>
-> Sent: Tuesday, October 26, 2021 09:12
-> To: linux-rtc@vger.kernel.org; Alexandre Belloni
-> <alexandre.belloni@bootlin.com>; S-k, Shyam-sundar <Shyam-sundar.S-
-> k@amd.com>; Hans de Goede <hdegoede@redhat.com>; Mark Gross
-> <markgross@kernel.org>; Limonciello, Mario <Mario.Limonciello@amd.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>; Goswami, Sanket
-> <Sanket.Goswami@amd.com>; Sachi King <nakato@nakato.io>; platform-
-> driver-x86@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH] rtc: x86: amd-pmc: fix build failure with
-> CONFIG_RTC_SYSTOHC=3Dn
->=20
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The newly added logic to set the RTC during suspend from
-> platform specific code fails with a link error here:
->=20
-> drivers/platform/x86/amd-pmc.c:428:30: error: use of undeclared identifie=
-r
-> 'CONFIG_RTC_SYSTOHC_DEVICE'
->=20
-> Add an #ifdef so this is only done if the functionality
-> is enabled.
->=20
-> Fixes: 59348401ebed ("platform/x86: amd-pmc: Add special handling for tim=
-er
-> based S0i3 wakeup")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Note: currently this is accomplished by changing platform_profile_get to a
+symbol that all drivers can get during initialization.  Another idea for
+this may be to change:
 
-Hey Arnd,
+`int platform_profile_register_notifier(struct notifier_block *nb)`
 
-Thanks for the patch.  We had discussed this a bit already and there are 2 =
-other ideas
-out on the list already that also solve it.
+into:
 
-> ---
->  drivers/platform/x86/amd-pmc.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pm=
-c.c
-> index 678bf6874c63..8bd5de4d9d3a 100644
-> --- a/drivers/platform/x86/amd-pmc.c
-> +++ b/drivers/platform/x86/amd-pmc.c
-> @@ -414,6 +414,7 @@ static int amd_pmc_get_os_hint(struct amd_pmc_dev
-> *dev)
->  	return -EINVAL;
->  }
->=20
-> +#ifdef CONFIG_RTC_SYSTOHC
->  static int amd_pmc_verify_czn_rtc(struct amd_pmc_dev *pdev, u32 *arg)
->  {
->  	struct rtc_device *rtc_device;
-> @@ -461,6 +462,7 @@ static int amd_pmc_verify_czn_rtc(struct amd_pmc_dev
-> *pdev, u32 *arg)
->=20
->  	return rc;
->  }
-> +#endif
->=20
->  static int __maybe_unused amd_pmc_suspend(struct device *dev)
->  {
-> @@ -473,12 +475,14 @@ static int __maybe_unused amd_pmc_suspend(struct
-> device *dev)
->  	amd_pmc_send_cmd(pdev, 0, NULL, SMU_MSG_LOG_RESET, 0);
->  	amd_pmc_send_cmd(pdev, 0, NULL, SMU_MSG_LOG_START, 0);
->=20
-> +#ifdef CONFIG_RTC_SYSTOHC
->  	/* Activate CZN specific RTC functionality */
->  	if (pdev->cpu_id =3D=3D AMD_CPU_ID_CZN) {
->  		rc =3D amd_pmc_verify_czn_rtc(pdev, &arg);
->  		if (rc < 0)
->  			return rc;
->  	}
-> +#endif
->=20
->  	/* Dump the IdleMask before we send hint to SMU */
->  	amd_pmc_idlemask_read(pdev, dev, NULL);
-> --
-> 2.29.2
+`int platform_profile_register_notifier(struct notifier_block *nb,
+					enum *profile)`
+
+IOW return the current profile value as an out argument as part of
+registration. I don't have a strong opinion.
+
+Changes from v2->v3:
+ * Add patches to avoid collisions in hp-wmi and asus-wmi symbols
+
+Mario Limonciello (3):
+  platform/x86: hp-wmi: rename platform_profile_* function symbols
+  platform/x86: asus-wmi: rename platform_profile_* function symbols
+  ACPI: platform_profile: Add support for notification chains
+
+ drivers/acpi/platform_profile.c  | 48 ++++++++++++++++++++++++++++----
+ drivers/platform/x86/asus-wmi.c  | 12 ++++----
+ drivers/platform/x86/hp-wmi.c    | 12 ++++----
+ include/linux/platform_profile.h | 10 +++++++
+ 4 files changed, 64 insertions(+), 18 deletions(-)
+
+-- 
+2.25.1
+
