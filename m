@@ -2,109 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 818104405C6
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 Oct 2021 01:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA4E4407D3
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 30 Oct 2021 09:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbhJ2Xai (ORCPT
+        id S231691AbhJ3HUu (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 29 Oct 2021 19:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54732 "EHLO
+        Sat, 30 Oct 2021 03:20:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhJ2Xai (ORCPT
+        with ESMTP id S231685AbhJ3HUt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 29 Oct 2021 19:30:38 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55397C061570
-        for <platform-driver-x86@vger.kernel.org>; Fri, 29 Oct 2021 16:28:09 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id g10so43362783edj.1
-        for <platform-driver-x86@vger.kernel.org>; Fri, 29 Oct 2021 16:28:09 -0700 (PDT)
+        Sat, 30 Oct 2021 03:20:49 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB534C061570
+        for <platform-driver-x86@vger.kernel.org>; Sat, 30 Oct 2021 00:18:19 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id 207-20020a1c04d8000000b0033123de3425so2968848wme.0
+        for <platform-driver-x86@vger.kernel.org>; Sat, 30 Oct 2021 00:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LPS0v9qOy+VTcd5d1O1sy5KZkF6HOdBOrgNA8aGdNeM=;
-        b=N6vyQ3CdGIbW+lS8xk+UVbOlZw2NOnmeaap92uHm7UHwpCCPyNAFDgrnv332t+O1xu
-         N68hlDjQXOOdBDLBu0MKBzmhYfklDzJLC0H767C9qBf4EZmmMHkZUM/mssRRB1K5XfQ2
-         SjI8QpNKVXX8x4wMn3er6plYWL5Jrj02v/sQjhTx5fCIA/zhfu4LE7sH0hWBN7Qe9VO/
-         dMDJ0OeZ9T7hD4/fVR2SR56DTnoM/3yEdH+LOVrl9BhIptYhO746x3DUhvi+xoz2mpVB
-         YUuB8uqHu49CMp1YSCP8UCZipaI73eT4irMeJ2XWnhd6y+QZxcHjFGGkRNB3tPlVsrUi
-         xoPw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=qbmDD5oJEJw+S9Hqw9dOJ4/Zqlo/SSGN078onu5/3JA=;
+        b=a9jqbIZJp8PvPVaACqjBEtgjFvCJgcBgdsUKiFtpdQrvpu5XmgYoiRKoYAdy77Gdja
+         lT1gtiYhr6orSBEqzhoaUVKszkMluG/eLMICTJxiNqK90VopUGGjcDNZAJhLN/v3DpnX
+         y0UI+RD0Q9X16S1eNKpIrZpWOcVnJLvGeQbnEAozECgemiXJp8lFRYdf7ooPy8+xbwmh
+         dnyApzyO3zYFx2AZwZDV8lTZTrEt3H+VL3n+9Y/CRoMFgVAloYGr6XM1vwIDHr22z7Ph
+         zdot/O7a9SPK37PcRh7pT2WdqdSYN92mHSvzNhYR3mO/wapy8ZChPLCT1hk4YMGPa0RY
+         zH2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LPS0v9qOy+VTcd5d1O1sy5KZkF6HOdBOrgNA8aGdNeM=;
-        b=kjZYSU5U/yCPbYcVgWQaysQ6Y7L/RjoMUzAB3xewzclT5WhYCrD13ZQfl0YHlaJSr8
-         lrXD/vTU5nwlpdnUNruEtVdHoWiX+wsiYMQqVh+5cwdOvUFirePgbXVx6R2r0Hp3mnGo
-         GOEz/cqONlZKxupr/4/GY9Dw8BiErZg0q8oTN+z3rzkavikZoZz2ZEgO9JbiS9493dQv
-         uagiO844/UZvAznslCDI6Qs9ZKjl5gKsTppDfqLUHB3tzh+ZFKPTO71R2H/ADSVedfrb
-         ih1By+JU7Cmoqtv3NN8J+ziSEtkdaMI9COyIZHyyTdaKay5R4LdttIGpEwv3l9ouE0c/
-         1khQ==
-X-Gm-Message-State: AOAM531hZ1CYWpfYCLzbVfN4bPyw0+jtsKOoagoeXlvJ2Jb0pfp+M/DG
-        zWAX57cZiwNWcuGS6kDG6r1jXCPoqRvVWpvv4MM=
-X-Google-Smtp-Source: ABdhPJyCUzWbLulHjnweVof5tWWm49KdLzLkHAEhu4IpUIvwsxEQQw+bP4WrvX+j7oO0CXb97LT/PrI/FciGVR47/WQ=
-X-Received: by 2002:a17:906:a382:: with SMTP id k2mr16802984ejz.454.1635550087946;
- Fri, 29 Oct 2021 16:28:07 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=qbmDD5oJEJw+S9Hqw9dOJ4/Zqlo/SSGN078onu5/3JA=;
+        b=1n3AodxyGU334I6n8aSSiS3BvXHiXxpeGS1sXZNVNpTrhR9tFXUpWa2AcgBTrFz4OB
+         GzGc7oVKJBnWV79SE3bsLW2U0HLhh9DGdsgvA+pb5PXsT+MnAcXZBY5xvEuZfV67QRS4
+         F+VnCiABRv4GTZeFH0kvt5BRPS23CaUsg7kNhNG4xdSDf8z8JcdXlUlE11ySj5GMOUMS
+         ja96/KSyffS6IK/R7erEKBSQ9kEC+C0Ioaz94iI4YCyP/bGM+gZ5lymBm6FY7Cmq+eWR
+         XMeD+jDiMQoTIfYYcdU8YtbtzhK0mkduWGLyDYyiy40j/d1qLlvia4fCWEuiYc50SZWe
+         gzKw==
+X-Gm-Message-State: AOAM531xjJUk4dJSFqL6KiRrriYRD7qbY0xBPxKfHwLbcPjOYFyXKN16
+        28mVj2kT9A/LMeOq4YtR48eb+jMgWsAA3FDjFj8=
+X-Google-Smtp-Source: ABdhPJx1iuItdwS6XCexPuJF3J0lq8yVcna+AXmzun87Jb146pjPBcMaF4cQnncJKcHTF4ypVRKs2xPf7qvzHTpPOlQ=
+X-Received: by 2002:a05:600c:35c2:: with SMTP id r2mr17078487wmq.26.1635578298131;
+ Sat, 30 Oct 2021 00:18:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211029172304.2998-1-Sanket.Goswami@amd.com> <20211029172304.2998-3-Sanket.Goswami@amd.com>
-In-Reply-To: <20211029172304.2998-3-Sanket.Goswami@amd.com>
-From:   Scott Bruce <smbruce@gmail.com>
-Date:   Fri, 29 Oct 2021 16:27:56 -0700
-Message-ID: <CAPOoXdGt7vnbM9_gEiz84_M3wsYEADLs9hGdT0ch4kVKPauo8g@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] platform/x86: amd-pmc: Store the pci_dev instance
- inside struct amd_pmc_dev
-To:     Sanket Goswami <Sanket.Goswami@amd.com>
-Cc:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, hdegoede@redhat.com,
-        mgross@linux.intel.com, platform-driver-x86@vger.kernel.org
+Received: by 2002:a1c:9ac5:0:0:0:0:0 with HTTP; Sat, 30 Oct 2021 00:18:17
+ -0700 (PDT)
+Reply-To: bahadur.rayanby@gmail.com
+From:   Ryan Bahadur <jennetdikeson7@gmail.com>
+Date:   Sat, 30 Oct 2021 00:18:17 -0700
+Message-ID: <CAG2tgN4hiB5kXxwL7A7H87xCydtP4FwMncN+xSTbZPfHbFJpyg@mail.gmail.com>
+Subject: CAN I TRUST YOU
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Tested-by: Scott Bruce <smbruce@gmail.com>
+-- 
+Greetings,
 
-On Fri, Oct 29, 2021 at 10:25 AM Sanket Goswami <Sanket.Goswami@amd.com> wrote:
->
-> Store the root port information in amd_pmc_probe() so that the
-> information can be used across multiple routines.
->
-> Signed-off-by: Sanket Goswami <Sanket.Goswami@amd.com>
-> ---
-> Changes in v5:
-> - Remove pci_dev_put() from amd_pmc_remove() as its no longer required.
->
-> Changes in v4:
-> - No change.
->
-> Changes in v3:
-> - Add pci_dev_put() in amd_pmc_remove().
->
-> Changes in v2:
-> - Store the rdev info in amd_pmc_probe() as suggested by Hans.
->
->  drivers/platform/x86/amd-pmc.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pmc.c
-> index 9af02860ed59..ea099f7759f2 100644
-> --- a/drivers/platform/x86/amd-pmc.c
-> +++ b/drivers/platform/x86/amd-pmc.c
-> @@ -121,6 +121,7 @@ struct amd_pmc_dev {
->         u16 minor;
->         u16 rev;
->         struct device *dev;
-> +       struct pci_dev *rdev;
->         struct mutex lock; /* generic mutex lock */
->  #if IS_ENABLED(CONFIG_DEBUG_FS)
->         struct dentry *dbgfs_dir;
-> @@ -538,6 +539,7 @@ static int amd_pmc_probe(struct platform_device *pdev)
->         }
->
->         dev->cpu_id = rdev->device;
-> +       dev->rdev = rdev;
->         err = pci_write_config_dword(rdev, AMD_PMC_SMU_INDEX_ADDRESS, AMD_PMC_BASE_ADDR_LO);
->         if (err) {
->                 dev_err(dev->dev, "error writing to 0x%x\n", AMD_PMC_SMU_INDEX_ADDRESS);
-> --
-> 2.25.1
->
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
+
+I am Ryan Bahadur, I work with Cayman National Bank (Cayman Islands).
+
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
+
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
+
+He is from your country and shares the same last name with you.
+
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
+
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
+
+Please kindly get back to me for more details if I can TRUST YOU.{
+bahadur.rayanby@gmail.com }
+
+Regards
+Ryan Bahadur
+Treasury and Deposit Management,
+Cayman national bank, Cayman Islands
