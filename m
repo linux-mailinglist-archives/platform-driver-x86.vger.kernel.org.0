@@ -2,58 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6DD9441051
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Oct 2021 20:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A84441072
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 31 Oct 2021 20:28:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbhJaTHM (ORCPT
+        id S230152AbhJaTah (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 31 Oct 2021 15:07:12 -0400
-Received: from mailgate.kemenperin.go.id ([202.47.80.142]:59468 "EHLO
-        mailgate.kemenperin.go.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbhJaTHL (ORCPT
+        Sun, 31 Oct 2021 15:30:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39664 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230010AbhJaTah (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 31 Oct 2021 15:07:11 -0400
-X-Greylist: delayed 4261 seconds by postgrey-1.27 at vger.kernel.org; Sun, 31 Oct 2021 15:07:11 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 599308285FA;
-        Mon,  1 Nov 2021 00:38:09 +0700 (WIB)
-Received: from mailgate.kemenperin.go.id ([127.0.0.1])
-        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0MIJivCOICn8; Mon,  1 Nov 2021 00:38:08 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 87EED828675;
-        Mon,  1 Nov 2021 00:37:59 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mailgate.kemenperin.go.id 87EED828675
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kemenperin.go.id;
-        s=3298A942-BBC6-11E3-B333-483736368EC2; t=1635701879;
-        bh=08jsetDDe9wP5+SRho/1rUbm1yS2g9qklCCH930QjO4=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=MwGJvg9WIDE+RGRMfz2kWAnjba3VNjUzctVpkWMIfFjMlqANg3JuzP65R/vNgC3fB
-         5ps1JgEpOZ27Dr/MN4l6GaAHCjCT3wWOYyr7bUrstdMHg+u6qs8VJBt8Zwj3WEnSrb
-         oc5zqBIYInP0yoqqisIDBJiImqaYnDEN1aFnmv14=
-X-Virus-Scanned: amavisd-new at kemenperin.go.id
-Received: from mailgate.kemenperin.go.id ([127.0.0.1])
-        by localhost (mailgate.kemenperin.go.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id a4EQs0neBSJb; Mon,  1 Nov 2021 00:37:59 +0700 (WIB)
-Received: from mailgate.kemenperin.go.id (mailgate.kemenperin.go.id [10.1.0.89])
-        by mailgate.kemenperin.go.id (Postfix) with ESMTP id 823608285FA;
-        Mon,  1 Nov 2021 00:37:44 +0700 (WIB)
-Date:   Mon, 1 Nov 2021 00:37:44 +0700 (WIB)
-From:   Manuel Franco <silitonga@kemenperin.go.id>
-Reply-To: Manuel Franco <manuelfrancospende1@gmail.com>
-Message-ID: <580951408.326013.1635701864448.JavaMail.zimbra@kemenperin.go.id>
-Subject: 2,000,000.00 Euro
+        Sun, 31 Oct 2021 15:30:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 32D0260F0F
+        for <platform-driver-x86@vger.kernel.org>; Sun, 31 Oct 2021 19:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635708485;
+        bh=HW/imU8UWINDwaGunEkixoImSd5npinle7R4V1Ri1qI=;
+        h=From:To:Subject:Date:From;
+        b=g1zq5cDjOzg7MDAnM5g6srRMM+NeZCt0k8WhE9NgtRcxmhTd+R/ZPpqVSn7yewXjF
+         X8qIJIpAwoyOR1scbdv6Z/inp1dH+Qyodiq9exDUavfWETBAO8VxuI3w7CmgeP9XYx
+         1ZbMQ6YP4sYCQz25dpPG8uGS67DpggGvHfCaeWEMXI5aQzp9U2AlYcbZdqpurEbmi7
+         /6VNJZn7RxqFb3BRB0n6UAIPzxA2KAvH2c8AJP6CaMZXmofh0tcyh7zDWTE+H+ZinW
+         7RdtPeCQiqVYREmqFLG+H7nvfR5fj/ZBYIk84nPf91wmXBatt9a138SFZa1JK7IaLK
+         j4+iV8sXW5UeA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 1F39660F25; Sun, 31 Oct 2021 19:28:05 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 214899] New: ideapad-laptop: platform backlight device not
+ working
+Date:   Sun, 31 Oct 2021 19:28:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.penssel@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-214899-215701@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.1.0.89]
-Thread-Index: uCTBFanx72A1DRGyGPN/QL5imS+HGA==
-Thread-Topic: 2,000,000.00 Euro
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214899
 
--- 
-You have a donation of 2,000,000.00 Euro.Get back to me now so we can proceed.
+            Bug ID: 214899
+           Summary: ideapad-laptop: platform backlight device not working
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.10.27-5.14.15
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Platform_x86
+          Assignee: drivers_platform_x86@kernel-bugs.osdl.org
+          Reporter: johannes.penssel@gmail.com
+        Regression: No
+
+Created attachment 299379
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299379&action=3Dedit
+DSDT.dsl
+
+Hardware: Lenovo IdeaPad 5 15ITL05, latest BIOS version
+Issue: Platform backlight device provided by ideapad-laptop has no effect on
+actual brightness.
+Pressing brightness keys on my keyboard causes changes in
+/sys/class/backlight/ideapad/actual_brightness, but no uevent is generated =
+(as
+outlined in drivers/video/backlight.c source code comments), and
+/sys/class/backlight/ideapad/brightness is unaffected.=20
+When manipulating /sys/class/backlight/ideapad/brightness directly, uevents=
+ are
+being generated, but no change in real screen brightness occurs.=20
+The only way that screen brightness can actually be changed is by using i91=
+5's
+intel_backlight sysfs interface, which does not respond to brightness keybo=
+ard
+keys.
+
+attached is my decompiled DSDT and dmesg.
+
+ls -la /sys/class/backlight/ideapad/
+total 0
+drwxr-xr-x 3 root root     0 Oct 31 19:40 .
+drwxr-xr-x 3 root root     0 Oct 31 19:40 ..
+-r--r--r-- 1 root root  4096 Oct 31 19:40 actual_brightness
+-rw-r--r-- 1 root root  4096 Oct 31 19:40 bl_power
+-rw-rw-r-- 1 root video 4096 Oct 31 19:43 brightness
+lrwxrwxrwx 1 root root     0 Oct 31 19:40 device -> ../../../VPC2004:00
+-r--r--r-- 1 root root  4096 Oct 31 19:40 max_brightness
+drwxr-xr-x 2 root root     0 Oct 31 19:40 power
+-r--r--r-- 1 root root  4096 Oct 31 19:40 scale
+lrwxrwxrwx 1 root root     0 Oct 31 19:40 subsystem ->
+../../../../../../../class/backlight
+-r--r--r-- 1 root root  4096 Oct 31 19:40 type
+-rw-r--r-- 1 root root  4096 Oct 31 19:40 uevent
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
