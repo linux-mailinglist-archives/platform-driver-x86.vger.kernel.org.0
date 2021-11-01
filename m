@@ -2,83 +2,122 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38F534414DC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Nov 2021 09:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FED644191F
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  1 Nov 2021 10:54:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231664AbhKAIIk (ORCPT
+        id S234405AbhKAJzo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 1 Nov 2021 04:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbhKAIIf (ORCPT
+        Mon, 1 Nov 2021 05:55:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42736 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235039AbhKAJxl (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 1 Nov 2021 04:08:35 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A633BC06120C
-        for <platform-driver-x86@vger.kernel.org>; Mon,  1 Nov 2021 01:06:01 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id f3so26599411lfu.12
-        for <platform-driver-x86@vger.kernel.org>; Mon, 01 Nov 2021 01:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=J/sLAHxRh6EjJh2rcjPDJLzA40VXjb4DP54UXQAr8IU=;
-        b=jTwGY7UqyQ8YIhJUDjrqZPtk3LzrWCAUOAMDPLz5M7CqLBHqNsFTo9C861qV1B25Xf
-         r5L553Wxmro5Ww3I0Kz3a52AwkmZqFToii6+0ZOhpUkOfcb53PnNGE9m6Sqik3zmhZwo
-         n/R9HTp53zn5NI3DbL08muEwIh9gH7g9lDe2tstM5tUGQD80ibC8oJ7RZsh0jabUj80l
-         TjW7jDszyj0LgBKofuNs3yAxUhi8ze1MSxaF3AEB8qSt1N3bygNegk5wBFiWacOIsTYm
-         giGQNkRW+M+En5ZqEkyuSVwtFALtbKc66CUkcVFPmwMgTZmFkWlfrtrQ91sQ12FB43ir
-         IgcA==
+        Mon, 1 Nov 2021 05:53:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1635760267;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RVmTahPp05ug2rZV/FDS9rid3xaGB6x17QO5vyS0nII=;
+        b=EgUm7Ad4hKBF1eMvGcFR1fUgPrMpsMovQlaVlMVPs31dsOVbOe1iC5binw/mZKjgzEMczI
+        LCebxS+M3fzzrjMS1XQWGQkCKa41A6/sWCFq+5o0YiRg8OQGhv9+WdyXA+RYKk5E5hot7E
+        FfsNHZXq6LqJE5NVRFSJwJQkqng17h0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-2nmaCvBcN3u8pqd0WvfZBQ-1; Mon, 01 Nov 2021 05:51:06 -0400
+X-MC-Unique: 2nmaCvBcN3u8pqd0WvfZBQ-1
+Received: by mail-ed1-f70.google.com with SMTP id d11-20020a50cd4b000000b003da63711a8aso14976457edj.20
+        for <platform-driver-x86@vger.kernel.org>; Mon, 01 Nov 2021 02:51:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=J/sLAHxRh6EjJh2rcjPDJLzA40VXjb4DP54UXQAr8IU=;
-        b=Bi7qFtmphiZA0JOz/Y30Bll2BhLxqmnaf99m/jdDXm1ojcCnLcaIlgmiZCx0oRN3/J
-         k7/e4Z0Uos42UURkh7Vq1Ovla1t9V7k4G7XQmtZoEaunfNPkYfUSAMg9VykzfCbpRwGD
-         ubkBMQlkjOc+xwBWEMpv8vEQEb3Ke6H5aSCqzRKNvLHMg2zfYCB+pp8ekeSCtwpmIBRO
-         QvFRQgCPJL+z0hzALb7327WzbBOPKRCYHrw41mwwNhJzbx51Rq7cMcI6vDuStIDhEwTI
-         LSHA2EViHLT58vkbz21zzC21XY6GxQFu4cBvt47cMCGBQYij3zyjdqQcXjwUFvurSbxl
-         H32A==
-X-Gm-Message-State: AOAM531iujeTsDguh/w+8tp7XGw00NgZMMwrUNcDAyoacxzMPUkhNjXU
-        ZCe42zcdFeHOLf+VTOZtLwxMPW/iuj41lJ2D1BA=
-X-Google-Smtp-Source: ABdhPJxmqEVdpxtX6Hrcfxe4l+hmj7ibNqiYjCRoHEGQmkHQsxyv4j0y0ocCVsmwYp4ABnpO0ho1EyHAGzTI8DbI2zw=
-X-Received: by 2002:a05:6512:3696:: with SMTP id d22mr7627111lfs.659.1635753959932;
- Mon, 01 Nov 2021 01:05:59 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=RVmTahPp05ug2rZV/FDS9rid3xaGB6x17QO5vyS0nII=;
+        b=67jMwTJL++URxon0q5/FQzM2FfbbpKAglASR40JwfPh2Ha+Js6DpfPTzWXes/9rOEo
+         rrwrUgo7RXxRvPwcloPgLJjGMk5egSWz5/DtNxrYiHl/q7RDSMm2uj+OY9GhWRRHFVlL
+         E07weUL06Xde7evkWtvujIGq3LByBYc1qI/VJkCWrCSQx776P23aDA81jZsQyXICmr/K
+         jvuV8sk4ScVS/34eXjSmq2hY0QtdheZB+0NQSd0oZuE4n63FU8c7LuTNzq9u3HbkVN/i
+         oX1Ac3GoymadFOShDyDfrgVN7AGKTOwNey0kVrvrsrb3M0zd+i+VoleWgE5H6oJLdqRT
+         bOqw==
+X-Gm-Message-State: AOAM5307mBSqpwp04FSpkqX/JehedrCb4X/WoXoMHPlVl2o0phccutDb
+        90dVM0KsmeVBnLLVyGq53etAUuBXiA3oHjtgSaTQqaitCNiLLySseIX4qMUu5NePLUqeSzcCVnA
+        j6aAVlzC8L86hiF/dCAqrbpMxyi6yqexgKw==
+X-Received: by 2002:a17:906:a896:: with SMTP id ha22mr13873569ejb.439.1635760265538;
+        Mon, 01 Nov 2021 02:51:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztTnQHGkL0HOnaZ10lApuJ48JJ1vkr9CkU3eOMwbbUYq0fnGxqJGNwsqXZVbtGVoMfQR/wxw==
+X-Received: by 2002:a17:906:a896:: with SMTP id ha22mr13873542ejb.439.1635760265330;
+        Mon, 01 Nov 2021 02:51:05 -0700 (PDT)
+Received: from [10.40.1.223] ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id h7sm8500814edt.37.2021.11.01.02.51.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Nov 2021 02:51:04 -0700 (PDT)
+Message-ID: <26f900e5-39f5-62c6-6acf-1e058a21cd3c@redhat.com>
+Date:   Mon, 1 Nov 2021 10:51:04 +0100
 MIME-Version: 1.0
-Received: by 2002:a05:6512:304b:0:0:0:0 with HTTP; Mon, 1 Nov 2021 01:05:59
- -0700 (PDT)
-Reply-To: aisha.7d@yahoo.com
-From:   Aisha AG <rbx17058@gmail.com>
-Date:   Mon, 1 Nov 2021 00:05:59 -0800
-Message-ID: <CA+KbyychNgycp0rGBpdptJEdAFJQQCku4iDOhYe4CxitYXaueA@mail.gmail.com>
-Subject: Hello Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2] platform/x86: system76_acpi: Fix input device error
+ handling
+Content-Language: en-US
+To:     Tim Crawford <tcrawford@system76.com>,
+        platform-driver-x86@vger.kernel.org
+Cc:     productdev@system76.com
+References: <20211030154213.2515-1-tcrawford@system76.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211030154213.2515-1-tcrawford@system76.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
+Hi,
 
-Hello Dear,
+On 10/30/21 17:42, Tim Crawford wrote:
+> Users on darp6 that do not have Open EC firmware have reported crashes
+> on boot. Correct the error handling for the input device to fix it.
+> 
+> Managed devices do not need to be explicitly unregistered or freed, as
+> this is handled by devres. Drop the call to input_free_device.
+> 
+> Fixes: 0de30fc684b ("platform/x86: system76_acpi: Replace Fn+F2 function for OLED models")
+> 
+> Signed-off-by: Tim Crawford <tcrawford@system76.com>
 
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological
-Daughter of Former President of Libya Col.Muammar Al-Qaddafi.
-Am a Widow and a single Mother with three Children.
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-I have investment funds worth Twenty Seven Million Five Hundred
-Thousand United State Dollar $27.500.000.00, and i need a trusted
-investment Manager/Partner because of my current refugee status,
-however, I am interested in you for investment project assistance in
-your country,may be from there,we can build business relationship
-in the nearest future.
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
 
-I am willing to negotiate an investment/business profit sharing ratio
-with you based on the future investment earning profits.
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
-If you are willing to handle this project on my behalf kindly reply
-urgently to enable me to provide you more information about the
-investment funds.
-Best Regards
-Mrs Aisha Al-Qaddafi.
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/platform/x86/system76_acpi.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/system76_acpi.c
+> index b3c8178420b1..8b292ee95a14 100644
+> --- a/drivers/platform/x86/system76_acpi.c
+> +++ b/drivers/platform/x86/system76_acpi.c
+> @@ -739,7 +739,6 @@ static int system76_add(struct acpi_device *acpi_dev)
+>  error:
+>  	kfree(data->ntmp);
+>  	kfree(data->nfan);
+> -	input_free_device(data->input);
+>  	return err;
+>  }
+>  
+> 
+
