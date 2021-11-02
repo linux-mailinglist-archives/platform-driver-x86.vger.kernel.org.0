@@ -2,126 +2,61 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 802B4442F0D
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Nov 2021 14:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2DF442F78
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  2 Nov 2021 14:53:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbhKBN0b (ORCPT
+        id S231419AbhKBNzx (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 2 Nov 2021 09:26:31 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60606 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhKBN0a (ORCPT
+        Tue, 2 Nov 2021 09:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231383AbhKBNzw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 2 Nov 2021 09:26:30 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: sre)
-        with ESMTPSA id ABD4F1F44A21
-Received: by earth.universe (Postfix, from userid 1000)
-        id 1C9313C0F95; Tue,  2 Nov 2021 14:23:52 +0100 (CET)
-Date:   Tue, 2 Nov 2021 14:23:52 +0100
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "Andrew F . Davis" <afd@ti.com>
-Subject: Re: [PATCH v2] power: supply: bq27xxx: Fix kernel crash on IRQ
- handler register error
-Message-ID: <20211102132352.yqazgy2njnbthujb@earth.universe>
-References: <20211031152522.3911-1-hdegoede@redhat.com>
- <CAHp75Vc6GO4e0_Qp6HfFtd_kbSakaMXsQN4oEPArdmMrxTFb7A@mail.gmail.com>
+        Tue, 2 Nov 2021 09:55:52 -0400
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26CF2C061767
+        for <platform-driver-x86@vger.kernel.org>; Tue,  2 Nov 2021 06:53:18 -0700 (PDT)
+Received: by mail-il1-x12c.google.com with SMTP id j28so15556738ila.1
+        for <platform-driver-x86@vger.kernel.org>; Tue, 02 Nov 2021 06:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=u3ITv74gZ91L5P1hzY6ftyW9P/j19oermOuBHB1X4FQ=;
+        b=LoxSrXEahQLFTEesjFGLJW389WvjcaDjoLdC/+wcaCie+0W61L2q4bJ/wJEZQaAd1t
+         OwzJzMedk+T/tow3Zq4rfsVcra906q7gz7fQ9tgMmgL2dyghcTTPWmP+y/OcmBy2Kmwp
+         QVS0o+W4WEGbKkCwxUtNInD+ocxfa9kAqxLd/V8/cOrEBp+3sEBgcvBLISsyWCQNguOa
+         9qmSY0zcf9cID46ckWslZ39NeObVn7waYL2gbhluApHMpFqY7RCoi0OBdDfwH8DP33/r
+         wgOGl9qZriTorBZjF2/zzV6zPI57US6t3Qxepj+6YZVqPQjhk6Cgs6RtzLCC5z4jZ6fq
+         6OGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=u3ITv74gZ91L5P1hzY6ftyW9P/j19oermOuBHB1X4FQ=;
+        b=081X6WFN+yeb151Ijn51gKmLRgcTiO/3RBqMw4fxHxlJic/6swGbELecTVdrnrLXTD
+         qY6QgkPEvTI781s3VLHE2vXUKJNG6MoDQoHylic3vLwQh7pcnM6fw4BtuUK0/WHd9EAg
+         PWh3N1k95qTie4s2SbkfQAeSZYLohGvtmZ18ugHSX8YcbTph192y8Ny68o1j5tul7PMo
+         xRfWxU5pwfZZjPpFzR/DZknvL4E5yKndOZ6s92t+Wf5gBcwjfz3sHGz9V1wactpUluDZ
+         ZtW7MJC9b+3fxrPtS3K+BifFzGgp4HXDislhaMKsl79eBQM7twiGDhlKip1lIDtFpWj2
+         VPXA==
+X-Gm-Message-State: AOAM533/JyPnT9REzk07wrhC2v3tBmXr3CCXSsC0PzFThhWrFo60RD5o
+        YNuHrY18NmhXok4SazQoEN3HxqVxpDCtzoZuINc=
+X-Google-Smtp-Source: ABdhPJzxy3VEYAvJbC9d2Ig5BUxa7zkkfiaxV/fMR9t1gOh2eQX/GcTA/YEPZ2l9Pydc9ivRo4+znhWODKIze8AHGiE=
+X-Received: by 2002:a92:c54f:: with SMTP id a15mr25558939ilj.266.1635861196874;
+ Tue, 02 Nov 2021 06:53:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="exju7zrkmgu2clvz"
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vc6GO4e0_Qp6HfFtd_kbSakaMXsQN4oEPArdmMrxTFb7A@mail.gmail.com>
+Reply-To: abarz2001@gmail.com
+From:   Alex Grant <alex3.grant@gmail.com>
+Date:   Tue, 2 Nov 2021 15:52:59 +0200
+Message-ID: <CAPTrWCKeuU1uir84pbcUAJqsMFoGiTV6tvdwODXsKTEFoQywug@mail.gmail.com>
+Subject: .
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-
---exju7zrkmgu2clvz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sun, Oct 31, 2021 at 09:34:46PM +0200, Andy Shevchenko wrote:
-> On Sun, Oct 31, 2021 at 5:25 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > When registering the IRQ handler fails, do not just return the error co=
-de,
-> > this will free the devm_kzalloc()-ed data struct while leaving the queu=
-ed
-> > work queued and the registered power_supply registered with both of them
-> > now pointing to free-ed memory, resulting in various kernel crashes
-> > soon afterwards.
-> >
-> > Instead properly tear-down things on IRQ handler register errors.
->=20
-> FWIW,
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-Thanks, queued.
-
--- Sebastian
-
-> > Fixes: 703df6c09795 ("power: bq27xxx_battery: Reorganize I2C into a mod=
-ule")
-> > Cc: Andrew F. Davis <afd@ti.com>
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> > Changes in v2:
-> > - Fix devm_kzalloc()-ed type in the commit message
-> > ---
-> >  drivers/power/supply/bq27xxx_battery_i2c.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/power/supply/bq27xxx_battery_i2c.c b/drivers/power=
-/supply/bq27xxx_battery_i2c.c
-> > index 46f078350fd3..cf38cbfe13e9 100644
-> > --- a/drivers/power/supply/bq27xxx_battery_i2c.c
-> > +++ b/drivers/power/supply/bq27xxx_battery_i2c.c
-> > @@ -187,7 +187,8 @@ static int bq27xxx_battery_i2c_probe(struct i2c_cli=
-ent *client,
-> >                         dev_err(&client->dev,
-> >                                 "Unable to register IRQ %d error %d\n",
-> >                                 client->irq, ret);
-> > -                       return ret;
-> > +                       bq27xxx_battery_teardown(di);
-> > +                       goto err_failed;
-> >                 }
-> >         }
-> >
-> > --
-> > 2.31.1
-> >
->=20
->=20
-> --=20
-> With Best Regards,
-> Andy Shevchenko
-
---exju7zrkmgu2clvz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmGBO+EACgkQ2O7X88g7
-+ppmxhAAil5Wgix3gYlBueXhIOuA/ZHpHFxnUZZQHnDlN6n+z3AZMj8quc0MrguB
-kPyqTDIUl1mGIZCTWW3QrqJdMrP4+7NV432F15QKH5G1zMizcvE+K3IXoPvsWMq8
-tyo4ADWcDDNEFE9F8zc2TrE7AextggLMu/fXVwTuBIYVOl9g1QzJKx+p4dghqBGR
-McUpF5isE9APxjHIE36GvgS9nBeyrsylEZ3vS5Qo+Qz0LaMTYvEBzDrLnXD+3p/S
-YGejrstEX1uEt+ulPIDRUU8C+BYlRyVke1EIX//l+OOHbJJE9oPb64KoTIlZIiDf
-cCMqxWF+gKX0XOpVPRME7LuEdbUGDoVGKqaK1qo3vB2AI6g28M+aVFeSx4ot87FZ
-ONjK7TXVl3KCmPcBe1alRlIxNnb2Aj5fXipIoaU6kM9VEEBMjtZFSzKoxi6vCV0E
-e7VTHzOIQsVBu7IIeXoN3OmnZE0O4rYtUtfXLJHxDaS7LvfEyBZk4fRhsMCWSA6C
-MKTSDx6J/f3wWGRNi+z2vFOrAcyLHiAMh6MHVemSTyWZKghhC9DOBuCJo0Bp/Vlb
-3iplXb3YPbqQW9HgQzRyZpEpL4JdjxSdOdAW3j8mjpQYAUFoKTNy/Toq2/SecKhu
-tjeQksvHh24hpfWwTZ8n5lVyBoUEALaNGHTTtkN+vmtWPL05aSA=
-=/dC6
------END PGP SIGNATURE-----
-
---exju7zrkmgu2clvz--
+ Good day, i would like to invest some funds through you
+please respond to:  abarz2001@gmail.com  for details
+regards
+Abuzar Aksitoti
