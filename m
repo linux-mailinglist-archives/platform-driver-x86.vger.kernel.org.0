@@ -2,128 +2,73 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6B04473BA
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  7 Nov 2021 17:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64BC94473F3
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  7 Nov 2021 17:48:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235747AbhKGQXW (ORCPT
+        id S235845AbhKGQva (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 7 Nov 2021 11:23:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43652 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235754AbhKGQXW (ORCPT
+        Sun, 7 Nov 2021 11:51:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230092AbhKGQva (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 7 Nov 2021 11:23:22 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 2FA06617E3
-        for <platform-driver-x86@vger.kernel.org>; Sun,  7 Nov 2021 16:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636302039;
-        bh=GVfarMl0mwk1pmHf7YrGfKA8bdsi4bDE8GQVIAyw+sk=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Y4w9bTLoN1uv6aKUCURcn5XhfvBMwYaUlesz1VsQa4+p7YXEo05Y9rAOCiHu+gsGt
-         6AbuwwuoGkNCFyiuUWq+ZdX/6WKDZoambdz8PO3fjTRnK8AGuhcYEES7CJVk/uDE6R
-         4bcic60xFdW8TyFIUnNamn0CMtoOZ4cHs9jrkEPS7cMhr63FvYwwuyRVJNBgDZ6K9E
-         PKDkzOfJKPOBsjJ+hxpXnYjIuN0hLf1EsRgwSKQ158AJtnIGZx55lXPr5Jys68IOrD
-         EfpwBzlX/ofkjBRR9zSEl59kGFFLWI5Qb774+vp8VV23Ee0OXHg2yuGfeognYI2/Xa
-         zfPY673fy9irw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 2BE6460FD9; Sun,  7 Nov 2021 16:20:39 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
- acpi_enforce_resources=lax is enabled
-Date:   Sun, 07 Nov 2021 16:20:36 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: olli.asikainen@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204807-215701-VkqzsXRI9j@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
-References: <bug-204807-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Sun, 7 Nov 2021 11:51:30 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E30C061570
+        for <platform-driver-x86@vger.kernel.org>; Sun,  7 Nov 2021 08:48:47 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso6981533pjb.2
+        for <platform-driver-x86@vger.kernel.org>; Sun, 07 Nov 2021 08:48:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=TNg4tHoQw5kKoLZkiGTAZIxJzUBBq4ejYt4ncgOecgNOvSUwtqqwittPPI+7pJVjX+
+         GpTp2M0KfhRYRUpBRXEYVXnxqP/7lqMWjwkVgxSXQTHg4r801CGBH3Cxkr2xCA8iHpDQ
+         PkNioeCtNa8D4FxZOybE5F6kFZNCXIj5SS/5dluRY9kmgQGkqsgb/0EL9qYgh0jdJYEk
+         mgqrImAxVO9xLB3ph2REOdqPQUk3eSUgj070IZGlv2zYI0h97xHGiGSssFFZrlwEHWTd
+         7gJa3FlCIyQYHI4/knwR34TShiwqFLlPcy+ypePmUlRAZLKNrHzuj6T1hpUgZdGxUgLr
+         tNtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=3KhLtwCKP93j3EcWq+BGTsAWsp8Oi4eBuXX0Ov40ah8=;
+        b=quovdgXXC5ZRsWq/ikGJYP1NRXsG9APyGL/vuzLs3NXvEuevRSR+k677AYtFOnZfkH
+         Boe3xrni+1wJlKxqaKhSK/NCAHRV5v33gY1NocfkfQzjhc8VP6Aeta7w59FsIhecL5XR
+         KQwpTXi27oPi8T3RBN9Co8sKYsWO2J34LTbyN5x+u4Y1QuWT/yEMAnkIZqv0bhJcDVEu
+         yBubTW1mkY+TRLifubFgtn6Lsc01glwinakHmu4RmcT/rgnzLXea45Qvz2waT0MMvBXd
+         0wMlvKulhKoNXy77glCLFSaWgEWWckYrUS+c4xTOoEmLqVOJOKQ+eWn4SfFA19k54iEG
+         CCPw==
+X-Gm-Message-State: AOAM532QLcXb5EckZu5Eum5xLz7dl7dQXe6ugRUBorCtrH0eTQeMwEKj
+        2PLtKgcAMxJrZuQPJQSIJv5ZpXAaZjweNZJXt+s=
+X-Google-Smtp-Source: ABdhPJxAeCOxzzTO2bC1ebInPX7TK42gu5RWx2Xb9R/R8imfArbHNs+vmtD0xqJ/WYY5NVOuLREd2E+dZSLVoRt6leo=
+X-Received: by 2002:a17:902:a60b:b0:142:7621:be0b with SMTP id
+ u11-20020a170902a60b00b001427621be0bmr4070721plq.58.1636303726736; Sun, 07
+ Nov 2021 08:48:46 -0800 (PST)
 MIME-Version: 1.0
+Received: by 2002:a05:6a10:4a14:0:0:0:0 with HTTP; Sun, 7 Nov 2021 08:48:46
+ -0800 (PST)
+Reply-To: amabenchambers00@gmail.com
+From:   Amadou Benjamin <ousmanekarim54@gmail.com>
+Date:   Sun, 7 Nov 2021 08:48:46 -0800
+Message-ID: <CAJFAt4Zwu2DZNzEx2mhTp73fqWvHNwMrUMgOFZ==TBGW8S=HkA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
+-- 
+Hello good day.
 
---- Comment #161 from Olli Asikainen (olli.asikainen@gmail.com) ---
-(In reply to Denis Pauk from comment #159)
-> Created attachment 299483 [details]
-> Check MAXIMUS_VII_HERO by lock mutex directly
->=20
-> (In reply to Olli Asikainen from comment #151)
-> > Created attachment 299459 [details]
-> > acpidump -b -n DSDT
->=20
-> Could you check with updated patch? It has only nct6798d part and only for
-> check idea.
+I am Barrister Amadou Benjamin by name, with due respect, I am
+contacting you to help get the deposit 10.5 million Dollars, my late
+client Engineer Vasiliy left in his Bank before his sudden death on
+April 21, 2007, to avoid confiscation by Lloyds bank. Please write me
+back through this email (amabenchambers00@gmail.com)for more
+information about this transaction or send me your private email to
+Contact you myself.
 
-It works! (as far as I can tell)
-
-[    5.109607] nct6775: Using Asus WMI mutex.
-[    5.109633] nct6775: Enabling hardware monitor logical device mappings.
-[    5.109641] nct6775: Found NCT6791D or compatible chip at 0x2e:0x290
-
-nct6791-isa-0290
-Adapter: ISA adapter
-Vcore:                 928.00 mV (min =3D  +0.00 V, max =3D  +1.74 V)
-in1:                   1000.00 mV (min =3D  +0.00 V, max =3D  +0.00 V)  ALA=
-RM
-AVCC:                    3.31 V  (min =3D  +2.98 V, max =3D  +3.63 V)
-+3.3V:                   3.31 V  (min =3D  +2.98 V, max =3D  +3.63 V)
-in4:                   1000.00 mV (min =3D  +0.00 V, max =3D  +0.00 V)  ALA=
-RM
-in5:                     1.94 V  (min =3D  +0.00 V, max =3D  +0.00 V)  ALARM
-in6:                     0.00 V  (min =3D  +0.00 V, max =3D  +0.00 V)
-3VSB:                    3.42 V  (min =3D  +2.98 V, max =3D  +3.63 V)
-Vbat:                    3.30 V  (min =3D  +2.70 V, max =3D  +3.63 V)
-in9:                     1.01 V  (min =3D  +0.00 V, max =3D  +0.00 V)  ALARM
-in10:                    0.00 V  (min =3D  +0.00 V, max =3D  +0.00 V)
-in11:                  936.00 mV (min =3D  +0.00 V, max =3D  +0.00 V)  ALARM
-in12:                    0.00 V  (min =3D  +0.00 V, max =3D  +0.00 V)
-in13:                    8.00 mV (min =3D  +0.00 V, max =3D  +0.00 V)  ALARM
-in14:                    8.00 mV (min =3D  +0.00 V, max =3D  +0.00 V)  ALARM
-fan1:                     0 RPM  (min =3D    0 RPM)
-fan2:                     0 RPM  (min =3D    0 RPM)
-fan3:                     0 RPM  (min =3D    0 RPM)
-fan4:                     0 RPM  (min =3D    0 RPM)
-fan5:                     0 RPM  (min =3D    0 RPM)
-fan6:                     0 RPM  (min =3D    0 RPM)
-SYSTIN:                 +28.0=C2=B0C  (high =3D  +0.0=C2=B0C, hyst =3D  +0.=
-0=C2=B0C)  ALARM=20
-sensor =3D thermistor
-CPUTIN:                 +30.0=C2=B0C  (high =3D +80.0=C2=B0C, hyst =3D +75.=
-0=C2=B0C)  sensor =3D
-thermistor
-AUXTIN0:               -128.0=C2=B0C    sensor =3D thermistor
-AUXTIN1:               -128.0=C2=B0C    sensor =3D thermistor
-AUXTIN2:                +29.0=C2=B0C    sensor =3D thermistor
-AUXTIN3:               +127.0=C2=B0C    sensor =3D thermistor
-PECI Agent 0:           +30.0=C2=B0C
-PCH_CHIP_CPU_MAX_TEMP:   +0.0=C2=B0C
-PCH_CHIP_TEMP:           +0.0=C2=B0C
-PCH_CPU_TEMP:            +0.0=C2=B0C
-intrusion0:            ALARM
-intrusion1:            ALARM
-beep_enable:           disabled
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Sincerely,
+Barrister Amadou Benjamin Esq
