@@ -2,513 +2,212 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82CE5449BBC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Nov 2021 19:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C865449BC6
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  8 Nov 2021 19:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234647AbhKHSlC (ORCPT
+        id S235345AbhKHSna (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Nov 2021 13:41:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
+        Mon, 8 Nov 2021 13:43:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234160AbhKHSlC (ORCPT
+        with ESMTP id S235745AbhKHSnO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Nov 2021 13:41:02 -0500
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAF9C061746
-        for <platform-driver-x86@vger.kernel.org>; Mon,  8 Nov 2021 10:38:17 -0800 (PST)
-Received: by mail-ot1-x32d.google.com with SMTP id p11-20020a9d4e0b000000b0055a5741bff7so26993579otf.2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 08 Nov 2021 10:38:17 -0800 (PST)
+        Mon, 8 Nov 2021 13:43:14 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32971C061570
+        for <platform-driver-x86@vger.kernel.org>; Mon,  8 Nov 2021 10:40:29 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id 131so46102895ybc.7
+        for <platform-driver-x86@vger.kernel.org>; Mon, 08 Nov 2021 10:40:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oFOCVJg48PXsaOa9qs21Ytm4lOZ+AbMX1m2HjC4wNiI=;
-        b=XMcc1G/e+c46meL8oOXh7c4r6du5TNP2yiyB3y4k4rlt7OTuljOUZKZWIqFgl4Yalp
-         Ou1QW0CAtCvNkBSDuPKTk151Vjoczm1WVMrGBhppQkK2kqVNnMWXTGTUFgMYcSzUNwBq
-         KeJ9NQyzkXeSfSMtc+a+Nhr6ATgUtOR1A3Ep3cYwPaf3Bx1FwMrGt2wmQVAwtYqROArw
-         rX/82vclzqZVjH7kxdxBTomh0sYNW+AIsCSfx3QN1SlLMa8E8vAtF8IRsNjTagdRRM29
-         DCRVU3lk9KD+db3KX20dC2iypS/WEjDNLcBUjOXX7m4R3uvse7XkMYW1ooK1o2tknuOF
-         b9Rg==
+        d=eclypsium.com; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=53iMcNjjE0aZUmKJGrEzcDSavWlVVXF6QsjPkzF9vD8=;
+        b=J4g7ZkyqtN59N47kUpoT8b23ZJOeBM7IBqsCd/oH0tl6z8WTRnMWKT7XGFJi/08H9l
+         /yaBN+VS99J694dfhCl5PFHdlgpinNMUVmJYKy/c26Ns29lYI7JMzdoLgBeiu1F0beNd
+         kMPRrUR1Tx0FeRrJgst+9D/aq96neqq9Z3CZXFtggKlJ2eOKKMVnMB1IV4JYV1zOmqBg
+         w51s3ukpm0l9JD4SwlqdxxqT2MTHIDBx7jAFI569CUR60ei0OfPNm360cG1w6CLbhgSF
+         IjM0QhhRT98FHgza0WhOMV97som5bHB4ejeK1lQtcwMD6LNvrkt6Grf280BQFz3j/uRC
+         Jdiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oFOCVJg48PXsaOa9qs21Ytm4lOZ+AbMX1m2HjC4wNiI=;
-        b=xBC/Oy1Lf3S6DkkZjkUnSSOLnN93zNZlMso9/H3BILCxyi5J22mYxQHxUEe5SRgrzz
-         hLSHiXmJaajIhi4Pjhe2S6EPQboILjBjV3I531JyhRUwy7FNS6Lq9r3Y2A1rm/RzMKaR
-         JEhFwFgloq2u1++ggT/65i9m21lx+kPwFaGwJSKs2TwTod2+3xfsEJW6G8UkK8MzNJVL
-         54rz/ZTd3Ow4AXhTFZxwk95YhciriV8b29BZmuv97BcdLaeLP1vb3ptbHCYWUGy/Hfgc
-         nOCQeVzQ1IKrwNs9H1tsCCzutB3fqgRqZ8a4lvNhBRKe/qXDOec6KD74Njyt/7IPzZqb
-         KAig==
-X-Gm-Message-State: AOAM532BBcvEzl8QIqdq+zCzcs/nR0BC61BrJa/JDv9PjRLXKhhTs+N8
-        arh4BQ6L1ITpBZZIZ3ado9ScMMHgc+12AQ==
-X-Google-Smtp-Source: ABdhPJzVuLomTYC4UGUI/yvBR9Az/d+FvEi/dyXuvsfN5/brR7RHgDWVplKZGISh8abBFe03jsigPg==
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr910990otn.299.1636396696982;
-        Mon, 08 Nov 2021 10:38:16 -0800 (PST)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id i15sm6392308otu.67.2021.11.08.10.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 10:38:16 -0800 (PST)
-Date:   Mon, 8 Nov 2021 10:39:52 -0800
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Jarrett Schultz <jaschultzms@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
-        Jarrett Schultz <jaschultz@microsoft.com>
-Subject: Re: [PATCH v2 3/5] platform: surface: Add surface xbl
-Message-ID: <YYlu+HqTJ/ZY1C2+@ripper>
-References: <20211108164449.3036210-1-jaschultz@microsoft.com>
- <20211108164449.3036210-4-jaschultz@microsoft.com>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=53iMcNjjE0aZUmKJGrEzcDSavWlVVXF6QsjPkzF9vD8=;
+        b=r2HCngkhyj6weJad5o1MEHSIk7MGjDKMTK8V8B4GuS6B5YTswgHQuNEy9me1OY5+gC
+         HeyFk2VPh+4aNtoByn0eASWcZYRRXLNeiMYHSF8pIm/4QToSfgGRCnMgZlj27s+ZReHS
+         8wtf75AX2QiSPmyB4Q3AqJG2gu5YhEi146L/1myToJk1Ei54NC4jiWHEhCqChS9kOm6c
+         DywHayE8oWjfj8Jm5OhBY9ZnJPvQzqxThTBGd4ctU4/Y8NnTP4I0OixNNWpoO/tXj/h6
+         ZK0d9SvX7V/NDNauqrKnWlnopMQTkhC0bbON7TlRsVq+bAqOYQ/8jUNP5n7A1770zvRI
+         vc6A==
+X-Gm-Message-State: AOAM533JftWMBGmb4bVrob71juiNCsxUMN54ajT7Kl1WfaEgkOQ9LKRD
+        sPFG3CpYc44ppaAcxMk8Sr8HCy/6SSRvsCfqUMiU8g==
+X-Google-Smtp-Source: ABdhPJxQrIjcHk7OnO3j3PBJIUz2m3KlL/5FEkNB/SRrRp6Z3e0EX/IPz9mdcfZ1EBVUd7cxa8pFONjh+izH5Ei0mBA=
+X-Received: by 2002:a05:6902:110e:: with SMTP id o14mr1570209ybu.161.1636396828330;
+ Mon, 08 Nov 2021 10:40:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211108164449.3036210-4-jaschultz@microsoft.com>
+Received: by 2002:a81:1f09:0:0:0:0:0 with HTTP; Mon, 8 Nov 2021 10:40:27 -0800 (PST)
+In-Reply-To: <37cdad39-7616-df3d-3c8d-84d26a59b62a@intel.com>
+References: <20211105212724.2640-1-martin.fernandez@eclypsium.com>
+ <20211105212724.2640-4-martin.fernandez@eclypsium.com> <37cdad39-7616-df3d-3c8d-84d26a59b62a@intel.com>
+From:   Martin Fernandez <martin.fernandez@eclypsium.com>
+Date:   Mon, 8 Nov 2021 15:40:27 -0300
+Message-ID: <CAKgze5ZnLo7eXeRQ0kp-TABtegH-2n_W2LA69Nm5mhqT9s5+Dw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] Extend e820_table to hold information about memory encryption
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, ardb@kernel.org, dvhart@infradead.org,
+        andy@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org,
+        daniel.gutson@eclypsium.com, hughsient@gmail.com,
+        alison.schofield@intel.com, alex@eclypsium.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon 08 Nov 08:44 PST 2021, Jarrett Schultz wrote:
+On 11/5/21, Dave Hansen <dave.hansen@intel.com> wrote:
+> On 11/5/21 2:27 PM, Martin Fernandez wrote:
+>> +void __init e820__mark_regions_as_crypto_capable(u64 start, u64 size)
+>> +{
+>> +	int i;
+>> +	u64 end = start + size;
+>> +
+>> +	for (i = 0; i < e820_table->nr_entries; i++) {
+>> +		struct e820_entry *const entry = &e820_table->entries[i];
+>> +
+>> +		if (entry->addr >= start && entry->addr + entry->size <= end)
+>> +			entry->crypto_capable = true;
+>> +	}
+>> +}
+>
+> Looking at this in isolation, this is really tricky.  I have no idea
+> what this is _supposed_ to or expected to be doing.  It also makes me
+> wonder what happens when start/size don't line up exactly on an e820 entry.
 
-> Introduce support for the Extensible Boot Loader driver found on the
-> Surface Duo. Makes device information available to users via sysfs.
-> 
-> Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
-> 
-> ---
-> 
-> Changes in v2:
->  - Added types.h inclusion and removed unused inclusions
->  - Minor updates to code and acronym style
->  - Remove __packed attribute on driver struct
->  - Use .dev_groups for sysfs
->  - Added more in-depth description of driver in Kconfig
->  - Changed target KernelVersion in sysfs documentation
-> 
-> ---
-> 
->  .../ABI/testing/sysfs-platform-surface-xbl    |  78 +++++++
->  MAINTAINERS                                   |   2 +
->  drivers/platform/surface/Kconfig              |  12 +
->  drivers/platform/surface/Makefile             |   1 +
->  drivers/platform/surface/surface-xbl.c        | 215 ++++++++++++++++++
->  5 files changed, 308 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-platform-surface-xbl
->  create mode 100644 drivers/platform/surface/surface-xbl.c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-platform-surface-xbl b/Documentation/ABI/testing/sysfs-platform-surface-xbl
-> new file mode 100644
-> index 000000000000..2ae047b884d3
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-platform-surface-xbl
-> @@ -0,0 +1,78 @@
-> +What:		/sys/devices/platform/146bfa94.xbl/battery_present
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns whether the battery is present. Valid
-> +		values are:
-> +			0 - battery absent
-> +			1 - battery present
+Do you think it's better to just add new entries, just as they are in
+the EFI memmap and then let e820__update_table handle them?
 
-Would this information not be available from some battery driver, under
-/sys/class/power_supply?
+Although, as it is it's faster, the other way would be clearer in the
+code (since efi_mark_e820_regions_as_crypto_capable in part 4/5 isn't
+also the nicest of the functions and with this change it would be very
+straightforward), but it would require one e820__update_table. Also,
+it would more accurate, since if you call this with a start and size
+that doesn't cover at least one e820_entry then it will do nothing.
 
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/board_id
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns the board id.
+>>  static void __init e820_print_type(enum e820_type type)
+>>  {
+>>  	switch (type) {
+>> @@ -211,6 +225,8 @@ void __init e820__print_table(char *who)
+>>  			e820_table->entries[i].addr + e820_table->entries[i].size - 1);
+>>
+>>  		e820_print_type(e820_table->entries[i].type);
+>> +		pr_cont("%s",
+>> +			e820_table->entries[i].crypto_capable ? "; crypto-capable" : "");
+>
+> Am I missing something or should this just be:
+>
+> 	if (e820_table->entries[i].crypto_capable)
+> 		pr_cont("; crypto-capable");
+>
+> In general, I find code that retreats to the ternary form is almost
+> always doing something nasty.
 
-Is this a Microsoft-specific board id, or does it relate to the Qualcomm
-socinfo property with the same name?
+You're right, I'll fix that.
 
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/hw_init_retries
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns retries attempted to initialize the
-> +		discrete hardware circuit.
+>> @@ -327,6 +343,8 @@ int __init e820__update_table(struct e820_table
+>> *table)
+>>  	unsigned long long last_addr;
+>>  	u32 new_nr_entries, overlap_entries;
+>>  	u32 i, chg_idx, chg_nr;
+>> +	bool current_crypto;
+>> +	bool last_crypto = false;
+>>
+>>  	/* If there's only one memory region, don't bother: */
+>>  	if (table->nr_entries < 2)
+>> @@ -388,13 +406,17 @@ int __init e820__update_table(struct e820_table
+>> *table)
+>>  		 * 1=usable, 2,3,4,4+=unusable)
+>>  		 */
+>>  		current_type = 0;
+>> +		current_crypto = false;
+>>  		for (i = 0; i < overlap_entries; i++) {
+>> +			current_crypto = current_crypto || overlap_list[i]->crypto_capable;
+>
+> No comment, eh?
+>
+> This seems backwards to me.  If there are overlapping region and only
+> one is crypto-capable, shouldn't the whole thing become non-crypto-capable?
 
-Which description hardware circuit?
+The reason for that is that right now, if a region is mark as
+crypto_capable is because EFI memmap says so, and again, right now
+that's the only source to fill the crypto_capable value, so I have to
+"believe" it. Now that I think about it, yes I should have a least put
+a comment on it.
 
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/is_act_mode
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns whether ACT mode is enabled. Valid values
-> +		are:
-> +			0 - ACT disabled
-> +			1 - ACT enabled
-> +
-> +		ACT mode is used to run checks and put the device to shipmode
-> +		at factory.
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/is_customer_mode
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns whether the device is in manufacturing
-> +		mode. Valid values are:
-> +			0 - Not in manufacturing mode
-> +			1 - In manufacturing mode
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/ocp_error_location
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns 0 or which power rail has the OCP error.
+>>  		/* Continue building up new map based on this information: */
+>> -		if (current_type != last_type || e820_nomerge(current_type)) {
+>> +		if (current_type != last_type ||
+>> +		    current_crypto != last_crypto ||
+>> +		    e820_nomerge(current_type)) {
+>>  			if (last_type != 0)	 {
+>>  				new_entries[new_nr_entries].size = change_point[chg_idx]->addr -
+>> last_addr;
+>>  				/* Move forward only if the new size was non-zero: */
+>> @@ -406,6 +428,9 @@ int __init e820__update_table(struct e820_table
+>> *table)
+>>  			if (current_type != 0)	{
+>>  				new_entries[new_nr_entries].addr = change_point[chg_idx]->addr;
+>>  				new_entries[new_nr_entries].type = current_type;
+>> +				new_entries[new_nr_entries].crypto_capable = current_crypto;
+>> +
+>> +				last_crypto = current_crypto;
+>>  				last_addr = change_point[chg_idx]->addr;
+>>  			}
+>>  			last_type = current_type;
+>
+> The "current_crypto != last_crypto" checks seem to go with the
+> current_type/last_type checks.  I'm naively surprised that the
+> last_crypto assignment wasn't paired with the last_type assignment.
+>
+> I kinda get the impression this was just quickly hacked in here.  It
+> seems like "crypto" and "type" are very closely related in how they are
+> being handled.  It's a shame they're not being managed in a common way.
 
-Sounds like the reason is singular, so why is this a bitmask?
+Yes, "crypto" and "type" seems really close, but to be honest, this
+function has a very weird flow, or something that I couldn't
+completely understand. After a while thinking about it I came up with
+that.
 
-> +		Valid values are:
-> +			Bit(s)		Meaning
-> +			15		More than one OCP error occurred
-> +			14-12		PMIC
-> +			11-7		SMPS
-> +			6-2		LDO
-> +			1-0		BOB
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/pmic_reset_reason
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns the reason for the reset. Valid values
-> +		are:
+Again, this function is a pain, but I'll dedicate it some more time to
+see if I can come up with something better.
 
-Is this different from the PMIC reset reason that we read from the PMIC?
-Could we make sure to expose this generically for all Qualcomm PMICs?
+>> @@ -1321,7 +1346,10 @@ void __init e820__memblock_setup(void)
+>>  		if (entry->type != E820_TYPE_RAM && entry->type !=
+>> E820_TYPE_RESERVED_KERN)
+>>  			continue;
+>>
+>> -		memblock_add(entry->addr, entry->size);
+>> +		if (entry->crypto_capable)
+>> +			memblock_add_crypto_capable(entry->addr, entry->size);
+>> +		else
+>> +			memblock_add(entry->addr, entry->size);
+>
+> Having a different memblock_add_foo() doesn't seem to be the way this is
+> done.  See:
+>
+> 	memblock_mark_hotplug();
+> or
+> 	memblock_mark_mirror();
+>
+> Shouldn't this be: memblock_mark_crypto()
 
-> +			0 - no reason lol
-> +			9 - Battery driver triggered
-> +
-> +What:		/sys/devices/platform/146bfa94.xbl/touch_fw_version
-> +Date:		October 2021
-> +KernelVersion:	5.16
-> +Contact:	jaschultz@microsoft.com
-> +Description:
-> +		Read only. It returns the version of the firmware.
+I thought it would be good to add it and mark it all together, but I
+can add it and then mark it, no problem.
 
-Why isn't this exposed by the touchscreen driver instead?
+> By the way, how was this tested?
 
-
-Generally I wonder how you're consuming this information in userspace.
-Is it only for debugging purposes, i.e. would debugfs be a better place?
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8643546f8fab..d08b68d626f6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12428,7 +12428,9 @@ M:	Jarrett Schultz <jaschultz@microsoft.com>
->  L:	linux-arm-msm@vger.kernel.org
->  L:	platform-driver-x86@vger.kernel.org
->  S:	Supported
-> +F:	Documentation/ABI/testing/sysfs-platform-surface-xbl
->  F:	Documentation/devicetree/bindings/platform/microsoft/surface-xbl.yaml
-> +F:	drivers/platform/surface/surface-xbl.c
->  
->  MICROSOFT SURFACE GPE LID SUPPORT DRIVER
->  M:	Maximilian Luz <luzmaximilian@gmail.com>
-> diff --git a/drivers/platform/surface/Kconfig b/drivers/platform/surface/Kconfig
-> index 0d3970e1d144..3a1ced269d96 100644
-> --- a/drivers/platform/surface/Kconfig
-> +++ b/drivers/platform/surface/Kconfig
-> @@ -190,6 +190,18 @@ config SURFACE_PRO3_BUTTON
->  	help
->  	  This driver handles the power/home/volume buttons on the Microsoft Surface Pro 3/4 tablet.
->  
-> +config SURFACE_XBL
-> +        tristate "Surface XBL Driver"
-> +        depends on ARM64 || COMPILE_TEST
-> +        depends on OF
-> +        help
-> +          If you say 'Y' to this option, support will be included for the
-> +          Surface Extensible Boot Loader (XBL) Driver. This driver exposes
-> +          information about the device through sysfs.
-> +
-> +          This driver can also be built as a module.  If so, the module
-> +          will be called surface-xbl.
-> +
->  source "drivers/platform/surface/aggregator/Kconfig"
->  
->  endif # SURFACE_PLATFORMS
-> diff --git a/drivers/platform/surface/Makefile b/drivers/platform/surface/Makefile
-> index 32889482de55..0946266a8a73 100644
-> --- a/drivers/platform/surface/Makefile
-> +++ b/drivers/platform/surface/Makefile
-> @@ -16,3 +16,4 @@ obj-$(CONFIG_SURFACE_GPE)		+= surface_gpe.o
->  obj-$(CONFIG_SURFACE_HOTPLUG)		+= surface_hotplug.o
->  obj-$(CONFIG_SURFACE_PLATFORM_PROFILE)	+= surface_platform_profile.o
->  obj-$(CONFIG_SURFACE_PRO3_BUTTON)	+= surfacepro3_button.o
-> +obj-$(CONFIG_SURFACE_XBL)               += surface-xbl.o
-
-All other files in this directory are named with an underscore, would be
-nice to carry on with such convention.
-
-> diff --git a/drivers/platform/surface/surface-xbl.c b/drivers/platform/surface/surface-xbl.c
-> new file mode 100644
-> index 000000000000..9ecec4e55a4d
-> --- /dev/null
-> +++ b/drivers/platform/surface/surface-xbl.c
-> @@ -0,0 +1,215 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Surface eXtensible Boot Loader (XBL)
-> + *
-> + * Copyright (C) 2021 Microsoft Corporation
-> + * Author: Jarrett Schultz <jaschultz@microsoft.com>
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +
-> +#define SURFACE_XBL_MAX_VERSION_LEN	16
-> +#define SURFACE_XBL_BOARD_ID		0
-> +#define SURFACE_XBL_BATTERY_PRESENT	1
-> +#define SURFACE_XBL_HW_INIT_RETRIES	2
-> +#define SURFACE_XBL_IS_CUSTOMER_MODE	3
-> +#define SURFACE_XBL_IS_ACT_MODE		4
-> +#define SURFACE_XBL_PMIC_RESET_REASON	5
-> +#define SURFACE_XBL_TOUCH_FW_VERSION	6
-> +#define SURFACE_XBL_OCP_ERROR_LOCATION		\
-> +		(SURFACE_XBL_TOUCH_FW_VERSION +	\
-> +		SURFACE_XBL_MAX_VERSION_LEN)
-> +
-> +struct surface_xbl {
-> +	struct device	*dev;
-> +	void __iomem	*regs;
-> +
-> +	u8		board_id;
-> +	u8		battery_present;
-> +	u8		hw_init_retries;
-> +	u8		is_customer_mode;
-> +	u8		is_act_mode;
-> +	u8		pmic_reset_reason;
-> +	char		touch_fw_version[SURFACE_XBL_MAX_VERSION_LEN];
-> +	u16		ocp_error_location;
-> +};
-> +
-> +static ssize_t
-> +board_id_show(struct device *dev, struct device_attribute *attr, char *buf)
-
-I think it would be nice to avoid some duplication by putting all these
-integer ones in a single show(), see e.g. soc_info_show()
-
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->board_id);
-> +}
-> +static DEVICE_ATTR_RO(board_id);
-> +
-> +static ssize_t
-> +battery_present_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->battery_present);
-> +}
-> +static DEVICE_ATTR_RO(battery_present);
-> +
-> +static ssize_t
-> +hw_init_retries_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->hw_init_retries);
-> +}
-> +static DEVICE_ATTR_RO(hw_init_retries);
-> +
-> +static ssize_t
-> +is_customer_mode_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->is_customer_mode);
-> +}
-> +static DEVICE_ATTR_RO(is_customer_mode);
-> +
-> +static ssize_t
-> +is_act_mode_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->is_act_mode);
-> +}
-> +static DEVICE_ATTR_RO(is_act_mode);
-> +
-> +static ssize_t
-> +pmic_reset_reason_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->pmic_reset_reason);
-> +}
-> +static DEVICE_ATTR_RO(pmic_reset_reason);
-> +
-> +static ssize_t
-> +touch_fw_version_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "0x%s\n", sxbl->touch_fw_version);
-> +}
-> +static DEVICE_ATTR_RO(touch_fw_version);
-> +
-> +static ssize_t
-> +ocp_error_location_show(struct device *dev, struct device_attribute *attr, char *buf)
-> +{
-> +	struct surface_xbl	*sxbl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", sxbl->ocp_error_location);
-> +}
-> +static DEVICE_ATTR_RO(ocp_error_location);
-> +
-> +static struct attribute *xbl_attrs[] = {
-> +	&dev_attr_board_id.attr,
-> +	&dev_attr_battery_present.attr,
-> +	&dev_attr_hw_init_retries.attr,
-> +	&dev_attr_is_customer_mode.attr,
-> +	&dev_attr_is_act_mode.attr,
-> +	&dev_attr_pmic_reset_reason.attr,
-> +	&dev_attr_touch_fw_version.attr,
-> +	&dev_attr_ocp_error_location.attr,
-> +	NULL
-> +};
-> +
-> +static const struct attribute_group xbl_attr_group = {
-> +	.attrs = xbl_attrs,
-> +};
-> +
-> +const struct attribute_group *xbl_sysfs_groups[] = {
-> +	&xbl_attr_group,
-> +	NULL
-> +};
-> +
-> +static u8 surface_xbl_readb(void __iomem *base, u32 offset)
-> +{
-> +	return readb(base + offset);
-
-Instead of having these helpers I think you should just call readb(base
-+ offset) directly below.
-
-The shorter function name (readb vs surface_xbl_readb) means that you
-don't even need to line wrap those lines.
-
-> +}
-> +
-> +static u16 surface_xbl_readw(void __iomem *base, u32 offset)
-> +{
-> +	return readw(base + offset);
-> +}
-> +
-> +static int surface_xbl_probe(struct platform_device *pdev)
-> +{
-> +	struct surface_xbl	*sxbl;
-> +	struct device		*dev;
-> +	void __iomem		*regs;
-> +	int			index;
-> +
-> +	dev = &pdev->dev;
-> +	sxbl = devm_kzalloc(dev, sizeof(*sxbl), GFP_KERNEL);
-
-This is the only use of &pdev->dev, so put that here and drop "dev" from
-sxbl (and the stack).
-
-> +	if (!sxbl)
-> +		return -ENOMEM;
-> +
-> +	sxbl->dev = dev;
-> +
-> +	regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(regs))
-> +		return PTR_ERR(regs);
-> +
-> +	sxbl->regs = regs;
-
-Seems only reason you stash "regs" in sxbl is so that you can pass
-sxbl->regs in below function calls. I.e. it's a local variable and you
-can omit it from struct surface_xbl...
-
-> +
-> +	platform_set_drvdata(pdev, sxbl);
-> +
-> +	sxbl->board_id = surface_xbl_readb(sxbl->regs,
-> +					   SURFACE_XBL_BOARD_ID);
-> +	sxbl->battery_present = surface_xbl_readb(sxbl->regs,
-> +						  SURFACE_XBL_BATTERY_PRESENT);
-> +	sxbl->hw_init_retries = surface_xbl_readb(sxbl->regs,
-> +						  SURFACE_XBL_HW_INIT_RETRIES);
-> +	sxbl->is_customer_mode = surface_xbl_readb(sxbl->regs,
-> +						   SURFACE_XBL_IS_CUSTOMER_MODE);
-> +	sxbl->is_act_mode = surface_xbl_readb(sxbl->regs,
-> +					      SURFACE_XBL_IS_ACT_MODE);
-> +	sxbl->pmic_reset_reason = surface_xbl_readb(sxbl->regs,
-> +						    SURFACE_XBL_PMIC_RESET_REASON);
-> +
-> +	for (index = 0; index < SURFACE_XBL_MAX_VERSION_LEN; index++)
-
-"i" is a good succinct variable name for an index.
-
-> +		sxbl->touch_fw_version[index] = surface_xbl_readb(sxbl->regs,
-> +							SURFACE_XBL_TOUCH_FW_VERSION + index);
-> +
-> +	sxbl->ocp_error_location = surface_xbl_readw(sxbl->regs,
-> +						     SURFACE_XBL_OCP_ERROR_LOCATION);
-> +
-> +	return 0;
-> +}
-> +
-> +static int surface_xbl_remove(struct platform_device *pdev)
-
-Your remove function is empty, simply omit it...
-
-Regards,
-Bjorn
-
-> +{
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id surface_xbl_of_match[] = {
-> +	{
-> +		.compatible = "microsoft,sm8150-surface-duo-xbl"
-> +	},
-> +	{  }
-> +};
-> +MODULE_DEVICE_TABLE(of, surface_xbl_of_match);
-> +
-> +static struct platform_driver surface_xbl_driver = {
-> +	.driver	= {
-> +		.name		= "surface-xbl",
-> +		.of_match_table = surface_xbl_of_match,
-> +		.dev_groups	= xbl_sysfs_groups
-> +	},
-> +	.probe		= surface_xbl_probe,
-> +	.remove		= surface_xbl_remove
-> +};
-> +module_platform_driver(surface_xbl_driver);
-> +
-> +MODULE_AUTHOR("Jarrett Schultz <jaschultz@microsoft.com>");
-> +MODULE_DESCRIPTION("Surface Extensible Bootloader");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.25.1
-> 
+This was tested on my laptop that doesn't have the EFI attribute, so I
+faked it, bypassing the check for this attribute in
+efi_mark_e820_regions_as_crypto_capable (patch 4/5).
