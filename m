@@ -2,41 +2,41 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA14744A2F7
-	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Nov 2021 02:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A14D744A2F9
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  9 Nov 2021 02:23:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241498AbhKIBZe (ORCPT
+        id S240772AbhKIBZf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 8 Nov 2021 20:25:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44362 "EHLO mail.kernel.org"
+        Mon, 8 Nov 2021 20:25:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50112 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242289AbhKIBRK (ORCPT
+        id S243304AbhKIBVN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 8 Nov 2021 20:17:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B653761AEB;
-        Tue,  9 Nov 2021 01:06:54 +0000 (UTC)
+        Mon, 8 Nov 2021 20:21:13 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5B5B61B20;
+        Tue,  9 Nov 2021 01:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636420015;
-        bh=/xHtoZ7MQQLQoyuWuljeDGAuf8KEEVV43WgNkGu2r88=;
+        s=k20201202; t=1636420093;
+        bh=U2vWZSCXWfeYo7OvMkU8L1M/+CKcvFhA9UzCXwRKQiI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D9xKPaRVkO9SwNVIpbM2G0+NAHQfWDh8e03ojftaT45KS6Y39t413lbuWFEYw30Gr
-         L+PbLSpmvD0+ZdorFcfHJcSz5pa8UWr53h3DR8KH7DRJqD3SlGNhhhMAj+wBRyZYep
-         lRhrL08pEYcUT0ffoW90/URdGzOwbWLmGF/Xou7BlrRHYsIwybbFQWT1QA1IgOk0n8
-         VnJcCWdok/jupuw3rOU2RSnYbOEKibtmzXDW6jnYDlzre6llVVGNLbi0zVXV4aTUKN
-         mDkG0M1I7ejYaGR+r/bZMhbIGVJDSsqjng+NgnshV7L9vg0A8xEzCqHc5RtQnK3DOs
-         q2e8j4G0eAnvA==
+        b=lflqatGiSgUWiFHMK0YBN3ouJrV6964NO4+XI4ZJ2hdU4M20vFC0vMQcTdUnrq5yc
+         D5tj8DIqjmFdF3Nr/KgMYW5JnqYsHL7CQvkELK1Z3s4Uv+asrUZF1sJvrTfBLued4g
+         voLgnoTszABVf9tdaiPTHDtY49+76fqtzXBqzk7otaAbwqKRCBg2SN6VrCxw9zz6jF
+         LvDOVDQpCkDoG0mIEsRkqwPRI0goowwd728bsIUBvhSj7jeFQh0mhzLy/lcbke3imL
+         EplYPlaFpDMNIOmJ2jgvgKQzfFgjFt3XiLP70+lfWPo3pCdxBd2mHSThoMFmslTvSN
+         ZwExMk2MrBNVA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/39] platform/x86: wmi: do not fail if disabling fails
-Date:   Mon,  8 Nov 2021 20:06:13 -0500
-Message-Id: <20211109010649.1191041-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 03/33] platform/x86: wmi: do not fail if disabling fails
+Date:   Mon,  8 Nov 2021 20:07:37 -0500
+Message-Id: <20211109010807.1191567-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211109010649.1191041-1-sashal@kernel.org>
-References: <20211109010649.1191041-1-sashal@kernel.org>
+In-Reply-To: <20211109010807.1191567-1-sashal@kernel.org>
+References: <20211109010807.1191567-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index a56e997816b23..07c1e0829b19a 100644
+index 00d82e8443bdd..da06284c455dc 100644
 --- a/drivers/platform/x86/wmi.c
 +++ b/drivers/platform/x86/wmi.c
-@@ -307,7 +307,14 @@ static acpi_status __query_block(struct wmi_block *wblock, u8 instance,
+@@ -289,7 +289,14 @@ struct acpi_buffer *out)
  	 * the WQxx method failed - we should disable collection anyway.
  	 */
  	if ((block->flags & ACPI_WMI_EXPENSIVE) && ACPI_SUCCESS(wc_status)) {
