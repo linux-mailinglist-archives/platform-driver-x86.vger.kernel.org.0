@@ -2,70 +2,191 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568F344BFDD
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Nov 2021 12:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D91344C1EF
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 10 Nov 2021 14:13:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbhKJLLo (ORCPT
+        id S231958AbhKJNQE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 10 Nov 2021 06:11:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52382 "EHLO
+        Wed, 10 Nov 2021 08:16:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231158AbhKJLLn (ORCPT
+        with ESMTP id S231868AbhKJNQE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 10 Nov 2021 06:11:43 -0500
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 443F8C061764
-        for <platform-driver-x86@vger.kernel.org>; Wed, 10 Nov 2021 03:08:56 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id z2-20020a9d71c2000000b0055c6a7d08b8so3338508otj.5
-        for <platform-driver-x86@vger.kernel.org>; Wed, 10 Nov 2021 03:08:56 -0800 (PST)
+        Wed, 10 Nov 2021 08:16:04 -0500
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE727C061764
+        for <platform-driver-x86@vger.kernel.org>; Wed, 10 Nov 2021 05:13:16 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id v3so4539843uam.10
+        for <platform-driver-x86@vger.kernel.org>; Wed, 10 Nov 2021 05:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=QAGwmYMIasX1UVCqGuIfmxR4l8/J1AuoyUSoeBdEgXo=;
-        b=X8swE2bZZ0pxUmVGd4U5upyU0mrDX3LF62mO/16XsNVXUL7ohFgB2c8uYcwMy/nu8z
-         kyhC3dWULZPMerEN8F9kvSa+DgeMy0BTS7AXvSkjvP+6FauEmoKW4n5YI4LRvvJVXX7X
-         5CTS1R2R0r40tHEM6JToaNrYSjwFTcCvBR4C9SaXqQzkBBsdjcgu6qLBYJH0LA5FyZfC
-         uJy/XiIcEEnMoWqhrLVSaXsk8KLmUHjxFv9Jpqgc2aSqGCanLYBj2TZP4OWeBNpMvF0g
-         HGDFeFTnRZH7UhYyYvJnUXZfR4Kv9r7FBgXYN9QSO0ws2RVLlk9OlP5ZvflMy/VkoZ+B
-         AznQ==
+        d=eclypsium.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Rvvr2RtA4N64UFGQXK0jopqcOfmPc4aLE1qDp/yCm4Q=;
+        b=RzyFtbmtLFy/pM9mFZc38CpU11SdAryotxtOK/AWdRBqNoNgID8lPX+XDy/riYG+6H
+         7QQqz5Ub14mcgi8x3GumK5Ujau+Y9vJaYsKE5yoHDlHXQBIZzntPL+Pdxeel8s7Z0mgp
+         FMRuHfFB7oxmlyI33E9nIx9Nhl1zhzn8uBg9+58fyl41NF2xHyTMEPEmO4y2Tdx5nqhy
+         KDRMr6/RzxpZRRceCtLg75avMkk/rywvtE8ZdwAPeZzcZr6s4dBnfdd7kKLlXitupBDO
+         UfSw/PyodEFP6SV+8+3O5wdOQXcrBSSN0Jm32/Lfix8Kp71fw7lE/dfYFrqcPo/uMI2R
+         84YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=QAGwmYMIasX1UVCqGuIfmxR4l8/J1AuoyUSoeBdEgXo=;
-        b=QVM2qlAzvjvXPo+LL2UA99StEUMyRCXLqGTbZUFJye/zWAr+q+/toxDNMe3OTFKonV
-         M4MqDPKIUd2/miXurNLubt+mw6wDXUA15JNwYYypqdTKx3XoaFnPrI5DNuVbWlsiURbg
-         j6ESWrnWYUAFnwtnC1iZWbB7Kub8wzInaQM3mSCI7JaBhv05RLEI8Sa/BVs4SSPOUXOX
-         Rva9Pnt1myhnd5mvMWtY8xnBvPDGnAFoTckRAss0mmi80ecR/qol0u5ttEOESjbgLmfg
-         9uV7FqBD8Nkm+HQKpRpbyh0aQ/RQK4Fxm8tXbWIyJgTWR5xmBGOr+urvhmmDm9IhVdaa
-         if5w==
-X-Gm-Message-State: AOAM532d/lRmS8OEAvrSHk91pCz5RsM07A91U5BF/aYBmQdELz6XwknB
-        e/KvnToGxcgyMViD4wLhFEJuush+8rVmtq+Rbzw=
-X-Google-Smtp-Source: ABdhPJxT0Vj6twFss5Xk1j/O38+J95ce04EXlEjwDC6LQDeeYsPEgK7q574fd9uuzvTJHWRNsvxmZ1dQ4YI7KFG0AMU=
-X-Received: by 2002:a9d:6358:: with SMTP id y24mr11926056otk.85.1636542535640;
- Wed, 10 Nov 2021 03:08:55 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Rvvr2RtA4N64UFGQXK0jopqcOfmPc4aLE1qDp/yCm4Q=;
+        b=ENvv7e3L+OO71+tXOZzJgYSCl7OnA7r/G7GVRS/vpNS+3IXlix3/6+g/19Vorv2cVb
+         XtaR/iPSwtWOHTe710YGIS/xE/mlwunTxvS86RlGl6Y1zUKjUVDTDv1Bef+UHM7oEyA7
+         9teqMYWoJ8g1fZ3hpcrLaiXGSWb5xjDZIkpm4NVKjKBy9YW7Yex7ypF0QqDB4o1il98a
+         GACXwPB95ktJs4jCM4Qj+SPpf27J7PxXeavQ0V7Ie1HBJv9bOKcc4cr2pIzqYsICqfj8
+         IYCg7FO0nxjLwgjL3kWFf3xvR1KsbIX46iUsan1Lw34GhenlxZBQzD7ON38zczktGP5d
+         0VXg==
+X-Gm-Message-State: AOAM530G9nzJX7q7Ytpz/3Nq8M7QymAOX63cwq2XG7Kw5vfo3+X4vr+B
+        4ssBstdM5NzkpYuIHwhn8JYzoFV/YnHuDp4arIAxKAJxsyqtKw==
+X-Google-Smtp-Source: ABdhPJwH8wajx7BTO0aUFOl6fZQyQHZ6WnBQygNHEtDOZGsedxX+DRVxW7t7+Vhm7IcTswn+n2TA2WDNGb5a2uMHp60=
+X-Received: by 2002:a67:f805:: with SMTP id l5mr44536272vso.17.1636549995973;
+ Wed, 10 Nov 2021 05:13:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a4a:8f51:0:0:0:0:0 with HTTP; Wed, 10 Nov 2021 03:08:55
- -0800 (PST)
-Reply-To: billchantal01@gmail.com
-From:   bill chantal <billchantal0@gmail.com>
-Date:   Wed, 10 Nov 2021 12:08:55 +0100
-Message-ID: <CAKrjFFQ2MDB5qURS=HybQSQKwjeSWNp87z=zNkVU_+bcZD1rzw@mail.gmail.com>
-Subject: You have been compensated
-To:     undisclosed-recipients:;
+References: <20211109000130.42361-1-hans-gert.dahmen@immu.ne>
+ <YYoSPjF3M05dR0PX@kroah.com> <42cea157-55a2-bd12-335b-6348f0ff6525@immu.ne>
+ <YYpNOMtp7Kwf0fho@kroah.com> <CAHifhD4f676jiQ52siiKQTjUFXFm6Sto8pQjF07w5y+gqrUvFQ@mail.gmail.com>
+ <YYpsq/umygfTb8mM@kroah.com> <CAHifhD6K5hbpHS-X+2L=pfUe+7OpyTbB7uyh8WGbdaeBMwoYPg@mail.gmail.com>
+ <CAHp75VfbYsyC=7Ncnex1f_jiwrZhExDF7iy4oSGZgS1cHmsN0Q@mail.gmail.com>
+ <CAHifhD5V9vwJenRLcPRH5ZMeLa_JnjZKfdcFZw1CjceBtC6=Ew@mail.gmail.com>
+ <CAHp75VeyQEaABFOnEUh2pdFx9ROJvRcud-BuEbKWmaEWpL9_Uw@mail.gmail.com>
+ <CAHifhD7Qf7+dc7K-MjNguqmiCWUxOJZmQoCTRUZOR-RWMm_JPw@mail.gmail.com>
+ <CAHp75Ve9BMNy3gP=-Dajm+Lgu+E4FCqc4phLgV1_cr2qUnTX_w@mail.gmail.com> <CAHifhD4n7O5eWFPOjRAmHYL52tW0K=uXXzVj7L5+enTFwFXW2A@mail.gmail.com>
+In-Reply-To: <CAHifhD4n7O5eWFPOjRAmHYL52tW0K=uXXzVj7L5+enTFwFXW2A@mail.gmail.com>
+From:   Mauro Lima <mauro.lima@eclypsium.com>
+Date:   Wed, 10 Nov 2021 10:13:04 -0300
+Message-ID: <CAArk9MP5cKJ+VhAZUseW4LnQNRvux=MZe2eSy3rQkbHKnUsGig@mail.gmail.com>
+Subject: Re: [PATCH] firmware: export x86_64 platform flash bios region via sysfs
+To:     Hans-Gert Dahmen <hans-gert.dahmen@immu.ne>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Philipp Deppenwiese <philipp.deppenwiese@immu.ne>,
+        Richard Hughes <hughsient@gmail.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-You have been compensated with the sum of $ 5.8  million dollars in
-the United Nations, the payment will be issued on the ATM visa card
-and will be sent from the Santander bank.
+On Wed, Nov 10, 2021 at 7:00 AM Hans-Gert Dahmen
+<hans-gert.dahmen@immu.ne> wrote:
+>
+> Am Mi., 10. Nov. 2021 um 10:25 Uhr schrieb Andy Shevchenko
+> <andy.shevchenko@gmail.com>:
+> >
+> > On Wed, Nov 10, 2021 at 11:17 AM Hans-Gert Dahmen
+> > <hans-gert.dahmen@immu.ne> wrote:
+> > > Am Mi., 10. Nov. 2021 um 10:05 Uhr schrieb Andy Shevchenko
+> > > <andy.shevchenko@gmail.com>:
+> > > > On Wed, Nov 10, 2021 at 10:37 AM Hans-Gert Dahmen
+> > > > <hans-gert.dahmen@immu.ne> wrote:
+> > > > > Am Mi., 10. Nov. 2021 um 07:35 Uhr schrieb Andy Shevchenko
+> > > > > <andy.shevchenko@gmail.com>:
+> > > > > > On Tuesday, November 9, 2021, Hans-Gert Dahmen <hans-gert.dahme=
+n@immu.ne> wrote:
+> > > > > >> Am Di., 9. Nov. 2021 um 13:42 Uhr schrieb Greg KH <gregkh@linu=
+xfoundation.org>:
+> > > >
+> > > > > >> > Do you have a pointer to these complex and buggy drivers any=
+where?
+> > > > > >>
+> > > > > >> I am talking about the linux-mtd intel-spi driver for example,=
+ but I
+> > > > > >> feel that this gets the discussion in the wrong direction.
+> > > > > >
+> > > > > > This is the driver that covers all BIOSes on modern x86\64. Wha=
+t=E2=80=99s wrong with it? Why do you need this?!
+> > > > > >
+> > > > > > If it=E2=80=99s buggy, where is the bug reports from you or som=
+ebody else?
+> > > > >
+> > > > > Please see Mauro's mail in this thread from yesterday below:
+> > > >
+> > > > I didn't get this. What's wrong with the response from the author o=
+f
+> > > > intel-spi (since we are speaking about it, let me add him to the
+> > > > thread)?
+> > > > What you are trying to do is to sneak around with ugly hack behind =
+the
+> > > > proper subsystem's back.
+> > > >
+> > > > NAK as I already said.
+> > >
+> > > There is nothing wrong with the response. Also we are not trying to
+> > > sneak anything into the kernel. This just is no mtd or spi driver, it
+> > > is not even a driver. What this does is it opens back up a portion of
+> > > memory that can not be read anymore through /dev/mem on locked down
+> > > systems with SecureBoot enabled. This portion of memory is actively
+> > > being used by userspace programs. We, 9elements, Eclypsium, fwudp and
+> > > immune are among those who rely upon this to improve the security of
+> > > x86_64 linux devices.
+> >
+> > I appreciate this.
+> >
+> > x86_64 starting from long time ago has more or less standard hardware
+> > interface for BIOS chip, i.e. SPI NOR. PCH usually has a separate host
+> > controller and we have the driver in the kernel for that (coverage of
+> > the systems may not be 100%, but close enough). Now you are trying to
+> > repeat something that is _already_ provided by the kernel. Correct?
+>
+> Yes and no. We are not repeating the functionality of the SPI driver
+> because we don't read nor write the flash specifically. What we do, is
+> we make the boot vector readable by userspace when it is not
+> accessible by /dev/mem. It happens to be a portion of the SPI flash
+> but that doesn't have to be the case because the required view upon io
+> memory here is CPU-centric and the rest of the system could be built
+> in a way that backs that memory window differently. However, this is
+> more or less hypothetical if you ignore some probably never-used bits
+> that can be set in PCH registers. As I said, effectively we are trying
+> to partially revert the lockdown on /dev/mem to be able to do a
+> harmless read on an important memory range. From that point of view we
+> are trying to keep functionality intact. The interface being used here
+> has not changed a bit since 15 years and it probably will stay that
+> way. In contrast to the intel-spi driver this will likely cover more
+> future and past systems in different use-cases with fewer lines of
+> code and next to no maintenance.
+>
+> >
+> > > Now what happens is that more distros start to
+> > > lock down their kernels and require signed modules. With the mtd
+> > > driver not working on those machine to read the bios binary, you are
+> > > effectively forcing users into less secure system configurations (i.e=
+.
+> > > opening up the whole /dev/mem and/or disabling SecureBoot) just to be
+> > > able to run fwupd or other tools to assess firmware information. The
+> > > issue of being able to assess and compare the bios binary to the one
+> > > publicly available from the vendors is increasingly getting important
+> > > in the wake of recent CVEs about supply-chain attacks where UEFI
+> > > malware was pre-installed. So we are not even doing anything new here=
+,
+> > > you are just making life harder for everybody.
+> >
+> > Why me? As far as I got it from above the bottleneck is the distros
+> > which do not enable the driver. So why not go and work with them?
+> >
+>
+> Oh come on,  the distros have no choice here. Either not provide a
+> more secure locked down system or allow a dangerous driver where
+> patches to make it less dangerous are not welcome. And even if the
+> latter could be solved, the history clearly is that it is in no way
+> not even remotely as reliable as the memory region my patch is
+> relaying to userspace.
 
-   we need your address,whatsapp  number and your passport
- this is my private email address (billchantal01@gmail.com)
+As Hans already said, it is a no go to put drivers tagged as
+_(DANGEROUS)_ within the kernel distro. In this thread [1] from the
+latest changes to the intel-spi driver I asked if there is any reason
+to keep the dangerous tag or if there is any work we can do to achieve
+this. As long as this tag is in the driver, we can't use the driver.
 
-Thanks
+[1] https://lore.kernel.org/all/CAArk9MPWh4f1E=3DecKBHy8PFzvU_y_ROgDyUU_O3Z=
+Q0FuMhkj5Q@mail.gmail.com/
 
-Bill Chantal
+> Hans-Gert
