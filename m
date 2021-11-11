@@ -2,88 +2,138 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9B9144D7BF
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Nov 2021 15:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9707344D85B
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 11 Nov 2021 15:33:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233287AbhKKOD1 (ORCPT
+        id S233711AbhKKOgJ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 11 Nov 2021 09:03:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49550 "EHLO
+        Thu, 11 Nov 2021 09:36:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232033AbhKKOD1 (ORCPT
+        with ESMTP id S230177AbhKKOgH (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 11 Nov 2021 09:03:27 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3DDC061766
-        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Nov 2021 06:00:38 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id g28so1396647qkk.9
-        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Nov 2021 06:00:38 -0800 (PST)
+        Thu, 11 Nov 2021 09:36:07 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82591C061767
+        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Nov 2021 06:33:18 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id w29so10105310wra.12
+        for <platform-driver-x86@vger.kernel.org>; Thu, 11 Nov 2021 06:33:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=QXi5kHjHWd6fjjRgTXkyGAMS+MMuGm4cZgmMpd4J85s=;
-        b=ko9HxFaDTnsTIq7cvWVP8mDRE0qSoCnCu+o4IHscNIPJZJ34/xmWbyj2Q3rJs/L7xW
-         Xtck671WvqW3ZsGJShgqELAvqVzYtSaerhuc0WrPhIpAsLTguzWne6vC3tP6q5nscqfm
-         q445C1e6aX/dt9i6BcFWaTggn1LY/cnFF4XFhYLeDmc6Kmi4RHEjdBDj7LvtNnT8BuiQ
-         b+PYM1zAEqI8ruIF8vdptJz+hO2xpjvTCDIia5h9DPdzMZIh/NNtKCg+z913GzikLm44
-         9vWv1E/EmfVMbJ/2Y5qAVc75TD1rE0oG6QqXhfsW9kQS5veQRXeaco14Stlowmv4Hk8/
-         RS/w==
+        d=immu-ne.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ja+uZ/098TjANxx6nNWMaIY7Dtj1bPhX+Sb1SEHf/Xo=;
+        b=1tkzBNyit1lHlwLMhV8wO6Trj9HbVtfFvWLfYVSnLNz6nXqyAMIp9RsOjYIFl3d2DC
+         tm4rr8+ITlvF42xmdKZZV3Sy16aQU2b9uM5UGQ2z1ClhMhu+DIoDVGspTGiIbz+zFP/k
+         w2ntKmQFmRDpV+HqJkIIp6lmV0cwcSfX0D2UdwwaeezhvftVmeDzOi6ilmTiu44bXuv7
+         H//Cfv1ChlsjJmkO/bnTQwtNDAdw+ibEx3JNboblEaOZX/bRohCat2b/5VjXCm6Hlgu1
+         5TZPRLaIiwryxVXXq+pfL9KK2HLWLqNw+E3u4cXLth3/RGR7IhauqSyYdCwxgNkLDybq
+         8o1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=QXi5kHjHWd6fjjRgTXkyGAMS+MMuGm4cZgmMpd4J85s=;
-        b=N9bg5r5/daxISaryCBSU/NRfyHc1wUJ6BuNY/jGBgR0deXN3HhQ0spH0k+n4+E90bz
-         3nusSD849hO2BRJxtBmbd9AaGxdYalfV+gzI1KQf3bHtRndzdKpHkXkAfzd6pxIVY35C
-         qpEzLPM4IhySalp1ueMsYm/jlF3nPjNeO9pHmCh873tbRQPkZnd3eYjGAF/f1pjSB61y
-         mkIhd5iElzvbxCe+pMhwlWJD0tlM4l7vTqvRiAuNxV8bjbCW5jlGtmhTplbTc85pG2Sc
-         koRoVYvOxjAtjufza4bTdmB03lRcInFo3kCrcNevHkRtZ9KbIvY+i3cdFBU8IkHF+BAz
-         fPeA==
-X-Gm-Message-State: AOAM533dzOQMGX5OrlluwzV6PZhVmQArkG2vCyzT6vcksAQN1prI3ocJ
-        hl3IUM8t02U4dzeQ3Zi9bHVlVYnWFLZ0MQ96VyM=
-X-Google-Smtp-Source: ABdhPJyaXP6ULyXQjpwFIsjgTiLsQ17ZaFVYX5RFySxbUXf8/LDrxCZgPpuRqrp5qryas3mSruYansaokAjcZwvGNhE=
-X-Received: by 2002:a37:a617:: with SMTP id p23mr6216257qke.466.1636639237598;
- Thu, 11 Nov 2021 06:00:37 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ja+uZ/098TjANxx6nNWMaIY7Dtj1bPhX+Sb1SEHf/Xo=;
+        b=huH/6DCxHgnBvzpDL5PCnV4dGl1fiCFZpLwJzN7bHXaNK1bLA1D9q0AohRGruQLm45
+         D1dQZCBey8UTXjXM64OpMZTHZkRyBTE27RC5RJ/4e195pGj8maO7hMTmrR1Dlj/o0ZFJ
+         MPQVxE/3NMQw4S7YdnABOIzWRxdxBJaaTsFwG4Z7xOdB0bPl5lk/g1lc+U/FnKEDqYhD
+         5oAzOSkMg9l+LjGQS6zeOfYHLDtkABx//zNh+nCmG57P8rILGOPrDzENq0BzbSIGcJ5m
+         DeJ7uNWgZ6lnl/aTrOqc0XDSHsY6Eee+HDHIawisFkEpx2oKeBjreberR1KrZ0KupA+W
+         xMgw==
+X-Gm-Message-State: AOAM532nV1MVnzlVZrbUFXkWO5pB3OVeCs8DHhu/GG1qMA2yotB8BPMa
+        EExkx3ySEfELQo4Ljs/Cjdp4SAM86gfkncZh1ELQit1GoP/1gQZs
+X-Google-Smtp-Source: ABdhPJyHKnKU2yO/043Tx5WStHAw2sXQcCYHF5i9tDrEJvv+DcWtsumYvTGAM1y+bagXbaOScmpSgccmxmw1wgGPQwc=
+X-Received: by 2002:a5d:464c:: with SMTP id j12mr9302472wrs.150.1636641197026;
+ Thu, 11 Nov 2021 06:33:17 -0800 (PST)
 MIME-Version: 1.0
-Sender: reymonddennis@gmail.com
-Received: by 2002:ac8:7d12:0:0:0:0:0 with HTTP; Thu, 11 Nov 2021 06:00:37
- -0800 (PST)
-From:   "helen.carlsen" <helen.carlsen26@gmail.com>
-Date:   Thu, 11 Nov 2021 15:00:37 +0100
-X-Google-Sender-Auth: HDm6A8DitmKqljIzrXMGKs-B_2E
-Message-ID: <CAOOE2sFAy7rtnnLeNeJt9bu5H0T_=bKeaNuzqdW3Ft406vyS7g@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
+References: <CAHifhD5V9vwJenRLcPRH5ZMeLa_JnjZKfdcFZw1CjceBtC6=Ew@mail.gmail.com>
+ <CAHp75VeyQEaABFOnEUh2pdFx9ROJvRcud-BuEbKWmaEWpL9_Uw@mail.gmail.com>
+ <CAHifhD7Qf7+dc7K-MjNguqmiCWUxOJZmQoCTRUZOR-RWMm_JPw@mail.gmail.com>
+ <CAHp75Ve9BMNy3gP=-Dajm+Lgu+E4FCqc4phLgV1_cr2qUnTX_w@mail.gmail.com>
+ <CAHifhD4n7O5eWFPOjRAmHYL52tW0K=uXXzVj7L5+enTFwFXW2A@mail.gmail.com>
+ <CAArk9MP5cKJ+VhAZUseW4LnQNRvux=MZe2eSy3rQkbHKnUsGig@mail.gmail.com>
+ <CAHp75VdRwvU5WjFP5E4gg8U+_e34A0Lwze+nz_wVHoB49jLeLg@mail.gmail.com>
+ <CAArk9MNGSxR+92n-D2pe_+r+Z0Q9FoTMPqk11sAKA=4Vckj0HQ@mail.gmail.com>
+ <YYy7QZGKeEEfI1mH@lahna> <CAHifhD5bXu2nP533RXyWDnyNt=k2rRZq5Z6A6CCik_2e6XNgGA@mail.gmail.com>
+ <YYzxWPIWFAV04LRU@lahna> <CAD2FfiGnmFSTPvkJaXj+cf4yDvci-j+2QkpMqNY821fUT5C=CA@mail.gmail.com>
+ <CAHp75Vcp=hC1oL5FBQDDFe8EBxWB9Po4FKNS9ZGtD3q-yQPtAw@mail.gmail.com>
+ <CAHifhD6p9qSm5dv1spz+oPRhRkBZeQspHNEphE49fODacm-S6g@mail.gmail.com> <CAHp75Vfk5WHWiQxwmqEzVEymgpvjxKWEZbaQ9+=Et7N63Ps=Ng@mail.gmail.com>
+In-Reply-To: <CAHp75Vfk5WHWiQxwmqEzVEymgpvjxKWEZbaQ9+=Et7N63Ps=Ng@mail.gmail.com>
+From:   Hans-Gert Dahmen <hans-gert.dahmen@immu.ne>
+Date:   Thu, 11 Nov 2021 15:33:05 +0100
+Message-ID: <CAHifhD5bGZOcZFNsHYFeecikHGUts73U4k6=aUVNTKEeETW5rQ@mail.gmail.com>
+Subject: Re: [PATCH] firmware: export x86_64 platform flash bios region via sysfs
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Richard Hughes <hughsient@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mauro Lima <mauro.lima@eclypsium.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Philipp Deppenwiese <philipp.deppenwiese@immu.ne>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
- I sent this mail praying it will found you in a good condition of
-health, since I myself are in a very critical health condition in
-which I  sleep every night without knowing if I may be alive to see
-the next day. I'm Mrs. Helen John carlsen, wife of late Mrs. Helen
-John carlsen, a widow suffering from long time illness. I have some
-funds I inherited from my late husband, the sum of($ 11.000.000,eleven
-million dollars)my Doctor told me recently that I have serious
-sickness which is cancer problem. What disturbs me most is my stroke
-sickness.Having known my condition, I decided to donate this fund to a
-good person that will utilize it the way i am going to instruct
-herein. I need a very honest and God fearing person who can claim this
-money and use it for Charity works, for orphanages, widows and also
-build schools for less privileges that will be named after my late
-husband if possible and to promote the word of God and the effort that
-the house of God is maintained.
+Am Do., 11. Nov. 2021 um 14:55 Uhr schrieb Andy Shevchenko
+<andy.shevchenko@gmail.com>:
+>
+> On Thu, Nov 11, 2021 at 2:56 PM Hans-Gert Dahmen
+> <hans-gert.dahmen@immu.ne> wrote:
+> >
+> > Am Do., 11. Nov. 2021 um 13:46 Uhr schrieb Andy Shevchenko
+> > <andy.shevchenko@gmail.com>:
+> > >
+> > > On Thu, Nov 11, 2021 at 1:46 PM Richard Hughes <hughsient@gmail.com> wrote:
+> > > > On Thu, 11 Nov 2021 at 10:33, Mika Westerberg
+> > > > <mika.westerberg@linux.intel.com> wrote:
+> > >
+> > > > it's always going to work on x64 -- if the system firmware isn't available at that offset then the platform just isn't going to boot.
+> > >
+> > > Well, it's _usual_ case, but in general the assumption is simply
+> > > incorrect. Btw, have you checked it on Coreboot enabled platforms?
+> > > What about bare metal configurations where the bootloader provides
+> > > services to the OS?
+> >
+> > No it is always the case. I suggest you go read your own Intel specs
+> > and datasheets
+>
+> Point me out, please, chapters in SDM (I never really read it in full,
+> it's kinda 10x Bible size). What x86 expects is 16 bytes at the end of
+> 1Mb physical address space that the CPU runs at first.
 
-I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision. I'm not afraid of death
-so I know where I'm going. I accept this decision because I do not
-have any child who will inherit this money after I die. Please I want
-your sincerely and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your
-reply.
+So you do not know what you are talking about, am I correct? Starting
+from 386 the first instruction is executed at 0xFFFFFFF0h. What you
+are referring to is the 8086 reset vector and that was like 40 years
+ago.
 
-Best Regards,
+Please refer to SDM volume 3A, chapter 9, section 9.1.4 "First
+Instruction Executed", paragraph two. Just watch out for the hex
+number train starting with FFFFF... then you will find it. This is
+what requires the memory range to be mapped. Modern Intel CPUs require
+larger portions, because of the ACM loading and XuCode and whatnot.
+Please refer to the email [1] from me linked below where I reference
+all PCH datasheets of the x64 era to prove that 16MB are mapped
+hard-wired. Note that the range cannot be turned off and will read
+back 0xFF's if the PCH registers are configured to not be backed by
+the actual SPI flash contents.
 
-Mrs. Helen John carlsen,
+[1] https://lkml.org/lkml/2021/6/24/379
+
+>
+> > before spreading further FUD. I have experienced u-root
+> > and coreboot developers sitting right next to me in my office and they
+> > were among the ones suggesting my patch. This is just laughable,
+> > please stop it Andy.
+>
+> Yeah, zillion people can't ever make a mistake... I see.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+Hans-Gert
