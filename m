@@ -2,17 +2,17 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AABE4451947
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Nov 2021 00:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1DAC451C95
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 16 Nov 2021 01:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347931AbhKOXRa (ORCPT
+        id S1345533AbhKPAVV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 Nov 2021 18:17:30 -0500
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21556 "EHLO
+        Mon, 15 Nov 2021 19:21:21 -0500
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21551 "EHLO
         sender4-of-o55.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352508AbhKOXP1 (ORCPT
+        with ESMTP id S1351869AbhKPATc (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 Nov 2021 18:15:27 -0500
+        Mon, 15 Nov 2021 19:19:32 -0500
 ARC-Seal: i=1; a=rsa-sha256; t=1637014891; cv=none; 
         d=zohomail.com; s=zohoarc; 
         b=R4DYxJ0D7TWoJ2kUxxw6g4H1oUr+7LngUMNiKntdvD2Ks1iCkDfFCUhiKX2xEKsoBfH3M+cctLU9dtnpV3wsA9k72MQ7E6fF7YUz4+i6S3cHN3GIyaRnN5tlgSVtazjiPNhS1VBe8485oglJceTcgYPAwFU3FxFgNFJd05UGjyU=
