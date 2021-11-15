@@ -2,73 +2,65 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69A36451836
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Nov 2021 23:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7117451833
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 15 Nov 2021 23:52:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242761AbhKOWzl (ORCPT
+        id S1345620AbhKOWzf (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 15 Nov 2021 17:55:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbhKOWuH (ORCPT
+        Mon, 15 Nov 2021 17:55:35 -0500
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21577 "EHLO
+        sender4-of-o55.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349328AbhKOWk4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 15 Nov 2021 17:50:07 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3B7C03AA22;
-        Mon, 15 Nov 2021 14:01:59 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id m14so78583695edd.0;
-        Mon, 15 Nov 2021 14:01:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I5HscGTHZr6+xi1a6alcJPyjhjUoDbOBDFHoUw2L51o=;
-        b=lIwqy+vraVBs9t40KMt6lhKFZG5nM6cLoF5A3AalVN0hTJVgNQuGGORQjwEvumUGle
-         3cBQqlcv3mrjNG4FORxmkRbj40heghE0+RhCPQKKTD6lhlmZoFqjGg4wNUp8ZnWgycRY
-         VsEQ2BtXzKXDyd4CAynzjijP4NH5DJ0zidKOLplWjaY8mm4YB8HjiZpAycdaGTsO4nsY
-         bbr8nrgw4lIoLE4KhmUO/UHtoRbNv0OEFhBv3N118wQZKlF2o0BO9mRQuLP/AXXx4Zmv
-         GNOR1UehG3cqPMbiuzhj5PziQmILouBLerjvgdVW02Pq2oPz5WfmtGT6d/ZnPTlE7xBu
-         G9Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I5HscGTHZr6+xi1a6alcJPyjhjUoDbOBDFHoUw2L51o=;
-        b=zpt/zCPr30PQzij03dyQc6LIOl08FJqeM5Y9pQhlv33I9YBa7SBSh+9+jwfKK84s1k
-         JQn5Q/Zd6/pL8RwVjJ2YNBUga+pFeavGLXBYeVUt1h8n8KAtdXOio5VXqbztkkISdidw
-         Whu4U9XvONGbw2o1ZpKFFrGWlsqXdUrkTsu88Abh28QymZtlD/wq9y4Nq/ZaEgL8rC+q
-         LRV187tXrZq/nxyNH740VMA3Cv6LshQs7AZCwf+ikDXpW4z6HpsLe5RuYLjcfeN8rcJ9
-         y6+jmy/HTKYDuc8HlmRUB9hGIrCKoUweHlr0G+yZS5gtXVsAxiy1GW0rlTm0NYHaG2Cz
-         dr7A==
-X-Gm-Message-State: AOAM5331GVX9yVWry9be2hHZ8IIhGWVOU+hLmsnaeNtxONzR7e9wZMGg
-        oRUvGUBLAFPTVWe72zFVgMR1ef4xt/TZAJtqzRdTR10xpfc=
-X-Google-Smtp-Source: ABdhPJz3pWyThL+n+5rrtc+iEasNam2xwC2mel1/qlNmbMzGVGsIC0sscKWK8fGf4NLo2ipGveze1EYD5q0o+3rvvGM=
-X-Received: by 2002:a05:6402:26d4:: with SMTP id x20mr745600edd.119.1637013718460;
- Mon, 15 Nov 2021 14:01:58 -0800 (PST)
+        Mon, 15 Nov 2021 17:40:56 -0500
+X-Greylist: delayed 932 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Nov 2021 17:40:56 EST
+ARC-Seal: i=1; a=rsa-sha256; t=1637014891; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=R4DYxJ0D7TWoJ2kUxxw6g4H1oUr+7LngUMNiKntdvD2Ks1iCkDfFCUhiKX2xEKsoBfH3M+cctLU9dtnpV3wsA9k72MQ7E6fF7YUz4+i6S3cHN3GIyaRnN5tlgSVtazjiPNhS1VBe8485oglJceTcgYPAwFU3FxFgNFJd05UGjyU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1637014891; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=CSKP+pxK1OMbD7DMwbimwVntVO3vlL1NhMt2dPOplyc=; 
+        b=G8JjF2+jkYkP7S+IOuKNMNaqWJwClenk6EzSqd5YNMc1PA0bylH06a09uUneO1M3YfJBmc+G8OZlAoFbyaxT0pjGcbx417zqiDY58aCSXVeAenN00ESSWqeAUUPHnG5a4ET4rSAnivE/GMCwZBeZwWbeghHuKlcQnsdiXJdFvqQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=maidavale.org;
+        spf=pass  smtp.mailfrom=ed@maidavale.org;
+        dmarc=pass header.from=<ed@maidavale.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1637014891;
+        s=zoho; d=maidavale.org; i=ed@maidavale.org;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=CSKP+pxK1OMbD7DMwbimwVntVO3vlL1NhMt2dPOplyc=;
+        b=Il+OW/KJ+qoFO7xk9trhHafNAq3xJiBMlm+HUC4KrLgvsBNjbq834a0LyTnMN1V7
+        N7oYtcDuCVk2cgGN7WFjfAUGsMypPl5VZnx/kllC4XOdrNzh8HBBmK7FOv2jyMoWzu+
+        wMkHP7wXiOhmsd5vEupLd7ozljRENZUNFXa9adDU=
+Received: from [192.168.0.8] (94.14.150.106 [94.14.150.106]) by mx.zohomail.com
+        with SMTPS id 1637014886071648.4298650141733; Mon, 15 Nov 2021 14:21:26 -0800 (PST)
+Message-ID: <fb0bfe97-41c2-8aeb-f4f2-e8a07c5fda92@maidavale.org>
+Date:   Mon, 15 Nov 2021 22:21:00 +0000
 MIME-Version: 1.0
-References: <20211115210842.11972-1-pauk.denis@gmail.com>
-In-Reply-To: <20211115210842.11972-1-pauk.denis@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Nov 2021 00:01:22 +0200
-Message-ID: <CAHp75VcPHi1XyZr=CFbUhiUXK0q-10iBx5U3d==aG8pMG27k1Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
 Subject: Re: [PATCH v11 0/2] Update ASUS WMI supported boards
+Content-Language: en-US
 To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        platform-driver-x86@vger.kernel.org, thomas@weissschuh.net,
+        kernel@maidavale.org,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211115210842.11972-1-pauk.denis@gmail.com>
+From:   Ed Brindley <ed@maidavale.org>
+In-Reply-To: <20211115210842.11972-1-pauk.denis@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
->
+On 15/11/2021 21:08, Denis Pauk wrote:
 > Add support by WMI interface provided by Asus for B550/X570 boards:
 > * PRIME X570-PRO,
 > * ROG CROSSHAIR VIII HERO
@@ -77,7 +69,7 @@ On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
 > * ROG STRIX X570-E GAMING
 > * ROG STRIX B550-I GAMING
 > * ROG STRIX B550-E GAMING
->
+> 
 > Add support by WMI interface provided by Asus for X370/X470/
 > B450/X399 boards:
 > * ROG CROSSHAIR VI HERO,
@@ -96,14 +88,14 @@ On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
 > * ROG STRIX X470-I GAMING,
 > * ROG ZENITH EXTREME,
 > * ROG ZENITH EXTREME ALPHA.
->
+> 
 > I have added "ROG STRIX Z390-F GAMING" to list of supported boards in
 > asus_wmi_sensors.
+> 
+> Could you please review?
+> 
+I don't believe "ROG STRIX Z390-F GAMING" should be added to the driver. 
+It's an Intel board and looking at the UEFI image I don't believe it has 
+the WMI interface present.
 
-Guenter, what is your plan about this patch series? It seems it
-missed, by unknown (?) reason, the v5.16-rc1 (I remember seeing it in
-some of your tree branches at some point).
-
--- 
-With Best Regards,
-Andy Shevchenko
+Ed Brindley
