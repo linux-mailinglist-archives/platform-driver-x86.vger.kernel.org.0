@@ -2,49 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5FE845860D
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Nov 2021 20:11:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C9A45860E
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 21 Nov 2021 20:11:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238521AbhKUTOo (ORCPT
+        id S238470AbhKUTOp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 21 Nov 2021 14:14:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34311 "EHLO
+        Sun, 21 Nov 2021 14:14:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25123 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236275AbhKUTOn (ORCPT
+        by vger.kernel.org with ESMTP id S238591AbhKUTOp (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 21 Nov 2021 14:14:43 -0500
+        Sun, 21 Nov 2021 14:14:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637521898;
+        s=mimecast20190719; t=1637521899;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Xh3Gq0+naht22gPnrMTUi+D9zNliHNTtUQjlG4t9cWM=;
-        b=Oq+St8edLu7y7BWsyfNZ+MEU0P/d/J9fyH6DzHi6lfLxSHE9N0yE57bZRBoogEEz5Q1Yks
-        Oe09YIdm9l1jXQxFRrqFVq02UT/maKtBKBDKTSoTNwBK9zmpURHYftvGsJi/q4u8SYvui0
-        //aj2HeAKOU6cDDFiP1c55j51j0+v94=
+        bh=4oM5oEs5OiU5M+o68PHeYE5TW+V2pU/hdghQ/URiuXw=;
+        b=N7OJfJNKJrq2smdgJiMgFmB5Dntow/1Jtgc505Wm/JcdffaXv6pRmIMGNzuyj5TFccSJfc
+        wLEFro6DLwSF+Bww8dFLJh8mTPG8Tyt4Y0aqZHwO6rAwd4Lo2EQpM0Tg+7XgSkU/NpN5fz
+        S6Pcnp1t8GjL3au5cgGWoO+Ae5dEKPU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-5kSaQgbsOTqivGV_ulrSCA-1; Sun, 21 Nov 2021 14:11:36 -0500
-X-MC-Unique: 5kSaQgbsOTqivGV_ulrSCA-1
+ us-mta-299-Z3bT5Ex_NwuPvxYMk6c6Wg-1; Sun, 21 Nov 2021 14:11:38 -0500
+X-MC-Unique: Z3bT5Ex_NwuPvxYMk6c6Wg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98CC91006AA0;
-        Sun, 21 Nov 2021 19:11:35 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03D0B102C887;
+        Sun, 21 Nov 2021 19:11:37 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AEAB5DF21;
-        Sun, 21 Nov 2021 19:11:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DFFC35DF21;
+        Sun, 21 Nov 2021 19:11:35 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
         Mark Pearson <markpearson@lenovo.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 3/7] platform/x86: thinkpad_acpi: Simplify dytc_version handling
-Date:   Sun, 21 Nov 2021 20:11:25 +0100
-Message-Id: <20211121191129.256713-4-hdegoede@redhat.com>
+Subject: [PATCH 4/7] platform/x86: thinkpad_acpi: Cleanup dytc_profile_available
+Date:   Sun, 21 Nov 2021 20:11:26 +0100
+Message-Id: <20211121191129.256713-5-hdegoede@redhat.com>
 In-Reply-To: <20211121191129.256713-1-hdegoede@redhat.com>
 References: <20211121191129.256713-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,106 +54,93 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The only reason the proxysensor code needs dytc_version handling is for
-proxsensor_attr_is_visible() and that will only ever get called after
-all the subdrv init() callbacks have run.
+Remove the dytc_profile_available check from dytc_profile_set(),
+that function only gets called if the platform_profile_handler was
+registered, so the check is not necessary.
 
-tpacpi_dytc_profile_init() already calls DYTC_CMD_QUERY and is the
-primary consumer of dytc_version, so simply let tpacpi_dytc_profile_init()
-set dytc_version and remove the now no longer necessary dytc_get_version()
-helper and its calls.
+Make tpacpi_dytc_profile_init() return -ENODEV when it does not register
+the platform_profile() handler this will cause
+dytc_profile_driver_data.flags.init to not get set, which in turn will
+cause the dytc_profile_exit() call to get skipped.
+
+Together this avoids the need to have the dytc_profile_available
+variable at all, since the information is now duplicated in the
+dytc_profile_driver_data.flags.init flag.
+
+Note this leaves a weirdly indented code-block behind, this is
+deliberately done to make what actually changes in this commit clear.
+This will be fixed-up in the next commit.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 47 +++-------------------------
- 1 file changed, 5 insertions(+), 42 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 24a3c79a045e..4c8050a0655a 100644
+index 4c8050a0655a..cdc4028be341 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -9781,33 +9781,6 @@ static int dytc_command(int command, int *output)
- 	return 0;
- }
+@@ -9950,7 +9950,6 @@ static struct ibm_struct proxsensor_driver_data = {
  
--static int dytc_get_version(void)
--{
--	int err, output;
--
--	/* Check if we've been called before - and just return cached value */
--	if (dytc_version)
--		return dytc_version;
--
--	/* Otherwise query DYTC and extract version information */
--	err = dytc_command(DYTC_CMD_QUERY, &output);
--	/*
--	 * If support isn't available (ENODEV) then don't return an error
--	 * and don't create the sysfs group
--	 */
--	if (err == -ENODEV)
--		return 0;
--	/* For all other errors we can flag the failure */
--	if (err)
--		return err;
--
--	/* Check DYTC is enabled and supports mode setting */
--	if (output & BIT(DYTC_QUERY_ENABLE_BIT))
--		dytc_version = (output >> DYTC_QUERY_REV_BIT) & 0xF;
--
--	return 0;
--}
--
- static int lapsensor_get(bool *present, bool *state)
- {
- 	int output, err;
-@@ -9904,7 +9877,7 @@ static umode_t proxsensor_attr_is_visible(struct kobject *kobj,
- 		 * Platforms before DYTC version 5 claim to have a lap sensor,
- 		 * but it doesn't work, so we ignore them.
- 		 */
--		if (!has_lapsensor ||  dytc_version < 5)
-+		if (!has_lapsensor || dytc_version < 5)
- 			return 0;
- 	} else if (attr == &dev_attr_palmsensor.attr) {
- 		if (!has_palmsensor)
-@@ -9921,7 +9894,7 @@ static const struct attribute_group proxsensor_attr_group = {
+ #define DYTC_ENABLE_CQL DYTC_SET_COMMAND(DYTC_FUNCTION_CQL, DYTC_MODE_BALANCE, 1)
  
- static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
- {
--	int palm_err, lap_err, err;
-+	int palm_err, lap_err;
+-static bool dytc_profile_available;
+ static enum platform_profile_option dytc_current_profile;
+ static atomic_t dytc_ignore_event = ATOMIC_INIT(0);
+ static DEFINE_MUTEX(dytc_mutex);
+@@ -10054,9 +10053,6 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
+ 	int output;
+ 	int err;
  
- 	palm_err = palmsensor_get(&has_palmsensor, &palm_state);
- 	lap_err = lapsensor_get(&has_lapsensor, &lap_state);
-@@ -9934,13 +9907,6 @@ static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
- 	if (lap_err && (lap_err != -ENODEV))
- 		return lap_err;
- 
--	/* Check if we know the DYTC version, if we don't then get it */
--	if (!dytc_version) {
--		err = dytc_get_version();
--		if (err)
--			return err;
--	}
+-	if (!dytc_profile_available)
+-		return -ENODEV;
 -
- 	return 0;
- }
- 
-@@ -10166,12 +10132,9 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 	err = mutex_lock_interruptible(&dytc_mutex);
  	if (err)
  		return err;
+@@ -10127,7 +10123,6 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 	set_bit(PLATFORM_PROFILE_BALANCED, dytc_profile.choices);
+ 	set_bit(PLATFORM_PROFILE_PERFORMANCE, dytc_profile.choices);
  
--	/* Check if we know the DYTC version, if we don't then get it */
--	if (!dytc_version) {
--		err = dytc_get_version();
--		if (err)
--			return err;
--	}
-+	if (output & BIT(DYTC_QUERY_ENABLE_BIT))
-+		dytc_version = (output >> DYTC_QUERY_REV_BIT) & 0xF;
-+
+-	dytc_profile_available = false;
+ 	err = dytc_command(DYTC_CMD_QUERY, &output);
+ 	if (err)
+ 		return err;
+@@ -10136,7 +10131,10 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 		dytc_version = (output >> DYTC_QUERY_REV_BIT) & 0xF;
+ 
  	/* Check DYTC is enabled and supports mode setting */
- 	if (dytc_version >= 5) {
+-	if (dytc_version >= 5) {
++	if (dytc_version < 5)
++		return -ENODEV;
++
++	{
  		dbg_printk(TPACPI_DBG_INIT,
+ 				"DYTC version %d: thermal mode available\n", dytc_version);
+ 		/*
+@@ -10156,9 +10154,8 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 		 * don't quit terminally.
+ 		 */
+ 		if (err)
+-			return 0;
++			return -ENODEV;
+ 
+-		dytc_profile_available = true;
+ 		/* Ensure initial values are correct */
+ 		dytc_profile_refresh();
+ 	}
+@@ -10167,10 +10164,7 @@ static int tpacpi_dytc_profile_init(struct ibm_init_struct *iibm)
+ 
+ static void dytc_profile_exit(void)
+ {
+-	if (dytc_profile_available) {
+-		dytc_profile_available = false;
+-		platform_profile_remove();
+-	}
++	platform_profile_remove();
+ }
+ 
+ static struct ibm_struct  dytc_profile_driver_data = {
 -- 
 2.31.1
 
