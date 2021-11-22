@@ -2,60 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A934D4590CD
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Nov 2021 16:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 036894594B1
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 22 Nov 2021 19:28:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237699AbhKVPGG (ORCPT
+        id S239261AbhKVSbN (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 22 Nov 2021 10:06:06 -0500
-Received: from mx07-00227901.pphosted.com ([185.132.182.185]:33088 "EHLO
-        mx08-00227901.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230152AbhKVPGF (ORCPT
+        Mon, 22 Nov 2021 13:31:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229853AbhKVSbM (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 22 Nov 2021 10:06:05 -0500
-Received: from pps.filterd (m0097675.ppops.net [127.0.0.1])
-        by mx07-.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJADKf8005994;
-        Fri, 19 Nov 2021 11:21:37 +0100
-Received: from zbw2k16ex03.bardusch.net ([185.80.186.174])
-        by mx07-.pphosted.com (PPS) with ESMTPS id 3cdjtyh826-5
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Fri, 19 Nov 2021 11:21:37 +0100
-Received: from zbw2k16ex03.bardusch.net (172.25.1.3) by
- zbw2k16ex03.bardusch.net (172.25.1.3) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.2308.20;
- Fri, 19 Nov 2021 11:21:28 +0100
-Received: from User (172.25.1.131) by zbw2k16ex03.bardusch.net (172.25.1.3)
- with Microsoft SMTP Server id 15.1.2308.20 via Frontend Transport; Fri, 19
- Nov 2021 11:21:17 +0100
-Reply-To: <josechoondak@gmail.com>
-From:   Joseph Choondak <info@ndd.co.mz>
-Subject: I hope this email finds you well.
-Date:   Fri, 19 Nov 2021 02:21:31 -0800
+        Mon, 22 Nov 2021 13:31:12 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BAC8160F6F;
+        Mon, 22 Nov 2021 18:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637605686;
+        bh=konvSo77Cx8ln8EJy9hBJpfgeh2p+6Im9gPnwaVvtcE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=KAoHQNfLF2Vjg4BscPPxWDJ0g3M4DFTf8kY7Ac+dD9nfCBSd+Ya+iAcqVAHZRZHWe
+         6/oOOfNQkyJFtScp+pZe+cVhbdU6TfHDwPzm623zb3cE0HwZDe+9mepaj0yHgqJkts
+         BUxazuHp2yEK+m3UCIbZleOqik4WeTp1nCJtoi1ufE0C4+OUN8PmVBpkjEmMwBUbzz
+         nj3Em69KVmtH+6Hn5Iuo1RT4o7rRzXnVNR/301UWRd/e0uef56vADR+I3+ZnuPeI5b
+         OorpzgMfyavFPbk2F6x/EouklIfzULQF3hJuRJTwzranrrBCCKTWNs0mYKtxbAk7k8
+         ufbAPbXbTOZ4Q==
+Date:   Mon, 22 Nov 2021 12:28:04 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     "David E. Box" <david.e.box@linux.intel.com>, lee.jones@linaro.org,
+        hdegoede@redhat.com, bhelgaas@google.com,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
+        mgross@linux.intel.com, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] PCI: Add #defines for accessing PCIe DVSEC fields
+Message-ID: <20211122182804.GA2157671@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <112dd63a-e7b1-49e2-9caf-d8c3dbd079b4@zbw2k16ex03.bardusch.net>
-To:     Undisclosed recipients:;
-X-Proofpoint-ORIG-GUID: QsFKYheo9ev2hCi6f65lf-V21hjikeGq
-X-Proofpoint-GUID: QsFKYheo9ev2hCi6f65lf-V21hjikeGq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_08,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: orgsafe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZo6aczgqoobIcDC@kroah.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-May I please ask with considerable urgency for your kind assistance with the following matter.
-I'm a financial person, I think  I have something huge you might be interested in.
+On Sun, Nov 21, 2021 at 01:24:09PM +0100, Greg KH wrote:
+> On Sat, Nov 20, 2021 at 03:17:02PM -0800, David E. Box wrote:
+> > Add #defines for accessing Vendor ID, Revision, Length, and ID offsets
+> > in the Designated Vendor Specific Extended Capability (DVSEC). Defined
+> > in PCIe r5.0, sec 7.9.6.
+> > 
+> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >  include/uapi/linux/pci_regs.h | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
+> > index ff6ccbc6efe9..318f3f1f9e92 100644
+> > --- a/include/uapi/linux/pci_regs.h
+> > +++ b/include/uapi/linux/pci_regs.h
+> > @@ -1086,7 +1086,11 @@
+> >  
+> >  /* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+> >  #define PCI_DVSEC_HEADER1		0x4 /* Designated Vendor-Specific Header1 */
+> > +#define  PCI_DVSEC_HEADER1_VID(x)	((x) & 0xffff)
+> > +#define  PCI_DVSEC_HEADER1_REV(x)	(((x) >> 16) & 0xf)
+> > +#define  PCI_DVSEC_HEADER1_LEN(x)	(((x) >> 20) & 0xfff)
+> >  #define PCI_DVSEC_HEADER2		0x8 /* Designated Vendor-Specific Header2 */
+> > +#define  PCI_DVSEC_HEADER2_ID(x)		((x) & 0xffff)
+> 
+> Why does userspace need to have these defines?  What userspace tool is
+> going to use these?
 
-Looking forward to hearing from you.
+This is pretty typical of other content in pci_regs.h.  There's lots
+of existing content that may not be directly useful to userspace, but
+it's there because it's convenient to have definitions prescribed by
+the spec all together in one place.
 
+They probably shouldn't go in drivers/pci/pci.h because by definition
+this vendor-specific stuff will be used by vendor-specific drivers but
+not by the PCI core.
 
-Respectfully!!
-Joseph Choondak
-Account Executive.
+I guess these *could* go in include/linux/pci.h, but that wouldn't be
+my first choice because there's nothing similar there.
+
+Bjorn
