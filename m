@@ -2,49 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94BAA45ADD7
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Nov 2021 22:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C3A845ADD1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Nov 2021 22:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234200AbhKWVJB (ORCPT
+        id S233903AbhKWVIE (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Nov 2021 16:09:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30858 "EHLO
+        Tue, 23 Nov 2021 16:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36722 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234024AbhKWVJA (ORCPT
+        by vger.kernel.org with ESMTP id S233885AbhKWVID (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Nov 2021 16:09:00 -0500
+        Tue, 23 Nov 2021 16:08:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637701551;
+        s=mimecast20190719; t=1637701495;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4YtW5XacuK3VcIVAyk/xM2AfABXQweum9UH4JcN/Dl0=;
-        b=OowT+qVhxyqIkuOBNuMcrTXwMqru6lH27415K2iTGwEKKxptq3Bc6A4JiL5jK+G5eB0+Gl
-        PfKkf0cRhwMCD1NGE+X2pCUQmbSHLEjtLjRDUv2yTIA101dKgTITG5bebj5pRb+gDwLhAH
-        0KjpmkgG3ZCH+Z78hFbGEbtGPFZ1aD4=
+        bh=h5yMwtz65eATvIzGc+0KQrZbsBQxQER0mGPQSvieQDA=;
+        b=C8JxmDt8hnBmAm7FTW0Z7F+RREC5ngmSo6i2Jlku7OuKH21zrFSqga+NekmibllUCTV8PJ
+        byeBMTGGLScsrzLVypMJEouLnuOpeCh//HimkhgVAdufFMaWAhf5G80W8PTM9SiIekbtiW
+        AKXV9a3p/5AuzcUM94zvmo95HO056Mk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-9Dz5wQ-dOkmTVUdeixxRxw-1; Tue, 23 Nov 2021 16:04:46 -0500
-X-MC-Unique: 9Dz5wQ-dOkmTVUdeixxRxw-1
+ us-mta-158-HX_GiW4oO6mMn7yDj330LA-1; Tue, 23 Nov 2021 16:04:51 -0500
+X-MC-Unique: HX_GiW4oO6mMn7yDj330LA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C68041DDF3;
-        Tue, 23 Nov 2021 21:04:45 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671858799EB;
+        Tue, 23 Nov 2021 21:04:50 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.192.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C6B1F79448;
-        Tue, 23 Nov 2021 21:04:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1BE3279448;
+        Tue, 23 Nov 2021 21:04:45 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
         Mark Pearson <markpearson@lenovo.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, Len Baker <len.baker@gmx.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 4/6] platform/x86: thinkpad_acpi: Fix the hwmon sysfs-attr showing up in the wrong place
-Date:   Tue, 23 Nov 2021 22:04:22 +0100
-Message-Id: <20211123210424.266607-5-hdegoede@redhat.com>
+Subject: [PATCH 5/6] platform/x86: thinkpad_acpi: Remove unused sensors_pdev_attrs_registered flag
+Date:   Tue, 23 Nov 2021 22:04:23 +0100
+Message-Id: <20211123210424.266607-6-hdegoede@redhat.com>
 In-Reply-To: <20211123210424.266607-1-hdegoede@redhat.com>
 References: <20211123210424.266607-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,86 +54,35 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The hwmon sysfs-attr should show up under the hwmon-classdev, not under
-the tpacpi_sensors_pdev. Pass the tpacpi_hwmon_groups attr-groups array
-to hwmon_device_register_with_groups() instead of setting
-tpacpi_hwmon_pdriver.driver.dev_groups to it to fix this.
+After the recent sysfs-attributes registration cleanups, the
+tp_features.sensors_pdev_attrs_registered flag only ever gets set and
+never gets read, remove it.
 
-This also requires moving the hwmon_device_register_with_groups() call to
-after the subdriver init functions have run so that the is_visible()
-calls will work properly.
-
-Fixes: 79f960e29cfc ("platform/x86: thinkpad_acpi: Convert platform driver to use dev_groups")
-Cc: Len Baker <len.baker@gmx.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 7680bb0ee2d5..2f290ed59d92 100644
+index 2f290ed59d92..392af8f1c213 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -10537,7 +10537,6 @@ static struct platform_driver tpacpi_hwmon_pdriver = {
- 	.driver = {
- 		.name = TPACPI_HWMON_DRVR_NAME,
- 		.groups = tpacpi_hwmon_driver_groups,
--		.dev_groups = tpacpi_hwmon_groups,
- 	},
- };
- 
-@@ -11186,6 +11185,8 @@ static void thinkpad_acpi_module_exit(void)
- 
- 	tpacpi_lifecycle = TPACPI_LIFE_EXITING;
- 
-+	if (tpacpi_hwmon)
-+		hwmon_device_unregister(tpacpi_hwmon);
- 	if (tp_features.sensors_pdrv_registered)
- 		platform_driver_unregister(&tpacpi_hwmon_pdriver);
- 	if (tp_features.platform_drv_registered)
-@@ -11207,8 +11208,6 @@ static void thinkpad_acpi_module_exit(void)
- 		kfree(hotkey_keycode_map);
- 	}
- 
--	if (tpacpi_hwmon)
--		hwmon_device_unregister(tpacpi_hwmon);
- 	if (tpacpi_sensors_pdev)
- 		platform_device_unregister(tpacpi_sensors_pdev);
- 	if (tpacpi_pdev)
-@@ -11287,16 +11286,7 @@ static int __init thinkpad_acpi_module_init(void)
+@@ -335,7 +335,6 @@ static struct {
+ 	u32 input_device_registered:1;
+ 	u32 platform_drv_registered:1;
+ 	u32 sensors_pdrv_registered:1;
+-	u32 sensors_pdev_attrs_registered:1;
+ 	u32 hotkey_poll_active:1;
+ 	u32 has_adaptive_kbd:1;
+ 	u32 kbd_lang:1;
+@@ -11285,7 +11284,6 @@ static int __init thinkpad_acpi_module_init(void)
+ 		thinkpad_acpi_module_exit();
  		return ret;
  	}
- 	tp_features.sensors_pdev_attrs_registered = 1;
--	tpacpi_hwmon = hwmon_device_register_with_groups(
--		&tpacpi_sensors_pdev->dev, TPACPI_NAME, NULL, NULL);
+-	tp_features.sensors_pdev_attrs_registered = 1;
  
--	if (IS_ERR(tpacpi_hwmon)) {
--		ret = PTR_ERR(tpacpi_hwmon);
--		tpacpi_hwmon = NULL;
--		pr_err("unable to register hwmon device\n");
--		thinkpad_acpi_module_exit();
--		return ret;
--	}
  	mutex_init(&tpacpi_inputdev_send_mutex);
  	tpacpi_inputdev = input_allocate_device();
- 	if (!tpacpi_inputdev) {
-@@ -11345,6 +11335,16 @@ static int __init thinkpad_acpi_module_init(void)
- 	}
- 	tp_features.sensors_pdrv_registered = 1;
- 
-+	tpacpi_hwmon = hwmon_device_register_with_groups(
-+		&tpacpi_sensors_pdev->dev, TPACPI_NAME, NULL, tpacpi_hwmon_groups);
-+	if (IS_ERR(tpacpi_hwmon)) {
-+		ret = PTR_ERR(tpacpi_hwmon);
-+		tpacpi_hwmon = NULL;
-+		pr_err("unable to register hwmon device\n");
-+		thinkpad_acpi_module_exit();
-+		return ret;
-+	}
-+
- 	ret = input_register_device(tpacpi_inputdev);
- 	if (ret < 0) {
- 		pr_err("unable to register input device\n");
 -- 
 2.33.1
 
