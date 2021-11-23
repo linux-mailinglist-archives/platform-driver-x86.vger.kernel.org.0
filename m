@@ -2,49 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C12145ADCE
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Nov 2021 22:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FA8C45ADD0
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 23 Nov 2021 22:04:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233393AbhKWVHu (ORCPT
+        id S232825AbhKWVHy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 23 Nov 2021 16:07:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28002 "EHLO
+        Tue, 23 Nov 2021 16:07:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51730 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233903AbhKWVHu (ORCPT
+        by vger.kernel.org with ESMTP id S233885AbhKWVHx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 23 Nov 2021 16:07:50 -0500
+        Tue, 23 Nov 2021 16:07:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637701481;
+        s=mimecast20190719; t=1637701484;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=l2L21CYho9KDHob5Y2PAr2gF2mAe0yXwpmNhb6izqXY=;
-        b=Vgs+nqYqAGHwRm+2kmX4Z0PjYncDkLmG2yeBgZf4rnNdb6mX1yKii7tCt0aEO7fQyo7bw7
-        IvpEfgj9AFef5ln57oE3tBpVdYTi6cuoQQV9ChrCw0kwM8c1+lrLurWnnztoTQTciI4qYR
-        d7EicO4wtLQacsUbXMQ7Jwz/90LJy4U=
+        bh=LUZr7jp45aZyrdIRnHK+uTl5Zdb/dMyJiUFI6DVh3jc=;
+        b=MD9Fwy/e3i1DA05ZdjsanMFh0o8/S4c9zfvpoYzRxQYsmS+fp6Y4BoODfdXGJjtdgy0WiI
+        1NELEB483Yku3M0zd9Hn5HVt5T+M1EeNLi0A2lZNBSyTNHXX7S0lI95ZEiIDyEk2DMLM6p
+        QoswYlYYU9kFYZTRnAALCxiom9JpgRk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-6UO52ozXM-iiDceAmxBtDg-1; Tue, 23 Nov 2021 16:04:40 -0500
-X-MC-Unique: 6UO52ozXM-iiDceAmxBtDg-1
+ us-mta-553-sTDgUbzjPT2o4kvvyf6O7A-1; Tue, 23 Nov 2021 16:04:41 -0500
+X-MC-Unique: sTDgUbzjPT2o4kvvyf6O7A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8BCD1006AA4;
-        Tue, 23 Nov 2021 21:04:38 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CCE68799ED;
+        Tue, 23 Nov 2021 21:04:40 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.192.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AC90A79457;
-        Tue, 23 Nov 2021 21:04:37 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3E62F79448;
+        Tue, 23 Nov 2021 21:04:39 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
         Mark Pearson <markpearson@lenovo.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, Len Baker <len.baker@gmx.com>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/6] platform/x86: thinkpad_acpi: Register tpacpi_pdriver after subdriver init
-Date:   Tue, 23 Nov 2021 22:04:20 +0100
-Message-Id: <20211123210424.266607-3-hdegoede@redhat.com>
+Subject: [PATCH 3/6] platform/x86: thinkpad_acpi: tpacpi_attr_group contains driver attributes not device attrs
+Date:   Tue, 23 Nov 2021 22:04:21 +0100
+Message-Id: <20211123210424.266607-4-hdegoede@redhat.com>
 In-Reply-To: <20211123210424.266607-1-hdegoede@redhat.com>
 References: <20211123210424.266607-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,104 +54,118 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Commit c99ca78d67a6 ("platform/x86: thinkpad_acpi: Switch to common use
-of attributes") introduces the use of attribute_group.is_visible callbacks
-replacing the conditional calling of driver_create_file() for optional
-attributes.
+Commit 79f960e29cfc ("platform/x86: thinkpad_acpi: Convert platform driver
+to use dev_groups") put the debug_level, interface_version, version and the
+THINKPAD_ACPI_DEBUGFACILITIES attributes in a new tpacpi_attr_group and
+added those to the tpacpi_groups groups-array which is used to initialize
+the driver.dev_groups member.
 
-The is_visible callbacks rely on various tp_features.has_foo flags,
-which get set by the subdriver init functions.
+But before this commit these attributes were registered with
+driver_create_file(), so they should be part of the groups-array which is
+used to initialize the driver.groups member instead.
 
-But before this fix, thinkpad_acpi_module_init() would call the
-subdriver init functions after registering the platform_device and
-the tpacpi_pdriver. Which would cause the is_visible callbacks to
-get called before the subdriver init functions, which in turn would
-cause optional attributes to not get registered at all, even when
-the feature is actually present.
+And also make the same change for the fan_watchdog hwmon driver attribute.
 
-Fix this by moving the platform_driver_register(&tpacpi_pdriver) to after
-the subdriver init calls; and do the same for the tpacpi_hmon_pdriver.
-
-Fixes: c99ca78d67a6 ("platform/x86: thinkpad_acpi: Switch to common use of attributes")
+Fixes: 79f960e29cfc ("platform/x86: thinkpad_acpi: Convert platform driver to use dev_groups")
 Cc: Len Baker <len.baker@gmx.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 41 ++++++++++++++--------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 30 +++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index ade3c1bdf80d..ecec5351daed 100644
+index ecec5351daed..7680bb0ee2d5 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -11166,6 +11166,11 @@ static void thinkpad_acpi_module_exit(void)
+@@ -8646,7 +8646,6 @@ static struct attribute *fan_attributes[] = {
+ 	&dev_attr_pwm1.attr,
+ 	&dev_attr_fan1_input.attr,
+ 	&dev_attr_fan2_input.attr,
+-	&driver_attr_fan_watchdog.attr,
+ 	NULL
+ };
  
- 	tpacpi_lifecycle = TPACPI_LIFE_EXITING;
+@@ -8670,6 +8669,16 @@ static const struct attribute_group fan_attr_group = {
+ 	.attrs = fan_attributes,
+ };
  
-+	if (tp_features.sensors_pdrv_registered)
-+		platform_driver_unregister(&tpacpi_hwmon_pdriver);
-+	if (tp_features.platform_drv_registered)
-+		platform_driver_unregister(&tpacpi_pdriver);
++static struct attribute *fan_driver_attributes[] = {
++	&driver_attr_fan_watchdog.attr,
++	NULL
++};
 +
- 	list_for_each_entry_safe_reverse(ibm, itmp,
- 					 &tpacpi_all_drivers,
- 					 all_drivers) {
-@@ -11188,10 +11193,6 @@ static void thinkpad_acpi_module_exit(void)
- 		platform_device_unregister(tpacpi_sensors_pdev);
- 	if (tpacpi_pdev)
- 		platform_device_unregister(tpacpi_pdev);
--	if (tp_features.sensors_pdrv_registered)
--		platform_driver_unregister(&tpacpi_hwmon_pdriver);
--	if (tp_features.platform_drv_registered)
--		platform_driver_unregister(&tpacpi_pdriver);
- 	if (proc_dir)
- 		remove_proc_entry(TPACPI_PROC_DIR, acpi_root_dir);
- 	if (tpacpi_wq)
-@@ -11245,22 +11246,6 @@ static int __init thinkpad_acpi_module_init(void)
- 		return -ENODEV;
- 	}
- 
--	ret = platform_driver_register(&tpacpi_pdriver);
--	if (ret) {
--		pr_err("unable to register main platform driver\n");
--		thinkpad_acpi_module_exit();
--		return ret;
--	}
--	tp_features.platform_drv_registered = 1;
--
--	ret = platform_driver_register(&tpacpi_hwmon_pdriver);
--	if (ret) {
--		pr_err("unable to register hwmon platform driver\n");
--		thinkpad_acpi_module_exit();
--		return ret;
--	}
--	tp_features.sensors_pdrv_registered = 1;
--
- 	/* Device initialization */
- 	tpacpi_pdev = platform_device_register_simple(TPACPI_DRVR_NAME, -1,
- 							NULL, 0);
-@@ -11324,6 +11309,22 @@ static int __init thinkpad_acpi_module_init(void)
- 
- 	tpacpi_lifecycle = TPACPI_LIFE_RUNNING;
- 
-+	ret = platform_driver_register(&tpacpi_pdriver);
-+	if (ret) {
-+		pr_err("unable to register main platform driver\n");
-+		thinkpad_acpi_module_exit();
-+		return ret;
-+	}
-+	tp_features.platform_drv_registered = 1;
++static const struct attribute_group fan_driver_attr_group = {
++	.is_visible = fan_attr_is_visible,
++	.attrs = fan_driver_attributes,
++};
 +
-+	ret = platform_driver_register(&tpacpi_hwmon_pdriver);
-+	if (ret) {
-+		pr_err("unable to register hwmon platform driver\n");
-+		thinkpad_acpi_module_exit();
-+		return ret;
-+	}
-+	tp_features.sensors_pdrv_registered = 1;
+ #define TPACPI_FAN_Q1	0x0001		/* Unitialized HFSP */
+ #define TPACPI_FAN_2FAN	0x0002		/* EC 0x31 bit 0 selects fan2 */
+ #define TPACPI_FAN_2CTL	0x0004		/* selects fan2 control */
+@@ -10435,7 +10444,7 @@ static struct ibm_struct dprc_driver_data = {
+ 
+ /* --------------------------------------------------------------------- */
+ 
+-static struct attribute *tpacpi_attributes[] = {
++static struct attribute *tpacpi_driver_attributes[] = {
+ 	&driver_attr_debug_level.attr,
+ 	&driver_attr_version.attr,
+ 	&driver_attr_interface_version.attr,
+@@ -10470,11 +10479,16 @@ static umode_t tpacpi_attr_is_visible(struct kobject *kobj,
+ }
+ #endif
+ 
+-static const struct attribute_group tpacpi_attr_group = {
++static const struct attribute_group tpacpi_driver_attr_group = {
+ #ifdef CONFIG_THINKPAD_ACPI_DEBUGFACILITIES
+ 	.is_visible = tpacpi_attr_is_visible,
+ #endif
+-	.attrs = tpacpi_attributes,
++	.attrs = tpacpi_driver_attributes,
++};
 +
- 	ret = input_register_device(tpacpi_inputdev);
- 	if (ret < 0) {
- 		pr_err("unable to register input device\n");
++static const struct attribute_group *tpacpi_driver_groups[] = {
++	&tpacpi_driver_attr_group,
++	NULL,
+ };
+ 
+ static const struct attribute_group *tpacpi_groups[] = {
+@@ -10486,7 +10500,6 @@ static const struct attribute_group *tpacpi_groups[] = {
+ 	&proxsensor_attr_group,
+ 	&kbdlang_attr_group,
+ 	&dprc_attr_group,
+-	&tpacpi_attr_group,
+ 	NULL,
+ };
+ 
+@@ -10497,6 +10510,11 @@ static const struct attribute_group *tpacpi_hwmon_groups[] = {
+ 	NULL,
+ };
+ 
++static const struct attribute_group *tpacpi_hwmon_driver_groups[] = {
++	&fan_driver_attr_group,
++	NULL,
++};
++
+ /****************************************************************************
+  ****************************************************************************
+  *
+@@ -10509,6 +10527,7 @@ static struct platform_driver tpacpi_pdriver = {
+ 	.driver = {
+ 		.name = TPACPI_DRVR_NAME,
+ 		.pm = &tpacpi_pm,
++		.groups = tpacpi_driver_groups,
+ 		.dev_groups = tpacpi_groups,
+ 	},
+ 	.shutdown = tpacpi_shutdown_handler,
+@@ -10517,6 +10536,7 @@ static struct platform_driver tpacpi_pdriver = {
+ static struct platform_driver tpacpi_hwmon_pdriver = {
+ 	.driver = {
+ 		.name = TPACPI_HWMON_DRVR_NAME,
++		.groups = tpacpi_hwmon_driver_groups,
+ 		.dev_groups = tpacpi_hwmon_groups,
+ 	},
+ };
 -- 
 2.33.1
 
