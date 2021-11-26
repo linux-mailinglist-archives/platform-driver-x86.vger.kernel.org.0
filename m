@@ -2,29 +2,29 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4616B45E55F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Nov 2021 03:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBA4C45E5B5
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Nov 2021 04:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358544AbhKZClr (ORCPT
+        id S1358548AbhKZCoS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Nov 2021 21:41:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49868 "EHLO mail.kernel.org"
+        Thu, 25 Nov 2021 21:44:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1358343AbhKZCjo (ORCPT
+        id S1357802AbhKZCmL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Nov 2021 21:39:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CD3461245;
-        Fri, 26 Nov 2021 02:34:04 +0000 (UTC)
+        Thu, 25 Nov 2021 21:42:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C0EE8611AE;
+        Fri, 26 Nov 2021 02:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637894045;
-        bh=GSP3UZ7sKxYc+dtiH8QG+sbHE7U8JQS0WY4IwXsaMZQ=;
+        s=k20201202; t=1637894103;
+        bh=XEzrYMBGYkk3IuC17Hh1XTiQio+TLdBSJNHVnZkED4A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l7YedSqVUyKD3d5irzhGXHGlyzoa/K3BY+DR3LGuOY4PdjbEtGSzAakgFWoj9Ls8B
-         +sB/Pu3bKQFfz5Dym/gwBjWoNNnKQrrK/gcVMB6ADZZfZooXQn7v83uAibeWSXs/+F
-         650rNi6p8JH/F4OiPjwlr1XKqw4wKWNjhorUSFk5g8hO8auwe4Ka/2LRtvzLvEmN6S
-         WpufJl2DEM79PQ5r5Cgep+o+XeHF5xC9zJUA3Nr1pHLWUkdIFVrDeHnkKFmqV5E9vY
-         pbgwuXDbC4U/ib14wVmF5AOBNdTSgm/EkEwsjNvb95nHgHgH50QrsDGDN8v1toMDNI
-         l7o8WuuQnwmDg==
+        b=lezaZRXlfDuyC2J2lpE3ilN99t3z0SsRx4W8Th+CtJXpdL4XeMOF5g/PbxiCtkY93
+         B2nQ2422KZ0F2FyZhOQLaO48kBpNzNmm1R7II9APzR610POyw3zRYSXjrNQW2jcEuk
+         ImVk1u54koU+l46bz0akDtjQX2w4yN+MLqpfUf8oj+ERqLUCXRd6duAWMMXpahrchi
+         u+lzI1ZZoFg82RPLfArnpzf+iIQ1/GVLA8k3SyomJLO24p4pOT0UBW8g2f5r7VakV9
+         pvmr26Hq0o1RA0GjNnIED4vpU+N6C78WxY6+grj55S9P4AZ6FawgPedJuVeDQxZTSZ
+         CDolRUq2nmtyw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Slark Xiao <slark_xiao@163.com>,
@@ -32,12 +32,12 @@ Cc:     Slark Xiao <slark_xiao@163.com>,
         Sasha Levin <sashal@kernel.org>, hmh@hmh.eng.br,
         markgross@kernel.org, ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/28] platform/x86: thinkpad_acpi: Fix WWAN device disabled issue after S3 deep
-Date:   Thu, 25 Nov 2021 21:33:28 -0500
-Message-Id: <20211126023343.442045-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/19] platform/x86: thinkpad_acpi: Fix WWAN device disabled issue after S3 deep
+Date:   Thu, 25 Nov 2021 21:34:38 -0500
+Message-Id: <20211126023448.442529-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211126023343.442045-1-sashal@kernel.org>
-References: <20211126023343.442045-1-sashal@kernel.org>
+In-Reply-To: <20211126023448.442529-1-sashal@kernel.org>
+References: <20211126023448.442529-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 840bbc312aedd..d8d241344d22d 100644
+index 3028d9f1ac59c..5d114088c88fb 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -1170,15 +1170,6 @@ static int tpacpi_rfk_update_swstate(const struct tpacpi_rfk *tp_rfk)
+@@ -1188,15 +1188,6 @@ static int tpacpi_rfk_update_swstate(const struct tpacpi_rfk *tp_rfk)
  	return status;
  }
  
@@ -97,7 +97,7 @@ index 840bbc312aedd..d8d241344d22d 100644
  /*
   * Sync the HW-blocking state of all rfkill switches,
   * do notice it causes the rfkill core to schedule uevents
-@@ -3121,9 +3112,6 @@ static void tpacpi_send_radiosw_update(void)
+@@ -3135,9 +3126,6 @@ static void tpacpi_send_radiosw_update(void)
  	if (wlsw == TPACPI_RFK_RADIO_OFF)
  		tpacpi_rfk_update_hwblock_state(true);
  
