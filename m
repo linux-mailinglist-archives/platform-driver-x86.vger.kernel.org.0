@@ -2,100 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8AE45E380
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Nov 2021 00:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA73045E4FA
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 26 Nov 2021 03:39:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351551AbhKYXom (ORCPT
+        id S1358235AbhKZCiP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 25 Nov 2021 18:44:42 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37388 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232344AbhKYXml (ORCPT
+        Thu, 25 Nov 2021 21:38:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48578 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1343705AbhKZCgK (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 25 Nov 2021 18:42:41 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59FF7FD7;
-        Fri, 26 Nov 2021 00:39:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637883566;
-        bh=e/88nyQPFqvYKj8EETiiJv+//BkB8gj96nheD+iYq7A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lkb9OAOJJnIWFaIvu4Ar1l+5rc1in50j6aLb5V/UbDmKuO7xxy0noL4+60JzJCGjN
-         By4Wiy9K3MwjUv5EdEzD9rM1xDOJn6GW/Q3gayy9DeI0L5vt045EsTpNFil/w3D51l
-         rri7NyOjYiYIT97v4wsrCISxSfR5mGWAR0If8N4c=
-Date:   Fri, 26 Nov 2021 01:39:03 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v6 07/15] platform/x86: int3472: Enable I2c daisy chain
-Message-ID: <YaAel9HuAvemRg2s@pendragon.ideasonboard.com>
-References: <20211125165412.535063-1-hdegoede@redhat.com>
- <20211125165412.535063-8-hdegoede@redhat.com>
+        Thu, 25 Nov 2021 21:36:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 16F04611AE;
+        Fri, 26 Nov 2021 02:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637893950;
+        bh=viddXTknhOgEXWS6LJy1v976ezvP6bEIsfD9x355hVA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JGOjAR1zncCV2QkvXfx6UiiM1wP1ljNgU7v0VjJPFbjoPDADiWPgHp/MTFZYV4NgW
+         +CgU0DINOh+iZfir1Vw0k7R8D3hE3CdKDl4zY05rbnAAQbtTqdo2+cNUHuTBrlqABP
+         X4NCdfCN1LKOrxlndtA+jD2pmu3VCu0GOh9D4xwB8JoyYTM9/Lh62hDeLnYgWwn72v
+         vTgLlkY/BoHBwK/pbP2yHhVWMiED423Q5zs4q2ArGuyuqhabcnAYXMvZK68Kh3WHwS
+         wa/7EbnegxCcW7EgjV5dgxJI3WpHFm3KFHGpRB1e3owG1Pp133OQCvDkW00gl6/IOe
+         pRNrLjh5wDHJQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
+        andriy.shevchenko@linux.intel.com, rdunlap@infradead.org,
+        mario.limonciello@dell.com, markpearson@lenovo.com,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 15/39] platform/x86: dell-wmi-descriptor: disable by default
+Date:   Thu, 25 Nov 2021 21:31:32 -0500
+Message-Id: <20211126023156.441292-15-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211126023156.441292-1-sashal@kernel.org>
+References: <20211126023156.441292-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211125165412.535063-8-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans,
+From: Thomas Weißschuh <linux@weissschuh.net>
 
-Thank you for the patch.
+[ Upstream commit 0f07c023dcd08ca49b6d3dd018abc7cd56301478 ]
 
-On Thu, Nov 25, 2021 at 05:54:04PM +0100, Hans de Goede wrote:
-> From: Daniel Scally <djrscally@gmail.com>
-> 
-> The TPS68470 PMIC has an I2C passthrough mode through which I2C traffic
-> can be forwarded to a device connected to the PMIC as though it were
-> connected directly to the system bus. Enable this mode when the chip
-> is initialised.
+dell-wmi-descriptor only provides symbols to other drivers.
+These drivers already select dell-wmi-descriptor when needed.
 
-Is there any drawback doing this unconditionally, if nothing is
-connected to the bus on the other side (including no pull-ups) ?
+This fixes an issue where dell-wmi-descriptor is compiled as a module
+with localyesconfig on a non-Dell machine.
 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
->  .../x86/intel/int3472/intel_skl_int3472_tps68470.c         | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c b/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
-> index c05b4cf502fe..42e688f4cad4 100644
-> --- a/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
-> +++ b/drivers/platform/x86/intel/int3472/intel_skl_int3472_tps68470.c
-> @@ -45,6 +45,13 @@ static int tps68470_chip_init(struct device *dev, struct regmap *regmap)
->  		return ret;
->  	}
->  
-> +	/* Enable I2C daisy chain */
-> +	ret = regmap_write(regmap, TPS68470_REG_S_I2C_CTL, 0x03);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable i2c daisy chain\n");
-> +		return ret;
-> +	}
-> +
->  	dev_info(dev, "TPS68470 REVID: 0x%02x\n", version);
->  
->  	return 0;
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Link: https://lore.kernel.org/r/20211113080551.61860-1-linux@weissschuh.net
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/platform/x86/dell/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/dell/Kconfig
+index 2fffa57e596e4..fe224a54f24c0 100644
+--- a/drivers/platform/x86/dell/Kconfig
++++ b/drivers/platform/x86/dell/Kconfig
+@@ -187,7 +187,7 @@ config DELL_WMI_AIO
+ 
+ config DELL_WMI_DESCRIPTOR
+ 	tristate
+-	default m
++	default n
+ 	depends on ACPI_WMI
+ 
+ config DELL_WMI_LED
 -- 
-Regards,
+2.33.0
 
-Laurent Pinchart
