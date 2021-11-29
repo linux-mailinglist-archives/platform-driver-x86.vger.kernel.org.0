@@ -2,102 +2,132 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACEA74615CF
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Nov 2021 14:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2778461667
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 29 Nov 2021 14:28:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377216AbhK2NKQ (ORCPT
+        id S239758AbhK2Nbe (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 29 Nov 2021 08:10:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49162 "EHLO
+        Mon, 29 Nov 2021 08:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377634AbhK2NIP (ORCPT
+        with ESMTP id S235896AbhK2N3c (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 29 Nov 2021 08:08:15 -0500
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A60C0698E2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Nov 2021 03:50:41 -0800 (PST)
-Received: by mail-io1-xd43.google.com with SMTP id k21so21078796ioh.4
-        for <platform-driver-x86@vger.kernel.org>; Mon, 29 Nov 2021 03:50:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
-        b=Q2hyTQehMmTaEpHBXH0QJIEuR/lGrA2JIAtGU8GMPKasZ8BYjU11AQ1gV6XVvADdnG
-         Vf7KbDYbKqgD9jhrKxxBliP4DdxCsSYx1VBOACFaZPRPmGVGxYaCiowtk76FbX974mCq
-         Jikk8RhClvLOTM1TijelKe8o8zh6ujfa2ytQVJ+h6mkTYoglvkBETz2RTpBnQ7wFA1/n
-         giFC1kRAlIA+PuJImNgV2hkMuwtf6KGqmMYVs4GuIQHSZ0HgsJRiMN5C57fWsIzrjMyT
-         YRkqx/c3cbZDblw7/7Uvj1svExldzpnCj6Ddv05goOjZ87qXrVLX2WRTrNXo1ZOqQc1b
-         gJEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=rf85IIrYDoX56EbvJwzXLS38sc5yj7QH4axMImYh7js=;
-        b=xh8Q0w6R8tzdg+QfW7e/LMcyi1OHDhyQf0xWCjWdQ8KWXxJ5aU6in/6k3uYLnnxIw1
-         Pj5RUJOWUlK5I/p32EJ5LxDSKPBRnILNhUm41D+XHDt2/vAMZYRbUXaR6NgoLfW50ylP
-         hGFx8jK+Y4qoxzevF/capeuMbC4BwTmVT3SXIcfj41QVydtGq8QZzW0Be8/u32CmSa4Z
-         qTlXtT0tXJAk2sZ3hAG6Dr/Ury+96RhRwUdwkGDK15huocZkHWpXt6DTTUVCIN1F55yk
-         BkmOoWF/34P/A6MVrwABSUH9Tf9tWsWhXjeIQUEGkqqrBszoNowe4vmfWoQBq2/CrFxm
-         LLjw==
-X-Gm-Message-State: AOAM5324TEn3Vu3CMHlCoUEYpW52utkxQfEJlfcg4VIp/d8+dOiTgOvb
-        4lN0joHLHxyMllZjFTDPr5H41I9p2RR0fqEdkJE=
-X-Google-Smtp-Source: ABdhPJxspZfTBV2deUV1RzbhnSRfEq5nNZ2pU2PskGGfp5Z+4eAdNHnJtqq53IgQfzNuYBp8IrVBC6Zn7zPl2XTWBpw=
-X-Received: by 2002:a02:a91a:: with SMTP id n26mr65177831jam.46.1638186640500;
- Mon, 29 Nov 2021 03:50:40 -0800 (PST)
+        Mon, 29 Nov 2021 08:29:32 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2CBC08E867;
+        Mon, 29 Nov 2021 04:08:18 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EAD9F612DD;
+        Mon, 29 Nov 2021 12:08:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1A1C004E1;
+        Mon, 29 Nov 2021 12:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638187697;
+        bh=AVNKEkmJUQ9Akh0ujLWrgjE9ECPTii2J34p78F6aXfw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jSaMOTsYyspim30zg0bDBb0uVEec5wgFmTHi9GaQon+uGOH/tc+TdBVNmersVCrEo
+         0HMFB0cCHq2DxHhktXImsyBWj9aGglvO/WwnGNPJ/rUq86FXT3sw0/k+nVYAJCihYq
+         Exr0epUXaL8/6JUFdJiIrQSygdI/kYE7Toaj+9tWP1nxbfqxE3oI00pTMBd2JpdJuN
+         taXK9z2gxdO6iIGRBQSkuVoBj35BM+scvhvaK83u/zg/dWST6O0yRN+Y/YO5XVzosZ
+         afP4niJMSN84BgZWulguW0TH8IsP3XhMS/+Tifm32XgplWwkYo0udX1BYOV9Cz/1q2
+         0WaT0OPtYW3MA==
+Date:   Mon, 29 Nov 2021 12:08:06 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
+        linux-clk@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v6 05/15] regulator: Introduce tps68470-regulator driver
+Message-ID: <YaTCpgYaPDssQp+N@sirena.org.uk>
+References: <20211125165412.535063-1-hdegoede@redhat.com>
+ <20211125165412.535063-6-hdegoede@redhat.com>
+ <YaAdIG+2MZPsdI+F@pendragon.ideasonboard.com>
+ <19aeff06-d397-5f88-6d07-f76a2073b682@redhat.com>
+ <YaLBeq0+0A6R2FZG@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Received: by 2002:a92:d651:0:0:0:0:0 with HTTP; Mon, 29 Nov 2021 03:50:40
- -0800 (PST)
-Reply-To: mr.sawadogomichel1@gmail.com
-From:   "Mr.Sawadogo Michel" <usmanmushi2018@gmail.com>
-Date:   Mon, 29 Nov 2021 03:50:40 -0800
-Message-ID: <CAAF7X7_hGD=YcydK-nUxAe6sqy2kHoLRaXp5tjBKrUQAkt0jng@mail.gmail.com>
-Subject: I NEED YOUR URGENT RESPONSE
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="RmSGVEEsRbHLX9Ig"
+Content-Disposition: inline
+In-Reply-To: <YaLBeq0+0A6R2FZG@pendragon.ideasonboard.com>
+X-Cookie: Thank god!! ... It's HENNY YOUNGMAN!!
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello Dear Friend,
 
-My name is Mr.Sawadogo Michel. I have decided to seek a confidential
-co-operation  with you in the execution of the deal described
-here-under for our both  mutual benefit and I hope you will keep it a
-top secret because of the nature  of the transaction, During the
-course of our bank year auditing, I discovered  an unclaimed/abandoned
-fund, sum total of {US$19.3 Million United State  Dollars} in the bank
-account that belongs to a Saudi Arabia businessman Who unfortunately
-lost his life and entire family in a Motor Accident.
+--RmSGVEEsRbHLX9Ig
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Now our bank has been waiting for any of the relatives to come-up for
-the claim but nobody has done that. I personally has been unsuccessful
-in locating any of the relatives, now, I sincerely seek your consent
-to present you as the next of kin / Will Beneficiary to the deceased
-so that the proceeds of this account valued at {US$19.3 Million United
-State Dollars} can be paid to you, which we will share in these
-percentages ratio, 60% to me and 40% to you. All I request is your
-utmost sincere co-operation; trust and maximum confidentiality to
-achieve this project successfully. I have carefully mapped out the
-moralities for execution of this transaction under a legitimate
-arrangement to protect you from any breach of the law both in your
-country and here in Burkina Faso when the fund is being transferred to
-your bank account.
+On Sun, Nov 28, 2021 at 01:38:34AM +0200, Laurent Pinchart wrote:
+> On Fri, Nov 26, 2021 at 12:22:35PM +0100, Hans de Goede wrote:
+> > On 11/26/21 00:32, Laurent Pinchart wrote:
+> > > On Thu, Nov 25, 2021 at 05:54:02PM +0100, Hans de Goede wrote:
+> > >> The TPS68470 PMIC provides Clocks, GPIOs and Regulators. At present in
+> > >> the kernel the Regulators and Clocks are controlled by an OpRegion
+> > >> driver designed to work with power control methods defined in ACPI, but
 
-I will have to provide all the relevant document that will be
-requested to indicate that you are the rightful beneficiary of this
-legacy and our bank will release the fund to you without any further
-delay, upon your consideration and acceptance of this offer, please
-send me the following information as stated below so we can proceed
-and get this fund transferred to your designated bank account
-immediately.
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
--Your Full Name:
--Your Contact Address:
--Your direct Mobile telephone Number:
--Your Date of Birth:
--Your occupation:
+> > >> + * (1) This regulator must have the same voltage as VIO if S_IO LDO is used to
+> > >> + *     power a sensor/VCM which I2C is daisy chained behind the PMIC.
+> > >> + * (2) If there is no I2C daisy chain it can be set freely.
+> > >> + */
 
-I await your swift response and re-assurance.
+> > > Do we need safety checks for this ?
 
-Best regards,
-Mr.Sawadogo Michel.
+> > There really is no way to deal this condition needs to matches inside the driver,
+> > this should be enforced by setting proper constraints on the 2 regulators where
+> > the PMIC is used with a sensor I2C daisy chained behind it.
+
+> Right. I tend to be cautious here, as incorrect settings can destroy the
+> hardware. We should err on the side of too many safety checks rather
+> than too few. I was thinking that the cio2-bridge driver could set a
+> daisy-chaining flag, which could trigger additional checks here, but it
+> wouldn't protect against someone experimenting to support a new device
+> and setting different voltages without the daisy-chaining flag.
+
+> My biggest worry is that someone with an unsupported machine may start
+> by copying and pasting an existing configuration to try it out, and fry
+> their hardware.
+
+There's really nothing you can do that prevents this, especially in the
+cut'n'paste scenario.  Overrides tend to get copied along with the rest
+of the configuration, or checks hacked out if people think they're
+getting in the way without realising what they're there for.
+
+--RmSGVEEsRbHLX9Ig
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGkwqUACgkQJNaLcl1U
+h9CAgAf8CzQIgZiHFaA5iv2jE3nlJ5tXNUlPqGuiPWQ/ZvLAOTS7xrHL0cWrUuTQ
+T1Rci4/aDPHWanPC43f9AR6nopwXJkzEhmc46AQn2bho+YIqta//ue7YrGX3TDCS
+vn/KYo8jTKMrXMd1QCItfhdYPhHpL6t5qHvmtyQSz2/UxGH7k+SzmPQQI7Wo3bwx
+wIi09kgVKlwCEpmFMI3TyoCCpJgVKYJXi6XiLsA6a8pW2O/IkoeMZc8mcMbFYbL3
+MeZzRi7KZ7xNneWZfyZ10MZqx70nGtARsQUn1yv/gyz66hdGtGg/a0l9BQufgecB
+n3mz+wbWmgILk3zQivafxzUdjYsEow==
+=qPlL
+-----END PGP SIGNATURE-----
+
+--RmSGVEEsRbHLX9Ig--
