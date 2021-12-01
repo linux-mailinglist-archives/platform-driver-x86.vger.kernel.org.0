@@ -2,85 +2,79 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EF3546455A
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Dec 2021 04:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BC6464D04
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  1 Dec 2021 12:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241435AbhLADTv (ORCPT
+        id S233613AbhLALiS (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 30 Nov 2021 22:19:51 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:45256 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241422AbhLADTu (ORCPT
+        Wed, 1 Dec 2021 06:38:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33782 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348964AbhLALiR (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 30 Nov 2021 22:19:50 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C71A5B81C0F
-        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Dec 2021 03:16:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E720C53FCB
-        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Dec 2021 03:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638328588;
-        bh=793gj4fwG0OjQqMuzeZt1rSnRWJCZFe68yj1vALZW0M=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=IngBC503t9QUGA8Sp8Z7p5fpu7rGCWYyL0D8Tor+mQfzebFyQcDJtBPZKsQrEAMYq
-         uAQhj9BIIF0LYr/pfcfnp5nCaecPuasMi5vShNuLomAz6N35jhGDreqbLujwm/32Ft
-         cSvfXWShTWxJPEGv1GyvOpA2pfl9blhUphDBYaObo40lyhELCARwDz8Qs3v3hOQVJQ
-         gj5vFsTx8aapB03CakakKevxcLw+zaZ3/LvyuL1pjbjvS8DJF0NRCgPVmwmvhLNi6g
-         rNtj3tjpLMH6REz//AtA2rIgVBfrvTK/Pr1Kd+J6sKxeETrU+3LDq38SaUl8JrHBUp
-         sUv9b4NvCkBNw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
-        id 4221160F3A; Wed,  1 Dec 2021 03:16:28 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 215177] Stop exporting platform_profile interface for Lenovo
- T14/P14s Gen2 AMD
-Date:   Wed, 01 Dec 2021 03:16:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: markpearson@lenovo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-215177-215701-Pqk6lxigRw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215177-215701@https.bugzilla.kernel.org/>
-References: <bug-215177-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Wed, 1 Dec 2021 06:38:17 -0500
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC5EC06174A
+        for <platform-driver-x86@vger.kernel.org>; Wed,  1 Dec 2021 03:34:56 -0800 (PST)
+Received: by mail-vk1-xa36.google.com with SMTP id f7so15837871vkf.10
+        for <platform-driver-x86@vger.kernel.org>; Wed, 01 Dec 2021 03:34:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=NO9tpwIYW7C3wB+cvdU2k1LbhSMwuGkvyp7yhG9vliqGhzG+pK1VikDsxC9TgHnrRZ
+         LiCQsABSJ3d8L3gB5zS0Jv4Do1cnmqE24J8b9+hk0EiQiOlOhWblYRtxOaGoReXXQAoc
+         Dmt1WnlIPUnQJK+ZTkwT8m9M4tMYXSVGhpz13LU46scYdCuiQCcX8g+wpzjSxDL+JJbx
+         NkEi6sOrnQ+xUXz7CG6CElf3G1FmBPlSZkSWc0mAzr5jYn99mQXhfi7v5y49VDntCqDK
+         hcEwdFQ6DK7RSUmXruD42lDXnARGb+uGUvoMbNu43ebM2PKOqu7RD3VkhvoBPtLojAwv
+         rVfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=RQIBiv+EnLtzQMTWrypWn55kajPGZ+JST2BiUIamltrm32ePC2GvCWGjulmfk9UtmV
+         QSvZCp/O+nR5Y6hQwkQu8QyMJW0yTpHLthgSCpC5b8Lm+g7V+9PZTohG0EgiFOCuFGt/
+         wP/8IEg4fsy3t7v5Mcfxp3dQQWFKPEscxI5pESXkFqoQim4daXwBiusjLwYpYOBzFBI8
+         12jStHAEPJ125nPK2dqirT6u19IXaATX4CJv/fo2pJnWl1uB9jl2zee2VnRtTYkV1/C3
+         FvzNcDVqkv+q8o63fFdNZt6WWfo16nlcQEhSUUw/GL0/lAGRUplho+VoScMrUcrqm78j
+         HKvA==
+X-Gm-Message-State: AOAM531tBj6f1rsWFBD+hxFha3wJzce8znjbzn61disIh3qrRsciviri
+        EcVy+hfCXcKpSybbjkprUy1/KKDfe/P2xiw07WY=
+X-Google-Smtp-Source: ABdhPJzp+FD89ztX8PLXONAbqFHq0fuM/+M5INPhSU+hVjQdtRq510LFBpOYgLFtTbcgzhgFXbuq8XoysgeIP+DqzJA=
+X-Received: by 2002:a1f:5f94:: with SMTP id t142mr6606441vkb.34.1638358495667;
+ Wed, 01 Dec 2021 03:34:55 -0800 (PST)
 MIME-Version: 1.0
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:34:55 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:34:55 -0800
+X-Google-Sender-Auth: unQAW5536Jrv7MXEU3SdV5juhC8
+Message-ID: <CAJ4dHaRQG_zC90UzTYi=xU5-i7+8Gfi0P2wbG74MPRrMLJ1nPg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215177
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-Mark Pearson (markpearson@lenovo.com) changed:
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |markpearson@lenovo.com
+Your Names: |
+Address: |
 
---- Comment #3 from Mark Pearson (markpearson@lenovo.com) ---
-Just to note here, as is stated in the Lenovo forum thread where this was
-originally raised, I am looking into this with the AMD platforms FW team to=
- see
-if we can add support.
-I'll update once I have a better understanding of the best way to solve it.
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
 
---=20
-You may reply to this email to add a comment.
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards.
+Mrs ORGIL BAATAR
