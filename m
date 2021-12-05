@@ -2,67 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4783468831
-	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 Dec 2021 00:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6615F4689A9
+	for <lists+platform-driver-x86@lfdr.de>; Sun,  5 Dec 2021 07:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232920AbhLDXQZ (ORCPT
+        id S231744AbhLEGHy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 4 Dec 2021 18:16:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232720AbhLDXQZ (ORCPT
+        Sun, 5 Dec 2021 01:07:54 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:50474 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231733AbhLEGHy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 4 Dec 2021 18:16:25 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AE6C061751
-        for <platform-driver-x86@vger.kernel.org>; Sat,  4 Dec 2021 15:12:59 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id u1so13808419wru.13
-        for <platform-driver-x86@vger.kernel.org>; Sat, 04 Dec 2021 15:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xJVMownzvvYswLJJlKOnygxeQORblXY4sMHJZXmtZ0c=;
-        b=AhpeFMJciUZNhfWAp/pu6ETs+tq1XDnf9xAV08RrR6aUZ+WF3lplc1ucr052biotcz
-         +ef8vRN5PBVjYwjBKhcbkgA8fdzxPPMmBhr/TXAa7YiJpK4sAzd+6c2NDxgpMBNs4OzY
-         gLSmMJmhVprHUCi0DK3Jshi/7nqA+aThb9hDX5B/DBnin+A9RqPq/s088xlB3T0Mp+lb
-         1QvI57Db3lP8CuHhsieFWJ0W8NOcZLKKuYowKTIviNcPFZ2rZKTdsne540CGXXZ1BYZ+
-         7ZDwZH4xSTLl05dsbwwXT9dG0keq6lKJnWoQRIjj+yBkp2E44CKn9TnQqvvdu7U/DQw0
-         8B8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xJVMownzvvYswLJJlKOnygxeQORblXY4sMHJZXmtZ0c=;
-        b=V0PIOa53S1/HbL+gUgQs93T07M4pj4Cbqp53z5u803WFDLZsd68pkmDLFaWEwcjVEM
-         eJDI8wHlI+PmLGO2RDgZBoMHr4wEk4I5xq++o9hJE++0kdV11pvlRWzLElwSBdvmTJOy
-         BUGR5N5NJYsxe7Qq1ONvo9uwhe/dOWhf399wqHGp5GiJZJ1FpnYUuOw4XxGuu8vpE0RZ
-         2NDjjFAsvNVpuqMaC4kiTfGlwADPJbtyPQc2lz65UuqNEou8Gj5apUJLFwpVQkxgml3b
-         bROf8EQQveW64p8ijP4GZCpzDl2IqftE4QkkeE2Yojbf09xONRwvozgLj07TNZvrLT84
-         UAuw==
-X-Gm-Message-State: AOAM5308OfLpBGO1SVv0lsHH7uAAHMUhYsiTkf1dxShE/qMyUILM5I09
-        XHM+ecSvUYLlg9Kj6mrSBQuAWVMqxNr6ou24bNUDOsGNFOb9ww==
-X-Google-Smtp-Source: ABdhPJzeDNRZTzs2yEkv6KzgGQW4G8p6UQL3lYfgvqvLRiAn05bLdsuc9MlF6YkgRJeTes0Y3GqkvBzKs2DOveP7V3k=
-X-Received: by 2002:a05:6402:50c6:: with SMTP id h6mr38028773edb.228.1638659239152;
- Sat, 04 Dec 2021 15:07:19 -0800 (PST)
+        Sun, 5 Dec 2021 01:07:54 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 21875B80AD2;
+        Sun,  5 Dec 2021 06:04:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E941DC341C4;
+        Sun,  5 Dec 2021 06:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638684264;
+        bh=W+BhYvwRnMSxubxXem1oJbW5QQzLfaT+3Ll8Oy5A6SE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SjVUrnzS8KR5VE+LYjtbeQ/QzrcE/Rb8hpK9yGjp8ZosOfKj1TB058IdVdKhtqggE
+         fSi2A/rUtt7sDlG2xO1d+trZF+em3OmMqcpVnLV5ni3yMboqvWH9SJCroa46hsnq8U
+         +NSc9pCOwAGBAX6+6lUf1gUdsV1gvWmdCWpow44LXtA0cMjS754Lifh5fAjgI8LOhP
+         pSxQjwgoAEqgENEUtBYAKX01iv7Dw94krrsmALJ3iVlV7qWL6wXCJGGudkLL72UHdp
+         SAr1r6wehi/C5pQljbFUU6Z76q9Bl9kCLcrq1OXrXJotSIJC8iI6s+1XcEWLfK/orq
+         iVNkq0aA51WBg==
+Date:   Sun, 5 Dec 2021 08:04:12 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Martin Fernandez <martin.fernandez@eclypsium.com>
+Cc:     linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        ardb@kernel.org, dvhart@infradead.org, andy@infradead.org,
+        gregkh@linuxfoundation.org, rafael@kernel.org,
+        akpm@linux-foundation.org, daniel.gutson@eclypsium.com,
+        hughsient@gmail.com, alex.bazhaniuk@eclypsium.com,
+        alison.schofield@intel.com
+Subject: Re: [PATCH v3 0/5] x86: Show in sysfs if a memory node is able to do
+ encryption
+Message-ID: <YaxWXACBguZxWmKS@kernel.org>
+References: <20211203192148.585399-1-martin.fernandez@eclypsium.com>
 MIME-Version: 1.0
-Received: by 2002:a54:3192:0:0:0:0:0 with HTTP; Sat, 4 Dec 2021 15:07:16 -0800 (PST)
-Reply-To: mrs.bill.chantalone01@gmail.com
-From:   "Mrs.Bill.Chantal" <chukwulotaelizabeth@gmail.com>
-Date:   Sun, 5 Dec 2021 00:07:16 +0100
-Message-ID: <CAFs8yNLNHd_x+y7AQExBLs626N9RpLPjU392D_pf7JLHjTEsGw@mail.gmail.com>
-Subject: hello....
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211203192148.585399-1-martin.fernandez@eclypsium.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-You have been compensated with the sum of 5 million dollars in this
-united nation the payment will be issue into atm visa  card and send
-to you from the santander bank we need your address and your
-Whatsapp number  + 1 6465853907  this my email.ID
-( mrs.bill.chantal.roland@gmail.com )  contact  me
+Hi Martin,
 
-Thanks my
+On Fri, Dec 03, 2021 at 04:21:43PM -0300, Martin Fernandez wrote:
+> Show for each node if every memory descriptor in that node has the
+> EFI_MEMORY_CPU_CRYPTO attribute.
+> 
+> fwupd project plans to use it as part of a check to see if the users
+> have properly configured memory hardware encryption capabilities. It's
+> planned to make it part of a specification that can be passed to
+> people purchasing hardware. It's called Host Security ID:
+> https://fwupd.github.io/libfwupdplugin/hsi.html
+> 
+> This also can be useful in the future if NUMA decides to prioritize
+> nodes that are able to do encryption.
+ 
+I'm missing a description about *how* the new APIs/ABIs are going to be
+used. This comment also applies to the changelogs of the patches that
+mostly describe what the patch does and do not describe why is it needed.
+ 
+> Changes since v2:
+> 
+> e820__range_mark_crypto -> e820__range_mark_crypto_capable.
+> 
+> In e820__range_remove: Create a region with crypto capabilities
+> instead of creating one without it and then mark it.
+> 
+> 
+> Changes since v1:
+> 
+> Modify __e820__range_update to update the crypto capabilities of a
+> range; now this function will change the crypto capability of a range
+> if it's called with the same old_type and new_type. Rework
+> efi_mark_e820_regions_as_crypto_capable based on this.
+> 
+> Update do_add_efi_memmap to mark the regions as it creates them.
+> 
+> Change the type of crypto_capable in e820_entry from bool to u8.
+> 
+> Fix e820__update_table changes.
+> 
+> Remove memblock_add_crypto_capable. Now you have to add the region and
+> mark it then.
+> 
+> Better place for crypto_capable in pglist_data.
+> 
+> 
+> Martin Fernandez (5):
+>   mm/memblock: Tag memblocks with crypto capabilities
+>   mm/mmzone: Tag pg_data_t with crypto capabilities
+>   Tag e820_entry with crypto capabilities
+>   x86/efi: Tag e820_entries as crypto capable from EFI memmap
+>   drivers/node: Show in sysfs node's crypto capabilities
+> 
+>  arch/x86/include/asm/e820/api.h   |  1 +
+>  arch/x86/include/asm/e820/types.h |  1 +
+>  arch/x86/kernel/e820.c            | 59 ++++++++++++++++++++++++-------
+>  arch/x86/platform/efi/efi.c       | 25 +++++++++++++
+>  drivers/base/node.c               | 10 ++++++
+>  include/linux/memblock.h          |  5 +++
+>  include/linux/mmzone.h            |  3 ++
+>  mm/memblock.c                     | 49 +++++++++++++++++++++++++
+>  mm/page_alloc.c                   |  1 +
+>  9 files changed, 142 insertions(+), 12 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
 
-mrs bill chantal
+-- 
+Sincerely yours,
+Mike.
