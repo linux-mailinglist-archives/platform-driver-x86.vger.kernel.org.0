@@ -2,119 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F20C4692CF
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Dec 2021 10:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9172F469324
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  6 Dec 2021 11:01:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241349AbhLFJjX (ORCPT
+        id S241637AbhLFKEk (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 6 Dec 2021 04:39:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26037 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241172AbhLFJjI (ORCPT
+        Mon, 6 Dec 2021 05:04:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235610AbhLFKEk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 6 Dec 2021 04:39:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638783340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UJ60w9l5x9z7ezkDeL8gMwQfAMNkzdnrdHE2RsyKQDs=;
-        b=W+zg+Xdc9rd7NHRlGauq6FblJmsjwpIXLqt7576v79oTcgh2zHdz9gahSmK8AKEMbB/rXJ
-        4KQsF/PlRMNRhkbHCxY8CuOfOJV2SFN63epkTs7nPiQ5QcMW9cnycYF7iQ8upmnMEQcMRy
-        snwp/jlyC4wwxhKiI/LgAcA8zDoh7oc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-wAupVm9qOCuQ-sKq7nCHaA-1; Mon, 06 Dec 2021 04:35:34 -0500
-X-MC-Unique: wAupVm9qOCuQ-sKq7nCHaA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E585835B47;
-        Mon,  6 Dec 2021 09:35:31 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.76])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 184D75DAA5;
-        Mon,  6 Dec 2021 09:35:27 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Ard Biesheuvel <ardb@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, Yauhen Kharuzhy <jekhor@gmail.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
-Subject: [PATCH v4 20/20] extcon: intel-cht-wc: Report RID_A for ACA adapters
-Date:   Mon,  6 Dec 2021 10:33:18 +0100
-Message-Id: <20211206093318.45214-21-hdegoede@redhat.com>
-In-Reply-To: <20211206093318.45214-1-hdegoede@redhat.com>
-References: <20211206093318.45214-1-hdegoede@redhat.com>
+        Mon, 6 Dec 2021 05:04:40 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9DEC061746
+        for <platform-driver-x86@vger.kernel.org>; Mon,  6 Dec 2021 02:01:12 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id k6-20020a17090a7f0600b001ad9d73b20bso5547542pjl.3
+        for <platform-driver-x86@vger.kernel.org>; Mon, 06 Dec 2021 02:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=esxAadU3+UzyTWgJKT1bUwFTK6KpmX9nIkgAaCqEFJ8=;
+        b=CB9YrGA22JN5ZyeYydruSzhql86xH3kYrnFrKGq0qEvwNpX1VfCCXTK3SmIuYXz4PZ
+         j7HtZRX6pU7lFpPXEUeyWrgZCTtwr4EldByTKDfLklw5UQ7Oc+YkEsKuTvaMaLQjtT1I
+         WIoKFi92GaoKdZhS7LHwTVZ0i+C48STUGx0vX+zxoIsXvgGCla8CxvKfFGeXcmtFX6uv
+         QjxHHln2bs5fu/pdQXmqETJLTCmHwlx6b5wV8iN41Mz4S4Dc93/0FwIXSKLZaa1kICtL
+         X6I9V323pzhtYap6AkV+zGX2sDvFTUP3tInBZFephbmWqGlLcXhkQ0umYrjblldMof9s
+         vnMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=esxAadU3+UzyTWgJKT1bUwFTK6KpmX9nIkgAaCqEFJ8=;
+        b=1gVAxjLWEoIKyyizMn/gX3R582vJO5EdKy/4egUBUikZdmLgJET9AWKgzmAo/T5NNm
+         1+cNiepkhu3xTxiPuMpuCIy/Dcnx3YnDQwp4u0f0OAnbOqt7zQyL948gTn/Fngdjzqmn
+         9tzPNKhQndNvZ22/7SRRgrAv/JIQH3pMwQYWGZqlAK1TAxbt2lSQXOZS9BN4++VHnsC+
+         Mosg8fPb/UesUGuRvO0xxHR+gsJWNtwARBPjQKxRzAYUG7M3FnRH0Fl49M03pFJPE3V6
+         dLQOIgVBNwioNYJbXqdva15FJEPpfMMj74c/OdwvotImPk4bJy4Ac8dQ4/pYZ3IpLmsi
+         lCHg==
+X-Gm-Message-State: AOAM530CLAo/gEkBIGNGeHvIcwG4Pjv3hfmJDp19oQh4iMRHxAurqsB3
+        qWEPKkd2KUfmk6+78H1l6adRRR8eA18E2xjcnEU=
+X-Google-Smtp-Source: ABdhPJxkzHD/O/7CnhCDyGGJyBHK8POHhxZ2zVDJ7xD3+SkkBl2OvJ6GBe+ZEmmjtepOHenpTg/ZXOyEeSyc9M2Yrl4=
+X-Received: by 2002:a17:902:f24a:b0:141:c6fc:2e18 with SMTP id
+ j10-20020a170902f24a00b00141c6fc2e18mr42831174plc.55.1638784871694; Mon, 06
+ Dec 2021 02:01:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received: by 2002:a05:6a10:6d05:0:0:0:0 with HTTP; Mon, 6 Dec 2021 02:01:11
+ -0800 (PST)
+Reply-To: jp2888322@gmail.com
+From:   Maria-Elisabeth_Schaeffler <johnmunenemutugi@gmail.com>
+Date:   Mon, 6 Dec 2021 13:01:11 +0300
+Message-ID: <CAARS=ZFWkwqrPipVWe02G+5M682=yAvAVXt2b1x5ECghk+dwfg@mail.gmail.com>
+Subject: Re
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Make cht_wc_extcon_get_id() report RID_A for ACA adapters, instead of
-reporting ID_FLOAT.
+--=20
+Ich bin Maria Elisabeth Schaeffler, ich habe eine Spende f=C3=BCr Sie,
+E-Mail f=C3=BCr weitere Informationen.
 
-According to the spec. we should read the USB-ID pin ADC value
-to determine the resistance of the used pull-down resister and
-then return RID_A / RID_B / RID_C based on this. But all "Accessory
-Charger Adapter"s (ACAs) which users can actually buy always use
-a combination of a charging port with one or more USB-A ports, so
-they should always use a resistor indicating RID_A. But the spec
-is hard to read / badly-worded so some of them actually indicate
-they are a RID_B ACA even though they clearly are a RID_A ACA.
-
-To workaround this simply always return INTEL_USB_RID_A, which
-matches all the ACAs which users can actually buy.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/extcon/extcon-intel-cht-wc.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/extcon/extcon-intel-cht-wc.c b/drivers/extcon/extcon-intel-cht-wc.c
-index 144cb5d8cd47..2a8d41cbf41c 100644
---- a/drivers/extcon/extcon-intel-cht-wc.c
-+++ b/drivers/extcon/extcon-intel-cht-wc.c
-@@ -121,13 +121,21 @@ static int cht_wc_extcon_get_id(struct cht_wc_extcon_data *ext, int pwrsrc_sts)
- 		return INTEL_USB_ID_GND;
- 	case CHT_WC_PWRSRC_RID_FLOAT:
- 		return INTEL_USB_ID_FLOAT;
-+	/*
-+	 * According to the spec. we should read the USB-ID pin ADC value here
-+	 * to determine the resistance of the used pull-down resister and then
-+	 * return RID_A / RID_B / RID_C based on this. But all "Accessory
-+	 * Charger Adapter"s (ACAs) which users can actually buy always use
-+	 * a combination of a charging port with one or more USB-A ports, so
-+	 * they should always use a resistor indicating RID_A. But the spec
-+	 * is hard to read / badly-worded so some of them actually indicate
-+	 * they are a RID_B ACA evnen though they clearly are a RID_A ACA.
-+	 * To workaround this simply always return INTEL_USB_RID_A, which
-+	 * matches all the ACAs which users can actually buy.
-+	 */
- 	case CHT_WC_PWRSRC_RID_ACA:
-+		return INTEL_USB_RID_A;
- 	default:
--		/*
--		 * Once we have IIO support for the GPADC we should read
--		 * the USBID GPADC channel here and determine ACA role
--		 * based on that.
--		 */
- 		return INTEL_USB_ID_FLOAT;
- 	}
- }
--- 
-2.33.1
-
+Gr=C3=BC=C3=9Fe
+Maria-Elisabeth_Schaeffler
