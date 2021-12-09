@@ -2,71 +2,113 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 337FC46F57E
-	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Dec 2021 22:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7116546F5E7
+	for <lists+platform-driver-x86@lfdr.de>; Thu,  9 Dec 2021 22:26:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232515AbhLIVE1 (ORCPT
+        id S231573AbhLIVaW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 9 Dec 2021 16:04:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
+        Thu, 9 Dec 2021 16:30:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231410AbhLIVE1 (ORCPT
+        with ESMTP id S229505AbhLIVaV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 9 Dec 2021 16:04:27 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4485C061746
-        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Dec 2021 13:00:53 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id z6so4820896plk.6
-        for <platform-driver-x86@vger.kernel.org>; Thu, 09 Dec 2021 13:00:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=BJPWo58tKlQXm4vRD5vnXhZrKIbn/SXsA1N14vuJVFE=;
-        b=idBNuLLvo5MrJPOTVPdcD9MHVL4vRKptSEyEHHlKuioU3BYI4v83Q9eb/7RREggLY4
-         nm3a3Wh9yPT1zKQz0SMCmB68nOJKGeIOUVVbooDsuT8jzDGve6u0H5XsdjhpaF4OuGXU
-         qR3DLC2tnqFnVcmfATBGIUHASmGTk833md0lR3VtMA81Ph5pof0j4S/+iMsVnHhlq9rH
-         iaDj1KmFED2h2uAIk4LFslVWyDgQU5O1UvFbDsunoOxTDu4VDmpBLBR+HJKjRzoqAp4G
-         0KYwJiaH44NAcHi77TFkPovD5BrMQAMk9tgEA1K0GIWOgVWhJfnRHGv4ezabOIJc4Ezn
-         zFLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=BJPWo58tKlQXm4vRD5vnXhZrKIbn/SXsA1N14vuJVFE=;
-        b=pRrdkl0GT6PP7nYKXQE/6RwLZCAFxB/0nJvbmgBrpj62I4PwL3NSb+JzO0aSuJBCR0
-         4o0YFloD1DLkFhrWcgwC2cro879dqj3oIBE19f2WD/hOFvnKgTC+F+EHBwKfLIMdLdkJ
-         FxGa525YaXdfYCoAIyv2JDgTPpE6C+U3uEx5U1h5aN7nAWZ4pGws6bh1A5YIDR2+yUMV
-         kYAfPtX4n2KqltPislKGD5Tlm9fVJehnvBh4dEdLlSGjIE/bK4nDEkIF1SPCtJ9q5p0t
-         tmC7o/JE3SHzdqHZUMYAEigYYLFd2cETbXQ2dJymmanmSp+EYfX/AuZJer5l8DbGHuTB
-         BxkA==
-X-Gm-Message-State: AOAM532oUdvr9UCnVal0ZSn+SG3ItvgeAX4SbR/ux9pLbW0hdLmeaYI1
-        mmx9aOTE75HkvUpF8zjPkDifX6MbvuP7HXhnCCo=
-X-Google-Smtp-Source: ABdhPJwbAC2fqiccMu+Bf4Z8QUCNAQHeQFgw/8gIYzOLJDGMR66by1dnUJUTHqP0aL9rrCZ2/FMuuimfHEqScPGsKnc=
-X-Received: by 2002:a17:90a:be10:: with SMTP id a16mr18422064pjs.133.1639083652858;
- Thu, 09 Dec 2021 13:00:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6a20:7d8b:b0:5d:5c22:870b with HTTP; Thu, 9 Dec 2021
- 13:00:52 -0800 (PST)
-Reply-To: clmloans9@gmail.com
-From:   MR ANTHONY EDWARD <debraalessii@gmail.com>
-Date:   Thu, 9 Dec 2021 22:00:52 +0100
-Message-ID: <CAM30LiugN9ZpasUg4XH-_ZMfzwvACOS2bAJOqwrSX=GJErrcuw@mail.gmail.com>
-Subject: Kreditangebot bei 2%
-To:     undisclosed-recipients:;
+        Thu, 9 Dec 2021 16:30:21 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C56C061746
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Dec 2021 13:26:47 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AED80B82690
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Dec 2021 21:26:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6354CC341CA
+        for <platform-driver-x86@vger.kernel.org>; Thu,  9 Dec 2021 21:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639085205;
+        bh=OjxvZJWgD9zKyKicYKpfHHq7zJuAIzlSK/3yDh0QnIM=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=i1btPaXijLahKpawVUaa0E5dZWP4skU1Oe1Qcy+hd/ty6c4WDOSpa08JP7dMrCRNH
+         VzBCC7FySm9saSqSSfv+hKh/pfut6RLq01KXhZTX2mN1AMwg7xNQWDyUkDGmZ7evjU
+         qQlLYfK1prPUsKq7elwocc/G9+gOjQADarErNk6wugABqJ6Wuo/MDxgNwba9JhWAMP
+         dA3vJ8wg8BCcBFCH/pZF6x5zZzD58Pre+9J0IYXwLlVADGjjeRBPCXL0MzXcQ7ZOp2
+         nlFdhwuoTb2mKzDem5lMxIlR8M66MAxgMjU0OBE7dLxsUD2mcPq/bDhZKfIuRbeH3g
+         2Ph5gd8FcwW3A==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 5031061005; Thu,  9 Dec 2021 21:26:45 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date:   Thu, 09 Dec 2021 21:26:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: pauk.denis@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-204807-215701-2zFBygIR9x@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Ben=C3=B6tigen Sie einen Gesch=C3=A4ftskredit oder einen Kredit jeglicher A=
-rt?
-Wenn ja, kontaktieren Sie uns
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-*Vollst=C3=A4ndiger Name:
-*Ben=C3=B6tigte Menge:
-*Darlehensdauer:
-*Handy:
-*Land:
+Denis Pauk (pauk.denis@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #299887|0                           |1
+        is obsolete|                            |
+
+--- Comment #194 from Denis Pauk (pauk.denis@gmail.com) ---
+Created attachment 299975
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299975&action=3Dedit
+Add support for access via Asus WMI to nct6775 (2021.12.09)
+
+(In reply to Vladdrako from comment #193)
+> (In reply to Denis Pauk from comment #192)
+> > You can try with DMI_EXACT_MATCH_ASUS_BOARD_NAME("P8Z68-V
+> > LX", &acpi_board_LPCB_MUTEX), But I am not sure that it will lock corre=
+ct
+> > mutex or be safe.
+>=20
+> drivers/hwmon/nct6775.c:5443:56: error: =C2=ABacpi_board_LPCB_MUTEX=C2=BB=
+ undeclared
+> here (not in a function)
+>  5443 |         DMI_EXACT_MATCH_ASUS_BOARD_NAME("P8Z68-V LX",
+> &acpi_board_LPCB_MUTEX),
+>       |=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20
+> ^~~~~~~~~~~~~~~~~~~~~
+> drivers/hwmon/nct6775.c:5411:24: note: in expansion of macro
+> =C2=ABDMI_EXACT_MATCH_ASUS_BOARD_NAME=C2=BB
+>  5411 |         .driver_data =3D info,=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+> \
+>       |                        ^~~~
+
+Could you check with updated patch?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
