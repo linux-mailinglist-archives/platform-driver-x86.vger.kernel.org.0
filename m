@@ -2,88 +2,109 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60381471364
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 11 Dec 2021 11:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6727A47153E
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 11 Dec 2021 19:01:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbhLKKq2 (ORCPT
+        id S231700AbhLKSBK (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 11 Dec 2021 05:46:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49334 "EHLO
+        Sat, 11 Dec 2021 13:01:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230347AbhLKKq1 (ORCPT
+        with ESMTP id S231670AbhLKSBE (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 11 Dec 2021 05:46:27 -0500
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB23C061714
-        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Dec 2021 02:46:27 -0800 (PST)
-Received: by mail-qv1-xf32.google.com with SMTP id kl8so10228335qvb.3
-        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Dec 2021 02:46:27 -0800 (PST)
+        Sat, 11 Dec 2021 13:01:04 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8186BC061A32;
+        Sat, 11 Dec 2021 10:01:03 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id y12so38694339eda.12;
+        Sat, 11 Dec 2021 10:01:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9Pm1ZZNqNR51f3pcy0p7ZDjptiZvuuOtgQluWaY6SaQ=;
-        b=DYm6zKx22I0KOLhK+PXAlq+VIGlqG4dngZ/yiXyRLzFkfqNajlHOoWNRMPUVtnITsw
-         L+JU522H6k55k/4E1jjH3CCk4VVMud3b7kUqYXl0puoVbXijyw0tEdHtLOf9W5op5ZpW
-         zYfPWNiSLtHjRlWT1wjjLopo7GUlEtKyVTj7foo0NStnHve4LNOSG7dyvr/nJAZCob5H
-         zMLA/ZVMG88Bg9RymyfpcOI1hPhvFfrYZBAHbJkNMetbG59kwBoWwpM6OqYYNzbNBLNc
-         hKVM1ILi4TPQL2AZoNnTsCPLAjgPxo4x8Bmdj0DQY2nM2bDT3ArPplGxbgFfvHedNNwJ
-         80GQ==
+        bh=j9R8K3miqhXvXlJiG1vL3PmKdSgpdU9lAqSqAOUQnj4=;
+        b=UJl++pAKNsr6zwC/Dgul9gYxsuwQgfJK3m9Pm2f/aVQNey0o/YljEvcwujCDN6UaNd
+         Vhh8MDiyDGxqODFXz/OY3m+rLuLq8xWViUh1WOTOakgRVodWMRQNaVIMi4LHEx2XsAKt
+         3wdm5z59tmTcR200uIns9026koBIu9F5u435OpHsJ/VaBjTnUtUOVxnSLsUPTAljsk1o
+         sC1mvZ9GPLXU+XA/de6EXk1RoRzZZg+BTbupZnYlXvruQfJWHz/8CTpU/0bwU1Wf9c8X
+         uAfT4J91jiC0G0ARVqQ44016+StQAsmQpJklpkH4PM8fVOxkxt7zblS0vbS/oB0nxYb4
+         yxxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=9Pm1ZZNqNR51f3pcy0p7ZDjptiZvuuOtgQluWaY6SaQ=;
-        b=QjVwzC6fD/I1/MXLveLOkTzABEDSahqRl9kPbw58TTVDotdWkakpxH3FaP1MuiRI4z
-         J7jgjl4/bmPc0xs+AQwSHwUklVz+QvwjX81bGH8jFe+jkblN879qa402V/XhoeykrHt/
-         NP1FnF+3PvbjRxgO35VdMq0WvuHHmlRpy+Ks9Xa6LYRNyM1fzQ6KeWK5Yv0cny/WSxzk
-         x4BvhfDKYxdcLUCnEyd5hMw6fTDPYusKJkccOo7FRahRr7otw4EcQNwjzY2l1XXu3ZDm
-         y2YxOsNy8DWzewVW3tXd7rMIYIcn8cfMoOD49oSwkL/Qj+N0lfOFJAOvcr1mc0Yc0kou
-         xrHQ==
-X-Gm-Message-State: AOAM5323HFjhP6EcEMfa0z8WHXx7PkC78P3JLyuoSDA/4eWjsITb9/33
-        d70BMOoA9p28CRSOqNqnGzD8y9HNxLwtHkiaVoc=
-X-Google-Smtp-Source: ABdhPJynQBeUhqoVf4lSbTFCKVrVtpb8/a5UbxfyA8GvlzDKjRkRFl0j4GGWj3A10SlFtITIyyF0qY7dtFSUQ3SY+Wk=
-X-Received: by 2002:a05:6214:c42:: with SMTP id r2mr31736930qvj.53.1639219586435;
- Sat, 11 Dec 2021 02:46:26 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j9R8K3miqhXvXlJiG1vL3PmKdSgpdU9lAqSqAOUQnj4=;
+        b=ylXZki4tsa1/keE11cVZax6R4nP38MJTZfi+rYoH5dK81Ce/zDsZHlprvVpSn6EBZH
+         gjkzUkT3yuhcGu34dBEOlB03MMEevU0GufsE3YlCD0bTH4sMbB8iqNn4nWNLO5KfhwYS
+         4RKFQgCNeRQoXY5tKyJRKS+fKEUGwFQtgJi87CbldXqGs1CQ8z3ykA9sQ8xpFAkJRVKc
+         +KoeRxenEJx/BsgO/MjX/gz86HNqzBuUHKp6I4rg0W4WLgLU43hI9sVocideo8o6bgAh
+         XBwIZILpk69rWZku0gMkt60bycvnxNVABB9VCiuiZXu804yul2tlEBiHT8cW7M0PA7HL
+         2mSA==
+X-Gm-Message-State: AOAM5312qMWeA+Ulzn0tbzV1zJMwqGycm4IADtXpu1RrWwCkGPlGm4Lp
+        nl/y565rj8Ja0cFIAN9S5Wzqo5tCvHQ=
+X-Google-Smtp-Source: ABdhPJwLz2QoTnF7chmJIKhVWiIPhlsbmR9u8x0g3MTo9PczNHpZEX9oNxOXDfRKQEr2taDO3gEYNA==
+X-Received: by 2002:a17:907:7f9e:: with SMTP id qk30mr32405805ejc.313.1639245661439;
+        Sat, 11 Dec 2021 10:01:01 -0800 (PST)
+Received: from localhost.localdomain ([178.94.9.252])
+        by smtp.gmail.com with ESMTPSA id sg17sm3337909ejc.72.2021.12.11.10.00.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Dec 2021 10:01:00 -0800 (PST)
+From:   Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        pauk.denis@gmail.com, platform-driver-x86@vger.kernel.org,
+        Daniel Gibson <metalcaedes@gmail.com>,
+        Michael Altizer <michael@theoddone.net>,
+        Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] hwmon: (nct6775) add ROG STRIX B550-A/X570-I GAMING
+Date:   Sat, 11 Dec 2021 20:00:36 +0200
+Message-Id: <20211211180037.367062-1-pauk.denis@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Reply-To: martinafrancis022@gmail.com
-Sender: maiduguibrahim2@gmail.com
-Received: by 2002:a05:620a:46a3:0:0:0:0 with HTTP; Sat, 11 Dec 2021 02:46:25
- -0800 (PST)
-From:   Martina Francis <martinafrancis61@gmail.com>
-Date:   Sat, 11 Dec 2021 02:46:25 -0800
-X-Google-Sender-Auth: X14aUbkblgKbKh0Vgat8WZaXXcw
-Message-ID: <CABPG0o_DNcKT-BOoLouVtAm7J1X9eQdSSTNbLQpc=n0P6eP85g@mail.gmail.com>
-Subject: Bom Dia meu querido
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
---=20
-Bom Dia meu querido
-Como voc=C3=AA est=C3=A1 e sua fam=C3=ADlia.
-Meu nome =C3=A9 Sra. Martina Francis, uma vi=C3=BAva doente. Estou entrando=
- em
-contato para que voc=C3=AA saiba meu desejo de doar a soma de ($
-2.700.000,00 MILH=C3=95ES de d=C3=B3lares) que herdei de meu falecido marid=
-o
-para caridade. Atualmente o fundo ainda est=C3=A1 no banco. Tenho uma
-doen=C3=A7a grave de c=C3=A2ncer e minha vida n=C3=A3o est=C3=A1 mais garan=
-tida, por isso
-tomo essa decis=C3=A3o.
+ASUS ROG STRIX B550-A/X570-I GAMING boards have got an nct6775 chip, but
+by default there's no use of it because of resource conflict with WMI 
+method.
 
-Eu quero que voc=C3=AA fa=C3=A7a uso deste fundo para os pobres, crian=C3=
-=A7as
-maltratadas, menos privilegiados, igrejas, orfanatos e vi=C3=BAvas
-sofredoras na sociedade.
+This commit adds "ROG STRIX B550-A GAMING" and "ROG STRIX X570-I GAMING" to
+the list of boards that can be monitored using ASUS WMI.
 
-Por favor, volte para mim imediatamente ap=C3=B3s ler esta mensagem para
-obter mais detalhes sobre esta agenda humanit=C3=A1ria.
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+Tested-by: Daniel Gibson <metalcaedes@gmail.com>
+Tested-by: Michael Altizer <michael@theoddone.net>
+Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+---
+ drivers/hwmon/nct6775.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Deus te aben=C3=A7oe enquanto espero sua resposta.
+diff --git a/drivers/hwmon/nct6775.c b/drivers/hwmon/nct6775.c
+index 93dca471972e..e3edb1a72654 100644
+--- a/drivers/hwmon/nct6775.c
++++ b/drivers/hwmon/nct6775.c
+@@ -4995,11 +4995,13 @@ static const char * const asus_wmi_boards[] = {
+ 	"ROG CROSSHAIR VIII FORMULA",
+ 	"ROG CROSSHAIR VIII HERO",
+ 	"ROG CROSSHAIR VIII IMPACT",
++	"ROG STRIX B550-A GAMING",
+ 	"ROG STRIX B550-E GAMING",
+ 	"ROG STRIX B550-F GAMING",
+ 	"ROG STRIX B550-F GAMING (WI-FI)",
+ 	"ROG STRIX B550-I GAMING",
+ 	"ROG STRIX X570-F GAMING",
++	"ROG STRIX X570-I GAMING",
+ 	"ROG STRIX Z390-E GAMING",
+ 	"ROG STRIX Z490-I GAMING",
+ 	"TUF GAMING B550M-PLUS",
 
+base-commit: c741e49150dbb0c0aebe234389f4aa8b47958fa8
+-- 
+2.33.0
 
-Sra. Martina Francis.
