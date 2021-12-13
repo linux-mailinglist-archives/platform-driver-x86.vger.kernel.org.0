@@ -2,70 +2,81 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 352EC471901
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 12 Dec 2021 08:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C9EF472145
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Dec 2021 08:02:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbhLLHGy (ORCPT
+        id S232307AbhLMHCP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 12 Dec 2021 02:06:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbhLLHGy (ORCPT
+        Mon, 13 Dec 2021 02:02:15 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:39292 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232318AbhLMHCN (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 12 Dec 2021 02:06:54 -0500
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE55C061714
-        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Dec 2021 23:06:53 -0800 (PST)
-Received: by mail-ua1-x933.google.com with SMTP id 30so23884953uag.13
-        for <platform-driver-x86@vger.kernel.org>; Sat, 11 Dec 2021 23:06:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=sCnzDhNo30p9s3u5+L9gLQGl2kRLDhwkjJxXxpjkpOo=;
-        b=AzKEj5MiLfwsYkxYcqS7p7fJJSlRg+1ThTLBkkxwcRvYMayVu2ccvUd/EF0CAwN0sR
-         rvzFZMflIRT3ze41B3cPO2u/jqONBJWl+n2KQguyVb+ufZo6GrV9d7YuzBPEKRTLCCG0
-         inzUuoPQLzWYonr7odbpb15FAxjTBJkcAeNBtF+GOhdWCCiGuqPR3wyrmnxarMzfpH6n
-         dHhQjSyCrbOhbm3IjnIVOLIVREt5eery4RCJdxT8AesvxPcxYHtWg4wXCIR9lUvZqs7O
-         6+duN6U89EtJZaWVhD392vL9XYkYw4E62fTxkVRX2lFkJJrJOftKcoG2/XKzgXV2J0Xq
-         Jisg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=sCnzDhNo30p9s3u5+L9gLQGl2kRLDhwkjJxXxpjkpOo=;
-        b=L22eiLqMkwPmT3UbEaR3+J5VnsZMq6yKn66xEHnQFExSfEa76EGxz+U7d1IDpwdKZp
-         QSGAuWMCEV0Ensl1cZ+iEQd22jp4BlaGxrZfeKFJ2IZMJ5ZhWbntJRtQEWKUMrvfEJ6y
-         QfbGl+QtBCK2elbPnm097bdqCffBvQdA80BHyFkU5+1CxxqVa3CrS+pOq+Atb7b+oCFZ
-         +qHm0bJINk3SzJk+rJo+7ZikCr7YbXEzuyiu67mO9NBkRZpj7LIG7SOBiUJyXwDn7XS9
-         HpBJDTs28WZ4h678552KdUBbdHvmrZUSfVBOt/fhIeHN102fE3hVCI8SdhEsYfYPSaKa
-         akKg==
-X-Gm-Message-State: AOAM530wqCdniJaay2H52x/sKtMVY72JDbzVc9cz9mbZOopdbv0fIvzn
-        Iwc01jGiIUEa2Xmg65MfprvoFkVVzwYb5AX04aU=
-X-Google-Smtp-Source: ABdhPJz3xmcHqr90QB1w2AQ2g8EobJaewgO0qEKACq/6AezElV3039vpkQ0W8h1W0JoUb2iSJAP7NQDtaaktgFVBYno=
-X-Received: by 2002:ab0:6eca:: with SMTP id c10mr37565868uav.118.1639292812963;
- Sat, 11 Dec 2021 23:06:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a59:7d6:0:b0:26c:f36e:5894 with HTTP; Sat, 11 Dec 2021
- 23:06:52 -0800 (PST)
-Reply-To: mrs.suzarawanmaling@gmail.com
-From:   Mrs Suzara Maling Wan <mrsaliceibrahim1@gmail.com>
-Date:   Sun, 12 Dec 2021 16:06:52 +0900
-Message-ID: <CANvBJfiGcyJoTB6AE1OvAnu5=eRnbkWReJv2BbLLcyxqYsDi6g@mail.gmail.com>
-Subject: hello!!
-To:     undisclosed-recipients:;
+        Mon, 13 Dec 2021 02:02:13 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 081D7B80DB1
+        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Dec 2021 07:02:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96A78C341EA
+        for <platform-driver-x86@vger.kernel.org>; Mon, 13 Dec 2021 07:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639378929;
+        bh=lx9CcqNNsfoRfuHL8gYO2STSIMUDnAPn0t3ENDDJ+ek=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=UDoUYk3qzAGlWPE9XPPdAZVFJzWRVJN1C5srJIFK3aSFmZkE7J0E4MmARZ+8xXQxs
+         b7iBGFq4IjDyQKWAzS5IEuln/6OfsM6AOpnHhKL9DxQEzg+Tm9DYtYU84+ZmpD0YcM
+         Mq4jYm42FOJr7wlyIaO8Se6EiFtvBQXhKxRudItm4rHo/arxxTBK/osvLi7ou7zINm
+         xfv1WEGHqekFjqSxkT5Rzcy/YaJFNTwuWF4N4xISgH5J0vrgGPiBb1NYfzJyj0ylc+
+         GQLfBYzgn3uUHSfne9k59CWQYFONeV7NXBYDujDhUUf1G4bJUR0z2Sk7ursv+Hi2+V
+         gorGl9AVfDaKg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+        id 7D55061151; Mon, 13 Dec 2021 07:02:09 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 204807] Hardware monitoring sensor nct6798d doesn't work unless
+ acpi_enforce_resources=lax is enabled
+Date:   Mon, 13 Dec 2021 07:02:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: eugene.shalygin@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204807-215701-HV8iJ7F4ZL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204807-215701@https.bugzilla.kernel.org/>
+References: <bug-204807-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-I am Mrs Suzara from (Philippine) but based in West Africa
-Country since eight years as a business woman dealing with gold
-exportation, I have a dream and desire of building an orphanage home
-in your country, and i have a deposit fund to the project, but
-presently my health condition we not allow me to carry out the project
-my self, now my doctor has already told me that I have just few period
-of time to leave because of my ovarian cancer disease, can you help
-fulfill this project?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204807
 
-With kind Regards,
-Mrs Suzara Maling Wan
+--- Comment #197 from Eugene Shalygin (eugene.shalygin@gmail.com) ---
+(In reply to Denis Pauk from comment #192)
+
+> @Eugene Shalygin Could you correct me if I have missed something?
+
+Isn't the \_SB_.PCI0.LPCB.SIO1.MUT0 mutex, referenced by
+\_SB_.PCI0.LPCB.SIO1.ENFG() / \_SB_.PCI0.LPCB.SIO1.EXFG(), the one we are
+looking for?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
