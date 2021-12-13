@@ -2,335 +2,144 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C12DC47335D
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Dec 2021 18:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A397447339E
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 13 Dec 2021 19:09:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241412AbhLMR7a (ORCPT
+        id S241706AbhLMSJA (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 13 Dec 2021 12:59:30 -0500
-Received: from mga02.intel.com ([134.134.136.20]:21833 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241405AbhLMR72 (ORCPT
+        Mon, 13 Dec 2021 13:09:00 -0500
+Received: from mail-dm6nam10on2076.outbound.protection.outlook.com ([40.107.93.76]:51488
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S241595AbhLMSJA (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 13 Dec 2021 12:59:28 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="226067281"
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; 
-   d="scan'208";a="226067281"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2021 09:59:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; 
-   d="scan'208";a="613915243"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2021 09:59:26 -0800
-Received: from debox1-desk4.intel.com (unknown [10.212.243.203])
-        by linux.intel.com (Postfix) with ESMTP id 75A5D580C34;
-        Mon, 13 Dec 2021 09:59:26 -0800 (PST)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     lee.jones@linaro.org, hdegoede@redhat.com,
-        david.e.box@linux.intel.com, bhelgaas@google.com,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        srinivas.pandruvada@intel.com, mgross@linux.intel.com
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH V3 6/6] selftests: sdsi: test sysfs setup
-Date:   Mon, 13 Dec 2021 09:59:21 -0800
-Message-Id: <20211213175921.1897860-7-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211213175921.1897860-1-david.e.box@linux.intel.com>
-References: <20211213175921.1897860-1-david.e.box@linux.intel.com>
+        Mon, 13 Dec 2021 13:09:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Da1iMCev7zGz9sEPd5JIb0ltmWeqDeU3zo7T+y5duozkS9vZv/sewC9c2V2ESKBXBRmKmVk0VbOOUh2a5mtgsMuU1mJcMc1SN8ViKZgp4/Abf5yzAHlXS1UmYcuyjAdWF4pQQczHYkt22v1crWXmhBFV1PT8kivwU6iaR7ToSd+I/aG6fEgxUB+shb8uvjuSl51L1EdhsbFAbzfxSBtxD2i0Rbnge7elT4muzuJ7ZhQTgLooHZuHpXHzgOu5D7yf4yzyhi7y+u90rXrUyxkOk1zR5xfcuSZxNZrc1+QoQWA+lE03KtloqDoGpvrKzwrsVjQ1Z+pHVesZNYh1nJhvtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vuosx/YnGiB22MRbQjZ0gCTJkOEWq6j7Mnp0nAZWaAM=;
+ b=bPL6GlK76AeKOwUdf6dJ8hYmuuG23bgCpS4e3tS5BhskN+wvYxp4wC6nvWfpKdRvSGPt8K3483ite608SYPoc3BpVdETNjJytpjtmpapRgBWvQF/poURC8R1x/1jk1KZmtiSXq13zVIsaSdGuwFIFzR5IWUpdQjCfmC88oADN/3cfw7YtE9cSc0iLqv785hNB+NEMGqCoLOBQvablo/5S/5IZ09Y2y+UERK7MAQ7WclBgy0PaLvsPoQEjDW/aQXKzQnyRCOEoKqzJ5iMlx551B7Jsy2LSe6XJGxNnCOtLqUyuX9SIMBulD8r2RyqYlegbk+kE6tkZlPS/11kngww7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vuosx/YnGiB22MRbQjZ0gCTJkOEWq6j7Mnp0nAZWaAM=;
+ b=IYGzXYurA6xgUonu8xMmWy+c5CCunbAj75RqjWq2X1Ff4XYoDW8Blr7PgdyXsRtZHXYTgKG3yJNTE0SUiFwvnF2HGU8UFCWiT9yy0ppF62iq4uCRYobsOXWmdnnKcrSkjbpO7QCpMNM94UUi4GnkqZ5fPlrtitOyI0WwvIOoqWI=
+Received: from BN8PR16CA0025.namprd16.prod.outlook.com (2603:10b6:408:4c::38)
+ by DM6PR12MB4203.namprd12.prod.outlook.com (2603:10b6:5:21f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.11; Mon, 13 Dec
+ 2021 18:08:58 +0000
+Received: from BN8NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:4c:cafe::f3) by BN8PR16CA0025.outlook.office365.com
+ (2603:10b6:408:4c::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Mon, 13 Dec 2021 18:08:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT003.mail.protection.outlook.com (10.13.177.90) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4778.13 via Frontend Transport; Mon, 13 Dec 2021 18:08:58 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 13 Dec
+ 2021 12:08:57 -0600
+Date:   Mon, 13 Dec 2021 12:00:36 -0600
+From:   Michael Roth <michael.roth@amd.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+CC:     <fanc.fnst@cn.fujitsu.com>, <j-nomura@ce.jp.nec.com>, <bp@suse.de>,
+        Brijesh Singh <brijesh.singh@amd.com>, <x86@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-efi@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+        <linux-coco@lists.linux.dev>, <linux-mm@kvack.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        <tony.luck@intel.com>, <marcorr@google.com>,
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: Re: [PATCH v8 24/40] x86/compressed/acpi: move EFI system table
+ lookup to helper
+Message-ID: <20211213180036.2v2oxet5e3jsicqi@amd.com>
+References: <20211210154332.11526-1-brijesh.singh@amd.com>
+ <20211210154332.11526-25-brijesh.singh@amd.com>
+ <cd8f3190-75b3-1fd5-000a-370e6c53f766@intel.com>
+ <20211213154753.nkkxk6w25tdnagwt@amd.com>
+ <28ab05eb-65b5-0919-74da-a16cd25db2b7@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <28ab05eb-65b5-0919-74da-a16cd25db2b7@intel.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
+ (10.181.40.144)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9f00782a-6b6f-446e-636e-08d9be63a21c
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4203:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB420380AF7BB48C2BD01722BD95749@DM6PR12MB4203.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MQbivWQSEovHLAY5mDUWY1E+h4RU74uoeeYC0imyXM2nS47RWW4cCm8+uOu+uWSwOQwRBxtRHs9phxKFr6cEUvqLq5hlUfF/eabuqkzvdIGpoXnWNf/31cH5dLrlT9YWi5BTq3iz38Ur8INcO9R+sBXt3kITi1JFw0NfyVGe+eTUxASHhWPM7x2MnfOTahEHFq1cIcYovhKU4flrmPvbcJnuXPlJF8I+63k++bJasBJMd8BubsUqQmi+v2UFlqqmYPE+RkSK7MTfyGPul9THHbbroj1DkIYeh7i3z9bG9Dr8oBLkt9Fl/Ko2UHKMpSoMDQ03hycuV6SC23dmeI2ekSUkFkELMCK2kEfL4V17BYzo7tY3a1lWZPA8xxk4qQim/kZ5fuOsnPZU1I35dD+r2eAWwxvd9IyBNlOHqVBWviPDqPIFoDmw9VweauBSiiDBXdbq/o2yYgYQTUIYLMV8pPgD0CtjUWAzcGjFC/VLqwDhntX/WdDfh7fCAG5pPWKMc8fVffQo7dSPjOD+2uiSRBdW7nRfVlh2HdRKRQEuOfViqjEMt7EFsYfnUGgwnbnSM/3r4Hes6OnX5TkfdfCbDDnl7RgG+K5E9G0s0njRpz14vbMiV60/gk3LEz/BXWtP62APN4cc/YfWoqNr0mwc1Nfg8+wh7m3WAqYEKszq4UDrgYVjOBM4q7duCQGQIk2A8sUynZO/C2UnMYoGRFovfMEjGh8Sfo41wiBLWzn2yeJa8w0oi413aBIgQxWRmmPpzXTlaAaS7Smb7m1eUSIOteMXFKxuHILePA+kjaO4jk8=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(336012)(47076005)(36860700001)(6916009)(186003)(16526019)(53546011)(26005)(44832011)(7406005)(6666004)(7416002)(4326008)(508600001)(2616005)(5660300002)(426003)(4744005)(70206006)(70586007)(40460700001)(1076003)(36756003)(2906002)(356005)(81166007)(82310400004)(8936002)(54906003)(316002)(86362001)(8676002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 18:08:58.0132
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f00782a-6b6f-446e-636e-08d9be63a21c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4203
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Tests file configuration and error handling of the Intel Software
-Defined Silicon sysfs ABI.
+On Mon, Dec 13, 2021 at 08:21:44AM -0800, Dave Hansen wrote:
+> On 12/13/21 7:47 AM, Michael Roth wrote:
+> > Otherwise, I'll plan on adopting the acpi.c precedent for this as well, which
+> > is to not list individual authors, since it doesn't seem right to add Author
+> > fields retroactively without their permission.
+> 
+> That's fine with me, especially if it follows precedent in the subsystem.
+> 
+> Could you also please take a quick scan over the rest of the series to
+> make sure there are no more of these?
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-V3
-  - Add tests to check PCI device removal handling and to check for
-    driver memory leaks.
-V2
-  - new patch
+Outside of the guest driver there's only one other new file addition in
+the series:
 
- MAINTAINERS                                   |   1 +
- tools/testing/selftests/drivers/sdsi/sdsi.sh  |  18 ++
- .../selftests/drivers/sdsi/sdsi_test.py       | 226 ++++++++++++++++++
- 3 files changed, 245 insertions(+)
- create mode 100755 tools/testing/selftests/drivers/sdsi/sdsi.sh
- create mode 100644 tools/testing/selftests/drivers/sdsi/sdsi_test.py
+  arch/x86/include/asm/cpuid.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 500b49e6958a..a0d550f5bfdc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9788,6 +9788,7 @@ M:	David E. Box <david.e.box@linux.intel.com>
- S:	Supported
- F:	drivers/platform/x86/intel/sdsi.c
- F:	tools/arch/x86/intel_sdsi/
-+F:	tools/testing/selftests/drivers/sdsi/
- 
- INTEL SKYLAKE INT3472 ACPI DEVICE DRIVER
- M:	Daniel Scally <djrscally@gmail.com>
-diff --git a/tools/testing/selftests/drivers/sdsi/sdsi.sh b/tools/testing/selftests/drivers/sdsi/sdsi.sh
-new file mode 100755
-index 000000000000..8db71961d164
---- /dev/null
-+++ b/tools/testing/selftests/drivers/sdsi/sdsi.sh
-@@ -0,0 +1,18 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Runs tests for the intel_sdsi driver
-+
-+if ! /sbin/modprobe -q -r intel_sdsi; then
-+	echo "drivers/sdsi: [SKIP]"
-+	exit 77
-+fi
-+
-+if /sbin/modprobe -q intel_sdsi; then
-+	python3 -m pytest sdsi_test.py
-+	/sbin/modprobe -q -r intel_sdsi
-+
-+	echo "drivers/sdsi: ok"
-+else
-+	echo "drivers/sdsi: [FAIL]"
-+	exit 1
-+fi
-diff --git a/tools/testing/selftests/drivers/sdsi/sdsi_test.py b/tools/testing/selftests/drivers/sdsi/sdsi_test.py
-new file mode 100644
-index 000000000000..4922edfe461f
---- /dev/null
-+++ b/tools/testing/selftests/drivers/sdsi/sdsi_test.py
-@@ -0,0 +1,226 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+from struct import pack
-+from time import sleep
-+
-+import errno
-+import glob
-+import os
-+import subprocess
-+
-+try:
-+    import pytest
-+except ImportError:
-+    print("Unable to import pytest python module.")
-+    print("\nIf not already installed, you may do so with:")
-+    print("\t\tpip3 install pytest")
-+    exit(1)
-+
-+SOCKETS = glob.glob('/sys/bus/auxiliary/devices/intel_vsec.sdsi.*')
-+NUM_SOCKETS = len(SOCKETS)
-+
-+MODULE_NAME = 'sdsi'
-+DEV_PREFIX = 'intel_vsec.sdsi'
-+CLASS_DIR = '/sys/bus/auxiliary/devices'
-+GUID = "0x6dd191"
-+
-+def read_bin_file(file):
-+    with open(file, mode='rb') as f:
-+        content = f.read()
-+    return content
-+
-+def get_dev_file_path(socket, file):
-+    return CLASS_DIR + '/' + DEV_PREFIX + '.' + str(socket) + '/' + file
-+
-+def kmemleak_enabled():
-+    kmemleak = "/sys/kernel/debug/kmemleak"
-+    return os.path.isfile(kmemleak)
-+
-+class TestSDSiDriver:
-+    def test_driver_loaded(self):
-+        lsmod_p = subprocess.Popen(('lsmod'), stdout=subprocess.PIPE)
-+        result = subprocess.check_output(('grep', '-q', MODULE_NAME), stdin=lsmod_p.stdout)
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSDSiFilesClass:
-+
-+    def read_value(self, file):
-+        f = open(file, "r")
-+        value = f.read().strip("\n")
-+        return value
-+
-+    def get_dev_folder(self, socket):
-+        return CLASS_DIR + '/' + DEV_PREFIX + '.' + str(socket) + '/'
-+
-+    def test_sysfs_files_exist(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        print (folder)
-+        assert os.path.isfile(folder + "guid") == True
-+        assert os.path.isfile(folder + "provision_akc") == True
-+        assert os.path.isfile(folder + "provision_cap") == True
-+        assert os.path.isfile(folder + "state_certificate") == True
-+        assert os.path.isfile(folder + "registers") == True
-+
-+    def test_sysfs_file_permissions(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        mode = os.stat(folder + "guid").st_mode & 0o777
-+        assert mode == 0o444    # Read all
-+        mode = os.stat(folder + "registers").st_mode & 0o777
-+        assert mode == 0o400    # Read owner
-+        mode = os.stat(folder + "provision_akc").st_mode & 0o777
-+        assert mode == 0o200    # Read owner
-+        mode = os.stat(folder + "provision_cap").st_mode & 0o777
-+        assert mode == 0o200    # Read owner
-+        mode = os.stat(folder + "state_certificate").st_mode & 0o777
-+        assert mode == 0o400    # Read owner
-+
-+    def test_sysfs_file_ownership(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        st = os.stat(folder + "guid")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "registers")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "provision_akc")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "provision_cap")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "state_certificate")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+    def test_sysfs_file_sizes(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        if self.read_value(folder + "guid") == GUID:
-+            st = os.stat(folder + "registers")
-+            assert st.st_size == 72
-+
-+        st = os.stat(folder + "provision_akc")
-+        assert st.st_size == 1024
-+
-+        st = os.stat(folder + "provision_cap")
-+        assert st.st_size == 1024
-+
-+        st = os.stat(folder + "state_certificate")
-+        assert st.st_size == 4096
-+
-+    def test_no_seek_allowed(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        rand_file = bytes(os.urandom(8))
-+
-+        f = open(folder + "provision_cap", "wb", 0)
-+        f.seek(1)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ESPIPE
-+        f.close()
-+
-+        f = open(folder + "provision_akc", "wb", 0)
-+        f.seek(1)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ESPIPE
-+        f.close()
-+
-+    def test_registers_seek(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        # Check that the value read from an offset of the entire
-+        # file is none-zero and the same as the value read
-+        # from seeking to the same location
-+        f = open(folder + "registers", "rb")
-+        data = f.read()
-+        f.seek(64)
-+        id = f.read()
-+        assert id != bytes(0)
-+        assert data[64:] == id
-+        f.close()
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSDSiMailboxCmdsClass:
-+    def test_provision_akc_eoverflow_1017_bytes(self, socket):
-+
-+        # The buffer for writes is 1k, of with 8 bytes must be
-+        # reserved for the command, leaving 1016 bytes max.
-+        # Check that we get an overflow error for 1017 bytes.
-+        node = get_dev_file_path(socket, "provision_akc")
-+        rand_file = bytes(os.urandom(1017))
-+
-+        f = open(node, 'wb', 0)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.EOVERFLOW
-+        f.close()
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSdsiDriverLocksClass:
-+    def test_enodev_when_pci_device_removed(self, socket):
-+        node = get_dev_file_path(socket, "provision_akc")
-+        dev_name = DEV_PREFIX + '.' + str(socket)
-+        driver_dir = CLASS_DIR + '/' + dev_name + "/driver/"
-+        rand_file = bytes(os.urandom(8))
-+
-+        f = open(node, 'wb', 0)
-+        g = open(node, 'wb', 0)
-+
-+        with open(driver_dir + 'unbind', 'w') as k:
-+            print(dev_name, file = k)
-+
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ENODEV
-+
-+        with pytest.raises(OSError) as error:
-+            g.write(rand_file)
-+        assert error.value.errno == errno.ENODEV
-+
-+        f.close()
-+        g.close()
-+
-+        # Short wait needed to allow file to close before pulling driver
-+        sleep(1)
-+
-+        p = subprocess.Popen(('modprobe', '-r', 'intel_sdsi'))
-+        p.wait()
-+        p = subprocess.Popen(('modprobe', '-r', 'intel_vsec'))
-+        p.wait()
-+        p = subprocess.Popen(('modprobe', 'intel_vsec'))
-+        p.wait()
-+
-+        # Short wait needed to allow driver time to get inserted
-+        # before continuing tests
-+        sleep(1)
-+
-+    def test_memory_leak(self, socket):
-+        if not kmemleak_enabled:
-+            pytest.skip("kmemleak not enabled in kernel")
-+
-+        dev_name = DEV_PREFIX + '.' + str(socket)
-+        driver_dir = CLASS_DIR + '/' + dev_name + "/driver/"
-+
-+        with open(driver_dir + 'unbind', 'w') as k:
-+            print(dev_name, file = k)
-+
-+        sleep(1)
-+
-+        subprocess.check_output(('modprobe', '-r', 'intel_sdsi'))
-+        subprocess.check_output(('modprobe', '-r', 'intel_vsec'))
-+
-+        with open('/sys/kernel/debug/kmemleak', 'w') as f:
-+            print('scan', file = f)
-+        sleep(5)
-+
-+        assert os.stat('/sys/kernel/debug/kmemleak').st_size == 0
-+
-+        subprocess.check_output(('modprobe', 'intel_vsec'))
-+        sleep(1)
--- 
-2.25.1
-
+where I moved some code out of arch/x86/kvm/cpuid.c in similar fashion, so
+cpuid.h should probably inherit cpuid.c's copyright banner. I'll make that
+change for the next spin as well. Thanks for the catches.
