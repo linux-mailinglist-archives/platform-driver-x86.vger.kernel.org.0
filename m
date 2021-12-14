@@ -2,126 +2,135 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9C4047400E
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Dec 2021 11:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE85B474241
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Dec 2021 13:18:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232847AbhLNKEC (ORCPT
+        id S230209AbhLNMSs (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Dec 2021 05:04:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232821AbhLNKD5 (ORCPT
+        Tue, 14 Dec 2021 07:18:48 -0500
+Received: from mail-psaapc01on2134.outbound.protection.outlook.com ([40.107.255.134]:9441
+        "EHLO APC01-PSA-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230161AbhLNMSr (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Dec 2021 05:03:57 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF1AC06173F
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Dec 2021 02:03:57 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id h24so13959395pjq.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 14 Dec 2021 02:03:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=NBbb5ineoHSXxgxWYrMC7twB6sYssTuu0bNdk8QGvAM=;
-        b=PdPzrMDijm0uqwGOKVT65IRNXx0gV2L3UXbYUD+QhK2NHq3nJy4Jyd90RV06eJgb2Q
-         LT2tLazdbxCPnL3PgPJQtGrh58GezDdpuBmaZ4tAI3oeQ3MT0GEKKxTD6AgiXjVbR06t
-         QRiUgobH6PLK9kLekpxDUE7n8rx4ByLKh4bgpzq2U5/bHcEhgRwyu4vcgBFOqTSnpEYY
-         X+9O4KMCQmk/sHzcom2aQ4o6MjpabVdrgPETSs09Zx633YkEhmpQhpi/+28Za+HpyCZv
-         ienxKIj1YtCKMJTIeh/DLGK+cCJaL0OJMsnKj/pgsRkJDUEhC/nQZszPtM9g244VkwmG
-         qjPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=NBbb5ineoHSXxgxWYrMC7twB6sYssTuu0bNdk8QGvAM=;
-        b=nivlMltTHu4ipgZhfHsWstyZEpaJoMAifCn5ZZNdKZhpwSonp7R/N3jxSCkbAfkyBn
-         sTjA2z2NwBNgUKl8QW3UMxH8luH2Ffl9gTvLtvZkOP+3qisHqaDmG8Ftxiqx+LFnwPy2
-         yNXRP/j30O8FAvstJCNz0aXEt9kEOrrWrOB2R660IExkq5Gs4A/aeGD0xLdJxEtbkv3j
-         k+bREWt1w6iVG9lpttNf7ASm4siYXqpnM5IpVXJBNOHtVX0jaeDf9WZO+Opj3vs2GvKo
-         qDvf7j+/Kp3bhaq6xGCd/I1wJ0GURYDyHvD6jSX34Mhb/SSHuSEiEWTQYPdZe8Arpcv4
-         wcRQ==
-X-Gm-Message-State: AOAM533KUmSaVAL/RwmVCkPm9ETMt5pWWsXr+lEdsUKLgYlbPkNSR9tP
-        6xy/gHqGH4NyfMBUfIOFvWOUbgosHrmv3B/fCWo=
-X-Google-Smtp-Source: ABdhPJz3UCv8s2ox5CMoJhARqtiSRf1RC0Vpr4ACM85mVMRGo1Cau3pfJ3MWMDLVvqRKsj37uIpv5tX/A9rwgvTWqag=
-X-Received: by 2002:a17:902:db12:b0:142:3ac:7ec3 with SMTP id
- m18-20020a170902db1200b0014203ac7ec3mr4759156plx.2.1639476236714; Tue, 14 Dec
- 2021 02:03:56 -0800 (PST)
+        Tue, 14 Dec 2021 07:18:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eGGhUlWxtMMIzaPSfvgkdU5MdPri0OVsxq/i6wtt/XZ4fno0muyV/LnL9+BMa0h06/cGOrjI6CU7D2B3NfiCgEaJqwb2Pv5zHPiwCWXPLN4WdX0QEudSOdLcpJjLUiubxlMrclfEaC8n3Y71N8uF/kFDO2EWb1W4VWoR8iVuuyTc72XXO3ItjYjpEfpvkhUFEruc1aify1jETlRILgkeMPAZ51FUWdUcoSCeqZei2ohqX1XkL4AQF95j/Pq4tcWLYOXESOBdDiK7NSysVX056uRMKGxxu12g62imoczVNfVUCpupx0zQgoQYI7fis67qcOdQarymOg4pBkyXRundKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j/dtwqoNh+P29E92uAfW48l4L9CjNCK1PwKMoiKW5EM=;
+ b=KlqhLmkdnHwiOLjkNnX8r7lWUAyWMrnHHJ8RhnQJ+PfGyRmw3ElQtt6EAsbJ8diJ+cCOqM62FF3aF9BNEDx0lbIX/icFKp5Obrk4y8LKq+BqSIWyWTcbpWoCD73YOnlW3FNujwyGfFxdHKIR3Z3B1LIycl1dre9guW5OvplhKOFv5K4tUVOW23pj3rmQ+5e5un34cFgvn6+7xESeMmeG9DzVtRcfW6GyoYAuTsofCvCa6EY+/KWT3b9kUibCEyHRh/uYLusKIptft1oKt9nEQcV0M9NVpnp6EC4bt+U8+ahozcWXlBLUUwtXtLZapNlmzzRBlpA8hyycTLKra3L0GQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/dtwqoNh+P29E92uAfW48l4L9CjNCK1PwKMoiKW5EM=;
+ b=eF0U447RsUzO9hyGLvjni53V4d9lRWzCHI36wWOcCf+RiZGqGAZCwAtivuAgyInaZjeOv76PZeLYcO5HSAsGdAQlq7YbR1dLAGfkxxee6ZO/lzZLem/JXzUmJDRPxrLzTii5H6B0Yc9UazBSU4OTm1kQAesLHw/S3/p44SKzFk8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by SL2PR06MB3003.apcprd06.prod.outlook.com (2603:1096:100:33::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.25; Tue, 14 Dec
+ 2021 12:18:45 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::a0cf:a0e2:ee48:a396]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::a0cf:a0e2:ee48:a396%4]) with mapi id 15.20.4778.018; Tue, 14 Dec 2021
+ 12:18:45 +0000
+From:   Qing Wang <wangqing@vivo.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Wang Qing <wangqing@vivo.com>
+Subject: [PATCH] platform: x86: use resource_size() with res
+Date:   Tue, 14 Dec 2021 04:18:36 -0800
+Message-Id: <1639484316-75873-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0022.apcprd03.prod.outlook.com
+ (2603:1096:202::32) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:169b:0:0:0:0 with HTTP; Tue, 14 Dec 2021 02:03:56
- -0800 (PST)
-Reply-To: cristinacampeell@outlook.com
-From:   "Mrs. Cristina Campbell" <sp2295675@gmail.com>
-Date:   Tue, 14 Dec 2021 10:03:56 +0000
-Message-ID: <CANV8sVE+_4WkqAR=sujAtcpCii-oQoDhHhnYf2mzn6JkSH6f2Q@mail.gmail.com>
-Subject: Kannst du mir helfen?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7fe2395a-3ca5-420c-7c94-08d9befbdff4
+X-MS-TrafficTypeDiagnostic: SL2PR06MB3003:EE_
+X-Microsoft-Antispam-PRVS: <SL2PR06MB300391D41FFB66C2F9D57E54BD759@SL2PR06MB3003.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:128;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v/1NQJK2pcG/+whHr9aNBQI7dZbWr9aEw0df0oKJJlfqWZVRVqIvbp5Gp4LfYr/VQXQvpD8p5z7WYty4+tchxdiCkWb2YiKM0B3enEan6eKsmUjh91LCumw7NToTpIes+ybx9Pa9YhsLRAbgQPZbWexmMcqnBmk429T+dxzGSvVYMT1OwEANgUmR30x0r3xELv5JJiqDUrHqJu+z+T2/QZbzPhNjCYGkbMPVB43QRPJuHBKtmBrbIZ5Qc3r4PHm6Eu0zpwAVBy1IX99LLBealN6cKXH6vanJ39+wbs3sKu1T3BRjoau4PgW2dLC8Ej8486npXnbADRqXLKtOyZeQPaPVkqw9TqmnTtiXLPQat15hbB6ubX99aeOBncXaET7U9r2l/KXI1qnOgf+TPDe3zRIz9KWo1OmJaRSP7gLfyp8sS3EVLSY/FqrKRUpeN+lLKiuXJBcgaXb83FqG53N++ZAwbWqOvAMv2AA+IazklZKR3+MqQqMY8izmimeHzsWJ+v+XHyMWElo+jvtUUZvl2Cq/HPX2v5m/OfgpgWPcpkWhfCCybMJ6uYbMAFh3r9ANJ7pvNIIVklp4h1jYSNKXCeiCliOVxIsrTP7TmOTutJNegLIcUHiGxwjvDxCqEu9JkcUqxu/K1/tXtXlVN+/LvtjpdpZDtq4bP77IjbgH+wRXSSJIOhjYeK9BW70NBdu82xPBm1mABixESN5E5hT/IQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38350700002)(38100700002)(186003)(6506007)(83380400001)(6666004)(66946007)(6486002)(2616005)(4744005)(66556008)(66476007)(316002)(110136005)(8676002)(86362001)(5660300002)(8936002)(508600001)(6512007)(4326008)(2906002)(36756003)(52116002)(26005)(107886003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sObEP8xqZjwfZs1YHgAHcY35g9K1Q6X4htxke0by34dzHZWv7iVo0KE0RqXy?=
+ =?us-ascii?Q?B9KoH6aVfLweSIA/3wSHOBohNQW11v1py6TBCzaVLVFbyIM9bS2vQ9X2LAxp?=
+ =?us-ascii?Q?X4quWAHeJVaX+BqR5cY3V1yUwq9KtHocw7tfpJYBVZWpkCptccgEd0/doa4v?=
+ =?us-ascii?Q?zKvF3O0Zx2nV2+DY4uxj17ndqJTcrZZjytZizs8FUHJdIovYyWbmtbJKjvwj?=
+ =?us-ascii?Q?6PoC274UKM17VfEtaMisGfqfeOTprZiSy0+qNs8LeIzpdTzzFOtgyqedlda5?=
+ =?us-ascii?Q?pOYZrOARyJjvhvCGxwD2e7Tez2hOe1fMGqg+T80CMb/QcDOOcDLklumxehV8?=
+ =?us-ascii?Q?W5NqFMogaSRG0tPf9DurUgmgRvPw71V/WSrX1aESanJDM9+ONjvi5cff4Jv/?=
+ =?us-ascii?Q?Q79s4vjKCHnG7wSTwjdEBgo0r5XhnVpKNLXcjQHC9W/aY9Vl/yZxpeHOVItA?=
+ =?us-ascii?Q?S2ipKUYHHnuu7enLRuvHpIxLTWkFF3TWd5akxnus/VUFU76eUyElr93BBEtZ?=
+ =?us-ascii?Q?rghbA+Jm/b4XGjnzlEx49X45Xyfs6TL5grItAt4GLahHKfKO5QbCkVj34YfB?=
+ =?us-ascii?Q?PzdG0YPniP1G/1QpXOoElb8YJWiZsdnCAxCoQ+nzCZu+FA+7USB+Q2RPkEvm?=
+ =?us-ascii?Q?mZ5QkONcciJNAp/XRY5lhAHXCvLHZdDiEf3ZNJc+PCMFbyAy+lgsYQgdOGrR?=
+ =?us-ascii?Q?S7zWvvWqUfnFTAfhZ16I3pZ9Tf41TSD87Dx9YGFUN4/T0f17WVOxryuLrUK9?=
+ =?us-ascii?Q?lZEsydGzhnyEUXLHNcQ60L1OtGL1JbBpOCOzGzBEnJd0M6oF3XKpJUva9V5k?=
+ =?us-ascii?Q?nyUWJ0TmCUhdHcX9YxjujhHFN/otBUpPIOPxpyRm2+C7vsHn24n/uaXtgy51?=
+ =?us-ascii?Q?SDayukXq7GhMZ9IVZWazpiYwgJJIYw6jALlon34TEx/5IkKuJtZ8+NpXqWLo?=
+ =?us-ascii?Q?oaKakeBZ7WF4Od/fbWY0g8drBv01Afrqp1Fn/eYSpMEMjc7ve9gGRRE4T6Vp?=
+ =?us-ascii?Q?UPZXpNA0WfazhJM+gzEod1sUO8oemD3w8uqyyGWXxOK1l/muice6gkprLRY1?=
+ =?us-ascii?Q?fj2X+srTNxgxNJvSctqQ8rUPdD29180BzbiKM6EcnOGObVLi2Iiz2UvyZsfH?=
+ =?us-ascii?Q?X6fGtX7j6OIDSUk7k7QCavEz62wUrz/P1HtoMIR7rlB133CmvD8ORBg5YTp6?=
+ =?us-ascii?Q?E7rV89o7oyAIq5K/J5dca97u17Dl8896lIV5AdYIEKE9FlwDg5FPSlzvjMpY?=
+ =?us-ascii?Q?bqC5P2oHk9/cEVPcNsAdq7CMc9lpbZzMl1kzlZmnE5prqZzFT5+xDKstktid?=
+ =?us-ascii?Q?LrgcPvzIxVt6w38olGKE/zCv8OwX2v2/3vmW2E7jOzqZ9T+TXEpbrW5/CBUh?=
+ =?us-ascii?Q?NGHu4U1AlRR2dWMuFKr/EvfUq+xfJukLOh+OTmerOO6kxj8HzQug5SP814u+?=
+ =?us-ascii?Q?iv4njVpZ6ZLsumpvzV6Q77j0nLxG3hoaEErowLIL5Pv7+GMwDohk0WjbbRWR?=
+ =?us-ascii?Q?1eMlr9R4vWOr8tNATTmTxxqzecsGAnpPiNK+VE7jU+9p87baCWWr4yOvYK88?=
+ =?us-ascii?Q?8/fZyh7uJKWcajL4U0MhZZXPolUDup/5mmeHn7I0GU1JGW5pf4JkItHSD2od?=
+ =?us-ascii?Q?vt1c75x9Wk61i/MPCOCb5w8=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fe2395a-3ca5-420c-7c94-08d9befbdff4
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 12:18:45.5045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zjMY8hzOEdZErelxtFJGTzsm4BWj1F7XbmyIwwyoIOCFOJf0AV3pA0eCX7wpsCVrU3BDUmn77P6f+BxKItQQbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2PR06MB3003
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Lieber geliebter,
+From: Wang Qing <wangqing@vivo.com>
 
-Bitte lesen Sie dies langsam und sorgf=C3=A4ltig durch, da es sich
-m=C3=B6glicherweise um eine der wichtigsten E-Mails handelt, die Sie jemals
-erhalten. Ich bin Mrs. Cristina Campbell, ich war mit dem verstorbenen
-Edward Campbell verheiratet. Er arbeitete fr=C3=BCher f=C3=BCr die Shell
-Petroleum Development Company London und war auch ein erfahrener
-Bauunternehmer in der Region Ostasien. Er starb am Montag, 31. Juli
-2003 in Paris. Wir waren sieben Jahre ohne Kind verheiratet.
+This should be (res->end - res->start + 1) here actually,
+use resource_size() derectly.
 
-W=C3=A4hrend Sie dies lesen, m=C3=B6chte ich nicht, dass Sie Mitleid mit mi=
-r
-haben, denn ich glaube, dass jeder eines Tages sterben wird. Bei mir
-wurde Speiser=C3=B6hrenkrebs diagnostiziert und mein Arzt sagte mir, dass
-ich aufgrund meiner komplizierten Gesundheitsprobleme nicht lange
-durchhalten w=C3=BCrde.
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ drivers/platform/x86/apple-gmux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ich m=C3=B6chte, dass Gott mir gegen=C3=BCber barmherzig ist und meine Seel=
-e
-annimmt, deshalb habe ich beschlossen, Almosen an
-Wohlt=C3=A4tigkeitsorganisationen / Kirchen / buddhistische Tempel /
-Moscheen / mutterlose Babys / weniger Privilegierte und Witwen zu
-geben, da ich m=C3=B6chte, dass dies eine der letzten guten Taten ist Ich
-tue es auf der Erde, bevor ich sterbe. Bisher habe ich Geld an einige
-Wohlt=C3=A4tigkeitsorganisationen in Schottland, Wales, Panama, Finnland
-und Griechenland verteilt. Jetzt, wo sich mein Gesundheitszustand so
-stark verschlechtert hat, kann ich das nicht mehr selbst machen.
+diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+index 9aae45a..57553f9
+--- a/drivers/platform/x86/apple-gmux.c
++++ b/drivers/platform/x86/apple-gmux.c
+@@ -625,7 +625,7 @@ static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
+ 	}
+ 
+ 	gmux_data->iostart = res->start;
+-	gmux_data->iolen = res->end - res->start;
++	gmux_data->iolen = resource_size(res);
+ 
+ 	if (gmux_data->iolen < GMUX_MIN_IO_LEN) {
+ 		pr_err("gmux I/O region too small (%lu < %u)\n",
+-- 
+2.7.4
 
-Ich habe einmal Mitglieder meiner Familie gebeten, eines meiner Konten
-zu schlie=C3=9Fen und das Geld, das ich dort habe, an
-Wohlt=C3=A4tigkeitsorganisationen in =C3=96sterreich, Luxemburg, Deutschlan=
-d,
-Italien und der Schweiz zu verteilen, sie weigerten sich und behielten
-das Geld f=C3=BCr sich. Daher vertraue ich nicht sie nicht mehr, da sie
-anscheinend nicht mit dem zufrieden sind, was ich ihnen hinterlassen
-habe. Das letzte von meinem Geld, von dem niemand wei=C3=9F, ist die
-riesige Bareinzahlung von sechs Millionen US-Dollar $ 6.000.000,00,
-die ich bei einer Bank in Thailand habe, bei der ich den Fonds
-hinterlegt habe. Ich m=C3=B6chte, dass Sie diesen Fonds f=C3=BCr
-Wohlt=C3=A4tigkeitsprogramme verwenden und die Menschheit in Ihrem Land
-unterst=C3=BCtzen, wenn Sie nur aufrichtig sind.
-
-Ich habe diese Entscheidung getroffen, weil ich kein Kind habe, das
-dieses Geld erben wird. Ich habe keine Angst vor dem Tod, daher wei=C3=9F
-ich, wohin ich gehe. Ich wei=C3=9F, dass ich im Scho=C3=9F des Herrn sein w=
-erde.
-Sobald ich Ihre Antwort erhalten habe, werde ich Ihnen den Kontakt der
-Bank mitteilen und Ihnen eine Vollmacht ausstellen, die Sie als
-urspr=C3=BCnglichen Beg=C3=BCnstigten dieses Fonds bevollm=C3=A4chtigt, die=
-ses
-Wohlt=C3=A4tigkeitsprogramm sofort in Ihrem Land zu beginnen.
-
-Nur ein Leben, das f=C3=BCr andere gelebt wird, ist ein lebenswertes Leben.
-Ich m=C3=B6chte, dass Sie immer f=C3=BCr mich beten. Jede Verz=C3=B6gerung =
-Ihrer
-Antwort wird mir Raum geben, eine andere Person zu diesem Zweck zu
-finden. Wenn Sie kein Interesse haben, bitte ich um Entschuldigung f=C3=BCr
-die Kontaktaufnahme. Du kannst mich mit meiner privaten E-Mail
-erreichen oder mir antworten: (cristinacampeell@outlook.com).
-
-Danke,
-Dein,
-Frau Cristina Campbell
-Email; cristinacampeell@outlook.com
