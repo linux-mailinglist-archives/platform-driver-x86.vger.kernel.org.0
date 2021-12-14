@@ -2,153 +2,95 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EE5474428
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Dec 2021 15:01:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 275E84746E1
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 14 Dec 2021 16:53:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234731AbhLNOAi (ORCPT
+        id S234383AbhLNPxv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 14 Dec 2021 09:00:38 -0500
-Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:25386 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S234671AbhLNOAb (ORCPT
+        Tue, 14 Dec 2021 10:53:51 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:50680 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231951AbhLNPxv (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 14 Dec 2021 09:00:31 -0500
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-        by mx0a-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BE4Ko3p006814;
-        Tue, 14 Dec 2021 08:00:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=d/1h1dcmjbxeO1WOxkRmaotN/td2jqwcrUgCM/MTXvU=;
- b=feMF4N6IOcbAkT6787HfxGICUYk7d+xb9NbxLs6OeEGk7KkAhDL2pDHeDbVWMfJ1eqfC
- OekM44D+J7eIZE4gGXHCTx66Jz4YF/0PVBKQ2NTc4SNCns0chwb9AMWFpSuBrY30IZ/n
- Nsa24PSMGQOUSR2kpkU8L14v0CWUVD5c3ksJ18bWGJ7vh/z3nluQ91hyHul20avpzV2E
- CwonOvwZsw8F3hTyiDZDsv7pIYcLPuGvKdGntw52mSVnTgTSCnrGcpfOuV4dHv6xnlyg
- Nx217B1sJjkRaGxiC+FlRkrjoz1lD4be+H5VAi23G5SCmhKVZecPcrsSSeVj4OwjVngt cA== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3cxh14grht-6
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 14 Dec 2021 08:00:06 -0600
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 14 Dec
- 2021 14:00:05 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.17 via Frontend
- Transport; Tue, 14 Dec 2021 14:00:05 +0000
-Received: from aryzen.ad.cirrus.com (unknown [198.61.64.39])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 21C56B12;
-        Tue, 14 Dec 2021 14:00:05 +0000 (UTC)
-From:   Lucas Tanure <tanureal@opensource.cirrus.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-CC:     <alsa-devel@alsa-project.org>, <linux-acpi@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Stefan Binding <sbinding@opensource.cirrus.com>,
-        Lucas Tanure <tanureal@opensource.cirrus.com>
-Subject: [PATCH v4 10/10] ALSA: hda/realtek: Add CS35L41 support for Thinkpad laptops
-Date:   Tue, 14 Dec 2021 13:59:59 +0000
-Message-ID: <20211214135959.1317949-11-tanureal@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211214135959.1317949-1-tanureal@opensource.cirrus.com>
-References: <20211214135959.1317949-1-tanureal@opensource.cirrus.com>
+        Tue, 14 Dec 2021 10:53:51 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 38EE91EC059D;
+        Tue, 14 Dec 2021 16:53:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1639497225;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OlUC3lLRynZi+JY7FEvlz/ZRL8mKuuxtrhCfASCsERU=;
+        b=Mou9wxta1Vtvbw8Tn2z/E28PO17LKbLUS3B81uGspJgM8/CX1d5QbqQ6r4ZnpbUC9fPLNU
+        5K3Fz8G+kSCgyUTjaLA3+74zTDr78Fb5bqGmZWajsVeaDSdyykpOlAaRMtL1vhJCbGLNqX
+        h2ZHfnF4qXCvZi1bwVxagVu92iylrTk=
+Date:   Tue, 14 Dec 2021 16:53:46 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Brijesh Singh <brijesh.singh@amd.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-coco@lists.linux.dev, linux-mm@kvack.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        tony.luck@intel.com, marcorr@google.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com
+Subject: Re: [PATCH v8 03/40] x86/mm: Extend cc_attr to include AMD SEV-SNP
+Message-ID: <Ybi+ChUXwLRkWJY/@zn.tnic>
+References: <20211210154332.11526-1-brijesh.singh@amd.com>
+ <20211210154332.11526-4-brijesh.singh@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 49LNN7KSG5k83oJX55pFMpVTm8EV8yd8
-X-Proofpoint-ORIG-GUID: 49LNN7KSG5k83oJX55pFMpVTm8EV8yd8
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211210154332.11526-4-brijesh.singh@amd.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+On Fri, Dec 10, 2021 at 09:42:55AM -0600, Brijesh Singh wrote:
+> diff --git a/include/linux/cc_platform.h b/include/linux/cc_platform.h
+> index a075b70b9a70..ef5e2209c9b8 100644
+> --- a/include/linux/cc_platform.h
+> +++ b/include/linux/cc_platform.h
+> @@ -61,6 +61,14 @@ enum cc_attr {
+>  	 * Examples include SEV-ES.
+>  	 */
+>  	CC_ATTR_GUEST_STATE_ENCRYPT,
+> +
+> +	/**
+> +	 * @CC_ATTR_SEV_SNP: Guest SNP is active.
+> +	 *
+> +	 * The platform/OS is running as a guest/virtual machine and actively
+> +	 * using AMD SEV-SNP features.
+> +	 */
+> +	CC_ATTR_SEV_SNP = 0x100,
 
-Add support for two CS35L41 using I2C bus and the component
-binding method
+I guess CC_ATTR_GUEST_SEV_SNP. The Intel is called CC_ATTR_GUEST_TDX so
+at least they all say it is a guest thing, this way.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-Signed-off-by: Lucas Tanure <tanureal@opensource.cirrus.com>
----
- sound/pci/hda/patch_realtek.c | 37 +++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c7afabfae574..56c2ce3121fd 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6555,6 +6555,35 @@ void comp_generic_playback_hook(struct hda_pcm_stream *hinfo, struct hda_codec *
- 	}
- }
- 
-+static void cs35l41_generic_fixup(struct hda_codec *codec, int action, const char *bus,
-+				  const char *hid, int count)
-+{
-+	struct device *dev = hda_codec_dev(codec);
-+	struct alc_spec *spec = codec->spec;
-+	char *name;
-+	int ret, i;
-+
-+	switch (action) {
-+	case HDA_FIXUP_ACT_PRE_PROBE:
-+		for (i = 0; i < count; i++) {
-+			name = devm_kasprintf(dev, GFP_KERNEL,
-+					      "%s-%s:00-cs35l41-hda.%d", bus, hid, i);
-+			component_match_add(dev, &spec->match, comp_match_dev_name, name);
-+		}
-+		ret = component_master_add_with_match(dev, &comp_master_ops, spec->match);
-+		if (ret)
-+			codec_err(codec, "Fail to register component aggregator %d\n", ret);
-+		else
-+			spec->gen.pcm_playback_hook = comp_generic_playback_hook;
-+		break;
-+	}
-+}
-+
-+static void cs35l41_fixup_i2c_two(struct hda_codec *codec, const struct hda_fixup *fix, int action)
-+{
-+	cs35l41_generic_fixup(codec, action, "i2c", "CSC3551", 2);
-+}
-+
- void alc287_legion_16achg6_playback_hook(struct hda_pcm_stream *hinfo, struct hda_codec *codec,
- 					 struct snd_pcm_substream *sub, int action)
- {
-@@ -6871,6 +6900,7 @@ enum {
- 	ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_NO_AUDIO_JACK,
- 	ALC287_FIXUP_LEGION_16ACHG6,
-+	ALC287_FIXUP_CS35L41_I2C_2,
- };
- 
- static const struct hda_fixup alc269_fixups[] = {
-@@ -8599,6 +8629,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc287_fixup_legion_16achg6_speakers,
- 	},
-+	[ALC287_FIXUP_CS35L41_I2C_2] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = cs35l41_fixup_i2c_two,
-+	},
- };
- 
- static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-@@ -9009,6 +9043,9 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3843, "Yoga 9i", ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP),
- 	SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3847, "Legion 7 16ACHG6", ALC287_FIXUP_LEGION_16ACHG6),
-+	SND_PCI_QUIRK(0x17aa, 0x22F1, "Thinkpad", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x22F2, "Thinkpad", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x22F3, "Thinkpad", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3852, "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
 -- 
-2.34.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
