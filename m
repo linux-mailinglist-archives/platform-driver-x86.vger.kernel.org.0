@@ -2,337 +2,161 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A30C476806
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Dec 2021 03:32:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43AE74767EF
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 16 Dec 2021 03:31:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbhLPCbx (ORCPT
+        id S232926AbhLPCbW (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 15 Dec 2021 21:31:53 -0500
-Received: from mga18.intel.com ([134.134.136.126]:62503 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232940AbhLPCbu (ORCPT
+        Wed, 15 Dec 2021 21:31:22 -0500
+Received: from mailout2.samsung.com ([203.254.224.25]:26402 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229934AbhLPCbV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 15 Dec 2021 21:31:50 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="226245783"
-X-IronPort-AV: E=Sophos;i="5.88,210,1635231600"; 
-   d="scan'208";a="226245783"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2021 18:31:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,210,1635231600"; 
-   d="scan'208";a="611153181"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2021 18:31:49 -0800
-Received: from debox1-desk4.intel.com (unknown [10.209.86.221])
-        by linux.intel.com (Postfix) with ESMTP id 03D23580D6F;
-        Wed, 15 Dec 2021 18:31:48 -0800 (PST)
-From:   "David E. Box" <david.e.box@linux.intel.com>
-To:     lee.jones@linaro.org, hdegoede@redhat.com,
-        david.e.box@linux.intel.com, bhelgaas@google.com,
-        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
-        srinivas.pandruvada@intel.com, mgross@linux.intel.com
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH V4 6/6] selftests: sdsi: test sysfs setup
-Date:   Wed, 15 Dec 2021 18:31:46 -0800
-Message-Id: <20211216023146.2361174-7-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211216023146.2361174-1-david.e.box@linux.intel.com>
-References: <20211216023146.2361174-1-david.e.box@linux.intel.com>
+        Wed, 15 Dec 2021 21:31:21 -0500
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20211216023119epoutp027095a5b8b0f16050c11d22d3c1c2819e~BG2mTRzSQ1206112061epoutp02V
+        for <platform-driver-x86@vger.kernel.org>; Thu, 16 Dec 2021 02:31:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20211216023119epoutp027095a5b8b0f16050c11d22d3c1c2819e~BG2mTRzSQ1206112061epoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1639621879;
+        bh=TUzRwrZF1/3XnFMJyJuZxMcG8td0JNwTFL6lUwbVwFQ=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=YleAxWLN51KoYX4SXre8xNfZ4jO0L0ulk4dYzMbHcPcC1oG7TOG0+7iWxaTefAUCa
+         o7DlWM16sA26P8MWtalis3dd4pcu6w2nqXraXYonpOFXuSLswZ6FPqNjBcOLnTxscL
+         iYipubdVgT3UFeSlKT8VUDIIHNrOZPhTb7PrgLRQ=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20211216023118epcas1p3a098e745a5392a5baf2282c71fe8c519~BG2ltOvMi1324113241epcas1p3V;
+        Thu, 16 Dec 2021 02:31:18 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.38.236]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4JDx1q6hlrz4x9QM; Thu, 16 Dec
+        2021 02:31:11 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B2.D5.09592.DB4AAB16; Thu, 16 Dec 2021 11:30:21 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20211216023111epcas1p187706cd1cb120df262dacdf1749cbc19~BG2es5aKb1352413524epcas1p1d;
+        Thu, 16 Dec 2021 02:31:11 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20211216023111epsmtrp19a27b037340f2cbd82c9af5474fc8707~BG2erCN020227102271epsmtrp1J;
+        Thu, 16 Dec 2021 02:31:11 +0000 (GMT)
+X-AuditID: b6c32a37-28fff70000002578-aa-61baa4bd1682
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        6A.61.29871.EE4AAB16; Thu, 16 Dec 2021 11:31:10 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20211216023111epsmtip14a8c38dd0303813d5fa041eb230cc106~BG2eVnqDA0239902399epsmtip1W;
+        Thu, 16 Dec 2021 02:31:11 +0000 (GMT)
+Subject: Re: [PATCH v4 16/20] extcon: intel-cht-wc: Use new cht_wc_model
+ intel_soc_pmic field
+To:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Ard Biesheuvel <ardb@kernel.org>
+Cc:     Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+        Yauhen Kharuzhy <jekhor@gmail.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <9921247a-675b-c225-c933-8cb1e98ab6c2@samsung.com>
+Date:   Thu, 16 Dec 2021 11:54:11 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211206093318.45214-17-hdegoede@redhat.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxj39La3tywd1yLjgBHh6jDWgZSX10YYCeiuuvEYmZskW72BKy19
+        pg/jcGwMF14TmKMT1iCSMB5iBEXkJSKDYkUYCXMI4sxUkPAQUZji0Iy1vWzjv9/vO9/3/b7f
+        d87BENEE6oUpNEZGr6FVBOrCbereGuB/9ac2OnC62438vmQZIf/6cw6Qj23FHPLnukoeeWfJ
+        yiP/eN4DyNYHsyhZ3VEIyKwHo4C81VaKkgv5VkB2/nAKIc3NVj559+salDzXPomQ/X2/8si+
+        K0by7A0LEimiWi33+NSlGjHVUJuLUr/fbkepst54aq5jCKUah7K5VEFjLaB6b45zqYUG7ziX
+        ROUuOUMnM3ofRpOkTVZoUsKJ/QmyKFloWKDEX7KT3EH4aGg1E05Evx/nv0ehsnsifI7QKpM9
+        FEcbDMT2iF16rcnI+Mi1BmM4weiSVbpQXYCBVhtMmpQADWOUSgIDg0LtiYeU8qLzmYiuQHC0
+        99kEPwNc5OcBAQbxEPiwyQbygAsmwlsAbFka47JkHsD2qssIS14AOFxTYD/BnCWTlyk2fhXA
+        5WflPEcrET4H4NnZNAd2w2Ww5Jc8Z6d1eB4C7xT/zXcQBM/gwNPm405xFBfDa5MjqAO74r5w
+        6OUYcCgI8QhYe3ebI8zF34Y9fbPOFHf8AOxt+gY4sBBfC3t/HOc6sACXQvMls3MIBPeAo+Nn
+        OCzeCJtnS50OIF4sgF1PziGs6Wg4N/NqBbvBaVvjyjK84FRhFp8tqAJwqSiXw5J6AKcsuSsV
+        wfBaZRHHMSmCb4X1bdvZsC9sfXUasMpvwifPT/DYdQlhTpaITdkEb92/x2GxJ6zIzkW/A4Rl
+        lR/LKg+WVR4s/4uVA24teIvRGdQpjEGiC/7vupO06gbgfPDiHS3g1OzTgC7AwUAXgBhCrBOO
+        f9JGi4TJ9OdpjF4r05tUjKELhNo3fBLxck/S2n+MxiiThOwMDAkLCg4hJWESwkM4GVtMi/AU
+        2sgoGUbH6P+t42ACrwxO/KHh/siqROnBd/q2nQG2OvF9976uR96x1bXHhw8uvrs4uCnlyHvy
+        DZWdfp3WSFvQ+Ynh9vUfw46Yw/Ebo9zULd0m6aIlKzVqNG26fqR5MG6/YkP/b65u+Wtev5G/
+        kI5Jd8fqW82p/R7LwmOyAXGmT+KFdJUnf/38FzfmvhowlZZWxCk/+HZKTQ2+9g1OkAVN+xOp
+        jXndFe22YzMz0a0l6VzkyhZN03XFbm457Vc2PK/Ym3Py8PTjmLUfesKXWMSF29iArgN+9Fnm
+        Zr+ncpFnQs6aukJrdmz0Tbn2otJ1wiyQeR/Y/OL6vqpP66vdJ7dM9Jj2LI6VfTly9FGp9KE6
+        uT+G4BrktESM6A30Pz3lXaJ5BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRmVeSWpSXmKPExsWy7bCSnO67JbsSDd5M1LeYNOM/s8XPL+8Z
+        Ld4cn85kcXDdUlaLm7+OsFrc/3qU0WLnw7dsFsv39TNatD28xWhxedccNovPvUcYLQ5MncZs
+        MWX7EXaL240r2CxW73nBbHHm9CVWi9O7SyxWnpjF7CDksXPWXXaPzSu0PDat6mTzuHNtD5vH
+        vJOBHu/3XWXz2HK1ncWjb8sqRo+Tp56weHzeJBfAFcVlk5Kak1mWWqRvl8CVMXltE3NBH2fF
+        yY/P2BsYN7J3MXJwSAiYSLzY6tHFyMkhJLCbUaJpXgSILSEgKTHt4lFmiBJhicOHi7sYuYBK
+        3jJKNN97xwhSIywQLzHjbBcLiC0i0MMs8W8iP0gRs0ADk8SFCZOYITr2MEp82/qRHaSKTUBL
+        Yv+LG2wgNr+AosTVH48ZQTbwCthJrLqtDRJmEVCVOHr6LViJqECYxM4lj5lAbF4BQYmTM5+A
+        LeMUsJKYsnkKK4jNLKAu8WfeJWYIW1zi1pP5TBC2vMT2t3OYJzAKz0LSPgtJyywkLbOQtCxg
+        ZFnFKJlaUJybnltsWGCYl1quV5yYW1yal66XnJ+7iREc5VqaOxi3r/qgd4iRiYPxEKMEB7OS
+        CO+TiF2JQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTCJ
+        zrP7+izr9fpI0cszjwV0fOSrjj1w4uN6ZtcX6yW8jdxO7td+5dHlaDnl+g3jlH7mfbcDmJxt
+        yiZz7z795J5Gx60r7D568+9VS/0OrMis+GaQvzxALfw+0701ih9nrG+5NvXz+oz2lyufn18z
+        69iERf8apyTa+z5ttp7nb6ot2xq8ejbr/Lpp08O2TgtqmXdAIzz/1Nk9ujM7M21rSiu2XpX4
+        JpibrCGg/NbzFkemQF/kBxsr+xu5L47c4GfKulm0/aXa8UUaS7M+yv5dMPNRWFKp6JHZQSb7
+        TmstUlUoaImTq5nF0Pjm7QIP+9W/HjQmJAf/i7W3MOksOdRlWc0Qbru9T36Ol3zG9xflTy8p
+        sRRnJBpqMRcVJwIA5D/8iWEDAAA=
+X-CMS-MailID: 20211216023111epcas1p187706cd1cb120df262dacdf1749cbc19
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20211206093525epcas1p16aaa71953c9a230ed859cb617589d301
+References: <20211206093318.45214-1-hdegoede@redhat.com>
+        <CGME20211206093525epcas1p16aaa71953c9a230ed859cb617589d301@epcas1p1.samsung.com>
+        <20211206093318.45214-17-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Tests file configuration and error handling of the Intel Software
-Defined Silicon sysfs ABI.
+On 12/6/21 6:33 PM, Hans de Goede wrote:
+> The CHT_WC_VBUS_GPIO_CTLO GPIO actually driving an external 5V Vboost
+> converter for Vbus depends on the board on which the Cherry Trail -
+> Whiskey Cove PMIC is actually used.
+> 
+> Since the information about the exact PMIC setup is necessary in other
+> places too, struct intel_soc_pmic now has a new cht_wc_model field
+> indicating the board model.
+> 
+> Only poke the CHT_WC_VBUS_GPIO_CTLO GPIO if this new field is set to
+> INTEL_CHT_WC_GPD_WIN_POCKET, which indicates the Type-C (with PD and
+> DP-altmode) setup used on the GPD pocket and GPD win; and on which
+> this GPIO actually controls an external 5V Vboost converter.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v3:
+> - Use the new cht_wc_model intel_soc_pmic field which replaces the
+>   intel_cht_wc_get_model() helper and adjust the commit msg to match
+> ---
+>  drivers/extcon/extcon-intel-cht-wc.c | 35 +++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 14 deletions(-)
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-V4
-  - No changes.
-V3
-  - Add tests to check PCI device removal handling and to check for
-    driver memory leaks.
-V2
-  - New patch.
+[snip]
 
- MAINTAINERS                                   |   1 +
- tools/testing/selftests/drivers/sdsi/sdsi.sh  |  18 ++
- .../selftests/drivers/sdsi/sdsi_test.py       | 226 ++++++++++++++++++
- 3 files changed, 245 insertions(+)
- create mode 100755 tools/testing/selftests/drivers/sdsi/sdsi.sh
- create mode 100644 tools/testing/selftests/drivers/sdsi/sdsi_test.py
+Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 500b49e6958a..a0d550f5bfdc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9788,6 +9788,7 @@ M:	David E. Box <david.e.box@linux.intel.com>
- S:	Supported
- F:	drivers/platform/x86/intel/sdsi.c
- F:	tools/arch/x86/intel_sdsi/
-+F:	tools/testing/selftests/drivers/sdsi/
- 
- INTEL SKYLAKE INT3472 ACPI DEVICE DRIVER
- M:	Daniel Scally <djrscally@gmail.com>
-diff --git a/tools/testing/selftests/drivers/sdsi/sdsi.sh b/tools/testing/selftests/drivers/sdsi/sdsi.sh
-new file mode 100755
-index 000000000000..8db71961d164
---- /dev/null
-+++ b/tools/testing/selftests/drivers/sdsi/sdsi.sh
-@@ -0,0 +1,18 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Runs tests for the intel_sdsi driver
-+
-+if ! /sbin/modprobe -q -r intel_sdsi; then
-+	echo "drivers/sdsi: [SKIP]"
-+	exit 77
-+fi
-+
-+if /sbin/modprobe -q intel_sdsi; then
-+	python3 -m pytest sdsi_test.py
-+	/sbin/modprobe -q -r intel_sdsi
-+
-+	echo "drivers/sdsi: ok"
-+else
-+	echo "drivers/sdsi: [FAIL]"
-+	exit 1
-+fi
-diff --git a/tools/testing/selftests/drivers/sdsi/sdsi_test.py b/tools/testing/selftests/drivers/sdsi/sdsi_test.py
-new file mode 100644
-index 000000000000..4922edfe461f
---- /dev/null
-+++ b/tools/testing/selftests/drivers/sdsi/sdsi_test.py
-@@ -0,0 +1,226 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+from struct import pack
-+from time import sleep
-+
-+import errno
-+import glob
-+import os
-+import subprocess
-+
-+try:
-+    import pytest
-+except ImportError:
-+    print("Unable to import pytest python module.")
-+    print("\nIf not already installed, you may do so with:")
-+    print("\t\tpip3 install pytest")
-+    exit(1)
-+
-+SOCKETS = glob.glob('/sys/bus/auxiliary/devices/intel_vsec.sdsi.*')
-+NUM_SOCKETS = len(SOCKETS)
-+
-+MODULE_NAME = 'sdsi'
-+DEV_PREFIX = 'intel_vsec.sdsi'
-+CLASS_DIR = '/sys/bus/auxiliary/devices'
-+GUID = "0x6dd191"
-+
-+def read_bin_file(file):
-+    with open(file, mode='rb') as f:
-+        content = f.read()
-+    return content
-+
-+def get_dev_file_path(socket, file):
-+    return CLASS_DIR + '/' + DEV_PREFIX + '.' + str(socket) + '/' + file
-+
-+def kmemleak_enabled():
-+    kmemleak = "/sys/kernel/debug/kmemleak"
-+    return os.path.isfile(kmemleak)
-+
-+class TestSDSiDriver:
-+    def test_driver_loaded(self):
-+        lsmod_p = subprocess.Popen(('lsmod'), stdout=subprocess.PIPE)
-+        result = subprocess.check_output(('grep', '-q', MODULE_NAME), stdin=lsmod_p.stdout)
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSDSiFilesClass:
-+
-+    def read_value(self, file):
-+        f = open(file, "r")
-+        value = f.read().strip("\n")
-+        return value
-+
-+    def get_dev_folder(self, socket):
-+        return CLASS_DIR + '/' + DEV_PREFIX + '.' + str(socket) + '/'
-+
-+    def test_sysfs_files_exist(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        print (folder)
-+        assert os.path.isfile(folder + "guid") == True
-+        assert os.path.isfile(folder + "provision_akc") == True
-+        assert os.path.isfile(folder + "provision_cap") == True
-+        assert os.path.isfile(folder + "state_certificate") == True
-+        assert os.path.isfile(folder + "registers") == True
-+
-+    def test_sysfs_file_permissions(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        mode = os.stat(folder + "guid").st_mode & 0o777
-+        assert mode == 0o444    # Read all
-+        mode = os.stat(folder + "registers").st_mode & 0o777
-+        assert mode == 0o400    # Read owner
-+        mode = os.stat(folder + "provision_akc").st_mode & 0o777
-+        assert mode == 0o200    # Read owner
-+        mode = os.stat(folder + "provision_cap").st_mode & 0o777
-+        assert mode == 0o200    # Read owner
-+        mode = os.stat(folder + "state_certificate").st_mode & 0o777
-+        assert mode == 0o400    # Read owner
-+
-+    def test_sysfs_file_ownership(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        st = os.stat(folder + "guid")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "registers")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "provision_akc")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "provision_cap")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+        st = os.stat(folder + "state_certificate")
-+        assert st.st_uid == 0
-+        assert st.st_gid == 0
-+
-+    def test_sysfs_file_sizes(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        if self.read_value(folder + "guid") == GUID:
-+            st = os.stat(folder + "registers")
-+            assert st.st_size == 72
-+
-+        st = os.stat(folder + "provision_akc")
-+        assert st.st_size == 1024
-+
-+        st = os.stat(folder + "provision_cap")
-+        assert st.st_size == 1024
-+
-+        st = os.stat(folder + "state_certificate")
-+        assert st.st_size == 4096
-+
-+    def test_no_seek_allowed(self, socket):
-+        folder = self.get_dev_folder(socket)
-+        rand_file = bytes(os.urandom(8))
-+
-+        f = open(folder + "provision_cap", "wb", 0)
-+        f.seek(1)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ESPIPE
-+        f.close()
-+
-+        f = open(folder + "provision_akc", "wb", 0)
-+        f.seek(1)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ESPIPE
-+        f.close()
-+
-+    def test_registers_seek(self, socket):
-+        folder = self.get_dev_folder(socket)
-+
-+        # Check that the value read from an offset of the entire
-+        # file is none-zero and the same as the value read
-+        # from seeking to the same location
-+        f = open(folder + "registers", "rb")
-+        data = f.read()
-+        f.seek(64)
-+        id = f.read()
-+        assert id != bytes(0)
-+        assert data[64:] == id
-+        f.close()
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSDSiMailboxCmdsClass:
-+    def test_provision_akc_eoverflow_1017_bytes(self, socket):
-+
-+        # The buffer for writes is 1k, of with 8 bytes must be
-+        # reserved for the command, leaving 1016 bytes max.
-+        # Check that we get an overflow error for 1017 bytes.
-+        node = get_dev_file_path(socket, "provision_akc")
-+        rand_file = bytes(os.urandom(1017))
-+
-+        f = open(node, 'wb', 0)
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.EOVERFLOW
-+        f.close()
-+
-+@pytest.mark.parametrize('socket', range(0, NUM_SOCKETS))
-+class TestSdsiDriverLocksClass:
-+    def test_enodev_when_pci_device_removed(self, socket):
-+        node = get_dev_file_path(socket, "provision_akc")
-+        dev_name = DEV_PREFIX + '.' + str(socket)
-+        driver_dir = CLASS_DIR + '/' + dev_name + "/driver/"
-+        rand_file = bytes(os.urandom(8))
-+
-+        f = open(node, 'wb', 0)
-+        g = open(node, 'wb', 0)
-+
-+        with open(driver_dir + 'unbind', 'w') as k:
-+            print(dev_name, file = k)
-+
-+        with pytest.raises(OSError) as error:
-+            f.write(rand_file)
-+        assert error.value.errno == errno.ENODEV
-+
-+        with pytest.raises(OSError) as error:
-+            g.write(rand_file)
-+        assert error.value.errno == errno.ENODEV
-+
-+        f.close()
-+        g.close()
-+
-+        # Short wait needed to allow file to close before pulling driver
-+        sleep(1)
-+
-+        p = subprocess.Popen(('modprobe', '-r', 'intel_sdsi'))
-+        p.wait()
-+        p = subprocess.Popen(('modprobe', '-r', 'intel_vsec'))
-+        p.wait()
-+        p = subprocess.Popen(('modprobe', 'intel_vsec'))
-+        p.wait()
-+
-+        # Short wait needed to allow driver time to get inserted
-+        # before continuing tests
-+        sleep(1)
-+
-+    def test_memory_leak(self, socket):
-+        if not kmemleak_enabled:
-+            pytest.skip("kmemleak not enabled in kernel")
-+
-+        dev_name = DEV_PREFIX + '.' + str(socket)
-+        driver_dir = CLASS_DIR + '/' + dev_name + "/driver/"
-+
-+        with open(driver_dir + 'unbind', 'w') as k:
-+            print(dev_name, file = k)
-+
-+        sleep(1)
-+
-+        subprocess.check_output(('modprobe', '-r', 'intel_sdsi'))
-+        subprocess.check_output(('modprobe', '-r', 'intel_vsec'))
-+
-+        with open('/sys/kernel/debug/kmemleak', 'w') as f:
-+            print('scan', file = f)
-+        sleep(5)
-+
-+        assert os.stat('/sys/kernel/debug/kmemleak').st_size == 0
-+
-+        subprocess.check_output(('modprobe', 'intel_vsec'))
-+        sleep(1)
+
 -- 
-2.25.1
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
