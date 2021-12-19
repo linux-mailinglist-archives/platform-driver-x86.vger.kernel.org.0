@@ -2,101 +2,100 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B79479CA6
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 18 Dec 2021 21:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4E3479E9F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 19 Dec 2021 01:54:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232237AbhLRUwY (ORCPT
+        id S229911AbhLSAyZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 18 Dec 2021 15:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50070 "EHLO
+        Sat, 18 Dec 2021 19:54:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232227AbhLRUwX (ORCPT
+        with ESMTP id S232625AbhLSAyZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 18 Dec 2021 15:52:23 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E8DC061574;
-        Sat, 18 Dec 2021 12:52:23 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id br40so9921377lfb.1;
-        Sat, 18 Dec 2021 12:52:23 -0800 (PST)
+        Sat, 18 Dec 2021 19:54:25 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B977BC061574
+        for <platform-driver-x86@vger.kernel.org>; Sat, 18 Dec 2021 16:54:24 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id cf39so13012026lfb.8
+        for <platform-driver-x86@vger.kernel.org>; Sat, 18 Dec 2021 16:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VpWnDkebbYNbsKX740q2/iT+lv5h0q6cn65ZZyjJ7dM=;
-        b=PxKKTDENviWUpBiSzpJyrddL33wvxt/6ek9gcO0P1tvUxCmhgP2147ve7O4mJP0Z0j
-         WazzwDa7y8NwfpiGEEvOFSug4Dj28pAxGbDgpj2SgfZZqZUzJ4uBt9FH6p9GY6wPMM3H
-         rilPjlxYaAT1t7yAgbS8Cw10x8ZTmDefYsk7fnUe1TnPSnfiIL20pQKEmXeJ2RXi3vuH
-         NRFRILZODSwfD/9qMd07NLffZPUnyZialRVSxQzdB5I01MBZEeSNKtZPNzYl4K29O0FQ
-         OixG2aXqcb/jKSFyeTtTYSLnb0i8g7f6pjwpJVASCbhNT6u/sormVm7n7q02StyRsv37
-         99HA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Ozm+oGtnnbxrHJ7AJaV4znYI91QFFGKW+vPn25yHyM4=;
+        b=fZ6zJC344jjaAirxSLV5Hz/oSXZhU9ZNBH4C3l6l4KofQkpiLjwux0dj+w70Wnc0+j
+         4U2z+2mUdlypqdvfFXE9YAToF1/itGOql/VGuUhVl6miJyrSCibZckAvwwzf9kPlpZGm
+         PdF7rv5Bmh1AWPsxFjzWm8d0TxwDvUx5B+BFbEbrO3hKdcm7WPOI4HW5UknXOZ5+U62i
+         t3ldmFbeE8mqmn2/xDZbbBDu+jQb6mimBWXkLL+SRwinkRh4o+1wAb92qFk2CvuMBZtr
+         13OOk2kugf2f9Kxhp7MIjoLCAV7D+Usmq6w/n/0/rJDPE6/X//xVW5og4Y0TNjWN8Jd8
+         7UIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VpWnDkebbYNbsKX740q2/iT+lv5h0q6cn65ZZyjJ7dM=;
-        b=S7TMR03PvDZfRqL+HFrtgfWlQGbZjpmVx606rfKHkHef3Wg+K5BF+zdXoha1FQ14vA
-         LPuHxZf9ddHEru8QsbmECEwqpGuB0cQ1x7F1gO8cwr+kL1o5OPKxyMdrF1MeY8P5dWtW
-         Y3uLADYbJjwB1d4FR255ARNo/qzDUBPVyDiJilI74rHTnEf0J5YuXPI7lzLKohkEGND0
-         Ffp1GxNrk7NX9r2QdwxfpQN4vUQmYJDgArulSM8PGIdVx8vZoxdbugVbKzkMhcQVS1bs
-         gHmy5YsTDX2bUqxxOpFDXOOPkndFQMkh/wGvyybyddGOsrXgya7kdpAtu9PjSpf9tdmq
-         1Arg==
-X-Gm-Message-State: AOAM532yABq/OS9lAIOetuPNeDjN3/dWi39LookS+FWHOEX5/tyD+L1u
-        1kCSELozKQzFarW/vZPzmxc=
-X-Google-Smtp-Source: ABdhPJyY95oIdrt0mY2/3033r9wtDrC6yoFGTk4gut8zC1Pc15HOq0twSIWTVniJTKrUgiv6t/su5w==
-X-Received: by 2002:ac2:58e1:: with SMTP id v1mr8949095lfo.627.1639860741632;
-        Sat, 18 Dec 2021 12:52:21 -0800 (PST)
-Received: from localhost.localdomain ([94.179.28.1])
-        by smtp.gmail.com with ESMTPSA id z3sm1239243lfd.258.2021.12.18.12.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Dec 2021 12:52:21 -0800 (PST)
-From:   Denis Pauk <pauk.denis@gmail.com>
-Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
-        platform-driver-x86@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] hwmon: (nct6775) Additional check for ChipID before ASUS WMI usage
-Date:   Sat, 18 Dec 2021 22:52:06 +0200
-Message-Id: <20211218205206.615865-1-pauk.denis@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Ozm+oGtnnbxrHJ7AJaV4znYI91QFFGKW+vPn25yHyM4=;
+        b=RCs1n+45QWH87xb2p7tIY63U9uvbYreCb2EXN3SR5rKXBi8QNwd/SPeR4m6XbBZWvU
+         4Xza2NeJMS1dklC+4HGcPYwRz0TsRB7JRexjebgvF9+bS3qtiYSdgcLQW4RsXK0jRUkn
+         QSdeB3qtjbpI0ce1dRyMlHDjccycCjv4WfET2uaydNIhQ7sVicKSETyMMOeaPoklAMAf
+         0rX16y++C/kINgQDoo9+o1kDXQLdbGJro5VNx4v+NgdRYysgvnl7jANRSzz1zD6iDqEo
+         iaxcGRgCLTpOPZ/NCjfSOkK7yy4n//Jwxa7ImaBLLaLAQBtIdHnvQ2Udjgm0xZGybu7e
+         0IIg==
+X-Gm-Message-State: AOAM531O9bQcOx39x+W9j7GgxqFsow0zfumIBVkDjyG6E9b8fltllgGK
+        l6r27tAsFuQHmo+S94VGiMKg4fu59OuFEu95rsQ=
+X-Google-Smtp-Source: ABdhPJy7HHtq47IL63xqu5HQR2MkRNvqqWhdiGNkJwmBAZIf9y2n8dCwhjTxXp2Hr1jwWqlf/lewMbb1Lsfr2gZhDys=
+X-Received: by 2002:a05:6512:3d94:: with SMTP id k20mr9582698lfv.116.1639875261226;
+ Sat, 18 Dec 2021 16:54:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a2e:b894:0:0:0:0:0 with HTTP; Sat, 18 Dec 2021 16:54:20
+ -0800 (PST)
+Reply-To: elodiesia@yahoo.com
+From:   ELODIE SIA <elodieazeez@gmail.com>
+Date:   Sun, 19 Dec 2021 01:54:20 +0100
+Message-ID: <CAGez3qc1=zLZ5jYZnFD8KmnyTd_h786a=cvLp5Tv2189mKGP_g@mail.gmail.com>
+Subject: Re: Elodie Sia
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-WMI monitoring methods can be changed or removed in new ASUS boards
-BIOS versions. Such versions return zero instead of a real one as
-Chip ID.
-
-Commit adds additional validation for the result of Chip ID call
-before enabling access by ASUS WMI methods.
-
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204807
-Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
----
-Changes in v2:
-- Drop the continuation line.
----
- drivers/hwmon/nct6775.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hwmon/nct6775.c b/drivers/hwmon/nct6775.c
-index 57ce8633a725..831d5c8fe8cd 100644
---- a/drivers/hwmon/nct6775.c
-+++ b/drivers/hwmon/nct6775.c
-@@ -5038,7 +5038,7 @@ static int __init sensors_nct6775_init(void)
- 				   board_name);
- 		if (err >= 0) {
- 			/* if reading chip id via WMI succeeds, use WMI */
--			if (!nct6775_asuswmi_read(0, NCT6775_PORT_CHIPID, &tmp)) {
-+			if (!nct6775_asuswmi_read(0, NCT6775_PORT_CHIPID, &tmp) && tmp) {
- 				pr_info("Using Asus WMI to access %#x chip.\n", tmp);
- 				access = access_asuswmi;
- 			} else {
-
-base-commit: 2585cf9dfaaddf00b069673f27bb3f8530e2039c
 -- 
-2.34.1
+Dear friend,
 
+Greetings to you and your family, Kindly pay attention to my aim of
+contacting you. My name is Mrs. Elodie Sia, and I work with the United
+Bank for Africa (UBA), I am the manager of bill and exchange in THE
+BANK.
+
+I need your urgent assistance in transferring the sum of $5.500.000usd
+(Five Million Five Hundred Thousand United States Dollars) into your
+existing or a new bank account.
+
+Be rest assured that everything will be handled confidentially. Six
+years ago, most of the greedy African Politicians used our bank to
+launder money overseas through their political advisers' help. Most of
+the funds they transferred out of Africa's shores were gold and oil
+money that was supposed to have been used to develop the continent. As
+I am sending this message to you, I could divert Five Million Dollars
+($5.5M), which is in an escrow transit account belonging to no one in
+the bank, now my bank is very anxious to know the real beneficiary of
+the funds.
+
+I was hoping you could apply to our bank as the sole beneficiary of
+this fund to enable our bank to approve this fund in your favor and
+transfer it into your bank account. Be rest assured that everything
+will be handled confidentially.
+
+When the fund has been transferred into your bank account, I will come
+to your country to share the fund. The fund will be shared 50% for me
+and 40% for you, and the other 10% for the orphanages home and poor
+with less-privilege people.
+
+I want us to do this business based on trust for the benefit of both
+our families.
+
+I await your response.
+
+Thanks for your Cooperation
+Mrs. Elodie Sia
+bill and exchange Manager
+United Bank For Africa
