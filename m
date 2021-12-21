@@ -2,206 +2,143 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EADE47C64C
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Dec 2021 19:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E3247C681
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Dec 2021 19:28:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241192AbhLUST4 (ORCPT
+        id S241208AbhLUS2e (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Dec 2021 13:19:56 -0500
-Received: from mga01.intel.com ([192.55.52.88]:5944 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241302AbhLUSTp (ORCPT
+        Tue, 21 Dec 2021 13:28:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237034AbhLUS2d (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Dec 2021 13:19:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640110785; x=1671646785;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LEuFFAjQyciZQYQp+HuE0uY8s9s5/twvrparNkv9kFk=;
-  b=YfDkJZ84V1aKoHIKBNOzokI3nf2YOUcGNVMGwDzjreJ8uJVbYOVHoHhO
-   LRxtvH0EoF96K4jFUOc4wCOZvzzXhj73ngR0e3Uj9EQ+i+mi97xP1xdKi
-   XD+XWuDHw4s1fU8EtT9j81jrYz9P4lzDQZU8hfAMB38IIksvzZr24ErGS
-   z87zA2ptVKWr+snBdPUGkWWQKkqCTwAuo63quNXaT6KLC89kmJlm+c6eG
-   7bJh+EN9uArp3+8ZYzdiY3sRXSj+QqtkBWGfY8xtxyAYkP56k2cmp5/WO
-   kXLb5dZicTadKWjR+54d0ZPHS1HuWlclRBvep31K1LnnCtK3GMSxlZKHc
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="264655921"
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
-   d="scan'208";a="264655921"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2021 10:16:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
-   d="scan'208";a="755907286"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Dec 2021 10:16:37 -0800
-Received: from abailey-MOBL.amr.corp.intel.com (unknown [10.209.52.201])
-        by linux.intel.com (Postfix) with ESMTP id 9C2DD580684;
-        Tue, 21 Dec 2021 10:16:36 -0800 (PST)
-Message-ID: <be2a1cce5691e5dc7fb875f46d5f2085b6a55542.camel@linux.intel.com>
-Subject: Re: [PATCH RESEND V2 3/6] platform/x86/intel: Move intel_pmt from
- MFD to Auxiliary Bus
-From:   "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     lee.jones@linaro.org, bhelgaas@google.com,
-        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
-        mgross@linux.intel.com, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-        Mark Gross <markgross@kernel.org>
-Date:   Tue, 21 Dec 2021 10:16:36 -0800
-In-Reply-To: <3913dfd7-3872-7d69-24af-eba747a7a92d@redhat.com>
-References: <20211208015015.891275-1-david.e.box@linux.intel.com>
-         <20211208015015.891275-4-david.e.box@linux.intel.com>
-         <YbDbql39x7Kw6iAC@kroah.com>
-         <7e78e6311cb0d261892f7361a1ef10130436f358.camel@linux.intel.com>
-         <YbD1NsYHbU8FvtTN@kroah.com>
-         <a70956e1c4da10603e29087e893cbae62ce82631.camel@linux.intel.com>
-         <YbEFuN7fwdiNI8vW@kroah.com>
-         <622887d53eaf6e6ae36354bfa0ed483df1cd9214.camel@linux.intel.com>
-         <YcGEaH0oAAocziU2@kroah.com>
-         <e9648546c3fb751954e411dfa392f0e0f90f0c85.camel@linux.intel.com>
-         <YcIGwZqm2sfIixkH@kroah.com>
-         <3913dfd7-3872-7d69-24af-eba747a7a92d@redhat.com>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        Tue, 21 Dec 2021 13:28:33 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2C5C061574;
+        Tue, 21 Dec 2021 10:28:33 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id u20so23179pfi.12;
+        Tue, 21 Dec 2021 10:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hm9wxEeaDEyWpSuzCto+olZxKZ0nKIQxXR9pF5LHrQU=;
+        b=d0UwYVXOLQkZ6PInaya1W+N+UGBMBKrHdSzoDTZ+eW7Oglrn22iPQlLUJvkwDacHqQ
+         fgi67bEi8xRmu+cp2Rd4Qv8o+ouQBhuwQsdibkn8QwYIUcnQFpuY8AaY/CyD1g0rozxH
+         1CXK/iDYwCwSBRDQIHOI3FqHabsF62o4iY9kvxfte8aKoAGMXgXg/I/OW3xMw39/HqMS
+         ahRskCo13Kvth/ytQuMJpG8YZKIZ6paXoO7l37eVVQNAnIjVSdHT0MkDLNK17NHrheJP
+         8jOOJnR8k+NAgD0CyB5q3qgf8PXHrCV/l9NdCojjXFDl6p2jJqcgnzYxpQxmu3b/+MSp
+         uJMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hm9wxEeaDEyWpSuzCto+olZxKZ0nKIQxXR9pF5LHrQU=;
+        b=VE/7uiXyRJCOW+IBu31rkTodk+xzov4mstZGEOshSRoyhy9PM1ihjfmXvO0un6Nwsb
+         W6wj2gJYrEUA84RXro32Um0z3sqVreblbZAuupGkatyp3gFBobWQ7G1/ziatj1dU/QJE
+         wxf8fb0ZtD5O8wbaXrU/QcgcwubfFsJUfYT5YrrjVqxImUyWOPNSrXfN3SfRIZ1L3HcP
+         GEBz+BaCMhf7zUGo7IwyzTXf9FcQmHYOp/5MYo6TG89dFNsXe4Au2GdukO9S7Hn4bwfs
+         Mqirn13aUyJtUUoBp4ai78/pKH88G1lA+8rxJnHLLWJ/1GiHmElVVY8IhUw7kJp4oV1n
+         Mymg==
+X-Gm-Message-State: AOAM533eERidnKtGocTMuwE1jK7CI7Q9EL6aGkig6G00v+fxqGd13QYE
+        6axGZUk7V6aTW8Fg55ERKfo=
+X-Google-Smtp-Source: ABdhPJyO4P1OJY0lyc6KMrylx/Mv0PwcAGcPgUBbYYK5GYbBB2VrXBY0AHC+Yhwy6c8HIiT5rCS+/w==
+X-Received: by 2002:aa7:9298:0:b0:4ba:7d3a:1742 with SMTP id j24-20020aa79298000000b004ba7d3a1742mr4519732pfa.62.1640111313077;
+        Tue, 21 Dec 2021 10:28:33 -0800 (PST)
+Received: from jaschultz-Thelio-Major.corp.microsoft.com ([2001:4898:80e8:36:b871:81c1:f2ef:8174])
+        by smtp.gmail.com with ESMTPSA id s19sm23436133pfu.137.2021.12.21.10.28.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 10:28:32 -0800 (PST)
+From:   Jarrett Schultz <jaschultzms@gmail.com>
+X-Google-Original-From: Jarrett Schultz <jaschultzMS@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+        bjorn.andersson@linaro.org, Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-arm-msm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Jarrett Schultz <jaschultz@microsoft.com>
+Subject: [PATCH RESEND v4 0/4] platform: surface: Introduce Surface XBL Driver
+Date:   Tue, 21 Dec 2021 10:28:22 -0800
+Message-Id: <20211221182826.2141789-1-jaschultzMS@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, 2021-12-21 at 18:04 +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 12/21/21 17:54, Greg KH wrote:
-> > On Tue, Dec 21, 2021 at 08:44:57AM -0800, David E. Box wrote:
-> > > On Tue, 2021-12-21 at 08:38 +0100, Greg KH wrote:
-> > > > On Wed, Dec 08, 2021 at 01:30:06PM -0800, David E. Box wrote:
-> > > > > On Wed, 2021-12-08 at 20:21 +0100, Greg KH wrote:
-> > > > > > On Wed, Dec 08, 2021 at 11:09:48AM -0800, David E. Box wrote:
-> > > > > > > On Wed, 2021-12-08 at 19:11 +0100, Greg KH wrote:
-> > > > > > > > On Wed, Dec 08, 2021 at 09:47:26AM -0800, David E. Box wrote:
-> > > > > > > > > On Wed, 2021-12-08 at 17:22 +0100, Greg KH wrote:
-> > > > > > > > > > On Tue, Dec 07, 2021 at 05:50:12PM -0800, David E. Box
-> > > > > > > > > > wrote:
-> > > > > > > > > > > +static struct pci_driver intel_vsec_pci_driver = {
-> > > > > > > > > > > +       .name = "intel_vsec",
-> > > > > > > > > > > +       .id_table = intel_vsec_pci_ids,
-> > > > > > > > > > > +       .probe = intel_vsec_pci_probe,
-> > > > > > > > > > > +};
-> > > > > > > > > > 
-> > > > > > > > > > So when the PCI device is removed from the system you leak
-> > > > > > > > > > resources and
-> > > > > > > > > > have dangling devices?
-> > > > > > > > > 
-> > > > > > > > > No.
-> > > > > > > > > 
-> > > > > > > > > > Why no PCI remove driver callback?
-> > > > > > > > > 
-> > > > > > > > > After probe all resources are device managed. There's nothing
-> > > > > > > > > to
-> > > > > > > > > explicitly clean up. When
-> > > > > > > > > the
-> > > > > > > > > PCI
-> > > > > > > > > device is removed, all aux devices are automatically removed.
-> > > > > > > > > This
-> > > > > > > > > is the case for the SDSi
-> > > > > > > > > driver
-> > > > > > > > > as well.
-> > > > > > > > 
-> > > > > > > > Where is the "automatic cleanup" happening?  As this pci driver
-> > > > > > > > is
-> > > > > > > > bound
-> > > > > > > > to the PCI device, when the device is removed, what is called in
-> > > > > > > > this
-> > > > > > > > driver to remove the resources allocated in the probe callback?
-> > > > > > > > 
-> > > > > > > > confused,
-> > > > > > > 
-> > > > > > > devm_add_action_or_reset(&pdev->dev, intel_vsec_remove_aux,
-> > > > > > > auxdev)
-> > > > > > 
-> > > > > > Wow that is opaque.  Why not do it on remove instead?
-> > > > > 
-> > > > > This code is common for auxdev cleanup. AFAICT most auxiliary bus code
-> > > > > is
-> > > > > done by drivers that have
-> > > > > some other primary function. They clean up their primary function
-> > > > > resources
-> > > > > in remove, but they
-> > > > > clean up the auxdev using the method above. In this case the sole
-> > > > > purpose of
-> > > > > this driver is to
-> > > > > create the auxdev. There are no other resources beyond what the auxdev
-> > > > > is
-> > > > > using.
-> > > > > 
-> > > > > Adding runtime pm to the pci driver will change this. Remove will be
-> > > > > needed
-> > > > > then.
-> > > > 
-> > > > And who will notice that being required when that happens?
-> > > > 
-> > > > Why is there no runtime PM for this driver?  Do you not care about power
-> > > > consumption?  :)
-> > > 
-> > > Of course. :)
-> > > 
-> > > There's a backlog of patches waiting for this series. One adds support for
-> > > the
-> > > telemetry device (an auxdev) on the DG2 GPU. This device requires runtime
-> > > pm in
-> > > order for the slot to go D3. But this also requires changes to the
-> > > telemetry
-> > > driver in order for runtime pm to be handled correctly. These and other
-> > > patches,
-> > > including a series to have all current aux drivers use the new drvdata
-> > > helpers,
-> > > are waiting for this.
-> > 
-> > I can take the aux driver drvdata patch now, through my tree, if you
-> > want, no need to make it wait for this tiny driver.
-> > 
-> > Feel free to send it independant of the existing patchset, and with the
-> > cleanup patches at the same time, should be quite easy to get merged.
-> 
-> If you're going to take that one, can you perhaps take patches
-> 1-3 for 5.17 through your tree as well (patch 3 depends on 2/it) ?
-> 
-> Note there is a v4 of this series, see please use that :)
-> 
-> I assume the follow up patches are also going to need patch 3
-> (the actual conversion of the driver to aux-bus).
+From: Jarrett Schultz <jaschultz@microsoft.com>
 
-Yes.
+Introduce the Surface Extensible Boot Loader driver for the Surface Duo.
+Exposes information about the driver to user space via sysfs for
+consumption in manufacturing mode.
 
-> 
-> Here is my Ack for the pdx86 bits in patch 3:
-> 
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> And patch 1 and 3 also have acks from the PCI resp. MFD subsys maintainers,
-> so I guess taking this all upstream through your tree is fine.
+Resend due to not showing in mailing list.
 
-Should I send 1-3 plus the drvdata cleanup patches I have to Grep? V5?
+Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
 
-> 
-> That leaves patches 4-6, 4 is the patching adding the new
-> "Intel Software Defined Silicon driver" sysfs API and I would
-> like to take some time to thoroughly review the new
-> userspace API, which I don't see happening before the
-> Christmas Holidays, so I don't plan to merge 4-6 (which
-> depends on 3) until after 5.17-rc1.
+---
 
-Understood. Thanks.
+Changes in v4:
 
-> 
-> Regards,
-> 
-> Hans
-> 
+ - Small binding definition changes
+ - Removed ACPI propagation from patch series since it has been
+   cherry-picked
+ - Fixed the Signed-off-by: and From: mismatch
+
+---
+
+Changes in v3:
+ - For the yaml documentation:
+    * Updated description
+    * Fixed examples
+    * Updated 'required' field
+ - Further propogated ACPI dependency in Kconfigs
+ - Updated sysfs several binding descriptions
+ - Renamed files to conform to naming conventions
+
+---
+
+Changes in v2:
+ - Per Maximilian, added patch 2: propagated ACPI dependency from the
+   directory as a whole to each individual driver
+ - For the yaml documentation:
+    * Removed json-schema dependence
+    * Elaborated on description of driver
+    * Updated example
+ - Changed target KernelVersion in sysfs documentation
+ - Updated MAINTAINER changes to be properly applied across patches
+ - For the driver itself,
+    * Added types.h inclusion and removed unused inclusions
+    * Minor updates to code and acronym style
+    * Remove __packed attribute on driver struct
+    * Use .dev_groups for sysfs
+ - Added more in-depth description of driver in Kconfig
+ - Modified dts to reference a newly added section in sm8150.dtsi
+
+---
+
+Jarrett Schultz (4):
+  dt-bindings: platform: microsoft: Document surface xbl
+  platform: surface: Add surface xbl
+  arm64: dts: qcom: sm8150: Add imem section
+  arm64: dts: qcom: surface-duo: Add surface xbl
+
+ .../ABI/testing/sysfs-platform-surface-xbl    |  79 ++++++++
+ .../platform/microsoft/surface-xbl.yaml       |  64 ++++++
+ MAINTAINERS                                   |   9 +
+ .../dts/qcom/sm8150-microsoft-surface-duo.dts |  10 +
+ arch/arm64/boot/dts/qcom/sm8150.dtsi          |   8 +
+ drivers/platform/surface/Kconfig              |  12 ++
+ drivers/platform/surface/Makefile             |   1 +
+ drivers/platform/surface/surface_xbl.c        | 186 ++++++++++++++++++
+ 8 files changed, 369 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-surface-xbl
+ create mode 100644 Documentation/devicetree/bindings/platform/microsoft/surface-xbl.yaml
+ create mode 100644 drivers/platform/surface/surface_xbl.c
+
+-- 
+2.25.1
 
