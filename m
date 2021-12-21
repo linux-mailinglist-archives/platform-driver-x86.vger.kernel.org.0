@@ -2,88 +2,123 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 260CE47C5F6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Dec 2021 19:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E50647C585
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 21 Dec 2021 18:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240980AbhLUSKi (ORCPT
+        id S240717AbhLURyl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 21 Dec 2021 13:10:38 -0500
-Received: from mga02.intel.com ([134.134.136.20]:29388 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236910AbhLUSKh (ORCPT
+        Tue, 21 Dec 2021 12:54:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37134 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236878AbhLURyf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 21 Dec 2021 13:10:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640110237; x=1671646237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5rAkGo7m3btbz/rVfCE7AaZjZ9uyiTmkMcIFoB+AHtw=;
-  b=HRz7We4tjYDxmxn/m/qNkL4MlSekvmCG4y6J/KRUXUdDx2OIiiWzn4/V
-   vmevis2iRe/7aflkySb4nnZhbN5NpVAjrVBX3qvjJfO+SuISoner5ZND/
-   nZGOa4iLBm6MjyUCH8lfw4xxtQY7O1NiaX2zU3TVTRbRMI2TiJE7VfBlg
-   YGXeBRa+OaNZcJz6wTMtJmZKqF7++RJoDDyip82ibe9S0PH8guNUCfKZT
-   /BhBZtRQtpP3lKKb4xtDRyPnoriFLtpiOoMKTWTXLSlBFbXl70J+ibcYq
-   l2EoZ2ZplJhgyEFfz26DEz1rzSymoJRURG03KGIoJUZrKJOlYcAEMixaC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="227753031"
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
-   d="scan'208";a="227753031"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2021 09:50:36 -0800
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; 
-   d="scan'208";a="586768160"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2021 09:50:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1mzjG5-000WYP-OM;
-        Tue, 21 Dec 2021 19:49:05 +0200
-Date:   Tue, 21 Dec 2021 19:49:05 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Tan Jui Nee <jui.nee.tan@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Jonathan Yong <jonathan.yong@intel.com>,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Cc:     Jean Delvare <jdelvare@suse.com>, Peter Tyser <ptyser@xes-inc.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Gross <markgross@kernel.org>
-Subject: Re: [PATCH v2 1/8] PCI: Introduce pci_bus_*() printing macros when
- device is not available
-Message-ID: <YcITkYx6dnjRjdCd@smile.fi.intel.com>
-References: <20211221173945.53674-1-andriy.shevchenko@linux.intel.com>
+        Tue, 21 Dec 2021 12:54:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640109275;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DGS1oJla6QGUKhGeKaKyvYjrz9cePxqx4mClWlQtFrU=;
+        b=RuWPw0w/igftuv+xptIdn5DyN7RHWeOGd90mhmwNfbEfM4xJ/Bju6qJP6hbxeNyiqWCnqx
+        OUcWeQisr4tTl359I3uySJTiLV1rkcrMK2gYLhiHQYnYIFuZjB0F0Q9j6iGdGw81bF0lzL
+        K3HCFvOo25k96z2FCmNXr0Pd2qJf8Gg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-ucmLWp-eMz-gGIngZTRghQ-1; Tue, 21 Dec 2021 12:54:33 -0500
+X-MC-Unique: ucmLWp-eMz-gGIngZTRghQ-1
+Received: by mail-ed1-f69.google.com with SMTP id q15-20020a056402518f00b003f87abf9c37so3388095edd.15
+        for <platform-driver-x86@vger.kernel.org>; Tue, 21 Dec 2021 09:54:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=DGS1oJla6QGUKhGeKaKyvYjrz9cePxqx4mClWlQtFrU=;
+        b=XDnjT1m3jgHFflAJvhiDDejozFEznxvLHV1U2N4RCUaQnCU9zi0OMet/eCrbxV0CM+
+         mQTICTcn9aPCc6LYC9kWDz1fKpnAzzs47LOitLKJXBWVdu6PSVwrC56sHclTNLPHDzdP
+         lZQSKR9S6k2rJEFKVr5C8Q/uDUXMPV2pHEZQY/vFCPCTrGw3r+WwfZyFBrlhua0gBiar
+         890lb6oDbDgd/OQ5KOjEymH7u3+QjOff87UOlzBS5/XgOctqGMv1d6JiTWL+la2gACwG
+         kmls9tPcoeWTgNzp3bq2TIT8n1XAeZjrPAfC1yqtdyDz5IEo+/ihl955KgM6wGH9BuuG
+         SENw==
+X-Gm-Message-State: AOAM533AYwvGfzkuZp0yJomKDAfBdYKh0C8SkZ8p85U3GN7U0QNoS7el
+        3Mwtn/GDMthFyL35rd4T29OfqVVDfsv05JhwuTOlDwxv+qvYCiRgcb+LXdzMDeHOqakJi00GJ47
+        IcOpX8NP1uVfiSp5N0HcedRa3OG6cf2MQ4w==
+X-Received: by 2002:a05:6402:1e90:: with SMTP id f16mr4305209edf.112.1640109272785;
+        Tue, 21 Dec 2021 09:54:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYSUID+ibg78YBB4JBE/3CZdeGHfvi7Wq9NfEJXnjQEi9w+DxYprGDBY/4MTfmqmWjjVL9Tw==
+X-Received: by 2002:a05:6402:1e90:: with SMTP id f16mr4305190edf.112.1640109272583;
+        Tue, 21 Dec 2021 09:54:32 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id mq7sm4907027ejc.172.2021.12.21.09.54.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Dec 2021 09:54:32 -0800 (PST)
+Message-ID: <4cedccf8-2ff3-b89f-d6e8-13bad17a86bd@redhat.com>
+Date:   Tue, 21 Dec 2021 18:54:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211221173945.53674-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] platform/mellanox: mlxbf-pmc: Fix an IS_ERR() vs NULL bug
+ in mlxbf_pmc_map_counters
+Content-Language: en-US
+To:     Miaoqian Lin <linmq006@gmail.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Vadim Pasternak <vadimp@nvidia.com>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211210070753.10761-1-linmq006@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211210070753.10761-1-linmq006@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 07:39:38PM +0200, Andy Shevchenko wrote:
-> In some cases PCI device structure is not available and we want to print
-> information based on the bus and devfn parameters. For this cases introduce
-> pci_bus_*() printing macros and replace in existing users.
+Hi,
 
-Please, ignore this version (the code will be kept the same in v3, but what
-is missed is cover letter and changelog).
+On 12/10/21 08:07, Miaoqian Lin wrote:
+> The devm_ioremap() function returns NULL on error, it doesn't return
+> error pointers. Also according to doc of device_property_read_u64_array,
+> values in info array are properties of device or NULL.
+> 
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 
-I will send it as soon as I prepare the cover letter.
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-It also missed Henning in the Cc list.
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/platform/mellanox/mlxbf-pmc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/platform/mellanox/mlxbf-pmc.c b/drivers/platform/mellanox/mlxbf-pmc.c
+> index 04bc3b50aa7a..65b4a819f1bd 100644
+> --- a/drivers/platform/mellanox/mlxbf-pmc.c
+> +++ b/drivers/platform/mellanox/mlxbf-pmc.c
+> @@ -1374,8 +1374,8 @@ static int mlxbf_pmc_map_counters(struct device *dev)
+>  		pmc->block[i].counters = info[2];
+>  		pmc->block[i].type = info[3];
+>  
+> -		if (IS_ERR(pmc->block[i].mmio_base))
+> -			return PTR_ERR(pmc->block[i].mmio_base);
+> +		if (!pmc->block[i].mmio_base)
+> +			return -ENOMEM;
+>  
+>  		ret = mlxbf_pmc_create_groups(dev, i);
+>  		if (ret)
+> 
 
