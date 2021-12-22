@@ -2,181 +2,88 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 819B947D44F
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Dec 2021 16:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBE2847D575
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Dec 2021 17:55:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343730AbhLVPf1 (ORCPT
+        id S235517AbhLVQze (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Dec 2021 10:35:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48954 "EHLO
+        Wed, 22 Dec 2021 11:55:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343726AbhLVPf0 (ORCPT
+        with ESMTP id S1344045AbhLVQzd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Dec 2021 10:35:26 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAA4C061574
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 07:35:26 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id f186so7811716ybg.2
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 07:35:26 -0800 (PST)
+        Wed, 22 Dec 2021 11:55:33 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76D9C061574
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 08:55:33 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id x1-20020a17090a2b0100b001b103e48cfaso4494039pjc.0
+        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 08:55:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=eclypsium.com; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=cwnIm+Pjf1RTUBBb5BRinhHvVqdyboPG2JJubsE04f4=;
-        b=AG9Ug8PUwm0BhJU9O/vGcCjhoBDHg4gQq1bWPDSXIgj2KDi7CkFNOOv/u74Em02wkD
-         os3Dou1fSrFsMcV35l/mRKBXXmx4l863Jip4zBJa8a1TLFmnPbO9Jd0vgmU4/ml+SJp0
-         AbJnXpaUOdNLQG66dPGZNaDsXdpZLZUvB9A0B+yi6pz2BuCXZlzfZ8wO435oxxb1nos/
-         Dx2yzjDENAgI2RyCbAgtcM/VZf8vakzzP+L9t5KekKiQzZ51av9j06vf6w1T/JHM5hvF
-         Zp2YTI+rfHAO5KSW55ReosawsBPaxV2ZuuMmlvYvVHoHFiD3BN6TNjHpq7MrA88jUiOJ
-         sX0g==
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=PqeKwfGtry3Hm5mwkXDEHiRgHh6Y5S1ouypmzni3hLo=;
+        b=nzC72wY0k2HwHBXw4K8w1bIWdOl52c6rIekB4wIbHqP9RVkd5XVCitxxRh3jVsiWzA
+         USJQDp9ypg5E7+8sj4/1HWHof1s3z5RtyA6wNljhcLt4EGVNTr0Lq9wOmIOTX2Qekr1x
+         rSFjWT6dETc7y+hq7emQqLb0NPvXYYpHSaDS/IvXQ+w06+mhsKjxw9WkYZrOl88OpvFg
+         2oyWh0DfZD3q5OQIPGfGWMjM1C4QDu8yVjcU80ovhuWLqsESQCmUMEm3nJJPjEnhUMvA
+         pBgvGpJByQurs9RxvbFhARliWbHxsht6SBDRYPE/TAyVyzWQDE5bxJ51eZ+COTIuYKnI
+         azEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=cwnIm+Pjf1RTUBBb5BRinhHvVqdyboPG2JJubsE04f4=;
-        b=3OJIYTkmKlu8RwEh6uZArwOVVJhN+KIFGK94fhB9WlKp8Lk12AQF7nIak9G/UH0zBe
-         J8/LiKR8ZtFnqlMwwE/7ltflNQmcVnvmNxB4EKWMiuTkmOuugRT+yJttHPxZDSVgAlLG
-         PbDXVAkZpTHWIBJcd2HjC0T4CxKCiK5wBpJLuRI4l3wb66PFDPr0P22Rr1spB/KHQ85K
-         O5OKdJQHG7LTEsaEF/IOOuLHcSmAngD7h8N2TlsWVZtpkAzzWjYB6ZKRGpb1e7gybQJ/
-         SpBviJrLdWwn/wdQFZSegzCKFPpKo+kgfczTrH6bYc/fdeVYX1c6yQpI8huWG2QohGpB
-         Kakg==
-X-Gm-Message-State: AOAM531MdwozOSq5/nEBe0wWK+Sl9p1FsZHklghk2m1r8KDOndWFvIfB
-        H2ioxOQvYHqVoNazusSMsoTElpoMSMeVKjSUG2aKBQ==
-X-Google-Smtp-Source: ABdhPJw7mITeuoygQFK1MhJbMGiGJKKDtAs86FI3UP7IrYs5kVS/hvOy/t4bTtqxhCrOxSYegmcjo3RH5D7EXfQqA5A=
-X-Received: by 2002:a25:3c07:: with SMTP id j7mr5487832yba.612.1640187325665;
- Wed, 22 Dec 2021 07:35:25 -0800 (PST)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=PqeKwfGtry3Hm5mwkXDEHiRgHh6Y5S1ouypmzni3hLo=;
+        b=5RBf/ySIydIui+9p3Yv+q9XpMjWYVvKgmpKvIJjVgt5ngCw9UfsRSo/8KGUEreCcqi
+         HLlfU6X6/QSnjISWsmf6ISaKHqnG2pCqG34YwNHMoMYYMe8/86IZtyP+RkWd7DWmXuzK
+         4URkPH+uroTAjD3P4Tme/6Iy2/8mm++jNqYowNts7/12MiUvWN+jKhWm35F9ybs+qL+4
+         olwF4pYJ+aeLXETyEs6mUfasvWT907snNPSJDpj1vX3DyxNDLTkXsdHET+oROD9n60Ru
+         CFAwfzwdNnMav7UU137pJ3l8lwNZRI3iYfdFShG5tZOIxNhOHhlJN7pK1Vwtz1DrLPcA
+         hVPA==
+X-Gm-Message-State: AOAM5315Y82U4Qms6rTm53I6aHSRKLPrtYluBTcKttbhTBVh7EvmYIUB
+        oqJG6paRjA+PHvC9iL4saim8xaFgoucL4dyl7iM=
+X-Google-Smtp-Source: ABdhPJwi7UjbrTklK5aIOjHef0kFDX44O5vkB/NoBPbm2dQyBNBBWn07A1w36zfl53TkRfNRmHkyCwwWswJspDmqzH0=
+X-Received: by 2002:a17:90b:4f4a:: with SMTP id pj10mr2269621pjb.112.1640192133058;
+ Wed, 22 Dec 2021 08:55:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a81:58c2:0:0:0:0:0 with HTTP; Wed, 22 Dec 2021 07:35:25
+Sender: elisabethjohn415@gmail.com
+Received: by 2002:a05:6a10:281f:0:0:0:0 with HTTP; Wed, 22 Dec 2021 08:55:32
  -0800 (PST)
-In-Reply-To: <YcF3C9kfVoRqKamp@kroah.com>
-References: <20211216192222.127908-1-martin.fernandez@eclypsium.com>
- <20211216192222.127908-4-martin.fernandez@eclypsium.com> <YcCxUHSMnUJgXIJF@kroah.com>
- <CAKgze5boi5h08ffpodqsKp5xNS=+u_zJWEVnExdbsXRgJ+eCTQ@mail.gmail.com> <YcF3C9kfVoRqKamp@kroah.com>
-From:   Martin Fernandez <martin.fernandez@eclypsium.com>
-Date:   Wed, 22 Dec 2021 12:35:25 -0300
-Message-ID: <CAKgze5a2Nv56e=wJwmBjPgAf2x7waZWXGJ1YDk6_DK-ahShXTg@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] x86/e820: Tag e820_entry with crypto capabilities
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        ardb@kernel.org, dvhart@infradead.org, andy@infradead.org,
-        rafael@kernel.org, rppt@kernel.org, akpm@linux-foundation.org,
-        daniel.gutson@eclypsium.com, hughsient@gmail.com,
-        alex.bazhaniuk@eclypsium.com, alison.schofield@intel.com
+From:   Anderson Thereza <anderson.thereza24@gmail.com>
+Date:   Wed, 22 Dec 2021 08:55:32 -0800
+X-Google-Sender-Auth: lj6fdhepEmDrI7fgTPiGsFVZUQc
+Message-ID: <CAOGA6VCydaf=d_vV=dgzR=qSoyCEiuEEsPfiT6dgzm=Pqb29dg@mail.gmail.com>
+Subject: Re: Greetings My Dear,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 12/21/21, Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Mon, Dec 20, 2021 at 05:27:00PM -0300, Martin Fernandez wrote:
->> On 12/20/21, Greg KH <gregkh@linuxfoundation.org> wrote:
->> > On Thu, Dec 16, 2021 at 04:22:20PM -0300, Martin Fernandez wrote:
->> >> diff --git a/arch/x86/include/asm/e820/types.h
->> >> b/arch/x86/include/asm/e820/types.h
->> >> index 314f75d886d0..7b510dffd3b9 100644
->> >> --- a/arch/x86/include/asm/e820/types.h
->> >> +++ b/arch/x86/include/asm/e820/types.h
->> >> @@ -56,6 +56,7 @@ struct e820_entry {
->> >>  	u64			addr;
->> >>  	u64			size;
->> >>  	enum e820_type		type;
->> >> +	u8			crypto_capable;
->> >
->> > Why isn't this a bool?
->>
->> It was a bool initially, but Andy Shevchenko told me that it couldn't
->> be that way because boolean may not be part of firmware ABIs.
->
-> Where does this structure hit an "ABI"?  Looks internal to me.  If not,
-> then something just broke anyway.
->
+Greetings,
 
-I prefer that Andy answers.
+I sent this mail praying it will find you in a good condition, since I
+myself am in a very critical health condition in which I sleep every
+night without knowing if I may be alive to see the next day. I am
+Mrs.Theresa Anderson, a widow suffering from a long time illness. I
+have some funds I inherited from my late husband, the sum of
+($11,000,000.00, Eleven Million Dollars) my Doctor told me recently
+that I have serious sickness which is a cancer problem. What disturbs
+me most is my stroke sickness. Having known my condition, I decided to
+donate this fund to a good person that will utilize it the way I am
+going to instruct herein. I need a very honest God.
 
-Either way, I think that the enum will be the best option.
+fearing a person who can claim this money and use it for Charity
+works, for orphanages, widows and also build schools for less
+privileges that will be named after my late husband if possible and to
+promote the word of God and the effort that the house of God is
+maintained. I do not want a situation where this money will be used in
+an ungodly manner. That's why I' making this decision. I'm not afraid
+of death so I know where I'm going. I accept this decision because I
+do not have any child who will inherit this money after I die. Please
+I want your sincere and urgent answer to know if you will be able to
+execute this project, and I will give you more information on how the
+fund will be transferred to your bank account. I am waiting for your
+reply.
 
->> >> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->> >> index bc0657f0deed..001d64686938 100644
->> >> --- a/arch/x86/kernel/e820.c
->> >> +++ b/arch/x86/kernel/e820.c
->> >> @@ -163,7 +163,7 @@ int e820__get_entry_type(u64 start, u64 end)
->> >>  /*
->> >>   * Add a memory region to the kernel E820 map.
->> >>   */
->> >> -static void __init __e820__range_add(struct e820_table *table, u64
->> >> start,
->> >> u64 size, enum e820_type type)
->> >> +static void __init __e820__range_add(struct e820_table *table, u64
->> >> start,
->> >> u64 size, enum e820_type type, u8 crypto_capable)
->> >
->> > Horrid api change, but it's internal to this file so oh well :(
->> >
->> > Hint, don't add flags to functions like this, it forces you to have to
->> > always remember what those flags are when you read the code.  Right now
->> > you stuck "0" and "1" in the function call, which is not instructional
->> > at all.
->> >
->> > Heck, why not make it an enum to have it be self-describing?  Like the
->> > type is here.  that would make it much better and easier to understand
->> > and maintain over time.
->> >
->>
->> Yes, an enum will absolutely improve things. I'll do that.
->>
->> >> @@ -327,6 +330,7 @@ int __init e820__update_table(struct e820_table
->> >> *table)
->> >>  	unsigned long long last_addr;
->> >>  	u32 new_nr_entries, overlap_entries;
->> >>  	u32 i, chg_idx, chg_nr;
->> >> +	u8 current_crypto, last_crypto;
->> >>
->> >>  	/* If there's only one memory region, don't bother: */
->> >>  	if (table->nr_entries < 2)
->> >> @@ -367,6 +371,7 @@ int __init e820__update_table(struct e820_table
->> >> *table)
->> >>  	new_nr_entries = 0;	 /* Index for creating new map entries */
->> >>  	last_type = 0;		 /* Start with undefined memory type */
->> >>  	last_addr = 0;		 /* Start with 0 as last starting address */
->> >> +	last_crypto = 0;
->> >>
->> >>  	/* Loop through change-points, determining effect on the new map: */
->> >>  	for (chg_idx = 0; chg_idx < chg_nr; chg_idx++) {
->> >> @@ -388,13 +393,17 @@ int __init e820__update_table(struct e820_table
->> >> *table)
->> >>  		 * 1=usable, 2,3,4,4+=unusable)
->> >>  		 */
->> >>  		current_type = 0;
->> >> +		current_crypto = 1;
->> >>  		for (i = 0; i < overlap_entries; i++) {
->> >> +			current_crypto = current_crypto &&
->> >> overlap_list[i]->crypto_capable;
->> >
->> > Is it a u8 or not?  You treat it as a boolean a lot :(
->> >
->> >>  			if (overlap_list[i]->type > current_type)
->> >>  				current_type = overlap_list[i]->type;
->> >>  		}
->> >>
->> >>  		/* Continue building up new map based on this information: */
->> >> -		if (current_type != last_type || e820_nomerge(current_type)) {
->> >> +		if (current_type != last_type ||
->> >> +		    current_crypto != last_crypto ||
->> >> +		    e820_nomerge(current_type)) {
->> >
->> > Why check it before calling e820_nomerge()?  Is that required?
->> >
->>
->> I don't see how the order of the checks matter, am I missing something?
->
-> It might prevent this function from being called now when it previously
-> was.  Is that ok?
->
-
-Oh I see. No, that's not a problem. That if guard is to decide if you
-need to start/close a region. e820_nomerge is to prevent merging
-certain region types. In any case, the new check will cause less
-merging, complying with what e820_nomerge says.
+May God Bless you,
+Mrs.Theresa Anderson,
