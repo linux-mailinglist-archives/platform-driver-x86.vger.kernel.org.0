@@ -2,88 +2,185 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE2847D575
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Dec 2021 17:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AA3147D72E
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 22 Dec 2021 19:52:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235517AbhLVQze (ORCPT
+        id S1344913AbhLVSwB (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 22 Dec 2021 11:55:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344045AbhLVQzd (ORCPT
+        Wed, 22 Dec 2021 13:52:01 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:39379 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344899AbhLVSv7 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 22 Dec 2021 11:55:33 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76D9C061574
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 08:55:33 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id x1-20020a17090a2b0100b001b103e48cfaso4494039pjc.0
-        for <platform-driver-x86@vger.kernel.org>; Wed, 22 Dec 2021 08:55:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=PqeKwfGtry3Hm5mwkXDEHiRgHh6Y5S1ouypmzni3hLo=;
-        b=nzC72wY0k2HwHBXw4K8w1bIWdOl52c6rIekB4wIbHqP9RVkd5XVCitxxRh3jVsiWzA
-         USJQDp9ypg5E7+8sj4/1HWHof1s3z5RtyA6wNljhcLt4EGVNTr0Lq9wOmIOTX2Qekr1x
-         rSFjWT6dETc7y+hq7emQqLb0NPvXYYpHSaDS/IvXQ+w06+mhsKjxw9WkYZrOl88OpvFg
-         2oyWh0DfZD3q5OQIPGfGWMjM1C4QDu8yVjcU80ovhuWLqsESQCmUMEm3nJJPjEnhUMvA
-         pBgvGpJByQurs9RxvbFhARliWbHxsht6SBDRYPE/TAyVyzWQDE5bxJ51eZ+COTIuYKnI
-         azEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=PqeKwfGtry3Hm5mwkXDEHiRgHh6Y5S1ouypmzni3hLo=;
-        b=5RBf/ySIydIui+9p3Yv+q9XpMjWYVvKgmpKvIJjVgt5ngCw9UfsRSo/8KGUEreCcqi
-         HLlfU6X6/QSnjISWsmf6ISaKHqnG2pCqG34YwNHMoMYYMe8/86IZtyP+RkWd7DWmXuzK
-         4URkPH+uroTAjD3P4Tme/6Iy2/8mm++jNqYowNts7/12MiUvWN+jKhWm35F9ybs+qL+4
-         olwF4pYJ+aeLXETyEs6mUfasvWT907snNPSJDpj1vX3DyxNDLTkXsdHET+oROD9n60Ru
-         CFAwfzwdNnMav7UU137pJ3l8lwNZRI3iYfdFShG5tZOIxNhOHhlJN7pK1Vwtz1DrLPcA
-         hVPA==
-X-Gm-Message-State: AOAM5315Y82U4Qms6rTm53I6aHSRKLPrtYluBTcKttbhTBVh7EvmYIUB
-        oqJG6paRjA+PHvC9iL4saim8xaFgoucL4dyl7iM=
-X-Google-Smtp-Source: ABdhPJwi7UjbrTklK5aIOjHef0kFDX44O5vkB/NoBPbm2dQyBNBBWn07A1w36zfl53TkRfNRmHkyCwwWswJspDmqzH0=
-X-Received: by 2002:a17:90b:4f4a:: with SMTP id pj10mr2269621pjb.112.1640192133058;
- Wed, 22 Dec 2021 08:55:33 -0800 (PST)
+        Wed, 22 Dec 2021 13:51:59 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 6B34332009BB;
+        Wed, 22 Dec 2021 13:51:57 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 22 Dec 2021 13:51:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=gph2mbXCduLI/3nj1
+        N+O5b/iHj7DwDeHoD3bXmY4/Yo=; b=Q7idIIZde4LzZx8RkTd5Ogm1/IN2LRoaw
+        Ny2lRj0BWGaoh9oq0h0k6iD3BEAK+izwNomydfkM+KlZO9yiT/IwpogjsAfRIa5h
+        ku01RvXLwxBT6pxyYbCLfs2yEyEelMDSPianmhlqcghCMAzjEuUnAnKYXBn1WxXl
+        pErWgDM0y8ZI+n1EeSWU5OOKhkI47GiptJegCPTpSUsYwiiKkXwu93V5LaXwiYLY
+        3A8cYrceotLcHxyV3UJgKvfVEjeYzDx64xqr3ZQDr3n8ONfonNY8t3FHXirhvFuA
+        K3qnsPQBuMiFBcQIPaWOd6+BSZOcCMf4KIr3ILcEDdxA+WOW7B9qA==
+X-ME-Sender: <xms:zHPDYbgVJzwfFxYTPbyKgx-r8IYnLQSseieqGVryvSuJCzGO8n9p7w>
+    <xme:zHPDYYCrvZd5bCWgDEmGFVJqxUJ3HMiXN1n5du6kAiHh05cslecKOG-Sn7BNOGA_c
+    HEtbm3kdHL8Fllm0A>
+X-ME-Received: <xmr:zHPDYbFdNxWe358R8ngBxeATUK0PoHgez9o7g3aQ_OYTaqDDAXxtuAVYtCtDgxSB253i3jraPhvmYClTV0L0l9WmlSQAJ0OaW8kJ_iU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtiedgudduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefvihhmucevrhgrfihfohhrugcuoehttghrrgiffhhorhgusehs
+    hihsthgvmhejiedrtghomheqnecuggftrfgrthhtvghrnhepgeeugffhieegledvuddtge
+    dtieetvdffkeeltdejhfejvefgtefgleetteehfefgnecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepthgtrhgrfihfohhrugesshihshhtvghmje
+    eirdgtohhm
+X-ME-Proxy: <xmx:zHPDYYRWz-iwUCMZ3FzoqKMHLL-B4wX-E0uQzEzrcjlaOpN-aetBcw>
+    <xmx:zHPDYYwy9t0tPCIsZOJ17M03bM2yQ3J0r0o-dwlohNliEZvVKbiI_w>
+    <xmx:zHPDYe7pMzU07xcnfk22zZcxlPkyZaMx85WAT2WWCKZaTVjGkok21A>
+    <xmx:zHPDYeYfNsH7vD1r0sbEQcuX9egOxx1B6XpWHdAnQgpFUcDUGPPY5w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Dec 2021 13:51:56 -0500 (EST)
+From:   Tim Crawford <tcrawford@system76.com>
+To:     platform-driver-x86@vger.kernel.org
+Cc:     productdev@system76.com
+Subject: [PATCH] platform/x86: system76_acpi: Guard System76 EC specific functionality
+Date:   Wed, 22 Dec 2021 11:51:54 -0700
+Message-Id: <20211222185154.4560-1-tcrawford@system76.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Sender: elisabethjohn415@gmail.com
-Received: by 2002:a05:6a10:281f:0:0:0:0 with HTTP; Wed, 22 Dec 2021 08:55:32
- -0800 (PST)
-From:   Anderson Thereza <anderson.thereza24@gmail.com>
-Date:   Wed, 22 Dec 2021 08:55:32 -0800
-X-Google-Sender-Auth: lj6fdhepEmDrI7fgTPiGsFVZUQc
-Message-ID: <CAOGA6VCydaf=d_vV=dgzR=qSoyCEiuEEsPfiT6dgzm=Pqb29dg@mail.gmail.com>
-Subject: Re: Greetings My Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings,
+Certain functionality or its implementation in System76 EC firmware may
+be different to the proprietary ODM EC firmware. Introduce a new bool,
+`has_open_ec`, to guard our specific logic. Detect the use of this by
+looking for a custom ACPI method name used in System76 firmware.
 
-I sent this mail praying it will find you in a good condition, since I
-myself am in a very critical health condition in which I sleep every
-night without knowing if I may be alive to see the next day. I am
-Mrs.Theresa Anderson, a widow suffering from a long time illness. I
-have some funds I inherited from my late husband, the sum of
-($11,000,000.00, Eleven Million Dollars) my Doctor told me recently
-that I have serious sickness which is a cancer problem. What disturbs
-me most is my stroke sickness. Having known my condition, I decided to
-donate this fund to a good person that will utilize it the way I am
-going to instruct herein. I need a very honest God.
+Signed-off-by: Tim Crawford <tcrawford@system76.com>
+---
+ drivers/platform/x86/system76_acpi.c | 58 ++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 28 deletions(-)
 
-fearing a person who can claim this money and use it for Charity
-works, for orphanages, widows and also build schools for less
-privileges that will be named after my late husband if possible and to
-promote the word of God and the effort that the house of God is
-maintained. I do not want a situation where this money will be used in
-an ungodly manner. That's why I' making this decision. I'm not afraid
-of death so I know where I'm going. I accept this decision because I
-do not have any child who will inherit this money after I die. Please
-I want your sincere and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your
-reply.
+diff --git a/drivers/platform/x86/system76_acpi.c b/drivers/platform/x86/system76_acpi.c
+index 8b292ee95a14..7299ad08c838 100644
+--- a/drivers/platform/x86/system76_acpi.c
++++ b/drivers/platform/x86/system76_acpi.c
+@@ -35,6 +35,7 @@ struct system76_data {
+ 	union acpi_object *nfan;
+ 	union acpi_object *ntmp;
+ 	struct input_dev *input;
++	bool has_open_ec;
+ };
+ 
+ static const struct acpi_device_id device_ids[] = {
+@@ -279,20 +280,12 @@ static struct acpi_battery_hook system76_battery_hook = {
+ 
+ static void system76_battery_init(void)
+ {
+-	acpi_handle handle;
+-
+-	handle = ec_get_handle();
+-	if (handle && acpi_has_method(handle, "GBCT"))
+-		battery_hook_register(&system76_battery_hook);
++	battery_hook_register(&system76_battery_hook);
+ }
+ 
+ static void system76_battery_exit(void)
+ {
+-	acpi_handle handle;
+-
+-	handle = ec_get_handle();
+-	if (handle && acpi_has_method(handle, "GBCT"))
+-		battery_hook_unregister(&system76_battery_hook);
++	battery_hook_unregister(&system76_battery_hook);
+ }
+ 
+ // Get the airplane mode LED brightness
+@@ -673,6 +666,10 @@ static int system76_add(struct acpi_device *acpi_dev)
+ 	acpi_dev->driver_data = data;
+ 	data->acpi_dev = acpi_dev;
+ 
++	// Some models do not run open EC firmware. Check for an ACPI method
++	// that only exists on open EC to guard functionality specific to it.
++	data->has_open_ec = acpi_has_method(acpi_device_handle(data->acpi_dev), "NFAN");
++
+ 	err = system76_get(data, "INIT");
+ 	if (err)
+ 		return err;
+@@ -718,27 +715,31 @@ static int system76_add(struct acpi_device *acpi_dev)
+ 	if (err)
+ 		goto error;
+ 
+-	err = system76_get_object(data, "NFAN", &data->nfan);
+-	if (err)
+-		goto error;
++	if (data->has_open_ec) {
++		err = system76_get_object(data, "NFAN", &data->nfan);
++		if (err)
++			goto error;
+ 
+-	err = system76_get_object(data, "NTMP", &data->ntmp);
+-	if (err)
+-		goto error;
++		err = system76_get_object(data, "NTMP", &data->ntmp);
++		if (err)
++			goto error;
+ 
+-	data->therm = devm_hwmon_device_register_with_info(&acpi_dev->dev,
+-		"system76_acpi", data, &thermal_chip_info, NULL);
+-	err = PTR_ERR_OR_ZERO(data->therm);
+-	if (err)
+-		goto error;
++		data->therm = devm_hwmon_device_register_with_info(&acpi_dev->dev,
++			"system76_acpi", data, &thermal_chip_info, NULL);
++		err = PTR_ERR_OR_ZERO(data->therm);
++		if (err)
++			goto error;
+ 
+-	system76_battery_init();
++		system76_battery_init();
++	}
+ 
+ 	return 0;
+ 
+ error:
+-	kfree(data->ntmp);
+-	kfree(data->nfan);
++	if (data->has_open_ec) {
++		kfree(data->ntmp);
++		kfree(data->nfan);
++	}
+ 	return err;
+ }
+ 
+@@ -749,14 +750,15 @@ static int system76_remove(struct acpi_device *acpi_dev)
+ 
+ 	data = acpi_driver_data(acpi_dev);
+ 
+-	system76_battery_exit();
++	if (data->has_open_ec) {
++		system76_battery_exit();
++		kfree(data->nfan);
++		kfree(data->ntmp);
++	}
+ 
+ 	devm_led_classdev_unregister(&acpi_dev->dev, &data->ap_led);
+ 	devm_led_classdev_unregister(&acpi_dev->dev, &data->kb_led);
+ 
+-	kfree(data->nfan);
+-	kfree(data->ntmp);
+-
+ 	system76_get(data, "FINI");
+ 
+ 	return 0;
+-- 
+2.33.1
 
-May God Bless you,
-Mrs.Theresa Anderson,
