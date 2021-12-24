@@ -2,116 +2,148 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7690847EE2A
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Dec 2021 11:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F5F47EE8D
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 24 Dec 2021 12:28:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344173AbhLXKHE (ORCPT
+        id S1352560AbhLXL2B (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 24 Dec 2021 05:07:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343878AbhLXKHD (ORCPT
+        Fri, 24 Dec 2021 06:28:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36036 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1352554AbhLXL2A (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 24 Dec 2021 05:07:03 -0500
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7561FC061401
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Dec 2021 02:07:03 -0800 (PST)
-Received: by mail-qv1-xf43.google.com with SMTP id g15so7454884qvi.6
-        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Dec 2021 02:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
-        b=Mv9JLsxyEGAaP22H0S1lNINoniIhAv9mfLAsqGjupmfEqXv3khHGo+k1xCVF7vRHpi
-         C4iBveu3dXOwj+zg0TUX75Ju+Ol/SNa451OsdG7I2uU3Av3BDSeuahcQ+73aPXJoUxUC
-         BrxARMf4BQJsqATKq7TWwNMDeMmaoG2JN8lJOzR6wyA9QiD9eavQ/Mgj8EOIRZ12NEy0
-         DJNIDZeKRkipiMjMPL9VZp9kHUSupxhYMxodH22KRFnhNHRh5FXVyHIBj7VpGCipXPiV
-         IVeeSJx+k5y4D0Wja7ytUSDEFKpT1wYPRvxZkjiMFnrMva5S0uh0M7oawRl6AsclUYCK
-         lpgg==
+        Fri, 24 Dec 2021 06:28:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640345279;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=8XQNItkHvztHDkow0Cptlxf4zXbwc0CF9zV8fZFGlRk=;
+        b=BJj+6FiWUShoURE1hke83xfJU7z5okwuUAEL+Fn/GLwgMloyYOeGtj5jKik3RMjjZJzLeZ
+        PdkpZOBW05mRwO77/Mn+81AKX6X3m+v/4/ZYXzq2c9CQsMyxUsr+ktkdXRlGqXOFl7qWlS
+        V8wGbeHN0ao8hMBeUuSuUuZUT2gD2f0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-oIutRZK6NQSsFIzhY-LZGg-1; Fri, 24 Dec 2021 06:27:58 -0500
+X-MC-Unique: oIutRZK6NQSsFIzhY-LZGg-1
+Received: by mail-ed1-f69.google.com with SMTP id ay24-20020a056402203800b003f8491e499eso6594232edb.21
+        for <platform-driver-x86@vger.kernel.org>; Fri, 24 Dec 2021 03:27:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
-        b=cX9nlvcXFC2+sB5ZCA93/N47fc/kD18ZhzODcGBSNKYk8Bu0/RfKdiqRKNZV/kCzDh
-         uYgV9YT+057Pm9+iV2z7CNnrv4gMsoubRDn4py5DaXjIiVFGfPYRKqEvJmspWkHH/37/
-         B4u2ffSsSDhj6T8i05J152nlZea3FdGqovrlV0xTv8tBj74gZ+sDUyGHOfN+cE9tMoRo
-         Ta0brQE3LqVGeK8SVVZJJ0epaF8s2NWUmHqBLIaHObO5agECiHBsgN2TgSjlbf86pHHe
-         UEVZo/+nVhJPw9IU+8uGo2xBOikGeC4fd+vYA5vS0WgxcK6SuGdshB+7OiYTcQjEFgxX
-         sB4g==
-X-Gm-Message-State: AOAM533H6dK6+H/oRGrJgdUNacRLGx5YYvjrylW1gkATTEeG0I1dYfJc
-        Kdf97HnqYeAm1qFBj0DnJfFtdzq7y90yYjGTI4Y=
-X-Google-Smtp-Source: ABdhPJwRad/yEBGiDhV4l3l0izvgqLj7fBCt75od3/PQj6KOhLMWcVzk6cDiMyTuhXi7h3nZFZOzOWzaOIF6x80P2Xs=
-X-Received: by 2002:a05:6214:2345:: with SMTP id hu5mr4993521qvb.130.1640340422576;
- Fri, 24 Dec 2021 02:07:02 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:content-language:content-transfer-encoding;
+        bh=8XQNItkHvztHDkow0Cptlxf4zXbwc0CF9zV8fZFGlRk=;
+        b=QHbWeIdiSsQEJj70kY/CpIuHfMR1i8+Jv3KpqXuL68MQSNi9GR87to80bfve6TW2VU
+         AUnvHRPO46uRZaQJKEYuS7ma13TcpHBEAPO13EyY/0i/k+VSiA/hFaS/HktFA0Wxek6u
+         78iXJG1P9vnFuYPSr0aADMmb3ec8/TiLB4CJb2VzcNP6dX23JpcpvwDWl5PPd85t6Y5j
+         WWFQK58AEu6V8dZgxThCHEfCkCSzVYvSqNeXqM/Ba25kuVmqZvmNkoDAf21Seo54K/JP
+         X5gGsSU+EE1cbVaO3laqjk74cwF45Itk4webnek2gFjS5krc8uzVa7DpqCd/q70ASte2
+         HyOg==
+X-Gm-Message-State: AOAM532SaghBFQWE60wo7poSRp0Yp9Ylzn3fl8aze1evtJsmvfsywiMi
+        JMeVEu3jwuEL0rERviPySDFF0qKFyiGfJxj9bAyp20oyQIiDS2LlLALB8in4DcFq1/1q6ikUXrH
+        +Yz8pg910YbSTkDklRTds2EFTOf4BzqN+iA==
+X-Received: by 2002:a17:907:118f:: with SMTP id uz15mr5109127ejb.726.1640345277143;
+        Fri, 24 Dec 2021 03:27:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw811lPIqVt7UGBqixNFbdtutB4UBMb2MQsvMvpJ3nfoKULW//G41M25v8zszhQS9HCgd+leQ==
+X-Received: by 2002:a17:907:118f:: with SMTP id uz15mr5109120ejb.726.1640345276979;
+        Fri, 24 Dec 2021 03:27:56 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id b22sm435730edt.96.2021.12.24.03.27.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Dec 2021 03:27:56 -0800 (PST)
+Message-ID: <312bc446-6f8c-c447-b3cd-bf2d46581f8b@redhat.com>
+Date:   Fri, 24 Dec 2021 12:27:56 +0100
 MIME-Version: 1.0
-Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 02:07:02
- -0800 (PST)
-Reply-To: williamsreneta2019@gmail.com
-From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
-Date:   Fri, 24 Dec 2021 02:07:02 -0800
-Message-ID: <CAM-qQYYfWnSujGOkG8etU20CjN5zRJo1q0TyEif8FLcWFGLugw@mail.gmail.com>
-Subject: Greetings Dearest One,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] platform-drivers-x86 for 5.16-4
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Greetings Dearest One,
+Hi Linus,
 
-How are you today, together with your family?Hope fine.I would like to
-use this opportunity to introduce myself to you. I am Miss Reneta
-Williams, From Benin Republic, West Africa. And my late parents are
-Mr. and Mrs. Dikko Williams; my father was a highly reputable business
-magnet who operated in Benin Republic during his days.
+Here is the third round of bug-fixes for platform-drivers-x86
+for 5.16.
 
-I am writing this mail to you with tears and sorrow from my heart.
-With due respect trust and humanity, I know this mail will come to you
-as a surprise since we haven't known or come across each other before,
-considering the fact that I sourced your email contact through the
-Internet in search of trusted person who can be trusted and will
-assist me.
-
-It is sad to say that he passed away mysteriously in France during one
-of his business trips abroad. Though his sudden death was linked or
-rather suspected to have been masterminded by an uncle of his who
-traveled with him at that time. But God knows the truth! My mother
-died when I was just 6yrs old, and since then my father took me so
-special.
-
-Before his death, he called me and informed me that he has the sum of
-Eighteen Million Five Hundred , United State Dollar
-(USD$18.500,000.00) left in fixed deposit account in one of the
-leading banks in Africa. He further told me that he deposited the
-money in my name, and also gave me all the necessary but legal
-documents to this fund with the bank.
-
-I am 21 years old and a university undergraduate and really don't know
-what to do. Now I want an account overseas where I can transfer this
-funds and after the transaction I will come and reside permanently in
-your country till such a time that it will be convenient for me to
-return back home if I so desire.
-
-The death of my father actually brought sorrow to my life. I also want
-to invest the fund under your care because I am ignorant of business
-world. I am in a sincere desire of your humble assistance in this
-regards. Your suggestions and ideas will be highly regarded.
-
-Now permit me to ask these few questions:
-
-1. Can you honestly help me from your heart?
-
-2. Can I completely trust you?
-
-3. What percentage of the total amount in question will be good for
-you after the money is in your account?
-
-Please, consider this and get back to me as soon as
-possible.Immediately and confirm your willingness on this my
-email(williamsreneta2019@gmail.com), here is one of my Picture and
-also i will inform you more details involved in this matter.
+This consists of just a few small bug-fixes.
 
 Regards,
 
-Miss Reneta Williams.
+Hans
+
+
+The following changes since commit 7d0c009043f6a970f62dbf5aecda9f8c3ccafcff:
+
+  platform/x86/intel: hid: add quirk to support Surface Go 3 (2021-12-06 22:28:18 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-v5.16-4
+
+for you to fetch changes up to 26a8b09437804fabfb1db080d676b96c0de68e7c:
+
+  platform/x86: intel_pmc_core: fix memleak on registration failure (2021-12-23 19:30:32 +0100)
+
+----------------------------------------------------------------
+platform-drivers-x86 for v5.16-4
+
+Various bug-fixes.
+
+The following is an automated git shortlog grouped by driver:
+
+amd-pmc:
+ -  only use callbacks for suspend
+
+apple-gmux:
+ -  use resource_size() with res
+
+intel_pmc_core:
+ -  fix memleak on registration failure
+
+platform/mellanox:
+ -  mlxbf-pmc: Fix an IS_ERR() vs NULL bug in mlxbf_pmc_map_counters
+
+platform/x86/intel:
+ -  Remove X86_PLATFORM_DRIVERS_INTEL
+
+system76_acpi:
+ -  Guard System76 EC specific functionality
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      platform/x86/intel: Remove X86_PLATFORM_DRIVERS_INTEL
+
+Johan Hovold (1):
+      platform/x86: intel_pmc_core: fix memleak on registration failure
+
+Mario Limonciello (1):
+      platform/x86: amd-pmc: only use callbacks for suspend
+
+Miaoqian Lin (1):
+      platform/mellanox: mlxbf-pmc: Fix an IS_ERR() vs NULL bug in mlxbf_pmc_map_counters
+
+Tim Crawford (1):
+      platform/x86: system76_acpi: Guard System76 EC specific functionality
+
+Wang Qing (1):
+      platform/x86: apple-gmux: use resource_size() with res
+
+ drivers/platform/mellanox/mlxbf-pmc.c   |  4 +--
+ drivers/platform/x86/Makefile           |  2 +-
+ drivers/platform/x86/amd-pmc.c          |  3 +-
+ drivers/platform/x86/apple-gmux.c       |  2 +-
+ drivers/platform/x86/intel/Kconfig      | 15 ---------
+ drivers/platform/x86/intel/pmc/pltdrv.c |  2 +-
+ drivers/platform/x86/system76_acpi.c    | 58 +++++++++++++++++----------------
+ 7 files changed, 37 insertions(+), 49 deletions(-)
+
