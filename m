@@ -2,39 +2,40 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1655447F319
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Dec 2021 12:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A09C647F31D
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 25 Dec 2021 12:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231526AbhLYLzU (ORCPT
+        id S231560AbhLYLz0 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 25 Dec 2021 06:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29017 "EHLO
+        Sat, 25 Dec 2021 06:55:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29504 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229807AbhLYLzU (ORCPT
+        by vger.kernel.org with ESMTP id S231542AbhLYLzY (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 25 Dec 2021 06:55:20 -0500
+        Sat, 25 Dec 2021 06:55:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640433319;
+        s=mimecast20190719; t=1640433323;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=RbCIMAxVv0JrkVhM1hLvHjr9m59Zew8mLy6AboiFJEQ=;
-        b=LCJusDiKnOQLngAwxGe+Z86PaXLTyPI66IUubuXgSzb31YW+reISv0zvwihhbUn8r5WUZl
-        6XGiTh36D0sShnrv0eMw+ZyZ8pUctzxVFDOUhzRGztZi9nl6rfnq/Zwwc8DKYB2tqDSUAf
-        tt007JDBrBrhpKZ4+IIKURaHiIuDHyE=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7wriX1tby6tYi8trHEMgRyyL5Fk6JfqftJOTRFi9AT4=;
+        b=NNDR5ibWlacf37iiPenI//gedh8/p3oqeRORq8ziNt4RarIDXu1uQX8lJbZj4qqSPPcP8u
+        sxEBdHU+4tD23Ma+I0bx88FoLx2q5znjXXOzBNgm78bu4w6G4tgrPF87AsaBOWh2yUztsa
+        pdb6oOHQjvn4l832wO7D7uqL8I7HzWE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-H8jtbGdVPv6HOPxkY4GMtw-1; Sat, 25 Dec 2021 06:55:16 -0500
-X-MC-Unique: H8jtbGdVPv6HOPxkY4GMtw-1
+ us-mta-131-Nx6VF0SnOhijALFSm6jAlg-1; Sat, 25 Dec 2021 06:55:18 -0500
+X-MC-Unique: Nx6VF0SnOhijALFSm6jAlg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB041006AA8;
-        Sat, 25 Dec 2021 11:55:15 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED29C102CB29;
+        Sat, 25 Dec 2021 11:55:16 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CED8E7ADB4;
-        Sat, 25 Dec 2021 11:55:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 852EA7C77E;
+        Sat, 25 Dec 2021 11:55:15 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
@@ -42,9 +43,11 @@ To:     Mark Gross <markgross@kernel.org>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Stephan Gerhold <stephan@gerhold.net>,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] mfd: intel_soc_pmic_crc: Add crystal_cove_charger cell
-Date:   Sat, 25 Dec 2021 12:55:05 +0100
-Message-Id: <20211225115509.94891-1-hdegoede@redhat.com>
+Subject: [PATCH 1/4] mfd: intel_soc_pmic_crc: Sort cells by IRQ order
+Date:   Sat, 25 Dec 2021 12:55:06 +0100
+Message-Id: <20211225115509.94891-2-hdegoede@redhat.com>
+In-Reply-To: <20211225115509.94891-1-hdegoede@redhat.com>
+References: <20211225115509.94891-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -52,41 +55,78 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi All,
+The cells for the Crystal Cove PMIC are already mostly sorted by
+function / IRQ order. Move the ADC cell so that they are fully sorted.
 
-While doing a hobby project getting the mainline kernel to work on some
-x86 tablets which come with Android pre-installed and which clearly have
-never been meant to run Windows (or another generic OS) I encountered an
-interesting setup for the bq24190 charger chip IRQ, it is not connected
-to the main Bay Trail SoC, instead it runs through a special
-external-charger IRQ pin on the CRC PMIC.
+Also move some of the resource definitions so that their order matches
+the (new) order of the cells.
 
-This series adds support for that.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/mfd/intel_soc_pmic_crc.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Lee, patch 4/4 is included mostly FYI. It depends on current pdx86/for-next
-and I plan to merge it through the pdx86 tree.
-
-Patches 1-3 can be merged through the MFD tree indepdently.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (4):
-  mfd: intel_soc_pmic_crc: Sort cells by IRQ order
-  mfd: intel_soc_pmic_crc: Add crystal_cove_charger cell to BYT cells
-  mfd: intel_soc_pmic_crc: Set main IRQ domain bus token to
-    DOMAIN_BUS_NEXUS
-  platform/x86: Add crystal_cove_charger driver
-
- drivers/mfd/intel_soc_pmic_core.c           |   4 +
- drivers/mfd/intel_soc_pmic_crc.c            |  35 +++--
- drivers/platform/x86/Makefile               |   2 +-
- drivers/platform/x86/crystal_cove_charger.c | 153 ++++++++++++++++++++
- 4 files changed, 180 insertions(+), 14 deletions(-)
- create mode 100644 drivers/platform/x86/crystal_cove_charger.c
-
+diff --git a/drivers/mfd/intel_soc_pmic_crc.c b/drivers/mfd/intel_soc_pmic_crc.c
+index 38acb20e2d60..574cb8f9c70d 100644
+--- a/drivers/mfd/intel_soc_pmic_crc.c
++++ b/drivers/mfd/intel_soc_pmic_crc.c
+@@ -28,18 +28,10 @@
+ #define CRYSTAL_COVE_IRQ_GPIO		5
+ #define CRYSTAL_COVE_IRQ_VHDMIOCP	6
+ 
+-static const struct resource gpio_resources[] = {
+-	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_GPIO, "GPIO"),
+-};
+-
+ static const struct resource pwrsrc_resources[] = {
+ 	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_PWRSRC, "PWRSRC"),
+ };
+ 
+-static const struct resource adc_resources[] = {
+-	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_ADC, "ADC"),
+-};
+-
+ static const struct resource thermal_resources[] = {
+ 	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_THRM, "THERMAL"),
+ };
+@@ -48,17 +40,20 @@ static const struct resource bcu_resources[] = {
+ 	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_BCU, "BCU"),
+ };
+ 
++static const struct resource adc_resources[] = {
++	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_ADC, "ADC"),
++};
++
++static const struct resource gpio_resources[] = {
++	DEFINE_RES_IRQ_NAMED(CRYSTAL_COVE_IRQ_GPIO, "GPIO"),
++};
++
+ static struct mfd_cell crystal_cove_byt_dev[] = {
+ 	{
+ 		.name = "crystal_cove_pwrsrc",
+ 		.num_resources = ARRAY_SIZE(pwrsrc_resources),
+ 		.resources = pwrsrc_resources,
+ 	},
+-	{
+-		.name = "crystal_cove_adc",
+-		.num_resources = ARRAY_SIZE(adc_resources),
+-		.resources = adc_resources,
+-	},
+ 	{
+ 		.name = "crystal_cove_thermal",
+ 		.num_resources = ARRAY_SIZE(thermal_resources),
+@@ -69,6 +64,11 @@ static struct mfd_cell crystal_cove_byt_dev[] = {
+ 		.num_resources = ARRAY_SIZE(bcu_resources),
+ 		.resources = bcu_resources,
+ 	},
++	{
++		.name = "crystal_cove_adc",
++		.num_resources = ARRAY_SIZE(adc_resources),
++		.resources = adc_resources,
++	},
+ 	{
+ 		.name = "crystal_cove_gpio",
+ 		.num_resources = ARRAY_SIZE(gpio_resources),
 -- 
 2.33.1
 
