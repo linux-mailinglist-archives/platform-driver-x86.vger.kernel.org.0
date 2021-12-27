@@ -2,45 +2,45 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9624803AF
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Dec 2021 20:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 637084803F1
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 27 Dec 2021 20:06:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232148AbhL0TEs (ORCPT
+        id S232982AbhL0TGV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 27 Dec 2021 14:04:48 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:39890 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232268AbhL0TEg (ORCPT
+        Mon, 27 Dec 2021 14:06:21 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:42078 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231936AbhL0TFg (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 27 Dec 2021 14:04:36 -0500
+        Mon, 27 Dec 2021 14:05:36 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 671716116E;
-        Mon, 27 Dec 2021 19:04:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22341C36AE7;
-        Mon, 27 Dec 2021 19:04:35 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5D148B8113F;
+        Mon, 27 Dec 2021 19:05:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 674C1C36AE7;
+        Mon, 27 Dec 2021 19:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640631875;
+        s=k20201202; t=1640631934;
         bh=TUmadFdk29V/j4ip7iNaRZQKjQD47/UXTdGrnEcl7YM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rWgUNWAysH39/7bBhF+2IolWTLueLjA3hj4uiWxVo+ig7K6zvhzUVr7TPeaBvEbhq
-         hfzotdkzLGuYYkpOrBvbRwo3Ul98tT3eSJN2oSwRF3G8YoMZt/AipzpIs6yoXoPtxK
-         WnBOOHx60RGx/+Od09QEKc0g0qKzfsdKCj+jLKX5zQ4P/x51WGh0ZmEYCx0hBD2/62
-         Q2Y97EbLHGKBfQrD6au08Rwxdj0WWW1YuyCaQJzDaJhhkg1hLZT/Am+b2QcqJBBuYB
-         yjeucVEah0NQPSwPqgEjz7CNG+BUnkF49a0EtGNMITxWvzFGXc9T+Y/USs1He2ZN5j
-         1mavp90MgQ5YQ==
+        b=RMb/MNAzUG2AOQ7MVpOJlDpvJeSl+MSWdvMHFfMy/WDKplEYODpa5kVhDJ+HluZLF
+         IrFTrWtUYQrToOUJwveiDdzpLh+yOQJ2IvMpuJuwtAfDldMfsTQc+54Q5R333TSKuS
+         z/kY7trWmwWgUIsHEYCMDs9YvMhcCYiGme6ZGDLTQPn94ab+13erKvAR3dfN7XBZ3n
+         Vn9s0VsPbWGGO+biVOcgQXJwRz9I/Ik/dUuMdN81uwv6ouLIr2r+gXls68gV9GC6Yv
+         G37Icq8amcBz7KhkkISBXGmsgGOZLVRdjcDP0MEiXaYcm1Qfr7lwjELzR8CSjULh3y
+         aWQEzvig35q2g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wang Qing <wangqing@vivo.com>, Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 22/26] platform/x86: apple-gmux: use resource_size() with res
-Date:   Mon, 27 Dec 2021 14:03:23 -0500
-Message-Id: <20211227190327.1042326-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 13/14] platform/x86: apple-gmux: use resource_size() with res
+Date:   Mon, 27 Dec 2021 14:04:51 -0500
+Message-Id: <20211227190452.1042714-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227190327.1042326-1-sashal@kernel.org>
-References: <20211227190327.1042326-1-sashal@kernel.org>
+In-Reply-To: <20211227190452.1042714-1-sashal@kernel.org>
+References: <20211227190452.1042714-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
