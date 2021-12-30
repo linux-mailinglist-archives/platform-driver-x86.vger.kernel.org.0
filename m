@@ -2,117 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72589481CFA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Dec 2021 15:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6330481E14
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 30 Dec 2021 17:29:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239939AbhL3ORn (ORCPT
+        id S240179AbhL3Q3p convert rfc822-to-8bit (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 30 Dec 2021 09:17:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29973 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239934AbhL3ORm (ORCPT
+        Thu, 30 Dec 2021 11:29:45 -0500
+Received: from mail-qk1-f174.google.com ([209.85.222.174]:33449 "EHLO
+        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239850AbhL3Q3p (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 30 Dec 2021 09:17:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640873862;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BSl6NhO3rkJbiaCAxgZIg8uGpQxft2WdEugt3YD6tYc=;
-        b=jFdg7jlG5k+6YOwsdEm8EpkP5aUNtEGl/En+SQfYBIL0RLm0LKQL/BiXtEW4kuFlLMqO1R
-        ANCpvu2dEfvKfkxDUvEDXi5peLVR9/zuyBZ19mfp6oMl8veV/l4+vrz4PejshJaFxMu6Mo
-        /Liysl2PHO34PJfjM7qRdVyAO9cZRRI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-C8rdBQgHM3C6QQBFvAQDrA-1; Thu, 30 Dec 2021 09:17:40 -0500
-X-MC-Unique: C8rdBQgHM3C6QQBFvAQDrA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 095551006AA5;
-        Thu, 30 Dec 2021 14:17:38 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.254])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 618017AB49;
-        Thu, 30 Dec 2021 14:17:35 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v2 3/3] serdev: Do not instantiate serdevs on boards with known bogus DSDT entries
-Date:   Thu, 30 Dec 2021 15:17:22 +0100
-Message-Id: <20211230141722.512395-4-hdegoede@redhat.com>
-In-Reply-To: <20211230141722.512395-1-hdegoede@redhat.com>
-References: <20211230141722.512395-1-hdegoede@redhat.com>
+        Thu, 30 Dec 2021 11:29:45 -0500
+Received: by mail-qk1-f174.google.com with SMTP id de30so23165074qkb.0;
+        Thu, 30 Dec 2021 08:29:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rIE0hD6v5+o3+ccVAghnpo8R1EgVOu3GGzhoi4/HkIo=;
+        b=HBRW/3ydmtof9tu1K6HDAatJkzfifYHtt0yEVF/SfJmV2Ox4ziC+ygzWC24/adycXI
+         MAorFZAG7rB1mapcg0juY9QQJJHXxasWW6JI0C1uvwTUEMGmzK+cpZUZ0lNNgMy2r7bU
+         OUgWgomTawJLHpryHLoRK06MDP50oVtP52h67Df+xfk7JVKuFocwGJxHlbKz8/y7FD7X
+         0IMzE94A/lR+n4YF8twD5uNrZHVs9lt82wViXaCox7wiftJlYIIm40tZTmjc6dCs1jYq
+         73LQPSI3wyWoVauYGC/0U5Smls9HsozhGG3mWCeWLU3OMsofDZ+ASg6la4k/YZc/3jMZ
+         4L1g==
+X-Gm-Message-State: AOAM532pnK/n/jc3ArYaYA0be9955z5URY7l2CZe3vZE7qF/Ts+L3zIA
+        FDTp1dcHJge4B3Bc0/caPKejD/y8kx8+RdHbRU4=
+X-Google-Smtp-Source: ABdhPJxdzkS1bQFm0Pe0d0VEkepbe2qMDW95s63oUGlvrYCMDpFeBVzMoZXxdCzPfU0KgR4hP6SJHWOOKX4yG1jypUY=
+X-Received: by 2002:a37:b702:: with SMTP id h2mr22394075qkf.135.1640881784332;
+ Thu, 30 Dec 2021 08:29:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20211222212014.66971-1-linux@weissschuh.net> <31a528b8-8318-dc09-3a06-80f76771744a@redhat.com>
+In-Reply-To: <31a528b8-8318-dc09-3a06-80f76771744a@redhat.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 30 Dec 2021 17:29:33 +0100
+Message-ID: <CAJZ5v0jdJNh4QB=-=TCKPZNYnvREPKor+mMyyUZZP8GBMn-ZFQ@mail.gmail.com>
+Subject: Re: [PATCH] ACPI: battery: Add the ThinkPad "Not Charging" quirk
+To:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Ognjen Galic <smclt30p@gmail.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        David Zeuthen <davidz@redhat.com>,
+        Richard Hughes <richard@hughsie.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-x86 ACPI devices which ship with only Android as their factory image use
-older kernels which do not yet support ACPI serdev enumeration, as such
-the serdev information in their ACPI tables is not reliable.
+On Thu, Dec 23, 2021 at 5:36 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi Thomas,
+>
+> On 12/22/21 22:20, Thomas Weißschuh wrote:
+> > The EC/ACPI firmware on Lenovo ThinkPads used to report a status
+> > of "Unknown" when the battery is between the charge start and
+> > charge stop thresholds. On Windows, it reports "Not Charging"
+> > so the quirk has been added to also report correctly.
+> >
+> > Now the "status" attribute returns "Not Charging" when the
+> > battery on ThinkPads is not physicaly charging.
+> >
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+>
+> Thanks, patch looks good to me.
+>
+> As for the userspace issues in dealing with the
+> POWER_SUPPLY_STATUS_NOT_CHARGING status, those indeed
+> have long been fixed and this status is already returned
+> acpi//battery.c from the acpi_battery_handle_discharging()
+> function for a while no; and we have had no complaints
+> about that:
+>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-For example on the Asus ME176C tablet the serdev describing the Bluetooth
-HCI points to the serdev_controller connected to the GPS and the other way
-around.
-
-Use the new acpi_quirk_skip_serdev_enumeration() helper to identify
-known boards with this issue and then either abort adding the serdev
-controller (creating a tty cdev instead) or only create the controller
-leaving the instantation of the serdev itself up to platform code.
-
-In the case where only the serdev controller is created the necessary
-serdevs will instead be instantiated by the
-drivers/platform/x86/x86-android-tablets.c kernel module.
-
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/tty/serdev/core.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-index f1324fe99378..92e3433276f8 100644
---- a/drivers/tty/serdev/core.c
-+++ b/drivers/tty/serdev/core.c
-@@ -727,10 +727,24 @@ static acpi_status acpi_serdev_add_device(acpi_handle handle, u32 level,
- static int acpi_serdev_register_devices(struct serdev_controller *ctrl)
- {
- 	acpi_status status;
-+	bool skip;
-+	int ret;
- 
- 	if (!has_acpi_companion(ctrl->dev.parent))
- 		return -ENODEV;
- 
-+	/*
-+	 * Skip registration on boards where the ACPI tables are known to
-+	 * contain buggy devices. Note serdev_controller_add() must still
-+	 * succeed in this case, so that the proper serdev devices can be
-+	 * added "manually" later.
-+	 */
-+	ret = acpi_quirk_skip_serdev_enumeration(ctrl->dev.parent, &skip);
-+	if (ret)
-+		return ret;
-+	if (skip)
-+		return 0;
-+
- 	status = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
- 				     SERDEV_ACPI_MAX_SCAN_DEPTH,
- 				     acpi_serdev_add_device, NULL, ctrl, NULL);
--- 
-2.33.1
-
+Applied as 5.17 material, thanks!
