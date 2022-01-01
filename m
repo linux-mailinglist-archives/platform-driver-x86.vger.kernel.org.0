@@ -2,122 +2,146 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B5248257C
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 31 Dec 2021 19:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 311494827A6
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  1 Jan 2022 14:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbhLaSAl (ORCPT
+        id S229800AbiAAND5 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 31 Dec 2021 13:00:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbhLaSAk (ORCPT
+        Sat, 1 Jan 2022 08:03:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37083 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229699AbiAAND5 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 31 Dec 2021 13:00:40 -0500
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993FFC061574
-        for <platform-driver-x86@vger.kernel.org>; Fri, 31 Dec 2021 10:00:40 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id v15-20020a9d604f000000b0056cdb373b82so36326757otj.7
-        for <platform-driver-x86@vger.kernel.org>; Fri, 31 Dec 2021 10:00:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6PNKGyHkyrZzmjWu0oCXC4qz1dt4LFX9n0g1yWbAsp8=;
-        b=huJYWgsyTUCQLTMqDQcegHEUuRMYj/3HmjJPOn54oMKhenbbNPi52Ac8BLrL7CV6th
-         BT3iP+AnHsQeQXkS+1i1Ih7s2biVftwfg/8sAHyjXHi8ex9bLzPEGJqLMyiHhSjuS9r6
-         Z3G/YcUWzxIH54jI368Fn9gEldBmxkqTsvj4lY6EHNzc5nv2HNm2miPP3AmRNwsCqsjM
-         9iK0Cw35XtHvYjSzzdCRqD5b+rYtCGNiglJqvunbPDDUp+woiaA5gw/tdmO9C+G3IrRk
-         cJQFj5glUlPsvPflqEknswu2pE5A7ApZsgkFX8+u9tqmJpVBrz+pF4ioqdtaTxBSdjNo
-         EGiw==
+        Sat, 1 Jan 2022 08:03:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641042235;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jEdnJ5V6e6dDfgBpeMguyXtUhNZckFfASUngcdFfCTk=;
+        b=BwFg8BDljVfoknSg5vAqs7BoTFIW9dxhBvoCLtu/ROcvkOUun4EFZo6EsYRqeiqBW/BFMx
+        9yHmoUnCzEgbf7nUUCO9d7qUNqLlkYJZe63w+WOiJtkQ1XH5hMNRuqjQvV9QPOj27MELKg
+        t30XtyZrqFYNpM9qOtLukLTtYTGDJVU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-413-g5EOjx_sM_KAQAnT2kVckA-1; Sat, 01 Jan 2022 08:03:54 -0500
+X-MC-Unique: g5EOjx_sM_KAQAnT2kVckA-1
+Received: by mail-ed1-f71.google.com with SMTP id s12-20020a50ab0c000000b003efdf5a226fso20150104edc.10
+        for <platform-driver-x86@vger.kernel.org>; Sat, 01 Jan 2022 05:03:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=6PNKGyHkyrZzmjWu0oCXC4qz1dt4LFX9n0g1yWbAsp8=;
-        b=Dja+fKmJMYdMA9XfG0XlVi3jhSmzOarEhGjOegRbwBFkFj+jV12DBXhXkoyigmOGuE
-         8AAdeGbnYF5CdrhOgn/bpRokbMhBhbHrg/rK16KkJWT9/llQnc/e6xQBs6Cnv428+vCb
-         /8qrfHImEZZ2qshMonKGOVfy/L3mPlLOnB9OI++EbRNNBqvz/I5qPdNyFH6s52jm294a
-         L+Y63NH45eFgdxvdt9hfcyF48vLI1hfge+fG+Wgki3rir4LOjqIZCpX+CK808cOI/V6L
-         yh694wwyi/gur/dJX/NgFm/a5BIDYz05wW38y0AY4DXcCi8C0kaZP40IeLvrjdN55qse
-         owQQ==
-X-Gm-Message-State: AOAM530KQEW+ga2+CDA/xOJHpT5CP88/vARJAbkubiuJTAz//Kmb5p6y
-        Ptzlf7sAXNiXvk9pL9FM3Z0oPfAaaOrzqOj5Ves=
-X-Google-Smtp-Source: ABdhPJy1DcaK1IxTiV6JiWqYZqS7SsIfV/P/AfP97L2YDCyck/MowfeoJk1CvzepW9fF+D7pJBzHgmLNjhe5UH0COz4=
-X-Received: by 2002:a05:6830:2645:: with SMTP id f5mr27063840otu.193.1640973639547;
- Fri, 31 Dec 2021 10:00:39 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=jEdnJ5V6e6dDfgBpeMguyXtUhNZckFfASUngcdFfCTk=;
+        b=lWj7hLRXqv9Dmhh+924NZVoVwRkAAEJUERJptoWKifCLlfACScSKwNW8rR2WtHsZuA
+         gaC1M2NLCWmtpQKtyqtGp1O52XD7e3toXLlForg+CVui9Ag8WPX4WFLlqeDq+w7KIaiZ
+         qj6FGeKO1AkhcIjeVXnbunlbMl9H9H63TKVWqYTttX3kZ72aK+VD+5uNoCLDMo0/99sU
+         CN2cGgiYKx0+YnaR08qqbW611ougEuWyXv8rJoHKvw6zfXnOLBnhqgdR8HCkgtsvgXiq
+         54N9PLu/JTFQ7WO8ceCfL8KsSeJ2linq3kUABkrqQHI2FoqwfJ2mW8UccmR7i9+H/udX
+         BfCw==
+X-Gm-Message-State: AOAM530VNF0KVBNBXXC9JeGoB3AWTmK+L7r59wJi8ufJMkGWQXArY+rG
+        C8xGEjily4grQg4Vftepkpq0Yz7MqN7OllWzS7DhtWpztp4pGmYmWdvEuuK6CGPbRE+ztA9v9R2
+        /k1zKpMHPOc4YkSgXSISHzeCbKjIsWnlmlA==
+X-Received: by 2002:a17:907:3e0b:: with SMTP id hp11mr30113732ejc.584.1641042233104;
+        Sat, 01 Jan 2022 05:03:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz7Y1adl3v/hPy2/ES5ul0vI6t8erfXHjHO2xkuYFjn2Jc6HysX14HpQzNuS1F971b17Nikbw==
+X-Received: by 2002:a17:907:3e0b:: with SMTP id hp11mr30113718ejc.584.1641042232933;
+        Sat, 01 Jan 2022 05:03:52 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id d17sm9136699ejd.217.2022.01.01.05.03.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Jan 2022 05:03:52 -0800 (PST)
+Message-ID: <91e95d59-f8b1-07f9-de57-824e6b1668d5@redhat.com>
+Date:   Sat, 1 Jan 2022 14:03:51 +0100
 MIME-Version: 1.0
-Received: by 2002:a4a:be8e:0:0:0:0:0 with HTTP; Fri, 31 Dec 2021 10:00:39
- -0800 (PST)
-Reply-To: mrbeliyogo1997@gmail.com
-From:   Mr Yogo Bali <bellalogan296@gmail.com>
-Date:   Fri, 31 Dec 2021 10:00:39 -0800
-Message-ID: <CAOTcJ4rkTDA0jzc+yoMnM64KZwayRs_YCZSKYf3m0+Fp2ji5rA@mail.gmail.com>
-Subject: COMPLIMENT OF THE SEASON
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] platform/x86: intel_scu_ipc: Keep polling IPC status if
+ it reads IPC_STATUS_ERR
+Content-Language: en-US
+To:     "Khandelwal, Rajat" <rajat.khandelwal@intel.com>,
+        "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
+        "Krogerus, Heikki" <heikki.krogerus@intel.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        "Westerberg, Mika" <mika.westerberg@intel.com>
+References: <20211230082353.2585-1-rajat.khandelwal@intel.com>
+ <CO1PR11MB48352F856F280F0E3716972196469@CO1PR11MB4835.namprd11.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CO1PR11MB48352F856F280F0E3716972196469@CO1PR11MB4835.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-My name is MR.Yogo Bali, from Burkina Faso, West Africa. I work in
-Soci=C3=A9t=C3=A9 G=C3=A9n=C3=A9rale Burkina Faso (SG;BF) as telex manager,=
- please see
-this as a confidential message and do not reveal it to another person
-and let me know whether you can be of assistance regarding my proposal
-below because it is top secret.
+Hi Rajat,
 
-I am about to retire from active Banking service to start a new life
-but I am sceptical,  revealing this particular secret to a stranger.
-You must assure me that everything will be handled confidentially
-because we are not going to suffer again in life. It has been 10 years
-now that most of the greedy African Politicians used our bank to
-launder money overseas through the help of their Political advisers.
-Most of the funds which they transferred out of the shores of Africa
-were gold and oil money that was supposed to have been used to develop
-the continent. Their Political advisers always inflated the amounts
-before transferring to foreign accounts, so I also used the
-opportunity to divert part of the funds hence I am aware that there is
-no official trace of how much was transferred as all the accounts used
-for such transfers were being closed after transfer. I acted as the
-Bank Officer to most of the politicians and when I discovered that
-they were using
-to succeed in their greedy act; I also cleaned some of their banking
-records from the Bank files and no one cared to ask me because the
-money was too much for them to control. They laundered over $5billion
-Dollars during the process.
+On 12/31/21 16:49, Khandelwal, Rajat wrote:
+> Adding ++Heikki
+> 
+> Thanks
+> Rajat
 
-Before I send this message to you, I have already diverted
-($10.5million Dollars) to an escrow account belonging to no one in the
-bank. The bank is anxious now to know who the beneficiary to the funds
-is because they have made a lot of profits with the funds. It is more
-than Eight years now and most of the politicians are no longer using
-our bank to transfer funds overseas. The ($10.5million Dollars) has
-been laying waste in our bank and I don=E2=80=99t want to retire from the b=
-ank
-without transferring the funds to a foreign account to enable me share
-the proceeds with the receiver (a foreigner). The money will be shared
-60% for me and 40% for you. There is no one coming to ask you about
-the funds because I secured everything. I only want you to assist me
-by providing a reliable bank account where the funds can be
-transferred.
+If you want me to apply this, please send this as a proper patch, not as an inline
+forward to me, with the platform-driver-x86@vger.kernel.org list in the Cc.
 
-You are not to face any difficulties or legal implications as I am
-going to handle the transfer personally. If you are capable of
-receiving the funds, do let me know immediately to enable me to give
-you detailed information on what to do. For me, I have not stolen the
-money from anyone because the other people that took the whole money
-did not face any problems. This is my chance to grab my own life
-opportunity but you must keep the details of the funds secret to avoid
-any leakages as no one in the bank knows about my plans. Please get
-back to me if you are interested and capable of handling this project,
-I shall intimate you on what to do when I hear from your confirmation
-and acceptance. If you are capable of being my trusted associate, do
-declare your consent to me. I am looking forward to hearing from you
-immediately for further information.
+Regards,
 
-Thanks best regards.
-Mr, Yogo Bali.
-Telex Manager
-Soci=C3=A9t=C3=A9 G=C3=A9n=C3=A9rale Burkina Faso (SG.BF)
-Burkina Faso
+Hans
+
+
+> -----Original Message-----
+> From: Khandelwal, Rajat <rajat.khandelwal@intel.com> 
+> Sent: Thursday, December 30, 2021 1:54 PM
+> To: mika.westerberg@linux.intel.com
+> Cc: linux-kernel@vger.kernel.org; platform-driver-x86@vger.kernel.org; Khandelwal, Rajat <rajat.khandelwal@intel.com>; Westerberg, Mika <mika.westerberg@intel.com>
+> Subject: [PATCH] platform/x86: intel_scu_ipc: Keep polling IPC status if it reads IPC_STATUS_ERR
+> 
+> The current implementation returns -EIO if and when IPC_STATUS_ERR is returned and returns -ETIMEDOUT even if the status is busy.
+> This patch polls the IPC status even if IPC_STATUS_ERR is returned until timeout expires and returns -EBUSY if the status shows busy.
+> Observed in multiple scenarios, trying to fetch the status of IPC after it shows ERR sometimes eradicates the ERR status.
+> 
+> Signed-off-by: Rajat-Khandelwal <rajat.khandelwal@intel.com>
+> ---
+>  drivers/platform/x86/intel_scu_ipc.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/intel_scu_ipc.c b/drivers/platform/x86/intel_scu_ipc.c
+> index 7cc9089d1e14..1f90acaa7212 100644
+> --- a/drivers/platform/x86/intel_scu_ipc.c
+> +++ b/drivers/platform/x86/intel_scu_ipc.c
+> @@ -233,17 +233,23 @@ static inline u32 ipc_data_readl(struct intel_scu_ipc_dev *scu, u32 offset)  static inline int busy_loop(struct intel_scu_ipc_dev *scu)  {
+>  	unsigned long end = jiffies + IPC_TIMEOUT;
+> +	u32 status;
+>  
+>  	do {
+> -		u32 status;
+> -
+>  		status = ipc_read_status(scu);
+> -		if (!(status & IPC_STATUS_BUSY))
+> -			return (status & IPC_STATUS_ERR) ? -EIO : 0;
+> +		if (!(status & IPC_STATUS_BUSY)) {
+> +			if (!(status & IPC_STATUS_ERR))
+> +				return 0;
+> +		}
+>  
+>  		usleep_range(50, 100);
+>  	} while (time_before(jiffies, end));
+>  
+> +	if (status & IPC_STATUS_BUSY)
+> +		return -EBUSY;
+> +	if (status & IPC_STATUS_ERR)
+> +		return -EIO;
+> +
+>  	return -ETIMEDOUT;
+>  }
+>  
+> --
+> 2.17.1
+> 
+
