@@ -2,182 +2,299 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC8BC48AB18
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 11:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64DEA48AB67
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 11:31:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237480AbiAKKNI (ORCPT
+        id S237916AbiAKKbw (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jan 2022 05:13:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41010 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237473AbiAKKNH (ORCPT
+        Tue, 11 Jan 2022 05:31:52 -0500
+Received: from mx0b-0064b401.pphosted.com ([205.220.178.238]:43294 "EHLO
+        mx0b-0064b401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236960AbiAKKbw (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:13:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1641895987;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WreWFaB4Gxto6/mYov8ZlQuAFaLTAqRUB+ETM8IIG10=;
-        b=XoUKTzIP9dDTRYjyJ7zlldSo7swI9Gky/r+CbRpvUgdzvS2UYB9e4b0Nbf2oZqPzaLbTK8
-        xFabbBu4zTBTXjGkphDPDY5yzYkA8qbJpK6j3fSvC3NrIr7vq5Rui2sCn/hI5CyYV7dl2+
-        zRR5OEviGYHqw+zjLn2EHujQOM3++oI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-_hQDJs_NNRGTqN17mrV-Ow-1; Tue, 11 Jan 2022 05:13:04 -0500
-X-MC-Unique: _hQDJs_NNRGTqN17mrV-Ow-1
-Received: by mail-ed1-f70.google.com with SMTP id b8-20020a056402350800b003f8f42a883dso12847371edd.16
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Jan 2022 02:13:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=WreWFaB4Gxto6/mYov8ZlQuAFaLTAqRUB+ETM8IIG10=;
-        b=r2IFMERW2Vn0x+CzuvD+0sw4JcSweapC/AhSZzQF5nHgs7OL7LskYS9lhVLmGSc3oN
-         Y/lZH7Z5vXy5nL3sR+DLZlFULOFPjgl/HIhKj89eSAh5rZvbIP1rEarGAyXoWmK3RTcc
-         PrTm2LNW6EWYedRKPZ1/PYuIHkPkIutC/tJK4JeK2whGWnLayhAe5K9h5J9a1zecE2jF
-         oLm2qSyY93Y/yWeF+F2U4ynIRxSDYdHyeG7X4IiRuNbbwhvWXhAorhEaWWhoPibGl6he
-         Px75KlX989n1ntodsLMZpZQ3nQpwjHmXzmfu2hXGBe/hb5gnVYKXEX/qYISYfKM3u8Am
-         UhKg==
-X-Gm-Message-State: AOAM5314v3pg1+4jBi1wmaTjU4whWZIbT8Trpv90NKGR1UdajrWr09YN
-        BDInoRKI//TGPdiXIwJA7jG/gdzf1Qx5pzx2Yb4+Reo9ieGPS23jRNUKKXTEKqXOeP0zbe4qhRe
-        w+BVyImPYEJXkMAdX4uoi9Xl8YDg7hizUQA==
-X-Received: by 2002:a17:906:2bc3:: with SMTP id n3mr3139436ejg.332.1641895983201;
-        Tue, 11 Jan 2022 02:13:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyAGo+oK7aHHoTUijgOi9Hkqbb1oeJJ7Np/sJSZtQfl8r8sP+C8yD00nvfGR8/QB3ztmWe6gw==
-X-Received: by 2002:a17:906:2bc3:: with SMTP id n3mr3139421ejg.332.1641895983014;
-        Tue, 11 Jan 2022 02:13:03 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id d17sm3397439ejd.217.2022.01.11.02.13.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 02:13:02 -0800 (PST)
-Message-ID: <65f5e5de-6e16-f522-4c06-eb91e8be1250@redhat.com>
-Date:   Tue, 11 Jan 2022 11:13:02 +0100
+        Tue, 11 Jan 2022 05:31:52 -0500
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+        by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20B9sw1F020500;
+        Tue, 11 Jan 2022 10:31:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : content-type : mime-version; s=PPS06212021;
+ bh=ecFoWGWSPpsGVdbKTwIQIXVrCzP5kXhzoxbSNfHkUuM=;
+ b=bCRdG06ar5KwWQIvj5jx05iJqOmWAB9tJI2oSmXnFzhvDA6pLPE9jtP2bw5dlVTveZQV
+ NguU7qtQHoeDgW1YEWa/AEdkmxotDRmejihJOwbrnD7YGRMII8A3+UPLhhqt/jO1oPx5
+ AHKMvqt3PvopffGBYMjNt0rYhCTUPJsJWtIlhtYwHTXnpj91qT84KPcB9oz8aOaRZY8j
+ mp5/K3YmgRjJrFGUPLQTmniMk8Zru4adOSvC+/tyFcIYCFSvtMbIikhBvgJu/jA9QEjt
+ oQcCPf71W/fZmRmgewWiiWP3VjTWXQZ5/hiAGpG11kwiV5y9Li+5+lGtKe5l8DpYM63u 2A== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+        by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dgd99gybh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Jan 2022 10:31:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VPC2AkhZbIK/w2a0uZ8Sl/k6rAlObrVwxw0pb/yq6n46h/V4kJ61CzWLf4MG2KyVVlTh8OlDWgOO0qnSciH/o0mlnRNSUoKq97THObgbwbaKqXNG6mIVdiorq+sjlqEtKixUJb9R1u2ARWr/YFvZ4ba2PprV5jLeqcTxVGfY0eMlsb++CimWmKWdsGNWdD7rlAr7H/OBDKeeTIzpX2ZF2N0hpTKfocDw2dIGWcdiJqsiJE651bKSxb0kVgHkz3z0FAUgAzw978B2C55sj0rJ2m364ZwOnZ/6GKouc3ASmyHCLfmCw0X31vOxGwXqyrtN8p1UJzm/GQmOXLNg5YY1zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ecFoWGWSPpsGVdbKTwIQIXVrCzP5kXhzoxbSNfHkUuM=;
+ b=VOUiRhkwwTDt7FQSxWx6dSthr18KSoqH1kfC+7UC9bRp7ndxYcHKUWCLbDyb8LtUM4fZyoWqDfP/6LxmfyoRKEp3cLwgSBOyEE2319B54AlZ3KkSFGxRaiaxDvcnX8rpP57IeQCSCRhTVPJj+oXsaqFFlfQ4N8lN9hsMDJWLtKBhdRTbQNBzv21KM0EwzvB9L1HMmjsdMWe0HXxnW3EpYGN42cIl1YRfIz5fUeJPa4gNJlXYrzrPjQi4kzcSySLTp2LJyV0MJ1fUMXk6AtliqrTvIQIGltY7Vj19aopT29qmZG/2R95NTj8y3nC65Do85HKUm+yFyEQeF4zHmNJHPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH0PR11MB5348.namprd11.prod.outlook.com (2603:10b6:610:bb::16)
+ by SA0PR11MB4720.namprd11.prod.outlook.com (2603:10b6:806:72::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.11; Tue, 11 Jan
+ 2022 10:31:37 +0000
+Received: from CH0PR11MB5348.namprd11.prod.outlook.com
+ ([fe80::dd33:eca5:868e:f800]) by CH0PR11MB5348.namprd11.prod.outlook.com
+ ([fe80::dd33:eca5:868e:f800%7]) with mapi id 15.20.4888.009; Tue, 11 Jan 2022
+ 10:31:37 +0000
+From:   Liwei Song <liwei.song@windriver.com>
+To:     SrinivasPandruvada <srinivas.pandruvada@linux.intel.com>,
+        HansdeGoede <hdegoede@redhat.com>,
+        MarkGross <markgross@kernel.org>
+Cc:     platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+        liwei.song@windriver.com
+Subject: [PATCH] platform/x86: ISST: do not hold lock punit_misc_dev_lock when register misc
+Date:   Tue, 11 Jan 2022 18:31:22 +0800
+Message-Id: <20220111103122.32362-1-liwei.song@windriver.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK0PR03CA0113.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::29) To CH0PR11MB5348.namprd11.prod.outlook.com
+ (2603:10b6:610:bb::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] platform/x86: x86-android-tablets: Fix the buttons on CZC
- P10T tablet
-Content-Language: en-US
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Mark Gross <markgross@kernel.org>,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220110063512.273252-1-lkundrak@v3.sk>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220110063512.273252-1-lkundrak@v3.sk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ccc6297d-0b0c-49ea-a59f-08d9d4ed8bc7
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4720:EE_
+X-Microsoft-Antispam-PRVS: <SA0PR11MB4720F839534640A287DFD25D9E519@SA0PR11MB4720.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MsP3GbLBnqozQxYg+t6UwpJC3o8jinYzt9viOKEBoxx/rLOrnI2HcXDBZnv7ph8ZEZ9GIuv+hq1FUWXcsX0zkU/tsKafm6ZBOkowdUrUgHevLbIdJEv7mVEJqxGZKzNLZnOI52M3VnY1VDJUIejiGpjUaZBE0IBUdITZ7TC6Y+m6mSXOen72mXtDcgjr5OtQXjsKbtl4L1eCwB/+fK/pimit5KQ4HeS4mqAm42vEwImLr6bS+8yRjElemTTn1IXgcHfn7YDA7LLVEgMBK1i3wtpMIQFfFH3JYl4dkrPib9gKB+Tq24SdFzlkZgBbshjlKWDajyoxRZZSe0/YtIqURuXQCXyND34kO6+og2XTBt6hXdx1BcoTHloONLdPJgemqngK8u+jMLzzT76ThPYC6MaD9A/aX0Z8bwX5lIMCt69xRbUUE0WLFrequuXGWIqDjCpdqTOAzAL9DhLRet+hsM1PHEbxXwCRt524nNYzcTAVHrEWpXMSG8RqBrc0aLBN2J9bZsf3c3EL2c3rx1piQFcxuUr+0UOmwhfDF5IQIRJQnliXw+F/vX6rQU6h/pqDOAHwVAtVUTgdX+3sRv9kyLemL4GOYrD5AF503hh16LDFMc+jdYxuXsjNFf5QLx7B1o96H80W4ouGbtzO6BEW42BYMlzjROkX+GsK1JImnCrM9YM1KdGguMtKPSHy0jEBjRGfFopxS+vJTkGwGmI9Pg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(2906002)(6512007)(38350700002)(52116002)(6486002)(38100700002)(6666004)(110136005)(316002)(66556008)(66946007)(66476007)(1076003)(5660300002)(86362001)(44832011)(8936002)(186003)(6506007)(508600001)(2616005)(26005)(107886003)(8676002)(83380400001)(4326008)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p4Tlo7txyBnHO02LKRR6RRkWzkI5jemC3hRq3EusoaNsxyhZaNtWZWCeq8CU?=
+ =?us-ascii?Q?6hsNt9KasbRZhExSNrG3QVDUMhzf44hjxQDjq8etkt1MXeXEz2BbLrtlwtQj?=
+ =?us-ascii?Q?FPbW5MCTv6hhbWcInOj8vFiVtNl4Iga0T4vcCm3mzMcCtX/7VEF+gv5VAg48?=
+ =?us-ascii?Q?Qrtp4B5oeVVYNZzBIxmKRtgsoatL2Elr5GeNL+e72EuQlTfjbBt4pFSsB91W?=
+ =?us-ascii?Q?A1aXt85alsR/I/g1IOKFf1jomBPzJ6LzGwlJfkgIy8ABhZfMnLYtgj336SAh?=
+ =?us-ascii?Q?qhV1275EC/wjsUEH2uOG2kUH09Vv12QPfvXVMQSJJAfIF11SG2YingztLid9?=
+ =?us-ascii?Q?nCkX0hpLTP4/pW+MvpHKG9sXWvJLxBG3tdAxPMZW6TojBi+3Aunqy1FZa+IZ?=
+ =?us-ascii?Q?sp3kpnQP5gq6X5gXC4mRoudArg9J0J/uICaZUIzEEUW/v5m0Ph7tSuLzdYGE?=
+ =?us-ascii?Q?GoYIZrOjLZ8E7hFtidjXoNu7mJ8Eb6u8qWmW2/s5wgIkD69sQ7dW1UgkHgjh?=
+ =?us-ascii?Q?a5gFsMtBaV56/FJ29ZHMqDsq8Yh0pQHUvkIc9jQeCQuBgt7C+EkreZsIlN8x?=
+ =?us-ascii?Q?8/OoFhGgFzD5hqrHhbg7QuZLkXgHMjTnWuw1OEEZbh8y6biLd4Zv0nB+o+cC?=
+ =?us-ascii?Q?wDIBxRu54eLIboYyxY8gMLTjO813dfNcXJyYeLL5FmSmLxeu2/O1byhX5Ydn?=
+ =?us-ascii?Q?acSKZ9mGjgizZA+AvtmkuJFMRLJdFcO2GjkD5inyLcXdKzfTiQeG6EvrNr+I?=
+ =?us-ascii?Q?78RvKMtJM62MHZzoum/11E1NVNxMpw4jq+qcgVsGY1HHsWVs0359UbueIFCN?=
+ =?us-ascii?Q?SSi7LvUXw8ah6MxodwpY33w5L02h/dnIOPBsMB/F3riR9mroE2Xy/2jGmjPh?=
+ =?us-ascii?Q?UaxN9BtUwH2EI9hwZWd4+boeyvd4EtS02K3VO9w5+jF7YCmTdHf+Fq9NvX+8?=
+ =?us-ascii?Q?v3DbZvHSmQ2hhwAfQElGvFA7P9dxl9at5A49/vs1t974DecIMaYRCXBbrBh/?=
+ =?us-ascii?Q?JW1KVvp8mIkKs8/AgXQBs6zIi6rZoZU44ITJvqyK0OalM6K7cx1lN18VuP+4?=
+ =?us-ascii?Q?gpFmBt410XYGu/AYp14oMzhZQytzDI5uamSZ0A/dTZRGg4cDtwW2ZoL8xF1g?=
+ =?us-ascii?Q?jaq4CoSMb+AzTDmKtYjryHj746bssMfPA5ztUpGFwy2WwoqmevyPF36wLIxP?=
+ =?us-ascii?Q?HhlQGahBvfLlkksaG484CTWIBr1r1RcC466xfco6sV7m+il8+yOPtKoJlF5K?=
+ =?us-ascii?Q?F///ahLVrEqJ6wRXN/D/YK0K4bbBSRvrDtBPoEimkCYOLgpTHIYE+43I7Kzq?=
+ =?us-ascii?Q?5+z9BzAEW82gFGd5fQUhXFIXbxuC7aX75EsuCssIBp8YXhdJ/HL+55Rn7bR6?=
+ =?us-ascii?Q?pPtD1a8TuNHqDHOIsQMJWh5B1Hv6J9IB/Aivvsei6k0OZUGap//H9oPGo/sU?=
+ =?us-ascii?Q?ro1II8FRkXlH7URGgTAaZuZhJqYJit9Hcg4NZ4N37uKbiurNVaN4GFKngiGA?=
+ =?us-ascii?Q?9iE5v9GNXxWqVvDQfIqhGbx+e3O9nDh/gWiqUd/2/HeFz9gckbN3k7HlV4OZ?=
+ =?us-ascii?Q?0wjAyNABuOvKG7zDQIWxQs0xren0oUI7niGit0si/zbYSENNskH2V59o1osv?=
+ =?us-ascii?Q?XWIXLnrOgHjvtHmw9DfzXK8Ayvo8VxEbDpwD6uY4tOBENNqBLUJEQMy9f1KO?=
+ =?us-ascii?Q?1Q+2tA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccc6297d-0b0c-49ea-a59f-08d9d4ed8bc7
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 10:31:36.8340
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k5f5jJrGmEU4H67yaNkMdEUSM0RQ7GgO4mxV1clHNuQxhVyCd7hTtpdfvNP5t+W+ZJ1fUoyjftc8ZCzlqZ6gexBIb0aa1GZ0e41anmnm2Q4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4720
+X-Proofpoint-ORIG-GUID: U3DqnBJEq_K6MIOxR_xq3g31iWK-PK6f
+X-Proofpoint-GUID: U3DqnBJEq_K6MIOxR_xq3g31iWK-PK6f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-11_03,2022-01-11_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ malwarescore=0 phishscore=0 clxscore=1011 impostorscore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201110061
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+exist the below call sequences may cause deadlock:
 
-On 1/10/22 07:35, Lubomir Rintel wrote:
-> This switches the P10T tablet to "Android" mode, where the Home button
-> sends a single sancode instead of a Windows-specific key combination and
-> the other button doesn't disable the Wi-Fi.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+isst_if_probe()
+   --> isst_if_cdev_register()
+      --> mutex_lock(&punit_misc_dev_lock)
+   --> misc_register()
+      --> mutex_lock(&misc_mtx)
 
-Thank you for your patches, I've applied both patches to
-my review-hans  branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+misc_open()
+   --> mutex_lock(&misc_mtx)
+   --> isst_if_open()
+      --> mutex_lock(&punit_misc_dev_lock)
 
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
+to fix this do not hold punit_misc_dev_lock when call misc_register
+since it has misc_mtx lock for sync.
 
-Once 5.17-rc1 is out this branch will get rebased on top and
-after I've run some tests on the rebased branch the patches there
-will be added to the platform-drivers-x86/for-next branch and
-eventually will be included in the pdx86 pull-request to Linus
-for the next merge-window.
+[  256.104522] ======================================================
+[  256.113783] WARNING: possible circular locking dependency detected
+[  256.120093] 5.16.0-rc6-yocto-standard+ #99 Not tainted
+[  256.125362] ------------------------------------------------------
+[  256.131673] intel-speed-sel/844 is trying to acquire lock:
+[  256.137290] ffffffffc036f0d0 (punit_misc_dev_lock){+.+.}-{3:3}, at: isst_if_open+0x18/0x90 [isst_if_common]
+[  256.147171]
+[  256.147171] but task is already holding lock:
+[  256.153135] ffffffff8ee7cb50 (misc_mtx){+.+.}-{3:3}, at: misc_open+0x2a/0x170
+[  256.160407]
+[  256.160407] which lock already depends on the new lock.
+[  256.160407]
+[  256.168712]
+[  256.168712] the existing dependency chain (in reverse order) is:
+[  256.176327]
+[  256.176327] -> #1 (misc_mtx){+.+.}-{3:3}:
+[  256.181946]        lock_acquire+0x1e6/0x330
+[  256.186265]        __mutex_lock+0x9b/0x9b0
+[  256.190497]        mutex_lock_nested+0x1b/0x20
+[  256.195075]        misc_register+0x32/0x1a0
+[  256.199390]        isst_if_cdev_register+0x65/0x180 [isst_if_common]
+[  256.205878]        isst_if_probe+0x144/0x16e [isst_if_mmio]
+[  256.209991] hrtimer: interrupt took 10370 ns
+[  256.211582]        local_pci_probe+0x47/0xa0
+[  256.220384]        work_for_cpu_fn+0x17/0x30
+[  256.224790]        process_one_work+0x26a/0x650
+[  256.229456]        worker_thread+0x1dd/0x3b0
+[  256.233861]        kthread+0x191/0x1c0
+[  256.237745]        ret_from_fork+0x1f/0x30
+[  256.241976]
+[  256.241976] -> #0 (punit_misc_dev_lock){+.+.}-{3:3}:
+[  256.248552]        validate_chain+0xbc6/0x1750
+[  256.253131]        __lock_acquire+0x88c/0xc10
+[  256.257618]        lock_acquire+0x1e6/0x330
+[  256.261933]        __mutex_lock+0x9b/0x9b0
+[  256.266165]        mutex_lock_nested+0x1b/0x20
+[  256.270739]        isst_if_open+0x18/0x90 [isst_if_common]
+[  256.276356]        misc_open+0x100/0x170
+[  256.280409]        chrdev_open+0xa5/0x1e0
+[  256.284550]        do_dentry_open+0x23d/0x3c0
+[  256.289039]        vfs_open+0x2f/0x40
+[  256.292836]        path_openat+0x87a/0x940
+[  256.297064]        do_filp_open+0xc5/0x140
+[  256.301295]        do_sys_openat2+0x23d/0x320
+[  256.305782]        do_sys_open+0x59/0x80
+[  256.309836]        __x64_sys_openat+0x20/0x30
+[  256.314324]        do_syscall_64+0x3f/0x90
+[  256.318552]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  256.324259]
+[  256.324259] other info that might help us debug this:
+[  256.324259]
+[  256.332394]  Possible unsafe locking scenario:
+[  256.332394]
+[  256.338444]        CPU0                    CPU1
+[  256.343105]        ----                    ----
+[  256.347768]   lock(misc_mtx);
+[  256.350870]                                lock(punit_misc_dev_lock);
+[  256.357441]                                lock(misc_mtx);
+[  256.363058]   lock(punit_misc_dev_lock);
+[  256.367110]
+[  256.367110]  *** DEADLOCK ***
+[  256.367110]
+[  256.373162] 1 lock held by intel-speed-sel/844:
+[  256.377824]  #0: ffffffff8ee7cb50 (misc_mtx){+.+.}-{3:3}, at: misc_open+0x2a/0x170
+[  256.385531]
+[  256.385531] stack backtrace:
+[  256.390021] CPU: 12 PID: 844 Comm: intel-speed-sel Not tainted 5.16.0-rc6-yocto-standard+ #99
+[  256.398678] Hardware name: ACCTON MOROCITY/MOROCITY, BIOS IDVLCRB1.86B.0021.D09.2111010103 11/01/2021
+[  256.408028] Call Trace:
+[  256.410605]  <TASK>
+[  256.412837]  dump_stack_lvl+0x5b/0x82
+[  256.416635]  dump_stack+0x10/0x12
+[  256.420085]  print_circular_bug.isra.43+0x261/0x2c0
+[  256.425095]  check_noncircular+0x126/0x140
+[  256.429326]  ? __this_cpu_preempt_check+0x13/0x20
+[  256.434167]  validate_chain+0xbc6/0x1750
+[  256.438223]  ? validate_chain+0xbc6/0x1750
+[  256.442451]  ? validate_chain+0x236/0x1750
+[  256.446687]  __lock_acquire+0x88c/0xc10
+[  256.450658]  lock_acquire+0x1e6/0x330
+[  256.454452]  ? isst_if_open+0x18/0x90 [isst_if_common]
+[  256.459726]  ? __mutex_lock+0x79/0x9b0
+[  256.463610]  ? __mutex_lock+0x79/0x9b0
+[  256.467493]  ? isst_if_open+0x18/0x90 [isst_if_common]
+[  256.472764]  ? isst_if_open+0x18/0x90 [isst_if_common]
+[  256.478038]  __mutex_lock+0x9b/0x9b0
+[  256.481748]  ? isst_if_open+0x18/0x90 [isst_if_common]
+[  256.487021]  ? __mutex_lock+0x102/0x9b0
+[  256.490993]  ? __this_cpu_preempt_check+0x13/0x20
+[  256.495837]  mutex_lock_nested+0x1b/0x20
+[  256.499893]  ? mutex_lock_nested+0x1b/0x20
+[  256.504121]  isst_if_open+0x18/0x90 [isst_if_common]
+[  256.509222]  misc_open+0x100/0x170
+[  256.512759]  chrdev_open+0xa5/0x1e0
+[  256.516386]  ? cdev_put.part.1+0x20/0x20
+[  256.520441]  do_dentry_open+0x23d/0x3c0
+[  256.524414]  vfs_open+0x2f/0x40
+[  256.527689]  path_openat+0x87a/0x940
+[  256.531399]  do_filp_open+0xc5/0x140
+[  256.535112]  ? trace_preempt_on+0x28/0xd0
+[  256.539255]  ? alloc_fd+0x152/0x230
+[  256.542880]  ? preempt_count_sub+0x9b/0x100
+[  256.547200]  ? _raw_spin_unlock+0x2c/0x50
+[  256.551348]  do_sys_openat2+0x23d/0x320
+[  256.555320]  ? do_sys_openat2+0x23d/0x320
+[  256.559467]  do_sys_open+0x59/0x80
+[  256.563003]  __x64_sys_openat+0x20/0x30
+[  256.566972]  do_syscall_64+0x3f/0x90
+[  256.570680]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  256.575866] RIP: 0033:0x7f9be4b97c27
+[  256.579576] Code: 25 00 00 41 00 3d 00 00 41 00 74 37 64 8b 04 25 18 00 00 00 85 c0 75 5b 44 89 e2 48 89 ee bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 0f 87 85 00 00 00 48 83 c4 68 5d 41 5c c3 0f 1f
+[  256.598474] RSP: 002b:00007ffd8fc01b70 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+[  256.606177] RAX: ffffffffffffffda RBX: 00005572f20332b0 RCX: 00007f9be4b97c27
+[  256.613443] RDX: 0000000000000000 RSI: 00005572f202936a RDI: 00000000ffffff9c
+[  256.620709] RBP: 00005572f202936a R08: 0000000000000008 R09: 0000000000000001
+[  256.627974] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+[  256.635241] R13: 00005572f20332b0 R14: 0000000000000001 R15: 0000000000000000
+[  256.642513]  </TASK>
 
-Regards,
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
+---
+ drivers/platform/x86/intel/speed_select_if/isst_if_common.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Hans
-
-
-> ---
-> This applies on top of v5.16-rc8-792-gf3a343366741, commit
-> f3a3433667418e ("platform/x86: x86-android-tablets: Workaround Lenovo
-> Yoga Tablet 2 1050 poweroff hang) from
-> <https://github.com/jwrdegoede/linux-sunxi>.
-> 
->  drivers/platform/x86/x86-android-tablets.c | 51 ++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets.c b/drivers/platform/x86/x86-android-tablets.c
-> index 9333bbec33e9..c3d0714b588a 100644
-> --- a/drivers/platform/x86/x86-android-tablets.c
-> +++ b/drivers/platform/x86/x86-android-tablets.c
-> @@ -776,6 +776,39 @@ static const struct x86_dev_info xiaomi_mipad2_info __initconst = {
->  	.i2c_client_count = ARRAY_SIZE(xiaomi_mipad2_i2c_clients),
->  };
->  
-> +#define CZC_EC_EXTRA_PORT	0x68
-> +#define CZC_EC_ANDROID_KEYS	0x63
-> +
-> +static int __init x86_czc_p10t_init(void)
-> +{
-> +	/*
-> +	 * The device boots up in "Windows 7" mode, when the home button sends a
-> +	 * Windows specific key sequence (Left Meta + D) and the second button
-> +	 * sends an unknown one while also toggling the Radio Kill Switch.
-> +	 * This is a surprising behavior when the second button is labeled "Back".
-> +	 *
-> +	 * The vendor-supplied Android-x86 build switches the device to a "Android"
-> +	 * mode by writing value 0x63 to the I/O port 0x68. This just seems to just
-> +	 * set bit 6 on address 0x96 in the EC region; switching the bit directly
-> +	 * seems to achieve the same result. It uses a "p10t_switcher" to do the
-> +	 * job. It doesn't seem to be able to do anything else, and no other use
-> +	 * of the port 0x68 is known.
-> +	 *
-> +	 * In the Android mode, the home button sends just a single scancode,
-> +	 * which can be handled in Linux userspace more reasonably and the back
-> +	 * button only sends a scancode without toggling the kill switch.
-> +	 * The scancode can then be mapped either to Back or RF Kill functionality
-> +	 * in userspace, depending on how the button is labeled on that particular
-> +	 * model.
-> +	 */
-> +	outb(CZC_EC_ANDROID_KEYS, CZC_EC_EXTRA_PORT);
-> +	return 0;
-> +}
-> +
-> +static const struct x86_dev_info czc_p10t __initconst = {
-> +	.init = x86_czc_p10t_init,
-> +};
-> +
->  static const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
->  	{
->  		/* Asus MeMO Pad 7 ME176C */
-> @@ -803,6 +836,24 @@ static const struct dmi_system_id x86_android_tablet_ids[] __initconst = {
->  		},
->  		.driver_data = (void *)&chuwi_hi8_info,
->  	},
-> +	{
-> +		/* CZC P10T */
-> +		.ident = "CZC ODEON TPC-10 (\"P10T\")",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "CZC"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "ODEON*TPC-10"),
-> +		},
-> +		.driver_data = (void *)&czc_p10t,
-> +	},
-> +	{
-> +		/* A variant of CZC P10T */
-> +		.ident = "ViewSonic ViewPad 10",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "ViewSonic"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "VPAD10"),
-> +		},
-> +		.driver_data = (void *)&czc_p10t,
-> +	},
->  	{
->  		/* Lenovo Yoga Tablet 1050F/L */
->  		.matches = {
-> 
+diff --git a/drivers/platform/x86/intel/speed_select_if/isst_if_common.c b/drivers/platform/x86/intel/speed_select_if/isst_if_common.c
+index c9a85eb2e860..bcbc0d508ec4 100644
+--- a/drivers/platform/x86/intel/speed_select_if/isst_if_common.c
++++ b/drivers/platform/x86/intel/speed_select_if/isst_if_common.c
+@@ -693,10 +693,12 @@ int isst_if_cdev_register(int device_type, struct isst_if_cmd_cb *cb)
+ 	if (!misc_usage_count) {
+ 		int ret;
+ 
++		mutex_unlock(&punit_misc_dev_lock);
+ 		misc_device_ret = misc_register(&isst_if_char_driver);
+ 		if (misc_device_ret)
+-			goto unlock_exit;
++			return misc_device_ret;
+ 
++		mutex_lock(&punit_misc_dev_lock);
+ 		ret = isst_if_cpu_info_init();
+ 		if (ret) {
+ 			misc_deregister(&isst_if_char_driver);
+@@ -731,7 +733,9 @@ void isst_if_cdev_unregister(int device_type)
+ 	if (device_type == ISST_IF_DEV_MBOX)
+ 		isst_delete_hash();
+ 	if (!misc_usage_count && !misc_device_ret) {
++		mutex_unlock(&punit_misc_dev_lock);
+ 		misc_deregister(&isst_if_char_driver);
++		mutex_lock(&punit_misc_dev_lock);
+ 		isst_if_cpu_info_exit();
+ 	}
+ 	mutex_unlock(&punit_misc_dev_lock);
+-- 
+2.17.1
 
