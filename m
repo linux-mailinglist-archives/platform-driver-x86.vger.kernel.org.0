@@ -2,156 +2,77 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A06648AB37
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 11:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73DB848AB03
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 11:07:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbiAKKO4 (ORCPT
+        id S237692AbiAKKHP (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jan 2022 05:14:56 -0500
-Received: from mail.v3.sk ([167.172.186.51]:36662 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237611AbiAKKO4 (ORCPT
+        Tue, 11 Jan 2022 05:07:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52941 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237384AbiAKKHO (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jan 2022 05:14:56 -0500
-X-Greylist: delayed 467 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jan 2022 05:14:56 EST
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 97A53DF5E5;
-        Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id HwdSB5Pbv2J9; Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 18771E20B7;
-        Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id X310WGQ83c9U; Tue, 11 Jan 2022 09:55:59 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id C7837DF5E5;
-        Tue, 11 Jan 2022 09:55:59 +0000 (UTC)
-Date:   Tue, 11 Jan 2022 11:06:59 +0100
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
+        Tue, 11 Jan 2022 05:07:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641895634;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=UZv+TI7fJBjT1YOpRQZcJlCds9actz3gZotoNHWOKSU=;
+        b=EpgnBYFgpzBmvvKywCp0ohAsk+0P5dHQh535FUTHVuIgRhYkQPz3aqBgZfvWmycjBbUkQl
+        wNVIgxhQP8F0lSWRyG/RYnGuK5VL+1qpDdZsYusVfudzP24nw08h9va/xON2rD00G2ooZB
+        PYlslj3X1FaBCNu4c7iGbpRfjxgRbwc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-218-41kqYHwXMweE50Mvxa3O1A-1; Tue, 11 Jan 2022 05:07:11 -0500
+X-MC-Unique: 41kqYHwXMweE50Mvxa3O1A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E5D41018720;
+        Tue, 11 Jan 2022 10:07:10 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.195.151])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A2A61F431;
+        Tue, 11 Jan 2022 10:07:08 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/3] platform/x86: x86-android-tablets: Add support for
- disabling ACPI _AEI handlers
-Message-ID: <Yd1Ww7InM/+voqk2@demiurge.local>
-References: <20220110103952.48760-1-hdegoede@redhat.com>
+Subject: [PATCH] platform/x86: x86-android-tablets: Correct crystal_cove_charger module name
+Date:   Tue, 11 Jan 2022 11:07:08 +0100
+Message-Id: <20220111100708.38585-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220110103952.48760-1-hdegoede@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 11:39:50AM +0100, Hans de Goede wrote:
-> Some of the broken DSDTs on these devices often also include broken / wrong
-> _AEI (ACPI Event Interrupt) handlers, which can cause e.g. interrupt storms
-> by listening to a floating GPIO pin.
-> 
-> Add support for disabling these and disable them on the Asus ME176C and
-> TF103C tablets.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+The module was renamed to intel_crystal_cove_charger before it was
+merged, updated bq24190_modules to match.
 
-The whole series looks good to me. Feel free to slap on:
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/platform/x86/x86-android-tablets.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-By: Lubomir Rintel <lkundrak@V3.sk>
+diff --git a/drivers/platform/x86/x86-android-tablets.c b/drivers/platform/x86/x86-android-tablets.c
+index 7dac9edc74bf..a044b1a27055 100644
+--- a/drivers/platform/x86/x86-android-tablets.c
++++ b/drivers/platform/x86/x86-android-tablets.c
+@@ -206,8 +206,8 @@ static struct bq24190_platform_data bq24190_pdata = {
+ };
+ 
+ static const char * const bq24190_modules[] __initconst = {
+-	"crystal_cove_charger", /* For the bq24190 IRQ */
+-	"bq24190_charger",      /* For the Vbus regulator for intel-int3496 */
++	"intel_crystal_cove_charger", /* For the bq24190 IRQ */
++	"bq24190_charger",            /* For the Vbus regulator for intel-int3496 */
+ 	NULL
+ };
+ 
+-- 
+2.33.1
 
-Regards
-Lubo
-
-> ---
->  drivers/platform/x86/x86-android-tablets.c | 23 ++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets.c b/drivers/platform/x86/x86-android-tablets.c
-> index 3ba63ad91b28..d125d7a5189a 100644
-> --- a/drivers/platform/x86/x86-android-tablets.c
-> +++ b/drivers/platform/x86/x86-android-tablets.c
-> @@ -26,6 +26,7 @@
->  #include <linux/string.h>
->  /* For gpio_get_desc() which is EXPORT_SYMBOL_GPL() */
->  #include "../../gpio/gpiolib.h"
-> +#include "../../gpio/gpiolib-acpi.h"
->  
->  /*
->   * Helper code to get Linux IRQ numbers given a description of the IRQ source
-> @@ -47,7 +48,7 @@ struct x86_acpi_irq_data {
->  	int polarity; /* ACPI_ACTIVE_HIGH / ACPI_ACTIVE_LOW / ACPI_ACTIVE_BOTH */
->  };
->  
-> -static int x86_acpi_irq_helper_gpiochip_find(struct gpio_chip *gc, void *data)
-> +static int gpiochip_find_match_label(struct gpio_chip *gc, void *data)
->  {
->  	return gc->label && !strcmp(gc->label, data);
->  }
-> @@ -73,7 +74,7 @@ static int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data)
->  		return irq;
->  	case X86_ACPI_IRQ_TYPE_GPIOINT:
->  		/* Like acpi_dev_gpio_irq_get(), but without parsing ACPI resources */
-> -		chip = gpiochip_find(data->chip, x86_acpi_irq_helper_gpiochip_find);
-> +		chip = gpiochip_find(data->chip, gpiochip_find_match_label);
->  		if (!chip) {
->  			pr_err("error cannot find GPIO chip %s\n", data->chip);
->  			return -ENODEV;
-> @@ -143,6 +144,7 @@ struct x86_serdev_info {
->  };
->  
->  struct x86_dev_info {
-> +	char *invalid_aei_gpiochip;
->  	const char * const *modules;
->  	struct gpiod_lookup_table **gpiod_lookup_tables;
->  	const struct x86_i2c_client_info *i2c_client_info;
-> @@ -317,6 +319,7 @@ static const struct x86_dev_info asus_me176c_info __initconst = {
->  	.serdev_count = ARRAY_SIZE(asus_me176c_serdevs),
->  	.gpiod_lookup_tables = asus_me176c_gpios,
->  	.modules = bq24190_modules,
-> +	.invalid_aei_gpiochip = "INT33FC:02",
->  };
->  
->  /* Asus TF103C tablets have an Android factory img with everything hardcoded */
-> @@ -417,6 +420,7 @@ static const struct x86_dev_info asus_tf103c_info __initconst = {
->  	.pdev_count = ARRAY_SIZE(int3496_pdevs),
->  	.gpiod_lookup_tables = asus_tf103c_gpios,
->  	.modules = bq24190_modules,
-> +	.invalid_aei_gpiochip = "INT33FC:02",
->  };
->  
->  /*
-> @@ -795,6 +799,7 @@ static __init int x86_android_tablet_init(void)
->  {
->  	const struct x86_dev_info *dev_info;
->  	const struct dmi_system_id *id;
-> +	struct gpio_chip *chip;
->  	int i, ret = 0;
->  
->  	id = dmi_first_match(x86_android_tablet_ids);
-> @@ -803,6 +808,20 @@ static __init int x86_android_tablet_init(void)
->  
->  	dev_info = id->driver_data;
->  
-> +	/*
-> +	 * The broken DSDTs on these devices often also include broken
-> +	 * _AEI (ACPI Event Interrupt) handlers, disable these.
-> +	 */
-> +	if (dev_info->invalid_aei_gpiochip) {
-> +		chip = gpiochip_find(dev_info->invalid_aei_gpiochip,
-> +				     gpiochip_find_match_label);
-> +		if (!chip) {
-> +			pr_err("error cannot find GPIO chip %s\n", dev_info->invalid_aei_gpiochip);
-> +			return -ENODEV;
-> +		}
-> +		acpi_gpiochip_free_interrupts(chip);
-> +	}
-> +
->  	/*
->  	 * Since this runs from module_init() it cannot use -EPROBE_DEFER,
->  	 * instead pre-load any modules which are listed as requirements.
-> -- 
-> 2.33.1
-> 
