@@ -2,82 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 489A248AABD
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 10:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A06648AB37
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 11 Jan 2022 11:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236692AbiAKJn5 (ORCPT
+        id S231667AbiAKKO4 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 11 Jan 2022 04:43:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43722 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229629AbiAKJn4 (ORCPT
+        Tue, 11 Jan 2022 05:14:56 -0500
+Received: from mail.v3.sk ([167.172.186.51]:36662 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237611AbiAKKO4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 11 Jan 2022 04:43:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1641894236;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MeDN7L5fvXPYD1P5CV1dsnYsftRZGrUD7fGFef320Qg=;
-        b=AtxKpnpkcNOCfECtoF0jM9bi8UHtPkj19Skmk43dUe+r08NqSOqb/bXG/6gp8vvS/gun8s
-        ++qUHXgIgFKDOqtFgGIwfixhtDLRTUVCQvfgIErTjsdxSO+7aJcSCZcVBCi39my2dlm975
-        fcIX/WnJz7aZx2RL73MkFf3Bo3y98YQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-j9Dn-jDsOE68bLkn9tYuMQ-1; Tue, 11 Jan 2022 04:43:55 -0500
-X-MC-Unique: j9Dn-jDsOE68bLkn9tYuMQ-1
-Received: by mail-ed1-f72.google.com with SMTP id eg24-20020a056402289800b003fe7f91df01so3792116edb.6
-        for <platform-driver-x86@vger.kernel.org>; Tue, 11 Jan 2022 01:43:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=MeDN7L5fvXPYD1P5CV1dsnYsftRZGrUD7fGFef320Qg=;
-        b=J/iZ3ww6ihhhui0TF7pYaky+tlDm1YEOr83VW+VzSV2KE/GWbzRtAsSgzOFz9wPUJy
-         NviC/7yGna0K1zTvrSVz9//9+X/V4LMfAtPk9vYm96Ik+wWhE1Sh/3RKGVvod+kROF57
-         UByq2tTEHwF2P176RkopeFSN9VU4ivMbSM+0t3iu4ZXHbqFkY5M1p02nf7V5z3/yt8nX
-         EVPyAG6F5DEpdb89O74jE2PK0752levWhmrNB/gsDDednN33RXEeQmeiH2sj/fh9jGCn
-         TrrsyAjK4djDXR2TL4tsutOnYlXb7JhaWHJMS9nhC1A0D6gkdiWc7S3tFxGU0wWpgX+X
-         ixSw==
-X-Gm-Message-State: AOAM532FQd+/6GNaupAZ7/fiMHxokupB2uVuJPUZkpXIL3Jn3UnQvnF0
-        x067OQ95YfDze2x+TqDzAvZSJy9ymvGzbrDRcfWK6QZCd9QWnGtELljLA07v8FC7HT554QHs7Ix
-        DTO3VOhHFWRB4ffI5GXFQ3Hb5AOMTRfmPMA==
-X-Received: by 2002:a17:907:8687:: with SMTP id qa7mr1068004ejc.106.1641894233853;
-        Tue, 11 Jan 2022 01:43:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxD+7pzCYxoV2whYjacS3F5p/nBNdzHqazcWAamO75H6r64ROuBY/4Nq2pGN9h7TigyA/CmNw==
-X-Received: by 2002:a17:907:8687:: with SMTP id qa7mr1067991ejc.106.1641894233684;
-        Tue, 11 Jan 2022 01:43:53 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id cn9sm4769577edb.88.2022.01.11.01.43.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 01:43:53 -0800 (PST)
-Message-ID: <3be9c77e-ae9d-f3c5-39c5-34806e100f6d@redhat.com>
-Date:   Tue, 11 Jan 2022 10:43:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
+        Tue, 11 Jan 2022 05:14:56 -0500
+X-Greylist: delayed 467 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Jan 2022 05:14:56 EST
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 97A53DF5E5;
+        Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id HwdSB5Pbv2J9; Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 18771E20B7;
+        Tue, 11 Jan 2022 09:56:00 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id X310WGQ83c9U; Tue, 11 Jan 2022 09:55:59 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id C7837DF5E5;
+        Tue, 11 Jan 2022 09:55:59 +0000 (UTC)
+Date:   Tue, 11 Jan 2022 11:06:59 +0100
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        platform-driver-x86@vger.kernel.org
 Subject: Re: [PATCH 1/3] platform/x86: x86-android-tablets: Add support for
  disabling ACPI _AEI handlers
-Content-Language: en-US
-To:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Lubomir Rintel <lkundrak@v3.sk>,
-        platform-driver-x86@vger.kernel.org
+Message-ID: <Yd1Ww7InM/+voqk2@demiurge.local>
 References: <20220110103952.48760-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220110103952.48760-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
-
-On 1/10/22 11:39, Hans de Goede wrote:
+On Mon, Jan 10, 2022 at 11:39:50AM +0100, Hans de Goede wrote:
 > Some of the broken DSDTs on these devices often also include broken / wrong
 > _AEI (ACPI Event Interrupt) handlers, which can cause e.g. interrupt storms
 > by listening to a floating GPIO pin.
@@ -87,12 +58,12 @@ On 1/10/22 11:39, Hans de Goede wrote:
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-I've added this series to my review-hans branch now, I will rebase this
-on top of 5.17-rc1 once it out and then push it to for-next.
+The whole series looks good to me. Feel free to slap on:
 
-Regards,
+Reviewed-By: Lubomir Rintel <lkundrak@V3.sk>
 
-Hans
+Regards
+Lubo
 
 > ---
 >  drivers/platform/x86/x86-android-tablets.c | 23 ++++++++++++++++++++--
@@ -181,5 +152,6 @@ Hans
 >  	/*
 >  	 * Since this runs from module_init() it cannot use -EPROBE_DEFER,
 >  	 * instead pre-load any modules which are listed as requirements.
+> -- 
+> 2.33.1
 > 
-
