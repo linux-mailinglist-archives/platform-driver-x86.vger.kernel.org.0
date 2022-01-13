@@ -2,122 +2,131 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55A8448DC9F
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jan 2022 18:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2B5248DD84
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 13 Jan 2022 19:15:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233753AbiAMRHu (ORCPT
+        id S237203AbiAMSPY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 13 Jan 2022 12:07:50 -0500
-Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:27518 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233696AbiAMRHt (ORCPT
+        Thu, 13 Jan 2022 13:15:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230329AbiAMSPX (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 13 Jan 2022 12:07:49 -0500
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20DGAV43020998;
-        Thu, 13 Jan 2022 11:07:36 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=GSiBkVP9UmloE0oIArp77dF5D6A7HQmpsTBzlpdvMyY=;
- b=VHybBKuHOuMu13cAI/5M7TPpZbLvYs2eSzykmjI8f57kUHaif2g9ZViibiMJjkb0P19u
- aBOg+nOF+esO59I+eH6mB9c54P/ISMrj8nrh17LWstrUucXs5kvUKRCpE11pdHzaniJB
- lOQYhp4hv7H+RFqjhoL7NS0mkbaivQEZ0kxBXjl7FwKEEt5cT93OYrHyyWACbqT2JUqo
- IFwtaUTjuCrtFGjzHhSKYqFFD9/gZOAk+ndrNzHkuUe6H01z2BsK0iae3nnXgIuv37pz
- RNafqMxCfNakLoUdA2e2znNnnZWW/HnPHPxEK4XquZqNkLmBBwBOs2M90PSIFfL6Ger8 hQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3djqcb026y-4
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 13 Jan 2022 11:07:35 -0600
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 13 Jan
- 2022 17:07:32 +0000
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
- Transport; Thu, 13 Jan 2022 17:07:32 +0000
-Received: from aryzen.ad.cirrus.com (unknown [198.61.65.50])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 23A6AB0E;
-        Thu, 13 Jan 2022 17:07:32 +0000 (UTC)
-From:   Lucas Tanure <tanureal@opensource.cirrus.com>
-To:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Thu, 13 Jan 2022 13:15:23 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66964C061574;
+        Thu, 13 Jan 2022 10:15:23 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id u25so26278354edf.1;
+        Thu, 13 Jan 2022 10:15:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ixB+cDjTF6trUNfivYB0goIOsvM4IpCVj51WXKq++M8=;
+        b=SHLc8jIQswuWmXLusJb2kfh8Z5x+jw74Lzo+jB+jpblTWTPPlyLymOACZ+yy0Nvl9a
+         fdniOuf14v3C+tFX4dO/HI/6AeVxvkwBVAvy4r/0uKuFclcY48c/R5WAjtV/7CdF8q5a
+         vZXqWL9lE0EoQLN9Ett4wbk5/toJVXSqoL5eRCY4VfxlBFo0mOMLFj+ChZ5mdZ8bsasY
+         zzxfKtAEhGhukpKPorF2tu/euDpVxjqiEaUWT9nWcsSAV6QiDL+MxGL9fxTia/eugLyu
+         /swzYoBiAFjf/IuCS7R+mDTBfFeKObP7sHHckfELZ+KEQ2aozQUuBqN7fCMYZdLSLeJ8
+         Ic5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ixB+cDjTF6trUNfivYB0goIOsvM4IpCVj51WXKq++M8=;
+        b=LbKDnxCzqA0pm2xNit5anH49LJlUK+4DYYITyBMr+4PrDN7GEqUNWnB8VAbmJRv/C4
+         Wh953vRnNFVlj1eG+lTboPkUZNS8ESCj9yqZGZaG6CZTfyYK2Tt+UE8dN0ww52G3xwSV
+         0ISIHqf/u+46+oXzMqWtU40uammMH5ciyz57djFWrdE/X9D0N+R+vRnHqDXkuenw42aD
+         jBd1ulsS6l+cPBeF8kyBVAsKkfJ28bxg2GPwTzreFRBoGmzzVw6PzDD+YQOnUC5ShSn2
+         eZQCofLpUVF573Q1hDdpeJAVTcw4NnkQDMc5SSuO8CX6itW/A1VoxvbG7ZtyX2iEVWPQ
+         MQvA==
+X-Gm-Message-State: AOAM530fiwcOGP/nS6FiD6rlXBBde+X/NxB1/o5j6ZH8ChTmxpzM+vLc
+        K0iDqcCQzf4Bsa7j8690N0kmnNZYml8vH3ejw94=
+X-Google-Smtp-Source: ABdhPJxQ4nL/MJTrU4OfOQDsgdo+2sx7cJBfjPvPJA4jPnCfZZ15HjugqoqDz7oSPjIa76mbSOAowC5rX5KcCjWcB9A=
+X-Received: by 2002:a17:907:6e0b:: with SMTP id sd11mr4556641ejc.132.1642097721964;
+ Thu, 13 Jan 2022 10:15:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20211217115708.882525-1-tanureal@opensource.cirrus.com>
+ <20211217115708.882525-8-tanureal@opensource.cirrus.com> <CAHp75VdQGBixkUStPiq3VuoL+9TJo946ObfRA-L-D72DaFHnrw@mail.gmail.com>
+ <66351fd6-f434-775f-d8d5-2a6baf098269@opensource.cirrus.com>
+In-Reply-To: <66351fd6-f434-775f-d8d5-2a6baf098269@opensource.cirrus.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 13 Jan 2022 20:13:36 +0200
+Message-ID: <CAHp75Vc=x0AanRhkGHvbgs0M9VLdZfEFKJUxRTEMFvT5YwDtzA@mail.gmail.com>
+Subject: Re: [PATCH v6 07/10] hda: cs35l41: Add support for CS35L41 in HDA systems
+To:     Lucas tanure <tanureal@opensource.cirrus.com>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
         Len Brown <lenb@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC:     <alsa-devel@alsa-project.org>, <linux-acpi@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Lucas Tanure <tanureal@opensource.cirrus.com>
-Subject: [PATCH 5/5] ACPI / scan: Create platform device for CLSA0100
-Date:   Thu, 13 Jan 2022 17:07:28 +0000
-Message-ID: <20220113170728.1953559-5-tanureal@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220113170728.1953559-1-tanureal@opensource.cirrus.com>
-References: <20220113170728.1953559-1-tanureal@opensource.cirrus.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 6hGjFieOBt8Dt08GJJouyJ77KoV70pmi
-X-Proofpoint-ORIG-GUID: 6hGjFieOBt8Dt08GJJouyJ77KoV70pmi
-X-Proofpoint-Spam-Reason: safe
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        patches@opensource.cirrus.com,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The ACPI device with CLSA0100 is a sound card with
-multiple instances of CS35L41 connected by I2C to
-the main CPU.
+On Thu, Jan 13, 2022 at 6:53 PM Lucas tanure
+<tanureal@opensource.cirrus.com> wrote:
+> On 1/6/22 12:29, Andy Shevchenko wrote:
+> > On Fri, Dec 17, 2021 at 5:45 PM Lucas Tanure
+> > <tanureal@opensource.cirrus.com> wrote:
 
-We add an ID to the i2c_multi_instantiate_idsi list
-to enumerate all I2C slaves correctly.
 
-Signed-off-by: Lucas Tanure <tanureal@opensource.cirrus.com>
----
- drivers/acpi/scan.c                          | 2 ++
- drivers/platform/x86/i2c-multi-instantiate.c | 8 ++++++++
- 2 files changed, 10 insertions(+)
+...
 
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index c215bc8723d0..2a68031d953e 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -1753,6 +1753,8 @@ static bool acpi_device_enumeration_by_parent(struct acpi_device *device)
- 	 */
- 		{"BCM4752", },
- 		{"LNV4752", },
-+	/* Non-conforming _HID for Cirrus Logic already released */
-+		{"CLSA0100", },
- 		{}
- 	};
- 
-diff --git a/drivers/platform/x86/i2c-multi-instantiate.c b/drivers/platform/x86/i2c-multi-instantiate.c
-index 4956a1df5b90..a51a74933fa9 100644
---- a/drivers/platform/x86/i2c-multi-instantiate.c
-+++ b/drivers/platform/x86/i2c-multi-instantiate.c
-@@ -147,6 +147,12 @@ static const struct i2c_inst_data int3515_data[]  = {
- 	{}
- };
- 
-+static const struct i2c_inst_data cs35l41_hda[] = {
-+	{ "cs35l41-hda", IRQ_RESOURCE_GPIO, 0 },
-+	{ "cs35l41-hda", IRQ_RESOURCE_GPIO, 0 },
-+	{}
-+};
-+
- /*
-  * Note new device-ids must also be added to i2c_multi_instantiate_ids in
-  * drivers/acpi/scan.c: acpi_device_enumeration_by_parent().
-@@ -155,6 +161,8 @@ static const struct acpi_device_id i2c_multi_inst_acpi_ids[] = {
- 	{ "BSG1160", (unsigned long)bsg1160_data },
- 	{ "BSG2150", (unsigned long)bsg2150_data },
- 	{ "INT3515", (unsigned long)int3515_data },
-+	/* Non-conforming _HID for Cirrus Logic already released */
-+	{ "CLSA0100", (unsigned long)cs35l41_hda },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, i2c_multi_inst_acpi_ids);
+> >> +        * Device CLSA0100 doesn't have _DSD so a gpiod_get by the label reset won't work.
+> >
+> > So, you need to add mapping tables and switch to regular APIs, tell
+> > me, why it won't work.
+> I will submit a patch series to fix most of the issues you pointed out.
+
+Thanks!
+
+> The part about how the driver access the ACPI table is going to be
+> improved later if possible.
+> The laptop has already shipped and doesn't have a _DSD node, so the
+> driver needs to read the reset GPIO from a hard coded index inside a
+> node that contains more than one cs35l41.
+
+We have a lot of cases like this, hint: `git grep -n -w
+devm_acpi_dev_add_driver_gpios`.
+
+...
+
+> >> +int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int irq,
+> >> +                     struct regmap *regmap)
+> >
+> >> +       if (IS_ERR(regmap))
+> >> +               return PTR_ERR(regmap);
+> >
+> > Why?
+> It is up to the I2C/SPI module to create the regmap and provide to the
+> main module. If that fails the main module can't continue.
+
+So, this is band-aiding the issue, which is in the caller. Caller
+shouldn't call this function without the regmap being ready-to-use.
+
+...
+
+> >> +       {"CLSA0100", 0 },
+> >> +       {"CSC3551", 0 },
+> >
+> > I believe these IDs are officially allocated by the Cirrus Logic, right?
+> CLSA010* is not a valid id for Cirrus Logic, but the Bios is already in
+> production, so we must support it.
+> CSC3551 is a valid id for Cirrus Logic.
+
+Thank you for elaborating. Can we be sure that there won't be any
+abuse of ACPI specification in the future (meaning all IDs will follow
+the ACPI/PNP registries and be allocated by certain vendor)?
+
 -- 
-2.34.1
-
+With Best Regards,
+Andy Shevchenko
