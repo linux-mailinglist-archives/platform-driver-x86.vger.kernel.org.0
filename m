@@ -2,69 +2,103 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2FC48E31F
-	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jan 2022 05:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF40C48E42F
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 14 Jan 2022 07:21:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239063AbiANEBo (ORCPT
+        id S239319AbiANGVt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 13 Jan 2022 23:01:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
+        Fri, 14 Jan 2022 01:21:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233331AbiANEBn (ORCPT
+        with ESMTP id S236448AbiANGVt (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 13 Jan 2022 23:01:43 -0500
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2FD9C061574
-        for <platform-driver-x86@vger.kernel.org>; Thu, 13 Jan 2022 20:01:43 -0800 (PST)
-Received: by mail-vk1-xa2e.google.com with SMTP id n12so5117443vkc.12
-        for <platform-driver-x86@vger.kernel.org>; Thu, 13 Jan 2022 20:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=CJKelyZbKSo4W6L/imc7Q3KTcKv1ieVBY2H7YXKc+9A=;
-        b=n/TNKK7K7qpENLpY6KtuLVMZ0sEsVX+sxDuI3eArk3aMf322JzT091nDYYcq0EDz5f
-         ub9cuAWIOw0zztI63aiCaIpyIgnGSBchK/EcIeH1HKarihCqEWX2qkm9VVosrZCkmwCX
-         thOENoWnQRQzp2NnYBiR9TjEnPBdpOwIsbe1LTO5n1+Ik/Vl0qcBGPMVW3cVBnQ7+bix
-         GhsuDYQC1/wA3tlgCegcTLo9B8lJrdYWxwAHQX2mcoxtdCokiLL9K7EyIhEtugznpXth
-         VVdopTzUBfqxhnIfUYIs2xuaf6YMZJo7pweUXR3x+JPfTb16TEgkQreKu4z95K6uxzvM
-         0bfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=CJKelyZbKSo4W6L/imc7Q3KTcKv1ieVBY2H7YXKc+9A=;
-        b=rMYXpY2Y1HbNnNscpPrl9W1aNm6xbBQlgQLHH32GpEtKrShHlDH3sD+a/H2ZYtmYru
-         iOb5wobqUmpgmtevTTUNgTkL2tmm6QlAcGR0+qMn9UN/cj5dDH2KzeET4Hth2w8sP26G
-         Z6kKuhl0eRVUj+i7q2pKGTWse2GUKO8u/OjMc/Z7AIV16zUte8XeTJrDWguJ61Oyn9DX
-         QcS6mJdZpyyZ+3+kdhG/8pAA7jRtoEAnaGA6WjyQOy6+WKm+wTsbdRKaUeGOR9Rrj6Cb
-         iD7f7xRG8y1bh0IbmOUbwvBbJaxhRhC3V5elCNcgKWUzl1Bj5g6iLX/+trjHmDoRwRIt
-         6Rpw==
-X-Gm-Message-State: AOAM532saqdnhqP9P/NU3iEBPyrPu0M+l/NMxkiL64kNMjHEfvuXyRpu
-        XQvFv9TGAgM24O5/e7xEuTqL7fPEUNFIPa5wJ+k=
-X-Google-Smtp-Source: ABdhPJxBY/BXsv7eG0zlBcA+vkFY3vOqxrio4ewirYswMJbAi4qFxH7TEnRpZKHztOZ4gM8rX7cPmQ23DvR13ZOMjys=
-X-Received: by 2002:a1f:df87:: with SMTP id w129mr3905992vkg.36.1642132902451;
- Thu, 13 Jan 2022 20:01:42 -0800 (PST)
+        Fri, 14 Jan 2022 01:21:49 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4871C061574;
+        Thu, 13 Jan 2022 22:21:48 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A5427B82358;
+        Fri, 14 Jan 2022 06:21:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1516C36AEA;
+        Fri, 14 Jan 2022 06:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642141306;
+        bh=jMMCQqHtQybK+7j6b9dRuEYkttlsElUrZOATTRYk3nY=;
+        h=References:From:To:Cc:Subject:Date:In-reply-to:From;
+        b=mydq9O2zMax5L27z6DbdkN0K82YjLUhFbSLtKQQt/heZwXE1An/F2Yzn7KVXt1wMt
+         0tXCzSPrTl5B0zVq5IkiZqyo9IynB6SKEtxfv9OBEVmSx5qHYqGxYP7B7C+/e9rNeb
+         w1APZwq+KfpwJTTDx+MUVwowlyakdjzOrpkPq8+SVfQm/A9nCFj3/5KvR+6gZrh9jC
+         g2BZIkviW35EC7kT0N+XfGr/Gfld7PLqKmIg5jBAkKIjzPSJT6nUBjRY57v6DVHweD
+         XDFEvPJ8hxAGMWgTJkQcyJd34O0Ni4x6Bqei7JWY94fOfqLFZYpxoqbxY33c7ydV0I
+         50q7eEmF/Lirw==
+References: <20211202191630.12450-1-jaschultz@microsoft.com>
+ <20211202191630.12450-3-jaschultz@microsoft.com>
+ <CAMuHMdUPwo7pCSwY8_9xTaDruTHt6d=wHiNHvRmE71k8hWeLBw@mail.gmail.com>
+User-agent: mu4e 1.6.10; emacs 28.0.90
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jarrett Schultz <jaschultzms@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        platform-driver-x86@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Jarrett Schultz <jaschultz@microsoft.com>
+Subject: Re: [PATCH 2/5] platform: surface: Propagate ACPI Dependency
+Date:   Fri, 14 Jan 2022 08:20:41 +0200
+In-reply-to: <CAMuHMdUPwo7pCSwY8_9xTaDruTHt6d=wHiNHvRmE71k8hWeLBw@mail.gmail.com>
+Message-ID: <87czku4z2i.fsf@kernel.org>
 MIME-Version: 1.0
-Reply-To: godwinppter@gmail.com
-Sender: azizissa8888@gmail.com
-Received: by 2002:a59:58b:0:b0:27d:78b0:7d26 with HTTP; Thu, 13 Jan 2022
- 20:01:42 -0800 (PST)
-From:   Godwin Pete <godwinnpeter@gmail.com>
-Date:   Fri, 14 Jan 2022 05:01:42 +0100
-X-Google-Sender-Auth: WlimhRkAVqdVnGpNj-J6klpnSLM
-Message-ID: <CADHdYDC2H__cmVf_=deCgHby=r+hKSTJ-hfCW5v6uJ_msW9Gxw@mail.gmail.com>
-Subject: Read carefully
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Good Morning Friend,
 
-I'm contacting you to know if you can help me to transfer the amount
-of ($6Million). After the transfer we have to share it, 50% for me,
-and 50% for you. Please let me know if you can help me so that I can
-give you the full information regarding the transfer.
+Hi,
 
-Thanks.
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> Hi Jarrett,
+>
+> On Mon, Dec 6, 2021 at 4:03 PM Jarrett Schultz <jaschultzms@gmail.com> wrote:
+>> Since the Surface XBL Driver does not depend on ACPI, the
+>> platform/surface directory as a whole no longer depends on ACPI. With
+>> respect to this, the ACPI dependency is moved into each config that depends
+>> on ACPI individually.
+>>
+>> Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+>
+> Thanks for your patch, which is now commit 272479928172edf0 ("platform:
+> surface: Propagate ACPI Dependency").
+>
+>> --- a/drivers/platform/surface/Kconfig
+>> +++ b/drivers/platform/surface/Kconfig
+>> @@ -5,7 +5,6 @@
+>>
+>>  menuconfig SURFACE_PLATFORMS
+>>         bool "Microsoft Surface Platform-Specific Device Drivers"
+>> -       depends on ACPI
+>>         default y
+>>         help
+>>           Say Y here to get to see options for platform-specific device drivers
+>
+> Without any dependency, all users configuring a kernel are now asked
+> about this. Is there any other platform dependency that can be used
+> instead?
+
+there's probably no symbol that would be true for x86 and arm64 while
+being false for everything else. Any ideas?
+
+In any case, what's the problem of being asked about a new symbol? That
+happens all the time whenever new drivers are merged, right?
+
+-- 
+balbi
