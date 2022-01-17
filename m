@@ -2,104 +2,61 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F075C49101F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 17 Jan 2022 19:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFC1749126A
+	for <lists+platform-driver-x86@lfdr.de>; Tue, 18 Jan 2022 00:39:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242349AbiAQSOq (ORCPT
+        id S243812AbiAQXjL (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 17 Jan 2022 13:14:46 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:44528 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242361AbiAQSOh (ORCPT
+        Mon, 17 Jan 2022 18:39:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235399AbiAQXjL (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 17 Jan 2022 13:14:37 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D6CE41EC0531;
-        Mon, 17 Jan 2022 19:14:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1642443272;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=bouPhsb4Ue1P9gCaopOfeEfpi1LBOvsEfL0wKx1nnuk=;
-        b=mDoYwot/tXbqF6HF3Eu6cgDT6nKVaWMYS+m75E3dH7UqGWyU+ILZraeWnwVupdo2hXXsSv
-        CRboS7T6LEo6JUkcCReWZM71LVGGJh7z2/0DIx9hY/4FpODkKkG830gFgc7uUkpKE4PNdb
-        PzOQlEGzxt7kiupVj6JTD7J4vw9UsL4=
-Date:   Mon, 17 Jan 2022 19:14:34 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com
-Subject: Re: [PATCH v8 30/40] x86/boot: add a pointer to Confidential
- Computing blob in bootparams
-Message-ID: <YeWyCtr11rL7dxpT@zn.tnic>
-References: <20211210154332.11526-1-brijesh.singh@amd.com>
- <20211210154332.11526-31-brijesh.singh@amd.com>
+        Mon, 17 Jan 2022 18:39:11 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1EE8C061574
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Jan 2022 15:39:10 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id x11so37902731lfa.2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 17 Jan 2022 15:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=S3JtR5HtN5TgHtZRkOpXh8ju3yrdK90cRx1M8SbEib4=;
+        b=b7Ue0Wqi/p94PKMbGFZVficksaAj6HgkPs/xIL6bDc7BevqByNEFtnOqkdg3RiW8LL
+         6CVttE8zMJMDNu2WSLMOm2oVFK4tGGB0Q2KIijcY9RiG+9IG2D4wF90JkDnJNoSIIWgs
+         v3jTwSqPbE/X/2RToEm/TlQbv/nlkt04Hlgx37eYS2Jm0DF4r5PcbuKPpPsE5fgbcz+l
+         qMM5KzThpztqv7VTeLX1Vy3Mwm3TRjJ5gI3+HYjzLWguHZgHEjmc0fT23RlcHpL450+z
+         AhWHWcQSre6VO0bKM7nbLw8kzDtOTK0QFwUqZPtTrlvYGu6mf8X2nqhHA/8Go+xOFq4S
+         UMRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=S3JtR5HtN5TgHtZRkOpXh8ju3yrdK90cRx1M8SbEib4=;
+        b=csjxKmqvdIQFCUcqdFz942NcFu8QVuqVlnk71EI3HYcv1gKmsYaVwG6KgKCvUuaNE1
+         Rl+IW9MZDakyED9Pap9iPfaqqq6F/OZg/73PFc5rWQKLPkV1RWILIvfUPiMSx0EakpaB
+         Ggd4iVpsVa+YhJnvwgrCIlVPViUMaJCUdI2RWNSngJXO09f/CCU0hUeQf1ucK1Lwx1fT
+         pL/DnHlkG7LGIynKvv+wLF8BCqhIs1hSjWmMlaSRHXqGINFMB7Y0LT3T9gl0CUXE4XQD
+         7FfcHhI4BBdqIBzPHw3PNqXn8kndBFE1DFwbMVemSyLY1J/tzDHMQVZs3ysTCM/arDCd
+         Dn+w==
+X-Gm-Message-State: AOAM533bsU86Pq4Mr1YK0Ddb81uaEuVcdo/513ehqK5pqoIn0IJhQH7N
+        rrR/+ILyJq2v1YhWNH5XRe0fVMZlX1NdzoZmBuc=
+X-Google-Smtp-Source: ABdhPJznOHFRpLrC9KmvkLe+FDjOsVt6plhFEg8pv+IHsjMi+kmFq1hWcNr7bS+4faej1qyieEohsfYdehddXG73SAk=
+X-Received: by 2002:a2e:9e08:: with SMTP id e8mr3917721ljk.76.1642462749395;
+ Mon, 17 Jan 2022 15:39:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211210154332.11526-31-brijesh.singh@amd.com>
+Received: by 2002:a2e:3213:0:0:0:0:0 with HTTP; Mon, 17 Jan 2022 15:39:08
+ -0800 (PST)
+Reply-To: fionahill.usa@outlook.com
+From:   Fiona Hill <xaviergbesse.2020@gmail.com>
+Date:   Mon, 17 Jan 2022 15:39:08 -0800
+Message-ID: <CABEvWU+y5LUXJcg0QRDY6U1gzNJQwj+2yv9x9P+60+P=xLuRDg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 09:43:22AM -0600, Brijesh Singh wrote:
-> diff --git a/arch/x86/include/uapi/asm/bootparam.h b/arch/x86/include/uapi/asm/bootparam.h
-> index 1ac5acca72ce..bea5cdcdf532 100644
-> --- a/arch/x86/include/uapi/asm/bootparam.h
-> +++ b/arch/x86/include/uapi/asm/bootparam.h
-> @@ -188,7 +188,8 @@ struct boot_params {
->  	__u32 ext_ramdisk_image;			/* 0x0c0 */
->  	__u32 ext_ramdisk_size;				/* 0x0c4 */
->  	__u32 ext_cmd_line_ptr;				/* 0x0c8 */
-> -	__u8  _pad4[116];				/* 0x0cc */
-> +	__u8  _pad4[112];				/* 0x0cc */
-> +	__u32 cc_blob_address;				/* 0x13c */
->  	struct edid_info edid_info;			/* 0x140 */
->  	struct efi_info efi_info;			/* 0x1c0 */
->  	__u32 alt_mem_k;				/* 0x1e0 */
-
-Yes, you said that this is a boot/compressed stage -> kernel proper info
-pass field but let's document it anyway, please, and say what it is,
-just like:
-
-	1E4/004         ALL     scratch                 Scratch field for the kernel setup code
-
-is documented, for example.
-
-And now that I look at it, acpi_rsdp_addr isn't documented either so if
-you wanna add it too, while you're at it, that would be nice.
-
-Thx.
-
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Please with honesty did you receive my message i send to you?
