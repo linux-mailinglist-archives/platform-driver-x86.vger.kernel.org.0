@@ -2,187 +2,126 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8142B494DC5
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jan 2022 13:18:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8B93494F5F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 20 Jan 2022 14:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238808AbiATMSf (ORCPT
+        id S243428AbiATNo1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 20 Jan 2022 07:18:35 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:44738 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237697AbiATMSe (ORCPT
+        Thu, 20 Jan 2022 08:44:27 -0500
+Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:62326 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S241971AbiATNoZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 20 Jan 2022 07:18:34 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A0B6F1EC01B5;
-        Thu, 20 Jan 2022 13:18:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1642681108;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=XO6AT+gIfZtH9EDaR1V0c6Fkovljr0vEcHMLtYZNXi0=;
-        b=ZvS9JkdJCYllJDFBD0tsEGn3u9iKtDu9RRyiFn28RlB9ttb3/cSuVBse0GV9xDiAmJXru1
-        G7WhLPYYU8EKqnivp/dBPCdF6YYQ7q3y6G8vJIsVo2jZaCOyhOigOuYlQCmxRcEn/trNns
-        hHEBxqnny4SO9CJxR0abXyH3IFJubqs=
-Date:   Thu, 20 Jan 2022 13:18:22 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com
-Subject: Re: [PATCH v8 32/40] x86/compressed: use firmware-validated CPUID
- for SEV-SNP guests
-Message-ID: <YelTDp4gsEyscWTI@zn.tnic>
-References: <20211210154332.11526-1-brijesh.singh@amd.com>
- <20211210154332.11526-33-brijesh.singh@amd.com>
+        Thu, 20 Jan 2022 08:44:25 -0500
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20K4mpgj024668;
+        Thu, 20 Jan 2022 07:43:41 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PODMain02222019;
+ bh=DzR07ZdJHZPEr4WdjQIs/Aa6Ap341lhnel2ikN6KcYQ=;
+ b=PeG5I/+V3g+zlBmOJ0W83BCDaWNbXXtPEiiMk6bY4ne1y6SEHKxnVpaztVD72WjcbWNI
+ q32g3B/M522unWRjePKIUew2/H1jn/hdKmfhVfbBhqH0OU81/iIvy5DJ9DplWzGuuPCN
+ PRGLXz2m6YBNcspCIywcDrYLLKRJPdd1yT081ibi4t/0cp9+PGbLtTPg7wveglpkzszE
+ jto/yj5NDAq/kXbI16Z54cvg9XO1JZepHOgTLoVwPkIUmP+5/F71yzZHSZAh085RGxcm
+ H9VgEYl9zp164Z9iYQ3juPDQEXbvbpYzk6EKt1QXyDtHrN+sNTVtNLS4y4KOhUS45pEs RQ== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+        by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3dpk9mh838-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 20 Jan 2022 07:43:41 -0600
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 20 Jan
+ 2022 13:43:40 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
+ Transport; Thu, 20 Jan 2022 13:43:40 +0000
+Received: from LONN2DGDQ73.ad.cirrus.com (unknown [198.90.238.138])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id CEB9CB13;
+        Thu, 20 Jan 2022 13:43:39 +0000 (UTC)
+From:   Stefan Binding <sbinding@opensource.cirrus.com>
+To:     Mark Brown <broonie@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC:     <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PATCH v4 0/9] Support Spi in i2c-multi-instantiate driver
+Date:   Thu, 20 Jan 2022 13:43:17 +0000
+Message-ID: <20220120134326.5295-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211210154332.11526-33-brijesh.singh@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 12Kqa8o7-oMcgl1qB3jB62GN_b8lxr3R
+X-Proofpoint-GUID: 12Kqa8o7-oMcgl1qB3jB62GN_b8lxr3R
+X-Proofpoint-Spam-Reason: safe
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 09:43:24AM -0600, Brijesh Singh wrote:
-> Subject: Re: [PATCH v8 32/40] x86/compressed: use firmware-validated CPUID for SEV-SNP guests
-									    ^
-									    leafs
+Add support for SPI bus in the i2c-multi-instantiate driver as
+upcoming laptops will need to multi instantiate SPI devices from
+a single device node, which has multiple SpiSerialBus entries at
+the ACPI table.
 
-or so.
+With the new SPI support, i2c-multi-instantiate becomes
+bus-multi-instantiate and is moved to the ACPI folder.
 
-> From: Michael Roth <michael.roth@amd.com>
-> 
-> SEV-SNP guests will be provided the location of special 'secrets'
-> 'CPUID' pages via the Confidential Computing blob. This blob is
-> provided to the boot kernel either through an EFI config table entry,
-> or via a setup_data structure as defined by the Linux Boot Protocol.
-> 
-> Locate the Confidential Computing from these sources and, if found,
-> use the provided CPUID page/table address to create a copy that the
-> boot kernel will use when servicing cpuid instructions via a #VC
+The intention is to support the SPI bus by re-using the current
+I2C multi instantiate, instead of creating a new SPI multi
+instantiate, to make it possible for peripherals that can be
+controlled by I2C or SPI to have the same HID at the ACPI table.
 
-CPUID
+The new driver (Bus multi instantiate, bmi) checks for the
+hard-coded bus type and returns -ENODEV in case of zero devices
+found for that bus. In the case of automatic bus detection, 
+the driver will give preference to I2C.
 
-> handler.
-> 
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  arch/x86/boot/compressed/sev.c | 13 ++++++++++
->  arch/x86/include/asm/sev.h     |  1 +
->  arch/x86/kernel/sev-shared.c   | 43 ++++++++++++++++++++++++++++++++++
->  3 files changed, 57 insertions(+)
-> 
-> diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
-> index 93e125da12cf..29dfb34b5907 100644
-> --- a/arch/x86/boot/compressed/sev.c
-> +++ b/arch/x86/boot/compressed/sev.c
-> @@ -415,6 +415,19 @@ bool snp_init(struct boot_params *bp)
->  	if (!cc_info)
->  		return false;
->  
-> +	/*
-> +	 * If SEV-SNP-specific Confidential Computing blob is present, then
-	     ^
-	     a
+The expectation is for a device node in the ACPI table to have
+multiple I2cSerialBus only or multiple SpiSerialBus only, not
+a mix of both; and for the case where there are both entries in
+one device node, only the I2C ones would be probed.
 
+This new bus multi instantiate will be used in CS35L41 HDA new
+driver.
 
-> +	 * firmware/bootloader have indicated SEV-SNP support. Verifying this
-> +	 * involves CPUID checks which will be more reliable if the SEV-SNP
-> +	 * CPUID table is used. See comments for snp_cpuid_info_create() for
+Changes since V2:
+ - Moved bus-multi-instantiate back into platform/x86
 
-s/for/over/ ?
+Lucas Tanure (4):
+  platform/x86: i2c-multi-instantiate: Rename it for a generic bus
+    driver name
+  platform/x86: bus-multi-instantiate: Reorganize I2C functions
+  ALSA: hda/realtek: Add support for HP Laptops
+  ACPI / scan: Create platform device for CS35L41
 
-> +	 * more details.
-> +	 */
-> +	snp_cpuid_info_create(cc_info);
-> +
-> +	/* SEV-SNP CPUID table should be set up now. */
-> +	if (!snp_cpuid_active())
-> +		sev_es_terminate(1, GHCB_TERM_CPUID);
+Stefan Binding (5):
+  spi: Make spi_alloc_device and spi_add_device public again
+  spi: Create helper API to lookup ACPI info for spi device
+  spi: Support selection of the index of the ACPI Spi Resource before
+    alloc
+  spi: Add API to count spi acpi resources
+  platform/x86: bus-multi-instantiate: Add SPI support
 
-Right, that is not needed now.
-
->  	 * Pass run-time kernel a pointer to CC info via boot_params so EFI
->  	 * config table doesn't need to be searched again during early startup
-> diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
-> index cd189c20bcc4..4fa7ca20d7c9 100644
-> --- a/arch/x86/include/asm/sev.h
-> +++ b/arch/x86/include/asm/sev.h
-> @@ -157,6 +157,7 @@ bool snp_init(struct boot_params *bp);
->   * sev-shared.c via #include and these declarations can be dropped.
->   */
->  struct cc_blob_sev_info *snp_find_cc_blob_setup_data(struct boot_params *bp);
-> +void snp_cpuid_info_create(const struct cc_blob_sev_info *cc_info);
->  #else
->  static inline void sev_es_ist_enter(struct pt_regs *regs) { }
->  static inline void sev_es_ist_exit(void) { }
-> diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
-> index bd58a4ce29c8..5cb8f87df4b3 100644
-> --- a/arch/x86/kernel/sev-shared.c
-> +++ b/arch/x86/kernel/sev-shared.c
-> @@ -403,6 +403,23 @@ snp_cpuid_find_validated_func(u32 func, u32 subfunc, u32 *eax, u32 *ebx,
->  	return false;
->  }
->  
-> +static void __init snp_cpuid_set_ranges(void)
-> +{
-> +	const struct snp_cpuid_info *cpuid_info = snp_cpuid_info_get_ptr();
-> +	int i;
-> +
-> +	for (i = 0; i < cpuid_info->count; i++) {
-> +		const struct snp_cpuid_fn *fn = &cpuid_info->fn[i];
-> +
-> +		if (fn->eax_in == 0x0)
-> +			cpuid_std_range_max = fn->eax;
-> +		else if (fn->eax_in == 0x40000000)
-> +			cpuid_hyp_range_max = fn->eax;
-> +		else if (fn->eax_in == 0x80000000)
-> +			cpuid_ext_range_max = fn->eax;
-> +	}
-> +}
-
-Kinda arbitrary to have a separate function which has a single caller.
-You can just as well move the loop into snp_cpuid_info_create() and put
-a comment above it:
-
-	/* Set CPUID ranges. */
-	for (i = 0; i < cpuid_info->count; i++) {
-		...
-
-Also, snp_cpuid_info_create() should be called snp_setup_cpuid_table()
-which is what this thing does.
-
-Thx.
+ MAINTAINERS                                  |   4 +-
+ drivers/acpi/scan.c                          |  16 +-
+ drivers/platform/x86/Kconfig                 |  14 +-
+ drivers/platform/x86/Makefile                |   2 +-
+ drivers/platform/x86/bus-multi-instantiate.c | 369 +++++++++++++++++++
+ drivers/platform/x86/i2c-multi-instantiate.c | 174 ---------
+ drivers/spi/spi.c                            | 142 ++++++-
+ include/linux/spi/spi.h                      |  32 ++
+ sound/pci/hda/patch_realtek.c                |  43 ++-
+ 9 files changed, 588 insertions(+), 208 deletions(-)
+ create mode 100644 drivers/platform/x86/bus-multi-instantiate.c
+ delete mode 100644 drivers/platform/x86/i2c-multi-instantiate.c
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
