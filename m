@@ -2,61 +2,210 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D183496E53
-	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jan 2022 01:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A6CA49738F
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jan 2022 18:25:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235047AbiAWAAd (ORCPT
+        id S239240AbiAWRZo (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 22 Jan 2022 19:00:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34158 "EHLO
+        Sun, 23 Jan 2022 12:25:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231288AbiAWAAd (ORCPT
+        with ESMTP id S239220AbiAWRZo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 22 Jan 2022 19:00:33 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC525C06173B
-        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jan 2022 16:00:32 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id b13so49693036edn.0
-        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jan 2022 16:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=efxDK1uU7DkE4cVJ9myazVuQ4eaJnIyftNcM+xFzvi0=;
-        b=i+uVd41YAbeHA3uboA0ugN9j8oy9Ab1Kkljzf7vCFyE9xgvDRDi/8eiLUsNOuOWSd8
-         xsEAX42mAaNKBDo5w9iKtJvWH5KgqNm+v9pOBHtLLHOqQcn7XJqv+h8WIjJm3EzlJ442
-         YC4jAe0rv/RD0R8I0hAglF2LVd+ESM+QcGL/4fdGyffH8vbDyxAiD0J9SQIsXeVi9ba2
-         phjH/JuOyOtRPNRgRcuWRgGw0QUhxIFH9WIcGhiOXu4QpcoWPwG4VswFYhaJfI7ed8J8
-         xZOOCQznHGsz5pQ+7zlxVd4r9RqzEVvshSbaKecy26C9C/DzGNL0IdNrVY7DcRUDYnHu
-         jRQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=efxDK1uU7DkE4cVJ9myazVuQ4eaJnIyftNcM+xFzvi0=;
-        b=JWMTBhzS/kA5ncbyZuR9+SF1Vq3aZvBbvJaKCim+FeTImidfC5/RvgRrDUDtHgRajy
-         LHvwZBeN3RMMjaS0E6W21srA2VfTDrM0FGx39gALuxV4i/xeuGkhipkHdxmUeYiRF4/q
-         +pvgtcdf9aG2lv1PSWlv5SdA4j+1d4CqAka42MIx3xCfg5kCAt3bjW9YkMS9/mxyqxK+
-         znqa5FdjkR3t9KNh+wDFg5po5AWFC1lvZIORhFJPUEfr6Wca7vOAsW6N/94lt4S1FAbP
-         XjP+kSVDGGxpmvW/Wog7TmjqA0sviR0Zxu3VbyBWCygw1jgf3ukkGszbz9Fn6kd63L3A
-         Xycw==
-X-Gm-Message-State: AOAM5334SMsRYeutHGcUir4K/3HZ8P1qLy2nS+20qL1wSq7L0zC0PKlJ
-        I0QayoQUHo3DPuXGO9T7SDteEVo2X8OJIhTAtsY=
-X-Google-Smtp-Source: ABdhPJz/QtOb65Fg1iDBXyZ8cDfeOnI/vOZaBEfKkdEdWVUdOINnUtn/EqURyBMjFoQse7MBRjrxveU7B9LlqT4FkP8=
-X-Received: by 2002:a05:6402:2756:: with SMTP id z22mr10057505edd.255.1642896031490;
- Sat, 22 Jan 2022 16:00:31 -0800 (PST)
+        Sun, 23 Jan 2022 12:25:44 -0500
+Received: from server00.inetadmin.eu (server00.inetadmin.eu [IPv6:2a01:390:1:2:e1b1:2:0:d7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCF8C06173B;
+        Sun, 23 Jan 2022 09:25:43 -0800 (PST)
+Received: from [192.168.1.103] (ip-46.34.226.180.o2inet.sk [46.34.226.180])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: miroslav@wisdomtech.sk)
+        by server00.inetadmin.eu (Postfix) with ESMTPSA id 574EE13A07D;
+        Sun, 23 Jan 2022 18:25:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisdomtech.sk;
+        s=dkiminetadmin; t=1642958738;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=N+EE9E69tKIOkQyXfJAlJTexkD+QVb4eCukmRvui30w=;
+        b=cnWkMDM9CkOqhbN405GVVC0VL4FwDl8owce82eg2JODTXB3WG9gmvoyh0sbcTcpQIJUsdv
+        8LAwFRPp4bNOdFlo8iXCWBgLPEnRAXiKnVjM0jURaFiKbihsjwZDApKv3Ytpwe38ZIu8Fl
+        fgzIwqn0AA8X/etRGQXBiVVI6RPis0E=
+Message-ID: <cb4e9d68-78b0-583d-fa15-a841b0606785@wisdomtech.sk>
+Date:   Sun, 23 Jan 2022 18:25:37 +0100
 MIME-Version: 1.0
-Received: by 2002:a17:906:2a14:0:0:0:0 with HTTP; Sat, 22 Jan 2022 16:00:30
- -0800 (PST)
-Reply-To: fionahill.usa@outlook.com
-From:   Fiona Hill <lori.j.robinson.us@gmail.com>
-Date:   Sat, 22 Jan 2022 16:00:30 -0800
-Message-ID: <CAO0nU=eOe+_YR8m+xe8BLe5WqZvFn9SRm5NGeEvmYdL3WQFQpA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: Touchpad stickiness on AMD laptops (was Dell Inspiron/XPS)
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Andrea Ippolito <andrea.ippo@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alex Hung <alex.hung@canonical.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>
+References: <CAGhUXvBw4rzCQrqttyyS=Psxmhppk79c6fDoxPbV91jE7fO_9A@mail.gmail.com>
+ <CAGhUXvDNj2v3O==+wWWKPYVzej8Vq+WNiBtPwmYxSQ2dTuLb9Q@mail.gmail.com>
+ <CAGhUXvC8eHfxEKzkGN06VvRU6Z0ko7MJ9hF6uXNq+PxRZSbEmQ@mail.gmail.com>
+ <70cbe360-6385-2536-32bd-ae803517d2b2@redhat.com> <YdbrLz3tU4ohANDk@ninjato>
+ <42c83ec8-bbac-85e2-9ab5-87e59a679f95@redhat.com>
+ <CAO-hwJJ9ALxpd5oRU8SQ3F65hZjDitR=MzmwDk=uiEguaXZYtw@mail.gmail.com>
+ <5409e747-0c51-24e2-7ffa-7dd9c8a7aec7@amd.com> <Yd6SRl7sm8zS85Al@ninjato>
+ <596d6af1-d67c-b9aa-0496-bd898350865c@wisdomtech.sk>
+ <d39101a9-adc6-df32-12f5-fccc8fd34515@amd.com>
+ <5c0ed06a-617e-077a-a4a4-549e91d372ba@wisdomtech.sk>
+ <BL1PR12MB5157412781B6C84B97C2A3E7E2559@BL1PR12MB5157.namprd12.prod.outlook.com>
+ <541865be-207d-01db-efc4-7eff600d56dc@wisdomtech.sk>
+ <cf3c89a5-f242-2c1f-f636-fd3241b18ff1@redhat.com>
+From:   =?UTF-8?Q?Miroslav_Bend=c3=adk?= <miroslav@wisdomtech.sk>
+In-Reply-To: <cf3c89a5-f242-2c1f-f636-fd3241b18ff1@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
--- 
-Diid you see my  message i send to you ? I'm waiting for your urgent respond,
+
+Dňa 17. 1. 2022 o 10:08 Hans de Goede napísal(a):
+> Hi,
+>
+> On 1/17/22 09:39, Miroslav Bendík wrote:
+>>> [AMD Official Use Only]
+>>>
+>>>> Now i am trying to change ASF registers instead of SMBus registers.
+>>>> I have tried to enable interrupts and set listen address, but it don't
+>>>> work or
+>>>> i can't recognize the difference between interrupts generated by
+>>>> transfers and
+>>>> interrupts generated from slave.
+>>> Try reading the value of SFx0A ASFStatus bit 5 (it's write to clear if it's an interrupt).
+>>>
+>>>> outb_p(0x02, 0x15 + piix4_smba); // SlaveIntrListenEn
+>>>> outb_p(0x2c << 1 | 0x01, 0x09 + piix4_smba); // ListenAdr | ListenAdrEn
+>>> ASFx04 SlaveAddress instead of  ASFx09 ListenAdr
+>>> ?
+>>>
+>>>
+>> Little bit more informations:
+>>
+>> Interrupts are generated only if ASFx09 ListenAdr is:
+>>
+>> (0x08 << 1) | 0x01
+>> (0x10 << 1) | 0x01
+>>
+>> and touchpad is initialized with synaptics_intertouch=1
+>>
+>> There is maybe small correlation between frequency and touch, but i am
+>> not 100% sure.
+> I know very litlle about this, but I believe that when using
+> host-notify that after receiving the host-notify you are supposed to
+> do an I2C read from the SMBus Alert Response Address (ARA, 0x0c) to find
+> out the source of the notify (since multiple devices on the bus may
+> be notify capable). I guess that the controller may not do that itself
+> and that as long as you have not done it the touchpad may keep repeating
+> the notify.
+>
+> But as said I know very little about this, so take this with a big
+> grain of salt :)  I guess you may want to read up a bit on how this
+> is supposed to work at the bus level. I believe that the SMBUS spec
+> is public.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+>> There are no register changed in interrupt handler except of
+>> ASFx13 DataBankSel. I can't determine if interrupt is generated from
+>> transfer, or from external event.
+>>
+>> ASF should be system for remote management. It should have access to
+>> SMBus and data / command registers are identical, this means, that SMBus
+>> should work (except block transfers).
+>>
+>> If ASF just mirrors SMBus, then question is, why i can't access to
+>> touchpad using SMBus? One strange thing is, that i2cdetect on standard
+>> SMbus (0xb00), port 0 returns:
+>>
+>>       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+>> 00:                         -- -- -- -- -- -- -- --
+>> 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>> 20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>> 30: -- -- -- -- -- -- 36 37 -- -- -- -- -- -- -- --
+>> 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>> 50: 50 -- -- -- -- -- -- -- 58 -- -- -- -- -- -- --
+>> 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>> 70: -- -- -- -- -- -- -- --
+>>
+>> Address 0x58 is exactly 0x2c (synaptics) moved 1 bit left, but i2c-piix4
+>> correctly moves address.
+>>
+Hello,
+i have no response from 0x0c (ARA). It returns -6 (ENXIO).
+
+Exact call is:
+
+i2c_smbus_xfer(piix4_aux_adapter, 0x0c, 0x00, I2C_SMBUS_READ, 0x00, 
+I2C_SMBUS_BYTE, &data)
+
+I hava played with ARP (address 0x61), but alweays without response (-6).
+
+I have tried to read event status from ASF. Exact command is 0000 0001b
+and subcommand 0001 0010b from ASF reference documentation. I have
+enabled automatic PEC appending. I have tried to manually calculate PEC
+too. To calculate PEC i have called i2c_smbus_pec with data {0xaa/b,
+0x01, 0x03, 0x12, 0x10, 0x00} and then set PEC byte register, but every
+call ends wih -6 (no response from device).
+
+ASF sensor address should be 0x55 is (from register ASFx0F SensorAdr
+- 0xaa shifted 1 bit right).
+
+Exact code:
+
+outb_p(0x20, SMBHSTCNT); // Automatically append PEC
+
+data.block[0] = 0x03; // size
+data.block[1] = 0x12; // subcommand
+data.block[2] = 0x10; // version
+data.block[3] = 0x00; // reserved
+status = i2c_smbus_xfer(piix4_aux_adapter, 0x55, 0x00, I2C_SMBUS_WRITE, 
+0x01, I2C_SMBUS_BLOCK_DATA, &data);
+
+Interrupts are always generated after transactions. Following conditions
+are necessary to generate interrupts spontaneously:
+
+- SlaveIntrListenEn of ASFx15 SlaveEn bit set
+- ListenAdr of ASFx09 set to 0x08 or 0x10
+- ListenAdrEn of ASFx09 bit set
+- psmouse loaded with synaptics_intertouch=1
+
+Only ASFx13 DataBankSel is modified externally. Value is always 0x8?.
+I have tried to check Databank?Full and if it set i am calling
+i2c_handle_smbus_host_notify and cleaning bit. Sometimes it responds to
+cursor move action, sometimes not. Sampling rate varies.
+
+I don't know if this interrupt is host notify. It has some corellation,
+but it may be something like bus error or event buffer full. I don't
+know.
+
+Here is video demonstration:
+
+https://youtu.be/9pjxyiWA1a8
+
+Before loading psmouse with synaptics_intertouch there are no
+interrupts. After unloading, there are again no interrupts.
+
+In ASF documentation is description of ASF_ALRT field of ASF!
+description table, but my bios contains only ASFT record of MNVS
+OperationRegion. I don't know if i should access this, or something
+else.
+
