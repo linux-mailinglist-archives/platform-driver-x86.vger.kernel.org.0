@@ -2,189 +2,61 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B0A496C61
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 22 Jan 2022 13:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D183496E53
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 23 Jan 2022 01:00:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231856AbiAVMjE (ORCPT
+        id S235047AbiAWAAd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 22 Jan 2022 07:39:04 -0500
-Received: from server.atrad.com.au ([150.101.241.2]:41382 "EHLO
-        server.atrad.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbiAVMjE (ORCPT
+        Sat, 22 Jan 2022 19:00:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231288AbiAWAAd (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 22 Jan 2022 07:39:04 -0500
-X-Greylist: delayed 1781 seconds by postgrey-1.27 at vger.kernel.org; Sat, 22 Jan 2022 07:39:02 EST
-Received: from marvin.atrad.com.au (IDENT:1008@marvin.atrad.com.au [192.168.0.2])
-        by server.atrad.com.au (8.17.1/8.17.1) with ESMTPS id 20MC7UKQ032381
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sat, 22 Jan 2022 22:37:32 +1030
-Date:   Sat, 22 Jan 2022 22:37:30 +1030
-From:   Jonathan Woithe <jwoithe@just42.net>
-To:     Luiz Sampaio <sampaio.ime@gmail.com>
-Cc:     "Lee, Chun-Yi" <jlee@suse.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        =?iso-8859-1?Q?Jo=E3o?= Paulo Rechi Vita <jprvita@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Jeremy Soller <jeremy@system76.com>,
-        System76 Product Development <productdev@system76.com>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Herton Ronaldo Krzesinski <herton@canonical.com>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net
-Subject: Re: [PATCH 20/31] platform: x86: changing LED_* from enum
- led_brightness to actual value
-Message-ID: <20220122120730.GA12371@marvin.atrad.com.au>
-References: <20220121165436.30956-1-sampaio.ime@gmail.com>
- <20220121165436.30956-21-sampaio.ime@gmail.com>
+        Sat, 22 Jan 2022 19:00:33 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC525C06173B
+        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jan 2022 16:00:32 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id b13so49693036edn.0
+        for <platform-driver-x86@vger.kernel.org>; Sat, 22 Jan 2022 16:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=efxDK1uU7DkE4cVJ9myazVuQ4eaJnIyftNcM+xFzvi0=;
+        b=i+uVd41YAbeHA3uboA0ugN9j8oy9Ab1Kkljzf7vCFyE9xgvDRDi/8eiLUsNOuOWSd8
+         xsEAX42mAaNKBDo5w9iKtJvWH5KgqNm+v9pOBHtLLHOqQcn7XJqv+h8WIjJm3EzlJ442
+         YC4jAe0rv/RD0R8I0hAglF2LVd+ESM+QcGL/4fdGyffH8vbDyxAiD0J9SQIsXeVi9ba2
+         phjH/JuOyOtRPNRgRcuWRgGw0QUhxIFH9WIcGhiOXu4QpcoWPwG4VswFYhaJfI7ed8J8
+         xZOOCQznHGsz5pQ+7zlxVd4r9RqzEVvshSbaKecy26C9C/DzGNL0IdNrVY7DcRUDYnHu
+         jRQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=efxDK1uU7DkE4cVJ9myazVuQ4eaJnIyftNcM+xFzvi0=;
+        b=JWMTBhzS/kA5ncbyZuR9+SF1Vq3aZvBbvJaKCim+FeTImidfC5/RvgRrDUDtHgRajy
+         LHvwZBeN3RMMjaS0E6W21srA2VfTDrM0FGx39gALuxV4i/xeuGkhipkHdxmUeYiRF4/q
+         +pvgtcdf9aG2lv1PSWlv5SdA4j+1d4CqAka42MIx3xCfg5kCAt3bjW9YkMS9/mxyqxK+
+         znqa5FdjkR3t9KNh+wDFg5po5AWFC1lvZIORhFJPUEfr6Wca7vOAsW6N/94lt4S1FAbP
+         XjP+kSVDGGxpmvW/Wog7TmjqA0sviR0Zxu3VbyBWCygw1jgf3ukkGszbz9Fn6kd63L3A
+         Xycw==
+X-Gm-Message-State: AOAM5334SMsRYeutHGcUir4K/3HZ8P1qLy2nS+20qL1wSq7L0zC0PKlJ
+        I0QayoQUHo3DPuXGO9T7SDteEVo2X8OJIhTAtsY=
+X-Google-Smtp-Source: ABdhPJz/QtOb65Fg1iDBXyZ8cDfeOnI/vOZaBEfKkdEdWVUdOINnUtn/EqURyBMjFoQse7MBRjrxveU7B9LlqT4FkP8=
+X-Received: by 2002:a05:6402:2756:: with SMTP id z22mr10057505edd.255.1642896031490;
+ Sat, 22 Jan 2022 16:00:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220121165436.30956-21-sampaio.ime@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-MIMEDefang-action: accept
-X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
+Received: by 2002:a17:906:2a14:0:0:0:0 with HTTP; Sat, 22 Jan 2022 16:00:30
+ -0800 (PST)
+Reply-To: fionahill.usa@outlook.com
+From:   Fiona Hill <lori.j.robinson.us@gmail.com>
+Date:   Sat, 22 Jan 2022 16:00:30 -0800
+Message-ID: <CAO0nU=eOe+_YR8m+xe8BLe5WqZvFn9SRm5NGeEvmYdL3WQFQpA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 01:54:25PM -0300, Luiz Sampaio wrote:
-> The enum led_brightness, which contains the declaration of LED_OFF,
-> LED_ON, LED_HALF and LED_FULL is obsolete, as the led class now supports
-> max_brightness.
-> ---
->  drivers/platform/x86/acer-wmi.c          |  6 ++---
->  drivers/platform/x86/asus-wireless.c     |  6 ++---
->  drivers/platform/x86/dell/dell-laptop.c  |  2 +-
->  drivers/platform/x86/dell/dell-wmi-led.c |  4 ++--
->  drivers/platform/x86/fujitsu-laptop.c    | 28 ++++++++++++------------
->  drivers/platform/x86/lg-laptop.c         | 18 +++++++--------
->  drivers/platform/x86/system76_acpi.c     |  4 ++--
->  drivers/platform/x86/thinkpad_acpi.c     | 14 ++++++------
->  drivers/platform/x86/topstar-laptop.c    |  4 ++--
->  drivers/platform/x86/toshiba_acpi.c      | 24 ++++++++++----------
->  10 files changed, 55 insertions(+), 55 deletions(-)
-> 
-> ...
-> diff --git a/drivers/platform/x86/fujitsu-laptop.c b/drivers/platform/x86/fujitsu-laptop.c
-> index 80929380ec7e..6ebfda771209 100644
-> --- a/drivers/platform/x86/fujitsu-laptop.c
-> +++ b/drivers/platform/x86/fujitsu-laptop.c
-> @@ -584,10 +584,10 @@ static int logolamp_set(struct led_classdev *cdev,
->  	int poweron = FUNC_LED_ON, always = FUNC_LED_ON;
->  	int ret;
->  
-> -	if (brightness < LED_HALF)
-> +	if (brightness < 127)
->  		poweron = FUNC_LED_OFF;
->  
-> -	if (brightness < LED_FULL)
-> +	if (brightness < 255)
->  		always = FUNC_LED_OFF;
->  
->  	ret = call_fext_func(device, FUNC_LEDS, 0x1, LOGOLAMP_POWERON, poweron);
-> @@ -604,13 +604,13 @@ static enum led_brightness logolamp_get(struct led_classdev *cdev)
->  
->  	ret = call_fext_func(device, FUNC_LEDS, 0x2, LOGOLAMP_ALWAYS, 0x0);
->  	if (ret == FUNC_LED_ON)
-> -		return LED_FULL;
-> +		return 255;
->  
->  	ret = call_fext_func(device, FUNC_LEDS, 0x2, LOGOLAMP_POWERON, 0x0);
->  	if (ret == FUNC_LED_ON)
-> -		return LED_HALF;
-> +		return 127;
->  
-> -	return LED_OFF;
-> +	return 0;
->  }
->  
->  static int kblamps_set(struct led_classdev *cdev,
-> @@ -618,7 +618,7 @@ static int kblamps_set(struct led_classdev *cdev,
->  {
->  	struct acpi_device *device = to_acpi_device(cdev->dev->parent);
->  
-> -	if (brightness >= LED_FULL)
-> +	if (brightness >= 255)
->  		return call_fext_func(device, FUNC_LEDS, 0x1, KEYBOARD_LAMPS,
->  				      FUNC_LED_ON);
->  	else
-> @@ -629,11 +629,11 @@ static int kblamps_set(struct led_classdev *cdev,
->  static enum led_brightness kblamps_get(struct led_classdev *cdev)
->  {
->  	struct acpi_device *device = to_acpi_device(cdev->dev->parent);
-> -	enum led_brightness brightness = LED_OFF;
-> +	unsigned int brightness = 0;
->  
->  	if (call_fext_func(device,
->  			   FUNC_LEDS, 0x2, KEYBOARD_LAMPS, 0x0) == FUNC_LED_ON)
-> -		brightness = LED_FULL;
-> +		brightness = 255;
->  
->  	return brightness;
->  }
-> @@ -643,7 +643,7 @@ static int radio_led_set(struct led_classdev *cdev,
->  {
->  	struct acpi_device *device = to_acpi_device(cdev->dev->parent);
->  
-> -	if (brightness >= LED_FULL)
-> +	if (brightness >= 255)
->  		return call_fext_func(device, FUNC_FLAGS, 0x5, RADIO_LED_ON,
->  				      RADIO_LED_ON);
->  	else
-> @@ -654,10 +654,10 @@ static int radio_led_set(struct led_classdev *cdev,
->  static enum led_brightness radio_led_get(struct led_classdev *cdev)
->  {
->  	struct acpi_device *device = to_acpi_device(cdev->dev->parent);
-> -	enum led_brightness brightness = LED_OFF;
-> +	unsigned int brightness = 0;
->  
->  	if (call_fext_func(device, FUNC_FLAGS, 0x4, 0x0, 0x0) & RADIO_LED_ON)
-> -		brightness = LED_FULL;
-> +		brightness = 255;
->  
->  	return brightness;
->  }
-> @@ -669,7 +669,7 @@ static int eco_led_set(struct led_classdev *cdev,
->  	int curr;
->  
->  	curr = call_fext_func(device, FUNC_LEDS, 0x2, ECO_LED, 0x0);
-> -	if (brightness >= LED_FULL)
-> +	if (brightness >= 255)
->  		return call_fext_func(device, FUNC_LEDS, 0x1, ECO_LED,
->  				      curr | ECO_LED_ON);
->  	else
-> @@ -680,10 +680,10 @@ static int eco_led_set(struct led_classdev *cdev,
->  static enum led_brightness eco_led_get(struct led_classdev *cdev)
->  {
->  	struct acpi_device *device = to_acpi_device(cdev->dev->parent);
-> -	enum led_brightness brightness = LED_OFF;
-> +	unsigned int brightness = 0;
->  
->  	if (call_fext_func(device, FUNC_LEDS, 0x2, ECO_LED, 0x0) & ECO_LED_ON)
-> -		brightness = LED_FULL;
-> +		brightness = 255;
->  
->  	return brightness;
->  }
-
-In a way it's less descriptive to revert from the identifiers to what amount
-to seemingly magic numbers.  However, since the value attributed to maximum
-LED brightness in the LED class is now variable I can see why the global
-enum no longer makes sense.  We could define a suitable enum within
-fujitsu-laptop.c, but there's probably little to be gained in the long run.
-
-To make the patch description a little clearer, could I suggest you add the
-word "variable" before "max_brightness", or even just use the phrase
-"variable maximum brightness"?
-
-For the fujitsu-laptop.c portion of this patch:
-    Acked-by: Jonathan Woithe <jwoithe@just42.net>
-
-Regards
-  jonathan
+-- 
+Diid you see my  message i send to you ? I'm waiting for your urgent respond,
