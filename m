@@ -2,86 +2,97 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AF034A2CAA
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jan 2022 08:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2FEF4A2DA1
+	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jan 2022 11:27:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344441AbiA2HyX (ORCPT
+        id S236091AbiA2K11 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jan 2022 02:54:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50904 "EHLO
+        Sat, 29 Jan 2022 05:27:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344290AbiA2HyW (ORCPT
+        with ESMTP id S229987AbiA2K1Z (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jan 2022 02:54:22 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178D5C061714
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Jan 2022 23:54:22 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id j2so23844040ejk.6
-        for <platform-driver-x86@vger.kernel.org>; Fri, 28 Jan 2022 23:54:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=r4uL6sckAnaCJM6MEQaHZL7fDy5zSQzjqi9SEPfLKhw=;
-        b=Dmsxay60Tg6R0d/N9xotIrExFqB9ktkpXQPzHQG//7mAQaH6esPmXZzBQ+Q2wrSZLn
-         BrUaVLo7V95bxzK5UjXS2mRfrtZuvOhtswKgweXapDZ+EUxn76V8ZgYTksM/FbN/SntR
-         skMTcBYJ3ayGoKcRXsPmxlgxBBdQRUqle15r9BZRbKADA8abjOrAEX6DWeTSvY/H+Flh
-         LwA8heomZ++6pUmkNJN2otgoeyaZplg2kELxdq8b49TM07ulMshQlraAIH37F2p0Gx5X
-         i+jRZcZAzU8JY5MpUkaj74f27Mv/QfbefkyAYhjXwr5zHzk7v1akNJ28shmwR5MnhACY
-         m28Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=r4uL6sckAnaCJM6MEQaHZL7fDy5zSQzjqi9SEPfLKhw=;
-        b=t3R6CuOXSgTH0Chvsej6ZZkqois/pw+xhzFW/7LzFVBGeZz7+B8f5RLMVullAuy5wa
-         f3sRz7+anBNH8VEAGBWIhy2bb6zsdIt8y3V0wHiHddrOm85xruGcgAubYwlGC2ADMWrV
-         E9VBxlA7VA9Y/OtNtJ1F+2oCwWxNem2pzolJCTHXouh7yh/jPxNSYRU04VXTwq8wWRwM
-         t5CHKiBAZ0Ge00ECWXBYHq4QmuZOHevN4uI8DaLbFXZjRO+T7zIlubQPoJHqWhLquKe3
-         KXlIPFM+JoUqwIYFMfVtn386QYpinhj1tlE6KcTalcuktqLScQ23f1Qx9Qckc0sEib6V
-         373g==
-X-Gm-Message-State: AOAM5325xn/2VTciQ9/zGGxfiiNp+Ha8d8+bvJ8MW/XbSPff4V9AkCUf
-        0m5u1Wm9XRqE2nkKGUKNLL+bWjwMFJJL23HE8PE=
-X-Google-Smtp-Source: ABdhPJwzPQ2yN7PWKV5sjNHmy98jqr0jm5jikqS3VDakBRptwWUFbLT+ZBuSKr96g8qwnUXAu7OP92gWIVaSskfA+zc=
-X-Received: by 2002:a17:907:d92:: with SMTP id go18mr9387576ejc.414.1643442860230;
- Fri, 28 Jan 2022 23:54:20 -0800 (PST)
+        Sat, 29 Jan 2022 05:27:25 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1AAC061714;
+        Sat, 29 Jan 2022 02:27:25 -0800 (PST)
+Received: from zn.tnic (dslb-088-067-221-104.088.067.pools.vodafone-ip.de [88.67.221.104])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 270DF1EC0501;
+        Sat, 29 Jan 2022 11:27:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1643452037;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=AeMz8utJPjiFofsQ6mF6x/vbEjaSoinR7o1iyyLw8Cw=;
+        b=SN18OmDj+GbYBib29R2reyRvEyZD0+slBoHelzKf/froKnaX6ZCcfGVkGBJrjqgLwz7PKK
+        BTkU9h2E5QWrnzUda8K2NSIGtBO1fxJ/zPknHWvAlj68G7ElCHoMv858/Hd86Toroe9NJD
+        gLJAJH1HoQSqgywzuN4l/5QQnvvk8VY=
+Date:   Sat, 29 Jan 2022 11:27:13 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Brijesh Singh <brijesh.singh@amd.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-coco@lists.linux.dev, linux-mm@kvack.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        tony.luck@intel.com, marcorr@google.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com
+Subject: Re: [PATCH v8 36/40] x86/sev: Provide support for SNP guest request
+ NAEs
+Message-ID: <YfUWgeonL4tfGf8P@zn.tnic>
+References: <20211210154332.11526-1-brijesh.singh@amd.com>
+ <20211210154332.11526-37-brijesh.singh@amd.com>
+ <YfLGcp8q5f+OW72p@zn.tnic>
+ <87d4999a-14cc-5070-4f03-001dd5f1d2b1@amd.com>
 MIME-Version: 1.0
-Received: by 2002:ab4:a0ea:0:0:0:0:0 with HTTP; Fri, 28 Jan 2022 23:54:19
- -0800 (PST)
-Reply-To: muali000111@gmail.com
-From:   MR MUSSA ALI <mussaali0111@gmail.com>
-Date:   Fri, 28 Jan 2022 23:54:19 -0800
-Message-ID: <CADNHkTgz42GmVzrcEphHT-tG2zcimtMuGwqZZVbLqd5vSvBsQg@mail.gmail.com>
-Subject: Urgent Reply
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87d4999a-14cc-5070-4f03-001dd5f1d2b1@amd.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Dear  friend,
+On Thu, Jan 27, 2022 at 11:02:13AM -0600, Brijesh Singh wrote:
+> I am okay with using SZ_4G but per the spec they don't spell that its 4G
+> size. It says bit 32 will should be set on error.
 
-I know this means of communication may not be morally right to you as
-a person but I also have had a great thought about it and I have come
-to this conclusion which I am about to share with you.
+What does the speck call it exactly? Is it "length"? Because that's what
+confused me: SNP_GUEST_REQ_INVALID_LEN - that's a length and length you
+don't usually specify with a bit position...
 
-INTRODUCTION: I am a assistance  and in one way or the other was hoping
-you will cooperate with me as a partner in a project of transferring
-an abandoned fund of a late customer of the bank worth of $18,000,000
-(Eighteen Million Dollars US).
+> Typically the sev_es_ghcb_hv_handler() is called from #VC handler, which
+> provides the context structure. But in this and PSC case, the caller is not
+> a #VC handler, so we don't have a context structure. But as you pointed, we
+> could allocate context structure on the stack and pass it down so that
+> verify_exception_info() does not cause a panic with NULL deference (when HV
+> violates the spec and inject exception while handling this NAE).
 
-This will be disbursed or shared between the both of us in these
-percentages, 55% for me and 45% for you. Contact me immediately if
-that is alright for you so that we can enter in agreement before we
-start processing for the transfer of the funds. If you are satisfied
-with this proposal, please provide the below details for the Mutual
-Confidential Agreement:
+Yap, exactly.
 
-1. Full Name and Address
-2. Occupation and Country of Origin
-3. Telephone Number
+-- 
+Regards/Gruss,
+    Boris.
 
-I wait for your response so that we can commence on this project as
-soon as possible.
-
-Regards,
-Mr. Mussa  Ali
+https://people.kernel.org/tglx/notes-about-netiquette
