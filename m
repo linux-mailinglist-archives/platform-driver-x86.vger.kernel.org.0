@@ -2,110 +2,68 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C87174A2EAA
-	for <lists+platform-driver-x86@lfdr.de>; Sat, 29 Jan 2022 13:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D9674A3407
+	for <lists+platform-driver-x86@lfdr.de>; Sun, 30 Jan 2022 05:59:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234610AbiA2MC1 (ORCPT
+        id S235132AbiA3E7B (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 29 Jan 2022 07:02:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
+        Sat, 29 Jan 2022 23:59:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbiA2MC1 (ORCPT
+        with ESMTP id S232665AbiA3E7B (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 29 Jan 2022 07:02:27 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1DCC061714;
-        Sat, 29 Jan 2022 04:02:26 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-221-104.088.067.pools.vodafone-ip.de [88.67.221.104])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2BF4B1EC01B7;
-        Sat, 29 Jan 2022 13:02:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1643457741;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=1SqI9kGrSv75+nJPwZYKxkcTL83Vduz6X2Q74CD9Idc=;
-        b=cpPOiblw8z2FwDfVV+8Cx0gJBEZNMWEIsqxMvsZI45g70BBWrD1cdgvk7WcuViGnXEW3Zt
-        w2dBeSBqEsUj1PwAVsBYj3Ix9UfYnGw4OVtjeo9/YFKg83b4EBpejQM5Gk0DJD94L1MujC
-        KQyEa3QGcWGmbyjQjsI3rua5JaZbDeo=
-Date:   Sat, 29 Jan 2022 13:02:18 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com
-Subject: Re: [PATCH v8 36/40] x86/sev: Provide support for SNP guest request
- NAEs
-Message-ID: <YfUsygRVgPCrUvFX@zn.tnic>
-References: <20211210154332.11526-1-brijesh.singh@amd.com>
- <20211210154332.11526-37-brijesh.singh@amd.com>
- <YfLGcp8q5f+OW72p@zn.tnic>
- <87d4999a-14cc-5070-4f03-001dd5f1d2b1@amd.com>
- <YfUWgeonL4tfGf8P@zn.tnic>
- <fb90b0a5-a8cf-0c94-ebbe-a0d5343fe3b9@amd.com>
+        Sat, 29 Jan 2022 23:59:01 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABAADC061714
+        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Jan 2022 20:59:00 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id j2so17334893ybu.0
+        for <platform-driver-x86@vger.kernel.org>; Sat, 29 Jan 2022 20:59:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=klzvftjxA5XTkCrogHXXh8fOZSabab/SmfT72xN51dqTEOyJiXNcsS+/3u9cI0be78
+         Ue8qIibEE6Sz5oLDEdSNm55M1dCUppI0z6RzLX0W2oCnpdHuZFBTFHQO1mht2suD9TVR
+         OZhKWk7xLGrPO+zIR/3994HL3QyqIWnc73UwtIhvfKaPXF1sEhoV/EYNxHnykaIQh5qG
+         xbDuRc2B3ANDA/fa8vAjWS6B2WMqueUaWxrFjWsGHQmTV4HyM5sRDp2WfYUj16VBr0Z0
+         CcugdHaq2d6LbA3BMStwKg73ZyqrOvUh3W2kV2GvAGueDPQJ9LKuxmt+9VWcjZWcAb7l
+         1lng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=B5teSI3NqSzeGu7ngV/22RiyR60khzQ8THYZDZ9DX3Q=;
+        b=pDgDZbNIrg37XY8ixrWSCzZWfP6RV4MscXoqFcK0X3SYRoJvxWtQ0SmMDLYdfCdutM
+         b7md8lfZ56iltMzSoMiRmiMWOIrjTd8iyJkl0GinEw3nPqB1asx3QGZvd9z+cNkdoJmg
+         CEVcRYod9fcE+9KMbGwLGm/ijNVPXjoY/46joTrqzD8iTNUKRJQCyNQKYPWOU2RGjZdf
+         8hBQD/jURT0WJH+tsSvKUq1F0awHRXTgC7Yc2XQ8F70KOjOZQy3cqdvbR9b96j8fz94X
+         rnWrtigzyc4q3yxKzc+TxEER2T2wtM2DEswJHdugZ5gh7EYqS2ZD3heBHPsdNpeML4Ho
+         GX/Q==
+X-Gm-Message-State: AOAM532PX4o9Rxa9jLMmWiZlAI4moTDc3MGgrTPPyuTgyXkEbhhFSbZz
+        SEov082PmB2P5DOpIY+exO0o1qjD36YqNyU0J/o=
+X-Google-Smtp-Source: ABdhPJwH/zPg+ikvo0g9GJb8a0QlQ1ww/UXBr2fXvtDRRql17f2yXzNGyRIHlHBdoRABln7WsejMo7vcENtJQdcGne4=
+X-Received: by 2002:a05:6902:1028:: with SMTP id x8mr20498348ybt.716.1643518739775;
+ Sat, 29 Jan 2022 20:58:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fb90b0a5-a8cf-0c94-ebbe-a0d5343fe3b9@amd.com>
+Received: by 2002:a05:6900:38ad:0:0:0:0 with HTTP; Sat, 29 Jan 2022 20:58:59
+ -0800 (PST)
+Reply-To: mrs.bill.chantalone01@gmail.com
+From:   "Mrs.Bill.Chantal" <promisehot93@gmail.com>
+Date:   Sun, 30 Jan 2022 05:58:59 +0100
+Message-ID: <CANdH8nY-9ojogMnvTH5nZjQJ0KhHYryCPgcVbn-eB1g3+c5kUw@mail.gmail.com>
+Subject: Hello....
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Sat, Jan 29, 2022 at 05:49:06AM -0600, Brijesh Singh wrote:
-> The hypervisor must validate that the guest has supplied enough pages to
-> hold the certificates that will be returned before performing the SNP
-> guest request. If there are not enough guest pages to hold the
-> certificate table and certificate data, the hypervisor will return the
-> required number of pages needed to hold the certificate table and
-> certificate data in the RBX register and set the SW_EXITINFO2 field to
-> 0x0000000100000000.
+You have been compensated with the sum of 9.5 million dollars in this
+united nation the payment will be issue into atm visa  card and send
+to you from the santander bank we need your address and your
+Whatsapp number  + 1 6465853907  this my email.ID
+( mrs.bill.chantal.roland@gmail.com )  contact  me
 
-Then you could call that one:
+Thanks my
 
-#define SNP_GUEST_REQ_ERR_NUM_PAGES       BIT_ULL(32)
-
-or so, to mean what exactly that error is. Because when you read the
-code, it is more "self-descriptive" this way:
-
-	...
-	ghcb->save.sw_exit_info_2 == SNP_GUEST_REQ_ERR_NUM_PAGES)
-		input->data_npages = ghcb_get_rbx(ghcb);
-
-> It does not spell it as invalid length. However, for *similar* failure,
-> the SEV-SNP spec spells out it as INVALID_LENGTH, so, I choose macro
-> name as INVALID_LENGTH.
-
-You can simply define a separate one here called ...INVALID_LENGTH.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+mrs bill chantal
