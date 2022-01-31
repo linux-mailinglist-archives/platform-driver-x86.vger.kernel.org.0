@@ -2,193 +2,193 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 671114A4A05
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Jan 2022 16:15:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28E274A4A58
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Jan 2022 16:18:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379039AbiAaPOi (ORCPT
+        id S238668AbiAaPSg (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 Jan 2022 10:14:38 -0500
-Received: from mga18.intel.com ([134.134.136.126]:17029 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1378391AbiAaPOW (ORCPT
+        Mon, 31 Jan 2022 10:18:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48931 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1349720AbiAaPS2 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 Jan 2022 10:14:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643642062; x=1675178062;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+exGFQd/cTQyWk2QAcEy4X66VsJFxyo/yocq2eE5qj4=;
-  b=clZGuHtXt2CIGzvmpQNKRCTstHpILMRliNXPW3NSmhGlLLH65M5sZdGx
-   4tHoGF+yjvJUc7fONE5QQZdtSTmhrfm8v0abEEYgSxb8nE+YUa/VvBebY
-   s2EpOpYISuQxYdqiH6QoGnXtFL6OIv8bps4OMoys7HEtf+zVidGtCmJAG
-   l2NhlwdbiCUkYILx8ZEZDJbnfcxgB4AU65/w5GjDtGnEK87IO1LgkXHi5
-   CGsSfc8yZZc516mM/JHIJrhxaTmSxfvkIjVs4xA5/2VZznNLRdksuX1ux
-   Qn0HFw3rgf13PqfkzBiuJlRfHiwFZ4P1T7x9b9h4o3QzF27u1Luxg7coD
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="231050143"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="231050143"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 07:14:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="479189238"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 31 Jan 2022 07:14:08 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 2FF2250C; Mon, 31 Jan 2022 17:14:16 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tan Jui Nee <jui.nee.tan@intel.com>,
-        Kate Hsuan <hpa@redhat.com>,
-        Jonathan Yong <jonathan.yong@intel.com>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Peter Tyser <ptyser@xes-inc.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH v4 8/8] EDAC, pnd2: convert to use common P2SB accessor
-Date:   Mon, 31 Jan 2022 17:13:46 +0200
-Message-Id: <20220131151346.45792-9-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
-References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
+        Mon, 31 Jan 2022 10:18:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1643642307;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QAmHJ3ZqJTt7UjSWKk/RmdR+bF1h3fqMtdi/ZP9ycBM=;
+        b=OKCmRJS+5xenMbyewrqR1qoUmY0fMRgaEGztBvdW6+ZTdgSsj3vHQ6dctSS5Q/qAHyqN+q
+        BqGqXGyiioNQ7UKD49yKF9rcNDG1bY/nCZFWKhFsCh7xJnFiGMNBeFq6DNu35OjGx0kCRh
+        JvfVmq9u5WZsOT3BdECWE8Em+NPO/BY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-84-L_qy1mnhOo-G3O1iQUjCuQ-1; Mon, 31 Jan 2022 10:18:26 -0500
+X-MC-Unique: L_qy1mnhOo-G3O1iQUjCuQ-1
+Received: by mail-ed1-f70.google.com with SMTP id n7-20020a05640205c700b0040b7be76147so2604687edx.10
+        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Jan 2022 07:18:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=QAmHJ3ZqJTt7UjSWKk/RmdR+bF1h3fqMtdi/ZP9ycBM=;
+        b=h0V/OATKVLagzvg9iv78KWad4nR8/AkMCN/jyuobGSAm5HcayqpCCVIpSl6jvfwK4A
+         Ge3QOAl4uPpfAzvkO/X/Yf36Fn3WXq6NMtA7EVP/996qINCvDc9hcZyyzhvnO7vaPjsL
+         lTocXA+VmqKT7WG+kplHu2O2Ar3eluoZl3qjxAhB9IYsLO/I0UYwEQqfL0PXbLomxXDp
+         VNxInRq5gcLohqbRcPntdP3EJLDq9fqWdyO/AZIs9D1LtOPzqG7QQDhflejJ02X3igm+
+         CLwocQ6BSE1UxMiQ/aUO1LtKpg76v1AFJ3Cue2yLO4OkykAspYVffvpx1UKOqCVK5TF9
+         8q/g==
+X-Gm-Message-State: AOAM532VJj2A0nr4L9ok385tajesXXenVpj2OLpM2O8/o28ewUpBgBus
+        /M1CsLdrYbyiozkGEPO5T8IH1G8oosi9P1GORoN0pJ5Y1zHBJ6mfSoS45bNe91s8GhEgOh0V/9+
+        nFd9akZTWpz8sIuh7ASJ/21VJJKXpaF8J9A==
+X-Received: by 2002:a17:906:6a0f:: with SMTP id qw15mr17992178ejc.66.1643642305155;
+        Mon, 31 Jan 2022 07:18:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwghhGi3a8HVBfaCXbVG/NksU+mqLsEfT2UOuHdYNlaoGRK5E2h8OZRKIK5ywYsytO+GY3g4w==
+X-Received: by 2002:a17:906:6a0f:: with SMTP id qw15mr17992163ejc.66.1643642304969;
+        Mon, 31 Jan 2022 07:18:24 -0800 (PST)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id co19sm18008399edb.7.2022.01.31.07.18.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jan 2022 07:18:24 -0800 (PST)
+Message-ID: <bc465932-b2e5-7ff4-1b9a-cf2d76079251@redhat.com>
+Date:   Mon, 31 Jan 2022 16:18:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 12/20] power: supply: bq25890: Support higher charging
+ voltages through Pump Express+ protocol
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Ard Biesheuvel <ardb@kernel.org>, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, Yauhen Kharuzhy <jekhor@gmail.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
+References: <20220130204557.15662-1-hdegoede@redhat.com>
+ <20220130204557.15662-13-hdegoede@redhat.com>
+ <YffouVvL9M4fch0I@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YffouVvL9M4fch0I@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Since we have a common P2SB accessor in tree we may use it instead of
-open coded variants.
+Hi,
 
-Replace custom code by p2sb_bar() call.
+On 1/31/22 14:48, Andy Shevchenko wrote:
+> On Sun, Jan 30, 2022 at 09:45:49PM +0100, Hans de Goede wrote:
+>> From: Yauhen Kharuzhy <jekhor@gmail.com>
+>>
+>> Add a "linux,pump-express-vbus-max" property which indicates if the Pump
+>> Express+ protocol should be used to increase the charging protocol.
+>>
+>> If this new property is set and a DCP charger is detected then request
+>> a higher charging voltage through the Pump Express+ protocol.
+>>
+>> So far this new property is only used on x86/ACPI (non devicetree) devs,
+>> IOW it is not used in actual devicetree files. The devicetree-bindings
+>> maintainers have requested properties like these to not be added to the
+>> devicetree-bindings, so the new property is deliberately not added
+>> to the existing devicetree-bindings.
+>>
+>> Changes by Hans de Goede:
+>> - Port to my bq25890 patch-series + various cleanups
+>> - Make behavior configurable through a new "linux,pump-express-vbus-max"
+>>   device-property
+>> - Sleep 1 second before re-checking the Vbus voltage after requesting
+>>   it to be raised, to ensure that the ADC has time to sampled the new Vbus
+>> - Add VBUSV bq25890_tables[] entry and use it in bq25890_get_vbus_voltage()
+>> - Tweak commit message
+> 
+> ...
+> 
+>> +static void bq25890_pump_express_work(struct work_struct *data)
+>> +{
+>> +	struct bq25890_device *bq =
+>> +		container_of(data, struct bq25890_device, pump_express_work.work);
+>> +	int voltage, i, ret;
+>> +
+>> +	dev_dbg(bq->dev, "Start to request input voltage increasing\n");
+>> +
+>> +	/* Enable current pulse voltage control protocol */
+>> +	ret = bq25890_field_write(bq, F_PUMPX_EN, 1);
+>> +	if (ret < 0)
+>> +		goto error_print;
+>> +
+>> +	for (i = 0; i < PUMP_EXPRESS_MAX_TRIES; i++) {
+> 
+>> +		voltage = bq25890_get_vbus_voltage(bq);
+>> +		if (voltage < 0)
+>> +			goto error_print;
+> 
+> It also can be (at least in align with the rest error paths)
+> 
+> 		ret = bq25890_get_vbus_voltage(bq);
+> 		if (ret < 0)
+> 			goto error_print;
+> 		voltage = ret;
+> 
+> followed up (but not necessarily)...
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
- drivers/edac/Kconfig     |  1 +
- drivers/edac/pnd2_edac.c | 55 ++++++++++++----------------------------
- 2 files changed, 17 insertions(+), 39 deletions(-)
+The suggested pattern is useful when ret needs to be set on the error-exit
+path, but we are not doing that here. So I prefer to just keep this as is.
 
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 58ab63642e72..e566d66999a9 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -262,6 +262,7 @@ config EDAC_I10NM
- config EDAC_PND2
- 	tristate "Intel Pondicherry2"
- 	depends on PCI && X86_64 && X86_MCE_INTEL
-+	select P2SB if X86
- 	help
- 	  Support for error detection and correction on the Intel
- 	  Pondicherry2 Integrated Memory Controller. This SoC IP is
-diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
-index 7d1df120e24c..a20b299f1202 100644
---- a/drivers/edac/pnd2_edac.c
-+++ b/drivers/edac/pnd2_edac.c
-@@ -28,6 +28,8 @@
- #include <linux/bitmap.h>
- #include <linux/math64.h>
- #include <linux/mod_devicetable.h>
-+#include <linux/platform_data/x86/p2sb.h>
-+
- #include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- #include <asm/processor.h>
-@@ -232,42 +234,14 @@ static u64 get_mem_ctrl_hub_base_addr(void)
- 	return U64_LSHIFT(hi.base, 32) | U64_LSHIFT(lo.base, 15);
- }
- 
--static u64 get_sideband_reg_base_addr(void)
--{
--	struct pci_dev *pdev;
--	u32 hi, lo;
--	u8 hidden;
--
--	pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x19dd, NULL);
--	if (pdev) {
--		/* Unhide the P2SB device, if it's hidden */
--		pci_read_config_byte(pdev, 0xe1, &hidden);
--		if (hidden)
--			pci_write_config_byte(pdev, 0xe1, 0);
--
--		pci_read_config_dword(pdev, 0x10, &lo);
--		pci_read_config_dword(pdev, 0x14, &hi);
--		lo &= 0xfffffff0;
--
--		/* Hide the P2SB device, if it was hidden before */
--		if (hidden)
--			pci_write_config_byte(pdev, 0xe1, hidden);
--
--		pci_dev_put(pdev);
--		return (U64_LSHIFT(hi, 32) | U64_LSHIFT(lo, 0));
--	} else {
--		return 0xfd000000;
--	}
--}
--
- #define DNV_MCHBAR_SIZE  0x8000
- #define DNV_SB_PORT_SIZE 0x10000
- static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *name)
- {
- 	struct pci_dev *pdev;
- 	void __iomem *base;
--	u64 addr;
--	unsigned long size;
-+	struct resource r;
-+	int ret;
- 
- 	if (op == 4) {
- 		pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x1980, NULL);
-@@ -279,20 +253,23 @@ static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *na
- 	} else {
- 		/* MMIO via memory controller hub base address */
- 		if (op == 0 && port == 0x4c) {
--			addr = get_mem_ctrl_hub_base_addr();
--			if (!addr)
-+			memset(&r, 0, sizeof(r));
-+
-+			r.start = get_mem_ctrl_hub_base_addr();
-+			if (!r.start)
- 				return -ENODEV;
--			size = DNV_MCHBAR_SIZE;
-+			r.end = r.start + DNV_MCHBAR_SIZE - 1;
- 		} else {
- 			/* MMIO via sideband register base address */
--			addr = get_sideband_reg_base_addr();
--			if (!addr)
--				return -ENODEV;
--			addr += (port << 16);
--			size = DNV_SB_PORT_SIZE;
-+			ret = p2sb_bar(NULL, 0, &r);
-+			if (ret)
-+				return ret;
-+
-+			r.start += (port << 16);
-+			r.end = r.start + DNV_SB_PORT_SIZE - 1;
- 		}
- 
--		base = ioremap((resource_size_t)addr, size);
-+		base = ioremap(r.start, resource_size(&r));
- 		if (!base)
- 			return -ENODEV;
- 
--- 
-2.34.1
+Regards,
+
+Hans
+
+
+
+> 
+>> +		dev_dbg(bq->dev, "input voltage = %d uV\n", voltage);
+>> +
+>> +		if ((voltage + PUMP_EXPRESS_VBUS_MARGIN_uV) >
+>> +					bq->pump_express_vbus_max)
+>> +			break;
+>> +
+>> +		ret = bq25890_field_write(bq, F_PUMPX_UP, 1);
+>> +		if (ret < 0)
+>> +			goto error_print;
+>> +
+>> +		/* Note a single PUMPX up pulse-sequence takes 2.1s */
+>> +		ret = regmap_field_read_poll_timeout(bq->rmap_fields[F_PUMPX_UP],
+>> +						     ret, !ret, 100000, 3000000);
+>> +		if (ret < 0)
+>> +			goto error_print;
+>> +
+>> +		/* Make sure ADC has sampled Vbus before checking again */
+>> +		msleep(1000);
+>> +	}
+>> +
+>> +	bq25890_field_write(bq, F_PUMPX_EN, 0);
+>> +
+>> +	dev_info(bq->dev, "Hi-voltage charging requested, input voltage is %d mV\n",
+>> +		 voltage);
+> 
+>> +	return;
+>> +error_print:
+> 
+> 	if (ret < 0)
+> 
+> But it's up to you.
+> 
+>> +	dev_err(bq->dev, "Failed to request hi-voltage charging\n");
+>> +}
+> 
 
