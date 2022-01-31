@@ -2,149 +2,164 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B95BA4A4978
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Jan 2022 15:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74C2F4A4A21
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Jan 2022 16:15:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238756AbiAaOjk (ORCPT
+        id S1379398AbiAaPOr (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 Jan 2022 09:39:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56034 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238231AbiAaOjk (ORCPT
+        Mon, 31 Jan 2022 10:14:47 -0500
+Received: from mga09.intel.com ([134.134.136.24]:61344 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1377812AbiAaPOS (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 Jan 2022 09:39:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1643639979;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=R0oDEaFGdibME6lqfi97Zey91X/PgbW0htlflxKdk5k=;
-        b=Lt718/7zxLrylDXof826XEVZDl4FuiQ8DOBycpbkeXeIdoiTHs98UryBeOJI9OBQhJE/q4
-        TLQqH3hAuawP5RviXQ9ATkoaSZWGptIZZyOD5gVg8yiXGMrmwYBR3NwBoiQuFZNLQIhqoO
-        r9MJnZgL1hH8/eBPKacUqkmsqfFDs2c=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-JjhohY_NPZO9sCy3YCdDow-1; Mon, 31 Jan 2022 09:39:38 -0500
-X-MC-Unique: JjhohY_NPZO9sCy3YCdDow-1
-Received: by mail-ed1-f70.google.com with SMTP id i22-20020a0564020f1600b00407b56326a2so7061384eda.18
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Jan 2022 06:39:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=R0oDEaFGdibME6lqfi97Zey91X/PgbW0htlflxKdk5k=;
-        b=66eHE4aa0lLNJqjaEd/TlHgPp90QnVpMWgM6wlx+MnvfOA3kRqpoMzto6rIbFiNC1A
-         2NsrLMlbhZrjrLjzo+BkhH6KmVPoLlNVd4NlM7FRAchV6IuS4rSquk5Su/LjuDXLsEju
-         jEY2rMJTZcsulWXBHbg/iCX3XE/Dry64v5/oLCZNqkQAAbLMgCgxM6ERMZvoUNlEIH3l
-         LpzmgyRAmTVP0dfkvflaoewEnOezq59NJm4PKmlSl94Bb4HB76QeYS9geqUrbieIAYW4
-         WPaIwUgrpDA5ek9KByM0v9492Wt9RXyTtflPcGSPiz6euwdickdVJmsJbPOw3ui2/3v1
-         817Q==
-X-Gm-Message-State: AOAM532WCM2u25q7tpoWzeegM2nmD3bsLmzP3l9hl8M61rN1hFE1XHdc
-        c3vVuH+OCk0LW5YubcuFiE8GKSj4bPsS/tu9fLN9p7TQYuoQbbTTZ0osqmozaLul6N2pC6pDje6
-        jKME0lq+9hMHuZ64gNfmlYkeGQxEqpdzAMw==
-X-Received: by 2002:a17:907:3d01:: with SMTP id gm1mr1106330ejc.695.1643639977286;
-        Mon, 31 Jan 2022 06:39:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzix88rypjQ9PzeqG917MJ5ZswKyPWRnGuIiC5bkUAy88MpUabwzv3XiWV6ICCl8U202+QhVQ==
-X-Received: by 2002:a17:907:3d01:: with SMTP id gm1mr1106311ejc.695.1643639977039;
-        Mon, 31 Jan 2022 06:39:37 -0800 (PST)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id s20sm13504159ejc.189.2022.01.31.06.39.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 06:39:36 -0800 (PST)
-Message-ID: <91bfb535-9442-9413-cfca-1b5cb08826ed@redhat.com>
-Date:   Mon, 31 Jan 2022 15:39:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 01/20] power: supply: core: Refactor
- power_supply_set_input_current_limit_from_supplier()
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Wolfram Sang <wsa@kernel.org>,
+        Mon, 31 Jan 2022 10:14:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643642058; x=1675178058;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3D8YLxy7IJXHCZSfu3Aufg/zIoMBFH7k7WLe87F7zsI=;
+  b=JNF9yr4cYM9XUnDWw/z3EYD2K74oNY7CClEqTjoWnyiYZ2KYJH4CCuZv
+   L69GaHOQ9o3RFyNg6TC+eKbo6NHLpc07Jzr07/SxzVU+NG2Kef9vaPP9d
+   6U+3NlCWHzLld3wQi2fxJ24rzogCZK6Q4AZDJ9TsTm81+Ck/zyHamtKPd
+   kSvvc2vg+P0iH3iE0BdT0nAM59cLQ+KzT85MTYjYDyGLX0o28anC6xRIv
+   5/B8trHTB679s/DnAzEeV5VHf6wU7aVjnWKTPD2DJ5KD/2nRxoVOLrKmS
+   sNlJ6QF+GabCQwAQyvY8oFPzz9/getQ7Zg3NqkmFUgAG/sPQDvH1MIrHf
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="247248983"
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="247248983"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 07:14:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
+   d="scan'208";a="768615387"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2022 07:14:01 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id BB70F21A; Mon, 31 Jan 2022 17:14:15 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Ard Biesheuvel <ardb@kernel.org>, Len Brown <lenb@kernel.org>,
-        linux-acpi@vger.kernel.org, Yauhen Kharuzhy <jekhor@gmail.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org
-References: <20220130204557.15662-1-hdegoede@redhat.com>
- <20220130204557.15662-2-hdegoede@redhat.com>
- <YffmDCHY6csr0uyD@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YffmDCHY6csr0uyD@smile.fi.intel.com>
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Tan Jui Nee <jui.nee.tan@intel.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>,
+        Henning Schild <henning.schild@siemens.com>
+Subject: [PATCH v4 0/8] platform/x86: introduce p2sb_bar() helper
+Date:   Mon, 31 Jan 2022 17:13:38 +0200
+Message-Id: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Andy,
+There are a few users and at least one more is coming (*) that would like
+to utilize P2SB mechanism of hiding and unhiding a device from the PCI
+configuration space.
 
-Thank you for the reviews.
+Here is the series to consolidate p2sb handling code for existing users
+and provide a generic way for new comer(s).
 
-On 1/31/22 14:37, Andy Shevchenko wrote:
-> On Sun, Jan 30, 2022 at 09:45:38PM +0100, Hans de Goede wrote:
->> Some (USB) charger ICs have variants with USB D+ and D- pins to do their
->> own builtin charger-type detection, like e.g. the bq24190 and bq25890 and
->> also variants which lack this functionality, e.g. the bq24192 and bq25892.
->>
->> In case the charger-type; and thus the input-current-limit detection is
->> done outside the charger IC then we need some way to communicate this to
->> the charger IC. In the past extcon was used for this, but if the external
->> detection does e.g. full USB PD negotiation then the extcon cable-types do
->> not convey enough information.
->>
->> For these setups it was decided to model the external charging "brick"
->> and the parameters negotiated with it as a power_supply class-device
->> itself; and power_supply_set_input_current_limit_from_supplier() was
->> introduced to allow drivers to get the input-current-limit this way.
->>
->> But in some cases psy drivers may want to know other properties, e.g. the
->> bq25892 can do "quick-charge" negotiation by pulsing its current draw,
->> but this should only be done if the usb_type psy-property of its supplier
->> is set to DCP (and device-properties indicate the board allows higher
->> voltages).
->>
->> Instead of adding extra helper functions for each property which
->> a psy-driver wants to query from its supplier, refactor
->> power_supply_set_input_current_limit_from_supplier() into a
->> more generic power_supply_get_property_from_supplier() function.
-> 
-> ...
-> 
->> +	ret = power_supply_get_property_from_supplier(bdi->charger,
->> +						      POWER_SUPPLY_PROP_CURRENT_MAX,
->> +						      &val);
->> +	if (ret == 0)
-> 
-> Can it be as simple as
-> 
-> 	if (ret)
-> 		return;
-> 
-> 	...
-> 
-> 
-> ?
-> 
-> Or did I misunderstand the meaning of 0?
+It also includes a patch to enable GPIO controllers on Apollo Lake
+when it's used with ABL bootloader w/o ACPI support.
 
-Yes that would be better and together with some of the other tweaks
-you've suggested I believe that this warrants a version 5. So I'll
-address a v5 addressing all your comment.
+The patch that bring the helper ("platform/x86/intel: Add Primary
+to Sideband (P2SB) bridge support") has a commit message that
+sheds a light on what the P2SB is and why this is needed.
 
-Regards,
+The changes made in v2 do not change the main idea and the functionality
+in a big scale. What we need is probably one more (RE-)test done by Henning.
+I hope to have it merged to v5.18-rc1 that Siemens can develop their changes
+based on this series.
 
-Hans
+I have tested this on Apollo Lake platform (I'm able to see SPI NOR and
+since we have an ACPI device for GPIO I do not see any attempts to recreate
+one).
+
+*) One in this series, and one is a due after merge in the Simatic IPC drivers
+
+The series may be routed either via MFD (and I guess Lee would prefer that)
+or via PDx86, whichever seems better for you, folks. As of today patches
+are ACKed by the respective maintainers, but I2C one and one of the MFD.
+
+Wolfram, can you ACK the patch against i2c-i801 driver, if you have no
+objections?
+
+Changes in v4:
+- added tag to the entire series (Hans)
+- added tag to pin control patch (Mika)
+- dropped PCI core changes (PCI core doesn't want modifications to be made)
+- as a consequence of the above merged necessary bits into p2sb.c
+- added a check that p2sb is really hidden (Hans)
+- added EDAC patches (reviewed by maintainer internally)
+
+Changes in v3:
+- resent with cover letter
+
+Changes in v2:
+- added parentheses around bus in macros (Joe)
+- added tag (Jean)
+- fixed indentation and wrapping in the header (Christoph)
+- moved out of PCI realm to PDx86 as the best common denominator (Bjorn)
+- added a verbose commit message to explain P2SB thingy (Bjorn)
+- converted first parameter from pci_dev to pci_bus
+- made first two parameters (bus and devfn) optional (Henning, Lee)
+- added Intel pin control patch to the series (Henning, Mika)
+- fixed English style in the commit message of one of MFD patch (Lee)
+- added tags to my MFD LPC ICH patches (Lee)
+- used consistently (c) (Lee)
+- made indexing for MFD cell and resource arrays (Lee)
+- fixed the resource size in i801 (Jean)
+
+Andy Shevchenko (6):
+  pinctrl: intel: Check against matching data instead of ACPI companion
+  mfd: lpc_ich: Factor out lpc_ich_enable_spi_write()
+  mfd: lpc_ich: Switch to generic p2sb_bar()
+  i2c: i801: convert to use common P2SB accessor
+  EDAC, pnd2: Use proper I/O accessors and address space annotation
+  EDAC, pnd2: convert to use common P2SB accessor
+
+Jonathan Yong (1):
+  platform/x86/intel: Add Primary to Sideband (P2SB) bridge support
+
+Tan Jui Nee (1):
+  mfd: lpc_ich: Add support for pinctrl in non-ACPI system
+
+ drivers/edac/Kconfig                   |   1 +
+ drivers/edac/pnd2_edac.c               |  62 ++---
+ drivers/i2c/busses/Kconfig             |   1 +
+ drivers/i2c/busses/i2c-i801.c          |  39 +---
+ drivers/mfd/Kconfig                    |   1 +
+ drivers/mfd/lpc_ich.c                  | 136 +++++++++--
+ drivers/pinctrl/intel/pinctrl-intel.c  |  14 +-
+ drivers/platform/x86/intel/Kconfig     |  12 +
+ drivers/platform/x86/intel/Makefile    |   1 +
+ drivers/platform/x86/intel/p2sb.c      | 305 +++++++++++++++++++++++++
+ include/linux/platform_data/x86/p2sb.h |  27 +++
+ 11 files changed, 500 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/platform/x86/intel/p2sb.c
+ create mode 100644 include/linux/platform_data/x86/p2sb.h
+
+-- 
+2.34.1
 
