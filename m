@@ -2,80 +2,87 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 134764A4D0F
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 31 Jan 2022 18:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D124A5569
+	for <lists+platform-driver-x86@lfdr.de>; Tue,  1 Feb 2022 04:04:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380893AbiAaRZD (ORCPT
+        id S229672AbiBADE1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 31 Jan 2022 12:25:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379915AbiAaRZA (ORCPT
+        Mon, 31 Jan 2022 22:04:27 -0500
+Received: from mga07.intel.com ([134.134.136.100]:8831 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229519AbiBADE1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 31 Jan 2022 12:25:00 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 854F5C06173B
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Jan 2022 09:25:00 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id m26so4500003wms.0
-        for <platform-driver-x86@vger.kernel.org>; Mon, 31 Jan 2022 09:25:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Beo1JbGwOLhZ2MWlPDrwyZ5ZOtgw4EejZBlER1C2tow=;
-        b=XIlC1iV8ngC9N7JUEMiZF7GNx/ySECVSSeZb2aPjpNSIjVL7aNwbl3KVnkVaTxG0L4
-         JOPbaMEGI/VL7+MvPzkaJg6NLpTqPTgm3cCo19v+LYmGNqsTd7C3KrlLlbMq3ZX3itzu
-         JZ/zSwiyx8o/yHv7c+BUfZGyr9QY9wq30cpLdL8xIiprbAxLcfp/GSaGA8v1vSLlUHBs
-         tg29G/0reuqHiW29mNWNyjqhP07XBBNa/a0NIMUlVgQ+m82NkSh9EbkWAP5rkB/try0M
-         Boa3qqPmSEQnM8GPehWA2thPnA9BE/FcbB+tyai0STts3AXzcoNKRu6YduDn/vUowufY
-         yQGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Beo1JbGwOLhZ2MWlPDrwyZ5ZOtgw4EejZBlER1C2tow=;
-        b=uPs3VesEDC5jJV1Zx/FMLqAGFBuWJ8QWEfhxbynZChzMzC9i0My+1plPceGY2Kx/cO
-         J9BhVHW8BzJVrvTTHJ2ZAntlqys1o35Wwghz7X/vCVtV79V0hGiRF5BoRUONpTHGq/wl
-         jsUos/2sakQhwv3YYit50nltAeGaxUrO9aVT5ygH+5D0COMyIKlTGFNZ8h/h3NzHoplt
-         Pkl248JJ95+MjYnqEsoZ6LJylCxIGyFOdLQ+DUL6rCHtpkCUSCJtS2mKmkQlNeXYLOYD
-         t9Q6VdEfd+BBUaRjnpzDmnLFPGmhfgJr73tU85Jw1UY3NI+WxOy62z0t+m4W6yjkx6HH
-         5FGQ==
-X-Gm-Message-State: AOAM531xvtXEcBnnY0TajLDcMyAPZ5IDQy9MZQ8lPVAJ5uHJMXDJE7pk
-        QsgZpzNhf5BSq9Ws9W1YM+YIb0O3ss5DhicvjS0=
-X-Google-Smtp-Source: ABdhPJyQLUbEZON5BcS1TQGgyww6bcHrMIKrLcUHnAoBwkZ+e+i9MnSRXTwGD3SfM1N0kqZFpTws7ifIIexVvDzIX4Y=
-X-Received: by 2002:a7b:c944:: with SMTP id i4mr27673413wml.174.1643649899129;
- Mon, 31 Jan 2022 09:24:59 -0800 (PST)
+        Mon, 31 Jan 2022 22:04:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643684667; x=1675220667;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jB4yUS0VqdJA5c9c23rwVYy7/CxI3rWJGy9nTFkSgao=;
+  b=ICt9i2s0PYaPfOG9QPHGB4IuokGugeMtwWDjqimL+bDBVXdR+1dGULOG
+   PzS9RoKckgdNGwW6Megmpm/U/rr8i5ZWwdohdP220wOSpN54GH+UsdCh0
+   8WxLu03KR2DYrmYmHY5AX0qUk+JCyqbeP3b53yHUBVhLKsOWP9w3z3v5s
+   w+g8n1zaaBE6DXIq0kNivFL5Su46ua/NLs0wQioJqvnWPDZWxVrOr+rs1
+   jf2Zyiht21lZRcSr9Qhj5R5jNGCZ5faOIMAFsIorPwmssovYiG2TLvM8T
+   tHyaZkoHV/YLDKnqcfGGBw0aBIWed6DSrPPqnf992Rn0cCi8y/7iVXs79
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="310918787"
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
+   d="scan'208";a="310918787"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 19:04:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
+   d="scan'208";a="479450421"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga003.jf.intel.com with ESMTP; 31 Jan 2022 19:04:27 -0800
+Received: from debox1-desk4.intel.com (unknown [10.212.192.236])
+        by linux.intel.com (Postfix) with ESMTP id BB723580AD7;
+        Mon, 31 Jan 2022 19:04:26 -0800 (PST)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     hdegoede@redhat.com, david.e.box@linux.intel.com,
+        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+        srinivas.pandruvada@intel.com, mgross@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/3] Intel Software Defined Silicon
+Date:   Mon, 31 Jan 2022 19:04:21 -0800
+Message-Id: <20220201030424.1068816-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a5d:4b44:0:0:0:0:0 with HTTP; Mon, 31 Jan 2022 09:24:58
- -0800 (PST)
-Reply-To: gb528796@gmail.com
-From:   george brown <ed7293954@gmail.com>
-Date:   Mon, 31 Jan 2022 18:24:58 +0100
-Message-ID: <CAN9EptKHiOHXPv7WXPRa0CVzD0B1cGoQuRRYEqvzJ9TDZEk=Ew@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hallo
+This series adds support for Intel Software Defined Silicon. These
+patches are the same as patches 4-6 from this series [1]. Patches 1-3 
+of that series were pulled in during the 5.17 merge window.
 
-Mein Name ist George Brown. Ich bin von Beruf Rechtsanwalt. m=C3=B6chte ich
-Ihnen anbieten
-die n=C3=A4chsten Angeh=C3=B6rigen meines Mandanten. Sie werden die Summe v=
-on
-($8,5 Millionen) erben
-Dollar, die mein Mandant vor seinem Tod auf der Bank gelassen hat.
+David E. Box (3):
+  platform/x86: Add Intel Software Defined Silicon driver
+  tools arch x86: Add Intel SDSi provisioning tool
+  selftests: sdsi: test sysfs setup
 
-Mein Mandant ist ein B=C3=BCrger Ihres Landes, der mit seiner Frau bei
-einem Autounfall ums Leben kam
-und einziger Sohn. Ich habe Anspruch auf 50 % des Gesamtfonds, w=C3=A4hrend
-50 % Anspruch haben
-sein f=C3=BCr dich.
-Bitte kontaktieren Sie meine private E-Mail hier f=C3=BCr weitere Details:
-greogebrown@gmail.com
+[1] https://lore.kernel.org/lkml/20211216023146.2361174-1-david.e.box@linux.intel.com/T/
 
-Vielen Dank im Voraus,
-Herr George Brown,
+ .../ABI/testing/sysfs-driver-intel_sdsi       |  77 +++
+ MAINTAINERS                                   |   7 +
+ drivers/platform/x86/intel/Kconfig            |  12 +
+ drivers/platform/x86/intel/Makefile           |   2 +
+ drivers/platform/x86/intel/sdsi.c             | 571 ++++++++++++++++++
+ drivers/platform/x86/intel/vsec.c             |  12 +-
+ tools/arch/x86/intel_sdsi/Makefile            |   9 +
+ tools/arch/x86/intel_sdsi/sdsi.c              | 540 +++++++++++++++++
+ tools/testing/selftests/drivers/sdsi/sdsi.sh  |  18 +
+ .../selftests/drivers/sdsi/sdsi_test.py       | 226 +++++++
+ 10 files changed, 1473 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-intel_sdsi
+ create mode 100644 drivers/platform/x86/intel/sdsi.c
+ create mode 100644 tools/arch/x86/intel_sdsi/Makefile
+ create mode 100644 tools/arch/x86/intel_sdsi/sdsi.c
+ create mode 100755 tools/testing/selftests/drivers/sdsi/sdsi.sh
+ create mode 100644 tools/testing/selftests/drivers/sdsi/sdsi_test.py
+
+-- 
+2.25.1
+
