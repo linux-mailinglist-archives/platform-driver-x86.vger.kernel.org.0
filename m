@@ -2,91 +2,91 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C98454A9A18
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Feb 2022 14:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C384A9AA6
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  4 Feb 2022 15:06:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351393AbiBDNiO (ORCPT
+        id S1358764AbiBDOGi (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 4 Feb 2022 08:38:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiBDNiO (ORCPT
+        Fri, 4 Feb 2022 09:06:38 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:51992 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232992AbiBDOGi (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 4 Feb 2022 08:38:14 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75E6AC061714;
-        Fri,  4 Feb 2022 05:38:13 -0800 (PST)
+        Fri, 4 Feb 2022 09:06:38 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A4F23B8373A;
-        Fri,  4 Feb 2022 13:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CC3C004E1;
-        Fri,  4 Feb 2022 13:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643981890;
-        bh=ADsLWrDPUHmAqFOd35u++j4ThxtN9Oz6/99IGv9oiic=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB7D860AFD;
+        Fri,  4 Feb 2022 14:06:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67452C004E1;
+        Fri,  4 Feb 2022 14:06:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643983597;
+        bh=RyIR8dJMc1IOcmZizEww/InxQ1bBAmYfnuCHIM1TwrA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iEBVddxxEGZ8Z/cP1AXKMf6eHPQ9U6NMkiaKUe7OdNODPCCunKqCWLvufroq8oqo+
-         IgLv5eRgIdm/TmPaDZ8qWYCU57rA6tK3EIHQqzn5BgEP1BNl/UXF26nhcm5Wcm3Kns
-         /dLBxNDC+S2C+0uUZEianRM9pmGbgYOvQzcGCRuR+Jsyywhf3eMVTaMzjGuZX6NSRn
-         R3DkFb2EXoy6v5eAuyUYxWq2eLHkQ8mwiPMSGb3qf1ccmUtTjBRbhFjhJ2zYtPuQqi
-         Zaxm9eILt6xbeMwAyuMOxYY21i1+ya9QM4ylXTdD6PCs+OnA91cqLXuFafI9zy+XjR
-         oYuJbZz7DegHQ==
-Date:   Fri, 4 Feb 2022 15:37:56 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Martin Fernandez <martin.fernandez@eclypsium.com>
-Cc:     linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-mm@kvack.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        ardb@kernel.org, dvhart@infradead.org, andy@infradead.org,
-        gregkh@linuxfoundation.org, rafael@kernel.org,
-        akpm@linux-foundation.org, daniel.gutson@eclypsium.com,
-        hughsient@gmail.com, alex.bazhaniuk@eclypsium.com,
-        alison.schofield@intel.com, keescook@chromium.org
-Subject: Re: [PATCH v6 6/6] drivers/node: Show in sysfs node's crypto
- capabilities
-Message-ID: <Yf0sNKu1vJkIRAA3@kernel.org>
-References: <20220203164328.203629-1-martin.fernandez@eclypsium.com>
- <20220203164328.203629-7-martin.fernandez@eclypsium.com>
- <Yfyx8s9n+CZ6TPgg@kernel.org>
- <CAKgze5YZF09F3FTwD6kODd2RrWATutcmM5J7-wcLTK32C6aptg@mail.gmail.com>
+        b=KGOrqyOrclHpuY//lkGpSrXAgd+1/lmaoLA3C4sQEGbyJ48BfRQM37xUmncb7bYFP
+         gD6YyG59Y6eHrX9NKVKAMA/aMgQVtOm+JO/dT9hm98kl+BMIkAbwI6OgFxByAD/A3Y
+         gNNS31Tk5WCehSMMv3hFb9192ZfLmGCe8jNYqNDQ=
+Date:   Fri, 4 Feb 2022 14:43:04 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "David E. Box" <david.e.box@linux.intel.com>
+Cc:     Joe Perches <joe@perches.com>, hdegoede@redhat.com,
+        andriy.shevchenko@linux.intel.com, srinivas.pandruvada@intel.com,
+        mgross@linux.intel.com, linux-kernel@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH V5 1/3] platform/x86: Add Intel Software Defined Silicon
+ driver
+Message-ID: <Yf0taBe4PwTNbu9g@kroah.com>
+References: <20220204053046.2475671-1-david.e.box@linux.intel.com>
+ <20220204053046.2475671-2-david.e.box@linux.intel.com>
+ <aa16191c1241473fbfd55995bbba37bd2ab4a41c.camel@perches.com>
+ <372f76f7b1b7cf3d0ca38a7a84bcc23322ff12ed.camel@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKgze5YZF09F3FTwD6kODd2RrWATutcmM5J7-wcLTK32C6aptg@mail.gmail.com>
+In-Reply-To: <372f76f7b1b7cf3d0ca38a7a84bcc23322ff12ed.camel@linux.intel.com>
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Fri, Feb 04, 2022 at 09:27:42AM -0300, Martin Fernandez wrote:
-> On 2/4/22, Mike Rapoport <rppt@kernel.org> wrote:
-> > On Thu, Feb 03, 2022 at 01:43:28PM -0300, Martin Fernandez wrote:
-> >> +Description:
-> >> +		This value is 1 if all system memory in this node is
-> >> +		marked with EFI_MEMORY_CPU_CRYPTO, indicating that the
-> >
-> > It didn't jump at me at previous postings, but other architectures won't
-> > necessary have EFI_MEMORY_CPU_CRYPTO marking crypto-capable memory.
-> >
-> > How about
-> >
-> >   This value is 1 if all system memory in this node is capable of being
-> >   protected with the CPU's memory cryptographic capabilities. It is 0
-> >   otherwise.
-> >   On EFI architectures with value corresponds to EFI_MEMORY_CPU_CRYPTO.
-> >
-> >
+On Fri, Feb 04, 2022 at 05:23:07AM -0800, David E. Box wrote:
+> On Fri, 2022-02-04 at 02:14 -0800, Joe Perches wrote:
+> > On Thu, 2022-02-03 at 21:30 -0800, David E. Box wrote:
+> > > Intel Software Defined Silicon (SDSi) is a post manufacturing mechanism for
+> > > activating additional silicon features. Features are enabled through a
+> > > license activation process.
+> > 
+> > Why isn't this a user process and not a kernel one?
 > 
-> Yes, sounds good to me.
+> This is a mechanism for provisioning CPU features during runtime. It requires a
+> driver to access the functionality. That functionality is discovered on a multi
+> functional PCI device that is owned by the upstream intel_vsec driver.
 > 
-> Is there other architecture with something similar to this? Or are you
-> thinking on the possibility of such architecture?
+> > 
+> > > V5
+> > >   - Update kernel version to 5.18 in API doc and copyrights to 2022.
+> > >   - Remove unneeded prototypes.
+> > >   - In binary attribute handlers where ret is only used for errors,
+> > >     replace,
+> > >               return (ret < 0) ? ret : size;
+> > >     with,
+> > >               return ret ?: size;
+> > 
+> > I think this style overly tricky.
+> > 
+> > Why not the canonical:
+> > 
+> > 	if (ret < 0)
+> > 		return ret;
+> > 
+> > 	return size;
+> 
+> I can see not using the 2 parameter shortcut of the ternary operator, but the
+> regular 3 parameter expression is easy to read for simple operations.
 
-AFAIU, s390 and powerpc have memory encryption capabilities, I don't know
-the details though. 
+Not always.  Spell it out please and be obvious.
 
--- 
-Sincerely yours,
-Mike.
+thanks,
+
+greg k-h
