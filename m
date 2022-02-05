@@ -2,49 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 533734AAC33
-	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Feb 2022 20:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B22564AAC35
+	for <lists+platform-driver-x86@lfdr.de>; Sat,  5 Feb 2022 20:14:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343827AbiBETOF (ORCPT
+        id S243650AbiBETOG (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sat, 5 Feb 2022 14:14:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38134 "EHLO
+        Sat, 5 Feb 2022 14:14:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21792 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238602AbiBETOF (ORCPT
+        by vger.kernel.org with ESMTP id S1343837AbiBETOG (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sat, 5 Feb 2022 14:14:05 -0500
+        Sat, 5 Feb 2022 14:14:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644088444;
+        s=mimecast20190719; t=1644088445;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xrBYIKIQly+xjuntd7ZX2chrvykNuuXjGJ0buChXjrY=;
-        b=HoKWhLuptEt/gH5PGTKzLMLn5utkMWJw8aTpDDLYB21UiPheNTjzNmMo4Arr9N+q+P3u4W
-        BZCaYy5r8iqZgt11ktXj42NX5ItVGQSmXGvAxf103MutJ4C6iUcZR/CIkwpX8wxKOW8beM
-        0mjminZFjrh2OrWMzKyaTS/sohl45Sc=
+        bh=RtLRkw0TyCzWJRssuVdF65lN13Lr7qPtY9EeWTpN3zA=;
+        b=V1vt9QXcEvdP0B66eQmJ1ze0FCHe1WDqTKrl4+KpKfvHe7YpCOidFKzZ7dpyreuX8afuTu
+        AshtGkN4dgWVIsmqR8dHvoGv4sfeJ+dga3Pzj89GvjqV1H3G35Lv/vKpWZyDew2yqHSmGv
+        L5PRnJ3GLVWDuEu8ClJiKn+7we/sHAw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-vTiRlRjWMhO7cVmduxmg6g-1; Sat, 05 Feb 2022 14:14:03 -0500
-X-MC-Unique: vTiRlRjWMhO7cVmduxmg6g-1
+ us-mta-250-2gPntthIPaKE2wanYOy_Dw-1; Sat, 05 Feb 2022 14:14:04 -0500
+X-MC-Unique: 2gPntthIPaKE2wanYOy_Dw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F4BA835B47;
-        Sat,  5 Feb 2022 19:14:02 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CC931006AA3;
+        Sat,  5 Feb 2022 19:14:03 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C06525C23A;
-        Sat,  5 Feb 2022 19:14:00 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 663F05C23A;
+        Sat,  5 Feb 2022 19:14:02 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mark Gross <markgross@kernel.org>,
         Andy Shevchenko <andy@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Stephan Gerhold <stephan@gerhold.net>,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 3/6] platform/x86: x86-android-tablets: Add x86_android_tablet_get_gpiod() helper
-Date:   Sat,  5 Feb 2022 20:13:53 +0100
-Message-Id: <20220205191356.225505-3-hdegoede@redhat.com>
+Subject: [PATCH 4/6] platform/x86: x86-android-tablets: Add lid-switch gpio-keys pdev to Asus ME176C + TF103C
+Date:   Sat,  5 Feb 2022 20:13:54 +0100
+Message-Id: <20220205191356.225505-4-hdegoede@redhat.com>
 In-Reply-To: <20220205191356.225505-1-hdegoede@redhat.com>
 References: <20220205191356.225505-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,76 +54,118 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Factor the code to go from a gpiochip label + pin-numer to a gpio_desc
-out of x86_acpi_irq_helper_get() and make it into a new
-x86_android_tablet_get_gpiod() helper, as this will be necessary in some
-x86_dev_info.init() functions too.
+The Asus ME176C + TF103C both have a lid-switch (for a cover in the ME176C
+case), add a gpio-keys platform-device and platform-data describing the
+lid-switch on both.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/x86-android-tablets.c | 35 ++++++++++++++--------
- 1 file changed, 23 insertions(+), 12 deletions(-)
+ drivers/platform/x86/x86-android-tablets.c | 57 ++++++++++++++++++++--
+ 1 file changed, 53 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/platform/x86/x86-android-tablets.c b/drivers/platform/x86/x86-android-tablets.c
-index 45a951002401..40243ea3ae39 100644
+index 40243ea3ae39..6174aad572bc 100644
 --- a/drivers/platform/x86/x86-android-tablets.c
 +++ b/drivers/platform/x86/x86-android-tablets.c
-@@ -53,13 +53,33 @@ static int gpiochip_find_match_label(struct gpio_chip *gc, void *data)
- 	return gc->label && !strcmp(gc->label, data);
- }
+@@ -12,10 +12,12 @@
  
-+static int x86_android_tablet_get_gpiod(char *label, int pin, struct gpio_desc **desc)
+ #include <linux/acpi.h>
+ #include <linux/dmi.h>
++#include <linux/gpio_keys.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/gpio/machine.h>
+ #include <linux/i2c.h>
++#include <linux/input.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
+ #include <linux/module.h>
+@@ -231,6 +233,51 @@ static struct gpiod_lookup_table int3496_gpo2_pin22_gpios = {
+ 	},
+ };
+ 
++/* Asus ME176C and TF103C tablets shared data */
++static struct gpio_keys_button asus_me176c_tf103c_lid = {
++	.code = SW_LID,
++	/* .gpio gets filled in by asus_me176c_tf103c_init() */
++	.active_low = true,
++	.desc = "lid_sw",
++	.type = EV_SW,
++	.wakeup = true,
++	.debounce_interval = 50,
++};
++
++static const struct gpio_keys_platform_data asus_me176c_tf103c_lid_pdata __initconst = {
++	.buttons = &asus_me176c_tf103c_lid,
++	.nbuttons = 1,
++	.name = "lid_sw",
++};
++
++static const struct platform_device_info asus_me176c_tf103c_pdevs[] __initconst = {
++	{
++		.name = "gpio-keys",
++		.id = PLATFORM_DEVID_AUTO,
++		.data = &asus_me176c_tf103c_lid_pdata,
++		.size_data = sizeof(asus_me176c_tf103c_lid_pdata),
++	},
++	{
++		/* For micro USB ID pin handling */
++		.name = "intel-int3496",
++		.id = PLATFORM_DEVID_NONE,
++	},
++};
++
++static int __init asus_me176c_tf103c_init(void)
 +{
 +	struct gpio_desc *gpiod;
-+	struct gpio_chip *chip;
++	int ret;
 +
-+	chip = gpiochip_find(label, gpiochip_find_match_label);
-+	if (!chip) {
-+		pr_err("error cannot find GPIO chip %s\n", label);
-+		return -ENODEV;
-+	}
++	ret = x86_android_tablet_get_gpiod("INT33FC:02", 12, &gpiod);
++	if (ret < 0)
++		return ret;
++	asus_me176c_tf103c_lid.gpio = desc_to_gpio(gpiod);
 +
-+	gpiod = gpiochip_get_desc(chip, pin);
-+	if (IS_ERR(gpiod)) {
-+		pr_err("error %ld getting GPIO %s %d\n", PTR_ERR(gpiod), label, pin);
-+		return PTR_ERR(gpiod);
-+	}
-+
-+	*desc = gpiod;
 +	return 0;
 +}
 +
- static int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data)
- {
- 	struct irq_fwspec fwspec = { };
- 	struct irq_domain *domain;
- 	struct acpi_device *adev;
- 	struct gpio_desc *gpiod;
--	struct gpio_chip *chip;
- 	unsigned int irq_type;
- 	acpi_handle handle;
- 	acpi_status status;
-@@ -74,18 +94,9 @@ static int x86_acpi_irq_helper_get(const struct x86_acpi_irq_data *data)
- 		return irq;
- 	case X86_ACPI_IRQ_TYPE_GPIOINT:
- 		/* Like acpi_dev_gpio_irq_get(), but without parsing ACPI resources */
--		chip = gpiochip_find(data->chip, gpiochip_find_match_label);
--		if (!chip) {
--			pr_err("error cannot find GPIO chip %s\n", data->chip);
--			return -ENODEV;
--		}
--
--		gpiod = gpiochip_get_desc(chip, data->index);
--		if (IS_ERR(gpiod)) {
--			ret = PTR_ERR(gpiod);
--			pr_err("error %d getting GPIO %s %d\n", ret, data->chip, data->index);
-+		ret = x86_android_tablet_get_gpiod(data->chip, data->index, &gpiod);
-+		if (ret)
- 			return ret;
--		}
++
+ /* Asus ME176C tablets have an Android factory img with everything hardcoded */
+ static const char * const asus_me176c_accel_mount_matrix[] = {
+ 	"-1", "0", "0",
+@@ -358,14 +405,15 @@ static struct gpiod_lookup_table * const asus_me176c_gpios[] = {
+ static const struct x86_dev_info asus_me176c_info __initconst = {
+ 	.i2c_client_info = asus_me176c_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(asus_me176c_i2c_clients),
+-	.pdev_info = int3496_pdevs,
+-	.pdev_count = ARRAY_SIZE(int3496_pdevs),
++	.pdev_info = asus_me176c_tf103c_pdevs,
++	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
+ 	.serdev_info = asus_me176c_serdevs,
+ 	.serdev_count = ARRAY_SIZE(asus_me176c_serdevs),
+ 	.gpiod_lookup_tables = asus_me176c_gpios,
+ 	.bat_swnode = &generic_lipo_hv_4v35_battery_node,
+ 	.modules = bq24190_modules,
+ 	.invalid_aei_gpiochip = "INT33FC:02",
++	.init = asus_me176c_tf103c_init,
+ };
  
- 		irq = gpiod_to_irq(gpiod);
- 		if (irq < 0) {
+ /* Asus TF103C tablets have an Android factory img with everything hardcoded */
+@@ -502,12 +550,13 @@ static struct gpiod_lookup_table * const asus_tf103c_gpios[] = {
+ static const struct x86_dev_info asus_tf103c_info __initconst = {
+ 	.i2c_client_info = asus_tf103c_i2c_clients,
+ 	.i2c_client_count = ARRAY_SIZE(asus_tf103c_i2c_clients),
+-	.pdev_info = int3496_pdevs,
+-	.pdev_count = ARRAY_SIZE(int3496_pdevs),
++	.pdev_info = asus_me176c_tf103c_pdevs,
++	.pdev_count = ARRAY_SIZE(asus_me176c_tf103c_pdevs),
+ 	.gpiod_lookup_tables = asus_tf103c_gpios,
+ 	.bat_swnode = &asus_tf103c_battery_node,
+ 	.modules = bq24190_modules,
+ 	.invalid_aei_gpiochip = "INT33FC:02",
++	.init = asus_me176c_tf103c_init,
+ };
+ 
+ /*
 -- 
 2.33.1
 
