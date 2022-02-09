@@ -2,51 +2,49 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13D94AFB01
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Feb 2022 19:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 899814AFB6A
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  9 Feb 2022 19:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240264AbiBISlj (ORCPT
+        id S240670AbiBISpp (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 9 Feb 2022 13:41:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55190 "EHLO
+        Wed, 9 Feb 2022 13:45:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240587AbiBISlT (ORCPT
+        with ESMTP id S240611AbiBISpV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 9 Feb 2022 13:41:19 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A235C050CF6;
-        Wed,  9 Feb 2022 10:41:17 -0800 (PST)
+        Wed, 9 Feb 2022 13:45:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF76EC014C9A;
+        Wed,  9 Feb 2022 10:43:08 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C12A8B82215;
-        Wed,  9 Feb 2022 18:41:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F32BC340E7;
-        Wed,  9 Feb 2022 18:41:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2627B612AC;
+        Wed,  9 Feb 2022 18:43:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906C8C340ED;
+        Wed,  9 Feb 2022 18:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644432074;
-        bh=Zb4ckic5Z4dK9ZXht8SRcy2CHoG81Msof9yeNXjcFVc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gi4O68u8u0p54m2W3S+ffQ8B7cvIxGpvp6A/k1ihFWB/3tSPzjAR8tm6iJ7uty3Np
-         lU/xryyQ4A3HguHvVkedyPXT9ojdzXG1hfFirfp4H7GpeEBQD9Xd8yjaXaLGmo2lhf
-         jXwSwPWyvGOv557aGn/fawMJcHVATx6sFEnKkybA9c5yWo8D4QMsMTG+HXsltazXxk
-         /WzOp3eyIh+h3NhTDl4k0redhW/pmOmqUSVL31EkwoxydGWm1IVdSsD/iIZOFVd9n5
-         7uVdiC1jzHQBc0HYIlXWAlBJfXoC/thYT592vLsQqurhnzXkirC+S+rfwgrDto/ztE
-         yESLCpi4rDi2w==
+        s=k20201202; t=1644432187;
+        bh=1DHbdGxJ4/bK7M6HfagiOwNN9waYSr1PE3n4r6TtNGQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Lme0JoS8RfX3U3dBm8LOhlSqbScQqvdRyFVxLLCIM/cuWezSAY6BmkBq09oWlHdOm
+         6sU0KEJWAOFWr/SRCx9bi4+lo6/ZVc9x2ObuLseZifN7E0ckfDKSRkPd1b1QrfcaOd
+         ku4RJbMD7/s+FJCk8cS9cllyU6xrJY58XH5FkCn0n18zK6CSIiUfYj3xL8ciVAye0P
+         REPU7vhkZdwrU0FwEthn37uvo5MVLTFjrpn8e7gk4LR4vyW1wGpYZkV7fSL/pHqNpX
+         49hU0ujIZupMrizbMeQTVyjDYxHeEQzJqKz3dpr3uRJR583sNpsyt2Zkt4xw9cD3bc
+         bVBwfcWo9MkjQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Liwei Song <liwei.song@windriver.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
-        andriy.shevchenko@linux.intel.com, hpa@redhat.com,
+        hpa@redhat.com, andriy.shevchenko@linux.intel.com,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 02/27] platform/x86: ISST: Fix possible circular locking dependency detected
-Date:   Wed,  9 Feb 2022 13:40:38 -0500
-Message-Id: <20220209184103.47635-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/15] platform/x86: ISST: Fix possible circular locking dependency detected
+Date:   Wed,  9 Feb 2022 13:42:47 -0500
+Message-Id: <20220209184305.47983-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220209184103.47635-1-sashal@kernel.org>
-References: <20220209184103.47635-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -138,10 +136,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 63 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-index 0c2aa22c7a12e..407afafc7e83f 100644
+index 3de5a3c66529d..cf7b6dee82191 100644
 --- a/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
 +++ b/drivers/platform/x86/intel_speed_select_if/isst_if_common.c
-@@ -532,7 +532,10 @@ static long isst_if_def_ioctl(struct file *file, unsigned int cmd,
+@@ -529,7 +529,10 @@ static long isst_if_def_ioctl(struct file *file, unsigned int cmd,
  	return ret;
  }
  
@@ -153,7 +151,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  static int misc_usage_count;
  static int misc_device_ret;
  static int misc_device_open;
-@@ -542,7 +545,7 @@ static int isst_if_open(struct inode *inode, struct file *file)
+@@ -539,7 +542,7 @@ static int isst_if_open(struct inode *inode, struct file *file)
  	int i, ret = 0;
  
  	/* Fail open, if a module is going away */
@@ -162,7 +160,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  	for (i = 0; i < ISST_IF_DEV_MAX; ++i) {
  		struct isst_if_cmd_cb *cb = &punit_callbacks[i];
  
-@@ -564,7 +567,7 @@ static int isst_if_open(struct inode *inode, struct file *file)
+@@ -561,7 +564,7 @@ static int isst_if_open(struct inode *inode, struct file *file)
  	} else {
  		misc_device_open++;
  	}
@@ -171,7 +169,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  
  	return ret;
  }
-@@ -573,7 +576,7 @@ static int isst_if_relase(struct inode *inode, struct file *f)
+@@ -570,7 +573,7 @@ static int isst_if_relase(struct inode *inode, struct file *f)
  {
  	int i;
  
@@ -180,7 +178,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  	misc_device_open--;
  	for (i = 0; i < ISST_IF_DEV_MAX; ++i) {
  		struct isst_if_cmd_cb *cb = &punit_callbacks[i];
-@@ -581,7 +584,7 @@ static int isst_if_relase(struct inode *inode, struct file *f)
+@@ -578,7 +581,7 @@ static int isst_if_relase(struct inode *inode, struct file *f)
  		if (cb->registered)
  			module_put(cb->owner);
  	}
@@ -189,7 +187,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  
  	return 0;
  }
-@@ -598,6 +601,43 @@ static struct miscdevice isst_if_char_driver = {
+@@ -595,6 +598,43 @@ static struct miscdevice isst_if_char_driver = {
  	.fops		= &isst_if_char_driver_ops,
  };
  
@@ -233,7 +231,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  /**
   * isst_if_cdev_register() - Register callback for IOCTL
   * @device_type: The device type this callback handling.
-@@ -615,38 +655,31 @@ static struct miscdevice isst_if_char_driver = {
+@@ -612,38 +652,31 @@ static struct miscdevice isst_if_char_driver = {
   */
  int isst_if_cdev_register(int device_type, struct isst_if_cmd_cb *cb)
  {
@@ -287,7 +285,7 @@ index 0c2aa22c7a12e..407afafc7e83f 100644
  }
  EXPORT_SYMBOL_GPL(isst_if_cdev_register);
  
-@@ -661,16 +694,12 @@ EXPORT_SYMBOL_GPL(isst_if_cdev_register);
+@@ -658,16 +691,12 @@ EXPORT_SYMBOL_GPL(isst_if_cdev_register);
   */
  void isst_if_cdev_unregister(int device_type)
  {
