@@ -2,44 +2,44 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 414EB4B5BC2
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Feb 2022 22:01:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92C794B5C6B
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Feb 2022 22:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbiBNUwp (ORCPT
+        id S230213AbiBNVRl (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Feb 2022 15:52:45 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51786 "EHLO
+        Mon, 14 Feb 2022 16:17:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiBNUwo (ORCPT
+        with ESMTP id S230429AbiBNVRk (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Feb 2022 15:52:44 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE9E185540
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 12:52:20 -0800 (PST)
+        Mon, 14 Feb 2022 16:17:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 722291390E2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 13:17:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF23C6117F
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 20:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D7E1C340F4
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 20:17:39 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 30091B816C2
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 21:17:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E5836C340EE
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 21:17:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644869859;
-        bh=dC1AG0tzPW89phZJ0/FLlVmpSLyrs/rUzwkzoyxBhrY=;
+        s=k20201202; t=1644873448;
+        bh=81lHgp5yecCfKmDZWHL3YBY3gtjeaKx7KZekNMsSzFk=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=dn4ZiHc5jyIf9x3ka52EHgeH4O4t8ZhzeLikOoiNXK3kQidlpmbkNxuOI2uUPsoZ/
-         c4uhecIq/eODNiiBzd7WTUICHtXbX75eX5ZzulqjDjWeRo3IRkW9/59he0yOXm9JoJ
-         wc5i2+eBWKdSvrJOk6fJ+dWSxooMomZWr91+2RelGaKpDwqOoW1gjGLy3QrhuV5AxT
-         amVpxGO1hQjY4bkWf9YclnU0nw2ngFCU6WtZRkIej2RUhg1lc4voEFjz7H4P4cENRi
-         1F1LN3zZY1ZF/U8qgN+f4z3tOYS6J+uHPdFcOkuGem0aei04jfGArsh1CSHXzj9nD5
-         rnfnwpFoXJaVg==
+        b=tugSOAVSkA5EY7nb4gSIE2qS1R+54A0MQ1U6KsoMTB58TdK/kPnx03aR5PMVr1/ex
+         AGvwvSi58wMe8z+cy5MbTnGn3dx/doOlPe335RFcSwJgsGLuJH76Q5YTq7tuRqHpIn
+         vCCd33YGZZlg5GmIfz3NMwXzagcb0iaqPJmXXvpaL2sNDrWBXMq57um0XiUlJZx8Wm
+         THfaC45I4mpCrItG0doiLAH/5E2icFwKpdX+JOen43BeJNpWAW25vqakAi0rc2+C3W
+         oqjVrPiiteU6Z8/8YTa9Uo5heGGkCnJBvsmXfjmB7YMiYd1ecb9T31ogpMEszQIrX0
+         M/Dmk8T9VznUA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 070D7C05FE2; Mon, 14 Feb 2022 20:17:39 +0000 (UTC)
+        id B5D03C05FD0; Mon, 14 Feb 2022 21:17:28 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     platform-driver-x86@vger.kernel.org
 Subject: [Bug 215531] Lenovo charge limit feature stops 1% short of the
  configured limit and says it's still charging
-Date:   Mon, 14 Feb 2022 20:17:38 +0000
+Date:   Mon, 14 Feb 2022 21:17:28 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
@@ -48,14 +48,14 @@ X-Bugzilla-Component: Platform_x86
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jwrdegoede@fedoraproject.org
+X-Bugzilla-Who: nate@kde.org
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215531-215701-Uhr25JBT40@https.bugzilla.kernel.org/>
+Message-ID: <bug-215531-215701-wdVl8AW8oS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215531-215701@https.bugzilla.kernel.org/>
 References: <bug-215531-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,14 +75,14 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215531
 
---- Comment #5 from Hans de Goede (jwrdegoede@fedoraproject.org) ---
-(In reply to Nate Graham from comment #4)
-> OK, thank you for the information. I will adjust our code in KDE Plasma
-> accordingly.
+--- Comment #6 from Nate Graham (nate@kde.org) ---
+We do use upower, but upower is currently affected by the aforementioned bug
+that makes it not report that the battery is full when a charge threshold h=
+as
+been met, so we have code working around this until that gets fixed.
 
-Does KDE Plasma not use upower for this?  This sort of low-level raw kernel
-interface wrangling to make it easier to use for userspace ideally really
-should be shared between different desktop environments.
+Once upower correctly reports "plugged in and fully charged" when the charge
+level is at the limit and charging has stopped, we can remove that code.
 
 --=20
 You may reply to this email to add a comment.
