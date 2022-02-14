@@ -2,90 +2,85 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C794B5C6B
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Feb 2022 22:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A65F04B5CEB
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Feb 2022 22:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbiBNVRl (ORCPT
+        id S230491AbiBNVff (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Feb 2022 16:17:41 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34310 "EHLO
+        Mon, 14 Feb 2022 16:35:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbiBNVRk (ORCPT
+        with ESMTP id S231337AbiBNVfV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Feb 2022 16:17:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 722291390E2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 13:17:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 30091B816C2
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 21:17:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E5836C340EE
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Feb 2022 21:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644873448;
-        bh=81lHgp5yecCfKmDZWHL3YBY3gtjeaKx7KZekNMsSzFk=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=tugSOAVSkA5EY7nb4gSIE2qS1R+54A0MQ1U6KsoMTB58TdK/kPnx03aR5PMVr1/ex
-         AGvwvSi58wMe8z+cy5MbTnGn3dx/doOlPe335RFcSwJgsGLuJH76Q5YTq7tuRqHpIn
-         vCCd33YGZZlg5GmIfz3NMwXzagcb0iaqPJmXXvpaL2sNDrWBXMq57um0XiUlJZx8Wm
-         THfaC45I4mpCrItG0doiLAH/5E2icFwKpdX+JOen43BeJNpWAW25vqakAi0rc2+C3W
-         oqjVrPiiteU6Z8/8YTa9Uo5heGGkCnJBvsmXfjmB7YMiYd1ecb9T31ogpMEszQIrX0
-         M/Dmk8T9VznUA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id B5D03C05FD0; Mon, 14 Feb 2022 21:17:28 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     platform-driver-x86@vger.kernel.org
-Subject: [Bug 215531] Lenovo charge limit feature stops 1% short of the
- configured limit and says it's still charging
-Date:   Mon, 14 Feb 2022 21:17:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Platform_x86
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nate@kde.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215531-215701-wdVl8AW8oS@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215531-215701@https.bugzilla.kernel.org/>
-References: <bug-215531-215701@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Mon, 14 Feb 2022 16:35:21 -0500
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0431C159EB3;
+        Mon, 14 Feb 2022 13:33:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644874387; x=1676410387;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6nrphxgF8SY7mCC6VPn/wAB7S6cT013mVndDXmcmuMM=;
+  b=QPo2lWwASfCHyYmyCRG022PTiq/AsmHEftQCM/vs4fuDdn3Zyb3sFceB
+   fxj4JEaH1yUDLMYCrbsdf2JwS0MSquVChrLB5t6U9gLBZd662n6l1QSFW
+   fW3dk27c3G+/yWylfp5fqa2jLYnFzaQ7k/GpQIraLlcPmhAKcUGO/6fnm
+   pQBiXjpVy8wpDhkiISzISWtXYn7pD2Bl/hGQzfyemKjybUvATp74Hmv/2
+   mfhodqrWSnWRBcszT0wsOSIotooH8s/aP0wqdFSAXv7IN08ODWUp0PLkh
+   VPIHINOl6XZQOW/BrNSkiJa2fSTLo6L+5VRiuTuTfq8Zap3l7gofD+Dxi
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="313464611"
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; 
+   d="scan'208";a="313464611"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 13:33:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; 
+   d="scan'208";a="703299450"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga005.jf.intel.com with ESMTP; 14 Feb 2022 13:33:06 -0800
+Received: from debox1-desk4.intel.com (unknown [10.255.228.161])
+        by linux.intel.com (Postfix) with ESMTP id 1B194580638;
+        Mon, 14 Feb 2022 13:33:06 -0800 (PST)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     hdegoede@redhat.com, david.e.box@linux.intel.com,
+        mgross@linux.intel.com, rjw@rjwysocki.net,
+        srinivas.pandruvada@intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/3] Add pm_runtime and DG2 support
+Date:   Mon, 14 Feb 2022 13:32:55 -0800
+Message-Id: <20220214213258.1929462-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215531
+This series adds runtime pm support to the Intel Platform Monitoring
+Technology (PMT) driver. This is needed by devices whose slots cannot go to
+D3 without power gating the PMT endpoint. To do this, this series also
+removes the current binary mmap support since the implementation doesn't
+allow for a proper intercept point to perform runtime pm.
 
---- Comment #6 from Nate Graham (nate@kde.org) ---
-We do use upower, but upower is currently affected by the aforementioned bug
-that makes it not report that the battery is full when a charge threshold h=
-as
-been met, so we have code working around this until that gets fixed.
+David E. Box (3):
+  platform/x86/intel: pmt: Remove bin_attribute mmap support to runtime
+    pm
+  platform/x86/intel: vsec: Enable runtime D3
+  platform/x86/intel: vsec: Add DG2 support
 
-Once upower correctly reports "plugged in and fully charged" when the charge
-level is at the limit and charging has stopped, we can remove that code.
+ .../ABI/testing/sysfs-class-intel_pmt         | 24 ++++++------
+ drivers/platform/x86/intel/pmt/class.c        | 38 ++++---------------
+ drivers/platform/x86/intel/pmt/class.h        |  3 ++
+ drivers/platform/x86/intel/vsec.c             | 32 ++++++++++++++++
+ 4 files changed, 54 insertions(+), 43 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+-- 
+2.25.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
