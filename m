@@ -2,149 +2,159 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 927BE4BA616
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Feb 2022 17:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3ADFA4BA626
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Feb 2022 17:39:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243273AbiBQQfe (ORCPT
+        id S243065AbiBQQjv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Feb 2022 11:35:34 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38840 "EHLO
+        Thu, 17 Feb 2022 11:39:51 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243268AbiBQQfe (ORCPT
+        with ESMTP id S239518AbiBQQju (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Feb 2022 11:35:34 -0500
+        Thu, 17 Feb 2022 11:39:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4F8D72B2E03
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Feb 2022 08:35:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78A552B2FD7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Feb 2022 08:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645115718;
+        s=mimecast20190719; t=1645115974;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=c2fq/Ny4lMJaIMatRd00hK6MYEHazev14fwhUdBFReI=;
-        b=YHshSjUMxIJVEs1R/LqTaXpZ4sIwq39Kuvfwg4qPZbI1bW8XiiNs+Z/dCSW0h/mcNOzlpE
-        Xd/dcb4PI2TakxqAjnvQAugvU2saPieXO8n/Co3JWyZ5Tw/ni/v+Aj3v81uCbnBKCW6iNN
-        us1OPwqWHkxS0a/KaqAbEEycJSARmR0=
+        bh=60vyc0b4nN4BXSiqacPPcG6kOA73NTPkBJhsf6awROs=;
+        b=F5johthHhTJkH/BbEThX6jB75o0JxrVELKVlETjvdGtCNaU1OEidZONutfWFNdA5UlnO7V
+        HsGDjPWTbP2v5gR82yTts6tdJsmQa36GvG0ug2hIwxXe1rvknnwmJOvmd7zQOMhTOdQaG/
+        xW+g7zy9W3G8ySW4DPmjbreycBCAEI4=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-IqgwIIZtMJ64pRhrTB6zwA-1; Thu, 17 Feb 2022 11:35:15 -0500
-X-MC-Unique: IqgwIIZtMJ64pRhrTB6zwA-1
-Received: by mail-ej1-f72.google.com with SMTP id k16-20020a170906971000b006d0118d857aso1757894ejx.14
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Feb 2022 08:35:14 -0800 (PST)
+ us-mta-296-7zY1VUwZPYaSSwIeGNFZ-g-1; Thu, 17 Feb 2022 11:39:33 -0500
+X-MC-Unique: 7zY1VUwZPYaSSwIeGNFZ-g-1
+Received: by mail-ej1-f72.google.com with SMTP id o4-20020a170906768400b006a981625756so1810342ejm.0
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Feb 2022 08:39:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=c2fq/Ny4lMJaIMatRd00hK6MYEHazev14fwhUdBFReI=;
-        b=7Q26wam5KN/KlCfv2KI8m66BxDx5ok8dXS5C6QtMTOTNKRVMibTq4DEMvSzbJVRRy/
-         xtmpktFTfyloq3Tjky3EcrHmZY3+RzrreTmeHISsoVbT8RQP0BDnTIeV23nT9E/g8kpo
-         QduFtDZkvbVIB62fIJrO1OOZtNsumdSpYXee57XpM+1/W1jWJtbgQy0uL2hPoqq9aRFV
-         fTxoOgzfgEvYi7/bdynEKDf1rjfB2oALtGyENSiv8Z1eMYzZiF0tShEj6G6fcTVrYjat
-         7yJMFHOVvLoOfzKYJ2u04wFzsAlWup1kwCr5WiFTFrvuyY8DzBVj88NhkjctbScE0f7c
-         oQxA==
-X-Gm-Message-State: AOAM531KBakI/SyoUsRwXOD9aQ8JtaO+iV12eSpBm4lmSM96/KmBhmaU
-        6tCbByvpyIRONsafA19mw/8vj9kl+4IWNZcrRn3KYkgJa5g2WOHtUU4VtALUZQOy5PgVF96zFJ1
-        j0bG67S0o9mysXsa7JX+bX9k0kLufr1LOdg==
-X-Received: by 2002:a50:d79d:0:b0:410:82a0:5d76 with SMTP id w29-20020a50d79d000000b0041082a05d76mr3531291edi.130.1645115713910;
-        Thu, 17 Feb 2022 08:35:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwy1XOj60hZ2Xgf9leB0ov3CtVqqw7iUj8h3GXaY1TNAUOjvJWy/8ifdMYStkE127/Ixy5g6A==
-X-Received: by 2002:a50:d79d:0:b0:410:82a0:5d76 with SMTP id w29-20020a50d79d000000b0041082a05d76mr3531272edi.130.1645115713760;
-        Thu, 17 Feb 2022 08:35:13 -0800 (PST)
+        bh=60vyc0b4nN4BXSiqacPPcG6kOA73NTPkBJhsf6awROs=;
+        b=k/oSqanUSE10ttza6AFRJ6MOA8orXnZGFWCeD8WlrjuodraC8d/lbX8dSlt4GNNy49
+         SMO/Q6nrj2NqfF3NPX+eaEZs6oz8nvyXdWxgcnlWFD3toDSNun0O8lW6mPOTb3fxdqc7
+         raDevEOF39ZlkdNmpfbcnjU+Mjw9Ayjb9Mtm7y4E61CnQ9gJqytiuKZKgjPCMGyMo6MF
+         FczAbhhCh1ym9sxJQ3cc7/Xroct4orvLSYWIxEvbSvke87s5cJvlzCStdHCfriH2WCnd
+         YCHlIPH/x4yuidm7nksv/ZDVI2/zRQb+h2sCNcg10URIwd6N7pEM6y0DE6CPZ30LNNLq
+         Kxig==
+X-Gm-Message-State: AOAM533zSYUma4t6BjDQJJltNHIC2KYldOreFs8/AUmYBNOzk0YsKR3+
+        1XkzQY3JALFRzp94qRgigQtOCK6WX4knHwuz4NpX5xt2i8dWGN21FRRpFllrAn7uy6kSUFu2mXP
+        yaaC37Yyc8OiGI4Yd5mahTpA6yk8Z2Nrx9g==
+X-Received: by 2002:a05:6402:170e:b0:40b:657:ac3f with SMTP id y14-20020a056402170e00b0040b0657ac3fmr3458523edu.354.1645115972160;
+        Thu, 17 Feb 2022 08:39:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzD4B0jnQS5xGUUDwzwJQnz44w52qSjS3orl0qstsqyC4Qxe418D/FWf5PmfKfzCsIOybwkhA==
+X-Received: by 2002:a05:6402:170e:b0:40b:657:ac3f with SMTP id y14-20020a056402170e00b0040b0657ac3fmr3458488edu.354.1645115971990;
+        Thu, 17 Feb 2022 08:39:31 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id q5sm1319255ejc.115.2022.02.17.08.35.13
+        by smtp.gmail.com with ESMTPSA id d27sm1335884ejo.224.2022.02.17.08.39.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 08:35:13 -0800 (PST)
-Message-ID: <2482eae0-ad8c-3fda-1d0e-f8794c50192d@redhat.com>
-Date:   Thu, 17 Feb 2022 17:35:12 +0100
+        Thu, 17 Feb 2022 08:39:31 -0800 (PST)
+Message-ID: <3d178ca8-2fa9-1886-a04c-f3722db131eb@redhat.com>
+Date:   Thu, 17 Feb 2022 17:39:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] platform/x86: Add Steam Deck driver
+Subject: Re: [GIT PULL]: tools/power/x86/intel-speed-select pull request for
+ 5.18-rc1
 Content-Language: en-US
-To:     Andrey Smirnov <andrew.smirnov@gmail.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     Mark Gross <markgross@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20220206022023.376142-1-andrew.smirnov@gmail.com>
+To:     "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>,
+        "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>
+Cc:     "srinivas.pandruvada@linux.intel.com" 
+        <srinivas.pandruvada@linux.intel.com>,
+        "prarit@redhat.com" <prarit@redhat.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+References: <cbd2f7727419301acc17c4479b81637829db4c9f.camel@intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220206022023.376142-1-andrew.smirnov@gmail.com>
+In-Reply-To: <cbd2f7727419301acc17c4479b81637829db4c9f.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+<added the thermal maintainers to the To: list>
 
-On 2/6/22 03:20, Andrey Smirnov wrote:
-> Add a driver exposing various bits and pieces of functionality
-> provided by Steam Deck specific VLV0100 device presented by EC
-> firmware. This includes but not limited to:
+On 2/15/22 20:21, Pandruvada, Srinivas wrote:
+> Hi Hans,
 > 
->     - CPU/device's fan control
->     - Read-only access to DDIC registers
->     - Battery tempreature measurements
->     - Various display related control knobs
->     - USB Type-C connector event notification
+> Please check the pull request for intel-speed-select tool.
 > 
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Mark Gross <markgross@kernel.org>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-kernel@vger.kernel.org (open list)
-> Cc: platform-driver-x86@vger.kernel.org
-> Cc: linux-hwmon@vger.kernel.org
-> Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+> To build the tool, we have dependency on linux-next commit
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/thermal?h=next-20220215&id=e4b1eb24ce5a696ef7229f9926ff34d7502f0582
 
-The .c file says: "Copyright (C) 2021-2022 Valve Corporation", yet
-you use a personal email address here. This is not really a problem,
-but it does look a bit weird.
+Hmm, that means that if I merge this into pdx86/for-next which
+is based on 5.17-rc1 then this won't build, which is bad.
 
-> ---
-> 
-> This driver is really a kitchen sink of various small bits. Maybe it
-> is worth splitting into an MFD + child drivers/devices?
+So I'm going to either need some immutable branch from the
+thermal maintainers to merge into pdx86/for-next,
+or we can just merge the intel-speed-select changes through
+the thermal tree for the 5.18-rc1 merge window.
 
-With the extcon stuff thrown in the mix I think you definitely should
-go for using MFD here.
-
-Then you can submit a MFD driver under drivers/mfd for registering the
-regmap + the cells + separate extcon + LED + backlight + hwmon drivers to
-their resp. subsystems.
-
-As drivers/platform/x86/ maintainer I would be happy to take a driver
-for a "misc" cell for any remaining bits if there are any...
-
-<snip>
-
-> +struct steamdeck {
-> +	struct acpi_device *adev;
-> +	struct device *hwmon;
-> +	void *regmap;
-
-That should be:
-
-	struct regmap *regmap;
-
-
-> +	long fan_target;
-> +	struct delayed_work role_work;
-> +	struct extcon_dev *edev;
-> +	struct device *dev;
-> +};
+Either way is fine with me.
 
 Regards,
 
 Hans
+
+
+> 
+> 
+> The following changes since commit
+> ae707d0eb707b5fc658e870dbd8b21887b0a5240:
+> 
+>   platform/x86: intel_cht_int33fe: Move to intel directory (2022-02-11
+> 10:52:56 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/spandruvada/linux-kernel.git intel-sst
+> 
+> for you to fetch changes up to
+> 9aa7f0d5fe526cb9ceeea0787db0dc1c081bc61d:
+> 
+>   tools/power/x86/intel-speed-select: v1.12 release (2022-02-15
+> 11:12:55 -0800)
+> 
+> ----------------------------------------------------------------
+> Srinivas Pandruvada (3):
+>       tools/power/x86/intel-speed-select: OOB daemon mode
+>       tools/power/x86/intel-speed-select: HFI support
+>       tools/power/x86/intel-speed-select: v1.12 release
+> 
+>  tools/power/x86/intel-speed-select/Build         |   2 +-
+>  tools/power/x86/intel-speed-select/Makefile      |  10 +++-
+>  tools/power/x86/intel-speed-select/hfi-events.c  | 309
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> ++++++++++++++++++++++++++++
+>  tools/power/x86/intel-speed-select/isst-config.c |  54 ++++++++++++++-
+> ---
+>  tools/power/x86/intel-speed-select/isst-daemon.c | 244
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> +++++++
+>  tools/power/x86/intel-speed-select/isst.h        |  13 +++++
+>  6 files changed, 617 insertions(+), 15 deletions(-)
+>  create mode 100644 tools/power/x86/intel-speed-select/hfi-events.c
+>  create mode 100644 tools/power/x86/intel-speed-select/isst-daemon.c
+> 
+> Thanks,
+> Srinivas
+> 
 
