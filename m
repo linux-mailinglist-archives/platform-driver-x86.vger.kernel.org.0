@@ -2,167 +2,59 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62BC14BA9D8
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Feb 2022 20:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A93804BAD14
+	for <lists+platform-driver-x86@lfdr.de>; Fri, 18 Feb 2022 00:10:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245013AbiBQTcN (ORCPT
+        id S229783AbiBQXK1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Feb 2022 14:32:13 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52198 "EHLO
+        Thu, 17 Feb 2022 18:10:27 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:45954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbiBQTcM (ORCPT
+        with ESMTP id S229479AbiBQXK1 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Feb 2022 14:32:12 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696495FF9;
-        Thu, 17 Feb 2022 11:31:56 -0800 (PST)
+        Thu, 17 Feb 2022 18:10:27 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC3405577C;
+        Thu, 17 Feb 2022 15:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645126316; x=1676662316;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=4gR7XG0ue55Vv+UuGxC5Xnn90Xaoap2pbfU0XWifnl8=;
-  b=lYnyxTL+Sk2XP8t3p2q5mZBDpsQ0X6G6W9nXrSRDl5AqmkSSmnFdOs8c
-   X4umeRBqG/KSTT9c4CBy35e6kVIqNLJ6mbd390P7qgb02JRqvXxlEqEQO
-   Z2JGEc/M0Lp+AKCDFOaQ9M+ZRp/mEyOFULNyKLajrM+H/ue40wpvp9ieQ
-   yx5QGeEi+KWDJycHOltLz5CSZW66jQKAwzKTgF4rMKuQmxnI3dF0hmKUl
-   iKlWEWflQKGRVEsByxfEjMu4vOAvSO/zul74/8x2sW/KjARtnsC2snlgu
-   oz135jDnMFhcSgY6KKrGf193gkWZt04fpCDNJhu8+7dOVRVktG5OFIbiN
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="238360580"
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; 
-   d="scan'208";a="238360580"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2022 11:31:56 -0800
+  t=1645139405; x=1676675405;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eYqb5fulmMVRzEkWzEEnzZJylKDT16p3kJ4CELEp93s=;
+  b=XI15iZqvA0krvLpVxmYg1vbdqwezFxgYR376nFzvpEQugkIcDYb0Qryk
+   tZxOcTAuJWc142+k3skieRonhpiKvCZQBvXbA8IdalNKRvmBTgrD4dBWe
+   6NJJEr87JqP66vW3e/nPTyOUmYX+kfqXE7xq++bfwlumgEcFRBaV4GTZV
+   lRfFuj7uSxrKlgyRC6vXVzg7IMklCSMaz3OmrZVchKnOAeZbrPtNgYhvV
+   Rg2/0ijN0pyyZmPgBD7/X9Vmy4lNQGPVJ0wtY8fEOtpKwtnQBVGFCCYKY
+   m1agZUXaRXnrW2ctS8CLTE8+AMQolMEr1xf2AFTEeljdZkMUi6mGg3Byo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="250750771"
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; 
+   d="scan'208";a="250750771"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2022 15:10:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,376,1635231600"; 
-   d="scan'208";a="503656259"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by orsmga002.jf.intel.com with ESMTP; 17 Feb 2022 11:31:55 -0800
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 17 Feb 2022 11:31:55 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Thu, 17 Feb 2022 11:31:55 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Thu, 17 Feb 2022 11:31:55 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ghk7MaSJwQYhyl8imFxSU+G5GdwaM23g3NbjbdEzTqPDS99dPakNf8K/sWZjhdzBsWa7Q7iaTxYnb0uQIjuYsOe1qilzwlWdGTwOBNEGx1MOhbQmjqH3WC4s2Ug46oqsAjyK5MJXe+qoldYcNcy271QnbNMeztV6JUrQ7j67rOa21f2hGb433K4GDhbiSWXjDqb5+OVjKfD1WTApK1FzDuqs4BZg1rzC3XATj9wYWY4k4nJi+nGjYhSWsj3w7ueGw8JF7XyJ/DornTSbNL9P4jdttuwVBG5EM/C61LUcxpgRdvpP82ge1KGZFVgUy0kiP044yfWSEasccD8BuSxACg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4gR7XG0ue55Vv+UuGxC5Xnn90Xaoap2pbfU0XWifnl8=;
- b=N+94Z8Zrzp7l4mKrFZrDDDntWLroa1oSEPjYZdZz0FQgLs6trx/ycNG1j4DX7uzD+ZBZykilzakc14Ubo0NH0NfinUIETaGCeam2xCR7bc2Fr2igxwgpEn98homTbvqA/BGRN2TRvWUg+kuV3wavYxLQz2Qi1GkeiR4wQnfxZT9tQfnOQnWRGOl27GdGnb76np7wFWuMY3vPnzCoH4w1OPYYReewHqhh31EVQxf9Q+mSFZtAuJ6cugdbcMiMEhrf4jQXIUTEW6qNhFDS70Vp19miy+9dVfbg7/HU0KRAuH7OPPfMR/NjnasMslbPtNTtu/afXGWKJoom91zCOzEjRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com (2603:10b6:8:35::6) by
- BL3PR11MB5697.namprd11.prod.outlook.com (2603:10b6:208:33c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14; Thu, 17 Feb
- 2022 19:31:53 +0000
-Received: from DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::53c:25cb:8a4c:536a]) by DM8PR11MB5592.namprd11.prod.outlook.com
- ([fe80::53c:25cb:8a4c:536a%3]) with mapi id 15.20.4995.018; Thu, 17 Feb 2022
- 19:31:53 +0000
-From:   "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
-To:     "rafael@kernel.org" <rafael@kernel.org>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "mgross@linux.intel.com" <mgross@linux.intel.com>,
-        "prarit@redhat.com" <prarit@redhat.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>
-Subject: Re: [GIT PULL]: tools/power/x86/intel-speed-select pull request for
- 5.18-rc1
-Thread-Topic: [GIT PULL]: tools/power/x86/intel-speed-select pull request for
- 5.18-rc1
-Thread-Index: AQHYJDGn2EvexG8Vt0aocRk1kU4IsayYIMmAgAAA2gA=
-Date:   Thu, 17 Feb 2022 19:31:53 +0000
-Message-ID: <18bd2714095c76f2a525f0cee1b687743c4556f2.camel@intel.com>
-References: <3aaa74cc6e0714cfc8ba4f729efbe8cc5b443eba.camel@intel.com>
-         <CAJZ5v0j405cSudAq8fvTDO6fMxJECvvgjUba-hSVaJdwL1BCwQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0j405cSudAq8fvTDO6fMxJECvvgjUba-hSVaJdwL1BCwQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.3 (3.42.3-1.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6f4737b3-5d97-41bc-c20d-08d9f24c2708
-x-ms-traffictypediagnostic: BL3PR11MB5697:EE_
-x-microsoft-antispam-prvs: <BL3PR11MB5697D68A9F01D7A4F77BACDCE4369@BL3PR11MB5697.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Too3/IfTVf1EHz49kWlAlle6ecDQCVQElJk45AjNALaBo9F/0xP7jPX4fYGgykbTlnuaZ7+Bc5YIGXoMI2P66K+FqnvhJOvsdwlAIw5QXzSxcERKs6t8S+sAqMb8cJr2dVyk2tiPAxbBecIgyGmOmsNwyXEJXM/paJ2KBeBDYdkPhFtg+aMxyT3b+1GGnJ4Crw+f69jp6FWuxe8+Tlb3h2JOhEYraGpSevrVT/xBFzeroRCHkj8m1wcA4v5uKZMV/bmHSQZ0/7qd52s3cgisTT+lu4dISRnnvFK5FtwnpnLGJ/ypu3HTlL7wQZ5s+URKiRjcy7dNkZiOAZ4mMw6pMxcTA1n+90+lziSonUyp6qHA3Kg/0lo3CwHJwiCnivB3Fd8wdhgDHEqHNKbyoe/lMS+fHLSkvkQi/Wcw8NuHjusXw43Ijqw0mHuI72WIIYSdDH6N8OfdKPpFdoKLNR7edwQvC/m1jjHEeeVgFacXboiO11TS27QPsO14VPl4BS518DAfF6uIGePTwO1OrzN3IYkTgA0Gn/RZ6hrN8riSS5SRNIDmCW38EcaA9+dqUVJU2moTosx+Bprxd21VjzsIjo5DZgK12wy5/J91RdalCc1AcqL+fcMoDMBk7GQUo64KgUfOEIiJNWr7otDh3QvV9g4x3gUb6EPTKl/PEEGFbDu80NIPj6PfWvJ4cl8/BNhBFWuPKLM/gGjFCEdXJn7WHe2p7R3/D9OQXAJBlmd5HfphzWnumhO1Jr1GlztUEoOYNu+EwgV1tFI/9zZTdqnbdiIvbZG43/+3b8Roq3Wu+DVbWSkmswar9vMzINTSCS4o+UdE3wsA5HH9gtUzrSausg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5592.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(2906002)(38070700005)(8936002)(38100700002)(91956017)(122000001)(5660300002)(82960400001)(86362001)(36756003)(316002)(66556008)(64756008)(66446008)(66476007)(66946007)(4326008)(71200400001)(53546011)(83380400001)(6916009)(54906003)(26005)(2616005)(6486002)(966005)(186003)(8676002)(6512007)(6506007)(76116006)(508600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MkxwcEwzd3FCOVRDdEo0ZHpxSzBlZnhWU2NhMEF4Tk90ekxWM1c0ZDRHYU9N?=
- =?utf-8?B?b1BVMVRRN0RXRWFGNXEvT29GcVJCK0ZpNFRlVVJ1L2k3NGZGcTdTbHNHTFFD?=
- =?utf-8?B?TWlrVmZFdXJEVFlCY3BlYnArdHM5M054Tnk4UXMwSE53ODFzei9XL3pBSlNw?=
- =?utf-8?B?Q0FGdjdGOHNwU0xObTk0ZzIrUHV0RmlIc2VLdzJFMmJ5TytRcmp1RTBzVmxp?=
- =?utf-8?B?UktoSHlYRm5TcE1QSHBET0QvZ084NWRId0dBUU42cjBHcHM0WU95c0V5R2Vu?=
- =?utf-8?B?cDdkY2w2WmJkeitVL2pUaWp6MWhDYlNFd0t3UENkVnNWVmxVaVpqZkdlL2d4?=
- =?utf-8?B?TG1UV3FUcXlYTklxeWpNa2VSS0RGRzF1SU4yak4rc0dZV1A2aGNtS25nSWhE?=
- =?utf-8?B?Z1JyaVU5RjBucEtqK3RJcUd1SEwxek9DendwNEEvTFlScWNIWnhIdTV0KzNv?=
- =?utf-8?B?VTg2aU9JUDdleFU0di9jTUZIYWExd3BIYzBhbndZZVpXM296a2hSY09XUkQ4?=
- =?utf-8?B?QnNmQUNqWXdSZW5iRWl0cXN0L3lVdEE2V0pDV1hHWFdLaGc2bG8yWkExY3Q2?=
- =?utf-8?B?SEhnVkcwMGRIYmlnbDQ5c0Z1RFB4bGVDMFBDeVRkMERhYll1bEtndjNNNkc3?=
- =?utf-8?B?RG15VWREczREeGgxTDV6a3VwZGdiOUhFYVM4aStaZzA3UkxFZ1ZFYm5LMmdn?=
- =?utf-8?B?d29uMndNQ2VyYmtKbkU1SCtxK2oyZGR1YTczamQwRUpuOFFVdWhvbnd0bGNZ?=
- =?utf-8?B?a0twbHBDWjRmR08xdWtrSTNrOXZIanB4ZUdNaFdPSERVNFlrUlRWUk5Kb2l1?=
- =?utf-8?B?aGl5T2ZHODhYQVRaaXFaWlFaRU9DWkdDNkp2Mm51bloxd3Jvd0toS2gzK3FR?=
- =?utf-8?B?aCtydnh5cHFkaWJIOCthK3BFTzZjdUJTbERHUHE0TFB4eEYveFVXWWw0NDBG?=
- =?utf-8?B?Wm9WUzNtZUMwdGttdERWL1Z2NEgvYWw4SE1WNVh0SWVMZEZTTHFYL1M0L2hG?=
- =?utf-8?B?aE1UTFZ0bmhxckQ2U3kvVEVXeU4rcVlLeWNsbGtIQ2gvNU90Vk5MVVhlOGpw?=
- =?utf-8?B?RnRUV3g2TDExKzBhS3FHSFlLZHNyem9aUU1xOWk5Z3ZMd1NOVVhwWUY3bjlw?=
- =?utf-8?B?LzRKblpKbVRURDkvREhLMTExSGhUR2d6bDlBdzNlcjRuY25FSnUweU9YdDFR?=
- =?utf-8?B?RVdRRXM4SGtCdUZYelh5OUxqY1h6UDMvRFhFeWk1cFNva3pZUEZ1M2JtNFJo?=
- =?utf-8?B?NWk5aC9vemlSWWNRNnBiWmNuRTBqSjFtemJIQTBubkxEYUR4N1ZObDhQeDl1?=
- =?utf-8?B?TWFmTGUydVl3aG1iOTMrdVdmTWQxU2M1QVM2c0lWb3M5SnhDb1RGQkw2eUJv?=
- =?utf-8?B?NHlqejh3QitlcWxKem5KYU1tNFlqSmZzMkg3SUovZjFldVY0Qjk0TEloSmhG?=
- =?utf-8?B?Y3RNcmc3cEhYdkQzekZGV3AxK2hmL3FQeW5ob0d0SngxOUlwYVM2VnpNV0FI?=
- =?utf-8?B?RUpqQjNTTmtZbEU3dWlFdWxVUlJCZ0tPQU5NK2F2cVU5RVY4aHI3WUl4Ynpi?=
- =?utf-8?B?NFV3T3pBQlhXTStVeDdjODRZV1ZJMytEeFdXbW0xMEZDcjh3Q1cyRWxmSndY?=
- =?utf-8?B?RzJFNThway9KT0hqMkpwYmUzc1NpVFNNRzRHeXR0N3Uzc1JlcTg0VjA4T0Vw?=
- =?utf-8?B?ZUZRbmxrOVlaTDd1M0xaZHZJM3lOV25Ra09PNU5YMXFBR1FJZURpS3Z1UXgv?=
- =?utf-8?B?UXNxRm5aMTBIYjNVdUdvbXFwOGVRNkk2d1NlRDQ3OGFpeHpzdVdyWS9McG00?=
- =?utf-8?B?UjJQYnZobUNMK0UxY2NVb0xXZCtuaGNRTVBha1ZlWE0vRkZrK0J2SklabWll?=
- =?utf-8?B?T0NJMjYrZUdsSXVFY3djWlVEaDRFZjdhbThaa1FXQWdLb3ZrMmZGMEEwdis0?=
- =?utf-8?B?SENWbGNXZ3JCWjc1T2d2L0tlQ0JIVURNOUpuZUJicldMTlNBUjE1bFdNN2Vp?=
- =?utf-8?B?dkUvY0pVKy9CQjlCbXpDTjFKay82eVJvT1h3QkhRbFZuYlM5UURibHFUbC9n?=
- =?utf-8?B?ZTlPVTdBL0VHRi84UW84c3V2RENVaWZTaHp1KzVwUXdqVlBxKy83MU5Ualp2?=
- =?utf-8?B?NmhUR2FsUzAxd3ZtbG9XZzZmWTM4eEk5WGZ5eUhkcE9NV0lwMnlRa0F5Vm9C?=
- =?utf-8?B?d2ZhaUc3eGp1SE5OZXlvVFBRMTB3dnZFeUwxU3NQaGtxcExTMVlWVHF5S29o?=
- =?utf-8?Q?ln6+yO/JFC6oVvHQ5Ku2QDwH9uG85aZy3ckZRT4auY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <01A47AFCCEF0524C9F137C708E97BC46@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-IronPort-AV: E=Sophos;i="5.88,377,1635231600"; 
+   d="scan'208";a="774992549"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga006.fm.intel.com with ESMTP; 17 Feb 2022 15:09:59 -0800
+Received: from debox1-desk4.lan (unknown [10.251.23.8])
+        by linux.intel.com (Postfix) with ESMTP id 06A53580C70;
+        Thu, 17 Feb 2022 15:09:59 -0800 (PST)
+From:   "David E. Box" <david.e.box@linux.intel.com>
+To:     hdegoede@redhat.com, david.e.box@linux.intel.com,
+        gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+        srinivas.pandruvada@intel.com, mgross@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH V8 1/2] tools arch x86: Add Intel SDSi provisiong tool
+Date:   Thu, 17 Feb 2022 15:09:57 -0800
+Message-Id: <20220217230958.259360-1-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5592.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f4737b3-5d97-41bc-c20d-08d9f24c2708
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2022 19:31:53.5332
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iDU8Z7KjHnO29pImGKT0QRImVX+RiLcrmHAHHGvLGu+7Cp/JxhQnKc/w7W0ylo6/tM2HoMJPtRFkuaVwp4gCtU4zPt5/nYDLp0Mw/ZfBfUM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB5697
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -171,42 +63,629 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-T24gVGh1LCAyMDIyLTAyLTE3IGF0IDIwOjI4ICswMTAwLCBSYWZhZWwgSi4gV3lzb2NraSB3cm90
-ZToNCj4gT24gVGh1LCBGZWIgMTcsIDIwMjIgYXQgODowNyBQTSBQYW5kcnV2YWRhLCBTcmluaXZh
-cw0KPiA8c3Jpbml2YXMucGFuZHJ1dmFkYUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IA0KPiA+IEhp
-IFJhZmFlbCwNCj4gPiANCj4gPiBDaGFuZ2VzIG9uIHRvcCBvZg0KPiA+IGh0dHBzOi8vZ2l0Lmtl
-cm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3JhZmFlbC9saW51eC1wbS5naXQNCj4g
-PiB0aGVybWFsLWhmaQ0KPiA+IA0KPiA+IA0KPiA+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5j
-ZSBjb21taXQNCj4gPiBjOTVhYTJiYWI5NzQzOTQ4MDllZGVhMjg2OTBmNjUwNGExNTc5MWI2Og0K
-PiA+IA0KPiA+IMKgIHRoZXJtYWw6IGludGVsOiBoZmk6IElOVEVMX0hGSV9USEVSTUFMIGRlcGVu
-ZHMgb24gTkVUICgyMDIyLTAyLTEwDQo+ID4gMjA6NTg6MjQgKzAxMDApDQo+ID4gDQo+ID4gYXJl
-IGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6DQo+ID4gDQo+ID4gwqAgaHR0cHM6
-Ly9naXRodWIuY29tL3NwYW5kcnV2YWRhL2xpbnV4LWtlcm5lbC5naXTCoGludGVsLXNzdC10aGVy
-bWFsDQo+ID4gDQo+ID4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvDQo+ID4gZjM4NzRl
-OTZmYWQ1OTZjZDJjMjQ0MTgwMmJlN2UxZDBjOWZhODY3NzoNCj4gPiANCj4gPiDCoCB0b29scy9w
-b3dlci94ODYvaW50ZWwtc3BlZWQtc2VsZWN0OiB2MS4xMiByZWxlYXNlICgyMDIyLTAyLTE3DQo+
-ID4gMTA6NTc6MzggLTA4MDApDQo+ID4gDQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IFNyaW5pdmFzIFBhbmRy
-dXZhZGEgKDMpOg0KPiA+IMKgwqDCoMKgwqAgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNl
-bGVjdDogT09CIGRhZW1vbiBtb2RlDQo+ID4gwqDCoMKgwqDCoCB0b29scy9wb3dlci94ODYvaW50
-ZWwtc3BlZWQtc2VsZWN0OiBIRkkgc3VwcG9ydA0KPiA+IMKgwqDCoMKgwqAgdG9vbHMvcG93ZXIv
-eDg2L2ludGVsLXNwZWVkLXNlbGVjdDogdjEuMTIgcmVsZWFzZQ0KPiA+IA0KPiA+IMKgdG9vbHMv
-cG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdC9CdWlsZMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAg
-MiArLQ0KPiA+IMKgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdC9NYWtlZmlsZcKg
-wqDCoMKgwqAgfMKgIDEwICsrLQ0KPiA+IMKgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNl
-bGVjdC9oZmktZXZlbnRzLmPCoCB8IDMwOQ0KPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiArKysrDQo+ID4g
-KysrKysrKysrKysrDQo+ID4gwqB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQtc2VsZWN0L2lz
-c3QtY29uZmlnLmMgfMKgIDU0DQo+ID4gKysrKysrKysrKysrLS0tDQo+ID4gwqB0b29scy9wb3dl
-ci94ODYvaW50ZWwtc3BlZWQtc2VsZWN0L2lzc3QtZGFlbW9uLmMgfCAyNDQNCj4gPiArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-Kw0KPiA+IMKgdG9vbHMvcG93ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdC9pc3N0LmjCoMKgwqDC
-oMKgwqDCoCB8wqAgMTMgKysrKw0KPiA+IMKgNiBmaWxlcyBjaGFuZ2VkLCA2MTcgaW5zZXJ0aW9u
-cygrKSwgMTUgZGVsZXRpb25zKC0pDQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgdG9vbHMvcG93
-ZXIveDg2L2ludGVsLXNwZWVkLXNlbGVjdC9oZmktZXZlbnRzLmMNCj4gPiDCoGNyZWF0ZSBtb2Rl
-IDEwMDY0NCB0b29scy9wb3dlci94ODYvaW50ZWwtc3BlZWQtc2VsZWN0L2lzc3QtDQo+ID4gZGFl
-bW9uLmMNCj4gDQo+IE1lcmdlZCBpbnRvIHRoZSB0aGVybWFsLWhmaSBicmFuY2ggYW5kIHB1c2hl
-ZCBvdXQuDQpUaGFua3MuDQoNCj4gTmV4dCB0aW1lIEkgd291bGQgYXBwcmVjaWF0ZSBhZGRpbmcg
-YSBjb25jaXNlIHN1bW1hcnkgb2YgdGhlIGNoYW5nZXMNCj4gdG8gdGhlIHB1bGwgcmVxdWVzdCwg
-c28gdGhhdCBJIGNhbiBhZGQgaXQgdG8gdGhlIG1lcmdlIGNvbW1pdCBsb2cuDQo+IA0KU3VyZS4N
-Cg0KVGhhbmtzLA0KU3Jpbml2YXMNCg0K
+Add tool for key certificate and activation payload provisioning on
+Intel CPUs supporting Software Defined Silicon (SDSi).
+
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
+
+Applied on review-hans branch.
+
+V8
+  - Rename sdsi to intel_sdsi and add install target
+  - Fix compiler warning for signedness mismatch
+  - Add missing break in CMD_NONE case to avoid fall through
+V7
+  - No changes.
+V6
+  - No changes.
+V5
+  - Update copyright to 2022
+V4
+  - No changes.
+V3
+  - Move from samples to tools.
+  - Fix bit fields in availability structure.
+  - Check provisioning availability before issuing command.
+
+V2
+  - New patch.
+
+ MAINTAINERS                            |   1 +
+ tools/arch/x86/intel_sdsi/Makefile     |  21 +
+ tools/arch/x86/intel_sdsi/intel_sdsi.c | 541 +++++++++++++++++++++++++
+ 3 files changed, 563 insertions(+)
+ create mode 100644 tools/arch/x86/intel_sdsi/Makefile
+ create mode 100644 tools/arch/x86/intel_sdsi/intel_sdsi.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 136f817428cf..dc3c9f271463 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9871,6 +9871,7 @@ INTEL SDSI DRIVER
+ M:	David E. Box <david.e.box@linux.intel.com>
+ S:	Supported
+ F:	drivers/platform/x86/intel/sdsi.c
++F:	tools/arch/x86/intel_sdsi/
+ 
+ INTEL SKYLAKE INT3472 ACPI DEVICE DRIVER
+ M:	Daniel Scally <djrscally@gmail.com>
+diff --git a/tools/arch/x86/intel_sdsi/Makefile b/tools/arch/x86/intel_sdsi/Makefile
+new file mode 100644
+index 000000000000..5de2288cda79
+--- /dev/null
++++ b/tools/arch/x86/intel_sdsi/Makefile
+@@ -0,0 +1,21 @@
++# SPDX-License-Identifier: GPL-2.0
++# Makefile for Intel Software Defined Silicon provisioning tool
++
++intel_sdsi: intel_sdsi.c
++
++CFLAGS = -Wextra
++
++BINDIR ?= /usr/sbin
++
++override CFLAGS += -O2 -Wall
++
++%: %.c
++	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
++
++.PHONY : clean
++clean :
++	@rm -f intel_sdsi
++
++install : intel_sdsi
++	install -d  $(DESTDIR)$(BINDIR)
++	install -m 755 -p intel_sdsi $(DESTDIR)$(BINDIR)/intel_sdsi
+diff --git a/tools/arch/x86/intel_sdsi/intel_sdsi.c b/tools/arch/x86/intel_sdsi/intel_sdsi.c
+new file mode 100644
+index 000000000000..52acb518e845
+--- /dev/null
++++ b/tools/arch/x86/intel_sdsi/intel_sdsi.c
+@@ -0,0 +1,541 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * sdsi: Intel Software Defined Silicon tool for provisioning certificates
++ * and activation payloads on supported cpus.
++ *
++ * See https://github.com/intel/intel-sdsi/blob/master/os-interface.rst
++ * for register descriptions.
++ *
++ * Copyright (C) 2022 Intel Corporation. All rights reserved.
++ */
++
++#include <dirent.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++#include <sys/types.h>
++
++#define SDSI_DEV		"intel_vsec.sdsi"
++#define AUX_DEV_PATH		"/sys/bus/auxiliary/devices/"
++#define SDSI_PATH		(AUX_DEV_DIR SDSI_DEV)
++#define GUID			0x6dd191
++#define REGISTERS_MIN_SIZE	72
++
++#define __round_mask(x, y) ((__typeof__(x))((y) - 1))
++#define round_up(x, y) ((((x) - 1) | __round_mask(x, y)) + 1)
++
++struct enabled_features {
++	uint64_t reserved:3;
++	uint64_t sdsi:1;
++	uint64_t reserved1:60;
++};
++
++struct auth_fail_count {
++	uint64_t key_failure_count:3;
++	uint64_t key_failure_threshold:3;
++	uint64_t auth_failure_count:3;
++	uint64_t auth_failure_threshold:3;
++	uint64_t reserved:52;
++};
++
++struct availability {
++	uint64_t reserved:48;
++	uint64_t available:3;
++	uint64_t threshold:3;
++};
++
++struct sdsi_regs {
++	uint64_t ppin;
++	uint64_t reserved;
++	struct enabled_features en_features;
++	uint64_t reserved1;
++	struct auth_fail_count auth_fail_count;
++	struct availability prov_avail;
++	uint64_t reserved2;
++	uint64_t reserved3;
++	uint64_t socket_id;
++};
++
++struct sdsi_dev {
++	struct sdsi_regs regs;
++	char *dev_name;
++	char *dev_path;
++	int guid;
++};
++
++enum command {
++	CMD_NONE,
++	CMD_LIST_DEVICES,
++	CMD_SOCKET_INFO,
++	CMD_DUMP_CERT,
++	CMD_PROV_AKC,
++	CMD_PROV_CAP,
++};
++
++static void sdsi_list_devices(void)
++{
++	struct dirent *entry;
++	DIR *aux_dir;
++	bool found = false;
++
++	aux_dir = opendir(AUX_DEV_PATH);
++	if (!aux_dir) {
++		fprintf(stderr, "Cannot open directory %s\n", AUX_DEV_PATH);
++		return;
++	}
++
++	while ((entry = readdir(aux_dir))) {
++		if (!strncmp(SDSI_DEV, entry->d_name, strlen(SDSI_DEV))) {
++			found = true;
++			printf("%s\n", entry->d_name);
++		}
++	}
++
++	if (!found)
++		fprintf(stderr, "No sdsi devices found.\n");
++}
++
++static int sdsi_update_registers(struct sdsi_dev *s)
++{
++	FILE *regs_ptr;
++	int ret;
++
++	memset(&s->regs, 0, sizeof(s->regs));
++
++	/* Open the registers file */
++	ret = chdir(s->dev_path);
++	if (ret == -1) {
++		perror("chdir");
++		return ret;
++	}
++
++	regs_ptr = fopen("registers", "r");
++	if (!regs_ptr) {
++		perror("Could not open 'registers' file");
++		return -1;
++	}
++
++	if (s->guid != GUID) {
++		fprintf(stderr, "Unrecognized guid, 0x%x\n", s->guid);
++		fclose(regs_ptr);
++		return -1;
++	}
++
++	/* Update register info for this guid */
++	ret = fread(&s->regs, sizeof(uint8_t), sizeof(s->regs), regs_ptr);
++	if (ret != sizeof(s->regs)) {
++		fprintf(stderr, "Could not read 'registers' file\n");
++		fclose(regs_ptr);
++		return -1;
++	}
++
++	fclose(regs_ptr);
++
++	return 0;
++}
++
++static int sdsi_read_reg(struct sdsi_dev *s)
++{
++	int ret;
++
++	ret = sdsi_update_registers(s);
++	if (ret)
++		return ret;
++
++	/* Print register info for this guid */
++	printf("\n");
++	printf("Socket information for device %s\n", s->dev_name);
++	printf("\n");
++	printf("PPIN:                           0x%lx\n", s->regs.ppin);
++	printf("Enabled Features\n");
++	printf("    SDSi:                       %s\n", !!s->regs.en_features.sdsi ? "Enabled" : "Disabled");
++	printf("Authorization Failure Count\n");
++	printf("    AKC Failure Count:          %d\n", s->regs.auth_fail_count.key_failure_count);
++	printf("    AKC Failure Threshold:      %d\n", s->regs.auth_fail_count.key_failure_threshold);
++	printf("    CAP Failure Count:          %d\n", s->regs.auth_fail_count.auth_failure_count);
++	printf("    CAP Failure Threshold:      %d\n", s->regs.auth_fail_count.auth_failure_threshold);
++	printf("Provisioning Availability\n");
++	printf("    Updates Available:          %d\n", s->regs.prov_avail.available);
++	printf("    Updates Threshold:          %d\n", s->regs.prov_avail.threshold);
++	printf("Socket ID:                      %ld\n", s->regs.socket_id & 0xF);
++
++	return 0;
++}
++
++static int sdsi_certificate_dump(struct sdsi_dev *s)
++{
++	uint64_t state_certificate[512] = {0};
++	bool first_instance;
++	uint64_t previous;
++	FILE *cert_ptr;
++	int i, ret, size;
++
++	ret = sdsi_update_registers(s);
++	if (ret)
++		return ret;
++
++	if (!s->regs.en_features.sdsi) {
++		fprintf(stderr, "SDSi feature is present but not enabled.");
++		fprintf(stderr, " Unable to read state certificate");
++		return -1;
++	}
++
++	ret = chdir(s->dev_path);
++	if (ret == -1) {
++		perror("chdir");
++		return ret;
++	}
++
++	cert_ptr = fopen("state_certificate", "r");
++	if (!cert_ptr) {
++		perror("Could not open 'state_certificate' file");
++		return -1;
++	}
++
++	size = fread(state_certificate, 1, sizeof(state_certificate), cert_ptr);
++	if (!size) {
++		fprintf(stderr, "Could not read 'state_certificate' file\n");
++		fclose(cert_ptr);
++		return -1;
++	}
++
++	printf("%3d: 0x%lx\n", 0, state_certificate[0]);
++	previous = state_certificate[0];
++	first_instance = true;
++
++	for (i = 1; i < (int)(round_up(size, sizeof(uint64_t))/sizeof(uint64_t)); i++) {
++		if (state_certificate[i] == previous) {
++			if (first_instance) {
++				puts("*");
++				first_instance = false;
++			}
++			continue;
++		}
++		printf("%3d: 0x%lx\n", i, state_certificate[i]);
++		previous = state_certificate[i];
++		first_instance = true;
++	}
++	printf("%3d\n", i);
++
++	fclose(cert_ptr);
++
++	return 0;
++}
++
++static int sdsi_provision(struct sdsi_dev *s, char *bin_file, enum command command)
++{
++	int bin_fd, prov_fd, size, ret;
++	char buf[4096] = { 0 };
++	char cap[] = "provision_cap";
++	char akc[] = "provision_akc";
++	char *prov_file;
++
++	if (!bin_file) {
++		fprintf(stderr, "No binary file provided\n");
++		return -1;
++	}
++
++	/* Open the binary */
++	bin_fd = open(bin_file, O_RDONLY);
++	if (bin_fd == -1) {
++		fprintf(stderr, "Could not open file %s: %s\n", bin_file, strerror(errno));
++		return bin_fd;
++	}
++
++	prov_file = (command == CMD_PROV_AKC) ? akc : cap;
++
++	ret = chdir(s->dev_path);
++	if (ret == -1) {
++		perror("chdir");
++		close(bin_fd);
++		return ret;
++	}
++
++	/* Open the provision file */
++	prov_fd = open(prov_file, O_WRONLY);
++	if (prov_fd == -1) {
++		fprintf(stderr, "Could not open file %s: %s\n", prov_file, strerror(errno));
++		close(bin_fd);
++		return prov_fd;
++	}
++
++	/* Read the binary file into the buffer */
++	size = read(bin_fd, buf, 4096);
++	if (size == -1) {
++		close(bin_fd);
++		close(prov_fd);
++		return -1;
++	}
++
++	ret = write(prov_fd, buf, size);
++	if (ret == -1) {
++		close(bin_fd);
++		close(prov_fd);
++		perror("Provisioning failed");
++		return ret;
++	}
++
++	printf("Provisioned %s file %s successfully\n", prov_file, bin_file);
++
++	close(bin_fd);
++	close(prov_fd);
++
++	return 0;
++}
++
++static int sdsi_provision_akc(struct sdsi_dev *s, char *bin_file)
++{
++	int ret;
++
++	ret = sdsi_update_registers(s);
++	if (ret)
++		return ret;
++
++	if (!s->regs.en_features.sdsi) {
++		fprintf(stderr, "SDSi feature is present but not enabled. Unable to provision");
++		return -1;
++	}
++
++	if (!s->regs.prov_avail.available) {
++		fprintf(stderr, "Maximum number of updates (%d) has been reached.\n",
++			s->regs.prov_avail.threshold);
++		return -1;
++	}
++
++	if (s->regs.auth_fail_count.key_failure_count ==
++	    s->regs.auth_fail_count.key_failure_threshold) {
++		fprintf(stderr, "Maximum number of AKC provision failures (%d) has been reached.\n",
++			s->regs.auth_fail_count.key_failure_threshold);
++		fprintf(stderr, "Power cycle the system to reset the counter\n");
++		return -1;
++	}
++
++	return sdsi_provision(s, bin_file, CMD_PROV_AKC);
++}
++
++static int sdsi_provision_cap(struct sdsi_dev *s, char *bin_file)
++{
++	int ret;
++
++	ret = sdsi_update_registers(s);
++	if (ret)
++		return ret;
++
++	if (!s->regs.en_features.sdsi) {
++		fprintf(stderr, "SDSi feature is present but not enabled. Unable to provision");
++		return -1;
++	}
++
++	if (!s->regs.prov_avail.available) {
++		fprintf(stderr, "Maximum number of updates (%d) has been reached.\n",
++			s->regs.prov_avail.threshold);
++		return -1;
++	}
++
++	if (s->regs.auth_fail_count.auth_failure_count ==
++	    s->regs.auth_fail_count.auth_failure_threshold) {
++		fprintf(stderr, "Maximum number of CAP provision failures (%d) has been reached.\n",
++			s->regs.auth_fail_count.auth_failure_threshold);
++		fprintf(stderr, "Power cycle the system to reset the counter\n");
++		return -1;
++	}
++
++	return sdsi_provision(s, bin_file, CMD_PROV_CAP);
++}
++
++static int read_sysfs_data(const char *file, int *value)
++{
++	char buff[16];
++	FILE *fp;
++
++	fp = fopen(file, "r");
++	if (!fp) {
++		perror(file);
++		return -1;
++	}
++
++	if (!fgets(buff, 16, fp)) {
++		fprintf(stderr, "Failed to read file '%s'", file);
++		fclose(fp);
++		return -1;
++	}
++
++	fclose(fp);
++	*value = strtol(buff, NULL, 0);
++
++	return 0;
++}
++
++static struct sdsi_dev *sdsi_create_dev(char *dev_no)
++{
++	int dev_name_len = sizeof(SDSI_DEV) + strlen(dev_no) + 1;
++	struct sdsi_dev *s;
++	int guid;
++	DIR *dir;
++
++	s = (struct sdsi_dev *)malloc(sizeof(*s));
++	if (!s) {
++		perror("malloc");
++		return NULL;
++	}
++
++	s->dev_name = (char *)malloc(sizeof(SDSI_DEV) + strlen(dev_no) + 1);
++	if (!s->dev_name) {
++		perror("malloc");
++		free(s);
++		return NULL;
++	}
++
++	snprintf(s->dev_name, dev_name_len, "%s.%s", SDSI_DEV, dev_no);
++
++	s->dev_path = (char *)malloc(sizeof(AUX_DEV_PATH) + dev_name_len);
++	if (!s->dev_path) {
++		perror("malloc");
++		free(s->dev_name);
++		free(s);
++		return NULL;
++	}
++
++	snprintf(s->dev_path, sizeof(AUX_DEV_PATH) + dev_name_len, "%s%s", AUX_DEV_PATH,
++		 s->dev_name);
++	dir = opendir(s->dev_path);
++	if (!dir) {
++		fprintf(stderr, "Could not open directory '%s': %s\n", s->dev_path,
++			strerror(errno));
++		free(s->dev_path);
++		free(s->dev_name);
++		free(s);
++		return NULL;
++	}
++
++	if (chdir(s->dev_path) == -1) {
++		perror("chdir");
++		free(s->dev_path);
++		free(s->dev_name);
++		free(s);
++		return NULL;
++	}
++
++	if (read_sysfs_data("guid", &guid)) {
++		free(s->dev_path);
++		free(s->dev_name);
++		free(s);
++		return NULL;
++	}
++
++	s->guid = guid;
++
++	return s;
++}
++
++static void sdsi_free_dev(struct sdsi_dev *s)
++{
++	free(s->dev_path);
++	free(s->dev_name);
++	free(s);
++}
++
++static void print_help(char *prog)
++{
++	printf("Usage: %s [-l] [-d dev_no [-is] [-a file] [-c file]]\n", prog);
++
++	printf("\n");
++	printf("Commands:\n");
++	printf("  %-13s\t%s\n", "-l", "list available sdsi devices");
++	printf("  %-13s\t%s\n", "-d <dev_no>", "sdsi device number");
++	printf("  %-13s\t%s\n", "-i", "show socket information");
++	printf("  %-13s\t%s\n", "-s", "dump state certificate data");
++	printf("  %-13s\t%s\n", "-a <file>", "provision socket with AKC file");
++	printf("  %-13s\t%s\n", "-c <file>", "provision socket with CAP file");
++}
++
++int main(int argc, char *argv[])
++{
++	char bin_file[PATH_MAX], *dev_no = NULL;
++	enum command command = CMD_NONE;
++	struct sdsi_dev *s;
++	int ret = 0, opt;
++
++	while ((opt = getopt(argc, argv, "d:lisa:c:h")) != -1) {
++		switch (opt) {
++		case 'd':
++			dev_no = optarg;
++			break;
++		case 'l':
++			command = CMD_LIST_DEVICES;
++			break;
++		case 'i':
++			command = CMD_SOCKET_INFO;
++			break;
++		case 's':
++			command = CMD_DUMP_CERT;
++			break;
++		case 'a':
++		case 'c':
++			if (!access(optarg, F_OK) == 0) {
++				fprintf(stderr, "Could not open file '%s': %s\n", optarg,
++					strerror(errno));
++				return -1;
++			}
++
++			if (!realpath(optarg, bin_file)) {
++				perror("realpath");
++				return -1;
++			}
++
++			command = (opt == 'a') ? CMD_PROV_AKC : CMD_PROV_CAP;
++			break;
++		case 'h':
++		default:
++			print_help(argv[0]);
++			return 0;
++		}
++	}
++
++	if (!dev_no && command != CMD_LIST_DEVICES) {
++		print_help(argv[0]);
++		return -1;
++	}
++
++	if (dev_no) {
++		s = sdsi_create_dev(dev_no);
++		if (!s)
++			return -1;
++	}
++
++	/* Run the command */
++	switch (command) {
++	case CMD_NONE:
++		fprintf(stderr, "need to specify a command\n");
++		print_help(argv[0]);
++		ret = -1;
++		break;
++	case CMD_LIST_DEVICES:
++		sdsi_list_devices();
++		break;
++	case CMD_SOCKET_INFO:
++		ret = sdsi_read_reg(s);
++		break;
++	case CMD_DUMP_CERT:
++		ret = sdsi_certificate_dump(s);
++		break;
++	case CMD_PROV_AKC:
++		ret = sdsi_provision_akc(s, bin_file);
++		break;
++	case CMD_PROV_CAP:
++		ret = sdsi_provision_cap(s, bin_file);
++		break;
++	}
++
++
++	if (dev_no)
++		sdsi_free_dev(s);
++
++	return ret;
++}
+
+base-commit: 42f8bcb37e2c65931799cdf61d086ed78456e798
+-- 
+2.25.1
+
