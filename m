@@ -2,119 +2,224 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05FE94C325E
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Feb 2022 17:58:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 980FC4C330F
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Feb 2022 18:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbiBXQ5s (ORCPT
+        id S231848AbiBXRCZ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 24 Feb 2022 11:57:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48356 "EHLO
+        Thu, 24 Feb 2022 12:02:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbiBXQ5r (ORCPT
+        with ESMTP id S231538AbiBXRBm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 24 Feb 2022 11:57:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DBD82BC2E
-        for <platform-driver-x86@vger.kernel.org>; Thu, 24 Feb 2022 08:57:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645721835;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TncsG7YXX5+yOaoX96UNZNhSvIR4PPKBKgvHMZmiEE8=;
-        b=eVQ0NZfCyYBjgXw3AI4uN7Tfu5edGN9VQyG6uegeD8BqHVa3VeBXnpELLaVi8YaOSGzJ5r
-        XyJAhG8GbfXyTY1vaHWj/nPghH8ft+YMFTyD75AVc7HO82VhlQgKU2Opt+6E9bhm500ba1
-        Pz7iplbhAy7gvW+pkOtlWT6+fOXHwZA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-FfSSk5J_OMuRilARETrB0w-1; Thu, 24 Feb 2022 11:57:13 -0500
-X-MC-Unique: FfSSk5J_OMuRilARETrB0w-1
-Received: by mail-ej1-f71.google.com with SMTP id r18-20020a17090609d200b006a6e943d09eso1481437eje.20
-        for <platform-driver-x86@vger.kernel.org>; Thu, 24 Feb 2022 08:57:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=TncsG7YXX5+yOaoX96UNZNhSvIR4PPKBKgvHMZmiEE8=;
-        b=jMNOd3pnCq0WPi8UA9lgU+zBQnVw2FqWoQhSv2u+efrMWp2vtGl2P1k8hgH/FU0NZ0
-         ECmGViajDT2vdenVNSKFsD4zy0/FKlYw3kCb4ujn1sExR1xN0k54oLKnkrjGVQlWmQaP
-         rAc293qQ4PuYhPxX9nVwUJyegRkPQYAsTvS/4RDUMfOdITH1JZIJe2RWkNGFkcxOQMNE
-         DeKLSU8oHN6+5tM5d0nLTuLh2N4TOavEgM+ga+efzRqLxjZK7vohRyzq79kExR5Y60Lt
-         XzAxJotMhcrl+3sYzm2jdtgTSwi1YvgmISOLTrFcI2Jpw65Ifr8getmQP4chIj6125z/
-         /bzQ==
-X-Gm-Message-State: AOAM531l2szd/o7t1dd04PKqe8U/sbAtS60i63ktZ7qQkSpY1erzTcY6
-        YM+CRhPrJj9Vf82uJm8skvKxK3mfbecPoRn18OI8K87z5qJwEm5Lv0pIsN6QxcHQO0WEJRIB2Fn
-        /xCt2eAeui7urVR58gYqy/HtZbVRS6huz1w==
-X-Received: by 2002:a05:6402:440b:b0:410:5fb4:7225 with SMTP id y11-20020a056402440b00b004105fb47225mr3107439eda.216.1645721832362;
-        Thu, 24 Feb 2022 08:57:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkrMWqFPTudWVMfc/YBNuuU+WF5pQlz2tw8rgREzx5hKsdbogu3/XpRlu2sJBuVaHggsaszg==
-X-Received: by 2002:a05:6402:440b:b0:410:5fb4:7225 with SMTP id y11-20020a056402440b00b004105fb47225mr3107432eda.216.1645721832181;
-        Thu, 24 Feb 2022 08:57:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id r22sm1653717ejo.48.2022.02.24.08.57.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Feb 2022 08:57:11 -0800 (PST)
-Message-ID: <0568e484-4ab2-5641-53ae-29ff48e952e6@redhat.com>
-Date:   Thu, 24 Feb 2022 17:57:11 +0100
+        Thu, 24 Feb 2022 12:01:42 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2062b.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8a::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511CAB3E7F;
+        Thu, 24 Feb 2022 08:59:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ghZGnt88JhdZMjMVbd4K52BZwRi6R0/eWt2i1FcXHpr11LK6IREEkzHyFUWviWLMSSZUqHJXigd8a1q7Yh4P/B4mIWWn8qr1tKWX00NV0Ua1I7AiRYmtqLGudXEVnAQCwYYWk3XTVgYFZrLbd8sz6qr/loC7A7qXXZ4deMl5b1eN8XBFkfbAnrRTQhLfQdTYnKu3APXSCNzQ2PixloPFqPnFs9v3XZnOL22IiDEsmRuG6KTRrm7D42ZFIdHzu4tm+EPzvOm3Wb4dIWxBEjsHF8gQ1x26kp6KprKqXs+2BYLv6IxrFQsLtlhCT6OKfxQ3sCI0RkfhYSxakQvZ5XfKPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RhquFhz5GxNpJnKdCRbrCYJnQ8UADlx/TmtodjSUKE8=;
+ b=dyYKZq3XMQ3XGEA71KfgDaIHuXJyXnlHwS+b46w1DAaKjLRQLaopLcfJNs2cEAAutPau+bInmNE3JLCcjT1NFnimknr0JQxbH6NpJ8OpT0BQlmh+GT6riSJh5ICGbetG1kW+QlaekRGDbMj7gG9wPzUQK67b9ACslSZnHG8Ej5T+faucYeG6EjxZks8vYjLIrS3zsFQV8PEYWr5dx/bCJC9FFo2l+tt12H0cfFYpAk05SGfxdkXbQowyNx6lyyt92wfH9ScDsGPrttBHw5Uy07u2aKgj97AEVWrzRRncVWj0yZLFXX7EoDqeEABEXOUxR4IVQUQxwkDC1a8YlpstbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RhquFhz5GxNpJnKdCRbrCYJnQ8UADlx/TmtodjSUKE8=;
+ b=DTnVRd0I7/OeaWJ7gqdbjHQx4ZBHdKaS7p9gq15UmzguVISKriTZHZodzRrR8ua1kRGr9RUnjDczFxm4dVGWktARlAymIm/3SCQ2+tR+bd1SjDxCNfS8EBTy5pPXpK32aS6cruAIvbM4bfCGBFuFFe1AkEL6RzT7JSyzctDF7bQ=
+Received: from DS7PR03CA0162.namprd03.prod.outlook.com (2603:10b6:5:3b2::17)
+ by BY5PR12MB4226.namprd12.prod.outlook.com (2603:10b6:a03:203::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.22; Thu, 24 Feb
+ 2022 16:58:54 +0000
+Received: from DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b2:cafe::f1) by DS7PR03CA0162.outlook.office365.com
+ (2603:10b6:5:3b2::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.23 via Frontend
+ Transport; Thu, 24 Feb 2022 16:58:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT060.mail.protection.outlook.com (10.13.173.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5017.22 via Frontend Transport; Thu, 24 Feb 2022 16:58:53 +0000
+Received: from sbrijesh-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 24 Feb
+ 2022 10:58:45 -0600
+From:   Brijesh Singh <brijesh.singh@amd.com>
+To:     <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-coco@lists.linux.dev>, <linux-mm@kvack.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        <brijesh.ksingh@gmail.com>, <tony.luck@intel.com>,
+        <marcorr@google.com>, <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Venu Busireddy <venu.busireddy@oracle.com>,
+        Brijesh Singh <brijesh.singh@amd.com>
+Subject: [PATCH v11 30/45] KVM: x86: Move lookup of indexed CPUID leafs to helper
+Date:   Thu, 24 Feb 2022 10:56:10 -0600
+Message-ID: <20220224165625.2175020-31-brijesh.singh@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220224165625.2175020-1-brijesh.singh@amd.com>
+References: <20220224165625.2175020-1-brijesh.singh@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 4/5] platform/x86: x86-android-tablets: Workaround Lenovo
- Yoga Tablet 2 830/1050 poweroff hang
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc:     Mark Gross <markgross@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        platform-driver-x86@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <20220223133153.730337-1-hdegoede@redhat.com>
- <20220223133153.730337-5-hdegoede@redhat.com>
- <YhZLpmhobBjrOHDU@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YhZLpmhobBjrOHDU@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 41d3c24a-38ce-4d5f-d370-08d9f7b6f07b
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4226:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB42262E0C8F7E9C59A03CC153E53D9@BY5PR12MB4226.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BM2JUDbLtcrKU+FgAlLSnFu/rIFEmKqj9H1CCFlvbQYmE1dkYAJLOvncM/mMq4m7mK8foPLoHKLI6KPbZP8tZ/PhlLvT4ATzLgdXtcDonmApIK6pvH/PN0RokHwiqe+bUndtI3AmIL0ndiVN3gdWMkdh1Ho7/LVrXn4p9bD+TCV5XkaZYq0mYlTo6t3Ed0dxykp4b+P8qSlqRhw7OXvrdYPHYhWMXdvCn10d8XEfXfP5vuU37H57apZ/HZ5rlAGOF7OXsBRT/RWcppKuuALopOlIm8t1Kmh8jFqrvSYGiqViaQwbrZh10stsX+kB3oASkpM0ll3/sTPInpmpcxt9g8AZIp/S2HTG8TG3gz089V/X/OIEloz1BgGSXmxwk+4Zr9hTVEzUMV8DL19m0nCJ4mzyAzBPpgm2a/Al/AAAEQEyh+ZCcci0bH0IGItFrmbmcbzWUR64waUySGq4DfGo6R3BE+85r8RQl2yHT5a9JFg28VIdL0slM4WUEvRInN67YKY+vqWim77L2+G+sWJRJL54753adD9Ei7EFE7jrKslukDb63IOe0gCVecM3IYH3WggoMQ5zvNfT5aeHlrXGlleBrtv0zQjZxMQD9NXE6sc9Zoz4c8lXlI8G8GtkdCPK5wmV+76yr+LhIz51w5uKUaCUUThw6ADtXjHIIdY6p3gyZw9mCyS8nIh/mloSaUEwMNlf5aGzqbet05W7PAZY+o88pOkQymO7wEQDn9L+djE=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(4326008)(7416002)(316002)(82310400004)(70586007)(8676002)(54906003)(508600001)(426003)(83380400001)(110136005)(7406005)(1076003)(70206006)(8936002)(336012)(5660300002)(2616005)(7696005)(356005)(36756003)(6666004)(26005)(186003)(47076005)(16526019)(44832011)(81166007)(36860700001)(2906002)(40460700003)(86362001)(36900700001)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 16:58:53.9141
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41d3c24a-38ce-4d5f-d370-08d9f7b6f07b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4226
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi,
+From: Michael Roth <michael.roth@amd.com>
 
-On 2/23/22 15:58, Andy Shevchenko wrote:
-> On Wed, Feb 23, 2022 at 02:31:52PM +0100, Hans de Goede wrote:
->> These tablets' DSDT does not set acpi_gbl_reduced_hardware, so
->> acpi_power_off gets used as pm_power_off handler. This causes "poweroff"
->> on these tablets to hang hard. Requiring pressing the powerbutton for
->> 30 seconds *twice* followed by a normal 3 second press to recover.
->>
->> Avoid this by overriding the global pm_power_off handler to do
->> an EFI poweroff instead.
-> 
-> Oh, you eventually found the root cause (reduced HW bit)?
+Determining which CPUID leafs have significant ECX/index values is
+also needed by guest kernel code when doing SEV-SNP-validated CPUID
+lookups. Move this to common code to keep future updates in sync.
 
-I'm not sure, it is possible that not setting the reduced HW bit
-is actually correct for this hw, but that does lead to using
-acpi_power_off which seems broken on this system.
+Reviewed-by: Venu Busireddy <venu.busireddy@oracle.com>
+Signed-off-by: Michael Roth <michael.roth@amd.com>
+Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+---
+ arch/x86/include/asm/cpuid.h | 34 ++++++++++++++++++++++++++++++++++
+ arch/x86/kvm/cpuid.c         | 19 ++-----------------
+ 2 files changed, 36 insertions(+), 17 deletions(-)
+ create mode 100644 arch/x86/include/asm/cpuid.h
 
-I've updated the commit message while merging this to reflect
-that using acpi_power_off is the problem, rather then not setting
-the reduced HW bit.
-
-Also note that the issue of reboot being the same as poweroff once
-the system has been rebooted at least once is still unresolved.
-
-Regards,
-
-Hans
+diff --git a/arch/x86/include/asm/cpuid.h b/arch/x86/include/asm/cpuid.h
+new file mode 100644
+index 000000000000..70b2db18165e
+--- /dev/null
++++ b/arch/x86/include/asm/cpuid.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * CPUID-related helpers/definitions
++ *
++ * Derived from arch/x86/kvm/cpuid.c
++ */
++
++#ifndef _ASM_X86_CPUID_H
++#define _ASM_X86_CPUID_H
++
++static __always_inline bool cpuid_function_is_indexed(u32 function)
++{
++	switch (function) {
++	case 4:
++	case 7:
++	case 0xb:
++	case 0xd:
++	case 0xf:
++	case 0x10:
++	case 0x12:
++	case 0x14:
++	case 0x17:
++	case 0x18:
++	case 0x1d:
++	case 0x1e:
++	case 0x1f:
++	case 0x8000001d:
++		return true;
++	}
++
++	return false;
++}
++
++#endif /* _ASM_X86_CPUID_H */
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 868fc9526e5a..18a20434759b 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -19,6 +19,7 @@
+ #include <asm/user.h>
+ #include <asm/fpu/xstate.h>
+ #include <asm/sgx.h>
++#include <asm/cpuid.h>
+ #include "cpuid.h"
+ #include "lapic.h"
+ #include "mmu.h"
+@@ -719,24 +720,8 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
+ 	cpuid_count(entry->function, entry->index,
+ 		    &entry->eax, &entry->ebx, &entry->ecx, &entry->edx);
+ 
+-	switch (function) {
+-	case 4:
+-	case 7:
+-	case 0xb:
+-	case 0xd:
+-	case 0xf:
+-	case 0x10:
+-	case 0x12:
+-	case 0x14:
+-	case 0x17:
+-	case 0x18:
+-	case 0x1d:
+-	case 0x1e:
+-	case 0x1f:
+-	case 0x8000001d:
++	if (cpuid_function_is_indexed(function))
+ 		entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+-		break;
+-	}
+ 
+ 	return entry;
+ }
+-- 
+2.25.1
 
