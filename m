@@ -2,88 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D8774C1D6D
-	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Feb 2022 22:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58C794C2402
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 24 Feb 2022 07:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242066AbiBWVAu (ORCPT
+        id S230354AbiBXGXV (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 23 Feb 2022 16:00:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37584 "EHLO
+        Thu, 24 Feb 2022 01:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242050AbiBWVAu (ORCPT
+        with ESMTP id S229632AbiBXGXV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 23 Feb 2022 16:00:50 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AB2A4D257
-        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Feb 2022 13:00:22 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id r13so19661ejd.5
-        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Feb 2022 13:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=UEuPurABFKaRoRO93O0mSwlV86r7QXQpoBqrdQ4MI4E=;
-        b=kBWw2tSOM/LQgaTbZ7MIAZ5j15aw/y8+TqwuVpBuA01qu+o5akScljOCi514Mh2z//
-         lWBcYBYR/8PNdAnwt8UCitOOL3pTb/Q7HZD5hCwBPolH9hTy4WBm4PjCSaVKzg2yf+TM
-         /AMZhiBhbbMiU7A7m8PHZnJKDyDY4dOQX9R5FIRHQTR9nPrd8lXI+WGqp4jgQBLmiiUn
-         bAAya1XEB8AbIZuNKT8BF/j7z3S5vtJRks2Nzh3D1aebFOPYfVB/z8DO00LXcMDQhnxO
-         WzT9vyQazXT1tQ58UWQpGbBjpEqZSKZE63eMJN1atiVMDRGS7TFloo8WnYTt+nNuAZ3D
-         MZVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=UEuPurABFKaRoRO93O0mSwlV86r7QXQpoBqrdQ4MI4E=;
-        b=wfag7Id/0tSsXGInz8Csxwwx8Le8j9ieXoJfHNVVAXefODWBi7h3mxmvySIl6A69y3
-         A2Kta2ktSPKxcT0Td5T6RwKHBdksBF2907wslflWka3nbJPYecinKKtUZsYUZj/9NFII
-         Yk0kmsIDvYICnt+iCrYR6TQuiNia6EUFG8Vj9eL/zkp44kDy9t9UKe/VgyUi8VCmjBDW
-         1nup+2NmbSrdzatkq8geTFcNzJTkwxzlBznU1FBEzN1LpGOvxQ7EhVeD6P8Sm5voIdQu
-         pdg05c5yvDMS4OMi9pXSat5avsmZauRxgD2Zlcp5S/k9YqmGytg2Itj+4RpJmyu9EtuI
-         wMkQ==
-X-Gm-Message-State: AOAM530rBJm2PwTAHpAVdAZS73XOzuXm0evDCmk8TKhUo6NYggIiJJo4
-        Zhj36e+70E0EDOTMb9hQ/OL4XtIi0D00FwPe9Ww=
-X-Google-Smtp-Source: ABdhPJy1MD2v2hkx2SozXy2fwJbxtbeyPiHwFr4d9ugg9ZXUQM9S8JzUq/AC3MEIzi/oHwJpZgF5BIMwPVmmlh/pVEs=
-X-Received: by 2002:a17:906:3a4f:b0:6cf:86e0:586c with SMTP id
- a15-20020a1709063a4f00b006cf86e0586cmr1149195ejf.626.1645650020840; Wed, 23
- Feb 2022 13:00:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:ab4:9988:0:0:0:0:0 with HTTP; Wed, 23 Feb 2022 13:00:20
- -0800 (PST)
-Reply-To: db.bankdirecttg@gmail.com
-From:   "db.bankdirecttg@gmail.com" <jpaulesqqc@gmail.com>
-Date:   Wed, 23 Feb 2022 21:00:20 +0000
-Message-ID: <CABzOjNddyQbhOykmWXqT6waSMSMLbiMS9J2t_6oCoJ_X9YXrzA@mail.gmail.com>
-Subject: Hello
-To:     db.bankdirecttg@gmail.com
+        Thu, 24 Feb 2022 01:23:21 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80821165C19
+        for <platform-driver-x86@vger.kernel.org>; Wed, 23 Feb 2022 22:22:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 02022B82486
+        for <platform-driver-x86@vger.kernel.org>; Thu, 24 Feb 2022 06:22:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ACAFFC340EC
+        for <platform-driver-x86@vger.kernel.org>; Thu, 24 Feb 2022 06:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645683769;
+        bh=Ph5f4gYQKwFWAD32wccr4lwqcvYaZkHzOU7ctXM83B8=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=DwTVS5118t8itBkBonwLemwwMrZp+ziKd0ZSjMdFfpcG6pEdcFr/ks7Gop/sZxFSB
+         mBT6MGxkk+pdZY8SmXyqIOGaFjF1B68jDds5p137oion6zHy2Fws/PgwBYH5YYKvQd
+         HxScxNJ3es8ReC1NGf3EuK38L/t8hsqwVpPlrrv65G++mmgMDK83CZDHO0phKNTBb/
+         y5f9DN2Gs+Qo+x9Jb6uNQz9UUZ8jEXk/KH+dWi1CjUk3ukn4PDNi9rgQEXR5vxbcZA
+         ODm3iW/xsnMKm4LOM3hreAO0VZ+TP+NgeJ6xU06YZCtN6MHGl/C9boB9c1BtIW/B5N
+         yl9BD+8PisBYg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 954FBC05FD0; Thu, 24 Feb 2022 06:22:49 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     platform-driver-x86@vger.kernel.org
+Subject: [Bug 199715] hp_accel: probe of HPQ6007:00 failed with error -22 (HP
+ Envy x360)
+Date:   Thu, 24 Feb 2022 06:22:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Platform_x86
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rodomar705@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_platform_x86@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-199715-215701-854xZUXF30@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-199715-215701@https.bugzilla.kernel.org/>
+References: <bug-199715-215701@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,NAME_EMAIL_DIFF,PDS_TO_EQ_FROM_NAME,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D199715
+
+--- Comment #68 from Marco (rodomar705@protonmail.com) ---
+(In reply to Alex Deucher from comment #67)
+> Support for newer platforms was added last year:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
+> ?id=3D0aad9c95eb9a2b086322e28ae2e58ad25598604e
+
+As said above, this is correct. The issue is that the LID sensor coming from
+the SFH (the way that Windows tell if the system has switched into tablet m=
+ode,
+verified by myself after disabling the driver and losing that functionality=
+) is
+still missing, and the older driver forked above had added support recently.
+Unfortunately that driver doesn't support Ryzen APU platforms after 3000
+series.
+
+Both options for me aren't unfortunately usable, and I still hope that some=
+one
+from AMD will fix this issue.
+
+Marco.
+
 --=20
- Irod=C3=A1nk el=C3=A9rhet=C5=91s=C3=A9ge: 2554 Road Of Kpalime Face Pharma=
-cy Bet, Lome, Gulf.
+You may reply to this email to add a comment.
 
-Ez a WU bank igazgat=C3=B3ja =C3=A9rtes=C3=ADti =C3=96nt arr=C3=B3l, hogy a=
- Nemzetk=C3=B6zi
-Valutaalap (IMF) 850 000,00 USD k=C3=A1rt=C3=A9r=C3=ADt=C3=A9st fizet =C3=
-=96nnek, mert
-megtal=C3=A1lta az =C3=96n e-mail c=C3=ADm=C3=A9t a csal=C3=A1s =C3=A1ldoza=
-tainak list=C3=A1j=C3=A1n. Hajland=C3=B3
-vagy venni ezt az alapot vagy sem?
-
-S=C3=BCrg=C5=91sen v=C3=A1rjuk a h=C3=ADrt.
-
-Tisztelettel
-  Tony Albert
-  BANKIGAZGAT=C3=93
-L=C3=A9pjen kapcsolatba a Whatsappal, +22892905783
+You are receiving this mail because:
+You are watching the assignee of the bug.=
