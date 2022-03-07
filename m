@@ -2,123 +2,211 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CF224D0960
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Mar 2022 22:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE394D0A12
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  7 Mar 2022 22:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240550AbiCGVeo (ORCPT
+        id S1343533AbiCGVjv (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 7 Mar 2022 16:34:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60040 "EHLO
+        Mon, 7 Mar 2022 16:39:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232501AbiCGVen (ORCPT
+        with ESMTP id S1343709AbiCGVh4 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 7 Mar 2022 16:34:43 -0500
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0547450457;
-        Mon,  7 Mar 2022 13:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646688829; x=1678224829;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=P7fA5VAziyLx4eErnIxNtk976YKxMu7dfIcAeyiLxV0=;
-  b=CtRBnAEk995hrpSLj8dkq0b8//iZBcS4hN5Heu9La8xxk/4tW+uY62er
-   rmIKDt1Grhv+JE/SjhNmGNdOe00YefpNdEQeKVaSl7g4+6ijBu2q1k9Si
-   lLOlVaVFvSgo7+0UGNW/RASGE6LjBoMxSLM8iqu3iYEWHNes7O0Z6wDQQ
-   LDPLKsBMMRoB/p3j1sYwuT0tExMXkeVMip3u7KhxoPml5v4t8P4bwfkqM
-   vfwZ2qvPVvstaS0gLKbGdsvI5rlwNLjdhN1qo7P82nK7Ht5K2t6UuoGkx
-   ouLRXhCrYATESwtgw/vuFvf61qEjrfqD0R3GmnD74NU+ICjrxOomzEQ03
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="317743362"
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
-   d="scan'208";a="317743362"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 13:33:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; 
-   d="scan'208";a="687687259"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2022 13:33:48 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 13:33:47 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 13:33:46 -0800
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.021;
- Mon, 7 Mar 2022 13:33:46 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "Joseph, Jithu" <jithu.joseph@intel.com>
-CC:     "Williams, Dan J" <dan.j.williams@intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "platform-driver-x86@vger.kernel.org" 
+        Mon, 7 Mar 2022 16:37:56 -0500
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A795888D2;
+        Mon,  7 Mar 2022 13:35:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LbD58Ck6JZR0Tak5aQMOSFuLhAXQU4Tni6h1lmwt+vapxTpsKchblOdN7x5KuQYh5/fj/VYoQlZKSR9RxH6o2hPHtkYiND9A9IwKj0q6OrWYGxgVY29gXDXsyW/HmCZdZvNkTna+MNUVyT9bs2gMVUTb7l/4OmYInbspVCtfAFkdlwQNTVV9gSzfACpc2cUDdFGnWaLmcqSDh/I9ILsbTme6TNb2q++yVjQzySaFiMJsSXcvR7gYIaHVRPNMdUwc8IjzT9U45yF+wNoHRCt7njMn1twTSrE5rqFMUXAudsDanIlcWYKReiHFnE1ejRO+mhkoZKmRO/3Skkz2e95zJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TbenN1LpxLpo95p6OplkLT0LTZukBi/3ahTKSZ4gJW8=;
+ b=KVSkmXrJcHwdoOwQbGyh97PoB57LHJxFYVW98Aq4mearwaScT2XKGe0+LoSCafOeYn0N0uisKtZs2BRQEG57ehGdCmR1+qjfK0WC4ShkIpoUgfcWjOzGtNLYOREGz/DFJzAOgUQft1iPWuCySzZAEAK6ysmm8cGnDgC+rC184U6Z+TWQFYiLyerEsZeNxo9rnhYPK/wRYYw0EuMMMYJjyjcygwX++sNeya9tx35aG/cbVsCEdWjDDme6YPwerPkKVregYuh7nEyZ1wy83Ub0UATmoJnZjksAjsXpi2muiNNWojz59jSdXYQwS3aAR4sTNDZw8FVB4Jxonz4sSYI/0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TbenN1LpxLpo95p6OplkLT0LTZukBi/3ahTKSZ4gJW8=;
+ b=HArzrnjBbzlE+dW9VFKpbaQ3LwrdHQnKdMjr+EpKjef8SCExMIYDgrGi0ky4iVe6F0Jv9SB8jRvNx3FkKux62ZUq/R9ME8epgBGubPQIgP9HqzuJCe/SwyiJBXGiFAvbRBiwdI9Ql/E4qvPIXVIOgNIXZW5h7GLkeQHGHWpeHkk=
+Received: from BN9PR03CA0130.namprd03.prod.outlook.com (2603:10b6:408:fe::15)
+ by DS7PR12MB6006.namprd12.prod.outlook.com (2603:10b6:8:7d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.17; Mon, 7 Mar
+ 2022 21:35:33 +0000
+Received: from BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fe:cafe::5d) by BN9PR03CA0130.outlook.office365.com
+ (2603:10b6:408:fe::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
+ Transport; Mon, 7 Mar 2022 21:35:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT009.mail.protection.outlook.com (10.13.176.65) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5038.14 via Frontend Transport; Mon, 7 Mar 2022 21:35:33 +0000
+Received: from sbrijesh-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 7 Mar
+ 2022 15:35:22 -0600
+From:   Brijesh Singh <brijesh.singh@amd.com>
+To:     <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-efi@vger.kernel.org>,
         <platform-driver-x86@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "bp@alien8.de" <bp@alien8.de>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: RE: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
-Thread-Topic: [RFC 08/10] platform/x86/intel/ifs: Add IFS sysfs interface
-Thread-Index: AQHYLaZd5d+yEBuhdEqmhIRDOkET6qyu6T6AgAFSX4CABIOMgIAAGXcAgAABjACAAAs3AIAACG0AgAAIiACAAAmQgP//ejMg
-Date:   Mon, 7 Mar 2022 21:33:46 +0000
-Message-ID: <5129ec667d734f3da4043ce1b7df0439@intel.com>
-References: <20220301195457.21152-1-jithu.joseph@intel.com>
- <20220301195457.21152-9-jithu.joseph@intel.com>
- <188492dc80c017375da76d444347b1d00c2031f6.camel@intel.com>
- <7b9c788e-21dc-eedc-a1b4-9c6877fa48fe@intel.com>
- <CAPcyv4h=qPFrP+mRqaZhkh5ZmYjuQawsqvf+-R036ZJVKBNK4Q@mail.gmail.com>
- <33d0e764-86d9-8504-17fa-14b31c87de4e@intel.com>
- <CAPcyv4g5bq9+u0iLjhpeJw8bkbCREUw60H2z_KfDz4hHCrKdFQ@mail.gmail.com>
- <7c620f8a-189e-5ac4-30fe-1fa14ba799ea@intel.com>
- <CAPcyv4iUuZ0aAWckWvwbxJJgt5tDJRpeonfE4DegWS6KPtJq8A@mail.gmail.com>
- <eab8177d-eb73-ec64-ec1f-4f2a51be8aee@intel.com> <YiZ5bYPvssUFYGZj@kroah.com>
-In-Reply-To: <YiZ5bYPvssUFYGZj@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.401.20
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        <linux-coco@lists.linux.dev>, <linux-mm@kvack.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        <brijesh.ksingh@gmail.com>, <tony.luck@intel.com>,
+        <marcorr@google.com>, <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Brijesh Singh <brijesh.singh@amd.com>
+Subject: [PATCH v12 37/46] x86/compressed/64: Add identity mapping for Confidential Computing blob
+Date:   Mon, 7 Mar 2022 15:33:47 -0600
+Message-ID: <20220307213356.2797205-38-brijesh.singh@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220307213356.2797205-1-brijesh.singh@amd.com>
+References: <20220307213356.2797205-1-brijesh.singh@amd.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bf703fee-49c1-4d27-8f0b-08da008268f9
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6006:EE_
+X-Microsoft-Antispam-PRVS: <DS7PR12MB6006F2E4713D64654D9447A8E5089@DS7PR12MB6006.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: buI3zJjD1rzqAw7fA0IjAKK4s0ZGvc1h3RbLV9RNoL0z2+VWxDaaMCYFHKytFtWXpXZOApiXIdjPOVTcbm4FlMitSiNSa4yoKgnGxySzDcXGJHVKxpJqTebFcfvKV2CzRSd5gRbvJfSxHVz9Kvu+bStcBlxYhDhbJM+jW8sUZkSpK9Ghf2tUqLY545/6MVuMMihLQNI+Mo3VBkGnOgMpHxfQc+wWTpnw6WlofxgxVKT+TnK4GRj1vm29dCVKTEdY7sNQCN1nQqwnJ9d0GqZIHhpXTReWGGLVu/ama9wPxj6MosABmhiX+DuAZ3gmnILXOwZLVTttjpideXQp7w+LPce356o1BF05prGyP/QOYS7UheEXxFvAuFxXm/NauggS0G7q60i3tyRu2eEi7wLZq8Jo3tEovkqkSar9LFTuyY5KsvKSpHkNaq9MCijdTHQZsEBJSNKUSekyvsDaZcL3ZNqO6ON1EFXTLODwcUlYfzqhX+0h495jIz49QgNn34ym9TPegWHbYj9RnfUmfW8SGmrdxvV3CfLhAgzx5KvT0t3/PqFhA8nMbH0iskWpdT4bAFk3wVbedFkBsG1Xc676Lzomd6mnmfr0YUpmYiGnsjX+bou7V6dspyiXOip9IDShEAeWjt7fqDDmC6prxMT+6I+8sGCrk1Mu1iyupZqcDhEvWXR3LVezvrwbEDWjFRNkAzLfcJGZ9h3skqiUuT4fGrOy6Uq2fsGEhlrJhqHKuSg=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(316002)(86362001)(4326008)(40460700003)(508600001)(8936002)(54906003)(44832011)(83380400001)(7406005)(110136005)(82310400004)(2906002)(7416002)(6666004)(7696005)(186003)(26005)(336012)(36860700001)(36756003)(70206006)(426003)(8676002)(70586007)(47076005)(16526019)(1076003)(5660300002)(81166007)(356005)(2616005)(2101003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 21:35:33.2655
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf703fee-49c1-4d27-8f0b-08da008268f9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT009.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6006
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-> > Also some context on test frequency: Hardware has  strict rate limiting=
- of tests.
-> > Every core can be tested only once in every 30 minutes. So it is pointl=
-ess to test at high frequency.
->
-> What limits this, the kernel?
+From: Michael Roth <michael.roth@amd.com>
 
-Microcode enforces the per-core repeat rate on the first implementation.
+The run-time kernel will need to access the Confidential Computing
+blob very early in boot to access the CPUID table it points to. At
+that stage of boot it will be relying on the identity-mapped page table
+set up by boot/compressed kernel, so make sure the blob and the CPUID
+table it points to are mapped in advance.
 
-But this limit isn't architectural. Future implementations may not have
-the same, or perhaps any, limit.
+Signed-off-by: Michael Roth <michael.roth@amd.com>
+Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+---
+ arch/x86/boot/compressed/ident_map_64.c |  3 ++-
+ arch/x86/boot/compressed/misc.h         |  2 ++
+ arch/x86/boot/compressed/sev.c          | 21 +++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
--Tony
+diff --git a/arch/x86/boot/compressed/ident_map_64.c b/arch/x86/boot/compressed/ident_map_64.c
+index 7975680f521f..e4b093a0862d 100644
+--- a/arch/x86/boot/compressed/ident_map_64.c
++++ b/arch/x86/boot/compressed/ident_map_64.c
+@@ -163,8 +163,9 @@ void initialize_identity_maps(void *rmode)
+ 	cmdline = get_cmd_line_ptr();
+ 	kernel_add_identity_map(cmdline, cmdline + COMMAND_LINE_SIZE);
+ 
++	sev_prep_identity_maps(top_level_pgt);
++
+ 	/* Load the new page-table. */
+-	sev_verify_cbit(top_level_pgt);
+ 	write_cr3(top_level_pgt);
+ }
+ 
+diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
+index aae2722c6e9a..75d284ec763f 100644
+--- a/arch/x86/boot/compressed/misc.h
++++ b/arch/x86/boot/compressed/misc.h
+@@ -127,6 +127,7 @@ void sev_es_shutdown_ghcb(void);
+ extern bool sev_es_check_ghcb_fault(unsigned long address);
+ void snp_set_page_private(unsigned long paddr);
+ void snp_set_page_shared(unsigned long paddr);
++void sev_prep_identity_maps(unsigned long top_level_pgt);
+ #else
+ static inline void sev_enable(struct boot_params *bp) { }
+ static inline void sev_es_shutdown_ghcb(void) { }
+@@ -136,6 +137,7 @@ static inline bool sev_es_check_ghcb_fault(unsigned long address)
+ }
+ static inline void snp_set_page_private(unsigned long paddr) { }
+ static inline void snp_set_page_shared(unsigned long paddr) { }
++static inline void sev_prep_identity_maps(unsigned long top_level_pgt) { }
+ #endif
+ 
+ /* acpi.c */
+diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
+index 42cc41c9cd86..2a48f3a3f372 100644
+--- a/arch/x86/boot/compressed/sev.c
++++ b/arch/x86/boot/compressed/sev.c
+@@ -478,3 +478,24 @@ bool snp_init(struct boot_params *bp)
+ 
+ 	return true;
+ }
++
++void sev_prep_identity_maps(unsigned long top_level_pgt)
++{
++	/*
++	 * The Confidential Computing blob is used very early in uncompressed
++	 * kernel to find the in-memory cpuid table to handle cpuid
++	 * instructions. Make sure an identity-mapping exists so it can be
++	 * accessed after switchover.
++	 */
++	if (sev_snp_enabled()) {
++		unsigned long cc_info_pa = boot_params->cc_blob_address;
++		struct cc_blob_sev_info *cc_info;
++
++		kernel_add_identity_map(cc_info_pa, cc_info_pa + sizeof(*cc_info));
++
++		cc_info = (struct cc_blob_sev_info *)cc_info_pa;
++		kernel_add_identity_map(cc_info->cpuid_phys, cc_info->cpuid_phys + cc_info->cpuid_len);
++	}
++
++	sev_verify_cbit(top_level_pgt);
++}
+-- 
+2.25.1
+
