@@ -2,71 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A3D4D49B0
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Mar 2022 15:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 976DC4D4C42
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 10 Mar 2022 16:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243391AbiCJOVr (ORCPT
+        id S237064AbiCJOyQ (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 10 Mar 2022 09:21:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43462 "EHLO
+        Thu, 10 Mar 2022 09:54:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243817AbiCJOSY (ORCPT
+        with ESMTP id S244541AbiCJOhI (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 10 Mar 2022 09:18:24 -0500
-Received: from out30-44.freemail.mail.aliyun.com (out30-44.freemail.mail.aliyun.com [115.124.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2981E166E31;
-        Thu, 10 Mar 2022 06:14:51 -0800 (PST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=33;SR=0;TI=SMTPD_---0V6onflR_1646921659;
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0V6onflR_1646921659)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 10 Mar 2022 22:14:20 +0800
-Message-ID: <1646921388.7015996-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v7 09/26] virtio_ring: split: implement virtqueue_reset_vring_split()
-Date:   Thu, 10 Mar 2022 22:09:48 +0800
-From:   Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Vadim Pasternak <vadimp@nvidia.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vincent Whitchurch <vincent.whitchurch@axis.com>,
-        linux-um@lists.infradead.org, platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        kvm@vger.kernel.org, bpf@vger.kernel.org
-References: <20220308123518.33800-1-xuanzhuo@linux.alibaba.com>
- <20220308123518.33800-10-xuanzhuo@linux.alibaba.com>
- <20220310015418-mutt-send-email-mst@kernel.org>
- <1646896623.3794115-2-xuanzhuo@linux.alibaba.com>
- <20220310025930-mutt-send-email-mst@kernel.org>
- <1646900056.7775025-1-xuanzhuo@linux.alibaba.com>
- <20220310071335-mutt-send-email-mst@kernel.org>
- <1646915610.3936472-1-xuanzhuo@linux.alibaba.com>
- <20220310080212-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220310080212-mutt-send-email-mst@kernel.org>
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
+        Thu, 10 Mar 2022 09:37:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B1D2D9968A
+        for <platform-driver-x86@vger.kernel.org>; Thu, 10 Mar 2022 06:32:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646922706;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JrLzakUrMJBAMNgEdvFCs5qEtarTsgRpxeGRRxOBwCM=;
+        b=ba9/xNjxKaLVvw+86XlizQApeI/ymxZUgmSvHis0ZCqJ6j+BxHPuSv0erEsaiDfGWd1c/n
+        ewVVm8oF6Ox1mmhFgwDBX2Io3i7zBsNgkarnNMW4C9k1C1AyBabs25e4sheLhrlTO+jNHO
+        j2ayedsz89h8I0squwYYBIqFjxB+VL4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-vkPjQO6XNtus8tQyLxqWTQ-1; Thu, 10 Mar 2022 09:31:44 -0500
+X-MC-Unique: vkPjQO6XNtus8tQyLxqWTQ-1
+Received: by mail-ed1-f72.google.com with SMTP id o20-20020aa7dd54000000b00413bc19ad08so3212601edw.7
+        for <platform-driver-x86@vger.kernel.org>; Thu, 10 Mar 2022 06:31:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=JrLzakUrMJBAMNgEdvFCs5qEtarTsgRpxeGRRxOBwCM=;
+        b=LLIP6EMVxaZydZKGzDaqgP2Z+yyqBWI2n5vcPbKyAJmqKWJSjyRlT3OhTxZPWPviRe
+         k5SL+V3+FW0ZJyWw9lYDjEY194CMd10F0ZNql+z36QkP8SG4zpX43IYPk6w31F/fdQlo
+         PXmCBC7c5NXrXEapH2CInQg1oDL4oI5jQzyVqN/DoIwHRd0+spEANxjUxK0kSLuwBL/4
+         nNgBfgc5fj25BTxNglk9bPo+zfvE454pqIBY+CN7X3jDpjx6GY56PrWFwBU4Q74XsWrq
+         Weh8nN5/u369NW7BTvuqJpKsDrB2gA+tapwdIokGqSj94Q/04GgDcoJodhu2QAZnJkWb
+         mXEQ==
+X-Gm-Message-State: AOAM531tOdWaymOnKcWMFV91oy7PSLKGjNSRU+lxYDs+eaaXLblKt66E
+        daiCh2UibWlcehKKwScO5WtxXWC1ZSFuxrFgUKSHGLFwvKwUISziTMk1eoydslq5gkPqdp919nR
+        bJN8UcD0UrvkSjSAmeIiSVbUr5QgeFsjGsw==
+X-Received: by 2002:a17:907:3da1:b0:6d7:9f9:8d3c with SMTP id he33-20020a1709073da100b006d709f98d3cmr4432347ejc.503.1646922703064;
+        Thu, 10 Mar 2022 06:31:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzSvGGjs1UAMH/+T6yimS+1xmoCDrbjc2iYUsxmabROLhTHb0TCG6wUph+YsBZu+c0V63dAhQ==
+X-Received: by 2002:a17:907:3da1:b0:6d7:9f9:8d3c with SMTP id he33-20020a1709073da100b006d709f98d3cmr4432338ejc.503.1646922702844;
+        Thu, 10 Mar 2022 06:31:42 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0? (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
+        by smtp.gmail.com with ESMTPSA id v24-20020a1709067d9800b006daacd199afsm1858364ejo.8.2022.03.10.06.31.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Mar 2022 06:31:42 -0800 (PST)
+Message-ID: <d8704f6d-627a-4409-afa8-6f9193def891@redhat.com>
+Date:   Thu, 10 Mar 2022 15:31:41 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 3/3] Changing bios_args.data to be dynamically
+ allocated
+Content-Language: en-US
+To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        Jorge Lopez <jorgealtxwork@gmail.com>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+References: <20220307220932.23607-1-jorge.lopez2@hp.com>
+ <20220307220932.23607-4-jorge.lopez2@hp.com>
+ <BL1PR12MB5157BEF156685B3DE7B09096E2089@BL1PR12MB5157.namprd12.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <BL1PR12MB5157BEF156685B3DE7B09096E2089@BL1PR12MB5157.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,237 +87,172 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Thu, 10 Mar 2022 08:04:27 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Thu, Mar 10, 2022 at 08:33:30PM +0800, Xuan Zhuo wrote:
-> > On Thu, 10 Mar 2022 07:17:09 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > On Thu, Mar 10, 2022 at 04:14:16PM +0800, Xuan Zhuo wrote:
-> > > > On Thu, 10 Mar 2022 03:07:22 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > On Thu, Mar 10, 2022 at 03:17:03PM +0800, Xuan Zhuo wrote:
-> > > > > > On Thu, 10 Mar 2022 02:00:39 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > On Tue, Mar 08, 2022 at 08:35:01PM +0800, Xuan Zhuo wrote:
-> > > > > > > > virtio ring supports reset.
-> > > > > > > >
-> > > > > > > > Queue reset is divided into several stages.
-> > > > > > > >
-> > > > > > > > 1. notify device queue reset
-> > > > > > > > 2. vring release
-> > > > > > > > 3. attach new vring
-> > > > > > > > 4. notify device queue re-enable
-> > > > > > > >
-> > > > > > > > After the first step is completed, the vring reset operation can be
-> > > > > > > > performed. If the newly set vring num does not change, then just reset
-> > > > > > > > the vq related value.
-> > > > > > > >
-> > > > > > > > Otherwise, the vring will be released and the vring will be reallocated.
-> > > > > > > > And the vring will be attached to the vq. If this process fails, the
-> > > > > > > > function will exit, and the state of the vq will be the vring release
-> > > > > > > > state. You can call this function again to reallocate the vring.
-> > > > > > > >
-> > > > > > > > In addition, vring_align, may_reduce_num are necessary for reallocating
-> > > > > > > > vring, so they are retained when creating vq.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/virtio/virtio_ring.c | 69 ++++++++++++++++++++++++++++++++++++
-> > > > > > > >  1 file changed, 69 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
-> > > > > > > > index e0422c04c903..148fb1fd3d5a 100644
-> > > > > > > > --- a/drivers/virtio/virtio_ring.c
-> > > > > > > > +++ b/drivers/virtio/virtio_ring.c
-> > > > > > > > @@ -158,6 +158,12 @@ struct vring_virtqueue {
-> > > > > > > >  			/* DMA address and size information */
-> > > > > > > >  			dma_addr_t queue_dma_addr;
-> > > > > > > >  			size_t queue_size_in_bytes;
-> > > > > > > > +
-> > > > > > > > +			/* The parameters for creating vrings are reserved for
-> > > > > > > > +			 * creating new vrings when enabling reset queue.
-> > > > > > > > +			 */
-> > > > > > > > +			u32 vring_align;
-> > > > > > > > +			bool may_reduce_num;
-> > > > > > > >  		} split;
-> > > > > > > >
-> > > > > > > >  		/* Available for packed ring */
-> > > > > > > > @@ -217,6 +223,12 @@ struct vring_virtqueue {
-> > > > > > > >  #endif
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > > +static void vring_free(struct virtqueue *vq);
-> > > > > > > > +static void __vring_virtqueue_init_split(struct vring_virtqueue *vq,
-> > > > > > > > +					 struct virtio_device *vdev);
-> > > > > > > > +static int __vring_virtqueue_attach_split(struct vring_virtqueue *vq,
-> > > > > > > > +					  struct virtio_device *vdev,
-> > > > > > > > +					  struct vring vring);
-> > > > > > > >
-> > > > > > > >  /*
-> > > > > > > >   * Helpers.
-> > > > > > > > @@ -1012,6 +1024,8 @@ static struct virtqueue *vring_create_virtqueue_split(
-> > > > > > > >  		return NULL;
-> > > > > > > >  	}
-> > > > > > > >
-> > > > > > > > +	to_vvq(vq)->split.vring_align = vring_align;
-> > > > > > > > +	to_vvq(vq)->split.may_reduce_num = may_reduce_num;
-> > > > > > > >  	to_vvq(vq)->split.queue_dma_addr = vring.dma_addr;
-> > > > > > > >  	to_vvq(vq)->split.queue_size_in_bytes = vring.queue_size_in_bytes;
-> > > > > > > >  	to_vvq(vq)->we_own_ring = true;
-> > > > > > > > @@ -1019,6 +1033,59 @@ static struct virtqueue *vring_create_virtqueue_split(
-> > > > > > > >  	return vq;
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > +static int virtqueue_reset_vring_split(struct virtqueue *_vq, u32 num)
-> > > > > > > > +{
-> > > > > > > > +	struct vring_virtqueue *vq = to_vvq(_vq);
-> > > > > > > > +	struct virtio_device *vdev = _vq->vdev;
-> > > > > > > > +	struct vring_split vring;
-> > > > > > > > +	int err;
-> > > > > > > > +
-> > > > > > > > +	if (num > _vq->num_max)
-> > > > > > > > +		return -E2BIG;
-> > > > > > > > +
-> > > > > > > > +	switch (vq->vq.reset) {
-> > > > > > > > +	case VIRTIO_VQ_RESET_STEP_NONE:
-> > > > > > > > +		return -ENOENT;
-> > > > > > > > +
-> > > > > > > > +	case VIRTIO_VQ_RESET_STEP_VRING_ATTACH:
-> > > > > > > > +	case VIRTIO_VQ_RESET_STEP_DEVICE:
-> > > > > > > > +		if (vq->split.vring.num == num || !num)
-> > > > > > > > +			break;
-> > > > > > > > +
-> > > > > > > > +		vring_free(_vq);
-> > > > > > > > +
-> > > > > > > > +		fallthrough;
-> > > > > > > > +
-> > > > > > > > +	case VIRTIO_VQ_RESET_STEP_VRING_RELEASE:
-> > > > > > > > +		if (!num)
-> > > > > > > > +			num = vq->split.vring.num;
-> > > > > > > > +
-> > > > > > > > +		err = vring_create_vring_split(&vring, vdev,
-> > > > > > > > +					       vq->split.vring_align,
-> > > > > > > > +					       vq->weak_barriers,
-> > > > > > > > +					       vq->split.may_reduce_num, num);
-> > > > > > > > +		if (err)
-> > > > > > > > +			return -ENOMEM;
-> > > > > > > > +
-> > > > > > > > +		err = __vring_virtqueue_attach_split(vq, vdev, vring.vring);
-> > > > > > > > +		if (err) {
-> > > > > > > > +			vring_free_queue(vdev, vring.queue_size_in_bytes,
-> > > > > > > > +					 vring.queue,
-> > > > > > > > +					 vring.dma_addr);
-> > > > > > > > +			return -ENOMEM;
-> > > > > > > > +		}
-> > > > > > > > +
-> > > > > > > > +		vq->split.queue_dma_addr = vring.dma_addr;
-> > > > > > > > +		vq->split.queue_size_in_bytes = vring.queue_size_in_bytes;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	__vring_virtqueue_init_split(vq, vdev);
-> > > > > > > > +	vq->we_own_ring = true;
-> > > > > > > > +	vq->vq.reset = VIRTIO_VQ_RESET_STEP_VRING_ATTACH;
-> > > > > > > > +
-> > > > > > > > +	return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > >
-> > > > > > > I kind of dislike this state machine.
-> > > > > > >
-> > > > > > > Hacks like special-casing num = 0 to mean "reset" are especially
-> > > > > > > confusing.
-> > > > > >
-> > > > > > I'm removing it. I'll say in the function description that this function is
-> > > > > > currently only called when vq has been reset. I'm no longer checking it based on
-> > > > > > state.
-> > > > > >
-> > > > > > >
-> > > > > > > And as Jason points out, when we want a resize then yes this currently
-> > > > > > > implies reset but that is an implementation detail.
-> > > > > > >
-> > > > > > > There should be a way to just make these cases separate functions
-> > > > > > > and then use them to compose consistent external APIs.
-> > > > > >
-> > > > > > Yes, virtqueue_resize_split() is fine for ethtool -G.
-> > > > > >
-> > > > > > But in the case of AF_XDP, just execute reset to free the buffer. The name
-> > > > > > virtqueue_reset_vring_split() I think can cover both cases. Or we use two apis
-> > > > > > to handle both scenarios?
-> > > > > >
-> > > > > > Or can anyone think of a better name. ^_^
-> > > > > >
-> > > > > > Thanks.
-> > > > >
-> > > > >
-> > > > > I'd say resize should be called resize and reset should be called reset.
-> > > >
-> > > >
-> > > > OK, I'll change it to resize here.
-> > > >
-> > > > But I want to know that when I implement virtio-net to support AF_XDP, its
-> > > > requirement is to release all submitted buffers. Then should I add a new api
-> > > > such as virtqueue_reset_vring()?
-> > >
-> > > Sounds like a reasonable name.
-> > >
-> > > > >
-> > > > > The big issue is a sane API for resize. Ideally it would resubmit
-> > > > > buffers which did not get used. Question is what to do
-> > > > > about buffers which don't fit (if ring has been downsized)?
-> > > > > Maybe a callback that will handle them?
-> > > > > And then what? Queue them up and readd later? Drop?
-> > > > > If we drop we should drop from the head not the tail ...
-> > > >
-> > > > It's a good idea, let's implement it later.
-> > > >
-> > > > Thanks.
-> > >
-> > > Well ... not sure how you are going to support resize
-> > > if you don't know what to do with buffers that were
-> > > in the ring.
-> >
-> > The current solution is to call virtqueue_detach_unused_buf() to release buffers
-> > before resize ring.
-> >
-> > Thanks.
->
-> This requires basically a richer api:
-> - stop
-> - detach
-> - resize
-> - start
+Hi,
 
-Yes, that's how it is currently implemented.
+On 3/7/22 23:12, Limonciello, Mario wrote:
+> [Public]
+> 
+> 
+> 
+>> -----Original Message-----
+>> From: Jorge Lopez <jorgealtxwork@gmail.com>
+>> Sent: Monday, March 7, 2022 16:10
+>> To: platform-driver-x86@vger.kernel.org
+>> Subject: [PATCH v4 3/3] Changing bios_args.data to be dynamically allocated
+>>
+>> The purpose of this patch is to remove 128 bytes buffer limitation
+>> imposed in bios_args structure.
+>>
+>> A limiting factor discovered during this investigation was the struct
+>> bios_args.data size restriction.  The data member size limits all possible
+>> WMI commands to those requiring buffer size of 128 bytes or less.
+>> Several WMI commands and queries require a buffer size larger than 128
+>> bytes hence limiting current and feature supported by the driver.
+>> It is for this reason, struct bios_args.data changed and is dynamically
+>> allocated.  hp_wmi_perform_query function changed to handle the memory
+>> allocation and release of any required buffer size.
+>>
+>> All changes were validated on a HP ZBook Workstation notebook,
+>> HP EliteBook x360, and HP EliteBook 850 G8.  Additional
+>> validation was included in the test process to ensure no other
+>> commands were incorrectly handled.
+>>
+>> Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
+>>
+>> ---
+>> Based on the latest platform-drivers-x86.git/for-next
+> 
+> Was this meant as "changes from v3->v4"?  Or it's just a comment?
+> 
+>> ---
+> 
+> No need for double --.  Just put everything commentary below the one --.
 
->
-> with a callback you would just have a resize, and the fact
-> it resets internally becomes an implementation detail.
+The second cut-line gets added by git format-patch, there is nothing
+which can be done about that.
+
+Regards,
+
+Hans
 
 
-I think, I understand what you mean, we encapsulate the following code into a
-function as an external interface.
+> 
+>>  drivers/platform/x86/hp-wmi.c | 59 ++++++++++++++++++++++-------------
+>>  1 file changed, 38 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
+>> index a0aba7db8a1c..a04723fdea60 100644
+>> --- a/drivers/platform/x86/hp-wmi.c
+>> +++ b/drivers/platform/x86/hp-wmi.c
+>> @@ -82,12 +82,17 @@ enum hp_wmi_event_ids {
+>>  	HPWMI_BATTERY_CHARGE_PERIOD	= 0x10,
+>>  };
+>>
+>> +/**
+>> + * struct bios_args buffer is dynamically allocated.  New WMI command
+>> types
+>> + * were introduced that exceeds 128-byte data size.  Changes to handle
+>> + * the data size allocation scheme were kept in hp_wmi_perform_qurey
+>> function.
+>> + */
+>>  struct bios_args {
+>>  	u32 signature;
+>>  	u32 command;
+>>  	u32 commandtype;
+>>  	u32 datasize;
+>> -	u8 data[128];
+>> +	u8 data[0];
+>>  };
+>>
+>>  enum hp_wmi_commandtype {
+>> @@ -268,34 +273,39 @@ static int hp_wmi_perform_query(int query, enum
+>> hp_wmi_command command,
+>>  	int mid;
+>>  	struct bios_return *bios_return;
+>>  	int actual_outsize;
+>> -	union acpi_object *obj;
+>> -	struct bios_args args = {
+>> -		.signature = 0x55434553,
+>> -		.command = command,
+>> -		.commandtype = query,
+>> -		.datasize = insize,
+>> -		.data = { 0 },
+>> -	};
+>> -	struct acpi_buffer input = { sizeof(struct bios_args), &args };
+>> +	union acpi_object *obj = NULL;
+>> +	size_t bios_args_size = sizeof(struct bios_args) + insize;
+>> +	struct bios_args *args = NULL;
+>> +	struct acpi_buffer input;
+>>  	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+>>  	int ret = 0;
+>>
+>> -	mid = encode_outsize_for_pvsz(outsize);
+>> -	if (WARN_ON(mid < 0))
+>> -		return mid;
+>> +	args = kmalloc(bios_args_size, GFP_KERNEL);
+>> +	if (!args)
+>> +		return -ENOMEM;
+>>
+>> -	if (WARN_ON(insize > sizeof(args.data)))
+>> -		return -EINVAL;
+>> -	memcpy(&args.data[0], buffer, insize);
+>> +	input.length = bios_args_size;
+>> +	input.pointer = args;
+>>
+>> -	wmi_evaluate_method(HPWMI_BIOS_GUID, 0, mid, &input,
+>> &output);
+>> +	mid = encode_outsize_for_pvsz(outsize);
+>> +	if (WARN_ON(mid < 0)) {
+>> +		ret = mid;
+>> +		goto out_free;
+>> +	}
+>>
+>> -	obj = output.pointer;
+>> +	memcpy(args->data, buffer, insize);
+>>
+>> -	if (!obj)
+>> -		return -EINVAL;
+>> +	args->signature = 0x55434553;
+>> +	args->command = command;
+>> +	args->commandtype = query;
+>> +	args->datasize = insize;
+>>
+>> -	if (obj->type != ACPI_TYPE_BUFFER) {
+>> +	ret = wmi_evaluate_method(HPWMI_BIOS_GUID, 0, mid, &input,
+>> &output);
+>> +	if (ret)
+>> +		goto out_free;
+>> +
+>> +	obj = output.pointer;
+>> +	if (!obj) {
+>>  		ret = -EINVAL;
+>>  		goto out_free;
+>>  	}
+>> @@ -310,6 +320,12 @@ static int hp_wmi_perform_query(int query, enum
+>> hp_wmi_command command,
+>>  		goto out_free;
+>>  	}
+>>
+>> +	if (obj->type != ACPI_TYPE_BUFFER) {
+>> +		pr_warn("query 0x%x returned an invalid object 0x%x\n",
+>> query, ret);
+>> +		ret = -EINVAL;
+>> +		goto out_free;
+>> +	}
+>> +
+>>  	/* Ignore output data of zero size */
+>>  	if (!outsize)
+>>  		goto out_free;
+>> @@ -320,6 +336,7 @@ static int hp_wmi_perform_query(int query, enum
+>> hp_wmi_command command,
+>>
+>>  out_free:
+>>  	kfree(obj);
+>> +	kfree(args);
+>>  	return ret;
+>>  }
+>>
+>> --
+>> 2.25.1
+> 
 
-int virtqueue_resize(vq, callback)
-{
-	err = virtqueue_reset(sq->vq);
-	if (err) {
-		netif_start_subqueue(vi->dev, qindex);
-		goto err;
-	}
-
-	/* detach */
-	while ((buf = virtqueue_detach_unused_buf(sq->vq)) != NULL) {
-		callback(vq, buf);
-	}
-
-	err = virtqueue_resize(sq->vq, ring_num);
-	if (err)
-		goto err;
-
-	err = virtqueue_enable_resetq(sq->vq);
-	if (err)
-		goto err;
-}
-
-Thanks.
-
->
-> --
-> MST
->
