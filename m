@@ -2,73 +2,53 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A5F4D8558
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Mar 2022 13:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC6464D83D5
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Mar 2022 13:20:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238097AbiCNMtG (ORCPT
+        id S241213AbiCNMVy (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Mar 2022 08:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56410 "EHLO
+        Mon, 14 Mar 2022 08:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238520AbiCNMr5 (ORCPT
+        with ESMTP id S243873AbiCNMVV (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Mar 2022 08:47:57 -0400
+        Mon, 14 Mar 2022 08:21:21 -0400
+X-Greylist: delayed 1409 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Mar 2022 05:17:33 PDT
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCBD387A8;
-        Mon, 14 Mar 2022 05:41:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 323931169
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Mar 2022 05:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=41PUcU9tzULCiIgb8Uibh/5DuRgn44vcqHlit9be1ys=;
-  b=da5ZDADTYjfUb4CkZvv1ifI5i+2sUHWvJw+dkr6l96rFI9+3qCoi3gnv
-   q0ycGdD5ccrm59796HzJuglqTi/Zn7sM07eq2eqJ7FQY8P7GtUxL24J6z
-   5W/zcd3/E6fo/TuVnTzoYm6lik0f+KcMTza69NkDCls6kpW1/h8PdxP5f
-   k=;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FWNbZTFAMBhTgS2R1HpJWQ7vZbciDztq6nj7YGJohCE=;
+  b=HQtBKMWZuEVOREaqlRVE/01NtC4d9mTQstV2bcHaHlXi2M27x094itGk
+   yuLGQkwQVo5Kd+5w4hU+jps2xadytqyLLJD/jb2fGybRoVlo75MrqeOgt
+   CniSZtbcfdKiirA6FrQ75csVKfWVUiiTbUXYzQvGVOJZ2yELq0Y+wq8mE
+   U=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; 
-   d="scan'208";a="25997332"
+   d="scan'208";a="25997337"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
   by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
 From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     linux-can@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-spi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-leds@vger.kernel.org, Shayne Chen <shayne.chen@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-clk@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-rdma@vger.kernel.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        linux-s390@vger.kernel.org,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        linux-power@fi.rohmeurope.com, Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-perf-users@vger.kernel.org
-Subject: [PATCH 00/30] fix typos in comments
-Date:   Mon, 14 Mar 2022 12:53:24 +0100
-Message-Id: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+To:     Justin Ernst <justin.ernst@hpe.com>
+Cc:     kernel-janitors@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/30] x86/platform/uv: fix typos in comments
+Date:   Mon, 14 Mar 2022 12:53:29 +0100
+Message-Id: <20220314115354.144023-6-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -78,36 +58,23 @@ X-Mailing-List: platform-driver-x86@vger.kernel.org
 Various spelling mistakes in comments.
 Detected with the help of Coccinelle.
 
----
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
- drivers/base/devres.c                               |    4 ++--
- drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
- drivers/clk/ti/clkctrl.c                            |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
- drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
- drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
- drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
- drivers/leds/leds-pca963x.c                         |    2 +-
- drivers/media/i2c/ov5695.c                          |    2 +-
- drivers/mfd/rohm-bd9576.c                           |    2 +-
- drivers/mtd/ubi/block.c                             |    2 +-
- drivers/net/can/usb/ucan.c                          |    4 ++--
- drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
- drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
- drivers/net/wireless/cisco/airo.c                   |    2 +-
- drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
- drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
- drivers/platform/x86/uv_sysfs.c                     |    2 +-
- drivers/s390/crypto/pkey_api.c                      |    2 +-
- drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
- drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
- drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
- drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
- drivers/spi/spi-sun4i.c                             |    2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
- drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
- fs/kernfs/file.c                                    |    2 +-
- kernel/events/core.c                                |    2 +-
- 30 files changed, 39 insertions(+), 39 deletions(-)
+---
+ drivers/platform/x86/uv_sysfs.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/platform/x86/uv_sysfs.c b/drivers/platform/x86/uv_sysfs.c
+index 625b0b79d185..7c7c95c59908 100644
+--- a/drivers/platform/x86/uv_sysfs.c
++++ b/drivers/platform/x86/uv_sysfs.c
+@@ -555,7 +555,7 @@ static int init_pci_top_obj(struct uv_pci_top_obj *top_obj, char *line)
+ 	 */
+ 	line[6] = '_';
+ 
+-	/* Null terminate after the concatencated name tokens
++	/* Null terminate after the concatenated name tokens
+ 	 * to produce kobj name string.
+ 	 */
+ 	line[14] = '\0';
+
