@@ -2,348 +2,182 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F3FD4D8555
-	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Mar 2022 13:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3E4F4D85CA
+	for <lists+platform-driver-x86@lfdr.de>; Mon, 14 Mar 2022 14:13:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236744AbiCNMtE (ORCPT
+        id S237179AbiCNNOz (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 14 Mar 2022 08:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60788 "EHLO
+        Mon, 14 Mar 2022 09:14:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242262AbiCNMs1 (ORCPT
+        with ESMTP id S241677AbiCNNOy (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 14 Mar 2022 08:48:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A4430DB6
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Mar 2022 05:45:23 -0700 (PDT)
+        Mon, 14 Mar 2022 09:14:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A23F6B85A
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Mar 2022 06:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1647261922;
+        s=mimecast20190719; t=1647263623;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ko9Pq+nujR93rrqWCg4cr/ojM0WA1IT4uWw4ERwFbho=;
-        b=RzILbf+ZFXLja6LinKm8MEymIXQuvA5M4+sBZwBqUjIUQgGsFREqmybc59WLeaz2EBtVwR
-        fuCGxUesHreiRnloG7kfaFaihWxR8xX8WyCHpBKpcxcmgYvY/J/BfqUyBQXdX0dYpJKOmr
-        fwxvs6kYWsvmYL39+fWJe/4oQb5C9nI=
+        bh=v8/GJcNocKU2vTQQyGcq0O+M71fgVbiJ+hGOIq3PLJk=;
+        b=ch0hyeAh9+8GWnZPJ5ADlf6J8qh0PMk3qHFiGDveh8I3Eh5NnhWht8eHX/cNYGXrbfS4IB
+        AI/o/NpEjYnW6BJWgfMa3nrwDKa8NjLldCKu726yn9V/pPm0UmUky+hb85yUAF9DIFR7Gr
+        lMCILqAqiu9qgzfotRrhp9rFQ1Ne994=
 Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
  [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-oWwOtyqbOB-0OtVn4LTD3Q-1; Mon, 14 Mar 2022 08:45:21 -0400
-X-MC-Unique: oWwOtyqbOB-0OtVn4LTD3Q-1
-Received: by mail-ej1-f70.google.com with SMTP id q22-20020a1709064cd600b006db14922f93so7899802ejt.7
-        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Mar 2022 05:45:21 -0700 (PDT)
+ us-mta-97-yyuVnRpGNc62mrm39HLtwQ-1; Mon, 14 Mar 2022 09:13:42 -0400
+X-MC-Unique: yyuVnRpGNc62mrm39HLtwQ-1
+Received: by mail-ej1-f70.google.com with SMTP id q22-20020a1709064cd600b006db14922f93so7938137ejt.7
+        for <platform-driver-x86@vger.kernel.org>; Mon, 14 Mar 2022 06:13:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=ko9Pq+nujR93rrqWCg4cr/ojM0WA1IT4uWw4ERwFbho=;
-        b=ROHMQLp7QYZaoG9wJea2AgH8b9kRYXDwTJWEtyDTTBP6BIZC2GtzqWfZXbfiO/BbTV
-         ymQr7OBd8oBPO01RzrOOLwuDeJvnhBJooNDQdlKErGQwQaKWVUKqqrRdYIEe7QEqzynv
-         irA6Y/9iTEPU2awsSyrWX/J32Ucfvgpn8aewNanAi68k5M4XgbjocOxiNS8Gu+N7gv3b
-         7oq4XS/pEeWUfzaDxdpMphTvjIT018fPT16iecNtN2+gZU7EMV54/87uB4mNjnHQtqvT
-         9O5fY36u2dkLYq7ZdG21KHhQKjAwoXai85FgMT1iwSvqm5bluG2SEXz5iDt1xRwj9Afx
-         cvWw==
-X-Gm-Message-State: AOAM5329njun0mExwLEvCi1OpwljQv4LRbTgPw8y74Pq06rI8OsaNUZz
-        vOxkpWqZtXA5OmNLzGywoF5arXPToiyTQUOmIpnP/zIXV6ZnVsKw8fWRSxWqb+A0LhcbrsGV2n4
-        5NuDLB+/8Ecb/03SyTTehqnuABtY5lsQBJA==
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id g8-20020a056402114800b0041311e01f58mr19839656edw.113.1647261920324;
-        Mon, 14 Mar 2022 05:45:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrpc8wiG9oQ3qlRC2XNAiY6B5+pwU1vsVE6vrq4nkf+MiQB1tgYnnhLIcbB33yteCeHna8YA==
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id g8-20020a056402114800b0041311e01f58mr19839638edw.113.1647261920000;
-        Mon, 14 Mar 2022 05:45:20 -0700 (PDT)
+        bh=v8/GJcNocKU2vTQQyGcq0O+M71fgVbiJ+hGOIq3PLJk=;
+        b=5VUeRfw5AaVa6VHyUNMUxv0SfmTzFrWCfn8t/8j5rufg9vq/5atP7CxvfdyADBLacI
+         iKdGulvim/6hCV6r9xxtA9wB/ogDabUAefWdloJRMRS2KC98bX2kVTCKoi1wyG/03dHw
+         hwNwJ4kDK5LZ4JHpxdBdQ8wqv0tktICAq5wbe8Tr36vu1AIeTWvC5zPmlIUrWM4iE785
+         U5t3n8z4fS4YnaA5q0aiCihyaWP/eM07g+P6IHoWnD1kCb6e1jjl6sIj+jNbVn8+n96H
+         USD9GM8fPDx2VScNI0oVFc5T6StJI/rgDZsgpYBFqOgnZsJ3g4p+DubZ1OeseisXcTCJ
+         QcfA==
+X-Gm-Message-State: AOAM532BDVfd3NpbA2zGUmBbP7tcZd6p6CMoz7Xv4cEyLbPTfuCZnhJI
+        GjbMJXJwTOaB6WI8vv2E1OjCmbI/r3oNMbGO/piWPVEda31gNrFNXXGKjFyLH6adNQeexvYfEsg
+        8YmCTNwTbg4cS5gnWSjHaQsc9p7egJgOZvg==
+X-Received: by 2002:a17:906:1be1:b0:6ce:b0a8:17d with SMTP id t1-20020a1709061be100b006ceb0a8017dmr18044522ejg.413.1647263621119;
+        Mon, 14 Mar 2022 06:13:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6pRBSKq+yIzSGRiXrG42yIF7lUkgXQkq7jJBpyKh35U6ZfFEvVSm/vlOMRAhDZzKtxiyjFQ==
+X-Received: by 2002:a17:906:1be1:b0:6ce:b0a8:17d with SMTP id t1-20020a1709061be100b006ceb0a8017dmr18044504ejg.413.1647263620932;
+        Mon, 14 Mar 2022 06:13:40 -0700 (PDT)
 Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id b9-20020a056402278900b004186d013655sm3765988ede.33.2022.03.14.05.45.19
+        by smtp.gmail.com with ESMTPSA id f1-20020a056402194100b00416b174987asm6858265edz.35.2022.03.14.06.13.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 05:45:19 -0700 (PDT)
-Message-ID: <c18abb55-6874-6e1e-bdb0-9d96d52987cd@redhat.com>
-Date:   Mon, 14 Mar 2022 13:45:19 +0100
+        Mon, 14 Mar 2022 06:13:40 -0700 (PDT)
+Message-ID: <2e05cd56-5bf1-6df7-890f-6759b6dab9f0@redhat.com>
+Date:   Mon, 14 Mar 2022 14:13:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [External] Re: [RFC] ACPI: platform-profile: support for AC vs DC
- modes
+Subject: Re: [PATCH 1/2] Documentation: syfs-class-firmware-attributes: Lenovo
+ Certificate support
 Content-Language: en-US
-To:     Mark Pearson <markpearson@lenovo.com>,
-        "Limonciello, Mario" <Mario.Limonciello@amd.com>
-Cc:     "rafael@kernel.org" <rafael@kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     markgross@kernel.org, platform-driver-x86@vger.kernel.org
 References: <markpearson@lenovo.com>
- <20220301201554.4417-1-markpearson@lenovo.com>
- <65d8cf3b-0eea-0583-fa23-e2c71287fb85@redhat.com>
- <BL1PR12MB5157CDB77675859B7F279578E2099@BL1PR12MB5157.namprd12.prod.outlook.com>
- <7b281a37-5163-6cd7-360e-1c63bde714a8@redhat.com>
- <BL1PR12MB5157125246817A70649C12F7E2099@BL1PR12MB5157.namprd12.prod.outlook.com>
- <1cd4ae24-ae92-302e-ac87-76ef15472a9f@redhat.com>
- <2180533b-c921-5ae4-e6bc-569728a4f990@lenovo.com>
+ <20220312000439.4143-1-markpearson@lenovo.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <2180533b-c921-5ae4-e6bc-569728a4f990@lenovo.com>
+In-Reply-To: <20220312000439.4143-1-markpearson@lenovo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Mark,
+Hi,
 
-On 3/8/22 18:44, Mark Pearson wrote:
+On 3/12/22 01:04, Mark Pearson wrote:
+> Certificate based authentication is available as an alternative to
+> password based authentication.
 > 
-> Thanks Mario & Hans
+> The WMI commands are cryptographically signed using a separate
+> signing server and will be verified by the BIOS before being
+> accepted.
 > 
-> On 2022-03-08 11:10, Hans de Goede wrote:
->> Hi,
->>
->> On 3/8/22 16:55, Limonciello, Mario wrote:
->>> [AMD Official Use Only]
->>>
->>>>> I don't think that's right for the PSC Thinkpads.  They have dedicated
->>>>> different tunings for each of the slider positions on AC vs DC.
->>>>>
->>>>> So "balanced" on AC will not be the same as "balanced" on DC.
->>>>
->>>> I see, but it is not like balanced on AC is closer to performance
->>>> on DC then it is to balanced on DC, right? IOW in the UI we should
->>>> still call them both balanced ?
->>>
->>> I feel that's a gross oversimplification to say balanced on AC is close
->>> to performance on DC.  There are *so many* other (otherwise invisible)
->>> tuning knobs behind what PSC does that Lenovo has weighed out the benefits
->>> of using for different circumstances.  
->>>
->>> You nerf all this by just having one user space facing knob and let userspace
->>> change to performance mode when you on charger.
->>
->> The way I see this there are 2 ways this can work on the kernel to fw/ec
->> boundary:
->>
->> 1. There are actually 6 values we can write to a single slot:
->>    ac-low-power,dc-lowpower,ac-balanced,dc-balanced,ac-performance,dc-performance
->>
->> 2. There are separate ac-setting + dc-setting slots to which we can
->>    write one of 3 values: low-power, balanced, performance; and the fw/ec
->>    automatically picks which slot to used based on ac vs battery status
->>
->> If 1 is the case for PSC then I agree that the kernel should indeed get involved
->> and it should automatically write either the ac or dc variant of the last
->> userspace requested value so that things behave as expected.
->>
->> If 2 however is the case then I think all that is necessary is for the
->> driver to just write the last userspace selected value to both slots.
->>
->> Note that neither case requires a userspace API change when solved
->> as I suggest.
+> This commit details the fields that are needed to support that
+> implementation. At present the changes are intended for Lenovo
+> platforms, but have been designed to keep them as flexible as possible
+> for future implementations from other vendors.
 > 
-> I cycled through a few different implementations but came down on what I
-> proposed. I considered 6 values - but I don't think that makes sense and
-> makes it overall more complicated than it needs to be and less flexible.
+> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
 
-Ah, so to be clear, my 2 scenarios above were theoretical scenarios,
-because I'm wondering how the firmware API here actually looks like,
-something which so far is not really clear to me.
+Thanks, patch looks good to me:
 
-When you say that you considered using 6 values, then I guess that
-the firmware API actually offers 6 values which we can write to a single slot:
-ac-low-power,dc-lowpower,ac-balanced,dc-balanced,ac-performance,dc-performance
-
-?
-
-But that is not what the RFC patch that started this thread shows at all,
-the API to the driver is totally unchanged and does not get passed
-any info on ac/dc selection ?  So it seems to me that the ACPI API Linux
-uses for this writes only 1 of 3 values to a single slot and the EC automatically
-switches between say ac-balanced and dc-balanced internally.
-
-IOW there really being 2 differently tuned balance-profiles is not visible to
-the OS at all, this is handled internally inside the EC, correct ?
-
-Otherwise I would expect the kernel internal driver API to also change and
-to also see a matching thinkpad_acpi patch in the RFC series?
-
-> The biggest use case I can think of is that a user wants performance
-> when plugged in and power-save when unplugged; and they want that to
-> happen automatically.
-
-Right, so this what I have understood all along and I'm not disagreeing
-that this is a desirable feature, but it _does not belong in the kernel_!
-
-Also taking Mario's remark about the EC-firmware using differently
-tuned balanced profiles based on ac vs dc, here is how I envision this
-working:
-
-1. Laptop is connected to charger
-2. EC notices this and:
-2.1 Internally switches from balanced-dc settings to balanced-ac settings
-2.2 Sends out an event about the laptop now being on AC, which the kernel
-    picks up and then sends to userspace (this already happens)
-3. Userspace, e.g. power-profiles-daemon, gets the event that the laptop is
-   now an AC and in its settings sees that the user wants to switch to
-   performance mode on AC and uses the platform_api in its current form to
-   ask for a switch to performance mode
-4. The EC gets a command telling it to switch to performance mode and
-   switches to the ac-tuned version of performance mode since the laptop is
-   on ac.
-
-So same end-result, but without introducing new userspace API. Note that
-even if we were to go with your RFC userspace would still need to be
-adjusted to use the new uapi, so AFAICT we really win nothing by doing this
-in the kernel.
-
-> This patch let's that happen for any platform - regardless of if it has
-> separate support.
-
-Doing this fully in userspace also allows this to happen for any platform.
-
-> If a vendor wants to handle plugged in vs battery to a
-> more nuanced degree they can, but that's at the individual driver level.
-> 
-> I originally thought that maybe this should be done in user space but:
-> 
-> 1) It takes a lot longer for user space changes to get rolled out and
-> make it into distros.
-
-Distros usually are quicker in updating userspace bits which are required
-for hw-enablement purposes; and for this to be really useful it
-needs a UI to control it, so it will need userspace support regardless
-of where we solve it.
-
-> 2) Not all users will get to use it - sure Gnome and KDE might get the
-> feature but chances of other desktops picking it up are small. I could
-> look at releasing a utility to do it but....urgh. Nobody gets a good
-> experience that way. Linux packaging is a minefield.
-
-Many many hw-enablement things, like thunderbolt authentication, proper
-automatic switching of audio streams, proper handling of various hotkeys
-like vol / brightness up/down, privacy screen on/off toggling, easy use
-of VPNs and wwan modems, are all not or very poorly supported in other
-desktop-environments. I often get bug reports from users using other
-DEs about things like this and there really is nothing which we can
-do about this. In some cases like i3 window-manager the norm
-is actually for users to have to write custom scripts for everything.
-
-Other DEs do try, but simply lack the manpower, this is an unfortunate
-situation, but not really a good argument for just shoving everything
-in the kernel.
-
-> 3) The power events happen in the kernel which is perfect. Once I
-> figured that out it seemed a no-brainer to me.
-
-That same event also gets forwarded to userspace over the power_supply
-class uapi.
-> I think user space should add the ability to have a nice GUI to toggle a
-> unplugged profile setting. But the guts of it seem to me to belong
-> better in the kernel.
-
-There is nothing which the kernel can do here, which userspace cannot
-also do; and generally speaking in cases like this userspace can do it
-better, because it can add a lot more fancy policy like (random example):
-switch to performance mode when on AC and the battery is fully charged.
-
-There will be many different usecases here and hardcoding a single
-simple but also dumb policy in the kernel really is not doing anyone
-any favors.
-
->>> At least the way Windows does this is that it offers "one" UI slider but you
->>> have last selected values based on if you're plugged in or on battery.
->>>
->>> 1) So on battery I might have balanced selected to start out.
->>> 2) Then I plug in a charger, and balanced is still selected but this has
->>> different characteristics from balanced on battery.
->>> 3) Now I change to performance while on charger.
->>> 4) Then I unplug charger and it goes back to my selection for battery: "balanced".
->>
->> The above is more about policy then it is about mechanism, userspace
->> can easily remember 2 separate settings for ac vs battery and restore
->> the last set value for ac or battery when changing between the 2.
->>
->> Since this mostly about the policy which profile to set when this
->> really belongs in userspace IMHO and solving this in userspace means that
->> we will have a single universal solution for all the different
->> platform_profile implementations, and we seem to have quite a lot of
->> those (at least one per laptop vendor, Lenovo currently has 2)
-> 
-> I disagree here. This is more universal by design. I was surprised at
-> how many vendors are using platform-profiles (I think it's awesome!) but
-> now they can all get this too. The intention here is very strongly not
-> supposed to be Lenovo specific.
-
-A userspace solution, at least at the power-profile-daemon level will
-be just as universal. And as for unsupported DEs, whether users have
-to manually poke a sysfs file, or have to manually make a dbus call
-(which can also be done from the shell) really does not make much
-of a difference.
-
-> The follow on patch that I could do in thinkpad_acpi to use a different
-> setting in unplugged/plugged mode - that will be Lenovo specific and
-> taking advantage of the functionality the Lenovo FW is offering. That
-> doesn't seem unreasonable to me.
-> 
->>>> If that is right then I think my point still stands, if PSC
->>>> has 2 separate slots (one AC one DC) for the performance
->>>> setting, then we can just set both when userspace selects a
->>>> performance level and have the actual e.g. balanced -> performance
->>>> change be done by userspace when userspace select the machine
->>>> has been connected to a charger.
->>>
->>> But you *don't want to* actually select performance when you switch to a
->>> charger.  If you have 3 value slots for AC and 3 value slots for DC you
->>> should only be swapping between what is in those 3 values slots.
->>
->> That only works if all implementation have separate AC and DC profile
->> slots, which most won't have. If we just sync the 2 slots for implementations
->> which do have 2 slots and then always "fake" 2 slots in userspace we
->> have a universal implementation which will work well everywhere, without
->> any significant downside to the implementations which do have 2 slots.
->>
-> I'm missing something in this bit. If a vendor is providing platform
-> profiles all we're doing is letting a user choose the profile they want
-> depending on their power situation. I don't think there are empty slots
-> particularly.
-> 
-> I've got a feeling I'm missing something obvious - but my experience of
-> user space is it's really hard to get a consistent experience for all
-> Linux users reliably - everybody is running something different.
-> If nothing else I think that should be a big factor for adding this
-> support to the kernel.
-
-See above, userspace not doing its job properly is really not a good
-argument to put something in the kernel. The kernel generally is
-about resource management/sharing and hardware abstraction,
-in general where possible the kernel should provide mechanism with
-no, or a very minimal policy and leave the rest up to userspace.
-
-This feels like just shoving something into the kernel just because
-that is convenient, not because it really belongs in the kernel,
-but we want the kernel to be as small as possible (it really already
-is much too big) because:
-
-1. Any kernel bugs are fatal if they get triggered, unlike hitting
-   a bug in userdspace code, hitting a bug in kernelspace code will
-   almost always take the entire system down.
-2. Kernel memory is not swapable
-
-> Obviously if this feature isn't wanted I'll drop it - but I think it's
-> something useful that users will appreciate on any HW.
-
-Above you are talking about changes to the thinkpad_acpi driver
-to possibly use some sort of "hardware" support for ac/dc profile
-switching, that is something which might be sensible to support
-in the kernel, although given that that is Lenovo specific a
-generic userspace solution to offer the same functionality by
-having p-p-d switch profiles on ac/dc changes seems like it
-would work just as well, avoiding the need for anything lenovo
-specific .
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
 
 Hans
+
+
+> ---
+>  .../testing/sysfs-class-firmware-attributes   | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-firmware-attributes b/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> index 13e31c6a0e9c..1d9c3bb1dbcd 100644
+> --- a/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> +++ b/Documentation/ABI/testing/sysfs-class-firmware-attributes
+> @@ -246,6 +246,43 @@ Description:
+>  					that is being referenced (e.g hdd0, hdd1 etc)
+>  					This attribute defaults to device 0.
+>  
+> +		certificate:
+> +		signature:
+> +					These attributes are used for certificate based authentication. This is
+> +					used in conjunction with a signing server as an alternative to password
+> +					based authentication.
+> +					The user writes to the attribute with a BASE64 encoded string obtained
+> +					from the signing server.
+> +					The attribute can be displayed to check the stored value.
+> +
+> +					Some usage examples:
+> +					Installing a certificate to enable feature:
+> +						echo <supervisor password > authentication/Admin/current_password
+> +						echo <signed certificate> > authentication/Admin/certificate
+> +
+> +					Updating the installed certificate:
+> +						echo <signature> > authentication/Admin/signature
+> +						echo <signed certificate> > authentication/Admin/certificate
+> +
+> +					Removing the installed certificate:
+> +						echo <signature> > authentication/Admin/signature
+> +						echo '' > authentication/Admin/signature
+> +
+> +					You cannot enable certificate authentication if a supervisor password
+> +					has not been set.
+> +					After any of these operations the system must reboot for the changes to
+> +					take effect
+> +
+> +		certificate_thumbprint
+> +					Read only attribute used to display the MD5, SHA1 and SHA256 thumbprints
+> +					for the certificate installed in the BIOS.
+> +
+> +		certificate_to_password
+> +					Write only attribute used to switch from certificate based authentication
+> +					back to password based.
+> +					Usage:
+> +						echo <signature> > authentication/Admin/signature
+> +						echo <password> > authentication/Admin/certificate_to_password
+>  
+>  
+>  What:		/sys/class/firmware-attributes/*/attributes/pending_reboot
+> @@ -315,3 +352,18 @@ Description:
+>  		use it to enable extra debug attributes or BIOS features for testing purposes.
+>  
+>  		Note that any changes to this attribute requires a reboot for changes to take effect.
+> +
+> +What:		/sys/class/firmware-attributes/*/attributes/set_signature
+> +What:		/sys/class/firmware-attributes/*/attributes/save_signature
+> +Date:		March 2022
+> +KernelVersion:	5.18
+> +Contact:	Mark Pearson <markpearson@lenovo.com>
+> +Description:
+> +		These attributes are used when certificate based authentication are enabled.
+> +		The set_signature and save_signature are both obtained from the signing server
+> +		and both need to be set when changing an attribute.
+> +		Usage example:
+> +			echo <set signature> > set_signature
+> +			echo <save signature> > save_signature
+> +			echo Enable > PasswordBeep/current_value
+> +		The attributes can be read to display the stored value.
 
