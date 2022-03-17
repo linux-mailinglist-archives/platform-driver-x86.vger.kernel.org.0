@@ -2,116 +2,84 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB8204DCDFA
-	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Mar 2022 19:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC8C4DCE38
+	for <lists+platform-driver-x86@lfdr.de>; Thu, 17 Mar 2022 19:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236696AbiCQSwe (ORCPT
+        id S237766AbiCQS4a (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Thu, 17 Mar 2022 14:52:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
+        Thu, 17 Mar 2022 14:56:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235864AbiCQSwd (ORCPT
+        with ESMTP id S233480AbiCQS41 (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Thu, 17 Mar 2022 14:52:33 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam07on2045.outbound.protection.outlook.com [40.107.95.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBCF15E89F
-        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Mar 2022 11:51:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L4cK2RrveqjSenU1lLYOaT0LV6gnvgmih1+wbAjd0UJoiZHpb0+nPaAdrP1jyEpbjU1/49vKpuT2Zr7AxQV7ZL2cU8btqY2Wd86wbsSd5YIdxyvQloiVQBqJQEk2JzH5qr85NTuTVWaQR51z6pWIoUQxfh99YaOKqxwLVGtoHUTe248fV7wWjcrvbNGQkQ8kXwGQUQBDzkYdyQOUPYBfeTuBb+uvbTqBuHL4OVLQ3iiY/v5mm9ADjQ8MmhgOr4/X2zTGkGSTcQdIAxfh3z+Gom89e7TxIEySJKIIOLLDJjL7rCOr9sO+l8SVnjLc2lUK7qh+9J1Ckuyf1AvssE939w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HHO8cyg/STkfY0iTaST2RxqksiDPGiIciCpFdntgzeA=;
- b=DLsi6QHTNZTUp8UJEXhUtFnnZq/srM2FoQTP2OIhsiwPUVhhJJ3YGyJ9jO8qmS0fVOvHhgdVH9+5zRVEYPhH5I1ehSIocf2NZ55tc3TlhXCDB8Hs4rO3eDUC0S5EEXsup8noxfg/R+MEu34nZX8JZGSIcMMeE+39fabz1tLd0fU564J7W2+tPepYpe2c5i2QVpZA0Ab7AQICUXGJ3frM4woVpw4dmcg9RUD5/AQG0BF6YungWRw+d1e1PrmW6W+I7ab1Br5bwTf/bF4obNMSZ4rkJDI7/HIUHQJsucS+zKxZIfKvCyRM8i0vjdF9Ti2KxG7AXrbSZ5qVaoc/7tuONQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=protonmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HHO8cyg/STkfY0iTaST2RxqksiDPGiIciCpFdntgzeA=;
- b=tHtKmfKpzuFP4ELtjFxLOeS2sxWfBmrPhdMX+msg53xA/R83CxQqx2l7Q7ynUNKsLywtHVHmoNs6w3E384mYDudAQNi7vNcztm21JYX2siRc6RAhOEfx/r+n9pubi5VoROKc3VyFd7kl0g/QXk+J5+bFtE1xmuLNACnwdKpxJ/0PkHltU8/tW5jDhb8H4IzYUqIoED9Qdf5CR41qX7kM7zVyONJ+EtumPNcWLzZ+tGV5ps16wZcUWz+ff8pCTNHjXs+lzEx8PHdmvHE4SAPFfe1vpeHUI0ul3EWTf70l59BtHgcbwRh5vnjUJ1+5WmB4NmK8IXTfwQCsVqyk0nb54A==
-Received: from DM3PR08CA0022.namprd08.prod.outlook.com (2603:10b6:0:52::32) by
- MWHPR1201MB0221.namprd12.prod.outlook.com (2603:10b6:301:56::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.26; Thu, 17 Mar
- 2022 18:51:14 +0000
-Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:52:cafe::ff) by DM3PR08CA0022.outlook.office365.com
- (2603:10b6:0:52::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.13 via Frontend
- Transport; Thu, 17 Mar 2022 18:51:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.235) by
- DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5081.14 via Frontend Transport; Thu, 17 Mar 2022 18:51:14 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Thu, 17 Mar
- 2022 18:50:31 +0000
-Received: from [10.20.113.98] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 17 Mar
- 2022 11:50:28 -0700
-Message-ID: <4bbde905-e89d-d8ba-01bb-f478fee2e417@nvidia.com>
-Date:   Thu, 17 Mar 2022 13:50:20 -0500
+        Thu, 17 Mar 2022 14:56:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A2633165BB1
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Mar 2022 11:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647543289;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=w6Z+ZrU/WzFIpn8/Q9lZmmJP5+YBGeBhqfHKRt47t4I=;
+        b=GiAcPTxozJbCbzJ8rwNarQMsN7r+jVx0QsTLzigQXtrDjyO96Cd3aq8Q2RrgQll9GCDmyR
+        X8+6s3IgGTKMocjAr9snso0xL+OcucQF+XIBzdUWIX/UfUfoHCUj2l2WTRp4wya2TImbmp
+        K3jO4W7Uf1jRUkaDgLR+gYgHLBM3xTs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-183-Yssg7B2HPomYqggH4NJ--w-1; Thu, 17 Mar 2022 14:54:48 -0400
+X-MC-Unique: Yssg7B2HPomYqggH4NJ--w-1
+Received: by mail-ed1-f72.google.com with SMTP id i22-20020a508716000000b0041908045af3so210784edb.3
+        for <platform-driver-x86@vger.kernel.org>; Thu, 17 Mar 2022 11:54:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=w6Z+ZrU/WzFIpn8/Q9lZmmJP5+YBGeBhqfHKRt47t4I=;
+        b=hN5b8mRbNnZxSW5kFLq9DzQz4g4MLCnG3lLK3wzIIC7Hx3IzWJ1aQ9hIxYBNTeJ1H7
+         +GrOzfx58lcVxDyOh7Omav7yyOIN6wAfOajO5gON/Ve323Sr9dXEfP7oD3ZZiNTDMREI
+         VMW2sLamvhHerdighNpbWgIea1Yv/0MdnioJrqA0M/xMktvHjSa5GqPkhTEnH9ASBJpX
+         jPzl86Q0bsb6RhSwcOmbFg7HKASp8/vkxGf78+DMldkfr96s5qArnba7dsuQcZFzJf8A
+         06/noxSzIiFs2uwxpZmEeQ9vJCqWMIKOZSD+tIaJoVZD3DA1l38lUyW23H1IUBV1IKxJ
+         QY4w==
+X-Gm-Message-State: AOAM5316yvpDQtH1sGdVJ8KNvM5UCiSWD4VSfbea9cOaHV0dXhzdO4Yz
+        4sykMepMr1OOHW0P5tpb6NoB67TuuT9eXUrIipkLAQoxtuaCvYBaPRJtTHsjB73V3bU+vqnhjB0
+        gHewo7xkA3AOe2Y3GeWrfVztKXnWkWh34VA==
+X-Received: by 2002:a17:907:7f94:b0:6da:64ec:fabc with SMTP id qk20-20020a1709077f9400b006da64ecfabcmr5968311ejc.717.1647543287173;
+        Thu, 17 Mar 2022 11:54:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpb6lkIFh29vSSkzi6s4bSalDVrvocJyedoKO4X9MxQfG9e9VQbbi72h7lsAz8HHDWWP72Tw==
+X-Received: by 2002:a17:907:7f94:b0:6da:64ec:fabc with SMTP id qk20-20020a1709077f9400b006da64ecfabcmr5968292ejc.717.1647543286901;
+        Thu, 17 Mar 2022 11:54:46 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0? (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
+        by smtp.gmail.com with ESMTPSA id u5-20020a170906b10500b006ce6fa4f510sm2729082ejy.165.2022.03.17.11.54.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Mar 2022 11:54:46 -0700 (PDT)
+Message-ID: <d86160c2-2478-5d8e-10c4-f2691dc87012@redhat.com>
+Date:   Thu, 17 Mar 2022 19:54:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2] nvidia-wmi-ec-backlight: Add workarounds for confused
- firmware
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v5 4/4] platform/x86: amd-pmc: Drop CPU QoS workaround
 Content-Language: en-US
-To:     Alex Deucher <alexdeucher@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "markgross@kernel.org" <markgross@kernel.org>,
-        "pobrn@protonmail.com" <pobrn@protonmail.com>,
-        Alexandru Dinu <alex.dinu07@gmail.com>,
-        "Mario.Limonciello@amd.com" <Mario.Limonciello@amd.com>
-References: <0fbfd32e-904d-1e04-8508-e863c357a2ff@nvidia.com>
- <20220316203325.2242536-1-ddadap@nvidia.com>
- <100e0cb5-98c4-cdd9-cfc7-4b76edef8950@redhat.com>
- <D7458E1F-6F4F-48E6-B100-B4B9B1226BCF@nvidia.com>
- <5cbec4f6-4f77-0381-4f19-bb4af273db6f@redhat.com>
- <CADnq5_M3620a5tqqOMARZMG+zJYWKu_dN_F5g-KR0H=t2_qoSQ@mail.gmail.com>
-From:   Daniel Dadap <ddadap@nvidia.com>
-In-Reply-To: <CADnq5_M3620a5tqqOMARZMG+zJYWKu_dN_F5g-KR0H=t2_qoSQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     Mario Limonciello <mario.limonciello@amd.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>
+Cc:     "open list:X86 PLATFORM DRIVERS" 
+        <platform-driver-x86@vger.kernel.org>, linux-acpi@vger.kernel.org,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Goswami Sanket <Sanket.Goswami@amd.com>
+References: <20220317141445.6498-1-mario.limonciello@amd.com>
+ <20220317141445.6498-4-mario.limonciello@amd.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220317141445.6498-4-mario.limonciello@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85d6a0c8-96e1-4bfe-06a7-08da08471cf8
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0221:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB0221A3986F81F2A45E4EC29EBC129@MWHPR1201MB0221.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HZv8+cZn3FRBP1cvMANTaARNOr6HgdbeRZQEJelRJsJ5j0jQMhdHDwdYfgww/r5nnVShutB3y2IuRaf+hLj+lk26dWGm+2k5ZTum3X6wzF7Nof5xTE5gzdyy6yVbuL50HRtOkoTXBEpnwVZtzknuvtLr5euZlZ3fsCmrTgyJ2Te3s2F5vFuzzLBJeyNjs/34oWn+SK0hiWX+QOzneWjbwxMqVM6PO1WC9JU6KspVnzTRZ4fms8vbTZHdZ3EkUf3XIVdjsDubaHBt2Mxi72JzOzQu9f48w1yCkEJjJnY6kE26JZ1Yh7vcg7MEzr7gb2auVOCZF2OYA8IUMh8EmSsRtLsEvzu3S8/fmAvmneKLNV7atl2qdYZd+dFSw5GNpGciFxzq6XIP47/JAZ1hTF068uugdWCob5+I/nfJnrAuV0y/vCXe89GVH0TvpcDJ6mkCLCbKJkCvxBvxHizZ9qdvq5PDjzlcqh8oUFsJQXPowN8PfwqMdV6r5uaeyshUP2qwesSlq4oQqjYAp3VRkPP6F65apo9DmfVXMhXx1hj+sLmGsYmoLLp8hPalf+l2qcdhVrHQ/4VvfRQY3HGKZtR2Pe8wePrAc0WaYlGGKL/xHK8fMxv8XBT1TzMelG2JKqrI4vvOgoiHcDgg4UvhjF1Cv345k+gJXsg9QBMKmqVUlhTGUTGlRMv72flAwKP8G1eZdpUT7GnajPsQSGsXYMBDGNjFDU8dZaubRVydWhJ6lsqooSuBtru/1oXwTAfXrVU0
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(70206006)(70586007)(110136005)(8676002)(4326008)(47076005)(54906003)(316002)(16576012)(36860700001)(81166007)(356005)(508600001)(31686004)(82310400004)(2616005)(16526019)(26005)(53546011)(83380400001)(336012)(426003)(36756003)(40460700003)(186003)(8936002)(5660300002)(2906002)(4744005)(6666004)(86362001)(31696002)(36900700001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2022 18:51:14.6501
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85d6a0c8-96e1-4bfe-06a7-08da08471cf8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0221
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -120,18 +88,153 @@ Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On 3/17/22 12:35, Alex Deucher wrote:
-> Sorry for jumping in here, but I can't seem to find the original
-> thread with this comment.  amdgpu_atombios_encoder_init_backlight() is
-> not applicable to these systems.  That is the old pre-DC code path.
-> You want amdgpu_dm_register_backlight_device() for modern hardware.
+Hi,
+
+On 3/17/22 15:14, Mario Limonciello wrote:
+> A workaround was previously introduced as part of commit 646f429ec2de
+> ("platform/x86: amd-pmc: Set QOS during suspend on CZN w/ timer wakeup")
+> to prevent CPUs from going into the deepest state during the execution
+> of the `noirq` stage of `amd_pmc`.  As `amd_pmc` has been pushed to the
+> last step for suspend on AMD platforms, this workaround is no longer
+> necessary.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> changes from v4->v5:
+>  * rebase on earlier patches
+> changes from v3->v4:
+>  * rebase on earlier patches
+> changes from v2->v3:
+>  * No changes
+> changes from v1->v2:
+>  * No changes
+> 
+>  drivers/platform/x86/amd-pmc.c | 32 +++-----------------------------
+>  1 file changed, 3 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pmc.c
+> index f36cf125b284..7317993cd91b 100644
+> --- a/drivers/platform/x86/amd-pmc.c
+> +++ b/drivers/platform/x86/amd-pmc.c
+> @@ -21,7 +21,6 @@
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/pm_qos.h>
+>  #include <linux/rtc.h>
+>  #include <linux/suspend.h>
+>  #include <linux/seq_file.h>
+> @@ -96,9 +95,6 @@
+>  #define PMC_MSG_DELAY_MIN_US		50
+>  #define RESPONSE_REGISTER_LOOP_MAX	20000
+>  
+> -/* QoS request for letting CPUs in idle states, but not the deepest */
+> -#define AMD_PMC_MAX_IDLE_STATE_LATENCY	3
+> -
+>  #define SOC_SUBSYSTEM_IP_MAX	12
+>  #define DELAY_MIN_US		2000
+>  #define DELAY_MAX_US		3000
+> @@ -153,7 +149,6 @@ struct amd_pmc_dev {
+>  	struct device *dev;
+>  	struct pci_dev *rdev;
+>  	struct mutex lock; /* generic mutex lock */
+> -	struct pm_qos_request amd_pmc_pm_qos_req;
+>  #if IS_ENABLED(CONFIG_DEBUG_FS)
+>  	struct dentry *dbgfs_dir;
+>  #endif /* CONFIG_DEBUG_FS */
+> @@ -628,14 +623,6 @@ static int amd_pmc_verify_czn_rtc(struct amd_pmc_dev *pdev, u32 *arg)
+>  	rc = rtc_alarm_irq_enable(rtc_device, 0);
+>  	dev_dbg(pdev->dev, "wakeup timer programmed for %lld seconds\n", duration);
+>  
+> -	/*
+> -	 * Prevent CPUs from getting into deep idle states while sending OS_HINT
+> -	 * which is otherwise generally safe to send when at least one of the CPUs
+> -	 * is not in deep idle states.
+> -	 */
+> -	cpu_latency_qos_update_request(&pdev->amd_pmc_pm_qos_req, AMD_PMC_MAX_IDLE_STATE_LATENCY);
+> -	wake_up_all_idle_cpus();
+> -
+>  	return rc;
+>  }
+>  
+> @@ -655,7 +642,7 @@ static void amd_pmc_s2idle_prepare(void)
+>  		rc = amd_pmc_verify_czn_rtc(pdev, &arg);
+>  		if (rc) {
+>  			dev_err(pdev->dev, "failed to set RTC: %d\n", rc);
+> -			goto fail;
+> +			return;
+>  		}
+>  	}
+>  
+> @@ -665,20 +652,13 @@ static void amd_pmc_s2idle_prepare(void)
+>  	rc = amd_pmc_send_cmd(pdev, arg, NULL, msg, 0);
+>  	if (rc) {
+>  		dev_err(pdev->dev, "suspend failed: %d\n", rc);
+> -		goto fail;
+> +		return;
+>  	}
+>  
+>  	if (enable_stb)
+>  		rc = amd_pmc_write_stb(pdev, AMD_PMC_STB_PREDEF);
+> -	if (rc) {
+> +	if (rc)
+>  		dev_err(pdev->dev, "error writing to STB: %d\n", rc);
+> -		goto fail;
+> -	}
+
+Ok, this entire series has been merged here now:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
+
+now lets hope none of the various build tests become unhappy because of this.
+
+Mario, one request, the:
+
+	if (rc)
+		dev_err(pdev->dev, "error writing to STB: %d\n", rc);
+
+above looks weird, can you do a follow-up patch moving that to
+inside/under the "if (enable_stb)" check ?
+
+Currently it also rechecks the amd_pmc_verify_czn_rtc() when
+enable_stb is false, which is weird.
+
+Regards,
+
+Hans
 
 
-Oops, thanks for the correction. Alex Dinu: see the above for the 
-correct code path to disable to test whether not registering the amdgpu 
-backlight device helps. I have some other things to attend to, so it 
-will be a little while before I can get you the instrumented driver I 
-mentioned in one of my replies to Hans, but hopefully we'll be able to 
-figure something out to actually switch the backlight control to EC 
-without having to do a suspend/resume cycle.
+
+
+
+> -	return;
+> -fail:
+> -	if (pdev->cpu_id == AMD_CPU_ID_CZN)
+> -		cpu_latency_qos_update_request(&pdev->amd_pmc_pm_qos_req,
+> -						PM_QOS_DEFAULT_VALUE);
+>  }
+>  
+>  static void amd_pmc_s2idle_restore(void)
+
+
+
+> @@ -704,11 +684,6 @@ static void amd_pmc_s2idle_restore(void)
+>  	if (rc)
+>  		dev_err(pdev->dev, "error writing to STB: %d\n", rc);
+>  
+> -	/* Restore the QoS request back to defaults if it was set */
+> -	if (pdev->cpu_id == AMD_CPU_ID_CZN)
+> -		cpu_latency_qos_update_request(&pdev->amd_pmc_pm_qos_req,
+> -						PM_QOS_DEFAULT_VALUE);
+> -
+>  	/* Notify on failed entry */
+>  	amd_pmc_validate_deepest(pdev);
+>  }
+> @@ -887,7 +862,6 @@ static int amd_pmc_probe(struct platform_device *pdev)
+>  		dev_warn(dev->dev, "failed to register LPS0 sleep handler, expect increased power consumption\n");
+>  
+>  	amd_pmc_dbgfs_register(dev);
+> -	cpu_latency_qos_add_request(&dev->amd_pmc_pm_qos_req, PM_QOS_DEFAULT_VALUE);
+>  	return 0;
+>  
+>  err_pci_dev_put:
 
