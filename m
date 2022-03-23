@@ -2,253 +2,102 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D6D4E48A6
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 22 Mar 2022 22:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1F954E4A6D
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 23 Mar 2022 02:21:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236941AbiCVVwq (ORCPT
+        id S241110AbiCWBW6 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 22 Mar 2022 17:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
+        Tue, 22 Mar 2022 21:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236897AbiCVVwn (ORCPT
+        with ESMTP id S241090AbiCWBWu (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 22 Mar 2022 17:52:43 -0400
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 623A76D96D
-        for <platform-driver-x86@vger.kernel.org>; Tue, 22 Mar 2022 14:51:15 -0700 (PDT)
-Received: by mail-ot1-x333.google.com with SMTP id i11-20020a9d4a8b000000b005cda3b9754aso1359165otf.12
-        for <platform-driver-x86@vger.kernel.org>; Tue, 22 Mar 2022 14:51:15 -0700 (PDT)
+        Tue, 22 Mar 2022 21:22:50 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 932596A013
+        for <platform-driver-x86@vger.kernel.org>; Tue, 22 Mar 2022 18:21:21 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id b19so42838wrh.11
+        for <platform-driver-x86@vger.kernel.org>; Tue, 22 Mar 2022 18:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ecP9Iq53zz5AasvC2URp0G6060mXxCava9IKAzYlB7w=;
-        b=O+L9hQNzmfynhuyh1v/YEKih8AfgbZtK9GekBUrzQ8JLt6EY/TiiPkPyGxytQBRbqz
-         i+3J2h6oqq7HW/HJ5DlTRVT5D0E6MGJ4PtOXstZvgVouASERqu1TkwBLHYbqvcTS90eG
-         6CQVujP5xPvIDtcVtQnKAa6POPJJHsFobRfiVcvjdzUNIxabh1IY5hj+RKBy61AXv7SY
-         JSRVrJ9bZGPbFerGI7MkdWNGQqPacyk4cVdB/7+AOE2AjxMVSPM0U8iSg30kOluJl3SO
-         gvMGg8WTkvfpMLmWQsYwpMJhi5asy/wmGBUMhnbrfpjU/rJw/kD0YLbHXeDv1HIytE99
-         Kmmw==
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=oCs30GAS7xzH0D7xuZKEPKsnlYW16+76z/XMLVXvO2I=;
+        b=FECPAB4UmE2gCiACuR1xrKEljeRwg0mUn2UC6Ny7MJ5VN/CON0nq0eikthYtsCDV+W
+         BgrqDSyJ2bAJMSLy96Kbn/Eew7XFA9dddFHZdDxRX6sfIZglbE0YjkiX3Uwpk5q3ok/J
+         bXOchxA1PHkfIhAw9m/pDVAyuVYq1ksghiS75rMc4oECZkg1waszNgADyik8xwDLolVD
+         YYb+xgASeFsogNWhj0STyCkbpMxbBurstUbOQnI1+N5xmmUcWmm73bzFKHB4LWGFWeTp
+         YaIs+FGJQ5jISMTEZhEWba5dWCsDyozHCCHJ+gJamqqLQ6VqIgjBGTQfokP2Lr93xMyO
+         ngKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ecP9Iq53zz5AasvC2URp0G6060mXxCava9IKAzYlB7w=;
-        b=LekBkt7ylkAOSMcBl5s6QG2vzPOGnZa0YwJ3FaEXfqNG9Tr5792ZqN/T4yCtNApGDM
-         xqaMfKDZNGssEIWLBC27Q9PNg2cL51grwyFqhU69dqGSbtCw0N16hPG/cuHdINb9u+3p
-         vBAVlIfik2/zg03BBXMdjbpUXGviNZLnqVjLY6Sp0EXfNj+xSNWXb4HU6CrCSWzMsAGw
-         nfr3NkzcNgVAEf11mH/29LMo1KsDHzHXXfd3+8dxDybYxLcDg9VzAfjGs64rxULIYSxu
-         XiIt6aks6sX1TeFGyxL3H7+8dbIVIXhjJhQJ/UIQODxj3ffdQ8gaahMKIhMtCG42VhrY
-         J3mw==
-X-Gm-Message-State: AOAM533YEoJYoBVXtF13v2F7HT2gf7rOOcaSeQloZxFTYcpH4NCY6Hug
-        vXHAzUL7NLAIQjH5jp4DDlLAC7gEW0A=
-X-Google-Smtp-Source: ABdhPJzRMJWtlnJjsmNevreJK+RCJy1oHWQ83FyWMRbOmB7bqrYG37lejMn6pnV5FmNEp3eMFIwm3g==
-X-Received: by 2002:a9d:6c58:0:b0:5cd:8ccb:c128 with SMTP id g24-20020a9d6c58000000b005cd8ccbc128mr4976161otq.254.1647985874313;
-        Tue, 22 Mar 2022 14:51:14 -0700 (PDT)
-Received: from grumpy-vm.hsd1.tx.comcast.net ([2601:2c3:480:7390:8a31:5c82:5969:c7ae])
-        by smtp.gmail.com with ESMTPSA id n6-20020a9d6f06000000b005b266e43c92sm9070830otq.73.2022.03.22.14.51.13
-        for <platform-driver-x86@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 14:51:14 -0700 (PDT)
-From:   Jorge Lopez <jorgealtxwork@gmail.com>
-X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
-To:     platform-driver-x86@vger.kernel.org
-Subject: [PATCH v1] HP Security Features solutions Documentation
-Date:   Tue, 22 Mar 2022 16:51:13 -0500
-Message-Id: <20220322215113.3110-1-jorge.lopez2@hp.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=oCs30GAS7xzH0D7xuZKEPKsnlYW16+76z/XMLVXvO2I=;
+        b=si6GPputdbI2IXqdgVoElrIXZ/QNWA76fYctrMgoHRs+1+x8/w9Vsf9174GcZyULW3
+         v7FG6/XFi+AYeMDCaU34KsFfFXtD4oX9dNzZGXhGy44qu/so4aFfIw8S6szoRo2kgBqS
+         r4b4OLt0kTtPj4dhsr76wH6Ske/gUIya4/Swc4wLNryU8vic8ym2fSB+pXQrCAgWmaX4
+         tDcQGSmctqF8hV9sBvqGnfuj/E/O45AhaZVCjXGKiA56f2gy/B2wQ4GGrJ5BLs71L6qb
+         3hQmeUwpDkEGROmgp1W6gbxegk/mwq4s7vgL6s4tcGgN/wZC/jxQF3yWzsIU6Nt4p0wD
+         HU5A==
+X-Gm-Message-State: AOAM530BpJsh3+jFgv/vwXAf3HYX8KJpNDC3jxJPImU2Mm1zCPM+6ezj
+        8OiBgPRITamPNWRglBZL0Ks=
+X-Google-Smtp-Source: ABdhPJwzxkwyDwH9Jmdp+2SyItLl6A9f0n8l8xRljVZpOkw5+OIzKJa1lrXUeay0LnhWykXaXEPiXg==
+X-Received: by 2002:adf:dfc9:0:b0:203:fb83:83f1 with SMTP id q9-20020adfdfc9000000b00203fb8383f1mr17102363wrn.81.1647998480237;
+        Tue, 22 Mar 2022 18:21:20 -0700 (PDT)
+Received: from [192.168.43.198] ([105.112.99.128])
+        by smtp.gmail.com with ESMTPSA id t6-20020a05600c198600b0038cafe3d47dsm3368247wmq.42.2022.03.22.18.21.15
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 22 Mar 2022 18:21:19 -0700 (PDT)
+Message-ID: <623a760f.1c69fb81.a39f8.03ec@mx.google.com>
+From:   "=?utf-8?q?UKRAIN_UNTERST=C3=9CTZUNG?=" 
+        <salisuibrahimbabangida2018@gmail.com>
+X-Google-Original-From: =?utf-8?q?UKRAIN_UNTERST=C3=9CTZUNG?=
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?UKRAINISCHE_HUMANIT=C3=84RE_ORGANISATION?=
+To:     Recipients <UKRAIN@vger.kernel.org>
+Date:   Tue, 22 Mar 2022 18:21:10 -0700
+Reply-To: support-research@mailfence.com
+X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,PDS_BTC_ID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,TO_MALFORMED,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-The purpose for this patch is add documentation for the HP WMI driver.
-It describes how to use and manage BIOS settings & security
-solutions on HP Inc.’s commercial platforms.  Patches to integrate
-the security features in hp-wmi driver will follow shortly.
+Hallo'
 
-Many features of HP Commercial PC’s can be managed using Windows
-Management Instrumentation (WMI). WMI is an implementation of Web-Based
-Enterprise Management (WBEM) that provides a standards-based interface
-for changing and monitoring system settings.  HP WMI driver provides
-a native Linux solution and the exposed features facilitates the
-migration to Linux environments.
+   Inmitten des anhaltenden schrecklichen Krieges, den die Russen in die Uk=
+raine brachten. Die ukrainische Regierung akzeptiert digitale Verm=F6genswe=
+rte auf der Suche nach M=F6glichkeiten, Geld f=FCr ihre Armee und ihre ster=
+benden B=FCrger, insbesondere vertriebene unschuldige Frauen und Kinder, zu=
+ sammeln. Die meisten Finanzinstitute des Landes sind aufgrund der Krise di=
+eses Krieges auf ukrainischem Boden geschlossen, und wir bitten Sie um fina=
+nzielle Unterst=FCtzung, die es uns erm=F6glicht, mehr B=FCrger in die Sich=
+erheitszone zu evakuieren und Nahrung, Unterkunft und Medizin f=FCr die Kra=
+nken und Kranken bereitzustellen . verwundet. Aufgrund der Schlie=DFung von=
+ Banken in der Ukraine bitten wir Sie, per Bitcoin auf das folgende Wallet-=
+Konto zu spenden:
+ =
 
-The Linux security features to be provided in hp-wmi driver enables
-managing the BIOS settings and security solutions via sysfs, a virtual
-filesystem that can be used by usermode applications.   The new
-documentation cover features such Secure Platform Management, Sure
-Admin, and Sure Start.  Each section provides security feature
-description and identifies sysfs directories and files exposed by
-the driver.
+Bitcoin-Wallet-Konto: bc1qd5zrvejw7x6s4sewyt4alhqg5wtzagewjpwsvn
 
-Many HP Commercial PC’s include a feature called Secure Platform
-Management (SPM), which replaces older password-based BIOS settings
-management with public key cryptography. PC secure product management
-begins when a target system is provisioned with cryptographic keys
-that are used to ensure the integrity of communications between system
-management utilities and the BIOS.
+ETH-Wallet-Konto: 0xD129Dd238001BEB85fBa9A5A0c7A328189334502
 
-HP Commercial PC’s have several BIOS settings that control its behaviour
-and capabilities, many of which are related to security. To prevent
-unauthorized changes to these settings, the system can be configured
-to use a Sure Admin cryptographic signature-based authorization string
-that the BIOS will use to verify authorization to modify the setting.
-
-Document contents was reviewed and approved by HP internal team for
-accuracy.
-
-Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
-
----
-Based on the latest platform-drivers-x86.git/for-next
----
- Documentation/admin-guide/hp_wmi.rst | 115 +++++++++++++++++++++++++++
- Documentation/admin-guide/index.rst  |   1 +
- 2 files changed, 116 insertions(+)
- create mode 100644 Documentation/admin-guide/hp_wmi.rst
-
-diff --git a/Documentation/admin-guide/hp_wmi.rst b/Documentation/admin-guide/hp_wmi.rst
-new file mode 100644
-index 000000000000..745de80a7386
---- /dev/null
-+++ b/Documentation/admin-guide/hp_wmi.rst
-@@ -0,0 +1,115 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+===========================
-+HP Inc. WMI driver (hp_wmi)
-+===========================
-+
-+Purpose
-+=======
-+To document the use of the HP WMI driver to manage BIOS settings & security
-+solutions on HP Inc.’s commercial platforms
-+
-+Scope
-+=====
-+This document discusses the functionality of the hp_wmi driver only.
-+It does not cover the support needed from applications to configure the BIOS
-+settings and enable the security features.
-+
-+Overview
-+========
-+Many features of HP Commercial PC’s can be managed using Windows Management
-+Instrumentation (WMI).  WMI is an implementation of Web-Based Enterprise
-+Management (WBEM) that provides a standards-based interface for changing and
-+monitoring system settings.
-+
-+The hp-wmi driver enables managing the BIOS settings and security solutions
-+via sysfs, a virtual filesystem that can be used by usermode applications.
-+
-+When the driver loads, it creates the following directories and files in the
-+/sys file system: ::
-+
-+	/sys/devices/platform/hp-wmi/spm/kek
-+	/sys/devices/platform/hp-wmi/spm/sk
-+	/sys/devices/platform/hp-wmi/spm/status
-+	/sys/devices/platform/hp-wmi/spm/statusbin
-+	/sys/devices/platform/hp-wmi/sure_admin/settings
-+	/sys/devices/platform/hp-wmi/sure_start/audit_log_entries
-+	/sys/devices/platform/hp-wmi/sure_start/audit_log_entry_count
-+
-+If the driver is unloaded, all the allocated memory is freed and directories
-+and files in the /sys file system removed.
-+
-+Secure Platform Management
-+==========================
-+Many HP Commercial PC’s include a feature called Secure Platform Management
-+(SPM), which replaces older password-based BIOS settings management with public
-+key cryptography.  PC secure product management begins when a target system is
-+provisioned with cryptographic keys that are used to ensure the integrity of
-+communications between system management utilities and the BIOS.
-+
-+The private key is used by system management utilities to sign payloads
-+containing configuration changes.  The BIOS on a target system uses the
-+associated public key to verify the integrity of the payload and apply the
-+changes.
-+
-+At the end of the PC’s lifecycle a signed deprovisioning command restores
-+the factory default state.
-+
-+KEK Certificate (KEK) and Signing Key (SK) get provisioned and status can
-+be read either as text from the status file or binary from statusbin. ::
-+
-+	/sys/devices/platform/hp-wmi/spm/kek
-+	/sys/devices/platform/hp-wmi/spm/sk
-+	/sys/devices/platform/hp-wmi/spm/status
-+	/sys/devices/platform/hp-wmi/spm/statusbin
-+
-+**status** is a read-only file that returns ASCII text reporting the
-+following values: ::
-+
-+	State:  Not Provisioned / Provisioned / Provisioning in progress
-+	Version:  Major.   Minor
-+	Feature Bit Mask: <16-bit unsigned number display in hex>
-+	SPM Counter: <16-bit unsigned number display in base 10>
-+	Signing Key Public Key Modulus (base64):
-+	KEK Public Key Modulus (base64):
-+
-+**kek** is a write-only file that can be used to configure the RSA public
-+key that will be used by the BIOS to verify signatures when setting the
-+signing key.  When written, the bytes should correspond to the KEK
-+certificate (x509 .DER format containing an OU).  The size of the
-+certificate must be less than or equal to 4095 bytes.
-+
-+**sk** is a write-only file that can be used to configure the RSA public
-+key that will be used by the BIOS to verify signatures when configuring
-+BIOS settings and security features.  When written, the bytes should
-+correspond to the modulus of the public key.  The exponent is assumed
-+to be 0x10001.
-+
-+Sure Admin
-+==========
-+HP Commercial PC’s have several BIOS settings that control its behaviour and
-+capabilities, many of which are related to security.  To prevent unauthorized
-+changes to these settings, the system can be configured to use a Sure Admin
-+cryptographic signature-based authorization string that the BIOS will use to
-+verify authorization to modify the setting.
-+Behind the scenes, Sure Admin uses Secure Platform Management (SPM) and WMI
-+
-+**settings** is a file associated with Sure Admin. BIOS settings can be read
-+or written through the Sure Admin settings file in sysfs. ::
-+
-+	/sys/devices/platform/hp-wmi/sure_admin/settings
-+
-+Sure Start
-+==========
-+Sure Start provides advanced firmware protection and resiliency by identifying
-+and repairing unauthorized BIOS changes.  It maintains an audit log of these
-+events and other important system configuration changes.  The following sysfs
-+entries can be used to read the contents of the audit log.
-+
-+**audit_log_entry_count** is a read-only file that returns the number of
-+existing audit log events available to be read. ::
-+
-+	/sys/devices/platform/hp-wmi/sure_start/audit_log_entry_count
-+
-+**audit_log_entries** is a read-only file that returns the events in the log. ::
-+
-+	/sys/devices/platform/hp-wmi/sure_start/audit_log_entries
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 1bedab498104..58b9b0541cb5 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -86,6 +86,7 @@ configure specific aspects of kernel behavior to your liking.
-    nfs/index
-    gpio/index
-    highuid
-+   hp_wmi
-    hw_random
-    initrd
-    iostats
--- 
-2.25.1
-
+0,1 BTC-10 BTC kein kleiner Betrag Leute auf der Welt, wir werden eure Unte=
+rst=FCtzung in diesen schwierigen Zeiten nie vergessen,
+Danke
+Wir sagen nein zum Krieg!!
+Wir sagen nein zum T=F6ten eines Zivilisten!!
+E-MAIL: support-research@mailfence.com
+  Danke noch einmal.
+Ukrainische humanit=E4re Organisation
