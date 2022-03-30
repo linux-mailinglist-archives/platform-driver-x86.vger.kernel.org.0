@@ -2,190 +2,115 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C1414EABDC
-	for <lists+platform-driver-x86@lfdr.de>; Tue, 29 Mar 2022 13:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00FFC4ECC4B
+	for <lists+platform-driver-x86@lfdr.de>; Wed, 30 Mar 2022 20:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235503AbiC2LFZ (ORCPT
+        id S233910AbiC3Sbh (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 29 Mar 2022 07:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
+        Wed, 30 Mar 2022 14:31:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231437AbiC2LFZ (ORCPT
+        with ESMTP id S1350233AbiC3Sba (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 29 Mar 2022 07:05:25 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F071A82E;
-        Tue, 29 Mar 2022 04:03:39 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KSRWF10D9z1GD1m;
-        Tue, 29 Mar 2022 19:03:21 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 29 Mar 2022 19:03:37 +0800
-Received: from [10.174.178.120] (10.174.178.120) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Tue, 29 Mar 2022 19:03:35 +0800
-Message-ID: <4136ec1c-51a9-3874-9bf3-c81cd88e868a@huawei.com>
-Date:   Tue, 29 Mar 2022 19:03:35 +0800
+        Wed, 30 Mar 2022 14:31:30 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DB03D1DC
+        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Mar 2022 11:28:14 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id t7so18860836qta.10
+        for <platform-driver-x86@vger.kernel.org>; Wed, 30 Mar 2022 11:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=BUnAD3xqyyj2lm0zvOZVtbyxWcA123m5vBtT7P90vEA=;
+        b=S22Ra8ZboCcT3bpVIIVLTSge+LKjzGt7Sro6WhT+fBRLE99jO+PdMRSnm32CDt/Zek
+         32ZEdCNETighh1bfEgHJhdDZv+EpJmc8qSxS+x4Ieu9b1xV0uBQJytYUvfHF3CiT70k2
+         sVgZSZX2bteb/iL7TryUL/Y2r3YZNqFbh8W5vzxF4gOwzLzp/weytfCc2/1YeYkjGX0V
+         qFsYl0Zz1PqqUvyeTIiqjkQIP1E7KPNcE5UuCl9gMWlYlxAzBNVsMPfWGlgjZhrNFsGb
+         pUOMDjNaxX3e3TTrqfKCh985jXAIRmN9n0TaE7emvckQG/HMYGjOZrUeqSJZCHWHNxxc
+         kLDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=BUnAD3xqyyj2lm0zvOZVtbyxWcA123m5vBtT7P90vEA=;
+        b=ALc7hmyPtKS/dCZkb+5fTFJoNDm8OzyQ4cWnPhNULOkZnDe890Vpln6LLIHDKMLTP2
+         caLR830kaEPQdt8upLrwIv/6XqIPBsHltiaAAI7OVNA73meAHlxDjsCDNhOA8vriFhmy
+         LfVg+52+mCCP9S86jz1VqKIN4SkTfzUSPgCULkOvgWRAn7eFBhrisuT+SpvR/ABX59lO
+         W9PcooGZ/srr2zaXzxKw5wdZ5u34sRoTrMwcs62zUyD3LHws12PykEs2DivOyb9hpFHn
+         NVTNv6k9JjiHx3v1BRKU2rNy1nJzSh0tKjxBjusjVsDH97m+THuDemkjiAXkgVo12lxu
+         FnPg==
+X-Gm-Message-State: AOAM533bwVffui1prkERZug3kFKloa3Ls6vsAhC0v47ymdN7amSY42CQ
+        dVIa77tmUF54/oCuL02KwRMG4El9KNV8MbnuljA=
+X-Google-Smtp-Source: ABdhPJyuXXDqeqf2IQv8gmJImNdr+zOdQcMfLRBcpOKIKRFuOyiJlM+6rrLD3wDeLJnOkUGSwgy4nVW088v6XvaOpnA=
+X-Received: by 2002:ac8:7f01:0:b0:2e1:e86f:fd59 with SMTP id
+ f1-20020ac87f01000000b002e1e86ffd59mr839990qtk.448.1648664893052; Wed, 30 Mar
+ 2022 11:28:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 0/9] introduce mirrored memory support for arm64
-To:     <ardb@kernel.org>
-CC:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zyccr.com>, <dvhart@infradead.org>,
-        <andy@infradead.org>, <rppt@kernel.org>, <paulmck@kernel.org>,
-        <peterz@infradead.org>, <jroedel@suse.de>,
-        <songmuchun@bytedance.com>, <macro@orcam.me.uk>,
-        <frederic@kernel.org>, <W_Armin@gmx.de>, <john.garry@huawei.com>,
-        <seanjc@google.com>, <tsbogend@alpha.franken.de>,
-        <anshuman.khandual@arm.com>, <chenhuacai@kernel.org>,
-        <david@redhat.com>, <gpiccoli@igalia.com>, <mark.rutland@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-efi@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>, <linux-mm@kvack.org>
-References: <20220326064632.131637-1-mawupeng1@huawei.com>
- <CAMj1kXEwzJE8V-tqJJwZ-RqHB3atKJvoRZ8C6_EVM7caNbttxw@mail.gmail.com>
-From:   mawupeng <mawupeng1@huawei.com>
-In-Reply-To: <CAMj1kXEwzJE8V-tqJJwZ-RqHB3atKJvoRZ8C6_EVM7caNbttxw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.120]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Reply-To: isabellasayouba0@gmail.com
+Sender: stjohncatholic155@gmail.com
+Received: by 2002:ac8:57c3:0:0:0:0:0 with HTTP; Wed, 30 Mar 2022 11:28:12
+ -0700 (PDT)
+From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
+Date:   Wed, 30 Mar 2022 18:28:12 +0000
+X-Google-Sender-Auth: 9y4lw18rt2QcBlh2FXI5qEcxuOQ
+Message-ID: <CAHjLdGfz+jbSbP_H4n1q8DZNPsVtx2OfwWm6X_5FEcTB54Kpow@mail.gmail.com>
+Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=1.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-
-
-在 2022/3/29 16:26, Ard Biesheuvel 写道:
-> On Sat, 26 Mar 2022 at 07:27, Wupeng Ma <mawupeng1@huawei.com> wrote:
->>
->> From: Ma Wupeng <mawupeng1@huawei.com>
->>
->> Commit b05b9f5f9dcf ("x86, mirror: x86 enabling - find mirrored memory ranges")
->> introduced mirrored memory support for x86. This support rely on UEFI to
->> report mirrored memory address ranges.  See UEFI 2.5 spec pages 157-158:
->>
->>    http://www.uefi.org/sites/default/files/resources/UEFI%202_5.pdf
->>
->> Arm64 can support this too. So mirrored memory support is added to support
->> arm64.
->>
-> 
-> What is the point of this if the kernel itself is not loaded in
-> EFI_MORE_RELIABLE memory? On x86, this is handled by the decompressor,
-> but that does not exist on arm64.
-
-Do you mean this is x86, commit c05cd79750fb
-("x86/boot/KASLR: Prefer mirrored memory regions for the kernel physical address").
-This scenario is not considered.
-
->  
-> The problem here is that UEFI defines this as a memory *attribute*
-> rather than a memory *type*, which means you cannot allocate
-> EFI_MORE_RELIABLE memory easily: you have to iterate over the memory
-> map and look for regions with the desired attribute, and allocate
-> those pages explicitly. I'd prefer to implement this in the
-> bootloader, and only add minimal logic to the stub to respect the
-> placement of the kernel by the loader if the loader signals it to do
-> so (there are other reasons for this - I will cc you on a patch
-> shortly that implements this)
-
-Thanks for your incoming patch.
-
-> 
-> This also means that the fake_mem stuff is not going to work: the
-> memory map observed by the stub comes straight from the firmware, and
-> if the stub needs to be involved in placing (or respecting the
-> placement by the loader of) the kernel image, it needs to observe
-> those EFI_MORE_RELIABLE regions too. If you don't have access to a
-> machine that actually exposes EFI_MORE_RELIABLE memory, I suggest you
-> prototype it in QEMU/edk2 instead.
-
-You are right fake_mem stuff is not going to work. But, efi_fake_mem is
-used for testing mirrored features and will not be used in production
-environment. This test features can fake memory's attribute values.
-
-The reason why efi_fake_mem support is put first is that memory's attribute
-is reported by BIOS which is hard to simulate. With this support, any arm64
-machines with efi support can easily test mirrored features.
-
-> 
-> In fact, we have been trying very hard not to touch the firmware
-> provided memory map at all on ARM, rather than use it as a scratchpad
-> for all kinds of annotations. This means, for instance, that kexec is
-> idempotent - the next kernel should not be affected by modifications
-> to the memory map applied by the previous kernel.
-
-Yes, you're absolutely right. Efi_fake_mem is incompatible with kdump which
-will use kexec. But we can remove specify cmdline(efi_fake_mem=xx) by
-modofing /etc/sysconfig/kdump. Efi_fake_mem is only used for testing and
-will not be used in production environment.
-
-> 
-> In summary, implementing kernelcore=mirror for arm64 is fine with me,
-> but there are some issues we need to address first.
->
-Can you be clear what the issues are?
-
-The main purpose of this patchset is to introduce mirrored support for
-arm64 and we have already fixed the problems we had which is shown in
-patch #5 to patch #7 and try to bring total isolation in patch #8 which
-will disable mirror feature if kernelcore is not specified.
-
-Thanks for reviewing.
-
-> 
-> 
-> 
->> Patch #1-#2 introduce efi_fake_mem support for arm64.
->> Patch #3-#4 introduce mirrored memory support form arm64.
->> Patch #5-#7 fix some bugs for arm64 if memory reliable is enabled.
->> Patch #8 disable mirror feature if kernelcore is not specified.
->> Patch #9 remove some redundant code in ia64 efi_init.
->>
->> Ma Wupeng (9):
->>    efi: Make efi_print_memmap() public
->>    arm64: efi: Add fake memory support
->>    efi: Make efi_find_mirror() public
->>    arm64/mirror: arm64 enabling - find mirrored memory ranges
->>    mm: Ratelimited mirrored memory related warning messages
->>    mm: Demote warning message in vmemmap_verify() to debug level
->>    mm: Calc the right pfn if page size is not 4K
->>    efi: Disable mirror feature if kernelcore is not specified
->>    ia64/efi: Code simplification in efi_init
->>
->>   .../admin-guide/kernel-parameters.txt         |  4 +-
->>   arch/arm64/kernel/setup.c                     |  3 ++
->>   arch/ia64/kernel/efi.c                        | 37 +-----------------
->>   arch/x86/include/asm/efi.h                    |  5 ---
->>   arch/x86/platform/efi/efi.c                   | 39 -------------------
->>   drivers/firmware/efi/Kconfig                  |  2 +-
->>   drivers/firmware/efi/efi.c                    | 26 +++++++++++++
->>   drivers/firmware/efi/memmap.c                 | 16 ++++++++
->>   include/linux/efi.h                           |  4 ++
->>   include/linux/mm.h                            |  2 +
->>   mm/memblock.c                                 |  4 +-
->>   mm/page_alloc.c                               |  4 +-
->>   mm/sparse-vmemmap.c                           |  2 +-
->>   13 files changed, 60 insertions(+), 88 deletions(-)
->>
->> --
->> 2.18.0.huawei.25
->>
-> .
+44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
+kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
+jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
+kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
+leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
+quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
+seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
+ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
+grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYUJyb3du5rCP44Go57WQ
+5ama44GX44G+44GX44Gf44CC5a2Q5L6b44Gq44GX44GnMTHlubTplpPntZDlqZrjgZfjgZ/jgIIN
+Cg0K5b2844Gv44Gf44Gj44GfNeaXpemWk+e2muOBhOOBn+efreOBhOeXheawl+OBruW+jOOBp+at
+u+OBq+OBvuOBl+OBn+OAguW9vOOBruatu+W+jOOAgeengeOBr+WGjeWpmuOBl+OBquOBhOOBk+OB
+qOOBq+axuuOCgeOBvuOBl+OBn+OAguS6oeOBj+OBquOBo+OBn+Wkq+OBjOeUn+OBjeOBpuOBhOOB
+n+OBqOOBjeOAgeW9vOOBr+e3j+mhjTg1MOS4h+ODieODq+OCkumgkOOBkeOBvuOBl+OBn+OAgg0K
+77yIODAw5LiHNTAwMOODieODq++8ieilv+OCouODleODquOCq+OBruODluODq+OCreODiuODleOC
+oeOCveOBrummlumDveODr+OCrOODieOCpeOCsOODvOOBrumKgOihjOOBp+OAguePvuWcqOOAgeOB
+k+OBruOBiumHkeOBr+OBvuOBoOmKgOihjOOBq+OBguOCiuOBvuOBmeOAguW9vOOBr+OBk+OBruOB
+iumHkeOCkuODluODq+OCreODiuODleOCoeOCveOBrumJsealreOBi+OCieOBrumHkeOBrui8uOWH
+uuOBq+WIqeeUqOOBp+OBjeOCi+OCiOOBhuOBq+OBl+OBvuOBl+OBn+OAgg0KDQrmnIDov5HjgIHn
+p4Hjga7ljLvogIXjga/np4HjgYznmYzjgajohLPljZLkuK3jga7llY/poYzjga7jgZ/jgoHjgas3
+44O25pyI6ZaT44Gv57aa44GL44Gq44GE44Gg44KN44GG44Go56eB44Gr6KiA44GE44G+44GX44Gf
+44CC56eB44KS5pyA44KC5oKp44G+44Gb44Gm44GE44KL44Gu44Gv6ISz5Y2S5Lit44Gu55eF5rCX
+44Gn44GZ44CC56eB44Gu54q25oWL44KS55+l44Gj44Gf44Gu44Gn44CB56eB44Gv44GT44Gu44GK
+6YeR44KS44GC44Gq44Gf44Gr5rih44GX44Gm44CB5oG144G+44KM44Gq44GE5Lq644CF44Gu5LiW
+6Kmx44KS44GZ44KL44GT44Go44Gr44GX44G+44GX44Gf44CC44GC44Gq44Gf44Gv44GT44Gu44GK
+6YeR44KS56eB44GM44GT44GT44Gn5oyH56S644GZ44KL5pa55rOV44Gn5Yip55So44GZ44KL44Gn
+44GX44KH44GG44CC56eB44Gv44GC44Gq44Gf44Gr44GC44Gq44Gf44Gu5YCL5Lq655qE44Gq5L2/
+55So44Gu44Gf44KB44Gr57eP44GK6YeR44GuMzDjg5Hjg7zjgrvjg7Pjg4jjgpLlj5bjgaPjgabm
+rLLjgZfjgYTjgafjgZnjgILjgYrph5Hjga43MO+8heOBr+engeOBruWQjeWJjeOBp+WtpOWFkOmZ
+ouOCkuW7uuOBpuOAgemAmuOCiuOBruiyp+OBl+OBhOS6uuOAheOCkuWKqeOBkeOCi+OBn+OCgeOB
+q+S9v+OBhuOBp+OBl+OCh+OBhuOAguengeOBr+WtpOWFkOOBqOOBl+OBpuiCsuOBoeOBvuOBl+OB
+n+OBjOOAgeelnuOBruWutuOCkue2reaMgeOBmeOCi+OBn+OCgeOBoOOBkeOBq+OAgeWutuaXj+OB
+q+OBr+iqsOOCguOBhOOBvuOBm+OCk+OAguOBk+OBrueXheawl+OBjOengeOCkuOBqOOBpuOCguiL
+puOBl+OCgeOBn+OBruOBp+OAgeelnuOBjOengeOBrue9quOCkui1puOBl+OAgealveWckuOBp+en
+geOBrumtguOCkuWPl+OBkeWFpeOCjOOCi+OCiOOBhuOBq+OBk+OCjOOCkuOBl+OBpuOBhOOCi+OB
+ruOBp+OBmeOAgg0KDQrov5Tkv6HjgpLlj5fjgZHlj5bjgormrKHnrKzjgIHjg5bjg6vjgq3jg4rj
+g5XjgqHjgr3jga7pioDooYzjga7pgKPntaHlhYjjgpLjgYrnn6XjgonjgZvjgZfjgb7jgZnjgILj
+gb7jgZ/jgIHpioDooYzjga7nj77lnKjjga7lj5flj5bkurrjgafjgYLjgovjgZPjgajjgpLoqLzm
+mI7jgZnjgovmqKnpmZDmm7jjgpLnmbrooYzjgZnjgovjgojjgYbpioDooYzplbfjgavmjIfnpLrj
+gZfjgb7jgZnjgILnp4HjgYzjgZPjgZPjgafov7DjgbnjgZ/jgojjgYbjgavjgYLjgarjgZ/jgYzj
+gZ3jgozjgavlv5zjgZjjgabooYzli5XjgZnjgovjgZPjgajjgpLnp4Hjgavkv53oqLzjgZfjgabj
+gY/jgaDjgZXjgYTjgIINCg0K44Kk44K244OZ44Op44O744K144Oo44Km44OQ5aSr5Lq644GL44KJ
+44CCDQo=
