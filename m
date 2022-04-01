@@ -2,252 +2,205 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A13924EF3E7
-	for <lists+platform-driver-x86@lfdr.de>; Fri,  1 Apr 2022 17:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56F6B4EF775
+	for <lists+platform-driver-x86@lfdr.de>; Fri,  1 Apr 2022 18:03:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352073AbiDAPHo (ORCPT
+        id S1348678AbiDAP5T (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Fri, 1 Apr 2022 11:07:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60508 "EHLO
+        Fri, 1 Apr 2022 11:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352416AbiDAOuT (ORCPT
+        with ESMTP id S244398AbiDAPRf (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Fri, 1 Apr 2022 10:50:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D53EB2B2B7A;
-        Fri,  1 Apr 2022 07:41:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 72823B82518;
-        Fri,  1 Apr 2022 14:41:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC51C3410F;
-        Fri,  1 Apr 2022 14:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648824098;
-        bh=eSxdwjxtoAX3WJ5wZExLEC81LKayAfMQygkAyerS00E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ACvVk6n7wKY853acj0p0oteQODFhr+j4ZwBSWuCcJBsEa3aimmsnwVrXjv366hBFE
-         dN1hLMFmS5e+PSDzTAASvWAxhD6R96y0/z/FP3PaRlGPq2bF5/cyE68H10ZR8ua2MK
-         CmEO5Qkp8UpsODSB4M8huhlyEosJzp0QNuVFRGJreqWrJwK3LwAwIhUBRoHxth6V0c
-         /GxLFEAXOAI6VVQmyJtza/BOGQ54fHp/6Q/P/yRTthyBBdTqcFRUdp96A+l1iaS8g5
-         /+qOVYWXm7+7lbM4QSv8r41zS1FFZv7f6vbmjSzS43pm/j2votFdCCQ2bVLQ3h8xqe
-         jxkt8+GD2B2wQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jorge Lopez <jorge.lopez2@hp.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, markgross@kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 85/98] platform/x86: hp-wmi: Fix SW_TABLET_MODE detection method
-Date:   Fri,  1 Apr 2022 10:37:29 -0400
-Message-Id: <20220401143742.1952163-85-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401143742.1952163-1-sashal@kernel.org>
-References: <20220401143742.1952163-1-sashal@kernel.org>
+        Fri, 1 Apr 2022 11:17:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5AC7956436
+        for <platform-driver-x86@vger.kernel.org>; Fri,  1 Apr 2022 08:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1648825235;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=U4C2FtsuZxf0/Q/b0iTYDkQBo4MdhWNl+MwxPx5dtPM=;
+        b=VpAe2EIUSKbKVmhAHUO1Pk9jpYYqOBX6Gng1bdtta5u8CaZ5YqEKxst5J+FD7Xm4TKE4i/
+        4UEEaUBqlOS64CunHafcQgd82wgvtsPdZqBmr+hbHmi7so1ulAOCmBIXkuhHU4loncxm72
+        BSm7tBnI+CMEV2wguY+Z3I0zKoOAlig=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-AwEWkNrPMBiCmmCy6S5RuA-1; Fri, 01 Apr 2022 11:00:34 -0400
+X-MC-Unique: AwEWkNrPMBiCmmCy6S5RuA-1
+Received: by mail-ed1-f69.google.com with SMTP id i22-20020a508716000000b0041908045af3so1688123edb.3
+        for <platform-driver-x86@vger.kernel.org>; Fri, 01 Apr 2022 08:00:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=U4C2FtsuZxf0/Q/b0iTYDkQBo4MdhWNl+MwxPx5dtPM=;
+        b=GKYsiabW1HcvouLXdEieEjI5Vul1EBBKf+WEp1iOV50Cnr3wBvR9nJr/7Fe84JHTfq
+         KJCPUQNxaOx4fH5HSt/3xSbEhlw5YQPW+TGY+d0WxR34C+Y3dQrbRhQBbVqdcyDAHamB
+         L9VoTgEE2a1/xiSH1ru1VXSB7MgdWQnBrowAa7m4AKKzu7JipDAPO5YlzUOIeIIk+P2h
+         cRSySDOgp583UFLdAn6PYfpbVFEgc/1rZb25j02B2zQawzjxxIoXRUu+azM6LNqs0i4p
+         mdjGSnqXtWmHnGWOrXWcxRDbLVONXgo83CxKQXvUUIZ4CCY3nsDIlgtsKRUYFkto/SXD
+         Mzkw==
+X-Gm-Message-State: AOAM533hts0rwTIByhIaKalOtieykjTWFgt1f7k53H1Qt4lPp6dNDa6Y
+        1TmWBl239mTT98g1zFZwW4EUmJ5weEZPy4eA9naQNwiye0aJ/mddro/IUs3KhxgdCKruFUUtyFM
+        7XPOhUaur90Mm0ZFmNAPFsyq3C367yUrq8g==
+X-Received: by 2002:a05:6402:27d2:b0:419:1a3d:442b with SMTP id c18-20020a05640227d200b004191a3d442bmr20841614ede.409.1648825232184;
+        Fri, 01 Apr 2022 08:00:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVAReUv2SvSmu/TQtO7iDA9+C4zYyJ+bufOOhAWSyh+evkJ1N0aCK5WKLJdbVvtRrCxIoc7A==
+X-Received: by 2002:a05:6402:27d2:b0:419:1a3d:442b with SMTP id c18-20020a05640227d200b004191a3d442bmr20841583ede.409.1648825231922;
+        Fri, 01 Apr 2022 08:00:31 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+        by smtp.gmail.com with ESMTPSA id gb29-20020a170907961d00b006e00c7b0f5asm1096476ejc.0.2022.04.01.08.00.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Apr 2022 08:00:31 -0700 (PDT)
+Message-ID: <cf286eb6-aafc-49fb-f900-d3ef6fbcd48c@redhat.com>
+Date:   Fri, 1 Apr 2022 17:00:30 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: mmotm 2022-03-30-13-01 uploaded (drivers/platform/x86/amd-pmc.o)
+Content-Language: en-US
+To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "mhocko@suse.cz" <mhocko@suse.cz>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mm-commits@vger.kernel.org" <mm-commits@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>
+References: <20220330200158.2F031C340EC@smtp.kernel.org>
+ <5a0b94c3-406e-463e-d93e-d1dc2a260b47@infradead.org>
+ <BL1PR12MB5157D16702C349C2620AEE97E2E19@BL1PR12MB5157.namprd12.prod.outlook.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <BL1PR12MB5157D16702C349C2620AEE97E2E19@BL1PR12MB5157.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Jorge Lopez <jorge.lopez2@hp.com>
+Hi Mario,
 
-[ Upstream commit 520ee4ea1cc60251a6e3c911cf0336278aa52634 ]
+On 3/31/22 20:41, Limonciello, Mario wrote:
+> [AMD Official Use Only]
+> 
+>> -----Original Message-----
+>> From: Randy Dunlap <rdunlap@infradead.org>
+>> Sent: Thursday, March 31, 2022 10:51
+>> To: Andrew Morton <akpm@linux-foundation.org>; broonie@kernel.org;
+>> mhocko@suse.cz; sfr@canb.auug.org.au; linux-next@vger.kernel.org; linux-
+>> fsdevel@vger.kernel.org; linux-mm@kvack.org; linux-
+>> kernel@vger.kernel.org; mm-commits@vger.kernel.org; platform-driver-
+>> x86@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com>
+>> Subject: Re: mmotm 2022-03-30-13-01 uploaded (drivers/platform/x86/amd-
+>> pmc.o)
+>>
+>>
+>>
+>> On 3/30/22 13:01, Andrew Morton wrote:
+>>> The mm-of-the-moment snapshot 2022-03-30-13-01 has been uploaded to
+>>>
+>>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fww
+>> w.ozlabs.org%2F~akpm%2Fmmotm%2F&amp;data=04%7C01%7Cmario.limo
+>> nciello%40amd.com%7Caa3aae02b7b6437c46ea08da132e4222%7C3dd8961fe
+>> 4884e608e11a82d994e183d%7C0%7C0%7C637843386674652995%7CUnknown
+>> %7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+>> WwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=WpfXOyTRBgvqCj3iZ%2BJjXVTb
+>> V%2FUWDP4ds5XtDfa5bPc%3D&amp;reserved=0
+>>>
+>>> mmotm-readme.txt says
+>>>
+>>> README for mm-of-the-moment:
+>>>
+>>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fww
+>> w.ozlabs.org%2F~akpm%2Fmmotm%2F&amp;data=04%7C01%7Cmario.limo
+>> nciello%40amd.com%7Caa3aae02b7b6437c46ea08da132e4222%7C3dd8961fe
+>> 4884e608e11a82d994e183d%7C0%7C0%7C637843386674652995%7CUnknown
+>> %7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+>> WwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=WpfXOyTRBgvqCj3iZ%2BJjXVTb
+>> V%2FUWDP4ds5XtDfa5bPc%3D&amp;reserved=0
+>>>
+>>> This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
+>>> more than once a week.
+>>>
+>>> You will need quilt to apply these patches to the latest Linus release (5.x
+>>> or 5.x-rcY).  The series file is in broken-out.tar.gz and is duplicated in
+>>>
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fozla
+>> bs.org%2F~akpm%2Fmmotm%2Fseries&amp;data=04%7C01%7Cmario.limon
+>> ciello%40amd.com%7Caa3aae02b7b6437c46ea08da132e4222%7C3dd8961fe4
+>> 884e608e11a82d994e183d%7C0%7C0%7C637843386674652995%7CUnknown
+>> %7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1ha
+>> WwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=adnYHchdMvieQ0lCqQ1er1jhHA
+>> UMomgFpaWBo%2BMnINk%3D&amp;reserved=0
+>>>
+>>
+>> on x86_64:
+>> when CONFIG_SUSPEND is not set:
+>>
+>> drivers/platform/x86/amd-pmc.o: in function `amd_pmc_remove':
+>> amd-pmc.c:(.text+0x11d): undefined reference to
+>> `acpi_unregister_lps0_dev'
+>> ld: drivers/platform/x86/amd-pmc.o: in function `amd_pmc_probe':
+>> amd-pmc.c:(.text+0x20be): undefined reference to `acpi_register_lps0_dev'
+>>
+>>
+>>
+>> --
+>> ~Randy
+> 
+> AFAICT you're missing 20e1d6402a71dba7ad2b81f332a3c14c7d3b939b.
 
-The purpose of this patch is to introduce a fix and removal of the
-current hack when determining tablet mode status.
+That is unlikely since the whole series got merged through
+the pdx86/for-next branch, so either some other tree
+has the whole series or none of it.
 
-Determining the tablet mode status requires reading Byte 0 bit 2 as
-reported by HPWMI_HARDWARE_QUERY.  The investigation identified the
-failure was rooted in two areas: HPWMI_HARDWARE_QUERY failure (0x05)
-and reading Byte 0, bit 2 only to determine the table mode status.
-HPWMI_HARDWARE_QUERY WMI failure also rendered the dock state value
-invalid.
+Also note that Randy wrote:
 
-The latest changes use SMBIOS Type 3 (chassis type) and WMI Command
-0x40 (device_mode_status) information to determine if the device is
-in tablet mode or not.
+"when CONFIG_SUSPEND is not set"
 
-hp_wmi_hw_state function was split into two functions;
-hp_wmi_get_dock_state and hp_wmi_get_tablet_mode.  The new functions
-separate how dock_state and tablet_mode is handled in a cleaner
-manner.
+The problem is that all of drivers/acpi/x86/s2idle.c is
+wrapped by #ifdef CONFIG_SUSPEND ... #endif
 
-All changes were validated on a HP ZBook Workstation notebook,
-HP EliteBook x360, and HP EliteBook 850 G8.
+Since AFAIK the whole amd-pmc driver's whole purpose
+is to allow s2idle to work properly. I think this can
+be fixed by simply doing:
 
-Signed-off-by: Jorge Lopez <jorge.lopez2@hp.com>
-Link: https://lore.kernel.org/r/20220310210853.28367-3-jorge.lopez2@hp.com
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/platform/x86/hp-wmi.c | 71 +++++++++++++++++++++++++----------
- 1 file changed, 52 insertions(+), 19 deletions(-)
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -198,7 +198,7 @@ config ACER_WMI
+ 
+ config AMD_PMC
+ 	tristate "AMD SoC PMC driver"
+-	depends on ACPI && PCI && RTC_CLASS
++	depends on ACPI && SUSPEND && PCI && RTC_CLASS
+ 	help
+ 	  The driver provides support for AMD Power Management Controller
+ 	  primarily responsible for S2Idle transactions that are driven from
 
-diff --git a/drivers/platform/x86/hp-wmi.c b/drivers/platform/x86/hp-wmi.c
-index 027a1467d009..6bdf0606f6e6 100644
---- a/drivers/platform/x86/hp-wmi.c
-+++ b/drivers/platform/x86/hp-wmi.c
-@@ -33,10 +33,6 @@ MODULE_LICENSE("GPL");
- MODULE_ALIAS("wmi:95F24279-4D7B-4334-9387-ACCDC67EF61C");
- MODULE_ALIAS("wmi:5FB7F034-2C63-45e9-BE91-3D44E2C707E4");
- 
--static int enable_tablet_mode_sw = -1;
--module_param(enable_tablet_mode_sw, int, 0444);
--MODULE_PARM_DESC(enable_tablet_mode_sw, "Enable SW_TABLET_MODE reporting (-1=auto, 0=no, 1=yes)");
--
- #define HPWMI_EVENT_GUID "95F24279-4D7B-4334-9387-ACCDC67EF61C"
- #define HPWMI_BIOS_GUID "5FB7F034-2C63-45e9-BE91-3D44E2C707E4"
- 
-@@ -86,6 +82,7 @@ enum hp_wmi_commandtype {
- 	HPWMI_FEATURE2_QUERY		= 0x0d,
- 	HPWMI_WIRELESS2_QUERY		= 0x1b,
- 	HPWMI_POSTCODEERROR_QUERY	= 0x2a,
-+	HPWMI_SYSTEM_DEVICE_MODE	= 0x40,
- 	HPWMI_THERMAL_PROFILE_QUERY	= 0x4c,
- };
- 
-@@ -182,6 +179,19 @@ struct rfkill2_device {
- static int rfkill2_count;
- static struct rfkill2_device rfkill2[HPWMI_MAX_RFKILL2_DEVICES];
- 
-+/*
-+ * Chassis Types values were obtained from SMBIOS reference
-+ * specification version 3.00. A complete list of system enclosures
-+ * and chassis types is available on Table 17.
-+ */
-+static const char * const tablet_chassis_types[] = {
-+	"30", /* Tablet*/
-+	"31", /* Convertible */
-+	"32"  /* Detachable */
-+};
-+
-+#define DEVICE_MODE_TABLET	0x06
-+
- /* map output size to the corresponding WMI method id */
- static inline int encode_outsize_for_pvsz(int outsize)
- {
-@@ -292,14 +302,39 @@ static int hp_wmi_read_int(int query)
- 	return val;
- }
- 
--static int hp_wmi_hw_state(int mask)
-+static int hp_wmi_get_dock_state(void)
- {
- 	int state = hp_wmi_read_int(HPWMI_HARDWARE_QUERY);
- 
- 	if (state < 0)
- 		return state;
- 
--	return !!(state & mask);
-+	return !!(state & HPWMI_DOCK_MASK);
-+}
-+
-+static int hp_wmi_get_tablet_mode(void)
-+{
-+	char system_device_mode[4] = { 0 };
-+	const char *chassis_type;
-+	bool tablet_found;
-+	int ret;
-+
-+	chassis_type = dmi_get_system_info(DMI_CHASSIS_TYPE);
-+	if (!chassis_type)
-+		return -ENODEV;
-+
-+	tablet_found = match_string(tablet_chassis_types,
-+				    ARRAY_SIZE(tablet_chassis_types),
-+				    chassis_type) >= 0;
-+	if (!tablet_found)
-+		return -ENODEV;
-+
-+	ret = hp_wmi_perform_query(HPWMI_SYSTEM_DEVICE_MODE, HPWMI_READ,
-+				   system_device_mode, 0, sizeof(system_device_mode));
-+	if (ret < 0)
-+		return ret;
-+
-+	return system_device_mode[0] == DEVICE_MODE_TABLET;
- }
- 
- static int __init hp_wmi_bios_2008_later(void)
-@@ -448,7 +483,7 @@ static ssize_t als_show(struct device *dev, struct device_attribute *attr,
- static ssize_t dock_show(struct device *dev, struct device_attribute *attr,
- 			 char *buf)
- {
--	int value = hp_wmi_hw_state(HPWMI_DOCK_MASK);
-+	int value = hp_wmi_get_dock_state();
- 	if (value < 0)
- 		return value;
- 	return sprintf(buf, "%d\n", value);
-@@ -457,7 +492,7 @@ static ssize_t dock_show(struct device *dev, struct device_attribute *attr,
- static ssize_t tablet_show(struct device *dev, struct device_attribute *attr,
- 			   char *buf)
- {
--	int value = hp_wmi_hw_state(HPWMI_TABLET_MASK);
-+	int value = hp_wmi_get_tablet_mode();
- 	if (value < 0)
- 		return value;
- 	return sprintf(buf, "%d\n", value);
-@@ -579,10 +614,10 @@ static void hp_wmi_notify(u32 value, void *context)
- 	case HPWMI_DOCK_EVENT:
- 		if (test_bit(SW_DOCK, hp_wmi_input_dev->swbit))
- 			input_report_switch(hp_wmi_input_dev, SW_DOCK,
--					    hp_wmi_hw_state(HPWMI_DOCK_MASK));
-+					    hp_wmi_get_dock_state());
- 		if (test_bit(SW_TABLET_MODE, hp_wmi_input_dev->swbit))
- 			input_report_switch(hp_wmi_input_dev, SW_TABLET_MODE,
--					    hp_wmi_hw_state(HPWMI_TABLET_MASK));
-+					    hp_wmi_get_tablet_mode());
- 		input_sync(hp_wmi_input_dev);
- 		break;
- 	case HPWMI_PARK_HDD:
-@@ -660,19 +695,17 @@ static int __init hp_wmi_input_setup(void)
- 	__set_bit(EV_SW, hp_wmi_input_dev->evbit);
- 
- 	/* Dock */
--	val = hp_wmi_hw_state(HPWMI_DOCK_MASK);
-+	val = hp_wmi_get_dock_state();
- 	if (!(val < 0)) {
- 		__set_bit(SW_DOCK, hp_wmi_input_dev->swbit);
- 		input_report_switch(hp_wmi_input_dev, SW_DOCK, val);
- 	}
- 
- 	/* Tablet mode */
--	if (enable_tablet_mode_sw > 0) {
--		val = hp_wmi_hw_state(HPWMI_TABLET_MASK);
--		if (val >= 0) {
--			__set_bit(SW_TABLET_MODE, hp_wmi_input_dev->swbit);
--			input_report_switch(hp_wmi_input_dev, SW_TABLET_MODE, val);
--		}
-+	val = hp_wmi_get_tablet_mode();
-+	if (!(val < 0)) {
-+		__set_bit(SW_TABLET_MODE, hp_wmi_input_dev->swbit);
-+		input_report_switch(hp_wmi_input_dev, SW_TABLET_MODE, val);
- 	}
- 
- 	err = sparse_keymap_setup(hp_wmi_input_dev, hp_wmi_keymap, NULL);
-@@ -1028,10 +1061,10 @@ static int hp_wmi_resume_handler(struct device *device)
- 	if (hp_wmi_input_dev) {
- 		if (test_bit(SW_DOCK, hp_wmi_input_dev->swbit))
- 			input_report_switch(hp_wmi_input_dev, SW_DOCK,
--					    hp_wmi_hw_state(HPWMI_DOCK_MASK));
-+					    hp_wmi_get_dock_state());
- 		if (test_bit(SW_TABLET_MODE, hp_wmi_input_dev->swbit))
- 			input_report_switch(hp_wmi_input_dev, SW_TABLET_MODE,
--					    hp_wmi_hw_state(HPWMI_TABLET_MASK));
-+					    hp_wmi_get_tablet_mode());
- 		input_sync(hp_wmi_input_dev);
- 	}
- 
--- 
-2.34.1
+
+If you agree, please submit a patch with this change and I'll queue it
+up in my fixes branch.
+
+Regards,
+
+Hans
 
