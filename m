@@ -2,181 +2,116 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4394F1D78
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Apr 2022 23:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB1324F1D7D
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Apr 2022 23:39:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382586AbiDDVb1 (ORCPT
+        id S1382601AbiDDVbd (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Mon, 4 Apr 2022 17:31:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34300 "EHLO
+        Mon, 4 Apr 2022 17:31:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380392AbiDDT6d (ORCPT
+        with ESMTP id S1380585AbiDDUiZ (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Mon, 4 Apr 2022 15:58:33 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC9B2FE42;
-        Mon,  4 Apr 2022 12:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649102196; x=1680638196;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=qVd2+lCgjElgVwX9Ld2sTZVzh1JVcgMBp6qK+c5LCoo=;
-  b=cCdp8jrmCBythpZyyT6LT89aC5fwDremHSG/wm+26i64/4TyA8S+31Cg
-   cQtlBlHddCIOlAbrBjUHGwwImYJmVAZOBJbavQWHIxpgKcsQIxaZvOjly
-   kx/K7fHyHIVBXOsLm/n1l7fF7UeWC3kLn/+DKcKx/EWCrOrPB/IEFXDKf
-   U6EK/YGD/0fatA4/Kkp0vj0w+SZ995FwAflTTZU0IWNi0XfEVPpAHIres
-   yMDjhz7TvvK7YL4OeMGw36BXLPibzVsH4Bq3gvtjDsCp+GR1WpxTTwFtL
-   vD4yrZAFAafHJIQYhvL5aTVH7Is9eiFlhLYJ3FBOkVZtBW6uUAuAUNx75
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="241183795"
-X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; 
-   d="scan'208";a="241183795"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2022 12:56:36 -0700
-X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; 
-   d="scan'208";a="721773941"
-Received: from skokoori-mobl1.amr.corp.intel.com (HELO [10.209.7.74]) ([10.209.7.74])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2022 12:56:35 -0700
-Message-ID: <aece84e1-2c90-2c18-993a-96f8fed7bb46@linux.intel.com>
-Date:   Mon, 4 Apr 2022 12:56:35 -0700
+        Mon, 4 Apr 2022 16:38:25 -0400
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7310B25EB8
+        for <platform-driver-x86@vger.kernel.org>; Mon,  4 Apr 2022 13:36:28 -0700 (PDT)
+Received: by mail-oo1-xc2b.google.com with SMTP id s203-20020a4a3bd4000000b003191c2dcbe8so1939242oos.9
+        for <platform-driver-x86@vger.kernel.org>; Mon, 04 Apr 2022 13:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ENHVJgFHLd5cojLCsO6sZBsvevegw/gYfgyEPsPFGI=;
+        b=e452IM5tjil1XP+V1459oaXJhZTHkzE1+i/f/SadBCl+pC3hN73PyLsh8mxrDba61c
+         Y1c6kRH1A6tYRl+jjY+xAeNXzsiUmWf+77/LMTWadj3CstbG0GumFXHltwRcaH/KNNDn
+         Ll9NBONVbO4ei0wxUCraPzPc9WkseEM8ys6vWaxc+EYZe847iZjD86MK8sWF5dl6KPHZ
+         fSwNhB7tloRj7DVmvAIS+u01y+hpjxwfm0mF+IUWCyLnlyOCCWOtFxVtHB9h2y9xANhf
+         vreum75dy6Yh3GTGSZMda9D+zDlR3+kWiHjpCw45IRSlKg9YiJAZN5pZyx9idorqrPqx
+         nPWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ENHVJgFHLd5cojLCsO6sZBsvevegw/gYfgyEPsPFGI=;
+        b=uhKDSD/NIhLK9UEb5ChdSq8T4u9ZOOT2QkgBLFil5CYQzGeAKM8bT+tyPTQIRqjx7r
+         8BBCiseQItFC0D1AI5wbQJc8T9T4qAZGGSz73b6HNxdtkxDuu+PFYVj72MILgpF1rTCW
+         yxW2I56oQkNuth9zsBVDQXOwpIjzzU1fgT8ha+yR2oxbCay8KIspxBb+FVGv9C75LLRI
+         RBUELhKAGOR+e1kL85rLLTiR1xk7dAb+Yh6MToNBqtsfBaykkAU9ug/a+Tyqb+LsZiZJ
+         x0QxbfFFx5WL4+6w4zPeOMHUlvLg4FUQUpDwFZa1x96OTRjBjGdJKpKPPuYZro76bkJq
+         KDcg==
+X-Gm-Message-State: AOAM533ezLgDAxAq1yNgjatBy/UoziYOWKbnspaj6y47FxXjMYItGgYU
+        o5VYMpi/icaEkpvTZiP4Eod5Js5Tyrs=
+X-Google-Smtp-Source: ABdhPJznj4myV61szOLJKEK+IwskjPu56JEd9ngkyeUbwDZsWUdC4cJ9S41WnGkbSoaigX3C0bnfPw==
+X-Received: by 2002:a4a:c449:0:b0:320:f8ac:8f88 with SMTP id h9-20020a4ac449000000b00320f8ac8f88mr34193ooq.94.1649104587622;
+        Mon, 04 Apr 2022 13:36:27 -0700 (PDT)
+Received: from grumpy-vm.hsd1.tx.comcast.net ([2601:2c3:480:7390:c57b:f63e:33f5:caed])
+        by smtp.gmail.com with ESMTPSA id u20-20020a4a9e94000000b003291f6ac4b2sm3765786ook.28.2022.04.04.13.36.26
+        for <platform-driver-x86@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 13:36:27 -0700 (PDT)
+From:   Jorge Lopez <jorgealtxwork@gmail.com>
+X-Google-Original-From: Jorge Lopez <jorge.lopez2@hp.com>
+To:     platform-driver-x86@vger.kernel.org
+Subject: [PATCH v1 0/6] HP WMI Security Features
+Date:   Mon,  4 Apr 2022 15:36:20 -0500
+Message-Id: <20220404203626.4311-1-jorge.lopez2@hp.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [PATCH v2 5/6] platform/x86: intel_tdx_attest: Add TDX Guest
- attestation interface driver
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Mark Gross <mgross@linux.intel.com>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>, linux-kernel@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <cover.1648664666.git.sathyanarayanan.kuppuswamy@intel.com>
- <054b22e81e88379a5a8459c19e89a335531c1bdd.1648664666.git.sathyanarayanan.kuppuswamy@intel.com>
- <8308a830-3096-3f94-4f12-5fd2c290524e@redhat.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <8308a830-3096-3f94-4f12-5fd2c290524e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hi Hans,
+These set of patches include new driver support of HP Security Features,
+documentation, and other minor changes.
 
-On 4/4/22 3:07 AM, Hans de Goede wrote:
->> +static int __init tdx_attest_init(void)
->> +{
->> +	dma_addr_t handle;
->> +	long ret = 0;
->> +
->> +	mutex_lock(&attestation_lock);
->> +
->> +	ret = misc_register(&tdx_attest_device);
->> +	if (ret) {
->> +		pr_err("misc device registration failed\n");
->> +		mutex_unlock(&attestation_lock);
->> +		return ret;
->> +	}
-> Why not do this as the last thing of the probe?
+These changes include  documentation for three new security features
+introduced in the hp-wmi driver. The security features include
+Secure Platform, Management, Sure Admin, and Sure Start.
+Each documentation section provides security feature description,
+identifies sysfs directories, and files exposed by the driver.
 
-We need misc device reference in dma_alloc_coherent() and
-dma_set_coherent_mask() calls. This is the reason for keeping
-misc_register() at the beginining of the init function.
+Sure Admin allows the user to configure the system to use a Sure Admin
+cryptographic signature-based authorization string that the BIOS will
+use to verify authorization to modify the setting.
+    
+Sure Start provides advanced firmware protection and resiliency by
+identifying and repairing unauthorized BIOS changes.  
 
-> 
-> That will avoid the need to unregister this again in all
-> the error-exit paths and also fixes a possible deadlock.
-> 
+Secure Platform Management (SPM)  replaces older password-based BIOS settings
+management with public key cryptography.  PC secure product management
+begins when a target system is provisioned with cryptographic keys that
+are used to ensure the integrity of communications between system
+management utilities and the BIOS.
 
-Agree. But, unless we create another device locally, I don't
-think we can avoid this. Do you prefer this approach?
+Lastly, changes were introduced in preparation to submission of three
+security features.  The addition of hp_wmi_groups will simplify the
+integration of driver security features.
+    
 
-> Right now you possibly have:
-> 
-> 1. probe() locks attestation_lock
-> 2. probe() registers misc-device
-> 3. userspace calls tdx_attest_ioctl
-> 4. tdx_attest_ioctl blocks waiting for attestastion_lock
-> 5. Something goes wrong in probe, probe calls
->     misc_deregister()
-> 6. misc_deregister waits for the ioctl to finish
-> 7. deadlock
-> 
-> I'm not sure about 6, but if 6 does not happen then
-> instead we now have tdx_attest_ioctl running
-> after the misc_deregister, with tdquote_data and
-> tdreport_data as NULL, or pointing to free-ed memory
-> leading to various crash scenarios.
+Jorge Lopez (6):
+  Correct code style related issues in hp-wmi
+  Update hp_wmi_group to simplify feature addition
+  Secure Platform Management Security Feature
+  Sure Start Security Feature
+  Sure Admin Security Feature
+  HP Security Features Documentation
 
-Makes sense. But as I have mentioned above, we have reason
-for keeping the misc_register() at the begining of the
-init function.
-
-One way to avoid this deadlock is to use global initalization
-check.
-
---- a/drivers/platform/x86/intel/tdx/intel_tdx_attest.c
-+++ b/drivers/platform/x86/intel/tdx/intel_tdx_attest.c
-@@ -48,6 +48,8 @@ static void *tdreport_data;
-  /* DMA handle used to allocate and free tdquote DMA buffer */
-  dma_addr_t tdquote_dma_handle;
-
-+static bool device_initialized;
-+
-  static void attestation_callback_handler(void)
-  {
-         complete(&attestation_done);
-@@ -60,6 +62,9 @@ static long tdx_attest_ioctl(struct file *file, 
-unsigned int cmd,
-         struct tdx_gen_quote tdquote_req;
-         long ret = 0;
-
-+       if (!device_initialized)
-+               return -ENODEV;
-+
-         mutex_lock(&attestation_lock);
-
-         switch (cmd) {
-@@ -191,6 +196,8 @@ static int __init tdx_attest_init(void)
-
-         mutex_unlock(&attestation_lock);
-
-+       device_initialized = true;
-+
-         pr_debug("module initialization success\n");
-
-         return 0;
-
-Please let me know your comment on above solution.
-
-> 
-> TL;DR: you must always delay registering any
-> interfaces for userspace until your code is
-> ready to deal with userspace calls.
-> 
-> Regards,
-> 
-> Hans
-> 
-> p.s.
-> 
-> As I mentioned with v1:
-> 
-> 
+ .../ABI/testing/sysfs-platform-hp-wmi         |   96 ++
+ Documentation/admin-guide/hp_wmi.rst          |  141 ++
+ Documentation/admin-guide/index.rst           |    1 +
+ drivers/platform/x86/hp-wmi.c                 | 1298 ++++++++++++++++-
+ 4 files changed, 1535 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-hp-wmi
+ create mode 100644 Documentation/admin-guide/hp_wmi.rst
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.25.1
+
