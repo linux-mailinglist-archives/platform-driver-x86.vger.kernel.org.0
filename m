@@ -2,101 +2,72 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6824F0CCC
-	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Apr 2022 00:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A914F0D41
+	for <lists+platform-driver-x86@lfdr.de>; Mon,  4 Apr 2022 02:25:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376570AbiDCWig (ORCPT
+        id S230157AbiDDA1K (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Sun, 3 Apr 2022 18:38:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
+        Sun, 3 Apr 2022 20:27:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235976AbiDCWif (ORCPT
+        with ESMTP id S242059AbiDDA1J (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Sun, 3 Apr 2022 18:38:35 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B05338A9;
-        Sun,  3 Apr 2022 15:36:39 -0700 (PDT)
-Received: from zn.tnic (p2e55dff8.dip0.t-ipconnect.de [46.85.223.248])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2F42A1EC0391;
-        Mon,  4 Apr 2022 00:36:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1649025394;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=eMvdZnfzb84eh5dWY4TzFYh9Frtp7zqamDf5CXupNkM=;
-        b=qLYRjOZFCK73aydb1ooMD6X4B+P98cVazZIfNLdnYyD7gZFRuAbpHOpLeeAM9FEC823+Fh
-        5jZdiwZChRI+Kq3SqLnpSFMdOa9MydIt6EBGltDndX67UbC9WN48YxzmySIKGht2KnZXaR
-        iOJvH6NqgbcHyTTjT+kWS3n+QUTvJ9k=
-Date:   Mon, 4 Apr 2022 00:36:30 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Brijesh Singh <brijesh.singh@amd.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        brijesh.ksingh@gmail.com, tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com
-Subject: Re: [PATCH v11 00/45] Add AMD Secure Nested Paging (SEV-SNP) Guest
- Support
-Message-ID: <YkohbveUq3lItqpl@zn.tnic>
-References: <20220224165625.2175020-1-brijesh.singh@amd.com>
- <Yh99pBI/RwZY1yf7@nazgul.tnic>
- <519f5e8e-18d1-43ac-ef90-0320d21c3a55@redhat.com>
- <Yh+YAWu3K4xBillV@nazgul.tnic>
+        Sun, 3 Apr 2022 20:27:09 -0400
+X-Greylist: delayed 310 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 03 Apr 2022 17:25:14 PDT
+Received: from mta-out-02.alice.it (mta-out-02.alice.it [217.169.118.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BEEB438DB4
+        for <platform-driver-x86@vger.kernel.org>; Sun,  3 Apr 2022 17:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1649031914; 
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        h=Reply-To:From:To:Date:Message-ID:MIME-Version;
+        b=jk9nfgNRTom0G3RNVAh+gw2JMK8bqmt6K0gVt28eypxcx5SjZsVP/0B7GTB7sT3WSKFCnmAsB2CkAuGP9Dz2AntwitYKN5IBJ1SzeIyjAkXKfyUFKhMN35AuwwS217BWSsDVOBXBPcaEQaRzQa43XZiDCmn5bvbZyS/84hWHoQdtlMt0LQyZRAaPiS3iiaO4IdwynFnq+8UtY3BNYPoIoek+O5d/al6ZgD0HMbnaJ0g3+/6VzlFovHUoimGW7CMxz8NiFiMTuhR9MQG8axHwFS4DD+JoYdUguV/c05t+QNu6LFb/ZnpVIuQeaufvIg5UynVnDmvJv4z9sBPFtnf4+g==
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudejuddgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffgvefqoffkvfetnffktedpqfgfvfenuceurghilhhouhhtmecufedtudenucfgmhhpthihuchsuhgsjhgvtghtucdluddtmdengfhmphhthicusghougihucdlhedtmdenucfjughrpehrhffvfffkggestddtfedttddttdenucfhrhhomhephggvuchhrghvvgcurghnuchofhhfvghruchtohcuihhnvhgvshhtuchinhcuhihouhhrucgtohhunhhtrhihuchunhguvghrucgruchjohhinhhtuchvvghnthhurhgvuchprghrthhnvghrshhhihhpuchplhgvrghsvgcurhgvphhlhicufhhorhcumhhorhgvucguvghtrghilhhsuceofhgpphgvnhhnrgesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeehjeetgefhleetiedtkeelfffgjeeugeegleekueffgfegtdekkeeifedvvdffteenucfkphepudejiedrvddvjedrvdegvddrudeltdenucevlhhushhtvghrufhiiigvpeduheeijeenucfrrghrrghmpehhvghloheprghlihgtvgdrihhtpdhinhgvthepudejiedrvddvjedrvdegvddrudeltddpmhgrihhlfhhrohhmpehfpghpvghnnhgrsegrlhhitggvrdhithdpnhgspghrtghpthhtohepuddprhgtphhtthhopehplhgrthhfohhrmhdqughrihhvvghrqdigkeeisehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-RazorGate-Vade-Verdict: clean 60
+X-RazorGate-Vade-Classification: clean
+Received: from alice.it (176.227.242.190) by mta-out-02.alice.it (5.8.807.04) (authenticated as f_penna@alice.it)
+        id 623C9D0B0107DB1F for platform-driver-x86@vger.kernel.org; Mon, 4 Apr 2022 02:20:02 +0200
+Reply-To: dougfield20@inbox.lv
+From:   We have an offer to invest in your country under a
+         joint venture partnership please reply for more
+         details <f_penna@alice.it>
+To:     platform-driver-x86@vger.kernel.org
+Date:   03 Apr 2022 17:20:01 -0700
+Message-ID: <20220403172001.EF24DF747A207A8D@alice.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yh+YAWu3K4xBillV@nazgul.tnic>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.6 required=5.0 tests=BAYES_50,BODY_EMPTY,
+        DKIM_INVALID,DKIM_SIGNED,EMPTY_MESSAGE,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,MISSING_SUBJECT,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
+        *       low trust
+        *      [217.169.118.8 listed in list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5223]
+        *  0.9 RCVD_IN_MSPIKE_L3 RBL: Low reputation (-3)
+        *      [217.169.118.8 listed in bl.mailspike.net]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [dougfield20[at]inbox.lv]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [f_penna[at]alice.it]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 RCVD_IN_MSPIKE_BL Mailspike blacklisted
+        *  1.8 MISSING_SUBJECT Missing Subject: header
+        *  2.3 EMPTY_MESSAGE Message appears to have no textual parts and no
+        *      Subject: text
+        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
+        *  0.0 BODY_EMPTY No body text in message
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Wed, Mar 02, 2022 at 05:14:57PM +0100, Borislav Petkov wrote:
-> On Wed, Mar 02, 2022 at 05:09:34PM +0100, Paolo Bonzini wrote:
-> > Sure: https://git.kernel.org/pub/scm/virt/kvm/kvm.git, branch svm-for-snp.
-> > 
-> > $ git log -4 --oneline --reverse
-> > 3c95d3fab229 KVM: SVM: Define sev_features and vmpl field in the VMSA
-> > 0c86f9cf27f7 KVM: SVM: Create a separate mapping for the SEV-ES save area
-> > c5e0ec4c742d KVM: SVM: Create a separate mapping for the GHCB save area
-> > 88c955d1fc93 (HEAD -> kvm/svm-for-snp) KVM: SVM: Update the SEV-ES save area mapping
-> 
-> Thanks!
-
-Err, wasn't this supposed to go to Linus this merge window?
-
-I don't see it...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
