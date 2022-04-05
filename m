@@ -2,226 +2,209 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4FF44F5115
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 04:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 086944F510B
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 04:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1844694AbiDFBvX (ORCPT
+        id S1844595AbiDFBu1 (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Apr 2022 21:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49192 "EHLO
+        Tue, 5 Apr 2022 21:50:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1447557AbiDEPqr (ORCPT
+        with ESMTP id S1457635AbiDEQWx (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Apr 2022 11:46:47 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05ABFC4E24;
-        Tue,  5 Apr 2022 07:22:04 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id n35so8069579wms.5;
-        Tue, 05 Apr 2022 07:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=RWfziD1iE8jpxwMBFUUhmMTU0THg9AB/El7kcr/8qtk=;
-        b=ffMhxHKve3Xfau+zWOeJA2bLzajuE66dfmgnxUk1ZyDguCAY2M5qml3GD91KTP2OW7
-         23kz3N6lBAtVQGzunoCCcR33WhE7ytaChRIB8vaY4ZvH2NEP8EYCHmymotygN1Dsh9rQ
-         heJqW3WTozMnNxqCiaMUWY1ZM/D5cCSq0NpBbp5eoMjmggFOKlBjF0dSkUjXReBPL2QX
-         umnODX1upo7IYL34c4jmeKtgXAsHSWfLWEMxOYc/TdDARtZfAy/NpFtKjrU4JiFK/VZb
-         DvsLVBy61HhunHfN7JzS8Ccoup3oS290noh+1DDkmqwaSOT8sxdc4xUbItViqNmRitnl
-         Fpug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=RWfziD1iE8jpxwMBFUUhmMTU0THg9AB/El7kcr/8qtk=;
-        b=ceGBLZeLSlcVJUCw9401tDVWqxCD1BY2NwuHiIw44HZduej7rk4KLh56EqA4EkpRgY
-         7ZviS3Y5gj+CYLrCh+C0EY6TQCbd+UV5MRTStkRC2B6wzrvrcZlC/GwPr16Sc8WoxSsH
-         cDI+Wm0QNio690xKw13UQpMSeNXeYacZev2BGs3qazIcEbedy9odr8UYfqAKWjWptW9E
-         wdGRnuCweHtf44GTtCQZkzk7ur3joyC9LDJ0UCJeqSNSVsMMe4U+cDWdtewWfQt0mtEP
-         clGZsmFJAoW8uwgctjZGTMhF7wWeK9TdmzDYFAQtt46P3nPaJ5m5IrAwyJLD6QuTDQ8J
-         0aNA==
-X-Gm-Message-State: AOAM531KUCe7GtFXEnS8sI9Idm7uM+mRyFZprWBgwP6iiXhDwJucbmBG
-        +xLvZy1LaM+mauWZ9QPc/0U=
-X-Google-Smtp-Source: ABdhPJzCu0G/jMu35urMh3AzZYiLEhWgmcJyFoD04BpeJxIaKbnExsIu81RtAgrUsWJ2kwjJxyrK0w==
-X-Received: by 2002:a1c:f70a:0:b0:37c:533d:d296 with SMTP id v10-20020a1cf70a000000b0037c533dd296mr3237662wmh.147.1649168523281;
-        Tue, 05 Apr 2022 07:22:03 -0700 (PDT)
-Received: from [192.168.0.14] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
-        by smtp.gmail.com with ESMTPSA id y15-20020a056000168f00b002057a9f9f5csm14991631wrd.31.2022.04.05.07.22.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Apr 2022 07:22:02 -0700 (PDT)
-Message-ID: <6b8fe162-91ff-291d-ffe5-22f44930eb77@gmail.com>
-Date:   Tue, 5 Apr 2022 15:22:01 +0100
-MIME-Version: 1.0
+        Tue, 5 Apr 2022 12:22:53 -0400
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2058.outbound.protection.outlook.com [40.107.96.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F2C86C90A;
+        Tue,  5 Apr 2022 09:20:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WjF6HRH6dR1+mHmBEq+V7t0DEgEtKGfjPaS7E8q4BGRjJVbtbUDqzovngEzJnsMXhXNUFx7kni0jxEySaigbMlE9LEASlwQ1okTDvNfqD2tsWP3aevS9qPVEaIxAtU4e2dsyZgKbMGgvIDC4vlg14yzdi3mFFDsp67gXkSotMUWfKY+BZqX9PmPiHGVf3vo5Yprw6seJ4czDFEVVnln6rNGukz+CWDtPwKqwU6t5Vri4V7iy9/E7l2hWbBepnjLbRrhnabaQui1D4RslbPoXaTzYzN8A3d/zhpNuBB5FnAYMR4f3uJ0UhL84XLH93vtrkA51fbgO5L/UTMBnmC1S2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ynhe7eYng/QaKo7iCaJ2WaZ6r2eKliiiKTg3vJqk4gQ=;
+ b=HPIcuCo43XaQebFEiNDLlfRA2xMJVm5uNYWlwgL0m4afw21BO6DJImmuKeBOedjLFR8XeEjQ4rDbzMY4/69CBiQ/wDmdXuCLjyLhXQNTzGBwai0nFw3zIYOPCBBPJECihBGcCmK4X/vxrrZbBbZlXyleUfRyiegfRUhRW01vNsvrqKF/obQbBUixX4MvjigSKFLkLaH6UC6dyKXfX9bj9SuMOR6phvfeFGIx8/1qDs/51OfC8T3lZHMeWmZhr0iVInjEFAmvesxGbTBc07l2YxbbtcmFl5H5GUjLr8FAXdoPYT3zTGSxG29KtGyac/BfQrudWs+oFpNc8Ud9T0ofiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ynhe7eYng/QaKo7iCaJ2WaZ6r2eKliiiKTg3vJqk4gQ=;
+ b=dZPfWal+xnw6NA35mh6puAgQL1Nuz3q6oeT5h8CFvYhZZbhv6CaYl65UPKm1GIz85VsB6tkyxaCfQFmcVDV27lNJkKN0PNwtkNq5kWudVdYRg4uU5AaJsiDSYdhDcyjOJJBYVqWyslmyjivVMurs72MuwR+tu8qYmzzhaE9ZaRg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by CY4PR12MB1430.namprd12.prod.outlook.com (2603:10b6:903:3e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
+ 2022 16:20:51 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::449d:764d:4b2a:1c1d]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::449d:764d:4b2a:1c1d%4]) with mapi id 15.20.5123.031; Tue, 5 Apr 2022
+ 16:20:51 +0000
+Message-ID: <f4369605-7c8d-1a89-bd0e-b82710d0772a@amd.com>
+Date:   Tue, 5 Apr 2022 11:20:46 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/5] ACPI: scan: Add acpi_dev_get_next_consumer_dev()
+Cc:     brijesh.singh@amd.com, x86@kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-coco@lists.linux.dev, linux-mm@kvack.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Dov Murik <dovmurik@linux.ibm.com>,
+        Tobin Feldman-Fitzthum <tobin@ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Michael Roth <michael.roth@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+        brijesh.ksingh@gmail.com, tony.luck@intel.com, marcorr@google.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com
+Subject: Re: [PATCH v12 22/46] x86/sev: Use SEV-SNP AP creation to start
+ secondary CPUs
 Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Robert Moore <robert.moore@intel.com>
-References: <20220327161344.50477-1-djrscally@gmail.com>
- <20220327161344.50477-2-djrscally@gmail.com>
- <CAJZ5v0i2ciLHP-=8eQcZc0v0xCzhKHKpxLC=Kgv6W5E_5=HQJA@mail.gmail.com>
-From:   Daniel Scally <djrscally@gmail.com>
-In-Reply-To: <CAJZ5v0i2ciLHP-=8eQcZc0v0xCzhKHKpxLC=Kgv6W5E_5=HQJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Sean Christopherson <seanjc@google.com>
+References: <20220307213356.2797205-1-brijesh.singh@amd.com>
+ <20220307213356.2797205-23-brijesh.singh@amd.com>
+ <YkuMTdckSgSB9M6f@google.com>
+From:   Brijesh Singh <brijesh.singh@amd.com>
+In-Reply-To: <YkuMTdckSgSB9M6f@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BLAPR03CA0119.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::34) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 09c1fb79-b199-4e1a-5053-08da17204050
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1430:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB143026E8610656E369B39F68E5E49@CY4PR12MB1430.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CAAX8uVETB2lQP/KChQEbNPHR8boqlHQzZFoJMxq4ovmT7mFAjphKhp4tbIJw3nh1cIuYXKJilgr+7sqwNdw8YRfWJIT8g/S8C69t8ezHqrIIQOD86CkBbuLush3+GYIAwi4gmcMkD/N4qC7c2sev9Qhz+yM8ooTdOPPEK0QWwLFwaQyr3z7NlvYd8Xa56hhJ7FvAOV0IYEFEjZ+TsCbouvFfi19NkMnnj/PAJ9cUJV4/lAwUlphsCkUBBrXY0tZ+SpWtYESftoKJcdHjZYmsQe/oM/w6Kd6uigvzKTTUVtQOAeEKgl8FThpAfXu2NDa9shIMQd7Fj3Q697GgrQ73SUhFz+OuDtaF8Zsdf1TEV55JOoU/w8mGudK1PbLKWXpH/utzIcvXyg+OP6Zd+7EawWlrpJmKNI7TiklEyU8HDuHT9JXXfQ41dzpbC2YC1bK57IvIdUjc7ZjOtGlI8eGQ/5+4BvR703m2FL7oeYFKaerLzstaecjjNOyEg9kJAjL8qwMV0V/HTpdTd4azW9z0KoH8Eg0m6eaHG732tIe80WisxApi27mWptTqwkE+g7C8Bjj8vHLvNEdSmxC2J7CCtpNDy/mWvmVaGW55OWq/CbwvPqwgnb0BdsRWHpgCVRBViaIOKUHcwikL6PW9e6KzqImm0xilvvh0AAsL3laoxzYdD1cz6bPF6GcvIkPWInl8hThf055m4RvqvPqaaJe1PMb0armL22PbhvpMehZ6NDw20KbBF2tpqs+Z4/2Gb6+MZlXv5wvHApcbv80SvRLn02Ni2yTKfNgXanvWTEbJxo5ogetcfNbzlONZWlmhW3y0cAjGvDM0irNTN0MzNZ9FA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2718.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6486002)(508600001)(53546011)(6506007)(31686004)(86362001)(83380400001)(5660300002)(6916009)(966005)(8936002)(38100700002)(2616005)(54906003)(2906002)(36756003)(66946007)(45080400002)(7406005)(31696002)(66556008)(8676002)(316002)(26005)(66476007)(6512007)(6666004)(7416002)(4326008)(44832011)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXNMWFhjdXNNcS82V3l3QnBzTkkrMXUrMTlMYlRIY0k0ZU96OXFlcVhDSXdR?=
+ =?utf-8?B?RFBCck55VGFSOWNPTzdBeHZZMTdFN3pvWGY5UHJxNWZFeGdzSkxXelBldG9W?=
+ =?utf-8?B?cUp0S1Bla0owdGpGS3dTYkFqUEc2RUtuVmUvYWRneFJKbFBDSkpOd3Vkc2FT?=
+ =?utf-8?B?amhwWnJXb2Jkd1pJSmlWR0RwcGR2cWswb3RjeDdVM0lEdm10bzBSSEdYeFN3?=
+ =?utf-8?B?UnZmdEY5M2tnYkcrSFNyc082VUhXcEI5ZUZnbU51d3pTbkNJY1VORGIzZUc3?=
+ =?utf-8?B?ZlJxbTdSYWpYUUtaNk1HUE9iL3ErR0o3ZHV4QWRtM1JBZENoWCt5cC9oaE1U?=
+ =?utf-8?B?NGZSYWZUS25BWGpHWHFOZDVXVVlVV3BvNUZHem9GREl2YWJKaE1mbTF5Y0E4?=
+ =?utf-8?B?S0pCV2NMV2hsWjJVWFJST24wTC8wTnZYUzYvY0NWVVg0YmNTWW8zNDBHckhK?=
+ =?utf-8?B?RTY4OFZMSWdoQ3Vadk5uNlE5TE5rUjBMR1lzc3U5eDExNEJZOU9EL1RwU0FV?=
+ =?utf-8?B?K3VuaEw2WW40VThFYTVVN0J5anNKQ0hLMmFSTXJiNCtxOE94MExBUWpHMGhx?=
+ =?utf-8?B?N0dRS3pGRnlSU1hDL1FzMmdWQkZoSHdOSUlJVFJOZC9aRFp4bDlxNzRWZmlj?=
+ =?utf-8?B?OHFhK3FqTGtqSkE2S0pOMDdvMEx0ZVB2aGpHSldnTmpzYWQ4WEt6Yy9uZzYv?=
+ =?utf-8?B?Q1NPMld2MTNDalB0MEtuczVpZngraGppRzJFMitpVkVrekhhc1BDRjJvN0dG?=
+ =?utf-8?B?WDNoY2pLQkQ1TnJUMVBiRURyazUvbFc3Q3lCQlhtOXhSa2JaYXVhVVA0QlY3?=
+ =?utf-8?B?Y25QbHJTV1A4RmQyQkQzazNWc25TV01NQWJuOTdpZmtFR2FGOGhhaUd2cVRN?=
+ =?utf-8?B?UEF2UmZTNytMVXZDaFdlWCt0eCtyWGhoYXJBRzdYOEdBREx5NmNhRG94alpZ?=
+ =?utf-8?B?dzd0NytvVllaUjI1N29CdlZJTjdtdXUzb2JQclRpak00YVREaUY2TldwWWVa?=
+ =?utf-8?B?MERTbFMxVzNjZ2pIRHFKR3czaWhnZ2JVZWNUQTdVajd2SHAyK0pjeXdOM0da?=
+ =?utf-8?B?Mis1S3RRV0tFTFF5OXFCd2U5VjNDbGJOU0ZKQyt0TWM1L0ltdHpJdGQwOUtC?=
+ =?utf-8?B?KzhIQmwxN3pScU1UQkovNzZRSGE4eHFtanVsbll4WWZWc2ZKbUJOU1BaWHd1?=
+ =?utf-8?B?ZEh6aWFvSHR0M2tlUldpb2dEcUQ3d3IwVjFFZk1idlNwQVZYQ0svYW9JWkdS?=
+ =?utf-8?B?aXpiZ1VuaW1MeHNUaEg4R0w0TFpKdnlYY2tBbUVKdzh3dWtUTmNQUXB1Y01P?=
+ =?utf-8?B?Zkl4TE05dlJrZmlscDd5NEx0a0U5L0xnQUVjZDFRaDFaYVoyM1FIVlNwWDRi?=
+ =?utf-8?B?dUVnbmxCWTJwZWQrZTVxdEdOOTRpckJlWjB0ZnhyZ3hCSHVLcVFucmlZMzVi?=
+ =?utf-8?B?MmZuS3dsSkJtT0F6cWl3QzZjWmlMMXpQSHdWVlFZY3d6WUhtUHhkUStJVmZp?=
+ =?utf-8?B?QXVKOWZ6eWI3MGFvWUxlWXh4NWg5Z3MzNGg3cTF5dmZxNzVXRDdhRURWL21B?=
+ =?utf-8?B?S3VSZlB5MkorekFNd2RzbDVRbXI4NnlWZUt1OFAxNGsybEhiTkdYWTBUZDFW?=
+ =?utf-8?B?YkhnQ0dmRk14eWVkS2pUZ05Gb1RoSm9hUkEwVVRrWnh3ZHhhRU9wNmkzS0Iw?=
+ =?utf-8?B?VFlIbi9wS3VZbUJRQXA1SUR1NGFiS1hPVnNGbjJ6NTcybGl4VVpJcGZINnhl?=
+ =?utf-8?B?eUZMdU0wb3F6anpNOHBoaERlVGljNHRLdzBheW5VTmQvRmxtL25lSmdzWC9M?=
+ =?utf-8?B?eWRoVmNNUFdiZ3JmNksrNTRaYitvVWVjU2xvcTBXSUtVTGpYMDE5QUVJUmNW?=
+ =?utf-8?B?WkNXQW9aNUpnWnR0UmdtUE1LQnFEeURYZWlOeUxEWmovWEdXbTZLeHU3NjI3?=
+ =?utf-8?B?Y0RpOEI4OGw0dWt3N0RXc1Byai80bm1kRTRZTEQveGFCUEthZTF0OGlCL0JB?=
+ =?utf-8?B?Vk9CTng5SDRuUU0xUTNUdzBkKzFXb3VCb0YrdFExZzVOcXZXcC95VHZtR0FF?=
+ =?utf-8?B?cFRHMkVQbVBnUEZjMEU3RmgwQStaMnV5SXdxT3lmQUp0VXMrVVhEa2wxWnNn?=
+ =?utf-8?B?SWljL29tSVduZmljUWhRcE0yakIvUHFBWW1YOHVBQXFCMkVTc0YyS2ZEMjY0?=
+ =?utf-8?B?UG1QVWhXYWN3Q1JBWlVmbGc3OGg1WmdGMzM5NHh0N2I3MHVSVlI3WG80VjJt?=
+ =?utf-8?B?aFdjSzdGcjZTNkFxMVNEMFdyWVlwT2d5d3BKeFRxVUh6K3ZrSzBDQkhoaEJK?=
+ =?utf-8?B?QWhGUU1NUzJIZVduTDVUbEMrbFFnVjlzRjgwQ2VJY1RUZkVEWmNJZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09c1fb79-b199-4e1a-5053-08da17204050
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 16:20:51.5962
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JK3puR3O15EGO5WEkML2+HHtM6TMvZ0SovL8tHMKMk009J4Ia2CheeD4h2bndRsvE5o7GzIUy5nfWUDx8DRo6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1430
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-Hello
+Hi Sean,
 
-On 05/04/2022 13:57, Rafael J. Wysocki wrote:
-> On Sun, Mar 27, 2022 at 6:13 PM Daniel Scally <djrscally@gmail.com> wrote:
->> In commit b83e2b306736 ("ACPI: scan: Add function to fetch dependent
->> of ACPI device") we added a means of fetching the first device to
->> declare itself dependent on another ACPI device in the _DEP method.
->> One assumption in that patch was that there would only be a single
->> consuming device, but this has not held.
->>
->> Replace that function with a new function that fetches the next consumer
->> of a supplier device. Where no "previous" consumer is passed in, it
->> behaves identically to the original function.
->>
->> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->> ---
->> Changes in v2:
->>
->>         - Removed acpi_dev_get_first_consumer_dev() entirely
->>
->>  drivers/acpi/scan.c                         | 37 +++++++++++++++------
->>  drivers/platform/x86/intel/int3472/common.c |  2 +-
->>  include/acpi/acpi_bus.h                     |  4 ++-
->>  3 files changed, 30 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
->> index 010ef0b28374..8797e4a33674 100644
->> --- a/drivers/acpi/scan.c
->> +++ b/drivers/acpi/scan.c
->> @@ -2215,9 +2215,21 @@ static void acpi_bus_attach(struct acpi_device *device, bool first_pass)
->>                 device->handler->hotplug.notify_online(device);
->>  }
->>
->> -static int acpi_dev_get_first_consumer_dev_cb(struct acpi_dep_data *dep, void *data)
->> +static int acpi_dev_get_next_consumer_dev_cb(struct acpi_dep_data *dep, void *data)
->>  {
->> -       struct acpi_device *adev;
->> +       struct acpi_device *adev = *(struct acpi_device **)data;
-> I would prefer
->
-> struct acpi_device **adev_p = data;
-> struct acpi_device *adev = *adev_p;
+On 4/4/22 19:24, Sean Christopherson wrote:
 
-
-This and the below are fine for me; I'll send a v3
-
->
+>> +static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
+>> +{
+>> +	int err;
 >> +
->> +       /*
->> +        * If we're passed a 'previous' consumer device then we need to skip
->> +        * any consumers until we meet the previous one, and then NULL @data
->> +        * so the next one can be returned.
->> +        */
->> +       if (adev) {
->> +               if (dep->consumer == adev->handle)
->> +                       *(struct acpi_device **)data = NULL;
->                       *adev_p = NULL;
->
->> +
->> +               return 0;
->> +       }
->>
->>         adev = acpi_bus_get_acpi_device(dep->consumer);
->>         if (adev) {
->> @@ -2348,25 +2360,28 @@ bool acpi_dev_ready_for_enumeration(const struct acpi_device *device)
->>  EXPORT_SYMBOL_GPL(acpi_dev_ready_for_enumeration);
->>
->>  /**
->> - * acpi_dev_get_first_consumer_dev - Return ACPI device dependent on @supplier
->> + * acpi_dev_get_next_consumer_dev - Return the next adev dependent on @supplier
->>   * @supplier: Pointer to the dependee device
->> + * @start: Pointer to the current dependent device
->>   *
->> - * Returns the first &struct acpi_device which declares itself dependent on
->> + * Returns the next &struct acpi_device which declares itself dependent on
->>   * @supplier via the _DEP buffer, parsed from the acpi_dep_list.
->>   *
->> - * The caller is responsible for putting the reference to adev when it is no
->> - * longer needed.
->> + * If the returned adev is not passed as @start to this function, the caller is
->> + * responsible for putting the reference to adev when it is no longer needed.
->>   */
->> -struct acpi_device *acpi_dev_get_first_consumer_dev(struct acpi_device *supplier)
->> +struct acpi_device *acpi_dev_get_next_consumer_dev(struct acpi_device *supplier,
->> +                                                  struct acpi_device *start)
->>  {
->> -       struct acpi_device *adev = NULL;
->> +       struct acpi_device *adev = start;
->>
->>         acpi_walk_dep_device_list(supplier->handle,
->> -                                 acpi_dev_get_first_consumer_dev_cb, &adev);
->> +                                 acpi_dev_get_next_consumer_dev_cb, &adev);
->>
->> -       return adev;
->> +       acpi_dev_put(start);
->> +       return adev == start ? NULL : adev;
-> And here
->
-> if (adev == start)
->         return NULL;
->
-> return adev;
->
->>  }
->> -EXPORT_SYMBOL_GPL(acpi_dev_get_first_consumer_dev);
->> +EXPORT_SYMBOL_GPL(acpi_dev_get_next_consumer_dev);
->>
->>  /**
->>   * acpi_bus_scan - Add ACPI device node objects in a given namespace scope.
->> diff --git a/drivers/platform/x86/intel/int3472/common.c b/drivers/platform/x86/intel/int3472/common.c
->> index 77cf058e4168..9db2bb0bbba4 100644
->> --- a/drivers/platform/x86/intel/int3472/common.c
->> +++ b/drivers/platform/x86/intel/int3472/common.c
->> @@ -62,7 +62,7 @@ int skl_int3472_get_sensor_adev_and_name(struct device *dev,
->>         struct acpi_device *sensor;
->>         int ret = 0;
->>
->> -       sensor = acpi_dev_get_first_consumer_dev(adev);
->> +       sensor = acpi_dev_get_next_consumer_dev(adev, NULL);
->>         if (!sensor) {
->>                 dev_err(dev, "INT3472 seems to have no dependents.\n");
->>                 return -ENODEV;
->> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
->> index 2f93ecf05dac..cdc726d251b6 100644
->> --- a/include/acpi/acpi_bus.h
->> +++ b/include/acpi/acpi_bus.h
->> @@ -696,7 +696,9 @@ bool acpi_dev_hid_uid_match(struct acpi_device *adev, const char *hid2, const ch
->>
->>  void acpi_dev_clear_dependencies(struct acpi_device *supplier);
->>  bool acpi_dev_ready_for_enumeration(const struct acpi_device *device);
->> -struct acpi_device *acpi_dev_get_first_consumer_dev(struct acpi_device *supplier);
->> +struct acpi_device *acpi_dev_get_next_consumer_dev(struct acpi_device *supplier,
->> +                                                  struct acpi_device *start);
->> +
->>  struct acpi_device *
->>  acpi_dev_get_next_match_dev(struct acpi_device *adev, const char *hid, const char *uid, s64 hrv);
->>  struct acpi_device *
->> --
->> 2.25.1
->>
+>> +	err = snp_set_vmsa(vmsa, false);
+> 
+> Uh, so what happens if a malicious guest does RMPADJUST to convert a VMSA page
+> back to a "normal" page while the host is trying to VMRUN that VMSA?  Does VMRUN
+> fault?
+
+When SEV-SNP is enabled, the VMRUN instruction performs an additional 
+security checks on various memory pages. In the case of VMSA page, 
+hardware enforce that page is marked as "VMSA" in the RMP table. If not, 
+  VMRUN will fail with VMEXIT_INVALID.
+
+After the VMRUN is successful, the VMSA page is marked IN_USE by the 
+hardware, any attempt to modify the RMP entries will result in 
+FAIL_INUSE error. The IN_USE marking is automatically cleared by the 
+hardware after the #VMEXIT.
+
+Please see the APM vol2 section 15.36.12 for additional information.
+
+> 
+> Can Linux refuse to support this madness and instead require the ACPI MP wakeup
+> protocol being proposed/implemented for TDX?  That would allow KVM to have at
+
+My two cents
+
+In the current architecture, the HV track VMSAs by their SPA and guest 
+controls when they are runnable. It provides flexibility to the guest, 
+which can add and remove the VMSA. This flexibility may come in handy to 
+support the kexec and reboot use cases. The current approach does not 
+depend on ACPI; it will also come in handy to support microvm 
+(minimalist machine type without PCI nor ACPI support).
+
+
+> least a chance of refusing to support AP "creation", which IMO is a CVE or three
+> waiting to happen.  From a KVM perspective, I don't ever want to be running a
+> guest-defined VMSA.
+> 
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2FYWnbfCet84Vup6q9%40google.com&amp;data=04%7C01%7Cbrijesh.singh%40amd.com%7Ce6a0199ed3344529241208da169ab52b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637847150997306218%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=w1eo3vza4Txv6tcgB6aO1rCoYOygQvGwKZ1kajgCbpY%3D&amp;reserved=0
+> 
+>> +	if (err)
+>> +		pr_err("clear VMSA page failed (%u), leaking page\n", err);
+>> +	else
+>> +		free_page((unsigned long)vmsa);
+> 
