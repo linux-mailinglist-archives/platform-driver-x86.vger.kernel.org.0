@@ -2,182 +2,165 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84DF54F5111
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 04:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C8F4F5100
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 04:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1844675AbiDFBvA (ORCPT
+        id S231267AbiDFBuY (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Apr 2022 21:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43474 "EHLO
+        Tue, 5 Apr 2022 21:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1573699AbiDETnH (ORCPT
+        with ESMTP id S1388221AbiDEVxo (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Apr 2022 15:43:07 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEBED13D49
-        for <platform-driver-x86@vger.kernel.org>; Tue,  5 Apr 2022 12:41:07 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id f3so434448pfe.2
-        for <platform-driver-x86@vger.kernel.org>; Tue, 05 Apr 2022 12:41:07 -0700 (PDT)
+        Tue, 5 Apr 2022 17:53:44 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347859BB99;
+        Tue,  5 Apr 2022 14:08:01 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id n6-20020a17090a670600b001caa71a9c4aso727554pjj.1;
+        Tue, 05 Apr 2022 14:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mSWn+bwJl0JXyj3IYwZGhRTiDd7qYXvMXLFtGw/g+rg=;
-        b=AlCCPq+JKrSyY6/MdAWK+LJuFWEhXLOG2iRM8eu949iBowZOgYJpjjEZpvcwItS8+d
-         FEsIJdYmNNMsbMLSdUVjIs4nmz5vT7bZ7g0IC7PS/W33SVLgyOhPMKVc1hrkM/ybgdzd
-         i2jtISpWLxcxVWQR/Nn5bREeHtnuDwJpw37LvO7wCQo11vKt0AwUemLOuwYj1VFxKVXR
-         hMIICCbOonqXvUjzSbqP4umdws0neDr1awH1mbCXQOE1HRfpfmMRHUA++iIBc/IcROVl
-         uvLnKsuTqIOV5nEgg1TUvo47C8T7k/JqnB0mapIqQiPSvV58KN+OHoUlSQjUoTb3h1mP
-         6oAw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mWNZR3xN77lNH2+vVDvTz9kvxP5RMITjN/TwsKnJ1EE=;
+        b=CE3++kpN4KX/5Ou/GyMP/XDiEd+sD6aWdaoMGXv4koz7pe5HZ3O9oNn0BbHievdDsy
+         gRraAn36CY5Vma4XfiauMtY8wBad6zfiIwOLvsgMPNq34HhD0KfoXxurSjEIE0UMZOh5
+         x8ksydmWAW8+HpNcMCEsxinGUGHuP1Jv8ovCsgtALHsghN1aQjvLZBBXbppcdTVOx6Bh
+         QjPyZ58k/nITx+UVSjKoUladchE217a6C0hJOL9lrDJLGnTwgsl5K/mVqM2ezfa4okJN
+         i4q1U+ZWc/7iBEMJWWgn0WhzhFlyP3sgMJ51d7vVHuQUQB4ChLywUpZFRO0mJ0S59wAg
+         2qHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mSWn+bwJl0JXyj3IYwZGhRTiDd7qYXvMXLFtGw/g+rg=;
-        b=B+odhhOt2mWg1WRjuf6TsuohMNNVg1nn9QNJJSv5JLE6muFFqZpRAObhz64itxD5cb
-         oqKNd1La/wWjFGBnAo/oSh+Sky2ZNtIB/4N2P7x0EaS3OWUnYZP9DJp77OK6u/n8NXGi
-         x9HNBDPxpqKSfV7VoWnsOTL/EpIwwXijNv1BsHLTjgqUTiVSeZaWt5IoMOZbIUOKvwun
-         yt4rMVk6XYJrmGvhKDR2yP/Fb45UURkFr0Xshpui98suXeiMYh7q7hHo+DPDj4aFMPOP
-         VLYVz64CVF4pzig8Qa31dxWb43mkRxfi4iudwSg+Zp/9GOCr57o/Nb/1U9dKz2bEfjOd
-         KP5g==
-X-Gm-Message-State: AOAM532x58MPatyXYTtKE/Ys0xYZCTe8Y6arf2eS5h2XPv8tq69DM4FW
-        EBWal+OwCnNk/q2dI76fq/KN1g==
-X-Google-Smtp-Source: ABdhPJwz4yMK7s1pjudVER/qr9fFsGeQA/N/GsijRhlaiArSrhqko6pULldJx680awQe2eXzGIRGzw==
-X-Received: by 2002:a05:6a00:1828:b0:4fd:e0e5:6115 with SMTP id y40-20020a056a00182800b004fde0e56115mr5257368pfa.52.1649187666833;
-        Tue, 05 Apr 2022 12:41:06 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id j9-20020aa78009000000b004fde2dd78b0sm11969754pfi.109.2022.04.05.12.41.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mWNZR3xN77lNH2+vVDvTz9kvxP5RMITjN/TwsKnJ1EE=;
+        b=IiFYvgclppjNyhpV/J48Icn5yiBtdXfU+YfPySCJiP/US4XOfxFAAF6z7MgRCSYjJg
+         xpzDsbCfLaR5KcgSIjaVFG1f9XhG7LDy0eOIs5/k5Bt1n/2kAMneQNJdaqdHWFtpsqIt
+         8SNtWX+YUxXA7gMa+XMU/QTQF8qcOPSjQuX2CLrEG7KbLDYVAiGCoci4n4EfoGVd5LOL
+         0+niRQqYAiM5pt+aZgEOuZd4oAVGeXr2NdWlBd5lboiErjmyGl05RKqrqpT2QMrsuECE
+         jksatC1Mk1Lx5dRAN50aA7h0awRkH8NCretItbhxW86sx4k8BGbpf/xT0tRby3XZmQ7f
+         PFCg==
+X-Gm-Message-State: AOAM5337qpdkllexSWjAeepze6y2Vx0XgSJ2HbVszW9uXWfker1C2wE7
+        Ckmy91IcCZSV3eYWEyoP7yU=
+X-Google-Smtp-Source: ABdhPJy/JsdSFdDHguhmquGdEb4TaMTjGtBm4D+kWA4UKyn1DlVjMUH9Fy7l9i8vDn9GSpYiwsLeiQ==
+X-Received: by 2002:a17:90a:c3:b0:1ca:54c1:a684 with SMTP id v3-20020a17090a00c300b001ca54c1a684mr6138269pjd.148.1649192880749;
+        Tue, 05 Apr 2022 14:08:00 -0700 (PDT)
+Received: from jaschultz-Thelio-Major.corp.microsoft.com ([2001:4898:80e8:3:511c:41a7:57f7:f826])
+        by smtp.gmail.com with ESMTPSA id k22-20020aa788d6000000b004faaf897064sm16240010pff.106.2022.04.05.14.07.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 12:41:06 -0700 (PDT)
-Date:   Tue, 5 Apr 2022 19:41:02 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Brijesh Singh <brijesh.singh@amd.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-coco@lists.linux.dev, linux-mm@kvack.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Joerg Roedel <jroedel@suse.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Sergio Lopez <slp@redhat.com>, Peter Gonda <pgonda@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Dov Murik <dovmurik@linux.ibm.com>,
-        Tobin Feldman-Fitzthum <tobin@ibm.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Michael Roth <michael.roth@amd.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-        brijesh.ksingh@gmail.com, tony.luck@intel.com, marcorr@google.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com
-Subject: Re: [PATCH v12 22/46] x86/sev: Use SEV-SNP AP creation to start
- secondary CPUs
-Message-ID: <YkybTnVYBKZ1zvz6@google.com>
-References: <20220307213356.2797205-1-brijesh.singh@amd.com>
- <20220307213356.2797205-23-brijesh.singh@amd.com>
- <YkuMTdckSgSB9M6f@google.com>
- <f4369605-7c8d-1a89-bd0e-b82710d0772a@amd.com>
+        Tue, 05 Apr 2022 14:08:00 -0700 (PDT)
+From:   Jarrett Schultz <jaschultzms@gmail.com>
+X-Google-Original-From: Jarrett Schultz <jaschultzMS@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
+        Jarrett Schultz <jaschultz@microsoft.com>
+Subject: [PATCH v5 0/4] platform: surface: Introduce Surface XBL Driver
+Date:   Tue,  5 Apr 2022 14:07:46 -0700
+Message-Id: <20220405210750.619511-1-jaschultzMS@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f4369605-7c8d-1a89-bd0e-b82710d0772a@amd.com>
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-On Tue, Apr 05, 2022, Brijesh Singh wrote:
-> Hi Sean,
->
-> On 4/4/22 19:24, Sean Christopherson wrote:
->
-> > > +static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
-> > > +{
-> > > + int err;
-> > > +
-> > > + err = snp_set_vmsa(vmsa, false);
-> >
-> > Uh, so what happens if a malicious guest does RMPADJUST to convert a VMSA page
-> > back to a "normal" page while the host is trying to VMRUN that VMSA?  Does VMRUN
-> > fault?
->
-> When SEV-SNP is enabled, the VMRUN instruction performs an additional
-> security checks on various memory pages. In the case of VMSA page, hardware
-> enforce that page is marked as "VMSA" in the RMP table. If not,  VMRUN will
-> fail with VMEXIT_INVALID.
->
-> After the VMRUN is successful, the VMSA page is marked IN_USE by the
-> hardware, any attempt to modify the RMP entries will result in FAIL_INUSE
-> error. The IN_USE marking is automatically cleared by the hardware after the
-> #VMEXIT.
->
-> Please see the APM vol2 section 15.36.12 for additional information.
+From: Jarrett Schultz <jaschultz@microsoft.com>
 
-Thanks!
+After v4, there were some suggestions to change the driver again to use
+nvmem that would include some other changes to the sm8150 dtsi. While
+the suggestions make sense, this driver was supposed to remain simple
+for the introduction in order to get it into the tree and I think that
+it would be best to implement those and any other suggestions in a future
+patch. Hopefully this patch is now in a state where it can be accepted.
+Thanks to all who have helped and been patient along the way, this was
+my first patch :)
 
-> > Can Linux refuse to support this madness and instead require the ACPI MP wakeup
-> > protocol being proposed/implemented for TDX?  That would allow KVM to have at
->
-> My two cents
->
-> In the current architecture, the HV track VMSAs by their SPA and guest
-> controls when they are runnable. It provides flexibility to the guest, which
-> can add and remove the VMSA. This flexibility may come in handy to support
-> the kexec and reboot use cases.
+~ Jarrett
 
-I understand it provides the guest flexibility, but IMO it completely inverts the
-separation of concerns between host and guest.  The host should have control of
-when a vCPU is added/removed and with what state, and the guest should be able to
-verify/acknowledge any changes.  This scheme gives the guest the bulk of the control,
-and doesn't even let the host verify much at all since the VMSA is opaque.
+---
 
-That the guest can yank the rug out from the host at any time just adds to the pain.
-VMEXIT_INVALID isn't the end of the world, but it breaks the assumption that such
-errors are host bugs.  To guard against such behavior, the host would have to unmap
-the VMSA page in order to prevent unwanted RMPADJUST, and that gets ugly fast if a
-VMSA can be any arbitrary guest page.
+Introduce the Surface Extensible Boot Loader driver for the Surface Duo.
+Exposes information about the driver to user space via sysfs for
+consumption in manufacturing mode.
 
-Another example is the 2mb alignment erratum.  Technically, the guest can't workaround
-the erratum with 100% certainty because there's no guarantee that the host uses the
-same alignment for gfns and pfns.  I don't actually expect a host to use unaligned
-mappings, just pointing out how backwards this is.
+---
 
-I fully realize there's basically zero chance of getting any of this changed in
-hardware/firmware, but I'm hoping we can concoct a software/GHCB solution to the
-worst issues.
+Changes in v5:
 
-I don't see an way easy to address the guest getting to shove state directly into
-the VMSA, but the location of the VMSA gfn/pfn is a very solvable problem.  E.g.
-the host gets full control over each vCPU's VMSA, and the host-provided VMSA is
-discoverable in the guest.  That allows the guest to change vCPU state, e.g. for AP
-bringup, kexec, etc..., but gives the host the ability to protect itself without
-having to support arbitrary VMSA pages.  E.g. the host can dynamically map/unmap the
-VMSA from the guest: map on fault, unmap on AP "creation", refuse to run the vCPU if
-its VMSA isn't in the unmap state.  The VMSA pfn is fully host controlled, so
-there's no need for the guest to be aware of the 2mb alignment erratum.
+ - Minor changes to yaml
 
-Requiring such GHCB extensions in the guest would make Linux incompatible with
-hypervisors that aren't updated, but IMO that's not a ridiculous ask given that
-it would be in the best interested of any hypervisor that isn't running a fully
-trusted, paravirt VMPL0.
+---
 
-> The current approach does not depend on
-> ACPI; it will also come in handy to support microvm (minimalist machine type
-> without PCI nor ACPI support).
+Changes in v4:
 
-Eh, a microvm really shouldn't need AP bringup in the first place, just run all
-APs from time zero and route them to where they need to be.
+ - Small binding definition changes
+ - Removed ACPI propagation from patch series since it has been
+   cherry-picked
+ - Fixed the Signed-off-by: and From: mismatch
+
+---
+
+Changes in v3:
+ - For the yaml documentation:
+    * Updated description
+    * Fixed examples
+    * Updated 'required' field
+ - Further propogated ACPI dependency in Kconfigs
+ - Updated sysfs several binding descriptions
+ - Renamed files to conform to naming conventions
+
+---
+
+Changes in v2:
+ - Per Maximilian, added patch 2: propagated ACPI dependency from the
+   directory as a whole to each individual driver
+ - For the yaml documentation:
+    * Removed json-schema dependence
+    * Elaborated on description of driver
+    * Updated example
+ - Changed target KernelVersion in sysfs documentation
+ - Updated MAINTAINER changes to be properly applied across patches
+ - For the driver itself,
+    * Added types.h inclusion and removed unused inclusions
+    * Minor updates to code and acronym style
+    * Remove __packed attribute on driver struct
+    * Use .dev_groups for sysfs
+ - Added more in-depth description of driver in Kconfig
+ - Modified dts to reference a newly added section in sm8150.dtsi
+
+---
+
+Jarrett Schultz (4):
+  dt-bindings: platform: microsoft: Document surface xbl
+  platform: surface: Add surface xbl
+  arm64: dts: qcom: sm8150: Add imem section
+  arm64: dts: qcom: surface-duo: Add surface xbl
+
+ .../ABI/testing/sysfs-platform-surface-xbl    |  79 ++++++++
+ .../platform/microsoft/surface-xbl.yaml       |  70 +++++++
+ MAINTAINERS                                   |   9 +
+ .../dts/qcom/sm8150-microsoft-surface-duo.dts |  10 +
+ arch/arm64/boot/dts/qcom/sm8150.dtsi          |   8 +
+ drivers/platform/surface/Kconfig              |  12 ++
+ drivers/platform/surface/Makefile             |   1 +
+ drivers/platform/surface/surface_xbl.c        | 186 ++++++++++++++++++
+ 8 files changed, 375 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-surface-xbl
+ create mode 100644 Documentation/devicetree/bindings/platform/microsoft/surface-xbl.yaml
+ create mode 100644 drivers/platform/surface/surface_xbl.c
+
+-- 
+2.25.1
+
