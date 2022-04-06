@@ -2,127 +2,118 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 168CA4F510F
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 04:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05CA04F5B3D
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 12:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1844609AbiDFBuo (ORCPT
+        id S230323AbiDFKUt (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Tue, 5 Apr 2022 21:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52566 "EHLO
+        Wed, 6 Apr 2022 06:20:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443250AbiDEWUP (ORCPT
+        with ESMTP id S1377512AbiDFKSm (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Tue, 5 Apr 2022 18:20:15 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4CE69D0CF;
-        Tue,  5 Apr 2022 14:08:09 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id m16so219376plx.3;
-        Tue, 05 Apr 2022 14:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AtngP8d0g0fi2Zi2weqgSY60agKP0OsKMyjizujaa74=;
-        b=LfOLR30Fdj30wr86t2iIVLaxJGwMJ0KBcQXZVtJQZJIuAQ8Dh19WNThfA4VM3e8Ytn
-         HHI932K10nMfwMEC5pKGCcpXIbQhoUUAeZ7kM/ocyYGDjfbhlE2kxs05NXewD7bjvSsR
-         D9hynn+MGRET238VbNLuq5BVeHdbUYOLyGte5DmT7aV8U+9np6LwuSt1YIFplqtQIDNX
-         i15w/TKzB5a5wKj1Di5WJubjB+JtFjMJhMhOOwEu+WTcWongNq1z3vcf0po9kZgSsfMB
-         PbABfib6Q9EU0H6CBfKw8JXF7f4veBaMVUKg5ETkjyUsmsFXWYeuNPYdBjjYco5gVtXr
-         jc3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AtngP8d0g0fi2Zi2weqgSY60agKP0OsKMyjizujaa74=;
-        b=sUnoq488stvnst/Exqho95ARNyfY9OsotaCO/44ivdLuC26cW+x9D4xYm1ySM/xBWc
-         C5fIOY5e4N1+3uJ/ztJ6NNhcs4MZGazk2bkHcI/ukK69PSIfoPxAUjzNjZY7zLwH4/Cp
-         tnYHtFc2BkBsdszHMlz9twZDNNHmeBtSfdDVJ8nZ1aKlJrcuOZOUPaeIovPjXzw5JwiN
-         IO22PzYwKulFG29my3jxqhO/zOQyT3gOvLjp7IAGF79tEZuQNkNbplqoHh79LzxoAuR+
-         g7bb+D4DoSGwa0v0NiaXzGzLliwXfltmJz7ysuUBQACJsTdNVXSd1xwzZnyYU2j6SdhT
-         bpMA==
-X-Gm-Message-State: AOAM531B8QY/HvXECu87ZVDJIyo/qJyPUgJu0xNhHGVvCBRi+n+29Gmw
-        PMJ9v9+iX29RZSG8iKYjkN8=
-X-Google-Smtp-Source: ABdhPJyxCwrKvkUu9M6Duz48XTcvyzgBHvz1hsRU6NdhZWIFqFIcpUkk9QddmT8Sm1NZVtSH0iPIyw==
-X-Received: by 2002:a17:90b:1bc6:b0:1c7:f32:3aa0 with SMTP id oa6-20020a17090b1bc600b001c70f323aa0mr6336718pjb.168.1649192889310;
-        Tue, 05 Apr 2022 14:08:09 -0700 (PDT)
-Received: from jaschultz-Thelio-Major.corp.microsoft.com ([2001:4898:80e8:3:511c:41a7:57f7:f826])
-        by smtp.gmail.com with ESMTPSA id k22-20020aa788d6000000b004faaf897064sm16240010pff.106.2022.04.05.14.08.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 14:08:08 -0700 (PDT)
-From:   Jarrett Schultz <jaschultzms@gmail.com>
-X-Google-Original-From: Jarrett Schultz <jaschultzMS@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Wed, 6 Apr 2022 06:18:42 -0400
+Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 930F023190E;
+        Tue,  5 Apr 2022 20:44:01 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=xuanzhuo@linux.alibaba.com;NM=1;PH=DS;RN=34;SR=0;TI=SMTPD_---0V9JmraU_1649216635;
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com fp:SMTPD_---0V9JmraU_1649216635)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 06 Apr 2022 11:43:56 +0800
+From:   Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To:     virtualization@lists.linux-foundation.org
+Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Mark Gross <markgross@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
-        Jarrett Schultz <jaschultz@microsoft.com>
-Subject: [PATCH v5 4/4] arm64: dts: qcom: surface-duo: Add surface xbl
-Date:   Tue,  5 Apr 2022 14:07:50 -0700
-Message-Id: <20220405210750.619511-5-jaschultzMS@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220405210750.619511-1-jaschultzMS@gmail.com>
-References: <20220405210750.619511-1-jaschultzMS@gmail.com>
+        Vadim Pasternak <vadimp@nvidia.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Vincent Whitchurch <vincent.whitchurch@axis.com>,
+        linux-um@lists.infradead.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
+        kvm@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH v9 04/32] virtio_ring: remove the arg vq of vring_alloc_desc_extra()
+Date:   Wed,  6 Apr 2022 11:43:18 +0800
+Message-Id: <20220406034346.74409-5-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20220406034346.74409-1-xuanzhuo@linux.alibaba.com>
+References: <20220406034346.74409-1-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
+X-Git-Hash: 881cb3483d12
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Jarrett Schultz <jaschultz@microsoft.com>
+The parameter vq of vring_alloc_desc_extra() is useless. This patch
+removes this parameter.
 
-Introduce device tree source for the surface xbl driver.
+Subsequent patches will call this function to avoid passing useless
+arguments.
 
-Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
-
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
+ drivers/virtio/virtio_ring.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Changes in v4:
- - N/A
-
----
-
-Changes in v3:
- - N/A
-
----
-
-Changes in v2:
- - Updated to reference an offset inside of imem
----
- .../boot/dts/qcom/sm8150-microsoft-surface-duo.dts     | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dts b/arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dts
-index 5901c28e6696..abb7964daac4 100644
---- a/arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dts
-@@ -430,6 +430,16 @@ &i2c19 {
- 	/* MAX34417 @ 0x1e */
- };
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index f1807f6b06a5..cb6010750a94 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -1636,8 +1636,7 @@ static void *virtqueue_detach_unused_buf_packed(struct virtqueue *_vq)
+ 	return NULL;
+ }
  
-+&imem {
-+	status = "okay";
-+
-+	xbl@a94 {
-+		compatible = "microsoft,sm8150-surface-duo-xbl";
-+		reg = <0xa94 0x100>;
-+		status = "okay";
-+	};
-+};
-+
- &pon {
- 	pwrkey {
- 		status = "okay";
+-static struct vring_desc_extra *vring_alloc_desc_extra(struct vring_virtqueue *vq,
+-						       unsigned int num)
++static struct vring_desc_extra *vring_alloc_desc_extra(unsigned int num)
+ {
+ 	struct vring_desc_extra *desc_extra;
+ 	unsigned int i;
+@@ -1755,7 +1754,7 @@ static struct virtqueue *vring_create_virtqueue_packed(
+ 	/* Put everything in free lists. */
+ 	vq->free_head = 0;
+ 
+-	vq->packed.desc_extra = vring_alloc_desc_extra(vq, num);
++	vq->packed.desc_extra = vring_alloc_desc_extra(num);
+ 	if (!vq->packed.desc_extra)
+ 		goto err_desc_extra;
+ 
+@@ -2233,7 +2232,7 @@ struct virtqueue *__vring_new_virtqueue(unsigned int index,
+ 	if (!vq->split.desc_state)
+ 		goto err_state;
+ 
+-	vq->split.desc_extra = vring_alloc_desc_extra(vq, vring.num);
++	vq->split.desc_extra = vring_alloc_desc_extra(vring.num);
+ 	if (!vq->split.desc_extra)
+ 		goto err_extra;
+ 
 -- 
-2.25.1
+2.31.0
 
