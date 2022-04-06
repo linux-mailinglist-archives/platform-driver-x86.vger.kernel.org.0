@@ -2,130 +2,130 @@ Return-Path: <platform-driver-x86-owner@vger.kernel.org>
 X-Original-To: lists+platform-driver-x86@lfdr.de
 Delivered-To: lists+platform-driver-x86@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E78CA4F6C2D
-	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 23:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5354F6CA5
+	for <lists+platform-driver-x86@lfdr.de>; Wed,  6 Apr 2022 23:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235385AbiDFVK4 (ORCPT
+        id S235781AbiDFV3r (ORCPT
         <rfc822;lists+platform-driver-x86@lfdr.de>);
-        Wed, 6 Apr 2022 17:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34890 "EHLO
+        Wed, 6 Apr 2022 17:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235082AbiDFVKs (ORCPT
+        with ESMTP id S236937AbiDFV2j (ORCPT
         <rfc822;platform-driver-x86@vger.kernel.org>);
-        Wed, 6 Apr 2022 17:10:48 -0400
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9FB4F9EA;
-        Wed,  6 Apr 2022 12:52:30 -0700 (PDT)
-Received: from pps.filterd (m0150241.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 236HOm2e032349;
-        Wed, 6 Apr 2022 19:51:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pps0720;
- bh=LeJpnDEr3epWjZgzgmr38Yn+CW3qOfLR6wVlG8e/Gbg=;
- b=jGIeIAzxVmdBs9MoPZAn8LUq2K94fAC7VMtP1Arp3MlbhOtJ1H/RPgT6nV/JFAqlvWt+
- MJoTnT61Oc6vFgm3pBrVzSKw9ou1vdg7h5ybt7Y09raJfOtaWLrxYAkoDQQfGltn3O4B
- EefFpDSUIUi7JEZjN19ayRhVVUgSh80aVBiVQBjwppKbPruz9IIz+6CTUkmRHFIKOS0D
- OFE2C8tGCd7JTRbTymw2dn0cZYKYu3n0q5Ke2oxDVg5fRJO1Ix9znGmRGyash6mvNfIh
- ur5BKzfsQSpYOviFxcZXNtNgOERv71xZ1TG/t6ny6REMSu4e5Y9niM5TMT3pIZvinMX2 Uw== 
-Received: from g9t5009.houston.hpe.com (g9t5009.houston.hpe.com [15.241.48.73])
-        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3f93m4q5eg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 06 Apr 2022 19:51:51 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
-        by g9t5009.houston.hpe.com (Postfix) with ESMTP id E78A766;
-        Wed,  6 Apr 2022 19:51:50 +0000 (UTC)
-Received: from dog.eag.rdlabs.hpecorp.net (dog.eag.rdlabs.hpecorp.net [128.162.243.181])
-        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id 4C0814A;
-        Wed,  6 Apr 2022 19:51:50 +0000 (UTC)
-Received: by dog.eag.rdlabs.hpecorp.net (Postfix, from userid 200934)
-        id CC39730090F7A; Wed,  6 Apr 2022 14:51:49 -0500 (CDT)
-From:   Steve Wahl <steve.wahl@hpe.com>
-To:     Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org
-Cc:     Mike Travis <mike.travis@hpe.com>, Steve Wahl <steve.wahl@hpe.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Russ Anderson <russ.anderson@hpe.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v4 3/3] x86/platform/uv: Log gap hole end size
-Date:   Wed,  6 Apr 2022 14:51:49 -0500
-Message-Id: <20220406195149.228164-4-steve.wahl@hpe.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220406195149.228164-1-steve.wahl@hpe.com>
-References: <20220406195149.228164-1-steve.wahl@hpe.com>
+        Wed, 6 Apr 2022 17:28:39 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2069.outbound.protection.outlook.com [40.107.243.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D7B1C2D81
+        for <platform-driver-x86@vger.kernel.org>; Wed,  6 Apr 2022 13:27:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XNIF/2DTZ3JEkvNYQ9YXsH/F92UZWYXPY1N6WMNrFPhEvWpWJ1XMksA+eIpOWJTueSehk4ETc7A/FraPgi71LL2JxxGflOvTkPepmAoHwBVRe1xqrkLnDamXjdqq4kjlwwcXrEWd5q+bj73rtTxAiU/GpqSUbzZudILCH1cW4aOyOo9qU49wrPcCXcflQx+pgLzBLMV94xqKSQHHjBTFiGBMqbbq3XrG8J3FLCQ/slx9ASmS5PDFrFiPoVK1csTkl+IBHmVWp+zxbUUU8j6NG6mqfUODS6AlaE6pBEYmNv4BVz3cjN10JI9alNNq2/iN5JfUcANkxJMDSW811v4wmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xRB+afLqmFbPV7vYy/ZPGjX/xIt6RETlk4hV48RZcGE=;
+ b=S/M6bCZNZQ6z7dnwiEVO+/tBAIYkgXCeRj8GXB1IlpRkw2RyOAvxfY7NBxcZ8PCHNTEB/sGlLuJBO8BgvEEbL//PM5tTTauJjsOpED6N8lV+EasASxRYoVgSOD8dORL4aivhtoiquAfsZzWTh5k226szYKliSIdlZd9kvaie5IfC29fKJapJ5jBajGQJhZ24vwH+HmOZPTqvdTXOTySd6PhiV0FwzS8jnPdG1U5Arww0ZxB+MEvbTjzJ3nEWOg5SCPrLWhX4Jwl1mAi7Z8yHFcS0s5r2HpJ0Ww6P9/zlTYYYyqQyozWXNfHDVsXfiG3sV0hJnqZK3xPlK0q5txGzrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xRB+afLqmFbPV7vYy/ZPGjX/xIt6RETlk4hV48RZcGE=;
+ b=ch6bX3Yu2b79ddz2UGzrA58sDR3zGj4DuhsxZ1zNiB92e2zZFIvI+Nv2UcJOyciNja56tZBzQQGukZ7pMZfzZaks0pSA5FnGM5JpYCv1Aw47nXW8oDcUmp9HJol9pJBhuQLE8hb6qfzGPEN2dGag3Ci3oHetEvpBWEGnBHf/1LQ=
+Received: from DM5PR12CA0062.namprd12.prod.outlook.com (2603:10b6:3:103::24)
+ by BYAPR12MB3335.namprd12.prod.outlook.com (2603:10b6:a03:dd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21; Wed, 6 Apr
+ 2022 20:27:05 +0000
+Received: from DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:103:cafe::63) by DM5PR12CA0062.outlook.office365.com
+ (2603:10b6:3:103::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21 via Frontend
+ Transport; Wed, 6 Apr 2022 20:27:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT054.mail.protection.outlook.com (10.13.173.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 20:27:04 +0000
+Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
+ 2022 15:27:03 -0500
+From:   Mario Limonciello <mario.limonciello@amd.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        "open list:X86 PLATFORM DRIVERS" 
+        <platform-driver-x86@vger.kernel.org>
+CC:     Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Goswami Sanket <Sanket.Goswami@amd.com>,
+        <rrangel@chromium.org>,
+        Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH 0/3] Decrease startup time for amd_pmc
+Date:   Wed, 6 Apr 2022 15:26:52 -0500
+Message-ID: <20220406202655.10710-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Htzs53Ie2KlJ7nFWu_3bcKDZLQlU8M-s
-X-Proofpoint-GUID: Htzs53Ie2KlJ7nFWu_3bcKDZLQlU8M-s
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-06_11,2022-04-06_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
- priorityscore=1501 mlxscore=0 mlxlogscore=962 bulkscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 spamscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204060098
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 263b2fba-28bd-49c3-6c20-08da180bd075
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3335:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB333525796F041EE0AF79E383E2E79@BYAPR12MB3335.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N/AOvDJ53ecAK9tVHmiD1KkwDzzvxW+ppfle0JcXsvrEvUsy72dGl+TOCnTE/lp12ozlyCQAazF8SVX0vkgzx6VOZmEedD5PQyLfBL5uWMDNlAh8YqtkyaBOA0CQHMXgUKTGCi65SbH2IG8DvDMkTeC+SfU2dQrtXPabkYRqPStmzQV0J4Xroqcu4tTj2iPt3f5gCruPIuMsOMgYeaBUGaAqZNDCcij1wUDNa5/pgYg4zBC06JGt+owCkMfA3uAVH4VV/OqDvNPdZSr2rpKJm37oTATUMDzAT6gHhcotKtXRJ65GNn7jLX6jEj4iVKaQ+Y9kscXh3WrVD5cgxzhwSrLR3g8VVMPEWYZ6Q5G6UMA0gxrYMHtAySRmlFkqeRDDDrEjmBDOx/IWWnITt3cHk1Pkb2lH28TjDnNJ6GgeliJ/+gMXCX/rmho55L7Sru1fnj0Y7lltj3n6hZvxXRfggs8LH3Op5Ou6As+8PI0vKwuxdKF6FUrNLAFKobJLId0xk4enGNYIepWqk6m3OnpiD0PyqBUe2amgfbf+nMTBxx2UXxNv3MmTK8Rk994AEBrnE1tfLS60KDY6FzF+pWCNPBi84PQEnSjELyvlgYkAmX5X7jEh5jhDALonOzOXf85E1uYEBIUFcqdFK2KpsxaxTYG4JYdn135I58UdYW+4c30vUeXh1ECoTCvdcZhCo+zgW6Q+S6nl47AyODQ4ECYf6Q==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(508600001)(26005)(2616005)(1076003)(16526019)(7696005)(47076005)(6666004)(83380400001)(186003)(40460700003)(5660300002)(2906002)(4744005)(44832011)(8936002)(336012)(426003)(82310400005)(54906003)(4326008)(316002)(110136005)(356005)(70206006)(70586007)(8676002)(36756003)(81166007)(86362001)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 20:27:04.6316
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 263b2fba-28bd-49c3-6c20-08da180bd075
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3335
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <platform-driver-x86.vger.kernel.org>
 X-Mailing-List: platform-driver-x86@vger.kernel.org
 
-From: Mike Travis <mike.travis@hpe.com>
+It was recently observed that one of the worst offenders for system
+startup delays was the amd_pmc driver. With 5.18-rc1 and measured
+with ftrace amd_pmc_probe spends about 116ms.  This is bonkers for
+what the init actually does.
 
-Show value of gap end in the kernel log which equates to number of physical
-address bits used by system.
+As a lot of the functionality that is slowing down startup is related
+to debugging mechanisms or conditional code that is executed during
+suspend, move it out of init.  This speeds up the startup to happen
+in ~1ms.
 
-Signed-off-by: Mike Travis <mike.travis@hpe.com>
-Signed-off-by: Steve Wahl <steve.wahl@hpe.com>
----
-v2: Update patch description to be more explanatory.
-v4: Clarify commit message
----
- arch/x86/kernel/apic/x2apic_uv_x.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+This is done at the expense that the first suspend or first time debug
+features are accessed it will be slower.  Those aren't critical path
+for a user turning on the machine though, so this is a reasonable tradeoff.
 
-diff --git a/arch/x86/kernel/apic/x2apic_uv_x.c b/arch/x86/kernel/apic/x2apic_uv_x.c
-index a6e9c2794ef5..482855227964 100644
---- a/arch/x86/kernel/apic/x2apic_uv_x.c
-+++ b/arch/x86/kernel/apic/x2apic_uv_x.c
-@@ -1346,7 +1346,7 @@ static void __init decode_gam_params(unsigned long ptr)
- static void __init decode_gam_rng_tbl(unsigned long ptr)
- {
- 	struct uv_gam_range_entry *gre = (struct uv_gam_range_entry *)ptr;
--	unsigned long lgre = 0;
-+	unsigned long lgre = 0, gend = 0;
- 	int index = 0;
- 	int sock_min = 999999, pnode_min = 99999;
- 	int sock_max = -1, pnode_max = -1;
-@@ -1380,6 +1380,9 @@ static void __init decode_gam_rng_tbl(unsigned long ptr)
- 			flag, size, suffix[order],
- 			gre->type, gre->nasid, gre->sockid, gre->pnode);
- 
-+		if (gre->type == UV_GAM_RANGE_TYPE_HOLE)
-+			gend = (unsigned long)gre->limit << UV_GAM_RANGE_SHFT;
-+
- 		/* update to next range start */
- 		lgre = gre->limit;
- 		if (sock_min > gre->sockid)
-@@ -1397,7 +1400,8 @@ static void __init decode_gam_rng_tbl(unsigned long ptr)
- 	_max_pnode	= pnode_max;
- 	_gr_table_len	= index;
- 
--	pr_info("UV: GRT: %d entries, sockets(min:%x,max:%x) pnodes(min:%x,max:%x)\n", index, _min_socket, _max_socket, _min_pnode, _max_pnode);
-+	pr_info("UV: GRT: %d entries, sockets(min:%x,max:%x), pnodes(min:%x,max:%x), gap_end(%d)\n",
-+	  index, _min_socket, _max_socket, _min_pnode, _max_pnode, fls64(gend));
- }
- 
- /* Walk through UVsystab decoding the fields */
+Mario Limonciello (3):
+  platform/x86: amd-pmc: Move SMU logging setup out of init
+  platform/x86: amd-pmc: Move FCH init to first use
+  platform/x86: amd-pmc: Avoid reading SMU version at probe time
+
+ drivers/platform/x86/amd-pmc.c | 85 +++++++++++++++++++++-------------
+ 1 file changed, 54 insertions(+), 31 deletions(-)
+
 -- 
-2.26.2
+2.34.1
 
